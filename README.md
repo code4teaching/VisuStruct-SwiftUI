@@ -6,20 +6,19 @@ Details und Build-Anleitung: **[VisuStruct-iOS/README.md](VisuStruct-iOS/README.
 
 ## Auf GitHub laden
 
-Das lokale Repository ist auf Branch **`main`** vorbereitet. Remote-Name: **`origin`** → `https://github.com/gatolindo79/VisuStruct-SwiftUI.git`  
-(Wenn dein GitHub-Account anders heißt: `git remote set-url origin https://github.com/<Account>/VisuStruct-SwiftUI.git`.)
+Remote **`origin`:** [github.com/code4teaching/VisuStruct-SwiftUI](https://github.com/code4teaching/VisuStruct-SwiftUI)
 
-1. Auf [github.com/new](https://github.com/new) ein **leeres** Repository **`VisuStruct-SwiftUI`** anlegen (ohne README, ohne .gitignore).
-2. Dann im Projektroot:
+1. In der Organisation **code4teaching** ein **leeres** Repository **`VisuStruct-SwiftUI`** anlegen (ohne README, ohne .gitignore), oder es muss dort schon existieren.
+2. Im Projektroot:
 
 ```bash
 git push -u origin main
 ```
 
-**Alternative** mit GitHub CLI (einmalig `gh auth login`):
+**Alternative** mit GitHub CLI (einmalig `gh auth login`, Berechtigung für die Org):
 
 ```bash
-gh repo create VisuStruct-SwiftUI --public --source=. --remote=origin --push
+gh repo create code4teaching/VisuStruct-SwiftUI --public --source=. --remote=origin --push
 ```
 
 Falls `origin` schon gesetzt ist und `gh` meckert: `git remote remove origin` vor dem `gh`-Befehl, oder nur `git push -u origin main` nach manueller Repo-Erstellung.
