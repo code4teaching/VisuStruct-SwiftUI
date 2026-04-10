@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VisuStruct — Editor visual de diagramas de Chapin</title>
+  <meta name="description" content="VisuStruct: diagramas Nassi-Shneiderman. Aplicação Java de secretária em código aberto; nova implementação SwiftUI para iPad e Mac com Apple silicon (chips M). Interface em inglês, alemão e português. Formato .visustruct partilhado.">
+  <link rel="canonical" href="https://visustruct.de/pt/">
+  <style>
+    html { background-color: #0a1628; color-scheme: dark; }
+    body { margin: 0; min-height: 100vh; background-color: #0a1628; color: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
+    main { display: block; color: #f1f5f9; }
+    h1, h2, .brand { color: #f8fafc; }
+    a { color: #7dd3fc; }
+  </style>
+  <link rel="icon" href="../assets/VisuStruct-icon.png" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/VisuStruct-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./">
+        <img class="brand-icon-img" src="../assets/VisuStruct-icon.png" width="52" height="52" alt="VisuStruct">
+        VisuStruct
+      </a>
+      <div class="header-nav-block">
+        <nav class="lang-switch" aria-label="Idioma">
+          <a href="../en/">EN</a>
+          <a href="../de/">DE</a>
+          <a href="./" aria-current="page">PT</a>
+        </nav>
+        <nav class="header-subnav" aria-label="Nesta página">
+          <a href="#download">Download</a>
+          <a href="#privacy">Privacidade</a>
+          <a href="#contact">Contacto</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="hero-logo-wrap" aria-hidden="true">
+        <img class="hero-logo-img" src="../assets/VisuStruct-icon.png" width="176" height="176" alt="">
+      </div>
+      <p class="hero-badge">Diagramas de Chapin · Nassi-Shneiderman</p>
+      <h1>VisuStruct — Editor visual de diagramas de Chapin</h1>
+      <div class="content-prose">
+        <p class="lead-kicker">Editor visual de diagramas de Chapin (Nassi-Shneiderman) — estrutura e fluxo antes da sintaxe.</p>
+        <p>A app <strong>Java</strong> em código aberto para secretária e a app <strong>SwiftUI</strong> para <strong>iPad</strong> e <strong>Mac com Apple silicon</strong> partilham o formato <strong>.visustruct</strong>. Arrastar e largar, interface clara, três idiomas: inglês, alemão e português.</p>
+      </div>
+    </section>
+
+    <section class="wrap section-screenshot" aria-labelledby="java-screenshot-heading">
+      <h2 id="java-screenshot-heading" class="screenshot-heading">Aplicação Java — Windows, macOS e Linux</h2>
+      <p class="screenshot-lead">Java em secretária: paleta, diagrama em separadores, exportação. Requer Java.</p>
+      <figure class="app-screenshot-frame">
+        <img src="../assets/visustruct-app-java.png" width="1024" height="643" loading="lazy" decoding="async" alt="VisuStruct em Java no computador: janela com menus, botões de estruturas em alemão (instrução, ramificação, ciclos, seleção) e diagrama Nassi-Shneiderman com fluxo aninhado.">
+        <figcaption>Java 1.0.7 (macOS). O idioma da interface pode variar.</figcaption>
+      </figure>
+    </section>
+
+    <section class="wrap section-screenshot" aria-labelledby="swiftui-screenshot-heading">
+      <h2 id="swiftui-screenshot-heading" class="screenshot-heading">App SwiftUI — iPad e Mac</h2>
+      <p class="screenshot-lead">SwiftUI para <strong>iPad</strong> e <strong>Mac com Apple silicon</strong> — paleta, área do diagrama, painel; mesmo <strong>.visustruct</strong> que Java.</p>
+      <figure class="app-screenshot-frame">
+        <img src="../assets/visustruct-app-mac-ipad.png" width="1024" height="801" loading="lazy" decoding="async" alt="VisuStruct no Mac: janela principal com um diagrama Nassi-Shneiderman, lista de elementos à esquerda e inspector de instrução em baixo.">
+        <figcaption>SwiftUI no Mac — igual no iPad.</figcaption>
+      </figure>
+    </section>
+
+    <section class="wrap section-block" aria-labelledby="key-features-heading">
+      <h2 id="key-features-heading">Funcionalidades principais</h2>
+      <ul class="bullet-list">
+        <li>Diagramas de Chapin com arrastar e largar (Nassi-Shneiderman)</li>
+        <li>Fluxo de controlo e lógica visíveis antes do código</li>
+        <li>Interface simples e focada</li>
+        <li>Para ensino, aprendizagem e esboço de algoritmos</li>
+      </ul>
+    </section>
+
+    <section class="wrap section-block" aria-labelledby="why-heading">
+      <h2 id="why-heading">Porquê o VisuStruct?</h2>
+      <div class="content-prose">
+        <p>Com a sintaxe em primeiro lugar, a estrutura desaparece — o VisuStruct mantém ramificações, ciclos e decisões sempre à vista.</p>
+      </div>
+    </section>
+
+    <section id="download" class="wrap section-downloads" aria-label="Transferências">
+      <h2>Obter o VisuStruct</h2>
+      <div class="grid">
+      <article class="card">
+        <div class="card-icon java" aria-hidden="true">☕</div>
+        <h2>Aplicação Java (computador)</h2>
+        <p><strong>Código aberto</strong> (MIT). Windows, macOS, Linux.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="https://github.com/code4teaching/VisuStruct/releases/latest">Último release (GitHub)</a>
+          <a class="btn btn-secondary" href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar">Direto para a app</a>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-icon ios" aria-hidden="true">🖥️</div>
+        <h2>iPad e Mac (Apple silicon)</h2>
+        <p><strong>SwiftUI</strong> · <strong>iPad</strong> e <strong>Mac com Apple silicon</strong> · separadores, partilha, impressão · <strong>1.1</strong> (App Store).</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="https://apps.apple.com/search?term=VisuStruct">Apple App&nbsp;Store</a>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <section id="privacy" class="wrap privacy-policy" aria-labelledby="privacy-policy-heading">
+      <h2 id="privacy-policy-heading">Política de privacidade – utilização do VisuStruct</h2>
+      <div class="privacy-policy-body">
+        <h3>Âmbito</h3>
+        <p>Aplica-se às apps <strong>VisuStruct</strong> (Java em secretária, SwiftUI para iPad e Mac com Apple silicon) e a este <strong>site estático</strong>. Responsável: <strong>Holger Sebastiao</strong>. Sem cookies de análise; sem recolha de dados pessoais neste site.</p>
+        <h3>Dados nas apps</h3>
+        <p><strong>Não disponho de servidores</strong> que recebam os seus diagramas ou ficheiros <strong>.visustruct</strong>. Os dados são <strong>guardados e tratados apenas localmente no seu dispositivo</strong>. Sincronização na nuvem (ex.: iCloud, OneDrive) só se <strong>o utilizador</strong> a configurar.</p>
+        <p><strong>Não utilizo</strong> o conteúdo dos diagramas para publicidade ou perfis — apenas para editar, gravar e exportar na app.</p>
+        <h3>Conta</h3>
+        <p>Não precisa de conta comigo.</p>
+        <h3>Terceiros</h3>
+        <p><strong>App Store</strong>, <strong>GitHub</strong> e serviços semelhantes tratam os seus próprios dados técnicos ou de conta — veja cada fornecedor.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="wrap site-contact" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contacto</h2>
+      <p class="site-author"><strong>Holger Sebastiao</strong> — professor de informática. O VisuStruct foi desenvolvido para o ensino.</p>
+      <p><strong>Java / projeto:</strong> <a href="https://github.com/code4teaching/VisuStruct">GitHub</a> · <strong>app SwiftUI:</strong> suporte da App Store (Apple).</p>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>
+      <a href="https://github.com/code4teaching/VisuStruct">GitHub</a>
+      · <a href="https://visustruct.de">visustruct.de</a>
+    </p>
+    <p>© 2026 Holger Sebastiao · VisuStruct</p>
+  </footer>
+</body>
+</html>

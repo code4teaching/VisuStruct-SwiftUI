@@ -1,0 +1,609 @@
+/* VisuStruct web — Farben am App-Icon: Himmelblau → Royalblau, Weiß/Silber als Akzente */
+:root {
+  --vs-bg-deep: #0a1628;
+  --vs-bg-mid: #0f2847;
+  --vs-accent: #3b82f6;
+  --vs-accent-bright: #38bdf8;
+  --vs-accent-dim: #1d4ed8;
+  --vs-accent-glow: rgba(56, 189, 248, 0.28);
+  --vs-blue: #2563eb;
+  --vs-text: #f8fafc;
+  --vs-text-muted: #94a3b8;
+  --vs-card: rgba(15, 40, 72, 0.72);
+  --vs-card-border: rgba(148, 163, 184, 0.14);
+  --vs-radius: 20px;
+  --vs-font: "DM Sans", system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--vs-font);
+  color: var(--vs-text);
+  background: var(--vs-bg-deep);
+  background-image:
+    radial-gradient(ellipse 120% 70% at 50% -15%, rgba(125, 211, 252, 0.2), transparent),
+    radial-gradient(ellipse 70% 55% at 95% 40%, rgba(56, 189, 248, 0.18), transparent),
+    linear-gradient(195deg, #0f3460 0%, var(--vs-bg-deep) 50%, #070d16 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Explizit: manche WebKit-Versionen erben keine sichtbare Farbe auf main */
+main {
+  color: var(--vs-text);
+}
+
+a {
+  color: var(--vs-accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.wrap {
+  width: min(1100px, calc(100% - 2.5rem));
+  margin: 0 auto;
+}
+
+/* Header */
+.site-header {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--vs-card-border);
+  /* kein backdrop-filter: kann in Safari/iOS Inhalt „verschwinden“ lassen */
+  background: rgba(10, 22, 40, 0.97);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--vs-text);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+.brand:hover {
+  text-decoration: none;
+  color: var(--vs-accent-bright);
+}
+
+.brand img,
+.brand svg {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+/* Offizielles App-Icon (PNG), Squircle-Anmutung wie auf dem Gerät */
+.brand-icon-img {
+  border-radius: 22%;
+  box-shadow:
+    0 4px 16px rgba(8, 47, 73, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+  object-fit: cover;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.lang-switch a {
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--vs-text-muted);
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.lang-switch a:hover {
+  color: var(--vs-text);
+  background: rgba(148, 163, 184, 0.1);
+}
+.lang-switch a[aria-current="page"] {
+  color: #fff;
+  background: linear-gradient(135deg, var(--vs-accent-bright), var(--vs-accent-dim));
+  border-color: transparent;
+}
+
+.header-nav-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+}
+.header-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  justify-content: flex-end;
+}
+.header-subnav a {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--vs-text-muted);
+  text-decoration: none;
+}
+.header-subnav a:hover {
+  color: var(--vs-accent-bright);
+  text-decoration: none;
+}
+
+#download,
+#privacy,
+#contact {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Hero */
+.hero {
+  padding: 2.75rem 0 2.5rem;
+  text-align: center;
+}
+
+/* Großes Markenzeichen: visueller Anker gegen zu viel Fließtext */
+.hero-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1.75rem;
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+}
+.hero-logo-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -18%;
+  border-radius: 30%;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(56, 189, 248, 0.45) 0%,
+    rgba(29, 78, 216, 0.12) 45%,
+    transparent 70%
+  );
+  filter: blur(22px);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-logo-img {
+  position: relative;
+  z-index: 1;
+  width: clamp(112px, 30vw, 176px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 22%;
+  object-fit: cover;
+  box-shadow:
+    0 12px 48px rgba(8, 47, 73, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 0 60px rgba(56, 189, 248, 0.22);
+}
+
+.hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 2.85rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--vs-text);
+}
+
+.hero-lead {
+  margin: 0 auto 2rem;
+  max-width: 38rem;
+  font-size: 1.125rem;
+  color: var(--vs-text-muted);
+  line-height: 1.55;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--vs-accent-bright);
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(125, 211, 252, 0.28);
+  margin-bottom: 1.25rem;
+}
+.hero .content-prose {
+  text-align: left;
+}
+
+/* App screenshots (Java desktop · SwiftUI Mac / iPad) */
+.section-screenshot {
+  padding: 0 0 2.75rem;
+  text-align: center;
+}
+.section-screenshot + .section-screenshot {
+  border-top: 1px solid var(--vs-card-border);
+  padding-top: 2.5rem;
+  margin-top: 0;
+}
+.section-screenshot .screenshot-heading {
+  font-size: 1.35rem;
+  margin: 0 0 0.5rem;
+  color: var(--vs-text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.screenshot-lead {
+  max-width: 36rem;
+  margin: 0 auto 1.5rem;
+  font-size: 0.98rem;
+  color: var(--vs-text-muted);
+  line-height: 1.55;
+}
+.app-screenshot-frame {
+  margin: 0 auto;
+  max-width: min(920px, 100%);
+  padding: 0;
+  border-radius: var(--vs-radius);
+  background: rgba(15, 40, 72, 0.55);
+  border: 1px solid var(--vs-card-border);
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  overflow: hidden;
+}
+.app-screenshot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.app-screenshot-frame figcaption {
+  padding: 0.85rem 1rem 1rem;
+  font-size: 0.82rem;
+  color: var(--vs-text-muted);
+  line-height: 1.45;
+  border-top: 1px solid var(--vs-card-border);
+  background: rgba(10, 22, 40, 0.72);
+}
+
+/* Cards grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0 3.5rem;
+}
+
+.card {
+  padding: 1.75rem;
+  border-radius: var(--vs-radius);
+  background: rgba(20, 48, 82, 0.92);
+  border: 1px solid var(--vs-card-border);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+.card-icon.java {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+.card-icon.ios {
+  background: linear-gradient(160deg, #7dd3fc, var(--vs-accent-dim));
+}
+
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  color: var(--vs-text);
+}
+
+.card p {
+  margin: 0 0 1.25rem;
+  color: var(--vs-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  flex: 1;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.btn:hover {
+  text-decoration: none;
+  filter: brightness(1.08);
+  transform: scale(1.02);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--vs-accent-bright), var(--vs-accent-dim));
+  color: #fff;
+}
+.btn-secondary {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--vs-text);
+  border: 1px solid var(--vs-card-border);
+}
+
+/* Marketing copy */
+.content-prose {
+  max-width: 40rem;
+  margin: 0 auto 2.5rem;
+  text-align: left;
+}
+.content-prose p {
+  margin: 0 0 1.1rem;
+  color: var(--vs-text-muted);
+  line-height: 1.65;
+  font-size: 1.05rem;
+}
+.content-prose p:last-child {
+  margin-bottom: 0;
+}
+.lead-kicker {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--vs-text);
+  margin-bottom: 1rem !important;
+}
+.section-block {
+  padding: 2.25rem 0;
+  border-top: 1px solid var(--vs-card-border);
+}
+.section-block > h2 {
+  text-align: center;
+  font-size: 1.35rem;
+  margin: 0 0 1.25rem;
+  color: var(--vs-text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.bullet-list {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding-left: 1.35rem;
+  color: var(--vs-text-muted);
+  line-height: 1.65;
+  font-size: 0.98rem;
+}
+.bullet-list li {
+  margin-bottom: 0.55rem;
+}
+.tagline-close {
+  text-align: center;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--vs-text);
+  line-height: 1.5;
+  padding: 2rem 1rem 1rem;
+  max-width: 34rem;
+  margin: 0 auto;
+}
+.section-downloads h2 {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 0 0 1.25rem;
+  color: var(--vs-text-muted);
+  font-weight: 600;
+}
+.section-downloads > h2::after {
+  content: "";
+  display: block;
+  width: 52px;
+  height: 3px;
+  margin: 0.7rem auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vs-accent-bright), var(--vs-accent-dim));
+  opacity: 0.85;
+}
+.section-downloads .grid {
+  padding-top: 0;
+  align-items: stretch;
+  gap: 1.75rem;
+}
+
+/* Download-Karten: mehr Tiefe, einheitliche Icons, gestapelte Buttons */
+.section-downloads .card {
+  padding: 2rem 1.75rem 1.85rem;
+  background: linear-gradient(
+    165deg,
+    rgba(36, 66, 106, 0.4) 0%,
+    rgba(14, 34, 62, 0.92) 48%,
+    rgba(7, 18, 36, 0.98) 100%
+  );
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 18px 50px rgba(0, 0, 0, 0.38);
+}
+.section-downloads .card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 22px 60px rgba(0, 0, 0, 0.45);
+}
+.section-downloads .card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  font-size: 1.5rem;
+  margin-bottom: 1.15rem;
+  background: rgba(6, 18, 36, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.section-downloads .card-icon.java {
+  background: linear-gradient(150deg, rgba(194, 65, 12, 0.55) 0%, rgba(42, 18, 10, 0.9) 100%);
+  border-color: rgba(251, 146, 60, 0.38);
+}
+.section-downloads .card-icon.ios {
+  background: linear-gradient(150deg, rgba(37, 99, 235, 0.45) 0%, rgba(15, 35, 68, 0.92) 100%);
+  border-color: rgba(125, 211, 252, 0.35);
+}
+.section-downloads .card h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.65rem;
+}
+.section-downloads .card p {
+  font-size: 0.9rem;
+  line-height: 1.58;
+  margin-bottom: 1.35rem;
+}
+.section-downloads .btn-row {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.55rem;
+  margin-top: auto;
+  width: 100%;
+}
+.section-downloads .btn-row .btn {
+  width: 100%;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Footer */
+.site-footer {
+  padding: 2rem 0 2.5rem;
+  border-top: 1px solid var(--vs-card-border);
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--vs-text-muted);
+}
+.site-footer a {
+  color: var(--vs-text-muted);
+}
+.site-footer a:hover {
+  color: var(--vs-accent-bright);
+}
+
+/* Datenschutz / Privacy (VisuStruct) */
+.privacy-policy {
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--vs-card-border);
+}
+.privacy-policy > h2 {
+  font-size: 1.35rem;
+  margin: 0 0 1.25rem;
+  color: var(--vs-text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1.25;
+}
+.privacy-policy-body {
+  max-width: 42rem;
+  margin: 0 auto;
+  text-align: left;
+}
+.privacy-policy-body h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--vs-text);
+  margin: 1.5rem 0 0.65rem;
+}
+.privacy-policy-body h3:first-child {
+  margin-top: 0;
+}
+.privacy-policy-body p {
+  margin: 0 0 1rem;
+  color: var(--vs-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.privacy-policy-body p:last-child {
+  margin-bottom: 0;
+}
+
+.site-contact {
+  padding: 2.25rem 0 2.5rem;
+  border-top: 1px solid var(--vs-card-border);
+}
+.site-contact h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--vs-text);
+  margin: 0 0 0.65rem;
+  text-align: center;
+}
+.site-contact p {
+  max-width: 36rem;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--vs-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+.site-contact .site-author {
+  margin-bottom: 1rem;
+  color: var(--vs-text);
+}
+.site-contact .site-author strong {
+  font-weight: 700;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

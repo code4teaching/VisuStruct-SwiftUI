@@ -28,6 +28,3 @@ VisuStruct-iOS/VisuStructXcodeOpen/.derived_run_ipad/
 # CocoaPods / Carthage (falls später)
 Pods/
 Carthage/Build/
-
-# Statische Website für visustruct.de — nur lokal / auf dem Server, nicht im Git-Repo
-website/
