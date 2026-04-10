@@ -1,0 +1,7 @@
+/* VisuStruct — Definições (sistema) */
+"GROUP_LANGUAGE_TITLE" = "Idioma";
+"PREF_APP_LANGUAGE_TITLE" = "Idioma da app";
+"LANGUAGE_NAME_DE" = "Alemão";
+"LANGUAGE_NAME_EN" = "Inglês";
+"LANGUAGE_NAME_PT_PT" = "Português";
+"LANGUAGE_NAME_JAVA" = "Java (palavras-chave)";

@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xccheckout
+*.xcscmblueprint
+*.xcuserdatad
+
+# Swift Package Manager
+.swiftpm/configuration/
+.swiftpm/xcode/xcuserdata/
+
+# Lokale Xcode-Buildausgaben (nicht ins Repo)
+VisuStruct-iOS/VisuStructXcodeOpen/.derived_run/
+VisuStruct-iOS/VisuStructXcodeOpen/.derived_run_ipad/
+
+# CocoaPods / Carthage (falls später)
+Pods/
+Carthage/Build/

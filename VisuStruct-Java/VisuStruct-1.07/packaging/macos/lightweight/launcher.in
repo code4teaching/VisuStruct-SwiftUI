@@ -1,0 +1,32 @@
+#!/bin/bash
+# Startet die eingebettete Fat-JAR mit dem System-JDK (keine mitgelieferte Runtime).
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+BUNDLE="$(cd "$DIR/../.." && pwd)"
+JAR="$BUNDLE/Contents/Java/__JAR_NAME__"
+
+if [[ ! -f "$JAR" ]]; then
+	osascript -e 'display dialog "Im App-Paket fehlt die JAR-Datei (Contents/Java)." buttons {"OK"} default button 1 with title "VisuStruct"' 2>/dev/null || true
+	exit 1
+fi
+
+JAVA_BIN=""
+if [[ -x /usr/libexec/java_home ]]; then
+	if JH="$(/usr/libexec/java_home -v 17+ 2>/dev/null)"; then
+		JAVA_BIN="${JH}/bin/java"
+	fi
+fi
+if [[ -z "$JAVA_BIN" || ! -x "$JAVA_BIN" ]]; then
+	if command -v java >/dev/null 2>&1; then
+		JAVA_BIN="$(command -v java)"
+	fi
+fi
+if [[ -z "$JAVA_BIN" || ! -x "$JAVA_BIN" ]]; then
+	osascript -e 'display dialog "VisuStruct benötigt Java 17 oder neuer.\n\nBitte ein JDK installieren (z. B. Eclipse Temurin) und die App erneut starten." buttons {"OK"} default button 1 with title "Java fehlt"' 2>/dev/null || echo "Java 17+ erforderlich." >&2
+	exit 1
+fi
+
+exec "$JAVA_BIN" \
+	-Dapple.awt.application.name="VisuStruct" \
+	-Xdock:name="VisuStruct" \
+	-jar "$JAR" "$@"

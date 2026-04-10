@@ -1,0 +1,100 @@
+/* Paleta e lista */
+"palette_header" = "Elementos";
+"list_section_elements" = "Elementos";
+
+/* Ações */
+"action_share_png" = "Partilhar gráfico…";
+"action_delete_selection" = "Eliminar seleção";
+"action_about" = "Acerca do VisuStruct";
+
+/* Erro */
+"error_title" = "Erro";
+"error_back_editor" = "Voltar ao editor";
+
+/* Barra de ferramentas */
+"toolbar_undo" = "Anular";
+"toolbar_redo" = "Refazer";
+"toolbar_new" = "Novo";
+"menu_open" = "Abrir…";
+"menu_save" = "Guardar";
+"menu_save_as" = "Guardar como…";
+"menu_print" = "Imprimir…";
+"menu_file" = "Ficheiro";
+
+/* Acessibilidade */
+"a11y_canvas_toggle" = "Vista de diagrama";
+"a11y_new_diagram_tab" = "Novo separador de diagrama";
+"a11y_close_tab" = "Fechar separador";
+"a11y_placeholder_drop" = "Largue aqui um elemento para substituir o marcador. Mantenha premido para arrastar e mover.";
+"a11y_node_drop" = "Mantenha premido um bloco e arraste: largue na borda superior ou inferior do destino (antes/depois). No centro só em marcador ø.";
+
+/* Diagrama */
+"diagram_title_label" = "Título";
+"diagram_title_placeholder" = "Sem título";
+"list_section_title" = "Título";
+
+/* Inspetor */
+"inspector_no_selection" = "Nenhum elemento selecionado — toque num bloco.";
+"inspector_case_label_help" = "Etiqueta do caso (cabeçalho da coluna, p. ex. números ou texto)";
+"inspector_apply_text" = "Aplicar texto";
+"inspector_add_case" = "Adicionar caso";
+"inspector_remove_case" = "Remover caso";
+"inspector_group_element" = "Texto do elemento";
+
+/* Tipos de elemento */
+"element_anweisung" = "Instrução";
+"element_verzweigung" = "Decisão";
+"element_fallauswahl" = "Seleção";
+"element_forSchleife" = "Ciclo for";
+"element_whileSchleife" = "Ciclo while";
+"element_doUntilSchleife" = "Ciclo do-until";
+"element_endlosschleife" = "Ciclo infinito";
+"element_aussprung" = "Interrupção";
+"element_aufruf" = "Chamada";
+"element_leerElement" = "Elemento vazio";
+
+/* Separadores */
+"tab_title_format" = "Diagrama %d";
+
+/* Tela vazia */
+"canvas_empty_title" = "Diagrama vazio";
+"canvas_empty_hint" = "Arraste um elemento de «Elementos» para aqui.";
+
+/* Diagrama: textos de elementos novos e cabeçalhos de coluna (exibição) */
+"canvas_stub_fallauswahl" = "Seleção";
+"canvas_stub_anweisung" = "Instrução";
+"canvas_stub_condition" = "Condição";
+"canvas_stub_for" = "for 0 < i < quantidade";
+"canvas_stub_while" = "enquanto …";
+"canvas_stub_until" = "até …";
+"canvas_stub_endless" = "infinito";
+"canvas_stub_break" = "parar";
+"canvas_stub_call" = "método()";
+
+/* Acerca */
+"about_version_fmt" = "Versão %@ (%@)";
+"about_nav_title" = "Acerca do VisuStruct";
+"about_intro" = "O VisuStruct é um editor de diagramas de Nassi–Shneiderman: pode representar processos de forma clara em blocos — desde instruções simples até decisões, ciclos e seleções múltiplas.";
+"about_features_heading" = "Funcionalidades";
+"about_bullet_palette" = "Inserir blocos a partir da paleta ou arrastá-los para o diagrama";
+"about_bullet_edit" = "Editar o diagrama: alterar textos, selecionar elementos e removê-los se necessário";
+"about_bullet_tabs" = "Vários diagramas em separadores — cada um com o seu título";
+"about_bullet_file" = "Guardar e reabrir diagramas como ficheiros .visustruct";
+"about_bullet_share" = "Partilhar o diagrama estruturado como imagem (PNG)";
+"about_dateiformat_heading" = "Formato do ficheiro";
+"about_dateiformat_part1" = "O formato nativo do VisuStruct utiliza a extensão ";
+"about_dateiformat_part2" = ". Pode guardar diagramas e trocá-los com outras apps que suportem o mesmo formato.";
+"about_done" = "Concluído";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* Alertas */
+"err_save_failed_fmt" = "Não foi possível guardar: %@";
+"err_diagram_too_small_export" = "O diagrama é demasiado pequeno — nada para exportar.";
+"err_image_render_failed" = "Não foi possível criar a imagem.";
+"err_diagram_too_small_print" = "O diagrama é demasiado pequeno — nada para imprimir.";
+"err_print_unavailable" = "A impressão não está disponível neste dispositivo.";
+
+/* Lista de depuração */
+"debug_loop_body" = "Corpo do ciclo";
+"debug_cases" = "Casos";
+"debug_empty_case" = "(vazio)";

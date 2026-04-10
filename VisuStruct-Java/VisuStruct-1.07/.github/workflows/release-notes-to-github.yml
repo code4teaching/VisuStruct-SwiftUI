@@ -1,0 +1,48 @@
+# Schreibt die Beschreibung eines bestehenden GitHub-Releases aus release-notes/<Tag>.md.
+# Manuell: Actions → „Release-Notizen an GitHub-Release schreiben“ → Run workflow → Tag z. B. v1.0.7
+name: Release-Notizen an GitHub-Release schreiben
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Git-Tag des Releases (z. B. v1.0.7)"
+        required: true
+        default: "v1.0.7"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  patch-body:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Release-Beschreibung aus Datei setzen
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          FILE="release-notes/${TAG}.md"
+          if [[ ! -f "$FILE" ]]; then
+            echo "::error::Keine Datei $FILE im aktuellen Branch."
+            exit 1
+          fi
+          REPO="${{ github.repository }}"
+          REL_JSON=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${REPO}/releases/tags/${TAG}")
+          REL_URL=$(echo "$REL_JSON" | jq -er .url)
+          BODY=$(jq -n --rawfile body "$FILE" '{body: $body}')
+          curl -sS -f -X PATCH \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "$REL_URL" \
+            -d "$BODY"
+          echo "Release ${TAG}: Beschreibung gesetzt aus ${FILE}."

@@ -1,0 +1,100 @@
+/* Palette & list */
+"palette_header" = "Elements";
+"list_section_elements" = "Elements";
+
+/* Actions */
+"action_share_png" = "Share Graphic…";
+"action_delete_selection" = "Delete Selection";
+"action_about" = "About VisuStruct";
+
+/* Error overlay */
+"error_title" = "Error";
+"error_back_editor" = "Back to Editor";
+
+/* Toolbar */
+"toolbar_undo" = "Undo";
+"toolbar_redo" = "Redo";
+"toolbar_new" = "New";
+"menu_open" = "Open…";
+"menu_save" = "Save";
+"menu_save_as" = "Save As…";
+"menu_print" = "Print…";
+"menu_file" = "File";
+
+/* Accessibility */
+"a11y_canvas_toggle" = "Canvas view";
+"a11y_new_diagram_tab" = "New diagram tab";
+"a11y_close_tab" = "Close tab";
+"a11y_placeholder_drop" = "Drop an element here to replace the placeholder. Press and hold to drag and move.";
+"a11y_node_drop" = "Press and hold a block, then drag: drop on the top or bottom edge of a target to insert before or after. Center drop only on a ø placeholder.";
+
+/* Diagram */
+"diagram_title_label" = "Title";
+"diagram_title_placeholder" = "No title";
+"list_section_title" = "Title";
+
+/* Inspector */
+"inspector_no_selection" = "No element selected — tap a tile.";
+"inspector_case_label_help" = "Case label (column header, e.g. numbers or text)";
+"inspector_apply_text" = "Apply Text";
+"inspector_add_case" = "Add Case";
+"inspector_remove_case" = "Remove Case";
+"inspector_group_element" = "Element text";
+
+/* Element types */
+"element_anweisung" = "Statement";
+"element_verzweigung" = "Branch";
+"element_fallauswahl" = "Switch";
+"element_forSchleife" = "For loop";
+"element_whileSchleife" = "While loop";
+"element_doUntilSchleife" = "Do-while loop";
+"element_endlosschleife" = "Endless loop";
+"element_aussprung" = "Break";
+"element_aufruf" = "Call";
+"element_leerElement" = "Empty element";
+
+/* Tabs */
+"tab_title_format" = "Diagram %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "Empty structure chart";
+"canvas_empty_hint" = "Drag an element from “Elements” here.";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "Switch";
+"canvas_stub_anweisung" = "Statement";
+"canvas_stub_condition" = "Condition";
+"canvas_stub_for" = "for 0 < i < count";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "endless";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "method()";
+
+/* About */
+"about_version_fmt" = "Version %@ (%@)";
+"about_nav_title" = "About VisuStruct";
+"about_intro" = "VisuStruct is an editor for Nassi–Shneiderman structure charts: you can show processes clearly as tiles — from simple statements to branches, loops, and multi-way selection.";
+"about_features_heading" = "Features";
+"about_bullet_palette" = "Insert blocks from the palette or drag them into the diagram";
+"about_bullet_edit" = "Edit the chart: change text, select elements, and remove them if needed";
+"about_bullet_tabs" = "Several diagrams in tabs — each with its own title";
+"about_bullet_file" = "Save and reopen diagrams as .visustruct files";
+"about_bullet_share" = "Share the structure chart as an image (PNG)";
+"about_dateiformat_heading" = "File format";
+"about_dateiformat_part1" = "VisuStruct’s native format uses the extension ";
+"about_dateiformat_part2" = ". You can keep diagrams and exchange them with other apps that support the same format.";
+"about_done" = "Done";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* Alerts */
+"err_save_failed_fmt" = "Could not save: %@";
+"err_diagram_too_small_export" = "The diagram is too small — nothing to export.";
+"err_image_render_failed" = "Could not create the image.";
+"err_diagram_too_small_print" = "The diagram is too small — nothing to print.";
+"err_print_unavailable" = "Printing is not available on this device.";
+
+/* Debug list */
+"debug_loop_body" = "Loop body";
+"debug_cases" = "Cases";
+"debug_empty_case" = "(empty)";

@@ -1,0 +1,100 @@
+/* Palette & Liste */
+"palette_header" = "Elemente";
+"list_section_elements" = "Elemente";
+
+/* Aktionen */
+"action_share_png" = "Grafik teilen …";
+"action_delete_selection" = "Auswahl löschen";
+"action_about" = "Über VisuStruct";
+
+/* Fehler-Overlay */
+"error_title" = "Fehler";
+"error_back_editor" = "Zurück zum Editor";
+
+/* Toolbar */
+"toolbar_undo" = "Rückgängig";
+"toolbar_redo" = "Wiederholen";
+"toolbar_new" = "Neu";
+"menu_open" = "Öffnen …";
+"menu_save" = "Speichern";
+"menu_save_as" = "Speichern unter …";
+"menu_print" = "Drucken …";
+"menu_file" = "Ablage";
+
+/* Barrierefreiheit */
+"a11y_canvas_toggle" = "Canvas-Ansicht";
+"a11y_new_diagram_tab" = "Weiteres Struktogramm";
+"a11y_close_tab" = "Reiter schließen";
+"a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
+"a11y_node_drop" = "Block lang drücken, dann ziehen: am Ziel am oberen oder unteren Rand ablegen (davor/danach). In die Mitte nur auf Platzhalter ø.";
+
+/* Diagramm */
+"diagram_title_label" = "Titel";
+"diagram_title_placeholder" = "Ohne Titel";
+"list_section_title" = "Titel";
+
+/* Inspector */
+"inspector_no_selection" = "Kein Element gewählt — tippe auf eine Kachel.";
+"inspector_case_label_help" = "Fall-Label (Spaltenkopf, wie in Java — Zahlen oder Text)";
+"inspector_apply_text" = "Text übernehmen";
+"inspector_add_case" = "Weiteren Fall hinzufügen";
+"inspector_remove_case" = "Fall entfernen";
+"inspector_group_element" = "Elementtext";
+
+/* Elementtypen (Palette + Inspector) */
+"element_anweisung" = "Anweisung";
+"element_verzweigung" = "Verzweigung";
+"element_fallauswahl" = "Fallauswahl";
+"element_forSchleife" = "For-Schleife";
+"element_whileSchleife" = "While-Schleife";
+"element_doUntilSchleife" = "Do-while-Schleife";
+"element_endlosschleife" = "Endlosschleife";
+"element_aussprung" = "Aussprung";
+"element_aufruf" = "Aufruf";
+"element_leerElement" = "Leeres Element";
+
+/* Tabs */
+"tab_title_format" = "Struktogramm %d";
+
+/* Leeres Canvas */
+"canvas_empty_title" = "Leeres Struktogramm";
+"canvas_empty_hint" = "Element aus „Elemente“ hierher ziehen.";
+
+/* Diagramm: Texte neuer Elemente & Spaltenköpfe (Anzeige) */
+"canvas_stub_fallauswahl" = "Fallauswahl";
+"canvas_stub_anweisung" = "Anweisung";
+"canvas_stub_condition" = "Bedingung";
+"canvas_stub_for" = "for 0 < i < anzahl";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "endless";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "Methode()";
+
+/* Über */
+"about_version_fmt" = "Version %@ (%@)";
+"about_nav_title" = "Über VisuStruct";
+"about_intro" = "VisuStruct ist ein Editor für Nassi-Shneiderman-Struktogramme: Du kannst Abläufe übersichtlich als Kacheln darstellen – von einfachen Anweisungen bis zu Verzweigungen, Schleifen und Fallunterscheidungen.";
+"about_features_heading" = "Funktionen";
+"about_bullet_palette" = "Bausteine aus der Palette einfügen oder per Drag & Drop ins Diagramm ziehen";
+"about_bullet_edit" = "Struktogramm bearbeiten: Texte anpassen, Elemente auswählen und bei Bedarf entfernen";
+"about_bullet_tabs" = "Mehrere Diagramme in Tabs – jeweils mit eigenem Titel";
+"about_bullet_file" = "Diagramme als .visustruct-Datei speichern und wieder öffnen";
+"about_bullet_share" = "Struktogramm als Grafik teilen (PNG)";
+"about_dateiformat_heading" = "Dateiformat";
+"about_dateiformat_part1" = "Das native Dateiformat von VisuStruct nutzt die Endung ";
+"about_dateiformat_part2" = ". So kannst du Diagramme sichern und mit anderen Programmen austauschen, die dasselbe Format unterstützen.";
+"about_done" = "Fertig";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* Meldungen */
+"err_save_failed_fmt" = "Speichern fehlgeschlagen: %@";
+"err_diagram_too_small_export" = "Diagramm ist zu klein — nichts zu exportieren.";
+"err_image_render_failed" = "Grafik konnte nicht erzeugt werden.";
+"err_diagram_too_small_print" = "Diagramm ist zu klein — nichts zu drucken.";
+"err_print_unavailable" = "Drucken ist auf diesem Gerät nicht verfügbar.";
+
+/* Debug-Liste */
+"debug_loop_body" = "Schleifeninhalt";
+"debug_cases" = "Fälle";
+"debug_empty_case" = "(leer)";
