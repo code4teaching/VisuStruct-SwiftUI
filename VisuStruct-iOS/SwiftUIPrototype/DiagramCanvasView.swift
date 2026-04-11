@@ -31,7 +31,7 @@ struct DiagramCanvasView: View {
             if !document.caption.isEmpty {
                 let captionW = measureText(document.caption, size: 20)
                 let cx = 10 + (layout.canvasSize.width - 21) / 2 - captionW / 2
-                let t = context.resolve(Text(document.caption).font(.system(size: 20, weight: .regular)))
+                let t = context.resolve(Text(verbatim: document.caption).font(.system(size: 20, weight: .regular)))
                 context.draw(t, at: CGPoint(x: cx, y: 30), anchor: .topLeading)
             }
 
@@ -71,14 +71,9 @@ struct DiagramCanvasView: View {
             context.fill(Path(r), with: .color(Color(white: 1.0)))
             context.stroke(Path(r), with: .color(.gray.opacity(0.85)), lineWidth: 1)
         } else {
-            // Außenrahmen wie Java (`drawRect` über gesamten `bereich`)
+            // Außenrahmen wie Java (`drawRect` über gesamten `bereich`); kein inneres Body-Rechteck (vermeidet Doppellinien / „X“).
             context.fill(Path(r), with: .color(Color(white: 1.0)))
             context.stroke(Path(r), with: .color(.gray.opacity(0.85)), lineWidth: 1)
-            let bodyTop = r.minY + headerH
-            if bodyTop < r.maxY {
-                let body = CGRect(x: r.minX, y: bodyTop, width: r.width, height: r.height - headerH)
-                context.stroke(Path(body), with: .color(.gray.opacity(0.85)), lineWidth: 1)
-            }
         }
 
         switch node.element.type {
@@ -101,9 +96,9 @@ struct DiagramCanvasView: View {
 
         if isMulti, let dividerX = node.dividerX {
             let yInset = CGFloat(node.dividerYInset ?? 0)
+            let apex = CGPoint(x: dividerX, y: r.minY + headerH + yInset)
             context.stroke(Path { p in
                 let topLeft = CGPoint(x: r.minX, y: r.minY)
-                let apex = CGPoint(x: dividerX, y: r.minY + headerH + yInset)
                 let topRight = CGPoint(x: r.maxX, y: r.minY)
                 p.move(to: topLeft)
                 p.addLine(to: apex)
@@ -111,12 +106,32 @@ struct DiagramCanvasView: View {
             }, with: .color(.gray.opacity(0.85)), lineWidth: 1)
 
             let lines = node.element.textLines
+            let apexPadding: CGFloat = 8
+            let maxTextBottom = apex.y - apexPadding
+            let blockH = CGFloat(max(lines.count, 1)) * lineHeight
+            let topStart = r.minY + 14
+            let firstY: CGFloat
+            if topStart + blockH <= maxTextBottom {
+                firstY = topStart
+            } else {
+                let totalH = CGFloat(max(lines.count, 1) - 1) * lineHeight
+                firstY = max(r.minY + 2, maxTextBottom - totalH - lineHeight)
+            }
             for (i, line) in lines.enumerated() {
-                let y = r.minY + 8 + CGFloat(i) * lineHeight
+                let y = firstY + CGFloat(i) * lineHeight
                 let tw = measureText(line, size: headerFontSize)
-                let tx = r.midX - tw / 2
+                let apexX = CGFloat(dividerX)
+                let tx: CGFloat = {
+                    if node.element.type == .verzweigung {
+                        let ideal = apexX - tw / 2
+                        let lo = r.minX + 12
+                        let hi = r.maxX - tw - 12
+                        return min(max(ideal, lo), hi)
+                    }
+                    return r.midX - tw / 2
+                }()
                 context.draw(
-                    context.resolve(Text(line).font(.system(size: headerFontSize))),
+                    context.resolve(Text(verbatim: line).font(.system(size: headerFontSize))),
                     at: CGPoint(x: tx, y: y),
                     anchor: .topLeading
                 )
@@ -127,7 +142,7 @@ struct DiagramCanvasView: View {
                 var y = r.maxY - 15.0
                 for line in lines.reversed() {
                     context.draw(
-                        context.resolve(Text(line).font(.system(size: headerFontSize))),
+                        context.resolve(Text(verbatim: line).font(.system(size: headerFontSize))),
                         at: CGPoint(x: r.minX + 12, y: y),
                         anchor: .topLeading
                     )
@@ -137,7 +152,7 @@ struct DiagramCanvasView: View {
                 var y = r.minY + 8
                 for line in lines {
                     context.draw(
-                        context.resolve(Text(line).font(.system(size: headerFontSize))),
+                        context.resolve(Text(verbatim: line).font(.system(size: headerFontSize))),
                         at: CGPoint(x: r.minX + 12, y: y),
                         anchor: .topLeading
                     )
@@ -170,13 +185,13 @@ struct DiagramCanvasView: View {
                     let right = "false"
                     let rw = measureText(right, size: headerFontSize)
                     context.draw(
-                        context.resolve(Text(left).font(.system(size: headerFontSize))),
+                        context.resolve(Text(verbatim: left).font(.system(size: headerFontSize))),
                         at: CGPoint(x: r.minX + 5, y: labelY),
                         anchor: .bottomLeading
                     )
                     let rx = node.caseColumnFrames[1].x + node.caseColumnFrames[1].width - 5 - rw
                     context.draw(
-                        context.resolve(Text(right).font(.system(size: headerFontSize))),
+                        context.resolve(Text(verbatim: right).font(.system(size: headerFontSize))),
                         at: CGPoint(x: rx, y: labelY),
                         anchor: .bottomLeading
                     )
@@ -187,7 +202,7 @@ struct DiagramCanvasView: View {
                         let tw = measureText(label, size: headerFontSize)
                         let cx = col.x + col.width / 2 - tw / 2
                         context.draw(
-                            context.resolve(Text(label).font(.system(size: headerFontSize))),
+                            context.resolve(Text(verbatim: label).font(.system(size: headerFontSize))),
                             at: CGPoint(x: cx, y: labelY),
                             anchor: .bottomLeading
                         )

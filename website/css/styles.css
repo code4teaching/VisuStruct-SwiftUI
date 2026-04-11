@@ -1,18 +1,20 @@
-/* VisuStruct web — Farben am App-Icon: Himmelblau → Royalblau, Weiß/Silber als Akzente */
+/* VisuStruct web — Akzente aus App-Icon (PNG) gesampelt: z. B. #76d3fe (hell) → #2e8cee / #2c78cf (tief) */
 :root {
   --vs-bg-deep: #0a1628;
   --vs-bg-mid: #0f2847;
-  --vs-accent: #3b82f6;
-  --vs-accent-bright: #38bdf8;
-  --vs-accent-dim: #1d4ed8;
-  --vs-accent-glow: rgba(56, 189, 248, 0.28);
-  --vs-blue: #2563eb;
+  --vs-accent: #2e8cee;
+  --vs-accent-bright: #76d3fe;
+  --vs-accent-dim: #2c78cf;
+  --vs-accent-glow: rgba(118, 211, 254, 0.28);
+  --vs-blue: #2568b8;
   --vs-text: #f8fafc;
   --vs-text-muted: #94a3b8;
   --vs-card: rgba(15, 40, 72, 0.72);
   --vs-card-border: rgba(148, 163, 184, 0.14);
   --vs-radius: 20px;
   --vs-font: "DM Sans", system-ui, -apple-system, sans-serif;
+  /* Eine Spalte mit Screenshots, Hero-Text und Screenshot-Überschriften */
+  --vs-prose-max: min(920px, 100%);
 }
 
 *,
@@ -32,8 +34,8 @@ body {
   color: var(--vs-text);
   background: var(--vs-bg-deep);
   background-image:
-    radial-gradient(ellipse 120% 70% at 50% -15%, rgba(125, 211, 252, 0.2), transparent),
-    radial-gradient(ellipse 70% 55% at 95% 40%, rgba(56, 189, 248, 0.18), transparent),
+    radial-gradient(ellipse 120% 70% at 50% -15%, rgba(164, 223, 248, 0.2), transparent),
+    radial-gradient(ellipse 70% 55% at 95% 40%, rgba(118, 211, 254, 0.18), transparent),
     linear-gradient(195deg, #0f3460 0%, var(--vs-bg-deep) 50%, #070d16 100%);
   -webkit-font-smoothing: antialiased;
 }
@@ -182,7 +184,7 @@ a:hover {
   border-radius: 30%;
   background: radial-gradient(
     circle at 50% 45%,
-    rgba(56, 189, 248, 0.45) 0%,
+    rgba(118, 211, 254, 0.45) 0%,
     rgba(29, 78, 216, 0.12) 45%,
     transparent 70%
   );
@@ -201,11 +203,12 @@ a:hover {
   box-shadow:
     0 12px 48px rgba(8, 47, 73, 0.55),
     0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 0 60px rgba(56, 189, 248, 0.22);
+    0 0 60px rgba(118, 211, 254, 0.22);
 }
 
 .hero h1 {
-  margin: 0 0 1rem;
+  margin: 0 auto 1rem;
+  max-width: var(--vs-prose-max);
   font-size: clamp(2rem, 5vw, 2.85rem);
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -221,21 +224,11 @@ a:hover {
   line-height: 1.55;
 }
 
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.9rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--vs-accent-bright);
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(125, 211, 252, 0.28);
-  margin-bottom: 1.25rem;
-}
 .hero .content-prose {
   text-align: left;
+  max-width: var(--vs-prose-max);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* App screenshots (Java desktop · SwiftUI Mac / iPad) */
@@ -250,13 +243,14 @@ a:hover {
 }
 .section-screenshot .screenshot-heading {
   font-size: 1.35rem;
-  margin: 0 0 0.5rem;
+  margin: 0 auto 0.5rem;
+  max-width: var(--vs-prose-max);
   color: var(--vs-text);
   font-weight: 700;
   letter-spacing: -0.02em;
 }
 .screenshot-lead {
-  max-width: 36rem;
+  max-width: var(--vs-prose-max);
   margin: 0 auto 1.5rem;
   font-size: 0.98rem;
   color: var(--vs-text-muted);
@@ -264,7 +258,7 @@ a:hover {
 }
 .app-screenshot-frame {
   margin: 0 auto;
-  max-width: min(920px, 100%);
+  max-width: var(--vs-prose-max);
   padding: 0;
   border-radius: var(--vs-radius);
   background: rgba(15, 40, 72, 0.55);
@@ -308,7 +302,7 @@ a:hover {
 }
 .card:hover {
   transform: translateY(-3px);
-  border-color: rgba(56, 189, 248, 0.35);
+  border-color: rgba(118, 211, 254, 0.35);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
 }
 
@@ -326,7 +320,7 @@ a:hover {
   background: linear-gradient(135deg, #f97316, #ea580c);
 }
 .card-icon.ios {
-  background: linear-gradient(160deg, #7dd3fc, var(--vs-accent-dim));
+  background: linear-gradient(160deg, var(--vs-accent-bright), var(--vs-accent-dim));
 }
 
 .card h2 {
@@ -465,13 +459,13 @@ a:hover {
     rgba(14, 34, 62, 0.92) 48%,
     rgba(7, 18, 36, 0.98) 100%
   );
-  border: 1px solid rgba(125, 211, 252, 0.16);
+  border: 1px solid rgba(164, 223, 248, 0.16);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.06) inset,
     0 18px 50px rgba(0, 0, 0, 0.38);
 }
 .section-downloads .card:hover {
-  border-color: rgba(56, 189, 248, 0.4);
+  border-color: rgba(118, 211, 254, 0.4);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.08) inset,
     0 22px 60px rgba(0, 0, 0, 0.45);
@@ -492,7 +486,7 @@ a:hover {
 }
 .section-downloads .card-icon.ios {
   background: linear-gradient(150deg, rgba(37, 99, 235, 0.45) 0%, rgba(15, 35, 68, 0.92) 100%);
-  border-color: rgba(125, 211, 252, 0.35);
+  border-color: rgba(164, 223, 248, 0.35);
 }
 .section-downloads .card h2 {
   font-size: 1.2rem;

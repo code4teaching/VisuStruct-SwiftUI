@@ -57,7 +57,8 @@ public class Fallauswahl extends StruktogrammElement { //erbt von StruktogrammEl
 			vorher = quellcodeMitKommentarVorspann("match ", ":\n", typ, anzahlEingerueckt, alsKommentar);
 			nachher = "";
 		} else {
-			vorher = quellcodeMitKommentarVorspann("switch(", "){\n", typ, anzahlEingerueckt, alsKommentar);
+			// Java 14+: Switch mit Pfeil und Block — kein fall-through, kein break nötig (Projekt: release 17).
+			vorher = quellcodeMitKommentarVorspann("switch (", ") {\n", typ, anzahlEingerueckt, alsKommentar);
 			nachher = "}\n";
 		}
 
@@ -73,11 +74,11 @@ public class Fallauswahl extends StruktogrammElement { //erbt von StruktogrammEl
 				fallEnde = "";
 			} else {
 				if (i < listen.size() - 1) {
-					fall = "case " + co("kommentar") + listen.get(i).gibBeschreibung() + co("kommentarzu") + ":\n";
+					fall = "case " + co("kommentar") + listen.get(i).gibBeschreibung() + co("kommentarzu") + " -> {\n";
 				} else {
-					fall = "default: " + co("zwangkommentar") + listen.get(i).gibBeschreibung() + co("zwangkommentarzu") + "\n";
+					fall = "default -> { " + co("zwangkommentar") + listen.get(i).gibBeschreibung() + co("zwangkommentarzu") + "\n";
 				}
-				fallEnde = einruecken("break;\n", anzahlEinzuruecken);
+				fallEnde = einruecken("}\n", anzahlEinzuruecken);
 			}
 
 			textarea.hinzufuegen(wandleZuAusgabe(fall, typ, anzahlEingerueckt + anzahlEinzuruecken, alsKommentar));

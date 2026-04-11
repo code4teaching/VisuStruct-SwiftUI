@@ -2,6 +2,10 @@ import SwiftUI
 
 @main
 struct VisuStructApp: App {
+    // Hinweis: Kein `UITextField.appearance().smartQuotesType` / `UITextView.appearance()` hier —
+    // unter SwiftUI kann das zu Laufzeitfehlern führen („setSmartQuotesType: … off the main thread“ / UIKit-Assertion).
+    // Gerade Anführungszeichen im Diagramm erreichen wir mit `Text(verbatim:)` im Canvas; Eingaben ggf. Systemeinstellung.
+
     var body: some Scene {
         WindowGroup {
             AppRootView()

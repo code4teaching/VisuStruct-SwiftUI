@@ -4,6 +4,15 @@ import VisuStructCore
 import UIKit
 #endif
 
+/// Ziel für Tap-Einfügen (iPhone): entspricht den Drop-Semantiken (ähnlich wie Drag&Drop-Bänder).
+enum DiagramInsertTarget: Equatable, Sendable {
+    case before([Int])
+    case after([Int])
+    case replace([Int])   // Platzhalter ersetzen
+    case rootInsertAt0
+    case rootAppend
+}
+
 private extension [Int] {
     /// Stabiler Schlüssel für Sets / Drop-Zonen (z. B. Platzhalter-Lookup).
     var diagramPathKey: String { map(String.init).joined(separator: ",") }
@@ -28,6 +37,8 @@ private enum DiagramCanvasInk {
     static let cellTextInsetYDoUntil: CGFloat = 20
     static let multiHeaderFirstLineY: CGFloat = 14
     static let branchLabelInsetX: CGFloat = 10
+    /// Platz unter dem Titel „Fallauswahl“ bis zur Kopf-/Rumpf-Grenze — Fall-Labels (1/2/…) sitzen in diesem Streifen; Dachspitze darf nicht hineinragen.
+    static let fallauswahlCaseLabelBand: CGFloat = 26
     static let callSideBarInset: CGFloat = 14
     /// Schmaler Streifen **oberhalb** des ersten Wurzelelements: Einfügen / Verschieben an Position 0 ohne oberste „davor“-Zone zu treffen.
     static let rootInsertStripHeight: CGFloat = 14
@@ -37,12 +48,22 @@ struct DiagramCanvasView: View {
     @Binding var document: VisuStructDocument
     @Binding var selectedPath: [Int]?
     @Binding var errorText: String?
+    /// iPhone: Einfügeposition per Tap markieren, dann aus Palette einfügen.
+    @Binding var insertTarget: DiagramInsertTarget?
 
     /// Sichtbarer Bereich des ScrollViews (Fenstergröße). Wenn `.zero`, nur Inhaltsgröße des Layouts.
     var minViewportSize: CGSize = .zero
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
+
+    private var isPhone: Bool {
+        #if canImport(UIKit)
+        return UIDevice.current.userInterfaceIdiom == .phone
+        #else
+        return false
+        #endif
+    }
 
     @State private var dropHighlightKey: String?
 
@@ -54,6 +75,17 @@ struct DiagramCanvasView: View {
 
     private var rootDropHighlightKey: String { "__root__" }
     private var rootInsertBeforeFirstKey: String { "__root_before_first__" }
+    private var rootAppendKey: String { "__root_append__" }
+
+    private func highlightKey(for target: DiagramInsertTarget) -> String {
+        switch target {
+        case .before(let p): p.map(String.init).joined(separator: ",") + ":" + DropBand.before.rawValue
+        case .after(let p): p.map(String.init).joined(separator: ",") + ":" + DropBand.after.rawValue
+        case .replace(let p): p.map(String.init).joined(separator: ",") + ":" + DropBand.on.rawValue
+        case .rootInsertAt0: rootInsertBeforeFirstKey
+        case .rootAppend: rootAppendKey
+        }
+    }
 
     private var layoutMetrics: VisuStructLayoutEngine.Metrics {
         VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
@@ -101,6 +133,10 @@ struct DiagramCanvasView: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedPath = nil
+                        // iPhone: Einfügemarke durch Tap auf leeren Bereich löschen.
+                        if isPhone {
+                            insertTarget = nil
+                        }
                     }
                     .overlay {
                         if dropHighlightKey == rootDropHighlightKey {
@@ -172,6 +208,12 @@ struct DiagramCanvasView: View {
                     .allowsHitTesting(false)
             }
         }
+        .onTapGesture {
+            // iPhone: leeres Dokument → Einfügen ans Root (ersetzt Platzhalter).
+            if isPhone {
+                insertTarget = .rootAppend
+            }
+        }
         .dropDestination(for: DiagramDragPayload.self) { items, _ in
             applyRootDrop(items)
         } isTargeted: { targeted in
@@ -196,7 +238,23 @@ struct DiagramCanvasView: View {
         .contentShape(Rectangle())
         .offset(x: CGFloat(node.frame.x), y: CGFloat(node.frame.y))
         .onTapGesture {
-            selectedPath = node.idPath
+            if isPhone, let target = insertTarget {
+                // Falls bereits ein Ziel gesetzt ist: Tap auf Kachel selektiert normal (zum Text bearbeiten).
+                // Einfügemarke bleibt.
+                selectedPath = node.idPath
+                _ = target
+            } else if isPhone {
+                // iPhone: Tap markiert Einfügeziel. Für Platzhalter = replace, sonst "on" ist nicht zulässig.
+                if isPlaceholderNode {
+                    insertTarget = .replace(node.idPath)
+                } else {
+                    // Default: Einfügen NACH dem Element (am häufigsten sinnvoll beim Tippen).
+                    insertTarget = .after(node.idPath)
+                }
+                selectedPath = node.idPath
+            } else {
+                selectedPath = node.idPath
+            }
         }
         .draggable(DiagramDragPayload(raw: ElementPalette.moveDragIdentifier(path: node.idPath))) {
             nodeDragPreview(for: node)
@@ -212,11 +270,12 @@ struct DiagramCanvasView: View {
     @ViewBuilder
     private func placeholderReplaceDropSurface(node: VisuStructLayout.Node, width: CGFloat, height: CGFloat) -> some View {
         let key = bandHighlightKey(path: node.idPath, band: .on)
-        let showHL = dropHighlightKey == key
+        let showHL = dropHighlightKey == key || (insertTarget.map(highlightKey(for:)) == key)
         Color.clear
             .frame(width: width, height: height)
             .contentShape(Rectangle())
-            .background(showHL ? Color.blue.opacity(0.2) : Color.blue.opacity(0.06))
+            // Im Normalzustand keine farbigen Drop-Flächen rendern (wirkt sonst wie ein Verlauf).
+            .background(showHL ? Color.blue.opacity(0.2) : Color.clear)
             .overlay {
                 Group {
                     if showHL {
@@ -229,6 +288,8 @@ struct DiagramCanvasView: View {
                 }
                 .padding(2)
             }
+            // Kein eigener Tap hier: auf iPad/Mac wäre der Body leer, SwiftUI würde den Tap trotzdem schlucken —
+            // dann feuert der äußere Tap in `nodeDropBands` nicht mehr (keine Auswahl / kein Ersatz-Ziel).
             .dropDestination(for: DiagramDragPayload.self) { items, _ in
                 applyNodeDrop(items, node: node, band: .on)
             } isTargeted: { targeted in
@@ -249,10 +310,9 @@ struct DiagramCanvasView: View {
         }
     }
 
+    /// Nur Layout-Hilfe zwischen den Drop-Streifen — **keine** sichtbare Linie (sonst volle Knotenbreite, wirkt wie kaputtes Raster / schneidet Verzweigung & Fallauswahl).
     private func dropZoneSeparator(width: CGFloat) -> some View {
-        Rectangle()
-            .fill(Color.secondary.opacity(0.35))
-            .frame(width: width, height: 1)
+        Color.clear.frame(width: width, height: 1)
     }
 
     /// Obere/untere Drop-Streifen: groß genug für den Finger, Mitte bleibt für Tap / Ziel „Mitte“ nutzbar.
@@ -272,12 +332,12 @@ struct DiagramCanvasView: View {
         let y = max(0, CGFloat(firstRootFrame.y) - sh - 2)
         if y + sh <= canvasHeight && canvasWidth > 4 {
             let key = rootInsertBeforeFirstKey
-            let showHL = dropHighlightKey == key
-            Color.clear
+            let showHL = dropHighlightKey == key || (insertTarget.map(highlightKey(for:)) == key)
+            let stripCore = Color.clear
                 .frame(width: canvasWidth, height: sh)
                 .offset(x: 0, y: y)
                 .contentShape(Rectangle())
-                .background(showHL ? Color.blue.opacity(0.18) : Color.teal.opacity(0.05))
+                .background(showHL ? Color.blue.opacity(0.18) : Color.clear)
                 .overlay(alignment: .center) {
                     if showHL {
                         Capsule()
@@ -290,6 +350,13 @@ struct DiagramCanvasView: View {
                 } isTargeted: { targeted in
                     updateDropHighlight(key, targeted: targeted)
                 }
+            if isPhone {
+                stripCore.onTapGesture {
+                    insertTarget = .rootInsertAt0
+                }
+            } else {
+                stripCore
+            }
         }
     }
 
@@ -317,17 +384,12 @@ struct DiagramCanvasView: View {
     @ViewBuilder
     private func dropBandView(node: VisuStructLayout.Node, band: DropBand, height: CGFloat, width: CGFloat) -> some View {
         let key = bandHighlightKey(path: node.idPath, band: band)
-        let showHL = dropHighlightKey == key
-        let idleFill: Color = {
-            switch band {
-            case .before, .after: return Color.teal.opacity(0.09)
-            case .on: return Color.orange.opacity(0.06)
-            }
-        }()
-        let bandContent = Color.clear
+        let showHL = dropHighlightKey == key || (insertTarget.map(highlightKey(for:)) == key)
+        let bandCore = Color.clear
             .frame(width: width, height: height)
             .contentShape(Rectangle())
-            .background(showHL ? Color.blue.opacity(band == .on ? 0.22 : 0.16) : idleFill)
+            // Drop-Zonen nur beim tatsächlichen Drag-Target visuell zeigen.
+            .background(showHL ? Color.blue.opacity(band == .on ? 0.22 : 0.16) : Color.clear)
             .overlay {
                 if showHL {
                     RoundedRectangle(cornerRadius: 2)
@@ -340,7 +402,25 @@ struct DiagramCanvasView: View {
             } isTargeted: { targeted in
                 updateDropHighlight(key, targeted: targeted)
             }
-        bandContent
+        // Tap nur auf dem iPhone anhängen: sonst schluckt `onTapGesture` den Klick auf iPad/Mac,
+        // obwohl der Body sofort returnt — der äußere Tap in `nodeDropBands` kommt nicht an.
+        if isPhone {
+            bandCore.onTapGesture {
+                switch band {
+                case .before:
+                    insertTarget = .before(node.idPath)
+                case .after:
+                    insertTarget = .after(node.idPath)
+                case .on:
+                    if VisuStructDocumentEditing.isPlaceholderSlot(at: node.idPath, in: document) {
+                        insertTarget = .replace(node.idPath)
+                    }
+                }
+                selectedPath = node.idPath
+            }
+        } else {
+            bandCore
+        }
     }
 
     private func applyNodeDrop(_ items: [DiagramDragPayload], node: VisuStructLayout.Node, band: DropBand) -> Bool {
@@ -516,7 +596,7 @@ struct DiagramCanvasView: View {
     }
 
     private func pathOfInsertedSibling(after siblingPath: [Int]) -> [Int] {
-        siblingPath.dropLast() + [siblingPath.last! + 1]
+        Array(siblingPath.dropLast()) + [siblingPath.last! + 1]
     }
 
     private func parsePath(_ s: String) -> [Int] {
@@ -542,7 +622,7 @@ struct DiagramCanvasView: View {
                 let cap = captionFontSize
                 let captionW = measureText(document.caption, size: cap)
                 let cx = m + (CGFloat(layout.canvasSize.width) - 2 * m - innerTrim) / 2 - captionW / 2
-                let t = context.resolve(Text(document.caption).font(captionFont))
+                let t = context.resolve(Text(verbatim: document.caption).font(captionFont).foregroundStyle(.black))
                 context.draw(t, at: CGPoint(x: cx, y: 30), anchor: .topLeading)
             }
 
@@ -551,6 +631,43 @@ struct DiagramCanvasView: View {
             }
         }
         .frame(width: cw, height: ch)
+    }
+
+    /// Dachspitze + Textgrenze für Verzweigung/Fallauswahl; **zwei** Zeichenphasen müssen dieselbe Spitze nutzen (sonst „springen“ senkrechte Linien).
+    private struct MultiwayRoofMetrics {
+        let apex: CGPoint
+        let maxTextBottom: CGFloat
+        let roofBottom: CGFloat
+    }
+
+    private func multiwayRoofMetrics(node: VisuStructLayout.Node, rect r: CGRect, headerH: CGFloat, dividerX: CGFloat) -> MultiwayRoofMetrics {
+        let roofBottom = r.minY + headerH
+        let yInset = CGFloat(node.dividerYInset ?? 0)
+        let lines = node.element.textLines
+        let apexPadding: CGFloat = 12
+        let blockH = CGFloat(max(lines.count, 1)) * lineHeight
+        let topStart = r.minY + DiagramCanvasInk.multiHeaderFirstLineY
+
+        if node.element.type == .fallauswahl {
+            let caseBand = max(DiagramCanvasInk.fallauswahlCaseLabelBand, lineHeight + 10)
+            let titleBottomLimit = roofBottom - caseBand
+            let maxTextBottom = titleBottomLimit - apexPadding
+            let idealApexY = roofBottom + yInset
+            let apexMaxY = titleBottomLimit - 8
+            let apexY = min(idealApexY, apexMaxY)
+            let apexClampedY = max(apexY, topStart + blockH + 6)
+            return MultiwayRoofMetrics(
+                apex: CGPoint(x: dividerX, y: apexClampedY),
+                maxTextBottom: maxTextBottom,
+                roofBottom: roofBottom
+            )
+        }
+        let apex = CGPoint(x: dividerX, y: roofBottom + yInset)
+        return MultiwayRoofMetrics(
+            apex: apex,
+            maxTextBottom: apex.y - apexPadding,
+            roofBottom: roofBottom
+        )
     }
 
     private func drawNode(_ node: VisuStructLayout.Node, selectedPath: [Int]?, in context: inout GraphicsContext) {
@@ -568,13 +685,8 @@ struct DiagramCanvasView: View {
 
         context.fill(cellPath, with: .color(diagramCellFill))
         context.stroke(cellPath, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
-        if isMulti {
-            let bodyTop = r.minY + headerH
-            if bodyTop < r.maxY {
-                let body = CGRect(x: r.minX, y: bodyTop, width: r.width, height: r.height - headerH)
-                context.stroke(Path(body), with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
-            }
-        }
+        // Kein zweites Rechteck für Verzweigung/Fallauswahl: dessen Oberkante läge auf Höhe der Dreiecksspitze
+        // und würde eine Sehne durch das V zeichnen sowie linke/rechte Kanten doppelt stroken („X“ / Doppellinien).
 
         if isSelected {
             context.stroke(cellPath, with: .color(Color.blue.opacity(0.9)), lineWidth: DiagramCanvasInk.selectionLineWidth)
@@ -600,25 +712,56 @@ struct DiagramCanvasView: View {
             break
         }
 
-        if isMulti, let dividerX = node.dividerX {
-            let yInset = CGFloat(node.dividerYInset ?? 0)
+        if isMulti, let dividerXRaw = node.dividerX {
+            let dividerX = CGFloat(dividerXRaw)
+            let roof = multiwayRoofMetrics(node: node, rect: r, headerH: headerH, dividerX: dividerX)
+            let lines = node.element.textLines
+            let blockH = CGFloat(max(lines.count, 1)) * lineHeight
+            let topStart = r.minY + DiagramCanvasInk.multiHeaderFirstLineY
+
             context.stroke(Path { p in
                 let topLeft = CGPoint(x: r.minX, y: r.minY)
-                let apex = CGPoint(x: dividerX, y: r.minY + headerH + yInset)
                 let topRight = CGPoint(x: r.maxX, y: r.minY)
                 p.move(to: topLeft)
-                p.addLine(to: apex)
+                p.addLine(to: roof.apex)
                 p.addLine(to: topRight)
             }, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
 
-            let lines = node.element.textLines
-            let ty = DiagramCanvasInk.multiHeaderFirstLineY
+            if node.element.type == .fallauswahl {
+                context.stroke(
+                    Path { p in
+                        p.move(to: CGPoint(x: r.minX, y: roof.roofBottom))
+                        p.addLine(to: CGPoint(x: r.maxX, y: roof.roofBottom))
+                    },
+                    with: .color(linePaint),
+                    lineWidth: DiagramCanvasInk.diagramLineWidth
+                )
+            }
+
+            // Kopftext: Fallauswahl zentriert zur Gesamtbreite; Verzweigung über der Dachspitze (Zweig-Grenze). Nicht zu nah an die Spitze.
+            let maxTextBottom = roof.maxTextBottom
+            let firstY: CGFloat
+            if topStart + blockH <= maxTextBottom {
+                firstY = topStart
+            } else {
+                let totalH = CGFloat(max(lines.count, 1) - 1) * lineHeight
+                firstY = max(r.minY + 2, maxTextBottom - totalH - lineHeight)
+            }
             for (i, line) in lines.enumerated() {
-                let y = r.minY + ty + CGFloat(i) * lineHeight
+                let y = firstY + CGFloat(i) * lineHeight
                 let tw = measureText(line, size: headerFontSize)
-                let tx = r.midX - tw / 2
+                /// Verzweigung: Kopf über der **Zweig-Grenze** (Dachspitze), nicht über `midX` — sonst wirkt die Mitte falsch, wenn ein Zweig viel breiter ist (z. B. Fallauswahl im false-Zweig).
+                let tx: CGFloat = {
+                    if node.element.type == .verzweigung {
+                        let ideal = dividerX - tw / 2
+                        let lo = r.minX + DiagramCanvasInk.cellTextInsetX
+                        let hi = r.maxX - tw - DiagramCanvasInk.cellTextInsetX
+                        return min(max(ideal, lo), hi)
+                    }
+                    return r.midX - tw / 2
+                }()
                 context.draw(
-                    context.resolve(Text(line).font(cellFont)),
+                    context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
                     at: CGPoint(x: tx, y: y),
                     anchor: .topLeading
                 )
@@ -631,7 +774,7 @@ struct DiagramCanvasView: View {
                 var y = r.maxY - DiagramCanvasInk.cellTextInsetYDoUntil
                 for line in lines.reversed() {
                     context.draw(
-                        context.resolve(Text(line).font(cellFont)),
+                        context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
                         at: CGPoint(x: r.minX + ix, y: y),
                         anchor: .topLeading
                     )
@@ -641,7 +784,7 @@ struct DiagramCanvasView: View {
                 var y = r.minY + iy
                 for line in lines {
                     context.draw(
-                        context.resolve(Text(line).font(cellFont)),
+                        context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
                         at: CGPoint(x: r.minX + ix, y: y),
                         anchor: .topLeading
                     )
@@ -654,12 +797,14 @@ struct DiagramCanvasView: View {
             drawNode(c, selectedPath: selectedPath, in: &context)
         }
 
-        if isMulti, let dividerX = node.dividerX, node.caseColumnFrames.count > 1 {
-            let yInset = CGFloat(node.dividerYInset ?? 0)
-            let apex = CGPoint(x: dividerX, y: r.minY + headerH + yInset)
+        if isMulti, let dividerXRaw = node.dividerX, node.caseColumnFrames.count > 1 {
+            let dividerX = CGFloat(dividerXRaw)
+            let roof = multiwayRoofMetrics(node: node, rect: r, headerH: headerH, dividerX: dividerX)
+            let apex = roof.apex
             for (idx, col) in node.caseColumnFrames.enumerated() where idx < node.caseColumnFrames.count - 1 {
                 let xSep = CGFloat(col.x + col.width)
-                let yTop = yOnSwitchHeaderDiagonal(xSep: xSep, rect: r, apex: apex)
+                let yTopRaw = yOnSwitchHeaderDiagonal(xSep: xSep, rect: r, apex: apex)
+                let yTop = yTopRaw.isFinite ? min(max(yTopRaw, r.minY), r.maxY) : r.minY
                 context.stroke(Path { p in
                     p.move(to: CGPoint(x: xSep, y: r.maxY))
                     p.addLine(to: CGPoint(x: xSep, y: yTop))
@@ -667,20 +812,27 @@ struct DiagramCanvasView: View {
             }
 
             if let cases = node.element.cases, cases.count == node.caseColumnFrames.count {
-                let labelY = r.minY + headerH - 6
+                /// Fallauswahl: etwas höher setzen, damit „1/2/default“ nicht in die Dachkanten rutschen; Verzweigung: knapp über dem Rumpf wie in Java.
+                let labelY: CGFloat = {
+                    if node.element.type == .fallauswahl {
+                        /// Am unteren Rand des Kopfteils (über Rumpf), passend zur waagerechten Linie bei `roofBottom`.
+                        return roof.roofBottom - 6
+                    }
+                    return r.minY + headerH - 8
+                }()
                 let lx = DiagramCanvasInk.branchLabelInsetX
                 if node.element.type == .verzweigung && cases.count == 2 {
                     let left = "true"
                     let right = "false"
                     let rw = measureText(right, size: headerFontSize)
                     context.draw(
-                        context.resolve(Text(left).font(cellFont)),
+                        context.resolve(Text(verbatim: left).font(cellFont).foregroundStyle(.black)),
                         at: CGPoint(x: r.minX + lx, y: labelY),
                         anchor: .bottomLeading
                     )
                     let rx = node.caseColumnFrames[1].x + node.caseColumnFrames[1].width - lx - rw
                     context.draw(
-                        context.resolve(Text(right).font(cellFont)),
+                        context.resolve(Text(verbatim: right).font(cellFont).foregroundStyle(.black)),
                         at: CGPoint(x: rx, y: labelY),
                         anchor: .bottomLeading
                     )
@@ -691,7 +843,7 @@ struct DiagramCanvasView: View {
                         let tw = measureText(label, size: headerFontSize)
                         let cx = col.x + col.width / 2 - tw / 2
                         context.draw(
-                            context.resolve(Text(label).font(cellFont)),
+                            context.resolve(Text(verbatim: label).font(cellFont).foregroundStyle(.black)),
                             at: CGPoint(x: cx, y: labelY),
                             anchor: .bottomLeading
                         )

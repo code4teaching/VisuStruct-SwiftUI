@@ -80,7 +80,7 @@ private struct ElementNodeView: View {
             Text(verbatim: "Typ \(element.type.rawValue)  zx=\(element.zoomX)  zy=\(element.zoomY)")
                 .font(.headline)
             ForEach(element.textLines, id: \.self) { line in
-                Text(line).font(.body)
+                Text(verbatim: line).font(.body)
             }
 
             if let loopBody = element.loopBody {

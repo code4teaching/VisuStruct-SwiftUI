@@ -1,11 +1,13 @@
 /* VisuStruct Java-Desktop-Preset (kein .lproj — gültig für App Store; Tabelle „Java“). */
 
-/* Palette & list — palette short labels like Java */
+/* Palette — short labels like Java */
 "palette_header" = "Blocks";
-"list_section_elements" = "Blocks";
 
 /* Actions */
 "action_share_png" = "Share Graphic…";
+"action_share_document" = "Share File…";
+"action_export_pdf" = "Preview PDF…";
+"action_generate_code" = "Generate Code…";
 "action_delete_selection" = "Delete Selection";
 "action_about" = "About VisuStruct";
 
@@ -24,7 +26,24 @@
 "menu_file" = "File";
 
 /* Accessibility */
-"a11y_canvas_toggle" = "Canvas view";
+"a11y_generate_code" = "Generate code from the structure chart";
+"a11y_generate_code_locked" = "Generate code, available after purchase";
+"a11y_unsaved_changes" = "Unsaved changes";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "Generate code";
+"codegen_gate_body" = "Java and Python code from your diagram will unlock via in-app purchase (coming soon).";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "Code generator";
+"codegen_placeholder_body" = "Generated code will appear here.";
+"codegen_placeholder_compare" = "Switch between Java and Python to compare syntax (sample below).";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_preview_java" = "if (condition) {\n    statement();\n} else {\n    alternative();\n}";
+"codegen_preview_python" = "if condition:\n    statement()\nelse:\n    alternative()";
+"codegen_option_comments" = "Diagram text as comments";
+"codegen_generated_hint" = "Preview from the current structure chart (Java 17, Python 3.10+).";
+"codegen_copy" = "Copy";
 "a11y_new_diagram_tab" = "New diagram tab";
 "a11y_close_tab" = "Close tab";
 "a11y_placeholder_drop" = "Drop an element here to replace the placeholder. Press and hold to drag and move.";
@@ -33,11 +52,9 @@
 /* Diagram */
 "diagram_title_label" = "Title";
 "diagram_title_placeholder" = "No title";
-"list_section_title" = "Title";
 
 /* Inspector */
 "inspector_no_selection" = "No element selected — tap a tile.";
-"inspector_case_label_help" = "Case label (column header, e.g. numbers or text)";
 "inspector_apply_text" = "Apply Text";
 "inspector_add_case" = "Add Case";
 "inspector_remove_case" = "Remove Case";
@@ -86,17 +103,22 @@
 "about_dateiformat_heading" = "File format";
 "about_dateiformat_part1" = "VisuStruct’s native format uses the extension ";
 "about_dateiformat_part2" = ". You can keep diagrams and exchange them with other apps that support the same format.";
+"about_project_github_label" = "Project (GitHub, Java):";
+"about_web_label" = "Web:";
+"about_lineage_heading" = "Lineage";
+"about_lineage_body" = "This iOS app is a reimplementation in Swift/SwiftUI and is compatible with the Java version’s .visustruct file format. The Java version (code4teaching/VisuStruct) builds on the open-source project by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Upstream:";
 "about_done" = "Done";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";
 
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "Cancel insert";
+"phone_show_text_editor" = "Edit text";
+
 /* Alerts */
 "err_save_failed_fmt" = "Could not save: %@";
+"err_share_prepare_failed_fmt" = "Could not prepare sharing: %@";
 "err_diagram_too_small_export" = "The diagram is too small — nothing to export.";
 "err_image_render_failed" = "Could not create the image.";
 "err_diagram_too_small_print" = "The diagram is too small — nothing to print.";
 "err_print_unavailable" = "Printing is not available on this device.";
-
-/* Debug list */
-"debug_loop_body" = "Loop body";
-"debug_cases" = "Cases";
-"debug_empty_case" = "(empty)";

@@ -19,9 +19,14 @@ public enum VisuStructEditError: Error, LocalizedError, Sendable, Equatable {
 /// Mutationen am Dokument — Swift-nativ; Pfade wie im Layout (`idPath`).
 public enum VisuStructDocumentEditing: Sendable {
 
+    private static func placeholderElement() -> VisuStructElement {
+        // Konsistent zum Startdokument und zu den Java-kompatiblen Platzhaltern.
+        VisuStructElement(type: .anweisung, textLines: ["ø"])
+    }
+
     public static func newEmpty() -> VisuStructDocument {
         VisuStructDocument(caption: "", elements: [
-            VisuStructElement(type: .anweisung, textLines: ["ø"])
+            placeholderElement()
         ])
     }
 
@@ -54,7 +59,10 @@ public enum VisuStructDocumentEditing: Sendable {
     public static func canDeleteElement(at path: [Int], in doc: VisuStructDocument) -> Bool {
         guard !path.isEmpty else { return false }
         if path.count == 1 {
-            return doc.elements.count > 1
+            // Wenn nur ein Root-Element existiert, darf es gelöscht werden, **sofern** es kein Platzhalter ist.
+            // Statt "kein Element" wird dann wieder ein einzelner Platzhalter (ø) eingesetzt.
+            if doc.elements.count > 1 { return true }
+            return !isPlaceholderSlot(at: path, in: doc)
         }
         return true
     }
@@ -66,7 +74,7 @@ public enum VisuStructDocumentEditing: Sendable {
     }
 
     public static func appendAnweisungRoot(_ doc: VisuStructDocument) -> VisuStructDocument {
-        appendRoot(doc, VisuStructElement(type: .anweisung, textLines: ["ø"]))
+        appendRoot(doc, placeholderElement())
     }
 
     public static func element(at path: [Int], in doc: VisuStructDocument) throws -> VisuStructElement {
@@ -105,7 +113,12 @@ public enum VisuStructDocumentEditing: Sendable {
         guard i >= 0, i < doc.elements.count else { throw VisuStructEditError.invalidPath }
         var d = doc
         if path.count == 1 {
-            guard d.elements.count > 1 else { throw VisuStructEditError.cannotDeleteLastRootElement }
+            if d.elements.count == 1 {
+                // Letztes Root-Element: echtes Element → durch Platzhalter ersetzen; Platzhalter selbst bleibt unlöschbar.
+                guard !isPlaceholderElement(d.elements[i]) else { throw VisuStructEditError.cannotDeleteLastRootElement }
+                d.elements[i] = placeholderElement()
+                return d
+            }
             d.elements.remove(at: i)
             return d
         }
@@ -155,7 +168,7 @@ public enum VisuStructDocumentEditing: Sendable {
         let moving = try element(at: fromPath, in: doc)
         let sameParent = fromPath.dropLast() == beforePath.dropLast()
         let fi = fromPath.last!, bi = beforePath.last!
-        var d = try deleteAtPath(doc, path: fromPath)
+        let d = try deleteAtPath(doc, path: fromPath)
         var target = beforePath
         if sameParent && fi < bi {
             target = beforePath.dropLast() + [bi - 1]
@@ -171,7 +184,7 @@ public enum VisuStructDocumentEditing: Sendable {
         let moving = try element(at: fromPath, in: doc)
         let sameParent = fromPath.dropLast() == placeholderPath.dropLast()
         let fi = fromPath.last!, pi = placeholderPath.last!
-        var d = try deleteAtPath(doc, path: fromPath)
+        let d = try deleteAtPath(doc, path: fromPath)
         var ph = placeholderPath
         if sameParent && fi < pi {
             ph = placeholderPath.dropLast() + [pi - 1]
@@ -188,7 +201,7 @@ public enum VisuStructDocumentEditing: Sendable {
         let moving = try element(at: fromPath, in: doc)
         let sameParent = fromPath.dropLast() == afterPath.dropLast()
         let fi = fromPath.last!, ai = afterPath.last!
-        var d = try deleteAtPath(doc, path: fromPath)
+        let d = try deleteAtPath(doc, path: fromPath)
         var target = afterPath
         if sameParent && fi < ai {
             target = afterPath.dropLast() + [ai - 1]
@@ -206,7 +219,7 @@ public enum VisuStructDocumentEditing: Sendable {
         guard parent.type == .fallauswahl, var cases = parent.cases, !cases.isEmpty else {
             throw VisuStructEditError.invalidPath
         }
-        let stub = VisuStructElement(type: .anweisung, textLines: ["ø"])
+        let stub = placeholderElement()
         let insertIndex: Int
         let newCaseName: String
         if let last = cases.last, last.name.lowercased() == "default" {
@@ -412,10 +425,12 @@ public enum VisuStructDocumentEditing: Sendable {
             guard j >= 0, j < body.count else { throw VisuStructEditError.invalidPath }
             if tail.count == 1 {
                 body.remove(at: j)
+                if body.isEmpty { body = [placeholderElement()] }
             } else {
                 try delete(in: &body, path: tail)
+                if body.isEmpty { body = [placeholderElement()] }
             }
-            el.loopBody = body.isEmpty ? [] : body
+            el.loopBody = body
         case .fallauswahl, .verzweigung:
             guard var cases = el.cases, head >= 0, head < cases.count, !tail.isEmpty else { throw VisuStructEditError.invalidPath }
             var elems = cases[head].elements
@@ -423,8 +438,10 @@ public enum VisuStructDocumentEditing: Sendable {
             guard j >= 0, j < elems.count else { throw VisuStructEditError.invalidPath }
             if tail.count == 1 {
                 elems.remove(at: j)
+                if elems.isEmpty { elems = [placeholderElement()] }
             } else {
                 try delete(in: &elems, path: tail)
+                if elems.isEmpty { elems = [placeholderElement()] }
             }
             cases[head].elements = elems
             el.cases = cases

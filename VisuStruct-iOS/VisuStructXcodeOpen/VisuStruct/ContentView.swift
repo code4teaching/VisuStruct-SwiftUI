@@ -2,6 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import VisuStructCore
 #if canImport(UIKit)
+import QuickLook
 import UIKit
 #endif
 
@@ -38,18 +39,37 @@ struct VisuStructFileDocument: FileDocument, Sendable {
 
 /// Optik wie eine abgerundete Schaltfläche (Tipp + Drag aus der Liste).
 private struct PaletteListElementButtonStyle: ButtonStyle {
+    enum Emphasis {
+        case normal
+        case destructive
+    }
+
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    var emphasis: Emphasis = .normal
+
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.vertical, 10)
-            .padding(.horizontal, 12)
+        let isCompact = horizontalSizeClass != .regular
+        let vPad: CGFloat = isCompact ? 5 : 10
+        let hPad: CGFloat = isCompact ? 8 : 12
+        let radius: CGFloat = isCompact ? 8 : 10
+        let baseStrokeOpacity = configuration.isPressed ? 0.14 : 0.10
+        let borderColor: Color = emphasis == .destructive
+            ? Color.red.opacity(baseStrokeOpacity + 0.55)
+            : Color.primary.opacity(baseStrokeOpacity)
+        return configuration.label
+            .font(isCompact ? .callout : .body)
+            .imageScale(isCompact ? .small : .medium)
+            .foregroundStyle(emphasis == .destructive ? Color.red : Color.primary)
+            .padding(.vertical, vPad)
+            .padding(.horizontal, hPad)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
                     .fill(configuration.isPressed ? Color(.quaternarySystemFill) : Color(.tertiarySystemFill))
             }
             .overlay {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .strokeBorder(Color.primary.opacity(configuration.isPressed ? 0.14 : 0.10), lineWidth: 1)
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
+                    .strokeBorder(borderColor, lineWidth: 1)
             }
     }
 }
@@ -156,6 +176,12 @@ private struct PNGSharePayload: Identifiable {
     let id = UUID()
     let image: UIImage
 }
+
+/// Temporäre Datei (.visustruct oder PDF) fürs System-Teilen.
+private struct FileURLSharePayload: Identifiable {
+    let id = UUID()
+    let url: URL
+}
 #endif
 
 // MARK: - Mehrere Struktogramm-Reiter
@@ -167,11 +193,14 @@ private struct DiagramSheetTab: Identifiable {
     var undoStack: [VisuStructDocument] = []
     var redoStack: [VisuStructDocument] = []
     var selectedPath: [Int]? = [0]
-    var showCanvas: Bool = true
     var lineEditorText: String = ""
     var errorText: String? = nil
     /// Security-Scoped Bookmark der zuletzt geöffneten oder unter „Speichern unter …“ gewählten Datei — für **Speichern** ohne Dialog.
     var linkedFileBookmarkData: Data? = nil
+    /// Dateiname (ohne Endung) für Titelanzeige; `nil` bedeutet „unbenannt“ (z. B. „Struktogramm 1“).
+    var linkedFileDisplayName: String? = nil
+    /// Encodiertes Dokument zuletzt als „sauber“ betrachtet (nach Öffnen/Speichern) — für den Punkt wie in VS Code.
+    var savedDocumentBaseline: Data
 
     static func makeNew(serial: Int, id: UUID = UUID(), language: AppLanguage) -> DiagramSheetTab {
         let title = String(
@@ -179,19 +208,29 @@ private struct DiagramSheetTab: Identifiable {
             locale: Locale(identifier: language.localeIdentifierForFormatting),
             arguments: [serial as CVarArg]
         )
+        let doc = VisuStructDocumentEditing.newEmpty()
         return DiagramSheetTab(
             id: id,
             title: title,
-            document: VisuStructDocumentEditing.newEmpty(),
+            document: doc,
             undoStack: [],
             redoStack: [],
             selectedPath: [0],
-            showCanvas: true,
             lineEditorText: "",
             errorText: nil,
-            linkedFileBookmarkData: nil
+            linkedFileBookmarkData: nil,
+            linkedFileDisplayName: nil,
+            savedDocumentBaseline: VisuStructXMLCodec.encode(doc)
         )
     }
+}
+
+// MARK: - Code-Generator: Kaufzwang (IAP)
+
+/// Wenn `true`, ist „Code erzeugen“ ohne Kauf/Freischaltung (`visustruct.codegen.unlocked`) nur ein Hinweis-Sheet.
+/// Solange es noch nichts Käufliches gibt: `false` — später auf `true` stellen und StoreKit anbinden.
+private enum CodeGeneratorPurchaseGate {
+    static let requiresPurchase = false
 }
 
 // MARK: - Hauptansicht
@@ -202,6 +241,22 @@ struct ContentView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
 
+    private var isPhone: Bool {
+        #if canImport(UIKit)
+        return UIDevice.current.userInterfaceIdiom == .phone
+        #else
+        return false
+        #endif
+    }
+
+    private enum FocusTarget: Hashable {
+        case caption
+        case caseLabel
+        case textEditor
+    }
+
+    @FocusState private var focusedField: FocusTarget?
+
     @State private var sheetTabs: [DiagramSheetTab]
     @State private var selectedTabId: UUID
     @State private var nextTabSerial: Int
@@ -209,8 +264,26 @@ struct ContentView: View {
     @State private var showImporter = false
     @State private var showExporter = false
     @State private var showInfo = false
+    @State private var showCodeGeneratorPaywall = false
+    @State private var showCodeGeneratorPlaceholder = false
+    /// Wenn `CodeGeneratorPurchaseGate.requiresPurchase`: nach erfolgreichem Kauf auf `true` (StoreKit / `UserDefaults`).
+    @AppStorage("visustruct.codegen.unlocked") private var codeGeneratorUnlocked = false
+
+    /// Freigabe für die Code-Generator-UI: ohne Kaufzwang immer offen; mit Kaufzwang nur nach Freischaltung.
+    private var codeGeneratorAccessGranted: Bool {
+        !CodeGeneratorPurchaseGate.requiresPurchase || codeGeneratorUnlocked
+    }
+    // iPhone UX: Einfügemarke + Inspector einklappen beim Einfügen.
+    @State private var insertTarget: DiagramInsertTarget? = nil
+    @State private var hideInspectorOnPhone: Bool = false
+    // iPhone UX: Palette automatisch einklappen beim Text-Editieren.
+    @State private var showPaletteOnPhone: Bool = true
     #if canImport(UIKit)
     @State private var pngSharePayload: PNGSharePayload?
+    @State private var fileURLSharePayload: FileURLSharePayload?
+    /// PDF: Quick Look (System-Vorschau), statt nur Share Sheet.
+    @State private var pdfQuickLookURL: URL?
+    @State private var keyboardOverlap: CGFloat = 0
     #endif
 
     init() {
@@ -223,6 +296,62 @@ struct ContentView: View {
 
     private var currentTabIndex: Int {
         sheetTabs.firstIndex(where: { $0.id == selectedTabId }) ?? 0
+    }
+
+    /// Reiter- und Titelleiste: ohne `.visustruct`; auch als Basis für Export, falls der Titel die Endung enthält.
+    private static func stripVisuStructExtension(from name: String) -> String {
+        let t = name.trimmingCharacters(in: .whitespacesAndNewlines)
+        let suffix = ".visustruct"
+        if t.lowercased().hasSuffix(suffix) {
+            return String(t.dropLast(suffix.count)).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return t
+    }
+
+    private func diagramTabDisplayTitle(_ tab: DiagramSheetTab) -> String {
+        Self.stripVisuStructExtension(from: tab.title)
+    }
+
+    private func fileDisplayName(from url: URL) -> String {
+        let name = url.deletingPathExtension().lastPathComponent.trimmingCharacters(in: .whitespacesAndNewlines)
+        let base = name.isEmpty ? url.deletingPathExtension().lastPathComponent : name
+        return Self.stripVisuStructExtension(from: base)
+    }
+
+    /// `true`, wenn sich das Diagramm gegenüber der letzten Speicher-Baseline geändert hat (inkl. Rückgängig bis zum gespeicherten Stand).
+    private func tabHasUnsavedChanges(_ tab: DiagramSheetTab) -> Bool {
+        VisuStructXMLCodec.encode(tab.document) != tab.savedDocumentBaseline
+    }
+
+    @ViewBuilder
+    private func unsavedChangeIndicatorDot() -> some View {
+        Circle()
+            .fill(Color.accentColor)
+            .frame(width: 7, height: 7)
+            .accessibilityHidden(true)
+    }
+
+    private func updateSavedBaselineForCurrentTab() {
+        var tabs = sheetTabs
+        let i = currentTabIndex
+        tabs[i].savedDocumentBaseline = VisuStructXMLCodec.encode(tabs[i].document)
+        sheetTabs = tabs
+    }
+
+    private func setLinkedFile(forCurrentTab url: URL) {
+        var tabs = sheetTabs
+        let i = currentTabIndex
+        tabs[i].linkedFileBookmarkData = try? url.bookmarkData(
+            options: .minimalBookmark,
+            includingResourceValuesForKeys: nil,
+            relativeTo: nil
+        )
+        let display = fileDisplayName(from: url)
+        tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
+        if let d = tabs[i].linkedFileDisplayName {
+            tabs[i].title = d
+        }
+        sheetTabs = tabs
     }
 
     private var document: VisuStructDocument {
@@ -244,16 +373,26 @@ struct ContentView: View {
                 .navigationSplitViewStyle(.balanced)
             } else {
                 VStack(spacing: 0) {
-                    paletteListPanel
-                        .frame(maxHeight: 300, alignment: .top)
-                        .background(Color(.secondarySystemGroupedBackground))
-                        .clipped()
+                    if !isPhone || showPaletteOnPhone {
+                        paletteListPanel
+                            .frame(maxHeight: 300, alignment: .top)
+                            .background(Color(.secondarySystemGroupedBackground))
+                            .clipped()
+                    }
                     Divider()
                     mainEditorNavigationStack
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
             }
         }
+        #if canImport(UIKit)
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)) { n in
+            updateKeyboardOverlap(from: n)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in
+            keyboardOverlap = 0
+        }
+        #endif
         .onAppear {
             refreshLineEditor()
         }
@@ -281,13 +420,12 @@ struct ContentView: View {
                         let i = currentTabIndex
                         tabs[i].selectedPath = tabs[i].document.elements.isEmpty ? nil : [0]
                         tabs[i].errorText = nil
-                        // Kein `.withSecurityScope` — auf iOS unverfügbar; `.minimalBookmark` reicht für Dateizugriff nach Öffnen.
-                        tabs[i].linkedFileBookmarkData = try? url.bookmarkData(
-                            options: .minimalBookmark,
-                            includingResourceValuesForKeys: nil,
-                            relativeTo: nil
-                        )
+                        let display = fileDisplayName(from: url)
+                        tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
+                        tabs[i].title = tabs[i].linkedFileDisplayName ?? tabs[i].title
                         sheetTabs = tabs
+                        // Bookmark separat setzen (inkl. Security-Scoped Zugriff für späteres „Speichern“).
+                        setLinkedFile(forCurrentTab: url)
                         refreshLineEditor()
                     } catch {
                         setErrorOnCurrentTab(error.localizedDescription)
@@ -309,14 +447,8 @@ struct ContentView: View {
             switch result {
             case .success(let url):
                 Task { @MainActor in
-                    var tabs = sheetTabs
-                    let i = currentTabIndex
-                    tabs[i].linkedFileBookmarkData = try? url.bookmarkData(
-                        options: .minimalBookmark,
-                        includingResourceValuesForKeys: nil,
-                        relativeTo: nil
-                    )
-                    sheetTabs = tabs
+                    setLinkedFile(forCurrentTab: url)
+                    updateSavedBaselineForCurrentTab()
                 }
             case .failure(let err):
                 let message = err.localizedDescription
@@ -328,13 +460,32 @@ struct ContentView: View {
         .sheet(isPresented: $showInfo) {
             AboutVisuStructView()
         }
+        .sheet(isPresented: $showCodeGeneratorPaywall) {
+            CodeGeneratorPaywallSheet()
+        }
+        .sheet(isPresented: $showCodeGeneratorPlaceholder) {
+            CodeGeneratorPlaceholderSheet(document: document)
+        }
         #if canImport(UIKit)
         .sheet(item: $pngSharePayload) { payload in
             ActivityShareSheet(items: [payload.image])
         }
+        .sheet(item: $fileURLSharePayload) { payload in
+            ActivityShareSheet(items: [payload.url])
+        }
+        .quickLookPreview($pdfQuickLookURL)
         #endif
         .onChange(of: selectedTabId) { _, _ in
             refreshLineEditor()
+        }
+        .onChange(of: focusedField) { _, newVal in
+            // iPhone: Sobald Textbearbeitung startet, Palette einklappen für mehr Platz.
+            guard isPhone else { return }
+            if newVal != nil {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    showPaletteOnPhone = false
+                }
+            }
         }
     }
 
@@ -365,12 +516,14 @@ struct ContentView: View {
     }
 
     /// Gemeinsamer List-Inhalt für Palette + Aktionen.
+    @ViewBuilder
     private var paletteListStackBody: some View {
-        List {
+        let isCompact = horizontalSizeClass != .regular
+        return List {
             Section {
                 ForEach(ElementPalette.PaletteItem.paletteOrder) { item in
                     Button {
-                        appendRoot(ElementPalette.element(for: item, lang: lang))
+                        insertPaletteItem(item)
                     } label: {
                         Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
                             .foregroundStyle(.primary)
@@ -381,7 +534,11 @@ struct ContentView: View {
                         paletteDragPreview(for: item)
                     }
                     .accessibilityAddTraits(.isButton)
-                    .listRowInsets(EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12))
+                    .listRowInsets(
+                        isCompact
+                            ? EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10)
+                            : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                    )
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                 }
@@ -392,19 +549,79 @@ struct ContentView: View {
                 } label: {
                     Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
                 }
-                .buttonStyle(.bordered)
-                .frame(maxWidth: .infinity)
-                .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 6, trailing: 12))
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 4, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 8, leading: 12, bottom: 5, trailing: 12)
+                )
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
+                Button {
+                    shareDocumentAsFile()
+                } label: {
+                    Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
+                }
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                )
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                Button {
+                    shareDiagramPDF()
+                } label: {
+                    Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
+                }
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                )
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                Button {
+                    if codeGeneratorAccessGranted {
+                        showCodeGeneratorPlaceholder = true
+                    } else {
+                        showCodeGeneratorPaywall = true
+                    }
+                } label: {
+                    HStack(spacing: 10) {
+                        Label(lang.tr("action_generate_code"), systemImage: "chevron.left.forwardslash.chevron.right")
+                        Spacer(minLength: 8)
+                        if !codeGeneratorAccessGranted {
+                            Image(systemName: "lock.fill")
+                                .font(.body)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                )
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .accessibilityLabel(
+                    codeGeneratorAccessGranted ? lang.tr("a11y_generate_code") : lang.tr("a11y_generate_code_locked")
+                )
                 Button(role: .destructive) {
                     deleteSelection()
                 } label: {
                     Label(lang.tr("action_delete_selection"), systemImage: "trash")
                 }
-                .buttonStyle(.bordered)
-                .frame(maxWidth: .infinity)
-                .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 6, trailing: 12))
+                .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                )
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
                 .disabled(
@@ -417,16 +634,19 @@ struct ContentView: View {
                 } label: {
                     Label(lang.tr("action_about"), systemImage: "info.circle")
                 }
-                .buttonStyle(.bordered)
-                .frame(maxWidth: .infinity)
-                .listRowInsets(EdgeInsets(top: 6, leading: 12, bottom: 8, trailing: 12))
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 4, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 8, trailing: 12)
+                )
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
             }
         }
         .listStyle(.insetGrouped)
-        .listSectionSpacing(18)
-        .environment(\.defaultMinListRowHeight, 48)
+        .listSectionSpacing(isCompact ? 8 : 18)
+        .environment(\.defaultMinListRowHeight, isCompact ? 34 : 48)
         .scrollContentBackground(.hidden)
     }
 
@@ -440,7 +660,7 @@ struct ContentView: View {
                             ContentUnavailableView(
                                 lang.tr("error_title"),
                                 systemImage: "exclamationmark.triangle",
-                                description: Text(err)
+                                description: Text(verbatim: err)
                             )
                             Button(lang.tr("error_back_editor")) {
                                 clearErrorOnCurrentTab()
@@ -453,11 +673,28 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle(sheetTabs[currentTabIndex].title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(.regularMaterial, for: .navigationBar)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    let tab = sheetTabs[currentTabIndex]
+                    let displayTitle = diagramTabDisplayTitle(tab)
+                    HStack(spacing: 6) {
+                        Text(verbatim: displayTitle)
+                            .lineLimit(1)
+                            .font(.headline)
+                        if tabHasUnsavedChanges(tab) {
+                            unsavedChangeIndicatorDot()
+                        }
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(
+                        tabHasUnsavedChanges(tab)
+                            ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))"
+                            : displayTitle
+                    )
+                }
                 ToolbarItemGroup(placement: .topBarLeading) {
                     Button(lang.tr("toolbar_undo"), systemImage: "arrow.uturn.backward", action: performUndo)
                         .disabled(sheetTabs[currentTabIndex].undoStack.isEmpty)
@@ -470,6 +707,22 @@ struct ContentView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(lang.tr("toolbar_new"), systemImage: "doc.badge.plus", action: newDocument)
+                    Button(action: saveCurrentDocumentToFile) {
+                        Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
+                    }
+                    .help(lang.tr("menu_save"))
+                    .keyboardShortcut("s", modifiers: .command)
+                    if isPhone {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.15)) {
+                                showPaletteOnPhone.toggle()
+                            }
+                        } label: {
+                            Label(lang.tr("palette_header"), systemImage: "square.grid.2x2")
+                        }
+                        .labelStyle(.iconOnly)
+                        .accessibilityLabel(lang.tr("palette_header"))
+                    }
                     Menu {
                         Button {
                             showImporter = true
@@ -493,12 +746,6 @@ struct ContentView: View {
                         #endif
                     } label: {
                         Label(lang.tr("menu_file"), systemImage: "folder")
-                    }
-                    if document.elements.isEmpty == false {
-                        Toggle(isOn: showCanvasBinding) {
-                            Image(systemName: "rectangle.on.rectangle")
-                        }
-                        .accessibilityLabel(lang.tr("a11y_canvas_toggle"))
                     }
                 }
             }
@@ -532,19 +779,30 @@ struct ContentView: View {
 
     private func diagramTabPill(_ tab: DiagramSheetTab) -> some View {
         let selected = tab.id == selectedTabId
+        let displayTitle = diagramTabDisplayTitle(tab)
         return HStack(spacing: 2) {
             Button {
                 selectedTabId = tab.id
                 refreshLineEditor()
             } label: {
-                Text(tab.title)
-                    .lineLimit(1)
-                    .font(.subheadline.weight(selected ? .semibold : .regular))
-                    .foregroundStyle(selected ? Color.primary : Color.secondary)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                HStack(spacing: 6) {
+                    Text(verbatim: displayTitle)
+                        .lineLimit(1)
+                    if tabHasUnsavedChanges(tab) {
+                        unsavedChangeIndicatorDot()
+                    }
+                }
+                .font(.subheadline.weight(selected ? .semibold : .regular))
+                .foregroundStyle(selected ? Color.primary : Color.secondary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(
+                tabHasUnsavedChanges(tab)
+                    ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))"
+                    : displayTitle
+            )
             if sheetTabs.count > 1 {
                 Button {
                     closeDiagramTab(id: tab.id)
@@ -567,13 +825,17 @@ struct ContentView: View {
         VStack(alignment: .leading, spacing: 20) {
             canvasAndCaptionBlock
                 .layoutPriority(1)
-            inspectorPanel
+            inspectorPanelPhoneAware
         }
         .padding(horizontalSizeClass == .regular ? EdgeInsets(top: 16, leading: 18, bottom: 16, trailing: 18) : EdgeInsets(top: 16, leading: 14, bottom: 16, trailing: 14))
+        #if canImport(UIKit)
+        // iPad: Tastatur kann den Inspector/TextEditor verdecken. Nur ausgleichen, wenn wirklich ein Feld fokussiert ist.
+        .padding(.bottom, (horizontalSizeClass == .regular && focusedField != nil) ? keyboardOverlap : 0)
+        #endif
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
-    /// Oberer Bereich: Diagramm-Titel + Canvas bzw. Listenansicht — soll den Großteil der Fläche einnehmen.
+    /// Oberer Bereich: Diagramm-Titel + Canvas — soll den Großteil der Fläche einnehmen.
     private var canvasAndCaptionBlock: some View {
         VStack(alignment: .leading, spacing: 18) {
             VStack(alignment: .leading, spacing: 8) {
@@ -585,35 +847,27 @@ struct ContentView: View {
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
+                    .focused($focusedField, equals: .caption)
             }
 
-            if sheetTabs[currentTabIndex].showCanvas {
-                GeometryReader { geo in
-                    ScrollView([.horizontal, .vertical]) {
-                        DiagramCanvasView(
-                            document: documentBinding,
-                            selectedPath: selectedPathBinding,
-                            errorText: errorTextBinding,
-                            minViewportSize: CGSize(width: geo.size.width, height: geo.size.height)
-                        )
-                        .padding(.vertical, 8)
-                    }
-                    .scrollBounceBehavior(.basedOnSize, axes: [.horizontal, .vertical])
+            GeometryReader { geo in
+                ScrollView([.horizontal, .vertical]) {
+                    DiagramCanvasView(
+                        document: documentBinding,
+                        selectedPath: selectedPathBinding,
+                        errorText: errorTextBinding,
+                        insertTarget: $insertTarget,
+                        minViewportSize: CGSize(width: geo.size.width, height: geo.size.height)
+                    )
+                    .padding(.vertical, 8)
+                    // WICHTIG: horizontal nicht komprimieren lassen → sonst hat der ScrollView keine Content-Breite zum Scrollen.
+                    .fixedSize(horizontal: true, vertical: false)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                List {
-                    if !document.caption.isEmpty {
-                        Section(lang.tr("list_section_title")) { Text(document.caption) }
-                    }
-                    Section(lang.tr("list_section_elements")) {
-                        ForEach(Array(document.elements.enumerated()), id: \.offset) { _, e in
-                            ElementNodeView(element: e)
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                // iPhone: horizontales Scrollen muss zuverlässig funktionieren, sobald das Diagramm breiter als der Viewport ist.
+                .scrollBounceBehavior(isPhone ? .always : .basedOnSize, axes: [.horizontal, .vertical])
+                .scrollIndicators(.automatic)
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
@@ -670,17 +924,6 @@ struct ContentView: View {
         )
     }
 
-    private var showCanvasBinding: Binding<Bool> {
-        Binding(
-            get: { sheetTabs[currentTabIndex].showCanvas },
-            set: { newVal in
-                var tabs = sheetTabs
-                tabs[currentTabIndex].showCanvas = newVal
-                sheetTabs = tabs
-            }
-        )
-    }
-
     private func setErrorOnCurrentTab(_ message: String) {
         var tabs = sheetTabs
         tabs[currentTabIndex].errorText = message
@@ -694,10 +937,21 @@ struct ContentView: View {
     }
 
     private func exportFilenameForCurrentTab() -> String {
-        let raw = sheetTabs[currentTabIndex].title
+        let raw = Self.stripVisuStructExtension(
+            from: sheetTabs[currentTabIndex].linkedFileDisplayName ?? sheetTabs[currentTabIndex].title
+        )
         let safe = raw.replacingOccurrences(of: "/", with: "-")
             .replacingOccurrences(of: ":", with: "-")
         return "\(safe).visustruct"
+    }
+
+    private func pdfFilenameForCurrentTab() -> String {
+        let v = exportFilenameForCurrentTab()
+        let suffix = ".visustruct"
+        if v.lowercased().hasSuffix(suffix) {
+            return String(v.dropLast(suffix.count)) + ".pdf"
+        }
+        return v + ".pdf"
     }
 
     private func addDiagramTab() {
@@ -738,15 +992,12 @@ struct ContentView: View {
                         .lineSpacing(3)
                 }
                 if let labelBinding = fallauswahlCaseLabelBinding() {
-                    Text(lang.tr("inspector_case_label_help"))
-                        .font(captionFont)
-                        .foregroundStyle(.secondary)
-                        .lineSpacing(3)
                     TextField("z. B. 1, ok, default", text: labelBinding)
                         .font(editorFont)
                         .textFieldStyle(.roundedBorder)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
+                        .focused($focusedField, equals: .caseLabel)
                 }
                 TextEditor(text: lineEditorTextBinding)
                     .font(editorFont)
@@ -755,6 +1006,7 @@ struct ContentView: View {
                     .textInputAutocapitalization(.never)
                     .autocorrectionDisabled(true)
                     .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
+                    .focused($focusedField, equals: .textEditor)
                 Button(lang.tr("inspector_apply_text")) {
                     applyLineEditor()
                 }
@@ -787,6 +1039,54 @@ struct ContentView: View {
                 .font(.headline)
         }
     }
+
+    @ViewBuilder
+    private var inspectorPanelPhoneAware: some View {
+        if !isPhone {
+            inspectorPanel
+        } else {
+            if insertTarget != nil {
+                Button {
+                    insertTarget = nil
+                } label: {
+                    Label(lang.tr("phone_insert_cancel"), systemImage: "xmark.circle")
+                }
+                .buttonStyle(.bordered)
+            } else if hideInspectorOnPhone {
+                Button {
+                    hideInspectorOnPhone = false
+                } label: {
+                    Label(lang.tr("phone_show_text_editor"), systemImage: "chevron.up")
+                }
+                .buttonStyle(.bordered)
+            } else {
+                inspectorPanel
+            }
+        }
+    }
+
+    #if canImport(UIKit)
+    private func updateKeyboardOverlap(from notification: Notification) {
+        guard let frameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            keyboardOverlap = 0
+            return
+        }
+        let endFrame = frameValue.cgRectValue
+        keyboardOverlap = Self.keyboardOverlapHeight(endFrame: endFrame)
+    }
+
+    private static func keyboardOverlapHeight(endFrame: CGRect) -> CGFloat {
+        // Floating keyboard on iPad may not cover the bottom edge at all.
+        guard let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = scene.windows.first(where: { $0.isKeyWindow }) else {
+            let h = max(0, UIScreen.main.bounds.maxY - endFrame.minY)
+            return h
+        }
+        let endInWindow = window.convert(endFrame, from: nil)
+        let overlap = max(0, window.bounds.maxY - endInWindow.minY)
+        return overlap
+    }
+    #endif
 
     /// Innerste **Fallauswahl**, die die aktuelle Auswahl enthält (für „Fall hinzufügen“).
     private func fallauswahlAncestorPath(for path: [Int]?) -> [Int]? {
@@ -921,6 +1221,7 @@ struct ContentView: View {
         tabs[i].undoStack.removeAll()
         tabs[i].redoStack.removeAll()
         tabs[i].document = new
+        tabs[i].savedDocumentBaseline = VisuStructXMLCodec.encode(new)
         sheetTabs = tabs
     }
 
@@ -975,9 +1276,22 @@ struct ContentView: View {
     private func newDocument() {
         resetHistoryAndDocument(VisuStructDocumentEditing.newEmpty())
         var tabs = sheetTabs
-        tabs[currentTabIndex].selectedPath = [0]
-        tabs[currentTabIndex].errorText = nil
-        tabs[currentTabIndex].linkedFileBookmarkData = nil
+        let i = currentTabIndex
+        let hadLinkedFile = tabs[i].linkedFileDisplayName != nil || tabs[i].linkedFileBookmarkData != nil
+        tabs[i].selectedPath = [0]
+        tabs[i].errorText = nil
+        tabs[i].linkedFileBookmarkData = nil
+        tabs[i].linkedFileDisplayName = nil
+        // Wenn vorher eine Datei geöffnet/gespeichert war, soll „Neu“ wieder einen unbenannten Titel bekommen.
+        if hadLinkedFile {
+            let serial = nextTabSerial
+            nextTabSerial += 1
+            tabs[i].title = String(
+                format: lang.tr("tab_title_format"),
+                locale: Locale(identifier: lang.localeIdentifierForFormatting),
+                arguments: [serial as CVarArg]
+            )
+        }
         sheetTabs = tabs
         refreshLineEditor()
     }
@@ -1010,6 +1324,7 @@ struct ContentView: View {
             defer { url.stopAccessingSecurityScopedResource() }
             let data = VisuStructXMLCodec.encode(document)
             try data.write(to: url, options: .atomic)
+            updateSavedBaselineForCurrentTab()
             clearErrorOnCurrentTab()
         } catch {
             setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
@@ -1037,6 +1352,110 @@ struct ContentView: View {
             sheetTabs = tabs
             refreshLineEditor()
         }
+    }
+
+    private func insertPaletteItem(_ item: ElementPalette.PaletteItem) {
+        if isPhone {
+            hideInspectorOnPhone = true
+        }
+        let el = ElementPalette.element(for: item, lang: lang)
+        let doc = document
+        do {
+            if let t = insertTarget, isPhone {
+                switch t {
+                case .replace(let path):
+                    commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
+                    var tabs = sheetTabs
+                    tabs[currentTabIndex].selectedPath = path
+                    tabs[currentTabIndex].errorText = nil
+                    sheetTabs = tabs
+                case .before(let path):
+                    commitDocument(try VisuStructDocumentEditing.insertBeforeSibling(doc, el, before: path))
+                    var tabs = sheetTabs
+                    tabs[currentTabIndex].selectedPath = path
+                    tabs[currentTabIndex].errorText = nil
+                    sheetTabs = tabs
+                case .after(let path):
+                    commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
+                    let newPath = Array(path.dropLast()) + [path.last! + 1]
+                    var tabs = sheetTabs
+                    tabs[currentTabIndex].selectedPath = newPath
+                    tabs[currentTabIndex].errorText = nil
+                    sheetTabs = tabs
+                case .rootInsertAt0:
+                    if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
+                        commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
+                        var tabs = sheetTabs
+                        tabs[currentTabIndex].selectedPath = [0]
+                        tabs[currentTabIndex].errorText = nil
+                        sheetTabs = tabs
+                    } else {
+                        commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: 0, element: el))
+                        var tabs = sheetTabs
+                        tabs[currentTabIndex].selectedPath = [0]
+                        tabs[currentTabIndex].errorText = nil
+                        sheetTabs = tabs
+                    }
+                case .rootAppend:
+                    if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
+                        commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
+                        var tabs = sheetTabs
+                        tabs[currentTabIndex].selectedPath = [0]
+                        tabs[currentTabIndex].errorText = nil
+                        sheetTabs = tabs
+                    } else {
+                        let idx = doc.elements.count
+                        commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: idx, element: el))
+                        var tabs = sheetTabs
+                        tabs[currentTabIndex].selectedPath = [idx]
+                        tabs[currentTabIndex].errorText = nil
+                        sheetTabs = tabs
+                    }
+                }
+                insertTarget = nil
+                refreshLineEditor()
+                return
+            }
+        } catch {
+            setErrorOnCurrentTab(error.localizedDescription)
+            insertTarget = nil
+            return
+        }
+        // iPad/Mac (ohne Tap-Einfügemarke): Ist ein Platzhalter (ø) ausgewählt, ersetzen — wie Drop auf die Mitte.
+        // Sonst landet z. B. eine Verzweigung fälschlich als neues Wurzelelement unter der Schleife.
+        if let path = sheetTabs[currentTabIndex].selectedPath,
+           VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
+            do {
+                commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
+                var tabs = sheetTabs
+                tabs[currentTabIndex].selectedPath = path
+                tabs[currentTabIndex].errorText = nil
+                sheetTabs = tabs
+                refreshLineEditor()
+            } catch {
+                setErrorOnCurrentTab(error.localizedDescription)
+            }
+            return
+        }
+        // Ausgewählt ist ein „echtes“ Element: neues Palette-Element als Geschwister **direkt darunter**
+        // (z. B. in der while-Schleife: nach dem if noch i++ einfügen).
+        if let path = sheetTabs[currentTabIndex].selectedPath,
+           (try? VisuStructDocumentEditing.element(at: path, in: doc)) != nil,
+           !VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
+            do {
+                commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
+                let newPath = Array(path.dropLast()) + [path.last! + 1]
+                var tabs = sheetTabs
+                tabs[currentTabIndex].selectedPath = newPath
+                tabs[currentTabIndex].errorText = nil
+                sheetTabs = tabs
+                refreshLineEditor()
+            } catch {
+                setErrorOnCurrentTab(error.localizedDescription)
+            }
+            return
+        }
+        appendRoot(el)
     }
 
     private func deleteSelection() {
@@ -1100,6 +1519,45 @@ struct ContentView: View {
     }
 
     #if canImport(UIKit)
+    private func shareDocumentAsFile() {
+        let data = VisuStructXMLCodec.encode(document)
+        let fileName = exportFilenameForCurrentTab()
+        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString)-\(fileName)")
+        do {
+            try data.write(to: tmp, options: .atomic)
+            fileURLSharePayload = FileURLSharePayload(url: tmp)
+        } catch {
+            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
+        }
+    }
+
+    private func shareDiagramPDF() {
+        guard let img = renderedDiagramUIImage() else {
+            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
+            return
+        }
+        let fileName = pdfFilenameForCurrentTab()
+        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString)-\(fileName)")
+        let bounds = CGRect(origin: .zero, size: img.size)
+        var format = UIGraphicsPDFRendererFormat()
+        format.documentInfo = [
+            kCGPDFContextCreator as String: "VisuStruct",
+            kCGPDFContextTitle as String: Self.stripVisuStructExtension(from: sheetTabs[currentTabIndex].title)
+        ]
+        let renderer = UIGraphicsPDFRenderer(bounds: bounds, format: format)
+        do {
+            try renderer.writePDF(to: tmp) { ctx in
+                ctx.beginPage()
+                img.draw(in: bounds)
+            }
+            pdfQuickLookURL = tmp
+        } catch {
+            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
+        }
+    }
+    #endif
+
+    #if canImport(UIKit)
     /// Gerendertes Struktogramm (gleiche Logik wie PNG-Teilen und Druck).
     private func renderedDiagramUIImage() -> UIImage? {
         let metrics = VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
@@ -1111,7 +1569,8 @@ struct ContentView: View {
         let diagram = DiagramCanvasView(
             document: .constant(document),
             selectedPath: .constant(nil),
-            errorText: .constant(nil)
+            errorText: .constant(nil),
+            insertTarget: .constant(nil)
         )
         .frame(width: w, height: h)
         let exportRoot = ZStack {
@@ -1135,7 +1594,7 @@ struct ContentView: View {
         }
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .photo
-        info.jobName = sheetTabs[currentTabIndex].title
+        info.jobName = Self.stripVisuStructExtension(from: sheetTabs[currentTabIndex].title)
         let controller = UIPrintInteractionController.shared
         controller.printInfo = info
         controller.printingItem = img
@@ -1184,38 +1643,110 @@ struct ContentView: View {
     }
 }
 
-private struct ElementNodeView: View {
+// MARK: - Code-Generator (Oberfläche; IAP folgt)
+
+private struct CodeGeneratorPaywallSheet: View {
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
-    let element: VisuStructElement
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(verbatim: "Typ \(element.type.rawValue)  zx=\(element.zoomX)  zy=\(element.zoomY)")
-                .font(.headline)
-            ForEach(element.textLines, id: \.self) { line in
-                Text(line).font(.body)
+        NavigationStack {
+            ScrollView {
+                Text(lang.tr("codegen_gate_body"))
+                    .font(.body)
+                    .lineSpacing(5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(24)
             }
-
-            if let loopBody = element.loopBody {
-                DisclosureGroup(lang.tr("debug_loop_body")) {
-                    ForEach(Array(loopBody.enumerated()), id: \.offset) { _, e in
-                        ElementNodeView(element: e)
-                    }
-                }
-            }
-
-            if let cases = element.cases {
-                DisclosureGroup(lang.tr("debug_cases")) {
-                    ForEach(Array(cases.enumerated()), id: \.offset) { _, c in
-                        DisclosureGroup(c.name.isEmpty ? lang.tr("debug_empty_case") : c.name) {
-                            ForEach(Array(c.elements.enumerated()), id: \.offset) { _, e in
-                                ElementNodeView(element: e)
-                            }
-                        }
-                    }
+            .navigationTitle(lang.tr("codegen_gate_title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(lang.tr("codegen_gate_ok")) { dismiss() }
                 }
             }
         }
+        .presentationDragIndicator(.visible)
+    }
+}
+
+private struct CodeGeneratorPlaceholderSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appLanguage) private var lang
+    let document: VisuStructDocument
+
+    /// Letzte Zielsprache für den Code-Generator (Java/Python); bleibt erhalten bis zur nächsten Umschaltung.
+    @AppStorage("visustruct.codegen.target") private var codegenTarget: String = "java"
+    @State private var includeDiagramComments = false
+
+    private static let javaTag = "java"
+    private static let pythonTag = "python"
+
+    private var target: VisuStructCodeGenerator.Target {
+        codegenTarget == Self.pythonTag ? .python : .java
+    }
+
+    private var generatedCode: String {
+        VisuStructCodeGenerator.generate(
+            document: document,
+            target: target,
+            options: .init(baseIndent: 0, indentPerLevel: 4, includeDiagramTextAsComments: includeDiagramComments)
+        )
+    }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    Picker("", selection: $codegenTarget) {
+                        Text(lang.tr("codegen_target_java")).tag(Self.javaTag)
+                        Text(lang.tr("codegen_target_python")).tag(Self.pythonTag)
+                    }
+                    .pickerStyle(.segmented)
+                    .onAppear {
+                        if codegenTarget != Self.javaTag, codegenTarget != Self.pythonTag {
+                            codegenTarget = Self.javaTag
+                        }
+                    }
+
+                    Toggle(isOn: $includeDiagramComments) {
+                        Text(lang.tr("codegen_option_comments"))
+                    }
+                    .font(.subheadline)
+
+                    Text(lang.tr("codegen_generated_hint"))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text(verbatim: generatedCode)
+                        .font(.system(.body, design: .monospaced))
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(12)
+                        .background(Color(uiColor: .secondarySystemGroupedBackground), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(24)
+            }
+            .navigationTitle(lang.tr("codegen_placeholder_title"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                #if canImport(UIKit)
+                ToolbarItem(placement: .primaryAction) {
+                    Button {
+                        UIPasteboard.general.string = generatedCode
+                    } label: {
+                        Label(lang.tr("codegen_copy"), systemImage: "doc.on.doc")
+                    }
+                }
+                #endif
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(lang.tr("codegen_gate_ok")) { dismiss() }
+                }
+            }
+        }
+        .presentationDragIndicator(.visible)
     }
 }
 
@@ -1230,6 +1761,15 @@ private struct AboutVisuStructView: View {
         let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"
         return String(format: lang.tr("about_version_fmt"), short, build)
     }
+
+    private let authorName = "Holger Sebastiao"
+    // Das iOS-Repo ist privat; im About verlinken wir auf das öffentliche Java-Projekt als Referenz.
+    private let projectDisplay = "code4teaching/VisuStruct"
+    private let projectURL = URL(string: "https://github.com/code4teaching/VisuStruct")
+    private let webDisplay = "www.sebastiao.org"
+    private let webURL = URL(string: "https://www.sebastiao.org")
+    private let upstreamDisplay = "kekru/struktogrammeditor"
+    private let upstreamURL = URL(string: "https://github.com/kekru/struktogrammeditor")
 
     /// Erklärtext mit hervorgehobener Endung `.visustruct`.
     private var aboutDateiformatExplainer: Text {
@@ -1248,16 +1788,49 @@ private struct AboutVisuStructView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 28) {
+                    HStack(alignment: .top, spacing: 16) {
+                        Image(systemName: "info.circle.fill")
+                            .font(.system(size: 42))
+                            .foregroundStyle(Color.accentColor)
+                            .padding(.top, 2)
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("VisuStruct")
+                                .font(.title2.weight(.semibold))
+                            Text(versionLine)
+                                .font(.subheadline)
+                                .monospacedDigit()
+                                .foregroundStyle(.secondary)
+                            Text(authorName)
+                                .font(.title3.weight(.semibold))
+                                .foregroundStyle(.primary)
+                                .padding(.top, 2)
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                if let projectURL {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text(lang.tr("about_project_github_label"))
+                                            .foregroundStyle(.secondary)
+                                        Link(projectDisplay, destination: projectURL)
+                                    }
+                                }
+                                if let webURL {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text(lang.tr("about_web_label"))
+                                            .foregroundStyle(.secondary)
+                                        Link(webDisplay, destination: webURL)
+                                    }
+                                }
+                            }
+                            .font(.subheadline)
+                        }
+                    }
+
+                    Divider()
+                        .padding(.vertical, 4)
+
                     Text(lang.tr("about_intro"))
                         .font(.body)
                         .lineSpacing(5)
-
-                    if let webURL = URL(string: "https://visustruct.de") {
-                        Link(destination: webURL) {
-                            Label("visustruct.de", systemImage: "safari")
-                        }
-                        .font(.subheadline)
-                    }
 
                     VStack(alignment: .leading, spacing: 14) {
                         Text(lang.tr("about_features_heading"))
@@ -1278,10 +1851,23 @@ private struct AboutVisuStructView: View {
                     Divider()
                         .padding(.vertical, 8)
 
-                    Text(versionLine)
-                        .font(.subheadline)
-                        .monospacedDigit()
-                        .foregroundStyle(.secondary)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(lang.tr("about_lineage_heading"))
+                            .font(.headline)
+                        Text(lang.tr("about_lineage_body"))
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .lineSpacing(4)
+                        if let upstreamURL {
+                            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                                Text(lang.tr("about_lineage_upstream_label"))
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                Link(upstreamDisplay, destination: upstreamURL)
+                                    .font(.subheadline)
+                            }
+                        }
+                    }
 
                     Text(lang.tr("about_copyright"))
                         .font(.subheadline)

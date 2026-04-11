@@ -1,9 +1,11 @@
-/* Palette & Liste */
+/* Palette */
 "palette_header" = "Elemente";
-"list_section_elements" = "Elemente";
 
 /* Aktionen */
 "action_share_png" = "Grafik teilen …";
+"action_share_document" = "Datei teilen …";
+"action_export_pdf" = "PDF-Vorschau …";
+"action_generate_code" = "Code erzeugen …";
 "action_delete_selection" = "Auswahl löschen";
 "action_about" = "Über VisuStruct";
 
@@ -22,7 +24,24 @@
 "menu_file" = "Ablage";
 
 /* Barrierefreiheit */
-"a11y_canvas_toggle" = "Canvas-Ansicht";
+"a11y_generate_code" = "Code aus dem Struktogramm erzeugen";
+"a11y_generate_code_locked" = "Code erzeugen, nach dem Kauf verfügbar";
+"a11y_unsaved_changes" = "Ungespeicherte Änderungen";
+
+/* Code-Generator (IAP folgt) */
+"codegen_gate_title" = "Code erzeugen";
+"codegen_gate_body" = "Java- und Python-Code aus dem Struktogramm wird über einen In-App-Kauf freigeschaltet (demnächst).";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "Code-Generator";
+"codegen_placeholder_body" = "Hier erscheint später der erzeugte Code.";
+"codegen_placeholder_compare" = "Zwischen Java und Python wechseln, um die Syntax zu vergleichen (Beispiel unten).";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_preview_java" = "if (bedingung) {\n    anweisung();\n} else {\n    alternative();\n}";
+"codegen_preview_python" = "if bedingung:\n    anweisung()\nelse:\n    alternative()";
+"codegen_option_comments" = "Diagramm-Text als Kommentare";
+"codegen_generated_hint" = "Vorschau aus dem aktuellen Struktogramm (Java 17, Python 3.10+).";
+"codegen_copy" = "Kopieren";
 "a11y_new_diagram_tab" = "Weiteres Struktogramm";
 "a11y_close_tab" = "Reiter schließen";
 "a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
@@ -31,11 +50,9 @@
 /* Diagramm */
 "diagram_title_label" = "Titel";
 "diagram_title_placeholder" = "Ohne Titel";
-"list_section_title" = "Titel";
 
 /* Inspector */
 "inspector_no_selection" = "Kein Element gewählt — tippe auf eine Kachel.";
-"inspector_case_label_help" = "Fall-Label (Spaltenkopf, wie in Java — Zahlen oder Text)";
 "inspector_apply_text" = "Text übernehmen";
 "inspector_add_case" = "Weiteren Fall hinzufügen";
 "inspector_remove_case" = "Fall entfernen";
@@ -84,17 +101,22 @@
 "about_dateiformat_heading" = "Dateiformat";
 "about_dateiformat_part1" = "Das native Dateiformat von VisuStruct nutzt die Endung ";
 "about_dateiformat_part2" = ". So kannst du Diagramme sichern und mit anderen Programmen austauschen, die dasselbe Format unterstützen.";
+"about_project_github_label" = "Projekt (GitHub, Java):";
+"about_web_label" = "Web:";
+"about_lineage_heading" = "Herkunft";
+"about_lineage_body" = "Diese iOS-App ist eine Neuimplementierung in Swift/SwiftUI und ist kompatibel zum .visustruct-Dateiformat der Java-Version. Die Java-Version (code4teaching/VisuStruct) basiert auf dem Open-Source-Projekt von Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Upstream:";
 "about_done" = "Fertig";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";
 
+/* iPhone: Einfügen per Tap */
+"phone_insert_cancel" = "Einfügen abbrechen";
+"phone_show_text_editor" = "Text bearbeiten";
+
 /* Meldungen */
 "err_save_failed_fmt" = "Speichern fehlgeschlagen: %@";
+"err_share_prepare_failed_fmt" = "Teilen konnte nicht vorbereitet werden: %@";
 "err_diagram_too_small_export" = "Diagramm ist zu klein — nichts zu exportieren.";
 "err_image_render_failed" = "Grafik konnte nicht erzeugt werden.";
 "err_diagram_too_small_print" = "Diagramm ist zu klein — nichts zu drucken.";
 "err_print_unavailable" = "Drucken ist auf diesem Gerät nicht verfügbar.";
-
-/* Debug-Liste */
-"debug_loop_body" = "Schleifeninhalt";
-"debug_cases" = "Fälle";
-"debug_empty_case" = "(leer)";
