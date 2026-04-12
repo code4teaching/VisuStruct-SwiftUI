@@ -32,3 +32,6 @@ VisuStruct-iOS/VisuStructXcodeOpen/.derived_run_ipad/
 # CocoaPods / Carthage (falls später)
 Pods/
 Carthage/Build/
+
+# Local clone of the public Java repo (not part of this monorepo)
+VisuStruct-java-upstream/
