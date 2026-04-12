@@ -1,14 +1,16 @@
 <p align="center">
-  <img src="website/assets/VisuStruct-icon.png" alt="VisuStruct" width="112" height="112">
+  <a href="https://visustruct.org/" title="VisuStruct">
+    <img src="https://raw.githubusercontent.com/code4teaching/VisuStruct-SwiftUI/main/website/assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
+  </a>
 </p>
 
 # VisuStruct (SwiftUI)
 
-Visual **Nassi–Shneiderman** structograms for **iPad** and **Apple silicon Mac**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop, three UI languages (English, German, Portuguese).
+Visual **Nassi–Shneiderman** structograms for **iPad** and **Apple silicon Mac**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop; app UI in English, German, or Portuguese.
 
 **[visustruct.org](https://visustruct.org)** · **Build & layout:** [VisuStruct-iOS/README.md](VisuStruct-iOS/README.md)
 
-The **[Java VisuStruct](https://github.com/code4teaching/VisuStruct)** editor is based on [kekru/struktogrammeditor](https://github.com/kekru/struktogrammeditor) (MIT). **Sources and releases for Java** are maintained only in that repository — always **current** there. This **SwiftUI** app is a **reimplementation**: same **`.visustruct`** / XML as Java, not a port of that codebase.
+The **[Java VisuStruct](https://github.com/code4teaching/VisuStruct)** editor is based on [kekru/struktogrammeditor](https://github.com/kekru/struktogrammeditor) (MIT). **Sources and releases for Java** are maintained only in that repository (always current there). This **SwiftUI** app is a **reimplementation**: same **`.visustruct`** / XML as Java, not a port of that codebase.
 
 ---
 
@@ -20,4 +22,4 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 
 **Remote:** [github.com/code4teaching/VisuStruct-SwiftUI](https://github.com/code4teaching/VisuStruct-SwiftUI)
 
-<!-- Suggested GitHub “About” description: Visual Nassi–Shneiderman structogram editor for iPad & Mac (SwiftUI); shares .visustruct with the open-source Java app. -->
+<!-- GitHub “About” suggestion: Visual Nassi–Shneiderman structogram editor for iPad & Mac (SwiftUI); shares .visustruct with the open-source Java app. -->

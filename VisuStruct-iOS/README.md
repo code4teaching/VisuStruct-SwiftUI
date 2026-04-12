@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="../website/assets/VisuStruct-icon.png" alt="VisuStruct" width="112" height="112">
+  <a href="https://visustruct.org/" title="VisuStruct">
+    <img src="https://raw.githubusercontent.com/code4teaching/VisuStruct-SwiftUI/main/website/assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
+  </a>
 </p>
 
 # VisuStruct — SwiftUI (iPad & Mac)
@@ -10,14 +12,14 @@ SwiftUI app plus **`VisuStructCore`** (model, layout, XML import/export). **`.vi
 
 | Path | Role |
 |------|------|
-| **`VisuStructCore/`** | SPM package — develop here; `swift build`. |
+| **`VisuStructCore/`** | Swift package — develop here; `swift build`. |
 | **`VisuStructXcodeOpen/`** | Xcode project `VisuStruct.xcodeproj` (local package `../VisuStructCore`). |
-| **`SwiftUIPrototype/`** | Older prototype only. |
+| **`SwiftUIPrototype/`** | Legacy prototype only. |
 
 ## Build (Xcode)
 
 1. Open `VisuStructXcodeOpen/VisuStruct.xcodeproj`
-2. Scheme **VisuStruct** → run on simulator or device.
+2. Select scheme **VisuStruct** → run on a simulator or device.
 
 ## Build (package only)
 
@@ -26,7 +28,7 @@ cd VisuStructCore
 swift build
 ```
 
-## File format (same as Java VisuStruct)
+## File format (Java VisuStruct)
 
 The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStruct)** is developed and released only there — that repo is the **authoritative**, up-to-date Java edition. This SwiftUI monorepo does not ship Java sources; `VisuStructCore` keeps **element types** and **XML** compatible with that app.
 
@@ -44,9 +46,9 @@ The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStr
 
 - Tabs, palette, **drag & drop**, text inspector, undo/redo  
 - Open / save **`.visustruct`**, share **PNG**, **print** where supported  
-- UI languages: German, English, Portuguese (`pt-PT`) via **Settings.bundle**
+- App UI languages: English, German, Portuguese (`pt-PT`) via **Settings.bundle**
 
 ## Differences vs Java UI
 
 - Canvas look is mostly fixed; document font / tile colors from XML are not yet fully matched visually (data round-trips).  
-- Some `VisuStructCore` errors are still **German-only**, regardless of app language.
+- Some `VisuStructCore` errors are still **German-only**, regardless of app UI language.
