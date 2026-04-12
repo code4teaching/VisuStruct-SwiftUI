@@ -7,7 +7,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 /**
- * Angepasste Farben für <b>Modern · hell</b> (visustruct.de) und <b>Modern · dunkel</b> (deutlich dunkle Grundflächen).
+ * Angepasste Farben für <b>Modern · hell</b> (visustruct.org) und <b>Modern · dunkel</b> (deutlich dunkle Grundflächen).
  * Schlüssel {@code VisuStruct.paletteBackground} für die linke Werkzeugleiste.
  */
 public final class VisuStructTheme {
@@ -22,7 +22,7 @@ public final class VisuStructTheme {
 		return new ColorUIResource(rgb);
 	}
 
-	/** Hell: :root aus visustruct.de {@code style.css}. */
+	/** Hell: :root aus visustruct.org {@code style.css}. */
 	public static void applyLightPalette() {
 		int bg = 0xFAFAFA;
 		int surface = 0xFFFFFF;

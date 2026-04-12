@@ -573,6 +573,20 @@ a:hover {
   margin-bottom: 0;
 }
 
+.privacy-lead {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.1rem 1.05rem 1.15rem;
+  border-left: 3px solid var(--vs-accent-bright);
+  border-radius: 0 12px 12px 0;
+  background: rgba(118, 211, 254, 0.09);
+  color: var(--vs-text);
+  font-size: 1rem;
+  line-height: 1.62;
+}
+.privacy-lead strong {
+  color: var(--vs-text);
+}
+
 .site-contact {
   padding: 1.85rem 0 2.15rem;
   border-top: 1px solid var(--vs-card-border);

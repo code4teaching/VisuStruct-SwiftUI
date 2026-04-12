@@ -1,51 +1,52 @@
-# VisuStruct → Swift (iOS)
+<p align="center">
+  <img src="../website/assets/VisuStruct-icon.png" alt="VisuStruct" width="112" height="112">
+</p>
 
-Dieses Verzeichnis enthält die **SwiftUI-iOS-App** und das **Swift-Paket** `VisuStructCore` mit Datenmodell, Layout und XML-Import/Export (kompatibel zum Java-Format).
+# VisuStruct — SwiftUI (iPad & Mac)
 
-## Wo liegt was?
+SwiftUI app plus **`VisuStructCore`** (model, layout, XML import/export). **`.visustruct`** matches the **[Java VisuStruct](https://github.com/code4teaching/VisuStruct)**.
 
-| Pfad | Inhalt |
-|------|--------|
-| **`VisuStructCore/`** | **Einzige Quelle** des SPM-Pakets (`Package.swift`, `Sources/VisuStructCore/`). Hier entwickeln und `swift build` ausführen. |
-| **`VisuStructXcodeOpen/`** | Xcode-Projekt `VisuStruct.xcodeproj` — bindet das Paket per **lokaler Abhängigkeit** `../VisuStructCore` ein. |
-| **`SwiftUIPrototype/`** | Älterer Prototyp ohne vollständiges Projekt (nur zur Einordnung). |
+**[visustruct.org](https://visustruct.org)**
 
-Es gibt **keine** zweite Kopie von `VisuStructCore` mehr unter `VisuStructXcodeOpen/`.
+| Path | Role |
+|------|------|
+| **`VisuStructCore/`** | SPM package — develop here; `swift build`. |
+| **`VisuStructXcodeOpen/`** | Xcode project `VisuStruct.xcodeproj` (local package `../VisuStructCore`). |
+| **`SwiftUIPrototype/`** | Older prototype only. |
 
-## iOS-App bauen
+## Build (Xcode)
 
-1. `VisuStructXcodeOpen/VisuStruct.xcodeproj` in Xcode öffnen.
-2. Scheme **VisuStruct**, Ziel Simulator oder Gerät wählen, **Run**.
+1. Open `VisuStructXcodeOpen/VisuStruct.xcodeproj`
+2. Scheme **VisuStruct** → run on simulator or device.
 
-## Paket allein bauen (Terminal)
+## Build (package only)
 
 ```bash
 cd VisuStructCore
 swift build
 ```
 
-## Java-Referenz
+## Java reference
 
-`VisuStruct-Java/VisuStruct-1.07/` — Original Swing/Maven; Elementtypen und XML-Struktur sind mit `VisuStructCore` abgestimmt.
+`VisuStruct-Java/VisuStruct-1.07/` — Swing/Maven; element types and XML stay aligned with `VisuStructCore`.
 
-### Elementtypen (`typ` / `VisuStructElementType`)
+### Element types (`typ`)
 
-- 0: `anweisung` — 1: `verzweigung` — 2: `fallauswahl` — 3: `forSchleife` — 4: `whileSchleife`
-- 5: `doUntilSchleife` — 6: `endlosschleife` — 7: `aussprung` — 8: `aufruf` — 9: `leerElement`
+0 `anweisung` · 1 `verzweigung` · 2 `fallauswahl` · 3 `forSchleife` · 4 `whileSchleife` · 5 `doUntilSchleife` · 6 `endlosschleife` · 7 `aussprung` · 8 `aufruf` · 9 `leerElement`
 
-### XML (Kurzüberblick)
+### XML (sketch)
 
 - Root: `<struktogramm fontfamily="…" fontsize="…" fontstyle="…" caption="…">`
-- Kinder: `<strelem typ=".." zx=".." zy=".." …>` mit `<text>…</text>`, optional `<schleifeninhalt>`, `<fall fallname="…">`
-- Zeichenketten wie in Java codiert (`VisuStructJavaStringCoding`).
+- Children: `<strelem typ="…" …>` with `<text>`, optional `<schleifeninhalt>`, `<fall fallname="…">`
+- Strings: `VisuStructJavaStringCoding` (Java-compatible).
 
-## App-Funktionen (Stand)
+## Features (current)
 
-- Mehrere Diagramme in **Tabs**, Palette, **Drag & Drop**, Text-Inspector, Undo/Redo  
-- **Öffnen / Speichern / Speichern unter** (`.visustruct` / XML), PNG **teilen**, **Drucken** (wo verfügbar)  
-- **Sprachen:** Deutsch, English, Português (europeu, `pt-PT`) — Auswahl in den **Systemeinstellungen** unter der App (**Settings.bundle**)
+- Tabs, palette, **drag & drop**, text inspector, undo/redo  
+- Open / save **`.visustruct`**, share **PNG**, **print** where supported  
+- UI languages: German, English, Portuguese (`pt-PT`) via **Settings.bundle**
 
-## Bekannte Abweichungen zur Java-Oberfläche
+## Differences vs Java UI
 
-- Zeichnung nutzt feste Darstellung; **Dokument-Schrift** und **Kachelfarben** aus dem XML werden im Canvas noch nicht wie in Swing dargestellt (Daten werden aber gelesen/geschrieben).
-- Fehlermeldungen aus `VisuStructCore` (`VisuStructEditError`, `VisuStructXMLError`) sind derzeit überwiegend auf **Deutsch** formuliert, unabhängig von der App-Sprache.
+- Canvas look is mostly fixed; document font / tile colors from XML are not yet fully matched visually (data round-trips).  
+- Some `VisuStructCore` errors are still **German-only**, regardless of app language.
