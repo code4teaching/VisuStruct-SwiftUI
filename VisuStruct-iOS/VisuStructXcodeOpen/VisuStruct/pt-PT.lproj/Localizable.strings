@@ -105,7 +105,7 @@
 "about_web_label" = "Web:";
 "about_lineage_heading" = "Origem";
 "about_lineage_body" = "Esta app iOS é uma nova implementação em Swift/SwiftUI e é compatível com o formato .visustruct da versão Java. A versão Java (code4teaching/VisuStruct) baseia-se no projeto open-source de Kevin Krummenauer (MIT).";
-"about_lineage_upstream_label" = "Upstream:";
+"about_lineage_upstream_label" = "Upstream Java:";
 "about_done" = "Concluído";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";
 
