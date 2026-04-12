@@ -1763,7 +1763,7 @@ private struct AboutVisuStructView: View {
     }
 
     private let authorName = "Holger Sebastiao"
-    // Das iOS-Repo ist privat; im About verlinken wir auf das öffentliche Java-Projekt als Referenz.
+    // Öffentliches Java-Repo: maßgebliche Quelle & Releases (aktueller als dieses SwiftUI-Repo).
     private let projectDisplay = "code4teaching/VisuStruct"
     private let projectURL = URL(string: "https://github.com/code4teaching/VisuStruct")
     private let webDisplay = "www.sebastiao.org"

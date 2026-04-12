@@ -101,10 +101,10 @@
 "about_dateiformat_heading" = "Formato do ficheiro";
 "about_dateiformat_part1" = "O formato nativo do VisuStruct utiliza a extensão ";
 "about_dateiformat_part2" = ". Pode guardar diagramas e trocá-los com outras apps que suportem o mesmo formato.";
-"about_project_github_label" = "Projeto (GitHub, Java):";
+"about_project_github_label" = "App Java (código-fonte e releases):";
 "about_web_label" = "Web:";
 "about_lineage_heading" = "Origem";
-"about_lineage_body" = "Esta app iOS é uma nova implementação em Swift/SwiftUI e é compatível com o formato .visustruct da versão Java. A versão Java (code4teaching/VisuStruct) baseia-se no projeto open-source de Kevin Krummenauer (MIT).";
+"about_lineage_body" = "Esta app iOS é uma nova implementação em Swift/SwiftUI e é compatível com o formato .visustruct da versão Java. A app Java de secretária em código aberto é desenvolvida e publicada no GitHub (code4teaching/VisuStruct); lá está a edição Java de referência, sempre atualizada. Baseia-se no projeto open-source de Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Upstream Java:";
 "about_done" = "Concluído";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

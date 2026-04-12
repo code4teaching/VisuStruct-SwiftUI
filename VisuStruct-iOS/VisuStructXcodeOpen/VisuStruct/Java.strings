@@ -103,10 +103,10 @@
 "about_dateiformat_heading" = "File format";
 "about_dateiformat_part1" = "VisuStruct’s native format uses the extension ";
 "about_dateiformat_part2" = ". You can keep diagrams and exchange them with other apps that support the same format.";
-"about_project_github_label" = "Project (GitHub, Java):";
+"about_project_github_label" = "Java app (source & releases):";
 "about_web_label" = "Web:";
 "about_lineage_heading" = "Lineage";
-"about_lineage_body" = "This iOS app is a reimplementation in Swift/SwiftUI and is compatible with the Java version’s .visustruct file format. The Java version (code4teaching/VisuStruct) builds on the open-source project by Kevin Krummenauer (MIT).";
+"about_lineage_body" = "This iOS app is a reimplementation in Swift/SwiftUI and is compatible with the Java version’s .visustruct file format. The open-source Java desktop app is developed and released on GitHub (code4teaching/VisuStruct); that repository is the authoritative, up-to-date Java edition. It builds on the open-source project by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Done";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

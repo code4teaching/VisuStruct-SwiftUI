@@ -28,7 +28,7 @@ swift build
 
 ## File format (same as Java VisuStruct)
 
-The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStruct)** lives in its own repository. `VisuStructCore` keeps **element types** and **XML** compatible with that app.
+The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStruct)** is developed and released only there — that repo is the **authoritative**, up-to-date Java edition. This SwiftUI monorepo does not ship Java sources; `VisuStructCore` keeps **element types** and **XML** compatible with that app.
 
 ### Element types (`typ`)
 
