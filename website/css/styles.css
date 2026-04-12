@@ -906,6 +906,26 @@ a:hover {
   }
 }
 
+/* Optional <details>/<summary>: use app icon instead of the default triangle (“V”-like when open). */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details > summary::before {
+  content: "";
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  margin-right: 0.45em;
+  vertical-align: -0.22em;
+  border-radius: 22%;
+  background: url(../assets/VisuStruct-icon.png) center / contain no-repeat;
+  flex-shrink: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
