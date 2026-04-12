@@ -26,9 +26,9 @@ cd VisuStructCore
 swift build
 ```
 
-## Java reference
+## File format (same as Java VisuStruct)
 
-`VisuStruct-Java/VisuStruct-1.07/` — Swing/Maven; element types and XML stay aligned with `VisuStructCore`.
+The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStruct)** lives in its own repository. `VisuStructCore` keeps **element types** and **XML** compatible with that app.
 
 ### Element types (`typ`)
 
