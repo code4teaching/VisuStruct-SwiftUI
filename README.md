@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://visustruct.org/" title="VisuStruct">
-    <img src="https://raw.githubusercontent.com/code4teaching/VisuStruct-SwiftUI/main/website/assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
+    <img src="website/assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
   </a>
 </p>
 
