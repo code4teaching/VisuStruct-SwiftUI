@@ -788,7 +788,7 @@ struct DiagramCanvasView: View {
                 let totalTextHeight = CGFloat(max(1, lines.count)) * lineHeight
                 var y = r.midY - totalTextHeight / 2
                 for line in lines {
-                    let tw = min(contentWidth, measureText(line, size: cellFontSize))
+                    let tw = min(contentWidth, measureText(line, size: headerFontSize))
                     let x = contentLeft + (contentWidth - tw) / 2
                     context.draw(
                         context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
