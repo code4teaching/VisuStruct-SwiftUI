@@ -320,10 +320,8 @@ public enum VisuStructCodeGenerator: Sendable {
                         out += sp(indent + step) + "case " + caseLabelToken(c.name, target: target) + ":\n"
                     }
                     emitBlockBody(c.elements, target: target, options: options, indent: indent + step * 2, into: &out)
-                    // Schul-tauglich: immer `break;` (Fallthrough später per Case-Attribut steuerbar).
-                    if !isLast {
-                        out += sp(indent + step * 2) + "break;\n"
-                    }
+                    // Anfänger:innen-tauglich: immer `break;` — kein Fallthrough (JS hat keine `case ->` Syntax wie Java).
+                    out += sp(indent + step * 2) + "break;\n"
                 }
                 out += sp(indent) + "}\n"
             }
