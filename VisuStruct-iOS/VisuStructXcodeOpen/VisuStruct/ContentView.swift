@@ -1675,15 +1675,24 @@ private struct CodeGeneratorPlaceholderSheet: View {
     @Environment(\.appLanguage) private var lang
     let document: VisuStructDocument
 
-    /// Letzte Zielsprache für den Code-Generator (Java/Python); bleibt erhalten bis zur nächsten Umschaltung.
+    /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
     @AppStorage("visustruct.codegen.target") private var codegenTarget: String = "java"
-    @State private var includeDiagramComments = false
+    /// Letzte Einstellung: Diagrammtext als Kommentare (Standard: aus).
+    @AppStorage("visustruct.codegen.includeDiagramComments") private var includeDiagramComments = false
 
     private static let javaTag = "java"
     private static let pythonTag = "python"
+    private static let javascriptTag = "javascript"
 
     private var target: VisuStructCodeGenerator.Target {
-        codegenTarget == Self.pythonTag ? .python : .java
+        switch codegenTarget {
+        case Self.pythonTag:
+            return .python
+        case Self.javascriptTag:
+            return .javascript
+        default:
+            return .java
+        }
     }
 
     private var generatedCode: String {
@@ -1701,10 +1710,13 @@ private struct CodeGeneratorPlaceholderSheet: View {
                     Picker("", selection: $codegenTarget) {
                         Text(lang.tr("codegen_target_java")).tag(Self.javaTag)
                         Text(lang.tr("codegen_target_python")).tag(Self.pythonTag)
+                        Text(lang.tr("codegen_target_javascript")).tag(Self.javascriptTag)
                     }
                     .pickerStyle(.segmented)
                     .onAppear {
-                        if codegenTarget != Self.javaTag, codegenTarget != Self.pythonTag {
+                        if codegenTarget != Self.javaTag,
+                           codegenTarget != Self.pythonTag,
+                           codegenTarget != Self.javascriptTag {
                             codegenTarget = Self.javaTag
                         }
                     }

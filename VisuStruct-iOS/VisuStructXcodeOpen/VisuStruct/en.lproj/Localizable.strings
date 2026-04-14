@@ -30,17 +30,18 @@
 
 /* Code generator (IAP to follow) */
 "codegen_gate_title" = "Generate code";
-"codegen_gate_body" = "Java and Python code from your diagram will unlock via in-app purchase (coming soon).";
+"codegen_gate_body" = "Java, Python, and JavaScript code from your diagram will unlock via in-app purchase (coming soon).";
 "codegen_gate_ok" = "OK";
 "codegen_placeholder_title" = "Code generator";
 "codegen_placeholder_body" = "Generated code will appear here.";
-"codegen_placeholder_compare" = "Switch between Java and Python to compare syntax (sample below).";
+"codegen_placeholder_compare" = "Switch between Java, Python, and JavaScript to compare syntax (sample below).";
 "codegen_target_java" = "Java";
 "codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
 "codegen_preview_java" = "if (condition) {\n    statement();\n} else {\n    alternative();\n}";
 "codegen_preview_python" = "if condition:\n    statement()\nelse:\n    alternative()";
 "codegen_option_comments" = "Diagram text as comments";
-"codegen_generated_hint" = "Preview from the current structure chart (Java 17, Python 3.10+).";
+"codegen_generated_hint" = "Preview from the current structure chart (Java 17, Python 3.10+, modern JavaScript).";
 "codegen_copy" = "Copy";
 "a11y_new_diagram_tab" = "New diagram tab";
 "a11y_close_tab" = "Close tab";

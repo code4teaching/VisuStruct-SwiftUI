@@ -6,6 +6,7 @@ public enum VisuStructCodeGenerator: Sendable {
     public enum Target: String, Sendable {
         case java
         case python
+        case javascript
     }
 
     public struct Options: Sendable {
@@ -23,11 +24,19 @@ public enum VisuStructCodeGenerator: Sendable {
 
     public static func generate(document: VisuStructDocument, target: Target, options: Options = Options()) -> String {
         var out = ""
+        if target == .javascript {
+            // Schul-tauglich: Strict-Modus immer am Anfang des Snippets (wie vereinbart).
+            out += "\"use strict\";\n\n"
+        }
         for el in document.elements {
             emit(element: el, target: target, options: options, indent: options.baseIndent, into: &out)
         }
-        if out.isEmpty {
-            return commentPrefix(target: target, forEmpty: true)
+        if out.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            let empty = commentPrefix(target: target, forEmpty: true)
+            if target == .javascript {
+                return "\"use strict\";\n\n" + empty
+            }
+            return empty
         }
         return out.trimmingCharacters(in: .newlines)
     }
@@ -45,6 +54,8 @@ public enum VisuStructCodeGenerator: Sendable {
             return forEmpty ? "// (leer)" : ""
         case .python:
             return forEmpty ? "# (leer)" : ""
+        case .javascript:
+            return forEmpty ? "// (leer)" : ""
         }
     }
 
@@ -69,7 +80,45 @@ public enum VisuStructCodeGenerator: Sendable {
             }
             s += sp(indent) + "\"\"\"\n"
             return s
+        case .javascript:
+            // Wie Java: `/* … */` — gut lesbar und „klassisch“.
+            if trimmed.count == 1 {
+                return sp(indent) + "/* " + trimmed[0] + " */\n"
+            }
+            var s = sp(indent) + "/*\n"
+            for t in trimmed {
+                s += sp(indent) + " * " + t + "\n"
+            }
+            s += sp(indent) + " */\n"
+            return s
         }
+    }
+
+    private static func isCStyleSemicolonTarget(_ target: Target) -> Bool {
+        target == .java || target == .javascript
+    }
+
+    /// Semikolon-Heuristik für Java/JavaScript: ergänzt `;`, wenn sinnvoll und noch nicht vorhanden.
+    private static func formatCStyleStatementLine(_ rawLine: String) -> String {
+        let line = rawLine.trimmingCharacters(in: .whitespacesAndNewlines)
+        if line.isEmpty { return "" }
+
+        // Kommentare / Präprozessor / Blöcke: nicht anfassen
+        if line.hasPrefix("//") || line.hasPrefix("/*") || line.hasPrefix("*") || line.hasPrefix("#") { return line }
+        if line.hasPrefix("{") || line == "}" || line.hasPrefix("}") { return line }
+        if line.hasSuffix("{") { return line }
+
+        // Schließende Klammern am Ende (z. B. `};`) nicht doppeln
+        if line.hasSuffix(";") { return line }
+
+        // Häufige Kontrollfluss-Keywords ohne Semikolon am Ende (Header)
+        let lower = line.lowercased()
+        if lower.hasPrefix("if ") || lower.hasPrefix("else") || lower.hasPrefix("for ") || lower.hasPrefix("while ") ||
+            lower.hasPrefix("do ") || lower.hasPrefix("switch ") || lower.hasPrefix("case ") || lower.hasPrefix("default") {
+            return line
+        }
+
+        return line + ";"
     }
 
     /// Bedingung/Ausdruck für Klammern: mehrzeilig mit Leerzeichen zusammenfassen (schul­tauglich, gültige Syntax).
@@ -92,7 +141,13 @@ public enum VisuStructCodeGenerator: Sendable {
         if options.includeDiagramTextAsComments {
             out += blockComment(lines: body, target: target, indent: indent)
         }
-        for line in body {
+        for raw in body {
+            if raw.isEmpty { continue }
+            let line: String = {
+                if isCStyleSemicolonTarget(target) { return formatCStyleStatementLine(raw) }
+                return raw
+            }()
+            if line.isEmpty { continue }
             out += sp(indent) + line + "\n"
         }
     }
@@ -114,6 +169,8 @@ public enum VisuStructCodeGenerator: Sendable {
         case .java:
             out += sp(indent) + prefix + cond + suffix
         case .python:
+            out += sp(indent) + prefix + cond + suffix
+        case .javascript:
             out += sp(indent) + prefix + cond + suffix
         }
     }
@@ -144,6 +201,8 @@ public enum VisuStructCodeGenerator: Sendable {
                 out += sp(indent) + (hint.isEmpty ? "break;\n" : "break; // \(hint)\n")
             case .python:
                 out += sp(indent) + (hint.isEmpty ? "break\n" : "break  # \(hint)\n")
+            case .javascript:
+                out += sp(indent) + (hint.isEmpty ? "break;\n" : "break; // \(hint)\n")
             }
 
         case .verzweigung:
@@ -178,6 +237,20 @@ public enum VisuStructCodeGenerator: Sendable {
                 emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
                 out += sp(indent) + "else:\n"
                 emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
+            case .javascript:
+                emitConditionHeader(
+                    prefix: "if (",
+                    suffix: ") {\n",
+                    textLines: element.textLines,
+                    target: target,
+                    options: options,
+                    indent: indent,
+                    into: &out
+                )
+                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
+                out += sp(indent) + "} else {\n"
+                emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
+                out += sp(indent) + "}\n"
             }
 
         case .fallauswahl:
@@ -229,6 +302,30 @@ public enum VisuStructCodeGenerator: Sendable {
                     out += sp(indent + step) + line
                     emitBlockBody(c.elements, target: target, options: options, indent: indent + step * 2, into: &out)
                 }
+            case .javascript:
+                emitConditionHeader(
+                    prefix: "switch (",
+                    suffix: ") {\n",
+                    textLines: element.textLines,
+                    target: target,
+                    options: options,
+                    indent: indent,
+                    into: &out
+                )
+                for (i, c) in cases.enumerated() {
+                    let isLast = i == cases.count - 1
+                    if isLast {
+                        out += sp(indent + step) + "default:" + forcedCaseComment(name: c.name, target: target) + "\n"
+                    } else {
+                        out += sp(indent + step) + "case " + caseLabelToken(c.name, target: target) + ":\n"
+                    }
+                    emitBlockBody(c.elements, target: target, options: options, indent: indent + step * 2, into: &out)
+                    // Schul-tauglich: immer `break;` (Fallthrough später per Case-Attribut steuerbar).
+                    if !isLast {
+                        out += sp(indent + step * 2) + "break;\n"
+                    }
+                }
+                out += sp(indent) + "}\n"
             }
 
         case .forSchleife:
@@ -237,9 +334,11 @@ public enum VisuStructCodeGenerator: Sendable {
                 emitConditionHeader(prefix: "for (", suffix: ") {\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
             case .python:
                 emitConditionHeader(prefix: "for ", suffix: ":\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
+            case .javascript:
+                emitConditionHeader(prefix: "for (", suffix: ") {\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
             }
             emitBlockBody(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
-            if target == .java { out += sp(indent) + "}\n" }
+            if target == .java || target == .javascript { out += sp(indent) + "}\n" }
 
         case .whileSchleife:
             switch target {
@@ -247,9 +346,11 @@ public enum VisuStructCodeGenerator: Sendable {
                 emitConditionHeader(prefix: "while (", suffix: ") {\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
             case .python:
                 emitConditionHeader(prefix: "while ", suffix: ":\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
+            case .javascript:
+                emitConditionHeader(prefix: "while (", suffix: ") {\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
             }
             emitBlockBody(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
-            if target == .java { out += sp(indent) + "}\n" }
+            if target == .java || target == .javascript { out += sp(indent) + "}\n" }
 
         case .doUntilSchleife:
             let cond = conditionText(element.textLines)
@@ -270,6 +371,13 @@ public enum VisuStructCodeGenerator: Sendable {
                 }
                 out += sp(bodyStart) + "if not (" + cond + "):\n"
                 out += sp(bodyStart + step) + "break\n"
+            case .javascript:
+                out += sp(indent) + "do {\n"
+                emitBlockBody(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
+                if options.includeDiagramTextAsComments {
+                    out += blockComment(lines: element.textLines, target: target, indent: indent)
+                }
+                out += sp(indent) + "} while (" + cond + ");\n"
             }
 
         case .endlosschleife:
@@ -293,18 +401,33 @@ public enum VisuStructCodeGenerator: Sendable {
                     }
                     out += sp(indent) + "while True:  # " + extra + "\n"
                 }
+            case .javascript:
+                if extra.isEmpty || extra == "true" {
+                    out += sp(indent) + "while (true) {\n"
+                } else {
+                    if options.includeDiagramTextAsComments {
+                        out += blockComment(lines: element.textLines, target: target, indent: indent)
+                    }
+                    out += sp(indent) + "while (true) /* " + extra + " */ {\n"
+                }
             }
             emitBlockBody(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
-            if target == .java { out += sp(indent) + "}\n" }
+            if target == .java || target == .javascript { out += sp(indent) + "}\n" }
         }
     }
 
     private static func caseLabelToken(_ name: String, target: Target) -> String {
         let t = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if t.isEmpty {
-            return target == .python ? "\"\"" : "0"
+            if target == .python { return "\"\"" }
+            if target == .javascript { return "0" }
+            return "0"
         }
         if target == .python {
+            if t.allSatisfy({ $0.isNumber }) { return t }
+            return "\"" + t.replacingOccurrences(of: "\"", with: "\\\"") + "\""
+        }
+        if target == .javascript {
             if t.allSatisfy({ $0.isNumber }) { return t }
             return "\"" + t.replacingOccurrences(of: "\"", with: "\\\"") + "\""
         }
@@ -319,6 +442,8 @@ public enum VisuStructCodeGenerator: Sendable {
             return "/* " + t + " */"
         case .python:
             return "  # " + t
+        case .javascript:
+            return " /* " + t + " */"
         }
     }
 

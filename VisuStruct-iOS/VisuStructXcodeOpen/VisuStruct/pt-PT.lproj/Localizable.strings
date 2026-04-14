@@ -30,17 +30,18 @@
 
 /* Gerador de código (compra na app em breve) */
 "codegen_gate_title" = "Gerar código";
-"codegen_gate_body" = "O código Java e Python a partir do diagrama ficará disponível com uma compra na aplicação (em breve).";
+"codegen_gate_body" = "O código Java, Python e JavaScript a partir do diagrama ficará disponível com uma compra na aplicação (em breve).";
 "codegen_gate_ok" = "OK";
 "codegen_placeholder_title" = "Gerador de código";
 "codegen_placeholder_body" = "O código gerado aparecerá aqui.";
-"codegen_placeholder_compare" = "Alterne entre Java e Python para comparar a sintaxe (exemplo abaixo).";
+"codegen_placeholder_compare" = "Alterne entre Java, Python e JavaScript para comparar a sintaxe (exemplo abaixo).";
 "codegen_target_java" = "Java";
 "codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
 "codegen_preview_java" = "if (condicao) {\n    instrucao();\n} else {\n    alternativa();\n}";
 "codegen_preview_python" = "if condicao:\n    instrucao()\nelse:\n    alternativa()";
 "codegen_option_comments" = "Texto do diagrama como comentários";
-"codegen_generated_hint" = "Pré-visualização a partir do diagrama atual (Java 17, Python 3.10+).";
+"codegen_generated_hint" = "Pré-visualização a partir do diagrama atual (Java 17, Python 3.10+, JavaScript moderno).";
 "codegen_copy" = "Copiar";
 "a11y_new_diagram_tab" = "Novo separador de diagrama";
 "a11y_close_tab" = "Fechar separador";

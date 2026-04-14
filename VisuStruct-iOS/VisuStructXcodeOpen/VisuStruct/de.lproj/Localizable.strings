@@ -30,17 +30,18 @@
 
 /* Code-Generator (IAP folgt) */
 "codegen_gate_title" = "Code erzeugen";
-"codegen_gate_body" = "Java- und Python-Code aus dem Struktogramm wird über einen In-App-Kauf freigeschaltet (demnächst).";
+"codegen_gate_body" = "Java-, Python- und JavaScript-Code aus dem Struktogramm wird über einen In-App-Kauf freigeschaltet (demnächst).";
 "codegen_gate_ok" = "OK";
 "codegen_placeholder_title" = "Code-Generator";
 "codegen_placeholder_body" = "Hier erscheint später der erzeugte Code.";
-"codegen_placeholder_compare" = "Zwischen Java und Python wechseln, um die Syntax zu vergleichen (Beispiel unten).";
+"codegen_placeholder_compare" = "Zwischen Java, Python und JavaScript wechseln, um die Syntax zu vergleichen (Beispiel unten).";
 "codegen_target_java" = "Java";
 "codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
 "codegen_preview_java" = "if (bedingung) {\n    anweisung();\n} else {\n    alternative();\n}";
 "codegen_preview_python" = "if bedingung:\n    anweisung()\nelse:\n    alternative()";
 "codegen_option_comments" = "Diagramm-Text als Kommentare";
-"codegen_generated_hint" = "Vorschau aus dem aktuellen Struktogramm (Java 17, Python 3.10+).";
+"codegen_generated_hint" = "Vorschau aus dem aktuellen Struktogramm (Java 17, Python 3.10+, modernes JavaScript).";
 "codegen_copy" = "Kopieren";
 "a11y_new_diagram_tab" = "Weiteres Struktogramm";
 "a11y_close_tab" = "Reiter schließen";
