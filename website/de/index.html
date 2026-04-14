@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VisuStruct — Visueller Struktogrammeditor</title>
-  <meta name="description" content="VisuStruct: Nassi-Shneiderman-Struktogramme. Java-Desktop (Open Source): Quellen und aktuelle Releases auf github.com/code4teaching/VisuStruct. SwiftUI für iPad und Mac mit Apple Silicon. Oberfläche EN/DE/PT. Gemeinsames .visustruct-Format.">
+  <meta name="description" content="VisuStruct: Struktogramme nach Nassi-Shneiderman. SwiftUI-App für iPad & Mac (Apple Silicon) im App Store sowie Java-Desktop für Windows/macOS/Linux. Gemeinsames .visustruct-Dateiformat.">
   <link rel="canonical" href="https://visustruct.org/de/">
   <!-- Sichtbar auch wenn styles.css nicht lädt (falscher Upload-Pfad) -->
   <style>
@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css?v=2026-04-14">
 </head>
 <body>
   <header class="site-header">
@@ -51,35 +51,37 @@
       <h1>VisuStruct — Visueller Struktogrammeditor</h1>
       <div class="content-prose">
         <p class="lead-kicker">Visueller Struktogrammeditor nach Nassi-Shneiderman — Algorithmen zuerst als Struktur, nicht als Syntax.</p>
-        <p>Die <strong>Open-Source-Java-App</strong> für den Desktop und die <strong>SwiftUI</strong>-App für <strong>iPad</strong> und <strong>Mac mit Apple Silicon</strong> nutzen ein gemeinsames <strong>.visustruct</strong>-Format. Drag-and-drop, klare Oberfläche, drei Sprachen: Englisch, Deutsch, Portugiesisch.</p>
-        <p>Die <strong>aktuelle Java-Version</strong> — Quellcode und Releases — wird ausschließlich auf <a href="https://github.com/code4teaching/VisuStruct">github.com/code4teaching/VisuStruct</a> gepflegt.</p>
+        <p>Mit VisuStruct entwickelst du Algorithmen als <strong>Struktogramm</strong>: Du zerlegst ein Problem in klare Schritte (Anweisung, Verzweigung, Schleife) und siehst sofort, ob der Ablauf logisch stimmt — ideal zum Üben und für den Unterricht.</p>
+        <p>VisuStruct gibt es als native <strong>SwiftUI-App</strong> für <strong>iPad</strong> und <strong>Mac (Apple Silicon)</strong> und als <strong>Java-App</strong> für Windows/macOS/Linux. Beide nutzen dasselbe <strong>.visustruct</strong>-Dateiformat: Du kannst am iPad anfangen und später am Rechner weiterarbeiten (oder umgekehrt).</p>
       </div>
-    </section>
-
-    <section class="wrap section-screenshot" aria-labelledby="java-screenshot-heading">
-      <h2 id="java-screenshot-heading" class="screenshot-heading">Java-App für Windows, macOS &amp; Linux</h2>
-      <p class="screenshot-lead">VisuStruct ist die App für den Unterricht.</p>
-      <figure class="app-screenshot-frame">
-        <img src="/assets/visustruct-app-java.png" width="1024" height="643" loading="lazy" decoding="async" alt="VisuStruct Java-Edition: Fenster mit Menüs, deutscher Palette (Anweisung, Verzweigung, Schleifen, Fallauswahl) und Nassi-Shneiderman-Struktogramm mit verschachtelter Logik.">
-        <figcaption>Java-Desktop (Beispiel-Screenshot). Aktuelle Version und Downloads: GitHub Releases (Abschnitt „VisuStruct laden“).</figcaption>
-      </figure>
     </section>
 
     <section class="wrap section-screenshot" aria-labelledby="swiftui-screenshot-heading">
       <h2 id="swiftui-screenshot-heading" class="screenshot-heading">SwiftUI-App für iPad &amp; Mac</h2>
-      <p class="screenshot-lead">Der Struktogrammeditor für dein iPad und deinen Mac.</p>
-      <figure class="app-screenshot-frame">
-        <img src="/assets/visustruct-app-mac-ipad.png" width="1024" height="801" loading="lazy" decoding="async" alt="VisuStruct auf dem Mac: Hauptfenster mit Nassi-Shneiderman-Struktogramm, Elemente links und Anweisungs-Inspector unten.">
-        <figcaption>SwiftUI auf dem Mac — gleiche Bedienung auf dem iPad.</figcaption>
-      </figure>
+      <p class="screenshot-lead">VisuStruct gibt es als native <strong>SwiftUI</strong>-App für <strong>iPad</strong> und <strong>Mac mit Apple Silicon</strong> (<a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>).</p>
+      <div
+        data-visustruct-swift-carousel
+        data-aria-region="VisuStruct SwiftUI Screenshots"
+        data-caption="Screenshots der SwiftUI-Edition (iPad &amp; Mac)."
+      ></div>
+    </section>
+
+    <section class="wrap section-screenshot" aria-labelledby="java-screenshot-heading">
+      <h2 id="java-screenshot-heading" class="screenshot-heading">Java-App für Windows, macOS &amp; Linux</h2>
+      <p class="screenshot-lead">Für den Desktop: Du baust dein Struktogramm per <strong>Drag &amp; Drop</strong> aus der Palette zusammen, ordnest Schritte und exportierst z. B. als PNG. Dafür brauchst du eine Java-Laufzeitumgebung (JRE), z. B. <a href="https://adoptium.net/de" rel="noopener noreferrer">Eclipse Temurin von Adoptium</a>.</p>
+      <div
+        data-visustruct-java-carousel
+        data-aria-region="VisuStruct Java Screenshots"
+        data-caption="Screenshots der Java-Edition."
+      ></div>
     </section>
 
     <section class="wrap section-block" aria-labelledby="key-features-heading">
       <h2 id="key-features-heading">Wichtige Funktionen</h2>
       <ul class="bullet-list">
-        <li>Einfache, intuitive Bedienung — der Fokus liegt auf der Logik.</li>
-        <li>Entwickle erst den Algorithmus, bevor du über Syntax nachdenkst.</li>
-        <li><strong>.visustruct</strong> auf dem Rechner (Java) und auf iPad &amp; Mac (SwiftUI) — ein Format, ein Projekt.</li>
+        <li>Einfache, intuitive Bedienung — der Fokus liegt auf der <strong>Logik</strong>, nicht auf Klammern und Semikolons.</li>
+        <li>Du entwickelst den Algorithmus als Struktur und kannst ihn danach leichter in Code übersetzen.</li>
+        <li>Ein gemeinsames Format: <strong>.visustruct</strong> auf dem Rechner (Java) und auf iPad &amp; Mac (SwiftUI).</li>
       </ul>
     </section>
 
@@ -94,20 +96,21 @@
       <h2>VisuStruct laden</h2>
       <div class="grid">
       <article class="card">
-        <div class="card-icon java" aria-hidden="true">☕</div>
-        <h2>Java-App (Desktop)</h2>
-        <p><strong>Open Source</strong> (MIT). Windows, macOS, Linux. Entwicklung und aktuelle Releases nur im verlinkten GitHub-Repository.</p>
+        <!-- App Store: bei Livegang nur offizielle Apple-Badge-Grafiken (developer.apple.com/app-store/marketing/guidelines/). Keine Drittanbieter-Badges. -->
+        <div class="card-icon ios" aria-hidden="true">🖥️</div>
+        <h2>iPad &amp; Mac (Apple Silicon)</h2>
+        <p><strong>SwiftUI</strong> für <strong>iPad</strong> &amp; <strong>Mac (Apple Silicon)</strong>.</p>
         <div class="btn-row">
-          <a class="btn btn-primary" href="https://github.com/code4teaching/VisuStruct/releases/latest">Aktuelles Release (GitHub)</a>
-          <a class="btn btn-secondary" href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar">Direkt zur App</a>
+          <a class="btn btn-primary" href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">Im App Store ansehen</a>
         </div>
       </article>
       <article class="card">
-        <div class="card-icon ios" aria-hidden="true">🖥️</div>
-        <h2>iPad &amp; Mac (Apple Silicon)</h2>
-        <p><strong>SwiftUI</strong> · <strong>iPad</strong> &amp; <strong>Mac mit Apple Silicon</strong> · Reiter, Teilen, Drucken · <strong>1.1</strong> (App Store).</p>
+        <div class="card-icon java" aria-hidden="true">☕</div>
+        <h2>Java-App (Desktop)</h2>
+        <p>Für <strong>Windows</strong>, <strong>macOS</strong> und <strong>Linux</strong>. Download als <strong>.jar</strong> (Java erforderlich, z. B. <a href="https://adoptium.net/de" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
         <div class="btn-row">
-          <a class="btn btn-primary" href="https://apps.apple.com/search?term=VisuStruct">Apple App&nbsp;Store</a>
+          <a class="btn btn-primary" href="https://github.com/code4teaching/VisuStruct/releases/latest">Aktuelles Release (GitHub)</a>
+          <a class="btn btn-secondary" href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar">Direkt zur App</a>
         </div>
       </article>
       </div>
@@ -116,23 +119,31 @@
     <section id="privacy" class="wrap privacy-policy" aria-labelledby="privacy-policy-heading">
       <h2 id="privacy-policy-heading">Datenschutzerklärung – Nutzung von VisuStruct</h2>
       <div class="privacy-policy-body">
-        <p class="privacy-lead">VisuStruct erfasst <strong>keine personenbezogenen Daten</strong> und ist damit <strong>DSGVO-konform</strong>. Ihre Struktogramme und <strong>.visustruct</strong>-Dateien bleiben auf dem Gerät der Nutzerin bzw. des Nutzers. Es gibt kein Auslesen, kein zentrales Speichern und kein Tracking Ihrer Unterrichtsinhalte durch VisuStruct. Die Verarbeitung erfolgt dort, wo sie hingehört — lokal beim Lernenden. Für den schulischen Einsatz heißt das konkret: weniger Unsicherheit als bei vielen Cloud-Diensten, weil keine Diagrammdaten an den App-Anbieter fließen.</p>
+        <p class="privacy-lead"><strong>Datenschutzkonform (DSGVO)</strong>: VisuStruct erfasst und speichert <strong>keine personenbezogenen Daten</strong>. Ihre Struktogramme und <strong>.visustruct</strong>-Dateien bleiben unter Ihrer Kontrolle — Sie entscheiden, ob Sie sie nur auf dem Gerät oder z. B. in Ihrer eigenen Cloud sichern.</p>
       </div>
     </section>
 
     <section id="contact" class="wrap site-contact" aria-labelledby="contact-heading">
       <h2 id="contact-heading">Kontakt</h2>
-      <p class="site-author"><strong>Holger Sebastiao</strong> ist Informatiklehrer. In VisuStruct fließen Erfahrungen aus der Unterrichtspraxis ein. VisuStruct ist entwickelt worden, um Algorithmen zu verstehen und zu entwickeln. Es ist ein Werkzeug für Lehrende und Lernende.</p>
-      <p>Weitere Projekte, meist mit dem Fokus Unterricht und Bildung, findet ihr auf meiner Webseite <a href="https://www.sebastiao.org/" rel="noopener noreferrer">www.sebastiao.org</a>.</p>
+      <p>Fragen, Feedback oder Bug-Reports?</p>
+      <p>
+        <a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>
+        · <a href="https://github.com/code4teaching/VisuStruct/issues" rel="noopener noreferrer">Issues (Feedback &amp; Bugs)</a>
+        · <a href="https://www.sebastiao.org/" rel="noopener noreferrer">sebastiao.org</a>
+      </p>
     </section>
   </main>
 
+  <script src="/js/java-carousel.js" defer></script>
+  <script src="/js/swift-carousel.js" defer></script>
   <footer class="site-footer wrap">
     <p>
-      <a href="https://github.com/code4teaching/VisuStruct">GitHub</a>
+      <a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>
+      · <a href="https://github.com/code4teaching/VisuStruct" rel="noopener noreferrer">GitHub</a>
+      · <a href="https://github.com/code4teaching/VisuStruct/issues" rel="noopener noreferrer">Issues</a>
       · <a href="https://visustruct.org">visustruct.org</a>
     </p>
-    <p>© 2026 Holger Sebastiao · VisuStruct</p>
+    <p>© 2026 <a href="https://www.sebastiao.org/" rel="noopener noreferrer">Holger Sebastiao</a> · VisuStruct</p>
   </footer>
 </body>
 </html>

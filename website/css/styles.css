@@ -239,6 +239,7 @@ a:hover {
   margin-right: auto;
 }
 
+
 /* App screenshots (Java desktop · SwiftUI Mac / iPad) */
 .section-screenshot {
   padding: 0 0 2.15rem;
@@ -263,6 +264,7 @@ a:hover {
   font-size: 0.92rem;
   color: var(--vs-text-muted);
   line-height: 1.55;
+  text-align: left;
 }
 .app-screenshot-frame {
   margin: 0 auto;
@@ -289,6 +291,182 @@ a:hover {
   line-height: 1.45;
   border-top: 1px solid var(--vs-card-border);
   background: rgba(10, 22, 40, 0.72);
+}
+
+/* Screenshot-Karussell (Swift/Java): Reihenfolge per Seitensprache — swift-carousel.js / java-carousel.js */
+.app-screenshot-carousel {
+  max-width: var(--vs-prose-max);
+  margin: 0 auto;
+}
+
+.app-screenshot-carousel-frame {
+  position: relative;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Bild + Steuerung übereinander: Pfeile vertikal mittig am Bild */
+.app-screenshot-carousel-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.app-screenshot-carousel-viewport {
+  overflow: hidden;
+  outline: none;
+}
+
+.app-screenshot-carousel-stage:focus-within {
+  box-shadow: 0 0 0 2px var(--vs-bg-deep), 0 0 0 4px var(--vs-accent-bright);
+  border-radius: 14px 14px 0 0;
+}
+
+.app-screenshot-carousel-track {
+  display: flex;
+  width: 100%;
+  transition: transform 0.38s ease;
+}
+
+.app-screenshot-carousel-track--no-motion {
+  transition: none;
+}
+
+.app-screenshot-carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.app-screenshot-carousel-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* Java-Karussell: „Code generieren“-Screenshot ~25 % kleiner, optisch näher an den UI-Höhen */
+.app-screenshot-carousel-slide--java-generate-code img {
+  width: 75%;
+  max-width: 75%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.app-screenshot-carousel-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.app-screenshot-carousel-controls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  z-index: 2;
+}
+
+.app-screenshot-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(10, 22, 40, 0.65);
+  color: var(--vs-text);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  pointer-events: auto;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.app-screenshot-carousel-btn--prev {
+  left: clamp(0.35rem, 2vw, 0.75rem);
+}
+
+.app-screenshot-carousel-btn--next {
+  right: clamp(0.35rem, 2vw, 0.75rem);
+}
+
+.app-screenshot-carousel-btn:hover {
+  border-color: rgba(118, 211, 254, 0.35);
+  color: var(--vs-accent-bright);
+  background: rgba(118, 211, 254, 0.1);
+}
+
+.app-screenshot-carousel-icon {
+  position: relative;
+  top: -1px;
+}
+
+.app-screenshot-carousel-dots {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(0.45rem, 2.5vw, 0.85rem);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  flex: none;
+  min-width: 0;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(10, 22, 40, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.app-screenshot-carousel-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: rgba(148, 163, 184, 0.2);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.app-screenshot-carousel-dot:hover {
+  border-color: rgba(118, 211, 254, 0.5);
+  background: rgba(118, 211, 254, 0.25);
+}
+
+.app-screenshot-carousel-dot--active {
+  background: linear-gradient(135deg, var(--vs-accent-bright), var(--vs-accent-dim));
+  border-color: transparent;
+  transform: scale(1.15);
+}
+
+.app-screenshot-carousel-caption {
+  padding: 0.7rem 0.85rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--vs-text-muted);
+  line-height: 1.45;
+  border-top: 1px solid var(--vs-card-border);
+  background: rgba(10, 22, 40, 0.72);
+  margin: 0;
+  text-align: left;
 }
 
 /* Cards grid */
@@ -381,6 +559,18 @@ a:hover {
   background: rgba(148, 163, 184, 0.15);
   color: var(--vs-text);
   border: 1px solid var(--vs-card-border);
+}
+
+/* Nicht klickbar: z. B. Pill-Status ohne Link (falls je wieder nötig) */
+.coming-soon-pill {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.88;
+  user-select: none;
+}
+.coming-soon-pill:hover {
+  filter: none;
+  transform: none;
 }
 
 /* Marketing copy */
@@ -590,21 +780,25 @@ a:hover {
 .site-contact {
   padding: 1.85rem 0 2.15rem;
   border-top: 1px solid var(--vs-card-border);
+  text-align: center !important;
 }
 .site-contact h2 {
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--vs-text);
   margin: 0 0 0.65rem;
-  text-align: center;
+  max-width: var(--vs-prose-max);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center !important;
 }
 .site-contact p {
-  max-width: 36rem;
-  margin: 0 auto;
-  text-align: center;
+  max-width: var(--vs-prose-max);
+  margin: 0 auto 0.9rem;
   color: var(--vs-text-muted);
   font-size: 0.9rem;
   line-height: 1.55;
+  text-align: center !important;
 }
 .site-contact .site-author {
   margin-bottom: 1rem;
@@ -680,6 +874,10 @@ a:hover {
 
   .app-screenshot-frame {
     border-radius: 17px;
+  }
+
+  .app-screenshot-carousel-stage:focus-within {
+    border-radius: 17px 17px 0 0;
   }
 
   .app-screenshot-frame figcaption {
@@ -825,6 +1023,10 @@ a:hover {
 
   .app-screenshot-frame {
     border-radius: var(--vs-radius);
+  }
+
+  .app-screenshot-carousel-stage:focus-within {
+    border-radius: var(--vs-radius) var(--vs-radius) 0 0;
   }
 
   .app-screenshot-frame figcaption {
