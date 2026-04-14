@@ -780,6 +780,23 @@ struct DiagramCanvasView: View {
                     )
                     y -= lineHeight
                 }
+            } else if node.element.type == .anweisung {
+                // Statement: Text im Block zentrieren (horizontal + vertikal).
+                let contentLeft = r.minX + ix
+                let contentRight = r.maxX - ix
+                let contentWidth = max(0, contentRight - contentLeft)
+                let totalTextHeight = CGFloat(max(1, lines.count)) * lineHeight
+                var y = r.midY - totalTextHeight / 2
+                for line in lines {
+                    let tw = min(contentWidth, measureText(line, size: cellFontSize))
+                    let x = contentLeft + (contentWidth - tw) / 2
+                    context.draw(
+                        context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
+                        at: CGPoint(x: x, y: y),
+                        anchor: .topLeading
+                    )
+                    y += lineHeight
+                }
             } else {
                 var y = r.minY + iy
                 for line in lines {
