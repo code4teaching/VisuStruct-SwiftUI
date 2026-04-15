@@ -806,82 +806,82 @@ struct ContentView: View {
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(.regularMaterial, for: .navigationBar)
                 .toolbar {
-                ToolbarItem(placement: .principal) {
-                    let tab = sheetTabs[currentTabIndex]
-                    let displayTitle = diagramTabDisplayTitle(tab)
-                    HStack(spacing: 6) {
-                        Text(verbatim: displayTitle)
-                            .lineLimit(1)
-                            .font(.headline)
-                        if tabHasUnsavedChanges(tab) {
-                            unsavedChangeIndicatorDot()
-                        }
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(
-                        tabHasUnsavedChanges(tab)
-                            ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))"
-                            : displayTitle
-                    )
-                }
-                ToolbarItemGroup(placement: .topBarLeading) {
-                    Button(lang.tr("toolbar_undo"), systemImage: "arrow.uturn.backward", action: performUndo)
-                        .disabled(sheetTabs[currentTabIndex].undoStack.isEmpty)
-                        .help(lang.tr("toolbar_undo"))
-                        .keyboardShortcut("z", modifiers: .command)
-                    Button(lang.tr("toolbar_redo"), systemImage: "arrow.uturn.forward", action: performRedo)
-                        .disabled(sheetTabs[currentTabIndex].redoStack.isEmpty)
-                        .help(lang.tr("toolbar_redo"))
-                        .keyboardShortcut("z", modifiers: [.command, .shift])
-                }
-                ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button(lang.tr("toolbar_new"), systemImage: "doc.badge.plus", action: newDocument)
-                        .modifier(ToolbarCoachmarkSource(step: .newDocument))
-                    Button(action: saveCurrentDocumentToFile) {
-                        Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
-                    }
-                    .help(lang.tr("menu_save"))
-                    .keyboardShortcut("s", modifiers: .command)
-                    .modifier(ToolbarCoachmarkSource(step: .save))
-                    if isPhone {
-                        Button {
-                            withAnimation(.easeInOut(duration: 0.15)) {
-                                showPaletteOnPhone.toggle()
+                    ToolbarItem(placement: .principal) {
+                        let tab = sheetTabs[currentTabIndex]
+                        let displayTitle = diagramTabDisplayTitle(tab)
+                        HStack(spacing: 6) {
+                            Text(verbatim: displayTitle)
+                                .lineLimit(1)
+                                .font(.headline)
+                            if tabHasUnsavedChanges(tab) {
+                                unsavedChangeIndicatorDot()
                             }
-                        } label: {
-                            Label(lang.tr("palette_header"), systemImage: "square.grid.2x2")
                         }
-                        .labelStyle(.iconOnly)
-                        .accessibilityLabel(lang.tr("palette_header"))
-                        .modifier(ToolbarCoachmarkSource(step: .palette))
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel(
+                            tabHasUnsavedChanges(tab)
+                                ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))"
+                                : displayTitle
+                        )
                     }
-                    Menu {
-                        Button {
-                            showImporter = true
-                        } label: {
-                            Label(lang.tr("menu_open"), systemImage: "square.and.arrow.down")
-                        }
-                        Divider()
+                    ToolbarItemGroup(placement: .topBarLeading) {
+                        Button(lang.tr("toolbar_undo"), systemImage: "arrow.uturn.backward", action: performUndo)
+                            .disabled(sheetTabs[currentTabIndex].undoStack.isEmpty)
+                            .help(lang.tr("toolbar_undo"))
+                            .keyboardShortcut("z", modifiers: .command)
+                        Button(lang.tr("toolbar_redo"), systemImage: "arrow.uturn.forward", action: performRedo)
+                            .disabled(sheetTabs[currentTabIndex].redoStack.isEmpty)
+                            .help(lang.tr("toolbar_redo"))
+                            .keyboardShortcut("z", modifiers: [.command, .shift])
+                    }
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        Button(lang.tr("toolbar_new"), systemImage: "doc.badge.plus", action: newDocument)
+                            .modifier(ToolbarCoachmarkSource(step: .newDocument))
                         Button(action: saveCurrentDocumentToFile) {
                             Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
                         }
-                        Button {
-                            showExporter = true
+                        .help(lang.tr("menu_save"))
+                        .keyboardShortcut("s", modifiers: .command)
+                        .modifier(ToolbarCoachmarkSource(step: .save))
+                        if isPhone {
+                            Button {
+                                withAnimation(.easeInOut(duration: 0.15)) {
+                                    showPaletteOnPhone.toggle()
+                                }
+                            } label: {
+                                Label(lang.tr("palette_header"), systemImage: "square.grid.2x2")
+                            }
+                            .labelStyle(.iconOnly)
+                            .accessibilityLabel(lang.tr("palette_header"))
+                            .modifier(ToolbarCoachmarkSource(step: .palette))
+                        }
+                        Menu {
+                            Button {
+                                showImporter = true
+                            } label: {
+                                Label(lang.tr("menu_open"), systemImage: "square.and.arrow.down")
+                            }
+                            Divider()
+                            Button(action: saveCurrentDocumentToFile) {
+                                Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
+                            }
+                            Button {
+                                showExporter = true
+                            } label: {
+                                Label(lang.tr("menu_save_as"), systemImage: "square.and.arrow.up")
+                            }
+                            #if canImport(UIKit)
+                            Divider()
+                            Button(action: printDiagram) {
+                                Label(lang.tr("menu_print"), systemImage: "printer")
+                            }
+                            #endif
                         } label: {
-                            Label(lang.tr("menu_save_as"), systemImage: "square.and.arrow.up")
+                            Label(lang.tr("menu_file"), systemImage: "folder")
                         }
-                        #if canImport(UIKit)
-                        Divider()
-                        Button(action: printDiagram) {
-                            Label(lang.tr("menu_print"), systemImage: "printer")
-                        }
-                        #endif
-                    } label: {
-                        Label(lang.tr("menu_file"), systemImage: "folder")
+                        .modifier(ToolbarCoachmarkSource(step: .fileMenu))
                     }
-                    .modifier(ToolbarCoachmarkSource(step: .fileMenu))
                 }
-            }
                 #if canImport(UIKit)
                 .overlayPreferenceValue(ToolbarCoachmarkAnchorKey.self) { anchors in
                     let idiom = UIDevice.current.userInterfaceIdiom
@@ -898,6 +898,7 @@ struct ContentView: View {
                     }
                 }
                 #endif
+            }
         }
         .background(Color(.systemGroupedBackground))
     }
