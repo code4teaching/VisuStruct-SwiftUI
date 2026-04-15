@@ -1947,11 +1947,6 @@ private struct CodeGeneratorPlaceholderSheet: View {
                     }
                     .font(.subheadline)
 
-                    Text(lang.tr("codegen_generated_hint"))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-
                     Text(verbatim: generatedCode)
                         .font(.system(.body, design: .monospaced))
                         .textSelection(.enabled)
