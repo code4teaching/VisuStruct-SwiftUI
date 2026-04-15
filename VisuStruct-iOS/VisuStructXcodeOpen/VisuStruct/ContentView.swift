@@ -576,7 +576,7 @@ struct ContentView: View {
             CodeGeneratorPaywallSheet()
         }
         .sheet(isPresented: $showCodeGeneratorPlaceholder) {
-            CodeGeneratorPlaceholderSheet(document: document)
+            CodeGeneratorPlaceholderSheet(document: documentBinding)
         }
         #if canImport(UIKit)
         .sheet(item: $pngSharePayload) { payload in
@@ -1839,7 +1839,7 @@ private struct CodeGeneratorPaywallSheet: View {
 private struct CodeGeneratorPlaceholderSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
-    let document: VisuStructDocument
+    @Binding var document: VisuStructDocument
 
     /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
     @AppStorage("visustruct.codegen.target") private var codegenTarget: String = "java"
