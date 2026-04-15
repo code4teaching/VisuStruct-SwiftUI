@@ -17,6 +17,13 @@
 "settings_language_ptpt" = "Portugiesisch";
 "settings_language_java" = "Java (Schlüsselwörter)";
 
+/* Coachmarks (iPhone/iPad) */
+"coach_toolbar_new" = "Neu: Ein neues Struktogramm anlegen.";
+"coach_toolbar_save" = "Speichern: Änderungen in die Datei schreiben.";
+"coach_toolbar_palette" = "Palette: Elemente ein-/ausblenden.";
+"coach_toolbar_file" = "Datei-Menü: Öffnen, Speichern unter, Drucken.";
+"coach_tap_to_continue" = "Tippe zum Weiter.";
+
 /* Fehler-Overlay */
 "error_title" = "Fehler";
 "error_back_editor" = "Zurück zum Editor";

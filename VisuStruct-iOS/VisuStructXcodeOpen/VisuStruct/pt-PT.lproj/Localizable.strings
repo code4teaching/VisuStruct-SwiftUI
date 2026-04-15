@@ -17,6 +17,13 @@
 "settings_language_ptpt" = "Português";
 "settings_language_java" = "Java (palavras-chave)";
 
+/* Coachmarks (iPhone/iPad) */
+"coach_toolbar_new" = "Novo: criar um novo diagrama.";
+"coach_toolbar_save" = "Guardar: gravar alterações no ficheiro.";
+"coach_toolbar_palette" = "Paleta: mostrar ou ocultar elementos.";
+"coach_toolbar_file" = "Menu Ficheiro: abrir, guardar como, imprimir.";
+"coach_tap_to_continue" = "Toque para continuar.";
+
 /* Erro */
 "error_title" = "Erro";
 "error_back_editor" = "Voltar ao editor";

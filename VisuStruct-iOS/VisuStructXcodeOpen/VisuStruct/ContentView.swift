@@ -6,6 +6,107 @@ import QuickLook
 import UIKit
 #endif
 
+// MARK: - Coachmarks (iPhone/iPad)
+
+private enum ToolbarCoachmarkStep: Int, CaseIterable, Hashable {
+    case newDocument = 0
+    case save
+    case palette
+    case fileMenu
+}
+
+private struct ToolbarCoachmarkAnchorKey: PreferenceKey {
+    static var defaultValue: [ToolbarCoachmarkStep: Anchor<CGRect>] = [:]
+    static func reduce(value: inout [ToolbarCoachmarkStep: Anchor<CGRect>], nextValue: () -> [ToolbarCoachmarkStep: Anchor<CGRect>]) {
+        value.merge(nextValue(), uniquingKeysWith: { $1 })
+    }
+}
+
+private struct ToolbarCoachmarkSource: ViewModifier {
+    let step: ToolbarCoachmarkStep
+    func body(content: Content) -> some View {
+        content.anchorPreference(key: ToolbarCoachmarkAnchorKey.self, value: .bounds) { anchor in
+            [step: anchor]
+        }
+    }
+}
+
+private struct ToolbarCoachmarkOverlay: View {
+    let anchors: [ToolbarCoachmarkStep: Anchor<CGRect>]
+    let orderedSteps: [ToolbarCoachmarkStep]
+    @Binding var stepIndex: Int
+    @Binding var completed: Bool
+    @Environment(\.appLanguage) private var lang
+
+    private func text(for step: ToolbarCoachmarkStep) -> String {
+        switch step {
+        case .newDocument: return lang.tr("coach_toolbar_new")
+        case .save: return lang.tr("coach_toolbar_save")
+        case .palette: return lang.tr("coach_toolbar_palette")
+        case .fileMenu: return lang.tr("coach_toolbar_file")
+        }
+    }
+
+    var body: some View {
+        GeometryReader { geo in
+            let idx = min(max(0, stepIndex), max(0, orderedSteps.count - 1))
+            let step = orderedSteps.isEmpty ? nil : orderedSteps[idx]
+            let rect: CGRect? = step.flatMap { anchors[$0].map { geo[$0] } }
+
+            if let step, let rect {
+                ZStack {
+                    Color.black.opacity(0.55)
+                        .ignoresSafeArea()
+
+                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.9), lineWidth: 2)
+                        .frame(width: rect.width + 14, height: rect.height + 14)
+                        .position(x: rect.midX, y: rect.midY)
+
+                    let bubbleMaxW: CGFloat = min(320, geo.size.width - 32)
+                    let bubble = VStack(alignment: .leading, spacing: 10) {
+                        Text(text(for: step))
+                            .font(.body.weight(.semibold))
+                            .fixedSize(horizontal: false, vertical: true)
+                        Text(lang.tr("coach_tap_to_continue"))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(14)
+                    .frame(maxWidth: bubbleMaxW, alignment: .leading)
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .strokeBorder(Color.white.opacity(0.18), lineWidth: 1)
+                    )
+
+                    let belowY = rect.maxY + 18
+                    let aboveY = rect.minY - 18
+                    let useAbove = belowY + 120 > geo.size.height && aboveY > 80
+                    bubble
+                        .position(
+                            x: min(max(rect.midX, 16 + bubbleMaxW / 2), geo.size.width - 16 - bubbleMaxW / 2),
+                            y: useAbove ? max(64, aboveY - 70) : min(geo.size.height - 64, belowY + 70)
+                        )
+                }
+                .onTapGesture {
+                    let next = stepIndex + 1
+                    if next >= orderedSteps.count {
+                        completed = true
+                    } else {
+                        stepIndex = next
+                    }
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(text(for: step))
+                .accessibilityHint(lang.tr("coach_tap_to_continue"))
+            }
+        }
+        .transition(.opacity)
+        .animation(.easeInOut(duration: 0.18), value: stepIndex)
+    }
+}
+
 // MARK: - FileDocument (einheitlich .visustruct / XML wie Java)
 
 struct VisuStructFileDocument: FileDocument, Sendable {
@@ -286,6 +387,10 @@ struct ContentView: View {
     @State private var pdfQuickLookURL: URL?
     @State private var keyboardOverlap: CGFloat = 0
     #endif
+
+    // Coachmarks (iPhone + iPad): einmalig, in UserDefaults gemerkt.
+    @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
+    @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
 
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
@@ -727,11 +832,13 @@ struct ContentView: View {
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button(lang.tr("toolbar_new"), systemImage: "doc.badge.plus", action: newDocument)
+                        .modifier(ToolbarCoachmarkSource(step: .newDocument))
                     Button(action: saveCurrentDocumentToFile) {
                         Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
                     }
                     .help(lang.tr("menu_save"))
                     .keyboardShortcut("s", modifiers: .command)
+                    .modifier(ToolbarCoachmarkSource(step: .save))
                     if isPhone {
                         Button {
                             withAnimation(.easeInOut(duration: 0.15)) {
@@ -742,6 +849,7 @@ struct ContentView: View {
                         }
                         .labelStyle(.iconOnly)
                         .accessibilityLabel(lang.tr("palette_header"))
+                        .modifier(ToolbarCoachmarkSource(step: .palette))
                     }
                     Menu {
                         Button {
@@ -767,10 +875,26 @@ struct ContentView: View {
                     } label: {
                         Label(lang.tr("menu_file"), systemImage: "folder")
                     }
+                    .modifier(ToolbarCoachmarkSource(step: .fileMenu))
                 }
             }
         }
         .background(Color(.systemGroupedBackground))
+        .overlayPreferenceValue(ToolbarCoachmarkAnchorKey.self) { anchors in
+            #if canImport(UIKit)
+            let idiom = UIDevice.current.userInterfaceIdiom
+            let show = (idiom == .phone || idiom == .pad) && !toolbarCoachmarksCompleted
+            if show {
+                let available: [ToolbarCoachmarkStep] = ToolbarCoachmarkStep.allCases.filter { anchors[$0] != nil }
+                ToolbarCoachmarkOverlay(
+                    anchors: anchors,
+                    orderedSteps: available,
+                    stepIndex: $toolbarCoachmarkStepIndex,
+                    completed: $toolbarCoachmarksCompleted
+                )
+            }
+            #endif
+        }
     }
 
     private var diagramTabStrip: some View {

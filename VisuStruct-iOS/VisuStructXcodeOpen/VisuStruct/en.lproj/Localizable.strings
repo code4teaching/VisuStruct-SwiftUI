@@ -17,6 +17,13 @@
 "settings_language_ptpt" = "Portuguese";
 "settings_language_java" = "Java (keywords)";
 
+/* Coachmarks (iPhone/iPad) */
+"coach_toolbar_new" = "New: create a new structure chart.";
+"coach_toolbar_save" = "Save: write changes to the file.";
+"coach_toolbar_palette" = "Palette: show or hide blocks.";
+"coach_toolbar_file" = "File menu: open, save as, print.";
+"coach_tap_to_continue" = "Tap to continue.";
+
 /* Error overlay */
 "error_title" = "Error";
 "error_back_editor" = "Back to Editor";
