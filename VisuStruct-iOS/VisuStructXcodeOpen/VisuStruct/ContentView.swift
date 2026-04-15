@@ -119,6 +119,7 @@ private struct CodeLineEditor: View {
     @Binding var text: String
     let minHeight: CGFloat
     let maxHeight: CGFloat
+    let focusToken: UUID
     let onCommit: () -> Void
 
     var body: some View {
@@ -127,10 +128,10 @@ private struct CodeLineEditor: View {
             TextEditor(text: $text)
                 .frame(minHeight: minHeight, maxHeight: maxHeight)
         } else {
-            CodeLineEditorUIKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, onCommit: onCommit)
+            CodeLineEditorUIKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, focusToken: focusToken, onCommit: onCommit)
         }
         #elseif canImport(AppKit)
-        CodeLineEditorAppKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, onCommit: onCommit)
+        CodeLineEditorAppKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, focusToken: focusToken, onCommit: onCommit)
         #else
         TextEditor(text: $text)
             .frame(minHeight: minHeight, maxHeight: maxHeight)
@@ -162,6 +163,7 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
     @Binding var text: String
     let minHeight: CGFloat
     let maxHeight: CGFloat
+    let focusToken: UUID
     let onCommit: () -> Void
 
     func makeUIView(context: Context) -> CommitKeyTextView {
@@ -178,12 +180,23 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
         if uiView.text != text {
             uiView.text = text
         }
+        if context.coordinator.lastFocusToken != focusToken {
+            context.coordinator.lastFocusToken = focusToken
+            if uiView.window != nil {
+                uiView.becomeFirstResponder()
+            } else {
+                DispatchQueue.main.async {
+                    uiView.becomeFirstResponder()
+                }
+            }
+        }
     }
 
     func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
 
     final class Coordinator: NSObject, UITextViewDelegate {
         var text: Binding<String>
+        var lastFocusToken: UUID = UUID()
         init(text: Binding<String>) { self.text = text }
         func textViewDidChange(_ textView: UITextView) {
             text.wrappedValue = textView.text ?? ""
@@ -214,6 +227,7 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
     @Binding var text: String
     let minHeight: CGFloat
     let maxHeight: CGFloat
+    let focusToken: UUID
     let onCommit: () -> Void
 
     func makeNSView(context: Context) -> NSScrollView {
@@ -240,12 +254,19 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
         if tv.string != text {
             tv.string = text
         }
+        if context.coordinator.lastFocusToken != focusToken {
+            context.coordinator.lastFocusToken = focusToken
+            DispatchQueue.main.async {
+                tv.window?.makeFirstResponder(tv)
+            }
+        }
     }
 
     func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
 
     final class Coordinator: NSObject, NSTextViewDelegate {
         var text: Binding<String>
+        var lastFocusToken: UUID = UUID()
         init(text: Binding<String>) { self.text = text }
         func textDidChange(_ notification: Notification) {
             guard let tv = notification.object as? NSTextView else { return }
@@ -539,6 +560,7 @@ struct ContentView: View {
     // Coachmarks (iPhone + iPad): einmalig, in UserDefaults gemerkt.
     @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
     @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
+    @State private var editorFocusToken = UUID()
 
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
@@ -1299,6 +1321,7 @@ struct ContentView: View {
                     text: lineEditorTextBinding,
                     minHeight: editorMinHeight,
                     maxHeight: editorMaxHeight,
+                    focusToken: editorFocusToken,
                     onCommit: applyLineEditor
                 )
                 .font(editorFont)
@@ -1795,6 +1818,11 @@ struct ContentView: View {
         }
         tabs[i].lineEditorText = el.textLines.joined(separator: "\n")
         sheetTabs = tabs
+
+        if !isPhone, focusedField == nil {
+            focusedField = .textEditor
+            editorFocusToken = UUID()
+        }
     }
 
     private func normalizeQuotesForCode(_ s: String) -> String {
