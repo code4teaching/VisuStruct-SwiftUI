@@ -1056,8 +1056,9 @@ struct ContentView: View {
         Binding(
             get: { sheetTabs[currentTabIndex].lineEditorText },
             set: { newVal in
+                let normalized = normalizeQuotesForCode(newVal)
                 var tabs = sheetTabs
-                tabs[currentTabIndex].lineEditorText = newVal
+                tabs[currentTabIndex].lineEditorText = normalized
                 sheetTabs = tabs
             }
         )
