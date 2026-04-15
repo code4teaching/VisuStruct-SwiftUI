@@ -629,6 +629,22 @@ struct ContentView: View {
                         !VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
                     } ?? true
                 )
+
+                #if canImport(UIKit)
+                Button {
+                    openSystemSettings()
+                } label: {
+                    Label(lang.tr("action_settings"), systemImage: "gearshape")
+                }
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                )
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                #endif
                 Button {
                     showInfo = true
                 } label: {
@@ -1517,6 +1533,13 @@ struct ContentView: View {
         pngSharePayload = PNGSharePayload(image: img)
         #endif
     }
+
+    #if canImport(UIKit)
+    private func openSystemSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url)
+    }
+    #endif
 
     #if canImport(UIKit)
     private func shareDocumentAsFile() {

@@ -7,6 +7,7 @@
 "action_export_pdf" = "PDF-Vorschau …";
 "action_generate_code" = "Code erzeugen …";
 "action_delete_selection" = "Auswahl löschen";
+"action_settings" = "Einstellungen";
 "action_about" = "Über VisuStruct";
 
 /* Fehler-Overlay */

@@ -7,6 +7,7 @@
 "action_export_pdf" = "Pré-visualizar PDF…";
 "action_generate_code" = "Gerar código…";
 "action_delete_selection" = "Eliminar seleção";
+"action_settings" = "Definições";
 "action_about" = "Acerca do VisuStruct";
 
 /* Erro */
