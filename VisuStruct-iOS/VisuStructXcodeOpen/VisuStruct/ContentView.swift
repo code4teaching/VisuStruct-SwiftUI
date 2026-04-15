@@ -1817,6 +1817,7 @@ private struct CodeGeneratorPaywallSheet: View {
 private struct CodeGeneratorPlaceholderSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
+    @Environment(\.openURL) private var openURL
     let document: VisuStructDocument
 
     /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
@@ -1847,7 +1848,6 @@ private struct CodeGeneratorPlaceholderSheet: View {
         )
     }
 
-    #if canImport(UIKit)
     private func openJavaScriptInBrowser(_ js: String) {
         // Kleine Runner-Seite: zeigt console.log-Ausgaben sichtbar an.
         let html = """
@@ -1898,12 +1898,11 @@ private struct CodeGeneratorPlaceholderSheet: View {
         </html>
         """
 
-        // `data:` URL; für sehr große Snippets könnte das irgendwann zu lang werden.
-        let encoded = html.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        guard let url = URL(string: "data:text/html;charset=utf-8,\(encoded)") else { return }
-        UIApplication.shared.open(url)
+        // `data:` URL; Base64 ist robust gegen Sonderzeichen im Snippet.
+        let data = Data(html.utf8).base64EncodedString()
+        guard let url = URL(string: "data:text/html;base64,\(data)") else { return }
+        openURL(url)
     }
-    #endif
 
     var body: some View {
         NavigationStack {
