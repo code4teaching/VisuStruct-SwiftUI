@@ -264,6 +264,7 @@ struct ContentView: View {
     @State private var showImporter = false
     @State private var showExporter = false
     @State private var showInfo = false
+    @State private var showSettings = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
     /// Wenn `CodeGeneratorPurchaseGate.requiresPurchase`: nach erfolgreichem Kauf auf `true` (StoreKit / `UserDefaults`).
@@ -460,6 +461,9 @@ struct ContentView: View {
         .sheet(isPresented: $showInfo) {
             AboutVisuStructView()
         }
+        .sheet(isPresented: $showSettings) {
+            SettingsSheet()
+        }
         .sheet(isPresented: $showCodeGeneratorPaywall) {
             CodeGeneratorPaywallSheet()
         }
@@ -632,7 +636,7 @@ struct ContentView: View {
 
                 #if canImport(UIKit)
                 Button {
-                    openSystemSettings()
+                    showSettings = true
                 } label: {
                     Label(lang.tr("action_settings"), systemImage: "gearshape")
                 }
@@ -1535,13 +1539,6 @@ struct ContentView: View {
     }
 
     #if canImport(UIKit)
-    private func openSystemSettings() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        UIApplication.shared.open(url)
-    }
-    #endif
-
-    #if canImport(UIKit)
     private func shareDocumentAsFile() {
         let data = VisuStructXMLCodec.encode(document)
         let fileName = exportFilenameForCurrentTab()
@@ -1778,6 +1775,44 @@ private struct CodeGeneratorPlaceholderSheet: View {
                 #endif
                 ToolbarItem(placement: .confirmationAction) {
                     Button(lang.tr("codegen_gate_ok")) { dismiss() }
+                }
+            }
+        }
+        .presentationDragIndicator(.visible)
+    }
+}
+
+// MARK: - Einstellungen (In-App)
+
+private struct SettingsSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appLanguage) private var lang
+    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.javaLike.rawValue
+
+    private var selection: Binding<AppLanguage> {
+        Binding(
+            get: { AppLanguage(rawValue: languageCode) ?? .javaLike },
+            set: { languageCode = $0.rawValue }
+        )
+    }
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Picker(lang.tr("settings_language_title"), selection: selection) {
+                        Text(lang.tr("settings_language_de")).tag(AppLanguage.german)
+                        Text(lang.tr("settings_language_en")).tag(AppLanguage.english)
+                        Text(lang.tr("settings_language_ptpt")).tag(AppLanguage.portuguesePortugal)
+                        Text(lang.tr("settings_language_java")).tag(AppLanguage.javaLike)
+                    }
+                }
+            }
+            .navigationTitle(lang.tr("action_settings"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(lang.tr("about_done")) { dismiss() }
                 }
             }
         }

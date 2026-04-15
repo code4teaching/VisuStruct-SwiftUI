@@ -10,6 +10,13 @@
 "action_settings" = "Definições";
 "action_about" = "Acerca do VisuStruct";
 
+/* Definições (na app) */
+"settings_language_title" = "Idioma";
+"settings_language_de" = "Alemão";
+"settings_language_en" = "Inglês";
+"settings_language_ptpt" = "Português";
+"settings_language_java" = "Java (palavras-chave)";
+
 /* Erro */
 "error_title" = "Erro";
 "error_back_editor" = "Voltar ao editor";
