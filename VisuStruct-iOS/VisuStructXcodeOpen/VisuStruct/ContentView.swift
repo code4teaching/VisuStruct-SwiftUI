@@ -5,6 +5,9 @@ import VisuStructCore
 import QuickLook
 import UIKit
 #endif
+#if canImport(WebKit)
+import WebKit
+#endif
 
 // MARK: - Coachmarks (iPhone/iPad)
 
@@ -1819,7 +1822,6 @@ private struct CodeGeneratorPaywallSheet: View {
 private struct CodeGeneratorPlaceholderSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
-    @Environment(\.openURL) private var openURL
     let document: VisuStructDocument
 
     /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
@@ -1850,9 +1852,12 @@ private struct CodeGeneratorPlaceholderSheet: View {
         )
     }
 
-    private func openJavaScriptInBrowser(_ js: String) {
-        // Kleine Runner-Seite: zeigt console.log-Ausgaben sichtbar an.
-        let html = """
+    @State private var showJavaScriptRunner = false
+    @State private var javaScriptRunnerHTML = ""
+
+    private func openJavaScriptRunner(_ js: String) {
+        // In-App Runner (WKWebView): zuverlässiger als Safari/data: auf iOS.
+        javaScriptRunnerHTML = """
         <!doctype html>
         <html lang="en">
         <head>
@@ -1899,11 +1904,7 @@ private struct CodeGeneratorPlaceholderSheet: View {
         </body>
         </html>
         """
-
-        // `data:` URL; Base64 ist robust gegen Sonderzeichen im Snippet.
-        let data = Data(html.utf8).base64EncodedString()
-        guard let url = URL(string: "data:text/html;base64,\(data)") else { return }
-        openURL(url)
+        showJavaScriptRunner = true
     }
 
     var body: some View {
@@ -1958,7 +1959,7 @@ private struct CodeGeneratorPlaceholderSheet: View {
                 if target == .javascript {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
-                            openJavaScriptInBrowser(generatedCode)
+                            openJavaScriptRunner(generatedCode)
                         } label: {
                             Label(lang.tr("codegen_run_in_browser"), systemImage: "globe")
                         }
@@ -1971,8 +1972,60 @@ private struct CodeGeneratorPlaceholderSheet: View {
             }
         }
         .presentationDragIndicator(.visible)
+        .sheet(isPresented: $showJavaScriptRunner) {
+            JavaScriptRunnerSheet(html: javaScriptRunnerHTML)
+        }
     }
 }
+
+// MARK: - JavaScript Runner (In-App)
+
+private struct JavaScriptRunnerSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.appLanguage) private var lang
+    let html: String
+
+    var body: some View {
+        NavigationStack {
+            JavaScriptRunnerWebView(html: html)
+                .navigationTitle(lang.tr("codegen_run_in_browser"))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button(lang.tr("about_done")) { dismiss() }
+                    }
+                }
+        }
+        .presentationDragIndicator(.visible)
+    }
+}
+
+#if canImport(UIKit) && canImport(WebKit)
+private struct JavaScriptRunnerWebView: UIViewRepresentable {
+    let html: String
+
+    func makeUIView(context: Context) -> WKWebView {
+        let cfg = WKWebViewConfiguration()
+        cfg.defaultWebpagePreferences.allowsContentJavaScript = true
+        let v = WKWebView(frame: .zero, configuration: cfg)
+        v.isOpaque = false
+        v.backgroundColor = .clear
+        v.scrollView.backgroundColor = .clear
+        return v
+    }
+
+    func updateUIView(_ webView: WKWebView, context: Context) {
+        webView.loadHTMLString(html, baseURL: nil)
+    }
+}
+#else
+private struct JavaScriptRunnerWebView: View {
+    let html: String
+    var body: some View {
+        Text("WebView not available.")
+    }
+}
+#endif
 
 // MARK: - Einstellungen (In-App)
 
