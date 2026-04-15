@@ -2106,8 +2106,9 @@ private struct AboutVisuStructView: View {
     private let projectURL = URL(string: "https://github.com/code4teaching/VisuStruct")
     private let webDisplay = "www.sebastiao.org"
     private let webURL = URL(string: "https://www.sebastiao.org")
-    private let upstreamDisplay = "kekru/struktogrammeditor"
-    private let upstreamURL = URL(string: "https://github.com/kekru/struktogrammeditor")
+    // Java-Referenzrepo (aktuell gepflegt): code4teaching/VisuStruct
+    private let upstreamDisplay = "code4teaching/VisuStruct"
+    private let upstreamURL = URL(string: "https://github.com/code4teaching/VisuStruct")
 
     /// Erklärtext mit hervorgehobener Endung `.visustruct`.
     private var aboutDateiformatExplainer: Text {
