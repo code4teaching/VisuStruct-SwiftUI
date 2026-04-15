@@ -1647,10 +1647,25 @@ struct ContentView: View {
         sheetTabs = tabs
     }
 
+    private func normalizeQuotesForCode(_ s: String) -> String {
+        // iOS/macOS Eingaben ersetzen typografische Anführungszeichen teils automatisch.
+        // Für Code wollen wir immer gerade Quotes.
+        return s
+            .replacingOccurrences(of: "“", with: "\"")
+            .replacingOccurrences(of: "”", with: "\"")
+            .replacingOccurrences(of: "„", with: "\"")
+            .replacingOccurrences(of: "«", with: "\"")
+            .replacingOccurrences(of: "»", with: "\"")
+            .replacingOccurrences(of: "’", with: "'")
+            .replacingOccurrences(of: "‘", with: "'")
+            .replacingOccurrences(of: "‚", with: "'")
+            .replacingOccurrences(of: "´", with: "'")
+    }
+
     private func applyLineEditor() {
         guard let path = selectedPath else { return }
         let raw = sheetTabs[currentTabIndex].lineEditorText.components(separatedBy: "\n")
-        let lines = raw.isEmpty ? [""] : raw
+        let lines = (raw.isEmpty ? [""] : raw).map(normalizeQuotesForCode)
         do {
             commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
         } catch {
