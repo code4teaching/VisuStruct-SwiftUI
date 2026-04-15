@@ -777,31 +777,32 @@ struct ContentView: View {
 
     private var mainEditorNavigationStack: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                diagramTabStrip
-                Group {
-                    if let err = sheetTabs[currentTabIndex].errorText {
-                        VStack(spacing: 20) {
-                            ContentUnavailableView(
-                                lang.tr("error_title"),
-                                systemImage: "exclamationmark.triangle",
-                                description: Text(verbatim: err)
-                            )
-                            Button(lang.tr("error_back_editor")) {
-                                clearErrorOnCurrentTab()
+            ZStack(alignment: .topLeading) {
+                VStack(spacing: 0) {
+                    diagramTabStrip
+                    Group {
+                        if let err = sheetTabs[currentTabIndex].errorText {
+                            VStack(spacing: 20) {
+                                ContentUnavailableView(
+                                    lang.tr("error_title"),
+                                    systemImage: "exclamationmark.triangle",
+                                    description: Text(verbatim: err)
+                                )
+                                Button(lang.tr("error_back_editor")) {
+                                    clearErrorOnCurrentTab()
+                                }
+                                .buttonStyle(.borderedProminent)
                             }
-                            .buttonStyle(.borderedProminent)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        } else {
+                            editorDetail
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    } else {
-                        editorDetail
                     }
                 }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(.regularMaterial, for: .navigationBar)
-            .toolbar {
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarBackground(.regularMaterial, for: .navigationBar)
+                .toolbar {
                 ToolbarItem(placement: .principal) {
                     let tab = sheetTabs[currentTabIndex]
                     let displayTitle = diagramTabDisplayTitle(tab)
@@ -878,23 +879,24 @@ struct ContentView: View {
                     .modifier(ToolbarCoachmarkSource(step: .fileMenu))
                 }
             }
+                #if canImport(UIKit)
+                .overlayPreferenceValue(ToolbarCoachmarkAnchorKey.self) { anchors in
+                    let idiom = UIDevice.current.userInterfaceIdiom
+                    let show = (idiom == .phone || idiom == .pad) && !toolbarCoachmarksCompleted
+                    if show {
+                        let available: [ToolbarCoachmarkStep] = ToolbarCoachmarkStep.allCases.filter { anchors[$0] != nil }
+                        ToolbarCoachmarkOverlay(
+                            anchors: anchors,
+                            orderedSteps: available,
+                            stepIndex: $toolbarCoachmarkStepIndex,
+                            completed: $toolbarCoachmarksCompleted
+                        )
+                        .ignoresSafeArea()
+                    }
+                }
+                #endif
         }
         .background(Color(.systemGroupedBackground))
-        .overlayPreferenceValue(ToolbarCoachmarkAnchorKey.self) { anchors in
-            #if canImport(UIKit)
-            let idiom = UIDevice.current.userInterfaceIdiom
-            let show = (idiom == .phone || idiom == .pad) && !toolbarCoachmarksCompleted
-            if show {
-                let available: [ToolbarCoachmarkStep] = ToolbarCoachmarkStep.allCases.filter { anchors[$0] != nil }
-                ToolbarCoachmarkOverlay(
-                    anchors: anchors,
-                    orderedSteps: available,
-                    stepIndex: $toolbarCoachmarkStepIndex,
-                    completed: $toolbarCoachmarksCompleted
-                )
-            }
-            #endif
-        }
     }
 
     private var diagramTabStrip: some View {
