@@ -631,7 +631,7 @@ struct ContentView: View {
     @ViewBuilder
     private var paletteListStackBody: some View {
         let isCompact = horizontalSizeClass != .regular
-        return List {
+        List {
             Section {
                 ForEach(ElementPalette.PaletteItem.paletteOrder) { item in
                     Button {
