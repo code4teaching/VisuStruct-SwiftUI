@@ -40,13 +40,13 @@ enum AppLanguage: String, CaseIterable, Identifiable {
 
     /// Für `ContentView.init`, bevor `Environment` steht.
     static func currentFromDefaults() -> AppLanguage {
-        let code = UserDefaults.standard.string(forKey: storageKey) ?? AppLanguage.javaLike.rawValue
-        return AppLanguage(rawValue: code) ?? .javaLike
+        let code = UserDefaults.standard.string(forKey: storageKey) ?? AppLanguage.english.rawValue
+        return AppLanguage(rawValue: code) ?? .english
     }
 }
 
 private struct AppLanguageKey: EnvironmentKey {
-    static let defaultValue = AppLanguage.javaLike
+    static let defaultValue = AppLanguage.english
 }
 
 extension EnvironmentValues {

@@ -15,15 +15,15 @@ struct VisuStructApp: App {
 
 /// Synchronisiert `appLanguage` mit `UserDefaults`, wenn die App nach einem Besuch in den Systemeinstellungen wieder aktiv wird.
 private struct AppRootView: View {
-    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.javaLike.rawValue
+    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ContentView()
-            .environment(\.appLanguage, AppLanguage(rawValue: languageCode) ?? .javaLike)
+            .environment(\.appLanguage, AppLanguage(rawValue: languageCode) ?? .english)
             .onChange(of: scenePhase) { _, phase in
                 guard phase == .active else { return }
-                let fromDefaults = UserDefaults.standard.string(forKey: AppLanguage.storageKey) ?? AppLanguage.javaLike.rawValue
+                let fromDefaults = UserDefaults.standard.string(forKey: AppLanguage.storageKey) ?? AppLanguage.english.rawValue
                 if fromDefaults != languageCode {
                     languageCode = fromDefaults
                 }

@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>appLanguageCode</string>
 			<key>DefaultValue</key>
-			<string>java</string>
+			<string>en</string>
 			<key>Values</key>
 			<array>
 				<string>de</string>
