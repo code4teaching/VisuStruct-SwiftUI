@@ -8,6 +8,9 @@ import UIKit
 #if canImport(WebKit)
 import WebKit
 #endif
+#if canImport(AppKit)
+import AppKit
+#endif
 
 // MARK: - Coachmarks (iPhone/iPad)
 
@@ -109,6 +112,148 @@ private struct ToolbarCoachmarkOverlay: View {
         .animation(.easeInOut(duration: 0.18), value: stepIndex)
     }
 }
+
+// MARK: - Code editor (Return to apply, Shift+Return newline)
+
+private struct CodeLineEditor: View {
+    @Binding var text: String
+    let minHeight: CGFloat
+    let maxHeight: CGFloat
+    let onCommit: () -> Void
+
+    var body: some View {
+        #if canImport(UIKit)
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            TextEditor(text: $text)
+                .frame(minHeight: minHeight, maxHeight: maxHeight)
+        } else {
+            CodeLineEditorUIKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, onCommit: onCommit)
+        }
+        #elseif canImport(AppKit)
+        CodeLineEditorAppKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, onCommit: onCommit)
+        #else
+        TextEditor(text: $text)
+            .frame(minHeight: minHeight, maxHeight: maxHeight)
+        #endif
+    }
+}
+
+#if canImport(UIKit)
+private final class CommitKeyTextView: UITextView {
+    var onCommit: (() -> Void)?
+
+    override var keyCommands: [UIKeyCommand]? {
+        [
+            UIKeyCommand(input: "\r", modifierFlags: [], action: #selector(commit)),
+            UIKeyCommand(input: "\r", modifierFlags: [.shift], action: #selector(insertNewline)),
+        ]
+    }
+
+    @objc private func commit() {
+        onCommit?()
+    }
+
+    @objc private func insertNewline() {
+        insertText("\n")
+    }
+}
+
+private struct CodeLineEditorUIKit: UIViewRepresentable {
+    @Binding var text: String
+    let minHeight: CGFloat
+    let maxHeight: CGFloat
+    let onCommit: () -> Void
+
+    func makeUIView(context: Context) -> CommitKeyTextView {
+        let tv = CommitKeyTextView()
+        tv.backgroundColor = .clear
+        tv.isScrollEnabled = true
+        tv.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
+        tv.onCommit = onCommit
+        tv.delegate = context.coordinator
+        return tv
+    }
+
+    func updateUIView(_ uiView: CommitKeyTextView, context: Context) {
+        if uiView.text != text {
+            uiView.text = text
+        }
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
+
+    final class Coordinator: NSObject, UITextViewDelegate {
+        var text: Binding<String>
+        init(text: Binding<String>) { self.text = text }
+        func textViewDidChange(_ textView: UITextView) {
+            text.wrappedValue = textView.text ?? ""
+        }
+    }
+}
+#endif
+
+#if canImport(AppKit)
+private final class CommitKeyTextViewMac: NSTextView {
+    var onCommit: (() -> Void)?
+
+    override func keyDown(with event: NSEvent) {
+        // Return = apply; Shift+Return = newline
+        if event.keyCode == 36 {
+            if event.modifierFlags.contains(.shift) {
+                super.keyDown(with: event)
+            } else {
+                onCommit?()
+            }
+            return
+        }
+        super.keyDown(with: event)
+    }
+}
+
+private struct CodeLineEditorAppKit: NSViewRepresentable {
+    @Binding var text: String
+    let minHeight: CGFloat
+    let maxHeight: CGFloat
+    let onCommit: () -> Void
+
+    func makeNSView(context: Context) -> NSScrollView {
+        let scroll = NSScrollView()
+        scroll.hasVerticalScroller = true
+        scroll.drawsBackground = false
+
+        let tv = CommitKeyTextViewMac()
+        tv.isRichText = false
+        tv.importsGraphics = false
+        tv.allowsUndo = true
+        tv.isEditable = true
+        tv.isSelectable = true
+        tv.drawsBackground = false
+        tv.textContainerInset = NSSize(width: 6, height: 6)
+        tv.onCommit = onCommit
+        tv.delegate = context.coordinator
+        scroll.documentView = tv
+        return scroll
+    }
+
+    func updateNSView(_ nsView: NSScrollView, context: Context) {
+        guard let tv = nsView.documentView as? NSTextView else { return }
+        if tv.string != text {
+            tv.string = text
+        }
+    }
+
+    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
+
+    final class Coordinator: NSObject, NSTextViewDelegate {
+        var text: Binding<String>
+        init(text: Binding<String>) { self.text = text }
+        func textDidChange(_ notification: Notification) {
+            guard let tv = notification.object as? NSTextView else { return }
+            text.wrappedValue = tv.string
+        }
+    }
+}
+#endif
 
 // MARK: - FileDocument (einheitlich .visustruct / XML wie Java)
 
@@ -1150,14 +1295,18 @@ struct ContentView: View {
                         .autocorrectionDisabled(true)
                         .focused($focusedField, equals: .caseLabel)
                 }
-                TextEditor(text: lineEditorTextBinding)
-                    .font(editorFont)
-                    .frame(minHeight: editorMinHeight, maxHeight: editorMaxHeight)
-                    .scrollContentBackground(.hidden)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-                    .focused($focusedField, equals: .textEditor)
+                CodeLineEditor(
+                    text: lineEditorTextBinding,
+                    minHeight: editorMinHeight,
+                    maxHeight: editorMaxHeight,
+                    onCommit: applyLineEditor
+                )
+                .font(editorFont)
+                .scrollContentBackground(.hidden)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+                .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
+                .focused($focusedField, equals: .textEditor)
                 Button(lang.tr("inspector_apply_text")) {
                     applyLineEditor()
                 }
