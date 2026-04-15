@@ -1847,6 +1847,64 @@ private struct CodeGeneratorPlaceholderSheet: View {
         )
     }
 
+    #if canImport(UIKit)
+    private func openJavaScriptInBrowser(_ js: String) {
+        // Kleine Runner-Seite: zeigt console.log-Ausgaben sichtbar an.
+        let html = """
+        <!doctype html>
+        <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <title>VisuStruct – JavaScript Test</title>
+          <style>
+            body { margin: 0; font-family: -apple-system, system-ui, sans-serif; background: #0b1220; color: #e5e7eb; }
+            header { padding: 14px 16px; background: #111827; border-bottom: 1px solid rgba(255,255,255,.08); }
+            h1 { margin: 0; font-size: 14px; font-weight: 700; letter-spacing: .01em; }
+            main { padding: 14px 16px; display: grid; gap: 12px; }
+            pre { margin: 0; padding: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 12px; overflow: auto; }
+            button { padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,.12); background: rgba(59,130,246,.22); color: #fff; font-weight: 700; }
+            .hint { font-size: 12px; color: rgba(229,231,235,.75); line-height: 1.45; }
+          </style>
+        </head>
+        <body>
+          <header><h1>VisuStruct – JavaScript Test</h1></header>
+          <main>
+            <div class="hint">Der Code läuft im Browser. <code>console.log</code> wird unten angezeigt.</div>
+            <button id="run">Run</button>
+            <pre id="out"></pre>
+            <script>
+              const out = document.getElementById('out');
+              const print = (s) => { out.textContent += s + "\\n"; };
+              const old = console.log;
+              console.log = (...args) => { old(...args); print(args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ')); };
+            </script>
+            <script id="usercode">
+        \(js)
+            </script>
+            <script>
+              document.getElementById('run').addEventListener('click', () => {
+                out.textContent = '';
+                try {
+                  // Re-run by evaluating the code block again
+                  (0, eval)(document.getElementById('usercode').textContent);
+                } catch (e) {
+                  print(String(e));
+                }
+              });
+            </script>
+          </main>
+        </body>
+        </html>
+        """
+
+        // `data:` URL; für sehr große Snippets könnte das irgendwann zu lang werden.
+        let encoded = html.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        guard let url = URL(string: "data:text/html;charset=utf-8,\(encoded)") else { return }
+        UIApplication.shared.open(url)
+    }
+    #endif
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -1894,6 +1952,15 @@ private struct CodeGeneratorPlaceholderSheet: View {
                         UIPasteboard.general.string = generatedCode
                     } label: {
                         Label(lang.tr("codegen_copy"), systemImage: "doc.on.doc")
+                    }
+                }
+                if target == .javascript {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            openJavaScriptInBrowser(generatedCode)
+                        } label: {
+                            Label(lang.tr("codegen_run_in_browser"), systemImage: "globe")
+                        }
                     }
                 }
                 #endif

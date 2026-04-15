@@ -60,6 +60,7 @@
 "codegen_option_comments" = "Texto do diagrama como comentários";
 "codegen_generated_hint" = "Pré-visualização a partir do diagrama atual (Java 17, Python 3.10+, JavaScript moderno).";
 "codegen_copy" = "Copiar";
+"codegen_run_in_browser" = "Testar no navegador";
 "a11y_new_diagram_tab" = "Novo separador de diagrama";
 "a11y_close_tab" = "Fechar separador";
 "a11y_placeholder_drop" = "Largue aqui um elemento para substituir o marcador. Mantenha premido para arrastar e mover.";

@@ -60,6 +60,7 @@
 "codegen_option_comments" = "Diagramm-Text als Kommentare";
 "codegen_generated_hint" = "Vorschau aus dem aktuellen Struktogramm (Java 17, Python 3.10+, modernes JavaScript).";
 "codegen_copy" = "Kopieren";
+"codegen_run_in_browser" = "Im Browser testen";
 "a11y_new_diagram_tab" = "Weiteres Struktogramm";
 "a11y_close_tab" = "Reiter schließen";
 "a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
