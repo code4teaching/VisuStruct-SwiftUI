@@ -1912,6 +1912,8 @@ private struct SettingsSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
     @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.javaLike.rawValue
+    @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
+    @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
 
     private var selection: Binding<AppLanguage> {
         Binding(
@@ -1929,6 +1931,15 @@ private struct SettingsSheet: View {
                         Text(lang.tr("settings_language_en")).tag(AppLanguage.english)
                         Text(lang.tr("settings_language_ptpt")).tag(AppLanguage.portuguesePortugal)
                         Text(lang.tr("settings_language_java")).tag(AppLanguage.javaLike)
+                    }
+                }
+
+                Section {
+                    Button {
+                        toolbarCoachmarksCompleted = false
+                        toolbarCoachmarkStepIndex = 0
+                    } label: {
+                        Label(lang.tr("settings_replay_tour"), systemImage: "sparkles")
                     }
                 }
             }

@@ -24,6 +24,8 @@
 "coach_toolbar_file" = "Menu Ficheiro: abrir, guardar como, imprimir.";
 "coach_tap_to_continue" = "Toque para continuar.";
 
+"settings_replay_tour" = "Mostrar introdução novamente";
+
 /* Erro */
 "error_title" = "Erro";
 "error_back_editor" = "Voltar ao editor";

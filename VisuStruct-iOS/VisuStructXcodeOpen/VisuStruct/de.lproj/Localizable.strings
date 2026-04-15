@@ -24,6 +24,8 @@
 "coach_toolbar_file" = "Datei-Menü: Öffnen, Speichern unter, Drucken.";
 "coach_tap_to_continue" = "Tippe zum Weiter.";
 
+"settings_replay_tour" = "Einführung erneut anzeigen";
+
 /* Fehler-Overlay */
 "error_title" = "Fehler";
 "error_back_editor" = "Zurück zum Editor";

@@ -26,6 +26,8 @@
 "coach_toolbar_file" = "File menu: open, save as, print.";
 "coach_tap_to_continue" = "Tap to continue.";
 
+"settings_replay_tour" = "Show introduction again";
+
 /* Error overlay */
 "error_title" = "Error";
 "error_back_editor" = "Back to Editor";
