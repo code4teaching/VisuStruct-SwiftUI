@@ -900,7 +900,7 @@ struct DiagramCanvasView: View {
             baseExtra = 20
         case .forSchleife, .whileSchleife, .endlosschleife:
             baseExtra = layoutMetrics.baseHeaderExtra + 4
-        default:
+        @unknown default:
             baseExtra = layoutMetrics.baseHeaderExtra
         }
         return baseExtra + Double(lines) * layoutMetrics.lineHeight + Double(e.zoomY)
