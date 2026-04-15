@@ -1689,14 +1689,11 @@ struct ContentView: View {
         let fileName = pdfFilenameForCurrentTab()
         let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString)-\(fileName)")
         let bounds = CGRect(origin: .zero, size: img.size)
-        let format: UIGraphicsPDFRendererFormat = {
-            var f = UIGraphicsPDFRendererFormat()
-            f.documentInfo = [
-                kCGPDFContextCreator as String: "VisuStruct",
-                kCGPDFContextTitle as String: Self.stripVisuStructExtension(from: sheetTabs[currentTabIndex].title)
-            ]
-            return f
-        }()
+        let format = UIGraphicsPDFRendererFormat()
+        format.documentInfo = [
+            kCGPDFContextCreator as String: "VisuStruct",
+            kCGPDFContextTitle as String: Self.stripVisuStructExtension(from: sheetTabs[currentTabIndex].title)
+        ]
         let renderer = UIGraphicsPDFRenderer(bounds: bounds, format: format)
         do {
             try renderer.writePDF(to: tmp) { ctx in
