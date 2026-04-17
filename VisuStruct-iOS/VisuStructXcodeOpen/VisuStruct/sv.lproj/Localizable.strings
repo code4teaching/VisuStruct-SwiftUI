@@ -1,0 +1,74 @@
+/* NOTE: Initial Swedish localization. */
+"palette_header" = "Element";
+
+/* Actions */
+"action_share_png" = "Dela bild…";
+"action_share_document" = "Dela fil…";
+"action_export_pdf" = "Förhandsvisa PDF…";
+"action_generate_code" = "Generera kod…";
+"action_delete_selection" = "Radera markering";
+"ctx_copy" = "Kopiera";
+"ctx_cut" = "Klipp ut";
+"ctx_paste" = "Klistra in";
+"action_settings" = "Inställningar";
+"action_about" = "Om VisuStruct";
+
+/* In-app settings */
+"settings_language_title" = "Språk";
+"settings_replay_tour" = "Visa introduktion igen";
+
+/* Toolbar */
+"toolbar_undo" = "Ångra";
+"toolbar_redo" = "Gör om";
+"toolbar_new" = "Ny";
+"menu_open" = "Öppna…";
+"menu_save" = "Spara";
+"menu_save_as" = "Spara som…";
+"menu_print" = "Skriv ut…";
+"menu_file" = "Arkiv";
+
+/* Inspector */
+"inspector_no_selection" = "Ingen markering — tryck på en ruta.";
+"inspector_apply_text" = "Tillämpa text";
+"inspector_io_mode_title" = "Kind";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_add_case" = "Lägg till case";
+"inspector_remove_case" = "Ta bort case";
+"inspector_group_element" = "Elementtext";
+"inspector_placeholder_statement" = "Skriv statement…";
+"inspector_placeholder_condition" = "Skriv condition…";
+"inspector_placeholder_selector" = "Skriv selector…";
+"inspector_placeholder_call" = "Skriv call…";
+"inspector_placeholder_break" = "Skriv break…";
+
+/* Element types */
+"element_anweisung" = "Sats";
+"element_verzweigung" = "Villkor (if/else)";
+"element_fallauswahl" = "Val (switch)";
+"element_forSchleife" = "For-loop";
+"element_whileSchleife" = "While-loop";
+"element_doUntilSchleife" = "Do-while-loop";
+"element_endlosschleife" = "Oändlig loop";
+"element_aussprung" = "Break";
+"element_aufruf" = "Anrop";
+"element_leerElement" = "Tomt element";
+
+/* Diagram */
+"diagram_title_label" = "Titel";
+"diagram_title_placeholder" = "Ingen titel";
+"canvas_empty_title" = "Tomt struktogram";
+"canvas_empty_hint" = "Dra ett element från “Element” hit.";
+
+/* Diagram stubs */
+"canvas_stub_anweisung" = "statement";
+"canvas_stub_condition" = "condition";
+"canvas_stub_fallauswahl" = "switch";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "endless";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "method()";

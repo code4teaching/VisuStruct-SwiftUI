@@ -7,6 +7,9 @@
 "action_export_pdf" = "Pré-visualizar PDF…";
 "action_generate_code" = "Gerar código…";
 "action_delete_selection" = "Eliminar seleção";
+"ctx_copy" = "Copiar";
+"ctx_cut" = "Cortar";
+"ctx_paste" = "Colar";
 "action_settings" = "Definições";
 "action_about" = "Acerca do VisuStruct";
 
@@ -14,6 +17,20 @@
 "settings_language_title" = "Idioma";
 "settings_language_de" = "Alemão";
 "settings_language_en" = "Inglês";
+"settings_language_es" = "Espanhol";
+"settings_language_fr" = "Francês";
+"settings_language_it" = "Italiano";
+"settings_language_pl" = "Polaco";
+"settings_language_tr" = "Turco";
+"settings_language_ko" = "Coreano";
+"settings_language_ja" = "Japonês";
+"settings_language_el" = "Grego";
+"settings_language_uk" = "Ucraniano";
+"settings_language_ar" = "Árabe";
+"settings_language_ru" = "Russo";
+"settings_language_he" = "Hebraico";
+"settings_language_zh_hans" = "Chinês (simplificado)";
+"settings_language_zh_hant" = "Chinês (tradicional)";
 "settings_language_ptpt" = "Português";
 "settings_language_java" = "Java (palavras-chave)";
 
@@ -73,9 +90,19 @@
 /* Inspetor */
 "inspector_no_selection" = "Nenhum elemento selecionado — toque num bloco.";
 "inspector_apply_text" = "Aplicar texto";
+"inspector_io_mode_title" = "Kind";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
 "inspector_add_case" = "Adicionar caso";
 "inspector_remove_case" = "Remover caso";
 "inspector_group_element" = "Texto do elemento";
+"inspector_placeholder_statement" = "Inserir instrução…";
+"inspector_placeholder_condition" = "Inserir condição…";
+"inspector_placeholder_selector" = "Inserir seletor…";
+"inspector_placeholder_call" = "Inserir chamada…";
+"inspector_placeholder_break" = "Inserir break…";
 
 /* Tipos de elemento */
 "element_anweisung" = "Instrução";

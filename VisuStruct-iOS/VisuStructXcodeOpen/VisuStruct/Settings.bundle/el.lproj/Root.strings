@@ -1,0 +1,18 @@
+/* VisuStruct — Ρυθμίσεις (Σύστημα) */
+"GROUP_LANGUAGE_TITLE" = "Γλώσσα";
+"PREF_APP_LANGUAGE_TITLE" = "Γλώσσα εφαρμογής";
+"LANGUAGE_NAME_DE" = "Γερμανικά";
+"LANGUAGE_NAME_EN" = "Αγγλικά";
+"LANGUAGE_NAME_ES" = "Ισπανικά";
+"LANGUAGE_NAME_FR" = "Γαλλικά";
+"LANGUAGE_NAME_IT" = "Ιταλικά";
+"LANGUAGE_NAME_PL" = "Πολωνικά";
+"LANGUAGE_NAME_TR" = "Τουρκικά";
+"LANGUAGE_NAME_KO" = "Κορεατικά";
+"LANGUAGE_NAME_JA" = "Ιαπωνικά";
+"LANGUAGE_NAME_EL" = "Ελληνικά";
+"LANGUAGE_NAME_UK" = "Ουκρανικά";
+"LANGUAGE_NAME_ZH_HANS" = "Κινέζικα (Απλοποιημένα)";
+"LANGUAGE_NAME_ZH_HANT" = "Κινέζικα (Παραδοσιακά)";
+"LANGUAGE_NAME_PT_PT" = "Πορτογαλικά";
+"LANGUAGE_NAME_JAVA" = "Java (λέξεις-κλειδιά)";

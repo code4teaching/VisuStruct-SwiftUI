@@ -1,0 +1,21 @@
+/* VisuStruct — Ustawienia (system) */
+"GROUP_LANGUAGE_TITLE" = "Język";
+"PREF_APP_LANGUAGE_TITLE" = "Język aplikacji";
+"LANGUAGE_NAME_DE" = "Niemiecki";
+"LANGUAGE_NAME_EN" = "Angielski";
+"LANGUAGE_NAME_ES" = "Hiszpański";
+"LANGUAGE_NAME_FR" = "Francuski";
+"LANGUAGE_NAME_IT" = "Włoski";
+"LANGUAGE_NAME_PL" = "Polski";
+"LANGUAGE_NAME_TR" = "Turecki";
+"LANGUAGE_NAME_KO" = "Koreański";
+"LANGUAGE_NAME_JA" = "Japoński";
+"LANGUAGE_NAME_EL" = "Grecki";
+"LANGUAGE_NAME_UK" = "Ukraiński";
+"LANGUAGE_NAME_AR" = "Arabski";
+"LANGUAGE_NAME_RU" = "Rosyjski";
+"LANGUAGE_NAME_HE" = "Hebrajski";
+"LANGUAGE_NAME_ZH_HANS" = "Chiński (uproszczony)";
+"LANGUAGE_NAME_ZH_HANT" = "Chiński (tradycyjny)";
+"LANGUAGE_NAME_PT_PT" = "Portugalski";
+"LANGUAGE_NAME_JAVA" = "Java (słowa kluczowe)";

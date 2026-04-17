@@ -352,7 +352,7 @@ public struct VisuStructLayoutEngine: Sendable {
             let colW: Double
             if e.type == .verzweigung && colCount == 2 {
                 let branchLabel = i == 0 ? "true" : "false"
-                let minForLabel = Double(branchLabel.count) * metrics.charWidth + 16
+                let minForLabel = Double(branchLabel.count) * metrics.charWidth + metrics.minSidePadding
                 colW = max(contentW, minForLabel)
             } else {
                 colW = max(colWidthGuess, contentW)

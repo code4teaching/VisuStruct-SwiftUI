@@ -7,6 +7,9 @@
 "action_export_pdf" = "Preview PDF…";
 "action_generate_code" = "Generate Code…";
 "action_delete_selection" = "Delete Selection";
+"ctx_copy" = "Copy";
+"ctx_cut" = "Cut";
+"ctx_paste" = "Paste";
 "action_settings" = "Settings";
 "action_about" = "About VisuStruct";
 
@@ -14,6 +17,20 @@
 "settings_language_title" = "Language";
 "settings_language_de" = "German";
 "settings_language_en" = "English";
+"settings_language_es" = "Spanish";
+"settings_language_fr" = "French";
+"settings_language_it" = "Italian";
+"settings_language_pl" = "Polish";
+"settings_language_tr" = "Turkish";
+"settings_language_ko" = "Korean";
+"settings_language_ja" = "Japanese";
+"settings_language_el" = "Greek";
+"settings_language_uk" = "Ukrainian";
+"settings_language_ar" = "Arabic";
+"settings_language_ru" = "Russian";
+"settings_language_he" = "Hebrew";
+"settings_language_zh_hans" = "Chinese (Simplified)";
+"settings_language_zh_hant" = "Chinese (Traditional)";
 "settings_language_ptpt" = "Portuguese";
 "settings_language_java" = "Java (keywords)";
 
@@ -73,9 +90,19 @@
 /* Inspector */
 "inspector_no_selection" = "No element selected — tap a tile.";
 "inspector_apply_text" = "Apply Text";
+"inspector_io_mode_title" = "Kind";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
 "inspector_add_case" = "Add Case";
 "inspector_remove_case" = "Remove Case";
 "inspector_group_element" = "Element text";
+"inspector_placeholder_statement" = "Insert statement…";
+"inspector_placeholder_condition" = "Insert condition…";
+"inspector_placeholder_selector" = "Insert selector…";
+"inspector_placeholder_call" = "Insert call…";
+"inspector_placeholder_break" = "Insert break…";
 
 /* Element types */
 "element_anweisung" = "Statement";

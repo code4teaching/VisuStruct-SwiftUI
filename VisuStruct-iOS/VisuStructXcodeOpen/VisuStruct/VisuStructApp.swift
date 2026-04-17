@@ -1,5 +1,32 @@
 import SwiftUI
 
+struct DiagramEditActions {
+    var canUndo: Bool
+    var canRedo: Bool
+    var canCopy: Bool
+    var canCut: Bool
+    var canPaste: Bool
+    var canDelete: Bool
+
+    var undo: () -> Void
+    var redo: () -> Void
+    var copy: () -> Void
+    var cut: () -> Void
+    var paste: () -> Void
+    var delete: () -> Void
+}
+
+private struct DiagramEditActionsKey: FocusedValueKey {
+    typealias Value = DiagramEditActions
+}
+
+extension FocusedValues {
+    var diagramEditActions: DiagramEditActions? {
+        get { self[DiagramEditActionsKey.self] }
+        set { self[DiagramEditActionsKey.self] = newValue }
+    }
+}
+
 @main
 struct VisuStructApp: App {
     // Hinweis: Kein `UITextField.appearance().smartQuotesType` / `UITextView.appearance()` hier —
@@ -10,6 +37,34 @@ struct VisuStructApp: App {
         WindowGroup {
             AppRootView()
         }
+        #if os(macOS)
+        .commands {
+            CommandGroup(replacing: .undoRedo) {
+                Button("Undo") { focused(\.diagramEditActions)?.undo() }
+                    .keyboardShortcut("z", modifiers: .command)
+                    .disabled(!(focused(\.diagramEditActions)?.canUndo ?? false))
+                Button("Redo") { focused(\.diagramEditActions)?.redo() }
+                    .keyboardShortcut("z", modifiers: [.command, .shift])
+                    .disabled(!(focused(\.diagramEditActions)?.canRedo ?? false))
+            }
+            CommandGroup(replacing: .pasteboard) {
+                Button("Copy") { focused(\.diagramEditActions)?.copy() }
+                    .keyboardShortcut("c", modifiers: .command)
+                    .disabled(!(focused(\.diagramEditActions)?.canCopy ?? false))
+                Button("Cut") { focused(\.diagramEditActions)?.cut() }
+                    .keyboardShortcut("x", modifiers: .command)
+                    .disabled(!(focused(\.diagramEditActions)?.canCut ?? false))
+                Button("Paste") { focused(\.diagramEditActions)?.paste() }
+                    .keyboardShortcut("v", modifiers: .command)
+                    .disabled(!(focused(\.diagramEditActions)?.canPaste ?? false))
+            }
+            CommandGroup(replacing: .delete) {
+                Button("Delete") { focused(\.diagramEditActions)?.delete() }
+                    .keyboardShortcut(.delete, modifiers: [])
+                    .disabled(!(focused(\.diagramEditActions)?.canDelete ?? false))
+            }
+        }
+        #endif
     }
 }
 

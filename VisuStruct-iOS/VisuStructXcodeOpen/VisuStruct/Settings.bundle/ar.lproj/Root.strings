@@ -1,0 +1,21 @@
+/* VisuStruct — الإعدادات (النظام) */
+"GROUP_LANGUAGE_TITLE" = "اللغة";
+"PREF_APP_LANGUAGE_TITLE" = "لغة التطبيق";
+"LANGUAGE_NAME_DE" = "الألمانية";
+"LANGUAGE_NAME_EN" = "الإنجليزية";
+"LANGUAGE_NAME_ES" = "الإسبانية";
+"LANGUAGE_NAME_FR" = "الفرنسية";
+"LANGUAGE_NAME_IT" = "الإيطالية";
+"LANGUAGE_NAME_PL" = "البولندية";
+"LANGUAGE_NAME_TR" = "التركية";
+"LANGUAGE_NAME_KO" = "الكورية";
+"LANGUAGE_NAME_JA" = "اليابانية";
+"LANGUAGE_NAME_EL" = "اليونانية";
+"LANGUAGE_NAME_UK" = "الأوكرانية";
+"LANGUAGE_NAME_AR" = "العربية";
+"LANGUAGE_NAME_RU" = "الروسية";
+"LANGUAGE_NAME_HE" = "العبرية";
+"LANGUAGE_NAME_ZH_HANS" = "الصينية (مبسطة)";
+"LANGUAGE_NAME_ZH_HANT" = "الصينية (تقليدية)";
+"LANGUAGE_NAME_PT_PT" = "البرتغالية";
+"LANGUAGE_NAME_JAVA" = "Java (كلمات مفتاحية)";

@@ -1,0 +1,74 @@
+/* NOTE: Initial Norwegian Bokmål localization. */
+"palette_header" = "Elementer";
+
+/* Actions */
+"action_share_png" = "Del bilde…";
+"action_share_document" = "Del fil…";
+"action_export_pdf" = "Forhåndsvis PDF…";
+"action_generate_code" = "Generer kode…";
+"action_delete_selection" = "Slett markering";
+"ctx_copy" = "Kopier";
+"ctx_cut" = "Klipp ut";
+"ctx_paste" = "Lim inn";
+"action_settings" = "Innstillinger";
+"action_about" = "Om VisuStruct";
+
+/* In-app settings */
+"settings_language_title" = "Språk";
+"settings_replay_tour" = "Vis introduksjon igjen";
+
+/* Toolbar */
+"toolbar_undo" = "Angre";
+"toolbar_redo" = "Gjør om";
+"toolbar_new" = "Ny";
+"menu_open" = "Åpne…";
+"menu_save" = "Lagre";
+"menu_save_as" = "Lagre som…";
+"menu_print" = "Skriv ut…";
+"menu_file" = "Arkiv";
+
+/* Inspector */
+"inspector_no_selection" = "Ingen valgt — trykk på en rute.";
+"inspector_apply_text" = "Bruk tekst";
+"inspector_io_mode_title" = "Kind";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_add_case" = "Legg til case";
+"inspector_remove_case" = "Fjern case";
+"inspector_group_element" = "Elementtekst";
+"inspector_placeholder_statement" = "Skriv statement…";
+"inspector_placeholder_condition" = "Skriv condition…";
+"inspector_placeholder_selector" = "Skriv selector…";
+"inspector_placeholder_call" = "Skriv call…";
+"inspector_placeholder_break" = "Skriv break…";
+
+/* Element types */
+"element_anweisung" = "Setning";
+"element_verzweigung" = "Betingelse (if/else)";
+"element_fallauswahl" = "Valg (switch)";
+"element_forSchleife" = "For-løkke";
+"element_whileSchleife" = "While-løkke";
+"element_doUntilSchleife" = "Do-while-løkke";
+"element_endlosschleife" = "Uendelig løkke";
+"element_aussprung" = "Break";
+"element_aufruf" = "Kall";
+"element_leerElement" = "Tomt element";
+
+/* Diagram */
+"diagram_title_label" = "Tittel";
+"diagram_title_placeholder" = "Ingen tittel";
+"canvas_empty_title" = "Tomt struktogram";
+"canvas_empty_hint" = "Dra et element fra “Elementer” hit.";
+
+/* Diagram stubs */
+"canvas_stub_anweisung" = "statement";
+"canvas_stub_condition" = "condition";
+"canvas_stub_fallauswahl" = "switch";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "endless";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "method()";

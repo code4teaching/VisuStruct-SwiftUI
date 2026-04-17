@@ -19,6 +19,24 @@ public enum VisuStructEditError: Error, LocalizedError, Sendable, Equatable {
 /// Mutationen am Dokument — Swift-nativ; Pfade wie im Layout (`idPath`).
 public enum VisuStructDocumentEditing: Sendable {
 
+    private static func placeholderElementForMoveSource() -> VisuStructElement {
+        // Beim Verschieben darf das Dokument nie komplett leer werden (Canvas braucht mind. 1 Root-Element).
+        // Statt das letzte Root-Element zu löschen, ersetzen wir es durch einen Platzhalter.
+        VisuStructElement(type: .anweisung, textLines: ["ø"])
+    }
+
+    /// Entfernt den Knoten an `fromPath` für ein Move.
+    /// - Returns: (Dokument nach dem „Entfernen“, removed=true wenn wirklich gelöscht wurde; false wenn durch Platzhalter ersetzt wurde)
+    private static func removeForMove(_ doc: VisuStructDocument, fromPath: [Int]) throws -> (VisuStructDocument, removed: Bool) {
+        do {
+            return (try deleteAtPath(doc, path: fromPath), true)
+        } catch let e as VisuStructEditError where e == .cannotDeleteLastRootElement {
+            // Letztes Root-Element darf nicht gelöscht werden: ersetze es durch einen Platzhalter.
+            let ph = placeholderElementForMoveSource()
+            return (try replaceAtPath(doc, path: fromPath, with: ph), false)
+        }
+    }
+
     public static func newEmpty() -> VisuStructDocument {
         VisuStructDocument(caption: "", elements: [
             VisuStructElement(type: .anweisung, textLines: ["ø"])
@@ -40,7 +58,10 @@ public enum VisuStructDocumentEditing: Sendable {
         if el.type == .leerElement { return true }
         if el.type == .anweisung {
             let t = el.textLines
-            if t.isEmpty || t == [""] || t == ["ø"] { return true }
+            // Platzhalter ist bewusst **nur** der explizite Slot-Stub "ø" (oder ein komplett fehlender Text).
+            // Eine echte Anweisung darf leer sein ([""]) ohne als Platzhalter zu gelten – sonst würden Palette-Klicks
+            // das erste Element ersetzen statt dahinter einzufügen.
+            if t.isEmpty || t == ["ø"] { return true }
         }
         return false
     }
@@ -155,9 +176,9 @@ public enum VisuStructDocumentEditing: Sendable {
         let moving = try element(at: fromPath, in: doc)
         let sameParent = fromPath.dropLast() == beforePath.dropLast()
         let fi = fromPath.last!, bi = beforePath.last!
-        var d = try deleteAtPath(doc, path: fromPath)
+        let (d, removed) = try removeForMove(doc, fromPath: fromPath)
         var target = beforePath
-        if sameParent && fi < bi {
+        if removed, sameParent && fi < bi {
             target = beforePath.dropLast() + [bi - 1]
         }
         return try insertBeforeSibling(d, moving, before: target)
@@ -171,9 +192,9 @@ public enum VisuStructDocumentEditing: Sendable {
         let moving = try element(at: fromPath, in: doc)
         let sameParent = fromPath.dropLast() == placeholderPath.dropLast()
         let fi = fromPath.last!, pi = placeholderPath.last!
-        var d = try deleteAtPath(doc, path: fromPath)
+        let (d, removed) = try removeForMove(doc, fromPath: fromPath)
         var ph = placeholderPath
-        if sameParent && fi < pi {
+        if removed, sameParent && fi < pi {
             ph = placeholderPath.dropLast() + [pi - 1]
         }
         let updated = try replaceAtPath(d, path: ph, with: moving)
@@ -188,9 +209,9 @@ public enum VisuStructDocumentEditing: Sendable {
         let moving = try element(at: fromPath, in: doc)
         let sameParent = fromPath.dropLast() == afterPath.dropLast()
         let fi = fromPath.last!, ai = afterPath.last!
-        var d = try deleteAtPath(doc, path: fromPath)
+        let (d, removed) = try removeForMove(doc, fromPath: fromPath)
         var target = afterPath
-        if sameParent && fi < ai {
+        if removed, sameParent && fi < ai {
             target = afterPath.dropLast() + [ai - 1]
         }
         return try insertAfterSibling(d, moving, after: target)

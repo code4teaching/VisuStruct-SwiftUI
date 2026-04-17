@@ -7,6 +7,9 @@
 "action_export_pdf" = "PDF-Vorschau …";
 "action_generate_code" = "Code erzeugen …";
 "action_delete_selection" = "Auswahl löschen";
+"ctx_copy" = "Kopieren";
+"ctx_cut" = "Ausschneiden";
+"ctx_paste" = "Einfügen";
 "action_settings" = "Einstellungen";
 "action_about" = "Über VisuStruct";
 
@@ -14,6 +17,20 @@
 "settings_language_title" = "Sprache";
 "settings_language_de" = "Deutsch";
 "settings_language_en" = "Englisch";
+"settings_language_es" = "Spanisch";
+"settings_language_fr" = "Französisch";
+"settings_language_it" = "Italienisch";
+"settings_language_pl" = "Polnisch";
+"settings_language_tr" = "Türkisch";
+"settings_language_ko" = "Koreanisch";
+"settings_language_ja" = "Japanisch";
+"settings_language_el" = "Griechisch";
+"settings_language_uk" = "Ukrainisch";
+"settings_language_ar" = "Arabisch";
+"settings_language_ru" = "Russisch";
+"settings_language_he" = "Hebräisch";
+"settings_language_zh_hans" = "Chinesisch (vereinfacht)";
+"settings_language_zh_hant" = "Chinesisch (traditionell)";
 "settings_language_ptpt" = "Portugiesisch";
 "settings_language_java" = "Java (Schlüsselwörter)";
 
@@ -73,9 +90,19 @@
 /* Inspector */
 "inspector_no_selection" = "Kein Element gewählt — tippe auf eine Kachel.";
 "inspector_apply_text" = "Text übernehmen";
+"inspector_io_mode_title" = "Art";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
 "inspector_add_case" = "Weiteren Fall hinzufügen";
 "inspector_remove_case" = "Fall entfernen";
 "inspector_group_element" = "Elementtext";
+"inspector_placeholder_statement" = "Anweisung einfügen …";
+"inspector_placeholder_condition" = "Bedingung einfügen …";
+"inspector_placeholder_selector" = "Auswahl einfügen …";
+"inspector_placeholder_call" = "Aufruf einfügen …";
+"inspector_placeholder_break" = "break einfügen …";
 
 /* Elementtypen (Palette + Inspector) */
 "element_anweisung" = "Anweisung";
@@ -90,7 +117,7 @@
 "element_leerElement" = "Leeres Element";
 
 /* Tabs */
-"tab_title_format" = "Struktogramm %d";
+"tab_title_format" = "Diagramm %d";
 
 /* Leeres Canvas */
 "canvas_empty_title" = "Leeres Struktogramm";

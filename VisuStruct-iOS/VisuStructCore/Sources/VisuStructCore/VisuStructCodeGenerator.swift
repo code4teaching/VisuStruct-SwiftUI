@@ -28,6 +28,11 @@ public enum VisuStructCodeGenerator: Sendable {
             // Schul-tauglich: Strict-Modus immer am Anfang des Snippets (wie vereinbart).
             out += "\"use strict\";\n\n"
         }
+        if target == .java, documentContainsJavaInput(document) {
+            // Snippet-Modus: Import als Kommentar (damit es auch beim Einfügen in `main` nicht „falsch“ steht).
+            out += "// import java.util.Scanner;\n"
+            out += "Scanner scanner = new Scanner(System.in);\n\n"
+        }
         for el in document.elements {
             emit(element: el, target: target, options: options, indent: options.baseIndent, into: &out)
         }
@@ -143,6 +148,36 @@ public enum VisuStructCodeGenerator: Sendable {
         }
         for raw in body {
             if raw.isEmpty { continue }
+            if target == .java {
+                if let s = emitJavaInputLineIfNeeded(raw, indent: indent) {
+                    out += s
+                    continue
+                }
+                if let s = emitJavaPrintLineIfNeeded(raw, indent: indent) {
+                    out += s
+                    continue
+                }
+            }
+            if target == .javascript {
+                if let s = emitJavaScriptInputLineIfNeeded(raw, indent: indent) {
+                    out += s
+                    continue
+                }
+                if let s = emitJavaScriptPrintLineIfNeeded(raw, indent: indent) {
+                    out += s
+                    continue
+                }
+            }
+            if target == .python {
+                if let s = emitPythonInputLineIfNeeded(raw, indent: indent) {
+                    out += s
+                    continue
+                }
+                if let s = emitPythonPrintLineIfNeeded(raw, indent: indent) {
+                    out += s
+                    continue
+                }
+            }
             let line: String = {
                 if isCStyleSemicolonTarget(target) { return formatCStyleStatementLine(raw) }
                 return raw
@@ -411,6 +446,139 @@ public enum VisuStructCodeGenerator: Sendable {
             }
             emitBlockBody(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
             if target == .java || target == .javascript { out += sp(indent) + "}\n" }
+        }
+    }
+
+    private static func documentContainsJavaInput(_ doc: VisuStructDocument) -> Bool {
+        func elementHasInput(_ e: VisuStructElement) -> Bool {
+            if e.type == .anweisung {
+                if e.textLines.contains(where: { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().hasPrefix("input:") }) {
+                    return true
+                }
+            }
+            if let body = e.loopBody, body.contains(where: elementHasInput) { return true }
+            if let cases = e.cases, cases.contains(where: { c in c.elements.contains(where: elementHasInput) }) { return true }
+            return false
+        }
+        return doc.elements.contains(where: elementHasInput)
+    }
+
+    private static func emitJavaPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        guard lower.hasPrefix("print:") else { return nil }
+        let expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        if expr.isEmpty { return nil }
+        return sp(indent) + "System.out.println(" + expr + ");\n"
+    }
+
+    private static func emitJavaInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        guard lower.hasPrefix("input:") else { return nil }
+        let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !rest.isEmpty else { return nil }
+
+        // Erwartet z. B. "int zahl" | "double x" | "String name"
+        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        guard parts.count >= 2 else { return nil }
+        let type = parts[0]
+        let name = parts[1]
+
+        switch type {
+        case "int":
+            return sp(indent) + "int \(name) = scanner.nextInt();\n"
+        case "double":
+            return sp(indent) + "double \(name) = scanner.nextDouble();\n"
+        case "String":
+            // `next()` statt `nextLine()` (vermeidet typische Newline-Falle nach `nextInt()` im Unterricht).
+            return sp(indent) + "String \(name) = scanner.next();\n"
+        default:
+            return nil
+        }
+    }
+
+    private static func jsPromptExpr(label: String, fallback: String) -> String {
+        // prompt() kann `null` liefern -> mit ?? auf String-Fallback bringen.
+        // (Modernes JS; passt zum "use strict" Snippet.)
+        "(\( "prompt(\"" + label + ":\")" ) ?? \"\(fallback)\")"
+    }
+
+    private static func emitJavaScriptPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        guard lower.hasPrefix("print:") else { return nil }
+        let expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !expr.isEmpty else { return nil }
+        return sp(indent) + "console.log(" + expr + ");\n"
+    }
+
+    private static func emitJavaScriptInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        guard lower.hasPrefix("input:") else { return nil }
+        let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !rest.isEmpty else { return nil }
+
+        // Erwartet wie im Diagramm: "int zahl" | "double x" | "String name"
+        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        guard parts.count >= 2 else { return nil }
+        let type = parts[0]
+        let name = parts[1]
+
+        switch type {
+        case "int":
+            // parseInt mit Basis 10; bei Cancel/leer -> "0"
+            let p = jsPromptExpr(label: name, fallback: "0")
+            return sp(indent) + "let \(name) = parseInt(\(p), 10);\n"
+        case "double":
+            let p = jsPromptExpr(label: name, fallback: "0")
+            return sp(indent) + "let \(name) = Number(\(p));\n"
+        case "String":
+            let p = jsPromptExpr(label: name, fallback: "")
+            return sp(indent) + "let \(name) = \(p);\n"
+        default:
+            return nil
+        }
+    }
+
+    private static func pyInputExpr(promptLabel: String) -> String {
+        // Für Python: prompt im input()-Aufruf, damit klar ist, was erwartet wird.
+        "input(\"\(promptLabel): \")"
+    }
+
+    private static func emitPythonPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        guard lower.hasPrefix("print:") else { return nil }
+        let expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !expr.isEmpty else { return nil }
+        return sp(indent) + "print(" + expr + ")\n"
+    }
+
+    private static func emitPythonInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        guard lower.hasPrefix("input:") else { return nil }
+        let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !rest.isEmpty else { return nil }
+
+        // Erwartet wie im Diagramm: "int zahl" | "double x" | "String name"
+        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        guard parts.count >= 2 else { return nil }
+        let type = parts[0]
+        let name = parts[1]
+
+        switch type {
+        case "int":
+            return sp(indent) + "\(name) = int(\(pyInputExpr(promptLabel: name)))\n"
+        case "double":
+            // Python: float entspricht Java double im Einsteigerkontext.
+            return sp(indent) + "\(name) = float(\(pyInputExpr(promptLabel: name)))\n"
+        case "String":
+            return sp(indent) + "\(name) = \(pyInputExpr(promptLabel: name))\n"
+        default:
+            return nil
         }
     }
 

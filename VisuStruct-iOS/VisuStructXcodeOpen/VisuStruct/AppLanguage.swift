@@ -4,6 +4,26 @@ import SwiftUI
 enum AppLanguage: String, CaseIterable, Identifiable {
     case german = "de"
     case english = "en"
+    case spanish = "es"
+    case french = "fr"
+    case italian = "it"
+    case polish = "pl"
+    case turkish = "tr"
+    case korean = "ko"
+    case japanese = "ja"
+    case greek = "el"
+    case ukrainian = "uk"
+    case arabic = "ar"
+    case russian = "ru"
+    case hebrew = "he"
+    case dutch = "nl"
+    case swedish = "sv"
+    case danish = "da"
+    case norwegianBokmal = "nb"
+    /// 中文（简体）— BCP‑47: zh-Hans (`zh-Hans.lproj`)
+    case chineseSimplified = "zh-Hans"
+    /// 中文（繁體）— BCP‑47: zh-Hant (`zh-Hant.lproj`)
+    case chineseTraditional = "zh-Hant"
     /// Português europeu (`pt-PT.lproj`).
     case portuguesePortugal = "pt-PT"
     /// Wie VisuStruct Java: `ElementBeschriftungPresets.PRESET_ENGLISH_JAVA` + `javaStandardPaletteButtonLabel`.

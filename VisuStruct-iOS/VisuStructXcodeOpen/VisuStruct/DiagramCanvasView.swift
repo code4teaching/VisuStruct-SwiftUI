@@ -50,6 +50,8 @@ struct DiagramCanvasView: View {
     @Binding var errorText: String?
     /// iPhone: Einfügeposition per Tap markieren, dann aus Palette einfügen.
     @Binding var insertTarget: DiagramInsertTarget?
+    /// In-App Zwischenablage: Kopieren/Ausschneiden/Einfügen von Elementen.
+    @Binding var elementClipboard: VisuStructElement?
 
     /// Sichtbarer Bereich des ScrollViews (Fenstergröße). Wenn `.zero`, nur Inhaltsgröße des Layouts.
     var minViewportSize: CGSize = .zero
@@ -101,6 +103,58 @@ struct DiagramCanvasView: View {
     private var cellFont: Font { .system(size: headerFontSize, weight: .medium) }
     private var captionFont: Font { .system(size: captionFontSize, weight: .medium) }
 
+    private func displayDocumentForLayout(_ doc: VisuStructDocument) -> VisuStructDocument {
+        func mapElement(_ e: VisuStructElement) -> VisuStructElement {
+            let mappedLoop = e.loopBody?.map(mapElement)
+            let mappedCases = e.cases?.map { c in
+                VisuStructCase(name: c.name, elements: c.elements.map(mapElement))
+            }
+            return VisuStructElement(
+                type: e.type,
+                zoomX: e.zoomX,
+                zoomY: e.zoomY,
+                textColor: e.textColor,
+                backgroundColor: e.backgroundColor,
+                textLines: displayTextLines(for: e),
+                loopBody: mappedLoop,
+                cases: mappedCases
+            )
+        }
+
+        var out = doc
+        out.elements = doc.elements.map(mapElement)
+        return out
+    }
+
+    private func displayTextLines(for element: VisuStructElement) -> [String] {
+        let raw = element.textLines
+        let isEffectivelyEmpty = raw.allSatisfy { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        guard isEffectivelyEmpty else { return raw }
+
+        switch element.type {
+        case .anweisung:
+            return [lang.tr("canvas_stub_anweisung")]
+        case .verzweigung:
+            return [lang.tr("canvas_stub_condition")]
+        case .fallauswahl:
+            return [lang.tr("canvas_stub_fallauswahl")]
+        case .forSchleife:
+            return [lang.tr("canvas_stub_for")]
+        case .whileSchleife:
+            return [lang.tr("canvas_stub_while")]
+        case .doUntilSchleife:
+            return [lang.tr("canvas_stub_until")]
+        case .endlosschleife:
+            return [lang.tr("canvas_stub_endless")]
+        case .aussprung:
+            return [lang.tr("canvas_stub_break")]
+        case .aufruf:
+            return [lang.tr("canvas_stub_call")]
+        case .leerElement:
+            return ["ø"]
+        }
+    }
+
     /// Gemeinsame Stroke-Farbe für Kacheln und Hilfslinien (eine Allokation pro Frame statt dutzende).
     private var diagramLineColor: Color { Color.gray.opacity(0.85) }
     private var diagramCanvasFill: Color { Color(white: 0.98) }
@@ -108,7 +162,7 @@ struct DiagramCanvasView: View {
 
     var body: some View {
         let engine = VisuStructLayoutEngine(metrics: layoutMetrics)
-        let layout = engine.layout(document: document)
+        let layout = engine.layout(document: displayDocumentForLayout(document))
         let layoutW = CGFloat(layout.canvasSize.width)
         let layoutH = CGFloat(layout.canvasSize.height)
         let vw = minViewportSize.width
@@ -256,6 +310,19 @@ struct DiagramCanvasView: View {
                 selectedPath = node.idPath
             }
         }
+        .contextMenu {
+            Button(lang.tr("ctx_copy")) {
+                copyElement(at: node.idPath)
+            }
+            Button(lang.tr("ctx_cut")) {
+                cutElement(at: node.idPath)
+            }
+            .disabled(!VisuStructDocumentEditing.canDeleteElement(at: node.idPath, in: document))
+            Button(lang.tr("ctx_paste")) {
+                pasteClipboard(relativeTo: node.idPath)
+            }
+            .disabled(elementClipboard == nil)
+        }
         .draggable(DiagramDragPayload(raw: ElementPalette.moveDragIdentifier(path: node.idPath))) {
             nodeDragPreview(for: node)
         }
@@ -266,11 +333,63 @@ struct DiagramCanvasView: View {
         )
     }
 
+    private func copyElement(at path: [Int]) {
+        guard let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return }
+        elementClipboard = el
+    }
+
+    private func cutElement(at path: [Int]) {
+        guard let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return }
+        elementClipboard = el
+        do {
+            document = try VisuStructDocumentEditing.deleteAtPath(document, path: path)
+            errorText = nil
+            // Selektion nach dem Löschen sanitizen.
+            if document.elements.isEmpty {
+                selectedPath = nil
+            } else if let sp = selectedPath, (try? VisuStructDocumentEditing.element(at: sp, in: document)) == nil {
+                selectedPath = [0]
+            }
+        } catch {
+            errorText = error.localizedDescription
+        }
+    }
+
+    private func pasteClipboard(relativeTo path: [Int]?) {
+        guard let clip = elementClipboard else { return }
+        do {
+            if let targetPath = path {
+                if VisuStructDocumentEditing.isPlaceholderSlot(at: targetPath, in: document) {
+                    document = try VisuStructDocumentEditing.replaceAtPath(document, path: targetPath, with: clip)
+                    selectedPath = targetPath
+                } else if (try? VisuStructDocumentEditing.element(at: targetPath, in: document)) != nil {
+                    document = try VisuStructDocumentEditing.insertAfterSibling(document, clip, after: targetPath)
+                    let newPath = Array(targetPath.dropLast()) + [targetPath.last! + 1]
+                    selectedPath = newPath
+                } else {
+                    document = VisuStructDocumentEditing.appendRoot(document, clip)
+                    selectedPath = [document.elements.count - 1]
+                }
+            } else if let sp = selectedPath {
+                // Paste ohne expliziten Knoten: am aktuellen Selection-Context orientieren.
+                pasteClipboard(relativeTo: sp)
+                return
+            } else {
+                document = VisuStructDocumentEditing.appendRoot(document, clip)
+                selectedPath = [document.elements.count - 1]
+            }
+            errorText = nil
+        } catch {
+            errorText = error.localizedDescription
+        }
+    }
+
     /// Gesamte Kachel = ein Ziel nur für „ersetzen“ (`.on`-Semantik).
     @ViewBuilder
     private func placeholderReplaceDropSurface(node: VisuStructLayout.Node, width: CGFloat, height: CGFloat) -> some View {
         let key = bandHighlightKey(path: node.idPath, band: .on)
         let showHL = dropHighlightKey == key || (insertTarget.map(highlightKey(for:)) == key)
+        let isSelected = selectedPath == node.idPath
         Color.clear
             .frame(width: width, height: height)
             .contentShape(Rectangle())
@@ -281,6 +400,11 @@ struct DiagramCanvasView: View {
                     if showHL {
                         RoundedRectangle(cornerRadius: 4)
                             .strokeBorder(Color.blue.opacity(0.95), lineWidth: 3)
+                    } else if isSelected {
+                        // Platzhalterflächen haben immer eine gestrichelte Rahmen-Overlay.
+                        // Wenn selektiert, soll die blaue Auswahl sichtbar sein (sonst überdeckt der gestrichelte Rahmen die Canvas-Auswahl).
+                        RoundedRectangle(cornerRadius: 4)
+                            .strokeBorder(Color.blue.opacity(0.9), lineWidth: DiagramCanvasInk.selectionLineWidth)
                     } else {
                         RoundedRectangle(cornerRadius: 4)
                             .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
@@ -688,10 +812,6 @@ struct DiagramCanvasView: View {
         // Kein zweites Rechteck für Verzweigung/Fallauswahl: dessen Oberkante läge auf Höhe der Dreiecksspitze
         // und würde eine Sehne durch das V zeichnen sowie linke/rechte Kanten doppelt stroken („X“ / Doppellinien).
 
-        if isSelected {
-            context.stroke(cellPath, with: .color(Color.blue.opacity(0.9)), lineWidth: DiagramCanvasInk.selectionLineWidth)
-        }
-
         switch node.element.type {
         case .aufruf:
             let bar = DiagramCanvasInk.callSideBarInset
@@ -715,7 +835,7 @@ struct DiagramCanvasView: View {
         if isMulti, let dividerXRaw = node.dividerX {
             let dividerX = CGFloat(dividerXRaw)
             let roof = multiwayRoofMetrics(node: node, rect: r, headerH: headerH, dividerX: dividerX)
-            let lines = node.element.textLines
+            let lines = displayTextLines(for: node.element)
             let blockH = CGFloat(max(lines.count, 1)) * lineHeight
             let topStart = r.minY + DiagramCanvasInk.multiHeaderFirstLineY
 
@@ -767,7 +887,7 @@ struct DiagramCanvasView: View {
                 )
             }
         } else {
-            let lines = node.element.textLines
+            let lines = displayTextLines(for: node.element)
             let ix = DiagramCanvasInk.cellTextInsetX
             let iy = DiagramCanvasInk.cellTextInsetY
             if node.element.type == .doUntilSchleife {
@@ -867,6 +987,11 @@ struct DiagramCanvasView: View {
                     }
                 }
             }
+        }
+
+        // Auswahlrahmen IMMER zuletzt zeichnen, damit Kinder/Innenlinien ihn nicht übermalen (v. a. bei verschachtelten Verzweigungen/Fallauswahl).
+        if isSelected {
+            context.stroke(cellPath, with: .color(Color.blue.opacity(0.9)), lineWidth: DiagramCanvasInk.selectionLineWidth)
         }
     }
 

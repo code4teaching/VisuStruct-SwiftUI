@@ -1,0 +1,21 @@
+/* VisuStruct — Ayarlar (sistem) */
+"GROUP_LANGUAGE_TITLE" = "Dil";
+"PREF_APP_LANGUAGE_TITLE" = "Uygulama dili";
+"LANGUAGE_NAME_DE" = "Almanca";
+"LANGUAGE_NAME_EN" = "İngilizce";
+"LANGUAGE_NAME_ES" = "İspanyolca";
+"LANGUAGE_NAME_FR" = "Fransızca";
+"LANGUAGE_NAME_IT" = "İtalyanca";
+"LANGUAGE_NAME_PL" = "Lehçe";
+"LANGUAGE_NAME_TR" = "Türkçe";
+"LANGUAGE_NAME_KO" = "Korece";
+"LANGUAGE_NAME_JA" = "Japonca";
+"LANGUAGE_NAME_EL" = "Yunanca";
+"LANGUAGE_NAME_UK" = "Ukraynaca";
+"LANGUAGE_NAME_AR" = "Arapça";
+"LANGUAGE_NAME_RU" = "Rusça";
+"LANGUAGE_NAME_HE" = "İbranice";
+"LANGUAGE_NAME_ZH_HANS" = "Çince (Basitleştirilmiş)";
+"LANGUAGE_NAME_ZH_HANT" = "Çince (Geleneksel)";
+"LANGUAGE_NAME_PT_PT" = "Portekizce";
+"LANGUAGE_NAME_JAVA" = "Java (anahtar kelimeler)";

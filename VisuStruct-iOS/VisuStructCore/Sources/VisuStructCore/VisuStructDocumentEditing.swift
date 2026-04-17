@@ -45,7 +45,10 @@ public enum VisuStructDocumentEditing: Sendable {
         if el.type == .leerElement { return true }
         if el.type == .anweisung {
             let t = el.textLines
-            if t.isEmpty || t == [""] || t == ["ø"] { return true }
+            // Platzhalter ist bewusst **nur** der explizite Slot-Stub "ø" (oder ein komplett fehlender Text).
+            // Eine echte Anweisung darf leer sein ([""]) ohne als Platzhalter zu gelten – sonst würden Palette-Klicks
+            // das erste Element ersetzen statt dahinter einzufügen.
+            if t.isEmpty || t == ["ø"] { return true }
         }
         return false
     }

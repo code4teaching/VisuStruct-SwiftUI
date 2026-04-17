@@ -1,0 +1,167 @@
+/* Palette */
+"palette_header" = "要素";
+
+/* Actions */
+"action_share_png" = "画像を共有…";
+"action_share_document" = "ファイルを共有…";
+"action_export_pdf" = "PDF をプレビュー…";
+"action_generate_code" = "コード生成…";
+"action_delete_selection" = "選択を削除";
+"ctx_copy" = "コピー";
+"ctx_cut" = "切り取り";
+"ctx_paste" = "貼り付け";
+"action_settings" = "設定";
+"action_about" = "VisuStruct について";
+
+/* In-app settings */
+"settings_language_title" = "言語";
+"settings_language_de" = "ドイツ語";
+"settings_language_en" = "英語";
+"settings_language_es" = "スペイン語";
+"settings_language_fr" = "フランス語";
+"settings_language_it" = "イタリア語";
+"settings_language_pl" = "ポーランド語";
+"settings_language_tr" = "トルコ語";
+"settings_language_ko" = "韓国語";
+"settings_language_ja" = "日本語";
+"settings_language_el" = "ギリシャ語";
+"settings_language_uk" = "ウクライナ語";
+"settings_language_ar" = "アラビア語";
+"settings_language_ru" = "ロシア語";
+"settings_language_he" = "ヘブライ語";
+"settings_language_zh_hans" = "中国語（簡体字）";
+"settings_language_zh_hant" = "中国語（繁体字）";
+"settings_language_ptpt" = "ポルトガル語";
+"settings_language_java" = "Java（キーワード）";
+"settings_replay_tour" = "イントロをもう一度表示";
+
+/* Coachmarks (iPhone/iPad) */
+"coach_toolbar_new" = "新規：新しい構造図を作成します。";
+"coach_toolbar_save" = "保存：変更をファイルに書き込みます。";
+"coach_toolbar_palette" = "パレット：ブロックを表示／非表示にします。";
+"coach_toolbar_file" = "ファイルメニュー：開く、別名で保存、印刷。";
+"coach_tap_to_continue" = "続けるにはタップしてください。";
+
+/* Error overlay */
+"error_title" = "エラー";
+"error_back_editor" = "エディタに戻る";
+
+/* Toolbar */
+"toolbar_undo" = "取り消し";
+"toolbar_redo" = "やり直し";
+"toolbar_new" = "新規";
+"menu_open" = "開く…";
+"menu_save" = "保存";
+"menu_save_as" = "別名で保存…";
+"menu_print" = "印刷…";
+"menu_file" = "ファイル";
+
+/* Accessibility */
+"a11y_generate_code" = "構造図からコードを生成";
+"a11y_generate_code_locked" = "コード生成（購入後に利用可能）";
+"a11y_unsaved_changes" = "未保存の変更";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "コード生成";
+"codegen_gate_body" = "図から生成される Java、Python、JavaScript のコードはアプリ内課金で利用可能になります（近日公開）。";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "コード生成";
+"codegen_placeholder_body" = "生成されたコードはここに表示されます。";
+"codegen_placeholder_compare" = "Java、Python、JavaScript を切り替えて構文を比較できます（下の例）。";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (条件) {\n    文();\n} else {\n    代替();\n}";
+"codegen_preview_python" = "if 条件:\n    文()\nelse:\n    代替()";
+"codegen_option_comments" = "図のテキストをコメントとして出力";
+"codegen_copy" = "コピー";
+"codegen_run_in_browser" = "ブラウザでテスト";
+
+"a11y_new_diagram_tab" = "新しい図のタブ";
+"a11y_close_tab" = "タブを閉じる";
+"a11y_placeholder_drop" = "要素をここにドロップしてプレースホルダーを置き換えます。長押ししてドラッグし移動できます。";
+"a11y_node_drop" = "ブロックを長押ししてドラッグ：対象の上端／下端にドロップすると前／後に挿入。中央へのドロップは ø プレースホルダーのみ。";
+
+/* Diagram */
+"diagram_title_label" = "タイトル";
+"diagram_title_placeholder" = "タイトルなし";
+
+/* Inspector */
+"inspector_no_selection" = "要素が選択されていません — タイルをタップしてください。";
+"inspector_apply_text" = "テキストを適用";
+"inspector_io_mode_title" = "Kind";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_add_case" = "ケースを追加";
+"inspector_remove_case" = "ケースを削除";
+"inspector_group_element" = "要素テキスト";
+"inspector_placeholder_statement" = "文を入力…";
+"inspector_placeholder_condition" = "条件を入力…";
+"inspector_placeholder_selector" = "セレクタを入力…";
+"inspector_placeholder_call" = "呼び出しを入力…";
+"inspector_placeholder_break" = "break を入力…";
+
+/* Element types (Japanese + keyword hint) */
+"element_anweisung" = "文 (statement)";
+"element_verzweigung" = "条件分岐 (if/else)";
+"element_fallauswahl" = "選択 (switch)";
+"element_forSchleife" = "繰り返し (for)";
+"element_whileSchleife" = "繰り返し (while)";
+"element_doUntilSchleife" = "繰り返し (do-while)";
+"element_endlosschleife" = "無限ループ (while true)";
+"element_aussprung" = "脱出 (break)";
+"element_aufruf" = "呼び出し (call)";
+"element_leerElement" = "空の要素";
+
+/* Tabs */
+"tab_title_format" = "図 %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "空の構造図";
+"canvas_empty_hint" = "「要素」からブロックをここにドラッグしてください。";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "選択 (switch)";
+"canvas_stub_anweisung" = "文 (statement)";
+"canvas_stub_condition" = "条件";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "無限";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "method()";
+
+/* About */
+"about_version_fmt" = "バージョン %@ (%@)";
+"about_nav_title" = "VisuStruct について";
+"about_intro" = "VisuStruct は Nassi–Shneiderman 構造図のエディタです。文から条件分岐、繰り返し、選択まで、処理の流れをタイルで分かりやすく表現できます。";
+"about_features_heading" = "機能";
+"about_bullet_palette" = "パレットからブロックを挿入、または図へドラッグ＆ドロップ";
+"about_bullet_edit" = "図を編集：テキスト変更、要素選択、必要に応じて削除";
+"about_bullet_tabs" = "複数の図をタブで管理（それぞれタイトル付き）";
+"about_bullet_file" = ".visustruct ファイルとして保存し再度開く";
+"about_bullet_share" = "構造図を画像（PNG）として共有";
+"about_dateiformat_heading" = "ファイル形式";
+"about_dateiformat_part1" = "VisuStruct のネイティブ形式は拡張子 ";
+"about_dateiformat_part2" = " を使用します。同じ形式をサポートする他のアプリと交換できます。";
+"about_project_github_label" = "Java アプリ（ソース＆リリース）：";
+"about_web_label" = "Web：";
+"about_lineage_heading" = "系譜";
+"about_lineage_body" = "この iOS アプリは Swift/SwiftUI による再実装で、Java 版の .visustruct 形式と互換です。オープンソースの Java デスクトップ版は GitHub（code4teaching/VisuStruct）で開発・公開されており、そこが最新の Java 版です。Kevin Krummenauer（MIT）のオープンソースプロジェクトに基づいています。";
+"about_lineage_upstream_label" = "Java upstream：";
+"about_done" = "完了";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "挿入をキャンセル";
+"phone_show_text_editor" = "テキストを編集";
+
+/* Alerts */
+"err_save_failed_fmt" = "保存できませんでした：%@";
+"err_share_prepare_failed_fmt" = "共有の準備ができませんでした：%@";
+"err_diagram_too_small_export" = "図が小さすぎます — エクスポートできません。";
+"err_image_render_failed" = "画像を作成できませんでした。";
+"err_diagram_too_small_print" = "図が小さすぎます — 印刷できません。";
+"err_print_unavailable" = "このデバイスでは印刷できません。";

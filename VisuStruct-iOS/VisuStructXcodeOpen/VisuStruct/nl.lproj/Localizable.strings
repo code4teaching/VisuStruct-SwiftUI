@@ -1,0 +1,74 @@
+/* NOTE: Initial Dutch localization. */
+"palette_header" = "Elementen";
+
+/* Actions */
+"action_share_png" = "Deel afbeelding…";
+"action_share_document" = "Deel bestand…";
+"action_export_pdf" = "PDF-voorbeeld…";
+"action_generate_code" = "Genereer code…";
+"action_delete_selection" = "Selectie verwijderen";
+"ctx_copy" = "Kopiëren";
+"ctx_cut" = "Knippen";
+"ctx_paste" = "Plakken";
+"action_settings" = "Instellingen";
+"action_about" = "Over VisuStruct";
+
+/* In-app settings */
+"settings_language_title" = "Taal";
+"settings_replay_tour" = "Intro opnieuw tonen";
+
+/* Toolbar */
+"toolbar_undo" = "Ongedaan maken";
+"toolbar_redo" = "Opnieuw";
+"toolbar_new" = "Nieuw";
+"menu_open" = "Open…";
+"menu_save" = "Bewaar";
+"menu_save_as" = "Bewaar als…";
+"menu_print" = "Print…";
+"menu_file" = "Bestand";
+
+/* Inspector */
+"inspector_no_selection" = "Geen element geselecteerd — tik op een tegel.";
+"inspector_apply_text" = "Tekst toepassen";
+"inspector_io_mode_title" = "Kind";
+"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_add_case" = "Case toevoegen";
+"inspector_remove_case" = "Case verwijderen";
+"inspector_group_element" = "Elementtekst";
+"inspector_placeholder_statement" = "Voer statement in…";
+"inspector_placeholder_condition" = "Voer condition in…";
+"inspector_placeholder_selector" = "Voer selector in…";
+"inspector_placeholder_call" = "Voer call in…";
+"inspector_placeholder_break" = "Voer break in…";
+
+/* Element types */
+"element_anweisung" = "Instructie";
+"element_verzweigung" = "Voorwaarde (if/else)";
+"element_fallauswahl" = "Keuze (switch)";
+"element_forSchleife" = "For-lus";
+"element_whileSchleife" = "While-lus";
+"element_doUntilSchleife" = "Do-while-lus";
+"element_endlosschleife" = "Oneindige lus";
+"element_aussprung" = "Break";
+"element_aufruf" = "Aanroep";
+"element_leerElement" = "Leeg element";
+
+/* Diagram */
+"diagram_title_label" = "Titel";
+"diagram_title_placeholder" = "Geen titel";
+"canvas_empty_title" = "Leeg structogram";
+"canvas_empty_hint" = "Sleep een element uit “Elementen” hierheen.";
+
+/* Diagram stubs */
+"canvas_stub_anweisung" = "statement";
+"canvas_stub_condition" = "condition";
+"canvas_stub_fallauswahl" = "switch";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "endless";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "method()";

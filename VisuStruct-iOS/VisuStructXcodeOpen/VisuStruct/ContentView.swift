@@ -123,10 +123,15 @@ private struct CodeLineEditor: View {
     let onCommit: () -> Void
 
     var body: some View {
+        editor
+            .frame(minHeight: minHeight, maxHeight: maxHeight)
+    }
+
+    @ViewBuilder
+    private var editor: some View {
         #if canImport(UIKit)
         if UIDevice.current.userInterfaceIdiom == .phone {
             TextEditor(text: $text)
-                .frame(minHeight: minHeight, maxHeight: maxHeight)
         } else {
             CodeLineEditorUIKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, focusToken: focusToken, onCommit: onCommit)
         }
@@ -134,7 +139,6 @@ private struct CodeLineEditor: View {
         CodeLineEditorAppKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, focusToken: focusToken, onCommit: onCommit)
         #else
         TextEditor(text: $text)
-            .frame(minHeight: minHeight, maxHeight: maxHeight)
         #endif
     }
 }
@@ -166,10 +170,27 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
     let focusToken: UUID
     let onCommit: () -> Void
 
+    private static let editorFontSize: CGFloat = 14
+
+    private static func desiredFont() -> UIFont {
+        // Monospace, aber Dynamic-Type-freundlich skaliert.
+        let base = UIFont.monospacedSystemFont(ofSize: editorFontSize, weight: .regular)
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: base)
+    }
+
     func makeUIView(context: Context) -> CommitKeyTextView {
         let tv = CommitKeyTextView()
         tv.backgroundColor = .clear
         tv.isScrollEnabled = true
+        tv.autocorrectionType = .no
+        tv.autocapitalizationType = .none
+        tv.smartQuotesType = .no
+        tv.smartDashesType = .no
+        tv.smartInsertDeleteType = .no
+        tv.spellCheckingType = .no
+        let desired = Self.desiredFont()
+        tv.font = desired
+        tv.typingAttributes[.font] = desired
         tv.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
         tv.onCommit = onCommit
         tv.delegate = context.coordinator
@@ -179,6 +200,13 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
     func updateUIView(_ uiView: CommitKeyTextView, context: Context) {
         if uiView.text != text {
             uiView.text = text
+        }
+        // SwiftUI `.font(...)` wirkt auf `UITextView` nicht zuverlässig; Font daher hier stabil halten.
+        let desired = Self.desiredFont()
+        if uiView.font != desired { uiView.font = desired }
+        // Wichtig: Ohne typingAttributes kann UIKit beim ersten Zeichen wieder Default-Font nehmen.
+        if (uiView.typingAttributes[.font] as? UIFont) != desired {
+            uiView.typingAttributes[.font] = desired
         }
         if context.coordinator.lastFocusToken != focusToken {
             context.coordinator.lastFocusToken = focusToken
@@ -230,6 +258,12 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
     let focusToken: UUID
     let onCommit: () -> Void
 
+    private static let editorFontSize: CGFloat = 14
+
+    private static func desiredFont() -> NSFont {
+        NSFont.monospacedSystemFont(ofSize: editorFontSize, weight: .regular)
+    }
+
     func makeNSView(context: Context) -> NSScrollView {
         let scroll = NSScrollView()
         scroll.hasVerticalScroller = true
@@ -242,6 +276,16 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
         tv.isEditable = true
         tv.isSelectable = true
         tv.drawsBackground = false
+        tv.isAutomaticSpellingCorrectionEnabled = false
+        tv.isAutomaticTextCompletionEnabled = false
+        tv.isAutomaticQuoteSubstitutionEnabled = false
+        tv.isAutomaticDashSubstitutionEnabled = false
+        tv.isAutomaticDataDetectionEnabled = false
+        tv.isAutomaticLinkDetectionEnabled = false
+        tv.isAutomaticTextReplacementEnabled = false
+        let desired = Self.desiredFont()
+        tv.font = desired
+        tv.typingAttributes[.font] = desired
         tv.textContainerInset = NSSize(width: 6, height: 6)
         tv.onCommit = onCommit
         tv.delegate = context.coordinator
@@ -253,6 +297,11 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
         guard let tv = nsView.documentView as? NSTextView else { return }
         if tv.string != text {
             tv.string = text
+        }
+        let desired = Self.desiredFont()
+        if tv.font != desired { tv.font = desired }
+        if (tv.typingAttributes[.font] as? NSFont) != desired {
+            tv.typingAttributes[.font] = desired
         }
         if context.coordinator.lastFocusToken != focusToken {
             context.coordinator.lastFocusToken = focusToken
@@ -355,32 +404,32 @@ enum ElementPalette {
     static func element(for kind: PaletteItem, lang: AppLanguage) -> VisuStructElement {
         switch kind {
         case .anweisung:
-            return VisuStructElement(type: .anweisung, textLines: [lang.tr("canvas_stub_anweisung")])
+            return VisuStructElement(type: .anweisung, textLines: [""])
         case .verzweigung:
             let stub = stubAnweisung()
-            return VisuStructElement(type: .verzweigung, textLines: [lang.tr("canvas_stub_condition")], cases: [
+            return VisuStructElement(type: .verzweigung, textLines: [""], cases: [
                 VisuStructCase(name: "true", elements: [stub]),
                 VisuStructCase(name: "false", elements: [stub])
             ])
         case .fallauswahl:
             let stub = stubAnweisung()
-            return VisuStructElement(type: .fallauswahl, textLines: [lang.tr("canvas_stub_fallauswahl")], cases: [
+            return VisuStructElement(type: .fallauswahl, textLines: [""], cases: [
                 VisuStructCase(name: "1", elements: [stub]),
                 VisuStructCase(name: "2", elements: [stub]),
                 VisuStructCase(name: "default", elements: [stub])
             ])
         case .forZaehlSchleife:
-            return VisuStructElement(type: .forSchleife, textLines: [lang.tr("canvas_stub_for")], loopBody: [stubAnweisung()])
+            return VisuStructElement(type: .forSchleife, textLines: [""], loopBody: [stubAnweisung()])
         case .whileSchleife:
-            return VisuStructElement(type: .whileSchleife, textLines: [lang.tr("canvas_stub_while")], loopBody: [stubAnweisung()])
+            return VisuStructElement(type: .whileSchleife, textLines: [""], loopBody: [stubAnweisung()])
         case .doUntilSchleife:
-            return VisuStructElement(type: .doUntilSchleife, textLines: [lang.tr("canvas_stub_until")], loopBody: [stubAnweisung()])
+            return VisuStructElement(type: .doUntilSchleife, textLines: [""], loopBody: [stubAnweisung()])
         case .endlosschleife:
-            return VisuStructElement(type: .endlosschleife, textLines: [lang.tr("canvas_stub_endless")], loopBody: [stubAnweisung()])
+            return VisuStructElement(type: .endlosschleife, textLines: [""], loopBody: [stubAnweisung()])
         case .aussprung:
-            return VisuStructElement(type: .aussprung, textLines: [lang.tr("canvas_stub_break")])
+            return VisuStructElement(type: .aussprung, textLines: [""])
         case .aufruf:
-            return VisuStructElement(type: .aufruf, textLines: [lang.tr("canvas_stub_call")])
+            return VisuStructElement(type: .aufruf, textLines: [""])
         }
     }
 
@@ -525,6 +574,12 @@ struct ContentView: View {
         case textEditor
     }
 
+    private enum StatementIOMode: String, CaseIterable, Hashable {
+        case statement
+        case input
+        case output
+    }
+
     @FocusState private var focusedField: FocusTarget?
 
     @State private var sheetTabs: [DiagramSheetTab]
@@ -549,6 +604,8 @@ struct ContentView: View {
     @State private var hideInspectorOnPhone: Bool = false
     // iPhone UX: Palette automatisch einklappen beim Text-Editieren.
     @State private var showPaletteOnPhone: Bool = true
+    // In-App Zwischenablage für Diagramm-Elemente (Copy/Cut/Paste).
+    @State private var elementClipboard: VisuStructElement? = nil
     #if canImport(UIKit)
     @State private var pngSharePayload: PNGSharePayload?
     @State private var fileURLSharePayload: FileURLSharePayload?
@@ -766,6 +823,74 @@ struct ContentView: View {
                 }
             }
         }
+        .focusedSceneValue(\.diagramEditActions, diagramEditActions)
+    }
+
+    private var diagramEditActions: DiagramEditActions {
+        let isTyping = (focusedField == .caption || focusedField == .caseLabel || focusedField == .textEditor)
+        let hasSelection = selectedPath != nil
+        let canCopy = !isTyping && hasSelection
+        let canPaste = !isTyping && elementClipboard != nil
+        let canCut = canCopy && (selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false)
+        let canDelete = !isTyping && (selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false)
+        return DiagramEditActions(
+            canUndo: !isTyping && !sheetTabs[currentTabIndex].undoStack.isEmpty,
+            canRedo: !isTyping && !sheetTabs[currentTabIndex].redoStack.isEmpty,
+            canCopy: canCopy,
+            canCut: canCut,
+            canPaste: canPaste,
+            canDelete: canDelete,
+            undo: { performUndo() },
+            redo: { performRedo() },
+            copy: { copySelectionToClipboard() },
+            cut: { cutSelectionToClipboard() },
+            paste: { pasteClipboardAtSelectionOrRoot() },
+            delete: { deleteSelection() }
+        )
+    }
+
+    private func copySelectionToClipboard() {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return }
+        elementClipboard = el
+    }
+
+    private func cutSelectionToClipboard() {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return }
+        elementClipboard = el
+        deleteSelection()
+    }
+
+    private func pasteClipboardAtSelectionOrRoot() {
+        guard let clip = elementClipboard else { return }
+        let doc = document
+        do {
+            if let path = selectedPath {
+                if VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
+                    commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: clip))
+                    var tabs = sheetTabs
+                    tabs[currentTabIndex].selectedPath = path
+                    tabs[currentTabIndex].errorText = nil
+                    sheetTabs = tabs
+                    refreshLineEditor()
+                    return
+                }
+                if (try? VisuStructDocumentEditing.element(at: path, in: doc)) != nil {
+                    commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, clip, after: path))
+                    let newPath = Array(path.dropLast()) + [path.last! + 1]
+                    var tabs = sheetTabs
+                    tabs[currentTabIndex].selectedPath = newPath
+                    tabs[currentTabIndex].errorText = nil
+                    sheetTabs = tabs
+                    refreshLineEditor()
+                    return
+                }
+            }
+            appendRoot(clip)
+        } catch {
+            setErrorOnCurrentTab(error.localizedDescription)
+        }
     }
 
     /// iPad: Sidebar-Spalte mit System-Split (ein-/ausblendbar, Standardbreiten).
@@ -864,6 +989,9 @@ struct ContentView: View {
                 .listRowBackground(Color.clear)
                 Button {
                     if codeGeneratorAccessGranted {
+                        // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
+                        // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
+                        applyLineEditor()
                         showCodeGeneratorPlaceholder = true
                     } else {
                         showCodeGeneratorPaywall = true
@@ -1048,6 +1176,18 @@ struct ContentView: View {
                         }
                         .modifier(ToolbarCoachmarkSource(step: .fileMenu))
                     }
+                    #if canImport(UIKit)
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()
+                        Button(lang.tr("about_done")) {
+                            focusedField = nil
+                            // iPhone: Inspector wieder einklappen, damit Canvas sichtbar ist.
+                            if isPhone {
+                                hideInspectorOnPhone = true
+                            }
+                        }
+                    }
+                    #endif
                 }
                 #if canImport(UIKit)
                 .overlayPreferenceValue(ToolbarCoachmarkAnchorKey.self) { anchors in
@@ -1174,6 +1314,7 @@ struct ContentView: View {
                         selectedPath: selectedPathBinding,
                         errorText: errorTextBinding,
                         insertTarget: $insertTarget,
+                        elementClipboard: $elementClipboard,
                         minViewportSize: CGSize(width: geo.size.width, height: geo.size.height)
                     )
                     .padding(.vertical, 8)
@@ -1309,6 +1450,34 @@ struct ContentView: View {
                         .font(captionFont)
                         .lineSpacing(3)
                 }
+                if let ioModeBinding = statementIOModeBindingIfApplicable() {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(lang.tr("inspector_io_mode_title"))
+                            .font(captionFont)
+                            .foregroundStyle(.secondary)
+                        Picker("", selection: ioModeBinding) {
+                            Text(lang.tr("inspector_io_mode_statement")).tag(StatementIOMode.statement)
+                            Text(lang.tr("inspector_io_mode_input")).tag(StatementIOMode.input)
+                            Text(lang.tr("inspector_io_mode_output")).tag(StatementIOMode.output)
+                        }
+                        #if canImport(AppKit)
+                        .pickerStyle(.radioGroup)
+                        #else
+                        .pickerStyle(.segmented)
+                        #endif
+                        .labelsHidden()
+                        if ioModeBinding.wrappedValue == .input {
+                            Text("input: int zahl | input: double x | input: String name")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        } else if ioModeBinding.wrappedValue == .output {
+                            Text("print: x  oder  print: \"Text\"")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(.bottom, 2)
+                }
                 if let labelBinding = fallauswahlCaseLabelBinding() {
                     TextField("z. B. 1, ok, default", text: labelBinding)
                         .font(editorFont)
@@ -1317,19 +1486,31 @@ struct ContentView: View {
                         .autocorrectionDisabled(true)
                         .focused($focusedField, equals: .caseLabel)
                 }
-                CodeLineEditor(
-                    text: lineEditorTextBinding,
-                    minHeight: editorMinHeight,
-                    maxHeight: editorMaxHeight,
-                    focusToken: editorFocusToken,
-                    onCommit: applyLineEditor
-                )
-                .font(editorFont)
-                .scrollContentBackground(.hidden)
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled(true)
-                .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-                .focused($focusedField, equals: .textEditor)
+                ZStack(alignment: .topLeading) {
+                    CodeLineEditor(
+                        text: lineEditorTextBinding,
+                        minHeight: editorMinHeight,
+                        maxHeight: editorMaxHeight,
+                        focusToken: editorFocusToken,
+                        onCommit: applyLineEditor
+                    )
+                    .font(editorFont)
+                    .scrollContentBackground(.hidden)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled(true)
+                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
+                    .focused($focusedField, equals: .textEditor)
+
+                    if selectedPath != nil,
+                       lineEditorTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                       let placeholder = inspectorLineEditorPlaceholder() {
+                        Text(placeholder)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .allowsHitTesting(false)
+                    }
+                }
                 Button(lang.tr("inspector_apply_text")) {
                     applyLineEditor()
                 }
@@ -1360,6 +1541,79 @@ struct ContentView: View {
         } label: {
             Text(inspectorGroupBoxTitle)
                 .font(.headline)
+        }
+    }
+
+    private func statementIOModeBindingIfApplicable() -> Binding<StatementIOMode>? {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document),
+              el.type == .anweisung else { return nil }
+
+        return Binding(
+            get: {
+                let t = sheetTabs[currentTabIndex].lineEditorText.trimmingCharacters(in: .whitespacesAndNewlines)
+                if t.lowercased().hasPrefix("input:") { return .input }
+                if t.lowercased().hasPrefix("print:") { return .output }
+                return .statement
+            },
+            set: { newMode in
+                var tabs = sheetTabs
+                let i = currentTabIndex
+                let current = tabs[i].lineEditorText
+                let stripped = stripIOPrefixes(from: current)
+                let updated: String
+                switch newMode {
+                case .statement:
+                    updated = stripped
+                case .input:
+                    updated = prefix("input:", to: stripped)
+                case .output:
+                    updated = prefix("print:", to: stripped)
+                }
+                tabs[i].lineEditorText = updated
+                sheetTabs = tabs
+                applyLineEditor()
+            }
+        )
+    }
+
+    private func stripIOPrefixes(from s: String) -> String {
+        let trimmed = s.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = trimmed.lowercased()
+        if lower.hasPrefix("input:") {
+            return String(trimmed.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if lower.hasPrefix("print:") {
+            return String(trimmed.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return s
+    }
+
+    private func prefix(_ p: String, to content: String) -> String {
+        let c = content.trimmingCharacters(in: .whitespacesAndNewlines)
+        if c.isEmpty { return "\(p) " }
+        return "\(p) \(c)"
+    }
+
+    /// Placeholder for the line editor, shown only when empty.
+    /// Intentionally English + code-like to stay readable across UI languages.
+    private func inspectorLineEditorPlaceholder() -> String? {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
+
+        switch el.type {
+        case .anweisung:
+            return lang.tr("inspector_placeholder_statement")
+        case .verzweigung, .forSchleife, .whileSchleife, .doUntilSchleife, .endlosschleife:
+            return lang.tr("inspector_placeholder_condition")
+        case .fallauswahl:
+            return lang.tr("inspector_placeholder_selector")
+        case .aufruf:
+            return lang.tr("inspector_placeholder_call")
+        case .aussprung:
+            return lang.tr("inspector_placeholder_break")
+        case .leerElement:
+            return nil
         }
     }
 
@@ -1913,7 +2167,8 @@ struct ContentView: View {
             document: .constant(document),
             selectedPath: .constant(nil),
             errorText: .constant(nil),
-            insertTarget: .constant(nil)
+            insertTarget: .constant(nil),
+            elementClipboard: .constant(nil)
         )
         .frame(width: w, height: h)
         let exportRoot = ZStack {
@@ -2192,11 +2447,15 @@ private struct JavaScriptRunnerSheet: View {
 #if canImport(UIKit) && canImport(WebKit)
 private struct JavaScriptRunnerWebView: UIViewRepresentable {
     let html: String
+    
+    func makeCoordinator() -> Coordinator { Coordinator() }
 
     func makeUIView(context: Context) -> WKWebView {
         let cfg = WKWebViewConfiguration()
         cfg.defaultWebpagePreferences.allowsContentJavaScript = true
+        cfg.preferences.javaScriptCanOpenWindowsAutomatically = true
         let v = WKWebView(frame: .zero, configuration: cfg)
+        v.uiDelegate = context.coordinator
         v.isOpaque = false
         v.backgroundColor = .clear
         v.scrollView.backgroundColor = .clear
@@ -2205,6 +2464,76 @@ private struct JavaScriptRunnerWebView: UIViewRepresentable {
 
     func updateUIView(_ webView: WKWebView, context: Context) {
         webView.loadHTMLString(html, baseURL: nil)
+    }
+    
+    final class Coordinator: NSObject, WKUIDelegate {
+        func webView(
+            _ webView: WKWebView,
+            runJavaScriptAlertPanelWithMessage message: String,
+            initiatedByFrame frame: WKFrameInfo,
+            completionHandler: @escaping () -> Void
+        ) {
+            presentAlert(on: webView, title: "Alert", message: message, completion: completionHandler)
+        }
+        
+        func webView(
+            _ webView: WKWebView,
+            runJavaScriptConfirmPanelWithMessage message: String,
+            initiatedByFrame frame: WKFrameInfo,
+            completionHandler: @escaping (Bool) -> Void
+        ) {
+            presentConfirm(on: webView, title: "Confirm", message: message, completion: completionHandler)
+        }
+        
+        func webView(
+            _ webView: WKWebView,
+            runJavaScriptTextInputPanelWithPrompt prompt: String,
+            defaultText: String?,
+            initiatedByFrame frame: WKFrameInfo,
+            completionHandler: @escaping (String?) -> Void
+        ) {
+            presentPrompt(on: webView, title: prompt, defaultText: defaultText, completion: completionHandler)
+        }
+        
+        private func topViewController() -> UIViewController? {
+            guard let scene = UIApplication.shared.connectedScenes
+                .compactMap({ $0 as? UIWindowScene })
+                .first(where: { $0.activationState == .foregroundActive }) else { return nil }
+            return scene.windows.first(where: { $0.isKeyWindow })?.rootViewController?.topMostPresented()
+        }
+        
+        private func presentAlert(on webView: WKWebView, title: String, message: String, completion: @escaping () -> Void) {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in completion() })
+                self.topViewController()?.present(alert, animated: true, completion: nil)
+            }
+        }
+        
+        private func presentConfirm(on webView: WKWebView, title: String, message: String, completion: @escaping (Bool) -> Void) {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion(false) })
+                alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in completion(true) })
+                self.topViewController()?.present(alert, animated: true, completion: nil)
+            }
+        }
+        
+        private func presentPrompt(on webView: WKWebView, title: String, defaultText: String?, completion: @escaping (String?) -> Void) {
+            DispatchQueue.main.async {
+                let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+                alert.addTextField { tf in
+                    tf.text = defaultText
+                    tf.autocorrectionType = .no
+                    tf.autocapitalizationType = .none
+                }
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion(nil) })
+                alert.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                    completion(alert.textFields?.first?.text)
+                })
+                self.topViewController()?.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }
 #else
@@ -2216,12 +2545,30 @@ private struct JavaScriptRunnerWebView: View {
 }
 #endif
 
+#if canImport(UIKit)
+private extension UIViewController {
+    func topMostPresented() -> UIViewController {
+        var top: UIViewController = self
+        while let presented = top.presentedViewController {
+            top = presented
+        }
+        if let nav = top as? UINavigationController, let visible = nav.visibleViewController {
+            return visible.topMostPresented()
+        }
+        if let tab = top as? UITabBarController, let sel = tab.selectedViewController {
+            return sel.topMostPresented()
+        }
+        return top
+    }
+}
+#endif
+
 // MARK: - Einstellungen (In-App)
 
 private struct SettingsSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
-    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.javaLike.rawValue
+    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
     @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
     @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
 
@@ -2237,10 +2584,32 @@ private struct SettingsSheet: View {
             Form {
                 Section {
                     Picker(lang.tr("settings_language_title"), selection: selection) {
-                        Text(lang.tr("settings_language_de")).tag(AppLanguage.german)
-                        Text(lang.tr("settings_language_en")).tag(AppLanguage.english)
-                        Text(lang.tr("settings_language_ptpt")).tag(AppLanguage.portuguesePortugal)
-                        Text(lang.tr("settings_language_java")).tag(AppLanguage.javaLike)
+                        // Intentionally NOT localized: helps users recover if they accidentally pick an unreadable language.
+                        // Format: Latin/English first, then native script in parentheses.
+                        Text("English").tag(AppLanguage.english)
+                        Text("Java (keywords)").tag(AppLanguage.javaLike)
+
+                        // Alphabetical (by Latin/English part)
+                        Text("Arabic (العربية)").tag(AppLanguage.arabic)
+                        Text("Chinese (中文（简体）) (Simplified)").tag(AppLanguage.chineseSimplified)
+                        Text("Chinese (中文（繁體）) (Traditional)").tag(AppLanguage.chineseTraditional)
+                        Text("Danish (Dansk)").tag(AppLanguage.danish)
+                        Text("Dutch (Nederlands)").tag(AppLanguage.dutch)
+                        Text("French (Français)").tag(AppLanguage.french)
+                        Text("German (Deutsch)").tag(AppLanguage.german)
+                        Text("Greek (Ελληνικά)").tag(AppLanguage.greek)
+                        Text("Hebrew (עברית)").tag(AppLanguage.hebrew)
+                        Text("Italian (Italiano)").tag(AppLanguage.italian)
+                        Text("Japanese (日本語)").tag(AppLanguage.japanese)
+                        Text("Korean (한국어)").tag(AppLanguage.korean)
+                        Text("Norwegian Bokmål (Norsk bokmål)").tag(AppLanguage.norwegianBokmal)
+                        Text("Polish (Polski)").tag(AppLanguage.polish)
+                        Text("Portuguese (Português)").tag(AppLanguage.portuguesePortugal)
+                        Text("Russian (Русский)").tag(AppLanguage.russian)
+                        Text("Spanish (Español)").tag(AppLanguage.spanish)
+                        Text("Swedish (Svenska)").tag(AppLanguage.swedish)
+                        Text("Turkish (Türkçe)").tag(AppLanguage.turkish)
+                        Text("Ukrainian (Українська)").tag(AppLanguage.ukrainian)
                     }
                 }
 

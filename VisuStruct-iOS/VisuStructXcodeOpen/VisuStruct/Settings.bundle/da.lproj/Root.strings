@@ -1,0 +1,7 @@
+/* VisuStruct — Indstillinger (system) */
+"GROUP_LANGUAGE_TITLE" = "Sprog";
+"PREF_APP_LANGUAGE_TITLE" = "App-sprog";
+"LANGUAGE_NAME_NL" = "Hollandsk";
+"LANGUAGE_NAME_SV" = "Svensk";
+"LANGUAGE_NAME_DA" = "Dansk";
+"LANGUAGE_NAME_NB" = "Norsk (bokmål)";
