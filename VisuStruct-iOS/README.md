@@ -46,9 +46,18 @@ The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStr
 
 - Tabs, palette, **drag & drop**, text inspector, undo/redo  
 - Open / save **`.visustruct`**, share **PNG**, **print** where supported  
-- App UI languages: English, German, Portuguese (`pt-PT`) via **Settings.bundle**
+- Broad **multi-language UI** coverage via **`Localizable.strings`** + **`Settings.bundle`** (English/German maintained as authoring sources; additional locales ship as translations).
+- **Clipboard actions** for diagram blocks (copy/cut/paste) plus keyboard/menu shortcuts where the platform supports first-class editing commands.
+- **Instruction modes** with uniform prefixes across languages:
+  - **`print:`** maps to appropriate output APIs per generator target.
+  - **`input:`** maps to appropriate input/prompt APIs per generator target.
+- **JavaScript runner** uses `WKWebView` with UI delegate hooks so **`prompt()`** works during interactive runs.
 
 ## Differences vs Java UI
 
 - Canvas look is mostly fixed; document font / tile colors from XML are not yet fully matched visually (data round-trips).  
 - Some `VisuStructCore` errors are still **German-only**, regardless of app UI language.
+
+## Release notes
+
+See repository root **[CHANGELOG.md](../CHANGELOG.md)** for versioned highlights (starting with **1.2**).

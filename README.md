@@ -6,9 +6,13 @@
 
 # VisuStruct (SwiftUI)
 
-Visual **Nassi–Shneiderman** structograms for **iPad** and **Apple silicon Mac**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop; app UI in English, German, or Portuguese.
+Visual **Nassi–Shneiderman** structograms for **iPad** and **Apple silicon Mac**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
 
-**[visustruct.org](https://visustruct.org)** · **Build & layout:** [VisuStruct-iOS/README.md](VisuStruct-iOS/README.md)
+**Localization:** The app ships a large set of UI translations (strings + Settings), with English and German treated as primary “source of truth” strings during development.
+
+**Statements with I/O prefixes:** Instruction text can distinguish **statement / input / output** usage. Prefixes **`input:`** and **`print:`** are interpreted by the code generators (Java / JavaScript / Python targets) while keeping one shared diagram notation.
+
+**[visustruct.org](https://visustruct.org)** · **Build & layout:** [VisuStruct-iOS/README.md](VisuStruct-iOS/README.md) · **Changes:** [CHANGELOG.md](CHANGELOG.md)
 
 The **[Java VisuStruct](https://github.com/code4teaching/VisuStruct)** editor is based on [kekru/struktogrammeditor](https://github.com/kekru/struktogrammeditor) (MIT). **Sources and releases for Java** are maintained only in that repository (always current there). This **SwiftUI** app is a **reimplementation**: same **`.visustruct`** / XML as Java, not a port of that codebase.
 
