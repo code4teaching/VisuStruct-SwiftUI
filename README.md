@@ -25,17 +25,3 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 ```
 
 **Remote:** [github.com/code4teaching/VisuStruct-SwiftUI](https://github.com/code4teaching/VisuStruct-SwiftUI)
-
----
-
-## GitHub „About“ (Metadaten)
-
-Die **Kurzbeschreibung**, **Website** und **Topics** auf GitHub werden nicht aus dieser Datei übernommen — sie müssen im Repo unter **About** (Zahnrad) bzw. **Settings → General** eingetragen werden. Zum Kopieren:
-
-| Feld | Inhalt |
-|------|--------|
-| **Description** | Nassi–Shneiderman structogram editor for iPad & Apple silicon Mac (SwiftUI). Broad UI localization; statement modes with input:/print: prefixes and Java, JavaScript & Python code generation. Same .visustruct/XML as github.com/code4teaching/VisuStruct. |
-| **Website** | `https://visustruct.org` |
-| **Topics** (Vorschlag) | `swift` `swiftui` `ipad` `macos` `structogram` `nassi-shneiderman` `education` `algorithm` `diagram` `visustruct` |
-
-<!-- GitHub “About” (eine Zeile): Nassi–Shneiderman structograms — iPad & Mac (SwiftUI); localized UI; input:/print: codegen (Java/JS/Python); shares .visustruct with code4teaching/VisuStruct -->
