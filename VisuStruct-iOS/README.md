@@ -52,6 +52,8 @@ The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStr
   - **`print:`** maps to appropriate output APIs per generator target.
   - **`input:`** maps to appropriate input/prompt APIs per generator target.
 - **JavaScript runner** uses `WKWebView` with UI delegate hooks so **`prompt()`** works during interactive runs.
+- **Code generator:** on **iPad & Mac**, a **draggable panel** over the diagram (sheet on **iPhone**); Java / Python / JavaScript output, copy, Java export, in-app JS runner.
+- **Typography:** separate **UI scale** for **canvas** vs **inspector** (see Settings).
 
 ## Differences vs Java UI
 
@@ -60,4 +62,4 @@ The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStr
 
 ## Release notes
 
-See repository root **[CHANGELOG.md](../CHANGELOG.md)** for versioned highlights (starting with **1.2**).
+See repository root **[CHANGELOG.md](../CHANGELOG.md)** for versioned highlights (e.g. **1.2.1**, **1.2**).

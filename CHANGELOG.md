@@ -8,7 +8,21 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Planned / Notes
 
-- Documentation polish only happens when explicitly requested for product/marketing surfaces.
+- Documentation polish for product/marketing surfaces only when explicitly requested.
+
+## [1.2.1] - 2026-04-20
+
+### Added
+
+- **Code generator (iPad & Mac):** movable floating panel with a drag handle so the structogram stays visible; **iPhone** still uses a full-screen sheet.
+- **UI scale:** independent text scaling for the **diagram canvas** vs the **inspector** (`VisuStructUIScale`, wired through Settings / app storage).
+- **Switch block:** short inspector hint for the selector expression (code-style example: `day`).
+
+### Changed
+
+- **Inspector hints:** removed the long for-loop explainer (columns and placeholders carry the UX); removed `e.g.` prefixes from inline examples; removed the endless-loop hint line; **break** placeholder copy now describes an **optional comment** (empty field still emits a plain `break` in generated code).
+- **Canvas:** **break** and **method call** tiles center label text vertically and horizontally inside the drawable area (accounting for side bars), consistent with statement blocks.
+- **`VisuStructCore`:** layout and code-generator adjustments supporting the above; localized string updates across locales.
 
 ## [1.2] - 2026-04-17
 
