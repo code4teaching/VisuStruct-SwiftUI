@@ -910,10 +910,22 @@ struct DiagramCanvasView: View {
                     )
                     y -= lineHeight
                 }
-            } else if node.element.type == .anweisung {
-                // Statement: Text im Block zentrieren (horizontal + vertikal).
-                let contentLeft = r.minX + ix
-                let contentRight = r.maxX - ix
+            } else if node.element.type == .anweisung || node.element.type == .aufruf || node.element.type == .aussprung {
+                // Anweisung, Aufruf, Aussprung: Text zentriert; bei Aufruf/Aussprung Platz für die seitlichen Striche.
+                let bar = ink(DiagramCanvasInk.callSideBarInset)
+                let contentLeft: CGFloat
+                let contentRight: CGFloat
+                switch node.element.type {
+                case .aufruf:
+                    contentLeft = r.minX + bar + ix
+                    contentRight = r.maxX - bar - ix
+                case .aussprung:
+                    contentLeft = r.minX + bar + ix
+                    contentRight = r.maxX - ix
+                default:
+                    contentLeft = r.minX + ix
+                    contentRight = r.maxX - ix
+                }
                 let contentWidth = max(0, contentRight - contentLeft)
                 let totalTextHeight = CGFloat(max(1, lines.count)) * lineHeight
                 var y = r.midY - totalTextHeight / 2
