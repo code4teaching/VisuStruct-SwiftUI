@@ -76,6 +76,7 @@
 "codegen_option_comments" = "Tekst diagramu jako komentarze";
 "codegen_copy" = "Kopiuj";
 "codegen_run_in_browser" = "Testuj w przeglądarce";
+"codegen_save_java" = "Save Java…";
 "a11y_new_diagram_tab" = "Nowa karta diagramu";
 "a11y_close_tab" = "Zamknij kartę";
 "a11y_placeholder_drop" = "Upuść element tutaj, aby zastąpić symbol zastępczy. Naciśnij i przytrzymaj, aby przeciągnąć i przenieść.";
@@ -88,6 +89,13 @@
 /* Inspector */
 "inspector_no_selection" = "Nie wybrano elementu — stuknij kafelek.";
 "inspector_apply_text" = "Zastosuj tekst";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -100,7 +108,7 @@
 "inspector_placeholder_condition" = "Wstaw warunek…";
 "inspector_placeholder_selector" = "Wstaw selektor…";
 "inspector_placeholder_call" = "Wstaw wywołanie…";
-"inspector_placeholder_break" = "Wstaw break…";
+"inspector_placeholder_break" = "Komentarz (opcjonalnie)";
 
 /* Element types */
 "element_anweisung" = "Instrukcja";
@@ -164,3 +172,18 @@
 "err_image_render_failed" = "Nie można utworzyć obrazu.";
 "err_diagram_too_small_print" = "Diagram jest zbyt mały — nic do drukowania.";
 "err_print_unavailable" = "Drukowanie nie jest dostępne na tym urządzeniu.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Propozycja nazwy pliku";
+"settings_export_filename_picker" = "Format";
+"settings_export_filename_date_title" = "Z datą";
+"settings_export_filename_title_only" = "Bez daty";
+"settings_export_filename_footer_with_date" = "Z datą: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Bez daty: Filename.visustruct";

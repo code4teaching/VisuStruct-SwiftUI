@@ -121,6 +121,8 @@ private struct CodeLineEditor: View {
     let maxHeight: CGFloat
     let focusToken: UUID
     let onCommit: () -> Void
+    /// Monospace-Größe für `UITextView` / `NSTextView`. `nil` = bisheriges Verhalten (14 pt + Dynamic Type).
+    var monospacedFontSize: CGFloat? = nil
 
     var body: some View {
         editor
@@ -130,13 +132,26 @@ private struct CodeLineEditor: View {
     @ViewBuilder
     private var editor: some View {
         #if canImport(UIKit)
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            TextEditor(text: $text)
-        } else {
-            CodeLineEditorUIKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, focusToken: focusToken, onCommit: onCommit)
-        }
+        // iPhone: früher `TextEditor` — der spiegelt den laufenden Text oft erst ins Binding, wenn der Fokus endet
+        // („Text übernehmen“ wirkte erst nach „Fertig“). `UITextView` + `textViewDidChange` hält Binding und View synchron.
+        CodeLineEditorUIKit(
+            text: $text,
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+            focusToken: focusToken,
+            onCommit: onCommit,
+            monospacedFontSize: monospacedFontSize,
+            commitOnReturn: UIDevice.current.userInterfaceIdiom != .phone
+        )
         #elseif canImport(AppKit)
-        CodeLineEditorAppKit(text: $text, minHeight: minHeight, maxHeight: maxHeight, focusToken: focusToken, onCommit: onCommit)
+        CodeLineEditorAppKit(
+            text: $text,
+            minHeight: minHeight,
+            maxHeight: maxHeight,
+            focusToken: focusToken,
+            onCommit: onCommit,
+            monospacedFontSize: monospacedFontSize
+        )
         #else
         TextEditor(text: $text)
         #endif
@@ -146,9 +161,12 @@ private struct CodeLineEditor: View {
 #if canImport(UIKit)
 private final class CommitKeyTextView: UITextView {
     var onCommit: (() -> Void)?
+    /// Auf dem iPhone: `false`, damit Return eine neue Zeile einfügt (wie bei `TextEditor`). Auf dem iPad: `true` = Return übernimmt.
+    var commitOnReturn: Bool = true
 
     override var keyCommands: [UIKeyCommand]? {
-        [
+        guard commitOnReturn else { return nil }
+        return [
             UIKeyCommand(input: "\r", modifierFlags: [], action: #selector(commit)),
             UIKeyCommand(input: "\r", modifierFlags: [.shift], action: #selector(insertNewline)),
         ]
@@ -169,12 +187,16 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
     let maxHeight: CGFloat
     let focusToken: UUID
     let onCommit: () -> Void
+    let monospacedFontSize: CGFloat?
+    let commitOnReturn: Bool
 
-    private static let editorFontSize: CGFloat = 14
+    private static let defaultEditorFontSize: CGFloat = 14
 
-    private static func desiredFont() -> UIFont {
-        // Monospace, aber Dynamic-Type-freundlich skaliert.
-        let base = UIFont.monospacedSystemFont(ofSize: editorFontSize, weight: .regular)
+    private func resolvedUIFont() -> UIFont {
+        if let s = monospacedFontSize {
+            return UIFont.monospacedSystemFont(ofSize: s, weight: .regular)
+        }
+        let base = UIFont.monospacedSystemFont(ofSize: Self.defaultEditorFontSize, weight: .regular)
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: base)
     }
 
@@ -188,21 +210,25 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
         tv.smartDashesType = .no
         tv.smartInsertDeleteType = .no
         tv.spellCheckingType = .no
-        let desired = Self.desiredFont()
+        let desired = resolvedUIFont()
         tv.font = desired
         tv.typingAttributes[.font] = desired
         tv.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
+        tv.commitOnReturn = commitOnReturn
         tv.onCommit = onCommit
         tv.delegate = context.coordinator
         return tv
     }
 
     func updateUIView(_ uiView: CommitKeyTextView, context: Context) {
+        // Coordinator lebt länger als einzelne Body-Pässe — Binding jeweils aktuell halten.
+        context.coordinator.text = $text
+        uiView.commitOnReturn = commitOnReturn
         if uiView.text != text {
             uiView.text = text
         }
-        // SwiftUI `.font(...)` wirkt auf `UITextView` nicht zuverlässig; Font daher hier stabil halten.
-        let desired = Self.desiredFont()
+        // Schrift hier setzen — SwiftUI `.font` greift auf `UITextView` nicht; Inspector-Skalierung über `monospacedFontSize`.
+        let desired = resolvedUIFont()
         if uiView.font != desired { uiView.font = desired }
         // Wichtig: Ohne typingAttributes kann UIKit beim ersten Zeichen wieder Default-Font nehmen.
         if (uiView.typingAttributes[.font] as? UIFont) != desired {
@@ -227,6 +253,10 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
         var lastFocusToken: UUID = UUID()
         init(text: Binding<String>) { self.text = text }
         func textViewDidChange(_ textView: UITextView) {
+            text.wrappedValue = textView.text ?? ""
+        }
+
+        func textViewDidEndEditing(_ textView: UITextView) {
             text.wrappedValue = textView.text ?? ""
         }
     }
@@ -257,11 +287,13 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
     let maxHeight: CGFloat
     let focusToken: UUID
     let onCommit: () -> Void
+    let monospacedFontSize: CGFloat?
 
-    private static let editorFontSize: CGFloat = 14
+    private static let defaultEditorFontSize: CGFloat = 14
 
-    private static func desiredFont() -> NSFont {
-        NSFont.monospacedSystemFont(ofSize: editorFontSize, weight: .regular)
+    private func resolvedNSFont() -> NSFont {
+        let size = monospacedFontSize ?? Self.defaultEditorFontSize
+        return NSFont.monospacedSystemFont(ofSize: size, weight: .regular)
     }
 
     func makeNSView(context: Context) -> NSScrollView {
@@ -283,7 +315,7 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
         tv.isAutomaticDataDetectionEnabled = false
         tv.isAutomaticLinkDetectionEnabled = false
         tv.isAutomaticTextReplacementEnabled = false
-        let desired = Self.desiredFont()
+        let desired = resolvedNSFont()
         tv.font = desired
         tv.typingAttributes[.font] = desired
         tv.textContainerInset = NSSize(width: 6, height: 6)
@@ -294,11 +326,12 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: NSScrollView, context: Context) {
+        context.coordinator.text = $text
         guard let tv = nsView.documentView as? NSTextView else { return }
         if tv.string != text {
             tv.string = text
         }
-        let desired = Self.desiredFont()
+        let desired = resolvedNSFont()
         if tv.font != desired { tv.font = desired }
         if (tv.typingAttributes[.font] as? NSFont) != desired {
             tv.typingAttributes[.font] = desired
@@ -321,6 +354,11 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
             guard let tv = notification.object as? NSTextView else { return }
             text.wrappedValue = tv.string
         }
+
+        func textDidEndEditing(_ notification: Notification) {
+            guard let tv = notification.object as? NSTextView else { return }
+            text.wrappedValue = tv.string
+        }
     }
 }
 #endif
@@ -328,13 +366,22 @@ private struct CodeLineEditorAppKit: NSViewRepresentable {
 // MARK: - FileDocument (einheitlich .visustruct / XML wie Java)
 
 struct VisuStructFileDocument: FileDocument, Sendable {
-    static var readableContentTypes: [UTType] {
-        var types: [UTType] = [.xml]
+    /// Export/Speichern: eigene Endung, damit der Dialog nicht zusätzlich `.xml` anhängt.
+    static var preferredExportContentType: UTType {
         if let v = UTType(filenameExtension: "visustruct") {
-            types.append(v)
+            return v
         }
-        return types
+        return .xml
     }
+
+    static var readableContentTypes: [UTType] {
+        if let v = UTType(filenameExtension: "visustruct") {
+            return [v, .xml]
+        }
+        return [.xml]
+    }
+
+    static var writableContentTypes: [UTType] { readableContentTypes }
 
     var document: VisuStructDocument
 
@@ -351,6 +398,34 @@ struct VisuStructFileDocument: FileDocument, Sendable {
 
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         FileWrapper(regularFileWithContents: VisuStructXMLCodec.encode(document))
+    }
+}
+
+/// Export des erzeugten Java-Quelltexts als `.java` (nicht `.class` — das erzeugt `javac`).
+private struct JavaSourceExportDocument: FileDocument, Sendable {
+    static var readableContentTypes: [UTType] {
+        if let java = UTType(filenameExtension: "java") {
+            return [java, .plainText]
+        }
+        return [.plainText]
+    }
+
+    var source: String
+
+    init(source: String) {
+        self.source = source
+    }
+
+    init(configuration: ReadConfiguration) throws {
+        guard let data = configuration.file.regularFileContents else {
+            source = ""
+            return
+        }
+        source = String(decoding: data, as: UTF8.self)
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        FileWrapper(regularFileWithContents: Data(source.utf8))
     }
 }
 
@@ -419,7 +494,7 @@ enum ElementPalette {
                 VisuStructCase(name: "default", elements: [stub])
             ])
         case .forZaehlSchleife:
-            return VisuStructElement(type: .forSchleife, textLines: [""], loopBody: [stubAnweisung()])
+            return VisuStructElement(type: .forSchleife, textLines: ["", "", ""], loopBody: [stubAnweisung()])
         case .whileSchleife:
             return VisuStructElement(type: .whileSchleife, textLines: [""], loopBody: [stubAnweisung()])
         case .doUntilSchleife:
@@ -544,6 +619,23 @@ private struct DiagramSheetTab: Identifiable {
     }
 }
 
+// MARK: - Export: Dateiname (Einstellung)
+
+private enum ExportFilenameStyle: String, CaseIterable, Identifiable {
+    /// `yyyy-MM-dd-<Titel>.visustruct`
+    case dateAndTitle = "dateTitle"
+    /// `<Titel>.visustruct`
+    case titleOnly = "titleOnly"
+
+    var id: String { rawValue }
+
+    static let appStorageKey = "visustruct.export.filenameStyle"
+
+    static func fromStored(_ raw: String) -> Self {
+        Self(rawValue: raw) ?? .dateAndTitle
+    }
+}
+
 // MARK: - Code-Generator: Kaufzwang (IAP)
 
 /// Wenn `true`, ist „Code erzeugen“ ohne Kauf/Freischaltung (`visustruct.codegen.unlocked`) nur ein Hinweis-Sheet.
@@ -572,6 +664,8 @@ struct ContentView: View {
         case caption
         case caseLabel
         case textEditor
+        /// Zählschleife: drei Kopf-Felder (Start / Bedingung / Schritt).
+        case forLoopPart(Int)
     }
 
     private enum StatementIOMode: String, CaseIterable, Hashable {
@@ -617,7 +711,22 @@ struct ContentView: View {
     // Coachmarks (iPhone + iPad): einmalig, in UserDefaults gemerkt.
     @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
     @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
+    @AppStorage(ExportFilenameStyle.appStorageKey) private var exportFilenameStyleRaw: String = ExportFilenameStyle.dateAndTitle.rawValue
+    @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
+    @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @State private var editorFocusToken = UUID()
+
+    private var canvasScaleStep: VisuStructUIScaleStep {
+        VisuStructUIScaleStep(rawValue: canvasScaleRaw) ?? .small
+    }
+
+    private var inspectorScaleStep: VisuStructUIScaleStep {
+        VisuStructUIScaleStep(rawValue: inspectorScaleRaw) ?? .small
+    }
+
+    private var exportFilenameStyle: ExportFilenameStyle {
+        ExportFilenameStyle.fromStored(exportFilenameStyleRaw)
+    }
 
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
@@ -774,7 +883,7 @@ struct ContentView: View {
         .fileExporter(
             isPresented: $showExporter,
             document: VisuStructFileDocument(document: document),
-            contentType: UTType.xml,
+            contentType: VisuStructFileDocument.preferredExportContentType,
             defaultFilename: exportFilenameForCurrentTab()
         ) { result in
             switch result {
@@ -799,8 +908,20 @@ struct ContentView: View {
         .sheet(isPresented: $showCodeGeneratorPaywall) {
             CodeGeneratorPaywallSheet()
         }
-        .sheet(isPresented: $showCodeGeneratorPlaceholder) {
+        .sheet(isPresented: Binding(
+            get: { isPhone && showCodeGeneratorPlaceholder },
+            set: { if !$0 { showCodeGeneratorPlaceholder = false } }
+        )) {
             CodeGeneratorPlaceholderSheet(document: documentBinding)
+        }
+        .overlay {
+            if !isPhone && showCodeGeneratorPlaceholder {
+                DraggableCodeGeneratorFloatingPanel(
+                    isPresented: $showCodeGeneratorPlaceholder,
+                    document: documentBinding
+                )
+                .transition(.opacity)
+            }
         }
         #if canImport(UIKit)
         .sheet(item: $pngSharePayload) { payload in
@@ -827,7 +948,12 @@ struct ContentView: View {
     }
 
     private var diagramEditActions: DiagramEditActions {
-        let isTyping = (focusedField == .caption || focusedField == .caseLabel || focusedField == .textEditor)
+        let isTyping: Bool = {
+            switch focusedField {
+            case .none: return false
+            case .caption, .caseLabel, .textEditor, .forLoopPart(_): return true
+            }
+        }()
         let hasSelection = selectedPath != nil
         let canCopy = !isTyping && hasSelection
         let canPaste = !isTyping && elementClipboard != nil
@@ -991,7 +1117,7 @@ struct ContentView: View {
                     if codeGeneratorAccessGranted {
                         // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
                         // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
-                        applyLineEditor()
+                        applyLineEditorRespectingTextFocus()
                         showCodeGeneratorPlaceholder = true
                     } else {
                         showCodeGeneratorPaywall = true
@@ -1315,6 +1441,7 @@ struct ContentView: View {
                         errorText: errorTextBinding,
                         insertTarget: $insertTarget,
                         elementClipboard: $elementClipboard,
+                        canvasScaleStep: canvasScaleStep,
                         minViewportSize: CGSize(width: geo.size.width, height: geo.size.height)
                     )
                     .padding(.vertical, 8)
@@ -1344,8 +1471,28 @@ struct ContentView: View {
                 var d = document
                 d.caption = newCaption
                 commitDocument(d)
+                syncCurrentTabTitleWithCaption(newCaption)
             }
         )
+    }
+
+    /// Reiter-Bezeichnung an den Diagrammtitel anpassen (leer → Platzhalter wie im Titelfeld).
+    private func syncCurrentTabTitleWithCaption(_ caption: String) {
+        var tabs = sheetTabs
+        let i = currentTabIndex
+        tabs[i].title = tabDisplayTitle(forCaption: caption)
+        sheetTabs = tabs
+    }
+
+    private func tabDisplayTitle(forCaption caption: String) -> String {
+        let t = caption.trimmingCharacters(in: .whitespacesAndNewlines)
+        return t.isEmpty ? lang.tr("diagram_title_placeholder") : t
+    }
+
+    private func syncTabTitleWithDocumentCaption(tabIndex i: Int) {
+        var tabs = sheetTabs
+        tabs[i].title = tabDisplayTitle(forCaption: tabs[i].document.caption)
+        sheetTabs = tabs
     }
 
     private var selectedPathBinding: Binding<[Int]?> {
@@ -1395,13 +1542,66 @@ struct ContentView: View {
         sheetTabs = tabs
     }
 
+    /// Vorschlag für „Speichern unter …“ / Teilen — je nach Einstellung nur Titel oder `yyyy-MM-dd-<Titel>`.
     private func exportFilenameForCurrentTab() -> String {
-        let raw = Self.stripVisuStructExtension(
-            from: sheetTabs[currentTabIndex].linkedFileDisplayName ?? sheetTabs[currentTabIndex].title
-        )
-        let safe = raw.replacingOccurrences(of: "/", with: "-")
-            .replacingOccurrences(of: ":", with: "-")
-        return "\(safe).visustruct"
+        let tab = sheetTabs[currentTabIndex]
+        let caption = tab.document.caption.trimmingCharacters(in: .whitespacesAndNewlines)
+        let baseRaw: String
+        if !caption.isEmpty {
+            baseRaw = caption
+        } else if let linked = tab.linkedFileDisplayName?.trimmingCharacters(in: .whitespacesAndNewlines), !linked.isEmpty {
+            baseRaw = Self.stripVisuStructExtension(from: linked)
+        } else {
+            baseRaw = Self.stripVisuStructExtension(from: tab.title)
+        }
+        let slug = Self.sanitizedExportFilenameSlug(baseRaw)
+        let body: String
+        switch exportFilenameStyle {
+        case .titleOnly:
+            if slug.isEmpty {
+                let fallback = Self.sanitizedExportFilenameSlug(
+                    Self.stripVisuStructExtension(from: tab.title)
+                )
+                body = fallback.isEmpty ? "VisuStruct" : fallback
+            } else {
+                body = slug
+            }
+        case .dateAndTitle:
+            if slug.isEmpty {
+                body = String(Self.isoDatePrefixForExportFilename().dropLast())
+            } else {
+                body = "\(Self.isoDatePrefixForExportFilename())\(slug)"
+            }
+        }
+        return "\(body).visustruct"
+    }
+
+    private static func isoDatePrefixForExportFilename() -> String {
+        let f = DateFormatter()
+        f.calendar = Calendar.current
+        f.timeZone = TimeZone.current
+        f.locale = Locale(identifier: "en_US_POSIX")
+        f.dateFormat = "yyyy-MM-dd"
+        return "\(f.string(from: Date()))-"
+    }
+
+    private static func sanitizedExportFilenameSlug(_ raw: String) -> String {
+        var s = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        if s.isEmpty { return "" }
+        s = stripVisuStructExtension(from: s)
+        // Leerzeichen & Zeilenumbruch → Bindestrich (Vorschlagsname ohne Spaces, z. B. für Skripte/Uploads).
+        s = String(s.map { $0.isWhitespace ? Character("-") : $0 })
+        for ch in ["/", ":", "\\", "*", "?", "\"", "<", ">", "|"] {
+            s = s.replacingOccurrences(of: String(ch), with: "-")
+        }
+        while s.contains("--") {
+            s = s.replacingOccurrences(of: "--", with: "-")
+        }
+        s = s.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
+        if s.count > 120 {
+            s = String(s.prefix(120)).trimmingCharacters(in: CharacterSet(charactersIn: "-"))
+        }
+        return s
     }
 
     private func pdfFilenameForCurrentTab() -> String {
@@ -1435,10 +1635,19 @@ struct ContentView: View {
 
     /// Kompaktes Textfeld unter dem Canvas (typisch 1–2 Zeilen); bei Bedarf per Scrollen mehr.
     private var inspectorPanel: some View {
-        let captionFont: Font = horizontalSizeClass == .regular ? .caption2 : .caption
-        let editorFont: Font = horizontalSizeClass == .regular ? .callout : .body
+        let inScale = CGFloat(inspectorScaleStep.multiplier)
+        let captionFont: Font = .system(
+            size: (horizontalSizeClass == .regular ? 11 : 12) * inScale,
+            weight: .regular
+        )
+        let inspectorHintFont: Font = .system(
+            size: (ProcessInfo.processInfo.isiOSAppOnMac ? 15 : 12) * inScale,
+            weight: .regular
+        )
+        let editorMonoPt = (horizontalSizeClass == .regular ? 16 : 17) * inScale
+        let editorFont: Font = .system(size: editorMonoPt, weight: .regular)
         /// Eine Zeile ~22 pt, zwei Zeilen knapp unter 50 pt — bewusst niedrig, Canvas bleibt dominant.
-        let editorLineHeight: CGFloat = horizontalSizeClass == .regular ? 24 : 27
+        let editorLineHeight: CGFloat = (horizontalSizeClass == .regular ? 24 : 27) * inScale
         let editorMinHeight: CGFloat = editorLineHeight + 20
         let editorMaxHeight: CGFloat = editorLineHeight * 2 + 28
 
@@ -1452,9 +1661,6 @@ struct ContentView: View {
                 }
                 if let ioModeBinding = statementIOModeBindingIfApplicable() {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(lang.tr("inspector_io_mode_title"))
-                            .font(captionFont)
-                            .foregroundStyle(.secondary)
                         Picker("", selection: ioModeBinding) {
                             Text(lang.tr("inspector_io_mode_statement")).tag(StatementIOMode.statement)
                             Text(lang.tr("inspector_io_mode_input")).tag(StatementIOMode.input)
@@ -1466,13 +1672,20 @@ struct ContentView: View {
                         .pickerStyle(.segmented)
                         #endif
                         .labelsHidden()
-                        if ioModeBinding.wrappedValue == .input {
-                            Text("input: int zahl | input: double x | input: String name")
-                                .font(.caption)
+                        // Java-ähnliche Beispiele: absichtlich immer Englisch (Identifier wie number/text), unabhängig von der UI-Sprache — ohne „e.g.“-Präfix, der Hinweis reicht.
+                        if ioModeBinding.wrappedValue == .statement {
+                            // Ein `Text`: eine Zeile wenn Platz, sonst umbrechen (kein erzwungenes Zweizeiler-Layout).
+                            Text(verbatim: "int number = 5  |  double x = 1.5  |  String text = \"Your text\"  |  boolean ok = true  |  char letter = 'A'")
+                                .font(inspectorHintFont)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        } else if ioModeBinding.wrappedValue == .input {
+                            Text(verbatim: "input: int number | input: double x | input: String name")
+                                .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                         } else if ioModeBinding.wrappedValue == .output {
-                            Text("print: x  oder  print: \"Text\"")
-                                .font(.caption)
+                            Text(verbatim: "print: number  or  print: \"Your text\"")
+                                .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -1486,35 +1699,64 @@ struct ContentView: View {
                         .autocorrectionDisabled(true)
                         .focused($focusedField, equals: .caseLabel)
                 }
-                ZStack(alignment: .topLeading) {
-                    CodeLineEditor(
-                        text: lineEditorTextBinding,
-                        minHeight: editorMinHeight,
-                        maxHeight: editorMaxHeight,
-                        focusToken: editorFocusToken,
-                        onCommit: applyLineEditor
-                    )
-                    .font(editorFont)
-                    .scrollContentBackground(.hidden)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-                    .focused($focusedField, equals: .textEditor)
-
-                    if selectedPath != nil,
-                       lineEditorTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                       let placeholder = inspectorLineEditorPlaceholder() {
-                        Text(placeholder)
-                            .foregroundStyle(.secondary)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 10)
-                            .allowsHitTesting(false)
+                if inspectorShowsForLoopThreeFields {
+                    if horizontalSizeClass == .regular {
+                        HStack(alignment: .top, spacing: 12) {
+                            ForEach(0 ..< 3, id: \.self) { i in
+                                forLoopInspectorColumn(i, captionFont: captionFont, editorFont: editorFont)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                    } else {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(alignment: .top, spacing: 12) {
+                                ForEach(0 ..< 3, id: \.self) { i in
+                                    forLoopInspectorColumn(i, captionFont: captionFont, editorFont: editorFont)
+                                        .frame(minWidth: 128, alignment: .leading)
+                                }
+                            }
+                        }
                     }
+                } else {
+                    VStack(alignment: .leading, spacing: 6) {
+                        if let condHint = inspectorConditionEditorHintLine() {
+                            Text(verbatim: condHint)
+                                .font(inspectorHintFont)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        ZStack(alignment: .topLeading) {
+                            CodeLineEditor(
+                                text: lineEditorTextBinding,
+                                minHeight: editorMinHeight,
+                                maxHeight: editorMaxHeight,
+                                focusToken: editorFocusToken,
+                                onCommit: applyLineEditor,
+                                monospacedFontSize: editorMonoPt
+                            )
+                            .scrollContentBackground(.hidden)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled(true)
+                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
+                            .focused($focusedField, equals: .textEditor)
+
+                            if selectedPath != nil,
+                               lineEditorTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                               let placeholder = inspectorLineEditorPlaceholder() {
+                                Text(placeholder)
+                                    .font(inspectorHintFont)
+                                    .foregroundStyle(.secondary)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 10)
+                                    .allowsHitTesting(false)
+                            }
+                        }
+                    }
+                    Button(lang.tr("inspector_apply_text")) {
+                        applyLineEditorRespectingTextFocus()
+                    }
+                    .disabled(selectedPath == nil)
                 }
-                Button(lang.tr("inspector_apply_text")) {
-                    applyLineEditor()
-                }
-                .disabled(selectedPath == nil)
                 if let faPath = fallauswahlAncestorPath(for: selectedPath) {
                     let faCaseCount =
                         (try? VisuStructDocumentEditing.element(at: faPath, in: document))?.cases?.count ?? 0
@@ -1572,7 +1814,7 @@ struct ContentView: View {
                 }
                 tabs[i].lineEditorText = updated
                 sheetTabs = tabs
-                applyLineEditor()
+                applyLineEditorRespectingTextFocus()
             }
         )
     }
@@ -1595,8 +1837,7 @@ struct ContentView: View {
         return "\(p) \(c)"
     }
 
-    /// Placeholder for the line editor, shown only when empty.
-    /// Intentionally English + code-like to stay readable across UI languages.
+    /// Placeholder for the line editor, shown only when empty (grau im Feld). Code-Beispiele als Hilfe: `inspectorConditionEditorHintLine()` darüber.
     private func inspectorLineEditorPlaceholder() -> String? {
         guard let path = selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
@@ -1604,7 +1845,9 @@ struct ContentView: View {
         switch el.type {
         case .anweisung:
             return lang.tr("inspector_placeholder_statement")
-        case .verzweigung, .forSchleife, .whileSchleife, .doUntilSchleife, .endlosschleife:
+        case .forSchleife:
+            return nil
+        case .verzweigung, .whileSchleife, .doUntilSchleife, .endlosschleife:
             return lang.tr("inspector_placeholder_condition")
         case .fallauswahl:
             return lang.tr("inspector_placeholder_selector")
@@ -1613,6 +1856,25 @@ struct ContentView: View {
         case .aussprung:
             return lang.tr("inspector_placeholder_break")
         case .leerElement:
+            return nil
+        }
+    }
+
+    /// Sichtbare Hilfszeile über dem Bedingungs-Editor (wie Statement-Hinweis unter dem Modus-Picker) — Englisch, code-like.
+    private func inspectorConditionEditorHintLine() -> String? {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
+        switch el.type {
+        case .verzweigung:
+            return "age >= 18"
+        case .whileSchleife:
+            return "i < 10"
+        case .doUntilSchleife:
+            return "again == 1"
+        case .fallauswahl:
+            // Ausdruck in Klammern: switch (day) { … } — gleicher Stil wie die anderen Hinweise (englisch, code-nah).
+            return "day"
+        default:
             return nil
         }
     }
@@ -1758,6 +2020,70 @@ struct ContentView: View {
         return Self.localizedElementTypeName(el.type, lang: lang)
     }
 
+    private func padForLoopTextLines(_ lines: [String]) -> [String] {
+        var a = lines.isEmpty ? [""] : lines
+        while a.count < 3 { a.append("") }
+        if a.count > 3 { return Array(a.prefix(3)) }
+        return a
+    }
+
+    private var inspectorShowsForLoopThreeFields: Bool {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return false }
+        return el.type == .forSchleife
+    }
+
+    private func forLoopPartBinding(part index: Int) -> Binding<String> {
+        Binding(
+            get: {
+                guard (0 ..< 3).contains(index),
+                      let path = selectedPath,
+                      let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return "" }
+                let padded = padForLoopTextLines(el.textLines)
+                return padded[index]
+            },
+            set: { newVal in
+                guard (0 ..< 3).contains(index), let path = selectedPath else { return }
+                guard let el = try? VisuStructDocumentEditing.element(at: path, in: document),
+                      el.type == .forSchleife else { return }
+                var lines = padForLoopTextLines(el.textLines)
+                lines[index] = newVal
+                do {
+                    commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
+                } catch {
+                    setErrorOnCurrentTab(error.localizedDescription)
+                }
+            }
+        )
+    }
+
+    private func forLoopInspectorColumn(_ index: Int, captionFont: Font, editorFont: Font) -> some View {
+        let label: String
+        let placeholder: String
+        switch index {
+        case 0:
+            label = lang.tr("inspector_for_init")
+            placeholder = lang.tr("inspector_for_placeholder_init")
+        case 1:
+            label = lang.tr("inspector_for_condition")
+            placeholder = lang.tr("inspector_for_placeholder_condition")
+        default:
+            label = lang.tr("inspector_for_step")
+            placeholder = lang.tr("inspector_for_placeholder_step")
+        }
+        return VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(captionFont)
+                .foregroundStyle(.secondary)
+            TextField("", text: forLoopPartBinding(part: index), prompt: Text(placeholder))
+                .font(editorFont)
+                .textFieldStyle(.roundedBorder)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+                .focused($focusedField, equals: .forLoopPart(index))
+        }
+    }
+
     private static func localizedElementTypeName(_ type: VisuStructElementType, lang: AppLanguage) -> String {
         switch type {
         case .anweisung: return lang.tr("element_anweisung")
@@ -1812,6 +2138,7 @@ struct ContentView: View {
         tab.errorText = nil
         tabs[i] = tab
         sheetTabs = tabs
+        syncTabTitleWithDocumentCaption(tabIndex: i)
         sanitizeSelectionAfterHistoryJump()
         refreshLineEditor()
     }
@@ -1829,6 +2156,7 @@ struct ContentView: View {
         tab.errorText = nil
         tabs[i] = tab
         sheetTabs = tabs
+        syncTabTitleWithDocumentCaption(tabIndex: i)
         sanitizeSelectionAfterHistoryJump()
         refreshLineEditor()
     }
@@ -2073,7 +2401,7 @@ struct ContentView: View {
         tabs[i].lineEditorText = el.textLines.joined(separator: "\n")
         sheetTabs = tabs
 
-        if !isPhone, focusedField == nil {
+        if !isPhone, focusedField == nil, el.type != .forSchleife {
             focusedField = .textEditor
             editorFocusToken = UUID()
         }
@@ -2092,6 +2420,20 @@ struct ContentView: View {
             .replacingOccurrences(of: "‘", with: "'")
             .replacingOccurrences(of: "‚", with: "'")
             .replacingOccurrences(of: "´", with: "'")
+    }
+
+    /// Wendet den Zeileneditor an. Hat das Codefeld den SwiftUI-Fokus, zuerst Fokus lösen —
+    /// sonst kann der letzte Tastatur-Stand auf iOS noch nicht in `lineEditorText` stehen
+    /// (wie zuvor nur nach „Fertig“).
+    private func applyLineEditorRespectingTextFocus() {
+        if focusedField == .textEditor {
+            focusedField = nil
+            DispatchQueue.main.async {
+                applyLineEditor()
+            }
+        } else {
+            applyLineEditor()
+        }
     }
 
     private func applyLineEditor() {
@@ -2119,8 +2461,10 @@ struct ContentView: View {
     private func shareDocumentAsFile() {
         let data = VisuStructXMLCodec.encode(document)
         let fileName = exportFilenameForCurrentTab()
-        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString)-\(fileName)")
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let tmp = dir.appendingPathComponent(fileName)
         do {
+            try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
             try data.write(to: tmp, options: .atomic)
             fileURLSharePayload = FileURLSharePayload(url: tmp)
         } catch {
@@ -2134,7 +2478,9 @@ struct ContentView: View {
             return
         }
         let fileName = pdfFilenameForCurrentTab()
-        let tmp = FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString)-\(fileName)")
+        // Eigenes Temp-Verzeichnis + sauberer Dateiname, damit Quick Look nicht „UUID-…pdf“ als Titel zeigt.
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        let tmp = dir.appendingPathComponent(fileName)
         let bounds = CGRect(origin: .zero, size: img.size)
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = [
@@ -2143,6 +2489,7 @@ struct ContentView: View {
         ]
         let renderer = UIGraphicsPDFRenderer(bounds: bounds, format: format)
         do {
+            try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
             try renderer.writePDF(to: tmp) { ctx in
                 ctx.beginPage()
                 img.draw(in: bounds)
@@ -2158,6 +2505,7 @@ struct ContentView: View {
     /// Gerendertes Struktogramm (gleiche Logik wie PNG-Teilen und Druck).
     private func renderedDiagramUIImage() -> UIImage? {
         let metrics = VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
+            .scaled(by: canvasScaleStep.multiplier)
         let layout = VisuStructLayoutEngine(metrics: metrics).layout(document: document)
         let w = min(1400, max(320, layout.canvasSize.width))
         let h = min(1000, max(320, layout.canvasSize.height))
@@ -2168,7 +2516,8 @@ struct ContentView: View {
             selectedPath: .constant(nil),
             errorText: .constant(nil),
             insertTarget: .constant(nil),
-            elementClipboard: .constant(nil)
+            elementClipboard: .constant(nil),
+            canvasScaleStep: canvasScaleStep
         )
         .frame(width: w, height: h)
         let exportRoot = ZStack {
@@ -2243,6 +2592,92 @@ struct ContentView: View {
 
 // MARK: - Code-Generator (Oberfläche; IAP folgt)
 
+private extension View {
+    /// Schwebendes Panel: kein Sheet-Ziehharmonika-Indikator; Vollbild-Sheet auf dem iPhone: Indikator wie bisher.
+    @ViewBuilder
+    func codeGeneratorPresentationChrome(isFloatingPanel: Bool) -> some View {
+        if isFloatingPanel {
+            self
+        } else {
+            self.presentationDragIndicator(.visible)
+        }
+    }
+}
+
+/// iPad / Mac (nicht iPhone): Code-Generator als schwebendes, per Zieh-Leiste verschiebbares Panel — Diagramm bleibt sichtbar.
+private struct DraggableCodeGeneratorFloatingPanel: View {
+    @Binding var isPresented: Bool
+    @Binding var document: VisuStructDocument
+
+    @State private var dragOffset: CGSize = .zero
+    @State private var dragBase: CGSize = .zero
+
+    private let dragBarHeight: CGFloat = 28
+
+    var body: some View {
+        GeometryReader { geo in
+            let panelW = min(620, geo.size.width - 40)
+            let panelH = min(geo.size.height * 0.82, geo.size.height - 48)
+            let margin: CGFloat = 10
+            let maxOffsetX = max(0, geo.size.width / 2 - margin - panelW / 2)
+            let maxOffsetY = max(0, geo.size.height / 2 - margin - panelH / 2)
+
+            ZStack {
+                Color.black.opacity(0.22)
+                    .ignoresSafeArea()
+                    .contentShape(Rectangle())
+                    .onTapGesture { isPresented = false }
+
+                VStack(spacing: 0) {
+                    RoundedRectangle(cornerRadius: 2.5, style: .continuous)
+                        .fill(Color.secondary.opacity(0.45))
+                        .frame(width: 40, height: 5)
+                        .padding(.vertical, (dragBarHeight - 5) / 2)
+                        .frame(maxWidth: .infinity)
+                        .contentShape(Rectangle())
+                        .accessibilityLabel("Panel verschieben")
+                        .gesture(
+                            DragGesture()
+                                .onChanged { value in
+                                    let nx = dragBase.width + value.translation.width
+                                    let ny = dragBase.height + value.translation.height
+                                    dragOffset = CGSize(
+                                        width: min(maxOffsetX, max(-maxOffsetX, nx)),
+                                        height: min(maxOffsetY, max(-maxOffsetY, ny))
+                                    )
+                                }
+                                .onEnded { _ in
+                                    dragBase = dragOffset
+                                }
+                        )
+
+                    CodeGeneratorPlaceholderSheet(
+                        document: $document,
+                        onDismissExternal: { isPresented = false },
+                        isInFloatingPanel: true
+                    )
+                    .frame(width: panelW, height: panelH - dragBarHeight)
+                    .clipped()
+                }
+                .frame(width: panelW, height: panelH)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .shadow(color: .black.opacity(0.28), radius: 22, y: 10)
+                .position(
+                    x: geo.size.width / 2 + dragOffset.width,
+                    y: geo.size.height / 2 + dragOffset.height
+                )
+            }
+        }
+        .onChange(of: isPresented) { _, on in
+            if on {
+                dragOffset = .zero
+                dragBase = .zero
+            }
+        }
+    }
+}
+
 private struct CodeGeneratorPaywallSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
@@ -2272,6 +2707,10 @@ private struct CodeGeneratorPlaceholderSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
     @Binding var document: VisuStructDocument
+    /// Wenn gesetzt (schwebendes Panel): schließt die äußere Präsentation statt `dismiss()`.
+    var onDismissExternal: (() -> Void)? = nil
+    /// `true`: kein Sheet-Ziehharmonika-Indikator (nur relevant im Vollbild-Sheet).
+    var isInFloatingPanel: Bool = false
 
     /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
     @AppStorage("visustruct.codegen.target") private var codegenTarget: String = "java"
@@ -2293,16 +2732,42 @@ private struct CodeGeneratorPlaceholderSheet: View {
         }
     }
 
+    private var codegenOptions: VisuStructCodeGenerator.Options {
+        .init(baseIndent: 0, indentPerLevel: 4, includeDiagramTextAsComments: includeDiagramComments)
+    }
+
     private var generatedCode: String {
         VisuStructCodeGenerator.generate(
             document: document,
             target: target,
-            options: .init(baseIndent: 0, indentPerLevel: 4, includeDiagramTextAsComments: includeDiagramComments)
+            options: codegenOptions
         )
     }
 
     @State private var showJavaScriptRunner = false
     @State private var javaScriptRunnerHTML = ""
+    @State private var showJavaExporter = false
+    @State private var javaExportDocument = JavaSourceExportDocument(source: "")
+    @State private var javaExportDefaultName = "Main.java"
+
+    private func stemForJavaClassName() -> String {
+        let c = document.caption.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !c.isEmpty { return c }
+        return "Main"
+    }
+
+    private func beginJavaExport() {
+        let stem = stemForJavaClassName()
+        let className = VisuStructCodeGenerator.sanitizedJavaClassName(stem)
+        let full = VisuStructCodeGenerator.generateJavaClassFile(
+            document: document,
+            options: codegenOptions,
+            className: stem
+        )
+        javaExportDocument = JavaSourceExportDocument(source: full)
+        javaExportDefaultName = "\(className).java"
+        showJavaExporter = true
+    }
 
     private func openJavaScriptRunner(_ js: String) {
         // In-App Runner (WKWebView): zuverlässiger als Safari/data: auf iOS.
@@ -2356,6 +2821,14 @@ private struct CodeGeneratorPlaceholderSheet: View {
         showJavaScriptRunner = true
     }
 
+    private func dismissPanel() {
+        if let onDismissExternal {
+            onDismissExternal()
+        } else {
+            dismiss()
+        }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -2400,6 +2873,15 @@ private struct CodeGeneratorPlaceholderSheet: View {
                         Label(lang.tr("codegen_copy"), systemImage: "doc.on.doc")
                     }
                 }
+                if target == .java {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button {
+                            beginJavaExport()
+                        } label: {
+                            Label(lang.tr("codegen_save_java"), systemImage: "square.and.arrow.down")
+                        }
+                    }
+                }
                 if target == .javascript {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
@@ -2411,11 +2893,17 @@ private struct CodeGeneratorPlaceholderSheet: View {
                 }
                 #endif
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(lang.tr("codegen_gate_ok")) { dismiss() }
+                    Button(lang.tr("codegen_gate_ok")) { dismissPanel() }
                 }
             }
         }
-        .presentationDragIndicator(.visible)
+        .codeGeneratorPresentationChrome(isFloatingPanel: isInFloatingPanel)
+        .fileExporter(
+            isPresented: $showJavaExporter,
+            document: javaExportDocument,
+            contentType: .plainText,
+            defaultFilename: javaExportDefaultName
+        ) { _ in }
         .sheet(isPresented: $showJavaScriptRunner) {
             JavaScriptRunnerSheet(html: javaScriptRunnerHTML)
         }
@@ -2571,11 +3059,35 @@ private struct SettingsSheet: View {
     @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
     @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
     @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
+    @AppStorage(ExportFilenameStyle.appStorageKey) private var exportFilenameStyleRaw: String = ExportFilenameStyle.dateAndTitle.rawValue
+    @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
+    @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
+
+    private var canvasScaleBinding: Binding<VisuStructUIScaleStep> {
+        Binding(
+            get: { VisuStructUIScaleStep(rawValue: canvasScaleRaw) ?? .small },
+            set: { canvasScaleRaw = $0.rawValue }
+        )
+    }
+
+    private var inspectorScaleBinding: Binding<VisuStructUIScaleStep> {
+        Binding(
+            get: { VisuStructUIScaleStep(rawValue: inspectorScaleRaw) ?? .small },
+            set: { inspectorScaleRaw = $0.rawValue }
+        )
+    }
 
     private var selection: Binding<AppLanguage> {
         Binding(
             get: { AppLanguage(rawValue: languageCode) ?? .javaLike },
             set: { languageCode = $0.rawValue }
+        )
+    }
+
+    private var exportFilenameSelection: Binding<ExportFilenameStyle> {
+        Binding(
+            get: { ExportFilenameStyle.fromStored(exportFilenameStyleRaw) },
+            set: { exportFilenameStyleRaw = $0.rawValue }
         )
     }
 
@@ -2611,6 +3123,37 @@ private struct SettingsSheet: View {
                         Text("Turkish (Türkçe)").tag(AppLanguage.turkish)
                         Text("Ukrainian (Українська)").tag(AppLanguage.ukrainian)
                     }
+                }
+
+                Section {
+                    Picker(lang.tr("settings_ui_scale_canvas"), selection: canvasScaleBinding) {
+                        ForEach(VisuStructUIScaleStep.allCases) { step in
+                            Text(lang.tr(step.localizationKey)).tag(step)
+                        }
+                    }
+                    Picker(lang.tr("settings_ui_scale_inspector"), selection: inspectorScaleBinding) {
+                        ForEach(VisuStructUIScaleStep.allCases) { step in
+                            Text(lang.tr(step.localizationKey)).tag(step)
+                        }
+                    }
+                } header: {
+                    Text(lang.tr("settings_ui_scale_section"))
+                }
+
+                Section {
+                    Picker(lang.tr("settings_export_filename_picker"), selection: exportFilenameSelection) {
+                        Text(lang.tr("settings_export_filename_date_title")).tag(ExportFilenameStyle.dateAndTitle)
+                        Text(lang.tr("settings_export_filename_title_only")).tag(ExportFilenameStyle.titleOnly)
+                    }
+                } header: {
+                    Text(lang.tr("settings_export_filename_section"))
+                } footer: {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(lang.tr("settings_export_filename_footer_with_date"))
+                        Text(lang.tr("settings_export_filename_footer_without_date"))
+                    }
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
                 }
 
                 Section {

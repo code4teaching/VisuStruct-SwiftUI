@@ -30,6 +30,13 @@
 /* Inspector */
 "inspector_no_selection" = "Ingen valgt — trykk på en rute.";
 "inspector_apply_text" = "Bruk tekst";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -42,7 +49,7 @@
 "inspector_placeholder_condition" = "Skriv condition…";
 "inspector_placeholder_selector" = "Skriv selector…";
 "inspector_placeholder_call" = "Skriv call…";
-"inspector_placeholder_break" = "Skriv break…";
+"inspector_placeholder_break" = "Kommentar (valgfritt)";
 
 /* Element types */
 "element_anweisung" = "Setning";
@@ -72,3 +79,18 @@
 "canvas_stub_endless" = "endless";
 "canvas_stub_break" = "break";
 "canvas_stub_call" = "method()";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Forslag til filnavn";
+"settings_export_filename_picker" = "Format";
+"settings_export_filename_date_title" = "Med dato";
+"settings_export_filename_title_only" = "Uten dato";
+"settings_export_filename_footer_with_date" = "Med dato: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Uten dato: Filename.visustruct";

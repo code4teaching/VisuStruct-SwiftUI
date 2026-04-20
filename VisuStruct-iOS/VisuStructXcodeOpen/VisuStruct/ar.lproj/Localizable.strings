@@ -76,7 +76,7 @@
 "codegen_option_comments" = "نص المخطط كتعليقات";
 "codegen_copy" = "نسخ";
 "codegen_run_in_browser" = "اختبار في المتصفح";
-
+"codegen_save_java" = "Save Java…";
 "a11y_new_diagram_tab" = "علامة تبويب جديدة للمخطط";
 "a11y_close_tab" = "إغلاق علامة التبويب";
 "a11y_placeholder_drop" = "أفلت عنصرًا هنا لاستبدال العنصر النائب. اضغط مطولًا للسحب والتحريك.";
@@ -89,6 +89,13 @@
 /* Inspector */
 "inspector_no_selection" = "لا يوجد عنصر محدد — اضغط على كتلة.";
 "inspector_apply_text" = "تطبيق النص";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -101,7 +108,7 @@
 "inspector_placeholder_condition" = "أدخل condition…";
 "inspector_placeholder_selector" = "أدخل selector…";
 "inspector_placeholder_call" = "أدخل call…";
-"inspector_placeholder_break" = "أدخل break…";
+"inspector_placeholder_break" = "تعليق (اختياري)";
 
 /* Element types — keep Java-like (LTR) to reduce RTL confusion */
 "element_anweisung" = "Statement";
@@ -165,3 +172,18 @@
 "err_image_render_failed" = "تعذر إنشاء الصورة.";
 "err_diagram_too_small_print" = "المخطط صغير جدًا — لا يوجد ما يمكن طباعته.";
 "err_print_unavailable" = "الطباعة غير متاحة على هذا الجهاز.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "اقتراح اسم الملف";
+"settings_export_filename_picker" = "النمط";
+"settings_export_filename_date_title" = "مع التاريخ";
+"settings_export_filename_title_only" = "بدون تاريخ";
+"settings_export_filename_footer_with_date" = "مع التاريخ: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "بدون تاريخ: Filename.visustruct";

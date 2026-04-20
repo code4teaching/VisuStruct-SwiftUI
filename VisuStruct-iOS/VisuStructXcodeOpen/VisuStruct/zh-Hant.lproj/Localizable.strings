@@ -76,7 +76,7 @@
 "codegen_option_comments" = "將圖表文字作為註解";
 "codegen_copy" = "複製";
 "codegen_run_in_browser" = "在瀏覽器中測試";
-
+"codegen_save_java" = "Save Java…";
 "a11y_new_diagram_tab" = "新增圖表分頁";
 "a11y_close_tab" = "關閉分頁";
 "a11y_placeholder_drop" = "將元素拖放到這裡以取代佔位符。長按可拖曳移動。";
@@ -89,6 +89,13 @@
 /* Inspector */
 "inspector_no_selection" = "未選取任何元素 — 點一下區塊。";
 "inspector_apply_text" = "套用文字";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -101,7 +108,7 @@
 "inspector_placeholder_condition" = "輸入條件…";
 "inspector_placeholder_selector" = "輸入選擇式…";
 "inspector_placeholder_call" = "輸入呼叫…";
-"inspector_placeholder_break" = "輸入 break…";
+"inspector_placeholder_break" = "註解（選填）";
 
 /* Element types */
 "element_anweisung" = "陳述式";
@@ -165,3 +172,18 @@
 "err_image_render_failed" = "無法建立圖片。";
 "err_diagram_too_small_print" = "圖表太小——沒有可列印的內容。";
 "err_print_unavailable" = "此裝置不支援列印。";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "檔名建議";
+"settings_export_filename_picker" = "格式";
+"settings_export_filename_date_title" = "含日期";
+"settings_export_filename_title_only" = "不含日期";
+"settings_export_filename_footer_with_date" = "含日期: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "不含日期: Filename.visustruct";

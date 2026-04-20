@@ -53,6 +53,9 @@ struct DiagramCanvasView: View {
     /// In-App Zwischenablage: Kopieren/Ausschneiden/Einfügen von Elementen.
     @Binding var elementClipboard: VisuStructElement?
 
+    /// Einstellungen: Struktogramm-Schrift und -Maße (klein / mittel / groß).
+    var canvasScaleStep: VisuStructUIScaleStep = .small
+
     /// Sichtbarer Bereich des ScrollViews (Fenstergröße). Wenn `.zero`, nur Inhaltsgröße des Layouts.
     var minViewportSize: CGSize = .zero
 
@@ -89,16 +92,23 @@ struct DiagramCanvasView: View {
         }
     }
 
+    private var canvasScale: CGFloat { CGFloat(canvasScaleStep.multiplier) }
+
     private var layoutMetrics: VisuStructLayoutEngine.Metrics {
-        VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
+        let base = VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
+        return base.scaled(by: Double(canvasScale))
     }
 
     private var lineHeight: CGFloat { CGFloat(layoutMetrics.lineHeight) }
     private var headerFontSize: CGFloat { CGFloat(layoutMetrics.fontSize) }
 
     private var captionFontSize: CGFloat {
-        (horizontalSizeClass == .regular ? CGFloat(15) : CGFloat(20)) + CGFloat(DiagramCanvasInk.extraFontPoints)
+        let base = (horizontalSizeClass == .regular ? CGFloat(15) : CGFloat(20)) + CGFloat(DiagramCanvasInk.extraFontPoints)
+        return base * canvasScale
     }
+
+    /// Skaliert feste Abstände/Linien im Canvas mit der Diagramm-Stufe.
+    private func ink(_ v: CGFloat) -> CGFloat { v * canvasScale }
 
     private var cellFont: Font { .system(size: headerFontSize, weight: .medium) }
     private var captionFont: Font { .system(size: captionFontSize, weight: .medium) }
@@ -404,7 +414,7 @@ struct DiagramCanvasView: View {
                         // Platzhalterflächen haben immer eine gestrichelte Rahmen-Overlay.
                         // Wenn selektiert, soll die blaue Auswahl sichtbar sein (sonst überdeckt der gestrichelte Rahmen die Canvas-Auswahl).
                         RoundedRectangle(cornerRadius: 4)
-                            .strokeBorder(Color.blue.opacity(0.9), lineWidth: DiagramCanvasInk.selectionLineWidth)
+                            .strokeBorder(Color.blue.opacity(0.9), lineWidth: ink(DiagramCanvasInk.selectionLineWidth))
                     } else {
                         RoundedRectangle(cornerRadius: 4)
                             .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
@@ -452,7 +462,7 @@ struct DiagramCanvasView: View {
 
     @ViewBuilder
     private func rootInsertBeforeFirstStrip(firstRootFrame: VisuStructRect, canvasWidth: CGFloat, canvasHeight: CGFloat) -> some View {
-        let sh = DiagramCanvasInk.rootInsertStripHeight
+        let sh = ink(DiagramCanvasInk.rootInsertStripHeight)
         let y = max(0, CGFloat(firstRootFrame.y) - sh - 2)
         if y + sh <= canvasHeight && canvasWidth > 4 {
             let key = rootInsertBeforeFirstKey
@@ -731,7 +741,7 @@ struct DiagramCanvasView: View {
         Canvas { context, size in
             context.fill(Path(CGRect(origin: .zero, size: size)), with: .color(diagramCanvasFill))
 
-            let m = DiagramCanvasInk.canvasOuterMargin
+            let m = ink(DiagramCanvasInk.canvasOuterMargin)
             let innerTrim: CGFloat = 1
             let frameRect = CGRect(
                 x: m,
@@ -740,7 +750,7 @@ struct DiagramCanvasView: View {
                 height: CGFloat(layout.canvasSize.height) - 2 * m - innerTrim
             )
             let outerFramePath = Path(frameRect)
-            context.stroke(outerFramePath, with: .color(Color.gray.opacity(0.6)), lineWidth: DiagramCanvasInk.outerFrameLineWidth)
+            context.stroke(outerFramePath, with: .color(Color.gray.opacity(0.6)), lineWidth: ink(DiagramCanvasInk.outerFrameLineWidth))
 
             if !document.caption.isEmpty {
                 let cap = captionFontSize
@@ -770,10 +780,10 @@ struct DiagramCanvasView: View {
         let lines = node.element.textLines
         let apexPadding: CGFloat = 12
         let blockH = CGFloat(max(lines.count, 1)) * lineHeight
-        let topStart = r.minY + DiagramCanvasInk.multiHeaderFirstLineY
+        let topStart = r.minY + ink(DiagramCanvasInk.multiHeaderFirstLineY)
 
         if node.element.type == .fallauswahl {
-            let caseBand = max(DiagramCanvasInk.fallauswahlCaseLabelBand, lineHeight + 10)
+            let caseBand = max(ink(DiagramCanvasInk.fallauswahlCaseLabelBand), lineHeight + ink(10))
             let titleBottomLimit = roofBottom - caseBand
             let maxTextBottom = titleBottomLimit - apexPadding
             let idealApexY = roofBottom + yInset
@@ -808,26 +818,26 @@ struct DiagramCanvasView: View {
         let linePaint = diagramLineColor
 
         context.fill(cellPath, with: .color(diagramCellFill))
-        context.stroke(cellPath, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
+        context.stroke(cellPath, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
         // Kein zweites Rechteck für Verzweigung/Fallauswahl: dessen Oberkante läge auf Höhe der Dreiecksspitze
         // und würde eine Sehne durch das V zeichnen sowie linke/rechte Kanten doppelt stroken („X“ / Doppellinien).
 
         switch node.element.type {
         case .aufruf:
-            let bar = DiagramCanvasInk.callSideBarInset
+            let bar = ink(DiagramCanvasInk.callSideBarInset)
             context.stroke(Path { p in
                 p.move(to: CGPoint(x: r.minX + bar, y: r.minY))
                 p.addLine(to: CGPoint(x: r.minX + bar, y: r.maxY))
                 p.move(to: CGPoint(x: r.maxX - bar, y: r.minY))
                 p.addLine(to: CGPoint(x: r.maxX - bar, y: r.maxY))
-            }, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
+            }, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
         case .aussprung:
-            let bar = DiagramCanvasInk.callSideBarInset
+            let bar = ink(DiagramCanvasInk.callSideBarInset)
             context.stroke(Path { p in
                 p.move(to: CGPoint(x: r.minX + bar, y: r.minY))
                 p.addLine(to: CGPoint(x: r.minX, y: r.midY))
                 p.addLine(to: CGPoint(x: r.minX + bar, y: r.maxY))
-            }, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
+            }, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
         default:
             break
         }
@@ -837,7 +847,7 @@ struct DiagramCanvasView: View {
             let roof = multiwayRoofMetrics(node: node, rect: r, headerH: headerH, dividerX: dividerX)
             let lines = displayTextLines(for: node.element)
             let blockH = CGFloat(max(lines.count, 1)) * lineHeight
-            let topStart = r.minY + DiagramCanvasInk.multiHeaderFirstLineY
+            let topStart = r.minY + ink(DiagramCanvasInk.multiHeaderFirstLineY)
 
             context.stroke(Path { p in
                 let topLeft = CGPoint(x: r.minX, y: r.minY)
@@ -845,7 +855,7 @@ struct DiagramCanvasView: View {
                 p.move(to: topLeft)
                 p.addLine(to: roof.apex)
                 p.addLine(to: topRight)
-            }, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
+            }, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
 
             if node.element.type == .fallauswahl {
                 context.stroke(
@@ -854,7 +864,7 @@ struct DiagramCanvasView: View {
                         p.addLine(to: CGPoint(x: r.maxX, y: roof.roofBottom))
                     },
                     with: .color(linePaint),
-                    lineWidth: DiagramCanvasInk.diagramLineWidth
+                    lineWidth: ink(DiagramCanvasInk.diagramLineWidth)
                 )
             }
 
@@ -874,8 +884,8 @@ struct DiagramCanvasView: View {
                 let tx: CGFloat = {
                     if node.element.type == .verzweigung {
                         let ideal = dividerX - tw / 2
-                        let lo = r.minX + DiagramCanvasInk.cellTextInsetX
-                        let hi = r.maxX - tw - DiagramCanvasInk.cellTextInsetX
+                        let lo = r.minX + ink(DiagramCanvasInk.cellTextInsetX)
+                        let hi = r.maxX - tw - ink(DiagramCanvasInk.cellTextInsetX)
                         return min(max(ideal, lo), hi)
                     }
                     return r.midX - tw / 2
@@ -888,10 +898,10 @@ struct DiagramCanvasView: View {
             }
         } else {
             let lines = displayTextLines(for: node.element)
-            let ix = DiagramCanvasInk.cellTextInsetX
-            let iy = DiagramCanvasInk.cellTextInsetY
+            let ix = ink(DiagramCanvasInk.cellTextInsetX)
+            let iy = ink(DiagramCanvasInk.cellTextInsetY)
             if node.element.type == .doUntilSchleife {
-                var y = r.maxY - DiagramCanvasInk.cellTextInsetYDoUntil
+                var y = r.maxY - ink(DiagramCanvasInk.cellTextInsetYDoUntil)
                 for line in lines.reversed() {
                     context.draw(
                         context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
@@ -945,7 +955,7 @@ struct DiagramCanvasView: View {
                 context.stroke(Path { p in
                     p.move(to: CGPoint(x: xSep, y: r.maxY))
                     p.addLine(to: CGPoint(x: xSep, y: yTop))
-                }, with: .color(linePaint), lineWidth: DiagramCanvasInk.diagramLineWidth)
+                }, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
             }
 
             if let cases = node.element.cases, cases.count == node.caseColumnFrames.count {
@@ -957,7 +967,7 @@ struct DiagramCanvasView: View {
                     }
                     return r.minY + headerH - 8
                 }()
-                let lx = DiagramCanvasInk.branchLabelInsetX
+                let lx = ink(DiagramCanvasInk.branchLabelInsetX)
                 if node.element.type == .verzweigung && cases.count == 2 {
                     let left = "true"
                     let right = "false"
@@ -991,7 +1001,7 @@ struct DiagramCanvasView: View {
 
         // Auswahlrahmen IMMER zuletzt zeichnen, damit Kinder/Innenlinien ihn nicht übermalen (v. a. bei verschachtelten Verzweigungen/Fallauswahl).
         if isSelected {
-            context.stroke(cellPath, with: .color(Color.blue.opacity(0.9)), lineWidth: DiagramCanvasInk.selectionLineWidth)
+            context.stroke(cellPath, with: .color(Color.blue.opacity(0.9)), lineWidth: ink(DiagramCanvasInk.selectionLineWidth))
         }
     }
 

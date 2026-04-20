@@ -76,6 +76,7 @@
 "codegen_option_comments" = "Diyagram metnini yorum olarak ekle";
 "codegen_copy" = "Kopyala";
 "codegen_run_in_browser" = "Tarayıcıda test et";
+"codegen_save_java" = "Save Java…";
 "a11y_new_diagram_tab" = "Yeni diyagram sekmesi";
 "a11y_close_tab" = "Sekmeyi kapat";
 "a11y_placeholder_drop" = "Yer tutucuyu değiştirmek için buraya bir öğe bırakın. Sürükleyip taşımak için basılı tutun.";
@@ -88,6 +89,13 @@
 /* Inspector */
 "inspector_no_selection" = "Seçili öğe yok — bir kutucuğa dokunun.";
 "inspector_apply_text" = "Metni uygula";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -100,7 +108,7 @@
 "inspector_placeholder_condition" = "Koşul ekle…";
 "inspector_placeholder_selector" = "Seçici ekle…";
 "inspector_placeholder_call" = "Çağrı ekle…";
-"inspector_placeholder_break" = "break ekle…";
+"inspector_placeholder_break" = "Açıklama (isteğe bağlı)";
 
 /* Element types */
 "element_anweisung" = "İfade";
@@ -164,3 +172,18 @@
 "err_image_render_failed" = "Görsel oluşturulamadı.";
 "err_diagram_too_small_print" = "Diyagram çok küçük — yazdırılacak bir şey yok.";
 "err_print_unavailable" = "Bu aygıtta yazdırma kullanılamıyor.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Dosya adı önerisi";
+"settings_export_filename_picker" = "Biçim";
+"settings_export_filename_date_title" = "Tarihli";
+"settings_export_filename_title_only" = "Tarihsiz";
+"settings_export_filename_footer_with_date" = "Tarihli: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Tarihsiz: Filename.visustruct";

@@ -73,7 +73,7 @@
 "codegen_option_comments" = "Текст схеми як коментарі";
 "codegen_copy" = "Копіювати";
 "codegen_run_in_browser" = "Перевірити в браузері";
-
+"codegen_save_java" = "Save Java…";
 "a11y_new_diagram_tab" = "Нова вкладка схеми";
 "a11y_close_tab" = "Закрити вкладку";
 "a11y_placeholder_drop" = "Перетягніть елемент сюди, щоб замінити заповнювач. Натисніть і утримуйте, щоб перемістити.";
@@ -86,11 +86,18 @@
 /* Inspector */
 "inspector_no_selection" = "Елемент не вибрано — торкніться плитки.";
 "inspector_apply_text" = "Застосувати текст";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Java: input: int zahl | output: print: x";
+"inspector_io_mode_help_java_like" = "Java: input: int zahl | output: print: number";
 "inspector_add_case" = "Додати випадок";
 "inspector_remove_case" = "Видалити випадок";
 "inspector_group_element" = "Текст елемента";
@@ -98,7 +105,7 @@
 "inspector_placeholder_condition" = "Вставити умову…";
 "inspector_placeholder_selector" = "Вставити selector…";
 "inspector_placeholder_call" = "Вставити виклик…";
-"inspector_placeholder_break" = "Вставити break…";
+"inspector_placeholder_break" = "Коментар (необов'язково)";
 
 /* Element types (Ukrainian + keyword hint) */
 "element_anweisung" = "Інструкція (statement)";
@@ -162,3 +169,18 @@
 "err_image_render_failed" = "Не вдалося створити зображення.";
 "err_diagram_too_small_print" = "Схема занадто мала — нічого друкувати.";
 "err_print_unavailable" = "Друк недоступний на цьому пристрої.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Запропонована назва файлу";
+"settings_export_filename_picker" = "Формат";
+"settings_export_filename_date_title" = "З датою";
+"settings_export_filename_title_only" = "Без дати";
+"settings_export_filename_footer_with_date" = "З датою: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Без дати: Filename.visustruct";

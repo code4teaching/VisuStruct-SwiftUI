@@ -43,6 +43,21 @@
 
 "settings_replay_tour" = "Einführung erneut anzeigen";
 
+"settings_ui_scale_section" = "Textgröße";
+"settings_ui_scale_canvas" = "Struktogramm";
+"settings_ui_scale_inspector" = "Eingabe unten";
+"settings_ui_scale_small" = "Klein";
+"settings_ui_scale_medium" = "Mittel";
+"settings_ui_scale_large" = "Groß";
+"settings_ui_scale_extra_large" = "Sehr groß";
+
+"settings_export_filename_section" = "Dateivorschlag";
+"settings_export_filename_picker" = "Format";
+"settings_export_filename_date_title" = "Mit Datum";
+"settings_export_filename_title_only" = "Ohne Datum";
+"settings_export_filename_footer_with_date" = "Mit Datum: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Ohne Datum: Filename.visustruct";
+
 /* Fehler-Overlay */
 "error_title" = "Fehler";
 "error_back_editor" = "Zurück zum Editor";
@@ -78,6 +93,7 @@
 "codegen_generated_hint" = "Vorschau aus dem aktuellen Struktogramm (Java 17, Python 3.10+, modernes JavaScript).";
 "codegen_copy" = "Kopieren";
 "codegen_run_in_browser" = "Im Browser testen";
+"codegen_save_java" = "Java speichern …";
 "a11y_new_diagram_tab" = "Weiteres Struktogramm";
 "a11y_close_tab" = "Reiter schließen";
 "a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
@@ -90,6 +106,12 @@
 /* Inspector */
 "inspector_no_selection" = "Kein Element gewählt — tippe auf eine Kachel.";
 "inspector_apply_text" = "Text übernehmen";
+"inspector_for_init" = "Start";
+"inspector_for_condition" = "Bedingung";
+"inspector_for_step" = "Schritt";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
 "inspector_io_mode_title" = "Art";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -102,7 +124,7 @@
 "inspector_placeholder_condition" = "Bedingung einfügen …";
 "inspector_placeholder_selector" = "Auswahl einfügen …";
 "inspector_placeholder_call" = "Aufruf einfügen …";
-"inspector_placeholder_break" = "break einfügen …";
+"inspector_placeholder_break" = "Kommentar (optional)";
 
 /* Elementtypen (Palette + Inspector) */
 "element_anweisung" = "Anweisung";

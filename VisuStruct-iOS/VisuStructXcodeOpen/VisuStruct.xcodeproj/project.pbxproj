@@ -37,6 +37,7 @@
 		AA0000000000000000000126 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA100000000000000000001E /* Localizable.strings */; };
 		AA0000000000000000000107 /* DiagramDragPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100000000000000000000B /* DiagramDragPayload.swift */; };
 		AA0000000000000000000108 /* Java.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA100000000000000000000C /* Java.strings */; };
+		AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100000000000000000001F /* VisuStructUIScale.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		AA100000000000000000001E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AA100000000000000000000B /* DiagramDragPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiagramDragPayload.swift; sourceTree = "<group>"; };
 		AA100000000000000000000C /* Java.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Java.strings; sourceTree = "<group>"; };
+		AA100000000000000000001F /* VisuStructUIScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisuStructUIScale.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				AA1000000000000000000002 /* ContentView.swift */,
 				AA1000000000000000000003 /* DiagramCanvasView.swift */,
 				AA100000000000000000000B /* DiagramDragPayload.swift */,
+				AA100000000000000000001F /* VisuStructUIScale.swift */,
 				AA1000000000000000000004 /* Assets.xcassets */,
 				AA1000000000000000000006 /* Localizable.strings */,
 				AA1000000000000000000007 /* Localizable.strings */,
@@ -259,6 +262,7 @@
 				AA0000000000000000000002 /* ContentView.swift in Sources */,
 				AA0000000000000000000003 /* DiagramCanvasView.swift in Sources */,
 				AA0000000000000000000107 /* DiagramDragPayload.swift in Sources */,
+				AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

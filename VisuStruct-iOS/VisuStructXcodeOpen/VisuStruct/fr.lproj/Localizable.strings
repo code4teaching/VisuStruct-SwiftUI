@@ -76,7 +76,7 @@
 "codegen_option_comments" = "Texte du diagramme en commentaires";
 "codegen_copy" = "Copier";
 "codegen_run_in_browser" = "Tester dans le navigateur";
-
+"codegen_save_java" = "Save Java…";
 "a11y_new_diagram_tab" = "Nouvel onglet de diagramme";
 "a11y_close_tab" = "Fermer l’onglet";
 "a11y_placeholder_drop" = "Déposez un élément ici pour remplacer l’espace réservé. Appuyez longuement pour glisser et déplacer.";
@@ -89,6 +89,13 @@
 /* Inspector */
 "inspector_no_selection" = "Aucun élément sélectionné — touchez une tuile.";
 "inspector_apply_text" = "Appliquer le texte";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
 "inspector_io_mode_title" = "Kind";
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
@@ -101,7 +108,7 @@
 "inspector_placeholder_condition" = "Insérer une condition…";
 "inspector_placeholder_selector" = "Insérer un sélecteur…";
 "inspector_placeholder_call" = "Insérer un appel…";
-"inspector_placeholder_break" = "Insérer break…";
+"inspector_placeholder_break" = "Commentaire (facultatif)";
 
 /* Element types */
 "element_anweisung" = "Instruction";
@@ -165,3 +172,18 @@
 "err_image_render_failed" = "Impossible de créer l’image.";
 "err_diagram_too_small_print" = "Le diagramme est trop petit — rien à imprimer.";
 "err_print_unavailable" = "L’impression n’est pas disponible sur cet appareil.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Suggestion de nom de fichier";
+"settings_export_filename_picker" = "Format";
+"settings_export_filename_date_title" = "Avec date";
+"settings_export_filename_title_only" = "Sans date";
+"settings_export_filename_footer_with_date" = "Avec date: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Sans date: Filename.visustruct";

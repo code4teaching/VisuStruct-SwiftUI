@@ -698,3 +698,16 @@ public struct VisuStructLayoutEngine: Sendable {
     }
 }
 
+extension VisuStructLayoutEngine.Metrics {
+    /// Einheitliche Skalierung für größere/kleinere Diagramm-Darstellung.
+    public func scaled(by factor: Double) -> Self {
+        guard factor > 0, abs(factor - 1) > 1e-6 else { return self }
+        return Self(
+            fontSize: fontSize * factor,
+            lineHeight: lineHeight * factor,
+            charWidth: charWidth * factor,
+            baseHeaderExtra: baseHeaderExtra * factor,
+            minSidePadding: minSidePadding * factor
+        )
+    }
+}
