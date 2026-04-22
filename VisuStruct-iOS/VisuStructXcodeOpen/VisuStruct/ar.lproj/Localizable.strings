@@ -73,7 +73,6 @@
 "codegen_target_javascript" = "JavaScript";
 "codegen_preview_java" = "if (الشرط) {\n    statement();\n} else {\n    alternative();\n}";
 "codegen_preview_python" = "if الشرط:\n    statement()\nelse:\n    alternative()";
-"codegen_option_comments" = "نص المخطط كتعليقات";
 "codegen_copy" = "نسخ";
 "codegen_run_in_browser" = "اختبار في المتصفح";
 "codegen_save_java" = "Save Java…";
@@ -187,3 +186,4 @@
 "settings_export_filename_title_only" = "بدون تاريخ";
 "settings_export_filename_footer_with_date" = "مع التاريخ: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "بدون تاريخ: Filename.visustruct";
+

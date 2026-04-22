@@ -1,6 +1,6 @@
 /* VisuStruct — 設定（システム） */
 "GROUP_LANGUAGE_TITLE" = "言語";
-"PREF_APP_LANGUAGE_TITLE" = "App の言語";
+"PREF_APP_LANGUAGE_TITLE" = "アプリの言語";
 "LANGUAGE_NAME_DE" = "ドイツ語";
 "LANGUAGE_NAME_EN" = "英語";
 "LANGUAGE_NAME_ES" = "スペイン語";
@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "アラビア語";
 "LANGUAGE_NAME_RU" = "ロシア語";
 "LANGUAGE_NAME_HE" = "ヘブライ語";
-"LANGUAGE_NAME_ZH_HANS" = "中国語（簡体字）";
-"LANGUAGE_NAME_ZH_HANT" = "中国語（繁体字）";
+"LANGUAGE_NAME_NL" = "オランダ語";
+"LANGUAGE_NAME_SV" = "スウェーデン語";
+"LANGUAGE_NAME_DA" = "デンマーク語";
+"LANGUAGE_NAME_NB" = "ノルウェー語（ブークモール）";
+"LANGUAGE_NAME_ZH_HANS" = "中国語（簡体）";
+"LANGUAGE_NAME_ZH_HANT" = "中国語（繁体）";
 "LANGUAGE_NAME_PT_PT" = "ポルトガル語";
 "LANGUAGE_NAME_JAVA" = "Java（キーワード）";
+
+"GROUP_UI_SCALE" = "文字サイズ";
+"PREF_CANVAS_SCALE" = "ストラクチャ図";
+"PREF_INSPECTOR_SCALE" = "下部のテキスト入力";
+"SCALE_S_SMALL" = "小";
+"SCALE_S_MEDIUM" = "中";
+"SCALE_S_LARGE" = "大";
+"SCALE_S_XL" = "特大";
+
+"GROUP_EXPORT" = "ファイル名の候補";
+"PREF_EXPORT_FORMAT" = "形式";
+"EXPORT_VAL_WITH_DATE" = "日付付き";
+"EXPORT_VAL_TITLE_ONLY" = "日付なし";
+
+"GROUP_CODEGEN_TITLE" = "コード生成";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "生成コードに空の else 分岐を含める";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "図のテキストをコメントとして出力";

@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "ערבית";
 "LANGUAGE_NAME_RU" = "רוסית";
 "LANGUAGE_NAME_HE" = "עברית";
+"LANGUAGE_NAME_NL" = "הולנדית";
+"LANGUAGE_NAME_SV" = "שוודית";
+"LANGUAGE_NAME_DA" = "דנית";
+"LANGUAGE_NAME_NB" = "נורווגית (בוקמול)";
 "LANGUAGE_NAME_ZH_HANS" = "סינית (מפושטת)";
 "LANGUAGE_NAME_ZH_HANT" = "סינית (מסורתית)";
 "LANGUAGE_NAME_PT_PT" = "פורטוגזית";
 "LANGUAGE_NAME_JAVA" = "Java (מילות מפתח)";
+
+"GROUP_UI_SCALE" = "גודל טקסט";
+"PREF_CANVAS_SCALE" = "תרשים מבנה";
+"PREF_INSPECTOR_SCALE" = "הקלדה בתחתית";
+"SCALE_S_SMALL" = "קטן";
+"SCALE_S_MEDIUM" = "בינוני";
+"SCALE_S_LARGE" = "גדול";
+"SCALE_S_XL" = "גדול מאוד";
+
+"GROUP_EXPORT" = "הצעה לשם קובץ";
+"PREF_EXPORT_FORMAT" = "תבנית";
+"EXPORT_VAL_WITH_DATE" = "עם תאריך";
+"EXPORT_VAL_TITLE_ONLY" = "ללא תאריך";
+
+"GROUP_CODEGEN_TITLE" = "יצירת קוד";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "לכלול ענף else ריק בקוד שנוצר";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "טקסט התרשים כהערות";

@@ -14,11 +14,19 @@ public enum VisuStructCodeGenerator: Sendable {
         public var indentPerLevel: Int
         /// Wenn `true`: Diagramm-Texte zusätzlich als Kommentar (`/* … */` bzw. `""" … """`).
         public var includeDiagramTextAsComments: Bool
+        /// Wenn `true` (Standard): `else` wird auch ausgegeben, wenn der **Nein**-Zweig nur leer (ø) ist — analog zum Struktogramm. Wenn `false`, entfällt in diesem Fall `else` (kompakterer Code; alle Zielsprachen).
+        public var includeEmptyElseBranch: Bool
 
-        public init(baseIndent: Int = 0, indentPerLevel: Int = 4, includeDiagramTextAsComments: Bool = false) {
+        public init(
+            baseIndent: Int = 0,
+            indentPerLevel: Int = 4,
+            includeDiagramTextAsComments: Bool = false,
+            includeEmptyElseBranch: Bool = true
+        ) {
             self.baseIndent = baseIndent
             self.indentPerLevel = indentPerLevel
             self.includeDiagramTextAsComments = includeDiagramTextAsComments
+            self.includeEmptyElseBranch = includeEmptyElseBranch
         }
     }
 
@@ -55,12 +63,45 @@ public enum VisuStructCodeGenerator: Sendable {
 
     private static func commentPrefix(target: Target, forEmpty: Bool) -> String {
         switch target {
-        case .java:
-            return forEmpty ? "// (leer)" : ""
+        case .java, .javascript:
+            return forEmpty ? "// empty element" : ""
         case .python:
-            return forEmpty ? "# (leer)" : ""
-        case .javascript:
-            return forEmpty ? "// (leer)" : ""
+            return forEmpty ? "# empty element" : ""
+        }
+    }
+
+    /// Kachel-Platzhalter bzw. Anweisungstext `ø` — im generierten Code als fester englischer Kommentar.
+    private static func isDiagramEmptyPlaceholderText(_ s: String) -> Bool {
+        s.trimmingCharacters(in: .whitespacesAndNewlines) == "ø"
+    }
+
+    private static func emptyElementCommentLine(indent: Int, target: Target) -> String {
+        switch target {
+        case .java, .javascript:
+            return sp(indent) + "// empty element\n"
+        case .python:
+            return sp(indent) + "# empty element\n"
+        }
+    }
+
+    /// Nein-Zweig der Verzweigung nur „leer“: kein Inhalt, nur `leerElement` bzw. Anweisung/Aufruf ausschließlich mit `ø` (und leeren Zeilen).
+    private static func isIfElseFalseBranchVisuallyEmpty(_ elements: [VisuStructElement]) -> Bool {
+        if elements.isEmpty { return true }
+        return elements.allSatisfy { isElementVisuallyEmptyPlaceholderOnly($0) }
+    }
+
+    private static func isElementVisuallyEmptyPlaceholderOnly(_ el: VisuStructElement) -> Bool {
+        switch el.type {
+        case .leerElement:
+            return true
+        case .anweisung, .aufruf:
+            let body = el.textLines.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            for line in body where !line.isEmpty {
+                if !isDiagramEmptyPlaceholderText(line) { return false }
+            }
+            return true
+        default:
+            return false
         }
     }
 
@@ -243,8 +284,9 @@ public enum VisuStructCodeGenerator: Sendable {
     private static func parseJavaStyleSimpleAssignment(_ rawLine: String) -> JavaStyleSimpleAssignmentParse? {
         let line = stripTrailingSemicolon(rawLine).trimmingCharacters(in: .whitespacesAndNewlines)
         if line.isEmpty { return nil }
-        // Schul­set: int, double, String, boolean, char (kein long/float — double reicht für Dezimalzahlen).
-        let pattern = #"^\s*(?:int|double|String|boolean|char)\s+(\w+)\s*=\s*(.*)$"#
+        // Schul­set, case-insensitive: int/Int/INTEGER, integer, long, float, double, String, boolean/bool, char.
+        // `integer` vor `int`, damit nicht nur der Präfix `int` von `integer` matched.
+        let pattern = #"(?i)^\s*(?:integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)\s*=\s*(.*)$"#
         guard let g = regexGroups(pattern, line), g.count >= 3 else { return nil }
         let rhs = g[2].trimmingCharacters(in: .whitespacesAndNewlines)
         if rhs.isEmpty { return nil }
@@ -257,7 +299,7 @@ public enum VisuStructCodeGenerator: Sendable {
         return rhs
     }
 
-    /// JavaScript: `int x = 5` → `let x = 5;`. Python: `x = 5`. Typen: int, double, String, boolean, char. Java: `nil` (allgemeiner Pfad).
+    /// JavaScript: `int x = 5` / `Int x = 5` → `let x = 5;`. Python: `x = 5`. Typen siehe `parseJavaStyleSimpleAssignment`. Java: `nil` (allgemeiner Pfad).
     private static func emitTranslatedJavaLikeAssignmentIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
         guard target == .javascript || target == .python else { return nil }
         guard let p = parseJavaStyleSimpleAssignment(raw) else { return nil }
@@ -285,10 +327,17 @@ public enum VisuStructCodeGenerator: Sendable {
         if nonEmpty.isEmpty { return }
 
         if options.includeDiagramTextAsComments {
-            out += blockComment(lines: body, target: target, indent: indent)
+            let forDiagram = body.filter { !$0.isEmpty && !isDiagramEmptyPlaceholderText($0) }
+            if !forDiagram.isEmpty {
+                out += blockComment(lines: forDiagram, target: target, indent: indent)
+            }
         }
         for raw in body {
             if raw.isEmpty { continue }
+            if isDiagramEmptyPlaceholderText(raw) {
+                out += emptyElementCommentLine(indent: indent, target: target)
+                continue
+            }
             if target == .java {
                 if let s = emitJavaInputLineIfNeeded(raw, indent: indent) {
                     out += s
@@ -320,6 +369,10 @@ public enum VisuStructCodeGenerator: Sendable {
                 }
             }
             if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent) {
+                out += s
+                continue
+            }
+            if let s = emitBareLeadingStringAsPrintIfNeeded(raw, target: target, indent: indent) {
                 out += s
                 continue
             }
@@ -366,7 +419,7 @@ public enum VisuStructCodeGenerator: Sendable {
 
         switch element.type {
         case .leerElement:
-            return
+            out += emptyElementCommentLine(indent: indent, target: target)
 
         case .anweisung, .aufruf:
             emitInstructionLike(textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
@@ -389,6 +442,7 @@ public enum VisuStructCodeGenerator: Sendable {
             guard let cases = element.cases, cases.count >= 2 else { return }
             let trueBranch = cases[0].elements
             let falseBranch = cases[1].elements
+            let omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(falseBranch)
             switch target {
             case .java:
                 emitConditionHeader(
@@ -401,9 +455,13 @@ public enum VisuStructCodeGenerator: Sendable {
                     into: &out
                 )
                 emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                out += sp(indent) + "} else {\n"
-                emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                out += sp(indent) + "}\n"
+                if omitElse {
+                    out += sp(indent) + "}\n"
+                } else {
+                    out += sp(indent) + "} else {\n"
+                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
+                    out += sp(indent) + "}\n"
+                }
             case .python:
                 emitConditionHeader(
                     prefix: "if ",
@@ -415,8 +473,10 @@ public enum VisuStructCodeGenerator: Sendable {
                     into: &out
                 )
                 emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                out += sp(indent) + "else:\n"
-                emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
+                if !omitElse {
+                    out += sp(indent) + "else:\n"
+                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
+                }
             case .javascript:
                 emitConditionHeader(
                     prefix: "if (",
@@ -428,9 +488,13 @@ public enum VisuStructCodeGenerator: Sendable {
                     into: &out
                 )
                 emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                out += sp(indent) + "} else {\n"
-                emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                out += sp(indent) + "}\n"
+                if omitElse {
+                    out += sp(indent) + "}\n"
+                } else {
+                    out += sp(indent) + "} else {\n"
+                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
+                    out += sp(indent) + "}\n"
+                }
             }
 
         case .fallauswahl:
@@ -632,36 +696,84 @@ public enum VisuStructCodeGenerator: Sendable {
         return sp(indent) + "System.out.println(" + expr + ");\n"
     }
 
+    /// Nach `input:`: `int zahl` wie bisher, oder Kurzform **`zahl`** → Typ **`int`** (Diagramm ohne Typ, z. B. „input: zahl“).
+    private static func parseInputTypeAndName(afterInputColon rest: String) -> (type: String, name: String)? {
+        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
+        if parts.isEmpty { return nil }
+        if parts.count >= 2 { return (parts[0], parts[1]) }
+        let only = parts[0]
+        let onlyLower = only.lowercased()
+        let incompleteIfAlone: Set<String> = [
+            "int", "double", "string", "boolean", "char", "long", "float", "short", "byte", "void", "bool", "integer",
+        ]
+        if incompleteIfAlone.contains(onlyLower) { return nil }
+        return ("int", only)
+    }
+
+    /// Ohne `print:`: Zeile beginnt mit `"…"` → Ausgabe (Java/JS/Python), z. B. `"Summe: " + summe`.
+    private static func emitBareLeadingStringAsPrintIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
+        guard target == .java || target == .javascript || target == .python else { return nil }
+        let t = stripTrailingSemicolon(raw).trimmingCharacters(in: .whitespacesAndNewlines)
+        guard t.hasPrefix("\"") else { return nil }
+        switch target {
+        case .java:
+            return sp(indent) + "System.out.println(" + t + ");\n"
+        case .javascript:
+            return sp(indent) + "console.log(" + t + ");\n"
+        case .python:
+            return sp(indent) + "print(" + t + ")\n"
+        default:
+            return nil
+        }
+    }
+
+    /// Zeichenkette für Java-`"…"`-Literale (z. B. in `System.out.println`).
+    private static func javaEscapeForDoubleQuotedLiteral(_ s: String) -> String {
+        s.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+            .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\r", with: "\\r")
+    }
+
     private static func emitJavaInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
         let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         let lower = t.lowercased()
         guard lower.hasPrefix("input:") else { return nil }
         let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !rest.isEmpty else { return nil }
+        guard let pair = parseInputTypeAndName(afterInputColon: rest) else { return nil }
+        let type = pair.type
+        let name = pair.name
 
-        // Erwartet z. B. "int zahl" | "double x" | "String name"
-        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
-        guard parts.count >= 2 else { return nil }
-        let type = parts[0]
-        let name = parts[1]
+        let label = javaEscapeForDoubleQuotedLiteral(name + ": ")
+        let promptOut = sp(indent) + "System.out.println(\"" + label + "\");\n"
 
         switch type {
         case "int":
-            return sp(indent) + "int \(name) = scanner.nextInt();\n"
+            return promptOut + sp(indent) + "int \(name) = scanner.nextInt();\n"
         case "double":
-            return sp(indent) + "double \(name) = scanner.nextDouble();\n"
+            return promptOut + sp(indent) + "double \(name) = scanner.nextDouble();\n"
         case "String":
             // `next()` statt `nextLine()` (vermeidet typische Newline-Falle nach `nextInt()` im Unterricht).
-            return sp(indent) + "String \(name) = scanner.next();\n"
+            return promptOut + sp(indent) + "String \(name) = scanner.next();\n"
         default:
             return nil
         }
     }
 
+    /// Zeichenkette für JS-`"…"`-Literale (z. B. `console.log`, `prompt`).
+    private static func javaScriptEscapeForDoubleQuotedLiteral(_ s: String) -> String {
+        s.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+            .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\r", with: "\\r")
+    }
+
     private static func jsPromptExpr(label: String, fallback: String) -> String {
         // prompt() kann `null` liefern -> mit ?? auf String-Fallback bringen.
-        // (Modernes JS; passt zum "use strict" Snippet.)
-        "(\( "prompt(\"" + label + ":\")" ) ?? \"\(fallback)\")"
+        // Label wie bei Java-`println`: `"name: "`.
+        let esc = javaScriptEscapeForDoubleQuotedLiteral(label + ": ")
+        return "(\( "prompt(\"" + esc + "\")" ) ?? \"\(fallback)\")"
     }
 
     private static func emitJavaScriptPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
@@ -679,32 +791,41 @@ public enum VisuStructCodeGenerator: Sendable {
         guard lower.hasPrefix("input:") else { return nil }
         let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !rest.isEmpty else { return nil }
+        guard let pair = parseInputTypeAndName(afterInputColon: rest) else { return nil }
+        let type = pair.type
+        let name = pair.name
 
-        // Erwartet wie im Diagramm: "int zahl" | "double x" | "String name"
-        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
-        guard parts.count >= 2 else { return nil }
-        let type = parts[0]
-        let name = parts[1]
+        let logLabel = javaScriptEscapeForDoubleQuotedLiteral(name + ": ")
+        let consoleHint = sp(indent) + "console.log(\"" + logLabel + "\");\n"
 
         switch type {
         case "int":
             // parseInt mit Basis 10; bei Cancel/leer -> "0"
             let p = jsPromptExpr(label: name, fallback: "0")
-            return sp(indent) + "let \(name) = parseInt(\(p), 10);\n"
+            return consoleHint + sp(indent) + "let \(name) = parseInt(\(p), 10);\n"
         case "double":
             let p = jsPromptExpr(label: name, fallback: "0")
-            return sp(indent) + "let \(name) = Number(\(p));\n"
+            return consoleHint + sp(indent) + "let \(name) = Number(\(p));\n"
         case "String":
             let p = jsPromptExpr(label: name, fallback: "")
-            return sp(indent) + "let \(name) = \(p);\n"
+            return consoleHint + sp(indent) + "let \(name) = \(p);\n"
         default:
             return nil
         }
     }
 
+    /// Zeichenkette für Python-`"…"`-Literale (`print`, `input`-Prompt).
+    private static func pythonEscapeForDoubleQuotedLiteral(_ s: String) -> String {
+        s.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
+            .replacingOccurrences(of: "\n", with: "\\n")
+            .replacingOccurrences(of: "\r", with: "\\r")
+    }
+
     private static func pyInputExpr(promptLabel: String) -> String {
-        // Für Python: prompt im input()-Aufruf, damit klar ist, was erwartet wird.
-        "input(\"\(promptLabel): \")"
+        // Prompt wie bei Java/JS: `"name: "`.
+        let esc = pythonEscapeForDoubleQuotedLiteral(promptLabel + ": ")
+        return "input(\"" + esc + "\")"
     }
 
     private static func emitPythonPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
@@ -722,21 +843,21 @@ public enum VisuStructCodeGenerator: Sendable {
         guard lower.hasPrefix("input:") else { return nil }
         let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !rest.isEmpty else { return nil }
+        guard let pair = parseInputTypeAndName(afterInputColon: rest) else { return nil }
+        let type = pair.type
+        let name = pair.name
 
-        // Erwartet wie im Diagramm: "int zahl" | "double x" | "String name"
-        let parts = rest.split(whereSeparator: { $0 == " " || $0 == "\t" }).map(String.init)
-        guard parts.count >= 2 else { return nil }
-        let type = parts[0]
-        let name = parts[1]
+        let logLabel = pythonEscapeForDoubleQuotedLiteral(name + ": ")
+        let printHint = sp(indent) + "print(\"" + logLabel + "\")\n"
 
         switch type {
         case "int":
-            return sp(indent) + "\(name) = int(\(pyInputExpr(promptLabel: name)))\n"
+            return printHint + sp(indent) + "\(name) = int(\(pyInputExpr(promptLabel: name)))\n"
         case "double":
             // Python: float entspricht Java double im Einsteigerkontext.
-            return sp(indent) + "\(name) = float(\(pyInputExpr(promptLabel: name)))\n"
+            return printHint + sp(indent) + "\(name) = float(\(pyInputExpr(promptLabel: name)))\n"
         case "String":
-            return sp(indent) + "\(name) = \(pyInputExpr(promptLabel: name))\n"
+            return printHint + sp(indent) + "\(name) = \(pyInputExpr(promptLabel: name))\n"
         default:
             return nil
         }

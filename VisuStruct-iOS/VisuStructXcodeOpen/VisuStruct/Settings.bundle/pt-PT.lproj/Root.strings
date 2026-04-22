@@ -1,6 +1,6 @@
 /* VisuStruct — Definições (sistema) */
 "GROUP_LANGUAGE_TITLE" = "Idioma";
-"PREF_APP_LANGUAGE_TITLE" = "Idioma da app";
+"PREF_APP_LANGUAGE_TITLE" = "Idioma da aplicação";
 "LANGUAGE_NAME_DE" = "Alemão";
 "LANGUAGE_NAME_EN" = "Inglês";
 "LANGUAGE_NAME_ES" = "Espanhol";
@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "Árabe";
 "LANGUAGE_NAME_RU" = "Russo";
 "LANGUAGE_NAME_HE" = "Hebraico";
+"LANGUAGE_NAME_NL" = "Neerlandês";
+"LANGUAGE_NAME_SV" = "Sueco";
+"LANGUAGE_NAME_DA" = "Dinamarquês";
+"LANGUAGE_NAME_NB" = "Norueguês (bokmål)";
 "LANGUAGE_NAME_ZH_HANS" = "Chinês (simplificado)";
 "LANGUAGE_NAME_ZH_HANT" = "Chinês (tradicional)";
 "LANGUAGE_NAME_PT_PT" = "Português";
 "LANGUAGE_NAME_JAVA" = "Java (palavras-chave)";
+
+"GROUP_UI_SCALE" = "Tamanho do texto";
+"PREF_CANVAS_SCALE" = "Diagrama de estrutura";
+"PREF_INSPECTOR_SCALE" = "Entrada de texto em baixo";
+"SCALE_S_SMALL" = "Pequeno";
+"SCALE_S_MEDIUM" = "Médio";
+"SCALE_S_LARGE" = "Grande";
+"SCALE_S_XL" = "Muito grande";
+
+"GROUP_EXPORT" = "Sugestão de nome de ficheiro";
+"PREF_EXPORT_FORMAT" = "Formato";
+"EXPORT_VAL_WITH_DATE" = "Com data";
+"EXPORT_VAL_TITLE_ONLY" = "Sem data";
+
+"GROUP_CODEGEN_TITLE" = "Geração de código";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Incluir ramo else vazio no código gerado";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Texto do diagrama como comentários";

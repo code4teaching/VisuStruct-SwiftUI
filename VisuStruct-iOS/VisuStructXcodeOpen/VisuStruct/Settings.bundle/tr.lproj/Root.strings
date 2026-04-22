@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "Arapça";
 "LANGUAGE_NAME_RU" = "Rusça";
 "LANGUAGE_NAME_HE" = "İbranice";
-"LANGUAGE_NAME_ZH_HANS" = "Çince (Basitleştirilmiş)";
-"LANGUAGE_NAME_ZH_HANT" = "Çince (Geleneksel)";
+"LANGUAGE_NAME_NL" = "Felemenkçe";
+"LANGUAGE_NAME_SV" = "İsveççe";
+"LANGUAGE_NAME_DA" = "Danca";
+"LANGUAGE_NAME_NB" = "Norveççe (bokmål)";
+"LANGUAGE_NAME_ZH_HANS" = "Çince (basitleştirilmiş)";
+"LANGUAGE_NAME_ZH_HANT" = "Çince (geleneksel)";
 "LANGUAGE_NAME_PT_PT" = "Portekizce";
 "LANGUAGE_NAME_JAVA" = "Java (anahtar kelimeler)";
+
+"GROUP_UI_SCALE" = "Metin boyutu";
+"PREF_CANVAS_SCALE" = "Yapı şeması";
+"PREF_INSPECTOR_SCALE" = "Alttaki metin alanı";
+"SCALE_S_SMALL" = "Küçük";
+"SCALE_S_MEDIUM" = "Orta";
+"SCALE_S_LARGE" = "Büyük";
+"SCALE_S_XL" = "Çok büyük";
+
+"GROUP_EXPORT" = "Dosya adı önerisi";
+"PREF_EXPORT_FORMAT" = "Biçim";
+"EXPORT_VAL_WITH_DATE" = "Tarihle";
+"EXPORT_VAL_TITLE_ONLY" = "Tarihsiz";
+
+"GROUP_CODEGEN_TITLE" = "Kod üretimi";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Üretilen koda boş else dalını dahil et";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Diyagram metnini yorum olarak ekle";

@@ -23,3 +23,20 @@
 "LANGUAGE_NAME_ZH_HANT" = "Chinese (Traditional)";
 "LANGUAGE_NAME_PT_PT" = "Portuguese";
 "LANGUAGE_NAME_JAVA" = "Java (keywords)";
+
+"GROUP_UI_SCALE" = "Text size";
+"PREF_CANVAS_SCALE" = "Structure chart";
+"PREF_INSPECTOR_SCALE" = "Text entry below";
+"SCALE_S_SMALL" = "Small";
+"SCALE_S_MEDIUM" = "Medium";
+"SCALE_S_LARGE" = "Large";
+"SCALE_S_XL" = "Extra large";
+
+"GROUP_EXPORT" = "File name suggestion";
+"PREF_EXPORT_FORMAT" = "Format";
+"EXPORT_VAL_WITH_DATE" = "With date";
+"EXPORT_VAL_TITLE_ONLY" = "Without date";
+
+"GROUP_CODEGEN_TITLE" = "Code generation";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Include empty else branch in generated code";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Diagram text as comments";

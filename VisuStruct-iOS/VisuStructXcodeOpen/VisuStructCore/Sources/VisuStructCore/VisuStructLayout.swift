@@ -88,11 +88,13 @@ public struct VisuStructLayoutEngine: Sendable {
         self.metrics = metrics
     }
 
-    public func layout(document: VisuStructDocument) -> VisuStructLayout {
-        // Entspricht Java `randLinks/randOben` + Caption-Offsets in `Struktogramm.zeichenbereichAktualisieren`.
-        let hasCaption = !document.caption.isEmpty
-        let randLinks: Double = 20 + (hasCaption ? 20 : 0)
-        let randOben: Double = 20 + (hasCaption ? 40 : 0)
+    public func layout(
+        document: VisuStructDocument,
+        topLeadingContentInset: (left: Double, top: Double) = (20, 20)
+    ) -> VisuStructLayout {
+        // `caption` erscheint oberhalb des Canvas in der App, nicht im Struktur-Kasten (siehe Editor).
+        let randLinks = topLeadingContentInset.left
+        let randOben = topLeadingContentInset.top
 
         let nodes = layoutList(
             elements: document.elements,

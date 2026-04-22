@@ -73,7 +73,6 @@
 "codegen_target_javascript" = "JavaScript";
 "codegen_preview_java" = "if (条件) {\n    文();\n} else {\n    代替();\n}";
 "codegen_preview_python" = "if 条件:\n    文()\nelse:\n    代替()";
-"codegen_option_comments" = "図のテキストをコメントとして出力";
 "codegen_copy" = "コピー";
 "codegen_run_in_browser" = "ブラウザでテスト";
 "codegen_save_java" = "Save Java…";
@@ -187,3 +186,4 @@
 "settings_export_filename_title_only" = "日付なし";
 "settings_export_filename_footer_with_date" = "日付あり: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "日付なし: Filename.visustruct";
+

@@ -1,7 +1,42 @@
 /* VisuStruct — Indstillinger (system) */
 "GROUP_LANGUAGE_TITLE" = "Sprog";
-"PREF_APP_LANGUAGE_TITLE" = "App-sprog";
+"PREF_APP_LANGUAGE_TITLE" = "Appens sprog";
+"LANGUAGE_NAME_DE" = "Tysk";
+"LANGUAGE_NAME_EN" = "Engelsk";
+"LANGUAGE_NAME_ES" = "Spansk";
+"LANGUAGE_NAME_FR" = "Fransk";
+"LANGUAGE_NAME_IT" = "Italiensk";
+"LANGUAGE_NAME_PL" = "Polsk";
+"LANGUAGE_NAME_TR" = "Tyrkisk";
+"LANGUAGE_NAME_KO" = "Koreansk";
+"LANGUAGE_NAME_JA" = "Japansk";
+"LANGUAGE_NAME_EL" = "Græsk";
+"LANGUAGE_NAME_UK" = "Ukrainsk";
+"LANGUAGE_NAME_AR" = "Arabisk";
+"LANGUAGE_NAME_RU" = "Russisk";
+"LANGUAGE_NAME_HE" = "Hebraisk";
 "LANGUAGE_NAME_NL" = "Hollandsk";
 "LANGUAGE_NAME_SV" = "Svensk";
 "LANGUAGE_NAME_DA" = "Dansk";
 "LANGUAGE_NAME_NB" = "Norsk (bokmål)";
+"LANGUAGE_NAME_ZH_HANS" = "Kinesisk (forenklet)";
+"LANGUAGE_NAME_ZH_HANT" = "Kinesisk (traditionel)";
+"LANGUAGE_NAME_PT_PT" = "Portugisisk";
+"LANGUAGE_NAME_JAVA" = "Java (nøgleord)";
+
+"GROUP_UI_SCALE" = "Tekststørrelse";
+"PREF_CANVAS_SCALE" = "Strukturdiagram";
+"PREF_INSPECTOR_SCALE" = "Tekstindtastning nedenfor";
+"SCALE_S_SMALL" = "Lille";
+"SCALE_S_MEDIUM" = "Mellem";
+"SCALE_S_LARGE" = "Stor";
+"SCALE_S_XL" = "Meget stor";
+
+"GROUP_EXPORT" = "Forslag til filnavn";
+"PREF_EXPORT_FORMAT" = "Format";
+"EXPORT_VAL_WITH_DATE" = "Med dato";
+"EXPORT_VAL_TITLE_ONLY" = "Uden dato";
+
+"GROUP_CODEGEN_TITLE" = "Kodegenerering";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Medtag tom else-gren i genereret kode";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Diagramtekst som kommentarer";

@@ -120,11 +120,15 @@ public struct VisuStructLayoutEngine: Sendable {
         )
     }
 
-    public func layout(document: VisuStructDocument) -> VisuStructLayout {
-        // Entspricht Java `randLinks/randOben` + Caption-Offsets in `Struktogramm.zeichenbereichAktualisieren`.
-        let hasCaption = !document.caption.isEmpty
-        let randLinks: Double = 28 + (hasCaption ? 24 : 0)
-        let randOben: Double = 28 + (hasCaption ? 48 : 0)
+    public func layout(
+        document: VisuStructDocument,
+        topLeadingContentInset: (left: Double, top: Double) = (28, 28)
+    ) -> VisuStructLayout {
+        // Entspricht Java `randLinks/randOben`. Der Diagrammtitel (`caption`) steht in der **App** oberhalb des
+        // Canvas (Textfeld + Trennlinie) und fließt **nicht** in den Kasten ein — deshalb kein Zusatz-Rand
+        // für eingeblendeten Titel-Text im Zeichenbereich.
+        let randLinks = topLeadingContentInset.left
+        let randOben = topLeadingContentInset.top
 
         let nodes = layoutList(
             elements: document.elements,

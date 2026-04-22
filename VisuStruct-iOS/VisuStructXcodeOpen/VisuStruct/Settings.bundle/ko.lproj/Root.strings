@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "아랍어";
 "LANGUAGE_NAME_RU" = "러시아어";
 "LANGUAGE_NAME_HE" = "히브리어";
+"LANGUAGE_NAME_NL" = "네덜란드어";
+"LANGUAGE_NAME_SV" = "스웨덴어";
+"LANGUAGE_NAME_DA" = "덴마크어";
+"LANGUAGE_NAME_NB" = "노르웨이어(보크몰)";
 "LANGUAGE_NAME_ZH_HANS" = "중국어(간체)";
 "LANGUAGE_NAME_ZH_HANT" = "중국어(번체)";
 "LANGUAGE_NAME_PT_PT" = "포르투갈어";
 "LANGUAGE_NAME_JAVA" = "Java(키워드)";
+
+"GROUP_UI_SCALE" = "텍스트 크기";
+"PREF_CANVAS_SCALE" = "구조도";
+"PREF_INSPECTOR_SCALE" = "하단 텍스트 입력";
+"SCALE_S_SMALL" = "작게";
+"SCALE_S_MEDIUM" = "보통";
+"SCALE_S_LARGE" = "크게";
+"SCALE_S_XL" = "아주 크게";
+
+"GROUP_EXPORT" = "파일 이름 제안";
+"PREF_EXPORT_FORMAT" = "형식";
+"EXPORT_VAL_WITH_DATE" = "날짜 포함";
+"EXPORT_VAL_TITLE_ONLY" = "날짜 없음";
+
+"GROUP_CODEGEN_TITLE" = "코드 생성";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "생성된 코드에 빈 else 분기 포함";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "다이어그램 텍스트를 주석으로";

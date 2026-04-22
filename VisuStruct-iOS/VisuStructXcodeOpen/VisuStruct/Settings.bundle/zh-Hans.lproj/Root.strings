@@ -1,6 +1,6 @@
 /* VisuStruct — 设置（系统） */
 "GROUP_LANGUAGE_TITLE" = "语言";
-"PREF_APP_LANGUAGE_TITLE" = "App 语言";
+"PREF_APP_LANGUAGE_TITLE" = "应用语言";
 "LANGUAGE_NAME_DE" = "德语";
 "LANGUAGE_NAME_EN" = "英语";
 "LANGUAGE_NAME_ES" = "西班牙语";
@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "阿拉伯语";
 "LANGUAGE_NAME_RU" = "俄语";
 "LANGUAGE_NAME_HE" = "希伯来语";
+"LANGUAGE_NAME_NL" = "荷兰语";
+"LANGUAGE_NAME_SV" = "瑞典语";
+"LANGUAGE_NAME_DA" = "丹麦语";
+"LANGUAGE_NAME_NB" = "挪威语（书面挪威语）";
 "LANGUAGE_NAME_ZH_HANS" = "中文（简体）";
-"LANGUAGE_NAME_ZH_HANT" = "中文（繁體）";
+"LANGUAGE_NAME_ZH_HANT" = "中文（繁体）";
 "LANGUAGE_NAME_PT_PT" = "葡萄牙语";
-"LANGUAGE_NAME_JAVA" = "Java（关键词）";
+"LANGUAGE_NAME_JAVA" = "Java（关键字）";
+
+"GROUP_UI_SCALE" = "文字大小";
+"PREF_CANVAS_SCALE" = "结构图";
+"PREF_INSPECTOR_SCALE" = "下方文本输入";
+"SCALE_S_SMALL" = "小";
+"SCALE_S_MEDIUM" = "中";
+"SCALE_S_LARGE" = "大";
+"SCALE_S_XL" = "特大";
+
+"GROUP_EXPORT" = "文件名建议";
+"PREF_EXPORT_FORMAT" = "格式";
+"EXPORT_VAL_WITH_DATE" = "带日期";
+"EXPORT_VAL_TITLE_ONLY" = "不带日期";
+
+"GROUP_CODEGEN_TITLE" = "代码生成";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "在生成的代码中包含空的 else 分支";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "将图表文本作为注释";

@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "Árabe";
 "LANGUAGE_NAME_RU" = "Ruso";
 "LANGUAGE_NAME_HE" = "Hebreo";
+"LANGUAGE_NAME_NL" = "Neerlandés";
+"LANGUAGE_NAME_SV" = "Sueco";
+"LANGUAGE_NAME_DA" = "Danés";
+"LANGUAGE_NAME_NB" = "Noruego (bokmål)";
 "LANGUAGE_NAME_ZH_HANS" = "Chino (simplificado)";
 "LANGUAGE_NAME_ZH_HANT" = "Chino (tradicional)";
 "LANGUAGE_NAME_PT_PT" = "Portugués";
 "LANGUAGE_NAME_JAVA" = "Java (palabras clave)";
+
+"GROUP_UI_SCALE" = "Tamaño del texto";
+"PREF_CANVAS_SCALE" = "Diagrama de estructura";
+"PREF_INSPECTOR_SCALE" = "Entrada de texto abajo";
+"SCALE_S_SMALL" = "Pequeño";
+"SCALE_S_MEDIUM" = "Mediano";
+"SCALE_S_LARGE" = "Grande";
+"SCALE_S_XL" = "Muy grande";
+
+"GROUP_EXPORT" = "Sugerencia de nombre de archivo";
+"PREF_EXPORT_FORMAT" = "Formato";
+"EXPORT_VAL_WITH_DATE" = "Con fecha";
+"EXPORT_VAL_TITLE_ONLY" = "Sin fecha";
+
+"GROUP_CODEGEN_TITLE" = "Generación de código";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Incluir rama else vacía en el código generado";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Texto del diagrama como comentarios";

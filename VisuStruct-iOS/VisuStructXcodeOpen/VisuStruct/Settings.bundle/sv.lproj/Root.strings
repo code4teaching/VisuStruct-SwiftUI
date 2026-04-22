@@ -1,7 +1,42 @@
 /* VisuStruct — Inställningar (system) */
 "GROUP_LANGUAGE_TITLE" = "Språk";
-"PREF_APP_LANGUAGE_TITLE" = "Appspråk";
+"PREF_APP_LANGUAGE_TITLE" = "Appens språk";
+"LANGUAGE_NAME_DE" = "Tyska";
+"LANGUAGE_NAME_EN" = "Engelska";
+"LANGUAGE_NAME_ES" = "Spanska";
+"LANGUAGE_NAME_FR" = "Franska";
+"LANGUAGE_NAME_IT" = "Italienska";
+"LANGUAGE_NAME_PL" = "Polska";
+"LANGUAGE_NAME_TR" = "Turkiska";
+"LANGUAGE_NAME_KO" = "Koreanska";
+"LANGUAGE_NAME_JA" = "Japanska";
+"LANGUAGE_NAME_EL" = "Grekiska";
+"LANGUAGE_NAME_UK" = "Ukrainska";
+"LANGUAGE_NAME_AR" = "Arabiska";
+"LANGUAGE_NAME_RU" = "Ryska";
+"LANGUAGE_NAME_HE" = "Hebreiska";
 "LANGUAGE_NAME_NL" = "Nederländska";
 "LANGUAGE_NAME_SV" = "Svenska";
 "LANGUAGE_NAME_DA" = "Danska";
 "LANGUAGE_NAME_NB" = "Norska (bokmål)";
+"LANGUAGE_NAME_ZH_HANS" = "Kinesiska (förenklad)";
+"LANGUAGE_NAME_ZH_HANT" = "Kinesiska (traditionell)";
+"LANGUAGE_NAME_PT_PT" = "Portugisiska";
+"LANGUAGE_NAME_JAVA" = "Java (nyckelord)";
+
+"GROUP_UI_SCALE" = "Textstorlek";
+"PREF_CANVAS_SCALE" = "Strukturdiagram";
+"PREF_INSPECTOR_SCALE" = "Textinmatning nedan";
+"SCALE_S_SMALL" = "Liten";
+"SCALE_S_MEDIUM" = "Mellan";
+"SCALE_S_LARGE" = "Stor";
+"SCALE_S_XL" = "Extra stor";
+
+"GROUP_EXPORT" = "Förslag på filnamn";
+"PREF_EXPORT_FORMAT" = "Format";
+"EXPORT_VAL_WITH_DATE" = "Med datum";
+"EXPORT_VAL_TITLE_ONLY" = "Utan datum";
+
+"GROUP_CODEGEN_TITLE" = "Kodgenerering";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Inkludera tom else-gren i genererad kod";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Diagramtext som kommentarer";

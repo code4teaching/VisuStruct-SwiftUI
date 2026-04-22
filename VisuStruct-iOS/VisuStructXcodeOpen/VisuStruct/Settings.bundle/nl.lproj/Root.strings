@@ -1,7 +1,42 @@
 /* VisuStruct — Instellingen (systeem) */
 "GROUP_LANGUAGE_TITLE" = "Taal";
 "PREF_APP_LANGUAGE_TITLE" = "App-taal";
+"LANGUAGE_NAME_DE" = "Duits";
+"LANGUAGE_NAME_EN" = "Engels";
+"LANGUAGE_NAME_ES" = "Spaans";
+"LANGUAGE_NAME_FR" = "Frans";
+"LANGUAGE_NAME_IT" = "Italiaans";
+"LANGUAGE_NAME_PL" = "Pools";
+"LANGUAGE_NAME_TR" = "Turks";
+"LANGUAGE_NAME_KO" = "Koreaans";
+"LANGUAGE_NAME_JA" = "Japans";
+"LANGUAGE_NAME_EL" = "Grieks";
+"LANGUAGE_NAME_UK" = "Oekraïens";
+"LANGUAGE_NAME_AR" = "Arabisch";
+"LANGUAGE_NAME_RU" = "Russisch";
+"LANGUAGE_NAME_HE" = "Hebreeuws";
 "LANGUAGE_NAME_NL" = "Nederlands";
 "LANGUAGE_NAME_SV" = "Zweeds";
 "LANGUAGE_NAME_DA" = "Deens";
-"LANGUAGE_NAME_NB" = "Noors (Bokmål)";
+"LANGUAGE_NAME_NB" = "Noors (bokmål)";
+"LANGUAGE_NAME_ZH_HANS" = "Chinees (vereenvoudigd)";
+"LANGUAGE_NAME_ZH_HANT" = "Chinees (traditioneel)";
+"LANGUAGE_NAME_PT_PT" = "Portugees";
+"LANGUAGE_NAME_JAVA" = "Java (trefwoorden)";
+
+"GROUP_UI_SCALE" = "Tekstgrootte";
+"PREF_CANVAS_SCALE" = "Structuurdiagram";
+"PREF_INSPECTOR_SCALE" = "Tekstinvoer onderaan";
+"SCALE_S_SMALL" = "Klein";
+"SCALE_S_MEDIUM" = "Gemiddeld";
+"SCALE_S_LARGE" = "Groot";
+"SCALE_S_XL" = "Extra groot";
+
+"GROUP_EXPORT" = "Bestandsnaamsuggestie";
+"PREF_EXPORT_FORMAT" = "Formaat";
+"EXPORT_VAL_WITH_DATE" = "Met datum";
+"EXPORT_VAL_TITLE_ONLY" = "Zonder datum";
+
+"GROUP_CODEGEN_TITLE" = "Code genereren";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Lege else-tak in gegenereerde code opnemen";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Diagramtekst als opmerkingen";

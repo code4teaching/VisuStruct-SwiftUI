@@ -1,21 +1,42 @@
 /* VisuStruct — 設定（系統） */
 "GROUP_LANGUAGE_TITLE" = "語言";
 "PREF_APP_LANGUAGE_TITLE" = "App 語言";
-"LANGUAGE_NAME_DE" = "德文";
-"LANGUAGE_NAME_EN" = "英文";
-"LANGUAGE_NAME_ES" = "西班牙文";
-"LANGUAGE_NAME_FR" = "法文";
-"LANGUAGE_NAME_IT" = "義大利文";
-"LANGUAGE_NAME_PL" = "波蘭文";
-"LANGUAGE_NAME_TR" = "土耳其文";
-"LANGUAGE_NAME_KO" = "韓文";
-"LANGUAGE_NAME_JA" = "日文";
-"LANGUAGE_NAME_EL" = "希臘文";
-"LANGUAGE_NAME_UK" = "烏克蘭文";
-"LANGUAGE_NAME_AR" = "阿拉伯文";
-"LANGUAGE_NAME_RU" = "俄文";
-"LANGUAGE_NAME_HE" = "希伯來文";
+"LANGUAGE_NAME_DE" = "德語";
+"LANGUAGE_NAME_EN" = "英語";
+"LANGUAGE_NAME_ES" = "西班牙語";
+"LANGUAGE_NAME_FR" = "法語";
+"LANGUAGE_NAME_IT" = "義大利語";
+"LANGUAGE_NAME_PL" = "波蘭語";
+"LANGUAGE_NAME_TR" = "土耳其語";
+"LANGUAGE_NAME_KO" = "韓語";
+"LANGUAGE_NAME_JA" = "日語";
+"LANGUAGE_NAME_EL" = "希臘語";
+"LANGUAGE_NAME_UK" = "烏克蘭語";
+"LANGUAGE_NAME_AR" = "阿拉伯語";
+"LANGUAGE_NAME_RU" = "俄語";
+"LANGUAGE_NAME_HE" = "希伯來語";
+"LANGUAGE_NAME_NL" = "荷蘭語";
+"LANGUAGE_NAME_SV" = "瑞典語";
+"LANGUAGE_NAME_DA" = "丹麥語";
+"LANGUAGE_NAME_NB" = "挪威語（書面挪威語）";
 "LANGUAGE_NAME_ZH_HANS" = "中文（簡體）";
 "LANGUAGE_NAME_ZH_HANT" = "中文（繁體）";
-"LANGUAGE_NAME_PT_PT" = "葡萄牙文";
+"LANGUAGE_NAME_PT_PT" = "葡萄牙語";
 "LANGUAGE_NAME_JAVA" = "Java（關鍵字）";
+
+"GROUP_UI_SCALE" = "文字大小";
+"PREF_CANVAS_SCALE" = "結構圖";
+"PREF_INSPECTOR_SCALE" = "下方文字輸入";
+"SCALE_S_SMALL" = "小";
+"SCALE_S_MEDIUM" = "中";
+"SCALE_S_LARGE" = "大";
+"SCALE_S_XL" = "特大";
+
+"GROUP_EXPORT" = "檔名建議";
+"PREF_EXPORT_FORMAT" = "格式";
+"EXPORT_VAL_WITH_DATE" = "含日期";
+"EXPORT_VAL_TITLE_ONLY" = "不含日期";
+
+"GROUP_CODEGEN_TITLE" = "產生程式碼";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "在產生的程式碼中加入空的 else 分支";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "將圖表文字作為註解";

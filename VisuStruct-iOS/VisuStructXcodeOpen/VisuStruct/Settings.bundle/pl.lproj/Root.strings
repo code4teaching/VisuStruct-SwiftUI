@@ -1,4 +1,4 @@
-/* VisuStruct — Ustawienia (system) */
+/* VisuStruct — Ustawienia (systemowe) */
 "GROUP_LANGUAGE_TITLE" = "Język";
 "PREF_APP_LANGUAGE_TITLE" = "Język aplikacji";
 "LANGUAGE_NAME_DE" = "Niemiecki";
@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "Arabski";
 "LANGUAGE_NAME_RU" = "Rosyjski";
 "LANGUAGE_NAME_HE" = "Hebrajski";
+"LANGUAGE_NAME_NL" = "Niderlandzki";
+"LANGUAGE_NAME_SV" = "Szwedzki";
+"LANGUAGE_NAME_DA" = "Duński";
+"LANGUAGE_NAME_NB" = "Norweski (bokmål)";
 "LANGUAGE_NAME_ZH_HANS" = "Chiński (uproszczony)";
 "LANGUAGE_NAME_ZH_HANT" = "Chiński (tradycyjny)";
 "LANGUAGE_NAME_PT_PT" = "Portugalski";
 "LANGUAGE_NAME_JAVA" = "Java (słowa kluczowe)";
+
+"GROUP_UI_SCALE" = "Rozmiar tekstu";
+"PREF_CANVAS_SCALE" = "Schemat strukturalny";
+"PREF_INSPECTOR_SCALE" = "Pole tekstowe u dołu";
+"SCALE_S_SMALL" = "Mały";
+"SCALE_S_MEDIUM" = "Średni";
+"SCALE_S_LARGE" = "Duży";
+"SCALE_S_XL" = "Bardzo duży";
+
+"GROUP_EXPORT" = "Proponowana nazwa pliku";
+"PREF_EXPORT_FORMAT" = "Format";
+"EXPORT_VAL_WITH_DATE" = "Z datą";
+"EXPORT_VAL_TITLE_ONLY" = "Bez daty";
+
+"GROUP_CODEGEN_TITLE" = "Generowanie kodu";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Uwzględnij pustą gałąź else w generowanym kodzie";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Tekst diagramu jako komentarze";

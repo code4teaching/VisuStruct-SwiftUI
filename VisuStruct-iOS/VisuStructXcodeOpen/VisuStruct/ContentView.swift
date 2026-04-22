@@ -60,14 +60,31 @@ private struct ToolbarCoachmarkOverlay: View {
             let rect: CGRect? = step.flatMap { anchors[$0].map { geo[$0] } }
 
             if let step, let rect {
-                ZStack {
-                    Color.black.opacity(0.55)
-                        .ignoresSafeArea()
+                // Loch in der Abschattung: nur so wirkt **ein** Steuerelement deutlich „erhellt“;
+                // zuvor lag halbtransparentes Schwarz über **allen** Toolbar-Elementen, nur der Rand
+                // markierte das Ziel — optisch wirkte alles zugleich betroffen.
+                let pad: CGFloat = 7
+                let holeW = rect.width + pad * 2
+                let holeH = rect.height + pad * 2
+                let cornerR: CGFloat = 12
 
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.9), lineWidth: 2)
-                        .frame(width: rect.width + 14, height: rect.height + 14)
+                ZStack {
+                    ZStack {
+                        Color.black.opacity(0.55)
+                            .ignoresSafeArea()
+                        RoundedRectangle(cornerRadius: cornerR, style: .continuous)
+                            .fill(Color.white)
+                            .frame(width: holeW, height: holeH)
+                            .position(x: rect.midX, y: rect.midY)
+                            .blendMode(.destinationOut)
+                    }
+                    .compositingGroup()
+
+                    RoundedRectangle(cornerRadius: cornerR, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.95), lineWidth: 2)
+                        .frame(width: holeW, height: holeH)
                         .position(x: rect.midX, y: rect.midY)
+                        .allowsHitTesting(false)
 
                     let bubbleMaxW: CGFloat = min(320, geo.size.width - 32)
                     let bubble = VStack(alignment: .leading, spacing: 10) {
@@ -683,7 +700,6 @@ struct ContentView: View {
     @State private var showImporter = false
     @State private var showExporter = false
     @State private var showInfo = false
-    @State private var showSettings = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
     /// Wenn `CodeGeneratorPurchaseGate.requiresPurchase`: nach erfolgreichem Kauf auf `true` (StoreKit / `UserDefaults`).
@@ -751,7 +767,10 @@ struct ContentView: View {
     }
 
     private func diagramTabDisplayTitle(_ tab: DiagramSheetTab) -> String {
-        Self.stripVisuStructExtension(from: tab.title)
+        let raw = Self.stripVisuStructExtension(from: tab.title)
+        // Ohne sichtbaren Titel: gleicher Sinn wie im Titelfeld (Platzhalter aus Caption / Sprache), nie leerer String in der Leiste.
+        if raw.isEmpty { return tabDisplayTitle(forCaption: tab.document.caption) }
+        return raw
     }
 
     private func fileDisplayName(from url: URL) -> String {
@@ -901,9 +920,6 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showInfo) {
             AboutVisuStructView()
-        }
-        .sheet(isPresented: $showSettings) {
-            SettingsSheet()
         }
         .sheet(isPresented: $showCodeGeneratorPaywall) {
             CodeGeneratorPaywallSheet()
@@ -1163,21 +1179,6 @@ struct ContentView: View {
                     } ?? true
                 )
 
-                #if canImport(UIKit)
-                Button {
-                    showSettings = true
-                } label: {
-                    Label(lang.tr("action_settings"), systemImage: "gearshape")
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                #endif
                 Button {
                     showInfo = true
                 } label: {
@@ -1223,6 +1224,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                // Explizit `navigationTitle` setzen, nicht nur `ToolbarItem(placement: .principal)`: sonst reserviert SwiftUI
+                // in der Navigationsleiste oft keinen sichtbaren Mittelbereich (Titel wirkend „invisible“ / Breite 0, bes. iPhone).
+                .navigationTitle(diagramTabDisplayTitle(sheetTabs[currentTabIndex]))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(.regularMaterial, for: .navigationBar)
@@ -1233,6 +1237,7 @@ struct ContentView: View {
                         HStack(spacing: 6) {
                             Text(verbatim: displayTitle)
                                 .lineLimit(1)
+                                .minimumScaleFactor(0.65)
                                 .font(.headline)
                             if tabHasUnsavedChanges(tab) {
                                 unsavedChangeIndicatorDot()
@@ -1418,9 +1423,12 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 
-    /// Oberer Bereich: Diagramm-Titel + Canvas — soll den Großteil der Fläche einnehmen.
+    /// Oberer Bereich: Diagramm-Titel + Canvas in **einer** visuellen Einheit (gleiche Fläche wie `diagramCanvasFill` in `DiagramCanvasView`).
     private var canvasAndCaptionBlock: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        let diagramPaper = Color(white: 0.98)
+        let blockCorner: CGFloat = horizontalSizeClass == .regular ? 14 : 12
+
+        return VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 8) {
                 Text(lang.tr("diagram_title_label"))
                     .font(horizontalSizeClass == .regular ? .caption : .subheadline)
@@ -1432,6 +1440,15 @@ struct ContentView: View {
                     .autocorrectionDisabled(true)
                     .focused($focusedField, equals: .caption)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 14)
+            .padding(.top, 8)
+            .padding(.bottom, 6)
+            // Innerer Trennstrich — Titel zählt zum Diagramm-„Blatt“, nicht als losgelöster Bereich oberhalb.
+            Rectangle()
+                .fill(Color.primary.opacity(0.1))
+                .frame(height: 1)
+                .padding(.horizontal, 10)
 
             GeometryReader { geo in
                 ScrollView([.horizontal, .vertical]) {
@@ -1455,6 +1472,15 @@ struct ContentView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: blockCorner, style: .continuous)
+                .fill(diagramPaper)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: blockCorner, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: blockCorner, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+        }
     }
 
     private var documentBinding: Binding<VisuStructDocument> {
@@ -2472,6 +2498,50 @@ struct ContentView: View {
         }
     }
 
+    /// DIN A4 in PDF-Punkten (72 pt/in); Inhalt per **AspectFit** in den bedruckbaren Rand skalieren.
+    private enum A4SinglePageLayout {
+        private static let portrait = CGSize(width: 595, height: 842)
+        private static let landscape = CGSize(width: 842, height: 595)
+        private static let margin: CGFloat = 32
+        /// Etwas kleiner skalieren, damit randnahe Inhalte in PDF-Viewern/Druck sicher in die Seite passen.
+        private static let scaleFudge: CGFloat = 0.98
+
+        static func pageAndImageDrawRect(imageSize: CGSize) -> (pageBounds: CGRect, drawRect: CGRect) {
+            let m = margin
+            let iw = max(1, imageSize.width)
+            let ih = max(1, imageSize.height)
+
+            func maxScaleIn(content: CGSize) -> CGFloat {
+                min(content.width / iw, content.height / ih) * Self.scaleFudge
+            }
+
+            let pContent = CGSize(width: portrait.width - 2 * m, height: portrait.height - 2 * m)
+            let lContent = CGSize(width: landscape.width - 2 * m, height: landscape.height - 2 * m)
+            let sPortrait = maxScaleIn(content: pContent)
+            let sLandscape = maxScaleIn(content: lContent)
+
+            if sLandscape > sPortrait {
+                let cw = lContent.width
+                let ch = lContent.height
+                let s = sLandscape
+                let sw = iw * s
+                let sh = ih * s
+                let x = m + (cw - sw) * 0.5
+                let y = m + (ch - sh) * 0.5
+                return (CGRect(origin: .zero, size: landscape), CGRect(x: x, y: y, width: sw, height: sh))
+            } else {
+                let cw = pContent.width
+                let ch = pContent.height
+                let s = sPortrait
+                let sw = iw * s
+                let sh = ih * s
+                let x = m + (cw - sw) * 0.5
+                let y = m + (ch - sh) * 0.5
+                return (CGRect(origin: .zero, size: portrait), CGRect(x: x, y: y, width: sw, height: sh))
+            }
+        }
+    }
+
     private func shareDiagramPDF() {
         guard let img = renderedDiagramUIImage() else {
             setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
@@ -2481,18 +2551,21 @@ struct ContentView: View {
         // Eigenes Temp-Verzeichnis + sauberer Dateiname, damit Quick Look nicht „UUID-…pdf“ als Titel zeigt.
         let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         let tmp = dir.appendingPathComponent(fileName)
-        let bounds = CGRect(origin: .zero, size: img.size)
+        let (pageBounds, imageDrawRect) = A4SinglePageLayout.pageAndImageDrawRect(imageSize: img.size)
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = [
             kCGPDFContextCreator as String: "VisuStruct",
-            kCGPDFContextTitle as String: Self.stripVisuStructExtension(from: sheetTabs[currentTabIndex].title)
+            // Sichtbarer Titel steht im gerenderten Bild; Metadaten gleich mitzeichnen (Quick Look / PDF-Reader).
+            kCGPDFContextTitle as String: exportVisibleDiagramTitle()
         ]
-        let renderer = UIGraphicsPDFRenderer(bounds: bounds, format: format)
+        let renderer = UIGraphicsPDFRenderer(bounds: pageBounds, format: format)
         do {
             try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+            // `UIGraphicsPDFRenderer` liefert einen Kontext, der `UIImage.draw(in:)` erwartet (Oben-Links) —
+            // kein manuelles translate/scale(1,-1), sonst doppelt gedreht ≈ steht auf dem Kopf.
             try renderer.writePDF(to: tmp) { ctx in
                 ctx.beginPage()
-                img.draw(in: bounds)
+                img.draw(in: imageDrawRect)
             }
             pdfQuickLookURL = tmp
         } catch {
@@ -2502,29 +2575,72 @@ struct ContentView: View {
     #endif
 
     #if canImport(UIKit)
-    /// Gerendertes Struktogramm (gleiche Logik wie PNG-Teilen und Druck).
+    /// Text für PDF/PNG/Druck: bei leerem Caption der lokalisierte Platzhalter (wie im Titelfeld).
+    private func exportVisibleDiagramTitle() -> String {
+        let t = document.caption.trimmingCharacters(in: .whitespacesAndNewlines)
+        return t.isEmpty ? lang.tr("diagram_title_placeholder") : t
+    }
+
+    /// Titelhöhe für den Raster-Export: keine künstlich hohe `maxHeight` — sonst bei einer Zeile großer Leerraum bis zum Kasten.
+    private func exportRasterTitleBlockHeight(rasterWidth: CGFloat) -> CGFloat {
+        let hPad: CGFloat = 12 * 2
+        let textW = max(1, rasterWidth - hPad)
+        let title = exportVisibleDiagramTitle() as NSString
+        let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        let h = title.boundingRect(
+            with: CGSize(width: textW, height: 10_000),
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font],
+            context: nil
+        ).height
+        // 2pt unter dem Text bis zum Blatt, max. 2 Zeilen auffangen (Sicherheits-Deckel).
+        return min(56, ceil(h) + 2)
+    }
+
+    /// Gerendertes Struktogramm inkl. **sichtbarem** Diagrammtitel (gleiche Logik für PNG, PDF, Druck).
     private func renderedDiagramUIImage() -> UIImage? {
         let metrics = VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
             .scaled(by: canvasScaleStep.multiplier)
-        let layout = VisuStructLayoutEngine(metrics: metrics).layout(document: document)
-        let w = min(1400, max(320, layout.canvasSize.width))
-        let h = min(1000, max(320, layout.canvasSize.height))
-        let size = CGSize(width: w, height: h)
-        guard w > 2, h > 2 else { return nil }
+        // Kompakt für PDF/PNG/Druck: engerer Layout-Rand, damit unter dem Titel weniger Leerraum bis zum Kasten entsteht.
+        let exportInset: (left: Double, top: Double) = (12, 10)
+        let layout = VisuStructLayoutEngine(metrics: metrics).layout(document: document, topLeadingContentInset: exportInset)
+        // Volle logische Größe — früher 1400×1000: breite Struktogramme wurden rechts/unten hart abgeschnitten; A4-Downscale greift voll.
+        let exportPixelCap: CGFloat = 8000
+        let w = min(exportPixelCap, max(320, CGFloat(layout.canvasSize.width)))
+        let h = min(exportPixelCap, max(320, CGFloat(layout.canvasSize.height)))
+        let titleBlockH = exportRasterTitleBlockHeight(rasterWidth: w)
+        let totalH = titleBlockH + h
+        let size = CGSize(width: w, height: totalH)
+        guard w > 2, h > 2, totalH > 2 else { return nil }
         let diagram = DiagramCanvasView(
             document: .constant(document),
             selectedPath: .constant(nil),
             errorText: .constant(nil),
             insertTarget: .constant(nil),
             elementClipboard: .constant(nil),
-            canvasScaleStep: canvasScaleStep
+            canvasScaleStep: canvasScaleStep,
+            layoutTopLeadingInset: exportInset,
+            exportCanvasOuterMarginPt: 8
         )
         .frame(width: w, height: h)
-        let exportRoot = ZStack {
-            Color(white: 0.98)
-            diagram
+        let exportRoot = VStack(alignment: .leading, spacing: 0) {
+            Text(exportVisibleDiagramTitle())
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(Color.primary)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 2)
+            ZStack {
+                Color(white: 0.98)
+                diagram
+            }
+            .frame(width: w, height: h)
         }
-        .frame(width: w, height: h)
+        .frame(width: w, height: totalH, alignment: .topLeading)
+        .background(Color(white: 0.98))
         .environment(\.horizontalSizeClass, horizontalSizeClass)
         .environment(\.appLanguage, lang)
         return Self.renderDiagramToUIImage(content: exportRoot, size: size, scale: displayScale)
@@ -2541,7 +2657,7 @@ struct ContentView: View {
         }
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .photo
-        info.jobName = Self.stripVisuStructExtension(from: sheetTabs[currentTabIndex].title)
+        info.jobName = exportVisibleDiagramTitle()
         let controller = UIPrintInteractionController.shared
         controller.printInfo = info
         controller.printingItem = img
@@ -2714,8 +2830,9 @@ private struct CodeGeneratorPlaceholderSheet: View {
 
     /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
     @AppStorage("visustruct.codegen.target") private var codegenTarget: String = "java"
-    /// Letzte Einstellung: Diagrammtext als Kommentare (Standard: aus).
+    /// Wie in den iOS-Systemeinstellungen → VisuStruct (gleicher `UserDefaults`-Key).
     @AppStorage("visustruct.codegen.includeDiagramComments") private var includeDiagramComments = false
+    @AppStorage("visustruct.codegen.includeEmptyElse") private var includeEmptyElse = true
 
     private static let javaTag = "java"
     private static let pythonTag = "python"
@@ -2733,7 +2850,12 @@ private struct CodeGeneratorPlaceholderSheet: View {
     }
 
     private var codegenOptions: VisuStructCodeGenerator.Options {
-        .init(baseIndent: 0, indentPerLevel: 4, includeDiagramTextAsComments: includeDiagramComments)
+        .init(
+            baseIndent: 0,
+            indentPerLevel: 4,
+            includeDiagramTextAsComments: includeDiagramComments,
+            includeEmptyElseBranch: includeEmptyElse
+        )
     }
 
     private var generatedCode: String {
@@ -2769,15 +2891,34 @@ private struct CodeGeneratorPlaceholderSheet: View {
         showJavaExporter = true
     }
 
+    /// Chrome für den eingebetteten JS-Runner: **Deutsch** nur bei App-Sprache Deutsch, sonst **Englisch** (alle anderen Locales / Java-Preset). Button: **Run** (einheitlich).
+    private func javaScriptRunnerPageChrome() -> (htmlLang: String, title: String, heading: String, hintHTML: String) {
+        if lang == .german {
+            return (
+                "de",
+                "VisuStruct – JavaScript-Test",
+                "VisuStruct – JavaScript-Test",
+                #"Der Code läuft im Browser. <code>console.log</code> wird unten angezeigt."#
+            )
+        }
+        return (
+            "en",
+            "VisuStruct – JavaScript Test",
+            "VisuStruct – JavaScript Test",
+            #"The code runs in the browser. <code>console.log</code> output appears below."#
+        )
+    }
+
     private func openJavaScriptRunner(_ js: String) {
         // In-App Runner (WKWebView): zuverlässiger als Safari/data: auf iOS.
+        let chrome = javaScriptRunnerPageChrome()
         javaScriptRunnerHTML = """
         <!doctype html>
-        <html lang="en">
+        <html lang="\(chrome.htmlLang)">
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>VisuStruct – JavaScript Test</title>
+          <title>\(chrome.title)</title>
           <style>
             body { margin: 0; font-family: -apple-system, system-ui, sans-serif; background: #0b1220; color: #e5e7eb; }
             header { padding: 14px 16px; background: #111827; border-bottom: 1px solid rgba(255,255,255,.08); }
@@ -2789,9 +2930,9 @@ private struct CodeGeneratorPlaceholderSheet: View {
           </style>
         </head>
         <body>
-          <header><h1>VisuStruct – JavaScript Test</h1></header>
+          <header><h1>\(chrome.heading)</h1></header>
           <main>
-            <div class="hint">Der Code läuft im Browser. <code>console.log</code> wird unten angezeigt.</div>
+            <div class="hint">\(chrome.hintHTML)</div>
             <button id="run">Run</button>
             <pre id="out"></pre>
             <script>
@@ -2846,11 +2987,6 @@ private struct CodeGeneratorPlaceholderSheet: View {
                             codegenTarget = Self.javaTag
                         }
                     }
-
-                    Toggle(isOn: $includeDiagramComments) {
-                        Text(lang.tr("codegen_option_comments"))
-                    }
-                    .font(.subheadline)
 
                     Text(verbatim: generatedCode)
                         .font(.system(.body, design: .monospaced))
@@ -3051,137 +3187,13 @@ private extension UIViewController {
 }
 #endif
 
-// MARK: - Einstellungen (In-App)
-
-private struct SettingsSheet: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.appLanguage) private var lang
-    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
-    @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
-    @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
-    @AppStorage(ExportFilenameStyle.appStorageKey) private var exportFilenameStyleRaw: String = ExportFilenameStyle.dateAndTitle.rawValue
-    @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
-    @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
-
-    private var canvasScaleBinding: Binding<VisuStructUIScaleStep> {
-        Binding(
-            get: { VisuStructUIScaleStep(rawValue: canvasScaleRaw) ?? .small },
-            set: { canvasScaleRaw = $0.rawValue }
-        )
-    }
-
-    private var inspectorScaleBinding: Binding<VisuStructUIScaleStep> {
-        Binding(
-            get: { VisuStructUIScaleStep(rawValue: inspectorScaleRaw) ?? .small },
-            set: { inspectorScaleRaw = $0.rawValue }
-        )
-    }
-
-    private var selection: Binding<AppLanguage> {
-        Binding(
-            get: { AppLanguage(rawValue: languageCode) ?? .javaLike },
-            set: { languageCode = $0.rawValue }
-        )
-    }
-
-    private var exportFilenameSelection: Binding<ExportFilenameStyle> {
-        Binding(
-            get: { ExportFilenameStyle.fromStored(exportFilenameStyleRaw) },
-            set: { exportFilenameStyleRaw = $0.rawValue }
-        )
-    }
-
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    Picker(lang.tr("settings_language_title"), selection: selection) {
-                        // Intentionally NOT localized: helps users recover if they accidentally pick an unreadable language.
-                        // Format: Latin/English first, then native script in parentheses.
-                        Text("English").tag(AppLanguage.english)
-                        Text("Java (keywords)").tag(AppLanguage.javaLike)
-
-                        // Alphabetical (by Latin/English part)
-                        Text("Arabic (العربية)").tag(AppLanguage.arabic)
-                        Text("Chinese (中文（简体）) (Simplified)").tag(AppLanguage.chineseSimplified)
-                        Text("Chinese (中文（繁體）) (Traditional)").tag(AppLanguage.chineseTraditional)
-                        Text("Danish (Dansk)").tag(AppLanguage.danish)
-                        Text("Dutch (Nederlands)").tag(AppLanguage.dutch)
-                        Text("French (Français)").tag(AppLanguage.french)
-                        Text("German (Deutsch)").tag(AppLanguage.german)
-                        Text("Greek (Ελληνικά)").tag(AppLanguage.greek)
-                        Text("Hebrew (עברית)").tag(AppLanguage.hebrew)
-                        Text("Italian (Italiano)").tag(AppLanguage.italian)
-                        Text("Japanese (日本語)").tag(AppLanguage.japanese)
-                        Text("Korean (한국어)").tag(AppLanguage.korean)
-                        Text("Norwegian Bokmål (Norsk bokmål)").tag(AppLanguage.norwegianBokmal)
-                        Text("Polish (Polski)").tag(AppLanguage.polish)
-                        Text("Portuguese (Português)").tag(AppLanguage.portuguesePortugal)
-                        Text("Russian (Русский)").tag(AppLanguage.russian)
-                        Text("Spanish (Español)").tag(AppLanguage.spanish)
-                        Text("Swedish (Svenska)").tag(AppLanguage.swedish)
-                        Text("Turkish (Türkçe)").tag(AppLanguage.turkish)
-                        Text("Ukrainian (Українська)").tag(AppLanguage.ukrainian)
-                    }
-                }
-
-                Section {
-                    Picker(lang.tr("settings_ui_scale_canvas"), selection: canvasScaleBinding) {
-                        ForEach(VisuStructUIScaleStep.allCases) { step in
-                            Text(lang.tr(step.localizationKey)).tag(step)
-                        }
-                    }
-                    Picker(lang.tr("settings_ui_scale_inspector"), selection: inspectorScaleBinding) {
-                        ForEach(VisuStructUIScaleStep.allCases) { step in
-                            Text(lang.tr(step.localizationKey)).tag(step)
-                        }
-                    }
-                } header: {
-                    Text(lang.tr("settings_ui_scale_section"))
-                }
-
-                Section {
-                    Picker(lang.tr("settings_export_filename_picker"), selection: exportFilenameSelection) {
-                        Text(lang.tr("settings_export_filename_date_title")).tag(ExportFilenameStyle.dateAndTitle)
-                        Text(lang.tr("settings_export_filename_title_only")).tag(ExportFilenameStyle.titleOnly)
-                    }
-                } header: {
-                    Text(lang.tr("settings_export_filename_section"))
-                } footer: {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(lang.tr("settings_export_filename_footer_with_date"))
-                        Text(lang.tr("settings_export_filename_footer_without_date"))
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                }
-
-                Section {
-                    Button {
-                        toolbarCoachmarksCompleted = false
-                        toolbarCoachmarkStepIndex = 0
-                    } label: {
-                        Label(lang.tr("settings_replay_tour"), systemImage: "sparkles")
-                    }
-                }
-            }
-            .navigationTitle(lang.tr("action_settings"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(lang.tr("about_done")) { dismiss() }
-                }
-            }
-        }
-        .presentationDragIndicator(.visible)
-    }
-}
-
 // MARK: - Über VisuStruct
 
 private struct AboutVisuStructView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
+    @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
+    @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
 
     private var versionLine: String {
         let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
@@ -3296,6 +3308,14 @@ private struct AboutVisuStructView: View {
                             }
                         }
                     }
+
+                    Button {
+                        toolbarCoachmarksCompleted = false
+                        toolbarCoachmarkStepIndex = 0
+                    } label: {
+                        Label(lang.tr("settings_replay_tour"), systemImage: "sparkles")
+                    }
+                    .buttonStyle(.bordered)
 
                     Text(lang.tr("about_copyright"))
                         .font(.subheadline)

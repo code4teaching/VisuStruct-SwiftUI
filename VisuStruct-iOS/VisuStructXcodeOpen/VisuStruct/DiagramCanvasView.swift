@@ -58,6 +58,10 @@ struct DiagramCanvasView: View {
 
     /// Sichtbarer Bereich des ScrollViews (Fenstergröße). Wenn `.zero`, nur Inhaltsgröße des Layouts.
     var minViewportSize: CGSize = .zero
+    /// Optional: engerer Layout-Rand (z. B. PDF/PNG/Druck — weniger Leerraum unter dem freien Titel).
+    var layoutTopLeadingInset: (left: Double, top: Double)? = nil
+    /// Optional: schmalerer grauer Rahmen zum Blattrand (nur Export; Standard `canvasOuterMargin` = 16).
+    var exportCanvasOuterMarginPt: CGFloat? = nil
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
@@ -102,16 +106,10 @@ struct DiagramCanvasView: View {
     private var lineHeight: CGFloat { CGFloat(layoutMetrics.lineHeight) }
     private var headerFontSize: CGFloat { CGFloat(layoutMetrics.fontSize) }
 
-    private var captionFontSize: CGFloat {
-        let base = (horizontalSizeClass == .regular ? CGFloat(15) : CGFloat(20)) + CGFloat(DiagramCanvasInk.extraFontPoints)
-        return base * canvasScale
-    }
-
     /// Skaliert feste Abstände/Linien im Canvas mit der Diagramm-Stufe.
     private func ink(_ v: CGFloat) -> CGFloat { v * canvasScale }
 
     private var cellFont: Font { .system(size: headerFontSize, weight: .medium) }
-    private var captionFont: Font { .system(size: captionFontSize, weight: .medium) }
 
     private func displayDocumentForLayout(_ doc: VisuStructDocument) -> VisuStructDocument {
         func mapElement(_ e: VisuStructElement) -> VisuStructElement {
@@ -172,7 +170,10 @@ struct DiagramCanvasView: View {
 
     var body: some View {
         let engine = VisuStructLayoutEngine(metrics: layoutMetrics)
-        let layout = engine.layout(document: displayDocumentForLayout(document))
+        let displayDoc = displayDocumentForLayout(document)
+        let layout = layoutTopLeadingInset.map { ins in
+            engine.layout(document: displayDoc, topLeadingContentInset: ins)
+        } ?? engine.layout(document: displayDoc)
         let layoutW = CGFloat(layout.canvasSize.width)
         let layoutH = CGFloat(layout.canvasSize.height)
         let vw = minViewportSize.width
@@ -741,7 +742,8 @@ struct DiagramCanvasView: View {
         Canvas { context, size in
             context.fill(Path(CGRect(origin: .zero, size: size)), with: .color(diagramCanvasFill))
 
-            let m = ink(DiagramCanvasInk.canvasOuterMargin)
+            let marginBase = exportCanvasOuterMarginPt ?? DiagramCanvasInk.canvasOuterMargin
+            let m = ink(marginBase)
             let innerTrim: CGFloat = 1
             let frameRect = CGRect(
                 x: m,
@@ -751,14 +753,6 @@ struct DiagramCanvasView: View {
             )
             let outerFramePath = Path(frameRect)
             context.stroke(outerFramePath, with: .color(Color.gray.opacity(0.6)), lineWidth: ink(DiagramCanvasInk.outerFrameLineWidth))
-
-            if !document.caption.isEmpty {
-                let cap = captionFontSize
-                let captionW = measureText(document.caption, size: cap)
-                let cx = m + (CGFloat(layout.canvasSize.width) - 2 * m - innerTrim) / 2 - captionW / 2
-                let t = context.resolve(Text(verbatim: document.caption).font(captionFont).foregroundStyle(.black))
-                context.draw(t, at: CGPoint(x: cx, y: 30), anchor: .topLeading)
-            }
 
             for n in layout.elements {
                 drawNode(n, selectedPath: selectedPath, in: &context)

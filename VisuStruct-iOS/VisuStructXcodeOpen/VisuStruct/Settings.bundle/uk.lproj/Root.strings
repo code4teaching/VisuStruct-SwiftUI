@@ -1,6 +1,6 @@
 /* VisuStruct — Налаштування (система) */
 "GROUP_LANGUAGE_TITLE" = "Мова";
-"PREF_APP_LANGUAGE_TITLE" = "Мова застосунку";
+"PREF_APP_LANGUAGE_TITLE" = "Мова програми";
 "LANGUAGE_NAME_DE" = "Німецька";
 "LANGUAGE_NAME_EN" = "Англійська";
 "LANGUAGE_NAME_ES" = "Іспанська";
@@ -12,7 +12,31 @@
 "LANGUAGE_NAME_JA" = "Японська";
 "LANGUAGE_NAME_EL" = "Грецька";
 "LANGUAGE_NAME_UK" = "Українська";
+"LANGUAGE_NAME_AR" = "Арабська";
+"LANGUAGE_NAME_RU" = "Російська";
+"LANGUAGE_NAME_HE" = "Іврит";
+"LANGUAGE_NAME_NL" = "Нідерландська";
+"LANGUAGE_NAME_SV" = "Шведська";
+"LANGUAGE_NAME_DA" = "Данська";
+"LANGUAGE_NAME_NB" = "Норвезька (бокмол)";
 "LANGUAGE_NAME_ZH_HANS" = "Китайська (спрощена)";
 "LANGUAGE_NAME_ZH_HANT" = "Китайська (традиційна)";
 "LANGUAGE_NAME_PT_PT" = "Португальська";
 "LANGUAGE_NAME_JAVA" = "Java (ключові слова)";
+
+"GROUP_UI_SCALE" = "Розмір тексту";
+"PREF_CANVAS_SCALE" = "Структурна діаграма";
+"PREF_INSPECTOR_SCALE" = "Введення тексту внизу";
+"SCALE_S_SMALL" = "Малий";
+"SCALE_S_MEDIUM" = "Середній";
+"SCALE_S_LARGE" = "Великий";
+"SCALE_S_XL" = "Дуже великий";
+
+"GROUP_EXPORT" = "Пропонована назва файлу";
+"PREF_EXPORT_FORMAT" = "Формат";
+"EXPORT_VAL_WITH_DATE" = "З датою";
+"EXPORT_VAL_TITLE_ONLY" = "Без дати";
+
+"GROUP_CODEGEN_TITLE" = "Генерація коду";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Додавати порожню гілку else в згенерований код";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Текст діаграми як коментарі";

@@ -14,7 +14,29 @@
 "LANGUAGE_NAME_UK" = "Украинский";
 "LANGUAGE_NAME_AR" = "Арабский";
 "LANGUAGE_NAME_RU" = "Русский";
+"LANGUAGE_NAME_HE" = "Иврит";
+"LANGUAGE_NAME_NL" = "Нидерландский";
+"LANGUAGE_NAME_SV" = "Шведский";
+"LANGUAGE_NAME_DA" = "Датский";
+"LANGUAGE_NAME_NB" = "Норвежский (бокмол)";
 "LANGUAGE_NAME_ZH_HANS" = "Китайский (упрощённый)";
 "LANGUAGE_NAME_ZH_HANT" = "Китайский (традиционный)";
 "LANGUAGE_NAME_PT_PT" = "Португальский";
 "LANGUAGE_NAME_JAVA" = "Java (ключевые слова)";
+
+"GROUP_UI_SCALE" = "Размер текста";
+"PREF_CANVAS_SCALE" = "Структурная диаграмма";
+"PREF_INSPECTOR_SCALE" = "Ввод текста внизу";
+"SCALE_S_SMALL" = "Маленький";
+"SCALE_S_MEDIUM" = "Средний";
+"SCALE_S_LARGE" = "Крупный";
+"SCALE_S_XL" = "Очень крупный";
+
+"GROUP_EXPORT" = "Предлагаемое имя файла";
+"PREF_EXPORT_FORMAT" = "Формат";
+"EXPORT_VAL_WITH_DATE" = "С датой";
+"EXPORT_VAL_TITLE_ONLY" = "Без даты";
+
+"GROUP_CODEGEN_TITLE" = "Генерация кода";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Включать пустую ветвь else в генерируемый код";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Текст схемы в виде комментариев";

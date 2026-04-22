@@ -70,7 +70,6 @@
 "codegen_target_javascript" = "JavaScript";
 "codegen_preview_java" = "if (συνθήκη) {\n    εντολή();\n} else {\n    εναλλακτική();\n}";
 "codegen_preview_python" = "if συνθήκη:\n    εντολή()\nelse:\n    εναλλακτική()";
-"codegen_option_comments" = "Κείμενο διαγράμματος ως σχόλια";
 "codegen_copy" = "Αντιγραφή";
 "codegen_run_in_browser" = "Δοκιμή στο πρόγραμμα περιήγησης";
 "codegen_save_java" = "Save Java…";
@@ -184,3 +183,4 @@
 "settings_export_filename_title_only" = "Χωρίς ημερομηνία";
 "settings_export_filename_footer_with_date" = "Με ημερομηνία: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Χωρίς ημερομηνία: Filename.visustruct";
+

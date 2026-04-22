@@ -23,3 +23,20 @@
 "LANGUAGE_NAME_ZH_HANT" = "Chinesisch (traditionell)";
 "LANGUAGE_NAME_PT_PT" = "Portugiesisch";
 "LANGUAGE_NAME_JAVA" = "Java (Schlüsselwörter)";
+
+"GROUP_UI_SCALE" = "Textgröße";
+"PREF_CANVAS_SCALE" = "Struktogramm";
+"PREF_INSPECTOR_SCALE" = "Eingabe unten";
+"SCALE_S_SMALL" = "Klein";
+"SCALE_S_MEDIUM" = "Mittel";
+"SCALE_S_LARGE" = "Groß";
+"SCALE_S_XL" = "Sehr groß";
+
+"GROUP_EXPORT" = "Dateivorschlag";
+"PREF_EXPORT_FORMAT" = "Format";
+"EXPORT_VAL_WITH_DATE" = "Mit Datum";
+"EXPORT_VAL_TITLE_ONLY" = "Ohne Datum";
+
+"GROUP_CODEGEN_TITLE" = "Code erzeugen";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Leeren else-Zweig im Code ausgeben";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Diagramm-Text als Kommentare";

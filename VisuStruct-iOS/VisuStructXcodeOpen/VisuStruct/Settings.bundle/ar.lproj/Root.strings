@@ -15,7 +15,28 @@
 "LANGUAGE_NAME_AR" = "العربية";
 "LANGUAGE_NAME_RU" = "الروسية";
 "LANGUAGE_NAME_HE" = "العبرية";
-"LANGUAGE_NAME_ZH_HANS" = "الصينية (مبسطة)";
-"LANGUAGE_NAME_ZH_HANT" = "الصينية (تقليدية)";
+"LANGUAGE_NAME_NL" = "الهولندية";
+"LANGUAGE_NAME_SV" = "السويدية";
+"LANGUAGE_NAME_DA" = "الدنماركية";
+"LANGUAGE_NAME_NB" = "النرويجية (بوكمول)";
+"LANGUAGE_NAME_ZH_HANS" = "الصينية (المبسّطة)";
+"LANGUAGE_NAME_ZH_HANT" = "الصينية (التقليدية)";
 "LANGUAGE_NAME_PT_PT" = "البرتغالية";
 "LANGUAGE_NAME_JAVA" = "Java (كلمات مفتاحية)";
+
+"GROUP_UI_SCALE" = "حجم النص";
+"PREF_CANVAS_SCALE" = "مخطط البنية";
+"PREF_INSPECTOR_SCALE" = "إدخال النص في الأسفل";
+"SCALE_S_SMALL" = "صغير";
+"SCALE_S_MEDIUM" = "متوسط";
+"SCALE_S_LARGE" = "كبير";
+"SCALE_S_XL" = "كبير جدًا";
+
+"GROUP_EXPORT" = "اقتراح اسم الملف";
+"PREF_EXPORT_FORMAT" = "الصيغة";
+"EXPORT_VAL_WITH_DATE" = "مع التاريخ";
+"EXPORT_VAL_TITLE_ONLY" = "بدون تاريخ";
+
+"GROUP_CODEGEN_TITLE" = "إنشاء الشفرة";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "تضمين فرع else الفارغ في الشفرة المُنشأة";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "نص المخطط كتعليقات";

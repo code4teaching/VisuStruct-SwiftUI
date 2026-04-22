@@ -1,4 +1,4 @@
-/* VisuStruct — Ρυθμίσεις (Σύστημα) */
+/* VisuStruct — Ρυθμίσεις (συστήματος) */
 "GROUP_LANGUAGE_TITLE" = "Γλώσσα";
 "PREF_APP_LANGUAGE_TITLE" = "Γλώσσα εφαρμογής";
 "LANGUAGE_NAME_DE" = "Γερμανικά";
@@ -12,7 +12,31 @@
 "LANGUAGE_NAME_JA" = "Ιαπωνικά";
 "LANGUAGE_NAME_EL" = "Ελληνικά";
 "LANGUAGE_NAME_UK" = "Ουκρανικά";
-"LANGUAGE_NAME_ZH_HANS" = "Κινέζικα (Απλοποιημένα)";
-"LANGUAGE_NAME_ZH_HANT" = "Κινέζικα (Παραδοσιακά)";
+"LANGUAGE_NAME_AR" = "Αραβικά";
+"LANGUAGE_NAME_RU" = "Ρωσικά";
+"LANGUAGE_NAME_HE" = "Εβραϊκά";
+"LANGUAGE_NAME_NL" = "Ολλανδικά";
+"LANGUAGE_NAME_SV" = "Σουηδικά";
+"LANGUAGE_NAME_DA" = "Δανικά";
+"LANGUAGE_NAME_NB" = "Νορβηγικά (bokmål)";
+"LANGUAGE_NAME_ZH_HANS" = "Κινεζικά (απλοποιημένα)";
+"LANGUAGE_NAME_ZH_HANT" = "Κινεζικά (παραδοσιακά)";
 "LANGUAGE_NAME_PT_PT" = "Πορτογαλικά";
 "LANGUAGE_NAME_JAVA" = "Java (λέξεις-κλειδιά)";
+
+"GROUP_UI_SCALE" = "Μέγεθος κειμένου";
+"PREF_CANVAS_SCALE" = "Χάρτης δομής";
+"PREF_INSPECTOR_SCALE" = "Καταχώριση κειμένου κάτω";
+"SCALE_S_SMALL" = "Μικρό";
+"SCALE_S_MEDIUM" = "Μεσαίο";
+"SCALE_S_LARGE" = "Μεγάλο";
+"SCALE_S_XL" = "Πολύ μεγάλο";
+
+"GROUP_EXPORT" = "Πρόταση ονόματος αρχείου";
+"PREF_EXPORT_FORMAT" = "Μορφή";
+"EXPORT_VAL_WITH_DATE" = "Με ημερομηνία";
+"EXPORT_VAL_TITLE_ONLY" = "Χωρίς ημερομηνία";
+
+"GROUP_CODEGEN_TITLE" = "Δημιουργία κώδικα";
+"PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Συμπερίληψη κενού else στον παραγόμενο κώδικα";
+"PREF_CODEGEN_DIAGRAM_COMMENTS" = "Κείμενο διαγράμματος ως σχόλια";
