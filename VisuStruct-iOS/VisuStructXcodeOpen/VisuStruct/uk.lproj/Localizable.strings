@@ -96,11 +96,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Java: input: int zahl | output: print: number";
+"inspector_io_mode_help_java_like" = "Java: input: int zahl | output: number";
 "inspector_add_case" = "Додати випадок";
 "inspector_remove_case" = "Видалити випадок";
 "inspector_group_element" = "Текст елемента";
-"inspector_placeholder_statement" = "Вставити інструкцію…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "Вставити умову…";
 "inspector_placeholder_selector" = "Вставити selector…";
 "inspector_placeholder_call" = "Вставити виклик…";

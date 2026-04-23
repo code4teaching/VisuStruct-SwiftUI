@@ -782,6 +782,11 @@ a:hover {
   border-top: 1px solid var(--vs-card-border);
   text-align: center !important;
 }
+.site-contact address {
+  margin: 0 auto;
+  max-width: var(--vs-prose-max);
+  font-style: normal;
+}
 .site-contact h2 {
   font-size: 1.05rem;
   font-weight: 600;

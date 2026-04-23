@@ -29,3 +29,15 @@ enum VisuStructLayoutTextMeasurement: Sendable {
         #endif
     }
 }
+
+/// Eine Anzeigezeile für `forSchleife` im Struktogramm: Init, Bedingung, Schritt nebeneinander wie `for (a; b; c)` — getrennt mit `; `.
+public enum VisuStructForLoopDiagramDisplay: Sendable {
+    public static func singleLine(from textLines: [String]) -> String {
+        var parts = textLines
+        while parts.count < 3 { parts.append("") }
+        if parts.count > 3 { parts = Array(parts.prefix(3)) }
+        return parts
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .joined(separator: "; ")
+    }
+}

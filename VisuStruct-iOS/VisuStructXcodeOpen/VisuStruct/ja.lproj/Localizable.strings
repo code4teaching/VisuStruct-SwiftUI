@@ -99,11 +99,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
 "inspector_add_case" = "ケースを追加";
 "inspector_remove_case" = "ケースを削除";
 "inspector_group_element" = "要素テキスト";
-"inspector_placeholder_statement" = "文を入力…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "条件を入力…";
 "inspector_placeholder_selector" = "セレクタを入力…";
 "inspector_placeholder_call" = "呼び出しを入力…";

@@ -98,11 +98,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
 "inspector_add_case" = "Добавить вариант";
 "inspector_remove_case" = "Удалить вариант";
 "inspector_group_element" = "Текст элемента";
-"inspector_placeholder_statement" = "Вставить оператор…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "Вставить условие…";
 "inspector_placeholder_selector" = "Вставить селектор…";
 "inspector_placeholder_call" = "Вставить вызов…";

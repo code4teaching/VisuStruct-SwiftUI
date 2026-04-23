@@ -118,11 +118,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
 "inspector_add_case" = "Add Case";
 "inspector_remove_case" = "Remove Case";
 "inspector_group_element" = "Element text";
-"inspector_placeholder_statement" = "Insert statement…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "Insert condition…";
 "inspector_placeholder_selector" = "Insert selector…";
 "inspector_placeholder_call" = "Insert call…";

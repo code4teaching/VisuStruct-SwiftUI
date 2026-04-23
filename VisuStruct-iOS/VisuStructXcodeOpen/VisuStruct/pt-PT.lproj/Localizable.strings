@@ -101,11 +101,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
 "inspector_add_case" = "Adicionar caso";
 "inspector_remove_case" = "Remover caso";
 "inspector_group_element" = "Texto do elemento";
-"inspector_placeholder_statement" = "Inserir instrução…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "Inserir condição…";
 "inspector_placeholder_selector" = "Inserir seletor…";
 "inspector_placeholder_call" = "Inserir chamada…";

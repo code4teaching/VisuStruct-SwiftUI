@@ -96,11 +96,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Java: input: int zahl | output: print: number";
+"inspector_io_mode_help_java_like" = "Java: input: int zahl | output: number";
 "inspector_add_case" = "Προσθήκη περίπτωσης";
 "inspector_remove_case" = "Αφαίρεση περίπτωσης";
 "inspector_group_element" = "Κείμενο στοιχείου";
-"inspector_placeholder_statement" = "Εισαγωγή εντολής…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "Εισαγωγή συνθήκης…";
 "inspector_placeholder_selector" = "Εισαγωγή selector…";
 "inspector_placeholder_call" = "Εισαγωγή κλήσης…";

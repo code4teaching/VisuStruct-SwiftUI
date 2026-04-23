@@ -274,10 +274,82 @@ public enum VisuStructCodeGenerator: Sendable {
     }
 
     // MARK: - Java-ähnliche Zuweisungen → JS `let` / Python ohne Typ
+    // MARK: - `const Typ name` / `const Typ name = …` (Diagramm) → Java `final` / JS `const` / Python
 
     private struct JavaStyleSimpleAssignmentParse {
         let name: String
         let rhs: String
+    }
+
+    private struct ConstTypedLineParse {
+        let rawType: String
+        let name: String
+        let rhs: String?
+    }
+
+    /// `const int PIN` bzw. `const double PI = 3.14` (nur mit Schlüsselwort `const`); sonst `nil`.
+    private static func parseConstTypedLine(_ rawLine: String) -> ConstTypedLineParse? {
+        let line = stripTrailingSemicolon(rawLine).trimmingCharacters(in: .whitespacesAndNewlines)
+        if line.isEmpty { return nil }
+        let pattern =
+            #"(?i)^\s*const\s+(integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s*=\s*(.*))?$"#
+        guard let g = regexGroups(pattern, line), g.count >= 3 else { return nil }
+        let rawType = g[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        let name = g[2].trimmingCharacters(in: .whitespacesAndNewlines)
+        if name.isEmpty { return nil }
+        if !line.contains("=") {
+            return ConstTypedLineParse(rawType: rawType, name: name, rhs: nil)
+        }
+        guard g.count > 3 else { return nil }
+        let rhsTrim = g[3].trimmingCharacters(in: .whitespacesAndNewlines)
+        if rhsTrim.isEmpty { return nil }
+        return ConstTypedLineParse(rawType: rawType, name: name, rhs: rhsTrim)
+    }
+
+    /// Typbezeichner wie im Diagramm → gültiger Java-Typ (Schul-Set).
+    private static func javaTypeForConstDeclaration(_ raw: String) -> String {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        switch t {
+        case "integer", "int": return "int"
+        case "long": return "long"
+        case "float": return "float"
+        case "double": return "double"
+        case "string": return "String"
+        case "boolean", "bool": return "boolean"
+        case "char": return "char"
+        default: return raw
+        }
+    }
+
+    /// `const`-Deklaration: Java `final`, JS `const` bzw. ohne Initialwert `let` + Hinweis, Python Zuweisung / `None`.
+    private static func emitConstTypedLineIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
+        guard let p = parseConstTypedLine(raw) else { return nil }
+        let jt = javaTypeForConstDeclaration(p.rawType)
+        let name = p.name
+        let rhsOpt = p.rhs?.trimmingCharacters(in: .whitespacesAndNewlines)
+        let hasValue = rhsOpt.map { !$0.isEmpty } ?? false
+        switch target {
+        case .java:
+            let decl: String
+            if hasValue, let r = rhsOpt {
+                decl = "final \(jt) \(name) = \(r)"
+            } else {
+                decl = "final \(jt) \(name)"
+            }
+            return sp(indent) + formatCStyleStatementLine(decl) + "\n"
+        case .javascript:
+            if hasValue, let r = rhsOpt {
+                let inner = "const \(name) = \(r)"
+                return sp(indent) + formatCStyleStatementLine(inner) + "\n"
+            }
+            // `const` verlangt in JS einen Initialwert; `let` erlaubt keine TDZ-„const“-Semantik, aber verständlicher Kompromiss fürs Diagramm
+            return sp(indent) + "let \(name);  // from diagram: const \(jt) \(name)\n"
+        case .python:
+            if hasValue, let r = rhsOpt {
+                return sp(indent) + "\(name) = \(pythonRhsFromJavaRhs(r))  # const \(jt)\n"
+            }
+            return sp(indent) + "\(name) = None  # const \(jt), uninitialized\n"
+        }
     }
 
     /// Eine Zeile `Typ name = ausdruck` (Schul­syntax). Kein Treffer → `nil`.
@@ -367,6 +439,10 @@ public enum VisuStructCodeGenerator: Sendable {
                     out += s
                     continue
                 }
+            }
+            if let s = emitConstTypedLineIfNeeded(raw, target: target, indent: indent) {
+                out += s
+                continue
             }
             if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent) {
                 out += s
@@ -687,13 +763,81 @@ public enum VisuStructCodeGenerator: Sendable {
         return doc.elements.contains(where: elementHasInput)
     }
 
-    private static func emitJavaPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
+    /// Diagramm-Präfixe für Ausgabe: `output:` (UI) bzw. älteres `print:` — Codeziel bleibt `println`/`log`/`print`.
+    private static func expressionAfterOutputDiagramPrefix(_ raw: String) -> String? {
         let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         let lower = t.lowercased()
-        guard lower.hasPrefix("print:") else { return nil }
-        let expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        let expr: String
+        if lower.hasPrefix("output:") {
+            expr = String(t.dropFirst(7)).trimmingCharacters(in: .whitespacesAndNewlines)
+        } else if lower.hasPrefix("print:") {
+            expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        } else {
+            return nil
+        }
         if expr.isEmpty { return nil }
+        return expr
+    }
+
+    private static func emitJavaPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
+        guard let expr = expressionAfterOutputDiagramPrefix(raw) else { return nil }
         return sp(indent) + "System.out.println(" + expr + ");\n"
+    }
+
+    private struct InputLineParse {
+        let type: String
+        let name: String
+        /// Optionaler Eingabe-Hinweis in `"…"` hinter `Typ name` oder in Kurzform `name "…"`.
+        let customPrompt: String?
+    }
+
+    /// `input:`-Rest: `int pin`, `int pin "Hinweis"`, Kurzform `pin "Hinweis"` (implizit `int`), bisher `zahl` / `int zahl` ohne Anführungszeichen.
+    private static func parseInputLineAfterColon(_ rest: String) -> InputLineParse? {
+        let trimmed = rest.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return nil }
+        // 1) `int name` oder `int name "Hinweis"`
+        let typedWithPrompt =
+            #"(?i)^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s+"([^"]*)")?\s*$"#
+        if let g = regexGroups(typedWithPrompt, trimmed), g.count >= 3 {
+            let typRaw = g[1]
+            let n = g[2]
+            if n.isEmpty { return nil }
+            let c = g.count > 3 ? g[3].trimmingCharacters(in: .whitespacesAndNewlines) : ""
+            return InputLineParse(
+                type: normalizeInputTypeKeyword(typRaw),
+                name: n,
+                customPrompt: c.isEmpty ? nil : c
+            )
+        }
+        // 2) `name "Hinweis"` (implizit int) — z. B. `pin "Pin eingeben"`
+        let nameQuoted = "^(?i)(\\w+)\\s+\"([^\"]*)\"\\s*$"
+        if let g2 = regexGroups(nameQuoted, trimmed), g2.count >= 2 {
+            let w = g2[1].lowercased()
+            let notNameShorthand: Set<String> = [
+                "int", "integer", "long", "float", "double", "string", "boolean", "char", "bool", "void",
+            ]
+            if notNameShorthand.contains(w) { return nil }
+            return InputLineParse(type: "int", name: g2[1], customPrompt: g2[2].trimmingCharacters(in: .whitespacesAndNewlines))
+        }
+        // 3) bisher: `input: zahl` / `int zahl` (nur Trennzeichen)
+        if let pair = parseInputTypeAndName(afterInputColon: trimmed) {
+            return InputLineParse(type: normalizeInputTypeKeyword(pair.0), name: pair.1, customPrompt: nil)
+        }
+        return nil
+    }
+
+    private static func normalizeInputTypeKeyword(_ raw: String) -> String {
+        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        switch t {
+        case "integer", "int": return "int"
+        case "long": return "long"
+        case "float": return "float"
+        case "double": return "double"
+        case "string": return "String"
+        case "boolean", "bool": return "boolean"
+        case "char": return "char"
+        default: return raw
+        }
     }
 
     /// Nach `input:`: `int zahl` wie bisher, oder Kurzform **`zahl`** → Typ **`int`** (Diagramm ohne Typ, z. B. „input: zahl“).
@@ -710,7 +854,7 @@ public enum VisuStructCodeGenerator: Sendable {
         return ("int", only)
     }
 
-    /// Ohne `print:`: Zeile beginnt mit `"…"` → Ausgabe (Java/JS/Python), z. B. `"Summe: " + summe`.
+    /// Ohne `output:`/`print:`-Präfix: Zeile beginnt mit `"…"` → Ausgabe (Java/JS/Python), z. B. `"Summe: " + summe`.
     private static func emitBareLeadingStringAsPrintIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
         guard target == .java || target == .javascript || target == .python else { return nil }
         let t = stripTrailingSemicolon(raw).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -741,12 +885,17 @@ public enum VisuStructCodeGenerator: Sendable {
         guard lower.hasPrefix("input:") else { return nil }
         let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !rest.isEmpty else { return nil }
-        guard let pair = parseInputTypeAndName(afterInputColon: rest) else { return nil }
-        let type = pair.type
-        let name = pair.name
-
-        let label = javaEscapeForDoubleQuotedLiteral(name + ": ")
-        let promptOut = sp(indent) + "System.out.println(\"" + label + "\");\n"
+        guard let p = parseInputLineAfterColon(rest) else { return nil }
+        let type = p.type
+        let name = p.name
+        let promptOut: String = {
+            if let c = p.customPrompt, !c.isEmpty {
+                let esc = javaEscapeForDoubleQuotedLiteral(c)
+                return sp(indent) + "System.out.println(\"" + esc + "\");\n"
+            }
+            let label = javaEscapeForDoubleQuotedLiteral(name + ": ")
+            return sp(indent) + "System.out.println(\"" + label + "\");\n"
+        }()
 
         switch type {
         case "int":
@@ -776,12 +925,13 @@ public enum VisuStructCodeGenerator: Sendable {
         return "(\( "prompt(\"" + esc + "\")" ) ?? \"\(fallback)\")"
     }
 
+    private static func jsPromptExprCustomPromptText(_ custom: String, fallback: String) -> String {
+        let esc = javaScriptEscapeForDoubleQuotedLiteral(custom)
+        return "(\( "prompt(\"" + esc + "\")" ) ?? \"\(fallback)\")"
+    }
+
     private static func emitJavaScriptPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
-        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = t.lowercased()
-        guard lower.hasPrefix("print:") else { return nil }
-        let expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !expr.isEmpty else { return nil }
+        guard let expr = expressionAfterOutputDiagramPrefix(raw) else { return nil }
         return sp(indent) + "console.log(" + expr + ");\n"
     }
 
@@ -791,24 +941,41 @@ public enum VisuStructCodeGenerator: Sendable {
         guard lower.hasPrefix("input:") else { return nil }
         let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !rest.isEmpty else { return nil }
-        guard let pair = parseInputTypeAndName(afterInputColon: rest) else { return nil }
-        let type = pair.type
-        let name = pair.name
-
-        let logLabel = javaScriptEscapeForDoubleQuotedLiteral(name + ": ")
-        let consoleHint = sp(indent) + "console.log(\"" + logLabel + "\");\n"
+        guard let pz = parseInputLineAfterColon(rest) else { return nil }
+        let type = pz.type
+        let name = pz.name
+        let useCustom = pz.customPrompt.map { !$0.isEmpty } ?? false
+        let consoleHint: String? = {
+            if useCustom { return nil } // `prompt`/`input` trägt den Text; kein doppeltes `console.log`/`print`
+            let logLabel = javaScriptEscapeForDoubleQuotedLiteral(name + ": ")
+            return sp(indent) + "console.log(\"" + logLabel + "\");\n"
+        }()
 
         switch type {
         case "int":
-            // parseInt mit Basis 10; bei Cancel/leer -> "0"
-            let p = jsPromptExpr(label: name, fallback: "0")
-            return consoleHint + sp(indent) + "let \(name) = parseInt(\(p), 10);\n"
+            let p: String
+            if useCustom, let c = pz.customPrompt {
+                p = jsPromptExprCustomPromptText(c, fallback: "0")
+            } else {
+                p = jsPromptExpr(label: name, fallback: "0")
+            }
+            return (consoleHint ?? "") + sp(indent) + "let \(name) = parseInt(\(p), 10);\n"
         case "double":
-            let p = jsPromptExpr(label: name, fallback: "0")
-            return consoleHint + sp(indent) + "let \(name) = Number(\(p));\n"
+            let p: String
+            if useCustom, let c = pz.customPrompt {
+                p = jsPromptExprCustomPromptText(c, fallback: "0")
+            } else {
+                p = jsPromptExpr(label: name, fallback: "0")
+            }
+            return (consoleHint ?? "") + sp(indent) + "let \(name) = Number(\(p));\n"
         case "String":
-            let p = jsPromptExpr(label: name, fallback: "")
-            return consoleHint + sp(indent) + "let \(name) = \(p);\n"
+            let p: String
+            if useCustom, let c = pz.customPrompt {
+                p = jsPromptExprCustomPromptText(c, fallback: "")
+            } else {
+                p = jsPromptExpr(label: name, fallback: "")
+            }
+            return (consoleHint ?? "") + sp(indent) + "let \(name) = \(p);\n"
         default:
             return nil
         }
@@ -828,12 +995,13 @@ public enum VisuStructCodeGenerator: Sendable {
         return "input(\"" + esc + "\")"
     }
 
+    private static func pyInputExprCustomPrompt(_ fullPrompt: String) -> String {
+        let esc = pythonEscapeForDoubleQuotedLiteral(fullPrompt)
+        return "input(\"" + esc + "\")"
+    }
+
     private static func emitPythonPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
-        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = t.lowercased()
-        guard lower.hasPrefix("print:") else { return nil }
-        let expr = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !expr.isEmpty else { return nil }
+        guard let expr = expressionAfterOutputDiagramPrefix(raw) else { return nil }
         return sp(indent) + "print(" + expr + ")\n"
     }
 
@@ -843,21 +1011,32 @@ public enum VisuStructCodeGenerator: Sendable {
         guard lower.hasPrefix("input:") else { return nil }
         let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !rest.isEmpty else { return nil }
-        guard let pair = parseInputTypeAndName(afterInputColon: rest) else { return nil }
-        let type = pair.type
-        let name = pair.name
-
-        let logLabel = pythonEscapeForDoubleQuotedLiteral(name + ": ")
-        let printHint = sp(indent) + "print(\"" + logLabel + "\")\n"
+        guard let pz = parseInputLineAfterColon(rest) else { return nil }
+        let type = pz.type
+        let name = pz.name
+        let useCustom = pz.customPrompt.map { !$0.isEmpty } ?? false
+        let printHint: String? = {
+            if useCustom { return nil }
+            let logLabel = pythonEscapeForDoubleQuotedLiteral(name + ": ")
+            return sp(indent) + "print(\"" + logLabel + "\")\n"
+        }()
 
         switch type {
         case "int":
-            return printHint + sp(indent) + "\(name) = int(\(pyInputExpr(promptLabel: name)))\n"
+            if useCustom, let c = pz.customPrompt {
+                return (printHint ?? "") + sp(indent) + "\(name) = int(\(pyInputExprCustomPrompt(c)))\n"
+            }
+            return (printHint ?? "") + sp(indent) + "\(name) = int(\(pyInputExpr(promptLabel: name)))\n"
         case "double":
-            // Python: float entspricht Java double im Einsteigerkontext.
-            return printHint + sp(indent) + "\(name) = float(\(pyInputExpr(promptLabel: name)))\n"
+            if useCustom, let c = pz.customPrompt {
+                return (printHint ?? "") + sp(indent) + "\(name) = float(\(pyInputExprCustomPrompt(c)))\n"
+            }
+            return (printHint ?? "") + sp(indent) + "\(name) = float(\(pyInputExpr(promptLabel: name)))\n"
         case "String":
-            return printHint + sp(indent) + "\(name) = \(pyInputExpr(promptLabel: name))\n"
+            if useCustom, let c = pz.customPrompt {
+                return (printHint ?? "") + sp(indent) + "\(name) = \(pyInputExprCustomPrompt(c))\n"
+            }
+            return (printHint ?? "") + sp(indent) + "\(name) = \(pyInputExpr(promptLabel: name))\n"
         default:
             return nil
         }

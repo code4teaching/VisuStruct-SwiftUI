@@ -41,11 +41,11 @@
 "inspector_io_mode_statement" = "Statement";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: print: …";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
 "inspector_add_case" = "Case toevoegen";
 "inspector_remove_case" = "Case verwijderen";
 "inspector_group_element" = "Elementtekst";
-"inspector_placeholder_statement" = "Voer statement in…";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
 "inspector_placeholder_condition" = "Voer condition in…";
 "inspector_placeholder_selector" = "Voer selector in…";
 "inspector_placeholder_call" = "Voer call in…";

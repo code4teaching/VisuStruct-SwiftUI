@@ -137,6 +137,9 @@ struct DiagramCanvasView: View {
     private func displayTextLines(for element: VisuStructElement) -> [String] {
         let raw = element.textLines
         let isEffectivelyEmpty = raw.allSatisfy { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+        if element.type == .forSchleife, !isEffectivelyEmpty {
+            return [VisuStructForLoopDiagramDisplay.singleLine(from: raw)]
+        }
         guard isEffectivelyEmpty else { return raw }
 
         switch element.type {

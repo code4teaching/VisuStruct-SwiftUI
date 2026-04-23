@@ -1701,7 +1701,7 @@ struct ContentView: View {
                         // Java-ähnliche Beispiele: absichtlich immer Englisch (Identifier wie number/text), unabhängig von der UI-Sprache — ohne „e.g.“-Präfix, der Hinweis reicht.
                         if ioModeBinding.wrappedValue == .statement {
                             // Ein `Text`: eine Zeile wenn Platz, sonst umbrechen (kein erzwungenes Zweizeiler-Layout).
-                            Text(verbatim: "int number = 5  |  double x = 1.5  |  String text = \"Your text\"  |  boolean ok = true  |  char letter = 'A'")
+                            Text(verbatim: "int number = 5  |  double x = 1.5  |  String text = \"Your text\"  |  boolean ok = true  |  char letter = 'A'  |  const double PI = 3.14")
                                 .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -1710,7 +1710,7 @@ struct ContentView: View {
                                 .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                         } else if ioModeBinding.wrappedValue == .output {
-                            Text(verbatim: "print: number  or  print: \"Your text\"")
+                            Text(verbatim: "output: number  or  output: \"Your text\"")
                                 .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                         }
@@ -1821,6 +1821,7 @@ struct ContentView: View {
             get: {
                 let t = sheetTabs[currentTabIndex].lineEditorText.trimmingCharacters(in: .whitespacesAndNewlines)
                 if t.lowercased().hasPrefix("input:") { return .input }
+                if t.lowercased().hasPrefix("output:") { return .output }
                 if t.lowercased().hasPrefix("print:") { return .output }
                 return .statement
             },
@@ -1836,7 +1837,7 @@ struct ContentView: View {
                 case .input:
                     updated = prefix("input:", to: stripped)
                 case .output:
-                    updated = prefix("print:", to: stripped)
+                    updated = prefix("output:", to: stripped)
                 }
                 tabs[i].lineEditorText = updated
                 sheetTabs = tabs
@@ -1850,6 +1851,9 @@ struct ContentView: View {
         let lower = trimmed.lowercased()
         if lower.hasPrefix("input:") {
             return String(trimmed.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if lower.hasPrefix("output:") {
+            return String(trimmed.dropFirst(7)).trimmingCharacters(in: .whitespacesAndNewlines)
         }
         if lower.hasPrefix("print:") {
             return String(trimmed.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
