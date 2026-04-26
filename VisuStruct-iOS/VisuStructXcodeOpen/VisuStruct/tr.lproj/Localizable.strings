@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "Çince (Geleneksel)";
 "settings_language_ptpt" = "Portekizce";
 "settings_language_java" = "Java (anahtar kelimeler)";
-"settings_replay_tour" = "Tanıtımı tekrar göster";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Yeni: yeni bir yapı şeması oluştur.";
-"coach_toolbar_save" = "Kaydet: değişiklikleri dosyaya yaz.";
-"coach_toolbar_palette" = "Palet: blokları göster veya gizle.";
-"coach_toolbar_file" = "Dosya menüsü: aç, farklı kaydet, yazdır.";
-"coach_tap_to_continue" = "Devam etmek için dokun.";
 
 /* Error overlay */
 "error_title" = "Hata";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "Sürüm %@ (%@)";
 "about_nav_title" = "VisuStruct Hakkında";
-"about_intro" = "VisuStruct, Nassi–Shneiderman yapı şemaları için bir editördür: süreçleri kutucuklar halinde net bir şekilde gösterebilirsiniz — basit ifadelerden dallara, döngülere ve çoklu seçime kadar.";
 "about_features_heading" = "Özellikler";
 "about_bullet_palette" = "Paletten blok ekleyin veya diyagrama sürükleyin";
 "about_bullet_edit" = "Şemayı düzenleyin: metni değiştirin, öğeleri seçin ve gerekirse silin";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". Diyagramları saklayabilir ve aynı biçimi destekleyen diğer uygulamalarla paylaşabilirsiniz.";
 "about_project_github_label" = "Java uygulaması (kaynak ve sürümler):";
 "about_web_label" = "Web:";
+"about_developer_label" = "Geliştirici:";
 "about_lineage_heading" = "Köken";
-"about_lineage_body" = "Bu iOS uygulaması Swift/SwiftUI ile yeniden yazılmıştır ve Java sürümünün .visustruct dosya biçimiyle uyumludur. Açık kaynak Java masaüstü uygulaması GitHub’da (code4teaching/VisuStruct) geliştirilip yayımlanır; bu depo yetkili ve güncel Java sürümüdür. Kevin Krummenauer’ın (MIT) açık kaynak projesine dayanır.";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Bitti";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

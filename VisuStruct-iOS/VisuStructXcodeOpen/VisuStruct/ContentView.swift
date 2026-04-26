@@ -12,124 +12,6 @@ import WebKit
 import AppKit
 #endif
 
-// MARK: - Coachmarks (iPhone/iPad)
-
-private enum ToolbarCoachmarkStep: Int, CaseIterable, Hashable {
-    case newDocument = 0
-    case save
-    case palette
-    case fileMenu
-}
-
-private struct ToolbarCoachmarkAnchorKey: PreferenceKey {
-    static var defaultValue: [ToolbarCoachmarkStep: Anchor<CGRect>] = [:]
-    static func reduce(value: inout [ToolbarCoachmarkStep: Anchor<CGRect>], nextValue: () -> [ToolbarCoachmarkStep: Anchor<CGRect>]) {
-        value.merge(nextValue(), uniquingKeysWith: { $1 })
-    }
-}
-
-private struct ToolbarCoachmarkSource: ViewModifier {
-    let step: ToolbarCoachmarkStep
-    func body(content: Content) -> some View {
-        content.anchorPreference(key: ToolbarCoachmarkAnchorKey.self, value: .bounds) { anchor in
-            [step: anchor]
-        }
-    }
-}
-
-private struct ToolbarCoachmarkOverlay: View {
-    let anchors: [ToolbarCoachmarkStep: Anchor<CGRect>]
-    let orderedSteps: [ToolbarCoachmarkStep]
-    @Binding var stepIndex: Int
-    @Binding var completed: Bool
-    @Environment(\.appLanguage) private var lang
-
-    private func text(for step: ToolbarCoachmarkStep) -> String {
-        switch step {
-        case .newDocument: return lang.tr("coach_toolbar_new")
-        case .save: return lang.tr("coach_toolbar_save")
-        case .palette: return lang.tr("coach_toolbar_palette")
-        case .fileMenu: return lang.tr("coach_toolbar_file")
-        }
-    }
-
-    var body: some View {
-        GeometryReader { geo in
-            let idx = min(max(0, stepIndex), max(0, orderedSteps.count - 1))
-            let step = orderedSteps.isEmpty ? nil : orderedSteps[idx]
-            let rect: CGRect? = step.flatMap { anchors[$0].map { geo[$0] } }
-
-            if let step, let rect {
-                // Loch in der Abschattung: nur so wirkt **ein** Steuerelement deutlich „erhellt“;
-                // zuvor lag halbtransparentes Schwarz über **allen** Toolbar-Elementen, nur der Rand
-                // markierte das Ziel — optisch wirkte alles zugleich betroffen.
-                let pad: CGFloat = 7
-                let holeW = rect.width + pad * 2
-                let holeH = rect.height + pad * 2
-                let cornerR: CGFloat = 12
-
-                ZStack {
-                    ZStack {
-                        Color.black.opacity(0.55)
-                            .ignoresSafeArea()
-                        RoundedRectangle(cornerRadius: cornerR, style: .continuous)
-                            .fill(Color.white)
-                            .frame(width: holeW, height: holeH)
-                            .position(x: rect.midX, y: rect.midY)
-                            .blendMode(.destinationOut)
-                    }
-                    .compositingGroup()
-
-                    RoundedRectangle(cornerRadius: cornerR, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.95), lineWidth: 2)
-                        .frame(width: holeW, height: holeH)
-                        .position(x: rect.midX, y: rect.midY)
-                        .allowsHitTesting(false)
-
-                    let bubbleMaxW: CGFloat = min(320, geo.size.width - 32)
-                    let bubble = VStack(alignment: .leading, spacing: 10) {
-                        Text(text(for: step))
-                            .font(.body.weight(.semibold))
-                            .fixedSize(horizontal: false, vertical: true)
-                        Text(lang.tr("coach_tap_to_continue"))
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(14)
-                    .frame(maxWidth: bubbleMaxW, alignment: .leading)
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14, style: .continuous)
-                            .strokeBorder(Color.white.opacity(0.18), lineWidth: 1)
-                    )
-
-                    let belowY = rect.maxY + 18
-                    let aboveY = rect.minY - 18
-                    let useAbove = belowY + 120 > geo.size.height && aboveY > 80
-                    bubble
-                        .position(
-                            x: min(max(rect.midX, 16 + bubbleMaxW / 2), geo.size.width - 16 - bubbleMaxW / 2),
-                            y: useAbove ? max(64, aboveY - 70) : min(geo.size.height - 64, belowY + 70)
-                        )
-                }
-                .onTapGesture {
-                    let next = stepIndex + 1
-                    if next >= orderedSteps.count {
-                        completed = true
-                    } else {
-                        stepIndex = next
-                    }
-                }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel(text(for: step))
-                .accessibilityHint(lang.tr("coach_tap_to_continue"))
-            }
-        }
-        .transition(.opacity)
-        .animation(.easeInOut(duration: 0.18), value: stepIndex)
-    }
-}
-
 // MARK: - Code editor (Return to apply, Shift+Return newline)
 
 private struct CodeLineEditor: View {
@@ -726,9 +608,6 @@ struct ContentView: View {
     @State private var keyboardOverlap: CGFloat = 0
     #endif
 
-    // Coachmarks (iPhone + iPad): einmalig, in UserDefaults gemerkt.
-    @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
-    @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
     @AppStorage(ExportFilenameStyle.appStorageKey) private var exportFilenameStyleRaw: String = ExportFilenameStyle.dateAndTitle.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
@@ -817,6 +696,27 @@ struct ContentView: View {
         sheetTabs = tabs
     }
 
+    private func documentWithFilenameCaptionIfNeeded(_ doc: VisuStructDocument, fileURL url: URL) -> VisuStructDocument {
+        guard doc.caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return doc }
+        let display = fileDisplayName(from: url)
+        guard !display.isEmpty else { return doc }
+        var updated = doc
+        updated.caption = display
+        return updated
+    }
+
+    @discardableResult
+    private func applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL url: URL) -> VisuStructDocument {
+        let i = currentTabIndex
+        let updated = documentWithFilenameCaptionIfNeeded(sheetTabs[i].document, fileURL: url)
+        guard updated != sheetTabs[i].document else { return updated }
+        var tabs = sheetTabs
+        tabs[i].document = updated
+        tabs[i].title = tabDisplayTitle(forCaption: updated.caption)
+        sheetTabs = tabs
+        return updated
+    }
+
     private var document: VisuStructDocument {
         sheetTabs[currentTabIndex].document
     }
@@ -878,6 +778,7 @@ struct ContentView: View {
                         if loaded.elements.isEmpty {
                             loaded = VisuStructDocumentEditing.newEmpty()
                         }
+                        loaded = documentWithFilenameCaptionIfNeeded(loaded, fileURL: url)
                         resetHistoryAndDocument(loaded)
                         var tabs = sheetTabs
                         let i = currentTabIndex
@@ -911,6 +812,13 @@ struct ContentView: View {
             case .success(let url):
                 Task { @MainActor in
                     setLinkedFile(forCurrentTab: url)
+                    let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
+                    do {
+                        try VisuStructXMLCodec.encode(docToSave).write(to: url, options: .atomic)
+                    } catch {
+                        setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
+                        return
+                    }
                     updateSavedBaselineForCurrentTab()
                 }
             case .failure(let err):
@@ -1269,13 +1177,11 @@ struct ContentView: View {
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         Button(lang.tr("toolbar_new"), systemImage: "doc.badge.plus", action: newDocument)
-                            .modifier(ToolbarCoachmarkSource(step: .newDocument))
                         Button(action: saveCurrentDocumentToFile) {
                             Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
                         }
                         .help(lang.tr("menu_save"))
                         .keyboardShortcut("s", modifiers: .command)
-                        .modifier(ToolbarCoachmarkSource(step: .save))
                         if isPhone {
                             Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
@@ -1286,7 +1192,6 @@ struct ContentView: View {
                             }
                             .labelStyle(.iconOnly)
                             .accessibilityLabel(lang.tr("palette_header"))
-                            .modifier(ToolbarCoachmarkSource(step: .palette))
                         }
                         Menu {
                             Button {
@@ -1312,7 +1217,6 @@ struct ContentView: View {
                         } label: {
                             Label(lang.tr("menu_file"), systemImage: "folder")
                         }
-                        .modifier(ToolbarCoachmarkSource(step: .fileMenu))
                     }
                     #if canImport(UIKit)
                     ToolbarItemGroup(placement: .keyboard) {
@@ -1327,22 +1231,6 @@ struct ContentView: View {
                     }
                     #endif
                 }
-                #if canImport(UIKit)
-                .overlayPreferenceValue(ToolbarCoachmarkAnchorKey.self) { anchors in
-                    let idiom = UIDevice.current.userInterfaceIdiom
-                    let show = (idiom == .phone || idiom == .pad) && !toolbarCoachmarksCompleted
-                    if show {
-                        let available: [ToolbarCoachmarkStep] = ToolbarCoachmarkStep.allCases.filter { anchors[$0] != nil }
-                        ToolbarCoachmarkOverlay(
-                            anchors: anchors,
-                            orderedSteps: available,
-                            stepIndex: $toolbarCoachmarkStepIndex,
-                            completed: $toolbarCoachmarksCompleted
-                        )
-                        .ignoresSafeArea()
-                    }
-                }
-                #endif
             }
         }
         .background(Color(.systemGroupedBackground))
@@ -1602,11 +1490,27 @@ struct ContentView: View {
         case .dateAndTitle:
             if slug.isEmpty {
                 body = String(Self.isoDatePrefixForExportFilename().dropLast())
+            } else if Self.hasISODatePrefix(slug) {
+                body = slug
             } else {
                 body = "\(Self.isoDatePrefixForExportFilename())\(slug)"
             }
         }
         return "\(body).visustruct"
+    }
+
+    private static func hasISODatePrefix(_ s: String) -> Bool {
+        let chars = Array(s)
+        guard chars.count >= 11 else { return false }
+        let digitPositions: Set<Int> = [0, 1, 2, 3, 5, 6, 8, 9]
+        for i in 0..<10 {
+            if digitPositions.contains(i) {
+                guard chars[i].isNumber else { return false }
+            } else {
+                guard chars[i] == "-" else { return false }
+            }
+        }
+        return chars[10] == "-"
     }
 
     private static func isoDatePrefixForExportFilename() -> String {
@@ -2279,7 +2183,8 @@ struct ContentView: View {
                 return
             }
             defer { url.stopAccessingSecurityScopedResource() }
-            let data = VisuStructXMLCodec.encode(document)
+            let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
+            let data = VisuStructXMLCodec.encode(docToSave)
             try data.write(to: url, options: .atomic)
             updateSavedBaselineForCurrentTab()
             clearErrorOnCurrentTab()
@@ -3315,8 +3220,6 @@ private extension UIViewController {
 private struct AboutVisuStructView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
-    @AppStorage("visustruct.coachmarks.toolbar.v1.completed") private var toolbarCoachmarksCompleted = false
-    @AppStorage("visustruct.coachmarks.toolbar.v1.stepIndex") private var toolbarCoachmarkStepIndex = 0
 
     private var versionLine: String {
         let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
@@ -3328,8 +3231,10 @@ private struct AboutVisuStructView: View {
     // Öffentliches Java-Repo: maßgebliche Quelle & Releases (aktueller als dieses SwiftUI-Repo).
     private let projectDisplay = "code4teaching/VisuStruct"
     private let projectURL = URL(string: "https://github.com/code4teaching/VisuStruct")
-    private let webDisplay = "www.sebastiao.org"
-    private let webURL = URL(string: "https://www.sebastiao.org")
+    private let webDisplay = "www.visustruct.org"
+    private let webURL = URL(string: "https://www.visustruct.org")
+    private let developerDisplay = "www.sebastiao.org"
+    private let developerURL = URL(string: "https://www.sebastiao.org")
     // Java-Referenzrepo (aktuell gepflegt): code4teaching/VisuStruct
     private let upstreamDisplay = "code4teaching/VisuStruct"
     private let upstreamURL = URL(string: "https://github.com/code4teaching/VisuStruct")
@@ -3383,6 +3288,13 @@ private struct AboutVisuStructView: View {
                                         Link(webDisplay, destination: webURL)
                                     }
                                 }
+                                if let developerURL {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text(lang.tr("about_developer_label"))
+                                            .foregroundStyle(.secondary)
+                                        Link(developerDisplay, destination: developerURL)
+                                    }
+                                }
                             }
                             .font(.subheadline)
                         }
@@ -3390,20 +3302,6 @@ private struct AboutVisuStructView: View {
 
                     Divider()
                         .padding(.vertical, 4)
-
-                    Text(lang.tr("about_intro"))
-                        .font(.body)
-                        .lineSpacing(5)
-
-                    VStack(alignment: .leading, spacing: 14) {
-                        Text(lang.tr("about_features_heading"))
-                            .font(.headline)
-                        AboutBullet(lang.tr("about_bullet_palette"))
-                        AboutBullet(lang.tr("about_bullet_edit"))
-                        AboutBullet(lang.tr("about_bullet_tabs"))
-                        AboutBullet(lang.tr("about_bullet_file"))
-                        AboutBullet(lang.tr("about_bullet_share"))
-                    }
 
                     VStack(alignment: .leading, spacing: 12) {
                         Text(lang.tr("about_dateiformat_heading"))
@@ -3432,14 +3330,6 @@ private struct AboutVisuStructView: View {
                         }
                     }
 
-                    Button {
-                        toolbarCoachmarksCompleted = false
-                        toolbarCoachmarkStepIndex = 0
-                    } label: {
-                        Label(lang.tr("settings_replay_tour"), systemImage: "sparkles")
-                    }
-                    .buttonStyle(.bordered)
-
                     Text(lang.tr("about_copyright"))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -3458,24 +3348,6 @@ private struct AboutVisuStructView: View {
             }
         }
         .presentationDragIndicator(.visible)
-    }
-}
-
-private struct AboutBullet: View {
-    let text: String
-
-    init(_ text: String) { self.text = text }
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Text("•")
-                .font(.body.weight(.semibold))
-                .frame(width: 14, alignment: .leading)
-            Text(text)
-                .font(.subheadline)
-                .lineSpacing(3)
-                .fixedSize(horizontal: false, vertical: true)
-        }
     }
 }
 

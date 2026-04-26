@@ -75,11 +75,33 @@
       "deutsch-switchCase":
         "VisuStruct Java: interface em alemão — estrutura switch/case no diagrama.",
     },
+    es: {
+      deutsch: "VisuStruct Java en el escritorio: interfaz en alemán.",
+      english: "VisuStruct Java en el escritorio: interfaz en inglés.",
+      portugues: "VisuStruct Java en el escritorio: interfaz en portugués.",
+      generateCodeJS:
+        "VisuStruct Java: generador de código o vista previa para exportación JavaScript.",
+      "englisch-java_like":
+        "VisuStruct Java: interfaz en inglés con palabras clave de estilo Java en el structograma.",
+      "deutsch-switchCase":
+        "VisuStruct Java: interfaz en alemán — estructura switch/case en el structograma.",
+    },
+    fr: {
+      deutsch: "VisuStruct Java sur le bureau : interface en allemand.",
+      english: "VisuStruct Java sur le bureau : interface en anglais.",
+      portugues: "VisuStruct Java sur le bureau : interface en portugais.",
+      generateCodeJS:
+        "VisuStruct Java : générateur de code ou aperçu pour l’export JavaScript.",
+      "englisch-java_like":
+        "VisuStruct Java : interface anglaise avec mots-clés de style Java dans le structogramme.",
+      "deutsch-switchCase":
+        "VisuStruct Java : interface allemande — structure switch/case dans le structogramme.",
+    },
   };
 
   function uiLang() {
     var l = (document.documentElement.lang || "en").toLowerCase().split("-")[0];
-    if (l === "de" || l === "pt") return l;
+    if (l === "de" || l === "pt" || l === "es" || l === "fr") return l;
     return "en";
   }
 
@@ -101,6 +123,24 @@
         dot: "Diapositivo",
         live: "Diapositivo",
         of: "de",
+      };
+    }
+    if (u === "es") {
+      return {
+        prev: "Imagen anterior",
+        next: "Imagen siguiente",
+        dot: "Diapositiva",
+        live: "Diapositiva",
+        of: "de",
+      };
+    }
+    if (u === "fr") {
+      return {
+        prev: "Image précédente",
+        next: "Image suivante",
+        dot: "Diapositive",
+        live: "Diapositive",
+        of: "sur",
       };
     }
     return {

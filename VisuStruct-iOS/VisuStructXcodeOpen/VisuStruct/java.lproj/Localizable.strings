@@ -76,7 +76,6 @@
 /* About */
 "about_version_fmt" = "Version %@ (%@)";
 "about_nav_title" = "About VisuStruct";
-"about_intro" = "VisuStruct is an editor for Nassi–Shneiderman structure charts. This language mode matches the Java desktop app’s “Java (Default)” preset: palette labels and default block texts use familiar Java-style keywords.";
 "about_features_heading" = "Features";
 "about_bullet_palette" = "Insert blocks from the palette or drag them into the diagram";
 "about_bullet_edit" = "Edit the chart: change text, select elements, and remove them if needed";

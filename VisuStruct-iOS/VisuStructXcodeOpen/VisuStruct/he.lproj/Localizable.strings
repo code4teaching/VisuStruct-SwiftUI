@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "סינית (מסורתית)";
 "settings_language_ptpt" = "פורטוגזית";
 "settings_language_java" = "Java (מילות מפתח)";
-"settings_replay_tour" = "הצג מבוא שוב";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "חדש: יצירת תרשים חדש.";
-"coach_toolbar_save" = "שמור: כתיבת השינויים לקובץ.";
-"coach_toolbar_palette" = "פלטה: הצגה או הסתרה של בלוקים.";
-"coach_toolbar_file" = "תפריט קובץ: פתיחה, שמירה בשם, הדפסה.";
-"coach_tap_to_continue" = "הקישו כדי להמשיך.";
 
 /* Error overlay */
 "error_title" = "שגיאה";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "גרסה %@ (%@)";
 "about_nav_title" = "אודות VisuStruct";
-"about_intro" = "VisuStruct הוא עורך לתרשימי Nassi–Shneiderman: אפשר להציג תהליכים בצורה ברורה כבלוקים — ממשפטים פשוטים ועד תנאים, לולאות ובחירה מרובה.";
 "about_features_heading" = "תכונות";
 "about_bullet_palette" = "הוספת בלוקים מהפלטה או גרירה אל התרשים";
 "about_bullet_edit" = "עריכת התרשים: שינוי טקסט, בחירת רכיבים ומחיקה לפי הצורך";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". ניתן לשמור תרשימים ולהחליף אותם עם אפליקציות אחרות שתומכות באותו פורמט.";
 "about_project_github_label" = "אפליקציית Java (מקור וגרסאות):";
 "about_web_label" = "אתר:";
+"about_developer_label" = "מפתח:";
 "about_lineage_heading" = "מקור";
-"about_lineage_body" = "אפליקציית iOS זו היא מימוש מחדש ב‑Swift/SwiftUI ותואמת לפורמט ‎.visustruct של גרסת Java. אפליקציית שולחן העבודה ב‑Java בקוד פתוח מפותחת ומופצת ב‑GitHub (code4teaching/VisuStruct); זהו מקור הגרסה המעודכנת. היא מבוססת על פרויקט הקוד הפתוח של Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "סיום";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

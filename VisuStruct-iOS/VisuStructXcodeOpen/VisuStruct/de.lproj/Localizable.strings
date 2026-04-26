@@ -34,14 +34,7 @@
 "settings_language_ptpt" = "Portugiesisch";
 "settings_language_java" = "Java (Schlüsselwörter)";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Neu: Ein neues Struktogramm anlegen.";
-"coach_toolbar_save" = "Speichern: Änderungen in die Datei schreiben.";
-"coach_toolbar_palette" = "Palette: Elemente ein-/ausblenden.";
-"coach_toolbar_file" = "Datei-Menü: Öffnen, Speichern unter, Drucken.";
-"coach_tap_to_continue" = "Tippe zum Weiter.";
 
-"settings_replay_tour" = "Einführung erneut anzeigen";
 
 "settings_ui_scale_section" = "Textgröße";
 "settings_ui_scale_canvas" = "Struktogramm";
@@ -162,7 +155,6 @@
 /* Über */
 "about_version_fmt" = "Version %@ (%@)";
 "about_nav_title" = "Über VisuStruct";
-"about_intro" = "VisuStruct ist ein Editor für Nassi-Shneiderman-Struktogramme: Du kannst Abläufe übersichtlich als Kacheln darstellen – von einfachen Anweisungen bis zu Verzweigungen, Schleifen und Fallunterscheidungen.";
 "about_features_heading" = "Funktionen";
 "about_bullet_palette" = "Bausteine aus der Palette einfügen oder per Drag & Drop ins Diagramm ziehen";
 "about_bullet_edit" = "Struktogramm bearbeiten: Texte anpassen, Elemente auswählen und bei Bedarf entfernen";
@@ -174,8 +166,9 @@
 "about_dateiformat_part2" = ". So kannst du Diagramme sichern und mit anderen Programmen austauschen, die dasselbe Format unterstützen.";
 "about_project_github_label" = "Java-App (Quellen & Releases):";
 "about_web_label" = "Web:";
+"about_developer_label" = "Entwickler:";
 "about_lineage_heading" = "Herkunft";
-"about_lineage_body" = "Diese iOS-App ist eine Neuimplementierung in Swift/SwiftUI und ist kompatibel zum .visustruct-Dateiformat der Java-Version. Die Open-Source-Java-Desktop-App wird auf GitHub unter code4teaching/VisuStruct weiterentwickelt und veröffentlicht; dort liegt die maßgebliche, aktuelle Java-Edition. Sie basiert auf dem Open-Source-Projekt von Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct entstand ursprünglich als Java-Desktop-App und bleibt für den schulischen Einsatz plattformübergreifend verfügbar. Die aktuelle Swift/SwiftUI-Version ist die moderne native App für Mac, iPad und iPhone und bleibt kompatibel mit dem .visustruct-Dateiformat. Sie basiert auf der ursprünglichen Open-Source-Arbeit von Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java-Upstream:";
 "about_done" = "Fertig";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "Chinois (traditionnel)";
 "settings_language_ptpt" = "Portugais";
 "settings_language_java" = "Java (mots‑clés)";
-"settings_replay_tour" = "Afficher l’introduction à nouveau";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Nouveau : créer un nouvel organigramme.";
-"coach_toolbar_save" = "Enregistrer : écrire les modifications dans le fichier.";
-"coach_toolbar_palette" = "Palette : afficher ou masquer les blocs.";
-"coach_toolbar_file" = "Menu Fichier : ouvrir, enregistrer sous, imprimer.";
-"coach_tap_to_continue" = "Touchez pour continuer.";
 
 /* Error overlay */
 "error_title" = "Erreur";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "Version %@ (%@)";
 "about_nav_title" = "À propos de VisuStruct";
-"about_intro" = "VisuStruct est un éditeur de diagrammes de Nassi–Shneiderman : vous pouvez représenter clairement des processus sous forme de tuiles — des instructions simples aux branches, boucles et sélections multiples.";
 "about_features_heading" = "Fonctionnalités";
 "about_bullet_palette" = "Insérer des blocs depuis la palette ou les glisser dans le diagramme";
 "about_bullet_edit" = "Modifier le diagramme : changer le texte, sélectionner des éléments et les supprimer si nécessaire";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". Vous pouvez conserver vos diagrammes et les échanger avec d’autres apps compatibles.";
 "about_project_github_label" = "Application Java (code & versions) :";
 "about_web_label" = "Web :";
+"about_developer_label" = "Développeur :";
 "about_lineage_heading" = "Origine";
-"about_lineage_body" = "Cette app iOS est une réimplémentation en Swift/SwiftUI et est compatible avec le format .visustruct de la version Java. L’app Java de bureau open source est développée et publiée sur GitHub (code4teaching/VisuStruct) ; ce dépôt est l’édition Java de référence, à jour. Elle s’appuie sur le projet open source de Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Upstream Java :";
 "about_done" = "Terminé";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

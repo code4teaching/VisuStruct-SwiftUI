@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "中文（繁體）";
 "settings_language_ptpt" = "葡萄牙文";
 "settings_language_java" = "Java（關鍵字）";
-"settings_replay_tour" = "再次顯示介紹";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "新增：建立新的結構圖。";
-"coach_toolbar_save" = "儲存：將變更寫入檔案。";
-"coach_toolbar_palette" = "調色盤：顯示或隱藏區塊。";
-"coach_toolbar_file" = "檔案選單：開啟、另存新檔、列印。";
-"coach_tap_to_continue" = "點一下繼續。";
 
 /* Error overlay */
 "error_title" = "錯誤";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "版本 %@ (%@)";
 "about_nav_title" = "關於 VisuStruct";
-"about_intro" = "VisuStruct 是 Nassi–Shneiderman 結構圖編輯器：你可以用區塊清楚呈現流程——從簡單陳述式到分支、迴圈與多路選擇。";
 "about_features_heading" = "功能";
 "about_bullet_palette" = "從調色盤插入區塊，或拖曳到圖表";
 "about_bullet_edit" = "編輯圖表：修改文字、選取元素，必要時刪除";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = "。你可以保存圖表，並與支援相同格式的其他 App 交換。";
 "about_project_github_label" = "Java App（原始碼與版本）：";
 "about_web_label" = "網站：";
+"about_developer_label" = "開發者：";
 "about_lineage_heading" = "沿革";
-"about_lineage_body" = "此 iOS App 是以 Swift/SwiftUI 重新實作，並相容於 Java 版本的 .visustruct 檔案格式。開源 Java 桌面 App 在 GitHub（code4teaching/VisuStruct）持續開發與發布；該儲存庫是權威且最新的 Java 版本。它基於 Kevin Krummenauer（MIT）的開源專案。";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java 上游：";
 "about_done" = "完成";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

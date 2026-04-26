@@ -15,7 +15,6 @@
 
 /* In-app settings */
 "settings_language_title" = "Taal";
-"settings_replay_tour" = "Intro opnieuw tonen";
 
 /* Toolbar */
 "toolbar_undo" = "Ongedaan maken";

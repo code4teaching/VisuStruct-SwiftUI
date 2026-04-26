@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "الصينية (تقليدية)";
 "settings_language_ptpt" = "البرتغالية";
 "settings_language_java" = "Java (كلمات مفتاحية)";
-"settings_replay_tour" = "إظهار المقدمة مرة أخرى";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "جديد: أنشئ مخططًا جديدًا.";
-"coach_toolbar_save" = "حفظ: اكتب التغييرات في الملف.";
-"coach_toolbar_palette" = "اللوحة: إظهار أو إخفاء الكتل.";
-"coach_toolbar_file" = "قائمة الملف: فتح، حفظ باسم، طباعة.";
-"coach_tap_to_continue" = "اضغط للمتابعة.";
 
 /* Error overlay */
 "error_title" = "خطأ";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "الإصدار %@ (%@)";
 "about_nav_title" = "حول VisuStruct";
-"about_intro" = "VisuStruct هو محرر لمخططات Nassi–Shneiderman: يمكنك عرض العمليات بوضوح ككتل — من تعليمات بسيطة إلى شروط وتكرارات واختيار متعدد.";
 "about_features_heading" = "الميزات";
 "about_bullet_palette" = "أدرج الكتل من اللوحة أو اسحبها إلى المخطط";
 "about_bullet_edit" = "حرّر المخطط: غيّر النص، حدّد العناصر وأزلها عند الحاجة";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". يمكنك حفظ المخططات وتبادلها مع تطبيقات أخرى تدعم نفس التنسيق.";
 "about_project_github_label" = "تطبيق Java (المصدر والإصدارات):";
 "about_web_label" = "الويب:";
+"about_developer_label" = "المطوّر:";
 "about_lineage_heading" = "الأصل";
-"about_lineage_body" = "هذا التطبيق على iOS هو إعادة تنفيذ بـ Swift/SwiftUI ومتوافق مع تنسيق ملفات .visustruct لإصدار Java. يتم تطوير تطبيق سطح المكتب Java مفتوح المصدر على GitHub (code4teaching/VisuStruct) وهو الإصدار المرجعي المحدث. يعتمد على مشروع Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "تم";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

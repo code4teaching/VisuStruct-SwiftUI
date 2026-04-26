@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "Chino (tradicional)";
 "settings_language_ptpt" = "Portugués";
 "settings_language_java" = "Java (palabras clave)";
-"settings_replay_tour" = "Mostrar introducción de nuevo";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Nuevo: crea un nuevo diagrama.";
-"coach_toolbar_save" = "Guardar: guarda los cambios en el archivo.";
-"coach_toolbar_palette" = "Paleta: mostrar u ocultar elementos.";
-"coach_toolbar_file" = "Menú Archivo: abrir, guardar como, imprimir.";
-"coach_tap_to_continue" = "Toca para continuar.";
 
 /* Error overlay */
 "error_title" = "Error";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "Versión %@ (%@)";
 "about_nav_title" = "Acerca de VisuStruct";
-"about_intro" = "VisuStruct es un editor de diagramas de Nassi–Shneiderman: puedes representar procesos de forma clara con bloques — desde instrucciones simples hasta decisiones, bucles y selección múltiple.";
 "about_features_heading" = "Funciones";
 "about_bullet_palette" = "Insertar bloques desde la paleta o arrastrarlos al diagrama";
 "about_bullet_edit" = "Editar el diagrama: cambiar texto, seleccionar elementos y eliminarlos si es necesario";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". Puedes guardar diagramas e intercambiarlos con otras apps compatibles.";
 "about_project_github_label" = "App Java (código y versiones):";
 "about_web_label" = "Web:";
+"about_developer_label" = "Desarrollador:";
 "about_lineage_heading" = "Origen";
-"about_lineage_body" = "Esta app iOS es una reimplementación en Swift/SwiftUI y es compatible con el formato .visustruct de la versión Java. La app de escritorio Java de código abierto se desarrolla y publica en GitHub (code4teaching/VisuStruct); ese repositorio es la edición Java actualizada. Se basa en el proyecto open-source de Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Hecho";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

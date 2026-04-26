@@ -32,14 +32,7 @@
 "settings_language_zh_hant" = "Китайский (традиционный)";
 "settings_language_ptpt" = "Португальский";
 "settings_language_java" = "Java (ключевые слова)";
-"settings_replay_tour" = "Показать введение снова";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Новый: создайте новую структурную схему.";
-"coach_toolbar_save" = "Сохранить: запишите изменения в файл.";
-"coach_toolbar_palette" = "Палитра: показать или скрыть блоки.";
-"coach_toolbar_file" = "Меню Файл: открыть, сохранить как, печать.";
-"coach_tap_to_continue" = "Нажмите, чтобы продолжить.";
 
 /* Error overlay */
 "error_title" = "Ошибка";
@@ -144,7 +137,6 @@
 /* About */
 "about_version_fmt" = "Версия %@ (%@)";
 "about_nav_title" = "О VisuStruct";
-"about_intro" = "VisuStruct — редактор диаграмм Нассі–Шнайдермана: вы можете наглядно показывать процессы как плитки — от простых операторов до условий, циклов и выбора.";
 "about_features_heading" = "Возможности";
 "about_bullet_palette" = "Вставляйте блоки из палитры или перетаскивайте их в схему";
 "about_bullet_edit" = "Редактируйте схему: меняйте текст, выбирайте элементы и удаляйте при необходимости";
@@ -156,8 +148,9 @@
 "about_dateiformat_part2" = ". Вы можете сохранять схемы и обмениваться ими с другими приложениями, поддерживающими этот формат.";
 "about_project_github_label" = "Java‑приложение (исходники и релизы):";
 "about_web_label" = "Веб:";
+"about_developer_label" = "Разработчик:";
 "about_lineage_heading" = "Происхождение";
-"about_lineage_body" = "Это iOS‑приложение — переосмысление на Swift/SwiftUI и совместимо с форматом .visustruct Java‑версии. Открытое Java‑приложение для настольных систем разрабатывается и публикуется на GitHub (code4teaching/VisuStruct); этот репозиторий — актуальная Java‑версия. Основано на open‑source проекте Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Готово";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

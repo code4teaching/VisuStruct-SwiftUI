@@ -15,7 +15,6 @@
 
 /* In-app settings */
 "settings_language_title" = "Språk";
-"settings_replay_tour" = "Visa introduktion igen";
 
 /* Toolbar */
 "toolbar_undo" = "Ångra";

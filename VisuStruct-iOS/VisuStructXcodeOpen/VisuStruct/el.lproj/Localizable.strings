@@ -30,14 +30,7 @@
 "settings_language_zh_hant" = "Κινέζικα (Παραδοσιακά)";
 "settings_language_ptpt" = "Πορτογαλικά";
 "settings_language_java" = "Java (λέξεις-κλειδιά)";
-"settings_replay_tour" = "Εμφάνιση εισαγωγής ξανά";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Νέο: δημιουργήστε ένα νέο διάγραμμα.";
-"coach_toolbar_save" = "Αποθήκευση: γράψτε τις αλλαγές στο αρχείο.";
-"coach_toolbar_palette" = "Παλέτα: εμφάνιση ή απόκρυψη μπλοκ.";
-"coach_toolbar_file" = "Μενού Αρχείο: άνοιγμα, αποθήκευση ως, εκτύπωση.";
-"coach_tap_to_continue" = "Πατήστε για συνέχεια.";
 
 /* Error overlay */
 "error_title" = "Σφάλμα";
@@ -142,7 +135,6 @@
 /* About */
 "about_version_fmt" = "Έκδοση %@ (%@)";
 "about_nav_title" = "Σχετικά με το VisuStruct";
-"about_intro" = "Το VisuStruct είναι ένας επεξεργαστής διαγραμμάτων Nassi–Shneiderman: μπορείτε να εμφανίζετε διαδικασίες καθαρά ως πλακίδια — από απλές εντολές έως συνθήκες, βρόχους και επιλογές.";
 "about_features_heading" = "Δυνατότητες";
 "about_bullet_palette" = "Εισαγωγή μπλοκ από την παλέτα ή μεταφορά τους στο διάγραμμα";
 "about_bullet_edit" = "Επεξεργασία διαγράμματος: αλλαγή κειμένου, επιλογή στοιχείων και διαγραφή αν χρειάζεται";
@@ -154,8 +146,9 @@
 "about_dateiformat_part2" = ". Μπορείτε να αποθηκεύετε και να ανταλλάσσετε διαγράμματα με άλλες εφαρμογές που υποστηρίζουν την ίδια μορφή.";
 "about_project_github_label" = "Εφαρμογή Java (πηγαίος κώδικας & εκδόσεις):";
 "about_web_label" = "Ιστός:";
+"about_developer_label" = "Προγραμματιστής:";
 "about_lineage_heading" = "Καταγωγή";
-"about_lineage_body" = "Αυτή η iOS εφαρμογή είναι μια επανυλοποίηση σε Swift/SwiftUI και είναι συμβατή με τη μορφή .visustruct της έκδοσης Java. Η ανοιχτού κώδικα Java εφαρμογή αναπτύσσεται στο GitHub (code4teaching/VisuStruct) και είναι η ενημερωμένη έκδοση Java. Βασίζεται στο έργο του Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Τέλος";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

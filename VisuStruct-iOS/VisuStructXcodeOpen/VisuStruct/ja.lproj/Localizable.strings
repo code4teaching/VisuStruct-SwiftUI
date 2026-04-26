@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "中国語（繁体字）";
 "settings_language_ptpt" = "ポルトガル語";
 "settings_language_java" = "Java（キーワード）";
-"settings_replay_tour" = "イントロをもう一度表示";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "新規：新しい構造図を作成します。";
-"coach_toolbar_save" = "保存：変更をファイルに書き込みます。";
-"coach_toolbar_palette" = "パレット：ブロックを表示／非表示にします。";
-"coach_toolbar_file" = "ファイルメニュー：開く、別名で保存、印刷。";
-"coach_tap_to_continue" = "続けるにはタップしてください。";
 
 /* Error overlay */
 "error_title" = "エラー";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "バージョン %@ (%@)";
 "about_nav_title" = "VisuStruct について";
-"about_intro" = "VisuStruct は Nassi–Shneiderman 構造図のエディタです。文から条件分岐、繰り返し、選択まで、処理の流れをタイルで分かりやすく表現できます。";
 "about_features_heading" = "機能";
 "about_bullet_palette" = "パレットからブロックを挿入、または図へドラッグ＆ドロップ";
 "about_bullet_edit" = "図を編集：テキスト変更、要素選択、必要に応じて削除";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = " を使用します。同じ形式をサポートする他のアプリと交換できます。";
 "about_project_github_label" = "Java アプリ（ソース＆リリース）：";
 "about_web_label" = "Web：";
+"about_developer_label" = "開発者:";
 "about_lineage_heading" = "系譜";
-"about_lineage_body" = "この iOS アプリは Swift/SwiftUI による再実装で、Java 版の .visustruct 形式と互換です。オープンソースの Java デスクトップ版は GitHub（code4teaching/VisuStruct）で開発・公開されており、そこが最新の Java 版です。Kevin Krummenauer（MIT）のオープンソースプロジェクトに基づいています。";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream：";
 "about_done" = "完了";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

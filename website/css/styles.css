@@ -267,6 +267,40 @@ a:hover {
   line-height: 1.55;
   text-align: left;
 }
+
+.section-codegen {
+  padding-top: 0.5rem;
+}
+
+.codegen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1rem;
+  margin: 1.2rem auto 0;
+  max-width: var(--vs-prose-max);
+}
+
+.codegen-card {
+  padding: 1.05rem;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(118, 211, 254, 0.12), rgba(20, 48, 82, 0.78));
+  border: 1px solid rgba(118, 211, 254, 0.22);
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.18);
+}
+
+.codegen-card h3 {
+  margin: 0 0 0.45rem;
+  color: var(--vs-text);
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.codegen-card p {
+  margin: 0;
+  color: var(--vs-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
 .app-screenshot-frame {
   margin: 0 auto;
   max-width: var(--vs-prose-max);
@@ -559,7 +593,7 @@ a:hover {
 
 /* Marketing copy */
 .content-prose {
-  max-width: 40rem;
+  max-width: var(--vs-prose-max);
   margin: 0 auto 2.5rem;
   text-align: left;
 }

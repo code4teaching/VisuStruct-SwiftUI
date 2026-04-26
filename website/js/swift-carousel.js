@@ -58,11 +58,29 @@
       java_like:
         "VisuStruct (Mac): gerador de código (Java, Python, JavaScript) a partir do structograma Fibonacci.",
     },
+    es: {
+      english:
+        "VisuStruct (Mac): structograma Fibonacci, con bucle for seleccionado y campos de inicio, condición y paso.",
+      german: "VisuStruct (Mac, interfaz en alemán): structograma CheckPin con bucle, entrada y bifurcación.",
+      portuguese:
+        "VisuStruct (Mac, interfaz en alemán): la misma app — segunda vista del ejemplo CheckPin (diapositiva del carrusel).",
+      java_like:
+        "VisuStruct (Mac): generador de código (Java, Python, JavaScript) a partir del structograma Fibonacci.",
+    },
+    fr: {
+      english:
+        "VisuStruct (Mac) : structogramme Fibonacci, boucle for sélectionnée avec champs d’initialisation, condition et pas.",
+      german: "VisuStruct (Mac, interface allemande) : structogramme CheckPin avec boucle, saisie et branchement.",
+      portuguese:
+        "VisuStruct (Mac, interface allemande) : la même app — deuxième vue de l’exemple CheckPin (diapositive du carrousel).",
+      java_like:
+        "VisuStruct (Mac) : générateur de code (Java, Python, JavaScript) à partir du structogramme Fibonacci.",
+    },
   };
 
   function uiLang() {
     var l = (document.documentElement.lang || "en").toLowerCase().split("-")[0];
-    if (l === "de" || l === "pt") return l;
+    if (l === "de" || l === "pt" || l === "es" || l === "fr") return l;
     return "en";
   }
 
@@ -84,6 +102,24 @@
         dot: "Diapositivo",
         live: "Diapositivo",
         of: "de",
+      };
+    }
+    if (u === "es") {
+      return {
+        prev: "Imagen anterior",
+        next: "Imagen siguiente",
+        dot: "Diapositiva",
+        live: "Diapositiva",
+        of: "de",
+      };
+    }
+    if (u === "fr") {
+      return {
+        prev: "Image précédente",
+        next: "Image suivante",
+        dot: "Diapositive",
+        live: "Diapositive",
+        of: "sur",
       };
     }
     return {

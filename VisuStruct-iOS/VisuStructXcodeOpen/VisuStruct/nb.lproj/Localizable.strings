@@ -15,7 +15,6 @@
 
 /* In-app settings */
 "settings_language_title" = "Språk";
-"settings_replay_tour" = "Vis introduksjon igjen";
 
 /* Toolbar */
 "toolbar_undo" = "Angre";

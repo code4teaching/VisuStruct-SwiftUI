@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "Chiński (tradycyjny)";
 "settings_language_ptpt" = "Portugalski";
 "settings_language_java" = "Java (słowa kluczowe)";
-"settings_replay_tour" = "Pokaż wprowadzenie ponownie";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Nowe: utwórz nowy diagram.";
-"coach_toolbar_save" = "Zapisz: zapisz zmiany w pliku.";
-"coach_toolbar_palette" = "Paleta: pokaż lub ukryj bloki.";
-"coach_toolbar_file" = "Menu Plik: otwórz, zapisz jako, drukuj.";
-"coach_tap_to_continue" = "Stuknij, aby kontynuować.";
 
 /* Error overlay */
 "error_title" = "Błąd";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "Wersja %@ (%@)";
 "about_nav_title" = "O VisuStruct";
-"about_intro" = "VisuStruct to edytor diagramów Nassi–Shneiderman: możesz jasno pokazywać procesy jako kafelki — od prostych instrukcji po rozgałęzienia, pętle i wybór wielokrotny.";
 "about_features_heading" = "Funkcje";
 "about_bullet_palette" = "Wstawiaj bloki z palety lub przeciągaj je do diagramu";
 "about_bullet_edit" = "Edytuj diagram: zmieniaj tekst, wybieraj elementy i usuwaj je w razie potrzeby";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". Możesz zachować diagramy i wymieniać je z innymi aplikacjami obsługującymi ten sam format.";
 "about_project_github_label" = "Aplikacja Java (źródła i wydania):";
 "about_web_label" = "WWW:";
+"about_developer_label" = "Programista:";
 "about_lineage_heading" = "Pochodzenie";
-"about_lineage_body" = "Ta aplikacja iOS jest implementacją w Swift/SwiftUI i jest zgodna z formatem .visustruct wersji Java. Otwarta aplikacja desktopowa Java jest rozwijana i wydawana na GitHub (code4teaching/VisuStruct); to repozytorium jest autorytatywną, aktualną edycją Java. Opiera się na projekcie open-source Kevina Krummenauera (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Gotowe";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

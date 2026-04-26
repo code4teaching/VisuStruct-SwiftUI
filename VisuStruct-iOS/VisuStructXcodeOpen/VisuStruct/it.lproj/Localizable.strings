@@ -33,14 +33,7 @@
 "settings_language_zh_hant" = "Cinese (tradizionale)";
 "settings_language_ptpt" = "Portoghese";
 "settings_language_java" = "Java (parole chiave)";
-"settings_replay_tour" = "Mostra di nuovo l’introduzione";
 
-/* Coachmarks (iPhone/iPad) */
-"coach_toolbar_new" = "Nuovo: crea un nuovo diagramma.";
-"coach_toolbar_save" = "Salva: scrivi le modifiche nel file.";
-"coach_toolbar_palette" = "Tavolozza: mostra o nascondi i blocchi.";
-"coach_toolbar_file" = "Menu File: apri, salva con nome, stampa.";
-"coach_tap_to_continue" = "Tocca per continuare.";
 
 /* Error overlay */
 "error_title" = "Errore";
@@ -145,7 +138,6 @@
 /* About */
 "about_version_fmt" = "Versione %@ (%@)";
 "about_nav_title" = "Informazioni su VisuStruct";
-"about_intro" = "VisuStruct è un editor per diagrammi di Nassi–Shneiderman: puoi mostrare processi in modo chiaro come riquadri — da semplici istruzioni a rami, cicli e selezioni multiple.";
 "about_features_heading" = "Funzionalità";
 "about_bullet_palette" = "Inserisci blocchi dalla tavolozza o trascinali nel diagramma";
 "about_bullet_edit" = "Modifica il diagramma: cambia il testo, seleziona elementi e rimuovili se necessario";
@@ -157,8 +149,9 @@
 "about_dateiformat_part2" = ". Puoi conservare i diagrammi e scambiarli con altre app che supportano lo stesso formato.";
 "about_project_github_label" = "App Java (sorgente e release):";
 "about_web_label" = "Web:";
+"about_developer_label" = "Sviluppatore:";
 "about_lineage_heading" = "Origine";
-"about_lineage_body" = "Questa app iOS è una reimplementazione in Swift/SwiftUI ed è compatibile con il formato .visustruct della versione Java. L’app desktop Java open-source è sviluppata e rilasciata su GitHub (code4teaching/VisuStruct); quel repository è l’edizione Java autorevole e aggiornata. Si basa sul progetto open-source di Kevin Krummenauer (MIT).";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
 "about_lineage_upstream_label" = "Java upstream:";
 "about_done" = "Fine";
 "about_copyright" = "Copyright © 2026 Holger Sebastiao";

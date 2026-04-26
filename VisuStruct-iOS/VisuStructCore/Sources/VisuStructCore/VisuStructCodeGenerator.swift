@@ -36,6 +36,9 @@ public enum VisuStructCodeGenerator: Sendable {
             // Schul-tauglich: Strict-Modus immer am Anfang des Snippets (wie vereinbart).
             out += "\"use strict\";\n\n"
         }
+        if target == .python, documentContainsJavaMathRandom(document) {
+            out += "import random\n\n"
+        }
         if target == .java, documentContainsJavaInput(document) {
             // Snippet-Modus: Import als Kommentar (damit es auch beim Einfügen in `main` nicht „falsch“ steht).
             out += "// import java.util.Scanner;\n"
@@ -79,7 +82,7 @@ public enum VisuStructCodeGenerator: Sendable {
             )
         case .python:
             // Weder `.length` noch `.length()`: sinnvoll ist `len(name)`.
-            return replaceWithCaptureTemplate(s, pattern: #"\b([a-zA-Z_][\w]*)\.length\(\)?\b"#, template: "len($1)")
+            return replaceWithCaptureTemplate(s, pattern: #"\b([a-zA-Z_][\w]*)\.length(?:\(\))?\b"#, template: "len($1)")
         case .java:
             // `String`: `s.length()`; Array: `a.length` (Feld) — Bezeichner auf der Denylist: kein `()`.
             return replaceIdentifierDotLengthWithParensInJava(s)
@@ -116,6 +119,27 @@ public enum VisuStructCodeGenerator: Sendable {
         return out
     }
 
+    private static func javaArrayDeclarationNames(in s: String) -> Set<String> {
+        let type = #"(?:byte|short|int|long|float|double|boolean|char|String)"#
+        let patterns = [
+            #"\b(?:final\s+)?"# + type + #"\s*\[\s*\]\s+([a-zA-Z_]\w*)\b"#,
+            #"\b(?:final\s+)?"# + type + #"\s+([a-zA-Z_]\w*)\s*\[\s*\]"#,
+        ]
+        var names: Set<String> = []
+        let ns = s as NSString
+        let full = NSRange(location: 0, length: ns.length)
+        for pattern in patterns {
+            guard let re = try? NSRegularExpression(pattern: pattern, options: []) else { continue }
+            for m in re.matches(in: s, options: [], range: full) where m.numberOfRanges >= 2 {
+                let r = m.range(at: 1)
+                if r.location != NSNotFound {
+                    names.insert(ns.substring(with: r).lowercased())
+                }
+            }
+        }
+        return names
+    }
+
     private static func replaceIdentifierDotLengthWithParensInJava(_ s: String) -> String {
         guard let re = try? NSRegularExpression(pattern: #"\b([a-zA-Z_][\w]*)\.length(?!\()"#, options: []) else { return s }
         let ns = s as NSString
@@ -123,6 +147,7 @@ public enum VisuStructCodeGenerator: Sendable {
         let full = NSRange(location: 0, length: n)
         let matches = re.matches(in: s, options: [], range: full)
         if matches.isEmpty { return s }
+        let arrayDeclarationNames = javaArrayDeclarationNames(in: s)
         var out = ""
         var last = 0
         for m in matches {
@@ -131,7 +156,8 @@ public enum VisuStructCodeGenerator: Sendable {
                 let idRange = m.range(at: 1)
                 if idRange.location != NSNotFound {
                     let id = ns.substring(with: idRange)
-                    if javaArrayLikeLengthNameDenylist.contains(id.lowercased()) {
+                    let lowerID = id.lowercased()
+                    if javaArrayLikeLengthNameDenylist.contains(lowerID) || arrayDeclarationNames.contains(lowerID) {
                         out += ns.substring(with: m.range)
                     } else {
                         out += id
@@ -306,8 +332,8 @@ public enum VisuStructCodeGenerator: Sendable {
     }
 
     private struct JavaForCondParse {
-        /// Obergrenze für `range` (exklusiv), passend zu `< n` bzw. `<= n`.
-        let stopExclusive: Int
+        /// Obergrenze für `range` (exklusiv), passend zu `< n` bzw. `<= n`, oder ein Ausdruck wie `len(zahlen)`.
+        let stopExclusiveExpression: String
     }
 
     private static func stripTrailingSemicolon(_ s: String) -> String {
@@ -349,10 +375,13 @@ public enum VisuStructCodeGenerator: Sendable {
 
     private static func parseJavaStyleForCondition(_ s: String, expectedVar: String) -> JavaForCondParse? {
         if let g = regexGroups(#"^\s*(\w+)\s*<\s*(\d+)\s*$"#, s), g.count >= 3, g[1] == expectedVar, let n = Int(g[2]) {
-            return JavaForCondParse(stopExclusive: n)
+            return JavaForCondParse(stopExclusiveExpression: "\(n)")
         }
         if let g = regexGroups(#"^\s*(\w+)\s*<=\s*(\d+)\s*$"#, s), g.count >= 3, g[1] == expectedVar, let n = Int(g[2]) {
-            return JavaForCondParse(stopExclusive: n + 1)
+            return JavaForCondParse(stopExclusiveExpression: "\(n + 1)")
+        }
+        if let g = regexGroups(#"^\s*(\w+)\s*<\s*([a-zA-Z_]\w*)\.length(?:\(\))?\s*$"#, s), g.count >= 3, g[1] == expectedVar {
+            return JavaForCondParse(stopExclusiveExpression: "len(\(g[2]))")
         }
         return nil
     }
@@ -383,7 +412,7 @@ public enum VisuStructCodeGenerator: Sendable {
         guard isJavaStyleSimpleIncrement(stepS, varName: initP.name) else { return nil }
 
         let start = initP.value
-        let stop = condP.stopExclusive
+        let stop = condP.stopExclusiveExpression
         if start == 0 {
             return "for \(initP.name) in range(\(stop)):"
         }
@@ -396,6 +425,7 @@ public enum VisuStructCodeGenerator: Sendable {
     private struct JavaStyleSimpleAssignmentParse {
         let name: String
         let rhs: String
+        let isArray: Bool
     }
 
     private struct ConstTypedLineParse {
@@ -475,17 +505,78 @@ public enum VisuStructCodeGenerator: Sendable {
         if line.isEmpty { return nil }
         // Schul­set, case-insensitive: int/Int/INTEGER, integer, long, float, double, String, boolean/bool, char.
         // `integer` vor `int`, damit nicht nur der Präfix `int` von `integer` matched.
-        let pattern = #"(?i)^\s*(?:integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)\s*=\s*(.*)$"#
+        let type = #"(?:integer|int|long|float|double|string|boolean|char|bool)"#
+        let pattern = #"(?i)^\s*"# + type + #"(?:\s*\[\s*\]\s+(\w+)|\s+(\w+)(\s*\[\s*\])?)\s*=\s*(.*)$"#
         guard let g = regexGroups(pattern, line), g.count >= 3 else { return nil }
-        let rhs = g[2].trimmingCharacters(in: .whitespacesAndNewlines)
+        let name = g[1].isEmpty ? g[2] : g[1]
+        let isArray = !g[1].isEmpty || (!g[3].isEmpty)
+        let rhs = g[4].trimmingCharacters(in: .whitespacesAndNewlines)
         if rhs.isEmpty { return nil }
-        return JavaStyleSimpleAssignmentParse(name: g[1], rhs: rhs)
+        return JavaStyleSimpleAssignmentParse(name: name, rhs: rhs, isArray: isArray)
     }
 
     private static func pythonRhsFromJavaRhs(_ rhs: String) -> String {
         let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
         if t == "null" { return "None" }
-        return rhs
+        if let cast = javaIntCastExpression(t) {
+            return "int(\(pythonRhsFromJavaRhs(cast)))"
+        }
+        return replaceJavaMathRandomWithPythonRandom(t)
+    }
+
+    private static func replaceJavaMathRandomWithPythonRandom(_ s: String) -> String {
+        replaceSimpleRegex(
+            s,
+            pattern: #"(?i)\bMath\.random\s*\(\s*\)"#,
+            options: [],
+            transform: { _, _ in "random.random()" }
+        )
+    }
+
+    private static func arrayLiteralFromJavaInitializer(_ rhs: String) -> String {
+        let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard t.hasPrefix("{"), t.hasSuffix("}") else { return rhs }
+        let inner = String(t.dropFirst().dropLast())
+        return "[" + inner + "]"
+    }
+
+    private static func javaNewArraySizeExpression(_ rhs: String) -> String? {
+        let pattern = #"(?i)^\s*new\s+(?:byte|short|int|long|float|double|boolean|char|string)\s*\[\s*(.+)\s*\]\s*$"#
+        guard let g = regexGroups(pattern, rhs), g.count >= 2 else { return nil }
+        let size = g[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        return size.isEmpty ? nil : size
+    }
+
+    private static func javaIntCastExpression(_ rhs: String) -> String? {
+        let pattern = #"(?i)^\s*\(\s*int(?:eger)?\s*\)\s*\(?\s*(.+?)\s*\)?\s*$"#
+        guard let g = regexGroups(pattern, rhs), g.count >= 2 else { return nil }
+        let expression = g[1].trimmingCharacters(in: .whitespacesAndNewlines)
+        return expression.isEmpty ? nil : expression
+    }
+
+    private static func javaScriptRhsFromJavaRhs(_ rhs: String, isArray: Bool) -> String {
+        let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
+        if isArray {
+            if let size = javaNewArraySizeExpression(t) {
+                return "new Array(\(size))"
+            }
+            return arrayLiteralFromJavaInitializer(t)
+        }
+        if let cast = javaIntCastExpression(t) {
+            return "Math.floor(\(javaScriptRhsFromJavaRhs(cast, isArray: false)))"
+        }
+        return t
+    }
+
+    private static func pythonRhsFromJavaRhs(_ rhs: String, isArray: Bool) -> String {
+        let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
+        if isArray {
+            if let size = javaNewArraySizeExpression(t) {
+                return "[None] * \(size)"
+            }
+            return arrayLiteralFromJavaInitializer(t)
+        }
+        return pythonRhsFromJavaRhs(t)
     }
 
     /// JavaScript: `int x = 5` / `Int x = 5` → `let x = 5;`. Python: `x = 5`. Typen siehe `parseJavaStyleSimpleAssignment`. Java: `nil` (allgemeiner Pfad).
@@ -494,11 +585,13 @@ public enum VisuStructCodeGenerator: Sendable {
         guard let p = parseJavaStyleSimpleAssignment(raw) else { return nil }
         switch target {
         case .javascript:
-            let inner = "let \(p.name) = \(p.rhs)"
+            let rhs = javaScriptRhsFromJavaRhs(p.rhs, isArray: p.isArray)
+            let inner = "let \(p.name) = \(rhs)"
             let line = formatCStyleStatementLine(inner)
             return sp(indent) + line + "\n"
         case .python:
-            return sp(indent) + "\(p.name) = \(pythonRhsFromJavaRhs(p.rhs))\n"
+            let rhs = pythonRhsFromJavaRhs(p.rhs, isArray: p.isArray)
+            return sp(indent) + "\(p.name) = \(rhs)\n"
         case .java:
             return nil
         }
@@ -880,6 +973,18 @@ public enum VisuStructCodeGenerator: Sendable {
         return doc.elements.contains(where: elementHasInput)
     }
 
+    private static func documentContainsJavaMathRandom(_ doc: VisuStructDocument) -> Bool {
+        func elementHasMathRandom(_ e: VisuStructElement) -> Bool {
+            if e.textLines.contains(where: { $0.range(of: #"(?i)\bMath\.random\s*\("#, options: .regularExpression) != nil }) {
+                return true
+            }
+            if let body = e.loopBody, body.contains(where: elementHasMathRandom) { return true }
+            if let cases = e.cases, cases.contains(where: { c in c.elements.contains(where: elementHasMathRandom) }) { return true }
+            return false
+        }
+        return doc.elements.contains(where: elementHasMathRandom)
+    }
+
     /// Diagramm-Präfixe für Ausgabe: `output:` (UI) bzw. älteres `print:` — Codeziel bleibt `println`/`log`/`print`.
     private static func expressionAfterOutputDiagramPrefix(_ raw: String) -> String? {
         let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -906,6 +1011,10 @@ public enum VisuStructCodeGenerator: Sendable {
         let name: String
         /// Optionaler Eingabe-Hinweis in `"…"` hinter `Typ name` oder in Kurzform `name "…"`.
         let customPrompt: String?
+
+        var isIndexedTarget: Bool {
+            name.contains("[") && name.contains("]")
+        }
     }
 
     /// `input:`-Rest: `int pin`, `int pin "Hinweis"`, Kurzform `pin "Hinweis"` (implizit `int`), bisher `zahl` / `int zahl` ohne Anführungszeichen.
@@ -914,10 +1023,10 @@ public enum VisuStructCodeGenerator: Sendable {
         if trimmed.isEmpty { return nil }
         // 1) `int name` oder `int name "Hinweis"`
         let typedWithPrompt =
-            #"(?i)^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s+"([^"]*)")?\s*$"#
+            #"(?i)^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+([a-zA-Z_]\w*(?:\s*\[[^\]]+\])?)(?:\s+"([^"]*)")?\s*$"#
         if let g = regexGroups(typedWithPrompt, trimmed), g.count >= 3 {
             let typRaw = g[1]
-            let n = g[2]
+            let n = g[2].replacingOccurrences(of: " ", with: "")
             if n.isEmpty { return nil }
             let c = g.count > 3 ? g[3].trimmingCharacters(in: .whitespacesAndNewlines) : ""
             return InputLineParse(
@@ -926,15 +1035,17 @@ public enum VisuStructCodeGenerator: Sendable {
                 customPrompt: c.isEmpty ? nil : c
             )
         }
-        // 2) `name "Hinweis"` (implizit int) — z. B. `pin "Pin eingeben"`
-        let nameQuoted = "^(?i)(\\w+)\\s+\"([^\"]*)\"\\s*$"
+        // 2) `name "Hinweis"` (implizit int) bzw. `array[i] "Hinweis"` (implizit String für Textfelder).
+        let nameQuoted = #"(?i)^\s*([a-zA-Z_]\w*(?:\s*\[[^\]]+\])?)\s+"([^"]*)"\s*$"#
         if let g2 = regexGroups(nameQuoted, trimmed), g2.count >= 2 {
-            let w = g2[1].lowercased()
+            let target = g2[1].replacingOccurrences(of: " ", with: "")
+            let w = target.lowercased()
             let notNameShorthand: Set<String> = [
                 "int", "integer", "long", "float", "double", "string", "boolean", "char", "bool", "void",
             ]
             if notNameShorthand.contains(w) { return nil }
-            return InputLineParse(type: "int", name: g2[1], customPrompt: g2[2].trimmingCharacters(in: .whitespacesAndNewlines))
+            let inferredType = target.contains("[") ? "String" : "int"
+            return InputLineParse(type: inferredType, name: target, customPrompt: g2[2].trimmingCharacters(in: .whitespacesAndNewlines))
         }
         // 3) bisher: `input: zahl` / `int zahl` (nur Trennzeichen)
         if let pair = parseInputTypeAndName(afterInputColon: trimmed) {
@@ -1016,12 +1127,15 @@ public enum VisuStructCodeGenerator: Sendable {
 
         switch type {
         case "int":
-            return promptOut + sp(indent) + "int \(name) = scanner.nextInt();\n"
+            let target = p.isIndexedTarget ? name : "int \(name)"
+            return promptOut + sp(indent) + "\(target) = scanner.nextInt();\n"
         case "double":
-            return promptOut + sp(indent) + "double \(name) = scanner.nextDouble();\n"
+            let target = p.isIndexedTarget ? name : "double \(name)"
+            return promptOut + sp(indent) + "\(target) = scanner.nextDouble();\n"
         case "String":
             // `next()` statt `nextLine()` (vermeidet typische Newline-Falle nach `nextInt()` im Unterricht).
-            return promptOut + sp(indent) + "String \(name) = scanner.next();\n"
+            let target = p.isIndexedTarget ? name : "String \(name)"
+            return promptOut + sp(indent) + "\(target) = scanner.next();\n"
         default:
             return nil
         }
@@ -1076,7 +1190,8 @@ public enum VisuStructCodeGenerator: Sendable {
             } else {
                 p = jsPromptExpr(label: name, fallback: "0")
             }
-            return (consoleHint ?? "") + sp(indent) + "let \(name) = parseInt(\(p), 10);\n"
+            let target = pz.isIndexedTarget ? name : "let \(name)"
+            return (consoleHint ?? "") + sp(indent) + "\(target) = parseInt(\(p), 10);\n"
         case "double":
             let p: String
             if useCustom, let c = pz.customPrompt {
@@ -1084,7 +1199,8 @@ public enum VisuStructCodeGenerator: Sendable {
             } else {
                 p = jsPromptExpr(label: name, fallback: "0")
             }
-            return (consoleHint ?? "") + sp(indent) + "let \(name) = Number(\(p));\n"
+            let target = pz.isIndexedTarget ? name : "let \(name)"
+            return (consoleHint ?? "") + sp(indent) + "\(target) = Number(\(p));\n"
         case "String":
             let p: String
             if useCustom, let c = pz.customPrompt {
@@ -1092,7 +1208,8 @@ public enum VisuStructCodeGenerator: Sendable {
             } else {
                 p = jsPromptExpr(label: name, fallback: "")
             }
-            return (consoleHint ?? "") + sp(indent) + "let \(name) = \(p);\n"
+            let target = pz.isIndexedTarget ? name : "let \(name)"
+            return (consoleHint ?? "") + sp(indent) + "\(target) = \(p);\n"
         default:
             return nil
         }
