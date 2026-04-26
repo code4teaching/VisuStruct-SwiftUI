@@ -76,6 +76,9 @@
 "codegen_copy" = "Copiar";
 "codegen_run_in_browser" = "Probar en el navegador";
 "codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Nueva pestaña de diagrama";
 "a11y_close_tab" = "Cerrar pestaña";
 "a11y_placeholder_drop" = "Suelta un elemento aquí para reemplazar el marcador. Mantén pulsado para arrastrar y mover.";

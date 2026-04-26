@@ -2064,6 +2064,15 @@ struct ContentView: View {
         return a
     }
 
+    private func normalizeForLoopPart(_ s: String) -> String {
+        var x = normalizeQuotesForCode(s)
+        while true {
+            let trimmedEnd = x.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard trimmedEnd.hasSuffix(";") else { return x }
+            x = String(trimmedEnd.dropLast()).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+    }
+
     private var inspectorShowsForLoopThreeFields: Bool {
         guard let path = selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return false }
@@ -2084,7 +2093,7 @@ struct ContentView: View {
                 guard let el = try? VisuStructDocumentEditing.element(at: path, in: document),
                       el.type == .forSchleife else { return }
                 var lines = padForLoopTextLines(el.textLines)
-                lines[index] = newVal
+                lines[index] = normalizeForLoopPart(newVal)
                 do {
                     commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
                     // `lineEditorText` wird bei den drei For-Feldern nicht mitgetippt; sonst würde z. B.
@@ -2762,6 +2771,7 @@ private struct DraggableCodeGeneratorFloatingPanel: View {
 
     @State private var dragOffset: CGSize = .zero
     @State private var dragBase: CGSize = .zero
+    @State private var isDraggingPanel = false
 
     private let dragBarHeight: CGFloat = 28
 
@@ -2792,21 +2802,31 @@ private struct DraggableCodeGeneratorFloatingPanel: View {
                                 .onChanged { value in
                                     let nx = dragBase.width + value.translation.width
                                     let ny = dragBase.height + value.translation.height
-                                    dragOffset = CGSize(
-                                        width: min(maxOffsetX, max(-maxOffsetX, nx)),
-                                        height: min(maxOffsetY, max(-maxOffsetY, ny))
-                                    )
+                                    var transaction = Transaction()
+                                    transaction.animation = nil
+                                    withTransaction(transaction) {
+                                        isDraggingPanel = true
+                                        dragOffset = CGSize(
+                                            width: min(maxOffsetX, max(-maxOffsetX, nx)),
+                                            height: min(maxOffsetY, max(-maxOffsetY, ny))
+                                        )
+                                    }
                                 }
                                 .onEnded { _ in
-                                    dragBase = dragOffset
+                                    var transaction = Transaction()
+                                    transaction.animation = nil
+                                    withTransaction(transaction) {
+                                        dragBase = dragOffset
+                                        isDraggingPanel = false
+                                    }
                                 }
                         )
 
                     CodeGeneratorPlaceholderSheet(
                         document: $document,
+                        regenerationToken: regenerationToken,
                         onDismissExternal: { isPresented = false },
-                        isInFloatingPanel: true,
-                        regenerationToken: regenerationToken
+                        isInFloatingPanel: true
                     )
                     .frame(width: panelW, height: panelH - dragBarHeight)
                     .clipped()
@@ -2815,16 +2835,34 @@ private struct DraggableCodeGeneratorFloatingPanel: View {
                 .background(Color(.systemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .shadow(color: .black.opacity(0.28), radius: 22, y: 10)
-                .position(
-                    x: geo.size.width / 2 + dragOffset.width,
-                    y: geo.size.height / 2 + dragOffset.height
-                )
+                .opacity(isDraggingPanel ? 0.08 : 1)
+                .offset(dragBase)
+                .transaction { transaction in
+                    transaction.animation = nil
+                }
+
+                if isDraggingPanel {
+                    RoundedRectangle(cornerRadius: 16, style: .continuous)
+                        .fill(Color(.systemBackground).opacity(0.12))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .strokeBorder(Color.accentColor.opacity(0.9), lineWidth: 2)
+                        )
+                        .shadow(color: .black.opacity(0.16), radius: 10, y: 4)
+                        .frame(width: panelW, height: panelH)
+                        .offset(dragOffset)
+                        .allowsHitTesting(false)
+                        .transaction { transaction in
+                            transaction.animation = nil
+                        }
+                }
             }
         }
         .onChange(of: isPresented) { _, on in
             if on {
                 dragOffset = .zero
                 dragBase = .zero
+                isDraggingPanel = false
             }
         }
     }
@@ -2868,13 +2906,17 @@ private struct CodeGeneratorPlaceholderSheet: View {
 
     /// Letzte Zielsprache für den Code-Generator (Java/Python/JavaScript); bleibt erhalten bis zur nächsten Umschaltung.
     @AppStorage("visustruct.codegen.target") private var codegenTarget: String = "java"
+    @AppStorage("visustruct.codegen.javaOutputMode") private var javaOutputMode: String = "snippet"
     /// Wie in den iOS-Systemeinstellungen → VisuStruct (gleicher `UserDefaults`-Key).
     @AppStorage("visustruct.codegen.includeDiagramComments") private var includeDiagramComments = false
     @AppStorage("visustruct.codegen.includeEmptyElse") private var includeEmptyElse = true
 
+    @State private var generatedCode = ""
     private static let javaTag = "java"
     private static let pythonTag = "python"
     private static let javascriptTag = "javascript"
+    private static let javaSnippetTag = "snippet"
+    private static let javaClassTag = "class"
 
     private var target: VisuStructCodeGenerator.Target {
         switch codegenTarget {
@@ -2896,20 +2938,43 @@ private struct CodeGeneratorPlaceholderSheet: View {
         )
     }
 
-    private var generatedCode: String {
-        _ = regenerationToken
-        return VisuStructCodeGenerator.generate(
-            document: document,
-            target: target,
-            options: codegenOptions
-        )
-    }
-
     @State private var showJavaScriptRunner = false
     @State private var javaScriptRunnerHTML = ""
     @State private var showJavaExporter = false
     @State private var javaExportDocument = JavaSourceExportDocument(source: "")
     @State private var javaExportDefaultName = "Main.java"
+
+    private func normalizeCodegenTarget() {
+        if codegenTarget != Self.javaTag,
+           codegenTarget != Self.pythonTag,
+           codegenTarget != Self.javascriptTag {
+            codegenTarget = Self.javaTag
+        }
+    }
+
+    private func normalizeJavaOutputMode() {
+        if javaOutputMode != Self.javaSnippetTag,
+           javaOutputMode != Self.javaClassTag {
+            javaOutputMode = Self.javaSnippetTag
+        }
+    }
+
+    private func refreshGeneratedCode() {
+        normalizeJavaOutputMode()
+        if target == .java, javaOutputMode == Self.javaClassTag {
+            generatedCode = VisuStructCodeGenerator.generateJavaClassFile(
+                document: document,
+                options: codegenOptions,
+                className: stemForJavaClassName()
+            )
+        } else {
+            generatedCode = VisuStructCodeGenerator.generate(
+                document: document,
+                target: target,
+                options: codegenOptions
+            )
+        }
+    }
 
     private func stemForJavaClassName() -> String {
         let c = document.caption.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -2920,12 +2985,7 @@ private struct CodeGeneratorPlaceholderSheet: View {
     private func beginJavaExport() {
         let stem = stemForJavaClassName()
         let className = VisuStructCodeGenerator.sanitizedJavaClassName(stem)
-        let full = VisuStructCodeGenerator.generateJavaClassFile(
-            document: document,
-            options: codegenOptions,
-            className: stem
-        )
-        javaExportDocument = JavaSourceExportDocument(source: full)
+        javaExportDocument = JavaSourceExportDocument(source: generatedCode)
         javaExportDefaultName = "\(className).java"
         showJavaExporter = true
     }
@@ -3020,11 +3080,18 @@ private struct CodeGeneratorPlaceholderSheet: View {
                     }
                     .pickerStyle(.segmented)
                     .onAppear {
-                        if codegenTarget != Self.javaTag,
-                           codegenTarget != Self.pythonTag,
-                           codegenTarget != Self.javascriptTag {
-                            codegenTarget = Self.javaTag
+                        normalizeCodegenTarget()
+                        normalizeJavaOutputMode()
+                        refreshGeneratedCode()
+                    }
+
+                    if target == .java {
+                        Picker(lang.tr("codegen_java_output_mode"), selection: $javaOutputMode) {
+                            Text(lang.tr("codegen_java_output_snippet")).tag(Self.javaSnippetTag)
+                            Text(lang.tr("codegen_java_output_class")).tag(Self.javaClassTag)
                         }
+                        .pickerStyle(.segmented)
+                        .accessibilityLabel(lang.tr("codegen_java_output_mode"))
                     }
 
                     Text(verbatim: generatedCode)
@@ -3081,6 +3148,23 @@ private struct CodeGeneratorPlaceholderSheet: View {
         ) { _ in }
         .sheet(isPresented: $showJavaScriptRunner) {
             JavaScriptRunnerSheet(html: javaScriptRunnerHTML)
+        }
+        .onChange(of: regenerationToken) { _, _ in
+            refreshGeneratedCode()
+        }
+        .onChange(of: codegenTarget) { _, _ in
+            normalizeCodegenTarget()
+            refreshGeneratedCode()
+        }
+        .onChange(of: javaOutputMode) { _, _ in
+            normalizeJavaOutputMode()
+            refreshGeneratedCode()
+        }
+        .onChange(of: includeDiagramComments) { _, _ in
+            refreshGeneratedCode()
+        }
+        .onChange(of: includeEmptyElse) { _, _ in
+            refreshGeneratedCode()
         }
     }
 }

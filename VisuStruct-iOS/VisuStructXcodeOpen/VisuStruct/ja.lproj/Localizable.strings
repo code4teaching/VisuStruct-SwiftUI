@@ -76,6 +76,9 @@
 "codegen_copy" = "コピー";
 "codegen_run_in_browser" = "ブラウザでテスト";
 "codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "新しい図のタブ";
 "a11y_close_tab" = "タブを閉じる";
 "a11y_placeholder_drop" = "要素をここにドロップしてプレースホルダーを置き換えます。長押ししてドラッグし移動できます。";

@@ -76,6 +76,9 @@
 "codegen_copy" = "نسخ";
 "codegen_run_in_browser" = "اختبار في المتصفح";
 "codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "علامة تبويب جديدة للمخطط";
 "a11y_close_tab" = "إغلاق علامة التبويب";
 "a11y_placeholder_drop" = "أفلت عنصرًا هنا لاستبدال العنصر النائب. اضغط مطولًا للسحب والتحريك.";

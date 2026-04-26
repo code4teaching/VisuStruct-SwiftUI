@@ -269,7 +269,7 @@ public enum VisuStructCodeGenerator: Sendable {
 
     /// Kopf einer C-`for`-Schleife: mehrere Felder mit `; ` wie `for (int i=0; i<5; i++)`. Eine Zeile bleibt unverändert (Abwärtskompatibel).
     private static func cStyleForLoopHeaderText(_ lines: [String]) -> String {
-        let parts = lines.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
+        let parts = lines.map { stripTrailingSemicolon($0) }.filter { !$0.isEmpty }
         if parts.isEmpty { return ";;" }
         if parts.count == 1 { return parts[0] }
         return parts.joined(separator: "; ")

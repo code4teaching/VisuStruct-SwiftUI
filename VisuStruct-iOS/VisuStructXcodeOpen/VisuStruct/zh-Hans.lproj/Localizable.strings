@@ -76,6 +76,9 @@
 "codegen_copy" = "复制";
 "codegen_run_in_browser" = "在浏览器中测试";
 "codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "新建图表标签页";
 "a11y_close_tab" = "关闭标签页";
 "a11y_placeholder_drop" = "将元素拖放到这里以替换占位符。长按可拖动移动。";

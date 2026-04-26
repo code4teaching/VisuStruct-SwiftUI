@@ -32,12 +32,20 @@ enum VisuStructLayoutTextMeasurement: Sendable {
 
 /// Eine Anzeigezeile für `forSchleife` im Struktogramm: Init, Bedingung, Schritt nebeneinander wie `for (a; b; c)` — getrennt mit `; `.
 public enum VisuStructForLoopDiagramDisplay: Sendable {
+    private static func stripTrailingSemicolons(_ s: String) -> String {
+        var x = s.trimmingCharacters(in: .whitespacesAndNewlines)
+        while x.hasSuffix(";") {
+            x = String(x.dropLast()).trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return x
+    }
+
     public static func singleLine(from textLines: [String]) -> String {
         var parts = textLines
         while parts.count < 3 { parts.append("") }
         if parts.count > 3 { parts = Array(parts.prefix(3)) }
         return parts
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .map(stripTrailingSemicolons)
             .joined(separator: "; ")
     }
 }

@@ -94,6 +94,9 @@
 "codegen_copy" = "Kopieren";
 "codegen_run_in_browser" = "Im Browser testen";
 "codegen_save_java" = "Java speichern …";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Weiteres Struktogramm";
 "a11y_close_tab" = "Reiter schließen";
 "a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
