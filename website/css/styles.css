@@ -99,13 +99,13 @@ a:hover {
   flex-shrink: 0;
 }
 
-/* Offizielles App-Icon (PNG), Squircle-Anmutung wie auf dem Gerät */
+/* App-Icon / Logo (PNG, transparent) — voll sichtbar, nicht beschneiden */
 .brand-icon-img {
   border-radius: 22%;
   box-shadow:
     0 4px 16px rgba(8, 47, 73, 0.35),
     0 0 0 1px rgba(255, 255, 255, 0.12);
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .lang-switch {
@@ -205,9 +205,10 @@ a:hover {
   z-index: 1;
   width: clamp(112px, 30vw, 176px);
   height: auto;
+  max-height: 176px;
   aspect-ratio: 1;
   border-radius: 22%;
-  object-fit: cover;
+  object-fit: contain;
   box-shadow:
     0 12px 48px rgba(8, 47, 73, 0.55),
     0 0 0 1px rgba(255, 255, 255, 0.16),
@@ -492,23 +493,6 @@ a:hover {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
 }
 
-.card-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-}
-.card-icon.java {
-  background: linear-gradient(135deg, #f97316, #ea580c);
-}
-.card-icon.ios {
-  background: linear-gradient(160deg, var(--vs-accent-bright), var(--vs-accent-dim));
-}
-
 .card h2 {
   margin: 0 0 0.5rem;
   font-size: 1.2rem;
@@ -650,7 +634,7 @@ a:hover {
   gap: 1.25rem;
 }
 
-/* Download-Karten: mehr Tiefe, einheitliche Icons, gestapelte Buttons */
+/* Download-Karten: mehr Tiefe, gestapelte Buttons */
 .section-downloads .card {
   padding: 1.5rem 1.25rem 1.5rem;
   background: linear-gradient(
@@ -669,24 +653,6 @@ a:hover {
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.08) inset,
     0 22px 60px rgba(0, 0, 0, 0.45);
-}
-.section-downloads .card-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  font-size: 1.5rem;
-  margin-bottom: 1.15rem;
-  background: rgba(6, 18, 36, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-.section-downloads .card-icon.java {
-  background: linear-gradient(150deg, rgba(194, 65, 12, 0.55) 0%, rgba(42, 18, 10, 0.9) 100%);
-  border-color: rgba(251, 146, 60, 0.38);
-}
-.section-downloads .card-icon.ios {
-  background: linear-gradient(150deg, rgba(37, 99, 235, 0.45) 0%, rgba(15, 35, 68, 0.92) 100%);
-  border-color: rgba(164, 223, 248, 0.35);
 }
 .section-downloads .card h2 {
   font-size: 1.2rem;
@@ -708,6 +674,38 @@ a:hover {
   width: 100%;
   justify-content: center;
   box-sizing: border-box;
+}
+/* App-Store-Badge-Karte: Überschrift + Badge zentriert (Klasse statt :has, für breitere Browserunterstützung) */
+.section-downloads .card.card--app-store {
+  text-align: center;
+}
+/* Offizielles Apple-Badge (SVG) — Richtlinien: developer.apple.com/app-store/marketing/ */
+.section-downloads .btn-row.app-store-badge-row {
+  align-items: center;
+  justify-content: center;
+}
+.app-store-badge-link {
+  position: relative;
+  z-index: 1; /* Link über ggf. darunter liegenden Ebenen */
+  display: block;
+  width: fit-content;
+  max-width: min(18rem, 100%);
+  margin-inline: auto;
+  line-height: 0;
+  text-align: center;
+}
+.app-store-badge-link:focus {
+  outline: 2px solid var(--vs-accent-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.app-store-badge-img {
+  display: block;
+  width: auto;
+  max-width: min(18rem, 100%);
+  min-height: 3.5rem;
+  height: auto;
+  margin: 0;
 }
 
 /* Footer */

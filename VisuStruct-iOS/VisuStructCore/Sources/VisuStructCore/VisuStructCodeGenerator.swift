@@ -51,7 +51,101 @@ public enum VisuStructCodeGenerator: Sendable {
             }
             return empty
         }
-        return out.trimmingCharacters(in: .newlines)
+        return postProcessLengthSyntaxInGeneratedCode(out.trimmingCharacters(in: .newlines), target: target)
+    }
+
+    // MARK: - Länge: `.length` / `.length()` → zielsprachentauglich (Heuristik, kein echter Typ-Check)
+
+    /// Häufige **Array-**Bezeichner: hier **kein** `()` nach `.length` ergänzen (Java: `feld.length` bleibt Feldzugriff).
+    private static let javaArrayLikeLengthNameDenylist: Set<String> = {
+        var s: Set<String> = [
+            "a", "a1", "a2", "arr", "arr1", "arr2", "array", "b", "b1", "c", "c1", "d", "d1", "data",
+            "e", "eld", "feld", "i", "j", "j1", "k", "k1", "m", "m1", "m2", "n", "n1", "n2", "nums", "p",
+            "t", "t1", "t2", "u", "v", "w", "w1", "werte", "x", "x1", "y", "y1", "z", "z1", "z2", "zahlen", "ziff",
+        ]
+        s.reserveCapacity(80)
+        return s
+    }()
+
+    private static func postProcessLengthSyntaxInGeneratedCode(_ s: String, target: Target) -> String {
+        switch target {
+        case .javascript:
+            // `String`/`Array` in JS: `.length` (Eigenschaft), nicht wie in Java `length()`.
+            return replaceSimpleRegex(
+                s,
+                pattern: #"\.length\(\)"#,
+                options: [],
+                transform: { _, _ in ".length" }
+            )
+        case .python:
+            // Weder `.length` noch `.length()`: sinnvoll ist `len(name)`.
+            return replaceWithCaptureTemplate(s, pattern: #"\b([a-zA-Z_][\w]*)\.length\(\)?\b"#, template: "len($1)")
+        case .java:
+            // `String`: `s.length()`; Array: `a.length` (Feld) — Bezeichner auf der Denylist: kein `()`.
+            return replaceIdentifierDotLengthWithParensInJava(s)
+        }
+    }
+
+    private static func replaceSimpleRegex(
+        _ s: String,
+        pattern: String,
+        options: NSRegularExpression.Options,
+        transform: (NSTextCheckingResult, NSString) -> String
+    ) -> String {
+        guard let re = try? NSRegularExpression(pattern: pattern, options: options) else { return s }
+        let ns = s as NSString
+        let full = NSRange(location: 0, length: ns.length)
+        let matches = re.matches(in: s, options: [], range: full)
+        if matches.isEmpty { return s }
+        var out = ""
+        var last = 0
+        for m in matches {
+            out += ns.substring(with: NSRange(location: last, length: m.range.location - last))
+            out += transform(m, ns)
+            last = m.range.location + m.range.length
+        }
+        out += ns.substring(from: last)
+        return out
+    }
+
+    private static func replaceWithCaptureTemplate(_ s: String, pattern: String, template: String) -> String {
+        guard let re = try? NSRegularExpression(pattern: pattern, options: []) else { return s }
+        let ns = s as NSString
+        let n = ns.length
+        let out = re.stringByReplacingMatches(in: s, options: [], range: NSRange(location: 0, length: n), withTemplate: template)
+        return out
+    }
+
+    private static func replaceIdentifierDotLengthWithParensInJava(_ s: String) -> String {
+        guard let re = try? NSRegularExpression(pattern: #"\b([a-zA-Z_][\w]*)\.length(?!\()"#, options: []) else { return s }
+        let ns = s as NSString
+        let n = ns.length
+        let full = NSRange(location: 0, length: n)
+        let matches = re.matches(in: s, options: [], range: full)
+        if matches.isEmpty { return s }
+        var out = ""
+        var last = 0
+        for m in matches {
+            out += ns.substring(with: NSRange(location: last, length: m.range.location - last))
+            if m.numberOfRanges >= 2 {
+                let idRange = m.range(at: 1)
+                if idRange.location != NSNotFound {
+                    let id = ns.substring(with: idRange)
+                    if javaArrayLikeLengthNameDenylist.contains(id.lowercased()) {
+                        out += ns.substring(with: m.range)
+                    } else {
+                        out += id
+                        out += ".length()"
+                    }
+                    last = m.range.location + m.range.length
+                    continue
+                }
+            }
+            out += ns.substring(with: m.range)
+            last = m.range.location + m.range.length
+        }
+        out += ns.substring(from: last)
+        return out
     }
 
     // MARK: - Private
@@ -179,6 +273,29 @@ public enum VisuStructCodeGenerator: Sendable {
         if parts.isEmpty { return ";;" }
         if parts.count == 1 { return parts[0] }
         return parts.joined(separator: "; ")
+    }
+
+    private static func javaScriptForLoopHeaderText(_ lines: [String]) -> String {
+        let header = cStyleForLoopHeaderText(lines)
+        var parts = header.split(separator: ";", omittingEmptySubsequences: false).map(String.init)
+        guard let first = parts.first else { return header }
+        if let translatedFirst = javaScriptForInitializerFromJavaTypedDeclaration(first) {
+            parts[0] = translatedFirst
+        }
+        return parts.joined(separator: ";")
+    }
+
+    private static func javaScriptForInitializerFromJavaTypedDeclaration(_ raw: String) -> String? {
+        let pattern = #"(?i)^(\s*)(?:integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s*=\s*(.*))?\s*$"#
+        guard let g = regexGroups(pattern, raw), g.count >= 3 else { return nil }
+        let leading = g[1]
+        let name = g[2].trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !name.isEmpty else { return nil }
+        let rhs = g.count > 3 ? g[3].trimmingCharacters(in: .whitespacesAndNewlines) : ""
+        if raw.contains("="), !rhs.isEmpty {
+            return leading + "let \(name) = \(rhs)"
+        }
+        return leading + "let \(name)"
     }
 
     // MARK: - Python: Java-ähnliche For-Köpfe → `range`
@@ -664,7 +781,7 @@ public enum VisuStructCodeGenerator: Sendable {
                     emitConditionHeader(prefix: "for ", suffix: ":\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
                 }
             case .javascript:
-                let cond = cStyleForLoopHeaderText(element.textLines)
+                let cond = javaScriptForLoopHeaderText(element.textLines)
                 if options.includeDiagramTextAsComments {
                     out += blockComment(lines: element.textLines, target: target, indent: indent)
                 }

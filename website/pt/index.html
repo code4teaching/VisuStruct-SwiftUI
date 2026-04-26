@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>VisuStruct — Editor visual de estrutogramas</title>
-  <meta name="description" content="VisuStruct: estrutogramas Nassi-Shneiderman. App SwiftUI para iPad e Mac (Apple silicon) na App Store e aplicação Java para Windows/macOS/Linux. Formato .visustruct partilhado.">
+  <meta name="description" content="VisuStruct: estrutogramas Nassi-Shneiderman. App SwiftUI para Mac, iPad e iPhone na App Store e aplicação Java para Windows/macOS/Linux. Formato .visustruct partilhado.">
   <link rel="canonical" href="https://visustruct.org/pt/">
   <style>
     html { background-color: #0a1628; color-scheme: dark; }
@@ -51,17 +51,17 @@
       <div class="content-prose">
         <p class="lead-kicker">Crie e edite <strong>estrutogramas</strong> — os <strong>diagramas de Nassi-Shneiderman</strong> (também <strong>diagramas de Chapin</strong>): estrutura e fluxo antes da sintaxe.</p>
         <p>Com o VisuStruct, desenvolve algoritmos como <strong>estrutogramas</strong>: divides um problema em passos claros (sequência, decisão, ciclos) e vês rapidamente se a lógica faz sentido — ótimo para praticar e para a sala de aula.</p>
-        <p>O VisuStruct está disponível como app nativa <strong>SwiftUI</strong> para <strong>iPad</strong> e <strong>Mac com Apple silicon</strong> e como app <strong>Java</strong> para Windows/macOS/Linux. Ambas usam o mesmo formato de ficheiro <strong>.visustruct</strong>, para poderes começar no iPad e continuar no computador (ou ao contrário).</p>
+        <p>O VisuStruct está disponível como app nativa <strong>SwiftUI</strong> para <strong>Mac, iPad e iPhone</strong> e como app <strong>Java</strong> para Windows/macOS/Linux. Ambas usam o mesmo formato de ficheiro <strong>.visustruct</strong>, para poderes começar em <strong>Mac, iPad ou iPhone</strong> e continuar com a app Java no computador (ou ao contrário).</p>
       </div>
     </section>
 
     <section class="wrap section-screenshot" aria-labelledby="swiftui-screenshot-heading">
-      <h2 id="swiftui-screenshot-heading" class="screenshot-heading">App SwiftUI para iPad e Mac</h2>
-      <p class="screenshot-lead">O VisuStruct está disponível como app nativa <strong>SwiftUI</strong> para <strong>iPad</strong> e <strong>Mac com Apple silicon</strong> (<a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>).</p>
+      <h2 id="swiftui-screenshot-heading" class="screenshot-heading">App SwiftUI para Mac, iPad e iPhone</h2>
+      <p class="screenshot-lead">O VisuStruct está disponível como app nativa <strong>SwiftUI</strong> para <strong>Mac, iPad e iPhone</strong> (<a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>).</p>
       <div
         data-visustruct-swift-carousel
         data-aria-region="Capturas de ecrã VisuStruct SwiftUI"
-        data-caption="VisuStruct em SwiftUI no Mac (Apple silicon) e no iPad — exemplos da interface e de estrutogramas."
+        data-caption="Capturas da app no Mac (abril 2026); a mesma app SwiftUI no Mac, iPad e iPhone."
       ></div>
     </section>
 
@@ -80,7 +80,7 @@
       <ul class="bullet-list">
         <li>Utilização simples e intuitiva — o foco está na <strong>lógica</strong>, não na pontuação.</li>
         <li>Desenvolve primeiro o algoritmo como estrutura e depois traduz para código com mais facilidade.</li>
-        <li>Um formato partilhado: <strong>.visustruct</strong> no computador (Java) e no iPad &amp; Mac (SwiftUI).</li>
+        <li>Um formato partilhado: <strong>.visustruct</strong> no computador (Java) e no Mac, iPad e iPhone (SwiftUI).</li>
       </ul>
     </section>
 
@@ -94,22 +94,36 @@
     <section id="download" class="wrap section-downloads" aria-label="Transferências">
       <h2>Obter o VisuStruct</h2>
       <div class="grid">
-      <article class="card">
+      <article class="card card--app-store">
         <!-- App Store: com a app no ar, usar apenas badges oficiais da Apple (developer.apple.com/app-store/marketing/guidelines/). Sem SVGs de terceiros. -->
-        <div class="card-icon ios" aria-hidden="true">🖥️</div>
-        <h2>iPad e Mac (Apple silicon)</h2>
-        <p><strong>SwiftUI</strong> para <strong>iPad</strong> e <strong>Mac com Apple silicon</strong>.</p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">Ver na App Store</a>
+        <h2>Mac, iPad e iPhone</h2>
+        <div class="btn-row app-store-badge-row">
+          <a
+            class="app-store-badge-link"
+            href="https://apps.apple.com/app/id6761957046"
+            rel="noopener noreferrer"
+            aria-label="Transfira na App Store"
+          >
+            <img
+              class="app-store-badge-img"
+              src="/assets/Download-on-the-App-Store/PTPT/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_PTPT_RGB_wht_100317.svg"
+              width="270"
+              height="90"
+              alt="Transfira na App Store"
+            />
+          </a>
         </div>
       </article>
       <article class="card">
-        <div class="card-icon java" aria-hidden="true">☕</div>
         <h2>Aplicação Java (computador)</h2>
         <p>Para <strong>Windows</strong>, <strong>macOS</strong> e <strong>Linux</strong>. Download em <strong>.jar</strong> (requer Java, por exemplo <a href="https://adoptium.net/" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
         <div class="btn-row">
-          <a class="btn btn-primary" href="https://github.com/code4teaching/VisuStruct/releases/latest">Último release (GitHub)</a>
-          <a class="btn btn-secondary" href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar">Direto para a app</a>
+          <a
+            class="btn btn-primary"
+            href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar"
+            rel="noopener noreferrer"
+            download="visustruct.jar"
+            >Descarregar a app</a>
         </div>
       </article>
       </div>

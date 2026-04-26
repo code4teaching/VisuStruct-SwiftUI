@@ -6,7 +6,7 @@
 
 # VisuStruct (SwiftUI)
 
-Visual **Nassi–Shneiderman** structograms for **iPad** and **Apple silicon Mac**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
+Visual **Nassi–Shneiderman** structograms for **Mac, iPad, and iPhone**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
 
 **Localization:** The app ships a large set of UI translations (strings + Settings), with English and German treated as primary “source of truth” strings during development.
 

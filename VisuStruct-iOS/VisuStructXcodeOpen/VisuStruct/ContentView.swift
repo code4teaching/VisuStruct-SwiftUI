@@ -702,6 +702,8 @@ struct ContentView: View {
     @State private var showInfo = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
+    /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
+    @State private var codeGeneratorRegenerationToken: Int = 0
     /// Wenn `CodeGeneratorPurchaseGate.requiresPurchase`: nach erfolgreichem Kauf auf `true` (StoreKit / `UserDefaults`).
     @AppStorage("visustruct.codegen.unlocked") private var codeGeneratorUnlocked = false
 
@@ -928,13 +930,17 @@ struct ContentView: View {
             get: { isPhone && showCodeGeneratorPlaceholder },
             set: { if !$0 { showCodeGeneratorPlaceholder = false } }
         )) {
-            CodeGeneratorPlaceholderSheet(document: documentBinding)
+            CodeGeneratorPlaceholderSheet(
+                document: documentBinding,
+                regenerationToken: codeGeneratorRegenerationToken
+            )
         }
         .overlay {
             if !isPhone && showCodeGeneratorPlaceholder {
                 DraggableCodeGeneratorFloatingPanel(
                     isPresented: $showCodeGeneratorPlaceholder,
-                    document: documentBinding
+                    document: documentBinding,
+                    regenerationToken: codeGeneratorRegenerationToken
                 )
                 .transition(.opacity)
             }
@@ -1134,6 +1140,7 @@ struct ContentView: View {
                         // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
                         // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
                         applyLineEditorRespectingTextFocus()
+                        codeGeneratorRegenerationToken &+= 1
                         showCodeGeneratorPlaceholder = true
                     } else {
                         showCodeGeneratorPaywall = true
@@ -2080,6 +2087,12 @@ struct ContentView: View {
                 lines[index] = newVal
                 do {
                     commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
+                    // `lineEditorText` wird bei den drei For-Feldern nicht mitgetippt; sonst würde z. B.
+                    // „Code erzeugen“ veralteten Puffer per `applyLineEditor` ins Element schreiben.
+                    var tabs = sheetTabs
+                    let i = currentTabIndex
+                    tabs[i].lineEditorText = lines.joined(separator: "\n")
+                    sheetTabs = tabs
                 } catch {
                     setErrorOnCurrentTab(error.localizedDescription)
                 }
@@ -2452,10 +2465,25 @@ struct ContentView: View {
             .replacingOccurrences(of: "´", with: "'")
     }
 
+    #if canImport(UIKit)
+    /// Verlässt die aktive Eingabe im Key-Window, damit `UITextView` (Zeileneditor) sicher
+    /// `textViewDidEndEditing` liefert und `lineEditorText` dem sichtbaren Inhalt entspricht.
+    private func endKeyWindowEditing() {
+        guard let scene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+            let w = scene.windows.first(where: { $0.isKeyWindow }) else { return }
+        w.endEditing(true)
+    }
+    #endif
+
     /// Wendet den Zeileneditor an. Hat das Codefeld den SwiftUI-Fokus, zuerst Fokus lösen —
     /// sonst kann der letzte Tastatur-Stand auf iOS noch nicht in `lineEditorText` stehen
-    /// (wie zuvor nur nach „Fertig“).
+    /// (wie zuvor nur nach „Fertig“). Zusätzlich: Key-Window `endEditing`, falls `UITextView` und
+    /// `@FocusState` kurz auseinanderlaufen.
     private func applyLineEditorRespectingTextFocus() {
+        #if canImport(UIKit)
+        endKeyWindowEditing()
+        #endif
         if focusedField == .textEditor {
             focusedField = nil
             DispatchQueue.main.async {
@@ -2468,6 +2496,7 @@ struct ContentView: View {
 
     private func applyLineEditor() {
         guard let path = selectedPath else { return }
+        if let el = try? VisuStructDocumentEditing.element(at: path, in: document), el.type == .forSchleife { return }
         let raw = sheetTabs[currentTabIndex].lineEditorText.components(separatedBy: "\n")
         let lines = (raw.isEmpty ? [""] : raw).map(normalizeQuotesForCode)
         do {
@@ -2728,6 +2757,8 @@ private extension View {
 private struct DraggableCodeGeneratorFloatingPanel: View {
     @Binding var isPresented: Bool
     @Binding var document: VisuStructDocument
+    /// Bei jeder erneuten „Code erzeugen“-Aktion hochzählen — Anzeige soll den aktuellen Stand reflektieren.
+    var regenerationToken: Int
 
     @State private var dragOffset: CGSize = .zero
     @State private var dragBase: CGSize = .zero
@@ -2774,7 +2805,8 @@ private struct DraggableCodeGeneratorFloatingPanel: View {
                     CodeGeneratorPlaceholderSheet(
                         document: $document,
                         onDismissExternal: { isPresented = false },
-                        isInFloatingPanel: true
+                        isInFloatingPanel: true,
+                        regenerationToken: regenerationToken
                     )
                     .frame(width: panelW, height: panelH - dragBarHeight)
                     .clipped()
@@ -2827,6 +2859,8 @@ private struct CodeGeneratorPlaceholderSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
     @Binding var document: VisuStructDocument
+    /// Wird bei jedem Tipp auf „Code erzeugen“ erhöht, damit der Text erneut aus dem aktuellen Dokument erzeugt wird.
+    var regenerationToken: Int
     /// Wenn gesetzt (schwebendes Panel): schließt die äußere Präsentation statt `dismiss()`.
     var onDismissExternal: (() -> Void)? = nil
     /// `true`: kein Sheet-Ziehharmonika-Indikator (nur relevant im Vollbild-Sheet).
@@ -2863,7 +2897,8 @@ private struct CodeGeneratorPlaceholderSheet: View {
     }
 
     private var generatedCode: String {
-        VisuStructCodeGenerator.generate(
+        _ = regenerationToken
+        return VisuStructCodeGenerator.generate(
             document: document,
             target: target,
             options: codegenOptions

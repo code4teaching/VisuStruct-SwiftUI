@@ -29,24 +29,34 @@
     return out;
   }
 
+  /** Screenshot keys = Karussell-Dateien, nicht zwingend die UI-Sprache im Bild (Stand 2026-04). */
   var ALT_LABELS = {
     en: {
-      english: "VisuStruct SwiftUI on Mac: interface in English.",
-      german: "VisuStruct SwiftUI on Mac: interface in German.",
-      portuguese: "VisuStruct SwiftUI on Mac: interface in Portuguese.",
-      java_like: "VisuStruct SwiftUI on Mac: Java-style keywords in the diagram.",
+      english:
+        "VisuStruct (Mac): Fibonacci structogram, for-loop selected — init, condition, and step in the element editor.",
+      german: "VisuStruct (Mac, German UI): CheckPin structogram with loop, input, and branching.",
+      portuguese:
+        "VisuStruct (Mac, German UI): same app — second view of the CheckPin example (carousel slot).",
+      java_like:
+        "VisuStruct (Mac): Code generator with Java, Python, and JavaScript from the Fibonacci structogram.",
     },
     de: {
-      english: "VisuStruct SwiftUI auf dem Mac: Oberfläche auf Englisch.",
-      german: "VisuStruct SwiftUI auf dem Mac: Oberfläche auf Deutsch.",
-      portuguese: "VisuStruct SwiftUI auf dem Mac: Oberfläche auf Portugiesisch.",
-      java_like: "VisuStruct SwiftUI auf dem Mac: Java-ähnliche Schlüsselwörter im Struktogramm.",
+      english:
+        "VisuStruct (Mac): Struktogramm «Fibonacci», For-Schleife gewählt — Init, Bedingung und Schritt im Elementtext.",
+      german: "VisuStruct (Mac, deutsche Oberfläche): Struktogramm «CheckPin» mit Schleife, Eingabe und Verzweigung.",
+      portuguese:
+        "VisuStruct (Mac, deutsche Oberfläche): dieselbe App — zweite Ansicht des CheckPin-Beispiels (Karussell-Folie).",
+      java_like:
+        "VisuStruct (Mac): Code erzeugen — Java, Python und JavaScript aus dem Fibonacci-Struktogramm.",
     },
     pt: {
-      english: "VisuStruct SwiftUI no Mac: interface em inglês.",
-      german: "VisuStruct SwiftUI no Mac: interface em alemão.",
-      portuguese: "VisuStruct SwiftUI no Mac: interface em português.",
-      java_like: "VisuStruct SwiftUI no Mac: palavras-chave ao estilo Java no diagrama.",
+      english:
+        "VisuStruct (Mac): diagrama structograma Fibonacci, com laço for selecionado e campos de início, condição e passo.",
+      german: "VisuStruct (Mac, interface em alemão): structograma CheckPin com ciclo, entrada e ramificação.",
+      portuguese:
+        "VisuStruct (Mac, interface em alemão): a mesma app — segunda vista do exemplo CheckPin (diapositivo do carrossel).",
+      java_like:
+        "VisuStruct (Mac): gerador de código (Java, Python, JavaScript) a partir do structograma Fibonacci.",
     },
   };
 
