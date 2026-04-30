@@ -378,10 +378,11 @@ public struct VisuStructLayoutEngine: Sendable {
         var w = measured + Double(e.zoomX) + pad
 
         if e.type == .aufruf {
-            /// Wie `DiagramCanvasView`: Seitenbalken bei 14 pt, Text ab 18 pt — Mindestbreite aus echter Messung + Rand.
-            let textMargins: Double = 36
-            let safety: Double = 8
-            w = max(w, measured + Double(e.zoomX) + textMargins + safety)
+            // Wie `DiagramCanvasView`: 14 pt Luft außen bis zum Seitenstrich,
+            // 20 pt Luft innen vom Seitenstrich bis zum Text plus etwas Reserve.
+            let callMargins = max(68, metrics.minSidePadding * 1.7)
+            let breathingRoom: Double = max(8, metrics.minSidePadding * 0.2)
+            w = max(w, measured + Double(e.zoomX) + callMargins + breathingRoom)
         }
 
         let floor: Double

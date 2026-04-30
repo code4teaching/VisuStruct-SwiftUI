@@ -52,7 +52,7 @@
 "element_doUntilSchleife" = "do";
 "element_endlosschleife" = "while(true)";
 "element_aussprung" = "break";
-"element_aufruf" = "method()";
+"element_aufruf" = "call";
 "element_leerElement" = "ø";
 
 /* Tabs */

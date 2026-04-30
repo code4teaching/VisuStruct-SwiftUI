@@ -77,7 +77,7 @@
 "canvas_stub_until" = "until …";
 "canvas_stub_endless" = "endless";
 "canvas_stub_break" = "break";
-"canvas_stub_call" = "method()";
+"canvas_stub_call" = "Kall()";
 
 "settings_ui_scale_section" = "Text size";
 "settings_ui_scale_canvas" = "Structure chart";

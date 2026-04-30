@@ -40,6 +40,7 @@ private enum DiagramCanvasInk {
     /// Platz unter dem Titel „Fallauswahl“ bis zur Kopf-/Rumpf-Grenze — Fall-Labels (1/2/…) sitzen in diesem Streifen; Dachspitze darf nicht hineinragen.
     static let fallauswahlCaseLabelBand: CGFloat = 26
     static let callSideBarInset: CGFloat = 14
+    static let callTextInsetFromSideBar: CGFloat = 20
     /// Schmaler Streifen **oberhalb** des ersten Wurzelelements: Einfügen / Verschieben an Position 0 ohne oberste „davor“-Zone zu treffen.
     static let rootInsertStripHeight: CGFloat = 14
 }
@@ -915,8 +916,9 @@ struct DiagramCanvasView: View {
                 let contentRight: CGFloat
                 switch node.element.type {
                 case .aufruf:
-                    contentLeft = r.minX + bar + ix
-                    contentRight = r.maxX - bar - ix
+                    let callTextInset = ink(DiagramCanvasInk.callTextInsetFromSideBar)
+                    contentLeft = r.minX + bar + callTextInset
+                    contentRight = r.maxX - bar - callTextInset
                 case .aussprung:
                     contentLeft = r.minX + bar + ix
                     contentRight = r.maxX - ix
@@ -928,7 +930,7 @@ struct DiagramCanvasView: View {
                 let totalTextHeight = CGFloat(max(1, lines.count)) * lineHeight
                 var y = r.midY - totalTextHeight / 2
                 for line in lines {
-                    let tw = min(contentWidth, measureText(line, size: headerFontSize))
+                    let tw = measureText(line, size: headerFontSize)
                     let x = contentLeft + (contentWidth - tw) / 2
                     context.draw(
                         context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),

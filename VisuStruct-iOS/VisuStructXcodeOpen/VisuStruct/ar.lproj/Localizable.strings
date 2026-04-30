@@ -114,7 +114,7 @@
 "element_doUntilSchleife" = "do";
 "element_endlosschleife" = "while(true)";
 "element_aussprung" = "break";
-"element_aufruf" = "method()";
+"element_aufruf" = "استدعاء";
 "element_leerElement" = "ø";
 
 /* Tabs */
@@ -133,7 +133,7 @@
 "canvas_stub_until" = "condition";
 "canvas_stub_endless" = "∞";
 "canvas_stub_break" = "break";
-"canvas_stub_call" = "method()";
+"canvas_stub_call" = "استدعاء()";
 
 /* About */
 "about_version_fmt" = "الإصدار %@ (%@)";

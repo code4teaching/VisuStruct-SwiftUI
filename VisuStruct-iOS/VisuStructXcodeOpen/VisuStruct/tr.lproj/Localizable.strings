@@ -133,7 +133,7 @@
 "canvas_stub_until" = "until …";
 "canvas_stub_endless" = "sonsuz";
 "canvas_stub_break" = "break";
-"canvas_stub_call" = "method()";
+"canvas_stub_call" = "Çağrı()";
 
 /* About */
 "about_version_fmt" = "Sürüm %@ (%@)";

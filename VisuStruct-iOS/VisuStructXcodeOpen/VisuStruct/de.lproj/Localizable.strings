@@ -150,7 +150,7 @@
 "canvas_stub_until" = "until …";
 "canvas_stub_endless" = "endless";
 "canvas_stub_break" = "break";
-"canvas_stub_call" = "Methode()";
+"canvas_stub_call" = "Aufruf()";
 
 /* Über */
 "about_version_fmt" = "Version %@ (%@)";

@@ -133,7 +133,7 @@
 "canvas_stub_until" = "until …";
 "canvas_stub_endless" = "無限";
 "canvas_stub_break" = "break";
-"canvas_stub_call" = "method()";
+"canvas_stub_call" = "呼叫()";
 
 /* About */
 "about_version_fmt" = "版本 %@ (%@)";
