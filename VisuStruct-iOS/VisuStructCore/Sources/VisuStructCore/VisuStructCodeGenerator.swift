@@ -59,17 +59,6 @@ public enum VisuStructCodeGenerator: Sendable {
 
     // MARK: - Länge: `.length` / `.length()` → zielsprachentauglich (Heuristik, kein echter Typ-Check)
 
-    /// Häufige **Array-**Bezeichner: hier **kein** `()` nach `.length` ergänzen (Java: `feld.length` bleibt Feldzugriff).
-    private static let javaArrayLikeLengthNameDenylist: Set<String> = {
-        var s: Set<String> = [
-            "a", "a1", "a2", "arr", "arr1", "arr2", "array", "b", "b1", "c", "c1", "d", "d1", "data",
-            "e", "eld", "feld", "i", "j", "j1", "k", "k1", "m", "m1", "m2", "n", "n1", "n2", "nums", "p",
-            "t", "t1", "t2", "u", "v", "w", "w1", "werte", "x", "x1", "y", "y1", "z", "z1", "z2", "zahlen", "ziff",
-        ]
-        s.reserveCapacity(80)
-        return s
-    }()
-
     private static func postProcessLengthSyntaxInGeneratedCode(_ s: String, target: Target) -> String {
         switch target {
         case .javascript:
@@ -84,7 +73,7 @@ public enum VisuStructCodeGenerator: Sendable {
             // Weder `.length` noch `.length()`: sinnvoll ist `len(name)`.
             return replaceWithCaptureTemplate(s, pattern: #"\b([a-zA-Z_][\w]*)\.length(?:\(\))?\b"#, template: "len($1)")
         case .java:
-            // `String`: `s.length()`; Array: `a.length` (Feld) — Bezeichner auf der Denylist: kein `()`.
+            // `String`: `s.length()`; Array: `a.length` (Feld) — nur wenn `a` im generierten Code als Array deklariert ist.
             return replaceIdentifierDotLengthWithParensInJava(s)
         }
     }
@@ -157,7 +146,7 @@ public enum VisuStructCodeGenerator: Sendable {
                 if idRange.location != NSNotFound {
                     let id = ns.substring(with: idRange)
                     let lowerID = id.lowercased()
-                    if javaArrayLikeLengthNameDenylist.contains(lowerID) || arrayDeclarationNames.contains(lowerID) {
+                    if arrayDeclarationNames.contains(lowerID) {
                         out += ns.substring(with: m.range)
                     } else {
                         out += id
@@ -533,6 +522,15 @@ public enum VisuStructCodeGenerator: Sendable {
         )
     }
 
+    private static func normalizeJavaScriptMathRandomCall(_ s: String) -> String {
+        replaceSimpleRegex(
+            s,
+            pattern: #"(?i)\bMath\.random\b(?!\s*\()"#,
+            options: [],
+            transform: { _, _ in "Math.random()" }
+        )
+    }
+
     private static func arrayLiteralFromJavaInitializer(_ rhs: String) -> String {
         let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
         guard t.hasPrefix("{"), t.hasSuffix("}") else { return rhs }
@@ -565,7 +563,7 @@ public enum VisuStructCodeGenerator: Sendable {
         if let cast = javaIntCastExpression(t) {
             return "Math.floor(\(javaScriptRhsFromJavaRhs(cast, isArray: false)))"
         }
-        return t
+        return normalizeJavaScriptMathRandomCall(t)
     }
 
     private static func pythonRhsFromJavaRhs(_ rhs: String, isArray: Bool) -> String {
