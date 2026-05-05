@@ -94,3 +94,7 @@
 "settings_export_filename_footer_with_date" = "Med datum: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Utan datum: Filename.visustruct";
 
+"close_unsaved_title" = "Osparade ändringar";
+"close_unsaved_message" = "Det här diagrammet innehåller osparade ändringar. Vill du spara dem innan du stänger?";
+"close_unsaved_discard" = "Kasta";
+"close_unsaved_cancel" = "Avbryt";

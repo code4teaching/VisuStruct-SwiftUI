@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "新しい図のタブ";
 "a11y_close_tab" = "タブを閉じる";
+
+"close_unsaved_title" = "未保存の変更";
+"close_unsaved_message" = "この図には未保存の変更があります。閉じる前に保存しますか？";
+"close_unsaved_discard" = "破棄";
+"close_unsaved_cancel" = "キャンセル";
 "a11y_placeholder_drop" = "要素をここにドロップしてプレースホルダーを置き換えます。長押ししてドラッグし移動できます。";
 "a11y_node_drop" = "ブロックを長押ししてドラッグ：対象の上端／下端にドロップすると前／後に挿入。中央へのドロップは ø プレースホルダーのみ。";
 

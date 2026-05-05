@@ -92,6 +92,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Weiteres Struktogramm";
 "a11y_close_tab" = "Reiter schließen";
+
+"close_unsaved_title" = "Ungespeicherte Änderungen";
+"close_unsaved_message" = "Dieses Diagramm enthält ungespeicherte Änderungen. Möchtest du sie vor dem Schließen speichern?";
+"close_unsaved_discard" = "Verwerfen";
+"close_unsaved_cancel" = "Abbrechen";
 "a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
 "a11y_node_drop" = "Block lang drücken, dann ziehen: am Ziel am oberen oder unteren Rand ablegen (davor/danach). In die Mitte nur auf Platzhalter ø.";
 

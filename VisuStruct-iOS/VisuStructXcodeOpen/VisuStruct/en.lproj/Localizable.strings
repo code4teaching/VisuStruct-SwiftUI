@@ -92,6 +92,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "New diagram tab";
 "a11y_close_tab" = "Close tab";
+
+"close_unsaved_title" = "Unsaved Changes";
+"close_unsaved_message" = "This diagram contains unsaved changes. Do you want to save them before closing?";
+"close_unsaved_discard" = "Discard";
+"close_unsaved_cancel" = "Cancel";
 "a11y_placeholder_drop" = "Drop an element here to replace the placeholder. Press and hold to drag and move.";
 "a11y_node_drop" = "Press and hold a block, then drag: drop on the top or bottom edge of a target to insert before or after. Center drop only on a ø placeholder.";
 

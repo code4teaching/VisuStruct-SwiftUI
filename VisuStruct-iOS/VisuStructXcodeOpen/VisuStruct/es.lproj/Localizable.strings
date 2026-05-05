@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Nueva pestaña de diagrama";
 "a11y_close_tab" = "Cerrar pestaña";
+
+"close_unsaved_title" = "Cambios sin guardar";
+"close_unsaved_message" = "Este diagrama contiene cambios sin guardar. ¿Quieres guardarlos antes de cerrar?";
+"close_unsaved_discard" = "Descartar";
+"close_unsaved_cancel" = "Cancelar";
 "a11y_placeholder_drop" = "Suelta un elemento aquí para reemplazar el marcador. Mantén pulsado para arrastrar y mover.";
 "a11y_node_drop" = "Mantén pulsado un bloque y arrastra: suelta en el borde superior o inferior para insertar antes o después. Suelta en el centro solo sobre un marcador ø.";
 

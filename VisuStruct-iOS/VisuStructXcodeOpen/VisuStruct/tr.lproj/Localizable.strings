@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Yeni diyagram sekmesi";
 "a11y_close_tab" = "Sekmeyi kapat";
+
+"close_unsaved_title" = "Kaydedilmemiş değişiklikler";
+"close_unsaved_message" = "Bu diyagram kaydedilmemiş değişiklikler içeriyor. Kapatmadan önce kaydetmek ister misiniz?";
+"close_unsaved_discard" = "Vazgeç";
+"close_unsaved_cancel" = "İptal";
 "a11y_placeholder_drop" = "Yer tutucuyu değiştirmek için buraya bir öğe bırakın. Sürükleyip taşımak için basılı tutun.";
 "a11y_node_drop" = "Bir bloğa basılı tutup sürükleyin: önce/sonra eklemek için hedefin üst veya alt kenarına bırakın. Ortaya bırakma yalnızca ø yer tutucuda.";
 

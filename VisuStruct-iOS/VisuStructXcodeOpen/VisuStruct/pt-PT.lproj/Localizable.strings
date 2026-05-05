@@ -76,6 +76,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Novo separador de diagrama";
 "a11y_close_tab" = "Fechar separador";
+
+"close_unsaved_title" = "Alterações não guardadas";
+"close_unsaved_message" = "Este diagrama contém alterações não guardadas. Pretende guardá-las antes de fechar?";
+"close_unsaved_discard" = "Descartar";
+"close_unsaved_cancel" = "Cancelar";
 "a11y_placeholder_drop" = "Largue aqui um elemento para substituir o marcador. Mantenha premido para arrastar e mover.";
 "a11y_node_drop" = "Mantenha premido um bloco e arraste: largue na borda superior ou inferior do destino (antes/depois). No centro só em marcador ø.";
 

@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Nuova scheda diagramma";
 "a11y_close_tab" = "Chiudi scheda";
+
+"close_unsaved_title" = "Modifiche non salvate";
+"close_unsaved_message" = "Questo diagramma contiene modifiche non salvate. Vuoi salvarle prima di chiudere?";
+"close_unsaved_discard" = "Scarta";
+"close_unsaved_cancel" = "Annulla";
 "a11y_placeholder_drop" = "Rilascia un elemento qui per sostituire il segnaposto. Tieni premuto per trascinare e spostare.";
 "a11y_node_drop" = "Tieni premuto un blocco, poi trascina: rilascia sul bordo superiore o inferiore per inserire prima o dopo. Rilascio al centro solo su un segnaposto ø.";
 

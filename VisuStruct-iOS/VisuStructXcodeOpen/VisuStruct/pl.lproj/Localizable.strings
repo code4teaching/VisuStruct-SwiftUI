@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Nowa karta diagramu";
 "a11y_close_tab" = "Zamknij kartę";
+
+"close_unsaved_title" = "Niezapisane zmiany";
+"close_unsaved_message" = "Ten diagram zawiera niezapisane zmiany. Czy chcesz je zapisać przed zamknięciem?";
+"close_unsaved_discard" = "Odrzuć";
+"close_unsaved_cancel" = "Anuluj";
 "a11y_placeholder_drop" = "Upuść element tutaj, aby zastąpić symbol zastępczy. Naciśnij i przytrzymaj, aby przeciągnąć i przenieść.";
 "a11y_node_drop" = "Naciśnij i przytrzymaj blok, a następnie przeciągnij: upuść na górnej lub dolnej krawędzi celu, aby wstawić przed lub po. Upuszczenie na środku tylko na symbolu ø.";
 

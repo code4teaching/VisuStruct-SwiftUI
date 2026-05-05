@@ -584,6 +584,8 @@ struct ContentView: View {
     @State private var showInfo = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
+    @State private var pendingCloseTabId: UUID? = nil
+    @State private var closeTabAfterSuccessfulExportId: UUID? = nil
     /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
     @State private var codeGeneratorRegenerationToken: Int = 0
     /// Wenn `CodeGeneratorPurchaseGate.requiresPurchase`: nach erfolgreichem Kauf auf `true` (StoreKit / `UserDefaults`).
@@ -725,6 +727,13 @@ struct ContentView: View {
         sheetTabs[currentTabIndex].selectedPath
     }
 
+    private var unsavedCloseAlertBinding: Binding<Bool> {
+        Binding(
+            get: { pendingCloseTabId != nil },
+            set: { if !$0 { pendingCloseTabId = nil } }
+        )
+    }
+
     var body: some View {
         Group {
             if horizontalSizeClass == .regular {
@@ -758,6 +767,19 @@ struct ContentView: View {
         #endif
         .onAppear {
             refreshLineEditor()
+        }
+        .alert(lang.tr("close_unsaved_title"), isPresented: unsavedCloseAlertBinding) {
+            Button(lang.tr("menu_save")) {
+                savePendingCloseTab()
+            }
+            Button(lang.tr("close_unsaved_discard"), role: .destructive) {
+                discardPendingCloseTab()
+            }
+            Button(lang.tr("close_unsaved_cancel"), role: .cancel) {
+                pendingCloseTabId = nil
+            }
+        } message: {
+            Text(lang.tr("close_unsaved_message"))
         }
         .fileImporter(
             isPresented: $showImporter,
@@ -820,10 +842,15 @@ struct ContentView: View {
                         return
                     }
                     updateSavedBaselineForCurrentTab()
+                    if let pendingId = closeTabAfterSuccessfulExportId {
+                        closeTabAfterSuccessfulExportId = nil
+                        performCloseDiagramTab(id: pendingId)
+                    }
                 }
             case .failure(let err):
                 let message = err.localizedDescription
                 Task { @MainActor in
+                    closeTabAfterSuccessfulExportId = nil
                     setErrorOnCurrentTab(message)
                 }
             }
@@ -1288,7 +1315,7 @@ struct ContentView: View {
             )
             if sheetTabs.count > 1 {
                 Button {
-                    closeDiagramTab(id: tab.id)
+                    requestCloseDiagramTab(id: tab.id)
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .font(.caption)
@@ -1559,7 +1586,16 @@ struct ContentView: View {
         refreshLineEditor()
     }
 
-    private func closeDiagramTab(id: UUID) {
+    private func requestCloseDiagramTab(id: UUID) {
+        guard sheetTabs.count > 1, let idx = sheetTabs.firstIndex(where: { $0.id == id }) else { return }
+        if tabHasUnsavedChanges(sheetTabs[idx]) {
+            pendingCloseTabId = id
+        } else {
+            performCloseDiagramTab(id: id)
+        }
+    }
+
+    private func performCloseDiagramTab(id: UUID) {
         guard sheetTabs.count > 1, let idx = sheetTabs.firstIndex(where: { $0.id == id }) else { return }
         let wasSelected = id == selectedTabId
         sheetTabs.remove(at: idx)
@@ -1567,6 +1603,37 @@ struct ContentView: View {
             let newIdx = min(idx, sheetTabs.count - 1)
             selectedTabId = sheetTabs[newIdx].id
             refreshLineEditor()
+        }
+    }
+
+    private func discardPendingCloseTab() {
+        guard let id = pendingCloseTabId else { return }
+        pendingCloseTabId = nil
+        performCloseDiagramTab(id: id)
+    }
+
+    private func savePendingCloseTab() {
+        guard let id = pendingCloseTabId,
+              let idx = sheetTabs.firstIndex(where: { $0.id == id }) else {
+            pendingCloseTabId = nil
+            return
+        }
+        pendingCloseTabId = nil
+        selectedTabId = id
+        refreshLineEditor()
+        closeTabAfterSuccessfulExportId = id
+
+        if sheetTabs[idx].linkedFileBookmarkData == nil {
+            showExporter = true
+            return
+        }
+
+        saveCurrentDocumentToFile()
+        if let tab = sheetTabs.first(where: { $0.id == id }), !tabHasUnsavedChanges(tab) {
+            closeTabAfterSuccessfulExportId = nil
+            performCloseDiagramTab(id: id)
+        } else if !showExporter {
+            closeTabAfterSuccessfulExportId = nil
         }
     }
 

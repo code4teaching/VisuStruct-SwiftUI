@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "新增圖表分頁";
 "a11y_close_tab" = "關閉分頁";
+
+"close_unsaved_title" = "未儲存的變更";
+"close_unsaved_message" = "此圖表包含未儲存的變更。關閉前要儲存嗎？";
+"close_unsaved_discard" = "捨棄";
+"close_unsaved_cancel" = "取消";
 "a11y_placeholder_drop" = "將元素拖放到這裡以取代佔位符。長按可拖曳移動。";
 "a11y_node_drop" = "長按區塊並拖曳：放到目標上緣或下緣以插入到前/後。僅能在 ø 佔位符上置中放下。";
 

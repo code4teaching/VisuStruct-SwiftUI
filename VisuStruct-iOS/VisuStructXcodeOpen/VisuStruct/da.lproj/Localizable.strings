@@ -94,3 +94,7 @@
 "settings_export_filename_footer_with_date" = "Med dato: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Uden dato: Filename.visustruct";
 
+"close_unsaved_title" = "Ikke-gemte ændringer";
+"close_unsaved_message" = "Dette diagram indeholder ikke-gemte ændringer. Vil du gemme dem før lukning?";
+"close_unsaved_discard" = "Kassér";
+"close_unsaved_cancel" = "Annuller";

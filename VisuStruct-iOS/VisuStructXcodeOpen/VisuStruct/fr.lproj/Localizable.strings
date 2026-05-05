@@ -74,6 +74,11 @@
 "codegen_java_output_class" = "Class";
 "a11y_new_diagram_tab" = "Nouvel onglet de diagramme";
 "a11y_close_tab" = "Fermer l’onglet";
+
+"close_unsaved_title" = "Modifications non enregistrées";
+"close_unsaved_message" = "Ce diagramme contient des modifications non enregistrées. Voulez-vous les enregistrer avant de fermer ?";
+"close_unsaved_discard" = "Ignorer";
+"close_unsaved_cancel" = "Annuler";
 "a11y_placeholder_drop" = "Déposez un élément ici pour remplacer l’espace réservé. Appuyez longuement pour glisser et déplacer.";
 "a11y_node_drop" = "Appuyez longuement sur un bloc, puis faites glisser : déposez sur le bord haut ou bas pour insérer avant ou après. Dépôt au centre uniquement sur un espace réservé ø.";
 
