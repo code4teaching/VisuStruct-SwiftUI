@@ -6,6 +6,10 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Tabs:** warn before closing diagrams with unsaved changes, offering to save, discard, or cancel.
+
 ### Planned / Notes
 
 - Documentation polish for product/marketing surfaces only when explicitly requested.
