@@ -6,12 +6,35 @@
 "action_share_document" = "Dosyayı paylaş…";
 "action_export_pdf" = "PDF önizleme…";
 "action_generate_code" = "Kod üret…";
+"action_simulation" = "Simülasyon";
+"action_diagram" = "Diyagram";
+"simulation_placeholder_body" = "Simülasyon modu diyagramı adım adım çalıştırır, geçerli öğeyi vurgular ve değişken değerlerini ve çıktıyı gösterir.";
+"simulation_controls" = "Kontroller";
+"simulation_not_available" = "Play simülasyonu adım başına 0,5 saniye duraklamayla otomatik çalıştırır.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Girdi";
+"simulation_input_placeholder" = "Girdi gerekli değil.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Lütfen bir tam sayı girin.";
+"simulation_trace" = "Son Adım";
+"simulation_trace_placeholder" = "Son çalıştırılan adım burada açıklanacak.";
+"simulation_variables" = "Değişkenler";
+"simulation_variables_placeholder" = "Geçerli değişken değerleri daha sonra burada gösterilecek.";
+"simulation_output" = "Çıktı";
+"simulation_output_placeholder" = "Simülasyon çıktısı daha sonra burada görünecek.";
 "action_delete_selection" = "Seçimi sil";
 "ctx_copy" = "Kopyala";
 "ctx_cut" = "Kes";
 "ctx_paste" = "Yapıştır";
 "action_settings" = "Ayarlar";
 "action_about" = "VisuStruct Hakkında";
+"recent_files_menu" = "Son Kullanılanlar";
+"recent_files_empty" = "Son kullanılan dosya yok";
+"recent_files_clear" = "Listeyi temizle";
+"recent_files_unavailable" = "Dosya artık kullanılamıyor.";
 
 /* In-app settings */
 "settings_language_title" = "Dil";

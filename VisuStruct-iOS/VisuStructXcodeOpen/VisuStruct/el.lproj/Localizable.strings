@@ -6,12 +6,35 @@
 "action_share_document" = "Κοινή χρήση αρχείου…";
 "action_export_pdf" = "Προεπισκόπηση PDF…";
 "action_generate_code" = "Δημιουργία κώδικα…";
+"action_simulation" = "Προσομοίωση";
+"action_diagram" = "Διάγραμμα";
+"simulation_placeholder_body" = "Η λειτουργία προσομοίωσης εκτελεί το διάγραμμα βήμα προς βήμα, επισημαίνει το τρέχον στοιχείο και εμφανίζει τις τιμές των μεταβλητών και την έξοδο.";
+"simulation_controls" = "Έλεγχος";
+"simulation_not_available" = "Το Play εκτελεί αυτόματα την προσομοίωση με παύση 0,5 δευτερολέπτων ανά βήμα.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Είσοδος";
+"simulation_input_placeholder" = "Δεν απαιτείται είσοδος.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Πληκτρολογήστε έναν ακέραιο αριθμό.";
+"simulation_trace" = "Τελευταίο βήμα";
+"simulation_trace_placeholder" = "Το τελευταίο εκτελεσμένο βήμα θα εξηγείται εδώ.";
+"simulation_variables" = "Μεταβλητές";
+"simulation_variables_placeholder" = "Οι τρέχουσες τιμές των μεταβλητών θα εμφανίζονται εδώ αργότερα.";
+"simulation_output" = "Έξοδος";
+"simulation_output_placeholder" = "Η έξοδος της προσομοίωσης θα εμφανίζεται εδώ αργότερα.";
 "action_delete_selection" = "Διαγραφή επιλογής";
 "ctx_copy" = "Αντιγραφή";
 "ctx_cut" = "Αποκοπή";
 "ctx_paste" = "Επικόλληση";
 "action_settings" = "Ρυθμίσεις";
 "action_about" = "Σχετικά με το VisuStruct";
+"recent_files_menu" = "Πρόσφατα αρχεία";
+"recent_files_empty" = "Δεν υπάρχουν πρόσφατα αρχεία";
+"recent_files_clear" = "Εκκαθάριση λίστας";
+"recent_files_unavailable" = "Το αρχείο δεν είναι πλέον διαθέσιμο.";
 
 /* In-app settings */
 "settings_language_title" = "Γλώσσα";

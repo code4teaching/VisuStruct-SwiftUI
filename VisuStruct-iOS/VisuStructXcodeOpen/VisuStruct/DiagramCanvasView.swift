@@ -63,6 +63,8 @@ struct DiagramCanvasView: View {
     var layoutTopLeadingInset: (left: Double, top: Double)? = nil
     /// Optional: schmalerer grauer Rahmen zum Blattrand (nur Export; Standard `canvasOuterMargin` = 16).
     var exportCanvasOuterMarginPt: CGFloat? = nil
+    /// Im Simulationsmodus bedeutet die Markierung „aktueller Schritt“ statt Bearbeitungsauswahl.
+    var usesSimulationSelectionHighlight: Bool = false
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
@@ -172,6 +174,12 @@ struct DiagramCanvasView: View {
     private var diagramLineColor: Color { Color.gray.opacity(0.85) }
     private var diagramCanvasFill: Color { Color(white: 0.98) }
     private var diagramCellFill: Color { Color.white }
+    private var selectionFillColor: Color {
+        usesSimulationSelectionHighlight ? Color(red: 0.78, green: 0.90, blue: 1.0).opacity(0.55) : Color.clear
+    }
+    private var selectionStrokeColor: Color {
+        usesSimulationSelectionHighlight ? Color(red: 0.26, green: 0.55, blue: 0.95).opacity(0.78) : Color.blue.opacity(0.9)
+    }
 
     var body: some View {
         let engine = VisuStructLayoutEngine(metrics: layoutMetrics)
@@ -410,7 +418,7 @@ struct DiagramCanvasView: View {
             .frame(width: width, height: height)
             .contentShape(Rectangle())
             // Im Normalzustand keine farbigen Drop-Flächen rendern (wirkt sonst wie ein Verlauf).
-            .background(showHL ? Color.blue.opacity(0.2) : Color.clear)
+            .background(showHL ? Color.blue.opacity(0.2) : (isSelected ? selectionFillColor : Color.clear))
             .overlay {
                 Group {
                     if showHL {
@@ -420,7 +428,7 @@ struct DiagramCanvasView: View {
                         // Platzhalterflächen haben immer eine gestrichelte Rahmen-Overlay.
                         // Wenn selektiert, soll die blaue Auswahl sichtbar sein (sonst überdeckt der gestrichelte Rahmen die Canvas-Auswahl).
                         RoundedRectangle(cornerRadius: 4)
-                            .strokeBorder(Color.blue.opacity(0.9), lineWidth: ink(DiagramCanvasInk.selectionLineWidth))
+                            .strokeBorder(selectionStrokeColor, lineWidth: ink(DiagramCanvasInk.selectionLineWidth))
                     } else {
                         RoundedRectangle(cornerRadius: 4)
                             .strokeBorder(Color.blue.opacity(0.35), style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
@@ -816,7 +824,7 @@ struct DiagramCanvasView: View {
         let isSelected = node.idPath == selectedPath
         let linePaint = diagramLineColor
 
-        context.fill(cellPath, with: .color(diagramCellFill))
+        context.fill(cellPath, with: .color(isSelected ? (usesSimulationSelectionHighlight ? selectionFillColor : diagramCellFill) : diagramCellFill))
         context.stroke(cellPath, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
         // Kein zweites Rechteck für Verzweigung/Fallauswahl: dessen Oberkante läge auf Höhe der Dreiecksspitze
         // und würde eine Sehne durch das V zeichnen sowie linke/rechte Kanten doppelt stroken („X“ / Doppellinien).
@@ -1013,7 +1021,7 @@ struct DiagramCanvasView: View {
 
         // Auswahlrahmen IMMER zuletzt zeichnen, damit Kinder/Innenlinien ihn nicht übermalen (v. a. bei verschachtelten Verzweigungen/Fallauswahl).
         if isSelected {
-            context.stroke(cellPath, with: .color(Color.blue.opacity(0.9)), lineWidth: ink(DiagramCanvasInk.selectionLineWidth))
+            context.stroke(cellPath, with: .color(selectionStrokeColor), lineWidth: ink(DiagramCanvasInk.selectionLineWidth))
         }
     }
 

@@ -8,6 +8,10 @@
 "action_share_png" = "Share Graphic…";
 "action_delete_selection" = "Delete Selection";
 "action_about" = "About VisuStruct";
+"recent_files_menu" = "Recent Files";
+"recent_files_empty" = "No recent files";
+"recent_files_clear" = "Clear List";
+"recent_files_unavailable" = "File is no longer available.";
 
 /* Error overlay */
 "error_title" = "Error";

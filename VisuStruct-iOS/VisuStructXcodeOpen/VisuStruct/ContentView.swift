@@ -518,6 +518,14 @@ private struct DiagramSheetTab: Identifiable {
     }
 }
 
+private struct RecentVisuStructFile: Identifiable, Codable, Equatable {
+    var id: String
+    var displayName: String
+    var bookmarkData: Data
+    var filePath: String?
+    var lastOpened: Date
+}
+
 // MARK: - Export: Dateiname (Einstellung)
 
 private enum ExportFilenameStyle: String, CaseIterable, Identifiable {
@@ -541,6 +549,33 @@ private enum ExportFilenameStyle: String, CaseIterable, Identifiable {
 /// Solange es noch nichts Käufliches gibt: `false` — später auf `true` stellen und StoreKit anbinden.
 private enum CodeGeneratorPurchaseGate {
     static let requiresPurchase = false
+}
+
+private enum SimulationStepDelayOption: String, CaseIterable, Identifiable {
+    case seconds02 = "0.2"
+    case seconds05 = "0.5"
+    case seconds10 = "1.0"
+    case seconds15 = "1.5"
+    case seconds20 = "2.0"
+
+    var id: String { rawValue }
+
+    static let appStorageKey = "visustruct.simulation.stepDelay"
+    static let defaultRawValue = Self.seconds05.rawValue
+
+    static func fromStored(_ raw: String) -> Self {
+        Self(rawValue: raw) ?? .seconds05
+    }
+
+    var nanoseconds: UInt64 {
+        switch self {
+        case .seconds02: return 200_000_000
+        case .seconds05: return 500_000_000
+        case .seconds10: return 1_000_000_000
+        case .seconds15: return 1_500_000_000
+        case .seconds20: return 2_000_000_000
+        }
+    }
 }
 
 // MARK: - Hauptansicht
@@ -584,6 +619,12 @@ struct ContentView: View {
     @State private var showInfo = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
+    @State private var isSimulationMode = false
+    @State private var simulationEngine: VisuStructSimulationEngine
+    @State private var simulationPlayTask: Task<Void, Never>? = nil
+    @State private var isSimulationPlaying = false
+    @State private var simulationInputText = ""
+    @State private var recentFiles: [RecentVisuStructFile]
     @State private var pendingCloseTabId: UUID? = nil
     @State private var closeTabAfterSuccessfulExportId: UUID? = nil
     /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
@@ -614,6 +655,7 @@ struct ContentView: View {
     @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @State private var editorFocusToken = UUID()
+    @AppStorage(SimulationStepDelayOption.appStorageKey) private var simulationStepDelayRaw: String = SimulationStepDelayOption.defaultRawValue
 
     private var canvasScaleStep: VisuStructUIScaleStep {
         VisuStructUIScaleStep(rawValue: canvasScaleRaw) ?? .small
@@ -627,12 +669,35 @@ struct ContentView: View {
         ExportFilenameStyle.fromStored(exportFilenameStyleRaw)
     }
 
+    private var simulationStepDelay: SimulationStepDelayOption {
+        SimulationStepDelayOption.fromStored(simulationStepDelayRaw)
+    }
+
+    private static let recentFilesDefaultsKey = "visustruct.recentFiles"
+    private static let maxRecentFileCount = 10
+
+    private static func loadRecentFiles() -> [RecentVisuStructFile] {
+        guard let data = UserDefaults.standard.data(forKey: recentFilesDefaultsKey),
+              let files = try? JSONDecoder().decode([RecentVisuStructFile].self, from: data) else {
+            return []
+        }
+        return files.sorted { $0.lastOpened > $1.lastOpened }
+    }
+
+    private static func saveRecentFiles(_ files: [RecentVisuStructFile]) {
+        if let data = try? JSONEncoder().encode(files) {
+            UserDefaults.standard.set(data, forKey: recentFilesDefaultsKey)
+        }
+    }
+
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
         let first = DiagramSheetTab.makeNew(serial: 1, language: startupLang)
         _sheetTabs = State(initialValue: [first])
         _selectedTabId = State(initialValue: first.id)
         _nextTabSerial = State(initialValue: 2)
+        _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: first.document))
+        _recentFiles = State(initialValue: Self.loadRecentFiles())
     }
 
     private var currentTabIndex: Int {
@@ -685,17 +750,108 @@ struct ContentView: View {
     private func setLinkedFile(forCurrentTab url: URL) {
         var tabs = sheetTabs
         let i = currentTabIndex
-        tabs[i].linkedFileBookmarkData = try? url.bookmarkData(
-            options: .minimalBookmark,
-            includingResourceValuesForKeys: nil,
-            relativeTo: nil
-        )
+        tabs[i].linkedFileBookmarkData = makeBookmarkData(for: url)
         let display = fileDisplayName(from: url)
         tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
         if let d = tabs[i].linkedFileDisplayName {
             tabs[i].title = d
         }
         sheetTabs = tabs
+        recordRecentFile(url)
+    }
+
+    private func makeBookmarkData(for url: URL) -> Data? {
+        try? url.bookmarkData(
+            options: .minimalBookmark,
+            includingResourceValuesForKeys: nil,
+            relativeTo: nil
+        )
+    }
+
+    private func recordRecentFile(_ url: URL) {
+        guard let bookmarkData = makeBookmarkData(for: url) else { return }
+        let display = fileDisplayName(from: url)
+        let entry = RecentVisuStructFile(
+            id: UUID().uuidString,
+            displayName: display.isEmpty ? url.lastPathComponent : display,
+            bookmarkData: bookmarkData,
+            filePath: url.path,
+            lastOpened: Date()
+        )
+        var files = recentFiles.filter {
+            $0.bookmarkData != bookmarkData && $0.filePath != entry.filePath
+        }
+        files.insert(entry, at: 0)
+        if files.count > Self.maxRecentFileCount {
+            files = Array(files.prefix(Self.maxRecentFileCount))
+        }
+        recentFiles = files
+        Self.saveRecentFiles(files)
+    }
+
+    private func removeRecentFile(id: String) {
+        let files = recentFiles.filter { $0.id != id }
+        recentFiles = files
+        Self.saveRecentFiles(files)
+    }
+
+    private func clearRecentFiles() {
+        recentFiles = []
+        Self.saveRecentFiles([])
+    }
+
+    @discardableResult
+    private func openDocument(from url: URL) -> Bool {
+        let didAccess = url.startAccessingSecurityScopedResource()
+        defer {
+            if didAccess { url.stopAccessingSecurityScopedResource() }
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            var loaded = try VisuStructXMLCodec.decode(data: data)
+            if loaded.elements.isEmpty {
+                loaded = VisuStructDocumentEditing.newEmpty()
+            }
+            loaded = documentWithFilenameCaptionIfNeeded(loaded, fileURL: url)
+            resetHistoryAndDocument(loaded)
+            var tabs = sheetTabs
+            let i = currentTabIndex
+            tabs[i].selectedPath = tabs[i].document.elements.isEmpty ? nil : [0]
+            tabs[i].errorText = nil
+            let display = fileDisplayName(from: url)
+            tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
+            tabs[i].title = tabs[i].linkedFileDisplayName ?? tabs[i].title
+            sheetTabs = tabs
+            setLinkedFile(forCurrentTab: url)
+            refreshLineEditor()
+            return true
+        } catch {
+            setErrorOnCurrentTab(error.localizedDescription)
+            return false
+        }
+    }
+
+    private func openRecentFile(_ recentFile: RecentVisuStructFile) {
+        var stale = false
+        do {
+            let url = try URL(
+                resolvingBookmarkData: recentFile.bookmarkData,
+                options: [],
+                relativeTo: nil,
+                bookmarkDataIsStale: &stale
+            )
+            guard !stale else {
+                removeRecentFile(id: recentFile.id)
+                setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
+                return
+            }
+            if !openDocument(from: url) {
+                removeRecentFile(id: recentFile.id)
+            }
+        } catch {
+            removeRecentFile(id: recentFile.id)
+            setErrorOnCurrentTab(error.localizedDescription)
+        }
     }
 
     private func documentWithFilenameCaptionIfNeeded(_ doc: VisuStructDocument, fileURL url: URL) -> VisuStructDocument {
@@ -790,32 +946,7 @@ struct ContentView: View {
             case .success(let urls):
                 guard let url = urls.first else { return }
                 Task { @MainActor in
-                    let didAccess = url.startAccessingSecurityScopedResource()
-                    defer {
-                        if didAccess { url.stopAccessingSecurityScopedResource() }
-                    }
-                    do {
-                        let data = try Data(contentsOf: url)
-                        var loaded = try VisuStructXMLCodec.decode(data: data)
-                        if loaded.elements.isEmpty {
-                            loaded = VisuStructDocumentEditing.newEmpty()
-                        }
-                        loaded = documentWithFilenameCaptionIfNeeded(loaded, fileURL: url)
-                        resetHistoryAndDocument(loaded)
-                        var tabs = sheetTabs
-                        let i = currentTabIndex
-                        tabs[i].selectedPath = tabs[i].document.elements.isEmpty ? nil : [0]
-                        tabs[i].errorText = nil
-                        let display = fileDisplayName(from: url)
-                        tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
-                        tabs[i].title = tabs[i].linkedFileDisplayName ?? tabs[i].title
-                        sheetTabs = tabs
-                        // Bookmark separat setzen (inkl. Security-Scoped Zugriff für späteres „Speichern“).
-                        setLinkedFile(forCurrentTab: url)
-                        refreshLineEditor()
-                    } catch {
-                        setErrorOnCurrentTab(error.localizedDescription)
-                    }
+                    openDocument(from: url)
                 }
             case .failure(let err):
                 let message = err.localizedDescription
@@ -833,7 +964,6 @@ struct ContentView: View {
             switch result {
             case .success(let url):
                 Task { @MainActor in
-                    setLinkedFile(forCurrentTab: url)
                     let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
                     do {
                         try VisuStructXMLCodec.encode(docToSave).write(to: url, options: .atomic)
@@ -841,6 +971,7 @@ struct ContentView: View {
                         setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
                         return
                     }
+                    setLinkedFile(forCurrentTab: url)
                     updateSavedBaselineForCurrentTab()
                     if let pendingId = closeTabAfterSuccessfulExportId {
                         closeTabAfterSuccessfulExportId = nil
@@ -1021,6 +1152,7 @@ struct ContentView: View {
                         paletteDragPreview(for: item)
                     }
                     .accessibilityAddTraits(.isButton)
+                    .disabled(isSimulationMode)
                     .listRowInsets(
                         isCompact
                             ? EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10)
@@ -1032,11 +1164,11 @@ struct ContentView: View {
             }
             Section {
                 Button {
-                    exportPNG()
+                    deleteSelection()
                 } label: {
-                    Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
+                    Label(lang.tr("action_delete_selection"), systemImage: "trash")
                 }
-                .buttonStyle(PaletteListElementButtonStyle())
+                .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 4, leading: 10, bottom: 3, trailing: 10)
@@ -1044,10 +1176,25 @@ struct ContentView: View {
                 )
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
+                .disabled(
+                    isSimulationMode || (selectedPath.map { path in
+                        !VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
+                    } ?? true)
+                )
                 Button {
-                    shareDocumentAsFile()
+                    if !isSimulationMode {
+                        applyLineEditorRespectingTextFocus()
+                        DispatchQueue.main.async {
+                            beginSimulationMode()
+                        }
+                    } else {
+                        endSimulationMode()
+                    }
                 } label: {
-                    Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
+                    Label(
+                        isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"),
+                        systemImage: isSimulationMode ? "rectangle.split.3x1" : "play.circle"
+                    )
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
                 .listRowInsets(
@@ -1057,19 +1204,7 @@ struct ContentView: View {
                 )
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
-                Button {
-                    shareDiagramPDF()
-                } label: {
-                    Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+                .accessibilityLabel(isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"))
                 Button {
                     if codeGeneratorAccessGranted {
                         // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
@@ -1104,12 +1239,12 @@ struct ContentView: View {
                 .accessibilityLabel(
                     codeGeneratorAccessGranted ? lang.tr("a11y_generate_code") : lang.tr("a11y_generate_code_locked")
                 )
-                Button(role: .destructive) {
-                    deleteSelection()
+                Button {
+                    exportPNG()
                 } label: {
-                    Label(lang.tr("action_delete_selection"), systemImage: "trash")
+                    Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
                 }
-                .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
+                .buttonStyle(PaletteListElementButtonStyle())
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1117,11 +1252,32 @@ struct ContentView: View {
                 )
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
-                .disabled(
-                    selectedPath.map { path in
-                        !VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
-                    } ?? true
+                Button {
+                    shareDocumentAsFile()
+                } label: {
+                    Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
+                }
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
                 )
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                Button {
+                    shareDiagramPDF()
+                } label: {
+                    Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
+                }
+                .buttonStyle(PaletteListElementButtonStyle())
+                .listRowInsets(
+                    isCompact
+                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
+                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+                )
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
 
                 Button {
                     showInfo = true
@@ -1227,6 +1383,27 @@ struct ContentView: View {
                                 showImporter = true
                             } label: {
                                 Label(lang.tr("menu_open"), systemImage: "square.and.arrow.down")
+                            }
+                            Menu {
+                                if recentFiles.isEmpty {
+                                    Text(lang.tr("recent_files_empty"))
+                                } else {
+                                    ForEach(recentFiles) { file in
+                                        Button {
+                                            openRecentFile(file)
+                                        } label: {
+                                            Label(file.displayName, systemImage: "clock.arrow.circlepath")
+                                        }
+                                    }
+                                    Divider()
+                                    Button(role: .destructive) {
+                                        clearRecentFiles()
+                                    } label: {
+                                        Label(lang.tr("recent_files_clear"), systemImage: "trash")
+                                    }
+                                }
+                            } label: {
+                                Label(lang.tr("recent_files_menu"), systemImage: "clock")
                             }
                             Divider()
                             Button(action: saveCurrentDocumentToFile) {
@@ -1334,17 +1511,103 @@ struct ContentView: View {
 
     @ViewBuilder
     private var editorDetail: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            canvasAndCaptionBlock
-                .layoutPriority(1)
-            inspectorPanelPhoneAware
+        Group {
+            if isSimulationMode {
+                simulationDetailView
+            } else {
+                VStack(alignment: .leading, spacing: 20) {
+                    canvasAndCaptionBlock
+                        .layoutPriority(1)
+                    inspectorPanelPhoneAware
+                }
+            }
         }
         .padding(horizontalSizeClass == .regular ? EdgeInsets(top: 16, leading: 18, bottom: 16, trailing: 18) : EdgeInsets(top: 16, leading: 14, bottom: 16, trailing: 14))
         #if canImport(UIKit)
-        // iPad: Tastatur kann den Inspector/TextEditor verdecken. Nur ausgleichen, wenn wirklich ein Feld fokussiert ist.
-        .padding(.bottom, (horizontalSizeClass == .regular && focusedField != nil) ? keyboardOverlap : 0)
+        // iPad: Tastatur kann den Inspector/TextEditor verdecken. Nur im Bearbeitungsmodus ausgleichen.
+        .padding(.bottom, (!isSimulationMode && horizontalSizeClass == .regular && focusedField != nil) ? keyboardOverlap : 0)
         #endif
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    @ViewBuilder
+    private var simulationDetailView: some View {
+        GeometryReader { geo in
+            let useColumns = geo.size.width >= 760
+            let panelWidth = min(max(geo.size.width * 0.32, 280), 360)
+
+            if useColumns {
+                HStack(alignment: .top, spacing: 16) {
+                    simulationCanvasBlock
+                        .layoutPriority(1)
+                    SimulationStatePanel(
+                        engine: simulationEngine,
+                        isPlaying: isSimulationPlaying,
+                        inputText: $simulationInputText,
+                        onPlay: playSimulation,
+                        onPause: pauseSimulation,
+                        onStep: stepSimulation,
+                        onSubmitInput: submitSimulationInput,
+                        onStop: resetSimulation
+                    )
+                        .frame(width: panelWidth)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                }
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 16) {
+                        simulationCanvasBlock
+                            .frame(height: max(340, geo.size.height * 0.55))
+                        SimulationStatePanel(
+                            engine: simulationEngine,
+                            isPlaying: isSimulationPlaying,
+                            inputText: $simulationInputText,
+                            onPlay: playSimulation,
+                            onPause: pauseSimulation,
+                            onStep: stepSimulation,
+                            onSubmitInput: submitSimulationInput,
+                            onStop: resetSimulation
+                        )
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        }
+    }
+
+    private var simulationCanvasBlock: some View {
+        let diagramPaper = Color(white: 0.98)
+        let blockCorner: CGFloat = horizontalSizeClass == .regular ? 14 : 12
+
+        return GeometryReader { geo in
+            ScrollView([.horizontal, .vertical]) {
+                DiagramCanvasView(
+                    document: documentBinding,
+                    selectedPath: selectedPathBinding,
+                    errorText: errorTextBinding,
+                    insertTarget: $insertTarget,
+                    elementClipboard: $elementClipboard,
+                    canvasScaleStep: canvasScaleStep,
+                    minViewportSize: CGSize(width: geo.size.width, height: geo.size.height),
+                    usesSimulationSelectionHighlight: true
+                )
+                .padding(.vertical, 8)
+                .fixedSize(horizontal: true, vertical: false)
+                .allowsHitTesting(false)
+            }
+            .scrollBounceBehavior(isPhone ? .always : .basedOnSize, axes: [.horizontal, .vertical])
+            .scrollIndicators(.automatic)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background {
+            RoundedRectangle(cornerRadius: blockCorner, style: .continuous)
+                .fill(diagramPaper)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: blockCorner, style: .continuous))
+        .overlay {
+            RoundedRectangle(cornerRadius: blockCorner, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+        }
     }
 
     /// Oberer Bereich: Diagramm-Titel + Canvas in **einer** visuellen Einheit (gleiche Fläche wie `diagramCanvasFill` in `DiagramCanvasView`).
@@ -1424,6 +1687,85 @@ struct ContentView: View {
                 syncCurrentTabTitleWithCaption(newCaption)
             }
         )
+    }
+
+    private func beginSimulationMode() {
+        pauseSimulation()
+        var engine = VisuStructSimulationEngine(document: document)
+        engine.reset()
+        simulationEngine = engine
+        simulationInputText = ""
+        sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+        withAnimation(.easeInOut(duration: 0.18)) {
+            isSimulationMode = true
+        }
+    }
+
+    private func endSimulationMode() {
+        pauseSimulation()
+        withAnimation(.easeInOut(duration: 0.18)) {
+            isSimulationMode = false
+        }
+        if sheetTabs[currentTabIndex].selectedPath == nil, !document.elements.isEmpty {
+            sheetTabs[currentTabIndex].selectedPath = [0]
+        }
+    }
+
+    private func stepSimulation() {
+        guard simulationEngine.canStep else {
+            pauseSimulation()
+            return
+        }
+        var engine = simulationEngine
+        engine.step()
+        simulationEngine = engine
+        sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+        if !engine.canStep {
+            pauseSimulation()
+        }
+    }
+
+    private func resetSimulation() {
+        pauseSimulation()
+        var engine = VisuStructSimulationEngine(document: document)
+        engine.reset()
+        simulationEngine = engine
+        simulationInputText = ""
+        sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+    }
+
+    private func submitSimulationInput() {
+        pauseSimulation()
+        var engine = simulationEngine
+        engine.provideInput(simulationInputText)
+        simulationEngine = engine
+        if engine.state.inputRequest == nil {
+            simulationInputText = ""
+        }
+        sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+    }
+
+    private func playSimulation() {
+        guard !isSimulationPlaying, simulationEngine.canStep else { return }
+        isSimulationPlaying = true
+        simulationPlayTask?.cancel()
+        simulationPlayTask = Task { @MainActor in
+            while !Task.isCancelled && isSimulationMode && simulationEngine.canStep {
+                stepSimulation()
+                guard !Task.isCancelled, isSimulationMode, simulationEngine.canStep else { break }
+                try? await Task.sleep(nanoseconds: simulationStepDelay.nanoseconds)
+            }
+            if !Task.isCancelled {
+                isSimulationPlaying = false
+                simulationPlayTask = nil
+            }
+        }
+    }
+
+    private func pauseSimulation() {
+        simulationPlayTask?.cancel()
+        simulationPlayTask = nil
+        isSimulationPlaying = false
     }
 
     /// Reiter-Bezeichnung an den Diagrammtitel anpassen (leer → Platzhalter wie im Titelfeld).
@@ -2410,6 +2752,7 @@ struct ContentView: View {
             let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
             let data = VisuStructXMLCodec.encode(docToSave)
             try data.write(to: url, options: .atomic)
+            recordRecentFile(url)
             updateSavedBaselineForCurrentTab()
             clearErrorOnCurrentTab()
         } catch {
@@ -3026,6 +3369,239 @@ private struct CodeGeneratorPaywallSheet: View {
             }
         }
         .presentationDragIndicator(.visible)
+    }
+}
+
+private struct SimulationStatePanel: View {
+    @Environment(\.appLanguage) private var lang
+    let engine: VisuStructSimulationEngine
+    let isPlaying: Bool
+    @Binding var inputText: String
+    let onPlay: () -> Void
+    let onPause: () -> Void
+    let onStep: () -> Void
+    let onSubmitInput: () -> Void
+    let onStop: () -> Void
+
+    private var sortedVariables: [(String, VisuStructSimulationValue)] {
+        engine.state.variables
+            .map { ($0.key, $0.value) }
+            .sorted { $0.0.localizedStandardCompare($1.0) == .orderedAscending }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 10) {
+                Label(lang.tr("simulation_controls"), systemImage: "slider.horizontal.3")
+                    .font(.headline)
+
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    SimulationControlButton(title: lang.tr("simulation_play"), systemImage: "play.fill", isDisabled: isPlaying || !engine.canStep, action: onPlay)
+                    SimulationControlButton(title: lang.tr("simulation_pause"), systemImage: "pause.fill", isDisabled: !isPlaying, action: onPause)
+                    SimulationControlButton(title: lang.tr("simulation_step"), systemImage: "arrow.right.circle", isDisabled: isPlaying || !engine.canStep, action: onStep)
+                    SimulationControlButton(title: lang.tr("simulation_stop"), systemImage: "stop.fill", isDisabled: false, action: onStop)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_input"),
+                systemImage: "keyboard",
+                minHeight: engine.state.inputRequest == nil ? 86 : 112
+            ) {
+                if let request = engine.state.inputRequest {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(request.prompt)
+                            .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
+                        HStack(spacing: 8) {
+                            TextField(request.variableName, text: $inputText)
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(simulationInputKeyboardType(for: request.valueType))
+                                .onSubmit(onSubmitInput)
+                            Button(lang.tr("simulation_input_submit"), action: onSubmitInput)
+                                .buttonStyle(.borderedProminent)
+                        }
+                        if let inputError = engine.state.inputError {
+                            Text(inputError)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                } else {
+                    Text(lang.tr("simulation_input_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_trace"),
+                systemImage: "arrow.left.arrow.right"
+            ) {
+                if let trace = engine.state.lastTrace {
+                    Text(trace)
+                        .font(.body.monospaced())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text(lang.tr("simulation_trace_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_variables"),
+                systemImage: "curlybraces",
+                minHeight: 190,
+                contentFillsHeight: true
+            ) {
+                if sortedVariables.isEmpty {
+                    Text(lang.tr("simulation_variables_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(sortedVariables, id: \.0) { name, value in
+                                HStack(alignment: .firstTextBaseline) {
+                                    Text(name)
+                                        .font(.body.monospaced().weight(.semibold))
+                                    Spacer(minLength: 12)
+                                    Text(value.description)
+                                        .font(.body.monospaced())
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .padding(.trailing, 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_output"),
+                systemImage: "terminal",
+                minHeight: 170,
+                contentFillsHeight: true
+            ) {
+                if engine.state.outputLines.isEmpty {
+                    Text(lang.tr("simulation_output_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(Array(engine.state.outputLines.enumerated()), id: \.offset) { _, line in
+                                Text(line)
+                                    .font(.body.monospaced())
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .padding(.trailing, 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
+            }
+            .layoutPriority(1)
+
+            if let message = engine.state.message {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+        }
+    }
+
+    private func simulationInputKeyboardType(for valueType: VisuStructSimulationValueType) -> UIKeyboardType {
+        switch valueType {
+        case .int:
+            return .numberPad
+        case .double:
+            return .decimalPad
+        case .string:
+            return .default
+        }
+    }
+}
+
+private struct SimulationControlButton: View {
+    let title: String
+    let systemImage: String
+    let isDisabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(.subheadline.weight(.medium))
+                .frame(maxWidth: .infinity, minHeight: 34)
+        }
+        .buttonStyle(.bordered)
+        .disabled(isDisabled)
+    }
+}
+
+private struct SimulationPlaceholderCard<Content: View>: View {
+    let title: String
+    let systemImage: String
+    let minHeight: CGFloat
+    let contentFillsHeight: Bool
+    @ViewBuilder var content: () -> Content
+
+    init(
+        title: String,
+        systemImage: String,
+        minHeight: CGFloat = 130,
+        contentFillsHeight: Bool = false,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.title = title
+        self.systemImage = systemImage
+        self.minHeight = minHeight
+        self.contentFillsHeight = contentFillsHeight
+        self.content = content
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(title, systemImage: systemImage)
+                .font(.headline)
+            content()
+                .frame(maxHeight: contentFillsHeight ? .infinity : nil, alignment: .topLeading)
+            if !contentFillsHeight {
+                Spacer(minLength: 0)
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(.tertiarySystemBackground))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.06), lineWidth: 1)
+        }
     }
 }
 

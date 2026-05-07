@@ -6,12 +6,35 @@
 "action_share_document" = "分享檔案…";
 "action_export_pdf" = "PDF 預覽…";
 "action_generate_code" = "產生程式碼…";
+"action_simulation" = "模擬";
+"action_diagram" = "圖表";
+"simulation_placeholder_body" = "模擬模式會逐步執行圖表，醒目提示目前元素，並顯示變數值和輸出。";
+"simulation_controls" = "控制";
+"simulation_not_available" = "Play 會自動執行模擬，每步暫停 0.5 秒。";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "輸入";
+"simulation_input_placeholder" = "不需要輸入。";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "請輸入一個整數。";
+"simulation_trace" = "上一步";
+"simulation_trace_placeholder" = "這裡會說明最後執行的步驟。";
+"simulation_variables" = "變數";
+"simulation_variables_placeholder" = "目前的變數值稍後會顯示在這裡。";
+"simulation_output" = "輸出";
+"simulation_output_placeholder" = "模擬輸出稍後會顯示在這裡。";
 "action_delete_selection" = "刪除選取項目";
 "ctx_copy" = "複製";
 "ctx_cut" = "剪下";
 "ctx_paste" = "貼上";
 "action_settings" = "設定";
 "action_about" = "關於 VisuStruct";
+"recent_files_menu" = "最近檔案";
+"recent_files_empty" = "沒有最近檔案";
+"recent_files_clear" = "清除列表";
+"recent_files_unavailable" = "檔案已無法使用。";
 
 /* In-app settings */
 "settings_language_title" = "語言";

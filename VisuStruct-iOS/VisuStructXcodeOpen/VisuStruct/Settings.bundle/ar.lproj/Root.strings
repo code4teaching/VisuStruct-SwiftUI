@@ -40,3 +40,11 @@
 "GROUP_CODEGEN_TITLE" = "إنشاء الشفرة";
 "PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "تضمين فرع else الفارغ في الشفرة المُنشأة";
 "PREF_CODEGEN_DIAGRAM_COMMENTS" = "نص المخطط كتعليقات";
+
+"GROUP_SIMULATION_TITLE" = "محاكاة";
+"PREF_SIMULATION_STEP_DELAY" = "السرعة";
+"SIM_DELAY_0_2" = "0.2 s";
+"SIM_DELAY_0_5" = "0.5 s";
+"SIM_DELAY_1_0" = "1.0 s";
+"SIM_DELAY_1_5" = "1.5 s";
+"SIM_DELAY_2_0" = "2.0 s";

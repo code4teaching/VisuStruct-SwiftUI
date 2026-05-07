@@ -6,12 +6,35 @@
 "action_share_document" = "分享文件…";
 "action_export_pdf" = "PDF 预览…";
 "action_generate_code" = "生成代码…";
+"action_simulation" = "模拟";
+"action_diagram" = "图表";
+"simulation_placeholder_body" = "模拟模式会逐步运行图表，突出显示当前元素，并显示变量值和输出。";
+"simulation_controls" = "控制";
+"simulation_not_available" = "Play 会自动运行模拟，每步暂停 0.5 秒。";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "输入";
+"simulation_input_placeholder" = "不需要输入。";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "请输入一个整数。";
+"simulation_trace" = "上一步";
+"simulation_trace_placeholder" = "这里将说明最后执行的步骤。";
+"simulation_variables" = "变量";
+"simulation_variables_placeholder" = "当前变量值稍后会显示在这里。";
+"simulation_output" = "输出";
+"simulation_output_placeholder" = "模拟输出稍后会显示在这里。";
 "action_delete_selection" = "删除所选";
 "ctx_copy" = "复制";
 "ctx_cut" = "剪切";
 "ctx_paste" = "粘贴";
 "action_settings" = "设置";
 "action_about" = "关于 VisuStruct";
+"recent_files_menu" = "最近文件";
+"recent_files_empty" = "没有最近文件";
+"recent_files_clear" = "清除列表";
+"recent_files_unavailable" = "文件不再可用。";
 
 /* In-app settings */
 "settings_language_title" = "语言";

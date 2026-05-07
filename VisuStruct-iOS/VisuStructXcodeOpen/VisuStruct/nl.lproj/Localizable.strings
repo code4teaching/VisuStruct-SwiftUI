@@ -6,12 +6,35 @@
 "action_share_document" = "Deel bestand…";
 "action_export_pdf" = "PDF-voorbeeld…";
 "action_generate_code" = "Genereer code…";
+"action_simulation" = "Simulatie";
+"action_diagram" = "Diagram";
+"simulation_placeholder_body" = "De simulatiemodus voert het diagram stap voor stap uit, markeert het huidige element en toont variabele waarden en uitvoer.";
+"simulation_controls" = "Besturing";
+"simulation_not_available" = "Play voert de simulatie automatisch uit met een pauze van 0,5 seconde per stap.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Invoer";
+"simulation_input_placeholder" = "Geen invoer vereist.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Voer een geheel getal in.";
+"simulation_trace" = "Laatste stap";
+"simulation_trace_placeholder" = "De laatst uitgevoerde stap wordt hier uitgelegd.";
+"simulation_variables" = "Variabelen";
+"simulation_variables_placeholder" = "De huidige variabele waarden worden hier later getoond.";
+"simulation_output" = "Uitvoer";
+"simulation_output_placeholder" = "De uitvoer van de simulatie verschijnt hier later.";
 "action_delete_selection" = "Selectie verwijderen";
 "ctx_copy" = "Kopiëren";
 "ctx_cut" = "Knippen";
 "ctx_paste" = "Plakken";
 "action_settings" = "Instellingen";
 "action_about" = "Over VisuStruct";
+"recent_files_menu" = "Recente bestanden";
+"recent_files_empty" = "Geen recente bestanden";
+"recent_files_clear" = "Lijst wissen";
+"recent_files_unavailable" = "Bestand is niet meer beschikbaar.";
 
 /* In-app settings */
 "settings_language_title" = "Taal";

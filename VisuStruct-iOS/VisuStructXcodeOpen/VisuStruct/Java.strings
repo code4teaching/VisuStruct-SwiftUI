@@ -8,12 +8,35 @@
 "action_share_document" = "Share File…";
 "action_export_pdf" = "Preview PDF…";
 "action_generate_code" = "Generate Code…";
+"action_simulation" = "Simulation";
+"action_diagram" = "Diagram";
+"simulation_placeholder_body" = "The simulation mode will run the diagram step by step, highlight the current element, and show variable values and output.";
+"simulation_controls" = "Controls";
+"simulation_not_available" = "Play runs the simulation automatically with a 0.5 second pause per step.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Input";
+"simulation_input_placeholder" = "No input required.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Please enter a whole number.";
+"simulation_trace" = "Last Step";
+"simulation_trace_placeholder" = "The last executed step will be explained here.";
+"simulation_variables" = "Variables";
+"simulation_variables_placeholder" = "Current variable values will be shown here later.";
+"simulation_output" = "Output";
+"simulation_output_placeholder" = "The simulation output will appear here later.";
 "action_delete_selection" = "Delete Selection";
 "ctx_copy" = "Copy";
 "ctx_cut" = "Cut";
 "ctx_paste" = "Paste";
 "action_settings" = "Settings";
 "action_about" = "About VisuStruct";
+"recent_files_menu" = "Recent Files";
+"recent_files_empty" = "No recent files";
+"recent_files_clear" = "Clear List";
+"recent_files_unavailable" = "File is no longer available.";
 
 /* In-app settings */
 "settings_language_title" = "Language";

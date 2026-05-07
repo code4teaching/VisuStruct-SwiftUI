@@ -6,12 +6,35 @@
 "action_share_document" = "Dela fil…";
 "action_export_pdf" = "Förhandsvisa PDF…";
 "action_generate_code" = "Generera kod…";
+"action_simulation" = "Simulering";
+"action_diagram" = "Diagram";
+"simulation_placeholder_body" = "Simuleringsläget kör diagrammet steg för steg, markerar det aktuella elementet och visar variabelvärden och utdata.";
+"simulation_controls" = "Kontroller";
+"simulation_not_available" = "Play kör simuleringen automatiskt med 0,5 sekunders paus per steg.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Inmatning";
+"simulation_input_placeholder" = "Ingen inmatning krävs.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Ange ett heltal.";
+"simulation_trace" = "Senaste steg";
+"simulation_trace_placeholder" = "Det senast körda steget förklaras här.";
+"simulation_variables" = "Variabler";
+"simulation_variables_placeholder" = "Aktuella variabelvärden visas här senare.";
+"simulation_output" = "Utdata";
+"simulation_output_placeholder" = "Simuleringens utdata visas här senare.";
 "action_delete_selection" = "Radera markering";
 "ctx_copy" = "Kopiera";
 "ctx_cut" = "Klipp ut";
 "ctx_paste" = "Klistra in";
 "action_settings" = "Inställningar";
 "action_about" = "Om VisuStruct";
+"recent_files_menu" = "Senaste filer";
+"recent_files_empty" = "Inga senaste filer";
+"recent_files_clear" = "Rensa lista";
+"recent_files_unavailable" = "Filen är inte längre tillgänglig.";
 
 /* In-app settings */
 "settings_language_title" = "Språk";

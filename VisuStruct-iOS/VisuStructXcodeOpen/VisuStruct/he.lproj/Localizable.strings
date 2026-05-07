@@ -6,12 +6,35 @@
 "action_share_document" = "שיתוף קובץ…";
 "action_export_pdf" = "תצוגה מקדימה של PDF…";
 "action_generate_code" = "יצירת קוד…";
+"action_simulation" = "סימולציה";
+"action_diagram" = "תרשים";
+"simulation_placeholder_body" = "מצב הסימולציה מריץ את התרשים צעד אחר צעד, מדגיש את הרכיב הנוכחי ומציג ערכי משתנים ופלט.";
+"simulation_controls" = "פקדים";
+"simulation_not_available" = "Play מריץ את הסימולציה אוטומטית עם השהיה של 0.5 שניות לכל צעד.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "קלט";
+"simulation_input_placeholder" = "לא נדרש קלט.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "הזינו מספר שלם.";
+"simulation_trace" = "הצעד האחרון";
+"simulation_trace_placeholder" = "הצעד האחרון שבוצע יוסבר כאן.";
+"simulation_variables" = "משתנים";
+"simulation_variables_placeholder" = "ערכי המשתנים הנוכחיים יוצגו כאן בהמשך.";
+"simulation_output" = "פלט";
+"simulation_output_placeholder" = "פלט הסימולציה יופיע כאן בהמשך.";
 "action_delete_selection" = "מחיקת בחירה";
 "ctx_copy" = "העתק";
 "ctx_cut" = "גזור";
 "ctx_paste" = "הדבק";
 "action_settings" = "הגדרות";
 "action_about" = "אודות VisuStruct";
+"recent_files_menu" = "קבצים אחרונים";
+"recent_files_empty" = "אין קבצים אחרונים";
+"recent_files_clear" = "נקה רשימה";
+"recent_files_unavailable" = "הקובץ אינו זמין עוד.";
 
 /* In-app settings */
 "settings_language_title" = "שפה";

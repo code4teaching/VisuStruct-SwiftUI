@@ -40,3 +40,11 @@
 "GROUP_CODEGEN_TITLE" = "Generazione codice";
 "PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "Includi il ramo else vuoto nel codice generato";
 "PREF_CODEGEN_DIAGRAM_COMMENTS" = "Testo del diagramma come commenti";
+
+"GROUP_SIMULATION_TITLE" = "Simulazione";
+"PREF_SIMULATION_STEP_DELAY" = "Velocità";
+"SIM_DELAY_0_2" = "0.2 s";
+"SIM_DELAY_0_5" = "0.5 s";
+"SIM_DELAY_1_0" = "1.0 s";
+"SIM_DELAY_1_5" = "1.5 s";
+"SIM_DELAY_2_0" = "2.0 s";

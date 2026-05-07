@@ -6,12 +6,35 @@
 "action_share_document" = "Поділитися файлом…";
 "action_export_pdf" = "Перегляд PDF…";
 "action_generate_code" = "Згенерувати код…";
+"action_simulation" = "Симуляція";
+"action_diagram" = "Діаграма";
+"simulation_placeholder_body" = "Режим симуляції виконує діаграму крок за кроком, підсвічує поточний елемент і показує значення змінних та вивід.";
+"simulation_controls" = "Керування";
+"simulation_not_available" = "Play автоматично виконує симуляцію з паузою 0,5 секунди на крок.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Ввід";
+"simulation_input_placeholder" = "Ввід не потрібен.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Введіть ціле число.";
+"simulation_trace" = "Останній крок";
+"simulation_trace_placeholder" = "Тут буде пояснено останній виконаний крок.";
+"simulation_variables" = "Змінні";
+"simulation_variables_placeholder" = "Поточні значення змінних буде показано тут пізніше.";
+"simulation_output" = "Вивід";
+"simulation_output_placeholder" = "Вивід симуляції з’явиться тут пізніше.";
 "action_delete_selection" = "Видалити вибране";
 "ctx_copy" = "Копіювати";
 "ctx_cut" = "Вирізати";
 "ctx_paste" = "Вставити";
 "action_settings" = "Налаштування";
 "action_about" = "Про VisuStruct";
+"recent_files_menu" = "Останні файли";
+"recent_files_empty" = "Немає останніх файлів";
+"recent_files_clear" = "Очистити список";
+"recent_files_unavailable" = "Файл більше недоступний.";
 
 /* In-app settings */
 "settings_language_title" = "Мова";

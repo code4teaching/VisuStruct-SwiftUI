@@ -40,3 +40,11 @@
 "GROUP_CODEGEN_TITLE" = "코드 생성";
 "PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "생성된 코드에 빈 else 분기 포함";
 "PREF_CODEGEN_DIAGRAM_COMMENTS" = "다이어그램 텍스트를 주석으로";
+
+"GROUP_SIMULATION_TITLE" = "시뮬레이션";
+"PREF_SIMULATION_STEP_DELAY" = "속도";
+"SIM_DELAY_0_2" = "0.2 s";
+"SIM_DELAY_0_5" = "0.5 s";
+"SIM_DELAY_1_0" = "1.0 s";
+"SIM_DELAY_1_5" = "1.5 s";
+"SIM_DELAY_2_0" = "2.0 s";

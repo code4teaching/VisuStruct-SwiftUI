@@ -6,12 +6,35 @@
 "action_share_document" = "파일 공유…";
 "action_export_pdf" = "PDF 미리보기…";
 "action_generate_code" = "코드 생성…";
+"action_simulation" = "시뮬레이션";
+"action_diagram" = "다이어그램";
+"simulation_placeholder_body" = "시뮬레이션 모드는 다이어그램을 단계별로 실행하고 현재 요소를 강조 표시하며 변수 값과 출력을 보여줍니다.";
+"simulation_controls" = "제어";
+"simulation_not_available" = "Play는 각 단계마다 0.5초씩 쉬면서 시뮬레이션을 자동으로 실행합니다.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "입력";
+"simulation_input_placeholder" = "입력이 필요하지 않습니다.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "정수를 입력하세요.";
+"simulation_trace" = "마지막 단계";
+"simulation_trace_placeholder" = "마지막으로 실행된 단계가 여기에 설명됩니다.";
+"simulation_variables" = "변수";
+"simulation_variables_placeholder" = "현재 변수 값이 나중에 여기에 표시됩니다.";
+"simulation_output" = "출력";
+"simulation_output_placeholder" = "시뮬레이션 출력이 나중에 여기에 표시됩니다.";
 "action_delete_selection" = "선택 삭제";
 "ctx_copy" = "복사";
 "ctx_cut" = "잘라내기";
 "ctx_paste" = "붙여넣기";
 "action_settings" = "설정";
 "action_about" = "VisuStruct 정보";
+"recent_files_menu" = "최근 파일";
+"recent_files_empty" = "최근 파일 없음";
+"recent_files_clear" = "목록 지우기";
+"recent_files_unavailable" = "파일을 더 이상 사용할 수 없습니다.";
 
 /* In-app settings */
 "settings_language_title" = "언어";

@@ -6,12 +6,35 @@
 "action_share_document" = "ファイルを共有…";
 "action_export_pdf" = "PDF をプレビュー…";
 "action_generate_code" = "コード生成…";
+"action_simulation" = "シミュレーション";
+"action_diagram" = "図";
+"simulation_placeholder_body" = "シミュレーションモードは図をステップごとに実行し、現在の要素を強調表示して、変数の値と出力を表示します。";
+"simulation_controls" = "操作";
+"simulation_not_available" = "Play は各ステップごとに0.5秒停止しながらシミュレーションを自動実行します。";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "入力";
+"simulation_input_placeholder" = "入力は不要です。";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "整数を入力してください。";
+"simulation_trace" = "最後のステップ";
+"simulation_trace_placeholder" = "最後に実行されたステップがここに説明されます。";
+"simulation_variables" = "変数";
+"simulation_variables_placeholder" = "現在の変数値は後でここに表示されます。";
+"simulation_output" = "出力";
+"simulation_output_placeholder" = "シミュレーションの出力は後でここに表示されます。";
 "action_delete_selection" = "選択を削除";
 "ctx_copy" = "コピー";
 "ctx_cut" = "切り取り";
 "ctx_paste" = "貼り付け";
 "action_settings" = "設定";
 "action_about" = "VisuStruct について";
+"recent_files_menu" = "最近使ったファイル";
+"recent_files_empty" = "最近使ったファイルはありません";
+"recent_files_clear" = "リストを消去";
+"recent_files_unavailable" = "ファイルは利用できなくなりました。";
 
 /* In-app settings */
 "settings_language_title" = "言語";

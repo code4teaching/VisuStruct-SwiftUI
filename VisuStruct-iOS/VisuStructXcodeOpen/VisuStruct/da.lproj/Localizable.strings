@@ -6,12 +6,35 @@
 "action_share_document" = "Del fil…";
 "action_export_pdf" = "Vis PDF…";
 "action_generate_code" = "Generér kode…";
+"action_simulation" = "Simulering";
+"action_diagram" = "Diagram";
+"simulation_placeholder_body" = "Simuleringstilstanden kører diagrammet trin for trin, fremhæver det aktuelle element og viser variabelværdier og output.";
+"simulation_controls" = "Kontroller";
+"simulation_not_available" = "Play kører simuleringen automatisk med en pause på 0,5 sekund pr. trin.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "Input";
+"simulation_input_placeholder" = "Ingen input påkrævet.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Indtast et heltal.";
+"simulation_trace" = "Sidste trin";
+"simulation_trace_placeholder" = "Det senest udførte trin forklares her.";
+"simulation_variables" = "Variabler";
+"simulation_variables_placeholder" = "Aktuelle variabelværdier vises her senere.";
+"simulation_output" = "Output";
+"simulation_output_placeholder" = "Simulationens output vises her senere.";
 "action_delete_selection" = "Slet markering";
 "ctx_copy" = "Kopiér";
 "ctx_cut" = "Klip";
 "ctx_paste" = "Indsæt";
 "action_settings" = "Indstillinger";
 "action_about" = "Om VisuStruct";
+"recent_files_menu" = "Seneste filer";
+"recent_files_empty" = "Ingen seneste filer";
+"recent_files_clear" = "Ryd liste";
+"recent_files_unavailable" = "Filen er ikke længere tilgængelig.";
 
 /* In-app settings */
 "settings_language_title" = "Sprog";

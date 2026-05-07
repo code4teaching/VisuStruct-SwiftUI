@@ -6,12 +6,35 @@
 "action_share_document" = "مشاركة الملف…";
 "action_export_pdf" = "معاينة PDF…";
 "action_generate_code" = "إنشاء الشفرة…";
+"action_simulation" = "محاكاة";
+"action_diagram" = "مخطط";
+"simulation_placeholder_body" = "يشغّل وضع المحاكاة المخطط خطوة بخطوة، ويبرز العنصر الحالي، ويعرض قيم المتغيرات والمخرجات.";
+"simulation_controls" = "عناصر التحكم";
+"simulation_not_available" = "يقوم Play بتشغيل المحاكاة تلقائيًا مع توقف 0.5 ثانية لكل خطوة.";
+"simulation_play" = "Play";
+"simulation_pause" = "Pause";
+"simulation_step" = "Step";
+"simulation_stop" = "Stop";
+"simulation_input" = "إدخال";
+"simulation_input_placeholder" = "لا يلزم إدخال.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "يرجى إدخال عدد صحيح.";
+"simulation_trace" = "آخر خطوة";
+"simulation_trace_placeholder" = "سيتم شرح آخر خطوة تم تنفيذها هنا.";
+"simulation_variables" = "المتغيرات";
+"simulation_variables_placeholder" = "ستظهر قيم المتغيرات الحالية هنا لاحقًا.";
+"simulation_output" = "المخرجات";
+"simulation_output_placeholder" = "ستظهر مخرجات المحاكاة هنا لاحقًا.";
 "action_delete_selection" = "حذف التحديد";
 "ctx_copy" = "نسخ";
 "ctx_cut" = "قص";
 "ctx_paste" = "لصق";
 "action_settings" = "الإعدادات";
 "action_about" = "حول VisuStruct";
+"recent_files_menu" = "الملفات الأخيرة";
+"recent_files_empty" = "لا توجد ملفات حديثة";
+"recent_files_clear" = "مسح القائمة";
+"recent_files_unavailable" = "لم يعد الملف متاحًا.";
 
 /* In-app settings */
 "settings_language_title" = "اللغة";

@@ -40,3 +40,11 @@
 "GROUP_CODEGEN_TITLE" = "代码生成";
 "PREF_CODEGEN_INCLUDE_EMPTY_ELSE" = "在生成的代码中包含空的 else 分支";
 "PREF_CODEGEN_DIAGRAM_COMMENTS" = "将图表文本作为注释";
+
+"GROUP_SIMULATION_TITLE" = "模拟";
+"PREF_SIMULATION_STEP_DELAY" = "速度";
+"SIM_DELAY_0_2" = "0.2 s";
+"SIM_DELAY_0_5" = "0.5 s";
+"SIM_DELAY_1_0" = "1.0 s";
+"SIM_DELAY_1_5" = "1.5 s";
+"SIM_DELAY_2_0" = "2.0 s";

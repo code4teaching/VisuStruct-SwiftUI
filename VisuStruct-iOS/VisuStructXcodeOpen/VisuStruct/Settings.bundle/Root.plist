@@ -178,6 +178,38 @@
 			<key>DefaultValue</key>
 			<false/>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>GROUP_SIMULATION_TITLE</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Title</key>
+			<string>PREF_SIMULATION_STEP_DELAY</string>
+			<key>Key</key>
+			<string>visustruct.simulation.stepDelay</string>
+			<key>DefaultValue</key>
+			<string>0.5</string>
+			<key>Values</key>
+			<array>
+				<string>0.2</string>
+				<string>0.5</string>
+				<string>1.0</string>
+				<string>1.5</string>
+				<string>2.0</string>
+			</array>
+			<key>Titles</key>
+			<array>
+				<string>SIM_DELAY_0_2</string>
+				<string>SIM_DELAY_0_5</string>
+				<string>SIM_DELAY_1_0</string>
+				<string>SIM_DELAY_1_5</string>
+				<string>SIM_DELAY_2_0</string>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>
