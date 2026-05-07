@@ -521,7 +521,7 @@ private struct DiagramSheetTab: Identifiable {
 private struct RecentVisuStructFile: Identifiable, Codable, Equatable {
     var id: String
     var displayName: String
-    var bookmarkData: Data
+    var bookmarkData: Data?
     var filePath: String?
     var lastOpened: Date
 }
@@ -687,6 +687,7 @@ struct ContentView: View {
     private static func saveRecentFiles(_ files: [RecentVisuStructFile]) {
         if let data = try? JSONEncoder().encode(files) {
             UserDefaults.standard.set(data, forKey: recentFilesDefaultsKey)
+            UserDefaults.standard.synchronize()
         }
     }
 
@@ -769,24 +770,32 @@ struct ContentView: View {
     }
 
     private func recordRecentFile(_ url: URL) {
-        guard let bookmarkData = makeBookmarkData(for: url) else { return }
+        let bookmarkData = makeBookmarkData(for: url)
         let display = fileDisplayName(from: url)
         let entry = RecentVisuStructFile(
-            id: UUID().uuidString,
+            id: url.path,
             displayName: display.isEmpty ? url.lastPathComponent : display,
             bookmarkData: bookmarkData,
             filePath: url.path,
             lastOpened: Date()
         )
-        var files = recentFiles.filter {
-            $0.bookmarkData != bookmarkData && $0.filePath != entry.filePath
-        }
+        var files = recentFiles.filter { !recentFile($0, matches: entry) }
         files.insert(entry, at: 0)
         if files.count > Self.maxRecentFileCount {
             files = Array(files.prefix(Self.maxRecentFileCount))
         }
         recentFiles = files
         Self.saveRecentFiles(files)
+    }
+
+    private func recentFile(_ lhs: RecentVisuStructFile, matches rhs: RecentVisuStructFile) -> Bool {
+        if let lhsPath = lhs.filePath, let rhsPath = rhs.filePath {
+            return lhsPath == rhsPath
+        }
+        if let lhsBookmark = lhs.bookmarkData, let rhsBookmark = rhs.bookmarkData {
+            return lhsBookmark == rhsBookmark
+        }
+        return false
     }
 
     private func removeRecentFile(id: String) {
@@ -834,13 +843,22 @@ struct ContentView: View {
     private func openRecentFile(_ recentFile: RecentVisuStructFile) {
         var stale = false
         do {
-            let url = try URL(
-                resolvingBookmarkData: recentFile.bookmarkData,
-                options: [],
-                relativeTo: nil,
-                bookmarkDataIsStale: &stale
-            )
-            guard !stale else {
+            let url: URL
+            if let bookmarkData = recentFile.bookmarkData {
+                url = try URL(
+                    resolvingBookmarkData: bookmarkData,
+                    options: [],
+                    relativeTo: nil,
+                    bookmarkDataIsStale: &stale
+                )
+                guard !stale else {
+                    removeRecentFile(id: recentFile.id)
+                    setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
+                    return
+                }
+            } else if let filePath = recentFile.filePath {
+                url = URL(fileURLWithPath: filePath)
+            } else {
                 removeRecentFile(id: recentFile.id)
                 setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
                 return

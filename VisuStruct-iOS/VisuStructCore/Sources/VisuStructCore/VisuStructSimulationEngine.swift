@@ -716,6 +716,27 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         }
 
         let trimmedExpression = expression.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedExpression.hasPrefix("{"), trimmedExpression.hasSuffix("}") {
+            let inner = String(trimmedExpression.dropFirst().dropLast())
+            let rawItems = inner.split(separator: ",", omittingEmptySubsequences: false)
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            let value: VisuStructSimulationValue
+            switch valueType {
+            case .int:
+                value = .intArray(try rawItems.map { try evaluateIntExpression($0) })
+            case .double:
+                value = .doubleArray(try rawItems.map { try evaluateDoubleExpression($0) })
+            case .string:
+                value = .stringArray(try rawItems.map { item in
+                    if let stringValue = Self.unquotedString(item) {
+                        return stringValue
+                    }
+                    return try evaluateOutputExpression(item)
+                })
+            }
+            return ArrayDeclaration(name: leftParts[1], typeName: typeName, count: rawItems.count, value: value)
+        }
+
         let prefix = "new \(typeName)["
         guard trimmedExpression.hasPrefix(prefix), trimmedExpression.hasSuffix("]") else {
             throw SimulationError.unsupportedStatement(expression)
@@ -1407,6 +1428,13 @@ private struct NumericExpressionParser {
                     throw SimulationError.invalidExpression(name)
                 }
                 index += 1
+                if current == .leftParen {
+                    index += 1
+                    guard current == .rightParen else {
+                        throw SimulationError.invalidExpression("\(name).length")
+                    }
+                    index += 1
+                }
                 switch value {
                 case .intArray(let values):
                     return Double(values.count)
