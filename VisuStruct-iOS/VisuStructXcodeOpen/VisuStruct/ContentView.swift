@@ -1467,6 +1467,46 @@ struct ContentView: View {
         )
     }
 
+    private var lineEditorVisibleTextBinding: Binding<String> {
+        Binding(
+            get: {
+                let text = sheetTabs[currentTabIndex].lineEditorText
+                switch statementIOModeIfApplicable() {
+                case .some(.input), .some(.output):
+                    return stripIOPrefixes(from: text)
+                case .some(.statement), nil:
+                    return text
+                }
+            },
+            set: { newVal in
+                let normalized = normalizeQuotesForCode(newVal)
+                let text: String
+                switch statementIOModeIfApplicable() {
+                case .some(.input):
+                    text = prefix("input:", to: stripIOPrefixes(from: normalized))
+                case .some(.output):
+                    text = prefix("output:", to: stripIOPrefixes(from: normalized))
+                case .some(.statement), nil:
+                    text = normalized
+                }
+                var tabs = sheetTabs
+                tabs[currentTabIndex].lineEditorText = text
+                sheetTabs = tabs
+            }
+        )
+    }
+
+    private var lineEditorFixedIOPrefixLabel: String? {
+        switch statementIOModeIfApplicable() {
+        case .some(.input):
+            return "input:"
+        case .some(.output):
+            return "output:"
+        case .some(.statement), nil:
+            return nil
+        }
+    }
+
     private var errorTextBinding: Binding<String?> {
         Binding(
             get: { sheetTabs[currentTabIndex].errorText },
@@ -1684,11 +1724,11 @@ struct ContentView: View {
                                 .foregroundStyle(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
                         } else if ioModeBinding.wrappedValue == .input {
-                            Text(verbatim: "input: int number | input: double x | input: String name")
+                            Text(verbatim: "input: int age \"Enter age\" | input: double price \"Enter price\" | input: String name \"Enter name\"")
                                 .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                         } else if ioModeBinding.wrappedValue == .output {
-                            Text(verbatim: "output: number  or  output: \"Your text\"")
+                            Text(verbatim: "output: number  |  output: \"Your text\"  |  output: \"Your age: \" + age")
                                 .font(inspectorHintFont)
                                 .foregroundStyle(.secondary)
                         }
@@ -1729,31 +1769,41 @@ struct ContentView: View {
                                 .foregroundStyle(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
-                        ZStack(alignment: .topLeading) {
-                            CodeLineEditor(
-                                text: lineEditorTextBinding,
-                                minHeight: editorMinHeight,
-                                maxHeight: editorMaxHeight,
-                                focusToken: editorFocusToken,
-                                onCommit: applyLineEditor,
-                                monospacedFontSize: editorMonoPt
-                            )
-                            .scrollContentBackground(.hidden)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled(true)
-                            .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-                            .focused($focusedField, equals: .textEditor)
-
-                            if selectedPath != nil,
-                               lineEditorTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                               let placeholder = inspectorLineEditorPlaceholder() {
-                                Text(placeholder)
-                                    .font(inspectorHintFont)
+                        HStack(alignment: .top, spacing: 8) {
+                            if let prefixLabel = lineEditorFixedIOPrefixLabel {
+                                Text(verbatim: prefixLabel)
+                                    .font(.system(size: editorMonoPt, weight: .regular, design: .monospaced))
                                     .foregroundStyle(.secondary)
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 10)
+                                    .padding(.top, 10)
                                     .allowsHitTesting(false)
                             }
+                            ZStack(alignment: .topLeading) {
+                                CodeLineEditor(
+                                    text: lineEditorVisibleTextBinding,
+                                    minHeight: editorMinHeight,
+                                    maxHeight: editorMaxHeight,
+                                    focusToken: editorFocusToken,
+                                    onCommit: applyLineEditor,
+                                    monospacedFontSize: editorMonoPt
+                                )
+                                .scrollContentBackground(.hidden)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                                .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
+                                .focused($focusedField, equals: .textEditor)
+
+                                if selectedPath != nil,
+                                   lineEditorVisibleTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                                   let placeholder = inspectorLineEditorPlaceholder() {
+                                    Text(placeholder)
+                                        .font(inspectorHintFont)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 10)
+                                        .allowsHitTesting(false)
+                                }
+                            }
+                            .frame(maxWidth: .infinity)
                         }
                     }
                     Button(lang.tr("inspector_apply_text")) {
@@ -1797,11 +1847,7 @@ struct ContentView: View {
 
         return Binding(
             get: {
-                let t = sheetTabs[currentTabIndex].lineEditorText.trimmingCharacters(in: .whitespacesAndNewlines)
-                if t.lowercased().hasPrefix("input:") { return .input }
-                if t.lowercased().hasPrefix("output:") { return .output }
-                if t.lowercased().hasPrefix("print:") { return .output }
-                return .statement
+                statementIOMode(for: sheetTabs[currentTabIndex].lineEditorText)
             },
             set: { newMode in
                 var tabs = sheetTabs
@@ -1822,6 +1868,22 @@ struct ContentView: View {
                 applyLineEditorRespectingTextFocus()
             }
         )
+    }
+
+    private func statementIOModeIfApplicable() -> StatementIOMode? {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document),
+              el.type == .anweisung else { return nil }
+
+        return statementIOMode(for: sheetTabs[currentTabIndex].lineEditorText)
+    }
+
+    private func statementIOMode(for text: String) -> StatementIOMode {
+        let t = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if t.lowercased().hasPrefix("input:") { return .input }
+        if t.lowercased().hasPrefix("output:") { return .output }
+        if t.lowercased().hasPrefix("print:") { return .output }
+        return .statement
     }
 
     private func stripIOPrefixes(from s: String) -> String {
@@ -1852,7 +1914,14 @@ struct ContentView: View {
 
         switch el.type {
         case .anweisung:
-            return lang.tr("inspector_placeholder_statement")
+            switch statementIOMode(for: sheetTabs[currentTabIndex].lineEditorText) {
+            case .statement:
+                return lang.tr("inspector_placeholder_statement")
+            case .input:
+                return "int age \"Enter age\""
+            case .output:
+                return "\"Your age: \" + age"
+            }
         case .forSchleife:
             return nil
         case .verzweigung, .whileSchleife, .doUntilSchleife, .endlosschleife:
