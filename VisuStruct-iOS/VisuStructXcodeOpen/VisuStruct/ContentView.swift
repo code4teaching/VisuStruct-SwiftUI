@@ -1075,8 +1075,10 @@ struct ContentView: View {
                         // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
                         // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
                         applyLineEditorRespectingTextFocus()
-                        codeGeneratorRegenerationToken &+= 1
-                        showCodeGeneratorPlaceholder = true
+                        DispatchQueue.main.async {
+                            codeGeneratorRegenerationToken &+= 1
+                            showCodeGeneratorPlaceholder = true
+                        }
                     } else {
                         showCodeGeneratorPaywall = true
                     }
@@ -1471,22 +1473,15 @@ struct ContentView: View {
         Binding(
             get: {
                 let text = sheetTabs[currentTabIndex].lineEditorText
-                switch statementIOModeIfApplicable() {
-                case .some(.input), .some(.output):
-                    return stripIOPrefixes(from: text)
-                case .some(.statement), nil:
-                    return text
-                }
+                guard let labelPrefix = lineEditorFixedPrefixLabel else { return text }
+                return stripLineEditorPrefixForEditing(labelPrefix, from: text)
             },
             set: { newVal in
                 let normalized = normalizeQuotesForCode(newVal)
                 let text: String
-                switch statementIOModeIfApplicable() {
-                case .some(.input):
-                    text = prefix("input:", to: stripIOPrefixes(from: normalized))
-                case .some(.output):
-                    text = prefix("output:", to: stripIOPrefixes(from: normalized))
-                case .some(.statement), nil:
+                if let labelPrefix = lineEditorFixedPrefixLabel {
+                    text = prefixPreservingEditingWhitespace(labelPrefix, to: stripLineEditorPrefixForEditing(labelPrefix, from: normalized))
+                } else {
                     text = normalized
                 }
                 var tabs = sheetTabs
@@ -1496,13 +1491,29 @@ struct ContentView: View {
         )
     }
 
-    private var lineEditorFixedIOPrefixLabel: String? {
-        switch statementIOModeIfApplicable() {
-        case .some(.input):
-            return "input:"
-        case .some(.output):
-            return "output:"
-        case .some(.statement), nil:
+    private var lineEditorFixedPrefixLabel: String? {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
+
+        switch el.type {
+        case .anweisung:
+            switch statementIOMode(for: sheetTabs[currentTabIndex].lineEditorText) {
+            case .input:
+                return "input:"
+            case .output:
+                return "output:"
+            case .statement:
+                return nil
+            }
+        case .verzweigung:
+            return "if"
+        case .whileSchleife:
+            return "while"
+        case .doUntilSchleife:
+            return "until"
+        case .fallauswahl:
+            return "switch"
+        default:
             return nil
         }
     }
@@ -1770,7 +1781,7 @@ struct ContentView: View {
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                         HStack(alignment: .top, spacing: 8) {
-                            if let prefixLabel = lineEditorFixedIOPrefixLabel {
+                            if let prefixLabel = lineEditorFixedPrefixLabel {
                                 Text(verbatim: prefixLabel)
                                     .font(.system(size: editorMonoPt, weight: .regular, design: .monospaced))
                                     .foregroundStyle(.secondary)
@@ -1901,10 +1912,87 @@ struct ContentView: View {
         return s
     }
 
+    private func stripLineEditorPrefix(_ p: String, from s: String) -> String {
+        if p == "input:" || p == "output:" {
+            return stripIOPrefixes(from: s)
+        }
+        return stripKeywordPrefix(p, from: s)
+    }
+
+    private func stripLineEditorPrefixForEditing(_ p: String, from s: String) -> String {
+        if p == "input:" || p == "output:" {
+            return stripIOPrefixPreservingEditingWhitespace(from: s)
+        }
+        return stripKeywordPrefixPreservingEditingWhitespace(p, from: s)
+    }
+
+    private func stripIOPrefixPreservingEditingWhitespace(from s: String) -> String {
+        let leadingTrimmed = String(s.drop(while: { $0.isWhitespace }))
+        let lower = leadingTrimmed.lowercased()
+        if lower.hasPrefix("input:") {
+            return dropOneLeadingWhitespace(String(leadingTrimmed.dropFirst(6)))
+        }
+        if lower.hasPrefix("output:") {
+            return dropOneLeadingWhitespace(String(leadingTrimmed.dropFirst(7)))
+        }
+        if lower.hasPrefix("print:") {
+            return dropOneLeadingWhitespace(String(leadingTrimmed.dropFirst(6)))
+        }
+        return s
+    }
+
+    private func stripKeywordPrefix(_ keyword: String, from s: String) -> String {
+        let trimmed = s.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = trimmed.lowercased()
+        let key = keyword.lowercased()
+        guard lower.hasPrefix(key) else { return s }
+
+        let afterKeyword = trimmed.dropFirst(keyword.count)
+        guard afterKeyword.isEmpty || afterKeyword.first?.isWhitespace == true || afterKeyword.first == "(" else {
+            return s
+        }
+
+        var content = String(afterKeyword).trimmingCharacters(in: .whitespacesAndNewlines)
+        if content.hasPrefix("("), content.hasSuffix(")"), content.count >= 2 {
+            content.removeFirst()
+            content.removeLast()
+            content = content.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return content
+    }
+
+    private func stripKeywordPrefixPreservingEditingWhitespace(_ keyword: String, from s: String) -> String {
+        let leadingTrimmed = String(s.drop(while: { $0.isWhitespace }))
+        let lower = leadingTrimmed.lowercased()
+        let key = keyword.lowercased()
+        guard lower.hasPrefix(key) else { return s }
+
+        let afterKeyword = leadingTrimmed.dropFirst(keyword.count)
+        guard afterKeyword.isEmpty || afterKeyword.first?.isWhitespace == true || afterKeyword.first == "(" else {
+            return s
+        }
+
+        let content = dropOneLeadingWhitespace(String(afterKeyword))
+        if content.hasPrefix("("), content.hasSuffix(")"), content.count >= 2 {
+            return String(content.dropFirst().dropLast())
+        }
+        return content
+    }
+
+    private func dropOneLeadingWhitespace(_ s: String) -> String {
+        guard let first = s.first, first.isWhitespace else { return s }
+        return String(s.dropFirst())
+    }
+
     private func prefix(_ p: String, to content: String) -> String {
         let c = content.trimmingCharacters(in: .whitespacesAndNewlines)
         if c.isEmpty { return "\(p) " }
         return "\(p) \(c)"
+    }
+
+    private func prefixPreservingEditingWhitespace(_ p: String, to content: String) -> String {
+        if content.isEmpty { return "\(p) " }
+        return "\(p) \(content)"
     }
 
     /// Placeholder for the line editor, shown only when empty (grau im Feld). Code-Beispiele als Hilfe: `inspectorConditionEditorHintLine()` darüber.
@@ -2547,7 +2635,14 @@ struct ContentView: View {
     private func applyLineEditor() {
         guard let path = selectedPath else { return }
         if let el = try? VisuStructDocumentEditing.element(at: path, in: document), el.type == .forSchleife { return }
-        let raw = sheetTabs[currentTabIndex].lineEditorText.components(separatedBy: "\n")
+        let editorText = sheetTabs[currentTabIndex].lineEditorText
+        let storedText: String
+        if let labelPrefix = lineEditorFixedPrefixLabel {
+            storedText = prefixPreservingEditingWhitespace(labelPrefix, to: stripLineEditorPrefixForEditing(labelPrefix, from: editorText))
+        } else {
+            storedText = editorText
+        }
+        let raw = storedText.components(separatedBy: "\n")
         let lines = (raw.isEmpty ? [""] : raw).map(normalizeQuotesForCode)
         do {
             commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))

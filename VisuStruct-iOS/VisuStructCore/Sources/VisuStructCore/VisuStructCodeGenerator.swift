@@ -279,7 +279,36 @@ public enum VisuStructCodeGenerator: Sendable {
     /// Bedingung/Ausdruck für Klammern: mehrzeilig mit Leerzeichen zusammenfassen (schul­tauglich, gültige Syntax).
     private static func conditionText(_ lines: [String]) -> String {
         let parts = lines.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
-        return parts.isEmpty ? "true" : parts.joined(separator: " ")
+        let text = parts.isEmpty ? "true" : parts.joined(separator: " ")
+        return stripStructureKeywordPrefix(from: text)
+    }
+
+    private static func stripStructureKeywordPrefix(from text: String) -> String {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        for keyword in ["if", "while", "until", "switch"] {
+            if let stripped = stripKeywordPrefix(keyword, from: trimmed) {
+                return stripped.isEmpty ? "true" : stripped
+            }
+        }
+        return trimmed
+    }
+
+    private static func stripKeywordPrefix(_ keyword: String, from text: String) -> String? {
+        let lower = text.lowercased()
+        guard lower.hasPrefix(keyword) else { return nil }
+
+        let afterKeyword = text.dropFirst(keyword.count)
+        guard afterKeyword.isEmpty || afterKeyword.first?.isWhitespace == true || afterKeyword.first == "(" else {
+            return nil
+        }
+
+        var content = String(afterKeyword).trimmingCharacters(in: .whitespacesAndNewlines)
+        if content.hasPrefix("("), content.hasSuffix(")"), content.count >= 2 {
+            content.removeFirst()
+            content.removeLast()
+            content = content.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return content
     }
 
     /// Kopf einer C-`for`-Schleife: mehrere Felder mit `; ` wie `for (int i=0; i<5; i++)`. Eine Zeile bleibt unverändert (Abwärtskompatibel).
