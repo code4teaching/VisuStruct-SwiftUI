@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struktogramm caption="97;103;101;">
+  <strelem typ="0" zx="0" zy="0">
+    <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;101;110;116;101;114;32;97;103;101;34;</text>
+  </strelem>
+  <strelem typ="1" zx="0" zy="0">
+    <text>97;103;101;32;62;61;32;49;56;</text>
+    <fall fallname="116;114;117;101;">
+      <strelem typ="0" zx="0" zy="0">
+        <text>111;117;116;112;117;116;58;32;34;97;100;117;108;116;34;</text>
+      </strelem>
+    </fall>
+    <fall fallname="102;97;108;115;101;">
+      <strelem typ="0" zx="0" zy="0">
+        <text>111;117;116;112;117;116;58;32;34;109;105;110;111;114;34;</text>
+      </strelem>
+    </fall>
+  </strelem>
+</struktogramm>
