@@ -1,125 +1,12 @@
 import Foundation
 
-public struct VisuStructRect: Equatable, Sendable, Codable {
-    public var x: Double
-    public var y: Double
-    public var width: Double
-    public var height: Double
-
-    public init(x: Double, y: Double, width: Double, height: Double) {
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-    }
-}
-
-/// Layout-Ergebnis für Rendering/Hit-Testing.
-public struct VisuStructLayout: Equatable, Sendable {
-    public struct CanvasSize: Equatable, Sendable, Codable {
-        public var width: Double
-        public var height: Double
-
-        public init(width: Double, height: Double) {
-            self.width = width
-            self.height = height
-        }
-    }
-
-    public var canvasSize: CanvasSize
-    public var elements: [Node]
-
-    public init(canvasSize: CanvasSize, elements: [Node]) {
-        self.canvasSize = canvasSize
-        self.elements = elements
-    }
-
-    public struct Node: Equatable, Sendable {
-        public var idPath: [Int]              // stabiler Pfad im Baum (für Auswahl)
-        public var element: VisuStructElement // Originaldaten
-        public var frame: VisuStructRect
-
-        /// Höhe des Kopfbands wie beim Layout (Verzweigung/Fallauswahl: Trennung zu Spalteninhalten). Muss mit `DiagramCanvasView` übereinstimmen.
-        public var headerBandHeight: Double
-
-        /// Für spezielle Zeichnung (Fallauswahl/Verzweigung).
-        public var caseColumnFrames: [VisuStructRect] = []
-        public var dividerX: Double? = nil   // xVerschiebungFuerTrennlinie (Verzweigung/Fallauswahl)
-        public var dividerYInset: Double? = nil // yVerschiebungFuerTrennLinie (Fallauswahl)
-
-        /// Fallauswahl/Verzweigung: Kinder pro Spalte (für Streckung gleicher Elternbreite).
-        public var columns: [[Node]]? = nil
-
-        public var children: [Node] = []
-
-        public init(idPath: [Int], element: VisuStructElement, frame: VisuStructRect, headerBandHeight: Double = 0) {
-            self.idPath = idPath
-            self.element = element
-            self.frame = frame
-            self.headerBandHeight = headerBandHeight
-        }
-    }
-}
-
 /// Näherung an Java-Layout (Pixelwerte sind an iOS-Schriftmetrics gebunden; hier bewusst pragmatisch).
 public struct VisuStructLayoutEngine: Sendable {
-    public struct Metrics: Sendable {
-        public var fontSize: Double
-        public var lineHeight: Double
-        public var charWidth: Double
-
-        public var baseHeaderExtra: Double // entspricht grob `obererRandZusatz`
-        public var minSidePadding: Double
-
-        public init(
-            fontSize: Double = 15,
-            lineHeight: Double = 20,
-            charWidth: Double = 7,
-            baseHeaderExtra: Double = 20,
-            minSidePadding: Double = 42
-        ) {
-            self.fontSize = fontSize
-            self.lineHeight = lineHeight
-            self.charWidth = charWidth
-            self.baseHeaderExtra = baseHeaderExtra
-            self.minSidePadding = minSidePadding
-        }
-    }
-
     public var metrics: Metrics
 
     public init(metrics: Metrics = Metrics()) {
         self.metrics = metrics
     }
-
-    /// Gleiche Typometrie wie in der iOS-`DiagramCanvasView` (Export/Druck und Editor nutzen dieselben Werte).
-    public static func diagramDisplayMetrics(isRegularWidth: Bool) -> Metrics {
-        let dF: Double = 2
-        /// Etwas großzügigere Zeilenabstände im Diagramm (sichtbar + Layout konsistent).
-        let dLH: Double = 5
-        if isRegularWidth {
-            let fontSize = 12 + dF
-            let lineHeight = 16 + dLH
-            return Metrics(
-                fontSize: fontSize,
-                lineHeight: lineHeight,
-                charWidth: 5.5 * (fontSize / 12),
-                baseHeaderExtra: 16 + dLH,
-                minSidePadding: 40
-            )
-        }
-        let b = Metrics()
-        let fontSize = b.fontSize + dF
-        let lineHeight = b.lineHeight + dLH
-        return Metrics(
-            fontSize: fontSize,
-            lineHeight: lineHeight,
-            charWidth: b.charWidth * (fontSize / b.fontSize),
-            baseHeaderExtra: b.baseHeaderExtra + 2,
-            minSidePadding: b.minSidePadding + 8
-        )
-    }
-
     public func layout(
         document: VisuStructDocument,
         topLeadingContentInset: (left: Double, top: Double) = (28, 28)
@@ -700,19 +587,5 @@ public struct VisuStructLayoutEngine: Sendable {
         node.columns = columnChildren
         node.children = columnChildren.flatMap { $0 }
         return node
-    }
-}
-
-extension VisuStructLayoutEngine.Metrics {
-    /// Einheitliche Skalierung für größere/kleinere Diagramm-Darstellung.
-    public func scaled(by factor: Double) -> Self {
-        guard factor > 0, abs(factor - 1) > 1e-6 else { return self }
-        return Self(
-            fontSize: fontSize * factor,
-            lineHeight: lineHeight * factor,
-            charWidth: charWidth * factor,
-            baseHeaderExtra: baseHeaderExtra * factor,
-            minSidePadding: minSidePadding * factor
-        )
     }
 }

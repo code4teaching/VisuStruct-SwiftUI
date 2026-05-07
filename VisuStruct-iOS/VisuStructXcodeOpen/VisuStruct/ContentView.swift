@@ -3133,20 +3133,60 @@ private struct CodeGeneratorPlaceholderSheet: View {
                 "de",
                 "VisuStruct – JavaScript-Test",
                 "VisuStruct – JavaScript-Test",
-                #"Der Code läuft im Browser. <code>console.log</code> wird unten angezeigt."#
+                #"Der Code läuft im Browser. <code>console.log</code> wird unten angezeigt. Endlosschleifen werden im Testlauf automatisch gestoppt."#
             )
         }
         return (
             "en",
             "VisuStruct – JavaScript Test",
             "VisuStruct – JavaScript Test",
-            #"The code runs in the browser. <code>console.log</code> output appears below."#
+            #"The code runs in the browser. <code>console.log</code> output appears below. Endless loops are stopped automatically during test runs."#
+        )
+    }
+
+    private func javaScriptRunnerExecutableCode(_ js: String) -> String {
+        let guardedJS = javaScriptWithEndlessLoopGuard(js)
+        return javaScriptWithPromptCancelGuard(guardedJS)
+    }
+
+    private func javaScriptWithEndlessLoopGuard(_ js: String) -> String {
+        let pattern = #"(?m)^(\s*)while\s*\(\s*true\s*\)(?:\s*/\*.*?\*/)?\s*\{"#
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return js }
+
+        let ns = js as NSString
+        let matches = regex.matches(in: js, range: NSRange(location: 0, length: ns.length))
+        guard !matches.isEmpty else { return js }
+
+        let stopMessage = lang == .german
+            ? "Ausführung gestoppt: mögliche Endlosschleife."
+            : "Execution stopped: possible endless loop."
+        var result = ""
+        var last = 0
+
+        for (index, match) in matches.enumerated() {
+            result += ns.substring(with: NSRange(location: last, length: match.range.location - last))
+            let indent = match.numberOfRanges > 1 ? ns.substring(with: match.range(at: 1)) : ""
+            result += "\(indent)for (let __visuStructLoopGuard\(index) = 0; __visuStructLoopGuard\(index) < 100000 || (() => { throw new Error(\"\(stopMessage)\"); })(); __visuStructLoopGuard\(index)++) {"
+            last = match.range.location + match.range.length
+        }
+
+        result += ns.substring(from: last)
+        return result
+    }
+
+    private func javaScriptWithPromptCancelGuard(_ js: String) -> String {
+        guard let regex = try? NSRegularExpression(pattern: #"\bprompt\s*\("#) else { return js }
+        return regex.stringByReplacingMatches(
+            in: js,
+            range: NSRange(location: 0, length: (js as NSString).length),
+            withTemplate: "__visuStructPrompt("
         )
     }
 
     private func openJavaScriptRunner(_ js: String) {
         // In-App Runner (WKWebView): zuverlässiger als Safari/data: auf iOS.
         let chrome = javaScriptRunnerPageChrome()
+        let runnerJS = javaScriptRunnerExecutableCode(js)
         javaScriptRunnerHTML = """
         <!doctype html>
         <html lang="\(chrome.htmlLang)">
@@ -3175,9 +3215,14 @@ private struct CodeGeneratorPlaceholderSheet: View {
               const print = (s) => { out.textContent += s + "\\n"; };
               const old = console.log;
               console.log = (...args) => { old(...args); print(args.map(a => typeof a === 'string' ? a : JSON.stringify(a)).join(' ')); };
+              const __visuStructPrompt = (...args) => {
+                const value = prompt(...args);
+                if (value === null) { throw new Error("Execution cancelled."); }
+                return value;
+              };
             </script>
-            <script id="usercode">
-        \(js)
+            <script id="usercode" type="text/plain">
+        \(runnerJS)
             </script>
             <script>
               document.getElementById('run').addEventListener('click', () => {
