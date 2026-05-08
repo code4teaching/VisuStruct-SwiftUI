@@ -762,8 +762,18 @@ struct ContentView: View {
     }
 
     private func makeBookmarkData(for url: URL) -> Data? {
-        #if os(macOS)
-        // macOS: security-scoped Bookmark, damit „Zuletzt verwendet“ zuverlässig funktioniert.
+        // Auf iOS/iPadOS (und auch macOS) muss der Bookmark unter aktivem Security-Scoped Zugriff erzeugt werden,
+        // sonst lässt er sich später u. U. nicht mehr mit Berechtigung auflösen.
+        let didAccess = url.startAccessingSecurityScopedResource()
+        defer {
+            if didAccess { url.stopAccessingSecurityScopedResource() }
+        }
+
+        // Wichtig: Auf iOS/iPadOS funktionieren „Zuletzt verwendet“-Öffnungen nur zuverlässig,
+        // wenn wir ein **security-scoped** Bookmark speichern. `startAccessing...` beim Öffnen nutzt genau das.
+        //
+        // Hinweis: `BookmarkResolutionOptions.withSecurityScope` ist iOS-seitig nicht verfügbar, aber
+        // `BookmarkCreationOptions.withSecurityScope` ist es – und reicht hier aus.
         if let data = try? url.bookmarkData(
             options: [.withSecurityScope, .minimalBookmark],
             includingResourceValuesForKeys: nil,
@@ -771,10 +781,8 @@ struct ContentView: View {
         ) {
             return data
         }
-        #endif
 
-        // iOS/iPadOS: `.withSecurityScope` ist nicht verfügbar. Wir speichern ein Minimal-Bookmark und
-        // verwenden beim Öffnen weiterhin `startAccessingSecurityScopedResource()` auf der URL.
+        // Fallback: falls eine URL kein security-scoped Bookmark unterstützt.
         return try? url.bookmarkData(
             options: .minimalBookmark,
             includingResourceValuesForKeys: nil,
@@ -881,7 +889,15 @@ struct ContentView: View {
                     return
                 }
             } else if let filePath = recentFile.filePath {
+                #if os(iOS) || os(tvOS) || os(visionOS)
+                // Auf iOS ist ein nackter Dateipfad in der Sandbox i. d. R. nicht mehr zugreifbar.
+                // Ohne Bookmark: Eintrag entfernen und dem Nutzer „nicht verfügbar“ anzeigen.
+                removeRecentFile(id: recentFile.id)
+                setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
+                return
+                #else
                 url = URL(fileURLWithPath: filePath)
+                #endif
             } else {
                 removeRecentFile(id: recentFile.id)
                 setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
