@@ -10,6 +10,9 @@
 "action_diagram" = "다이어그램";
 "simulation_placeholder_body" = "시뮬레이션 모드는 다이어그램을 단계별로 실행하고 현재 요소를 강조 표시하며 변수 값과 출력을 보여줍니다.";
 "simulation_controls" = "제어";
+"simulation_highlight_label" = "강조 표시";
+"simulation_highlight_last" = "마지막 단계";
+"simulation_highlight_next" = "다음 단계";
 "simulation_not_available" = "Play는 각 단계마다 0.5초씩 쉬면서 시뮬레이션을 자동으로 실행합니다.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

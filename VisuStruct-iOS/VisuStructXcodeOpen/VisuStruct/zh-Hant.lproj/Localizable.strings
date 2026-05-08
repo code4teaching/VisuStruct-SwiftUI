@@ -10,6 +10,9 @@
 "action_diagram" = "圖表";
 "simulation_placeholder_body" = "模擬模式會逐步執行圖表，醒目提示目前元素，並顯示變數值和輸出。";
 "simulation_controls" = "控制";
+"simulation_highlight_label" = "醒目提示";
+"simulation_highlight_last" = "上一步";
+"simulation_highlight_next" = "下一步";
 "simulation_not_available" = "Play 會自動執行模擬，每步暫停 0.5 秒。";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

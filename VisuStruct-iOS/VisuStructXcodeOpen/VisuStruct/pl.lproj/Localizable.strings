@@ -10,6 +10,9 @@
 "action_diagram" = "Diagram";
 "simulation_placeholder_body" = "Tryb symulacji uruchamia diagram krok po kroku, podświetla bieżący element oraz pokazuje wartości zmiennych i wyjście.";
 "simulation_controls" = "Sterowanie";
+"simulation_highlight_label" = "Podświetlenie";
+"simulation_highlight_last" = "Ostatni krok";
+"simulation_highlight_next" = "Następny krok";
 "simulation_not_available" = "Play uruchamia symulację automatycznie z pauzą 0,5 sekundy na krok.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

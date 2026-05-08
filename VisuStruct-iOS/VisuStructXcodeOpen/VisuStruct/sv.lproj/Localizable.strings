@@ -10,6 +10,9 @@
 "action_diagram" = "Diagram";
 "simulation_placeholder_body" = "Simuleringsläget kör diagrammet steg för steg, markerar det aktuella elementet och visar variabelvärden och utdata.";
 "simulation_controls" = "Kontroller";
+"simulation_highlight_label" = "Markering";
+"simulation_highlight_last" = "Senaste steg";
+"simulation_highlight_next" = "Nästa steg";
 "simulation_not_available" = "Play kör simuleringen automatiskt med 0,5 sekunders paus per steg.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

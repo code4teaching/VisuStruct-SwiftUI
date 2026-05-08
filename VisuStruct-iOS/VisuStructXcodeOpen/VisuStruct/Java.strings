@@ -12,6 +12,9 @@
 "action_diagram" = "Diagram";
 "simulation_placeholder_body" = "The simulation mode will run the diagram step by step, highlight the current element, and show variable values and output.";
 "simulation_controls" = "Controls";
+"simulation_highlight_label" = "Highlight";
+"simulation_highlight_last" = "Last step";
+"simulation_highlight_next" = "Next step";
 "simulation_not_available" = "Play runs the simulation automatically with a 0.5 second pause per step.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

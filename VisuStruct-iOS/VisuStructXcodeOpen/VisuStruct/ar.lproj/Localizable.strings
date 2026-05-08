@@ -10,6 +10,9 @@
 "action_diagram" = "مخطط";
 "simulation_placeholder_body" = "يشغّل وضع المحاكاة المخطط خطوة بخطوة، ويبرز العنصر الحالي، ويعرض قيم المتغيرات والمخرجات.";
 "simulation_controls" = "عناصر التحكم";
+"simulation_highlight_label" = "تمييز";
+"simulation_highlight_last" = "آخر خطوة";
+"simulation_highlight_next" = "الخطوة التالية";
 "simulation_not_available" = "يقوم Play بتشغيل المحاكاة تلقائيًا مع توقف 0.5 ثانية لكل خطوة.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

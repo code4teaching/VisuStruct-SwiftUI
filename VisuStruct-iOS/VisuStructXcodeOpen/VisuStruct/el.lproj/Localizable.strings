@@ -10,6 +10,9 @@
 "action_diagram" = "Διάγραμμα";
 "simulation_placeholder_body" = "Η λειτουργία προσομοίωσης εκτελεί το διάγραμμα βήμα προς βήμα, επισημαίνει το τρέχον στοιχείο και εμφανίζει τις τιμές των μεταβλητών και την έξοδο.";
 "simulation_controls" = "Έλεγχος";
+"simulation_highlight_label" = "Επισήμανση";
+"simulation_highlight_last" = "Τελευταίο βήμα";
+"simulation_highlight_next" = "Επόμενο βήμα";
 "simulation_not_available" = "Το Play εκτελεί αυτόματα την προσομοίωση με παύση 0,5 δευτερολέπτων ανά βήμα.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

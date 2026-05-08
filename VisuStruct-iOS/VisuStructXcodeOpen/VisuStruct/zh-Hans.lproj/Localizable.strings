@@ -10,6 +10,9 @@
 "action_diagram" = "图表";
 "simulation_placeholder_body" = "模拟模式会逐步运行图表，突出显示当前元素，并显示变量值和输出。";
 "simulation_controls" = "控制";
+"simulation_highlight_label" = "高亮";
+"simulation_highlight_last" = "上一步";
+"simulation_highlight_next" = "下一步";
 "simulation_not_available" = "Play 会自动运行模拟，每步暂停 0.5 秒。";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

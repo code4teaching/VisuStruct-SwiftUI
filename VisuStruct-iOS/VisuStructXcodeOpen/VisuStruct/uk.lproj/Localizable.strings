@@ -10,6 +10,9 @@
 "action_diagram" = "Діаграма";
 "simulation_placeholder_body" = "Режим симуляції виконує діаграму крок за кроком, підсвічує поточний елемент і показує значення змінних та вивід.";
 "simulation_controls" = "Керування";
+"simulation_highlight_label" = "Підсвічування";
+"simulation_highlight_last" = "Останній крок";
+"simulation_highlight_next" = "Наступний крок";
 "simulation_not_available" = "Play автоматично виконує симуляцію з паузою 0,5 секунди на крок.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

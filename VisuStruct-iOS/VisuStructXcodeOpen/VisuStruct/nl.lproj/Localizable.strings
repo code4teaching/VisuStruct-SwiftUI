@@ -10,6 +10,9 @@
 "action_diagram" = "Diagram";
 "simulation_placeholder_body" = "De simulatiemodus voert het diagram stap voor stap uit, markeert het huidige element en toont variabele waarden en uitvoer.";
 "simulation_controls" = "Besturing";
+"simulation_highlight_label" = "Highlight";
+"simulation_highlight_last" = "Last step";
+"simulation_highlight_next" = "Next step";
 "simulation_not_available" = "Play voert de simulatie automatisch uit met een pauze van 0,5 seconde per stap.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

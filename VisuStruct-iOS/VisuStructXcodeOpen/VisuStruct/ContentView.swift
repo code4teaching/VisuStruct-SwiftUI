@@ -578,6 +578,20 @@ private enum SimulationStepDelayOption: String, CaseIterable, Identifiable {
     }
 }
 
+private enum SimulationHighlightMode: String, CaseIterable, Identifiable {
+    case lastExecuted
+    case nextToExecute
+
+    var id: String { rawValue }
+
+    static let appStorageKey = "visustruct.simulation.highlightMode"
+    static let defaultRawValue = Self.lastExecuted.rawValue
+
+    static func fromStored(_ raw: String) -> Self {
+        Self(rawValue: raw) ?? .lastExecuted
+    }
+}
+
 // MARK: - Hauptansicht
 
 @MainActor
@@ -623,6 +637,7 @@ struct ContentView: View {
     @State private var simulationEngine: VisuStructSimulationEngine
     @State private var simulationPlayTask: Task<Void, Never>? = nil
     @State private var isSimulationPlaying = false
+    @State private var simulationWasPlayingBeforeInput = false
     @State private var simulationInputText = ""
     @State private var recentFiles: [RecentVisuStructFile]
     @State private var pendingCloseTabId: UUID? = nil
@@ -656,6 +671,7 @@ struct ContentView: View {
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @State private var editorFocusToken = UUID()
     @AppStorage(SimulationStepDelayOption.appStorageKey) private var simulationStepDelayRaw: String = SimulationStepDelayOption.defaultRawValue
+    @AppStorage(SimulationHighlightMode.appStorageKey) private var simulationHighlightModeRaw: String = SimulationHighlightMode.defaultRawValue
 
     private var canvasScaleStep: VisuStructUIScaleStep {
         VisuStructUIScaleStep(rawValue: canvasScaleRaw) ?? .small
@@ -671,6 +687,10 @@ struct ContentView: View {
 
     private var simulationStepDelay: SimulationStepDelayOption {
         SimulationStepDelayOption.fromStored(simulationStepDelayRaw)
+    }
+
+    private var simulationHighlightMode: SimulationHighlightMode {
+        SimulationHighlightMode.fromStored(simulationHighlightModeRaw)
     }
 
     private static let recentFilesDefaultsKey = "visustruct.recentFiles"
@@ -1211,7 +1231,7 @@ struct ContentView: View {
                     Label(lang.tr("action_delete_selection"), systemImage: "trash")
                 }
                 .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
-                .opacity(isSimulationMode ? 0.55 : 1.0)
+                .disabledAndDimmed(isSimulationMode)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 4, leading: 10, bottom: 3, trailing: 10)
@@ -1273,8 +1293,7 @@ struct ContentView: View {
                     }
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
-                .disabled(isSimulationMode)
-                .opacity(isSimulationMode ? 0.55 : 1.0)
+                .disabledAndDimmed(isSimulationMode)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1292,8 +1311,7 @@ struct ContentView: View {
                         .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
-                .disabled(isSimulationMode)
-                .opacity(isSimulationMode ? 0.55 : 1.0)
+                .disabledAndDimmed(isSimulationMode)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1308,8 +1326,7 @@ struct ContentView: View {
                         .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
-                .disabled(isSimulationMode)
-                .opacity(isSimulationMode ? 0.55 : 1.0)
+                .disabledAndDimmed(isSimulationMode)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1324,8 +1341,7 @@ struct ContentView: View {
                         .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
-                .disabled(isSimulationMode)
-                .opacity(isSimulationMode ? 0.55 : 1.0)
+                .disabledAndDimmed(isSimulationMode)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1422,8 +1438,7 @@ struct ContentView: View {
                         }
                         .help(lang.tr("menu_save"))
                         .keyboardShortcut("s", modifiers: .command)
-                        .disabled(isSimulationMode)
-                        .opacity(isSimulationMode ? 0.55 : 1.0)
+                        .disabledAndDimmed(isSimulationMode)
                         if isPhone {
                             Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
@@ -1482,8 +1497,7 @@ struct ContentView: View {
                             Label(lang.tr("menu_file"), systemImage: "folder")
                                 .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                         }
-                        .disabled(isSimulationMode)
-                        .opacity(isSimulationMode ? 0.55 : 1.0)
+                        .disabledAndDimmed(isSimulationMode)
                     }
                     #if canImport(UIKit)
                     ToolbarItemGroup(placement: .keyboard) {
@@ -1605,6 +1619,7 @@ struct ContentView: View {
                         engine: simulationEngine,
                         isPlaying: isSimulationPlaying,
                         inputText: $simulationInputText,
+                        highlightModeRaw: $simulationHighlightModeRaw,
                         onPlay: playSimulation,
                         onPause: pauseSimulation,
                         onStep: stepSimulation,
@@ -1623,6 +1638,7 @@ struct ContentView: View {
                             engine: simulationEngine,
                             isPlaying: isSimulationPlaying,
                             inputText: $simulationInputText,
+                            highlightModeRaw: $simulationHighlightModeRaw,
                             onPlay: playSimulation,
                             onPause: pauseSimulation,
                             onStep: stepSimulation,
@@ -1777,10 +1793,25 @@ struct ContentView: View {
             pauseSimulation()
             return
         }
+        // Wenn ein Input angefordert wird, pausieren wir Play automatisch,
+        // merken uns aber, dass wir danach wieder weiterlaufen sollen.
+        if simulationEngine.state.inputRequest != nil {
+            if isSimulationPlaying {
+                simulationWasPlayingBeforeInput = true
+            }
+            pauseSimulation()
+            return
+        }
+        let lastExecutedPath = simulationEngine.currentStepPath
         var engine = simulationEngine
         engine.step()
         simulationEngine = engine
-        sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+        if simulationHighlightMode == .nextToExecute, engine.canStep {
+            sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+        } else {
+            // lastExecuted (oder Ende/Input): letztes ausgeführtes Element bleibt markiert.
+            sheetTabs[currentTabIndex].selectedPath = lastExecutedPath ?? engine.currentStepPath
+        }
         if !engine.canStep {
             pauseSimulation()
         }
@@ -1796,6 +1827,7 @@ struct ContentView: View {
     }
 
     private func submitSimulationInput() {
+        let shouldResume = isSimulationPlaying || simulationWasPlayingBeforeInput
         pauseSimulation()
         var engine = simulationEngine
         engine.provideInput(simulationInputText)
@@ -1804,6 +1836,11 @@ struct ContentView: View {
             simulationInputText = ""
         }
         sheetTabs[currentTabIndex].selectedPath = engine.currentStepPath
+
+        if shouldResume, isSimulationMode, engine.canStep {
+            simulationWasPlayingBeforeInput = false
+            playSimulation()
+        }
     }
 
     private func playSimulation() {
@@ -3328,6 +3365,14 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Simulation UI helpers
+
+private extension View {
+    func disabledAndDimmed(_ disabled: Bool, opacity: Double = 0.55) -> some View {
+        self.disabled(disabled).opacity(disabled ? opacity : 1.0)
+    }
+}
+
 // MARK: - Code-Generator (Oberfläche; IAP folgt)
 
 private extension View {
@@ -3478,6 +3523,7 @@ private struct SimulationStatePanel: View {
     let engine: VisuStructSimulationEngine
     let isPlaying: Bool
     @Binding var inputText: String
+    @Binding var highlightModeRaw: String
     let onPlay: () -> Void
     let onPause: () -> Void
     let onStep: () -> Void
@@ -3501,6 +3547,17 @@ private struct SimulationStatePanel: View {
                     SimulationControlButton(title: lang.tr("simulation_pause"), systemImage: "pause.fill", isDisabled: !isPlaying, action: onPause)
                     SimulationControlButton(title: lang.tr("simulation_step"), systemImage: "arrow.right.circle", isDisabled: isPlaying || !engine.canStep, action: onStep)
                     SimulationControlButton(title: lang.tr("simulation_stop"), systemImage: "stop.fill", isDisabled: false, action: onStop)
+                }
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(lang.tr("simulation_highlight_label"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Picker(lang.tr("simulation_highlight_label"), selection: $highlightModeRaw) {
+                        Text(lang.tr("simulation_highlight_last")).tag(SimulationHighlightMode.lastExecuted.rawValue)
+                        Text(lang.tr("simulation_highlight_next")).tag(SimulationHighlightMode.nextToExecute.rawValue)
+                    }
+                    .pickerStyle(.segmented)
                 }
             }
 

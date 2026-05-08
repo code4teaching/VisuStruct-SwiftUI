@@ -10,6 +10,9 @@
 "action_diagram" = "図";
 "simulation_placeholder_body" = "シミュレーションモードは図をステップごとに実行し、現在の要素を強調表示して、変数の値と出力を表示します。";
 "simulation_controls" = "操作";
+"simulation_highlight_label" = "ハイライト";
+"simulation_highlight_last" = "前のステップ";
+"simulation_highlight_next" = "次のステップ";
 "simulation_not_available" = "Play は各ステップごとに0.5秒停止しながらシミュレーションを自動実行します。";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

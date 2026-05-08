@@ -10,6 +10,9 @@
 "action_diagram" = "Диаграмма";
 "simulation_placeholder_body" = "Режим симуляции выполняет диаграмму шаг за шагом, подсвечивает текущий элемент и показывает значения переменных и вывод.";
 "simulation_controls" = "Управление";
+"simulation_highlight_label" = "Подсветка";
+"simulation_highlight_last" = "Последний шаг";
+"simulation_highlight_next" = "Следующий шаг";
 "simulation_not_available" = "Play автоматически выполняет симуляцию с паузой 0,5 секунды на шаг.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

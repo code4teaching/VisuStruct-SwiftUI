@@ -10,6 +10,9 @@
 "action_diagram" = "Diagram";
 "simulation_placeholder_body" = "Simuleringstilstanden kører diagrammet trin for trin, fremhæver det aktuelle element og viser variabelværdier og output.";
 "simulation_controls" = "Kontroller";
+"simulation_highlight_label" = "Fremhævning";
+"simulation_highlight_last" = "Sidste trin";
+"simulation_highlight_next" = "Næste trin";
 "simulation_not_available" = "Play kører simuleringen automatisk med en pause på 0,5 sekund pr. trin.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

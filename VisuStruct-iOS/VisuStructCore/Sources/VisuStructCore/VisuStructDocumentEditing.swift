@@ -170,7 +170,7 @@ public enum VisuStructDocumentEditing: Sendable {
         if isStrictAncestor(ancestor: fromPath, of: beforePath) { throw VisuStructEditError.invalidPath }
         let moving = try element(at: fromPath, in: doc)
         let d = try deleteAtPath(doc, path: fromPath)
-        let target = try adjustedPathAfterRemoving(path: beforePath, removedPath: fromPath)
+        let target = adjustPathAfterRemoving(path: beforePath, removedPath: fromPath)
         return try insertBeforeSibling(d, moving, before: target)
     }
 
@@ -181,7 +181,7 @@ public enum VisuStructDocumentEditing: Sendable {
         if isStrictAncestor(ancestor: fromPath, of: placeholderPath) { throw VisuStructEditError.invalidPath }
         let moving = try element(at: fromPath, in: doc)
         let d = try deleteAtPath(doc, path: fromPath)
-        let ph = try adjustedPathAfterRemoving(path: placeholderPath, removedPath: fromPath)
+        let ph = adjustPathAfterRemoving(path: placeholderPath, removedPath: fromPath)
         let updated = try replaceAtPath(d, path: ph, with: moving)
         return (updated, ph)
     }
@@ -193,8 +193,29 @@ public enum VisuStructDocumentEditing: Sendable {
         if isStrictAncestor(ancestor: fromPath, of: afterPath) { throw VisuStructEditError.invalidPath }
         let moving = try element(at: fromPath, in: doc)
         let d = try deleteAtPath(doc, path: fromPath)
-        let target = try adjustedPathAfterRemoving(path: afterPath, removedPath: fromPath)
+        let target = adjustPathAfterRemoving(path: afterPath, removedPath: fromPath)
         return try insertAfterSibling(d, moving, after: target)
+    }
+
+    /// Passt einen bestehenden Pfad an, nachdem `removedPath` aus seiner Geschwisterliste entfernt wurde.
+    /// Beispiel: Entfernt `[0]`, dann wird ein Ziel in `[1,0,0]` zu `[0,0,0]`.
+    ///
+    /// Diese Methode ist **nicht-werfend** und eignet sich auch für UI-Berechnungen (z. B. Selektion nach Drag&Drop).
+    public static func adjustPathAfterRemoving(path: [Int], removedPath: [Int]) -> [Int] {
+        guard let removedIndex = removedPath.last else { return path }
+        let removedParent = Array(removedPath.dropLast())
+        guard path.count > removedParent.count,
+              Array(path.prefix(removedParent.count)) == removedParent else {
+            return path
+        }
+
+        let affectedIndexPosition = removedParent.count
+        let targetIndex = path[affectedIndexPosition]
+        guard targetIndex > removedIndex else { return path }
+
+        var adjusted = path
+        adjusted[affectedIndexPosition] = targetIndex - 1
+        return adjusted
     }
 
     /// Neuer Fall für eine **Fallauswahl** (nicht Verzweigung): ein Platzhalter „ø“, Name automatisch (`3` vor `default` usw.).
@@ -272,25 +293,6 @@ public enum VisuStructDocumentEditing: Sendable {
 
     private static func isStrictAncestor(ancestor: [Int], of path: [Int]) -> Bool {
         ancestor.count < path.count && Array(path.prefix(ancestor.count)) == ancestor
-    }
-
-    /// Passt einen bestehenden Pfad an, nachdem `removedPath` aus seiner Geschwisterliste entfernt wurde.
-    /// Beispiel: Entfernt `[0]`, dann wird ein Ziel in `[1,0,0]` zu `[0,0,0]`.
-    private static func adjustedPathAfterRemoving(path: [Int], removedPath: [Int]) throws -> [Int] {
-        guard let removedIndex = removedPath.last else { throw VisuStructEditError.invalidPath }
-        let removedParent = Array(removedPath.dropLast())
-        guard path.count > removedParent.count,
-              Array(path.prefix(removedParent.count)) == removedParent else {
-            return path
-        }
-
-        let affectedIndexPosition = removedParent.count
-        let targetIndex = path[affectedIndexPosition]
-        guard targetIndex > removedIndex else { return path }
-
-        var adjusted = path
-        adjusted[affectedIndexPosition] = targetIndex - 1
-        return adjusted
     }
 
     private static func insertInside(_ el: inout VisuStructElement, path: [Int], index: Int, element: VisuStructElement) throws {

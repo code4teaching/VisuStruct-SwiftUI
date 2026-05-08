@@ -10,6 +10,9 @@
 "action_diagram" = "תרשים";
 "simulation_placeholder_body" = "מצב הסימולציה מריץ את התרשים צעד אחר צעד, מדגיש את הרכיב הנוכחי ומציג ערכי משתנים ופלט.";
 "simulation_controls" = "פקדים";
+"simulation_highlight_label" = "הדגשה";
+"simulation_highlight_last" = "הצעד האחרון";
+"simulation_highlight_next" = "הצעד הבא";
 "simulation_not_available" = "Play מריץ את הסימולציה אוטומטית עם השהיה של 0.5 שניות לכל צעד.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

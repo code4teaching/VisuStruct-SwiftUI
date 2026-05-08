@@ -10,6 +10,9 @@
 "action_diagram" = "Diagramma";
 "simulation_placeholder_body" = "La modalità simulazione esegue il diagramma passo dopo passo, evidenzia l’elemento corrente e mostra i valori delle variabili e l’output.";
 "simulation_controls" = "Controlli";
+"simulation_highlight_label" = "Evidenziazione";
+"simulation_highlight_last" = "Ultimo passo";
+"simulation_highlight_next" = "Prossimo passo";
 "simulation_not_available" = "Play esegue automaticamente la simulazione con una pausa di 0,5 secondi per passo.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

@@ -10,6 +10,9 @@
 "action_diagram" = "Diyagram";
 "simulation_placeholder_body" = "Simülasyon modu diyagramı adım adım çalıştırır, geçerli öğeyi vurgular ve değişken değerlerini ve çıktıyı gösterir.";
 "simulation_controls" = "Kontroller";
+"simulation_highlight_label" = "Vurgu";
+"simulation_highlight_last" = "Son adım";
+"simulation_highlight_next" = "Sonraki adım";
 "simulation_not_available" = "Play simülasyonu adım başına 0,5 saniye duraklamayla otomatik çalıştırır.";
 "simulation_play" = "Play";
 "simulation_pause" = "Pause";

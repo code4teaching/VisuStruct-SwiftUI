@@ -144,6 +144,31 @@ struct DiagramCanvasView: View {
             if raw.count <= 1 { return raw }
             return [VisuStructForLoopDiagramDisplay.singleLine(from: raw)]
         }
+        if !isEffectivelyEmpty {
+            func withLeadingKeyword(_ keyword: String, _ lines: [String]) -> [String] {
+                guard let first = lines.first else { return lines }
+                let trimmed = first.trimmingCharacters(in: .whitespacesAndNewlines)
+                let lower = trimmed.lowercased()
+                let k = keyword.lowercased()
+                if lower == k || lower.hasPrefix(k + " ") { return lines }
+                var out = lines
+                out[0] = keyword + " " + trimmed
+                return out
+            }
+
+            switch element.type {
+            case .verzweigung:
+                return withLeadingKeyword("if", raw)
+            case .whileSchleife:
+                return withLeadingKeyword("while", raw)
+            case .doUntilSchleife:
+                return withLeadingKeyword("until", raw)
+            case .fallauswahl:
+                return withLeadingKeyword("switch", raw)
+            default:
+                break
+            }
+        }
         guard isEffectivelyEmpty else { return raw }
 
         switch element.type {
@@ -612,12 +637,12 @@ struct DiagramCanvasView: View {
                         guard from != path else { return false }
                         document = try VisuStructDocumentEditing.moveBeforeSibling(document, from: from, before: path)
                         errorText = nil
-                        selectedPath = adjustedPathAfterRemoving(path: path, removedPath: from)
+                        selectedPath = VisuStructDocumentEditing.adjustPathAfterRemoving(path: path, removedPath: from)
                     } else {
                         guard from != path else { return false }
                         document = try VisuStructDocumentEditing.moveAfterSibling(document, from: from, after: path)
                         errorText = nil
-                        selectedPath = pathOfInsertedSibling(after: adjustedPathAfterRemoving(path: path, removedPath: from))
+                        selectedPath = pathOfInsertedSibling(after: VisuStructDocumentEditing.adjustPathAfterRemoving(path: path, removedPath: from))
                     }
                 case .on:
                     guard VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: document) else { return false }
@@ -745,24 +770,6 @@ struct DiagramCanvasView: View {
 
     private func pathOfInsertedSibling(after siblingPath: [Int]) -> [Int] {
         Array(siblingPath.dropLast()) + [siblingPath.last! + 1]
-    }
-
-    /// Spiegelt die Core-Logik wider (nur für Selection nach Drag&Drop):
-    /// Wenn ein Element an `removedPath` entfernt wird, rutschen alle nachfolgenden Geschwister-Indizes im selben Parent um 1 nach vorne.
-    private func adjustedPathAfterRemoving(path: [Int], removedPath: [Int]) -> [Int] {
-        guard let removedIndex = removedPath.last else { return path }
-        let removedParent = Array(removedPath.dropLast())
-        guard path.count > removedParent.count,
-              Array(path.prefix(removedParent.count)) == removedParent else {
-            return path
-        }
-        let affectedIndexPosition = removedParent.count
-        let targetIndex = path[affectedIndexPosition]
-        guard targetIndex > removedIndex else { return path }
-
-        var adjusted = path
-        adjusted[affectedIndexPosition] = targetIndex - 1
-        return adjusted
     }
 
     private func parsePath(_ s: String) -> [Int] {
@@ -904,7 +911,14 @@ struct DiagramCanvasView: View {
             }
             for (i, line) in lines.enumerated() {
                 let y = firstY + CGFloat(i) * lineHeight
-                let tw = measureText(line, size: headerFontSize)
+                let tw: CGFloat = {
+                    if let parts = keywordSplit(for: node.element.type, line: line) {
+                        let kwW = measureText(parts.keyword, size: headerFontSize, weight: .bold)
+                        let restW = parts.rest.isEmpty ? 0 : measureText(" " + parts.rest, size: headerFontSize, weight: .medium)
+                        return kwW + restW
+                    }
+                    return measureText(line, size: headerFontSize, weight: .medium)
+                }()
                 /// Verzweigung: Kopf über der **Zweig-Grenze** (Dachspitze), nicht über `midX` — sonst wirkt die Mitte falsch, wenn ein Zweig viel breiter ist (z. B. Fallauswahl im false-Zweig).
                 let tx: CGFloat = {
                     if node.element.type == .verzweigung {
@@ -915,11 +929,7 @@ struct DiagramCanvasView: View {
                     }
                     return r.midX - tw / 2
                 }()
-                context.draw(
-                    context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
-                    at: CGPoint(x: tx, y: y),
-                    anchor: .topLeading
-                )
+                drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: tx, y: y), in: &context)
             }
         } else {
             let lines = displayTextLines(for: node.element)
@@ -928,11 +938,7 @@ struct DiagramCanvasView: View {
             if node.element.type == .doUntilSchleife {
                 var y = r.maxY - ink(DiagramCanvasInk.cellTextInsetYDoUntil)
                 for line in lines.reversed() {
-                    context.draw(
-                        context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
-                        at: CGPoint(x: r.minX + ix, y: y),
-                        anchor: .topLeading
-                    )
+                    drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: r.minX + ix, y: y), in: &context)
                     y -= lineHeight
                 }
             } else if node.element.type == .anweisung || node.element.type == .aufruf || node.element.type == .aussprung {
@@ -956,23 +962,22 @@ struct DiagramCanvasView: View {
                 let totalTextHeight = CGFloat(max(1, lines.count)) * lineHeight
                 var y = r.midY - totalTextHeight / 2
                 for line in lines {
-                    let tw = measureText(line, size: headerFontSize)
+                    let tw: CGFloat = {
+                        if let parts = keywordSplit(for: node.element.type, line: line) {
+                            let kwW = measureText(parts.keyword, size: headerFontSize, weight: .bold)
+                            let restW = parts.rest.isEmpty ? 0 : measureText(" " + parts.rest, size: headerFontSize, weight: .medium)
+                            return kwW + restW
+                        }
+                        return measureText(line, size: headerFontSize, weight: .medium)
+                    }()
                     let x = contentLeft + (contentWidth - tw) / 2
-                    context.draw(
-                        context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
-                        at: CGPoint(x: x, y: y),
-                        anchor: .topLeading
-                    )
+                    drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: x, y: y), in: &context)
                     y += lineHeight
                 }
             } else {
                 var y = r.minY + iy
                 for line in lines {
-                    context.draw(
-                        context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
-                        at: CGPoint(x: r.minX + ix, y: y),
-                        anchor: .topLeading
-                    )
+                    drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: r.minX + ix, y: y), in: &context)
                     y += lineHeight
                 }
             }
@@ -1009,15 +1014,16 @@ struct DiagramCanvasView: View {
                 if node.element.type == .verzweigung && cases.count == 2 {
                     let left = "true"
                     let right = "false"
-                    let rw = measureText(right, size: headerFontSize)
+                    let kwFont: Font = .system(size: headerFontSize, weight: .bold)
+                    let rw = measureText(right, size: headerFontSize, weight: .bold)
                     context.draw(
-                        context.resolve(Text(verbatim: left).font(cellFont).foregroundStyle(.black)),
+                        context.resolve(Text(verbatim: left).font(kwFont).foregroundStyle(.black)),
                         at: CGPoint(x: r.minX + lx, y: labelY),
                         anchor: .bottomLeading
                     )
                     let rx = node.caseColumnFrames[1].x + node.caseColumnFrames[1].width - lx - rw
                     context.draw(
-                        context.resolve(Text(verbatim: right).font(cellFont).foregroundStyle(.black)),
+                        context.resolve(Text(verbatim: right).font(kwFont).foregroundStyle(.black)),
                         at: CGPoint(x: rx, y: labelY),
                         anchor: .bottomLeading
                     )
@@ -1025,10 +1031,13 @@ struct DiagramCanvasView: View {
                     for (idx, c) in cases.enumerated() {
                         let col = node.caseColumnFrames[idx]
                         let label = c.name
-                        let tw = measureText(label, size: headerFontSize)
+                        let isKeywordLabel = ["default", "true", "false"].contains(label.lowercased())
+                        let w: UIFont.Weight = isKeywordLabel ? .bold : .medium
+                        let f: Font = .system(size: headerFontSize, weight: isKeywordLabel ? .bold : .medium)
+                        let tw = measureText(label, size: headerFontSize, weight: w)
                         let cx = col.x + col.width / 2 - tw / 2
                         context.draw(
-                            context.resolve(Text(verbatim: label).font(cellFont).foregroundStyle(.black)),
+                            context.resolve(Text(verbatim: label).font(f).foregroundStyle(.black)),
                             at: CGPoint(x: cx, y: labelY),
                             anchor: .bottomLeading
                         )
@@ -1088,20 +1097,72 @@ struct DiagramCanvasView: View {
     }()
     #endif
 
-    private func measureText(_ s: String, size: CGFloat) -> CGFloat {
+    private func measureText(_ s: String, size: CGFloat, weight: UIFont.Weight = .medium) -> CGFloat {
         #if canImport(UIKit)
-        let key = "\(Int((size * 1000).rounded()))|\(s)" as NSString
+        let key = "\(Int((size * 1000).rounded()))|\(weight.rawValue)|\(s)" as NSString
         if let cached = Self.textWidthCache.object(forKey: key) {
             return CGFloat(truncating: cached)
         }
         let w = (s as NSString).size(withAttributes: [
-            .font: UIFont.systemFont(ofSize: size, weight: .medium)
+            .font: UIFont.systemFont(ofSize: size, weight: weight)
         ]).width
         Self.textWidthCache.setObject(NSNumber(value: Double(w)), forKey: key)
         return w
         #else
         return CGFloat(s.count) * size * 0.55
         #endif
+    }
+
+    private func keywordSplit(for elementType: VisuStructElementType, line: String) -> (keyword: String, rest: String)? {
+        // Keywords nur bei Kontrollstrukturen/Anzeigezeilen.
+        let keywords: Set<String> = ["if", "for", "while", "until", "switch"]
+        let colonKeywords: [String] = ["input:", "output:", "print:"]
+        let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        let lower = trimmed.lowercased()
+        for prefix in colonKeywords {
+            if lower == prefix {
+                return (trimmed, "")
+            }
+            if lower.hasPrefix(prefix + " ") {
+                let rest = String(trimmed.dropFirst(prefix.count)).trimmingCharacters(in: .whitespacesAndNewlines)
+                let kw = String(trimmed.prefix(prefix.count))
+                return (kw, rest)
+            }
+        }
+
+        guard let firstSpace = trimmed.firstIndex(of: " ") else { return nil }
+        let head = String(trimmed[..<firstSpace])
+        guard keywords.contains(head.lowercased()) else { return nil }
+        let rest = String(trimmed[trimmed.index(after: firstSpace)...]).trimmingCharacters(in: .whitespacesAndNewlines)
+        return (head, rest)
+    }
+
+    private func drawKeywordLine(_ line: String, elementType: VisuStructElementType, at origin: CGPoint, in context: inout GraphicsContext) {
+        if let parts = keywordSplit(for: elementType, line: line) {
+            let kwFont: Font = .system(size: headerFontSize, weight: .bold)
+            let kw = parts.keyword
+            let rest = parts.rest
+            let kwW = measureText(kw, size: headerFontSize, weight: .bold)
+            context.draw(
+                context.resolve(Text(verbatim: kw).font(kwFont).foregroundStyle(.black)),
+                at: origin,
+                anchor: .topLeading
+            )
+            if !rest.isEmpty {
+                context.draw(
+                    context.resolve(Text(verbatim: " " + rest).font(cellFont).foregroundStyle(.black)),
+                    at: CGPoint(x: origin.x + kwW, y: origin.y),
+                    anchor: .topLeading
+                )
+            }
+        } else {
+            context.draw(
+                context.resolve(Text(verbatim: line).font(cellFont).foregroundStyle(.black)),
+                at: origin,
+                anchor: .topLeading
+            )
+        }
     }
 }
 
