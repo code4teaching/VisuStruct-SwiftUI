@@ -1665,15 +1665,7 @@ struct ContentView: View {
             pauseSimulation()
             return
         }
-        // Wenn ein Input angefordert wird, pausieren wir Play automatisch,
-        // merken uns aber, dass wir danach wieder weiterlaufen sollen.
-        if simulationEngine.state.inputRequest != nil {
-            if isSimulationPlaying {
-                simulationWasPlayingBeforeInput = true
-            }
-            pauseSimulation()
-            return
-        }
+        let wasPlaying = isSimulationPlaying
         let lastExecutedPath = simulationEngine.currentStepPath
         var engine = simulationEngine
         engine.step()
@@ -1683,6 +1675,11 @@ struct ContentView: View {
         } else {
             // lastExecuted (oder Ende/Input): letztes ausgeführtes Element bleibt markiert.
             sheetTabs[currentTabIndex].selectedPath = lastExecutedPath ?? engine.currentStepPath
+        }
+        // Wenn ein Input als Ergebnis des Steps angefordert wurde, Play pausieren,
+        // aber merken, dass wir nach OK automatisch weiterlaufen sollen.
+        if engine.state.inputRequest != nil, wasPlaying {
+            simulationWasPlayingBeforeInput = true
         }
         if !engine.canStep {
             pauseSimulation()
