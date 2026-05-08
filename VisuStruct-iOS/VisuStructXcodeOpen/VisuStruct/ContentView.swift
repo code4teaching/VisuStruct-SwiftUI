@@ -1158,26 +1158,7 @@ struct ContentView: View {
         List {
             Section {
                 ForEach(ElementPalette.PaletteItem.paletteOrder) { item in
-                    Button {
-                        insertPaletteItem(item)
-                    } label: {
-                        Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
-                            .foregroundStyle(.primary)
-                            .multilineTextAlignment(.leading)
-                    }
-                    .buttonStyle(PaletteListElementButtonStyle())
-                    .draggable(DiagramDragPayload(raw: ElementPalette.paletteDragIdentifier(item))) {
-                        paletteDragPreview(for: item)
-                    }
-                    .accessibilityAddTraits(.isButton)
-                    .disabled(isSimulationMode)
-                    .listRowInsets(
-                        isCompact
-                            ? EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10)
-                            : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                    )
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
+                    paletteStructureRow(item, isCompact: isCompact)
                 }
             }
             Section {
@@ -2927,6 +2908,45 @@ struct ContentView: View {
                 return
             }
             setErrorOnCurrentTab(error.localizedDescription)
+        }
+    }
+
+    @ViewBuilder
+    private func paletteStructureRow(_ item: ElementPalette.PaletteItem, isCompact: Bool) -> some View {
+        let rowInsets = isCompact
+            ? EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10)
+            : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
+
+        if isSimulationMode {
+            Button {
+                insertPaletteItem(item)
+            } label: {
+                Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.leading)
+            }
+            .buttonStyle(PaletteListElementButtonStyle())
+            .accessibilityAddTraits(.isButton)
+            .disabled(true)
+            .listRowInsets(rowInsets)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
+        } else {
+            Button {
+                insertPaletteItem(item)
+            } label: {
+                Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
+                    .foregroundStyle(.primary)
+                    .multilineTextAlignment(.leading)
+            }
+            .buttonStyle(PaletteListElementButtonStyle())
+            .draggable(DiagramDragPayload(raw: ElementPalette.paletteDragIdentifier(item))) {
+                paletteDragPreview(for: item)
+            }
+            .accessibilityAddTraits(.isButton)
+            .listRowInsets(rowInsets)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
     }
 
