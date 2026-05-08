@@ -769,11 +769,8 @@ struct ContentView: View {
             if didAccess { url.stopAccessingSecurityScopedResource() }
         }
 
-        // Wichtig: Auf iOS/iPadOS funktionieren „Zuletzt verwendet“-Öffnungen nur zuverlässig,
-        // wenn wir ein **security-scoped** Bookmark speichern. `startAccessing...` beim Öffnen nutzt genau das.
-        //
-        // Hinweis: `BookmarkResolutionOptions.withSecurityScope` ist iOS-seitig nicht verfügbar, aber
-        // `BookmarkCreationOptions.withSecurityScope` ist es – und reicht hier aus.
+        #if os(macOS)
+        // macOS: security-scoped Bookmarks unterstützen persistente Zugriffsrechte.
         if let data = try? url.bookmarkData(
             options: [.withSecurityScope, .minimalBookmark],
             includingResourceValuesForKeys: nil,
@@ -781,8 +778,10 @@ struct ContentView: View {
         ) {
             return data
         }
+        #endif
 
-        // Fallback: falls eine URL kein security-scoped Bookmark unterstützt.
+        // iOS/iPadOS: `withSecurityScope` ist nicht verfügbar. Wir speichern ein Minimal-Bookmark;
+        // beim Öffnen versuchen wir weiterhin `startAccessingSecurityScopedResource()` auf der URL.
         return try? url.bookmarkData(
             options: .minimalBookmark,
             includingResourceValuesForKeys: nil,
@@ -889,21 +888,21 @@ struct ContentView: View {
                     return
                 }
             } else if let filePath = recentFile.filePath {
-                #if os(iOS) || os(tvOS) || os(visionOS)
-                // Auf iOS ist ein nackter Dateipfad in der Sandbox i. d. R. nicht mehr zugreifbar.
-                // Ohne Bookmark: Eintrag entfernen und dem Nutzer „nicht verfügbar“ anzeigen.
-                removeRecentFile(id: recentFile.id)
-                setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
-                return
-                #else
                 url = URL(fileURLWithPath: filePath)
-                #endif
             } else {
                 removeRecentFile(id: recentFile.id)
                 setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
                 return
             }
             if !openDocument(from: url) {
+                // iOS-Fallback: falls der Bookmark (z. B. aus DocumentProvider) nicht mehr zugreifbar ist,
+                // versuchen wir den Pfad nur dann, wenn er sicher im App-Sandbox liegt.
+                if let p = recentFile.filePath, p.hasPrefix(NSHomeDirectory()) {
+                    let fallbackURL = URL(fileURLWithPath: p)
+                    if openDocument(from: fallbackURL) {
+                        return
+                    }
+                }
                 removeRecentFile(id: recentFile.id)
             }
         } catch {
