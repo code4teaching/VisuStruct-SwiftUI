@@ -518,14 +518,6 @@ private struct DiagramSheetTab: Identifiable {
     }
 }
 
-private struct RecentVisuStructFile: Identifiable, Codable, Equatable {
-    var id: String
-    var displayName: String
-    var bookmarkData: Data?
-    var filePath: String?
-    var lastOpened: Date
-}
-
 // MARK: - Export: Dateiname (Einstellung)
 
 private enum ExportFilenameStyle: String, CaseIterable, Identifiable {
@@ -639,7 +631,7 @@ struct ContentView: View {
     @State private var isSimulationPlaying = false
     @State private var simulationWasPlayingBeforeInput = false
     @State private var simulationInputText = ""
-    @State private var recentFiles: [RecentVisuStructFile]
+    @StateObject private var recentFilesStore: RecentFilesStore
     @State private var pendingCloseTabId: UUID? = nil
     @State private var closeTabAfterSuccessfulExportId: UUID? = nil
     /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
@@ -693,24 +685,6 @@ struct ContentView: View {
         SimulationHighlightMode.fromStored(simulationHighlightModeRaw)
     }
 
-    private static let recentFilesDefaultsKey = "visustruct.recentFiles"
-    private static let maxRecentFileCount = 10
-
-    private static func loadRecentFiles() -> [RecentVisuStructFile] {
-        guard let data = UserDefaults.standard.data(forKey: recentFilesDefaultsKey),
-              let files = try? JSONDecoder().decode([RecentVisuStructFile].self, from: data) else {
-            return []
-        }
-        return files.sorted { $0.lastOpened > $1.lastOpened }
-    }
-
-    private static func saveRecentFiles(_ files: [RecentVisuStructFile]) {
-        if let data = try? JSONEncoder().encode(files) {
-            UserDefaults.standard.set(data, forKey: recentFilesDefaultsKey)
-            UserDefaults.standard.synchronize()
-        }
-    }
-
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
         let first = DiagramSheetTab.makeNew(serial: 1, language: startupLang)
@@ -718,7 +692,7 @@ struct ContentView: View {
         _selectedTabId = State(initialValue: first.id)
         _nextTabSerial = State(initialValue: 2)
         _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: first.document))
-        _recentFiles = State(initialValue: Self.loadRecentFiles())
+        _recentFilesStore = StateObject(wrappedValue: RecentFilesStore())
     }
 
     private var currentTabIndex: Int {
@@ -771,82 +745,14 @@ struct ContentView: View {
     private func setLinkedFile(forCurrentTab url: URL) {
         var tabs = sheetTabs
         let i = currentTabIndex
-        tabs[i].linkedFileBookmarkData = makeBookmarkData(for: url)
+        tabs[i].linkedFileBookmarkData = recentFilesStore.makeBookmarkData(for: url)
         let display = fileDisplayName(from: url)
         tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
         if let d = tabs[i].linkedFileDisplayName {
             tabs[i].title = d
         }
         sheetTabs = tabs
-        recordRecentFile(url)
-    }
-
-    private func makeBookmarkData(for url: URL) -> Data? {
-        // Auf iOS/iPadOS (und auch macOS) muss der Bookmark unter aktivem Security-Scoped Zugriff erzeugt werden,
-        // sonst lässt er sich später u. U. nicht mehr mit Berechtigung auflösen.
-        let didAccess = url.startAccessingSecurityScopedResource()
-        defer {
-            if didAccess { url.stopAccessingSecurityScopedResource() }
-        }
-
-        #if os(macOS)
-        // macOS: security-scoped Bookmarks unterstützen persistente Zugriffsrechte.
-        if let data = try? url.bookmarkData(
-            options: [.withSecurityScope, .minimalBookmark],
-            includingResourceValuesForKeys: nil,
-            relativeTo: nil
-        ) {
-            return data
-        }
-        #endif
-
-        // iOS/iPadOS: `withSecurityScope` ist nicht verfügbar. Für persistente „Zuletzt verwendet“-Einträge
-        // ist ein *voller* Bookmark (ohne `.minimalBookmark`) robuster als ein Minimal-Bookmark.
-        return try? url.bookmarkData(
-            options: [],
-            includingResourceValuesForKeys: nil,
-            relativeTo: nil
-        )
-    }
-
-    private func recordRecentFile(_ url: URL) {
-        let bookmarkData = makeBookmarkData(for: url)
-        let display = fileDisplayName(from: url)
-        let entry = RecentVisuStructFile(
-            id: url.path,
-            displayName: display.isEmpty ? url.lastPathComponent : display,
-            bookmarkData: bookmarkData,
-            filePath: url.path,
-            lastOpened: Date()
-        )
-        var files = recentFiles.filter { !recentFile($0, matches: entry) }
-        files.insert(entry, at: 0)
-        if files.count > Self.maxRecentFileCount {
-            files = Array(files.prefix(Self.maxRecentFileCount))
-        }
-        recentFiles = files
-        Self.saveRecentFiles(files)
-    }
-
-    private func recentFile(_ lhs: RecentVisuStructFile, matches rhs: RecentVisuStructFile) -> Bool {
-        if let lhsPath = lhs.filePath, let rhsPath = rhs.filePath {
-            return lhsPath == rhsPath
-        }
-        if let lhsBookmark = lhs.bookmarkData, let rhsBookmark = rhs.bookmarkData {
-            return lhsBookmark == rhsBookmark
-        }
-        return false
-    }
-
-    private func removeRecentFile(id: String) {
-        let files = recentFiles.filter { $0.id != id }
-        recentFiles = files
-        Self.saveRecentFiles(files)
-    }
-
-    private func clearRecentFiles() {
-        recentFiles = []
-        Self.saveRecentFiles([])
+        recentFilesStore.record(url: url, displayName: display)
     }
 
     @discardableResult
@@ -881,56 +787,22 @@ struct ContentView: View {
     }
 
     private func openRecentFile(_ recentFile: RecentVisuStructFile) {
-        var stale = false
         do {
-            let url: URL
-            if let bookmarkData = recentFile.bookmarkData {
-                #if os(macOS)
-                // macOS: scope beim Resolven setzen.
-                url = try URL(
-                    resolvingBookmarkData: bookmarkData,
-                    options: [.withSecurityScope],
-                    relativeTo: nil,
-                    bookmarkDataIsStale: &stale
-                )
-                #else
-                // iOS/iPadOS: ohne `.withSecurityScope` resolven.
-                url = try URL(
-                    resolvingBookmarkData: bookmarkData,
-                    options: [],
-                    relativeTo: nil,
-                    bookmarkDataIsStale: &stale
-                )
-                #endif
-                guard !stale else {
-                    removeRecentFile(id: recentFile.id)
-                    setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
-                    return
-                }
-            } else if let filePath = recentFile.filePath {
-                url = URL(fileURLWithPath: filePath)
-            } else {
-                removeRecentFile(id: recentFile.id)
-                setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
+            let url = try recentFilesStore.resolveURL(for: recentFile)
+            if openDocument(from: url) {
+                recentFilesStore.record(url: url, displayName: fileDisplayName(from: url))
                 return
             }
-            if openDocument(from: url) {
-                // Erfolgreich geöffnet → Recent-Eintrag aktualisieren (z. B. falls sich der Bookmark-Typ geändert hat).
-                recordRecentFile(url)
-            } else {
-                // iOS-Fallback: falls der Bookmark (z. B. aus DocumentProvider) nicht mehr zugreifbar ist,
-                // versuchen wir den Pfad nur dann, wenn er sicher im App-Sandbox liegt.
-                if let p = recentFile.filePath, p.hasPrefix(NSHomeDirectory()) {
-                    let fallbackURL = URL(fileURLWithPath: p)
-                    if openDocument(from: fallbackURL) {
-                        recordRecentFile(fallbackURL)
-                        return
-                    }
+            if let p = recentFile.filePath, p.hasPrefix(NSHomeDirectory()) {
+                let fallbackURL = URL(fileURLWithPath: p)
+                if openDocument(from: fallbackURL) {
+                    recentFilesStore.record(url: fallbackURL, displayName: fileDisplayName(from: fallbackURL))
+                    return
                 }
-                removeRecentFile(id: recentFile.id)
             }
+            recentFilesStore.remove(id: recentFile.id)
         } catch {
-            removeRecentFile(id: recentFile.id)
+            recentFilesStore.remove(id: recentFile.id)
             setErrorOnCurrentTab(error.localizedDescription)
         }
     }
@@ -1458,10 +1330,10 @@ struct ContentView: View {
                                     .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                             }
                             Menu {
-                                if recentFiles.isEmpty {
+                                if recentFilesStore.files.isEmpty {
                                     Text(lang.tr("recent_files_empty"))
                                 } else {
-                                    ForEach(recentFiles) { file in
+                                    ForEach(recentFilesStore.files) { file in
                                         Button {
                                             openRecentFile(file)
                                         } label: {
@@ -1470,7 +1342,7 @@ struct ContentView: View {
                                     }
                                     Divider()
                                     Button(role: .destructive) {
-                                        clearRecentFiles()
+                                        recentFilesStore.clear()
                                     } label: {
                                         Label(lang.tr("recent_files_clear"), systemImage: "trash")
                                     }
@@ -2850,7 +2722,7 @@ struct ContentView: View {
             let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
             let data = VisuStructXMLCodec.encode(docToSave)
             try data.write(to: url, options: .atomic)
-            recordRecentFile(url)
+            recentFilesStore.record(url: url, displayName: fileDisplayName(from: url))
             updateSavedBaselineForCurrentTab()
             clearErrorOnCurrentTab()
         } catch {
