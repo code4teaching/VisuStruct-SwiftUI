@@ -612,12 +612,12 @@ struct DiagramCanvasView: View {
                         guard from != path else { return false }
                         document = try VisuStructDocumentEditing.moveBeforeSibling(document, from: from, before: path)
                         errorText = nil
-                        selectedPath = path
+                        selectedPath = adjustedPathAfterRemoving(path: path, removedPath: from)
                     } else {
                         guard from != path else { return false }
                         document = try VisuStructDocumentEditing.moveAfterSibling(document, from: from, after: path)
                         errorText = nil
-                        selectedPath = pathOfInsertedSibling(after: path)
+                        selectedPath = pathOfInsertedSibling(after: adjustedPathAfterRemoving(path: path, removedPath: from))
                     }
                 case .on:
                     guard VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: document) else { return false }
@@ -745,6 +745,24 @@ struct DiagramCanvasView: View {
 
     private func pathOfInsertedSibling(after siblingPath: [Int]) -> [Int] {
         Array(siblingPath.dropLast()) + [siblingPath.last! + 1]
+    }
+
+    /// Spiegelt die Core-Logik wider (nur für Selection nach Drag&Drop):
+    /// Wenn ein Element an `removedPath` entfernt wird, rutschen alle nachfolgenden Geschwister-Indizes im selben Parent um 1 nach vorne.
+    private func adjustedPathAfterRemoving(path: [Int], removedPath: [Int]) -> [Int] {
+        guard let removedIndex = removedPath.last else { return path }
+        let removedParent = Array(removedPath.dropLast())
+        guard path.count > removedParent.count,
+              Array(path.prefix(removedParent.count)) == removedParent else {
+            return path
+        }
+        let affectedIndexPosition = removedParent.count
+        let targetIndex = path[affectedIndexPosition]
+        guard targetIndex > removedIndex else { return path }
+
+        var adjusted = path
+        adjusted[affectedIndexPosition] = targetIndex - 1
+        return adjusted
     }
 
     private func parsePath(_ s: String) -> [Int] {

@@ -169,13 +169,8 @@ public enum VisuStructDocumentEditing: Sendable {
         if fromPath == beforePath { return doc }
         if isStrictAncestor(ancestor: fromPath, of: beforePath) { throw VisuStructEditError.invalidPath }
         let moving = try element(at: fromPath, in: doc)
-        let sameParent = fromPath.dropLast() == beforePath.dropLast()
-        let fi = fromPath.last!, bi = beforePath.last!
         let d = try deleteAtPath(doc, path: fromPath)
-        var target = beforePath
-        if sameParent && fi < bi {
-            target = beforePath.dropLast() + [bi - 1]
-        }
+        let target = try adjustedPathAfterRemoving(path: beforePath, removedPath: fromPath)
         return try insertBeforeSibling(d, moving, before: target)
     }
 
@@ -185,13 +180,8 @@ public enum VisuStructDocumentEditing: Sendable {
         if fromPath == placeholderPath { return (doc, fromPath) }
         if isStrictAncestor(ancestor: fromPath, of: placeholderPath) { throw VisuStructEditError.invalidPath }
         let moving = try element(at: fromPath, in: doc)
-        let sameParent = fromPath.dropLast() == placeholderPath.dropLast()
-        let fi = fromPath.last!, pi = placeholderPath.last!
         let d = try deleteAtPath(doc, path: fromPath)
-        var ph = placeholderPath
-        if sameParent && fi < pi {
-            ph = placeholderPath.dropLast() + [pi - 1]
-        }
+        let ph = try adjustedPathAfterRemoving(path: placeholderPath, removedPath: fromPath)
         let updated = try replaceAtPath(d, path: ph, with: moving)
         return (updated, ph)
     }
@@ -202,13 +192,8 @@ public enum VisuStructDocumentEditing: Sendable {
         if fromPath == afterPath { return doc }
         if isStrictAncestor(ancestor: fromPath, of: afterPath) { throw VisuStructEditError.invalidPath }
         let moving = try element(at: fromPath, in: doc)
-        let sameParent = fromPath.dropLast() == afterPath.dropLast()
-        let fi = fromPath.last!, ai = afterPath.last!
         let d = try deleteAtPath(doc, path: fromPath)
-        var target = afterPath
-        if sameParent && fi < ai {
-            target = afterPath.dropLast() + [ai - 1]
-        }
+        let target = try adjustedPathAfterRemoving(path: afterPath, removedPath: fromPath)
         return try insertAfterSibling(d, moving, after: target)
     }
 
@@ -287,6 +272,25 @@ public enum VisuStructDocumentEditing: Sendable {
 
     private static func isStrictAncestor(ancestor: [Int], of path: [Int]) -> Bool {
         ancestor.count < path.count && Array(path.prefix(ancestor.count)) == ancestor
+    }
+
+    /// Passt einen bestehenden Pfad an, nachdem `removedPath` aus seiner Geschwisterliste entfernt wurde.
+    /// Beispiel: Entfernt `[0]`, dann wird ein Ziel in `[1,0,0]` zu `[0,0,0]`.
+    private static func adjustedPathAfterRemoving(path: [Int], removedPath: [Int]) throws -> [Int] {
+        guard let removedIndex = removedPath.last else { throw VisuStructEditError.invalidPath }
+        let removedParent = Array(removedPath.dropLast())
+        guard path.count > removedParent.count,
+              Array(path.prefix(removedParent.count)) == removedParent else {
+            return path
+        }
+
+        let affectedIndexPosition = removedParent.count
+        let targetIndex = path[affectedIndexPosition]
+        guard targetIndex > removedIndex else { return path }
+
+        var adjusted = path
+        adjusted[affectedIndexPosition] = targetIndex - 1
+        return adjusted
     }
 
     private static func insertInside(_ el: inout VisuStructElement, path: [Int], index: Int, element: VisuStructElement) throws {
