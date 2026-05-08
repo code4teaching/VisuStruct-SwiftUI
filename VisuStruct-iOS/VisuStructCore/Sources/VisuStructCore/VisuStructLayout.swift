@@ -240,8 +240,6 @@ public struct VisuStructLayoutEngine: Sendable {
         case .forSchleife, .whileSchleife, .endlosschleife:
             // +4 pt: größerer Text-Obenabstand im Canvas (`cellTextInsetY`), Kopf/Rumpf-Grenze bleibt unter der Bedingung.
             baseExtra = metrics.baseHeaderExtra + 4
-        default:
-            baseExtra = metrics.baseHeaderExtra
         }
         return baseExtra + Double(lines) * metrics.lineHeight + Double(e.zoomY)
     }

@@ -110,8 +110,6 @@ extension VisuStructCodeGenerator {
             return sp(indent) + "console.log(" + t + ");\n"
         case .python:
             return sp(indent) + "print(" + t + ")\n"
-        default:
-            return nil
         }
     }
 

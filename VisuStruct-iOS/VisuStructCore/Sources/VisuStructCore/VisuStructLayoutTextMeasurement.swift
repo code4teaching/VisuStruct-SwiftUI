@@ -44,8 +44,12 @@ public enum VisuStructForLoopDiagramDisplay: Sendable {
         var parts = textLines
         while parts.count < 3 { parts.append("") }
         if parts.count > 3 { parts = Array(parts.prefix(3)) }
-        return parts
+        let joined = parts
             .map(stripTrailingSemicolons)
             .joined(separator: "; ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if joined.isEmpty { return "for" }
+        return "for " + joined
     }
 }

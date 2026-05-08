@@ -762,7 +762,20 @@ struct ContentView: View {
     }
 
     private func makeBookmarkData(for url: URL) -> Data? {
-        try? url.bookmarkData(
+        #if os(macOS)
+        // macOS: security-scoped Bookmark, damit „Zuletzt verwendet“ zuverlässig funktioniert.
+        if let data = try? url.bookmarkData(
+            options: [.withSecurityScope, .minimalBookmark],
+            includingResourceValuesForKeys: nil,
+            relativeTo: nil
+        ) {
+            return data
+        }
+        #endif
+
+        // iOS/iPadOS: `.withSecurityScope` ist nicht verfügbar. Wir speichern ein Minimal-Bookmark und
+        // verwenden beim Öffnen weiterhin `startAccessingSecurityScopedResource()` auf der URL.
+        return try? url.bookmarkData(
             options: .minimalBookmark,
             includingResourceValuesForKeys: nil,
             relativeTo: nil
@@ -845,12 +858,23 @@ struct ContentView: View {
         do {
             let url: URL
             if let bookmarkData = recentFile.bookmarkData {
+                #if os(macOS)
+                // macOS: scope beim Resolven setzen.
+                url = try URL(
+                    resolvingBookmarkData: bookmarkData,
+                    options: [.withSecurityScope],
+                    relativeTo: nil,
+                    bookmarkDataIsStale: &stale
+                )
+                #else
+                // iOS/iPadOS: ohne `.withSecurityScope` resolven.
                 url = try URL(
                     resolvingBookmarkData: bookmarkData,
                     options: [],
                     relativeTo: nil,
                     bookmarkDataIsStale: &stale
                 )
+                #endif
                 guard !stale else {
                     removeRecentFile(id: recentFile.id)
                     setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
@@ -2922,12 +2946,13 @@ struct ContentView: View {
                 insertPaletteItem(item)
             } label: {
                 Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.tertiary)
                     .multilineTextAlignment(.leading)
             }
             .buttonStyle(PaletteListElementButtonStyle())
             .accessibilityAddTraits(.isButton)
             .disabled(true)
+            .opacity(0.55)
             .listRowInsets(rowInsets)
             .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
@@ -3516,7 +3541,7 @@ private struct SimulationStatePanel: View {
                                 }
                             }
                         }
-                        .padding(.trailing, 4)
+                        .padding(.trailing, 14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
