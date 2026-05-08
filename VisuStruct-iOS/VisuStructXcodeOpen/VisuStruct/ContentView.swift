@@ -780,10 +780,10 @@ struct ContentView: View {
         }
         #endif
 
-        // iOS/iPadOS: `withSecurityScope` ist nicht verfügbar. Wir speichern ein Minimal-Bookmark;
-        // beim Öffnen versuchen wir weiterhin `startAccessingSecurityScopedResource()` auf der URL.
+        // iOS/iPadOS: `withSecurityScope` ist nicht verfügbar. Für persistente „Zuletzt verwendet“-Einträge
+        // ist ein *voller* Bookmark (ohne `.minimalBookmark`) robuster als ein Minimal-Bookmark.
         return try? url.bookmarkData(
-            options: .minimalBookmark,
+            options: [],
             includingResourceValuesForKeys: nil,
             relativeTo: nil
         )
@@ -894,12 +894,16 @@ struct ContentView: View {
                 setErrorOnCurrentTab(lang.tr("recent_files_unavailable"))
                 return
             }
-            if !openDocument(from: url) {
+            if openDocument(from: url) {
+                // Erfolgreich geöffnet → Recent-Eintrag aktualisieren (z. B. falls sich der Bookmark-Typ geändert hat).
+                recordRecentFile(url)
+            } else {
                 // iOS-Fallback: falls der Bookmark (z. B. aus DocumentProvider) nicht mehr zugreifbar ist,
                 // versuchen wir den Pfad nur dann, wenn er sicher im App-Sandbox liegt.
                 if let p = recentFile.filePath, p.hasPrefix(NSHomeDirectory()) {
                     let fallbackURL = URL(fileURLWithPath: p)
                     if openDocument(from: fallbackURL) {
+                        recordRecentFile(fallbackURL)
                         return
                     }
                 }
@@ -1207,6 +1211,7 @@ struct ContentView: View {
                     Label(lang.tr("action_delete_selection"), systemImage: "trash")
                 }
                 .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
+                .opacity(isSimulationMode ? 0.55 : 1.0)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 4, leading: 10, bottom: 3, trailing: 10)
@@ -1258,6 +1263,7 @@ struct ContentView: View {
                 } label: {
                     HStack(spacing: 10) {
                         Label(lang.tr("action_generate_code"), systemImage: "chevron.left.forwardslash.chevron.right")
+                            .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                         Spacer(minLength: 8)
                         if !codeGeneratorAccessGranted {
                             Image(systemName: "lock.fill")
@@ -1267,6 +1273,8 @@ struct ContentView: View {
                     }
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
+                .disabled(isSimulationMode)
+                .opacity(isSimulationMode ? 0.55 : 1.0)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1281,8 +1289,11 @@ struct ContentView: View {
                     exportPNG()
                 } label: {
                     Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
+                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
+                .disabled(isSimulationMode)
+                .opacity(isSimulationMode ? 0.55 : 1.0)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1294,8 +1305,11 @@ struct ContentView: View {
                     shareDocumentAsFile()
                 } label: {
                     Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
+                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
+                .disabled(isSimulationMode)
+                .opacity(isSimulationMode ? 0.55 : 1.0)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1307,8 +1321,11 @@ struct ContentView: View {
                     shareDiagramPDF()
                 } label: {
                     Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
+                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
                 .buttonStyle(PaletteListElementButtonStyle())
+                .disabled(isSimulationMode)
+                .opacity(isSimulationMode ? 0.55 : 1.0)
                 .listRowInsets(
                     isCompact
                         ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
@@ -1399,12 +1416,14 @@ struct ContentView: View {
                             .keyboardShortcut("z", modifiers: [.command, .shift])
                     }
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        Button(lang.tr("toolbar_new"), systemImage: "doc.badge.plus", action: newDocument)
                         Button(action: saveCurrentDocumentToFile) {
                             Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
+                                .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                         }
                         .help(lang.tr("menu_save"))
                         .keyboardShortcut("s", modifiers: .command)
+                        .disabled(isSimulationMode)
+                        .opacity(isSimulationMode ? 0.55 : 1.0)
                         if isPhone {
                             Button {
                                 withAnimation(.easeInOut(duration: 0.15)) {
@@ -1421,6 +1440,7 @@ struct ContentView: View {
                                 showImporter = true
                             } label: {
                                 Label(lang.tr("menu_open"), systemImage: "square.and.arrow.down")
+                                    .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                             }
                             Menu {
                                 if recentFiles.isEmpty {
@@ -1460,7 +1480,10 @@ struct ContentView: View {
                             #endif
                         } label: {
                             Label(lang.tr("menu_file"), systemImage: "folder")
+                                .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                         }
+                        .disabled(isSimulationMode)
+                        .opacity(isSimulationMode ? 0.55 : 1.0)
                     }
                     #if canImport(UIKit)
                     ToolbarItemGroup(placement: .keyboard) {
