@@ -313,4 +313,83 @@ extension VisuStructCodeGenerator {
             return nil
         }
     }
+
+    static func inferIntegerVariablesForJavaScript(_ doc: VisuStructDocument) -> Set<String> {
+        func isIntegerType(_ t: String) -> Bool {
+            let x = t.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            return x == "int" || x == "integer" || x == "long" || x == "short" || x == "byte"
+        }
+
+        func addFromStatementLine(_ raw: String, into set: inout Set<String>) {
+            let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            if t.isEmpty { return }
+            let lower = t.lowercased()
+            if lower.hasPrefix("input:") {
+                let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+                if let p = parseInputLineAfterColon(rest), isIntegerType(p.type) {
+                    // Array-Targets ignorieren (z. B. a[i]).
+                    if !p.name.contains("[") { set.insert(p.name) }
+                }
+                return
+            }
+            // `const int x` / `const int x = ...`
+            if let c = parseConstTypedLine(t), isIntegerType(c.rawType) {
+                set.insert(c.name)
+                return
+            }
+            // `int x = ...` / `Integer x = ...` / `long x = ...`
+            let pat = #"(?i)^\s*(integer|int|long|short|byte)\s+([a-zA-Z_]\w*)\s*="#
+            if let g = regexGroups(pat, t), g.count >= 3 {
+                set.insert(g[2].trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+        }
+
+        func walk(_ elements: [VisuStructElement], into set: inout Set<String>) {
+            for e in elements {
+                for line in e.textLines {
+                    addFromStatementLine(line, into: &set)
+                }
+                if let body = e.loopBody {
+                    walk(body, into: &set)
+                }
+                if let cases = e.cases {
+                    for c in cases {
+                        walk(c.elements, into: &set)
+                    }
+                }
+            }
+        }
+
+        var out: Set<String> = []
+        walk(doc.elements, into: &out)
+        return out
+    }
+
+    static func javaScriptIntegerDivisionIfNeeded(_ raw: String, intVariables: Set<String>) -> String? {
+        let t = stripTrailingSemicolon(raw).trimmingCharacters(in: .whitespacesAndNewlines)
+        if t.isEmpty { return nil }
+
+        // x = x / y  (einfaches Muster, ohne weitere Operatoren)
+        let assignPat = #"^\s*([a-zA-Z_]\w*)\s*=\s*([a-zA-Z_]\w*|\d+)\s*/\s*([a-zA-Z_]\w*|\d+)\s*$"#
+        if let g = regexGroups(assignPat, t), g.count >= 4 {
+            let lhs = g[1]
+            let a = g[2]
+            let b = g[3]
+            guard intVariables.contains(lhs) else { return nil }
+            // Nur wenn der LHS auch wirklich der Dividend ist (typischer int-div Update).
+            guard lhs == a else { return nil }
+            return "\(lhs) = Math.floor(\(a) / \(b))"
+        }
+
+        // x /= y
+        let divEqPat = #"^\s*([a-zA-Z_]\w*)\s*/=\s*([a-zA-Z_]\w*|\d+)\s*$"#
+        if let g2 = regexGroups(divEqPat, t), g2.count >= 3 {
+            let lhs = g2[1]
+            let b = g2[2]
+            guard intVariables.contains(lhs) else { return nil }
+            return "\(lhs) = Math.floor(\(lhs) / \(b))"
+        }
+
+        return nil
+    }
 }

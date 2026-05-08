@@ -215,7 +215,13 @@ extension VisuStructCodeGenerator {
                 continue
             }
             let line: String = {
-                if isCStyleSemicolonTarget(target) { return formatCStyleStatementLine(raw) }
+                if isCStyleSemicolonTarget(target) {
+                    if target == .javascript,
+                       let transformed = javaScriptIntegerDivisionIfNeeded(raw, intVariables: options.jsIntVariables) {
+                        return formatCStyleStatementLine(transformed)
+                    }
+                    return formatCStyleStatementLine(raw)
+                }
                 return raw
             }()
             if line.isEmpty { continue }

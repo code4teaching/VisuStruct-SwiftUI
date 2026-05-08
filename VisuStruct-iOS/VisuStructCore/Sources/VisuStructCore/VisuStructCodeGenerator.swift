@@ -16,6 +16,8 @@ public enum VisuStructCodeGenerator: Sendable {
         public var includeDiagramTextAsComments: Bool
         /// Wenn `true` (Standard): `else` wird auch ausgegeben, wenn der **Nein**-Zweig nur leer (ø) ist — analog zum Struktogramm. Wenn `false`, entfällt in diesem Fall `else` (kompakterer Code; alle Zielsprachen).
         public var includeEmptyElseBranch: Bool
+        /// Interner Heuristik-Kontext für JavaScript-Emit (z. B. Ganzzahldivision).
+        var jsIntVariables: Set<String> = []
 
         public init(
             baseIndent: Int = 0,
@@ -27,14 +29,17 @@ public enum VisuStructCodeGenerator: Sendable {
             self.indentPerLevel = indentPerLevel
             self.includeDiagramTextAsComments = includeDiagramTextAsComments
             self.includeEmptyElseBranch = includeEmptyElseBranch
+            self.jsIntVariables = []
         }
     }
 
     public static func generate(document: VisuStructDocument, target: Target, options: Options = Options()) -> String {
         var out = ""
+        var opts = options
         if target == .javascript {
             // Schul-tauglich: Strict-Modus immer am Anfang des Snippets (wie vereinbart).
             out += "\"use strict\";\n\n"
+            opts.jsIntVariables = inferIntegerVariablesForJavaScript(document)
         }
         if target == .python, documentContainsJavaMathRandom(document) {
             out += "import random\n\n"
@@ -45,7 +50,7 @@ public enum VisuStructCodeGenerator: Sendable {
             out += "Scanner scanner = new Scanner(System.in);\n\n"
         }
         for el in document.elements {
-            emit(element: el, target: target, options: options, indent: options.baseIndent, into: &out)
+            emit(element: el, target: target, options: opts, indent: opts.baseIndent, into: &out)
         }
         if out.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             let empty = commentPrefix(target: target, forEmpty: true)
