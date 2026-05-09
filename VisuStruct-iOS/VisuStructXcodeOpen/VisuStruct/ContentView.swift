@@ -28,21 +28,7 @@ struct ContentView: View {
         #endif
     }
 
-    private enum FocusTarget: Hashable {
-        case caption
-        case caseLabel
-        case textEditor
-        /// Zählschleife: drei Kopf-Felder (Start / Bedingung / Schritt).
-        case forLoopPart(Int)
-    }
-
-    private enum StatementIOMode: String, CaseIterable, Hashable {
-        case statement
-        case input
-        case output
-    }
-
-    @FocusState private var focusedField: FocusTarget?
+    @FocusState private var focusedField: DiagramEditorFocusTarget?
 
     @State private var sheetTabs: [DiagramSheetTab]
     @State private var selectedTabId: UUID
@@ -1463,6 +1449,23 @@ struct ContentView: View {
 
     // MARK: - Inspector (unter dem Canvas)
 
+    private var inspectorFallauswahlToolbar: InspectorFallauswahlToolbarContext? {
+        guard let faPath = multiwayAncestorPath(for: selectedPath) else { return nil }
+        let faCaseCount =
+            (try? VisuStructDocumentEditing.element(at: faPath, in: document))?.cases?.count ?? 0
+        let removeCaseIdx = selectedCaseIndex(multiwayPath: faPath, selectedPath: selectedPath)
+        return InspectorFallauswahlToolbarContext(
+            caseCount: faCaseCount,
+            removeCaseIndex: removeCaseIdx,
+            onAdd: { addCaseToFallauswahl(at: faPath) },
+            onRemove: {
+                if let idx = removeCaseIdx {
+                    removeCaseFromFallauswahl(at: faPath, caseIndex: idx)
+                }
+            }
+        )
+    }
+
     /// Kompaktes Textfeld unter dem Canvas (typisch 1–2 Zeilen); bei Bedarf per Scrollen mehr.
     private var inspectorPanel: some View {
         let inScale = CGFloat(inspectorScaleStep.multiplier)
@@ -1476,154 +1479,35 @@ struct ContentView: View {
         )
         let editorMonoPt = (horizontalSizeClass == .regular ? 16 : 17) * inScale
         let editorFont: Font = .system(size: editorMonoPt, weight: .regular)
-        /// Eine Zeile ~22 pt, zwei Zeilen knapp unter 50 pt — bewusst niedrig, Canvas bleibt dominant.
         let editorLineHeight: CGFloat = (horizontalSizeClass == .regular ? 24 : 27) * inScale
         let editorMinHeight: CGFloat = editorLineHeight + 20
         let editorMaxHeight: CGFloat = editorLineHeight * 2 + 28
 
-        return GroupBox {
-            VStack(alignment: .leading, spacing: 12) {
-                if selectedPath == nil {
-                    Text(lang.tr("inspector_no_selection"))
-                        .foregroundStyle(.secondary)
-                        .font(captionFont)
-                        .lineSpacing(3)
-                }
-                if let ioModeBinding = statementIOModeBindingIfApplicable() {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Picker("", selection: ioModeBinding) {
-                            Text(lang.tr("inspector_io_mode_statement")).tag(StatementIOMode.statement)
-                            Text(lang.tr("inspector_io_mode_input")).tag(StatementIOMode.input)
-                            Text(lang.tr("inspector_io_mode_output")).tag(StatementIOMode.output)
-                        }
-                        #if canImport(AppKit)
-                        .pickerStyle(.radioGroup)
-                        #else
-                        .pickerStyle(.segmented)
-                        #endif
-                        .labelsHidden()
-                        // Java-ähnliche Beispiele: absichtlich immer Englisch (Identifier wie number/text), unabhängig von der UI-Sprache — ohne „e.g.“-Präfix, der Hinweis reicht.
-                        if ioModeBinding.wrappedValue == .statement {
-                            // Ein `Text`: eine Zeile wenn Platz, sonst umbrechen (kein erzwungenes Zweizeiler-Layout).
-                            Text(verbatim: "int number = 5  |  double x = 1.5  |  String text = \"Your text\"  |  boolean ok = true  |  char letter = 'A'  |  const double PI = 3.14")
-                                .font(inspectorHintFont)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        } else if ioModeBinding.wrappedValue == .input {
-                            Text(verbatim: "input: int age \"Enter age\" | input: double price \"Enter price\" | input: String name \"Enter name\"")
-                                .font(inspectorHintFont)
-                                .foregroundStyle(.secondary)
-                        } else if ioModeBinding.wrappedValue == .output {
-                            Text(verbatim: "output: number  |  output: \"Your text\"  |  output: \"Your age: \" + age")
-                                .font(inspectorHintFont)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .padding(.bottom, 2)
-                }
-                if let labelBinding = multiwayCaseLabelBinding() {
-                    TextField("z. B. 1, ok, default", text: labelBinding)
-                        .font(editorFont)
-                        .textFieldStyle(.roundedBorder)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-                        .focused($focusedField, equals: .caseLabel)
-                }
-                if inspectorShowsForLoopThreeFields {
-                    if horizontalSizeClass == .regular {
-                        HStack(alignment: .top, spacing: 12) {
-                            ForEach(0 ..< 3, id: \.self) { i in
-                                forLoopInspectorColumn(i, captionFont: captionFont, editorFont: editorFont)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        }
-                    } else {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(alignment: .top, spacing: 12) {
-                                ForEach(0 ..< 3, id: \.self) { i in
-                                    forLoopInspectorColumn(i, captionFont: captionFont, editorFont: editorFont)
-                                        .frame(minWidth: 128, alignment: .leading)
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    VStack(alignment: .leading, spacing: 6) {
-                        if let condHint = inspectorConditionEditorHintLine() {
-                            Text(verbatim: condHint)
-                                .font(inspectorHintFont)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                        HStack(alignment: .top, spacing: 8) {
-                            if let prefixLabel = lineEditorFixedPrefixLabel {
-                                Text(verbatim: prefixLabel)
-                                    .font(.system(size: editorMonoPt, weight: .regular, design: .monospaced))
-                                    .foregroundStyle(.secondary)
-                                    .padding(.top, 10)
-                                    .allowsHitTesting(false)
-                            }
-                            ZStack(alignment: .topLeading) {
-                                CodeLineEditor(
-                                    text: lineEditorVisibleTextBinding,
-                                    minHeight: editorMinHeight,
-                                    maxHeight: editorMaxHeight,
-                                    focusToken: editorFocusToken,
-                                    onCommit: applyLineEditor,
-                                    monospacedFontSize: editorMonoPt
-                                )
-                                .scrollContentBackground(.hidden)
-                                .textInputAutocapitalization(.never)
-                                .autocorrectionDisabled(true)
-                                .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-                                .focused($focusedField, equals: .textEditor)
-
-                                if selectedPath != nil,
-                                   lineEditorVisibleTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                                   let placeholder = inspectorLineEditorPlaceholder() {
-                                    Text(placeholder)
-                                        .font(inspectorHintFont)
-                                        .foregroundStyle(.secondary)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 10)
-                                        .allowsHitTesting(false)
-                                }
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                    }
-                    Button(lang.tr("inspector_apply_text")) {
-                        applyLineEditorRespectingTextFocus()
-                    }
-                    .disabled(selectedPath == nil)
-                }
-                if let faPath = multiwayAncestorPath(for: selectedPath) {
-                    let faCaseCount =
-                        (try? VisuStructDocumentEditing.element(at: faPath, in: document))?.cases?.count ?? 0
-                    let removeCaseIdx = selectedCaseIndex(multiwayPath: faPath, selectedPath: selectedPath)
-                    HStack(spacing: 16) {
-                        Button {
-                            addCaseToFallauswahl(at: faPath)
-                        } label: {
-                            Label(lang.tr("inspector_add_case"), systemImage: "plus.rectangle.on.rectangle")
-                        }
-                        .buttonStyle(.bordered)
-                        Button(role: .destructive) {
-                            if let idx = removeCaseIdx {
-                                removeCaseFromFallauswahl(at: faPath, caseIndex: idx)
-                            }
-                        } label: {
-                            Label(lang.tr("inspector_remove_case"), systemImage: "minus.rectangle")
-                        }
-                        .buttonStyle(.bordered)
-                        .disabled(faCaseCount <= 2 || removeCaseIdx == nil)
-                    }
-                }
-            }
-        } label: {
-            Text(inspectorGroupBoxTitle)
-                .font(.headline)
-        }
+        return InspectorPanelBody(
+            focusedField: $focusedField,
+            selectedPath: selectedPath,
+            captionFont: captionFont,
+            inspectorHintFont: inspectorHintFont,
+            editorFont: editorFont,
+            editorMonoPt: editorMonoPt,
+            editorMinHeight: editorMinHeight,
+            editorMaxHeight: editorMaxHeight,
+            ioModeBinding: statementIOModeBindingIfApplicable(),
+            caseLabelBinding: multiwayCaseLabelBinding(),
+            inspectorShowsForLoopThreeFields: inspectorShowsForLoopThreeFields,
+            forLoopColumn: { i, cap, ed in
+                forLoopInspectorColumn(i, captionFont: cap, editorFont: ed)
+            },
+            lineEditorVisibleTextBinding: lineEditorVisibleTextBinding,
+            editorFocusToken: editorFocusToken,
+            lineEditorFixedPrefixLabel: lineEditorFixedPrefixLabel,
+            inspectorConditionEditorHintLine: inspectorConditionEditorHintLine(),
+            inspectorLineEditorPlaceholder: inspectorLineEditorPlaceholder(),
+            fallauswahl: inspectorFallauswahlToolbar,
+            onApplyLineEditor: applyLineEditor,
+            onApplyRespectingFocus: applyLineEditorRespectingTextFocus,
+            groupBoxTitle: inspectorGroupBoxTitle
+        )
     }
 
     private func statementIOModeBindingIfApplicable() -> Binding<StatementIOMode>? {
@@ -1821,28 +1705,15 @@ struct ContentView: View {
 
     // MARK: - Inspector (iPhone: ein-/ausblendbar)
 
-    @ViewBuilder
     private var inspectorPanelPhoneAware: some View {
-        if !isPhone {
+        InspectorPhoneChrome(
+            isPhone: isPhone,
+            insertTargetActive: insertTarget != nil,
+            hideInspectorOnPhone: hideInspectorOnPhone,
+            onCancelInsert: { insertTarget = nil },
+            onShowInspector: { hideInspectorOnPhone = false }
+        ) {
             inspectorPanel
-        } else {
-            if insertTarget != nil {
-                Button {
-                    insertTarget = nil
-                } label: {
-                    Label(lang.tr("phone_insert_cancel"), systemImage: "xmark.circle")
-                }
-                .buttonStyle(.bordered)
-            } else if hideInspectorOnPhone {
-                Button {
-                    hideInspectorOnPhone = false
-                } label: {
-                    Label(lang.tr("phone_show_text_editor"), systemImage: "chevron.up")
-                }
-                .buttonStyle(.bordered)
-            } else {
-                inspectorPanel
-            }
         }
     }
 
@@ -1965,7 +1836,7 @@ struct ContentView: View {
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else {
             return lang.tr("inspector_group_element")
         }
-        return Self.localizedElementTypeName(el.type, lang: lang)
+        return InspectorElementTypeLocalization.title(for: el.type, lang: lang)
     }
 
     private func padForLoopTextLines(_ lines: [String]) -> [String] {
@@ -2044,23 +1915,6 @@ struct ContentView: View {
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled(true)
                 .focused($focusedField, equals: .forLoopPart(index))
-        }
-    }
-
-    // MARK: - Lokalisierung Elementtyp (Inspector)
-
-    private static func localizedElementTypeName(_ type: VisuStructElementType, lang: AppLanguage) -> String {
-        switch type {
-        case .anweisung: return lang.tr("element_anweisung")
-        case .verzweigung: return lang.tr("element_verzweigung")
-        case .fallauswahl: return lang.tr("element_fallauswahl")
-        case .forSchleife: return lang.tr("element_forSchleife")
-        case .whileSchleife: return lang.tr("element_whileSchleife")
-        case .doUntilSchleife: return lang.tr("element_doUntilSchleife")
-        case .endlosschleife: return lang.tr("element_endlosschleife")
-        case .aussprung: return lang.tr("element_aussprung")
-        case .aufruf: return lang.tr("element_aufruf")
-        case .leerElement: return lang.tr("element_leerElement")
         }
     }
 
