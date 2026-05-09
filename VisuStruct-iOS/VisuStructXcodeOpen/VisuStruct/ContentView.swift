@@ -700,119 +700,55 @@ struct ContentView: View {
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(.regularMaterial, for: .navigationBar)
                 .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        let tab = sheetTabs[currentTabIndex]
-                        let displayTitle = diagramTabDisplayTitle(tab)
-                        HStack(spacing: 6) {
-                            Text(verbatim: displayTitle)
-                                .lineLimit(1)
-                                .minimumScaleFactor(0.65)
-                                .font(.headline)
-                            if tabHasUnsavedChanges(tab) {
-                                unsavedChangeIndicatorDot()
-                            }
-                        }
-                        .accessibilityElement(children: .combine)
-                        .accessibilityLabel(
-                            tabHasUnsavedChanges(tab)
-                                ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))"
-                                : displayTitle
-                        )
-                    }
-                    ToolbarItemGroup(placement: .topBarLeading) {
-                        Button(lang.tr("toolbar_undo"), systemImage: "arrow.uturn.backward", action: performUndo)
-                            .disabled(sheetTabs[currentTabIndex].undoStack.isEmpty)
-                            .help(lang.tr("toolbar_undo"))
-                            .keyboardShortcut("z", modifiers: .command)
-                        Button(lang.tr("toolbar_redo"), systemImage: "arrow.uturn.forward", action: performRedo)
-                            .disabled(sheetTabs[currentTabIndex].redoStack.isEmpty)
-                            .help(lang.tr("toolbar_redo"))
-                            .keyboardShortcut("z", modifiers: [.command, .shift])
-                    }
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        Button(action: saveCurrentDocumentToFile) {
-                            Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
-                                .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                        }
-                        .help(lang.tr("menu_save"))
-                        .keyboardShortcut("s", modifiers: .command)
-                        .disabledAndDimmed(isSimulationMode)
-                        if isPhone {
-                            Button {
-                                withAnimation(.easeInOut(duration: 0.15)) {
-                                    showPaletteOnPhone.toggle()
-                                }
-                            } label: {
-                                Label(lang.tr("palette_header"), systemImage: "square.grid.2x2")
-                            }
-                            .labelStyle(.iconOnly)
-                            .accessibilityLabel(lang.tr("palette_header"))
-                        }
-                        Menu {
-                            Button {
-                                showImporter = true
-                            } label: {
-                                Label(lang.tr("menu_open"), systemImage: "square.and.arrow.down")
-                                    .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                            }
-                            Menu {
-                                if recentFilesStore.files.isEmpty {
-                                    Text(lang.tr("recent_files_empty"))
-                                } else {
-                                    ForEach(recentFilesStore.files) { file in
-                                        Button {
-                                            openRecentFile(file)
-                                        } label: {
-                                            Label(file.displayName, systemImage: "clock.arrow.circlepath")
-                                        }
-                                    }
-                                    Divider()
-                                    Button(role: .destructive) {
-                                        recentFilesStore.clear()
-                                    } label: {
-                                        Label(lang.tr("recent_files_clear"), systemImage: "trash")
-                                    }
-                                }
-                            } label: {
-                                Label(lang.tr("recent_files_menu"), systemImage: "clock")
-                            }
-                            Divider()
-                            Button(action: saveCurrentDocumentToFile) {
-                                Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
-                            }
-                            Button {
-                                showExporter = true
-                            } label: {
-                                Label(lang.tr("menu_save_as"), systemImage: "square.and.arrow.up")
-                            }
-                            #if canImport(UIKit)
-                            Divider()
-                            Button(action: printDiagram) {
-                                Label(lang.tr("menu_print"), systemImage: "printer")
-                            }
-                            #endif
-                        } label: {
-                            Label(lang.tr("menu_file"), systemImage: "folder")
-                                .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                        }
-                        .disabledAndDimmed(isSimulationMode)
-                    }
-                    #if canImport(UIKit)
-                    ToolbarItemGroup(placement: .keyboard) {
-                        Spacer()
-                        Button(lang.tr("about_done")) {
-                            focusedField = nil
-                            // iPhone: Inspector wieder einklappen, damit Canvas sichtbar ist.
-                            if isPhone {
-                                hideInspectorOnPhone = true
-                            }
-                        }
-                    }
-                    #endif
+                    mainEditorToolbarItems()
                 }
             }
         }
         .background(Color(.systemGroupedBackground))
+    }
+
+    private func mainEditorToolbarItems() -> DiagramMainEditorToolbar {
+        let tab = sheetTabs[currentTabIndex]
+        let displayTitle = diagramTabDisplayTitle(tab)
+        let unsaved = tabHasUnsavedChanges(tab)
+        let isTyping: Bool = {
+            switch focusedField {
+            case .none: return false
+            case .caption, .caseLabel, .textEditor, .forLoopPart(_): return true
+            }
+        }()
+        #if canImport(UIKit)
+        let printAction: (() -> Void)? = { printDiagram() }
+        #else
+        let printAction: (() -> Void)? = nil
+        #endif
+        return DiagramMainEditorToolbar(
+            principalTitle: displayTitle,
+            principalShowsUnsaved: unsaved,
+            principalAccessibilityLabel: unsaved ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))" : displayTitle,
+            canUndo: !isTyping && !tab.undoStack.isEmpty,
+            canRedo: !isTyping && !tab.redoStack.isEmpty,
+            onUndo: performUndo,
+            onRedo: performRedo,
+            isSimulationMode: isSimulationMode,
+            isPhone: isPhone,
+            onTogglePalettePhone: {
+                withAnimation(.easeInOut(duration: 0.15)) {
+                    showPaletteOnPhone.toggle()
+                }
+            },
+            recentFiles: recentFilesStore.files,
+            onOpenImporter: { showImporter = true },
+            onPickRecent: openRecentFile,
+            onClearRecent: { recentFilesStore.clear() },
+            onSave: saveCurrentDocumentToFile,
+            onSaveAs: { showExporter = true },
+            onPrint: printAction,
+            onKeyboardDismiss: {
+                focusedField = nil
+                if isPhone { hideInspectorOnPhone = true }
+            }
+        )
     }
 
     // MARK: - Diagramm-Reiter (Tabs)

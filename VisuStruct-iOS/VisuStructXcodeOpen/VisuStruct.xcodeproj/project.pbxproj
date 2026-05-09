@@ -53,6 +53,7 @@
 		AA0000000000000000000140 /* StatementIOMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000032 /* StatementIOMode.swift */; };
 		AA0000000000000000000141 /* InspectorElementTypeLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000033 /* InspectorElementTypeLocalization.swift */; };
 		AA0000000000000000000142 /* InspectorPanelViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000034 /* InspectorPanelViews.swift */; };
+		AA0000000000000000000143 /* DiagramMainEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000035 /* DiagramMainEditorToolbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 		AA1000000000000000000032 /* StatementIOMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector/StatementIOMode.swift; sourceTree = "<group>"; };
 		AA1000000000000000000033 /* InspectorElementTypeLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector/InspectorElementTypeLocalization.swift; sourceTree = "<group>"; };
 		AA1000000000000000000034 /* InspectorPanelViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector/InspectorPanelViews.swift; sourceTree = "<group>"; };
+		AA1000000000000000000035 /* DiagramMainEditorToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar/DiagramMainEditorToolbar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				AA1000000000000000000032 /* StatementIOMode.swift */,
 				AA1000000000000000000033 /* InspectorElementTypeLocalization.swift */,
 				AA1000000000000000000034 /* InspectorPanelViews.swift */,
+				AA1000000000000000000035 /* DiagramMainEditorToolbar.swift */,
 				AA1000000000000000000003 /* DiagramCanvasView.swift */,
 				AA100000000000000000000B /* DiagramDragPayload.swift */,
 				AA100000000000000000001F /* VisuStructUIScale.swift */,
@@ -320,6 +323,7 @@
 				AA0000000000000000000140 /* StatementIOMode.swift in Sources */,
 				AA0000000000000000000141 /* InspectorElementTypeLocalization.swift in Sources */,
 				AA0000000000000000000142 /* InspectorPanelViews.swift in Sources */,
+				AA0000000000000000000143 /* DiagramMainEditorToolbar.swift in Sources */,
 				AA0000000000000000000003 /* DiagramCanvasView.swift in Sources */,
 				AA0000000000000000000107 /* DiagramDragPayload.swift in Sources */,
 				AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */,
