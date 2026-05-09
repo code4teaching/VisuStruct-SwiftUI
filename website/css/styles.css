@@ -388,6 +388,24 @@ a:hover {
   margin: 0 auto;
 }
 
+/* Swift-Karussell: Simulator-Video als erste Folie (Mac/iPad) */
+.app-screenshot-carousel-slide--video {
+  background: #000;
+}
+.app-screenshot-carousel-slide--video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.app-screenshot-carousel-video-fallback {
+  margin: 0;
+  padding: 1rem;
+  color: var(--vs-text-muted);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 .app-screenshot-carousel-live {
   position: absolute;
   width: 1px;

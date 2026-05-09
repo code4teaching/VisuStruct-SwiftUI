@@ -9,6 +9,10 @@
   var BASE = "/assets/swiftApp/visustruct-app-swift-";
   var SUFFIX = ".png";
 
+  var SIMULATOR_KEY = "simulator";
+  var SIMULATOR_VIDEO_SRC = "/assets/visustruct-movies/VisuStruct-Simulator.mp4";
+  var SIMULATOR_VIDEO_TYPE = "video/mp4";
+
   var VARIANTS = ["english", "german", "portuguese", "java_like"];
 
   function langToChosen(htmlLang) {
@@ -20,7 +24,7 @@
 
   function buildOrder(chosen) {
     if (VARIANTS.indexOf(chosen) === -1) chosen = "english";
-    var out = [chosen];
+    var out = [SIMULATOR_KEY, chosen];
     if (chosen !== "java_like") out.push("java_like");
     var tail = ["english", "portuguese", "german"];
     for (var i = 0; i < tail.length; i++) {
@@ -32,6 +36,8 @@
   /** Screenshot keys = Karussell-Dateien, nicht zwingend die UI-Sprache im Bild (Stand 2026-04). */
   var ALT_LABELS = {
     en: {
+      simulator:
+        "VisuStruct (Mac/iPad): live demo — the structogram simulator steps through a complete diagram.",
       english:
         "VisuStruct (Mac): Fibonacci structogram, for-loop selected — init, condition, and step in the element editor.",
       german: "VisuStruct (Mac, German UI): CheckPin structogram with loop, input, and branching.",
@@ -41,6 +47,8 @@
         "VisuStruct (Mac): Code generator with Java, Python, and JavaScript from the Fibonacci structogram.",
     },
     de: {
+      simulator:
+        "VisuStruct (Mac/iPad): Live-Demo — der Struktogramm-Simulator läuft einmal komplett durch.",
       english:
         "VisuStruct (Mac): Struktogramm «Fibonacci», For-Schleife gewählt — Init, Bedingung und Schritt im Elementtext.",
       german: "VisuStruct (Mac, deutsche Oberfläche): Struktogramm «CheckPin» mit Schleife, Eingabe und Verzweigung.",
@@ -50,6 +58,8 @@
         "VisuStruct (Mac): Code erzeugen — Java, Python und JavaScript aus dem Fibonacci-Struktogramm.",
     },
     pt: {
+      simulator:
+        "VisuStruct (Mac/iPad): demonstração ao vivo — o simulador de structogramas percorre um diagrama completo.",
       english:
         "VisuStruct (Mac): diagrama structograma Fibonacci, com laço for selecionado e campos de início, condição e passo.",
       german: "VisuStruct (Mac, interface em alemão): structograma CheckPin com ciclo, entrada e ramificação.",
@@ -59,6 +69,8 @@
         "VisuStruct (Mac): gerador de código (Java, Python, JavaScript) a partir do structograma Fibonacci.",
     },
     es: {
+      simulator:
+        "VisuStruct (Mac/iPad): demostración en vivo — el simulador de structogramas recorre un diagrama completo.",
       english:
         "VisuStruct (Mac): structograma Fibonacci, con bucle for seleccionado y campos de inicio, condición y paso.",
       german: "VisuStruct (Mac, interfaz en alemán): structograma CheckPin con bucle, entrada y bifurcación.",
@@ -68,6 +80,8 @@
         "VisuStruct (Mac): generador de código (Java, Python, JavaScript) a partir del structograma Fibonacci.",
     },
     fr: {
+      simulator:
+        "VisuStruct (Mac/iPad) : démo en direct — le simulateur de structogrammes parcourt un diagramme complet.",
       english:
         "VisuStruct (Mac) : structogramme Fibonacci, boucle for sélectionnée avec champs d’initialisation, condition et pas.",
       german: "VisuStruct (Mac, interface allemande) : structogramme CheckPin avec boucle, saisie et branchement.",
@@ -167,6 +181,7 @@
     if (reduceMotion) track.classList.add("app-screenshot-carousel-track--no-motion");
 
     var slides = [];
+    var videos = [];
     for (var s = 0; s < order.length; s++) {
       var key = order[s];
       var slide = document.createElement("div");
@@ -176,14 +191,42 @@
       slide.setAttribute("aria-label", L.dot + " " + (s + 1) + " " + L.of + " " + order.length);
       slide.setAttribute("aria-hidden", s === 0 ? "false" : "true");
 
-      var img = document.createElement("img");
-      img.src = BASE + key + SUFFIX;
-      img.width = 1024;
-      img.loading = s === 0 ? "eager" : "lazy";
-      img.decoding = "async";
-      img.alt = alts[key] || alts.english;
+      if (key === SIMULATOR_KEY) {
+        slide.classList.add("app-screenshot-carousel-slide--video");
 
-      slide.appendChild(img);
+        var video = document.createElement("video");
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.controls = true;
+        video.setAttribute("muted", "");
+        video.setAttribute("loop", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("preload", "metadata");
+        video.setAttribute("aria-label", alts[key] || alts.english);
+
+        var source = document.createElement("source");
+        source.src = SIMULATOR_VIDEO_SRC;
+        source.type = SIMULATOR_VIDEO_TYPE;
+        video.appendChild(source);
+
+        var fallback = document.createElement("p");
+        fallback.className = "app-screenshot-carousel-video-fallback";
+        fallback.textContent = alts[key] || alts.english;
+        video.appendChild(fallback);
+
+        slide.appendChild(video);
+        videos.push({ index: s, el: video });
+      } else {
+        var img = document.createElement("img");
+        img.src = BASE + key + SUFFIX;
+        img.width = 1024;
+        img.loading = s === 0 ? "eager" : "lazy";
+        img.decoding = "async";
+        img.alt = alts[key] || alts.english;
+        slide.appendChild(img);
+      }
+
       track.appendChild(slide);
       slides.push(slide);
     }
@@ -268,6 +311,18 @@
         slides[i].setAttribute("aria-hidden", i === n ? "false" : "true");
         dotButtons[i].setAttribute("aria-selected", i === n ? "true" : "false");
         dotButtons[i].classList.toggle("app-screenshot-carousel-dot--active", i === n);
+      }
+      for (var v = 0; v < videos.length; v++) {
+        var entry = videos[v];
+        if (entry.index === n && !reduceMotion) {
+          var p = entry.el.play();
+          if (p && typeof p.catch === "function") p.catch(function () {});
+        } else {
+          entry.el.pause();
+          if (entry.index !== n) {
+            try { entry.el.currentTime = 0; } catch (e) {}
+          }
+        }
       }
       setLiveText();
     }
