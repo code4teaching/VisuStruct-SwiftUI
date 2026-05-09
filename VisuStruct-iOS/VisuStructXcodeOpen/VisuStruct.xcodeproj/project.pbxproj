@@ -39,6 +39,9 @@
 		AA0000000000000000000108 /* Java.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA100000000000000000000C /* Java.strings */; };
 		AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100000000000000000001F /* VisuStructUIScale.swift */; };
 		AA0000000000000000000128 /* RecentFilesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000020 /* RecentFilesStore.swift */; };
+		AA0000000000000000000129 /* CodeLineEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000021 /* CodeLineEditor.swift */; };
+		AA0000000000000000000130 /* VisuStructFileDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000022 /* VisuStructFileDocuments.swift */; };
+		AA0000000000000000000131 /* ElementPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000023 /* ElementPalette.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -74,6 +77,9 @@
 		AA100000000000000000000C /* Java.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Java.strings; sourceTree = "<group>"; };
 		AA100000000000000000001F /* VisuStructUIScale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisuStructUIScale.swift; sourceTree = "<group>"; };
 		AA1000000000000000000020 /* RecentFilesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentFilesStore.swift; sourceTree = "<group>"; };
+		AA1000000000000000000021 /* CodeLineEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editing/CodeLineEditor.swift; sourceTree = "<group>"; };
+		AA1000000000000000000022 /* VisuStructFileDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents/VisuStructFileDocuments.swift; sourceTree = "<group>"; };
+		AA1000000000000000000023 /* ElementPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette/ElementPalette.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +109,9 @@
 				AA1000000000000000000005 /* AppLanguage.swift */,
 				AA1000000000000000000002 /* ContentView.swift */,
 				AA1000000000000000000020 /* RecentFilesStore.swift */,
+				AA1000000000000000000021 /* CodeLineEditor.swift */,
+				AA1000000000000000000022 /* VisuStructFileDocuments.swift */,
+				AA1000000000000000000023 /* ElementPalette.swift */,
 				AA1000000000000000000003 /* DiagramCanvasView.swift */,
 				AA100000000000000000000B /* DiagramDragPayload.swift */,
 				AA100000000000000000001F /* VisuStructUIScale.swift */,
@@ -264,6 +273,9 @@
 				AA0000000000000000000101 /* AppLanguage.swift in Sources */,
 				AA0000000000000000000002 /* ContentView.swift in Sources */,
 				AA0000000000000000000128 /* RecentFilesStore.swift in Sources */,
+				AA0000000000000000000129 /* CodeLineEditor.swift in Sources */,
+				AA0000000000000000000130 /* VisuStructFileDocuments.swift in Sources */,
+				AA0000000000000000000131 /* ElementPalette.swift in Sources */,
 				AA0000000000000000000003 /* DiagramCanvasView.swift in Sources */,
 				AA0000000000000000000107 /* DiagramDragPayload.swift in Sources */,
 				AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */,

@@ -12,471 +12,6 @@ import WebKit
 import AppKit
 #endif
 
-// MARK: - Code editor (Return to apply, Shift+Return newline)
-
-private struct CodeLineEditor: View {
-    @Binding var text: String
-    let minHeight: CGFloat
-    let maxHeight: CGFloat
-    let focusToken: UUID
-    let onCommit: () -> Void
-    /// Monospace-Größe für `UITextView` / `NSTextView`. `nil` = bisheriges Verhalten (14 pt + Dynamic Type).
-    var monospacedFontSize: CGFloat? = nil
-
-    var body: some View {
-        editor
-            .frame(minHeight: minHeight, maxHeight: maxHeight)
-    }
-
-    @ViewBuilder
-    private var editor: some View {
-        #if canImport(UIKit)
-        // iPhone: früher `TextEditor` — der spiegelt den laufenden Text oft erst ins Binding, wenn der Fokus endet
-        // („Text übernehmen“ wirkte erst nach „Fertig“). `UITextView` + `textViewDidChange` hält Binding und View synchron.
-        CodeLineEditorUIKit(
-            text: $text,
-            minHeight: minHeight,
-            maxHeight: maxHeight,
-            focusToken: focusToken,
-            onCommit: onCommit,
-            monospacedFontSize: monospacedFontSize,
-            commitOnReturn: UIDevice.current.userInterfaceIdiom != .phone
-        )
-        #elseif canImport(AppKit)
-        CodeLineEditorAppKit(
-            text: $text,
-            minHeight: minHeight,
-            maxHeight: maxHeight,
-            focusToken: focusToken,
-            onCommit: onCommit,
-            monospacedFontSize: monospacedFontSize
-        )
-        #else
-        TextEditor(text: $text)
-        #endif
-    }
-}
-
-#if canImport(UIKit)
-private final class CommitKeyTextView: UITextView {
-    var onCommit: (() -> Void)?
-    /// Auf dem iPhone: `false`, damit Return eine neue Zeile einfügt (wie bei `TextEditor`). Auf dem iPad: `true` = Return übernimmt.
-    var commitOnReturn: Bool = true
-
-    override var keyCommands: [UIKeyCommand]? {
-        guard commitOnReturn else { return nil }
-        return [
-            UIKeyCommand(input: "\r", modifierFlags: [], action: #selector(commit)),
-            UIKeyCommand(input: "\r", modifierFlags: [.shift], action: #selector(insertNewline)),
-        ]
-    }
-
-    @objc private func commit() {
-        onCommit?()
-    }
-
-    @objc private func insertNewline() {
-        insertText("\n")
-    }
-}
-
-private struct CodeLineEditorUIKit: UIViewRepresentable {
-    @Binding var text: String
-    let minHeight: CGFloat
-    let maxHeight: CGFloat
-    let focusToken: UUID
-    let onCommit: () -> Void
-    let monospacedFontSize: CGFloat?
-    let commitOnReturn: Bool
-
-    private static let defaultEditorFontSize: CGFloat = 14
-
-    private func resolvedUIFont() -> UIFont {
-        if let s = monospacedFontSize {
-            return UIFont.monospacedSystemFont(ofSize: s, weight: .regular)
-        }
-        let base = UIFont.monospacedSystemFont(ofSize: Self.defaultEditorFontSize, weight: .regular)
-        return UIFontMetrics(forTextStyle: .body).scaledFont(for: base)
-    }
-
-    func makeUIView(context: Context) -> CommitKeyTextView {
-        let tv = CommitKeyTextView()
-        tv.backgroundColor = .clear
-        tv.isScrollEnabled = true
-        tv.autocorrectionType = .no
-        tv.autocapitalizationType = .none
-        tv.smartQuotesType = .no
-        tv.smartDashesType = .no
-        tv.smartInsertDeleteType = .no
-        tv.spellCheckingType = .no
-        let desired = resolvedUIFont()
-        tv.font = desired
-        tv.typingAttributes[.font] = desired
-        tv.textContainerInset = UIEdgeInsets(top: 8, left: 6, bottom: 8, right: 6)
-        tv.commitOnReturn = commitOnReturn
-        tv.onCommit = onCommit
-        tv.delegate = context.coordinator
-        return tv
-    }
-
-    func updateUIView(_ uiView: CommitKeyTextView, context: Context) {
-        // Coordinator lebt länger als einzelne Body-Pässe — Binding jeweils aktuell halten.
-        context.coordinator.text = $text
-        uiView.commitOnReturn = commitOnReturn
-        if uiView.text != text {
-            uiView.text = text
-        }
-        // Schrift hier setzen — SwiftUI `.font` greift auf `UITextView` nicht; Inspector-Skalierung über `monospacedFontSize`.
-        let desired = resolvedUIFont()
-        if uiView.font != desired { uiView.font = desired }
-        // Wichtig: Ohne typingAttributes kann UIKit beim ersten Zeichen wieder Default-Font nehmen.
-        if (uiView.typingAttributes[.font] as? UIFont) != desired {
-            uiView.typingAttributes[.font] = desired
-        }
-        if context.coordinator.lastFocusToken != focusToken {
-            context.coordinator.lastFocusToken = focusToken
-            if uiView.window != nil {
-                uiView.becomeFirstResponder()
-            } else {
-                DispatchQueue.main.async {
-                    uiView.becomeFirstResponder()
-                }
-            }
-        }
-    }
-
-    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
-
-    final class Coordinator: NSObject, UITextViewDelegate {
-        var text: Binding<String>
-        var lastFocusToken: UUID = UUID()
-        init(text: Binding<String>) { self.text = text }
-        func textViewDidChange(_ textView: UITextView) {
-            text.wrappedValue = textView.text ?? ""
-        }
-
-        func textViewDidEndEditing(_ textView: UITextView) {
-            text.wrappedValue = textView.text ?? ""
-        }
-    }
-}
-#endif
-
-#if canImport(AppKit)
-private final class CommitKeyTextViewMac: NSTextView {
-    var onCommit: (() -> Void)?
-
-    override func keyDown(with event: NSEvent) {
-        // Return = apply; Shift+Return = newline
-        if event.keyCode == 36 {
-            if event.modifierFlags.contains(.shift) {
-                super.keyDown(with: event)
-            } else {
-                onCommit?()
-            }
-            return
-        }
-        super.keyDown(with: event)
-    }
-}
-
-private struct CodeLineEditorAppKit: NSViewRepresentable {
-    @Binding var text: String
-    let minHeight: CGFloat
-    let maxHeight: CGFloat
-    let focusToken: UUID
-    let onCommit: () -> Void
-    let monospacedFontSize: CGFloat?
-
-    private static let defaultEditorFontSize: CGFloat = 14
-
-    private func resolvedNSFont() -> NSFont {
-        let size = monospacedFontSize ?? Self.defaultEditorFontSize
-        return NSFont.monospacedSystemFont(ofSize: size, weight: .regular)
-    }
-
-    func makeNSView(context: Context) -> NSScrollView {
-        let scroll = NSScrollView()
-        scroll.hasVerticalScroller = true
-        scroll.drawsBackground = false
-
-        let tv = CommitKeyTextViewMac()
-        tv.isRichText = false
-        tv.importsGraphics = false
-        tv.allowsUndo = true
-        tv.isEditable = true
-        tv.isSelectable = true
-        tv.drawsBackground = false
-        tv.isAutomaticSpellingCorrectionEnabled = false
-        tv.isAutomaticTextCompletionEnabled = false
-        tv.isAutomaticQuoteSubstitutionEnabled = false
-        tv.isAutomaticDashSubstitutionEnabled = false
-        tv.isAutomaticDataDetectionEnabled = false
-        tv.isAutomaticLinkDetectionEnabled = false
-        tv.isAutomaticTextReplacementEnabled = false
-        let desired = resolvedNSFont()
-        tv.font = desired
-        tv.typingAttributes[.font] = desired
-        tv.textContainerInset = NSSize(width: 6, height: 6)
-        tv.onCommit = onCommit
-        tv.delegate = context.coordinator
-        scroll.documentView = tv
-        return scroll
-    }
-
-    func updateNSView(_ nsView: NSScrollView, context: Context) {
-        context.coordinator.text = $text
-        guard let tv = nsView.documentView as? NSTextView else { return }
-        if tv.string != text {
-            tv.string = text
-        }
-        let desired = resolvedNSFont()
-        if tv.font != desired { tv.font = desired }
-        if (tv.typingAttributes[.font] as? NSFont) != desired {
-            tv.typingAttributes[.font] = desired
-        }
-        if context.coordinator.lastFocusToken != focusToken {
-            context.coordinator.lastFocusToken = focusToken
-            DispatchQueue.main.async {
-                tv.window?.makeFirstResponder(tv)
-            }
-        }
-    }
-
-    func makeCoordinator() -> Coordinator { Coordinator(text: $text) }
-
-    final class Coordinator: NSObject, NSTextViewDelegate {
-        var text: Binding<String>
-        var lastFocusToken: UUID = UUID()
-        init(text: Binding<String>) { self.text = text }
-        func textDidChange(_ notification: Notification) {
-            guard let tv = notification.object as? NSTextView else { return }
-            text.wrappedValue = tv.string
-        }
-
-        func textDidEndEditing(_ notification: Notification) {
-            guard let tv = notification.object as? NSTextView else { return }
-            text.wrappedValue = tv.string
-        }
-    }
-}
-#endif
-
-// MARK: - FileDocument (einheitlich .visustruct / XML wie Java)
-
-struct VisuStructFileDocument: FileDocument, Sendable {
-    /// Export/Speichern: eigene Endung, damit der Dialog nicht zusätzlich `.xml` anhängt.
-    static var preferredExportContentType: UTType {
-        if let v = UTType(filenameExtension: "visustruct") {
-            return v
-        }
-        return .xml
-    }
-
-    static var readableContentTypes: [UTType] {
-        if let v = UTType(filenameExtension: "visustruct") {
-            return [v, .xml]
-        }
-        return [.xml]
-    }
-
-    static var writableContentTypes: [UTType] { readableContentTypes }
-
-    var document: VisuStructDocument
-
-    init(document: VisuStructDocument) {
-        self.document = document
-    }
-
-    init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents else {
-            throw CocoaError(.fileReadCorruptFile)
-        }
-        document = try VisuStructXMLCodec.decode(data: data)
-    }
-
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: VisuStructXMLCodec.encode(document))
-    }
-}
-
-/// Export des erzeugten Java-Quelltexts als `.java` (nicht `.class` — das erzeugt `javac`).
-private struct JavaSourceExportDocument: FileDocument, Sendable {
-    static var readableContentTypes: [UTType] {
-        if let java = UTType(filenameExtension: "java") {
-            return [java, .plainText]
-        }
-        return [.plainText]
-    }
-
-    var source: String
-
-    init(source: String) {
-        self.source = source
-    }
-
-    init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents else {
-            source = ""
-            return
-        }
-        source = String(decoding: data, as: UTF8.self)
-    }
-
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: Data(source.utf8))
-    }
-}
-
-// MARK: - Palette list chrome
-
-/// Optik wie eine abgerundete Schaltfläche (Tipp + Drag aus der Liste).
-private struct PaletteListElementButtonStyle: ButtonStyle {
-    enum Emphasis {
-        case normal
-        case destructive
-    }
-
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    var emphasis: Emphasis = .normal
-
-    func makeBody(configuration: Configuration) -> some View {
-        let isCompact = horizontalSizeClass != .regular
-        let vPad: CGFloat = isCompact ? 5 : 10
-        let hPad: CGFloat = isCompact ? 8 : 12
-        let radius: CGFloat = isCompact ? 8 : 10
-        let baseStrokeOpacity = configuration.isPressed ? 0.14 : 0.10
-        let borderColor: Color = emphasis == .destructive
-            ? Color.red.opacity(baseStrokeOpacity + 0.55)
-            : Color.primary.opacity(baseStrokeOpacity)
-        return configuration.label
-            .font(isCompact ? .callout : .body)
-            .imageScale(isCompact ? .small : .medium)
-            .foregroundStyle(emphasis == .destructive ? Color.red : Color.primary)
-            .padding(.vertical, vPad)
-            .padding(.horizontal, hPad)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background {
-                RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .fill(configuration.isPressed ? Color(.quaternarySystemFill) : Color(.tertiarySystemFill))
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: radius, style: .continuous)
-                    .strokeBorder(borderColor, lineWidth: 1)
-            }
-    }
-}
-
-// MARK: - Palette
-
-enum ElementPalette {
-    private static func stubAnweisung() -> VisuStructElement {
-        VisuStructElement(type: .anweisung, textLines: ["ø"])
-    }
-
-    /// Neues Element aus der Palette — **Texte im Diagramm** folgen `lang` (XML: Verzweigung weiter `true`/`false`/`default` wie Java).
-    static func element(for kind: PaletteItem, lang: AppLanguage) -> VisuStructElement {
-        switch kind {
-        case .anweisung:
-            return VisuStructElement(type: .anweisung, textLines: [""])
-        case .verzweigung:
-            let stub = stubAnweisung()
-            return VisuStructElement(type: .verzweigung, textLines: [""], cases: [
-                VisuStructCase(name: "true", elements: [stub]),
-                VisuStructCase(name: "false", elements: [stub])
-            ])
-        case .fallauswahl:
-            let stub = stubAnweisung()
-            return VisuStructElement(type: .fallauswahl, textLines: [""], cases: [
-                VisuStructCase(name: "1", elements: [stub]),
-                VisuStructCase(name: "2", elements: [stub]),
-                VisuStructCase(name: "default", elements: [stub])
-            ])
-        case .forZaehlSchleife:
-            return VisuStructElement(type: .forSchleife, textLines: ["", "", ""], loopBody: [stubAnweisung()])
-        case .whileSchleife:
-            return VisuStructElement(type: .whileSchleife, textLines: [""], loopBody: [stubAnweisung()])
-        case .doUntilSchleife:
-            return VisuStructElement(type: .doUntilSchleife, textLines: [""], loopBody: [stubAnweisung()])
-        case .endlosschleife:
-            return VisuStructElement(type: .endlosschleife, textLines: [""], loopBody: [stubAnweisung()])
-        case .aussprung:
-            return VisuStructElement(type: .aussprung, textLines: [""])
-        case .aufruf:
-            return VisuStructElement(type: .aufruf, textLines: [""])
-        }
-    }
-
-    enum PaletteItem: String, Identifiable {
-        case anweisung, verzweigung, whileSchleife, doUntilSchleife, forZaehlSchleife, fallauswahl, endlosschleife, aussprung, aufruf
-
-        var id: String { rawValue }
-
-        static let paletteOrder: [PaletteItem] = [
-            .anweisung, .verzweigung, .whileSchleife, .doUntilSchleife, .forZaehlSchleife,
-            .fallauswahl, .endlosschleife, .aussprung, .aufruf
-        ]
-
-        func localizedTitle(in lang: AppLanguage) -> String {
-            switch self {
-            case .anweisung: return lang.tr("element_anweisung")
-            case .verzweigung: return lang.tr("element_verzweigung")
-            case .whileSchleife: return lang.tr("element_whileSchleife")
-            case .doUntilSchleife: return lang.tr("element_doUntilSchleife")
-            case .forZaehlSchleife: return lang.tr("element_forSchleife")
-            case .fallauswahl: return lang.tr("element_fallauswahl")
-            case .endlosschleife: return lang.tr("element_endlosschleife")
-            case .aussprung: return lang.tr("element_aussprung")
-            case .aufruf: return lang.tr("element_aufruf")
-            }
-        }
-
-        var symbolName: String {
-            switch self {
-            case .anweisung: return "square.fill"
-            case .verzweigung: return "arrow.triangle.branch"
-            case .whileSchleife: return "arrow.triangle.2.circlepath"
-            case .doUntilSchleife: return "arrow.uturn.down.circle"
-            case .forZaehlSchleife: return "repeat"
-            case .fallauswahl: return "list.bullet.indent"
-            case .endlosschleife: return "infinity"
-            case .aussprung: return "arrow.turn.down.left"
-            case .aufruf: return "arrow.right.to.line.compact"
-            }
-        }
-    }
-
-    static func paletteDragIdentifier(_ item: PaletteItem) -> String { "pal:\(item.rawValue)" }
-
-    static func moveDragIdentifier(path: [Int]) -> String {
-        "mov:" + path.map(String.init).joined(separator: ",")
-    }
-}
-
-#if canImport(UIKit)
-private struct ActivityShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
-}
-
-/// Damit das Share-Sheet immer ein gültiges `UIImage` hat (kein leeres Sheet durch abweichenden State-Zyklus).
-private struct PNGSharePayload: Identifiable {
-    let id = UUID()
-    let image: UIImage
-}
-
-/// Temporäre Datei (.visustruct oder PDF) fürs System-Teilen.
-private struct FileURLSharePayload: Identifiable {
-    let id = UUID()
-    let url: URL
-}
-#endif
-
 // MARK: - Mehrere Struktogramm-Reiter
 
 private struct DiagramSheetTab: Identifiable {
@@ -2055,7 +1590,7 @@ struct ContentView: View {
                     }
                     .padding(.bottom, 2)
                 }
-                if let labelBinding = fallauswahlCaseLabelBinding() {
+                if let labelBinding = multiwayCaseLabelBinding() {
                     TextField("z. B. 1, ok, default", text: labelBinding)
                         .font(editorFont)
                         .textFieldStyle(.roundedBorder)
@@ -2131,10 +1666,10 @@ struct ContentView: View {
                     }
                     .disabled(selectedPath == nil)
                 }
-                if let faPath = fallauswahlAncestorPath(for: selectedPath) {
+                if let faPath = multiwayAncestorPath(for: selectedPath) {
                     let faCaseCount =
                         (try? VisuStructDocumentEditing.element(at: faPath, in: document))?.cases?.count ?? 0
-                    let removeCaseIdx = fallauswahlSelectedCaseIndex(fallPath: faPath, selectedPath: selectedPath)
+                    let removeCaseIdx = selectedCaseIndex(multiwayPath: faPath, selectedPath: selectedPath)
                     HStack(spacing: 16) {
                         Button {
                             addCaseToFallauswahl(at: faPath)
@@ -2401,8 +1936,8 @@ struct ContentView: View {
     }
     #endif
 
-    /// Innerste **Fallauswahl**, die die aktuelle Auswahl enthält (für „Fall hinzufügen“).
-    private func fallauswahlAncestorPath(for path: [Int]?) -> [Int]? {
+    /// Innerste **Fallauswahl** (`multiway`), die die aktuelle Auswahl enthält (für „Fall hinzufügen“).
+    private func multiwayAncestorPath(for path: [Int]?) -> [Int]? {
         guard let path, !path.isEmpty else { return nil }
         let doc = document
         for len in stride(from: path.count, through: 1, by: -1) {
@@ -2431,9 +1966,9 @@ struct ContentView: View {
     }
 
     /// Spaltenindex der Fallauswahl, wenn die Auswahl **in** einer Spalte liegt (`[…, fall, spalte, …]`).
-    private func fallauswahlSelectedCaseIndex(fallPath: [Int], selectedPath: [Int]?) -> Int? {
-        guard let sp = selectedPath, sp.count > fallPath.count else { return nil }
-        return sp[fallPath.count]
+    private func selectedCaseIndex(multiwayPath: [Int], selectedPath: [Int]?) -> Int? {
+        guard let sp = selectedPath, sp.count > multiwayPath.count else { return nil }
+        return sp[multiwayPath.count]
     }
 
     private func removeCaseFromFallauswahl(at fallPath: [Int], caseIndex: Int) {
@@ -2454,8 +1989,8 @@ struct ContentView: View {
     }
 
     /// Bindung für den **Fallnamen**, wenn die Auswahl in einer Spalte einer Fallauswahl liegt (nicht beim bloßen Kopf `[n]` ohne Folgeindex).
-    private func fallauswahlCaseLabelBinding() -> Binding<String>? {
-        guard let fa = fallauswahlAncestorPath(for: selectedPath),
+    private func multiwayCaseLabelBinding() -> Binding<String>? {
+        guard let fa = multiwayAncestorPath(for: selectedPath),
               let sp = selectedPath,
               sp.count > fa.count else { return nil }
         let caseIdx = sp[fa.count]
