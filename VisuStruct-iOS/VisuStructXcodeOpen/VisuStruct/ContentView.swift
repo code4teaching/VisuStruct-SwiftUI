@@ -31,6 +31,7 @@ struct ContentView: View {
     @FocusState private var focusedField: DiagramEditorFocusTarget?
 
     @State private var tabsModel: DiagramSheetTabsModel
+    @State private var documentServices: DiagramEditorDocumentServices
 
     @State private var showImporter = false
     @State private var showExporter = false
@@ -98,18 +99,14 @@ struct ContentView: View {
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
         let model = DiagramSheetTabsModel.makeInitial(language: startupLang)
+        let recentStore = RecentFilesStore()
         _tabsModel = State(initialValue: model)
+        _recentFilesStore = StateObject(wrappedValue: recentStore)
+        _documentServices = State(initialValue: DiagramEditorDocumentServices(tabsModel: model, recentFilesStore: recentStore))
         _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: model.tabs[0].document))
-        _recentFilesStore = StateObject(wrappedValue: RecentFilesStore())
     }
 
     // MARK: - Tab-Titel, Dateizugriff & Speicher-Baseline
-
-    private func fileDisplayName(from url: URL) -> String {
-        let name = url.deletingPathExtension().lastPathComponent.trimmingCharacters(in: .whitespacesAndNewlines)
-        let base = name.isEmpty ? url.deletingPathExtension().lastPathComponent : name
-        return DiagramSheetTabsModel.stripVisuStructExtension(from: base)
-    }
 
     private func updateSavedBaselineForCurrentTab() {
         var tabs = tabsModel.tabs
@@ -118,90 +115,23 @@ struct ContentView: View {
         tabsModel.tabs = tabs
     }
 
-    private func setLinkedFile(forCurrentTab url: URL) {
-        var tabs = tabsModel.tabs
-        let i = tabsModel.currentTabIndex
-        tabs[i].linkedFileBookmarkData = recentFilesStore.makeBookmarkData(for: url)
-        let display = fileDisplayName(from: url)
-        tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
-        if let d = tabs[i].linkedFileDisplayName {
-            tabs[i].title = d
-        }
-        tabsModel.tabs = tabs
-        recentFilesStore.record(url: url, displayName: display)
-    }
-
     @discardableResult
     private func openDocument(from url: URL) -> Bool {
-        let didAccess = url.startAccessingSecurityScopedResource()
-        defer {
-            if didAccess { url.stopAccessingSecurityScopedResource() }
-        }
-        do {
-            let data = try Data(contentsOf: url)
-            var loaded = try VisuStructXMLCodec.decode(data: data)
-            if loaded.elements.isEmpty {
-                loaded = VisuStructDocumentEditing.newEmpty()
-            }
-            loaded = documentWithFilenameCaptionIfNeeded(loaded, fileURL: url)
-            resetHistoryAndDocument(loaded)
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            tabs[i].selectedPath = tabs[i].document.elements.isEmpty ? nil : [0]
-            tabs[i].errorText = nil
-            let display = fileDisplayName(from: url)
-            tabs[i].linkedFileDisplayName = display.isEmpty ? nil : display
-            tabs[i].title = tabs[i].linkedFileDisplayName ?? tabs[i].title
-            tabsModel.tabs = tabs
-            setLinkedFile(forCurrentTab: url)
-            refreshLineEditor()
-            return true
-        } catch {
-            setErrorOnCurrentTab(error.localizedDescription)
-            return false
-        }
+        documentServices.openDocument(
+            from: url,
+            resetHistoryAndDocument: resetHistoryAndDocument,
+            refreshLineEditor: refreshLineEditor,
+            setError: setErrorOnCurrentTab
+        )
     }
 
     private func openRecentFile(_ recentFile: RecentVisuStructFile) {
-        do {
-            let url = try recentFilesStore.resolveURL(for: recentFile)
-            if openDocument(from: url) {
-                recentFilesStore.record(url: url, displayName: fileDisplayName(from: url))
-                return
-            }
-            if let p = recentFile.filePath, p.hasPrefix(NSHomeDirectory()) {
-                let fallbackURL = URL(fileURLWithPath: p)
-                if openDocument(from: fallbackURL) {
-                    recentFilesStore.record(url: fallbackURL, displayName: fileDisplayName(from: fallbackURL))
-                    return
-                }
-            }
-            recentFilesStore.remove(id: recentFile.id)
-        } catch {
-            recentFilesStore.remove(id: recentFile.id)
-            setErrorOnCurrentTab(error.localizedDescription)
-        }
-    }
-
-    private func documentWithFilenameCaptionIfNeeded(_ doc: VisuStructDocument, fileURL url: URL) -> VisuStructDocument {
-        guard doc.caption.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return doc }
-        let display = fileDisplayName(from: url)
-        guard !display.isEmpty else { return doc }
-        var updated = doc
-        updated.caption = display
-        return updated
-    }
-
-    @discardableResult
-    private func applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL url: URL) -> VisuStructDocument {
-        let i = tabsModel.currentTabIndex
-        let updated = documentWithFilenameCaptionIfNeeded(tabsModel.tabs[i].document, fileURL: url)
-        guard updated != tabsModel.tabs[i].document else { return updated }
-        var tabs = tabsModel.tabs
-        tabs[i].document = updated
-        tabs[i].title = tabDisplayTitle(forCaption: updated.caption)
-        tabsModel.tabs = tabs
-        return updated
+        documentServices.openRecentFile(
+            recentFile,
+            resetHistoryAndDocument: resetHistoryAndDocument,
+            refreshLineEditor: refreshLineEditor,
+            setError: setErrorOnCurrentTab
+        )
     }
 
     private var document: VisuStructDocument {
@@ -302,14 +232,14 @@ struct ContentView: View {
             switch result {
             case .success(let url):
                 Task { @MainActor in
-                    let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
+                    let docToSave = documentServices.applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url, language: lang)
                     do {
                         try VisuStructXMLCodec.encode(docToSave).write(to: url, options: .atomic)
                     } catch {
                         setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
                         return
                     }
-                    setLinkedFile(forCurrentTab: url)
+                    documentServices.setLinkedFile(forCurrentTab: url)
                     updateSavedBaselineForCurrentTab()
                     if let pendingId = tabsModel.closeTabAfterSuccessfulExportId {
                         tabsModel.closeTabAfterSuccessfulExportId = nil
@@ -1867,10 +1797,10 @@ struct ContentView: View {
                 return
             }
             defer { url.stopAccessingSecurityScopedResource() }
-            let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url)
+            let docToSave = documentServices.applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url, language: lang)
             let data = VisuStructXMLCodec.encode(docToSave)
             try data.write(to: url, options: .atomic)
-            recentFilesStore.record(url: url, displayName: fileDisplayName(from: url))
+            recentFilesStore.record(url: url, displayName: documentServices.fileDisplayName(from: url))
             updateSavedBaselineForCurrentTab()
             clearErrorOnCurrentTab()
         } catch {

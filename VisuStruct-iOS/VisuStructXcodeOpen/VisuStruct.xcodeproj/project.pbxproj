@@ -41,6 +41,7 @@
 		AA0000000000000000000128 /* RecentFilesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000020 /* RecentFilesStore.swift */; };
 		AA0000000000000000000129 /* CodeLineEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000021 /* CodeLineEditor.swift */; };
 		AA0000000000000000000130 /* VisuStructFileDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000022 /* VisuStructFileDocuments.swift */; };
+		AA0000000000000000000146 /* DiagramEditorDocumentServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000038 /* DiagramEditorDocumentServices.swift */; };
 		AA0000000000000000000131 /* ElementPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000023 /* ElementPalette.swift */; };
 		AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000024 /* DiagramSheetTab.swift */; };
 		AA0000000000000000000133 /* AppStorageEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000025 /* AppStorageEnums.swift */; };
@@ -93,6 +94,7 @@
 		AA1000000000000000000020 /* RecentFilesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentFilesStore.swift; sourceTree = "<group>"; };
 		AA1000000000000000000021 /* CodeLineEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editing/CodeLineEditor.swift; sourceTree = "<group>"; };
 		AA1000000000000000000022 /* VisuStructFileDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents/VisuStructFileDocuments.swift; sourceTree = "<group>"; };
+		AA1000000000000000000038 /* DiagramEditorDocumentServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents/DiagramEditorDocumentServices.swift; sourceTree = "<group>"; };
 		AA1000000000000000000023 /* ElementPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette/ElementPalette.swift; sourceTree = "<group>"; };
 		AA1000000000000000000024 /* DiagramSheetTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramSheetTab.swift; sourceTree = "<group>"; };
 		AA1000000000000000000025 /* AppStorageEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences/AppStorageEnums.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				AA1000000000000000000020 /* RecentFilesStore.swift */,
 				AA1000000000000000000021 /* CodeLineEditor.swift */,
 				AA1000000000000000000022 /* VisuStructFileDocuments.swift */,
+				AA1000000000000000000038 /* DiagramEditorDocumentServices.swift */,
 				AA1000000000000000000023 /* ElementPalette.swift */,
 				AA1000000000000000000024 /* DiagramSheetTab.swift */,
 				AA1000000000000000000036 /* DiagramTabStrip.swift */,
@@ -317,6 +320,7 @@
 				AA0000000000000000000128 /* RecentFilesStore.swift in Sources */,
 				AA0000000000000000000129 /* CodeLineEditor.swift in Sources */,
 				AA0000000000000000000130 /* VisuStructFileDocuments.swift in Sources */,
+				AA0000000000000000000146 /* DiagramEditorDocumentServices.swift in Sources */,
 				AA0000000000000000000131 /* ElementPalette.swift in Sources */,
 				AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */,
 				AA0000000000000000000144 /* DiagramTabStrip.swift in Sources */,
