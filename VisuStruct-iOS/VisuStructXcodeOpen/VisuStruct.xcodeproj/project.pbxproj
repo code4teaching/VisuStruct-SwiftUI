@@ -42,6 +42,8 @@
 		AA0000000000000000000129 /* CodeLineEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000021 /* CodeLineEditor.swift */; };
 		AA0000000000000000000130 /* VisuStructFileDocuments.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000022 /* VisuStructFileDocuments.swift */; };
 		AA0000000000000000000131 /* ElementPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000023 /* ElementPalette.swift */; };
+		AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000024 /* DiagramSheetTab.swift */; };
+		AA0000000000000000000133 /* AppStorageEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000025 /* AppStorageEnums.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +82,8 @@
 		AA1000000000000000000021 /* CodeLineEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editing/CodeLineEditor.swift; sourceTree = "<group>"; };
 		AA1000000000000000000022 /* VisuStructFileDocuments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Documents/VisuStructFileDocuments.swift; sourceTree = "<group>"; };
 		AA1000000000000000000023 /* ElementPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette/ElementPalette.swift; sourceTree = "<group>"; };
+		AA1000000000000000000024 /* DiagramSheetTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramSheetTab.swift; sourceTree = "<group>"; };
+		AA1000000000000000000025 /* AppStorageEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences/AppStorageEnums.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,8 @@
 				AA1000000000000000000021 /* CodeLineEditor.swift */,
 				AA1000000000000000000022 /* VisuStructFileDocuments.swift */,
 				AA1000000000000000000023 /* ElementPalette.swift */,
+				AA1000000000000000000024 /* DiagramSheetTab.swift */,
+				AA1000000000000000000025 /* AppStorageEnums.swift */,
 				AA1000000000000000000003 /* DiagramCanvasView.swift */,
 				AA100000000000000000000B /* DiagramDragPayload.swift */,
 				AA100000000000000000001F /* VisuStructUIScale.swift */,
@@ -276,6 +282,8 @@
 				AA0000000000000000000129 /* CodeLineEditor.swift in Sources */,
 				AA0000000000000000000130 /* VisuStructFileDocuments.swift in Sources */,
 				AA0000000000000000000131 /* ElementPalette.swift in Sources */,
+				AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */,
+				AA0000000000000000000133 /* AppStorageEnums.swift in Sources */,
 				AA0000000000000000000003 /* DiagramCanvasView.swift in Sources */,
 				AA0000000000000000000107 /* DiagramDragPayload.swift in Sources */,
 				AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */,
