@@ -632,7 +632,7 @@ struct ContentView: View {
             onOpenImporter: { showImporter = true },
             onPickRecent: openRecentFile,
             onClearRecent: { recentFilesStore.clear() },
-            onSave: saveCurrentDocumentToFile,
+            onSave: performPrimarySave,
             onSaveAs: { showExporter = true },
             onPrint: printAction,
             onKeyboardDismiss: {
@@ -1170,7 +1170,7 @@ struct ContentView: View {
             return
         }
 
-        saveCurrentDocumentToFile()
+        performPrimarySave()
         if let tab = tabsModel.tabs.first(where: { $0.id == id }), !tabsModel.tabHasUnsavedChanges(tab) {
             tabsModel.closeTabAfterSuccessfulExportId = nil
             performCloseDiagramTab(id: id)
@@ -1756,8 +1756,8 @@ struct ContentView: View {
         refreshLineEditor()
     }
 
-    /// Schreibt in die verknüpfte Datei; ohne Verknüpfung öffnet sich **Speichern unter …**.
-    private func saveCurrentDocumentToFile() {
+    /// Speichern auf die verknüpfte Datei; ohne Verknüpfung → Export-Sheet. Zentral für Menü/⌘S und „Schließen mit Speichern“.
+    private func performPrimarySave() {
         documentServices.saveCurrentDocumentToFile(
             language: lang,
             onNeedsSaveAs: { showExporter = true },
