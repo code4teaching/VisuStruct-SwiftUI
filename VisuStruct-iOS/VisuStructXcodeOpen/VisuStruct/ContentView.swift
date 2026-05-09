@@ -12,7 +12,7 @@ import WebKit
 import AppKit
 #endif
 
-// MARK: - Hauptansicht
+// MARK: - ContentView
 
 @MainActor
 struct ContentView: View {
@@ -123,6 +123,8 @@ struct ContentView: View {
         _recentFilesStore = StateObject(wrappedValue: RecentFilesStore())
     }
 
+    // MARK: - Aktueller Tab & Metadaten
+
     private var currentTabIndex: Int {
         sheetTabs.firstIndex(where: { $0.id == selectedTabId }) ?? 0
     }
@@ -136,6 +138,8 @@ struct ContentView: View {
         }
         return t
     }
+
+    // MARK: - Tab-Titel, Dateizugriff & Speicher-Baseline
 
     private func diagramTabDisplayTitle(_ tab: DiagramSheetTab) -> String {
         let raw = Self.stripVisuStructExtension(from: tab.title)
@@ -270,6 +274,8 @@ struct ContentView: View {
             set: { if !$0 { pendingCloseTabId = nil } }
         )
     }
+
+    // MARK: - body
 
     var body: some View {
         Group {
@@ -444,6 +450,8 @@ struct ContentView: View {
         )
     }
 
+    // MARK: - Zwischenablage (Diagramm)
+
     private func copySelectionToClipboard() {
         guard let path = selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return }
@@ -487,6 +495,8 @@ struct ContentView: View {
             setErrorOnCurrentTab(error.localizedDescription)
         }
     }
+
+    // MARK: - Palette
 
     /// iPad: Sidebar-Spalte mit System-Split (ein-/ausblendbar, Standardbreiten).
     private var iPadPaletteSidebarColumn: some View {
@@ -671,6 +681,8 @@ struct ContentView: View {
         .scrollContentBackground(.hidden)
     }
 
+    // MARK: - Haupteditor (NavigationStack, Tabs, Fehler)
+
     private var mainEditorNavigationStack: some View {
         NavigationStack {
             ZStack(alignment: .topLeading) {
@@ -817,6 +829,8 @@ struct ContentView: View {
         .background(Color(.systemGroupedBackground))
     }
 
+    // MARK: - Diagramm-Reiter (Tabs)
+
     private var diagramTabStrip: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
@@ -884,6 +898,8 @@ struct ContentView: View {
         .clipShape(Capsule())
     }
 
+    // MARK: - Editor-Ansicht (Bearbeiten vs. Simulation)
+
     @ViewBuilder
     private var editorDetail: some View {
         Group {
@@ -904,6 +920,8 @@ struct ContentView: View {
         #endif
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
+
+    // MARK: - Simulations-Ansicht
 
     @ViewBuilder
     private var simulationDetailView: some View {
@@ -952,6 +970,8 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Canvas (Simulation)
+
     private var simulationCanvasBlock: some View {
         let diagramPaper = Color(white: 0.98)
         let blockCorner: CGFloat = horizontalSizeClass == .regular ? 14 : 12
@@ -986,6 +1006,8 @@ struct ContentView: View {
                 .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
         }
     }
+
+    // MARK: - Canvas & Diagrammtitel (Bearbeitung)
 
     /// Oberer Bereich: Diagramm-Titel + Canvas in **einer** visuellen Einheit (gleiche Fläche wie `diagramCanvasFill` in `DiagramCanvasView`).
     private var canvasAndCaptionBlock: some View {
@@ -1047,6 +1069,8 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Bindings (Dokument, Caption)
+
     private var documentBinding: Binding<VisuStructDocument> {
         Binding(
             get: { document },
@@ -1065,6 +1089,8 @@ struct ContentView: View {
             }
         )
     }
+
+    // MARK: - Simulation (Modus & Steuerung)
 
     private func beginSimulationMode() {
         pauseSimulation()
@@ -1163,6 +1189,8 @@ struct ContentView: View {
         isSimulationPlaying = false
     }
 
+    // MARK: - Tab-Titel & Reiter-Synchronisation
+
     /// Reiter-Bezeichnung an den Diagrammtitel anpassen (leer → Platzhalter wie im Titelfeld).
     private func syncCurrentTabTitleWithCaption(_ caption: String) {
         var tabs = sheetTabs
@@ -1181,6 +1209,8 @@ struct ContentView: View {
         tabs[i].title = tabDisplayTitle(forCaption: tabs[i].document.caption)
         sheetTabs = tabs
     }
+
+    // MARK: - Bindings (Auswahl, Zeileneditor)
 
     private var selectedPathBinding: Binding<[Int]?> {
         Binding(
@@ -1255,6 +1285,8 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Fehleranzeige
+
     private var errorTextBinding: Binding<String?> {
         Binding(
             get: { sheetTabs[currentTabIndex].errorText },
@@ -1277,6 +1309,8 @@ struct ContentView: View {
         tabs[currentTabIndex].errorText = nil
         sheetTabs = tabs
     }
+
+    // MARK: - Export-Dateinamen & Slugs
 
     /// Vorschlag für „Speichern unter …“ / Teilen — je nach Einstellung nur Titel oder `yyyy-MM-dd-<Titel>`.
     private func exportFilenameForCurrentTab() -> String {
@@ -1365,6 +1399,8 @@ struct ContentView: View {
         return v + ".pdf"
     }
 
+    // MARK: - Diagramm-Reiter verwalten (Tabs öffnen/schließen)
+
     private func addDiagramTab() {
         let serial = nextTabSerial
         nextTabSerial += 1
@@ -1424,6 +1460,8 @@ struct ContentView: View {
             closeTabAfterSuccessfulExportId = nil
         }
     }
+
+    // MARK: - Inspector (unter dem Canvas)
 
     /// Kompaktes Textfeld unter dem Canvas (typisch 1–2 Zeilen); bei Bedarf per Scrollen mehr.
     private var inspectorPanel: some View {
@@ -1781,6 +1819,8 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Inspector (iPhone: ein-/ausblendbar)
+
     @ViewBuilder
     private var inspectorPanelPhoneAware: some View {
         if !isPhone {
@@ -1806,6 +1846,8 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Tastatur (Overlap unter dem Inspector)
+
     #if canImport(UIKit)
     private func updateKeyboardOverlap(from notification: Notification) {
         guard let frameValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
@@ -1828,6 +1870,8 @@ struct ContentView: View {
         return overlap
     }
     #endif
+
+    // MARK: - Fallauswahl (Multiway)
 
     /// Innerste **Fallauswahl** (`multiway`), die die aktuelle Auswahl enthält (für „Fall hinzufügen“).
     private func multiwayAncestorPath(for path: [Int]?) -> [Int]? {
@@ -1912,6 +1956,8 @@ struct ContentView: View {
             setErrorOnCurrentTab(error.localizedDescription)
         }
     }
+
+    // MARK: - Inspector: Zählschleife & Gruppentitel
 
     /// Titel der Textbox: Kacheltyp statt generischem „ausgewähltes Element“ (Diagramm-Titel steht oben separat).
     private var inspectorGroupBoxTitle: String {
@@ -2001,6 +2047,8 @@ struct ContentView: View {
         }
     }
 
+    // MARK: - Lokalisierung Elementtyp (Inspector)
+
     private static func localizedElementTypeName(_ type: VisuStructElementType, lang: AppLanguage) -> String {
         switch type {
         case .anweisung: return lang.tr("element_anweisung")
@@ -2017,6 +2065,8 @@ struct ContentView: View {
     }
 
     private static let maxUndoSteps = 80
+
+    // MARK: - Dokument: Commit, Undo & Redo
 
     /// Ersetzt das Dokument und legt einen Undo-Snapshot des bisherigen Zustands ab.
     private func commitDocument(_ new: VisuStructDocument) {
@@ -2095,6 +2145,8 @@ struct ContentView: View {
         sheetTabs = tabs
     }
 
+    // MARK: - Neue Datei & Tab zurücksetzen
+
     private func newDocument() {
         resetHistoryAndDocument(VisuStructDocumentEditing.newEmpty())
         var tabs = sheetTabs
@@ -2154,6 +2206,8 @@ struct ContentView: View {
             setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
         }
     }
+
+    // MARK: - Diagramm bearbeiten (Wurzel, Palette, Einfügen)
 
     private func appendRoot(_ element: VisuStructElement) {
         let doc = document
@@ -2282,6 +2336,8 @@ struct ContentView: View {
         appendRoot(el)
     }
 
+    // MARK: - Auswahl löschen
+
     private func deleteSelection() {
         guard let path = selectedPath else { return }
         let doc = document
@@ -2346,6 +2402,8 @@ struct ContentView: View {
             .listRowBackground(Color.clear)
         }
     }
+
+    // MARK: - Zeileneditor (Synchronisation Element ↔ Textfeld)
 
     private func refreshLineEditor() {
         let i = currentTabIndex
@@ -2428,6 +2486,8 @@ struct ContentView: View {
             setErrorOnCurrentTab(error.localizedDescription)
         }
     }
+
+    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei)
 
     private func exportPNG() {
         #if canImport(UIKit)
@@ -2643,6 +2703,8 @@ struct ContentView: View {
         }
     }
     #endif
+
+    // MARK: - Palette Drag-Vorschau
 
     @ViewBuilder
     private func paletteDragPreview(for item: ElementPalette.PaletteItem) -> some View {
