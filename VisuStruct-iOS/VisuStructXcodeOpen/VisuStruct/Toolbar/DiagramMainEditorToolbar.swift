@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Hauptfenster-Toolbar: Titel, Undo/Redo, Datei-Menü, Palette (iPhone), Tastatur „Fertig“.
-/// Diagramm-Reiter (`diagramTabStrip`) bleiben in `ContentView`.
+/// Diagramm-Reiter liegen in `DiagramTabStrip`.
 struct DiagramMainEditorToolbar: ToolbarContent {
     @Environment(\.appLanguage) private var lang
 

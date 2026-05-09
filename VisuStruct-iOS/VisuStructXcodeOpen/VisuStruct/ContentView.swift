@@ -145,14 +145,6 @@ struct ContentView: View {
         VisuStructXMLCodec.encode(tab.document) != tab.savedDocumentBaseline
     }
 
-    @ViewBuilder
-    private func unsavedChangeIndicatorDot() -> some View {
-        Circle()
-            .fill(Color.accentColor)
-            .frame(width: 7, height: 7)
-            .accessibilityHidden(true)
-    }
-
     private func updateSavedBaselineForCurrentTab() {
         var tabs = sheetTabs
         let i = currentTabIndex
@@ -673,7 +665,18 @@ struct ContentView: View {
         NavigationStack {
             ZStack(alignment: .topLeading) {
                 VStack(spacing: 0) {
-                    diagramTabStrip
+                    DiagramTabStrip(
+                        tabs: sheetTabs,
+                        selectedTabId: selectedTabId,
+                        displayTitle: diagramTabDisplayTitle,
+                        hasUnsavedChanges: tabHasUnsavedChanges,
+                        onSelectTab: { id in
+                            selectedTabId = id
+                            refreshLineEditor()
+                        },
+                        onAddTab: addDiagramTab,
+                        onRequestCloseTab: { requestCloseDiagramTab(id: $0) }
+                    )
                     Group {
                         if let err = sheetTabs[currentTabIndex].errorText {
                             VStack(spacing: 20) {
@@ -749,75 +752,6 @@ struct ContentView: View {
                 if isPhone { hideInspectorOnPhone = true }
             }
         )
-    }
-
-    // MARK: - Diagramm-Reiter (Tabs)
-
-    private var diagramTabStrip: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
-                ForEach(sheetTabs) { tab in
-                    diagramTabPill(tab)
-                }
-                Button {
-                    addDiagramTab()
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title3)
-                        .foregroundStyle(Color.accentColor)
-                        .symbolRenderingMode(.hierarchical)
-                }
-                .buttonStyle(.borderless)
-                .accessibilityLabel(lang.tr("a11y_new_diagram_tab"))
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 11)
-        }
-        .frame(maxWidth: .infinity)
-        .background(Color(.secondarySystemGroupedBackground))
-    }
-
-    private func diagramTabPill(_ tab: DiagramSheetTab) -> some View {
-        let selected = tab.id == selectedTabId
-        let displayTitle = diagramTabDisplayTitle(tab)
-        return HStack(spacing: 2) {
-            Button {
-                selectedTabId = tab.id
-                refreshLineEditor()
-            } label: {
-                HStack(spacing: 6) {
-                    Text(verbatim: displayTitle)
-                        .lineLimit(1)
-                    if tabHasUnsavedChanges(tab) {
-                        unsavedChangeIndicatorDot()
-                    }
-                }
-                .font(.subheadline.weight(selected ? .semibold : .regular))
-                .foregroundStyle(selected ? Color.primary : Color.secondary)
-                .padding(.horizontal, 12)
-                .padding(.vertical, 8)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(
-                tabHasUnsavedChanges(tab)
-                    ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))"
-                    : displayTitle
-            )
-            if sheetTabs.count > 1 {
-                Button {
-                    requestCloseDiagramTab(id: tab.id)
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
-                }
-                .buttonStyle(.plain)
-                .padding(.trailing, 6)
-                .accessibilityLabel(lang.tr("a11y_close_tab"))
-            }
-        }
-        .background(selected ? Color.blue.opacity(0.2) : Color(.tertiarySystemFill))
-        .clipShape(Capsule())
     }
 
     // MARK: - Editor-Ansicht (Bearbeiten vs. Simulation)
