@@ -14,7 +14,8 @@ struct InspectorPanelBody<ForLoopColumn: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
 
-    @Binding var focusedField: DiagramEditorFocusTarget?
+    /// Muss `FocusState`-Projektion sein (nicht `Binding`), damit `.focused(_:equals:)` kompiliert.
+    var focusedField: FocusState<DiagramEditorFocusTarget?>.Binding
 
     let selectedPath: [Int]?
     let captionFont: Font
@@ -85,7 +86,7 @@ struct InspectorPanelBody<ForLoopColumn: View>: View {
                         .textFieldStyle(.roundedBorder)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled(true)
-                        .focused($focusedField, equals: .caseLabel)
+                        .focused(focusedField, equals: DiagramEditorFocusTarget.caseLabel)
                 }
                 if inspectorShowsForLoopThreeFields {
                     if horizontalSizeClass == .regular {
@@ -134,7 +135,7 @@ struct InspectorPanelBody<ForLoopColumn: View>: View {
                                 .textInputAutocapitalization(.never)
                                 .autocorrectionDisabled(true)
                                 .overlay(RoundedRectangle(cornerRadius: 6).stroke(.quaternary))
-                                .focused($focusedField, equals: .textEditor)
+                                .focused(focusedField, equals: DiagramEditorFocusTarget.textEditor)
 
                                 if selectedPath != nil,
                                    lineEditorVisibleTextBinding.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
