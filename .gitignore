@@ -22,9 +22,6 @@ xcuserdata/
 .swiftpm/xcode/xcuserdata/
 .build/
 
-# Lokales SPM-Build unter eingebettetem Package (nicht versionieren)
-VisuStruct-iOS/VisuStructXcodeOpen/VisuStructCore/.build/
-
 # Lokale Xcode-Buildausgaben (nicht ins Repo)
 VisuStruct-iOS/VisuStructXcodeOpen/.derived_run/
 VisuStruct-iOS/VisuStructXcodeOpen/.derived_run_ipad/
