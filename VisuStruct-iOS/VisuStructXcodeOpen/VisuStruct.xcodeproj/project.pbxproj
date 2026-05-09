@@ -157,8 +157,7 @@
 				AA1000000000000000000033 /* InspectorElementTypeLocalization.swift */,
 				AA1000000000000000000034 /* InspectorPanelViews.swift */,
 				AA1000000000000000000035 /* DiagramMainEditorToolbar.swift */,
-				AA1000000000000000000003 /* DiagramCanvasView.swift */,
-				AA100000000000000000000B /* DiagramDragPayload.swift */,
+				AA4000000000000000000004 /* Canvas */,
 				AA100000000000000000001F /* VisuStructUIScale.swift */,
 				AA1000000000000000000004 /* Assets.xcassets */,
 				AA1000000000000000000006 /* Localizable.strings */,
@@ -186,6 +185,15 @@
 				AA1000000000000000000008 /* Settings.bundle */,
 			);
 			path = VisuStruct;
+			sourceTree = "<group>";
+		};
+		AA4000000000000000000004 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				AA1000000000000000000003 /* DiagramCanvasView.swift */,
+				AA100000000000000000000B /* DiagramDragPayload.swift */,
+			);
+			path = Canvas;
 			sourceTree = "<group>";
 		};
 		AA4000000000000000000003 /* Products */ = {
