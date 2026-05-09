@@ -14,7 +14,6 @@ SwiftUI app plus **`VisuStructCore`** (model, layout, XML import/export). **`.vi
 |------|------|
 | **`VisuStructCore/`** | Swift package — develop here; `swift build`. |
 | **`VisuStructXcodeOpen/`** | Xcode project `VisuStruct.xcodeproj` (local package `../VisuStructCore`). |
-| **`SwiftUIPrototype/`** | Legacy prototype only. |
 
 ## Build (Xcode)
 
