@@ -162,16 +162,15 @@ final class DiagramEditorDocumentServices {
         refreshLineEditor: () -> Void,
         setError: (String) -> Void
     ) {
+        // Bei erfolgreichem `openDocument` ist `recentFilesStore.record` bereits durch `setLinkedFile` erfolgt.
         do {
             let url = try recentFilesStore.resolveURL(for: recentFile)
             if openDocument(from: url, resetHistoryAndDocument: resetHistoryAndDocument, refreshLineEditor: refreshLineEditor, setError: setError) {
-                recentFilesStore.record(url: url, displayName: fileDisplayName(from: url))
                 return
             }
             if let p = recentFile.filePath, p.hasPrefix(NSHomeDirectory()) {
                 let fallbackURL = URL(fileURLWithPath: p)
                 if openDocument(from: fallbackURL, resetHistoryAndDocument: resetHistoryAndDocument, refreshLineEditor: refreshLineEditor, setError: setError) {
-                    recentFilesStore.record(url: fallbackURL, displayName: fileDisplayName(from: fallbackURL))
                     return
                 }
             }
