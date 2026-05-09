@@ -55,6 +55,7 @@
 		AA0000000000000000000142 /* InspectorPanelViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000034 /* InspectorPanelViews.swift */; };
 		AA0000000000000000000143 /* DiagramMainEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000035 /* DiagramMainEditorToolbar.swift */; };
 		AA0000000000000000000144 /* DiagramTabStrip.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000036 /* DiagramTabStrip.swift */; };
+		AA0000000000000000000145 /* DiagramSheetTabsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000037 /* DiagramSheetTabsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,7 @@
 		AA1000000000000000000034 /* InspectorPanelViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector/InspectorPanelViews.swift; sourceTree = "<group>"; };
 		AA1000000000000000000035 /* DiagramMainEditorToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar/DiagramMainEditorToolbar.swift; sourceTree = "<group>"; };
 		AA1000000000000000000036 /* DiagramTabStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramTabStrip.swift; sourceTree = "<group>"; };
+		AA1000000000000000000037 /* DiagramSheetTabsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramSheetTabsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 				AA1000000000000000000023 /* ElementPalette.swift */,
 				AA1000000000000000000024 /* DiagramSheetTab.swift */,
 				AA1000000000000000000036 /* DiagramTabStrip.swift */,
+				AA1000000000000000000037 /* DiagramSheetTabsModel.swift */,
 				AA1000000000000000000025 /* AppStorageEnums.swift */,
 				AA1000000000000000000026 /* ViewPanelChrome.swift */,
 				AA1000000000000000000027 /* SimulationPanels.swift */,
@@ -317,6 +320,7 @@
 				AA0000000000000000000131 /* ElementPalette.swift in Sources */,
 				AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */,
 				AA0000000000000000000144 /* DiagramTabStrip.swift in Sources */,
+				AA0000000000000000000145 /* DiagramSheetTabsModel.swift in Sources */,
 				AA0000000000000000000133 /* AppStorageEnums.swift in Sources */,
 				AA0000000000000000000134 /* ViewPanelChrome.swift in Sources */,
 				AA0000000000000000000135 /* SimulationPanels.swift in Sources */,
