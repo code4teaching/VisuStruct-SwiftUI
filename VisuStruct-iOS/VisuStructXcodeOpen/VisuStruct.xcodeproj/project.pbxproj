@@ -44,6 +44,11 @@
 		AA0000000000000000000131 /* ElementPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000023 /* ElementPalette.swift */; };
 		AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000024 /* DiagramSheetTab.swift */; };
 		AA0000000000000000000133 /* AppStorageEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000025 /* AppStorageEnums.swift */; };
+		AA0000000000000000000134 /* View+PanelChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000026 /* View+PanelChrome.swift */; };
+		AA0000000000000000000135 /* SimulationPanels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000027 /* SimulationPanels.swift */; };
+		AA0000000000000000000136 /* CodeGeneratorPanels.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000028 /* CodeGeneratorPanels.swift */; };
+		AA0000000000000000000137 /* JavaScriptRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000029 /* JavaScriptRunner.swift */; };
+		AA0000000000000000000138 /* AboutVisuStructView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1000000000000000000030 /* AboutVisuStructView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +89,11 @@
 		AA1000000000000000000023 /* ElementPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette/ElementPalette.swift; sourceTree = "<group>"; };
 		AA1000000000000000000024 /* DiagramSheetTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramSheetTab.swift; sourceTree = "<group>"; };
 		AA1000000000000000000025 /* AppStorageEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences/AppStorageEnums.swift; sourceTree = "<group>"; };
+		AA1000000000000000000026 /* View+PanelChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supporting/View+PanelChrome.swift; sourceTree = "<group>"; };
+		AA1000000000000000000027 /* SimulationPanels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Simulation/SimulationPanels.swift; sourceTree = "<group>"; };
+		AA1000000000000000000028 /* CodeGeneratorPanels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeGeneration/CodeGeneratorPanels.swift; sourceTree = "<group>"; };
+		AA1000000000000000000029 /* JavaScriptRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Runner/JavaScriptRunner.swift; sourceTree = "<group>"; };
+		AA1000000000000000000030 /* AboutVisuStructView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About/AboutVisuStructView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +128,11 @@
 				AA1000000000000000000023 /* ElementPalette.swift */,
 				AA1000000000000000000024 /* DiagramSheetTab.swift */,
 				AA1000000000000000000025 /* AppStorageEnums.swift */,
+				AA1000000000000000000026 /* View+PanelChrome.swift */,
+				AA1000000000000000000027 /* SimulationPanels.swift */,
+				AA1000000000000000000028 /* CodeGeneratorPanels.swift */,
+				AA1000000000000000000029 /* JavaScriptRunner.swift */,
+				AA1000000000000000000030 /* AboutVisuStructView.swift */,
 				AA1000000000000000000003 /* DiagramCanvasView.swift */,
 				AA100000000000000000000B /* DiagramDragPayload.swift */,
 				AA100000000000000000001F /* VisuStructUIScale.swift */,
@@ -284,6 +299,11 @@
 				AA0000000000000000000131 /* ElementPalette.swift in Sources */,
 				AA0000000000000000000132 /* DiagramSheetTab.swift in Sources */,
 				AA0000000000000000000133 /* AppStorageEnums.swift in Sources */,
+				AA0000000000000000000134 /* View+PanelChrome.swift in Sources */,
+				AA0000000000000000000135 /* SimulationPanels.swift in Sources */,
+				AA0000000000000000000136 /* CodeGeneratorPanels.swift in Sources */,
+				AA0000000000000000000137 /* JavaScriptRunner.swift in Sources */,
+				AA0000000000000000000138 /* AboutVisuStructView.swift in Sources */,
 				AA0000000000000000000003 /* DiagramCanvasView.swift in Sources */,
 				AA0000000000000000000107 /* DiagramDragPayload.swift in Sources */,
 				AA0000000000000000000127 /* VisuStructUIScale.swift in Sources */,

@@ -1,0 +1,251 @@
+import SwiftUI
+import VisuStructCore
+#if canImport(UIKit)
+import UIKit
+#endif
+
+struct SimulationStatePanel: View {
+    @Environment(\.appLanguage) private var lang
+    let engine: VisuStructSimulationEngine
+    let isPlaying: Bool
+    @Binding var inputText: String
+    @Binding var highlightModeRaw: String
+    let onPlay: () -> Void
+    let onPause: () -> Void
+    let onStep: () -> Void
+    let onSubmitInput: () -> Void
+    let onStop: () -> Void
+
+    private var sortedVariables: [(String, VisuStructSimulationValue)] {
+        engine.state.variables
+            .map { ($0.key, $0.value) }
+            .sorted { $0.0.localizedStandardCompare($1.0) == .orderedAscending }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 10) {
+                Label(lang.tr("simulation_controls"), systemImage: "slider.horizontal.3")
+                    .font(.headline)
+
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    SimulationControlButton(title: lang.tr("simulation_play"), systemImage: "play.fill", isDisabled: isPlaying || !engine.canStep, action: onPlay)
+                    SimulationControlButton(title: lang.tr("simulation_pause"), systemImage: "pause.fill", isDisabled: !isPlaying, action: onPause)
+                    SimulationControlButton(title: lang.tr("simulation_step"), systemImage: "arrow.right.circle", isDisabled: isPlaying || !engine.canStep, action: onStep)
+                    SimulationControlButton(title: lang.tr("simulation_stop"), systemImage: "stop.fill", isDisabled: false, action: onStop)
+                }
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(lang.tr("simulation_highlight_label"))
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Picker(lang.tr("simulation_highlight_label"), selection: $highlightModeRaw) {
+                        Text(lang.tr("simulation_highlight_last")).tag(SimulationHighlightMode.lastExecuted.rawValue)
+                        Text(lang.tr("simulation_highlight_next")).tag(SimulationHighlightMode.nextToExecute.rawValue)
+                    }
+                    .pickerStyle(.segmented)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_input"),
+                systemImage: "keyboard",
+                minHeight: engine.state.inputRequest == nil ? 86 : 112
+            ) {
+                if let request = engine.state.inputRequest {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(request.prompt)
+                            .font(.body)
+                            .fixedSize(horizontal: false, vertical: true)
+                        HStack(spacing: 8) {
+                            TextField(request.variableName, text: $inputText)
+                                .textFieldStyle(.roundedBorder)
+                                .keyboardType(simulationInputKeyboardType(for: request.valueType))
+                                .onSubmit(onSubmitInput)
+                            Button(lang.tr("simulation_input_submit"), action: onSubmitInput)
+                                .buttonStyle(.borderedProminent)
+                        }
+                        if let inputError = engine.state.inputError {
+                            Text(inputError)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                } else {
+                    Text(lang.tr("simulation_input_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_trace"),
+                systemImage: "arrow.left.arrow.right"
+            ) {
+                if let trace = engine.state.lastTrace {
+                    Text(trace)
+                        .font(.body.monospaced())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    Text(lang.tr("simulation_trace_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_variables"),
+                systemImage: "curlybraces",
+                minHeight: 190,
+                contentFillsHeight: true
+            ) {
+                if sortedVariables.isEmpty {
+                    Text(lang.tr("simulation_variables_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(sortedVariables, id: \.0) { name, value in
+                                HStack(alignment: .firstTextBaseline) {
+                                    Text(name)
+                                        .font(.body.monospaced().weight(.semibold))
+                                    Spacer(minLength: 12)
+                                    Text(value.description)
+                                        .font(.body.monospaced())
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
+                        .padding(.trailing, 14)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
+            }
+
+            SimulationPlaceholderCard(
+                title: lang.tr("simulation_output"),
+                systemImage: "terminal",
+                minHeight: 170,
+                contentFillsHeight: true
+            ) {
+                if engine.state.outputLines.isEmpty {
+                    Text(lang.tr("simulation_output_placeholder"))
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(Array(engine.state.outputLines.enumerated()), id: \.offset) { _, line in
+                                Text(line)
+                                    .font(.body.monospaced())
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                        }
+                        .padding(.trailing, 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                }
+            }
+            .layoutPriority(1)
+
+            if let message = engine.state.message {
+                Text(message)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+        }
+    }
+
+    private func simulationInputKeyboardType(for valueType: VisuStructSimulationValueType) -> UIKeyboardType {
+        switch valueType {
+        case .int:
+            return .numberPad
+        case .double:
+            return .decimalPad
+        case .string:
+            return .default
+        }
+    }
+}
+
+struct SimulationControlButton: View {
+    let title: String
+    let systemImage: String
+    let isDisabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(.subheadline.weight(.medium))
+                .frame(maxWidth: .infinity, minHeight: 34)
+        }
+        .buttonStyle(.bordered)
+        .disabled(isDisabled)
+    }
+}
+
+struct SimulationPlaceholderCard<Content: View>: View {
+    let title: String
+    let systemImage: String
+    let minHeight: CGFloat
+    let contentFillsHeight: Bool
+    @ViewBuilder var content: () -> Content
+
+    init(
+        title: String,
+        systemImage: String,
+        minHeight: CGFloat = 130,
+        contentFillsHeight: Bool = false,
+        @ViewBuilder content: @escaping () -> Content
+    ) {
+        self.title = title
+        self.systemImage = systemImage
+        self.minHeight = minHeight
+        self.contentFillsHeight = contentFillsHeight
+        self.content = content
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(title, systemImage: systemImage)
+                .font(.headline)
+            content()
+                .frame(maxHeight: contentFillsHeight ? .infinity : nil, alignment: .topLeading)
+            if !contentFillsHeight {
+                Spacer(minLength: 0)
+            }
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(.tertiarySystemBackground))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.06), lineWidth: 1)
+        }
+    }
+}
+
