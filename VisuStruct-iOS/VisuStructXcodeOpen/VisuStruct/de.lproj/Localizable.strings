@@ -125,6 +125,7 @@
 "close_unsaved_cancel" = "Abbrechen";
 "a11y_placeholder_drop" = "Element hier ablegen, um den Platzhalter zu ersetzen. Lang drücken und ziehen zum Verschieben.";
 "a11y_node_drop" = "Block lang drücken, dann ziehen: am Ziel am oberen oder unteren Rand ablegen (davor/danach). In die Mitte nur auf Platzhalter ø.";
+"a11y_codegen_panel_drag" = "Codegenerator-Panel verschieben";
 
 /* Diagramm */
 "diagram_title_label" = "Titel";

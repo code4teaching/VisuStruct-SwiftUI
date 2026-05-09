@@ -109,6 +109,7 @@
 "close_unsaved_cancel" = "Cancelar";
 "a11y_placeholder_drop" = "Largue aqui um elemento para substituir o marcador. Mantenha premido para arrastar e mover.";
 "a11y_node_drop" = "Mantenha premido um bloco e arraste: largue na borda superior ou inferior do destino (antes/depois). No centro só em marcador ø.";
+"a11y_codegen_panel_drag" = "Arraste para mover o painel do gerador de código";
 
 /* Diagrama */
 "diagram_title_label" = "Título";

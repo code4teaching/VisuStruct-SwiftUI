@@ -17,12 +17,14 @@ public struct VisuStructLayoutEngine: Sendable {
         let randLinks = topLeadingContentInset.left
         let randOben = topLeadingContentInset.top
 
-        let nodes = layoutList(
+        let rawNodes = layoutList(
             elements: document.elements,
             atX: randLinks,
             atY: randOben,
             idBase: []
         )
+        /// Nach gleicher Breite / Harmonize: vertikale Schleifen-Rümpfe bis zur Kante strecken (Java — verhindert weiße Streifen).
+        let nodes = rawNodes.map { stretchLoopBodiesVertically($0) }
 
         // Canvas: gesamten Baum einbeziehen (nicht nur Root), sonst können tiefe Kinder über den Rand zeichnen.
         let (maxX, maxY) = subtreeContentMax(nodes)
@@ -116,11 +118,11 @@ public struct VisuStructLayoutEngine: Sendable {
             // `stretchDescendantsWidths(..., parentWidth: newWidth)` den Inhalt zu breit machen → rechte Kante bricht aus.
             switch n.element.type {
             case .forSchleife, .whileSchleife, .doUntilSchleife, .endlosschleife:
-                let leftInset: Double = 20
-                let innerW = max(0, newWidth - leftInset)
+                let lead = effectiveLoopBodyLeading(for: n)
+                let innerW = max(0, newWidth - lead)
                 n.children = n.children.map { child in
                     var c = child
-                    c.frame.x = n.frame.x + leftInset
+                    c.frame.x = n.frame.x + lead
                     c.frame.width = innerW
                     return stretchDescendantsWidths(c, parentWidth: innerW)
                 }
@@ -133,11 +135,11 @@ public struct VisuStructLayoutEngine: Sendable {
 
         switch n.element.type {
         case .forSchleife, .whileSchleife, .doUntilSchleife, .endlosschleife:
-            let leftInset: Double = 20
-            let innerW = max(0, newWidth - leftInset)
+            let lead = effectiveLoopBodyLeading(for: n)
+            let innerW = max(0, newWidth - lead)
             n.children = n.children.map { child in
                 var c = child
-                c.frame.x = n.frame.x + leftInset
+                c.frame.x = n.frame.x + lead
                 c.frame.width = innerW
                 return stretchDescendantsWidths(c, parentWidth: innerW)
             }
@@ -156,12 +158,12 @@ public struct VisuStructLayoutEngine: Sendable {
         case .fallauswahl, .verzweigung:
             n = stretchNodeTreeToWidth(n, newWidth: parentWidth)
         case .forSchleife, .whileSchleife, .doUntilSchleife, .endlosschleife:
-            let leftInset: Double = 20
-            let innerW = max(0, parentWidth - leftInset)
+            let lead = effectiveLoopBodyLeading(for: n)
+            let innerW = max(0, parentWidth - lead)
             n.frame.width = parentWidth
             n.children = n.children.map { c in
                 var cc = c
-                cc.frame.x = n.frame.x + leftInset
+                cc.frame.x = n.frame.x + lead
                 cc.frame.width = innerW
                 return stretchDescendantsWidths(cc, parentWidth: innerW)
             }
@@ -225,6 +227,10 @@ public struct VisuStructLayoutEngine: Sendable {
 
     private func headerHeight(for e: VisuStructElement) -> Double {
         let lines = max(1, e.textLines.count)
+        /// Fuß der Do-Until-Schleife: Abstand unter der Trennlinie + Zeilen + **eigener** unterer Rand (`doUntilFooterBottomInset`, nicht volle `cellTextInsetY`).
+        if e.type == .doUntilSchleife {
+            return metrics.doUntilFooterTopInset + Double(lines) * metrics.lineHeight + metrics.doUntilFooterBottomInset + Double(e.zoomY)
+        }
         // Java: obererRand = obererRandZusatz + lines*texthoehe, plus ggf. zoomY.
         let baseExtra: Double
         switch e.type {
@@ -234,14 +240,33 @@ public struct VisuStructLayoutEngine: Sendable {
             baseExtra = 40
         case .verzweigung:
             baseExtra = 20
-        case .doUntilSchleife:
-            // DoUntil hat Text unten; hier nutzen wir die gleiche Höhe als „bottom header“.
-            baseExtra = 20
         case .forSchleife, .whileSchleife, .endlosschleife:
-            // +4 pt: größerer Text-Obenabstand im Canvas (`cellTextInsetY`), Kopf/Rumpf-Grenze bleibt unter der Bedingung.
+            // +4 pt: größerer Text-Obenabstand im Canvas (`cellTextInsetY`), Kopf-/Rumpf-Grenze bleibt unter der Bedingung.
             baseExtra = metrics.baseHeaderExtra + 4
+        case .doUntilSchleife:
+            preconditionFailure("Do-Until-Fuß nur über den dedizierten Zweig oben.")
         }
         return baseExtra + Double(lines) * metrics.lineHeight + Double(e.zoomY)
+    }
+
+    /// Oberes Band für die **Y-Verschiebung** des Rumpfs — ohne zusätzliche Kopfzeile: „do“ wird im Canvas **oben** im linken Streifen gezeichnet (`doUntilDoLabelTopInset`).
+    private func doUntilDoBandHeight(for e: VisuStructElement) -> Double {
+        Double(e.zoomY)
+    }
+
+    /// Mindestabstand linker Außenkante → Rumpf: **do** (bold) + Luft; nie schmaler als Java `linkerRand` (20).
+    private func doUntilBodyLeadingInset() -> Double {
+        let fs = CGFloat(metrics.fontSize)
+        let w = VisuStructLayoutTextMeasurement.lineWidthBold("do", fontSize: fs)
+        let padding: Double = 12
+        return max(20, w + padding)
+    }
+
+    private func effectiveLoopBodyLeading(for node: VisuStructLayout.Node) -> Double {
+        if node.element.type == .doUntilSchleife {
+            return node.loopBodyLeadingInset > 0 ? node.loopBodyLeadingInset : doUntilBodyLeadingInset()
+        }
+        return 20
     }
 
     private func horizontalPaddingInsideCell(for type: VisuStructElementType) -> Double {
@@ -306,19 +331,21 @@ public struct VisuStructLayoutEngine: Sendable {
         // Wie Java `Schleife.linkerRand` (20) — Schleifenrumpf beginnt dort.
         let leftInset: Double = 20
 
-        // Java `DoUntilSchleife`: Kopf oben = 0, Bedingungstext im unteren Rand (`getUntererRand`), Schleifenrumpf oben.
+        // Do-Until: oben „do“ (einzeilig wie eine While-Kopfzeile), Rumpf darunter, Bedingung unten (`getUntererRand`).
         if e.type == .doUntilSchleife {
+            let bodyLeading = doUntilBodyLeadingInset()
+            let doBand = doUntilDoBandHeight(for: e)
             let footerH = headerHeight(for: e)
             let body = e.loopBody ?? []
-            let children = layoutList(elements: body, atX: x + leftInset, atY: y, idBase: idPath + [0])
+            let children = layoutList(elements: body, atX: x + bodyLeading, atY: y + doBand, idBase: idPath + [0])
             let bodyW = children.map { $0.frame.width }.max() ?? 0
             let bodyH = children.reduce(0.0) { $0 + $1.frame.height }
-            let w = max(minWidth(for: e), bodyW + leftInset)
-            let h = bodyH + footerH
-            let innerContentW = max(0, w - leftInset)
+            let w = max(minWidth(for: e), bodyW + bodyLeading)
+            let h = bodyH + footerH + doBand
+            let innerContentW = max(0, w - bodyLeading)
             let adjustedChildren = children.map { n in
                 var nn = n
-                nn.frame.x = x + leftInset
+                nn.frame.x = x + bodyLeading
                 nn.frame.width = innerContentW
                 return stretchDescendantsWidths(nn, parentWidth: innerContentW)
             }
@@ -328,6 +355,8 @@ public struct VisuStructLayoutEngine: Sendable {
                 frame: VisuStructRect(x: x, y: y, width: w, height: h),
                 headerBandHeight: footerH
             )
+            node.topBandHeight = doBand
+            node.loopBodyLeadingInset = bodyLeading
             node.children = adjustedChildren
             return node
         }
@@ -392,6 +421,20 @@ public struct VisuStructLayoutEngine: Sendable {
                     cc.frame.y += delta
                     return shiftDescendantsY(cc, delta: delta)
                 }
+            }
+            return n
+        }
+
+        /// Ganzen Teilbaum in X verschieben (z. B. nach Verbreiterung der linken Verzweigungs-Spalte).
+        func shiftTreeX(_ node: VisuStructLayout.Node, delta: Double) -> VisuStructLayout.Node {
+            guard abs(delta) > 0.0001 else { return node }
+            var n = node
+            n.frame.x += delta
+            if let cols = n.columns {
+                n.columns = cols.map { $0.map { shiftTreeX($0, delta: delta) } }
+                n.children = (n.columns ?? []).flatMap { $0 }
+            } else {
+                n.children = n.children.map { shiftTreeX($0, delta: delta) }
             }
             return n
         }
@@ -502,7 +545,7 @@ public struct VisuStructLayoutEngine: Sendable {
             let listNodes = layoutList(elements: c.elements, atX: colX, atY: y + header, idBase: idPath + [i])
             let contentW = listNodes.map { $0.frame.width }.max() ?? 0
             // Java `Fallauswahl.zeichenbereichAktualisieren`: Spaltenbreite = natürlicher Inhalt.
-            // `Verzweigung`: keine künstliche Mindestbreite pro Spalte aus Header — sonst wirkt der false-Zweig zu breit.
+            // `Verzweigung` (2×): zunächst natürliche Breite + Platz für „true“/„false“; danach werden beide Spalten auf dieselbe Breite gebracht.
             let colW: Double
             if e.type == .verzweigung && colCount == 2 {
                 let branchLabel = i == 0 ? "true" : "false"
@@ -525,6 +568,33 @@ public struct VisuStructLayoutEngine: Sendable {
             columnFrames.append(VisuStructRect(x: colX, y: y + header, width: colW, height: colH))
             columnChildren.append(stretched)
             totalW += colW
+        }
+
+        // Zweiarmige Verzweigung: beide Spalten gleich breit (≥ die jeweils natürliche Breite).
+        // Sonst kollabiert der leere Zweig, die Dachspitze wandert und „false“ überlappt die Bedingung.
+        if e.type == .verzweigung, colCount == 2, columnFrames.count == 2 {
+            let wLeft = columnFrames[0].width
+            let wRight = columnFrames[1].width
+            let target = max(wLeft, wRight)
+            let xLeft = x
+            let xRight = x + target
+            let deltaRight = xRight - columnFrames[1].x
+
+            columnFrames[0] = VisuStructRect(x: xLeft, y: columnFrames[0].y, width: target, height: columnFrames[0].height)
+            columnFrames[1] = VisuStructRect(x: xRight, y: columnFrames[1].y, width: target, height: columnFrames[1].height)
+            totalW = target * 2
+
+            columnChildren[0] = columnChildren[0].map { cn in
+                var c = cn
+                c.frame.x = xLeft
+                c.frame.width = target
+                return stretchDescendantsWidths(c, parentWidth: target)
+            }
+            columnChildren[1] = columnChildren[1].map { cn in
+                var c = shiftTreeX(cn, delta: deltaRight)
+                c.frame.width = target
+                return stretchDescendantsWidths(c, parentWidth: target)
+            }
         }
 
         // Row-Heights vereinheitlichen (horizontale Linien aneinander ausrichten).

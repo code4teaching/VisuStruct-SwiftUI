@@ -3,15 +3,15 @@ import Foundation
 public enum VisuStructEditError: Error, LocalizedError, Sendable, Equatable {
     case invalidPath
     case cannotDeleteLastRootElement
-    /// Fallauswahl: mindestens zwei Fälle (Spalten) müssen erhalten bleiben.
+    /// Switch: at least two cases (columns) must remain.
     case cannotRemoveFallauswahlCaseMinimum
 
     public var errorDescription: String? {
         switch self {
-        case .invalidPath: "Ungültiger Elementpfad."
-        case .cannotDeleteLastRootElement: "Das letzte Wurzelelement kann nicht gelöscht werden."
+        case .invalidPath: "Invalid element path."
+        case .cannotDeleteLastRootElement: "The last root element cannot be deleted."
         case .cannotRemoveFallauswahlCaseMinimum:
-            "Eine Fallauswahl benötigt mindestens zwei Fälle — es kann kein weiterer entfernt werden."
+            "A switch statement must keep at least two cases — no further case can be removed."
         }
     }
 }

@@ -28,6 +28,21 @@ enum VisuStructLayoutTextMeasurement: Sendable {
         return Double(text.count) * Double(fontSize) * 0.62
         #endif
     }
+
+    /// Wie `DiagramCanvasView`: Schlüsselwort **do** in Do-Until — **bold**.
+    static func lineWidthBold(_ text: String, fontSize: CGFloat) -> Double {
+        #if canImport(UIKit)
+        let font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+        let w = (text as NSString).size(withAttributes: [.font: font]).width
+        return Double(ceil(w))
+        #elseif canImport(AppKit)
+        let font = NSFont.systemFont(ofSize: fontSize, weight: .bold)
+        let w = (text as NSString).size(withAttributes: [.font: font]).width
+        return Double(ceil(w))
+        #else
+        return Double(text.count) * Double(fontSize) * 0.68
+        #endif
+    }
 }
 
 /// Eine Anzeigezeile für `forSchleife` im Struktogramm: Init, Bedingung, Schritt nebeneinander wie `for (a; b; c)` — getrennt mit `; `.

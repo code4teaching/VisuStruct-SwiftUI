@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "İptal";
 "a11y_placeholder_drop" = "Yer tutucuyu değiştirmek için buraya bir öğe bırakın. Sürükleyip taşımak için basılı tutun.";
 "a11y_node_drop" = "Bir bloğa basılı tutup sürükleyin: önce/sonra eklemek için hedefin üst veya alt kenarına bırakın. Ortaya bırakma yalnızca ø yer tutucuda.";
+"a11y_codegen_panel_drag" = "Kod üretici panelini taşımak için sürükleyin";
 
 /* Diagram */
 "diagram_title_label" = "Başlık";

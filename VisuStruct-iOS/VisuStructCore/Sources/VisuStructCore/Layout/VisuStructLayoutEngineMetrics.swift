@@ -8,19 +8,35 @@ extension VisuStructLayoutEngine {
 
         public var baseHeaderExtra: Double // entspricht grob `obererRandZusatz`
         public var minSidePadding: Double
+        /// Entspricht `DiagramCanvasInk.cellTextInsetY` — oberer Innenrand für einzeilige Kopftexte; wird mit Diagramm-Zoom skaliert.
+        public var cellTextInsetY: Double
+        /// Abstand **Schleifen-Oberkante** → Text „do“ (klein, näher am blauen Rand als `cellTextInsetY`); nur für die Do-Until-Beschriftung.
+        public var doUntilDoLabelTopInset: Double
 
+        /// Abstand Trennlinie → erster Fußtext („while …“); mit Diagramm-Zoom skaliert.
+        public var doUntilFooterTopInset: Double
+        /// Unterer Innenrand unter „while …“ — kleiner als `cellTextInsetY`, damit der Fußstreifen nicht wie „zu viel Luft nach unten“ wirkt (vergleichbar mit Zeilen-Oberrand bei einzeiligen Zellen ~14).
+        public var doUntilFooterBottomInset: Double
         public init(
             fontSize: Double = 15,
             lineHeight: Double = 20,
             charWidth: Double = 7,
             baseHeaderExtra: Double = 20,
-            minSidePadding: Double = 42
+            minSidePadding: Double = 42,
+            cellTextInsetY: Double = 15,
+            doUntilDoLabelTopInset: Double = 2,
+            doUntilFooterTopInset: Double = 6,
+            doUntilFooterBottomInset: Double = 8
         ) {
             self.fontSize = fontSize
             self.lineHeight = lineHeight
             self.charWidth = charWidth
             self.baseHeaderExtra = baseHeaderExtra
             self.minSidePadding = minSidePadding
+            self.cellTextInsetY = cellTextInsetY
+            self.doUntilDoLabelTopInset = doUntilDoLabelTopInset
+            self.doUntilFooterTopInset = doUntilFooterTopInset
+            self.doUntilFooterBottomInset = doUntilFooterBottomInset
         }
     }
 
@@ -62,7 +78,11 @@ extension VisuStructLayoutEngine.Metrics {
             lineHeight: lineHeight * factor,
             charWidth: charWidth * factor,
             baseHeaderExtra: baseHeaderExtra * factor,
-            minSidePadding: minSidePadding * factor
+            minSidePadding: minSidePadding * factor,
+            cellTextInsetY: cellTextInsetY * factor,
+            doUntilDoLabelTopInset: doUntilDoLabelTopInset * factor,
+            doUntilFooterTopInset: doUntilFooterTopInset * factor,
+            doUntilFooterBottomInset: doUntilFooterBottomInset * factor
         )
     }
 }

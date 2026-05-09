@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "취소";
 "a11y_placeholder_drop" = "자리 표시자를 바꾸려면 여기에 요소를 놓으세요. 길게 눌러 드래그하여 이동할 수 있습니다.";
 "a11y_node_drop" = "블록을 길게 누른 뒤 드래그하세요: 대상의 위/아래 가장자리에 놓으면 앞/뒤에 삽입됩니다. 가운데 놓기는 ø 자리 표시자에서만 가능합니다.";
+"a11y_codegen_panel_drag" = "코드 생성기 패널을 움직이려면 드래그하세요";
 
 /* Diagram */
 "diagram_title_label" = "제목";

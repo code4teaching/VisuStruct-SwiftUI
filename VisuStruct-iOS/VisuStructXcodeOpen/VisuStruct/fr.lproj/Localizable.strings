@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "Annuler";
 "a11y_placeholder_drop" = "Déposez un élément ici pour remplacer l’espace réservé. Appuyez longuement pour glisser et déplacer.";
 "a11y_node_drop" = "Appuyez longuement sur un bloc, puis faites glisser : déposez sur le bord haut ou bas pour insérer avant ou après. Dépôt au centre uniquement sur un espace réservé ø.";
+"a11y_codegen_panel_drag" = "Glisser pour déplacer le panneau du générateur de code";
 
 /* Diagram */
 "diagram_title_label" = "Titre";

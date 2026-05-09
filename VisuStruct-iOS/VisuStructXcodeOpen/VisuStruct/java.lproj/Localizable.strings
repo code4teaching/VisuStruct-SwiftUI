@@ -38,6 +38,7 @@
 "close_unsaved_cancel" = "Cancel";
 "a11y_placeholder_drop" = "Drop an element here to replace the placeholder. Press and hold to drag and move.";
 "a11y_node_drop" = "Press and hold a block, then drag: drop on the top or bottom edge of a target to insert before or after. Center drop only on a ø placeholder.";
+"a11y_codegen_panel_drag" = "Drag to move code generator panel";
 
 /* Diagram */
 "diagram_title_label" = "Title";

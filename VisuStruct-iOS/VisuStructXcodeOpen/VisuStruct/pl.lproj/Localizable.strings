@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "Anuluj";
 "a11y_placeholder_drop" = "Upuść element tutaj, aby zastąpić symbol zastępczy. Naciśnij i przytrzymaj, aby przeciągnąć i przenieść.";
 "a11y_node_drop" = "Naciśnij i przytrzymaj blok, a następnie przeciągnij: upuść na górnej lub dolnej krawędzi celu, aby wstawić przed lub po. Upuszczenie na środku tylko na symbolu ø.";
+"a11y_codegen_panel_drag" = "Przeciągnij, aby przesunąć panel generatora kodu";
 
 /* Diagram */
 "diagram_title_label" = "Tytuł";

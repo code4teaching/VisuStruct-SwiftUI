@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "Annulla";
 "a11y_placeholder_drop" = "Rilascia un elemento qui per sostituire il segnaposto. Tieni premuto per trascinare e spostare.";
 "a11y_node_drop" = "Tieni premuto un blocco, poi trascina: rilascia sul bordo superiore o inferiore per inserire prima o dopo. Rilascio al centro solo su un segnaposto ø.";
+"a11y_codegen_panel_drag" = "Trascina per spostare il pannello del generatore di codice";
 
 /* Diagram */
 "diagram_title_label" = "Titolo";

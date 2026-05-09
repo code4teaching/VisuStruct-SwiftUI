@@ -57,7 +57,7 @@ The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStr
 ## Differences vs Java UI
 
 - Canvas look is mostly fixed; document font / tile colors from XML are not yet fully matched visually (data round-trips).  
-- Some `VisuStructCore` errors are still **German-only**, regardless of app UI language.
+- `VisuStructEditError`, `VisuStructXMLError`, and simulation errors use **English** messages (not localized per app UI language).
 
 ## Release notes
 

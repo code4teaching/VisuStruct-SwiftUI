@@ -124,3 +124,6 @@
 "close_unsaved_message" = "Dit diagram bevat niet-opgeslagen wijzigingen. Wil je ze opslaan voordat je sluit?";
 "close_unsaved_discard" = "Verwerpen";
 "close_unsaved_cancel" = "Annuleren";
+
+/* Accessibility — code generator floating panel */
+"a11y_codegen_panel_drag" = "Sleep om het codegeneratorpaneel te verplaatsen";

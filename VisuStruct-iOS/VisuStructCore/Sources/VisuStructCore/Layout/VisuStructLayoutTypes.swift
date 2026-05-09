@@ -42,6 +42,12 @@ public struct VisuStructLayout: Equatable, Sendable {
         /// Höhe des Kopfbands wie beim Layout (Verzweigung/Fallauswahl: Trennung zu Spalteninhalten). Muss mit `DiagramCanvasView` übereinstimmen.
         public var headerBandHeight: Double
 
+        /// Oberes Band z. B. für das Schlüsselwort **do** bei Do-Until (Schleifenrumpf beginnt darunter).
+        public var topBandHeight: Double = 0
+
+        /// Do-Until: linker Rand bis zur Senkrechte (Rumpf-Anfang); für Streckung/Fallback wie Java `linkerRand`, aber mindestens **do**-Breite.
+        public var loopBodyLeadingInset: Double = 0
+
         /// Für spezielle Zeichnung (Fallauswahl/Verzweigung).
         public var caseColumnFrames: [VisuStructRect] = []
         public var dividerX: Double? = nil   // xVerschiebungFuerTrennlinie (Verzweigung/Fallauswahl)

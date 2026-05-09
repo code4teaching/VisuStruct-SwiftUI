@@ -124,3 +124,6 @@
 "close_unsaved_message" = "Dette diagram indeholder ikke-gemte ændringer. Vil du gemme dem før lukning?";
 "close_unsaved_discard" = "Kassér";
 "close_unsaved_cancel" = "Annuller";
+
+/* Accessibility — code generator floating panel */
+"a11y_codegen_panel_drag" = "Træk for at flytte kodegeneratorpanelet";

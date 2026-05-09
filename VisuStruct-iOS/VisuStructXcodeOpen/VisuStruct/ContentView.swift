@@ -1007,7 +1007,7 @@ struct ContentView: View {
         case .whileSchleife:
             return "while"
         case .doUntilSchleife:
-            return "until"
+            return "while"
         case .fallauswahl:
             return "switch"
         default:
@@ -1042,91 +1042,15 @@ struct ContentView: View {
 
     // MARK: - Export-Dateinamen & Slugs
 
-    /// Vorschlag für „Speichern unter …“ / Teilen — je nach Einstellung nur Titel oder `yyyy-MM-dd-<Titel>`.
     private func exportFilenameForCurrentTab() -> String {
-        let tab = tabsModel.tabs[tabsModel.currentTabIndex]
-        let caption = tab.document.caption.trimmingCharacters(in: .whitespacesAndNewlines)
-        let baseRaw: String
-        if !caption.isEmpty {
-            baseRaw = caption
-        } else if let linked = tab.linkedFileDisplayName?.trimmingCharacters(in: .whitespacesAndNewlines), !linked.isEmpty {
-            baseRaw = DiagramSheetTabsModel.stripVisuStructExtension(from: linked)
-        } else {
-            baseRaw = DiagramSheetTabsModel.stripVisuStructExtension(from: tab.title)
-        }
-        let slug = Self.sanitizedExportFilenameSlug(baseRaw)
-        let body: String
-        switch exportFilenameStyle {
-        case .titleOnly:
-            if slug.isEmpty {
-                let fallback = Self.sanitizedExportFilenameSlug(
-                    DiagramSheetTabsModel.stripVisuStructExtension(from: tab.title)
-                )
-                body = fallback.isEmpty ? "VisuStruct" : fallback
-            } else {
-                body = slug
-            }
-        case .dateAndTitle:
-            if slug.isEmpty {
-                body = String(Self.isoDatePrefixForExportFilename().dropLast())
-            } else if Self.hasISODatePrefix(slug) {
-                body = slug
-            } else {
-                body = "\(Self.isoDatePrefixForExportFilename())\(slug)"
-            }
-        }
-        return "\(body).visustruct"
-    }
-
-    private static func hasISODatePrefix(_ s: String) -> Bool {
-        let chars = Array(s)
-        guard chars.count >= 11 else { return false }
-        let digitPositions: Set<Int> = [0, 1, 2, 3, 5, 6, 8, 9]
-        for i in 0..<10 {
-            if digitPositions.contains(i) {
-                guard chars[i].isNumber else { return false }
-            } else {
-                guard chars[i] == "-" else { return false }
-            }
-        }
-        return chars[10] == "-"
-    }
-
-    private static func isoDatePrefixForExportFilename() -> String {
-        let f = DateFormatter()
-        f.calendar = Calendar.current
-        f.timeZone = TimeZone.current
-        f.locale = Locale(identifier: "en_US_POSIX")
-        f.dateFormat = "yyyy-MM-dd"
-        return "\(f.string(from: Date()))-"
-    }
-
-    private static func sanitizedExportFilenameSlug(_ raw: String) -> String {
-        var s = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        if s.isEmpty { return "" }
-        s = DiagramSheetTabsModel.stripVisuStructExtension(from: s)
-        // Leerzeichen & Zeilenumbruch → Bindestrich (Vorschlagsname ohne Spaces, z. B. für Skripte/Uploads).
-        s = String(s.map { $0.isWhitespace ? Character("-") : $0 })
-        for ch in ["/", ":", "\\", "*", "?", "\"", "<", ">", "|"] {
-            s = s.replacingOccurrences(of: String(ch), with: "-")
-        }
-        while s.contains("--") {
-            s = s.replacingOccurrences(of: "--", with: "-")
-        }
-        s = s.trimmingCharacters(in: CharacterSet(charactersIn: "-"))
-        if s.count > 120 {
-            s = String(s.prefix(120)).trimmingCharacters(in: CharacterSet(charactersIn: "-"))
-        }
-        return s
+        DiagramExportFilename.visustructFilename(
+            for: tabsModel.tabs[tabsModel.currentTabIndex],
+            style: exportFilenameStyle
+        )
     }
 
     private func pdfFilenameForCurrentTab() -> String {
-        let v = exportFilenameForCurrentTab()
-        let suffix = ".visustruct"
-        if v.lowercased().hasSuffix(suffix) {
-            return String(v.dropLast(suffix.count)) + ".pdf"
-        }
-        return v + ".pdf"
+        DiagramExportFilename.pdfFilename(fromVisustructFilename: exportFilenameForCurrentTab())
     }
 
     // MARK: - Diagramm-Reiter verwalten (Tabs öffnen/schließen)
@@ -1314,7 +1238,12 @@ struct ContentView: View {
         if p == "input:" || p == "output:" {
             return stripIOPrefixPreservingEditingWhitespace(from: s)
         }
-        return stripKeywordPrefixPreservingEditingWhitespace(p, from: s)
+        let stripped = stripKeywordPrefixPreservingEditingWhitespace(p, from: s)
+        if p == "while", stripped == s {
+            let legacy = stripKeywordPrefixPreservingEditingWhitespace("until", from: s)
+            if legacy != s { return legacy }
+        }
+        return stripped
     }
 
     private func stripIOPrefixPreservingEditingWhitespace(from s: String) -> String {
@@ -2050,7 +1979,13 @@ struct ContentView: View {
 
     private func exportPNG() {
         #if canImport(UIKit)
-        guard let img = renderedDiagramUIImage() else {
+        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
+            document: document,
+            horizontalSizeClass: horizontalSizeClass,
+            canvasScaleStep: canvasScaleStep,
+            lang: lang,
+            displayScale: displayScale
+        ) else {
             setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
             return
         }
@@ -2062,87 +1997,34 @@ struct ContentView: View {
     private func shareDocumentAsFile() {
         let data = VisuStructXMLCodec.encode(document)
         let fileName = exportFilenameForCurrentTab()
-        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
-        let tmp = dir.appendingPathComponent(fileName)
         do {
-            try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-            try data.write(to: tmp, options: .atomic)
-            fileURLSharePayload = FileURLSharePayload(url: tmp)
+            let url = try DiagramSnapshotExport.writeTemporaryVisustructFile(data: data, fileName: fileName)
+            fileURLSharePayload = FileURLSharePayload(url: url)
         } catch {
             setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
         }
     }
 
-    /// DIN A4 in PDF-Punkten (72 pt/in); Inhalt per **AspectFit** in den bedruckbaren Rand skalieren.
-    private enum A4SinglePageLayout {
-        private static let portrait = CGSize(width: 595, height: 842)
-        private static let landscape = CGSize(width: 842, height: 595)
-        private static let margin: CGFloat = 32
-        /// Etwas kleiner skalieren, damit randnahe Inhalte in PDF-Viewern/Druck sicher in die Seite passen.
-        private static let scaleFudge: CGFloat = 0.98
-
-        static func pageAndImageDrawRect(imageSize: CGSize) -> (pageBounds: CGRect, drawRect: CGRect) {
-            let m = margin
-            let iw = max(1, imageSize.width)
-            let ih = max(1, imageSize.height)
-
-            func maxScaleIn(content: CGSize) -> CGFloat {
-                min(content.width / iw, content.height / ih) * Self.scaleFudge
-            }
-
-            let pContent = CGSize(width: portrait.width - 2 * m, height: portrait.height - 2 * m)
-            let lContent = CGSize(width: landscape.width - 2 * m, height: landscape.height - 2 * m)
-            let sPortrait = maxScaleIn(content: pContent)
-            let sLandscape = maxScaleIn(content: lContent)
-
-            if sLandscape > sPortrait {
-                let cw = lContent.width
-                let ch = lContent.height
-                let s = sLandscape
-                let sw = iw * s
-                let sh = ih * s
-                let x = m + (cw - sw) * 0.5
-                let y = m + (ch - sh) * 0.5
-                return (CGRect(origin: .zero, size: landscape), CGRect(x: x, y: y, width: sw, height: sh))
-            } else {
-                let cw = pContent.width
-                let ch = pContent.height
-                let s = sPortrait
-                let sw = iw * s
-                let sh = ih * s
-                let x = m + (cw - sw) * 0.5
-                let y = m + (ch - sh) * 0.5
-                return (CGRect(origin: .zero, size: portrait), CGRect(x: x, y: y, width: sw, height: sh))
-            }
-        }
-    }
-
     private func shareDiagramPDF() {
-        guard let img = renderedDiagramUIImage() else {
+        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
+            document: document,
+            horizontalSizeClass: horizontalSizeClass,
+            canvasScaleStep: canvasScaleStep,
+            lang: lang,
+            displayScale: displayScale
+        ) else {
             setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
             return
         }
         let fileName = pdfFilenameForCurrentTab()
-        // Eigenes Temp-Verzeichnis + sauberer Dateiname, damit Quick Look nicht „UUID-…pdf“ als Titel zeigt.
-        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
-        let tmp = dir.appendingPathComponent(fileName)
-        let (pageBounds, imageDrawRect) = A4SinglePageLayout.pageAndImageDrawRect(imageSize: img.size)
-        let format = UIGraphicsPDFRendererFormat()
-        format.documentInfo = [
-            kCGPDFContextCreator as String: "VisuStruct",
-            // Sichtbarer Titel steht im gerenderten Bild; Metadaten gleich mitzeichnen (Quick Look / PDF-Reader).
-            kCGPDFContextTitle as String: exportVisibleDiagramTitle()
-        ]
-        let renderer = UIGraphicsPDFRenderer(bounds: pageBounds, format: format)
+        let metaTitle = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
         do {
-            try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
-            // `UIGraphicsPDFRenderer` liefert einen Kontext, der `UIImage.draw(in:)` erwartet (Oben-Links) —
-            // kein manuelles translate/scale(1,-1), sonst doppelt gedreht ≈ steht auf dem Kopf.
-            try renderer.writePDF(to: tmp) { ctx in
-                ctx.beginPage()
-                img.draw(in: imageDrawRect)
-            }
-            pdfQuickLookURL = tmp
+            let url = try DiagramSnapshotExport.writeTemporaryDiagramPDF(
+                image: img,
+                fileName: fileName,
+                pdfMetadataTitle: metaTitle
+            )
+            pdfQuickLookURL = url
         } catch {
             setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
         }
@@ -2150,79 +2032,14 @@ struct ContentView: View {
     #endif
 
     #if canImport(UIKit)
-    /// Text für PDF/PNG/Druck: bei leerem Caption der lokalisierte Platzhalter (wie im Titelfeld).
-    private func exportVisibleDiagramTitle() -> String {
-        let t = document.caption.trimmingCharacters(in: .whitespacesAndNewlines)
-        return t.isEmpty ? lang.tr("diagram_title_placeholder") : t
-    }
-
-    /// Titelhöhe für den Raster-Export: keine künstlich hohe `maxHeight` — sonst bei einer Zeile großer Leerraum bis zum Kasten.
-    private func exportRasterTitleBlockHeight(rasterWidth: CGFloat) -> CGFloat {
-        let hPad: CGFloat = 12 * 2
-        let textW = max(1, rasterWidth - hPad)
-        let title = exportVisibleDiagramTitle() as NSString
-        let font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        let h = title.boundingRect(
-            with: CGSize(width: textW, height: 10_000),
-            options: [.usesLineFragmentOrigin, .usesFontLeading],
-            attributes: [.font: font],
-            context: nil
-        ).height
-        // 2pt unter dem Text bis zum Blatt, max. 2 Zeilen auffangen (Sicherheits-Deckel).
-        return min(56, ceil(h) + 2)
-    }
-
-    /// Gerendertes Struktogramm inkl. **sichtbarem** Diagrammtitel (gleiche Logik für PNG, PDF, Druck).
-    private func renderedDiagramUIImage() -> UIImage? {
-        let metrics = VisuStructLayoutEngine.diagramDisplayMetrics(isRegularWidth: horizontalSizeClass == .regular)
-            .scaled(by: canvasScaleStep.multiplier)
-        // Kompakt für PDF/PNG/Druck: engerer Layout-Rand, damit unter dem Titel weniger Leerraum bis zum Kasten entsteht.
-        let exportInset: (left: Double, top: Double) = (12, 10)
-        let layout = VisuStructLayoutEngine(metrics: metrics).layout(document: document, topLeadingContentInset: exportInset)
-        // Volle logische Größe — früher 1400×1000: breite Struktogramme wurden rechts/unten hart abgeschnitten; A4-Downscale greift voll.
-        let exportPixelCap: CGFloat = 8000
-        let w = min(exportPixelCap, max(320, CGFloat(layout.canvasSize.width)))
-        let h = min(exportPixelCap, max(320, CGFloat(layout.canvasSize.height)))
-        let titleBlockH = exportRasterTitleBlockHeight(rasterWidth: w)
-        let totalH = titleBlockH + h
-        let size = CGSize(width: w, height: totalH)
-        guard w > 2, h > 2, totalH > 2 else { return nil }
-        let diagram = DiagramCanvasView(
-            document: .constant(document),
-            selectedPath: .constant(nil),
-            errorText: .constant(nil),
-            insertTarget: .constant(nil),
-            elementClipboard: .constant(nil),
-            canvasScaleStep: canvasScaleStep,
-            layoutTopLeadingInset: exportInset,
-            exportCanvasOuterMarginPt: 8
-        )
-        .frame(width: w, height: h)
-        let exportRoot = VStack(alignment: .leading, spacing: 0) {
-            Text(exportVisibleDiagramTitle())
-                .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(Color.primary)
-                .lineLimit(2)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .topLeading)
-                .padding(.horizontal, 12)
-                .padding(.bottom, 2)
-            ZStack {
-                Color(white: 0.98)
-                diagram
-            }
-            .frame(width: w, height: h)
-        }
-        .frame(width: w, height: totalH, alignment: .topLeading)
-        .background(Color(white: 0.98))
-        .environment(\.horizontalSizeClass, horizontalSizeClass)
-        .environment(\.appLanguage, lang)
-        return Self.renderDiagramToUIImage(content: exportRoot, size: size, scale: displayScale)
-    }
-
     private func printDiagram() {
-        guard let img = renderedDiagramUIImage() else {
+        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
+            document: document,
+            horizontalSizeClass: horizontalSizeClass,
+            canvasScaleStep: canvasScaleStep,
+            lang: lang,
+            displayScale: displayScale
+        ) else {
             setErrorOnCurrentTab(lang.tr("err_diagram_too_small_print"))
             return
         }
@@ -2232,34 +2049,11 @@ struct ContentView: View {
         }
         let info = UIPrintInfo(dictionary: nil)
         info.outputType = .photo
-        info.jobName = exportVisibleDiagramTitle()
+        info.jobName = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
         let controller = UIPrintInteractionController.shared
         controller.printInfo = info
         controller.printingItem = img
         controller.present(animated: true)
-    }
-    #endif
-
-    #if canImport(UIKit)
-    /// `ImageRenderer` liefert bei `Canvas` manchmal `nil` oder leer — Fallback über `UIHostingController` + `drawHierarchy`.
-    private static func renderDiagramToUIImage<V: View>(content: V, size: CGSize, scale: CGFloat) -> UIImage? {
-        let renderer = ImageRenderer(content: content)
-        renderer.proposedSize = ProposedViewSize(width: size.width, height: size.height)
-        renderer.scale = scale
-        if let ui = renderer.uiImage, ui.size.width > 2, ui.size.height > 2 {
-            return ui
-        }
-        let hosting = UIHostingController(rootView: content)
-        hosting.view.bounds = CGRect(origin: .zero, size: size)
-        hosting.view.backgroundColor = UIColor(white: 0.98, alpha: 1)
-        hosting.view.setNeedsLayout()
-        hosting.view.layoutIfNeeded()
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = scale
-        let imgRenderer = UIGraphicsImageRenderer(size: size, format: format)
-        return imgRenderer.image { _ in
-            hosting.view.drawHierarchy(in: hosting.view.bounds, afterScreenUpdates: true)
-        }
     }
     #endif
 

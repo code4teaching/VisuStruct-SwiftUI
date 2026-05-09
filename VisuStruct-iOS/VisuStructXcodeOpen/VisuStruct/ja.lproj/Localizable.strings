@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "キャンセル";
 "a11y_placeholder_drop" = "要素をここにドロップしてプレースホルダーを置き換えます。長押ししてドラッグし移動できます。";
 "a11y_node_drop" = "ブロックを長押ししてドラッグ：対象の上端／下端にドロップすると前／後に挿入。中央へのドロップは ø プレースホルダーのみ。";
+"a11y_codegen_panel_drag" = "ドラッグしてコード生成パネルを移動";
 
 /* Diagram */
 "diagram_title_label" = "タイトル";

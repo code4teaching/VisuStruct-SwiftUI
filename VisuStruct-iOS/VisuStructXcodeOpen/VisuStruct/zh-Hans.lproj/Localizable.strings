@@ -107,6 +107,7 @@
 "close_unsaved_cancel" = "取消";
 "a11y_placeholder_drop" = "将元素拖放到这里以替换占位符。长按可拖动移动。";
 "a11y_node_drop" = "长按块并拖动：在目标上边缘或下边缘放下以插入到前/后。仅在 ø 占位符上可居中放下。";
+"a11y_codegen_panel_drag" = "拖移以移动代码生成器面板";
 
 /* Diagram */
 "diagram_title_label" = "标题";

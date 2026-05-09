@@ -352,6 +352,7 @@ struct CodeGeneratorPlaceholderSheet: View {
 }
 
 struct DraggableCodeGeneratorFloatingPanel: View {
+    @Environment(\.appLanguage) private var lang
     @Binding var isPresented: Bool
     @Binding var document: VisuStructDocument
     /// Bei jeder erneuten „Code erzeugen“-Aktion hochzählen — Anzeige soll den aktuellen Stand reflektieren.
@@ -384,7 +385,7 @@ struct DraggableCodeGeneratorFloatingPanel: View {
                         .padding(.vertical, (dragBarHeight - 5) / 2)
                         .frame(maxWidth: .infinity)
                         .contentShape(Rectangle())
-                        .accessibilityLabel("Panel verschieben")
+                        .accessibilityLabel(lang.tr("a11y_codegen_panel_drag"))
                         .gesture(
                             DragGesture()
                                 .onChanged { value in

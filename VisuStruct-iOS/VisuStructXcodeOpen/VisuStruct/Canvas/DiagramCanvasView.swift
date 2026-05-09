@@ -34,7 +34,6 @@ private enum DiagramCanvasInk {
     static let canvasOuterMargin: CGFloat = 16
     static let cellTextInsetX: CGFloat = 18
     static let cellTextInsetY: CGFloat = 15
-    static let cellTextInsetYDoUntil: CGFloat = 20
     static let multiHeaderFirstLineY: CGFloat = 14
     static let branchLabelInsetX: CGFloat = 10
     /// Platz unter dem Titel „Fallauswahl“ bis zur Kopf-/Rumpf-Grenze — Fall-Labels (1/2/…) sitzen in diesem Streifen; Dachspitze darf nicht hineinragen.
@@ -43,6 +42,17 @@ private enum DiagramCanvasInk {
     static let callTextInsetFromSideBar: CGFloat = 20
     /// Schmaler Streifen **oberhalb** des ersten Wurzelelements: Einfügen / Verschieben an Position 0 ohne oberste „davor“-Zone zu treffen.
     static let rootInsertStripHeight: CGFloat = 14
+    /// Gleich `VisuStructLayoutEngine` / `layoutLoop`: Schleifenrumpf beginnt hier (px, vor Canvas-Skalierung — Layout-Koordinaten).
+    static let loopBodyLeadingInset: CGFloat = 20
+}
+
+/// Teilweise fehlende Rechteckkanten (z. B. Do-Until: erster Rumpf ohne obere/linke Linie — gemeinsam mit senkrechter Trennlinie).
+private struct CellBorderOmission: OptionSet {
+    let rawValue: Int
+    static let top = CellBorderOmission(rawValue: 1 << 0)
+    static let left = CellBorderOmission(rawValue: 1 << 1)
+    static let bottom = CellBorderOmission(rawValue: 1 << 2)
+    static let right = CellBorderOmission(rawValue: 1 << 3)
 }
 
 struct DiagramCanvasView: View {
@@ -162,7 +172,7 @@ struct DiagramCanvasView: View {
             case .whileSchleife:
                 return withLeadingKeyword("while", raw)
             case .doUntilSchleife:
-                return withLeadingKeyword("until", raw)
+                return withLeadingKeyword("while", normalizedDoUntilConditionLines(raw))
             case .fallauswahl:
                 return withLeadingKeyword("switch", raw)
             default:
@@ -183,7 +193,7 @@ struct DiagramCanvasView: View {
         case .whileSchleife:
             return [lang.tr("canvas_stub_while")]
         case .doUntilSchleife:
-            return [lang.tr("canvas_stub_until")]
+            return [lang.tr("canvas_stub_while")]
         case .endlosschleife:
             return [lang.tr("canvas_stub_endless")]
         case .aussprung:
@@ -195,8 +205,31 @@ struct DiagramCanvasView: View {
         }
     }
 
+    /// Entfernt ein führendes `until` aus gespeicherten Diagrammen, damit die Anzeige einheitlich `while …` nutzt (wie Java `do {} while`).
+    private func normalizedDoUntilConditionLines(_ raw: [String]) -> [String] {
+        guard let first = raw.first else { return raw }
+        let t = first.trimmingCharacters(in: .whitespacesAndNewlines)
+        let lower = t.lowercased()
+        if lower == "until" {
+            var o = raw
+            o[0] = ""
+            return o
+        }
+        if lower.hasPrefix("until ") {
+            var o = raw
+            o[0] = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
+            return o
+        }
+        if lower.hasPrefix("until(") {
+            var o = raw
+            o[0] = String(t.dropFirst(5))
+            return o
+        }
+        return raw
+    }
+
     /// Gemeinsame Stroke-Farbe für Kacheln und Hilfslinien (eine Allokation pro Frame statt dutzende).
-    private var diagramLineColor: Color { Color.gray.opacity(0.85) }
+    private var diagramLineColor: Color { Color.black }
     private var diagramCanvasFill: Color { Color(white: 0.98) }
     private var diagramCellFill: Color { Color.white }
     private var selectionFillColor: Color {
@@ -790,10 +823,10 @@ struct DiagramCanvasView: View {
                 height: CGFloat(layout.canvasSize.height) - 2 * m - innerTrim
             )
             let outerFramePath = Path(frameRect)
-            context.stroke(outerFramePath, with: .color(Color.gray.opacity(0.6)), lineWidth: ink(DiagramCanvasInk.outerFrameLineWidth))
+            context.stroke(outerFramePath, with: .color(Color.black), lineWidth: ink(DiagramCanvasInk.outerFrameLineWidth))
 
             for n in layout.elements {
-                drawNode(n, selectedPath: selectedPath, in: &context)
+                drawNode(n, selectedPath: selectedPath, in: &context, parentType: nil)
             }
         }
         .frame(width: cw, height: ch)
@@ -836,7 +869,66 @@ struct DiagramCanvasView: View {
         )
     }
 
-    private func drawNode(_ node: VisuStructLayout.Node, selectedPath: [Int]?, in context: inout GraphicsContext) {
+    private func strokeDiagramCellBorder(
+        _ r: CGRect,
+        omitting omission: CellBorderOmission,
+        in context: inout GraphicsContext,
+        linePaint: Color,
+        lineWidth: CGFloat
+    ) {
+        if omission.isEmpty {
+            context.stroke(Path(r), with: .color(linePaint), lineWidth: lineWidth)
+            return
+        }
+        if !omission.contains(.top) {
+            context.stroke(
+                Path { p in
+                    p.move(to: CGPoint(x: r.minX, y: r.minY))
+                    p.addLine(to: CGPoint(x: r.maxX, y: r.minY))
+                },
+                with: .color(linePaint),
+                lineWidth: lineWidth
+            )
+        }
+        if !omission.contains(.right) {
+            context.stroke(
+                Path { p in
+                    p.move(to: CGPoint(x: r.maxX, y: r.minY))
+                    p.addLine(to: CGPoint(x: r.maxX, y: r.maxY))
+                },
+                with: .color(linePaint),
+                lineWidth: lineWidth
+            )
+        }
+        if !omission.contains(.bottom) {
+            context.stroke(
+                Path { p in
+                    p.move(to: CGPoint(x: r.maxX, y: r.maxY))
+                    p.addLine(to: CGPoint(x: r.minX, y: r.maxY))
+                },
+                with: .color(linePaint),
+                lineWidth: lineWidth
+            )
+        }
+        if !omission.contains(.left) {
+            context.stroke(
+                Path { p in
+                    p.move(to: CGPoint(x: r.minX, y: r.maxY))
+                    p.addLine(to: CGPoint(x: r.minX, y: r.minY))
+                },
+                with: .color(linePaint),
+                lineWidth: lineWidth
+            )
+        }
+    }
+
+    private func drawNode(
+        _ node: VisuStructLayout.Node,
+        selectedPath: [Int]?,
+        in context: inout GraphicsContext,
+        cellBorderOmission: CellBorderOmission = [],
+        parentType: VisuStructElementType? = nil
+    ) {
         let r = CGRect(x: node.frame.x, y: node.frame.y, width: node.frame.width, height: node.frame.height)
         let cellPath = Path(r)
         let isMulti = node.element.type == .verzweigung || node.element.type == .fallauswahl
@@ -850,7 +942,13 @@ struct DiagramCanvasView: View {
         let linePaint = diagramLineColor
 
         context.fill(cellPath, with: .color(isSelected ? (usesSimulationSelectionHighlight ? selectionFillColor : diagramCellFill) : diagramCellFill))
-        context.stroke(cellPath, with: .color(linePaint), lineWidth: ink(DiagramCanvasInk.diagramLineWidth))
+        strokeDiagramCellBorder(
+            r,
+            omitting: cellBorderOmission,
+            in: &context,
+            linePaint: linePaint,
+            lineWidth: ink(DiagramCanvasInk.diagramLineWidth)
+        )
         // Kein zweites Rechteck für Verzweigung/Fallauswahl: dessen Oberkante läge auf Höhe der Dreiecksspitze
         // und würde eine Sehne durch das V zeichnen sowie linke/rechte Kanten doppelt stroken („X“ / Doppellinien).
 
@@ -936,11 +1034,7 @@ struct DiagramCanvasView: View {
             let ix = ink(DiagramCanvasInk.cellTextInsetX)
             let iy = ink(DiagramCanvasInk.cellTextInsetY)
             if node.element.type == .doUntilSchleife {
-                var y = r.maxY - ink(DiagramCanvasInk.cellTextInsetYDoUntil)
-                for line in lines.reversed() {
-                    drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: r.minX + ix, y: y), in: &context)
-                    y -= lineHeight
-                }
+                /// „do“ wird nach den Rumpf-Kindern gezeichnet — sonst können weiße Kachelflächen den Text überdecken (siehe Block nach `drawNode` der Kinder).
             } else if node.element.type == .anweisung || node.element.type == .aufruf || node.element.type == .aussprung {
                 // Anweisung, Aufruf, Aussprung: Text zentriert; bei Aufruf/Aussprung Platz für die seitlichen Striche.
                 let bar = ink(DiagramCanvasInk.callSideBarInset)
@@ -975,7 +1069,10 @@ struct DiagramCanvasView: View {
                     y += lineHeight
                 }
             } else {
-                var y = r.minY + iy
+                let totalTextHeight = CGFloat(max(1, lines.count)) * lineHeight
+                var y = parentType == .doUntilSchleife
+                    ? (r.midY - totalTextHeight / 2)
+                    : (r.minY + iy)
                 for line in lines {
                     drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: r.minX + ix, y: y), in: &context)
                     y += lineHeight
@@ -983,8 +1080,53 @@ struct DiagramCanvasView: View {
             }
         }
 
-        for c in node.children {
-            drawNode(c, selectedPath: selectedPath, in: &context)
+        for (idx, c) in node.children.enumerated() {
+            let childOmission: CellBorderOmission = (node.element.type == .doUntilSchleife && idx == 0) ? [.top, .left] : []
+            drawNode(c, selectedPath: selectedPath, in: &context, cellBorderOmission: childOmission, parentType: node.element.type)
+        }
+
+        if node.element.type == .doUntilSchleife {
+            /// Senkrechte / Rumpf: X = Layout-Kante = `minX` + `loopBodyLeadingInset` (aus **gemessener** Bold-Breite „do“ + Padding in `doUntilBodyLeadingInset()`).
+            let dividerX = node.children.first.map { CGFloat($0.frame.x) }
+                ?? (r.minX + CGFloat(node.loopBodyLeadingInset > 0 ? node.loopBodyLeadingInset : DiagramCanvasInk.loopBodyLeadingInset))
+            let kwFont: Font = .system(size: headerFontSize, weight: .bold)
+            let xDo = r.minX + ink(4)
+            /// Oben im linken Streifen — nur wenige Punkte unter der Kante (`doUntilDoLabelTopInset`), nicht voller Zellen-Einzug.
+            let doTextTop = r.minY + CGFloat(layoutMetrics.doUntilDoLabelTopInset)
+            context.draw(
+                context.resolve(Text(verbatim: "do").font(kwFont).foregroundStyle(.black)),
+                at: CGPoint(x: xDo, y: doTextTop),
+                anchor: .topLeading
+            )
+
+            let footerH = CGFloat(node.headerBandHeight)
+            let ySep = r.maxY - footerH
+            /// Rumpf beginnt auf der Oberkante der Schleife — kein separates „do“-Band mehr (`topBandHeight` ≈ 0).
+            let bodyTopY = r.minY
+            let lw = ink(DiagramCanvasInk.diagramLineWidth)
+            context.stroke(
+                Path { p in
+                    p.move(to: CGPoint(x: dividerX, y: ySep))
+                    p.addLine(to: CGPoint(x: r.maxX, y: ySep))
+                },
+                with: .color(linePaint),
+                lineWidth: lw
+            )
+            context.stroke(
+                Path { p in
+                    p.move(to: CGPoint(x: dividerX, y: bodyTopY))
+                    p.addLine(to: CGPoint(x: dividerX, y: ySep))
+                },
+                with: .color(linePaint),
+                lineWidth: lw
+            )
+            let lines = displayTextLines(for: node.element)
+            let ix = ink(DiagramCanvasInk.cellTextInsetX)
+            var y = ySep + CGFloat(layoutMetrics.doUntilFooterTopInset)
+            for line in lines {
+                drawKeywordLine(line, elementType: node.element.type, at: CGPoint(x: r.minX + ix, y: y), in: &context)
+                y += lineHeight
+            }
         }
 
         if isMulti, let dividerXRaw = node.dividerX, node.caseColumnFrames.count > 1 {
@@ -1070,6 +1212,9 @@ struct DiagramCanvasView: View {
     private func headerHeightApprox(_ node: VisuStructLayout.Node) -> Double {
         let e = node.element
         let lines = max(1, e.textLines.count)
+        if e.type == .doUntilSchleife {
+            return layoutMetrics.doUntilFooterTopInset + Double(lines) * layoutMetrics.lineHeight + layoutMetrics.doUntilFooterBottomInset + Double(e.zoomY)
+        }
         let baseExtra: Double
         switch e.type {
         case .anweisung, .aussprung, .aufruf, .leerElement:
@@ -1079,7 +1224,7 @@ struct DiagramCanvasView: View {
         case .verzweigung:
             baseExtra = 20
         case .doUntilSchleife:
-            baseExtra = 20
+            preconditionFailure("Do-Until-Fuß nur über den dedizierten Zweig oben.")
         case .forSchleife, .whileSchleife, .endlosschleife:
             baseExtra = layoutMetrics.baseHeaderExtra + 4
         @unknown default:

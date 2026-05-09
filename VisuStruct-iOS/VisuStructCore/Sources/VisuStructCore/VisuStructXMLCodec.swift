@@ -6,8 +6,8 @@ public enum VisuStructXMLError: Error, LocalizedError {
 
     public var errorDescription: String? {
         switch self {
-        case .invalidRoot: "Ungültiges XML: Root-Element ist nicht <struktogramm>."
-        case .parseFailed(let s): "XML konnte nicht gelesen werden: \(s)"
+        case .invalidRoot: "Invalid XML: root element is not <struktogramm>."
+        case .parseFailed(let s): "Could not read XML: \(s)"
         }
     }
 }
@@ -19,7 +19,7 @@ public enum VisuStructXMLCodec {
         let delegate = Decoder()
         parser.delegate = delegate
         if !parser.parse() {
-            throw VisuStructXMLError.parseFailed(parser.parserError?.localizedDescription ?? "Unbekannter Fehler")
+            throw VisuStructXMLError.parseFailed(parser.parserError?.localizedDescription ?? "Unknown error.")
         }
         guard let doc = delegate.document else { throw VisuStructXMLError.invalidRoot }
         return doc
