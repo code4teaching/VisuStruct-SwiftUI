@@ -1,7 +1,7 @@
 import Foundation
 import VisuStructCore
 
-/// Öffnen aus Datei / Recent, Verknüpfung mit Bookmark und Dateiname — gekoppelt an `DiagramSheetTabsModel` und `RecentFilesStore`.
+/// Öffnen, Speichern (verknüpfte Datei / Export-Dialog), Recent — gekoppelt an `DiagramSheetTabsModel` und `RecentFilesStore`.
 @MainActor
 final class DiagramEditorDocumentServices {
     private let tabsModel: DiagramSheetTabsModel
@@ -54,6 +54,70 @@ final class DiagramEditorDocumentServices {
     private func tabDisplayTitle(forCaption caption: String, language: AppLanguage) -> String {
         let t = caption.trimmingCharacters(in: .whitespacesAndNewlines)
         return t.isEmpty ? language.tr("diagram_title_placeholder") : t
+    }
+
+    private func updateSavedBaselineForCurrentTab() {
+        var tabs = tabsModel.tabs
+        let i = tabsModel.currentTabIndex
+        tabs[i].savedDocumentBaseline = VisuStructXMLCodec.encode(tabs[i].document)
+        tabsModel.tabs = tabs
+    }
+
+    /// Schreibt in die per Bookmark verknüpfte Datei; ohne Verknüpfung oder bei Problem → `onNeedsSaveAs()` (z. B. Export-Sheet).
+    func saveCurrentDocumentToFile(
+        language: AppLanguage,
+        onNeedsSaveAs: () -> Void,
+        setError: (String) -> Void,
+        clearErrorOnCurrentTab: () -> Void
+    ) {
+        guard let bookmark = tabsModel.tabs[tabsModel.currentTabIndex].linkedFileBookmarkData else {
+            onNeedsSaveAs()
+            return
+        }
+        var stale = false
+        do {
+            let url = try URL(
+                resolvingBookmarkData: bookmark,
+                options: [],
+                relativeTo: nil,
+                bookmarkDataIsStale: &stale
+            )
+            if stale {
+                var tabs = tabsModel.tabs
+                tabs[tabsModel.currentTabIndex].linkedFileBookmarkData = nil
+                tabsModel.tabs = tabs
+                onNeedsSaveAs()
+                return
+            }
+            guard url.startAccessingSecurityScopedResource() else {
+                onNeedsSaveAs()
+                return
+            }
+            defer { url.stopAccessingSecurityScopedResource() }
+            let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url, language: language)
+            let data = VisuStructXMLCodec.encode(docToSave)
+            try data.write(to: url, options: .atomic)
+            recentFilesStore.record(url: url, displayName: fileDisplayName(from: url))
+            updateSavedBaselineForCurrentTab()
+            clearErrorOnCurrentTab()
+        } catch {
+            setError(String(format: language.tr("err_save_failed_fmt"), error.localizedDescription))
+        }
+    }
+
+    /// Nach erfolgreicher URL aus dem Export-Dialog: schreiben, Verknüpfung + Baseline. `false` bei Schreibfehler.
+    @discardableResult
+    func finalizeExporterSave(to url: URL, language: AppLanguage, setError: (String) -> Void) -> Bool {
+        let docToSave = applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url, language: language)
+        do {
+            try VisuStructXMLCodec.encode(docToSave).write(to: url, options: .atomic)
+        } catch {
+            setError(String(format: language.tr("err_save_failed_fmt"), error.localizedDescription))
+            return false
+        }
+        setLinkedFile(forCurrentTab: url)
+        updateSavedBaselineForCurrentTab()
+        return true
     }
 
     @discardableResult

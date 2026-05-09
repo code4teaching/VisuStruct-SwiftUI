@@ -106,14 +106,7 @@ struct ContentView: View {
         _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: model.tabs[0].document))
     }
 
-    // MARK: - Tab-Titel, Dateizugriff & Speicher-Baseline
-
-    private func updateSavedBaselineForCurrentTab() {
-        var tabs = tabsModel.tabs
-        let i = tabsModel.currentTabIndex
-        tabs[i].savedDocumentBaseline = VisuStructXMLCodec.encode(tabs[i].document)
-        tabsModel.tabs = tabs
-    }
+    // MARK: - Tab-Titel & Dokument öffnen
 
     @discardableResult
     private func openDocument(from url: URL) -> Bool {
@@ -232,15 +225,7 @@ struct ContentView: View {
             switch result {
             case .success(let url):
                 Task { @MainActor in
-                    let docToSave = documentServices.applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url, language: lang)
-                    do {
-                        try VisuStructXMLCodec.encode(docToSave).write(to: url, options: .atomic)
-                    } catch {
-                        setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
-                        return
-                    }
-                    documentServices.setLinkedFile(forCurrentTab: url)
-                    updateSavedBaselineForCurrentTab()
+                    guard documentServices.finalizeExporterSave(to: url, language: lang, setError: setErrorOnCurrentTab) else { return }
                     if let pendingId = tabsModel.closeTabAfterSuccessfulExportId {
                         tabsModel.closeTabAfterSuccessfulExportId = nil
                         performCloseDiagramTab(id: pendingId)
@@ -1773,39 +1758,12 @@ struct ContentView: View {
 
     /// Schreibt in die verknüpfte Datei; ohne Verknüpfung öffnet sich **Speichern unter …**.
     private func saveCurrentDocumentToFile() {
-        guard let bookmark = tabsModel.tabs[tabsModel.currentTabIndex].linkedFileBookmarkData else {
-            showExporter = true
-            return
-        }
-        var stale = false
-        do {
-            let url = try URL(
-                resolvingBookmarkData: bookmark,
-                options: [],
-                relativeTo: nil,
-                bookmarkDataIsStale: &stale
-            )
-            if stale {
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].linkedFileBookmarkData = nil
-                tabsModel.tabs = tabs
-                showExporter = true
-                return
-            }
-            guard url.startAccessingSecurityScopedResource() else {
-                showExporter = true
-                return
-            }
-            defer { url.stopAccessingSecurityScopedResource() }
-            let docToSave = documentServices.applyFilenameCaptionToCurrentDocumentIfNeeded(fileURL: url, language: lang)
-            let data = VisuStructXMLCodec.encode(docToSave)
-            try data.write(to: url, options: .atomic)
-            recentFilesStore.record(url: url, displayName: documentServices.fileDisplayName(from: url))
-            updateSavedBaselineForCurrentTab()
-            clearErrorOnCurrentTab()
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_save_failed_fmt"), error.localizedDescription))
-        }
+        documentServices.saveCurrentDocumentToFile(
+            language: lang,
+            onNeedsSaveAs: { showExporter = true },
+            setError: setErrorOnCurrentTab,
+            clearErrorOnCurrentTab: clearErrorOnCurrentTab
+        )
     }
 
     // MARK: - Diagramm bearbeiten (Wurzel, Palette, Einfügen)
