@@ -6,13 +6,19 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
-### Fixed
-
-- **Tabs:** warn before closing diagrams with unsaved changes, offering to save, discard, or cancel.
-
 ### Planned / Notes
 
 - Documentation polish for product/marketing surfaces only when explicitly requested.
+
+## [1.5.3] - 2026-09-06
+
+### Added
+
+- **File menu:** New, Open, Save, Save As, and Close on the menu bar / keyboard (`Cmd+N/O/S/Shift+S/W`), including on Mac (Designed for iPad). The simulation layout is unchanged.
+
+### Fixed
+
+- **Tabs:** warn before closing diagrams with unsaved changes, offering to save, discard, or cancel.
 
 ## [1.2.1] - 2026-04-20
 

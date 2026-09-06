@@ -91,6 +91,8 @@
 "menu_save_as" = "Save As…";
 "menu_print" = "Print…";
 "menu_file" = "File";
+"menu_new" = "New";
+"menu_close" = "Close";
 
 /* Accessibility */
 "a11y_generate_code" = "Generate code from the structure chart";

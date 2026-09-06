@@ -91,6 +91,8 @@
 "menu_save_as" = "Speichern unter …";
 "menu_print" = "Drucken …";
 "menu_file" = "Ablage";
+"menu_new" = "Neu";
+"menu_close" = "Schließen";
 
 /* Barrierefreiheit */
 "a11y_generate_code" = "Code aus dem Struktogramm erzeugen";

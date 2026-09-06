@@ -286,6 +286,7 @@ struct ContentView: View {
             }
         }
         .focusedSceneValue(\.diagramEditActions, diagramEditActions)
+        .focusedSceneValue(\.diagramFileActions, diagramFileActions)
     }
 
     private var diagramEditActions: DiagramEditActions {
@@ -313,6 +314,22 @@ struct ContentView: View {
             cut: { cutSelectionToClipboard() },
             paste: { pasteClipboardAtSelectionOrRoot() },
             delete: { deleteSelection() }
+        )
+    }
+
+    private var diagramFileActions: DiagramFileActions {
+        let fileEnabled = !isSimulationMode
+        return DiagramFileActions(
+            canNew: fileEnabled,
+            canOpen: fileEnabled,
+            canSave: fileEnabled,
+            canSaveAs: fileEnabled,
+            canClose: fileEnabled && tabsModel.tabs.count > 1,
+            newDocument: { addDiagramTab() },
+            open: { showImporter = true },
+            save: { performPrimarySave() },
+            saveAs: { showExporter = true },
+            close: { requestCloseDiagramTab(id: tabsModel.selectedTabId) }
         )
     }
 

@@ -74,6 +74,8 @@
 "menu_save_as" = "另存新檔…";
 "menu_print" = "列印…";
 "menu_file" = "檔案";
+"menu_new" = "新增";
+"menu_close" = "關閉";
 
 /* Accessibility */
 "a11y_generate_code" = "從結構圖產生程式碼";

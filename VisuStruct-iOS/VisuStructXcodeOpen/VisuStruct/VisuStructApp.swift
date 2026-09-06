@@ -16,14 +16,37 @@ struct DiagramEditActions {
     var delete: () -> Void
 }
 
+struct DiagramFileActions {
+    var canNew: Bool
+    var canOpen: Bool
+    var canSave: Bool
+    var canSaveAs: Bool
+    var canClose: Bool
+
+    var newDocument: () -> Void
+    var open: () -> Void
+    var save: () -> Void
+    var saveAs: () -> Void
+    var close: () -> Void
+}
+
 private struct DiagramEditActionsKey: FocusedValueKey {
     typealias Value = DiagramEditActions
+}
+
+private struct DiagramFileActionsKey: FocusedValueKey {
+    typealias Value = DiagramFileActions
 }
 
 extension FocusedValues {
     var diagramEditActions: DiagramEditActions? {
         get { self[DiagramEditActionsKey.self] }
         set { self[DiagramEditActionsKey.self] = newValue }
+    }
+
+    var diagramFileActions: DiagramFileActions? {
+        get { self[DiagramFileActionsKey.self] }
+        set { self[DiagramFileActionsKey.self] = newValue }
     }
 }
 
@@ -47,34 +70,92 @@ struct VisuStructApp: App {
         WindowGroup {
             AppRootView()
         }
-        #if os(macOS)
         .commands {
-            CommandGroup(replacing: .undoRedo) {
-                Button("Undo") { focused(\.diagramEditActions)?.undo() }
-                    .keyboardShortcut("z", modifiers: .command)
-                    .disabled(!(focused(\.diagramEditActions)?.canUndo ?? false))
-                Button("Redo") { focused(\.diagramEditActions)?.redo() }
-                    .keyboardShortcut("z", modifiers: [.command, .shift])
-                    .disabled(!(focused(\.diagramEditActions)?.canRedo ?? false))
-            }
-            CommandGroup(replacing: .pasteboard) {
-                Button("Copy") { focused(\.diagramEditActions)?.copy() }
-                    .keyboardShortcut("c", modifiers: .command)
-                    .disabled(!(focused(\.diagramEditActions)?.canCopy ?? false))
-                Button("Cut") { focused(\.diagramEditActions)?.cut() }
-                    .keyboardShortcut("x", modifiers: .command)
-                    .disabled(!(focused(\.diagramEditActions)?.canCut ?? false))
-                Button("Paste") { focused(\.diagramEditActions)?.paste() }
-                    .keyboardShortcut("v", modifiers: .command)
-                    .disabled(!(focused(\.diagramEditActions)?.canPaste ?? false))
-            }
-            CommandGroup(replacing: .delete) {
-                Button("Delete") { focused(\.diagramEditActions)?.delete() }
-                    .keyboardShortcut(.delete, modifiers: [])
-                    .disabled(!(focused(\.diagramEditActions)?.canDelete ?? false))
-            }
+            VisuStructCommands()
         }
-        #endif
+    }
+}
+
+/// Menüleiste / Tastatur: gilt auch für die iPad-App auf dem Mac (`os(macOS)` wäre dort falsch).
+/// `.delete` gibt es nur auf macOS, daher Löschen hinter `.pasteboard`.
+private struct VisuStructCommands: Commands {
+    @FocusedValue(\.diagramEditActions) private var editActions
+    @FocusedValue(\.diagramFileActions) private var fileActions
+    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
+
+    private var lang: AppLanguage {
+        AppLanguage(rawValue: languageCode) ?? .english
+    }
+
+    var body: some Commands {
+        CommandGroup(replacing: .newItem) {
+            Button(lang.tr("menu_new")) {
+                fileActions?.newDocument()
+            }
+            .keyboardShortcut("n", modifiers: .command)
+            .disabled(!(fileActions?.canNew ?? false))
+        }
+        CommandGroup(after: .newItem) {
+            Button(lang.tr("menu_open")) {
+                fileActions?.open()
+            }
+            .keyboardShortcut("o", modifiers: .command)
+            .disabled(!(fileActions?.canOpen ?? false))
+        }
+        CommandGroup(replacing: .saveItem) {
+            Button(lang.tr("menu_save")) {
+                fileActions?.save()
+            }
+            .keyboardShortcut("s", modifiers: .command)
+            .disabled(!(fileActions?.canSave ?? false))
+            Button(lang.tr("menu_save_as")) {
+                fileActions?.saveAs()
+            }
+            .keyboardShortcut("s", modifiers: [.command, .shift])
+            .disabled(!(fileActions?.canSaveAs ?? false))
+            Divider()
+            Button(lang.tr("menu_close")) {
+                fileActions?.close()
+            }
+            .keyboardShortcut("w", modifiers: .command)
+            .disabled(!(fileActions?.canClose ?? false))
+        }
+        CommandGroup(replacing: .undoRedo) {
+            Button(lang.tr("toolbar_undo")) {
+                editActions?.undo()
+            }
+            .keyboardShortcut("z", modifiers: .command)
+            .disabled(!(editActions?.canUndo ?? false))
+            Button(lang.tr("toolbar_redo")) {
+                editActions?.redo()
+            }
+            .keyboardShortcut("z", modifiers: [.command, .shift])
+            .disabled(!(editActions?.canRedo ?? false))
+        }
+        CommandGroup(replacing: .pasteboard) {
+            Button(lang.tr("ctx_copy")) {
+                editActions?.copy()
+            }
+            .keyboardShortcut("c", modifiers: .command)
+            .disabled(!(editActions?.canCopy ?? false))
+            Button(lang.tr("ctx_cut")) {
+                editActions?.cut()
+            }
+            .keyboardShortcut("x", modifiers: .command)
+            .disabled(!(editActions?.canCut ?? false))
+            Button(lang.tr("ctx_paste")) {
+                editActions?.paste()
+            }
+            .keyboardShortcut("v", modifiers: .command)
+            .disabled(!(editActions?.canPaste ?? false))
+        }
+        CommandGroup(after: .pasteboard) {
+            Button(lang.tr("action_delete_selection")) {
+                editActions?.delete()
+            }
+            .keyboardShortcut(.delete, modifiers: [])
+            .disabled(!(editActions?.canDelete ?? false))
+        }
     }
 }
 

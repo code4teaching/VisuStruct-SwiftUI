@@ -73,6 +73,8 @@
 "menu_save_as" = "Сохранить как…";
 "menu_print" = "Печать…";
 "menu_file" = "Файл";
+"menu_new" = "Создать";
+"menu_close" = "Закрыть";
 
 /* Accessibility */
 "a11y_generate_code" = "Сгенерировать код по схеме";

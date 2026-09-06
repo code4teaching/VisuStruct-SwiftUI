@@ -74,6 +74,8 @@
 "menu_save_as" = "שמור בשם…";
 "menu_print" = "הדפס…";
 "menu_file" = "קובץ";
+"menu_new" = "חדש";
+"menu_close" = "סגור";
 
 /* Accessibility */
 "a11y_generate_code" = "יצירת קוד מהתרשים";

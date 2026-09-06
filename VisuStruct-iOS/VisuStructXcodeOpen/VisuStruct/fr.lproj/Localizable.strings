@@ -74,6 +74,8 @@
 "menu_save_as" = "Enregistrer sous…";
 "menu_print" = "Imprimer…";
 "menu_file" = "Fichier";
+"menu_new" = "Nouveau";
+"menu_close" = "Fermer";
 
 /* Accessibility */
 "a11y_generate_code" = "Générer du code à partir de l’organigramme";

@@ -74,6 +74,8 @@
 "menu_save_as" = "Farklı kaydet…";
 "menu_print" = "Yazdır…";
 "menu_file" = "Dosya";
+"menu_new" = "Yeni";
+"menu_close" = "Kapat";
 
 /* Accessibility */
 "a11y_generate_code" = "Yapı şemasından kod üret";

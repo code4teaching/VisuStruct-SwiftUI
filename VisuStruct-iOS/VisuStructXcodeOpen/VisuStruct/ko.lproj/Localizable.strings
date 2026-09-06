@@ -74,6 +74,8 @@
 "menu_save_as" = "다른 이름으로 저장…";
 "menu_print" = "인쇄…";
 "menu_file" = "파일";
+"menu_new" = "새로 만들기";
+"menu_close" = "닫기";
 
 /* Accessibility */
 "a11y_generate_code" = "구조도에서 코드 생성";

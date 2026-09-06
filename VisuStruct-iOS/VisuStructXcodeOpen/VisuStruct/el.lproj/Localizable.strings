@@ -71,6 +71,8 @@
 "menu_save_as" = "Αποθήκευση ως…";
 "menu_print" = "Εκτύπωση…";
 "menu_file" = "Αρχείο";
+"menu_new" = "Νέο";
+"menu_close" = "Κλείσιμο";
 
 /* Accessibility */
 "a11y_generate_code" = "Δημιουργία κώδικα από το διάγραμμα";

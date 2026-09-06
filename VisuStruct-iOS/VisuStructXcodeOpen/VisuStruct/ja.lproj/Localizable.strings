@@ -74,6 +74,8 @@
 "menu_save_as" = "別名で保存…";
 "menu_print" = "印刷…";
 "menu_file" = "ファイル";
+"menu_new" = "新規";
+"menu_close" = "閉じる";
 
 /* Accessibility */
 "a11y_generate_code" = "構造図からコードを生成";

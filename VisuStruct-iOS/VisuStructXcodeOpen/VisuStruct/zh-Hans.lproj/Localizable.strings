@@ -74,6 +74,8 @@
 "menu_save_as" = "另存为…";
 "menu_print" = "打印…";
 "menu_file" = "文件";
+"menu_new" = "新建";
+"menu_close" = "关闭";
 
 /* Accessibility */
 "a11y_generate_code" = "从结构图生成代码";

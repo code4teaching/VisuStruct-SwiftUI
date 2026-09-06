@@ -75,6 +75,8 @@
 "menu_save_as" = "Guardar como…";
 "menu_print" = "Imprimir…";
 "menu_file" = "Ficheiro";
+"menu_new" = "Novo";
+"menu_close" = "Fechar";
 
 /* Acessibilidade */
 "a11y_generate_code" = "Gerar código a partir do diagrama";

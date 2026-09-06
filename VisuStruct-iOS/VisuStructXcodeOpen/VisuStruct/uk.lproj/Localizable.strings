@@ -71,6 +71,8 @@
 "menu_save_as" = "Зберегти як…";
 "menu_print" = "Друк…";
 "menu_file" = "Файл";
+"menu_new" = "Створити";
+"menu_close" = "Закрити";
 
 /* Accessibility */
 "a11y_generate_code" = "Згенерувати код зі структурної схеми";

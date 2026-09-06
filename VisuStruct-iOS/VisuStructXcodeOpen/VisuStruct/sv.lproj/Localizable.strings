@@ -51,6 +51,8 @@
 "menu_save_as" = "Spara som…";
 "menu_print" = "Skriv ut…";
 "menu_file" = "Arkiv";
+"menu_new" = "Ny";
+"menu_close" = "Stäng";
 
 /* Inspector */
 "inspector_no_selection" = "Ingen markering — tryck på en ruta.";

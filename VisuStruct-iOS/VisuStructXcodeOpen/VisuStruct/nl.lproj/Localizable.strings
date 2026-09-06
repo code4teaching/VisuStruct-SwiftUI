@@ -51,6 +51,8 @@
 "menu_save_as" = "Bewaar als…";
 "menu_print" = "Print…";
 "menu_file" = "Bestand";
+"menu_new" = "Nieuw";
+"menu_close" = "Sluit";
 
 /* Inspector */
 "inspector_no_selection" = "Geen element geselecteerd — tik op een tegel.";

@@ -74,6 +74,8 @@
 "menu_save_as" = "حفظ باسم…";
 "menu_print" = "طباعة…";
 "menu_file" = "ملف";
+"menu_new" = "جديد";
+"menu_close" = "إغلاق";
 
 /* Accessibility */
 "a11y_generate_code" = "إنشاء شفرة من المخطط";
