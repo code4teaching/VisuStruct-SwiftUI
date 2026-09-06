@@ -22,7 +22,33 @@ struct SimulationStatePanel: View {
             .sorted { $0.0.localizedStandardCompare($1.0) == .orderedAscending }
     }
 
+    private var isWaitingForInput: Bool { engine.state.inputRequest != nil }
+
     var body: some View {
+        Group {
+            if isWaitingForInput {
+                ScrollView {
+                    panelStack(flexibleCardsFillHeight: false)
+                }
+                .scrollBounceBehavior(.basedOnSize)
+            } else {
+                panelStack(flexibleCardsFillHeight: true)
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+        }
+    }
+
+    @ViewBuilder
+    private func panelStack(flexibleCardsFillHeight: Bool) -> some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 10) {
                 Label(lang.tr("simulation_controls"), systemImage: "slider.horizontal.3")
@@ -47,42 +73,19 @@ struct SimulationStatePanel: View {
                 }
             }
 
-            SimulationPlaceholderCard(
-                title: lang.tr("simulation_input"),
-                systemImage: "keyboard",
-                minHeight: engine.state.inputRequest == nil ? 86 : 112
-            ) {
-                if let request = engine.state.inputRequest {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(request.prompt)
-                            .font(.body)
-                            .fixedSize(horizontal: false, vertical: true)
-                        HStack(spacing: 8) {
-                            TextField(request.variableName, text: $inputText)
-                                .textFieldStyle(.roundedBorder)
-                                .keyboardType(simulationInputKeyboardType(for: request.valueType))
-                                .onSubmit(onSubmitInput)
-                            Button(lang.tr("simulation_input_submit"), action: onSubmitInput)
-                                .buttonStyle(.borderedProminent)
-                        }
-                        if let inputError = engine.state.inputError {
-                            Text(inputError)
-                                .font(.caption)
-                                .foregroundStyle(.red)
-                                .fixedSize(horizontal: false, vertical: true)
-                        }
-                    }
-                } else {
-                    Text(lang.tr("simulation_input_placeholder"))
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
+            SimulationInputCard(
+                prompt: engine.state.inputRequest?.prompt,
+                variableName: engine.state.inputRequest?.variableName,
+                valueType: engine.state.inputRequest?.valueType,
+                inputError: engine.state.inputError,
+                inputText: $inputText,
+                onSubmit: onSubmitInput
+            )
 
             SimulationPlaceholderCard(
                 title: lang.tr("simulation_trace"),
-                systemImage: "arrow.left.arrow.right"
+                systemImage: "arrow.left.arrow.right",
+                minHeight: flexibleCardsFillHeight ? 130 : 88
             ) {
                 if let trace = engine.state.lastTrace {
                     Text(trace)
@@ -100,8 +103,8 @@ struct SimulationStatePanel: View {
             SimulationPlaceholderCard(
                 title: lang.tr("simulation_variables"),
                 systemImage: "curlybraces",
-                minHeight: 190,
-                contentFillsHeight: true
+                minHeight: flexibleCardsFillHeight ? 190 : 96,
+                contentFillsHeight: flexibleCardsFillHeight
             ) {
                 if sortedVariables.isEmpty {
                     Text(lang.tr("simulation_variables_placeholder"))
@@ -132,8 +135,8 @@ struct SimulationStatePanel: View {
             SimulationPlaceholderCard(
                 title: lang.tr("simulation_output"),
                 systemImage: "terminal",
-                minHeight: 170,
-                contentFillsHeight: true
+                minHeight: flexibleCardsFillHeight ? 170 : 96,
+                contentFillsHeight: flexibleCardsFillHeight
             ) {
                 if engine.state.outputLines.isEmpty {
                     Text(lang.tr("simulation_output_placeholder"))
@@ -155,7 +158,7 @@ struct SimulationStatePanel: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 }
             }
-            .layoutPriority(1)
+            .layoutPriority(flexibleCardsFillHeight ? 1 : 0)
 
             if let message = engine.state.message {
                 Text(message)
@@ -164,19 +167,68 @@ struct SimulationStatePanel: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+}
+
+private struct SimulationInputCard: View {
+    @Environment(\.appLanguage) private var lang
+    let prompt: String?
+    let variableName: String?
+    let valueType: VisuStructSimulationValueType?
+    let inputError: String?
+    @Binding var inputText: String
+    let onSubmit: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Label(lang.tr("simulation_input"), systemImage: "keyboard")
+                .font(.headline)
+
+            if let prompt, let variableName, let valueType {
+                Text(prompt)
+                    .font(.body)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                TextField(variableName, text: $inputText)
+                    .textFieldStyle(.roundedBorder)
+                    .keyboardType(keyboardType(for: valueType))
+                    .frame(minHeight: 44)
+                    .onSubmit(onSubmit)
+
+                Button(action: onSubmit) {
+                    Text(lang.tr("simulation_input_submit"))
+                        .font(.body.weight(.semibold))
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                }
+                .buttonStyle(.borderedProminent)
+
+                if let inputError {
+                    Text(inputError)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } else {
+                Text(lang.tr("simulation_input_placeholder"))
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
         .padding(16)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background {
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .fill(Color(.secondarySystemBackground))
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(.tertiarySystemBackground))
         }
         .overlay {
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
-                .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .strokeBorder(Color.primary.opacity(0.06), lineWidth: 1)
         }
     }
 
-    private func simulationInputKeyboardType(for valueType: VisuStructSimulationValueType) -> UIKeyboardType {
+    private func keyboardType(for valueType: VisuStructSimulationValueType) -> UIKeyboardType {
         switch valueType {
         case .int:
             return .numberPad
