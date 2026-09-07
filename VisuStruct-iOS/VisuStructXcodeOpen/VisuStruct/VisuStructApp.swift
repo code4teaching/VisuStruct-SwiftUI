@@ -94,8 +94,6 @@ private struct VisuStructCommands: Commands {
             }
             .keyboardShortcut("n", modifiers: .command)
             .disabled(!(fileActions?.canNew ?? false))
-        }
-        CommandGroup(after: .newItem) {
             Button(lang.tr("menu_open")) {
                 fileActions?.open()
             }
