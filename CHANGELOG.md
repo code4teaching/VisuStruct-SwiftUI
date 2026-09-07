@@ -14,7 +14,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
-- **File menu:** New, Open, Save, Save As, and Close on the menu bar / keyboard (`Cmd+N/O/S/Shift+S/W`), including on Mac (Designed for iPad). The simulation layout is unchanged.
+- **File menu:** New, Open, Save, Save As, and Close on the menu bar / keyboard (`Cmd+N/O/S/Shift+S/W`), including on Mac (Designed for iPad). Open sits in the same File group as New so it appears in Ablage. The simulation layout is unchanged.
 
 ### Fixed
 
