@@ -92,6 +92,9 @@ struct AboutVisuStructView: View {
                         Text(lang.tr("about_dateiformat_heading"))
                             .font(.headline)
                         aboutDateiformatExplainer
+                        Text(lang.tr("about_dateiformat_strk"))
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
                     }
 
                     Divider()

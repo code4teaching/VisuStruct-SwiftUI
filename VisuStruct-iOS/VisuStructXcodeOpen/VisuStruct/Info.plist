@@ -36,6 +36,7 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>visustruct</string>
+					<string>strk</string>
 				</array>
 			</dict>
 		</dict>

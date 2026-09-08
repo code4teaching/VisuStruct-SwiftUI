@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "Format pliku";
 "about_dateiformat_part1" = "Natywny format VisuStruct używa rozszerzenia ";
 "about_dateiformat_part2" = ". Możesz zachować diagramy i wymieniać je z innymi aplikacjami obsługującymi ten sam format.";
+"about_dateiformat_strk" = "Można także otwierać pliki z rozszerzeniem .strk.";
 "about_project_github_label" = "Aplikacja Java (źródła i wydania):";
 "about_web_label" = "WWW:";
 "about_developer_label" = "Programista:";

@@ -128,11 +128,10 @@ struct ContentView: View {
         )
     }
 
-    /// Finder / Dateien: Doppelklick bzw. „Öffnen mit“ auf `.visustruct`.
+    /// Finder / Dateien: Doppelklick bzw. „Öffnen mit“ auf `.visustruct` oder `.strk`.
     private func openIncomingDocument(from url: URL) {
         guard url.isFileURL else { return }
-        let ext = url.pathExtension.lowercased()
-        guard ext == "visustruct" || ext == "xml" else { return }
+        guard VisuStructDiagramFile.isOpenableDiagram(url: url) else { return }
         if isSimulationMode {
             endSimulationMode()
         }

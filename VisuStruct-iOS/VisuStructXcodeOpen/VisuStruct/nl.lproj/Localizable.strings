@@ -129,3 +129,4 @@
 
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Sleep om het codegeneratorpaneel te verplaatsen";
+"about_dateiformat_strk" = "Bestanden met de extensie .strk kunnen ook worden geopend.";

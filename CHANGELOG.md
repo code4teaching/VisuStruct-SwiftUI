@@ -15,7 +15,7 @@ The format is loosely inspired by Keep a Changelog.
 ### Added
 
 - **File menu:** New, Open, Open Recent, Save, Save As, Print, and Close on the menu bar / keyboard (`Cmd+N/O/S/Shift+S/P/W`), including on Mac (Designed for iPad). Open Recent uses the same list as the toolbar.
-- **Files:** double-click or Open With a `.visustruct` file in Finder / Files opens it in VisuStruct. The simulation layout is unchanged.
+- **Files:** double-click or Open With a `.visustruct` or `.strk` file in Finder / Files opens it in VisuStruct (same XML as the Java Struktogrammeditor). The simulation layout is unchanged.
 
 ### Fixed
 

@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "פורמט קובץ";
 "about_dateiformat_part1" = "הפורמט המקורי של VisuStruct משתמש בסיומת ";
 "about_dateiformat_part2" = ". ניתן לשמור תרשימים ולהחליף אותם עם אפליקציות אחרות שתומכות באותו פורמט.";
+"about_dateiformat_strk" = "ניתן לפתוח גם קבצים עם הסיומת .strk.";
 "about_project_github_label" = "אפליקציית Java (מקור וגרסאות):";
 "about_web_label" = "אתר:";
 "about_developer_label" = "מפתח:";

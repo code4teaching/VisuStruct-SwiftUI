@@ -180,6 +180,7 @@
 "about_dateiformat_heading" = "Формат файла";
 "about_dateiformat_part1" = "Родной формат VisuStruct использует расширение ";
 "about_dateiformat_part2" = ". Вы можете сохранять схемы и обмениваться ими с другими приложениями, поддерживающими этот формат.";
+"about_dateiformat_strk" = "Файлы с расширением .strk также можно открывать.";
 "about_project_github_label" = "Java‑приложение (исходники и релизы):";
 "about_web_label" = "Веб:";
 "about_developer_label" = "Разработчик:";

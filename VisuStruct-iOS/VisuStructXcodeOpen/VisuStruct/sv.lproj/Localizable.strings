@@ -129,3 +129,4 @@
 
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Dra för att flytta kodgeneratorpanelen";
+"about_dateiformat_strk" = "Filer med tillägget .strk kan också öppnas.";
