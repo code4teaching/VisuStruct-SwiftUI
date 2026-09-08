@@ -112,6 +112,7 @@
 		AA1000000000000000000036 /* DiagramTabStrip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramTabStrip.swift; sourceTree = "<group>"; };
 		AA1000000000000000000037 /* DiagramSheetTabsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs/DiagramSheetTabsModel.swift; sourceTree = "<group>"; };
 		AA1000000000000000000039 /* DiagramSnapshotAndExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export/DiagramSnapshotAndExport.swift; sourceTree = "<group>"; };
+		AA100000000000000000003A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				AA1000000000000000000001 /* VisuStructApp.swift */,
+				AA100000000000000000003A /* Info.plist */,
 				AA1000000000000000000005 /* AppLanguage.swift */,
 				AA1000000000000000000002 /* ContentView.swift */,
 				AA1000000000000000000039 /* DiagramSnapshotAndExport.swift */,
@@ -466,10 +468,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VisuStruct/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VisuStruct;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -500,10 +503,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VisuStruct/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = VisuStruct;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

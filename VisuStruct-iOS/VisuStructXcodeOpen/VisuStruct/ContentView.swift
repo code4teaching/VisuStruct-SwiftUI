@@ -19,6 +19,7 @@ struct ContentView: View {
     @Environment(\.displayScale) private var displayScale
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
+    @EnvironmentObject private var incomingDocuments: IncomingDocumentOpener
 
     private var isPhone: Bool {
         #if canImport(UIKit)
@@ -127,6 +128,21 @@ struct ContentView: View {
         )
     }
 
+    /// Finder / Dateien: Doppelklick bzw. „Öffnen mit“ auf `.visustruct`.
+    private func openIncomingDocument(from url: URL) {
+        guard url.isFileURL else { return }
+        let ext = url.pathExtension.lowercased()
+        guard ext == "visustruct" || ext == "xml" else { return }
+        if isSimulationMode {
+            endSimulationMode()
+        }
+        let tab = tabsModel.tabs[tabsModel.currentTabIndex]
+        if tabsModel.tabHasUnsavedChanges(tab) || tab.linkedFileBookmarkData != nil {
+            addDiagramTab()
+        }
+        _ = openDocument(from: url)
+    }
+
     private var document: VisuStructDocument {
         tabsModel.tabs[tabsModel.currentTabIndex].document
     }
@@ -184,6 +200,15 @@ struct ContentView: View {
         #endif
         .onAppear {
             refreshLineEditor()
+            if let url = incomingDocuments.pendingURL {
+                incomingDocuments.pendingURL = nil
+                openIncomingDocument(from: url)
+            }
+        }
+        .onChange(of: incomingDocuments.pendingURL) { _, url in
+            guard let url else { return }
+            incomingDocuments.pendingURL = nil
+            openIncomingDocument(from: url)
         }
         .alert(lang.tr("close_unsaved_title"), isPresented: unsavedCloseAlertBinding) {
             Button(lang.tr("menu_save")) {

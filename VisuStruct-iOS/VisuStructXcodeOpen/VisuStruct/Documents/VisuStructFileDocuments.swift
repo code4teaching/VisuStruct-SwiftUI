@@ -7,6 +7,9 @@ import VisuStructCore
 struct VisuStructFileDocument: FileDocument, Sendable {
     /// Export/Speichern: eigene Endung, damit der Dialog nicht zusätzlich `.xml` anhängt.
     static var preferredExportContentType: UTType {
+        if let declared = UTType("org.visustruct.diagram") {
+            return declared
+        }
         if let v = UTType(filenameExtension: "visustruct") {
             return v
         }
@@ -14,10 +17,13 @@ struct VisuStructFileDocument: FileDocument, Sendable {
     }
 
     static var readableContentTypes: [UTType] {
-        if let v = UTType(filenameExtension: "visustruct") {
-            return [v, .xml]
+        var types: [UTType] = [.xml]
+        if let declared = UTType("org.visustruct.diagram") {
+            types.insert(declared, at: 0)
+        } else if let v = UTType(filenameExtension: "visustruct") {
+            types.insert(v, at: 0)
         }
-        return [.xml]
+        return types
     }
 
     static var writableContentTypes: [UTType] { readableContentTypes }

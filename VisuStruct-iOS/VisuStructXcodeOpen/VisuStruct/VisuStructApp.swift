@@ -44,6 +44,15 @@ private struct DiagramFileActionsKey: FocusedValueKey {
     typealias Value = DiagramFileActions
 }
 
+@MainActor
+final class IncomingDocumentOpener: ObservableObject {
+    @Published var pendingURL: URL?
+
+    func queue(_ url: URL) {
+        pendingURL = url
+    }
+}
+
 extension FocusedValues {
     var diagramEditActions: DiagramEditActions? {
         get { self[DiagramEditActionsKey.self] }
@@ -188,6 +197,7 @@ private struct VisuStructCommands: Commands {
 
 /// Synchronisiert `UserDefaults` mit den iOS-**Systemeinstellungen** (VisuStruct), sobald die App wieder aktiv wird.
 private struct AppRootView: View {
+    @StateObject private var incomingDocuments = IncomingDocumentOpener()
     @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var scaleCanvas: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var scaleInspector: String = VisuStructUIScaleStep.small.rawValue
@@ -198,7 +208,9 @@ private struct AppRootView: View {
 
     var body: some View {
         ContentView()
+            .environmentObject(incomingDocuments)
             .environment(\.appLanguage, AppLanguage(rawValue: languageCode) ?? .english)
+            .onOpenURL { incomingDocuments.queue($0) }
             .onChange(of: scenePhase) { _, phase in
                 guard phase == .active else { return }
                 let lang = UserDefaults.standard.string(forKey: AppLanguage.storageKey) ?? AppLanguage.english.rawValue
