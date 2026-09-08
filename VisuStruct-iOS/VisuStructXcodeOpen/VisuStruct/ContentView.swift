@@ -45,7 +45,7 @@ struct ContentView: View {
     @State private var isSimulationPlaying = false
     @State private var simulationWasPlayingBeforeInput = false
     @State private var simulationInputText = ""
-    @StateObject private var recentFilesStore: RecentFilesStore
+    @ObservedObject private var recentFilesStore: RecentFilesStore
     /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
     @State private var codeGeneratorRegenerationToken: Int = 0
     /// Wenn `CodeGeneratorPurchaseGate.requiresPurchase`: nach erfolgreichem Kauf auf `true` (StoreKit / `UserDefaults`).
@@ -100,9 +100,9 @@ struct ContentView: View {
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
         let model = DiagramSheetTabsModel.makeInitial(language: startupLang)
-        let recentStore = RecentFilesStore()
+        let recentStore = RecentFilesStore.shared
         _tabsModel = State(initialValue: model)
-        _recentFilesStore = StateObject(wrappedValue: recentStore)
+        _recentFilesStore = ObservedObject(wrappedValue: recentStore)
         _documentServices = State(initialValue: DiagramEditorDocumentServices(tabsModel: model, recentFilesStore: recentStore))
         _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: model.tabs[0].document))
     }

@@ -10,12 +10,14 @@ struct RecentVisuStructFile: Identifiable, Codable, Equatable {
 
 @MainActor
 final class RecentFilesStore: ObservableObject {
+    static let shared = RecentFilesStore()
+
     @Published private(set) var files: [RecentVisuStructFile]
 
     private static let defaultsKey = "visustruct.recentFiles"
     private static let maxCount = 10
 
-    init() {
+    private init() {
         files = Self.loadFromDefaults()
     }
 

@@ -96,6 +96,8 @@ struct VisuStructApp: App {
 private struct VisuStructCommands: Commands {
     @FocusedValue(\.diagramEditActions) private var editActions
     @FocusedValue(\.diagramFileActions) private var fileActions
+    /// Nicht über `FocusedValue`: SwiftUI Commands speichern dort oft eine leere Kopie.
+    @ObservedObject private var recentFilesStore = RecentFilesStore.shared
     @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
 
     private var lang: AppLanguage {
@@ -114,23 +116,23 @@ private struct VisuStructCommands: Commands {
             }
             .keyboardShortcut("o", modifiers: .command)
             .disabled(!(fileActions?.canOpen ?? false))
-            Menu(lang.tr("recent_files_menu")) {
-                if let files = fileActions?.recentFiles, !files.isEmpty {
-                    ForEach(files) { file in
-                        Button(file.displayName) {
-                            fileActions?.openRecent(file)
-                        }
+            Divider()
+            if recentFilesStore.files.isEmpty {
+                Button(lang.tr("recent_files_empty")) {}
+                    .disabled(true)
+            } else {
+                ForEach(recentFilesStore.files) { file in
+                    Button(file.displayName) {
+                        fileActions?.openRecent(file)
                     }
-                    Divider()
-                    Button(lang.tr("recent_files_clear")) {
-                        fileActions?.clearRecent()
-                    }
-                } else {
-                    Button(lang.tr("recent_files_empty")) {}
-                        .disabled(true)
+                    .disabled(!(fileActions?.canOpen ?? false))
                 }
+                Divider()
+                Button(lang.tr("recent_files_clear")) {
+                    recentFilesStore.clear()
+                }
+                .disabled(!(fileActions?.canOpen ?? false))
             }
-            .disabled(!(fileActions?.canOpen ?? false))
         }
         CommandGroup(replacing: .saveItem) {
             Button(lang.tr("menu_save")) {

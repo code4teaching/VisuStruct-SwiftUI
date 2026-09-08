@@ -20,6 +20,7 @@ The format is loosely inspired by Keep a Changelog.
 ### Fixed
 
 - **Tabs:** warn before closing diagrams with unsaved changes, offering to save, discard, or cancel.
+- **File menu:** recently used files show up again under Ablage / File. Nested Open Recent stayed empty because SwiftUI Commands snapshot `FocusedValue`; the list now comes from the shared recents store and is listed directly in Ablage.
 
 ## [1.2.1] - 2026-04-20
 
