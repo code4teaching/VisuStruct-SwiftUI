@@ -36,17 +36,31 @@ struct DiagramFileActions {
     var clearRecent: () -> Void
 }
 
-/// Menüleiste: nicht über `FocusedValue` / `focusedSceneValue`. SwiftUI Commands
-/// speichern dort oft eine leere Kopie, sodass Ablage → Öffnen dauerhaft ausgegraut bleibt.
+enum DiagramMenuNotification {
+    static let newDocument = Notification.Name("visustruct.menu.newDocument")
+    static let open = Notification.Name("visustruct.menu.open")
+    static let save = Notification.Name("visustruct.menu.save")
+    static let saveAs = Notification.Name("visustruct.menu.saveAs")
+    static let printDocument = Notification.Name("visustruct.menu.print")
+    static let close = Notification.Name("visustruct.menu.close")
+    static let openRecent = Notification.Name("visustruct.menu.openRecent")
+
+    static let recentFileIDKey = "id"
+}
+
+/// Menüleiste: nicht über `FocusedValue`. Commands halten dort oft eine leere Kopie,
+/// sodass Ablage → Öffnen ausgegraut bleibt. Dateibefehle gehen per Notification
+/// an den Editor; Freigaben kommen aus diesem Store.
 @MainActor
 final class DiagramCommandCenter: ObservableObject {
     static let shared = DiagramCommandCenter()
 
-    @Published private(set) var canNew = false
-    @Published private(set) var canOpen = false
-    @Published private(set) var canSave = false
-    @Published private(set) var canSaveAs = false
-    @Published private(set) var canPrint = false
+    /// Dateibefehle sind ab Start aktiv (Editor-Modus). Die Simulation stellt sie auf `false`.
+    @Published private(set) var canNew = true
+    @Published private(set) var canOpen = true
+    @Published private(set) var canSave = true
+    @Published private(set) var canSaveAs = true
+    @Published private(set) var canPrint = true
     @Published private(set) var canClose = false
     @Published private(set) var canUndo = false
     @Published private(set) var canRedo = false
@@ -55,13 +69,11 @@ final class DiagramCommandCenter: ObservableObject {
     @Published private(set) var canPaste = false
     @Published private(set) var canDelete = false
 
-    private var fileActions: DiagramFileActions?
     private var editActions: DiagramEditActions?
 
     private init() {}
 
     func update(file: DiagramFileActions, edit: DiagramEditActions) {
-        fileActions = file
         editActions = edit
 
         let fileFlags = (file.canNew, file.canOpen, file.canSave, file.canSaveAs, file.canPrint, file.canClose)
@@ -85,13 +97,37 @@ final class DiagramCommandCenter: ObservableObject {
         }
     }
 
-    func newDocument() { fileActions?.newDocument() }
-    func open() { fileActions?.open() }
-    func save() { fileActions?.save() }
-    func saveAs() { fileActions?.saveAs() }
-    func printDocument() { fileActions?.printDocument() }
-    func close() { fileActions?.close() }
-    func openRecent(_ file: RecentVisuStructFile) { fileActions?.openRecent(file) }
+    func newDocument() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.newDocument, object: nil)
+    }
+
+    func open() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.open, object: nil)
+    }
+
+    func save() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.save, object: nil)
+    }
+
+    func saveAs() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.saveAs, object: nil)
+    }
+
+    func printDocument() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.printDocument, object: nil)
+    }
+
+    func close() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.close, object: nil)
+    }
+
+    func openRecent(_ file: RecentVisuStructFile) {
+        NotificationCenter.default.post(
+            name: DiagramMenuNotification.openRecent,
+            object: nil,
+            userInfo: [DiagramMenuNotification.recentFileIDKey: file.id]
+        )
+    }
 
     func undo() { editActions?.undo() }
     func redo() { editActions?.redo() }
@@ -101,8 +137,8 @@ final class DiagramCommandCenter: ObservableObject {
     func delete() { editActions?.delete() }
 }
 
-/// Schreibt die aktuellen Menü-Aktionen in `DiagramCommandCenter`, sobald der Editor da ist
-/// und erneut, wenn sich Freigaben oder der aktive Reiter ändern.
+/// Hält Freigaben und Edit-Aktionen aktuell. Volle Fläche, damit `.task` wirklich läuft
+/// (eine 0×0-View wird oft nie erscheinen und Öffnen bleibt dann ausgegraut).
 struct DiagramMenuCommandSync: View {
     let fileActions: DiagramFileActions
     let editActions: DiagramEditActions
@@ -110,8 +146,8 @@ struct DiagramMenuCommandSync: View {
 
     var body: some View {
         Color.clear
-            .frame(width: 0, height: 0)
             .accessibilityHidden(true)
+            .allowsHitTesting(false)
             .task(id: "\(capabilityToken)-\(refreshToken)") {
                 DiagramCommandCenter.shared.update(file: fileActions, edit: editActions)
             }

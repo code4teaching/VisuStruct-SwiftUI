@@ -5,6 +5,10 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>visustruct</string>
+			</array>
 			<key>CFBundleTypeName</key>
 			<string>VisuStruct Diagram</string>
 			<key>CFBundleTypeRole</key>

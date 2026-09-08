@@ -21,7 +21,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Tabs:** warn before closing diagrams with unsaved changes, offering to save, discard, or cancel.
 - **File menu:** recently used files show up again under Ablage / File. Nested Open Recent stayed empty because SwiftUI Commands snapshot `FocusedValue`; the list now comes from the shared recents store and is listed directly in Ablage.
-- **File menu:** Open, New, Save, and the other Ablage items are enabled after launch. Commands kept a frozen empty `FocusedValue`, so those entries stayed grayed out; they now use a shared command center, same idea as Open Recent.
+- **File menu:** Open, New, Save, and the other Ablage items are enabled after launch. Commands kept a frozen empty `FocusedValue`, so those entries stayed grayed out. Ablage now posts notifications the editor handles, and Open starts enabled instead of waiting on a FocusedValue snapshot.
 
 ## [1.2.1] - 2026-04-20
 
