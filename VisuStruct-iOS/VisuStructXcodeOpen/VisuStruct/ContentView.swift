@@ -330,12 +330,15 @@ struct ContentView: View {
             open: { showImporter = true },
             save: { performPrimarySave() },
             saveAs: { showExporter = true },
-            print: {
+            printDocument: {
                 #if canImport(UIKit)
                 printDiagram()
                 #endif
             },
-            close: { requestCloseDiagramTab(id: tabsModel.selectedTabId) }
+            close: { requestCloseDiagramTab(id: tabsModel.selectedTabId) },
+            recentFiles: recentFilesStore.files,
+            openRecent: openRecentFile,
+            clearRecent: { recentFilesStore.clear() }
         )
     }
 

@@ -14,7 +14,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
-- **File menu:** New, Open, Save, Save As, Print, and Close on the menu bar / keyboard (`Cmd+N/O/S/Shift+S/P/W`), including on Mac (Designed for iPad). Open and Print sit in the Ablage groups so they appear on Mac. The simulation layout is unchanged.
+- **File menu:** New, Open, Open Recent, Save, Save As, Print, and Close on the menu bar / keyboard (`Cmd+N/O/S/Shift+S/P/W`), including on Mac (Designed for iPad). Open Recent uses the same list as the toolbar. The simulation layout is unchanged.
 
 ### Fixed
 

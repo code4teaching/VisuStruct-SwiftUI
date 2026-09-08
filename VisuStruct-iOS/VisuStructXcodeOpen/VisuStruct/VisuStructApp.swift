@@ -28,8 +28,12 @@ struct DiagramFileActions {
     var open: () -> Void
     var save: () -> Void
     var saveAs: () -> Void
-    var print: () -> Void
+    var printDocument: () -> Void
     var close: () -> Void
+
+    var recentFiles: [RecentVisuStructFile]
+    var openRecent: (RecentVisuStructFile) -> Void
+    var clearRecent: () -> Void
 }
 
 private struct DiagramEditActionsKey: FocusedValueKey {
@@ -101,6 +105,23 @@ private struct VisuStructCommands: Commands {
             }
             .keyboardShortcut("o", modifiers: .command)
             .disabled(!(fileActions?.canOpen ?? false))
+            Menu(lang.tr("recent_files_menu")) {
+                if let files = fileActions?.recentFiles, !files.isEmpty {
+                    ForEach(files) { file in
+                        Button(file.displayName) {
+                            fileActions?.openRecent(file)
+                        }
+                    }
+                    Divider()
+                    Button(lang.tr("recent_files_clear")) {
+                        fileActions?.clearRecent()
+                    }
+                } else {
+                    Button(lang.tr("recent_files_empty")) {}
+                        .disabled(true)
+                }
+            }
+            .disabled(!(fileActions?.canOpen ?? false))
         }
         CommandGroup(replacing: .saveItem) {
             Button(lang.tr("menu_save")) {
@@ -115,7 +136,7 @@ private struct VisuStructCommands: Commands {
             .disabled(!(fileActions?.canSaveAs ?? false))
             Divider()
             Button(lang.tr("menu_print")) {
-                fileActions?.print()
+                fileActions?.printDocument()
             }
             .keyboardShortcut("p", modifiers: .command)
             .disabled(!(fileActions?.canPrint ?? false))
