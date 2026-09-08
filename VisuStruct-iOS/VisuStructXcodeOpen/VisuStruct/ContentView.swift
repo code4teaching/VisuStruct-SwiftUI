@@ -310,8 +310,13 @@ struct ContentView: View {
                 }
             }
         }
-        .focusedSceneValue(\.diagramEditActions, diagramEditActions)
-        .focusedSceneValue(\.diagramFileActions, diagramFileActions)
+        .background {
+            DiagramMenuCommandSync(
+                fileActions: diagramFileActions,
+                editActions: diagramEditActions,
+                refreshToken: "\(tabsModel.selectedTabId.uuidString)-\(isSimulationMode)"
+            )
+        }
     }
 
     private var diagramEditActions: DiagramEditActions {

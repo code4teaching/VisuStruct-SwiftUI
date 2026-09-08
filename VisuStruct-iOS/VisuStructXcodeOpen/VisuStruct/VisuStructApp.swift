@@ -36,12 +36,95 @@ struct DiagramFileActions {
     var clearRecent: () -> Void
 }
 
-private struct DiagramEditActionsKey: FocusedValueKey {
-    typealias Value = DiagramEditActions
+/// Menüleiste: nicht über `FocusedValue` / `focusedSceneValue`. SwiftUI Commands
+/// speichern dort oft eine leere Kopie, sodass Ablage → Öffnen dauerhaft ausgegraut bleibt.
+@MainActor
+final class DiagramCommandCenter: ObservableObject {
+    static let shared = DiagramCommandCenter()
+
+    @Published private(set) var canNew = false
+    @Published private(set) var canOpen = false
+    @Published private(set) var canSave = false
+    @Published private(set) var canSaveAs = false
+    @Published private(set) var canPrint = false
+    @Published private(set) var canClose = false
+    @Published private(set) var canUndo = false
+    @Published private(set) var canRedo = false
+    @Published private(set) var canCopy = false
+    @Published private(set) var canCut = false
+    @Published private(set) var canPaste = false
+    @Published private(set) var canDelete = false
+
+    private var fileActions: DiagramFileActions?
+    private var editActions: DiagramEditActions?
+
+    private init() {}
+
+    func update(file: DiagramFileActions, edit: DiagramEditActions) {
+        fileActions = file
+        editActions = edit
+
+        let fileFlags = (file.canNew, file.canOpen, file.canSave, file.canSaveAs, file.canPrint, file.canClose)
+        if (canNew, canOpen, canSave, canSaveAs, canPrint, canClose) != fileFlags {
+            canNew = file.canNew
+            canOpen = file.canOpen
+            canSave = file.canSave
+            canSaveAs = file.canSaveAs
+            canPrint = file.canPrint
+            canClose = file.canClose
+        }
+
+        let editFlags = (edit.canUndo, edit.canRedo, edit.canCopy, edit.canCut, edit.canPaste, edit.canDelete)
+        if (canUndo, canRedo, canCopy, canCut, canPaste, canDelete) != editFlags {
+            canUndo = edit.canUndo
+            canRedo = edit.canRedo
+            canCopy = edit.canCopy
+            canCut = edit.canCut
+            canPaste = edit.canPaste
+            canDelete = edit.canDelete
+        }
+    }
+
+    func newDocument() { fileActions?.newDocument() }
+    func open() { fileActions?.open() }
+    func save() { fileActions?.save() }
+    func saveAs() { fileActions?.saveAs() }
+    func printDocument() { fileActions?.printDocument() }
+    func close() { fileActions?.close() }
+    func openRecent(_ file: RecentVisuStructFile) { fileActions?.openRecent(file) }
+
+    func undo() { editActions?.undo() }
+    func redo() { editActions?.redo() }
+    func copy() { editActions?.copy() }
+    func cut() { editActions?.cut() }
+    func paste() { editActions?.paste() }
+    func delete() { editActions?.delete() }
 }
 
-private struct DiagramFileActionsKey: FocusedValueKey {
-    typealias Value = DiagramFileActions
+/// Schreibt die aktuellen Menü-Aktionen in `DiagramCommandCenter`, sobald der Editor da ist
+/// und erneut, wenn sich Freigaben oder der aktive Reiter ändern.
+struct DiagramMenuCommandSync: View {
+    let fileActions: DiagramFileActions
+    let editActions: DiagramEditActions
+    let refreshToken: String
+
+    var body: some View {
+        Color.clear
+            .frame(width: 0, height: 0)
+            .accessibilityHidden(true)
+            .task(id: "\(capabilityToken)-\(refreshToken)") {
+                DiagramCommandCenter.shared.update(file: fileActions, edit: editActions)
+            }
+    }
+
+    private var capabilityToken: String {
+        [
+            fileActions.canNew, fileActions.canOpen, fileActions.canSave,
+            fileActions.canSaveAs, fileActions.canPrint, fileActions.canClose,
+            editActions.canUndo, editActions.canRedo, editActions.canCopy,
+            editActions.canCut, editActions.canPaste, editActions.canDelete
+        ].map { $0 ? "1" : "0" }.joined()
+    }
 }
 
 @MainActor
@@ -50,18 +133,6 @@ final class IncomingDocumentOpener: ObservableObject {
 
     func queue(_ url: URL) {
         pendingURL = url
-    }
-}
-
-extension FocusedValues {
-    var diagramEditActions: DiagramEditActions? {
-        get { self[DiagramEditActionsKey.self] }
-        set { self[DiagramEditActionsKey.self] = newValue }
-    }
-
-    var diagramFileActions: DiagramFileActions? {
-        get { self[DiagramFileActionsKey.self] }
-        set { self[DiagramFileActionsKey.self] = newValue }
     }
 }
 
@@ -94,8 +165,7 @@ struct VisuStructApp: App {
 /// Menüleiste / Tastatur: gilt auch für die iPad-App auf dem Mac (`os(macOS)` wäre dort falsch).
 /// `.delete` gibt es nur auf macOS, daher Löschen hinter `.pasteboard`.
 private struct VisuStructCommands: Commands {
-    @FocusedValue(\.diagramEditActions) private var editActions
-    @FocusedValue(\.diagramFileActions) private var fileActions
+    @ObservedObject private var commandCenter = DiagramCommandCenter.shared
     /// Nicht über `FocusedValue`: SwiftUI Commands speichern dort oft eine leere Kopie.
     @ObservedObject private var recentFilesStore = RecentFilesStore.shared
     @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
@@ -107,15 +177,15 @@ private struct VisuStructCommands: Commands {
     var body: some Commands {
         CommandGroup(replacing: .newItem) {
             Button(lang.tr("menu_new")) {
-                fileActions?.newDocument()
+                commandCenter.newDocument()
             }
             .keyboardShortcut("n", modifiers: .command)
-            .disabled(!(fileActions?.canNew ?? false))
+            .disabled(!commandCenter.canNew)
             Button(lang.tr("menu_open")) {
-                fileActions?.open()
+                commandCenter.open()
             }
             .keyboardShortcut("o", modifiers: .command)
-            .disabled(!(fileActions?.canOpen ?? false))
+            .disabled(!commandCenter.canOpen)
             Divider()
             if recentFilesStore.files.isEmpty {
                 Button(lang.tr("recent_files_empty")) {}
@@ -123,76 +193,76 @@ private struct VisuStructCommands: Commands {
             } else {
                 ForEach(recentFilesStore.files) { file in
                     Button(file.displayName) {
-                        fileActions?.openRecent(file)
+                        commandCenter.openRecent(file)
                     }
-                    .disabled(!(fileActions?.canOpen ?? false))
+                    .disabled(!commandCenter.canOpen)
                 }
                 Divider()
                 Button(lang.tr("recent_files_clear")) {
                     recentFilesStore.clear()
                 }
-                .disabled(!(fileActions?.canOpen ?? false))
+                .disabled(!commandCenter.canOpen)
             }
         }
         CommandGroup(replacing: .saveItem) {
             Button(lang.tr("menu_save")) {
-                fileActions?.save()
+                commandCenter.save()
             }
             .keyboardShortcut("s", modifiers: .command)
-            .disabled(!(fileActions?.canSave ?? false))
+            .disabled(!commandCenter.canSave)
             Button(lang.tr("menu_save_as")) {
-                fileActions?.saveAs()
+                commandCenter.saveAs()
             }
             .keyboardShortcut("s", modifiers: [.command, .shift])
-            .disabled(!(fileActions?.canSaveAs ?? false))
+            .disabled(!commandCenter.canSaveAs)
             Divider()
             Button(lang.tr("menu_print")) {
-                fileActions?.printDocument()
+                commandCenter.printDocument()
             }
             .keyboardShortcut("p", modifiers: .command)
-            .disabled(!(fileActions?.canPrint ?? false))
+            .disabled(!commandCenter.canPrint)
             Divider()
             Button(lang.tr("menu_close")) {
-                fileActions?.close()
+                commandCenter.close()
             }
             .keyboardShortcut("w", modifiers: .command)
-            .disabled(!(fileActions?.canClose ?? false))
+            .disabled(!commandCenter.canClose)
         }
         CommandGroup(replacing: .undoRedo) {
             Button(lang.tr("toolbar_undo")) {
-                editActions?.undo()
+                commandCenter.undo()
             }
             .keyboardShortcut("z", modifiers: .command)
-            .disabled(!(editActions?.canUndo ?? false))
+            .disabled(!commandCenter.canUndo)
             Button(lang.tr("toolbar_redo")) {
-                editActions?.redo()
+                commandCenter.redo()
             }
             .keyboardShortcut("z", modifiers: [.command, .shift])
-            .disabled(!(editActions?.canRedo ?? false))
+            .disabled(!commandCenter.canRedo)
         }
         CommandGroup(replacing: .pasteboard) {
             Button(lang.tr("ctx_copy")) {
-                editActions?.copy()
+                commandCenter.copy()
             }
             .keyboardShortcut("c", modifiers: .command)
-            .disabled(!(editActions?.canCopy ?? false))
+            .disabled(!commandCenter.canCopy)
             Button(lang.tr("ctx_cut")) {
-                editActions?.cut()
+                commandCenter.cut()
             }
             .keyboardShortcut("x", modifiers: .command)
-            .disabled(!(editActions?.canCut ?? false))
+            .disabled(!commandCenter.canCut)
             Button(lang.tr("ctx_paste")) {
-                editActions?.paste()
+                commandCenter.paste()
             }
             .keyboardShortcut("v", modifiers: .command)
-            .disabled(!(editActions?.canPaste ?? false))
+            .disabled(!commandCenter.canPaste)
         }
         CommandGroup(after: .pasteboard) {
             Button(lang.tr("action_delete_selection")) {
-                editActions?.delete()
+                commandCenter.delete()
             }
             .keyboardShortcut(.delete, modifiers: [])
-            .disabled(!(editActions?.canDelete ?? false))
+            .disabled(!commandCenter.canDelete)
         }
     }
 }
