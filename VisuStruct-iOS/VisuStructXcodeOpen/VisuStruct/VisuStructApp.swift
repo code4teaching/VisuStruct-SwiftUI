@@ -21,12 +21,14 @@ struct DiagramFileActions {
     var canOpen: Bool
     var canSave: Bool
     var canSaveAs: Bool
+    var canPrint: Bool
     var canClose: Bool
 
     var newDocument: () -> Void
     var open: () -> Void
     var save: () -> Void
     var saveAs: () -> Void
+    var print: () -> Void
     var close: () -> Void
 }
 
@@ -111,6 +113,12 @@ private struct VisuStructCommands: Commands {
             }
             .keyboardShortcut("s", modifiers: [.command, .shift])
             .disabled(!(fileActions?.canSaveAs ?? false))
+            Divider()
+            Button(lang.tr("menu_print")) {
+                fileActions?.print()
+            }
+            .keyboardShortcut("p", modifiers: .command)
+            .disabled(!(fileActions?.canPrint ?? false))
             Divider()
             Button(lang.tr("menu_close")) {
                 fileActions?.close()

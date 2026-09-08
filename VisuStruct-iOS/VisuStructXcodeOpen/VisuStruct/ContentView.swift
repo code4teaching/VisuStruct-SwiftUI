@@ -324,11 +324,17 @@ struct ContentView: View {
             canOpen: fileEnabled,
             canSave: fileEnabled,
             canSaveAs: fileEnabled,
+            canPrint: fileEnabled,
             canClose: fileEnabled && tabsModel.tabs.count > 1,
             newDocument: { addDiagramTab() },
             open: { showImporter = true },
             save: { performPrimarySave() },
             saveAs: { showExporter = true },
+            print: {
+                #if canImport(UIKit)
+                printDiagram()
+                #endif
+            },
             close: { requestCloseDiagramTab(id: tabsModel.selectedTabId) }
         )
     }
