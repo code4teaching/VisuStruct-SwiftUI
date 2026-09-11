@@ -178,8 +178,8 @@ final class IncomingDocumentOpener: ObservableObject {
 #if canImport(UIKit)
 /// Ablage → Öffnen auf dem Mac (Designed for iPad): SwiftUI-`Button` mit ⌘O wird vom System
 /// als Dokument-Open geschluckt und erscheint dann gar nicht. `UIAction` mit eigener ID bleibt sichtbar.
-final class VisuStructAppDelegate: NSObject, UIApplicationDelegate {
-    func buildMenu(with builder: UIMenuBuilder) {
+final class VisuStructAppDelegate: UIResponder, UIApplicationDelegate {
+    override func buildMenu(with builder: UIMenuBuilder) {
         super.buildMenu(with: builder)
         guard builder.system == .main else { return }
 
@@ -188,8 +188,8 @@ final class VisuStructAppDelegate: NSObject, UIApplicationDelegate {
         let title = AppLanguage.currentFromDefaults().tr("menu_open")
         let open = UIAction(
             title: title,
-            identifier: UIAction.Identifier("org.visustruct.menu.open"),
-            image: UIImage(systemName: "square.and.arrow.down")
+            image: UIImage(systemName: "square.and.arrow.down"),
+            identifier: UIAction.Identifier("org.visustruct.menu.open")
         ) { _ in
             NotificationCenter.default.post(name: DiagramMenuNotification.open, object: nil)
         }
