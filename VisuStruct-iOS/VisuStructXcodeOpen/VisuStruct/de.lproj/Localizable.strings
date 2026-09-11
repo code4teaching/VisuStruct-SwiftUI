@@ -198,6 +198,7 @@
 "about_dateiformat_heading" = "Dateiformat";
 "about_dateiformat_part1" = "Das native Dateiformat von VisuStruct nutzt die Endung ";
 "about_dateiformat_part2" = ". So kannst du Diagramme sichern und mit anderen Programmen austauschen, die dasselbe Format unterstützen.";
+"about_dateiformat_strk" = "Zusätzlich können Dateien mit der Endung .strk geöffnet werden.";
 "about_project_github_label" = "Java-App (Quellen & Releases):";
 "about_web_label" = "Web:";
 "about_developer_label" = "Entwickler:";

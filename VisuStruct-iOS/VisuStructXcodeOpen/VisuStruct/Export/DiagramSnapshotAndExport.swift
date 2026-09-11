@@ -8,12 +8,7 @@ enum DiagramExportFilename {
     /// Gleiche Semantik wie `DiagramSheetTabsModel.stripVisuStructExtension` — hier freistehend,
     /// damit Dateinamen-Helfer nicht `@MainActor`-isolierte Typen aufrufen müssen.
     private static func stripVisuStructExtension(from name: String) -> String {
-        let t = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let suffix = ".visustruct"
-        if t.lowercased().hasSuffix(suffix) {
-            return String(t.dropLast(suffix.count)).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        return t
+        VisuStructDiagramFile.stripKnownExtension(from: name)
     }
 
     /// Vorschlag für „Speichern unter …“ / Teilen — je nach Einstellung nur Titel oder `yyyy-MM-dd-<Titel>`.

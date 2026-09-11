@@ -44,7 +44,7 @@ The open-source **[Java / Swing editor](https://github.com/code4teaching/VisuStr
 ## Features (current)
 
 - Tabs, palette, **drag & drop**, text inspector, undo/redo  
-- Open / save **`.visustruct`**, share **PNG**, **print** where supported  
+- Open **`.visustruct`** / **`.strk`**, save **`.visustruct`**, share **PNG**, **print** where supported  
 - Broad **multi-language UI** coverage via **`Localizable.strings`** + **`Settings.bundle`** (English/German maintained as authoring sources; additional locales ship as translations).
 - **Clipboard actions** for diagram blocks (copy/cut/paste) plus keyboard/menu shortcuts where the platform supports first-class editing commands.
 - **Instruction modes** with uniform prefixes across languages:

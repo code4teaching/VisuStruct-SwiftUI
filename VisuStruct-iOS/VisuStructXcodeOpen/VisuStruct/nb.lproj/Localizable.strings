@@ -129,3 +129,4 @@
 
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Dra for å flytte kodegeneratorpanelet";
+"about_dateiformat_strk" = "Filer med endelsen .strk kan også åpnes.";

@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "파일 형식";
 "about_dateiformat_part1" = "VisuStruct의 기본 형식은 확장자 ";
 "about_dateiformat_part2" = "를 사용합니다. 같은 형식을 지원하는 다른 앱과 교환할 수 있습니다.";
+"about_dateiformat_strk" = ".strk 확장자 파일도 열 수 있습니다.";
 "about_project_github_label" = "Java 앱(소스 및 릴리스):";
 "about_web_label" = "웹:";
 "about_developer_label" = "개발자:";

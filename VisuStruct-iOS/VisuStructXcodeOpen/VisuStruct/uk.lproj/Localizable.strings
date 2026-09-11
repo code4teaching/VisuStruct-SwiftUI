@@ -178,6 +178,7 @@
 "about_dateiformat_heading" = "Формат файлу";
 "about_dateiformat_part1" = "Рідний формат VisuStruct використовує розширення ";
 "about_dateiformat_part2" = ". Ви можете зберігати схеми та обмінюватися ними з іншими застосунками, що підтримують цей формат.";
+"about_dateiformat_strk" = "Файли з розширенням .strk також можна відкривати.";
 "about_project_github_label" = "Java застосунок (код і релізи):";
 "about_web_label" = "Веб:";
 "about_developer_label" = "Розробник:";

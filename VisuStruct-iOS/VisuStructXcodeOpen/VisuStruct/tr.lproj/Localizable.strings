@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "Dosya biçimi";
 "about_dateiformat_part1" = "VisuStruct’ün yerel biçimi şu uzantıyı kullanır: ";
 "about_dateiformat_part2" = ". Diyagramları saklayabilir ve aynı biçimi destekleyen diğer uygulamalarla paylaşabilirsiniz.";
+"about_dateiformat_strk" = ".strk uzantılı dosyalar da açılabilir.";
 "about_project_github_label" = "Java uygulaması (kaynak ve sürümler):";
 "about_web_label" = "Web:";
 "about_developer_label" = "Geliştirici:";
