@@ -184,26 +184,73 @@ final class VisuStructAppDelegate: UIResponder, UIApplicationDelegate {
         guard builder.system == .main else { return }
 
         builder.remove(menu: .open)
+        builder.remove(menu: .openRecent)
 
-        let title = AppLanguage.currentFromDefaults().tr("menu_open")
+        let lang = AppLanguage.currentFromDefaults()
+        let openTitle = lang.tr("menu_open")
         let open = UIAction(
-            title: title,
+            title: openTitle,
             image: UIImage(systemName: "square.and.arrow.down"),
             identifier: UIAction.Identifier("org.visustruct.menu.open")
         ) { _ in
             NotificationCenter.default.post(name: DiagramMenuNotification.open, object: nil)
         }
-        let group = UIMenu(
+        let openGroup = UIMenu(
             title: "",
             identifier: UIMenu.Identifier("org.visustruct.menu.open.group"),
             options: .displayInline,
             children: [open]
         )
+
+        let recentsMenu = UIMenu(
+            title: lang.tr("recent_files_menu"),
+            identifier: UIMenu.Identifier("org.visustruct.menu.openRecent"),
+            children: [
+                UIDeferredMenuElement.uncached { completion in
+                    Task { @MainActor in
+                        completion(Self.recentFileMenuElements())
+                    }
+                }
+            ]
+        )
+
         if builder.menu(for: .newScene) != nil {
-            builder.insertSibling(group, afterMenu: .newScene)
+            builder.insertSibling(openGroup, afterMenu: .newScene)
         } else {
-            builder.insertChild(group, atStartOfMenu: .file)
+            builder.insertChild(openGroup, atStartOfMenu: .file)
         }
+        builder.insertSibling(recentsMenu, afterMenu: UIMenu.Identifier("org.visustruct.menu.open.group"))
+    }
+
+    @MainActor
+    private static func recentFileMenuElements() -> [UIMenuElement] {
+        let lang = AppLanguage.currentFromDefaults()
+        let files = RecentFilesStore.shared.files
+        if files.isEmpty {
+            return [
+                UIAction(title: lang.tr("recent_files_empty"), attributes: .disabled) { _ in }
+            ]
+        }
+        var items: [UIMenuElement] = files.map { file in
+            UIAction(
+                title: file.displayName,
+                image: UIImage(systemName: "clock.arrow.circlepath")
+            ) { _ in
+                NotificationCenter.default.post(
+                    name: DiagramMenuNotification.openRecent,
+                    object: nil,
+                    userInfo: [DiagramMenuNotification.recentFileIDKey: file.id]
+                )
+            }
+        }
+        items.append(
+            UIAction(title: lang.tr("recent_files_clear"), attributes: .destructive) { _ in
+                Task { @MainActor in
+                    RecentFilesStore.shared.clear()
+                }
+            }
+        )
+        return items
     }
 }
 #endif
@@ -242,8 +289,6 @@ struct VisuStructApp: App {
 /// `.delete` gibt es nur auf macOS, daher Löschen hinter `.pasteboard`.
 private struct VisuStructCommands: Commands {
     @ObservedObject private var commandCenter = DiagramCommandCenter.shared
-    /// Nicht über `FocusedValue`: SwiftUI Commands speichern dort oft eine leere Kopie.
-    @ObservedObject private var recentFilesStore = RecentFilesStore.shared
     @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
 
     private var lang: AppLanguage {
@@ -257,23 +302,6 @@ private struct VisuStructCommands: Commands {
             }
             .keyboardShortcut("n", modifiers: .command)
             .disabled(!commandCenter.canNew)
-            Divider()
-            if recentFilesStore.files.isEmpty {
-                Button(lang.tr("recent_files_empty")) {}
-                    .disabled(true)
-            } else {
-                ForEach(recentFilesStore.files) { file in
-                    Button(file.displayName) {
-                        commandCenter.openRecent(file)
-                    }
-                    .disabled(!commandCenter.canOpen)
-                }
-                Divider()
-                Button(lang.tr("recent_files_clear")) {
-                    recentFilesStore.clear()
-                }
-                .disabled(!commandCenter.canOpen)
-            }
         }
         CommandGroup(replacing: .saveItem) {
             Button(lang.tr("menu_save")) {
