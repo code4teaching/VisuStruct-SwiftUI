@@ -200,10 +200,55 @@ struct ContentView: View {
         #endif
         .onAppear {
             refreshLineEditor()
+            DiagramCommandCenter.shared.update(file: diagramFileActions, edit: diagramEditActions)
             if let url = incomingDocuments.pendingURL {
                 incomingDocuments.pendingURL = nil
                 openIncomingDocument(from: url)
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.newDocument)) { _ in
+            guard !isSimulationMode else { return }
+            addDiagramTab()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.open)) { _ in
+            guard !isSimulationMode else { return }
+            showImporter = true
+        }
+        .background {
+            Button(lang.tr("menu_open")) {
+                guard !isSimulationMode else { return }
+                showImporter = true
+            }
+            .keyboardShortcut("o", modifiers: .command)
+            .opacity(0.001)
+            .accessibilityHidden(true)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.save)) { _ in
+            guard !isSimulationMode else { return }
+            performPrimarySave()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.saveAs)) { _ in
+            guard !isSimulationMode else { return }
+            showExporter = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.printDocument)) { _ in
+            guard !isSimulationMode else { return }
+            #if canImport(UIKit)
+            printDiagram()
+            #endif
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.close)) { _ in
+            guard !isSimulationMode else { return }
+            requestCloseDiagramTab(id: tabsModel.selectedTabId)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.openRecent)) { note in
+            guard !isSimulationMode else { return }
+            guard let id = note.userInfo?[DiagramMenuNotification.recentFileIDKey] as? String,
+                  let file = recentFilesStore.files.first(where: { $0.id == id }) else { return }
+            openRecentFile(file)
+        }
+        .onChange(of: isSimulationMode) { _, _ in
+            DiagramCommandCenter.shared.update(file: diagramFileActions, edit: diagramEditActions)
         }
         .onChange(of: incomingDocuments.pendingURL) { _, url in
             guard let url else { return }
@@ -300,6 +345,7 @@ struct ContentView: View {
         #endif
         .onChange(of: tabsModel.selectedTabId) { _, _ in
             refreshLineEditor()
+            DiagramCommandCenter.shared.update(file: diagramFileActions, edit: diagramEditActions)
         }
         .onChange(of: focusedField) { _, newVal in
             // iPhone: Sobald Textbearbeitung startet, Palette einklappen für mehr Platz.
@@ -310,8 +356,13 @@ struct ContentView: View {
                 }
             }
         }
-        .focusedSceneValue(\.diagramEditActions, diagramEditActions)
-        .focusedSceneValue(\.diagramFileActions, diagramFileActions)
+        .background {
+            DiagramMenuCommandSync(
+                fileActions: diagramFileActions,
+                editActions: diagramEditActions,
+                refreshToken: "\(tabsModel.selectedTabId.uuidString)-\(isSimulationMode)"
+            )
+        }
     }
 
     private var diagramEditActions: DiagramEditActions {
