@@ -10,6 +10,12 @@ The format is loosely inspired by Keep a Changelog.
 
 - Documentation polish for product/marketing surfaces only when explicitly requested.
 
+## [1.5.4] - 2026-09-11
+
+### Fixed
+
+- **Inspector:** on iPad without a hardware keyboard, selecting a diagram line no longer auto-focuses the inspector (the software keyboard would cover the diagram). Auto-focus still happens on Mac and on iPad with a connected keyboard. Tap the inspector to edit.
+
 ## [1.5.3] - 2026-09-06
 
 ### Added
@@ -19,7 +25,6 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Fixed
 
-- **Inspector:** on iPad without a hardware keyboard, selecting a diagram line no longer auto-focuses the inspector (the software keyboard would cover the diagram). Auto-focus still happens on Mac and on iPad with a connected keyboard. Tap the inspector to edit.
 - **Tabs:** warn before closing diagrams with unsaved changes, offering to save, discard, or cancel.
 - **File menu:** recently used files show up again under Ablage / File. Nested Open Recent stayed empty because SwiftUI Commands snapshot `FocusedValue`; the list now comes from the shared recents store and is listed directly in Ablage.
 - **File menu:** Open, New, Save, and the other Ablage items are enabled after launch. Commands kept a frozen empty `FocusedValue`, so those entries stayed grayed out. Ablage now posts notifications the editor handles, and Open starts enabled instead of waiting on a FocusedValue snapshot.
