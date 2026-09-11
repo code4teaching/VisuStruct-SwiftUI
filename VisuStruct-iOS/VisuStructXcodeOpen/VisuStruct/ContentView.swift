@@ -214,6 +214,15 @@ struct ContentView: View {
             guard !isSimulationMode else { return }
             showImporter = true
         }
+        .background {
+            Button(lang.tr("menu_open")) {
+                guard !isSimulationMode else { return }
+                showImporter = true
+            }
+            .keyboardShortcut("o", modifiers: .command)
+            .opacity(0.001)
+            .accessibilityHidden(true)
+        }
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.save)) { _ in
             guard !isSimulationMode else { return }
             performPrimarySave()

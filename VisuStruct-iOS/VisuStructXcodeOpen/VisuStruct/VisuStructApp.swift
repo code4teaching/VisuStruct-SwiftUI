@@ -1,4 +1,7 @@
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct DiagramEditActions {
     var canUndo: Bool
@@ -172,8 +175,45 @@ final class IncomingDocumentOpener: ObservableObject {
     }
 }
 
+#if canImport(UIKit)
+/// Ablage → Öffnen auf dem Mac (Designed for iPad): SwiftUI-`Button` mit ⌘O wird vom System
+/// als Dokument-Open geschluckt und erscheint dann gar nicht. `UIAction` mit eigener ID bleibt sichtbar.
+final class VisuStructAppDelegate: NSObject, UIApplicationDelegate {
+    func buildMenu(with builder: UIMenuBuilder) {
+        super.buildMenu(with: builder)
+        guard builder.system == .main else { return }
+
+        builder.remove(menu: .open)
+
+        let title = AppLanguage.currentFromDefaults().tr("menu_open")
+        let open = UIAction(
+            title: title,
+            identifier: UIAction.Identifier("org.visustruct.menu.open"),
+            image: UIImage(systemName: "square.and.arrow.down")
+        ) { _ in
+            NotificationCenter.default.post(name: DiagramMenuNotification.open, object: nil)
+        }
+        let group = UIMenu(
+            title: "",
+            identifier: UIMenu.Identifier("org.visustruct.menu.open.group"),
+            options: .displayInline,
+            children: [open]
+        )
+        if builder.menu(for: .newScene) != nil {
+            builder.insertSibling(group, afterMenu: .newScene)
+        } else {
+            builder.insertChild(group, atStartOfMenu: .file)
+        }
+    }
+}
+#endif
+
 @main
 struct VisuStructApp: App {
+    #if canImport(UIKit)
+    @UIApplicationDelegateAdaptor(VisuStructAppDelegate.self) private var appDelegate
+    #endif
+
     init() {
         UserDefaults.standard.register(defaults: [
             "visustruct.ui.scale.canvas": "small",
@@ -217,11 +257,6 @@ private struct VisuStructCommands: Commands {
             }
             .keyboardShortcut("n", modifiers: .command)
             .disabled(!commandCenter.canNew)
-            Button(lang.tr("menu_open")) {
-                commandCenter.open()
-            }
-            .keyboardShortcut("o", modifiers: .command)
-            .disabled(!commandCenter.canOpen)
             Divider()
             if recentFilesStore.files.isEmpty {
                 Button(lang.tr("recent_files_empty")) {}
