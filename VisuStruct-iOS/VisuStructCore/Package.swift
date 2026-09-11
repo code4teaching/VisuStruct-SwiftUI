@@ -14,6 +14,11 @@ let package = Package(
         .target(
             name: "VisuStructCore",
             path: "Sources/VisuStructCore"
+        ),
+        .testTarget(
+            name: "VisuStructCoreTests",
+            dependencies: ["VisuStructCore"],
+            path: "Tests/VisuStructCoreTests"
         )
     ]
 )

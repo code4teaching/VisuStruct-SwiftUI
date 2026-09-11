@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "ファイル形式";
 "about_dateiformat_part1" = "VisuStruct のネイティブ形式は拡張子 ";
 "about_dateiformat_part2" = " を使用します。同じ形式をサポートする他のアプリと交換できます。";
+"about_dateiformat_strk" = ".strk 拡張子のファイルも開けます。";
 "about_project_github_label" = "Java アプリ（ソース＆リリース）：";
 "about_web_label" = "Web：";
 "about_developer_label" = "開発者:";

@@ -30,14 +30,9 @@ final class DiagramSheetTabsModel {
         return DiagramSheetTabsModel(tabs: [first], selectedTabId: first.id, nextTabSerial: 2)
     }
 
-    /// Reiter- und Titelleiste: ohne `.visustruct`; auch als Basis für Export.
+    /// Reiter- und Titelleiste: ohne `.visustruct` / `.strk`; auch als Basis für Export.
     static func stripVisuStructExtension(from name: String) -> String {
-        let t = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let suffix = ".visustruct"
-        if t.lowercased().hasSuffix(suffix) {
-            return String(t.dropLast(suffix.count)).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        return t
+        VisuStructDiagramFile.stripKnownExtension(from: name)
     }
 
     func tabHasUnsavedChanges(_ tab: DiagramSheetTab) -> Bool {

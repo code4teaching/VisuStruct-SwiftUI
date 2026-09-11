@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "文件格式";
 "about_dateiformat_part1" = "VisuStruct 的原生格式使用扩展名 ";
 "about_dateiformat_part2" = "。你可以保存图表，并与支持相同格式的应用交换。";
+"about_dateiformat_strk" = "也可以打开 .strk 扩展名的文件。";
 "about_project_github_label" = "Java 应用（源码与版本）：";
 "about_web_label" = "网页：";
 "about_developer_label" = "开发者：";

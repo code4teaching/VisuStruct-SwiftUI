@@ -200,6 +200,7 @@
 "about_dateiformat_heading" = "File format";
 "about_dateiformat_part1" = "VisuStruct’s native format uses the extension ";
 "about_dateiformat_part2" = ". You can keep diagrams and exchange them with other apps that support the same format.";
+"about_dateiformat_strk" = "Files with the .strk extension can also be opened.";
 "about_project_github_label" = "Java app (source & releases):";
 "about_web_label" = "Web:";
 "about_developer_label" = "Developer:";

@@ -181,6 +181,7 @@
 "about_dateiformat_heading" = "تنسيق الملف";
 "about_dateiformat_part1" = "يستخدم تنسيق VisuStruct الأصلي الامتداد ";
 "about_dateiformat_part2" = ". يمكنك حفظ المخططات وتبادلها مع تطبيقات أخرى تدعم نفس التنسيق.";
+"about_dateiformat_strk" = "يمكن أيضًا فتح الملفات ذات الامتداد .strk.";
 "about_project_github_label" = "تطبيق Java (المصدر والإصدارات):";
 "about_web_label" = "الويب:";
 "about_developer_label" = "المطوّر:";

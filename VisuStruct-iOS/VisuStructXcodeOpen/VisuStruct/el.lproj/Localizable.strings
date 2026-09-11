@@ -178,6 +178,7 @@
 "about_dateiformat_heading" = "Μορφή αρχείου";
 "about_dateiformat_part1" = "Η εγγενής μορφή του VisuStruct χρησιμοποιεί την επέκταση ";
 "about_dateiformat_part2" = ". Μπορείτε να αποθηκεύετε και να ανταλλάσσετε διαγράμματα με άλλες εφαρμογές που υποστηρίζουν την ίδια μορφή.";
+"about_dateiformat_strk" = "Μπορούν να ανοίξουν και αρχεία με επέκταση .strk.";
 "about_project_github_label" = "Εφαρμογή Java (πηγαίος κώδικας & εκδόσεις):";
 "about_web_label" = "Ιστός:";
 "about_developer_label" = "Προγραμματιστής:";

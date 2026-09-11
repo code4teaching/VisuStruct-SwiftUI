@@ -183,6 +183,7 @@
 "about_dateiformat_heading" = "Formato do ficheiro";
 "about_dateiformat_part1" = "O formato nativo do VisuStruct utiliza a extensão ";
 "about_dateiformat_part2" = ". Pode guardar diagramas e trocá-los com outras apps que suportem o mesmo formato.";
+"about_dateiformat_strk" = "Também é possível abrir ficheiros com a extensão .strk.";
 "about_project_github_label" = "App Java (código-fonte e releases):";
 "about_web_label" = "Web:";
 "about_developer_label" = "Programador:";
