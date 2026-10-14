@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Organigramme vide";
 "canvas_empty_hint" = "Glissez un élément depuis « Éléments » ici.";
+"canvas_empty_hint_touch" = "Touchez un bloc dans la barre en bas.";
+"touch_insert_under" = "Vient sous « %@ ».";
+"touch_insert_end" = "Vient à la fin du diagramme.";
+"touch_insert_replace" = "Remplace l’emplacement sélectionné.";
+"touch_actions_menu" = "Actions";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "Sélection";

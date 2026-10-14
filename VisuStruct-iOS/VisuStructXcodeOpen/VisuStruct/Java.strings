@@ -176,6 +176,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Empty structure chart";
 "canvas_empty_hint" = "Drag a block from “Blocks” here.";
+"canvas_empty_hint_touch" = "Tap a block in the bar below.";
+"touch_insert_under" = "Comes under “%@”.";
+"touch_insert_end" = "Comes at the end of the diagram.";
+"touch_insert_replace" = "Replaces the selected placeholder.";
+"touch_actions_menu" = "Actions";
 
 /* New block stubs — PRESETS[PRESET_ENGLISH_JAVA] */
 "canvas_stub_anweisung" = "Statement";

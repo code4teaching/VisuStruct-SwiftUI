@@ -156,6 +156,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Пустая структурная схема";
 "canvas_empty_hint" = "Перетащите элемент из «Элементы» сюда.";
+"canvas_empty_hint_touch" = "Нажмите блок на панели внизу.";
+"touch_insert_under" = "Вставляется под «%@».";
+"touch_insert_end" = "Вставляется в конец диаграммы.";
+"touch_insert_replace" = "Заменяет выбранный заполнитель.";
+"touch_actions_menu" = "Действия";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "Выбор (switch)";

@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "空结构图";
 "canvas_empty_hint" = "从“元素”中拖拽一个块到这里。";
+"canvas_empty_hint_touch" = "点按下方栏中的一个块。";
+"touch_insert_under" = "加在“%@”下方。";
+"touch_insert_end" = "加在图的末尾。";
+"touch_insert_replace" = "替换所选占位块。";
+"touch_actions_menu" = "操作";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "选择";

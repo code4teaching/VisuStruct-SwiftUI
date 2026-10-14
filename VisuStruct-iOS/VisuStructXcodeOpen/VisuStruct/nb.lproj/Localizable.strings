@@ -95,6 +95,11 @@
 "diagram_title_placeholder" = "Ingen tittel";
 "canvas_empty_title" = "Tomt struktogram";
 "canvas_empty_hint" = "Dra et element fra “Elementer” hit.";
+"canvas_empty_hint_touch" = "Trykk på en blokk i linjen nedenfor.";
+"touch_insert_under" = "Kommer under “%@”.";
+"touch_insert_end" = "Kommer til slutt i diagrammet.";
+"touch_insert_replace" = "Erstatter den valgte plassholderen.";
+"touch_actions_menu" = "Handlinger";
 
 /* Diagram stubs */
 "canvas_stub_anweisung" = "statement";

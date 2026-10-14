@@ -87,6 +87,20 @@ struct DiagramCanvasView: View {
         #endif
     }
 
+    private var isMacDesktop: Bool {
+        #if canImport(UIKit)
+        ProcessInfo.processInfo.isiOSAppOnMac
+        #else
+        true
+        #endif
+    }
+
+    /// Gleiche Bedingung wie die Leiste unten in `ContentView`.
+    private var prefersTapInsert: Bool {
+        if isMacDesktop { return false }
+        return isPhone || horizontalSizeClass != .regular
+    }
+
     @State private var dropHighlightKey: String?
 
     private enum DropBand: String {
@@ -269,10 +283,7 @@ struct DiagramCanvasView: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         selectedPath = nil
-                        // iPhone: Einfügemarke durch Tap auf leeren Bereich löschen.
-                        if isPhone {
-                            insertTarget = nil
-                        }
+                        insertTarget = nil
                     }
                     .overlay {
                         if dropHighlightKey == rootDropHighlightKey {
@@ -326,7 +337,7 @@ struct DiagramCanvasView: View {
                     .foregroundStyle(.tertiary)
                 Text(lang.tr("canvas_empty_title"))
                     .font(.headline)
-                Text(lang.tr("canvas_empty_hint"))
+                Text(prefersTapInsert ? lang.tr("canvas_empty_hint_touch") : lang.tr("canvas_empty_hint"))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -342,12 +353,6 @@ struct DiagramCanvasView: View {
                     .strokeBorder(Color.blue.opacity(0.95), lineWidth: 4)
                     .padding(10)
                     .allowsHitTesting(false)
-            }
-        }
-        .onTapGesture {
-            // iPhone: leeres Dokument → Einfügen ans Root (ersetzt Platzhalter).
-            if isPhone {
-                insertTarget = .rootAppend
             }
         }
         .dropDestination(for: DiagramDragPayload.self) { items, _ in
@@ -374,23 +379,7 @@ struct DiagramCanvasView: View {
         .contentShape(Rectangle())
         .offset(x: CGFloat(node.frame.x), y: CGFloat(node.frame.y))
         .onTapGesture {
-            if isPhone, let target = insertTarget {
-                // Falls bereits ein Ziel gesetzt ist: Tap auf Kachel selektiert normal (zum Text bearbeiten).
-                // Einfügemarke bleibt.
-                selectedPath = node.idPath
-                _ = target
-            } else if isPhone {
-                // iPhone: Tap markiert Einfügeziel. Für Platzhalter = replace, sonst "on" ist nicht zulässig.
-                if isPlaceholderNode {
-                    insertTarget = .replace(node.idPath)
-                } else {
-                    // Default: Einfügen NACH dem Element (am häufigsten sinnvoll beim Tippen).
-                    insertTarget = .after(node.idPath)
-                }
-                selectedPath = node.idPath
-            } else {
-                selectedPath = node.idPath
-            }
+            selectedPath = node.idPath
         }
         .contextMenu {
             Button(lang.tr("ctx_copy")) {
@@ -556,13 +545,7 @@ struct DiagramCanvasView: View {
                 } isTargeted: { targeted in
                     updateDropHighlight(key, targeted: targeted)
                 }
-            if isPhone {
-                stripCore.onTapGesture {
-                    insertTarget = .rootInsertAt0
-                }
-            } else {
-                stripCore
-            }
+            stripCore
         }
     }
 
@@ -608,25 +591,8 @@ struct DiagramCanvasView: View {
             } isTargeted: { targeted in
                 updateDropHighlight(key, targeted: targeted)
             }
-        // Tap nur auf dem iPhone anhängen: sonst schluckt `onTapGesture` den Klick auf iPad/Mac,
-        // obwohl der Body sofort returnt — der äußere Tap in `nodeDropBands` kommt nicht an.
-        if isPhone {
-            bandCore.onTapGesture {
-                switch band {
-                case .before:
-                    insertTarget = .before(node.idPath)
-                case .after:
-                    insertTarget = .after(node.idPath)
-                case .on:
-                    if VisuStructDocumentEditing.isPlaceholderSlot(at: node.idPath, in: document) {
-                        insertTarget = .replace(node.idPath)
-                    }
-                }
-                selectedPath = node.idPath
-            }
-        } else {
-            bandCore
-        }
+        // Kein `onTapGesture` auf dem Streifen: das würde den Tipp auf die Kachel schlucken.
+        bandCore
     }
 
     private func applyNodeDrop(_ items: [DiagramDragPayload], node: VisuStructLayout.Node, band: DropBand) -> Bool {

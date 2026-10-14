@@ -154,6 +154,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Порожня структурна схема";
 "canvas_empty_hint" = "Перетягніть елемент з «Елементи» сюди.";
+"canvas_empty_hint_touch" = "Торкніться блока на панелі внизу.";
+"touch_insert_under" = "Стає під «%@».";
+"touch_insert_end" = "Стає в кінець діаграми.";
+"touch_insert_replace" = "Замінює вибраний заповнювач.";
+"touch_actions_menu" = "Дії";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "Вибір (switch)";

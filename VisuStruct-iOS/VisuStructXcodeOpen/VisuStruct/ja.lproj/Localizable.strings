@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "空の構造図";
 "canvas_empty_hint" = "「要素」からブロックをここにドラッグしてください。";
+"canvas_empty_hint_touch" = "下のバーでブロックをタップします。";
+"touch_insert_under" = "「%@」の下に入ります。";
+"touch_insert_end" = "図の末尾に入ります。";
+"touch_insert_replace" = "選択中のプレースホルダを置き換えます。";
+"touch_actions_menu" = "操作";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "選択 (switch)";

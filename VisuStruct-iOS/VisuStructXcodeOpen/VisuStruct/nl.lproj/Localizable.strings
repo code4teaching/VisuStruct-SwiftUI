@@ -95,6 +95,11 @@
 "diagram_title_placeholder" = "Geen titel";
 "canvas_empty_title" = "Leeg structogram";
 "canvas_empty_hint" = "Sleep een element uit “Elementen” hierheen.";
+"canvas_empty_hint_touch" = "Tik op een blok in de balk hieronder.";
+"touch_insert_under" = "Komt onder “%@”.";
+"touch_insert_end" = "Komt aan het einde van het diagram.";
+"touch_insert_replace" = "Vervangt de geselecteerde tijdelijke aanduiding.";
+"touch_actions_menu" = "Acties";
 
 /* Diagram stubs */
 "canvas_stub_anweisung" = "statement";

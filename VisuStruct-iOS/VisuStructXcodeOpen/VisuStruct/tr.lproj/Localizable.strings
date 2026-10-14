@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Boş yapı şeması";
 "canvas_empty_hint" = "“Öğeler”den bir öğeyi buraya sürükleyin.";
+"canvas_empty_hint_touch" = "Aşağıdaki çubuktan bir bloğa dokunun.";
+"touch_insert_under" = "“%@” altına gelir.";
+"touch_insert_end" = "Diyagramın sonuna gelir.";
+"touch_insert_replace" = "Seçili yer tutucunun yerine geçer.";
+"touch_actions_menu" = "Eylemler";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "Seçim";

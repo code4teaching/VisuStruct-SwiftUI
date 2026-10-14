@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "مخطط فارغ";
 "canvas_empty_hint" = "اسحب عنصرًا من «العناصر» إلى هنا.";
+"canvas_empty_hint_touch" = "اضغط كتلة في الشريط بالأسفل.";
+"touch_insert_under" = "يأتي تحت «%@».";
+"touch_insert_end" = "يأتي في نهاية المخطط.";
+"touch_insert_replace" = "يستبدل العنصر النائب المحدد.";
+"touch_actions_menu" = "إجراءات";
 
 /* Diagram: new element stubs & column headers — keep Java-like */
 "canvas_stub_anweisung" = "Statement";

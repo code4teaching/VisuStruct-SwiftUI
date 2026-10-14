@@ -6,6 +6,10 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed
+
+- **iPhone and narrow iPad:** a bottom bar inserts the next block under the selection and opens the text field. Simulation, code, and sharing sit in the toolbar. The Mac sidebar is unchanged. On a full-width iPad, a line states where the next palette block will land.
+
 ### Planned / Notes
 
 - Documentation polish for product/marketing surfaces only when explicitly requested.

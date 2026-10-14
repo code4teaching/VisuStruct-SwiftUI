@@ -154,6 +154,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Κενό διάγραμμα";
 "canvas_empty_hint" = "Σύρετε ένα στοιχείο από τα «Στοιχεία» εδώ.";
+"canvas_empty_hint_touch" = "Πατήστε ένα μπλοκ στη γραμμή κάτω.";
+"touch_insert_under" = "Μπαίνει κάτω από «%@».";
+"touch_insert_end" = "Μπαίνει στο τέλος του διαγράμματος.";
+"touch_insert_replace" = "Αντικαθιστά το επιλεγμένο σύμβολο κράτησης.";
+"touch_actions_menu" = "Ενέργειες";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "Επιλογή (switch)";

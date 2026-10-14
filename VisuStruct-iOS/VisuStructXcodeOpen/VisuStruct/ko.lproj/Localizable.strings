@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "빈 구조도";
 "canvas_empty_hint" = "“요소”에서 블록을 여기로 드래그하세요.";
+"canvas_empty_hint_touch" = "아래 막대에서 블록을 탭하세요.";
+"touch_insert_under" = "“%@” 아래에 들어갑니다.";
+"touch_insert_end" = "다이어그램 끝에 들어갑니다.";
+"touch_insert_replace" = "선택한 자리 표시자를 바꿉니다.";
+"touch_actions_menu" = "동작";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "선택문 (switch)";

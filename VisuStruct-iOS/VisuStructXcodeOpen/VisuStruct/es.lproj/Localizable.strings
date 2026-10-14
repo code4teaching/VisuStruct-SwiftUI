@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "Diagrama vacío";
 "canvas_empty_hint" = "Arrastra un elemento de «Elementos» aquí.";
+"canvas_empty_hint_touch" = "Toca un bloque en la barra de abajo.";
+"touch_insert_under" = "Se coloca debajo de “%@”.";
+"touch_insert_end" = "Se coloca al final del diagrama.";
+"touch_insert_replace" = "Sustituye el marcador seleccionado.";
+"touch_actions_menu" = "Acciones";
 
 /* Diagram: new element stubs & column headers (display) */
 "canvas_stub_fallauswahl" = "Selección";

@@ -157,6 +157,11 @@
 /* Empty canvas */
 "canvas_empty_title" = "תרשים ריק";
 "canvas_empty_hint" = "גררו בלוק מתוך „רכיבים“ לכאן.";
+"canvas_empty_hint_touch" = "הקישו על בלוק בסרגל למטה.";
+"touch_insert_under" = "מגיע מתחת ל־„%@”.";
+"touch_insert_end" = "מגיע לסוף התרשים.";
+"touch_insert_replace" = "מחליף את שומר המקום שנבחר.";
+"touch_actions_menu" = "פעולות";
 
 /* Diagram: new element stubs & column headers — keep Java-like */
 "canvas_stub_anweisung" = "Statement";

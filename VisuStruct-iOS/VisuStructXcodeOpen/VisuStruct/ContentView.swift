@@ -29,6 +29,25 @@ struct ContentView: View {
         #endif
     }
 
+    /// Mac (Designed for iPad) behält die Seitenleiste. iPhone und schmales iPad bekommen die Leiste unten.
+    private var isMacDesktop: Bool {
+        #if canImport(UIKit)
+        ProcessInfo.processInfo.isiOSAppOnMac
+        #else
+        true
+        #endif
+    }
+
+    private var usesTouchInsertBar: Bool {
+        if isMacDesktop { return false }
+        return isPhone || horizontalSizeClass != .regular
+    }
+
+    /// iPad in voller Breite: derselbe Tipp in der Palette wie auf dem Mac, plus ein Satz, wohin der Baustein kommt.
+    private var showsPadInsertHint: Bool {
+        !isMacDesktop && !isPhone && horizontalSizeClass == .regular
+    }
+
     @FocusState private var focusedField: DiagramEditorFocusTarget?
 
     @State private var tabsModel: DiagramSheetTabsModel
@@ -58,8 +77,6 @@ struct ContentView: View {
     // iPhone UX: Einfügemarke + Inspector einklappen beim Einfügen.
     @State private var insertTarget: DiagramInsertTarget? = nil
     @State private var hideInspectorOnPhone: Bool = false
-    // iPhone UX: Palette automatisch einklappen beim Text-Editieren.
-    @State private var showPaletteOnPhone: Bool = true
     // In-App Zwischenablage für Diagramm-Elemente (Copy/Cut/Paste).
     @State private var elementClipboard: VisuStructElement? = nil
     #if canImport(UIKit)
@@ -168,7 +185,15 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if horizontalSizeClass == .regular {
+            if usesTouchInsertBar {
+                VStack(spacing: 0) {
+                    mainEditorNavigationStack
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    if !isSimulationMode, focusedField == nil {
+                        touchInsertBar
+                    }
+                }
+            } else if horizontalSizeClass == .regular {
                 NavigationSplitView {
                     iPadPaletteSidebarColumn
                 } detail: {
@@ -177,12 +202,10 @@ struct ContentView: View {
                 .navigationSplitViewStyle(.balanced)
             } else {
                 VStack(spacing: 0) {
-                    if !isPhone || showPaletteOnPhone {
-                        paletteListPanel
-                            .frame(maxHeight: 300, alignment: .top)
-                            .background(Color(.secondarySystemGroupedBackground))
-                            .clipped()
-                    }
+                    paletteListPanel
+                        .frame(maxHeight: 300, alignment: .top)
+                        .background(Color(.secondarySystemGroupedBackground))
+                        .clipped()
                     Divider()
                     mainEditorNavigationStack
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -345,15 +368,6 @@ struct ContentView: View {
         .onChange(of: tabsModel.selectedTabId) { _, _ in
             refreshLineEditor()
             DiagramCommandCenter.shared.update(file: diagramFileActions, edit: diagramEditActions)
-        }
-        .onChange(of: focusedField) { _, newVal in
-            // iPhone: Sobald Textbearbeitung startet, Palette einklappen für mehr Platz.
-            guard isPhone else { return }
-            if newVal != nil {
-                withAnimation(.easeInOut(duration: 0.15)) {
-                    showPaletteOnPhone = false
-                }
-            }
         }
         .background {
             DiagramMenuCommandSync(
@@ -522,14 +536,7 @@ struct ContentView: View {
                     } ?? true)
                 )
                 Button {
-                    if !isSimulationMode {
-                        applyLineEditorRespectingTextFocus()
-                        DispatchQueue.main.async {
-                            beginSimulationMode()
-                        }
-                    } else {
-                        endSimulationMode()
-                    }
+                    toggleSimulationMode()
                 } label: {
                     Label(
                         isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"),
@@ -546,17 +553,7 @@ struct ContentView: View {
                 .listRowBackground(Color.clear)
                 .accessibilityLabel(isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"))
                 Button {
-                    if codeGeneratorAccessGranted {
-                        // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
-                        // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
-                        applyLineEditorRespectingTextFocus()
-                        DispatchQueue.main.async {
-                            codeGeneratorRegenerationToken &+= 1
-                            showCodeGeneratorPlaceholder = true
-                        }
-                    } else {
-                        showCodeGeneratorPaywall = true
-                    }
+                    openCodeGenerator()
                 } label: {
                     HStack(spacing: 10) {
                         Label(lang.tr("action_generate_code"), systemImage: "chevron.left.forwardslash.chevron.right")
@@ -723,12 +720,16 @@ struct ContentView: View {
             onUndo: performUndo,
             onRedo: performRedo,
             isSimulationMode: isSimulationMode,
-            isPhone: isPhone,
-            onTogglePalettePhone: {
-                withAnimation(.easeInOut(duration: 0.15)) {
-                    showPaletteOnPhone.toggle()
-                }
-            },
+            showsTouchActions: usesTouchInsertBar,
+            canDeleteSelection: selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false,
+            codeGeneratorLocked: !codeGeneratorAccessGranted,
+            onToggleSimulation: toggleSimulationMode,
+            onGenerateCode: openCodeGenerator,
+            onDeleteSelection: deleteSelection,
+            onSharePNG: exportPNG,
+            onShareDocument: shareDocumentAsFile,
+            onExportPDF: shareDiagramPDF,
+            onShowAbout: { showInfo = true },
             recentFiles: recentFilesStore.files,
             onOpenImporter: { showImporter = true },
             onPickRecent: openRecentFile,
@@ -754,14 +755,21 @@ struct ContentView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     canvasAndCaptionBlock
                         .layoutPriority(1)
+                    if showsPadInsertHint {
+                        Text(touchInsertCaption)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .lineLimit(2)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                     inspectorPanelPhoneAware
                 }
             }
         }
         .padding(horizontalSizeClass == .regular ? EdgeInsets(top: 16, leading: 18, bottom: 16, trailing: 18) : EdgeInsets(top: 16, leading: 14, bottom: 16, trailing: 14))
         #if canImport(UIKit)
-        // iPad: Tastatur kann den Inspector/TextEditor verdecken. Nur im Bearbeitungsmodus ausgleichen.
-        .padding(.bottom, (!isSimulationMode && horizontalSizeClass == .regular && focusedField != nil) ? keyboardOverlap : 0)
+        // Tastatur kann den Inspector verdecken. Auf dem Mac/iPad in voller Breite und auf der Touch-Leiste ausgleichen.
+        .padding(.bottom, (!isSimulationMode && focusedField != nil && (horizontalSizeClass == .regular || usesTouchInsertBar)) ? keyboardOverlap : 0)
         #endif
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
@@ -1798,7 +1806,7 @@ struct ContentView: View {
 
     // MARK: - Diagramm bearbeiten (Wurzel, Palette, Einfügen)
 
-    private func appendRoot(_ element: VisuStructElement) {
+    private func appendRoot(_ element: VisuStructElement, focusNewElement: Bool = false) {
         let doc = document
         if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
             do {
@@ -1807,7 +1815,7 @@ struct ContentView: View {
                 tabs[tabsModel.currentTabIndex].selectedPath = [0]
                 tabs[tabsModel.currentTabIndex].errorText = nil
                 tabsModel.tabs = tabs
-                refreshLineEditor()
+                refreshLineEditor(focusNewElement: focusNewElement)
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
             }
@@ -1817,78 +1825,95 @@ struct ContentView: View {
             tabs[tabsModel.currentTabIndex].selectedPath = [tabs[tabsModel.currentTabIndex].document.elements.count - 1]
             tabs[tabsModel.currentTabIndex].errorText = nil
             tabsModel.tabs = tabs
-            refreshLineEditor()
+            refreshLineEditor(focusNewElement: focusNewElement)
         }
     }
 
-    private func insertPaletteItem(_ item: ElementPalette.PaletteItem) {
-        if isPhone {
-            hideInspectorOnPhone = true
+    private func toggleSimulationMode() {
+        if !isSimulationMode {
+            applyLineEditorRespectingTextFocus()
+            DispatchQueue.main.async {
+                beginSimulationMode()
+            }
+        } else {
+            endSimulationMode()
         }
-        let el = ElementPalette.element(for: item, lang: lang)
-        let doc = document
-        do {
-            if let t = insertTarget, isPhone {
-                switch t {
-                case .replace(let path):
-                    commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
-                case .before(let path):
-                    commitDocument(try VisuStructDocumentEditing.insertBeforeSibling(doc, el, before: path))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
-                case .after(let path):
-                    commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
-                    let newPath = Array(path.dropLast()) + [path.last! + 1]
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
-                case .rootInsertAt0:
-                    if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
-                        commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
-                    } else {
-                        commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: 0, element: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
-                    }
-                case .rootAppend:
-                    if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
-                        commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
-                    } else {
-                        let idx = doc.elements.count
-                        commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: idx, element: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [idx]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+    }
+
+    private func openCodeGenerator() {
+        if codeGeneratorAccessGranted {
+            // Text im Inspector ist nicht immer sofort ins Dokument geschrieben.
+            applyLineEditorRespectingTextFocus()
+            DispatchQueue.main.async {
+                codeGeneratorRegenerationToken &+= 1
+                showCodeGeneratorPlaceholder = true
+            }
+        } else {
+            showCodeGeneratorPaywall = true
+        }
+    }
+
+    private var touchInsertCaption: String {
+        guard let path = selectedPath,
+              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else {
+            return lang.tr("touch_insert_end")
+        }
+        if VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: document) {
+            return lang.tr("touch_insert_replace")
+        }
+        let raw = el.textLines.first {
+            !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        } ?? ""
+        let label = raw.isEmpty ? lang.tr("canvas_stub_anweisung") : raw
+        let clipped = label.count > 42 ? String(label.prefix(40)) + "…" : label
+        return String(
+            format: lang.tr("touch_insert_under"),
+            locale: Locale(identifier: lang.localeIdentifierForFormatting),
+            clipped
+        )
+    }
+
+    private var touchInsertBar: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(touchInsertCaption)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+                .padding(.horizontal, 12)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(ElementPalette.PaletteItem.paletteOrder) { item in
+                        Button {
+                            insertPaletteItem(item)
+                        } label: {
+                            VStack(spacing: 4) {
+                                Image(systemName: item.symbolName)
+                                    .font(.body)
+                                Text(item.localizedTitle(in: lang))
+                                    .font(.caption2)
+                                    .lineLimit(2)
+                                    .multilineTextAlignment(.center)
+                                    .minimumScaleFactor(0.8)
+                            }
+                            .frame(width: 76, height: 52)
+                        }
+                        .buttonStyle(.bordered)
+                        .disabled(isSimulationMode)
+                        .accessibilityLabel(item.localizedTitle(in: lang))
                     }
                 }
-                insertTarget = nil
-                refreshLineEditor()
-                return
+                .padding(.horizontal, 12)
+                .padding(.bottom, 4)
             }
-        } catch {
-            setErrorOnCurrentTab(error.localizedDescription)
-            insertTarget = nil
-            return
         }
-        // iPad/Mac (ohne Tap-Einfügemarke): Ist ein Platzhalter (ø) ausgewählt, ersetzen — wie Drop auf die Mitte.
+        .padding(.top, 8)
+        .background(Color(.secondarySystemGroupedBackground))
+    }
+
+    private func insertPaletteItem(_ item: ElementPalette.PaletteItem) {
+        let el = ElementPalette.element(for: item, lang: lang)
+        let doc = document
+        // Platzhalter (ø) ersetzen — wie Drop auf die Mitte.
         // Sonst landet z. B. eine Verzweigung fälschlich als neues Wurzelelement unter der Schleife.
         if let path = tabsModel.tabs[tabsModel.currentTabIndex].selectedPath,
            VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
@@ -1898,7 +1923,7 @@ struct ContentView: View {
                 tabs[tabsModel.currentTabIndex].selectedPath = path
                 tabs[tabsModel.currentTabIndex].errorText = nil
                 tabsModel.tabs = tabs
-                refreshLineEditor()
+                refreshLineEditor(focusNewElement: usesTouchInsertBar)
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
             }
@@ -1916,13 +1941,13 @@ struct ContentView: View {
                 tabs[tabsModel.currentTabIndex].selectedPath = newPath
                 tabs[tabsModel.currentTabIndex].errorText = nil
                 tabsModel.tabs = tabs
-                refreshLineEditor()
+                refreshLineEditor(focusNewElement: usesTouchInsertBar)
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
             }
             return
         }
-        appendRoot(el)
+        appendRoot(el, focusNewElement: usesTouchInsertBar)
     }
 
     // MARK: - Auswahl löschen
@@ -1994,7 +2019,7 @@ struct ContentView: View {
 
     // MARK: - Zeileneditor (Synchronisation Element ↔ Textfeld)
 
-    private func refreshLineEditor() {
+    private func refreshLineEditor(focusNewElement: Bool = false) {
         let i = tabsModel.currentTabIndex
         var tabs = tabsModel.tabs
         let tab = tabs[i]
@@ -2007,7 +2032,11 @@ struct ContentView: View {
         tabs[i].lineEditorText = el.textLines.joined(separator: "\n")
         tabsModel.tabs = tabs
 
-        if !isPhone, focusedField == nil, el.type != .forSchleife {
+        if focusNewElement {
+            hideInspectorOnPhone = false
+            focusedField = el.type == .forSchleife ? .forLoopPart(0) : .textEditor
+            editorFocusToken = UUID()
+        } else if !isPhone, focusedField == nil, el.type != .forSchleife {
             focusedField = .textEditor
             editorFocusToken = UUID()
         }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Hauptfenster-Toolbar: Titel, Undo/Redo, Datei-Menü, Palette (iPhone), Tastatur „Fertig“.
+/// Hauptfenster-Toolbar: Titel, Undo/Redo, Datei-Menü, Aktionen (Touch-Leiste), Tastatur „Fertig“.
 /// Diagramm-Reiter liegen in `DiagramTabStrip`.
 struct DiagramMainEditorToolbar: ToolbarContent {
     @Environment(\.appLanguage) private var lang
@@ -15,8 +15,17 @@ struct DiagramMainEditorToolbar: ToolbarContent {
     let onRedo: () -> Void
 
     let isSimulationMode: Bool
-    let isPhone: Bool
-    let onTogglePalettePhone: () -> Void
+    /// iPhone und schmales iPad: Simulation, Code und Teilen liegen hier, die Bausteine in der Leiste unten.
+    let showsTouchActions: Bool
+    let canDeleteSelection: Bool
+    let codeGeneratorLocked: Bool
+    let onToggleSimulation: () -> Void
+    let onGenerateCode: () -> Void
+    let onDeleteSelection: () -> Void
+    let onSharePNG: () -> Void
+    let onShareDocument: () -> Void
+    let onExportPDF: () -> Void
+    let onShowAbout: () -> Void
 
     let recentFiles: [RecentVisuStructFile]
     let onOpenImporter: () -> Void
@@ -66,12 +75,47 @@ struct DiagramMainEditorToolbar: ToolbarContent {
             .help(lang.tr("menu_save"))
             .keyboardShortcut("s", modifiers: .command)
             .disabledAndDimmed(isSimulationMode)
-            if isPhone {
-                Button(action: onTogglePalettePhone) {
-                    Label(lang.tr("palette_header"), systemImage: "square.grid.2x2")
+            if showsTouchActions {
+                Menu {
+                    Button(action: onToggleSimulation) {
+                        Label(
+                            isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"),
+                            systemImage: isSimulationMode ? "rectangle.split.3x1" : "play.circle"
+                        )
+                    }
+                    Button(action: onGenerateCode) {
+                        Label(
+                            lang.tr("action_generate_code"),
+                            systemImage: codeGeneratorLocked ? "lock.fill" : "chevron.left.forwardslash.chevron.right"
+                        )
+                    }
+                    .disabled(isSimulationMode)
+                    Button(action: onDeleteSelection) {
+                        Label(lang.tr("action_delete_selection"), systemImage: "trash")
+                    }
+                    .disabled(isSimulationMode || !canDeleteSelection)
+                    Divider()
+                    Button(action: onSharePNG) {
+                        Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
+                    }
+                    .disabled(isSimulationMode)
+                    Button(action: onShareDocument) {
+                        Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
+                    }
+                    .disabled(isSimulationMode)
+                    Button(action: onExportPDF) {
+                        Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
+                    }
+                    .disabled(isSimulationMode)
+                    Divider()
+                    Button(action: onShowAbout) {
+                        Label(lang.tr("action_about"), systemImage: "info.circle")
+                    }
+                } label: {
+                    Label(lang.tr("touch_actions_menu"), systemImage: "ellipsis.circle")
                 }
                 .labelStyle(.iconOnly)
-                .accessibilityLabel(lang.tr("palette_header"))
+                .accessibilityLabel(lang.tr("touch_actions_menu"))
             }
             Menu {
                 Button(action: onOpenImporter) {
