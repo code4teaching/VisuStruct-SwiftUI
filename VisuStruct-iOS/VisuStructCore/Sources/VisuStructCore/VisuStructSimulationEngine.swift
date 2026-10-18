@@ -105,6 +105,8 @@ public struct VisuStructSimulationState: Equatable, Sendable {
     public var inputError: String?
     public var lastTrace: String?
     public var message: String?
+    /// Nach einem Fehler bleibt die Simulation auf dem fehlerhaften Schritt stehen, bis sie zurückgesetzt wird.
+    public var isHalted: Bool
 
     public init(
         stepIndex: Int = 0,
@@ -113,7 +115,8 @@ public struct VisuStructSimulationState: Equatable, Sendable {
         inputRequest: VisuStructSimulationInputRequest? = nil,
         inputError: String? = nil,
         lastTrace: String? = nil,
-        message: String? = nil
+        message: String? = nil,
+        isHalted: Bool = false
     ) {
         self.stepIndex = stepIndex
         self.variables = variables
@@ -122,6 +125,7 @@ public struct VisuStructSimulationState: Equatable, Sendable {
         self.inputError = inputError
         self.lastTrace = lastTrace
         self.message = message
+        self.isHalted = isHalted
     }
 }
 
@@ -135,7 +139,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     }
 
     public var canStep: Bool {
-        state.inputRequest == nil && state.stepIndex < steps.count
+        !state.isHalted && state.inputRequest == nil && state.stepIndex < steps.count
     }
 
     public init(document: VisuStructDocument) {
@@ -152,7 +156,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
 
     public mutating func step() {
         guard canStep else {
-            if state.inputRequest == nil {
+            if state.inputRequest == nil && !state.isHalted {
                 state.message = "Simulation finished."
             }
             return
@@ -199,7 +203,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             state.message = state.stepIndex >= steps.count ? "Simulation finished." : nil
         } catch {
             state.message = error.localizedDescription
-            state.stepIndex += 1
+            state.isHalted = true
         }
     }
 
@@ -928,12 +932,13 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         return try parser.parseDouble()
     }
 
+    /// Bedingungen wie in Java: `||` vor `&&` vor `!`, Klammern, Vergleiche von Zahlen und Strings, `a.equals(b)`.
     private func evaluateBoolExpression(_ expression: String) throws -> Bool {
         let trimmed = expression.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed == "true" { return true }
         if trimmed == "false" { return false }
 
-        let orParts = splitBoolExpression(trimmed, separator: "||")
+        let orParts = Self.splitTopLevel(trimmed, separator: "||")
         if orParts.count > 1 {
             for part in orParts where try evaluateBoolExpression(part) {
                 return true
@@ -941,7 +946,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return false
         }
 
-        let andParts = splitBoolExpression(trimmed, separator: "&&")
+        let andParts = Self.splitTopLevel(trimmed, separator: "&&")
         if andParts.count > 1 {
             for part in andParts where try !evaluateBoolExpression(part) {
                 return false
@@ -949,26 +954,69 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return true
         }
 
-        let operators = [">=", "<=", "==", "!=", ">", "<"]
-        for op in operators {
-            if let range = trimmed.range(of: op) {
-                let lhs = String(trimmed[..<range.lowerBound])
-                let rhs = String(trimmed[range.upperBound...])
-                let leftValue = try evaluateDoubleExpression(lhs)
-                let rightValue = try evaluateDoubleExpression(rhs)
-                switch op {
-                case ">=": return leftValue >= rightValue
-                case "<=": return leftValue <= rightValue
-                case "==": return leftValue == rightValue
-                case "!=": return leftValue != rightValue
-                case ">": return leftValue > rightValue
-                case "<": return leftValue < rightValue
-                default: break
-                }
+        if trimmed.hasPrefix("!"), !trimmed.hasPrefix("!=") {
+            return try !evaluateBoolExpression(String(trimmed.dropFirst()))
+        }
+
+        if let inner = Self.innerOfOuterParentheses(trimmed) {
+            return try evaluateBoolExpression(inner)
+        }
+
+        if let call = Self.parseEqualsCall(trimmed) {
+            return try evaluateComparison(lhs: call.lhs, op: "==", rhs: call.rhs)
+        }
+
+        if let comparison = Self.splitComparison(trimmed) {
+            return try evaluateComparison(lhs: comparison.lhs, op: comparison.op, rhs: comparison.rhs)
+        }
+
+        if try stringOperand(trimmed) != nil {
+            throw SimulationError.invalidExpression(trimmed)
+        }
+        return try evaluateDoubleExpression(trimmed) != 0
+    }
+
+    private func evaluateComparison(lhs: String, op: String, rhs: String) throws -> Bool {
+        let leftString = try stringOperand(lhs)
+        let rightString = try stringOperand(rhs)
+        if leftString != nil || rightString != nil {
+            guard let left = leftString, let right = rightString else {
+                throw SimulationError.invalidExpression("\(lhs) \(op) \(rhs)")
+            }
+            switch op {
+            case "==": return left == right
+            case "!=": return left != right
+            case "<": return left < right
+            case "<=": return left <= right
+            case ">": return left > right
+            case ">=": return left >= right
+            default: throw SimulationError.invalidExpression("\(lhs) \(op) \(rhs)")
             }
         }
 
-        return try evaluateDoubleExpression(trimmed) != 0
+        let leftValue = try evaluateDoubleExpression(lhs)
+        let rightValue = try evaluateDoubleExpression(rhs)
+        switch op {
+        case "==": return leftValue == rightValue
+        case "!=": return leftValue != rightValue
+        case "<": return leftValue < rightValue
+        case "<=": return leftValue <= rightValue
+        case ">": return leftValue > rightValue
+        case ">=": return leftValue >= rightValue
+        default: throw SimulationError.invalidExpression("\(lhs) \(op) \(rhs)")
+        }
+    }
+
+    /// String-Literal oder String-Variable (auch Element eines String-Arrays); sonst `nil`.
+    private func stringOperand(_ text: String) throws -> String? {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let literal = Self.unquotedString(trimmed) {
+            return literal
+        }
+        if let value = try evaluateReference(trimmed), case .string(let string) = value {
+            return string
+        }
+        return nil
     }
 
     private enum SwitchSelectorValue: Equatable {
@@ -1016,11 +1064,132 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         return nil
     }
 
-    private func splitBoolExpression(_ expression: String, separator: String) -> [String] {
-        expression
-            .components(separatedBy: separator)
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
+    /// Für jedes Zeichen: liegt es außerhalb von Klammern und String-Literalen?
+    private static func topLevelMask(_ chars: [Character]) -> [Bool] {
+        var mask = [Bool](repeating: false, count: chars.count)
+        var depth = 0
+        var inString = false
+        var escaped = false
+        for (index, char) in chars.enumerated() {
+            if inString {
+                if escaped {
+                    escaped = false
+                } else if char == "\\" {
+                    escaped = true
+                } else if char == "\"" {
+                    inString = false
+                }
+                continue
+            }
+            switch char {
+            case "\"": inString = true
+            case "(", "[": depth += 1
+            case ")", "]": depth -= 1
+            default: mask[index] = depth == 0
+            }
+        }
+        return mask
+    }
+
+    private static func splitTopLevel(_ expression: String, separator: String) -> [String] {
+        let chars = Array(expression)
+        let separatorChars = Array(separator)
+        let mask = topLevelMask(chars)
+        var parts: [String] = []
+        var current: [Character] = []
+        var index = 0
+        while index < chars.count {
+            let end = index + separatorChars.count
+            if end <= chars.count, Array(chars[index..<end]) == separatorChars, mask[index..<end].allSatisfy({ $0 }) {
+                parts.append(String(current).trimmingCharacters(in: .whitespacesAndNewlines))
+                current = []
+                index = end
+                continue
+            }
+            current.append(chars[index])
+            index += 1
+        }
+        parts.append(String(current).trimmingCharacters(in: .whitespacesAndNewlines))
+        return parts
+    }
+
+    /// Erster Vergleichsoperator außerhalb von Klammern und Strings.
+    private static func splitComparison(_ expression: String) -> (lhs: String, op: String, rhs: String)? {
+        let chars = Array(expression)
+        let mask = topLevelMask(chars)
+        for index in chars.indices where mask[index] {
+            var op: String?
+            if index + 1 < chars.count, mask[index + 1] {
+                let pair = String(chars[index...index + 1])
+                if [">=", "<=", "==", "!="].contains(pair) {
+                    op = pair
+                }
+            }
+            if op == nil, chars[index] == "<" || chars[index] == ">" {
+                op = String(chars[index])
+            }
+            guard let op else { continue }
+            let lhs = String(chars[..<index]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let rhs = String(chars[(index + op.count)...]).trimmingCharacters(in: .whitespacesAndNewlines)
+            return (lhs, op, rhs)
+        }
+        return nil
+    }
+
+    /// Index der `)`, die die `(` bei `openIndex` schließt.
+    private static func matchingCloseParenthesis(in chars: [Character], from openIndex: Int) -> Int? {
+        var depth = 0
+        var inString = false
+        var escaped = false
+        for index in openIndex..<chars.count {
+            let char = chars[index]
+            if inString {
+                if escaped {
+                    escaped = false
+                } else if char == "\\" {
+                    escaped = true
+                } else if char == "\"" {
+                    inString = false
+                }
+                continue
+            }
+            switch char {
+            case "\"": inString = true
+            case "(": depth += 1
+            case ")":
+                depth -= 1
+                if depth == 0 { return index }
+            default: break
+            }
+        }
+        return nil
+    }
+
+    /// `(a || b)` → `a || b`; `(a) && (b)` bleibt unverändert.
+    private static func innerOfOuterParentheses(_ text: String) -> String? {
+        let chars = Array(text)
+        guard chars.first == "(", chars.last == ")",
+              matchingCloseParenthesis(in: chars, from: 0) == chars.count - 1 else {
+            return nil
+        }
+        return String(chars[1..<(chars.count - 1)]).trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Java-Stil `name.equals("Anna")`.
+    private static func parseEqualsCall(_ text: String) -> (lhs: String, rhs: String)? {
+        let chars = Array(text)
+        let marker = Array(".equals(")
+        guard chars.last == ")" else { return nil }
+        let mask = topLevelMask(chars)
+        for index in chars.indices where mask[index] && index + marker.count <= chars.count {
+            guard Array(chars[index..<(index + marker.count)]) == marker else { continue }
+            let openIndex = index + marker.count - 1
+            guard matchingCloseParenthesis(in: chars, from: openIndex) == chars.count - 1 else { continue }
+            let lhs = String(chars[..<index]).trimmingCharacters(in: .whitespacesAndNewlines)
+            let rhs = String(chars[(openIndex + 1)..<(chars.count - 1)]).trimmingCharacters(in: .whitespacesAndNewlines)
+            return (lhs, rhs)
+        }
+        return nil
     }
 
     private func renderNumericExpression(_ expression: String) throws -> String {
@@ -1160,9 +1329,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 continue
             }
             var stripped = String(afterKeyword).trimmingCharacters(in: .whitespacesAndNewlines)
-            if stripped.first == "(", stripped.last == ")" {
-                stripped = String(stripped.dropFirst().dropLast())
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
+            if let inner = innerOfOuterParentheses(stripped) {
+                stripped = inner
             }
             return stripped.isEmpty ? "true" : stripped
         }

@@ -6,6 +6,11 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed
+
+- **Simulation:** conditions now support string comparisons (`name == "Anna"`, `name.equals("Anna")`), parentheses (`(a < 3 || a > 10) && b`), and negation with `!`. Operators inside string literals are no longer treated as operators.
+- **Simulation:** after an error the simulation stops on the failing block instead of skipping it and running on; Reset starts over.
+
 ### Planned / Notes
 
 - Documentation polish for product/marketing surfaces only when explicitly requested.
