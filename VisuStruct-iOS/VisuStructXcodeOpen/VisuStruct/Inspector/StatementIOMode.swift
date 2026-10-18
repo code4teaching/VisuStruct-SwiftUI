@@ -1,8 +1,4 @@
-import Foundation
+import VisuStructCore
 
-/// Darstellung von Anweisung vs. Ein-/Ausgabe im Inspector (Modus-Picker).
-enum StatementIOMode: String, CaseIterable, Hashable {
-    case statement
-    case input
-    case output
-}
+/// Darstellung von Anweisung vs. Ein-/Ausgabe im Inspector (Modus-Picker); Logik in `VisuStructLineEditorText`.
+typealias StatementIOMode = VisuStructStatementIOMode

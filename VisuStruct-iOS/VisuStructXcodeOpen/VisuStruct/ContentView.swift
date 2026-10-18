@@ -1059,7 +1059,7 @@ struct ContentView: View {
         Binding(
             get: { tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText },
             set: { newVal in
-                let normalized = normalizeQuotesForCode(newVal)
+                let normalized = VisuStructLineEditorText.normalizingQuotes(newVal)
                 var tabs = tabsModel.tabs
                 tabs[tabsModel.currentTabIndex].lineEditorText = normalized
                 tabsModel.tabs = tabs
@@ -1072,13 +1072,13 @@ struct ContentView: View {
             get: {
                 let text = tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText
                 guard let labelPrefix = lineEditorFixedPrefixLabel else { return text }
-                return stripLineEditorPrefixForEditing(labelPrefix, from: text)
+                return VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: text)
             },
             set: { newVal in
-                let normalized = normalizeQuotesForCode(newVal)
+                let normalized = VisuStructLineEditorText.normalizingQuotes(newVal)
                 let text: String
                 if let labelPrefix = lineEditorFixedPrefixLabel {
-                    text = prefixPreservingEditingWhitespace(labelPrefix, to: stripLineEditorPrefixForEditing(labelPrefix, from: normalized))
+                    text = VisuStructLineEditorText.prefixingForEditing(labelPrefix, to: VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: normalized))
                 } else {
                     text = normalized
                 }
@@ -1095,7 +1095,7 @@ struct ContentView: View {
 
         switch el.type {
         case .anweisung:
-            switch statementIOMode(for: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
+            switch VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
             case .input:
                 return "input:"
             case .output:
@@ -1274,23 +1274,12 @@ struct ContentView: View {
 
         return Binding(
             get: {
-                statementIOMode(for: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
+                VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
             },
             set: { newMode in
                 var tabs = tabsModel.tabs
                 let i = tabsModel.currentTabIndex
-                let current = tabs[i].lineEditorText
-                let stripped = stripIOPrefixes(from: current)
-                let updated: String
-                switch newMode {
-                case .statement:
-                    updated = stripped
-                case .input:
-                    updated = prefix("input:", to: stripped)
-                case .output:
-                    updated = prefix("output:", to: stripped)
-                }
-                tabs[i].lineEditorText = updated
+                tabs[i].lineEditorText = VisuStructLineEditorText.applyingIOMode(newMode, to: tabs[i].lineEditorText)
                 tabsModel.tabs = tabs
                 applyLineEditorRespectingTextFocus()
             }
@@ -1302,118 +1291,7 @@ struct ContentView: View {
               let el = try? VisuStructDocumentEditing.element(at: path, in: document),
               el.type == .anweisung else { return nil }
 
-        return statementIOMode(for: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
-    }
-
-    private func statementIOMode(for text: String) -> StatementIOMode {
-        let t = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        if t.lowercased().hasPrefix("input:") { return .input }
-        if t.lowercased().hasPrefix("output:") { return .output }
-        if t.lowercased().hasPrefix("print:") { return .output }
-        return .statement
-    }
-
-    private func stripIOPrefixes(from s: String) -> String {
-        let trimmed = s.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = trimmed.lowercased()
-        if lower.hasPrefix("input:") {
-            return String(trimmed.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        if lower.hasPrefix("output:") {
-            return String(trimmed.dropFirst(7)).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        if lower.hasPrefix("print:") {
-            return String(trimmed.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        return s
-    }
-
-    private func stripLineEditorPrefix(_ p: String, from s: String) -> String {
-        if p == "input:" || p == "output:" {
-            return stripIOPrefixes(from: s)
-        }
-        return stripKeywordPrefix(p, from: s)
-    }
-
-    private func stripLineEditorPrefixForEditing(_ p: String, from s: String) -> String {
-        if p == "input:" || p == "output:" {
-            return stripIOPrefixPreservingEditingWhitespace(from: s)
-        }
-        let stripped = stripKeywordPrefixPreservingEditingWhitespace(p, from: s)
-        if p == "while", stripped == s {
-            let legacy = stripKeywordPrefixPreservingEditingWhitespace("until", from: s)
-            if legacy != s { return legacy }
-        }
-        return stripped
-    }
-
-    private func stripIOPrefixPreservingEditingWhitespace(from s: String) -> String {
-        let leadingTrimmed = String(s.drop(while: { $0.isWhitespace }))
-        let lower = leadingTrimmed.lowercased()
-        if lower.hasPrefix("input:") {
-            return dropOneLeadingWhitespace(String(leadingTrimmed.dropFirst(6)))
-        }
-        if lower.hasPrefix("output:") {
-            return dropOneLeadingWhitespace(String(leadingTrimmed.dropFirst(7)))
-        }
-        if lower.hasPrefix("print:") {
-            return dropOneLeadingWhitespace(String(leadingTrimmed.dropFirst(6)))
-        }
-        return s
-    }
-
-    private func stripKeywordPrefix(_ keyword: String, from s: String) -> String {
-        let trimmed = s.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = trimmed.lowercased()
-        let key = keyword.lowercased()
-        guard lower.hasPrefix(key) else { return s }
-
-        let afterKeyword = trimmed.dropFirst(keyword.count)
-        guard afterKeyword.isEmpty || afterKeyword.first?.isWhitespace == true || afterKeyword.first == "(" else {
-            return s
-        }
-
-        var content = String(afterKeyword).trimmingCharacters(in: .whitespacesAndNewlines)
-        if content.hasPrefix("("), content.hasSuffix(")"), content.count >= 2 {
-            content.removeFirst()
-            content.removeLast()
-            content = content.trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        return content
-    }
-
-    private func stripKeywordPrefixPreservingEditingWhitespace(_ keyword: String, from s: String) -> String {
-        let leadingTrimmed = String(s.drop(while: { $0.isWhitespace }))
-        let lower = leadingTrimmed.lowercased()
-        let key = keyword.lowercased()
-        guard lower.hasPrefix(key) else { return s }
-
-        let afterKeyword = leadingTrimmed.dropFirst(keyword.count)
-        guard afterKeyword.isEmpty || afterKeyword.first?.isWhitespace == true || afterKeyword.first == "(" else {
-            return s
-        }
-
-        let content = dropOneLeadingWhitespace(String(afterKeyword))
-        if content.hasPrefix("("), content.hasSuffix(")"), content.count >= 2 {
-            return String(content.dropFirst().dropLast())
-        }
-        return content
-    }
-
-    private func dropOneLeadingWhitespace(_ s: String) -> String {
-        guard let first = s.first, first.isWhitespace else { return s }
-        return String(s.dropFirst())
-    }
-
-    private func prefix(_ p: String, to content: String) -> String {
-        let c = content.trimmingCharacters(in: .whitespacesAndNewlines)
-        if c.isEmpty { return "\(p) " }
-        return "\(p) \(c)"
-    }
-
-    private func prefixPreservingEditingWhitespace(_ p: String, to content: String) -> String {
-        if content.isEmpty { return "\(p) " }
-        return "\(p) \(content)"
+        return VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
     }
 
     /// Placeholder for the line editor, shown only when empty (grau im Feld). Code-Beispiele als Hilfe: `inspectorConditionEditorHintLine()` darüber.
@@ -1423,7 +1301,7 @@ struct ContentView: View {
 
         switch el.type {
         case .anweisung:
-            switch statementIOMode(for: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
+            switch VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
             case .statement:
                 return lang.tr("inspector_placeholder_statement")
             case .input:
@@ -1601,22 +1479,6 @@ struct ContentView: View {
         return InspectorElementTypeLocalization.title(for: el.type, lang: lang)
     }
 
-    private func padForLoopTextLines(_ lines: [String]) -> [String] {
-        var a = lines.isEmpty ? [""] : lines
-        while a.count < 3 { a.append("") }
-        if a.count > 3 { return Array(a.prefix(3)) }
-        return a
-    }
-
-    private func normalizeForLoopPart(_ s: String) -> String {
-        var x = normalizeQuotesForCode(s)
-        while true {
-            let trimmedEnd = x.trimmingCharacters(in: .whitespacesAndNewlines)
-            guard trimmedEnd.hasSuffix(";") else { return x }
-            x = String(trimmedEnd.dropLast()).trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-    }
-
     private var inspectorShowsForLoopThreeFields: Bool {
         guard let path = selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return false }
@@ -1629,15 +1491,15 @@ struct ContentView: View {
                 guard (0 ..< 3).contains(index),
                       let path = selectedPath,
                       let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return "" }
-                let padded = padForLoopTextLines(el.textLines)
+                let padded = VisuStructLineEditorText.paddedForLoopParts(el.textLines)
                 return padded[index]
             },
             set: { newVal in
                 guard (0 ..< 3).contains(index), let path = selectedPath else { return }
                 guard let el = try? VisuStructDocumentEditing.element(at: path, in: document),
                       el.type == .forSchleife else { return }
-                var lines = padForLoopTextLines(el.textLines)
-                lines[index] = normalizeForLoopPart(newVal)
+                var lines = VisuStructLineEditorText.paddedForLoopParts(el.textLines)
+                lines[index] = VisuStructLineEditorText.normalizedForLoopPart(newVal)
                 do {
                     commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
                     // `lineEditorText` wird bei den drei For-Feldern nicht mitgetippt; sonst würde z. B.
@@ -2013,21 +1875,6 @@ struct ContentView: View {
         }
     }
 
-    private func normalizeQuotesForCode(_ s: String) -> String {
-        // iOS/macOS Eingaben ersetzen typografische Anführungszeichen teils automatisch.
-        // Für Code wollen wir immer gerade Quotes.
-        return s
-            .replacingOccurrences(of: "“", with: "\"")
-            .replacingOccurrences(of: "”", with: "\"")
-            .replacingOccurrences(of: "„", with: "\"")
-            .replacingOccurrences(of: "«", with: "\"")
-            .replacingOccurrences(of: "»", with: "\"")
-            .replacingOccurrences(of: "’", with: "'")
-            .replacingOccurrences(of: "‘", with: "'")
-            .replacingOccurrences(of: "‚", with: "'")
-            .replacingOccurrences(of: "´", with: "'")
-    }
-
     #if canImport(UIKit)
     /// Verlässt die aktive Eingabe im Key-Window, damit `UITextView` (Zeileneditor) sicher
     /// `textViewDidEndEditing` liefert und `lineEditorText` dem sichtbaren Inhalt entspricht.
@@ -2063,12 +1910,12 @@ struct ContentView: View {
         let editorText = tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText
         let storedText: String
         if let labelPrefix = lineEditorFixedPrefixLabel {
-            storedText = prefixPreservingEditingWhitespace(labelPrefix, to: stripLineEditorPrefixForEditing(labelPrefix, from: editorText))
+            storedText = VisuStructLineEditorText.prefixingForEditing(labelPrefix, to: VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: editorText))
         } else {
             storedText = editorText
         }
         let raw = storedText.components(separatedBy: "\n")
-        let lines = (raw.isEmpty ? [""] : raw).map(normalizeQuotesForCode)
+        let lines = (raw.isEmpty ? [""] : raw).map(VisuStructLineEditorText.normalizingQuotes)
         do {
             commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
         } catch {

@@ -148,38 +148,7 @@ struct DiagramCanvasView: View {
     }
 
     private func displayTextLines(for element: VisuStructElement) -> [String] {
-        let raw = element.textLines
-        let isEffectivelyEmpty = raw.allSatisfy { $0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-        if element.type == .forSchleife, !isEffectivelyEmpty {
-            if raw.count <= 1 { return raw }
-            return [VisuStructForLoopDiagramDisplay.singleLine(from: raw)]
-        }
-        if !isEffectivelyEmpty {
-            func withLeadingKeyword(_ keyword: String, _ lines: [String]) -> [String] {
-                guard let first = lines.first else { return lines }
-                let trimmed = first.trimmingCharacters(in: .whitespacesAndNewlines)
-                let lower = trimmed.lowercased()
-                let k = keyword.lowercased()
-                if lower == k || lower.hasPrefix(k + " ") { return lines }
-                var out = lines
-                out[0] = keyword + " " + trimmed
-                return out
-            }
-
-            switch element.type {
-            case .verzweigung:
-                return withLeadingKeyword("if", raw)
-            case .whileSchleife:
-                return withLeadingKeyword("while", raw)
-            case .doUntilSchleife:
-                return withLeadingKeyword("while", normalizedDoUntilConditionLines(raw))
-            case .fallauswahl:
-                return withLeadingKeyword("switch", raw)
-            default:
-                break
-            }
-        }
-        guard isEffectivelyEmpty else { return raw }
+        if let lines = VisuStructDiagramText.displayLines(for: element) { return lines }
 
         switch element.type {
         case .anweisung:
@@ -203,29 +172,6 @@ struct DiagramCanvasView: View {
         case .leerElement:
             return ["ø"]
         }
-    }
-
-    /// Entfernt ein führendes `until` aus gespeicherten Diagrammen, damit die Anzeige einheitlich `while …` nutzt (wie Java `do {} while`).
-    private func normalizedDoUntilConditionLines(_ raw: [String]) -> [String] {
-        guard let first = raw.first else { return raw }
-        let t = first.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = t.lowercased()
-        if lower == "until" {
-            var o = raw
-            o[0] = ""
-            return o
-        }
-        if lower.hasPrefix("until ") {
-            var o = raw
-            o[0] = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-            return o
-        }
-        if lower.hasPrefix("until(") {
-            var o = raw
-            o[0] = String(t.dropFirst(5))
-            return o
-        }
-        return raw
     }
 
     /// Gemeinsame Stroke-Farbe für Kacheln und Hilfslinien (eine Allokation pro Frame statt dutzende).
@@ -1010,7 +956,7 @@ struct DiagramCanvasView: View {
             for (i, line) in lines.enumerated() {
                 let y = firstY + CGFloat(i) * lineHeight
                 let tw: CGFloat = {
-                    if let parts = keywordSplit(for: node.element.type, line: line) {
+                    if let parts = VisuStructDiagramText.keywordSplit(line) {
                         let kwW = measureText(parts.keyword, size: headerFontSize, weight: .bold)
                         let restW = parts.rest.isEmpty ? 0 : measureText(" " + parts.rest, size: headerFontSize, weight: .medium)
                         return kwW + restW
@@ -1057,7 +1003,7 @@ struct DiagramCanvasView: View {
                 var y = r.midY - totalTextHeight / 2
                 for line in lines {
                     let tw: CGFloat = {
-                        if let parts = keywordSplit(for: node.element.type, line: line) {
+                        if let parts = VisuStructDiagramText.keywordSplit(line) {
                             let kwW = measureText(parts.keyword, size: headerFontSize, weight: .bold)
                             let restW = parts.rest.isEmpty ? 0 : measureText(" " + parts.rest, size: headerFontSize, weight: .medium)
                             return kwW + restW
@@ -1258,33 +1204,8 @@ struct DiagramCanvasView: View {
         #endif
     }
 
-    private func keywordSplit(for elementType: VisuStructElementType, line: String) -> (keyword: String, rest: String)? {
-        // Keywords nur bei Kontrollstrukturen/Anzeigezeilen.
-        let keywords: Set<String> = ["if", "for", "while", "until", "switch"]
-        let colonKeywords: [String] = ["input:", "output:", "print:"]
-        let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        let lower = trimmed.lowercased()
-        for prefix in colonKeywords {
-            if lower == prefix {
-                return (trimmed, "")
-            }
-            if lower.hasPrefix(prefix + " ") {
-                let rest = String(trimmed.dropFirst(prefix.count)).trimmingCharacters(in: .whitespacesAndNewlines)
-                let kw = String(trimmed.prefix(prefix.count))
-                return (kw, rest)
-            }
-        }
-
-        guard let firstSpace = trimmed.firstIndex(of: " ") else { return nil }
-        let head = String(trimmed[..<firstSpace])
-        guard keywords.contains(head.lowercased()) else { return nil }
-        let rest = String(trimmed[trimmed.index(after: firstSpace)...]).trimmingCharacters(in: .whitespacesAndNewlines)
-        return (head, rest)
-    }
-
     private func drawKeywordLine(_ line: String, elementType: VisuStructElementType, at origin: CGPoint, in context: inout GraphicsContext) {
-        if let parts = keywordSplit(for: elementType, line: line) {
+        if let parts = VisuStructDiagramText.keywordSplit(line) {
             let kwFont: Font = .system(size: headerFontSize, weight: .bold)
             let kw = parts.keyword
             let rest = parts.rest
