@@ -39,12 +39,7 @@ struct ContentView: View {
     @State private var showInfo = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
-    @State private var isSimulationMode = false
-    @State private var simulationEngine: VisuStructSimulationEngine
-    @State private var simulationPlayTask: Task<Void, Never>? = nil
-    @State private var isSimulationPlaying = false
-    @State private var simulationWasPlayingBeforeInput = false
-    @State private var simulationInputText = ""
+    @State private var simulation: SimulationController
     @ObservedObject private var recentFilesStore: RecentFilesStore
     /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
     @State private var codeGeneratorRegenerationToken: Int = 0
@@ -74,7 +69,6 @@ struct ContentView: View {
     @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @State private var editorFocusToken = UUID()
-    @AppStorage(SimulationStepDelayOption.appStorageKey) private var simulationStepDelayRaw: String = SimulationStepDelayOption.defaultRawValue
     @AppStorage(SimulationHighlightMode.appStorageKey) private var simulationHighlightModeRaw: String = SimulationHighlightMode.defaultRawValue
 
     private var canvasScaleStep: VisuStructUIScaleStep {
@@ -89,14 +83,6 @@ struct ContentView: View {
         ExportFilenameStyle.fromStored(exportFilenameStyleRaw)
     }
 
-    private var simulationStepDelay: SimulationStepDelayOption {
-        SimulationStepDelayOption.fromStored(simulationStepDelayRaw)
-    }
-
-    private var simulationHighlightMode: SimulationHighlightMode {
-        SimulationHighlightMode.fromStored(simulationHighlightModeRaw)
-    }
-
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
         let model = DiagramSheetTabsModel.makeInitial(language: startupLang)
@@ -104,7 +90,7 @@ struct ContentView: View {
         _tabsModel = State(initialValue: model)
         _recentFilesStore = ObservedObject(wrappedValue: recentStore)
         _documentServices = State(initialValue: DiagramEditorDocumentServices(tabsModel: model, recentFilesStore: recentStore))
-        _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: model.tabs[0].document))
+        _simulation = State(initialValue: SimulationController(tabsModel: model))
     }
 
     // MARK: - Tab-Titel & Dokument öffnen
@@ -770,15 +756,15 @@ struct ContentView: View {
                     simulationCanvasBlock
                         .layoutPriority(1)
                     SimulationStatePanel(
-                        engine: simulationEngine,
-                        isPlaying: isSimulationPlaying,
-                        inputText: $simulationInputText,
+                        engine: simulation.engine,
+                        isPlaying: simulation.isPlaying,
+                        inputText: $simulation.inputText,
                         highlightModeRaw: $simulationHighlightModeRaw,
-                        onPlay: playSimulation,
-                        onPause: pauseSimulation,
-                        onStep: stepSimulation,
-                        onSubmitInput: submitSimulationInput,
-                        onStop: resetSimulation
+                        onPlay: { simulation.play() },
+                        onPause: { simulation.pause() },
+                        onStep: { simulation.step() },
+                        onSubmitInput: { simulation.submitInput() },
+                        onStop: { simulation.reset() }
                     )
                         .frame(width: panelWidth)
                         .frame(maxHeight: .infinity, alignment: .top)
@@ -789,15 +775,15 @@ struct ContentView: View {
                         simulationCanvasBlock
                             .frame(height: max(340, geo.size.height * 0.55))
                         SimulationStatePanel(
-                            engine: simulationEngine,
-                            isPlaying: isSimulationPlaying,
-                            inputText: $simulationInputText,
+                            engine: simulation.engine,
+                            isPlaying: simulation.isPlaying,
+                            inputText: $simulation.inputText,
                             highlightModeRaw: $simulationHighlightModeRaw,
-                            onPlay: playSimulation,
-                            onPause: pauseSimulation,
-                            onStep: stepSimulation,
-                            onSubmitInput: submitSimulationInput,
-                            onStop: resetSimulation
+                            onPlay: { simulation.play() },
+                            onPause: { simulation.pause() },
+                            onStep: { simulation.step() },
+                            onSubmitInput: { simulation.submitInput() },
+                            onStop: { simulation.reset() }
                         )
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -926,104 +912,13 @@ struct ContentView: View {
         )
     }
 
-    // MARK: - Simulation (Modus & Steuerung)
+    // MARK: - Simulation (Modus & Steuerung) → `SimulationController`
 
-    private func beginSimulationMode() {
-        pauseSimulation()
-        var engine = VisuStructSimulationEngine(document: document)
-        engine.reset()
-        simulationEngine = engine
-        simulationInputText = ""
-        replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-        withAnimation(.easeInOut(duration: 0.18)) {
-            isSimulationMode = true
-        }
-    }
+    private var isSimulationMode: Bool { simulation.isActive }
 
-    private func endSimulationMode() {
-        pauseSimulation()
-        withAnimation(.easeInOut(duration: 0.18)) {
-            isSimulationMode = false
-        }
-        if tabsModel.currentTab.selectedPath == nil, !document.elements.isEmpty {
-            replaceSelectedPathOnCurrentTab([0])
-        }
-    }
+    private func beginSimulationMode() { simulation.begin() }
 
-    private func stepSimulation() {
-        guard simulationEngine.canStep else {
-            pauseSimulation()
-            return
-        }
-        let wasPlaying = isSimulationPlaying
-        let lastExecutedPath = simulationEngine.currentStepPath
-        var engine = simulationEngine
-        engine.step()
-        simulationEngine = engine
-        if simulationHighlightMode == .nextToExecute, engine.canStep {
-            replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-        } else {
-            // lastExecuted (oder Ende/Input): letztes ausgeführtes Element bleibt markiert.
-            replaceSelectedPathOnCurrentTab(lastExecutedPath ?? engine.currentStepPath)
-        }
-        // Wenn ein Input als Ergebnis des Steps angefordert wurde, Play pausieren,
-        // aber merken, dass wir nach OK automatisch weiterlaufen sollen.
-        if engine.state.inputRequest != nil, wasPlaying {
-            simulationWasPlayingBeforeInput = true
-        }
-        if !engine.canStep {
-            pauseSimulation()
-        }
-    }
-
-    private func resetSimulation() {
-        pauseSimulation()
-        var engine = VisuStructSimulationEngine(document: document)
-        engine.reset()
-        simulationEngine = engine
-        simulationInputText = ""
-        replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-    }
-
-    private func submitSimulationInput() {
-        let shouldResume = isSimulationPlaying || simulationWasPlayingBeforeInput
-        pauseSimulation()
-        var engine = simulationEngine
-        engine.provideInput(simulationInputText)
-        simulationEngine = engine
-        if engine.state.inputRequest == nil {
-            simulationInputText = ""
-        }
-        replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-
-        if shouldResume, isSimulationMode, engine.canStep {
-            simulationWasPlayingBeforeInput = false
-            playSimulation()
-        }
-    }
-
-    private func playSimulation() {
-        guard !isSimulationPlaying, simulationEngine.canStep else { return }
-        isSimulationPlaying = true
-        simulationPlayTask?.cancel()
-        simulationPlayTask = Task { @MainActor in
-            while !Task.isCancelled && isSimulationMode && simulationEngine.canStep {
-                stepSimulation()
-                guard !Task.isCancelled, isSimulationMode, simulationEngine.canStep else { break }
-                try? await Task.sleep(nanoseconds: simulationStepDelay.nanoseconds)
-            }
-            if !Task.isCancelled {
-                isSimulationPlaying = false
-                simulationPlayTask = nil
-            }
-        }
-    }
-
-    private func pauseSimulation() {
-        simulationPlayTask?.cancel()
-        simulationPlayTask = nil
-        isSimulationPlaying = false
-    }
+    private func endSimulationMode() { simulation.end() }
 
     // MARK: - Tab-Titel (Platzhalter)
 
