@@ -30,6 +30,10 @@ extension VisuStructCodeGenerator {
         }
         result = result.trimmingCharacters(in: CharacterSet(charactersIn: "_"))
         if result.isEmpty { return "Main" }
+        // Das Trimmen oben entfernt auch den `_` vor einer führenden Ziffer.
+        if let first = result.unicodeScalars.first, CharacterSet.decimalDigits.contains(first) {
+            result = "_" + result
+        }
         let reserved: Set<String> = [
             "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char", "class", "const",
             "continue", "default", "do", "double", "else", "enum", "extends", "final", "finally",
