@@ -135,7 +135,7 @@ struct ContentView: View {
         if isSimulationMode {
             endSimulationMode()
         }
-        let tab = tabsModel.tabs[tabsModel.currentTabIndex]
+        let tab = tabsModel.currentTab
         if tabsModel.tabHasUnsavedChanges(tab) || tab.linkedFileBookmarkData != nil {
             addDiagramTab()
         }
@@ -143,18 +143,15 @@ struct ContentView: View {
     }
 
     private var document: VisuStructDocument {
-        tabsModel.tabs[tabsModel.currentTabIndex].document
+        tabsModel.currentTab.document
     }
 
     private var selectedPath: [Int]? {
-        tabsModel.tabs[tabsModel.currentTabIndex].selectedPath
+        tabsModel.currentTab.selectedPath
     }
 
     private func replaceSelectedPathOnCurrentTab(_ path: [Int]?) {
-        var tabs = tabsModel.tabs
-        let i = tabsModel.currentTabIndex
-        tabs[i].selectedPath = path
-        tabsModel.tabs = tabs
+        tabsModel.updateCurrentTab { $0.selectedPath = path }
     }
 
     private var unsavedCloseAlertBinding: Binding<Bool> {
@@ -377,8 +374,8 @@ struct ContentView: View {
         let canCut = canCopy && (selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false)
         let canDelete = !isTyping && (selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false)
         return DiagramEditActions(
-            canUndo: !isTyping && !tabsModel.tabs[tabsModel.currentTabIndex].undoStack.isEmpty,
-            canRedo: !isTyping && !tabsModel.tabs[tabsModel.currentTabIndex].redoStack.isEmpty,
+            canUndo: !isTyping && tabsModel.currentTab.history.canUndo,
+            canRedo: !isTyping && tabsModel.currentTab.history.canRedo,
             canCopy: canCopy,
             canCut: canCut,
             canPaste: canPaste,
@@ -439,20 +436,14 @@ struct ContentView: View {
             if let path = selectedPath {
                 if VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
                     commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: clip))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(path)
                     refreshLineEditor()
                     return
                 }
                 if (try? VisuStructDocumentEditing.element(at: path, in: doc)) != nil {
                     commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, clip, after: path))
                     let newPath = Array(path.dropLast()) + [path.last! + 1]
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(newPath)
                     refreshLineEditor()
                     return
                 }
@@ -667,7 +658,7 @@ struct ContentView: View {
                         onRequestCloseTab: { requestCloseDiagramTab(id: $0) }
                     )
                     Group {
-                        if let err = tabsModel.tabs[tabsModel.currentTabIndex].errorText {
+                        if let err = tabsModel.currentTab.errorText {
                             VStack(spacing: 20) {
                                 ContentUnavailableView(
                                     lang.tr("error_title"),
@@ -687,7 +678,7 @@ struct ContentView: View {
                 }
                 // Explizit `navigationTitle` setzen, nicht nur `ToolbarItem(placement: .principal)`: sonst reserviert SwiftUI
                 // in der Navigationsleiste oft keinen sichtbaren Mittelbereich (Titel wirkend „invisible“ / Breite 0, bes. iPhone).
-                .navigationTitle(tabsModel.diagramTabDisplayTitle(tabsModel.tabs[tabsModel.currentTabIndex], language: lang))
+                .navigationTitle(tabsModel.diagramTabDisplayTitle(tabsModel.currentTab, language: lang))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(.regularMaterial, for: .navigationBar)
@@ -700,7 +691,7 @@ struct ContentView: View {
     }
 
     private func mainEditorToolbarItems() -> DiagramMainEditorToolbar {
-        let tab = tabsModel.tabs[tabsModel.currentTabIndex]
+        let tab = tabsModel.currentTab
         let displayTitle = tabsModel.diagramTabDisplayTitle(tab, language: lang)
         let unsaved = tabsModel.tabHasUnsavedChanges(tab)
         let isTyping: Bool = {
@@ -718,8 +709,8 @@ struct ContentView: View {
             principalTitle: displayTitle,
             principalShowsUnsaved: unsaved,
             principalAccessibilityLabel: unsaved ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))" : displayTitle,
-            canUndo: !isTyping && !tab.undoStack.isEmpty,
-            canRedo: !isTyping && !tab.redoStack.isEmpty,
+            canUndo: !isTyping && tab.history.canUndo,
+            canRedo: !isTyping && tab.history.canRedo,
             onUndo: performUndo,
             onRedo: performRedo,
             isSimulationMode: isSimulationMode,
@@ -954,7 +945,7 @@ struct ContentView: View {
         withAnimation(.easeInOut(duration: 0.18)) {
             isSimulationMode = false
         }
-        if tabsModel.tabs[tabsModel.currentTabIndex].selectedPath == nil, !document.elements.isEmpty {
+        if tabsModel.currentTab.selectedPath == nil, !document.elements.isEmpty {
             replaceSelectedPathOnCurrentTab([0])
         }
     }
@@ -1045,11 +1036,9 @@ struct ContentView: View {
 
     private var selectedPathBinding: Binding<[Int]?> {
         Binding(
-            get: { tabsModel.tabs[tabsModel.currentTabIndex].selectedPath },
+            get: { tabsModel.currentTab.selectedPath },
             set: { newVal in
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = newVal
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { $0.selectedPath = newVal }
                 refreshLineEditor()
             }
         )
@@ -1057,12 +1046,10 @@ struct ContentView: View {
 
     private var lineEditorTextBinding: Binding<String> {
         Binding(
-            get: { tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText },
+            get: { tabsModel.currentTab.lineEditorText },
             set: { newVal in
                 let normalized = VisuStructLineEditorText.normalizingQuotes(newVal)
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].lineEditorText = normalized
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { $0.lineEditorText = normalized }
             }
         )
     }
@@ -1070,7 +1057,7 @@ struct ContentView: View {
     private var lineEditorVisibleTextBinding: Binding<String> {
         Binding(
             get: {
-                let text = tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText
+                let text = tabsModel.currentTab.lineEditorText
                 guard let labelPrefix = lineEditorFixedPrefixLabel else { return text }
                 return VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: text)
             },
@@ -1082,9 +1069,7 @@ struct ContentView: View {
                 } else {
                     text = normalized
                 }
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].lineEditorText = text
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { $0.lineEditorText = text }
             }
         )
     }
@@ -1095,7 +1080,7 @@ struct ContentView: View {
 
         switch el.type {
         case .anweisung:
-            switch VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
+            switch VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText) {
             case .input:
                 return "input:"
             case .output:
@@ -1120,32 +1105,26 @@ struct ContentView: View {
 
     private var errorTextBinding: Binding<String?> {
         Binding(
-            get: { tabsModel.tabs[tabsModel.currentTabIndex].errorText },
+            get: { tabsModel.currentTab.errorText },
             set: { newVal in
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].errorText = newVal
-                tabsModel.tabs = tabs
+                tabsModel.setErrorOnCurrentTab(newVal)
             }
         )
     }
 
     private func setErrorOnCurrentTab(_ message: String) {
-        var tabs = tabsModel.tabs
-        tabs[tabsModel.currentTabIndex].errorText = message
-        tabsModel.tabs = tabs
+        tabsModel.setErrorOnCurrentTab(message)
     }
 
     private func clearErrorOnCurrentTab() {
-        var tabs = tabsModel.tabs
-        tabs[tabsModel.currentTabIndex].errorText = nil
-        tabsModel.tabs = tabs
+        tabsModel.setErrorOnCurrentTab(nil)
     }
 
     // MARK: - Export-Dateinamen & Slugs
 
     private func exportFilenameForCurrentTab() -> String {
         DiagramExportFilename.visustructFilename(
-            for: tabsModel.tabs[tabsModel.currentTabIndex],
+            for: tabsModel.currentTab,
             style: exportFilenameStyle
         )
     }
@@ -1274,13 +1253,12 @@ struct ContentView: View {
 
         return Binding(
             get: {
-                VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
+                VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText)
             },
             set: { newMode in
-                var tabs = tabsModel.tabs
-                let i = tabsModel.currentTabIndex
-                tabs[i].lineEditorText = VisuStructLineEditorText.applyingIOMode(newMode, to: tabs[i].lineEditorText)
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { tab in
+                    tab.lineEditorText = VisuStructLineEditorText.applyingIOMode(newMode, to: tab.lineEditorText)
+                }
                 applyLineEditorRespectingTextFocus()
             }
         )
@@ -1291,7 +1269,7 @@ struct ContentView: View {
               let el = try? VisuStructDocumentEditing.element(at: path, in: document),
               el.type == .anweisung else { return nil }
 
-        return VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
+        return VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText)
     }
 
     /// Placeholder for the line editor, shown only when empty (grau im Feld). Code-Beispiele als Hilfe: `inspectorConditionEditorHintLine()` darüber.
@@ -1301,7 +1279,7 @@ struct ContentView: View {
 
         switch el.type {
         case .anweisung:
-            switch VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
+            switch VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText) {
             case .statement:
                 return lang.tr("inspector_placeholder_statement")
             case .input:
@@ -1402,11 +1380,7 @@ struct ContentView: View {
         do {
             let (updated, newPath) = try VisuStructDocumentEditing.appendCaseToFallauswahl(document, fallauswahlPath: fallPath)
             commitDocument(updated)
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            tabs[i].selectedPath = newPath
-            tabs[i].errorText = nil
-            tabsModel.tabs = tabs
+            tabsModel.selectAndClearError(newPath)
             refreshLineEditor()
         } catch {
             setErrorOnCurrentTab(error.localizedDescription)
@@ -1425,11 +1399,7 @@ struct ContentView: View {
                 document, fallauswahlPath: fallPath, caseIndex: caseIndex
             )
             commitDocument(updated)
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            tabs[i].selectedPath = newPath
-            tabs[i].errorText = nil
-            tabsModel.tabs = tabs
+            tabsModel.selectAndClearError(newPath)
             refreshLineEditor()
         } catch {
             setErrorOnCurrentTab(error.localizedDescription)
@@ -1504,10 +1474,7 @@ struct ContentView: View {
                     commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
                     // `lineEditorText` wird bei den drei For-Feldern nicht mitgetippt; sonst würde z. B.
                     // „Code erzeugen“ veralteten Puffer per `applyLineEditor` ins Element schreiben.
-                    var tabs = tabsModel.tabs
-                    let i = tabsModel.currentTabIndex
-                    tabs[i].lineEditorText = lines.joined(separator: "\n")
-                    tabsModel.tabs = tabs
+                    tabsModel.updateCurrentTab { $0.lineEditorText = lines.joined(separator: "\n") }
                 } catch {
                     setErrorOnCurrentTab(error.localizedDescription)
                 }
@@ -1542,109 +1509,54 @@ struct ContentView: View {
         }
     }
 
-    private static let maxUndoSteps = 80
-
     // MARK: - Dokument: Commit, Undo & Redo
 
     /// Ersetzt das Dokument und legt einen Undo-Snapshot des bisherigen Zustands ab.
     private func commitDocument(_ new: VisuStructDocument) {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        guard new != tab.document else { return }
-        tab.undoStack.append(tab.document)
-        while tab.undoStack.count > Self.maxUndoSteps {
-            tab.undoStack.removeFirst()
-        }
-        tab.redoStack.removeAll()
-        tab.document = new
-        tabs[i] = tab
-        tabsModel.tabs = tabs
+        tabsModel.commitDocument(new)
     }
 
     /// Neu / Import: Historie verwerfen, Zustand setzen.
     private func resetHistoryAndDocument(_ new: VisuStructDocument) {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        tabs[i].undoStack.removeAll()
-        tabs[i].redoStack.removeAll()
-        tabs[i].document = new
-        tabs[i].savedDocumentBaseline = VisuStructXMLCodec.encode(new)
-        tabsModel.tabs = tabs
+        tabsModel.resetHistoryAndDocument(new)
     }
 
     private func performUndo() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        guard let previous = tab.undoStack.popLast() else { return }
-        tab.redoStack.append(tab.document)
-        tab.document = previous
-        tab.errorText = nil
-        tabs[i] = tab
-        tabsModel.tabs = tabs
-        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: i, language: lang)
-        sanitizeSelectionAfterHistoryJump()
+        guard tabsModel.undo() else { return }
+        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: tabsModel.currentTabIndex, language: lang)
         refreshLineEditor()
     }
 
     private func performRedo() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        guard let next = tab.redoStack.popLast() else { return }
-        tab.undoStack.append(tab.document)
-        while tab.undoStack.count > Self.maxUndoSteps {
-            tab.undoStack.removeFirst()
-        }
-        tab.document = next
-        tab.errorText = nil
-        tabs[i] = tab
-        tabsModel.tabs = tabs
-        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: i, language: lang)
-        sanitizeSelectionAfterHistoryJump()
+        guard tabsModel.redo() else { return }
+        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: tabsModel.currentTabIndex, language: lang)
         refreshLineEditor()
-    }
-
-    private func sanitizeSelectionAfterHistoryJump() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        let doc = tab.document
-        if doc.elements.isEmpty {
-            tab.selectedPath = nil
-        } else if tab.selectedPath == nil {
-            tab.selectedPath = [0]
-        } else if let path = tab.selectedPath,
-                  (try? VisuStructDocumentEditing.element(at: path, in: doc)) == nil {
-            tab.selectedPath = [0]
-        }
-        tabs[i] = tab
-        tabsModel.tabs = tabs
     }
 
     // MARK: - Neue Datei & Tab zurücksetzen
 
     private func newDocument() {
         resetHistoryAndDocument(VisuStructDocumentEditing.newEmpty())
-        var tabs = tabsModel.tabs
-        let i = tabsModel.currentTabIndex
-        let hadLinkedFile = tabs[i].linkedFileDisplayName != nil || tabs[i].linkedFileBookmarkData != nil
-        tabs[i].selectedPath = [0]
-        tabs[i].errorText = nil
-        tabs[i].linkedFileBookmarkData = nil
-        tabs[i].linkedFileDisplayName = nil
+        let current = tabsModel.currentTab
+        let hadLinkedFile = current.linkedFileDisplayName != nil || current.linkedFileBookmarkData != nil
         // Wenn vorher eine Datei geöffnet/gespeichert war, soll „Neu“ wieder einen unbenannten Titel bekommen.
+        var untitledTitle: String?
         if hadLinkedFile {
             let serial = tabsModel.nextTabSerial
             tabsModel.nextTabSerial += 1
-            tabs[i].title = String(
+            untitledTitle = String(
                 format: lang.tr("tab_title_format"),
                 locale: Locale(identifier: lang.localeIdentifierForFormatting),
                 arguments: [serial as CVarArg]
             )
         }
-        tabsModel.tabs = tabs
+        tabsModel.updateCurrentTab { tab in
+            tab.selectedPath = [0]
+            tab.errorText = nil
+            tab.linkedFileBookmarkData = nil
+            tab.linkedFileDisplayName = nil
+            if let untitledTitle { tab.title = untitledTitle }
+        }
         refreshLineEditor()
     }
 
@@ -1665,20 +1577,14 @@ struct ContentView: View {
         if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
             do {
                 commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: element))
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                tabs[tabsModel.currentTabIndex].errorText = nil
-                tabsModel.tabs = tabs
+                tabsModel.selectAndClearError([0])
                 refreshLineEditor()
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
             }
         } else {
             commitDocument(VisuStructDocumentEditing.appendRoot(doc, element))
-            var tabs = tabsModel.tabs
-            tabs[tabsModel.currentTabIndex].selectedPath = [tabs[tabsModel.currentTabIndex].document.elements.count - 1]
-            tabs[tabsModel.currentTabIndex].errorText = nil
-            tabsModel.tabs = tabs
+            tabsModel.selectAndClearError([tabsModel.currentTab.document.elements.count - 1])
             refreshLineEditor()
         }
     }
@@ -1694,51 +1600,30 @@ struct ContentView: View {
                 switch t {
                 case .replace(let path):
                     commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(path)
                 case .before(let path):
                     commitDocument(try VisuStructDocumentEditing.insertBeforeSibling(doc, el, before: path))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(path)
                 case .after(let path):
                     commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
                     let newPath = Array(path.dropLast()) + [path.last! + 1]
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(newPath)
                 case .rootInsertAt0:
                     if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
                         commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([0])
                     } else {
                         commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: 0, element: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([0])
                     }
                 case .rootAppend:
                     if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
                         commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([0])
                     } else {
                         let idx = doc.elements.count
                         commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: idx, element: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [idx]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([idx])
                     }
                 }
                 insertTarget = nil
@@ -1752,14 +1637,11 @@ struct ContentView: View {
         }
         // iPad/Mac (ohne Tap-Einfügemarke): Ist ein Platzhalter (ø) ausgewählt, ersetzen — wie Drop auf die Mitte.
         // Sonst landet z. B. eine Verzweigung fälschlich als neues Wurzelelement unter der Schleife.
-        if let path = tabsModel.tabs[tabsModel.currentTabIndex].selectedPath,
+        if let path = tabsModel.currentTab.selectedPath,
            VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
             do {
                 commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = path
-                tabs[tabsModel.currentTabIndex].errorText = nil
-                tabsModel.tabs = tabs
+                tabsModel.selectAndClearError(path)
                 refreshLineEditor()
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
@@ -1768,16 +1650,13 @@ struct ContentView: View {
         }
         // Ausgewählt ist ein „echtes“ Element: neues Palette-Element als Geschwister **direkt darunter**
         // (z. B. in der while-Schleife: nach dem if noch i++ einfügen).
-        if let path = tabsModel.tabs[tabsModel.currentTabIndex].selectedPath,
+        if let path = tabsModel.currentTab.selectedPath,
            (try? VisuStructDocumentEditing.element(at: path, in: doc)) != nil,
            !VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
             do {
                 commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
                 let newPath = Array(path.dropLast()) + [path.last! + 1]
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                tabs[tabsModel.currentTabIndex].errorText = nil
-                tabsModel.tabs = tabs
+                tabsModel.selectAndClearError(newPath)
                 refreshLineEditor()
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
@@ -1795,16 +1674,10 @@ struct ContentView: View {
         guard VisuStructDocumentEditing.canDeleteElement(at: path, in: doc) else { return }
         do {
             commitDocument(try VisuStructDocumentEditing.deleteAtPath(doc, path: path))
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            let newDoc = tabs[i].document
-            if newDoc.elements.isEmpty {
-                tabs[i].selectedPath = nil
-            } else if (try? VisuStructDocumentEditing.element(at: path, in: newDoc)) == nil {
-                tabs[i].selectedPath = [0]
+            tabsModel.updateCurrentTab { tab in
+                tab.selectedPath = VisuStructDocumentEditing.sanitizedSelection(path, in: tab.document)
+                tab.errorText = nil
             }
-            tabs[i].errorText = nil
-            tabsModel.tabs = tabs
             refreshLineEditor()
         } catch {
             if let editErr = error as? VisuStructEditError, editErr == .cannotDeleteLastRootElement {
@@ -1857,17 +1730,13 @@ struct ContentView: View {
     // MARK: - Zeileneditor (Synchronisation Element ↔ Textfeld)
 
     private func refreshLineEditor() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        let tab = tabs[i]
+        let tab = tabsModel.currentTab
         guard let path = tab.selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: tab.document) else {
-            tabs[i].lineEditorText = ""
-            tabsModel.tabs = tabs
+            tabsModel.updateCurrentTab { $0.lineEditorText = "" }
             return
         }
-        tabs[i].lineEditorText = el.textLines.joined(separator: "\n")
-        tabsModel.tabs = tabs
+        tabsModel.updateCurrentTab { $0.lineEditorText = el.textLines.joined(separator: "\n") }
 
         if !isPhone, focusedField == nil, el.type != .forSchleife {
             focusedField = .textEditor
@@ -1907,7 +1776,7 @@ struct ContentView: View {
     private func applyLineEditor() {
         guard let path = selectedPath else { return }
         if let el = try? VisuStructDocumentEditing.element(at: path, in: document), el.type == .forSchleife { return }
-        let editorText = tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText
+        let editorText = tabsModel.currentTab.lineEditorText
         let storedText: String
         if let labelPrefix = lineEditorFixedPrefixLabel {
             storedText = VisuStructLineEditorText.prefixingForEditing(labelPrefix, to: VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: editorText))

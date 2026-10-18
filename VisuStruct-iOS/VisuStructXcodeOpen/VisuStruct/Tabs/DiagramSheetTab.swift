@@ -7,8 +7,7 @@ struct DiagramSheetTab: Identifiable {
     let id: UUID
     var title: String
     var document: VisuStructDocument
-    var undoStack: [VisuStructDocument] = []
-    var redoStack: [VisuStructDocument] = []
+    var history = VisuStructEditHistory()
     var selectedPath: [Int]? = [0]
     var lineEditorText: String = ""
     var errorText: String? = nil
@@ -30,8 +29,7 @@ struct DiagramSheetTab: Identifiable {
             id: id,
             title: title,
             document: doc,
-            undoStack: [],
-            redoStack: [],
+            history: VisuStructEditHistory(),
             selectedPath: [0],
             lineEditorText: "",
             errorText: nil,
