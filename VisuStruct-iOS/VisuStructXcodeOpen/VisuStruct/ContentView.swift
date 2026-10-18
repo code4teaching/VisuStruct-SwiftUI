@@ -469,160 +469,47 @@ struct ContentView: View {
     }
 
     /// Gemeinsamer List-Inhalt für Palette + Aktionen.
-    @ViewBuilder
     private var paletteListStackBody: some View {
-        let isCompact = horizontalSizeClass != .regular
-        List {
-            Section {
-                ForEach(ElementPalette.PaletteItem.paletteOrder) { item in
-                    paletteStructureRow(item, isCompact: isCompact)
-                }
-            }
-            Section {
-                Button {
-                    deleteSelection()
-                } label: {
-                    Label(lang.tr("action_delete_selection"), systemImage: "trash")
-                }
-                .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 4, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 8, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .disabled(
-                    isSimulationMode || (selectedPath.map { path in
-                        !VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
-                    } ?? true)
-                )
-                Button {
-                    if !isSimulationMode {
-                        applyLineEditorRespectingTextFocus()
-                        DispatchQueue.main.async {
-                            beginSimulationMode()
-                        }
-                    } else {
-                        endSimulationMode()
-                    }
-                } label: {
-                    Label(
-                        isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"),
-                        systemImage: isSimulationMode ? "rectangle.split.3x1" : "play.circle"
-                    )
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .accessibilityLabel(isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"))
-                Button {
-                    if codeGeneratorAccessGranted {
-                        // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
-                        // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
-                        applyLineEditorRespectingTextFocus()
-                        DispatchQueue.main.async {
-                            codeGeneratorRegenerationToken &+= 1
-                            showCodeGeneratorPlaceholder = true
-                        }
-                    } else {
-                        showCodeGeneratorPaywall = true
-                    }
-                } label: {
-                    HStack(spacing: 10) {
-                        Label(lang.tr("action_generate_code"), systemImage: "chevron.left.forwardslash.chevron.right")
-                            .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                        Spacer(minLength: 8)
-                        if !codeGeneratorAccessGranted {
-                            Image(systemName: "lock.fill")
-                                .font(.body)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .accessibilityLabel(
-                    codeGeneratorAccessGranted ? lang.tr("a11y_generate_code") : lang.tr("a11y_generate_code_locked")
-                )
-                Button {
-                    exportPNG()
-                } label: {
-                    Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                Button {
-                    shareDocumentAsFile()
-                } label: {
-                    Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                Button {
-                    shareDiagramPDF()
-                } label: {
-                    Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+        PaletteActionList(
+            isSimulationMode: isSimulationMode,
+            canDeleteSelection: selectedPath.map { path in
+                VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
+            } ?? false,
+            codeGeneratorAccessGranted: codeGeneratorAccessGranted,
+            onInsertItem: insertPaletteItem,
+            onDeleteSelection: deleteSelection,
+            onToggleSimulation: toggleSimulationMode,
+            onGenerateCode: openCodeGenerator,
+            onSharePNG: exportPNG,
+            onShareDocument: shareDocumentAsFile,
+            onExportPDF: shareDiagramPDF,
+            onShowAbout: { showInfo = true }
+        )
+    }
 
-                Button {
-                    showInfo = true
-                } label: {
-                    Label(lang.tr("action_about"), systemImage: "info.circle")
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 4, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 8, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+    private func toggleSimulationMode() {
+        if !isSimulationMode {
+            applyLineEditorRespectingTextFocus()
+            DispatchQueue.main.async {
+                beginSimulationMode()
             }
+        } else {
+            endSimulationMode()
         }
-        .listStyle(.insetGrouped)
-        .listSectionSpacing(isCompact ? 8 : 18)
-        .environment(\.defaultMinListRowHeight, isCompact ? 34 : 48)
-        .scrollContentBackground(.hidden)
+    }
+
+    private func openCodeGenerator() {
+        if codeGeneratorAccessGranted {
+            // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
+            // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
+            applyLineEditorRespectingTextFocus()
+            DispatchQueue.main.async {
+                codeGeneratorRegenerationToken &+= 1
+                showCodeGeneratorPlaceholder = true
+            }
+        } else {
+            showCodeGeneratorPaywall = true
+        }
     }
 
     // MARK: - Haupteditor (NavigationStack, Tabs, Fehler)
@@ -745,50 +632,12 @@ struct ContentView: View {
 
     // MARK: - Simulations-Ansicht
 
-    @ViewBuilder
     private var simulationDetailView: some View {
-        GeometryReader { geo in
-            let useColumns = geo.size.width >= 760
-            let panelWidth = min(max(geo.size.width * 0.32, 280), 360)
-
-            if useColumns {
-                HStack(alignment: .top, spacing: 16) {
-                    simulationCanvasBlock
-                        .layoutPriority(1)
-                    SimulationStatePanel(
-                        engine: simulation.engine,
-                        isPlaying: simulation.isPlaying,
-                        inputText: $simulation.inputText,
-                        highlightModeRaw: $simulationHighlightModeRaw,
-                        onPlay: { simulation.play() },
-                        onPause: { simulation.pause() },
-                        onStep: { simulation.step() },
-                        onSubmitInput: { simulation.submitInput() },
-                        onStop: { simulation.reset() }
-                    )
-                        .frame(width: panelWidth)
-                        .frame(maxHeight: .infinity, alignment: .top)
-                }
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        simulationCanvasBlock
-                            .frame(height: max(340, geo.size.height * 0.55))
-                        SimulationStatePanel(
-                            engine: simulation.engine,
-                            isPlaying: simulation.isPlaying,
-                            inputText: $simulation.inputText,
-                            highlightModeRaw: $simulationHighlightModeRaw,
-                            onPlay: { simulation.play() },
-                            onPause: { simulation.pause() },
-                            onStep: { simulation.step() },
-                            onSubmitInput: { simulation.submitInput() },
-                            onStop: { simulation.reset() }
-                        )
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
+        SimulationDetailView(
+            simulation: simulation,
+            highlightModeRaw: $simulationHighlightModeRaw
+        ) {
+            simulationCanvasBlock
         }
     }
 
@@ -1582,46 +1431,6 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
-    private func paletteStructureRow(_ item: ElementPalette.PaletteItem, isCompact: Bool) -> some View {
-        let rowInsets = isCompact
-            ? EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10)
-            : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-
-        if isSimulationMode {
-            Button {
-                insertPaletteItem(item)
-            } label: {
-                Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
-                    .foregroundStyle(.tertiary)
-                    .multilineTextAlignment(.leading)
-            }
-            .buttonStyle(PaletteListElementButtonStyle())
-            .accessibilityAddTraits(.isButton)
-            .disabled(true)
-            .opacity(0.55)
-            .listRowInsets(rowInsets)
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-        } else {
-            Button {
-                insertPaletteItem(item)
-            } label: {
-                Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
-                    .foregroundStyle(.primary)
-                    .multilineTextAlignment(.leading)
-            }
-            .buttonStyle(PaletteListElementButtonStyle())
-            .draggable(DiagramDragPayload(raw: ElementPalette.paletteDragIdentifier(item))) {
-                paletteDragPreview(for: item)
-            }
-            .accessibilityAddTraits(.isButton)
-            .listRowInsets(rowInsets)
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-        }
-    }
-
     // MARK: - Zeileneditor (Synchronisation Element ↔ Textfeld)
 
     private func refreshLineEditor() {
@@ -1768,23 +1577,4 @@ struct ContentView: View {
         controller.present(animated: true)
     }
     #endif
-
-    // MARK: - Palette Drag-Vorschau
-
-    @ViewBuilder
-    private func paletteDragPreview(for item: ElementPalette.PaletteItem) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: item.symbolName)
-            Text(item.localizedTitle(in: lang))
-                .font(.callout.weight(.medium))
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(Color.blue.opacity(0.9), lineWidth: 2)
-        )
-        .shadow(color: .black.opacity(0.22), radius: 8, x: 0, y: 4)
-    }
 }
