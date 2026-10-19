@@ -102,9 +102,11 @@ public struct VisuStructSimulationState: Equatable, Sendable {
     public var variables: [String: VisuStructSimulationValue]
     public var outputLines: [String]
     public var inputRequest: VisuStructSimulationInputRequest?
-    public var inputError: String?
+    /// Fehler zur letzten Eingabe (z. B. keine Zahl); Text in der App über `VisuStructSimulationNotice` lokalisieren.
+    public var inputErrorNotice: VisuStructSimulationNotice?
     public var lastTrace: String?
-    public var message: String?
+    /// Hinweis nach dem letzten Schritt (Ende, Fehler); `nil` während die Simulation normal läuft.
+    public var notice: VisuStructSimulationNotice?
     /// Nach einem Fehler bleibt die Simulation auf dem fehlerhaften Schritt stehen, bis sie zurückgesetzt wird.
     public var isHalted: Bool
 
@@ -113,20 +115,27 @@ public struct VisuStructSimulationState: Equatable, Sendable {
         variables: [String: VisuStructSimulationValue] = [:],
         outputLines: [String] = [],
         inputRequest: VisuStructSimulationInputRequest? = nil,
-        inputError: String? = nil,
+        inputErrorNotice: VisuStructSimulationNotice? = nil,
         lastTrace: String? = nil,
-        message: String? = nil,
+        notice: VisuStructSimulationNotice? = nil,
         isHalted: Bool = false
     ) {
         self.stepIndex = stepIndex
         self.variables = variables
         self.outputLines = outputLines
         self.inputRequest = inputRequest
-        self.inputError = inputError
+        self.inputErrorNotice = inputErrorNotice
         self.lastTrace = lastTrace
-        self.message = message
+        self.notice = notice
         self.isHalted = isHalted
     }
+}
+
+extension VisuStructSimulationState {
+    /// Englischer Text von `notice` (Tests, Protokolle).
+    public var message: String? { notice?.englishText }
+    /// Englischer Text von `inputErrorNotice`.
+    public var inputError: String? { inputErrorNotice?.englishText }
 }
 
 public struct VisuStructSimulationEngine: Equatable, Sendable {
@@ -157,7 +166,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     public mutating func step() {
         guard canStep else {
             if state.inputRequest == nil && !state.isHalted {
-                state.message = "Simulation finished."
+                state.notice = .finished
             }
             return
         }
@@ -196,13 +205,13 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return
             }
             if state.inputRequest != nil {
-                state.message = nil
+                state.notice = nil
                 return
             }
             state.stepIndex += 1
-            state.message = state.stepIndex >= steps.count ? "Simulation finished." : nil
+            state.notice = state.stepIndex >= steps.count ? .finished : nil
         } catch {
-            state.message = error.localizedDescription
+            state.notice = VisuStructSimulationNotice(error)
             state.isHalted = true
         }
     }
@@ -214,13 +223,13 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             try assignValue(value, to: request.variableName)
             state.lastTrace = "\(request.variableName) = input -> \(value.description)"
         } catch {
-            state.inputError = error.localizedDescription
+            state.inputErrorNotice = VisuStructSimulationNotice(error)
             return
         }
         state.inputRequest = nil
-        state.inputError = nil
+        state.inputErrorNotice = nil
         state.stepIndex += 1
-        state.message = state.stepIndex >= steps.count ? "Simulation finished." : nil
+        state.notice = state.stepIndex >= steps.count ? .finished : nil
     }
 
     private static func parseInputValue(_ rawValue: String, as valueType: VisuStructSimulationValueType) throws -> VisuStructSimulationValue {
@@ -230,12 +239,12 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         switch valueType {
         case .int:
             guard let value = Int(trimmed) else {
-                throw SimulationError.invalidInput("Please enter a whole number.")
+                throw SimulationError.invalidInput(.wholeNumberExpected)
             }
             return .int(value)
         case .double:
             guard let value = Double(trimmed) else {
-                throw SimulationError.invalidInput("Please enter a number.")
+                throw SimulationError.invalidInput(.numberExpected)
             }
             return .double(value)
         case .string:
@@ -346,7 +355,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: branchSteps, at: state.stepIndex)
         state.lastTrace = "\(condition) -> \(result ? "true" : "false")"
-        state.message = !branchSteps.isEmpty ? nil : (state.stepIndex >= steps.count ? "Simulation finished." : nil)
+        state.notice = !branchSteps.isEmpty ? nil : (state.stepIndex >= steps.count ? .finished : nil)
     }
 
     private mutating func executeSwitchSelection(_ step: VisuStructSimulationStep) throws {
@@ -366,7 +375,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: caseSteps, at: state.stepIndex)
         state.lastTrace = "\(selector) -> \(selectedCase.name)"
-        state.message = !caseSteps.isEmpty ? nil : (state.stepIndex >= steps.count ? "Simulation finished." : nil)
+        state.notice = !caseSteps.isEmpty ? nil : (state.stepIndex >= steps.count ? .finished : nil)
     }
 
     private mutating func executeForLoopStart(_ step: VisuStructSimulationStep) throws {
@@ -419,7 +428,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             steps.insert(contentsOf: bodySteps + [incrementStep, conditionStep], at: state.stepIndex)
         } else {
             steps.remove(at: state.stepIndex)
-            state.message = state.stepIndex >= steps.count ? "Simulation finished." : nil
+            state.notice = state.stepIndex >= steps.count ? .finished : nil
         }
     }
 
@@ -449,10 +458,10 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
-            state.message = !bodySteps.isEmpty ? nil : (state.stepIndex >= steps.count ? "Simulation finished." : nil)
+            state.notice = !bodySteps.isEmpty ? nil : (state.stepIndex >= steps.count ? .finished : nil)
         } else {
             steps.remove(at: state.stepIndex)
-            state.message = state.stepIndex >= steps.count ? "Simulation finished." : nil
+            state.notice = state.stepIndex >= steps.count ? .finished : nil
         }
     }
 
@@ -469,7 +478,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
-        state.message = !bodySteps.isEmpty ? nil : (state.stepIndex >= steps.count ? "Simulation finished." : nil)
+        state.notice = !bodySteps.isEmpty ? nil : (state.stepIndex >= steps.count ? .finished : nil)
     }
 
     private mutating func executeDoUntilCondition(_ step: VisuStructSimulationStep) throws {
@@ -491,7 +500,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
         } else {
             steps.remove(at: state.stepIndex)
-            state.message = state.stepIndex >= steps.count ? "Simulation finished." : nil
+            state.notice = state.stepIndex >= steps.count ? .finished : nil
         }
     }
 
@@ -509,14 +518,14 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: bodySteps + [loopStep], at: state.stepIndex)
         state.lastTrace = "true -> true"
-        state.message = !bodySteps.isEmpty ? nil : "Infinite loop has no body."
+        state.notice = !bodySteps.isEmpty ? nil : .infiniteLoopWithoutBody
     }
 
     private mutating func execute(statement rawText: String) throws {
         let text = rawText.trimmingCharacters(in: .whitespacesAndNewlines)
         if text.lowercased().hasPrefix("input:") {
             state.inputRequest = try parseInputRequest(text)
-            state.inputError = nil
+            state.inputErrorNotice = nil
             return
         }
 
@@ -1343,20 +1352,53 @@ private enum SimulationError: LocalizedError, Equatable {
     case invalidExpression(String)
     case unknownVariable(String)
     case divisionByZero
-    case invalidInput(String)
+    case invalidInput(VisuStructSimulationNotice)
 
-    var errorDescription: String? {
+    var notice: VisuStructSimulationNotice {
         switch self {
-        case .unsupportedStatement(let text):
-            return "Unsupported statement: \(text)"
-        case .invalidExpression(let text):
-            return "Invalid expression: \(text)"
-        case .unknownVariable(let name):
-            return "Unknown variable: \(name)"
-        case .divisionByZero:
-            return "Division by zero."
-        case .invalidInput(let message):
-            return message
+        case .unsupportedStatement(let text): return .unsupportedStatement(text)
+        case .invalidExpression(let text): return .invalidExpression(text)
+        case .unknownVariable(let name): return .unknownVariable(name)
+        case .divisionByZero: return .divisionByZero
+        case .invalidInput(let notice): return notice
+        }
+    }
+
+    var errorDescription: String? { notice.englishText }
+}
+
+/// Meldungen der Simulation, unabhängig von der Sprache; die App übersetzt sie.
+public enum VisuStructSimulationNotice: Equatable, Sendable {
+    case finished
+    case infiniteLoopWithoutBody
+    case unsupportedStatement(String)
+    case invalidExpression(String)
+    case unknownVariable(String)
+    case divisionByZero
+    case wholeNumberExpected
+    case numberExpected
+    /// Fehler aus einer anderen Quelle, nur als Text bekannt.
+    case other(String)
+
+    init(_ error: Error) {
+        if let simulationError = error as? SimulationError {
+            self = simulationError.notice
+        } else {
+            self = .other(error.localizedDescription)
+        }
+    }
+
+    public var englishText: String {
+        switch self {
+        case .finished: return "Simulation finished."
+        case .infiniteLoopWithoutBody: return "Infinite loop has no body."
+        case .unsupportedStatement(let text): return "Unsupported statement: \(text)"
+        case .invalidExpression(let text): return "Invalid expression: \(text)"
+        case .unknownVariable(let name): return "Unknown variable: \(name)"
+        case .divisionByZero: return "Division by zero."
+        case .wholeNumberExpected: return "Please enter a whole number."
+        case .numberExpected: return "Please enter a number."
+        case .other(let text): return text
         }
     }
 }
