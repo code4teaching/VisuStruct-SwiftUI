@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "Siste steg";
 "simulation_highlight_next" = "Neste steg";
 "simulation_not_available" = "Play kjører simuleringen automatisk med en pause på 0,5 sekund per steg.";
-"simulation_play" = "Play";
+"simulation_play" = "Spill av";
 "simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_step" = "Trinn";
+"simulation_stop" = "Stopp";
 "simulation_input" = "Inndata";
 "simulation_input_placeholder" = "Ingen inndata kreves.";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Skriv inn et heltall.";
 "simulation_trace" = "Siste steg";
-"simulation_trace_placeholder" = "Det sist utførte steget forklares her.";
+"simulation_trace_placeholder" = "Ingen trinn er utført ennå.";
 "simulation_variables" = "Variabler";
-"simulation_variables_placeholder" = "Gjeldende variabelverdier vises her senere.";
+"simulation_variables_placeholder" = "Ingen variabler ennå.";
 "simulation_output" = "Utdata";
-"simulation_output_placeholder" = "Simuleringens utdata vises her senere.";
+"simulation_output_placeholder" = "Ingen utdata ennå.";
 "action_delete_selection" = "Slett markering";
 "ctx_copy" = "Kopier";
 "ctx_cut" = "Klipp ut";
@@ -64,11 +64,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "Type";
+"inspector_io_mode_statement" = "Setning";
+"inspector_io_mode_input" = "Inndata";
+"inspector_io_mode_output" = "Utdata";
+"inspector_io_mode_help_java_like" = "Inndata: input: … | Utdata: output: …";
 "inspector_add_case" = "Legg til case";
 "inspector_remove_case" = "Fjern case";
 "inspector_group_element" = "Elementtekst";
@@ -130,3 +130,13 @@
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Dra for å flytte kodegeneratorpanelet";
 "about_dateiformat_strk" = "Filer med endelsen .strk kan også åpnes.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simuleringen er ferdig.";
+"sim_notice_infinite_loop_empty" = "Den uendelige løkken har ikke noe innhold.";
+"sim_notice_unsupported_statement_fmt" = "Setning støttes ikke: %@";
+"sim_notice_invalid_expression_fmt" = "Ugyldig uttrykk: %@";
+"sim_notice_unknown_variable_fmt" = "Ukjent variabel: %@";
+"sim_notice_division_by_zero" = "Divisjon med null.";
+"sim_notice_whole_number_expected" = "Skriv inn et heltall.";
+"sim_notice_number_expected" = "Skriv inn et tall.";

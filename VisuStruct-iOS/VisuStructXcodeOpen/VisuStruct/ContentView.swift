@@ -748,7 +748,10 @@ struct ContentView: View {
     @ViewBuilder
     private var simulationDetailView: some View {
         GeometryReader { geo in
-            let useColumns = geo.size.width >= 760
+            // Seitenspalte nur im Querformat; hochkant wäre sie gequetscht und unter dem Diagramm bliebe Platz frei.
+            let useColumns = geo.size.width >= 760 && geo.size.width > geo.size.height
+            // iPad hochkant: Diagramm oben, Steuerfeld darunter über die volle Breite.
+            let useWideStack = !useColumns && geo.size.width >= 600 && geo.size.height >= 700
             let panelWidth = min(max(geo.size.width * 0.32, 280), 360)
 
             if useColumns {
@@ -768,6 +771,24 @@ struct ContentView: View {
                     )
                         .frame(width: panelWidth)
                         .frame(maxHeight: .infinity, alignment: .top)
+                }
+            } else if useWideStack {
+                VStack(alignment: .leading, spacing: 16) {
+                    simulationCanvasBlock
+                        .frame(height: geo.size.height * 0.5)
+                    SimulationStatePanel(
+                        engine: simulationEngine,
+                        isPlaying: isSimulationPlaying,
+                        inputText: $simulationInputText,
+                        highlightModeRaw: $simulationHighlightModeRaw,
+                        onPlay: playSimulation,
+                        onPause: pauseSimulation,
+                        onStep: stepSimulation,
+                        onSubmitInput: submitSimulationInput,
+                        onStop: resetSimulation,
+                        usesWideLayout: true
+                    )
+                    .frame(maxHeight: .infinity)
                 }
             } else {
                 ScrollView {
@@ -1633,7 +1654,9 @@ struct ContentView: View {
         }
         tabsModel.updateCurrentTab { $0.lineEditorText = el.textLines.joined(separator: "\n") }
 
-        if !isPhone, focusedField == nil, el.type != .forSchleife {
+        if DiagramInspectorAutoFocus.shouldFocusOnSelection,
+           focusedField == nil,
+           el.type != .forSchleife {
             focusedField = .textEditor
             editorFocusToken = UUID()
         }
