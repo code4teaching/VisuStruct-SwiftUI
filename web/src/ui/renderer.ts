@@ -50,7 +50,13 @@ export class DiagramRenderer {
   /** Im Simulationsmodus bedeutet die Markierung „aktueller Schritt“ statt Bearbeitungsauswahl. */
   usesSimulationHighlight = false
 
-  render(layout: Layout, size: { width: number; height: number }, selectedPath?: number[]): SVGSVGElement {
+  render(
+    layout: Layout,
+    size: { width: number; height: number },
+    selectedPath?: number[],
+    /** Export: `exportCanvasOuterMarginPt` statt des Rands im Editor. */
+    outerMargin = Ink.canvasOuterMargin,
+  ): SVGSVGElement {
     const svg = el('svg', {
       width: size.width,
       height: size.height,
@@ -60,7 +66,7 @@ export class DiagramRenderer {
       class: 'diagram',
     })
     svg.append(el('rect', { x: 0, y: 0, width: size.width, height: size.height, fill: '#fafafa' }))
-    const m = Ink.canvasOuterMargin
+    const m = outerMargin
     svg.append(
       el('rect', {
         x: m,

@@ -30,6 +30,7 @@ import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { examples } from './examples'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
+import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 
 type DropTarget =
@@ -199,6 +200,7 @@ export class App {
     this.tab.selected = v
   }
   private simulating = false
+  private exportSelect!: HTMLSelectElement
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
   private simPath?: number[]
   private sim!: SimulationPanel
@@ -259,6 +261,13 @@ export class App {
           <button data-action="open" title="Datei öffnen (Strg+O)">Öffnen…</button>
           <select data-action="example" title="Beispiel laden"><option value="">Beispiel…</option></select>
           <button data-action="save" title="Speichern (Strg+S)">Speichern</button>
+          <select data-action="export" title="Als Bild oder PDF speichern oder drucken">
+            <option value="">Exportieren…</option>
+            <option value="png">Bild (PNG)</option>
+            <option value="svg">Vektorgrafik (SVG)</option>
+            <option value="pdf">PDF (A4)</option>
+            <option value="print">Drucken… (Strg+P)</option>
+          </select>
         </div>
         <div class="group">
           <button data-action="undo" title="Rückgängig (Strg+Z)">↶</button>
@@ -343,6 +352,12 @@ export class App {
       if (ex) this.loadXML(ex.xml, ex.name.split('/').pop()! + '.visustruct')
     })
     this.tabStrip = $('.tabs')
+    this.exportSelect = $<HTMLSelectElement>('[data-action=export]')
+    this.exportSelect.addEventListener('change', () => {
+      const kind = this.exportSelect.value as ExportKind | ''
+      this.exportSelect.value = ''
+      if (kind) void this.exportDiagram(kind)
+    })
     const zoom = $<HTMLSelectElement>('[data-action=zoom]')
     zoom.value = String(this.zoom)
     zoom.addEventListener('change', () => {
@@ -445,6 +460,7 @@ export class App {
     this.deleteButton.disabled = this.simulating || !this.selected || !canDeleteElement(this.doc, this.selected)
     this.captionInput.readOnly = this.simulating
     this.codeButton.disabled = this.simulating
+    this.exportSelect.disabled = this.simulating
     if (this.coding) this.code.refresh()
     this.renderTabs()
     this.renderInspector()
@@ -903,6 +919,66 @@ export class App {
   }
 
   /** Datei zum Herunterladen anbieten (in der Vorschau über die `downloads`-Fähigkeit). */
+  // MARK: - Export (wie `DiagramExporter`)
+
+  private async exportDiagram(kind: ExportKind) {
+    const image = Export.renderExportSVG(this.doc, this.metrics, this.measure)
+    if (!image) {
+      this.showMessage(kind === 'print' ? 'Diagramm ist zu klein, nichts zu drucken.' : 'Diagramm ist zu klein, nichts zu exportieren.')
+      return
+    }
+    const base = Export.exportFilenameBase(this.doc, tabTitle(this.tab))
+    // Wie `displayScale` × Textgröße: scharf auch auf hochauflösenden Bildschirmen.
+    const scale = Math.max(2, window.devicePixelRatio || 1) * this.zoom
+    try {
+      switch (kind) {
+        case 'svg': {
+          image.svg.setAttribute('width', String(image.width * this.zoom))
+          image.svg.setAttribute('height', String(image.height * this.zoom))
+          await this.offerDownload(`${base}.svg`, new Blob([Export.svgMarkup(image)], { type: 'image/svg+xml' }))
+          break
+        }
+        case 'png': {
+          const canvas = await Export.rasterize(image, scale)
+          await this.offerDownload(`${base}.png`, await Export.canvasToPNG(canvas))
+          break
+        }
+        case 'pdf': {
+          const canvas = await Export.rasterize(image, Math.max(scale, 3))
+          const pdf = await Export.buildDiagramPDF(Export.canvasRGB(canvas), canvas.width, canvas.height, image, Export.exportVisibleDiagramTitle(this.doc))
+          await this.offerDownload(`${base}.pdf`, pdf)
+          break
+        }
+        case 'print':
+          this.printDiagram(image)
+          break
+      }
+    } catch (err) {
+      this.showMessage(`Export fehlgeschlagen: ${err instanceof Error ? err.message : String(err)}`)
+    }
+  }
+
+  /** Drucken: nur das Export-Bild auf die Seite (siehe `@media print` in styles.css). */
+  private printDiagram(image: Export.ExportImage) {
+    const sheet = document.createElement('div')
+    sheet.className = 'print-sheet'
+    image.svg.removeAttribute('width')
+    image.svg.removeAttribute('height')
+    sheet.append(image.svg)
+    document.body.append(sheet)
+    const cleanup = () => sheet.remove()
+    window.addEventListener('afterprint', cleanup, { once: true })
+    try {
+      window.print()
+    } catch {
+      cleanup()
+      this.showMessage('Drucken ist hier nicht verfügbar. Über „Exportieren… → PDF“ lässt sich das Diagramm speichern und dann drucken.')
+      return
+    }
+    // Manche Browser senden kein `afterprint`.
+    setTimeout(cleanup, 60_000)
+  }
+
   private async offerDownload(filename: string, blob: Blob) {
     try {
       if (this.downloads) {
@@ -951,6 +1027,9 @@ export class App {
     if (mod && e.key.toLowerCase() === 's') {
       e.preventDefault()
       this.save()
+    } else if (mod && e.key.toLowerCase() === 'p') {
+      e.preventDefault()
+      if (!this.simulating) void this.exportDiagram('print')
     } else if (mod && e.key.toLowerCase() === 'o') {
       e.preventDefault()
       this.open(this.root.querySelector('input[type=file]')!)
@@ -1154,6 +1233,8 @@ export class App {
     }
   }
 }
+
+type ExportKind = 'png' | 'svg' | 'pdf' | 'print'
 
 function tabTitle(tab: Tab): string {
   if (tab.fileName) return tab.fileName.replace(/\.(visustruct|strk)$/i, '')

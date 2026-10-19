@@ -34,6 +34,7 @@ damit Änderungen in Swift leicht nachgezogen werden können:
 | `src/core/simulation.ts` | `VisuStructSimulationEngine.swift` |
 | `src/core/codeGenerator.ts` | `VisuStructCodeGenerator.swift`, `CodeGeneration/*.swift` |
 | `src/ui/renderer.ts` | `Canvas/DiagramCanvasRenderer.swift` (als SVG) |
+| `src/ui/exporter.ts` | `Export/DiagramSnapshotAndExport.swift`, `Export/DiagramExporter.swift` |
 | `src/ui/codePanel.ts` | `CodeGeneration/CodeGeneratorPanels.swift`, `Runner/JavaScriptRunner.swift` |
 | `src/ui/simulationPanel.ts` | `Simulation/SimulationController.swift`, `Simulation/SimulationPanels.swift` |
 
@@ -51,8 +52,12 @@ App nach 100 000 Durchläufen ab, und „Stopp“ beendet jeden Lauf.
 Mehrere Diagramme sind als Reiter offen (wie `Tabs/` in der App); jeder Reiter hat eigenes Rückgängig.
 Kopieren/Ausschneiden/Einfügen, Textgröße und das Feld für Fallnamen folgen der Mac-App.
 
+„Exportieren…“ speichert das Diagramm mit Titel als PNG, SVG oder einseitiges A4-PDF (Hoch- oder Querformat wie in
+der App, ohne zusätzliche Bibliothek) oder druckt es (Strg+P). `test/exporter.test.ts` prüft Dateinamen, Seitenformat
+und den Aufbau der PDF-Datei.
+
 Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift und Finger gleich funktionieren.
 
 ## Noch nicht enthalten
 
-Mehrsprachigkeit (UI ist deutsch), Export als Bild/PDF und Drucken, Verschieben vorhandener Elemente mit dem Finger.
+Mehrsprachigkeit (UI ist deutsch), Verschieben vorhandener Elemente mit dem Finger.

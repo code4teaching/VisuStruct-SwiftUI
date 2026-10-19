@@ -675,3 +675,28 @@ button.primary {
 button.danger-text:not(:disabled) {
   color: #d70015;
 }
+
+/* Drucken: nur das Export-Bild, eingepasst auf die Seite. */
+.print-sheet {
+  display: none;
+}
+@media print {
+  @page {
+    margin: 12mm;
+  }
+  body > *:not(.print-sheet) {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  .print-sheet {
+    display: block;
+  }
+  .print-sheet svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 100vh;
+  }
+}
