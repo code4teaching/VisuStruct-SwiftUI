@@ -15,6 +15,8 @@ struct SimulationStatePanel: View {
     let onStep: () -> Void
     let onSubmitInput: () -> Void
     let onStop: () -> Void
+    /// Hochkant auf dem iPad: Steuerung links, Schritt/Variablen/Ausgabe rechts statt alles untereinander.
+    var usesWideLayout: Bool = false
 
     private var sortedVariables: [(String, VisuStructSimulationValue)] {
         engine.state.variables
@@ -26,7 +28,9 @@ struct SimulationStatePanel: View {
 
     var body: some View {
         Group {
-            if isWaitingForInput {
+            if usesWideLayout {
+                wideStack
+            } else if isWaitingForInput {
                 ScrollView {
                     panelStack(flexibleCardsFillHeight: false)
                 }
@@ -50,122 +54,166 @@ struct SimulationStatePanel: View {
     @ViewBuilder
     private func panelStack(flexibleCardsFillHeight: Bool) -> some View {
         VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 10) {
-                Label(lang.tr("simulation_controls"), systemImage: "slider.horizontal.3")
-                    .font(.headline)
+            controlsSection
+            inputCard
+            traceCard(flexibleCardsFillHeight: flexibleCardsFillHeight)
+            variablesCard(flexibleCardsFillHeight: flexibleCardsFillHeight)
+            outputCard(flexibleCardsFillHeight: flexibleCardsFillHeight)
+                .layoutPriority(flexibleCardsFillHeight ? 1 : 0)
+            noticeText
+        }
+    }
 
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    SimulationControlButton(title: lang.tr("simulation_play"), systemImage: "play.fill", isDisabled: isPlaying || !engine.canStep, action: onPlay)
-                    SimulationControlButton(title: lang.tr("simulation_pause"), systemImage: "pause.fill", isDisabled: !isPlaying, action: onPause)
-                    SimulationControlButton(title: lang.tr("simulation_step"), systemImage: "arrow.right.circle", isDisabled: isPlaying || !engine.canStep, action: onStep)
-                    SimulationControlButton(title: lang.tr("simulation_stop"), systemImage: "stop.fill", isDisabled: false, action: onStop)
-                }
-
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(lang.tr("simulation_highlight_label"))
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    Picker(lang.tr("simulation_highlight_label"), selection: $highlightModeRaw) {
-                        Text(lang.tr("simulation_highlight_last")).tag(SimulationHighlightMode.lastExecuted.rawValue)
-                        Text(lang.tr("simulation_highlight_next")).tag(SimulationHighlightMode.nextToExecute.rawValue)
-                    }
-                    .pickerStyle(.segmented)
+    private var wideStack: some View {
+        HStack(alignment: .top, spacing: 16) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    controlsSection
+                    inputCard
+                    noticeText
                 }
             }
+            .scrollBounceBehavior(.basedOnSize)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-            SimulationInputCard(
-                prompt: engine.state.inputRequest?.prompt,
-                variableName: engine.state.inputRequest?.variableName,
-                valueType: engine.state.inputRequest?.valueType,
-                inputError: engine.state.inputError,
-                inputText: $inputText,
-                onSubmit: onSubmitInput
-            )
-
-            SimulationPlaceholderCard(
-                title: lang.tr("simulation_trace"),
-                systemImage: "arrow.left.arrow.right",
-                minHeight: flexibleCardsFillHeight ? 130 : 88
-            ) {
-                if let trace = engine.state.lastTrace {
-                    Text(trace)
-                        .font(.body.monospaced())
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .fixedSize(horizontal: false, vertical: true)
-                } else {
-                    Text(lang.tr("simulation_trace_placeholder"))
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+            VStack(alignment: .leading, spacing: 16) {
+                traceCard(flexibleCardsFillHeight: false)
+                HStack(alignment: .top, spacing: 16) {
+                    variablesCard(flexibleCardsFillHeight: true)
+                    outputCard(flexibleCardsFillHeight: true)
                 }
+                .frame(maxHeight: .infinity)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        }
+    }
+
+    private var controlsSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Label(lang.tr("simulation_controls"), systemImage: "slider.horizontal.3")
+                .font(.headline)
+
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                SimulationControlButton(title: lang.tr("simulation_play"), systemImage: "play.fill", isDisabled: isPlaying || !engine.canStep, action: onPlay)
+                SimulationControlButton(title: lang.tr("simulation_pause"), systemImage: "pause.fill", isDisabled: !isPlaying, action: onPause)
+                SimulationControlButton(title: lang.tr("simulation_step"), systemImage: "arrow.right.circle", isDisabled: isPlaying || !engine.canStep, action: onStep)
+                SimulationControlButton(title: lang.tr("simulation_stop"), systemImage: "stop.fill", isDisabled: false, action: onStop)
             }
 
-            SimulationPlaceholderCard(
-                title: lang.tr("simulation_variables"),
-                systemImage: "curlybraces",
-                minHeight: flexibleCardsFillHeight ? 190 : 96,
-                contentFillsHeight: flexibleCardsFillHeight
-            ) {
-                if sortedVariables.isEmpty {
-                    Text(lang.tr("simulation_variables_placeholder"))
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                } else {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 8) {
-                            ForEach(sortedVariables, id: \.0) { name, value in
-                                HStack(alignment: .firstTextBaseline) {
-                                    Text(name)
-                                        .font(.body.monospaced().weight(.semibold))
-                                    Spacer(minLength: 12)
-                                    Text(value.description)
-                                        .font(.body.monospaced())
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                        }
-                        .padding(.trailing, 14)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                }
-            }
-
-            SimulationPlaceholderCard(
-                title: lang.tr("simulation_output"),
-                systemImage: "terminal",
-                minHeight: flexibleCardsFillHeight ? 170 : 96,
-                contentFillsHeight: flexibleCardsFillHeight
-            ) {
-                if engine.state.outputLines.isEmpty {
-                    Text(lang.tr("simulation_output_placeholder"))
-                        .font(.body)
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
-                } else {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 6) {
-                            ForEach(Array(engine.state.outputLines.enumerated()), id: \.offset) { _, line in
-                                Text(line)
-                                    .font(.body.monospaced())
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        }
-                        .padding(.trailing, 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                }
-            }
-            .layoutPriority(flexibleCardsFillHeight ? 1 : 0)
-
-            if let message = engine.state.message {
-                Text(message)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(lang.tr("simulation_highlight_label"))
                     .font(.caption)
+                    .foregroundStyle(.secondary)
+                Picker(lang.tr("simulation_highlight_label"), selection: $highlightModeRaw) {
+                    Text(lang.tr("simulation_highlight_last")).tag(SimulationHighlightMode.lastExecuted.rawValue)
+                    Text(lang.tr("simulation_highlight_next")).tag(SimulationHighlightMode.nextToExecute.rawValue)
+                }
+                .pickerStyle(.segmented)
+            }
+        }
+    }
+
+    private var inputCard: some View {
+        SimulationInputCard(
+            prompt: engine.state.inputRequest?.prompt,
+            variableName: engine.state.inputRequest?.variableName,
+            valueType: engine.state.inputRequest?.valueType,
+            inputError: engine.state.inputErrorNotice?.localized(in: lang),
+            inputText: $inputText,
+            onSubmit: onSubmitInput
+        )
+    }
+
+    private func traceCard(flexibleCardsFillHeight: Bool) -> some View {
+        SimulationPlaceholderCard(
+            title: lang.tr("simulation_trace"),
+            systemImage: "arrow.left.arrow.right",
+            minHeight: flexibleCardsFillHeight ? 130 : 88
+        ) {
+            if let trace = engine.state.lastTrace {
+                Text(trace)
+                    .font(.body.monospaced())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                Text(lang.tr("simulation_trace_placeholder"))
+                    .font(.body)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
+        }
+    }
+
+    private func variablesCard(flexibleCardsFillHeight: Bool) -> some View {
+        SimulationPlaceholderCard(
+            title: lang.tr("simulation_variables"),
+            systemImage: "curlybraces",
+            minHeight: flexibleCardsFillHeight ? 190 : 96,
+            contentFillsHeight: flexibleCardsFillHeight
+        ) {
+            if sortedVariables.isEmpty {
+                Text(lang.tr("simulation_variables_placeholder"))
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(sortedVariables, id: \.0) { name, value in
+                            HStack(alignment: .firstTextBaseline) {
+                                Text(name)
+                                    .font(.body.monospaced().weight(.semibold))
+                                Spacer(minLength: 12)
+                                Text(value.description)
+                                    .font(.body.monospaced())
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                    .padding(.trailing, 14)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+        }
+    }
+
+    private func outputCard(flexibleCardsFillHeight: Bool) -> some View {
+        SimulationPlaceholderCard(
+            title: lang.tr("simulation_output"),
+            systemImage: "terminal",
+            minHeight: flexibleCardsFillHeight ? 170 : 96,
+            contentFillsHeight: flexibleCardsFillHeight
+        ) {
+            if engine.state.outputLines.isEmpty {
+                Text(lang.tr("simulation_output_placeholder"))
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 6) {
+                        ForEach(Array(engine.state.outputLines.enumerated()), id: \.offset) { _, line in
+                            Text(line)
+                                .font(.body.monospaced())
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                    }
+                    .padding(.trailing, 4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var noticeText: some View {
+        if let message = engine.state.notice?.localized(in: lang) {
+            Text(message)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -301,3 +349,31 @@ struct SimulationPlaceholderCard<Content: View>: View {
     }
 }
 
+
+// MARK: - Meldungen der Simulation
+
+extension VisuStructSimulationNotice {
+    /// Meldung der Simulation in der App-Sprache.
+    func localized(in lang: AppLanguage) -> String {
+        switch self {
+        case .finished:
+            return lang.tr("sim_notice_finished")
+        case .infiniteLoopWithoutBody:
+            return lang.tr("sim_notice_infinite_loop_empty")
+        case .unsupportedStatement(let text):
+            return String(format: lang.tr("sim_notice_unsupported_statement_fmt"), text)
+        case .invalidExpression(let text):
+            return String(format: lang.tr("sim_notice_invalid_expression_fmt"), text)
+        case .unknownVariable(let name):
+            return String(format: lang.tr("sim_notice_unknown_variable_fmt"), name)
+        case .divisionByZero:
+            return lang.tr("sim_notice_division_by_zero")
+        case .wholeNumberExpected:
+            return lang.tr("sim_notice_whole_number_expected")
+        case .numberExpected:
+            return lang.tr("sim_notice_number_expected")
+        case .other(let text):
+            return text
+        }
+    }
+}

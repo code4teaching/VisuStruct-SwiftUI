@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "Τελευταίο βήμα";
 "simulation_highlight_next" = "Επόμενο βήμα";
 "simulation_not_available" = "Το Play εκτελεί αυτόματα την προσομοίωση με παύση 0,5 δευτερολέπτων ανά βήμα.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "Αναπαραγωγή";
+"simulation_pause" = "Παύση";
+"simulation_step" = "Βήμα";
+"simulation_stop" = "Διακοπή";
 "simulation_input" = "Είσοδος";
 "simulation_input_placeholder" = "Δεν απαιτείται είσοδος.";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Πληκτρολογήστε έναν ακέραιο αριθμό.";
 "simulation_trace" = "Τελευταίο βήμα";
-"simulation_trace_placeholder" = "Το τελευταίο εκτελεσμένο βήμα θα εξηγείται εδώ.";
+"simulation_trace_placeholder" = "Δεν έχει εκτελεστεί ακόμη κανένα βήμα.";
 "simulation_variables" = "Μεταβλητές";
-"simulation_variables_placeholder" = "Οι τρέχουσες τιμές των μεταβλητών θα εμφανίζονται εδώ αργότερα.";
+"simulation_variables_placeholder" = "Δεν υπάρχουν ακόμη μεταβλητές.";
 "simulation_output" = "Έξοδος";
-"simulation_output_placeholder" = "Η έξοδος της προσομοίωσης θα εμφανίζεται εδώ αργότερα.";
+"simulation_output_placeholder" = "Δεν υπάρχει ακόμη έξοδος.";
 "action_delete_selection" = "Διαγραφή επιλογής";
 "ctx_copy" = "Αντιγραφή";
 "ctx_cut" = "Αποκοπή";
@@ -122,10 +122,10 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
+"inspector_io_mode_title" = "Είδος";
+"inspector_io_mode_statement" = "Εντολή";
+"inspector_io_mode_input" = "Είσοδος";
+"inspector_io_mode_output" = "Έξοδος";
 "inspector_io_mode_help_java_like" = "Java: input: int zahl | output: number";
 "inspector_add_case" = "Προσθήκη περίπτωσης";
 "inspector_remove_case" = "Αφαίρεση περίπτωσης";
@@ -215,3 +215,13 @@
 "settings_export_filename_footer_with_date" = "Με ημερομηνία: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Χωρίς ημερομηνία: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Η προσομοίωση ολοκληρώθηκε.";
+"sim_notice_infinite_loop_empty" = "Ο ατέρμονος βρόχος δεν έχει σώμα.";
+"sim_notice_unsupported_statement_fmt" = "Μη υποστηριζόμενη εντολή: %@";
+"sim_notice_invalid_expression_fmt" = "Μη έγκυρη έκφραση: %@";
+"sim_notice_unknown_variable_fmt" = "Άγνωστη μεταβλητή: %@";
+"sim_notice_division_by_zero" = "Διαίρεση με το μηδέν.";
+"sim_notice_whole_number_expected" = "Εισαγάγετε έναν ακέραιο αριθμό.";
+"sim_notice_number_expected" = "Εισαγάγετε έναν αριθμό.";

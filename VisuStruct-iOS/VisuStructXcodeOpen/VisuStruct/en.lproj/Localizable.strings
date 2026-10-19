@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Please enter a whole number.";
 "simulation_trace" = "Last Step";
-"simulation_trace_placeholder" = "The last executed step will be explained here.";
+"simulation_trace_placeholder" = "No step executed yet.";
 "simulation_variables" = "Variables";
-"simulation_variables_placeholder" = "Current variable values will be shown here later.";
+"simulation_variables_placeholder" = "No variables yet.";
 "simulation_output" = "Output";
-"simulation_output_placeholder" = "The simulation output will appear here later.";
+"simulation_output_placeholder" = "No output yet.";
 "action_delete_selection" = "Delete Selection";
 "ctx_copy" = "Copy";
 "ctx_cut" = "Cut";
@@ -219,3 +219,13 @@
 "err_image_render_failed" = "Could not create the image.";
 "err_diagram_too_small_print" = "The diagram is too small — nothing to print.";
 "err_print_unavailable" = "Printing is not available on this device.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulation finished.";
+"sim_notice_infinite_loop_empty" = "Infinite loop has no body.";
+"sim_notice_unsupported_statement_fmt" = "Unsupported statement: %@";
+"sim_notice_invalid_expression_fmt" = "Invalid expression: %@";
+"sim_notice_unknown_variable_fmt" = "Unknown variable: %@";
+"sim_notice_division_by_zero" = "Division by zero.";
+"sim_notice_whole_number_expected" = "Please enter a whole number.";
+"sim_notice_number_expected" = "Please enter a number.";
