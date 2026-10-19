@@ -1515,85 +1515,41 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei)
+    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei) → `DiagramExporter`
 
-    private func exportPNG() {
-        #if canImport(UIKit)
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
+    #if canImport(UIKit)
+    private var exporter: DiagramExporter {
+        DiagramExporter(
             document: document,
             horizontalSizeClass: horizontalSizeClass,
             canvasScaleStep: canvasScaleStep,
             lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
-            return
-        }
+            displayScale: displayScale,
+            setError: setErrorOnCurrentTab
+        )
+    }
+    #endif
+
+    private func exportPNG() {
+        #if canImport(UIKit)
+        guard let img = exporter.pngImage() else { return }
         pngSharePayload = PNGSharePayload(image: img)
         #endif
     }
 
     #if canImport(UIKit)
     private func shareDocumentAsFile() {
-        let data = VisuStructXMLCodec.encode(document)
-        let fileName = exportFilenameForCurrentTab()
-        do {
-            let url = try DiagramSnapshotExport.writeTemporaryVisustructFile(data: data, fileName: fileName)
-            fileURLSharePayload = FileURLSharePayload(url: url)
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
-        }
+        guard let url = exporter.temporaryDocumentFile(named: exportFilenameForCurrentTab()) else { return }
+        fileURLSharePayload = FileURLSharePayload(url: url)
     }
 
     private func shareDiagramPDF() {
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
-            document: document,
-            horizontalSizeClass: horizontalSizeClass,
-            canvasScaleStep: canvasScaleStep,
-            lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
-            return
-        }
-        let fileName = pdfFilenameForCurrentTab()
-        let metaTitle = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
-        do {
-            let url = try DiagramSnapshotExport.writeTemporaryDiagramPDF(
-                image: img,
-                fileName: fileName,
-                pdfMetadataTitle: metaTitle
-            )
-            pdfQuickLookURL = url
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
-        }
+        guard let url = exporter.temporaryPDF(named: pdfFilenameForCurrentTab()) else { return }
+        pdfQuickLookURL = url
     }
-    #endif
 
-    #if canImport(UIKit)
     private func printDiagram() {
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
-            document: document,
-            horizontalSizeClass: horizontalSizeClass,
-            canvasScaleStep: canvasScaleStep,
-            lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_print"))
-            return
-        }
-        guard UIPrintInteractionController.isPrintingAvailable else {
-            setErrorOnCurrentTab(lang.tr("err_print_unavailable"))
-            return
-        }
-        let info = UIPrintInfo(dictionary: nil)
-        info.outputType = .photo
-        info.jobName = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
-        let controller = UIPrintInteractionController.shared
-        controller.printInfo = info
-        controller.printingItem = img
-        controller.present(animated: true)
+        exporter.printDiagram()
     }
     #endif
 }
