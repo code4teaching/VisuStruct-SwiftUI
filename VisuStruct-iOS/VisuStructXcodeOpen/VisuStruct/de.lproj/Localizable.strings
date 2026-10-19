@@ -14,10 +14,10 @@
 "simulation_highlight_last" = "Letzter Schritt";
 "simulation_highlight_next" = "Nächster Schritt";
 "simulation_not_available" = "Play führt die Simulation automatisch mit 0,5 Sekunden Pause pro Schritt aus.";
-"simulation_play" = "Play";
+"simulation_play" = "Start";
 "simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_step" = "Schritt";
+"simulation_stop" = "Stopp";
 "simulation_input" = "Eingabe";
 "simulation_input_placeholder" = "Keine Eingabe erforderlich.";
 "simulation_input_submit" = "OK";
@@ -143,10 +143,10 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 "inspector_io_mode_title" = "Art";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_statement" = "Anweisung";
+"inspector_io_mode_input" = "Eingabe";
+"inspector_io_mode_output" = "Ausgabe";
+"inspector_io_mode_help_java_like" = "Eingabe: input: … | Ausgabe: output: …";
 "inspector_add_case" = "Weiteren Fall hinzufügen";
 "inspector_remove_case" = "Fall entfernen";
 "inspector_group_element" = "Elementtext";
@@ -219,3 +219,13 @@
 "err_image_render_failed" = "Grafik konnte nicht erzeugt werden.";
 "err_diagram_too_small_print" = "Diagramm ist zu klein — nichts zu drucken.";
 "err_print_unavailable" = "Drucken ist auf diesem Gerät nicht verfügbar.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulation beendet.";
+"sim_notice_infinite_loop_empty" = "Die Endlosschleife hat keinen Rumpf.";
+"sim_notice_unsupported_statement_fmt" = "Nicht unterstützte Anweisung: %@";
+"sim_notice_invalid_expression_fmt" = "Ungültiger Ausdruck: %@";
+"sim_notice_unknown_variable_fmt" = "Unbekannte Variable: %@";
+"sim_notice_division_by_zero" = "Division durch null.";
+"sim_notice_whole_number_expected" = "Bitte eine ganze Zahl eingeben.";
+"sim_notice_number_expected" = "Bitte eine Zahl eingeben.";

@@ -14,10 +14,10 @@
 "simulation_highlight_last" = "Son adım";
 "simulation_highlight_next" = "Sonraki adım";
 "simulation_not_available" = "Play simülasyonu adım başına 0,5 saniye duraklamayla otomatik çalıştırır.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "Oynat";
+"simulation_pause" = "Duraklat";
+"simulation_step" = "Adım";
+"simulation_stop" = "Durdur";
 "simulation_input" = "Girdi";
 "simulation_input_placeholder" = "Girdi gerekli değil.";
 "simulation_input_submit" = "OK";
@@ -125,11 +125,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "Tür";
+"inspector_io_mode_statement" = "Komut";
+"inspector_io_mode_input" = "Giriş";
+"inspector_io_mode_output" = "Çıkış";
+"inspector_io_mode_help_java_like" = "Giriş: input: … | Çıkış: output: …";
 "inspector_add_case" = "Durum ekle";
 "inspector_remove_case" = "Durumu kaldır";
 "inspector_group_element" = "Öğe metni";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "Tarihli: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Tarihsiz: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simülasyon tamamlandı.";
+"sim_notice_infinite_loop_empty" = "Sonsuz döngünün gövdesi yok.";
+"sim_notice_unsupported_statement_fmt" = "Desteklenmeyen komut: %@";
+"sim_notice_invalid_expression_fmt" = "Geçersiz ifade: %@";
+"sim_notice_unknown_variable_fmt" = "Bilinmeyen değişken: %@";
+"sim_notice_division_by_zero" = "Sıfıra bölme.";
+"sim_notice_whole_number_expected" = "Lütfen bir tam sayı girin.";
+"sim_notice_number_expected" = "Lütfen bir sayı girin.";

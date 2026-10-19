@@ -14,10 +14,10 @@
 "simulation_highlight_last" = "Останній крок";
 "simulation_highlight_next" = "Наступний крок";
 "simulation_not_available" = "Play автоматично виконує симуляцію з паузою 0,5 секунди на крок.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "Відтворити";
+"simulation_pause" = "Пауза";
+"simulation_step" = "Крок";
+"simulation_stop" = "Стоп";
 "simulation_input" = "Ввід";
 "simulation_input_placeholder" = "Ввід не потрібен.";
 "simulation_input_submit" = "OK";
@@ -122,10 +122,10 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
+"inspector_io_mode_title" = "Вид";
+"inspector_io_mode_statement" = "Інструкція";
+"inspector_io_mode_input" = "Введення";
+"inspector_io_mode_output" = "Виведення";
 "inspector_io_mode_help_java_like" = "Java: input: int zahl | output: number";
 "inspector_add_case" = "Додати випадок";
 "inspector_remove_case" = "Видалити випадок";
@@ -215,3 +215,13 @@
 "settings_export_filename_footer_with_date" = "З датою: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Без дати: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Симуляцію завершено.";
+"sim_notice_infinite_loop_empty" = "Нескінченний цикл не має тіла.";
+"sim_notice_unsupported_statement_fmt" = "Непідтримувана інструкція: %@";
+"sim_notice_invalid_expression_fmt" = "Неприпустимий вираз: %@";
+"sim_notice_unknown_variable_fmt" = "Невідома змінна: %@";
+"sim_notice_division_by_zero" = "Ділення на нуль.";
+"sim_notice_whole_number_expected" = "Введіть ціле число.";
+"sim_notice_number_expected" = "Введіть число.";

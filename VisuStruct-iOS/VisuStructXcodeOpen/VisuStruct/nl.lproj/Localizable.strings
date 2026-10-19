@@ -14,9 +14,9 @@
 "simulation_highlight_last" = "Last step";
 "simulation_highlight_next" = "Next step";
 "simulation_not_available" = "Play voert de simulatie automatisch uit met een pauze van 0,5 seconde per stap.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
+"simulation_play" = "Afspelen";
+"simulation_pause" = "Pauze";
+"simulation_step" = "Stap";
 "simulation_stop" = "Stop";
 "simulation_input" = "Invoer";
 "simulation_input_placeholder" = "Geen invoer vereist.";
@@ -64,11 +64,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "Soort";
+"inspector_io_mode_statement" = "Opdracht";
+"inspector_io_mode_input" = "Invoer";
+"inspector_io_mode_output" = "Uitvoer";
+"inspector_io_mode_help_java_like" = "Invoer: input: … | Uitvoer: output: …";
 "inspector_add_case" = "Case toevoegen";
 "inspector_remove_case" = "Case verwijderen";
 "inspector_group_element" = "Elementtekst";
@@ -130,3 +130,13 @@
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Sleep om het codegeneratorpaneel te verplaatsen";
 "about_dateiformat_strk" = "Bestanden met de extensie .strk kunnen ook worden geopend.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulatie voltooid.";
+"sim_notice_infinite_loop_empty" = "De oneindige lus heeft geen inhoud.";
+"sim_notice_unsupported_statement_fmt" = "Niet-ondersteunde opdracht: %@";
+"sim_notice_invalid_expression_fmt" = "Ongeldige expressie: %@";
+"sim_notice_unknown_variable_fmt" = "Onbekende variabele: %@";
+"sim_notice_division_by_zero" = "Deling door nul.";
+"sim_notice_whole_number_expected" = "Voer een geheel getal in.";
+"sim_notice_number_expected" = "Voer een getal in.";

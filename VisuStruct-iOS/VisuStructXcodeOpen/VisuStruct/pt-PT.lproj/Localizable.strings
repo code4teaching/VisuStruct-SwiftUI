@@ -14,10 +14,10 @@
 "simulation_highlight_last" = "Último passo";
 "simulation_highlight_next" = "Próximo passo";
 "simulation_not_available" = "Play executa a simulação automaticamente com uma pausa de 0,5 segundos por passo.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "Reproduzir";
+"simulation_pause" = "Pausa";
+"simulation_step" = "Passo";
+"simulation_stop" = "Parar";
 "simulation_input" = "Entrada";
 "simulation_input_placeholder" = "Nenhuma entrada necessária.";
 "simulation_input_submit" = "OK";
@@ -127,11 +127,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "Tipo";
+"inspector_io_mode_statement" = "Instrução";
+"inspector_io_mode_input" = "Entrada";
+"inspector_io_mode_output" = "Saída";
+"inspector_io_mode_help_java_like" = "Entrada: input: … | Saída: output: …";
 "inspector_add_case" = "Adicionar caso";
 "inspector_remove_case" = "Remover caso";
 "inspector_group_element" = "Texto do elemento";
@@ -220,3 +220,13 @@
 "settings_export_filename_footer_with_date" = "Com data: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Sem data: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulação terminada.";
+"sim_notice_infinite_loop_empty" = "O ciclo infinito não tem corpo.";
+"sim_notice_unsupported_statement_fmt" = "Instrução não suportada: %@";
+"sim_notice_invalid_expression_fmt" = "Expressão inválida: %@";
+"sim_notice_unknown_variable_fmt" = "Variável desconhecida: %@";
+"sim_notice_division_by_zero" = "Divisão por zero.";
+"sim_notice_whole_number_expected" = "Introduza um número inteiro.";
+"sim_notice_number_expected" = "Introduza um número.";
