@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "整数を入力してください。";
 "simulation_trace" = "最後のステップ";
-"simulation_trace_placeholder" = "最後に実行されたステップがここに説明されます。";
+"simulation_trace_placeholder" = "まだステップは実行されていません。";
 "simulation_variables" = "変数";
-"simulation_variables_placeholder" = "現在の変数値は後でここに表示されます。";
+"simulation_variables_placeholder" = "まだ変数はありません。";
 "simulation_output" = "出力";
-"simulation_output_placeholder" = "シミュレーションの出力は後でここに表示されます。";
+"simulation_output_placeholder" = "まだ出力はありません。";
 "action_delete_selection" = "選択を削除";
 "ctx_copy" = "コピー";
 "ctx_cut" = "切り取り";

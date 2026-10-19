@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Πληκτρολογήστε έναν ακέραιο αριθμό.";
 "simulation_trace" = "Τελευταίο βήμα";
-"simulation_trace_placeholder" = "Το τελευταίο εκτελεσμένο βήμα θα εξηγείται εδώ.";
+"simulation_trace_placeholder" = "Δεν έχει εκτελεστεί ακόμη κανένα βήμα.";
 "simulation_variables" = "Μεταβλητές";
-"simulation_variables_placeholder" = "Οι τρέχουσες τιμές των μεταβλητών θα εμφανίζονται εδώ αργότερα.";
+"simulation_variables_placeholder" = "Δεν υπάρχουν ακόμη μεταβλητές.";
 "simulation_output" = "Έξοδος";
-"simulation_output_placeholder" = "Η έξοδος της προσομοίωσης θα εμφανίζεται εδώ αργότερα.";
+"simulation_output_placeholder" = "Δεν υπάρχει ακόμη έξοδος.";
 "action_delete_selection" = "Διαγραφή επιλογής";
 "ctx_copy" = "Αντιγραφή";
 "ctx_cut" = "Αποκοπή";

@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Skriv inn et heltall.";
 "simulation_trace" = "Siste steg";
-"simulation_trace_placeholder" = "Det sist utførte steget forklares her.";
+"simulation_trace_placeholder" = "Ingen trinn er utført ennå.";
 "simulation_variables" = "Variabler";
-"simulation_variables_placeholder" = "Gjeldende variabelverdier vises her senere.";
+"simulation_variables_placeholder" = "Ingen variabler ennå.";
 "simulation_output" = "Utdata";
-"simulation_output_placeholder" = "Simuleringens utdata vises her senere.";
+"simulation_output_placeholder" = "Ingen utdata ennå.";
 "action_delete_selection" = "Slett markering";
 "ctx_copy" = "Kopier";
 "ctx_cut" = "Klipp ut";

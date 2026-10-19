@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "请输入一个整数。";
 "simulation_trace" = "上一步";
-"simulation_trace_placeholder" = "这里将说明最后执行的步骤。";
+"simulation_trace_placeholder" = "尚未执行任何步骤。";
 "simulation_variables" = "变量";
-"simulation_variables_placeholder" = "当前变量值稍后会显示在这里。";
+"simulation_variables_placeholder" = "暂无变量。";
 "simulation_output" = "输出";
-"simulation_output_placeholder" = "模拟输出稍后会显示在这里。";
+"simulation_output_placeholder" = "暂无输出。";
 "action_delete_selection" = "删除所选";
 "ctx_copy" = "复制";
 "ctx_cut" = "剪切";

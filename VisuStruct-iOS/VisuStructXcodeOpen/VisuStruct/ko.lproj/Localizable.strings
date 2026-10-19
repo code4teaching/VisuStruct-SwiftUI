@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "정수를 입력하세요.";
 "simulation_trace" = "마지막 단계";
-"simulation_trace_placeholder" = "마지막으로 실행된 단계가 여기에 설명됩니다.";
+"simulation_trace_placeholder" = "아직 실행된 단계가 없습니다.";
 "simulation_variables" = "변수";
-"simulation_variables_placeholder" = "현재 변수 값이 나중에 여기에 표시됩니다.";
+"simulation_variables_placeholder" = "아직 변수가 없습니다.";
 "simulation_output" = "출력";
-"simulation_output_placeholder" = "시뮬레이션 출력이 나중에 여기에 표시됩니다.";
+"simulation_output_placeholder" = "아직 출력이 없습니다.";
 "action_delete_selection" = "선택 삭제";
 "ctx_copy" = "복사";
 "ctx_cut" = "잘라내기";

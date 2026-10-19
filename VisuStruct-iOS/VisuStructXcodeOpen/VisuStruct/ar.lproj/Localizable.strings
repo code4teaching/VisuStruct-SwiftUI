@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "يرجى إدخال عدد صحيح.";
 "simulation_trace" = "آخر خطوة";
-"simulation_trace_placeholder" = "سيتم شرح آخر خطوة تم تنفيذها هنا.";
+"simulation_trace_placeholder" = "لم يُنفَّذ أي خطوة بعد.";
 "simulation_variables" = "المتغيرات";
-"simulation_variables_placeholder" = "ستظهر قيم المتغيرات الحالية هنا لاحقًا.";
+"simulation_variables_placeholder" = "لا توجد متغيرات بعد.";
 "simulation_output" = "المخرجات";
-"simulation_output_placeholder" = "ستظهر مخرجات المحاكاة هنا لاحقًا.";
+"simulation_output_placeholder" = "لا يوجد إخراج بعد.";
 "action_delete_selection" = "حذف التحديد";
 "ctx_copy" = "نسخ";
 "ctx_cut" = "قص";

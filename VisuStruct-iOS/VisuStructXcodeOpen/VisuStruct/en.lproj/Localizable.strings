@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Please enter a whole number.";
 "simulation_trace" = "Last Step";
-"simulation_trace_placeholder" = "The last executed step will be explained here.";
+"simulation_trace_placeholder" = "No step executed yet.";
 "simulation_variables" = "Variables";
-"simulation_variables_placeholder" = "Current variable values will be shown here later.";
+"simulation_variables_placeholder" = "No variables yet.";
 "simulation_output" = "Output";
-"simulation_output_placeholder" = "The simulation output will appear here later.";
+"simulation_output_placeholder" = "No output yet.";
 "action_delete_selection" = "Delete Selection";
 "ctx_copy" = "Copy";
 "ctx_cut" = "Cut";

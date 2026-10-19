@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Wpisz liczbę całkowitą.";
 "simulation_trace" = "Ostatni krok";
-"simulation_trace_placeholder" = "Tutaj zostanie wyjaśniony ostatnio wykonany krok.";
+"simulation_trace_placeholder" = "Nie wykonano jeszcze żadnego kroku.";
 "simulation_variables" = "Zmienne";
-"simulation_variables_placeholder" = "Później będą tu pokazywane aktualne wartości zmiennych.";
+"simulation_variables_placeholder" = "Brak zmiennych.";
 "simulation_output" = "Wyjście";
-"simulation_output_placeholder" = "Później pojawi się tu wyjście symulacji.";
+"simulation_output_placeholder" = "Brak wyjścia.";
 "action_delete_selection" = "Usuń zaznaczenie";
 "ctx_copy" = "Kopiuj";
 "ctx_cut" = "Wytnij";

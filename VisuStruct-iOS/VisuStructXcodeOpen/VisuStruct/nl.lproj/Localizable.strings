@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Voer een geheel getal in.";
 "simulation_trace" = "Laatste stap";
-"simulation_trace_placeholder" = "De laatst uitgevoerde stap wordt hier uitgelegd.";
+"simulation_trace_placeholder" = "Nog geen stap uitgevoerd.";
 "simulation_variables" = "Variabelen";
-"simulation_variables_placeholder" = "De huidige variabele waarden worden hier later getoond.";
+"simulation_variables_placeholder" = "Nog geen variabelen.";
 "simulation_output" = "Uitvoer";
-"simulation_output_placeholder" = "De uitvoer van de simulatie verschijnt hier later.";
+"simulation_output_placeholder" = "Nog geen uitvoer.";
 "action_delete_selection" = "Selectie verwijderen";
 "ctx_copy" = "Kopiëren";
 "ctx_cut" = "Knippen";

@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Введите целое число.";
 "simulation_trace" = "Последний шаг";
-"simulation_trace_placeholder" = "Здесь будет объясняться последний выполненный шаг.";
+"simulation_trace_placeholder" = "Ещё не выполнено ни одного шага.";
 "simulation_variables" = "Переменные";
-"simulation_variables_placeholder" = "Текущие значения переменных будут показаны здесь позже.";
+"simulation_variables_placeholder" = "Переменных пока нет.";
 "simulation_output" = "Вывод";
-"simulation_output_placeholder" = "Вывод симуляции появится здесь позже.";
+"simulation_output_placeholder" = "Вывода пока нет.";
 "action_delete_selection" = "Удалить выделение";
 "ctx_copy" = "Копировать";
 "ctx_cut" = "Вырезать";

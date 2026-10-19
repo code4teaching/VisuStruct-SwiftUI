@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "請輸入一個整數。";
 "simulation_trace" = "上一步";
-"simulation_trace_placeholder" = "這裡會說明最後執行的步驟。";
+"simulation_trace_placeholder" = "尚未執行任何步驟。";
 "simulation_variables" = "變數";
-"simulation_variables_placeholder" = "目前的變數值稍後會顯示在這裡。";
+"simulation_variables_placeholder" = "暫無變數。";
 "simulation_output" = "輸出";
-"simulation_output_placeholder" = "模擬輸出稍後會顯示在這裡。";
+"simulation_output_placeholder" = "暫無輸出。";
 "action_delete_selection" = "刪除選取項目";
 "ctx_copy" = "複製";
 "ctx_cut" = "剪下";

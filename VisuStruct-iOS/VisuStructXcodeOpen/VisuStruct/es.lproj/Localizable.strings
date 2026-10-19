@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Introduce un número entero.";
 "simulation_trace" = "Último paso";
-"simulation_trace_placeholder" = "Aquí se explicará el último paso ejecutado.";
+"simulation_trace_placeholder" = "Aún no se ha ejecutado ningún paso.";
 "simulation_variables" = "Variables";
-"simulation_variables_placeholder" = "Aquí se mostrarán más adelante los valores actuales de las variables.";
+"simulation_variables_placeholder" = "Aún no hay variables.";
 "simulation_output" = "Salida";
-"simulation_output_placeholder" = "Aquí aparecerá más adelante la salida de la simulación.";
+"simulation_output_placeholder" = "Aún no hay salida.";
 "action_delete_selection" = "Eliminar selección";
 "ctx_copy" = "Copiar";
 "ctx_cut" = "Cortar";

@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Indtast et heltal.";
 "simulation_trace" = "Sidste trin";
-"simulation_trace_placeholder" = "Det senest udførte trin forklares her.";
+"simulation_trace_placeholder" = "Intet trin udført endnu.";
 "simulation_variables" = "Variabler";
-"simulation_variables_placeholder" = "Aktuelle variabelværdier vises her senere.";
+"simulation_variables_placeholder" = "Ingen variabler endnu.";
 "simulation_output" = "Output";
-"simulation_output_placeholder" = "Simulationens output vises her senere.";
+"simulation_output_placeholder" = "Intet output endnu.";
 "action_delete_selection" = "Slet markering";
 "ctx_copy" = "Kopiér";
 "ctx_cut" = "Klip";

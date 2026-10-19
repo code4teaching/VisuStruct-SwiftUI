@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "הזינו מספר שלם.";
 "simulation_trace" = "הצעד האחרון";
-"simulation_trace_placeholder" = "הצעד האחרון שבוצע יוסבר כאן.";
+"simulation_trace_placeholder" = "עדיין לא בוצע אף צעד.";
 "simulation_variables" = "משתנים";
-"simulation_variables_placeholder" = "ערכי המשתנים הנוכחיים יוצגו כאן בהמשך.";
+"simulation_variables_placeholder" = "עדיין אין משתנים.";
 "simulation_output" = "פלט";
-"simulation_output_placeholder" = "פלט הסימולציה יופיע כאן בהמשך.";
+"simulation_output_placeholder" = "עדיין אין פלט.";
 "action_delete_selection" = "מחיקת בחירה";
 "ctx_copy" = "העתק";
 "ctx_cut" = "גזור";
