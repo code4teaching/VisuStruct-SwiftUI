@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "Dernière étape";
 "simulation_highlight_next" = "Étape suivante";
 "simulation_not_available" = "Play exécute automatiquement la simulation avec une pause de 0,5 seconde par étape.";
-"simulation_play" = "Play";
+"simulation_play" = "Lecture";
 "simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_step" = "Pas";
+"simulation_stop" = "Arrêt";
 "simulation_input" = "Entrée";
 "simulation_input_placeholder" = "Aucune entrée requise.";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Veuillez saisir un nombre entier.";
 "simulation_trace" = "Dernière étape";
-"simulation_trace_placeholder" = "La dernière étape exécutée sera expliquée ici.";
+"simulation_trace_placeholder" = "Aucune étape exécutée pour l’instant.";
 "simulation_variables" = "Variables";
-"simulation_variables_placeholder" = "Les valeurs actuelles des variables seront affichées ici plus tard.";
+"simulation_variables_placeholder" = "Aucune variable pour l’instant.";
 "simulation_output" = "Sortie";
-"simulation_output_placeholder" = "La sortie de la simulation apparaîtra ici plus tard.";
+"simulation_output_placeholder" = "Aucune sortie pour l’instant.";
 "action_delete_selection" = "Supprimer la sélection";
 "ctx_copy" = "Copier";
 "ctx_cut" = "Couper";
@@ -125,11 +125,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "Type";
+"inspector_io_mode_statement" = "Instruction";
+"inspector_io_mode_input" = "Entrée";
+"inspector_io_mode_output" = "Sortie";
+"inspector_io_mode_help_java_like" = "Entrée: input: … | Sortie: output: …";
 "inspector_add_case" = "Ajouter un cas";
 "inspector_remove_case" = "Supprimer le cas";
 "inspector_group_element" = "Texte de l’élément";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "Avec date: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Sans date: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulation terminée.";
+"sim_notice_infinite_loop_empty" = "La boucle infinie n’a pas de corps.";
+"sim_notice_unsupported_statement_fmt" = "Instruction non prise en charge : %@";
+"sim_notice_invalid_expression_fmt" = "Expression non valide : %@";
+"sim_notice_unknown_variable_fmt" = "Variable inconnue : %@";
+"sim_notice_division_by_zero" = "Division par zéro.";
+"sim_notice_whole_number_expected" = "Saisissez un nombre entier.";
+"sim_notice_number_expected" = "Saisissez un nombre.";
