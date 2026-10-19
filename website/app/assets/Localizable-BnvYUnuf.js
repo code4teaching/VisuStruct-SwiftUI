@@ -233,4 +233,8 @@ const e=`/* Paleta */
 "sim_notice_whole_number_expected" = "Introduza um número inteiro.";
 "sim_notice_number_expected" = "Introduza um número.";
 "sim_notice_boolean_expected" = "Introduza true ou false.";
+
+"codegen_pseudocode_toggle" = "Pseudocódigo (código não executável)";
+"codegen_pseudocode_note" = "Pseudocódigo – não é um programa executável";
+"codegen_pseudocode_hint" = "Este diagrama está marcado como pseudocódigo. O código é apenas um esboço e não pode ser executado.";
 `;export{e as default};

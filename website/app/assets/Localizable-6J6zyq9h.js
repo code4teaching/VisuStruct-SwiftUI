@@ -232,4 +232,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Please enter a whole number.";
 "sim_notice_number_expected" = "Please enter a number.";
 "sim_notice_boolean_expected" = "Please enter true or false.";
+
+"codegen_pseudocode_toggle" = "Pseudocode (not runnable code)";
+"codegen_pseudocode_note" = "Pseudocode – not a runnable program";
+"codegen_pseudocode_hint" = "This diagram is marked as pseudocode. The code is only a sketch and cannot be run.";
 `;export{e as default};

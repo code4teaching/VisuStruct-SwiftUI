@@ -143,4 +143,8 @@ const e=`/* NOTE: Initial Dutch localization. */
 "sim_notice_boolean_expected" = "Voer true of false in.";
 "phone_hide_text_editor" = "Inklappen";
 "phone_title_done" = "Gereed";
+
+"codegen_pseudocode_toggle" = "Pseudocode (geen uitvoerbare code)";
+"codegen_pseudocode_note" = "Pseudocode – geen uitvoerbaar programma";
+"codegen_pseudocode_hint" = "Dit diagram is gemarkeerd als pseudocode. De code is alleen een schets en kan niet worden uitgevoerd.";
 `;export{e as default};

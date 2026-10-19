@@ -101,6 +101,8 @@ export class CodePanel {
   private runner!: HTMLElement
   private runOutput!: HTMLElement
   private runInput!: HTMLFormElement
+  private pseudocodeBox!: HTMLInputElement
+  private pseudocodeHint!: HTMLElement
   private worker?: Worker
   private outputLines: string[] = []
   private droppedLines = 0
@@ -110,6 +112,7 @@ export class CodePanel {
     private currentDocument: () => VSDocument,
     private saveFile: (filename: string, text: string) => void,
     private onClose: () => void,
+    private setPseudocode: (on: boolean) => void,
   ) {
     const t = stored(keys.target)
     this.target = t === 'python' || t === 'javascript' ? t : 'java'
@@ -124,7 +127,7 @@ export class CodePanel {
   /** Neu erzeugen, z. B. nach jeder Änderung am Diagramm. */
   refresh() {
     const doc = this.currentDocument()
-    const options = { includeDiagramTextAsComments: this.comments, includeEmptyElseBranch: this.emptyElse }
+    const options = this.options()
     this.code =
       this.target === 'java' && this.javaMode === 'class'
         ? generateJavaClassFile(doc, this.classStem(), options)
@@ -132,8 +135,11 @@ export class CodePanel {
     this.codeView.textContent = this.code
     this.javaModeRow.hidden = this.target !== 'java'
     this.saveButton.hidden = this.target !== 'java'
-    this.runButton.hidden = this.target !== 'javascript'
-    if (this.target !== 'javascript') this.stopRun(true)
+    // Pseudocode ist kein Programm: nicht ausführen.
+    this.runButton.hidden = this.target !== 'javascript' || !!doc.pseudocode
+    if (this.runButton.hidden) this.stopRun(true)
+    this.pseudocodeBox.checked = !!doc.pseudocode
+    this.pseudocodeHint.hidden = !doc.pseudocode
     for (const b of this.element.querySelectorAll<HTMLButtonElement>('[data-target]')) {
       b.setAttribute('aria-pressed', String(b.dataset.target === this.target))
     }
@@ -144,6 +150,14 @@ export class CodePanel {
 
   close() {
     this.stopRun(true)
+  }
+
+  private options() {
+    return {
+      includeDiagramTextAsComments: this.comments,
+      includeEmptyElseBranch: this.emptyElse,
+      pseudocodeNote: t('codegen_pseudocode_note'),
+    }
   }
 
   private classStem(): string {
@@ -164,6 +178,8 @@ export class CodePanel {
       </div>
       <label class="check"><input type="checkbox" data-opt="comments" /> ${esc(t('web_codegen_comments'))}</label>
       <label class="check"><input type="checkbox" data-opt="emptyElse" /> ${esc(t('web_codegen_empty_else'))}</label>
+      <label class="check"><input type="checkbox" data-opt="pseudocode" /> ${esc(t('codegen_pseudocode_toggle'))}</label>
+      <p class="hint pseudocode-hint" hidden>${esc(t('codegen_pseudocode_hint'))}</p>
       <div class="code-actions">
         <button data-act="copy">${esc(t('codegen_copy'))}</button>
         <button data-act="save">${esc(t('codegen_save_java'))}</button>
@@ -189,6 +205,9 @@ export class CodePanel {
     this.runner = q('.runner')
     this.runOutput = q('.runner-out')
     this.runInput = q('.runner-input')
+    this.pseudocodeBox = q('[data-opt=pseudocode]')
+    this.pseudocodeHint = q('.pseudocode-hint')
+    this.pseudocodeBox.addEventListener('change', () => this.setPseudocode(this.pseudocodeBox.checked))
 
     q('.code-close').addEventListener('click', () => this.onClose())
     for (const b of this.element.querySelectorAll<HTMLButtonElement>('[data-target]')) {
@@ -224,10 +243,7 @@ export class CodePanel {
     this.saveButton.addEventListener('click', () => {
       // Die Klasse muss so heißen wie die Datei; deshalb immer die vollständige Klasse speichern.
       const className = sanitizedJavaClassName(this.classStem())
-      const source = generateJavaClassFile(this.currentDocument(), this.classStem(), {
-        includeDiagramTextAsComments: this.comments,
-        includeEmptyElseBranch: this.emptyElse,
-      })
+      const source = generateJavaClassFile(this.currentDocument(), this.classStem(), this.options())
       this.saveFile(`${className}.java`, source)
     })
     this.runButton.addEventListener('click', () => this.run())

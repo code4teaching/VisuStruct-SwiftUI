@@ -232,4 +232,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Bitte eine ganze Zahl eingeben.";
 "sim_notice_number_expected" = "Bitte eine Zahl eingeben.";
 "sim_notice_boolean_expected" = "Bitte true oder false eingeben.";
+
+"codegen_pseudocode_toggle" = "Pseudocode (kein lauffähiger Code)";
+"codegen_pseudocode_note" = "Pseudocode – kein lauffähiges Programm";
+"codegen_pseudocode_hint" = "Dieses Diagramm ist als Pseudocode markiert. Der Code ist nur eine Skizze und lässt sich nicht ausführen.";
 `;export{e as default};

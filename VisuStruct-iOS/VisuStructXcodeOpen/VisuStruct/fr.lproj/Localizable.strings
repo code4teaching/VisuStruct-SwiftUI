@@ -231,3 +231,7 @@
 "sim_notice_whole_number_expected" = "Saisissez un nombre entier.";
 "sim_notice_number_expected" = "Saisissez un nombre.";
 "sim_notice_boolean_expected" = "Saisissez true ou false.";
+
+"codegen_pseudocode_toggle" = "Pseudo-code (code non exécutable)";
+"codegen_pseudocode_note" = "Pseudo-code – pas un programme exécutable";
+"codegen_pseudocode_hint" = "Ce diagramme est marqué comme pseudo-code. Le code n’est qu’une ébauche et ne peut pas être exécuté.";

@@ -231,4 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "整数を入力してください。";
 "sim_notice_number_expected" = "数値を入力してください。";
 "sim_notice_boolean_expected" = "true または false を入力してください。";
+
+"codegen_pseudocode_toggle" = "疑似コード（実行できないコード）";
+"codegen_pseudocode_note" = "疑似コード – 実行可能なプログラムではありません";
+"codegen_pseudocode_hint" = "この図は疑似コードとしてマークされています。コードは下書きにすぎず、実行できません。";
 `;export{e as default};

@@ -51,3 +51,15 @@ describe('Beispieldateien aus VisuStruct-Dateien', () => {
     })
   }
 })
+
+describe('Pseudocode-Markierung', () => {
+  it('bleibt beim Speichern erhalten und fehlt sonst', () => {
+    const marked = { caption: 'Tee', pseudocode: true, elements: [] }
+    const xml = encodeDocument(marked)
+    expect(xml).toContain('pseudocode="true"')
+    expect(decodeDocument(xml).pseudocode).toBe(true)
+    const plain = encodeDocument({ caption: 'Tee', elements: [] })
+    expect(plain).not.toContain('pseudocode')
+    expect(decodeDocument(plain).pseudocode).toBeUndefined()
+  })
+})

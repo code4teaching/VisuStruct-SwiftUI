@@ -231,4 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "أدخل عددًا صحيحًا.";
 "sim_notice_number_expected" = "أدخل رقمًا.";
 "sim_notice_boolean_expected" = "أدخل true أو false.";
+
+"codegen_pseudocode_toggle" = "شبه كود (ليس كودًا قابلًا للتشغيل)";
+"codegen_pseudocode_note" = "شبه كود – ليس برنامجًا قابلًا للتشغيل";
+"codegen_pseudocode_hint" = "هذا المخطط معلَّم كشبه كود. الكود مجرد مسودة ولا يمكن تشغيله.";
 `;export{e as default};

@@ -13,6 +13,8 @@ export interface CodeOptions {
   includeDiagramTextAsComments: boolean
   /** `else` auch ausgeben, wenn der Nein-Zweig nur leer (ø) ist. */
   includeEmptyElseBranch: boolean
+  /** Kommentar über dem Code, wenn das Diagramm als Pseudocode markiert ist. */
+  pseudocodeNote: string
   /** Interner Heuristik-Kontext für JavaScript und Python (Ganzzahldivision). */
   jsIntVariables?: Set<string>
   /** Elementtyp deklarierter Arrays (`int[] zahlen` → `int`), für Eingaben in `zahlen[i]`. */
@@ -26,6 +28,7 @@ export const defaultCodeOptions: CodeOptions = {
   indentPerLevel: 4,
   includeDiagramTextAsComments: false,
   includeEmptyElseBranch: true,
+  pseudocodeNote: 'Pseudocode – not a runnable program',
 }
 
 export function generateCode(document: VSDocument, target: CodeTarget, options: Partial<CodeOptions> = {}): string {
@@ -49,6 +52,8 @@ export function generateCode(document: VSDocument, target: CodeTarget, options: 
     out += '// import java.util.Scanner;\n'
     out += 'Scanner scanner = new Scanner(System.in);\n\n'
   }
+  // Nach Import/Scanner, damit die Java-Klasse den Vorspann weiterhin erkennt.
+  if (document.pseudocode) out += (target === 'python' ? '# ' : '// ') + opts.pseudocodeNote + '\n\n'
   const sink = { out }
   for (const el of document.elements) emit(el, target, opts, opts.baseIndent, sink)
   out = sink.out

@@ -230,4 +230,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Введите целое число.";
 "sim_notice_number_expected" = "Введите число.";
 "sim_notice_boolean_expected" = "Введите true или false.";
+
+"codegen_pseudocode_toggle" = "Псевдокод (не исполняемый код)";
+"codegen_pseudocode_note" = "Псевдокод – не исполняемая программа";
+"codegen_pseudocode_hint" = "Эта диаграмма отмечена как псевдокод. Код — лишь набросок, его нельзя запустить.";
 `;export{e as default};

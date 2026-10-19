@@ -231,4 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Wprowadź liczbę całkowitą.";
 "sim_notice_number_expected" = "Wprowadź liczbę.";
 "sim_notice_boolean_expected" = "Wpisz true lub false.";
+
+"codegen_pseudocode_toggle" = "Pseudokod (kod niewykonywalny)";
+"codegen_pseudocode_note" = "Pseudokod – to nie jest wykonywalny program";
+"codegen_pseudocode_hint" = "Ten diagram jest oznaczony jako pseudokod. Kod jest tylko szkicem i nie można go uruchomić.";
 `;export{e as default};

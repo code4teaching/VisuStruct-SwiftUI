@@ -228,4 +228,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Εισαγάγετε έναν ακέραιο αριθμό.";
 "sim_notice_number_expected" = "Εισαγάγετε έναν αριθμό.";
 "sim_notice_boolean_expected" = "Πληκτρολογήστε true ή false.";
+
+"codegen_pseudocode_toggle" = "Ψευδοκώδικας (μη εκτελέσιμος κώδικας)";
+"codegen_pseudocode_note" = "Ψευδοκώδικας – όχι εκτελέσιμο πρόγραμμα";
+"codegen_pseudocode_hint" = "Αυτό το διάγραμμα έχει επισημανθεί ως ψευδοκώδικας. Ο κώδικας είναι μόνο ένα σχέδιο και δεν μπορεί να εκτελεστεί.";
 `;export{e as default};

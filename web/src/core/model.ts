@@ -46,6 +46,8 @@ export interface VSDocument {
   fontSize?: number
   fontStyle?: number
   caption: string
+  /** Als Pseudocode markiert: Der erzeugte Code ist nur eine Skizze, kein lauffähiges Programm. */
+  pseudocode?: boolean
   elements: VSElement[]
 }
 

@@ -1,4 +1,4 @@
-const n=`/* NOTE: Initial Swedish localization. */
+const e=`/* NOTE: Initial Swedish localization. */
 "palette_header" = "Element";
 
 /* Actions */
@@ -143,4 +143,8 @@ const n=`/* NOTE: Initial Swedish localization. */
 "sim_notice_boolean_expected" = "Ange true eller false.";
 "phone_hide_text_editor" = "Fäll ihop";
 "phone_title_done" = "Klar";
-`;export{n as default};
+
+"codegen_pseudocode_toggle" = "Pseudokod (inte körbar kod)";
+"codegen_pseudocode_note" = "Pseudokod – inte ett körbart program";
+"codegen_pseudocode_hint" = "Det här diagrammet är markerat som pseudokod. Koden är bara en skiss och kan inte köras.";
+`;export{e as default};

@@ -347,6 +347,7 @@ export class App {
       () => this.doc,
       (filename, text) => this.offerDownload(filename, new Blob([text], { type: 'text/plain' })),
       () => this.setCoding(false),
+      (on) => this.commit({ ...this.doc, pseudocode: on || undefined }),
     )
     this.root.append(this.code.element)
     this.codeButton.addEventListener('click', () => this.setCoding(!this.coding))

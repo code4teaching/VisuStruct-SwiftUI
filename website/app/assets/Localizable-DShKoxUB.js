@@ -231,4 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "정수를 입력하세요.";
 "sim_notice_number_expected" = "숫자를 입력하세요.";
 "sim_notice_boolean_expected" = "true 또는 false를 입력하세요.";
+
+"codegen_pseudocode_toggle" = "의사 코드(실행할 수 없는 코드)";
+"codegen_pseudocode_note" = "의사 코드 – 실행 가능한 프로그램이 아닙니다";
+"codegen_pseudocode_hint" = "이 다이어그램은 의사 코드로 표시되어 있습니다. 코드는 초안일 뿐이며 실행할 수 없습니다.";
 `;export{e as default};

@@ -231,4 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Lütfen bir tam sayı girin.";
 "sim_notice_number_expected" = "Lütfen bir sayı girin.";
 "sim_notice_boolean_expected" = "true veya false girin.";
+
+"codegen_pseudocode_toggle" = "Sözde kod (çalıştırılamaz kod)";
+"codegen_pseudocode_note" = "Sözde kod – çalıştırılabilir bir program değil";
+"codegen_pseudocode_hint" = "Bu diyagram sözde kod olarak işaretlendi. Kod yalnızca bir taslaktır ve çalıştırılamaz.";
 `;export{e as default};

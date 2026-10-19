@@ -143,4 +143,8 @@ const e=`/* NOTE: Initial Norwegian Bokmål localization. */
 "sim_notice_boolean_expected" = "Skriv inn true eller false.";
 "phone_hide_text_editor" = "Skjul";
 "phone_title_done" = "Ferdig";
+
+"codegen_pseudocode_toggle" = "Pseudokode (ikke kjørbar kode)";
+"codegen_pseudocode_note" = "Pseudokode – ikke et kjørbart program";
+"codegen_pseudocode_hint" = "Dette diagrammet er merket som pseudokode. Koden er bare en skisse og kan ikke kjøres.";
 `;export{e as default};

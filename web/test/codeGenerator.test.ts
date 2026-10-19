@@ -68,6 +68,17 @@ describe('Codegenerierung', () => {
     expect(python).toMatch(/else:\n {4}# empty element\n {4}pass/)
   })
 
+  it('Pseudocode bekommt einen Hinweis über dem Code', () => {
+    const doc = { caption: '', pseudocode: true, elements: [makeElement(ElementType.anweisung, { textLines: ['Tasse hinstellen'] })] }
+    expect(generateCode(doc, 'python', { pseudocodeNote: 'Pseudocode' })).toBe('# Pseudocode\n\nTasse hinstellen')
+    expect(generateCode(doc, 'java', { pseudocodeNote: 'Pseudocode' }).startsWith('// Pseudocode\n\n')).toBe(true)
+    expect(generateCode({ ...doc, pseudocode: undefined }, 'python')).toBe('Tasse hinstellen')
+    const withInput = { ...doc, elements: [makeElement(ElementType.anweisung, { textLines: ['input: int n'] })] }
+    const javaClass = generateJavaClassFile(withInput, 'Tee', { pseudocodeNote: 'Pseudocode' })
+    expect(javaClass.split('new Scanner(System.in)').length - 1).toBe(1)
+    expect(javaClass).toContain('        // Pseudocode\n')
+  })
+
   it('bereinigt Java-Klassennamen', () => {
     expect(sanitizedJavaClassName('Fibonacci')).toBe('Fibonacci')
     const s = sanitizedJavaClassName('2 Summe bilden!')

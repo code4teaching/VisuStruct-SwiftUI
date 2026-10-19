@@ -231,4 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "יש להזין מספר שלם.";
 "sim_notice_number_expected" = "יש להזין מספר.";
 "sim_notice_boolean_expected" = "הזן true או false.";
+
+"codegen_pseudocode_toggle" = "פסאודו-קוד (קוד שאינו ניתן להרצה)";
+"codegen_pseudocode_note" = "פסאודו-קוד – לא תוכנית שניתן להריץ";
+"codegen_pseudocode_hint" = "תרשים זה מסומן כפסאודו-קוד. הקוד הוא רק טיוטה ולא ניתן להריץ אותו.";
 `;export{e as default};

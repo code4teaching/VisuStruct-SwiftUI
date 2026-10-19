@@ -73,6 +73,27 @@ final class CodeGeneratorTests: XCTestCase {
         XCTAssertEqual(python, "i = 1\nwhile i < 100:\n    print(i)\n    i = i * 2")
     }
 
+    func testPseudocodeNoteAndXMLAttribute() throws {
+        let document = VisuStructDocument(
+            caption: "Tee",
+            isPseudocode: true,
+            elements: [VisuStructElement(type: .anweisung, textLines: ["input: int n"])]
+        )
+        let options = VisuStructCodeGenerator.Options(pseudocodeNote: "Pseudocode")
+        let python = VisuStructCodeGenerator.generate(document: document, target: .python, options: options)
+        XCTAssertTrue(python.hasPrefix("# Pseudocode\n\n"), python)
+        let javaClass = VisuStructCodeGenerator.generateJavaClassFile(document: document, options: options, className: "Tee")
+        XCTAssertEqual(javaClass.components(separatedBy: "new Scanner(System.in)").count - 1, 1, javaClass)
+        XCTAssertTrue(javaClass.contains("        // Pseudocode\n"), javaClass)
+
+        let xml = VisuStructXMLCodec.encode(document)
+        XCTAssertTrue(String(decoding: xml, as: UTF8.self).contains("pseudocode=\"true\""))
+        XCTAssertTrue(try VisuStructXMLCodec.decode(data: xml).isPseudocode)
+        let plain = VisuStructXMLCodec.encode(VisuStructDocument(caption: "Tee"))
+        XCTAssertFalse(String(decoding: plain, as: UTF8.self).contains("pseudocode"))
+        XCTAssertFalse(try VisuStructXMLCodec.decode(data: plain).isPseudocode)
+    }
+
     func testSanitizedJavaClassName() {
         XCTAssertEqual(VisuStructCodeGenerator.sanitizedJavaClassName("Fibonacci"), "Fibonacci")
         let sanitized = VisuStructCodeGenerator.sanitizedJavaClassName("2 Summe bilden!")

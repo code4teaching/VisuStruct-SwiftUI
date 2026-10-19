@@ -1,4 +1,4 @@
-const n=`/* Palette */
+const e=`/* Palette */
 "palette_header" = "元素";
 
 /* Actions */
@@ -231,4 +231,8 @@ const n=`/* Palette */
 "sim_notice_whole_number_expected" = "请输入整数。";
 "sim_notice_number_expected" = "请输入数字。";
 "sim_notice_boolean_expected" = "请输入 true 或 false。";
-`;export{n as default};
+
+"codegen_pseudocode_toggle" = "伪代码（不可运行的代码）";
+"codegen_pseudocode_note" = "伪代码 – 不是可运行的程序";
+"codegen_pseudocode_hint" = "此图已标记为伪代码。代码只是草稿，无法运行。";
+`;export{e as default};

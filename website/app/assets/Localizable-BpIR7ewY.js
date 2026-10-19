@@ -143,4 +143,8 @@ const e=`/* NOTE: Initial Danish localization. */
 "sim_notice_boolean_expected" = "Indtast true eller false.";
 "phone_hide_text_editor" = "Skjul";
 "phone_title_done" = "Færdig";
+
+"codegen_pseudocode_toggle" = "Pseudokode (ikke kørbar kode)";
+"codegen_pseudocode_note" = "Pseudokode – ikke et kørbart program";
+"codegen_pseudocode_hint" = "Dette diagram er markeret som pseudokode. Koden er kun en skitse og kan ikke køres.";
 `;export{e as default};
