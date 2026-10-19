@@ -232,6 +232,21 @@ struct ContentView: View {
             printDiagram()
             #endif
         }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.sharePNG)) { _ in
+            guard !isSimulationMode else { return }
+            exportPNG()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.shareDocument)) { _ in
+            guard !isSimulationMode else { return }
+            shareDocumentAsFile()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.exportPDF)) { _ in
+            guard !isSimulationMode else { return }
+            shareDiagramPDF()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.showAbout)) { _ in
+            showInfo = true
+        }
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.close)) { _ in
             guard !isSimulationMode else { return }
             requestCloseDiagramTab(id: tabsModel.selectedTabId)
@@ -497,11 +512,7 @@ struct ContentView: View {
             onInsertItem: insertPaletteItem,
             onDeleteSelection: deleteSelection,
             onToggleSimulation: toggleSimulationMode,
-            onGenerateCode: openCodeGenerator,
-            onSharePNG: exportPNG,
-            onShareDocument: shareDocumentAsFile,
-            onExportPDF: shareDiagramPDF,
-            onShowAbout: { showInfo = true }
+            onGenerateCode: openCodeGenerator
         )
     }
 
@@ -618,6 +629,10 @@ struct ContentView: View {
             onSave: performPrimarySave,
             onSaveAs: { showExporter = true },
             onPrint: printAction,
+            onSharePNG: exportPNG,
+            onShareDocument: shareDocumentAsFile,
+            onExportPDF: shareDiagramPDF,
+            onShowAbout: { showInfo = true },
             onKeyboardDismiss: {
                 focusedField = nil
                 if isPhone { hideInspectorOnPhone = true }

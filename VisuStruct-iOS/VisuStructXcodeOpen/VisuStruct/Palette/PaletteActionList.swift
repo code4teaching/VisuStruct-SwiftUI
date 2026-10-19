@@ -1,7 +1,7 @@
 import SwiftUI
 import VisuStructCore
 
-/// Palette (Strukturelemente zum Einfügen/Ziehen) und Aktionen darunter: Löschen, Simulation, Code, Teilen, Export, Info.
+/// Palette (Strukturelemente zum Einfügen/Ziehen) und Aktionen darunter: Löschen, Simulation, Code. Teilen, Export und Info stehen im Ablage-Menü.
 struct PaletteActionList: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) private var lang
@@ -13,10 +13,6 @@ struct PaletteActionList: View {
     let onDeleteSelection: () -> Void
     let onToggleSimulation: () -> Void
     let onGenerateCode: () -> Void
-    let onSharePNG: () -> Void
-    let onShareDocument: () -> Void
-    let onExportPDF: () -> Void
-    let onShowAbout: () -> Void
 
     var body: some View {
         let isCompact = horizontalSizeClass != .regular
@@ -85,65 +81,6 @@ struct PaletteActionList: View {
                 .accessibilityLabel(
                     codeGeneratorAccessGranted ? lang.tr("a11y_generate_code") : lang.tr("a11y_generate_code_locked")
                 )
-                Button {
-                    onSharePNG()
-                } label: {
-                    Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                Button {
-                    onShareDocument()
-                } label: {
-                    Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                Button {
-                    onExportPDF()
-                } label: {
-                    Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-
-                Button {
-                    onShowAbout()
-                } label: {
-                    Label(lang.tr("action_about"), systemImage: "info.circle")
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 4, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 8, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
             }
         }
         .listStyle(.insetGrouped)
