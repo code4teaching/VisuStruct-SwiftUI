@@ -29,6 +29,7 @@ damit Änderungen in Swift leicht nachgezogen werden können:
 | `src/core/layout.ts` | `VisuStructLayout.swift`, `Layout/VisuStructLayoutEngineMetrics.swift` |
 | `src/core/diagramText.ts` | `Layout/VisuStructDiagramText.swift`, `VisuStructLayoutTextMeasurement.swift` |
 | `src/core/editing.ts` | `VisuStructDocumentEditing.swift` |
+| `src/core/lineEditorText.ts` | `Editing/VisuStructLineEditorText.swift`, `Inspector/StatementIOMode.swift` |
 | `src/core/palette.ts` | `Palette/ElementPalette.swift` |
 | `src/core/simulation.ts` | `VisuStructSimulationEngine.swift` |
 | `src/core/codeGenerator.ts` | `VisuStructCodeGenerator.swift`, `CodeGeneration/*.swift` |
@@ -36,6 +37,7 @@ damit Änderungen in Swift leicht nachgezogen werden können:
 | `src/ui/codePanel.ts` | `CodeGeneration/CodeGeneratorPanels.swift`, `Runner/JavaScriptRunner.swift` |
 | `src/ui/simulationPanel.ts` | `Simulation/SimulationController.swift`, `Simulation/SimulationPanels.swift` |
 
+`test/editingParity.test.ts` überträgt `MultiwayPathTests.swift` und `LineEditorTextTests.swift`,
 `test/simulation.test.ts` überträgt `SimulationEngineTests.swift` und `SimulationConditionTests.swift`,
 `test/codeGenerator.test.ts` überträgt `CodeGeneratorTests.swift` (die erzeugten `.java`-Dateien für Collatz und
 Fibonacci müssen byte-gleich zu denen in `VisuStruct-Dateien` sein).
@@ -46,9 +48,11 @@ App nach 100 000 Durchläufen ab, und „Stopp“ beendet jeden Lauf.
 `test/xmlCodec.test.ts` lädt jede Datei aus `VisuStruct-Dateien`, speichert sie wieder und verlangt
 **byte-gleiche** Ausgabe zum Swift-Encoder (nur CRLF aus Windows wird zu LF, wie in Swift).
 
+Mehrere Diagramme sind als Reiter offen (wie `Tabs/` in der App); jeder Reiter hat eigenes Rückgängig.
+Kopieren/Ausschneiden/Einfügen, Textgröße und das Feld für Fallnamen folgen der Mac-App.
+
 Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift und Finger gleich funktionieren.
 
 ## Noch nicht enthalten
 
-Mehrsprachigkeit (UI ist deutsch), Export als Bild/PDF, Fälle einer
-Fallauswahl hinzufügen/umbenennen, Verschieben vorhandener Elemente mit dem Finger.
+Mehrsprachigkeit (UI ist deutsch), Export als Bild/PDF und Drucken, Verschieben vorhandener Elemente mit dem Finger.

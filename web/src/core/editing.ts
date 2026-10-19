@@ -171,3 +171,71 @@ export function moveReplacingPlaceholder(doc: VSDocument, from: number[], placeh
   const d = deleteAtPath(doc, from)
   return replaceAtPath(d, adjustPathAfterRemoving(placeholder, from), moving)
 }
+
+// MARK: - Fallauswahl (VisuStructDocumentEditing.swift, Editing/VisuStructDocumentEditing+Multiway.swift)
+
+/**
+ * Neuer Fall für eine Fallauswahl (nicht Verzweigung): ein Platzhalter „ø“, Name automatisch (`3` vor `default` usw.).
+ * Liefert das Dokument und den Pfad zum neuen Platzhalter.
+ */
+export function appendCaseToFallauswahl(doc: VSDocument, fallauswahlPath: number[]): { doc: VSDocument; path: number[] } {
+  const parent = clone(elementAt(doc, fallauswahlPath))
+  const cases = parent.cases
+  if (parent.type !== ElementType.fallauswahl || !cases || cases.length === 0) throw new EditError('Invalid element path.')
+  const lastIsDefault = cases[cases.length - 1].name.toLowerCase() === 'default'
+  const insertIndex = lastIsDefault ? cases.length - 1 : cases.length
+  const name = String(lastIsDefault ? cases.length : cases.length + 1)
+  cases.splice(insertIndex, 0, { name, elements: [placeholderElement()] })
+  return { doc: replaceAtPath(doc, fallauswahlPath, parent), path: [...fallauswahlPath, insertIndex, 0] }
+}
+
+/** Entfernt einen Fall der Fallauswahl. Es bleiben mindestens zwei Fälle übrig. */
+export function removeCaseFromFallauswahl(
+  doc: VSDocument,
+  fallauswahlPath: number[],
+  caseIndex: number,
+): { doc: VSDocument; path: number[] } {
+  const parent = clone(elementAt(doc, fallauswahlPath))
+  const cases = parent.cases
+  if (parent.type !== ElementType.fallauswahl || !cases) throw new EditError('Invalid element path.')
+  if (cases.length <= 2) throw new EditError('A switch needs at least two cases.')
+  if (caseIndex < 0 || caseIndex >= cases.length) throw new EditError('Invalid element path.')
+  cases.splice(caseIndex, 1)
+  const newCaseIndex = Math.min(caseIndex, cases.length - 1)
+  return { doc: replaceAtPath(doc, fallauswahlPath, parent), path: [...fallauswahlPath, newCaseIndex, 0] }
+}
+
+/** Beschriftung eines Falls der Fallauswahl (z. B. `1`, `ok`, `default`). */
+export function setFallauswahlCaseName(doc: VSDocument, fallauswahlPath: number[], caseIndex: number, name: string): VSDocument {
+  const parent = clone(elementAt(doc, fallauswahlPath))
+  const cases = parent.cases
+  if (parent.type !== ElementType.fallauswahl || !cases) throw new EditError('Invalid element path.')
+  if (caseIndex < 0 || caseIndex >= cases.length) throw new EditError('Invalid element path.')
+  const trimmed = name.trim()
+  if (trimmed === '') throw new EditError('Invalid element path.')
+  cases[caseIndex].name = trimmed
+  return replaceAtPath(doc, fallauswahlPath, parent)
+}
+
+/** Innerste Fallauswahl, die `path` enthält (oder selbst ist). */
+export function multiwayAncestorPath(path: number[] | undefined, doc: VSDocument): number[] | undefined {
+  if (!path || path.length === 0) return undefined
+  for (let len = path.length; len >= 1; len--) {
+    const prefix = path.slice(0, len)
+    if (tryElementAt(doc, prefix)?.type === ElementType.fallauswahl) return prefix
+  }
+  return undefined
+}
+
+/** Spaltenindex der Fallauswahl, wenn die Auswahl in einer Spalte liegt (`[…, fall, spalte, …]`). */
+export function caseIndexInMultiway(selectedPath: number[] | undefined, multiwayPath: number[]): number | undefined {
+  if (!selectedPath || selectedPath.length <= multiwayPath.length) return undefined
+  return selectedPath[multiwayPath.length]
+}
+
+/** Auswahl nach Undo/Redo oder Löschen: leeres Dokument → keine; ungültige Auswahl → erstes Element. */
+export function sanitizedSelection(path: number[] | undefined, doc: VSDocument): number[] | undefined {
+  if (doc.elements.length === 0) return undefined
+  if (!path || !tryElementAt(doc, path)) return [0]
+  return path
+}

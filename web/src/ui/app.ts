@@ -1,5 +1,6 @@
 import { canvasTextLines } from '../core/diagramText'
 import {
+  appendCaseToFallauswahl,
   canDeleteElement,
   deleteAtPath,
   elementAt,
@@ -11,10 +12,16 @@ import {
   moveBeforeSibling,
   moveReplacingPlaceholder,
   newEmptyDocument,
+  multiwayAncestorPath,
+  caseIndexInMultiway,
+  removeCaseFromFallauswahl,
   replaceAtPath,
+  sanitizedSelection,
+  setFallauswahlCaseName,
   setTextLines,
   tryElementAt,
 } from '../core/editing'
+import * as LineEditor from '../core/lineEditorText'
 import { diagramDisplayMetrics, LayoutEngine, type Layout, type LayoutNode, type Rect } from '../core/layout'
 import { ElementType, type VSDocument, type VSElement } from '../core/model'
 import { paletteElement, paletteItems, type PaletteItem } from '../core/palette'
@@ -66,23 +73,131 @@ const typeNames: Record<ElementType, string> = {
   [ElementType.leerElement]: 'Leeres Element',
 }
 
-const typeHints: Partial<Record<ElementType, string>> = {
-  [ElementType.anweisung]: 'Eine Zeile pro Anweisung. „input:“ und „print:“ werden als Ein-/Ausgabe erkannt.',
-  [ElementType.verzweigung]: 'Bedingung, z. B. „zahl % 2 == 0“.',
-  [ElementType.fallauswahl]: 'Ausdruck, nach dem unterschieden wird.',
-  [ElementType.forSchleife]: 'Drei Zeilen: Start, Bedingung, Schritt (z. B. „int i = 0“, „i < 10“, „i++“).',
-  [ElementType.whileSchleife]: 'Bedingung, solange die Schleife läuft.',
-  [ElementType.doUntilSchleife]: 'Bedingung, die nach jedem Durchlauf geprüft wird.',
+/** `InspectorElementHints.conditionHintLine`: Beispiel über dem Editor. */
+const conditionHints: Partial<Record<ElementType, string>> = {
+  [ElementType.verzweigung]: 'age >= 18',
+  [ElementType.whileSchleife]: 'i < 10',
+  [ElementType.doUntilSchleife]: 'again == 1',
+  [ElementType.fallauswahl]: 'day',
 }
 
+/** Hinweis unter der Art (wie im Swift-Inspector, Englisch und code-nah). */
+const ioModeHints: Record<LineEditor.StatementIOMode, string> = {
+  statement: 'int number = 5  |  double x = 1.5  |  String text = "Your text"  |  boolean ok = true  |  const double PI = 3.14',
+  input: 'input: int age "Enter age"  |  input: double price "Enter price"  |  input: String name "Enter name"',
+  output: 'output: number  |  output: "Your text"  |  output: "Your age: " + age',
+}
+
+/** `lineEditorFixedPrefixLabel`: Schlüsselwort vor dem Editor, das nicht mitgetippt wird. */
+function fixedPrefix(el: VSElement): string | undefined {
+  switch (el.type) {
+    case ElementType.anweisung: {
+      const mode = LineEditor.ioMode(el.textLines.join('\n'))
+      return mode === 'input' ? 'input:' : mode === 'output' ? 'output:' : undefined
+    }
+    case ElementType.verzweigung: return 'if'
+    case ElementType.whileSchleife:
+    case ElementType.doUntilSchleife:
+      return 'while'
+    case ElementType.fallauswahl: return 'switch'
+    default: return undefined
+  }
+}
+
+/** `InspectorElementHints.lineEditorPlaceholder`. */
+function placeholderFor(el: VSElement): string {
+  switch (el.type) {
+    case ElementType.anweisung: {
+      const mode = LineEditor.ioMode(el.textLines.join('\n'))
+      return mode === 'input' ? 'int age "Enter age"' : mode === 'output' ? '"Your age: " + age' : 'int sum = number1 + number2'
+    }
+    case ElementType.verzweigung:
+    case ElementType.whileSchleife:
+    case ElementType.doUntilSchleife:
+    case ElementType.endlosschleife:
+      return 'Bedingung einfügen …'
+    case ElementType.fallauswahl: return 'Auswahl einfügen …'
+    case ElementType.aufruf: return 'Aufruf einfügen …'
+    case ElementType.aussprung: return 'Kommentar (optional)'
+    default: return ''
+  }
+}
+
+/** Kleines DOM-Hilfsmittel für den Inspector. */
+function h(tag: string, attrs: Record<string, string> = {}, ...children: (Node | string)[]): HTMLElement {
+  const e = document.createElement(tag)
+  for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v)
+  e.append(...children)
+  return e
+}
+
+/** Ein Reiter wie `DiagramSheetTab.swift`: Dokument, Verlauf, Auswahl, verknüpfte Datei. */
+interface Tab {
+  doc: VSDocument
+  serial: number
+  /** Dateiname mit Endung; `undefined` = unbenannt. */
+  fileName?: string
+  fileHandle?: FileHandle
+  dirty: boolean
+  undoStack: VSDocument[]
+  redoStack: VSDocument[]
+  selected?: number[]
+}
+
+/** `VisuStructUIScaleStep`: Textgröße des Struktogramms. */
+const zoomSteps = [
+  { value: 1, label: 'Klein' },
+  { value: 1.22, label: 'Mittel' },
+  { value: 1.5, label: 'Groß' },
+  { value: 1.82, label: 'Sehr groß' },
+]
+const zoomKey = 'visustruct.ui.scale.canvas'
+
+/** Wie `VisuStructEditHistory.defaultMaxSteps`. */
+const maxUndoSteps = 80
+
 export class App {
-  private doc: VSDocument = newEmptyDocument()
-  private fileName = 'Struktogramm.visustruct'
-  private fileHandle?: FileHandle
-  private dirty = false
-  private undoStack: VSDocument[] = []
-  private redoStack: VSDocument[] = []
-  private selected?: number[]
+  private tabs: Tab[] = []
+  private tabIndex = 0
+  private nextTabSerial = 1
+  private clipboard?: VSElement
+  private zoom = 1
+  private get tab(): Tab {
+    return this.tabs[this.tabIndex]
+  }
+  private get doc() {
+    return this.tab.doc
+  }
+  private set doc(v: VSDocument) {
+    this.tab.doc = v
+  }
+  private get fileName(): string {
+    return this.tab.fileName ?? `${tabTitle(this.tab)}.visustruct`
+  }
+  private get fileHandle() {
+    return this.tab.fileHandle
+  }
+  private set fileHandle(v: FileHandle | undefined) {
+    this.tab.fileHandle = v
+  }
+  private get dirty() {
+    return this.tab.dirty
+  }
+  private set dirty(v: boolean) {
+    this.tab.dirty = v
+  }
+  private get undoStack() {
+    return this.tab.undoStack
+  }
+  private get redoStack() {
+    return this.tab.redoStack
+  }
+  private get selected() {
+    return this.tab.selected
+  }
+  private set selected(v: number[] | undefined) {
+    this.tab.selected = v
+  }
   private simulating = false
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
   private simPath?: number[]
@@ -114,6 +229,9 @@ export class App {
   private readonly inViewer = 'claude' in window
 
   constructor(private root: HTMLElement) {
+    this.tabs.push(this.makeTab())
+    const z = Number(storedValue(zoomKey))
+    if (zoomSteps.some((s) => s.value === z)) this.zoom = z
     this.buildUI()
     this.render()
     window.addEventListener('pointermove', (e) => this.onPointerMove(e))
@@ -121,7 +239,7 @@ export class App {
     window.addEventListener('pointercancel', () => this.endDrag())
     window.addEventListener('keydown', (e) => this.onKeyDown(e))
     window.addEventListener('beforeunload', (e) => {
-      if (this.dirty) e.preventDefault()
+      if (this.tabs.some((t) => t.dirty)) e.preventDefault()
     })
     this.setupFileDrop()
     new ResizeObserver(() => this.renderDiagramOnly()).observe(this.canvasHost)
@@ -137,7 +255,7 @@ export class App {
       <header class="toolbar">
         <div class="brand"><span class="logo"></span>VisuStruct <small>Web · Prototyp</small></div>
         <div class="group">
-          <button data-action="new" title="Neues Struktogramm">Neu</button>
+          <button data-action="new" title="Neues Struktogramm in einem neuen Reiter">Neu</button>
           <button data-action="open" title="Datei öffnen (Strg+O)">Öffnen…</button>
           <select data-action="example" title="Beispiel laden"><option value="">Beispiel…</option></select>
           <button data-action="save" title="Speichern (Strg+S)">Speichern</button>
@@ -145,7 +263,15 @@ export class App {
         <div class="group">
           <button data-action="undo" title="Rückgängig (Strg+Z)">↶</button>
           <button data-action="redo" title="Wiederholen (Strg+Umschalt+Z)">↷</button>
+          <button data-action="cut" title="Ausschneiden (Strg+X)" aria-label="Ausschneiden">✂︎</button>
+          <button data-action="copy" title="Kopieren (Strg+C)" aria-label="Kopieren">⧉</button>
+          <button data-action="paste" title="Einfügen (Strg+V)" aria-label="Einfügen">📋︎</button>
           <button data-action="delete" title="Auswahl löschen (Entf)">Löschen</button>
+        </div>
+        <div class="group">
+          <select data-action="zoom" title="Textgröße des Struktogramms">${zoomSteps
+            .map((z) => `<option value="${z.value}">Text: ${z.label}</option>`)
+            .join('')}</select>
         </div>
         <div class="group">
           <button data-action="code" aria-pressed="false" title="Java-, Python- oder JavaScript-Code anzeigen">{ } Code</button>
@@ -158,6 +284,7 @@ export class App {
         <ul></ul>
       </aside>
       <main class="workspace">
+        <nav class="tabs" aria-label="Diagramme"></nav>
         <input class="caption" placeholder="Titel des Struktogramms" />
         <div class="canvas"></div>
       </main>
@@ -213,8 +340,19 @@ export class App {
     select.addEventListener('change', () => {
       const ex = examples.find((x) => x.name === select.value)
       select.value = ''
-      if (ex) this.confirmDiscard().then((ok) => ok && this.loadXML(ex.xml, ex.name + '.visustruct'))
+      if (ex) this.loadXML(ex.xml, ex.name.split('/').pop()! + '.visustruct')
     })
+    this.tabStrip = $('.tabs')
+    const zoom = $<HTMLSelectElement>('[data-action=zoom]')
+    zoom.value = String(this.zoom)
+    zoom.addEventListener('change', () => {
+      this.zoom = Number(zoom.value)
+      storeValue(zoomKey, zoom.value)
+      this.renderDiagramOnly()
+    })
+    $('[data-action=cut]').addEventListener('click', () => this.cutSelection())
+    $('[data-action=copy]').addEventListener('click', () => this.copySelection())
+    $('[data-action=paste]').addEventListener('click', () => this.paste())
 
     const fileInput = $<HTMLInputElement>('input[type=file]')
     fileInput.addEventListener('change', async () => {
@@ -223,13 +361,7 @@ export class App {
       if (f) this.loadXML(await f.text(), f.name)
     })
 
-    $('[data-action=new]').addEventListener('click', async () => {
-      if (!(await this.confirmDiscard())) return
-      this.doc = newEmptyDocument()
-      this.fileName = 'Struktogramm.visustruct'
-      this.fileHandle = undefined
-      this.resetHistory()
-    })
+    $('[data-action=new]').addEventListener('click', () => this.addTab())
     $('[data-action=open]').addEventListener('click', () => this.open(fileInput))
     $('[data-action=save]').addEventListener('click', () => this.save())
     this.undoButton.addEventListener('click', () => this.undo())
@@ -293,12 +425,16 @@ export class App {
     if (this.selected && !tryElementAt(this.doc, this.selected)) this.selected = undefined
 
     // Wie `DiagramCanvasView`: mindestens so groß wie Struktur und sichtbarer Bereich (Ablegen unterhalb = ans Ende).
+    const z = this.zoom
     const size = {
-      width: Math.max(320, this.layout.canvasSize.width, this.canvasHost.clientWidth),
-      height: Math.max(240, this.layout.canvasSize.height + 60, this.canvasHost.clientHeight),
+      width: Math.max(320, this.layout.canvasSize.width, this.canvasHost.clientWidth / z),
+      height: Math.max(240, this.layout.canvasSize.height + 60, this.canvasHost.clientHeight / z),
     }
     this.renderer.usesSimulationHighlight = this.simulating
     this.svg = this.renderer.render(this.layout, size, this.simulating ? this.simPath : this.selected)
+    // Textgröße wie `canvasScaleStep`: Layout und Linien wachsen gleichmäßig mit.
+    this.svg.setAttribute('width', String(size.width * z))
+    this.svg.setAttribute('height', String(size.height * z))
     this.overlay = el('g', { class: 'drop-overlay' })
     this.svg.append(this.overlay)
     this.canvasHost.replaceChildren(this.svg)
@@ -310,6 +446,7 @@ export class App {
     this.captionInput.readOnly = this.simulating
     this.codeButton.disabled = this.simulating
     if (this.coding) this.code.refresh()
+    this.renderTabs()
     this.renderInspector()
     this.updateStatus()
   }
@@ -319,29 +456,134 @@ export class App {
     this.statusLine.textContent = `${this.fileName}${this.dirty ? ' (geändert)' : ''}`
   }
 
+  /** Wie `InspectorPanelBody` in Swift: Art (Anweisung/Ein-/Ausgabe), festes Schlüsselwort, Zählschleife, Fälle. */
   private renderInspector() {
     const path = this.selected
     const element = path ? tryElementAt(this.doc, path) : undefined
+    const box = this.inspector
     if (!path || !element) {
-      this.inspector.innerHTML = `<h2>Eigenschaften</h2><p class="hint">Element anklicken, um den Text zu bearbeiten.<br><br>Elemente aus der Palette auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.<br><br>Dateien können auch einfach ins Fenster gezogen werden.</p>`
+      box.innerHTML = `<h2>Eigenschaften</h2><p class="hint">Element anklicken, um den Text zu bearbeiten.<br><br>Elemente aus der Palette auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.<br><br>Dateien können auch einfach ins Fenster gezogen werden.</p>`
       return
     }
-    this.inspector.innerHTML = `<h2>${typeNames[element.type]}</h2><label>Text</label><textarea rows="5" spellcheck="false"></textarea><p class="hint"></p>`
-    const ta = this.inspector.querySelector('textarea')!
-    this.inspector.querySelector('p.hint')!.textContent = typeHints[element.type] ?? ''
-    ta.value = element.textLines.join('\n')
-    ta.placeholder = canvasTextLines(element).join('\n')
+    box.replaceChildren(h('h2', {}, typeNames[element.type]))
+
+    if (element.type === ElementType.anweisung) {
+      const mode = LineEditor.ioMode(element.textLines.join('\n'))
+      const seg = h('div', { class: 'segmented', role: 'group', 'aria-label': 'Art' })
+      for (const [m, label] of [['statement', 'Anweisung'], ['input', 'Eingabe'], ['output', 'Ausgabe']] as const) {
+        const b = h('button', { 'aria-pressed': String(m === mode) }, label)
+        b.addEventListener('click', () => {
+          // Aktuellen Text lesen: das Textfeld kann ihn seit dem Aufbau geändert haben.
+          const current = tryElementAt(this.doc, path)?.textLines.join('\n') ?? ''
+          if (m === LineEditor.ioMode(current)) return
+          const text = LineEditor.applyingIOMode(m, current)
+          this.commit(setTextLines(this.doc, path, text.split('\n')))
+          this.inspector.querySelector('textarea')?.focus()
+        })
+        seg.append(b)
+      }
+      box.append(seg, h('p', { class: 'hint mono-hint' }, ioModeHints[mode]))
+    }
+
+    if (element.type === ElementType.forSchleife) {
+      const row = h('div', { class: 'for-fields' })
+      const parts = LineEditor.paddedForLoopParts(element.textLines)
+      const labels = [
+        ['Start', 'int i = 0'],
+        ['Bedingung', 'i < 5'],
+        ['Schritt', 'i++'],
+      ]
+      labels.forEach(([label, placeholder], i) => {
+        const input = h('input', { placeholder, spellcheck: 'false', autocomplete: 'off' }) as HTMLInputElement
+        input.value = parts[i]
+        this.liveEdit(input, (value) => {
+          const el = tryElementAt(this.doc, path)
+          if (!el) return undefined
+          const lines = LineEditor.paddedForLoopParts(el.textLines)
+          lines[i] = LineEditor.normalizedForLoopPart(value)
+          return setTextLines(this.doc, path, lines)
+        })
+        row.append(h('label', {}, label, input))
+      })
+      box.append(row)
+    } else if (element.type !== ElementType.leerElement) {
+      const hint = conditionHints[element.type]
+      if (hint) box.append(h('p', { class: 'hint mono-hint' }, hint))
+      const prefix = fixedPrefix(element)
+      const ta = h('textarea', { rows: '3', spellcheck: 'false' }) as HTMLTextAreaElement
+      const text = element.textLines.join('\n')
+      ta.value = prefix ? LineEditor.strippingPrefixForEditing(prefix, text) : text
+      ta.placeholder = placeholderFor(element)
+      // Platzhalter „ø“ markieren, damit Tippen ihn ersetzt.
+      ta.addEventListener('focus', () => {
+        if (ta.value.trim() === 'ø') ta.select()
+      })
+      this.liveEdit(ta, (value) => {
+        const p = fixedPrefix(tryElementAt(this.doc, path) ?? element)
+        const stored = p ? LineEditor.prefixingForEditing(p, LineEditor.strippingPrefixForEditing(p, value)) : value
+        return setTextLines(this.doc, path, stored.split('\n'))
+      })
+      const row = h('div', { class: 'editor-row' })
+      if (prefix) row.append(h('span', { class: 'fixed-prefix' }, prefix))
+      row.append(ta)
+      box.append(row)
+    }
+
+    this.renderCaseControls(path)
+  }
+
+  /** Fallname und „Fall hinzufügen/entfernen“, wenn die Auswahl in einer Fallauswahl liegt. */
+  private renderCaseControls(path: number[]) {
+    const fa = multiwayAncestorPath(path, this.doc)
+    if (!fa) return
+    const cases = tryElementAt(this.doc, fa)?.cases ?? []
+    const caseIdx = caseIndexInMultiway(path, fa)
+    const section = h('div', { class: 'case-controls' })
+    if (caseIdx !== undefined && cases[caseIdx]) {
+      const input = h('input', { placeholder: 'z. B. 1, ok, default', spellcheck: 'false', autocomplete: 'off' }) as HTMLInputElement
+      input.value = cases[caseIdx].name
+      this.liveEdit(input, (value) => (value.trim() === '' ? undefined : setFallauswahlCaseName(this.doc, fa, caseIdx, value)))
+      section.append(h('label', {}, 'Fallname', input))
+    }
+    const add = h('button', {}, '＋ Weiteren Fall hinzufügen')
+    add.addEventListener('click', () => {
+      const r = appendCaseToFallauswahl(this.doc, fa)
+      this.commit(r.doc, r.path)
+    })
+    const remove = h('button', { class: 'danger-text' }, '－ Fall entfernen') as HTMLButtonElement
+    remove.disabled = cases.length <= 2 || caseIdx === undefined
+    remove.addEventListener('click', () => {
+      if (caseIdx === undefined) return
+      const r = removeCaseFromFallauswahl(this.doc, fa, caseIdx)
+      this.commit(r.doc, r.path)
+    })
+    section.append(h('div', { class: 'group' }, add, remove))
+    this.inspector.append(section)
+  }
+
+  /** Eingabefeld, das beim Tippen das Diagramm ändert; ein Rückgängig-Schritt pro Bearbeitung. */
+  private liveEdit(field: HTMLInputElement | HTMLTextAreaElement, apply: (value: string) => VSDocument | undefined) {
     let before: VSDocument | undefined
-    ta.addEventListener('focus', () => (before = this.doc))
-    ta.addEventListener('input', () => {
-      this.doc = setTextLines(this.doc, path, ta.value.split('\n'))
+    field.addEventListener('focus', () => (before = this.doc))
+    field.addEventListener('input', () => {
+      // Typografische Anführungszeichen sofort durch gerade ersetzen (gleiche Länge, Cursor bleibt).
+      const normalized = LineEditor.normalizingQuotes(field.value)
+      if (normalized !== field.value) {
+        const pos = field.selectionStart
+        field.value = normalized
+        field.setSelectionRange(pos, pos)
+      }
+      const next = apply(normalized)
+      if (!next) return
+      this.doc = next
       this.dirty = true
       this.renderDiagramOnly()
     })
-    ta.addEventListener('blur', () => {
+    field.addEventListener('blur', () => {
       if (before && before !== this.doc) this.pushUndo(before)
       before = undefined
-      this.render()
+      // Inspector nicht neu aufbauen: ein Klick auf einen seiner Knöpfe soll sein Ziel behalten.
+      this.renderDiagramOnly()
     })
   }
 
@@ -398,7 +640,8 @@ export class App {
     const node = this.flat.find((n) => samePath(n.idPath, path))
     if (!node) return
     const host = this.canvasHost
-    const f = node.frame
+    const z = this.zoom
+    const f = { x: node.frame.x * z, y: node.frame.y * z, width: node.frame.width * z, height: node.frame.height * z }
     const pad = 24
     if (f.y < host.scrollTop) host.scrollTop = Math.max(0, f.y - pad)
     else if (f.y + Math.min(f.height, host.clientHeight - 2 * pad) > host.scrollTop + host.clientHeight) {
@@ -419,8 +662,8 @@ export class App {
 
   private pushUndo(prev: VSDocument) {
     this.undoStack.push(prev)
-    if (this.undoStack.length > 200) this.undoStack.shift()
-    this.redoStack = []
+    while (this.undoStack.length > maxUndoSteps) this.undoStack.shift()
+    this.tab.redoStack = []
   }
 
   private undo() {
@@ -429,6 +672,7 @@ export class App {
     this.redoStack.push(this.doc)
     this.doc = prev
     this.dirty = true
+    this.selected = sanitizedSelection(this.selected, this.doc)
     this.render()
   }
 
@@ -438,16 +682,105 @@ export class App {
     this.undoStack.push(this.doc)
     this.doc = next
     this.dirty = true
+    this.selected = sanitizedSelection(this.selected, this.doc)
     this.render()
   }
 
   private resetHistory() {
     this.setSimulating(false)
-    this.undoStack = []
-    this.redoStack = []
+    this.tab.undoStack = []
+    this.tab.redoStack = []
     this.selected = undefined
     this.dirty = false
     this.render()
+  }
+
+  // MARK: - Reiter (DiagramSheetTabsModel.swift)
+
+  private tabStrip!: HTMLElement
+
+  private makeTab(): Tab {
+    return { doc: newEmptyDocument(), serial: this.nextTabSerial++, dirty: false, undoStack: [], redoStack: [], selected: [0] }
+  }
+
+  private addTab(tab = this.makeTab()) {
+    this.setSimulating(false)
+    this.tabs.push(tab)
+    this.tabIndex = this.tabs.length - 1
+    this.render()
+  }
+
+  private switchTab(index: number) {
+    if (index === this.tabIndex || !this.tabs[index]) return
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+    this.setSimulating(false)
+    this.tabIndex = index
+    this.render()
+  }
+
+  private async closeTab(index: number) {
+    if (this.tabs.length <= 1) return
+    const tab = this.tabs[index]
+    if (tab.dirty) {
+      this.switchTab(index)
+      if (!(await this.confirmDiscard())) return
+    }
+    this.setSimulating(false)
+    this.tabs.splice(index, 1)
+    if (this.tabIndex > index || this.tabIndex >= this.tabs.length) this.tabIndex = Math.max(0, this.tabIndex - 1)
+    this.render()
+  }
+
+  private renderTabs() {
+    const strip = this.tabStrip
+    strip.replaceChildren()
+    this.tabs.forEach((tab, i) => {
+      const item = document.createElement('div')
+      item.className = 'tab' + (i === this.tabIndex ? ' active' : '')
+      item.setAttribute('role', 'tab')
+      item.setAttribute('aria-selected', String(i === this.tabIndex))
+      const label = document.createElement('button')
+      label.className = 'tab-label'
+      label.textContent = (tab.dirty ? '• ' : '') + tabTitle(tab)
+      label.title = tab.fileName ?? tabTitle(tab)
+      label.addEventListener('click', () => this.switchTab(i))
+      item.append(label)
+      if (this.tabs.length > 1) {
+        const close = document.createElement('button')
+        close.className = 'tab-close'
+        close.textContent = '✕'
+        close.title = 'Reiter schließen'
+        close.setAttribute('aria-label', `${tabTitle(tab)} schließen`)
+        close.addEventListener('click', () => this.closeTab(i))
+        item.append(close)
+      }
+      strip.append(item)
+    })
+    const add = document.createElement('button')
+    add.className = 'tab-add'
+    add.textContent = '+'
+    add.title = 'Neuer Reiter'
+    add.setAttribute('aria-label', 'Neuer Reiter')
+    add.addEventListener('click', () => this.addTab())
+    strip.append(add)
+  }
+
+  // MARK: - Zwischenablage (Element)
+
+  private copySelection() {
+    const el = this.selected && tryElementAt(this.doc, this.selected)
+    if (!el) return false
+    this.clipboard = structuredClone(el)
+    this.showMessage('Element kopiert.')
+    return true
+  }
+
+  private cutSelection() {
+    if (this.selected && canDeleteElement(this.doc, this.selected) && this.copySelection()) this.deleteSelection()
+  }
+
+  private paste() {
+    if (this.clipboard) this.insertNearSelection(structuredClone(this.clipboard))
   }
 
   private deleteSelection() {
@@ -504,20 +837,23 @@ export class App {
     }, 6000)
   }
 
+  /** Wie `openIncomingDocument`: ungespeicherte Änderungen oder eine verknüpfte Datei → neuer Reiter. */
   private loadXML(xml: string, name: string, handle?: FileHandle) {
+    let doc: VSDocument
     try {
-      this.doc = decodeDocument(xml)
+      doc = decodeDocument(xml)
     } catch (err) {
       this.showMessage(`„${name}“ ist keine lesbare VisuStruct-Datei (${(err as Error).message})`)
       return
     }
-    this.fileName = name.replace(/\.(strk|xml)$/i, '.visustruct')
+    if (this.dirty || this.tab.fileName) this.addTab()
+    this.doc = doc
+    this.tab.fileName = name.replace(/\.(strk|xml)$/i, '.visustruct')
     this.fileHandle = handle && /\.visustruct$/i.test(name) ? handle : undefined
     this.resetHistory()
   }
 
   private async open(fallback: HTMLInputElement) {
-    if (!(await this.confirmDiscard())) return
     const w = window as PickerWindow
     if (!w.showOpenFilePicker || this.inViewer) return fallback.click()
     try {
@@ -537,13 +873,15 @@ export class App {
         // Die Vorschau erlaubt nur bekannte Endungen; die echte Web-App speichert direkt als .visustruct.
         const filename = this.fileName + '.txt'
         await this.downloads.save({ filename, data: blob })
+        this.tab.fileName ??= this.fileName
         this.dirty = false
+        this.render()
         this.showMessage(`Gespeichert als „${filename}“. Zum Öffnen in der App die Endung .txt entfernen.`)
         return
       }
       if (!this.fileHandle && w.showSaveFilePicker && !this.inViewer) {
         this.fileHandle = await w.showSaveFilePicker({ suggestedName: this.fileName, types: pickerTypes })
-        this.fileName = this.fileHandle.name
+        this.tab.fileName = this.fileHandle.name
       }
       if (this.fileHandle) {
         const out = await this.fileHandle.createWritable()
@@ -556,8 +894,9 @@ export class App {
         a.click()
         setTimeout(() => URL.revokeObjectURL(a.href), 1000)
       }
+      this.tab.fileName ??= this.fileName
       this.dirty = false
-      this.updateStatus()
+      this.render()
     } catch {
       /* abgebrochen */
     }
@@ -602,7 +941,7 @@ export class App {
       const f = e.dataTransfer?.files[0]
       if (!f) return
       e.preventDefault()
-      if (await this.confirmDiscard()) this.loadXML(await f.text(), f.name)
+      this.loadXML(await f.text(), f.name)
     })
   }
 
@@ -621,6 +960,14 @@ export class App {
       e.preventDefault()
       if (e.shiftKey) this.redo()
       else this.undo()
+    } else if (mod && e.key.toLowerCase() === 'c' && !getSelection()?.toString()) {
+      if (this.copySelection()) e.preventDefault()
+    } else if (mod && e.key.toLowerCase() === 'x') {
+      e.preventDefault()
+      this.cutSelection()
+    } else if (mod && e.key.toLowerCase() === 'v') {
+      e.preventDefault()
+      this.paste()
     } else if (mod && e.key.toLowerCase() === 'y') {
       e.preventDefault()
       this.redo()
@@ -644,7 +991,7 @@ export class App {
     const x = clientX - r.left
     const y = clientY - r.top
     if (x < 0 || y < 0 || x > r.width || y > r.height) return undefined
-    return { x, y }
+    return { x: x / this.zoom, y: y / this.zoom }
   }
 
   /** Tiefster Knoten unter dem Punkt (Kinder liegen über ihren Eltern). */
@@ -805,6 +1152,27 @@ export class App {
         this.render()
       }
     }
+  }
+}
+
+function tabTitle(tab: Tab): string {
+  if (tab.fileName) return tab.fileName.replace(/\.(visustruct|strk)$/i, '')
+  return tab.doc.caption.trim() || `Diagramm ${tab.serial}`
+}
+
+function storedValue(key: string): string | null {
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function storeValue(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    /* ohne Speicher: nur für diese Sitzung */
   }
 }
 
