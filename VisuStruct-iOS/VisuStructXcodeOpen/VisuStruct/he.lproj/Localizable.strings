@@ -230,3 +230,4 @@
 "sim_notice_division_by_zero" = "חלוקה באפס.";
 "sim_notice_whole_number_expected" = "יש להזין מספר שלם.";
 "sim_notice_number_expected" = "יש להזין מספר.";
+"sim_notice_boolean_expected" = "הזן true או false.";

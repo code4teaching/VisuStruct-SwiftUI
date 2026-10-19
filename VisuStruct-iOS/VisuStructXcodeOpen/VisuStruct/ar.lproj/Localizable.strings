@@ -230,3 +230,4 @@
 "sim_notice_division_by_zero" = "القسمة على صفر.";
 "sim_notice_whole_number_expected" = "أدخل عددًا صحيحًا.";
 "sim_notice_number_expected" = "أدخل رقمًا.";
+"sim_notice_boolean_expected" = "أدخل true أو false.";

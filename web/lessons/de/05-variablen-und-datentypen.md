@@ -29,9 +29,14 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
 :::
 
-Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 7.
+Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 7. Du kannst das Ergebnis einer Bedingung auch in einer Variablen speichern:
 
-> Die Simulation in VisuStruct kann Variablen vom Typ `boolean` noch nicht speichern. Bedingungen mit `true` und `false` funktionieren aber.
+```
+int alter = 15
+boolean volljaehrig = alter >= 18
+```
+
+Danach steht in `volljaehrig` der Wert `false`.
 
 ## Zuweisung mit =
 

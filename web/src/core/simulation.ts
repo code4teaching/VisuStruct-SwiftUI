@@ -8,11 +8,12 @@ export type SimValue =
   | { kind: 'int'; value: number }
   | { kind: 'double'; value: number }
   | { kind: 'string'; value: string }
+  | { kind: 'boolean'; value: boolean }
   | { kind: 'intArray'; value: number[] }
   | { kind: 'doubleArray'; value: number[] }
   | { kind: 'stringArray'; value: string[] }
 
-export type SimValueType = 'int' | 'double' | 'string'
+export type SimValueType = 'int' | 'double' | 'string' | 'boolean'
 
 export type StepKind =
   | 'statement'
@@ -51,6 +52,7 @@ export type SimNotice =
   | { kind: 'divisionByZero' }
   | { kind: 'wholeNumberExpected' }
   | { kind: 'numberExpected' }
+  | { kind: 'booleanExpected' }
   | { kind: 'other'; text: string }
 
 export interface SimState {
@@ -77,6 +79,7 @@ export function noticeEnglish(n: SimNotice): string {
     case 'divisionByZero': return 'Division by zero.'
     case 'wholeNumberExpected': return 'Please enter a whole number.'
     case 'numberExpected': return 'Please enter a number.'
+    case 'booleanExpected': return 'Please enter true or false.'
     case 'other': return n.text
   }
 }
@@ -91,6 +94,7 @@ export function noticeGerman(n: SimNotice): string {
     case 'divisionByZero': return 'Division durch null.'
     case 'wholeNumberExpected': return 'Bitte eine ganze Zahl eingeben.'
     case 'numberExpected': return 'Bitte eine Zahl eingeben.'
+    case 'booleanExpected': return 'Bitte true oder false eingeben.'
     case 'other': return n.text
   }
 }
@@ -138,6 +142,7 @@ export function describeValue(v: SimValue): string {
     case 'int': return String(v.value)
     case 'double': return formatDouble(v.value)
     case 'string': return v.value
+    case 'boolean': return String(v.value)
     case 'intArray': return '[' + v.value.map(String).join(', ') + ']'
     case 'doubleArray': return '[' + v.value.map(formatDouble).join(', ') + ']'
     case 'stringArray': return '[' + v.value.join(', ') + ']'
@@ -168,12 +173,13 @@ function valueTypeKeyword(text: string): SimValueType | undefined {
     case 'int': return 'int'
     case 'double': return 'double'
     case 'string': return 'string'
+    case 'boolean': case 'bool': return 'boolean'
     default: return undefined
   }
 }
 
 function valueTypeOf(v: SimValue): SimValueType {
-  return v.kind === 'int' ? 'int' : v.kind === 'double' ? 'double' : 'string'
+  return v.kind === 'int' ? 'int' : v.kind === 'double' ? 'double' : v.kind === 'boolean' ? 'boolean' : 'string'
 }
 
 function unquotedString(text: string): string | undefined {
@@ -611,6 +617,12 @@ function parseInputValue(rawValue: string, valueType: SimValueType): SimValue {
       return dbl(Number(trimmed))
     case 'string':
       return { kind: 'string', value: rawValue }
+    case 'boolean':
+      switch (trimmed.toLowerCase()) {
+        case 'true': case 'wahr': return { kind: 'boolean', value: true }
+        case 'false': case 'falsch': return { kind: 'boolean', value: false }
+        default: throw new SimulationError({ kind: 'booleanExpected' })
+      }
   }
 }
 
@@ -978,7 +990,7 @@ export class SimulationEngine {
     const typeName = leftParts[0].slice(0, -2)
     const valueType = valueTypeKeyword(typeName)
     const name = leftParts[1]
-    if (!valueType || !isIdentifier(name)) throw unsupported(left)
+    if (!valueType || valueType === 'boolean' || !isIdentifier(name)) throw unsupported(left)
 
     const trimmed = expression.trim()
     if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
@@ -1125,6 +1137,8 @@ export class SimulationEngine {
         if (ref) return { kind: 'string', value: describeValue(ref) }
         return { kind: 'string', value: this.evaluateOutputExpression(expression) }
       }
+      case 'boolean':
+        return { kind: 'boolean', value: this.evaluateBool(expression) }
     }
   }
 
@@ -1150,6 +1164,8 @@ export class SimulationEngine {
     const trimmed = expression.trim()
     if (trimmed === 'true') return true
     if (trimmed === 'false') return false
+    const ref = this.evaluateReference(trimmed)
+    if (ref?.kind === 'boolean') return ref.value
 
     const orParts = splitTopLevel(trimmed, '||')
     if (orParts.length > 1) return orParts.some((p) => this.evaluateBool(p))
@@ -1173,6 +1189,13 @@ export class SimulationEngine {
   }
 
   private evaluateComparison(lhs: string, op: string, rhs: string): boolean {
+    const lb = this.booleanOperand(lhs)
+    const rb = this.booleanOperand(rhs)
+    if ((lb !== undefined || rb !== undefined) && (op === '==' || op === '!=')) {
+      const left = lb ?? this.evaluateBool(lhs)
+      const right = rb ?? this.evaluateBool(rhs)
+      return op === '==' ? left === right : left !== right
+    }
     const ls = this.stringOperand(lhs)
     const rs = this.stringOperand(rhs)
     let left: string | number
@@ -1194,6 +1217,15 @@ export class SimulationEngine {
       case '>=': return left >= right
       default: throw invalid(`${lhs} ${op} ${rhs}`)
     }
+  }
+
+  /** `true`, `false` oder eine boolean-Variable; sonst `undefined`. */
+  private booleanOperand(text: string): boolean | undefined {
+    const trimmed = text.trim()
+    if (trimmed === 'true') return true
+    if (trimmed === 'false') return false
+    const ref = this.evaluateReference(trimmed)
+    return ref?.kind === 'boolean' ? ref.value : undefined
   }
 
   /** String-Literal oder String-Variable (auch Element eines String-Arrays); sonst `undefined`. */

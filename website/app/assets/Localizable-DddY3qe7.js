@@ -230,4 +230,5 @@ const n=`/* Palette */
 "sim_notice_division_by_zero" = "除數為零。";
 "sim_notice_whole_number_expected" = "請輸入整數。";
 "sim_notice_number_expected" = "請輸入數字。";
+"sim_notice_boolean_expected" = "請輸入 true 或 false。";
 `;export{n as default};

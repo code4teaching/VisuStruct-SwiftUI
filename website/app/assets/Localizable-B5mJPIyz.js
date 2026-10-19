@@ -140,6 +140,7 @@ const e=`/* NOTE: Initial Danish localization. */
 "sim_notice_division_by_zero" = "Division med nul.";
 "sim_notice_whole_number_expected" = "Indtast et heltal.";
 "sim_notice_number_expected" = "Indtast et tal.";
+"sim_notice_boolean_expected" = "Indtast true eller false.";
 "phone_hide_text_editor" = "Skjul";
 "phone_title_done" = "Færdig";
 `;export{e as default};

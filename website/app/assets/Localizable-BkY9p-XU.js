@@ -1,4 +1,4 @@
-const n=`/* Palette */
+const e=`/* Palette */
 "palette_header" = "요소";
 
 /* Actions */
@@ -230,4 +230,5 @@ const n=`/* Palette */
 "sim_notice_division_by_zero" = "0으로 나눌 수 없습니다.";
 "sim_notice_whole_number_expected" = "정수를 입력하세요.";
 "sim_notice_number_expected" = "숫자를 입력하세요.";
-`;export{n as default};
+"sim_notice_boolean_expected" = "true 또는 false를 입력하세요.";
+`;export{e as default};

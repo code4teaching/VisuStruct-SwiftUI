@@ -140,6 +140,7 @@ const e=`/* NOTE: Initial Norwegian Bokmål localization. */
 "sim_notice_division_by_zero" = "Divisjon med null.";
 "sim_notice_whole_number_expected" = "Skriv inn et heltall.";
 "sim_notice_number_expected" = "Skriv inn et tall.";
+"sim_notice_boolean_expected" = "Skriv inn true eller false.";
 "phone_hide_text_editor" = "Skjul";
 "phone_title_done" = "Ferdig";
 `;export{e as default};

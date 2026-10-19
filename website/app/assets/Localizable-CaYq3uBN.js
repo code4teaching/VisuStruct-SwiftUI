@@ -140,6 +140,7 @@ const e=`/* NOTE: Initial Dutch localization. */
 "sim_notice_division_by_zero" = "Deling door nul.";
 "sim_notice_whole_number_expected" = "Voer een geheel getal in.";
 "sim_notice_number_expected" = "Voer een getal in.";
+"sim_notice_boolean_expected" = "Voer true of false in.";
 "phone_hide_text_editor" = "Inklappen";
 "phone_title_done" = "Gereed";
 `;export{e as default};

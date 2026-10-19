@@ -13,6 +13,7 @@ export function noticeText(n: SimNotice): string {
     case 'divisionByZero': return t('sim_notice_division_by_zero')
     case 'wholeNumberExpected': return t('sim_notice_whole_number_expected')
     case 'numberExpected': return t('sim_notice_number_expected')
+    case 'booleanExpected': return t('sim_notice_boolean_expected')
     case 'other': return n.text
   }
 }
@@ -279,7 +280,7 @@ export class SimulationPanel {
     }
     form.querySelector('.sim-prompt')!.textContent = request.prompt
     const field = form.querySelector('input')!
-    field.inputMode = request.valueType === 'string' ? 'text' : 'decimal'
+    field.inputMode = request.valueType === 'string' || request.valueType === 'boolean' ? 'text' : 'decimal'
     const error = this.engine.state.inputErrorNotice
     const errorLine = form.querySelector<HTMLElement>('.sim-input-error')!
     errorLine.textContent = error ? noticeText(error) : ''

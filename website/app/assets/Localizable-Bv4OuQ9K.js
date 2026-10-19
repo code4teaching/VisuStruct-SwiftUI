@@ -140,6 +140,7 @@ const n=`/* NOTE: Initial Swedish localization. */
 "sim_notice_division_by_zero" = "Division med noll.";
 "sim_notice_whole_number_expected" = "Ange ett heltal.";
 "sim_notice_number_expected" = "Ange ett tal.";
+"sim_notice_boolean_expected" = "Ange true eller false.";
 "phone_hide_text_editor" = "Fäll ihop";
 "phone_title_done" = "Klar";
 `;export{n as default};

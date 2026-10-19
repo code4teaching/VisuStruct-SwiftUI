@@ -1,4 +1,4 @@
-const n=`/* Palette */
+const e=`/* Palette */
 "palette_header" = "רכיבים";
 
 /* Actions */
@@ -230,4 +230,5 @@ const n=`/* Palette */
 "sim_notice_division_by_zero" = "חלוקה באפס.";
 "sim_notice_whole_number_expected" = "יש להזין מספר שלם.";
 "sim_notice_number_expected" = "יש להזין מספר.";
-`;export{n as default};
+"sim_notice_boolean_expected" = "הזן true או false.";
+`;export{e as default};

@@ -232,4 +232,5 @@ const e=`/* Paleta */
 "sim_notice_division_by_zero" = "Divisão por zero.";
 "sim_notice_whole_number_expected" = "Introduza um número inteiro.";
 "sim_notice_number_expected" = "Introduza um número.";
+"sim_notice_boolean_expected" = "Introduza true ou false.";
 `;export{e as default};

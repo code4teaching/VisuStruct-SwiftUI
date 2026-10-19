@@ -230,4 +230,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "División por cero.";
 "sim_notice_whole_number_expected" = "Introduce un número entero.";
 "sim_notice_number_expected" = "Introduce un número.";
+"sim_notice_boolean_expected" = "Introduce true o false.";
 `;export{e as default};

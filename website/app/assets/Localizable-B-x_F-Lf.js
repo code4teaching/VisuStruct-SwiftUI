@@ -231,4 +231,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "Division durch null.";
 "sim_notice_whole_number_expected" = "Bitte eine ganze Zahl eingeben.";
 "sim_notice_number_expected" = "Bitte eine Zahl eingeben.";
+"sim_notice_boolean_expected" = "Bitte true oder false eingeben.";
 `;export{e as default};

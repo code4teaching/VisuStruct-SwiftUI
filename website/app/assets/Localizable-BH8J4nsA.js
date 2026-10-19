@@ -227,4 +227,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "Διαίρεση με το μηδέν.";
 "sim_notice_whole_number_expected" = "Εισαγάγετε έναν ακέραιο αριθμό.";
 "sim_notice_number_expected" = "Εισαγάγετε έναν αριθμό.";
+"sim_notice_boolean_expected" = "Πληκτρολογήστε true ή false.";
 `;export{e as default};

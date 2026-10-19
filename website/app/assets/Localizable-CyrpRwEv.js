@@ -227,4 +227,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "Ділення на нуль.";
 "sim_notice_whole_number_expected" = "Введіть ціле число.";
 "sim_notice_number_expected" = "Введіть число.";
+"sim_notice_boolean_expected" = "Введіть true або false.";
 `;export{e as default};

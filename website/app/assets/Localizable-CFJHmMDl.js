@@ -230,4 +230,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "0 で割ることはできません。";
 "sim_notice_whole_number_expected" = "整数を入力してください。";
 "sim_notice_number_expected" = "数値を入力してください。";
+"sim_notice_boolean_expected" = "true または false を入力してください。";
 `;export{e as default};

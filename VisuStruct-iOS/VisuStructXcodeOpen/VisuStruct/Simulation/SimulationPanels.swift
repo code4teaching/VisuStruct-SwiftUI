@@ -282,7 +282,7 @@ private struct SimulationInputCard: View {
             return .numberPad
         case .double:
             return .decimalPad
-        case .string:
+        case .string, .bool:
             return .default
         }
     }
@@ -372,6 +372,8 @@ extension VisuStructSimulationNotice {
             return lang.tr("sim_notice_whole_number_expected")
         case .numberExpected:
             return lang.tr("sim_notice_number_expected")
+        case .booleanExpected:
+            return lang.tr("sim_notice_boolean_expected")
         case .other(let text):
             return text
         }

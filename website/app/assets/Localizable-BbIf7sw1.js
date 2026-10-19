@@ -230,4 +230,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "Sıfıra bölme.";
 "sim_notice_whole_number_expected" = "Lütfen bir tam sayı girin.";
 "sim_notice_number_expected" = "Lütfen bir sayı girin.";
+"sim_notice_boolean_expected" = "true veya false girin.";
 `;export{e as default};

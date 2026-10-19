@@ -231,4 +231,5 @@ const e=`/* Palette */
 "sim_notice_division_by_zero" = "Division by zero.";
 "sim_notice_whole_number_expected" = "Please enter a whole number.";
 "sim_notice_number_expected" = "Please enter a number.";
+"sim_notice_boolean_expected" = "Please enter true or false.";
 `;export{e as default};
