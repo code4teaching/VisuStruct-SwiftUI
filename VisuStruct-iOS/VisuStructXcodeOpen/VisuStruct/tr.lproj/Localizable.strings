@@ -194,6 +194,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "Ekleme iptal";
 "phone_show_text_editor" = "Metni düzenle";
+"phone_hide_text_editor" = "Daralt";
+"phone_title_done" = "Bitti";
 
 /* Alerts */
 "err_save_failed_fmt" = "Kaydedilemedi: %@";

@@ -213,6 +213,7 @@ struct DiagramCanvasView: View {
                 Color.clear
                     .frame(width: cw, height: ch)
                     .contentShape(Rectangle())
+                    .accessibilityHidden(true)
                     .onTapGesture {
                         selectedPath = nil
                         // iPhone: Einfügemarke durch Tap auf leeren Bereich löschen.
@@ -237,6 +238,8 @@ struct DiagramCanvasView: View {
 
             canvasView(layout: layout, cw: cw, ch: ch)
                 .allowsHitTesting(false)
+                // Gezeichnete Fläche; VoiceOver liest stattdessen die Blöcke darüber.
+                .accessibilityHidden(true)
 
             if let firstRoot = layout.elements.first {
                 rootInsertBeforeFirstStrip(
@@ -244,6 +247,7 @@ struct DiagramCanvasView: View {
                     canvasWidth: cw,
                     canvasHeight: ch
                 )
+                .accessibilityHidden(true)
             }
 
             ForEach(flat, id: \.pathKey) { node in

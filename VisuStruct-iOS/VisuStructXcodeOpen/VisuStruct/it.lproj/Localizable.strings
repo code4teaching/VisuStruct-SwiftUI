@@ -194,6 +194,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "Annulla inserimento";
 "phone_show_text_editor" = "Modifica testo";
+"phone_hide_text_editor" = "Comprimi";
+"phone_title_done" = "Fine";
 
 /* Alerts */
 "err_save_failed_fmt" = "Impossibile salvare: %@";

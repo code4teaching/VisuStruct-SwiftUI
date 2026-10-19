@@ -101,11 +101,28 @@ extension DiagramCanvasView {
         .draggable(DiagramDragPayload(raw: ElementPalette.moveDragIdentifier(path: node.idPath))) {
             nodeDragPreview(for: node)
         }
+        // VoiceOver: ein Element pro Block (statt der unbeschrifteten Drop-Streifen darin).
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel(for: node))
+        .accessibilityAddTraits(selectedPath == node.idPath ? [.isButton, .isSelected] : .isButton)
+        .accessibilityAction {
+            selectedPath = node.idPath
+        }
         .accessibilityHint(
             isPlaceholderNode
                 ? lang.tr("a11y_placeholder_drop")
                 : lang.tr("a11y_node_drop")
         )
+    }
+
+    /// Vorgelesener Name eines Blocks: Elementart und Text, z. B. „Anweisung: int x = 5“.
+    func accessibilityLabel(for node: VisuStructLayout.Node) -> String {
+        // Schlüssel wie in der Palette: element_anweisung, element_verzweigung, …
+        let kind = lang.tr("element_\(node.element.type)")
+        let text = node.element.textLines
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return text.isEmpty ? kind : "\(kind): \(text)"
     }
 
     /// Gesamte Kachel = ein Ziel nur für „ersetzen“ (`.on`-Semantik).
