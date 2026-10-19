@@ -37,6 +37,7 @@
         </nav>
         <nav class="header-subnav" aria-label="En esta página">
           <a href="#download">Descarga</a>
+          <a href="#learn">Aprender</a>
           <a href="#privacy">Privacidad</a>
           <a href="#contact">Contacto</a>
         </nav>
@@ -53,7 +54,63 @@
       <div class="content-prose">
         <p class="lead-kicker">Editor visual para diagramas de Nassi-Shneiderman — primero la estructura del algoritmo, no la sintaxis.</p>
         <p>Con VisuStruct desarrollas algoritmos como <strong>structogramas</strong>: divides un problema en pasos claros (secuencia, decisión, bucles) y ves rápidamente si la lógica tiene sentido — ideal para practicar y para la enseñanza.</p>
-        <p>VisuStruct está disponible como app nativa <strong>SwiftUI</strong> para <strong>Mac, iPad y iPhone</strong>, y como aplicación <strong>Java</strong> para Windows/macOS/Linux. Ambas usan el mismo formato de archivo <strong>.visustruct</strong>, de modo que puedes empezar en <strong>Mac, iPad o iPhone</strong> y continuar con la aplicación Java de escritorio (o al revés).</p>
+        <p>Puedes usar VisuStruct de tres maneras: directamente <strong>en el navegador</strong> sin instalar nada, como <strong>app para Mac, iPad y iPhone</strong> o como <strong>aplicación Java</strong> para Windows, macOS y Linux. Las tres usan el mismo formato de archivo <strong>.visustruct</strong>, así que puedes empezar en un dispositivo y seguir en otro.</p>
+      </div>
+    </section>
+
+    <section id="download" class="wrap section-downloads" aria-label="Descargas">
+      <h2>Tres maneras de usar VisuStruct</h2>
+      <div class="grid">
+      <article class="card">
+        <h2>En el navegador</h2>
+        <p>Sin instalación, en cualquier dispositivo con un navegador actual. Abre y guarda los mismos archivos <strong>.visustruct</strong>; todo se ejecuta en tu dispositivo y no se sube nada.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="../app/?lang=es">Abrir en el navegador</a>
+        </div>
+      </article>
+      <article class="card card--app-store">
+        <!-- App Store: usar solo artes oficiales de Apple (developer.apple.com/app-store/marketing/guidelines/). Sin insignias de terceros. -->
+        <h2>Mac, iPad y iPhone</h2>
+        <div class="btn-row app-store-badge-row">
+          <a
+            class="app-store-badge-link"
+            href="https://apps.apple.com/app/id6761957046"
+            rel="noopener noreferrer"
+            aria-label="Descargar en el App Store"
+          >
+            <img
+              class="app-store-badge-img"
+              src="/assets/Download-on-the-App-Store/ES/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_ES_RGB_wht_100217.svg"
+              width="270"
+              height="90"
+              alt="Descargar en el App Store"
+            />
+          </a>
+        </div>
+      </article>
+      <article class="card">
+        <h2>Aplicación Java (escritorio)</h2>
+        <p>Para <strong>Windows</strong>, <strong>macOS</strong> y <strong>Linux</strong>. Descarga como <strong>.jar</strong> (requiere Java, por ejemplo <a href="https://adoptium.net/" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
+        <div class="btn-row">
+          <a
+            class="btn btn-primary"
+            href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar"
+            rel="noopener noreferrer"
+            download="visustruct.jar"
+            >Descargar app</a>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <section id="learn" class="wrap section-block section-learn" aria-labelledby="learn-heading">
+      <h2 id="learn-heading">Aprender diagramas estructurados</h2>
+      <div class="content-prose">
+        <p>La versión para navegador incluye un <strong>área de aprendizaje</strong>: las lecciones explican paso a paso cómo usar el editor y qué son la secuencia, la bifurcación y los bucles. Cada lección tiene pequeños ejercicios que VisuStruct comprueba automáticamente, además de una lista de control y un breve cuestionario.</p>
+        <p>Cuando conozcas lo básico, puedes intentar las <strong>tareas</strong> y comparar tu solución con la solución modelo. Tu progreso se guarda en tu navegador; no necesitas cuenta. Por ahora las lecciones están en alemán; pronto habrá más idiomas.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../app/?lang=es&amp;learn">Ir a las lecciones</a>
       </div>
     </section>
 
@@ -118,51 +175,6 @@
       <h2 id="why-heading">Primero el algoritmo, después el código</h2>
       <div class="content-prose">
         <p>Empieza con la lógica y el flujo — con el algoritmo. Después expresa la misma estructura con sintaxis, en el lenguaje de programación que elijas — paso a paso y de forma comprensible.</p>
-      </div>
-    </section>
-
-    <section id="download" class="wrap section-downloads" aria-label="Descargas">
-      <h2>Descargar VisuStruct</h2>
-      <div class="grid">
-      <article class="card card--app-store">
-        <!-- App Store: usar solo artes oficiales de Apple (developer.apple.com/app-store/marketing/guidelines/). Sin insignias de terceros. -->
-        <h2>Mac, iPad y iPhone</h2>
-        <div class="btn-row app-store-badge-row">
-          <a
-            class="app-store-badge-link"
-            href="https://apps.apple.com/app/id6761957046"
-            rel="noopener noreferrer"
-            aria-label="Descargar en el App Store"
-          >
-            <img
-              class="app-store-badge-img"
-              src="/assets/Download-on-the-App-Store/ES/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_ES_RGB_wht_100217.svg"
-              width="270"
-              height="90"
-              alt="Descargar en el App Store"
-            />
-          </a>
-        </div>
-      </article>
-      <article class="card">
-        <h2>Aplicación Java (escritorio)</h2>
-        <p>Para <strong>Windows</strong>, <strong>macOS</strong> y <strong>Linux</strong>. Descarga como <strong>.jar</strong> (requiere Java, por ejemplo <a href="https://adoptium.net/" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
-        <div class="btn-row">
-          <a
-            class="btn btn-primary"
-            href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar"
-            rel="noopener noreferrer"
-            download="visustruct.jar"
-            >Descargar app</a>
-        </div>
-      </article>
-      <article class="card">
-        <h2>En el navegador</h2>
-        <p>Sin instalación, en cualquier dispositivo con un navegador actual. Abre y guarda los mismos archivos <strong>.visustruct</strong>; todo se ejecuta en tu dispositivo y no se sube nada.</p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="../app/?lang=es">Abrir en el navegador</a>
-        </div>
-      </article>
       </div>
     </section>
 

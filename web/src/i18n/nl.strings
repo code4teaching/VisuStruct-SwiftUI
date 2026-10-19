@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
 "web_key_shift" = "Shift";
-"web_examples" = "Voorbeeld…";
-"web_examples_title" = "Een voorbeeld openen";
 "web_export" = "Exporteren…";
 "web_export_title" = "Opslaan als afbeelding of PDF, of afdrukken";
 "web_export_png" = "Afbeelding (PNG)";

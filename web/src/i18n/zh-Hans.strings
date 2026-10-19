@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
 "web_key_shift" = "Shift";
-"web_examples" = "示例…";
-"web_examples_title" = "打开示例";
 "web_export" = "导出…";
 "web_export_title" = "保存为图片或 PDF，或打印";
 "web_export_png" = "图片（PNG）";

@@ -101,6 +101,27 @@ final class SimulationEngineTests: XCTestCase {
         XCTAssertEqual(runSimulation(document("a != 5")).outputLines, ["nein"])
     }
 
+    func testPlaceholderStatementsAreSkipped() {
+        func document(a: Int) -> VisuStructDocument {
+            VisuStructDocument(elements: [
+                VisuStructElement(type: .anweisung, textLines: ["ø"]),
+                VisuStructElement(type: .anweisung, textLines: ["int a = \(a)"]),
+                VisuStructElement(
+                    type: .verzweigung,
+                    textLines: ["a > 3"],
+                    cases: [
+                        VisuStructCase(name: "true", elements: [VisuStructElement(type: .anweisung, textLines: ["print: \"groß\""])]),
+                        VisuStructCase(name: "false", elements: [VisuStructElement(type: .anweisung, textLines: ["ø"])]),
+                    ]
+                ),
+            ])
+        }
+        XCTAssertEqual(runSimulation(document(a: 5)).outputLines, ["groß"])
+        let small = runSimulation(document(a: 1))
+        XCTAssertEqual(small.outputLines, [])
+        XCTAssertEqual(small.notice, .finished)
+    }
+
     func testDivisionByZeroReportsError() {
         let document = VisuStructDocument(elements: [
             VisuStructElement(type: .anweisung, textLines: ["int x = 1 / 0"]),

@@ -37,6 +37,7 @@
         </nav>
         <nav class="header-subnav" aria-label="On this page">
           <a href="#download">Download</a>
+          <a href="#learn">Learn</a>
           <a href="#privacy">Privacy</a>
           <a href="#contact">Contact</a>
         </nav>
@@ -53,7 +54,63 @@
       <div class="content-prose">
         <p class="lead-kicker">Visual structogram editor for Nassi-Shneiderman diagrams — plan algorithms by structure, not syntax first.</p>
         <p>With VisuStruct, you develop algorithms as <strong>structograms</strong>: you break a problem into clear steps (sequence, branching, loops) and can quickly see whether the logic makes sense — great for practice and teaching.</p>
-        <p>VisuStruct is available as a native <strong>SwiftUI</strong> app for <strong>Mac, iPad, and iPhone</strong>, and as a <strong>Java</strong> app for Windows/macOS/Linux. Both share the same <strong>.visustruct</strong> file format, so you can start on a <strong>Mac, iPad, or iPhone</strong> and continue with the Java desktop app (or the other way around).</p>
+        <p>You can use VisuStruct in three ways: right <strong>in the browser</strong> with nothing to install, as an <strong>app for Mac, iPad, and iPhone</strong>, or as a <strong>Java app</strong> for Windows, macOS, and Linux. All three share the same <strong>.visustruct</strong> file format, so you can start on one device and continue on another.</p>
+      </div>
+    </section>
+
+    <section id="download" class="wrap section-downloads" aria-label="Downloads">
+      <h2>Three ways to use VisuStruct</h2>
+      <div class="grid">
+      <article class="card">
+        <h2>In the browser</h2>
+        <p>No installation, on any device with a current browser. Opens and saves the same <strong>.visustruct</strong> files; everything runs on your device and nothing is uploaded.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="../app/?lang=en">Open in browser</a>
+        </div>
+      </article>
+      <article class="card card--app-store">
+        <!-- App Store: when live, use only official Apple badge artwork (developer.apple.com/app-store/marketing/guidelines/). No third-party badge SVGs. -->
+        <h2>Mac, iPad &amp; iPhone</h2>
+        <div class="btn-row app-store-badge-row">
+          <a
+            class="app-store-badge-link"
+            href="https://apps.apple.com/app/id6761957046"
+            rel="noopener noreferrer"
+            aria-label="Download on the App Store"
+          >
+            <img
+              class="app-store-badge-img"
+              src="/assets/Download-on-the-App-Store/US/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg"
+              width="270"
+              height="90"
+              alt="Download on the App Store"
+            />
+          </a>
+        </div>
+      </article>
+      <article class="card">
+        <h2>Java app (desktop)</h2>
+        <p>For <strong>Windows</strong>, <strong>macOS</strong>, and <strong>Linux</strong>. Download as a <strong>.jar</strong> (Java required, e.g. <a href="https://adoptium.net/" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
+        <div class="btn-row">
+          <a
+            class="btn btn-primary"
+            href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar"
+            rel="noopener noreferrer"
+            download="visustruct.jar"
+            >Download app</a>
+        </div>
+      </article>
+      </div>
+    </section>
+
+    <section id="learn" class="wrap section-block section-learn" aria-labelledby="learn-heading">
+      <h2 id="learn-heading">Learn structure charts</h2>
+      <div class="content-prose">
+        <p>The browser version comes with a <strong>learning area</strong>: lessons explain step by step how to use the editor and what sequence, branches, and loops are about. Each lesson has small exercises that VisuStruct checks automatically, plus a checklist and a short quiz.</p>
+        <p>Once you know the basics, you can try the <strong>tasks</strong> and compare your answer with a sample solution. Your progress stays in your browser; no account needed. The lessons are currently available in German; more languages will follow.</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="../app/?lang=en&amp;learn">Go to the lessons</a>
       </div>
     </section>
 
@@ -118,51 +175,6 @@
       <h2 id="why-heading">Algorithm first, then code</h2>
       <div class="content-prose">
         <p>Start with logic and flow — your algorithm. Then express the same structure with syntax, in whatever programming language you choose — step by step and easy to follow.</p>
-      </div>
-    </section>
-
-    <section id="download" class="wrap section-downloads" aria-label="Downloads">
-      <h2>Get VisuStruct</h2>
-      <div class="grid">
-      <article class="card card--app-store">
-        <!-- App Store: when live, use only official Apple badge artwork (developer.apple.com/app-store/marketing/guidelines/). No third-party badge SVGs. -->
-        <h2>Mac, iPad &amp; iPhone</h2>
-        <div class="btn-row app-store-badge-row">
-          <a
-            class="app-store-badge-link"
-            href="https://apps.apple.com/app/id6761957046"
-            rel="noopener noreferrer"
-            aria-label="Download on the App Store"
-          >
-            <img
-              class="app-store-badge-img"
-              src="/assets/Download-on-the-App-Store/US/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_wht_092917.svg"
-              width="270"
-              height="90"
-              alt="Download on the App Store"
-            />
-          </a>
-        </div>
-      </article>
-      <article class="card">
-        <h2>Java app (desktop)</h2>
-        <p>For <strong>Windows</strong>, <strong>macOS</strong>, and <strong>Linux</strong>. Download as a <strong>.jar</strong> (Java required, e.g. <a href="https://adoptium.net/" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
-        <div class="btn-row">
-          <a
-            class="btn btn-primary"
-            href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar"
-            rel="noopener noreferrer"
-            download="visustruct.jar"
-            >Download app</a>
-        </div>
-      </article>
-      <article class="card">
-        <h2>In the browser</h2>
-        <p>No installation, on any device with a current browser. Opens and saves the same <strong>.visustruct</strong> files; everything runs on your device and nothing is uploaded.</p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="../app/?lang=en">Open in browser</a>
-        </div>
-      </article>
       </div>
     </section>
 

@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
 "web_key_shift" = "Shift";
-"web_examples" = "예제…";
-"web_examples_title" = "예제 열기";
 "web_export" = "내보내기…";
 "web_export_title" = "이미지 또는 PDF로 저장하거나 인쇄";
 "web_export_png" = "이미지(PNG)";

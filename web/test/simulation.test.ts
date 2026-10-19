@@ -98,6 +98,28 @@ describe('Simulation', () => {
     expect(runSimulation(d(5)).outputLines).toEqual(['anderer Tag'])
   })
 
+  it('überspringt den Platzhalter ø', () => {
+    const d = (a: number) =>
+      doc([
+        stmt('ø'),
+        stmt(`int a = ${a}`),
+        makeElement(ElementType.verzweigung, {
+          textLines: ['a > 3'],
+          cases: [
+            { name: 'true', elements: [stmt('print: "groß"')] },
+            { name: 'false', elements: [stmt('ø')] },
+          ],
+        }),
+      ])
+    const big = runSimulation(d(5))
+    expect(big.outputLines).toEqual(['groß'])
+    expect(big.isHalted).toBe(false)
+    const small = runSimulation(d(1))
+    expect(small.outputLines).toEqual([])
+    expect(small.isHalted).toBe(false)
+    expect(small.message).toBe('Simulation finished.')
+  })
+
   it('Division durch null meldet einen Fehler', () => {
     const engine = new SimulationEngine(doc([stmt('int x = 1 / 0')]))
     engine.step()

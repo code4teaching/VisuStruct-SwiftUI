@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Canc";
 "web_key_shift" = "Maiusc";
-"web_examples" = "Esempio…";
-"web_examples_title" = "Apri un esempio";
 "web_export" = "Esporta…";
 "web_export_title" = "Salva come immagine o PDF, oppure stampa";
 "web_export_png" = "Immagine (PNG)";

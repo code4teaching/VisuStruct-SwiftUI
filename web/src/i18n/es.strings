@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Supr";
 "web_key_shift" = "Mayús";
-"web_examples" = "Ejemplo…";
-"web_examples_title" = "Abrir un ejemplo";
 "web_export" = "Exportar…";
 "web_export_title" = "Guardar como imagen o PDF, o imprimir";
 "web_export_png" = "Imagen (PNG)";

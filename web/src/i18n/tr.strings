@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
 "web_key_shift" = "Shift";
-"web_examples" = "Örnek…";
-"web_examples_title" = "Örnek aç";
 "web_export" = "Dışa aktar…";
 "web_export_title" = "Görsel veya PDF olarak kaydet ya da yazdır";
 "web_export_png" = "Görsel (PNG)";

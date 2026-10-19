@@ -263,7 +263,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 .trimmingCharacters(in: .whitespacesAndNewlines)
             switch element.type {
             case .anweisung:
-                guard !text.isEmpty else { return nil }
+                // Leere Anweisung und Platzhalter „ø“ werden übersprungen
+                guard !text.isEmpty, text != "ø" else { return nil }
                 return VisuStructSimulationStep(path: path, text: text)
             case .verzweigung:
                 return VisuStructSimulationStep(

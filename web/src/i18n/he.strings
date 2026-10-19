@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
 "web_key_shift" = "Shift";
-"web_examples" = "דוגמה…";
-"web_examples_title" = "פתיחת דוגמה";
 "web_export" = "ייצוא…";
 "web_export_title" = "שמירה כתמונה או כ‑PDF, או הדפסה";
 "web_export_png" = "תמונה (PNG)";

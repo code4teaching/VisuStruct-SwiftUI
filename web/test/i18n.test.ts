@@ -27,7 +27,9 @@ describe('Sprachen (AppLanguage.swift)', () => {
     for (const { code } of languages) {
       if (code === 'java') continue
       const web = read(join(webDir, `${code}.strings`))
-      expect([...webEnglish.keys()].filter((k) => !web.has(k)), code).toEqual([])
+      // Den Lernbereich gibt es vorerst nur auf Deutsch; seine Texte fallen in anderen Sprachen auf Englisch zurück.
+      const required = [...webEnglish.keys()].filter((k) => !k.startsWith('web_learn_'))
+      expect(required.filter((k) => !web.has(k)), code).toEqual([])
       for (const [k, v] of web) expect(placeholders(v), `${code} ${k}`).toBe(placeholders(webEnglish.get(k)!))
     }
   })
