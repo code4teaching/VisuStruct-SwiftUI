@@ -269,6 +269,7 @@ struct VisuStructApp: App {
             "visustruct.codegen.includeEmptyElse": true,
             "visustruct.codegen.includeDiagramComments": false
         ])
+        AppLanguage.storeDeviceDefaultIfNeeded()
     }
 
     // Hinweis: Kein `UITextField.appearance().smartQuotesType` / `UITextView.appearance()` hier —
@@ -289,7 +290,7 @@ struct VisuStructApp: App {
 /// `.delete` gibt es nur auf macOS, daher Löschen hinter `.pasteboard`.
 private struct VisuStructCommands: Commands {
     @ObservedObject private var commandCenter = DiagramCommandCenter.shared
-    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
+    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.deviceDefault.rawValue
 
     private var lang: AppLanguage {
         AppLanguage(rawValue: languageCode) ?? .english
@@ -369,7 +370,7 @@ private struct VisuStructCommands: Commands {
 /// Synchronisiert `UserDefaults` mit den iOS-**Systemeinstellungen** (VisuStruct), sobald die App wieder aktiv wird.
 private struct AppRootView: View {
     @StateObject private var incomingDocuments = IncomingDocumentOpener()
-    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.english.rawValue
+    @AppStorage(AppLanguage.storageKey) private var languageCode: String = AppLanguage.deviceDefault.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var scaleCanvas: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var scaleInspector: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage("visustruct.export.filenameStyle") private var exportFilenameStyle: String = "dateTitle"
@@ -384,7 +385,7 @@ private struct AppRootView: View {
             .onOpenURL { incomingDocuments.queue($0) }
             .onChange(of: scenePhase) { _, phase in
                 guard phase == .active else { return }
-                let lang = UserDefaults.standard.string(forKey: AppLanguage.storageKey) ?? AppLanguage.english.rawValue
+                let lang = UserDefaults.standard.string(forKey: AppLanguage.storageKey) ?? AppLanguage.deviceDefault.rawValue
                 if lang != languageCode { languageCode = lang }
                 let c = UserDefaults.standard.string(forKey: VisuStructUIScaleStep.appStorageKeyCanvas) ?? VisuStructUIScaleStep.small.rawValue
                 if c != scaleCanvas { scaleCanvas = c }

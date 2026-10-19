@@ -32,7 +32,7 @@ final class SimulationEngineTests: XCTestCase {
         XCTAssertEqual(engine.state.inputRequest?.variableName, "n")
 
         engine.provideInput("abc")
-        XCTAssertNotNil(engine.state.inputError)
+        XCTAssertEqual(engine.state.inputErrorNotice, .wholeNumberExpected)
         XCTAssertNotNil(engine.state.inputRequest)
 
         engine.provideInput("21")
@@ -107,7 +107,18 @@ final class SimulationEngineTests: XCTestCase {
         ])
         var engine = VisuStructSimulationEngine(document: document)
         engine.step()
+        XCTAssertEqual(engine.state.notice, .divisionByZero)
         XCTAssertEqual(engine.state.message, "Division by zero.")
         XCTAssertNil(engine.state.variables["x"])
+    }
+
+    func testFinishedNoticeAfterLastStep() {
+        let document = VisuStructDocument(elements: [
+            VisuStructElement(type: .anweisung, textLines: ["int x = 1"]),
+        ])
+        var engine = VisuStructSimulationEngine(document: document)
+        engine.step()
+        XCTAssertEqual(engine.state.notice, .finished)
+        XCTAssertEqual(engine.state.message, "Simulation finished.")
     }
 }

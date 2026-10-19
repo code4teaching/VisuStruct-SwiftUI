@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "Sidste trin";
 "simulation_highlight_next" = "Næste trin";
 "simulation_not_available" = "Play kører simuleringen automatisk med en pause på 0,5 sekund pr. trin.";
-"simulation_play" = "Play";
+"simulation_play" = "Afspil";
 "simulation_pause" = "Pause";
-"simulation_step" = "Step";
+"simulation_step" = "Trin";
 "simulation_stop" = "Stop";
 "simulation_input" = "Input";
 "simulation_input_placeholder" = "Ingen input påkrævet.";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Indtast et heltal.";
 "simulation_trace" = "Sidste trin";
-"simulation_trace_placeholder" = "Det senest udførte trin forklares her.";
+"simulation_trace_placeholder" = "Intet trin udført endnu.";
 "simulation_variables" = "Variabler";
-"simulation_variables_placeholder" = "Aktuelle variabelværdier vises her senere.";
+"simulation_variables_placeholder" = "Ingen variabler endnu.";
 "simulation_output" = "Output";
-"simulation_output_placeholder" = "Simulationens output vises her senere.";
+"simulation_output_placeholder" = "Intet output endnu.";
 "action_delete_selection" = "Slet markering";
 "ctx_copy" = "Kopiér";
 "ctx_cut" = "Klip";
@@ -64,8 +64,8 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_title" = "Type";
+"inspector_io_mode_statement" = "Sætning";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
 "inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
@@ -130,3 +130,13 @@
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Træk for at flytte kodegeneratorpanelet";
 "about_dateiformat_strk" = "Filer med endelsen .strk kan også åbnes.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simuleringen er færdig.";
+"sim_notice_infinite_loop_empty" = "Den uendelige løkke har intet indhold.";
+"sim_notice_unsupported_statement_fmt" = "Sætning understøttes ikke: %@";
+"sim_notice_invalid_expression_fmt" = "Ugyldigt udtryk: %@";
+"sim_notice_unknown_variable_fmt" = "Ukendt variabel: %@";
+"sim_notice_division_by_zero" = "Division med nul.";
+"sim_notice_whole_number_expected" = "Indtast et heltal.";
+"sim_notice_number_expected" = "Indtast et tal.";
