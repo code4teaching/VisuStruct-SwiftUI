@@ -196,6 +196,8 @@
 /* iPhone: inserir por toque */
 "phone_insert_cancel" = "Cancelar inserção";
 "phone_show_text_editor" = "Editar texto";
+"phone_hide_text_editor" = "Recolher";
+"phone_title_done" = "OK";
 
 /* Alertas */
 "err_save_failed_fmt" = "Não foi possível guardar: %@";

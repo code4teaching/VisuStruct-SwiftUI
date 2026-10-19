@@ -194,6 +194,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "取消插入";
 "phone_show_text_editor" = "編輯文字";
+"phone_hide_text_editor" = "收合";
+"phone_title_done" = "完成";
 
 /* Alerts */
 "err_save_failed_fmt" = "無法儲存：%@";
