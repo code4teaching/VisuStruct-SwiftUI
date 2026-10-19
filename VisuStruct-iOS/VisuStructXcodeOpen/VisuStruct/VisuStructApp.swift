@@ -47,6 +47,10 @@ enum DiagramMenuNotification {
     static let printDocument = Notification.Name("visustruct.menu.print")
     static let close = Notification.Name("visustruct.menu.close")
     static let openRecent = Notification.Name("visustruct.menu.openRecent")
+    static let sharePNG = Notification.Name("visustruct.menu.sharePNG")
+    static let shareDocument = Notification.Name("visustruct.menu.shareDocument")
+    static let exportPDF = Notification.Name("visustruct.menu.exportPDF")
+    static let showAbout = Notification.Name("visustruct.menu.showAbout")
 
     static let recentFileIDKey = "id"
 }
@@ -122,6 +126,22 @@ final class DiagramCommandCenter: ObservableObject {
 
     func close() {
         NotificationCenter.default.post(name: DiagramMenuNotification.close, object: nil)
+    }
+
+    func sharePNG() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.sharePNG, object: nil)
+    }
+
+    func shareDocument() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.shareDocument, object: nil)
+    }
+
+    func exportPDF() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.exportPDF, object: nil)
+    }
+
+    func showAbout() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.showAbout, object: nil)
     }
 
     func openRecent(_ file: RecentVisuStructFile) {
@@ -297,6 +317,11 @@ private struct VisuStructCommands: Commands {
     }
 
     var body: some Commands {
+        CommandGroup(replacing: .appInfo) {
+            Button(lang.tr("action_about")) {
+                commandCenter.showAbout()
+            }
+        }
         CommandGroup(replacing: .newItem) {
             Button(lang.tr("menu_new")) {
                 commandCenter.newDocument()
@@ -316,6 +341,18 @@ private struct VisuStructCommands: Commands {
             .keyboardShortcut("s", modifiers: [.command, .shift])
             .disabled(!commandCenter.canSaveAs)
             Divider()
+            Button(lang.tr("action_share_document")) {
+                commandCenter.shareDocument()
+            }
+            .disabled(!commandCenter.canPrint)
+            Button(lang.tr("action_share_png")) {
+                commandCenter.sharePNG()
+            }
+            .disabled(!commandCenter.canPrint)
+            Button(lang.tr("action_export_pdf")) {
+                commandCenter.exportPDF()
+            }
+            .disabled(!commandCenter.canPrint)
             Button(lang.tr("menu_print")) {
                 commandCenter.printDocument()
             }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Hauptfenster-Toolbar: Titel, Undo/Redo, Datei-Menü, Palette (iPhone), Tastatur „Fertig“.
+/// Hauptfenster-Toolbar: Titel, Undo/Redo, Datei-Menü (inkl. Teilen/Export und Info), Palette (iPhone), Tastatur „Fertig“.
 /// Diagramm-Reiter liegen in `DiagramTabStrip`.
 struct DiagramMainEditorToolbar: ToolbarContent {
     @Environment(\.appLanguage) private var lang
@@ -28,6 +28,11 @@ struct DiagramMainEditorToolbar: ToolbarContent {
 
     /// Nur unter UIKit (Druck); sonst `nil` und kein Eintrag.
     let onPrint: (() -> Void)?
+
+    let onSharePNG: () -> Void
+    let onShareDocument: () -> Void
+    let onExportPDF: () -> Void
+    let onShowAbout: () -> Void
 
     let onKeyboardDismiss: () -> Void
 
@@ -76,8 +81,8 @@ struct DiagramMainEditorToolbar: ToolbarContent {
             Menu {
                 Button(action: onOpenImporter) {
                     Label(lang.tr("menu_open"), systemImage: "square.and.arrow.down")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
                 }
+                .disabled(isSimulationMode)
                 Menu {
                     if recentFiles.isEmpty {
                         Text(lang.tr("recent_files_empty"))
@@ -97,26 +102,43 @@ struct DiagramMainEditorToolbar: ToolbarContent {
                 } label: {
                     Label(lang.tr("recent_files_menu"), systemImage: "clock")
                 }
+                .disabled(isSimulationMode)
                 Divider()
-                Button(action: onSave) {
-                    Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
-                }
-                Button(action: onSaveAs) {
-                    Label(lang.tr("menu_save_as"), systemImage: "square.and.arrow.up")
-                }
-                #if canImport(UIKit)
-                if let onPrint {
-                    Divider()
-                    Button(action: onPrint) {
-                        Label(lang.tr("menu_print"), systemImage: "printer")
+                Group {
+                    Button(action: onSave) {
+                        Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
+                    }
+                    Button(action: onSaveAs) {
+                        Label(lang.tr("menu_save_as"), systemImage: "square.and.arrow.up")
                     }
                 }
-                #endif
+                .disabled(isSimulationMode)
+                Section {
+                    Button(action: onShareDocument) {
+                        Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
+                    }
+                    Button(action: onSharePNG) {
+                        Label(lang.tr("action_share_png"), systemImage: "photo")
+                    }
+                    Button(action: onExportPDF) {
+                        Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
+                    }
+                    #if canImport(UIKit)
+                    if let onPrint {
+                        Button(action: onPrint) {
+                            Label(lang.tr("menu_print"), systemImage: "printer")
+                        }
+                    }
+                    #endif
+                }
+                .disabled(isSimulationMode)
+                Divider()
+                Button(action: onShowAbout) {
+                    Label(lang.tr("action_about"), systemImage: "info.circle")
+                }
             } label: {
                 Label(lang.tr("menu_file"), systemImage: "folder")
-                    .foregroundStyle(isSimulationMode ? .tertiary : .primary)
             }
-            .disabledAndDimmed(isSimulationMode)
         }
         #if canImport(UIKit)
         ToolbarItemGroup(placement: .keyboard) {
