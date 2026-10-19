@@ -1,4 +1,4 @@
-name: VisuStructCore tests
+name: CI
 
 on:
   push:
@@ -17,3 +17,17 @@ jobs:
         run: swift --version
       - name: Build and test
         run: swift test
+
+  app-build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xcode version
+        run: xcodebuild -version
+      - name: Build app for iOS Simulator
+        run: |
+          xcodebuild build \
+            -project VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct.xcodeproj \
+            -scheme VisuStruct \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
