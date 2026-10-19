@@ -479,7 +479,7 @@ export class App {
         if (tab === this.tab) this.render()
       },
       preview: (doc: VSDocument) => {
-        const image = Export.renderExportSVG(doc, this.metrics, this.measure)
+        const image = Export.renderExportSVG(doc, this.metrics, this.measure, 0)
         if (!image) return undefined
         image.svg.removeAttribute('width')
         image.svg.removeAttribute('height')

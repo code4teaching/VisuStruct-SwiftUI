@@ -875,11 +875,10 @@ button.danger-text:not(:disabled) {
   overflow: hidden;
   background: #fafafa;
 }
-.learn-preview svg {
+.learn-preview > svg {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 340px;
 }
 .learn-figure figcaption {
   color: var(--muted);

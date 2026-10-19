@@ -64,12 +64,15 @@ export interface ExportImage {
   height: number
 }
 
-/** Diagramm mit sichtbarem Titel, ohne Auswahl (gleiche Grundlage für PNG, SVG, PDF und Druck). */
-export function renderExportSVG(doc: VSDocument, metrics: Metrics, measure: MeasureText): ExportImage | undefined {
+/**
+ * Diagramm mit sichtbarem Titel, ohne Auswahl (gleiche Grundlage für PNG, SVG, PDF und Druck).
+ * `minSize` wie in der App 320; die Vorschau im Lernbereich nimmt 0, damit kein Leerraum entsteht.
+ */
+export function renderExportSVG(doc: VSDocument, metrics: Metrics, measure: MeasureText, minSize = 320): ExportImage | undefined {
   const displayDoc: VSDocument = { ...doc, elements: doc.elements.map(displayElement) }
   const layout = new LayoutEngine(metrics, measure).layout(displayDoc, exportInset)
-  const w = Math.min(exportPixelCap, Math.max(320, layout.canvasSize.width))
-  const h = Math.min(exportPixelCap, Math.max(320, layout.canvasSize.height))
+  const w = Math.min(exportPixelCap, Math.max(minSize, layout.canvasSize.width))
+  const h = Math.min(exportPixelCap, Math.max(minSize, layout.canvasSize.height))
   if (w <= 2 || h <= 2) return undefined
 
   const lines = wrapTitle(exportVisibleDiagramTitle(doc), w - 2 * titlePadX, measure)
