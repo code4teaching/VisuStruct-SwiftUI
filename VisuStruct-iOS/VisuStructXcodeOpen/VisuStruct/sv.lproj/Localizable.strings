@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "Senaste steg";
 "simulation_highlight_next" = "Nästa steg";
 "simulation_not_available" = "Play kör simuleringen automatiskt med 0,5 sekunders paus per steg.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "Spela";
+"simulation_pause" = "Paus";
+"simulation_step" = "Steg";
+"simulation_stop" = "Stopp";
 "simulation_input" = "Inmatning";
 "simulation_input_placeholder" = "Ingen inmatning krävs.";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Ange ett heltal.";
 "simulation_trace" = "Senaste steg";
-"simulation_trace_placeholder" = "Det senast körda steget förklaras här.";
+"simulation_trace_placeholder" = "Inget steg har körts ännu.";
 "simulation_variables" = "Variabler";
-"simulation_variables_placeholder" = "Aktuella variabelvärden visas här senare.";
+"simulation_variables_placeholder" = "Inga variabler ännu.";
 "simulation_output" = "Utdata";
-"simulation_output_placeholder" = "Simuleringens utdata visas här senare.";
+"simulation_output_placeholder" = "Ingen utmatning ännu.";
 "action_delete_selection" = "Radera markering";
 "ctx_copy" = "Kopiera";
 "ctx_cut" = "Klipp ut";
@@ -64,11 +64,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "Typ";
+"inspector_io_mode_statement" = "Sats";
+"inspector_io_mode_input" = "Inmatning";
+"inspector_io_mode_output" = "Utmatning";
+"inspector_io_mode_help_java_like" = "Inmatning: input: … | Utmatning: output: …";
 "inspector_add_case" = "Lägg till case";
 "inspector_remove_case" = "Ta bort case";
 "inspector_group_element" = "Elementtext";
@@ -130,3 +130,13 @@
 /* Accessibility — code generator floating panel */
 "a11y_codegen_panel_drag" = "Dra för att flytta kodgeneratorpanelen";
 "about_dateiformat_strk" = "Filer med tillägget .strk kan också öppnas.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simuleringen är klar.";
+"sim_notice_infinite_loop_empty" = "Den oändliga loopen saknar innehåll.";
+"sim_notice_unsupported_statement_fmt" = "Sats som inte stöds: %@";
+"sim_notice_invalid_expression_fmt" = "Ogiltigt uttryck: %@";
+"sim_notice_unknown_variable_fmt" = "Okänd variabel: %@";
+"sim_notice_division_by_zero" = "Division med noll.";
+"sim_notice_whole_number_expected" = "Ange ett heltal.";
+"sim_notice_number_expected" = "Ange ett tal.";
