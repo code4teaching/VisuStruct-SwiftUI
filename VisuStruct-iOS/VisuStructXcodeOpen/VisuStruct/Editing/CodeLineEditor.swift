@@ -110,6 +110,8 @@ private struct CodeLineEditorUIKit: UIViewRepresentable {
         tv.commitOnReturn = commitOnReturn
         tv.onCommit = onCommit
         tv.delegate = context.coordinator
+        // Beim Erzeugen nicht fokussieren: Nur ein späterer Token-Wechsel holt die Tastatur.
+        context.coordinator.lastFocusToken = focusToken
         return tv
     }
 
