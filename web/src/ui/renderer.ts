@@ -1,7 +1,7 @@
 import { canvasTextLines, keywordSplit } from '../core/diagramText'
 import type { Layout, LayoutNode, Metrics, Rect } from '../core/layout'
 import { ElementType, type VSElement } from '../core/model'
-import { diagramFontFamily, type MeasureText } from '../core/textMeasurement'
+import { diagramFontFamily, fontExtents, type MeasureText } from '../core/textMeasurement'
 
 /** SVG-Port von `DiagramCanvasRenderer.swift` (Kacheln, Linien, Text). */
 
@@ -122,7 +122,8 @@ export class DiagramRenderer {
 
   /** Zeile mit fett gedrucktem Schlüsselwort, Ursprung oben links (`anchor: .topLeading`). */
   private drawKeywordLine(g: SVGElement, line: string, x: number, y: number) {
-    const t = el('text', { x, y, 'dominant-baseline': 'text-before-edge', 'font-weight': 500 })
+    // Grundlinie selbst setzen: Safari kennt `dominant-baseline: text-before-edge` nicht
+    const t = el('text', { x, y: y + fontExtents(this.fontSize, 'medium').ascent, 'font-weight': 500 })
     t.style.whiteSpace = 'pre'
     const parts = keywordSplit(line)
     if (parts) {
@@ -130,8 +131,9 @@ export class DiagramRenderer {
       kw.textContent = parts.keyword
       t.append(kw)
       if (parts.rest !== '') {
-        const rest = el('tspan', { x: x + this.measure(parts.keyword, this.fontSize, 'bold') })
-        rest.textContent = ' ' + parts.rest
+        const rest = el('tspan', {})
+        // geschütztes Leerzeichen: Safari verschluckt sonst das führende Leerzeichen im tspan
+        rest.textContent = '\u00a0' + parts.rest
         t.append(rest)
       }
     } else {
@@ -141,10 +143,10 @@ export class DiagramRenderer {
   }
 
   private drawLabel(g: SVGElement, text: string, x: number, y: number, bold: boolean, baseline: 'top' | 'bottom') {
+    const extents = fontExtents(this.fontSize, bold ? 'bold' : 'medium')
     const t = el('text', {
       x,
-      y,
-      'dominant-baseline': baseline === 'top' ? 'text-before-edge' : 'text-after-edge',
+      y: baseline === 'top' ? y + extents.ascent : y - extents.descent,
       'font-weight': bold ? 700 : 500,
     })
     t.style.whiteSpace = 'pre'

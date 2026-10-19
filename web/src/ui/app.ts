@@ -27,9 +27,11 @@ import { ElementType, type VSDocument, type VSElement } from '../core/model'
 import { paletteElement, paletteItems, type PaletteItem } from '../core/palette'
 import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
-import { examples } from './examples'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
+import { LearnPanel, type LearnHost } from './learnPanel'
+import type { Exercise } from '../learn/lessonFormat'
+import { progress } from '../learn/progress'
 import { currentLanguage, languages, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
@@ -134,6 +136,8 @@ interface Tab {
   undoStack: VSDocument[]
   redoStack: VSDocument[]
   selected?: number[]
+  /** Reiter gehört zu einer Übung im Lernbereich; ihr Stand wird im Browser gemerkt. */
+  exerciseId?: string
 }
 
 /** `VisuStructUIScaleStep`: Textgröße des Struktogramms. */
@@ -152,6 +156,7 @@ function shortcut(key: string, shift = false): string {
 }
 const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
+const learnKey = 'visustruct.learn.open'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
 const maxUndoSteps = 80
@@ -200,6 +205,11 @@ export class App {
   }
   private simulating = false
   private exportSelect!: HTMLSelectElement
+  private learn: LearnPanel
+  private shell: HTMLElement
+  private learning = false
+  private learnButton?: HTMLButtonElement
+  private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
   private simPath?: number[]
@@ -232,6 +242,16 @@ export class App {
 
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
+    // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
+    this.learn = new LearnPanel(this.learnHost())
+    this.shell = document.createElement('div')
+    this.shell.className = 'shell'
+    root.replaceWith(this.shell)
+    this.shell.append(this.learn.element, root)
+    const learnOpen = storedValue(learnKey)
+    // Link „Zu den Lektionen“ der Webseite: …/app/?learn
+    const fromSite = new URLSearchParams(location.search).has('learn')
+    this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), false)
     const z = Number(storedValue(zoomKey))
     if (zoomSteps.some((s) => s.value === z)) this.zoom = z
     this.buildUI()
@@ -241,7 +261,7 @@ export class App {
     window.addEventListener('pointercancel', () => this.endDrag())
     window.addEventListener('keydown', (e) => this.onKeyDown(e))
     window.addEventListener('beforeunload', (e) => {
-      if (this.tabs.some((t) => t.dirty)) e.preventDefault()
+      if (this.tabs.some((t) => t.dirty && !t.exerciseId)) e.preventDefault()
     })
     this.setupFileDrop()
     const claude = (window as { claude?: { use(name: string): Promise<unknown> } }).claude
@@ -258,7 +278,6 @@ export class App {
         <div class="group">
           <button data-action="new" title="${e(t('a11y_new_diagram_tab'))}">${e(t('toolbar_new'))}</button>
           <button data-action="open" title="${e(t('menu_open'))} (${shortcut('O')})">${e(t('menu_open'))}</button>
-          <select data-action="example" title="${e(t('web_examples_title'))}"><option value="">${e(t('web_examples'))}</option></select>
           <button data-action="save" title="${e(t('menu_save'))} (${shortcut('S')})">${e(t('menu_save'))}</button>
           <select data-action="export" title="${e(t('web_export_title'))}">
             <option value="">${e(t('web_export'))}</option>
@@ -285,6 +304,7 @@ export class App {
             .join('')}</select>
         </div>
         <div class="group">
+          <button data-action="learn" aria-pressed="false" title="${e(t('web_learn_toggle_title'))}">🎓 ${e(t('web_learn_title'))}</button>
           <button data-action="code" aria-pressed="false" title="${e(t('a11y_generate_code'))}">{ } Code</button>
           <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="${e(t('web_simulation_start_title'))}">▶︎ ${e(t('action_simulation'))}</button>
         </div>
@@ -347,13 +367,9 @@ export class App {
       list.append(li)
     }
 
-    const select = $<HTMLSelectElement>('[data-action=example]')
-    for (const ex of examples) select.append(new Option(ex.name, ex.name))
-    select.addEventListener('change', () => {
-      const ex = examples.find((x) => x.name === select.value)
-      select.value = ''
-      if (ex) this.loadXML(ex.xml, ex.name.split('/').pop()! + '.visustruct')
-    })
+    this.learnButton = $('[data-action=learn]')
+    this.learnButton.addEventListener('click', () => this.setLearning(!this.learning))
+    this.learnButton.setAttribute('aria-pressed', String(this.learning))
     this.tabStrip = $('.tabs')
     this.exportSelect = $<HTMLSelectElement>('[data-action=export]')
     this.exportSelect.addEventListener('change', () => {
@@ -416,6 +432,74 @@ export class App {
     this.sim.end()
     this.buildUI()
     this.render()
+    this.learn.render()
+  }
+
+  // MARK: - Lernbereich
+
+  private setLearning(on: boolean, remember = true) {
+    this.learning = on
+    this.shell.classList.toggle('learning', on)
+    this.learnButton?.setAttribute('aria-pressed', String(on))
+    if (remember) storeValue(learnKey, on ? '1' : '0')
+    if (this.canvasHost) this.renderDiagramOnly()
+  }
+
+  private learnHost(): LearnHost {
+    return {
+      openExercise: (ex: Exercise, doc: VSDocument) => {
+        const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
+        if (existing >= 0) {
+          this.switchTab(existing)
+          return
+        }
+        const tab = this.makeTab()
+        tab.doc = doc
+        tab.exerciseId = ex.id
+        tab.selected = doc.elements.length > 0 ? [0] : undefined
+        // Ein unberührter leerer Reiter wird ersetzt statt einen weiteren zu öffnen.
+        if (this.isPristine(this.tab)) this.tabs[this.tabIndex] = tab
+        else this.tabs.push(tab)
+        this.tabIndex = this.tabs.indexOf(tab)
+        this.setSimulating(false)
+        this.render()
+      },
+      openDiagram: (doc: VSDocument, fileName: string) => {
+        // Tab nach der Diagrammüberschrift benennen, nicht nach der Datei (l1-tee)
+        this.loadXML(encodeDocument(doc), doc.caption.trim() ? `${doc.caption.trim()}.visustruct` : fileName)
+      },
+      exerciseDocument: (id: string) => this.tabs.find((tab) => tab.exerciseId === id)?.doc,
+      resetExercise: (id: string, doc: VSDocument) => {
+        const tab = this.tabs.find((x) => x.exerciseId === id)
+        if (!tab) return
+        tab.undoStack.push(tab.doc)
+        tab.doc = doc
+        tab.redoStack = []
+        tab.selected = [0]
+        if (tab === this.tab) this.render()
+      },
+      preview: (doc: VSDocument) => {
+        const image = Export.renderExportSVG(doc, this.metrics, this.measure, 0)
+        if (!image) return undefined
+        image.svg.removeAttribute('width')
+        image.svg.removeAttribute('height')
+        return image.svg
+      },
+    }
+  }
+
+  private isPristine(tab: Tab): boolean {
+    return !tab.dirty && !tab.fileName && !tab.exerciseId && tab.undoStack.length === 0
+  }
+
+  /** Stand einer Übung merken (kurz verzögert, damit Tippen flüssig bleibt). */
+  private rememberExercise() {
+    const tab = this.tab
+    if (!tab.exerciseId) return
+    clearTimeout(this.exerciseSaveTimer)
+    this.exerciseSaveTimer = window.setTimeout(() => {
+      if (tab.exerciseId) progress.updateExercise(tab.exerciseId, { xml: encodeDocument(tab.doc) })
+    }, 300)
   }
 
   /** Kleine Vorschau des Elements als Symbol in der Palette. */
@@ -488,6 +572,7 @@ export class App {
   }
 
   private updateStatus() {
+    this.rememberExercise()
     document.title = `${this.dirty ? '• ' : ''}${this.fileName} – VisuStruct Web`
     this.statusLine.textContent = `${this.fileName}${this.dirty ? ` (${t('web_status_modified')})` : ''}`
   }
@@ -762,7 +847,7 @@ export class App {
   private async closeTab(index: number) {
     if (this.tabs.length <= 1) return
     const tab = this.tabs[index]
-    if (tab.dirty) {
+    if (tab.dirty && !tab.exerciseId) {
       this.switchTab(index)
       if (!(await this.confirmDiscard())) return
     }

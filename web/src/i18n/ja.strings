@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Delete";
 "web_key_shift" = "Shift";
-"web_examples" = "例…";
-"web_examples_title" = "例を開く";
 "web_export" = "エクスポート…";
 "web_export_title" = "画像または PDF として保存、または印刷";
 "web_export_png" = "画像（PNG）";

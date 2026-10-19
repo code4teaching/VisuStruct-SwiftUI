@@ -3,7 +3,7 @@ import { describeValue, SimulationEngine, type SimNotice } from '../core/simulat
 import { currentLanguage, t } from './i18n'
 
 /** `sim_notice_*` aus Localizable.strings. */
-function noticeText(n: SimNotice): string {
+export function noticeText(n: SimNotice): string {
   switch (n.kind) {
     case 'finished': return t('sim_notice_finished')
     case 'infiniteLoopWithoutBody': return t('sim_notice_infinite_loop_empty')

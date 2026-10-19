@@ -64,6 +64,15 @@ gilt wie in der App der englische. Beim ersten Start wird die Browsersprache gew
 rechts nach links, das Struktogramm und der Code bleiben links nach rechts. `test/i18n.test.ts` prüft, dass jeder im Code
 benutzte Schlüssel einen englischen Text hat und jede Sprache alle Web-Texte mit denselben Platzhaltern enthält.
 
+## Lernbereich
+
+Neben dem Editor liegt ein Lernbereich mit **Lektionen**, **Aufgaben** und **Nachschlagen** (Vorbild: PicoJavaGoat).
+Die Inhalte sind Markdown-Dateien in `lessons/` und werden beim Bauen eingebunden; das Format steht in
+[`lessons/README.md`](lessons/README.md). Übungen werden automatisch geprüft: `src/core/exerciseCheck.ts` simuliert das
+Diagramm mit den Eingaben der Übung und vergleicht die Ausgabe. Der Fortschritt liegt nur im `localStorage` des Browsers.
+`test/lessons.test.ts` prüft alle Lektionen: Format, vorhandene Diagramme und dass jede Musterlösung ihre Tests besteht.
+`…/app/?learn` öffnet die App mit eingeblendetem Lernbereich (Link „Zu den Lektionen“ der Webseite).
+
 ## Veröffentlichen
 
 Die App liegt fertig gebaut in `website/app/` und wird mit der übrigen Webseite hochgeladen; sie ist dann unter

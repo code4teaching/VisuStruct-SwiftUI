@@ -5,8 +5,6 @@
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
 "web_key_shift" = "Shift";
-"web_examples" = "Eksempel…";
-"web_examples_title" = "Åpne et eksempel";
 "web_export" = "Eksporter…";
 "web_export_title" = "Lagre som bilde eller PDF, eller skriv ut";
 "web_export_png" = "Bilde (PNG)";

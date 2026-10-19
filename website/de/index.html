@@ -3,196 +3,223 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>VisuStruct — Visueller Struktogrammeditor</title>
-  <meta name="description" content="VisuStruct: Struktogramme nach Nassi-Shneiderman. SwiftUI-App für Mac, iPad und iPhone im App Store sowie Java-Desktop für Windows/macOS/Linux. Gemeinsames .visustruct-Dateiformat.">
+  <title>VisuStruct — Struktogramme im Browser</title>
+  <meta name="description" content="VisuStruct: Struktogramme nach Nassi-Shneiderman direkt im Browser bauen, Schritt für Schritt testen und in Java, Python oder JavaScript übersetzen. Mit Lektionen und Aufgaben. Auch als App für Mac, iPad, iPhone und als Java-App.">
+  <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://visustruct.org/de/">
-  <!-- Sichtbar auch wenn styles.css nicht lädt (falscher Upload-Pfad) -->
-  <style>
-    html { background-color: #0a1628; color-scheme: dark; }
-    body { margin: 0; min-height: 100vh; background-color: #0a1628; color: #f1f5f9; font-family: system-ui, -apple-system, sans-serif; }
-    main { display: block; color: #f1f5f9; }
-    h1, h2, .brand { color: #f8fafc; }
-    a { color: #76d3fe; }
-  </style>
+  <link rel="alternate" hreflang="en" href="https://visustruct.org/en/">
+  <link rel="alternate" hreflang="de" href="https://visustruct.org/de/">
+  <link rel="alternate" hreflang="es" href="https://visustruct.org/es/">
+  <link rel="alternate" hreflang="fr" href="https://visustruct.org/fr/">
+  <link rel="alternate" hreflang="pt-PT" href="https://visustruct.org/pt/">
+  <meta property="og:title" content="VisuStruct — Struktogramme im Browser">
+  <meta property="og:description" content="VisuStruct: Struktogramme nach Nassi-Shneiderman direkt im Browser bauen, Schritt für Schritt testen und in Java, Python oder JavaScript übersetzen. Mit Lektionen und Aufgaben. Auch als App für Mac, iPad, iPhone und als Java-App.">
+  <meta property="og:image" content="https://visustruct.org/assets/webApp/web-editor-de.png">
   <link rel="icon" href="/assets/VisuStruct-icon.png" type="image/png" sizes="any">
   <link rel="apple-touch-icon" href="/assets/VisuStruct-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css?v=2026-04-14">
+  <link rel="stylesheet" href="/css/styles.css?v=2026-10-19">
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap header-inner">
+  <header class="hd">
+    <div class="wrap hd-inner">
       <a class="brand" href="./">
-        <img class="brand-icon-img" src="/assets/VisuStruct-icon.png" width="52" height="52" alt="VisuStruct">
-        VisuStruct
+        <img src="/assets/VisuStruct-icon.png" width="36" height="36" alt="">
+        <span>VisuStruct</span>
       </a>
-      <div class="header-nav-block">
-                <nav class="lang-switch" aria-label="Sprache">
-          <a href="../en/">EN</a>
-          <a href="./" aria-current="page">DE</a>
-          <a href="../es/">ES</a>
-          <a href="../fr/">FR</a>
-          <a href="../pt/">PT</a>
+      <nav class="hd-nav" aria-label="Menü">
+        <a href="#features">Funktionen</a>
+        <a href="#learn">Lernen</a>
+        <a href="#apps">Apps</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+      <div class="hd-end">
+        <nav class="langs" aria-label="Sprache">
+          <a href="../en/" hreflang="en" lang="en">EN</a>
+          <a href="./" hreflang="de" lang="de" aria-current="page">DE</a>
+          <a href="../es/" hreflang="es" lang="es">ES</a>
+          <a href="../fr/" hreflang="fr" lang="fr">FR</a>
+          <a href="../pt/" hreflang="pt-PT" lang="pt-PT">PT</a>
         </nav>
-        <nav class="header-subnav" aria-label="Schnellzugriff">
-          <a href="#download">Download</a>
-          <a href="#privacy">Datenschutz</a>
-          <a href="#contact">Kontakt</a>
-        </nav>
+        <a class="btn btn-primary btn-sm hd-cta" href="../app/?lang=de">Im Browser öffnen</a>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="hero wrap">
-      <div class="hero-logo-wrap" aria-hidden="true">
-        <img class="hero-logo-img" src="/assets/VisuStruct-icon.png" width="176" height="176" alt="">
-      </div>
-      <h1>VisuStruct — Visueller Struktogrammeditor</h1>
-      <div class="content-prose">
-        <p class="lead-kicker">Visueller Struktogrammeditor nach Nassi-Shneiderman — Algorithmen zuerst als Struktur, nicht als Syntax.</p>
-        <p>Mit VisuStruct entwickelst du Algorithmen als <strong>Struktogramm</strong>: Du zerlegst ein Problem in klare Schritte (Anweisung, Verzweigung, Schleife) und siehst sofort, ob der Ablauf logisch stimmt — ideal zum Üben und für den Unterricht.</p>
-        <p>VisuStruct gibt es als native <strong>SwiftUI-App</strong> für <strong>Mac, iPad und iPhone</strong> und als <strong>Java-App</strong> für Windows/macOS/Linux. Beide nutzen dasselbe <strong>.visustruct</strong>-Dateiformat: Du kannst auf <strong>Mac, iPad oder iPhone</strong> anfangen und mit der Java-App am Rechner weitermachen (oder umgekehrt).</p>
-      </div>
-    </section>
-
-    <section class="wrap section-block section-codegen" aria-labelledby="codegen-heading">
-      <h2 id="codegen-heading">Vom Struktogramm zum Programmcode</h2>
-      <div class="content-prose">
-        <p>VisuStruct erzeugt aus deinem Diagramm Code für <strong>Java</strong>, <strong>Python</strong> und <strong>JavaScript</strong> — ideal, um Algorithmen zuerst visuell zu verstehen und danach in echten Programmcode zu übertragen.</p>
-      </div>
-      <div class="codegen-grid" aria-label="Code-Erzeugung für Java, Python und JavaScript">
-        <article class="codegen-card">
-          <h3>Java</h3>
-          <p>Java-Code kannst du in deine eigene IDE kopieren und dort kompilieren, testen oder erweitern.</p>
-        </article>
-        <article class="codegen-card">
-          <h3>JavaScript</h3>
-          <p>Generierten JavaScript-Code kannst du direkt in der App ausführen und ausprobieren.</p>
-        </article>
-        <article class="codegen-card">
-          <h3>Python</h3>
-          <p>Python-Code lässt sich direkt in ein Python-Notebook übernehmen und dort weiterverwenden.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="wrap section-block" aria-labelledby="simulate-heading">
-      <h2 id="simulate-heading">Den Algorithmus testen — Schritt für Schritt</h2>
-      <div class="content-prose">
-        <p>Auf <strong>Start</strong> drücken — und dein Diagramm läuft. Du siehst, welcher Block gerade aktiv ist, wie sich die Variablen ändern und wo deine Schleife landet. Logikfehler springen direkt ins Auge — und wenn alles passt, hast du den <strong>Beweis</strong>, dass dein Algorithmus funktioniert.</p>
-      </div>
-    </section>
-
-    <section class="wrap section-screenshot" aria-labelledby="swiftui-screenshot-heading">
-      <h2 id="swiftui-screenshot-heading" class="screenshot-heading">SwiftUI-App für Mac, iPad &amp; iPhone</h2>
-      <p class="screenshot-lead">VisuStruct gibt es als native <strong>SwiftUI</strong>-App für <strong>Mac, iPad und iPhone</strong> (<a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>).</p>
-      <div
-        data-visustruct-swift-carousel
-        data-aria-region="VisuStruct SwiftUI Screenshots"
-        data-caption="Aufnahmen von der Mac-App (April 2026); dieselbe SwiftUI-App auf Mac, iPad und iPhone."
-      ></div>
-    </section>
-
-    <section class="wrap section-screenshot" aria-labelledby="java-screenshot-heading">
-      <h2 id="java-screenshot-heading" class="screenshot-heading">Java-App für Windows, macOS &amp; Linux</h2>
-      <p class="screenshot-lead">Für den Desktop: Du baust dein Struktogramm per <strong>Drag &amp; Drop</strong> aus der Palette zusammen, ordnest Schritte und exportierst z. B. als PNG. Dafür brauchst du eine Java-Laufzeitumgebung (JRE), z. B. <a href="https://adoptium.net/de" rel="noopener noreferrer">Eclipse Temurin von Adoptium</a>.</p>
-      <div
-        data-visustruct-java-carousel
-        data-aria-region="VisuStruct Java Screenshots"
-        data-caption="Screenshots der Java-Edition."
-      ></div>
-    </section>
-
-    <section class="wrap section-block" aria-labelledby="key-features-heading">
-      <h2 id="key-features-heading">Wichtige Funktionen</h2>
-      <ul class="bullet-list">
-        <li>Einfache, intuitive Bedienung — der Fokus liegt auf der <strong>Logik</strong>, nicht auf Klammern und Semikolons.</li>
-        <li>Du entwickelst den Algorithmus als Struktur und kannst ihn danach leichter in Code übersetzen.</li>
-        <li>Ein gemeinsames Format: <strong>.visustruct</strong> auf dem Rechner (Java) und auf Mac, iPad &amp; iPhone (SwiftUI).</li>
-      </ul>
-    </section>
-
-    <section class="wrap section-block" aria-labelledby="why-heading">
-      <h2 id="why-heading">Erst der Algorithmus, dann der Code</h2>
-      <div class="content-prose">
-        <p>Denk zuerst über Logik und Ablauf — über den Algorithmus — nach. Danach übersetzt du mit der Syntax dieselbe Struktur in eine Programmiersprache deiner Wahl — Schritt für Schritt und gut nachvollziehbar.</p>
-      </div>
-    </section>
-
-    <section id="download" class="wrap section-downloads" aria-label="Downloads">
-      <h2>VisuStruct laden</h2>
-      <div class="grid">
-      <article class="card card--app-store">
-        <!-- App Store: bei Livegang nur offizielle Apple-Badge-Grafiken (developer.apple.com/app-store/marketing/guidelines/). Keine Drittanbieter-Badges. -->
-        <h2>Mac, iPad &amp; iPhone</h2>
-        <div class="btn-row app-store-badge-row">
-          <a
-            class="app-store-badge-link"
-            href="https://apps.apple.com/app/id6761957046"
-            rel="noopener noreferrer"
-            aria-label="Laden im App Store"
-          >
-            <img
-              class="app-store-badge-img"
-              src="/assets/Download-on-the-App-Store/DE/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_DE_RGB_wht_092917.svg"
-              width="270"
-              height="90"
-              alt="Laden im App Store"
-            />
-          </a>
+    <section class="hero">
+      <div class="wrap hero-text">
+        <p class="pill"><span class="pill-dot" aria-hidden="true"></span>Kostenlos · ohne Anmeldung · ohne Installation</p>
+        <h1>Struktogramme bauen, testen und verstehen. <span class="grad">Direkt im Browser.</span></h1>
+        <p class="lead">Mit VisuStruct entwickelst du Algorithmen als Struktogramm nach Nassi-Shneiderman: Elemente hineinziehen, Schritt für Schritt ablaufen lassen und als Java-, Python- oder JavaScript-Code ausgeben.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" href="../app/?lang=de">Jetzt im Browser starten <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost btn-lg" href="../app/?lang=de&amp;learn">Mit den Lektionen beginnen</a>
         </div>
-      </article>
-      <article class="card">
-        <h2>Java-App (Desktop)</h2>
-        <p>Für <strong>Windows</strong>, <strong>macOS</strong> und <strong>Linux</strong>. Download als <strong>.jar</strong> (Java erforderlich, z. B. <a href="https://adoptium.net/de" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
-        <div class="btn-row">
-          <a
-            class="btn btn-primary"
-            href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar"
-            rel="noopener noreferrer"
-            download="visustruct.jar"
-            >App herunterladen</a>
-        </div>
-      </article>
-      <article class="card">
-        <h2>Im Browser</h2>
-        <p>Ohne Installation, auf jedem Gerät mit aktuellem Browser. Öffnet und speichert dieselben <strong>.visustruct</strong>-Dateien; alles läuft auf deinem Gerät, nichts wird hochgeladen.</p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="../app/?lang=de">Im Browser öffnen</a>
-        </div>
-      </article>
+        <p class="note">Läuft auf Computer, Tablet und Handy. Deine Dateien bleiben auf deinem Gerät.</p>
+      </div>
+      <div class="wrap hero-shot">
+        <a class="window" href="../app/?lang=de" tabindex="-1" aria-hidden="true">
+          <span class="window-bar"><i></i><i></i><i></i><span class="window-url">visustruct.org/app</span></span>
+          <img src="/assets/webApp/web-editor-de.png" width="1770" height="990" alt="">
+        </a>
       </div>
     </section>
 
-    <section id="privacy" class="wrap privacy-policy" aria-labelledby="privacy-policy-heading">
-      <h2 id="privacy-policy-heading">Datenschutzerklärung – Nutzung von VisuStruct</h2>
-      <div class="privacy-policy-body">
-        <p class="privacy-lead"><strong>Datenschutzkonform (DSGVO)</strong>: VisuStruct erfasst und speichert <strong>keine personenbezogenen Daten</strong>. Ihre Struktogramme und <strong>.visustruct</strong>-Dateien bleiben unter Ihrer Kontrolle — Sie entscheiden, ob Sie sie nur auf dem Gerät oder z. B. in Ihrer eigenen Cloud sichern.</p>
-        <p>Nutzen Sie verlinkte Angebote zur App (z. B. App Store, GitHub), gelten die Datenschutzhinweise und Bedingungen der jeweiligen Anbieter; dort werden Daten ggf. von diesen Dritten verarbeitet. Diese Webseite wird auf einem Server bereitgestellt; dabei fallen wie üblich technische Server-Logdaten an.</p>
+    <section class="sec" aria-labelledby="steps-heading">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">So funktioniert es</p>
+          <h2 id="steps-heading">In drei Schritten vom Problem zum Programm</h2>
+        </div>
+        <ol class="steps">
+        <li class="step">
+          <span class="step-num" aria-hidden="true">1</span>
+          <h3>Bauen</h3>
+          <p>Zieh die Bausteine ins Struktogramm und beschreibe jeden Schritt in einfachen Worten oder in Code.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">2</span>
+          <h3>Testen</h3>
+          <p>Starte die Simulation und verfolge Block für Block, wie sich die Variablen verändern.</p>
+        </li>
+        <li class="step">
+          <span class="step-num" aria-hidden="true">3</span>
+          <h3>Übersetzen</h3>
+          <p>Lass dir Java, Python oder JavaScript erzeugen und arbeite in deiner Entwicklungsumgebung weiter.</p>
+        </li>
+        </ol>
       </div>
     </section>
 
-    <section id="contact" class="wrap site-contact" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Kontakt</h2>
-      <address>
-        <p class="site-author"><strong>Holger Sebastiao</strong></p>
-        <p>Konstanzer Straße 47, 60386 Frankfurt</p>
-      </address>
+    <section id="features" class="sec sec-soft" aria-labelledby="features-heading">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">Funktionen</p>
+          <h2 id="features-heading">Alles, was du für Struktogramme brauchst</h2>
+          <p>Ein Editor für den Unterricht: übersichtlich, genau und ohne Ablenkung.</p>
+        </div>
+        <div class="features">
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="5" rx="1"/><path d="M3 8l9 5 9-5"/><rect x="3" y="13" width="8.5" height="8" rx="1"/><rect x="12.5" y="13" width="8.5" height="8" rx="1"/></svg></span>
+          <h3>Bauen per Ziehen</h3>
+          <p>Anweisung, Verzweigung, Schleifen und Fallauswahl aus der Palette ins Diagramm ziehen und den Text direkt eintippen.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5.5 3.5-5.5 3.5z"/></svg></span>
+          <h3>Schritt für Schritt testen</h3>
+          <p>Die Simulation zeigt den aktiven Block, die Variablen und die Ausgabe. So siehst du sofort, ob dein Algorithmus stimmt.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 7L3.5 12l5 5M15.5 7l5 5-5 5M13.5 4.5l-3 15"/></svg></span>
+          <h3>Vom Diagramm zum Code</h3>
+          <p>VisuStruct übersetzt dein Struktogramm nach Java, Python und JavaScript. JavaScript läuft direkt im Browser.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5"/><path d="M4 16.5v2.5a1.5 1.5 0 0 0 1.5 1.5h13a1.5 1.5 0 0 0 1.5-1.5v-2.5"/></svg></span>
+          <h3>Exportieren und drucken</h3>
+          <p>Als PNG, SVG oder PDF speichern oder direkt ausdrucken, zum Beispiel für Arbeitsblätter und Klausuren.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg></span>
+          <h3>21 Sprachen</h3>
+          <p>Die Oberfläche spricht Deutsch, Englisch, Türkisch, Ukrainisch, Arabisch und viele weitere Sprachen.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></span>
+          <h3>Deine Daten bleiben bei dir</h3>
+          <p>Kein Konto, kein Hochladen. Gespeichert wird als .visustruct-Datei auf deinem Gerät.</p>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="learn" class="sec" aria-labelledby="learn-heading">
+      <div class="wrap split">
+        <div class="split-text">
+          <p class="kicker">Lernbereich</p>
+          <h2 id="learn-heading">Struktogramme lernen, Schritt für Schritt</h2>
+          <p>Neben dem Editor wartet ein Lernbereich: Lektionen erklären, wie du den Editor bedienst und was hinter Sequenz, Verzweigung und Schleife steckt. Was du liest, probierst du gleich daneben aus.</p>
+          <ul class="checks">
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Lektionen in kurzen Schritten, mit Diagrammen zum Öffnen</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Übungen, die VisuStruct automatisch prüft</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Aufgaben mit Musterlösung zum Vergleichen</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Checkliste und Quiz am Ende jeder Lektion</span></li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-primary" href="../app/?lang=de&amp;learn">Zu den Lektionen <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <p class="note">Dein Fortschritt bleibt in deinem Browser gespeichert.</p>
+        </div>
+        <figure class="shot">
+          <img src="/assets/webApp/web-learn-de.png" width="1920" height="1170" alt="Der Lernbereich neben dem Editor mit Lektion 1" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <section id="apps" class="sec sec-soft" aria-labelledby="apps-heading">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">Weitere Versionen</p>
+          <h2 id="apps-heading">Lieber als App?</h2>
+          <p>Alle Versionen nutzen dasselbe .visustruct-Format. Du kannst im Browser anfangen und in der App weitermachen, oder umgekehrt.</p>
+        </div>
+        <div class="alts">
+          <article class="alt">
+            <div class="alt-img"><img src="/assets/swiftApp/visustruct-app-swift-german.png" width="1024" height="822" alt="Die App auf dem Mac" loading="lazy"></div>
+            <div class="alt-body">
+              <h3><svg class="alt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Mac, iPad und iPhone</h3>
+              <p>Die native SwiftUI-App aus dem App Store, auch ohne Internet nutzbar.</p>
+              <a class="badge" href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer"><img src="/assets/Download-on-the-App-Store/DE/Download_on_App_Store/White_lockup/SVG/Download_on_the_App_Store_Badge_DE_RGB_wht_092917.svg" width="135" height="45" alt="Laden im App Store"></a>
+            </div>
+          </article>
+          <article class="alt">
+            <div class="alt-img"><img src="/assets/javaApp/visustruct-app-java-deutsch.png" width="2156" height="1376" alt="Die Java-App unter Windows" loading="lazy"></div>
+            <div class="alt-body">
+              <h3><svg class="alt-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9h9v5a4 4 0 0 1-4 4h-1a4 4 0 0 1-4-4z"/><path d="M16 10h1.5a2 2 0 0 1 0 4H16M10 3.5c-1 1 1 2 0 3M13 3.5c-1 1 1 2 0 3"/></svg>Java-App für Windows, macOS und Linux</h3>
+              <p>Download als <strong>.jar</strong> (Java erforderlich, z. B. <a href="https://adoptium.net/de" rel="noopener noreferrer">Adoptium / Eclipse Temurin</a>).</p>
+              <a class="btn btn-ghost" href="https://github.com/code4teaching/VisuStruct/releases/latest/download/visustruct.jar" rel="noopener noreferrer" download="visustruct.jar">Java-App herunterladen</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="why-heading">
+      <div class="wrap">
+        <div class="band">
+          <h2 id="why-heading">Erst der Algorithmus, dann der Code</h2>
+          <p>Denk zuerst über Logik und Ablauf nach. Danach übersetzt du dieselbe Struktur in eine Programmiersprache deiner Wahl, Schritt für Schritt und gut nachvollziehbar.</p>
+          <a class="btn btn-light btn-lg" href="../app/?lang=de">Jetzt ausprobieren <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <script src="/js/java-carousel.js" defer></script>
-  <script src="/js/swift-carousel.js" defer></script>
-  <footer class="site-footer wrap">
-    <p>
-      <a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a>
-      · <a href="https://github.com/code4teaching/VisuStruct" rel="noopener noreferrer">GitHub</a>
-      · <a href="https://visustruct.org">visustruct.org</a>
-    </p>
-    <p>© 2026 Holger Sebastiao · <a href="https://www.sebastiao.org/" rel="noopener noreferrer">sebastiao.org</a> · VisuStruct</p>
+  <footer class="ft">
+    <div class="wrap ft-grid">
+      <div class="ft-brand">
+        <a class="brand" href="./"><img src="/assets/VisuStruct-icon.png" width="32" height="32" alt=""><span>VisuStruct</span></a>
+        <p>Struktogramme nach Nassi-Shneiderman für Schule und Studium.</p>
+      </div>
+      <section id="privacy" class="ft-col ft-privacy" aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">Datenschutzerklärung – Nutzung von VisuStruct</h2>
+        <p><strong>Datenschutzkonform (DSGVO)</strong>: VisuStruct erfasst und speichert <strong>keine personenbezogenen Daten</strong>. Ihre Struktogramme und <strong>.visustruct</strong>-Dateien bleiben unter Ihrer Kontrolle — Sie entscheiden, ob Sie sie nur auf dem Gerät oder z. B. in Ihrer eigenen Cloud sichern.</p>
+        <p>Nutzen Sie verlinkte Angebote zur App (z. B. App Store, GitHub), gelten die Datenschutzhinweise und Bedingungen der jeweiligen Anbieter; dort werden Daten ggf. von diesen Dritten verarbeitet. Diese Webseite wird auf einem Server bereitgestellt; dabei fallen wie üblich technische Server-Logdaten an.</p>
+      </section>
+      <section id="contact" class="ft-col" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Kontakt</h2>
+        <address>Holger Sebastiao<br>Konstanzer Straße 47<br>60386 Frankfurt</address>
+      </section>
+      <nav class="ft-col" aria-labelledby="links-heading">
+        <h2 id="links-heading">Links</h2>
+        <ul>
+          <li><a href="../app/?lang=de">Im Browser öffnen</a></li>
+          <li><a href="https://apps.apple.com/app/id6761957046" rel="noopener noreferrer">App Store</a></li>
+          <li><a href="https://github.com/code4teaching/VisuStruct" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="wrap ft-bottom"><p>© 2026 Holger Sebastiao · <a href="https://www.sebastiao.org/" rel="noopener noreferrer">sebastiao.org</a> · VisuStruct</p></div>
   </footer>
 </body>
 </html>

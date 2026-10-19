@@ -1,0 +1,115 @@
+# Lektionen und Aufgaben
+
+Alles in diesem Ordner erscheint im Lernbereich der Web-App. Nach einer Änderung `npm test` (prüft alle Dateien) und
+`npm run build:site` ausführen.
+
+```
+lessons/
+  de/01-was-ist-ein-struktogramm.md   Lektionen, die Nummer am Anfang bestimmt die Reihenfolge
+  de/nachschlagen.md                  Seite „Nachschlagen“
+  de/aufgaben/summe-bilden.md         Aufgaben
+  diagramme/l1-tee.visustruct         Diagramme für Lektionen, Startdiagramme und Musterlösungen
+```
+
+Diagramme sind normale `.visustruct`-Dateien: in VisuStruct bauen, speichern und hier ablegen.
+
+## Lektion
+
+```markdown
+---
+titel: Der Editor
+bereich: Erste Schritte
+kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
+---
+
+## Die Oberfläche
+
+Normaler Text mit **fett**, *kursiv*, `Code`, Listen und [Links](https://…).
+
+> Ein Zitat erscheint als hervorgehobener Hinweis.
+
+## Nächster Schritt
+…
+```
+
+Jede `## Überschrift` beginnt einen neuen Schritt (eine Seite mit „Weiter“). `bereich` gruppiert die Lektionen in der
+Übersicht. Innerhalb eines Schritts gehen `###`-Zwischenüberschriften und Codeblöcke mit drei Backticks.
+
+## Bausteine
+
+Ein Diagramm mit Vorschau und Knopf „Im Editor öffnen“, die Zeilen bis `:::` sind die Bildunterschrift:
+
+```
+::: diagramm l2-ausgabe.visustruct
+Eine Ausgabe mit Text in Anführungszeichen.
+:::
+```
+
+Eine Übung, die VisuStruct beim Klick auf „Prüfen“ automatisch kontrolliert:
+
+```
+::: übung l2-hallo
+titel: Hallo Welt
+auftrag: Baue ein Struktogramm, das „Hallo Welt“ ausgibt.
+  Weitere Zeilen gehören noch zum Auftrag.
+start: l2-start.visustruct
+test: - -> Hallo Welt
+test: 3, 4 -> 7 | fertig
+braucht: verzweigung, whileSchleife
+tipp: Ziehe eine Anweisung auf den Platzhalter und wähle oben „Ausgabe“.
+lösung: l2-hallo-loesung.visustruct
+:::
+```
+
+- `test:` Eingaben durch Kommas getrennt, dann `->`, dann die erwarteten Ausgabezeilen durch `|` getrennt.
+  `-` heißt „keine Eingabe“. Leerzeichen am Rand zählen nicht, `2.0` gilt wie `2`. Mehrere `test:`-Zeilen sind erlaubt.
+- `start:` (optional) Diagramm, mit dem die Übung beginnt; sonst ein leeres Diagramm.
+- `braucht:` (optional) Elemente, die vorkommen müssen: `anweisung`, `verzweigung`, `fallauswahl`, `forSchleife`,
+  `whileSchleife`, `doUntilSchleife`, `endlosschleife`, `aussprung`, `aufruf`.
+- `tipp:` (optional) wird erst auf Klick gezeigt.
+- `lösung:` (optional) Musterlösung. In Aufgaben kann man sie aufklappen; der Test prüft, dass sie alle Tests besteht.
+- Die Kennung (`l2-hallo`) muss überall eindeutig sein, denn unter ihr wird der Fortschritt gespeichert.
+
+Eine Checkliste zum Abhaken:
+
+```
+::: checkliste
+- Ich kann ein Element einfügen.
+- Ich kann einen Kasten löschen.
+:::
+```
+
+Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
+
+```
+::: quiz
+? Was bedeutet ø?
+- [x] Ein leerer Platzhalter
+- [ ] Eine Ausgabe
+> Den Platzhalter ersetzt du durch ein Element.
+:::
+```
+
+## Aufgabe
+
+Wie eine Lektion, aber ohne Schritte. `nach` ist die Nummer der Lektion, die man vorher kennen sollte, `stufe` die
+Schwierigkeit von 1 bis 3 (Sterne).
+
+```markdown
+---
+titel: Summe bilden
+nach: 2
+stufe: 1
+---
+
+Kurze Einleitung.
+
+::: übung aufgabe-summe
+…
+:::
+```
+
+## Hinweis zur Ausgabe
+
+In einer Ausgabe hängt `+` Texte aneinander, auch bei Zahlen: `zahl1 + zahl2` gibt bei 3 und 4 „34“ aus. Für eine
+Summe zuerst rechnen (`int summe = zahl1 + zahl2`) und dann `summe` ausgeben.

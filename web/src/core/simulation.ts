@@ -566,7 +566,8 @@ function buildSteps(elements: VSElement[], pathPrefix: number[] = []): SimStep[]
     const text = element.textLines.join(' ').trim()
     switch (element.type) {
       case ElementType.anweisung:
-        if (text !== '') steps.push({ path, text, kind: 'statement' })
+        // Leere Anweisung und Platzhalter „ø“ werden übersprungen
+        if (text !== '' && text !== 'ø') steps.push({ path, text, kind: 'statement' })
         break
       case ElementType.verzweigung:
         steps.push({ path, text: text || 'true', kind: 'branch', cases: element.cases })
