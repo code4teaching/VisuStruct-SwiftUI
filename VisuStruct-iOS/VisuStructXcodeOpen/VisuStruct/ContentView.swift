@@ -777,15 +777,15 @@ struct ContentView: View {
                     simulationCanvasBlock
                         .frame(height: geo.size.height * 0.5)
                     SimulationStatePanel(
-                        engine: simulationEngine,
-                        isPlaying: isSimulationPlaying,
-                        inputText: $simulationInputText,
+                        engine: simulation.engine,
+                        isPlaying: simulation.isPlaying,
+                        inputText: $simulation.inputText,
                         highlightModeRaw: $simulationHighlightModeRaw,
-                        onPlay: playSimulation,
-                        onPause: pauseSimulation,
-                        onStep: stepSimulation,
-                        onSubmitInput: submitSimulationInput,
-                        onStop: resetSimulation,
+                        onPlay: { simulation.play() },
+                        onPause: { simulation.pause() },
+                        onStep: { simulation.step() },
+                        onSubmitInput: { simulation.submitInput() },
+                        onStop: { simulation.reset() },
                         usesWideLayout: true
                     )
                     .frame(maxHeight: .infinity)
