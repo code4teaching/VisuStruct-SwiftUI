@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "آخر خطوة";
 "simulation_highlight_next" = "الخطوة التالية";
 "simulation_not_available" = "يقوم Play بتشغيل المحاكاة تلقائيًا مع توقف 0.5 ثانية لكل خطوة.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "تشغيل";
+"simulation_pause" = "إيقاف مؤقت";
+"simulation_step" = "خطوة";
+"simulation_stop" = "إيقاف";
 "simulation_input" = "إدخال";
 "simulation_input_placeholder" = "لا يلزم إدخال.";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "يرجى إدخال عدد صحيح.";
 "simulation_trace" = "آخر خطوة";
-"simulation_trace_placeholder" = "سيتم شرح آخر خطوة تم تنفيذها هنا.";
+"simulation_trace_placeholder" = "لم يُنفَّذ أي خطوة بعد.";
 "simulation_variables" = "المتغيرات";
-"simulation_variables_placeholder" = "ستظهر قيم المتغيرات الحالية هنا لاحقًا.";
+"simulation_variables_placeholder" = "لا توجد متغيرات بعد.";
 "simulation_output" = "المخرجات";
-"simulation_output_placeholder" = "ستظهر مخرجات المحاكاة هنا لاحقًا.";
+"simulation_output_placeholder" = "لا يوجد إخراج بعد.";
 "action_delete_selection" = "حذف التحديد";
 "ctx_copy" = "نسخ";
 "ctx_cut" = "قص";
@@ -125,11 +125,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "النوع";
+"inspector_io_mode_statement" = "تعليمة";
+"inspector_io_mode_input" = "إدخال";
+"inspector_io_mode_output" = "إخراج";
+"inspector_io_mode_help_java_like" = "إدخال: input: … | إخراج: output: …";
 "inspector_add_case" = "إضافة حالة";
 "inspector_remove_case" = "إزالة الحالة";
 "inspector_group_element" = "نص العنصر";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "مع التاريخ: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "بدون تاريخ: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "انتهت المحاكاة.";
+"sim_notice_infinite_loop_empty" = "الحلقة اللانهائية ليس لها جسم.";
+"sim_notice_unsupported_statement_fmt" = "تعليمة غير مدعومة: %@";
+"sim_notice_invalid_expression_fmt" = "تعبير غير صالح: %@";
+"sim_notice_unknown_variable_fmt" = "متغير غير معروف: %@";
+"sim_notice_division_by_zero" = "القسمة على صفر.";
+"sim_notice_whole_number_expected" = "أدخل عددًا صحيحًا.";
+"sim_notice_number_expected" = "أدخل رقمًا.";
