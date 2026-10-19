@@ -14,20 +14,20 @@
 "simulation_highlight_last" = "上一步";
 "simulation_highlight_next" = "下一步";
 "simulation_not_available" = "Play 會自動執行模擬，每步暫停 0.5 秒。";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "播放";
+"simulation_pause" = "暫停";
+"simulation_step" = "單步";
+"simulation_stop" = "停止";
 "simulation_input" = "輸入";
 "simulation_input_placeholder" = "不需要輸入。";
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "請輸入一個整數。";
 "simulation_trace" = "上一步";
-"simulation_trace_placeholder" = "這裡會說明最後執行的步驟。";
+"simulation_trace_placeholder" = "尚未執行任何步驟。";
 "simulation_variables" = "變數";
-"simulation_variables_placeholder" = "目前的變數值稍後會顯示在這裡。";
+"simulation_variables_placeholder" = "暫無變數。";
 "simulation_output" = "輸出";
-"simulation_output_placeholder" = "模擬輸出稍後會顯示在這裡。";
+"simulation_output_placeholder" = "暫無輸出。";
 "action_delete_selection" = "刪除選取項目";
 "ctx_copy" = "複製";
 "ctx_cut" = "剪下";
@@ -125,11 +125,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "類型";
+"inspector_io_mode_statement" = "敘述";
+"inspector_io_mode_input" = "輸入";
+"inspector_io_mode_output" = "輸出";
+"inspector_io_mode_help_java_like" = "輸入: input: … | 輸出: output: …";
 "inspector_add_case" = "新增分支";
 "inspector_remove_case" = "移除分支";
 "inspector_group_element" = "元素文字";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "含日期: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "不含日期: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "模擬已結束。";
+"sim_notice_infinite_loop_empty" = "無限迴圈沒有迴圈主體。";
+"sim_notice_unsupported_statement_fmt" = "不支援的敘述：%@";
+"sim_notice_invalid_expression_fmt" = "無效的運算式：%@";
+"sim_notice_unknown_variable_fmt" = "未知變數：%@";
+"sim_notice_division_by_zero" = "除數為零。";
+"sim_notice_whole_number_expected" = "請輸入整數。";
+"sim_notice_number_expected" = "請輸入數字。";

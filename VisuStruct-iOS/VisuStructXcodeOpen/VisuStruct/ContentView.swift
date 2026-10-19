@@ -1442,7 +1442,9 @@ struct ContentView: View {
         }
         tabsModel.updateCurrentTab { $0.lineEditorText = el.textLines.joined(separator: "\n") }
 
-        if !isPhone, focusedField == nil, el.type != .forSchleife {
+        if DiagramInspectorAutoFocus.shouldFocusOnSelection,
+           focusedField == nil,
+           el.type != .forSchleife {
             focusedField = .textEditor
             editorFocusToken = UUID()
         }

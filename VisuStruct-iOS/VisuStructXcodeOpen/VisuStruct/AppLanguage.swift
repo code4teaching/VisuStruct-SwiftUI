@@ -51,16 +51,37 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         return b
     }
 
+    /// Übersetzung zu `key`; fehlt sie in dieser Sprache, der englische Text (nie der Schlüssel selbst).
     func tr(_ key: String) -> String {
+        let text: String
         if self == .javaLike {
-            return NSLocalizedString(key, tableName: Self.javaStringsTable, bundle: Bundle.main, value: key, comment: "")
+            text = NSLocalizedString(key, tableName: Self.javaStringsTable, bundle: Bundle.main, value: key, comment: "")
+        } else {
+            text = NSLocalizedString(key, tableName: nil, bundle: bundle, value: key, comment: "")
         }
-        return NSLocalizedString(key, tableName: nil, bundle: bundle, value: key, comment: "")
+        if text == key, self != .english {
+            return AppLanguage.english.tr(key)
+        }
+        return text
+    }
+
+    /// Sprache des Geräts (bzw. die für VisuStruct in den Systemeinstellungen gewählte), sofern die App sie anbietet; sonst Englisch.
+    static var deviceDefault: AppLanguage {
+        for code in Bundle.main.preferredLocalizations {
+            if let lang = AppLanguage(rawValue: code), lang != .javaLike { return lang }
+        }
+        return .english
+    }
+
+    /// Erster Start ohne gespeicherte Sprache: Gerätesprache übernehmen, damit auch die Systemeinstellungen sie anzeigen.
+    static func storeDeviceDefaultIfNeeded() {
+        guard UserDefaults.standard.string(forKey: storageKey) == nil else { return }
+        UserDefaults.standard.set(deviceDefault.rawValue, forKey: storageKey)
     }
 
     /// Für `ContentView.init`, bevor `Environment` steht.
     static func currentFromDefaults() -> AppLanguage {
-        let code = UserDefaults.standard.string(forKey: storageKey) ?? AppLanguage.english.rawValue
+        let code = UserDefaults.standard.string(forKey: storageKey) ?? AppLanguage.deviceDefault.rawValue
         return AppLanguage(rawValue: code) ?? .english
     }
 }
