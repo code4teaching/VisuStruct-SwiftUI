@@ -1007,11 +1007,16 @@ struct ContentView: View {
 
     // MARK: - Inspector (unter dem Canvas)
 
+    private var selectedElement: VisuStructElement? {
+        guard let path = selectedPath else { return nil }
+        return try? VisuStructDocumentEditing.element(at: path, in: document)
+    }
+
     private var inspectorFallauswahlToolbar: InspectorFallauswahlToolbarContext? {
-        guard let faPath = multiwayAncestorPath(for: selectedPath) else { return nil }
+        guard let faPath = VisuStructDocumentEditing.multiwayAncestorPath(for: selectedPath, in: document) else { return nil }
         let faCaseCount =
             (try? VisuStructDocumentEditing.element(at: faPath, in: document))?.cases?.count ?? 0
-        let removeCaseIdx = selectedCaseIndex(multiwayPath: faPath, selectedPath: selectedPath)
+        let removeCaseIdx = VisuStructDocumentEditing.caseIndex(of: selectedPath, inMultiwayAt: faPath)
         return InspectorFallauswahlToolbarContext(
             caseCount: faCaseCount,
             removeCaseIndex: removeCaseIdx,
@@ -1059,8 +1064,14 @@ struct ContentView: View {
             lineEditorVisibleTextBinding: lineEditorVisibleTextBinding,
             editorFocusToken: editorFocusToken,
             lineEditorFixedPrefixLabel: lineEditorFixedPrefixLabel,
-            inspectorConditionEditorHintLine: inspectorConditionEditorHintLine(),
-            inspectorLineEditorPlaceholder: inspectorLineEditorPlaceholder(),
+            inspectorConditionEditorHintLine: selectedElement.flatMap { InspectorElementHints.conditionHintLine(for: $0.type) },
+            inspectorLineEditorPlaceholder: selectedElement.flatMap {
+                InspectorElementHints.lineEditorPlaceholder(
+                    for: $0.type,
+                    ioMode: VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText),
+                    lang: lang
+                )
+            },
             fallauswahl: inspectorFallauswahlToolbar,
             onApplyLineEditor: applyLineEditor,
             onApplyRespectingFocus: applyLineEditorRespectingTextFocus,
@@ -1084,63 +1095,6 @@ struct ContentView: View {
                 applyLineEditorRespectingTextFocus()
             }
         )
-    }
-
-    private func statementIOModeIfApplicable() -> StatementIOMode? {
-        guard let path = selectedPath,
-              let el = try? VisuStructDocumentEditing.element(at: path, in: document),
-              el.type == .anweisung else { return nil }
-
-        return VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText)
-    }
-
-    /// Placeholder for the line editor, shown only when empty (grau im Feld). Code-Beispiele als Hilfe: `inspectorConditionEditorHintLine()` darüber.
-    private func inspectorLineEditorPlaceholder() -> String? {
-        guard let path = selectedPath,
-              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
-
-        switch el.type {
-        case .anweisung:
-            switch VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText) {
-            case .statement:
-                return lang.tr("inspector_placeholder_statement")
-            case .input:
-                return "int age \"Enter age\""
-            case .output:
-                return "\"Your age: \" + age"
-            }
-        case .forSchleife:
-            return nil
-        case .verzweigung, .whileSchleife, .doUntilSchleife, .endlosschleife:
-            return lang.tr("inspector_placeholder_condition")
-        case .fallauswahl:
-            return lang.tr("inspector_placeholder_selector")
-        case .aufruf:
-            return lang.tr("inspector_placeholder_call")
-        case .aussprung:
-            return lang.tr("inspector_placeholder_break")
-        case .leerElement:
-            return nil
-        }
-    }
-
-    /// Sichtbare Hilfszeile über dem Bedingungs-Editor (wie Statement-Hinweis unter dem Modus-Picker) — Englisch, code-like.
-    private func inspectorConditionEditorHintLine() -> String? {
-        guard let path = selectedPath,
-              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
-        switch el.type {
-        case .verzweigung:
-            return "age >= 18"
-        case .whileSchleife:
-            return "i < 10"
-        case .doUntilSchleife:
-            return "again == 1"
-        case .fallauswahl:
-            // Ausdruck in Klammern: switch (day) { … } — gleicher Stil wie die anderen Hinweise (englisch, code-nah).
-            return "day"
-        default:
-            return nil
-        }
     }
 
     // MARK: - Inspector (iPhone: ein-/ausblendbar)
@@ -1188,20 +1142,6 @@ struct ContentView: View {
 
     // MARK: - Fallauswahl (Multiway)
 
-    /// Innerste **Fallauswahl** (`multiway`), die die aktuelle Auswahl enthält (für „Fall hinzufügen“).
-    private func multiwayAncestorPath(for path: [Int]?) -> [Int]? {
-        guard let path, !path.isEmpty else { return nil }
-        let doc = document
-        for len in stride(from: path.count, through: 1, by: -1) {
-            let prefix = Array(path.prefix(len))
-            if let el = try? VisuStructDocumentEditing.element(at: prefix, in: doc),
-               el.type == .fallauswahl {
-                return prefix
-            }
-        }
-        return nil
-    }
-
     private func addCaseToFallauswahl(at fallPath: [Int]) {
         do {
             let (updated, newPath) = try VisuStructDocumentEditing.appendCaseToFallauswahl(document, fallauswahlPath: fallPath)
@@ -1211,12 +1151,6 @@ struct ContentView: View {
         } catch {
             setErrorOnCurrentTab(error.localizedDescription)
         }
-    }
-
-    /// Spaltenindex der Fallauswahl, wenn die Auswahl **in** einer Spalte liegt (`[…, fall, spalte, …]`).
-    private func selectedCaseIndex(multiwayPath: [Int], selectedPath: [Int]?) -> Int? {
-        guard let sp = selectedPath, sp.count > multiwayPath.count else { return nil }
-        return sp[multiwayPath.count]
     }
 
     private func removeCaseFromFallauswahl(at fallPath: [Int], caseIndex: Int) {
@@ -1234,7 +1168,7 @@ struct ContentView: View {
 
     /// Bindung für den **Fallnamen**, wenn die Auswahl in einer Spalte einer Fallauswahl liegt (nicht beim bloßen Kopf `[n]` ohne Folgeindex).
     private func multiwayCaseLabelBinding() -> Binding<String>? {
-        guard let fa = multiwayAncestorPath(for: selectedPath),
+        guard let fa = VisuStructDocumentEditing.multiwayAncestorPath(for: selectedPath, in: document),
               let sp = selectedPath,
               sp.count > fa.count else { return nil }
         let caseIdx = sp[fa.count]
@@ -1581,85 +1515,41 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei)
+    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei) → `DiagramExporter`
 
-    private func exportPNG() {
-        #if canImport(UIKit)
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
+    #if canImport(UIKit)
+    private var exporter: DiagramExporter {
+        DiagramExporter(
             document: document,
             horizontalSizeClass: horizontalSizeClass,
             canvasScaleStep: canvasScaleStep,
             lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
-            return
-        }
+            displayScale: displayScale,
+            setError: setErrorOnCurrentTab
+        )
+    }
+    #endif
+
+    private func exportPNG() {
+        #if canImport(UIKit)
+        guard let img = exporter.pngImage() else { return }
         pngSharePayload = PNGSharePayload(image: img)
         #endif
     }
 
     #if canImport(UIKit)
     private func shareDocumentAsFile() {
-        let data = VisuStructXMLCodec.encode(document)
-        let fileName = exportFilenameForCurrentTab()
-        do {
-            let url = try DiagramSnapshotExport.writeTemporaryVisustructFile(data: data, fileName: fileName)
-            fileURLSharePayload = FileURLSharePayload(url: url)
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
-        }
+        guard let url = exporter.temporaryDocumentFile(named: exportFilenameForCurrentTab()) else { return }
+        fileURLSharePayload = FileURLSharePayload(url: url)
     }
 
     private func shareDiagramPDF() {
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
-            document: document,
-            horizontalSizeClass: horizontalSizeClass,
-            canvasScaleStep: canvasScaleStep,
-            lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
-            return
-        }
-        let fileName = pdfFilenameForCurrentTab()
-        let metaTitle = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
-        do {
-            let url = try DiagramSnapshotExport.writeTemporaryDiagramPDF(
-                image: img,
-                fileName: fileName,
-                pdfMetadataTitle: metaTitle
-            )
-            pdfQuickLookURL = url
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
-        }
+        guard let url = exporter.temporaryPDF(named: pdfFilenameForCurrentTab()) else { return }
+        pdfQuickLookURL = url
     }
-    #endif
 
-    #if canImport(UIKit)
     private func printDiagram() {
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
-            document: document,
-            horizontalSizeClass: horizontalSizeClass,
-            canvasScaleStep: canvasScaleStep,
-            lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_print"))
-            return
-        }
-        guard UIPrintInteractionController.isPrintingAvailable else {
-            setErrorOnCurrentTab(lang.tr("err_print_unavailable"))
-            return
-        }
-        let info = UIPrintInfo(dictionary: nil)
-        info.outputType = .photo
-        info.jobName = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
-        let controller = UIPrintInteractionController.shared
-        controller.printInfo = info
-        controller.printingItem = img
-        controller.present(animated: true)
+        exporter.printDiagram()
     }
     #endif
 }
