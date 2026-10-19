@@ -194,6 +194,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "בטל הוספה";
 "phone_show_text_editor" = "עריכת טקסט";
+"phone_hide_text_editor" = "כיווץ";
+"phone_title_done" = "סיום";
 
 /* Alerts */
 "err_save_failed_fmt" = "לא ניתן לשמור: %@";
