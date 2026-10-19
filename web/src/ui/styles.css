@@ -303,3 +303,138 @@ button.danger {
   border-color: #d70015;
   color: white;
 }
+
+/* Simulation: Diagramm nur anzeigen, rechts das Simulationsfeld */
+.simpanel {
+  display: none;
+  grid-area: insp;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  padding: 12px;
+  overflow-y: auto;
+}
+.app.simulating {
+  grid-template: 'bar bar' auto 'work insp' 1fr 'status status' auto / minmax(0, 1fr) 320px;
+}
+.app.simulating .palette,
+.app.simulating .inspector {
+  display: none;
+}
+.app.simulating .simpanel {
+  display: block;
+}
+.app.simulating .caption {
+  cursor: default;
+}
+button.sim-toggle {
+  font-weight: 600;
+}
+button.sim-toggle[aria-pressed='false'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.simpanel section {
+  margin-bottom: 14px;
+}
+.sim-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 6px 0 10px;
+}
+.sim-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.mono,
+.sim-vars td {
+  font: 13px/1.5 ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+.sim-trace,
+.sim-output,
+.sim-vars {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+}
+.sim-output {
+  max-height: 220px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+.sim-vars table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.sim-vars td {
+  padding: 2px 0;
+  vertical-align: top;
+}
+.sim-vars td:first-child {
+  color: var(--muted);
+  padding-right: 12px;
+  width: 1%;
+  white-space: nowrap;
+}
+.simpanel .placeholder {
+  color: var(--muted);
+  font: 13px system-ui, -apple-system, sans-serif;
+  margin: 0;
+}
+.sim-notice {
+  margin: 0 0 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(52, 199, 89, 0.15);
+  font-weight: 600;
+}
+.sim-notice.error {
+  background: rgba(255, 59, 48, 0.15);
+  color: #b0000f;
+}
+.sim-input.active {
+  padding: 8px 10px;
+  margin-left: -10px;
+  margin-right: -10px;
+  border-radius: 10px;
+  background: rgba(0, 122, 255, 0.08);
+  outline: 2px solid var(--accent);
+}
+.sim-prompt {
+  margin: 4px 0 6px;
+  font-weight: 600;
+}
+.sim-input-row {
+  display: flex;
+  gap: 6px;
+}
+.sim-input-row input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.sim-input-error {
+  color: #b0000f;
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+
+@media (max-width: 820px) {
+  .app.simulating {
+    grid-template: 'bar' auto 'work' minmax(200px, 1fr) 'insp' auto 'status' auto / minmax(0, 1fr);
+  }
+  .simpanel {
+    border-left: none;
+    border-top: 1px solid var(--border);
+    max-height: 48vh;
+  }
+}

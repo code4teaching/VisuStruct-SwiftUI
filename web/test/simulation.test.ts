@@ -1,0 +1,218 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { describe, expect, it } from 'vitest'
+import { ElementType, makeElement, type VSDocument, type VSElement } from '../src/core/model'
+import { SimulationEngine, type SimState } from '../src/core/simulation'
+import { decodeDocument } from '../src/core/xmlCodec'
+
+// Port von SimulationEngineTests.swift und SimulationConditionTests.swift.
+
+const examples = join(__dirname, '..', '..', 'VisuStruct-Dateien')
+const example = (name: string) => decodeDocument(readFileSync(join(examples, name), 'utf8'))
+
+const doc = (elements: VSElement[]): VSDocument => ({ caption: '', elements })
+const stmt = (text: string) => makeElement(ElementType.anweisung, { textLines: [text] })
+
+/** Lässt die Simulation bis zum Ende laufen und beantwortet `input:`-Anfragen der Reihe nach. */
+function runSimulation(document: VSDocument, inputs: string[] = [], maxSteps = 10_000): SimState & { message?: string } {
+  const engine = new SimulationEngine(document)
+  const remaining = [...inputs]
+  let steps = 0
+  while (steps < maxSteps) {
+    if (engine.state.inputRequest) {
+      const next = remaining.shift()
+      if (next === undefined) throw new Error('Simulation wartet auf Eingabe, aber es sind keine Eingaben mehr übrig.')
+      engine.provideInput(next)
+      continue
+    }
+    if (!engine.canStep) break
+    engine.step()
+    steps += 1
+  }
+  expect(steps).toBeLessThan(maxSteps)
+  return { ...engine.state, message: engine.message }
+}
+
+describe('Simulation', () => {
+  it('Collatz gibt die Folge aus', () => {
+    const state = runSimulation(example('Collatz.visustruct'))
+    expect(state.outputLines).toEqual(
+      ['58', '29', '88', '44', '22', '11', '34', '17', '52', '26', '13', '40', '20', '10', '5', '16', '8', '4', '2', '1'],
+    )
+    expect(state.variables.get('number')).toEqual({ kind: 'int', value: 1 })
+  })
+
+  it('Fibonacci gibt die ersten zehn Zahlen aus', () => {
+    expect(runSimulation(example('Fibonacci.visustruct')).outputLines).toEqual(
+      ['1', '1', '2', '3', '5', '8', '13', '21', '34', '55'],
+    )
+  })
+
+  it('NumberEven nutzt die Eingabe', () => {
+    const d = example('2026-04-23-NumberEven.visustruct')
+    expect(runSimulation(d, ['4']).outputLines).toEqual(['number is even'])
+    expect(runSimulation(d, ['7']).outputLines).toEqual(['number is odd'])
+  })
+
+  it('weist ungültige Ganzzahl-Eingaben zurück', () => {
+    const engine = new SimulationEngine(doc([stmt('input: int n'), stmt('print: n * 2')]))
+    engine.step()
+    expect(engine.state.inputRequest?.variableName).toBe('n')
+    engine.provideInput('abc')
+    expect(engine.state.inputErrorNotice).toEqual({ kind: 'wholeNumberExpected' })
+    expect(engine.state.inputRequest).toBeDefined()
+    engine.provideInput('21')
+    expect(engine.state.inputRequest).toBeUndefined()
+    engine.step()
+    expect(engine.state.outputLines).toEqual(['42'])
+  })
+
+  it('zählende Schleifen', () => {
+    const forLoop = doc([
+      stmt('int sum = 0'),
+      makeElement(ElementType.forSchleife, { textLines: ['int i = 1', 'i <= 4', 'i++'], loopBody: [stmt('sum += i')] }),
+    ])
+    expect(runSimulation(forLoop).variables.get('sum')).toEqual({ kind: 'int', value: 10 })
+
+    const doUntil = doc([
+      stmt('int k = 0'),
+      makeElement(ElementType.doUntilSchleife, { textLines: ['k < 3'], loopBody: [stmt('k++')] }),
+    ])
+    expect(runSimulation(doUntil).variables.get('k')).toEqual({ kind: 'int', value: 3 })
+  })
+
+  it('Fallauswahl springt in den default-Fall', () => {
+    const d = (day: number) =>
+      doc([
+        stmt(`int day = ${day}`),
+        makeElement(ElementType.fallauswahl, {
+          textLines: ['day'],
+          cases: [
+            { name: '1', elements: [stmt('print: "Montag"')] },
+            { name: '2', elements: [stmt('print: "Dienstag"')] },
+            { name: 'default', elements: [stmt('print: "anderer Tag"')] },
+          ],
+        }),
+      ])
+    expect(runSimulation(d(2)).outputLines).toEqual(['Dienstag'])
+    expect(runSimulation(d(5)).outputLines).toEqual(['anderer Tag'])
+  })
+
+  it('Division durch null meldet einen Fehler', () => {
+    const engine = new SimulationEngine(doc([stmt('int x = 1 / 0')]))
+    engine.step()
+    expect(engine.state.notice).toEqual({ kind: 'divisionByZero' })
+    expect(engine.message).toBe('Division by zero.')
+    expect(engine.state.variables.has('x')).toBe(false)
+  })
+
+  it('meldet das Ende nach dem letzten Schritt', () => {
+    const engine = new SimulationEngine(doc([stmt('int x = 1')]))
+    engine.step()
+    expect(engine.message).toBe('Simulation finished.')
+  })
+
+  it('Werte und Arrays', () => {
+    const state = runSimulation(
+      doc([
+        stmt('double d = 7 / 2'),
+        stmt('int[] a = {3, 4, 5}'),
+        stmt('a[1] = a[0] * 10'),
+        stmt('String s = "x"'),
+        stmt('print: "len=" + a.length + " a=" + a + " d=" + d'),
+        stmt('d += 1'),
+      ]),
+    )
+    expect(state.outputLines).toEqual(['len=3 a=[3, 30, 5] d=3.5'])
+    expect(state.variables.get('d')).toEqual({ kind: 'double', value: 4.5 })
+    expect(state.lastTrace).toBe('d = 3.5 + 1.0 -> 4.5')
+  })
+})
+
+describe('Bedingungen', () => {
+  const branch = (condition: string, setup = ['int a = 5', 'String name = "Anna"']) =>
+    doc([
+      ...setup.map(stmt),
+      makeElement(ElementType.verzweigung, {
+        textLines: [condition],
+        cases: [
+          { name: 'true', elements: [stmt('print: "ja"')] },
+          { name: 'false', elements: [stmt('print: "nein"')] },
+        ],
+      }),
+    ])
+
+  const check = (condition: string, expected: boolean) => {
+    const state = runSimulation(branch(condition))
+    expect(state.message === 'Simulation finished.' ? undefined : state.message, condition).toBeUndefined()
+    expect(state.outputLines, condition).toEqual([expected ? 'ja' : 'nein'])
+  }
+
+  it('boolesche Operatoren', () => {
+    check('a > 3 && a < 10', true)
+    check('a < 3 || a == 5', true)
+    check('a != 5', false)
+  })
+
+  it('String-Vergleiche', () => {
+    check('name == "Anna"', true)
+    check('name != "Anna"', false)
+    check('"Anna" == name', true)
+    check('name.equals("Anna")', true)
+    check('!name.equals("Bob")', true)
+    check('name == "Anna" && a == 5', true)
+  })
+
+  it('Operatoren in String-Literalen sind Text', () => {
+    const state = runSimulation(branch('text == "a && b || c"', ['String text = "a && b || c"']))
+    expect(state.outputLines).toEqual(['ja'])
+  })
+
+  it('Klammern und Negation', () => {
+    check('(a < 3 || a == 5) && a > 0', true)
+    check('(a < 3 || a > 10) && a > 0', false)
+    check('!(a > 3)', false)
+    check('!(a > 3 && a < 4)', true)
+    check('(a + 1) * 2 > 11', true)
+    check('((a == 5))', true)
+  })
+
+  it('Schlüsselwort mit getrennt geklammerten Teilen', () => {
+    check('if (a > 3) && (a < 10)', true)
+    check('if (a > 3) && (a > 10)', false)
+  })
+
+  it('while-Schleife mit String-Bedingung', () => {
+    const d = doc([
+      stmt('String answer = "nein"'),
+      stmt('int tries = 0'),
+      makeElement(ElementType.whileSchleife, {
+        textLines: ['answer != "ja"'],
+        loopBody: [stmt('input: answer'), stmt('tries++')],
+      }),
+    ])
+    expect(runSimulation(d, ['vielleicht', 'ja']).variables.get('tries')).toEqual({ kind: 'int', value: 2 })
+  })
+
+  it('String mit Zahl vergleichen ist ein Fehler', () => {
+    const state = runSimulation(branch('name == 5'))
+    expect(state.isHalted).toBe(true)
+    expect(state.outputLines).toEqual([])
+  })
+
+  it('bleibt beim fehlerhaften Schritt stehen', () => {
+    const engine = new SimulationEngine(doc([stmt('print: "vorher"'), stmt('int x = 1 / 0'), stmt('print: "danach"')]))
+    engine.step()
+    engine.step()
+    expect(engine.state.isHalted).toBe(true)
+    expect(engine.canStep).toBe(false)
+    expect(engine.currentStepPath).toEqual([1])
+    expect(engine.message).toBe('Division by zero.')
+    engine.step()
+    expect(engine.state.outputLines).toEqual(['vorher'])
+    expect(engine.message).toBe('Division by zero.')
+    engine.reset()
+    expect(engine.state.isHalted).toBe(false)
+    expect(engine.canStep).toBe(true)
+  })
+})

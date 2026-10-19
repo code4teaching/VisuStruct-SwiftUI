@@ -22,6 +22,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { examples } from './examples'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
+import { SimulationPanel } from './simulationPanel'
 
 type DropTarget =
   | { kind: 'before' | 'after' | 'replace'; path: number[]; frame: Rect }
@@ -81,6 +82,11 @@ export class App {
   private undoStack: VSDocument[] = []
   private redoStack: VSDocument[] = []
   private selected?: number[]
+  private simulating = false
+  /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
+  private simPath?: number[]
+  private sim!: SimulationPanel
+  private simButton!: HTMLButtonElement
 
   private measure = createCanvasMeasure()
   private metrics = diagramDisplayMetrics(true)
@@ -137,6 +143,9 @@ export class App {
           <button data-action="redo" title="Wiederholen (Strg+Umschalt+Z)">↷</button>
           <button data-action="delete" title="Auswahl löschen (Entf)">Löschen</button>
         </div>
+        <div class="group">
+          <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="Struktogramm Schritt für Schritt ausführen">▶︎ Simulation</button>
+        </div>
       </header>
       <aside class="palette">
         <h2>Elemente</h2>
@@ -159,6 +168,17 @@ export class App {
     this.redoButton = $('[data-action=redo]')
     this.deleteButton = $('[data-action=delete]')
     this.statusLine = $('.status')
+    this.simButton = $('[data-action=simulate]')
+    this.sim = new SimulationPanel(
+      () => this.doc,
+      (path) => {
+        this.simPath = path
+        if (this.simulating) this.renderDiagramOnly()
+        this.scrollToSimPath()
+      },
+    )
+    this.root.append(this.sim.element)
+    this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
 
     const list = $<HTMLUListElement>('.palette ul')
     for (const { item, label } of paletteItems) {
@@ -264,15 +284,17 @@ export class App {
       width: Math.max(320, this.layout.canvasSize.width, this.canvasHost.clientWidth),
       height: Math.max(240, this.layout.canvasSize.height + 60, this.canvasHost.clientHeight),
     }
-    this.svg = this.renderer.render(this.layout, size, this.selected)
+    this.renderer.usesSimulationHighlight = this.simulating
+    this.svg = this.renderer.render(this.layout, size, this.simulating ? this.simPath : this.selected)
     this.overlay = el('g', { class: 'drop-overlay' })
     this.svg.append(this.overlay)
     this.canvasHost.replaceChildren(this.svg)
 
     if (document.activeElement !== this.captionInput) this.captionInput.value = this.doc.caption
-    this.undoButton.disabled = this.undoStack.length === 0
-    this.redoButton.disabled = this.redoStack.length === 0
-    this.deleteButton.disabled = !this.selected || !canDeleteElement(this.doc, this.selected)
+    this.undoButton.disabled = this.simulating || this.undoStack.length === 0
+    this.redoButton.disabled = this.simulating || this.redoStack.length === 0
+    this.deleteButton.disabled = this.simulating || !this.selected || !canDeleteElement(this.doc, this.selected)
+    this.captionInput.readOnly = this.simulating
     this.renderInspector()
     this.updateStatus()
   }
@@ -319,6 +341,44 @@ export class App {
     this.selected = sel
   }
 
+  // MARK: - Simulation
+
+  /** Wie `SimulationController.begin/end`: Diagramm nur anzeigen, rechts das Simulationsfeld. */
+  private setSimulating(on: boolean) {
+    if (on === this.simulating) return
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+    this.endDrag()
+    this.simulating = on
+    this.root.classList.toggle('simulating', on)
+    this.simButton.setAttribute('aria-pressed', String(on))
+    this.simButton.textContent = on ? '✎ Bearbeiten' : '▶︎ Simulation'
+    this.simButton.title = on ? 'Simulation beenden und weiter bearbeiten' : 'Struktogramm Schritt für Schritt ausführen'
+    if (on) {
+      this.sim.begin()
+    } else {
+      this.sim.end()
+      this.simPath = undefined
+      if (!this.selected && this.doc.elements.length > 0) this.selected = [0]
+    }
+    this.render()
+  }
+
+  /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
+  private scrollToSimPath() {
+    const path = this.simPath
+    if (!this.simulating || !path) return
+    const node = this.flat.find((n) => samePath(n.idPath, path))
+    if (!node) return
+    const host = this.canvasHost
+    const f = node.frame
+    const pad = 24
+    if (f.y < host.scrollTop) host.scrollTop = Math.max(0, f.y - pad)
+    else if (f.y + Math.min(f.height, host.clientHeight - 2 * pad) > host.scrollTop + host.clientHeight) {
+      host.scrollTop = f.y - pad
+    }
+    if (f.x < host.scrollLeft || f.x > host.scrollLeft + host.clientWidth - pad) host.scrollLeft = Math.max(0, f.x - pad)
+  }
+
   // MARK: - Dokument
 
   private commit(next: VSDocument, select?: number[]) {
@@ -354,6 +414,7 @@ export class App {
   }
 
   private resetHistory() {
+    this.setSimulating(false)
     this.undoStack = []
     this.redoStack = []
     this.selected = undefined
@@ -502,7 +563,7 @@ export class App {
     } else if (mod && e.key.toLowerCase() === 'o') {
       e.preventDefault()
       this.open(this.root.querySelector('input[type=file]')!)
-    } else if (typing) {
+    } else if (typing || this.simulating) {
       return
     } else if (mod && e.key.toLowerCase() === 'z') {
       e.preventDefault()
@@ -544,6 +605,7 @@ export class App {
   }
 
   private onCanvasPointerDown(e: PointerEvent) {
+    if (this.simulating) return
     const p = this.svgPoint(e.clientX, e.clientY)
     if (!p) return
     // Offene Texteingabe abschließen (zählt dann als ein Rückgängig-Schritt).
@@ -559,7 +621,7 @@ export class App {
   }
 
   private beginDrag(e: PointerEvent, source: DragSource) {
-    if (e.button !== 0) return
+    if (e.button !== 0 || this.simulating) return
     e.preventDefault()
     this.drag = { source, pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, active: false }
   }

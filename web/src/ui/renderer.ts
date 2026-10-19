@@ -47,6 +47,9 @@ export class DiagramRenderer {
     return this.metrics.fontSize
   }
 
+  /** Im Simulationsmodus bedeutet die Markierung „aktueller Schritt“ statt Bearbeitungsauswahl. */
+  usesSimulationHighlight = false
+
   render(layout: Layout, size: { width: number; height: number }, selectedPath?: number[]): SVGSVGElement {
     const svg = el('svg', {
       width: size.width,
@@ -172,7 +175,9 @@ export class DiagramRenderer {
 
     const cell = el('g', { 'data-path': node.idPath.join(',') })
     g.append(cell)
-    cell.append(el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill: 'white' }))
+    const sim = this.usesSimulationHighlight
+    const fill = isSelected && sim ? 'rgba(199, 230, 255, 0.55)' : 'white'
+    cell.append(el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill }))
     this.strokeCellBorder(cell, r, omission)
 
     const bar = Ink.callSideBarInset
@@ -293,7 +298,7 @@ export class DiagramRenderer {
           width: r.width,
           height: r.height,
           fill: 'none',
-          stroke: 'rgba(0, 122, 255, 0.9)',
+          stroke: sim ? 'rgba(66, 140, 242, 0.78)' : 'rgba(0, 122, 255, 0.9)',
           'stroke-width': Ink.selectionLineWidth,
         }),
       )
