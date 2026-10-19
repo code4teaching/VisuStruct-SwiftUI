@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struktogramm caption="68;114;101;105;101;114;115;99;104;114;105;116;116;101;">
+  <strelem typ="0" zx="0" zy="0">
+    <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;83;116;97;114;116;119;101;114;116;63;34;</text>
+  </strelem>
+  <strelem typ="4" zx="0" zy="0">
+    <text>122;97;104;108;32;62;32;48;</text>
+    <schleifeninhalt>
+      <strelem typ="0" zx="0" zy="0">
+        <text>111;117;116;112;117;116;58;32;122;97;104;108;</text>
+      </strelem>
+      <strelem typ="0" zx="0" zy="0">
+        <text>122;97;104;108;32;61;32;122;97;104;108;32;45;32;51;</text>
+      </strelem>
+    </schleifeninhalt>
+  </strelem>
+  <strelem typ="0" zx="0" zy="0">
+    <text>111;117;116;112;117;116;58;32;34;69;110;100;101;34;</text>
+  </strelem>
+</struktogramm>
