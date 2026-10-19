@@ -99,7 +99,7 @@ extension VisuStructCodeGenerator {
     }
 
     /// Ohne `output:`/`print:`-Präfix: Zeile beginnt mit `"…"` → Ausgabe (Java/JS/Python), z. B. `"Summe: " + summe`.
-    static func emitBareLeadingStringAsPrintIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
+    static func emitBareLeadingStringAsPrintIfNeeded(_ raw: String, target: Target, indent: Int, options: Options) -> String? {
         guard target == .java || target == .javascript || target == .python else { return nil }
         let t = stripTrailingSemicolon(raw).trimmingCharacters(in: .whitespacesAndNewlines)
         guard t.hasPrefix("\"") else { return nil }
@@ -109,7 +109,8 @@ extension VisuStructCodeGenerator {
         case .javascript:
             return sp(indent) + "console.log(" + t + ");\n"
         case .python:
-            return sp(indent) + "print(" + t + ")\n"
+            let argument = pythonConcatenation(t, intVariables: options.jsIntVariables, stringVariables: options.stringVariables)
+            return sp(indent) + "print(" + argument + ")\n"
         }
     }
 
@@ -121,13 +122,8 @@ extension VisuStructCodeGenerator {
             .replacingOccurrences(of: "\r", with: "\\r")
     }
 
-    static func emitJavaInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
-        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = t.lowercased()
-        guard lower.hasPrefix("input:") else { return nil }
-        let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !rest.isEmpty else { return nil }
-        guard let p = parseInputLineAfterColon(rest) else { return nil }
+    static func emitJavaInputLineIfNeeded(_ raw: String, indent: Int, arrayTypes: [String: String] = [:]) -> String? {
+        guard let p = inputParse(raw, arrayTypes: arrayTypes) else { return nil }
         let type = p.type
         let name = p.name
         let promptOut: String = {
@@ -150,6 +146,9 @@ extension VisuStructCodeGenerator {
             // `next()` statt `nextLine()` (vermeidet typische Newline-Falle nach `nextInt()` im Unterricht).
             let target = p.isIndexedTarget ? name : "String \(name)"
             return promptOut + sp(indent) + "\(target) = scanner.next();\n"
+        case "boolean":
+            let target = p.isIndexedTarget ? name : "boolean \(name)"
+            return promptOut + sp(indent) + "\(target) = scanner.nextBoolean();\n"
         default:
             return nil
         }
@@ -180,13 +179,8 @@ extension VisuStructCodeGenerator {
         return sp(indent) + "console.log(" + expr + ");\n"
     }
 
-    static func emitJavaScriptInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
-        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = t.lowercased()
-        guard lower.hasPrefix("input:") else { return nil }
-        let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !rest.isEmpty else { return nil }
-        guard let pz = parseInputLineAfterColon(rest) else { return nil }
+    static func emitJavaScriptInputLineIfNeeded(_ raw: String, indent: Int, arrayTypes: [String: String] = [:]) -> String? {
+        guard let pz = inputParse(raw, arrayTypes: arrayTypes) else { return nil }
         let type = pz.type
         let name = pz.name
         let useCustom = pz.customPrompt.map { !$0.isEmpty } ?? false
@@ -224,6 +218,15 @@ extension VisuStructCodeGenerator {
             }
             let target = pz.isIndexedTarget ? name : "let \(name)"
             return (consoleHint ?? "") + sp(indent) + "\(target) = \(p);\n"
+        case "boolean":
+            let p: String
+            if useCustom, let c = pz.customPrompt {
+                p = jsPromptExprCustomPromptText(c, fallback: "")
+            } else {
+                p = jsPromptExpr(label: name, fallback: "")
+            }
+            let target = pz.isIndexedTarget ? name : "let \(name)"
+            return (consoleHint ?? "") + sp(indent) + "\(target) = \(p).trim().toLowerCase() === \"true\";\n"
         default:
             return nil
         }
@@ -248,18 +251,14 @@ extension VisuStructCodeGenerator {
         return "input(\"" + esc + "\")"
     }
 
-    static func emitPythonPrintLineIfNeeded(_ raw: String, indent: Int) -> String? {
+    static func emitPythonPrintLineIfNeeded(_ raw: String, indent: Int, options: Options) -> String? {
         guard let expr = expressionAfterOutputDiagramPrefix(raw) else { return nil }
-        return sp(indent) + "print(" + expr + ")\n"
+        let argument = pythonConcatenation(expr, intVariables: options.jsIntVariables, stringVariables: options.stringVariables)
+        return sp(indent) + "print(" + argument + ")\n"
     }
 
-    static func emitPythonInputLineIfNeeded(_ raw: String, indent: Int) -> String? {
-        let t = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lower = t.lowercased()
-        guard lower.hasPrefix("input:") else { return nil }
-        let rest = String(t.dropFirst(6)).trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !rest.isEmpty else { return nil }
-        guard let pz = parseInputLineAfterColon(rest) else { return nil }
+    static func emitPythonInputLineIfNeeded(_ raw: String, indent: Int, arrayTypes: [String: String] = [:]) -> String? {
+        guard let pz = inputParse(raw, arrayTypes: arrayTypes) else { return nil }
         let type = pz.type
         let name = pz.name
         let useCustom = pz.customPrompt.map { !$0.isEmpty } ?? false
@@ -285,6 +284,9 @@ extension VisuStructCodeGenerator {
                 return (printHint ?? "") + sp(indent) + "\(name) = \(pyInputExprCustomPrompt(c))\n"
             }
             return (printHint ?? "") + sp(indent) + "\(name) = \(pyInputExpr(promptLabel: name))\n"
+        case "boolean":
+            let input = useCustom ? pyInputExprCustomPrompt(pz.customPrompt ?? "") : pyInputExpr(promptLabel: name)
+            return (printHint ?? "") + sp(indent) + "\(name) = \(input).strip().lower() in (\"true\", \"wahr\")\n"
         default:
             return nil
         }

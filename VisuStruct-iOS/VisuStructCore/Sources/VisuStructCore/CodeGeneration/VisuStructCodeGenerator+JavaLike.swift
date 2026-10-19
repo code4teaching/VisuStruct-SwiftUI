@@ -32,18 +32,6 @@ extension VisuStructCodeGenerator {
         return leading + "let \(name)"
     }
 
-    // MARK: - Python: Java-ähnliche For-Köpfe → `range`
-
-    struct JavaForInitParse {
-        let name: String
-        let value: Int
-    }
-
-    struct JavaForCondParse {
-        /// Obergrenze für `range` (exklusiv), passend zu `< n` bzw. `<= n`, oder ein Ausdruck wie `len(zahlen)`.
-        let stopExclusiveExpression: String
-    }
-
     static func stripTrailingSemicolon(_ s: String) -> String {
         var x = s.trimmingCharacters(in: .whitespacesAndNewlines)
         while x.hasSuffix(";") {
@@ -67,64 +55,6 @@ extension VisuStructCodeGenerator {
             }
         }
         return out
-    }
-
-    static func parseJavaStyleForInit(_ s: String) -> JavaForInitParse? {
-        let pats = [
-            #"^\s*(?:int|long)\s+(\w+)\s*=\s*(-?\d+)\s*$"#,
-            #"^\s*(\w+)\s*=\s*(-?\d+)\s*$"#,
-        ]
-        for p in pats {
-            guard let g = regexGroups(p, s), g.count >= 3, let v = Int(g[2]) else { continue }
-            return JavaForInitParse(name: g[1], value: v)
-        }
-        return nil
-    }
-
-    static func parseJavaStyleForCondition(_ s: String, expectedVar: String) -> JavaForCondParse? {
-        if let g = regexGroups(#"^\s*(\w+)\s*<\s*(\d+)\s*$"#, s), g.count >= 3, g[1] == expectedVar, let n = Int(g[2]) {
-            return JavaForCondParse(stopExclusiveExpression: "\(n)")
-        }
-        if let g = regexGroups(#"^\s*(\w+)\s*<=\s*(\d+)\s*$"#, s), g.count >= 3, g[1] == expectedVar, let n = Int(g[2]) {
-            return JavaForCondParse(stopExclusiveExpression: "\(n + 1)")
-        }
-        if let g = regexGroups(#"^\s*(\w+)\s*<\s*([a-zA-Z_]\w*)\.length(?:\(\))?\s*$"#, s), g.count >= 3, g[1] == expectedVar {
-            return JavaForCondParse(stopExclusiveExpression: "len(\(g[2]))")
-        }
-        return nil
-    }
-
-    static func isJavaStyleSimpleIncrement(_ s: String, varName: String) -> Bool {
-        if let g = regexGroups(#"^\s*(\w+)\s*\+\+\s*$"#, s), g.count >= 2 { return g[1] == varName }
-        if let g = regexGroups(#"^\s*(\w+)\s*\+=\s*1\s*$"#, s), g.count >= 2 { return g[1] == varName }
-        return false
-    }
-
-    /// Aus drei Java-ähnlichen Zeilen → `for name in range(…):` wenn die Heuristik passt; sonst `nil` (Fallback: bisheriges `for …` mit `conditionText`).
-    static func pythonForLineFromJavaLikeLoopFields(_ lines: [String]) -> String? {
-        let raw = lines.map { stripTrailingSemicolon($0) }.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-        let nonEmpty = raw.filter { !$0.isEmpty }
-        if nonEmpty.count <= 1 { return nil }
-
-        var parts = raw
-        while parts.count < 3 { parts.append("") }
-        if parts.count > 3 { parts = Array(parts.prefix(3)) }
-
-        let initS = parts[0]
-        let condS = parts[1]
-        let stepS = parts[2]
-        if initS.isEmpty || condS.isEmpty || stepS.isEmpty { return nil }
-
-        guard let initP = parseJavaStyleForInit(initS) else { return nil }
-        guard let condP = parseJavaStyleForCondition(condS, expectedVar: initP.name) else { return nil }
-        guard isJavaStyleSimpleIncrement(stepS, varName: initP.name) else { return nil }
-
-        let start = initP.value
-        let stop = condP.stopExclusiveExpression
-        if start == 0 {
-            return "for \(initP.name) in range(\(stop)):"
-        }
-        return "for \(initP.name) in range(\(start), \(stop)):"
     }
 
     // MARK: - Java-ähnliche Zuweisungen → JS `let` / Python ohne Typ
@@ -177,7 +107,7 @@ extension VisuStructCodeGenerator {
     }
 
     /// `const`-Deklaration: Java `final`, JS `const` bzw. ohne Initialwert `let` + Hinweis, Python Zuweisung / `None`.
-    static func emitConstTypedLineIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
+    static func emitConstTypedLineIfNeeded(_ raw: String, target: Target, indent: Int, intVariables: Set<String> = []) -> String? {
         guard let p = parseConstTypedLine(raw) else { return nil }
         let jt = javaTypeForConstDeclaration(p.rawType)
         let name = p.name
@@ -201,7 +131,7 @@ extension VisuStructCodeGenerator {
             return sp(indent) + "let \(name);  // from diagram: const \(jt) \(name)\n"
         case .python:
             if hasValue, let r = rhsOpt {
-                return sp(indent) + "\(name) = \(pythonRhsFromJavaRhs(r))  # const \(jt)\n"
+                return sp(indent) + "\(name) = \(pythonRhsFromJavaRhs(r, intVariables: intVariables))  # const \(jt)\n"
             }
             return sp(indent) + "\(name) = None  # const \(jt), uninitialized\n"
         }
@@ -223,13 +153,13 @@ extension VisuStructCodeGenerator {
         return JavaStyleSimpleAssignmentParse(name: name, rhs: rhs, isArray: isArray)
     }
 
-    static func pythonRhsFromJavaRhs(_ rhs: String) -> String {
+    static func pythonRhsFromJavaRhs(_ rhs: String, intVariables: Set<String> = []) -> String {
         let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
         if t == "null" { return "None" }
         if let cast = javaIntCastExpression(t) {
-            return "int(\(pythonRhsFromJavaRhs(cast)))"
+            return "int(\(pythonRhsFromJavaRhs(cast, intVariables: intVariables)))"
         }
-        return replaceJavaMathRandomWithPythonRandom(t)
+        return pythonExpression(t, intVariables: intVariables)
     }
 
     static func replaceJavaMathRandomWithPythonRandom(_ s: String) -> String {
@@ -285,19 +215,19 @@ extension VisuStructCodeGenerator {
         return normalizeJavaScriptMathRandomCall(t)
     }
 
-    static func pythonRhsFromJavaRhs(_ rhs: String, isArray: Bool) -> String {
+    static func pythonRhsFromJavaRhs(_ rhs: String, isArray: Bool, intVariables: Set<String> = []) -> String {
         let t = rhs.trimmingCharacters(in: .whitespacesAndNewlines)
         if isArray {
             if let size = javaNewArraySizeExpression(t) {
                 return "[None] * \(size)"
             }
-            return arrayLiteralFromJavaInitializer(t)
+            return pythonExpression(arrayLiteralFromJavaInitializer(t), intVariables: intVariables)
         }
-        return pythonRhsFromJavaRhs(t)
+        return pythonRhsFromJavaRhs(t, intVariables: intVariables)
     }
 
     /// JavaScript: `int x = 5` / `Int x = 5` → `let x = 5;`. Python: `x = 5`. Typen siehe `parseJavaStyleSimpleAssignment`. Java: `nil` (allgemeiner Pfad).
-    static func emitTranslatedJavaLikeAssignmentIfNeeded(_ raw: String, target: Target, indent: Int) -> String? {
+    static func emitTranslatedJavaLikeAssignmentIfNeeded(_ raw: String, target: Target, indent: Int, options: Options) -> String? {
         guard target == .javascript || target == .python else { return nil }
         guard let p = parseJavaStyleSimpleAssignment(raw) else { return nil }
         switch target {
@@ -307,7 +237,11 @@ extension VisuStructCodeGenerator {
             let line = formatCStyleStatementLine(inner)
             return sp(indent) + line + "\n"
         case .python:
-            let rhs = pythonRhsFromJavaRhs(p.rhs, isArray: p.isArray)
+            let ints = options.jsIntVariables
+            let plain = !p.isArray && javaIntCastExpression(p.rhs) == nil && p.rhs.trimmingCharacters(in: .whitespaces) != "null"
+            let rhs = plain
+                ? pythonConcatenation(p.rhs, intVariables: ints, stringVariables: options.stringVariables)
+                : pythonRhsFromJavaRhs(p.rhs, isArray: p.isArray, intVariables: ints)
             return sp(indent) + "\(p.name) = \(rhs)\n"
         case .java:
             return nil

@@ -16,8 +16,12 @@ public enum VisuStructCodeGenerator: Sendable {
         public var includeDiagramTextAsComments: Bool
         /// Wenn `true` (Standard): `else` wird auch ausgegeben, wenn der **Nein**-Zweig nur leer (ø) ist — analog zum Struktogramm. Wenn `false`, entfällt in diesem Fall `else` (kompakterer Code; alle Zielsprachen).
         public var includeEmptyElseBranch: Bool
-        /// Interner Heuristik-Kontext für JavaScript-Emit (z. B. Ganzzahldivision).
+        /// Interner Heuristik-Kontext für JavaScript und Python (z. B. Ganzzahldivision).
         var jsIntVariables: Set<String> = []
+        /// Text-Variablen: In Python ohne `str(…)` verketten.
+        var stringVariables: Set<String> = []
+        /// Elementtyp deklarierter Arrays (`int[] zahlen` → `int`), für Eingaben in `zahlen[i]`.
+        var arrayElementTypes: [String: String] = [:]
 
         public init(
             baseIndent: Int = 0,
@@ -36,6 +40,11 @@ public enum VisuStructCodeGenerator: Sendable {
     public static func generate(document: VisuStructDocument, target: Target, options: Options = Options()) -> String {
         var out = ""
         var opts = options
+        opts.arrayElementTypes = inferArrayElementTypes(document)
+        opts.stringVariables = inferStringVariables(document)
+        if target == .python {
+            opts.jsIntVariables = inferIntegerVariablesForJavaScript(document)
+        }
         if target == .javascript {
             // Schul-tauglich: Strict-Modus immer am Anfang des Snippets (wie vereinbart).
             out += "\"use strict\";\n\n"
