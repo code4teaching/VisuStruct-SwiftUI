@@ -190,6 +190,7 @@ struct InspectorPhoneChrome<Inspector: View>: View {
     let hideInspectorOnPhone: Bool
     let onCancelInsert: () -> Void
     let onShowInspector: () -> Void
+    let onHideInspector: () -> Void
     @ViewBuilder let inspector: () -> Inspector
 
     var body: some View {
@@ -211,7 +212,16 @@ struct InspectorPhoneChrome<Inspector: View>: View {
                 }
                 .buttonStyle(.bordered)
             } else {
-                inspector()
+                VStack(alignment: .trailing, spacing: 4) {
+                    Button {
+                        onHideInspector()
+                    } label: {
+                        Label(lang.tr("phone_hide_text_editor"), systemImage: "chevron.down")
+                            .font(.subheadline)
+                    }
+                    .buttonStyle(.borderless)
+                    inspector()
+                }
             }
         }
     }
