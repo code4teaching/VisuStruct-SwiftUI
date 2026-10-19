@@ -99,6 +99,9 @@ export class App {
   private deleteButton!: HTMLButtonElement
   private statusLine!: HTMLElement
   private drag?: DragState
+  /** Nur in der claude.ai-Vorschau: Dateien über die `downloads`-Fähigkeit anbieten. */
+  private downloads: { save(o: { filename: string; data: Blob }): Promise<unknown> } | null = null
+  private readonly inViewer = 'claude' in window
 
   constructor(private root: HTMLElement) {
     this.buildUI()
@@ -112,6 +115,8 @@ export class App {
     })
     this.setupFileDrop()
     new ResizeObserver(() => this.renderDiagramOnly()).observe(this.canvasHost)
+    const claude = (window as { claude?: { use(name: string): Promise<unknown> } }).claude
+    claude?.use('downloads').then((d) => (this.downloads = d as App['downloads']))
   }
 
   // MARK: - UI
@@ -175,7 +180,7 @@ export class App {
     select.addEventListener('change', () => {
       const ex = examples.find((x) => x.name === select.value)
       select.value = ''
-      if (ex && this.confirmDiscard()) this.loadXML(ex.xml, ex.name + '.visustruct')
+      if (ex) this.confirmDiscard().then((ok) => ok && this.loadXML(ex.xml, ex.name + '.visustruct'))
     })
 
     const fileInput = $<HTMLInputElement>('input[type=file]')
@@ -185,8 +190,8 @@ export class App {
       if (f) this.loadXML(await f.text(), f.name)
     })
 
-    $('[data-action=new]').addEventListener('click', () => {
-      if (!this.confirmDiscard()) return
+    $('[data-action=new]').addEventListener('click', async () => {
+      if (!(await this.confirmDiscard())) return
       this.doc = newEmptyDocument()
       this.fileName = 'Struktogramm.visustruct'
       this.fileHandle = undefined
@@ -379,15 +384,42 @@ export class App {
 
   // MARK: - Dateien
 
-  private confirmDiscard(): boolean {
-    return !this.dirty || window.confirm('Ungespeicherte Änderungen verwerfen?')
+  /** Rückfrage im Fenster selbst (`window.confirm` ist in eingebetteten Ansichten gesperrt). */
+  private confirmDiscard(): Promise<boolean> {
+    if (!this.dirty) return Promise.resolve(true)
+    return new Promise((resolve) => {
+      const box = document.createElement('div')
+      box.className = 'confirm'
+      box.innerHTML = `<div class="confirm-card" role="alertdialog" aria-label="Änderungen verwerfen?">
+        <p><strong>Ungespeicherte Änderungen verwerfen?</strong></p>
+        <p class="hint">Die Änderungen an „${escapeHTML(this.fileName)}“ gehen verloren.</p>
+        <div class="group"><button data-r="0">Abbrechen</button><button data-r="1" class="danger">Verwerfen</button></div>
+      </div>`
+      box.addEventListener('click', (e) => {
+        const r = (e.target as HTMLElement).dataset.r
+        if (r === undefined && e.target !== box) return
+        box.remove()
+        resolve(r === '1')
+      })
+      document.body.append(box)
+      box.querySelector<HTMLButtonElement>('[data-r="0"]')!.focus()
+    })
+  }
+
+  private showMessage(text: string) {
+    this.statusLine.textContent = text
+    this.statusLine.classList.add('message')
+    setTimeout(() => {
+      this.statusLine.classList.remove('message')
+      this.updateStatus()
+    }, 6000)
   }
 
   private loadXML(xml: string, name: string, handle?: FileHandle) {
     try {
       this.doc = decodeDocument(xml)
     } catch (err) {
-      window.alert(`Die Datei „${name}“ konnte nicht gelesen werden.\n${(err as Error).message}`)
+      this.showMessage(`„${name}“ ist keine lesbare VisuStruct-Datei (${(err as Error).message})`)
       return
     }
     this.fileName = name.replace(/\.(strk|xml)$/i, '.visustruct')
@@ -396,9 +428,9 @@ export class App {
   }
 
   private async open(fallback: HTMLInputElement) {
-    if (!this.confirmDiscard()) return
+    if (!(await this.confirmDiscard())) return
     const w = window as PickerWindow
-    if (!w.showOpenFilePicker) return fallback.click()
+    if (!w.showOpenFilePicker || this.inViewer) return fallback.click()
     try {
       const [handle] = await w.showOpenFilePicker({ types: pickerTypes })
       const file = await handle.getFile()
@@ -412,7 +444,15 @@ export class App {
     const blob = new Blob([encodeDocument(this.doc)], { type: 'application/xml' })
     const w = window as PickerWindow
     try {
-      if (!this.fileHandle && w.showSaveFilePicker) {
+      if (this.downloads) {
+        // Die Vorschau erlaubt nur bekannte Endungen; die echte Web-App speichert direkt als .visustruct.
+        const filename = this.fileName + '.txt'
+        await this.downloads.save({ filename, data: blob })
+        this.dirty = false
+        this.showMessage(`Gespeichert als „${filename}“. Zum Öffnen in der App die Endung .txt entfernen.`)
+        return
+      }
+      if (!this.fileHandle && w.showSaveFilePicker && !this.inViewer) {
         this.fileHandle = await w.showSaveFilePicker({ suggestedName: this.fileName, types: pickerTypes })
         this.fileName = this.fileHandle.name
       }
@@ -449,7 +489,7 @@ export class App {
       const f = e.dataTransfer?.files[0]
       if (!f) return
       e.preventDefault()
-      if (this.confirmDiscard()) this.loadXML(await f.text(), f.name)
+      if (await this.confirmDiscard()) this.loadXML(await f.text(), f.name)
     })
   }
 
@@ -652,4 +692,8 @@ export class App {
       }
     }
   }
+}
+
+function escapeHTML(s: string): string {
+  return s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
 }
