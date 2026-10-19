@@ -1,4 +1,8 @@
 import './ui/styles.css'
-import { App } from './ui/app'
+import { App, applyCanvasStubTexts } from './ui/app'
+import { preferredLanguage, setLanguage } from './ui/i18n'
 
-new App(document.getElementById('app')!)
+void setLanguage(preferredLanguage(), false).then(() => {
+  applyCanvasStubTexts()
+  new App(document.getElementById('app')!)
+})

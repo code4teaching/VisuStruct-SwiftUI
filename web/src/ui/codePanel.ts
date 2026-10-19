@@ -1,3 +1,4 @@
+import { t } from './i18n'
 import { generateCode, generateJavaClassFile, sanitizedJavaClassName, type CodeTarget } from '../core/codeGenerator'
 import type { VSDocument } from '../core/model'
 
@@ -26,15 +27,16 @@ function store(key: string, value: string) {
   }
 }
 
-const stopMessage = 'Ausführung gestoppt: mögliche Endlosschleife.'
-const cancelMessage = 'Ausführung abgebrochen.'
+const stopMessage = () => t('web_run_stopped_loop')
+const cancelMessage = () => t('web_run_cancelled')
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 /** Wie `javaScriptWithEndlessLoopGuard` in Swift: `while (true)` bricht nach 100 000 Durchläufen ab. */
 export function javaScriptWithEndlessLoopGuard(js: string): string {
   let index = 0
   return js.replace(/^(\s*)while\s*\(\s*true\s*\)(?:\s*\/\*.*?\*\/)?\s*\{/gm, (_m, indent: string) => {
     const g = `__visuStructLoopGuard${index++}`
-    return `${indent}for (let ${g} = 0; ${g} < 100000 || (() => { throw new Error("${stopMessage}"); })(); ${g}++) {`
+    return `${indent}for (let ${g} = 0; ${g} < 100000 || (() => { throw new Error(${JSON.stringify(stopMessage())}); })(); ${g}++) {`
   })
 }
 
@@ -63,7 +65,7 @@ console.log = (...args) => {
 }
 setInterval(flush, 50)
 const __visuStructPrompt = (label) => new Promise((resolve, reject) => {
-  answer = (value) => (value === null ? reject(new Error(${JSON.stringify(cancelMessage)})) : resolve(value))
+  answer = (value) => (value === null ? reject(new Error(${JSON.stringify(cancelMessage())})) : resolve(value))
   send('prompt', String(label ?? ''))
 })
 onmessage = async (e) => {
@@ -151,32 +153,32 @@ export class CodePanel {
   private build() {
     this.element.innerHTML = `
       <div class="code-head">
-        <h2>Code-Generator</h2>
-        <button class="code-close" title="Schließen" aria-label="Schließen">✕</button>
+        <h2>${esc(t('codegen_placeholder_title'))}</h2>
+        <button class="code-close" title="${esc(t('menu_close'))}" aria-label="${esc(t('menu_close'))}">✕</button>
       </div>
-      <div class="segmented" role="group" aria-label="Sprache">
+      <div class="segmented" role="group" aria-label="${esc(t('web_codegen_language'))}">
         <button data-target="java">Java</button><button data-target="python">Python</button><button data-target="javascript">JavaScript</button>
       </div>
-      <div class="segmented java-mode" role="group" aria-label="Java-Ausgabe">
-        <button data-java-mode="snippet">Ausschnitt</button><button data-java-mode="class">Klasse</button>
+      <div class="segmented java-mode" role="group" aria-label="${esc(t('codegen_java_output_mode'))}">
+        <button data-java-mode="snippet">${esc(t('codegen_java_output_snippet'))}</button><button data-java-mode="class">${esc(t('codegen_java_output_class'))}</button>
       </div>
-      <label class="check"><input type="checkbox" data-opt="comments" /> Diagramm-Text als Kommentare</label>
-      <label class="check"><input type="checkbox" data-opt="emptyElse" /> Leeren else-Zweig im Code ausgeben</label>
+      <label class="check"><input type="checkbox" data-opt="comments" /> ${esc(t('web_codegen_comments'))}</label>
+      <label class="check"><input type="checkbox" data-opt="emptyElse" /> ${esc(t('web_codegen_empty_else'))}</label>
       <div class="code-actions">
-        <button data-act="copy">Kopieren</button>
-        <button data-act="save">Java speichern …</button>
-        <button data-act="run" class="primary">Im Browser testen</button>
+        <button data-act="copy">${esc(t('codegen_copy'))}</button>
+        <button data-act="save">${esc(t('codegen_save_java'))}</button>
+        <button data-act="run" class="primary">${esc(t('codegen_run_in_browser'))}</button>
       </div>
-      <pre class="code-view" tabindex="0"></pre>
+      <pre class="code-view" tabindex="0" dir="ltr"></pre>
       <div class="runner" hidden>
-        <div class="runner-head"><h2>Ausgabe</h2><button data-act="stop">Stopp</button></div>
-        <pre class="runner-out"></pre>
+        <div class="runner-head"><h2>${esc(t('simulation_output'))}</h2><button data-act="stop">${esc(t('simulation_stop'))}</button></div>
+        <pre class="runner-out" dir="ltr"></pre>
         <form class="runner-input" hidden>
           <label></label>
-          <div class="sim-input-row"><input autocomplete="off" /><button type="submit">OK</button><button type="button" data-act="cancel">Abbrechen</button></div>
+          <div class="sim-input-row"><input autocomplete="off" /><button type="submit">${esc(t('simulation_input_submit'))}</button><button type="button" data-act="cancel">${esc(t('close_unsaved_cancel'))}</button></div>
         </form>
       </div>
-      <p class="hint">Vorschau aus dem aktuellen Struktogramm (Java 17, Python 3.10+, modernes JavaScript).</p>
+      <p class="hint">${esc(t('codegen_generated_hint'))}</p>
     `
     const q = <T extends Element>(s: string) => this.element.querySelector(s) as T
     this.codeView = q('.code-view')
@@ -251,8 +253,8 @@ export class CodePanel {
       sel?.addRange(range)
       ok = document.execCommand?.('copy') ?? false
     }
-    this.copyButton.textContent = ok ? 'Kopiert ✓' : 'Markiert, mit Strg+C kopieren'
-    setTimeout(() => (this.copyButton.textContent = 'Kopieren'), 2000)
+    this.copyButton.textContent = t(ok ? 'web_copied_check' : 'web_copy_manual')
+    setTimeout(() => (this.copyButton.textContent = t('codegen_copy')), 2000)
   }
 
   // MARK: - JavaScript ausführen
@@ -273,7 +275,7 @@ export class CodePanel {
       worker.onmessage = (e) => onMessage(e.data as RunnerMessage)
       worker.onerror = (e) => {
         e.preventDefault()
-        onMessage({ type: 'error', text: e.message || 'Fehler beim Ausführen.' })
+        onMessage({ type: 'error', text: e.message || t('web_run_error') })
       }
       worker.postMessage({ type: 'run', code })
       this.worker = worker
@@ -291,7 +293,7 @@ export class CodePanel {
     }
     const prompt = (label: string) =>
       new Promise<string>((resolve, reject) => {
-        this.pendingAnswer = (v) => (v === null ? reject(new Error(cancelMessage)) : resolve(v))
+        this.pendingAnswer = (v) => (v === null ? reject(new Error(cancelMessage())) : resolve(v))
         onMessage({ type: 'prompt', text: label })
       })
     const AsyncFunction = (async () => {}).constructor as new (...args: string[]) => (...a: unknown[]) => Promise<void>
@@ -335,7 +337,7 @@ export class CodePanel {
     if (this.outputFrame !== undefined) return
     this.outputFrame = requestAnimationFrame(() => {
       this.outputFrame = undefined
-      const head = this.droppedLines > 0 ? `… ${this.droppedLines} frühere Zeilen ausgeblendet\n` : ''
+      const head = this.droppedLines > 0 ? t('web_run_dropped_fmt', this.droppedLines) + '\n' : ''
       this.runOutput.textContent = head + this.outputLines.join('\n') + (this.outputLines.length ? '\n' : '')
       this.runOutput.scrollTop = this.runOutput.scrollHeight
     })

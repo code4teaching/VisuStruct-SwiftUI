@@ -35,6 +35,7 @@ damit Änderungen in Swift leicht nachgezogen werden können:
 | `src/core/codeGenerator.ts` | `VisuStructCodeGenerator.swift`, `CodeGeneration/*.swift` |
 | `src/ui/renderer.ts` | `Canvas/DiagramCanvasRenderer.swift` (als SVG) |
 | `src/ui/exporter.ts` | `Export/DiagramSnapshotAndExport.swift`, `Export/DiagramExporter.swift` |
+| `src/ui/i18n.ts` | `AppLanguage.swift` mit `*.lproj/Localizable.strings` und `Java.strings` |
 | `src/ui/codePanel.ts` | `CodeGeneration/CodeGeneratorPanels.swift`, `Runner/JavaScriptRunner.swift` |
 | `src/ui/simulationPanel.ts` | `Simulation/SimulationController.swift`, `Simulation/SimulationPanels.swift` |
 
@@ -56,8 +57,14 @@ Kopieren/Ausschneiden/Einfügen, Textgröße und das Feld für Fallnamen folgen 
 der App, ohne zusätzliche Bibliothek) oder druckt es (Strg+P). `test/exporter.test.ts` prüft Dateinamen, Seitenformat
 und den Aufbau der PDF-Datei.
 
+Die Oberfläche spricht dieselben 21 Sprachen wie die App (plus „Java (Keywords)“). Die Texte kommen direkt aus den
+`Localizable.strings` der App; nur Texte, die es nur im Web gibt, stehen in `src/i18n/<Sprache>.strings`. Fehlt ein Text,
+gilt wie in der App der englische. Beim ersten Start wird die Browsersprache gewählt; Arabisch und Hebräisch laufen von
+rechts nach links, das Struktogramm und der Code bleiben links nach rechts. `test/i18n.test.ts` prüft, dass jeder im Code
+benutzte Schlüssel einen englischen Text hat und jede Sprache alle Web-Texte mit denselben Platzhaltern enthält.
+
 Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift und Finger gleich funktionieren.
 
 ## Noch nicht enthalten
 
-Mehrsprachigkeit (UI ist deutsch), Verschieben vorhandener Elemente mit dem Finger.
+Verschieben vorhandener Elemente mit dem Finger.

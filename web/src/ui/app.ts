@@ -1,4 +1,4 @@
-import { canvasTextLines } from '../core/diagramText'
+import { canvasTextLines, setCanvasStubTexts } from '../core/diagramText'
 import {
   appendCaseToFallauswahl,
   canDeleteElement,
@@ -30,6 +30,7 @@ import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { examples } from './examples'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
+import { currentLanguage, languages, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 
@@ -59,20 +60,10 @@ type PickerWindow = Window & {
   showOpenFilePicker?: (o: object) => Promise<FileHandle[]>
   showSaveFilePicker?: (o: object) => Promise<FileHandle>
 }
-const pickerTypes = [{ description: 'VisuStruct-Struktogramm', accept: { 'application/xml': ['.visustruct', '.strk'] } }]
+const pickerTypes = () => [{ description: t('web_file_type'), accept: { 'application/xml': ['.visustruct', '.strk'] } }]
 
-const typeNames: Record<ElementType, string> = {
-  [ElementType.anweisung]: 'Anweisung',
-  [ElementType.verzweigung]: 'Verzweigung',
-  [ElementType.fallauswahl]: 'Fallauswahl',
-  [ElementType.forSchleife]: 'For-Schleife',
-  [ElementType.whileSchleife]: 'While-Schleife',
-  [ElementType.doUntilSchleife]: 'Do-while-Schleife',
-  [ElementType.endlosschleife]: 'Endlosschleife',
-  [ElementType.aussprung]: 'Aussprung',
-  [ElementType.aufruf]: 'Aufruf',
-  [ElementType.leerElement]: 'Leeres Element',
-}
+/** `element_*` aus Localizable.strings. */
+const typeName = (type: ElementType) => t(`element_${ElementType[type]}`)
 
 /** `InspectorElementHints.conditionHintLine`: Beispiel über dem Editor. */
 const conditionHints: Partial<Record<ElementType, string>> = {
@@ -110,16 +101,16 @@ function placeholderFor(el: VSElement): string {
   switch (el.type) {
     case ElementType.anweisung: {
       const mode = LineEditor.ioMode(el.textLines.join('\n'))
-      return mode === 'input' ? 'int age "Enter age"' : mode === 'output' ? '"Your age: " + age' : 'int sum = number1 + number2'
+      return mode === 'input' ? 'int age "Enter age"' : mode === 'output' ? '"Your age: " + age' : t('inspector_placeholder_statement')
     }
     case ElementType.verzweigung:
     case ElementType.whileSchleife:
     case ElementType.doUntilSchleife:
     case ElementType.endlosschleife:
-      return 'Bedingung einfügen …'
-    case ElementType.fallauswahl: return 'Auswahl einfügen …'
-    case ElementType.aufruf: return 'Aufruf einfügen …'
-    case ElementType.aussprung: return 'Kommentar (optional)'
+      return t('inspector_placeholder_condition')
+    case ElementType.fallauswahl: return t('inspector_placeholder_selector')
+    case ElementType.aufruf: return t('inspector_placeholder_call')
+    case ElementType.aussprung: return t('inspector_placeholder_break')
     default: return ''
   }
 }
@@ -147,11 +138,19 @@ interface Tab {
 
 /** `VisuStructUIScaleStep`: Textgröße des Struktogramms. */
 const zoomSteps = [
-  { value: 1, label: 'Klein' },
-  { value: 1.22, label: 'Mittel' },
-  { value: 1.5, label: 'Groß' },
-  { value: 1.82, label: 'Sehr groß' },
+  { value: 1, label: 'settings_ui_scale_small' },
+  { value: 1.22, label: 'settings_ui_scale_medium' },
+  { value: 1.5, label: 'settings_ui_scale_large' },
+  { value: 1.82, label: 'settings_ui_scale_extra_large' },
 ]
+
+const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
+/** Tastenkürzel im Tooltip, z. B. „Strg+S“ bzw. „⌘S“. */
+function shortcut(key: string, shift = false): string {
+  if (isMac) return `${shift ? '⇧' : ''}⌘${key}`
+  return [t('web_key_ctrl'), ...(shift ? [t('web_key_shift')] : []), key].join('+')
+}
+const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
@@ -201,6 +200,7 @@ export class App {
   }
   private simulating = false
   private exportSelect!: HTMLSelectElement
+  private resizeObserver?: ResizeObserver
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
   private simPath?: number[]
   private sim!: SimulationPanel
@@ -244,7 +244,6 @@ export class App {
       if (this.tabs.some((t) => t.dirty)) e.preventDefault()
     })
     this.setupFileDrop()
-    new ResizeObserver(() => this.renderDiagramOnly()).observe(this.canvasHost)
     const claude = (window as { claude?: { use(name: string): Promise<unknown> } }).claude
     claude?.use('downloads').then((d) => (this.downloads = d as App['downloads']))
   }
@@ -255,47 +254,50 @@ export class App {
     this.root.className = 'app'
     this.root.innerHTML = `
       <header class="toolbar">
-        <div class="brand"><span class="logo"></span>VisuStruct <small>Web · Prototyp</small></div>
+        <div class="brand"><span class="logo"></span>VisuStruct <small>${e(t('web_brand_suffix'))}</small></div>
         <div class="group">
-          <button data-action="new" title="Neues Struktogramm in einem neuen Reiter">Neu</button>
-          <button data-action="open" title="Datei öffnen (Strg+O)">Öffnen…</button>
-          <select data-action="example" title="Beispiel laden"><option value="">Beispiel…</option></select>
-          <button data-action="save" title="Speichern (Strg+S)">Speichern</button>
-          <select data-action="export" title="Als Bild oder PDF speichern oder drucken">
-            <option value="">Exportieren…</option>
-            <option value="png">Bild (PNG)</option>
-            <option value="svg">Vektorgrafik (SVG)</option>
-            <option value="pdf">PDF (A4)</option>
-            <option value="print">Drucken… (Strg+P)</option>
+          <button data-action="new" title="${e(t('a11y_new_diagram_tab'))}">${e(t('toolbar_new'))}</button>
+          <button data-action="open" title="${e(t('menu_open'))} (${shortcut('O')})">${e(t('menu_open'))}</button>
+          <select data-action="example" title="${e(t('web_examples_title'))}"><option value="">${e(t('web_examples'))}</option></select>
+          <button data-action="save" title="${e(t('menu_save'))} (${shortcut('S')})">${e(t('menu_save'))}</button>
+          <select data-action="export" title="${e(t('web_export_title'))}">
+            <option value="">${e(t('web_export'))}</option>
+            <option value="png">${e(t('web_export_png'))}</option>
+            <option value="svg">${e(t('web_export_svg'))}</option>
+            <option value="pdf">${e(t('web_export_pdf'))}</option>
+            <option value="print">${e(t('menu_print'))} (${shortcut('P')})</option>
           </select>
         </div>
         <div class="group">
-          <button data-action="undo" title="Rückgängig (Strg+Z)">↶</button>
-          <button data-action="redo" title="Wiederholen (Strg+Umschalt+Z)">↷</button>
-          <button data-action="cut" title="Ausschneiden (Strg+X)" aria-label="Ausschneiden">✂︎</button>
-          <button data-action="copy" title="Kopieren (Strg+C)" aria-label="Kopieren">⧉</button>
-          <button data-action="paste" title="Einfügen (Strg+V)" aria-label="Einfügen">📋︎</button>
-          <button data-action="delete" title="Auswahl löschen (Entf)">Löschen</button>
+          <button data-action="undo" title="${e(t('toolbar_undo'))} (${shortcut('Z')})" aria-label="${e(t('toolbar_undo'))}">↶</button>
+          <button data-action="redo" title="${e(t('toolbar_redo'))} (${shortcut('Z', true)})" aria-label="${e(t('toolbar_redo'))}">↷</button>
+          <button data-action="cut" title="${e(t('ctx_cut'))} (${shortcut('X')})" aria-label="${e(t('ctx_cut'))}">✂︎</button>
+          <button data-action="copy" title="${e(t('ctx_copy'))} (${shortcut('C')})" aria-label="${e(t('ctx_copy'))}">⧉</button>
+          <button data-action="paste" title="${e(t('ctx_paste'))} (${shortcut('V')})" aria-label="${e(t('ctx_paste'))}">📋︎</button>
+          <button data-action="delete" title="${e(t('action_delete_selection'))} (${e(t('web_key_delete'))})">${e(t('web_delete'))}</button>
         </div>
         <div class="group">
-          <select data-action="zoom" title="Textgröße des Struktogramms">${zoomSteps
-            .map((z) => `<option value="${z.value}">Text: ${z.label}</option>`)
+          <select data-action="zoom" title="${e(t('settings_ui_scale_section'))}">${zoomSteps
+            .map((z) => `<option value="${z.value}">${e(t('web_zoom_option_fmt', t(z.label)))}</option>`)
+            .join('')}</select>
+          <select data-action="language" title="${e(t('web_language_title'))}" aria-label="${e(t('web_language_title'))}">${languages
+            .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
             .join('')}</select>
         </div>
         <div class="group">
-          <button data-action="code" aria-pressed="false" title="Java-, Python- oder JavaScript-Code anzeigen">{ } Code</button>
-          <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="Struktogramm Schritt für Schritt ausführen">▶︎ Simulation</button>
+          <button data-action="code" aria-pressed="false" title="${e(t('a11y_generate_code'))}">{ } Code</button>
+          <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="${e(t('web_simulation_start_title'))}">▶︎ ${e(t('action_simulation'))}</button>
         </div>
       </header>
       <aside class="palette">
-        <h2>Elemente</h2>
-        <p class="hint">Ins Struktogramm ziehen</p>
+        <h2>${e(t('palette_header'))}</h2>
+        <p class="hint">${e(t('web_palette_hint'))}</p>
         <ul></ul>
       </aside>
       <main class="workspace">
-        <nav class="tabs" aria-label="Diagramme"></nav>
-        <input class="caption" placeholder="Titel des Struktogramms" />
-        <div class="canvas"></div>
+        <nav class="tabs" aria-label="${e(t('web_tabs_label'))}"></nav>
+        <input class="caption" placeholder="${e(t('diagram_title_placeholder'))}" aria-label="${e(t('diagram_title_label'))}" />
+        <div class="canvas" dir="ltr"></div>
       </main>
       <aside class="inspector"></aside>
       <footer class="status"></footer>
@@ -330,7 +332,8 @@ export class App {
     this.codeButton.addEventListener('click', () => this.setCoding(!this.coding))
 
     const list = $<HTMLUListElement>('.palette ul')
-    for (const { item, label } of paletteItems) {
+    for (const { item } of paletteItems) {
+      const label = typeName(paletteElement(item).type)
       const li = document.createElement('li')
       li.className = 'palette-item'
       li.dataset.item = item
@@ -358,6 +361,9 @@ export class App {
       this.exportSelect.value = ''
       if (kind) void this.exportDiagram(kind)
     })
+    const language = $<HTMLSelectElement>('[data-action=language]')
+    language.value = currentLanguage()
+    language.addEventListener('change', () => void this.changeLanguage(language.value as LanguageCode))
     const zoom = $<HTMLSelectElement>('[data-action=zoom]')
     zoom.value = String(this.zoom)
     zoom.addEventListener('change', () => {
@@ -396,6 +402,20 @@ export class App {
     })
 
     this.canvasHost.addEventListener('pointerdown', (e) => this.onCanvasPointerDown(e))
+    this.resizeObserver?.disconnect()
+    this.resizeObserver = new ResizeObserver(() => this.renderDiagramOnly())
+    this.resizeObserver.observe(this.canvasHost)
+  }
+
+  /** Sprache wechseln wie in den App-Einstellungen: Oberfläche neu aufbauen, Reiter und Verlauf bleiben. */
+  private async changeLanguage(code: LanguageCode) {
+    this.setSimulating(false)
+    this.setCoding(false)
+    await setLanguage(code)
+    applyCanvasStubTexts()
+    this.sim.end()
+    this.buildUI()
+    this.render()
   }
 
   /** Kleine Vorschau des Elements als Symbol in der Palette. */
@@ -469,7 +489,7 @@ export class App {
 
   private updateStatus() {
     document.title = `${this.dirty ? '• ' : ''}${this.fileName} – VisuStruct Web`
-    this.statusLine.textContent = `${this.fileName}${this.dirty ? ' (geändert)' : ''}`
+    this.statusLine.textContent = `${this.fileName}${this.dirty ? ` (${t('web_status_modified')})` : ''}`
   }
 
   /** Wie `InspectorPanelBody` in Swift: Art (Anweisung/Ein-/Ausgabe), festes Schlüsselwort, Zählschleife, Fälle. */
@@ -478,15 +498,20 @@ export class App {
     const element = path ? tryElementAt(this.doc, path) : undefined
     const box = this.inspector
     if (!path || !element) {
-      box.innerHTML = `<h2>Eigenschaften</h2><p class="hint">Element anklicken, um den Text zu bearbeiten.<br><br>Elemente aus der Palette auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.<br><br>Dateien können auch einfach ins Fenster gezogen werden.</p>`
+      box.replaceChildren(
+        h('h2', {}, t('web_inspector_title')),
+        h('p', { class: 'hint' }, t('inspector_no_selection')),
+        h('p', { class: 'hint' }, t('web_inspector_help_drop')),
+        h('p', { class: 'hint' }, t('web_inspector_help_files')),
+      )
       return
     }
-    box.replaceChildren(h('h2', {}, typeNames[element.type]))
+    box.replaceChildren(h('h2', {}, typeName(element.type)))
 
     if (element.type === ElementType.anweisung) {
       const mode = LineEditor.ioMode(element.textLines.join('\n'))
-      const seg = h('div', { class: 'segmented', role: 'group', 'aria-label': 'Art' })
-      for (const [m, label] of [['statement', 'Anweisung'], ['input', 'Eingabe'], ['output', 'Ausgabe']] as const) {
+      const seg = h('div', { class: 'segmented', role: 'group', 'aria-label': t('inspector_io_mode_title') })
+      for (const [m, label] of [['statement', t('inspector_io_mode_statement')], ['input', t('inspector_io_mode_input')], ['output', t('inspector_io_mode_output')]] as const) {
         const b = h('button', { 'aria-pressed': String(m === mode) }, label)
         b.addEventListener('click', () => {
           // Aktuellen Text lesen: das Textfeld kann ihn seit dem Aufbau geändert haben.
@@ -505,9 +530,9 @@ export class App {
       const row = h('div', { class: 'for-fields' })
       const parts = LineEditor.paddedForLoopParts(element.textLines)
       const labels = [
-        ['Start', 'int i = 0'],
-        ['Bedingung', 'i < 5'],
-        ['Schritt', 'i++'],
+        [t('inspector_for_init'), t('inspector_for_placeholder_init')],
+        [t('inspector_for_condition'), t('inspector_for_placeholder_condition')],
+        [t('inspector_for_step'), t('inspector_for_placeholder_step')],
       ]
       labels.forEach(([label, placeholder], i) => {
         const input = h('input', { placeholder, spellcheck: 'false', autocomplete: 'off' }) as HTMLInputElement
@@ -556,17 +581,17 @@ export class App {
     const caseIdx = caseIndexInMultiway(path, fa)
     const section = h('div', { class: 'case-controls' })
     if (caseIdx !== undefined && cases[caseIdx]) {
-      const input = h('input', { placeholder: 'z. B. 1, ok, default', spellcheck: 'false', autocomplete: 'off' }) as HTMLInputElement
+      const input = h('input', { placeholder: t('web_case_name_placeholder'), spellcheck: 'false', autocomplete: 'off' }) as HTMLInputElement
       input.value = cases[caseIdx].name
       this.liveEdit(input, (value) => (value.trim() === '' ? undefined : setFallauswahlCaseName(this.doc, fa, caseIdx, value)))
-      section.append(h('label', {}, 'Fallname', input))
+      section.append(h('label', {}, t('web_case_name'), input))
     }
-    const add = h('button', {}, '＋ Weiteren Fall hinzufügen')
+    const add = h('button', {}, `＋ ${t('inspector_add_case')}`)
     add.addEventListener('click', () => {
       const r = appendCaseToFallauswahl(this.doc, fa)
       this.commit(r.doc, r.path)
     })
-    const remove = h('button', { class: 'danger-text' }, '－ Fall entfernen') as HTMLButtonElement
+    const remove = h('button', { class: 'danger-text' }, `－ ${t('inspector_remove_case')}`) as HTMLButtonElement
     remove.disabled = cases.length <= 2 || caseIdx === undefined
     remove.addEventListener('click', () => {
       if (caseIdx === undefined) return
@@ -624,8 +649,8 @@ export class App {
     this.simulating = on
     this.root.classList.toggle('simulating', on)
     this.simButton.setAttribute('aria-pressed', String(on))
-    this.simButton.textContent = on ? '✎ Bearbeiten' : '▶︎ Simulation'
-    this.simButton.title = on ? 'Simulation beenden und weiter bearbeiten' : 'Struktogramm Schritt für Schritt ausführen'
+    this.simButton.textContent = on ? `✎ ${t('action_diagram')}` : `▶︎ ${t('action_simulation')}`
+    this.simButton.title = t(on ? 'web_simulation_end_title' : 'web_simulation_start_title')
     if (on) {
       this.setCoding(false)
       this.sim.begin()
@@ -765,8 +790,8 @@ export class App {
         const close = document.createElement('button')
         close.className = 'tab-close'
         close.textContent = '✕'
-        close.title = 'Reiter schließen'
-        close.setAttribute('aria-label', `${tabTitle(tab)} schließen`)
+        close.title = t('a11y_close_tab')
+        close.setAttribute('aria-label', `${t('a11y_close_tab')}: ${tabTitle(tab)}`)
         close.addEventListener('click', () => this.closeTab(i))
         item.append(close)
       }
@@ -775,8 +800,8 @@ export class App {
     const add = document.createElement('button')
     add.className = 'tab-add'
     add.textContent = '+'
-    add.title = 'Neuer Reiter'
-    add.setAttribute('aria-label', 'Neuer Reiter')
+    add.title = t('a11y_new_diagram_tab')
+    add.setAttribute('aria-label', t('a11y_new_diagram_tab'))
     add.addEventListener('click', () => this.addTab())
     strip.append(add)
   }
@@ -787,7 +812,7 @@ export class App {
     const el = this.selected && tryElementAt(this.doc, this.selected)
     if (!el) return false
     this.clipboard = structuredClone(el)
-    this.showMessage('Element kopiert.')
+    this.showMessage(t('web_copied'))
     return true
   }
 
@@ -828,10 +853,10 @@ export class App {
     return new Promise((resolve) => {
       const box = document.createElement('div')
       box.className = 'confirm'
-      box.innerHTML = `<div class="confirm-card" role="alertdialog" aria-label="Änderungen verwerfen?">
-        <p><strong>Ungespeicherte Änderungen verwerfen?</strong></p>
-        <p class="hint">Die Änderungen an „${escapeHTML(this.fileName)}“ gehen verloren.</p>
-        <div class="group"><button data-r="0">Abbrechen</button><button data-r="1" class="danger">Verwerfen</button></div>
+      box.innerHTML = `<div class="confirm-card" role="alertdialog" aria-label="${e(t('close_unsaved_title'))}">
+        <p><strong>${e(t('close_unsaved_title'))}</strong></p>
+        <p class="hint">${e(t('web_discard_message_fmt', this.fileName))}</p>
+        <div class="group"><button data-r="0">${e(t('close_unsaved_cancel'))}</button><button data-r="1" class="danger">${e(t('close_unsaved_discard'))}</button></div>
       </div>`
       box.addEventListener('click', (e) => {
         const r = (e.target as HTMLElement).dataset.r
@@ -859,7 +884,7 @@ export class App {
     try {
       doc = decodeDocument(xml)
     } catch (err) {
-      this.showMessage(`„${name}“ ist keine lesbare VisuStruct-Datei (${(err as Error).message})`)
+      this.showMessage(t('web_err_unreadable_fmt', name, (err as Error).message))
       return
     }
     if (this.dirty || this.tab.fileName) this.addTab()
@@ -873,7 +898,7 @@ export class App {
     const w = window as PickerWindow
     if (!w.showOpenFilePicker || this.inViewer) return fallback.click()
     try {
-      const [handle] = await w.showOpenFilePicker({ types: pickerTypes })
+      const [handle] = await w.showOpenFilePicker({ types: pickerTypes() })
       const file = await handle.getFile()
       this.loadXML(await file.text(), file.name, handle)
     } catch {
@@ -892,11 +917,11 @@ export class App {
         this.tab.fileName ??= this.fileName
         this.dirty = false
         this.render()
-        this.showMessage(`Gespeichert als „${filename}“. Zum Öffnen in der App die Endung .txt entfernen.`)
+        this.showMessage(t('web_saved_txt_fmt', filename))
         return
       }
       if (!this.fileHandle && w.showSaveFilePicker && !this.inViewer) {
-        this.fileHandle = await w.showSaveFilePicker({ suggestedName: this.fileName, types: pickerTypes })
+        this.fileHandle = await w.showSaveFilePicker({ suggestedName: this.fileName, types: pickerTypes() })
         this.tab.fileName = this.fileHandle.name
       }
       if (this.fileHandle) {
@@ -924,7 +949,7 @@ export class App {
   private async exportDiagram(kind: ExportKind) {
     const image = Export.renderExportSVG(this.doc, this.metrics, this.measure)
     if (!image) {
-      this.showMessage(kind === 'print' ? 'Diagramm ist zu klein, nichts zu drucken.' : 'Diagramm ist zu klein, nichts zu exportieren.')
+      this.showMessage(t(kind === 'print' ? 'err_diagram_too_small_print' : 'err_diagram_too_small_export'))
       return
     }
     const base = Export.exportFilenameBase(this.doc, tabTitle(this.tab))
@@ -954,7 +979,7 @@ export class App {
           break
       }
     } catch (err) {
-      this.showMessage(`Export fehlgeschlagen: ${err instanceof Error ? err.message : String(err)}`)
+      this.showMessage(t('web_export_failed_fmt', err instanceof Error ? err.message : String(err)))
     }
   }
 
@@ -972,7 +997,7 @@ export class App {
       window.print()
     } catch {
       cleanup()
-      this.showMessage('Drucken ist hier nicht verfügbar. Über „Exportieren… → PDF“ lässt sich das Diagramm speichern und dann drucken.')
+      this.showMessage(`${t('err_print_unavailable')} ${t('web_print_hint')}`)
       return
     }
     // Manche Browser senden kein `afterprint`.
@@ -984,11 +1009,11 @@ export class App {
       if (this.downloads) {
         try {
           await this.downloads.save({ filename, data: blob })
-          this.showMessage(`„${filename}“ gespeichert.`)
+          this.showMessage(t('web_saved_fmt', filename))
         } catch {
           // Die Vorschau erlaubt nur bekannte Endungen.
           await this.downloads.save({ filename: filename + '.txt', data: blob })
-          this.showMessage(`Gespeichert als „${filename}.txt“. Zum Verwenden die Endung .txt entfernen.`)
+          this.showMessage(t('web_saved_txt_fmt', filename + '.txt'))
         }
         return
       }
@@ -998,7 +1023,7 @@ export class App {
       a.click()
       setTimeout(() => URL.revokeObjectURL(a.href), 1000)
     } catch {
-      this.showMessage(`„${filename}“ konnte nicht gespeichert werden.`)
+      this.showMessage(t('err_save_failed_fmt', filename))
     }
   }
 
@@ -1143,7 +1168,7 @@ export class App {
       g.textContent = paletteItems.find((p) => p.item === source.item)!.label
     } else {
       const e = elementAt(this.doc, source.path)
-      g.textContent = `${typeNames[e.type]}: ${canvasTextLines(e)[0]}`
+      g.textContent = `${typeName(e.type)}: ${canvasTextLines(e)[0]}`
     }
     return g
   }
@@ -1236,9 +1261,24 @@ export class App {
 
 type ExportKind = 'png' | 'svg' | 'pdf' | 'print'
 
+/** Wie `DiagramCanvasView.displayTextLines`: Texte leerer Elemente in der gewählten Sprache. */
+export function applyCanvasStubTexts() {
+  setCanvasStubTexts({
+    [ElementType.anweisung]: t('canvas_stub_anweisung'),
+    [ElementType.verzweigung]: t('canvas_stub_condition'),
+    [ElementType.fallauswahl]: t('canvas_stub_fallauswahl'),
+    [ElementType.forSchleife]: t('canvas_stub_for'),
+    [ElementType.whileSchleife]: t('canvas_stub_while'),
+    [ElementType.doUntilSchleife]: t('canvas_stub_while'),
+    [ElementType.endlosschleife]: t('canvas_stub_endless'),
+    [ElementType.aussprung]: t('canvas_stub_break'),
+    [ElementType.aufruf]: t('canvas_stub_call'),
+  })
+}
+
 function tabTitle(tab: Tab): string {
   if (tab.fileName) return tab.fileName.replace(/\.(visustruct|strk)$/i, '')
-  return tab.doc.caption.trim() || `Diagramm ${tab.serial}`
+  return tab.doc.caption.trim() || t('tab_title_format', tab.serial)
 }
 
 function storedValue(key: string): string | null {

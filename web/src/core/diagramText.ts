@@ -91,6 +91,10 @@ export const stubTexts: Record<ElementType, string> = {
 }
 
 /** Wie `DiagramCanvasView.displayTextLines`. */
+export function setCanvasStubTexts(texts: Partial<Record<ElementType, string>>) {
+  Object.assign(stubTexts, texts)
+}
+
 export function canvasTextLines(element: VSElement): string[] {
   return displayLines(element) ?? [stubTexts[element.type]]
 }

@@ -1,11 +1,30 @@
 import type { VSDocument } from '../core/model'
-import { describeValue, noticeGerman, SimulationEngine } from '../core/simulation'
+import { describeValue, SimulationEngine, type SimNotice } from '../core/simulation'
+import { currentLanguage, t } from './i18n'
+
+/** `sim_notice_*` aus Localizable.strings. */
+function noticeText(n: SimNotice): string {
+  switch (n.kind) {
+    case 'finished': return t('sim_notice_finished')
+    case 'infiniteLoopWithoutBody': return t('sim_notice_infinite_loop_empty')
+    case 'unsupportedStatement': return t('sim_notice_unsupported_statement_fmt', n.text)
+    case 'invalidExpression': return t('sim_notice_invalid_expression_fmt', n.text)
+    case 'unknownVariable': return t('sim_notice_unknown_variable_fmt', n.text)
+    case 'divisionByZero': return t('sim_notice_division_by_zero')
+    case 'wholeNumberExpected': return t('sim_notice_whole_number_expected')
+    case 'numberExpected': return t('sim_notice_number_expected')
+    case 'other': return n.text
+  }
+}
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 /** Port von `SimulationController.swift` und `SimulationPanels.swift`: Steuerung, Eingabe, Variablen, Ausgabe. */
 
 type HighlightMode = 'lastExecuted' | 'nextToExecute'
 
 const delayOptions = ['0.2', '0.5', '1.0', '1.5', '2.0']
+const decimal = (d: string) => Number(d).toLocaleString(currentLanguage() === 'java' ? 'en' : currentLanguage(), { minimumFractionDigits: 1 })
 const delayKey = 'visustruct.simulation.stepDelay'
 const highlightKey = 'visustruct.simulation.highlightMode'
 
@@ -139,28 +158,28 @@ export class SimulationPanel {
   private build() {
     this.element.innerHTML = `
       <section>
-        <h2>Steuerung</h2>
+        <h2>${esc(t('simulation_controls'))}</h2>
         <div class="sim-buttons">
-          <button data-sim="play">▶︎ Start</button>
-          <button data-sim="pause">⏸︎ Pause</button>
-          <button data-sim="step">→ Schritt</button>
-          <button data-sim="stop">■ Stopp</button>
+          <button data-sim="play">▶︎ ${esc(t('simulation_play'))}</button>
+          <button data-sim="pause">⏸︎ ${esc(t('simulation_pause'))}</button>
+          <button data-sim="step">→ ${esc(t('simulation_step'))}</button>
+          <button data-sim="stop">■ ${esc(t('simulation_stop'))}</button>
         </div>
-        <label class="sim-option">Markierung
+        <label class="sim-option">${esc(t('simulation_highlight_label'))}
           <select data-sim="highlight">
-            <option value="lastExecuted">Letzter Schritt</option>
-            <option value="nextToExecute">Nächster Schritt</option>
+            <option value="lastExecuted">${esc(t('simulation_highlight_last'))}</option>
+            <option value="nextToExecute">${esc(t('simulation_highlight_next'))}</option>
           </select>
         </label>
-        <label class="sim-option">Pause pro Schritt
-          <select data-sim="delay">${delayOptions.map((d) => `<option value="${d}">${d.replace('.', ',')} s</option>`).join('')}</select>
+        <label class="sim-option">${esc(t('web_sim_delay'))}
+          <select data-sim="delay">${delayOptions.map((d) => `<option value="${d}">${esc(t('web_sim_delay_value_fmt', decimal(d)))}</option>`).join('')}</select>
         </label>
       </section>
       <p class="sim-notice" role="status"></p>
-      <section class="sim-input"><h2>Eingabe</h2><div></div></section>
-      <section><h2>Letzter Schritt</h2><div class="sim-trace mono"></div></section>
-      <section><h2>Variablen</h2><div class="sim-vars"></div></section>
-      <section><h2>Ausgabe</h2><div class="sim-output mono"></div></section>
+      <section class="sim-input"><h2>${esc(t('simulation_input'))}</h2><div></div></section>
+      <section><h2>${esc(t('simulation_trace'))}</h2><div class="sim-trace mono" dir="ltr"></div></section>
+      <section><h2>${esc(t('simulation_variables'))}</h2><div class="sim-vars" dir="ltr"></div></section>
+      <section><h2>${esc(t('simulation_output'))}</h2><div class="sim-output mono" dir="ltr"></div></section>
     `
     const q = <T extends Element>(s: string) => this.element.querySelector(s) as T
     this.buttons = {
@@ -201,18 +220,18 @@ export class SimulationPanel {
     this.buttons.pause.disabled = !this.isPlaying
     this.buttons.step.disabled = this.isPlaying || !canStep
 
-    this.notice.textContent = state.notice ? noticeGerman(state.notice) : ''
+    this.notice.textContent = state.notice ? noticeText(state.notice) : ''
     this.notice.hidden = !state.notice
     this.notice.classList.toggle('error', state.isHalted)
 
     this.updateInput()
 
-    this.trace.textContent = state.lastTrace ?? 'Noch kein Schritt ausgeführt.'
+    this.trace.textContent = state.lastTrace ?? t('simulation_trace_placeholder')
     this.trace.classList.toggle('placeholder', !state.lastTrace)
 
     const names = [...state.variables.keys()].sort((a, b) => a.localeCompare(b))
     if (names.length === 0) {
-      this.variables.innerHTML = '<p class="placeholder">Noch keine Variablen.</p>'
+      this.variables.innerHTML = `<p class="placeholder">${esc(t('simulation_variables_placeholder'))}</p>`
     } else {
       const table = document.createElement('table')
       for (const name of names) {
@@ -224,7 +243,7 @@ export class SimulationPanel {
     }
 
     if (state.outputLines.length === 0) {
-      this.output.innerHTML = '<p class="placeholder">Noch keine Ausgabe.</p>'
+      this.output.innerHTML = `<p class="placeholder">${esc(t('simulation_output_placeholder'))}</p>`
     } else {
       this.output.replaceChildren(
         ...state.outputLines.map((line) => {
@@ -242,14 +261,14 @@ export class SimulationPanel {
     const host = this.inputSection
     host.parentElement!.classList.toggle('active', !!request)
     if (!request) {
-      host.innerHTML = '<p class="placeholder">Keine Eingabe erforderlich.</p>'
+      host.innerHTML = `<p class="placeholder">${esc(t('simulation_input_placeholder'))}</p>`
       return
     }
     // Feld behalten, damit Tippen und Fokus nicht verloren gehen.
     let form = host.querySelector('form')
     if (!form) {
       form = document.createElement('form')
-      form.innerHTML = `<p class="sim-prompt"></p><div class="sim-input-row"><input autocomplete="off" /><button type="submit">OK</button></div><p class="sim-input-error"></p>`
+      form.innerHTML = `<p class="sim-prompt"></p><div class="sim-input-row"><input autocomplete="off" /><button type="submit">${esc(t('simulation_input_submit'))}</button></div><p class="sim-input-error"></p>`
       const field = form.querySelector('input')!
       form.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -263,7 +282,7 @@ export class SimulationPanel {
     field.inputMode = request.valueType === 'string' ? 'text' : 'decimal'
     const error = this.engine.state.inputErrorNotice
     const errorLine = form.querySelector<HTMLElement>('.sim-input-error')!
-    errorLine.textContent = error ? noticeGerman(error) : ''
+    errorLine.textContent = error ? noticeText(error) : ''
     errorLine.hidden = !error
   }
 }

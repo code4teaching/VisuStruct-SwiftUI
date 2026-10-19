@@ -2,6 +2,7 @@ import { LayoutEngine, type Metrics } from '../core/layout'
 import type { VSDocument } from '../core/model'
 import type { MeasureText } from '../core/textMeasurement'
 import { diagramFontFamily } from '../core/textMeasurement'
+import { t as tr } from './i18n'
 import { DiagramRenderer, displayElement, el } from './renderer'
 
 /** Port von `Export/DiagramSnapshotAndExport.swift` und `DiagramExporter.swift`: Bild, PDF und Druck. */
@@ -16,7 +17,7 @@ const background = '#fafafa'
 /** Wie `exportVisibleDiagramTitle`: leerer Titel → Platzhalter wie im Titelfeld. */
 export function exportVisibleDiagramTitle(doc: VSDocument): string {
   const t = doc.caption.trim()
-  return t === '' ? 'Ohne Titel' : t
+  return t === '' ? tr('diagram_title_placeholder') : t
 }
 
 /** Wie `sanitizedExportFilenameSlug` (Stil „Ohne Datum“). */
