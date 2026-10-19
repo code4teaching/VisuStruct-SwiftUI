@@ -1,6 +1,6 @@
 /* نصوص موجودة في نسخة الويب فقط. أما بقية النصوص فتأتي من ملف Localizable.strings الخاص بالتطبيق. */
 
-"web_brand_suffix" = "Web · معاينة";
+"web_brand_suffix" = "Web";
 "web_file_type" = "مخطط VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

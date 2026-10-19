@@ -1,6 +1,6 @@
 /* טקסטים שקיימים רק בגרסת הרשת. כל השאר מגיעים מקובץ Localizable.strings של האפליקציה. */
 
-"web_brand_suffix" = "Web · תצוגה מקדימה";
+"web_brand_suffix" = "Web";
 "web_file_type" = "תרשים VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

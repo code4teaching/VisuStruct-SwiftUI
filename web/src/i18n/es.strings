@@ -1,6 +1,6 @@
 /* Textos que solo existen en la versión web. Todo lo demás procede de los Localizable.strings de la app. */
 
-"web_brand_suffix" = "Web · Vista previa";
+"web_brand_suffix" = "Web";
 "web_file_type" = "Diagrama de VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Supr";

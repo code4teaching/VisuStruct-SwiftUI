@@ -1,6 +1,6 @@
 /* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus den Localizable.strings der App. */
 
-"web_brand_suffix" = "Web · Prototyp";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct-Struktogramm";
 "web_key_ctrl" = "Strg";
 "web_key_delete" = "Entf";

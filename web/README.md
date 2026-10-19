@@ -14,6 +14,7 @@ npm run dev      # http://localhost:5173
 npm test         # Dateiformat-, Bearbeitungs-, Simulations- und Codegenerator-Tests
 npm run build    # statische Dateien in web/dist/ (relative Pfade, z. B. für website/app/)
 npm run build:single  # eine einzelne, eigenständige index.html in web/dist-single/
+npm run build:site    # baut die App nach website/app/ (wird mit der Webseite veröffentlicht)
 ```
 
 ## Aufbau
@@ -62,6 +63,14 @@ Die Oberfläche spricht dieselben 21 Sprachen wie die App (plus „Java (Keyword
 gilt wie in der App der englische. Beim ersten Start wird die Browsersprache gewählt; Arabisch und Hebräisch laufen von
 rechts nach links, das Struktogramm und der Code bleiben links nach rechts. `test/i18n.test.ts` prüft, dass jeder im Code
 benutzte Schlüssel einen englischen Text hat und jede Sprache alle Web-Texte mit denselben Platzhaltern enthält.
+
+## Veröffentlichen
+
+Die App liegt fertig gebaut in `website/app/` und wird mit der übrigen Webseite hochgeladen; sie ist dann unter
+`visustruct.org/app/` erreichbar. Die Download-Karten auf der Webseite verlinken sie mit `?lang=…` in der Sprache der Seite.
+Nach Änderungen in `web/` oder an den `Localizable.strings` der App `npm run build:site` ausführen und `website/app/`
+mitcommitten; der CI-Schritt „website/app ist aktuell“ schlägt sonst fehl. Es gibt keinen Server: Dateien werden nur im
+Browser geöffnet und gespeichert.
 
 Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift und Finger gleich funktionieren.
 

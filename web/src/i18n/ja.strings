@@ -1,6 +1,6 @@
 /* Web 版にのみ存在するテキスト。その他はすべてアプリの Localizable.strings から取得されます。 */
 
-"web_brand_suffix" = "Web · プレビュー";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct 構造図";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Delete";

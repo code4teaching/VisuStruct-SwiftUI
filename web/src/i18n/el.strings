@@ -1,6 +1,6 @@
 /* Κείμενα που υπάρχουν μόνο στην έκδοση web. Όλα τα άλλα προέρχονται από το Localizable.strings της εφαρμογής. */
 
-"web_brand_suffix" = "Web · Προεπισκόπηση";
+"web_brand_suffix" = "Web";
 "web_file_type" = "Διάγραμμα VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

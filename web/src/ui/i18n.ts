@@ -80,6 +80,9 @@ const storageKey = 'appLanguageCode'
 
 /** Wie `AppLanguage.deviceDefault`: erste Browsersprache, die VisuStruct anbietet, sonst Englisch. */
 export function preferredLanguage(): LanguageCode {
+  // Link von der Webseite, z. B. visustruct.org/app/?lang=de
+  const fromURL = new URLSearchParams(location.search).get('lang')
+  if (fromURL && languages.some((l) => l.code === fromURL)) return fromURL as LanguageCode
   try {
     const saved = localStorage.getItem(storageKey)
     if (saved && languages.some((l) => l.code === saved)) return saved as LanguageCode

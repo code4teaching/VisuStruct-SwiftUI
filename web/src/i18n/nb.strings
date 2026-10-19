@@ -1,6 +1,6 @@
 /* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens Localizable.strings. */
 
-"web_brand_suffix" = "Web · Forhåndsversjon";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct-struktogram";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

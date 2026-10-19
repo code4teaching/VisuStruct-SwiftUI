@@ -1,6 +1,6 @@
 /* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z plików Localizable.strings aplikacji. */
 
-"web_brand_suffix" = "Web · Wersja próbna";
+"web_brand_suffix" = "Web";
 "web_file_type" = "Diagram VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

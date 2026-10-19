@@ -1,6 +1,6 @@
 /* Textes propres à la version web. Tout le reste provient des Localizable.strings de l’app. */
 
-"web_brand_suffix" = "Web · Aperçu";
+"web_brand_suffix" = "Web";
 "web_file_type" = "Organigramme VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Suppr";

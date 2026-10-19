@@ -1,6 +1,6 @@
 /* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱의 Localizable.strings에서 가져옵니다. */
 
-"web_brand_suffix" = "Web · 미리보기";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct 구조도";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

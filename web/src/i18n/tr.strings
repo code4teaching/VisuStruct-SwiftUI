@@ -1,6 +1,6 @@
 /* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uygulamanın Localizable.strings dosyalarından gelir. */
 
-"web_brand_suffix" = "Web · Önizleme";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct yapı şeması";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

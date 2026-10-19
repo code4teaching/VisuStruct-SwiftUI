@@ -1,6 +1,6 @@
 /* Teksten die alleen in de webversie bestaan. Al het andere komt uit de Localizable.strings van de app. */
 
-"web_brand_suffix" = "Web · Preview";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct-structogram";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

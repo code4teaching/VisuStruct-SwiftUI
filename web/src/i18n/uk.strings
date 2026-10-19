@@ -1,6 +1,6 @@
 /* Тексти, які є лише у веб-версії. Усі інші беруться з Localizable.strings застосунку. */
 
-"web_brand_suffix" = "Web · Попередня версія";
+"web_brand_suffix" = "Web";
 "web_file_type" = "Структурна схема VisuStruct";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";

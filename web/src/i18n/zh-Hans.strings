@@ -1,6 +1,6 @@
 /* 仅存在于网页版中的文本。其他所有文本均来自应用的 Localizable.strings。 */
 
-"web_brand_suffix" = "Web · 预览版";
+"web_brand_suffix" = "Web";
 "web_file_type" = "VisuStruct 结构图";
 "web_key_ctrl" = "Ctrl";
 "web_key_delete" = "Del";
