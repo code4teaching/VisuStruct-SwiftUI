@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Lütfen bir tam sayı girin.";
 "simulation_trace" = "Son Adım";
-"simulation_trace_placeholder" = "Son çalıştırılan adım burada açıklanacak.";
+"simulation_trace_placeholder" = "Henüz adım çalıştırılmadı.";
 "simulation_variables" = "Değişkenler";
-"simulation_variables_placeholder" = "Geçerli değişken değerleri daha sonra burada gösterilecek.";
+"simulation_variables_placeholder" = "Henüz değişken yok.";
 "simulation_output" = "Çıktı";
-"simulation_output_placeholder" = "Simülasyon çıktısı daha sonra burada görünecek.";
+"simulation_output_placeholder" = "Henüz çıktı yok.";
 "action_delete_selection" = "Seçimi sil";
 "ctx_copy" = "Kopyala";
 "ctx_cut" = "Kes";

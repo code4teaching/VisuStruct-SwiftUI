@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Ange ett heltal.";
 "simulation_trace" = "Senaste steg";
-"simulation_trace_placeholder" = "Det senast körda steget förklaras här.";
+"simulation_trace_placeholder" = "Inget steg har körts ännu.";
 "simulation_variables" = "Variabler";
-"simulation_variables_placeholder" = "Aktuella variabelvärden visas här senare.";
+"simulation_variables_placeholder" = "Inga variabler ännu.";
 "simulation_output" = "Utdata";
-"simulation_output_placeholder" = "Simuleringens utdata visas här senare.";
+"simulation_output_placeholder" = "Ingen utmatning ännu.";
 "action_delete_selection" = "Radera markering";
 "ctx_copy" = "Kopiera";
 "ctx_cut" = "Klipp ut";

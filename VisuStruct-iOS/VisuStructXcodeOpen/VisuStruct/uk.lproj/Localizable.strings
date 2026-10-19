@@ -23,11 +23,11 @@
 "simulation_input_submit" = "OK";
 "simulation_input_invalid_int" = "Введіть ціле число.";
 "simulation_trace" = "Останній крок";
-"simulation_trace_placeholder" = "Тут буде пояснено останній виконаний крок.";
+"simulation_trace_placeholder" = "Ще не виконано жодного кроку.";
 "simulation_variables" = "Змінні";
-"simulation_variables_placeholder" = "Поточні значення змінних буде показано тут пізніше.";
+"simulation_variables_placeholder" = "Змінних поки немає.";
 "simulation_output" = "Вивід";
-"simulation_output_placeholder" = "Вивід симуляції з’явиться тут пізніше.";
+"simulation_output_placeholder" = "Виведення поки немає.";
 "action_delete_selection" = "Видалити вибране";
 "ctx_copy" = "Копіювати";
 "ctx_cut" = "Вирізати";
