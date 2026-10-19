@@ -267,6 +267,7 @@ struct DiagramCanvasView: View {
                 Color.clear
                     .frame(width: cw, height: ch)
                     .contentShape(Rectangle())
+                    .accessibilityHidden(true)
                     .onTapGesture {
                         selectedPath = nil
                         // iPhone: Einfügemarke durch Tap auf leeren Bereich löschen.
@@ -291,6 +292,8 @@ struct DiagramCanvasView: View {
 
             canvasView(layout: layout, cw: cw, ch: ch)
                 .allowsHitTesting(false)
+                // Gezeichnete Fläche; VoiceOver liest stattdessen die Blöcke darüber.
+                .accessibilityHidden(true)
 
             if let firstRoot = layout.elements.first {
                 rootInsertBeforeFirstStrip(
@@ -298,6 +301,7 @@ struct DiagramCanvasView: View {
                     canvasWidth: cw,
                     canvasHeight: ch
                 )
+                .accessibilityHidden(true)
             }
 
             ForEach(flat, id: \.pathKey) { node in
@@ -408,11 +412,28 @@ struct DiagramCanvasView: View {
         .draggable(DiagramDragPayload(raw: ElementPalette.moveDragIdentifier(path: node.idPath))) {
             nodeDragPreview(for: node)
         }
+        // VoiceOver: ein Element pro Block (statt der unbeschrifteten Drop-Streifen darin).
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel(for: node))
+        .accessibilityAddTraits(selectedPath == node.idPath ? [.isButton, .isSelected] : .isButton)
+        .accessibilityAction {
+            selectedPath = node.idPath
+        }
         .accessibilityHint(
             isPlaceholderNode
                 ? lang.tr("a11y_placeholder_drop")
                 : lang.tr("a11y_node_drop")
         )
+    }
+
+    /// Vorgelesener Name eines Blocks: Elementart und Text, z. B. „Anweisung: int x = 5“.
+    private func accessibilityLabel(for node: VisuStructLayout.Node) -> String {
+        // Schlüssel wie in der Palette: element_anweisung, element_verzweigung, …
+        let kind = lang.tr("element_\(node.element.type)")
+        let text = node.element.textLines
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        return text.isEmpty ? kind : "\(kind): \(text)"
     }
 
     private func copyElement(at path: [Int]) {
