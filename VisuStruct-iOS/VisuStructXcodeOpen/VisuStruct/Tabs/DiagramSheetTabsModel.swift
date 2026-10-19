@@ -3,7 +3,8 @@ import Observation
 import VisuStructCore
 
 /// Mehrere Diagramm-Reiter: Tabs, Auswahl, Serial, Schließen inkl. „ungespeichert“-Dialog.
-/// Dokument-/Editor-Logik und UI-Nebenwirkungen (z. B. `refreshLineEditor`) bleiben in `ContentView`.
+/// Bearbeiten des aktuellen Reiters (Dokument, Undo/Redo, Auswahl): `DiagramSheetTabsModel+Editing.swift`.
+/// UI-Nebenwirkungen (z. B. `refreshLineEditor`, Fokus) bleiben in `ContentView`.
 @MainActor
 @Observable
 final class DiagramSheetTabsModel {

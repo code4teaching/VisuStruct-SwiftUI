@@ -39,12 +39,7 @@ struct ContentView: View {
     @State private var showInfo = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
-    @State private var isSimulationMode = false
-    @State private var simulationEngine: VisuStructSimulationEngine
-    @State private var simulationPlayTask: Task<Void, Never>? = nil
-    @State private var isSimulationPlaying = false
-    @State private var simulationWasPlayingBeforeInput = false
-    @State private var simulationInputText = ""
+    @State private var simulation: SimulationController
     @ObservedObject private var recentFilesStore: RecentFilesStore
     /// Erhöhen bei jedem Tipp auf „Code erzeugen“, damit die Anzeige neu aufgebaut wird (auch wenn der Dialog schon offen ist).
     @State private var codeGeneratorRegenerationToken: Int = 0
@@ -79,7 +74,6 @@ struct ContentView: View {
     @AppStorage(VisuStructUIScaleStep.appStorageKeyCanvas) private var canvasScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @AppStorage(VisuStructUIScaleStep.appStorageKeyInspector) private var inspectorScaleRaw: String = VisuStructUIScaleStep.small.rawValue
     @State private var editorFocusToken = UUID()
-    @AppStorage(SimulationStepDelayOption.appStorageKey) private var simulationStepDelayRaw: String = SimulationStepDelayOption.defaultRawValue
     @AppStorage(SimulationHighlightMode.appStorageKey) private var simulationHighlightModeRaw: String = SimulationHighlightMode.defaultRawValue
 
     private var canvasScaleStep: VisuStructUIScaleStep {
@@ -94,14 +88,6 @@ struct ContentView: View {
         ExportFilenameStyle.fromStored(exportFilenameStyleRaw)
     }
 
-    private var simulationStepDelay: SimulationStepDelayOption {
-        SimulationStepDelayOption.fromStored(simulationStepDelayRaw)
-    }
-
-    private var simulationHighlightMode: SimulationHighlightMode {
-        SimulationHighlightMode.fromStored(simulationHighlightModeRaw)
-    }
-
     init() {
         let startupLang = AppLanguage.currentFromDefaults()
         let model = DiagramSheetTabsModel.makeInitial(language: startupLang)
@@ -109,7 +95,7 @@ struct ContentView: View {
         _tabsModel = State(initialValue: model)
         _recentFilesStore = ObservedObject(wrappedValue: recentStore)
         _documentServices = State(initialValue: DiagramEditorDocumentServices(tabsModel: model, recentFilesStore: recentStore))
-        _simulationEngine = State(initialValue: VisuStructSimulationEngine(document: model.tabs[0].document))
+        _simulation = State(initialValue: SimulationController(tabsModel: model))
     }
 
     // MARK: - Tab-Titel & Dokument öffnen
@@ -140,7 +126,7 @@ struct ContentView: View {
         if isSimulationMode {
             endSimulationMode()
         }
-        let tab = tabsModel.tabs[tabsModel.currentTabIndex]
+        let tab = tabsModel.currentTab
         if tabsModel.tabHasUnsavedChanges(tab) || tab.linkedFileBookmarkData != nil {
             addDiagramTab()
         }
@@ -148,18 +134,15 @@ struct ContentView: View {
     }
 
     private var document: VisuStructDocument {
-        tabsModel.tabs[tabsModel.currentTabIndex].document
+        tabsModel.currentTab.document
     }
 
     private var selectedPath: [Int]? {
-        tabsModel.tabs[tabsModel.currentTabIndex].selectedPath
+        tabsModel.currentTab.selectedPath
     }
 
     private func replaceSelectedPathOnCurrentTab(_ path: [Int]?) {
-        var tabs = tabsModel.tabs
-        let i = tabsModel.currentTabIndex
-        tabs[i].selectedPath = path
-        tabsModel.tabs = tabs
+        tabsModel.updateCurrentTab { $0.selectedPath = path }
     }
 
     private var unsavedCloseAlertBinding: Binding<Bool> {
@@ -410,8 +393,8 @@ struct ContentView: View {
         let canCut = canCopy && (selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false)
         let canDelete = !isTyping && (selectedPath.map { VisuStructDocumentEditing.canDeleteElement(at: $0, in: document) } ?? false)
         return DiagramEditActions(
-            canUndo: !isTyping && !tabsModel.tabs[tabsModel.currentTabIndex].undoStack.isEmpty,
-            canRedo: !isTyping && !tabsModel.tabs[tabsModel.currentTabIndex].redoStack.isEmpty,
+            canUndo: !isTyping && tabsModel.currentTab.history.canUndo,
+            canRedo: !isTyping && tabsModel.currentTab.history.canRedo,
             canCopy: canCopy,
             canCut: canCut,
             canPaste: canPaste,
@@ -472,20 +455,14 @@ struct ContentView: View {
             if let path = selectedPath {
                 if VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
                     commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: clip))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(path)
                     refreshLineEditor()
                     return
                 }
                 if (try? VisuStructDocumentEditing.element(at: path, in: doc)) != nil {
                     commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, clip, after: path))
                     let newPath = Array(path.dropLast()) + [path.last! + 1]
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(newPath)
                     refreshLineEditor()
                     return
                 }
@@ -525,101 +502,43 @@ struct ContentView: View {
     }
 
     /// Gemeinsamer List-Inhalt für Palette + Aktionen.
-    @ViewBuilder
     private var paletteListStackBody: some View {
-        let isCompact = horizontalSizeClass != .regular
-        List {
-            Section {
-                ForEach(ElementPalette.PaletteItem.paletteOrder) { item in
-                    paletteStructureRow(item, isCompact: isCompact)
-                }
+        PaletteActionList(
+            isSimulationMode: isSimulationMode,
+            canDeleteSelection: selectedPath.map { path in
+                VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
+            } ?? false,
+            codeGeneratorAccessGranted: codeGeneratorAccessGranted,
+            onInsertItem: insertPaletteItem,
+            onDeleteSelection: deleteSelection,
+            onToggleSimulation: toggleSimulationMode,
+            onGenerateCode: openCodeGenerator
+        )
+    }
+
+    private func toggleSimulationMode() {
+        if !isSimulationMode {
+            applyLineEditorRespectingTextFocus()
+            DispatchQueue.main.async {
+                beginSimulationMode()
             }
-            Section {
-                Button {
-                    deleteSelection()
-                } label: {
-                    Label(lang.tr("action_delete_selection"), systemImage: "trash")
-                }
-                .buttonStyle(PaletteListElementButtonStyle(emphasis: .destructive))
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 4, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 8, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .disabled(
-                    isSimulationMode || (selectedPath.map { path in
-                        !VisuStructDocumentEditing.canDeleteElement(at: path, in: document)
-                    } ?? true)
-                )
-                Button {
-                    if !isSimulationMode {
-                        applyLineEditorRespectingTextFocus()
-                        DispatchQueue.main.async {
-                            beginSimulationMode()
-                        }
-                    } else {
-                        endSimulationMode()
-                    }
-                } label: {
-                    Label(
-                        isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"),
-                        systemImage: isSimulationMode ? "rectangle.split.3x1" : "play.circle"
-                    )
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .accessibilityLabel(isSimulationMode ? lang.tr("action_diagram") : lang.tr("action_simulation"))
-                Button {
-                    if codeGeneratorAccessGranted {
-                        // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
-                        // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
-                        applyLineEditorRespectingTextFocus()
-                        DispatchQueue.main.async {
-                            codeGeneratorRegenerationToken &+= 1
-                            showCodeGeneratorPlaceholder = true
-                        }
-                    } else {
-                        showCodeGeneratorPaywall = true
-                    }
-                } label: {
-                    HStack(spacing: 10) {
-                        Label(lang.tr("action_generate_code"), systemImage: "chevron.left.forwardslash.chevron.right")
-                            .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                        Spacer(minLength: 8)
-                        if !codeGeneratorAccessGranted {
-                            Image(systemName: "lock.fill")
-                                .font(.body)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .accessibilityLabel(
-                    codeGeneratorAccessGranted ? lang.tr("a11y_generate_code") : lang.tr("a11y_generate_code_locked")
-                )
-            }
+        } else {
+            endSimulationMode()
         }
-        .listStyle(.insetGrouped)
-        .listSectionSpacing(isCompact ? 8 : 18)
-        .environment(\.defaultMinListRowHeight, isCompact ? 34 : 48)
-        .scrollContentBackground(.hidden)
+    }
+
+    private func openCodeGenerator() {
+        if codeGeneratorAccessGranted {
+            // Wichtig: Text im Inspector ist nicht immer sofort ins Dokument geschrieben (Button „Text übernehmen“).
+            // Für Code-Generierung wollen wir immer den aktuell sichtbaren Stand verwenden.
+            applyLineEditorRespectingTextFocus()
+            DispatchQueue.main.async {
+                codeGeneratorRegenerationToken &+= 1
+                showCodeGeneratorPlaceholder = true
+            }
+        } else {
+            showCodeGeneratorPaywall = true
+        }
     }
 
     // MARK: - Haupteditor (NavigationStack, Tabs, Fehler)
@@ -641,7 +560,7 @@ struct ContentView: View {
                         onRequestCloseTab: { requestCloseDiagramTab(id: $0) }
                     )
                     Group {
-                        if let err = tabsModel.tabs[tabsModel.currentTabIndex].errorText {
+                        if let err = tabsModel.currentTab.errorText {
                             VStack(spacing: 20) {
                                 ContentUnavailableView(
                                     lang.tr("error_title"),
@@ -661,7 +580,7 @@ struct ContentView: View {
                 }
                 // Explizit `navigationTitle` setzen, nicht nur `ToolbarItem(placement: .principal)`: sonst reserviert SwiftUI
                 // in der Navigationsleiste oft keinen sichtbaren Mittelbereich (Titel wirkend „invisible“ / Breite 0, bes. iPhone).
-                .navigationTitle(tabsModel.diagramTabDisplayTitle(tabsModel.tabs[tabsModel.currentTabIndex], language: lang))
+                .navigationTitle(tabsModel.diagramTabDisplayTitle(tabsModel.currentTab, language: lang))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(.regularMaterial, for: .navigationBar)
@@ -674,7 +593,7 @@ struct ContentView: View {
     }
 
     private func mainEditorToolbarItems() -> DiagramMainEditorToolbar {
-        let tab = tabsModel.tabs[tabsModel.currentTabIndex]
+        let tab = tabsModel.currentTab
         let displayTitle = tabsModel.diagramTabDisplayTitle(tab, language: lang)
         let unsaved = tabsModel.tabHasUnsavedChanges(tab)
         let isTyping: Bool = {
@@ -692,8 +611,8 @@ struct ContentView: View {
             principalTitle: displayTitle,
             principalShowsUnsaved: unsaved,
             principalAccessibilityLabel: unsaved ? "\(displayTitle), \(lang.tr("a11y_unsaved_changes"))" : displayTitle,
-            canUndo: !isTyping && !tab.undoStack.isEmpty,
-            canRedo: !isTyping && !tab.redoStack.isEmpty,
+            canUndo: !isTyping && tab.history.canUndo,
+            canRedo: !isTyping && tab.history.canRedo,
             onUndo: performUndo,
             onRedo: performRedo,
             isSimulationMode: isSimulationMode,
@@ -746,71 +665,12 @@ struct ContentView: View {
 
     // MARK: - Simulations-Ansicht
 
-    @ViewBuilder
     private var simulationDetailView: some View {
-        GeometryReader { geo in
-            // Seitenspalte nur im Querformat; hochkant wäre sie gequetscht und unter dem Diagramm bliebe Platz frei.
-            let useColumns = geo.size.width >= 760 && geo.size.width > geo.size.height
-            // iPad hochkant: Diagramm oben, Steuerfeld darunter über die volle Breite.
-            let useWideStack = !useColumns && geo.size.width >= 600 && geo.size.height >= 700
-            let panelWidth = min(max(geo.size.width * 0.32, 280), 360)
-
-            if useColumns {
-                HStack(alignment: .top, spacing: 16) {
-                    simulationCanvasBlock
-                        .layoutPriority(1)
-                    SimulationStatePanel(
-                        engine: simulationEngine,
-                        isPlaying: isSimulationPlaying,
-                        inputText: $simulationInputText,
-                        highlightModeRaw: $simulationHighlightModeRaw,
-                        onPlay: playSimulation,
-                        onPause: pauseSimulation,
-                        onStep: stepSimulation,
-                        onSubmitInput: submitSimulationInput,
-                        onStop: resetSimulation
-                    )
-                        .frame(width: panelWidth)
-                        .frame(maxHeight: .infinity, alignment: .top)
-                }
-            } else if useWideStack {
-                VStack(alignment: .leading, spacing: 16) {
-                    simulationCanvasBlock
-                        .frame(height: geo.size.height * 0.5)
-                    SimulationStatePanel(
-                        engine: simulationEngine,
-                        isPlaying: isSimulationPlaying,
-                        inputText: $simulationInputText,
-                        highlightModeRaw: $simulationHighlightModeRaw,
-                        onPlay: playSimulation,
-                        onPause: pauseSimulation,
-                        onStep: stepSimulation,
-                        onSubmitInput: submitSimulationInput,
-                        onStop: resetSimulation,
-                        usesWideLayout: true
-                    )
-                    .frame(maxHeight: .infinity)
-                }
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        simulationCanvasBlock
-                            .frame(height: max(340, geo.size.height * 0.55))
-                        SimulationStatePanel(
-                            engine: simulationEngine,
-                            isPlaying: isSimulationPlaying,
-                            inputText: $simulationInputText,
-                            highlightModeRaw: $simulationHighlightModeRaw,
-                            onPlay: playSimulation,
-                            onPause: pauseSimulation,
-                            onStep: stepSimulation,
-                            onSubmitInput: submitSimulationInput,
-                            onStop: resetSimulation
-                        )
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
+        SimulationDetailView(
+            simulation: simulation,
+            highlightModeRaw: $simulationHighlightModeRaw
+        ) {
+            simulationCanvasBlock
         }
     }
 
@@ -979,104 +839,13 @@ struct ContentView: View {
         )
     }
 
-    // MARK: - Simulation (Modus & Steuerung)
+    // MARK: - Simulation (Modus & Steuerung) → `SimulationController`
 
-    private func beginSimulationMode() {
-        pauseSimulation()
-        var engine = VisuStructSimulationEngine(document: document)
-        engine.reset()
-        simulationEngine = engine
-        simulationInputText = ""
-        replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-        withAnimation(.easeInOut(duration: 0.18)) {
-            isSimulationMode = true
-        }
-    }
+    private var isSimulationMode: Bool { simulation.isActive }
 
-    private func endSimulationMode() {
-        pauseSimulation()
-        withAnimation(.easeInOut(duration: 0.18)) {
-            isSimulationMode = false
-        }
-        if tabsModel.tabs[tabsModel.currentTabIndex].selectedPath == nil, !document.elements.isEmpty {
-            replaceSelectedPathOnCurrentTab([0])
-        }
-    }
+    private func beginSimulationMode() { simulation.begin() }
 
-    private func stepSimulation() {
-        guard simulationEngine.canStep else {
-            pauseSimulation()
-            return
-        }
-        let wasPlaying = isSimulationPlaying
-        let lastExecutedPath = simulationEngine.currentStepPath
-        var engine = simulationEngine
-        engine.step()
-        simulationEngine = engine
-        if simulationHighlightMode == .nextToExecute, engine.canStep {
-            replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-        } else {
-            // lastExecuted (oder Ende/Input): letztes ausgeführtes Element bleibt markiert.
-            replaceSelectedPathOnCurrentTab(lastExecutedPath ?? engine.currentStepPath)
-        }
-        // Wenn ein Input als Ergebnis des Steps angefordert wurde, Play pausieren,
-        // aber merken, dass wir nach OK automatisch weiterlaufen sollen.
-        if engine.state.inputRequest != nil, wasPlaying {
-            simulationWasPlayingBeforeInput = true
-        }
-        if !engine.canStep {
-            pauseSimulation()
-        }
-    }
-
-    private func resetSimulation() {
-        pauseSimulation()
-        var engine = VisuStructSimulationEngine(document: document)
-        engine.reset()
-        simulationEngine = engine
-        simulationInputText = ""
-        replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-    }
-
-    private func submitSimulationInput() {
-        let shouldResume = isSimulationPlaying || simulationWasPlayingBeforeInput
-        pauseSimulation()
-        var engine = simulationEngine
-        engine.provideInput(simulationInputText)
-        simulationEngine = engine
-        if engine.state.inputRequest == nil {
-            simulationInputText = ""
-        }
-        replaceSelectedPathOnCurrentTab(engine.currentStepPath)
-
-        if shouldResume, isSimulationMode, engine.canStep {
-            simulationWasPlayingBeforeInput = false
-            playSimulation()
-        }
-    }
-
-    private func playSimulation() {
-        guard !isSimulationPlaying, simulationEngine.canStep else { return }
-        isSimulationPlaying = true
-        simulationPlayTask?.cancel()
-        simulationPlayTask = Task { @MainActor in
-            while !Task.isCancelled && isSimulationMode && simulationEngine.canStep {
-                stepSimulation()
-                guard !Task.isCancelled, isSimulationMode, simulationEngine.canStep else { break }
-                try? await Task.sleep(nanoseconds: simulationStepDelay.nanoseconds)
-            }
-            if !Task.isCancelled {
-                isSimulationPlaying = false
-                simulationPlayTask = nil
-            }
-        }
-    }
-
-    private func pauseSimulation() {
-        simulationPlayTask?.cancel()
-        simulationPlayTask = nil
-        isSimulationPlaying = false
-    }
+    private func endSimulationMode() { simulation.end() }
 
     // MARK: - Tab-Titel (Platzhalter)
 
@@ -1089,11 +858,9 @@ struct ContentView: View {
 
     private var selectedPathBinding: Binding<[Int]?> {
         Binding(
-            get: { tabsModel.tabs[tabsModel.currentTabIndex].selectedPath },
+            get: { tabsModel.currentTab.selectedPath },
             set: { newVal in
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = newVal
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { $0.selectedPath = newVal }
                 refreshLineEditor()
             }
         )
@@ -1101,12 +868,10 @@ struct ContentView: View {
 
     private var lineEditorTextBinding: Binding<String> {
         Binding(
-            get: { tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText },
+            get: { tabsModel.currentTab.lineEditorText },
             set: { newVal in
                 let normalized = VisuStructLineEditorText.normalizingQuotes(newVal)
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].lineEditorText = normalized
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { $0.lineEditorText = normalized }
             }
         )
     }
@@ -1114,7 +879,7 @@ struct ContentView: View {
     private var lineEditorVisibleTextBinding: Binding<String> {
         Binding(
             get: {
-                let text = tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText
+                let text = tabsModel.currentTab.lineEditorText
                 guard let labelPrefix = lineEditorFixedPrefixLabel else { return text }
                 return VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: text)
             },
@@ -1126,9 +891,7 @@ struct ContentView: View {
                 } else {
                     text = normalized
                 }
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].lineEditorText = text
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { $0.lineEditorText = text }
             }
         )
     }
@@ -1139,7 +902,7 @@ struct ContentView: View {
 
         switch el.type {
         case .anweisung:
-            switch VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
+            switch VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText) {
             case .input:
                 return "input:"
             case .output:
@@ -1164,32 +927,26 @@ struct ContentView: View {
 
     private var errorTextBinding: Binding<String?> {
         Binding(
-            get: { tabsModel.tabs[tabsModel.currentTabIndex].errorText },
+            get: { tabsModel.currentTab.errorText },
             set: { newVal in
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].errorText = newVal
-                tabsModel.tabs = tabs
+                tabsModel.setErrorOnCurrentTab(newVal)
             }
         )
     }
 
     private func setErrorOnCurrentTab(_ message: String) {
-        var tabs = tabsModel.tabs
-        tabs[tabsModel.currentTabIndex].errorText = message
-        tabsModel.tabs = tabs
+        tabsModel.setErrorOnCurrentTab(message)
     }
 
     private func clearErrorOnCurrentTab() {
-        var tabs = tabsModel.tabs
-        tabs[tabsModel.currentTabIndex].errorText = nil
-        tabsModel.tabs = tabs
+        tabsModel.setErrorOnCurrentTab(nil)
     }
 
     // MARK: - Export-Dateinamen & Slugs
 
     private func exportFilenameForCurrentTab() -> String {
         DiagramExportFilename.visustructFilename(
-            for: tabsModel.tabs[tabsModel.currentTabIndex],
+            for: tabsModel.currentTab,
             style: exportFilenameStyle
         )
     }
@@ -1250,11 +1007,16 @@ struct ContentView: View {
 
     // MARK: - Inspector (unter dem Canvas)
 
+    private var selectedElement: VisuStructElement? {
+        guard let path = selectedPath else { return nil }
+        return try? VisuStructDocumentEditing.element(at: path, in: document)
+    }
+
     private var inspectorFallauswahlToolbar: InspectorFallauswahlToolbarContext? {
-        guard let faPath = multiwayAncestorPath(for: selectedPath) else { return nil }
+        guard let faPath = VisuStructDocumentEditing.multiwayAncestorPath(for: selectedPath, in: document) else { return nil }
         let faCaseCount =
             (try? VisuStructDocumentEditing.element(at: faPath, in: document))?.cases?.count ?? 0
-        let removeCaseIdx = selectedCaseIndex(multiwayPath: faPath, selectedPath: selectedPath)
+        let removeCaseIdx = VisuStructDocumentEditing.caseIndex(of: selectedPath, inMultiwayAt: faPath)
         return InspectorFallauswahlToolbarContext(
             caseCount: faCaseCount,
             removeCaseIndex: removeCaseIdx,
@@ -1302,8 +1064,14 @@ struct ContentView: View {
             lineEditorVisibleTextBinding: lineEditorVisibleTextBinding,
             editorFocusToken: editorFocusToken,
             lineEditorFixedPrefixLabel: lineEditorFixedPrefixLabel,
-            inspectorConditionEditorHintLine: inspectorConditionEditorHintLine(),
-            inspectorLineEditorPlaceholder: inspectorLineEditorPlaceholder(),
+            inspectorConditionEditorHintLine: selectedElement.flatMap { InspectorElementHints.conditionHintLine(for: $0.type) },
+            inspectorLineEditorPlaceholder: selectedElement.flatMap {
+                InspectorElementHints.lineEditorPlaceholder(
+                    for: $0.type,
+                    ioMode: VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText),
+                    lang: lang
+                )
+            },
             fallauswahl: inspectorFallauswahlToolbar,
             onApplyLineEditor: applyLineEditor,
             onApplyRespectingFocus: applyLineEditorRespectingTextFocus,
@@ -1318,73 +1086,15 @@ struct ContentView: View {
 
         return Binding(
             get: {
-                VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
+                VisuStructLineEditorText.ioMode(of: tabsModel.currentTab.lineEditorText)
             },
             set: { newMode in
-                var tabs = tabsModel.tabs
-                let i = tabsModel.currentTabIndex
-                tabs[i].lineEditorText = VisuStructLineEditorText.applyingIOMode(newMode, to: tabs[i].lineEditorText)
-                tabsModel.tabs = tabs
+                tabsModel.updateCurrentTab { tab in
+                    tab.lineEditorText = VisuStructLineEditorText.applyingIOMode(newMode, to: tab.lineEditorText)
+                }
                 applyLineEditorRespectingTextFocus()
             }
         )
-    }
-
-    private func statementIOModeIfApplicable() -> StatementIOMode? {
-        guard let path = selectedPath,
-              let el = try? VisuStructDocumentEditing.element(at: path, in: document),
-              el.type == .anweisung else { return nil }
-
-        return VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText)
-    }
-
-    /// Placeholder for the line editor, shown only when empty (grau im Feld). Code-Beispiele als Hilfe: `inspectorConditionEditorHintLine()` darüber.
-    private func inspectorLineEditorPlaceholder() -> String? {
-        guard let path = selectedPath,
-              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
-
-        switch el.type {
-        case .anweisung:
-            switch VisuStructLineEditorText.ioMode(of: tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText) {
-            case .statement:
-                return lang.tr("inspector_placeholder_statement")
-            case .input:
-                return "int age \"Enter age\""
-            case .output:
-                return "\"Your age: \" + age"
-            }
-        case .forSchleife:
-            return nil
-        case .verzweigung, .whileSchleife, .doUntilSchleife, .endlosschleife:
-            return lang.tr("inspector_placeholder_condition")
-        case .fallauswahl:
-            return lang.tr("inspector_placeholder_selector")
-        case .aufruf:
-            return lang.tr("inspector_placeholder_call")
-        case .aussprung:
-            return lang.tr("inspector_placeholder_break")
-        case .leerElement:
-            return nil
-        }
-    }
-
-    /// Sichtbare Hilfszeile über dem Bedingungs-Editor (wie Statement-Hinweis unter dem Modus-Picker) — Englisch, code-like.
-    private func inspectorConditionEditorHintLine() -> String? {
-        guard let path = selectedPath,
-              let el = try? VisuStructDocumentEditing.element(at: path, in: document) else { return nil }
-        switch el.type {
-        case .verzweigung:
-            return "age >= 18"
-        case .whileSchleife:
-            return "i < 10"
-        case .doUntilSchleife:
-            return "again == 1"
-        case .fallauswahl:
-            // Ausdruck in Klammern: switch (day) { … } — gleicher Stil wie die anderen Hinweise (englisch, code-nah).
-            return "day"
-        default:
-            return nil
-        }
     }
 
     // MARK: - Inspector (iPhone: ein-/ausblendbar)
@@ -1432,39 +1142,15 @@ struct ContentView: View {
 
     // MARK: - Fallauswahl (Multiway)
 
-    /// Innerste **Fallauswahl** (`multiway`), die die aktuelle Auswahl enthält (für „Fall hinzufügen“).
-    private func multiwayAncestorPath(for path: [Int]?) -> [Int]? {
-        guard let path, !path.isEmpty else { return nil }
-        let doc = document
-        for len in stride(from: path.count, through: 1, by: -1) {
-            let prefix = Array(path.prefix(len))
-            if let el = try? VisuStructDocumentEditing.element(at: prefix, in: doc),
-               el.type == .fallauswahl {
-                return prefix
-            }
-        }
-        return nil
-    }
-
     private func addCaseToFallauswahl(at fallPath: [Int]) {
         do {
             let (updated, newPath) = try VisuStructDocumentEditing.appendCaseToFallauswahl(document, fallauswahlPath: fallPath)
             commitDocument(updated)
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            tabs[i].selectedPath = newPath
-            tabs[i].errorText = nil
-            tabsModel.tabs = tabs
+            tabsModel.selectAndClearError(newPath)
             refreshLineEditor()
         } catch {
             setErrorOnCurrentTab(error.localizedDescription)
         }
-    }
-
-    /// Spaltenindex der Fallauswahl, wenn die Auswahl **in** einer Spalte liegt (`[…, fall, spalte, …]`).
-    private func selectedCaseIndex(multiwayPath: [Int], selectedPath: [Int]?) -> Int? {
-        guard let sp = selectedPath, sp.count > multiwayPath.count else { return nil }
-        return sp[multiwayPath.count]
     }
 
     private func removeCaseFromFallauswahl(at fallPath: [Int], caseIndex: Int) {
@@ -1473,11 +1159,7 @@ struct ContentView: View {
                 document, fallauswahlPath: fallPath, caseIndex: caseIndex
             )
             commitDocument(updated)
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            tabs[i].selectedPath = newPath
-            tabs[i].errorText = nil
-            tabsModel.tabs = tabs
+            tabsModel.selectAndClearError(newPath)
             refreshLineEditor()
         } catch {
             setErrorOnCurrentTab(error.localizedDescription)
@@ -1486,7 +1168,7 @@ struct ContentView: View {
 
     /// Bindung für den **Fallnamen**, wenn die Auswahl in einer Spalte einer Fallauswahl liegt (nicht beim bloßen Kopf `[n]` ohne Folgeindex).
     private func multiwayCaseLabelBinding() -> Binding<String>? {
-        guard let fa = multiwayAncestorPath(for: selectedPath),
+        guard let fa = VisuStructDocumentEditing.multiwayAncestorPath(for: selectedPath, in: document),
               let sp = selectedPath,
               sp.count > fa.count else { return nil }
         let caseIdx = sp[fa.count]
@@ -1552,10 +1234,7 @@ struct ContentView: View {
                     commitDocument(try VisuStructDocumentEditing.setTextLines(document, path: path, lines: lines))
                     // `lineEditorText` wird bei den drei For-Feldern nicht mitgetippt; sonst würde z. B.
                     // „Code erzeugen“ veralteten Puffer per `applyLineEditor` ins Element schreiben.
-                    var tabs = tabsModel.tabs
-                    let i = tabsModel.currentTabIndex
-                    tabs[i].lineEditorText = lines.joined(separator: "\n")
-                    tabsModel.tabs = tabs
+                    tabsModel.updateCurrentTab { $0.lineEditorText = lines.joined(separator: "\n") }
                 } catch {
                     setErrorOnCurrentTab(error.localizedDescription)
                 }
@@ -1590,109 +1269,54 @@ struct ContentView: View {
         }
     }
 
-    private static let maxUndoSteps = 80
-
     // MARK: - Dokument: Commit, Undo & Redo
 
     /// Ersetzt das Dokument und legt einen Undo-Snapshot des bisherigen Zustands ab.
     private func commitDocument(_ new: VisuStructDocument) {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        guard new != tab.document else { return }
-        tab.undoStack.append(tab.document)
-        while tab.undoStack.count > Self.maxUndoSteps {
-            tab.undoStack.removeFirst()
-        }
-        tab.redoStack.removeAll()
-        tab.document = new
-        tabs[i] = tab
-        tabsModel.tabs = tabs
+        tabsModel.commitDocument(new)
     }
 
     /// Neu / Import: Historie verwerfen, Zustand setzen.
     private func resetHistoryAndDocument(_ new: VisuStructDocument) {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        tabs[i].undoStack.removeAll()
-        tabs[i].redoStack.removeAll()
-        tabs[i].document = new
-        tabs[i].savedDocumentBaseline = VisuStructXMLCodec.encode(new)
-        tabsModel.tabs = tabs
+        tabsModel.resetHistoryAndDocument(new)
     }
 
     private func performUndo() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        guard let previous = tab.undoStack.popLast() else { return }
-        tab.redoStack.append(tab.document)
-        tab.document = previous
-        tab.errorText = nil
-        tabs[i] = tab
-        tabsModel.tabs = tabs
-        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: i, language: lang)
-        sanitizeSelectionAfterHistoryJump()
+        guard tabsModel.undo() else { return }
+        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: tabsModel.currentTabIndex, language: lang)
         refreshLineEditor()
     }
 
     private func performRedo() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        guard let next = tab.redoStack.popLast() else { return }
-        tab.undoStack.append(tab.document)
-        while tab.undoStack.count > Self.maxUndoSteps {
-            tab.undoStack.removeFirst()
-        }
-        tab.document = next
-        tab.errorText = nil
-        tabs[i] = tab
-        tabsModel.tabs = tabs
-        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: i, language: lang)
-        sanitizeSelectionAfterHistoryJump()
+        guard tabsModel.redo() else { return }
+        tabsModel.syncTabTitleWithDocumentCaption(tabIndex: tabsModel.currentTabIndex, language: lang)
         refreshLineEditor()
-    }
-
-    private func sanitizeSelectionAfterHistoryJump() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        var tab = tabs[i]
-        let doc = tab.document
-        if doc.elements.isEmpty {
-            tab.selectedPath = nil
-        } else if tab.selectedPath == nil {
-            tab.selectedPath = [0]
-        } else if let path = tab.selectedPath,
-                  (try? VisuStructDocumentEditing.element(at: path, in: doc)) == nil {
-            tab.selectedPath = [0]
-        }
-        tabs[i] = tab
-        tabsModel.tabs = tabs
     }
 
     // MARK: - Neue Datei & Tab zurücksetzen
 
     private func newDocument() {
         resetHistoryAndDocument(VisuStructDocumentEditing.newEmpty())
-        var tabs = tabsModel.tabs
-        let i = tabsModel.currentTabIndex
-        let hadLinkedFile = tabs[i].linkedFileDisplayName != nil || tabs[i].linkedFileBookmarkData != nil
-        tabs[i].selectedPath = [0]
-        tabs[i].errorText = nil
-        tabs[i].linkedFileBookmarkData = nil
-        tabs[i].linkedFileDisplayName = nil
+        let current = tabsModel.currentTab
+        let hadLinkedFile = current.linkedFileDisplayName != nil || current.linkedFileBookmarkData != nil
         // Wenn vorher eine Datei geöffnet/gespeichert war, soll „Neu“ wieder einen unbenannten Titel bekommen.
+        var untitledTitle: String?
         if hadLinkedFile {
             let serial = tabsModel.nextTabSerial
             tabsModel.nextTabSerial += 1
-            tabs[i].title = String(
+            untitledTitle = String(
                 format: lang.tr("tab_title_format"),
                 locale: Locale(identifier: lang.localeIdentifierForFormatting),
                 arguments: [serial as CVarArg]
             )
         }
-        tabsModel.tabs = tabs
+        tabsModel.updateCurrentTab { tab in
+            tab.selectedPath = [0]
+            tab.errorText = nil
+            tab.linkedFileBookmarkData = nil
+            tab.linkedFileDisplayName = nil
+            if let untitledTitle { tab.title = untitledTitle }
+        }
         refreshLineEditor()
     }
 
@@ -1713,20 +1337,14 @@ struct ContentView: View {
         if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
             do {
                 commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: element))
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                tabs[tabsModel.currentTabIndex].errorText = nil
-                tabsModel.tabs = tabs
+                tabsModel.selectAndClearError([0])
                 refreshLineEditor()
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
             }
         } else {
             commitDocument(VisuStructDocumentEditing.appendRoot(doc, element))
-            var tabs = tabsModel.tabs
-            tabs[tabsModel.currentTabIndex].selectedPath = [tabs[tabsModel.currentTabIndex].document.elements.count - 1]
-            tabs[tabsModel.currentTabIndex].errorText = nil
-            tabsModel.tabs = tabs
+            tabsModel.selectAndClearError([tabsModel.currentTab.document.elements.count - 1])
             refreshLineEditor()
         }
     }
@@ -1743,51 +1361,30 @@ struct ContentView: View {
                 switch t {
                 case .replace(let path):
                     commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(path)
                 case .before(let path):
                     commitDocument(try VisuStructDocumentEditing.insertBeforeSibling(doc, el, before: path))
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = path
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(path)
                 case .after(let path):
                     commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
                     let newPath = Array(path.dropLast()) + [path.last! + 1]
-                    var tabs = tabsModel.tabs
-                    tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                    tabs[tabsModel.currentTabIndex].errorText = nil
-                    tabsModel.tabs = tabs
+                    tabsModel.selectAndClearError(newPath)
                 case .rootInsertAt0:
                     if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
                         commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([0])
                     } else {
                         commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: 0, element: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([0])
                     }
                 case .rootAppend:
                     if VisuStructDocumentEditing.isSingleRootPlaceholder(in: doc) {
                         commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: [0], with: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [0]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([0])
                     } else {
                         let idx = doc.elements.count
                         commitDocument(try VisuStructDocumentEditing.insertAt(doc, parentPath: [], index: idx, element: el))
-                        var tabs = tabsModel.tabs
-                        tabs[tabsModel.currentTabIndex].selectedPath = [idx]
-                        tabs[tabsModel.currentTabIndex].errorText = nil
-                        tabsModel.tabs = tabs
+                        tabsModel.selectAndClearError([idx])
                     }
                 }
                 insertTarget = nil
@@ -1801,14 +1398,11 @@ struct ContentView: View {
         }
         // iPad/Mac (ohne Tap-Einfügemarke): Ist ein Platzhalter (ø) ausgewählt, ersetzen — wie Drop auf die Mitte.
         // Sonst landet z. B. eine Verzweigung fälschlich als neues Wurzelelement unter der Schleife.
-        if let path = tabsModel.tabs[tabsModel.currentTabIndex].selectedPath,
+        if let path = tabsModel.currentTab.selectedPath,
            VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
             do {
                 commitDocument(try VisuStructDocumentEditing.replaceAtPath(doc, path: path, with: el))
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = path
-                tabs[tabsModel.currentTabIndex].errorText = nil
-                tabsModel.tabs = tabs
+                tabsModel.selectAndClearError(path)
                 refreshLineEditor()
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
@@ -1817,16 +1411,13 @@ struct ContentView: View {
         }
         // Ausgewählt ist ein „echtes“ Element: neues Palette-Element als Geschwister **direkt darunter**
         // (z. B. in der while-Schleife: nach dem if noch i++ einfügen).
-        if let path = tabsModel.tabs[tabsModel.currentTabIndex].selectedPath,
+        if let path = tabsModel.currentTab.selectedPath,
            (try? VisuStructDocumentEditing.element(at: path, in: doc)) != nil,
            !VisuStructDocumentEditing.isPlaceholderSlot(at: path, in: doc) {
             do {
                 commitDocument(try VisuStructDocumentEditing.insertAfterSibling(doc, el, after: path))
                 let newPath = Array(path.dropLast()) + [path.last! + 1]
-                var tabs = tabsModel.tabs
-                tabs[tabsModel.currentTabIndex].selectedPath = newPath
-                tabs[tabsModel.currentTabIndex].errorText = nil
-                tabsModel.tabs = tabs
+                tabsModel.selectAndClearError(newPath)
                 refreshLineEditor()
             } catch {
                 setErrorOnCurrentTab(error.localizedDescription)
@@ -1844,16 +1435,10 @@ struct ContentView: View {
         guard VisuStructDocumentEditing.canDeleteElement(at: path, in: doc) else { return }
         do {
             commitDocument(try VisuStructDocumentEditing.deleteAtPath(doc, path: path))
-            var tabs = tabsModel.tabs
-            let i = tabsModel.currentTabIndex
-            let newDoc = tabs[i].document
-            if newDoc.elements.isEmpty {
-                tabs[i].selectedPath = nil
-            } else if (try? VisuStructDocumentEditing.element(at: path, in: newDoc)) == nil {
-                tabs[i].selectedPath = [0]
+            tabsModel.updateCurrentTab { tab in
+                tab.selectedPath = VisuStructDocumentEditing.sanitizedSelection(path, in: tab.document)
+                tab.errorText = nil
             }
-            tabs[i].errorText = nil
-            tabsModel.tabs = tabs
             refreshLineEditor()
         } catch {
             if let editErr = error as? VisuStructEditError, editErr == .cannotDeleteLastRootElement {
@@ -1863,60 +1448,16 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
-    private func paletteStructureRow(_ item: ElementPalette.PaletteItem, isCompact: Bool) -> some View {
-        let rowInsets = isCompact
-            ? EdgeInsets(top: 1, leading: 10, bottom: 1, trailing: 10)
-            : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-
-        if isSimulationMode {
-            Button {
-                insertPaletteItem(item)
-            } label: {
-                Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
-                    .foregroundStyle(.tertiary)
-                    .multilineTextAlignment(.leading)
-            }
-            .buttonStyle(PaletteListElementButtonStyle())
-            .accessibilityAddTraits(.isButton)
-            .disabled(true)
-            .opacity(0.55)
-            .listRowInsets(rowInsets)
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-        } else {
-            Button {
-                insertPaletteItem(item)
-            } label: {
-                Label(item.localizedTitle(in: lang), systemImage: item.symbolName)
-                    .foregroundStyle(.primary)
-                    .multilineTextAlignment(.leading)
-            }
-            .buttonStyle(PaletteListElementButtonStyle())
-            .draggable(DiagramDragPayload(raw: ElementPalette.paletteDragIdentifier(item))) {
-                paletteDragPreview(for: item)
-            }
-            .accessibilityAddTraits(.isButton)
-            .listRowInsets(rowInsets)
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.clear)
-        }
-    }
-
     // MARK: - Zeileneditor (Synchronisation Element ↔ Textfeld)
 
     private func refreshLineEditor() {
-        let i = tabsModel.currentTabIndex
-        var tabs = tabsModel.tabs
-        let tab = tabs[i]
+        let tab = tabsModel.currentTab
         guard let path = tab.selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: tab.document) else {
-            tabs[i].lineEditorText = ""
-            tabsModel.tabs = tabs
+            tabsModel.updateCurrentTab { $0.lineEditorText = "" }
             return
         }
-        tabs[i].lineEditorText = el.textLines.joined(separator: "\n")
-        tabsModel.tabs = tabs
+        tabsModel.updateCurrentTab { $0.lineEditorText = el.textLines.joined(separator: "\n") }
 
         if DiagramInspectorAutoFocus.shouldFocusOnSelection,
            focusedField == nil,
@@ -1958,7 +1499,7 @@ struct ContentView: View {
     private func applyLineEditor() {
         guard let path = selectedPath else { return }
         if let el = try? VisuStructDocumentEditing.element(at: path, in: document), el.type == .forSchleife { return }
-        let editorText = tabsModel.tabs[tabsModel.currentTabIndex].lineEditorText
+        let editorText = tabsModel.currentTab.lineEditorText
         let storedText: String
         if let labelPrefix = lineEditorFixedPrefixLabel {
             storedText = VisuStructLineEditorText.prefixingForEditing(labelPrefix, to: VisuStructLineEditorText.strippingPrefixForEditing(labelPrefix, from: editorText))
@@ -1974,104 +1515,41 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei)
+    // MARK: - Export & Teilen (PNG, PDF, Druck, Datei) → `DiagramExporter`
 
-    private func exportPNG() {
-        #if canImport(UIKit)
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
+    #if canImport(UIKit)
+    private var exporter: DiagramExporter {
+        DiagramExporter(
             document: document,
             horizontalSizeClass: horizontalSizeClass,
             canvasScaleStep: canvasScaleStep,
             lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
-            return
-        }
+            displayScale: displayScale,
+            setError: setErrorOnCurrentTab
+        )
+    }
+    #endif
+
+    private func exportPNG() {
+        #if canImport(UIKit)
+        guard let img = exporter.pngImage() else { return }
         pngSharePayload = PNGSharePayload(image: img)
         #endif
     }
 
     #if canImport(UIKit)
     private func shareDocumentAsFile() {
-        let data = VisuStructXMLCodec.encode(document)
-        let fileName = exportFilenameForCurrentTab()
-        do {
-            let url = try DiagramSnapshotExport.writeTemporaryVisustructFile(data: data, fileName: fileName)
-            fileURLSharePayload = FileURLSharePayload(url: url)
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
-        }
+        guard let url = exporter.temporaryDocumentFile(named: exportFilenameForCurrentTab()) else { return }
+        fileURLSharePayload = FileURLSharePayload(url: url)
     }
 
     private func shareDiagramPDF() {
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
-            document: document,
-            horizontalSizeClass: horizontalSizeClass,
-            canvasScaleStep: canvasScaleStep,
-            lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_export"))
-            return
-        }
-        let fileName = pdfFilenameForCurrentTab()
-        let metaTitle = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
-        do {
-            let url = try DiagramSnapshotExport.writeTemporaryDiagramPDF(
-                image: img,
-                fileName: fileName,
-                pdfMetadataTitle: metaTitle
-            )
-            pdfQuickLookURL = url
-        } catch {
-            setErrorOnCurrentTab(String(format: lang.tr("err_share_prepare_failed_fmt"), error.localizedDescription))
-        }
+        guard let url = exporter.temporaryPDF(named: pdfFilenameForCurrentTab()) else { return }
+        pdfQuickLookURL = url
     }
-    #endif
 
-    #if canImport(UIKit)
     private func printDiagram() {
-        guard let img = DiagramSnapshotExport.renderedDiagramUIImage(
-            document: document,
-            horizontalSizeClass: horizontalSizeClass,
-            canvasScaleStep: canvasScaleStep,
-            lang: lang,
-            displayScale: displayScale
-        ) else {
-            setErrorOnCurrentTab(lang.tr("err_diagram_too_small_print"))
-            return
-        }
-        guard UIPrintInteractionController.isPrintingAvailable else {
-            setErrorOnCurrentTab(lang.tr("err_print_unavailable"))
-            return
-        }
-        let info = UIPrintInfo(dictionary: nil)
-        info.outputType = .photo
-        info.jobName = DiagramSnapshotExport.exportVisibleDiagramTitle(document: document, lang: lang)
-        let controller = UIPrintInteractionController.shared
-        controller.printInfo = info
-        controller.printingItem = img
-        controller.present(animated: true)
+        exporter.printDiagram()
     }
     #endif
-
-    // MARK: - Palette Drag-Vorschau
-
-    @ViewBuilder
-    private func paletteDragPreview(for item: ElementPalette.PaletteItem) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: item.symbolName)
-            Text(item.localizedTitle(in: lang))
-                .font(.callout.weight(.medium))
-        }
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(Color.blue.opacity(0.9), lineWidth: 2)
-        )
-        .shadow(color: .black.opacity(0.22), radius: 8, x: 0, y: 4)
-    }
 }
