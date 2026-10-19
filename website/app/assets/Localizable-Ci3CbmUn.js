@@ -1,0 +1,115 @@
+const e=`/* VisuStruct Java-Desktop-Preset: ElementBeschriftungPresets.PRESET_ENGLISH_JAVA + javaStandardPaletteButtonLabel */
+
+/* Palette & list — palette short labels like Java */
+"palette_header" = "Blocks";
+"list_section_elements" = "Blocks";
+
+/* Actions */
+"action_share_png" = "Share Graphic…";
+"action_delete_selection" = "Delete Selection";
+"action_about" = "About VisuStruct";
+"recent_files_menu" = "Recent Files";
+"recent_files_empty" = "No recent files";
+"recent_files_clear" = "Clear List";
+"recent_files_unavailable" = "File is no longer available.";
+
+/* Error overlay */
+"error_title" = "Error";
+"error_back_editor" = "Back to Editor";
+
+/* Toolbar */
+"toolbar_undo" = "Undo";
+"toolbar_redo" = "Redo";
+"toolbar_new" = "New";
+"menu_open" = "Open…";
+"menu_save" = "Save";
+"menu_save_as" = "Save As…";
+"menu_print" = "Print…";
+"menu_file" = "File";
+"menu_new" = "New";
+"menu_close" = "Close";
+
+/* Accessibility */
+"a11y_canvas_toggle" = "Canvas view";
+"a11y_new_diagram_tab" = "New diagram tab";
+"a11y_close_tab" = "Close tab";
+
+"close_unsaved_title" = "Unsaved Changes";
+"close_unsaved_message" = "This diagram contains unsaved changes. Do you want to save them before closing?";
+"close_unsaved_discard" = "Discard";
+"close_unsaved_cancel" = "Cancel";
+"a11y_placeholder_drop" = "Drop an element here to replace the placeholder. Press and hold to drag and move.";
+"a11y_node_drop" = "Press and hold a block, then drag: drop on the top or bottom edge of a target to insert before or after. Center drop only on a ø placeholder.";
+"a11y_codegen_panel_drag" = "Drag to move code generator panel";
+
+/* Diagram */
+"diagram_title_label" = "Title";
+"diagram_title_placeholder" = "No title";
+"list_section_title" = "Title";
+
+/* Inspector */
+"inspector_no_selection" = "No element selected — tap a tile.";
+"inspector_case_label_help" = "Case label (column header, e.g. numbers or text)";
+"inspector_apply_text" = "Apply Text";
+"inspector_add_case" = "Add Case";
+"inspector_remove_case" = "Remove Case";
+"inspector_group_element" = "Element text";
+
+/* Element types — JAVA_STANDARD_PALETTE_LABELS (palette + inspector title) */
+"element_anweisung" = "Statement";
+"element_verzweigung" = "if";
+"element_fallauswahl" = "switch";
+"element_forSchleife" = "for";
+"element_whileSchleife" = "while";
+"element_doUntilSchleife" = "do";
+"element_endlosschleife" = "while(true)";
+"element_aussprung" = "break";
+"element_aufruf" = "call";
+"element_leerElement" = "ø";
+
+/* Tabs */
+"tab_title_format" = "Diagram %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "Empty structure chart";
+"canvas_empty_hint" = "Drag a block from “Blocks” here.";
+
+/* New block stubs — PRESETS[PRESET_ENGLISH_JAVA] */
+"canvas_stub_anweisung" = "Statement";
+"canvas_stub_condition" = "condition";
+"canvas_stub_fallauswahl" = "selector";
+"canvas_stub_for" = "i = 0; i < n; i++";
+"canvas_stub_while" = "condition";
+"canvas_stub_until" = "condition";
+"canvas_stub_endless" = "∞";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "method()";
+
+/* About */
+"about_version_fmt" = "Version %@ (%@)";
+"about_nav_title" = "About VisuStruct";
+"about_features_heading" = "Features";
+"about_bullet_palette" = "Insert blocks from the palette or drag them into the diagram";
+"about_bullet_edit" = "Edit the chart: change text, select elements, and remove them if needed";
+"about_bullet_tabs" = "Several diagrams in tabs — each with its own title";
+"about_bullet_file" = "Save and reopen diagrams as .visustruct files";
+"about_bullet_share" = "Share the structure chart as an image (PNG)";
+"about_dateiformat_heading" = "File format";
+"about_dateiformat_part1" = "VisuStruct’s native format uses the extension ";
+"about_dateiformat_part2" = ". You can keep diagrams and exchange them with other apps that support the same format.";
+"about_dateiformat_strk" = "Files with the .strk extension can also be opened.";
+"about_done" = "Done";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* Alerts */
+"err_save_failed_fmt" = "Could not save: %@";
+"err_diagram_too_small_export" = "The diagram is too small — nothing to export.";
+"err_image_render_failed" = "Could not create the image.";
+"err_diagram_too_small_print" = "The diagram is too small — nothing to print.";
+"err_print_unavailable" = "Printing is not available on this device.";
+
+/* Debug list */
+"debug_loop_body" = "Loop body";
+"debug_cases" = "Cases";
+"debug_empty_case" = "(empty)";
+`;export{e as default};

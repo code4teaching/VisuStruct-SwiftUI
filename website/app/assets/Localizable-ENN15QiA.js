@@ -1,0 +1,233 @@
+const e=`/* Palette */
+"palette_header" = "Elementi";
+
+/* Actions */
+"action_share_png" = "Condividi immagine…";
+"action_share_document" = "Condividi file…";
+"action_export_pdf" = "Anteprima PDF…";
+"action_generate_code" = "Genera codice…";
+"action_simulation" = "Simulazione";
+"action_diagram" = "Diagramma";
+"simulation_placeholder_body" = "La modalità simulazione esegue il diagramma passo dopo passo, evidenzia l’elemento corrente e mostra i valori delle variabili e l’output.";
+"simulation_controls" = "Controlli";
+"simulation_highlight_label" = "Evidenziazione";
+"simulation_highlight_last" = "Ultimo passo";
+"simulation_highlight_next" = "Prossimo passo";
+"simulation_not_available" = "Play esegue automaticamente la simulazione con una pausa di 0,5 secondi per passo.";
+"simulation_play" = "Avvia";
+"simulation_pause" = "Pausa";
+"simulation_step" = "Passo";
+"simulation_stop" = "Stop";
+"simulation_input" = "Input";
+"simulation_input_placeholder" = "Nessun input richiesto.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Inserisci un numero intero.";
+"simulation_trace" = "Ultimo passo";
+"simulation_trace_placeholder" = "Nessun passo ancora eseguito.";
+"simulation_variables" = "Variabili";
+"simulation_variables_placeholder" = "Nessuna variabile per ora.";
+"simulation_output" = "Output";
+"simulation_output_placeholder" = "Nessun output per ora.";
+"action_delete_selection" = "Elimina selezione";
+"ctx_copy" = "Copia";
+"ctx_cut" = "Taglia";
+"ctx_paste" = "Incolla";
+"action_settings" = "Impostazioni";
+"action_about" = "Informazioni su VisuStruct";
+"recent_files_menu" = "File recenti";
+"recent_files_empty" = "Nessun file recente";
+"recent_files_clear" = "Cancella elenco";
+"recent_files_unavailable" = "Il file non è più disponibile.";
+
+/* In-app settings */
+"settings_language_title" = "Lingua";
+"settings_language_de" = "Tedesco";
+"settings_language_en" = "Inglese";
+"settings_language_es" = "Spagnolo";
+"settings_language_fr" = "Francese";
+"settings_language_it" = "Italiano";
+"settings_language_pl" = "Polacco";
+"settings_language_tr" = "Turco";
+"settings_language_ko" = "Coreano";
+"settings_language_ja" = "Giapponese";
+"settings_language_el" = "Greco";
+"settings_language_uk" = "Ucraino";
+"settings_language_ar" = "Arabo";
+"settings_language_ru" = "Russo";
+"settings_language_he" = "Ebraico";
+"settings_language_zh_hans" = "Cinese (semplificato)";
+"settings_language_zh_hant" = "Cinese (tradizionale)";
+"settings_language_ptpt" = "Portoghese";
+"settings_language_java" = "Java (parole chiave)";
+
+
+/* Error overlay */
+"error_title" = "Errore";
+"error_back_editor" = "Torna all’editor";
+
+/* Toolbar */
+"toolbar_undo" = "Annulla";
+"toolbar_redo" = "Ripeti";
+"toolbar_new" = "Nuovo";
+"menu_open" = "Apri…";
+"menu_save" = "Salva";
+"menu_save_as" = "Salva con nome…";
+"menu_print" = "Stampa…";
+"menu_file" = "File";
+"menu_new" = "Nuovo";
+"menu_close" = "Chiudi";
+
+/* Accessibility */
+"a11y_generate_code" = "Genera codice dal diagramma";
+"a11y_generate_code_locked" = "Genera codice, disponibile dopo l’acquisto";
+"a11y_unsaved_changes" = "Modifiche non salvate";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "Genera codice";
+"codegen_gate_body" = "Il codice Java, Python e JavaScript dal diagramma si sbloccherà con un acquisto in-app (in arrivo).";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "Generatore di codice";
+"codegen_placeholder_body" = "Il codice generato apparirà qui.";
+"codegen_placeholder_compare" = "Passa tra Java, Python e JavaScript per confrontare la sintassi (esempio sotto).";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (condizione) {\\n    istruzione();\\n} else {\\n    alternativa();\\n}";
+"codegen_preview_python" = "if condizione:\\n    istruzione()\\nelse:\\n    alternativa()";
+"codegen_copy" = "Copia";
+"codegen_run_in_browser" = "Prova nel browser";
+"codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
+"a11y_new_diagram_tab" = "Nuova scheda diagramma";
+"a11y_close_tab" = "Chiudi scheda";
+
+"close_unsaved_title" = "Modifiche non salvate";
+"close_unsaved_message" = "Questo diagramma contiene modifiche non salvate. Vuoi salvarle prima di chiudere?";
+"close_unsaved_discard" = "Scarta";
+"close_unsaved_cancel" = "Annulla";
+"a11y_placeholder_drop" = "Rilascia un elemento qui per sostituire il segnaposto. Tieni premuto per trascinare e spostare.";
+"a11y_node_drop" = "Tieni premuto un blocco, poi trascina: rilascia sul bordo superiore o inferiore per inserire prima o dopo. Rilascio al centro solo su un segnaposto ø.";
+"a11y_codegen_panel_drag" = "Trascina per spostare il pannello del generatore di codice";
+
+/* Diagram */
+"diagram_title_label" = "Titolo";
+"diagram_title_placeholder" = "Senza titolo";
+
+/* Inspector */
+"inspector_no_selection" = "Nessun elemento selezionato — tocca un riquadro.";
+"inspector_apply_text" = "Applica testo";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "Tipo";
+"inspector_io_mode_statement" = "Istruzione";
+"inspector_io_mode_input" = "Input";
+"inspector_io_mode_output" = "Output";
+"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_add_case" = "Aggiungi caso";
+"inspector_remove_case" = "Rimuovi caso";
+"inspector_group_element" = "Testo dell’elemento";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "Inserisci condizione…";
+"inspector_placeholder_selector" = "Inserisci selettore…";
+"inspector_placeholder_call" = "Inserisci chiamata…";
+"inspector_placeholder_break" = "Commento (opzionale)";
+
+/* Element types */
+"element_anweisung" = "Istruzione";
+"element_verzweigung" = "Ramo";
+"element_fallauswahl" = "Selezione";
+"element_forSchleife" = "Ciclo for";
+"element_whileSchleife" = "Ciclo while";
+"element_doUntilSchleife" = "Ciclo do-while";
+"element_endlosschleife" = "Ciclo infinito";
+"element_aussprung" = "Uscita";
+"element_aufruf" = "Chiamata";
+"element_leerElement" = "Elemento vuoto";
+
+/* Tabs */
+"tab_title_format" = "Diagramma %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "Diagramma vuoto";
+"canvas_empty_hint" = "Trascina un elemento da “Elementi” qui.";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "Selezione";
+"canvas_stub_anweisung" = "Istruzione";
+"canvas_stub_condition" = "Condizione";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "infinito";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "Chiamata()";
+
+/* About */
+"about_version_fmt" = "Versione %@ (%@)";
+"about_nav_title" = "Informazioni su VisuStruct";
+"about_features_heading" = "Funzionalità";
+"about_bullet_palette" = "Inserisci blocchi dalla tavolozza o trascinali nel diagramma";
+"about_bullet_edit" = "Modifica il diagramma: cambia il testo, seleziona elementi e rimuovili se necessario";
+"about_bullet_tabs" = "Più diagrammi in schede — ognuno con il proprio titolo";
+"about_bullet_file" = "Salva e riapri diagrammi come file .visustruct";
+"about_bullet_share" = "Condividi il diagramma come immagine (PNG)";
+"about_dateiformat_heading" = "Formato file";
+"about_dateiformat_part1" = "Il formato nativo di VisuStruct usa l’estensione ";
+"about_dateiformat_part2" = ". Puoi conservare i diagrammi e scambiarli con altre app che supportano lo stesso formato.";
+"about_dateiformat_strk" = "È possibile aprire anche i file con estensione .strk.";
+"about_project_github_label" = "App Java (sorgente e release):";
+"about_web_label" = "Web:";
+"about_developer_label" = "Sviluppatore:";
+"about_lineage_heading" = "Origine";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Java upstream:";
+"about_done" = "Fine";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "Annulla inserimento";
+"phone_show_text_editor" = "Modifica testo";
+"phone_hide_text_editor" = "Comprimi";
+"phone_title_done" = "Fine";
+
+/* Alerts */
+"err_save_failed_fmt" = "Impossibile salvare: %@";
+"err_share_prepare_failed_fmt" = "Impossibile preparare la condivisione: %@";
+"err_diagram_too_small_export" = "Il diagramma è troppo piccolo — niente da esportare.";
+"err_image_render_failed" = "Impossibile creare l’immagine.";
+"err_diagram_too_small_print" = "Il diagramma è troppo piccolo — niente da stampare.";
+"err_print_unavailable" = "La stampa non è disponibile su questo dispositivo.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Suggerimento nome file";
+"settings_export_filename_picker" = "Formato";
+"settings_export_filename_date_title" = "Con data";
+"settings_export_filename_title_only" = "Senza data";
+"settings_export_filename_footer_with_date" = "Con data: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Senza data: Filename.visustruct";
+
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulazione terminata.";
+"sim_notice_infinite_loop_empty" = "Il ciclo infinito non ha corpo.";
+"sim_notice_unsupported_statement_fmt" = "Istruzione non supportata: %@";
+"sim_notice_invalid_expression_fmt" = "Espressione non valida: %@";
+"sim_notice_unknown_variable_fmt" = "Variabile sconosciuta: %@";
+"sim_notice_division_by_zero" = "Divisione per zero.";
+"sim_notice_whole_number_expected" = "Inserisci un numero intero.";
+"sim_notice_number_expected" = "Inserisci un numero.";
+`;export{e as default};
