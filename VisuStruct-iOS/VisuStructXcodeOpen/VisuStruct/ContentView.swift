@@ -232,6 +232,21 @@ struct ContentView: View {
             printDiagram()
             #endif
         }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.sharePNG)) { _ in
+            guard !isSimulationMode else { return }
+            exportPNG()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.shareDocument)) { _ in
+            guard !isSimulationMode else { return }
+            shareDocumentAsFile()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.exportPDF)) { _ in
+            guard !isSimulationMode else { return }
+            shareDiagramPDF()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.showAbout)) { _ in
+            showInfo = true
+        }
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.close)) { _ in
             guard !isSimulationMode else { return }
             requestCloseDiagramTab(id: tabsModel.selectedTabId)
@@ -576,65 +591,6 @@ struct ContentView: View {
                 .accessibilityLabel(
                     codeGeneratorAccessGranted ? lang.tr("a11y_generate_code") : lang.tr("a11y_generate_code_locked")
                 )
-                Button {
-                    exportPNG()
-                } label: {
-                    Label(lang.tr("action_share_png"), systemImage: "square.and.arrow.up")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                Button {
-                    shareDocumentAsFile()
-                } label: {
-                    Label(lang.tr("action_share_document"), systemImage: "square.and.arrow.up.on.square")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                Button {
-                    shareDiagramPDF()
-                } label: {
-                    Label(lang.tr("action_export_pdf"), systemImage: "doc.text.magnifyingglass")
-                        .foregroundStyle(isSimulationMode ? .tertiary : .primary)
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .disabledAndDimmed(isSimulationMode)
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 3, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 5, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-
-                Button {
-                    showInfo = true
-                } label: {
-                    Label(lang.tr("action_about"), systemImage: "info.circle")
-                }
-                .buttonStyle(PaletteListElementButtonStyle())
-                .listRowInsets(
-                    isCompact
-                        ? EdgeInsets(top: 3, leading: 10, bottom: 4, trailing: 10)
-                        : EdgeInsets(top: 5, leading: 12, bottom: 8, trailing: 12)
-                )
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
             }
         }
         .listStyle(.insetGrouped)
@@ -731,6 +687,10 @@ struct ContentView: View {
             onSave: performPrimarySave,
             onSaveAs: { showExporter = true },
             onPrint: printAction,
+            onSharePNG: exportPNG,
+            onShareDocument: shareDocumentAsFile,
+            onExportPDF: shareDiagramPDF,
+            onShowAbout: { showInfo = true },
             onKeyboardDismiss: {
                 focusedField = nil
                 if isPhone { hideInspectorOnPhone = true }
