@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
-import { ElementType, makeElement } from '../src/core/model'
+import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { diagram, lessons, reference, tasks } from '../src/learn/content'
 import { parseBlocks, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
@@ -26,6 +26,25 @@ describe('Lernbereich: Inhalte', () => {
       const files =
         block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution] : []
       for (const f of files.filter(Boolean)) expect(diagram(f!), `${where}: ${f}`).toBeDefined()
+    }
+  })
+
+  it('keine Schleife in einem Diagramm ist leer (Inhalt gehört in <schleifeninhalt>)', () => {
+    const loops = [ElementType.forSchleife, ElementType.whileSchleife, ElementType.doUntilSchleife, ElementType.endlosschleife]
+    const check = (els: VSElement[], where: string) => {
+      for (const e of els) {
+        if (loops.includes(e.type)) expect(e.loopBody?.length ?? 0, `${where}: ${e.textLines.join(' ')}`).toBeGreaterThan(0)
+        if (e.loopBody) check(e.loopBody, where)
+        for (const c of e.cases ?? []) check(c.elements, where)
+      }
+    }
+    for (const { where, block } of allBlocks()) {
+      const files =
+        block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution] : []
+      for (const f of files.filter(Boolean)) {
+        const d = diagram(f!)
+        if (d) check(d.elements, `${where}: ${f}`)
+      }
     }
   })
 
