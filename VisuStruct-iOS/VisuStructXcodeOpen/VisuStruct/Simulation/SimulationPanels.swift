@@ -77,7 +77,7 @@ struct SimulationStatePanel: View {
                 prompt: engine.state.inputRequest?.prompt,
                 variableName: engine.state.inputRequest?.variableName,
                 valueType: engine.state.inputRequest?.valueType,
-                inputError: engine.state.inputError,
+                inputError: engine.state.inputErrorNotice?.localized(in: lang),
                 inputText: $inputText,
                 onSubmit: onSubmitInput
             )
@@ -160,7 +160,7 @@ struct SimulationStatePanel: View {
             }
             .layoutPriority(flexibleCardsFillHeight ? 1 : 0)
 
-            if let message = engine.state.message {
+            if let message = engine.state.notice?.localized(in: lang) {
                 Text(message)
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -301,3 +301,31 @@ struct SimulationPlaceholderCard<Content: View>: View {
     }
 }
 
+
+// MARK: - Meldungen der Simulation
+
+extension VisuStructSimulationNotice {
+    /// Meldung der Simulation in der App-Sprache.
+    func localized(in lang: AppLanguage) -> String {
+        switch self {
+        case .finished:
+            return lang.tr("sim_notice_finished")
+        case .infiniteLoopWithoutBody:
+            return lang.tr("sim_notice_infinite_loop_empty")
+        case .unsupportedStatement(let text):
+            return String(format: lang.tr("sim_notice_unsupported_statement_fmt"), text)
+        case .invalidExpression(let text):
+            return String(format: lang.tr("sim_notice_invalid_expression_fmt"), text)
+        case .unknownVariable(let name):
+            return String(format: lang.tr("sim_notice_unknown_variable_fmt"), name)
+        case .divisionByZero:
+            return lang.tr("sim_notice_division_by_zero")
+        case .wholeNumberExpected:
+            return lang.tr("sim_notice_whole_number_expected")
+        case .numberExpected:
+            return lang.tr("sim_notice_number_expected")
+        case .other(let text):
+            return text
+        }
+    }
+}

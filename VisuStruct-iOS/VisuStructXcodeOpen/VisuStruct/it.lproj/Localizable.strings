@@ -14,9 +14,9 @@
 "simulation_highlight_last" = "Ultimo passo";
 "simulation_highlight_next" = "Prossimo passo";
 "simulation_not_available" = "Play esegue automaticamente la simulazione con una pausa di 0,5 secondi per passo.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
+"simulation_play" = "Avvia";
+"simulation_pause" = "Pausa";
+"simulation_step" = "Passo";
 "simulation_stop" = "Stop";
 "simulation_input" = "Input";
 "simulation_input_placeholder" = "Nessun input richiesto.";
@@ -125,8 +125,8 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
+"inspector_io_mode_title" = "Tipo";
+"inspector_io_mode_statement" = "Istruzione";
 "inspector_io_mode_input" = "Input";
 "inspector_io_mode_output" = "Output";
 "inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "Con data: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "Senza data: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulazione terminata.";
+"sim_notice_infinite_loop_empty" = "Il ciclo infinito non ha corpo.";
+"sim_notice_unsupported_statement_fmt" = "Istruzione non supportata: %@";
+"sim_notice_invalid_expression_fmt" = "Espressione non valida: %@";
+"sim_notice_unknown_variable_fmt" = "Variabile sconosciuta: %@";
+"sim_notice_division_by_zero" = "Divisione per zero.";
+"sim_notice_whole_number_expected" = "Inserisci un numero intero.";
+"sim_notice_number_expected" = "Inserisci un numero.";

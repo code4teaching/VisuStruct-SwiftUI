@@ -14,10 +14,10 @@
 "simulation_highlight_last" = "הצעד האחרון";
 "simulation_highlight_next" = "הצעד הבא";
 "simulation_not_available" = "Play מריץ את הסימולציה אוטומטית עם השהיה של 0.5 שניות לכל צעד.";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "הפעלה";
+"simulation_pause" = "השהיה";
+"simulation_step" = "צעד";
+"simulation_stop" = "עצירה";
 "simulation_input" = "קלט";
 "simulation_input_placeholder" = "לא נדרש קלט.";
 "simulation_input_submit" = "OK";
@@ -125,11 +125,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "סוג";
+"inspector_io_mode_statement" = "הוראה";
+"inspector_io_mode_input" = "קלט";
+"inspector_io_mode_output" = "פלט";
+"inspector_io_mode_help_java_like" = "קלט: input: … | פלט: output: …";
 "inspector_add_case" = "הוסף מקרה";
 "inspector_remove_case" = "הסר מקרה";
 "inspector_group_element" = "טקסט רכיב";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "עם תאריך: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "בלי תאריך: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "הסימולציה הסתיימה.";
+"sim_notice_infinite_loop_empty" = "ללולאה האינסופית אין גוף.";
+"sim_notice_unsupported_statement_fmt" = "הוראה לא נתמכת: %@";
+"sim_notice_invalid_expression_fmt" = "ביטוי לא חוקי: %@";
+"sim_notice_unknown_variable_fmt" = "משתנה לא ידוע: %@";
+"sim_notice_division_by_zero" = "חלוקה באפס.";
+"sim_notice_whole_number_expected" = "יש להזין מספר שלם.";
+"sim_notice_number_expected" = "יש להזין מספר.";

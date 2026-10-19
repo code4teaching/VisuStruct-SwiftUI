@@ -14,10 +14,10 @@
 "simulation_highlight_last" = "前のステップ";
 "simulation_highlight_next" = "次のステップ";
 "simulation_not_available" = "Play は各ステップごとに0.5秒停止しながらシミュレーションを自動実行します。";
-"simulation_play" = "Play";
-"simulation_pause" = "Pause";
-"simulation_step" = "Step";
-"simulation_stop" = "Stop";
+"simulation_play" = "再生";
+"simulation_pause" = "一時停止";
+"simulation_step" = "ステップ";
+"simulation_stop" = "停止";
 "simulation_input" = "入力";
 "simulation_input_placeholder" = "入力は不要です。";
 "simulation_input_submit" = "OK";
@@ -125,11 +125,11 @@
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
 
-"inspector_io_mode_title" = "Kind";
-"inspector_io_mode_statement" = "Statement";
-"inspector_io_mode_input" = "Input";
-"inspector_io_mode_output" = "Output";
-"inspector_io_mode_help_java_like" = "Input: input: … | Output: output: …";
+"inspector_io_mode_title" = "種類";
+"inspector_io_mode_statement" = "文";
+"inspector_io_mode_input" = "入力";
+"inspector_io_mode_output" = "出力";
+"inspector_io_mode_help_java_like" = "入力: input: … | 出力: output: …";
 "inspector_add_case" = "ケースを追加";
 "inspector_remove_case" = "ケースを削除";
 "inspector_group_element" = "要素テキスト";
@@ -218,3 +218,13 @@
 "settings_export_filename_footer_with_date" = "日付あり: yyyy-mm-dd-Filename.visustruct";
 "settings_export_filename_footer_without_date" = "日付なし: Filename.visustruct";
 
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "シミュレーションが終了しました。";
+"sim_notice_infinite_loop_empty" = "無限ループに本体がありません。";
+"sim_notice_unsupported_statement_fmt" = "サポートされていない文: %@";
+"sim_notice_invalid_expression_fmt" = "無効な式: %@";
+"sim_notice_unknown_variable_fmt" = "不明な変数: %@";
+"sim_notice_division_by_zero" = "0 で割ることはできません。";
+"sim_notice_whole_number_expected" = "整数を入力してください。";
+"sim_notice_number_expected" = "数値を入力してください。";
