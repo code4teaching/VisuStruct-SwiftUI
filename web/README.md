@@ -1,8 +1,8 @@
 # VisuStruct Web (Prototyp)
 
 Erster Prototyp von VisuStruct im Browser: `.visustruct`-Dateien öffnen, als Struktogramm zeichnen,
-Elemente per Drag & Drop einfügen oder verschieben, Texte bearbeiten, Schritt für Schritt simulieren
-und wieder speichern.
+Elemente per Drag & Drop einfügen oder verschieben, Texte bearbeiten, Schritt für Schritt simulieren,
+Java-, Python- oder JavaScript-Code erzeugen (JavaScript direkt im Browser ausführen) und wieder speichern.
 Läuft komplett im Browser, ohne Server.
 
 ## Ausprobieren
@@ -11,7 +11,7 @@ Läuft komplett im Browser, ohne Server.
 cd web
 npm install
 npm run dev      # http://localhost:5173
-npm test         # Dateiformat-, Bearbeitungs- und Simulationstests
+npm test         # Dateiformat-, Bearbeitungs-, Simulations- und Codegenerator-Tests
 npm run build    # statische Dateien in web/dist/ (relative Pfade, z. B. für website/app/)
 npm run build:single  # eine einzelne, eigenständige index.html in web/dist-single/
 ```
@@ -31,10 +31,17 @@ damit Änderungen in Swift leicht nachgezogen werden können:
 | `src/core/editing.ts` | `VisuStructDocumentEditing.swift` |
 | `src/core/palette.ts` | `Palette/ElementPalette.swift` |
 | `src/core/simulation.ts` | `VisuStructSimulationEngine.swift` |
+| `src/core/codeGenerator.ts` | `VisuStructCodeGenerator.swift`, `CodeGeneration/*.swift` |
 | `src/ui/renderer.ts` | `Canvas/DiagramCanvasRenderer.swift` (als SVG) |
+| `src/ui/codePanel.ts` | `CodeGeneration/CodeGeneratorPanels.swift`, `Runner/JavaScriptRunner.swift` |
 | `src/ui/simulationPanel.ts` | `Simulation/SimulationController.swift`, `Simulation/SimulationPanels.swift` |
 
-`test/simulation.test.ts` überträgt `SimulationEngineTests.swift` und `SimulationConditionTests.swift`.
+`test/simulation.test.ts` überträgt `SimulationEngineTests.swift` und `SimulationConditionTests.swift`,
+`test/codeGenerator.test.ts` überträgt `CodeGeneratorTests.swift` (die erzeugten `.java`-Dateien für Collatz und
+Fibonacci müssen byte-gleich zu denen in `VisuStruct-Dateien` sein).
+
+JavaScript läuft beim Testen in einem Web Worker: `prompt()` wird zu einem Eingabefeld, `while (true)` bricht wie in der
+App nach 100 000 Durchläufen ab, und „Stopp“ beendet jeden Lauf.
 
 `test/xmlCodec.test.ts` lädt jede Datei aus `VisuStruct-Dateien`, speichert sie wieder und verlangt
 **byte-gleiche** Ausgabe zum Swift-Encoder (nur CRLF aus Windows wird zu LF, wie in Swift).
@@ -43,5 +50,5 @@ Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift
 
 ## Noch nicht enthalten
 
-Codegenerierung, Mehrsprachigkeit (UI ist deutsch), Export als Bild/PDF, Fälle einer
+Mehrsprachigkeit (UI ist deutsch), Export als Bild/PDF, Fälle einer
 Fallauswahl hinzufügen/umbenennen, Verschieben vorhandener Elemente mit dem Finger.

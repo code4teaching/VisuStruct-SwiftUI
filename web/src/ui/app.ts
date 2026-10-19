@@ -22,6 +22,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { examples } from './examples'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
+import { CodePanel } from './codePanel'
 import { SimulationPanel } from './simulationPanel'
 
 type DropTarget =
@@ -87,6 +88,9 @@ export class App {
   private simPath?: number[]
   private sim!: SimulationPanel
   private simButton!: HTMLButtonElement
+  private coding = false
+  private code!: CodePanel
+  private codeButton!: HTMLButtonElement
 
   private measure = createCanvasMeasure()
   private metrics = diagramDisplayMetrics(true)
@@ -144,6 +148,7 @@ export class App {
           <button data-action="delete" title="Auswahl löschen (Entf)">Löschen</button>
         </div>
         <div class="group">
+          <button data-action="code" aria-pressed="false" title="Java-, Python- oder JavaScript-Code anzeigen">{ } Code</button>
           <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="Struktogramm Schritt für Schritt ausführen">▶︎ Simulation</button>
         </div>
       </header>
@@ -179,6 +184,14 @@ export class App {
     )
     this.root.append(this.sim.element)
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
+    this.codeButton = $('[data-action=code]')
+    this.code = new CodePanel(
+      () => this.doc,
+      (filename, text) => this.offerDownload(filename, new Blob([text], { type: 'text/plain' })),
+      () => this.setCoding(false),
+    )
+    this.root.append(this.code.element)
+    this.codeButton.addEventListener('click', () => this.setCoding(!this.coding))
 
     const list = $<HTMLUListElement>('.palette ul')
     for (const { item, label } of paletteItems) {
@@ -295,6 +308,8 @@ export class App {
     this.redoButton.disabled = this.simulating || this.redoStack.length === 0
     this.deleteButton.disabled = this.simulating || !this.selected || !canDeleteElement(this.doc, this.selected)
     this.captionInput.readOnly = this.simulating
+    this.codeButton.disabled = this.simulating
+    if (this.coding) this.code.refresh()
     this.renderInspector()
     this.updateStatus()
   }
@@ -354,6 +369,7 @@ export class App {
     this.simButton.textContent = on ? '✎ Bearbeiten' : '▶︎ Simulation'
     this.simButton.title = on ? 'Simulation beenden und weiter bearbeiten' : 'Struktogramm Schritt für Schritt ausführen'
     if (on) {
+      this.setCoding(false)
       this.sim.begin()
     } else {
       this.sim.end()
@@ -361,6 +377,18 @@ export class App {
       if (!this.selected && this.doc.elements.length > 0) this.selected = [0]
     }
     this.render()
+  }
+
+  // MARK: - Code
+
+  private setCoding(on: boolean) {
+    if (on === this.coding) return
+    this.coding = on
+    this.root.classList.toggle('coding', on)
+    this.codeButton.setAttribute('aria-pressed', String(on))
+    if (on) this.code.refresh()
+    else this.code.close()
+    this.renderDiagramOnly()
   }
 
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
@@ -532,6 +560,30 @@ export class App {
       this.updateStatus()
     } catch {
       /* abgebrochen */
+    }
+  }
+
+  /** Datei zum Herunterladen anbieten (in der Vorschau über die `downloads`-Fähigkeit). */
+  private async offerDownload(filename: string, blob: Blob) {
+    try {
+      if (this.downloads) {
+        try {
+          await this.downloads.save({ filename, data: blob })
+          this.showMessage(`„${filename}“ gespeichert.`)
+        } catch {
+          // Die Vorschau erlaubt nur bekannte Endungen.
+          await this.downloads.save({ filename: filename + '.txt', data: blob })
+          this.showMessage(`Gespeichert als „${filename}.txt“. Zum Verwenden die Endung .txt entfernen.`)
+        }
+        return
+      }
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = filename
+      a.click()
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000)
+    } catch {
+      this.showMessage(`„${filename}“ konnte nicht gespeichert werden.`)
     }
   }
 
