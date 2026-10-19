@@ -211,6 +211,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "Cancel insert";
 "phone_show_text_editor" = "Edit text";
+"phone_hide_text_editor" = "Collapse";
+"phone_title_done" = "Done";
 
 /* Alerts */
 "err_save_failed_fmt" = "Could not save: %@";

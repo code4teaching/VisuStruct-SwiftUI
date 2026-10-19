@@ -52,9 +52,14 @@ struct ContentView: View {
     }
     // iPhone UX: Einfügemarke + Inspector einklappen beim Einfügen.
     @State private var insertTarget: DiagramInsertTarget? = nil
-    @State private var hideInspectorOnPhone: Bool = false
+    /// iPhone: Inspector startet eingeklappt, damit das Diagramm Platz hat.
+    @State private var hideInspectorOnPhone: Bool = true
     // iPhone UX: Palette automatisch einklappen beim Text-Editieren.
-    @State private var showPaletteOnPhone: Bool = true
+    /// iPhone: Palette als Sheet über dem Editor (statt fest über der Navigationsleiste).
+    @State private var showPaletteOnPhone: Bool = false
+    /// iPhone: Diagrammtitel wird in einem kleinen Dialog bearbeitet statt in einem eigenen Feld über dem Diagramm.
+    @State private var showPhoneTitleEditor: Bool = false
+    @State private var phoneTitleDraft: String = ""
     // In-App Zwischenablage für Diagramm-Elemente (Copy/Cut/Paste).
     @State private var elementClipboard: VisuStructElement? = nil
     #if canImport(UIKit)
@@ -160,7 +165,7 @@ struct ContentView: View {
                 .navigationSplitViewStyle(.balanced)
             } else {
                 VStack(spacing: 0) {
-                    if !isPhone || showPaletteOnPhone {
+                    if !isPhone {
                         paletteListPanel
                             .frame(maxHeight: 300, alignment: .top)
                             .background(Color(.secondarySystemGroupedBackground))
@@ -169,6 +174,14 @@ struct ContentView: View {
                     Divider()
                     mainEditorNavigationStack
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .sheet(isPresented: phonePaletteSheetBinding) {
+                    paletteListPanel
+                        .environment(\.appLanguage, lang)
+                        .presentationDetents([.medium, .large])
+                        // Diagramm bleibt bedienbar, z. B. um eine Einfügestelle zu wählen.
+                        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                        .presentationDragIndicator(.visible)
                 }
             }
         }
@@ -328,6 +341,11 @@ struct ContentView: View {
         .onChange(of: tabsModel.selectedTabId) { _, _ in
             refreshLineEditor()
             DiagramCommandCenter.shared.update(file: diagramFileActions, edit: diagramEditActions)
+        }
+        .onChange(of: insertTarget) { _, newTarget in
+            // iPhone: Einfügestelle gewählt → Palette öffnen, damit gleich ein Element gewählt werden kann.
+            guard isPhone, newTarget != nil else { return }
+            showPaletteOnPhone = true
         }
         .onChange(of: focusedField) { _, newVal in
             // iPhone: Sobald Textbearbeitung startet, Palette einklappen für mehr Platz.
@@ -858,21 +876,25 @@ struct ContentView: View {
         let blockCorner: CGFloat = horizontalSizeClass == .regular ? 14 : 12
 
         return VStack(alignment: .leading, spacing: 0) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(lang.tr("diagram_title_label"))
-                    .font(horizontalSizeClass == .regular ? .caption : .subheadline)
-                    .foregroundStyle(.secondary)
-                TextField(lang.tr("diagram_title_placeholder"), text: captionBinding)
-                    .font(horizontalSizeClass == .regular ? .subheadline : .body)
-                    .textFieldStyle(.roundedBorder)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
-                    .focused($focusedField, equals: .caption)
+            if isPhone {
+                phoneCaptionRow
+            } else {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(lang.tr("diagram_title_label"))
+                        .font(horizontalSizeClass == .regular ? .caption : .subheadline)
+                        .foregroundStyle(.secondary)
+                    TextField(lang.tr("diagram_title_placeholder"), text: captionBinding)
+                        .font(horizontalSizeClass == .regular ? .subheadline : .body)
+                        .textFieldStyle(.roundedBorder)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                        .focused($focusedField, equals: .caption)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 14)
+                .padding(.top, 8)
+                .padding(.bottom, 6)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 14)
-            .padding(.top, 8)
-            .padding(.bottom, 6)
             // Innerer Trennstrich — Titel zählt zum Diagramm-„Blatt“, nicht als losgelöster Bereich oberhalb.
             Rectangle()
                 .fill(Color.primary.opacity(0.1))
@@ -910,6 +932,47 @@ struct ContentView: View {
             RoundedRectangle(cornerRadius: blockCorner, style: .continuous)
                 .strokeBorder(Color.primary.opacity(0.08), lineWidth: 1)
         }
+    }
+
+    /// iPhone: Titel als eine kompakte Zeile; Tippen öffnet einen Dialog zum Bearbeiten.
+    private var phoneCaptionRow: some View {
+        Button {
+            phoneTitleDraft = document.caption
+            showPhoneTitleEditor = true
+        } label: {
+            HStack(spacing: 6) {
+                Text(document.caption.isEmpty ? lang.tr("diagram_title_placeholder") : document.caption)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(document.caption.isEmpty ? .secondary : .primary)
+                    .lineLimit(1)
+                Image(systemName: "pencil")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(lang.tr("diagram_title_label"))
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .alert(lang.tr("diagram_title_label"), isPresented: $showPhoneTitleEditor) {
+            TextField(lang.tr("diagram_title_placeholder"), text: $phoneTitleDraft)
+                .textInputAutocapitalization(.never)
+                .autocorrectionDisabled(true)
+            Button(lang.tr("phone_title_done")) {
+                if phoneTitleDraft != document.caption {
+                    captionBinding.wrappedValue = phoneTitleDraft
+                }
+            }
+        }
+    }
+
+    private var phonePaletteSheetBinding: Binding<Bool> {
+        Binding(
+            get: { isPhone && showPaletteOnPhone },
+            set: { showPaletteOnPhone = $0 }
+        )
     }
 
     // MARK: - Bindings (Dokument, Caption)
@@ -1245,7 +1308,11 @@ struct ContentView: View {
             insertTargetActive: insertTarget != nil,
             hideInspectorOnPhone: hideInspectorOnPhone,
             onCancelInsert: { insertTarget = nil },
-            onShowInspector: { hideInspectorOnPhone = false }
+            onShowInspector: { hideInspectorOnPhone = false },
+            onHideInspector: {
+                focusedField = nil
+                hideInspectorOnPhone = true
+            }
         ) {
             inspectorPanel
         }
@@ -1508,6 +1575,7 @@ struct ContentView: View {
     private func insertPaletteItem(_ item: ElementPalette.PaletteItem) {
         if isPhone {
             hideInspectorOnPhone = true
+            showPaletteOnPhone = false
         }
         let el = ElementPalette.element(for: item, lang: lang)
         let doc = document
