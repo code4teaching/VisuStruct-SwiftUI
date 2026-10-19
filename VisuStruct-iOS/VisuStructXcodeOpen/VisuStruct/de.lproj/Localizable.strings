@@ -211,6 +211,8 @@
 /* iPhone: Einfügen per Tap */
 "phone_insert_cancel" = "Einfügen abbrechen";
 "phone_show_text_editor" = "Text bearbeiten";
+"phone_hide_text_editor" = "Einklappen";
+"phone_title_done" = "Fertig";
 
 /* Meldungen */
 "err_save_failed_fmt" = "Speichern fehlgeschlagen: %@";

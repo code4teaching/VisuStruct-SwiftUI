@@ -194,6 +194,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "挿入をキャンセル";
 "phone_show_text_editor" = "テキストを編集";
+"phone_hide_text_editor" = "折りたたむ";
+"phone_title_done" = "完了";
 
 /* Alerts */
 "err_save_failed_fmt" = "保存できませんでした：%@";

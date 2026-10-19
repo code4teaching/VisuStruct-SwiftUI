@@ -191,6 +191,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "Скасувати вставку";
 "phone_show_text_editor" = "Редагувати текст";
+"phone_hide_text_editor" = "Згорнути";
+"phone_title_done" = "Готово";
 
 /* Alerts */
 "err_save_failed_fmt" = "Не вдалося зберегти: %@";

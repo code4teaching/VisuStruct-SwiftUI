@@ -191,6 +191,8 @@
 /* iPhone: tap-to-insert */
 "phone_insert_cancel" = "Ακύρωση εισαγωγής";
 "phone_show_text_editor" = "Επεξεργασία κειμένου";
+"phone_hide_text_editor" = "Σύμπτυξη";
+"phone_title_done" = "Τέλος";
 
 /* Alerts */
 "err_save_failed_fmt" = "Δεν ήταν δυνατή η αποθήκευση: %@";
