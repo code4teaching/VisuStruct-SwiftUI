@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { generateCode, generateJavaClassFile, sanitizedJavaClassName, type CodeTarget } from '../src/core/codeGenerator'
+import { ElementType, makeElement } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
 
 // Port von CodeGeneratorTests.swift.
@@ -36,6 +37,35 @@ describe('Codegenerierung', () => {
     expect(js).toContain('console.log(number);')
     // int-Variable: Ganzzahldivision wie in Java
     expect(js).toContain('number = Math.floor(number / 2);')
+  })
+
+  it('Python: Java-Schreibweise wird übersetzt', () => {
+    const stmt = (t: string) => makeElement(ElementType.anweisung, { textLines: [t] })
+    const doc = {
+      caption: '',
+      elements: [
+        stmt('int n = 7'),
+        stmt('boolean ok = true'),
+        makeElement(ElementType.forSchleife, {
+          textLines: ['int i = 1', 'i <= n', 'i++'],
+          loopBody: [stmt('n--')],
+        }),
+        makeElement(ElementType.verzweigung, {
+          textLines: ['n > 2 && !ok || n == 0'],
+          cases: [
+            { name: 'true', elements: [stmt('print: "Hälfte: " + n / 2')] },
+            { name: 'false', elements: [stmt('ø')] },
+          ],
+        }),
+      ],
+    }
+    const python = generateCode(doc, 'python')
+    expect(python).toContain('ok = True')
+    expect(python).toContain('for i in range(1, n + 1):')
+    expect(python).toContain('    n -= 1')
+    expect(python).toContain('if n > 2 and not ok or n == 0:')
+    expect(python).toContain('print("Hälfte: " + str(n // 2))')
+    expect(python).toMatch(/else:\n {4}# empty element\n {4}pass/)
   })
 
   it('bereinigt Java-Klassennamen', () => {
