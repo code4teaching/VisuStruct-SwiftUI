@@ -54,6 +54,10 @@ Führt dein Struktogramm im Editor aus, auf Wunsch Schritt für Schritt. So sieh
 auch: Variablen
 Eine beschriftete Kiste für einen Wert. Sie hat einen Namen, einen Datentyp und einen Wert.
 
+### Konstante
+auch: Konstanten
+Eine Variable, deren Wert nach dem Festlegen gleich bleibt. Man schreibt `const` davor, z. B. `const double MWST = 0.19`.
+
 ### Datentyp
 auch: Datentypen, Datentyps
 Legt fest, welche Art von Wert in eine Variable passt: int (ganze Zahl), double (Kommazahl), String (Text) oder boolean (true oder false).
