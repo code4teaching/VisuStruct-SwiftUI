@@ -118,6 +118,14 @@ Die Nummer eines Fachs in einem Array. Gezählt wird ab 0.
 auch: Unterprogramme, Unterprogramms, Unterprogrammen, Methode, Methoden, Prozedur, Prozeduren, Funktion, Funktionen
 Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgeführt. Im Lehrplan und in Java heißt es auch Methode, je nach Art auch Prozedur oder Funktion.
 
+### Parameter
+auch: Parametern
+Eine Variable in der Kopfzeile eines Unterprogramms. Beim Aufruf bekommt sie den Wert aus den Klammern.
+
+### Rückgabewert
+auch: Rückgabewerte
+Das Ergebnis, das ein Unterprogramm mit return an den Aufruf zurückgibt.
+
 ### Aussprung
 Verlässt sofort die Schleife, in der er steht. Danach geht es unter der Schleife weiter.
 

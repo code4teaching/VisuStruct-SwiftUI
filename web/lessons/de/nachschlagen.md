@@ -74,7 +74,14 @@ Wiederholt den Inhalt ohne Bedingung. Mit einem **Aussprung** im Inneren verläs
 
 ### Aufruf
 
-Steht für ein Unterprogramm, z. B. `berechneSumme()`.
+Steht für ein Unterprogramm, z. B. `berechneSumme()`. Mit Parametern und Rückgabewert hat das Unterprogramm eine Kopfzeile als Titel:
+
+```
+int quadrat(int x)      Kopfzeile des Unterprogramms
+return x * x            gibt das Ergebnis zurück
+int q = quadrat(5)      Aufruf, q bekommt 25
+zeigeSumme(3, 4)        Aufruf eines void-Unterprogramms
+```
 
 ### Aussprung
 

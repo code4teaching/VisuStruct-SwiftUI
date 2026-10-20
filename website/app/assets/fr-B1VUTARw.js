@@ -42,4 +42,6 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_run_cancelled" = "Exécution annulée.";
 "web_run_error" = "Erreur lors de l’exécution.";
 "web_run_dropped_fmt" = "… %d lignes précédentes masquées";
+"web_sim_call_arguments_fmt" = "L’appel ne correspond pas à l’en-tête de %@. Vérifie les valeurs entre parenthèses.";
+"web_sim_missing_return_fmt" = "%@ s’est terminé sans renvoyer de valeur avec return.";
 `;export{e as default};

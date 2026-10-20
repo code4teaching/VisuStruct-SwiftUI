@@ -42,4 +42,6 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_run_cancelled" = "Выполнение отменено.";
 "web_run_error" = "Ошибка при выполнении.";
 "web_run_dropped_fmt" = "… скрыто более ранних строк: %d";
+"web_sim_call_arguments_fmt" = "Вызов не соответствует заголовку %@. Проверь значения в скобках.";
+"web_sim_missing_return_fmt" = "%@ завершилась, не вернув значение через return.";
 `;export{e as default};

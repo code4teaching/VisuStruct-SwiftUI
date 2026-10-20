@@ -3,6 +3,7 @@
  * Quellcode (Java, Python, JavaScript) aus dem Struktogramm.
  */
 import { ElementType, type VSDocument, type VSElement } from './model'
+import { parseSubprogramHeader, type SubprogramHeader } from './simulation'
 
 export type CodeTarget = 'java' | 'python' | 'javascript'
 
@@ -31,22 +32,22 @@ export const defaultCodeOptions: CodeOptions = {
   pseudocodeNote: 'Pseudocode – not a runnable program',
 }
 
-export function generateCode(document: VSDocument, target: CodeTarget, options: Partial<CodeOptions> = {}): string {
-  const opts: CodeOptions = {
-    ...defaultCodeOptions,
-    ...options,
-    jsIntVariables: new Set(),
-    arrayElementTypes: inferArrayElementTypes(document),
-    stringVariables: inferStringVariables(document),
-  }
+/**
+ * `subprograms`: Unterprogramme mit Kopfzeile aus anderen Reitern. Python und JavaScript stellen ihre
+ * Definitionen vor das Hauptprogramm; in Java gehören sie als Methoden in die Klasse (`generateJavaClassFile`).
+ */
+export function generateCode(
+  document: VSDocument,
+  target: CodeTarget,
+  options: Partial<CodeOptions> = {},
+  subprograms: VSDocument[] = [],
+): string {
+  const opts = documentOptions(document, target, options)
   let out = ''
-  if (target === 'javascript') {
-    // Schul-tauglich: Strict-Modus immer am Anfang des Snippets.
-    out += '"use strict";\n\n'
-    opts.jsIntVariables = inferIntegerVariables(document)
-  }
-  if (target === 'python') opts.jsIntVariables = inferIntegerVariables(document)
-  if (target === 'python' && documentContainsJavaMathRandom(document)) out += 'import random\n\n'
+  // Schul-tauglich: Strict-Modus immer am Anfang des Snippets.
+  if (target === 'javascript') out += '"use strict";\n\n'
+  const all = [document, ...(target === 'java' ? [] : subprograms)]
+  if (target === 'python' && all.some(documentContainsJavaMathRandom)) out += 'import random\n\n'
   if (target === 'java' && documentContainsJavaInput(document)) {
     // Snippet-Modus: Import als Kommentar (damit es auch beim Einfügen in `main` nicht „falsch“ steht).
     out += '// import java.util.Scanner;\n'
@@ -54,14 +55,67 @@ export function generateCode(document: VSDocument, target: CodeTarget, options: 
   }
   // Nach Import/Scanner, damit die Java-Klasse den Vorspann weiterhin erkennt.
   if (document.pseudocode) out += (target === 'python' ? '# ' : '// ') + opts.pseudocodeNote + '\n\n'
-  const sink = { out }
-  for (const el of document.elements) emit(el, target, opts, opts.baseIndent, sink)
-  out = sink.out
+  if (target !== 'java') {
+    for (const sub of subprograms) {
+      if (sub === document) continue
+      const header = parseSubprogramHeader(sub.caption)
+      if (header) out += subprogramDefinition(sub, header, target, options, 0) + '\n'
+    }
+  }
+  const header = parseSubprogramHeader(document.caption)
+  const sink = { out: '' }
+  if (header) sink.out = subprogramDefinition(document, header, target, options, opts.baseIndent)
+  else for (const el of document.elements) emit(el, target, opts, opts.baseIndent, sink)
+  out += sink.out
   if (out.trim() === '') {
     const empty = commentPrefix(target, true)
     return target === 'javascript' ? '"use strict";\n\n' + empty : empty
   }
   return postProcessLengthSyntax(out.replace(/^[\n\r]+|[\n\r]+$/g, ''), target)
+}
+
+function documentOptions(document: VSDocument, target: CodeTarget, options: Partial<CodeOptions>): CodeOptions {
+  const opts: CodeOptions = {
+    ...defaultCodeOptions,
+    ...options,
+    jsIntVariables: new Set(),
+    arrayElementTypes: inferArrayElementTypes(document),
+    stringVariables: inferStringVariables(document),
+  }
+  if (target !== 'java') opts.jsIntVariables = inferIntegerVariables(document)
+  return opts
+}
+
+const javaTypeName = (type: SubprogramHeader['returnType']) =>
+  type === 'string' ? 'String' : type === undefined ? 'void' : type
+
+/** Kopfzeile wie `int quadrat(int x)` als Java-Methode, Python-`def` oder JavaScript-`function`. */
+function subprogramDefinition(
+  document: VSDocument,
+  header: SubprogramHeader,
+  target: CodeTarget,
+  options: Partial<CodeOptions>,
+  indent: number,
+): string {
+  const opts = documentOptions(document, target, options)
+  for (const p of header.params) {
+    if (p.type === 'int') opts.jsIntVariables!.add(p.name)
+    if (p.type === 'string') opts.stringVariables!.add(p.name)
+  }
+  const names = header.params.map((p) => p.name).join(', ')
+  const sink = { out: '' }
+  for (const el of document.elements) emit(el, target, opts, indent + opts.indentPerLevel, sink)
+  if (sink.out.trim() === '') sink.out = sp(indent + opts.indentPerLevel) + (target === 'python' ? 'pass\n' : '\n')
+  switch (target) {
+    case 'java': {
+      const params = header.params.map((p) => `${javaTypeName(p.type)} ${p.name}`).join(', ')
+      return `${sp(indent)}public static ${javaTypeName(header.returnType)} ${header.name}(${params}) {\n${sink.out}${sp(indent)}}\n`
+    }
+    case 'python':
+      return `${sp(indent)}def ${header.name}(${names}):\n${sink.out}`
+    case 'javascript':
+      return `${sp(indent)}function ${header.name}(${names}) {\n${sink.out}${sp(indent)}}\n`
+  }
 }
 
 // MARK: - Hilfen
@@ -1099,9 +1153,22 @@ export function sanitizedJavaClassName(raw: string): string {
 }
 
 /** Vollständige `.java`-Datei: `public class` mit `main`, erzeugtes Snippet eingerückt im Rumpf. */
-export function generateJavaClassFile(document: VSDocument, className: string, options: Partial<CodeOptions> = {}): string {
+export function generateJavaClassFile(
+  document: VSDocument,
+  className: string,
+  options: Partial<CodeOptions> = {},
+  subprograms: VSDocument[] = [],
+): string {
   const opts = { ...defaultCodeOptions, ...options }
   const name = sanitizedJavaClassName(className)
+  const methodDocs = [document, ...subprograms]
+    .filter((d, i, all) => all.indexOf(d) === i)
+    .map((d) => ({ d, header: parseSubprogramHeader(d.caption) }))
+    .filter((m): m is { d: VSDocument; header: SubprogramHeader } => m.header !== undefined)
+  const methods = methodDocs.map((m) => subprogramDefinition(m.d, m.header, 'java', options, opts.indentPerLevel))
+  const ownHeader = parseSubprogramHeader(document.caption)
+  // Mit Methoden braucht jede denselben Scanner, deshalb steht er dann als Feld in der Klasse.
+  const methodInput = methodDocs.some((m) => documentContainsJavaInput(m.d))
   const snippet = generateCode(document, 'java', opts)
   const innerBase = opts.indentPerLevel * 2
   const hasInput = documentContainsJavaInput(document)
@@ -1116,16 +1183,22 @@ export function generateJavaClassFile(document: VSDocument, className: string, o
           .join('\n')
 
   let out = ''
-  if (hasInput) out += 'import java.util.Scanner;\n\n'
+  const scannerField = methods.length > 0 && (hasInput || methodInput)
+  if (hasInput || methodInput) out += 'import java.util.Scanner;\n\n'
   out += `public class ${name} {\n`
-  out += sp(opts.indentPerLevel) + 'public static void main(String[] args) {\n'
-  if (hasInput) {
-    out += sp(innerBase) + 'Scanner scanner = new Scanner(System.in);\n'
-    if (indentedBody !== '') out += '\n'
+  if (scannerField) out += sp(opts.indentPerLevel) + 'static Scanner scanner = new Scanner(System.in);\n\n'
+  // Ein Unterprogramm allein ist nur eine Methode, ohne `main`.
+  if (!ownHeader) {
+    out += sp(opts.indentPerLevel) + 'public static void main(String[] args) {\n'
+    if (hasInput && !scannerField) {
+      out += sp(innerBase) + 'Scanner scanner = new Scanner(System.in);\n'
+      if (indentedBody !== '') out += '\n'
+    }
+    out += indentedBody
+    if (indentedBody !== '' && !indentedBody.endsWith('\n')) out += '\n'
+    out += sp(opts.indentPerLevel) + '}\n'
   }
-  out += indentedBody
-  if (indentedBody !== '' && !indentedBody.endsWith('\n')) out += '\n'
-  out += sp(opts.indentPerLevel) + '}\n'
+  for (const [i, m] of methods.entries()) out += (i > 0 || !ownHeader ? '\n' : '') + m
   out += '}\n'
   return out
 }

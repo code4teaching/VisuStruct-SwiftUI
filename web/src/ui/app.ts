@@ -35,7 +35,7 @@ import { progress } from '../learn/progress'
 import { currentLanguage, languages, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { subprogramName } from '../core/simulation'
+import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
 type DropTarget =
   | { kind: 'before' | 'after' | 'replace'; path: number[]; frame: Rect }
@@ -353,6 +353,7 @@ export class App {
       (filename, text) => this.offerDownload(filename, new Blob([text], { type: 'text/plain' })),
       () => this.setCoding(false),
       (on) => this.commit({ ...this.doc, pseudocode: on || undefined }),
+      () => this.tabs.filter((tab) => tab !== this.tab && parseSubprogramHeader(tab.doc.caption)).map((tab) => tab.doc),
     )
     this.root.append(this.code.element)
     this.codeButton.addEventListener('click', () => this.setCoding(!this.coding))

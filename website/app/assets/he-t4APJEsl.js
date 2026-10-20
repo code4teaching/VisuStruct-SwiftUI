@@ -42,4 +42,6 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_run_cancelled" = "ההרצה בוטלה.";
 "web_run_error" = "שגיאה בזמן ההרצה.";
 "web_run_dropped_fmt" = "… %d שורות קודמות מוסתרות";
+"web_sim_call_arguments_fmt" = "הקריאה אינה תואמת את הכותרת של %@. בדוק את הערכים בסוגריים.";
+"web_sim_missing_return_fmt" = "%@ הסתיים בלי להחזיר ערך עם return.";
 `;export{e as default};

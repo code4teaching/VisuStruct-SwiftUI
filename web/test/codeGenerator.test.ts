@@ -95,6 +95,26 @@ describe('Codegenerierung', () => {
     expect(javaClass).toContain('        // Pseudocode\n')
   })
 
+  it('Unterprogramme mit Kopfzeile werden zu Methoden und Funktionen', () => {
+    const stmt = (t: string) => makeElement(ElementType.anweisung, { textLines: [t] })
+    const call = (t: string) => makeElement(ElementType.aufruf, { textLines: [t] })
+    const quadrat = { caption: 'int quadrat(int x)', elements: [stmt('int y = x * x'), stmt('return y')] }
+    const zeige = { caption: 'void zeige(String text)', elements: [stmt('input: int n "Zahl?"'), stmt('output: text + n')] }
+    const main = { caption: 'Main', elements: [call('int q = quadrat(3)'), call('zeige("q=")'), stmt('output: q')] }
+    expect(generateCode(quadrat, 'java')).toBe('public static int quadrat(int x) {\n    int y = x * x;\n    return y;\n}')
+    expect(generateCode(main, 'python', {}, [quadrat])).toBe(
+      'def quadrat(x):\n    y = x * x\n    return y\n\nq = quadrat(3)\nzeige("q=")\nprint(q)',
+    )
+    expect(generateCode(main, 'javascript', {}, [quadrat])).toContain('function quadrat(x) {\n    let y = x * x;\n    return y;\n}\n\nlet q = quadrat(3);')
+    const javaClass = generateJavaClassFile(main, 'Main', {}, [quadrat, zeige])
+    expect(javaClass).toContain('    static Scanner scanner = new Scanner(System.in);\n')
+    expect(javaClass.split('new Scanner(System.in)').length - 1).toBe(1)
+    expect(javaClass).toContain('    public static int quadrat(int x) {\n        int y = x * x;\n        return y;\n    }\n')
+    expect(javaClass).toContain('    public static void zeige(String text) {\n')
+    // Ohne Unterprogramme bleibt die Klasse wie bisher.
+    expect(generateJavaClassFile(main, 'Main')).not.toContain('public static int')
+  })
+
   it('bereinigt Java-Klassennamen', () => {
     expect(sanitizedJavaClassName('Fibonacci')).toBe('Fibonacci')
     const s = sanitizedJavaClassName('2 Summe bilden!')

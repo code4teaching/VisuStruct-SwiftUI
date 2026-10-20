@@ -16,6 +16,8 @@ export function noticeText(n: SimNotice): string {
     case 'booleanExpected': return t('sim_notice_boolean_expected')
     case 'subprogramNotFound': return t('sim_notice_subprogram_not_found_fmt', n.text)
     case 'callTooDeep': return t('sim_notice_call_too_deep')
+    case 'callArguments': return t('web_sim_call_arguments_fmt', n.text)
+    case 'missingReturn': return t('web_sim_missing_return_fmt', n.text)
     case 'other': return n.text
   }
 }

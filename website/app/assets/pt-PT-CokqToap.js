@@ -42,4 +42,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_run_cancelled" = "Execução cancelada.";
 "web_run_error" = "Erro durante a execução.";
 "web_run_dropped_fmt" = "… %d linhas anteriores ocultas";
+"web_sim_call_arguments_fmt" = "A chamada não corresponde ao cabeçalho de %@. Verifica os valores entre parênteses.";
+"web_sim_missing_return_fmt" = "%@ terminou sem devolver um valor com return.";
 `;export{e as default};

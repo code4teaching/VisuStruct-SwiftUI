@@ -42,3 +42,5 @@
 "web_run_cancelled" = "執行已取消。";
 "web_run_error" = "執行時發生錯誤。";
 "web_run_dropped_fmt" = "… 已隱藏先前的 %d 行";
+"web_sim_call_arguments_fmt" = "呼叫與 %@ 的首行不相符。請檢查括號中的值。";
+"web_sim_missing_return_fmt" = "%@ 結束時沒有用 return 傳回值。";
