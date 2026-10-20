@@ -6,14 +6,14 @@ kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
 
 ## Die Oberfläche
 
-Der Editor besteht aus vier Bereichen:
+Der Editor besteht aus vier Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf.
 
-- **Oben die Leiste:** Neu, Öffnen, Speichern, Exportieren, Rückgängig, Kopieren und Einfügen, Textgröße, Code und Simulation.
-- **Links die Palette:** Hier liegen alle Elemente, die du ins Struktogramm ziehen kannst.
-- **In der Mitte das Struktogramm:** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
-- **Unten die Eigenschaften:** Hier bearbeitest du den Text des ausgewählten Elements.
+- **Oben die [Leiste](#zeige-leiste):** Neu, Öffnen, Speichern, Exportieren, Rückgängig, Kopieren und Einfügen, Textgröße, Code und Simulation.
+- **Links die [Palette](#zeige-palette):** Hier liegen alle Elemente, die du ins Struktogramm ziehen kannst.
+- **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
+- **Unten das [Eingabefeld](#zeige-eingabefeld):** Hier bearbeitest du den Text des ausgewählten Elements.
 
-> Diesen Lernbereich kannst du jederzeit über **Lernen** in der Leiste ein- und ausblenden. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest.
+> Diesen Lernbereich kannst du jederzeit über [Lernen](#zeige-lernen) in der Leiste ein- und ausblenden. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest.
 
 ## Ein Element einfügen
 
@@ -22,6 +22,10 @@ Ziehe ein Element aus der Palette auf das Struktogramm. Beim Ziehen zeigt eine b
 - **Auf den Platzhalter ø:** Das Element ersetzt den Platzhalter.
 - **Auf die obere Hälfte eines Kastens:** Das Element kommt davor.
 - **Auf die untere Hälfte eines Kastens:** Das Element kommt dahinter.
+
+::: grafik l02-einfuegen.svg
+Wohin du ziehst, entscheidet, wo das neue Element landet.
+:::
 
 Du kannst auch ein Element in der Palette mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
 

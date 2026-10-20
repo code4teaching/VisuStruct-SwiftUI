@@ -8,7 +8,7 @@ kurz: Java-Code aus dem Struktogramm erzeugen, lesen und umgekehrt Java-Code als
 
 Ein Struktogramm beschreibt einen Ablauf. Damit ein Computer ihn ausführt, brauchst du ein Programm in einer Programmiersprache. VisuStruct schreibt diesen Code für dich.
 
-Klicke in der Leiste auf **{ } Code**. Rechts erscheint der **Code-Generator**:
+Klicke in der Leiste auf [{ } Code](#zeige-code). Rechts erscheint der **Code-Generator**:
 
 - Oben wählst du die Sprache: **Java**, **Python** oder **JavaScript**.
 - Bei Java wählst du zusätzlich **Snippet** (nur die Anweisungen) oder **Class** (eine vollständige Java-Datei).

@@ -14,6 +14,10 @@ int alter = 14
 
 Hier heißt die Variable `alter`, ihr Datentyp ist `int` (ganze Zahl), und ihr Wert ist 14. Über den Namen kannst du den Wert später wieder benutzen.
 
+::: grafik l04-variable.svg
+Die Variable als Kiste: Name auf dem Etikett, Datentyp als Aufkleber, Wert darin.
+:::
+
 > Variablennamen beginnen mit einem Buchstaben und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: `preis` ist besser als `p`.
 
 ## Die vier Datentypen
@@ -47,7 +51,11 @@ int punkte = 10
 punkte = punkte + 5
 ```
 
-Die zweite Zeile liest du so: Nimm den alten Wert 10, rechne plus 5 und speichere 15 in `punkte`. Den Datentyp schreibst du nur beim ersten Mal, wenn die Variable angelegt wird.
+In Mathe wäre die zweite Zeile falsch, denn keine Zahl ist gleich sich selbst plus 5. Beim Programmieren liest du sie so: Nimm den alten Wert 10, rechne plus 5 und speichere 15 in `punkte`. Den Datentyp schreibst du nur beim ersten Mal, wenn die Variable angelegt wird.
+
+::: grafik l04-zuweisung.svg
+Erst wird rechts gerechnet, dann landet das Ergebnis in der Variablen links.
+:::
 
 ## Rechnen
 

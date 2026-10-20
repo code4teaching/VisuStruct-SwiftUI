@@ -15,7 +15,7 @@ const diagramFiles = import.meta.glob('../../lessons/diagramme/*.visustruct', { 
   string
 >
 
-const imageFiles = import.meta.glob('../../lessons/bilder/*.{jpg,png,webp}', { query: '?url', import: 'default', eager: true }) as Record<
+const imageFiles = import.meta.glob('../../lessons/bilder/*.{jpg,png,webp,svg}', { query: '?url', import: 'default', eager: true }) as Record<
   string,
   string
 >

@@ -92,6 +92,27 @@ Links Ike Nassi, rechts Ben Shneiderman (Fotos: …).
 :::
 ```
 
+Eine Erklärgrafik in voller Breite aus `lessons/bilder/`, am besten als SVG (bleibt auf jedem Bildschirm scharf). Die
+Zeilen bis `:::` sind die Bildunterschrift:
+
+```
+::: grafik l14-array.svg
+Fünf Fächer mit den Indizes 0 bis 4.
+:::
+```
+
+Tabellen schreibst du mit senkrechten Strichen, die zweite Zeile trennt die Überschrift ab:
+
+```
+| Schritt | summe | i |
+|---|---|---|
+| `int summe = 0` | 0 | – |
+```
+
+Ein Zeiger auf den Editor ist ein Link auf `#zeige-…`, zum Beispiel `[Palette](#zeige-palette)`. Beim Hovern oder Antippen
+leuchtet der Bereich im Editor auf. Bekannte Bereiche: leiste, palette, struktogramm, eingabefeld, reiter, titel, neu,
+oeffnen, speichern, exportieren, rueckgaengig, textgroesse, lernen, code, simulation (Liste in `src/ui/termTips.ts`).
+
 Ein Kasten „Angeberwissen mit Ludwig“, in dem unser Maskottchen Ludwig der Geißbock eine Hintergrundgeschichte erzählt.
 Der Text darf Markdown und Links enthalten:
 

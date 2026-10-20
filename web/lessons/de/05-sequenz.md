@@ -46,6 +46,10 @@ Mit Variablen ist es genauso. Schreibst du einfach `a = b` und danach `b = a`, i
 
 Die Lösung ist eine **Hilfsvariable**, die den alten Wert kurz aufbewahrt:
 
+::: grafik l05-tauschen.svg
+Drei Schritte mit einem leeren Glas: erst Saft in hilf, dann Wasser nach links, dann den Saft aus hilf nach rechts.
+:::
+
 ::: diagramm l04-tauschen.visustruct
 Zuerst wird a in hilf gemerkt. Dann bekommt a den Wert von b, und b bekommt den gemerkten Wert aus hilf.
 :::

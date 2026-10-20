@@ -1,8 +1,9 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest'
-import { glossary } from '../src/learn/content'
+import { glossary, lessons } from '../src/learn/content'
+import { markdownToHTML } from '../src/learn/markdown'
 import { parseGlossary } from '../src/learn/glossary'
-import { markTerms } from '../src/ui/termTips'
+import { markPointers, markTerms, uiTargets } from '../src/ui/termTips'
 
 const entries = parseGlossary(`Vorspann wird ignoriert.
 
@@ -50,5 +51,34 @@ describe('Fachbegriffe', () => {
   it('markiert nur in Lektionstexten', () => {
     const root = step('<p>Variable</p><div class="learn-text"><p>Eine Schleife.</p></div>')
     expect([...root.querySelectorAll('.term')].map((m) => m.textContent)).toEqual(['Schleife'])
+  })
+})
+
+describe('Zeiger auf den Editor', () => {
+  it('jeder Zeiger in einer Lektion nennt einen bekannten Bereich', () => {
+    for (const l of lessons)
+      for (const s of l.steps)
+        for (const b of s.blocks)
+          if (b.kind === 'markdown')
+            for (const m of b.text.matchAll(/\(#zeige-([^)]*)\)/g)) expect(Object.keys(uiTargets), `${l.id} / ${s.title}`).toContain(m[1])
+  })
+
+  it('macht aus dem Link einen Zeiger und lässt ihn bei den Fachbegriffen aus', () => {
+    const root = document.createElement('div')
+    root.innerHTML = `<div class="learn-text">${markdownToHTML('Links die [Palette](#zeige-palette) und eine Variable.')}</div>`
+    markPointers(root)
+    markTerms(root, entries)
+    expect(root.querySelector('a')).toBeNull()
+    expect(root.querySelector<HTMLElement>('.ui-pointer')?.dataset.target).toBe('palette')
+    expect([...root.querySelectorAll('.term')].map((m) => m.textContent)).toEqual(['Variable'])
+  })
+})
+
+describe('Tabellen im Lektionstext', () => {
+  it('wird zu einer HTML-Tabelle', () => {
+    const html = markdownToHTML('| Schritt | i |\n|---|---|\n| `i = 1` | 1 |\n| `i++` | 2 |')
+    expect(html).toContain('<th>Schritt</th>')
+    expect(html).toContain('<td><code>i = 1</code></td><td>1</td>')
+    expect(html.match(/<tr>/g)?.length).toBe(3)
   })
 })

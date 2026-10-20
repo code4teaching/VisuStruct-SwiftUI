@@ -32,6 +32,10 @@ Jedes Fach hat eine Nummer, den **Index**. Gezählt wird ab **0**. Bei `int[] za
 - `zahlen[1]` ist 4
 - `zahlen[4]` ist 10
 
+::: grafik l14-array.svg
+Fünf Fächer mit den Indizes 0 bis 4. Der Index steht über dem Fach, der Wert darin.
+:::
+
 Mit dem Index liest du einen Wert oder schreibst einen neuen hinein:
 
 ```

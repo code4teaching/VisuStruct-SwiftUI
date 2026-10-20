@@ -12,7 +12,11 @@ Die **Do-while-Schleife** ist **fußgesteuert**. Die Bedingung steht unten im Fu
 2. Die Bedingung prüfen.
 3. Ist sie wahr, wieder bei 1 anfangen. Ist sie falsch, geht es unter der Schleife weiter.
 
-Oben im Kasten steht `do`, unten im Fuß die Bedingung. Wenn du die Schleife anklickst, steht rechts vor dem Eingabefeld das Wort `while`: Die Bedingung bedeutet „wiederhole, solange …“.
+::: grafik l11-vergleich.svg
+Links prüft die While-Schleife zuerst, rechts führt die Do-while-Schleife zuerst aus.
+:::
+
+Oben im Kasten steht `do`, unten im Fuß die Bedingung. Wenn du die Schleife anklickst, steht unter dem Diagramm vor dem Eingabefeld das Wort `while`: Die Bedingung bedeutet „wiederhole, solange …“.
 
 > Die Bedingung sagt wie bei der While-Schleife, **wann wiederholt wird**. Solange sie wahr ist, läuft die Schleife weiter.
 

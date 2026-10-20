@@ -22,6 +22,10 @@ Die While-Schleife ist **kopfgesteuert**. Vor **jedem** Durchlauf wird die Bedin
 2. Ist sie wahr, den Inhalt einmal ausführen und wieder bei 1 anfangen.
 3. Ist sie falsch, geht es unter der Schleife weiter.
 
+::: grafik l10-kopfgesteuert.svg
+Nach jedem Durchlauf geht es zurück zur Bedingung. Erst wenn sie false ist, geht es unter der Schleife weiter.
+:::
+
 Im Countdown wird die Bedingung viermal geprüft: bei 3, 2 und 1 ist sie wahr, bei 0 ist sie falsch.
 
 > Ist die Bedingung schon beim ersten Prüfen falsch, wird der Inhalt **kein einziges Mal** ausgeführt. Starte den Countdown mit `int zahl = 0`, dann erscheint nur Start!

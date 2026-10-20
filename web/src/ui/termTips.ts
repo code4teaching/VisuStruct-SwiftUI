@@ -6,7 +6,7 @@ import { entryFor, termPattern, type GlossaryEntry } from '../learn/glossary'
  */
 
 /** Hier wird nichts markiert: Code, Links, Überschriften, Knöpfe und fett Gesetztes (dort wird der Begriff gerade erklärt). */
-const skip = 'code, pre, a, button, h1, h2, h3, h4, strong, .term'
+const skip = 'code, pre, a, button, h1, h2, h3, h4, strong, .term, .ui-pointer'
 
 /** Markiert in den `.learn-text`-Blöcken unter `root` jeden Begriff höchstens einmal. */
 export function markTerms(root: HTMLElement, entries: GlossaryEntry[]) {
@@ -119,4 +119,85 @@ export function attachTermTips(container: HTMLElement) {
   })
   /** Nach dem Neuzeichnen des Lernbereichs gehört das Feld zu keinem Begriff mehr. */
   return { hide }
+}
+
+/**
+ * Zeiger auf den Editor: Ein Link `[Palette](#zeige-palette)` im Lektionstext hebt beim Hovern oder Antippen
+ * den echten Bereich im Editor neben dem Lernbereich hervor.
+ */
+export const uiTargets: Record<string, string> = {
+  leiste: '.app > .toolbar',
+  palette: '.palette',
+  struktogramm: '.canvas',
+  eingabefeld: '.inspector',
+  reiter: '.tabs',
+  titel: '.caption',
+  neu: '[data-action=new]',
+  oeffnen: '[data-action=open]',
+  speichern: '[data-action=save]',
+  exportieren: '[data-action=export]',
+  rueckgaengig: '[data-action=undo]',
+  textgroesse: '[data-action=zoom]',
+  lernen: '[data-action=learn]',
+  code: '[data-action=code]',
+  simulation: '[data-action=simulate]',
+}
+
+export function markPointers(root: HTMLElement) {
+  for (const a of root.querySelectorAll<HTMLAnchorElement>('a[href^="#zeige-"]')) {
+    const key = a.getAttribute('href')!.slice('#zeige-'.length)
+    if (!(key in uiTargets)) continue
+    const span = document.createElement('span')
+    span.className = 'ui-pointer'
+    span.tabIndex = 0
+    span.setAttribute('role', 'button')
+    span.dataset.target = key
+    span.append(...a.childNodes)
+    a.replaceWith(span)
+  }
+}
+
+export function attachPointers(container: HTMLElement) {
+  let lit: Element | undefined
+  let timer: number | undefined
+  const off = () => {
+    lit?.classList.remove('ui-spot')
+    lit = undefined
+    window.clearTimeout(timer)
+  }
+  const on = (pointer: HTMLElement, forAWhile: boolean) => {
+    off()
+    const target = document.querySelector(uiTargets[pointer.dataset.target ?? ''] ?? ':not(*)')
+    if (!target || target.getClientRects().length === 0) return
+    lit = target
+    target.classList.add('ui-spot')
+    if (forAWhile) timer = window.setTimeout(off, 2500)
+  }
+  const pointerOf = (e: Event) => (e.target as Element | null)?.closest?.<HTMLElement>('.ui-pointer') ?? undefined
+  container.addEventListener('pointerover', (e) => {
+    const p = pointerOf(e)
+    if (p && e.pointerType === 'mouse') on(p, false)
+  })
+  container.addEventListener('pointerout', (e) => {
+    if (pointerOf(e) && e.pointerType === 'mouse') off()
+  })
+  container.addEventListener('click', (e) => {
+    const p = pointerOf(e)
+    if (p) on(p, true)
+  })
+  container.addEventListener('focusin', (e) => {
+    const p = pointerOf(e)
+    if (p) on(p, false)
+  })
+  container.addEventListener('focusout', (e) => {
+    if (pointerOf(e)) off()
+  })
+  container.addEventListener('keydown', (e) => {
+    const p = pointerOf(e)
+    if (p && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      on(p, true)
+    }
+  })
+  return { off }
 }
