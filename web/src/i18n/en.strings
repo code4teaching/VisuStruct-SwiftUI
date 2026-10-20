@@ -20,7 +20,7 @@
 "web_palette_hint" = "Drag into the structure chart";
 "web_tabs_label" = "Diagrams";
 "web_status_modified" = "modified";
-"web_inspector_title" = "Properties";
+"web_inspector_title" = "Object Inspector";
 "web_inspector_help_drop" = "Drag elements from the palette onto a tile: top = before, bottom = after, onto “ø” = replace. Existing elements can be moved with the mouse.";
 "web_inspector_help_files" = "You can also drop files into the window.";
 "web_case_name" = "Case name";

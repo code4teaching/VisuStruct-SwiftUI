@@ -8,7 +8,7 @@ kurz: Schritte wiederholen, solange eine Bedingung wahr ist.
 
 Oft soll ein Programm etwas mehrmals tun. Statt denselben Kasten fünfmal hinzuschreiben, nimmst du eine **Schleife**.
 
-Die **While-Schleife** wiederholt ihren Inhalt, **solange** ihre Bedingung wahr ist. Die Bedingung steht oben im Kopf des Kastens. Der Inhalt steht eingerückt darunter, links von einem Balken eingefasst.
+Die **While-Schleife** wiederholt ihren Inhalt, **solange** ihre Bedingung wahr ist. Die Bedingung steht oben im Kopf des Kastens. Der Inhalt steht eingerückt darunter, links von einer Klammer eingefasst.
 
 ::: diagramm l10-countdown.visustruct
 Ein Countdown: Solange zahl größer als 0 ist, wird zahl ausgegeben und um 1 kleiner. Danach erscheint Start!
@@ -21,6 +21,10 @@ Die While-Schleife ist **kopfgesteuert**. Vor **jedem** Durchlauf wird die Bedin
 1. Bedingung prüfen.
 2. Ist sie wahr, den Inhalt einmal ausführen und wieder bei 1 anfangen.
 3. Ist sie falsch, geht es unter der Schleife weiter.
+
+::: grafik l10-kopfgesteuert.svg
+Nach jedem Durchlauf geht es zurück zur Bedingung. Erst wenn sie false ist, geht es unter der Schleife weiter.
+:::
 
 Im Countdown wird die Bedingung viermal geprüft: bei 3, 2 und 1 ist sie wahr, bei 0 ist sie falsch.
 
@@ -37,7 +41,7 @@ Viele Schleifen zählen mit. Dafür brauchst du drei Dinge:
 Fehlt einer dieser Teile, zählt die Schleife falsch oder gar nicht.
 
 ::: angeberwissen
-Zählschleifen sind uralt! Im Artikel von 1973 haben Nassi und Shneiderman ihre Idee unter anderem an der **Fakultät** gezeigt: 5! = 1 · 2 · 3 · 4 · 5 = 120. Hier ist meine Ziegen-Version davon. Probier sie mit **Schritt** in der Simulation aus und schau zu, wie `fak` wächst. Määäh, das geht schnell!
+Zählschleifen sind uralt! Im Artikel von 1973 haben Nassi und Shneiderman ihre Idee unter anderem an der **Fakultät** gezeigt: 5! = 1 · 2 · 3 · 4 · 5 = 120. Hier ist meine Ziegen-Version davon. Probier sie mit **Schritt** in der Simulation aus und schau zu, wie `fakultaet` wächst. Määäh, das geht schnell!
 :::
 
 ::: diagramm l10-fakultaet.visustruct

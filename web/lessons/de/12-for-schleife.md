@@ -26,6 +26,10 @@ Die drei Teile kommen zu unterschiedlichen Zeiten dran:
 2. **Bedingung** wird vor jedem Durchlauf geprüft. Ist sie falsch, ist die Schleife fertig.
 3. Nach dem Inhalt kommt der **Schritt**, dann wieder die Bedingung.
 
+::: grafik l12-for-ablauf.svg
+Der Start kommt nur einmal dran. Danach wiederholen sich Bedingung, Inhalt und Schritt.
+:::
+
 Die For-Schleife ist also kopfgesteuert wie die While-Schleife. Gehe das Beispiel in der Simulation mit **Schritt** durch und beobachte, wie sich `i` verändert.
 
 > Nimm die For-Schleife, wenn du schon vorher weißt, wie oft etwas passieren soll. Hängt das Ende von etwas ab, das erst während der Schleife passiert, zum Beispiel einer Eingabe, ist die While- oder Do-while-Schleife besser.
