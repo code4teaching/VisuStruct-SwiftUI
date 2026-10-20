@@ -14,27 +14,27 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 
 ## Speichern und Öffnen
 
-- **Speichern** (Strg+S): Das Diagramm wird als Datei gespeichert. Je nach Browser fragt er nach dem Ort oder legt die Datei in den Download-Ordner.
-- **Öffnen** (Strg+O): Eine gespeicherte Datei wieder laden. Du kannst eine Datei auch einfach ins Browserfenster ziehen.
+- **[Speichern](#zeige-speichern)** (Strg+S): Das Diagramm wird als Datei gespeichert. Je nach Browser fragt er nach dem Ort oder legt die Datei in den Download-Ordner.
+- **[Öffnen](#zeige-oeffnen)** (Strg+O): Eine gespeicherte Datei wieder laden. Du kannst eine Datei auch einfach ins Browserfenster ziehen.
 
 > Deine Übungen merkt sich der Browser automatisch. Das klappt aber nur in diesem Browser auf diesem Gerät. Wichtige Arbeiten solltest du deshalb immer zusätzlich als Datei speichern.
 
 ## Mehrere Diagramme in Reitern
 
-Über dem Struktogramm siehst du die **Reiter**. Mit **+** oder **Neu** öffnest du ein weiteres, leeres Diagramm. Ein Punkt • vor dem Namen zeigt, dass es ungespeicherte Änderungen gibt.
+Über dem Struktogramm siehst du die [Reiter](#zeige-reiter). Mit **+** oder [Neu](#zeige-neu) öffnest du ein weiteres, leeres Diagramm. Ein Punkt • vor dem Namen zeigt, dass es ungespeicherte Änderungen gibt.
 
-Den **Titel** eines Diagramms trägst du in das Feld über dem Struktogramm ein. Er erscheint auch beim Exportieren und wird als Dateiname vorgeschlagen.
+Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struktogramm ein. Er erscheint auch beim Exportieren und wird als Dateiname vorgeschlagen.
 
 ## Als Bild oder PDF weitergeben
 
-Über **Exportieren …** in der Leiste gibst du dein Struktogramm weiter:
+Über [Exportieren …](#zeige-exportieren) in der Leiste gibst du dein Struktogramm weiter:
 
 - **Bild (PNG):** zum Einfügen in ein Arbeitsblatt oder eine Präsentation
 - **Vektorgrafik (SVG):** bleibt in jeder Größe scharf
 - **PDF (A4):** eine Seite zum Abgeben oder Ausdrucken
 - **Drucken** (Strg+P): direkt auf den Drucker
 
-Mit **Text** in der Leiste stellst du die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
+Mit [Text](#zeige-textgroesse) in der Leiste stellst du die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
 
 ## Ausprobieren
 

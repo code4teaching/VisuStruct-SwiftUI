@@ -48,6 +48,10 @@ Schulnoten gehen von 1 bis 6. Ob eine Note **im Bereich** liegt, prüfst du mit 
 note >= 1 && note <= 6
 ```
 
+::: grafik l08-zahlenstrahl.svg
+Gültig ist der grüne Bereich von 1 bis 6, beide Ränder gehören dazu.
+:::
+
 Umgekehrt ist eine Note **außerhalb** des Bereichs, wenn sie zu klein **oder** zu groß ist:
 
 ::: diagramm l08-note.visustruct

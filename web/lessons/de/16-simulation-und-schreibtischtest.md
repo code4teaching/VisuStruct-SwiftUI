@@ -6,7 +6,7 @@ kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und
 
 ## Die Simulation starten
 
-Mit **▶︎ Simulation** in der Leiste führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Mit **✎ Diagramm** an derselben Stelle kehrst du zum Bearbeiten zurück.
+Mit [▶︎ Simulation](#zeige-simulation) in der Leiste führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Mit **✎ Diagramm** an derselben Stelle kehrst du zum Bearbeiten zurück.
 
 Rechts erscheint die **Steuerung**:
 
@@ -37,22 +37,21 @@ Beim **Schreibtischtest** spielst du selbst den Computer. Du gehst das Struktogr
 
 Für das Diagramm oben sieht die Tabelle so aus:
 
-```
-Schritt               summe   i   Ausgabe
-int summe = 0           0     -
-int i = 1               0     1
-i <= 3  -> wahr         0     1
-summe = summe + i       1     1
-i = i + 1               1     2
-i <= 3  -> wahr         1     2
-summe = summe + i       3     2
-i = i + 1               3     3
-i <= 3  -> wahr         3     3
-summe = summe + i       6     3
-i = i + 1               6     4
-i <= 3  -> falsch       6     4
-output: summe           6     4    6
-```
+| Schritt | summe | i | Ausgabe |
+|---|---|---|---|
+| `int summe = 0` | 0 | – | |
+| `int i = 1` | 0 | 1 | |
+| `i <= 3` → wahr | 0 | 1 | |
+| `summe = summe + i` | 1 | 1 | |
+| `i = i + 1` | 1 | 2 | |
+| `i <= 3` → wahr | 1 | 2 | |
+| `summe = summe + i` | 3 | 2 | |
+| `i = i + 1` | 3 | 3 | |
+| `i <= 3` → wahr | 3 | 3 | |
+| `summe = summe + i` | 6 | 3 | |
+| `i = i + 1` | 6 | 4 | |
+| `i <= 3` → falsch | 6 | 4 | |
+| `output: summe` | 6 | 4 | 6 |
 
 Vergleiche danach deine Tabelle mit der Simulation. Stimmen die Werte unter **Variablen** nach jedem Schritt mit deiner Zeile überein?
 

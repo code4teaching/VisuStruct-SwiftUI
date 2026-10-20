@@ -1,4 +1,4 @@
-/** Kleines Markdown für Lektionstexte: Absätze, ###, Listen, Zitat als Hinweis, Code, **fett**, *kursiv*, `code`, [Link](url). */
+/** Kleines Markdown für Lektionstexte: Absätze, ###, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url). */
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -56,6 +56,19 @@ export function markdownToHTML(source: string): string {
       out.push(ordered ? `<ol>${items.join('')}</ol>` : `<ul>${items.join('')}</ul>`)
       continue
     }
+    if (line.startsWith('|') && /^\|?[\s:|-]*-{3,}[\s:|-]*$/.test(lines[i + 1] ?? '')) {
+      const cells = (row: string) => row.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => inline(c.trim()))
+      const head = cells(line)
+      i += 2
+      const rows: string[][] = []
+      while (i < lines.length && lines[i].startsWith('|')) rows.push(cells(lines[i++]))
+      out.push(
+        `<div class="lesson-table"><table><thead><tr>${head.map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${rows
+          .map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`)
+          .join('')}</tbody></table></div>`,
+      )
+      continue
+    }
     if (line.startsWith('>')) {
       const quote: string[] = []
       while (i < lines.length && lines[i].startsWith('>')) quote.push(lines[i++].replace(/^>\s?/, ''))
@@ -66,7 +79,7 @@ export function markdownToHTML(source: string): string {
     while (
       i < lines.length &&
       lines[i].trim() !== '' &&
-      !/^(```|#{3,4}\s|>|\s*([-*]|\d+\.)\s+)/.test(lines[i])
+      !/^(```|#{3,4}\s|>|\||\s*([-*]|\d+\.)\s+)/.test(lines[i])
     ) {
       para.push(lines[i++].trim())
     }

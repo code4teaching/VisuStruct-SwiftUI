@@ -33,6 +33,7 @@ describe('Lernbereich: Inhalte', () => {
   it('jedes verwendete Bild existiert', () => {
     for (const { where, block } of allBlocks()) {
       if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
+      if (block.kind === 'graphic') expect(image(block.file), `${where}: ${block.file}`).toBeDefined()
     }
   })
 
