@@ -102,6 +102,45 @@ Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife o
 Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschrift *Communications of the ACM* hat den Struktogramm-Artikel abgelehnt. Laut Nassi meinte der Gutachter sogar, sie sollten alle Exemplare einsammeln und verbrennen. Autsch! Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. Ätsch! [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
 :::
 
+## Andere Darstellungen: PAP und Pseudocode
+
+Ein Struktogramm ist nicht die einzige Art, einen Algorithmus aufzuschreiben. Zwei weitere wirst du im Unterricht treffen. Hier siehst du dasselbe Tee-Beispiel wie oben in allen drei Formen.
+
+### Programmablaufplan (PAP)
+
+Der **Programmablaufplan**, kurz **PAP**, besteht aus Symbolen, die mit **Pfeilen** verbunden sind. Er ist nach DIN 66001 genormt. Eine Raute ist eine Verzweigung mit den Ausgängen ja und nein. Eine Schleife erkennst du daran, dass ein Pfeil **zurück nach oben** führt.
+
+::: grafik l01-pap.svg
+Das Tee-Beispiel als Programmablaufplan. Der Pfeil von „1 Minute warten“ zurück nach oben bildet die Schleife.
+:::
+
+### Pseudocode
+
+**Pseudocode** ist Text, der wie ein Programm aussieht, aber in normaler Sprache geschrieben ist. Feste Wörter wie WENN und SOLANGE zeigen die Bausteine, die **Einrückung** zeigt, was dazugehört.
+
+```
+Tasse auf den Tisch stellen
+WENN Zucker gewünscht DANN
+    Zucker hineingeben
+ENDE WENN
+SOLANGE Tee noch zu heiß
+    1 Minute warten
+ENDE SOLANGE
+Tee trinken
+```
+
+### Im Vergleich
+
+- **Struktogramm:** Kästen ineinander, die Schleife ist eine Klammer links. Die Struktur siehst du auf einen Blick, wilde Sprünge sind unmöglich.
+- **PAP:** Symbole mit Pfeilen, die Schleife ist ein Pfeil zurück nach oben. Sehr anschaulich, aber bei großen Plänen schnell unübersichtlich.
+- **Pseudocode:** Text mit Einrückung, die Schleife steht zwischen SOLANGE und ENDE SOLANGE. Schnell geschrieben und schon nah am Programmcode.
+
+> Alle drei beschreiben denselben Algorithmus. Wenn du eine Form lesen kannst, lernst du die anderen schnell.
+
+::: angeberwissen
+Nassi und Shneiderman wollten den Pfeilen an den Kragen! Ihr Artikel von 1973 hieß „Flowchart Techniques for Structured Programming“. Flowchart ist das englische Wort für Ablaufplan. Mit Pfeilen kann man nämlich kreuz und quer springen, bis der Plan aussieht wie ein Teller Spaghetti. Im Struktogramm geht das gar nicht. Mäh, so mag ich das: ordentlich, wie mein Stall.
+:::
+
 ## Erst die Struktur, dann der Code
 
 Beim Programmieren passieren zwei Dinge gleichzeitig: Du musst dir den Ablauf überlegen und die Schreibweise der Programmiersprache beachten. Mit einem Struktogramm trennst du beides.
@@ -118,6 +157,7 @@ Mit der **Simulation** kannst du dein Struktogramm außerdem Schritt für Schrit
 - Ich weiß, dass ein Struktogramm von oben nach unten gelesen wird. → So liest du ein Struktogramm
 - Ich kenne die drei Grundbausteine Sequenz, Verzweigung und Wiederholung. → Baustein 1: Die Sequenz
 - Ich erkenne jeden Baustein im Struktogramm an seiner Form. → Alle drei zusammen
+- Ich kann einen einfachen Algorithmus auch als PAP und als Pseudocode lesen. → Andere Darstellungen: PAP und Pseudocode
 :::
 
 ## Wissenstest
@@ -153,4 +193,23 @@ Mit der **Simulation** kannst du dein Struktogramm außerdem Schritt für Schrit
 - [ ] Ein bestimmtes Programm in Java
 - [ ] Ein Bild, das ein Programm erklärt
 > Ein Algorithmus ist unabhängig von der Programmiersprache. Ein Struktogramm ist eine Möglichkeit, ihn aufzuschreiben.
+
+? Woran erkennst du in einem Programmablaufplan (PAP) eine Schleife?
+- [ ] An einer Klammer auf der linken Seite
+- [x] An einem Pfeil, der zurück nach oben führt
+- [ ] Am Wort SOLANGE
+> Die Klammer gehört zum Struktogramm, SOLANGE zum Pseudocode.
+
+? Ordne jedem Symbol im PAP seine Bedeutung zu.
+= Oval -> Start oder Ende
+= Rechteck -> Anweisung
+= Raute -> Verzweigung
+= Parallelogramm -> Ein- oder Ausgabe
+> Die Raute hat zwei Ausgänge: ja und nein.
+
+? Was zeigt im Pseudocode, welche Zeilen zu einer Schleife gehören?
+- [ ] Die Farbe
+- [x] Die Einrückung und das ENDE SOLANGE
+- [ ] Ein Pfeil
+> Alles zwischen SOLANGE und ENDE SOLANGE ist eingerückt und wird wiederholt.
 :::

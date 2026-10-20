@@ -793,11 +793,26 @@ function inferIntegerVariables(doc: VSDocument): Set<string> {
 /** Wie in Java: `/` zwischen ganzen Zahlen schneidet in JavaScript mit `Math.trunc` ab, auch bei `x /= y`. */
 function javaScriptIntegerDivision(code: string, intVariables: Set<string>): string {
   const isInt = (operand: string) => /^\d+$/.test(operand) || intVariables.has(operand)
+  // Ganze Ketten wie `x * x / 2` von links nach rechts auswerten: In Java ist das `(x * x) / 2`, nicht `x * (x / 2)`.
+  const operand = String.raw`(?:[a-zA-Z_]\w*|\d+(?:\.\d+)?)`
+  const chain = new RegExp(String.raw`(?<![\w.*/%]\s*)${operand}(?:\s*[*/%]\s*${operand})+(?![\w.(\[])`, 'g')
+  const foldChain = (m: string) => {
+    const tokens = m.split(/\s*([*/%])\s*/)
+    if (!tokens.some((t) => t === '/')) return m
+    let result = tokens[0]
+    let resultIsInt = isInt(tokens[0])
+    for (let i = 1; i < tokens.length; i += 2) {
+      const op = tokens[i]
+      const next = tokens[i + 1]
+      if (op === '/' && resultIsInt && isInt(next)) result = `Math.trunc(${result} / ${next})`
+      else result = `${result} ${op} ${next}`
+      resultIsInt = resultIsInt && isInt(next)
+    }
+    return result
+  }
   return mapOutsideStringLiterals(code, (part) =>
     part
-      .replace(/(?<![\w./])([a-zA-Z_]\w*|\d+)\s*\/\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[/])/g, (m, a: string, b: string) =>
-        isInt(a) && isInt(b) ? `Math.trunc(${a} / ${b})` : m,
-      )
+      .replace(chain, foldChain)
       .replace(/(?<![\w.])([a-zA-Z_]\w*)\s*\/=\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[])/g, (m, a: string, b: string) =>
         isInt(a) && isInt(b) ? `${a} = Math.trunc(${a} / ${b})` : m,
       ),
