@@ -24,7 +24,8 @@ body {
 
 .app {
   display: grid;
-  grid-template: 'bar bar bar' auto 'pal work insp' 1fr 'status status status' auto / 210px minmax(0, 1fr) 260px;
+  /* Wie in der App: Eingabe unter dem Diagramm, damit das Diagramm die ganze Breite bekommt */
+  grid-template: 'bar bar' auto 'pal work' 1fr 'pal insp' auto 'status status' auto / 210px minmax(0, 1fr);
   height: 100%;
   flex: 1;
   min-width: 0;
@@ -110,7 +111,8 @@ button:disabled {
 }
 .inspector {
   grid-area: insp;
-  border-inline-start: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  max-height: 34vh;
 }
 
 h2 {
@@ -275,8 +277,6 @@ h2 {
     white-space: nowrap;
   }
   .inspector {
-    border-inline-start: none;
-    border-top: 1px solid var(--border);
     max-height: 30vh;
   }
 }
@@ -456,7 +456,6 @@ button.sim-toggle[aria-pressed='false'] {
   grid-area: code;
   background: var(--panel);
   border-inline-start: 1px solid var(--border);
-  border-top: 1px solid var(--border);
   padding: 12px;
   overflow-y: auto;
   min-height: 0;
@@ -464,8 +463,8 @@ button.sim-toggle[aria-pressed='false'] {
 .app.coding {
   grid-template:
     'bar bar bar' auto
-    'pal work insp' auto
     'pal work code' 1fr
+    'pal insp code' auto
     'status status status' auto / 210px minmax(0, 1fr) 400px;
 }
 .app.coding .codepanel {
@@ -576,6 +575,7 @@ button.primary {
   }
   .codepanel {
     border-inline-start: none;
+    border-top: 1px solid var(--border);
     max-height: 50vh;
   }
 }
@@ -638,6 +638,7 @@ button.primary {
 /* Inspector wie in der App */
 .inspector .segmented {
   margin: 6px 0 4px;
+  max-width: 420px;
 }
 .mono-hint {
   font: 11px/1.45 ui-monospace, 'SF Mono', Menlo, Consolas, monospace;

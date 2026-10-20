@@ -21,7 +21,7 @@ Je nach eingegebenem Alter erscheint die eine oder die andere Meldung. Probiere 
 
 ## Eine Verzweigung einfügen
 
-Ziehe die **Verzweigung** aus der Palette ins Struktogramm. Klicke das Dreieck an und schreibe rechts die Bedingung, z. B. `alter >= 18`. Das Wort `if` steht schon davor.
+Ziehe die **Verzweigung** aus der Palette ins Struktogramm. Klicke das Dreieck an und schreibe unten die Bedingung, z. B. `alter >= 18`. Das Wort `if` steht schon davor.
 
 In jedem Zweig liegt zuerst ein Platzhalter ø. Ziehe dort Anweisungen hinein. In einem Zweig dürfen auch mehrere Kästen untereinander stehen.
 
