@@ -113,6 +113,22 @@ describe('Lernbereich: Format', () => {
     expect(() => parseBlocks('::: tabelle\n:::', 'x.md')).toThrow(/Unbekannter Block/)
   })
 
+  it('liest Zuordnungen im Quiz', () => {
+    const [block] = parseBlocks('::: quiz\n? Ordne zu.\n= Fallauswahl -> Mehrfachauswahl\n= Schleife -> Wiederholungsstruktur\n> Erklärung\n:::', 'x.md')
+    expect(block).toEqual({
+      kind: 'quiz',
+      questions: [{
+        question: 'Ordne zu.',
+        options: [],
+        pairs: [{ left: 'Fallauswahl', right: 'Mehrfachauswahl' }, { left: 'Schleife', right: 'Wiederholungsstruktur' }],
+        explanation: 'Erklärung',
+      }],
+    })
+    expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a -> b\n:::', 'x.md')).toThrow(/mindestens zwei Paare/)
+    expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a -> b\n= c -> b\n:::', 'x.md')).toThrow(/verschiedenen rechten/)
+    expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a b\n:::', 'x.md')).toThrow(/links -> rechts/)
+  })
+
   it('löst Checklisten-Verweise auf und meldet unbekannte Schritte', () => {
     const source = (ref: string) => `---\ntitel: T\n---\n## Erster Schritt\nText\n## Checkliste\n::: checkliste\n- Ich kann es. → ${ref}\n- Ohne Verweis\n:::\n`
     const block = parseLesson(source('erster schritt'), '01-t.md').steps[1].blocks[0]

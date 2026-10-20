@@ -1095,6 +1095,29 @@ button.danger-text:not(:disabled) {
   border-color: #ff3b30;
   background: rgba(255, 59, 48, 0.1);
 }
+.learn-match {
+  display: grid;
+  gap: 6px;
+}
+.learn-match-left {
+  display: grid;
+  grid-template-columns: 8.5em minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+.learn-match-select {
+  min-width: 0;
+  width: 100%;
+  max-width: none;
+}
+.learn-match-select.right {
+  border-color: #34c759;
+  background: rgba(52, 199, 89, 0.14);
+}
+.learn-match-select.wrong {
+  border-color: #ff3b30;
+  background: rgba(255, 59, 48, 0.1);
+}
 .learn-explanation {
   margin: 0;
   color: var(--muted);

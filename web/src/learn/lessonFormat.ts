@@ -42,6 +42,8 @@ export interface ChecklistItem {
 export interface QuizQuestion {
   question: string
   options: { text: string; correct: boolean }[]
+  /** Zuordnung: Zu jedem linken Begriff wird der passende rechte gewählt. */
+  pairs?: { left: string; right: string }[]
   explanation?: string
 }
 
@@ -132,12 +134,24 @@ function parseQuiz(lines: string[], file: string): QuizQuestion[] {
       const q = questions.at(-1)
       if (!q) throw new FormatError(`${file}: Antwort ohne Frage im Quiz.`)
       q.options.push({ text: line.slice(5).trim(), correct: line[3].toLowerCase() === 'x' })
+    } else if (line.startsWith('= ')) {
+      const q = questions.at(-1)
+      const m = /^=\s+(.+?)\s+->\s+(.+)$/.exec(line)
+      if (!q || !m) throw new FormatError(`${file}: Zuordnung „${line}“ braucht die Form „= links -> rechts“ nach einer Frage.`)
+      ;(q.pairs ??= []).push({ left: m[1].trim(), right: m[2].trim() })
     } else if (line.startsWith('>')) {
       const q = questions.at(-1)
       if (q) q.explanation = ((q.explanation ? q.explanation + ' ' : '') + line.slice(1).trim()).trim()
     }
   }
   for (const q of questions) {
+    if (q.pairs) {
+      const rights = new Set(q.pairs.map((p) => p.right))
+      if (q.options.length > 0 || q.pairs.length < 2 || rights.size !== q.pairs.length) {
+        throw new FormatError(`${file}: Zuordnung „${q.question}“ braucht mindestens zwei Paare mit verschiedenen rechten Seiten und keine Antworten.`)
+      }
+      continue
+    }
     if (q.options.length < 2 || !q.options.some((o) => o.correct)) {
       throw new FormatError(`${file}: Quizfrage „${q.question}“ braucht mindestens zwei Antworten, davon eine richtige.`)
     }

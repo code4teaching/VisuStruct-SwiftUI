@@ -122,4 +122,10 @@ lösung: l07-betrag-loesung.visustruct
 - [x] 50
 - [ ] 0
 > >= heißt größer oder gleich. 50 gehört also dazu.
+
+? In Schulbüchern hat die Verzweigung oft noch einen anderen Namen. Welchen?
+- [ ] Mehrfachauswahl
+- [x] Bedingte Anweisung
+- [ ] Wiederholungsstruktur
+> Die Anweisungen in einem Zweig werden nur unter einer Bedingung ausgeführt. Darum heißt sie auch bedingte Anweisung.
 :::

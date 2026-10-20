@@ -133,6 +133,17 @@ Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Ant
 :::
 ```
 
+Eine Quizfrage kann statt Antworten auch eine Zuordnung sein: jede Zeile `= links -> rechts`. Neben jedem linken Begriff
+erscheint eine Auswahl mit allen rechten Begriffen (alphabetisch). Die rechten Seiten müssen verschieden sein.
+
+```
+::: quiz
+? Ordne jedem Begriff den anderen Namen zu.
+= Fallauswahl -> Mehrfachauswahl
+= Schleife -> Wiederholungsstruktur
+:::
+```
+
 ## Aufgabe
 
 Wie eine Lektion, aber ohne Schritte. `nach` ist die Nummer der Lektion, die man vorher kennen sollte, `stufe` die

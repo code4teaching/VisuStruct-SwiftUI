@@ -114,4 +114,10 @@ lösung: l10-verdoppeln-loesung.visustruct
 - [x] Weil sich zahl nie ändert und die Bedingung wahr bleibt
 - [ ] Weil die Bedingung falsch geschrieben ist
 > Im Inhalt muss etwas passieren, das die Bedingung irgendwann falsch macht.
+
+? Wie nennt man Schleifen in Schulbüchern auch?
+- [x] Wiederholungsstrukturen
+- [ ] Verzweigungen
+- [ ] Unterprogramme
+> Eine Schleife wiederholt Anweisungen. Darum heißt sie auch Wiederholungsstruktur.
 :::

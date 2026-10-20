@@ -30,6 +30,10 @@ Das Unterprogramm zeigeBegruessung() als eigenes Struktogramm.
 
 > **In der Simulation:** Erreicht die Simulation einen Aufruf, sucht sie unter den offenen Reitern das Struktogramm mit diesem Titel und führt es aus. Danach macht sie im Hauptprogramm weiter. Solange das Unterprogramm läuft, bleibt der Aufruf-Kasten markiert. Hauptprogramm und Unterprogramme teilen sich dieselben Variablen. Gibt es keinen passenden Reiter, überspringt die Simulation den Aufruf und zeigt einen Hinweis.
 
+::: angeberwissen
+Warum sagt dein Lehrer bei Java immer „Methode“ und nie „Funktion“ oder „Prozedur“? Weil in Java jedes Unterprogramm zu einer Klasse gehören muss, und Unterprogramme einer Klasse heißen Methoden. Den Unterschied gibt es trotzdem: Liefert eine Methode ein Ergebnis zurück, ist sie eigentlich eine Funktion. Steht `void` davor, liefert sie nichts und ist eigentlich eine Prozedur. Java ist da einfach bequem und nennt beide Methode. Ich auch: Meine Methode heißt Fressen.
+:::
+
 ## Übung: Aufruf einbauen
 
 ::: übung l15-titel
@@ -111,4 +115,18 @@ lösung: l15-bis-null-loesung.visustruct
 - [x] In einem offenen Reiter mit dem Titel zeigeErgebnis()
 - [ ] Die Simulation kann keine Unterprogramme ausführen.
 > Baue jedes Unterprogramm in einem eigenen Reiter und gib ihm als Titel den Namen aus dem Aufruf.
+
+? Wie heißt ein Unterprogramm in Java?
+- [ ] Klasse
+- [x] Methode
+- [ ] Schleife
+> In Java ist ein Unterprogramm eine Methode, zum Beispiel die `main`-Methode. Je nach Art sagt man auch Prozedur oder Funktion.
+
+? Viele Bausteine haben in Schulbüchern einen zweiten Namen. Ordne jedem Begriff aus VisuStruct den anderen Namen zu.
+= Verzweigung -> Bedingte Anweisung
+= Fallauswahl -> Mehrfachauswahl
+= Schleife -> Wiederholungsstruktur
+= Array -> Feld
+= Unterprogramm -> Methode
+> Beide Namen meinen dasselbe. Wenn du einen davon kennst, verstehst du auch den anderen.
 :::
