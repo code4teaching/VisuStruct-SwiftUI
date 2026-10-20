@@ -180,6 +180,8 @@ h2 {
 .canvas {
   flex: 1;
   overflow: auto;
+  /* Platz für den Scrollbalken immer freihalten: unter Windows verschiebt er sonst das Layout */
+  scrollbar-gutter: stable;
   background: #fafafa;
 }
 .canvas svg {
@@ -272,6 +274,7 @@ h2 {
   .palette ul {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
   }
   .palette-item {
     white-space: nowrap;
@@ -593,6 +596,8 @@ button.primary {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   overflow-x: auto;
+  /* Nur waagerecht scrollen: sonst zeigt Windows hier einen winzigen senkrechten Scrollbalken */
+  overflow-y: hidden;
   scrollbar-width: thin;
 }
 .tab {
@@ -714,6 +719,8 @@ button.danger-text:not(:disabled) {
 }
 .learn-body {
   overflow-y: auto;
+  /* Sonst: Scrollbalken erscheint → Vorschaubilder schmaler und kürzer → Scrollbalken verschwindet → … */
+  scrollbar-gutter: stable;
   padding: 4px 16px 24px;
   flex: 1;
   min-height: 0;
@@ -856,6 +863,7 @@ button.danger-text:not(:disabled) {
   padding: 8px 10px;
   margin: 0 0 10px;
   overflow-x: auto;
+  overflow-y: hidden;
   font-size: 12.5px;
 }
 .lesson-code code {
