@@ -69,6 +69,7 @@ lösung: l2-hallo-loesung.visustruct
   `whileSchleife`, `doUntilSchleife`, `endlosschleife`, `aussprung`, `aufruf`.
 - `tipp:` (optional) wird erst auf Klick gezeigt.
 - `lösung:` (optional) Musterlösung. In Aufgaben kann man sie aufklappen; der Test prüft, dass sie alle Tests besteht.
+- `unterprogramm:` (optional) Unterprogramme zur Musterlösung, durch Komma getrennt. Ihr Titel ist der Name im Aufruf. Beim Prüfen findet VisuStruct Unterprogramme in den anderen offenen Reitern.
 - Die Kennung (`l2-hallo`) muss überall eindeutig sein, denn unter ihr wird der Fortschritt gespeichert.
 
 Eine Checkliste zum Abhaken:

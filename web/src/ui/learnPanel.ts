@@ -1,6 +1,7 @@
 import { checkExercise, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
+import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import { diagram, glossary, image, lessons, reference, tasks } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
@@ -23,6 +24,8 @@ export interface LearnHost {
   openDiagram(doc: VSDocument, fileName: string): void
   /** Diagramm des Reiters, in dem die Übung offen ist. */
   exerciseDocument(id: string): VSDocument | undefined
+  /** Unterprogramme für Aufrufe in der Übung: die anderen offenen Reiter. */
+  subprogramsFor(id: string): SubprogramResolver
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
   stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
@@ -377,7 +380,7 @@ export class LearnPanel {
         return
       }
       this.host.stopSimulation()
-      const outcomes = checkExercise(doc, ex.tests)
+      const outcomes = checkExercise(doc, ex.tests, this.host.subprogramsFor(ex.id))
       const used = usedElementTypes(doc)
       const missing = ex.requires
         .map((r) => (r === 'forZaehlSchleife' ? 'forSchleife' : r))
@@ -429,7 +432,18 @@ export class LearnPanel {
           const svg = this.host.preview(solution)
           if (svg) details.append(h('div', { class: 'learn-preview', dir: 'ltr' }, svg))
           const openSolution = h('button', {}, t('web_learn_open_in_editor'))
-          openSolution.addEventListener('click', () => this.host.openDiagram(solution, ex.solution!))
+          openSolution.addEventListener('click', () => {
+            this.host.openDiagram(solution, ex.solution!)
+            for (const file of ex.subprograms) {
+              const sub = diagram(file)
+              if (sub) this.host.openDiagram(sub, file)
+            }
+          })
+          for (const file of ex.subprograms) {
+            const sub = diagram(file)
+            const subSvg = sub && this.host.preview(sub)
+            if (subSvg) details.append(h('div', { class: 'learn-preview', dir: 'ltr' }, subSvg))
+          }
           details.append(openSolution)
         })
         card.append(details)

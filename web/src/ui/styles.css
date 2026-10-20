@@ -714,6 +714,41 @@ button.danger-text:not(:disabled) {
 .shell.learning .learn {
   display: flex;
 }
+/* Trennlinie zum Ziehen; breite Trefferfläche, damit es auch mit dem Finger geht. */
+.learn-resizer {
+  display: none;
+  flex: none;
+  width: 10px;
+  margin-inline: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.shell.learning .learn-resizer {
+  display: block;
+}
+.learn-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.learn-resizer:hover::after,
+.learn-resizer:focus-visible::after,
+.shell.resizing .learn-resizer::after {
+  background: var(--accent);
+}
+.learn-resizer:focus-visible {
+  outline: none;
+}
+.shell.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
 .learn-tabs {
   margin: 10px 12px 0;
 }
@@ -1090,6 +1125,12 @@ button[data-action='learn'][aria-pressed='true'] {
 }
 /* Erst auf dem Handy untereinander; auf dem iPad hochkant bleibt der Lernbereich daneben. */
 @media (max-width: 700px) {
+  .shell.learning .learn-resizer {
+    display: none;
+  }
+  .shell .learn {
+    width: auto !important;
+  }
   .shell {
     flex-direction: column;
   }

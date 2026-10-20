@@ -26,6 +26,8 @@ export interface Exercise {
   hint?: string
   /** Musterlösung (Datei in `lessons/diagramme`), in Aufgaben zum Ansehen. */
   solution?: string
+  /** Unterprogramme zur Musterlösung (Dateien in `lessons/diagramme`), je eins pro Reiter. */
+  subprograms: string[]
 }
 
 export interface ChecklistItem {
@@ -87,10 +89,10 @@ export function parseTest(spec: string, file: string): ExerciseTest {
 }
 
 function parseExercise(id: string, lines: string[], file: string): Exercise {
-  const ex: Exercise = { id, title: '', task: '', tests: [], requires: [] }
+  const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -103,6 +105,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
         case 'tipp': ex.hint = value; last = 'hint'; break
         case 'lösung':
         case 'loesung': ex.solution = value; break
+        case 'unterprogramm': ex.subprograms.push(...value.split(/\s*,\s*/).filter(Boolean)); break
       }
     } else if (last && raw.trim() !== '') {
       // Fortsetzungszeilen für Auftrag und Tipp
