@@ -130,6 +130,14 @@ Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgef�
 auch: Parametern
 Eine Variable in der Kopfzeile eines Unterprogramms. Beim Aufruf bekommt sie den Wert aus den Klammern.
 
+### Wertübergabe
+auch: call by value
+Ein Unterprogramm bekommt eine Kopie des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers unverändert.
+
+### Referenzübergabe
+auch: call by reference
+Ein Unterprogramm bekommt einen Verweis auf dieselben Daten, z. B. auf ein Array. Ändert es ein Fach, sieht auch der Aufrufer die Änderung.
+
 ### Rückgabewert
 auch: Rückgabewerte
 Das Ergebnis, das ein Unterprogramm mit return an den Aufruf zurückgibt.

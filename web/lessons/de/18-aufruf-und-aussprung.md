@@ -69,7 +69,7 @@ Im Aufruf-Kasten schreibst du die Werte in die Klammern, z. B. `zeigeSumme(3, 4)
 Das Hauptprogramm ruft zeigeSumme zweimal mit anderen Werten auf. Öffne beide Diagramme und starte hier die Simulation.
 :::
 
-> **Lokale Variablen:** Die Parameter und alle Variablen, die im Unterprogramm entstehen, gehören nur dem Unterprogramm. Es bekommt **Kopien** der Werte. Diese Art heißt **Wertübergabe**: Das Unterprogramm kann die Variablen des Hauptprogramms nicht verändern. In der Simulation siehst du während des Aufrufs nur die Variablen des Unterprogramms.
+> **Lokale Variablen:** Die Parameter und alle Variablen, die im Unterprogramm entstehen, gehören nur dem Unterprogramm. Es bekommt **Kopien** der Werte, mehr dazu weiter unten bei der Wertübergabe. In der Simulation siehst du während des Aufrufs nur die Variablen des Unterprogramms.
 
 ## Ergebnis zurückgeben: return
 
@@ -106,6 +106,55 @@ braucht: aufruf
 tipp: Lege mit **+** einen neuen Reiter an und gib ihm den Titel `int flaeche(int a, int b)`. Darin reicht eine Anweisung: `return a * b`. Im Hauptprogramm schreibst du in den Aufruf-Kasten `int f = flaeche(laenge, breite)`.
 lösung: l15-flaeche-loesung.visustruct
 unterprogramm: l15-flaeche-unterprogramm-loesung.visustruct
+:::
+
+## Kopie oder Original: Wertübergabe und Referenzübergabe
+
+Was passiert, wenn ein Unterprogramm seinen Parameter verändert? Das hängt davon ab, **was** übergeben wird.
+
+**Wertübergabe** (englisch *call by value*): Bei `int`, `double`, `boolean`, `char` und `String` bekommt das Unterprogramm eine **Kopie** des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers, wie sie war.
+
+**Referenzübergabe** (englisch *call by reference*): Bei einem **Array** bekommt das Unterprogramm keine Kopie, sondern einen Verweis auf dasselbe Array. Ändert es ein Fach, ist das Fach auch beim Aufrufer geändert. Die Kopfzeile dafür sieht so aus:
+
+```
+void leeren(boolean[] plaetze)
+```
+
+::: grafik uebergabe.svg
+Oben bekommt verdopple eine Kopie von zahl. Unten zeigen reihe und plaetze auf dasselbe Array.
+:::
+
+Probiere beides aus. Öffne die drei Diagramme und starte im Hauptprogramm die Simulation:
+
+::: diagramm uebergabe-verdopple.visustruct
+verdopple ändert nur seine Kopie x.
+:::
+
+::: diagramm uebergabe-leeren.visustruct
+leeren setzt alle Plätze auf false, zum Beispiel wenn eine Vorstellung ausfällt.
+:::
+
+::: diagramm uebergabe-haupt.visustruct
+zahl ist nach dem Aufruf immer noch 5. Die Plätze in reihe sind nach dem Aufruf dagegen frei.
+:::
+
+> Willst du mit einer Zahl aus einem Unterprogramm etwas zurückbekommen, nimmst du `return`, z. B. `zahl = verdopple(zahl)` mit der Kopfzeile `int verdopple(int x)`. Ein Array dagegen kann das Unterprogramm direkt verändern.
+
+::: angeberwissen
+Ganz genau genommen kennt Java nur die Wertübergabe. Bei einem Array wird aber nicht das ganze Array kopiert, sondern nur seine **Adresse** im Speicher. Mit der kopierten Adresse findet das Unterprogramm dasselbe Array. Das ist so, als würde ich dir eine Kopie meines Schließfachschlüssels geben: Der Schlüssel ist kopiert, das Heu im Fach gibt es nur einmal.
+:::
+
+## Übung: Bonuspunkte
+
+::: übung uebergabe-bonus
+titel: Bonuspunkte
+auftrag: Das Hauptprogramm ruft `bonus(punkte)` auf und gibt danach alle Punkte aus. Baue das Unterprogramm `void bonus(int[] punkte)`, das jede Punktzahl im Array um 1 erhöht. Statt 3, 5 und 8 erscheinen dann **4**, **6** und **9**.
+start: uebergabe-bonus-start.visustruct
+test: - -> 4 | 6 | 9
+braucht: aufruf
+tipp: Lege mit **+** einen neuen Reiter mit dem Titel `void bonus(int[] punkte)` an. Darin läuft eine For-Schleife über alle Fächer und rechnet `punkte[i] = punkte[i] + 1`. Ein return brauchst du nicht, denn das Array wird direkt geändert.
+lösung: uebergabe-bonus-loesung.visustruct
+unterprogramm: uebergabe-bonus-unterprogramm-loesung.visustruct
 :::
 
 ## Der Aussprung
@@ -149,6 +198,7 @@ lösung: l15-bis-null-loesung.visustruct
 - Ich kann einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen. → Der Aufruf
 - Ich kann einem Unterprogramm mit Parametern Werte übergeben. → Werte übergeben: Parameter
 - Ich kann mit return einen Rückgabewert liefern und ihn beim Aufruf speichern. → Ergebnis zurückgeben: return
+- Ich kann erklären, warum ein Unterprogramm eine Zahl nicht verändern kann, ein Array aber schon. → Kopie oder Original: Wertübergabe und Referenzübergabe
 - Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht. → Der Aussprung
 - Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden. → Aussprung in der Simulation
 :::
@@ -190,6 +240,18 @@ lösung: l15-bis-null-loesung.visustruct
 - [x] return x * x
 - [ ] q = x * x
 > Mit return gibt das Unterprogramm den Wert an den Aufruf zurück. Eine Ausgabe würde ihn nur anzeigen.
+
+? `void verdopple(int x)` rechnet `x = x * 2`. Im Hauptprogramm steht `int zahl = 5` und dann der Aufruf `verdopple(zahl)`. Welchen Wert hat zahl danach?
+- [x] 5
+- [ ] 10
+- [ ] 0
+> Wertübergabe: verdopple hat nur eine Kopie von zahl verändert.
+
+? `void leeren(boolean[] plaetze)` setzt alle Fächer auf false. Was gilt nach `leeren(reihe)` für das Array reihe im Hauptprogramm?
+- [ ] Es ist unverändert, weil das Unterprogramm eine Kopie bekommt.
+- [x] Alle Fächer sind false, weil plaetze und reihe dasselbe Array sind.
+- [ ] Das Array ist gelöscht.
+> Ein Array wird als Referenz übergeben. Änderungen an den Fächern sieht auch der Aufrufer.
 
 ? Wie heißt ein Unterprogramm in Java?
 - [ ] Klasse
