@@ -129,5 +129,14 @@ describe('Codegenerierung', () => {
     expect(js).toContain('q = Math.trunc(q / 2);')
     expect(js).toContain('a / 2.0')
     expect(js).toContain('"x/y " + Math.trunc(a / b)')
+    // Wie in Java von links nach rechts: (x * x) / 2 und (a / b) * 2.5
+    const chains = generateCode(
+      { caption: '', elements: [s('int x = 3'), s('int b = 2'), s('int y = x * x / 2'), s('double d = x / b * 2.5'), s('double e = 2.5 * x / b'), s('int r = x * b % 2')] },
+      'javascript',
+    )
+    expect(chains).toContain('let y = Math.trunc(x * x / 2);')
+    expect(chains).toContain('let d = Math.trunc(x / b) * 2.5;')
+    expect(chains).toContain('let e = 2.5 * x / b;')
+    expect(chains).toContain('let r = x * b % 2;')
   })
 })
