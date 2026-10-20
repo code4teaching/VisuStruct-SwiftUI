@@ -72,6 +72,10 @@ JavaScript sieht Java ähnlich: geschweifte Klammern, Semikolons, `while (…)` 
 
 JavaScript ist die Sprache der Browser. Deshalb kann VisuStruct den Code **sofort ausführen**:
 
+::: angeberwissen
+Warum sind Links im Browser eigentlich blau? Ben Shneidermans Team hat 1985 untersucht, welche Farbe man gut sieht und die beim Lesen nicht stört. Gewonnen hat Hellblau. Rot fiel zwar mehr auf, aber man konnte sich den Text danach schlechter merken. [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
+:::
+
 1. Wähle in der Code-Ansicht **JavaScript**.
 2. Klicke auf **Im Browser testen**.
 3. Unter **Ausgabe** erscheint, was `console.log` ausgibt. Fragt das Programm mit `prompt` nach einem Wert, tippst du ihn ein und klickst auf **OK**.
