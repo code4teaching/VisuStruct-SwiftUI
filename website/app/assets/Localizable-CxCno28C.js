@@ -1,5 +1,6 @@
 const e=`/* Palette */
 "palette_header" = "العناصر";
+"inspector_header" = "مفتش الكائنات";
 
 /* Actions */
 "action_share_png" = "مشاركة الصورة…";

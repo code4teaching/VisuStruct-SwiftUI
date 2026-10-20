@@ -1,5 +1,6 @@
 const e=`/* Palette */
 "palette_header" = "要素";
+"inspector_header" = "オブジェクトインスペクタ";
 
 /* Actions */
 "action_share_png" = "画像を共有…";

@@ -198,12 +198,21 @@ struct InspectorPhoneChrome<Inspector: View>: View {
             inspector()
         } else {
             if insertTargetActive {
-                Button {
-                    onCancelInsert()
-                } label: {
-                    Label(lang.tr("phone_insert_cancel"), systemImage: "xmark.circle")
+                // Auch während eine Einfügemarke gesetzt ist, bleibt der Text des ausgewählten Elements erreichbar.
+                HStack(spacing: 10) {
+                    Button {
+                        onCancelInsert()
+                    } label: {
+                        Label(lang.tr("phone_insert_cancel"), systemImage: "xmark.circle")
+                    }
+                    .buttonStyle(.bordered)
+                    Button {
+                        onShowInspector()
+                    } label: {
+                        Label(lang.tr("phone_show_text_editor"), systemImage: "pencil")
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
             } else if hideInspectorOnPhone {
                 Button {
                     onShowInspector()

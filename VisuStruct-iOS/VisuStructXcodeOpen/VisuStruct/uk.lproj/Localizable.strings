@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "Елементи";
+"inspector_header" = "Інспектор об’єктів";
 
 /* Actions */
 "action_share_png" = "Поділитися зображенням…";
