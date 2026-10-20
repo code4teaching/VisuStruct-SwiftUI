@@ -480,6 +480,10 @@ export class App {
         this.loadXML(encodeDocument(doc), doc.caption.trim() ? `${doc.caption.trim()}.visustruct` : fileName)
       },
       exerciseDocument: (id: string) => this.tabs.find((tab) => tab.exerciseId === id)?.doc,
+      subprogramsFor: (id: string) => {
+        const own = this.tabs.find((tab) => tab.exerciseId === id)
+        return (name) => this.findSubprogram(name, own)
+      },
       stopSimulation: () => this.setSimulating(false),
       resetExercise: (id: string, doc: VSDocument) => {
         const tab = this.tabs.find((x) => x.exerciseId === id)
@@ -780,10 +784,9 @@ export class App {
 
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
   /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
-  private findSubprogram(name: string): VSDocument | undefined {
+  private findSubprogram(name: string, current: Tab | undefined = this.tab): VSDocument | undefined {
     const key = subprogramKey(name)
     if (key === '') return undefined
-    const current = this.tab
     const match = this.tabs.find(
       (tab) => tab !== current && (subprogramKey(tab.doc.caption) === key || subprogramKey(tabTitle(tab)) === key),
     )
@@ -1002,7 +1005,8 @@ export class App {
       this.showMessage(t('web_err_unreadable_fmt', name, (err as Error).message))
       return
     }
-    if (this.dirty || this.tab.fileName) this.addTab()
+    // Eine Übung bleibt in ihrem Reiter, auch wenn sie noch leer ist.
+    if (this.dirty || this.tab.fileName || this.tab.exerciseId) this.addTab()
     this.doc = doc
     this.tab.fileName = name.replace(/\.(strk|xml)$/i, '.visustruct')
     this.fileHandle = handle && /\.visustruct$/i.test(name) ? handle : undefined
