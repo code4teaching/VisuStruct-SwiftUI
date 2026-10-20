@@ -62,6 +62,7 @@ export class SimulationPanel {
   private variables!: HTMLElement
   private output!: HTMLElement
   private notice!: HTMLElement
+  private editButton!: HTMLButtonElement
 
   constructor(
     private currentDocument: () => VSDocument,
@@ -69,6 +70,8 @@ export class SimulationPanel {
     private onHighlight: (path: number[] | undefined) => void,
     /** Diagramm zu einem Aufruf-Kasten, z. B. ein anderer offener Reiter. */
     private findSubprogram: SubprogramResolver = () => undefined,
+    /** Simulation beenden und weiter bearbeiten. */
+    private onEdit: () => void = () => {},
   ) {
     this.engine = new SimulationEngine(currentDocument(), findSubprogram)
     this.element = document.createElement('aside')
@@ -181,6 +184,7 @@ export class SimulationPanel {
         </label>
       </section>
       <p class="sim-notice" role="status"></p>
+      <button class="sim-edit primary" title="${esc(t('web_simulation_end_title'))}" hidden>✎ ${esc(t('action_diagram'))}</button>
       <section class="sim-input"><h2>${esc(t('simulation_input'))}</h2><div></div></section>
       <section><h2>${esc(t('simulation_trace'))}</h2><div class="sim-trace mono" dir="ltr"></div></section>
       <section><h2>${esc(t('simulation_variables'))}</h2><div class="sim-vars" dir="ltr"></div></section>
@@ -197,6 +201,8 @@ export class SimulationPanel {
     this.buttons.pause.addEventListener('click', () => this.pause())
     this.buttons.step.addEventListener('click', () => this.step())
     this.buttons.stop.addEventListener('click', () => this.reset())
+    this.editButton = q('.sim-edit')
+    this.editButton.addEventListener('click', () => this.onEdit())
 
     const highlight = q<HTMLSelectElement>('[data-sim=highlight]')
     highlight.value = this.highlightMode
@@ -228,6 +234,8 @@ export class SimulationPanel {
     this.notice.textContent = state.notice ? noticeText(state.notice) : ''
     this.notice.hidden = !state.notice
     this.notice.classList.toggle('error', state.isHalted)
+    // Nach einem Fehler geht es nur mit Bearbeiten weiter; der Knopf steht direkt unter der Meldung.
+    this.editButton.hidden = !state.isHalted
 
     this.updateInput()
 

@@ -405,6 +405,10 @@ button.sim-toggle[aria-pressed='false'] {
   background: rgba(52, 199, 89, 0.15);
   font-weight: 600;
 }
+.sim-edit {
+  width: 100%;
+  margin: -6px 0 14px;
+}
 .sim-notice.error {
   background: rgba(255, 59, 48, 0.15);
   color: #b0000f;
@@ -803,18 +807,23 @@ button.danger-text:not(:disabled) {
   gap: 4px;
   margin-bottom: 14px;
 }
-.learn-progress span {
-  flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--border);
+.learn-progress button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 3px 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
 }
-.learn-progress span.past {
-  background: var(--accent);
+.learn-progress button.past {
+  border-color: var(--accent);
+  color: var(--accent);
 }
-.learn-progress span.current {
+.learn-progress button.current {
+  border-color: var(--accent);
   background: var(--accent);
-  opacity: 0.5;
+  color: #fff;
+  font-weight: 600;
 }
 .learn-step-title {
   font-size: 16px;
