@@ -7,6 +7,7 @@ Alles in diesem Ordner erscheint im Lernbereich der Web-App. Nach einer Änderun
 lessons/
   de/01-was-ist-ein-struktogramm.md   Lektionen, die Nummer am Anfang bestimmt die Reihenfolge
   de/nachschlagen.md                  Seite „Nachschlagen“
+  de/begriffe.md                      Fachbegriffe mit Erklärung (Hovern oder Antippen im Lektionstext)
   de/aufgaben/summe-bilden.md         Aufgaben
   diagramme/l1-tee.visustruct         Diagramme für Lektionen, Startdiagramme und Musterlösungen
 ```
@@ -133,3 +134,10 @@ Kurze Einleitung.
 
 In einer Ausgabe hängt `+` Texte aneinander, auch bei Zahlen: `zahl1 + zahl2` gibt bei 3 und 4 „34“ aus. Für eine
 Summe zuerst rechnen (`int summe = zahl1 + zahl2`) und dann `summe` ausgeben.
+
+## Fachbegriffe
+
+In `de/begriffe.md` steht jeder Begriff als `### Begriff`, darunter optional `auch: Form, Form` und die Erklärung in ein bis
+zwei Sätzen. In den Lektionen und Aufgaben wird jeder Begriff einmal pro Schritt markiert und zeigt beim Hovern oder
+Antippen seine Erklärung. Steht der Begriff im Schritt **fett**, wird er dort gerade erklärt und bleibt unmarkiert. Code,
+Überschriften und Links werden nie markiert. Unter „Nachschlagen“ erscheinen alle Begriffe als Liste.

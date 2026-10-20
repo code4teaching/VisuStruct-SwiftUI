@@ -23,12 +23,28 @@ interface Store {
 
 const key = 'visustruct.learn.progress'
 
+/** Umbenannte Lektionen (alte Kennung → neue), damit der Fortschritt erhalten bleibt. */
+const renamedLessons: Record<string, string> = {
+  '04-sequenz': '05-sequenz',
+  '05-variablen-und-datentypen': '04-variablen-und-datentypen',
+}
+
+function migrate(s: Store): Store {
+  const lessons = { ...s.lessons }
+  for (const [old, now] of Object.entries(renamedLessons)) {
+    if (s.lessons[old] && !s.lessons[now]) lessons[now] = s.lessons[old]
+    if (s.lessons[old]) delete lessons[old]
+  }
+  const view = s.view?.lesson && renamedLessons[s.view.lesson] ? { ...s.view, lesson: renamedLessons[s.view.lesson] } : s.view
+  return { ...s, lessons, view }
+}
+
 function load(): Store {
   try {
     const raw = localStorage.getItem(key)
     if (raw) {
       const s = JSON.parse(raw) as Partial<Store>
-      return { lessons: s.lessons ?? {}, exercises: s.exercises ?? {}, view: s.view }
+      return migrate({ lessons: s.lessons ?? {}, exercises: s.exercises ?? {}, view: s.view })
     }
   } catch {
     /* ohne Speicher oder kaputte Daten: neu anfangen */

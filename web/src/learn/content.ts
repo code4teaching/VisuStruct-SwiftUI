@@ -1,5 +1,6 @@
 import { decodeDocument } from '../core/xmlCodec'
 import type { VSDocument } from '../core/model'
+import { parseGlossary, type GlossaryEntry } from './glossary'
 import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
 
 /** Lektionen, Aufgaben und Diagramme aus `web/lessons` (werden beim Bauen eingebettet). */
@@ -31,6 +32,10 @@ export const tasks: Task[] = Object.entries(taskFiles)
   .sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, 'de'))
 
 export const reference: string = Object.entries(lessonFiles).find(([path]) => path.endsWith('/nachschlagen.md'))?.[1] ?? ''
+
+export const glossary: GlossaryEntry[] = parseGlossary(
+  Object.entries(lessonFiles).find(([path]) => path.endsWith('/begriffe.md'))?.[1] ?? '',
+)
 
 const diagrams = new Map(Object.entries(diagramFiles).map(([path, xml]) => [baseName(path), xml]))
 

@@ -66,7 +66,7 @@ auftrag: Ein Rechteck ist 7 lang und 4 breit. Lege die Variablen `laenge` und `b
 `Fläche: 28` und in der nächsten Zeile `Umfang: 22`.
 test: - -> Fläche: 28 | Umfang: 22
 braucht: anweisung
-tipp: Die Fläche ist Länge mal Breite, der Umfang ist 2 mal (Länge plus Breite). Für die Ausgabe schreibst du z. B. `output: "Fläche: " + flaeche`.
+tipp: Die Fläche ist Länge mal Breite, der Umfang ist 2 mal (Länge plus Breite). Für die Ausgabe schreibst du z. B. `output: "Fläche: " + flaeche`. Das `+` hängt dabei den Text und den Wert der Variablen aneinander.
 lösung: l05-rechteck-loesung.visustruct
 :::
 

@@ -2,13 +2,14 @@ import { checkExercise, usedElementTypes, type TestOutcome } from '../core/exerc
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import { decodeDocument } from '../core/xmlCodec'
-import { diagram, image, lessons, reference, tasks } from '../learn/content'
+import { diagram, glossary, image, lessons, reference, tasks } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
 import { progress } from '../learn/progress'
 import { t } from './i18n'
 import { noticeText } from './simulationPanel'
+import { attachTermTips, markTerms } from './termTips'
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -73,9 +74,11 @@ export class LearnPanel {
   private lessonId?: string
   private taskId?: string
   private body!: HTMLElement
+  private tips: { hide(): void }
 
   constructor(private host: LearnHost) {
     this.element = h('aside', { class: 'learn', 'aria-label': t('web_learn_title') })
+    this.tips = attachTermTips(this.element)
     const view = progress.view()
     if (view) {
       this.tab = (['lessons', 'tasks', 'reference'] as const).find((x) => x === view.tab) ?? 'lessons'
@@ -87,6 +90,7 @@ export class LearnPanel {
 
   /** Neu aufbauen (z. B. nach einem Sprachwechsel). */
   render() {
+    this.tips.hide()
     const tabs = h('div', { class: 'segmented learn-tabs', role: 'tablist' })
     for (const [name, label] of [
       ['lessons', t('web_learn_lessons')],
@@ -117,7 +121,8 @@ export class LearnPanel {
       if (task) this.renderTask(task)
       else this.renderTaskList()
     } else {
-      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(reference)))
+      const terms = glossary.map((e) => `- **${e.term}:** ${e.text}`).join('\n')
+      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n### Fachbegriffe\n\n${terms}`)))
     }
   }
 
@@ -194,6 +199,7 @@ export class LearnPanel {
     }
     if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
+    markTerms(this.body, glossary)
 
     const nav = h('div', { class: 'learn-nav' })
     const prev = h('button', {}, `← ${t('web_learn_back')}`) as HTMLButtonElement
@@ -273,6 +279,7 @@ export class LearnPanel {
       this.body.append(h('p', { class: 'learn-kicker' }, link))
     }
     task.blocks.forEach((block, i) => this.body.append(this.renderBlock(block, `task-${i}`, undefined, true)))
+    markTerms(this.body, glossary)
   }
 
   // MARK: - Blöcke

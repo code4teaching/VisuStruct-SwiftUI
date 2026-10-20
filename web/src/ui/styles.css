@@ -1126,3 +1126,32 @@ button[data-action='learn'][aria-pressed='true'] {
     max-height: 100vh;
   }
 }
+/* Fachbegriffe im Lernbereich: Erklärung beim Hovern, Antippen oder mit der Tastatur */
+.learn .term {
+  text-decoration: underline dotted var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  cursor: help;
+  border-radius: 3px;
+}
+.learn .term:focus-visible,
+.learn .term[aria-expanded='true'] {
+  outline: none;
+  background: var(--accent-soft);
+}
+.term-tip {
+  position: fixed;
+  z-index: 1000;
+  max-width: min(300px, calc(100vw - 16px));
+  padding: 8px 10px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.term-tip[hidden] {
+  display: none;
+}

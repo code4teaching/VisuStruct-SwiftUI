@@ -33,13 +33,13 @@ Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **di
 
 Klicke einen Kasten an. Er wird blau umrandet, und unter dem Diagramm erscheint sein Text. Was du dort tippst, siehst du sofort im Diagramm.
 
-Bei einer **Anweisung** wählst du oben die Art:
+Der Kasten aus der Palette heißt **Anweisung**. Oben wählst du, welche Art von Anweisung er sein soll:
 
-- **Anweisung:** etwas berechnen oder festlegen, z. B. `int zahl = 5`
-- **Eingabe:** einen Wert abfragen, z. B. `int alter "Wie alt bist du?"`
-- **Ausgabe:** etwas anzeigen, z. B. `"Hallo"` oder `zahl`
+- **Anweisung:** etwas berechnen oder festlegen, z. B. `int zahl = 5`. Wie das geht, lernst du in Lektion 4.
+- **Eingabe:** beim Ausführen einen Wert abfragen. Das kommt in Lektion 6.
+- **Ausgabe:** etwas anzeigen. Im Diagramm steht dann `output:` davor, z. B. `output: "Hallo"`.
 
-Texte, die genau so angezeigt werden sollen, schreibst du in **Anführungszeichen**.
+Für den Anfang brauchst du nur die Ausgabe. Texte, die genau so angezeigt werden sollen, schreibst du in **Anführungszeichen**.
 
 ::: diagramm l2-ausgabe.visustruct
 Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulation, um die Ausgabe zu sehen.
