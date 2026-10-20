@@ -16,7 +16,7 @@ Die **Do-while-Schleife** ist **fußgesteuert**. Die Bedingung steht unten im Fu
 Links prüft die While-Schleife zuerst, rechts führt die Do-while-Schleife zuerst aus.
 :::
 
-Oben im Kasten steht `do`, unten im Fuß die Bedingung. Wenn du die Schleife anklickst, steht unter dem Diagramm vor dem Eingabefeld das Wort `while`: Die Bedingung bedeutet „wiederhole, solange …“.
+Oben im Kasten steht `do`, unten im Fuß die Bedingung. Wenn du die Schleife anklickst, steht im Objektinspektor vor dem Textfeld das Wort `while`: Die Bedingung bedeutet „wiederhole, solange …“.
 
 > Die Bedingung sagt wie bei der While-Schleife, **wann wiederholt wird**. Solange sie wahr ist, läuft die Schleife weiter.
 

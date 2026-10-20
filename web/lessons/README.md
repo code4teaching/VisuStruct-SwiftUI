@@ -109,8 +109,8 @@ Tabellen schreibst du mit senkrechten Strichen, die zweite Zeile trennt die Übe
 | `int summe = 0` | 0 | – |
 ```
 
-Ein Zeiger auf den Editor ist ein Link auf `#zeige-…`, zum Beispiel `[Palette](#zeige-palette)`. Beim Hovern oder Antippen
-leuchtet der Bereich im Editor auf. Bekannte Bereiche: leiste, palette, struktogramm, eingabefeld, reiter, titel, neu,
+Ein Zeiger auf den Editor ist ein Link auf `#zeige-…`, zum Beispiel `[Elemente](#zeige-elemente)`. Beim Hovern oder Antippen
+leuchtet der Bereich im Editor auf. Bekannte Bereiche: leiste, elemente, struktogramm, objektinspektor, reiter, titel, neu,
 oeffnen, speichern, exportieren, rueckgaengig, textgroesse, lernen, code, simulation (Liste in `src/ui/termTips.ts`).
 
 Ein Kasten „Angeberwissen mit Ludwig“, in dem unser Maskottchen Ludwig der Geißbock eine Hintergrundgeschichte erzählt.

@@ -615,7 +615,7 @@ export class App {
       )
       return
     }
-    box.replaceChildren(h('h2', {}, typeName(element.type)))
+    box.replaceChildren(h('h2', {}, `${t('web_inspector_title')} · ${typeName(element.type)}`))
 
     if (element.type === ElementType.anweisung) {
       const mode = LineEditor.ioMode(element.textLines.join('\n'))

@@ -65,11 +65,11 @@ describe('Zeiger auf den Editor', () => {
 
   it('macht aus dem Link einen Zeiger und lässt ihn bei den Fachbegriffen aus', () => {
     const root = document.createElement('div')
-    root.innerHTML = `<div class="learn-text">${markdownToHTML('Links die [Palette](#zeige-palette) und eine Variable.')}</div>`
+    root.innerHTML = `<div class="learn-text">${markdownToHTML('Links die [Elemente](#zeige-elemente) und eine Variable.')}</div>`
     markPointers(root)
     markTerms(root, entries)
     expect(root.querySelector('a')).toBeNull()
-    expect(root.querySelector<HTMLElement>('.ui-pointer')?.dataset.target).toBe('palette')
+    expect(root.querySelector<HTMLElement>('.ui-pointer')?.dataset.target).toBe('elemente')
     expect([...root.querySelectorAll('.term')].map((m) => m.textContent)).toEqual(['Variable'])
   })
 })

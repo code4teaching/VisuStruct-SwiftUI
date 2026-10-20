@@ -44,8 +44,8 @@ Eine Frage, die nur mit ja (true) oder nein (false) beantwortet wird, zum Beispi
 ### Platzhalter
 Ein leerer Kasten mit dem Zeichen ø. Ziehst du ein Element darauf, wird er ersetzt.
 
-### Palette
-Der Bereich links im Editor mit allen Elementen, die du ins Struktogramm ziehen kannst.
+### Objektinspektor
+Der Bereich unter dem Diagramm. Hier bearbeitest du Text und Einstellungen des Kastens, den du gerade angeklickt hast.
 
 ### Simulation
 Führt dein Struktogramm im Editor aus, auf Wunsch Schritt für Schritt. So siehst du, was passiert.

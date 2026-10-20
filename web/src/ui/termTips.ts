@@ -122,14 +122,14 @@ export function attachTermTips(container: HTMLElement) {
 }
 
 /**
- * Zeiger auf den Editor: Ein Link `[Palette](#zeige-palette)` im Lektionstext hebt beim Hovern oder Antippen
+ * Zeiger auf den Editor: Ein Link `[Elemente](#zeige-elemente)` im Lektionstext hebt beim Hovern oder Antippen
  * den echten Bereich im Editor neben dem Lernbereich hervor.
  */
 export const uiTargets: Record<string, string> = {
   leiste: '.app > .toolbar',
-  palette: '.palette',
+  elemente: '.palette',
   struktogramm: '.canvas',
-  eingabefeld: '.inspector',
+  objektinspektor: '.inspector',
   reiter: '.tabs',
   titel: '.caption',
   neu: '[data-action=new]',
