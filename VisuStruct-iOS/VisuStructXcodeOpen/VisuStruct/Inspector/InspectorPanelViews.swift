@@ -193,9 +193,19 @@ struct InspectorPhoneChrome<Inspector: View>: View {
     let onHideInspector: () -> Void
     @ViewBuilder let inspector: () -> Inspector
 
+    /// Sichtbare Bereichsüberschrift („Objektinspektor“), gleiche Wörter wie im Web und in den Lektionen.
+    private var heading: some View {
+        Text(lang.tr("inspector_header"))
+            .font(.headline)
+            .accessibilityAddTraits(.isHeader)
+    }
+
     var body: some View {
         if !isPhone {
-            inspector()
+            VStack(alignment: .leading, spacing: 6) {
+                heading
+                inspector()
+            }
         } else {
             if insertTargetActive {
                 Button {
@@ -212,14 +222,18 @@ struct InspectorPhoneChrome<Inspector: View>: View {
                 }
                 .buttonStyle(.bordered)
             } else {
-                VStack(alignment: .trailing, spacing: 4) {
-                    Button {
-                        onHideInspector()
-                    } label: {
-                        Label(lang.tr("phone_hide_text_editor"), systemImage: "chevron.down")
-                            .font(.subheadline)
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        heading
+                        Spacer()
+                        Button {
+                            onHideInspector()
+                        } label: {
+                            Label(lang.tr("phone_hide_text_editor"), systemImage: "chevron.down")
+                                .font(.subheadline)
+                        }
+                        .buttonStyle(.borderless)
                     }
-                    .buttonStyle(.borderless)
                     inspector()
                 }
             }

@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "Elementos";
+"inspector_header" = "Inspector de objetos";
 
 /* Actions */
 "action_share_png" = "Compartir imagen…";
