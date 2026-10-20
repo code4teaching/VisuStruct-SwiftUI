@@ -42,4 +42,6 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_run_cancelled" = "実行を中止しました。";
 "web_run_error" = "実行中にエラーが発生しました。";
 "web_run_dropped_fmt" = "… 以前の %d 行は非表示";
+"web_sim_call_arguments_fmt" = "呼び出しが %@ の見出しと一致しません。かっこ内の値を確認してください。";
+"web_sim_missing_return_fmt" = "%@ は return で値を返さずに終了しました。";
 `;export{e as default};

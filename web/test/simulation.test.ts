@@ -367,6 +367,63 @@ describe('Bedingungen', () => {
     expect(paths[0]).toEqual([0])
   })
 
+  describe('Unterprogramme mit Kopfzeile', () => {
+    const call = (text: string) => makeElement(ElementType.aufruf, { textLines: [text] })
+    const branch = (condition: string, yes: VSElement[], no: VSElement[]) =>
+      makeElement(ElementType.verzweigung, { textLines: [condition], cases: [{ name: 'true', elements: yes }, { name: 'false', elements: no }] })
+    const run = (main: VSElement[], subs: VSDocument[], inputs: string[] = []) => {
+      const engine = new SimulationEngine(doc(main), (name) => subs.find((d) => d.caption.includes(name + '(')))
+      const remaining = [...inputs]
+      for (let i = 0; i < 10_000 && (engine.canStep || engine.state.inputRequest); i++) {
+        if (engine.state.inputRequest) engine.provideInput(remaining.shift()!)
+        else engine.step()
+      }
+      return engine
+    }
+
+    it('übergibt Werte, gibt mit return zurück und hält Variablen lokal', () => {
+      const quadrat: VSDocument = { caption: 'int quadrat(int x)', elements: [stmt('int y = x * x'), stmt('return y')] }
+      const engine = run([stmt('int x = 3'), stmt('int y = 10'), call('int q = quadrat(x + 1)'), stmt('print: x + " " + y + " " + q')], [quadrat])
+      expect(engine.state.outputLines).toEqual(['3 10 16'])
+      expect(engine.state.variables.has('q')).toBe(true)
+      expect(engine.message).toBe('Simulation finished.')
+    })
+
+    it('ruft void-Unterprogramme mit Parametern auf und beendet sie mit return', () => {
+      const zeige: VSDocument = {
+        caption: 'void zeigeSumme(int a, int b)',
+        elements: [branch('a < 0', [stmt('return')], []), stmt('int summe = a + b'), stmt('print: "Summe: " + summe')],
+      }
+      const engine = run([call('zeigeSumme(3, 4)'), call('zeigeSumme(-1, 4);'), stmt('print: "Ende"')], [zeige])
+      expect(engine.state.outputLines).toEqual(['Summe: 7', 'Ende'])
+      expect(engine.state.variables.has('summe')).toBe(false)
+    })
+
+    it('rechnet rekursiv mit eigenen Variablen je Aufruf', () => {
+      const fakultaet: VSDocument = {
+        caption: 'int fakultaet(int n)',
+        elements: [branch('n <= 1', [stmt('return 1')], [call('int rest = fakultaet(n - 1)'), stmt('return n * rest')])],
+      }
+      const engine = run([stmt('input: int n "Zahl?"'), call('int f = fakultaet(n)'), stmt('print: f')], [fakultaet], ['5'])
+      expect(engine.state.outputLines).toEqual(['120'])
+    })
+
+    it('meldet falsche Werte und fehlendes return', () => {
+      const quadrat: VSDocument = { caption: 'int quadrat(int x)', elements: [stmt('int y = x * x')] }
+      let engine = run([call('quadrat(1, 2)')], [quadrat])
+      expect(engine.state.notice).toEqual({ kind: 'callArguments', text: 'quadrat' })
+      engine = run([call('int q = quadrat(2)')], [quadrat])
+      expect(engine.state.notice).toEqual({ kind: 'missingReturn', text: 'quadrat' })
+      expect(engine.message).toBe('quadrat ended without returning a value with return.')
+    })
+
+    it('beendet mit return im Hauptprogramm das Programm', () => {
+      const engine = run([stmt('print: "a"'), stmt('return'), stmt('print: "b"')], [])
+      expect(engine.state.outputLines).toEqual(['a'])
+      expect(engine.message).toBe('Simulation finished.')
+    })
+  })
+
   it('bricht ab, wenn sich ein Unterprogramm selbst aufruft', () => {
     const self: VSDocument = { caption: 'rekursion', elements: [makeElement(ElementType.aufruf, { textLines: ['rekursion()'] })] }
     const engine = new SimulationEngine(self, () => self)

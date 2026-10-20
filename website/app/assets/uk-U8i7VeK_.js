@@ -42,4 +42,6 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_run_cancelled" = "Виконання скасовано.";
 "web_run_error" = "Помилка під час виконання.";
 "web_run_dropped_fmt" = "… приховано попередніх рядків: %d";
+"web_sim_call_arguments_fmt" = "Виклик не відповідає заголовку %@. Перевір значення в дужках.";
+"web_sim_missing_return_fmt" = "%@ завершилася, не повернувши значення через return.";
 `;export{e as default};

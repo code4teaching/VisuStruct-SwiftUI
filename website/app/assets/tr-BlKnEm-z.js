@@ -42,4 +42,6 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_run_cancelled" = "Çalıştırma iptal edildi.";
 "web_run_error" = "Çalıştırma sırasında hata.";
 "web_run_dropped_fmt" = "… önceki %d satır gizlendi";
+"web_sim_call_arguments_fmt" = "Çağrı %@ başlığıyla eşleşmiyor. Parantez içindeki değerleri kontrol et.";
+"web_sim_missing_return_fmt" = "%@ return ile bir değer döndürmeden bitti.";
 `;export{e as default};

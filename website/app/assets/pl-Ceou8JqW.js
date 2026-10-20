@@ -42,4 +42,6 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_run_cancelled" = "Wykonanie anulowane.";
 "web_run_error" = "Błąd podczas wykonywania.";
 "web_run_dropped_fmt" = "… ukryto wcześniejsze wiersze: %d";
+"web_sim_call_arguments_fmt" = "Wywołanie nie pasuje do nagłówka %@. Sprawdź wartości w nawiasach.";
+"web_sim_missing_return_fmt" = "%@ zakończył się bez zwrócenia wartości przez return.";
 `;export{e as default};

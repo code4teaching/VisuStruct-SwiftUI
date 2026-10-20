@@ -68,6 +68,10 @@ export type SimNotice =
   | { kind: 'booleanExpected' }
   | { kind: 'subprogramNotFound'; text: string }
   | { kind: 'callTooDeep' }
+  /** Die Werte in den Klammern passen nicht zur Kopfzeile des Unterprogramms. */
+  | { kind: 'callArguments'; text: string }
+  /** Ein Unterprogramm mit Rückgabetyp endet ohne `return`. */
+  | { kind: 'missingReturn'; text: string }
   | { kind: 'other'; text: string }
 
 export interface SimState {
@@ -97,6 +101,8 @@ export function noticeEnglish(n: SimNotice): string {
     case 'booleanExpected': return 'Please enter true or false.'
     case 'subprogramNotFound': return `No open diagram is called ${n.text}. The call was skipped.`
     case 'callTooDeep': return 'Too many nested calls. Does a subprogram call itself?'
+    case 'callArguments': return `The call does not match the header of ${n.text}. Check the values in the parentheses.`
+    case 'missingReturn': return `${n.text} ended without returning a value with return.`
     case 'other': return n.text
   }
 }
@@ -114,6 +120,8 @@ export function noticeGerman(n: SimNotice): string {
     case 'booleanExpected': return 'Bitte true oder false eingeben.'
     case 'subprogramNotFound': return `Kein offenes Diagramm heißt ${n.text}. Der Aufruf wurde übersprungen.`
     case 'callTooDeep': return 'Zu viele verschachtelte Aufrufe. Ruft sich ein Unterprogramm selbst auf?'
+    case 'callArguments': return `Der Aufruf passt nicht zur Kopfzeile von ${n.text}. Prüfe die Werte in den Klammern.`
+    case 'missingReturn': return `${n.text} hat keinen Wert mit return zurückgegeben.`
     case 'other': return n.text
   }
 }
@@ -702,9 +710,61 @@ function sameStep(a: SimStep, b: SimStep): boolean {
   return (a.frame ?? 0) === (b.frame ?? 0) && a.path.length === b.path.length && a.path.every((v, i) => v === b.path[i])
 }
 
-/** `zeigeTitel()` und `zeigeTitel();` heißen beide `zeigeTitel`. */
+/** Kopfzeile eines Unterprogramms im Titel, z. B. `int quadrat(int x)` oder `void zeigeSumme(int a, int b)`. */
+export interface SubprogramHeader {
+  /** Fehlt bei `void`. */
+  returnType?: SimValueType
+  name: string
+  params: { type: SimValueType; name: string }[]
+}
+
+export function parseSubprogramHeader(text: string): SubprogramHeader | undefined {
+  const m = /^(void|int|double|String|boolean)\s+([A-Za-z_]\w*)\s*\((.*)\)$/u.exec(stripTrailingSemicolon(text))
+  if (!m) return undefined
+  const params: SubprogramHeader['params'] = []
+  if (m[3].trim() !== '') {
+    for (const part of m[3].split(',')) {
+      const p = /^(int|double|String|boolean)\s+([A-Za-z_]\w*)$/u.exec(part.trim())
+      if (!p) return undefined
+      params.push({ type: valueTypeKeyword(p[1])!, name: p[2] })
+    }
+  }
+  return { returnType: valueTypeKeyword(m[1]), name: m[2], params }
+}
+
+/** Text eines Aufruf-Kastens, z. B. `zeigeTitel()`, `zeigeSumme(3, 4)` oder `int y = quadrat(5)`. */
+interface CallText {
+  target?: string
+  targetType?: SimValueType
+  name: string
+  args: string[]
+}
+
+function parseCallText(text: string): CallText | undefined {
+  const m = /^(?:(?:(int|double|String|boolean)\s+)?([A-Za-z_]\w*)\s*=\s*)?([A-Za-z_]\w*)\s*\((.*)\)$/u.exec(
+    stripTrailingSemicolon(text),
+  )
+  if (!m) return undefined
+  return {
+    targetType: m[1] ? valueTypeKeyword(m[1]) : undefined,
+    target: m[2],
+    name: m[3],
+    args: m[4].trim() === '' ? [] : splitTopLevel(m[4], ','),
+  }
+}
+
+/** `zeigeTitel()`, `zeigeTitel;`, `int y = quadrat(5)` und die Kopfzeile `int quadrat(int x)` liefern den Namen. */
 export function subprogramName(text: string): string {
-  return stripTrailingSemicolon(text).replace(/\(\s*\)$/u, '').trim()
+  const t = stripTrailingSemicolon(text)
+  return parseSubprogramHeader(t)?.name ?? parseCallText(t)?.name ?? t.replace(/\(\s*\)$/u, '').trim()
+}
+
+/** Ein laufendes Unterprogramm mit Kopfzeile: eigene Variablen, die des Aufrufers warten in `saved`. */
+interface CallFrame {
+  saved: Map<string, SimValue>
+  header: SubprogramHeader
+  call?: CallText
+  returnValue?: SimValue
 }
 
 // MARK: - Engine
@@ -714,6 +774,7 @@ export class SimulationEngine {
   state: SimState = freshState()
   private nextFrame = 1
   private callDepth = 0
+  private frames = new Map<number, CallFrame>()
 
   constructor(
     document: VSDocument,
@@ -742,6 +803,7 @@ export class SimulationEngine {
     this.state = freshState()
     this.nextFrame = 1
     this.callDepth = 0
+    this.frames.clear()
   }
 
   step(): void {
@@ -754,6 +816,7 @@ export class SimulationEngine {
     try {
       switch (step.kind) {
         case 'statement':
+          if (/^return\b/u.test(step.text)) return this.executeReturn(step)
           this.executeStatement(step.text)
           break
         case 'branch': return this.executeBranch(step)
@@ -932,9 +995,11 @@ export class SimulationEngine {
         break
       }
     }
+    const callEnd = this.steps[end - 1]
     if (outcome === 'return') this.callDepth -= 1
     this.steps.splice(this.state.stepIndex, end - this.state.stepIndex)
     this.state.lastTrace = `${step.text || 'break'} -> ${outcome}`
+    if (outcome === 'return') this.finishFrame(callEnd)
     this.state.notice = this.finishedIfAtEnd()
   }
 
@@ -949,19 +1014,87 @@ export class SimulationEngine {
       if (this.state.stepIndex >= this.steps.length) this.state.notice = { kind: 'finished' }
       return
     }
+    const call = parseCallText(name)
+    const header = parseSubprogramHeader(document.caption)
+    const argumentsMismatch = header
+      ? (call?.args.length ?? 0) !== header.params.length || (call?.target !== undefined && !header.returnType)
+      : call !== undefined && (call.args.length > 0 || call.target !== undefined)
+    if (argumentsMismatch) throw new SimulationError({ kind: 'callArguments', text: header?.name ?? subprogramName(name) })
     if (this.callDepth >= maxCallDepth) throw new SimulationError({ kind: 'callTooDeep' })
+    // Die Werte werden noch mit den Variablen des Aufrufers ausgerechnet (Wertübergabe).
+    const locals = new Map<string, SimValue>()
+    header?.params.forEach((p, i) => locals.set(p.name, this.evaluateExpression(call!.args[i], p.type)))
     this.callDepth += 1
     const context: StepContext = { frame: this.nextFrame++, callPath: step.callPath ?? step.path }
+    if (header) {
+      this.frames.set(context.frame!, { saved: this.state.variables, header, call })
+      this.state.variables = locals
+    }
     const bodySteps = buildSteps(document.elements, [], context)
     this.splice([...bodySteps, { ...context, path: step.path, text: name, kind: 'callEnd' }])
-    this.state.lastTrace = `${name} -> call`
+    const passed = header?.params.map((p) => `${p.name} = ${describeValue(locals.get(p.name)!)}`).join(', ')
+    this.state.lastTrace = passed ? `${name} -> ${passed}` : `${name} -> call`
   }
 
   private executeCallEnd(step: SimStep): void {
     this.callDepth -= 1
     this.splice([])
     this.state.lastTrace = `${step.text} -> return`
+    this.finishFrame(step)
     this.state.notice = this.finishedIfAtEnd()
+  }
+
+  /** `return` beendet das Unterprogramm sofort, im Hauptprogramm das ganze Programm. */
+  private executeReturn(step: SimStep): void {
+    const frameNumber = step.frame ?? 0
+    const expression = stripTrailingSemicolon(step.text).slice('return'.length).trim()
+    const frame = this.frames.get(frameNumber)
+    if (frame && expression !== '') {
+      if (!frame.header.returnType) throw invalid(step.text)
+      frame.returnValue = this.evaluateExpression(expression, frame.header.returnType)
+    }
+    const trace = frame?.returnValue ? `${step.text} -> ${describeValue(frame.returnValue)}` : `${step.text} -> return`
+    if (frameNumber === 0) {
+      this.steps.splice(this.state.stepIndex)
+      this.state.lastTrace = trace
+      this.state.notice = { kind: 'finished' }
+      return
+    }
+    let end = this.state.stepIndex + 1
+    while (end < this.steps.length && !(this.steps[end].kind === 'callEnd' && this.steps[end].frame === frameNumber)) end++
+    const callEnd = this.steps[end]
+    this.steps.splice(this.state.stepIndex, end - this.state.stepIndex + 1)
+    this.callDepth -= 1
+    this.state.lastTrace = trace
+    if (callEnd) this.finishFrame(callEnd)
+    this.state.notice = this.finishedIfAtEnd()
+  }
+
+  /** Zurück beim Aufrufer: seine Variablen wiederherstellen und den Rückgabewert zuweisen. */
+  private finishFrame(callEnd: SimStep): void {
+    const frame = this.frames.get(callEnd.frame ?? 0)
+    if (!frame) return
+    this.frames.delete(callEnd.frame ?? 0)
+    this.state.variables = frame.saved
+    const result = frame.returnValue
+    if (frame.header.returnType && !result) throw new SimulationError({ kind: 'missingReturn', text: frame.header.name })
+    const target = frame.call?.target
+    if (!target || !result) return
+    let type = frame.call?.targetType
+    if (!type) {
+      try {
+        type = this.inferTargetValueType(target)
+      } catch {
+        type = frame.header.returnType!
+      }
+    }
+    const value =
+      type === 'double' && result.kind === 'int' ? dbl(result.value)
+      : type === 'string' ? { kind: 'string' as const, value: describeValue(result) }
+      : result
+    if (valueTypeOf(value) !== type) throw invalid(callEnd.text)
+    this.assignValue(value, target)
+    this.state.lastTrace = `${target} = ${callEnd.text.slice(callEnd.text.indexOf('=') + 1).trim()} -> ${describeValue(value)}`
   }
 
   // MARK: Anweisungen

@@ -42,4 +42,6 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_run_cancelled" = "执行已取消。";
 "web_run_error" = "运行时出错。";
 "web_run_dropped_fmt" = "… 已隐藏之前的 %d 行";
+"web_sim_call_arguments_fmt" = "调用与 %@ 的首行不匹配。请检查括号中的值。";
+"web_sim_missing_return_fmt" = "%@ 结束时没有用 return 返回值。";
 `;export{e as default};

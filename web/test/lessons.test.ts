@@ -78,7 +78,7 @@ describe('Lernbereich: Inhalte', () => {
       if (!ex.solution) continue
       const doc = diagram(ex.solution)!
       const subs = ex.subprograms.map((f) => diagram(f)!)
-      const resolve = (name: string) => subs.find((s) => s.caption.toLowerCase() === subprogramName(name).toLowerCase())
+      const resolve = (name: string) => subs.find((s) => subprogramName(s.caption).toLowerCase() === subprogramName(name).toLowerCase())
       for (const outcome of checkExercise(doc, ex.tests, resolve)) {
         expect(outcome.passed, `${where}: ${ex.id} ${JSON.stringify(outcome)}`).toBe(true)
       }

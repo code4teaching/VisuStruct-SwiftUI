@@ -42,4 +42,6 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_run_cancelled" = "Kørslen annulleret.";
 "web_run_error" = "Fejl under kørsel.";
 "web_run_dropped_fmt" = "… %d tidligere linjer skjult";
+"web_sim_call_arguments_fmt" = "Kaldet passer ikke til hovedet i %@. Tjek værdierne i parenteserne.";
+"web_sim_missing_return_fmt" = "%@ sluttede uden at returnere en værdi med return.";
 `;export{e as default};

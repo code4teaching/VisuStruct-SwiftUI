@@ -1,5 +1,6 @@
 import { t } from './i18n'
 import { generateCode, generateJavaClassFile, sanitizedJavaClassName, type CodeTarget } from '../core/codeGenerator'
+import { subprogramName } from '../core/simulation'
 import type { VSDocument } from '../core/model'
 
 /** Port von `CodeGeneratorPanels.swift` und `Runner/JavaScriptRunner.swift`: Code ansehen, kopieren, speichern, JavaScript ausführen. */
@@ -113,6 +114,8 @@ export class CodePanel {
     private saveFile: (filename: string, text: string) => void,
     private onClose: () => void,
     private setPseudocode: (on: boolean) => void,
+    /** Unterprogramme aus den anderen Reitern, die in den Code gehören. */
+    private subprograms: () => VSDocument[] = () => [],
   ) {
     const t = stored(keys.target)
     this.target = t === 'python' || t === 'javascript' ? t : 'java'
@@ -130,8 +133,8 @@ export class CodePanel {
     const options = this.options()
     this.code =
       this.target === 'java' && this.javaMode === 'class'
-        ? generateJavaClassFile(doc, this.classStem(), options)
-        : generateCode(doc, this.target, options)
+        ? generateJavaClassFile(doc, this.classStem(), options, this.subprograms())
+        : generateCode(doc, this.target, options, this.subprograms())
     this.codeView.textContent = this.code
     this.javaModeRow.hidden = this.target !== 'java'
     this.saveButton.hidden = this.target !== 'java'
@@ -161,7 +164,7 @@ export class CodePanel {
   }
 
   private classStem(): string {
-    return this.currentDocument().caption.trim() || 'Main'
+    return subprogramName(this.currentDocument().caption) || 'Main'
   }
 
   private build() {

@@ -88,4 +88,6 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_learn_resize" = "Change the width of the learning area (double-click: reset)";
 "web_learn_back_to_checklist" = "Back to checklist";
 "web_learn_step_fmt" = "Step %d: %@";
+"web_sim_call_arguments_fmt" = "The call does not match the header of %@. Check the values in the parentheses.";
+"web_sim_missing_return_fmt" = "%@ ended without returning a value with return.";
 `;export{e as default};

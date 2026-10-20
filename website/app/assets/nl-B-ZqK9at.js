@@ -42,4 +42,6 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_run_cancelled" = "Uitvoering geannuleerd.";
 "web_run_error" = "Fout tijdens het uitvoeren.";
 "web_run_dropped_fmt" = "… %d eerdere regels verborgen";
+"web_sim_call_arguments_fmt" = "De aanroep past niet bij de kop van %@. Controleer de waarden tussen de haakjes.";
+"web_sim_missing_return_fmt" = "%@ is geëindigd zonder met return een waarde terug te geven.";
 `;export{e as default};

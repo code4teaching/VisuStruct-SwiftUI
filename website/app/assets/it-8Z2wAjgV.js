@@ -42,4 +42,6 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_run_cancelled" = "Esecuzione annullata.";
 "web_run_error" = "Errore durante l’esecuzione.";
 "web_run_dropped_fmt" = "… %d righe precedenti nascoste";
+"web_sim_call_arguments_fmt" = "La chiamata non corrisponde all’intestazione di %@. Controlla i valori tra parentesi.";
+"web_sim_missing_return_fmt" = "%@ è terminato senza restituire un valore con return.";
 `;export{e as default};
