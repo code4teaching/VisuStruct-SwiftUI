@@ -1,5 +1,5 @@
 import { ElementType, type VSDocument, type VSElement } from './model'
-import { SimulationEngine, type SimNotice } from './simulation'
+import { SimulationEngine, type SimNotice, type SubprogramResolver } from './simulation'
 
 /** Automatische Prüfung einer Übung: Diagramm mit festen Eingaben simulieren und die Ausgabe vergleichen. */
 
@@ -22,8 +22,8 @@ export interface RunResult {
 
 export const maxCheckSteps = 100_000
 
-export function runWithInputs(doc: VSDocument, inputs: string[]): RunResult {
-  const engine = new SimulationEngine(doc)
+export function runWithInputs(doc: VSDocument, inputs: string[], subprograms?: SubprogramResolver): RunResult {
+  const engine = new SimulationEngine(doc, subprograms)
   const queue = [...inputs]
   for (let i = 0; i < maxCheckSteps; i++) {
     const { state } = engine
@@ -60,9 +60,10 @@ export interface TestOutcome {
   passed: boolean
 }
 
-export function checkExercise(doc: VSDocument, tests: ExerciseTest[]): TestOutcome[] {
+/** `subprograms` findet Unterprogramme für Aufrufe, z. B. in anderen Reitern. */
+export function checkExercise(doc: VSDocument, tests: ExerciseTest[], subprograms?: SubprogramResolver): TestOutcome[] {
   return tests.map((test) => {
-    const result = runWithInputs(doc, test.inputs)
+    const result = runWithInputs(doc, test.inputs, subprograms)
     const passed = !result.error && !result.missingInput && !result.tooManySteps && sameOutput(result.outputs, test.expected)
     return { test, result, passed }
   })

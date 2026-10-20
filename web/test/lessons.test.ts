@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
+import { subprogramName } from '../src/core/simulation'
 import { diagram, image, lessons, reference, tasks } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
@@ -24,7 +25,7 @@ describe('Lernbereich: Inhalte', () => {
   it('jedes verwendete Diagramm existiert und lässt sich laden', () => {
     for (const { where, block } of allBlocks()) {
       const files =
-        block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution] : []
+        block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution, ...block.exercise.subprograms] : []
       for (const f of files.filter(Boolean)) expect(diagram(f!), `${where}: ${f}`).toBeDefined()
     }
   })
@@ -75,7 +76,9 @@ describe('Lernbereich: Inhalte', () => {
       for (const r of ex.requires) expect(r in ElementType || r === 'forZaehlSchleife', `${where}: braucht ${r}`).toBe(true)
       if (!ex.solution) continue
       const doc = diagram(ex.solution)!
-      for (const outcome of checkExercise(doc, ex.tests)) {
+      const subs = ex.subprograms.map((f) => diagram(f)!)
+      const resolve = (name: string) => subs.find((s) => s.caption.toLowerCase() === subprogramName(name).toLowerCase())
+      for (const outcome of checkExercise(doc, ex.tests, resolve)) {
         expect(outcome.passed, `${where}: ${ex.id} ${JSON.stringify(outcome)}`).toBe(true)
       }
       for (const r of ex.requires) expect(usedElementTypes(doc).has(ElementType[r as keyof typeof ElementType])).toBe(true)
