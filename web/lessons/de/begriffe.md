@@ -80,6 +80,9 @@ Eine zusätzliche Variable, die einen Wert kurz aufbewahrt, zum Beispiel beim Ta
 ### EVA-Prinzip
 Eingabe, Verarbeitung, Ausgabe: erst Werte abfragen, dann rechnen, dann das Ergebnis anzeigen.
 
+### Problemanalyse
+Du liest eine Aufgabe genau und klärst, was gegeben ist, was gesucht ist und wie man vom einen zum anderen kommt.
+
 ### Vergleichsoperator
 auch: Vergleichsoperatoren
 Ein Zeichen, das zwei Werte vergleicht, zum Beispiel == oder <. Das Ergebnis ist true oder false.
