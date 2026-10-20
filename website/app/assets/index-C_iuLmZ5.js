@@ -209,7 +209,7 @@ Links Isaac „Ike“ Nassi (Foto: [Ed Schipul](https://commons.wikimedia.org/wi
 > Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer.
 
 ::: angeberwissen
-Nassi und Shneiderman waren 1972 beide noch Doktoranden an der Stony Brook University bei New York. Shneiderman war damals 25 Jahre alt, Nassi erst 23.
+Nassi und Shneiderman waren 1972 beide noch Doktoranden an der Stony Brook University bei New York. Shneiderman war damals etwa 25 Jahre alt, Nassi etwa 23.
 :::
 
 ## Baustein 1: Die Sequenz
