@@ -563,6 +563,7 @@ function emitConstTypedLineIfNeeded(
 function parseJavaStyleSimpleAssignment(rawLine: string): { name: string; rhs: string; isArray: boolean } | undefined {
   const line = stripTrailingSemicolon(rawLine).trim()
   if (line === '') return undefined
+  if (parseGridDeclaration(line)) return undefined
   // `integer` vor `int`, damit nicht nur der Präfix `int` von `integer` passt.
   const g = groups(
     /^\s*(?:integer|int|long|float|double|string|boolean|char|bool)(?:\s*\[\s*\]\s+(\w+)|\s+(\w+)(\s*\[\s*\])?)\s*=\s*(.*)$/i,
@@ -716,6 +717,45 @@ function javaNewArraySizeExpression(rhs: string): string | undefined {
   return size ? size : undefined
 }
 
+interface GridDeclaration {
+  elementType: string
+  name: string
+  rhs: string
+}
+
+/** `boolean[][] sitze = …` (2D-Array). */
+function parseGridDeclaration(line: string): GridDeclaration | undefined {
+  const g = groups(/^\s*(int|double|string|boolean)\s*\[\s*\]\s*\[\s*\]\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i, stripTrailingSemicolon(line).trim())
+  return g ? { elementType: g[1].toLowerCase(), name: g[2], rhs: g[3].trim() } : undefined
+}
+
+/** `new boolean[3][4]` → `['3', '4']`. */
+function gridSizeExpressions(rhs: string): [string, string] | undefined {
+  const g = groups(/^\s*new\s+(?:int|double|string|boolean)\s*\[\s*(.+?)\s*\]\s*\[\s*(.+?)\s*\]\s*$/i, rhs)
+  return g ? [g[1], g[2]] : undefined
+}
+
+const nestedArrayLiteral = (rhs: string) => rhs.replaceAll('{', '[').replaceAll('}', ']')
+
+function gridDefault(elementType: string, target: 'python' | 'javascript'): string {
+  if (elementType === 'boolean') return target === 'python' ? 'False' : 'false'
+  if (elementType === 'string') return '""'
+  if (elementType === 'double') return '0.0'
+  return '0'
+}
+
+function gridRhs(d: GridDeclaration, target: 'python' | 'javascript', intVariables: Set<string>): string {
+  const size = gridSizeExpressions(d.rhs)
+  if (target === 'javascript') {
+    return size
+      ? `Array.from({ length: ${size[0]} }, () => new Array(${size[1]}).fill(${gridDefault(d.elementType, target)}))`
+      : nestedArrayLiteral(d.rhs)
+  }
+  return size
+    ? `[[${gridDefault(d.elementType, target)}] * ${pythonExpression(size[1], intVariables)} for _ in range(${pythonExpression(size[0], intVariables)})]`
+    : pythonExpression(nestedArrayLiteral(d.rhs), intVariables)
+}
+
 function javaScriptRhsFromJavaRhs(rhs: string, isArray: boolean): string {
   const t = rhs.trim()
   if (isArray) {
@@ -745,6 +785,11 @@ function emitTranslatedJavaLikeAssignmentIfNeeded(
   stringVariables: Set<string>,
 ): string | undefined {
   if (target === 'java') return undefined
+  const grid = parseGridDeclaration(raw)
+  if (grid) {
+    const value = gridRhs(grid, target, intVariables)
+    return target === 'javascript' ? sp(indent) + `let ${grid.name} = ${value};\n` : sp(indent) + `${grid.name} = ${value}\n`
+  }
   const p = parseJavaStyleSimpleAssignment(raw)
   if (!p) return undefined
   if (target === 'javascript') {
@@ -1094,7 +1139,7 @@ function postProcessLengthSyntax(s: string, target: CodeTarget): string {
     case 'javascript':
       return s.replace(/\.length\(\)/g, '.length')
     case 'python':
-      return s.replace(/\b([a-zA-Z_]\w*)\.length(?:\(\))?\b/g, 'len($1)')
+      return s.replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\))?\b/g, 'len($1)')
     case 'java':
       return replaceIdentifierDotLengthWithParensInJava(s)
   }
@@ -1103,7 +1148,7 @@ function postProcessLengthSyntax(s: string, target: CodeTarget): string {
 function javaArrayDeclarationNames(s: string): Set<string> {
   const type = '(?:byte|short|int|long|float|double|boolean|char|String)'
   const patterns = [
-    new RegExp(`\\b(?:final\\s+)?${type}\\s*\\[\\s*\\]\\s+([a-zA-Z_]\\w*)\\b`, 'g'),
+    new RegExp(`\\b(?:final\\s+)?${type}\\s*\\[\\s*\\](?:\\s*\\[\\s*\\])?\\s+([a-zA-Z_]\\w*)\\b`, 'g'),
     new RegExp(`\\b(?:final\\s+)?${type}\\s+([a-zA-Z_]\\w*)\\s*\\[\\s*\\]`, 'g'),
   ]
   const names = new Set<string>()

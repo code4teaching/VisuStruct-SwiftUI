@@ -114,6 +114,10 @@ Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp. Im L
 ### Index
 Die Nummer eines Fachs in einem Array. Gezählt wird ab 0.
 
+### 2D-Array
+auch: 2D-Arrays, zweidimensionales Array, zweidimensionale Arrays
+Ein Array mit Zeilen und Spalten, wie eine Tabelle. Ein Fach braucht zwei Indizes, z. B. `sitze[1][2]`.
+
 ### Unterprogramm
 auch: Unterprogramme, Unterprogramms, Unterprogrammen, Methode, Methoden, Prozedur, Prozeduren, Funktion, Funktionen
 Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgeführt. Im Lehrplan und in Java heißt es auch Methode, je nach Art auch Prozedur oder Funktion.

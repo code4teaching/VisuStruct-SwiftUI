@@ -35,10 +35,14 @@ const renamedLessons: Record<string, string> = {
   '12-for-schleife': '13-for-schleife',
   '13-verschachteln': '14-verschachteln',
   '14-arrays': '15-arrays',
-  '15-aufruf-und-aussprung': '16-aufruf-und-aussprung',
+  '15-aufruf-und-aussprung': '17-aufruf-und-aussprung',
+  '16-aufruf-und-aussprung': '17-aufruf-und-aussprung',
+  '17-suchen-und-sortieren': '18-suchen-und-sortieren',
   '16-simulation-und-schreibtischtest': '07-simulation-und-schreibtischtest',
-  '17-java': '18-java',
-  '18-python-und-javascript': '19-python-und-javascript',
+  '17-java': '19-java',
+  '18-java': '19-java',
+  '18-python-und-javascript': '20-python-und-javascript',
+  '19-python-und-javascript': '20-python-und-javascript',
 }
 
 function migrate(s: Store): Store {

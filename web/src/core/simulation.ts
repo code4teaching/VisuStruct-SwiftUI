@@ -12,6 +12,9 @@ export type SimValue =
   | { kind: 'intArray'; value: number[] }
   | { kind: 'doubleArray'; value: number[] }
   | { kind: 'stringArray'; value: string[] }
+  | { kind: 'booleanArray'; value: boolean[] }
+  /** Zweidimensionales Array (`boolean[][] sitze`): Zeilen, darin die Werte. */
+  | { kind: 'grid'; elementType: SimValueType; value: (number | string | boolean)[][] }
 
 export type SimValueType = 'int' | 'double' | 'string' | 'boolean'
 
@@ -173,7 +176,31 @@ export function describeValue(v: SimValue): string {
     case 'intArray': return '[' + v.value.map(String).join(', ') + ']'
     case 'doubleArray': return '[' + v.value.map(formatDouble).join(', ') + ']'
     case 'stringArray': return '[' + v.value.join(', ') + ']'
+    case 'booleanArray': return '[' + v.value.map(String).join(', ') + ']'
+    case 'grid': return '[' + describeRows(v).join(', ') + ']'
   }
+}
+
+/** Ein 2D-Array Zeile für Zeile, z. B. für die Anzeige unter Variablen. */
+export function describeRows(v: SimValue & { kind: 'grid' }): string[] {
+  return v.value.map((row) => '[' + row.map((x) => describeValue(elementValue(v.elementType, x))).join(', ') + ']')
+}
+
+function elementValue(type: SimValueType, raw: number | string | boolean): SimValue {
+  switch (type) {
+    case 'int': return { kind: 'int', value: raw as number }
+    case 'double': return { kind: 'double', value: raw as number }
+    case 'string': return { kind: 'string', value: raw as string }
+    case 'boolean': return { kind: 'boolean', value: raw as boolean }
+  }
+}
+
+function elementDefault(type: SimValueType): number | string | boolean {
+  return type === 'string' ? '' : type === 'boolean' ? false : 0
+}
+
+function isArrayValue(v: SimValue): boolean {
+  return v.kind === 'intArray' || v.kind === 'doubleArray' || v.kind === 'stringArray' || v.kind === 'booleanArray' || v.kind === 'grid'
 }
 
 function asDouble(v: SimValue): number {
@@ -351,22 +378,37 @@ function stripConditionKeyword(text: string): string {
 
 interface ArrayElementAccess {
   arrayName: string
-  indexExpression: string
+  /** Ein Index bei `a[i]`, zwei bei `a[i][j]`. */
+  indexExpressions: string[]
 }
 
+/** `name[…]` oder `name[…][…]`, und zwar der ganze Text (nicht etwa `a[i] > a[i + 1]`). */
 function parseArrayElementAccess(text: string): ArrayElementAccess | undefined {
   const trimmed = text.trim()
   const open = trimmed.indexOf('[')
   if (!trimmed.endsWith(']') || open < 0) return undefined
   const name = trimmed.slice(0, open).trim()
   if (!isIdentifier(name)) return undefined
-  // Die Klammer nach dem Namen muss erst am Ende schließen, sonst ist es z. B. `a[i] > a[i + 1]`.
-  let depth = 0
-  for (let i = open; i < trimmed.length - 1; i++) {
-    if (trimmed[i] === '[') depth += 1
-    else if (trimmed[i] === ']' && --depth === 0) return undefined
+  const indexExpressions: string[] = []
+  let i = open
+  while (i < trimmed.length) {
+    if (trimmed[i] !== '[') return undefined
+    let depth = 0
+    let close = -1
+    for (let k = i; k < trimmed.length; k++) {
+      if (trimmed[k] === '[') depth += 1
+      else if (trimmed[k] === ']' && --depth === 0) {
+        close = k
+        break
+      }
+    }
+    if (close < 0) return undefined
+    indexExpressions.push(trimmed.slice(i + 1, close))
+    i = close + 1
+    while (i < trimmed.length && isWhitespace(trimmed[i])) i += 1
   }
-  return { arrayName: name, indexExpression: trimmed.slice(open + 1, -1) }
+  if (indexExpressions.length > 2) return undefined
+  return { arrayName: name, indexExpressions }
 }
 
 function isAssignableTarget(text: string): boolean {
@@ -403,6 +445,25 @@ function splitByPlusOutsideQuotes(expression: string): string[] {
   }
   if (inString) throw invalid(expression)
   parts.push(current)
+  return parts
+}
+
+/** Teilt an Kommas, die nicht in geschweiften Klammern stehen: `{1, 2}, {3, 4}` → zwei Teile. */
+function splitTopLevelBraces(text: string): string[] {
+  const parts: string[] = []
+  let depth = 0
+  let current = ''
+  for (const c of text) {
+    if (c === '{') depth += 1
+    if (c === '}') depth -= 1
+    if (c === ',' && depth === 0) {
+      parts.push(current)
+      current = ''
+      continue
+    }
+    current += c
+  }
+  if (current.trim() !== '') parts.push(current)
   return parts
 }
 
@@ -552,9 +613,7 @@ class NumericParser {
             if (this.kind() !== ')') throw invalid(`${name}.length`)
             this.index += 1
           }
-          if (value.kind === 'intArray' || value.kind === 'doubleArray' || value.kind === 'stringArray') {
-            return { v: value.value.length, int: true }
-          }
+          if (isArrayValue(value)) return { v: (value.value as unknown[]).length, int: true }
           throw invalid(name)
         }
         if (this.kind() === '[') {
@@ -562,6 +621,30 @@ class NumericParser {
           const elementIndex = Math.trunc(this.expression().v)
           if (this.kind() !== ']') throw invalid(name)
           this.index += 1
+          if (value.kind === 'grid') {
+            if (!(elementIndex >= 0 && elementIndex < value.value.length)) throw invalid(`${name}[${elementIndex}]`)
+            const row = value.value[elementIndex]
+            if (this.kind() === '.') {
+              // `sitze[0].length`: Anzahl der Spalten in dieser Zeile
+              this.index += 1
+              if (!this.isIdent('length')) throw invalid(name)
+              this.index += 1
+              if (this.kind() === '(') {
+                this.index += 1
+                if (this.kind() !== ')') throw invalid(`${name}.length`)
+                this.index += 1
+              }
+              return { v: row.length, int: true }
+            }
+            if (this.kind() !== '[') throw invalid(name)
+            this.index += 1
+            const column = Math.trunc(this.expression().v)
+            if (this.kind() !== ']') throw invalid(name)
+            this.index += 1
+            if (!(column >= 0 && column < row.length)) throw invalid(`${name}[${elementIndex}][${column}]`)
+            if (value.elementType !== 'int' && value.elementType !== 'double') throw invalid(name)
+            return { v: row[column] as number, int: value.elementType === 'int' }
+          }
           if (value.kind === 'intArray' || value.kind === 'doubleArray') {
             if (!(elementIndex >= 0 && elementIndex < value.value.length)) throw invalid(`${name}[${elementIndex}]`)
             return { v: value.value[elementIndex], int: value.kind === 'intArray' }
@@ -1258,13 +1341,15 @@ export class SimulationEngine {
   private parseArrayDeclaration(
     left: string,
     expression: string,
-  ): { name: string; typeName: string; count: number; value: SimValue } | undefined {
+  ): { name: string; typeName: string; count: number | string; value: SimValue } | undefined {
     const leftParts = left.split(/\s+/u).filter(Boolean)
     if (leftParts.length !== 2 || !leftParts[0].endsWith('[]')) return undefined
-    const typeName = leftParts[0].slice(0, -2)
+    const twoDimensional = leftParts[0].endsWith('[][]')
+    const typeName = leftParts[0].slice(0, twoDimensional ? -4 : -2)
     const valueType = valueTypeKeyword(typeName)
     const name = leftParts[1]
-    if (!valueType || valueType === 'boolean' || !isIdentifier(name)) throw unsupported(left)
+    if (!valueType || !isIdentifier(name)) throw unsupported(left)
+    if (twoDimensional) return this.parseGridDeclaration(name, typeName, valueType, expression)
 
     const trimmed = expression.trim()
     if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
@@ -1280,6 +1365,9 @@ export class SimulationEngine {
         case 'string':
           value = { kind: 'stringArray', value: items.map((i) => unquotedString(i) ?? this.evaluateOutputExpression(i)) }
           break
+        case 'boolean':
+          value = { kind: 'booleanArray', value: items.map((i) => this.evaluateBool(i)) }
+          break
       }
       return { name, typeName, count: items.length, value }
     }
@@ -1294,8 +1382,48 @@ export class SimulationEngine {
         ? { kind: 'intArray', value: new Array(count).fill(0) }
         : valueType === 'double'
           ? { kind: 'doubleArray', value: new Array(count).fill(0) }
-          : { kind: 'stringArray', value: new Array(count).fill('') }
+          : valueType === 'boolean'
+            ? { kind: 'booleanArray', value: new Array(count).fill(false) }
+            : { kind: 'stringArray', value: new Array(count).fill('') }
     return { name, typeName, count, value }
+  }
+
+  /** `int[][] a = new int[3][4]` oder `int[][] a = {{1, 2}, {3, 4}}`. */
+  private parseGridDeclaration(
+    name: string,
+    typeName: string,
+    elementType: SimValueType,
+    expression: string,
+  ): { name: string; typeName: string; count: number | string; value: SimValue } {
+    const trimmed = expression.trim()
+    const element = (text: string): number | string | boolean => {
+      switch (elementType) {
+        case 'int': return this.evaluateInt(text)
+        case 'double': return this.evaluateDouble(text)
+        case 'boolean': return this.evaluateBool(text)
+        case 'string': return unquotedString(text.trim()) ?? this.evaluateOutputExpression(text)
+      }
+    }
+    if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+      const rows = splitTopLevelBraces(trimmed.slice(1, -1)).map((row) => {
+        const r = row.trim()
+        if (!r.startsWith('{') || !r.endsWith('}')) throw invalid(r)
+        return r.slice(1, -1).trim() === '' ? [] : r.slice(1, -1).split(',').map((x) => element(x.trim()))
+      })
+      return { name, typeName, count: `${rows.length}][${rows[0]?.length ?? 0}`, value: { kind: 'grid', elementType, value: rows } }
+    }
+    const g = new RegExp(String.raw`^new\s+${typeName}\s*\[(.+)\]\s*\[(.+)\]$`, 'u').exec(trimmed)
+    if (!g) throw unsupported(expression)
+    const rows = this.evaluateInt(g[1])
+    const columns = this.evaluateInt(g[2])
+    if (rows < 0) throw invalid(g[1])
+    if (columns < 0) throw invalid(g[2])
+    const value: SimValue = {
+      kind: 'grid',
+      elementType,
+      value: Array.from({ length: rows }, () => new Array(columns).fill(elementDefault(elementType))),
+    }
+    return { name, typeName, count: `${rows}][${columns}`, value }
   }
 
   private arrayIndex(expression: string): number {
@@ -1310,18 +1438,29 @@ export class SimulationEngine {
     if (direct) return direct
     const access = parseArrayElementAccess(trimmed)
     if (!access) return undefined
-    return this.valueInArray(access.arrayName, this.arrayIndex(access.indexExpression))
+    return this.valueInArray(access.arrayName, access.indexExpressions.map((e) => this.arrayIndex(e)))
   }
 
-  private valueInArray(name: string, index: number): SimValue {
+  private valueInArray(name: string, indices: number[]): SimValue {
     const value = this.state.variables.get(name)
     if (!value) throw unknownVar(name)
-    if (value.kind !== 'intArray' && value.kind !== 'doubleArray' && value.kind !== 'stringArray') throw invalid(name)
-    if (index >= value.value.length) throw invalid(`${name}[${index}]`)
+    const at = `${name}[${indices.join('][')}]`
+    if (value.kind === 'grid') {
+      if (indices.length !== 2) throw invalid(at)
+      const row = value.value[indices[0]]
+      if (!row || indices[1] >= row.length) throw invalid(at)
+      return elementValue(value.elementType, row[indices[1]])
+    }
+    if (indices.length !== 1) throw invalid(at)
+    const index = indices[0]
+    if (!isArrayValue(value)) throw invalid(name)
+    if (index >= (value.value as unknown[]).length) throw invalid(at)
     switch (value.kind) {
       case 'intArray': return int(value.value[index])
       case 'doubleArray': return dbl(value.value[index])
       case 'stringArray': return { kind: 'string', value: value.value[index] }
+      case 'booleanArray': return { kind: 'boolean', value: value.value[index] }
+      default: throw invalid(name)
     }
   }
 
@@ -1336,6 +1475,8 @@ export class SimulationEngine {
       if (value.kind === 'intArray') return 'int'
       if (value.kind === 'doubleArray') return 'double'
       if (value.kind === 'stringArray') return 'string'
+      if (value.kind === 'booleanArray') return 'boolean'
+      if (value.kind === 'grid') return value.elementType
       throw invalid(access.arrayName)
     }
     throw unsupported(target)
@@ -1348,9 +1489,20 @@ export class SimulationEngine {
       this.state.variables.set(trimmed, value)
       return
     }
-    const index = this.arrayIndex(access.indexExpression)
+    const indices = access.indexExpressions.map((e) => this.arrayIndex(e))
     const old = this.state.variables.get(access.arrayName)
     if (!old) throw unknownVar(access.arrayName)
+    if (old.kind === 'grid') {
+      if (indices.length !== 2 || indices[0] >= old.value.length || indices[1] >= old.value[indices[0]].length) throw invalid(trimmed)
+      const raw = old.elementType === 'double' && value.kind === 'int' ? value.value : value.kind === old.elementType ? value.value : undefined
+      if (raw === undefined || isArrayValue(value)) throw invalid(trimmed)
+      const rows = old.value.map((row) => [...row])
+      rows[indices[0]][indices[1]] = raw as number | string | boolean
+      this.state.variables.set(access.arrayName, { ...old, value: rows })
+      return
+    }
+    if (indices.length !== 1) throw invalid(trimmed)
+    const index = indices[0]
     let updated: SimValue
     if (old.kind === 'intArray' && value.kind === 'int') {
       updated = { kind: 'intArray', value: [...old.value] }
@@ -1358,10 +1510,12 @@ export class SimulationEngine {
       updated = { kind: 'doubleArray', value: [...old.value] }
     } else if (old.kind === 'stringArray' && value.kind === 'string') {
       updated = { kind: 'stringArray', value: [...old.value] }
+    } else if (old.kind === 'booleanArray' && value.kind === 'boolean') {
+      updated = { kind: 'booleanArray', value: [...old.value] }
     } else {
       throw invalid(trimmed)
     }
-    if (index >= updated.value.length) throw invalid(trimmed)
+    if (index >= (updated.value as unknown[]).length) throw invalid(trimmed)
     ;(updated.value as unknown[])[index] = value.value
     this.state.variables.set(access.arrayName, updated)
   }

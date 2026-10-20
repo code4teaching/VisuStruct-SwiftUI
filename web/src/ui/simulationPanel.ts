@@ -1,5 +1,5 @@
 import type { VSDocument } from '../core/model'
-import { describeValue, SimulationEngine, type SimNotice, type SubprogramResolver } from '../core/simulation'
+import { describeValue, SimulationEngine, type SimNotice, type SimValue, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
 
 /** `sim_notice_*` aus Localizable.strings. */
@@ -252,7 +252,14 @@ export class SimulationPanel {
       for (const name of names) {
         const row = table.insertRow()
         row.insertCell().textContent = name
-        row.insertCell().textContent = describeValue(state.variables.get(name)!)
+        const value = state.variables.get(name)!
+        const cell = row.insertCell()
+        // 2D-Array wie eine Tabelle: jede Zeile in einer eigenen Zeile
+        if (value.kind === 'grid') {
+          cell.append(gridTable(value))
+        } else {
+          cell.textContent = describeValue(value)
+        }
       }
       this.variables.replaceChildren(table)
     }
@@ -300,4 +307,19 @@ export class SimulationPanel {
     errorLine.textContent = error ? noticeText(error) : ''
     errorLine.hidden = !error
   }
+}
+
+/** Ein 2D-Array als kleine Tabelle: eine Tabellenzeile pro Zeile des Arrays. */
+function gridTable(value: SimValue & { kind: 'grid' }): HTMLTableElement {
+  const table = document.createElement('table')
+  table.className = 'sim-grid'
+  for (const row of value.value) {
+    const tr = table.insertRow()
+    for (const x of row) {
+      const td = tr.insertCell()
+      td.textContent = String(x)
+      if (x === true) td.className = 'sim-grid-true'
+    }
+  }
+  return table
 }
