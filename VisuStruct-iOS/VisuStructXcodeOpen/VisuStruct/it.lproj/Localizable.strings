@@ -230,3 +230,8 @@
 "sim_notice_division_by_zero" = "Divisione per zero.";
 "sim_notice_whole_number_expected" = "Inserisci un numero intero.";
 "sim_notice_number_expected" = "Inserisci un numero.";
+"sim_notice_boolean_expected" = "Inserisci true o false.";
+
+"codegen_pseudocode_toggle" = "Pseudocodice (codice non eseguibile)";
+"codegen_pseudocode_note" = "Pseudocodice – non è un programma eseguibile";
+"codegen_pseudocode_hint" = "Questo diagramma è contrassegnato come pseudocodice. Il codice è solo una bozza e non può essere eseguito.";

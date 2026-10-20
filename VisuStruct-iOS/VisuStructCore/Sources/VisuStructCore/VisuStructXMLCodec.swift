@@ -44,6 +44,7 @@ public enum VisuStructXMLCodec {
         out += attr("fontstyle", doc.fontStyle.map(String.init))
         out += attr("fontsize", doc.fontSize.map(String.init))
         out += attr("caption", VisuStructJavaStringCoding.encode(doc.caption))
+        out += attr("pseudocode", doc.isPseudocode ? "true" : nil)
         out += ">\n"
 
         for e in doc.elements {
@@ -143,6 +144,7 @@ public enum VisuStructXMLCodec {
         private var rootFontSize: Int?
         private var rootFontStyle: Int?
         private var rootCaption: String = ""
+        private var rootIsPseudocode = false
 
         private let rootList = ElementList()
         private var appendTargetStack: [ElementList] = []
@@ -166,6 +168,7 @@ public enum VisuStructXMLCodec {
                 rootFontSize = attributeDict["fontsize"].flatMap(Int.init)
                 rootFontStyle = attributeDict["fontstyle"].flatMap(Int.init)
                 rootCaption = attributeDict["caption"].map(VisuStructJavaStringCoding.decode) ?? ""
+                rootIsPseudocode = attributeDict["pseudocode"] == "true"
 
             case "strelem":
                 guard let tStr = attributeDict["typ"],
@@ -257,6 +260,7 @@ public enum VisuStructXMLCodec {
                     fontSize: rootFontSize,
                     fontStyle: rootFontStyle,
                     caption: rootCaption,
+                    isPseudocode: rootIsPseudocode,
                     elements: rootList.elements
                 )
 

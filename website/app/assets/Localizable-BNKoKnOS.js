@@ -1,0 +1,238 @@
+const e=`/* Palette */
+"palette_header" = "רכיבים";
+
+/* Actions */
+"action_share_png" = "שיתוף תמונה…";
+"action_share_document" = "שיתוף קובץ…";
+"action_export_pdf" = "תצוגה מקדימה של PDF…";
+"action_generate_code" = "יצירת קוד…";
+"action_simulation" = "סימולציה";
+"action_diagram" = "תרשים";
+"simulation_placeholder_body" = "מצב הסימולציה מריץ את התרשים צעד אחר צעד, מדגיש את הרכיב הנוכחי ומציג ערכי משתנים ופלט.";
+"simulation_controls" = "פקדים";
+"simulation_highlight_label" = "הדגשה";
+"simulation_highlight_last" = "הצעד האחרון";
+"simulation_highlight_next" = "הצעד הבא";
+"simulation_not_available" = "Play מריץ את הסימולציה אוטומטית עם השהיה של 0.5 שניות לכל צעד.";
+"simulation_play" = "הפעלה";
+"simulation_pause" = "השהיה";
+"simulation_step" = "צעד";
+"simulation_stop" = "עצירה";
+"simulation_input" = "קלט";
+"simulation_input_placeholder" = "לא נדרש קלט.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "הזינו מספר שלם.";
+"simulation_trace" = "הצעד האחרון";
+"simulation_trace_placeholder" = "עדיין לא בוצע אף צעד.";
+"simulation_variables" = "משתנים";
+"simulation_variables_placeholder" = "עדיין אין משתנים.";
+"simulation_output" = "פלט";
+"simulation_output_placeholder" = "עדיין אין פלט.";
+"action_delete_selection" = "מחיקת בחירה";
+"ctx_copy" = "העתק";
+"ctx_cut" = "גזור";
+"ctx_paste" = "הדבק";
+"action_settings" = "הגדרות";
+"action_about" = "אודות VisuStruct";
+"recent_files_menu" = "קבצים אחרונים";
+"recent_files_empty" = "אין קבצים אחרונים";
+"recent_files_clear" = "נקה רשימה";
+"recent_files_unavailable" = "הקובץ אינו זמין עוד.";
+
+/* In-app settings */
+"settings_language_title" = "שפה";
+"settings_language_de" = "גרמנית";
+"settings_language_en" = "אנגלית";
+"settings_language_es" = "ספרדית";
+"settings_language_fr" = "צרפתית";
+"settings_language_it" = "איטלקית";
+"settings_language_pl" = "פולנית";
+"settings_language_tr" = "טורקית";
+"settings_language_ko" = "קוריאנית";
+"settings_language_ja" = "יפנית";
+"settings_language_el" = "יוונית";
+"settings_language_uk" = "אוקראינית";
+"settings_language_ar" = "ערבית";
+"settings_language_ru" = "רוסית";
+"settings_language_he" = "עברית";
+"settings_language_zh_hans" = "סינית (מפושטת)";
+"settings_language_zh_hant" = "סינית (מסורתית)";
+"settings_language_ptpt" = "פורטוגזית";
+"settings_language_java" = "Java (מילות מפתח)";
+
+
+/* Error overlay */
+"error_title" = "שגיאה";
+"error_back_editor" = "חזרה לעורך";
+
+/* Toolbar */
+"toolbar_undo" = "בטל";
+"toolbar_redo" = "בצע שוב";
+"toolbar_new" = "חדש";
+"menu_open" = "פתח…";
+"menu_save" = "שמור";
+"menu_save_as" = "שמור בשם…";
+"menu_print" = "הדפס…";
+"menu_file" = "קובץ";
+"menu_new" = "חדש";
+"menu_close" = "סגור";
+
+/* Accessibility */
+"a11y_generate_code" = "יצירת קוד מהתרשים";
+"a11y_generate_code_locked" = "יצירת קוד, זמין לאחר רכישה";
+"a11y_unsaved_changes" = "שינויים שלא נשמרו";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "יצירת קוד";
+"codegen_gate_body" = "קוד Java, Python ו‑JavaScript מהתרשים ייפתח באמצעות רכישה בתוך האפליקציה (בקרוב).";
+"codegen_gate_ok" = "אישור";
+"codegen_placeholder_title" = "מחולל קוד";
+"codegen_placeholder_body" = "הקוד שייווצר יופיע כאן.";
+"codegen_placeholder_compare" = "עברו בין Java, Python ו‑JavaScript להשוואת תחביר (דוגמה למטה).";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (condition) {\\n    statement();\\n} else {\\n    alternative();\\n}";
+"codegen_preview_python" = "if condition:\\n    statement()\\nelse:\\n    alternative()";
+"codegen_copy" = "העתק";
+"codegen_run_in_browser" = "בדיקה בדפדפן";
+"codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
+"a11y_new_diagram_tab" = "כרטיסיית תרשים חדשה";
+"a11y_close_tab" = "סגור כרטיסייה";
+
+"close_unsaved_title" = "שינויים שלא נשמרו";
+"close_unsaved_message" = "בתרשים זה יש שינויים שלא נשמרו. לשמור אותם לפני הסגירה?";
+"close_unsaved_discard" = "התעלם";
+"close_unsaved_cancel" = "ביטול";
+"a11y_placeholder_drop" = "שחררו רכיב כאן כדי להחליף את מציין המקום. לחצו והחזיקו כדי לגרור ולהזיז.";
+"a11y_node_drop" = "לחצו והחזיקו בלוק ואז גררו: שחררו על הקצה העליון או התחתון כדי להוסיף לפני או אחרי. שחרור במרכז רק על מציין מקום ø.";
+"a11y_codegen_panel_drag" = "גרור כדי להזיז את לוח מחולל הקוד";
+
+/* Diagram */
+"diagram_title_label" = "כותרת";
+"diagram_title_placeholder" = "ללא כותרת";
+
+/* Inspector */
+"inspector_no_selection" = "לא נבחר רכיב — הקישו על אריח.";
+"inspector_apply_text" = "החל טקסט";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "סוג";
+"inspector_io_mode_statement" = "הוראה";
+"inspector_io_mode_input" = "קלט";
+"inspector_io_mode_output" = "פלט";
+"inspector_io_mode_help_java_like" = "קלט: input: … | פלט: output: …";
+"inspector_add_case" = "הוסף מקרה";
+"inspector_remove_case" = "הסר מקרה";
+"inspector_group_element" = "טקסט רכיב";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "הוסף condition…";
+"inspector_placeholder_selector" = "הוסף selector…";
+"inspector_placeholder_call" = "הוסף call…";
+"inspector_placeholder_break" = "הערה (רשות)";
+
+/* Element types — keep Java-like (LTR) to reduce RTL confusion */
+"element_anweisung" = "Statement";
+"element_verzweigung" = "if";
+"element_fallauswahl" = "switch";
+"element_forSchleife" = "for";
+"element_whileSchleife" = "while";
+"element_doUntilSchleife" = "do";
+"element_endlosschleife" = "while(true)";
+"element_aussprung" = "break";
+"element_aufruf" = "קריאה";
+"element_leerElement" = "ø";
+
+/* Tabs */
+"tab_title_format" = "תרשים %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "תרשים ריק";
+"canvas_empty_hint" = "גררו בלוק מתוך „רכיבים“ לכאן.";
+
+/* Diagram: new element stubs & column headers — keep Java-like */
+"canvas_stub_anweisung" = "Statement";
+"canvas_stub_condition" = "condition";
+"canvas_stub_fallauswahl" = "selector";
+"canvas_stub_for" = "i = 0; i < n; i++";
+"canvas_stub_while" = "condition";
+"canvas_stub_until" = "condition";
+"canvas_stub_endless" = "∞";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "קריאה()";
+
+/* About */
+"about_version_fmt" = "גרסה %@ (%@)";
+"about_nav_title" = "אודות VisuStruct";
+"about_features_heading" = "תכונות";
+"about_bullet_palette" = "הוספת בלוקים מהפלטה או גרירה אל התרשים";
+"about_bullet_edit" = "עריכת התרשים: שינוי טקסט, בחירת רכיבים ומחיקה לפי הצורך";
+"about_bullet_tabs" = "כמה תרשימים בכרטיסיות — לכל אחד כותרת משלו";
+"about_bullet_file" = "שמירה ופתיחה של תרשימים כקבצי ‎.visustruct";
+"about_bullet_share" = "שיתוף התרשים כתמונה (PNG)";
+"about_dateiformat_heading" = "פורמט קובץ";
+"about_dateiformat_part1" = "הפורמט המקורי של VisuStruct משתמש בסיומת ";
+"about_dateiformat_part2" = ". ניתן לשמור תרשימים ולהחליף אותם עם אפליקציות אחרות שתומכות באותו פורמט.";
+"about_dateiformat_strk" = "ניתן לפתוח גם קבצים עם הסיומת .strk.";
+"about_project_github_label" = "אפליקציית Java (מקור וגרסאות):";
+"about_web_label" = "אתר:";
+"about_developer_label" = "מפתח:";
+"about_lineage_heading" = "מקור";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Java upstream:";
+"about_done" = "סיום";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "בטל הוספה";
+"phone_show_text_editor" = "עריכת טקסט";
+"phone_hide_text_editor" = "כיווץ";
+"phone_title_done" = "סיום";
+
+/* Alerts */
+"err_save_failed_fmt" = "לא ניתן לשמור: %@";
+"err_share_prepare_failed_fmt" = "לא ניתן להכין שיתוף: %@";
+"err_diagram_too_small_export" = "התרשים קטן מדי — אין מה לייצא.";
+"err_image_render_failed" = "לא ניתן ליצור תמונה.";
+"err_diagram_too_small_print" = "התרשים קטן מדי — אין מה להדפיס.";
+"err_print_unavailable" = "הדפסה אינה זמינה במכשיר זה.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "הצעת שם קובץ";
+"settings_export_filename_picker" = "פורמט";
+"settings_export_filename_date_title" = "עם תאריך";
+"settings_export_filename_title_only" = "בלי תאריך";
+"settings_export_filename_footer_with_date" = "עם תאריך: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "בלי תאריך: Filename.visustruct";
+
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "הסימולציה הסתיימה.";
+"sim_notice_infinite_loop_empty" = "ללולאה האינסופית אין גוף.";
+"sim_notice_unsupported_statement_fmt" = "הוראה לא נתמכת: %@";
+"sim_notice_invalid_expression_fmt" = "ביטוי לא חוקי: %@";
+"sim_notice_unknown_variable_fmt" = "משתנה לא ידוע: %@";
+"sim_notice_division_by_zero" = "חלוקה באפס.";
+"sim_notice_whole_number_expected" = "יש להזין מספר שלם.";
+"sim_notice_number_expected" = "יש להזין מספר.";
+"sim_notice_boolean_expected" = "הזן true או false.";
+
+"codegen_pseudocode_toggle" = "פסאודו-קוד (קוד שאינו ניתן להרצה)";
+"codegen_pseudocode_note" = "פסאודו-קוד – לא תוכנית שניתן להריץ";
+"codegen_pseudocode_hint" = "תרשים זה מסומן כפסאודו-קוד. הקוד הוא רק טיוטה ולא ניתן להריץ אותו.";
+`;export{e as default};

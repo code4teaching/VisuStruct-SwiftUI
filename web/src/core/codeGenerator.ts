@@ -13,8 +13,14 @@ export interface CodeOptions {
   includeDiagramTextAsComments: boolean
   /** `else` auch ausgeben, wenn der Nein-Zweig nur leer (ø) ist. */
   includeEmptyElseBranch: boolean
-  /** Interner Heuristik-Kontext für JavaScript (Ganzzahldivision). */
+  /** Kommentar über dem Code, wenn das Diagramm als Pseudocode markiert ist. */
+  pseudocodeNote: string
+  /** Interner Heuristik-Kontext für JavaScript und Python (Ganzzahldivision). */
   jsIntVariables?: Set<string>
+  /** Elementtyp deklarierter Arrays (`int[] zahlen` → `int`), für Eingaben in `zahlen[i]`. */
+  arrayElementTypes?: Map<string, string>
+  /** Text-Variablen: In Python ohne `str(…)` verketten. */
+  stringVariables?: Set<string>
 }
 
 export const defaultCodeOptions: CodeOptions = {
@@ -22,22 +28,32 @@ export const defaultCodeOptions: CodeOptions = {
   indentPerLevel: 4,
   includeDiagramTextAsComments: false,
   includeEmptyElseBranch: true,
+  pseudocodeNote: 'Pseudocode – not a runnable program',
 }
 
 export function generateCode(document: VSDocument, target: CodeTarget, options: Partial<CodeOptions> = {}): string {
-  const opts: CodeOptions = { ...defaultCodeOptions, ...options, jsIntVariables: new Set() }
+  const opts: CodeOptions = {
+    ...defaultCodeOptions,
+    ...options,
+    jsIntVariables: new Set(),
+    arrayElementTypes: inferArrayElementTypes(document),
+    stringVariables: inferStringVariables(document),
+  }
   let out = ''
   if (target === 'javascript') {
     // Schul-tauglich: Strict-Modus immer am Anfang des Snippets.
     out += '"use strict";\n\n'
-    opts.jsIntVariables = inferIntegerVariablesForJavaScript(document)
+    opts.jsIntVariables = inferIntegerVariables(document)
   }
+  if (target === 'python') opts.jsIntVariables = inferIntegerVariables(document)
   if (target === 'python' && documentContainsJavaMathRandom(document)) out += 'import random\n\n'
   if (target === 'java' && documentContainsJavaInput(document)) {
     // Snippet-Modus: Import als Kommentar (damit es auch beim Einfügen in `main` nicht „falsch“ steht).
     out += '// import java.util.Scanner;\n'
     out += 'Scanner scanner = new Scanner(System.in);\n\n'
   }
+  // Nach Import/Scanner, damit die Java-Klasse den Vorspann weiterhin erkennt.
+  if (document.pseudocode) out += (target === 'python' ? '# ' : '// ') + opts.pseudocodeNote + '\n\n'
   const sink = { out }
   for (const el of document.elements) emit(el, target, opts, opts.baseIndent, sink)
   out = sink.out
@@ -220,13 +236,19 @@ function parseInputTypeAndName(rest: string): [string, string] | undefined {
 }
 
 /** Ohne `output:`/`print:`-Präfix: Zeile beginnt mit `"…"` → Ausgabe. */
-function emitBareLeadingStringAsPrintIfNeeded(raw: string, target: CodeTarget, indent: number): string | undefined {
+function emitBareLeadingStringAsPrintIfNeeded(
+  raw: string,
+  target: CodeTarget,
+  indent: number,
+  intVariables: Set<string>,
+  stringVariables: Set<string>,
+): string | undefined {
   const t = stripTrailingSemicolon(raw).trim()
   if (!t.startsWith('"')) return undefined
   switch (target) {
     case 'java': return sp(indent) + 'System.out.println(' + t + ');\n'
     case 'javascript': return sp(indent) + 'console.log(' + t + ');\n'
-    case 'python': return sp(indent) + 'print(' + t + ')\n'
+    case 'python': return sp(indent) + 'print(' + pythonConcatenation(t, intVariables, stringVariables) + ')\n'
   }
 }
 
@@ -235,16 +257,52 @@ function escapeForDoubleQuotedLiteral(s: string): string {
   return s.replaceAll('\\', '\\\\').replaceAll('"', '\\"').replaceAll('\n', '\\n').replaceAll('\r', '\\r')
 }
 
-function inputParseFrom(raw: string): InputLineParse | undefined {
+function inputParseFrom(raw: string, arrayTypes: Map<string, string>): InputLineParse | undefined {
   const t = raw.trim()
   if (!t.toLowerCase().startsWith('input:')) return undefined
   const rest = t.slice(6).trim()
   if (rest === '') return undefined
-  return parseInputLineAfterColon(rest)
+  const p = parseInputLineAfterColon(rest)
+  // Kurzform `input: zahlen[i]`: Typ aus der Array-Deklaration statt immer `String`.
+  if (p && isIndexedTarget(p) && !/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s/i.test(rest)) {
+    const declared = arrayTypes.get(p.name.slice(0, p.name.indexOf('[')).trim())
+    if (declared) return { ...p, type: declared }
+  }
+  return p
 }
 
-function emitJavaInputLineIfNeeded(raw: string, indent: number): string | undefined {
-  const p = inputParseFrom(raw)
+function inferStringVariables(doc: VSDocument): Set<string> {
+  const out = new Set<string>()
+  walkElements(doc.elements, (e) => {
+    for (const raw of e.textLines) {
+      const t = raw.trim()
+      if (t.toLowerCase().startsWith('input:')) {
+        const p = parseInputLineAfterColon(t.slice(6).trim())
+        if (p?.type === 'String' && !isIndexedTarget(p)) out.add(p.name)
+        continue
+      }
+      const g = groups(/^\s*(?:const\s+)?string\s+([a-zA-Z_]\w*)\s*=/i, t)
+      if (g) out.add(g[1])
+    }
+  })
+  return out
+}
+
+function inferArrayElementTypes(doc: VSDocument): Map<string, string> {
+  const out = new Map<string, string>()
+  walkElements(doc.elements, (e) => {
+    for (const raw of e.textLines) {
+      const g =
+        groups(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s*\[\s*\]\s*([a-zA-Z_]\w*)/i, raw) ??
+        groups(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+([a-zA-Z_]\w*)\s*\[\s*\]/i, raw)
+      if (g) out.set(g[2], normalizeInputTypeKeyword(g[1]))
+    }
+  })
+  return out
+}
+
+function emitJavaInputLineIfNeeded(raw: string, indent: number, arrayTypes: Map<string, string>): string | undefined {
+  const p = inputParseFrom(raw, arrayTypes)
   if (!p) return undefined
   const promptText = p.customPrompt ? p.customPrompt : p.name + ': '
   const promptOut = sp(indent) + 'System.out.println("' + escapeForDoubleQuotedLiteral(promptText) + '");\n'
@@ -254,12 +312,13 @@ function emitJavaInputLineIfNeeded(raw: string, indent: number): string | undefi
     case 'double': return promptOut + sp(indent) + `${decl('double')} = scanner.nextDouble();\n`
     // `next()` statt `nextLine()` (vermeidet die Newline-Falle nach `nextInt()`).
     case 'String': return promptOut + sp(indent) + `${decl('String')} = scanner.next();\n`
+    case 'boolean': return promptOut + sp(indent) + `${decl('boolean')} = scanner.nextBoolean();\n`
     default: return undefined
   }
 }
 
-function emitJavaScriptInputLineIfNeeded(raw: string, indent: number): string | undefined {
-  const p = inputParseFrom(raw)
+function emitJavaScriptInputLineIfNeeded(raw: string, indent: number, arrayTypes: Map<string, string>): string | undefined {
+  const p = inputParseFrom(raw, arrayTypes)
   if (!p) return undefined
   const useCustom = !!p.customPrompt
   // `prompt` trägt den eigenen Hinweis; sonst zusätzlich `console.log`.
@@ -273,12 +332,13 @@ function emitJavaScriptInputLineIfNeeded(raw: string, indent: number): string | 
     case 'int': return hint + sp(indent) + `${target} = parseInt(${promptExpr('0')}, 10);\n`
     case 'double': return hint + sp(indent) + `${target} = Number(${promptExpr('0')});\n`
     case 'String': return hint + sp(indent) + `${target} = ${promptExpr('')};\n`
+    case 'boolean': return hint + sp(indent) + `${target} = ${promptExpr('')}.trim().toLowerCase() === "true";\n`
     default: return undefined
   }
 }
 
-function emitPythonInputLineIfNeeded(raw: string, indent: number): string | undefined {
-  const p = inputParseFrom(raw)
+function emitPythonInputLineIfNeeded(raw: string, indent: number, arrayTypes: Map<string, string>): string | undefined {
+  const p = inputParseFrom(raw, arrayTypes)
   if (!p) return undefined
   const useCustom = !!p.customPrompt
   const hint = useCustom ? '' : sp(indent) + 'print("' + escapeForDoubleQuotedLiteral(p.name + ': ') + '")\n'
@@ -287,17 +347,24 @@ function emitPythonInputLineIfNeeded(raw: string, indent: number): string | unde
     case 'int': return hint + sp(indent) + `${p.name} = int(${input})\n`
     case 'double': return hint + sp(indent) + `${p.name} = float(${input})\n`
     case 'String': return hint + sp(indent) + `${p.name} = ${input}\n`
+    case 'boolean': return hint + sp(indent) + `${p.name} = ${input}.strip().lower() in ("true", "wahr")\n`
     default: return undefined
   }
 }
 
-function emitPrintLineIfNeeded(raw: string, target: CodeTarget, indent: number): string | undefined {
+function emitPrintLineIfNeeded(
+  raw: string,
+  target: CodeTarget,
+  indent: number,
+  intVariables: Set<string>,
+  stringVariables: Set<string>,
+): string | undefined {
   const expr = expressionAfterOutputDiagramPrefix(raw)
   if (expr === undefined) return undefined
   switch (target) {
     case 'java': return sp(indent) + 'System.out.println(' + expr + ');\n'
     case 'javascript': return sp(indent) + 'console.log(' + expr + ');\n'
-    case 'python': return sp(indent) + 'print(' + expr + ')\n'
+    case 'python': return sp(indent) + 'print(' + pythonConcatenation(expr, intVariables, stringVariables) + ')\n'
   }
 }
 
@@ -328,42 +395,71 @@ function javaScriptForInitializerFromJavaTypedDeclaration(raw: string): string |
   return g[1] + `let ${name}`
 }
 
-function parseJavaStyleForInit(s: string): { name: string; value: number } | undefined {
-  for (const re of [/^\s*(?:int|long)\s+(\w+)\s*=\s*(-?\d+)\s*$/, /^\s*(\w+)\s*=\s*(-?\d+)\s*$/]) {
-    const g = groups(re, s)
-    if (g) return { name: g[1], value: Number(g[2]) }
+/** Felder einer `for`-Schleife: drei Zeilen oder eine Zeile `int i = 0; i < n; i++` (auch mit `for (…)`). */
+function forLoopFields(lines: string[]): [string, string, string] | undefined {
+  const raw = lines.map((l) => stripTrailingSemicolon(l).trim()).filter((l) => l !== '')
+  let parts = raw
+  if (raw.length === 1) {
+    let one = raw[0]
+    const kw = stripKeywordPrefix('for', one)
+    if (kw !== undefined) one = kw
+    parts = one.split(';').map((p) => p.trim())
   }
+  if (parts.length !== 3 || parts.some((p) => p === '')) return undefined
+  return [parts[0], parts[1], parts[2]]
+}
+
+interface PythonForLoop {
+  /** `for i in range(…):` – oder `undefined`, wenn nur eine `while`-Schleife passt. */
+  rangeLine?: string
+  variable: string
+  init: string
+  condition: string
+  increment: string
+}
+
+/** Schrittweite aus `i++`, `i--`, `i += 2`, `i -= 2`, `i = i + 2`, `i = i - 2`. */
+function forLoopStepSize(s: string, name: string): number | undefined {
+  let g = groups(/^\s*(\w+)\s*(\+\+|--)\s*$/, s) ?? groups(/^\s*(\+\+|--)\s*(\w+)\s*$/, s)
+  if (g) {
+    const [v, op] = g[1] === '++' || g[1] === '--' ? [g[2], g[1]] : [g[1], g[2]]
+    return v === name ? (op === '++' ? 1 : -1) : undefined
+  }
+  g = groups(/^\s*(\w+)\s*(\+|-)=\s*(\d+)\s*$/, s)
+  if (g) return g[1] === name ? (g[2] === '+' ? 1 : -1) * Number(g[3]) : undefined
+  g = groups(/^\s*(\w+)\s*=\s*(\w+)\s*(\+|-)\s*(\d+)\s*$/, s)
+  if (g) return g[1] === name && g[2] === name ? (g[3] === '+' ? 1 : -1) * Number(g[4]) : undefined
   return undefined
 }
 
-function parseJavaStyleForCondition(s: string, expectedVar: string): string | undefined {
-  let g = groups(/^\s*(\w+)\s*<\s*(\d+)\s*$/, s)
-  if (g && g[1] === expectedVar) return String(Number(g[2]))
-  g = groups(/^\s*(\w+)\s*<=\s*(\d+)\s*$/, s)
-  if (g && g[1] === expectedVar) return String(Number(g[2]) + 1)
-  g = groups(/^\s*(\w+)\s*<\s*([a-zA-Z_]\w*)\.length(?:\(\))?\s*$/, s)
-  if (g && g[1] === expectedVar) return `len(${g[2]})`
-  return undefined
+/** `n` → `n + 1`, `10` → `11`. */
+function shiftedBound(bound: string, by: number): string {
+  if (/^-?\d+$/.test(bound)) return String(Number(bound) + by)
+  const simple = /^[\w.()[\]]+$/.test(bound) ? bound : `(${bound})`
+  return by > 0 ? `${simple} + ${by}` : `${simple} - ${-by}`
 }
 
-function isJavaStyleSimpleIncrement(s: string, varName: string): boolean {
-  const g = groups(/^\s*(\w+)\s*\+\+\s*$/, s) ?? groups(/^\s*(\w+)\s*\+=\s*1\s*$/, s)
-  return g?.[1] === varName
-}
-
-/** Aus drei Java-ähnlichen Zeilen → `for name in range(…):`, wenn die Heuristik passt. */
-function pythonForLineFromJavaLikeLoopFields(lines: string[]): string | undefined {
-  const raw = lines.map((l) => stripTrailingSemicolon(l).trim())
-  if (raw.filter((r) => r !== '').length <= 1) return undefined
-  const parts = raw.slice(0, 3)
-  while (parts.length < 3) parts.push('')
-  const [initS, condS, stepS] = parts
-  if (initS === '' || condS === '' || stepS === '') return undefined
-  const init = parseJavaStyleForInit(initS)
+/** Zählschleife für Python: `range(…)`, wenn Kopf und Schritt passen; sonst Bausteine für `while`. */
+function pythonForLoop(lines: string[], intVariables: Set<string>): PythonForLoop | undefined {
+  const fields = forLoopFields(lines)
+  if (!fields) return undefined
+  const [initS, condS, stepS] = fields
+  const init = groups(/^\s*(?:integer|int|long|short|byte|double|float)?\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i, initS)
   if (!init) return undefined
-  const stop = parseJavaStyleForCondition(condS, init.name)
-  if (stop === undefined || !isJavaStyleSimpleIncrement(stepS, init.name)) return undefined
-  return init.value === 0 ? `for ${init.name} in range(${stop}):` : `for ${init.name} in range(${init.value}, ${stop}):`
+  const name = init[1]
+  const loop: PythonForLoop = { variable: name, init: `${name} = ${pythonExpression(init[2], intVariables)}`, condition: condS, increment: stepS }
+  const cond = groups(/^\s*(\w+)\s*(<=|<|>=|>)\s*(.+)$/, condS)
+  const step = forLoopStepSize(stepS, name)
+  if (!cond || cond[1] !== name || step === undefined || step === 0) return loop
+  const start = pythonExpression(init[2], intVariables)
+  let stop = pythonExpression(cond[3], intVariables)
+  const op = cond[2]
+  if (step > 0 && op === '<=') stop = shiftedBound(stop, 1)
+  else if (step < 0 && op === '>=') stop = shiftedBound(stop, -1)
+  else if (!(step > 0 && op === '<') && !(step < 0 && op === '>')) return loop
+  const args = step === 1 ? (start === '0' ? [stop] : [start, stop]) : [start, stop, String(step)]
+  loop.rangeLine = `for ${name} in range(${args.join(', ')}):`
+  return loop
 }
 
 interface ConstTypedLineParse {
@@ -386,7 +482,12 @@ function parseConstTypedLine(rawLine: string): ConstTypedLineParse | undefined {
   return { rawType: g[1].trim(), name, rhs }
 }
 
-function emitConstTypedLineIfNeeded(raw: string, target: CodeTarget, indent: number): string | undefined {
+function emitConstTypedLineIfNeeded(
+  raw: string,
+  target: CodeTarget,
+  indent: number,
+  intVariables: Set<string>,
+): string | undefined {
   const p = parseConstTypedLine(raw)
   if (!p) return undefined
   const jt = normalizeInputTypeKeyword(p.rawType)
@@ -399,7 +500,7 @@ function emitConstTypedLineIfNeeded(raw: string, target: CodeTarget, indent: num
       // `const` verlangt in JS einen Initialwert.
       return sp(indent) + `let ${p.name};  // from diagram: const ${jt} ${p.name}\n`
     case 'python':
-      if (r) return sp(indent) + `${p.name} = ${pythonRhsFromJavaRhs(r)}  # const ${jt}\n`
+      if (r) return sp(indent) + `${p.name} = ${pythonRhsFromJavaRhs(r, intVariables)}  # const ${jt}\n`
       return sp(indent) + `${p.name} = None  # const ${jt}, uninitialized\n`
   }
 }
@@ -426,12 +527,126 @@ function javaIntCastExpression(rhs: string): string | undefined {
   return e ? e : undefined
 }
 
-function pythonRhsFromJavaRhs(rhs: string): string {
+function pythonRhsFromJavaRhs(rhs: string, intVariables: Set<string> = new Set()): string {
   const t = rhs.trim()
   if (t === 'null') return 'None'
   const cast = javaIntCastExpression(t)
-  if (cast !== undefined) return `int(${pythonRhsFromJavaRhs(cast)})`
-  return t.replace(/\bMath\.random\s*\(\s*\)/gi, 'random.random()')
+  if (cast !== undefined) return `int(${pythonRhsFromJavaRhs(cast, intVariables)})`
+  return pythonExpression(t, intVariables)
+}
+
+/** Teile außerhalb von `"…"`-Literalen umwandeln, Literale unverändert lassen. */
+function mapOutsideStringLiterals(s: string, f: (code: string) => string): string {
+  let out = ''
+  let code = ''
+  let i = 0
+  while (i < s.length) {
+    if (s[i] !== '"') {
+      code += s[i++]
+      continue
+    }
+    out += f(code)
+    code = ''
+    let j = i + 1
+    while (j < s.length && s[j] !== '"') j += s[j] === '\\' ? 2 : 1
+    out += s.slice(i, j + 1)
+    i = j + 1
+  }
+  return out + f(code)
+}
+
+/**
+ * Java-Schreibweise in einem Ausdruck nach Python: `&&` → `and`, `||` → `or`, `!` → `not`, `true` → `True`,
+ * `a.equals(b)` → `a == b`, `Math.random()` → `random.random()`, `/` zwischen ganzen Zahlen → `//`.
+ */
+function pythonExpression(expression: string, intVariables: Set<string>): string {
+  const withEquals = expression.replace(/\.equals\(\s*("(?:[^"\\]|\\.)*"|[^()"]*?)\s*\)/g, ' == $1')
+  const isInt = (operand: string) => /^\d+$/.test(operand) || intVariables.has(operand)
+  return mapOutsideStringLiterals(withEquals, (code) =>
+    code
+      .replace(/\bMath\.random\s*\(\s*\)/gi, 'random.random()')
+      .replace(/===/g, '==')
+      .replace(/!==/g, '!=')
+      .replace(/\s*&&\s*/g, ' and ')
+      .replace(/\s*\|\|\s*/g, ' or ')
+      .replace(/!(?!=)\s*/g, 'not ')
+      .replace(/\btrue\b/g, 'True')
+      .replace(/\bfalse\b/g, 'False')
+      .replace(/\bnull\b/g, 'None')
+      .replace(/(?<![\w.])([a-zA-Z_]\w*|\d+)\s*\/\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[])/g, (m, a: string, b: string) =>
+        isInt(a) && isInt(b) ? `${a} // ${b}` : m,
+      ),
+  )
+}
+
+/** Teile einer Verkettung mit `+` außerhalb von Klammern und Strings. */
+function splitTopLevelPlus(expression: string): string[] {
+  const parts: string[] = []
+  let depth = 0
+  let current = ''
+  let inString = false
+  for (let i = 0; i < expression.length; i++) {
+    const c = expression[i]
+    if (inString) {
+      current += c
+      if (c === '\\' && i + 1 < expression.length) current += expression[++i]
+      else if (c === '"') inString = false
+      continue
+    }
+    if (c === '"') inString = true
+    else if (c === '(' || c === '[') depth++
+    else if (c === ')' || c === ']') depth--
+    else if (c === '+' && depth === 0) {
+      parts.push(current.trim())
+      current = ''
+      continue
+    }
+    current += c
+  }
+  parts.push(current.trim())
+  return parts
+}
+
+const isDoubleQuotedLiteral = (s: string) => /^"(?:[^"\\]|\\.)*"$/.test(s)
+
+/** `"Summe: " + summe` → `"Summe: " + str(summe)`: Python verkettet Text nicht mit Zahlen. Sonst nur übersetzt. */
+function pythonConcatenation(expression: string, intVariables: Set<string>, stringVariables: Set<string>): string {
+  const parts = splitTopLevelPlus(expression)
+  const isText = (p: string) => isDoubleQuotedLiteral(p) || stringVariables.has(p)
+  if (parts.length < 2 || !parts.some(isText) || parts.some((p) => p === '')) {
+    return pythonExpression(expression, intVariables)
+  }
+  return parts.map((p) => (isText(p) ? p : `str(${pythonExpression(p, intVariables)})`)).join(' + ')
+}
+
+/** Python: `i++` → `i += 1`, `x /= 2` → `x //= 2` (ganze Zahl), sonst der Ausdruck übersetzt. */
+function pythonStatementLine(raw: string, intVariables: Set<string>, stringVariables: Set<string> = new Set()): string {
+  const t = stripTrailingSemicolon(raw).trim()
+  const inc = groups(/^(\w+(?:\[[^\]]*\])?)\s*(\+\+|--)$/, t) ?? groups(/^(\+\+|--)\s*(\w+(?:\[[^\]]*\])?)$/, t)
+  if (inc) {
+    const [target, op] = inc[1] === '++' || inc[1] === '--' ? [inc[2], inc[1]] : [inc[1], inc[2]]
+    return `${pythonExpression(target, intVariables)} ${op === '++' ? '+=' : '-='} 1`
+  }
+  const div = groups(/^(\w+)\s*\/=\s*(.+)$/, t)
+  if (div && intVariables.has(div[1])) return `${div[1]} //= ${pythonExpression(div[2], intVariables)}`
+  const assign = groups(/^([\w[\]. ]+?)\s*(=|\+=|-=|\*=|\/=|%=)\s*(.+)$/, t)
+  if (assign && !assign[3].startsWith('=')) {
+    const [, target, op, rhs] = assign
+    let value: string
+    if (op === '+=' && stringVariables.has(target.trim())) {
+      const parts = splitTopLevelPlus(rhs)
+      value = pythonConcatenation(`"" + ${rhs}`, intVariables, stringVariables).replace(/^"" \+ /, '')
+      if (parts.length === 1 && !isDoubleQuotedLiteral(rhs.trim()) && !stringVariables.has(rhs.trim())) {
+        value = `str(${pythonExpression(rhs, intVariables)})`
+      }
+    } else if (op === '=' && javaIntCastExpression(rhs) === undefined && rhs.trim() !== 'null') {
+      value = pythonConcatenation(rhs, intVariables, stringVariables)
+    } else {
+      value = op === '=' ? pythonRhsFromJavaRhs(rhs, intVariables) : pythonExpression(rhs, intVariables)
+    }
+    return `${target} ${op} ${value}`
+  }
+  return pythonExpression(t, intVariables)
 }
 
 const normalizeJavaScriptMathRandomCall = (s: string) => s.replace(/\bMath\.random\b(?!\s*\()/gi, 'Math.random()')
@@ -458,24 +673,34 @@ function javaScriptRhsFromJavaRhs(rhs: string, isArray: boolean): string {
   return normalizeJavaScriptMathRandomCall(t)
 }
 
-function pythonRhsFromJavaRhsArray(rhs: string, isArray: boolean): string {
+function pythonRhsFromJavaRhsArray(rhs: string, isArray: boolean, intVariables: Set<string>): string {
   const t = rhs.trim()
   if (isArray) {
     const size = javaNewArraySizeExpression(t)
-    return size !== undefined ? `[None] * ${size}` : arrayLiteralFromJavaInitializer(t)
+    return size !== undefined ? `[None] * ${size}` : pythonExpression(arrayLiteralFromJavaInitializer(t), intVariables)
   }
-  return pythonRhsFromJavaRhs(t)
+  return pythonRhsFromJavaRhs(t, intVariables)
 }
 
 /** JavaScript: `int x = 5` → `let x = 5;`. Python: `x = 5`. Java: allgemeiner Pfad. */
-function emitTranslatedJavaLikeAssignmentIfNeeded(raw: string, target: CodeTarget, indent: number): string | undefined {
+function emitTranslatedJavaLikeAssignmentIfNeeded(
+  raw: string,
+  target: CodeTarget,
+  indent: number,
+  intVariables: Set<string>,
+  stringVariables: Set<string>,
+): string | undefined {
   if (target === 'java') return undefined
   const p = parseJavaStyleSimpleAssignment(raw)
   if (!p) return undefined
   if (target === 'javascript') {
     return sp(indent) + formatCStyleStatementLine(`let ${p.name} = ${javaScriptRhsFromJavaRhs(p.rhs, p.isArray)}`) + '\n'
   }
-  return sp(indent) + `${p.name} = ${pythonRhsFromJavaRhsArray(p.rhs, p.isArray)}\n`
+  const plain = !p.isArray && javaIntCastExpression(p.rhs) === undefined && p.rhs.trim() !== 'null'
+  const value = plain
+    ? pythonConcatenation(p.rhs, intVariables, stringVariables)
+    : pythonRhsFromJavaRhsArray(p.rhs, p.isArray, intVariables)
+  return sp(indent) + `${p.name} = ${value}\n`
 }
 
 function walkElements(elements: VSElement[], visit: (e: VSElement) => void) {
@@ -486,7 +711,7 @@ function walkElements(elements: VSElement[], visit: (e: VSElement) => void) {
   }
 }
 
-function inferIntegerVariablesForJavaScript(doc: VSDocument): Set<string> {
+function inferIntegerVariables(doc: VSDocument): Set<string> {
   const isIntegerType = (t: string) => ['int', 'integer', 'long', 'short', 'byte'].includes(t.trim().toLowerCase())
   const out = new Set<string>()
   walkElements(doc.elements, (e) => {
@@ -545,7 +770,7 @@ function documentContainsJavaMathRandom(doc: VSDocument): boolean {
 function caseLabelToken(name: string, target: CodeTarget): string {
   const t = name.trim()
   if (t === '') return target === 'python' ? '""' : '0'
-  if (target === 'java' || /^\p{N}+$/u.test(t)) return t
+  if (target === 'java' || /^\p{N}+$/u.test(t) || isDoubleQuotedLiteral(t)) return t
   return '"' + t.replaceAll('"', '\\"') + '"'
 }
 
@@ -574,14 +799,17 @@ function emitInstructionLike(textLines: string[], target: CodeTarget, options: C
       sink.out += emptyElementCommentLine(indent, target)
       continue
     }
+    const ints = options.jsIntVariables ?? new Set<string>()
+    const arrays = options.arrayElementTypes ?? new Map<string, string>()
+    const texts = options.stringVariables ?? new Set<string>()
     const special =
-      (target === 'java' ? emitJavaInputLineIfNeeded(raw, indent) : undefined) ??
-      (target === 'javascript' ? emitJavaScriptInputLineIfNeeded(raw, indent) : undefined) ??
-      (target === 'python' ? emitPythonInputLineIfNeeded(raw, indent) : undefined) ??
-      emitPrintLineIfNeeded(raw, target, indent) ??
-      emitConstTypedLineIfNeeded(raw, target, indent) ??
-      emitTranslatedJavaLikeAssignmentIfNeeded(raw, target, indent) ??
-      emitBareLeadingStringAsPrintIfNeeded(raw, target, indent)
+      (target === 'java' ? emitJavaInputLineIfNeeded(raw, indent, arrays) : undefined) ??
+      (target === 'javascript' ? emitJavaScriptInputLineIfNeeded(raw, indent, arrays) : undefined) ??
+      (target === 'python' ? emitPythonInputLineIfNeeded(raw, indent, arrays) : undefined) ??
+      emitPrintLineIfNeeded(raw, target, indent, ints, texts) ??
+      emitConstTypedLineIfNeeded(raw, target, indent, ints) ??
+      emitTranslatedJavaLikeAssignmentIfNeeded(raw, target, indent, ints, texts) ??
+      emitBareLeadingStringAsPrintIfNeeded(raw, target, indent, ints, texts)
     if (special !== undefined) {
       sink.out += special
       continue
@@ -591,6 +819,8 @@ function emitInstructionLike(textLines: string[], target: CodeTarget, options: C
       const transformed =
         target === 'javascript' ? javaScriptIntegerDivisionIfNeeded(raw, options.jsIntVariables ?? new Set()) : undefined
       line = formatCStyleStatementLine(transformed ?? raw)
+    } else if (target === 'python') {
+      line = pythonStatementLine(raw, ints, texts)
     }
     if (line === '') continue
     sink.out += sp(indent) + line + '\n'
@@ -607,16 +837,19 @@ function emitConditionHeader(
   sink: Sink,
 ) {
   if (options.includeDiagramTextAsComments) sink.out += blockComment(textLines, target, indent)
-  sink.out += sp(indent) + prefix + conditionText(textLines) + suffix
+  const condition = conditionText(textLines)
+  const text = target === 'python' ? pythonExpression(condition, options.jsIntVariables ?? new Set()) : condition
+  sink.out += sp(indent) + prefix + text + suffix
 }
 
 /** Leere Blöcke: Python braucht `pass`. */
 function emitBlockBody(elements: VSElement[], target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
-  if (elements.length === 0) {
-    if (target === 'python') sink.out += sp(indent) + 'pass\n'
-    return
-  }
+  const before = sink.out.length
   for (const el of elements) emit(el, target, options, indent, sink)
+  if (target !== 'python') return
+  // Nur Kommentare (z. B. „# empty element“) zählen in Python nicht als Anweisung.
+  const emitted = sink.out.slice(before).split('\n').map((l) => l.trim())
+  if (emitted.every((l) => l === '' || l.startsWith('#'))) sink.out += sp(indent) + 'pass\n'
 }
 
 function emit(element: VSElement, target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
@@ -706,10 +939,19 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
         commentIfWanted()
         sink.out += sp(indent) + 'for (' + cStyleForLoopHeaderText(element.textLines) + ') {\n'
       } else if (py) {
-        const pyLine = pythonForLineFromJavaLikeLoopFields(element.textLines)
-        if (pyLine !== undefined) {
+        const ints = options.jsIntVariables ?? new Set<string>()
+        const loop = pythonForLoop(element.textLines, ints)
+        if (loop?.rangeLine !== undefined) {
           commentIfWanted()
-          sink.out += sp(indent) + pyLine + '\n'
+          sink.out += sp(indent) + loop.rangeLine + '\n'
+        } else if (loop) {
+          // Kein passendes `range`: Startwert, `while` mit Bedingung, Schritt am Ende des Rumpfs.
+          commentIfWanted()
+          sink.out += sp(indent) + loop.init + '\n'
+          sink.out += sp(indent) + 'while ' + pythonExpression(loop.condition, ints) + ':\n'
+          for (const el of element.loopBody ?? []) emit(el, target, options, indent + step, sink)
+          sink.out += sp(indent + step) + pythonStatementLine(loop.increment, ints) + '\n'
+          return
         } else {
           header('for ', ':\n')
         }
@@ -734,7 +976,7 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
         const bodyStart = indent + step
         body(element.loopBody ?? [], bodyStart)
         commentIfWanted(bodyStart)
-        sink.out += sp(bodyStart) + 'if not (' + cond + '):\n'
+        sink.out += sp(bodyStart) + 'if not (' + pythonExpression(cond, options.jsIntVariables ?? new Set()) + '):\n'
         sink.out += sp(bodyStart + step) + 'break\n'
       } else {
         sink.out += sp(indent) + 'do {\n'

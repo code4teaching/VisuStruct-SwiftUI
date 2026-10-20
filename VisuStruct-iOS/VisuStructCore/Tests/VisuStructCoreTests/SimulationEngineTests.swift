@@ -122,6 +122,50 @@ final class SimulationEngineTests: XCTestCase {
         XCTAssertEqual(small.notice, .finished)
     }
 
+    func testBooleanVariables() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let document = VisuStructDocument(elements: [
+            statement("int i = 0"),
+            statement("boolean fertig = false"),
+            VisuStructElement(
+                type: .whileSchleife,
+                textLines: ["!fertig"],
+                loopBody: [statement("i++"), statement("fertig = i >= 3")]
+            ),
+            statement("bool gross = i > 2 && fertig"),
+            statement("print: \"fertig: \" + fertig"),
+            VisuStructElement(
+                type: .verzweigung,
+                textLines: ["gross == true"],
+                cases: [
+                    VisuStructCase(name: "true", elements: [statement("print: \"ja\"")]),
+                    VisuStructCase(name: "false", elements: [statement("print: \"nein\"")]),
+                ]
+            ),
+            statement("gross = !gross"),
+            statement("print: gross"),
+        ])
+        let state = runSimulation(document)
+        XCTAssertEqual(state.variables["i"], .int(3))
+        XCTAssertEqual(state.outputLines, ["fertig: true", "ja", "false"])
+        XCTAssertEqual(state.notice, .finished)
+    }
+
+    func testBooleanInput() {
+        let document = VisuStructDocument(elements: [
+            VisuStructElement(type: .anweisung, textLines: ["input: boolean ok \"Okay?\""]),
+            VisuStructElement(type: .anweisung, textLines: ["print: ok"]),
+        ])
+        var engine = VisuStructSimulationEngine(document: document)
+        engine.step()
+        XCTAssertEqual(engine.state.inputRequest?.valueType, .bool)
+        engine.provideInput("vielleicht")
+        XCTAssertEqual(engine.state.inputErrorNotice, .booleanExpected)
+        engine.provideInput("Wahr")
+        engine.step()
+        XCTAssertEqual(engine.state.outputLines, ["true"])
+    }
+
     func testDivisionByZeroReportsError() {
         let document = VisuStructDocument(elements: [
             VisuStructElement(type: .anweisung, textLines: ["int x = 1 / 0"]),

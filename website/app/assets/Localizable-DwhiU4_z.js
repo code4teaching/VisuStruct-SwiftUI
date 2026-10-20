@@ -1,0 +1,238 @@
+const e=`/* Palette */
+"palette_header" = "元素";
+
+/* Actions */
+"action_share_png" = "分享图片…";
+"action_share_document" = "分享文件…";
+"action_export_pdf" = "PDF 预览…";
+"action_generate_code" = "生成代码…";
+"action_simulation" = "模拟";
+"action_diagram" = "图表";
+"simulation_placeholder_body" = "模拟模式会逐步运行图表，突出显示当前元素，并显示变量值和输出。";
+"simulation_controls" = "控制";
+"simulation_highlight_label" = "高亮";
+"simulation_highlight_last" = "上一步";
+"simulation_highlight_next" = "下一步";
+"simulation_not_available" = "Play 会自动运行模拟，每步暂停 0.5 秒。";
+"simulation_play" = "播放";
+"simulation_pause" = "暂停";
+"simulation_step" = "单步";
+"simulation_stop" = "停止";
+"simulation_input" = "输入";
+"simulation_input_placeholder" = "不需要输入。";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "请输入一个整数。";
+"simulation_trace" = "上一步";
+"simulation_trace_placeholder" = "尚未执行任何步骤。";
+"simulation_variables" = "变量";
+"simulation_variables_placeholder" = "暂无变量。";
+"simulation_output" = "输出";
+"simulation_output_placeholder" = "暂无输出。";
+"action_delete_selection" = "删除所选";
+"ctx_copy" = "复制";
+"ctx_cut" = "剪切";
+"ctx_paste" = "粘贴";
+"action_settings" = "设置";
+"action_about" = "关于 VisuStruct";
+"recent_files_menu" = "最近文件";
+"recent_files_empty" = "没有最近文件";
+"recent_files_clear" = "清除列表";
+"recent_files_unavailable" = "文件不再可用。";
+
+/* In-app settings */
+"settings_language_title" = "语言";
+"settings_language_de" = "德语";
+"settings_language_en" = "英语";
+"settings_language_es" = "西班牙语";
+"settings_language_fr" = "法语";
+"settings_language_it" = "意大利语";
+"settings_language_pl" = "波兰语";
+"settings_language_tr" = "土耳其语";
+"settings_language_ko" = "韩语";
+"settings_language_ja" = "日语";
+"settings_language_el" = "希腊语";
+"settings_language_uk" = "乌克兰语";
+"settings_language_ar" = "阿拉伯语";
+"settings_language_ru" = "俄语";
+"settings_language_he" = "希伯来语";
+"settings_language_zh_hans" = "中文（简体）";
+"settings_language_zh_hant" = "中文（繁體）";
+"settings_language_ptpt" = "葡萄牙语";
+"settings_language_java" = "Java（关键词）";
+
+
+/* Error overlay */
+"error_title" = "错误";
+"error_back_editor" = "返回编辑器";
+
+/* Toolbar */
+"toolbar_undo" = "撤销";
+"toolbar_redo" = "重做";
+"toolbar_new" = "新建";
+"menu_open" = "打开…";
+"menu_save" = "保存";
+"menu_save_as" = "另存为…";
+"menu_print" = "打印…";
+"menu_file" = "文件";
+"menu_new" = "新建";
+"menu_close" = "关闭";
+
+/* Accessibility */
+"a11y_generate_code" = "从结构图生成代码";
+"a11y_generate_code_locked" = "生成代码（购买后可用）";
+"a11y_unsaved_changes" = "未保存的更改";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "生成代码";
+"codegen_gate_body" = "将通过应用内购买解锁从图表生成的 Java、Python 和 JavaScript 代码（即将推出）。";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "代码生成器";
+"codegen_placeholder_body" = "生成的代码会显示在这里。";
+"codegen_placeholder_compare" = "在 Java、Python 和 JavaScript 之间切换以比较语法（下方示例）。";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (条件) {\\n    语句();\\n} else {\\n    替代();\\n}";
+"codegen_preview_python" = "if 条件:\\n    语句()\\nelse:\\n    替代()";
+"codegen_copy" = "复制";
+"codegen_run_in_browser" = "在浏览器中测试";
+"codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
+"a11y_new_diagram_tab" = "新建图表标签页";
+"a11y_close_tab" = "关闭标签页";
+
+"close_unsaved_title" = "未保存的更改";
+"close_unsaved_message" = "此图表包含未保存的更改。关闭前要保存吗？";
+"close_unsaved_discard" = "放弃";
+"close_unsaved_cancel" = "取消";
+"a11y_placeholder_drop" = "将元素拖放到这里以替换占位符。长按可拖动移动。";
+"a11y_node_drop" = "长按块并拖动：在目标上边缘或下边缘放下以插入到前/后。仅在 ø 占位符上可居中放下。";
+"a11y_codegen_panel_drag" = "拖移以移动代码生成器面板";
+
+/* Diagram */
+"diagram_title_label" = "标题";
+"diagram_title_placeholder" = "无标题";
+
+/* Inspector */
+"inspector_no_selection" = "未选择元素 — 点击一个块。";
+"inspector_apply_text" = "应用文本";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "类型";
+"inspector_io_mode_statement" = "语句";
+"inspector_io_mode_input" = "输入";
+"inspector_io_mode_output" = "输出";
+"inspector_io_mode_help_java_like" = "输入: input: … | 输出: output: …";
+"inspector_add_case" = "添加分支";
+"inspector_remove_case" = "移除分支";
+"inspector_group_element" = "元素文本";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "输入条件…";
+"inspector_placeholder_selector" = "输入选择式…";
+"inspector_placeholder_call" = "输入调用…";
+"inspector_placeholder_break" = "注释（可选）";
+
+/* Element types */
+"element_anweisung" = "语句";
+"element_verzweigung" = "分支";
+"element_fallauswahl" = "选择";
+"element_forSchleife" = "for 循环";
+"element_whileSchleife" = "while 循环";
+"element_doUntilSchleife" = "do-while 循环";
+"element_endlosschleife" = "无限循环";
+"element_aussprung" = "跳出";
+"element_aufruf" = "调用";
+"element_leerElement" = "空元素";
+
+/* Tabs */
+"tab_title_format" = "图表 %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "空结构图";
+"canvas_empty_hint" = "从“元素”中拖拽一个块到这里。";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "选择";
+"canvas_stub_anweisung" = "语句";
+"canvas_stub_condition" = "条件";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "无限";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "调用()";
+
+/* About */
+"about_version_fmt" = "版本 %@ (%@)";
+"about_nav_title" = "关于 VisuStruct";
+"about_features_heading" = "功能";
+"about_bullet_palette" = "从调色板插入块，或拖入图表";
+"about_bullet_edit" = "编辑图表：修改文本、选择元素，必要时删除";
+"about_bullet_tabs" = "多个图表标签页——每个都有自己的标题";
+"about_bullet_file" = "将图表保存并以 .visustruct 文件重新打开";
+"about_bullet_share" = "将结构图分享为图片（PNG）";
+"about_dateiformat_heading" = "文件格式";
+"about_dateiformat_part1" = "VisuStruct 的原生格式使用扩展名 ";
+"about_dateiformat_part2" = "。你可以保存图表，并与支持相同格式的应用交换。";
+"about_dateiformat_strk" = "也可以打开 .strk 扩展名的文件。";
+"about_project_github_label" = "Java 应用（源码与版本）：";
+"about_web_label" = "网页：";
+"about_developer_label" = "开发者：";
+"about_lineage_heading" = "来源";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Java 上游：";
+"about_done" = "完成";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "取消插入";
+"phone_show_text_editor" = "编辑文本";
+"phone_hide_text_editor" = "收起";
+"phone_title_done" = "完成";
+
+/* Alerts */
+"err_save_failed_fmt" = "无法保存：%@";
+"err_share_prepare_failed_fmt" = "无法准备分享：%@";
+"err_diagram_too_small_export" = "图表太小——无内容可导出。";
+"err_image_render_failed" = "无法创建图片。";
+"err_diagram_too_small_print" = "图表太小——无内容可打印。";
+"err_print_unavailable" = "此设备不支持打印。";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "文件名建议";
+"settings_export_filename_picker" = "格式";
+"settings_export_filename_date_title" = "含日期";
+"settings_export_filename_title_only" = "不含日期";
+"settings_export_filename_footer_with_date" = "含日期: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "不含日期: Filename.visustruct";
+
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "模拟已结束。";
+"sim_notice_infinite_loop_empty" = "无限循环没有循环体。";
+"sim_notice_unsupported_statement_fmt" = "不支持的语句：%@";
+"sim_notice_invalid_expression_fmt" = "无效的表达式：%@";
+"sim_notice_unknown_variable_fmt" = "未知变量：%@";
+"sim_notice_division_by_zero" = "除数为零。";
+"sim_notice_whole_number_expected" = "请输入整数。";
+"sim_notice_number_expected" = "请输入数字。";
+"sim_notice_boolean_expected" = "请输入 true 或 false。";
+
+"codegen_pseudocode_toggle" = "伪代码（不可运行的代码）";
+"codegen_pseudocode_note" = "伪代码 – 不是可运行的程序";
+"codegen_pseudocode_hint" = "此图已标记为伪代码。代码只是草稿，无法运行。";
+`;export{e as default};

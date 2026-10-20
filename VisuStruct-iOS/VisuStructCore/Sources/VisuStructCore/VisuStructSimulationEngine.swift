@@ -4,6 +4,7 @@ public enum VisuStructSimulationValue: Equatable, Sendable, CustomStringConverti
     case int(Int)
     case double(Double)
     case string(String)
+    case bool(Bool)
     case intArray([Int])
     case doubleArray([Double])
     case stringArray([String])
@@ -16,6 +17,8 @@ public enum VisuStructSimulationValue: Equatable, Sendable, CustomStringConverti
             return Self.formatDouble(value)
         case .string(let value):
             return value
+        case .bool(let value):
+            return value ? "true" : "false"
         case .intArray(let values):
             return "[" + values.map(String.init).joined(separator: ", ") + "]"
         case .doubleArray(let values):
@@ -29,7 +32,7 @@ public enum VisuStructSimulationValue: Equatable, Sendable, CustomStringConverti
         switch self {
         case .int(let value): return Double(value)
         case .double(let value): return value
-        case .string, .intArray, .doubleArray, .stringArray: return .nan
+        case .string, .bool, .intArray, .doubleArray, .stringArray: return .nan
         }
     }
 
@@ -45,6 +48,7 @@ public enum VisuStructSimulationValueType: Equatable, Sendable {
     case int
     case double
     case string
+    case bool
 }
 
 public enum VisuStructSimulationStepKind: Equatable, Sendable {
@@ -249,6 +253,12 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return .double(value)
         case .string:
             return .string(rawValue)
+        case .bool:
+            switch trimmed.lowercased() {
+            case "true", "wahr": return .bool(true)
+            case "false", "falsch": return .bool(false)
+            default: throw SimulationError.invalidInput(.booleanExpected)
+            }
         }
     }
 
@@ -725,7 +735,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let leftParts = left.split(whereSeparator: { $0.isWhitespace }).map(String.init)
         guard leftParts.count == 2, leftParts[0].hasSuffix("[]") else { return nil }
         let typeName = String(leftParts[0].dropLast(2))
-        guard let valueType = Self.valueTypeKeyword(typeName), Self.isIdentifier(leftParts[1]) else {
+        guard let valueType = Self.valueTypeKeyword(typeName), valueType != .bool, Self.isIdentifier(leftParts[1]) else {
             throw SimulationError.unsupportedStatement(left)
         }
 
@@ -747,6 +757,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                     }
                     return try evaluateOutputExpression(item)
                 })
+            case .bool:
+                throw SimulationError.unsupportedStatement(left)
             }
             return ArrayDeclaration(name: leftParts[1], typeName: typeName, count: rawItems.count, value: value)
         }
@@ -767,6 +779,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             value = .doubleArray(Array(repeating: 0, count: count))
         case .string:
             value = .stringArray(Array(repeating: "", count: count))
+        case .bool:
+            throw SimulationError.unsupportedStatement(left)
         }
         return ArrayDeclaration(name: leftParts[1], typeName: typeName, count: count, value: value)
     }
@@ -917,6 +931,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return .string(value.description)
             }
             return .string(try evaluateOutputExpression(expression))
+        case .bool:
+            return .bool(try evaluateBoolExpression(expression))
         }
     }
 
@@ -947,6 +963,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let trimmed = expression.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed == "true" { return true }
         if trimmed == "false" { return false }
+        if let value = try evaluateReference(trimmed), case .bool(let flag) = value {
+            return flag
+        }
 
         let orParts = Self.splitTopLevel(trimmed, separator: "||")
         if orParts.count > 1 {
@@ -987,6 +1006,14 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     }
 
     private func evaluateComparison(lhs: String, op: String, rhs: String) throws -> Bool {
+        let leftBool = try boolOperand(lhs)
+        let rightBool = try boolOperand(rhs)
+        if leftBool != nil || rightBool != nil, op == "==" || op == "!=" {
+            let left = try leftBool ?? evaluateBoolExpression(lhs)
+            let right = try rightBool ?? evaluateBoolExpression(rhs)
+            return op == "==" ? left == right : left != right
+        }
+
         let leftString = try stringOperand(lhs)
         let rightString = try stringOperand(rhs)
         if leftString != nil || rightString != nil {
@@ -1015,6 +1042,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         case ">=": return leftValue >= rightValue
         default: throw SimulationError.invalidExpression("\(lhs) \(op) \(rhs)")
         }
+    }
+
+    /// `true`, `false` oder eine bool-Variable; sonst `nil`.
+    private func boolOperand(_ text: String) throws -> Bool? {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed == "true" { return true }
+        if trimmed == "false" { return false }
+        if let value = try evaluateReference(trimmed), case .bool(let flag) = value {
+            return flag
+        }
+        return nil
     }
 
     /// String-Literal oder String-Variable (auch Element eines String-Arrays); sonst `nil`.
@@ -1047,7 +1085,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return .int(Int(value))
             case .string(let value):
                 return .text(value)
-            case .intArray, .doubleArray, .stringArray:
+            case .bool, .intArray, .doubleArray, .stringArray:
                 throw SimulationError.invalidExpression(trimmed)
             }
         }
@@ -1304,6 +1342,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return .double
         case "string":
             return .string
+        case "boolean", "bool":
+            return .bool
         default:
             return nil
         }
@@ -1317,6 +1357,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return .double
         case .string:
             return .string
+        case .bool:
+            return .bool
         case .intArray, .doubleArray, .stringArray:
             return .string
         }
@@ -1378,6 +1420,7 @@ public enum VisuStructSimulationNotice: Equatable, Sendable {
     case divisionByZero
     case wholeNumberExpected
     case numberExpected
+    case booleanExpected
     /// Fehler aus einer anderen Quelle, nur als Text bekannt.
     case other(String)
 
@@ -1399,6 +1442,7 @@ public enum VisuStructSimulationNotice: Equatable, Sendable {
         case .divisionByZero: return "Division by zero."
         case .wholeNumberExpected: return "Please enter a whole number."
         case .numberExpected: return "Please enter a number."
+        case .booleanExpected: return "Please enter true or false."
         case .other(let text): return text
         }
     }
@@ -1560,7 +1604,7 @@ private struct NumericExpressionParser {
             switch value {
             case .int(let intValue):
                 return intValue
-            case .double, .string, .intArray, .doubleArray, .stringArray:
+            case .double, .string, .bool, .intArray, .doubleArray, .stringArray:
                 throw SimulationError.invalidExpression(name)
             }
         case .minus:

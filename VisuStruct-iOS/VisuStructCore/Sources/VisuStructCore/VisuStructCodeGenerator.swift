@@ -16,19 +16,27 @@ public enum VisuStructCodeGenerator: Sendable {
         public var includeDiagramTextAsComments: Bool
         /// Wenn `true` (Standard): `else` wird auch ausgegeben, wenn der **Nein**-Zweig nur leer (ø) ist — analog zum Struktogramm. Wenn `false`, entfällt in diesem Fall `else` (kompakterer Code; alle Zielsprachen).
         public var includeEmptyElseBranch: Bool
-        /// Interner Heuristik-Kontext für JavaScript-Emit (z. B. Ganzzahldivision).
+        /// Kommentar über dem Code, wenn das Diagramm als Pseudocode markiert ist.
+        public var pseudocodeNote: String
+        /// Interner Heuristik-Kontext für JavaScript und Python (z. B. Ganzzahldivision).
         var jsIntVariables: Set<String> = []
+        /// Text-Variablen: In Python ohne `str(…)` verketten.
+        var stringVariables: Set<String> = []
+        /// Elementtyp deklarierter Arrays (`int[] zahlen` → `int`), für Eingaben in `zahlen[i]`.
+        var arrayElementTypes: [String: String] = [:]
 
         public init(
             baseIndent: Int = 0,
             indentPerLevel: Int = 4,
             includeDiagramTextAsComments: Bool = false,
-            includeEmptyElseBranch: Bool = true
+            includeEmptyElseBranch: Bool = true,
+            pseudocodeNote: String = "Pseudocode – not a runnable program"
         ) {
             self.baseIndent = baseIndent
             self.indentPerLevel = indentPerLevel
             self.includeDiagramTextAsComments = includeDiagramTextAsComments
             self.includeEmptyElseBranch = includeEmptyElseBranch
+            self.pseudocodeNote = pseudocodeNote
             self.jsIntVariables = []
         }
     }
@@ -36,6 +44,11 @@ public enum VisuStructCodeGenerator: Sendable {
     public static func generate(document: VisuStructDocument, target: Target, options: Options = Options()) -> String {
         var out = ""
         var opts = options
+        opts.arrayElementTypes = inferArrayElementTypes(document)
+        opts.stringVariables = inferStringVariables(document)
+        if target == .python {
+            opts.jsIntVariables = inferIntegerVariablesForJavaScript(document)
+        }
         if target == .javascript {
             // Schul-tauglich: Strict-Modus immer am Anfang des Snippets (wie vereinbart).
             out += "\"use strict\";\n\n"
@@ -48,6 +61,10 @@ public enum VisuStructCodeGenerator: Sendable {
             // Snippet-Modus: Import als Kommentar (damit es auch beim Einfügen in `main` nicht „falsch“ steht).
             out += "// import java.util.Scanner;\n"
             out += "Scanner scanner = new Scanner(System.in);\n\n"
+        }
+        // Nach Import/Scanner, damit die Java-Klasse den Vorspann weiterhin erkennt.
+        if document.isPseudocode {
+            out += (target == .python ? "# " : "// ") + opts.pseudocodeNote + "\n\n"
         }
         for el in document.elements {
             emit(element: el, target: target, options: opts, indent: opts.baseIndent, into: &out)

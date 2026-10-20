@@ -23,6 +23,7 @@ export function decodeDocument(xml: string): VSDocument {
   if (fontSize !== undefined) doc.fontSize = fontSize
   const fontStyle = intAttr(root, 'fontstyle')
   if (fontStyle !== undefined) doc.fontStyle = fontStyle
+  if (root.getAttribute('pseudocode') === 'true') doc.pseudocode = true
   return doc
 }
 
@@ -34,6 +35,7 @@ export function encodeDocument(doc: VSDocument): string {
   out += attr('fontstyle', doc.fontStyle === undefined ? undefined : String(doc.fontStyle))
   out += attr('fontsize', doc.fontSize === undefined ? undefined : String(doc.fontSize))
   out += attr('caption', encodeJavaString(doc.caption))
+  out += attr('pseudocode', doc.pseudocode ? 'true' : undefined)
   out += '>\n'
   for (const e of doc.elements) out += encodeElement(e, '  ')
   out += '</struktogramm>\n'

@@ -1,0 +1,24 @@
+---
+titel: Collatz-Folge
+nach: 10
+stufe: 2
+---
+
+Die Collatz-Folge ist ein berühmtes Rätsel der Mathematik. Du beginnst mit einer Zahl und wendest immer wieder dieselbe Regel an:
+
+- Ist die Zahl **gerade**, teilst du sie durch 2.
+- Ist sie **ungerade**, rechnest du mal 3 plus 1.
+
+Bisher endet die Folge bei jeder ausprobierten Startzahl irgendwann bei 1. Ob das für alle Zahlen gilt, weiß bis heute niemand.
+
+::: übung aufgabe-collatz
+titel: Collatz-Folge
+auftrag: Frage nach einer Startzahl. Wende die Regel so lange an, bis die Zahl 1 ist, und gib nach jedem Schritt die neue Zahl aus. Zähle dabei die Schritte mit und gib am Ende **Schritte:** und die Anzahl aus.
+  Bei der Startzahl 6 lautet die Folge 3, 10, 5, 16, 8, 4, 2, 1. Das sind 8 Schritte.
+test: 6 -> 3 | 10 | 5 | 16 | 8 | 4 | 2 | 1 | Schritte: 8
+test: 3 -> 10 | 5 | 16 | 8 | 4 | 2 | 1 | Schritte: 7
+test: 1 -> Schritte: 0
+braucht: whileSchleife, verzweigung
+tipp: Die While-Schleife läuft, solange `zahl != 1` gilt. Ob eine Zahl gerade ist, prüfst du mit `zahl % 2 == 0`. Die Ausgabe und `schritte++` kommen nach der Verzweigung, aber noch in die Schleife.
+lösung: aufgabe-collatz-loesung.visustruct
+:::

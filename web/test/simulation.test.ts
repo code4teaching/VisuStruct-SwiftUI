@@ -120,6 +120,45 @@ describe('Simulation', () => {
     expect(small.message).toBe('Simulation finished.')
   })
 
+  it('rechnet mit boolean-Variablen', () => {
+    const loop = makeElement(ElementType.whileSchleife, {
+      textLines: ['!fertig'],
+      loopBody: [stmt('i++'), stmt('fertig = i >= 3')],
+    })
+    const state = runSimulation(
+      doc([
+        stmt('int i = 0'),
+        stmt('boolean fertig = false'),
+        loop,
+        stmt('bool gross = i > 2 && fertig'),
+        stmt('print: "fertig: " + fertig'),
+        makeElement(ElementType.verzweigung, {
+          textLines: ['gross == true'],
+          cases: [
+            { name: 'true', elements: [stmt('print: "ja"')] },
+            { name: 'false', elements: [stmt('print: "nein"')] },
+          ],
+        }),
+        stmt('gross = !gross'),
+        stmt('print: gross'),
+      ]),
+    )
+    expect(state.isHalted).toBe(false)
+    expect(state.variables.get('i')).toEqual({ kind: 'int', value: 3 })
+    expect(state.outputLines).toEqual(['fertig: true', 'ja', 'false'])
+  })
+
+  it('liest boolean ein', () => {
+    const engine = new SimulationEngine(doc([stmt('input: boolean ok "Okay?"'), stmt('print: ok')]))
+    engine.step()
+    expect(engine.state.inputRequest?.valueType).toBe('boolean')
+    engine.provideInput('vielleicht')
+    expect(engine.state.inputErrorNotice).toEqual({ kind: 'booleanExpected' })
+    engine.provideInput('Wahr')
+    engine.step()
+    expect(engine.state.outputLines).toEqual(['true'])
+  })
+
   it('Division durch null meldet einen Fehler', () => {
     const engine = new SimulationEngine(doc([stmt('int x = 1 / 0')]))
     engine.step()

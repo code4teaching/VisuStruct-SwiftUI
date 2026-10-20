@@ -173,7 +173,7 @@ extension VisuStructCodeGenerator {
                 continue
             }
             if target == .java {
-                if let s = emitJavaInputLineIfNeeded(raw, indent: indent) {
+                if let s = emitJavaInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
                     out += s
                     continue
                 }
@@ -183,7 +183,7 @@ extension VisuStructCodeGenerator {
                 }
             }
             if target == .javascript {
-                if let s = emitJavaScriptInputLineIfNeeded(raw, indent: indent) {
+                if let s = emitJavaScriptInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
                     out += s
                     continue
                 }
@@ -193,24 +193,24 @@ extension VisuStructCodeGenerator {
                 }
             }
             if target == .python {
-                if let s = emitPythonInputLineIfNeeded(raw, indent: indent) {
+                if let s = emitPythonInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
                     out += s
                     continue
                 }
-                if let s = emitPythonPrintLineIfNeeded(raw, indent: indent) {
+                if let s = emitPythonPrintLineIfNeeded(raw, indent: indent, options: options) {
                     out += s
                     continue
                 }
             }
-            if let s = emitConstTypedLineIfNeeded(raw, target: target, indent: indent) {
+            if let s = emitConstTypedLineIfNeeded(raw, target: target, indent: indent, intVariables: options.jsIntVariables) {
                 out += s
                 continue
             }
-            if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent) {
+            if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent, options: options) {
                 out += s
                 continue
             }
-            if let s = emitBareLeadingStringAsPrintIfNeeded(raw, target: target, indent: indent) {
+            if let s = emitBareLeadingStringAsPrintIfNeeded(raw, target: target, indent: indent, options: options) {
                 out += s
                 continue
             }
@@ -222,7 +222,7 @@ extension VisuStructCodeGenerator {
                     }
                     return formatCStyleStatementLine(raw)
                 }
-                return raw
+                return pythonStatementLine(raw, intVariables: options.jsIntVariables, stringVariables: options.stringVariables)
             }()
             if line.isEmpty { continue }
             out += sp(indent) + line + "\n"
@@ -246,7 +246,7 @@ extension VisuStructCodeGenerator {
         case .java:
             out += sp(indent) + prefix + cond + suffix
         case .python:
-            out += sp(indent) + prefix + cond + suffix
+            out += sp(indent) + prefix + pythonExpression(cond, intVariables: options.jsIntVariables) + suffix
         case .javascript:
             out += sp(indent) + prefix + cond + suffix
         }
@@ -423,11 +423,22 @@ extension VisuStructCodeGenerator {
                 }
                 out += sp(indent) + "for (" + cond + ") {\n"
             case .python:
-                if let pyLine = pythonForLineFromJavaLikeLoopFields(element.textLines) {
+                let ints = options.jsIntVariables
+                if let loop = pythonForLoop(element.textLines, intVariables: ints) {
                     if options.includeDiagramTextAsComments {
                         out += blockComment(lines: element.textLines, target: target, indent: indent)
                     }
-                    out += sp(indent) + pyLine + "\n"
+                    if let rangeLine = loop.rangeLine {
+                        out += sp(indent) + rangeLine + "\n"
+                    } else {
+                        // Kein passendes `range`: Startwert, `while` mit Bedingung, Schritt am Ende des Rumpfs.
+                        out += sp(indent) + loop.initLine + "\n"
+                        out += sp(indent) + "while " + pythonExpression(loop.condition, intVariables: ints) + ":\n"
+                        emitList(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
+                        let increment = pythonStatementLine(loop.increment, intVariables: ints, stringVariables: options.stringVariables)
+                        out += sp(indent + step) + increment + "\n"
+                        return
+                    }
                 } else {
                     emitConditionHeader(prefix: "for ", suffix: ":\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
                 }
@@ -470,7 +481,7 @@ extension VisuStructCodeGenerator {
                 if options.includeDiagramTextAsComments {
                     out += blockComment(lines: element.textLines, target: target, indent: bodyStart)
                 }
-                out += sp(bodyStart) + "if not (" + cond + "):\n"
+                out += sp(bodyStart) + "if not (" + pythonExpression(cond, intVariables: options.jsIntVariables) + "):\n"
                 out += sp(bodyStart + step) + "break\n"
             case .javascript:
                 out += sp(indent) + "do {\n"
@@ -551,11 +562,11 @@ extension VisuStructCodeGenerator {
             return "0"
         }
         if target == .python {
-            if t.allSatisfy({ $0.isNumber }) { return t }
+            if t.allSatisfy({ $0.isNumber }) || isDoubleQuotedLiteral(t) { return t }
             return "\"" + t.replacingOccurrences(of: "\"", with: "\\\"") + "\""
         }
         if target == .javascript {
-            if t.allSatisfy({ $0.isNumber }) { return t }
+            if t.allSatisfy({ $0.isNumber }) || isDoubleQuotedLiteral(t) { return t }
             return "\"" + t.replacingOccurrences(of: "\"", with: "\\\"") + "\""
         }
         return t
@@ -594,12 +605,14 @@ extension VisuStructCodeGenerator {
         indent: Int,
         into out: inout String
     ) {
-        if elements.isEmpty {
-            if target == .python {
-                out += sp(indent) + "pass\n"
-            }
-            return
-        }
+        let before = out.utf8.count
         emitList(elements, target: target, options: options, indent: indent, into: &out)
+        guard target == .python else { return }
+        // Nur Kommentare (z. B. „# empty element“) zählen in Python nicht als Anweisung.
+        let tail = String(decoding: out.utf8.dropFirst(before), as: UTF8.self)
+        let emitted = tail.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }
+        if emitted.allSatisfy({ $0.isEmpty || $0.hasPrefix("#") }) {
+            out += sp(indent) + "pass\n"
+        }
     }
 }

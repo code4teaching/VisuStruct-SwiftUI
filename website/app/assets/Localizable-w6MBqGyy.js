@@ -1,0 +1,150 @@
+const e=`/* NOTE: Initial Dutch localization. */
+"palette_header" = "Elementen";
+
+/* Actions */
+"action_share_png" = "Deel afbeelding…";
+"action_share_document" = "Deel bestand…";
+"action_export_pdf" = "PDF-voorbeeld…";
+"action_generate_code" = "Genereer code…";
+"action_simulation" = "Simulatie";
+"action_diagram" = "Diagram";
+"simulation_placeholder_body" = "De simulatiemodus voert het diagram stap voor stap uit, markeert het huidige element en toont variabele waarden en uitvoer.";
+"simulation_controls" = "Besturing";
+"simulation_highlight_label" = "Highlight";
+"simulation_highlight_last" = "Last step";
+"simulation_highlight_next" = "Next step";
+"simulation_not_available" = "Play voert de simulatie automatisch uit met een pauze van 0,5 seconde per stap.";
+"simulation_play" = "Afspelen";
+"simulation_pause" = "Pauze";
+"simulation_step" = "Stap";
+"simulation_stop" = "Stop";
+"simulation_input" = "Invoer";
+"simulation_input_placeholder" = "Geen invoer vereist.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "Voer een geheel getal in.";
+"simulation_trace" = "Laatste stap";
+"simulation_trace_placeholder" = "Nog geen stap uitgevoerd.";
+"simulation_variables" = "Variabelen";
+"simulation_variables_placeholder" = "Nog geen variabelen.";
+"simulation_output" = "Uitvoer";
+"simulation_output_placeholder" = "Nog geen uitvoer.";
+"action_delete_selection" = "Selectie verwijderen";
+"ctx_copy" = "Kopiëren";
+"ctx_cut" = "Knippen";
+"ctx_paste" = "Plakken";
+"action_settings" = "Instellingen";
+"action_about" = "Over VisuStruct";
+"recent_files_menu" = "Recente bestanden";
+"recent_files_empty" = "Geen recente bestanden";
+"recent_files_clear" = "Lijst wissen";
+"recent_files_unavailable" = "Bestand is niet meer beschikbaar.";
+
+/* In-app settings */
+"settings_language_title" = "Taal";
+
+/* Toolbar */
+"toolbar_undo" = "Ongedaan maken";
+"toolbar_redo" = "Opnieuw";
+"toolbar_new" = "Nieuw";
+"menu_open" = "Open…";
+"menu_save" = "Bewaar";
+"menu_save_as" = "Bewaar als…";
+"menu_print" = "Print…";
+"menu_file" = "Bestand";
+"menu_new" = "Nieuw";
+"menu_close" = "Sluit";
+
+/* Inspector */
+"inspector_no_selection" = "Geen element geselecteerd — tik op een tegel.";
+"inspector_apply_text" = "Tekst toepassen";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "Soort";
+"inspector_io_mode_statement" = "Opdracht";
+"inspector_io_mode_input" = "Invoer";
+"inspector_io_mode_output" = "Uitvoer";
+"inspector_io_mode_help_java_like" = "Invoer: input: … | Uitvoer: output: …";
+"inspector_add_case" = "Case toevoegen";
+"inspector_remove_case" = "Case verwijderen";
+"inspector_group_element" = "Elementtekst";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "Voer condition in…";
+"inspector_placeholder_selector" = "Voer selector in…";
+"inspector_placeholder_call" = "Voer call in…";
+"inspector_placeholder_break" = "Opmerking (optioneel)";
+
+/* Element types */
+"element_anweisung" = "Instructie";
+"element_verzweigung" = "Voorwaarde (if/else)";
+"element_fallauswahl" = "Keuze (switch)";
+"element_forSchleife" = "For-lus";
+"element_whileSchleife" = "While-lus";
+"element_doUntilSchleife" = "Do-while-lus";
+"element_endlosschleife" = "Oneindige lus";
+"element_aussprung" = "Break";
+"element_aufruf" = "Aanroep";
+"element_leerElement" = "Leeg element";
+
+/* Diagram */
+"diagram_title_label" = "Titel";
+"diagram_title_placeholder" = "Geen titel";
+"canvas_empty_title" = "Leeg structogram";
+"canvas_empty_hint" = "Sleep een element uit “Elementen” hierheen.";
+
+/* Diagram stubs */
+"canvas_stub_anweisung" = "statement";
+"canvas_stub_condition" = "condition";
+"canvas_stub_fallauswahl" = "switch";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "endless";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "Aanroep()";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "Bestandsnaamsuggestie";
+"settings_export_filename_picker" = "Indeling";
+"settings_export_filename_date_title" = "Met datum";
+"settings_export_filename_title_only" = "Zonder datum";
+"settings_export_filename_footer_with_date" = "Met datum: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "Zonder datum: Filename.visustruct";
+
+"close_unsaved_title" = "Niet-opgeslagen wijzigingen";
+"close_unsaved_message" = "Dit diagram bevat niet-opgeslagen wijzigingen. Wil je ze opslaan voordat je sluit?";
+"close_unsaved_discard" = "Verwerpen";
+"close_unsaved_cancel" = "Annuleren";
+
+/* Accessibility — code generator floating panel */
+"a11y_codegen_panel_drag" = "Sleep om het codegeneratorpaneel te verplaatsen";
+"about_dateiformat_strk" = "Bestanden met de extensie .strk kunnen ook worden geopend.";
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "Simulatie voltooid.";
+"sim_notice_infinite_loop_empty" = "De oneindige lus heeft geen inhoud.";
+"sim_notice_unsupported_statement_fmt" = "Niet-ondersteunde opdracht: %@";
+"sim_notice_invalid_expression_fmt" = "Ongeldige expressie: %@";
+"sim_notice_unknown_variable_fmt" = "Onbekende variabele: %@";
+"sim_notice_division_by_zero" = "Deling door nul.";
+"sim_notice_whole_number_expected" = "Voer een geheel getal in.";
+"sim_notice_number_expected" = "Voer een getal in.";
+"sim_notice_boolean_expected" = "Voer true of false in.";
+"phone_hide_text_editor" = "Inklappen";
+"phone_title_done" = "Gereed";
+
+"codegen_pseudocode_toggle" = "Pseudocode (geen uitvoerbare code)";
+"codegen_pseudocode_note" = "Pseudocode – geen uitvoerbaar programma";
+"codegen_pseudocode_hint" = "Dit diagram is gemarkeerd als pseudocode. De code is alleen een schets en kan niet worden uitgevoerd.";
+`;export{e as default};

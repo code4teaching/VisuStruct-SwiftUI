@@ -140,5 +140,10 @@
 "sim_notice_division_by_zero" = "Division med nul.";
 "sim_notice_whole_number_expected" = "Indtast et heltal.";
 "sim_notice_number_expected" = "Indtast et tal.";
+"sim_notice_boolean_expected" = "Indtast true eller false.";
 "phone_hide_text_editor" = "Skjul";
 "phone_title_done" = "Færdig";
+
+"codegen_pseudocode_toggle" = "Pseudokode (ikke kørbar kode)";
+"codegen_pseudocode_note" = "Pseudokode – ikke et kørbart program";
+"codegen_pseudocode_hint" = "Dette diagram er markeret som pseudokode. Koden er kun en skitse og kan ikke køres.";

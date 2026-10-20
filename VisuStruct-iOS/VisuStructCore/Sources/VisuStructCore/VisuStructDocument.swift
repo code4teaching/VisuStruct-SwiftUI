@@ -9,6 +9,9 @@ public struct VisuStructDocument: Equatable, Sendable {
     /// Diagramm-Titel (`caption`-Attribut im XML / .visustruct).
     public var caption: String
 
+    /// Als Pseudocode markiert (`pseudocode="true"` im XML): Der erzeugte Code ist nur eine Skizze.
+    public var isPseudocode: Bool
+
     /// Root-Liste (enthält `<strelem>` als Kinder des Root-Tags).
     public var elements: [VisuStructElement]
 
@@ -20,6 +23,7 @@ public struct VisuStructDocument: Equatable, Sendable {
         fontSize: Int? = nil,
         fontStyle: Int? = nil,
         caption: String = "",
+        isPseudocode: Bool = false,
         elements: [VisuStructElement] = [],
         uiGeneration: UInt = 0
     ) {
@@ -27,6 +31,7 @@ public struct VisuStructDocument: Equatable, Sendable {
         self.fontSize = fontSize
         self.fontStyle = fontStyle
         self.caption = caption
+        self.isPseudocode = isPseudocode
         self.elements = elements
         self.uiGeneration = uiGeneration
     }
