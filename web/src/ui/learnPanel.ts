@@ -162,8 +162,16 @@ export class LearnPanel {
 
     const back = h('button', { class: 'learn-back' }, `← ${t('web_learn_all_lessons')}`)
     back.addEventListener('click', () => this.openLesson(undefined))
-    const bar = h('div', { class: 'learn-progress', role: 'progressbar', 'aria-valuemin': '1', 'aria-valuemax': String(lesson.steps.length), 'aria-valuenow': String(index + 1) })
-    bar.append(...lesson.steps.map((_, i) => h('span', { class: i < index ? 'past' : i === index ? 'current' : '' })))
+    const bar = h('nav', { class: 'learn-progress', 'aria-label': t('web_learn_step_of_fmt', index + 1, lesson.steps.length) })
+    bar.append(
+      ...lesson.steps.map((s, i) => {
+        const where = t('web_learn_step_fmt', i + 1, s.title)
+        const b = h('button', { class: i < index ? 'past' : i === index ? 'current' : '', title: where, 'aria-label': where }, String(i + 1))
+        if (i === index) b.setAttribute('aria-current', 'step')
+        b.addEventListener('click', () => this.goToStep(lesson, i))
+        return b
+      }),
+    )
     this.body.append(
       back,
       h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}`),
