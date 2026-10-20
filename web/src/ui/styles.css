@@ -863,6 +863,29 @@ button.danger-text:not(:disabled) {
 .lesson-note p:last-child {
   margin-bottom: 0;
 }
+.learn-brag {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 10px;
+  align-items: start;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 0 0 14px;
+  background: var(--accent-soft);
+}
+.learn-brag img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+.learn-brag-title {
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+.learn-brag .learn-text p:last-child {
+  margin-bottom: 0;
+}
 .learn-figure {
   margin: 0 0 14px;
   display: grid;

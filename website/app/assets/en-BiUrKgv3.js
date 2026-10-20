@@ -62,6 +62,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_learn_after_fmt" = "After lesson %d: %@";
 "web_learn_level_fmt" = "Difficulty %d of 3";
 "web_learn_exercise" = "Exercise";
+"web_learn_brag" = "Ludwig's fun facts";
 "web_learn_solved" = "solved";
 "web_learn_open_exercise" = "Open in editor";
 "web_learn_open_in_editor" = "Open in editor";

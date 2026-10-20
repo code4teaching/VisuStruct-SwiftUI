@@ -11,6 +11,7 @@ export type Block =
   | { kind: 'exercise'; exercise: Exercise }
   | { kind: 'checklist'; items: ChecklistItem[] }
   | { kind: 'quiz'; questions: QuizQuestion[] }
+  | { kind: 'brag'; text: string }
 
 export interface Exercise {
   id: string
@@ -177,6 +178,9 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       case 'quiz':
         blocks.push({ kind: 'quiz', questions: parseQuiz(inner, file) })
+        break
+      case 'angeberwissen':
+        blocks.push({ kind: 'brag', text: inner.join('\n').trim() })
         break
       default:
         throw new FormatError(`${file}: Unbekannter Block „::: ${open[1]}“.`)

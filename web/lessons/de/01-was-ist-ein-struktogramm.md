@@ -22,6 +22,10 @@ Die Darstellung stammt von **Isaac Nassi und Ben Shneiderman** (1973). Deshalb h
 
 > Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer.
 
+::: angeberwissen
+Ben Shneiderman hatte die Idee 1972 als Doktorand an der Stony Brook University. Nach etwa 15 Minuten Skizzieren waren Sequenz, Verzweigung und Schleife fertig. Die Fachzeitschrift *Communications of the ACM* lehnte den Artikel trotzdem ab, und Shneiderman schreibt man übrigens ohne c. Mehr dazu in meinem [Angeberwissen](https://visustruct.org/de/angeberwissen.html).
+:::
+
 ## Baustein 1: Die Sequenz
 
 Jeder Algorithmus lässt sich aus nur **drei Grundbausteinen** zusammensetzen: **Sequenz**, **Verzweigung** und **Wiederholung**. In diesem und den nächsten beiden Schritten lernst du sie einzeln kennen.

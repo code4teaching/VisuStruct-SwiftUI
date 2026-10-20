@@ -93,6 +93,10 @@ describe('Lernbereich: Format', () => {
     expect(parseTest('- -> Hallo', 'x')).toEqual({ inputs: [], expected: ['Hallo'] })
   })
 
+  it('liest Angeberwissen-Kästen', () => {
+    expect(parseBlocks('::: angeberwissen\nZeile eins\nZeile zwei\n:::', 'x.md')).toEqual([{ kind: 'brag', text: 'Zeile eins\nZeile zwei' }])
+  })
+
   it('meldet fehlerhafte Blöcke verständlich', () => {
     expect(() => parseBlocks('::: diagramm a.visustruct\n', 'x.md')).toThrow(/nicht mit „:::“ geschlossen/)
     expect(() => parseBlocks('::: quiz\n? Frage\n- [ ] a\n- [ ] b\n:::', 'x.md')).toThrow(/eine richtige/)

@@ -5,6 +5,7 @@ import { decodeDocument } from '../core/xmlCodec'
 import { diagram, lessons, reference, tasks } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
+import ludwigURL from './ludwig.webp'
 import { progress } from '../learn/progress'
 import { t } from './i18n'
 import { noticeText } from './simulationPanel'
@@ -278,7 +279,19 @@ export class LearnPanel {
         return this.renderChecklist(block.items, key, lesson)
       case 'quiz':
         return this.renderQuiz(block.questions, key, lesson)
+      case 'brag':
+        return this.renderBrag(block.text)
     }
+  }
+
+  /** Ludwig der Geißbock erzählt etwas zum Angeben. */
+  private renderBrag(text: string): HTMLElement {
+    const box = h('aside', { class: 'learn-brag' })
+    box.append(h('img', { src: ludwigURL, alt: '', width: '48', height: '48' }))
+    const body = h('div', {}, h('p', { class: 'learn-brag-title' }, t('web_learn_brag')))
+    body.append(html('div', { class: 'learn-text' }, markdownToHTML(text)))
+    box.append(body)
+    return box
   }
 
   private renderDiagram(file: string, caption: string): HTMLElement {
