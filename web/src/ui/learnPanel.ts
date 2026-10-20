@@ -1,13 +1,16 @@
 import { checkExercise, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
+import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
-import { diagram, lessons, reference, tasks } from '../learn/content'
-import type { Block, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
+import { diagram, glossary, image, lessons, reference, tasks } from '../learn/content'
+import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
+import ludwigURL from './ludwig.webp'
 import { progress } from '../learn/progress'
 import { t } from './i18n'
 import { noticeText } from './simulationPanel'
+import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -21,6 +24,10 @@ export interface LearnHost {
   openDiagram(doc: VSDocument, fileName: string): void
   /** Diagramm des Reiters, in dem die Übung offen ist. */
   exerciseDocument(id: string): VSDocument | undefined
+  /** Unterprogramme für Aufrufe in der Übung: die anderen offenen Reiter. */
+  subprogramsFor(id: string): SubprogramResolver
+  /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
+  stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
   resetExercise(id: string, doc: VSDocument): void
   preview(doc: VSDocument): SVGSVGElement | undefined
@@ -65,12 +72,18 @@ export function startDocument(ex: Exercise): VSDocument {
 export class LearnPanel {
   readonly element: HTMLElement
   private tab: TabName = 'lessons'
+  /** Wohin „Zurück zur Checkliste“ nach dem Nachlesen führt. */
+  private returnTo?: { lesson: string; step: number; scroll: number }
   private lessonId?: string
   private taskId?: string
   private body!: HTMLElement
+  private tips: { hide(): void }
+  private pointers: { off(): void }
 
   constructor(private host: LearnHost) {
     this.element = h('aside', { class: 'learn', 'aria-label': t('web_learn_title') })
+    this.tips = attachTermTips(this.element)
+    this.pointers = attachPointers(this.element)
     const view = progress.view()
     if (view) {
       this.tab = (['lessons', 'tasks', 'reference'] as const).find((x) => x === view.tab) ?? 'lessons'
@@ -82,6 +95,8 @@ export class LearnPanel {
 
   /** Neu aufbauen (z. B. nach einem Sprachwechsel). */
   render() {
+    this.tips.hide()
+    this.pointers.off()
     const tabs = h('div', { class: 'segmented learn-tabs', role: 'tablist' })
     for (const [name, label] of [
       ['lessons', t('web_learn_lessons')],
@@ -112,7 +127,8 @@ export class LearnPanel {
       if (task) this.renderTask(task)
       else this.renderTaskList()
     } else {
-      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(reference)))
+      const terms = glossary.map((e) => `- **${e.term}:** ${e.text}`).join('\n')
+      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n### Fachbegriffe\n\n${terms}`)))
     }
   }
 
@@ -123,6 +139,7 @@ export class LearnPanel {
   private openLesson(id: string | undefined) {
     this.tab = 'lessons'
     this.lessonId = id
+    this.returnTo = undefined
     this.persist()
     this.render()
     this.body.scrollTop = 0
@@ -159,8 +176,16 @@ export class LearnPanel {
 
     const back = h('button', { class: 'learn-back' }, `← ${t('web_learn_all_lessons')}`)
     back.addEventListener('click', () => this.openLesson(undefined))
-    const bar = h('div', { class: 'learn-progress', role: 'progressbar', 'aria-valuemin': '1', 'aria-valuemax': String(lesson.steps.length), 'aria-valuenow': String(index + 1) })
-    bar.append(...lesson.steps.map((_, i) => h('span', { class: i < index ? 'past' : i === index ? 'current' : '' })))
+    const bar = h('nav', { class: 'learn-progress', 'aria-label': t('web_learn_step_of_fmt', index + 1, lesson.steps.length) })
+    bar.append(
+      ...lesson.steps.map((s, i) => {
+        const where = t('web_learn_step_fmt', i + 1, s.title)
+        const b = h('button', { class: i < index ? 'past' : i === index ? 'current' : '', title: where, 'aria-label': where }, String(i + 1))
+        if (i === index) b.setAttribute('aria-current', 'step')
+        b.addEventListener('click', () => this.goToStep(lesson, i))
+        return b
+      }),
+    )
     this.body.append(
       back,
       h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}`),
@@ -168,7 +193,20 @@ export class LearnPanel {
       bar,
       h('h3', { class: 'learn-step-title' }, `${index + 1}. ${step.title}`),
     )
+    const ret = this.returnTo?.lesson === lesson.id && this.returnTo.step !== index ? this.returnTo : undefined
+    const backToChecklist = () => {
+      const b = h('button', { class: 'learn-return' }, `↩ ${t('web_learn_back_to_checklist')}`)
+      b.addEventListener('click', () => {
+        this.returnTo = undefined
+        this.goToStep(lesson, ret!.step)
+        this.body.scrollTop = ret!.scroll
+      })
+      return b
+    }
+    if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
+    markPointers(this.body)
+    markTerms(this.body, glossary)
 
     const nav = h('div', { class: 'learn-nav' })
     const prev = h('button', {}, `← ${t('web_learn_back')}`) as HTMLButtonElement
@@ -189,6 +227,7 @@ export class LearnPanel {
       nav.append(finish)
     }
     this.body.append(nav)
+    if (ret) this.body.append(backToChecklist())
   }
 
   private goToStep(lesson: Lesson, step: number) {
@@ -247,6 +286,8 @@ export class LearnPanel {
       this.body.append(h('p', { class: 'learn-kicker' }, link))
     }
     task.blocks.forEach((block, i) => this.body.append(this.renderBlock(block, `task-${i}`, undefined, true)))
+    markPointers(this.body)
+    markTerms(this.body, glossary)
   }
 
   // MARK: - Blöcke
@@ -263,7 +304,44 @@ export class LearnPanel {
         return this.renderChecklist(block.items, key, lesson)
       case 'quiz':
         return this.renderQuiz(block.questions, key, lesson)
+      case 'brag':
+        return this.renderBrag(block.text)
+      case 'images':
+        return this.renderImages(block.files, block.caption)
+      case 'graphic':
+        return this.renderGraphic(block.file, block.caption)
     }
+  }
+
+  /** Ludwig der Geißbock erzählt etwas zum Angeben. */
+  private renderBrag(text: string): HTMLElement {
+    const box = h('aside', { class: 'learn-brag' })
+    box.append(h('img', { src: ludwigURL, alt: '', width: '48', height: '48' }))
+    const body = h('div', {}, h('p', { class: 'learn-brag-title' }, t('web_learn_brag')))
+    body.append(html('div', { class: 'learn-text' }, markdownToHTML(text)))
+    box.append(body)
+    return box
+  }
+
+  private renderImages(files: string[], caption: string): HTMLElement {
+    const figure = h('figure', { class: 'learn-figure' })
+    const row = h('div', { class: 'learn-images' })
+    for (const f of files) {
+      const src = image(f)
+      if (src) row.append(h('img', { src, alt: '', loading: 'lazy' }))
+    }
+    figure.append(row)
+    if (caption) figure.append(html('figcaption', {}, inline(caption)))
+    return figure
+  }
+
+  /** Erklärgrafik in voller Breite (meist SVG aus `lessons/bilder`). */
+  private renderGraphic(file: string, caption: string): HTMLElement {
+    const figure = h('figure', { class: 'learn-figure' })
+    const src = image(file)
+    if (src) figure.append(h('img', { class: 'learn-graphic', src, alt: '', loading: 'lazy' }))
+    if (caption) figure.append(html('figcaption', {}, inline(caption)))
+    return figure
   }
 
   private renderDiagram(file: string, caption: string): HTMLElement {
@@ -317,7 +395,8 @@ export class LearnPanel {
         result.textContent = t('web_learn_empty')
         return
       }
-      const outcomes = checkExercise(doc, ex.tests)
+      this.host.stopSimulation()
+      const outcomes = checkExercise(doc, ex.tests, this.host.subprogramsFor(ex.id))
       const used = usedElementTypes(doc)
       const missing = ex.requires
         .map((r) => (r === 'forZaehlSchleife' ? 'forSchleife' : r))
@@ -369,7 +448,18 @@ export class LearnPanel {
           const svg = this.host.preview(solution)
           if (svg) details.append(h('div', { class: 'learn-preview', dir: 'ltr' }, svg))
           const openSolution = h('button', {}, t('web_learn_open_in_editor'))
-          openSolution.addEventListener('click', () => this.host.openDiagram(solution, ex.solution!))
+          openSolution.addEventListener('click', () => {
+            this.host.openDiagram(solution, ex.solution!)
+            for (const file of ex.subprograms) {
+              const sub = diagram(file)
+              if (sub) this.host.openDiagram(sub, file)
+            }
+          })
+          for (const file of ex.subprograms) {
+            const sub = diagram(file)
+            const subSvg = sub && this.host.preview(sub)
+            if (subSvg) details.append(h('div', { class: 'learn-preview', dir: 'ltr' }, subSvg))
+          }
           details.append(openSolution)
         })
         card.append(details)
@@ -400,7 +490,7 @@ export class LearnPanel {
     box.append(list)
   }
 
-  private renderChecklist(items: string[], key: string, lesson?: Lesson): HTMLElement {
+  private renderChecklist(items: ChecklistItem[], key: string, lesson?: Lesson): HTMLElement {
     const box = h('ul', { class: 'learn-checklist' })
     items.forEach((item, i) => {
       const id = `${key}-${i}`
@@ -412,8 +502,19 @@ export class LearnPanel {
         progress.updateLesson(lesson.id, { checks })
       })
       const label = h('label', {}, input)
-      label.insertAdjacentHTML('beforeend', ' ' + inline(item))
-      box.append(h('li', {}, label))
+      label.insertAdjacentHTML('beforeend', ' ' + inline(item.text))
+      const li = h('li', {}, label)
+      if (lesson && item.step !== undefined) {
+        const step = item.step
+        const where = t('web_learn_step_fmt', step + 1, lesson.steps[step].title)
+        const link = h('button', { class: 'link-button learn-check-link', title: where, 'aria-label': `${t('web_learn_review')}: ${where}` }, t('web_learn_review'))
+        link.addEventListener('click', () => {
+          this.returnTo = { lesson: lesson.id, step: progress.lesson(lesson.id).step, scroll: this.body.scrollTop }
+          this.goToStep(lesson, step)
+        })
+        li.append(link)
+      }
+      box.append(li)
     })
     return box
   }

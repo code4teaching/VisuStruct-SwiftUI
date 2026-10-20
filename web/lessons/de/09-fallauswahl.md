@@ -26,7 +26,7 @@ Derselbe Automat als Fallauswahl. Hat wahl den Wert 2, wird nur die Spalte 2 aus
 - Passt kein Fall, wird **default** ausgeführt. Dieser Fall steht immer ganz rechts.
 - Danach geht es unter der Fallauswahl weiter. Es wird immer nur **ein** Fall ausgeführt.
 
-> Eine neue Fallauswahl hat die Fälle 1, 2 und default. Klicke einen Fall an, um rechts seinen **Fallnamen** zu ändern. Mit **Weiteren Fall hinzufügen** bekommst du eine neue Spalte vor default.
+> Eine neue Fallauswahl hat die Fälle 1, 2 und default. Klicke einen Fall an, um im Objektinspektor seinen **Fallnamen** zu ändern. Mit **Weiteren Fall hinzufügen** bekommst du eine neue Spalte vor default.
 
 ## Fälle mit Texten
 
@@ -80,9 +80,9 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 ## Checkliste
 
 ::: checkliste
-- Ich kann eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern.
-- Ich weiß, wann der Fall default ausgeführt wird.
-- Ich kann entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt.
+- Ich kann eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern. → So ist die Fallauswahl aufgebaut
+- Ich weiß, wann der Fall default ausgeführt wird. → So ist die Fallauswahl aufgebaut
+- Ich kann entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt. → Fallauswahl oder Verzweigung?
 :::
 
 ## Wissenstest

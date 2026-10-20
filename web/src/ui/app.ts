@@ -158,6 +158,7 @@ function shortcut(key: string, shift = false): string {
 const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
 const learnKey = 'visustruct.learn.open'
+const learnWidthKey = 'visustruct.learn.width'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
 const maxUndoSteps = 80
@@ -212,6 +213,7 @@ export class App {
   private learnButton?: HTMLButtonElement
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
+  private renderedHostSize = { width: -1, height: -1 }
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
   private simPath?: number[]
   private sim!: SimulationPanel
@@ -248,7 +250,7 @@ export class App {
     this.shell = document.createElement('div')
     this.shell.className = 'shell'
     root.replaceWith(this.shell)
-    this.shell.append(this.learn.element, root)
+    this.shell.append(this.learn.element, this.learnResizer(), root)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn
     const fromSite = new URLSearchParams(location.search).has('learn')
@@ -341,6 +343,7 @@ export class App {
         this.scrollToSimPath()
       },
       (name) => this.findSubprogram(name),
+      () => this.setSimulating(false),
     )
     this.root.append(this.sim.element)
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
@@ -422,7 +425,12 @@ export class App {
 
     this.canvasHost.addEventListener('pointerdown', (e) => this.onCanvasPointerDown(e))
     this.resizeObserver?.disconnect()
-    this.resizeObserver = new ResizeObserver(() => this.renderDiagramOnly())
+    // Nur bei echter Größenänderung neu zeichnen, sonst schaukeln sich Scrollbalken (Windows) gegenseitig auf
+    this.resizeObserver = new ResizeObserver(() => {
+      const { clientWidth, clientHeight } = this.canvasHost
+      if (clientWidth === this.renderedHostSize.width && clientHeight === this.renderedHostSize.height) return
+      this.renderDiagramOnly()
+    })
     this.resizeObserver.observe(this.canvasHost)
   }
 
@@ -454,6 +462,7 @@ export class App {
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
+          this.setSimulating(false)
           return
         }
         const tab = this.makeTab()
@@ -472,6 +481,11 @@ export class App {
         this.loadXML(encodeDocument(doc), doc.caption.trim() ? `${doc.caption.trim()}.visustruct` : fileName)
       },
       exerciseDocument: (id: string) => this.tabs.find((tab) => tab.exerciseId === id)?.doc,
+      subprogramsFor: (id: string) => {
+        const own = this.tabs.find((tab) => tab.exerciseId === id)
+        return (name) => this.findSubprogram(name, own)
+      },
+      stopSimulation: () => this.setSimulating(false),
       resetExercise: (id: string, doc: VSDocument) => {
         const tab = this.tabs.find((x) => x.exerciseId === id)
         if (!tab) return
@@ -484,6 +498,9 @@ export class App {
       preview: (doc: VSDocument) => {
         const image = Export.renderExportSVG(doc, this.metrics, this.measure, 0)
         if (!image) return undefined
+        // Kleine Diagramme nicht über ihre natürliche Größe hinaus vergrößern.
+        const width = image.svg.getAttribute('width')
+        if (width) image.svg.style.maxWidth = `${width}px`
         image.svg.removeAttribute('width')
         image.svg.removeAttribute('height')
         return image.svg
@@ -548,15 +565,19 @@ export class App {
 
     // Wie `DiagramCanvasView`: mindestens so groß wie Struktur und sichtbarer Bereich (Ablegen unterhalb = ans Ende).
     const z = this.zoom
+    const host = this.canvasHost
+    this.renderedHostSize = { width: host.clientWidth, height: host.clientHeight }
+    // Abgerundet, damit das Diagramm den sichtbaren Bereich nie um Bruchteile eines Pixels überragt
+    // (sonst erscheinen bei 125 % Skalierung unter Windows Scrollbalken ohne Grund)
     const size = {
-      width: Math.max(320, this.layout.canvasSize.width, this.canvasHost.clientWidth / z),
-      height: Math.max(240, this.layout.canvasSize.height + 60, this.canvasHost.clientHeight / z),
+      width: Math.max(320, this.layout.canvasSize.width, Math.floor(host.clientWidth / z)),
+      height: Math.max(240, this.layout.canvasSize.height + 60, Math.floor(host.clientHeight / z)),
     }
     this.renderer.usesSimulationHighlight = this.simulating
     this.svg = this.renderer.render(this.layout, size, this.simulating ? this.simPath : this.selected)
     // Textgröße wie `canvasScaleStep`: Layout und Linien wachsen gleichmäßig mit.
-    this.svg.setAttribute('width', String(size.width * z))
-    this.svg.setAttribute('height', String(size.height * z))
+    this.svg.setAttribute('width', String(Math.floor(size.width * z)))
+    this.svg.setAttribute('height', String(Math.floor(size.height * z)))
     this.overlay = el('g', { class: 'drop-overlay' })
     this.svg.append(this.overlay)
     this.canvasHost.replaceChildren(this.svg)
@@ -594,7 +615,7 @@ export class App {
       )
       return
     }
-    box.replaceChildren(h('h2', {}, typeName(element.type)))
+    box.replaceChildren(h('h2', {}, `${t('web_inspector_title')} · ${typeName(element.type)}`))
 
     if (element.type === ElementType.anweisung) {
       const mode = LineEditor.ioMode(element.textLines.join('\n'))
@@ -764,10 +785,51 @@ export class App {
 
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
   /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
-  private findSubprogram(name: string): VSDocument | undefined {
+  /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
+  private learnResizer(): HTMLElement {
+    const panel = this.learn.element
+    const bar = h('div', { class: 'learn-resizer', role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title: t('web_learn_resize') })
+    const apply = (width: number | undefined, remember: boolean) => {
+      panel.style.width = width === undefined ? '' : `${clampLearnWidth(width)}px`
+      if (remember) storeValue(learnWidthKey, width === undefined ? '' : String(clampLearnWidth(width)))
+    }
+    const saved = Number(storedValue(learnWidthKey))
+    if (saved > 0) apply(saved, false)
+    // Im Rechts-nach-links-Layout liegt der Lernbereich rechts.
+    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? -1 : 1)
+    bar.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return
+      e.preventDefault()
+      bar.setPointerCapture(e.pointerId)
+      const startX = e.clientX
+      const startWidth = panel.getBoundingClientRect().width
+      const s = sign()
+      this.shell.classList.add('resizing')
+      const move = (ev: PointerEvent) => apply(startWidth + s * (ev.clientX - startX), false)
+      const up = (ev: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        this.shell.classList.remove('resizing')
+        apply(startWidth + s * (ev.clientX - startX), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowRight' ? 20 : e.key === 'ArrowLeft' ? -20 : 0
+      if (!step) return
+      e.preventDefault()
+      apply(panel.getBoundingClientRect().width + sign() * step, true)
+    })
+    return bar
+  }
+
+  private findSubprogram(name: string, current: Tab | undefined = this.tab): VSDocument | undefined {
     const key = subprogramKey(name)
     if (key === '') return undefined
-    const current = this.tab
     const match = this.tabs.find(
       (tab) => tab !== current && (subprogramKey(tab.doc.caption) === key || subprogramKey(tabTitle(tab)) === key),
     )
@@ -986,7 +1048,8 @@ export class App {
       this.showMessage(t('web_err_unreadable_fmt', name, (err as Error).message))
       return
     }
-    if (this.dirty || this.tab.fileName) this.addTab()
+    // Eine Übung bleibt in ihrem Reiter, auch wenn sie noch leer ist.
+    if (this.dirty || this.tab.fileName || this.tab.exerciseId) this.addTab()
     this.doc = doc
     this.tab.fileName = name.replace(/\.(strk|xml)$/i, '.visustruct')
     this.fileHandle = handle && /\.visustruct$/i.test(name) ? handle : undefined
@@ -1383,6 +1446,11 @@ function subprogramKey(text: string): string {
 function tabTitle(tab: Tab): string {
   if (tab.fileName) return tab.fileName.replace(/\.(visustruct|strk)$/i, '')
   return tab.doc.caption.trim() || t('tab_title_format', tab.serial)
+}
+
+/** Breite des Lernbereichs: mindestens 260 px, dem Editor bleiben mindestens 420 px. */
+function clampLearnWidth(width: number): number {
+  return Math.round(Math.max(260, Math.min(width, 720, window.innerWidth - 420)))
 }
 
 function storedValue(key: string): string | null {

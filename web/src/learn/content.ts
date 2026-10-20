@@ -1,5 +1,6 @@
 import { decodeDocument } from '../core/xmlCodec'
 import type { VSDocument } from '../core/model'
+import { parseGlossary, type GlossaryEntry } from './glossary'
 import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
 
 /** Lektionen, Aufgaben und Diagramme aus `web/lessons` (werden beim Bauen eingebettet). */
@@ -10,6 +11,11 @@ const taskFiles = import.meta.glob('../../lessons/de/aufgaben/*.md', { query: '?
   string
 >
 const diagramFiles = import.meta.glob('../../lessons/diagramme/*.visustruct', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+
+const imageFiles = import.meta.glob('../../lessons/bilder/*.{jpg,png,webp,svg}', { query: '?url', import: 'default', eager: true }) as Record<
   string,
   string
 >
@@ -27,9 +33,20 @@ export const tasks: Task[] = Object.entries(taskFiles)
 
 export const reference: string = Object.entries(lessonFiles).find(([path]) => path.endsWith('/nachschlagen.md'))?.[1] ?? ''
 
+export const glossary: GlossaryEntry[] = parseGlossary(
+  Object.entries(lessonFiles).find(([path]) => path.endsWith('/begriffe.md'))?.[1] ?? '',
+)
+
 const diagrams = new Map(Object.entries(diagramFiles).map(([path, xml]) => [baseName(path), xml]))
 
 export function diagram(file: string): VSDocument | undefined {
   const xml = diagrams.get(file)
   return xml === undefined ? undefined : decodeDocument(xml)
+}
+
+const images = new Map(Object.entries(imageFiles).map(([path, url]) => [baseName(path), url]))
+
+/** Adresse eines Bildes aus `web/lessons/bilder`. */
+export function image(file: string): string | undefined {
+  return images.get(file)
 }

@@ -8,7 +8,7 @@ kurz: Java-Code aus dem Struktogramm erzeugen, lesen und umgekehrt Java-Code als
 
 Ein Struktogramm beschreibt einen Ablauf. Damit ein Computer ihn ausführt, brauchst du ein Programm in einer Programmiersprache. VisuStruct schreibt diesen Code für dich.
 
-Klicke in der Leiste auf **{ } Code**. Rechts erscheint der **Code-Generator**:
+Klicke in der Leiste auf [{ } Code](#zeige-code). Rechts erscheint der **Code-Generator**:
 
 - Oben wählst du die Sprache: **Java**, **Python** oder **JavaScript**.
 - Bei Java wählst du zusätzlich **Snippet** (nur die Anweisungen) oder **Class** (eine vollständige Java-Datei).
@@ -16,6 +16,10 @@ Klicke in der Leiste auf **{ } Code**. Rechts erscheint der **Code-Generator**:
 - **Kopieren** legt den Code in die Zwischenablage, **Java speichern …** speichert eine `.java`-Datei.
 
 Der Code ändert sich sofort mit, wenn du am Struktogramm etwas änderst.
+
+::: angeberwissen
+Nassi hat später an der Programmiersprache Ada mitgearbeitet und war bei Apple für Software zuständig. Wer Struktogramme erfindet, landet also nicht im Ziegenstall, sondern bei Apple.
+:::
 
 ::: diagramm l17-beispiel.visustruct
 Ein kleines Programm mit Eingabe, For-Schleife und Verzweigung. Öffne es und schau dir den Java-Code dazu an.
@@ -84,7 +88,7 @@ Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genaus
 
 ## Der Java-Sprachmodus
 
-In der Leiste kannst du die Sprache der Oberfläche umstellen. Neben Deutsch, Englisch und vielen weiteren gibt es **Java (Keywords)**. Dann heißen die Elemente in der Palette so wie die Befehle in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` und `call`. Die Oberfläche ist dann auf Englisch.
+In der Leiste kannst du die Sprache der Oberfläche umstellen. Neben Deutsch, Englisch und vielen weiteren gibt es **Java (Keywords)**. Dann heißen die Bausteine im Bereich Elemente so wie die Befehle in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` und `call`. Die Oberfläche ist dann auf Englisch.
 
 Das hilft dir, die Kästen und die Java-Befehle einander zuzuordnen. Dein Diagramm selbst bleibt dabei unverändert.
 
@@ -145,10 +149,10 @@ lösung: l17-ticket-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann die Code-Ansicht öffnen und Java als Sprache wählen.
-- Ich weiß, wie Ausgabe, Eingabe, Verzweigung und Schleifen in Java aussehen.
-- Ich kenne den Unterschied zwischen Snippet und Class.
-- Ich kann ein kurzes Java-Programm als Struktogramm nachbauen.
+- Ich kann die Code-Ansicht öffnen und Java als Sprache wählen. → Die Code-Ansicht
+- Ich weiß, wie Ausgabe, Eingabe, Verzweigung und Schleifen in Java aussehen. → Die Elemente in Java
+- Ich kenne den Unterschied zwischen Snippet und Class. → Snippet oder Class
+- Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
 :::
 
 ## Wissenstest

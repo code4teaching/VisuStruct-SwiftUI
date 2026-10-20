@@ -20,7 +20,7 @@
 "web_palette_hint" = "Drag into the structure chart";
 "web_tabs_label" = "Diagrams";
 "web_status_modified" = "modified";
-"web_inspector_title" = "Properties";
+"web_inspector_title" = "Object Inspector";
 "web_inspector_help_drop" = "Drag elements from the palette onto a tile: top = before, bottom = after, onto “ø” = replace. Existing elements can be moved with the mouse.";
 "web_inspector_help_files" = "You can also drop files into the window.";
 "web_case_name" = "Case name";
@@ -62,6 +62,7 @@
 "web_learn_after_fmt" = "After lesson %d: %@";
 "web_learn_level_fmt" = "Difficulty %d of 3";
 "web_learn_exercise" = "Exercise";
+"web_learn_brag" = "Fun facts with Ludwig";
 "web_learn_solved" = "solved";
 "web_learn_open_exercise" = "Open in editor";
 "web_learn_open_in_editor" = "Open in editor";
@@ -83,3 +84,7 @@
 "web_learn_unused_input" = "Your structure chart does not ask for all inputs.";
 "web_learn_too_many_steps" = "Stopped after 100,000 steps. Is a loop running forever?";
 "web_learn_score_fmt" = "%d of %d correct";
+"web_learn_review" = "Review";
+"web_learn_resize" = "Change the width of the learning area (double-click: reset)";
+"web_learn_back_to_checklist" = "Back to checklist";
+"web_learn_step_fmt" = "Step %d: %@";

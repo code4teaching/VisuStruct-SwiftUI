@@ -9,8 +9,11 @@ export type Block =
   | { kind: 'markdown'; text: string }
   | { kind: 'diagram'; file: string; caption: string }
   | { kind: 'exercise'; exercise: Exercise }
-  | { kind: 'checklist'; items: string[] }
+  | { kind: 'checklist'; items: ChecklistItem[] }
   | { kind: 'quiz'; questions: QuizQuestion[] }
+  | { kind: 'brag'; text: string }
+  | { kind: 'images'; files: string[]; caption: string }
+  | { kind: 'graphic'; file: string; caption: string }
 
 export interface Exercise {
   id: string
@@ -24,6 +27,16 @@ export interface Exercise {
   hint?: string
   /** Musterlösung (Datei in `lessons/diagramme`), in Aufgaben zum Ansehen. */
   solution?: string
+  /** Unterprogramme zur Musterlösung (Dateien in `lessons/diagramme`), je eins pro Reiter. */
+  subprograms: string[]
+}
+
+export interface ChecklistItem {
+  text: string
+  /** Titel des Schritts, in dem der Punkt erklärt wird (`- Text → Schritt`). */
+  ref?: string
+  /** Index dieses Schritts in der Lektion, von `parseLesson` aufgelöst. */
+  step?: number
 }
 
 export interface QuizQuestion {
@@ -77,10 +90,10 @@ export function parseTest(spec: string, file: string): ExerciseTest {
 }
 
 function parseExercise(id: string, lines: string[], file: string): Exercise {
-  const ex: Exercise = { id, title: '', task: '', tests: [], requires: [] }
+  const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -93,6 +106,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
         case 'tipp': ex.hint = value; last = 'hint'; break
         case 'lösung':
         case 'loesung': ex.solution = value; break
+        case 'unterprogramm': ex.subprograms.push(...value.split(/\s*,\s*/).filter(Boolean)); break
       }
     } else if (last && raw.trim() !== '') {
       // Fortsetzungszeilen für Auftrag und Tipp
@@ -165,10 +179,21 @@ export function parseBlocks(body: string, file: string): Block[] {
         blocks.push({ kind: 'exercise', exercise: parseExercise(arg, inner, file) })
         break
       case 'checkliste':
-        blocks.push({ kind: 'checklist', items: inner.map((l) => l.trim()).filter((l) => l.startsWith('- ')).map((l) => l.slice(2).trim()) })
+        blocks.push({ kind: 'checklist', items: inner.map((l) => l.trim()).filter((l) => l.startsWith('- ')).map((l) => checklistItem(l.slice(2).trim())) })
         break
       case 'quiz':
         blocks.push({ kind: 'quiz', questions: parseQuiz(inner, file) })
+        break
+      case 'bild':
+        if (!arg) throw new FormatError(`${file}: „::: bild“ braucht einen Dateinamen.`)
+        blocks.push({ kind: 'images', files: arg.split(/\s+/), caption: inner.join(' ').trim() })
+        break
+      case 'grafik':
+        if (!arg) throw new FormatError(`${file}: „::: grafik“ braucht einen Dateinamen.`)
+        blocks.push({ kind: 'graphic', file: arg, caption: inner.join(' ').trim() })
+        break
+      case 'angeberwissen':
+        blocks.push({ kind: 'brag', text: inner.join('\n').trim() })
         break
       default:
         throw new FormatError(`${file}: Unbekannter Block „::: ${open[1]}“.`)
@@ -177,6 +202,24 @@ export function parseBlocks(body: string, file: string): Block[] {
   }
   flush()
   return blocks
+}
+
+function checklistItem(line: string): ChecklistItem {
+  const m = /^(.*?)\s+→\s+(.+)$/.exec(line)
+  return m ? { text: m[1], ref: m[2].trim() } : { text: line }
+}
+
+/** Verweise aus Checklisten auf den erklärenden Schritt auflösen. */
+function resolveChecklistRefs(steps: Step[], file: string) {
+  const index = new Map(steps.map((s, i) => [s.title.toLowerCase(), i]))
+  for (const block of steps.flatMap((s) => s.blocks)) {
+    if (block.kind !== 'checklist') continue
+    for (const item of block.items) {
+      if (item.ref === undefined) continue
+      item.step = index.get(item.ref.toLowerCase())
+      if (item.step === undefined) throw new FormatError(`${file}: Checkliste verweist auf unbekannten Schritt „${item.ref}“.`)
+    }
+  }
 }
 
 export function parseLesson(source: string, file: string): Lesson {
@@ -203,6 +246,7 @@ export function parseLesson(source: string, file: string): Lesson {
   }
   close()
   if (steps.length === 0) throw new FormatError(`${file}: Keine Schritte (## Überschrift) gefunden.`)
+  resolveChecklistRefs(steps, file)
   const title = meta.get('titel')
   if (!title) throw new FormatError(`${file}: „titel:“ fehlt.`)
   return {

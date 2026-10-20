@@ -21,7 +21,7 @@ Je nach eingegebenem Alter erscheint die eine oder die andere Meldung. Probiere 
 
 ## Eine Verzweigung einfügen
 
-Ziehe die **Verzweigung** aus der Palette ins Struktogramm. Klicke das Dreieck an und schreibe unten die Bedingung, z. B. `alter >= 18`. Das Wort `if` steht schon davor.
+Ziehe die **Verzweigung** aus dem Bereich Elemente ins Struktogramm. Klicke das Dreieck an und schreibe im Objektinspektor die Bedingung, z. B. `alter >= 18`. Das Wort `if` steht schon davor.
 
 In jedem Zweig liegt zuerst ein Platzhalter ø. Ziehe dort Anweisungen hinein. In einem Zweig dürfen auch mehrere Kästen untereinander stehen.
 
@@ -90,10 +90,10 @@ lösung: l07-betrag-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, dass bei einer Verzweigung genau ein Zweig ausgeführt wird.
-- Ich kenne die Vergleichsoperatoren == != < <= > >=.
-- Ich kann == und = unterscheiden.
-- Ich kann eine Verzweigung mit einem leeren Zweig bauen.
+- Ich weiß, dass bei einer Verzweigung genau ein Zweig ausgeführt wird. → Wenn, dann, sonst
+- Ich kenne die Vergleichsoperatoren == != < <= > >=. → Vergleichsoperatoren
+- Ich kann == und = unterscheiden. → Vergleichsoperatoren
+- Ich kann eine Verzweigung mit einem leeren Zweig bauen. → Ein leerer Zweig
 :::
 
 ## Wissenstest

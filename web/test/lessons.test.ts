@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
-import { diagram, lessons, reference, tasks } from '../src/learn/content'
-import { parseBlocks, parseTest, type Block } from '../src/learn/lessonFormat'
+import { subprogramName } from '../src/core/simulation'
+import { diagram, image, lessons, reference, tasks } from '../src/learn/content'
+import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 
 const allBlocks = (): { where: string; block: Block }[] => [
@@ -24,8 +25,15 @@ describe('Lernbereich: Inhalte', () => {
   it('jedes verwendete Diagramm existiert und lässt sich laden', () => {
     for (const { where, block } of allBlocks()) {
       const files =
-        block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution] : []
+        block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution, ...block.exercise.subprograms] : []
       for (const f of files.filter(Boolean)) expect(diagram(f!), `${where}: ${f}`).toBeDefined()
+    }
+  })
+
+  it('jedes verwendete Bild existiert', () => {
+    for (const { where, block } of allBlocks()) {
+      if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
+      if (block.kind === 'graphic') expect(image(block.file), `${where}: ${block.file}`).toBeDefined()
     }
   })
 
@@ -48,6 +56,13 @@ describe('Lernbereich: Inhalte', () => {
     }
   })
 
+  it('jeder Punkt einer Checkliste verweist auf den Schritt, der ihn erklärt', () => {
+    for (const l of lessons)
+      for (const s of l.steps)
+        for (const b of s.blocks)
+          if (b.kind === 'checklist') for (const item of b.items) expect(item.step, `${l.id}: ${item.text}`).toBeDefined()
+  })
+
   it('Kennungen von Übungen sind eindeutig', () => {
     const ids = allBlocks().flatMap(({ block }) => (block.kind === 'exercise' ? [block.exercise.id] : []))
     expect(new Set(ids).size).toBe(ids.length)
@@ -62,7 +77,9 @@ describe('Lernbereich: Inhalte', () => {
       for (const r of ex.requires) expect(r in ElementType || r === 'forZaehlSchleife', `${where}: braucht ${r}`).toBe(true)
       if (!ex.solution) continue
       const doc = diagram(ex.solution)!
-      for (const outcome of checkExercise(doc, ex.tests)) {
+      const subs = ex.subprograms.map((f) => diagram(f)!)
+      const resolve = (name: string) => subs.find((s) => s.caption.toLowerCase() === subprogramName(name).toLowerCase())
+      for (const outcome of checkExercise(doc, ex.tests, resolve)) {
         expect(outcome.passed, `${where}: ${ex.id} ${JSON.stringify(outcome)}`).toBe(true)
       }
       for (const r of ex.requires) expect(usedElementTypes(doc).has(ElementType[r as keyof typeof ElementType])).toBe(true)
@@ -86,10 +103,21 @@ describe('Lernbereich: Format', () => {
     expect(parseTest('- -> Hallo', 'x')).toEqual({ inputs: [], expected: ['Hallo'] })
   })
 
+  it('liest Angeberwissen-Kästen', () => {
+    expect(parseBlocks('::: angeberwissen\nZeile eins\nZeile zwei\n:::', 'x.md')).toEqual([{ kind: 'brag', text: 'Zeile eins\nZeile zwei' }])
+  })
+
   it('meldet fehlerhafte Blöcke verständlich', () => {
     expect(() => parseBlocks('::: diagramm a.visustruct\n', 'x.md')).toThrow(/nicht mit „:::“ geschlossen/)
     expect(() => parseBlocks('::: quiz\n? Frage\n- [ ] a\n- [ ] b\n:::', 'x.md')).toThrow(/eine richtige/)
     expect(() => parseBlocks('::: tabelle\n:::', 'x.md')).toThrow(/Unbekannter Block/)
+  })
+
+  it('löst Checklisten-Verweise auf und meldet unbekannte Schritte', () => {
+    const source = (ref: string) => `---\ntitel: T\n---\n## Erster Schritt\nText\n## Checkliste\n::: checkliste\n- Ich kann es. → ${ref}\n- Ohne Verweis\n:::\n`
+    const block = parseLesson(source('erster schritt'), '01-t.md').steps[1].blocks[0]
+    expect(block).toEqual({ kind: 'checklist', items: [{ text: 'Ich kann es.', ref: 'erster schritt', step: 0 }, { text: 'Ohne Verweis' }] })
+    expect(() => parseLesson(source('Gibt es nicht'), '01-t.md')).toThrow(/unbekannten Schritt/)
   })
 
   it('Markdown maskiert HTML', () => {

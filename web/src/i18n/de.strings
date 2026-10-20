@@ -20,8 +20,8 @@
 "web_palette_hint" = "Ins Struktogramm ziehen";
 "web_tabs_label" = "Diagramme";
 "web_status_modified" = "geändert";
-"web_inspector_title" = "Eigenschaften";
-"web_inspector_help_drop" = "Elemente aus der Palette auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.";
+"web_inspector_title" = "Objektinspektor";
+"web_inspector_help_drop" = "Elemente aus dem Bereich „Elemente“ auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.";
 "web_inspector_help_files" = "Dateien können auch einfach ins Fenster gezogen werden.";
 "web_case_name" = "Fallname";
 "web_case_name_placeholder" = "z. B. 1, ok, default";
@@ -62,6 +62,7 @@
 "web_learn_after_fmt" = "Nach Lektion %d: %@";
 "web_learn_level_fmt" = "Schwierigkeit %d von 3";
 "web_learn_exercise" = "Übung";
+"web_learn_brag" = "Angeberwissen mit Ludwig";
 "web_learn_solved" = "geschafft";
 "web_learn_open_exercise" = "Im Editor öffnen";
 "web_learn_open_in_editor" = "Im Editor öffnen";
@@ -71,7 +72,7 @@
 "web_learn_reset_confirm" = "Wirklich von vorn?";
 "web_learn_solution" = "Lösung ansehen";
 "web_learn_open_first" = "Öffne die Übung zuerst im Editor und baue dort dein Struktogramm.";
-"web_learn_empty" = "Dein Struktogramm ist noch leer. Ziehe zuerst Elemente aus der Palette hinein.";
+"web_learn_empty" = "Dein Struktogramm ist noch leer. Ziehe zuerst Elemente aus dem Bereich „Elemente“ hinein.";
 "web_learn_passed" = "Geschafft! Dein Struktogramm macht genau, was es soll.";
 "web_learn_failed" = "Noch nicht ganz. Vergleiche die erwartete mit deiner Ausgabe:";
 "web_learn_missing_fmt" = "Dein Struktogramm braucht noch: %@";
@@ -83,3 +84,7 @@
 "web_learn_unused_input" = "Dein Struktogramm fragt nicht alle Eingaben ab.";
 "web_learn_too_many_steps" = "Abbruch nach 100 000 Schritten. Läuft eine Schleife endlos?";
 "web_learn_score_fmt" = "%d von %d richtig";
+"web_learn_review" = "Nachlesen";
+"web_learn_resize" = "Breite des Lernbereichs ändern (Doppelklick: zurücksetzen)";
+"web_learn_back_to_checklist" = "Zurück zur Checkliste";
+"web_learn_step_fmt" = "Schritt %d: %@";

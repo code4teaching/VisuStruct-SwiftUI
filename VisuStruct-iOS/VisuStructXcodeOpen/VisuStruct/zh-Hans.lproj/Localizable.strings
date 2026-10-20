@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "元素";
+"inspector_header" = "对象检查器";
 
 /* Actions */
 "action_share_png" = "分享图片…";

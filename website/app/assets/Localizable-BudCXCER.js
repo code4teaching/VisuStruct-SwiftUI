@@ -1,0 +1,241 @@
+const e=`/* Palette */
+"palette_header" = "요소";
+"inspector_header" = "개체 검사기";
+
+/* Actions */
+"action_share_png" = "이미지 공유…";
+"action_share_document" = "파일 공유…";
+"action_export_pdf" = "PDF 미리보기…";
+"action_generate_code" = "코드 생성…";
+"action_simulation" = "시뮬레이션";
+"action_diagram" = "다이어그램";
+"simulation_placeholder_body" = "시뮬레이션 모드는 다이어그램을 단계별로 실행하고 현재 요소를 강조 표시하며 변수 값과 출력을 보여줍니다.";
+"simulation_controls" = "제어";
+"simulation_highlight_label" = "강조 표시";
+"simulation_highlight_last" = "마지막 단계";
+"simulation_highlight_next" = "다음 단계";
+"simulation_not_available" = "Play는 각 단계마다 0.5초씩 쉬면서 시뮬레이션을 자동으로 실행합니다.";
+"simulation_play" = "재생";
+"simulation_pause" = "일시정지";
+"simulation_step" = "단계";
+"simulation_stop" = "정지";
+"simulation_input" = "입력";
+"simulation_input_placeholder" = "입력이 필요하지 않습니다.";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "정수를 입력하세요.";
+"simulation_trace" = "마지막 단계";
+"simulation_trace_placeholder" = "아직 실행된 단계가 없습니다.";
+"simulation_variables" = "변수";
+"simulation_variables_placeholder" = "아직 변수가 없습니다.";
+"simulation_output" = "출력";
+"simulation_output_placeholder" = "아직 출력이 없습니다.";
+"action_delete_selection" = "선택 삭제";
+"ctx_copy" = "복사";
+"ctx_cut" = "잘라내기";
+"ctx_paste" = "붙여넣기";
+"action_settings" = "설정";
+"action_about" = "VisuStruct 정보";
+"recent_files_menu" = "최근 파일";
+"recent_files_empty" = "최근 파일 없음";
+"recent_files_clear" = "목록 지우기";
+"recent_files_unavailable" = "파일을 더 이상 사용할 수 없습니다.";
+
+/* In-app settings */
+"settings_language_title" = "언어";
+"settings_language_de" = "독일어";
+"settings_language_en" = "영어";
+"settings_language_es" = "스페인어";
+"settings_language_fr" = "프랑스어";
+"settings_language_it" = "이탈리아어";
+"settings_language_pl" = "폴란드어";
+"settings_language_tr" = "터키어";
+"settings_language_ko" = "한국어";
+"settings_language_ja" = "일본어";
+"settings_language_el" = "그리스어";
+"settings_language_uk" = "우크라이나어";
+"settings_language_ar" = "아랍어";
+"settings_language_ru" = "러시아어";
+"settings_language_he" = "히브리어";
+"settings_language_zh_hans" = "중국어(간체)";
+"settings_language_zh_hant" = "중국어(번체)";
+"settings_language_ptpt" = "포르투갈어";
+"settings_language_java" = "Java(키워드)";
+
+
+/* Error overlay */
+"error_title" = "오류";
+"error_back_editor" = "편집기로 돌아가기";
+
+/* Toolbar */
+"toolbar_undo" = "실행 취소";
+"toolbar_redo" = "다시 실행";
+"toolbar_new" = "새로 만들기";
+"menu_open" = "열기…";
+"menu_save" = "저장";
+"menu_save_as" = "다른 이름으로 저장…";
+"menu_print" = "인쇄…";
+"menu_file" = "파일";
+"menu_new" = "새로 만들기";
+"menu_close" = "닫기";
+
+/* Accessibility */
+"a11y_generate_code" = "구조도에서 코드 생성";
+"a11y_generate_code_locked" = "코드 생성(구매 후 사용 가능)";
+"a11y_unsaved_changes" = "저장되지 않은 변경 사항";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "코드 생성";
+"codegen_gate_body" = "다이어그램에서 생성된 Java, Python, JavaScript 코드는 앱 내 구매로 잠금 해제됩니다(곧 제공).";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "코드 생성기";
+"codegen_placeholder_body" = "생성된 코드는 여기에 표시됩니다.";
+"codegen_placeholder_compare" = "Java, Python, JavaScript 간에 전환하여 문법을 비교하세요(아래 예시).";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (조건) {\\n    문장();\\n} else {\\n    대안();\\n}";
+"codegen_preview_python" = "if 조건:\\n    문장()\\nelse:\\n    대안()";
+"codegen_copy" = "복사";
+"codegen_run_in_browser" = "브라우저에서 테스트";
+"codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
+"a11y_new_diagram_tab" = "새 다이어그램 탭";
+"a11y_close_tab" = "탭 닫기";
+
+"close_unsaved_title" = "저장되지 않은 변경사항";
+"close_unsaved_message" = "이 다이어그램에 저장되지 않은 변경사항이 있습니다. 닫기 전에 저장하시겠습니까?";
+"close_unsaved_discard" = "버리기";
+"close_unsaved_cancel" = "취소";
+"a11y_placeholder_drop" = "자리 표시자를 바꾸려면 여기에 요소를 놓으세요. 길게 눌러 드래그하여 이동할 수 있습니다.";
+"a11y_node_drop" = "블록을 길게 누른 뒤 드래그하세요: 대상의 위/아래 가장자리에 놓으면 앞/뒤에 삽입됩니다. 가운데 놓기는 ø 자리 표시자에서만 가능합니다.";
+"a11y_codegen_panel_drag" = "코드 생성기 패널을 움직이려면 드래그하세요";
+
+/* Diagram */
+"diagram_title_label" = "제목";
+"diagram_title_placeholder" = "제목 없음";
+
+/* Inspector */
+"inspector_no_selection" = "선택된 요소가 없습니다 — 타일을 탭하세요.";
+"inspector_apply_text" = "텍스트 적용";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "종류";
+"inspector_io_mode_statement" = "명령문";
+"inspector_io_mode_input" = "입력";
+"inspector_io_mode_output" = "출력";
+"inspector_io_mode_help_java_like" = "입력: input: … | 출력: output: …";
+"inspector_add_case" = "케이스 추가";
+"inspector_remove_case" = "케이스 제거";
+"inspector_group_element" = "요소 텍스트";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "조건 입력…";
+"inspector_placeholder_selector" = "선택식 입력…";
+"inspector_placeholder_call" = "호출 입력…";
+"inspector_placeholder_break" = "주석(선택)";
+
+/* Element types (Korean + keyword hint) */
+"element_anweisung" = "문장 (statement)";
+"element_verzweigung" = "조건문 (if/else)";
+"element_fallauswahl" = "선택문 (switch)";
+"element_forSchleife" = "반복문 (for)";
+"element_whileSchleife" = "반복문 (while)";
+"element_doUntilSchleife" = "반복문 (do-while)";
+"element_endlosschleife" = "무한 반복 (while true)";
+"element_aussprung" = "탈출 (break)";
+"element_aufruf" = "호출 (call)";
+"element_leerElement" = "빈 요소";
+
+/* Tabs */
+"tab_title_format" = "다이어그램 %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "빈 구조도";
+"canvas_empty_hint" = "“요소”에서 블록을 여기로 드래그하세요.";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "선택문 (switch)";
+"canvas_stub_anweisung" = "문장 (statement)";
+"canvas_stub_condition" = "조건";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "무한";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "호출()";
+
+/* About */
+"about_version_fmt" = "버전 %@ (%@)";
+"about_nav_title" = "VisuStruct 정보";
+"about_features_heading" = "기능";
+"about_bullet_palette" = "팔레트에서 블록을 추가하거나 다이어그램으로 드래그하세요";
+"about_bullet_edit" = "다이어그램 편집: 텍스트 변경, 요소 선택, 필요 시 삭제";
+"about_bullet_tabs" = "탭에서 여러 다이어그램 — 각각 제목 포함";
+"about_bullet_file" = ".visustruct 파일로 저장하고 다시 열기";
+"about_bullet_share" = "구조도를 이미지(PNG)로 공유";
+"about_dateiformat_heading" = "파일 형식";
+"about_dateiformat_part1" = "VisuStruct의 기본 형식은 확장자 ";
+"about_dateiformat_part2" = "를 사용합니다. 같은 형식을 지원하는 다른 앱과 교환할 수 있습니다.";
+"about_dateiformat_strk" = ".strk 확장자 파일도 열 수 있습니다.";
+"about_project_github_label" = "Java 앱(소스 및 릴리스):";
+"about_web_label" = "웹:";
+"about_developer_label" = "개발자:";
+"about_lineage_heading" = "계보";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Java 업스트림:";
+"about_done" = "완료";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "삽입 취소";
+"phone_show_text_editor" = "텍스트 편집";
+"phone_hide_text_editor" = "접기";
+"phone_title_done" = "완료";
+
+/* Alerts */
+"err_save_failed_fmt" = "저장할 수 없음: %@";
+"err_share_prepare_failed_fmt" = "공유를 준비할 수 없음: %@";
+"err_diagram_too_small_export" = "다이어그램이 너무 작아 내보낼 수 없습니다.";
+"err_image_render_failed" = "이미지를 만들 수 없습니다.";
+"err_diagram_too_small_print" = "다이어그램이 너무 작아 인쇄할 수 없습니다.";
+"err_print_unavailable" = "이 기기에서는 인쇄를 사용할 수 없습니다.";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "파일 이름 제안";
+"settings_export_filename_picker" = "형식";
+"settings_export_filename_date_title" = "날짜 포함";
+"settings_export_filename_title_only" = "날짜 없음";
+"settings_export_filename_footer_with_date" = "날짜 포함: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "날짜 없음: Filename.visustruct";
+
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "시뮬레이션이 끝났습니다.";
+"sim_notice_infinite_loop_empty" = "무한 루프에 본문이 없습니다.";
+"sim_notice_unsupported_statement_fmt" = "지원되지 않는 명령문: %@";
+"sim_notice_invalid_expression_fmt" = "잘못된 식: %@";
+"sim_notice_unknown_variable_fmt" = "알 수 없는 변수: %@";
+"sim_notice_division_by_zero" = "0으로 나눌 수 없습니다.";
+"sim_notice_whole_number_expected" = "정수를 입력하세요.";
+"sim_notice_number_expected" = "숫자를 입력하세요.";
+"sim_notice_boolean_expected" = "true 또는 false를 입력하세요.";
+"sim_notice_subprogram_not_found_fmt" = "%@(이)라는 열린 다이어그램이 없습니다. 호출을 건너뛰었습니다.";
+"sim_notice_call_too_deep" = "중첩 호출이 너무 많습니다. 서브프로그램이 자기 자신을 호출하나요?";
+
+"codegen_pseudocode_toggle" = "의사 코드(실행할 수 없는 코드)";
+"codegen_pseudocode_note" = "의사 코드 – 실행 가능한 프로그램이 아닙니다";
+"codegen_pseudocode_hint" = "이 다이어그램은 의사 코드로 표시되어 있습니다. 코드는 초안일 뿐이며 실행할 수 없습니다.";
+`;export{e as default};

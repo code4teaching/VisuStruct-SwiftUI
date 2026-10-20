@@ -48,6 +48,10 @@ Schulnoten gehen von 1 bis 6. Ob eine Note **im Bereich** liegt, prüfst du mit 
 note >= 1 && note <= 6
 ```
 
+::: grafik l08-zahlenstrahl.svg
+Gültig ist der grüne Bereich von 1 bis 6, beide Ränder gehören dazu.
+:::
+
 Umgekehrt ist eine Note **außerhalb** des Bereichs, wenn sie zu klein **oder** zu groß ist:
 
 ::: diagramm l08-note.visustruct
@@ -105,10 +109,10 @@ lösung: l08-schaltjahr-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, wann eine Verknüpfung mit && wahr ist.
-- Ich weiß, wann eine Verknüpfung mit || wahr ist.
-- Ich kann eine Bedingung mit ! umdrehen.
-- Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt.
+- Ich weiß, wann eine Verknüpfung mit && wahr ist. → Und: &&
+- Ich weiß, wann eine Verknüpfung mit || wahr ist. → Oder: ||
+- Ich kann eine Bedingung mit ! umdrehen. → Nicht und Klammern
+- Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt. → Wertebereiche prüfen
 :::
 
 ## Wissenstest
