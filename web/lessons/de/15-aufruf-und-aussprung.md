@@ -20,7 +20,7 @@ So siehst du auf einen Blick, wie das Programm aufgebaut ist. Die Einzelheiten s
 
 Ein **Aufruf** ist ein Kasten mit doppelten senkrechten Linien links und rechts. Er bedeutet: Führe hier das Unterprogramm mit diesem Namen aus und mache danach weiter.
 
-- Du ziehst **Aufruf** aus der Palette und schreibst den Namen hinein, z. B. `zeigeBegruessung()`.
+- Du ziehst **Aufruf** aus dem Bereich Elemente und schreibst den Namen hinein, z. B. `zeigeBegruessung()`.
 - Die runden Klammern am Ende zeigen, dass es ein Unterprogramm ist. So schreibt man es auch in Java, Python und JavaScript.
 - Das Unterprogramm selbst baust du als eigenes Struktogramm in einem neuen Reiter. Als Titel trägst du denselben Namen ein.
 
@@ -39,7 +39,7 @@ auftrag: Stell dir vor, das Unterprogramm `zeigeTitel()` gibt es schon. Baue das
 test: Ada -> Hallo Ada
 test: Ben -> Hallo Ben
 braucht: aufruf
-tipp: Ziehe einen Aufruf aus der Palette ganz nach oben und schreibe `zeigeTitel()` hinein. Darunter kommen die Eingabe `input: String name "Wie heißt du?"` und die Ausgabe.
+tipp: Ziehe einen Aufruf aus dem Bereich Elemente ganz nach oben und schreibe `zeigeTitel()` hinein. Darunter kommen die Eingabe `input: String name "Wie heißt du?"` und die Ausgabe.
 lösung: l15-titel-loesung.visustruct
 :::
 

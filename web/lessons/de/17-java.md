@@ -8,7 +8,7 @@ kurz: Java-Code aus dem Struktogramm erzeugen, lesen und umgekehrt Java-Code als
 
 Ein Struktogramm beschreibt einen Ablauf. Damit ein Computer ihn ausführt, brauchst du ein Programm in einer Programmiersprache. VisuStruct schreibt diesen Code für dich.
 
-Klicke in der Leiste auf **{ } Code**. Rechts erscheint der **Code-Generator**:
+Klicke in der Leiste auf [{ } Code](#zeige-code). Rechts erscheint der **Code-Generator**:
 
 - Oben wählst du die Sprache: **Java**, **Python** oder **JavaScript**.
 - Bei Java wählst du zusätzlich **Snippet** (nur die Anweisungen) oder **Class** (eine vollständige Java-Datei).
@@ -88,7 +88,7 @@ Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genaus
 
 ## Der Java-Sprachmodus
 
-In der Leiste kannst du die Sprache der Oberfläche umstellen. Neben Deutsch, Englisch und vielen weiteren gibt es **Java (Keywords)**. Dann heißen die Elemente in der Palette so wie die Befehle in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` und `call`. Die Oberfläche ist dann auf Englisch.
+In der Leiste kannst du die Sprache der Oberfläche umstellen. Neben Deutsch, Englisch und vielen weiteren gibt es **Java (Keywords)**. Dann heißen die Bausteine im Bereich Elemente so wie die Befehle in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` und `call`. Die Oberfläche ist dann auf Englisch.
 
 Das hilft dir, die Kästen und die Java-Befehle einander zuzuordnen. Dein Diagramm selbst bleibt dabei unverändert.
 

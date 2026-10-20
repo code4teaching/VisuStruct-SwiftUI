@@ -26,7 +26,7 @@ Derselbe Automat als Fallauswahl. Hat wahl den Wert 2, wird nur die Spalte 2 aus
 - Passt kein Fall, wird **default** ausgeführt. Dieser Fall steht immer ganz rechts.
 - Danach geht es unter der Fallauswahl weiter. Es wird immer nur **ein** Fall ausgeführt.
 
-> Eine neue Fallauswahl hat die Fälle 1, 2 und default. Klicke einen Fall an, um rechts seinen **Fallnamen** zu ändern. Mit **Weiteren Fall hinzufügen** bekommst du eine neue Spalte vor default.
+> Eine neue Fallauswahl hat die Fälle 1, 2 und default. Klicke einen Fall an, um im Objektinspektor seinen **Fallnamen** zu ändern. Mit **Weiteren Fall hinzufügen** bekommst du eine neue Spalte vor default.
 
 ## Fälle mit Texten
 

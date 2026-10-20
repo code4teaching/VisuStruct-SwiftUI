@@ -13,6 +13,7 @@ export type Block =
   | { kind: 'quiz'; questions: QuizQuestion[] }
   | { kind: 'brag'; text: string }
   | { kind: 'images'; files: string[]; caption: string }
+  | { kind: 'graphic'; file: string; caption: string }
 
 export interface Exercise {
   id: string
@@ -186,6 +187,10 @@ export function parseBlocks(body: string, file: string): Block[] {
       case 'bild':
         if (!arg) throw new FormatError(`${file}: „::: bild“ braucht einen Dateinamen.`)
         blocks.push({ kind: 'images', files: arg.split(/\s+/), caption: inner.join(' ').trim() })
+        break
+      case 'grafik':
+        if (!arg) throw new FormatError(`${file}: „::: grafik“ braucht einen Dateinamen.`)
+        blocks.push({ kind: 'graphic', file: arg, caption: inner.join(' ').trim() })
         break
       case 'angeberwissen':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim() })

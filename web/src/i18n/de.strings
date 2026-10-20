@@ -20,8 +20,8 @@
 "web_palette_hint" = "Ins Struktogramm ziehen";
 "web_tabs_label" = "Diagramme";
 "web_status_modified" = "geändert";
-"web_inspector_title" = "Eigenschaften";
-"web_inspector_help_drop" = "Elemente aus der Palette auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.";
+"web_inspector_title" = "Objektinspektor";
+"web_inspector_help_drop" = "Elemente aus dem Bereich „Elemente“ auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.";
 "web_inspector_help_files" = "Dateien können auch einfach ins Fenster gezogen werden.";
 "web_case_name" = "Fallname";
 "web_case_name_placeholder" = "z. B. 1, ok, default";
@@ -72,7 +72,7 @@
 "web_learn_reset_confirm" = "Wirklich von vorn?";
 "web_learn_solution" = "Lösung ansehen";
 "web_learn_open_first" = "Öffne die Übung zuerst im Editor und baue dort dein Struktogramm.";
-"web_learn_empty" = "Dein Struktogramm ist noch leer. Ziehe zuerst Elemente aus der Palette hinein.";
+"web_learn_empty" = "Dein Struktogramm ist noch leer. Ziehe zuerst Elemente aus dem Bereich „Elemente“ hinein.";
 "web_learn_passed" = "Geschafft! Dein Struktogramm macht genau, was es soll.";
 "web_learn_failed" = "Noch nicht ganz. Vergleiche die erwartete mit deiner Ausgabe:";
 "web_learn_missing_fmt" = "Dein Struktogramm braucht noch: %@";
