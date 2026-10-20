@@ -1,5 +1,6 @@
 const e=`/* NOTE: Initial Swedish localization. */
 "palette_header" = "Element";
+"inspector_header" = "Objektinspektör";
 
 /* Actions */
 "action_share_png" = "Dela bild…";

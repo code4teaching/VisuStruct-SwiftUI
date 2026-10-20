@@ -1,5 +1,6 @@
-const n=`/* Palette */
+const e=`/* Palette */
 "palette_header" = "元素";
+"inspector_header" = "对象检查器";
 
 /* Actions */
 "action_share_png" = "分享图片…";
@@ -237,4 +238,4 @@ const n=`/* Palette */
 "codegen_pseudocode_toggle" = "伪代码（不可运行的代码）";
 "codegen_pseudocode_note" = "伪代码 – 不是可运行的程序";
 "codegen_pseudocode_hint" = "此图已标记为伪代码。代码只是草稿，无法运行。";
-`;export{n as default};
+`;export{e as default};

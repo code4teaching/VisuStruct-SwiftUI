@@ -1,5 +1,6 @@
 const e=`/* NOTE: Initial Norwegian Bokmål localization. */
 "palette_header" = "Elementer";
+"inspector_header" = "Objektinspektør";
 
 /* Actions */
 "action_share_png" = "Del bilde…";

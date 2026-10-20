@@ -1,5 +1,6 @@
 const e=`/* Palette */
 "palette_header" = "רכיבים";
+"inspector_header" = "מפקח אובייקטים";
 
 /* Actions */
 "action_share_png" = "שיתוף תמונה…";
