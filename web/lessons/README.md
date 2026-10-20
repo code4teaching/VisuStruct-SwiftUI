@@ -81,6 +81,15 @@ Eine Checkliste zum Abhaken:
 
 Steht hinter einem Punkt `→` und der Titel eines Schritts dieser Lektion, zeigt die Checkliste daneben **Nachlesen**. Ein Klick springt zu diesem Schritt. Ein falscher Titel fällt beim Bauen und in den Tests auf.
 
+Ein Kasten „Angeberwissen von Ludwig“, in dem unser Maskottchen Ludwig der Geißbock eine Hintergrundgeschichte erzählt.
+Der Text darf Markdown und Links enthalten:
+
+```
+::: angeberwissen
+Ben Shneiderman hatte die Idee 1972. [Mehr dazu](https://visustruct.org/de/angeberwissen.html)
+:::
+```
+
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
 ```
