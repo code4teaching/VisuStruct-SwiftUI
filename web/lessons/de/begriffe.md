@@ -114,6 +114,10 @@ Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp. Im L
 ### Index
 Die Nummer eines Fachs in einem Array. Gezählt wird ab 0.
 
+### Zeichenkette
+auch: Zeichenketten
+Ein Text, also eine Reihe von Zeichen. In Java heißt der Datentyp String. Die Zeichen werden ab 0 gezählt.
+
 ### 2D-Array
 auch: 2D-Arrays, zweidimensionales Array, zweidimensionale Arrays
 Ein Array mit Zeilen und Spalten, wie eine Tabelle. Ein Fach braucht zwei Indizes, z. B. `sitze[1][2]`.

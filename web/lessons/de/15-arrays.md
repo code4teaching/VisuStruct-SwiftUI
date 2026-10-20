@@ -36,6 +36,14 @@ Jedes Fach hat eine Nummer, den **Index**. Gezählt wird ab **0**. Bei `int[] za
 Fünf Fächer mit den Indizes 0 bis 4. Der Index steht über dem Fach, der Wert darin.
 :::
 
+**Warum beginnt man bei 0?** In der Informatik ist der Index kein „wievieltes Fach“, sondern der **Abstand vom Anfang**. Das erste Fach liegt direkt am Anfang, also 0 Schritte entfernt. Das zweite liegt 1 Schritt entfernt, das dritte 2 Schritte. Du kennst das aus dem Aufzug: Das Erdgeschoss ist die **0**, der erste Stock liegt eine Etage darüber.
+
+Daraus folgt eine Regel, die du dir merken solltest: Bei 5 Fächern ist der **letzte Index 4**, also immer eins weniger als die Anzahl.
+
+::: angeberwissen
+Dass ab 0 gezählt wird, ist ziemlich alt. Schon die Programmiersprache C von 1972 rechnet so: Der Computer kennt die Adresse des ersten Fachs und rechnet für `zahlen[i]` einfach „Anfang plus i Fächer weiter“. Bei i = 0 bleibt er am Anfang stehen, das spart eine Rechnung. Java, Python und JavaScript haben das übernommen. Ich zähle meine Hörner übrigens auch ab 0: Horn 0 links, Horn 1 rechts.
+:::
+
 Mit dem Index liest du einen Wert oder schreibst einen neuen hinein:
 
 ```

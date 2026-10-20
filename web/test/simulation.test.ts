@@ -508,3 +508,64 @@ describe('Zweidimensionale Arrays und boolean-Arrays', () => {
     expect(state.notice?.kind).toBe('invalidExpression')
   })
 })
+
+describe('Zeichenketten', () => {
+  it('kennt die wichtigsten String-Methoden', () => {
+    const state = runSimulation(
+      doc([
+        stmt('String wort = "Ziegenbock"'),
+        stmt('int n = wort.length()'),
+        stmt('char erster = wort.charAt(0)'),
+        stmt('char letzter = wort.charAt(wort.length() - 1)'),
+        stmt('String teil = wort.substring(0, 6)'),
+        stmt('String rest = wort.substring(6)'),
+        stmt('int pos = wort.indexOf("bock")'),
+        stmt('int fehlt = wort.indexOf("x")'),
+        stmt('String gross = wort.toUpperCase()'),
+        stmt('boolean hat = wort.contains("gen")'),
+        stmt('String[] woerter = "Ludwig ist ein Geißbock".split(" ")'),
+        stmt('output: woerter.length + " " + woerter[3] + " " + wort.substring(0, n - 4) + wort.charAt(1)'),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    const v = (name: string) => state.variables.get(name)
+    expect(v('n')).toEqual({ kind: 'int', value: 10 })
+    expect(v('erster')).toEqual({ kind: 'string', value: 'Z' })
+    expect(v('letzter')).toEqual({ kind: 'string', value: 'k' })
+    expect(v('teil')).toEqual({ kind: 'string', value: 'Ziegen' })
+    expect(v('rest')).toEqual({ kind: 'string', value: 'bock' })
+    expect(v('pos')).toEqual({ kind: 'int', value: 6 })
+    expect(v('fehlt')).toEqual({ kind: 'int', value: -1 })
+    expect(v('gross')).toEqual({ kind: 'string', value: 'ZIEGENBOCK' })
+    expect(v('hat')).toEqual({ kind: 'boolean', value: true })
+    expect(state.outputLines).toEqual(['4 Geißbock Ziegeni'])
+  })
+
+  it('vergleicht Zeichen in einer Schleife', () => {
+    const state = runSimulation(
+      doc([
+        stmt('String wort = "Kaffee"'),
+        stmt('int anzahl = 0'),
+        makeElement(ElementType.forSchleife, {
+          textLines: ['int i = 0', 'i < wort.length()', 'i++'],
+          loopBody: [
+            makeElement(ElementType.verzweigung, {
+              textLines: ["wort.charAt(i) == 'e'"],
+              cases: [
+                { name: 'true', elements: [stmt('anzahl = anzahl + 1')] },
+                { name: 'false', elements: [stmt('ø')] },
+              ],
+            }),
+          ],
+        }),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    expect(state.variables.get('anzahl')).toEqual({ kind: 'int', value: 2 })
+  })
+
+  it('meldet charAt außerhalb des Worts', () => {
+    const state = runSimulation(doc([stmt('String w = "abc"'), stmt('char c = w.charAt(3)')]))
+    expect(state.notice?.kind).toBe('invalidExpression')
+  })
+})

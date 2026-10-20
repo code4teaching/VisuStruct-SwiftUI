@@ -187,3 +187,29 @@ describe('Codegenerierung: 2D-Arrays', () => {
     expect(js).toContain('let t = [[1, 2], [3, 4]];')
   })
 })
+
+describe('Codegenerierung: String-Methoden', () => {
+  const doc = {
+    caption: 'Wort',
+    elements: [
+      makeElement(ElementType.anweisung, {
+        textLines: ['output: w.length() + w.charAt(w.length() - 1) + w.substring(1, 3) + w.substring(2) + w.indexOf("a") + w.trim().toUpperCase()'],
+      }),
+      makeElement(ElementType.anweisung, { textLines: ['boolean b = w.contains("x")'] }),
+    ],
+  }
+
+  it('übersetzt sie nach Python und JavaScript', () => {
+    const python = generateCode(doc, 'python')
+    expect(python).toContain('len(w)')
+    expect(python).toContain('w[len(w) - 1]')
+    expect(python).toContain('w[1:3]')
+    expect(python).toContain('w[2:]')
+    expect(python).toContain('w.find("a")')
+    expect(python).toContain('w.strip().upper()')
+    expect(python).toContain('("x" in w)')
+    const js = generateCode(doc, 'javascript')
+    expect(js).toContain('w.length + w.charAt(w.length - 1)')
+    expect(js).toContain('w.includes("x")')
+  })
+})

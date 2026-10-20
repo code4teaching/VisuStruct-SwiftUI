@@ -1137,12 +1137,74 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
 function postProcessLengthSyntax(s: string, target: CodeTarget): string {
   switch (target) {
     case 'javascript':
-      return s.replace(/\.length\(\)/g, '.length')
+      return s.replace(/\.length\(\)/g, '.length').replace(/\.contains\(/g, '.includes(')
     case 'python':
-      return s.replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\))?\b/g, 'len($1)')
+      return pythonStringMethodsDeep(s).replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\)|\b)/g, 'len($1)')
     case 'java':
       return replaceIdentifierDotLengthWithParensInJava(s)
   }
+}
+
+/** Java-String-Methoden nach Python: `w.charAt(i)` → `w[i]`, `w.substring(a, b)` → `w[a:b]`, `w.contains(x)` → `(x in w)` usw. */
+function pythonStringMethodsDeep(s: string): string {
+  // Ketten wie `w.trim().toLowerCase()` brauchen mehrere Durchgänge.
+  for (let i = 0; i < 5; i++) {
+    const next = pythonStringMethods(s)
+    if (next === s) break
+    s = next
+  }
+  return s
+}
+
+function pythonStringMethods(s: string): string {
+  const renamed: Record<string, string> = {
+    indexOf: 'find',
+    toUpperCase: 'upper',
+    toLowerCase: 'lower',
+    trim: 'strip',
+    startsWith: 'startswith',
+    endsWith: 'endswith',
+  }
+  const re = /([A-Za-z_]\w*(?:\[[^[\]]*\]|\.\w+\(\))*|"(?:[^"\\]|\\.)*")\.(charAt|substring|contains|indexOf|toUpperCase|toLowerCase|trim|startsWith|endsWith)\(/g
+  let out = ''
+  let last = 0
+  for (let m = re.exec(s); m; m = re.exec(s)) {
+    const open = m.index + m[0].length - 1
+    let depth = 0
+    let close = -1
+    for (let i = open; i < s.length; i++) {
+      if (s[i] === '(') depth += 1
+      else if (s[i] === ')' && --depth === 0) {
+        close = i
+        break
+      }
+    }
+    if (close < 0) break
+    const target = m[1]
+    const args = pythonStringMethods(s.slice(open + 1, close))
+    let replacement: string
+    switch (m[2]) {
+      case 'charAt':
+        replacement = `${target}[${args}]`
+        break
+      case 'substring': {
+        let depth = 0
+        const comma = [...args].findIndex((c) => (c === '(' ? (depth += 1, false) : c === ')' ? (depth -= 1, false) : c === ',' && depth === 0))
+        const parts = comma < 0 ? [args] : [args.slice(0, comma), args.slice(comma + 1)]
+        replacement = parts.length === 2 ? `${target}[${parts[0].trim()}:${parts[1].trim()}]` : `${target}[${args.trim()}:]`
+        break
+      }
+      case 'contains':
+        replacement = `(${args.trim()} in ${target})`
+        break
+      default:
+        replacement = `${target}.${renamed[m[2]]}(${args})`
+    }
+    out += s.slice(last, m.index) + replacement
+    last = close + 1
+    re.lastIndex = close + 1
+  }
+  return out + s.slice(last)
 }
 
 function javaArrayDeclarationNames(s: string): Set<string> {
