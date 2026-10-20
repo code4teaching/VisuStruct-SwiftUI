@@ -75,6 +75,8 @@ struct DiagramCanvasView: View {
     var exportCanvasOuterMarginPt: CGFloat? = nil
     /// Im Simulationsmodus bedeutet die Markierung „aktueller Schritt“ statt Bearbeitungsauswahl.
     var usesSimulationSelectionHighlight: Bool = false
+    /// iPhone: Tap auf die Mitte eines bestehenden Elements → Text dieses Elements bearbeiten (Texteditor einblenden).
+    var onPhoneEditText: () -> Void = {}
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.appLanguage) var lang

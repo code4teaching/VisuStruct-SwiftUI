@@ -753,7 +753,8 @@ struct ContentView: View {
                         insertTarget: $insertTarget,
                         elementClipboard: $elementClipboard,
                         canvasScaleStep: canvasScaleStep,
-                        minViewportSize: CGSize(width: geo.size.width, height: geo.size.height)
+                        minViewportSize: CGSize(width: geo.size.width, height: geo.size.height),
+                        onPhoneEditText: showTextEditorOnPhone
                     )
                     .padding(.vertical, 8)
                     // WICHTIG: horizontal nicht komprimieren lassen → sonst hat der ScrollView keine Content-Breite zum Scrollen.
@@ -1105,7 +1106,7 @@ struct ContentView: View {
             insertTargetActive: insertTarget != nil,
             hideInspectorOnPhone: hideInspectorOnPhone,
             onCancelInsert: { insertTarget = nil },
-            onShowInspector: { hideInspectorOnPhone = false },
+            onShowInspector: showTextEditorOnPhone,
             onHideInspector: {
                 focusedField = nil
                 hideInspectorOnPhone = true
@@ -1113,6 +1114,16 @@ struct ContentView: View {
         ) {
             inspectorPanel
         }
+    }
+
+    /// iPhone: Texteditor für das ausgewählte Element einblenden (Einfügemarke und Palette schließen).
+    private func showTextEditorOnPhone() {
+        guard isPhone else { return }
+        insertTarget = nil
+        withAnimation(.easeInOut(duration: 0.15)) {
+            showPaletteOnPhone = false
+        }
+        hideInspectorOnPhone = false
     }
 
     // MARK: - Tastatur (Overlap unter dem Inspector)
