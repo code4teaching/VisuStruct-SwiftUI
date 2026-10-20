@@ -68,6 +68,22 @@ describe('Codegenerierung', () => {
     expect(python).toMatch(/else:\n {4}# empty element\n {4}pass/)
   })
 
+  it('Verzweigung allein im false-Zweig wird zu else if bzw. elif', () => {
+    const stmt = (t: string) => makeElement(ElementType.anweisung, { textLines: [t] })
+    const branch = (cond: string, yes: string, no: ReturnType<typeof stmt>[]) =>
+      makeElement(ElementType.verzweigung, { textLines: [cond], cases: [{ name: 'true', elements: [stmt(yes)] }, { name: 'false', elements: no }] })
+    const chain = branch('wahl == 1', 'output: "Wasser"', [branch('wahl == 2', 'output: "Saft"', [stmt('output: "Kakao"')])])
+    const doc = { caption: '', elements: [stmt('int wahl = 2'), chain] }
+    expect(generateCode(doc, 'java')).toContain(
+      'if (wahl == 1) {\n    System.out.println("Wasser");\n} else if (wahl == 2) {\n    System.out.println("Saft");\n} else {\n    System.out.println("Kakao");\n}',
+    )
+    expect(generateCode(doc, 'javascript')).toContain('} else if (wahl == 2) {')
+    expect(generateCode(doc, 'python')).toContain('if wahl == 1:\n    print("Wasser")\nelif wahl == 2:\n    print("Saft")\nelse:\n    print("Kakao")')
+    // Steht noch etwas neben der inneren Verzweigung, bleibt der Block verschachtelt.
+    const mixed = branch('wahl == 1', 'output: "Wasser"', [stmt('output: "Moment"'), branch('wahl == 2', 'output: "Saft"', [stmt('ø')])])
+    expect(generateCode({ caption: '', elements: [stmt('int wahl = 2'), mixed] }, 'java')).toContain('} else {\n    System.out.println("Moment");\n    if (wahl == 2) {')
+  })
+
   it('Pseudocode bekommt einen Hinweis über dem Code', () => {
     const doc = { caption: '', pseudocode: true, elements: [makeElement(ElementType.anweisung, { textLines: ['Tasse hinstellen'] })] }
     expect(generateCode(doc, 'python', { pseudocodeNote: 'Pseudocode' })).toBe('# Pseudocode\n\nTasse hinstellen')

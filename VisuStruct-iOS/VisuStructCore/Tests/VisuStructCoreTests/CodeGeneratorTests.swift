@@ -33,6 +33,30 @@ final class CodeGeneratorTests: XCTestCase {
         XCTAssertTrue(javaScript.contains("console.log(number);"), javaScript)
     }
 
+    func testBranchAloneInFalseBranchBecomesElseIf() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let branch = { (condition: String, yes: String, no: [VisuStructElement]) in
+            VisuStructElement(type: .verzweigung, textLines: [condition], cases: [
+                VisuStructCase(name: "true", elements: [statement(yes)]),
+                VisuStructCase(name: "false", elements: no),
+            ])
+        }
+        let chain = branch("wahl == 1", "output: \"Wasser\"", [branch("wahl == 2", "output: \"Saft\"", [statement("output: \"Kakao\"")])])
+        let document = VisuStructDocument(elements: [statement("int wahl = 2"), chain])
+
+        let java = VisuStructCodeGenerator.generate(document: document, target: .java)
+        XCTAssertTrue(java.contains("if (wahl == 1) {\n    System.out.println(\"Wasser\");\n} else if (wahl == 2) {\n    System.out.println(\"Saft\");\n} else {\n    System.out.println(\"Kakao\");\n}"), java)
+        let javaScript = VisuStructCodeGenerator.generate(document: document, target: .javascript)
+        XCTAssertTrue(javaScript.contains("} else if (wahl == 2) {"), javaScript)
+        let python = VisuStructCodeGenerator.generate(document: document, target: .python)
+        XCTAssertTrue(python.contains("if wahl == 1:\n    print(\"Wasser\")\nelif wahl == 2:\n    print(\"Saft\")\nelse:\n    print(\"Kakao\")"), python)
+
+        // Steht noch etwas neben der inneren Verzweigung, bleibt der Block verschachtelt.
+        let mixed = branch("wahl == 1", "output: \"Wasser\"", [statement("output: \"Moment\""), branch("wahl == 2", "output: \"Saft\"", [statement("ø")])])
+        let nested = VisuStructCodeGenerator.generate(document: VisuStructDocument(elements: [statement("int wahl = 2"), mixed]), target: .java)
+        XCTAssertTrue(nested.contains("} else {\n    System.out.println(\"Moment\");\n    if (wahl == 2) {"), nested)
+    }
+
     func testJavaScriptTruncatesIntegerDivision() {
         let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
         let document = VisuStructDocument(elements: [
