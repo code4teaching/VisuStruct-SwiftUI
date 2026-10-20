@@ -212,6 +212,7 @@ export class App {
   private learnButton?: HTMLButtonElement
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
+  private renderedHostSize = { width: -1, height: -1 }
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
   private simPath?: number[]
   private sim!: SimulationPanel
@@ -422,7 +423,12 @@ export class App {
 
     this.canvasHost.addEventListener('pointerdown', (e) => this.onCanvasPointerDown(e))
     this.resizeObserver?.disconnect()
-    this.resizeObserver = new ResizeObserver(() => this.renderDiagramOnly())
+    // Nur bei echter Größenänderung neu zeichnen, sonst schaukeln sich Scrollbalken (Windows) gegenseitig auf
+    this.resizeObserver = new ResizeObserver(() => {
+      const { clientWidth, clientHeight } = this.canvasHost
+      if (clientWidth === this.renderedHostSize.width && clientHeight === this.renderedHostSize.height) return
+      this.renderDiagramOnly()
+    })
     this.resizeObserver.observe(this.canvasHost)
   }
 
@@ -548,15 +554,19 @@ export class App {
 
     // Wie `DiagramCanvasView`: mindestens so groß wie Struktur und sichtbarer Bereich (Ablegen unterhalb = ans Ende).
     const z = this.zoom
+    const host = this.canvasHost
+    this.renderedHostSize = { width: host.clientWidth, height: host.clientHeight }
+    // Abgerundet, damit das Diagramm den sichtbaren Bereich nie um Bruchteile eines Pixels überragt
+    // (sonst erscheinen bei 125 % Skalierung unter Windows Scrollbalken ohne Grund)
     const size = {
-      width: Math.max(320, this.layout.canvasSize.width, this.canvasHost.clientWidth / z),
-      height: Math.max(240, this.layout.canvasSize.height + 60, this.canvasHost.clientHeight / z),
+      width: Math.max(320, this.layout.canvasSize.width, Math.floor(host.clientWidth / z)),
+      height: Math.max(240, this.layout.canvasSize.height + 60, Math.floor(host.clientHeight / z)),
     }
     this.renderer.usesSimulationHighlight = this.simulating
     this.svg = this.renderer.render(this.layout, size, this.simulating ? this.simPath : this.selected)
     // Textgröße wie `canvasScaleStep`: Layout und Linien wachsen gleichmäßig mit.
-    this.svg.setAttribute('width', String(size.width * z))
-    this.svg.setAttribute('height', String(size.height * z))
+    this.svg.setAttribute('width', String(Math.floor(size.width * z)))
+    this.svg.setAttribute('height', String(Math.floor(size.height * z)))
     this.overlay = el('g', { class: 'drop-overlay' })
     this.svg.append(this.overlay)
     this.canvasHost.replaceChildren(this.svg)
