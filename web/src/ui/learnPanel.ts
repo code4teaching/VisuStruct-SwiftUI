@@ -2,7 +2,7 @@ import { checkExercise, usedElementTypes, type TestOutcome } from '../core/exerc
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import { decodeDocument } from '../core/xmlCodec'
-import { diagram, lessons, reference, tasks } from '../learn/content'
+import { diagram, image, lessons, reference, tasks } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
@@ -281,6 +281,8 @@ export class LearnPanel {
         return this.renderQuiz(block.questions, key, lesson)
       case 'brag':
         return this.renderBrag(block.text)
+      case 'images':
+        return this.renderImages(block.files, block.caption)
     }
   }
 
@@ -292,6 +294,18 @@ export class LearnPanel {
     body.append(html('div', { class: 'learn-text' }, markdownToHTML(text)))
     box.append(body)
     return box
+  }
+
+  private renderImages(files: string[], caption: string): HTMLElement {
+    const figure = h('figure', { class: 'learn-figure' })
+    const row = h('div', { class: 'learn-images' })
+    for (const f of files) {
+      const src = image(f)
+      if (src) row.append(h('img', { src, alt: '', loading: 'lazy' }))
+    }
+    figure.append(row)
+    if (caption) figure.append(html('figcaption', {}, inline(caption)))
+    return figure
   }
 
   private renderDiagram(file: string, caption: string): HTMLElement {

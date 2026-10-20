@@ -12,6 +12,7 @@ export type Block =
   | { kind: 'checklist'; items: ChecklistItem[] }
   | { kind: 'quiz'; questions: QuizQuestion[] }
   | { kind: 'brag'; text: string }
+  | { kind: 'images'; files: string[]; caption: string }
 
 export interface Exercise {
   id: string
@@ -178,6 +179,10 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       case 'quiz':
         blocks.push({ kind: 'quiz', questions: parseQuiz(inner, file) })
+        break
+      case 'bild':
+        if (!arg) throw new FormatError(`${file}: „::: bild“ braucht einen Dateinamen.`)
+        blocks.push({ kind: 'images', files: arg.split(/\s+/), caption: inner.join(' ').trim() })
         break
       case 'angeberwissen':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim() })

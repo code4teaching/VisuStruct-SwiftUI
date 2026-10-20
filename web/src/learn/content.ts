@@ -14,6 +14,11 @@ const diagramFiles = import.meta.glob('../../lessons/diagramme/*.visustruct', { 
   string
 >
 
+const imageFiles = import.meta.glob('../../lessons/bilder/*.{jpg,png,webp}', { query: '?url', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+
 const baseName = (path: string) => path.replace(/^.*\//, '')
 
 export const lessons: Lesson[] = Object.entries(lessonFiles)
@@ -32,4 +37,11 @@ const diagrams = new Map(Object.entries(diagramFiles).map(([path, xml]) => [base
 export function diagram(file: string): VSDocument | undefined {
   const xml = diagrams.get(file)
   return xml === undefined ? undefined : decodeDocument(xml)
+}
+
+const images = new Map(Object.entries(imageFiles).map(([path, url]) => [baseName(path), url]))
+
+/** Adresse eines Bildes aus `web/lessons/bilder`. */
+export function image(file: string): string | undefined {
+  return images.get(file)
 }
