@@ -301,6 +301,12 @@ describe('Bedingungen', () => {
     expect(state.variables.get('k')).toEqual({ kind: 'int', value: 4 })
   })
 
+  it('rechnet mit mehreren Arrayfächern und erlaubt Leerzeichen im Index des Ziels', () => {
+    const state = runSimulation(doc([stmt('int[] a = {5, 3, 1}'), stmt('int d = a[0] - a[1]'), stmt('int i = 0'), stmt('a[i + 1] = a[i] + a[i + 2]')]))
+    expect(state.variables.get('d')).toEqual({ kind: 'int', value: 2 })
+    expect(state.variables.get('a')).toEqual({ kind: 'intArray', value: [5, 6, 1] })
+  })
+
   it('Aussprung verlässt die innerste Schleife', () => {
     const jump = makeElement(ElementType.aussprung, { textLines: ['Schleife verlassen'] })
     const document = doc([

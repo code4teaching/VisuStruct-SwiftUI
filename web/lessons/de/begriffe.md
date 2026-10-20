@@ -132,3 +132,14 @@ Verlässt sofort die Schleife, in der er steht. Danach geht es unter der Schleif
 ### Schreibtischtest
 auch: Schreibtischtests
 Du führst ein Struktogramm auf Papier aus und notierst nach jedem Schritt die Werte der Variablen.
+
+### lineare Suche
+auch: Lineare Suche
+Ein Suchverfahren, das alle Werte der Reihe nach mit dem gesuchten Wert vergleicht. Es funktioniert auch bei unsortierten Werten.
+
+### binäre Suche
+auch: Binäre Suche
+Ein Suchverfahren für sortierte Werte. Es sieht sich die Mitte an und sucht nur in der passenden Hälfte weiter.
+
+### Bubblesort
+Ein einfaches Sortierverfahren. Es vergleicht immer zwei Nachbarn und tauscht sie, wenn sie falsch herum stehen.

@@ -360,6 +360,12 @@ function parseArrayElementAccess(text: string): ArrayElementAccess | undefined {
   if (!trimmed.endsWith(']') || open < 0) return undefined
   const name = trimmed.slice(0, open).trim()
   if (!isIdentifier(name)) return undefined
+  // Die Klammer nach dem Namen muss erst am Ende schließen, sonst ist es z. B. `a[i] > a[i + 1]`.
+  let depth = 0
+  for (let i = open; i < trimmed.length - 1; i++) {
+    if (trimmed[i] === '[') depth += 1
+    else if (trimmed[i] === ']' && --depth === 0) return undefined
+  }
   return { arrayName: name, indexExpression: trimmed.slice(open + 1, -1) }
 }
 
@@ -1205,6 +1211,8 @@ export class SimulationEngine {
   }
 
   private parseAssignmentTarget(text: string): { variableName: string; valueType?: SimValueType } {
+    // Ein Arrayfach darf Leerzeichen im Index haben: `karten[i + 1] = hilf`.
+    if (parseArrayElementAccess(text)) return { variableName: text.trim() }
     const parts = text.split(/\s+/u).filter(Boolean)
     let name: string
     let valueType: SimValueType | undefined

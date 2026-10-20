@@ -175,6 +175,19 @@ final class SimulationEngineTests: XCTestCase {
         XCTAssertEqual(state.outputLines, ["q=3 d=3.0 e=3.5 n=-3"])
     }
 
+    func testArrayElementsInExpressionsAndTargetsWithSpaces() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let document = VisuStructDocument(elements: [
+            statement("int[] a = {5, 3, 1}"),
+            statement("int d = a[0] - a[1]"),
+            statement("int i = 0"),
+            statement("a[i + 1] = a[i] + a[i + 2]"),
+        ])
+        let state = runSimulation(document)
+        XCTAssertEqual(state.variables["d"], .int(2))
+        XCTAssertEqual(state.variables["a"], .intArray([5, 6, 1]))
+    }
+
     func testJumpLeavesInnermostLoop() {
         let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
         let jump = VisuStructElement(type: .aussprung, textLines: ["Schleife verlassen"])
