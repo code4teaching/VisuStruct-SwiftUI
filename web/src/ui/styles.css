@@ -973,6 +973,15 @@ button.danger-text:not(:disabled) {
   gap: 8px;
   align-items: baseline;
 }
+.learn-return {
+  width: 100%;
+  margin: 0 0 12px;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.learn-nav + .learn-return {
+  margin: 12px 0 0;
+}
 .learn-check-link {
   flex: none;
   font-size: 13px;

@@ -65,6 +65,8 @@ export function startDocument(ex: Exercise): VSDocument {
 export class LearnPanel {
   readonly element: HTMLElement
   private tab: TabName = 'lessons'
+  /** Wohin „Zurück zur Checkliste“ nach dem Nachlesen führt. */
+  private returnTo?: { lesson: string; step: number; scroll: number }
   private lessonId?: string
   private taskId?: string
   private body!: HTMLElement
@@ -123,6 +125,7 @@ export class LearnPanel {
   private openLesson(id: string | undefined) {
     this.tab = 'lessons'
     this.lessonId = id
+    this.returnTo = undefined
     this.persist()
     this.render()
     this.body.scrollTop = 0
@@ -168,6 +171,17 @@ export class LearnPanel {
       bar,
       h('h3', { class: 'learn-step-title' }, `${index + 1}. ${step.title}`),
     )
+    const ret = this.returnTo?.lesson === lesson.id && this.returnTo.step !== index ? this.returnTo : undefined
+    const backToChecklist = () => {
+      const b = h('button', { class: 'learn-return' }, `↩ ${t('web_learn_back_to_checklist')}`)
+      b.addEventListener('click', () => {
+        this.returnTo = undefined
+        this.goToStep(lesson, ret!.step)
+        this.body.scrollTop = ret!.scroll
+      })
+      return b
+    }
+    if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
 
     const nav = h('div', { class: 'learn-nav' })
@@ -189,6 +203,7 @@ export class LearnPanel {
       nav.append(finish)
     }
     this.body.append(nav)
+    if (ret) this.body.append(backToChecklist())
   }
 
   private goToStep(lesson: Lesson, step: number) {
@@ -418,7 +433,10 @@ export class LearnPanel {
         const step = item.step
         const where = t('web_learn_step_fmt', step + 1, lesson.steps[step].title)
         const link = h('button', { class: 'link-button learn-check-link', title: where, 'aria-label': `${t('web_learn_review')}: ${where}` }, t('web_learn_review'))
-        link.addEventListener('click', () => this.goToStep(lesson, step))
+        link.addEventListener('click', () => {
+          this.returnTo = { lesson: lesson.id, step: progress.lesson(lesson.id).step, scroll: this.body.scrollTop }
+          this.goToStep(lesson, step)
+        })
         li.append(link)
       }
       box.append(li)
