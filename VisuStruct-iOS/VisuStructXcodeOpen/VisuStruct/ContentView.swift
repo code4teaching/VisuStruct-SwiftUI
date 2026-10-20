@@ -1200,13 +1200,14 @@ struct ContentView: View {
 
     // MARK: - Inspector: Zählschleife & Gruppentitel
 
-    /// Titel der Textbox: Kacheltyp statt generischem „ausgewähltes Element“ (Diagramm-Titel steht oben separat).
+    /// Titel der Textbox = sichtbare Bereichsüberschrift wie im Web und in den Lektionen: „Objektinspektor · Verzweigung“.
     private var inspectorGroupBoxTitle: String {
+        let header = lang.tr("inspector_header")
         guard let path = selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else {
-            return lang.tr("inspector_group_element")
+            return header
         }
-        return InspectorElementTypeLocalization.title(for: el.type, lang: lang)
+        return "\(header) · \(InspectorElementTypeLocalization.title(for: el.type, lang: lang))"
     }
 
     private var inspectorShowsForLoopThreeFields: Bool {

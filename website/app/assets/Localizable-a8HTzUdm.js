@@ -2,6 +2,7 @@ const e=`/* VisuStruct Java-Desktop-Preset: ElementBeschriftungPresets.PRESET_EN
 
 /* Palette & list — palette short labels like Java */
 "palette_header" = "Blocks";
+"inspector_header" = "Object Inspector";
 "list_section_elements" = "Blocks";
 
 /* Actions */

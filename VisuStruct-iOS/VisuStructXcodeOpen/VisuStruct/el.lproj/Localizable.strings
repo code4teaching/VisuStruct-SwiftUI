@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "Στοιχεία";
+"inspector_header" = "Επιθεωρητής αντικειμένων";
 
 /* Actions */
 "action_share_png" = "Κοινή χρήση εικόνας…";

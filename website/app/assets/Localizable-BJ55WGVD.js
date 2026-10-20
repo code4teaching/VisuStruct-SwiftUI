@@ -1,5 +1,6 @@
 const e=`/* NOTE: Initial Dutch localization. */
 "palette_header" = "Elementen";
+"inspector_header" = "Objectinspector";
 
 /* Actions */
 "action_share_png" = "Deel afbeelding…";

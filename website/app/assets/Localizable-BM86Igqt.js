@@ -1,5 +1,6 @@
 const e=`/* Palette */
 "palette_header" = "Öğeler";
+"inspector_header" = "Nesne denetçisi";
 
 /* Actions */
 "action_share_png" = "Görseli paylaş…";

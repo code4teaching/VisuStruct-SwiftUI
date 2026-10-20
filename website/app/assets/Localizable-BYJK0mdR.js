@@ -1,5 +1,6 @@
 const e=`/* Palette */
 "palette_header" = "Elementy";
+"inspector_header" = "Inspektor obiektów";
 
 /* Actions */
 "action_share_png" = "Udostępnij obraz…";

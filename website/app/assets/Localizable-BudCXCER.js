@@ -1,5 +1,6 @@
 const e=`/* Palette */
 "palette_header" = "요소";
+"inspector_header" = "개체 검사기";
 
 /* Actions */
 "action_share_png" = "이미지 공유…";

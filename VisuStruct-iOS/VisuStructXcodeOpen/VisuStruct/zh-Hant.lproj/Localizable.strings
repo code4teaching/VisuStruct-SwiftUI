@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "元素";
+"inspector_header" = "物件檢閱器";
 
 /* Actions */
 "action_share_png" = "分享圖片…";
