@@ -12,6 +12,10 @@ The format is loosely inspired by Keep a Changelog.
 - **Simulation:** conditions now support string comparisons (`name == "Anna"`, `name.equals("Anna")`), parentheses (`(a < 3 || a > 10) && b`), and negation with `!`. Operators inside string literals are no longer treated as operators.
 - **Simulation:** after an error the simulation stops on the failing block instead of skipping it and running on; Reset starts over.
 
+### Fixed
+
+- **iPhone:** texts of existing elements (conditions, statements, …) can be edited again. Tapping the middle of an element now selects it and opens the text editor instead of setting an insert marker; insert before/after via the top/bottom strips or the palette. While an insert marker is set, “Edit text” is offered next to “Cancel insert”.
+
 ### Planned / Notes
 
 - Documentation polish for product/marketing surfaces only when explicitly requested.
