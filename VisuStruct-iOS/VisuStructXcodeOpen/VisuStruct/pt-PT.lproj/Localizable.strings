@@ -233,6 +233,8 @@
 "sim_notice_whole_number_expected" = "Introduza um número inteiro.";
 "sim_notice_number_expected" = "Introduza um número.";
 "sim_notice_boolean_expected" = "Introduza true ou false.";
+"sim_notice_subprogram_not_found_fmt" = "Nenhum diagrama aberto se chama %@. A chamada foi ignorada.";
+"sim_notice_call_too_deep" = "Demasiadas chamadas aninhadas. Um subprograma chama-se a si próprio?";
 
 "codegen_pseudocode_toggle" = "Pseudocódigo (código não executável)";
 "codegen_pseudocode_note" = "Pseudocódigo – não é um programa executável";

@@ -231,6 +231,8 @@
 "sim_notice_whole_number_expected" = "أدخل عددًا صحيحًا.";
 "sim_notice_number_expected" = "أدخل رقمًا.";
 "sim_notice_boolean_expected" = "أدخل true أو false.";
+"sim_notice_subprogram_not_found_fmt" = "لا يوجد مخطط مفتوح باسم %@. تم تخطي الاستدعاء.";
+"sim_notice_call_too_deep" = "استدعاءات متداخلة كثيرة جدًا. هل يستدعي برنامج فرعي نفسه؟";
 
 "codegen_pseudocode_toggle" = "شبه كود (ليس كودًا قابلًا للتشغيل)";
 "codegen_pseudocode_note" = "شبه كود – ليس برنامجًا قابلًا للتشغيل";

@@ -175,6 +175,72 @@ final class SimulationEngineTests: XCTestCase {
         XCTAssertEqual(state.outputLines, ["q=3 d=3.0 e=3.5 n=-3"])
     }
 
+    func testJumpLeavesInnermostLoop() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let jump = VisuStructElement(type: .aussprung, textLines: ["Schleife verlassen"])
+        let document = VisuStructDocument(elements: [
+            statement("int summe = 0"),
+            VisuStructElement(type: .endlosschleife, textLines: [], loopBody: [
+                statement("input: int zahl \"Zahl?\""),
+                VisuStructElement(type: .verzweigung, textLines: ["zahl == 0"], cases: [
+                    VisuStructCase(name: "true", elements: [jump]),
+                    VisuStructCase(name: "false", elements: [statement("summe = summe + zahl")]),
+                ]),
+            ]),
+            VisuStructElement(type: .forSchleife, textLines: ["int i = 0", "i < 10", "i++"], loopBody: [
+                VisuStructElement(type: .verzweigung, textLines: ["i == 2"], cases: [
+                    VisuStructCase(name: "true", elements: [jump]),
+                    VisuStructCase(name: "false", elements: [statement("ø")]),
+                ]),
+            ]),
+            statement("print: \"Summe: \" + summe + \" i=\" + i"),
+            jump,
+            statement("print: \"nie\""),
+        ])
+        let state = runSimulation(document, inputs: ["3", "4", "0"])
+        XCTAssertEqual(state.outputLines, ["Summe: 7 i=2"])
+        XCTAssertEqual(state.notice, .finished)
+    }
+
+    func testCallRunsSubprogram() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let call = { (name: String) in VisuStructElement(type: .aufruf, textLines: [name]) }
+        let titel = VisuStructDocument(caption: "zeigeTitel()", elements: [statement("print: \"== Quiz ==\""), statement("int punkte = 0")])
+        let zaehlen = VisuStructDocument(caption: "zaehlen", elements: [
+            VisuStructElement(type: .whileSchleife, textLines: ["true"], loopBody: [statement("punkte++"), VisuStructElement(type: .aussprung)]),
+            statement("print: \"punkte=\" + punkte"),
+            VisuStructElement(type: .aussprung),
+            statement("print: \"nie\""),
+        ])
+        let main = VisuStructDocument(elements: [
+            call("zeigeTitel()"), call("zaehlen();"), call("zaehlen()"), call("fehlt()"), statement("print: \"Ende \" + punkte"),
+        ])
+        var engine = VisuStructSimulationEngine(document: main, subprograms: ["zeigetitel": titel, "zaehlen": zaehlen])
+        engine.step()
+        XCTAssertEqual(engine.currentStepPath, [0])
+        var sawNotFound = false
+        while engine.canStep {
+            engine.step()
+            if engine.state.notice == .subprogramNotFound("fehlt()") { sawNotFound = true }
+        }
+        XCTAssertTrue(sawNotFound)
+        XCTAssertEqual(engine.state.outputLines, ["== Quiz ==", "punkte=1", "punkte=2", "Ende 2"])
+        XCTAssertEqual(engine.state.notice, .finished)
+        XCTAssertEqual(VisuStructSimulationEngine.subprogramKey(" ZeigeTitel( ); "), "zeigetitel")
+    }
+
+    func testSelfCallStopsWithNotice() {
+        let selfCall = VisuStructDocument(caption: "rekursion", elements: [VisuStructElement(type: .aufruf, textLines: ["rekursion()"])])
+        var engine = VisuStructSimulationEngine(document: selfCall, subprograms: ["rekursion": selfCall])
+        var count = 0
+        while engine.canStep, count < 1000 {
+            engine.step()
+            count += 1
+        }
+        XCTAssertTrue(engine.state.isHalted)
+        XCTAssertEqual(engine.state.notice, .callTooDeep)
+    }
+
     func testBooleanInput() {
         let document = VisuStructDocument(elements: [
             VisuStructElement(type: .anweisung, textLines: ["input: boolean ok \"Okay?\""]),

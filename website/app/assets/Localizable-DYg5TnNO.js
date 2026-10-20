@@ -231,6 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "정수를 입력하세요.";
 "sim_notice_number_expected" = "숫자를 입력하세요.";
 "sim_notice_boolean_expected" = "true 또는 false를 입력하세요.";
+"sim_notice_subprogram_not_found_fmt" = "%@(이)라는 열린 다이어그램이 없습니다. 호출을 건너뛰었습니다.";
+"sim_notice_call_too_deep" = "중첩 호출이 너무 많습니다. 서브프로그램이 자기 자신을 호출하나요?";
 
 "codegen_pseudocode_toggle" = "의사 코드(실행할 수 없는 코드)";
 "codegen_pseudocode_note" = "의사 코드 – 실행 가능한 프로그램이 아닙니다";

@@ -1,4 +1,4 @@
-const e=`/* Palette */
+const n=`/* Palette */
 "palette_header" = "元素";
 
 /* Actions */
@@ -231,8 +231,10 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "請輸入整數。";
 "sim_notice_number_expected" = "請輸入數字。";
 "sim_notice_boolean_expected" = "請輸入 true 或 false。";
+"sim_notice_subprogram_not_found_fmt" = "沒有名為 %@ 的已開啟圖表。已略過該呼叫。";
+"sim_notice_call_too_deep" = "巢狀呼叫過多。是否有子程式呼叫了自己？";
 
 "codegen_pseudocode_toggle" = "虛擬碼（無法執行的程式碼）";
 "codegen_pseudocode_note" = "虛擬碼 – 不是可執行的程式";
 "codegen_pseudocode_hint" = "此圖已標示為虛擬碼。程式碼只是草稿，無法執行。";
-`;export{e as default};
+`;export{n as default};

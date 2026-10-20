@@ -26,6 +26,9 @@ export type StepKind =
   | 'doUntilLoop'
   | 'doUntilCondition'
   | 'infiniteLoop'
+  | 'jump'
+  | 'call'
+  | 'callEnd'
 
 export interface SimStep {
   path: number[]
@@ -34,7 +37,17 @@ export interface SimStep {
   cases?: VSCase[]
   loopBody?: VSElement[]
   forParts?: string[]
+  /** Aufrufebene: 0 ist das Hauptprogramm, jeder Aufruf bekommt eine neue Nummer. */
+  frame?: number
+  /** Im Unterprogramm: Pfad des Aufruf-Kastens im Hauptprogramm, der markiert bleibt. */
+  callPath?: number[]
 }
+
+/** Sucht zum Text eines Aufruf-Kastens das passende Diagramm (z. B. einen offenen Reiter). */
+export type SubprogramResolver = (name: string) => VSDocument | undefined
+
+/** Ab dieser Tiefe bricht die Simulation ab (vermutlich ein Aufruf, der sich selbst aufruft). */
+export const maxCallDepth = 100
 
 export interface InputRequest {
   variableName: string
@@ -53,6 +66,8 @@ export type SimNotice =
   | { kind: 'wholeNumberExpected' }
   | { kind: 'numberExpected' }
   | { kind: 'booleanExpected' }
+  | { kind: 'subprogramNotFound'; text: string }
+  | { kind: 'callTooDeep' }
   | { kind: 'other'; text: string }
 
 export interface SimState {
@@ -80,6 +95,8 @@ export function noticeEnglish(n: SimNotice): string {
     case 'wholeNumberExpected': return 'Please enter a whole number.'
     case 'numberExpected': return 'Please enter a number.'
     case 'booleanExpected': return 'Please enter true or false.'
+    case 'subprogramNotFound': return `No open diagram is called ${n.text}. The call was skipped.`
+    case 'callTooDeep': return 'Too many nested calls. Does a subprogram call itself?'
     case 'other': return n.text
   }
 }
@@ -95,6 +112,8 @@ export function noticeGerman(n: SimNotice): string {
     case 'wholeNumberExpected': return 'Bitte eine ganze Zahl eingeben.'
     case 'numberExpected': return 'Bitte eine Zahl eingeben.'
     case 'booleanExpected': return 'Bitte true oder false eingeben.'
+    case 'subprogramNotFound': return `Kein offenes Diagramm heißt ${n.text}. Der Aufruf wurde übersprungen.`
+    case 'callTooDeep': return 'Zu viele verschachtelte Aufrufe. Ruft sich ein Unterprogramm selbst auf?'
     case 'other': return n.text
   }
 }
@@ -577,24 +596,30 @@ function normalizedForParts(rawParts: string[]): string[] {
   return paddedForParts(stripped)
 }
 
-function buildSteps(elements: VSElement[], pathPrefix: number[] = []): SimStep[] {
+type StepContext = Pick<SimStep, 'frame' | 'callPath'>
+
+/** Aufrufebene eines Schritts, damit Rümpfe und Zweige im selben Unterprogramm bleiben. */
+const contextOf = (step: SimStep): StepContext => (step.frame ? { frame: step.frame, callPath: step.callPath } : {})
+
+function buildSteps(elements: VSElement[], pathPrefix: number[] = [], context: StepContext = {}): SimStep[] {
   const steps: SimStep[] = []
+  const push = (step: SimStep) => steps.push(context.frame ? { ...step, ...context } : step)
   elements.forEach((element, index) => {
     const path = [...pathPrefix, index]
     const text = element.textLines.join(' ').trim()
     switch (element.type) {
       case ElementType.anweisung:
         // Leere Anweisung und Platzhalter „ø“ werden übersprungen
-        if (text !== '' && text !== 'ø') steps.push({ path, text, kind: 'statement' })
+        if (text !== '' && text !== 'ø') push({ path, text, kind: 'statement' })
         break
       case ElementType.verzweigung:
-        steps.push({ path, text: text || 'true', kind: 'branch', cases: element.cases })
+        push({ path, text: text || 'true', kind: 'branch', cases: element.cases })
         break
       case ElementType.fallauswahl:
-        steps.push({ path, text: text || '0', kind: 'switchSelection', cases: element.cases })
+        push({ path, text: text || '0', kind: 'switchSelection', cases: element.cases })
         break
       case ElementType.forSchleife:
-        steps.push({
+        push({
           path,
           text,
           kind: 'forLoopStart',
@@ -603,13 +628,19 @@ function buildSteps(elements: VSElement[], pathPrefix: number[] = []): SimStep[]
         })
         break
       case ElementType.whileSchleife:
-        steps.push({ path, text: text || 'true', kind: 'whileLoop', loopBody: element.loopBody })
+        push({ path, text: text || 'true', kind: 'whileLoop', loopBody: element.loopBody })
         break
       case ElementType.doUntilSchleife:
-        steps.push({ path, text: text || 'true', kind: 'doUntilLoop', loopBody: element.loopBody })
+        push({ path, text: text || 'true', kind: 'doUntilLoop', loopBody: element.loopBody })
         break
       case ElementType.endlosschleife:
-        steps.push({ path, text: text || 'true', kind: 'infiniteLoop', loopBody: element.loopBody })
+        push({ path, text: text || 'true', kind: 'infiniteLoop', loopBody: element.loopBody })
+        break
+      case ElementType.aussprung:
+        push({ path, text, kind: 'jump' })
+        break
+      case ElementType.aufruf:
+        if (text !== '' && text !== 'ø') push({ path, text, kind: 'call' })
         break
     }
   })
@@ -657,18 +688,44 @@ function matchingCaseIndex(selector: SwitchSelector, cases: VSCase[]): number | 
   return undefined
 }
 
+function isLoopContinuation(kind: StepKind): boolean {
+  return (
+    kind === 'forLoopIncrement' ||
+    kind === 'forLoopCondition' ||
+    kind === 'whileLoop' ||
+    kind === 'doUntilCondition' ||
+    kind === 'infiniteLoop'
+  )
+}
+
+function sameStep(a: SimStep, b: SimStep): boolean {
+  return (a.frame ?? 0) === (b.frame ?? 0) && a.path.length === b.path.length && a.path.every((v, i) => v === b.path[i])
+}
+
+/** `zeigeTitel()` und `zeigeTitel();` heißen beide `zeigeTitel`. */
+export function subprogramName(text: string): string {
+  return stripTrailingSemicolon(text).replace(/\(\s*\)$/u, '').trim()
+}
+
 // MARK: - Engine
 
 export class SimulationEngine {
   steps: SimStep[]
   state: SimState = freshState()
+  private nextFrame = 1
+  private callDepth = 0
 
-  constructor(document: VSDocument) {
+  constructor(
+    document: VSDocument,
+    private resolveSubprogram: SubprogramResolver = () => undefined,
+  ) {
     this.steps = buildSteps(document.elements)
   }
 
+  /** Im Unterprogramm bleibt der Aufruf-Kasten im Hauptprogramm markiert. */
   get currentStepPath(): number[] | undefined {
-    return this.steps[this.state.stepIndex]?.path
+    const step = this.steps[this.state.stepIndex]
+    return step?.callPath ?? step?.path
   }
 
   get canStep(): boolean {
@@ -683,6 +740,8 @@ export class SimulationEngine {
   reset(document?: VSDocument): void {
     if (document) this.steps = buildSteps(document.elements)
     this.state = freshState()
+    this.nextFrame = 1
+    this.callDepth = 0
   }
 
   step(): void {
@@ -706,6 +765,9 @@ export class SimulationEngine {
         case 'doUntilLoop': return this.enterDoUntilLoop(step)
         case 'doUntilCondition': return this.executeDoUntilCondition(step)
         case 'infiniteLoop': return this.enterInfiniteLoop(step)
+        case 'jump': return this.executeJump(step)
+        case 'call': return this.executeCall(step)
+        case 'callEnd': return this.executeCallEnd(step)
       }
       if (state.inputRequest) {
         state.notice = undefined
@@ -755,7 +817,7 @@ export class SimulationEngine {
     const condition = stripConditionKeyword(step.text)
     const result = this.evaluateBool(condition)
     const selected = result ? 0 : 1
-    const branchSteps = buildSteps(cases[selected].elements, [...step.path, selected])
+    const branchSteps = buildSteps(cases[selected].elements, [...step.path, selected], contextOf(step))
     this.splice(branchSteps)
     this.state.lastTrace = `${condition} -> ${result}`
     this.state.notice = this.noticeAfterEntering(branchSteps)
@@ -767,7 +829,7 @@ export class SimulationEngine {
     const selector = stripConditionKeyword(step.text)
     const value = this.evaluateSwitchSelector(selector)
     const selected = matchingCaseIndex(value, cases) ?? cases.length - 1
-    const caseSteps = buildSteps(cases[selected].elements, [...step.path, selected])
+    const caseSteps = buildSteps(cases[selected].elements, [...step.path, selected], contextOf(step))
     this.splice(caseSteps)
     this.state.lastTrace = `${selector} -> ${cases[selected].name}`
     this.state.notice = this.noticeAfterEntering(caseSteps)
@@ -776,7 +838,7 @@ export class SimulationEngine {
   private executeForLoopStart(step: SimStep): void {
     const parts = normalizedForParts(step.forParts ?? [step.text])
     if (parts[0] !== '') this.executeStatement(parts[0])
-    this.splice([{ path: step.path, text: parts[1], kind: 'forLoopCondition', loopBody: step.loopBody, forParts: parts }])
+    this.splice([{ ...contextOf(step), path: step.path, text: parts[1], kind: 'forLoopCondition', loopBody: step.loopBody, forParts: parts }])
   }
 
   private executeForLoopCondition(step: SimStep): void {
@@ -785,11 +847,11 @@ export class SimulationEngine {
     const shouldEnter = this.evaluateBool(condition)
     this.state.lastTrace = `${condition} -> ${shouldEnter}`
     if (shouldEnter) {
-      const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0])
+      const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
       this.splice([
         ...bodySteps,
-        { path: step.path, text: parts[2], kind: 'forLoopIncrement', loopBody: step.loopBody, forParts: parts },
-        { path: step.path, text: parts[1], kind: 'forLoopCondition', loopBody: step.loopBody, forParts: parts },
+        { ...contextOf(step), path: step.path, text: parts[2], kind: 'forLoopIncrement', loopBody: step.loopBody, forParts: parts },
+        { ...contextOf(step), path: step.path, text: parts[1], kind: 'forLoopCondition', loopBody: step.loopBody, forParts: parts },
       ])
     } else {
       this.splice([])
@@ -808,8 +870,8 @@ export class SimulationEngine {
     const shouldEnter = this.evaluateBool(condition)
     this.state.lastTrace = `${condition} -> ${shouldEnter}`
     if (shouldEnter) {
-      const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0])
-      this.splice([...bodySteps, { path: step.path, text: step.text, kind: 'whileLoop', loopBody: step.loopBody }])
+      const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
+      this.splice([...bodySteps, { ...contextOf(step), path: step.path, text: step.text, kind: 'whileLoop', loopBody: step.loopBody }])
       this.state.notice = this.noticeAfterEntering(bodySteps)
     } else {
       this.splice([])
@@ -818,8 +880,8 @@ export class SimulationEngine {
   }
 
   private enterDoUntilLoop(step: SimStep): void {
-    const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0])
-    this.splice([...bodySteps, { path: step.path, text: step.text, kind: 'doUntilCondition', loopBody: step.loopBody }])
+    const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
+    this.splice([...bodySteps, { ...contextOf(step), path: step.path, text: step.text, kind: 'doUntilCondition', loopBody: step.loopBody }])
     this.state.notice = this.noticeAfterEntering(bodySteps)
   }
 
@@ -828,8 +890,8 @@ export class SimulationEngine {
     const shouldRepeat = this.evaluateBool(condition)
     this.state.lastTrace = `${condition} -> ${shouldRepeat}`
     if (shouldRepeat) {
-      const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0])
-      this.splice([...bodySteps, { path: step.path, text: step.text, kind: 'doUntilCondition', loopBody: step.loopBody }])
+      const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
+      this.splice([...bodySteps, { ...contextOf(step), path: step.path, text: step.text, kind: 'doUntilCondition', loopBody: step.loopBody }])
     } else {
       this.splice([])
       this.state.notice = this.finishedIfAtEnd()
@@ -837,10 +899,69 @@ export class SimulationEngine {
   }
 
   private enterInfiniteLoop(step: SimStep): void {
-    const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0])
-    this.splice([...bodySteps, { path: step.path, text: step.text, kind: 'infiniteLoop', loopBody: step.loopBody }])
+    const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
+    this.splice([...bodySteps, { ...contextOf(step), path: step.path, text: step.text, kind: 'infiniteLoop', loopBody: step.loopBody }])
     this.state.lastTrace = 'true -> true'
     this.state.notice = bodySteps.length > 0 ? undefined : { kind: 'infiniteLoopWithoutBody' }
+  }
+
+  // MARK: Aussprung und Aufruf
+
+  /**
+   * Wie `break`: verlässt die innerste Schleife, in der der Aussprung steht. Außerhalb jeder Schleife endet
+   * das Unterprogramm bzw. im Hauptprogramm das ganze Programm.
+   */
+  private executeJump(step: SimStep): void {
+    const frame = step.frame ?? 0
+    const isPrefix = (p: number[]) => p.length < step.path.length && p.every((v, i) => v === step.path[i])
+    let end = this.steps.length
+    let outcome: 'break' | 'return' | 'end' = 'end'
+    for (let i = this.state.stepIndex + 1; i < this.steps.length; i++) {
+      const s = this.steps[i]
+      if ((s.frame ?? 0) !== frame) continue
+      if (s.kind === 'callEnd') {
+        end = i + 1
+        outcome = 'return'
+        break
+      }
+      if (isLoopContinuation(s.kind) && isPrefix(s.path)) {
+        end = i + 1
+        // Bei der For-Schleife folgt auf das Hochzählen noch die Bedingung
+        while (end < this.steps.length && sameStep(this.steps[end], s)) end += 1
+        outcome = 'break'
+        break
+      }
+    }
+    if (outcome === 'return') this.callDepth -= 1
+    this.steps.splice(this.state.stepIndex, end - this.state.stepIndex)
+    this.state.lastTrace = `${step.text || 'break'} -> ${outcome}`
+    this.state.notice = this.finishedIfAtEnd()
+  }
+
+  /** Führt das Diagramm mit dem Namen aus dem Aufruf-Kasten aus und macht danach hier weiter. */
+  private executeCall(step: SimStep): void {
+    const name = step.text
+    const document = this.resolveSubprogram(subprogramName(name))
+    if (!document) {
+      this.splice([])
+      this.state.lastTrace = `${name} -> ?`
+      this.state.notice = { kind: 'subprogramNotFound', text: name }
+      if (this.state.stepIndex >= this.steps.length) this.state.notice = { kind: 'finished' }
+      return
+    }
+    if (this.callDepth >= maxCallDepth) throw new SimulationError({ kind: 'callTooDeep' })
+    this.callDepth += 1
+    const context: StepContext = { frame: this.nextFrame++, callPath: step.callPath ?? step.path }
+    const bodySteps = buildSteps(document.elements, [], context)
+    this.splice([...bodySteps, { ...context, path: step.path, text: name, kind: 'callEnd' }])
+    this.state.lastTrace = `${name} -> call`
+  }
+
+  private executeCallEnd(step: SimStep): void {
+    this.callDepth -= 1
+    this.splice([])
+    this.state.lastTrace = `${step.text} -> return`
+    this.state.notice = this.finishedIfAtEnd()
   }
 
   // MARK: Anweisungen

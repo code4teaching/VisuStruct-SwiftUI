@@ -141,6 +141,8 @@ const e=`/* NOTE: Initial Swedish localization. */
 "sim_notice_whole_number_expected" = "Ange ett heltal.";
 "sim_notice_number_expected" = "Ange ett tal.";
 "sim_notice_boolean_expected" = "Ange true eller false.";
+"sim_notice_subprogram_not_found_fmt" = "Inget öppet diagram heter %@. Anropet hoppades över.";
+"sim_notice_call_too_deep" = "För många nästlade anrop. Anropar ett underprogram sig självt?";
 "phone_hide_text_editor" = "Fäll ihop";
 "phone_title_done" = "Klar";
 

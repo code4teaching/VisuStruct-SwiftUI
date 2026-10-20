@@ -231,6 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "יש להזין מספר שלם.";
 "sim_notice_number_expected" = "יש להזין מספר.";
 "sim_notice_boolean_expected" = "הזן true או false.";
+"sim_notice_subprogram_not_found_fmt" = "אין תרשים פתוח בשם %@. הקריאה דולגה.";
+"sim_notice_call_too_deep" = "יותר מדי קריאות מקוננות. האם תת־תוכנית קוראת לעצמה?";
 
 "codegen_pseudocode_toggle" = "פסאודו-קוד (קוד שאינו ניתן להרצה)";
 "codegen_pseudocode_note" = "פסאודו-קוד – לא תוכנית שניתן להריץ";

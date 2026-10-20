@@ -62,6 +62,16 @@ public enum VisuStructSimulationStepKind: Equatable, Sendable {
     case doUntilLoop
     case doUntilCondition
     case infiniteLoop
+    case jump
+    case call
+    case callEnd
+
+    var isLoopContinuation: Bool {
+        switch self {
+        case .forLoopIncrement, .forLoopCondition, .whileLoop, .doUntilCondition, .infiniteLoop: return true
+        default: return false
+        }
+    }
 }
 
 public struct VisuStructSimulationStep: Equatable, Sendable {
@@ -71,6 +81,10 @@ public struct VisuStructSimulationStep: Equatable, Sendable {
     public var cases: [VisuStructCase]?
     public var loopBody: [VisuStructElement]?
     public var forParts: [String]?
+    /// Aufrufebene: 0 ist das Hauptprogramm, jeder Aufruf bekommt eine neue Nummer.
+    public var frame: Int
+    /// Im Unterprogramm: Pfad des Aufruf-Kastens im Hauptprogramm, der markiert bleibt.
+    public var callPath: [Int]?
 
     public init(
         path: [Int],
@@ -78,7 +92,9 @@ public struct VisuStructSimulationStep: Equatable, Sendable {
         kind: VisuStructSimulationStepKind = .statement,
         cases: [VisuStructCase]? = nil,
         loopBody: [VisuStructElement]? = nil,
-        forParts: [String]? = nil
+        forParts: [String]? = nil,
+        frame: Int = 0,
+        callPath: [Int]? = nil
     ) {
         self.path = path
         self.text = text
@@ -86,6 +102,8 @@ public struct VisuStructSimulationStep: Equatable, Sendable {
         self.cases = cases
         self.loopBody = loopBody
         self.forParts = forParts
+        self.frame = frame
+        self.callPath = callPath
     }
 }
 
@@ -143,21 +161,40 @@ extension VisuStructSimulationState {
 }
 
 public struct VisuStructSimulationEngine: Equatable, Sendable {
+    /// Ab dieser Tiefe bricht die Simulation ab (vermutlich ein Aufruf, der sich selbst aufruft).
+    public static let maxCallDepth = 100
+
     public private(set) var steps: [VisuStructSimulationStep]
     public private(set) var state: VisuStructSimulationState
+    /// Diagramme für Aufrufe, Schlüssel aus `subprogramKey` (z. B. die anderen offenen Reiter).
+    public var subprograms: [String: VisuStructDocument]
+    private var nextFrame = 1
+    private var callDepth = 0
 
+    /// Im Unterprogramm bleibt der Aufruf-Kasten im Hauptprogramm markiert.
     public var currentStepPath: [Int]? {
         guard state.stepIndex < steps.count else { return nil }
-        return steps[state.stepIndex].path
+        return steps[state.stepIndex].callPath ?? steps[state.stepIndex].path
+    }
+
+    /// `zeigeTitel()` und `zeigeTitel();` heißen beide `zeigetitel`.
+    public static func subprogramKey(_ text: String) -> String {
+        var name = stripTrailingSemicolon(text)
+        if name.hasSuffix(")"), let open = name.lastIndex(of: "("),
+           name[name.index(after: open)..<name.index(before: name.endIndex)].allSatisfy(\.isWhitespace) {
+            name = String(name[..<open])
+        }
+        return name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
 
     public var canStep: Bool {
         !state.isHalted && state.inputRequest == nil && state.stepIndex < steps.count
     }
 
-    public init(document: VisuStructDocument) {
+    public init(document: VisuStructDocument, subprograms: [String: VisuStructDocument] = [:]) {
         self.steps = Self.steps(in: document.elements)
         self.state = VisuStructSimulationState()
+        self.subprograms = subprograms
     }
 
     public mutating func reset(document: VisuStructDocument? = nil) {
@@ -165,6 +202,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             steps = Self.steps(in: document.elements)
         }
         state = VisuStructSimulationState()
+        nextFrame = 1
+        callDepth = 0
     }
 
     public mutating func step() {
@@ -206,6 +245,15 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return
             case .infiniteLoop:
                 enterInfiniteLoop(step)
+                return
+            case .jump:
+                executeJump(step)
+                return
+            case .call:
+                try executeCall(step)
+                return
+            case .callEnd:
+                executeCallEnd(step)
                 return
             }
             if state.inputRequest != nil {
@@ -264,64 +312,77 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
 
     private static func steps(
         in elements: [VisuStructElement],
-        pathPrefix: [Int] = []
+        pathPrefix: [Int] = [],
+        frame: Int = 0,
+        callPath: [Int]? = nil
     ) -> [VisuStructSimulationStep] {
-        elements.enumerated().compactMap { index, element in
-            let path = pathPrefix + [index]
-            let text = element.textLines
-                .joined(separator: " ")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            switch element.type {
-            case .anweisung:
-                // Leere Anweisung und Platzhalter „ø“ werden übersprungen
-                guard !text.isEmpty, text != "ø" else { return nil }
-                return VisuStructSimulationStep(path: path, text: text)
-            case .verzweigung:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .branch,
-                    cases: element.cases
-                )
-            case .fallauswahl:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "0" : text,
-                    kind: .switchSelection,
-                    cases: element.cases
-                )
-            case .forSchleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text,
-                    kind: .forLoopStart,
-                    loopBody: element.loopBody,
-                    forParts: normalizedForParts(element.textLines)
-                )
-            case .whileSchleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .whileLoop,
-                    loopBody: element.loopBody
-                )
-            case .doUntilSchleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .doUntilLoop,
-                    loopBody: element.loopBody
-                )
-            case .endlosschleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .infiniteLoop,
-                    loopBody: element.loopBody
-                )
-            default:
-                return nil
-            }
+        elements.enumerated().compactMap { index, element -> VisuStructSimulationStep? in
+            guard var step = Self.step(for: element, path: pathPrefix + [index]) else { return nil }
+            step.frame = frame
+            step.callPath = callPath
+            return step
+        }
+    }
+
+    private static func step(for element: VisuStructElement, path: [Int]) -> VisuStructSimulationStep? {
+        let text = element.textLines
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        switch element.type {
+        case .anweisung:
+            // Leere Anweisung und Platzhalter „ø“ werden übersprungen
+            guard !text.isEmpty, text != "ø" else { return nil }
+            return VisuStructSimulationStep(path: path, text: text)
+        case .verzweigung:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .branch,
+                cases: element.cases
+            )
+        case .fallauswahl:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "0" : text,
+                kind: .switchSelection,
+                cases: element.cases
+            )
+        case .forSchleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text,
+                kind: .forLoopStart,
+                loopBody: element.loopBody,
+                forParts: normalizedForParts(element.textLines)
+            )
+        case .whileSchleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .whileLoop,
+                loopBody: element.loopBody
+            )
+        case .doUntilSchleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .doUntilLoop,
+                loopBody: element.loopBody
+            )
+        case .endlosschleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .infiniteLoop,
+                loopBody: element.loopBody
+            )
+        case .aussprung:
+            return VisuStructSimulationStep(path: path, text: text, kind: .jump)
+        case .aufruf:
+            guard !text.isEmpty, text != "ø" else { return nil }
+            return VisuStructSimulationStep(path: path, text: text, kind: .call)
+        default:
+            return nil
         }
     }
 
@@ -361,7 +422,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let selectedCaseIndex = result ? 0 : 1
         let branchSteps = Self.steps(
             in: cases[selectedCaseIndex].elements,
-            pathPrefix: step.path + [selectedCaseIndex]
+            pathPrefix: step.path + [selectedCaseIndex],
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: branchSteps, at: state.stepIndex)
@@ -380,7 +443,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let selectedCase = cases[selectedCaseIndex]
         let caseSteps = Self.steps(
             in: selectedCase.elements,
-            pathPrefix: step.path + [selectedCaseIndex]
+            pathPrefix: step.path + [selectedCaseIndex],
+            frame: step.frame,
+            callPath: step.callPath
         )
 
         steps.remove(at: state.stepIndex)
@@ -402,7 +467,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             text: parts[1],
             kind: .forLoopCondition,
             loopBody: step.loopBody,
-            forParts: parts
+            forParts: parts,
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(conditionStep, at: state.stepIndex)
@@ -419,21 +486,27 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         if shouldEnter {
             let bodySteps = Self.steps(
                 in: step.loopBody ?? [],
-                pathPrefix: step.path + [0]
+                pathPrefix: step.path + [0],
+                frame: step.frame,
+                callPath: step.callPath
             )
             let incrementStep = VisuStructSimulationStep(
                 path: step.path,
                 text: parts[2],
                 kind: .forLoopIncrement,
                 loopBody: step.loopBody,
-                forParts: parts
+                forParts: parts,
+                frame: step.frame,
+                callPath: step.callPath
             )
             let conditionStep = VisuStructSimulationStep(
                 path: step.path,
                 text: parts[1],
                 kind: .forLoopCondition,
                 loopBody: step.loopBody,
-                forParts: parts
+                forParts: parts,
+                frame: step.frame,
+                callPath: step.callPath
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [incrementStep, conditionStep], at: state.stepIndex)
@@ -459,13 +532,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         if shouldEnter {
             let bodySteps = Self.steps(
                 in: step.loopBody ?? [],
-                pathPrefix: step.path + [0]
+                pathPrefix: step.path + [0],
+                frame: step.frame,
+                callPath: step.callPath
             )
             let conditionStep = VisuStructSimulationStep(
                 path: step.path,
                 text: step.text,
                 kind: .whileLoop,
-                loopBody: step.loopBody
+                loopBody: step.loopBody,
+                frame: step.frame,
+                callPath: step.callPath
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
@@ -479,13 +556,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     private mutating func enterDoUntilLoop(_ step: VisuStructSimulationStep) throws {
         let bodySteps = Self.steps(
             in: step.loopBody ?? [],
-            pathPrefix: step.path + [0]
+            pathPrefix: step.path + [0],
+            frame: step.frame,
+            callPath: step.callPath
         )
         let conditionStep = VisuStructSimulationStep(
             path: step.path,
             text: step.text,
             kind: .doUntilCondition,
-            loopBody: step.loopBody
+            loopBody: step.loopBody,
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
@@ -499,13 +580,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         if shouldRepeat {
             let bodySteps = Self.steps(
                 in: step.loopBody ?? [],
-                pathPrefix: step.path + [0]
+                pathPrefix: step.path + [0],
+                frame: step.frame,
+                callPath: step.callPath
             )
             let conditionStep = VisuStructSimulationStep(
                 path: step.path,
                 text: step.text,
                 kind: .doUntilCondition,
-                loopBody: step.loopBody
+                loopBody: step.loopBody,
+                frame: step.frame,
+                callPath: step.callPath
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
@@ -518,18 +603,86 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     private mutating func enterInfiniteLoop(_ step: VisuStructSimulationStep) {
         let bodySteps = Self.steps(
             in: step.loopBody ?? [],
-            pathPrefix: step.path + [0]
+            pathPrefix: step.path + [0],
+            frame: step.frame,
+            callPath: step.callPath
         )
         let loopStep = VisuStructSimulationStep(
             path: step.path,
             text: step.text,
             kind: .infiniteLoop,
-            loopBody: step.loopBody
+            loopBody: step.loopBody,
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: bodySteps + [loopStep], at: state.stepIndex)
         state.lastTrace = "true -> true"
         state.notice = !bodySteps.isEmpty ? nil : .infiniteLoopWithoutBody
+    }
+
+    // MARK: Aussprung und Aufruf
+
+    /// Wie `break`: verlässt die innerste Schleife, in der der Aussprung steht. Außerhalb jeder Schleife endet
+    /// das Unterprogramm bzw. im Hauptprogramm das ganze Programm.
+    private mutating func executeJump(_ step: VisuStructSimulationStep) {
+        func isPrefix(_ p: [Int]) -> Bool {
+            p.count < step.path.count && Array(step.path.prefix(p.count)) == p
+        }
+        var end = steps.count
+        var outcome = "end"
+        var i = state.stepIndex + 1
+        while i < steps.count {
+            let s = steps[i]
+            if s.frame == step.frame {
+                if s.kind == .callEnd {
+                    end = i + 1
+                    outcome = "return"
+                    break
+                }
+                if s.kind.isLoopContinuation, isPrefix(s.path) {
+                    end = i + 1
+                    // Bei der For-Schleife folgt auf das Hochzählen noch die Bedingung
+                    while end < steps.count, steps[end].frame == s.frame, steps[end].path == s.path {
+                        end += 1
+                    }
+                    outcome = "break"
+                    break
+                }
+            }
+            i += 1
+        }
+        if outcome == "return" { callDepth -= 1 }
+        steps.removeSubrange(state.stepIndex..<end)
+        state.lastTrace = "\(step.text.isEmpty ? "break" : step.text) -> \(outcome)"
+        state.notice = state.stepIndex >= steps.count ? .finished : nil
+    }
+
+    /// Führt das Diagramm mit dem Namen aus dem Aufruf-Kasten aus und macht danach hier weiter.
+    private mutating func executeCall(_ step: VisuStructSimulationStep) throws {
+        guard let document = subprograms[Self.subprogramKey(step.text)] else {
+            steps.remove(at: state.stepIndex)
+            state.lastTrace = "\(step.text) -> ?"
+            state.notice = state.stepIndex >= steps.count ? .finished : .subprogramNotFound(step.text)
+            return
+        }
+        guard callDepth < Self.maxCallDepth else { throw SimulationError.callTooDeep }
+        callDepth += 1
+        let frame = nextFrame
+        nextFrame += 1
+        let callPath = step.callPath ?? step.path
+        let bodySteps = Self.steps(in: document.elements, frame: frame, callPath: callPath)
+        let endStep = VisuStructSimulationStep(path: step.path, text: step.text, kind: .callEnd, frame: frame, callPath: callPath)
+        steps.remove(at: state.stepIndex)
+        steps.insert(contentsOf: bodySteps + [endStep], at: state.stepIndex)
+        state.lastTrace = "\(step.text) -> call"
+    }
+
+    private mutating func executeCallEnd(_ step: VisuStructSimulationStep) {
+        callDepth -= 1
+        steps.remove(at: state.stepIndex)
+        state.lastTrace = "\(step.text) -> return"
+        state.notice = state.stepIndex >= steps.count ? .finished : nil
     }
 
     private mutating func execute(statement rawText: String) throws {
@@ -1400,6 +1553,7 @@ private enum SimulationError: LocalizedError, Equatable {
     case invalidExpression(String)
     case unknownVariable(String)
     case divisionByZero
+    case callTooDeep
     case invalidInput(VisuStructSimulationNotice)
 
     var notice: VisuStructSimulationNotice {
@@ -1408,6 +1562,7 @@ private enum SimulationError: LocalizedError, Equatable {
         case .invalidExpression(let text): return .invalidExpression(text)
         case .unknownVariable(let name): return .unknownVariable(name)
         case .divisionByZero: return .divisionByZero
+        case .callTooDeep: return .callTooDeep
         case .invalidInput(let notice): return notice
         }
     }
@@ -1426,6 +1581,8 @@ public enum VisuStructSimulationNotice: Equatable, Sendable {
     case wholeNumberExpected
     case numberExpected
     case booleanExpected
+    case subprogramNotFound(String)
+    case callTooDeep
     /// Fehler aus einer anderen Quelle, nur als Text bekannt.
     case other(String)
 
@@ -1448,6 +1605,8 @@ public enum VisuStructSimulationNotice: Equatable, Sendable {
         case .wholeNumberExpected: return "Please enter a whole number."
         case .numberExpected: return "Please enter a number."
         case .booleanExpected: return "Please enter true or false."
+        case .subprogramNotFound(let name): return "No open diagram is called \(name). The call was skipped."
+        case .callTooDeep: return "Too many nested calls. Does a subprogram call itself?"
         case .other(let text): return text
         }
     }

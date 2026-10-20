@@ -79,7 +79,7 @@ JavaScript ist die Sprache der Browser. Deshalb kann VisuStruct den Code **sofor
 
 Eine Endlosschleife `while (true)` hält VisuStruct nach 100 000 Durchläufen von selbst an und meldet **Ausführung gestoppt: mögliche Endlosschleife.**
 
-> Hier funktionieren auch **Aussprung** und **Aufruf** wie in einem echten Programm. Ein Aufruf braucht dann aber ein Unterprogramm mit diesem Namen, sonst meldet JavaScript einen Fehler.
+> Ein **Aufruf** braucht im JavaScript-Code ein Unterprogramm mit diesem Namen, sonst meldet JavaScript einen Fehler. Anders als die Simulation sucht der Browser nicht in den anderen Reitern.
 
 ## Übung: Python als Struktogramm
 

@@ -228,6 +228,8 @@
 "sim_notice_whole_number_expected" = "Εισαγάγετε έναν ακέραιο αριθμό.";
 "sim_notice_number_expected" = "Εισαγάγετε έναν αριθμό.";
 "sim_notice_boolean_expected" = "Πληκτρολογήστε true ή false.";
+"sim_notice_subprogram_not_found_fmt" = "Κανένα ανοιχτό διάγραμμα δεν ονομάζεται %@. Η κλήση παραλείφθηκε.";
+"sim_notice_call_too_deep" = "Πάρα πολλές ένθετες κλήσεις. Καλεί ένα υποπρόγραμμα τον εαυτό του;";
 
 "codegen_pseudocode_toggle" = "Ψευδοκώδικας (μη εκτελέσιμος κώδικας)";
 "codegen_pseudocode_note" = "Ψευδοκώδικας – όχι εκτελέσιμο πρόγραμμα";

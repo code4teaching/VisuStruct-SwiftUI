@@ -230,6 +230,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Введите целое число.";
 "sim_notice_number_expected" = "Введите число.";
 "sim_notice_boolean_expected" = "Введите true или false.";
+"sim_notice_subprogram_not_found_fmt" = "Нет открытой диаграммы с именем %@. Вызов пропущен.";
+"sim_notice_call_too_deep" = "Слишком много вложенных вызовов. Подпрограмма вызывает сама себя?";
 
 "codegen_pseudocode_toggle" = "Псевдокод (не исполняемый код)";
 "codegen_pseudocode_note" = "Псевдокод – не исполняемая программа";

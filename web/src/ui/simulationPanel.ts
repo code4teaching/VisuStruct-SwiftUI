@@ -1,5 +1,5 @@
 import type { VSDocument } from '../core/model'
-import { describeValue, SimulationEngine, type SimNotice } from '../core/simulation'
+import { describeValue, SimulationEngine, type SimNotice, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
 
 /** `sim_notice_*` aus Localizable.strings. */
@@ -14,6 +14,8 @@ export function noticeText(n: SimNotice): string {
     case 'wholeNumberExpected': return t('sim_notice_whole_number_expected')
     case 'numberExpected': return t('sim_notice_number_expected')
     case 'booleanExpected': return t('sim_notice_boolean_expected')
+    case 'subprogramNotFound': return t('sim_notice_subprogram_not_found_fmt', n.text)
+    case 'callTooDeep': return t('sim_notice_call_too_deep')
     case 'other': return n.text
   }
 }
@@ -65,8 +67,10 @@ export class SimulationPanel {
     private currentDocument: () => VSDocument,
     /** Markierung des aktuellen Schritts im Diagramm. */
     private onHighlight: (path: number[] | undefined) => void,
+    /** Diagramm zu einem Aufruf-Kasten, z. B. ein anderer offener Reiter. */
+    private findSubprogram: SubprogramResolver = () => undefined,
   ) {
-    this.engine = new SimulationEngine(currentDocument())
+    this.engine = new SimulationEngine(currentDocument(), findSubprogram)
     this.element = document.createElement('aside')
     this.element.className = 'simpanel'
     this.build()
@@ -148,7 +152,7 @@ export class SimulationPanel {
   }
 
   private restartEngine() {
-    this.engine = new SimulationEngine(this.currentDocument())
+    this.engine = new SimulationEngine(this.currentDocument(), this.findSubprogram)
     this.wasPlayingBeforeInput = false
     this.onHighlight(this.engine.currentStepPath)
     this.update()
