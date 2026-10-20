@@ -19,16 +19,16 @@ auch: Sequenzen
 Schritte, die nacheinander von oben nach unten ausgeführt werden, jeder genau einmal.
 
 ### Verzweigung
-auch: Verzweigungen
-Ein Baustein, der mit einer Bedingung entscheidet, welcher von zwei Wegen ausgeführt wird.
+auch: Verzweigungen, bedingte Anweisung, bedingte Anweisungen
+Ein Baustein, der mit einer Bedingung entscheidet, welcher von zwei Wegen ausgeführt wird. Im Lehrplan heißt sie auch bedingte Anweisung.
 
 ### Zweig
 auch: Zweige, Zweigen
 Einer der beiden Wege einer Verzweigung: links für true, rechts für false.
 
 ### Schleife
-auch: Schleifen, Wiederholung, Wiederholungen
-Ein Baustein, der Schritte wiederholt, solange eine Bedingung gilt.
+auch: Schleifen, Wiederholung, Wiederholungen, Wiederholungsstruktur, Wiederholungsstrukturen
+Ein Baustein, der Schritte wiederholt, solange eine Bedingung gilt. Im Lehrplan heißt sie auch Wiederholungsstruktur.
 
 ### Rumpf
 Der Inhalt einer Schleife, also die Schritte, die wiederholt werden.
@@ -78,7 +78,8 @@ auch: Vergleichsoperatoren
 Ein Zeichen, das zwei Werte vergleicht, zum Beispiel == oder <. Das Ergebnis ist true oder false.
 
 ### Fallauswahl
-Ein Baustein, der je nach Wert einer Variablen genau einen von mehreren Fällen ausführt.
+auch: Mehrfachauswahl
+Ein Baustein, der je nach Wert einer Variablen genau einen von mehreren Fällen ausführt. Im Lehrplan heißt sie auch Mehrfachauswahl.
 
 ### kopfgesteuert
 auch: kopfgesteuerte, kopfgesteuerten
@@ -98,14 +99,14 @@ Eine Schleife, deren Bedingung nie falsch wird. Sie hört nie von selbst auf.
 
 ### Array
 auch: Arrays
-Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp.
+Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp. Im Lehrplan heißt es auch Feld.
 
 ### Index
 Die Nummer eines Fachs in einem Array. Gezählt wird ab 0.
 
 ### Unterprogramm
-auch: Unterprogramme, Unterprogramms, Unterprogrammen
-Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgeführt.
+auch: Unterprogramme, Unterprogramms, Unterprogrammen, Methode, Methoden, Prozedur, Prozeduren, Funktion, Funktionen
+Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgeführt. Im Lehrplan und in Java heißt es auch Methode, je nach Art auch Prozedur oder Funktion.
 
 ### Aussprung
 Verlässt sofort die Schleife, in der er steht. Danach geht es unter der Schleife weiter.
