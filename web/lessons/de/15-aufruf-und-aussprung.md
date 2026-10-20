@@ -80,10 +80,10 @@ lösung: l15-bis-null-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann eine große Aufgabe in Teilprobleme zerlegen.
-- Ich kann einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen.
-- Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht.
-- Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden.
+- Ich kann eine große Aufgabe in Teilprobleme zerlegen. → Große Aufgaben zerlegen
+- Ich kann einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen. → Der Aufruf
+- Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht. → Der Aussprung
+- Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden. → Aussprung in der Simulation
 :::
 
 ## Wissenstest

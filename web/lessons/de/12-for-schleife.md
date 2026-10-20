@@ -73,9 +73,9 @@ lösung: l12-einmaleins-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kenne die drei Teile Start, Bedingung und Schritt der For-Schleife.
-- Ich weiß, in welcher Reihenfolge die drei Teile ausgeführt werden.
-- Ich kann mit einer For-Schleife vorwärts, rückwärts und in größeren Schritten zählen.
+- Ich kenne die drei Teile Start, Bedingung und Schritt der For-Schleife. → Zählen mit festem Plan
+- Ich weiß, in welcher Reihenfolge die drei Teile ausgeführt werden. → In welcher Reihenfolge?
+- Ich kann mit einer For-Schleife vorwärts, rückwärts und in größeren Schritten zählen. → Andere Schritte
 :::
 
 ## Wissenstest

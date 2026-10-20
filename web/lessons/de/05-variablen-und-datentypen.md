@@ -112,10 +112,10 @@ lösung: l05-einkauf-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann eine Variable mit Datentyp, Namen und Wert anlegen.
-- Ich kenne die Datentypen int, double, String und boolean.
-- Ich weiß, dass = eine Zuweisung ist und kein Vergleich.
-- Ich kann mit + - * / % rechnen und kenne die ganzzahlige Division.
+- Ich kann eine Variable mit Datentyp, Namen und Wert anlegen. → Was ist eine Variable?
+- Ich kenne die Datentypen int, double, String und boolean. → Die vier Datentypen
+- Ich weiß, dass = eine Zuweisung ist und kein Vergleich. → Zuweisung mit =
+- Ich kann mit + - * / % rechnen und kenne die ganzzahlige Division. → Rechnen
 :::
 
 ## Wissenstest

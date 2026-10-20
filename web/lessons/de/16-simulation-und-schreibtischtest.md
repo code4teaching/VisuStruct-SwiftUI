@@ -106,10 +106,10 @@ lösung: l16-countdown-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen.
-- Ich kann während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen.
-- Ich kann einen Schreibtischtest als Tabelle von Hand durchführen.
-- Ich kann einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche.
+- Ich kann die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen. → Die Simulation starten
+- Ich kann während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen. → Was die Simulation anzeigt
+- Ich kann einen Schreibtischtest als Tabelle von Hand durchführen. → Der Schreibtischtest
+- Ich kann einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche. → Fehler finden
 :::
 
 ## Wissenstest

@@ -80,9 +80,9 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 ## Checkliste
 
 ::: checkliste
-- Ich kann eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern.
-- Ich weiß, wann der Fall default ausgeführt wird.
-- Ich kann entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt.
+- Ich kann eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern. → So ist die Fallauswahl aufgebaut
+- Ich weiß, wann der Fall default ausgeführt wird. → So ist die Fallauswahl aufgebaut
+- Ich kann entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt. → Fallauswahl oder Verzweigung?
 :::
 
 ## Wissenstest

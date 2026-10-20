@@ -90,10 +90,10 @@ lösung: l07-betrag-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, dass bei einer Verzweigung genau ein Zweig ausgeführt wird.
-- Ich kenne die Vergleichsoperatoren == != < <= > >=.
-- Ich kann == und = unterscheiden.
-- Ich kann eine Verzweigung mit einem leeren Zweig bauen.
+- Ich weiß, dass bei einer Verzweigung genau ein Zweig ausgeführt wird. → Wenn, dann, sonst
+- Ich kenne die Vergleichsoperatoren == != < <= > >=. → Vergleichsoperatoren
+- Ich kann == und = unterscheiden. → Vergleichsoperatoren
+- Ich kann eine Verzweigung mit einem leeren Zweig bauen. → Ein leerer Zweig
 :::
 
 ## Wissenstest

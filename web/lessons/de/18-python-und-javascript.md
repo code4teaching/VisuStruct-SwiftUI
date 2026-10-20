@@ -131,10 +131,10 @@ lösung: l18-js-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann Python und JavaScript in der Code-Ansicht auswählen und vergleichen.
-- Ich weiß, dass Python Blöcke durch Einrückung bildet und keine Datentypen braucht.
-- Ich weiß, was VisuStruct beim Übersetzen nach Python anpasst.
-- Ich kann JavaScript mit Im Browser testen ausführen.
+- Ich kann Python und JavaScript in der Code-Ansicht auswählen und vergleichen. → Dasselbe Diagramm, drei Sprachen
+- Ich weiß, dass Python Blöcke durch Einrückung bildet und keine Datentypen braucht. → Python
+- Ich weiß, was VisuStruct beim Übersetzen nach Python anpasst. → Worauf du bei Python achten musst
+- Ich kann JavaScript mit Im Browser testen ausführen. → JavaScript im Browser ausführen
 :::
 
 ## Wissenstest
