@@ -68,6 +68,10 @@ Bei verschachtelten Diagrammen hilft dir die Darstellung: Was weiter innen steht
 - Gib Zählvariablen sprechende Namen wie `zeile` und `spalte`. Zwei Schleifen dürfen nicht dieselbe Zählvariable verändern.
 - Gehe ein Beispiel in der Simulation mit **Schritt** durch und beobachte die Variablen.
 
+::: angeberwissen
+Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man auf GOTO verzichten soll, warum dann nicht gleich auf die Pfeile im Flussdiagramm? Ergebnis: kein Pfeil-Spaghetti, und jeder Block bleibt brav in seinem Gatter. [Die ganze Geschichte](https://visustruct.org/de/angeberwissen.html)
+:::
+
 ## Checkliste
 
 ::: checkliste
