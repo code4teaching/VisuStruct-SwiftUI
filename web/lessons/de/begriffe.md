@@ -10,6 +10,13 @@ Eine genaue Schritt-für-Schritt-Anleitung, mit der man eine Aufgabe löst. Jede
 auch: Struktogramme, Struktogramms, Struktogrammen
 Ein Algorithmus als Bild aus Kästen. Es wird von oben nach unten gelesen.
 
+### Programmablaufplan
+auch: PAP, Programmablaufpläne, Programmablaufplans
+Ein Algorithmus als Bild aus Symbolen, die mit Pfeilen verbunden sind (DIN 66001). Eine Raute ist eine Verzweigung.
+
+### Pseudocode
+Ein Algorithmus als Text in normaler Sprache mit festen Wörtern wie WENN und SOLANGE. Die Einrückung zeigt, was zusammengehört.
+
 ### Anweisung
 auch: Anweisungen
 Ein einzelner Schritt im Struktogramm, zum Beispiel eine Rechnung, eine Eingabe oder eine Ausgabe.
