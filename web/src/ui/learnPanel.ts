@@ -525,14 +525,23 @@ export class LearnPanel {
     const answers = () => (lesson ? progress.lesson(lesson.id).quiz ?? {} : {})
     const updateScore = () => {
       const a = answers()
-      const answered = questions.filter((_, qi) => a[`${key}-${qi}`] !== undefined).length
-      const right = questions.filter((q, qi) => q.options[a[`${key}-${qi}`]]?.correct).length
+      const chosen = (q: QuizQuestion, qi: number) =>
+        q.pairs ? q.pairs.every((_, pi) => a[`${key}-${qi}-${pi}`] !== undefined) : a[`${key}-${qi}`] !== undefined
+      const correct = (q: QuizQuestion, qi: number) =>
+        q.pairs ? q.pairs.every((_, pi) => matchOrder(q)[a[`${key}-${qi}-${pi}`]] === q.pairs![pi].right) : q.options[a[`${key}-${qi}`]]?.correct
+      const answered = questions.filter(chosen).length
+      const right = questions.filter(correct).length
       score.textContent = answered === questions.length ? t('web_learn_score_fmt', right, questions.length) : ''
     }
     questions.forEach((q, qi) => {
       const id = `${key}-${qi}`
       const fieldset = h('fieldset', {}, html('legend', {}, inline(q.question)))
       const explanation = html('p', { class: 'learn-explanation' }, inline(q.explanation ?? ''))
+      if (q.pairs) {
+        fieldset.append(this.renderMatch(q, id, answers, lesson, explanation, updateScore), explanation)
+        box.append(fieldset)
+        return
+      }
       const showAnswer = (chosen: number | undefined) => {
         fieldset.querySelectorAll<HTMLButtonElement>('button').forEach((b, oi) => {
           b.classList.toggle('right', chosen !== undefined && q.options[oi].correct)
@@ -558,4 +567,59 @@ export class LearnPanel {
     updateScore()
     return box
   }
+
+  /** Zuordnung: neben jedem linken Begriff eine Auswahl mit allen rechten Begriffen. */
+  private renderMatch(
+    q: QuizQuestion,
+    id: string,
+    answers: () => Record<string, number>,
+    lesson: Lesson | undefined,
+    explanation: HTMLElement,
+    updateScore: () => void,
+  ): HTMLElement {
+    const pairs = q.pairs!
+    const order = matchOrder(q)
+    const grid = h('div', { class: 'learn-match' })
+    // Ohne Lektion (Aufgaben) merkt sich die Zuordnung ihre Antworten nur, solange sie angezeigt wird.
+    let local: Record<string, number> = {}
+    const read = () => (lesson ? answers() : local)
+    const write = (next: Record<string, number>) => (lesson ? progress.updateLesson(lesson.id, { quiz: next }) : (local = next))
+    const value = (pi: number) => read()[`${id}-${pi}`]
+    const selects = pairs.map((p) => {
+      const select = h('select', { class: 'learn-match-select' }) as HTMLSelectElement
+      select.append(h('option', { value: '' }, '–'))
+      order.forEach((text, oi) => select.append(h('option', { value: String(oi) }, text)))
+      const label = html('label', { class: 'learn-match-left' }, inline(p.left))
+      label.append(select)
+      grid.append(label)
+      return select
+    })
+    const show = () => {
+      const complete = pairs.every((_, pi) => value(pi) !== undefined)
+      selects.forEach((select, pi) => {
+        const v = value(pi)
+        select.value = v === undefined ? '' : String(v)
+        select.classList.toggle('right', complete && order[v] === pairs[pi].right)
+        select.classList.toggle('wrong', complete && order[v] !== pairs[pi].right)
+      })
+      explanation.hidden = !complete || !q.explanation
+    }
+    selects.forEach((select, pi) =>
+      select.addEventListener('change', () => {
+        const next = { ...read() }
+        if (select.value === '') delete next[`${id}-${pi}`]
+        else next[`${id}-${pi}`] = Number(select.value)
+        write(next)
+        show()
+        updateScore()
+      }),
+    )
+    show()
+    return grid
+  }
+}
+
+/** Rechte Seiten einer Zuordnung in fester, alphabetischer Reihenfolge, damit die Auswahl nichts verrät. */
+function matchOrder(q: QuizQuestion): string[] {
+  return (q.pairs ?? []).map((p) => p.right).sort((a, b) => a.localeCompare(b, 'de'))
 }

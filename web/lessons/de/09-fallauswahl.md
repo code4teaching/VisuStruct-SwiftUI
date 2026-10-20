@@ -111,4 +111,10 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 - [x] Der Fall default wird ausgeführt.
 - [ ] Die Simulation meldet einen Fehler.
 > Groß- und Kleinschreibung zählt. Rot und rot sind verschiedene Texte.
+
+? Unter welchem Namen findest du die Fallauswahl auch in Schulbüchern?
+- [ ] Bedingte Anweisung
+- [ ] Sequenz
+- [x] Mehrfachauswahl
+> Aus vielen Fällen wird einer ausgewählt. Darum heißt sie auch Mehrfachauswahl.
 :::

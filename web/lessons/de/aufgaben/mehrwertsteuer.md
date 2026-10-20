@@ -30,3 +30,11 @@ test: 0 -> 0 | 0
 tipp: Die Steuer ist `nettopreis * MWST`. Den Bruttopreis bekommst du, wenn du die Steuer zum Nettopreis addierst. Beide Werte sind Kommazahlen, also `double`.
 lösung: aufgabe-mehrwertsteuer-loesung.visustruct
 :::
+
+::: quiz
+? Warum legst du den Steuersatz als Konstante an?
+- [ ] Weil Konstanten schneller gerechnet werden
+- [x] Weil sich sein Wert im Programm nicht ändern soll
+- [ ] Weil man Kommazahlen nur als Konstante speichern kann
+> Eine Konstante behält ihren Wert. Ändert sich der Steuersatz einmal, passt du nur die eine Zeile mit `const` an.
+:::

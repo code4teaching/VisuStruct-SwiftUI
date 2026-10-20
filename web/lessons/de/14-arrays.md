@@ -155,4 +155,10 @@ lösung: l14-summe-max-loesung.visustruct
 - [x] Mit dem ersten Wert des Arrays
 - [ ] Mit der Länge des Arrays
 > Beginnt es mit 0, wäre bei lauter negativen Zahlen 0 das Ergebnis, obwohl 0 gar nicht im Array steht.
+
+? Welches deutsche Wort wird oft für Array benutzt?
+- [ ] Zweig
+- [x] Feld
+- [ ] Fall
+> Ein Array heißt auf Deutsch oft Feld. Gemeint ist dasselbe: viele Fächer unter einem Namen.
 :::
