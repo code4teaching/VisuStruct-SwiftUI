@@ -158,6 +158,7 @@ function shortcut(key: string, shift = false): string {
 const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
 const learnKey = 'visustruct.learn.open'
+const learnWidthKey = 'visustruct.learn.width'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
 const maxUndoSteps = 80
@@ -249,7 +250,7 @@ export class App {
     this.shell = document.createElement('div')
     this.shell.className = 'shell'
     root.replaceWith(this.shell)
-    this.shell.append(this.learn.element, root)
+    this.shell.append(this.learn.element, this.learnResizer(), root)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn
     const fromSite = new URLSearchParams(location.search).has('learn')
@@ -784,6 +785,48 @@ export class App {
 
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
   /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
+  /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
+  private learnResizer(): HTMLElement {
+    const panel = this.learn.element
+    const bar = h('div', { class: 'learn-resizer', role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title: t('web_learn_resize') })
+    const apply = (width: number | undefined, remember: boolean) => {
+      panel.style.width = width === undefined ? '' : `${clampLearnWidth(width)}px`
+      if (remember) storeValue(learnWidthKey, width === undefined ? '' : String(clampLearnWidth(width)))
+    }
+    const saved = Number(storedValue(learnWidthKey))
+    if (saved > 0) apply(saved, false)
+    // Im Rechts-nach-links-Layout liegt der Lernbereich rechts.
+    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? -1 : 1)
+    bar.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return
+      e.preventDefault()
+      bar.setPointerCapture(e.pointerId)
+      const startX = e.clientX
+      const startWidth = panel.getBoundingClientRect().width
+      const s = sign()
+      this.shell.classList.add('resizing')
+      const move = (ev: PointerEvent) => apply(startWidth + s * (ev.clientX - startX), false)
+      const up = (ev: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        this.shell.classList.remove('resizing')
+        apply(startWidth + s * (ev.clientX - startX), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowRight' ? 20 : e.key === 'ArrowLeft' ? -20 : 0
+      if (!step) return
+      e.preventDefault()
+      apply(panel.getBoundingClientRect().width + sign() * step, true)
+    })
+    return bar
+  }
+
   private findSubprogram(name: string, current: Tab | undefined = this.tab): VSDocument | undefined {
     const key = subprogramKey(name)
     if (key === '') return undefined
@@ -1403,6 +1446,11 @@ function subprogramKey(text: string): string {
 function tabTitle(tab: Tab): string {
   if (tab.fileName) return tab.fileName.replace(/\.(visustruct|strk)$/i, '')
   return tab.doc.caption.trim() || t('tab_title_format', tab.serial)
+}
+
+/** Breite des Lernbereichs: mindestens 260 px, dem Editor bleiben mindestens 420 px. */
+function clampLearnWidth(width: number): number {
+  return Math.round(Math.max(260, Math.min(width, 720, window.innerWidth - 420)))
 }
 
 function storedValue(key: string): string | null {
