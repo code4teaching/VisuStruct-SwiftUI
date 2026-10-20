@@ -75,9 +75,9 @@ lösung: l2-zwei-zeilen-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann ein Element aus der Palette einfügen und einen Platzhalter ersetzen.
-- Ich kann den Text eines Kastens ändern und zwischen Anweisung, Eingabe und Ausgabe umschalten.
-- Ich kann Kästen verschieben, kopieren, löschen und Schritte rückgängig machen.
+- Ich kann ein Element aus der Palette einfügen und einen Platzhalter ersetzen. → Ein Element einfügen
+- Ich kann den Text eines Kastens ändern und zwischen Anweisung, Eingabe und Ausgabe umschalten. → Text eingeben
+- Ich kann Kästen verschieben, kopieren, löschen und Schritte rückgängig machen. → Verschieben, kopieren, löschen
 :::
 
 ## Wissenstest

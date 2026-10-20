@@ -119,10 +119,10 @@ lösung: l14-summe-max-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann ein Array mit Werten oder mit `new int[5]` anlegen.
-- Ich weiß, dass der Index bei 0 beginnt und der letzte Index `length - 1` ist.
-- Ich kann ein Array mit einer For-Schleife durchlaufen und füllen.
-- Ich kann die Summe und das Maximum eines Arrays berechnen.
+- Ich kann ein Array mit Werten oder mit `new int[5]` anlegen. → Viele Werte unter einem Namen
+- Ich weiß, dass der Index bei 0 beginnt und der letzte Index `length - 1` ist. → Der Index beginnt bei 0
+- Ich kann ein Array mit einer For-Schleife durchlaufen und füllen. → Ein Array mit der Schleife durchlaufen
+- Ich kann die Summe und das Maximum eines Arrays berechnen. → Summe und Maximum
 :::
 
 ## Wissenstest

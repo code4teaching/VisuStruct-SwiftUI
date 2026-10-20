@@ -341,6 +341,7 @@ export class App {
         this.scrollToSimPath()
       },
       (name) => this.findSubprogram(name),
+      () => this.setSimulating(false),
     )
     this.root.append(this.sim.element)
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
@@ -454,6 +455,7 @@ export class App {
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
+          this.setSimulating(false)
           return
         }
         const tab = this.makeTab()
@@ -472,6 +474,7 @@ export class App {
         this.loadXML(encodeDocument(doc), doc.caption.trim() ? `${doc.caption.trim()}.visustruct` : fileName)
       },
       exerciseDocument: (id: string) => this.tabs.find((tab) => tab.exerciseId === id)?.doc,
+      stopSimulation: () => this.setSimulating(false),
       resetExercise: (id: string, doc: VSDocument) => {
         const tab = this.tabs.find((x) => x.exerciseId === id)
         if (!tab) return
@@ -484,6 +487,9 @@ export class App {
       preview: (doc: VSDocument) => {
         const image = Export.renderExportSVG(doc, this.metrics, this.measure, 0)
         if (!image) return undefined
+        // Kleine Diagramme nicht über ihre natürliche Größe hinaus vergrößern.
+        const width = image.svg.getAttribute('width')
+        if (width) image.svg.style.maxWidth = `${width}px`
         image.svg.removeAttribute('width')
         image.svg.removeAttribute('height')
         return image.svg

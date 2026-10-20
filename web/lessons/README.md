@@ -75,9 +75,11 @@ Eine Checkliste zum Abhaken:
 ```
 ::: checkliste
 - Ich kann ein Element einfügen.
-- Ich kann einen Kasten löschen.
+- Ich kann einen Kasten löschen. → Verschieben, kopieren, löschen
 :::
 ```
+
+Steht hinter einem Punkt `→` und der Titel eines Schritts dieser Lektion, zeigt die Checkliste daneben **Nachlesen**. Ein Klick springt zu diesem Schritt. Ein falscher Titel fällt beim Bauen und in den Tests auf.
 
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 

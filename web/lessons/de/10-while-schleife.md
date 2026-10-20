@@ -77,9 +77,9 @@ lösung: l10-verdoppeln-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, dass die While-Schleife ihre Bedingung vor jedem Durchlauf prüft.
-- Ich kann eine Zählvariable mit Startwert, Bedingung und Veränderung verwenden.
-- Ich erkenne, wenn eine Schleife nie endet, und kann den Fehler beheben.
+- Ich weiß, dass die While-Schleife ihre Bedingung vor jedem Durchlauf prüft. → Die Bedingung kommt zuerst
+- Ich kann eine Zählvariable mit Startwert, Bedingung und Veränderung verwenden. → Eine Zählvariable
+- Ich erkenne, wenn eine Schleife nie endet, und kann den Fehler beheben. → Vorsicht, Endlosschleife
 :::
 
 ## Wissenstest

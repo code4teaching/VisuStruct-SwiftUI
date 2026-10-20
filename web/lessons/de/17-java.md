@@ -145,10 +145,10 @@ lösung: l17-ticket-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann die Code-Ansicht öffnen und Java als Sprache wählen.
-- Ich weiß, wie Ausgabe, Eingabe, Verzweigung und Schleifen in Java aussehen.
-- Ich kenne den Unterschied zwischen Snippet und Class.
-- Ich kann ein kurzes Java-Programm als Struktogramm nachbauen.
+- Ich kann die Code-Ansicht öffnen und Java als Sprache wählen. → Die Code-Ansicht
+- Ich weiß, wie Ausgabe, Eingabe, Verzweigung und Schleifen in Java aussehen. → Die Elemente in Java
+- Ich kenne den Unterschied zwischen Snippet und Class. → Snippet oder Class
+- Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
 :::
 
 ## Wissenstest
