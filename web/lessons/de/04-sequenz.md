@@ -23,7 +23,7 @@ Erst verdoppeln, dann 1 addieren: Das Ergebnis ist 7. Tauschst du die beiden mit
 Die Anweisung `zahl = zahl * 2` bedeutet: Nimm den Wert von `zahl`, rechne mal 2 und speichere das Ergebnis wieder in `zahl`. Was in `zahl` steht, hängt also davon ab, was vorher passiert ist.
 
 ::: angeberwissen
-Struktogramme gibt es nicht nur in der Schule. Firmen wie IBM und Siemens haben damit ihre Programme geplant.
+Struktogramme sind kein reiner Schulkram. Laut Shneiderman haben auch Firmen wie IBM und Siemens damit ihre Programme geplant. Du lernst hier also Profi-Zeug. Määäh-ga!
 :::
 
 ## Übung: Reihenfolge ordnen

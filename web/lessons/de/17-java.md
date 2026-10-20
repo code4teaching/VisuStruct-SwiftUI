@@ -18,7 +18,7 @@ Klicke in der Leiste auf **{ } Code**. Rechts erscheint der **Code-Generator**:
 Der Code ändert sich sofort mit, wenn du am Struktogramm etwas änderst.
 
 ::: angeberwissen
-Isaac Nassi hat später an der Programmiersprache Ada mitgearbeitet und war bei Apple für Software verantwortlich. Mit Programmiersprachen kannte er sich also aus.
+Nassi hat später an der Programmiersprache Ada mitgearbeitet und war bei Apple für Software zuständig. Wer Struktogramme erfindet, landet also nicht im Ziegenstall, sondern bei Apple.
 :::
 
 ::: diagramm l17-beispiel.visustruct

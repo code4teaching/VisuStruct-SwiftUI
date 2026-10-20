@@ -209,7 +209,7 @@ Links Isaac „Ike“ Nassi (Foto: [Ed Schipul](https://commons.wikimedia.org/wi
 > Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer.
 
 ::: angeberwissen
-Nassi und Shneiderman waren 1972 beide noch Doktoranden an der Stony Brook University bei New York. Shneiderman war damals etwa 25 Jahre alt, Nassi etwa 23.
+Määäh, aufgepasst! 1972 waren Nassi und Shneiderman noch Doktoranden an der Stony Brook University bei New York, Shneiderman etwa 25 und Nassi etwa 23. Also quasi zwei Studis, die nebenbei Informatikgeschichte geschrieben haben.
 :::
 
 ## Baustein 1: Die Sequenz
@@ -231,7 +231,7 @@ Vier Anweisungen als Sequenz. Erst wird aufgestanden, dann Zähne geputzt und so
 > Auch das Tee-Beispiel von oben ist eine Sequenz.
 
 ::: angeberwissen
-Shneiderman hatte die Idee während eines Vortrags. Für die erste Skizze mit Sequenz, Verzweigung und Schleife brauchte er nur etwa 15 Minuten.
+15 Minuten! So lange hat Shneiderman für die erste Skizze mit Sequenz, Verzweigung und Schleife gebraucht. Ich brauche länger, um mich zwischen Heu und Klee zu entscheiden.
 :::
 
 ## Baustein 2: Die Verzweigung
@@ -251,7 +251,7 @@ Regnet es, wird der linke Weg ausgeführt, sonst der rechte. Danach geht es in b
 > Soll in einem Fall nichts passieren, bleibt dieser Weg leer. Das zeigt das Zeichen **ø**.
 
 ::: angeberwissen
-Shneiderman schreibt man ohne c, also nicht „Schneiderman“. Er weist selbst darauf hin, dass sein Name ständig falsch geschrieben wird.
+Rechtschreib-Alarm! Es heißt Shneiderman, ohne c. Wer „Schneiderman“ schreibt, bekommt von mir einen sanften Hornstupser. Er selbst weist übrigens darauf hin, dass ihm ständig ein c untergeschmuggelt wird.
 :::
 
 ## Baustein 3: Die Wiederholung
@@ -281,7 +281,7 @@ Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles
 Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife oder einem Zweig können wieder Sequenzen, Verzweigungen und Schleifen stehen.
 
 ::: angeberwissen
-Die bekannte Fachzeitschrift *Communications of the ACM* wollte den Artikel über Struktogramme nicht drucken. Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
+Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschrift *Communications of the ACM* hat den Struktogramm-Artikel abgelehnt. Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. Ätsch! [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
 :::
 
 ## Erst die Struktur, dann der Code
@@ -364,7 +364,7 @@ Ziehe ein Element aus der Palette auf das Struktogramm. Beim Ziehen zeigt eine b
 Du kannst auch ein Element in der Palette mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
 
 ::: angeberwissen
-Dinge auf dem Bildschirm direkt anfassen und verschieben heißt **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, derselbe Shneiderman, nach dem das Struktogramm heißt. [Mehr über ihn](https://visustruct.org/de/angeberwissen.html)
+Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, genau, der vom Struktogramm. Der Mann war fleißiger als ich beim Grasen. [Mehr über ihn](https://visustruct.org/de/angeberwissen.html)
 :::
 
 ## Text eingeben
@@ -526,7 +526,7 @@ Erst verdoppeln, dann 1 addieren: Das Ergebnis ist 7. Tauschst du die beiden mit
 Die Anweisung \`zahl = zahl * 2\` bedeutet: Nimm den Wert von \`zahl\`, rechne mal 2 und speichere das Ergebnis wieder in \`zahl\`. Was in \`zahl\` steht, hängt also davon ab, was vorher passiert ist.
 
 ::: angeberwissen
-Struktogramme gibt es nicht nur in der Schule. Firmen wie IBM und Siemens haben damit ihre Programme geplant.
+Struktogramme sind kein reiner Schulkram. Laut Shneiderman haben auch Firmen wie IBM und Siemens damit ihre Programme geplant. Du lernst hier also Profi-Zeug. Määäh-ga!
 :::
 
 ## Übung: Reihenfolge ordnen
@@ -1643,7 +1643,7 @@ Bei verschachtelten Diagrammen hilft dir die Darstellung: Was weiter innen steht
 - Gehe ein Beispiel in der Simulation mit **Schritt** durch und beobachte die Variablen.
 
 ::: angeberwissen
-Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man auf GOTO verzichten soll, warum dann nicht auch auf die Pfeile im Flussdiagramm? Ohne Pfeile sieht man die Verschachtelung sofort, weil jeder Block in seinem Rahmen liegt. [Die ganze Geschichte](https://visustruct.org/de/angeberwissen.html)
+Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man auf GOTO verzichten soll, warum dann nicht gleich auf die Pfeile im Flussdiagramm? Ergebnis: kein Pfeil-Spaghetti, und jeder Block bleibt brav in seinem Gatter. [Die ganze Geschichte](https://visustruct.org/de/angeberwissen.html)
 :::
 
 ## Checkliste
@@ -2102,7 +2102,7 @@ Klicke in der Leiste auf **{ } Code**. Rechts erscheint der **Code-Generator**:
 Der Code ändert sich sofort mit, wenn du am Struktogramm etwas änderst.
 
 ::: angeberwissen
-Isaac Nassi hat später an der Programmiersprache Ada mitgearbeitet und war bei Apple für Software verantwortlich. Mit Programmiersprachen kannte er sich also aus.
+Nassi hat später an der Programmiersprache Ada mitgearbeitet und war bei Apple für Software zuständig. Wer Struktogramme erfindet, landet also nicht im Ziegenstall, sondern bei Apple.
 :::
 
 ::: diagramm l17-beispiel.visustruct

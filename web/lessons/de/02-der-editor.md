@@ -26,7 +26,7 @@ Ziehe ein Element aus der Palette auf das Struktogramm. Beim Ziehen zeigt eine b
 Du kannst auch ein Element in der Palette mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
 
 ::: angeberwissen
-Dinge auf dem Bildschirm direkt anfassen und verschieben heißt **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, derselbe Shneiderman, nach dem das Struktogramm heißt. [Mehr über ihn](https://visustruct.org/de/angeberwissen.html)
+Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, genau, der vom Struktogramm. Der Mann war fleißiger als ich beim Grasen. [Mehr über ihn](https://visustruct.org/de/angeberwissen.html)
 :::
 
 ## Text eingeben
