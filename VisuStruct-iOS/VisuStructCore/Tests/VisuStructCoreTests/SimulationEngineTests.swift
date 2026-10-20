@@ -151,6 +151,30 @@ final class SimulationEngineTests: XCTestCase {
         XCTAssertEqual(state.notice, .finished)
     }
 
+    func testIntegerDivisionLikeJava() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let document = VisuStructDocument(elements: [
+            statement("int a = 7"),
+            statement("int b = 2"),
+            statement("int q = a / b"),
+            statement("double d = a / b"),
+            statement("double e = a / 2.0"),
+            statement("int n = -7 / 2"),
+            statement("print: \"q=\" + a / b + \" d=\" + d + \" e=\" + e + \" n=\" + n"),
+            statement("double[] w = {1.5, 2.5}"),
+            statement("double m = (w[0] + w[1]) / 2"),
+            statement("int k = 10 / 4 * 2"),
+        ])
+        let state = runSimulation(document)
+        XCTAssertEqual(state.variables["q"], .int(3))
+        XCTAssertEqual(state.variables["d"], .double(3))
+        XCTAssertEqual(state.variables["e"], .double(3.5))
+        XCTAssertEqual(state.variables["n"], .int(-3))
+        XCTAssertEqual(state.variables["m"], .double(2))
+        XCTAssertEqual(state.variables["k"], .int(4))
+        XCTAssertEqual(state.outputLines, ["q=3 d=3.0 e=3.5 n=-3"])
+    }
+
     func testBooleanInput() {
         let document = VisuStructDocument(elements: [
             VisuStructElement(type: .anweisung, textLines: ["input: boolean ok \"Okay?\""]),

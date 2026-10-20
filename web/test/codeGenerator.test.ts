@@ -36,7 +36,7 @@ describe('Codegenerierung', () => {
     expect(js).toContain('while (number != 1) {')
     expect(js).toContain('console.log(number);')
     // int-Variable: Ganzzahldivision wie in Java
-    expect(js).toContain('number = Math.floor(number / 2);')
+    expect(js).toContain('number = Math.trunc(number / 2);')
   })
 
   it('Python: Java-Schreibweise wird übersetzt', () => {
@@ -101,5 +101,17 @@ describe('Codegenerierung', () => {
     expect(generateCode(pin, 'javascript')).toContain('prompt(')
     expect(generateCode(pin, 'python')).toContain('input(')
     expect(generateCode(example('SummeBilden/for-loop.visustruct'), 'python')).toMatch(/for \w+ in range\(/)
+  })
+
+  it('JavaScript schneidet int / int wie Java ab', () => {
+    const s = (t: string) => makeElement(ElementType.anweisung, { textLines: [t] })
+    const js = generateCode(
+      { caption: '', elements: [s('int a = 7'), s('int b = 2'), s('int q = a / b'), s('q /= 2'), s('double e = a / 2.0'), s('print: "x/y " + a / b')] },
+      'javascript',
+    )
+    expect(js).toContain('let q = Math.trunc(a / b);')
+    expect(js).toContain('q = Math.trunc(q / 2);')
+    expect(js).toContain('a / 2.0')
+    expect(js).toContain('"x/y " + Math.trunc(a / b)')
   })
 })

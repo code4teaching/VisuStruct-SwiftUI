@@ -33,6 +33,23 @@ final class CodeGeneratorTests: XCTestCase {
         XCTAssertTrue(javaScript.contains("console.log(number);"), javaScript)
     }
 
+    func testJavaScriptTruncatesIntegerDivision() {
+        let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
+        let document = VisuStructDocument(elements: [
+            statement("int a = 7"),
+            statement("int b = 2"),
+            statement("int q = a / b"),
+            statement("q /= 2"),
+            statement("double e = a / 2.0"),
+            statement("print: \"x/y \" + a / b"),
+        ])
+        let js = VisuStructCodeGenerator.generate(document: document, target: .javascript)
+        XCTAssertTrue(js.contains("let q = Math.trunc(a / b);"), js)
+        XCTAssertTrue(js.contains("q = Math.trunc(q / 2);"), js)
+        XCTAssertTrue(js.contains("a / 2.0"), js)
+        XCTAssertTrue(js.contains("\"x/y \" + Math.trunc(a / b)"), js)
+    }
+
     func testPythonTranslatesJavaSyntax() {
         let statement = { (text: String) in VisuStructElement(type: .anweisung, textLines: [text]) }
         let document = VisuStructDocument(elements: [

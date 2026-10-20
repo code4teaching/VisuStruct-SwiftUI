@@ -176,7 +176,7 @@ describe('Simulation', () => {
   it('Werte und Arrays', () => {
     const state = runSimulation(
       doc([
-        stmt('double d = 7 / 2'),
+        stmt('double d = 7.0 / 2'),
         stmt('int[] a = {3, 4, 5}'),
         stmt('a[1] = a[0] * 10'),
         stmt('String s = "x"'),
@@ -275,5 +275,29 @@ describe('Bedingungen', () => {
     engine.reset()
     expect(engine.state.isHalted).toBe(false)
     expect(engine.canStep).toBe(true)
+  })
+
+  it('teilt ganze Zahlen wie Java', () => {
+    const state = runSimulation(
+      doc([
+        stmt('int a = 7'),
+        stmt('int b = 2'),
+        stmt('int q = a / b'),
+        stmt('double d = a / b'),
+        stmt('double e = a / 2.0'),
+        stmt('int n = -7 / 2'),
+        stmt('double[] w = {1.5, 2.5}'),
+        stmt('print: "q=" + a / b + " d=" + d + " e=" + e + " n=" + n'),
+        stmt('double m = (w[0] + w[1]) / 2'),
+        stmt('int k = 10 / 4 * 2'),
+      ]),
+    )
+    expect(state.variables.get('q')).toEqual({ kind: 'int', value: 3 })
+    expect(state.variables.get('d')).toEqual({ kind: 'double', value: 3 })
+    expect(state.variables.get('e')).toEqual({ kind: 'double', value: 3.5 })
+    expect(state.variables.get('n')).toEqual({ kind: 'int', value: -3 })
+    expect(state.outputLines).toEqual(['q=3 d=3.0 e=3.5 n=-3'])
+    expect(state.variables.get('m')).toEqual({ kind: 'double', value: 2 })
+    expect(state.variables.get('k')).toEqual({ kind: 'int', value: 4 })
   })
 })

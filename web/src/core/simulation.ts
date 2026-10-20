@@ -423,18 +423,25 @@ function tokenize(expression: string): Token[] {
   return tokens
 }
 
+type Num = { v: number; int: boolean }
+
 class NumericParser {
   private index = 0
   constructor(private tokens: Token[], private variables: Map<string, SimValue>) {}
 
   parseInt(): number {
-    const value = this.expression()
+    const value = this.expression().v
     if (this.index !== this.tokens.length) throw invalid('')
     if (!Number.isFinite(value)) throw invalid('')
     return Math.trunc(value)
   }
 
   parseDouble(): number {
+    return this.parseNumber().v
+  }
+
+  /** Wert samt Angabe, ob er wie in Java ganzzahlig ist (nur `int`-Werte und Literale ohne Punkt). */
+  parseNumber(): Num {
     const value = this.expression()
     if (this.index !== this.tokens.length) throw invalid('')
     return value
@@ -454,38 +461,41 @@ class NumericParser {
     return c?.t === 'identifier' && c.name === name
   }
 
-  private expression(): number {
+  private expression(): Num {
     let value = this.term()
     for (let tok = this.current; tok && (tok.t === '+' || tok.t === '-'); tok = this.current) {
       this.index += 1
       const rhs = this.term()
-      value = tok.t === '+' ? value + rhs : value - rhs
+      value = { v: tok.t === '+' ? value.v + rhs.v : value.v - rhs.v, int: value.int && rhs.int }
     }
     return value
   }
 
-  private term(): number {
+  private term(): Num {
     let value = this.factor()
     for (let tok = this.current; tok && (tok.t === '*' || tok.t === '/' || tok.t === '%'); tok = this.current) {
       this.index += 1
       const rhs = this.factor()
+      const bothInt = value.int && rhs.int
       if (tok.t === '*') {
-        value *= rhs
+        value = { v: value.v * rhs.v, int: bothInt }
       } else {
-        if (rhs === 0) throw divByZero()
-        value = tok.t === '/' ? value / rhs : value % rhs
+        if (rhs.v === 0) throw divByZero()
+        // Wie in Java: int / int schneidet Richtung null ab (7 / 2 = 3, -7 / 2 = -3)
+        const v = tok.t === '/' ? (bothInt ? Math.trunc(value.v / rhs.v) : value.v / rhs.v) : value.v % rhs.v
+        value = { v, int: bothInt }
       }
     }
     return value
   }
 
-  private factor(): number {
+  private factor(): Num {
     const token = this.current
     if (!token) throw invalid('')
     this.index += 1
     switch (token.t) {
       case 'number':
-        return token.value
+        return { v: token.value, int: !token.literal.includes('.') }
       case 'identifier': {
         const name = token.name
         if (name === 'Math' && this.kind() === '.') {
@@ -496,7 +506,7 @@ class NumericParser {
           this.index += 1
           if (this.kind() !== ')') throw invalid('Math.random')
           this.index += 1
-          return Math.random()
+          return { v: Math.random(), int: false }
         }
         const value = this.variables.get(name)
         if (!value) throw unknownVar(name)
@@ -510,27 +520,29 @@ class NumericParser {
             this.index += 1
           }
           if (value.kind === 'intArray' || value.kind === 'doubleArray' || value.kind === 'stringArray') {
-            return value.value.length
+            return { v: value.value.length, int: true }
           }
           throw invalid(name)
         }
         if (this.kind() === '[') {
           this.index += 1
-          const elementIndex = Math.trunc(this.expression())
+          const elementIndex = Math.trunc(this.expression().v)
           if (this.kind() !== ']') throw invalid(name)
           this.index += 1
           if (value.kind === 'intArray' || value.kind === 'doubleArray') {
             if (!(elementIndex >= 0 && elementIndex < value.value.length)) throw invalid(`${name}[${elementIndex}]`)
-            return value.value[elementIndex]
+            return { v: value.value[elementIndex], int: value.kind === 'intArray' }
           }
           throw invalid(name)
         }
         const numeric = asDouble(value)
         if (!Number.isFinite(numeric)) throw invalid(name)
-        return numeric
+        return { v: numeric, int: value.kind === 'int' }
       }
-      case '-':
-        return -this.factor()
+      case '-': {
+        const inner = this.factor()
+        return { v: -inner.v, int: inner.int }
+      }
       case '(': {
         const value = this.expression()
         if (this.kind() !== ')') throw invalid('')
@@ -1143,8 +1155,8 @@ export class SimulationEngine {
   }
 
   private evaluateNumeric(expression: string): SimValue {
-    const value = this.evaluateDouble(expression)
-    return Number.isFinite(value) && Math.round(value) === value ? int(value) : dbl(value)
+    const { v: value, int: isInt } = this.parser(expression).parseNumber()
+    return isInt || (Number.isFinite(value) && Math.round(value) === value) ? int(value) : dbl(value)
   }
 
   private parser(expression: string): NumericParser {

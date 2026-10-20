@@ -166,6 +166,10 @@ extension VisuStructCodeGenerator {
                 out += blockComment(lines: forDiagram, target: target, indent: indent)
             }
         }
+        // Im JavaScript-Export: `/` zwischen ganzen Zahlen wie in Java abschneiden
+        func js(_ code: String) -> String {
+            target == .javascript ? javaScriptIntegerDivision(code, intVariables: options.jsIntVariables) : code
+        }
         for raw in body {
             if raw.isEmpty { continue }
             if isDiagramEmptyPlaceholderText(raw) {
@@ -174,53 +178,49 @@ extension VisuStructCodeGenerator {
             }
             if target == .java {
                 if let s = emitJavaInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
-                    out += s
+                    out += js(s)
                     continue
                 }
                 if let s = emitJavaPrintLineIfNeeded(raw, indent: indent) {
-                    out += s
+                    out += js(s)
                     continue
                 }
             }
             if target == .javascript {
                 if let s = emitJavaScriptInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
-                    out += s
+                    out += js(s)
                     continue
                 }
                 if let s = emitJavaScriptPrintLineIfNeeded(raw, indent: indent) {
-                    out += s
+                    out += js(s)
                     continue
                 }
             }
             if target == .python {
                 if let s = emitPythonInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
-                    out += s
+                    out += js(s)
                     continue
                 }
                 if let s = emitPythonPrintLineIfNeeded(raw, indent: indent, options: options) {
-                    out += s
+                    out += js(s)
                     continue
                 }
             }
             if let s = emitConstTypedLineIfNeeded(raw, target: target, indent: indent, intVariables: options.jsIntVariables) {
-                out += s
+                out += js(s)
                 continue
             }
             if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent, options: options) {
-                out += s
+                out += js(s)
                 continue
             }
             if let s = emitBareLeadingStringAsPrintIfNeeded(raw, target: target, indent: indent, options: options) {
-                out += s
+                out += js(s)
                 continue
             }
             let line: String = {
                 if isCStyleSemicolonTarget(target) {
-                    if target == .javascript,
-                       let transformed = javaScriptIntegerDivisionIfNeeded(raw, intVariables: options.jsIntVariables) {
-                        return formatCStyleStatementLine(transformed)
-                    }
-                    return formatCStyleStatementLine(raw)
+                    return formatCStyleStatementLine(js(raw))
                 }
                 return pythonStatementLine(raw, intVariables: options.jsIntVariables, stringVariables: options.stringVariables)
             }()
@@ -248,7 +248,7 @@ extension VisuStructCodeGenerator {
         case .python:
             out += sp(indent) + prefix + pythonExpression(cond, intVariables: options.jsIntVariables) + suffix
         case .javascript:
-            out += sp(indent) + prefix + cond + suffix
+            out += sp(indent) + prefix + javaScriptIntegerDivision(cond, intVariables: options.jsIntVariables) + suffix
         }
     }
 

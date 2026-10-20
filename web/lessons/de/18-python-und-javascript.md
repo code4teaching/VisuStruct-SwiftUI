@@ -34,13 +34,16 @@ Was in Python anders ist als in Java:
 
 ## Worauf du bei Python achten musst
 
-Python ist an einigen Stellen strenger. Der erzeugte Code läuft dann nicht sofort, und du musst ihn von Hand anpassen:
+Python ist an einigen Stellen strenger als Java. VisuStruct übersetzt die Java-Schreibweise beim Export deshalb gleich mit:
 
-- **Text und Zahl mit +:** `print("Summe: " + summe)` führt in Python zu einem Fehler, wenn `summe` eine Zahl ist. Schreibe `print("Summe: " + str(summe))` oder `print("Summe:", summe)`.
-- **i++ gibt es nicht:** Schreibe im Struktogramm lieber `i = i + 1`. Das versteht jede Sprache.
-- **&& und ||** heißen in Python `and` und `or`.
-- **Ganzzahlige Division:** In Python ergibt `7 / 2` immer 3.5. Für 3 schreibst du `7 // 2`.
-- **Komplizierte For-Schleifen:** Nur einfache Zählschleifen werden zu `for … in range(…)`. Bei einer Grenze wie `i <= n` oder einem Schritt wie `i = i + 2` musst du die Zeile selbst umschreiben, z. B. zu `for i in range(1, n + 1):`.
+- **Text und Zahl mit +:** `"Summe: " + summe` wird zu `"Summe: " + str(summe)`. Ohne `str(…)` bricht Python ab.
+- **i++ gibt es nicht:** daraus wird `i += 1`.
+- **&&, || und !** heißen in Python `and`, `or` und `not`, `true` und `false` werden zu `True` und `False`.
+- **Ganzzahlige Division:** In Python ergibt `7 / 2` immer 3.5. Teilt das Struktogramm zwei `int`-Werte, schreibt VisuStruct deshalb `7 // 2`, das ergibt wie in Java 3.
+- **For-Schleifen:** Zählschleifen werden zu `for … in range(…)`, auch mit `i <= n`, Rückwärtszählen oder Schritten wie `i = i + 2`. Passt eine Schleife nicht dazu, wird daraus eine `while`-Schleife.
+- **do-while gibt es nicht:** daraus wird `while True:` mit `if not (…): break` am Ende.
+
+Ist ein Diagramm als **Pseudocode** markiert, steht nur ein Hinweis über dem Code. Dann ist der Text eine Skizze und kein lauffähiges Programm.
 
 ## JavaScript
 
@@ -63,6 +66,7 @@ JavaScript sieht Java ähnlich: geschweifte Klammern, Semikolons, `while (…)` 
 - Die Ausgabe heißt `console.log(…)`, die Eingabe `prompt(…)`. Mit `parseInt(…)` wird aus der Eingabe eine ganze Zahl.
 - Arrays stehen in eckigen Klammern: `let zahlen = [2, 4, 6];`.
 - `"use strict";` ganz oben sorgt dafür, dass JavaScript bei Tippfehlern in Variablennamen meckert.
+- JavaScript kennt nur einen Zahlentyp. Teilt das Struktogramm zwei `int`-Werte, schreibt VisuStruct `Math.trunc(a / b)`. Dann fallen die Nachkommastellen wie in Java weg.
 
 ## JavaScript im Browser ausführen
 
@@ -129,7 +133,7 @@ lösung: l18-js-loesung.visustruct
 ::: checkliste
 - Ich kann Python und JavaScript in der Code-Ansicht auswählen und vergleichen.
 - Ich weiß, dass Python Blöcke durch Einrückung bildet und keine Datentypen braucht.
-- Ich kenne Stellen, an denen ich Python-Code von Hand anpassen muss.
+- Ich weiß, was VisuStruct beim Übersetzen nach Python anpasst.
 - Ich kann JavaScript mit Im Browser testen ausführen.
 :::
 

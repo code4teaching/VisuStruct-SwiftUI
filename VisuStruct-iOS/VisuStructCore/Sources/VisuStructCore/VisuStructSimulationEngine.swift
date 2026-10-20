@@ -937,8 +937,13 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     }
 
     private func evaluateNumericExpression(_ expression: String) throws -> VisuStructSimulationValue {
-        let value = try evaluateDoubleExpression(expression)
-        return value.rounded() == value ? .int(Int(value)) : .double(value)
+        var parser = NumericExpressionParser(
+            tokens: try NumericExpressionTokenizer.tokenize(Self.normalizeNumericExpression(expression)),
+            variables: state.variables
+        )
+        let result = try parser.parseNumber()
+        let value = result.value
+        return result.isInt || (value.isFinite && value.rounded() == value) ? .int(Int(value)) : .double(value)
     }
 
     private func evaluateIntExpression(_ expression: String) throws -> Int {
@@ -1536,13 +1541,18 @@ private enum NumericExpressionTokenizer {
     }
 }
 
+struct NumericResult {
+    var value: Double
+    var isInt: Bool
+}
+
 private struct NumericExpressionParser {
     var tokens: [NumericExpressionToken]
     var variables: [String: VisuStructSimulationValue]
     var index = 0
 
     mutating func parseInt() throws -> Int {
-        let value = try parseDoubleExpression()
+        let value = try parseDoubleExpression().value
         guard index == tokens.count else {
             throw SimulationError.invalidExpression("")
         }
@@ -1551,6 +1561,11 @@ private struct NumericExpressionParser {
     }
 
     mutating func parseDouble() throws -> Double {
+        try parseNumber().value
+    }
+
+    /// Wert samt Angabe, ob er wie in Java ganzzahlig ist (nur `int`-Werte und Literale ohne Punkt).
+    mutating func parseNumber() throws -> NumericResult {
         let value = try parseDoubleExpression()
         guard index == tokens.count else {
             throw SimulationError.invalidExpression("")
@@ -1558,105 +1573,48 @@ private struct NumericExpressionParser {
         return value
     }
 
-    private mutating func parseIntExpression() throws -> Int {
-        var value = try parseIntTerm()
+    private mutating func parseDoubleExpression() throws -> NumericResult {
+        var value = try parseDoubleTerm()
         while let token = current, token == .plus || token == .minus {
             index += 1
-            let rhs = try parseIntTerm()
-            value = token == .plus ? value + rhs : value - rhs
+            let rhs = try parseDoubleTerm()
+            value = NumericResult(
+                value: token == .plus ? value.value + rhs.value : value.value - rhs.value,
+                isInt: value.isInt && rhs.isInt
+            )
         }
         return value
     }
 
-    private mutating func parseIntTerm() throws -> Int {
-        var value = try parseIntFactor()
+    private mutating func parseDoubleTerm() throws -> NumericResult {
+        var value = try parseDoubleFactor()
         while let token = current, token == .multiply || token == .divide || token == .modulo {
             index += 1
-            let rhs = try parseIntFactor()
+            let rhs = try parseDoubleFactor()
+            let bothInt = value.isInt && rhs.isInt
             if token == .multiply {
-                value *= rhs
+                value = NumericResult(value: value.value * rhs.value, isInt: bothInt)
             } else if token == .divide {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value /= rhs
+                guard rhs.value != 0 else { throw SimulationError.divisionByZero }
+                // Wie in Java: int / int schneidet Richtung null ab (7 / 2 = 3, -7 / 2 = -3)
+                let quotient = value.value / rhs.value
+                value = NumericResult(value: bothInt ? quotient.rounded(.towardZero) : quotient, isInt: bothInt)
             } else {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value %= rhs
+                guard rhs.value != 0 else { throw SimulationError.divisionByZero }
+                value = NumericResult(value: value.value.truncatingRemainder(dividingBy: rhs.value), isInt: bothInt)
             }
         }
         return value
     }
 
-    private mutating func parseIntFactor() throws -> Int {
+    private mutating func parseDoubleFactor() throws -> NumericResult {
         guard let token = current else {
             throw SimulationError.invalidExpression("")
         }
         index += 1
         switch token {
         case .number(let literal, let value):
-            guard value.rounded() == value, !literal.contains(".") else {
-                throw SimulationError.invalidExpression(literal)
-            }
-            return Int(value)
-        case .identifier(let name):
-            guard let value = variables[name] else {
-                throw SimulationError.unknownVariable(name)
-            }
-            switch value {
-            case .int(let intValue):
-                return intValue
-            case .double, .string, .bool, .intArray, .doubleArray, .stringArray:
-                throw SimulationError.invalidExpression(name)
-            }
-        case .minus:
-            return try -parseIntFactor()
-        case .leftParen:
-            let value = try parseIntExpression()
-            guard current == .rightParen else {
-                throw SimulationError.invalidExpression("")
-            }
-            index += 1
-            return value
-        default:
-            throw SimulationError.invalidExpression("")
-        }
-    }
-
-    private mutating func parseDoubleExpression() throws -> Double {
-        var value = try parseDoubleTerm()
-        while let token = current, token == .plus || token == .minus {
-            index += 1
-            let rhs = try parseDoubleTerm()
-            value = token == .plus ? value + rhs : value - rhs
-        }
-        return value
-    }
-
-    private mutating func parseDoubleTerm() throws -> Double {
-        var value = try parseDoubleFactor()
-        while let token = current, token == .multiply || token == .divide || token == .modulo {
-            index += 1
-            let rhs = try parseDoubleFactor()
-            if token == .multiply {
-                value *= rhs
-            } else if token == .divide {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value /= rhs
-            } else {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value = value.truncatingRemainder(dividingBy: rhs)
-            }
-        }
-        return value
-    }
-
-    private mutating func parseDoubleFactor() throws -> Double {
-        guard let token = current else {
-            throw SimulationError.invalidExpression("")
-        }
-        index += 1
-        switch token {
-        case .number(_, let value):
-            return value
+            return NumericResult(value: value, isInt: !literal.contains("."))
         case .identifier(let name):
             if name == "Math", current == .dot {
                 index += 1
@@ -1672,7 +1630,7 @@ private struct NumericExpressionParser {
                     throw SimulationError.invalidExpression("Math.random")
                 }
                 index += 1
-                return Double.random(in: 0..<1)
+                return NumericResult(value: Double.random(in: 0..<1), isInt: false)
             }
             guard let value = variables[name] else {
                 throw SimulationError.unknownVariable(name)
@@ -1692,18 +1650,18 @@ private struct NumericExpressionParser {
                 }
                 switch value {
                 case .intArray(let values):
-                    return Double(values.count)
+                    return NumericResult(value: Double(values.count), isInt: true)
                 case .doubleArray(let values):
-                    return Double(values.count)
+                    return NumericResult(value: Double(values.count), isInt: true)
                 case .stringArray(let values):
-                    return Double(values.count)
+                    return NumericResult(value: Double(values.count), isInt: true)
                 default:
                     throw SimulationError.invalidExpression(name)
                 }
             }
             if current == .leftBracket {
                 index += 1
-                let elementIndex = Int(try parseDoubleExpression())
+                let elementIndex = Int(try parseDoubleExpression().value)
                 guard current == .rightBracket else {
                     throw SimulationError.invalidExpression(name)
                 }
@@ -1711,10 +1669,10 @@ private struct NumericExpressionParser {
                 switch value {
                 case .intArray(let values):
                     guard values.indices.contains(elementIndex) else { throw SimulationError.invalidExpression("\(name)[\(elementIndex)]") }
-                    return Double(values[elementIndex])
+                    return NumericResult(value: Double(values[elementIndex]), isInt: true)
                 case .doubleArray(let values):
                     guard values.indices.contains(elementIndex) else { throw SimulationError.invalidExpression("\(name)[\(elementIndex)]") }
-                    return values[elementIndex]
+                    return NumericResult(value: values[elementIndex], isInt: false)
                 default:
                     throw SimulationError.invalidExpression(name)
                 }
@@ -1723,9 +1681,13 @@ private struct NumericExpressionParser {
             guard numericValue.isFinite else {
                 throw SimulationError.invalidExpression(name)
             }
-            return numericValue
+            if case .int = value {
+                return NumericResult(value: numericValue, isInt: true)
+            }
+            return NumericResult(value: numericValue, isInt: false)
         case .minus:
-            return try -parseDoubleFactor()
+            let inner = try parseDoubleFactor()
+            return NumericResult(value: -inner.value, isInt: inner.isInt)
         case .leftParen:
             let value = try parseDoubleExpression()
             guard current == .rightParen else {
