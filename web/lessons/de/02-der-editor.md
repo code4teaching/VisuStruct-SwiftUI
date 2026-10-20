@@ -25,6 +25,10 @@ Ziehe ein Element aus der Palette auf das Struktogramm. Beim Ziehen zeigt eine b
 
 Du kannst auch ein Element in der Palette mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
 
+::: angeberwissen
+Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, genau, der vom Struktogramm. Der Mann war fleißiger als ich beim Grasen. [Mehr über ihn](https://visustruct.org/de/angeberwissen.html)
+:::
+
 ## Text eingeben
 
 Klicke einen Kasten an. Er wird blau umrandet, und unter dem Diagramm erscheint sein Text. Was du dort tippst, siehst du sofort im Diagramm.

@@ -20,7 +20,15 @@ Ein Struktogramm wird **von oben nach unten** gelesen. Jeder Kasten ist ein Schr
 
 Die Darstellung stammt von **Isaac Nassi und Ben Shneiderman** (1973). Deshalb heißt sie auch Nassi-Shneiderman-Diagramm. In Deutschland ist sie als DIN 66261 genormt.
 
+::: bild ike-nassi.jpg ben-shneiderman.jpg
+Links Isaac „Ike“ Nassi (Foto: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/deed.de), zugeschnitten), rechts Ben Shneiderman (Foto: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
+:::
+
 > Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer.
+
+::: angeberwissen
+Määäh, aufgepasst! 1972 waren Nassi und Shneiderman noch Doktoranden an der Stony Brook University bei New York, Shneiderman etwa 25 und Nassi etwa 23. Also quasi zwei Studis, die nebenbei Informatikgeschichte geschrieben haben.
+:::
 
 ## Baustein 1: Die Sequenz
 
@@ -40,6 +48,10 @@ Vier Anweisungen als Sequenz. Erst wird aufgestanden, dann Zähne geputzt und so
 
 > Auch das Tee-Beispiel von oben ist eine Sequenz.
 
+::: angeberwissen
+15 Minuten! So lange hat Shneiderman für die erste Skizze mit Sequenz, Verzweigung und Schleife gebraucht. Ich brauche länger, um mich zwischen Heu und Klee zu entscheiden.
+:::
+
 ## Baustein 2: Die Verzweigung
 
 Oft hängt der nächste Schritt von einer **Bedingung** ab. Eine Bedingung ist eine Frage, die man nur mit **ja oder nein** beantworten kann, zum Beispiel *Regnet es?* In VisuStruct heißt ja **true** (wahr) und nein **false** (falsch).
@@ -55,6 +67,10 @@ Regnet es, wird der linke Weg ausgeführt, sonst der rechte. Danach geht es in b
 :::
 
 > Soll in einem Fall nichts passieren, bleibt dieser Weg leer. Das zeigt das Zeichen **ø**.
+
+::: angeberwissen
+Rechtschreib-Alarm! Es heißt Shneiderman, ohne c. Wer „Schneiderman“ schreibt, bekommt von mir einen sanften Hornstupser. Er selbst weist übrigens darauf hin, dass ihm ständig ein c untergeschmuggelt wird.
+:::
 
 ## Baustein 3: Die Wiederholung
 
@@ -81,6 +97,10 @@ Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles
 :::
 
 Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife oder einem Zweig können wieder Sequenzen, Verzweigungen und Schleifen stehen.
+
+::: angeberwissen
+Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschrift *Communications of the ACM* hat den Struktogramm-Artikel abgelehnt. Laut Nassi meinte der Gutachter sogar, sie sollten alle Exemplare einsammeln und verbrennen. Autsch! Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. Ätsch! [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
+:::
 
 ## Erst die Struktur, dann der Code
 

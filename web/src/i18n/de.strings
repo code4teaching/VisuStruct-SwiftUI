@@ -62,6 +62,7 @@
 "web_learn_after_fmt" = "Nach Lektion %d: %@";
 "web_learn_level_fmt" = "Schwierigkeit %d von 3";
 "web_learn_exercise" = "Übung";
+"web_learn_brag" = "Angeberwissen mit Ludwig";
 "web_learn_solved" = "geschafft";
 "web_learn_open_exercise" = "Im Editor öffnen";
 "web_learn_open_in_editor" = "Im Editor öffnen";

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { subprogramName } from '../src/core/simulation'
-import { diagram, lessons, reference, tasks } from '../src/learn/content'
+import { diagram, image, lessons, reference, tasks } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 
@@ -27,6 +27,12 @@ describe('Lernbereich: Inhalte', () => {
       const files =
         block.kind === 'diagram' ? [block.file] : block.kind === 'exercise' ? [block.exercise.start, block.exercise.solution, ...block.exercise.subprograms] : []
       for (const f of files.filter(Boolean)) expect(diagram(f!), `${where}: ${f}`).toBeDefined()
+    }
+  })
+
+  it('jedes verwendete Bild existiert', () => {
+    for (const { where, block } of allBlocks()) {
+      if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
     }
   })
 
@@ -94,6 +100,10 @@ describe('Lernbereich: Format', () => {
   it('liest Tests mit Eingaben und mehreren Ausgabezeilen', () => {
     expect(parseTest('3, 4 -> 7 | fertig', 'x')).toEqual({ inputs: ['3', '4'], expected: ['7', 'fertig'] })
     expect(parseTest('- -> Hallo', 'x')).toEqual({ inputs: [], expected: ['Hallo'] })
+  })
+
+  it('liest Angeberwissen-Kästen', () => {
+    expect(parseBlocks('::: angeberwissen\nZeile eins\nZeile zwei\n:::', 'x.md')).toEqual([{ kind: 'brag', text: 'Zeile eins\nZeile zwei' }])
   })
 
   it('meldet fehlerhafte Blöcke verständlich', () => {
