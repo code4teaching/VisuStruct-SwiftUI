@@ -10,6 +10,13 @@ Eine genaue Schritt-für-Schritt-Anleitung, mit der man eine Aufgabe löst. Jede
 auch: Struktogramme, Struktogramms, Struktogrammen
 Ein Algorithmus als Bild aus Kästen. Es wird von oben nach unten gelesen.
 
+### Programmablaufplan
+auch: PAP, Programmablaufpläne, Programmablaufplans
+Ein Algorithmus als Bild aus Symbolen, die mit Pfeilen verbunden sind (DIN 66001). Eine Raute ist eine Verzweigung.
+
+### Pseudocode
+Ein Algorithmus als Text in normaler Sprache mit festen Wörtern wie WENN und SOLANGE. Die Einrückung zeigt, was zusammengehört.
+
 ### Anweisung
 auch: Anweisungen
 Ein einzelner Schritt im Struktogramm, zum Beispiel eine Rechnung, eine Eingabe oder eine Ausgabe.
@@ -72,6 +79,9 @@ Eine zusätzliche Variable, die einen Wert kurz aufbewahrt, zum Beispiel beim Ta
 
 ### EVA-Prinzip
 Eingabe, Verarbeitung, Ausgabe: erst Werte abfragen, dann rechnen, dann das Ergebnis anzeigen.
+
+### Problemanalyse
+Du liest eine Aufgabe genau und klärst, was gegeben ist, was gesucht ist und wie man vom einen zum anderen kommt.
 
 ### Vergleichsoperator
 auch: Vergleichsoperatoren

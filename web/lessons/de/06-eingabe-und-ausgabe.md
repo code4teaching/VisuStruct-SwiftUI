@@ -72,6 +72,24 @@ output: "Summe: " + summe
 
 Das passt auch zum EVA-Prinzip: Gerechnet wird in der Verarbeitung, nicht in der Ausgabe.
 
+## Vom Aufgabentext zum Struktogramm
+
+Bevor du den ersten Kasten ziehst, liest du die Aufgabe genau und zerlegst sie. Das nennt man **Problemanalyse**. Drei Fragen helfen dir dabei:
+
+1. **Was ist gegeben?** Diese Werte werden zur **Eingabe**. Überlege auch den Datentyp.
+2. **Was ist gesucht?** Das wird zur **Ausgabe**.
+3. **Wie kommt man vom Gegebenen zum Gesuchten?** Das ist die **Verarbeitung**, oft eine Formel.
+
+Ein Beispiel: *Eine Kinokarte kostet 9 €. Das Programm fragt, wie viele Karten jemand kauft, und zeigt den Gesamtpreis an.*
+
+- Gegeben: die Anzahl der Karten → `input: int anzahl "Wie viele Karten?"`
+- Gesucht: der Gesamtpreis → `output: "Gesamtpreis: " + gesamt`
+- Weg: Anzahl mal 9 → `int gesamt = anzahl * 9`
+
+Jetzt musst du die drei Teile nur noch in der Reihenfolge E, V, A untereinander setzen.
+
+> Achte im Aufgabentext auf Signalwörter: *fragt*, *liest ein* oder *gibt ein* deuten auf eine Eingabe. *Zeigt*, *gibt aus* oder *meldet* deuten auf eine Ausgabe.
+
 ## Übung: Rechner
 
 ::: übung l06-rechner
@@ -106,6 +124,7 @@ lösung: l06-mittelwert-loesung.visustruct
 - Ich kann eine Eingabe mit Datentyp, Namen und Frage schreiben. → Eingabe mit input:
 - Ich kann Text und Variablen in einer Ausgabe mit + verbinden. → Vorsicht mit + in der Ausgabe
 - Ich rechne vor der Ausgabe in einer Variablen. → Vorsicht mit + in der Ausgabe
+- Ich kann aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen. → Vom Aufgabentext zum Struktogramm
 :::
 
 ## Wissenstest
@@ -133,4 +152,10 @@ lösung: l06-mittelwert-loesung.visustruct
 - [x] Alter: 12
 - [ ] "Alter: " + 12
 - [ ] Alter: alter
+
+? Aufgabe: *Das Programm fragt nach dem Radius eines Kreises und zeigt seinen Umfang an.* Ordne jedem Teil des Textes zu, wohin er im EVA-Prinzip gehört.
+= fragt nach dem Radius -> Eingabe
+= Umfang = 2 * 3.14 * Radius -> Verarbeitung
+= zeigt seinen Umfang an -> Ausgabe
+> Gegeben ist der Radius, gesucht der Umfang. Die Formel verbindet beides.
 :::
