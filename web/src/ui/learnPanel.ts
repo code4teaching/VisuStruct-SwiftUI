@@ -3,7 +3,7 @@ import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import { decodeDocument } from '../core/xmlCodec'
 import { diagram, lessons, reference, tasks } from '../learn/content'
-import type { Block, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
+import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import { progress } from '../learn/progress'
 import { t } from './i18n'
@@ -21,6 +21,8 @@ export interface LearnHost {
   openDiagram(doc: VSDocument, fileName: string): void
   /** Diagramm des Reiters, in dem die Übung offen ist. */
   exerciseDocument(id: string): VSDocument | undefined
+  /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
+  stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
   resetExercise(id: string, doc: VSDocument): void
   preview(doc: VSDocument): SVGSVGElement | undefined
@@ -65,6 +67,8 @@ export function startDocument(ex: Exercise): VSDocument {
 export class LearnPanel {
   readonly element: HTMLElement
   private tab: TabName = 'lessons'
+  /** Wohin „Zurück zur Checkliste“ nach dem Nachlesen führt. */
+  private returnTo?: { lesson: string; step: number; scroll: number }
   private lessonId?: string
   private taskId?: string
   private body!: HTMLElement
@@ -123,6 +127,7 @@ export class LearnPanel {
   private openLesson(id: string | undefined) {
     this.tab = 'lessons'
     this.lessonId = id
+    this.returnTo = undefined
     this.persist()
     this.render()
     this.body.scrollTop = 0
@@ -159,8 +164,16 @@ export class LearnPanel {
 
     const back = h('button', { class: 'learn-back' }, `← ${t('web_learn_all_lessons')}`)
     back.addEventListener('click', () => this.openLesson(undefined))
-    const bar = h('div', { class: 'learn-progress', role: 'progressbar', 'aria-valuemin': '1', 'aria-valuemax': String(lesson.steps.length), 'aria-valuenow': String(index + 1) })
-    bar.append(...lesson.steps.map((_, i) => h('span', { class: i < index ? 'past' : i === index ? 'current' : '' })))
+    const bar = h('nav', { class: 'learn-progress', 'aria-label': t('web_learn_step_of_fmt', index + 1, lesson.steps.length) })
+    bar.append(
+      ...lesson.steps.map((s, i) => {
+        const where = t('web_learn_step_fmt', i + 1, s.title)
+        const b = h('button', { class: i < index ? 'past' : i === index ? 'current' : '', title: where, 'aria-label': where }, String(i + 1))
+        if (i === index) b.setAttribute('aria-current', 'step')
+        b.addEventListener('click', () => this.goToStep(lesson, i))
+        return b
+      }),
+    )
     this.body.append(
       back,
       h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}`),
@@ -168,6 +181,17 @@ export class LearnPanel {
       bar,
       h('h3', { class: 'learn-step-title' }, `${index + 1}. ${step.title}`),
     )
+    const ret = this.returnTo?.lesson === lesson.id && this.returnTo.step !== index ? this.returnTo : undefined
+    const backToChecklist = () => {
+      const b = h('button', { class: 'learn-return' }, `↩ ${t('web_learn_back_to_checklist')}`)
+      b.addEventListener('click', () => {
+        this.returnTo = undefined
+        this.goToStep(lesson, ret!.step)
+        this.body.scrollTop = ret!.scroll
+      })
+      return b
+    }
+    if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
 
     const nav = h('div', { class: 'learn-nav' })
@@ -189,6 +213,7 @@ export class LearnPanel {
       nav.append(finish)
     }
     this.body.append(nav)
+    if (ret) this.body.append(backToChecklist())
   }
 
   private goToStep(lesson: Lesson, step: number) {
@@ -317,6 +342,7 @@ export class LearnPanel {
         result.textContent = t('web_learn_empty')
         return
       }
+      this.host.stopSimulation()
       const outcomes = checkExercise(doc, ex.tests)
       const used = usedElementTypes(doc)
       const missing = ex.requires
@@ -400,7 +426,7 @@ export class LearnPanel {
     box.append(list)
   }
 
-  private renderChecklist(items: string[], key: string, lesson?: Lesson): HTMLElement {
+  private renderChecklist(items: ChecklistItem[], key: string, lesson?: Lesson): HTMLElement {
     const box = h('ul', { class: 'learn-checklist' })
     items.forEach((item, i) => {
       const id = `${key}-${i}`
@@ -412,8 +438,19 @@ export class LearnPanel {
         progress.updateLesson(lesson.id, { checks })
       })
       const label = h('label', {}, input)
-      label.insertAdjacentHTML('beforeend', ' ' + inline(item))
-      box.append(h('li', {}, label))
+      label.insertAdjacentHTML('beforeend', ' ' + inline(item.text))
+      const li = h('li', {}, label)
+      if (lesson && item.step !== undefined) {
+        const step = item.step
+        const where = t('web_learn_step_fmt', step + 1, lesson.steps[step].title)
+        const link = h('button', { class: 'link-button learn-check-link', title: where, 'aria-label': `${t('web_learn_review')}: ${where}` }, t('web_learn_review'))
+        link.addEventListener('click', () => {
+          this.returnTo = { lesson: lesson.id, step: progress.lesson(lesson.id).step, scroll: this.body.scrollTop }
+          this.goToStep(lesson, step)
+        })
+        li.append(link)
+      }
+      box.append(li)
     })
     return box
   }

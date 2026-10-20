@@ -67,9 +67,9 @@ lösung: l11-summe-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft.
-- Ich weiß, dass der Inhalt mindestens einmal ausgeführt wird.
-- Ich kann eine Eingabe so lange wiederholen lassen, bis sie gültig ist.
+- Ich weiß, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst machen, dann prüfen
+- Ich weiß, dass der Inhalt mindestens einmal ausgeführt wird. → Mindestens ein Durchlauf
+- Ich kann eine Eingabe so lange wiederholen lassen, bis sie gültig ist. → Typisch: Eingabe wiederholen
 :::
 
 ## Wissenstest

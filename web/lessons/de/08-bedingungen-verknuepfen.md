@@ -105,10 +105,10 @@ lösung: l08-schaltjahr-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, wann eine Verknüpfung mit && wahr ist.
-- Ich weiß, wann eine Verknüpfung mit || wahr ist.
-- Ich kann eine Bedingung mit ! umdrehen.
-- Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt.
+- Ich weiß, wann eine Verknüpfung mit && wahr ist. → Und: &&
+- Ich weiß, wann eine Verknüpfung mit || wahr ist. → Oder: ||
+- Ich kann eine Bedingung mit ! umdrehen. → Nicht und Klammern
+- Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt. → Wertebereiche prüfen
 :::
 
 ## Wissenstest

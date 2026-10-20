@@ -71,9 +71,9 @@ Bei verschachtelten Diagrammen hilft dir die Darstellung: Was weiter innen steht
 ## Checkliste
 
 ::: checkliste
-- Ich kann eine Verzweigung in eine Schleife setzen.
-- Ich kann eine Schleife in eine andere Schleife setzen.
-- Ich weiß, dass die innere Schleife bei jedem Durchlauf der äußeren komplett durchläuft.
+- Ich kann eine Verzweigung in eine Schleife setzen. → Verzweigung in der Schleife
+- Ich kann eine Schleife in eine andere Schleife setzen. → Schleife in der Schleife
+- Ich weiß, dass die innere Schleife bei jedem Durchlauf der äußeren komplett durchläuft. → Schleife in der Schleife
 :::
 
 ## Wissenstest

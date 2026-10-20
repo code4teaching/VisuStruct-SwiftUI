@@ -62,9 +62,9 @@ lösung: l04-tauschen-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich weiß, dass eine Sequenz von oben nach unten ausgeführt wird.
-- Ich kann erklären, warum die Reihenfolge der Schritte wichtig ist.
-- Ich kann zwei Werte mit einer Hilfsvariablen tauschen.
+- Ich weiß, dass eine Sequenz von oben nach unten ausgeführt wird. → Schritt für Schritt
+- Ich kann erklären, warum die Reihenfolge der Schritte wichtig ist. → Die Reihenfolge zählt
+- Ich kann zwei Werte mit einer Hilfsvariablen tauschen. → Zwei Werte tauschen
 :::
 
 ## Wissenstest
