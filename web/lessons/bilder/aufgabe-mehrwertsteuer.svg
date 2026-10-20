@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#007aff"/></marker></defs>
+  <rect width="400" height="250" fill="#ffffff"/>
+  <!-- zugeklappt -->
+  <rect x="16" y="22" width="44" height="86" rx="8" fill="#f2f2f7" stroke="#1c1c1e" stroke-width="2"/>
+  <rect x="22" y="30" width="32" height="70" rx="3" fill="#cfe4ff"/>
+  <circle cx="38" cy="26.5" r="1.6" fill="#1c1c1e"/>
+  <text x="38" y="126" text-anchor="middle" fill="#6e6e73" font-size="12">zu: Handy</text>
+  <!-- aufklappen -->
+  <path d="M72 62 Q100 40 128 62" fill="none" stroke="#007aff" stroke-width="2" marker-end="url(#a)"/>
+  <text x="100" y="86" text-anchor="middle" fill="#007aff" font-size="11">aufklappen</text>
+  <!-- aufgeklappt -->
+  <rect x="140" y="22" width="88" height="86" rx="8" fill="#f2f2f7" stroke="#1c1c1e" stroke-width="2"/>
+  <rect x="146" y="30" width="76" height="70" rx="3" fill="#cfe4ff"/>
+  <line x1="184" y1="24" x2="184" y2="106" stroke="#8e8e93" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="184" y="126" text-anchor="middle" fill="#6e6e73" font-size="12">auf: Tablet</text>
+  <!-- Preisschild -->
+  <path d="M250 34 L366 34 L366 96 L250 96 L236 65 Z" fill="#fff8e6" stroke="#1c1c1e" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="250" cy="65" r="4" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/>
+  <text x="308" y="58" text-anchor="middle" font-size="12" fill="#6e6e73">Nettopreis</text>
+  <text x="308" y="80" text-anchor="middle" font-size="18" font-weight="700">1000 €</text>
+  <!-- Balken -->
+  <rect x="20" y="152" width="300" height="38" fill="#007aff"/>
+  <text x="170" y="176" text-anchor="middle" fill="#ffffff" font-weight="600">Nettopreis 1000 €</text>
+  <rect x="320" y="152" width="57" height="38" fill="#ff9500"/>
+  <text x="348.5" y="176" text-anchor="middle" fill="#ffffff" font-weight="600">190 €</text>
+  <text x="377" y="144" text-anchor="end" fill="#c26a00" font-size="12" font-weight="600">+ 19 % MwSt: 1000 * 0.19 = 190 €</text>
+  <!-- Klammer Brutto -->
+  <path d="M20 198 L20 206 L377 206 L377 198" fill="none" stroke="#1c1c1e" stroke-width="2"/>
+  <line x1="198.5" y1="206" x2="198.5" y2="214" stroke="#1c1c1e" stroke-width="2"/>
+  <text x="198.5" y="234" text-anchor="middle" font-size="16" font-weight="700">Bruttopreis 1190 € (das zahlst du)</text>
+</svg>
