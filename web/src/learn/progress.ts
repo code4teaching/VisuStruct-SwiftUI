@@ -27,6 +27,16 @@ const key = 'visustruct.learn.progress'
 const renamedLessons: Record<string, string> = {
   '04-sequenz': '05-sequenz',
   '05-variablen-und-datentypen': '04-variablen-und-datentypen',
+  '07-verzweigung': '08-verzweigung',
+  '08-bedingungen-verknuepfen': '09-bedingungen-verknuepfen',
+  '09-fallauswahl': '10-fallauswahl',
+  '10-while-schleife': '11-while-schleife',
+  '11-do-while-schleife': '12-do-while-schleife',
+  '12-for-schleife': '13-for-schleife',
+  '13-verschachteln': '14-verschachteln',
+  '14-arrays': '15-arrays',
+  '15-aufruf-und-aussprung': '16-aufruf-und-aussprung',
+  '16-simulation-und-schreibtischtest': '07-simulation-und-schreibtischtest',
 }
 
 function migrate(s: Store): Store {

@@ -1,6 +1,6 @@
 ---
 titel: Collatz-Folge
-nach: 10
+nach: 11
 stufe: 2
 ---
 

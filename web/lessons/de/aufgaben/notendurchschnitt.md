@@ -1,6 +1,6 @@
 ---
 titel: Notendurchschnitt
-nach: 12
+nach: 13
 stufe: 2
 ---
 

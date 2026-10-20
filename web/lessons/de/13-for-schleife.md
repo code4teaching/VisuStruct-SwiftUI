@@ -74,6 +74,21 @@ tipp: Rechne im Inhalt zuerst `int produkt = zahl * i`. Danach gibst du `zahl + 
 lösung: l12-einmaleins-loesung.visustruct
 :::
 
+## Übung: Summe reparieren
+
+::: übung l16-summe
+titel: Summe reparieren
+auftrag: Das Struktogramm soll alle Zahlen von 1 bis n zusammenzählen. Bei n = 4 soll also 1 + 2 + 3 + 4 = **10** herauskommen. Es gibt aber 6 aus.
+  Mache einen Schreibtischtest oder nutze **Schritt** und repariere den Fehler.
+start: l16-summe-start.visustruct
+test: 4 -> 10
+test: 1 -> 1
+test: 5 -> 15
+braucht: forSchleife
+tipp: Schau, mit welchem Wert von i die Schleife zuletzt läuft. Bei n = 4 muss auch i = 4 noch dazugezählt werden.
+lösung: l16-summe-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste

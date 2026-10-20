@@ -86,12 +86,57 @@ tipp: Du brauchst eine zweite Variable `int schritte = 0`. Die Bedingung lautet 
 lösung: l10-verdoppeln-loesung.visustruct
 :::
 
+## Schleifen im Schreibtischtest
+
+Bei einer Schleife wird der **Schreibtischtest** besonders wertvoll. Du siehst genau, wie oft die Schleife läuft und mit welchem Wert sie aufhört. Jede Prüfung der Bedingung bekommt eine eigene Zeile.
+
+::: diagramm l16-schreibtisch.visustruct
+Eine While-Schleife zählt die Zahlen 1, 2 und 3 zusammen.
+:::
+
+| Schritt | summe | i | Ausgabe |
+|---|---|---|---|
+| `int summe = 0` | 0 | – | |
+| `int i = 1` | 0 | 1 | |
+| `i <= 3` → wahr | 0 | 1 | |
+| `summe = summe + i` | 1 | 1 | |
+| `i = i + 1` | 1 | 2 | |
+| `i <= 3` → wahr | 1 | 2 | |
+| `summe = summe + i` | 3 | 2 | |
+| `i = i + 1` | 3 | 3 | |
+| `i <= 3` → wahr | 3 | 3 | |
+| `summe = summe + i` | 6 | 3 | |
+| `i = i + 1` | 6 | 4 | |
+| `i <= 3` → falsch | 6 | 4 | |
+| `output: summe` | 6 | 4 | 6 |
+
+Häufige Fehler in Schleifen sind:
+
+- Die Schleife läuft **einmal zu oft oder zu wenig**, z. B. `<` statt `<=`.
+- Eine Variable wird in der Schleife **nicht verändert** oder in die falsche Richtung. Dann endet die Schleife nie.
+- Eine Variable bekommt ihren Startwert **in** der Schleife statt davor und wird bei jedem Durchlauf zurückgesetzt.
+
+## Übung: Countdown reparieren
+
+::: übung l16-countdown
+titel: Countdown reparieren
+auftrag: Der Countdown soll vom Startwert herunterzählen und am Ende **Los!** ausgeben. Bei 3 also 3, 2, 1, Los!
+  Im Startdiagramm stecken zwei Fehler. Finde und behebe beide.
+start: l16-countdown-start.visustruct
+test: 3 -> 3 | 2 | 1 | Los!
+test: 1 -> 1 | Los!
+test: 0 -> Los!
+tipp: Starte die Simulation mit Startwert 3 und beobachte i unter Variablen. Wird i kleiner? Vergleiche außerdem die letzte Ausgabe genau mit dem Auftrag.
+lösung: l16-countdown-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
 - Ich weiß, dass die While-Schleife ihre Bedingung vor jedem Durchlauf prüft. → Die Bedingung kommt zuerst
 - Ich kann eine Zählvariable mit Startwert, Bedingung und Veränderung verwenden. → Eine Zählvariable
 - Ich erkenne, wenn eine Schleife nie endet, und kann den Fehler beheben. → Vorsicht, Endlosschleife
+- Ich kann eine Schleife im Schreibtischtest Durchlauf für Durchlauf verfolgen. → Schleifen im Schreibtischtest
 :::
 
 ## Wissenstest
@@ -120,4 +165,9 @@ lösung: l10-verdoppeln-loesung.visustruct
 - [ ] Verzweigungen
 - [ ] Unterprogramme
 > Eine Schleife wiederholt Anweisungen. Darum heißt sie auch Wiederholungsstruktur.
+
+? Eine Schleife soll von 1 bis 5 zählen, läuft aber nur bis 4. Was ist der wahrscheinliche Fehler?
+- [x] In der Bedingung steht i < 5 statt i <= 5.
+- [ ] Die Schleife ist eine While-Schleife.
+- [ ] Die Variable i heißt falsch.
 :::
