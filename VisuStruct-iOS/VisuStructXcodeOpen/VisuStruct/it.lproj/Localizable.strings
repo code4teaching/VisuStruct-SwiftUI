@@ -231,6 +231,8 @@
 "sim_notice_whole_number_expected" = "Inserisci un numero intero.";
 "sim_notice_number_expected" = "Inserisci un numero.";
 "sim_notice_boolean_expected" = "Inserisci true o false.";
+"sim_notice_subprogram_not_found_fmt" = "Nessun diagramma aperto si chiama %@. La chiamata è stata saltata.";
+"sim_notice_call_too_deep" = "Troppe chiamate annidate. Un sottoprogramma chiama se stesso?";
 
 "codegen_pseudocode_toggle" = "Pseudocodice (codice non eseguibile)";
 "codegen_pseudocode_note" = "Pseudocodice – non è un programma eseguibile";

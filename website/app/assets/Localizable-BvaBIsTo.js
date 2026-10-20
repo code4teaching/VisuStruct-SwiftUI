@@ -231,6 +231,8 @@ const e=`/* Palette */
 "sim_notice_whole_number_expected" = "Wprowadź liczbę całkowitą.";
 "sim_notice_number_expected" = "Wprowadź liczbę.";
 "sim_notice_boolean_expected" = "Wpisz true lub false.";
+"sim_notice_subprogram_not_found_fmt" = "Żaden otwarty diagram nie nazywa się %@. Wywołanie pominięto.";
+"sim_notice_call_too_deep" = "Zbyt wiele zagnieżdżonych wywołań. Czy podprogram wywołuje sam siebie?";
 
 "codegen_pseudocode_toggle" = "Pseudokod (kod niewykonywalny)";
 "codegen_pseudocode_note" = "Pseudokod – to nie jest wykonywalny program";

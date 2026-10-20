@@ -176,7 +176,7 @@ describe('Simulation', () => {
   it('Werte und Arrays', () => {
     const state = runSimulation(
       doc([
-        stmt('double d = 7 / 2'),
+        stmt('double d = 7.0 / 2'),
         stmt('int[] a = {3, 4, 5}'),
         stmt('a[1] = a[0] * 10'),
         stmt('String s = "x"'),
@@ -275,5 +275,103 @@ describe('Bedingungen', () => {
     engine.reset()
     expect(engine.state.isHalted).toBe(false)
     expect(engine.canStep).toBe(true)
+  })
+
+  it('teilt ganze Zahlen wie Java', () => {
+    const state = runSimulation(
+      doc([
+        stmt('int a = 7'),
+        stmt('int b = 2'),
+        stmt('int q = a / b'),
+        stmt('double d = a / b'),
+        stmt('double e = a / 2.0'),
+        stmt('int n = -7 / 2'),
+        stmt('double[] w = {1.5, 2.5}'),
+        stmt('print: "q=" + a / b + " d=" + d + " e=" + e + " n=" + n'),
+        stmt('double m = (w[0] + w[1]) / 2'),
+        stmt('int k = 10 / 4 * 2'),
+      ]),
+    )
+    expect(state.variables.get('q')).toEqual({ kind: 'int', value: 3 })
+    expect(state.variables.get('d')).toEqual({ kind: 'double', value: 3 })
+    expect(state.variables.get('e')).toEqual({ kind: 'double', value: 3.5 })
+    expect(state.variables.get('n')).toEqual({ kind: 'int', value: -3 })
+    expect(state.outputLines).toEqual(['q=3 d=3.0 e=3.5 n=-3'])
+    expect(state.variables.get('m')).toEqual({ kind: 'double', value: 2 })
+    expect(state.variables.get('k')).toEqual({ kind: 'int', value: 4 })
+  })
+
+  it('Aussprung verlässt die innerste Schleife', () => {
+    const jump = makeElement(ElementType.aussprung, { textLines: ['Schleife verlassen'] })
+    const document = doc([
+      stmt('int summe = 0'),
+      makeElement(ElementType.endlosschleife, {
+        loopBody: [
+          stmt('input: int zahl "Zahl?"'),
+          makeElement(ElementType.verzweigung, {
+            textLines: ['zahl == 0'],
+            cases: [
+              { name: 'true', elements: [jump] },
+              { name: 'false', elements: [stmt('summe = summe + zahl')] },
+            ],
+          }),
+        ],
+      }),
+      makeElement(ElementType.forSchleife, {
+        textLines: ['int i = 0', 'i < 10', 'i++'],
+        loopBody: [
+          makeElement(ElementType.verzweigung, {
+            textLines: ['i == 2'],
+            cases: [
+              { name: 'true', elements: [jump] },
+              { name: 'false', elements: [stmt('ø')] },
+            ],
+          }),
+        ],
+      }),
+      stmt('print: "Summe: " + summe + " i=" + i'),
+      jump,
+      stmt('print: "nie"'),
+    ])
+    const state = runSimulation(document, ['3', '4', '0'])
+    expect(state.outputLines).toEqual(['Summe: 7 i=2'])
+    expect(state.message).toBe('Simulation finished.')
+  })
+
+  it('Aufruf führt das Unterprogramm aus', () => {
+    const call = (name: string) => makeElement(ElementType.aufruf, { textLines: [name] })
+    const titel: VSDocument = { caption: 'zeigeTitel()', elements: [stmt('print: "== Quiz =="'), stmt('int punkte = 0')] }
+    const zaehlen: VSDocument = {
+      caption: 'zaehlen',
+      elements: [
+        makeElement(ElementType.whileSchleife, { textLines: ['true'], loopBody: [stmt('punkte++'), makeElement(ElementType.aussprung, {})] }),
+        stmt('print: "punkte=" + punkte'),
+        makeElement(ElementType.aussprung, {}),
+        stmt('print: "nie"'),
+      ],
+    }
+    const subprograms: Record<string, VSDocument> = { zeigetitel: titel, zaehlen }
+    const engine = new SimulationEngine(
+      doc([call('zeigeTitel()'), call('zaehlen();'), call('zaehlen()'), call('fehlt()'), stmt('print: "Ende " + punkte')]),
+      (name) => subprograms[name.toLowerCase()],
+    )
+    const paths: (number[] | undefined)[] = []
+    while (engine.canStep) {
+      engine.step()
+      paths.push(engine.currentStepPath)
+      if (engine.state.notice?.kind === 'subprogramNotFound') expect(engine.message).toBe('No open diagram is called fehlt(). The call was skipped.')
+    }
+    expect(engine.state.outputLines).toEqual(['== Quiz ==', 'punkte=1', 'punkte=2', 'Ende 2'])
+    expect(engine.message).toBe('Simulation finished.')
+    // Im Unterprogramm bleibt der Aufruf-Kasten markiert
+    expect(paths[0]).toEqual([0])
+  })
+
+  it('bricht ab, wenn sich ein Unterprogramm selbst aufruft', () => {
+    const self: VSDocument = { caption: 'rekursion', elements: [makeElement(ElementType.aufruf, { textLines: ['rekursion()'] })] }
+    const engine = new SimulationEngine(self, () => self)
+    for (let i = 0; i < 1000 && engine.canStep; i++) engine.step()
+    expect(engine.state.isHalted).toBe(true)
+    expect(engine.state.notice?.kind).toBe('callTooDeep')
   })
 })

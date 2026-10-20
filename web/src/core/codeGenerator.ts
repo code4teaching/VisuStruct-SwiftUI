@@ -736,19 +736,18 @@ function inferIntegerVariables(doc: VSDocument): Set<string> {
   return out
 }
 
-function javaScriptIntegerDivisionIfNeeded(raw: string, intVariables: Set<string>): string | undefined {
-  const t = stripTrailingSemicolon(raw).trim()
-  if (t === '') return undefined
-  // x = x / y (einfaches Muster, ohne weitere Operatoren)
-  const g = groups(/^\s*([a-zA-Z_]\w*)\s*=\s*([a-zA-Z_]\w*|\d+)\s*\/\s*([a-zA-Z_]\w*|\d+)\s*$/, t)
-  if (g) {
-    const [, lhs, a, b] = g
-    if (!intVariables.has(lhs) || lhs !== a) return undefined
-    return `${lhs} = Math.floor(${a} / ${b})`
-  }
-  const g2 = groups(/^\s*([a-zA-Z_]\w*)\s*\/=\s*([a-zA-Z_]\w*|\d+)\s*$/, t)
-  if (g2 && intVariables.has(g2[1])) return `${g2[1]} = Math.floor(${g2[1]} / ${g2[2]})`
-  return undefined
+/** Wie in Java: `/` zwischen ganzen Zahlen schneidet in JavaScript mit `Math.trunc` ab, auch bei `x /= y`. */
+function javaScriptIntegerDivision(code: string, intVariables: Set<string>): string {
+  const isInt = (operand: string) => /^\d+$/.test(operand) || intVariables.has(operand)
+  return mapOutsideStringLiterals(code, (part) =>
+    part
+      .replace(/(?<![\w./])([a-zA-Z_]\w*|\d+)\s*\/\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[/])/g, (m, a: string, b: string) =>
+        isInt(a) && isInt(b) ? `Math.trunc(${a} / ${b})` : m,
+      )
+      .replace(/(?<![\w.])([a-zA-Z_]\w*)\s*\/=\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[])/g, (m, a: string, b: string) =>
+        isInt(a) && isInt(b) ? `${a} = Math.trunc(${a} / ${b})` : m,
+      ),
+  )
 }
 
 function documentContainsJavaInput(doc: VSDocument): boolean {
@@ -811,14 +810,12 @@ function emitInstructionLike(textLines: string[], target: CodeTarget, options: C
       emitTranslatedJavaLikeAssignmentIfNeeded(raw, target, indent, ints, texts) ??
       emitBareLeadingStringAsPrintIfNeeded(raw, target, indent, ints, texts)
     if (special !== undefined) {
-      sink.out += special
+      sink.out += target === 'javascript' ? javaScriptIntegerDivision(special, ints) : special
       continue
     }
     let line = raw
     if (isCStyleSemicolonTarget(target)) {
-      const transformed =
-        target === 'javascript' ? javaScriptIntegerDivisionIfNeeded(raw, options.jsIntVariables ?? new Set()) : undefined
-      line = formatCStyleStatementLine(transformed ?? raw)
+      line = formatCStyleStatementLine(target === 'javascript' ? javaScriptIntegerDivision(raw, ints) : raw)
     } else if (target === 'python') {
       line = pythonStatementLine(raw, ints, texts)
     }
@@ -838,7 +835,13 @@ function emitConditionHeader(
 ) {
   if (options.includeDiagramTextAsComments) sink.out += blockComment(textLines, target, indent)
   const condition = conditionText(textLines)
-  const text = target === 'python' ? pythonExpression(condition, options.jsIntVariables ?? new Set()) : condition
+  const ints = options.jsIntVariables ?? new Set<string>()
+  const text =
+    target === 'python'
+      ? pythonExpression(condition, ints)
+      : target === 'javascript'
+        ? javaScriptIntegerDivision(condition, ints)
+        : condition
   sink.out += sp(indent) + prefix + text + suffix
 }
 

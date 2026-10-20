@@ -35,6 +35,7 @@ import { progress } from '../learn/progress'
 import { currentLanguage, languages, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
+import { subprogramName } from '../core/simulation'
 
 type DropTarget =
   | { kind: 'before' | 'after' | 'replace'; path: number[]; frame: Rect }
@@ -339,6 +340,7 @@ export class App {
         if (this.simulating) this.renderDiagramOnly()
         this.scrollToSimPath()
       },
+      (name) => this.findSubprogram(name),
     )
     this.root.append(this.sim.element)
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
@@ -761,6 +763,17 @@ export class App {
   }
 
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
+  /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
+  private findSubprogram(name: string): VSDocument | undefined {
+    const key = subprogramKey(name)
+    if (key === '') return undefined
+    const current = this.tab
+    const match = this.tabs.find(
+      (tab) => tab !== current && (subprogramKey(tab.doc.caption) === key || subprogramKey(tabTitle(tab)) === key),
+    )
+    return match?.doc
+  }
+
   private scrollToSimPath() {
     const path = this.simPath
     if (!this.simulating || !path) return
@@ -1360,6 +1373,11 @@ export function applyCanvasStubTexts() {
     [ElementType.aussprung]: t('canvas_stub_break'),
     [ElementType.aufruf]: t('canvas_stub_call'),
   })
+}
+
+/** Gleiche Namen für Aufruf und Reiter: ohne `()`, ohne Groß- und Kleinschreibung. */
+function subprogramKey(text: string): string {
+  return subprogramName(text).toLowerCase()
 }
 
 function tabTitle(tab: Tab): string {

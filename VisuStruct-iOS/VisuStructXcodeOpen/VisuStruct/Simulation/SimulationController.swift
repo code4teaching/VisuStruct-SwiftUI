@@ -20,6 +20,18 @@ final class SimulationController {
         self.engine = VisuStructSimulationEngine(document: tabsModel.currentTab.document)
     }
 
+    /// Die anderen offenen Reiter, nach Titel und Diagrammtitel, damit ein Aufruf wie `zeigeTitel()` sie findet.
+    private var subprograms: [String: VisuStructDocument] {
+        var result: [String: VisuStructDocument] = [:]
+        for (index, tab) in tabsModel.tabs.enumerated() where index != tabsModel.currentTabIndex {
+            for name in [tab.document.caption, tab.title] {
+                let key = VisuStructSimulationEngine.subprogramKey(name)
+                if !key.isEmpty, result[key] == nil { result[key] = tab.document }
+            }
+        }
+        return result
+    }
+
     /// Wie `@AppStorage` in den Einstellungen; bei jedem Schritt neu gelesen, damit Änderungen während des Abspielens greifen.
     private var stepDelay: SimulationStepDelayOption {
         SimulationStepDelayOption.fromStored(
@@ -133,7 +145,7 @@ final class SimulationController {
 
     /// Neue Engine für das aktuelle Dokument, Markierung auf den ersten Schritt.
     private func restartEngine() {
-        var fresh = VisuStructSimulationEngine(document: tabsModel.currentTab.document)
+        var fresh = VisuStructSimulationEngine(document: tabsModel.currentTab.document, subprograms: subprograms)
         fresh.reset()
         engine = fresh
         inputText = ""

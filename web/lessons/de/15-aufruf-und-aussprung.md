@@ -28,7 +28,7 @@ Ein **Aufruf** ist ein Kasten mit doppelten senkrechten Linien links und rechts.
 Das Unterprogramm zeigeBegruessung() als eigenes Struktogramm.
 :::
 
-> Die Simulation führt immer nur das Diagramm im aktuellen Reiter aus. Einen Aufruf-Kasten **überspringt** sie. Willst du ein Unterprogramm testen, öffne seinen Reiter und starte dort die Simulation.
+> **In der Simulation:** Erreicht die Simulation einen Aufruf, sucht sie unter den offenen Reitern das Struktogramm mit diesem Titel und führt es aus. Danach macht sie im Hauptprogramm weiter. Solange das Unterprogramm läuft, bleibt der Aufruf-Kasten markiert. Hauptprogramm und Unterprogramme teilen sich dieselben Variablen. Gibt es keinen passenden Reiter, überspringt die Simulation den Aufruf und zeigt einen Hinweis.
 
 ## Übung: Aufruf einbauen
 
@@ -59,16 +59,11 @@ Die Schleife fragt immer wieder nach einer Zahl. Bei 0 springt sie heraus, sonst
 
 Ohne Aussprung würde eine Endlosschleife wirklich nie enden.
 
-## Achtung in der Simulation
+## Aussprung in der Simulation
 
-Die Simulation in VisuStruct führt den **Aussprung nicht aus**. Sie überspringt den Kasten wie einen Aufruf. Das Diagramm oben würde in der Simulation also endlos weiter nach Zahlen fragen.
+Die Simulation führt den Aussprung aus wie `break`: Sie verlässt die innerste Schleife und macht nach ihr weiter. Steht ein Aussprung außerhalb jeder Schleife, endet das Unterprogramm, im Hauptprogramm das ganze Programm.
 
-So testest du ein Diagramm mit Aussprung trotzdem:
-
-- Öffne über **Code** den erzeugten Code. Dort steht an der Stelle des Aussprungs `break`.
-- Wähle **JavaScript** und klicke auf **Im Browser testen**. Dort funktioniert der Aussprung.
-
-Oft geht es auch ganz ohne Aussprung: Du schreibst die Abbruchbedingung direkt in die Schleife. Das ist meist sogar übersichtlicher, und die Simulation kann es prüfen.
+Oft geht es auch ganz ohne Aussprung: Du schreibst die Abbruchbedingung direkt in die Schleife. Das ist meist sogar übersichtlicher.
 
 ## Übung: Summe bis 0
 
@@ -88,7 +83,7 @@ lösung: l15-bis-null-loesung.visustruct
 - Ich kann eine große Aufgabe in Teilprobleme zerlegen.
 - Ich kann einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen.
 - Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht.
-- Ich weiß, dass die Simulation Aufruf und Aussprung überspringt, und kann eine Schleife auch über ihre Bedingung beenden.
+- Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden.
 :::
 
 ## Wissenstest
@@ -111,9 +106,9 @@ lösung: l15-bis-null-loesung.visustruct
 - [ ] Weil eine Verzweigung selbst eine Schleife ist
 > Ohne Verzweigung würde die Schleife schon im ersten Durchlauf verlassen.
 
-? Was macht die Simulation in VisuStruct mit einem Aussprung?
-- [ ] Sie beendet das ganze Programm.
-- [x] Sie überspringt ihn.
-- [ ] Sie meldet einen Fehler.
-> Teste Diagramme mit Aussprung deshalb über den Code mit Im Browser testen.
+? Wo findet die Simulation das Unterprogramm zu einem Aufruf `zeigeErgebnis()`?
+- [ ] Es muss im selben Struktogramm stehen.
+- [x] In einem offenen Reiter mit dem Titel zeigeErgebnis()
+- [ ] Die Simulation kann keine Unterprogramme ausführen.
+> Baue jedes Unterprogramm in einem eigenen Reiter und gib ihm als Titel den Namen aus dem Aufruf.
 :::

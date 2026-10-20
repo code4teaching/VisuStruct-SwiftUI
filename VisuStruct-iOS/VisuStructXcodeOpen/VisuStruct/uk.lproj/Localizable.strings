@@ -228,6 +228,8 @@
 "sim_notice_whole_number_expected" = "Введіть ціле число.";
 "sim_notice_number_expected" = "Введіть число.";
 "sim_notice_boolean_expected" = "Введіть true або false.";
+"sim_notice_subprogram_not_found_fmt" = "Немає відкритої діаграми з назвою %@. Виклик пропущено.";
+"sim_notice_call_too_deep" = "Забагато вкладених викликів. Підпрограма викликає сама себе?";
 
 "codegen_pseudocode_toggle" = "Псевдокод (не виконуваний код)";
 "codegen_pseudocode_note" = "Псевдокод – не виконувана програма";

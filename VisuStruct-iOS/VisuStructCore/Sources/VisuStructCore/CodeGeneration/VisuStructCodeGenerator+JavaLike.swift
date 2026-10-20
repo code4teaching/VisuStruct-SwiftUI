@@ -299,31 +299,32 @@ extension VisuStructCodeGenerator {
         return out
     }
 
-    static func javaScriptIntegerDivisionIfNeeded(_ raw: String, intVariables: Set<String>) -> String? {
-        let t = stripTrailingSemicolon(raw).trimmingCharacters(in: .whitespacesAndNewlines)
-        if t.isEmpty { return nil }
-
-        // x = x / y  (einfaches Muster, ohne weitere Operatoren)
-        let assignPat = #"^\s*([a-zA-Z_]\w*)\s*=\s*([a-zA-Z_]\w*|\d+)\s*/\s*([a-zA-Z_]\w*|\d+)\s*$"#
-        if let g = regexGroups(assignPat, t), g.count >= 4 {
-            let lhs = g[1]
-            let a = g[2]
-            let b = g[3]
-            guard intVariables.contains(lhs) else { return nil }
-            // Nur wenn der LHS auch wirklich der Dividend ist (typischer int-div Update).
-            guard lhs == a else { return nil }
-            return "\(lhs) = Math.floor(\(a) / \(b))"
+    /// Wie in Java: `/` zwischen ganzen Zahlen schneidet in JavaScript mit `Math.trunc` ab, auch bei `x /= y`.
+    static func javaScriptIntegerDivision(_ code: String, intVariables: Set<String>) -> String {
+        func isInt(_ operand: String) -> Bool {
+            !operand.isEmpty && (operand.allSatisfy { $0.isASCII && $0.isNumber } || intVariables.contains(operand))
         }
-
-        // x /= y
-        let divEqPat = #"^\s*([a-zA-Z_]\w*)\s*/=\s*([a-zA-Z_]\w*|\d+)\s*$"#
-        if let g2 = regexGroups(divEqPat, t), g2.count >= 3 {
-            let lhs = g2[1]
-            let b = g2[2]
-            guard intVariables.contains(lhs) else { return nil }
-            return "\(lhs) = Math.floor(\(lhs) / \(b))"
+        return mapOutsideStringLiterals(code) { part in
+            let divided = replaceSimpleRegex(
+                part,
+                pattern: #"(?<![\w./])([a-zA-Z_]\w*|\d+)\s*/\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[/])"#,
+                options: [],
+                transform: { m, ns in
+                    let a = ns.substring(with: m.range(at: 1))
+                    let b = ns.substring(with: m.range(at: 2))
+                    return isInt(a) && isInt(b) ? "Math.trunc(\(a) / \(b))" : ns.substring(with: m.range)
+                }
+            )
+            return replaceSimpleRegex(
+                divided,
+                pattern: #"(?<![\w.])([a-zA-Z_]\w*)\s*/=\s*([a-zA-Z_]\w*|\d+)(?![\w.(\[])"#,
+                options: [],
+                transform: { m, ns in
+                    let a = ns.substring(with: m.range(at: 1))
+                    let b = ns.substring(with: m.range(at: 2))
+                    return isInt(a) && isInt(b) ? "\(a) = Math.trunc(\(a) / \(b))" : ns.substring(with: m.range)
+                }
+            )
         }
-
-        return nil
     }
 }

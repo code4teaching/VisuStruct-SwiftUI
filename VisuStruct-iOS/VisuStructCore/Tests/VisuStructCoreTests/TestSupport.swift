@@ -36,11 +36,12 @@ enum ExampleFiles {
 func runSimulation(
     _ document: VisuStructDocument,
     inputs: [String] = [],
+    subprograms: [String: VisuStructDocument] = [:],
     maxSteps: Int = 10_000,
     file: StaticString = #filePath,
     line: UInt = #line
 ) -> VisuStructSimulationState {
-    var engine = VisuStructSimulationEngine(document: document)
+    var engine = VisuStructSimulationEngine(document: document, subprograms: subprograms)
     var remainingInputs = inputs[...]
     var stepsTaken = 0
     while stepsTaken < maxSteps {
