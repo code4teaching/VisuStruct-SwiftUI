@@ -21,6 +21,8 @@ export interface LearnHost {
   openDiagram(doc: VSDocument, fileName: string): void
   /** Diagramm des Reiters, in dem die Übung offen ist. */
   exerciseDocument(id: string): VSDocument | undefined
+  /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
+  stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
   resetExercise(id: string, doc: VSDocument): void
   preview(doc: VSDocument): SVGSVGElement | undefined
@@ -340,6 +342,7 @@ export class LearnPanel {
         result.textContent = t('web_learn_empty')
         return
       }
+      this.host.stopSimulation()
       const outcomes = checkExercise(doc, ex.tests)
       const used = usedElementTypes(doc)
       const missing = ex.requires
