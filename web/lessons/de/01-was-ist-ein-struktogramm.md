@@ -27,7 +27,7 @@ Links Isaac „Ike“ Nassi (Foto: [Ed Schipul](https://commons.wikimedia.org/wi
 > Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer.
 
 ::: angeberwissen
-Ben Shneiderman hatte die Idee 1972 als Doktorand an der Stony Brook University. Nach etwa 15 Minuten Skizzieren waren Sequenz, Verzweigung und Schleife fertig. Die Fachzeitschrift *Communications of the ACM* lehnte den Artikel trotzdem ab, und Shneiderman schreibt man übrigens ohne c. Mehr dazu in meinem [Angeberwissen](https://visustruct.org/de/angeberwissen.html).
+Nassi und Shneiderman waren 1972 beide noch Doktoranden an der Stony Brook University bei New York. Shneiderman war damals 25 Jahre alt, Nassi erst 23.
 :::
 
 ## Baustein 1: Die Sequenz
@@ -48,6 +48,10 @@ Vier Anweisungen als Sequenz. Erst wird aufgestanden, dann Zähne geputzt und so
 
 > Auch das Tee-Beispiel von oben ist eine Sequenz.
 
+::: angeberwissen
+Shneiderman hatte die Idee während eines Vortrags. Für die erste Skizze mit Sequenz, Verzweigung und Schleife brauchte er nur etwa 15 Minuten.
+:::
+
 ## Baustein 2: Die Verzweigung
 
 Oft hängt der nächste Schritt von einer **Bedingung** ab. Eine Bedingung ist eine Frage, die man nur mit **ja oder nein** beantworten kann, zum Beispiel *Regnet es?* In VisuStruct heißt ja **true** (wahr) und nein **false** (falsch).
@@ -63,6 +67,10 @@ Regnet es, wird der linke Weg ausgeführt, sonst der rechte. Danach geht es in b
 :::
 
 > Soll in einem Fall nichts passieren, bleibt dieser Weg leer. Das zeigt das Zeichen **ø**.
+
+::: angeberwissen
+Shneiderman schreibt man ohne c, also nicht „Schneiderman“. Er weist selbst darauf hin, dass sein Name ständig falsch geschrieben wird.
+:::
 
 ## Baustein 3: Die Wiederholung
 
@@ -89,6 +97,10 @@ Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles
 :::
 
 Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife oder einem Zweig können wieder Sequenzen, Verzweigungen und Schleifen stehen.
+
+::: angeberwissen
+Die bekannte Fachzeitschrift *Communications of the ACM* wollte den Artikel über Struktogramme nicht drucken. Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
+:::
 
 ## Erst die Struktur, dann der Code
 
