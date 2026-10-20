@@ -855,6 +855,42 @@ function emitBlockBody(elements: VSElement[], target: CodeTarget, options: CodeO
   if (emitted.every((l) => l === '' || l.startsWith('#'))) sink.out += sp(indent) + 'pass\n'
 }
 
+/** Steht im false-Zweig nur eine weitere Verzweigung, wird daraus `else if` (Python: `elif`) statt eines verschachtelten Blocks. */
+function elseIfBranch(elements: VSElement[], options: CodeOptions): VSElement | undefined {
+  // Mit Diagrammtext als Kommentar stünde der Kommentar zwischen `}` und `else if`: dann verschachtelt lassen.
+  if (options.includeDiagramTextAsComments || elements.length !== 1) return undefined
+  const only = elements[0]
+  return only.type === ElementType.verzweigung && (only.cases?.length ?? 0) >= 2 ? only : undefined
+}
+
+function emitIfChain(element: VSElement, target: CodeTarget, options: CodeOptions, indent: number, sink: Sink, isElseIf: boolean) {
+  const cases = element.cases
+  if (!cases || cases.length < 2) return
+  const py = target === 'python'
+  const inner = indent + options.indentPerLevel
+  const omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(cases[1].elements)
+  const next = omitElse ? undefined : elseIfBranch(cases[1].elements, options)
+  if (py) {
+    emitConditionHeader(isElseIf ? 'elif ' : 'if ', ':\n', element.textLines, target, options, indent, sink)
+    emitBlockBody(cases[0].elements, target, options, inner, sink)
+    if (next) emitIfChain(next, target, options, indent, sink, true)
+    else if (!omitElse) {
+      sink.out += sp(indent) + 'else:\n'
+      emitBlockBody(cases[1].elements, target, options, inner, sink)
+    }
+    return
+  }
+  emitConditionHeader(isElseIf ? '} else if (' : 'if (', ') {\n', element.textLines, target, options, indent, sink)
+  emitBlockBody(cases[0].elements, target, options, inner, sink)
+  if (next) emitIfChain(next, target, options, indent, sink, true)
+  else if (omitElse) sink.out += sp(indent) + '}\n'
+  else {
+    sink.out += sp(indent) + '} else {\n'
+    emitBlockBody(cases[1].elements, target, options, inner, sink)
+    sink.out += sp(indent) + '}\n'
+  }
+}
+
 function emit(element: VSElement, target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
   const step = options.indentPerLevel
   const py = target === 'python'
@@ -883,30 +919,9 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
       return
     }
 
-    case ElementType.verzweigung: {
-      const cases = element.cases
-      if (!cases || cases.length < 2) return
-      const omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(cases[1].elements)
-      if (py) {
-        header('if ', ':\n')
-        body(cases[0].elements, indent + step)
-        if (!omitElse) {
-          sink.out += sp(indent) + 'else:\n'
-          body(cases[1].elements, indent + step)
-        }
-      } else {
-        header('if (', ') {\n')
-        body(cases[0].elements, indent + step)
-        if (omitElse) {
-          sink.out += sp(indent) + '}\n'
-        } else {
-          sink.out += sp(indent) + '} else {\n'
-          body(cases[1].elements, indent + step)
-          sink.out += sp(indent) + '}\n'
-        }
-      }
+    case ElementType.verzweigung:
+      emitIfChain(element, target, options, indent, sink, false)
       return
-    }
 
     case ElementType.fallauswahl: {
       const cases = element.cases

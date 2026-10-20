@@ -252,6 +252,69 @@ extension VisuStructCodeGenerator {
         }
     }
 
+    /// Steht im false-Zweig nur eine weitere Verzweigung, wird daraus `else if` (Python: `elif`) statt eines verschachtelten Blocks.
+    static func elseIfBranch(_ elements: [VisuStructElement], options: Options) -> VisuStructElement? {
+        // Mit Diagrammtext als Kommentar stünde der Kommentar zwischen `}` und `else if`: dann verschachtelt lassen.
+        guard !options.includeDiagramTextAsComments, elements.count == 1 else { return nil }
+        let only = elements[0]
+        guard only.type == .verzweigung, (only.cases?.count ?? 0) >= 2 else { return nil }
+        return only
+    }
+
+    static func emitIfChain(
+        element: VisuStructElement,
+        target: Target,
+        options: Options,
+        indent: Int,
+        isElseIf: Bool,
+        into out: inout String
+    ) {
+        guard let cases = element.cases, cases.count >= 2 else { return }
+        let inner = indent + options.indentPerLevel
+        let trueBranch = cases[0].elements
+        let falseBranch = cases[1].elements
+        let omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(falseBranch)
+        let next = omitElse ? nil : elseIfBranch(falseBranch, options: options)
+        if target == .python {
+            emitConditionHeader(
+                prefix: isElseIf ? "elif " : "if ",
+                suffix: ":\n",
+                textLines: element.textLines,
+                target: target,
+                options: options,
+                indent: indent,
+                into: &out
+            )
+            emitBlockBody(trueBranch, target: target, options: options, indent: inner, into: &out)
+            if let next {
+                emitIfChain(element: next, target: target, options: options, indent: indent, isElseIf: true, into: &out)
+            } else if !omitElse {
+                out += sp(indent) + "else:\n"
+                emitBlockBody(falseBranch, target: target, options: options, indent: inner, into: &out)
+            }
+            return
+        }
+        emitConditionHeader(
+            prefix: isElseIf ? "} else if (" : "if (",
+            suffix: ") {\n",
+            textLines: element.textLines,
+            target: target,
+            options: options,
+            indent: indent,
+            into: &out
+        )
+        emitBlockBody(trueBranch, target: target, options: options, indent: inner, into: &out)
+        if let next {
+            emitIfChain(element: next, target: target, options: options, indent: indent, isElseIf: true, into: &out)
+        } else if omitElse {
+            out += sp(indent) + "}\n"
+        } else {
+            out += sp(indent) + "} else {\n"
+            emitBlockBody(falseBranch, target: target, options: options, indent: inner, into: &out)
+            out += sp(indent) + "}\n"
+        }
+    }
+
     static func emit(
         element: VisuStructElement,
         target: Target,
@@ -283,63 +346,7 @@ extension VisuStructCodeGenerator {
             }
 
         case .verzweigung:
-            guard let cases = element.cases, cases.count >= 2 else { return }
-            let trueBranch = cases[0].elements
-            let falseBranch = cases[1].elements
-            let omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(falseBranch)
-            switch target {
-            case .java:
-                emitConditionHeader(
-                    prefix: "if (",
-                    suffix: ") {\n",
-                    textLines: element.textLines,
-                    target: target,
-                    options: options,
-                    indent: indent,
-                    into: &out
-                )
-                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                if omitElse {
-                    out += sp(indent) + "}\n"
-                } else {
-                    out += sp(indent) + "} else {\n"
-                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                    out += sp(indent) + "}\n"
-                }
-            case .python:
-                emitConditionHeader(
-                    prefix: "if ",
-                    suffix: ":\n",
-                    textLines: element.textLines,
-                    target: target,
-                    options: options,
-                    indent: indent,
-                    into: &out
-                )
-                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                if !omitElse {
-                    out += sp(indent) + "else:\n"
-                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                }
-            case .javascript:
-                emitConditionHeader(
-                    prefix: "if (",
-                    suffix: ") {\n",
-                    textLines: element.textLines,
-                    target: target,
-                    options: options,
-                    indent: indent,
-                    into: &out
-                )
-                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                if omitElse {
-                    out += sp(indent) + "}\n"
-                } else {
-                    out += sp(indent) + "} else {\n"
-                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                    out += sp(indent) + "}\n"
-                }
-            }
+            emitIfChain(element: element, target: target, options: options, indent: indent, isElseIf: false, into: &out)
 
         case .fallauswahl:
             guard let cases = element.cases, !cases.isEmpty else { return }

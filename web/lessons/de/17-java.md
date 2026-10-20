@@ -132,7 +132,7 @@ if (alter < 6) {
 }
 ```
 
-Im Struktogramm gibt es kein `else if`. Dort steckt eine zweite Verzweigung im Nein-Zweig der ersten.
+Im Struktogramm gibt es kein `else if`. Dort steckt eine zweite Verzweigung im Nein-Zweig der ersten. Steht im Nein-Zweig nur diese eine Verzweigung, macht VisuStruct beim Erzeugen des Codes daraus wieder `else if`, in Python `elif`.
 
 ::: übung l17-ticket
 titel: Ticketpreis
