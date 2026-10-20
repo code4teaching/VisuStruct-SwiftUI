@@ -102,10 +102,10 @@ lösung: l06-mittelwert-loesung.visustruct
 ## Checkliste
 
 ::: checkliste
-- Ich kann das EVA-Prinzip erklären.
-- Ich kann eine Eingabe mit Datentyp, Namen und Frage schreiben.
-- Ich kann Text und Variablen in einer Ausgabe mit + verbinden.
-- Ich rechne vor der Ausgabe in einer Variablen.
+- Ich kann das EVA-Prinzip erklären. → Das EVA-Prinzip
+- Ich kann eine Eingabe mit Datentyp, Namen und Frage schreiben. → Eingabe mit input:
+- Ich kann Text und Variablen in einer Ausgabe mit + verbinden. → Vorsicht mit + in der Ausgabe
+- Ich rechne vor der Ausgabe in einer Variablen. → Vorsicht mit + in der Ausgabe
 :::
 
 ## Wissenstest

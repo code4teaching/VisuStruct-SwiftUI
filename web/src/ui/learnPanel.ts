@@ -3,7 +3,7 @@ import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import { decodeDocument } from '../core/xmlCodec'
 import { diagram, lessons, reference, tasks } from '../learn/content'
-import type { Block, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
+import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import { progress } from '../learn/progress'
 import { t } from './i18n'
@@ -400,7 +400,7 @@ export class LearnPanel {
     box.append(list)
   }
 
-  private renderChecklist(items: string[], key: string, lesson?: Lesson): HTMLElement {
+  private renderChecklist(items: ChecklistItem[], key: string, lesson?: Lesson): HTMLElement {
     const box = h('ul', { class: 'learn-checklist' })
     items.forEach((item, i) => {
       const id = `${key}-${i}`
@@ -412,8 +412,16 @@ export class LearnPanel {
         progress.updateLesson(lesson.id, { checks })
       })
       const label = h('label', {}, input)
-      label.insertAdjacentHTML('beforeend', ' ' + inline(item))
-      box.append(h('li', {}, label))
+      label.insertAdjacentHTML('beforeend', ' ' + inline(item.text))
+      const li = h('li', {}, label)
+      if (lesson && item.step !== undefined) {
+        const step = item.step
+        const where = t('web_learn_step_fmt', step + 1, lesson.steps[step].title)
+        const link = h('button', { class: 'link-button learn-check-link', title: where, 'aria-label': `${t('web_learn_review')}: ${where}` }, t('web_learn_review'))
+        link.addEventListener('click', () => this.goToStep(lesson, step))
+        li.append(link)
+      }
+      box.append(li)
     })
     return box
   }

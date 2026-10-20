@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { diagram, lessons, reference, tasks } from '../src/learn/content'
-import { parseBlocks, parseTest, type Block } from '../src/learn/lessonFormat'
+import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 
 const allBlocks = (): { where: string; block: Block }[] => [
@@ -48,6 +48,13 @@ describe('Lernbereich: Inhalte', () => {
     }
   })
 
+  it('jeder Punkt einer Checkliste verweist auf den Schritt, der ihn erklärt', () => {
+    for (const l of lessons)
+      for (const s of l.steps)
+        for (const b of s.blocks)
+          if (b.kind === 'checklist') for (const item of b.items) expect(item.step, `${l.id}: ${item.text}`).toBeDefined()
+  })
+
   it('Kennungen von Übungen sind eindeutig', () => {
     const ids = allBlocks().flatMap(({ block }) => (block.kind === 'exercise' ? [block.exercise.id] : []))
     expect(new Set(ids).size).toBe(ids.length)
@@ -90,6 +97,13 @@ describe('Lernbereich: Format', () => {
     expect(() => parseBlocks('::: diagramm a.visustruct\n', 'x.md')).toThrow(/nicht mit „:::“ geschlossen/)
     expect(() => parseBlocks('::: quiz\n? Frage\n- [ ] a\n- [ ] b\n:::', 'x.md')).toThrow(/eine richtige/)
     expect(() => parseBlocks('::: tabelle\n:::', 'x.md')).toThrow(/Unbekannter Block/)
+  })
+
+  it('löst Checklisten-Verweise auf und meldet unbekannte Schritte', () => {
+    const source = (ref: string) => `---\ntitel: T\n---\n## Erster Schritt\nText\n## Checkliste\n::: checkliste\n- Ich kann es. → ${ref}\n- Ohne Verweis\n:::\n`
+    const block = parseLesson(source('erster schritt'), '01-t.md').steps[1].blocks[0]
+    expect(block).toEqual({ kind: 'checklist', items: [{ text: 'Ich kann es.', ref: 'erster schritt', step: 0 }, { text: 'Ohne Verweis' }] })
+    expect(() => parseLesson(source('Gibt es nicht'), '01-t.md')).toThrow(/unbekannten Schritt/)
   })
 
   it('Markdown maskiert HTML', () => {

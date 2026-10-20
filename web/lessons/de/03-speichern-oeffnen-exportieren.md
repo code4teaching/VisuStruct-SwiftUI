@@ -37,10 +37,10 @@ Mit **Text** in der Leiste stellst du die Schriftgröße ein. Ein größerer Tex
 Öffne eine deiner Übungen aus Lektion 2 und probiere Folgendes aus:
 
 ::: checkliste
-- Ich habe dem Diagramm einen Titel gegeben.
-- Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet.
-- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert.
-- Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet.
+- Ich habe dem Diagramm einen Titel gegeben. → Ausprobieren
+- Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet. → Speichern und Öffnen
+- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Als Bild oder PDF weitergeben
+- Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet. → Mehrere Diagramme in Reitern
 :::
 
 ## Wissenstest

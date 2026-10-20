@@ -484,6 +484,9 @@ export class App {
       preview: (doc: VSDocument) => {
         const image = Export.renderExportSVG(doc, this.metrics, this.measure, 0)
         if (!image) return undefined
+        // Kleine Diagramme nicht über ihre natürliche Größe hinaus vergrößern.
+        const width = image.svg.getAttribute('width')
+        if (width) image.svg.style.maxWidth = `${width}px`
         image.svg.removeAttribute('width')
         image.svg.removeAttribute('height')
         return image.svg

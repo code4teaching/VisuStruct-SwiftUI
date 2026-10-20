@@ -83,4 +83,6 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_learn_unused_input" = "Dein Struktogramm fragt nicht alle Eingaben ab.";
 "web_learn_too_many_steps" = "Abbruch nach 100 000 Schritten. Läuft eine Schleife endlos?";
 "web_learn_score_fmt" = "%d von %d richtig";
+"web_learn_review" = "Nachlesen";
+"web_learn_step_fmt" = "Schritt %d: %@";
 `;export{e as default};

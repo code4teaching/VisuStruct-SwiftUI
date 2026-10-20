@@ -879,6 +879,7 @@ button.danger-text:not(:disabled) {
 .learn-preview > svg {
   display: block;
   width: 100%;
+  margin: 0 auto;
   height: auto;
 }
 .learn-figure figcaption {
@@ -961,10 +962,20 @@ button.danger-text:not(:disabled) {
   display: grid;
   gap: 6px;
 }
+.learn-checklist li {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  justify-content: space-between;
+}
 .learn-checklist label {
   display: flex;
   gap: 8px;
   align-items: baseline;
+}
+.learn-check-link {
+  flex: none;
+  font-size: 13px;
 }
 .learn-quiz fieldset {
   border: 1px solid var(--border);

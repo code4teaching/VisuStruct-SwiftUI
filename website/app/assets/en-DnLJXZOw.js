@@ -83,4 +83,6 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_learn_unused_input" = "Your structure chart does not ask for all inputs.";
 "web_learn_too_many_steps" = "Stopped after 100,000 steps. Is a loop running forever?";
 "web_learn_score_fmt" = "%d of %d correct";
+"web_learn_review" = "Review";
+"web_learn_step_fmt" = "Step %d: %@";
 `;export{e as default};
