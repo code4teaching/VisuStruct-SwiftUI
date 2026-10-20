@@ -90,7 +90,7 @@ Links Ike Nassi, rechts Ben Shneiderman (Fotos: …).
 :::
 ```
 
-Ein Kasten „Angeberwissen von Ludwig“, in dem unser Maskottchen Ludwig der Geißbock eine Hintergrundgeschichte erzählt.
+Ein Kasten „Angeberwissen mit Ludwig“, in dem unser Maskottchen Ludwig der Geißbock eine Hintergrundgeschichte erzählt.
 Der Text darf Markdown und Links enthalten:
 
 ```
