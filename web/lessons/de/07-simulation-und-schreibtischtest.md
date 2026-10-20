@@ -1,10 +1,12 @@
 ---
 titel: Simulation und Schreibtischtest
-bereich: Vom Struktogramm zum Code
+bereich: Grundlagen
 kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und Fehler finden.
 ---
 
 ## Die Simulation starten
+
+Bevor es mit Verzweigungen und Schleifen weitergeht, lernst du dein wichtigstes Werkzeug kennen. Mit der Simulation prüfst du ab jetzt jede Übung selbst.
 
 Mit [▶︎ Simulation](#zeige-simulation) in der Leiste führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Mit **✎ Diagramm** an derselben Stelle kehrst du zum Bearbeiten zurück.
 
@@ -17,19 +19,19 @@ Rechts erscheint die **Steuerung**:
 
 Öffne das folgende Diagramm im Editor und gehe es mit **Schritt** durch:
 
-::: diagramm l16-schreibtisch.visustruct
-Eine While-Schleife zählt die Zahlen 1, 2 und 3 zusammen.
+::: diagramm sim-tausch.visustruct
+Die Werte von a und b werden vertauscht. Die Variable hilf merkt sich dabei einen Wert.
 :::
 
 ## Was die Simulation anzeigt
 
 - **Markierung:** Ein Kasten im Diagramm ist farbig hervorgehoben. Bei **Letzter Schritt** ist es der Kasten, der gerade ausgeführt wurde. Bei **Nächster Schritt** ist es der Kasten, der als Nächstes drankommt.
 - **Eingabe:** Fragt das Diagramm nach einem Wert, tippst du ihn hier ein und bestätigst mit **OK**.
-- **Letzter Schritt:** Hier steht, was gerade passiert ist, z. B. `summe = 0 + 1 -> 1` oder `i <= 3 -> true`. Bei einer Bedingung siehst du, ob sie wahr (true) oder falsch (false) war.
+- **Letzter Schritt:** Hier steht, was gerade passiert ist, z. B. `a = 5 -> 5` nach dem Kasten `a = b`. Links sind die Variablen schon durch ihre Werte ersetzt, rechts vom Pfeil steht das Ergebnis.
 - **Variablen:** Alle Variablen mit ihren aktuellen Werten.
 - **Ausgabe:** Alles, was mit `output:` ausgegeben wurde.
 
-Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulation auf dem fehlerhaften Kasten stehen und zeigt eine Meldung, z. B. **Unbekannte Variable: summe**.
+Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulation auf dem fehlerhaften Kasten stehen und zeigt eine Meldung, z. B. **Unbekannte Variable: gesamt**.
 
 ## Der Schreibtischtest
 
@@ -37,21 +39,15 @@ Beim **Schreibtischtest** spielst du selbst den Computer. Du gehst das Struktogr
 
 Für das Diagramm oben sieht die Tabelle so aus:
 
-| Schritt | summe | i | Ausgabe |
-|---|---|---|---|
-| `int summe = 0` | 0 | – | |
-| `int i = 1` | 0 | 1 | |
-| `i <= 3` → wahr | 0 | 1 | |
-| `summe = summe + i` | 1 | 1 | |
-| `i = i + 1` | 1 | 2 | |
-| `i <= 3` → wahr | 1 | 2 | |
-| `summe = summe + i` | 3 | 2 | |
-| `i = i + 1` | 3 | 3 | |
-| `i <= 3` → wahr | 3 | 3 | |
-| `summe = summe + i` | 6 | 3 | |
-| `i = i + 1` | 6 | 4 | |
-| `i <= 3` → falsch | 6 | 4 | |
-| `output: summe` | 6 | 4 | 6 |
+| Schritt | a | b | hilf | Ausgabe |
+|---|---|---|---|---|
+| `int a = 3` | 3 | – | – | |
+| `int b = 5` | 3 | 5 | – | |
+| `int hilf = a` | 3 | 5 | 3 | |
+| `a = b` | 5 | 5 | 3 | |
+| `b = hilf` | 5 | 3 | 3 | |
+| `output: "a = " + a` | 5 | 3 | 3 | a = 5 |
+| `output: "b = " + b` | 5 | 3 | 3 | b = 3 |
 
 Vergleiche danach deine Tabelle mit der Simulation. Stimmen die Werte unter **Variablen** nach jedem Schritt mit deiner Zeile überein?
 
@@ -65,39 +61,43 @@ Gibt ein Struktogramm etwas Falsches aus, gehst du so vor:
 2. **Schritt für Schritt ausführen:** Starte die Simulation mit **Schritt** und beobachte die Variablen.
 3. **Die Stelle finden:** Wo weicht ein Wert zum ersten Mal von deiner Erwartung ab? Genau dort steckt der Fehler.
 
-Häufige Fehler sind:
+Häufige Fehler in einer Sequenz sind:
 
-- Die Schleife läuft **einmal zu oft oder zu wenig**, z. B. `<` statt `<=`.
-- Eine Variable wird in der Schleife **nicht verändert** oder in die falsche Richtung. Dann endet die Schleife nie.
-- Eine Variable bekommt ihren Startwert **in** der Schleife statt davor und wird bei jedem Durchlauf zurückgesetzt.
+- Die **Reihenfolge** stimmt nicht: Eine Variable wird benutzt, bevor sie einen Wert hat.
+- Ein Wert wird **überschrieben**, bevor er gebraucht wird.
+- **Klammern** fehlen: `a + b / 2` ist etwas anderes als `(a + b) / 2`.
+- Zwei ganze Zahlen werden geteilt: `7 / 2` ergibt `3`, weil bei `int` die Nachkommastellen wegfallen.
 
-## Übung: Summe reparieren
+> Später kommen Verzweigungen und Schleifen dazu. Dann zeigt dir die Simulation auch, welcher Weg genommen wird und wie oft eine Schleife läuft.
 
-::: übung l16-summe
-titel: Summe reparieren
-auftrag: Das Struktogramm soll alle Zahlen von 1 bis n zusammenzählen. Bei n = 4 soll also 1 + 2 + 3 + 4 = **10** herauskommen. Es gibt aber 6 aus.
+## Übung: Tauschen reparieren
+
+::: übung sim-tausch
+titel: Tauschen reparieren
+auftrag: Das Struktogramm soll zwei Zahlen einlesen und sie vertauscht wieder ausgeben. Bei 3 und 5 soll also erst **5** und dann **3** erscheinen. Es gibt aber zweimal 5 aus.
   Mache einen Schreibtischtest oder nutze **Schritt** und repariere den Fehler.
-start: l16-summe-start.visustruct
-test: 4 -> 10
-test: 1 -> 1
-test: 5 -> 15
-braucht: forSchleife
-tipp: Schau, mit welchem Wert von i die Schleife zuletzt läuft. Bei n = 4 muss auch i = 4 noch dazugezählt werden.
-lösung: l16-summe-loesung.visustruct
+start: sim-tausch-start.visustruct
+test: 3, 5 -> 5 | 3
+test: 1, 2 -> 2 | 1
+test: 7, 7 -> 7 | 7
+braucht: anweisung
+tipp: Schau dir a nach dem Schritt `a = b` an. Wo ist der alte Wert von a geblieben? Merke ihn dir vorher in einer Hilfsvariablen, wie im Beispiel oben.
+lösung: sim-tausch-loesung.visustruct
 :::
 
-## Übung: Countdown reparieren
+## Übung: Kinokarten reparieren
 
-::: übung l16-countdown
-titel: Countdown reparieren
-auftrag: Der Countdown soll vom Startwert herunterzählen und am Ende **Los!** ausgeben. Bei 3 also 3, 2, 1, Los!
-  Im Startdiagramm stecken zwei Fehler. Finde und behebe beide.
-start: l16-countdown-start.visustruct
-test: 3 -> 3 | 2 | 1 | Los!
-test: 1 -> 1 | Los!
-test: 0 -> Los!
-tipp: Starte die Simulation mit Startwert 3 und beobachte i unter Variablen. Wird i kleiner? Vergleiche außerdem die letzte Ausgabe genau mit dem Auftrag.
-lösung: l16-countdown-loesung.visustruct
+::: übung sim-kino
+titel: Kinokarten reparieren
+auftrag: Eine Kinokarte kostet 8.50 €. Das Struktogramm soll nach der Anzahl fragen und den Gesamtpreis ausgeben, bei 2 Karten also `Gesamt: 17.0`.
+  Starte die Simulation. Sie bleibt mit einer Fehlermeldung stehen. Finde heraus, warum, und repariere das Struktogramm.
+start: sim-kino-start.visustruct
+test: 2 -> Gesamt: 17.0
+test: 3 -> Gesamt: 25.5
+test: 0 -> Gesamt: 0.0
+braucht: anweisung
+tipp: Die Simulation führt die Kästen von oben nach unten aus. Hat gesamt schon einen Wert, wenn die Ausgabe drankommt? Du kannst Kästen mit der Maus verschieben.
+lösung: sim-kino-loesung.visustruct
 :::
 
 > Läuft eine Simulation endlos weiter, klicke auf **Stopp**. Beim **Prüfen** einer Übung bricht VisuStruct nach sehr vielen Schritten von selbst ab.
@@ -126,13 +126,19 @@ lösung: l16-countdown-loesung.visustruct
 - [ ] Den erzeugten Java-Code
 > So siehst du genau, an welcher Stelle ein Wert anders ist als erwartet.
 
-? Eine Schleife soll von 1 bis 5 zählen, läuft aber nur bis 4. Was ist der wahrscheinliche Fehler?
-- [x] In der Bedingung steht i < 5 statt i <= 5.
-- [ ] Die Schleife ist eine While-Schleife.
-- [ ] Die Variable i heißt falsch.
+? Erst `int a = 3`, dann `int b = 5`, dann `a = b`. Welche Werte haben a und b danach?
+- [ ] a = 5 und b = 3
+- [x] a = 5 und b = 5
+- [ ] a = 3 und b = 5
+> Der alte Wert von a ist überschrieben. Darum braucht man beim Tauschen eine Hilfsvariable.
 
-? Im Feld Letzter Schritt steht `zahl > 10 -> false`. Was bedeutet das?
-- [ ] Die Variable zahl hat den Wert false.
-- [x] Die Bedingung zahl > 10 wurde geprüft und war falsch.
+? Im Feld Letzter Schritt steht `preis = 4 * 2.5 -> 10.0`. Was bedeutet das?
+- [ ] Die Variable preis hat jetzt den Wert 4.
+- [x] 4 * 2.5 wurde ausgerechnet und das Ergebnis 10.0 in preis gespeichert.
 - [ ] Die Simulation hat einen Fehler gefunden.
+
+? Die Simulation meldet **Unbekannte Variable: summe**. Was ist ein wahrscheinlicher Grund?
+- [x] summe wird benutzt, bevor sie einen Wert bekommen hat.
+- [ ] summe ist zu groß.
+- [ ] Das Struktogramm hat zu viele Kästen.
 :::

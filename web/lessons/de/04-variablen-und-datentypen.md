@@ -33,7 +33,7 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
 :::
 
-Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 7. Du kannst das Ergebnis einer Bedingung auch in einer Variablen speichern:
+Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 8. Du kannst das Ergebnis einer Bedingung auch in einer Variablen speichern:
 
 ```
 int alter = 15

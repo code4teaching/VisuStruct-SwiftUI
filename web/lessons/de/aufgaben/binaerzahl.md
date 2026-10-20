@@ -1,6 +1,6 @@
 ---
 titel: Binärzahl
-nach: 10
+nach: 11
 stufe: 3
 ---
 
