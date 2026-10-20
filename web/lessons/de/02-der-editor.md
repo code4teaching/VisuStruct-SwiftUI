@@ -11,7 +11,7 @@ Der Editor besteht aus vier Bereichen:
 - **Oben die Leiste:** Neu, Öffnen, Speichern, Exportieren, Rückgängig, Kopieren und Einfügen, Textgröße, Code und Simulation.
 - **Links die Palette:** Hier liegen alle Elemente, die du ins Struktogramm ziehen kannst.
 - **In der Mitte das Struktogramm:** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
-- **Rechts die Eigenschaften:** Hier bearbeitest du den Text des ausgewählten Elements.
+- **Unten die Eigenschaften:** Hier bearbeitest du den Text des ausgewählten Elements.
 
 > Diesen Lernbereich kannst du jederzeit über **Lernen** in der Leiste ein- und ausblenden. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest.
 
@@ -27,7 +27,7 @@ Du kannst auch ein Element in der Palette mit der Tastatur auswählen und **Ente
 
 ## Text eingeben
 
-Klicke einen Kasten an. Er wird blau umrandet, und rechts erscheint sein Text. Was du dort tippst, siehst du sofort im Diagramm.
+Klicke einen Kasten an. Er wird blau umrandet, und unter dem Diagramm erscheint sein Text. Was du dort tippst, siehst du sofort im Diagramm.
 
 Bei einer **Anweisung** wählst du oben die Art:
 
@@ -53,7 +53,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 ::: übung l2-hallo
 titel: Hallo Welt
 auftrag: Baue ein Struktogramm, das **Hallo Welt** ausgibt.
-Ziehe eine Anweisung auf den Platzhalter, stelle sie rechts auf **Ausgabe** und schreibe `"Hallo Welt"`.
+Ziehe eine Anweisung auf den Platzhalter, stelle sie unten auf **Ausgabe** und schreibe `"Hallo Welt"`.
 test: - -> Hallo Welt
 braucht: anweisung
 tipp: Achte auf die Anführungszeichen. Ohne sie sucht VisuStruct nach einer Variablen mit dem Namen Hallo.
