@@ -338,6 +338,9 @@ function inferStringVariables(doc: VSDocument): Set<string> {
       }
       const g = groups(/^\s*(?:const\s+)?string\s+([a-zA-Z_]\w*)\s*=/i, t)
       if (g) out.add(g[1])
+      // String-Arrays als `name[]`, damit `spalten[i] + 1` in Python Text bleibt.
+      const a = groups(/^\s*string\s*\[\s*\]\s*([a-zA-Z_]\w*)\s*=/i, t)
+      if (a) out.add(a[1] + '[]')
     }
   })
   return out
@@ -668,7 +671,8 @@ const isDoubleQuotedLiteral = (s: string) => /^"(?:[^"\\]|\\.)*"$/.test(s)
 /** `"Summe: " + summe` → `"Summe: " + str(summe)`: Python verkettet Text nicht mit Zahlen. Sonst nur übersetzt. */
 function pythonConcatenation(expression: string, intVariables: Set<string>, stringVariables: Set<string>): string {
   const parts = splitTopLevelPlus(expression)
-  const isText = (p: string) => isDoubleQuotedLiteral(p) || stringVariables.has(p)
+  const isText = (p: string) =>
+    isDoubleQuotedLiteral(p) || stringVariables.has(p) || stringVariables.has(p.replace(/^([A-Za-z_]\w*)\[[^[\]]*\]$/u, '$1[]'))
   if (parts.length < 2 || !parts.some(isText) || parts.some((p) => p === '')) {
     return pythonExpression(expression, intVariables)
   }
