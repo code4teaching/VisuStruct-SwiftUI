@@ -1328,7 +1328,7 @@ Viele Schleifen zählen mit. Dafür brauchst du drei Dinge:
 Fehlt einer dieser Teile, zählt die Schleife falsch oder gar nicht.
 
 ::: angeberwissen
-Zählschleifen sind uralt! Im Artikel von 1973 haben Nassi und Shneiderman ihre Idee unter anderem an der **Fakultät** gezeigt: 5! = 1 · 2 · 3 · 4 · 5 = 120. Hier ist meine Ziegen-Version davon. Probier sie mit **Schritt** in der Simulation aus und schau zu, wie \`fak\` wächst. Määäh, das geht schnell!
+Zählschleifen sind uralt! Im Artikel von 1973 haben Nassi und Shneiderman ihre Idee unter anderem an der **Fakultät** gezeigt: 5! = 1 · 2 · 3 · 4 · 5 = 120. Hier ist meine Ziegen-Version davon. Probier sie mit **Schritt** in der Simulation aus und schau zu, wie \`fakultaet\` wächst. Määäh, das geht schnell!
 :::
 
 ::: diagramm l10-fakultaet.visustruct
@@ -4147,7 +4147,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;70;97;107;117;108;116;228;116;32;118;111;110;32;119;101;108;99;104;101;114;32;90;97;104;108;63;34;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>105;110;116;32;102;97;107;32;61;32;49;</text>
+    <text>105;110;116;32;102;97;107;117;108;116;97;101;116;32;61;32;49;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;</text>
@@ -4156,7 +4156,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>105;32;60;61;32;110;</text>
     <schleifeninhalt>
     <strelem typ="0" zx="0" zy="0">
-      <text>102;97;107;32;61;32;102;97;107;32;42;32;105;</text>
+      <text>102;97;107;117;108;116;97;101;116;32;61;32;102;97;107;117;108;116;97;101;116;32;42;32;105;</text>
     </strelem>
     <strelem typ="0" zx="0" zy="0">
       <text>105;32;61;32;105;32;43;32;49;</text>
@@ -4164,7 +4164,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>111;117;116;112;117;116;58;32;110;32;43;32;34;33;32;61;32;34;32;43;32;102;97;107;</text>
+    <text>111;117;116;112;117;116;58;32;110;32;43;32;34;33;32;61;32;34;32;43;32;102;97;107;117;108;116;97;101;116;</text>
   </strelem>
 </struktogramm>
 `,la=`<?xml version="1.0" encoding="UTF-8"?>

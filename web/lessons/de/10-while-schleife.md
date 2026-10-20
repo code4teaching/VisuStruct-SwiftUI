@@ -41,7 +41,7 @@ Viele Schleifen zählen mit. Dafür brauchst du drei Dinge:
 Fehlt einer dieser Teile, zählt die Schleife falsch oder gar nicht.
 
 ::: angeberwissen
-Zählschleifen sind uralt! Im Artikel von 1973 haben Nassi und Shneiderman ihre Idee unter anderem an der **Fakultät** gezeigt: 5! = 1 · 2 · 3 · 4 · 5 = 120. Hier ist meine Ziegen-Version davon. Probier sie mit **Schritt** in der Simulation aus und schau zu, wie `fak` wächst. Määäh, das geht schnell!
+Zählschleifen sind uralt! Im Artikel von 1973 haben Nassi und Shneiderman ihre Idee unter anderem an der **Fakultät** gezeigt: 5! = 1 · 2 · 3 · 4 · 5 = 120. Hier ist meine Ziegen-Version davon. Probier sie mit **Schritt** in der Simulation aus und schau zu, wie `fakultaet` wächst. Määäh, das geht schnell!
 :::
 
 ::: diagramm l10-fakultaet.visustruct
