@@ -37,6 +37,8 @@ const renamedLessons: Record<string, string> = {
   '14-arrays': '15-arrays',
   '15-aufruf-und-aussprung': '16-aufruf-und-aussprung',
   '16-simulation-und-schreibtischtest': '07-simulation-und-schreibtischtest',
+  '17-java': '18-java',
+  '18-python-und-javascript': '19-python-und-javascript',
 }
 
 function migrate(s: Store): Store {

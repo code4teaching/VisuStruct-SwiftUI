@@ -826,6 +826,10 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     }
 
     private func parseAssignmentTarget(_ text: String) throws -> AssignmentTarget {
+        // Ein Arrayfach darf Leerzeichen im Index haben: `karten[i + 1] = hilf`.
+        if Self.parseArrayElementAccess(text) != nil {
+            return AssignmentTarget(variableName: text.trimmingCharacters(in: .whitespacesAndNewlines), valueType: nil)
+        }
         let parts = text.split(whereSeparator: { $0.isWhitespace }).map(String.init)
         let name: String
         let valueType: VisuStructSimulationValueType?
@@ -948,6 +952,16 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         guard trimmed.hasSuffix("]"), let open = trimmed.firstIndex(of: "[") else { return nil }
         let name = String(trimmed[..<open]).trimmingCharacters(in: .whitespacesAndNewlines)
         guard isIdentifier(name) else { return nil }
+        // Die Klammer nach dem Namen muss erst am Ende schließen, sonst ist es z. B. `a[i] > a[i + 1]`.
+        var depth = 0
+        for character in trimmed[open..<trimmed.index(before: trimmed.endIndex)] {
+            if character == "[" {
+                depth += 1
+            } else if character == "]" {
+                depth -= 1
+                if depth == 0 { return nil }
+            }
+        }
         let afterOpen = trimmed.index(after: open)
         let indexExpression = String(trimmed[afterOpen..<trimmed.index(before: trimmed.endIndex)])
         return ArrayElementAccess(arrayName: name, indexExpression: indexExpression)
