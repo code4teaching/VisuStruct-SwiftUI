@@ -410,6 +410,15 @@ h3 {
   background: var(--bg);
   border: 1px solid var(--line);
 }
+.step-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1.1rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
 .step-num {
   display: inline-grid;
   place-items: center;
