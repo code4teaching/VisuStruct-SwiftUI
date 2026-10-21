@@ -22,3 +22,7 @@ braucht: whileSchleife, verzweigung
 tipp: Die While-Schleife läuft, solange `zahl != 1` gilt. Ob eine Zahl gerade ist, prüfst du mit `zahl % 2 == 0`. Die Ausgabe und `schritte++` kommen nach der Verzweigung, aber noch in die Schleife.
 lösung: aufgabe-collatz-loesung.visustruct
 :::
+
+::: angeberwissen
+Mit dieser Aufgabe kann man reich werden! Der Mathematiker Paul Erdős setzte für einen Beweis 500 Dollar aus. 2021 legte die japanische Firma Bakuage noch einiges drauf: 120 Millionen Yen, also fast eine Million Euro, für einen Beweis oder ein Gegenbeispiel. Abgeholt hat das Geld bis heute niemand. Erfunden hat das Rätsel übrigens der deutsche Mathematiker Lothar Collatz im Jahr 1937. Ich rechne gleich mal los, für so viel Geld gibt es eine Menge Heu.
+:::
