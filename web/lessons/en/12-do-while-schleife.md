@@ -1,0 +1,106 @@
+---
+titel: Do-while loop
+bereich: Basics
+kurz: Run first, check afterwards: loops with at least one pass.
+---
+
+## Do first, check afterwards
+
+The **do-while loop** is a **post-test loop**. The condition is at the bottom, in the foot of the box. This is how it runs:
+
+1. Run the inside once.
+2. Check the condition.
+3. If it is true, start again at 1. If it is false, the program continues below the loop.
+
+::: grafik l11-vergleich.svg
+On the left, the while loop checks first; on the right, the do-while loop runs first.
+:::
+
+At the top of the box is `do`, and the condition is in the foot. When you click the loop, the word `while` is in front of the text field in the Object Inspector: the condition means “repeat as long as …”.
+
+> Just like with the while loop, the condition says **when the loop repeats**. As long as it is true, the loop keeps running.
+
+## At least one pass
+
+Because the condition is only checked at the end, the inside **always runs at least once**. That is the most important difference from the while loop.
+
+::: diagramm l11-einmal.visustruct
+i is 10 and so it is not less than 5. Still, 10 is output once, because the check only comes afterwards.
+:::
+
+With a while loop and the same condition `i < 5`, nothing at all would be output here.
+
+## Typical use: repeat an input
+
+The do-while loop fits whenever something has to happen first before you can check it. The best example is an input: only after someone has typed something do you know whether it is valid.
+
+::: diagramm l11-eingabe-pruefen.visustruct
+The question comes again until a number from 1 to 10 has been typed in. In the simulation, first try 0 and then 12.
+:::
+
+Here the condition describes the **invalid** input: `number < 1 || number > 10`. As long as the input is invalid, the question is asked again.
+
+## Exercise: Valid grade
+
+::: übung l11-note
+titel: Valid grade
+auftrag: Ask for a grade. If it is not between 1 and 6, ask again. If it is valid, output it, for example **Your grade: 3**.
+test: 3 -> Your grade: 3
+test: 0, 7, 2 -> Your grade: 2
+test: 9, 6 -> Your grade: 6
+test: -1, 1 -> Your grade: 1
+braucht: doUntilSchleife
+tipp: The grade is asked for at least once. After that, the condition decides whether to ask again.
+tipp: Before the loop, create `int grade = 0`. The input `input: grade "Grade from 1 to 6"` goes inside the loop. The condition is `grade < 1 || grade > 6`.
+lösung: l11-note-loesung.visustruct
+:::
+
+## Exercise: Sum until 0
+
+::: übung l11-summe
+titel: Sum until 0
+auftrag: Keep asking for numbers until a 0 is typed in. Then output the sum of all the numbers typed in.
+test: 3, 4, 0 -> 7
+test: 10, 0 -> 10
+test: 5, 5, 5, 0 -> 15
+test: 0 -> 0
+braucht: doUntilSchleife
+tipp: You need a variable for the sum that starts at 0 before the loop. In every pass the new number is added.
+tipp: Before the loop, create `int sum = 0` and `int number = 0`. In the loop you ask for `number` and calculate `sum = sum + number`. Adding the 0 does no harm. The loop keeps running as long as `number != 0`.
+lösung: l11-summe-loesung.visustruct
+:::
+
+## Checklist
+
+::: checkliste
+- I know that the do-while loop only checks its condition after the inside. → Do first, check afterwards
+- I know that the inside runs at least once. → At least one pass
+- I can repeat an input until it is valid. → Typical use: repeat an input
+:::
+
+## Quiz
+
+::: quiz
+? What does post-test loop mean?
+- [ ] The condition is checked before every pass.
+- [x] The condition is checked after every pass.
+- [ ] The loop has no condition.
+> The condition is in the foot, at the bottom, and is worked out after the inside.
+
+? The condition of a do-while loop is false from the start. How often does the inside run?
+- [ ] Not at all
+- [x] Exactly once
+- [ ] Forever
+> The inside runs first. Only then does the loop notice that it should stop.
+
+? You want to ask for a number from 1 to 10. Which condition goes in the foot?
+- [ ] `number >= 1 && number <= 10`
+- [x] `number < 1 || number > 10`
+- [ ] `number == 10`
+> The loop repeats as long as the input is invalid, that is, less than 1 or greater than 10.
+
+? When is a do-while loop better than a while loop?
+- [x] When the inside has to run at least once, e.g. for an input
+- [ ] When the loop might not need to run at all
+- [ ] When you want to count exactly to 10
+:::

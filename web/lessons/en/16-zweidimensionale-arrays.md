@@ -1,0 +1,144 @@
+---
+titel: Two-dimensional arrays
+bereich: Basics
+kurz: Store values in rows and columns, like the seats in a cinema, and go through them with two nested loops.
+---
+
+## A cinema as a table
+
+A cinema has several **rows**, and every row has several **seats**. For every seat we want to remember whether its ticket has already been sold. That is a yes-or-no question, so the data type `boolean` fits: `true` means sold, `false` means free.
+
+A normal array is one single row of slots. For the cinema we need a **table** with rows and columns. That is a **two-dimensional array**, 2D array for short. You write two pairs of square brackets for it:
+
+```
+boolean[][] seats = new boolean[3][5]
+```
+
+That gives 3 rows with 5 seats each, so 15 slots. At the start every slot holds `false`: all seats are free.
+
+::: grafik kino-saal.svg
+The first index is the row, the second the seat. Both are counted from 0.
+:::
+
+## Reach a slot
+
+For a slot you now need **two** indices: first the row, then the seat.
+
+```
+seats[1][2] = true
+```
+
+Now seat 2 in row 1 is sold. Reading works the same way: `seats[1][2]` is now `true`.
+
+You can also ask for the size:
+
+- `seats.length` is the number of **rows**, here 3.
+- `seats[0].length` is the number of **seats** in row 0, here 5.
+
+::: diagramm kino-verkaufen.visustruct
+Three tickets are sold. After that, the diagram outputs the size of the cinema and whether row 1, seat 2 is sold. Watch under Variables in the simulation: seats is shown row by row.
+:::
+
+> Just like with a normal array, there is no slot `seats[3][0]`, because the rows are called 0, 1 and 2. The simulation then reports an invalid expression.
+
+## Two loops inside each other
+
+To look at **all** seats, you need two for loops inside each other:
+
+- The **outer loop** counts the row: `row` runs from 0 to 2.
+- The **inner loop** counts the seat: `seat` runs from 0 to 4.
+
+::: grafik kino-schleifen.svg
+Blue is the outer loop, orange the inner one. The numbers show the order in which the seats come up.
+:::
+
+For every row, the inner loop runs **all the way** through once. Only when `seat` has visited all five seats does the outer loop move `row` on by one. Then `seat` starts at 0 again. That way all 3 · 5 = 15 seats come up exactly once.
+
+The conditions are `row < seats.length` and `seat < seats[row].length`. That way the loops fit a cinema of any size.
+
+::: diagramm kino-saalplan.visustruct
+The seating plan: for every row, a line of X (sold) and O (free) is put together and output. Go through it with Step and watch how seat keeps starting again from the beginning while row only slowly counts on.
+:::
+
+::: angeberwissen
+Every phone photo is a 2D array! A photo with 4000 · 3000 pixels has 3000 rows with 4000 slots each, so 12 million pixels. Every slot holds the colour of one dot. When you make a photo brighter, the phone runs over all the pixels with two nested loops. My profile picture, by the way, has only one slot: brown.
+:::
+
+## Exercise: Count free seats
+
+::: übung kino-frei
+titel: Count free seats
+auftrag: In the start diagram three tickets have already been sold. Use two nested loops to count how many seats are still **free**, and output e.g. `Free: 12`.
+start: kino-frei-start.visustruct
+test: - -> Free: 12
+braucht: forSchleife, verzweigung
+tipp: Just like for the seating plan, you go over all seats with two loops. Instead of outputting something, you count.
+tipp: Before the loops, create `int free = 0`. A seat is free if `seats[row][seat]` is false. The condition for that is `!seats[row][seat]`.
+lösung: kino-frei-loesung.visustruct
+:::
+
+## Exercise: Sell a ticket
+
+::: übung kino-karte
+titel: Sell a ticket
+auftrag: The start diagram asks for a row and a seat. If the seat is already sold, output `Already sold`. Otherwise mark it as sold and output e.g. `Sold: row 0, seat 4`.
+start: kino-karte-start.visustruct
+test: 1, 2 -> Already sold
+test: 0, 4 -> Sold: row 0, seat 4
+test: 2, 0 -> Sold: row 2, seat 0
+braucht: verzweigung
+tipp: First check whether the seat is sold. Depending on the answer, something different happens.
+tipp: You do not need a loop here. A branch with the condition `seats[row][seat]` is enough. In the false path you set the slot to `true`.
+lösung: kino-karte-loesung.visustruct
+:::
+
+## Exercise: Times table grid
+
+::: übung kino-einmaleins
+titel: Times table grid
+auftrag: Create `int[][] table = new int[10][10]` and fill it with the times tables up to 10 using two loops. Then ask for two numbers from 1 to 10 and read the result from the table, e.g. `3 · 4 = 12`.
+test: 3, 4 -> 3 · 4 = 12
+test: 7, 8 -> 7 · 8 = 56
+test: 10, 10 -> 10 · 10 = 100
+braucht: forSchleife
+tipp: First two nested loops fill the table; after that you read only one single slot.
+tipp: The indices run from 0 to 9, but the numbers from 1 to 10. That is why the slot `table[i][j]` holds the value `(i + 1) * (j + 1)`, and for 3 · 4 you read `table[a - 1][b - 1]`.
+lösung: kino-einmaleins-loesung.visustruct
+:::
+
+## Checklist
+
+::: checkliste
+- I can create a 2D array and know what the two numbers mean. → A cinema as a table
+- I can read and write a slot with a row and a seat. → Reach a slot
+- I know the difference between `seats.length` and `seats[0].length`. → Reach a slot
+- I can explain in which order two nested loops visit the slots. → Two loops inside each other
+:::
+
+## Quiz
+
+::: quiz
+? How many slots does `boolean[][] seats = new boolean[4][6]` have?
+- [ ] 10
+- [x] 24
+- [ ] 46
+> 4 rows with 6 seats each: 4 · 6 = 24.
+
+? What is in all slots after `new boolean[3][5]`?
+- [ ] true
+- [x] false
+- [ ] Nothing, the slots are empty
+> A new boolean array is filled with false. In the cinema that means: all seats are free.
+
+? Two nested loops run over 3 rows with 5 seats. How often does the inside of the **inner** loop run?
+- [ ] 3 times
+- [ ] 8 times
+- [x] 15 times
+> For each of the 3 rows the inner loop runs 5 times: 3 · 5 = 15.
+
+? Match what each expression means in the cinema.
+= seats.length -> Number of rows
+= seats[0].length -> Number of seats in row 0
+= seats[2][4] -> Row 2, seat 4
+= seats[1][0] = true -> Seat 0 in row 1 is sold
+:::

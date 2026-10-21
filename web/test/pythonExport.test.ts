@@ -4,7 +4,7 @@ import { generateCode } from '../src/core/codeGenerator'
 import { sameOutput, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType } from '../src/core/model'
 import { parseSubprogramHeader } from '../src/core/simulation'
-import { diagram, lessons, tasks } from '../src/learn/content'
+import { contentLanguages, diagram, lessons, tasks, useContentLanguage } from '../src/learn/content'
 
 // Jede Musterlösung als echtes Python ausführen: gleiche Ausgabe wie in der Simulation.
 
@@ -18,7 +18,8 @@ function runnable(code: string): string {
 }
 
 describe.skipIf(!python)('Python-Export', () => {
-  it('jede Musterlösung läuft als Python mit derselben Ausgabe', () => {
+  it.each(contentLanguages)('jede Musterlösung läuft als Python mit derselben Ausgabe (%s)', (lang) => {
+    useContentLanguage(lang)
     let checked = 0
     const blocks = [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]
     for (const block of blocks) {

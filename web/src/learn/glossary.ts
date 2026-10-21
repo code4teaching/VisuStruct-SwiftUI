@@ -1,4 +1,4 @@
-/** Fachbegriffe aus `lessons/de/begriffe.md`: `### Begriff`, optional `auch: Form, Form`, danach die Erklärung. */
+/** Fachbegriffe aus `lessons/<Sprache>/begriffe.md`: `### Begriff`, optional `auch: Form, Form` (englisch `also:`), danach die Erklärung. */
 
 export interface GlossaryEntry {
   term: string
@@ -15,8 +15,8 @@ export function parseGlossary(source: string): GlossaryEntry[] {
     if (heading) {
       const term = heading[1].trim()
       entries.push({ term, forms: [term], text: '' })
-    } else if (entry && /^auch:/i.test(line)) {
-      entry.forms.push(...line.replace(/^auch:/i, '').split(',').map((f) => f.trim()).filter(Boolean))
+    } else if (entry && /^(auch|also):/i.test(line)) {
+      entry.forms.push(...line.replace(/^(auch|also):/i, '').split(',').map((f) => f.trim()).filter(Boolean))
     } else if (entry && line.trim() !== '') {
       entry.text = (entry.text + ' ' + line.trim()).trim()
     }

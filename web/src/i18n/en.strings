@@ -21,7 +21,7 @@
 "web_tabs_label" = "Diagrams";
 "web_status_modified" = "modified";
 "web_inspector_title" = "Object Inspector";
-"web_inspector_help_drop" = "Drag elements from the palette onto a tile: top = before, bottom = after, onto “ø” = replace. Existing elements can be moved with the mouse.";
+"web_inspector_help_drop" = "Drag elements from the “Elements” area onto a tile: top = before, bottom = after, onto “ø” = replace. Existing elements can be moved with the mouse.";
 "web_inspector_help_files" = "You can also drop files into the window.";
 "web_case_name" = "Case name";
 "web_case_name_placeholder" = "e.g. 1, ok, default";
@@ -81,7 +81,7 @@
 "web_learn_teacher_on" = "Teacher mode is on: sample solutions are visible for all exercises.";
 "web_learn_teacher_off" = "Leave teacher mode";
 "web_learn_open_first" = "Open the exercise in the editor first and build your structure chart there.";
-"web_learn_empty" = "Your structure chart is still empty. Drag elements from the palette into it first.";
+"web_learn_empty" = "Your structure chart is still empty. Drag elements from the “Elements” area into it first.";
 "web_learn_passed" = "Well done! Your structure chart does exactly what it should.";
 "web_learn_failed" = "Not quite yet. Compare the expected output with yours:";
 "web_learn_missing_fmt" = "Your structure chart still needs: %@";
@@ -94,6 +94,7 @@
 "web_learn_too_many_steps" = "Stopped after 100,000 steps. Is a loop running forever?";
 "web_learn_score_fmt" = "%d of %d correct";
 "web_learn_review" = "Review";
+"web_learn_terms" = "Technical terms";
 "web_learn_resize" = "Change the width of the learning area (double-click: reset)";
 "web_learn_back_to_checklist" = "Back to checklist";
 "web_learn_step_fmt" = "Step %d: %@";

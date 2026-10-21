@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 230" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1c1c1e"/></marker></defs>
+  <rect width="400" height="230" fill="#ffffff"/>
+  <text x="20" y="24" font-weight="600">How the while loop runs</text>
+  <rect x="120" y="44" width="160" height="40" rx="20" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+  <text x="200" y="69" text-anchor="middle">① check the condition</text>
+  <rect x="120" y="128" width="160" height="40" rx="6" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="200" y="153" text-anchor="middle">② run the inside</text>
+  <g fill="none" stroke="#1c1c1e" stroke-width="1.8" marker-end="url(#a)">
+    <line x1="200" y1="84" x2="200" y2="126"/>
+    <path d="M120 148 C80 148, 80 64, 118 64"/>
+    <path d="M280 64 L340 64 L340 200 L282 200"/>
+  </g>
+  <text x="208" y="110" fill="#15803d" font-weight="600">true</text>
+  <text x="38" y="110" text-anchor="middle" fill="#6e6e73">back</text>
+  <text x="38" y="126" text-anchor="middle" fill="#6e6e73">to the top</text>
+  <text x="348" y="134" fill="#b91c1c" font-weight="600">false</text>
+  <text x="276" y="205" text-anchor="end">continue below the loop</text>
+</svg>
