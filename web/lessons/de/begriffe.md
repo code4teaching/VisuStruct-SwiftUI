@@ -135,11 +135,11 @@ Ein Programm, das so kreuz und quer springt, dass man den Ablauf kaum noch verfo
 
 ### Wertübergabe
 auch: call by value
-Ein Unterprogramm bekommt eine Kopie des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers unverändert.
+Englisch call by value. Ein Unterprogramm bekommt eine Kopie des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers unverändert.
 
 ### Referenzübergabe
 auch: call by reference
-Ein Unterprogramm bekommt einen Verweis auf dieselben Daten, z. B. auf ein Array. Ändert es ein Fach, sieht auch der Aufrufer die Änderung.
+Englisch call by reference. Ein Unterprogramm bekommt einen Verweis auf dieselben Daten, z. B. auf ein Array. Ändert es ein Fach, sieht auch der Aufrufer die Änderung.
 
 ### Rückgabewert
 auch: Rückgabewerte
