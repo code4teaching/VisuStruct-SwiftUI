@@ -227,6 +227,8 @@ function valueTypeKeyword(text: string): SimValueType | undefined {
     case 'int': return 'int'
     case 'double': return 'double'
     case 'string': return 'string'
+    // Ein `char` ist in VisuStruct ein String mit genau einem Zeichen.
+    case 'char': return 'string'
     case 'boolean': case 'bool': return 'boolean'
     default: return undefined
   }
@@ -238,6 +240,8 @@ function valueTypeOf(v: SimValue): SimValueType {
 
 function unquotedString(text: string): string | undefined {
   const chars = Array.from(text)
+  // Zeichenliteral wie in Java: 'a'
+  if (chars.length === 3 && chars[0] === "'" && chars[2] === "'") return chars[1]
   if (chars.length < 2 || chars[0] !== '"' || chars[chars.length - 1] !== '"') return undefined
   return chars.slice(1, -1).join('').replaceAll('\\"', '"').replaceAll('\\n', '\n')
 }
@@ -411,6 +415,19 @@ function parseArrayElementAccess(text: string): ArrayElementAccess | undefined {
   return { arrayName: name, indexExpressions }
 }
 
+/** `ziel.methode(arg, arg)` als Ganzes; das Ziel ist ein Name, ein Arrayfach oder ein String-Literal. */
+function parseMethodCall(text: string): { target: string; method: string; args: string[] } | undefined {
+  const trimmed = text.trim()
+  if (!trimmed.endsWith(')')) return undefined
+  const m = /^([A-Za-z_]\w*(?:\s*\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*([A-Za-z_]\w*)\s*\(/u.exec(trimmed)
+  if (!m) return undefined
+  const chars = Array.from(trimmed)
+  const open = Array.from(m[0]).length - 1
+  if (matchingCloseParenthesis(chars, open) !== chars.length - 1) return undefined
+  const inner = chars.slice(open + 1, -1).join('').trim()
+  return { target: m[1], method: m[2], args: inner === '' ? [] : splitTopLevel(inner, ',') }
+}
+
 function isAssignableTarget(text: string): boolean {
   return isIdentifier(text) || parseArrayElementAccess(text) !== undefined
 }
@@ -420,6 +437,7 @@ function splitByPlusOutsideQuotes(expression: string): string[] {
   let current = ''
   let inString = false
   let escaped = false
+  let depth = 0
   for (const c of expression) {
     if (escaped) {
       current += c
@@ -436,7 +454,9 @@ function splitByPlusOutsideQuotes(expression: string): string[] {
       current += c
       continue
     }
-    if (c === '+' && !inString) {
+    if (!inString && c === '(') depth += 1
+    if (!inString && c === ')') depth -= 1
+    if (c === '+' && !inString && depth === 0) {
       parts.push(current)
       current = ''
       continue
@@ -1373,6 +1393,11 @@ export class SimulationEngine {
     }
 
     const prefix = `new ${typeName}[`
+    if (!trimmed.startsWith(prefix)) {
+      // z. B. `String[] woerter = satz.split(" ")`
+      const value = this.evaluateStringMethod(trimmed)
+      if (value?.kind === 'stringArray' && valueType === 'string') return { name, typeName, count: value.value.length, value }
+    }
     if (!trimmed.startsWith(prefix) || !trimmed.endsWith(']')) throw unsupported(expression)
     const sizeExpression = trimmed.slice(prefix.length, -1)
     const count = this.evaluateInt(sizeExpression)
@@ -1436,9 +1461,131 @@ export class SimulationEngine {
     const trimmed = text.trim()
     const direct = this.state.variables.get(trimmed)
     if (direct) return direct
+    const call = this.evaluateStringMethod(trimmed)
+    if (call) return call
     const access = parseArrayElementAccess(trimmed)
     if (!access) return undefined
     return this.valueInArray(access.arrayName, access.indexExpressions.map((e) => this.arrayIndex(e)))
+  }
+
+  /**
+   * String-Methoden wie in Java: `wort.length()`, `wort.charAt(i)`, `wort.substring(a, b)`, `wort.indexOf("x")`,
+   * `wort.toUpperCase()`, `wort.toLowerCase()`, `wort.trim()`, `wort.contains("x")`, `wort.startsWith("x")`,
+   * `wort.endsWith("x")`, `wort.replace("a", "b")`, `satz.split(" ")`. Sonst `undefined`.
+   */
+  private evaluateStringMethod(text: string): SimValue | undefined {
+    const call = parseMethodCall(text)
+    if (!call) return undefined
+    const target = unquotedString(call.target) ?? this.stringValueOf(call.target)
+    if (target === undefined) return undefined
+    const args = call.args
+    const str = (i: number) => {
+      const a = args[i]
+      if (a === undefined) throw invalid(text)
+      const literal = unquotedString(a.trim())
+      if (literal !== undefined) return literal
+      const ref = this.evaluateReference(a)
+      if (ref?.kind === 'string') return ref.value
+      throw invalid(a)
+    }
+    const num = (i: number) => {
+      if (args[i] === undefined) throw invalid(text)
+      return this.evaluateInt(args[i])
+    }
+    const count = (n: number) => {
+      if (args.length !== n) throw invalid(text)
+    }
+    const chars = Array.from(target)
+    const index = (i: number, max: number) => {
+      if (i < 0 || i > max) throw invalid(text)
+      return i
+    }
+    switch (call.method) {
+      case 'length':
+        count(0)
+        return int(chars.length)
+      case 'charAt':
+        count(1)
+        return { kind: 'string', value: chars[index(num(0), chars.length - 1)] }
+      case 'substring': {
+        if (args.length !== 1 && args.length !== 2) throw invalid(text)
+        const begin = index(num(0), chars.length)
+        const end = args.length === 2 ? index(num(1), chars.length) : chars.length
+        if (end < begin) throw invalid(text)
+        return { kind: 'string', value: chars.slice(begin, end).join('') }
+      }
+      case 'indexOf': {
+        count(1)
+        const found = target.indexOf(str(0))
+        return int(found < 0 ? -1 : Array.from(target.slice(0, found)).length)
+      }
+      case 'toUpperCase':
+        count(0)
+        return { kind: 'string', value: target.toUpperCase() }
+      case 'toLowerCase':
+        count(0)
+        return { kind: 'string', value: target.toLowerCase() }
+      case 'trim':
+        count(0)
+        return { kind: 'string', value: target.trim() }
+      case 'contains':
+        count(1)
+        return { kind: 'boolean', value: target.includes(str(0)) }
+      case 'startsWith':
+        count(1)
+        return { kind: 'boolean', value: target.startsWith(str(0)) }
+      case 'endsWith':
+        count(1)
+        return { kind: 'boolean', value: target.endsWith(str(0)) }
+      case 'replace':
+        count(2)
+        return { kind: 'string', value: target.replaceAll(str(0), str(1)) }
+      case 'split': {
+        count(1)
+        const separator = str(0)
+        // Wie Java: leere Teile am Ende fallen weg.
+        const parts = separator === '' ? chars : target.split(separator)
+        while (parts.length > 0 && parts[parts.length - 1] === '') parts.pop()
+        return { kind: 'stringArray', value: parts }
+      }
+      default:
+        return undefined
+    }
+  }
+
+  /** Wert einer String-Variablen oder eines String-Fachs; sonst `undefined`. */
+  private stringValueOf(text: string): string | undefined {
+    const trimmed = text.trim()
+    const direct = this.state.variables.get(trimmed)
+    if (direct) return direct.kind === 'string' ? direct.value : undefined
+    const access = parseArrayElementAccess(trimmed)
+    if (!access) return undefined
+    const value = this.valueInArray(access.arrayName, access.indexExpressions.map((e) => this.arrayIndex(e)))
+    return value.kind === 'string' ? value.value : undefined
+  }
+
+  /** Setzt in einem Zahlenausdruck Aufrufe wie `wort.length()` oder `wort.indexOf("a")` als Zahl ein. */
+  private substituteStringCalls(expression: string): string {
+    if (!expression.includes('(')) return expression
+    let result = ''
+    let rest = expression
+    const re = /([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf)\s*\(/u
+    for (let m = re.exec(rest); m; m = re.exec(rest)) {
+      const open = m.index + m[0].length - 1
+      const close = matchingCloseParenthesis(Array.from(rest), Array.from(rest.slice(0, open)).length)
+      if (close === undefined) break
+      const chars = Array.from(rest)
+      const callText = chars.slice(Array.from(rest.slice(0, m.index)).length, close + 1).join('')
+      const value = this.evaluateStringMethod(callText)
+      const before = chars.slice(0, Array.from(rest.slice(0, m.index)).length).join('')
+      if (value?.kind === 'int') {
+        result += before + String(value.value)
+      } else {
+        result += before + callText
+      }
+      rest = chars.slice(close + 1).join('')
+    }
+    return result + rest
   }
 
   private valueInArray(name: string, indices: number[]): SimValue {
@@ -1576,7 +1723,7 @@ export class SimulationEngine {
   }
 
   private parser(expression: string): NumericParser {
-    return new NumericParser(tokenize(normalizeNumericExpression(expression)), this.state.variables)
+    return new NumericParser(tokenize(normalizeNumericExpression(this.substituteStringCalls(expression))), this.state.variables)
   }
 
   private evaluateInt(expression: string): number {
