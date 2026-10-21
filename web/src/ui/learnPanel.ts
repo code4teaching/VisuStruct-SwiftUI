@@ -8,6 +8,7 @@ import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from 
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
 import { progress } from '../learn/progress'
+import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { t } from './i18n'
 import { noticeText } from './simulationPanel'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
@@ -167,6 +168,7 @@ export class LearnPanel {
       }
       this.body.append(list)
     }
+    this.body.append(this.renderTeacherBox())
   }
 
   private renderLesson(lesson: Lesson) {
@@ -264,7 +266,35 @@ export class LearnPanel {
       })
       list.append(h('li', {}, item))
     }
-    this.body.append(list)
+    this.body.append(list, this.renderTeacherBox())
+  }
+
+  /** Lehrkräfte schalten mit dem Lehrercode die Musterlösungen frei. */
+  private renderTeacherBox(): HTMLElement {
+    const box = h('details', { class: 'learn-teacher' }, h('summary', {}, t('web_learn_teacher')))
+    if (isTeacher()) {
+      box.setAttribute('open', '')
+      const off = h('button', {}, t('web_learn_teacher_off'))
+      off.addEventListener('click', () => {
+        lockTeacher()
+        this.render()
+      })
+      box.append(h('p', {}, t('web_learn_teacher_on')), off)
+      return box
+    }
+    const input = h('input', { type: 'password', autocomplete: 'off', 'aria-label': t('web_learn_teacher_code'), placeholder: t('web_learn_teacher_code') }) as HTMLInputElement
+    const status = h('p', { class: 'learn-result', role: 'status' })
+    const form = h('form', { class: 'group' }, input, h('button', { type: 'submit' }, t('web_learn_teacher_unlock')))
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      if (await unlockTeacher(input.value)) this.render()
+      else {
+        status.className = 'learn-result info'
+        status.textContent = t('web_learn_teacher_wrong')
+      }
+    })
+    box.append(h('p', { class: 'hint' }, t('web_learn_teacher_intro')), form, status)
+    return box
   }
 
   private taskExercises(task: Task): Exercise[] {
@@ -285,21 +315,21 @@ export class LearnPanel {
       link.addEventListener('click', () => this.openLesson(after.id))
       this.body.append(h('p', { class: 'learn-kicker' }, link))
     }
-    task.blocks.forEach((block, i) => this.body.append(this.renderBlock(block, `task-${i}`, undefined, true)))
+    task.blocks.forEach((block, i) => this.body.append(this.renderBlock(block, `task-${i}`)))
     markPointers(this.body)
     markTerms(this.body, glossary)
   }
 
   // MARK: - Blöcke
 
-  private renderBlock(block: Block, key: string, lesson?: Lesson, showSolution = false): HTMLElement {
+  private renderBlock(block: Block, key: string, lesson?: Lesson): HTMLElement {
     switch (block.kind) {
       case 'markdown':
         return html('div', { class: 'learn-text' }, markdownToHTML(block.text))
       case 'diagram':
         return this.renderDiagram(block.file, block.caption)
       case 'exercise':
-        return this.renderExercise(block.exercise, showSolution)
+        return this.renderExercise(block.exercise)
       case 'checklist':
         return this.renderChecklist(block.items, key, lesson)
       case 'quiz':
@@ -357,7 +387,7 @@ export class LearnPanel {
     return figure
   }
 
-  private renderExercise(ex: Exercise, showSolution: boolean): HTMLElement {
+  private renderExercise(ex: Exercise): HTMLElement {
     const card = h('section', { class: 'learn-exercise', 'data-exercise': ex.id })
     const state = () => progress.exercise(ex.id)
     const badge = h('span', { class: 'learn-badge' }, `✓ ${t('web_learn_solved')}`)
@@ -365,8 +395,8 @@ export class LearnPanel {
     card.append(h('h4', {}, `${t('web_learn_exercise')}: ${ex.title}`, badge), html('div', { class: 'learn-text' }, markdownToHTML(ex.task)))
 
     const result = h('div', { class: 'learn-result', role: 'status' })
-    const hint = html('aside', { class: 'lesson-note' }, markdownToHTML(ex.hint ?? ''))
-    hint.hidden = true
+    // Tipps nacheinander aufdecken, vom allgemeinen zum genauen. Die Lösung gibt es nur im Lehrermodus.
+    const hints = h('div', { class: 'learn-hints' })
 
     const actions = h('div', { class: 'group' })
     const open = h('button', { class: 'primary' }, t('web_learn_open_exercise'))
@@ -409,11 +439,15 @@ export class LearnPanel {
       }
     })
     actions.append(open, check)
-    if (ex.hint) {
-      const tip = h('button', { 'aria-expanded': 'false' }, t('web_learn_hint'))
+    if (ex.hints.length > 0) {
+      const tip = h('button', {}, t('web_learn_hint'))
       tip.addEventListener('click', () => {
-        hint.hidden = !hint.hidden
-        tip.setAttribute('aria-expanded', String(!hint.hidden))
+        const shown = hints.children.length
+        if (shown >= ex.hints.length) return
+        const label = ex.hints.length > 1 ? `**${t('web_learn_hint_fmt', shown + 1, ex.hints.length)}:** ` : ''
+        hints.append(html('aside', { class: 'lesson-note' }, markdownToHTML(label + ex.hints[shown])))
+        tip.textContent = t('web_learn_hint_more')
+        tip.toggleAttribute('disabled', shown + 1 >= ex.hints.length)
       })
       actions.append(tip)
     }
@@ -437,9 +471,9 @@ export class LearnPanel {
       reset.textContent = t('web_learn_reset')
     })
     actions.append(reset)
-    card.append(actions, hint, result)
+    card.append(actions, hints, result)
 
-    if (showSolution && ex.solution) {
+    if (isTeacher() && ex.solution) {
       const solution = diagram(ex.solution)
       if (solution) {
         const details = h('details', { class: 'learn-solution' }, h('summary', {}, t('web_learn_solution'))) as HTMLDetailsElement

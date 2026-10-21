@@ -70,6 +70,7 @@ auftrag: Lege das Array `int[] werte = {4, 8, 15, 16, 23, 42}` an. Gib danach in
   Für den letzten Wert sollst du die Länge benutzen und nicht einfach den Index 5 hinschreiben.
 test: - -> 4 | 42 | 6
 braucht: anweisung
+tipp: Gezählt wird ab 0. Das erste Fach hat also den Index 0. Und wie heißt der Index des letzten Fachs?
 tipp: Der erste Wert ist `werte[0]`. Der letzte ist `werte[werte.length - 1]`. Die Anzahl ist `werte.length`.
 lösung: l14-erster-letzter-loesung.visustruct
 :::
@@ -102,6 +103,7 @@ auftrag: Lege ein Array für 4 ganze Zahlen an und lies die 4 Zahlen mit einer S
 test: 1, 2, 3, 4 -> 4 | 3 | 2 | 1
 test: 7, 0, 5, 9 -> 9 | 5 | 0 | 7
 braucht: forSchleife
+tipp: Du brauchst zwei Schleifen: eine zum Einlesen von vorn nach hinten und eine zum Ausgeben von hinten nach vorn.
 tipp: Mit `int[] zahlen = new int[4]` legst du das Array an. Die Eingabe lautet `input: zahlen[i] "Zahl eingeben"`. Für die zweite Schleife beginnst du bei `int i = zahlen.length - 1`, prüfst `i >= 0` und zählst mit `i--` herunter.
 lösung: l14-rueckwaerts-loesung.visustruct
 :::
@@ -124,6 +126,7 @@ test: 3, 9, 2, 9, 1 -> Summe: 24 | Maximum: 9
 test: 10, 20, 30, 40, 50 -> Summe: 150 | Maximum: 50
 test: -5, -2, -9, -1, -3 -> Summe: -20 | Maximum: -1
 braucht: forSchleife, verzweigung
+tipp: Gehe das Array mit einer Schleife durch. Zähle jeden Wert zur Summe und merke dir den größten bisher gesehenen Wert.
 tipp: Rechne Summe und Maximum in eigenen Variablen aus und gib sie erst am Ende aus, z. B. mit `output: "Summe: " + summe`. Beginnt dein Maximum bei 0, scheitert der dritte Test.
 lösung: l14-summe-max-loesung.visustruct
 :::

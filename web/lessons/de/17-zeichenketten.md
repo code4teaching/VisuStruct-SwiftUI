@@ -93,6 +93,7 @@ test: Ludwig, Geißbock -> L. G.
 test: Ada, Lovelace -> A. L.
 test: Ben, Shneiderman -> B. S.
 braucht: anweisung
+tipp: Die Initiale ist der erste Buchstabe eines Namens. Welche Methode liefert ein Zeichen an einer bestimmten Stelle?
 tipp: Den ersten Buchstaben liefert `vorname.charAt(0)`. Die Ausgabe ist dann `vorname.charAt(0) + ". " + nachname.charAt(0) + "."`
 lösung: zk-initialen-loesung.visustruct
 :::
@@ -106,6 +107,7 @@ test: Ludwig -> giwduL
 test: Anna -> annA
 test: a -> a
 braucht: forSchleife
+tipp: Gehe das Wort Zeichen für Zeichen durch, aber von hinten nach vorn, und baue dabei einen neuen Text zusammen.
 tipp: Lege `String rueckwaerts = ""` an. Die Schleife beginnt beim letzten Index `wort.length() - 1` und zählt mit `i--` bis 0 herunter. In jedem Durchlauf hängst du `wort.charAt(i)` hinten an.
 lösung: zk-rueckwaerts-loesung.visustruct
 :::
@@ -119,6 +121,7 @@ test: Ludwig ist ein Geißbock -> Wörter: 4
 test: Hallo -> Wörter: 1
 test: Struktogramme machen Spaß -> Wörter: 3
 braucht: anweisung
+tipp: Zwischen den Wörtern steht immer ein Leerzeichen. Welche Methode zerlegt einen Text an einem Zeichen?
 tipp: Zerlege den Satz mit `satz.split(" ")` in ein String-Array. Seine Länge ist die Anzahl der Wörter.
 lösung: zk-woerter-loesung.visustruct
 :::

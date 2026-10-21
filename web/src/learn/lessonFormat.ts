@@ -24,8 +24,9 @@ export interface Exercise {
   tests: ExerciseTest[]
   /** Elementarten, die vorkommen müssen (Schlüssel wie in der Palette, z. B. `verzweigung`). */
   requires: string[]
-  hint?: string
-  /** Musterlösung (Datei in `lessons/diagramme`), in Aufgaben zum Ansehen. */
+  /** Gestufte Tipps (eine `tipp:`-Zeile je Tipp), vom allgemeinen zum genauen. */
+  hints: string[]
+  /** Musterlösung (Datei in `lessons/diagramme`), nur im Lehrermodus sichtbar. */
   solution?: string
   /** Unterprogramme zur Musterlösung (Dateien in `lessons/diagramme`), je eins pro Reiter. */
   subprograms: string[]
@@ -92,7 +93,7 @@ export function parseTest(spec: string, file: string): ExerciseTest {
 }
 
 function parseExercise(id: string, lines: string[], file: string): Exercise {
-  const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], subprograms: [] }
+  const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
     const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm):\s*(.*)$/i.exec(raw.trim())
@@ -105,7 +106,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
         case 'start': ex.start = value; break
         case 'test': ex.tests.push(parseTest(value, file)); break
         case 'braucht': ex.requires.push(...value.split(/\s*,\s*/).filter(Boolean)); break
-        case 'tipp': ex.hint = value; last = 'hint'; break
+        case 'tipp': ex.hints.push(value); last = 'hint'; break
         case 'lösung':
         case 'loesung': ex.solution = value; break
         case 'unterprogramm': ex.subprograms.push(...value.split(/\s*,\s*/).filter(Boolean)); break
@@ -113,7 +114,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
     } else if (last && raw.trim() !== '') {
       // Fortsetzungszeilen für Auftrag und Tipp
       if (last === 'task') ex.task += '\n' + raw.trim()
-      else ex.hint += '\n' + raw.trim()
+      else ex.hints[ex.hints.length - 1] += '\n' + raw.trim()
     } else if (raw.trim() === '' && last === 'task') {
       ex.task += '\n'
     }

@@ -72,6 +72,7 @@ auftrag: Im Startdiagramm sind schon drei Karten verkauft. Zähle mit zwei versc
 start: kino-frei-start.visustruct
 test: - -> Frei: 12
 braucht: forSchleife, verzweigung
+tipp: Du gehst wie beim Saalplan mit zwei Schleifen über alle Plätze. Statt etwas auszugeben, zählst du mit.
 tipp: Lege vor den Schleifen `int frei = 0` an. Ein Platz ist frei, wenn `sitze[reihe][platz]` falsch ist. Die Bedingung dafür lautet `!sitze[reihe][platz]`.
 lösung: kino-frei-loesung.visustruct
 :::
@@ -86,6 +87,7 @@ test: 1, 2 -> Schon verkauft
 test: 0, 4 -> Verkauft: Reihe 0, Platz 4
 test: 2, 0 -> Verkauft: Reihe 2, Platz 0
 braucht: verzweigung
+tipp: Zuerst wird geprüft, ob der Platz verkauft ist. Je nach Antwort passiert etwas anderes.
 tipp: Hier brauchst du keine Schleife. Eine Verzweigung mit der Bedingung `sitze[reihe][platz]` genügt. Im false-Zweig setzt du das Fach auf `true`.
 lösung: kino-karte-loesung.visustruct
 :::
@@ -99,6 +101,7 @@ test: 3, 4 -> 3 · 4 = 12
 test: 7, 8 -> 7 · 8 = 56
 test: 10, 10 -> 10 · 10 = 100
 braucht: forSchleife
+tipp: Erst füllen zwei verschachtelte Schleifen die Tabelle, danach liest du nur ein einziges Fach aus.
 tipp: Die Indizes laufen von 0 bis 9, die Zahlen aber von 1 bis 10. Darum steht im Fach `tabelle[i][j]` der Wert `(i + 1) * (j + 1)`, und für 3 · 4 liest du `tabelle[a - 1][b - 1]`.
 lösung: kino-einmaleins-loesung.visustruct
 :::

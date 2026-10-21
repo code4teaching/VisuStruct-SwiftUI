@@ -20,6 +20,7 @@ test: 13 -> 1101
 test: 1 -> 1
 test: 8 -> 1000
 braucht: whileSchleife
+tipp: Teile die Zahl immer wieder durch 2 und merke dir jeden Rest. Die Reste rückwärts gelesen ergeben die Binärzahl.
 tipp: Sammle die Ziffern in einem Text: `String binaer = ""`. In der Schleife berechnest du `int rest = zahl % 2` und hängst den Rest **vorne** an: `binaer = rest + binaer`. Danach `zahl = zahl / 2`. Weil zahl eine ganze Zahl ist, fällt der Rest dabei weg.
 lösung: aufgabe-binaer-loesung.visustruct
 :::

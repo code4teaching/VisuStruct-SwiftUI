@@ -64,6 +64,7 @@ auftrag: Baue ein Struktogramm, das **Hallo Welt** ausgibt.
 Ziehe eine Anweisung auf den Platzhalter, stelle sie im Objektinspektor auf **Ausgabe** und schreibe `"Hallo Welt"`.
 test: - -> Hallo Welt
 braucht: anweisung
+tipp: Du brauchst nur einen einzigen Kasten. Der Text, der erscheinen soll, steht im Objektinspektor im Eingabefeld.
 tipp: Achte auf die Anführungszeichen. Ohne sie sucht VisuStruct nach einer Variablen mit dem Namen Hallo.
 lösung: l2-hallo-loesung.visustruct
 :::
@@ -76,6 +77,7 @@ Klicke auf **Prüfen**, wenn du fertig bist. VisuStruct führt dein Struktogramm
 titel: Zwei Zeilen
 auftrag: Gib zuerst **Hallo** und danach **Ich lerne Struktogramme** aus, jeweils in einer eigenen Zeile.
 test: - -> Hallo | Ich lerne Struktogramme
+tipp: Zwei Zeilen heißt: zwei Ausgaben. Die Kästen stehen untereinander und werden von oben nach unten ausgeführt.
 tipp: Jede Ausgabe ist ein eigener Kasten. Ziehe die zweite Anweisung auf die untere Hälfte der ersten.
 lösung: l2-zwei-zeilen-loesung.visustruct
 :::

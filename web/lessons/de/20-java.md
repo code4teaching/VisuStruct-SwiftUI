@@ -114,6 +114,7 @@ test: 3 -> 6
 test: 5 -> 120
 test: 1 -> 1
 braucht: forSchleife
+tipp: Lies den Java-Code Zeile für Zeile und überlege, welcher Kasten zu jeder Zeile passt.
 tipp: Die beiden ersten Java-Zeilen sind zusammen eine einzige Eingabe: `input: int n "Zahl eingeben"`. Die For-Schleife hat die drei Felder `int i = 1`, `i <= n` und `i++`.
 lösung: l17-fakultaet-loesung.visustruct
 :::
@@ -142,6 +143,7 @@ test: 6 -> Kinderticket: 4 Euro
 test: 17 -> Kinderticket: 4 Euro
 test: 18 -> Erwachsenenticket: 8 Euro
 braucht: verzweigung
+tipp: Im Java-Code steckt in einem `else` ein weiteres `if`. Im Struktogramm ist das eine Verzweigung in einem Zweig.
 tipp: Ziehe in den false-Zweig der ersten Verzweigung eine zweite Verzweigung mit der Bedingung `alter < 18`.
 lösung: l17-ticket-loesung.visustruct
 :::

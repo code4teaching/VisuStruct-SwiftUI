@@ -32,6 +32,7 @@ test: 2, 4, 6, 8, 10 -> 5
 test: 1, 3, 5, 7, 9 -> 0
 test: 10, 11, 0, 7, 8 -> 3
 braucht: forSchleife, verzweigung
+tipp: Fünfmal dasselbe tun heißt: Schleife. In jedem Durchlauf wird eine Zahl eingelesen und geprüft.
 tipp: Eine For-Schleife von 1 bis 5. Im Inhalt steht zuerst die Eingabe `input: int zahl "Zahl eingeben"`, darunter eine Verzweigung mit `zahl % 2 == 0`. Im true-Zweig erhöhst du `anzahl` um 1.
 lösung: l13-gerade-eingaben-loesung.visustruct
 :::
@@ -56,6 +57,7 @@ test: 1, 3 -> # | # | #
 test: 4, 1 -> ####
 test: 2, 2 -> ## | ##
 braucht: forSchleife
+tipp: Du brauchst zwei Schleifen ineinander: eine für die Zeilen und darin eine für die Zeichen einer Zeile.
 tipp: Baue es wie das Dreieck. Der Unterschied: Die innere Schleife zählt immer bis `breite`, nicht bis zur Zeilennummer. Die äußere Schleife zählt bis `hoehe`.
 lösung: l13-rechteck-loesung.visustruct
 :::

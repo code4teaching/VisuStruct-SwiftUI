@@ -14,6 +14,7 @@ test: 35 -> volljährig
 test: 17 -> minderjährig
 test: 6 -> minderjährig
 braucht: verzweigung
+tipp: Es gibt zwei mögliche Ausgaben, also brauchst du eine Verzweigung.
 tipp: Lies das Alter mit `input: int alter "Wie alt bist du?"` ein. Die Bedingung der Verzweigung lautet `alter >= 18`. Achte darauf, dass 18 schon volljährig ist.
 lösung: aufgabe-volljaehrig-loesung.visustruct
 :::

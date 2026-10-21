@@ -19,6 +19,7 @@ test: 6 -> 3 | 10 | 5 | 16 | 8 | 4 | 2 | 1 | Schritte: 8
 test: 3 -> 10 | 5 | 16 | 8 | 4 | 2 | 1 | Schritte: 7
 test: 1 -> Schritte: 0
 braucht: whileSchleife, verzweigung
+tipp: Du weißt nicht, wie viele Schritte es werden. Darum passt eine While-Schleife besser als eine For-Schleife.
 tipp: Die While-Schleife läuft, solange `zahl != 1` gilt. Ob eine Zahl gerade ist, prüfst du mit `zahl % 2 == 0`. Die Ausgabe und `schritte++` kommen nach der Verzweigung, aber noch in die Schleife.
 lösung: aufgabe-collatz-loesung.visustruct
 :::

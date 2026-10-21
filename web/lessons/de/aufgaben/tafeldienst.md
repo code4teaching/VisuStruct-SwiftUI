@@ -14,6 +14,7 @@ test: Ada, Ben, Cem, Dana, Emil, 3 -> Tafeldienst: Cem
 test: Ada, Ben, Cem, Dana, Emil, 1 -> Tafeldienst: Ada
 test: Lea, Max, Nia, Ole, Pia, 5 -> Tafeldienst: Pia
 braucht: forSchleife
+tipp: Erst liest eine Schleife die fünf Namen ein. Danach brauchst du keine Schleife mehr, nur noch einen Zugriff auf ein Fach.
 tipp: Mit `String[] namen = new String[5]` legst du das Array an. Achtung: Die Losnummer beginnt bei 1, der Index bei 0. Der Name steht also in `namen[nummer - 1]`.
 lösung: aufgabe-tafeldienst-loesung.visustruct
 :::

@@ -57,6 +57,7 @@ test: 3 -> 1 | 2 | 3
 test: 5 -> 1 | 2 | 3 | 4 | 5
 test: 1 -> 1
 braucht: whileSchleife
+tipp: Du brauchst eine Zählvariable, die bei 1 beginnt und in jedem Durchlauf um 1 wächst.
 tipp: Lege vor der Schleife `int i = 1` an. Die Bedingung ist `i <= n`. Im Inhalt gibst du `i` aus und erhöhst danach `i` um 1.
 lösung: l10-bis-n-loesung.visustruct
 :::
@@ -82,6 +83,7 @@ test: 30 -> 2
 test: 1 -> 7
 test: 100 -> 0
 braucht: whileSchleife
+tipp: Die Schleife läuft, solange die Zahl noch zu klein ist. Zähle nebenbei mit, wie oft sie gelaufen ist.
 tipp: Du brauchst eine zweite Variable `int schritte = 0`. Die Bedingung lautet `zahl < 100`. Im Inhalt verdoppelst du die Zahl mit `zahl = zahl * 2` und erhöhst `schritte` um 1. Ist die Zahl schon 100, läuft die Schleife gar nicht.
 lösung: l10-verdoppeln-loesung.visustruct
 :::
@@ -126,6 +128,7 @@ start: l16-countdown-start.visustruct
 test: 3 -> 3 | 2 | 1 | Los!
 test: 1 -> 1 | Los!
 test: 0 -> Los!
+tipp: Es gibt zwei Fehler. Einer betrifft das Zählen, der andere die Ausgabe am Ende.
 tipp: Starte die Simulation mit Startwert 3 und beobachte i unter Variablen. Wird i kleiner? Vergleiche außerdem die letzte Ausgabe genau mit dem Auftrag.
 lösung: l16-countdown-loesung.visustruct
 :::

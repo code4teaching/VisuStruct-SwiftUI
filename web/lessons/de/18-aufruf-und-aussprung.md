@@ -43,6 +43,7 @@ auftrag: Stell dir vor, das Unterprogramm `zeigeTitel()` gibt es schon. Baue das
 test: Ada -> Hallo Ada
 test: Ben -> Hallo Ben
 braucht: aufruf
+tipp: Das Hauptprogramm hat drei Teile: den Aufruf, die Eingabe und die Ausgabe.
 tipp: Ziehe einen Aufruf aus dem Bereich Elemente ganz nach oben und schreibe `zeigeTitel()` hinein. Darunter kommen die Eingabe `input: String name "Wie heißt du?"` und die Ausgabe.
 lösung: l15-titel-loesung.visustruct
 :::
@@ -103,6 +104,7 @@ test: 3, 4 -> Fläche: 12
 test: 5, 5 -> Fläche: 25
 test: 7, 0 -> Fläche: 0
 braucht: aufruf
+tipp: Du baust zwei Diagramme: ein Unterprogramm, das nur rechnet und das Ergebnis zurückgibt, und ein Hauptprogramm für Eingabe und Ausgabe.
 tipp: Lege mit **+** einen neuen Reiter an und gib ihm den Titel `int flaeche(int a, int b)`. Darin reicht eine Anweisung: `return a * b`. Im Hauptprogramm schreibst du in den Aufruf-Kasten `int f = flaeche(laenge, breite)`.
 lösung: l15-flaeche-loesung.visustruct
 unterprogramm: l15-flaeche-unterprogramm-loesung.visustruct
@@ -152,6 +154,7 @@ auftrag: Das Hauptprogramm ruft `bonus(punkte)` auf und gibt danach alle Punkte 
 start: uebergabe-bonus-start.visustruct
 test: - -> 4 | 6 | 9
 braucht: aufruf
+tipp: Das Hauptprogramm ist schon fertig. Du baust nur das Unterprogramm in einem neuen Reiter.
 tipp: Lege mit **+** einen neuen Reiter mit dem Titel `void bonus(int[] punkte)` an. Darin läuft eine For-Schleife über alle Fächer und rechnet `punkte[i] = punkte[i] + 1`. Ein return brauchst du nicht, denn das Array wird direkt geändert.
 lösung: uebergabe-bonus-loesung.visustruct
 unterprogramm: uebergabe-bonus-unterprogramm-loesung.visustruct
@@ -187,6 +190,7 @@ auftrag: Baue das Programm „Summe bis 0“ **ohne** Aussprung nach. Es fragt s
 test: 3, 4, 0 -> Summe: 7
 test: 0 -> Summe: 0
 test: 10, -2, 5, 0 -> Summe: 13
+tipp: Ohne Aussprung muss die Bedingung der Schleife selbst prüfen, ob die 0 eingegeben wurde.
 tipp: Frage die erste Zahl schon vor der Schleife ab. Die While-Schleife läuft mit der Bedingung `zahl != 0`. Im Rumpf zählst du die Zahl zur Summe und fragst danach die nächste Zahl ab. Bei der zweiten Eingabe schreibst du nur `input: zahl "…"`, weil es `zahl` schon gibt.
 lösung: l15-bis-null-loesung.visustruct
 :::

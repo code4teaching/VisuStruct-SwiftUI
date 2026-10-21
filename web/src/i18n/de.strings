@@ -70,7 +70,16 @@
 "web_learn_hint" = "Tipp";
 "web_learn_reset" = "Von vorn";
 "web_learn_reset_confirm" = "Wirklich von vorn?";
-"web_learn_solution" = "Lösung ansehen";
+"web_learn_solution" = "Musterlösung ansehen";
+"web_learn_hint_more" = "Noch ein Tipp";
+"web_learn_hint_fmt" = "Tipp %d von %d";
+"web_learn_teacher" = "Für Lehrkräfte";
+"web_learn_teacher_intro" = "Mit dem Lehrercode werden bei allen Übungen die Musterlösungen sichtbar. Der Browser merkt sich das.";
+"web_learn_teacher_code" = "Lehrercode";
+"web_learn_teacher_unlock" = "Freischalten";
+"web_learn_teacher_wrong" = "Der Code stimmt nicht.";
+"web_learn_teacher_on" = "Lehrermodus ist an: Bei allen Übungen sind die Musterlösungen sichtbar.";
+"web_learn_teacher_off" = "Lehrermodus beenden";
 "web_learn_open_first" = "Öffne die Übung zuerst im Editor und baue dort dein Struktogramm.";
 "web_learn_empty" = "Dein Struktogramm ist noch leer. Ziehe zuerst Elemente aus dem Bereich „Elemente“ hinein.";
 "web_learn_passed" = "Geschafft! Dein Struktogramm macht genau, was es soll.";

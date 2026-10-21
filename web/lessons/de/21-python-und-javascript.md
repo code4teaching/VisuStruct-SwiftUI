@@ -104,6 +104,7 @@ test: 7 -> 0 | 2 | 4 | 6
 test: 4 -> 0 | 2 | 4
 test: 0 -> 0
 braucht: forSchleife
+tipp: `range(0, grenze + 1, 2)` zählt von 0 bis zur Grenze in Zweierschritten. Das ist eine For-Schleife.
 tipp: Die drei Felder der For-Schleife sind `int i = 0`, `i <= grenze` und `i = i + 2`.
 lösung: l18-python-loesung.visustruct
 :::
@@ -128,6 +129,7 @@ test: 16 -> Du darfst wählen.
 test: 13 -> Noch 3 Jahre warten.
 test: 40 -> Du darfst wählen.
 braucht: verzweigung
+tipp: Lies den Code Zeile für Zeile. `if` und `else` werden zu einer Verzweigung.
 tipp: `prompt` und `parseInt` sind zusammen eine Eingabe: `input: int alter "Wie alt bist du?"`. Im false-Zweig stehen zwei Kästen: erst `int jahre = 16 - alter`, dann die Ausgabe.
 lösung: l18-js-loesung.visustruct
 :::

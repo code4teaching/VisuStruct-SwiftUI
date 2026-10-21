@@ -81,6 +81,7 @@ test: 3, 5 -> 5 | 3
 test: 1, 2 -> 2 | 1
 test: 7, 7 -> 7 | 7
 braucht: anweisung
+tipp: Gehe das Diagramm mit **Schritt** durch und schreibe nach jedem Schritt die Werte von a und b auf. Wo verschwindet die 3?
 tipp: Schau dir a nach dem Schritt `a = b` an. Wo ist der alte Wert von a geblieben? Merke ihn dir vorher in einer Hilfsvariablen, wie im Beispiel oben.
 lösung: sim-tausch-loesung.visustruct
 :::
@@ -96,6 +97,7 @@ test: 2 -> Gesamt: 17.0
 test: 3 -> Gesamt: 25.5
 test: 0 -> Gesamt: 0.0
 braucht: anweisung
+tipp: Lies die Fehlermeldung der Simulation genau. Welche Variable kennt sie noch nicht?
 tipp: Die Simulation führt die Kästen von oben nach unten aus. Hat gesamt schon einen Wert, wenn die Ausgabe drankommt? Du kannst Kästen mit der Maus verschieben.
 lösung: sim-kino-loesung.visustruct
 :::

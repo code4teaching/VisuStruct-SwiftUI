@@ -36,6 +36,7 @@ test: 7 -> Wochenende
 test: 1 -> Werktag
 test: 5 -> Werktag
 braucht: verzweigung
+tipp: Wochenende ist, wenn der Tag 6 **oder** 7 ist. Dafür brauchst du zwei Vergleiche in einer Bedingung.
 tipp: Samstag ist 6, Sonntag ist 7. Verbinde die beiden Vergleiche mit `||`.
 lösung: l08-wochenende-loesung.visustruct
 :::
@@ -71,6 +72,7 @@ test: 3 -> gültig
 test: 0 -> ungültig
 test: 7 -> ungültig
 braucht: verzweigung
+tipp: Eine gültige Note muss zwei Dinge gleichzeitig erfüllen: nicht zu klein **und** nicht zu groß.
 tipp: Die Note muss größer oder gleich 1 und gleichzeitig kleiner oder gleich 6 sein.
 lösung: l08-gueltig-loesung.visustruct
 :::
@@ -102,6 +104,7 @@ test: 2023 -> kein Schaltjahr
 test: 1900 -> kein Schaltjahr
 test: 2000 -> Schaltjahr
 braucht: verzweigung
+tipp: Prüfe die Regel zuerst an Beispielen: 2024 ist ein Schaltjahr, 1900 nicht, 2000 schon. Teilbar heißt: Der Rest ist 0.
 tipp: Teilbar durch 4 heißt `jahr % 4 == 0`, nicht teilbar durch 100 heißt `jahr % 100 != 0`. Verbinde diese beiden mit `&&`, setze Klammern darum und hänge mit `||` den Fall für 400 an.
 lösung: l08-schaltjahr-loesung.visustruct
 :::

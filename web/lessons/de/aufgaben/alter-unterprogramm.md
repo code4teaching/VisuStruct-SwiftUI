@@ -14,6 +14,7 @@ test: 20 -> Willkommen | volljährig | Auf Wiedersehen
 test: 18 -> Willkommen | volljährig | Auf Wiedersehen
 test: 12 -> Willkommen | minderjährig | Auf Wiedersehen
 braucht: aufruf
+tipp: Das Hauptprogramm hat drei Kästen. Die eigentliche Arbeit macht das Unterprogramm.
 tipp: Öffne die Übung im Editor und baue dort das Hauptprogramm mit dem Aufruf `pruefeAlter()`. Lege dann mit **+** einen neuen Reiter an und gib ihm den Titel `pruefeAlter`. Darin baust du die Eingabe und die Verzweigung. Prüfen findet das Unterprogramm über den Titel des Reiters.
 lösung: aufgabe-alter-haupt-loesung.visustruct
 unterprogramm: aufgabe-alter-unterprogramm-loesung.visustruct
