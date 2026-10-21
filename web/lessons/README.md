@@ -175,3 +175,13 @@ In `de/begriffe.md` steht jeder Begriff als `### Begriff`, darunter optional `au
 zwei Sätzen. In den Lektionen und Aufgaben wird jeder Begriff einmal pro Schritt markiert und zeigt beim Hovern oder
 Antippen seine Erklärung. Steht der Begriff im Schritt **fett**, wird er dort gerade erklärt und bleibt unmarkiert. Code,
 Überschriften und Links werden nie markiert. Unter „Nachschlagen“ erscheinen alle Begriffe als Liste.
+
+## Englisch
+
+Die englische Fassung liegt unter gleichen Dateinamen in `en/` (Lektionen, `begriffe.md`, `nachschlagen.md`,
+`aufgaben/`). Diagramme mit englischen Variablen und Texten liegen in `diagramme/en/`, Grafiken in `bilder/en/`.
+Deutsch zeigt `de/`, alle anderen Oberflächensprachen zeigen `en/`. Fehlt eine englische Datei, gilt die deutsche.
+Kennungen von Übungen und die Blöcke (`::: übung`, `titel:`, `tipp:` …) bleiben gleich, nur der Inhalt wird übersetzt.
+In `begriffe.md` darf statt `auch:` auch `also:` stehen. Die Lektionen verwenden die englischen Wörter der Oberfläche
+(Elements, Object Inspector, Statement, Branch, Switch …). Wer eine deutsche Lektion ändert, sollte die englische
+mitziehen; die Tests prüfen, dass es jede Datei in beiden Sprachen gibt und jede Musterlösung ihre Tests besteht.
