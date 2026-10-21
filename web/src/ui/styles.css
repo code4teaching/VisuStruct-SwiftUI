@@ -396,6 +396,22 @@ button.sim-toggle[aria-pressed='false'] {
   width: 1%;
   white-space: nowrap;
 }
+/* 2D-Array unter Variablen: kleine Tabelle, Zeile für Zeile */
+.sim-vars table.sim-grid {
+  width: auto;
+}
+.sim-vars .sim-grid td,
+.sim-vars .sim-grid td:first-child {
+  border: 1px solid var(--border);
+  color: inherit;
+  font-size: 11px;
+  padding: 0 4px;
+  text-align: center;
+  width: auto;
+}
+.sim-vars .sim-grid td.sim-grid-true {
+  font-weight: 700;
+}
 .simpanel .placeholder {
   color: var(--muted);
   font: 13px system-ui, -apple-system, sans-serif;

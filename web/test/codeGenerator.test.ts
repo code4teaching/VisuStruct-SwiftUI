@@ -160,3 +160,30 @@ describe('Codegenerierung', () => {
     expect(chains).toContain('let r = x * b % 2;')
   })
 })
+
+describe('Codegenerierung: 2D-Arrays', () => {
+  const stmt = (t: string) => makeElement(ElementType.anweisung, { textLines: [t] })
+  const doc = {
+    caption: 'Kino',
+    elements: [
+      stmt('boolean[][] sitze = new boolean[3][4]'),
+      stmt('int[][] t = {{1, 2}, {3, 4}}'),
+      makeElement(ElementType.forSchleife, { textLines: ['int r = 0', 'r < sitze.length', 'r++'], loopBody: [
+        makeElement(ElementType.forSchleife, { textLines: ['int p = 0', 'p < sitze[r].length', 'p++'], loopBody: [stmt('sitze[r][p] = true')] }),
+      ] }),
+    ],
+  }
+
+  it('übersetzt Anlegen und Längen in alle Zielsprachen', () => {
+    const java = generateCode(doc, 'java')
+    expect(java).toContain('boolean[][] sitze = new boolean[3][4];')
+    expect(java).toContain('r < sitze.length;')
+    const python = generateCode(doc, 'python')
+    expect(python).toContain('sitze = [[False] * 4 for _ in range(3)]')
+    expect(python).toContain('t = [[1, 2], [3, 4]]')
+    expect(python).toContain('for p in range(len(sitze[r])):')
+    const js = generateCode(doc, 'javascript')
+    expect(js).toContain('let sitze = Array.from({ length: 3 }, () => new Array(4).fill(false));')
+    expect(js).toContain('let t = [[1, 2], [3, 4]];')
+  })
+})

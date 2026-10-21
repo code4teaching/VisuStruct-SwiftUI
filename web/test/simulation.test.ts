@@ -438,3 +438,73 @@ describe('Bedingungen', () => {
     expect(engine.state.notice?.kind).toBe('callTooDeep')
   })
 })
+
+describe('Zweidimensionale Arrays und boolean-Arrays', () => {
+  it('legt ein 2D-Array an, schreibt und liest Fächer und kennt beide Längen', () => {
+    const state = runSimulation(
+      doc([
+        stmt('boolean[][] sitze = new boolean[3][4]'),
+        stmt('sitze[1][2] = true'),
+        stmt('int r = 2'),
+        stmt('sitze[r][r + 1] = !sitze[1][2]'),
+        stmt('int reihen = sitze.length'),
+        stmt('int plaetze = sitze[0].length'),
+        stmt('int[][] t = {{1, 2, 3}, {4, 5, 6}}'),
+        stmt('t[1][0] = t[0][2] * 10'),
+        stmt('output: sitze[1][2] + " " + t[1][0] + " " + t[1][2]'),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    expect(state.variables.get('sitze')).toEqual({
+      kind: 'grid',
+      elementType: 'boolean',
+      value: [
+        [false, false, false, false],
+        [false, false, true, false],
+        [false, false, false, false],
+      ],
+    })
+    expect(state.variables.get('reihen')).toEqual({ kind: 'int', value: 3 })
+    expect(state.variables.get('plaetze')).toEqual({ kind: 'int', value: 4 })
+    expect(state.variables.get('t')).toEqual({ kind: 'grid', elementType: 'int', value: [[1, 2, 3], [30, 5, 6]] })
+    expect(state.outputLines).toEqual(['true 30 6'])
+  })
+
+  it('zählt freie Plätze mit verschachtelten Schleifen und boolean-Bedingung', () => {
+    const state = runSimulation(
+      doc([
+        stmt('boolean[][] sitze = {{true, false}, {false, false}}'),
+        stmt('int frei = 0'),
+        makeElement(ElementType.forSchleife, {
+          textLines: ['int r = 0', 'r < sitze.length', 'r++'],
+          loopBody: [
+            makeElement(ElementType.forSchleife, {
+              textLines: ['int p = 0', 'p < sitze[r].length', 'p++'],
+              loopBody: [
+                makeElement(ElementType.verzweigung, {
+                  textLines: ['!sitze[r][p]'],
+                  cases: [
+                    { name: 'true', elements: [stmt('frei = frei + 1')] },
+                    { name: 'false', elements: [stmt('ø')] },
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    expect(state.variables.get('frei')).toEqual({ kind: 'int', value: 3 })
+  })
+
+  it('kennt boolean-Arrays mit einer Dimension', () => {
+    const state = runSimulation(doc([stmt('boolean[] an = new boolean[3]'), stmt('an[1] = true'), stmt('output: an[1] + " " + an[2]')]))
+    expect(state.outputLines).toEqual(['true false'])
+  })
+
+  it('meldet Fächer außerhalb des 2D-Arrays', () => {
+    const state = runSimulation(doc([stmt('int[][] t = new int[2][2]'), stmt('t[2][0] = 1')]))
+    expect(state.notice?.kind).toBe('invalidExpression')
+  })
+})

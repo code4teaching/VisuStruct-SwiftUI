@@ -104,3 +104,11 @@ int[] zahlen = {3, 7, 1}
 output: zahlen[0]
 int[] leer = new int[5]
 ```
+
+Ein **2D-Array** ist eine Tabelle mit Zeilen und Spalten:
+
+```
+boolean[][] sitze = new boolean[3][5]
+sitze[1][4] = true
+output: sitze.length + " Reihen, " + sitze[0].length + " Plätze"
+```
