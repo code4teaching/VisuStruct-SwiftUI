@@ -44,3 +44,6 @@
 "web_run_dropped_fmt" = "… %d προηγούμενες γραμμές κρυμμένες";
 "web_sim_call_arguments_fmt" = "Η κλήση δεν ταιριάζει με την κεφαλίδα του %@. Έλεγξε τις τιμές μέσα στις παρενθέσεις.";
 "web_sim_missing_return_fmt" = "Το %@ τελείωσε χωρίς να επιστρέψει τιμή με return.";
+"web_site_home" = "Αρχική σελίδα";
+"web_site_imprint" = "Στοιχεία εκδότη";
+"web_site_privacy" = "Απόρρητο";

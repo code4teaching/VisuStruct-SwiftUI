@@ -151,6 +151,15 @@ const zoomSteps = [
 
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 /** Tastenkürzel im Tooltip, z. B. „Strg+S“ bzw. „⌘S“. */
+/** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite. */
+function siteURL(section?: 'contact' | 'privacy'): string {
+  const code = currentLanguage()
+  const lang = code === 'pt-PT' ? 'pt' : ['de', 'es', 'fr'].includes(code) ? code : 'en'
+  // Auf visustruct.org liegt die Web-App unter /app/, sonst (Vorschau, Einzeldatei) zur echten Seite
+  const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
+  return `${base}${lang}/index.html${section ? `#${section}` : ''}`
+}
+
 function shortcut(key: string, shift = false): string {
   if (isMac) return `${shift ? '⇧' : ''}⌘${key}`
   return [t('web_key_ctrl'), ...(shift ? [t('web_key_shift')] : []), key].join('+')
@@ -277,7 +286,7 @@ export class App {
     this.root.className = 'app'
     this.root.innerHTML = `
       <header class="toolbar">
-        <div class="brand"><span class="logo"></span>VisuStruct <small>${e(t('web_brand_suffix'))}</small></div>
+        <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}"><span class="logo"></span>VisuStruct <small>${e(t('web_brand_suffix'))}</small></a>
         <div class="group">
           <button data-action="new" title="${e(t('a11y_new_diagram_tab'))}">${e(t('toolbar_new'))}</button>
           <button data-action="open" title="${e(t('menu_open'))} (${shortcut('O')})">${e(t('menu_open'))}</button>
@@ -323,7 +332,14 @@ export class App {
         <div class="canvas" dir="ltr"></div>
       </main>
       <aside class="inspector"></aside>
-      <footer class="status"></footer>
+      <footer class="statusbar">
+        <span class="status"></span>
+        <nav class="site-links" aria-label="VisuStruct">
+          <a href="${e(siteURL())}">${e(t('web_site_home'))}</a>
+          <a href="${e(siteURL('contact'))}" target="_blank" rel="noopener">${e(t('web_site_imprint'))}</a>
+          <a href="${e(siteURL('privacy'))}" target="_blank" rel="noopener">${e(t('web_site_privacy'))}</a>
+        </nav>
+      </footer>
       <input type="file" accept=".visustruct,.strk,.xml" hidden />
     `
     const $ = <T extends Element>(s: string) => this.root.querySelector(s) as T

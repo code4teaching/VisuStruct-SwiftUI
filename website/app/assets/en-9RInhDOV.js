@@ -99,4 +99,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_learn_step_fmt" = "Step %d: %@";
 "web_sim_call_arguments_fmt" = "The call does not match the header of %@. Check the values in the parentheses.";
 "web_sim_missing_return_fmt" = "%@ ended without returning a value with return.";
+"web_site_home" = "Home page";
+"web_site_imprint" = "Imprint";
+"web_site_privacy" = "Privacy";
 `;export{e as default};

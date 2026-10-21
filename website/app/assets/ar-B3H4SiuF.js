@@ -44,4 +44,7 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_run_dropped_fmt" = "… تم إخفاء %d من الأسطر السابقة";
 "web_sim_call_arguments_fmt" = "الاستدعاء لا يطابق ترويسة %@. تحقق من القيم بين القوسين.";
 "web_sim_missing_return_fmt" = "انتهى %@ دون إرجاع قيمة باستخدام return.";
+"web_site_home" = "الصفحة الرئيسية";
+"web_site_imprint" = "بيانات الناشر";
+"web_site_privacy" = "الخصوصية";
 `;export{e as default};
