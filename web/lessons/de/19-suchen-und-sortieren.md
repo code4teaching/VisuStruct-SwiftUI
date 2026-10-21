@@ -32,6 +32,7 @@ test: 6 -> Position: 4
 test: 8 -> Position: 0
 test: 9 -> Nicht gefunden
 braucht: whileSchleife, verzweigung
+tipp: Gehe das Array von vorn nach hinten durch und vergleiche jede Karte mit der gesuchten.
 tipp: Baue das Beispiel oben nach. Die Variable vergleiche brauchst du hier nicht. Die Schleife muss aufhören, sobald `position` nicht mehr -1 ist, sonst findest du bei der 4 die zweite statt der ersten.
 lösung: ss-karte-suchen-loesung.visustruct
 :::
@@ -107,6 +108,7 @@ test: 3, 1, 4, 1, 5 -> 5 | 4 | 3 | 1 | 1
 test: 10, 20, 30, 40, 50 -> 50 | 40 | 30 | 20 | 10
 test: 2, 9, 2, 7, 6 -> 9 | 7 | 6 | 2 | 2
 braucht: forSchleife, verzweigung
+tipp: Schau dir die Bedingung in der Verzweigung an. Sie entscheidet, wann zwei Nachbarn getauscht werden.
 tipp: Du musst nur ein einziges Zeichen ändern. Wann sollen zwei Nachbarn getauscht werden, wenn die größere Karte nach links soll?
 lösung: ss-absteigend-loesung.visustruct
 :::

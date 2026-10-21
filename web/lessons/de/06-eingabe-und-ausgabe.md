@@ -51,6 +51,7 @@ auftrag: Frage nach dem Namen und begrüße die Person. Bei der Eingabe Ada soll
 test: Ada -> Hallo Ada!
 test: Ben -> Hallo Ben!
 braucht: anweisung
+tipp: Zuerst kommt eine Eingabe für den Namen, danach eine Ausgabe, die den Namen benutzt.
 tipp: Der Name ist Text, die Eingabe braucht also den Typ `String`. In der Ausgabe verbindest du `"Hallo "`, die Variable und `"!"` mit `+`.
 lösung: l06-begruessung-loesung.visustruct
 :::
@@ -100,6 +101,7 @@ test: 3, 4 -> Summe: 7 | Produkt: 12
 test: 10, -2 -> Summe: 8 | Produkt: -20
 test: 0, 5 -> Summe: 5 | Produkt: 0
 braucht: anweisung
+tipp: Plane die Reihenfolge: erst beide Zahlen einlesen, dann rechnen, dann ausgeben.
 tipp: Du brauchst zwei Eingaben, zwei Anweisungen zum Rechnen und zwei Ausgaben. Rechne die Summe in einer eigenen Variablen, sonst hängt `+` die Zahlen aneinander.
 lösung: l06-rechner-loesung.visustruct
 :::
@@ -113,6 +115,7 @@ test: 2, 3 -> Mittelwert: 2.5
 test: 4, 6 -> Mittelwert: 5.0
 test: 1.5, 2 -> Mittelwert: 1.75
 braucht: anweisung
+tipp: Den Mittelwert zweier Zahlen bekommst du, wenn du sie addierst und das Ergebnis halbierst.
 tipp: Für Kommazahlen nimmst du den Typ `double`. Der Mittelwert ist die Summe geteilt durch 2. Denk an die Klammern: `(x + y) / 2`.
 lösung: l06-mittelwert-loesung.visustruct
 :::

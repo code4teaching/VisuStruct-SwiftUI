@@ -47,6 +47,7 @@ test: 4 -> gerade
 test: 7 -> ungerade
 test: 0 -> gerade
 braucht: verzweigung
+tipp: Hier gibt es zwei Möglichkeiten, also brauchst du eine Verzweigung. Woran erkennst du eine gerade Zahl?
 tipp: Eine Zahl ist gerade, wenn beim Teilen durch 2 kein Rest bleibt. Die Bedingung lautet `zahl % 2 == 0`.
 lösung: l07-gerade-loesung.visustruct
 :::
@@ -60,6 +61,7 @@ test: 3, 8 -> 8
 test: 9, 2 -> 9
 test: 5, 5 -> 5
 braucht: verzweigung
+tipp: Eine Verzweigung vergleicht die beiden Zahlen. In jedem Zweig steht genau eine Ausgabe.
 tipp: Vergleiche mit `a > b`. Im true-Zweig gibst du `a` aus, im false-Zweig `b`.
 lösung: l07-maximum-loesung.visustruct
 :::
@@ -83,6 +85,7 @@ test: 7 -> 7
 test: 0 -> 0
 test: -12 -> 12
 braucht: verzweigung
+tipp: Nur negative Zahlen müssen verändert werden. Was passiert mit einer Zahl, wenn du sie mal -1 nimmst?
 tipp: Die Bedingung ist `zahl < 0`. Im true-Zweig drehst du das Vorzeichen um, z. B. mit `zahl = 0 - zahl`. Der false-Zweig bleibt leer.
 lösung: l07-betrag-loesung.visustruct
 :::

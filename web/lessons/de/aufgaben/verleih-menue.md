@@ -14,6 +14,7 @@ test: 0 -> Tschüss
 test: 1, 2, 0 -> E-Bike gebucht | E-Scooter gebucht | Tschüss
 test: 2, 5, 1, 0 -> E-Scooter gebucht | Ungültige Auswahl | E-Bike gebucht | Tschüss
 braucht: endlosschleife, aussprung
+tipp: Das Menü läuft immer wieder, bis jemand 0 wählt. Dafür eignet sich eine Endlosschleife mit einem Aussprung.
 tipp: Nimm eine Endlosschleife. Darin steht zuerst die Eingabe `input: int wahl "1 = E-Bike, 2 = E-Scooter, 0 = Ende"`, danach eine Fallauswahl über `wahl` mit den Fällen `0`, `1`, `2` und `default`. Im Fall `0` stehen die Ausgabe und darunter der Aussprung.
 lösung: aufgabe-verleih-loesung.visustruct
 :::

@@ -74,6 +74,7 @@ auftrag: Ein Rechteck ist 7 lang und 4 breit. Lege die Variablen `laenge` und `b
 `Fläche: 28` und in der nächsten Zeile `Umfang: 22`.
 test: - -> Fläche: 28 | Umfang: 22
 braucht: anweisung
+tipp: Überlege zuerst, welche Variablen du brauchst: zwei für die Maße und zwei für die Ergebnisse. Alle sind ganze Zahlen.
 tipp: Die Fläche ist Länge mal Breite, der Umfang ist 2 mal (Länge plus Breite). Für die Ausgabe schreibst du z. B. `output: "Fläche: " + flaeche`. Das `+` hängt dabei den Text und den Wert der Variablen aneinander.
 lösung: l05-rechteck-loesung.visustruct
 :::
@@ -102,6 +103,7 @@ auftrag: 200 Sekunden sollen als Minuten und Sekunden ausgegeben werden. Die ers
 start: l05-sekunden-start.visustruct
 test: - -> 3 Minuten und 20 Sekunden
 braucht: anweisung
+tipp: Wie viele ganze Minuten passen in 200 Sekunden, und wie viele Sekunden bleiben übrig? Rechne es erst im Kopf aus.
 tipp: Eine Minute hat 60 Sekunden. Nutze `/` für die ganzen Minuten und `%` für den Rest. Beide Variablen sind vom Typ `int`.
 lösung: l05-sekunden-loesung.visustruct
 :::
@@ -113,6 +115,7 @@ titel: Einkauf
 auftrag: Du kaufst 3 Hefte zu je 2.5 Euro. Lege `anzahl` als `int` und `preis` als `double` an, berechne den Gesamtpreis in einer Variablen `gesamt` und gib `Gesamt: 7.5 Euro` aus.
 test: - -> Gesamt: 7.5 Euro
 braucht: anweisung
+tipp: Anzahl mal Preis ergibt den Gesamtpreis. Überlege für jede Variable, ob sie eine ganze Zahl oder eine Kommazahl ist.
 tipp: Der Gesamtpreis ist eine Kommazahl, also braucht `gesamt` den Typ `double`.
 lösung: l05-einkauf-loesung.visustruct
 :::

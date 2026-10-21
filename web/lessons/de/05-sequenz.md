@@ -34,6 +34,7 @@ auftrag: Im Startdiagramm stehen die richtigen Kästen, aber in der falschen Rei
 start: l04-reihenfolge-start.visustruct
 test: - -> 20
 braucht: anweisung
+tipp: Lies jeden Kasten und frage dich: Welche Variable braucht er, und wo bekommt diese Variable ihren Wert?
 tipp: Eine Variable muss zuerst angelegt werden, bevor du mit ihr rechnest. Die Ausgabe kommt ganz zum Schluss. Rechne im Kopf nach: (2 + 3) · 4 = 20.
 lösung: l04-reihenfolge-loesung.visustruct
 :::
@@ -63,6 +64,7 @@ auftrag: Im linken Glas ist Saft, im rechten Wasser. Tausche die Inhalte der Var
 start: l04-tauschen-start.visustruct
 test: - -> Links: Wasser | Rechts: Saft
 braucht: anweisung
+tipp: Wie tauschst du zwei volle Gläser im echten Leben? Du brauchst ein drittes, leeres Glas.
 tipp: Lege mit `String hilf = links` eine Hilfsvariable an. Danach brauchst du noch zwei Zuweisungen.
 lösung: l04-tauschen-loesung.visustruct
 :::

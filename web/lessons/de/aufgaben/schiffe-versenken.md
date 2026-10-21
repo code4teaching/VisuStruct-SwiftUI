@@ -17,6 +17,7 @@ auftrag: Gib alle Felder aus, auf denen ein Schiff liegt, jedes Feld in einer ei
 start: aufgabe-schiffe-start.visustruct
 test: - -> B1 | C1 | D1 | E3 | E4 | A5
 braucht: forSchleife, verzweigung
+tipp: Gehe das Meer wie den Kinosaal mit zwei verschachtelten Schleifen durch. Gib nur die Felder aus, auf denen `true` steht.
 tipp: Die äußere Schleife zählt `reihe`, die innere `spalte`, beide ab 0. Liegt auf `meer[reihe][spalte]` ein Schiff, gibst du den Buchstaben aus `spalten[spalte]` und die Reihennummer aus: `output: spalten[spalte] + (reihe + 1)`. Das `+ 1` braucht es, weil das Spiel bei 1 zu zählen beginnt.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::

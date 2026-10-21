@@ -49,6 +49,7 @@ test: 4 -> ausreichend
 test: 6 -> ungenügend
 test: 9 -> Keine gültige Note
 braucht: fallauswahl
+tipp: Für viele feste Werte ist die Fallauswahl übersichtlicher als viele Verzweigungen. Jede Note bekommt ihren eigenen Fall.
 tipp: Füge mit „Weiteren Fall hinzufügen“ so lange Fälle hinzu, bis du die Fälle 1 bis 6 und default hast. Oben in die Fallauswahl schreibst du `note`.
 lösung: l09-note-loesung.visustruct
 :::
@@ -64,6 +65,7 @@ test: 10, -, 4 -> 6
 test: 6, *, 7 -> 42
 test: 1, x, 2 -> Unbekanntes Rechenzeichen
 braucht: fallauswahl
+tipp: Lies erst alle drei Werte ein. Danach entscheidet eine Fallauswahl über das Rechenzeichen, was gerechnet wird.
 tipp: Lege vor der Fallauswahl `int ergebnis = 0` an. In jedem Fall rechnest du zum Beispiel `ergebnis = a + b` und gibst danach `ergebnis` aus. Die Fallnamen sind einfach `+`, `-` und `*`.
 lösung: l09-rechner-loesung.visustruct
 :::

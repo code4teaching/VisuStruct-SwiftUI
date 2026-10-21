@@ -30,6 +30,11 @@ describe('Lernbereich: Inhalte', () => {
     }
   })
 
+  it('jede Übung hat mindestens zwei gestufte Tipps', () => {
+    const few = allBlocks().flatMap(({ where, block }) => (block.kind === 'exercise' && block.exercise.hints.length < 2 ? [`${where}: ${block.exercise.id}`] : []))
+    expect(few).toEqual([])
+  })
+
   it('jedes verwendete Bild existiert', () => {
     for (const { where, block } of allBlocks()) {
       if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
@@ -169,5 +174,16 @@ describe('Lernbereich: Grafiken', () => {
   it.each(Object.keys(svgs))('%s ist gültiges XML', (file) => {
     const parsed = new DOMParser().parseFromString(svgs[file], 'image/svg+xml')
     expect(parsed.getElementsByTagName('parsererror').length).toBe(0)
+  })
+})
+
+describe('Lehrermodus', () => {
+  // Der richtige Code steht absichtlich nirgends im Repository, auch nicht hier.
+  it('bleibt mit einem falschen Code aus', async () => {
+    const { isTeacher, lockTeacher, unlockTeacher } = await import('../src/learn/teacher')
+    lockTeacher()
+    expect(await unlockTeacher('falsch')).toBe(false)
+    expect(await unlockTeacher('')).toBe(false)
+    expect(isTeacher()).toBe(false)
   })
 })

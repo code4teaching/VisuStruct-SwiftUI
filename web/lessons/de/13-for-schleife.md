@@ -58,6 +58,7 @@ test: 3 -> 3 | 2 | 1 | Los!
 test: 5 -> 5 | 4 | 3 | 2 | 1 | Los!
 test: 1 -> 1 | Los!
 braucht: forSchleife
+tipp: Diesmal zählt die For-Schleife rückwärts. Überlege, wo sie beginnt, wann sie aufhört und wie sie zählt.
 tipp: Start ist `int i = n`, die Bedingung `i >= 1` und der Schritt `i--`. Die Ausgabe Los! steht unter der Schleife, nicht darin.
 lösung: l12-countdown-loesung.visustruct
 :::
@@ -70,6 +71,7 @@ auftrag: Frage eine Zahl ab und gib ihre Einmaleins-Reihe von 1 bis 10 aus. Jede
 test: 3 -> 3 x 1 = 3 | 3 x 2 = 6 | 3 x 3 = 9 | 3 x 4 = 12 | 3 x 5 = 15 | 3 x 6 = 18 | 3 x 7 = 21 | 3 x 8 = 24 | 3 x 9 = 27 | 3 x 10 = 30
 test: 7 -> 7 x 1 = 7 | 7 x 2 = 14 | 7 x 3 = 21 | 7 x 4 = 28 | 7 x 5 = 35 | 7 x 6 = 42 | 7 x 7 = 49 | 7 x 8 = 56 | 7 x 9 = 63 | 7 x 10 = 70
 braucht: forSchleife
+tipp: Die Schleife zählt von 1 bis 10. In jedem Durchlauf gibst du eine Zeile der Reihe aus.
 tipp: Rechne im Inhalt zuerst `int produkt = zahl * i`. Danach gibst du `zahl + " x " + i + " = " + produkt` aus. Denk an die Leerzeichen innerhalb der Anführungszeichen.
 lösung: l12-einmaleins-loesung.visustruct
 :::
@@ -85,6 +87,7 @@ test: 4 -> 10
 test: 1 -> 1
 test: 5 -> 15
 braucht: forSchleife
+tipp: Gehe die Schleife mit n = 4 im Kopf oder mit **Schritt** durch. Welche Zahlen werden wirklich addiert?
 tipp: Schau, mit welchem Wert von i die Schleife zuletzt läuft. Bei n = 4 muss auch i = 4 noch dazugezählt werden.
 lösung: l16-summe-loesung.visustruct
 :::

@@ -14,6 +14,7 @@ test: 7 -> 7 ist ungerade
 test: 0 -> 0 ist gerade
 test: 15 -> 15 ist ungerade
 braucht: verzweigung
+tipp: Eine Verzweigung entscheidet zwischen gerade und ungerade. Gerade heißt: durch 2 teilbar ohne Rest.
 tipp: Die Bedingung lautet `zahl % 2 == 0`. In der Ausgabe verbindest du die Zahl und den Text mit `+`, z. B. `zahl + " ist gerade"`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::

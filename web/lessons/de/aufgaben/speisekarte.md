@@ -14,6 +14,7 @@ test: 2 -> Reis-Bowl
 test: 3 -> Falafel-Wrap
 test: 7 -> Bitte eine gültige Nummer wählen
 braucht: fallauswahl
+tipp: Für mehrere feste Nummern passt eine Fallauswahl. Was passiert mit allen anderen Nummern?
 tipp: Lies die Nummer mit `input: int nummer "Welches Gericht?"` ein. Die Fallauswahl prüft `nummer`, die Fälle heißen `1`, `2` und `3`. Alle anderen Nummern landen im Fall `default`.
 lösung: aufgabe-speisekarte-loesung.visustruct
 :::

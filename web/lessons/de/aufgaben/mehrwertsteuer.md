@@ -27,6 +27,7 @@ auftrag: Lege die Konstante `MWST` mit dem Wert 0.19 an. Frage dann nach dem Net
 test: 100 -> 19 | 119
 test: 50 -> 9.5 | 59.5
 test: 0 -> 0 | 0
+tipp: Die Steuer ist 19 Prozent vom Nettopreis. Der Bruttopreis ist das, was man am Ende bezahlt.
 tipp: Die Steuer ist `nettopreis * MWST`. Den Bruttopreis bekommst du, wenn du die Steuer zum Nettopreis addierst. Beide Werte sind Kommazahlen, also `double`.
 lösung: aufgabe-mehrwertsteuer-loesung.visustruct
 :::

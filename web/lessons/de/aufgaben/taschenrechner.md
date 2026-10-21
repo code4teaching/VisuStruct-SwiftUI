@@ -14,6 +14,7 @@ test: 10, 4, - -> 6
 test: 6, 7, * -> 42
 test: 1, 2, x -> Unbekanntes Rechenzeichen
 braucht: fallauswahl
+tipp: Lies alle drei Werte ein. Eine Fallauswahl über das Rechenzeichen entscheidet dann, was gerechnet wird.
 tipp: Das Rechenzeichen liest du mit `input: String zeichen "Rechenzeichen"` ein. Die Fallauswahl prüft `zeichen`, die Fälle heißen `"+"`, `"-"` und `"*"`, der letzte Fall ist `default`. Rechne in jedem Fall erst in einer Variablen und gib sie dann aus, sonst hängt `+` die Zahlen nur aneinander.
 lösung: aufgabe-rechner-loesung.visustruct
 :::

@@ -50,6 +50,7 @@ test: 0, 7, 2 -> Deine Note: 2
 test: 9, 6 -> Deine Note: 6
 test: -1, 1 -> Deine Note: 1
 braucht: doUntilSchleife
+tipp: Die Note wird mindestens einmal abgefragt. Danach entscheidet die Bedingung, ob noch einmal gefragt wird.
 tipp: Lege vor der Schleife `int note = 0` an. In die Schleife kommt die Eingabe `input: note "Note von 1 bis 6"`. Die Bedingung lautet `note < 1 || note > 6`.
 lösung: l11-note-loesung.visustruct
 :::
@@ -64,6 +65,7 @@ test: 10, 0 -> 10
 test: 5, 5, 5, 0 -> 15
 test: 0 -> 0
 braucht: doUntilSchleife
+tipp: Du brauchst eine Variable für die Summe, die vor der Schleife bei 0 beginnt. In jedem Durchlauf kommt die neue Zahl dazu.
 tipp: Lege vor der Schleife `int summe = 0` und `int zahl = 0` an. In der Schleife fragst du `zahl` ab und rechnest `summe = summe + zahl`. Die 0 zu addieren schadet nicht. Die Schleife läuft weiter, solange `zahl != 0` ist.
 lösung: l11-summe-loesung.visustruct
 :::
