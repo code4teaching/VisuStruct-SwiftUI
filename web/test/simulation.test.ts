@@ -423,6 +423,38 @@ describe('Bedingungen', () => {
       expect(engine.message).toBe('quadrat ended without returning a value with return.')
     })
 
+    it('übergibt Zahlen als Kopie und Arrays als Referenz', () => {
+      const verdopple: VSDocument = { caption: 'void verdopple(int x)', elements: [stmt('x = x * 2'), stmt('print: "innen: " + x')] }
+      const leeren: VSDocument = {
+        caption: 'void leeren(boolean[] reihe)',
+        elements: [
+          makeElement(ElementType.forSchleife, { textLines: ['int i = 0', 'i < reihe.length', 'i++'], loopBody: [stmt('reihe[i] = false')] }),
+        ],
+      }
+      const engine = run(
+        [
+          stmt('int zahl = 5'),
+          call('verdopple(zahl)'),
+          stmt('print: "außen: " + zahl'),
+          stmt('boolean[] saal = {true, false, true}'),
+          call('leeren(saal)'),
+          stmt('print: saal[0] + " " + saal[2]'),
+        ],
+        [verdopple, leeren],
+      )
+      expect(engine.state.outputLines).toEqual(['innen: 10', 'außen: 5', 'false false'])
+      expect(engine.state.variables.has('reihe')).toBe(false)
+      expect(engine.message).toBe('Simulation finished.')
+    })
+
+    it('gibt geänderte 2D-Arrays zurück und prüft den Array-Typ', () => {
+      const verkaufe: VSDocument = { caption: 'void verkaufe(boolean[][] sitze, int r, int p)', elements: [stmt('sitze[r][p] = true')] }
+      let engine = run([stmt('boolean[][] kino = new boolean[2][3]'), call('verkaufe(kino, 1, 2)'), stmt('print: kino[1][2]')], [verkaufe])
+      expect(engine.state.outputLines).toEqual(['true'])
+      engine = run([stmt('int[] zahlen = {1, 2}'), call('verkaufe(zahlen, 0, 0)')], [verkaufe])
+      expect(engine.state.notice?.kind).toBe('invalidExpression')
+    })
+
     it('beendet mit return im Hauptprogramm das Programm', () => {
       const engine = run([stmt('print: "a"'), stmt('return'), stmt('print: "b"')], [])
       expect(engine.state.outputLines).toEqual(['a'])

@@ -824,7 +824,8 @@ export interface SubprogramHeader {
   /** Fehlt bei `void`. */
   returnType?: SimValueType
   name: string
-  params: { type: SimValueType; name: string }[]
+  /** `dims` steht bei Array-Parametern wie `int[] zahlen` (1) oder `boolean[][] sitze` (2). */
+  params: { type: SimValueType; name: string; dims?: 1 | 2 }[]
 }
 
 export function parseSubprogramHeader(text: string): SubprogramHeader | undefined {
@@ -833,9 +834,10 @@ export function parseSubprogramHeader(text: string): SubprogramHeader | undefine
   const params: SubprogramHeader['params'] = []
   if (m[3].trim() !== '') {
     for (const part of m[3].split(',')) {
-      const p = /^(int|double|String|boolean)\s+([A-Za-z_]\w*)$/u.exec(part.trim())
+      const p = /^(int|double|String|boolean|char)\s*((?:\[\s*\]){0,2})\s+([A-Za-z_]\w*)$/u.exec(part.trim())
       if (!p) return undefined
-      params.push({ type: valueTypeKeyword(p[1])!, name: p[2] })
+      const dims = (p[2].match(/\[/gu) ?? []).length
+      params.push({ type: valueTypeKeyword(p[1])!, name: p[3], ...(dims > 0 ? { dims: dims as 1 | 2 } : {}) })
     }
   }
   return { returnType: valueTypeKeyword(m[1]), name: m[2], params }
@@ -874,6 +876,8 @@ interface CallFrame {
   header: SubprogramHeader
   call?: CallText
   returnValue?: SimValue
+  /** Array-Parameter: Änderungen gehen am Ende an diese Variablen des Aufrufers zurück (Referenzübergabe). */
+  references: { param: string; callerName: string }[]
 }
 
 // MARK: - Engine
@@ -1131,17 +1135,37 @@ export class SimulationEngine {
     if (argumentsMismatch) throw new SimulationError({ kind: 'callArguments', text: header?.name ?? subprogramName(name) })
     if (this.callDepth >= maxCallDepth) throw new SimulationError({ kind: 'callTooDeep' })
     // Die Werte werden noch mit den Variablen des Aufrufers ausgerechnet (Wertübergabe).
+    // Arrays werden dagegen als Referenz übergeben: Das Unterprogramm arbeitet mit demselben Array.
     const locals = new Map<string, SimValue>()
-    header?.params.forEach((p, i) => locals.set(p.name, this.evaluateExpression(call!.args[i], p.type)))
+    const references: CallFrame['references'] = []
+    header?.params.forEach((p, i) => {
+      const arg = call!.args[i].trim()
+      if (!p.dims) {
+        locals.set(p.name, this.evaluateExpression(arg, p.type))
+        return
+      }
+      const value = this.state.variables.get(arg)
+      if (!value) {
+        if (/^[A-Za-z_]\w*$/u.test(arg)) throw new SimulationError({ kind: 'unknownVariable', text: arg })
+        throw invalid(arg)
+      }
+      const matches =
+        p.dims === 1 ? value.kind === `${p.type}Array` : value.kind === 'grid' && value.elementType === p.type
+      if (!matches) throw invalid(arg)
+      locals.set(p.name, value)
+      references.push({ param: p.name, callerName: arg })
+    })
     this.callDepth += 1
     const context: StepContext = { frame: this.nextFrame++, callPath: step.callPath ?? step.path }
     if (header) {
-      this.frames.set(context.frame!, { saved: this.state.variables, header, call })
+      this.frames.set(context.frame!, { saved: this.state.variables, header, call, references })
       this.state.variables = locals
     }
     const bodySteps = buildSteps(document.elements, [], context)
     this.splice([...bodySteps, { ...context, path: step.path, text: name, kind: 'callEnd' }])
-    const passed = header?.params.map((p) => `${p.name} = ${describeValue(locals.get(p.name)!)}`).join(', ')
+    const passed = header?.params
+      .map((p, i) => `${p.name} = ${p.dims ? call!.args[i].trim() : describeValue(locals.get(p.name)!)}`)
+      .join(', ')
     this.state.lastTrace = passed ? `${name} -> ${passed}` : `${name} -> call`
   }
 
@@ -1184,7 +1208,12 @@ export class SimulationEngine {
     const frame = this.frames.get(callEnd.frame ?? 0)
     if (!frame) return
     this.frames.delete(callEnd.frame ?? 0)
-    this.state.variables = frame.saved
+    const restored = frame.references.length > 0 ? new Map(frame.saved) : frame.saved
+    for (const ref of frame.references) {
+      const value = this.state.variables.get(ref.param)
+      if (value) restored.set(ref.callerName, value)
+    }
+    this.state.variables = restored
     const result = frame.returnValue
     if (frame.header.returnType && !result) throw new SimulationError({ kind: 'missingReturn', text: frame.header.name })
     const target = frame.call?.target

@@ -99,6 +99,7 @@ function subprogramDefinition(
 ): string {
   const opts = documentOptions(document, target, options)
   for (const p of header.params) {
+    if (p.dims) continue
     if (p.type === 'int') opts.jsIntVariables!.add(p.name)
     if (p.type === 'string') opts.stringVariables!.add(p.name)
   }
@@ -108,7 +109,7 @@ function subprogramDefinition(
   if (sink.out.trim() === '') sink.out = sp(indent + opts.indentPerLevel) + (target === 'python' ? 'pass\n' : '\n')
   switch (target) {
     case 'java': {
-      const params = header.params.map((p) => `${javaTypeName(p.type)} ${p.name}`).join(', ')
+      const params = header.params.map((p) => `${javaTypeName(p.type)}${'[]'.repeat(p.dims ?? 0)} ${p.name}`).join(', ')
       return `${sp(indent)}public static ${javaTypeName(header.returnType)} ${header.name}(${params}) {\n${sink.out}${sp(indent)}}\n`
     }
     case 'python':
