@@ -161,3 +161,13 @@ describe('Prüfen mit der Simulation', () => {
     expect(checkExercise(doc(['double x = 4.0 / 2', 'output: x']), [{ inputs: [], expected: ['2'] }])[0].passed).toBe(true)
   })
 })
+
+describe('Lernbereich: Grafiken', () => {
+  // Als <img> geladen, zeigt der Browser ein SVG nur an, wenn es gültiges XML ist (z. B. `&lt;` statt `<`).
+  const svgs = import.meta.glob('../lessons/bilder/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+
+  it.each(Object.keys(svgs))('%s ist gültiges XML', (file) => {
+    const parsed = new DOMParser().parseFromString(svgs[file], 'image/svg+xml')
+    expect(parsed.getElementsByTagName('parsererror').length).toBe(0)
+  })
+})
