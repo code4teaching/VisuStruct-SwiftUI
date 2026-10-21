@@ -1,8 +1,8 @@
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { subprogramName } from '../src/core/simulation'
-import { diagram, image, lessons, reference, tasks } from '../src/learn/content'
+import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 
@@ -11,7 +11,9 @@ const allBlocks = (): { where: string; block: Block }[] => [
   ...tasks.flatMap((t) => t.blocks.map((block) => ({ where: t.id, block }))),
 ]
 
-describe('Lernbereich: Inhalte', () => {
+describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
+  beforeAll(() => useContentLanguage(lang))
+
   it('Lektionen sind lückenlos nummeriert und haben Schritte', () => {
     expect(lessons.length).toBeGreaterThanOrEqual(3)
     lessons.forEach((l, i) => {
@@ -19,7 +21,7 @@ describe('Lernbereich: Inhalte', () => {
       expect(l.steps.length, l.id).toBeGreaterThan(1)
       expect(l.section, l.id).not.toBe('')
     })
-    expect(reference).toContain('### Verzweigung')
+    expect(reference).toContain(lang === 'de' ? '### Verzweigung' : '### Branch')
   })
 
   it('jedes verwendete Diagramm existiert und lässt sich laden', () => {
@@ -102,6 +104,30 @@ describe('Lernbereich: Inhalte', () => {
   })
 })
 
+describe('Lernbereich: Englisch', () => {
+  const lessonFiles = import.meta.glob('../lessons/*/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+  const taskFiles = import.meta.glob('../lessons/*/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+  const names = (files: Record<string, string>, lang: string) =>
+    Object.keys(files).filter((p) => p.includes(`/lessons/${lang}/`)).map((p) => p.slice(p.indexOf(`/${lang}/`) + lang.length + 2)).sort()
+
+  it('jede deutsche Lektion und Aufgabe gibt es auch auf Englisch', () => {
+    expect(names(lessonFiles, 'en')).toEqual(names(lessonFiles, 'de'))
+    expect(names(taskFiles, 'en')).toEqual(names(taskFiles, 'de'))
+  })
+
+  it('beide Sprachen haben dieselben Übungen mit gleich vielen Tests', () => {
+    const exercises = (lang: 'de' | 'en') => {
+      useContentLanguage(lang)
+      return allBlocks().flatMap(({ block }) =>
+        block.kind === 'exercise' ? [`${block.exercise.id}: ${block.exercise.tests.length}`] : [],
+      ).sort()
+    }
+    const de = exercises('de')
+    expect(exercises('en')).toEqual(de)
+    useContentLanguage('de')
+  })
+})
+
 describe('Lernbereich: Format', () => {
   it('liest Tests mit Eingaben und mehreren Ausgabezeilen', () => {
     expect(parseTest('3, 4 -> 7 | fertig', 'x')).toEqual({ inputs: ['3', '4'], expected: ['7', 'fertig'] })
@@ -169,7 +195,7 @@ describe('Prüfen mit der Simulation', () => {
 
 describe('Lernbereich: Grafiken', () => {
   // Als <img> geladen, zeigt der Browser ein SVG nur an, wenn es gültiges XML ist (z. B. `&lt;` statt `<`).
-  const svgs = import.meta.glob('../lessons/bilder/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+  const svgs = import.meta.glob('../lessons/bilder/**/*.svg', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
   it.each(Object.keys(svgs))('%s ist gültiges XML', (file) => {
     const parsed = new DOMParser().parseFromString(svgs[file], 'image/svg+xml')

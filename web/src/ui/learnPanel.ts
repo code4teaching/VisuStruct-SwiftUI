@@ -3,13 +3,13 @@ import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
-import { diagram, glossary, image, lessons, reference, tasks } from '../learn/content'
+import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
 import { progress } from '../learn/progress'
 import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
-import { t } from './i18n'
+import { currentLanguage, t } from './i18n'
 import { noticeText } from './simulationPanel'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
 
@@ -85,6 +85,7 @@ export class LearnPanel {
     this.element = h('aside', { class: 'learn', 'aria-label': t('web_learn_title') })
     this.tips = attachTermTips(this.element)
     this.pointers = attachPointers(this.element)
+    useContentLanguage(contentLanguageFor(currentLanguage()))
     const view = progress.view()
     if (view) {
       this.tab = (['lessons', 'tasks', 'reference'] as const).find((x) => x === view.tab) ?? 'lessons'
@@ -98,6 +99,7 @@ export class LearnPanel {
   render() {
     this.tips.hide()
     this.pointers.off()
+    useContentLanguage(contentLanguageFor(currentLanguage()))
     const tabs = h('div', { class: 'segmented learn-tabs', role: 'tablist' })
     for (const [name, label] of [
       ['lessons', t('web_learn_lessons')],
@@ -129,7 +131,7 @@ export class LearnPanel {
       else this.renderTaskList()
     } else {
       const terms = glossary.map((e) => `- **${e.term}:** ${e.text}`).join('\n')
-      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n### Fachbegriffe\n\n${terms}`)))
+      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n### ${t('web_learn_terms')}\n\n${terms}`)))
     }
   }
 

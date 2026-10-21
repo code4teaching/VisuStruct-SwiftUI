@@ -1,0 +1,128 @@
+---
+titel: For loop
+bereich: Basics
+kurz: Count a fixed number of passes with Init, Condition and Step.
+---
+
+## Counting with a fixed plan
+
+In the while loop you already counted along: a start value before the loop, a condition in the head, a change inside. The **for loop** puts these three parts together in the head. That way you see at a glance how it counts.
+
+When you click a for loop, it has three fields on the right:
+
+- **Init:** `int i = 1` creates the counter variable.
+- **Condition:** `i <= 5` says how long to count.
+- **Step:** `i++` increases `i` by 1 after every pass.
+
+::: diagramm l12-eins-bis-fuenf.visustruct
+A for loop that outputs the numbers from 1 to 5.
+:::
+
+## In which order?
+
+The three parts run at different times:
+
+1. **Init** runs exactly once, right at the start.
+2. **Condition** is checked before every pass. If it is false, the loop is finished.
+3. After the inside comes the **Step**, then the condition again.
+
+::: grafik l12-for-ablauf.svg
+Init only runs once. After that, condition, inside and step repeat.
+:::
+
+So the for loop is a pre-test loop, like the while loop. Go through the example in the simulation with **Step** and watch how `i` changes.
+
+> Use the for loop when you know beforehand how often something should happen. If the end depends on something that only happens during the loop, for example an input, the while or do-while loop is better.
+
+## Example: sum from 1 to n
+
+A for loop is good for adding up numbers. Before the loop there is `int sum = 0`. In every pass the current number `i` is added.
+
+::: diagramm l12-summe.visustruct
+With n = 4 the loop calculates 0 + 1 + 2 + 3 + 4. At the end, 10 is output.
+:::
+
+## Other steps
+
+The step does not always have to be `i++`:
+
+- `i--` counts backwards, for example with Init `int i = 10` and Condition `i >= 1`.
+- `i = i + 2` jumps in steps of two, for example 0, 2, 4, 6.
+
+Make sure that Init, Condition and Step fit together. With Init `int i = 1`, Condition `i >= 1` and Step `i++`, the condition never becomes false.
+
+::: übung l12-countdown
+titel: Countdown
+auftrag: Ask for a whole number `n`. Use a for loop to count backwards from `n` to 1 and output each number. Then output **Go!**.
+test: 3 -> 3 | 2 | 1 | Go!
+test: 5 -> 5 | 4 | 3 | 2 | 1 | Go!
+test: 1 -> 1 | Go!
+braucht: forSchleife
+tipp: This time the for loop counts backwards. Think about where it starts, when it stops and how it counts.
+tipp: Init is `int i = n`, the condition `i >= 1` and the step `i--`. The output Go! goes below the loop, not inside it.
+lösung: l12-countdown-loesung.visustruct
+:::
+
+## Exercise: Times table
+
+::: übung l12-einmaleins
+titel: Times table
+auftrag: Ask for a number and output its times table from 1 to 10. Each line looks like this: **3 x 1 = 3**, **3 x 2 = 6** and so on.
+test: 3 -> 3 x 1 = 3 | 3 x 2 = 6 | 3 x 3 = 9 | 3 x 4 = 12 | 3 x 5 = 15 | 3 x 6 = 18 | 3 x 7 = 21 | 3 x 8 = 24 | 3 x 9 = 27 | 3 x 10 = 30
+test: 7 -> 7 x 1 = 7 | 7 x 2 = 14 | 7 x 3 = 21 | 7 x 4 = 28 | 7 x 5 = 35 | 7 x 6 = 42 | 7 x 7 = 49 | 7 x 8 = 56 | 7 x 9 = 63 | 7 x 10 = 70
+braucht: forSchleife
+tipp: The loop counts from 1 to 10. In every pass you output one line of the table.
+tipp: Inside, first calculate `int product = number * i`. Then output `number + " x " + i + " = " + product`. Remember the spaces inside the quotation marks.
+lösung: l12-einmaleins-loesung.visustruct
+:::
+
+## Exercise: Fix the sum
+
+::: übung l16-summe
+titel: Fix the sum
+auftrag: The structure chart should add up all numbers from 1 to n. So with n = 4 the result should be 1 + 2 + 3 + 4 = **10**. But it outputs 6.
+  Do a desk check or use **Step** and fix the mistake.
+start: l16-summe-start.visustruct
+test: 4 -> 10
+test: 1 -> 1
+test: 5 -> 15
+braucht: forSchleife
+tipp: Go through the loop with n = 4 in your head or with **Step**. Which numbers are really added?
+tipp: Look at the last value of i the loop runs with. With n = 4, i = 4 must be added too.
+lösung: l16-summe-loesung.visustruct
+:::
+
+## Checklist
+
+::: checkliste
+- I know the three parts Init, Condition and Step of the for loop. → Counting with a fixed plan
+- I know in which order the three parts run. → In which order?
+- I can count forwards, backwards and in bigger steps with a for loop. → Other steps
+:::
+
+## Quiz
+
+::: quiz
+? How often does the Init of a for loop run?
+- [x] Exactly once
+- [ ] Before every pass
+- [ ] After every pass
+> Init creates the counter variable once at the start.
+
+? Init `int i = 0`, Condition `i < 3`, Step `i++`. Which values does i have inside the loop?
+- [ ] 1, 2, 3
+- [x] 0, 1, 2
+- [ ] 0, 1, 2, 3
+> With i = 3 the condition is false, so the inside does not run any more.
+
+? Init `int i = 2`, Condition `i <= 10`, Step `i = i + 2`. How often does the inside run?
+- [ ] 4 times
+- [x] 5 times
+- [ ] 10 times
+> i takes the values 2, 4, 6, 8 and 10.
+
+? When does a for loop fit best?
+- [x] When you know beforehand how often to repeat
+- [ ] When you keep asking until an input is valid
+- [ ] When only a single value is checked
+:::

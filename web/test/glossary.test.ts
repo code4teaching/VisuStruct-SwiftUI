@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest'
-import { glossary, lessons } from '../src/learn/content'
+import { contentLanguages, glossary, lessons, useContentLanguage } from '../src/learn/content'
 import { markdownToHTML } from '../src/learn/markdown'
 import { parseGlossary } from '../src/learn/glossary'
 import { markPointers, markTerms, uiTargets } from '../src/ui/termTips'
@@ -31,7 +31,8 @@ describe('Fachbegriffe', () => {
     ])
   })
 
-  it('jeder Begriff in begriffe.md hat eine Erklärung', () => {
+  it.each(contentLanguages)('jeder Begriff in begriffe.md hat eine Erklärung (%s)', (lang) => {
+    useContentLanguage(lang)
     expect(glossary.length).toBeGreaterThan(10)
     for (const e of glossary) expect(e.text, e.term).not.toBe('')
   })
@@ -55,7 +56,8 @@ describe('Fachbegriffe', () => {
 })
 
 describe('Zeiger auf den Editor', () => {
-  it('jeder Zeiger in einer Lektion nennt einen bekannten Bereich', () => {
+  it.each(contentLanguages)('jeder Zeiger in einer Lektion nennt einen bekannten Bereich (%s)', (lang) => {
+    useContentLanguage(lang)
     for (const l of lessons)
       for (const s of l.steps)
         for (const b of s.blocks)
