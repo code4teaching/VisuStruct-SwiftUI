@@ -130,6 +130,9 @@ Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgef�
 auch: Parametern
 Eine Variable in der Kopfzeile eines Unterprogramms. Beim Aufruf bekommt sie den Wert aus den Klammern.
 
+### Spaghetticode
+Ein Programm, das so kreuz und quer springt, dass man den Ablauf kaum noch verfolgen kann. Struktogramme verhindern das.
+
 ### Wertübergabe
 auch: call by value
 Ein Unterprogramm bekommt eine Kopie des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers unverändert.

@@ -345,6 +345,10 @@ Beim Programmieren passieren zwei Dinge gleichzeitig: Du musst dir den Ablauf ü
 
 Mit der **Simulation** kannst du dein Struktogramm außerdem Schritt für Schritt ausführen und prüfen, ob es wirklich tut, was es soll.
 
+::: angeberwissen
+Programme, die kreuz und quer springen, heißen **Spaghetticode**: Wer einem Faden folgen will, verheddert sich wie in einem Teller Spaghetti. Schuld war früher der Befehl GOTO, also „springe zu Zeile …“. 1968 schrieb der Informatiker Edsger Dijkstra deshalb einen berühmten Brief: „Go To Statement Considered Harmful“, auf Deutsch „GOTO gilt als schädlich“. Seitdem baut man Programme nur noch aus Sequenz, Verzweigung und Wiederholung. In Java ist \`goto\` bis heute ein reserviertes Wort, benutzen darf man es aber nicht. Mäh, Spaghetti esse ich lieber, als sie zu programmieren.
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -3435,6 +3439,9 @@ Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgef�
 ### Parameter
 auch: Parametern
 Eine Variable in der Kopfzeile eines Unterprogramms. Beim Aufruf bekommt sie den Wert aus den Klammern.
+
+### Spaghetticode
+Ein Programm, das so kreuz und quer springt, dass man den Ablauf kaum noch verfolgen kann. Struktogramme verhindern das.
 
 ### Wertübergabe
 auch: call by value
