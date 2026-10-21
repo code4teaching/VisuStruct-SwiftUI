@@ -30,7 +30,7 @@ Where you drop it decides where the new element lands.
 You can also select an element in the Elements area with the keyboard and press **Enter**. Then it is inserted after the selected box.
 
 ::: angeberwissen
-Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze. [More about him (in German)](https://visustruct.org/de/angeberwissen.html)
+Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze. [More about him](https://visustruct.org/en/angeberwissen.html)
 :::
 
 ## Type text

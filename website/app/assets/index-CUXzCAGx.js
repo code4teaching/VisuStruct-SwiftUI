@@ -3736,7 +3736,7 @@ You recognise the branch by its triangle and the loop by the bracket on the left
 The boxes can also be **nested** inside each other: a loop or a path can contain sequences, branches and loops again.
 
 ::: angeberwissen
-Comfort for anyone who has messed up a test: the famous journal *Communications of the ACM* rejected the structure chart article. According to Nassi, the reviewer even said they should collect every copy and burn it. Ouch! It then appeared in 1973 in a smaller journal and today it is quoted thousands of times. Ha! [More fun facts (in German)](https://visustruct.org/de/angeberwissen.html)
+Comfort for anyone who has messed up a test: the famous journal *Communications of the ACM* rejected the structure chart article. According to Nassi, the reviewer even said they should collect every copy and burn it. Ouch! It then appeared in 1973 in a smaller journal and today it is quoted thousands of times. Ha! [More fun facts](https://visustruct.org/en/angeberwissen.html)
 :::
 
 ## Other ways to draw it: flowchart and pseudocode
@@ -3886,7 +3886,7 @@ Where you drop it decides where the new element lands.
 You can also select an element in the Elements area with the keyboard and press **Enter**. Then it is inserted after the selected box.
 
 ::: angeberwissen
-Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze. [More about him (in German)](https://visustruct.org/de/angeberwissen.html)
+Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze. [More about him](https://visustruct.org/en/angeberwissen.html)
 :::
 
 ## Type text
@@ -5487,7 +5487,7 @@ With nested diagrams, the drawing helps you: whatever is further inside is inden
 - Go through an example in the simulation with **Step** and watch the variables.
 
 ::: angeberwissen
-This is exactly what the structure chart was invented for. Shneiderman asked himself: if we are supposed to do without GOTO, why not do without the arrows in the flowchart as well? The result: no arrow spaghetti, and every block stays nicely in its pen. [The whole story (in German)](https://visustruct.org/de/angeberwissen.html)
+This is exactly what the structure chart was invented for. Shneiderman asked himself: if we are supposed to do without GOTO, why not do without the arrows in the flowchart as well? The result: no arrow spaghetti, and every block stays nicely in its pen. [The whole story](https://visustruct.org/en/angeberwissen.html)
 :::
 
 ## Checklist
@@ -6703,7 +6703,7 @@ JavaScript looks similar to Java: curly brackets, semicolons, \`while (…)\` an
 JavaScript is the language of browsers. That is why VisuStruct can **run the code straight away**:
 
 ::: angeberwissen
-Why are links in the browser blue, anyway? In 1985 Ben Shneiderman's team tested which colour is easy to see but does not get in the way when you read. Light blue won. Red stood out more, but people remembered the text less well afterwards. [More fun facts (in German)](https://visustruct.org/de/angeberwissen.html)
+Why are links in the browser blue, anyway? In 1985 Ben Shneiderman's team tested which colour is easy to see but does not get in the way when you read. Light blue won. Red stood out more, but people remembered the text less well afterwards. [More fun facts](https://visustruct.org/en/angeberwissen.html)
 :::
 
 1. Choose **JavaScript** in the code view.

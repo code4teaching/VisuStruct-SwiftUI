@@ -99,7 +99,7 @@ You recognise the branch by its triangle and the loop by the bracket on the left
 The boxes can also be **nested** inside each other: a loop or a path can contain sequences, branches and loops again.
 
 ::: angeberwissen
-Comfort for anyone who has messed up a test: the famous journal *Communications of the ACM* rejected the structure chart article. According to Nassi, the reviewer even said they should collect every copy and burn it. Ouch! It then appeared in 1973 in a smaller journal and today it is quoted thousands of times. Ha! [More fun facts (in German)](https://visustruct.org/de/angeberwissen.html)
+Comfort for anyone who has messed up a test: the famous journal *Communications of the ACM* rejected the structure chart article. According to Nassi, the reviewer even said they should collect every copy and burn it. Ouch! It then appeared in 1973 in a smaller journal and today it is quoted thousands of times. Ha! [More fun facts](https://visustruct.org/en/angeberwissen.html)
 :::
 
 ## Other ways to draw it: flowchart and pseudocode
