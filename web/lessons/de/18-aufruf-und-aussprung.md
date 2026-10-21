@@ -69,7 +69,7 @@ Im Aufruf-Kasten schreibst du die Werte in die Klammern, z. B. `zeigeSumme(3, 4)
 Das Hauptprogramm ruft zeigeSumme zweimal mit anderen Werten auf. Öffne beide Diagramme und starte hier die Simulation.
 :::
 
-> **Lokale Variablen:** Die Parameter und alle Variablen, die im Unterprogramm entstehen, gehören nur dem Unterprogramm. Es bekommt **Kopien** der Werte, mehr dazu weiter unten bei der Wertübergabe. In der Simulation siehst du während des Aufrufs nur die Variablen des Unterprogramms.
+> **Lokale Variablen:** Die Parameter und alle Variablen, die im Unterprogramm entstehen, gehören nur dem Unterprogramm. Es bekommt **Kopien** der Werte, mehr dazu weiter unten bei der Wertübergabe (call by value). In der Simulation siehst du während des Aufrufs nur die Variablen des Unterprogramms.
 
 ## Ergebnis zurückgeben: return
 
@@ -108,13 +108,13 @@ lösung: l15-flaeche-loesung.visustruct
 unterprogramm: l15-flaeche-unterprogramm-loesung.visustruct
 :::
 
-## Kopie oder Original: Wertübergabe und Referenzübergabe
+## Kopie oder Original: call by value und call by reference
 
 Was passiert, wenn ein Unterprogramm seinen Parameter verändert? Das hängt davon ab, **was** übergeben wird.
 
-**Wertübergabe** (englisch *call by value*): Bei `int`, `double`, `boolean`, `char` und `String` bekommt das Unterprogramm eine **Kopie** des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers, wie sie war.
+**Wertübergabe**, englisch **call by value**: Bei `int`, `double`, `boolean`, `char` und `String` bekommt das Unterprogramm eine **Kopie** des Werts. Ändert es seinen Parameter, bleibt die Variable des Aufrufers, wie sie war.
 
-**Referenzübergabe** (englisch *call by reference*): Bei einem **Array** bekommt das Unterprogramm keine Kopie, sondern einen Verweis auf dasselbe Array. Ändert es ein Fach, ist das Fach auch beim Aufrufer geändert. Die Kopfzeile dafür sieht so aus:
+**Referenzübergabe**, englisch **call by reference**: Bei einem **Array** bekommt das Unterprogramm keine Kopie, sondern einen Verweis auf dasselbe Array. Ändert es ein Fach, ist das Fach auch beim Aufrufer geändert. Die Kopfzeile dafür sieht so aus:
 
 ```
 void leeren(boolean[] plaetze)
@@ -141,7 +141,7 @@ zahl ist nach dem Aufruf immer noch 5. Die Plätze in reihe sind nach dem Aufruf
 > Willst du mit einer Zahl aus einem Unterprogramm etwas zurückbekommen, nimmst du `return`, z. B. `zahl = verdopple(zahl)` mit der Kopfzeile `int verdopple(int x)`. Ein Array dagegen kann das Unterprogramm direkt verändern.
 
 ::: angeberwissen
-Ganz genau genommen kennt Java nur die Wertübergabe. Bei einem Array wird aber nicht das ganze Array kopiert, sondern nur seine **Adresse** im Speicher. Mit der kopierten Adresse findet das Unterprogramm dasselbe Array. Das ist so, als würde ich dir eine Kopie meines Schließfachschlüssels geben: Der Schlüssel ist kopiert, das Heu im Fach gibt es nur einmal.
+Ganz genau genommen kennt Java nur die Wertübergabe, also call by value. Bei einem Array wird aber nicht das ganze Array kopiert, sondern nur seine **Adresse** im Speicher. Mit der kopierten Adresse findet das Unterprogramm dasselbe Array. Das ist so, als würde ich dir eine Kopie meines Schließfachschlüssels geben: Der Schlüssel ist kopiert, das Heu im Fach gibt es nur einmal.
 :::
 
 ## Übung: Bonuspunkte
@@ -198,7 +198,7 @@ lösung: l15-bis-null-loesung.visustruct
 - Ich kann einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen. → Der Aufruf
 - Ich kann einem Unterprogramm mit Parametern Werte übergeben. → Werte übergeben: Parameter
 - Ich kann mit return einen Rückgabewert liefern und ihn beim Aufruf speichern. → Ergebnis zurückgeben: return
-- Ich kann erklären, warum ein Unterprogramm eine Zahl nicht verändern kann, ein Array aber schon. → Kopie oder Original: Wertübergabe und Referenzübergabe
+- Ich kann erklären, warum ein Unterprogramm eine Zahl nicht verändern kann, ein Array aber schon. → Kopie oder Original: call by value und call by reference
 - Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht. → Der Aussprung
 - Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden. → Aussprung in der Simulation
 :::
@@ -245,13 +245,13 @@ lösung: l15-bis-null-loesung.visustruct
 - [x] 5
 - [ ] 10
 - [ ] 0
-> Wertübergabe: verdopple hat nur eine Kopie von zahl verändert.
+> Wertübergabe (call by value): verdopple hat nur eine Kopie von zahl verändert.
 
 ? `void leeren(boolean[] plaetze)` setzt alle Fächer auf false. Was gilt nach `leeren(reihe)` für das Array reihe im Hauptprogramm?
 - [ ] Es ist unverändert, weil das Unterprogramm eine Kopie bekommt.
 - [x] Alle Fächer sind false, weil plaetze und reihe dasselbe Array sind.
 - [ ] Das Array ist gelöscht.
-> Ein Array wird als Referenz übergeben. Änderungen an den Fächern sieht auch der Aufrufer.
+> Referenzübergabe (call by reference): Ein Array wird als Referenz übergeben. Änderungen an den Fächern sieht auch der Aufrufer.
 
 ? Wie heißt ein Unterprogramm in Java?
 - [ ] Klasse

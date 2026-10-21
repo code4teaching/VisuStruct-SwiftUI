@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 478 322" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" fill="#1c1c1e">
 <rect width="478" height="322" fill="#ffffff"/>
 <text x="8" y="22" font-weight="600" font-size="15">Gesucht: die 27. Die Karten sind sortiert.</text>
-<text x="8" y="56" font-size="15"><tspan font-weight="600">1. Mitte:</tspan> 13 < 27, links fällt weg</text>
+<text x="8" y="56" font-size="15"><tspan font-weight="600">1. Mitte:</tspan> 13 &lt; 27, links fällt weg</text>
 <g><rect x="8" y="66" width="28" height="48" rx="5" fill="#ffffff" stroke="#1c1c1e" stroke-width="1"/><text x="22.0" y="87.6" text-anchor="middle" font-size="17" font-weight="700" fill="#dc2626">2</text><text x="22.0" y="105.36" text-anchor="middle" font-size="14" fill="#dc2626">♦</text></g>
 <g><rect x="39" y="66" width="28" height="48" rx="5" fill="#ffffff" stroke="#1c1c1e" stroke-width="1"/><text x="53.0" y="87.6" text-anchor="middle" font-size="17" font-weight="700" fill="#1c1c1e">3</text><text x="53.0" y="105.36" text-anchor="middle" font-size="14" fill="#1c1c1e">♣</text></g>
 <g><rect x="70" y="66" width="28" height="48" rx="5" fill="#ffffff" stroke="#1c1c1e" stroke-width="1"/><text x="84.0" y="87.6" text-anchor="middle" font-size="17" font-weight="700" fill="#1c1c1e">5</text><text x="84.0" y="105.36" text-anchor="middle" font-size="14" fill="#1c1c1e">♠</text></g>
@@ -32,7 +32,7 @@
 <text x="394.0" y="128" text-anchor="middle" font-size="11" fill="#6e6e73">12</text>
 <text x="425.0" y="128" text-anchor="middle" font-size="11" fill="#6e6e73">13</text>
 <text x="456.0" y="128" text-anchor="middle" font-size="11" fill="#6e6e73">14</text>
-<text x="8" y="152" font-size="15"><tspan font-weight="600">2. Mitte:</tspan> 21 < 27, links fällt weg</text>
+<text x="8" y="152" font-size="15"><tspan font-weight="600">2. Mitte:</tspan> 21 &lt; 27, links fällt weg</text>
 <g opacity="0.25"><rect x="8" y="162" width="28" height="48" rx="5" fill="#ffffff" stroke="#1c1c1e" stroke-width="1"/><text x="22.0" y="183.6" text-anchor="middle" font-size="17" font-weight="700" fill="#dc2626">2</text><text x="22.0" y="201.36" text-anchor="middle" font-size="14" fill="#dc2626">♦</text></g>
 <g opacity="0.25"><rect x="39" y="162" width="28" height="48" rx="5" fill="#ffffff" stroke="#1c1c1e" stroke-width="1"/><text x="53.0" y="183.6" text-anchor="middle" font-size="17" font-weight="700" fill="#1c1c1e">3</text><text x="53.0" y="201.36" text-anchor="middle" font-size="14" fill="#1c1c1e">♣</text></g>
 <g opacity="0.25"><rect x="70" y="162" width="28" height="48" rx="5" fill="#ffffff" stroke="#1c1c1e" stroke-width="1"/><text x="84.0" y="183.6" text-anchor="middle" font-size="17" font-weight="700" fill="#1c1c1e">5</text><text x="84.0" y="201.36" text-anchor="middle" font-size="14" fill="#1c1c1e">♠</text></g>
