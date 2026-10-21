@@ -111,6 +111,8 @@ describe('Codegenerierung', () => {
     expect(javaClass.split('new Scanner(System.in)').length - 1).toBe(1)
     expect(javaClass).toContain('    public static int quadrat(int x) {\n        int y = x * x;\n        return y;\n    }\n')
     expect(javaClass).toContain('    public static void zeige(String text) {\n')
+    const feld = { caption: 'Feld', elements: [stmt('String[] spalten = {"A", "B"}'), stmt('output: spalten[1] + (2 + 1)')] }
+    expect(generateCode(feld, 'python')).toContain('print(spalten[1] + str((2 + 1)))')
     const leeren = { caption: 'void leeren(boolean[] reihe, int[][] tabelle)', elements: [stmt('reihe[0] = false')] }
     expect(generateCode(leeren, 'java')).toContain('public static void leeren(boolean[] reihe, int[][] tabelle) {')
     expect(generateCode(leeren, 'python')).toContain('def leeren(reihe, tabelle):')
