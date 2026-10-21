@@ -44,4 +44,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_run_dropped_fmt" = "… 이전 %d줄 숨김";
 "web_sim_call_arguments_fmt" = "호출이 %@의 머리글과 맞지 않습니다. 괄호 안의 값을 확인하세요.";
 "web_sim_missing_return_fmt" = "%@이(가) return으로 값을 반환하지 않고 끝났습니다.";
+"web_site_home" = "홈페이지";
+"web_site_imprint" = "사이트 정보";
+"web_site_privacy" = "개인정보";
 `;export{e as default};
