@@ -46,6 +46,15 @@ connect="$SETTINGS; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit
 open --env-password -u \"$DEPLOY_USER\" $URL
 cd \"$REMOTE_DIR\""
 
+# Fehlermeldungen von lftp zusätzlich als Annotation ausgeben (in der Übersicht
+# des Laufs sichtbar, ohne das Log zu öffnen)
+fail() {
+  local msg
+  msg="$(grep -v '^$' "$work/err" | tail -n 3 | tr '\n' ' ')"
+  echo "::error::Upload fehlgeschlagen: ${msg:-unbekannter Fehler}"
+  exit 1
+}
+
 # Neue Dateiliste
 (cd "$SOURCE_DIR" && find . -type f ! -name .DS_Store ! -name "$MANIFEST" | sed 's|^\./||' | LC_ALL=C sort) > "$work/new"
 
@@ -74,14 +83,14 @@ echo "Dateien: $(wc -l < "$work/new") hochladen, $(wc -l < "$work/rm.lftp") vera
 sed 's/^rm -f /  löschen: /' "$work/rm.lftp"
 
 if [ "$DRY_RUN" = "1" ]; then
-  lftp -c "$connect; mirror -R --dry-run --no-perms --exclude-glob .DS_Store \"$SOURCE_DIR\" ."
+  lftp -c "$connect; mirror -R --dry-run --no-perms --exclude-glob .DS_Store \"$SOURCE_DIR\" ." 2> >(tee "$work/err" >&2) || fail
   echo "Trockenlauf: nichts geändert."
   exit 0
 fi
 
 # Erst alles außer HTML (Skripte, Bilder, CSS), dann die Seiten selbst,
 # damit keine Seite live ist, deren Assets noch fehlen.
-lftp <<LFTP
+lftp 2> >(tee "$work/err" >&2) <<LFTP || fail
 $connect
 mirror -R --no-perms --parallel=4 --exclude-glob .DS_Store --exclude-glob *.html "$SOURCE_DIR" .
 mirror -R --no-perms --parallel=4 --exclude-glob .DS_Store "$SOURCE_DIR" .
