@@ -46,6 +46,8 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 /* Learning area (lessons are German only for now) */
 "web_learn_title" = "Learn";
 "web_learn_toggle_title" = "Show or hide lessons, exercises and reference";
+"web_learn_hide" = "Collapse the learning area";
+"web_learn_show" = "Expand the learning area: lessons, exercises and reference";
 "web_learn_lessons" = "Lessons";
 "web_learn_tasks" = "Exercises";
 "web_learn_reference" = "Reference";

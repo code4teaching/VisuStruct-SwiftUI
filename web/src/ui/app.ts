@@ -29,7 +29,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
-import { LearnPanel, type LearnHost } from './learnPanel'
+import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
 import { currentLanguage, offeredLanguages, setLanguage, t, type LanguageCode } from './i18n'
@@ -220,6 +220,7 @@ export class App {
   private shell: HTMLElement
   private learning = false
   private learnButton?: HTMLButtonElement
+  private railButton?: HTMLButtonElement
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
@@ -259,11 +260,18 @@ export class App {
     this.shell = document.createElement('div')
     this.shell.className = 'shell'
     root.replaceWith(this.shell)
-    this.shell.append(this.learn.element, this.learnResizer(), root)
+    this.shell.append(this.learnRail(), this.learn.element, this.learnResizer(), root)
     const learnOpen = storedValue(learnKey)
-    // Link „Zu den Lektionen“ der Webseite: …/app/?learn
-    const fromSite = new URLSearchParams(location.search).has('learn')
-    this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), false)
+    // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
+    // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
+    const params = new URLSearchParams(location.search)
+    const fromSite = params.has('learn')
+    if (fromSite) {
+      params.delete('learn')
+      const query = params.toString()
+      history.replaceState(history.state, '', `${location.pathname}${query ? `?${query}` : ''}${location.hash}`)
+    }
+    this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), fromSite)
     const z = Number(storedValue(zoomKey))
     if (zoomSteps.some((s) => s.value === z)) this.zoom = z
     this.buildUI()
@@ -461,6 +469,7 @@ export class App {
     this.buildUI()
     this.render()
     this.learn.render()
+    this.labelLearnRail()
   }
 
   // MARK: - Lernbereich
@@ -473,8 +482,23 @@ export class App {
     if (this.canvasHost) this.renderDiagramOnly()
   }
 
+  /** Schmale Leiste am Rand, solange der Lernbereich eingeklappt ist. */
+  private learnRail(): HTMLElement {
+    this.railButton = h('button', { class: 'learn-rail' }) as HTMLButtonElement
+    this.labelLearnRail()
+    this.railButton.addEventListener('click', () => this.setLearning(true))
+    return this.railButton
+  }
+
+  private labelLearnRail() {
+    if (!this.railButton) return
+    this.railButton.title = t('web_learn_show')
+    this.railButton.innerHTML = `${sidebarIcon}<span>🎓 ${e(t('web_learn_title'))}</span>`
+  }
+
   private learnHost(): LearnHost {
     return {
+      collapse: () => this.setLearning(false),
       openExercise: (ex: Exercise, doc: VSDocument) => {
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
