@@ -3,7 +3,12 @@ name: Webseite veröffentlichen
 # Lädt website/ nach All-Inkl (visustruct.org) hoch.
 # Start: Tag web-v… anlegen (z. B. web-v1.0, auch über „Draft a new release“)
 # oder von Hand unter Actions → „Webseite veröffentlichen“ → „Run workflow“.
+# Ändert ein PR den Upload selbst, läuft nur ein Trockenlauf gegen den Server.
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/deploy-website.yml'
+      - '.github/scripts/deploy-website.sh'
   push:
     tags: ['web-v*']
   workflow_dispatch:
@@ -44,6 +49,8 @@ jobs:
 
   deploy:
     needs: check
+    # PRs aus Forks bekommen keine Secrets
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -65,5 +72,5 @@ jobs:
           DEPLOY_DIR: ${{ vars.DEPLOY_DIR || 'visustruct.org' }}
           DEPLOY_USER: ${{ secrets.SFTP_USER }}
           LFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
-          DRY_RUN: ${{ inputs.dry_run && '1' || '0' }}
+          DRY_RUN: ${{ (inputs.dry_run || github.event_name == 'pull_request') && '1' || '0' }}
         run: .github/scripts/deploy-website.sh
