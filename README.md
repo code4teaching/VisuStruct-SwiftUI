@@ -32,7 +32,7 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 
 - **Publish:** push a tag `web-v…` (e.g. `web-v1.0`, also possible via *Releases → Draft a new release*), or start it by hand under *Actions → Webseite veröffentlichen → Run workflow* (with an optional dry run).
 - **Secrets** (*Settings → Secrets and variables → Actions*): `SFTP_USER`, `SFTP_PASSWORD`.
-- **Optional variables:** `DEPLOY_HOST` (default `w0103087.kasserver.com`), `DEPLOY_DIR` (default `visustruct.org`), `DEPLOY_PROTOCOL` (`sftp` or `ftps`).
+- **Optional variables:** `DEPLOY_HOST` (default `w0103087.kasserver.com`), `DEPLOY_DIR` (default `visustruct.org`), `DEPLOY_PROTOCOL` (`auto` = try SFTP, then FTPS; or `sftp`, `ftps`).
 - On the server only files from earlier deployments (listed in `.visustruct-deploy-manifest.txt`) and outdated build files in `app/assets/` are deleted. Other files are left alone.
 
 ## Changelog / release notes

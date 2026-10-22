@@ -8,19 +8,22 @@
 #
 # Umgebung:
 #   DEPLOY_HOST, DEPLOY_USER, LFTP_PASSWORD   Pflicht
-#   DEPLOY_PROTOCOL  sftp (Standard) oder ftps
+#   DEPLOY_PROTOCOL  auto (Standard: erst SFTP, dann FTPS), sftp oder ftps
 #   DEPLOY_DIR       Zielordner relativ zum Login, Standard visustruct.org
 #                    ("." wenn der FTP-Benutzer direkt in diesem Ordner landet)
 #   SOURCE_DIR       Standard website
 #   DRY_RUN=1        nur anzeigen, nichts hochladen oder löschen
 set -euo pipefail
 
+# Beim Einfügen ins Secret-Feld rutscht leicht ein Zeilenumbruch mit hinein
+DEPLOY_USER="$(printf '%s' "${DEPLOY_USER:-}" | tr -d '\r\n' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+LFTP_PASSWORD="$(printf '%s' "${LFTP_PASSWORD:-}" | tr -d '\r\n')"
 : "${DEPLOY_HOST:?DEPLOY_HOST fehlt}"
 : "${DEPLOY_USER:?DEPLOY_USER fehlt}"
 : "${LFTP_PASSWORD:?LFTP_PASSWORD fehlt}"
 export LFTP_PASSWORD
 
-PROTOCOL="${DEPLOY_PROTOCOL:-sftp}"
+PROTOCOL="${DEPLOY_PROTOCOL:-auto}"
 REMOTE_DIR="${DEPLOY_DIR:-visustruct.org}"
 SOURCE_DIR="${SOURCE_DIR:-website}"
 DRY_RUN="${DRY_RUN:-0}"
@@ -31,20 +34,38 @@ case "$REMOTE_DIR" in
 esac
 [ -f "$SOURCE_DIR/index.html" ] || { echo "$SOURCE_DIR/index.html fehlt" >&2; exit 1; }
 
-case "$PROTOCOL" in
-  sftp) URL="sftp://$DEPLOY_HOST"
-        SETTINGS="set sftp:auto-confirm yes" ;;
-  ftps) URL="ftp://$DEPLOY_HOST"
-        SETTINGS="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate ${DEPLOY_VERIFY_CERT:-yes}" ;;
-  *) echo "DEPLOY_PROTOCOL muss sftp oder ftps sein" >&2; exit 1 ;;
-esac
-
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 
-connect="$SETTINGS; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes
-open --env-password -u \"$DEPLOY_USER\" $URL
+connect_for() {
+  local url settings
+  case "$1" in
+    sftp) url="sftp://$DEPLOY_HOST"
+          settings="set sftp:auto-confirm yes" ;;
+    ftps) url="ftp://$DEPLOY_HOST"
+          settings="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate ${DEPLOY_VERIFY_CERT:-yes}" ;;
+    *) echo "DEPLOY_PROTOCOL muss auto, sftp oder ftps sein" >&2; exit 1 ;;
+  esac
+  printf '%s' "$settings; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes
+open --env-password -u \"$DEPLOY_USER\" $url
 cd \"$REMOTE_DIR\""
+}
+
+# auto: SFTP versuchen, bei All-Inkl geht das nur mit SSH-Zugang; sonst FTPS
+if [ "$PROTOCOL" = "auto" ]; then
+  for p in sftp ftps; do
+    if lftp -c "$(connect_for $p); cls -1 >/dev/null" 2> "$work/probe-$p"; then
+      PROTOCOL=$p; break
+    fi
+    echo "$p: $(grep -v '^$' "$work/probe-$p" | tail -n 1)" >&2
+  done
+  if [ "$PROTOCOL" = "auto" ]; then
+    echo "::error::Anmeldung fehlgeschlagen. SFTP: $(grep -v '^$' "$work/probe-sftp" | tail -n 1) FTPS: $(grep -v '^$' "$work/probe-ftps" | tail -n 1)"
+    exit 1
+  fi
+fi
+echo "Verbindung über $PROTOCOL"
+connect="$(connect_for "$PROTOCOL")"
 
 # Fehlermeldungen von lftp zusätzlich als Annotation ausgeben (in der Übersicht
 # des Laufs sichtbar, ohne das Log zu öffnen)
