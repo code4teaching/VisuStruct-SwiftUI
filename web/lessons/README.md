@@ -180,7 +180,7 @@ Antippen seine Erklärung. Steht der Begriff im Schritt **fett**, wird er dort g
 
 Die englische Fassung liegt unter gleichen Dateinamen in `en/` (Lektionen, `begriffe.md`, `nachschlagen.md`,
 `aufgaben/`). Diagramme mit englischen Variablen und Texten liegen in `diagramme/en/`, Grafiken in `bilder/en/`.
-Deutsch zeigt `de/`, alle anderen Oberflächensprachen zeigen `en/`. Fehlt eine englische Datei, gilt die deutsche.
+Deutsch zeigt `de/`, alle anderen Oberflächensprachen zeigen `en/`. Fehlt eine Datei in einer Sprache, gilt die englische (Rückfall ist immer Englisch).
 Kennungen von Übungen und die Blöcke (`::: übung`, `titel:`, `tipp:` …) bleiben gleich, nur der Inhalt wird übersetzt.
 In `begriffe.md` darf statt `auch:` auch `also:` stehen. Die Lektionen verwenden die englischen Wörter der Oberfläche
 (Elements, Object Inspector, Statement, Branch, Switch …). Wer eine deutsche Lektion ändert, sollte die englische

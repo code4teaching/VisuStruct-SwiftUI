@@ -6,8 +6,8 @@ import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
 /**
  * Lektionen, Aufgaben und Diagramme aus `web/lessons` (werden beim Bauen eingebettet).
  * Deutsch steht in `de/`, Englisch in `en/` (alle anderen Oberflächensprachen zeigen Englisch).
- * Fehlt eine Datei auf Englisch, gilt die deutsche. Diagramme und Bilder mit englischem Text liegen
- * unter gleichem Namen in `diagramme/en/` und `bilder/en/`.
+ * Fehlt eine Datei in einer Sprache, gilt die englische (Holger-Entscheidung: Rückfall immer Englisch).
+ * Diagramme und Bilder mit englischem Text liegen unter gleichem Namen in `diagramme/en/` und `bilder/en/`.
  */
 
 export type ContentLanguage = 'de' | 'en'
@@ -30,10 +30,10 @@ const imageFiles = import.meta.glob('../../lessons/bilder/**/*.{jpg,png,webp,svg
 
 const baseName = (path: string) => path.replace(/^.*\//, '')
 
-/** Dateien von `lang`, ergänzt um die deutschen, die es dort nicht gibt. */
+/** Dateien von `lang`, ergänzt um die englischen, die es dort nicht gibt. */
 function filesFor(files: Record<string, string>, folder: RegExp, lang: ContentLanguage): [string, string][] {
   const pick = (l: string) => new Map(Object.entries(files).filter(([p]) => folder.exec(p)?.[1] === l).map(([p, s]) => [baseName(p), s]))
-  const merged = new Map([...pick('de'), ...(lang === 'de' ? [] : pick(lang))])
+  const merged = new Map([...pick('en'), ...(lang === 'en' ? [] : pick(lang))])
   return [...merged]
 }
 
@@ -42,7 +42,7 @@ export function contentLanguageFor(uiLanguage: string): ContentLanguage {
   return uiLanguage === 'de' ? 'de' : 'en'
 }
 
-export let language: ContentLanguage = 'de'
+export let language: ContentLanguage = 'en'
 export let lessons: Lesson[] = []
 export let tasks: Task[] = []
 export let reference = ''
@@ -64,11 +64,11 @@ export function useContentLanguage(lang: ContentLanguage) {
   glossary = parseGlossary(pages.find(([name]) => name === 'begriffe.md')?.[1] ?? '')
 }
 
-useContentLanguage('de')
+useContentLanguage('en')
 
-/** Datei unter `folder/<Sprache>/name`, sonst `folder/name`. */
+/** Deutsch: `folder/name`, sonst die englische Fassung. Englisch: `folder/en/name`, sonst `folder/name`. */
 function localized(files: Map<string, string>, file: string): string | undefined {
-  return (language === 'de' ? undefined : files.get(`${language}/${file}`)) ?? files.get(file)
+  return language === 'de' ? (files.get(file) ?? files.get(`en/${file}`)) : (files.get(`en/${file}`) ?? files.get(file))
 }
 
 const relative = (path: string, folder: string) => path.slice(path.indexOf(folder) + folder.length)
