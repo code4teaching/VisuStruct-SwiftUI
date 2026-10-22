@@ -106,7 +106,7 @@
 				};
 			};
 			buildConfigurationList = AA6000000000000000000001 /* Build configuration list for PBXProject "VisuStruct" */;
-			developmentRegion = de;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
