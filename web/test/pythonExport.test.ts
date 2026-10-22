@@ -39,5 +39,6 @@ describe.skipIf(!python)('Python-Export', () => {
       checked++
     }
     expect(checked).toBeGreaterThan(20)
-  })
+    // Startet für jeden Testfall einen eigenen Python-Prozess; mit wachsender Zahl an Übungen dauert das länger als 5 s.
+  }, 60_000)
 })
