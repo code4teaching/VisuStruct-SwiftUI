@@ -26,6 +26,15 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 
 **Remote:** [github.com/code4teaching/VisuStruct-SwiftUI](https://github.com/code4teaching/VisuStruct-SwiftUI)
 
+## Website deployment
+
+`website/` is published to visustruct.org (All-Inkl) by the workflow **Webseite veröffentlichen** (`.github/workflows/deploy-website.yml`). It runs the web tests first and then uploads via SFTP (`.github/scripts/deploy-website.sh`).
+
+- **Publish:** push a tag `web-v…` (e.g. `web-v1.0`, also possible via *Releases → Draft a new release*), or start it by hand under *Actions → Webseite veröffentlichen → Run workflow* (with an optional dry run).
+- **Secrets** (*Settings → Secrets and variables → Actions*): `SFTP_USER`, `SFTP_PASSWORD`.
+- **Optional variables:** `DEPLOY_HOST` (default `w0103087.kasserver.com`), `DEPLOY_DIR` (default `visustruct.org`), `DEPLOY_PROTOCOL` (`sftp` or `ftps`).
+- On the server only files from earlier deployments (listed in `.visustruct-deploy-manifest.txt`) and outdated build files in `app/assets/` are deleted. Other files are left alone.
+
 ## Changelog / release notes
 
 Versioned release notes live in **[CHANGELOG.md](CHANGELOG.md)**. On the repository’s **GitHub home page**, only this **README** is shown in full by default; open `CHANGELOG.md` in the file list (or use the **Changes** link at the top) to read the history. The **Releases** tab only shows extra notes if you create [GitHub Releases](https://github.com/code4teaching/VisuStruct-SwiftUI/releases) (optional, in addition to the changelog file).
