@@ -68,8 +68,8 @@ jobs:
       - name: Hochladen
         env:
           DEPLOY_HOST: ${{ vars.DEPLOY_HOST || 'w0103087.kasserver.com' }}
-          DEPLOY_PROTOCOL: ${{ vars.DEPLOY_PROTOCOL || 'auto' }}
-          DEPLOY_DIR: ${{ vars.DEPLOY_DIR || 'visustruct.org' }}
+          DEPLOY_PROTOCOL: ${{ vars.DEPLOY_PROTOCOL || 'ftps' }}
+          DEPLOY_DIR: ${{ vars.DEPLOY_DIR }}
           DEPLOY_USER: ${{ secrets.SFTP_USER }}
           LFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
           DRY_RUN: ${{ (inputs.dry_run || github.event_name == 'pull_request') && '1' || '0' }}

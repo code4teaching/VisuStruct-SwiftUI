@@ -28,11 +28,11 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 
 ## Website deployment
 
-`website/` is published to visustruct.org (All-Inkl) by the workflow **Webseite veröffentlichen** (`.github/workflows/deploy-website.yml`). It runs the web tests first and then uploads via SFTP (`.github/scripts/deploy-website.sh`).
+`website/` is published to visustruct.org (All-Inkl) by the workflow **Webseite veröffentlichen** (`.github/workflows/deploy-website.yml`). It runs the web tests first and then uploads via FTPS, i.e. encrypted FTP (`.github/scripts/deploy-website.sh`).
 
 - **Publish:** push a tag `web-v…` (e.g. `web-v1.0`, also possible via *Releases → Draft a new release*), or start it by hand under *Actions → Webseite veröffentlichen → Run workflow* (with an optional dry run).
 - **Secrets** (*Settings → Secrets and variables → Actions*): `SFTP_USER`, `SFTP_PASSWORD`.
-- **Optional variables:** `DEPLOY_HOST` (default `w0103087.kasserver.com`), `DEPLOY_DIR` (default `visustruct.org`), `DEPLOY_PROTOCOL` (`auto` = try SFTP, then FTPS; or `sftp`, `ftps`).
+- **Optional variables:** `DEPLOY_HOST` (default `w0103087.kasserver.com`), `DEPLOY_DIR` (default: `visustruct.org` or the login's start folder, whichever holds the VisuStruct site), `DEPLOY_PROTOCOL` (default `ftps`; `sftp` or `auto` = try SFTP, then FTPS).
 - On the server only files from earlier deployments (listed in `.visustruct-deploy-manifest.txt`) and outdated build files in `app/assets/` are deleted. Other files are left alone.
 
 ## Changelog / release notes

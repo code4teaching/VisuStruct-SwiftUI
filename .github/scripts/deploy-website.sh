@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Lädt den Ordner website/ per SFTP (oder FTPS) zu All-Inkl hoch.
+# Lädt den Ordner website/ per FTPS (oder SFTP) zu All-Inkl hoch.
 #
 # Auf dem Server wird nur gelöscht, was ein früherer Lauf dieses Skripts selbst
 # hochgeladen hat (Liste in .visustruct-deploy-manifest.txt im Zielordner), und
@@ -9,8 +9,8 @@
 # Umgebung:
 #   DEPLOY_HOST, DEPLOY_USER, LFTP_PASSWORD   Pflicht
 #   DEPLOY_PROTOCOL  auto (Standard: erst SFTP, dann FTPS), sftp oder ftps
-#   DEPLOY_DIR       Zielordner relativ zum Login, Standard visustruct.org
-#                    ("." wenn der FTP-Benutzer direkt in diesem Ordner landet)
+#   DEPLOY_DIR       Zielordner relativ zum Login; ohne Angabe visustruct.org
+#                    oder der Startordner, je nachdem, wo die Webseite liegt
 #   SOURCE_DIR       Standard website
 #   DRY_RUN=1        nur anzeigen, nichts hochladen oder löschen
 set -euo pipefail
@@ -24,13 +24,13 @@ LFTP_PASSWORD="$(printf '%s' "${LFTP_PASSWORD:-}" | tr -d '\r\n')"
 export LFTP_PASSWORD
 
 PROTOCOL="${DEPLOY_PROTOCOL:-auto}"
-REMOTE_DIR="${DEPLOY_DIR:-visustruct.org}"
+REMOTE_DIR="${DEPLOY_DIR:-}"
 SOURCE_DIR="${SOURCE_DIR:-website}"
 DRY_RUN="${DRY_RUN:-0}"
 MANIFEST=".visustruct-deploy-manifest.txt"
 
 case "$REMOTE_DIR" in
-  ""|"/"|"~"|*..*|*'"'*) echo "Ungültiger Zielordner: '$REMOTE_DIR'" >&2; exit 1 ;;
+  "/"|"~"|*..*|*'"'*) echo "Ungültiger Zielordner: '$REMOTE_DIR'" >&2; exit 1 ;;
 esac
 [ -f "$SOURCE_DIR/index.html" ] || { echo "$SOURCE_DIR/index.html fehlt" >&2; exit 1; }
 
@@ -47,8 +47,7 @@ connect_for() {
     *) echo "DEPLOY_PROTOCOL muss auto, sftp oder ftps sein" >&2; exit 1 ;;
   esac
   printf '%s' "$settings; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes
-open --env-password -u \"$DEPLOY_USER\" $url
-cd \"$REMOTE_DIR\""
+open --env-password -u \"$DEPLOY_USER\" $url"
 }
 
 # auto: SFTP versuchen, bei All-Inkl geht das nur mit SSH-Zugang; sonst FTPS
@@ -65,7 +64,30 @@ if [ "$PROTOCOL" = "auto" ]; then
   fi
 fi
 echo "Verbindung über $PROTOCOL"
-connect="$(connect_for "$PROTOCOL")"
+
+# Zielordner: ohne DEPLOY_DIR erst visustruct.org, dann der Startordner des
+# Logins (FTP-Benutzer, die direkt in visustruct.org landen). Hochgeladen wird
+# nur in einen Ordner, in dem schon VisuStruct liegt (index.html nennt
+# VisuStruct oder ein früherer Lauf hat seine Dateiliste hinterlassen).
+looks_like_site() {
+  lftp -c "$(connect_for "$PROTOCOL"); set cmd:fail-exit no; cd \"$1\" || exit 1; cat index.html" 2>/dev/null | grep -q VisuStruct \
+    || lftp -c "$(connect_for "$PROTOCOL"); cd \"$1\"; cls -1 $MANIFEST" >/dev/null 2>&1
+}
+if [ -z "$REMOTE_DIR" ]; then
+  for d in visustruct.org .; do
+    if looks_like_site "$d"; then REMOTE_DIR="$d"; break; fi
+  done
+  if [ -z "$REMOTE_DIR" ]; then
+    echo "::error::Kein Zielordner gefunden: weder visustruct.org noch der Startordner des Logins enthalten die VisuStruct-Webseite. Bitte die Variable DEPLOY_DIR setzen."
+    exit 1
+  fi
+elif ! looks_like_site "$REMOTE_DIR"; then
+  echo "::error::Im Zielordner '$REMOTE_DIR' liegt keine VisuStruct-Webseite (index.html), es wird nichts hochgeladen."
+  exit 1
+fi
+echo "Zielordner: $REMOTE_DIR"
+connect="$(connect_for "$PROTOCOL")
+cd \"$REMOTE_DIR\""
 
 # Fehlermeldungen von lftp zusätzlich als Annotation ausgeben (in der Übersicht
 # des Laufs sichtbar, ohne das Log zu öffnen)
