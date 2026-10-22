@@ -21,7 +21,7 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
       expect(l.steps.length, l.id).toBeGreaterThan(1)
       expect(l.section, l.id).not.toBe('')
     })
-    expect(reference).toContain(lang === 'de' ? '### Verzweigung' : '### Branch')
+    expect(reference).toContain({ de: '### Verzweigung', en: '### Branch', pt: '### Decisão' }[lang])
   })
 
   it('jedes verwendete Diagramm existiert und lässt sich laden', () => {
@@ -104,26 +104,26 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
   })
 })
 
-describe('Lernbereich: Englisch', () => {
+describe.each(['en', 'pt'] as const)('Lernbereich: Übersetzung (%s)', (lang) => {
   const lessonFiles = import.meta.glob('../lessons/*/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
   const taskFiles = import.meta.glob('../lessons/*/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
   const names = (files: Record<string, string>, lang: string) =>
     Object.keys(files).filter((p) => p.includes(`/lessons/${lang}/`)).map((p) => p.slice(p.indexOf(`/${lang}/`) + lang.length + 2)).sort()
 
-  it('jede deutsche Lektion und Aufgabe gibt es auch auf Englisch', () => {
-    expect(names(lessonFiles, 'en')).toEqual(names(lessonFiles, 'de'))
-    expect(names(taskFiles, 'en')).toEqual(names(taskFiles, 'de'))
+  it('jede deutsche Lektion und Aufgabe gibt es auch übersetzt', () => {
+    expect(names(lessonFiles, lang)).toEqual(names(lessonFiles, 'de'))
+    expect(names(taskFiles, lang)).toEqual(names(taskFiles, 'de'))
   })
 
   it('beide Sprachen haben dieselben Übungen mit gleich vielen Tests', () => {
-    const exercises = (lang: 'de' | 'en') => {
-      useContentLanguage(lang)
+    const exercises = (l: 'de' | 'en' | 'pt') => {
+      useContentLanguage(l)
       return allBlocks().flatMap(({ block }) =>
         block.kind === 'exercise' ? [`${block.exercise.id}: ${block.exercise.tests.length}`] : [],
       ).sort()
     }
     const de = exercises('de')
-    expect(exercises('en')).toEqual(de)
+    expect(exercises(lang)).toEqual(de)
     useContentLanguage('de')
   })
 })

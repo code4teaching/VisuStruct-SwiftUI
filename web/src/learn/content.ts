@@ -5,13 +5,13 @@ import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
 
 /**
  * Lektionen, Aufgaben und Diagramme aus `web/lessons` (werden beim Bauen eingebettet).
- * Deutsch steht in `de/`, Englisch in `en/` (alle anderen Oberflächensprachen zeigen Englisch).
- * Fehlt eine Datei in einer Sprache, gilt die englische (Holger-Entscheidung: Rückfall immer Englisch).
- * Diagramme und Bilder mit englischem Text liegen unter gleichem Namen in `diagramme/en/` und `bilder/en/`.
+ * Deutsch steht in `de/`, Englisch in `en/`, Portugiesisch (Portugal) in `pt/`; alle anderen Oberflächensprachen
+ * zeigen Englisch. Fehlt eine Datei in einer Sprache, gilt die englische (Holger-Entscheidung: Rückfall immer Englisch).
+ * Diagramme und Bilder mit übersetztem Text liegen unter gleichem Namen in `diagramme/<Sprache>/` und `bilder/<Sprache>/`.
  */
 
-export type ContentLanguage = 'de' | 'en'
-export const contentLanguages: ContentLanguage[] = ['de', 'en']
+export type ContentLanguage = 'de' | 'en' | 'pt'
+export const contentLanguages: ContentLanguage[] = ['de', 'en', 'pt']
 
 const lessonFiles = import.meta.glob('../../lessons/*/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const taskFiles = import.meta.glob('../../lessons/*/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
@@ -37,9 +37,9 @@ function filesFor(files: Record<string, string>, folder: RegExp, lang: ContentLa
   return [...merged]
 }
 
-/** Inhaltssprache zur Oberflächensprache: Deutsch für Deutsch, sonst Englisch. */
+/** Inhaltssprache zur Oberflächensprache: Deutsch für Deutsch, Portugiesisch für Portugiesisch, sonst Englisch. */
 export function contentLanguageFor(uiLanguage: string): ContentLanguage {
-  return uiLanguage === 'de' ? 'de' : 'en'
+  return uiLanguage === 'de' ? 'de' : uiLanguage === 'pt-PT' ? 'pt' : 'en'
 }
 
 export let language: ContentLanguage = 'en'
@@ -66,9 +66,10 @@ export function useContentLanguage(lang: ContentLanguage) {
 
 useContentLanguage('en')
 
-/** Deutsch: `folder/name`, sonst die englische Fassung. Englisch: `folder/en/name`, sonst `folder/name`. */
+/** Deutsch: `folder/name`, sonst die englische Fassung. Sonst `folder/<Sprache>/name`, dann `folder/en/name`, dann `folder/name`. */
 function localized(files: Map<string, string>, file: string): string | undefined {
-  return language === 'de' ? (files.get(file) ?? files.get(`en/${file}`)) : (files.get(`en/${file}`) ?? files.get(file))
+  if (language === 'de') return files.get(file) ?? files.get(`en/${file}`)
+  return (language === 'en' ? undefined : files.get(`${language}/${file}`)) ?? files.get(`en/${file}`) ?? files.get(file)
 }
 
 const relative = (path: string, folder: string) => path.slice(path.indexOf(folder) + folder.length)
@@ -82,7 +83,7 @@ export function diagram(file: string): VSDocument | undefined {
 
 const images = new Map(Object.entries(imageFiles).map(([path, url]) => [relative(path, '/bilder/'), url]))
 
-/** Adresse eines Bildes aus `web/lessons/bilder` (auf Englisch aus `bilder/en`, falls vorhanden). */
+/** Adresse eines Bildes aus `web/lessons/bilder` (übersetzt aus `bilder/<Sprache>`, falls vorhanden). */
 export function image(file: string): string | undefined {
   return localized(images, file)
 }
