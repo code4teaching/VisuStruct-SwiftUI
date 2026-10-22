@@ -6,6 +6,10 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Added
+
+- **Website:** GitHub Actions workflow that publishes `website/` to visustruct.org via SFTP after the web tests pass (tag `web-v…` or manual start).
+
 ### Changed
 
 - **App:** the area below the diagram is headed “Object Inspector · <element kind>” (German „Objektinspektor · Verzweigung“ etc.), matching the web editor and the lessons. The palette keeps its heading “Elements”.
