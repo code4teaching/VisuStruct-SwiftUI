@@ -44,6 +44,8 @@
 "web_run_dropped_fmt" = "… %d linhas anteriores ocultas";
 "web_learn_title" = "Aprender";
 "web_learn_toggle_title" = "Mostrar ou ocultar lições, exercícios e consulta";
+"web_learn_hide" = "Recolher a área de aprendizagem";
+"web_learn_show" = "Expandir a área de aprendizagem: lições, exercícios e consulta";
 "web_learn_lessons" = "Lições";
 "web_learn_tasks" = "Exercícios";
 "web_learn_reference" = "Consulta";

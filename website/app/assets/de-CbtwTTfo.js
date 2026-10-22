@@ -46,6 +46,8 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 /* Lernbereich (Lektionen gibt es vorerst nur auf Deutsch) */
 "web_learn_title" = "Lernen";
 "web_learn_toggle_title" = "Lektionen, Aufgaben und Nachschlagen ein- oder ausblenden";
+"web_learn_hide" = "Lernbereich einklappen";
+"web_learn_show" = "Lernbereich aufklappen: Lektionen, Aufgaben und Nachschlagen";
 "web_learn_lessons" = "Lektionen";
 "web_learn_tasks" = "Aufgaben";
 "web_learn_reference" = "Nachschlagen";

@@ -32,7 +32,13 @@ export interface LearnHost {
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
   resetExercise(id: string, doc: VSDocument): void
   preview(doc: VSDocument): SVGSVGElement | undefined
+  /** Lernbereich zur schmalen Leiste einklappen. */
+  collapse(): void
 }
+
+/** Seitenleisten-Symbol wie in Finder, Mail und Safari (kein ✕: Einklappen ist kein Schließen). */
+export const sidebarIcon =
+  '<svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="18" height="14" rx="3"/><path d="M7.5 1v14"/><path d="M3.5 4.5h2M3.5 7h2M3.5 9.5h2" stroke-linecap="round"/></svg>'
 
 type TabName = 'lessons' | 'tasks' | 'reference'
 
@@ -119,8 +125,11 @@ export class LearnPanel {
       })
       tabs.append(b)
     }
+    const hide = html('button', { class: 'learn-hide', title: t('web_learn_hide'), 'aria-label': t('web_learn_hide') }, sidebarIcon)
+    hide.addEventListener('click', () => this.host.collapse())
+    const head = h('div', { class: 'learn-head' }, tabs, hide)
     this.body = h('div', { class: 'learn-body' })
-    this.element.replaceChildren(tabs, this.body)
+    this.element.replaceChildren(head, this.body)
     if (this.tab === 'lessons') {
       const lesson = lessons.find((l) => l.id === this.lessonId)
       if (lesson) this.renderLesson(lesson)

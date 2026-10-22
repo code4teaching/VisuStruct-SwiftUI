@@ -789,8 +789,49 @@ button.danger-text:not(:disabled) {
   cursor: col-resize;
   user-select: none;
 }
-.learn-tabs {
+/* Kopfzeile: Reiter und Einklapp-Knopf (Seitenleisten-Symbol wie auf dem Mac). */
+.learn-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
   margin: 10px 12px 0;
+}
+.learn-tabs {
+  flex: 1;
+  min-width: 0;
+}
+.learn-hide {
+  flex: none;
+  min-height: 30px;
+  padding: 4px 7px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+}
+/* Eingeklappt: schmale Leiste am Rand, ein Tipp klappt den Lernbereich wieder auf. */
+.learn-rail {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 36px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 0;
+  border-inline-end: 1px solid var(--border);
+  background: var(--panel);
+  cursor: pointer;
+}
+.learn-rail:hover {
+  background: var(--accent-soft);
+}
+.learn-rail span {
+  writing-mode: vertical-rl;
+  white-space: nowrap;
+}
+.shell.learning .learn-rail {
+  display: none;
 }
 .learn-body {
   overflow-y: auto;
@@ -1193,6 +1234,17 @@ button[data-action='learn'][aria-pressed='true'] {
   }
   .shell .learn {
     width: auto !important;
+  }
+  .learn-rail {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+    padding: 4px 0;
+    border-inline-end: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .learn-rail span {
+    writing-mode: horizontal-tb;
   }
   .shell {
     flex-direction: column;
