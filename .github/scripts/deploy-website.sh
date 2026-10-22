@@ -10,6 +10,7 @@
 #   DEPLOY_HOST, DEPLOY_USER, LFTP_PASSWORD   Pflicht
 #   DEPLOY_PROTOCOL  sftp (Standard) oder ftps
 #   DEPLOY_DIR       Zielordner relativ zum Login, Standard visustruct.org
+#                    ("." wenn der FTP-Benutzer direkt in diesem Ordner landet)
 #   SOURCE_DIR       Standard website
 #   DRY_RUN=1        nur anzeigen, nichts hochladen oder löschen
 set -euo pipefail
@@ -26,7 +27,7 @@ DRY_RUN="${DRY_RUN:-0}"
 MANIFEST=".visustruct-deploy-manifest.txt"
 
 case "$REMOTE_DIR" in
-  ""|"/"|"."|"./"|"~"|*..*|*'"'*) echo "Ungültiger Zielordner: '$REMOTE_DIR'" >&2; exit 1 ;;
+  ""|"/"|"~"|*..*|*'"'*) echo "Ungültiger Zielordner: '$REMOTE_DIR'" >&2; exit 1 ;;
 esac
 [ -f "$SOURCE_DIR/index.html" ] || { echo "$SOURCE_DIR/index.html fehlt" >&2; exit 1; }
 
