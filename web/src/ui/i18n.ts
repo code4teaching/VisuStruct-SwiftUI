@@ -31,6 +31,11 @@ export const languages = [
 
 export type LanguageCode = (typeof languages)[number]['code']
 
+/** Sprachen, die die Web-App zur Auswahl anbietet (Holger, 2026-10-22). Die übrigen bleiben übersetzt und lassen sich hier wieder einschalten. */
+const offered: readonly LanguageCode[] = ['de', 'en', 'pt-PT', 'java']
+export const offeredLanguages = languages.filter((l) => offered.includes(l.code))
+const isOffered = (code: string): code is LanguageCode => offered.includes(code as LanguageCode)
+
 const appStrings = import.meta.glob('../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/*.lproj/Localizable.strings', {
   query: '?raw',
   import: 'default',
@@ -82,20 +87,17 @@ const storageKey = 'appLanguageCode'
 export function preferredLanguage(): LanguageCode {
   // Link von der Webseite, z. B. visustruct.org/app/?lang=de
   const fromURL = new URLSearchParams(location.search).get('lang')
-  if (fromURL && languages.some((l) => l.code === fromURL)) return fromURL as LanguageCode
+  if (fromURL && isOffered(fromURL)) return fromURL
   try {
     const saved = localStorage.getItem(storageKey)
-    if (saved && languages.some((l) => l.code === saved)) return saved as LanguageCode
+    if (saved && isOffered(saved)) return saved
   } catch {
     /* ohne Speicher */
   }
   for (const tag of navigator.languages ?? [navigator.language]) {
     const t = tag.toLowerCase()
-    if (t.startsWith('zh')) return /hant|tw|hk|mo/.test(t) ? 'zh-Hant' : 'zh-Hans'
     if (t.startsWith('pt')) return 'pt-PT'
-    if (t.startsWith('no') || t.startsWith('nn')) return 'nb'
-    if (t.startsWith('iw')) return 'he'
-    const hit = languages.find((l) => l.code !== 'java' && l.code === t.split('-')[0])
+    const hit = offeredLanguages.find((l) => l.code !== 'java' && l.code === t.split('-')[0])
     if (hit) return hit.code
   }
   return 'en'

@@ -32,7 +32,7 @@ import { CodePanel } from './codePanel'
 import { LearnPanel, type LearnHost } from './learnPanel'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
-import { currentLanguage, languages, setLanguage, t, type LanguageCode } from './i18n'
+import { currentLanguage, offeredLanguages, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -154,7 +154,7 @@ const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 /** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite. */
 function siteURL(section?: 'contact' | 'privacy'): string {
   const code = currentLanguage()
-  const lang = code === 'pt-PT' ? 'pt' : ['de', 'es', 'fr'].includes(code) ? code : 'en'
+  const lang = code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'
   // Auf visustruct.org liegt die Web-App unter /app/, sonst (Vorschau, Einzeldatei) zur echten Seite
   const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
   return `${base}${lang}/index.html${section ? `#${section}` : ''}`
@@ -311,7 +311,7 @@ export class App {
           <select data-action="zoom" title="${e(t('settings_ui_scale_section'))}">${zoomSteps
             .map((z) => `<option value="${z.value}">${e(t('web_zoom_option_fmt', t(z.label)))}</option>`)
             .join('')}</select>
-          <select data-action="language" title="${e(t('web_language_title'))}" aria-label="${e(t('web_language_title'))}">${languages
+          <select data-action="language" title="${e(t('web_language_title'))}" aria-label="${e(t('web_language_title'))}">${offeredLanguages
             .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
             .join('')}</select>
         </div>
