@@ -180,8 +180,15 @@ Antippen seine Erklärung. Steht der Begriff im Schritt **fett**, wird er dort g
 
 Die englische Fassung liegt unter gleichen Dateinamen in `en/` (Lektionen, `begriffe.md`, `nachschlagen.md`,
 `aufgaben/`). Diagramme mit englischen Variablen und Texten liegen in `diagramme/en/`, Grafiken in `bilder/en/`.
-Deutsch zeigt `de/`, alle anderen Oberflächensprachen zeigen `en/`. Fehlt eine Datei in einer Sprache, gilt die englische (Rückfall ist immer Englisch).
+Deutsch zeigt `de/`, Portugiesisch (pt-PT) zeigt `pt/`, alle anderen Oberflächensprachen zeigen `en/`. Fehlt eine Datei in einer Sprache, gilt die englische (Rückfall ist immer Englisch).
 Kennungen von Übungen und die Blöcke (`::: übung`, `titel:`, `tipp:` …) bleiben gleich, nur der Inhalt wird übersetzt.
 In `begriffe.md` darf statt `auch:` auch `also:` stehen. Die Lektionen verwenden die englischen Wörter der Oberfläche
 (Elements, Object Inspector, Statement, Branch, Switch …). Wer eine deutsche Lektion ändert, sollte die englische
-mitziehen; die Tests prüfen, dass es jede Datei in beiden Sprachen gibt und jede Musterlösung ihre Tests besteht.
+mitziehen; die Tests prüfen, dass es jede Datei in allen Sprachen gibt und jede Musterlösung ihre Tests besteht.
+
+## Portugiesisch (Portugal)
+
+Die pt-PT-Fassung liegt in `pt/`, `diagramme/pt/` und `bilder/pt/` (Diagramme, die mit `en/` identisch wären, fehlen dort
+und kommen per Rückfall aus `en/`). Die Lektionen verwenden die Wörter aus `pt-PT.lproj/Localizable.strings`
+(Elementos, Inspetor de objetos, Instrução, Decisão, Seleção, Ciclo while …) und sprechen mit „tu“ an.
+Lokal angepasst: Noten auf der portugiesischen Skala 1–5 (5 ist die beste), IVA 23 %, Wahlalter 18.

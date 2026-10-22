@@ -11,7 +11,7 @@ const e=`/* Paleta */
 "action_diagram" = "Diagrama";
 "simulation_placeholder_body" = "O modo de simulação executa o diagrama passo a passo, destaca o elemento atual e mostra os valores das variáveis e a saída.";
 "simulation_controls" = "Controlos";
-"simulation_highlight_label" = "Markierung";
+"simulation_highlight_label" = "Destaque";
 "simulation_highlight_last" = "Último passo";
 "simulation_highlight_next" = "Próximo passo";
 "simulation_not_available" = "Play executa a simulação automaticamente com uma pausa de 0,5 segundos por passo.";
@@ -99,10 +99,10 @@ const e=`/* Paleta */
 "codegen_generated_hint" = "Pré-visualização a partir do diagrama atual (Java 17, Python 3.10+, JavaScript moderno).";
 "codegen_copy" = "Copiar";
 "codegen_run_in_browser" = "Testar no navegador";
-"codegen_save_java" = "Save Java…";
-"codegen_java_output_mode" = "Java output";
-"codegen_java_output_snippet" = "Snippet";
-"codegen_java_output_class" = "Class";
+"codegen_save_java" = "Guardar Java…";
+"codegen_java_output_mode" = "Saída Java";
+"codegen_java_output_snippet" = "Excerto";
+"codegen_java_output_class" = "Classe";
 "a11y_new_diagram_tab" = "Novo separador de diagrama";
 "a11y_close_tab" = "Fechar separador";
 
@@ -121,9 +121,9 @@ const e=`/* Paleta */
 /* Inspetor */
 "inspector_no_selection" = "Nenhum elemento selecionado — toque num bloco.";
 "inspector_apply_text" = "Aplicar texto";
-"inspector_for_init" = "Init";
-"inspector_for_condition" = "Condition";
-"inspector_for_step" = "Step";
+"inspector_for_init" = "Início";
+"inspector_for_condition" = "Condição";
+"inspector_for_step" = "Passo";
 "inspector_for_placeholder_init" = "int i = 0";
 "inspector_for_placeholder_condition" = "i < 5";
 "inspector_for_placeholder_step" = "i++";
@@ -148,7 +148,7 @@ const e=`/* Paleta */
 "element_fallauswahl" = "Seleção";
 "element_forSchleife" = "Ciclo for";
 "element_whileSchleife" = "Ciclo while";
-"element_doUntilSchleife" = "Ciclo do-until";
+"element_doUntilSchleife" = "Ciclo do-while";
 "element_endlosschleife" = "Ciclo infinito";
 "element_aussprung" = "Interrupção";
 "element_aufruf" = "Chamada";
@@ -157,7 +157,7 @@ const e=`/* Paleta */
 /* Separadores */
 "tab_title_format" = "Diagrama %d";
 
-/* Tela vazia */
+/* Ecrã vazio */
 "canvas_empty_title" = "Diagrama vazio";
 "canvas_empty_hint" = "Arraste um elemento de «Elementos» para aqui.";
 
@@ -208,13 +208,13 @@ const e=`/* Paleta */
 "err_diagram_too_small_print" = "O diagrama é demasiado pequeno — nada para imprimir.";
 "err_print_unavailable" = "A impressão não está disponível neste dispositivo.";
 
-"settings_ui_scale_section" = "Text size";
-"settings_ui_scale_canvas" = "Structure chart";
-"settings_ui_scale_inspector" = "Text entry below";
-"settings_ui_scale_small" = "Small";
-"settings_ui_scale_medium" = "Medium";
-"settings_ui_scale_large" = "Large";
-"settings_ui_scale_extra_large" = "Extra large";
+"settings_ui_scale_section" = "Tamanho do texto";
+"settings_ui_scale_canvas" = "Diagrama";
+"settings_ui_scale_inspector" = "Introdução de texto em baixo";
+"settings_ui_scale_small" = "Pequeno";
+"settings_ui_scale_medium" = "Médio";
+"settings_ui_scale_large" = "Grande";
+"settings_ui_scale_extra_large" = "Muito grande";
 
 "settings_export_filename_section" = "Sugestão de nome de ficheiro";
 "settings_export_filename_picker" = "Formato";

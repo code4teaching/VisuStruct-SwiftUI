@@ -1,0 +1,144 @@
+---
+titel: Arrays bidimensionais
+bereich: Fundamentos
+kurz: Guardar valores em linhas e colunas, como os lugares de um cinema, e percorrê-los com dois ciclos encaixados.
+---
+
+## Um cinema como tabela
+
+Um cinema tem várias **filas**, e cada fila tem vários **lugares**. Para cada lugar queremos saber se o bilhete já foi vendido. É uma pergunta de sim ou não, por isso serve o tipo de dados `boolean`: `true` quer dizer vendido, `false` quer dizer livre.
+
+Um array normal é uma só fila de posições. Para o cinema precisamos de uma **tabela** com linhas e colunas. Isso é um **array bidimensional**, abreviado array 2D. Para isso escreves dois pares de parênteses retos:
+
+```
+boolean[][] lugares = new boolean[3][5]
+```
+
+Isto dá 3 filas com 5 lugares cada, ou seja, 15 posições. No início, todas as posições têm `false`: todos os lugares estão livres.
+
+::: grafik kino-saal.svg
+O primeiro índice é a fila, o segundo é o lugar. Os dois contam-se a partir de 0.
+:::
+
+## Chegar a uma posição
+
+Para uma posição precisas agora de **dois** índices: primeiro a fila, depois o lugar.
+
+```
+lugares[1][2] = true
+```
+
+Agora o lugar 2 da fila 1 está vendido. Ler funciona da mesma maneira: `lugares[1][2]` é agora `true`.
+
+Também podes perguntar o tamanho:
+
+- `lugares.length` é o número de **filas**, aqui 3.
+- `lugares[0].length` é o número de **lugares** da fila 0, aqui 5.
+
+::: diagramm kino-verkaufen.visustruct
+São vendidos três bilhetes. Depois, o diagrama mostra o tamanho do cinema e se a fila 1, lugar 2, está vendido. Repara em Variáveis, na simulação: lugares é mostrado fila a fila.
+:::
+
+> Tal como num array normal, não existe a posição `lugares[3][0]`, porque as filas se chamam 0, 1 e 2. A simulação indica então uma expressão inválida.
+
+## Dois ciclos um dentro do outro
+
+Para olhar para **todos** os lugares, precisas de dois ciclos for, um dentro do outro:
+
+- O **ciclo exterior** conta a fila: `fila` vai de 0 a 2.
+- O **ciclo interior** conta o lugar: `lugar` vai de 0 a 4.
+
+::: grafik kino-schleifen.svg
+Azul é o ciclo exterior, laranja o interior. Os números mostram a ordem pela qual os lugares aparecem.
+:::
+
+Para cada fila, o ciclo interior é executado **do princípio ao fim** uma vez. Só quando `lugar` passou pelos cinco lugares é que o ciclo exterior avança `fila` em um. Depois, `lugar` recomeça em 0. Assim, todos os 3 · 5 = 15 lugares aparecem exatamente uma vez.
+
+As condições são `fila < lugares.length` e `lugar < lugares[fila].length`. Assim os ciclos servem para um cinema de qualquer tamanho.
+
+::: diagramm kino-saalplan.visustruct
+A planta da sala: para cada fila é montada e mostrada uma linha de X (vendido) e O (livre). Percorre-a com Passo e vê como lugar recomeça sempre do início, enquanto fila só vai contando devagar.
+:::
+
+::: angeberwissen
+Cada foto do telemóvel é um array 2D! Uma foto com 4000 · 3000 píxeis tem 3000 linhas com 4000 posições cada, ou seja, 12 milhões de píxeis. Cada posição guarda a cor de um ponto. Quando pões uma foto mais clara, o telemóvel percorre todos os píxeis com dois ciclos encaixados. A minha foto de perfil, já agora, só tem uma posição: castanho.
+:::
+
+## Exercício: Contar lugares livres
+
+::: übung kino-frei
+titel: Contar lugares livres
+auftrag: No diagrama inicial já foram vendidos três bilhetes. Usa dois ciclos encaixados para contar quantos lugares ainda estão **livres** e mostra p. ex. `Livres: 12`.
+start: kino-frei-start.visustruct
+test: - -> Livres: 12
+braucht: forSchleife, verzweigung
+tipp: Tal como na planta da sala, percorres todos os lugares com dois ciclos. Em vez de mostrares alguma coisa, contas.
+tipp: Antes dos ciclos, cria `int livres = 0`. Um lugar está livre se `lugares[fila][lugar]` for false. A condição para isso é `!lugares[fila][lugar]`.
+lösung: kino-frei-loesung.visustruct
+:::
+
+## Exercício: Vender um bilhete
+
+::: übung kino-karte
+titel: Vender um bilhete
+auftrag: O diagrama inicial pede uma fila e um lugar. Se o lugar já estiver vendido, mostra `Já vendido`. Caso contrário, marca-o como vendido e mostra p. ex. `Vendido: fila 0, lugar 4`.
+start: kino-karte-start.visustruct
+test: 1, 2 -> Já vendido
+test: 0, 4 -> Vendido: fila 0, lugar 4
+test: 2, 0 -> Vendido: fila 2, lugar 0
+braucht: verzweigung
+tipp: Verifica primeiro se o lugar está vendido. Consoante a resposta, acontece uma coisa diferente.
+tipp: Aqui não precisas de ciclo. Basta uma decisão com a condição `lugares[fila][lugar]`. No ramo false pões a posição a `true`.
+lösung: kino-karte-loesung.visustruct
+:::
+
+## Exercício: Tabela da tabuada
+
+::: übung kino-einmaleins
+titel: Tabela da tabuada
+auftrag: Cria `int[][] tabela = new int[10][10]` e enche-a com a tabuada até 10 usando dois ciclos. Depois pede dois números de 1 a 10 e lê o resultado da tabela, p. ex. `3 · 4 = 12`.
+test: 3, 4 -> 3 · 4 = 12
+test: 7, 8 -> 7 · 8 = 56
+test: 10, 10 -> 10 · 10 = 100
+braucht: forSchleife
+tipp: Primeiro, dois ciclos encaixados enchem a tabela; depois lês só uma única posição.
+tipp: Os índices vão de 0 a 9, mas os números de 1 a 10. Por isso, a posição `tabela[i][j]` tem o valor `(i + 1) * (j + 1)`, e para 3 · 4 lês `tabela[a - 1][b - 1]`.
+lösung: kino-einmaleins-loesung.visustruct
+:::
+
+## Lista de verificação
+
+::: checkliste
+- Sei criar um array 2D e sei o que significam os dois números. → Um cinema como tabela
+- Sei ler e escrever uma posição com fila e lugar. → Chegar a uma posição
+- Sei a diferença entre `lugares.length` e `lugares[0].length`. → Chegar a uma posição
+- Sei explicar por que ordem dois ciclos encaixados visitam as posições. → Dois ciclos um dentro do outro
+:::
+
+## Teste de conhecimentos
+
+::: quiz
+? Quantas posições tem `boolean[][] lugares = new boolean[4][6]`?
+- [ ] 10
+- [x] 24
+- [ ] 46
+> 4 filas com 6 lugares cada: 4 · 6 = 24.
+
+? O que está em todas as posições depois de `new boolean[3][5]`?
+- [ ] true
+- [x] false
+- [ ] Nada, as posições estão vazias
+> Um array boolean novo é enchido com false. No cinema isso quer dizer: todos os lugares estão livres.
+
+? Dois ciclos encaixados percorrem 3 filas com 5 lugares. Quantas vezes é executado o interior do ciclo **interior**?
+- [ ] 3 vezes
+- [ ] 8 vezes
+- [x] 15 vezes
+> Para cada uma das 3 filas, o ciclo interior é executado 5 vezes: 3 · 5 = 15.
+
+? Associa o que cada expressão significa no cinema.
+= lugares.length -> Número de filas
+= lugares[0].length -> Número de lugares da fila 0
+= lugares[2][4] -> Fila 2, lugar 4
+= lugares[1][0] = true -> O lugar 0 da fila 1 está vendido
+:::

@@ -1,0 +1,176 @@
+---
+titel: Ciclo while
+bereich: Fundamentos
+kurz: Repetir passos enquanto uma condição for verdadeira.
+---
+
+## Repetir enquanto algo se verificar
+
+Muitas vezes um programa deve fazer uma coisa várias vezes. Em vez de escreveres o mesmo bloco cinco vezes, usas um **ciclo**.
+
+O **ciclo while** repete o seu interior **enquanto** a sua condição for verdadeira. A condição fica em cima, na cabeça do bloco. O interior fica recuado por baixo, enquadrado por um parêntese à esquerda.
+
+::: diagramm l10-countdown.visustruct
+Uma contagem decrescente: enquanto numero for maior do que 0, numero é mostrado e diminui 1. Depois aparece Partida!
+:::
+
+## Primeiro a condição
+
+O ciclo while é um **ciclo pré-teste**. Antes de **cada** iteração, a condição é verificada:
+
+1. Verificar a condição.
+2. Se for verdadeira, executar o interior uma vez e recomeçar no 1.
+3. Se for falsa, o programa continua por baixo do ciclo.
+
+::: grafik l10-kopfgesteuert.svg
+Depois de cada iteração volta-se à condição. Só quando ela é falsa é que o programa continua por baixo do ciclo.
+:::
+
+Na contagem decrescente, a condição é verificada quatro vezes: com 3, 2 e 1 é verdadeira, com 0 é falsa.
+
+> Se a condição já for falsa da primeira vez que é verificada, o interior **não é executado nem uma vez**. Começa a contagem com `int numero = 0` e só aparece Partida!
+
+## Uma variável contadora
+
+Muitos ciclos vão contando. Para isso precisas de três coisas:
+
+- **Um valor inicial antes do ciclo**, p. ex. `int i = 1`
+- **Uma condição na cabeça**, p. ex. `i <= 5`
+- **Uma alteração no interior**, p. ex. `i = i + 1` (abreviado: `i++`)
+
+Se faltar uma destas partes, o ciclo conta mal ou nem sequer conta.
+
+::: angeberwissen
+Os ciclos de contagem são antiquíssimos! No artigo de 1973, Nassi e Shneiderman mostraram a sua ideia, entre outras coisas, com o **fatorial**: 5! = 1 · 2 · 3 · 4 · 5 = 120. Aqui está a minha versão caprina. Experimenta-a com **Passo** na simulação e vê o `fatorial` a crescer. Mééé, isto vai depressa!
+:::
+
+::: diagramm l10-fakultaet.visustruct
+O fatorial com uma variável contadora `i`, reconstruído a partir de um exemplo do artigo de 1973.
+:::
+
+## Exercício: Contar até n
+
+::: übung l10-bis-n
+titel: Contar até n
+auftrag: Pede um número inteiro `n` e mostra todos os números de 1 a `n`, cada um na sua linha.
+test: 3 -> 1 | 2 | 3
+test: 5 -> 1 | 2 | 3 | 4 | 5
+test: 1 -> 1
+braucht: whileSchleife
+tipp: Precisas de uma variável contadora que começa em 1 e aumenta 1 em cada iteração.
+tipp: Antes do ciclo, cria `int i = 1`. A condição é `i <= n`. No interior mostras `i` e depois aumentas `i` em 1.
+lösung: l10-bis-n-loesung.visustruct
+:::
+
+## Atenção: ciclo infinito
+
+Se nada no interior do ciclo alterar a condição, ela fica verdadeira para sempre. O ciclo nunca para. A isto chama-se **ciclo infinito**.
+
+::: diagramm l10-endlos.visustruct
+Aqui falta numero = numero - 1. O ciclo mostra 3 uma e outra vez e nunca chega a Partida!
+:::
+
+Pergunta-te em cada ciclo: **O que é que no interior garante que a condição acaba por ficar falsa?** Quando um exercício é verificado, o VisuStruct para depois de um número muito grande de passos e indica um possível ciclo infinito.
+
+## Exercício: Duplicar até 100
+
+::: übung l10-verdoppeln
+titel: Duplicar até 100
+auftrag: Pede um número inteiro. Duplica-o até ele ser pelo menos 100.
+  No fim, mostra **quantas vezes** o duplicaste.
+test: 10 -> 4
+test: 30 -> 2
+test: 1 -> 7
+test: 100 -> 0
+braucht: whileSchleife
+tipp: O ciclo é executado enquanto o número ainda for demasiado pequeno. Vai contando quantas vezes foi executado.
+tipp: Precisas de uma segunda variável `int passos = 0`. A condição é `numero < 100`. No interior duplicas o número com `numero = numero * 2` e aumentas `passos` em 1. Se o número já for 100, o ciclo nem chega a ser executado.
+lösung: l10-verdoppeln-loesung.visustruct
+:::
+
+## Ciclos num teste de secretária
+
+Com um ciclo, o **teste de secretária** é especialmente valioso. Vês exatamente quantas vezes o ciclo é executado e com que valor para. Cada verificação da condição tem uma linha própria.
+
+::: diagramm l16-schreibtisch.visustruct
+Um ciclo while soma os números 1, 2 e 3.
+:::
+
+| Passo | soma | i | Saída |
+|---|---|---|---|
+| `int soma = 0` | 0 | – | |
+| `int i = 1` | 0 | 1 | |
+| `i <= 3` → true | 0 | 1 | |
+| `soma = soma + i` | 1 | 1 | |
+| `i = i + 1` | 1 | 2 | |
+| `i <= 3` → true | 1 | 2 | |
+| `soma = soma + i` | 3 | 2 | |
+| `i = i + 1` | 3 | 3 | |
+| `i <= 3` → true | 3 | 3 | |
+| `soma = soma + i` | 6 | 3 | |
+| `i = i + 1` | 6 | 4 | |
+| `i <= 3` → false | 6 | 4 | |
+| `output: soma` | 6 | 4 | 6 |
+
+Erros frequentes em ciclos são:
+
+- O ciclo é executado **uma vez a mais ou uma vez a menos**, p. ex. `<` em vez de `<=`.
+- Uma variável **não é alterada** no ciclo, ou é alterada no sentido errado. Então o ciclo nunca acaba.
+- Uma variável recebe o seu valor inicial **dentro** do ciclo em vez de antes dele e é reposta em cada iteração.
+
+## Exercício: Corrigir a contagem decrescente
+
+::: übung l16-countdown
+titel: Corrigir a contagem decrescente
+auftrag: A contagem decrescente deve contar para trás a partir do valor inicial e mostrar **Já!** no fim. Ou seja, com 3: 3, 2, 1, Já!
+  O diagrama inicial tem dois erros. Encontra e corrige os dois.
+start: l16-countdown-start.visustruct
+test: 3 -> 3 | 2 | 1 | Já!
+test: 1 -> 1 | Já!
+test: 0 -> Já!
+tipp: Há dois erros. Um tem a ver com a contagem, o outro com a saída no fim.
+tipp: Inicia a simulação com o valor inicial 3 e observa i em Variáveis. O i diminui? Compara também com atenção a última saída com a tarefa.
+lösung: l16-countdown-loesung.visustruct
+:::
+
+## Lista de verificação
+
+::: checkliste
+- Sei que o ciclo while verifica a sua condição antes de cada iteração. → Primeiro a condição
+- Sei usar uma variável contadora com valor inicial, condição e alteração. → Uma variável contadora
+- Noto quando um ciclo nunca acaba e sei corrigir o erro. → Atenção: ciclo infinito
+- Sei seguir um ciclo iteração a iteração num teste de secretária. → Ciclos num teste de secretária
+:::
+
+## Teste de conhecimentos
+
+::: quiz
+? O que quer dizer ciclo pré-teste?
+- [x] A condição é verificada antes de cada iteração.
+- [ ] A condição é verificada depois de cada iteração.
+- [ ] O ciclo é sempre executado exatamente uma vez.
+> A cabeça com a condição está em cima e é avaliada primeiro.
+
+? `int i = 5`, depois um ciclo while com a condição `i < 3`. Quantas vezes é executado o interior?
+- [x] Nenhuma
+- [ ] Uma vez
+- [ ] Três vezes
+> Logo da primeira vez que é verificado, 5 < 3 é falso.
+
+? Porque é que um ciclo com a condição `numero > 0` nunca acaba se o interior só tiver `output: numero`?
+- [ ] Porque a saída aumenta o número
+- [x] Porque numero nunca muda e a condição fica sempre verdadeira
+- [ ] Porque a condição está mal escrita
+> No interior tem de acontecer algo que acabe por tornar a condição falsa.
+
+? Que outros nomes têm os ciclos nos manuais?
+- [x] Iteração ou repetição
+- [ ] Decisões
+- [ ] Subprogramas
+> Um ciclo repete instruções. Por isso também se chama iteração ou estrutura de repetição.
+
+? Um ciclo deve contar de 1 a 5, mas só vai até 4. Qual é o erro provável?
+- [x] A condição diz i < 5 em vez de i <= 5.
+- [ ] O ciclo é um ciclo while.
+- [ ] A variável i tem o nome errado.
+:::
