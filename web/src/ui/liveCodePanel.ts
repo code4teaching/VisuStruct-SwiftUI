@@ -404,8 +404,7 @@ export class LiveCodePanel {
       this.consoleNotice.textContent = t('web_live_swing_loading')
       await prepareJava(this.swingDisplay)
       this.consoleNotice.textContent = t('web_live_swing_compiling')
-      this.swingElement.hidden = false
-      const result = await compileAndRun(this.code.text)
+      const result = await compileAndRun(this.code.text, () => (this.swingElement.hidden = false))
       this.consoleNotice.textContent = t(
         { 'compile-error': 'web_live_swing_compile_failed', windows: 'web_live_swing_running', finished: 'web_live_run_finished' }[result],
       )

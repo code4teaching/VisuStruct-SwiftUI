@@ -9,6 +9,7 @@ The format is loosely inspired by Keep a Changelog.
 ### Added
 
 - **Web, Code live:** new setting “Swing support” (gear menu, Java section). When it is on, ▶ Run compiles the typed Java with the real `javac` and runs it as real Java via CheerpJ, so Swing windows appear in a “Java windows” area above the console. Runtime and compiler (about 40 MB) are loaded only on the first run. Code without a class is wrapped in `public class Main`. Each run closes the windows of the previous one; a program without windows ends with “Program finished”.
+- **Web, exercises (de/en/pt):** “Ludwig’s tip” box (`::: ludwig`) in the lesson format. The Fibonacci exercise uses it to connect moving the values on with swapping from lesson 5 and sorting in lesson 19, plus a quiz question on the order of the two assignments.
 - **Web, Files:** the learning progress (finished lessons and exercises, exercise diagrams, quiz answers) is also kept as `lernstand.json` in the workspace. Opening a workspace merges the file with the browser's progress (finished stays finished, the furthest step counts) and every change is written back about a second later.
 - **Web, Files:** saving without a chosen class asks first: pick one of the class folders or type a new one (“Create and save”); the choice stays selected. Creating a folder and deleting now use the same in-page dialog instead of the browser's prompt/confirm, which embedded views block.
 - **Web, Code live:** the element of the code line with the cursor is filled light blue in the structure chart, like the code line itself.

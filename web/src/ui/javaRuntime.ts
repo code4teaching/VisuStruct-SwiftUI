@@ -25,6 +25,11 @@ const runnerSource = `public class VisuStructRunner {
     }
 
     public static int openWindows() {
+        // Erst die Ereignisschlange abarbeiten lassen: main öffnet Fenster meist per invokeLater.
+        try {
+            javax.swing.SwingUtilities.invokeAndWait(() -> {});
+        } catch (Exception e) {
+        }
         int n = 0;
         for (java.awt.Window w : java.awt.Window.getWindows()) if (w.isShowing()) n++;
         return n;
@@ -58,7 +63,7 @@ declare global {
   function cheerpjCreateDisplay(width: number, height: number, parent?: HTMLElement): HTMLElement
   function cheerpjRunMain(className: string, classPath: string, ...args: string[]): Promise<number>
   function cheerpjRunLibrary(classPath: string): Promise<Record<string, Promise<unknown>>>
-  function cheerpjAddStringFile(path: string, data: string | Uint8Array): void
+  function cheerpOSAddStringFile(path: string, data: string | Uint8Array): void
 }
 
 let ready: Promise<Runner> | undefined
@@ -82,8 +87,8 @@ export function prepareJava(display: HTMLElement): Promise<Runner> {
     cheerpjCreateDisplay(-1, -1, display)
     const response = await fetch(toolsURL)
     if (!response.ok) throw new Error(toolsURL)
-    cheerpjAddStringFile(toolsJar, new Uint8Array(await response.arrayBuffer()))
-    cheerpjAddStringFile('/str/VisuStructRunner.java', runnerSource)
+    cheerpOSAddStringFile(toolsJar, new Uint8Array(await response.arrayBuffer()))
+    cheerpOSAddStringFile('/str/VisuStructRunner.java', runnerSource)
     if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, '/str/VisuStructRunner.java', '-d', '/files/')) !== 0) {
       throw new Error('javac')
     }
@@ -119,17 +124,21 @@ export type RunResult = 'compile-error' | 'windows' | 'finished'
  * Kompilieren und starten. `compile-error`: javac meldet Fehler (die stehen dann in der Konsole).
  * Sonst nach dem Ende von main: `windows`, wenn noch Fenster offen sind (das Programm läuft weiter), oder `finished`.
  */
-export async function compileAndRun(source: string): Promise<RunResult> {
+export async function compileAndRun(source: string, onCompiled: () => void): Promise<RunResult> {
   const runner = await ready!
   const program = asProgram(source)
   const name = mainClassName(program)
   // Jeder Lauf in ein eigenes Verzeichnis mit eigenem Klassenlader, damit nichts vom vorigen Lauf übrig bleibt.
   const dir = `/files/run${++run}/`
   await runner.mkdirs(dir)
-  cheerpjAddStringFile(`/str/${name}.java`, program)
+  cheerpOSAddStringFile(`/str/${name}.java`, program)
   if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, `/str/${name}.java`, '-d', dir, '-encoding', 'UTF-8')) !== 0) {
     return 'compile-error'
   }
+  // Die Fensterfläche muss vor dem Start sichtbar sein: Bei 0×0 Pixeln zeichnet Swing nichts.
+  onCompiled()
   await runner.run(dir, name)
+  if ((await runner.openWindows()) > 0) return 'windows'
+  await new Promise((resolve) => setTimeout(resolve, 500))
   return (await runner.openWindows()) > 0 ? 'windows' : 'finished'
 }

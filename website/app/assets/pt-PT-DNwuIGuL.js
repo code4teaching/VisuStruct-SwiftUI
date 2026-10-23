@@ -178,4 +178,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_files_class_placeholder" = "Nova turma, p. ex. 11FI1";
 "web_files_create_save" = "Criar e guardar";
 "web_files_create" = "Criar";
+"web_learn_ludwig_tip" = "Dica do Ludwig";
 `;export{e as default};

@@ -123,4 +123,5 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_files_class_placeholder" = "صف جديد، مثلاً 11FI1";
 "web_files_create_save" = "إنشاء وحفظ";
 "web_files_create" = "إنشاء";
+"web_learn_ludwig_tip" = "نصيحة لودفيغ";
 `;export{e as default};

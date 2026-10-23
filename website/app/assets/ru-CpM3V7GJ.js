@@ -123,4 +123,5 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_files_class_placeholder" = "Новый класс, напр. 11FI1";
 "web_files_create_save" = "Создать и сохранить";
 "web_files_create" = "Создать";
+"web_learn_ludwig_tip" = "Совет Людвига";
 `;export{e as default};

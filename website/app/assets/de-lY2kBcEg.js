@@ -180,4 +180,5 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_files_class_placeholder" = "Neue Klasse, z. B. 11FI1";
 "web_files_create_save" = "Anlegen und speichern";
 "web_files_create" = "Anlegen";
+"web_learn_ludwig_tip" = "Ludwigs Tipp";
 `;export{e as default};

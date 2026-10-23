@@ -123,4 +123,5 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_files_class_placeholder" = "新班级，例如 11FI1";
 "web_files_create_save" = "新建并保存";
 "web_files_create" = "新建";
+"web_learn_ludwig_tip" = "路德维希的提示";
 `;export{e as default};

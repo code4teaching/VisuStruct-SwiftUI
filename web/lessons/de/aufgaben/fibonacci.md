@@ -10,6 +10,10 @@ Bei den Fibonacci-Zahlen ist jede Zahl die Summe der beiden Zahlen davor. Die Fo
 
 Diese Zahlen findest du erstaunlich oft in der Natur, zum Beispiel bei der Anordnung von Sonnenblumenkernen.
 
+::: ludwig
+Erinnerst du dich ans **Tauschen** aus Lektion 5? Dort brauchtest du eine Hilfsvariable, weil `a = b` den alten Wert von `a` überschreibt. Hier ist es genauso: Bevor `zahl2` die neue Zahl bekommt, muss ihr alter Wert in `zahl1` gerettet sein. Achte also auf die **Reihenfolge**: erst `zahl1 = zahl2`, dann `zahl2 = zahl3`. Dieses Weiterschieben und Tauschen brauchst du später wieder, zum Beispiel beim Sortieren in Lektion 19.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Fibonacci-Zahlen
 auftrag: Frage, wie viele Fibonacci-Zahlen ausgegeben werden sollen. Gib dann genau so viele aus, jede in einer eigenen Zeile. Du kannst davon ausgehen, dass mindestens 2 eingegeben wird.
@@ -20,4 +24,12 @@ braucht: forSchleife
 tipp: Jede neue Zahl ist die Summe der beiden vorherigen. Du musst dir also immer die letzten zwei Zahlen merken.
 tipp: Merke dir die beiden letzten Zahlen in `zahl1` und `zahl2` und gib beide vor der Schleife aus. Die Schleife beginnt bei `int i = 2`. Darin berechnest du `int zahl3 = zahl1 + zahl2`, gibst sie aus und schiebst dann weiter: `zahl1 = zahl2` und `zahl2 = zahl3`.
 lösung: aufgabe-fibonacci-loesung.visustruct
+:::
+
+::: quiz
+? Warum muss in der Schleife `zahl1 = zahl2` vor `zahl2 = zahl3` stehen?
+- [ ] Weil Java die Zuweisungen sonst nicht erlaubt
+- [x] Weil sonst der alte Wert von zahl2 überschrieben ist, bevor zahl1 ihn bekommt
+- [ ] Die Reihenfolge ist egal
+> Andersherum hätten zahl1 und zahl2 danach denselben Wert. Wie beim Tauschen gilt: Erst retten, dann überschreiben.
 :::

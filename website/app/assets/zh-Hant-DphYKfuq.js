@@ -123,4 +123,5 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_files_class_placeholder" = "新班級，例如 11FI1";
 "web_files_create_save" = "新增並儲存";
 "web_files_create" = "新增";
+"web_learn_ludwig_tip" = "路德維希的提示";
 `;export{e as default};

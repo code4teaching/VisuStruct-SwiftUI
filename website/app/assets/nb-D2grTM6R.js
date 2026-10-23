@@ -123,4 +123,5 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_files_class_placeholder" = "Ny klasse, f.eks. 11FI1";
 "web_files_create_save" = "Lag og lagre";
 "web_files_create" = "Lag";
+"web_learn_ludwig_tip" = "Ludwigs tips";
 `;export{e as default};

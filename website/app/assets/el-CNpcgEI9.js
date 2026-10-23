@@ -123,4 +123,5 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_files_class_placeholder" = "Νέα τάξη, π.χ. 11FI1";
 "web_files_create_save" = "Δημιουργία και αποθήκευση";
 "web_files_create" = "Δημιουργία";
+"web_learn_ludwig_tip" = "Η συμβουλή του Ludwig";
 `;export{e as default};
