@@ -251,4 +251,5 @@ const e=`/* Palette */
 "course_restore" = "Restore purchases";
 "course_restore_done" = "Your course purchase has been restored.";
 "course_restore_none" = "No course purchase was found for this Apple Account.";
+"course_unavailable" = "The course can’t be loaded from the App Store right now. Please check your internet connection and try again later.";
 `;export{e as default};

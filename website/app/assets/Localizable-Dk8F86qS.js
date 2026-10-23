@@ -251,4 +251,5 @@ const e=`/* Palette */
 "course_restore" = "Käufe wiederherstellen";
 "course_restore_done" = "Dein Kurs-Kauf wurde wiederhergestellt.";
 "course_restore_none" = "Für diesen Apple Account wurde kein Kurs-Kauf gefunden.";
+"course_unavailable" = "Der Kurs kann gerade nicht aus dem App Store geladen werden. Bitte prüfe die Internetverbindung und versuche es später noch einmal.";
 `;export{e as default};

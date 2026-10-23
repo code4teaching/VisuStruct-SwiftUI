@@ -8,6 +8,8 @@ struct CourseStoreView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var lang
     @ObservedObject private var store = CourseStore.shared
+    @State private var product: Product?
+    @State private var productLoaded = false
 
     var body: some View {
         NavigationStack {
@@ -37,14 +39,22 @@ struct CourseStoreView: View {
                             .font(.headline)
                             .foregroundStyle(.green)
                     } else {
-                        ProductView(id: CoursePurchaseGate.productID) {
-                            Image(systemName: "graduationcap")
-                                .font(.largeTitle)
-                                .foregroundStyle(Color.accentColor)
-                        }
-                        .productViewStyle(.large)
-                        .onInAppPurchaseCompletion { _, _ in
-                            await store.refresh()
+                        if let product {
+                            ProductView(product) {
+                                Image(systemName: "graduationcap")
+                                    .font(.largeTitle)
+                                    .foregroundStyle(Color.accentColor)
+                            }
+                            .productViewStyle(.large)
+                            .onInAppPurchaseCompletion { _, _ in
+                                await store.refresh()
+                            }
+                        } else if productLoaded {
+                            // Kein Produkt vom App Store (offline, noch nicht angelegt oder StoreKit-Testdatei fehlt im Schema).
+                            Label(lang.tr("course_unavailable"), systemImage: "exclamationmark.triangle")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            ProgressView()
                         }
                     }
 
@@ -88,7 +98,11 @@ struct CourseStoreView: View {
                 Text(store.restoreMessage ?? "")
             }
         }
-        .task { await store.refresh() }
+        .task {
+            await store.refresh()
+            product = try? await Product.products(for: [CoursePurchaseGate.productID]).first
+            productLoaded = true
+        }
         .presentationDragIndicator(.visible)
     }
 
