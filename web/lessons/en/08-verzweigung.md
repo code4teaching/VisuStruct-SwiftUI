@@ -90,6 +90,43 @@ tipp: The condition is `number < 0`. In the true path you flip the sign, e.g. wi
 lösung: l07-betrag-loesung.visustruct
 :::
 
+## Now in Java
+
+This is the age check from the start of this lesson in Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("How old are you?");
+int age = scanner.nextInt();
+if (age >= 18) {
+    System.out.println("You are an adult.");
+} else {
+    System.out.println("You are not an adult yet.");
+}
+```
+
+- The condition comes after `if` in **round brackets** `( )`.
+- The true branch is in **curly brackets** `{ }`, the false branch follows after `else` in its own curly brackets. There is no semicolon after a curly bracket.
+- If the false branch is empty, simply leave out `else { }`.
+- Your program needs the first two lines once as soon as it reads input. After that, `scanner.nextInt()` reads a whole number. The question before it is a normal output.
+
+::: übung l08-java-bestanden
+titel: Passed in Java
+code: java
+auftrag: Write a Java program that asks for the number of points. From 50 points on it outputs **passed**, otherwise **not passed**.
+  Type the code in the Programming area and then click Check.
+test: 50 -> passed
+test: 49 -> not passed
+test: 100 -> passed
+test: 0 -> not passed
+braucht: verzweigung
+tipp: Start with the two lines for the scanner. Then ask for the points, read them and compare them with `if`.
+tipp: The condition is `points >= 50`. One branch has `System.out.println("passed");`, and after `else` comes `System.out.println("not passed");`.
+lösung: l08-java-bestanden-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -97,6 +134,7 @@ lösung: l07-betrag-loesung.visustruct
 - I know the comparison operators == != < <= > >=. → Comparison operators
 - I can tell == and = apart. → Comparison operators
 - I can build a branch with an empty path. → An empty path
+- I can write a branch with if and else in Java. → Now in Java
 :::
 
 ## Quiz
@@ -131,4 +169,10 @@ lösung: l07-betrag-loesung.visustruct
 - [x] Conditional statement
 - [ ] Iteration
 > The statements in a path only run under a condition. That is why it is also called a conditional statement.
+
+? Where does the condition of a branch go in Java?
+- [x] In round brackets right after if
+- [ ] In curly brackets after else
+- [ ] After a semicolon
+> `if (age >= 18) { … }`: the round brackets belong to the condition, the curly ones to the branch.
 :::

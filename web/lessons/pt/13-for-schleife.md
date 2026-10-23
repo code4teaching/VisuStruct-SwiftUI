@@ -92,12 +92,53 @@ tipp: Olha para o último valor de i com que o ciclo é executado. Com n = 4, ta
 lösung: l16-summe-loesung.visustruct
 :::
 
+## Agora em Java
+
+A soma de 1 até n fica assim em Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Até que número?");
+int n = scanner.nextInt();
+int soma = 0;
+for (int i = 1; i <= n; i++) {
+    soma = soma + i;
+}
+System.out.println(soma);
+```
+
+Nos parênteses curvos depois de `for` estão os três campos do ciclo for, separados por ponto e vírgula:
+
+| Campo | Em Java | Significado |
+|---|---|---|
+| Início | `int i = 1` | `i` começa em 1. |
+| Condição | `i <= n` | O ciclo corre enquanto isto for verdade. |
+| Passo | `i++` | Depois de cada iteração, `i` aumenta 1. |
+
+`i++` é a forma curta de `i = i + 1`. Para contar para trás usas `i--`.
+
+::: übung l13-java-quadrate
+titel: Quadrados em Java
+code: java
+auftrag: Escreve um programa em Java que lê um número inteiro `n` e, com um ciclo for, mostra os quadrados de 1 até `n`, cada um na sua linha. Para 3, são 1, 4 e 9.
+test: 3 -> 1 | 4 | 9
+test: 5 -> 1 | 4 | 9 | 16 | 25
+test: 1 -> 1
+braucht: forSchleife
+tipp: O ciclo conta `i` de 1 até `n`. O quadrado de `i` é `i * i`.
+tipp: `for (int i = 1; i <= n; i++) { … }` e no corpo `System.out.println(i * i);`.
+lösung: l13-java-quadrate-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
 - Conheço as três partes Início, Condição e Passo do ciclo for. → Contar com um plano fixo
 - Sei por que ordem são executadas as três partes. → Por que ordem?
 - Sei contar para a frente, para trás e em passos maiores com um ciclo for. → Outros passos
+- Sei escrever um ciclo for em Java e explicar os seus três campos. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -125,4 +166,10 @@ lösung: l16-summe-loesung.visustruct
 - [x] Quando sabes de antemão quantas vezes repetir
 - [ ] Quando perguntas até uma entrada ser válida
 - [ ] Quando só é verificado um único valor
+
+? O que significa `i++` num ciclo for?
+- [ ] i é duplicado.
+- [x] i aumenta 1.
+- [ ] i é mostrado.
+> `i++` é a forma curta de `i = i + 1`.
 :::

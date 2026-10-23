@@ -92,12 +92,53 @@ tipp: Look at the last value of i the loop runs with. With n = 4, i = 4 must be 
 lösung: l16-summe-loesung.visustruct
 :::
 
+## Now in Java
+
+The sum from 1 to n looks like this in Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Up to which number?");
+int n = scanner.nextInt();
+int sum = 0;
+for (int i = 1; i <= n; i++) {
+    sum = sum + i;
+}
+System.out.println(sum);
+```
+
+The round brackets after `for` hold the three fields of the for loop, separated by semicolons:
+
+| Field | In Java | Meaning |
+|---|---|---|
+| Init | `int i = 1` | `i` starts at 1. |
+| Condition | `i <= n` | The loop runs as long as this is true. |
+| Step | `i++` | After every pass `i` gets 1 bigger. |
+
+`i++` is short for `i = i + 1`. To count backwards, use `i--`.
+
+::: übung l13-java-quadrate
+titel: Square numbers in Java
+code: java
+auftrag: Write a Java program that reads a whole number `n` and uses a for loop to output the square numbers from 1 to `n`, each on its own line. For 3 that is 1, 4 and 9.
+test: 3 -> 1 | 4 | 9
+test: 5 -> 1 | 4 | 9 | 16 | 25
+test: 1 -> 1
+braucht: forSchleife
+tipp: The loop counts `i` from 1 to `n`. The square of `i` is `i * i`.
+tipp: `for (int i = 1; i <= n; i++) { … }` and in the body `System.out.println(i * i);`.
+lösung: l13-java-quadrate-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
 - I know the three parts Init, Condition and Step of the for loop. → Counting with a fixed plan
 - I know in which order the three parts run. → In which order?
 - I can count forwards, backwards and in bigger steps with a for loop. → Other steps
+- I can write a for loop in Java and explain its three fields. → Now in Java
 :::
 
 ## Quiz
@@ -125,4 +166,10 @@ lösung: l16-summe-loesung.visustruct
 - [x] When you know beforehand how often to repeat
 - [ ] When you keep asking until an input is valid
 - [ ] When only a single value is checked
+
+? What does `i++` mean in a for loop?
+- [ ] i is doubled.
+- [x] i gets 1 bigger.
+- [ ] i is output.
+> `i++` is short for `i = i + 1`.
 :::

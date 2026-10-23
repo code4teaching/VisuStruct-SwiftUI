@@ -133,6 +133,36 @@ tipp: Starte die Simulation mit Startwert 3 und beobachte i unter Variablen. Wir
 lösung: l16-countdown-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Der Countdown vom Anfang dieser Lektion sieht in Java so aus:
+
+```
+int zahl = 3;
+while (zahl > 0) {
+    System.out.println(zahl);
+    zahl = zahl - 1;
+}
+System.out.println("Start!");
+```
+
+- Nach `while` steht die Bedingung in runden Klammern, wie bei `if`.
+- Alles, was wiederholt wird, steht in geschweiften Klammern. Das ist der Rumpf der Schleife.
+- Der Rumpf ist eingerückt. So erkennst du wie im Struktogramm, was zur Schleife gehört.
+
+::: übung l11-java-gerade
+titel: Gerade Zahlen in Java
+code: java
+auftrag: Schreibe ein Java-Programm, das eine ganze Zahl `n` einliest und mit einer While-Schleife alle geraden Zahlen von 2 bis höchstens `n` ausgibt. Bei 7 also 2, 4 und 6.
+test: 7 -> 2 | 4 | 6
+test: 8 -> 2 | 4 | 6 | 8
+test: 2 -> 2
+braucht: whileSchleife
+tipp: Du brauchst eine Zählvariable, die bei 2 beginnt. Die Schleife läuft, solange sie nicht größer als `n` ist.
+tipp: `int zahl = 2;` vor der Schleife, dann `while (zahl <= n) { … }`. Im Rumpf gibst du `zahl` aus und erhöhst sie mit `zahl = zahl + 2;`.
+lösung: l11-java-gerade-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -140,6 +170,7 @@ lösung: l16-countdown-loesung.visustruct
 - Ich kann eine Zählvariable mit Startwert, Bedingung und Veränderung verwenden. → Eine Zählvariable
 - Ich erkenne, wenn eine Schleife nie endet, und kann den Fehler beheben. → Vorsicht, Endlosschleife
 - Ich kann eine Schleife im Schreibtischtest Durchlauf für Durchlauf verfolgen. → Schleifen im Schreibtischtest
+- Ich kann eine While-Schleife in Java schreiben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -173,4 +204,10 @@ lösung: l16-countdown-loesung.visustruct
 - [x] In der Bedingung steht i < 5 statt i <= 5.
 - [ ] Die Schleife ist eine While-Schleife.
 - [ ] Die Variable i heißt falsch.
+
+? Welche Zeile startet in Java eine While-Schleife richtig?
+- [ ] while zahl > 0 {
+- [x] while (zahl > 0) {
+- [ ] while (zahl > 0);
+> Die Bedingung steht in runden Klammern, danach öffnet `{` den Rumpf.
 :::

@@ -34,6 +34,8 @@ export interface Exercise {
   solution?: string
   /** Unterprogramme zur Musterlösung (Dateien in `lessons/diagramme`), je eins pro Reiter. */
   subprograms: string[]
+  /** `code: java`: Die Übung wird in Code live auf Java gelöst; „Übung öffnen“ öffnet die Spalte gleich mit. */
+  code?: 'java'
 }
 
 export interface ChecklistItem {
@@ -100,7 +102,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -114,6 +116,10 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
         case 'lösung':
         case 'loesung': ex.solution = value; break
         case 'unterprogramm': ex.subprograms.push(...value.split(/\s*,\s*/).filter(Boolean)); break
+        case 'code':
+          if (value.trim().toLowerCase() !== 'java') throw new FormatError(`${file}: Übung „${id}“: „code:“ kennt nur „java“.`)
+          ex.code = 'java'
+          break
       }
     } else if (last && raw.trim() !== '') {
       // Fortsetzungszeilen für Auftrag und Tipp

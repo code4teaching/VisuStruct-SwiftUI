@@ -69,12 +69,45 @@ tipp: Lege mit `String hilf = links` eine Hilfsvariable an. Danach brauchst du n
 lösung: l04-tauschen-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Das Tauschen von oben sieht in Java so aus:
+
+```
+int a = 5;
+int b = 9;
+int hilf = a;
+a = b;
+b = hilf;
+System.out.println("a = " + a);
+System.out.println("b = " + b);
+```
+
+- Jeder Kasten wird zu einer Zeile. Die Zeilen laufen von oben nach unten, genau wie die Kästen.
+- Am Ende jeder Anweisung steht ein **Semikolon** `;`.
+- Eine Ausgabe heißt in Java `System.out.println(…)`. Achte auf das große S bei `System`, Java unterscheidet Groß- und Kleinbuchstaben.
+
+Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
+
+::: übung l05-java-kino
+titel: Kinokarten in Java
+code: java
+auftrag: Eine Kinokarte kostet 9 Euro. Schreibe ein Java-Programm, das den Preis für 3 Karten ausrechnet und **Gesamt: 27** ausgibt.
+  „Im Editor öffnen“ öffnet rechts auch den Bereich Programmieren. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
+test: - -> Gesamt: 27
+braucht: anweisung
+tipp: Du brauchst drei Variablen: den Preis, die Anzahl und das Ergebnis. Jede Zeile endet mit einem Semikolon.
+tipp: `int preis = 9;` und `int anzahl = 3;` legen die Variablen an. `int gesamt = preis * anzahl;` rechnet, und `System.out.println("Gesamt: " + gesamt);` gibt das Ergebnis aus.
+lösung: l05-java-kino-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
 - Ich weiß, dass eine Sequenz von oben nach unten ausgeführt wird. → Schritt für Schritt
 - Ich kann erklären, warum die Reihenfolge der Schritte wichtig ist. → Die Reihenfolge zählt
 - Ich kann zwei Werte mit einer Hilfsvariablen tauschen. → Zwei Werte tauschen
+- Ich kann eine Sequenz in Java schreiben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -102,4 +135,10 @@ lösung: l04-tauschen-loesung.visustruct
 - [x] 15
 - [ ] 4
 > Erst wird x zu 5, dann zu 15.
+
+? Womit endet in Java jede Anweisung?
+- [ ] Mit einem Punkt .
+- [x] Mit einem Semikolon ;
+- [ ] Mit einem Doppelpunkt :
+> Fehlt das Semikolon, zeigt VisuStruct unter dem Code einen Hinweis.
 :::

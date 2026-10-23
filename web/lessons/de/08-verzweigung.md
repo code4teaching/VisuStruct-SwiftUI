@@ -90,6 +90,43 @@ tipp: Die Bedingung ist `zahl < 0`. Im true-Zweig drehst du das Vorzeichen um, z
 lösung: l07-betrag-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+So sieht die Altersprüfung vom Anfang dieser Lektion in Java aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Wie alt bist du?");
+int alter = scanner.nextInt();
+if (alter >= 18) {
+    System.out.println("Du bist volljährig.");
+} else {
+    System.out.println("Du bist noch nicht volljährig.");
+}
+```
+
+- Die Bedingung steht nach `if` in **runden Klammern** `( )`.
+- Der true-Zweig steht in **geschweiften Klammern** `{ }`, der false-Zweig folgt nach `else` in eigenen geschweiften Klammern. Hinter einer geschweiften Klammer steht kein Semikolon.
+- Ist der false-Zweig leer, lässt du `else { }` einfach weg.
+- Die ersten beiden Zeilen braucht dein Programm einmal, sobald es etwas einliest. Danach liest `scanner.nextInt()` eine ganze Zahl ein. Die Frage davor ist eine normale Ausgabe.
+
+::: übung l08-java-bestanden
+titel: Bestanden in Java
+code: java
+auftrag: Schreibe ein Java-Programm, das nach der Punktzahl fragt. Ab 50 Punkten gibt es **bestanden** aus, sonst **nicht bestanden**.
+  Tippe den Code im Bereich Programmieren und klicke dann auf Prüfen.
+test: 50 -> bestanden
+test: 49 -> nicht bestanden
+test: 100 -> bestanden
+test: 0 -> nicht bestanden
+braucht: verzweigung
+tipp: Fang mit den beiden Zeilen für den Scanner an. Dann fragst du nach den Punkten, liest sie ein und vergleichst sie mit `if`.
+tipp: Die Bedingung lautet `punkte >= 50`. In den Zweigen steht `System.out.println("bestanden");` und nach `else` `System.out.println("nicht bestanden");`.
+lösung: l08-java-bestanden-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -97,6 +134,7 @@ lösung: l07-betrag-loesung.visustruct
 - Ich kenne die Vergleichsoperatoren == != < <= > >=. → Vergleichsoperatoren
 - Ich kann == und = unterscheiden. → Vergleichsoperatoren
 - Ich kann eine Verzweigung mit einem leeren Zweig bauen. → Ein leerer Zweig
+- Ich kann eine Verzweigung mit if und else in Java schreiben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -131,4 +169,10 @@ lösung: l07-betrag-loesung.visustruct
 - [x] Bedingte Anweisung
 - [ ] Wiederholungsstruktur
 > Die Anweisungen in einem Zweig werden nur unter einer Bedingung ausgeführt. Darum heißt sie auch bedingte Anweisung.
+
+? Wo steht in Java die Bedingung einer Verzweigung?
+- [x] In runden Klammern direkt nach if
+- [ ] In geschweiften Klammern nach else
+- [ ] Hinter einem Semikolon
+> `if (alter >= 18) { … }`: Die runden Klammern gehören zur Bedingung, die geschweiften zum Zweig.
 :::
