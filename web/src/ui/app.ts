@@ -439,6 +439,9 @@ export class App {
       },
       (name) => this.findSubprogram(name),
       () => this.setSimulating(false),
+      (transcript) => {
+        if (this.simulating && this.liveCoding) this.live.showTranscript(transcript)
+      },
     )
     this.root.append(this.sim.element)
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))

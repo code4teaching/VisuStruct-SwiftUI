@@ -11,7 +11,7 @@ import { parseLiveJava, type JavaProblem, type ParsedJava } from '../core/javaPa
 import { documentFromJava, liveJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../core/liveSource'
 import type { VSDocument } from '../core/model'
 import { SimulationEngine, type SubprogramResolver } from '../core/simulation'
-import { noticeText } from './simulationPanel'
+import { noticeText, type ConsoleTranscript } from './simulationPanel'
 import { JavaEditor, type SnippetWords } from './javaEditor'
 import { sidebarIcon } from './learnPanel'
 
@@ -408,6 +408,27 @@ export class LiveCodePanel {
     this.consoleNotice.classList.toggle('error', error)
     this.run = undefined
     this.setRunning(false)
+  }
+
+  /** Während der Simulation: Konsole zeigt deren Ausgaben und Eingaben (beim Start leer). */
+  showTranscript(transcript: ConsoleTranscript) {
+    this.stopRun(false)
+    this.setConsoleVisible(true)
+    this.consoleForm.hidden = true
+    this.consoleLines.replaceChildren()
+    for (const line of transcript.lines) {
+      const div = this.consoleLine(line.text)
+      if (line.typed !== undefined) {
+        const value = document.createElement('span')
+        value.className = 'typed'
+        value.textContent = line.typed
+        div.append(value)
+      }
+    }
+    if (transcript.pending !== undefined) this.consoleLine(transcript.pending).classList.add('pending')
+    this.consoleLines.scrollTop = this.consoleLines.scrollHeight
+    this.consoleNotice.textContent = transcript.notice ?? ''
+    this.consoleNotice.classList.toggle('error', transcript.error)
   }
 
   /** Konsole schließen; ein laufendes Programm hält dabei an. */
