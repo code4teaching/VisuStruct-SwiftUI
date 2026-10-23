@@ -240,3 +240,15 @@
 "codegen_pseudocode_toggle" = "Pseudocódigo (código não executável)";
 "codegen_pseudocode_note" = "Pseudocódigo – não é um programa executável";
 "codegen_pseudocode_hint" = "Este diagrama está marcado como pseudocódigo. O código é apenas um esboço e não pode ser executado.";
+
+"course_title" = "Curso";
+"course_intro" = "Aprender a programar passo a passo: do primeiro diagrama ao teu próprio programa em Java.";
+"course_bullet_lessons" = "Todas as lições com explicações, testes e exercícios";
+"course_bullet_java" = "Tarefas de programação «Agora em Java» em cada lição";
+"course_bullet_games" = "Jogos de aprendizagem e dicas graduais";
+"course_bullet_once" = "Compra uma vez e usa no iPhone, iPad e Mac";
+"course_unlocked" = "Curso desbloqueado – obrigado!";
+"course_free_note" = "Criar diagramas, a simulação e a exportação de código continuam gratuitos.";
+"course_restore" = "Restaurar compras";
+"course_restore_done" = "A tua compra do curso foi restaurada.";
+"course_restore_none" = "Não foi encontrada nenhuma compra do curso para esta Conta Apple.";

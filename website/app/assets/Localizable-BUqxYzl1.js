@@ -239,4 +239,16 @@ const e=`/* Palette */
 "codegen_pseudocode_toggle" = "Pseudocode (kein lauffähiger Code)";
 "codegen_pseudocode_note" = "Pseudocode – kein lauffähiges Programm";
 "codegen_pseudocode_hint" = "Dieses Diagramm ist als Pseudocode markiert. Der Code ist nur eine Skizze und lässt sich nicht ausführen.";
+
+"course_title" = "Kurs";
+"course_intro" = "Programmieren lernen, Schritt für Schritt: vom ersten Struktogramm bis zum eigenen Java-Programm.";
+"course_bullet_lessons" = "Alle Lektionen mit Erklärungen, Wissenstests und Übungen";
+"course_bullet_java" = "In jeder Lektion Programmieraufgaben „Jetzt in Java“";
+"course_bullet_games" = "Lernspiele und gestufte Tipps";
+"course_bullet_once" = "Einmal kaufen, auf iPhone, iPad und Mac nutzen";
+"course_unlocked" = "Kurs freigeschaltet – danke!";
+"course_free_note" = "Struktogramme erstellen, Simulation und Code-Export bleiben kostenlos.";
+"course_restore" = "Käufe wiederherstellen";
+"course_restore_done" = "Dein Kurs-Kauf wurde wiederhergestellt.";
+"course_restore_none" = "Für diesen Apple Account wurde kein Kurs-Kauf gefunden.";
 `;export{e as default};

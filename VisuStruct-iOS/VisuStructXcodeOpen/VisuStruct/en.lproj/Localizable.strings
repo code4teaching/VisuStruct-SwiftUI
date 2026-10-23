@@ -239,3 +239,15 @@
 "codegen_pseudocode_toggle" = "Pseudocode (not runnable code)";
 "codegen_pseudocode_note" = "Pseudocode – not a runnable program";
 "codegen_pseudocode_hint" = "This diagram is marked as pseudocode. The code is only a sketch and cannot be run.";
+
+"course_title" = "Course";
+"course_intro" = "Learn programming step by step: from the first structure chart to your own Java programs.";
+"course_bullet_lessons" = "All lessons with explanations, quizzes and exercises";
+"course_bullet_java" = "“Now in Java” programming tasks in every lesson";
+"course_bullet_games" = "Learning games and step-by-step hints";
+"course_bullet_once" = "Pay once, use it on iPhone, iPad and Mac";
+"course_unlocked" = "Course unlocked – thank you!";
+"course_free_note" = "Creating structure charts, simulation and code export stay free.";
+"course_restore" = "Restore purchases";
+"course_restore_done" = "Your course purchase has been restored.";
+"course_restore_none" = "No course purchase was found for this Apple Account.";

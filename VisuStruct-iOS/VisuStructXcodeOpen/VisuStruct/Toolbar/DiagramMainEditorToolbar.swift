@@ -32,6 +32,8 @@ struct DiagramMainEditorToolbar: ToolbarContent {
     let onSharePNG: () -> Void
     let onShareDocument: () -> Void
     let onExportPDF: () -> Void
+    /// Nur solange der Kurs angeboten wird (`CoursePurchaseGate.isOffered`); sonst `nil` und kein Eintrag.
+    let onShowCourse: (() -> Void)?
     let onShowAbout: () -> Void
 
     let onKeyboardDismiss: () -> Void
@@ -133,6 +135,11 @@ struct DiagramMainEditorToolbar: ToolbarContent {
                 }
                 .disabled(isSimulationMode)
                 Divider()
+                if let onShowCourse {
+                    Button(action: onShowCourse) {
+                        Label(lang.tr("course_title"), systemImage: "graduationcap")
+                    }
+                }
                 Button(action: onShowAbout) {
                     Label(lang.tr("action_about"), systemImage: "info.circle")
                 }

@@ -37,6 +37,7 @@ struct ContentView: View {
     @State private var showImporter = false
     @State private var showExporter = false
     @State private var showInfo = false
+    @State private var showCourseStore = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
     @State private var simulation: SimulationController
@@ -247,6 +248,9 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.showAbout)) { _ in
             showInfo = true
         }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.showCourse)) { _ in
+            showCourseStore = true
+        }
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.close)) { _ in
             guard !isSimulationMode else { return }
             requestCloseDiagramTab(id: tabsModel.selectedTabId)
@@ -321,6 +325,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showInfo) {
             AboutVisuStructView()
+        }
+        .sheet(isPresented: $showCourseStore) {
+            CourseStoreView()
         }
         .sheet(isPresented: $showCodeGeneratorPaywall) {
             CodeGeneratorPaywallSheet()
@@ -632,6 +639,7 @@ struct ContentView: View {
             onSharePNG: exportPNG,
             onShareDocument: shareDocumentAsFile,
             onExportPDF: shareDiagramPDF,
+            onShowCourse: CoursePurchaseGate.isOffered ? { showCourseStore = true } : nil,
             onShowAbout: { showInfo = true },
             onKeyboardDismiss: {
                 focusedField = nil
