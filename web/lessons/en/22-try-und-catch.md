@@ -6,7 +6,7 @@ kurz: Use real Java to read error messages and catch crashes with try and catch.
 
 ## Crashed!
 
-This program should print three grades. Type it into [Live code](#zeige-codelive) and click [▶︎ Run](#zeige-ausfuehren):
+This program should print three grades. Type it into the [Programming](#zeige-codelive) area and click [▶︎ Run](#zeige-ausfuehren):
 
 ```
 int[] grades = {2, 3, 1};
@@ -27,7 +27,7 @@ In 1947 Grace Hopper's team found a moth in the Mark II computer at Harvard Univ
 
 ## Switching on real Java
 
-Live code normally calculates with the same simulation as the structure chart. It simply stops when there is an error. To see what real Java does, switch on real Java:
+The Programming area normally calculates with the same simulation as the structure chart. It simply stops when there is an error. To see what real Java does, switch on real Java:
 
 1. Click the [gear](#zeige-einstellungen) at the top right and choose Java as the **Programming language**.
 2. In the Java section, tick **Real Java (with Swing)**.
@@ -70,7 +70,7 @@ A message like this looks scary at first. But it tells you exactly what is going
 Java calls an error like this, at run time, an **exception**. We say: Java *throws* an exception. If nobody catches it, the program stops. That is why “Done!” does not appear.
 
 ::: ludwig
-Always read error messages from the top: first the name of the exception, then the line number. In Live code the line numbers are on the left next to the code.
+Always read error messages from the top: first the name of the exception, then the line number. In the Programming area the line numbers are on the left next to the code.
 :::
 
 ## try and catch
@@ -147,7 +147,7 @@ The exception is called `ArithmeticException`. Only put the line that can crash 
 ## Checklist
 
 ::: checkliste
-- I can switch on real Java in Live code. → Switching on real Java
+- I can switch on real Java in the Programming area. → Switching on real Java
 - I can read the exception and the line from an error message. → Reading the error message
 - I can catch an exception with try and catch. → try and catch
 - I can turn text into a number with Integer.parseInt and catch the NumberFormatException. → Turning text into a number

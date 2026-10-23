@@ -47,14 +47,14 @@
 "web_site_imprint" = "版權資訊";
 "web_site_privacy" = "隱私";
 
-/* Code live */
-"web_live_title" = "即時程式碼";
-"web_live_hide" = "隱藏即時程式碼";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "程式設計";
+"web_live_hide" = "隱藏程式設計";
 "web_scale_canvas" = "文字大小：結構圖";
-"web_scale_code" = "文字大小：即時程式碼";
+"web_scale_code" = "文字大小：程式設計";
 "web_live_indent" = "縮排";
 "web_live_indent_title" = "縮排程式碼：每層四個空格（選取的行，否則全部）";
-"web_live_show" = "顯示即時程式碼";
+"web_live_show" = "顯示程式設計";
 "web_live_resize" = "變更程式碼區寬度（按兩下：重設）";
 "web_live_hint" = "程式碼會隨圖一起產生。灰色 = 預留位置：在檢閱器中輸入，文字就會出現在這裡。點一下某行可選取對應元素。";
 "web_live_ph_selector" = "變數";

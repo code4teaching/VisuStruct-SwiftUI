@@ -48,7 +48,7 @@ if (punkte >= 92) {
 Bei 85 Punkten ist `punkte >= 92` falsch, aber `punkte >= 81` wahr. Also Note 2, und die restlichen Bedingungen werden gar nicht mehr geprüft. Deshalb reicht jeweils die untere Grenze.
 :::
 
-Du kannst diesen Teil ohne Fenster in [Code live](#zeige-codelive) ausprobieren. Schreib `int punkte = 85;` davor und `System.out.println("Note: " + note);` dahinter. Das Struktogramm zeigt dir die verschachtelten Verzweigungen.
+Du kannst diesen Teil ohne Fenster im Bereich [Programmieren](#zeige-codelive) ausprobieren. Schreib `int punkte = 85;` davor und `System.out.println("Note: " + note);` dahinter. Das Struktogramm zeigt dir die verschachtelten Verzweigungen.
 
 ## Das Fenster
 

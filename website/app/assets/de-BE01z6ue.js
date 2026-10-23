@@ -104,14 +104,14 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_site_imprint" = "Impressum";
 "web_site_privacy" = "Datenschutz";
 
-/* Code live */
-"web_live_title" = "Code live";
-"web_live_hide" = "Code live ausblenden";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programmieren";
+"web_live_hide" = "Programmieren ausblenden";
 "web_scale_canvas" = "Textgröße Struktogramm";
-"web_scale_code" = "Textgröße Code live";
+"web_scale_code" = "Textgröße Programmieren";
 "web_live_indent" = "Einrücken";
 "web_live_indent_title" = "Code einrücken: jede Ebene vier Leerzeichen tiefer (markierte Zeilen, sonst alles)";
-"web_live_show" = "Code live aufklappen";
+"web_live_show" = "Programmieren aufklappen";
 "web_live_resize" = "Breite des Codebereichs ändern (Doppelklick: zurücksetzen)";
 "web_live_hint" = "Der Code wächst mit deinem Struktogramm. Grau = Platzhalter: Schreib im Objektinspektor, dann steht dort dein Text. Klick auf eine Zeile markiert das Element.";
 "web_live_ph_selector" = "Variable";

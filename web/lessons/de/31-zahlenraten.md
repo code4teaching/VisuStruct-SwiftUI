@@ -29,7 +29,7 @@ int geheim = (int) (Math.random() * 100) + 1;
 
 Ohne `+ 1` käme 0 bis 99 heraus.
 
-Probiere es in [Code live](#zeige-codelive) aus: `int geheim = (int) (Math.random() * 100) + 1;` und `System.out.println(geheim);`. Jedes Ausführen liefert eine andere Zahl.
+Probiere es im Bereich [Programmieren](#zeige-codelive) aus: `int geheim = (int) (Math.random() * 100) + 1;` und `System.out.println(geheim);`. Jedes Ausführen liefert eine andere Zahl.
 
 ::: angeberwissen
 Computer können eigentlich gar nicht würfeln. `Math.random()` rechnet mit einer Formel eine lange Folge von Zahlen aus, die nur zufällig **aussehen**. Man nennt sie Pseudozufallszahlen. Für Spiele reicht das völlig.

@@ -47,14 +47,14 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_site_imprint" = "版权信息";
 "web_site_privacy" = "隐私";
 
-/* Code live */
-"web_live_title" = "实时代码";
-"web_live_hide" = "隐藏实时代码";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "编程";
+"web_live_hide" = "隐藏编程";
 "web_scale_canvas" = "文字大小：结构图";
-"web_scale_code" = "文字大小：实时代码";
+"web_scale_code" = "文字大小：编程";
 "web_live_indent" = "缩进";
 "web_live_indent_title" = "缩进代码：每层四个空格（选中的行，否则全部）";
-"web_live_show" = "显示实时代码";
+"web_live_show" = "显示编程";
 "web_live_resize" = "更改代码区宽度（双击：重置）";
 "web_live_hint" = "代码随图一起生成。灰色 = 占位符：在检查器中输入，文字就会出现在这里。点击某行可选中对应元素。";
 "web_live_ph_selector" = "变量";

@@ -47,14 +47,14 @@
 "web_site_imprint" = "פרטי המפרסם";
 "web_site_privacy" = "פרטיות";
 
-/* Code live */
-"web_live_title" = "קוד חי";
-"web_live_hide" = "הסתרת קוד חי";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "תכנות";
+"web_live_hide" = "הסתרת תכנות";
 "web_scale_canvas" = "גודל טקסט: תרשים";
-"web_scale_code" = "גודל טקסט: קוד חי";
+"web_scale_code" = "גודל טקסט: תכנות";
 "web_live_indent" = "הזחה";
 "web_live_indent_title" = "הזחת הקוד: ארבעה רווחים לכל רמה (השורות המסומנות, אחרת הכול)";
-"web_live_show" = "הצגת קוד חי";
+"web_live_show" = "הצגת תכנות";
 "web_live_resize" = "שינוי רוחב אזור הקוד (לחיצה כפולה: איפוס)";
 "web_live_hint" = "הקוד גדל יחד עם התרשים. אפור = ממלא מקום: כתבו במפקח והטקסט יופיע כאן. לחצו על שורה כדי לבחור את הרכיב.";
 "web_live_ph_selector" = "משתנה";

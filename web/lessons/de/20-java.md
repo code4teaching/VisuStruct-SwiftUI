@@ -1,7 +1,7 @@
 ---
 titel: Java
 bereich: Vom Struktogramm zum Code
-kurz: Java-Code aus dem Struktogramm erzeugen, lesen, in Code live direkt Java schreiben und ausführen.
+kurz: Java-Code aus dem Struktogramm erzeugen, lesen, im Bereich Programmieren direkt Java schreiben und ausführen.
 ---
 
 ## Die Code-Ansicht
@@ -92,27 +92,27 @@ Unter dem [Zahnrad](#zeige-einstellungen) oben rechts kannst du **Code-Keywords*
 
 Das hilft dir, die Kästen und die Java-Befehle einander zuzuordnen. Dein Diagramm selbst bleibt dabei unverändert.
 
-## Code live: Java direkt schreiben
+## Java direkt schreiben
 
-Bisher hast du zuerst das Struktogramm gezeichnet und dann den Code angesehen. Mit [Code live](#zeige-codelive) geht es auch andersherum. Klicke rechts auf die schmale Leiste **Code live**. Neben dem Struktogramm erscheint eine Spalte, in die du Java selbst tippst.
+Bisher hast du zuerst das Struktogramm gezeichnet und dann den Code angesehen. Im Bereich [Programmieren](#zeige-codelive) geht es auch andersherum. Klicke rechts auf die schmale Leiste **Programmieren**. Neben dem Struktogramm erscheint eine Spalte, in die du Java selbst tippst.
 
 - **Struktogramm zu Code:** Änderst du etwas im Struktogramm, ändert sich der Java-Code sofort mit.
 - **Code zu Struktogramm:** Tippst du Java, baut VisuStruct beim Tippen das Struktogramm dazu. Fehlt noch etwas, zum Beispiel eine schließende Klammer `}`, steht unter dem Code ein Hinweis.
 - **Vorschläge:** Beim Tippen schlägt VisuStruct Vorlagen vor, etwa für `if`, `for` oder `while`. Mit der Eingabetaste übernimmst du eine Vorlage. Grau geschriebene Platzhalter ersetzt du einfach durch deinen Text.
-- **Einrücken:** Ist dein Code durcheinandergeraten, klicke oben in Code live auf den Knopf **Einrücken**. Jede Ebene steht dann vier Leerzeichen tiefer, wie in Eclipse oder IntelliJ. Hast du Zeilen markiert, rückt VisuStruct nur diese ein.
+- **Einrücken:** Ist dein Code durcheinandergeraten, klicke oben im Bereich Programmieren auf den Knopf **Einrücken**. Jede Ebene steht dann vier Leerzeichen tiefer, wie in Eclipse oder IntelliJ. Hast du Zeilen markiert, rückt VisuStruct nur diese ein.
 
 So kannst du beide Wege ausprobieren. Erst das Struktogramm zeichnen ist gut, um einen Ablauf zu planen. Direkt Code schreiben ist schneller, wenn du schon weißt, was du willst. Das Struktogramm hilft dir dann, deinen Code zu kontrollieren.
 
 ## Das Programm ausführen
 
-Oben in Code live startet [▶︎ Ausführen](#zeige-ausfuehren) dein Programm, **■ Stopp** bricht es ab, zum Beispiel bei einer Endlosschleife. Was dein Programm ausgibt, erscheint unten in der [Konsole](#zeige-konsole). Fragt es nach einer Eingabe, tippst du sie dort ein und drückst die Eingabetaste.
+Oben im Bereich Programmieren startet [▶︎ Ausführen](#zeige-ausfuehren) dein Programm, **■ Stopp** bricht es ab, zum Beispiel bei einer Endlosschleife. Was dein Programm ausgibt, erscheint unten in der [Konsole](#zeige-konsole). Fragt es nach einer Eingabe, tippst du sie dort ein und drückst die Eingabetaste.
 
 Die Grenze zwischen Code und Konsole kannst du mit der Maus nach oben oder unten ziehen.
 
-> Code live versteht die Java-Befehle, die es auch als Kasten im Struktogramm gibt. Eigene Klassen und Objekte kennt es noch nicht. Fenster mit Swing gehen trotzdem: Schalte dafür im Zahnrad **Echtes Java (mit Swing)** ein (Lektion „Dein erstes Fenster“).
+> Der Bereich Programmieren versteht die Java-Befehle, die es auch als Kasten im Struktogramm gibt. Eigene Klassen und Objekte kennt es noch nicht. Fenster mit Swing gehen trotzdem: Schalte dafür im Zahnrad **Echtes Java (mit Swing)** ein (Lektion „Dein erstes Fenster“).
 
 ::: angeberwissen
-Profis nennen ein Programm, in dem man Code schreibt, ausführt und Fehler sucht, eine **IDE** (Integrated Development Environment). Mit Code live ist VisuStruct eine kleine IDE mit eingebautem Struktogramm.
+Profis nennen ein Programm, in dem man Code schreibt, ausführt und Fehler sucht, eine **IDE** (Integrated Development Environment). Mit dem Bereich Programmieren ist VisuStruct eine kleine IDE mit eingebautem Struktogramm.
 :::
 
 ## Fehler suchen mit dem Debugger
@@ -141,7 +141,7 @@ Das ist ein Schreibtischtest, nur dass der Computer für dich mitschreibt. Über
 
 ## Übung: Erst Code, dann Struktogramm
 
-Diesmal zeichnest du nicht. Öffne Code live und tippe diesen Java-Code ab:
+Diesmal zeichnest du nicht. Öffne den Bereich Programmieren und tippe diesen Java-Code ab:
 
 ```
 System.out.println("Startzahl?");
@@ -155,13 +155,13 @@ System.out.println("Start!");
 
 ::: übung l20-countdown
 titel: Countdown
-auftrag: Tippe den Java-Code oben in Code live ab. Führe ihn mit ▶︎ aus und gib in der Konsole eine Startzahl ein.
+auftrag: Tippe den Java-Code oben im Bereich Programmieren ab. Führe ihn mit ▶︎ aus und gib in der Konsole eine Startzahl ein.
   Sieh dir dann das Struktogramm an, das dabei entstanden ist, und klicke auf Prüfen.
 test: 3 -> 3 | 2 | 1 | Start!
 test: 1 -> 1 | Start!
 test: 0 -> Start!
 braucht: whileSchleife
-tipp: Öffne Code live mit der schmalen Leiste ganz rechts und tippe einfach los.
+tipp: Öffne den Bereich Programmieren mit der schmalen Leiste ganz rechts und tippe einfach los.
 tipp: Achte auf das Semikolon am Ende jeder Anweisung und auf die geschweiften Klammern der While-Schleife. Unter dem Code steht ein Hinweis, wenn noch etwas fehlt.
 lösung: l20-countdown-loesung.visustruct
 :::
@@ -229,7 +229,7 @@ lösung: l17-ticket-loesung.visustruct
 - Ich weiß, wie Ausgabe, Eingabe, Verzweigung und Schleifen in Java aussehen. → Die Elemente in Java
 - Ich kenne den Unterschied zwischen Snippet und Class. → Snippet oder Class
 - Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
-- Ich kann in Code live Java tippen und das entstehende Struktogramm lesen. → Code live: Java direkt schreiben
+- Ich kann im Bereich Programmieren Java tippen und das entstehende Struktogramm lesen. → Java direkt schreiben
 - Ich kann ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen. → Das Programm ausführen
 - Ich kann Haltepunkte setzen und ein Programm im Einzelschritt verfolgen. → Fehler suchen mit dem Debugger
 :::

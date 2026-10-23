@@ -47,14 +47,14 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_site_imprint" = "Colofon";
 "web_site_privacy" = "Privacy";
 
-/* Code live */
-"web_live_title" = "Live code";
-"web_live_hide" = "Live code verbergen";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programmeren";
+"web_live_hide" = "Programmeren verbergen";
 "web_scale_canvas" = "Tekstgrootte: structuurdiagram";
-"web_scale_code" = "Tekstgrootte: live code";
+"web_scale_code" = "Tekstgrootte: programmeren";
 "web_live_indent" = "Inspringen";
 "web_live_indent_title" = "Code laten inspringen: vier spaties per niveau (geselecteerde regels, anders alles)";
-"web_live_show" = "Live code tonen";
+"web_live_show" = "Programmeren tonen";
 "web_live_resize" = "Breedte van het codegebied wijzigen (dubbelklik: herstellen)";
 "web_live_hint" = "De code groeit mee met je diagram. Grijs = plaatshouder: typ in de inspector en je tekst verschijnt hier. Klik op een regel om het element te selecteren.";
 "web_live_ph_selector" = "variabele";

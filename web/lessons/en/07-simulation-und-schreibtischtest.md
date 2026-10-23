@@ -31,7 +31,7 @@ The values of a and b are swapped. The variable temp keeps one value meanwhile.
 - **Variables:** All variables with their current values.
 - **Output:** Everything that was output with `output:`.
 
-If [Live code](#zeige-codelive) is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
+If the [Programming](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
 
 At the end, **Simulation finished.** appears. If something goes wrong, the simulation stops on the faulty box and shows a message, e.g. **Unknown variable: total**.
 
