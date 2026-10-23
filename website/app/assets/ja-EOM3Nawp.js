@@ -61,7 +61,7 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_live_java_class_hint" = "クラス名 = 図のタイトル";
 "web_live_java_main" = "main メソッド付き";
 "web_settings_display" = "表示";
-"web_live_swing" = "Swing サポート";
+"web_live_swing" = "本物の Java（Swing 対応）";
 "web_live_swing_hint" = "ウィンドウ付きの本物の Java（CheerpJ）。初回実行時に一度だけ約 40 MB をダウンロードします。";
 "web_live_swing_windows" = "Java ウィンドウ";
 "web_live_swing_hide" = "Java ウィンドウを閉じる";

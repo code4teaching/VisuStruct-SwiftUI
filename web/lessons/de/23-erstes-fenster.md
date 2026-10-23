@@ -12,11 +12,11 @@ Java bringt dafür einen Werkzeugkasten mit: **Swing**. In VisuStruct schaltest 
 
 1. Öffne rechts [Code live](#zeige-codelive).
 2. Klicke oben rechts auf das [Zahnrad](#zeige-einstellungen) und wähle als **Programmiersprache** Java.
-3. Setze darunter im Abschnitt Java den Haken bei **Swing-Unterstützung**.
+3. Setze darunter im Abschnitt Java den Haken bei **Echtes Java (mit Swing)**.
 
 Beim ersten [▶︎ Ausführen](#zeige-ausfuehren) lädt VisuStruct einmalig etwa 40 MB, das dauert einen Moment. Danach läuft dein Code als echtes Java, und deine Fenster erscheinen in Code live im Bereich **Java-Fenster** über der Konsole.
 
-> Mit Swing-Unterstützung funktionieren Eingaben über die Konsole (`Scanner`) noch nicht. Für Programme mit Eingabe schaltest du den Haken wieder aus.
+> Mit „Echtes Java“ funktionieren Eingaben über die Konsole (`Scanner`) noch nicht. Für Programme mit Eingabe schaltest du den Haken wieder aus.
 
 ::: angeberwissen
 Swing gibt es seit 1998. Davor hatte Java nur das ältere AWT mit einer Klasse `Frame`. Damit man die neuen Bausteine nicht verwechselt, beginnen in Swing fast alle Namen mit **J**: `JFrame`, `JButton`, `JLabel`. Am J erkennst du Swing also sofort.
@@ -94,13 +94,13 @@ Java ist eigentlich eine **objektorientierte** Sprache. `JFrame` ist eine Klasse
 Führe es aus und prüfe alle drei Punkte.
 
 ::: ludwig
-Du willst nicht so viel tippen? Mit Swing-Unterstützung darfst du in Code live auch nur die vier Zeilen aus `main` schreiben. VisuStruct packt sie dann selbst in eine Klasse und ergänzt die `import`-Zeilen. In einer richtigen Java-Entwicklungsumgebung brauchst du aber das ganze Programm.
+Du willst nicht so viel tippen? Mit „Echtes Java“ darfst du in Code live auch nur die vier Zeilen aus `main` schreiben. VisuStruct packt sie dann selbst in eine Klasse und ergänzt die `import`-Zeilen. In einer richtigen Java-Entwicklungsumgebung brauchst du aber das ganze Programm.
 :::
 
 ## Checkliste
 
 ::: checkliste
-- Ich kann in Code live die Swing-Unterstützung einschalten. → Programme mit Fenstern
+- Ich kann in Code live „Echtes Java“ einschalten. → Programme mit Fenstern
 - Ich kann ein Fenster mit Titel und Größe öffnen. → Das ganze Programm
 - Ich weiß, was jede Zeile des Fensterprogramms macht. → Zeile für Zeile
 - Ich weiß, warum setVisible(true) am Ende steht. → Warum setVisible am Ende steht

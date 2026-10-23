@@ -61,7 +61,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_live_java_class_hint" = "Sınıf adı = diyagram başlığı";
 "web_live_java_main" = "main metoduyla";
 "web_settings_display" = "Görünüm";
-"web_live_swing" = "Swing desteği";
+"web_live_swing" = "Gerçek Java (Swing ile)";
 "web_live_swing_hint" = "Pencereli gerçek Java (CheerpJ). İlk çalıştırmada bir kez yaklaşık 40 MB indirir.";
 "web_live_swing_windows" = "Java pencereleri";
 "web_live_swing_hide" = "Java pencerelerini kapat";
