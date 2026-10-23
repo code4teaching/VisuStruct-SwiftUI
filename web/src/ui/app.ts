@@ -1067,9 +1067,19 @@ export class App {
   /** `side`: 1 = Bereich liegt am Anfang der Zeile (links), -1 = am Ende (rechts). */
   private panelResizer(panel: HTMLElement, className: string, widthKey: string, title: string, side: 1 | -1): HTMLElement {
     const bar = h('div', { class: className, role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title })
+    // Höchstens so breit, dass die Spalte daneben noch 240 px behält; feste Breiten anderer Bereiche zählen mit.
+    const clamp = (width: number) => {
+      const total = panel.parentElement?.getBoundingClientRect().width ?? 0
+      if (total === 0) return clampPanelWidth(width)
+      const others = [this.learn.element, this.live.element]
+        .filter((p) => p !== panel && p.offsetParent !== null && getComputedStyle(p).flexGrow === '0')
+        .reduce((sum, p) => sum + p.getBoundingClientRect().width, 0)
+      const min = parseFloat(getComputedStyle(panel).minWidth) || 200
+      return Math.round(Math.max(min, Math.min(width, total - others - 240)))
+    }
     const apply = (width: number | undefined, remember: boolean) => {
-      panel.style.width = width === undefined ? '' : `${clampPanelWidth(width)}px`
-      if (remember) storeValue(widthKey, width === undefined ? '' : String(clampPanelWidth(width)))
+      panel.style.width = width === undefined ? '' : `${clamp(width)}px`
+      if (remember) storeValue(widthKey, width === undefined ? '' : String(clamp(width)))
     }
     const saved = Number(storedValue(widthKey))
     if (saved > 0) apply(saved, false)
@@ -1753,7 +1763,7 @@ function tabTitle(tab: Tab): string {
 
 /** Breite des Lernbereichs: mindestens 260 px, dem Editor bleiben mindestens 420 px. */
 function clampPanelWidth(width: number): number {
-  return Math.round(Math.max(260, Math.min(width, 720, window.innerWidth - 420)))
+  return Math.round(Math.max(200, Math.min(width, window.innerWidth - 300)))
 }
 
 function storedValue(key: string): string | null {

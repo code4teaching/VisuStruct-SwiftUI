@@ -43,6 +43,9 @@ body {
   flex: 1;
   min-height: 0;
 }
+.columns > .app {
+  min-width: 240px;
+}
 
 .toolbar {
   display: flex;
@@ -877,10 +880,12 @@ button.danger-text:not(:disabled) {
   display: none;
 }
 /* Lernbereich */
+/* Lernen und Code live geben nach, wenn das Fenster zu schmal wird; das Struktogramm behält mindestens 240 px. */
 .learn {
   display: none;
-  flex: none;
+  flex: 0 1 auto;
   width: 400px;
+  min-width: 280px;
   flex-direction: column;
   background: var(--panel);
   border-inline-end: 1px solid var(--border);
@@ -979,7 +984,7 @@ button.danger-text:not(:disabled) {
 .shell.live .live-rail {
   display: none;
 }
-/* Struktogramm eingeklappt: Leiste in der Mitte, die offenen Spalten teilen sich die Breite. */
+/* Struktogramm eingeklappt: Leiste in der Mitte. Lernen behält seine (verschiebbare) Breite, Code live füllt den Rest. */
 .editor-rail {
   display: none;
   border-inline-start: 1px solid var(--border);
@@ -988,12 +993,12 @@ button.danger-text:not(:disabled) {
   display: flex;
 }
 .shell.editor-hidden .app,
-.shell.editor-hidden .learn-resizer,
-.shell.editor-hidden .live-resizer {
+.shell.editor-hidden .live-resizer,
+.shell.editor-hidden:not(.live) .learn-resizer {
   display: none;
 }
-.shell.editor-hidden .learn,
-.shell.editor-hidden .livecode {
+.shell.editor-hidden .livecode,
+.shell.editor-hidden:not(.live) .learn {
   flex: 1 1 0;
   width: auto !important;
   min-width: 0;
@@ -1397,8 +1402,9 @@ button.danger-text:not(:disabled) {
 /* Code live: rechts neben dem Editor, wächst bei jeder Änderung mit */
 .livecode {
   display: none;
-  flex: none;
+  flex: 0 1 auto;
   width: 420px;
+  min-width: 200px;
   flex-direction: column;
   gap: 6px;
   padding: 10px 12px 12px;
@@ -1598,8 +1604,10 @@ button.danger-text:not(:disabled) {
     display: none;
   }
   .shell .learn,
-  .shell .livecode {
+  .shell .livecode,
+  .columns > .app {
     width: auto !important;
+    min-width: 0;
   }
   .livecode {
     height: 40vh;
