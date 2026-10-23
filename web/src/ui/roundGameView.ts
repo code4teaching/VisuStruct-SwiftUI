@@ -2,7 +2,7 @@ import { inline } from '../learn/markdown'
 import { click, clickButton, parseLayoutPicture, parseSwingWindow, startState, type ClickStep, type RoundGame, type SwingWindow } from '../learn/roundGame'
 import { t } from './i18n'
 
-/** Rundenspiele „Wer hört zu?“, „Vertrag erfüllt?“ und „Wo landet der Knopf?“ im Lernbereich. */
+/** Rundenspiele „Wer hört zu?“, „Vertrag erfüllt?“, „Wo landet der Knopf?“ und „Bombe entschärfen“ im Lernbereich. */
 
 function h(tag: string, attrs: Record<string, string> = {}, ...children: (Node | string)[]): HTMLElement {
   const e = document.createElement(tag)
@@ -31,15 +31,86 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
   let score = 0
   let timers: number[] = []
   const clearTimers = () => {
-    timers.forEach((id) => window.clearTimeout(id))
+    timers.forEach((id) => {
+      window.clearTimeout(id)
+      window.clearInterval(id)
+    })
     timers = []
   }
   const showStatus = () => {
     status.textContent = `${t('web_game_round_fmt', index + 1, total)} · ${t('web_game_score_fmt', score)}`
   }
 
+  const next = () => {
+    const b = h('button', { class: 'primary' }, index + 1 < total ? t('web_game_next') : t('web_game_finish'))
+    b.addEventListener('click', () => {
+      index++
+      if (index < total) showRound()
+      else showEnd()
+    })
+    return b
+  }
+
+  /** Bombe: Auf die falsche Zeile tippen, bevor der Countdown abläuft. */
+  const showBombRound = () => {
+    const round = game.rounds[index]
+    const seconds = game.seconds!
+    const fuse = h('div', { class: 'learn-bomb-fuse' }, h('span', {}))
+    const left = h('span', { class: 'learn-bomb-time' })
+    const bomb = h('div', { class: 'learn-bomb', 'aria-live': 'polite' }, h('span', { class: 'learn-bomb-icon', 'aria-hidden': 'true' }, '💣'), left, fuse)
+    const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
+    const lines = round.code.split('\n').map((line, i) => {
+      const b = h('button', { class: 'ln', type: 'button' }, line || ' ') as HTMLButtonElement
+      b.disabled = !line.trim()
+      b.addEventListener('click', () => finish(i + 1 === round.wrongLine ? 'right' : 'wrong', b))
+      return b
+    })
+    const code = h('div', { class: 'learn-game-code learn-bomb-code mono', dir: 'ltr' }, ...lines)
+    const started = Date.now()
+    const tick = () => {
+      // Lektion verlassen: Countdown anhalten
+      if (!box.isConnected && Date.now() - started > 1000) return clearTimers()
+      const rest = Math.max(0, seconds - (Date.now() - started) / 1000)
+      left.textContent = t('web_game_time_fmt', Math.ceil(rest))
+      ;(fuse.firstChild as HTMLElement).style.width = `${(rest / seconds) * 100}%`
+      bomb.classList.toggle('hurry', rest <= 5)
+      if (rest <= 0) finish('time')
+    }
+    const finish = (how: 'right' | 'wrong' | 'time', chosen?: HTMLButtonElement) => {
+      clearTimers()
+      lines.forEach((b, i) => {
+        b.disabled = true
+        if (i + 1 === round.wrongLine) b.classList.add('right')
+      })
+      if (chosen && how === 'wrong') chosen.classList.add('wrong')
+      const right = how === 'right'
+      if (right) score++
+      showStatus()
+      bomb.classList.add(right ? 'defused' : 'boom')
+      bomb.firstChild!.textContent = right ? '✂️' : '💥'
+      feedback.className = `learn-game-feedback ${right ? 'right' : 'wrong'}`
+      const n = next()
+      feedback.replaceChildren(
+        h('p', {}, t(right ? 'web_game_defused' : how === 'time' ? 'web_game_boom_time' : 'web_game_boom_wrong')),
+        rich('div', { class: 'learn-game-explain' }, round.explanation),
+        h('p', { class: 'learn-bomb-fix' }, `${t('web_game_fix')} `, h('code', {}, round.fix!.trim())),
+        n,
+      )
+      n.focus({ preventScroll: true })
+    }
+    stage.replaceChildren(bomb, rich('p', { class: 'learn-game-question' }, round.question), code, feedback)
+    tick()
+    const id = window.setInterval(tick, 200)
+    timers.push(id)
+  }
+
   const showRound = () => {
     clearTimers()
+    if (game.kind === 'bombe') {
+      showStatus()
+      showBombRound()
+      return
+    }
     const round = game.rounds[index]
     showStatus()
     const code = codeView(round.code)
@@ -70,16 +141,11 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
       if (right) score++
       showStatus()
       feedback.className = `learn-game-feedback ${right ? 'right' : 'wrong'}`
-      const next = h('button', { class: 'primary' }, index + 1 < total ? t('web_game_next') : t('web_game_finish'))
-      next.addEventListener('click', () => {
-        index++
-        if (index < total) showRound()
-        else showEnd()
-      })
+      const n = next()
       feedback.replaceChildren(h('p', {}, right ? t('web_game_right') : t('web_game_wrong_short')), rich('div', { class: 'learn-game-explain' }, round.explanation))
-      feedback.append(next)
-      if (swing) timers = swing.replay(round.clicks, () => next.before(h('p', { class: 'learn-swing-try' }, t('web_game_try'))))
-      next.focus({ preventScroll: true })
+      feedback.append(n)
+      if (swing) timers = swing.replay(round.clicks, () => n.before(h('p', { class: 'learn-swing-try' }, t('web_game_try'))))
+      n.focus({ preventScroll: true })
     }
     stage.replaceChildren(...parts, answers, feedback)
   }

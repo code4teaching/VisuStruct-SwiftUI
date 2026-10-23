@@ -154,6 +154,11 @@
 "web_game_nobody" = "だれも聞いていません。何も起こりません。";
 "web_game_event_fmt" = "「%@」をクリック: リスナーが気づいて自分のコードを実行します。";
 "web_game_try" = "ウィンドウのボタンを自分で試してみよう。";
+"web_game_time_fmt" = "残り %@ 秒";
+"web_game_defused" = "✂️ 解除成功！間違いを見つけました。";
+"web_game_boom_time" = "💥 ドカン！時間切れです。";
+"web_game_boom_wrong" = "💥 ドカン！その行ではありません。";
+"web_game_fix" = "正しい行:";
 "web_debug_step" = "ステップ実行";
 "web_debug_step_title" = "ステップ実行：命令を1つ実行して再び止まる";
 "web_debug_continue" = "次のブレークポイントまで続行";

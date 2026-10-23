@@ -1,10 +1,12 @@
 ---
-titel: Java
+titel: Structure chart and code
 bereich: From structure chart to code
-kurz: Generate and read Java code from the structure chart, write Java directly in the Programming area and run it.
+kurz: All elements in Java at a glance, generate code, write Java in the Programming area, run it and find mistakes.
 ---
 
 ## The code view
+
+In lessons 4 to 16 you have already written every element in Java. Here you see everything at a glance and learn how VisuStruct turns a whole structure chart into a Java program.
 
 A structure chart describes a process. For a computer to run it, you need a program in a programming language. VisuStruct writes this code for you.
 
@@ -50,17 +52,22 @@ In Java every statement ends with a **semicolon** `;`. Whatever is inside a box 
 
 ## The elements in Java
 
-- **Statement:** `int sum = 0` becomes `int sum = 0;`
-- **Output:** `output: sum` becomes `System.out.println(sum);`
-- **Input:** `input: int number "Number?"` becomes two lines: `System.out.println("Number?");` and `int number = scanner.nextInt();`. For the `Scanner`, `Scanner scanner = new Scanner(System.in);` is written once at the top.
-- **Branch:** `if (condition) { … } else { … }`
-- **Switch:** `switch (value) { case 1 -> { … } default -> { … } }`
-- **While loop:** `while (condition) { … }`
-- **Do-while loop:** `do { … } while (condition);`
-- **For loop:** `for (int i = 0; i < 5; i++) { … }`; the three fields go one after another in the brackets, separated by semicolons.
-- **Endless loop:** `while (true) { … }`
-- **Break:** `break;`
-- **Call:** `calculate();`
+| Element | Java | Lesson |
+|---|---|---|
+| Statement | `int sum = 0;` | 4, 5 |
+| Output | `System.out.println(sum);` | 6 |
+| Input | `int number = scanner.nextInt();` | 6 |
+| Branch | `if (condition) { … } else { … }` | 8, 9 |
+| Switch | `switch (value) { case 1 -> { … } default -> { … } }` | 10 |
+| While loop | `while (condition) { … }` | 11 |
+| Do-while loop | `do { … } while (condition);` | 12 |
+| For loop | `for (int i = 0; i < 5; i++) { … }` | 13 |
+| Endless loop | `while (true) { … }` | 11 |
+| Break | `break;` | 18 |
+| Call | `calculate();` | 18 |
+| Array | `int[] numbers = new int[5];` | 15, 16 |
+
+For input, `import java.util.Scanner;` and `Scanner scanner = new Scanner(System.in);` are written once at the very top. Before every input VisuStruct outputs the question with `System.out.println(…)`.
 
 If the false path of a branch is empty, VisuStruct still generates an `else` part that contains only the comment `// empty element`. If you switch off **Emit empty else branch in code**, the empty `else` part disappears.
 
