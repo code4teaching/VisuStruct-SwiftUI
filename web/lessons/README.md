@@ -145,6 +145,9 @@ In `zuhoerer` darf ein Zuhörer auch als Variable stehen (`ActionListener z = e 
 `knopf.addActionListener(z);` an mehreren Knöpfen hängen. Im Zuhörer gehen `if`/`else` (auch verschachtelt),
 `e.getActionCommand()` (Beschriftung des geklickten Knopfs) und `e.getSource() == knopf`.
 
+`::: spiel reihenfolge` („Wer ist dran?“): Die Antworten jeder Runde stehen in der richtigen Reihenfolge da, ohne `[x]`,
+mindestens drei. Das Spiel mischt sie, man tippt sie der Reihe nach an.
+
 ```
 ::: spiel bombe
 titel: Spiel: Bombe entschärfen

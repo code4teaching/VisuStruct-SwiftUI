@@ -220,6 +220,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_game_boom_time" = "💥 Bumm! Die Zeit ist abgelaufen.";
 "web_game_boom_wrong" = "💥 Bumm! Das war die falsche Zeile.";
 "web_game_fix" = "So stimmt die Zeile:";
+"web_game_order_hint" = "Tippe die Schritte in der richtigen Reihenfolge an.";
 "web_debug_step" = "Einzelschritt";
 "web_debug_step_title" = "Einzelschritt: eine Anweisung ausführen und wieder anhalten";
 "web_debug_continue" = "Weiter bis zum nächsten Haltepunkt";

@@ -163,6 +163,7 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_game_boom_time" = "💥 Bom! Tiden er ute.";
 "web_game_boom_wrong" = "💥 Bom! Det var feil linje.";
 "web_game_fix" = "Riktig linje:";
+"web_game_order_hint" = "Trykk på trinnene i riktig rekkefølge.";
 "web_debug_step" = "Steg";
 "web_debug_step_title" = "Steg: kjør én setning og stopp igjen";
 "web_debug_continue" = "Fortsett til neste stoppunkt";

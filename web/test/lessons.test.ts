@@ -8,7 +8,7 @@ import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
-import { parseSwingWindow, simulate } from '../src/learn/roundGame'
+import { parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
@@ -261,6 +261,15 @@ describe('Bombe entschärfen', () => {
 })
 
 describe('Rundenspiele (Swing)', () => {
+  it('„reihenfolge“: Schritte stehen der Reihe nach da, ohne [x] und mindestens drei', () => {
+    const game = parseRoundGame('reihenfolge', ['titel: Spiel: Wer ist dran?', 'runde:', 'frage: Was zuerst?', '- Klick', '- `model.erhoehen()`', '- Anzeige', '> So.'], 't.md')
+    expect(game.rounds[0].options.map((o) => o.text)).toEqual(['Klick', '`model.erhoehen()`', 'Anzeige'])
+    expect(game.rounds[0].code).toBe('')
+    expect(() => parseRoundGame('reihenfolge', ['titel: x', 'runde:', 'frage: ?', '- a', '- b'], 't.md')).toThrow(/mindestens drei/)
+    expect(() => parseRoundGame('reihenfolge', ['titel: x', 'runde:', 'frage: ?', '- a', '- [x] b', '- c'], 't.md')).toThrow(/kein \[x\]/)
+    expect(() => parseRoundGame('reihenfolge', ['titel: x', 'runde:', 'frage: ?', '- a', '- a', '- c'], 't.md')).toThrow(/gleich/)
+  })
+
   it('ein Zuhörer für mehrere Knöpfe mit getActionCommand, getSource und if/else', () => {
     const win = parseSwingWindow(
       [
