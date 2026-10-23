@@ -60,6 +60,16 @@
 "web_live_java_class" = "作為類別";
 "web_live_java_class_hint" = "類別名稱 = 結構圖標題";
 "web_live_java_main" = "包含 main 方法";
+"web_settings_display" = "顯示";
+"web_live_swing" = "Swing 支援";
+"web_live_swing_hint" = "帶視窗的真正 Java（CheerpJ）。首次執行時一次性下載約 40 MB。";
+"web_live_swing_windows" = "Java 視窗";
+"web_live_swing_hide" = "關閉 Java 視窗";
+"web_live_swing_loading" = "正在載入 Java（首次約 40 MB）…";
+"web_live_swing_compiling" = "正在編譯…";
+"web_live_swing_running" = "程式執行中。";
+"web_live_swing_compile_failed" = "編譯錯誤，見上方。";
+"web_live_swing_failed" = "無法載入 Java。請檢查網路連線。";
 "web_live_hint_edit" = "在這裡輸入 Java 程式碼，結構圖會隨之產生。或者在結構圖中操作，程式碼也會一起成長。灰色 = 預留位置，直接覆寫輸入即可。";
 "web_live_edit_label" = "Java 程式碼";
 "web_parse_line_fmt" = "第 %d 行：%@";

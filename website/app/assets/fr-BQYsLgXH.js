@@ -60,6 +60,16 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_live_java_class" = "Comme classe";
 "web_live_java_class_hint" = "Nom de la classe = titre du diagramme";
 "web_live_java_main" = "Avec méthode main";
+"web_settings_display" = "Affichage";
+"web_live_swing" = "Prise en charge de Swing";
+"web_live_swing_hint" = "Du vrai Java avec fenêtres (CheerpJ). Télécharge environ 40 Mo une seule fois, au premier lancement.";
+"web_live_swing_windows" = "Fenêtres Java";
+"web_live_swing_hide" = "Fermer les fenêtres Java";
+"web_live_swing_loading" = "Chargement de Java (environ 40 Mo la première fois) …";
+"web_live_swing_compiling" = "Compilation …";
+"web_live_swing_running" = "Le programme s’exécute.";
+"web_live_swing_compile_failed" = "Erreur de compilation, voir ci-dessus.";
+"web_live_swing_failed" = "Impossible de charger Java. Vérifie la connexion Internet.";
 "web_live_hint_edit" = "Tape ici du code Java et le diagramme se construit tout seul. Ou travaille dans le diagramme et le code suit. Gris = espace réservé, il suffit d’écrire par-dessus.";
 "web_live_edit_label" = "Code Java";
 "web_parse_line_fmt" = "Ligne %d : %@";
