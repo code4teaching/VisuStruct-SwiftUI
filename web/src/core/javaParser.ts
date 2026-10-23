@@ -673,9 +673,11 @@ class Parser {
   private simpleElement(raw: string): { element: VSElement; prompt?: string } | undefined {
     if (/^(?:(?:private|public|static|final)\s+)*Scanner\s+\w+\s*=\s*new\s+Scanner\s*\(\s*System\.in\s*\)$/.test(raw)) return undefined
     const anweisung = (text: string) => makeElement(ElementType.anweisung, { textLines: [text] })
-    const out = /^System\.out\.println\s*\(([\s\S]*)\)$/.exec(raw)
-    if (out && out[1].trim() !== '') {
+    // Auch unfertig (`System.out.println(` beim Tippen) und leer schon eine Ausgabe.
+    const out = /^System\.out\.println\s*\(([\s\S]*?)\)?$/.exec(raw)
+    if (out) {
       const expr = out[1].trim()
+      if (expr === '') return { element: anweisung('output: ') }
       const literal = /^"((?:[^"\\]|\\.)*)"$/.exec(expr)
       const prompt = literal ? unescapeJava(literal[1]) : undefined
       return { element: anweisung(`output: ${expr}`), prompt: prompt !== undefined && !prompt.includes('"') ? prompt : undefined }

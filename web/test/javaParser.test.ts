@@ -77,6 +77,13 @@ describe('Java tippen → Struktogramm', () => {
     expect(els[7].cases?.map((c) => c.name)).toEqual(['1', 'default'])
   })
 
+  it('println ist schon beim Tippen eine Ausgabe', () => {
+    expect(parse('System.out.println();').elements[0].textLines).toEqual(['output: '])
+    expect(parse('System.out.println(').elements[0].textLines).toEqual(['output: '])
+    expect(parse('System.out.println("Hal').elements[0].textLines).toEqual(['output: "Hal'])
+    expect(plainLiveJava(doc('System.out.println();'), labels)).toBe('System.out.println();')
+  })
+
   it('Eingabe mit Hinweis wird ein Eingabe-Kasten', () => {
     const els = parse('System.out.println("Wie alt bist du?");\nint alter = scanner.nextInt();').elements
     expect(els.map((e) => e.textLines)).toEqual([['input: int alter "Wie alt bist du?"']])

@@ -423,7 +423,11 @@ function emitPrintLineIfNeeded(
   stringVariables: Set<string>,
 ): string | undefined {
   const expr = expressionAfterOutputDiagramPrefix(raw)
-  if (expr === undefined) return undefined
+  if (expr === undefined) {
+    // Leere Ausgabe (`output:` ohne Text): eine Leerzeile.
+    if (!/^\s*(?:output|print):\s*$/i.test(raw)) return undefined
+    return sp(indent) + { java: 'System.out.println();', javascript: 'console.log();', python: 'print()' }[target] + '\n'
+  }
   switch (target) {
     case 'java': return sp(indent) + 'System.out.println(' + expr + ');\n'
     case 'javascript': return sp(indent) + 'console.log(' + expr + ');\n'
