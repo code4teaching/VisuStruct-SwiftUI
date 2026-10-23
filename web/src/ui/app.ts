@@ -934,6 +934,7 @@ export class App {
       height: Math.max(240, this.layout.canvasSize.height + 60, Math.floor(host.clientHeight / z)),
     }
     this.renderer.usesSimulationHighlight = this.simulating
+    this.renderer.fillsSelection = this.liveCoding
     this.svg = this.renderer.render(this.layout, size, this.simulating ? this.simPath : this.selected)
     // Textgröße wie `canvasScaleStep`: Layout und Linien wachsen gleichmäßig mit.
     this.svg.setAttribute('width', String(Math.floor(size.width * z)))

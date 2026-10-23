@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Code live:** the element of the code line with the cursor is filled light blue in the structure chart, like the code line itself.
 - **Web, Code live:** the Java editor shows line numbers (matching the line given in hints such as “Line 9: One too many }”).
 - **Web, lessons (de/en/pt):** lesson 20 explains Live code (type Java, the structure chart builds itself; ▶ Run and the console) with the new exercise “Countdown” (code first, then check the structure chart). Lesson 3 explains the Files column with class and date folders, lesson 2 the new tools row with icons, lesson 7 the console during the simulation. New pointers for Files, Live code, Run, console and the tools.
 - **Web:** new column “Files” (left of Learning) as a workspace for class folders such as `11FI1`. Saving puts the program into the chosen class and a folder for today (`2026-10-23`, created automatically) as `.visustruct` plus `.java` when Code live shows Java; clicking a program opens it again. In Chrome and Edge the workspace is a real folder on the computer (remembered after reloading); on the iPad and in other browsers it lives in the browser's storage.
