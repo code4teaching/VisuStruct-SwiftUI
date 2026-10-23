@@ -127,6 +127,72 @@ tipp: Wie in Mathe gilt Punkt vor Strich: `preis + kaese * anzahl` ist `8 + 6`. 
 lösung: l07-java-pizza-loesung.visustruct
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Mach im Kopf den Schreibtischtest und tippe auf die falsche Zeile, bevor die Zeit abläuft. Die Programme sind in Java, aber jede Zeile ist ein Kasten wie im Struktogramm. Sechs Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    int a = 3;
+    int b = 5;
+    int hilf = a;
+    a = b;
+    b = a;
+frage: Soll die Werte von a und b tauschen.
+fehler: 5
+besser: b = hilf;
+> In a steht schon der Wert von b. Der alte Wert von a steckt in hilf.
+
+runde:
+    int a = 4;
+    int b = 6;
+    double mittel = a + b / 2;
+    System.out.println(mittel);
+frage: Soll den Mittelwert 5.0 ausgeben.
+fehler: 3
+besser: double mittel = (a + b) / 2.0;
+> Ohne Klammern wird zuerst geteilt: 4 + 6 / 2 = 7.
+
+runde:
+    int karten = 3;
+    double preis = 8.5;
+    double gesamt = karten + preis;
+    System.out.println("Gesamt: " + gesamt);
+frage: Soll den Preis für 3 Kinokarten zu je 8,50 € ausgeben.
+fehler: 3
+besser: double gesamt = karten * preis;
+> Für den Gesamtpreis wird malgenommen, nicht addiert.
+
+runde:
+    int minuten = 135;
+    int stunden = minuten / 60;
+    int rest = minuten / 60;
+    System.out.println(stunden + " h " + rest + " min");
+frage: Soll 2 h 15 min ausgeben.
+fehler: 3
+besser: int rest = minuten % 60;
+> Den Rest beim Teilen liefert `%`. Mit `/` stünde auch in rest eine 2.
+
+runde:
+    String name = "Ada";
+    System.out.println("Hallo " + "name" + "!");
+frage: Soll „Hallo Ada!“ ausgeben.
+fehler: 2
+besser: System.out.println("Hallo " + name + "!");
+> In Anführungszeichen ist name nur ein Text. Die Variable steht ohne Anführungszeichen.
+
+runde:
+    double preis = 100;
+    preis = preis * 0.1;
+    System.out.println(preis);
+frage: Soll den Preis um 10 % erhöhen, also 110.0 ausgeben.
+fehler: 2
+besser: preis = preis + preis * 0.1;
+> Mal 0.1 ergibt nur die 10 %, also 10.0. Die müssen zum alten Preis dazukommen.
+:::
+
 ## Checkliste
 
 ::: checkliste

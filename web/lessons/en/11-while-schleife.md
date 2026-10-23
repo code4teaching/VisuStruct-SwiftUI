@@ -163,6 +163,84 @@ tipp: `int number = 2;` before the loop, then `while (number <= n) { … }`. In 
 lösung: l11-java-gerade-loesung.visustruct
 :::
 
+## Game: How often?
+
+::: spiel frage
+titel: Game: How often?
+intro: Ludwig has written while loops. Do the desk check in your head. Six rounds.
+
+runde:
+    int number = 3;
+    while (number > 0) {
+        System.out.println(number);
+        number = number - 1;
+    }
+    System.out.println("Go!");
+frage: What is output?
+- [x] 3\n2\n1\nGo!
+- 3\n2\n1\n0\nGo!
+- Go!
+> When number is 0, `number > 0` is false, so the 0 is not output any more.
+
+runde:
+    int i = 10;
+    while (i < 5) {
+        System.out.println(i);
+        i = i + 1;
+    }
+frage: What is output?
+- [x] nothing
+- 10
+- 10 to 4
+> The condition is checked first. 10 < 5 is false, the body doesn't run even once.
+
+runde:
+    int i = 1;
+    while (i <= 3) {
+        System.out.println(i);
+    }
+frage: What happens?
+- 1, 2 and 3 are output.
+- [x] The loop never stops.
+- Nothing is output.
+> i never gets bigger in the body. The condition always stays true: an endless loop.
+
+runde:
+    int number = 1;
+    while (number < 100) {
+        number = number * 2;
+    }
+    System.out.println(number);
+frage: What is output?
+- 64
+- 100
+- [x] 128
+> 1, 2, 4, 8, 16, 32, 64, 128. Only at 128 is `number < 100` false.
+
+runde:
+    int i = 0;
+    while (i < 5) {
+        i = i + 2;
+    }
+    System.out.println(i);
+frage: What is output?
+- 4
+- 5
+- [x] 6
+> i runs 0, 2, 4, 6. At 6, `i < 5` is false. The 5 is skipped.
+
+runde:
+    int i = 1;
+    while (i <= 10) {
+        i = i + 3;
+    }
+frage: How often does the body run?
+- 3 times
+- [x] 4 times
+- 10 times
+> The body runs at i = 1, 4, 7 and 10. After that i is 13.
+:::
+
 ## Checklist
 
 ::: checkliste

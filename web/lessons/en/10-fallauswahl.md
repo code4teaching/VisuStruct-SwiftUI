@@ -123,6 +123,79 @@ tipp: `switch (number) { case 1 -> { System.out.println("one"); } … default ->
 lösung: l10-java-wuerfel-loesung.visustruct
 :::
 
+## Game: Which case?
+
+::: spiel frage
+titel: Game: Which case?
+intro: Ludwig presses buttons on the drinks machine and other case selections. What happens? Six rounds.
+
+runde:
+    int choice = 2;
+    switch (choice) {
+        case 1 -> { System.out.println("water"); }
+        case 2 -> { System.out.println("juice"); }
+        case 3 -> { System.out.println("cocoa"); }
+        default -> { System.out.println("There is no such button."); }
+    }
+frage: What is output?
+- water
+- [x] juice
+- There is no such button.
+> choice is 2, so exactly `case 2` runs.
+
+runde:
+    int choice = 4;
+    switch (choice) {
+        case 1 -> { System.out.println("water"); }
+        case 2 -> { System.out.println("juice"); }
+        case 3 -> { System.out.println("cocoa"); }
+        default -> { System.out.println("There is no such button."); }
+    }
+frage: What is output?
+- cocoa
+- nothing
+- [x] There is no such button.
+> No case fits 4, so `default` runs.
+
+runde:
+    String day = "monday";
+    switch (day) {
+        case "Monday" -> { System.out.println("maths"); }
+        case "Tuesday" -> { System.out.println("sports"); }
+        default -> { System.out.println("free"); }
+    }
+frage: What is output?
+- maths
+- sports
+- [x] free
+> With texts every letter counts: "monday" with a small m is not "Monday".
+
+runde:
+    int grade = 0;
+    switch (grade) {
+        case 1 -> { System.out.println("very good"); }
+        case 2 -> { System.out.println("good"); }
+        case 3 -> { System.out.println("satisfactory"); }
+    }
+frage: What is output?
+- very good
+- [x] nothing
+- satisfactory
+> No case fits, and there is no `default`. Then simply nothing happens.
+
+runde:
+frage: You want to check whether `age >= 18`. What fits better?
+- [x] a branch
+- a case selection
+> A case selection only compares with fixed values. For "greater than or equal" you need a branch.
+
+runde:
+frage: A dice shows 1 to 6, and for every number a different word should appear. What fits better?
+- a branch
+- [x] a case selection
+> One variable, six fixed values: that's exactly what the case selection is for.
+:::
+
 ## Checklist
 
 ::: checkliste

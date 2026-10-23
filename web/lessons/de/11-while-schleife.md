@@ -163,6 +163,84 @@ tipp: `int zahl = 2;` vor der Schleife, dann `while (zahl <= n) { … }`. Im Rum
 lösung: l11-java-gerade-loesung.visustruct
 :::
 
+## Spiel: Wie oft?
+
+::: spiel frage
+titel: Spiel: Wie oft?
+intro: Ludwig hat While-Schleifen geschrieben. Mach im Kopf den Schreibtischtest. Sechs Runden.
+
+runde:
+    int zahl = 3;
+    while (zahl > 0) {
+        System.out.println(zahl);
+        zahl = zahl - 1;
+    }
+    System.out.println("Start!");
+frage: Was wird ausgegeben?
+- [x] 3\n2\n1\nStart!
+- 3\n2\n1\n0\nStart!
+- Start!
+> Bei zahl gleich 0 ist `zahl > 0` falsch, die 0 wird also nicht mehr ausgegeben.
+
+runde:
+    int i = 10;
+    while (i < 5) {
+        System.out.println(i);
+        i = i + 1;
+    }
+frage: Was wird ausgegeben?
+- [x] nichts
+- 10
+- 10 bis 4
+> Die Bedingung wird zuerst geprüft. 10 < 5 ist falsch, der Rumpf läuft kein einziges Mal.
+
+runde:
+    int i = 1;
+    while (i <= 3) {
+        System.out.println(i);
+    }
+frage: Was passiert?
+- 1, 2 und 3 werden ausgegeben.
+- [x] Die Schleife hört nie auf.
+- Es wird nichts ausgegeben.
+> i wird im Rumpf nie größer. Die Bedingung bleibt immer wahr: eine Endlosschleife.
+
+runde:
+    int zahl = 1;
+    while (zahl < 100) {
+        zahl = zahl * 2;
+    }
+    System.out.println(zahl);
+frage: Was wird ausgegeben?
+- 64
+- 100
+- [x] 128
+> 1, 2, 4, 8, 16, 32, 64, 128. Erst bei 128 ist `zahl < 100` falsch.
+
+runde:
+    int i = 0;
+    while (i < 5) {
+        i = i + 2;
+    }
+    System.out.println(i);
+frage: Was wird ausgegeben?
+- 4
+- 5
+- [x] 6
+> i läuft 0, 2, 4, 6. Bei 6 ist `i < 5` falsch. Die 5 wird übersprungen.
+
+runde:
+    int i = 1;
+    while (i <= 10) {
+        i = i + 3;
+    }
+frage: Wie oft läuft der Rumpf?
+- 3-mal
+- [x] 4-mal
+- 10-mal
+> Der Rumpf läuft bei i = 1, 4, 7 und 10. Danach ist i 13.
+:::
+
 ## Checkliste
 
 ::: checkliste

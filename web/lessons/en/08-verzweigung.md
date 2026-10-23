@@ -127,6 +127,103 @@ tipp: The condition is `points >= 50`. One branch has `System.out.println("passe
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
+## Game: Which way?
+
+::: spiel frage
+titel: Game: Which way?
+intro: Ludwig has written branches in Java. Work out the condition in your head and predict what is output. Seven rounds.
+
+runde:
+    int x = 5;
+    if (x > 5) {
+        System.out.println("big");
+    } else {
+        System.out.println("small");
+    }
+frage: What is output?
+- big
+- [x] small
+- nothing
+> 5 > 5 is false, because 5 is not greater than 5. So the false branch.
+
+runde:
+    int x = 5;
+    if (x >= 5) {
+        System.out.println("big");
+    } else {
+        System.out.println("small");
+    }
+frage: What is output?
+- [x] big
+- small
+- big and small
+> `>=` means "greater than or equal". 5 >= 5 is true.
+
+runde:
+    int number = 7;
+    if (number % 2 == 0) {
+        System.out.println("even");
+    } else {
+        System.out.println("odd");
+    }
+frage: What is output?
+- even
+- [x] odd
+- 1
+> 7 % 2 is the remainder 1, so not 0. The number is odd.
+
+runde:
+    int x = -4;
+    if (x < 0) {
+        x = -x;
+    }
+    System.out.println(x);
+frage: What is output?
+- -4
+- [x] 4
+- nothing
+> -4 < 0 is true, so the sign is turned around.
+
+runde:
+    int x = 4;
+    if (x < 0) {
+        x = -x;
+    }
+    System.out.println(x);
+frage: What is output?
+- -4
+- [x] 4
+- nothing
+> 4 < 0 is false. The false branch is empty, the program simply carries on below.
+
+runde:
+    int grade = 3;
+    if (grade != 3) {
+        System.out.println("different");
+    } else {
+        System.out.println("three");
+    }
+frage: What is output?
+- different
+- [x] three
+- nothing
+> `!=` means "not equal". 3 != 3 is false.
+
+runde:
+    int a = 8;
+    int b = 12;
+    if (a > b) {
+        System.out.println(a);
+    } else {
+        System.out.println(b);
+    }
+frage: What is output?
+- 8
+- [x] 12
+- 20
+> The program outputs the bigger of the two numbers.
+:::
+
 ## Checklist
 
 ::: checkliste
