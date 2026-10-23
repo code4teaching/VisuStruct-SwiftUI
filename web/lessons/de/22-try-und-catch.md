@@ -6,7 +6,7 @@ kurz: Mit echtem Java Fehlermeldungen lesen und Abstürze mit try und catch abfa
 
 ## Abgestürzt!
 
-Dieses Programm soll drei Noten ausgeben. Tippe es in [Code live](#zeige-codelive) ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
+Dieses Programm soll drei Noten ausgeben. Tippe es im Bereich [Programmieren](#zeige-codelive) ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
 
 ```
 int[] noten = {2, 3, 1};
@@ -27,7 +27,7 @@ Ist dir das auch schon passiert? Ein kleiner Fehler, und das ganze Programm ist 
 
 ## Echtes Java einschalten
 
-Code live rechnet normalerweise mit derselben Simulation wie das Struktogramm. Die hält bei einem Fehler einfach an. Um zu sehen, was echtes Java macht, schaltest du echtes Java ein:
+Der Bereich Programmieren rechnet normalerweise mit derselben Simulation wie das Struktogramm. Die hält bei einem Fehler einfach an. Um zu sehen, was echtes Java macht, schaltest du echtes Java ein:
 
 1. Klicke oben rechts auf das [Zahnrad](#zeige-einstellungen) und wähle als **Programmiersprache** Java.
 2. Setze im Abschnitt Java den Haken bei **Echtes Java (mit Swing)**.
@@ -70,7 +70,7 @@ So eine Meldung sieht erst einmal erschreckend aus. Sie verrät dir aber genau, 
 So einen Fehler zur Laufzeit nennt Java eine **Exception** (englisch für Ausnahme). Man sagt: Java *wirft* eine Exception. Fängt sie niemand auf, bricht das Programm ab. Deshalb erscheint „Fertig!“ nicht.
 
 ::: ludwig
-Lies Fehlermeldungen immer von oben: Erst der Name der Exception, dann die Zeilennummer. Die Zeilennummern stehen in Code live links neben dem Code.
+Lies Fehlermeldungen immer von oben: Erst der Name der Exception, dann die Zeilennummer. Die Zeilennummern stehen im Bereich Programmieren links neben dem Code.
 :::
 
 ## try und catch
@@ -147,7 +147,7 @@ Die Exception heißt `ArithmeticException`. Schreib in den `try`-Block nur die Z
 ## Checkliste
 
 ::: checkliste
-- Ich kann echtes Java in Code live einschalten. → Echtes Java einschalten
+- Ich kann echtes Java im Bereich Programmieren einschalten. → Echtes Java einschalten
 - Ich kann aus einer Fehlermeldung die Exception und die Zeile ablesen. → Die Fehlermeldung lesen
 - Ich kann eine Exception mit try und catch auffangen. → try und catch
 - Ich kann Text mit Integer.parseInt in eine Zahl umwandeln und die NumberFormatException abfangen. → Text in eine Zahl umwandeln

@@ -31,7 +31,7 @@ Die Werte von a und b werden vertauscht. Die Variable hilf merkt sich dabei eine
 - **Variablen:** Alle Variablen mit ihren aktuellen Werten.
 - **Ausgabe:** Alles, was mit `output:` ausgegeben wurde.
 
-Ist rechts [Code live](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
+Ist rechts der Bereich [Programmieren](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
 
 Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulation auf dem fehlerhaften Kasten stehen und zeigt eine Meldung, z. B. **Unbekannte Variable: gesamt**.
 

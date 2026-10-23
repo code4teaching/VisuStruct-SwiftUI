@@ -45,7 +45,7 @@ if (percentagem >= 90) {
 Com 75 %, `percentagem >= 90` é falso, mas `percentagem >= 70` é verdadeiro. Portanto nível 4, e as restantes condições já nem são verificadas. É por isso que basta sempre o limite de baixo.
 :::
 
-Podes experimentar esta parte sem janela no [Código ao vivo](#zeige-codelive). Escreve `int percentagem = 75;` antes e `System.out.println("Nível: " + nivel);` depois. O estrutograma mostra-te as decisões encaixadas.
+Podes experimentar esta parte sem janela na área [Programação](#zeige-codelive). Escreve `int percentagem = 75;` antes e `System.out.println("Nível: " + nivel);` depois. O estrutograma mostra-te as decisões encaixadas.
 
 ## A janela
 

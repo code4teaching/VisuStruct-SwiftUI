@@ -29,7 +29,7 @@ int secreto = (int) (Math.random() * 100) + 1;
 
 Sem o `+ 1` sairia de 0 a 99.
 
-Experimenta no [Código ao vivo](#zeige-codelive): `int secreto = (int) (Math.random() * 100) + 1;` e `System.out.println(secreto);`. Cada execução dá um número diferente.
+Experimenta na área [Programação](#zeige-codelive): `int secreto = (int) (Math.random() * 100) + 1;` e `System.out.println(secreto);`. Cada execução dá um número diferente.
 
 ::: angeberwissen
 Na verdade, os computadores não sabem lançar dados. O `Math.random()` calcula com uma fórmula uma longa sequência de números que só **parecem** aleatórios. Chamam-se números pseudoaleatórios. Para jogos chega perfeitamente.

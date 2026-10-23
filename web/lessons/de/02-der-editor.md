@@ -14,7 +14,7 @@ Der Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues W
 - **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
 - **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier bearbeitest du den Text des ausgewählten Elements.
 
-> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts [Code live](#zeige-codelive) für Java (Lektion 20).
+> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts den Bereich [Programmieren](#zeige-codelive) für Java (Lektion 20).
 
 ## Ein Element einfügen
 

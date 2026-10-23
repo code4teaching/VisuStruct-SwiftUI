@@ -6,6 +6,10 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed
+
+- **Web:** the column “Code live” is now called “Programming” (de: „Programmieren“, pt: „Programação“) in all 21 UI languages and in the lessons (de/en/pt). The step in lesson 20 is now “Write Java directly”.
+
 ### Added
 
 - **Web, Code live:** `Scanner` without `import java.util.Scanner;` (or `java.util.*`) is an error, as with javac: a hint under the code, and ▶ Run stops with the message. Code generated from the structure chart now writes the real import line at the very top (also around `main` and the class); typed imports are moved in front of the class when running real Java. Suggestions now also offer `public`, `private`, `static`, `void`, `class`, `public class`, `try … catch`, the usual `import` lines and the Swing types. New glossary terms Scanner and import (de/en/pt).

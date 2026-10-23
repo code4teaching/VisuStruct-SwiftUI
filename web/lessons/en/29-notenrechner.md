@@ -45,7 +45,7 @@ if (points >= 90) {
 With 85 points, `points >= 90` is false, but `points >= 80` is true. So grade B, and the remaining conditions are not checked at all. That is why the lower limit is enough each time.
 :::
 
-You can try this part without a window in [Live code](#zeige-codelive). Put `int points = 85;` in front of it and `System.out.println("Grade: " + grade);` after it. The structure chart shows you the nested branches.
+You can try this part without a window in the [Programming](#zeige-codelive) area. Put `int points = 85;` in front of it and `System.out.println("Grade: " + grade);` after it. The structure chart shows you the nested branches.
 
 ## The window
 

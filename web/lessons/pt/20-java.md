@@ -1,7 +1,7 @@
 ---
 titel: Java
 bereich: Do estrutograma ao código
-kurz: Gerar e ler código Java a partir do estrutograma, escrever Java diretamente no Código ao vivo e executá-lo.
+kurz: Gerar e ler código Java a partir do estrutograma, escrever Java diretamente na área Programação e executá-lo.
 ---
 
 ## A vista de código
@@ -92,27 +92,27 @@ Na [roda dentada](#zeige-einstellungen) em cima à direita podes ativar as **Pal
 
 Isto ajuda-te a associar os blocos aos comandos Java. O teu diagrama em si fica igual.
 
-## Código ao vivo: escrever Java diretamente
+## Escrever Java diretamente
 
-Até agora desenhaste primeiro o estrutograma e depois viste o código. Com o [Código ao vivo](#zeige-codelive) também funciona ao contrário. Clica na barra estreita **Código ao vivo** à direita. Ao lado do estrutograma aparece uma coluna onde escreves tu mesmo o Java.
+Até agora desenhaste primeiro o estrutograma e depois viste o código. Na área [Programação](#zeige-codelive) também funciona ao contrário. Clica na barra estreita **Programação** à direita. Ao lado do estrutograma aparece uma coluna onde escreves tu mesmo o Java.
 
 - **Do estrutograma para o código:** Quando alteras alguma coisa no estrutograma, o código Java muda logo.
 - **Do código para o estrutograma:** Quando escreves Java, o VisuStruct constrói o estrutograma enquanto escreves. Se ainda faltar alguma coisa, por exemplo uma chaveta de fecho `}`, aparece uma indicação por baixo do código.
 - **Sugestões:** Enquanto escreves, o VisuStruct sugere modelos, por exemplo para `if`, `for` ou `while`. Com Enter aceitas um modelo. Substitui simplesmente os marcadores cinzentos pelo teu texto.
-- **Indentar:** Se o teu código ficou desarrumado, clica no botão **Indentar** em cima no Código ao vivo. Cada nível fica então quatro espaços mais para dentro, como no Eclipse ou no IntelliJ. Se tiveres linhas selecionadas, o VisuStruct só indenta essas.
+- **Indentar:** Se o teu código ficou desarrumado, clica no botão **Indentar** em cima na área Programação. Cada nível fica então quatro espaços mais para dentro, como no Eclipse ou no IntelliJ. Se tiveres linhas selecionadas, o VisuStruct só indenta essas.
 
 Assim podes experimentar os dois caminhos. Desenhar primeiro o estrutograma é bom para planear um processo. Escrever o código diretamente é mais rápido quando já sabes o que queres. O estrutograma ajuda-te depois a verificar o teu código.
 
 ## Executar o programa
 
-Em cima, no Código ao vivo, [▶︎ Executar](#zeige-ausfuehren) inicia o teu programa e **■ Parar** termina-o, por exemplo num ciclo infinito. O que o teu programa mostra aparece em baixo na [consola](#zeige-konsole). Se pedir uma entrada, escreve-a lá e carrega em Enter.
+Em cima, na área Programação, [▶︎ Executar](#zeige-ausfuehren) inicia o teu programa e **■ Parar** termina-o, por exemplo num ciclo infinito. O que o teu programa mostra aparece em baixo na [consola](#zeige-konsole). Se pedir uma entrada, escreve-a lá e carrega em Enter.
 
 Podes arrastar com o rato a fronteira entre o código e a consola para cima ou para baixo.
 
-> O Código ao vivo entende os comandos Java que também existem como blocos no estrutograma. Ainda não conhece classes próprias nem objetos. Janelas com Swing funcionam na mesma: liga o **Java verdadeiro (com Swing)** na roda dentada (lição “A tua primeira janela”).
+> A área Programação entende os comandos Java que também existem como blocos no estrutograma. Ainda não conhece classes próprias nem objetos. Janelas com Swing funcionam na mesma: liga o **Java verdadeiro (com Swing)** na roda dentada (lição “A tua primeira janela”).
 
 ::: angeberwissen
-Os profissionais chamam **IDE** (Integrated Development Environment) a um programa onde se escreve código, se executa e se procuram erros. Com o Código ao vivo, o VisuStruct é um pequeno IDE com estrutograma incluído.
+Os profissionais chamam **IDE** (Integrated Development Environment) a um programa onde se escreve código, se executa e se procuram erros. Com a área Programação, o VisuStruct é um pequeno IDE com estrutograma incluído.
 :::
 
 ## Encontrar erros com o depurador
@@ -141,7 +141,7 @@ System.out.println("Soma: " + soma);
 
 ## Exercício: Primeiro o código, depois o estrutograma
 
-Desta vez não desenhas. Abre o Código ao vivo e escreve este código Java:
+Desta vez não desenhas. Abre a área Programação e escreve este código Java:
 
 ```
 System.out.println("Número inicial?");
@@ -155,13 +155,13 @@ System.out.println("Start!");
 
 ::: übung l20-countdown
 titel: Contagem decrescente
-auftrag: Escreve o código Java acima no Código ao vivo. Executa-o com ▶︎ e introduz um número inicial na consola.
+auftrag: Escreve o código Java acima na área Programação. Executa-o com ▶︎ e introduz um número inicial na consola.
   Depois observa o estrutograma que foi construído e clica em Verificar.
 test: 3 -> 3 | 2 | 1 | Start!
 test: 1 -> 1 | Start!
 test: 0 -> Start!
 braucht: whileSchleife
-tipp: Abre o Código ao vivo com a barra estreita mais à direita e começa simplesmente a escrever.
+tipp: Abre a área Programação com a barra estreita mais à direita e começa simplesmente a escrever.
 tipp: Atenção ao ponto e vírgula no fim de cada instrução e às chavetas do ciclo while. Por baixo do código aparece uma indicação quando ainda falta alguma coisa.
 lösung: l20-countdown-loesung.visustruct
 :::
@@ -229,7 +229,7 @@ lösung: l17-ticket-loesung.visustruct
 - Sei como ficam em Java a saída, a entrada, as decisões e os ciclos. → Os elementos em Java
 - Sei a diferença entre Excerto e Classe. → Excerto ou Classe
 - Sei reconstruir um programa Java curto como estrutograma. → Exercício: Java como estrutograma
-- Sei escrever Java no Código ao vivo e ler o estrutograma que é construído. → Código ao vivo: escrever Java diretamente
+- Sei escrever Java na área Programação e ler o estrutograma que é construído. → Escrever Java diretamente
 - Sei executar um programa com ▶︎ e usar entradas e saídas na consola. → Executar o programa
 - Consigo pôr pontos de paragem e seguir um programa passo a passo. → Encontrar erros com o depurador
 :::

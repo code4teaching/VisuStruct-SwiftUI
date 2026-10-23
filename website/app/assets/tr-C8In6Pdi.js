@@ -47,14 +47,14 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_site_imprint" = "Künye";
 "web_site_privacy" = "Gizlilik";
 
-/* Code live */
-"web_live_title" = "Canlı kod";
-"web_live_hide" = "Canlı kodu gizle";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programlama";
+"web_live_hide" = "Programlamayı gizle";
 "web_scale_canvas" = "Yazı boyutu: yapı diyagramı";
-"web_scale_code" = "Yazı boyutu: canlı kod";
+"web_scale_code" = "Yazı boyutu: programlama";
 "web_live_indent" = "Girinti";
 "web_live_indent_title" = "Kodu girintile: her seviye için dört boşluk (seçili satırlar, yoksa tümü)";
-"web_live_show" = "Canlı kodu göster";
+"web_live_show" = "Programlamayı göster";
 "web_live_resize" = "Kod alanının genişliğini değiştir (çift tıklama: sıfırla)";
 "web_live_hint" = "Kod diyagramınla birlikte büyür. Gri = yer tutucu: denetçiye yaz, metnin burada görünür. Öğesini seçmek için bir satıra tıkla.";
 "web_live_ph_selector" = "değişken";

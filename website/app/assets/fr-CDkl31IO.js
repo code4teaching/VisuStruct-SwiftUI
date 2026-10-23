@@ -47,14 +47,14 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_site_imprint" = "Mentions légales";
 "web_site_privacy" = "Confidentialité";
 
-/* Code live */
-"web_live_title" = "Code en direct";
-"web_live_hide" = "Masquer le code en direct";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programmation";
+"web_live_hide" = "Masquer la programmation";
 "web_scale_canvas" = "Taille du texte : structogramme";
-"web_scale_code" = "Taille du texte : code en direct";
+"web_scale_code" = "Taille du texte : programmation";
 "web_live_indent" = "Indenter";
 "web_live_indent_title" = "Indenter le code : quatre espaces par niveau (lignes sélectionnées, sinon tout)";
-"web_live_show" = "Afficher le code en direct";
+"web_live_show" = "Afficher la programmation";
 "web_live_resize" = "Modifier la largeur de la zone de code (double-clic : réinitialiser)";
 "web_live_hint" = "Le code évolue avec ton diagramme. Gris = espace réservé : écris dans l’inspecteur et ton texte apparaît ici. Clique sur une ligne pour sélectionner son élément.";
 "web_live_ph_selector" = "variable";

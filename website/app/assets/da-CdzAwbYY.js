@@ -47,14 +47,14 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_site_imprint" = "Kolofon";
 "web_site_privacy" = "Privatliv";
 
-/* Code live */
-"web_live_title" = "Live-kode";
-"web_live_hide" = "Skjul live-kode";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programmering";
+"web_live_hide" = "Skjul programmering";
 "web_scale_canvas" = "Tekststørrelse: struktogram";
-"web_scale_code" = "Tekststørrelse: live-kode";
+"web_scale_code" = "Tekststørrelse: programmering";
 "web_live_indent" = "Indryk";
 "web_live_indent_title" = "Indryk koden: fire mellemrum pr. niveau (markerede linjer, ellers alt)";
-"web_live_show" = "Vis live-kode";
+"web_live_show" = "Vis programmering";
 "web_live_resize" = "Skift kodeområdets bredde (dobbeltklik: nulstil)";
 "web_live_hint" = "Koden vokser med dit diagram. Gråt = pladsholder: skriv i inspektøren, så vises teksten her. Klik på en linje for at vælge elementet.";
 "web_live_ph_selector" = "variabel";

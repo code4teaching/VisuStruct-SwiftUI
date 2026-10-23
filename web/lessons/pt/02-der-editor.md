@@ -14,7 +14,7 @@ O editor tem várias áreas. Passa o rato por cima de uma palavra azul ou toca n
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
 - **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.
 
-> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita o [Código ao vivo](#zeige-codelive) para Java (lição 20).
+> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Programação](#zeige-codelive) para Java (lição 20).
 
 ## Inserir um elemento
 

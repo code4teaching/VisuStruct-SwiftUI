@@ -47,14 +47,14 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_site_imprint" = "Nota prawna";
 "web_site_privacy" = "Prywatność";
 
-/* Code live */
-"web_live_title" = "Kod na żywo";
-"web_live_hide" = "Ukryj kod na żywo";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programowanie";
+"web_live_hide" = "Ukryj programowanie";
 "web_scale_canvas" = "Rozmiar tekstu: diagram";
-"web_scale_code" = "Rozmiar tekstu: kod na żywo";
+"web_scale_code" = "Rozmiar tekstu: programowanie";
 "web_live_indent" = "Wcięcia";
 "web_live_indent_title" = "Popraw wcięcia kodu: cztery spacje na poziom (zaznaczone wiersze, w przeciwnym razie wszystko)";
-"web_live_show" = "Pokaż kod na żywo";
+"web_live_show" = "Pokaż programowanie";
 "web_live_resize" = "Zmień szerokość obszaru kodu (dwuklik: resetuj)";
 "web_live_hint" = "Kod rośnie razem z diagramem. Szary = symbol zastępczy: wpisz tekst w inspektorze, a pojawi się tutaj. Kliknij wiersz, aby zaznaczyć jego element.";
 "web_live_ph_selector" = "zmienna";

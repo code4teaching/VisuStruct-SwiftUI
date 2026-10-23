@@ -102,14 +102,14 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_site_imprint" = "Contacto";
 "web_site_privacy" = "Privacidade";
 
-/* Code live */
-"web_live_title" = "Código ao vivo";
-"web_live_hide" = "Ocultar código ao vivo";
+/* Programmieren (früher „Code live“) */
+"web_live_title" = "Programação";
+"web_live_hide" = "Ocultar programação";
 "web_scale_canvas" = "Tamanho do texto: estrutograma";
-"web_scale_code" = "Tamanho do texto: Código ao vivo";
+"web_scale_code" = "Tamanho do texto: Programação";
 "web_live_indent" = "Indentar";
 "web_live_indent_title" = "Indentar o código: quatro espaços por nível (linhas selecionadas, senão tudo)";
-"web_live_show" = "Mostrar código ao vivo";
+"web_live_show" = "Mostrar programação";
 "web_live_resize" = "Alterar a largura da área de código (duplo clique: repor)";
 "web_live_hint" = "O código cresce com o teu diagrama. Cinzento = marcador: escreve no inspetor de objetos e o teu texto aparece aí. Clica numa linha para selecionar o elemento.";
 "web_live_ph_selector" = "variável";

@@ -31,7 +31,7 @@ Os valores de a e b são trocados. A variável aux guarda um dos valores entreta
 - **Variáveis:** Todas as variáveis com os seus valores atuais.
 - **Saída:** Tudo o que foi mostrado com `output:`.
 
-Se o [Código ao vivo](#zeige-codelive) estiver aberto à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
+Se a área [Programação](#zeige-codelive) estiver aberta à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
 
 No fim aparece **Simulação terminada.** Se algo correr mal, a simulação para no bloco com erro e mostra uma mensagem, p. ex. **Variável desconhecida: total**.
 
