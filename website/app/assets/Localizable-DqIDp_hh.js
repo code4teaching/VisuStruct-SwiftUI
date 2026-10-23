@@ -1,0 +1,241 @@
+const e=`/* Palette */
+"palette_header" = "元素";
+"inspector_header" = "物件檢閱器";
+
+/* Actions */
+"action_share_png" = "分享圖片…";
+"action_share_document" = "分享檔案…";
+"action_export_pdf" = "PDF 預覽…";
+"action_generate_code" = "產生程式碼…";
+"action_simulation" = "模擬";
+"action_diagram" = "圖表";
+"simulation_placeholder_body" = "模擬模式會逐步執行圖表，醒目提示目前元素，並顯示變數值和輸出。";
+"simulation_controls" = "控制";
+"simulation_highlight_label" = "醒目提示";
+"simulation_highlight_last" = "上一步";
+"simulation_highlight_next" = "下一步";
+"simulation_not_available" = "Play 會自動執行模擬，每步暫停 0.5 秒。";
+"simulation_play" = "播放";
+"simulation_pause" = "暫停";
+"simulation_step" = "單步";
+"simulation_stop" = "停止";
+"simulation_input" = "輸入";
+"simulation_input_placeholder" = "不需要輸入。";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "請輸入一個整數。";
+"simulation_trace" = "上一步";
+"simulation_trace_placeholder" = "尚未執行任何步驟。";
+"simulation_variables" = "變數";
+"simulation_variables_placeholder" = "暫無變數。";
+"simulation_output" = "輸出";
+"simulation_output_placeholder" = "暫無輸出。";
+"action_delete_selection" = "刪除選取項目";
+"ctx_copy" = "複製";
+"ctx_cut" = "剪下";
+"ctx_paste" = "貼上";
+"action_settings" = "設定";
+"action_about" = "關於 VisuStruct";
+"recent_files_menu" = "最近檔案";
+"recent_files_empty" = "沒有最近檔案";
+"recent_files_clear" = "清除列表";
+"recent_files_unavailable" = "檔案已無法使用。";
+
+/* In-app settings */
+"settings_language_title" = "語言";
+"settings_language_de" = "德文";
+"settings_language_en" = "英文";
+"settings_language_es" = "西班牙文";
+"settings_language_fr" = "法文";
+"settings_language_it" = "義大利文";
+"settings_language_pl" = "波蘭文";
+"settings_language_tr" = "土耳其文";
+"settings_language_ko" = "韓文";
+"settings_language_ja" = "日文";
+"settings_language_el" = "希臘文";
+"settings_language_uk" = "烏克蘭文";
+"settings_language_ar" = "阿拉伯文";
+"settings_language_ru" = "俄文";
+"settings_language_he" = "希伯來文";
+"settings_language_zh_hans" = "中文（簡體）";
+"settings_language_zh_hant" = "中文（繁體）";
+"settings_language_ptpt" = "葡萄牙文";
+"settings_language_java" = "Java（關鍵字）";
+
+
+/* Error overlay */
+"error_title" = "錯誤";
+"error_back_editor" = "回到編輯器";
+
+/* Toolbar */
+"toolbar_undo" = "復原";
+"toolbar_redo" = "重做";
+"toolbar_new" = "新增";
+"menu_open" = "開啟…";
+"menu_save" = "儲存";
+"menu_save_as" = "另存新檔…";
+"menu_print" = "列印…";
+"menu_file" = "檔案";
+"menu_new" = "新增";
+"menu_close" = "關閉";
+
+/* Accessibility */
+"a11y_generate_code" = "從結構圖產生程式碼";
+"a11y_generate_code_locked" = "產生程式碼（購買後可用）";
+"a11y_unsaved_changes" = "未儲存的變更";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "產生程式碼";
+"codegen_gate_body" = "將透過 App 內購買解鎖從圖表產生的 Java、Python 與 JavaScript 程式碼（即將推出）。";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "程式碼產生器";
+"codegen_placeholder_body" = "產生的程式碼會顯示在這裡。";
+"codegen_placeholder_compare" = "在 Java、Python 與 JavaScript 之間切換以比較語法（下方範例）。";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (條件) {\\n    陳述式();\\n} else {\\n    替代();\\n}";
+"codegen_preview_python" = "if 條件:\\n    陳述式()\\nelse:\\n    替代()";
+"codegen_copy" = "複製";
+"codegen_run_in_browser" = "在瀏覽器中測試";
+"codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
+"a11y_new_diagram_tab" = "新增圖表分頁";
+"a11y_close_tab" = "關閉分頁";
+
+"close_unsaved_title" = "未儲存的變更";
+"close_unsaved_message" = "此圖表包含未儲存的變更。關閉前要儲存嗎？";
+"close_unsaved_discard" = "捨棄";
+"close_unsaved_cancel" = "取消";
+"a11y_placeholder_drop" = "將元素拖放到這裡以取代佔位符。長按可拖曳移動。";
+"a11y_node_drop" = "長按區塊並拖曳：放到目標上緣或下緣以插入到前/後。僅能在 ø 佔位符上置中放下。";
+"a11y_codegen_panel_drag" = "拖移以移動程式碼產生器面板";
+
+/* Diagram */
+"diagram_title_label" = "標題";
+"diagram_title_placeholder" = "無標題";
+
+/* Inspector */
+"inspector_no_selection" = "未選取任何元素 — 點一下區塊。";
+"inspector_apply_text" = "套用文字";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "類型";
+"inspector_io_mode_statement" = "敘述";
+"inspector_io_mode_input" = "輸入";
+"inspector_io_mode_output" = "輸出";
+"inspector_io_mode_help_java_like" = "輸入: input: … | 輸出: output: …";
+"inspector_add_case" = "新增分支";
+"inspector_remove_case" = "移除分支";
+"inspector_group_element" = "元素文字";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "輸入條件…";
+"inspector_placeholder_selector" = "輸入選擇式…";
+"inspector_placeholder_call" = "輸入呼叫…";
+"inspector_placeholder_break" = "註解（選填）";
+
+/* Element types */
+"element_anweisung" = "陳述式";
+"element_verzweigung" = "分支";
+"element_fallauswahl" = "選擇";
+"element_forSchleife" = "for 迴圈";
+"element_whileSchleife" = "while 迴圈";
+"element_doUntilSchleife" = "do-while 迴圈";
+"element_endlosschleife" = "無限迴圈";
+"element_aussprung" = "跳出";
+"element_aufruf" = "呼叫";
+"element_leerElement" = "空元素";
+
+/* Tabs */
+"tab_title_format" = "圖表 %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "空結構圖";
+"canvas_empty_hint" = "從「元素」拖曳一個區塊到這裡。";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "選擇";
+"canvas_stub_anweisung" = "陳述式";
+"canvas_stub_condition" = "條件";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "無限";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "呼叫()";
+
+/* About */
+"about_version_fmt" = "版本 %@ (%@)";
+"about_nav_title" = "關於 VisuStruct";
+"about_features_heading" = "功能";
+"about_bullet_palette" = "從調色盤插入區塊，或拖曳到圖表";
+"about_bullet_edit" = "編輯圖表：修改文字、選取元素，必要時刪除";
+"about_bullet_tabs" = "多個圖表分頁——每個都有自己的標題";
+"about_bullet_file" = "將圖表儲存並以 .visustruct 檔案重新開啟";
+"about_bullet_share" = "將結構圖分享為圖片（PNG）";
+"about_dateiformat_heading" = "檔案格式";
+"about_dateiformat_part1" = "VisuStruct 的原生格式使用副檔名 ";
+"about_dateiformat_part2" = "。你可以保存圖表，並與支援相同格式的其他 App 交換。";
+"about_dateiformat_strk" = "也可以開啟 .strk 副檔名的檔案。";
+"about_project_github_label" = "Java App（原始碼與版本）：";
+"about_web_label" = "網站：";
+"about_developer_label" = "開發者：";
+"about_lineage_heading" = "沿革";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Java 上游：";
+"about_done" = "完成";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "取消插入";
+"phone_show_text_editor" = "編輯文字";
+"phone_hide_text_editor" = "收合";
+"phone_title_done" = "完成";
+
+/* Alerts */
+"err_save_failed_fmt" = "無法儲存：%@";
+"err_share_prepare_failed_fmt" = "無法準備分享：%@";
+"err_diagram_too_small_export" = "圖表太小——沒有可匯出的內容。";
+"err_image_render_failed" = "無法建立圖片。";
+"err_diagram_too_small_print" = "圖表太小——沒有可列印的內容。";
+"err_print_unavailable" = "此裝置不支援列印。";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "檔名建議";
+"settings_export_filename_picker" = "格式";
+"settings_export_filename_date_title" = "含日期";
+"settings_export_filename_title_only" = "不含日期";
+"settings_export_filename_footer_with_date" = "含日期: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "不含日期: Filename.visustruct";
+
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "模擬已結束。";
+"sim_notice_infinite_loop_empty" = "無限迴圈沒有迴圈主體。";
+"sim_notice_unsupported_statement_fmt" = "不支援的敘述：%@";
+"sim_notice_invalid_expression_fmt" = "無效的運算式：%@";
+"sim_notice_unknown_variable_fmt" = "未知變數：%@";
+"sim_notice_division_by_zero" = "除數為零。";
+"sim_notice_whole_number_expected" = "請輸入整數。";
+"sim_notice_number_expected" = "請輸入數字。";
+"sim_notice_boolean_expected" = "請輸入 true 或 false。";
+"sim_notice_subprogram_not_found_fmt" = "沒有名為 %@ 的已開啟圖表。已略過該呼叫。";
+"sim_notice_call_too_deep" = "巢狀呼叫過多。是否有子程式呼叫了自己？";
+
+"codegen_pseudocode_toggle" = "虛擬碼（無法執行的程式碼）";
+"codegen_pseudocode_note" = "虛擬碼 – 不是可執行的程式";
+"codegen_pseudocode_hint" = "此圖已標示為虛擬碼。程式碼只是草稿，無法執行。";
+`;export{e as default};

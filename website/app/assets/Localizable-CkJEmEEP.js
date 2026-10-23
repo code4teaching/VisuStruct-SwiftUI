@@ -1,0 +1,241 @@
+const e=`/* Palette */
+"palette_header" = "要素";
+"inspector_header" = "オブジェクトインスペクタ";
+
+/* Actions */
+"action_share_png" = "画像を共有…";
+"action_share_document" = "ファイルを共有…";
+"action_export_pdf" = "PDF をプレビュー…";
+"action_generate_code" = "コード生成…";
+"action_simulation" = "シミュレーション";
+"action_diagram" = "図";
+"simulation_placeholder_body" = "シミュレーションモードは図をステップごとに実行し、現在の要素を強調表示して、変数の値と出力を表示します。";
+"simulation_controls" = "操作";
+"simulation_highlight_label" = "ハイライト";
+"simulation_highlight_last" = "前のステップ";
+"simulation_highlight_next" = "次のステップ";
+"simulation_not_available" = "Play は各ステップごとに0.5秒停止しながらシミュレーションを自動実行します。";
+"simulation_play" = "再生";
+"simulation_pause" = "一時停止";
+"simulation_step" = "ステップ";
+"simulation_stop" = "停止";
+"simulation_input" = "入力";
+"simulation_input_placeholder" = "入力は不要です。";
+"simulation_input_submit" = "OK";
+"simulation_input_invalid_int" = "整数を入力してください。";
+"simulation_trace" = "最後のステップ";
+"simulation_trace_placeholder" = "まだステップは実行されていません。";
+"simulation_variables" = "変数";
+"simulation_variables_placeholder" = "まだ変数はありません。";
+"simulation_output" = "出力";
+"simulation_output_placeholder" = "まだ出力はありません。";
+"action_delete_selection" = "選択を削除";
+"ctx_copy" = "コピー";
+"ctx_cut" = "切り取り";
+"ctx_paste" = "貼り付け";
+"action_settings" = "設定";
+"action_about" = "VisuStruct について";
+"recent_files_menu" = "最近使ったファイル";
+"recent_files_empty" = "最近使ったファイルはありません";
+"recent_files_clear" = "リストを消去";
+"recent_files_unavailable" = "ファイルは利用できなくなりました。";
+
+/* In-app settings */
+"settings_language_title" = "言語";
+"settings_language_de" = "ドイツ語";
+"settings_language_en" = "英語";
+"settings_language_es" = "スペイン語";
+"settings_language_fr" = "フランス語";
+"settings_language_it" = "イタリア語";
+"settings_language_pl" = "ポーランド語";
+"settings_language_tr" = "トルコ語";
+"settings_language_ko" = "韓国語";
+"settings_language_ja" = "日本語";
+"settings_language_el" = "ギリシャ語";
+"settings_language_uk" = "ウクライナ語";
+"settings_language_ar" = "アラビア語";
+"settings_language_ru" = "ロシア語";
+"settings_language_he" = "ヘブライ語";
+"settings_language_zh_hans" = "中国語（簡体字）";
+"settings_language_zh_hant" = "中国語（繁体字）";
+"settings_language_ptpt" = "ポルトガル語";
+"settings_language_java" = "Java（キーワード）";
+
+
+/* Error overlay */
+"error_title" = "エラー";
+"error_back_editor" = "エディタに戻る";
+
+/* Toolbar */
+"toolbar_undo" = "取り消し";
+"toolbar_redo" = "やり直し";
+"toolbar_new" = "新規";
+"menu_open" = "開く…";
+"menu_save" = "保存";
+"menu_save_as" = "別名で保存…";
+"menu_print" = "印刷…";
+"menu_file" = "ファイル";
+"menu_new" = "新規";
+"menu_close" = "閉じる";
+
+/* Accessibility */
+"a11y_generate_code" = "構造図からコードを生成";
+"a11y_generate_code_locked" = "コード生成（購入後に利用可能）";
+"a11y_unsaved_changes" = "未保存の変更";
+
+/* Code generator (IAP to follow) */
+"codegen_gate_title" = "コード生成";
+"codegen_gate_body" = "図から生成される Java、Python、JavaScript のコードはアプリ内課金で利用可能になります（近日公開）。";
+"codegen_gate_ok" = "OK";
+"codegen_placeholder_title" = "コード生成";
+"codegen_placeholder_body" = "生成されたコードはここに表示されます。";
+"codegen_placeholder_compare" = "Java、Python、JavaScript を切り替えて構文を比較できます（下の例）。";
+"codegen_target_java" = "Java";
+"codegen_target_python" = "Python";
+"codegen_target_javascript" = "JavaScript";
+"codegen_preview_java" = "if (条件) {\\n    文();\\n} else {\\n    代替();\\n}";
+"codegen_preview_python" = "if 条件:\\n    文()\\nelse:\\n    代替()";
+"codegen_copy" = "コピー";
+"codegen_run_in_browser" = "ブラウザでテスト";
+"codegen_save_java" = "Save Java…";
+"codegen_java_output_mode" = "Java output";
+"codegen_java_output_snippet" = "Snippet";
+"codegen_java_output_class" = "Class";
+"a11y_new_diagram_tab" = "新しい図のタブ";
+"a11y_close_tab" = "タブを閉じる";
+
+"close_unsaved_title" = "未保存の変更";
+"close_unsaved_message" = "この図には未保存の変更があります。閉じる前に保存しますか？";
+"close_unsaved_discard" = "破棄";
+"close_unsaved_cancel" = "キャンセル";
+"a11y_placeholder_drop" = "要素をここにドロップしてプレースホルダーを置き換えます。長押ししてドラッグし移動できます。";
+"a11y_node_drop" = "ブロックを長押ししてドラッグ：対象の上端／下端にドロップすると前／後に挿入。中央へのドロップは ø プレースホルダーのみ。";
+"a11y_codegen_panel_drag" = "ドラッグしてコード生成パネルを移動";
+
+/* Diagram */
+"diagram_title_label" = "タイトル";
+"diagram_title_placeholder" = "タイトルなし";
+
+/* Inspector */
+"inspector_no_selection" = "要素が選択されていません — タイルをタップしてください。";
+"inspector_apply_text" = "テキストを適用";
+"inspector_for_init" = "Init";
+"inspector_for_condition" = "Condition";
+"inspector_for_step" = "Step";
+"inspector_for_placeholder_init" = "int i = 0";
+"inspector_for_placeholder_condition" = "i < 5";
+"inspector_for_placeholder_step" = "i++";
+
+"inspector_io_mode_title" = "種類";
+"inspector_io_mode_statement" = "文";
+"inspector_io_mode_input" = "入力";
+"inspector_io_mode_output" = "出力";
+"inspector_io_mode_help_java_like" = "入力: input: … | 出力: output: …";
+"inspector_add_case" = "ケースを追加";
+"inspector_remove_case" = "ケースを削除";
+"inspector_group_element" = "要素テキスト";
+"inspector_placeholder_statement" = "int sum = number1 + number2";
+"inspector_placeholder_condition" = "条件を入力…";
+"inspector_placeholder_selector" = "セレクタを入力…";
+"inspector_placeholder_call" = "呼び出しを入力…";
+"inspector_placeholder_break" = "コメント（任意）";
+
+/* Element types (Japanese + keyword hint) */
+"element_anweisung" = "文 (statement)";
+"element_verzweigung" = "条件分岐 (if/else)";
+"element_fallauswahl" = "選択 (switch)";
+"element_forSchleife" = "繰り返し (for)";
+"element_whileSchleife" = "繰り返し (while)";
+"element_doUntilSchleife" = "繰り返し (do-while)";
+"element_endlosschleife" = "無限ループ (while true)";
+"element_aussprung" = "脱出 (break)";
+"element_aufruf" = "呼び出し (call)";
+"element_leerElement" = "空の要素";
+
+/* Tabs */
+"tab_title_format" = "図 %d";
+
+/* Empty canvas */
+"canvas_empty_title" = "空の構造図";
+"canvas_empty_hint" = "「要素」からブロックをここにドラッグしてください。";
+
+/* Diagram: new element stubs & column headers (display) */
+"canvas_stub_fallauswahl" = "選択 (switch)";
+"canvas_stub_anweisung" = "文 (statement)";
+"canvas_stub_condition" = "条件";
+"canvas_stub_for" = "for 0 < i < n";
+"canvas_stub_while" = "while …";
+"canvas_stub_until" = "until …";
+"canvas_stub_endless" = "無限";
+"canvas_stub_break" = "break";
+"canvas_stub_call" = "呼び出し()";
+
+/* About */
+"about_version_fmt" = "バージョン %@ (%@)";
+"about_nav_title" = "VisuStruct について";
+"about_features_heading" = "機能";
+"about_bullet_palette" = "パレットからブロックを挿入、または図へドラッグ＆ドロップ";
+"about_bullet_edit" = "図を編集：テキスト変更、要素選択、必要に応じて削除";
+"about_bullet_tabs" = "複数の図をタブで管理（それぞれタイトル付き）";
+"about_bullet_file" = ".visustruct ファイルとして保存し再度開く";
+"about_bullet_share" = "構造図を画像（PNG）として共有";
+"about_dateiformat_heading" = "ファイル形式";
+"about_dateiformat_part1" = "VisuStruct のネイティブ形式は拡張子 ";
+"about_dateiformat_part2" = " を使用します。同じ形式をサポートする他のアプリと交換できます。";
+"about_dateiformat_strk" = ".strk 拡張子のファイルも開けます。";
+"about_project_github_label" = "Java アプリ（ソース＆リリース）：";
+"about_web_label" = "Web：";
+"about_developer_label" = "開発者:";
+"about_lineage_heading" = "系譜";
+"about_lineage_body" = "VisuStruct originally began as a Java desktop app and remains available across platforms for use in schools. The current Swift/SwiftUI version is the modern native app for Mac, iPad, and iPhone and remains compatible with the .visustruct file format. It builds on the original open-source work by Kevin Krummenauer (MIT).";
+"about_lineage_upstream_label" = "Java upstream：";
+"about_done" = "完了";
+"about_copyright" = "Copyright © 2026 Holger Sebastiao";
+
+/* iPhone: tap-to-insert */
+"phone_insert_cancel" = "挿入をキャンセル";
+"phone_show_text_editor" = "テキストを編集";
+"phone_hide_text_editor" = "折りたたむ";
+"phone_title_done" = "完了";
+
+/* Alerts */
+"err_save_failed_fmt" = "保存できませんでした：%@";
+"err_share_prepare_failed_fmt" = "共有の準備ができませんでした：%@";
+"err_diagram_too_small_export" = "図が小さすぎます — エクスポートできません。";
+"err_image_render_failed" = "画像を作成できませんでした。";
+"err_diagram_too_small_print" = "図が小さすぎます — 印刷できません。";
+"err_print_unavailable" = "このデバイスでは印刷できません。";
+
+"settings_ui_scale_section" = "Text size";
+"settings_ui_scale_canvas" = "Structure chart";
+"settings_ui_scale_inspector" = "Text entry below";
+"settings_ui_scale_small" = "Small";
+"settings_ui_scale_medium" = "Medium";
+"settings_ui_scale_large" = "Large";
+"settings_ui_scale_extra_large" = "Extra large";
+
+"settings_export_filename_section" = "ファイル名の候補";
+"settings_export_filename_picker" = "形式";
+"settings_export_filename_date_title" = "日付あり";
+"settings_export_filename_title_only" = "日付なし";
+"settings_export_filename_footer_with_date" = "日付あり: yyyy-mm-dd-Filename.visustruct";
+"settings_export_filename_footer_without_date" = "日付なし: Filename.visustruct";
+
+
+/* Simulation: Meldungen */
+"sim_notice_finished" = "シミュレーションが終了しました。";
+"sim_notice_infinite_loop_empty" = "無限ループに本体がありません。";
+"sim_notice_unsupported_statement_fmt" = "サポートされていない文: %@";
+"sim_notice_invalid_expression_fmt" = "無効な式: %@";
+"sim_notice_unknown_variable_fmt" = "不明な変数: %@";
+"sim_notice_division_by_zero" = "0 で割ることはできません。";
+"sim_notice_whole_number_expected" = "整数を入力してください。";
+"sim_notice_number_expected" = "数値を入力してください。";
+"sim_notice_boolean_expected" = "true または false を入力してください。";
+"sim_notice_subprogram_not_found_fmt" = "%@ という名前の開いている図はありません。呼び出しをスキップしました。";
+"sim_notice_call_too_deep" = "呼び出しの入れ子が多すぎます。サブプログラムが自分自身を呼び出していませんか？";
+
+"codegen_pseudocode_toggle" = "疑似コード（実行できないコード）";
+"codegen_pseudocode_note" = "疑似コード – 実行可能なプログラムではありません";
+"codegen_pseudocode_hint" = "この図は疑似コードとしてマークされています。コードは下書きにすぎず、実行できません。";
+`;export{e as default};
