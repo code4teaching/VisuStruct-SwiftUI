@@ -50,6 +50,8 @@
 /* Code live */
 "web_live_title" = "Codice dal vivo";
 "web_live_hide" = "Nascondi codice dal vivo";
+"web_live_indent" = "Indenta";
+"web_live_indent_title" = "Indenta il codice: quattro spazi per livello (righe selezionate, altrimenti tutto)";
 "web_live_show" = "Mostra codice dal vivo";
 "web_live_resize" = "Modifica la larghezza dell’area codice (doppio clic: ripristina)";
 "web_live_hint" = "Il codice cresce con il tuo diagramma. Grigio = segnaposto: scrivi nell’ispettore e il tuo testo appare qui. Clicca su una riga per selezionarne l’elemento.";

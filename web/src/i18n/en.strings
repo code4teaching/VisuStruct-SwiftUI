@@ -107,6 +107,8 @@
 /* Code live */
 "web_live_title" = "Live code";
 "web_live_hide" = "Hide live code";
+"web_live_indent" = "Indent";
+"web_live_indent_title" = "Indent the code: four spaces per level (selected lines, otherwise everything)";
 "web_live_show" = "Show live code";
 "web_live_resize" = "Change width of the code area (double-click: reset)";
 "web_live_hint" = "The code grows with your diagram. Grey = placeholder: type in the object inspector and your text appears there. Click a line to select its element.";

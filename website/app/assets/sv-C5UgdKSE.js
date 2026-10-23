@@ -50,6 +50,8 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 /* Code live */
 "web_live_title" = "Live-kod";
 "web_live_hide" = "Dölj live-kod";
+"web_live_indent" = "Indrag";
+"web_live_indent_title" = "Gör indrag i koden: fyra blanksteg per nivå (markerade rader, annars allt)";
 "web_live_show" = "Visa live-kod";
 "web_live_resize" = "Ändra kodområdets bredd (dubbelklick: återställ)";
 "web_live_hint" = "Koden växer med ditt diagram. Grått = platshållare: skriv i inspektören så visas texten här. Klicka på en rad för att markera elementet.";

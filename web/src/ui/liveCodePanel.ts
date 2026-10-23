@@ -14,6 +14,7 @@ import { describeValue, SimulationEngine, type SimStep, type SubprogramResolver 
 import { gridTable, noticeText, type ConsoleTranscript } from './simulationPanel'
 import { JavaEditor, type SnippetWords } from './javaEditor'
 import { icons } from './icons'
+import { indentJava } from '../core/javaIndent'
 import { sidebarIcon } from './learnPanel'
 import { closeWindows, compileAndRun, prepareJava } from './javaRuntime'
 
@@ -156,6 +157,7 @@ export class LiveCodePanel {
   private runButton!: HTMLButtonElement
   private stepButton!: HTMLButtonElement
   private stopButton!: HTMLButtonElement
+  private indentButton!: HTMLButtonElement
   private debugPanel!: HTMLElement
   private debugVars!: HTMLElement
   /** Konsole unter dem Code, darüber eine Trennlinie zum Verschieben. */
@@ -206,6 +208,7 @@ export class LiveCodePanel {
       <div class="livecode-head">
         <h2>${esc(t('web_live_title'))}</h2>
         <span class="livecode-lang"></span>
+        <button class="icon livecode-run livecode-indent" data-tip="${esc(t('web_live_indent_title'))}" aria-label="${esc(t('web_live_indent'))}">${icons.indent}</button>
         <button class="icon livecode-run primary" data-run="play" data-tip="${esc(t('web_live_run_title'))}" aria-label="${esc(t('web_live_run'))}">${icons.play}</button>
         <button class="icon livecode-run" data-run="step" data-tip="${esc(t('web_debug_step_title'))}" aria-label="${esc(t('web_debug_step'))}">${icons.step}</button>
         <button class="icon livecode-run" data-run="stop" data-tip="${esc(t('simulation_stop'))}" aria-label="${esc(t('simulation_stop'))}" disabled>${icons.stop}</button>
@@ -241,6 +244,8 @@ export class LiveCodePanel {
     this.runButton = this.element.querySelector('[data-run=play]')!
     this.stepButton = this.element.querySelector('[data-run=step]')!
     this.stopButton = this.element.querySelector('[data-run=stop]')!
+    this.indentButton = this.element.querySelector('.livecode-indent')!
+    this.indentButton.addEventListener('click', () => this.code.indent())
     this.debugPanel = this.element.querySelector('.livecode-debug')!
     this.debugVars = this.element.querySelector('.livecode-vars')!
     this.swingElement.innerHTML = `
@@ -374,6 +379,7 @@ export class LiveCodePanel {
     this.view.hidden = java
     this.editor.hidden = !java
     this.problemLine.hidden = !java
+    this.indentButton.hidden = !java
     this.hint.textContent = t(java ? 'web_live_hint_edit' : 'web_live_hint')
     this.element.querySelector('.livecode-lang')!.textContent = { java: 'Java', javascript: 'JavaScript', python: 'Python' }[this.target]
   }
@@ -744,6 +750,7 @@ export class LiveCodePanel {
     this.runButton.disabled = on && !paused
     this.stepButton.disabled = on && !paused
     this.stopButton.disabled = !on
+    this.indentButton.disabled = on
     const tip = t(paused ? 'web_debug_continue' : 'web_live_run_title')
     this.runButton.dataset.tip = tip
     this.runButton.setAttribute('aria-label', paused ? tip : t('web_live_run'))
@@ -760,7 +767,7 @@ export class LiveCodePanel {
     const known = this.textFor.get(doc)
     if (known !== undefined) return known
     const before = this.shown.get(context.owner)
-    if (before) return mergeLiveJava(before.text, before.doc, doc, this.labels, { subprograms: context.subprograms }, this.form)
+    if (before) return indentChanged(before.text, mergeLiveJava(before.text, before.doc, doc, this.labels, { subprograms: context.subprograms }, this.form))
     return plainLiveJava(doc, this.labels, this.form)
   }
 
@@ -857,4 +864,16 @@ export class LiveCodePanel {
       input: t('inspector_io_mode_input'),
     }
   }
+}
+
+/** Nach einer Änderung im Struktogramm: nur die geänderten Zeilen passend zum getippten Code einrücken. */
+function indentChanged(before: string, after: string): string {
+  const a = before.split('\n')
+  const b = after.split('\n')
+  let start = 0
+  while (start < a.length && start < b.length && a[start] === b[start]) start++
+  if (start === b.length && a.length === b.length) return after
+  let end = 0
+  while (end < a.length - start && end < b.length - start && a[a.length - 1 - end] === b[b.length - 1 - end]) end++
+  return b.length - end > start ? indentJava(after, start + 1, b.length - end) : after
 }

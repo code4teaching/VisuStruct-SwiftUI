@@ -7,6 +7,7 @@ import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../src/core/liveSource'
 import { ElementType, makeElement, type VSDocument } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
+import { indentJava } from '../src/core/javaIndent'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
 const parse = (src: string, subprograms?: Set<string>) => parseLiveJava(src, labels, { subprograms })
@@ -31,6 +32,16 @@ function diagramFiles(dir: string, out: string[] = []): string[] {
 }
 
 describe('Java tippen → Struktogramm', () => {
+  it('der Knopf „Einrücken“ lässt erzeugten Code unverändert', () => {
+    for (const file of diagramFiles(join(__dirname, '..', '..'))) {
+      const original = decodeDocument(readFileSync(file, 'utf8'))
+      for (const form of forms) {
+        const code = plainLiveJava(original, labels, form)
+        expect(indentJava(code), `${file} ${JSON.stringify(form)}`).toBe(code)
+      }
+    }
+  })
+
   it('jedes Struktogramm im Repo: Code → Struktogramm → derselbe Code', () => {
     const files = diagramFiles(join(__dirname, '..', '..'))
     expect(files.length).toBeGreaterThan(100)

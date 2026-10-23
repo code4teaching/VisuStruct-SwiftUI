@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Code live:** new button “Indent” (next to ▶ Run) indents the code like Eclipse or IntelliJ, four spaces per level, only the selected lines if there is a selection. It counts brackets, so half-finished code and pseudocode are indented too. After a change in the structure chart, the changed lines are indented to fit the typed code. Lesson 20 (de/en/pt) mentions the button.
 - **Web, lessons (de/en/pt):** new lesson 22 “When the program crashes: try and catch” (section “Catching errors”): a crash with an array index, switching on real Java, reading the error message, try and catch, `Integer.parseInt` with `NumberFormatException`, an expert box on exceptions as objects and the task “Dividing safely”. The Swing lessons move to 23–25 (progress is carried over). New lesson 26 “Doubling a number in a window”: JLabel, JTextField and a “Calculate” button, why only the button shows without a layout (Ludwig), `GridLayout(0, 1)`, `getText`/`parseInt`/`setText` and try/catch against “abc”. New glossary term exception.
 - **Web, Code live:** `try { … } catch (…) { … } finally { … }` no longer reports problems; the whole block becomes one statement box (run it with real Java).
 - **Web:** the browser tab shows the VisuStruct app icon, as on the website.
@@ -38,7 +39,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.9) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.10) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.
@@ -50,6 +51,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Fixed
 
+- **Web, Code live:** typing `void main` no longer suggests the main template, so Enter after the name doesn't insert a second main method.
 - **Web, Code live:** pasting (or dropping) code at a grey placeholder such as `// Your code` now replaces the placeholder, like typing does. Before, the placeholder stayed in front of the pasted text and commented out its first line (e.g. `import javax.swing.*;`).
 - **iPhone:** texts of existing elements (conditions, statements, …) can be edited again. Tapping the middle of an element now selects it and opens the text editor instead of setting an insert marker; insert before/after via the top/bottom strips or the palette. While an insert marker is set, “Edit text” is offered next to “Cancel insert”.
 

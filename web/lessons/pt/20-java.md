@@ -99,6 +99,7 @@ Até agora desenhaste primeiro o estrutograma e depois viste o código. Com o [C
 - **Do estrutograma para o código:** Quando alteras alguma coisa no estrutograma, o código Java muda logo.
 - **Do código para o estrutograma:** Quando escreves Java, o VisuStruct constrói o estrutograma enquanto escreves. Se ainda faltar alguma coisa, por exemplo uma chaveta de fecho `}`, aparece uma indicação por baixo do código.
 - **Sugestões:** Enquanto escreves, o VisuStruct sugere modelos, por exemplo para `if`, `for` ou `while`. Com Enter aceitas um modelo. Substitui simplesmente os marcadores cinzentos pelo teu texto.
+- **Indentar:** Se o teu código ficou desarrumado, clica no botão **Indentar** em cima no Código ao vivo. Cada nível fica então quatro espaços mais para dentro, como no Eclipse ou no IntelliJ. Se tiveres linhas selecionadas, o VisuStruct só indenta essas.
 
 Assim podes experimentar os dois caminhos. Desenhar primeiro o estrutograma é bom para planear um processo. Escrever o código diretamente é mais rápido quando já sabes o que queres. O estrutograma ajuda-te depois a verificar o teu código.
 

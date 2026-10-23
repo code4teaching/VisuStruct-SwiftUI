@@ -99,6 +99,7 @@ Bisher hast du zuerst das Struktogramm gezeichnet und dann den Code angesehen. M
 - **Struktogramm zu Code:** Änderst du etwas im Struktogramm, ändert sich der Java-Code sofort mit.
 - **Code zu Struktogramm:** Tippst du Java, baut VisuStruct beim Tippen das Struktogramm dazu. Fehlt noch etwas, zum Beispiel eine schließende Klammer `}`, steht unter dem Code ein Hinweis.
 - **Vorschläge:** Beim Tippen schlägt VisuStruct Vorlagen vor, etwa für `if`, `for` oder `while`. Mit der Eingabetaste übernimmst du eine Vorlage. Grau geschriebene Platzhalter ersetzt du einfach durch deinen Text.
+- **Einrücken:** Ist dein Code durcheinandergeraten, klicke oben in Code live auf den Knopf **Einrücken**. Jede Ebene steht dann vier Leerzeichen tiefer, wie in Eclipse oder IntelliJ. Hast du Zeilen markiert, rückt VisuStruct nur diese ein.
 
 So kannst du beide Wege ausprobieren. Erst das Struktogramm zeichnen ist gut, um einen Ablauf zu planen. Direkt Code schreiben ist schneller, wenn du schon weißt, was du willst. Das Struktogramm hilft dir dann, deinen Code zu kontrollieren.
 

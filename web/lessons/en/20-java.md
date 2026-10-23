@@ -99,6 +99,7 @@ So far you drew the structure chart first and then looked at the code. With [Liv
 - **Structure chart to code:** When you change something in the structure chart, the Java code changes right away.
 - **Code to structure chart:** When you type Java, VisuStruct builds the structure chart as you type. If something is still missing, for example a closing bracket `}`, a hint appears below the code.
 - **Suggestions:** While you type, VisuStruct suggests templates, for example for `if`, `for` or `while`. Press Enter to accept a template. Simply replace the grey placeholders with your own text.
+- **Indent:** If your code has got messy, click the **Indent** button at the top of Live code. Every level then sits four spaces deeper, as in Eclipse or IntelliJ. If you have selected lines, VisuStruct only indents those.
 
 So you can try both ways. Drawing the structure chart first is good for planning a process. Writing code directly is faster when you already know what you want. The structure chart then helps you check your code.
 
