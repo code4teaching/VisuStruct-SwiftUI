@@ -43,6 +43,7 @@
 "web_run_dropped_fmt" = "… приховано попередніх рядків: %d";
 "web_sim_call_arguments_fmt" = "Виклик не відповідає заголовку %@. Перевір значення в дужках.";
 "web_sim_missing_return_fmt" = "%@ завершилася, не повернувши значення через return.";
+"web_sim_file_not_found_fmt" = "Файлу з назвою %@ немає.";
 "web_site_home" = "Головна сторінка";
 "web_site_imprint" = "Вихідні дані";
 "web_site_privacy" = "Конфіденційність";

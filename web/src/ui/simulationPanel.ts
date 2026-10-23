@@ -27,6 +27,7 @@ export function noticeText(n: SimNotice): string {
     case 'callTooDeep': return t('sim_notice_call_too_deep')
     case 'callArguments': return t('web_sim_call_arguments_fmt', n.text)
     case 'missingReturn': return t('web_sim_missing_return_fmt', n.text)
+    case 'fileNotFound': return t('web_sim_file_not_found_fmt', n.text)
     case 'other': return n.text
   }
 }

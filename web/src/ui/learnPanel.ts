@@ -361,7 +361,19 @@ export class LearnPanel {
         return renderRoundGame(block.game, ludwigURL)
       case 'caesar':
         return renderCaesarDisc(block.key, block.text)
+      case 'textFile':
+        return this.renderTextFile(block.name, block.content)
     }
+  }
+
+  /** Eine Textdatei wie im Editor: Name oben, darunter der Inhalt mit Zeilennummern. */
+  private renderTextFile(name: string, content: string): HTMLElement {
+    const box = h('figure', { class: 'learn-file' })
+    box.append(h('figcaption', {}, h('span', { class: 'learn-file-icon', 'aria-hidden': 'true' }, '📄'), name))
+    const pre = h('pre', { class: 'learn-file-text' })
+    content.split('\n').forEach((line, i) => pre.append(h('span', { class: 'ln' }, String(i + 1)), line + '\n'))
+    box.append(pre)
+    return box
   }
 
   /** Ludwig der Geißbock erzählt etwas zum Angeben oder gibt einen Tipp. */

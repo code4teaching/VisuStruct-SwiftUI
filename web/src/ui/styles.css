@@ -1492,6 +1492,42 @@ button.danger-text:not(:disabled) {
   object-fit: cover;
   border-radius: 8px;
 }
+.learn-file {
+  margin: 0 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--panel);
+}
+.learn-file figcaption {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.learn-file-text {
+  margin: 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: pre;
+}
+.learn-file-text .ln {
+  display: inline-block;
+  min-width: 2ch;
+  margin-inline-end: 10px;
+  color: var(--muted);
+  text-align: end;
+  user-select: none;
+}
+
 .learn-brag {
   display: grid;
   grid-template-columns: 48px minmax(0, 1fr);

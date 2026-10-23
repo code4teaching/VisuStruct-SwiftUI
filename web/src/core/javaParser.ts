@@ -221,11 +221,17 @@ class Parser {
   /** Getippte Imports ohne Leerzeichen, z. B. `importjava.util.Scanner;`. */
   private imports: string[] = []
 
-  /** Wie javac: `Scanner` ohne `import java.util.Scanner;` (oder `java.util.*`) ist ein Fehler. */
+  /** Wie javac: `Scanner` ohne `import java.util.Scanner;` (oder `java.util.*`) ist ein Fehler, ebenso `Files` und `Path` ohne `java.nio.file`. */
   checkImports() {
-    const known = this.imports.some((i) => i === 'importjava.util.Scanner;' || i === 'importjava.util.*;')
-    const use = this.toks.find((t) => t.kind === 'id' && t.text === 'Scanner')
-    if (!known && use) this.problem('web_parse_missing_import', use, 'import java.util.Scanner;')
+    for (const [name, pkg] of [['Scanner', 'java.util'], ['Files', 'java.nio.file'], ['Path', 'java.nio.file'], ['Paths', 'java.nio.file']]) {
+      const known = this.imports.some((i) => i === `import${pkg}.${name};` || i === `import${pkg}.*;`)
+      // `Files.readString(…)`: nur als Klasse vor einem Punkt, damit eine Variable `path` o. Ä. nicht zählt.
+      const use = this.toks.find((t, k) => t.kind === 'id' && t.text === name && (name === 'Scanner' || this.toks[k + 1]?.text === '.'))
+      if (!known && use) {
+        this.problem('web_parse_missing_import', use, pkg === 'java.util' ? `import ${pkg}.${name};` : `import ${pkg}.*;`)
+        return
+      }
+    }
   }
 
   parseProgram(): { caption?: string; elements: VSElement[] } {
@@ -333,14 +339,22 @@ class Parser {
       else if (t === ')' && --depth === 0) break
       else if (t === ';' || t === '{' || t === '}') break
     }
-    const after = this.toks[close + 1]
+    // `throws IOException, Exception` nach der Parameterliste gehört zur Kopfzeile.
+    let bodyAt = close + 1
+    if (this.toks[close]?.text === ')' && this.toks[bodyAt]?.text === 'throws') {
+      bodyAt++
+      while (this.toks[bodyAt]?.kind === 'id' && (this.toks[bodyAt + 1]?.text === ',' || this.toks[bodyAt + 1]?.text === '{' || this.toks[bodyAt + 1]?.text === '.')) {
+        bodyAt += this.toks[bodyAt + 1].text === '{' ? 1 : 2
+      }
+    }
+    const after = this.toks[bodyAt]
     const hasBody = this.toks[close]?.text === ')' && after?.text === '{'
     if (!hasBody && !(mods > 0 && (after === undefined || this.toks[close] === undefined))) return undefined
     const paramsEnd = this.toks[close]?.text === ')' ? this.toks[close].start : this.src.length
     const params = this.text(this.toks[k + 1].end, paramsEnd)
     const typeText = this.text(type.start, this.toks[k - 1].end).replace(/\s+/g, '')
     const header = `${typeText} ${name.text}(${params.replace(/\s*,\s*/g, ', ')})`
-    this.i = Math.min(close + 1, this.toks.length)
+    this.i = Math.min(hasBody ? bodyAt : close + 1, this.toks.length)
     return { name: name.text, caption: name.text === 'main' || !parseSubprogramHeader(header) ? undefined : header }
   }
 

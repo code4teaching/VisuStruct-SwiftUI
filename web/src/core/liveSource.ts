@@ -1,4 +1,4 @@
-import { generateLiveCode, livePlaceholderEnd, livePlaceholderStart, sanitizedJavaClassName, type LiveCode, type LiveLabels } from './codeGenerator'
+import { documentReadsFiles, generateLiveCode, livePlaceholderEnd, livePlaceholderStart, sanitizedJavaClassName, type LiveCode, type LiveLabels } from './codeGenerator'
 import { parseLiveJava, type JavaParseOptions, type ParsedJava } from './javaParser'
 import type { VSDocument, VSElement } from './model'
 import { parseSubprogramHeader } from './simulation'
@@ -19,7 +19,7 @@ export interface JavaForm {
 
 export const snippetForm: JavaForm = { asClass: false, withMain: false }
 
-const scannerImport = 'import java.util.Scanner;'
+const isImport = (line: string) => /^import\s+[\w.]+(?:\.\*)?\s*;$/.test(line.trim())
 const indented = (lines: string[]) => lines.map((l) => (l.trim() === '' ? '' : '    ' + l))
 
 /** Erzeugter Java-Code der Ansicht „Code live“ als reiner Text (Platzhalter ohne Markierung) mit den Zeilen jedes Elements. */
@@ -29,16 +29,25 @@ export function liveJava(doc: VSDocument, labels: LiveLabels, form: JavaForm = s
   let spans = live.spans
   const shift = (by: number) => (spans = spans.map((s) => ({ ...s, from: s.from + by, to: s.to + by })))
   const isMethod = parseSubprogramHeader(doc.caption) !== undefined
-  // Um `main` oder eine Klasse herum gehört der Import ganz nach oben.
-  const at = lines.findIndex((l) => l.trim() === scannerImport)
-  const imports = at >= 0 && ((form.withMain && !isMethod) || form.asClass) ? [scannerImport, ''] : []
-  if (imports.length) {
-    lines.splice(at, 1)
-    spans = spans.map((s) => ({ ...s, from: s.from > at ? s.from - 1 : s.from, to: s.to > at ? s.to - 1 : s.to }))
+  // Um `main` oder eine Klasse herum gehören die Imports ganz nach oben.
+  const imports: string[] = []
+  if ((form.withMain && !isMethod) || form.asClass) {
+    for (let at = lines.findIndex(isImport); at >= 0; at = lines.findIndex(isImport)) {
+      imports.push(lines[at].trim())
+      lines.splice(at, 1)
+      spans = spans.map((s) => ({ ...s, from: s.from > at ? s.from - 1 : s.from, to: s.to > at ? s.to - 1 : s.to }))
+    }
+    // Die Leerzeile hinter den Imports wandert mit nach oben.
+    if (imports.length && lines[0]?.trim() === '') {
+      lines.splice(0, 1)
+      spans = spans.map((s) => ({ ...s, from: s.from > 0 ? s.from - 1 : s.from, to: s.to > 0 ? s.to - 1 : s.to }))
+    }
+    if (imports.length) imports.push('')
   }
   // Ein Unterprogramm ist schon eine Methode: kein `main` drumherum.
   if (form.withMain && !isMethod) {
-    lines = ['public static void main(String[] args) {', ...indented(lines), '}']
+    // `Files.readString` kann eine IOException werfen; Java verlangt dann `throws`.
+    lines = [`public static void main(String[] args)${documentReadsFiles(doc) ? ' throws Exception' : ''} {`, ...indented(lines), '}']
     shift(1)
   }
   if (form.asClass) {

@@ -949,6 +949,15 @@ function documentContainsJavaInput(doc: VSDocument): boolean {
   return found
 }
 
+/** Liest das Programm eine Datei mit `Files.readString(…)`? Dann braucht Java `import java.nio.file.*;`. */
+export function documentReadsFiles(doc: VSDocument): boolean {
+  let found = false
+  walkElements(doc.elements, (e) => {
+    if (e.textLines.some((l) => /\bFiles\s*\.\s*readString\s*\(/.test(l))) found = true
+  })
+  return found
+}
+
 function documentContainsJavaMathRandom(doc: VSDocument): boolean {
   let found = false
   walkElements(doc.elements, (e) => {
@@ -1364,7 +1373,10 @@ export function generateLiveCode(document: VSDocument, target: LiveTarget, label
   const header = parseSubprogramHeader(document.caption)
   let prelude = ''
   if (target === 'java') {
+    const files = documentReadsFiles(document)
+    if (files) prelude += 'import java.nio.file.*;\n'
     if (documentContainsJavaInput(document)) prelude += 'import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
+    else if (files) prelude += '\n'
     if (header) prelude += javaMethodHeader(header) + '\n'
   } else {
     if (header) {
@@ -1400,7 +1412,7 @@ export const generateLiveJava = (document: VSDocument, labels: LiveLabels) => ge
 function postProcessLengthSyntax(s: string, target: CodeTarget): string {
   switch (target) {
     case 'javascript':
-      return convertCharCasts(s, 'javascript').replace(/\.length\(\)/g, '.length').replace(/\.contains\(/g, '.includes(')
+      return javaScriptStringMethods(convertCharCasts(s, 'javascript')).replace(/\.length\(\)/g, '.length').replace(/\.contains\(/g, '.includes(')
     case 'python':
       return pythonStringMethodsDeep(convertCharCasts(s, 'python')).replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\)|\b)/g, 'len($1)')
     case 'java':
@@ -1412,23 +1424,101 @@ function postProcessLengthSyntax(s: string, target: CodeTarget): string {
 function pythonStringMethodsDeep(s: string): string {
   // Ketten wie `w.trim().toLowerCase()` brauchen mehrere Durchgänge.
   for (let i = 0; i < 5; i++) {
-    const next = pythonStringMethods(s)
+    const next = javaStaticCalls(pythonStringMethods(s), 'python')
     if (next === s) break
     s = next
   }
   return s
 }
 
+const pythonRenamed: Record<string, string> = {
+  indexOf: 'find',
+  lastIndexOf: 'rfind',
+  toUpperCase: 'upper',
+  toLowerCase: 'lower',
+  trim: 'strip',
+  startsWith: 'startswith',
+  endsWith: 'endswith',
+}
+
 function pythonStringMethods(s: string): string {
-  const renamed: Record<string, string> = {
-    indexOf: 'find',
-    toUpperCase: 'upper',
-    toLowerCase: 'lower',
-    trim: 'strip',
-    startsWith: 'startswith',
-    endsWith: 'endswith',
+  return rewriteMethodCalls(s, ['charAt', 'substring', 'contains', 'isEmpty', 'equalsIgnoreCase', 'compareTo', 'repeat', 'concat', ...Object.keys(pythonRenamed)], (target, method, args) => {
+    switch (method) {
+      case 'charAt':
+        return `${target}[${args}]`
+      case 'substring': {
+        const parts = splitTopLevelComma(args)
+        return parts.length === 2 ? `${target}[${parts[0].trim()}:${parts[1].trim()}]` : `${target}[${args.trim()}:]`
+      }
+      case 'contains':
+        return `(${args.trim()} in ${target})`
+      case 'isEmpty':
+        return `(len(${target}) == 0)`
+      case 'equalsIgnoreCase':
+        return `(${target}.lower() == ${args.trim()}.lower())`
+      case 'compareTo':
+        return `((${target} > ${args.trim()}) - (${target} < ${args.trim()}))`
+      case 'repeat':
+        return `(${target} * ${args.trim()})`
+      case 'concat':
+        return `(${target} + ${args.trim()})`
+      default:
+        return `${target}.${pythonRenamed[method]}(${args})`
+    }
+  })
+}
+
+/** Java-String-Methoden, die es in JavaScript nicht gibt: `w.isEmpty()`, `w.equalsIgnoreCase(x)`, `w.compareTo(x)`; `replace` ersetzt wie in Java alle Stellen. */
+function javaScriptStringMethods(s: string): string {
+  for (let i = 0; i < 5; i++) {
+    const next = javaStaticCalls(
+      rewriteMethodCalls(s, ['isEmpty', 'equalsIgnoreCase', 'compareTo', 'replace'], (target, method, args) => {
+        switch (method) {
+          case 'isEmpty':
+            return `(${target}.length === 0)`
+          case 'equalsIgnoreCase':
+            return `(${target}.toLowerCase() === ${args.trim()}.toLowerCase())`
+          case 'compareTo':
+            return `${target}.localeCompare(${args.trim()})`
+          default:
+            return `${target}.replaceAll(${args})`
+        }
+      }),
+      'javascript',
+    )
+    if (next === s) break
+    s = next
   }
-  const re = /([A-Za-z_]\w*(?:\[[^[\]]*\]|\.\w+\(\))*|"(?:[^"\\]|\\.)*")\.(charAt|substring|contains|indexOf|toUpperCase|toLowerCase|trim|startsWith|endsWith)\(/g
+  return s
+}
+
+/** `Integer.parseInt(x)`, `Double.parseDouble(x)`, `String.valueOf(x)` und `Files.readString(Path.of(x))` in Python und JavaScript. */
+function javaStaticCalls(s: string, target: 'python' | 'javascript'): string {
+  const file = /\bFiles\.readString\(\s*(?:Path\.of|Paths\.get)\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*\)/g
+  if (target === 'python') {
+    return s
+      .replace(file, 'open($1, encoding="utf-8").read()')
+      .replace(/\bInteger\.parseInt\(/g, 'int(')
+      .replace(/\bDouble\.parseDouble\(/g, 'float(')
+      .replace(/\bString\.valueOf\(/g, 'str(')
+  }
+  return s
+    .replace(file, 'require("fs").readFileSync($1, "utf8")')
+    .replace(/\bInteger\.parseInt\(/g, 'parseInt(')
+    .replace(/\bDouble\.parseDouble\(/g, 'parseFloat(')
+    .replace(/\bString\.valueOf\(/g, 'String(')
+}
+
+/** Teilt Argumente am Komma außerhalb von Klammern. */
+function splitTopLevelComma(args: string): string[] {
+  let depth = 0
+  const comma = [...args].findIndex((c) => (c === '(' ? (depth += 1, false) : c === ')' ? (depth -= 1, false) : c === ',' && depth === 0))
+  return comma < 0 ? [args] : [args.slice(0, comma), args.slice(comma + 1)]
+}
+
+/** Ersetzt Aufrufe `ziel.methode(…)` der genannten Methoden; das Ziel ist ein Name, ein Fach, eine Kette oder ein String. */
+function rewriteMethodCalls(s: string, methods: string[], replace: (target: string, method: string, args: string) => string): string {
+  const re = new RegExp(`([A-Za-z_]\\w*(?:\\[[^[\\]]*\\]|\\.\\w+\\(\\))*|"(?:[^"\\\\]|\\\\.)*")\\.(${methods.join('|')})\\(`, 'g')
   let out = ''
   let last = 0
   for (let m = re.exec(s); m; m = re.exec(s)) {
@@ -1443,27 +1533,8 @@ function pythonStringMethods(s: string): string {
       }
     }
     if (close < 0) break
-    const target = m[1]
-    const args = pythonStringMethods(s.slice(open + 1, close))
-    let replacement: string
-    switch (m[2]) {
-      case 'charAt':
-        replacement = `${target}[${args}]`
-        break
-      case 'substring': {
-        let depth = 0
-        const comma = [...args].findIndex((c) => (c === '(' ? (depth += 1, false) : c === ')' ? (depth -= 1, false) : c === ',' && depth === 0))
-        const parts = comma < 0 ? [args] : [args.slice(0, comma), args.slice(comma + 1)]
-        replacement = parts.length === 2 ? `${target}[${parts[0].trim()}:${parts[1].trim()}]` : `${target}[${args.trim()}:]`
-        break
-      }
-      case 'contains':
-        replacement = `(${args.trim()} in ${target})`
-        break
-      default:
-        replacement = `${target}.${renamed[m[2]]}(${args})`
-    }
-    out += s.slice(last, m.index) + replacement
+    const args = rewriteMethodCalls(s.slice(open + 1, close), methods, replace)
+    out += s.slice(last, m.index) + replace(m[1], m[2], args)
     last = close + 1
     re.lastIndex = close + 1
   }
@@ -1554,12 +1625,16 @@ export function generateJavaClassFile(
 
   let out = ''
   const scannerField = methods.length > 0 && (hasInput || methodInput)
-  if (hasInput || methodInput) out += 'import java.util.Scanner;\n\n'
+  // `Files.readString` kann eine IOException werfen; Java verlangt dann `throws` an der Methode.
+  const files = methodDocs.some((m) => documentReadsFiles(m.d)) || documentReadsFiles(document)
+  if (files) out += 'import java.nio.file.*;\n'
+  if (hasInput || methodInput) out += 'import java.util.Scanner;\n'
+  if (files || hasInput || methodInput) out += '\n'
   out += `public class ${name} {\n`
   if (scannerField) out += sp(opts.indentPerLevel) + 'static Scanner scanner = new Scanner(System.in);\n\n'
   // Ein Unterprogramm allein ist nur eine Methode, ohne `main`.
   if (!ownHeader) {
-    out += sp(opts.indentPerLevel) + 'public static void main(String[] args) {\n'
+    out += sp(opts.indentPerLevel) + `public static void main(String[] args)${files ? ' throws Exception' : ''} {\n`
     if (hasInput && !scannerField) {
       out += sp(innerBase) + 'Scanner scanner = new Scanner(System.in);\n'
       if (indentedBody !== '') out += '\n'

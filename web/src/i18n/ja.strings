@@ -43,6 +43,7 @@
 "web_run_dropped_fmt" = "… 以前の %d 行は非表示";
 "web_sim_call_arguments_fmt" = "呼び出しが %@ の見出しと一致しません。かっこ内の値を確認してください。";
 "web_sim_missing_return_fmt" = "%@ は return で値を返さずに終了しました。";
+"web_sim_file_not_found_fmt" = "%@ という名前のファイルはありません。";
 "web_site_home" = "ホームページ";
 "web_site_imprint" = "運営者情報";
 "web_site_privacy" = "プライバシー";
