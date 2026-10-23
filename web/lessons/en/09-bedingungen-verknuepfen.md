@@ -93,6 +93,62 @@ If `&&` and `||` appear together, `&&` is worked out first, just like multiplica
 (age >= 12 && age < 18) || student == 1
 ```
 
+## The truth table
+
+A **truth table** shows at a glance what `&&`, `||` and `!` produce. On the left are all four possibilities for two conditions `a` and `b`, on the right the result:
+
+::: grafik l09-wahrheitstabelle.svg
+Green is true, red is false. With && there is only one green row, with || only one red one.
+:::
+
+Rules of thumb:
+
+- `a && b` is only true if **both** are true.
+- `a || b` is only false if **both** are false.
+- `!a` flips the value.
+
+## Truth values in variables
+
+The result of a condition is a **truth value** of type `boolean`. You can store it in a variable just like a number and use it later:
+
+```
+boolean weekend = day == 6 || day == 7
+```
+
+The branch then only says `weekend`. That reads almost like a sentence: "If weekend, then …". Don't write `weekend == true`, because `weekend` already is true or false.
+
+With `!weekend` you ask for the opposite, a weekday.
+
+::: ludwig
+Long conditions become clearer when you put parts of them into boolean variables with meaningful names, for example `boolean teenager = age >= 12 && age < 18`.
+:::
+
+## Game: True or false?
+
+Now it's your turn. Work out each condition in your head. After every answer you see how VisuStruct evaluates it step by step.
+
+::: spiel
+age: 8..20
+day: 1..7
+grade: 0..7
+student: boolean
+weekend: boolean
+? age >= 18
+? day == 6
+? grade != 3
+? age >= 12 && age < 18
+? day == 6 || day == 7
+? student && weekend
+? !student
+? grade >= 1 && grade <= 6
+? !(age < 18)
+? student || age >= 18
+? (age >= 12 && age < 18) || student
+? !(grade >= 1 && grade <= 6)
+? !weekend && day != 3
+? age >= 12 && age < 18 && !student
+:::
+
 ## Exercise: Leap year
 
 ::: übung l08-schaltjahr
@@ -116,6 +172,9 @@ lösung: l08-schaltjahr-loesung.visustruct
 - I know when a combination with || is true. → Or: ||
 - I can turn a condition round with !. → Not and brackets
 - I can check whether a value is in a range such as 1 to 6. → Check ranges of values
+- I can read the truth table for &&, || and !. → The truth table
+- I can store the result of a condition in a boolean variable. → Truth values in variables
+- I got at least 8 of 10 conditions right in the game. → Game: True or false?
 :::
 
 ## Quiz

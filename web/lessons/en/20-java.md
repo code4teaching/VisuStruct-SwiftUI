@@ -114,6 +114,30 @@ You can drag the border between code and console up or down with the mouse.
 Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With Live code, VisuStruct is a small IDE with a built-in structure chart.
 :::
 
+## Find mistakes with the debugger
+
+Sometimes a program runs but calculates something wrong. Then the **debugger** helps: it runs your program slowly while you watch.
+
+- **Breakpoint:** Click a line number on the left. A red dot appears. [▶︎ Run](#zeige-ausfuehren) pauses before this line. Click again to remove the dot.
+- **Yellow line:** This line runs next. The matching box is selected in the structure chart.
+- **Variables:** Below the code you see the current value of every variable. Whatever changed since the last pause lights up yellow for a moment.
+- **Step:** The [Step](#zeige-einzelschritt) button next to ▶︎ runs exactly one line and pauses again. Without a breakpoint it starts the program and pauses before the first line.
+- **Continue:** ▶︎ runs to the next breakpoint or to the end. **■ Stop** ends it.
+
+Try it with this program. Set a breakpoint on line 3 and press ▶︎ several times. How do `i` and `summe` grow?
+
+```
+int summe = 0;
+for (int i = 1; i <= 4; i++) {
+    summe = summe + i;
+}
+System.out.println("Summe: " + summe);
+```
+
+::: ludwig
+This is a desk check, except the computer takes the notes for you. Before each step, think about which value the variable should have next. When the table doesn't match your guess, you have found the place with the mistake.
+:::
+
 ## Exercise: Code first, then the structure chart
 
 This time you don't draw. Open Live code and type in this Java code:
@@ -206,6 +230,7 @@ lösung: l17-ticket-loesung.visustruct
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
 - I can type Java in Live code and read the structure chart that is built. → Live code: write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
+- I can set breakpoints and follow a program step by step. → Find mistakes with the debugger
 :::
 
 ## Quiz
@@ -233,4 +258,10 @@ lösung: l17-ticket-loesung.visustruct
 - [x] break;
 - [ ] return;
 - [ ] exit();
+
+? What happens at a red dot before the line number?
+- [ ] The line is skipped.
+- [x] The program pauses before this line.
+- [ ] The line contains a mistake.
+> That is a breakpoint. Continue with ▶︎ or Step.
 :::

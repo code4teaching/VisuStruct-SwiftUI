@@ -4,7 +4,7 @@ import { parseLiveJava } from '../src/core/javaParser'
 import type { LiveLabels } from '../src/core/codeGenerator'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
-const hooks = { onChange() {}, onCaret() {}, onUndo() {}, words: () => ({}) as never }
+const hooks = { onChange() {}, onCaret() {}, onUndo() {}, words: () => ({}) as never, breakpointLine: (line: number) => line, onBreakpoints() {} }
 
 function editorWith(text: string) {
   const editor = new JavaEditor(document.createElement('div'), hooks, 'Code')

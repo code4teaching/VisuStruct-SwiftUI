@@ -93,6 +93,62 @@ Kommen `&&` und `||` zusammen vor, wird `&&` zuerst ausgewertet, so wie Punkt vo
 (alter >= 12 && alter < 18) || schueler == 1
 ```
 
+## Die Wahrheitstabelle
+
+Eine **Wahrheitstabelle** zeigt auf einen Blick, was bei `&&`, `||` und `!` herauskommt. Links stehen alle vier Möglichkeiten für zwei Bedingungen `a` und `b`, rechts das Ergebnis:
+
+::: grafik l09-wahrheitstabelle.svg
+Grün ist true, rot ist false. Bei && gibt es nur eine grüne Zeile, bei || nur eine rote.
+:::
+
+Merksätze:
+
+- `a && b` ist nur wahr, wenn **beide** wahr sind.
+- `a || b` ist nur falsch, wenn **beide** falsch sind.
+- `!a` dreht den Wert um.
+
+## Wahrheitswerte in Variablen
+
+Das Ergebnis einer Bedingung ist ein **Wahrheitswert** vom Typ `boolean`. Du kannst ihn wie eine Zahl in einer Variablen speichern und später benutzen:
+
+```
+boolean wochenende = tag == 6 || tag == 7
+```
+
+In der Verzweigung steht dann nur noch `wochenende`. Das liest sich fast wie ein Satz: „Wenn Wochenende, dann …“. Schreibe nicht `wochenende == true`, denn `wochenende` ist ja schon true oder false.
+
+Mit `!wochenende` fragst du nach dem Gegenteil, also nach einem Werktag.
+
+::: ludwig
+Lange Bedingungen werden übersichtlich, wenn du Teile davon in boolean-Variablen mit sprechenden Namen packst, zum Beispiel `boolean jugendlich = alter >= 12 && alter < 18`.
+:::
+
+## Spiel: Wahr oder falsch?
+
+Jetzt bist du dran. Rechne jede Bedingung im Kopf aus. Nach jeder Antwort siehst du, wie VisuStruct sie Schritt für Schritt auswertet.
+
+::: spiel
+alter: 8..20
+tag: 1..7
+note: 0..7
+schueler: boolean
+wochenende: boolean
+? alter >= 18
+? tag == 6
+? note != 3
+? alter >= 12 && alter < 18
+? tag == 6 || tag == 7
+? schueler && wochenende
+? !schueler
+? note >= 1 && note <= 6
+? !(alter < 18)
+? schueler || alter >= 18
+? (alter >= 12 && alter < 18) || schueler
+? !(note >= 1 && note <= 6)
+? !wochenende && tag != 3
+? alter >= 12 && alter < 18 && !schueler
+:::
+
 ## Übung: Schaltjahr
 
 ::: übung l08-schaltjahr
@@ -116,6 +172,9 @@ lösung: l08-schaltjahr-loesung.visustruct
 - Ich weiß, wann eine Verknüpfung mit || wahr ist. → Oder: ||
 - Ich kann eine Bedingung mit ! umdrehen. → Nicht und Klammern
 - Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt. → Wertebereiche prüfen
+- Ich kann die Wahrheitstabelle für &&, || und ! lesen. → Die Wahrheitstabelle
+- Ich kann das Ergebnis einer Bedingung in einer boolean-Variablen speichern. → Wahrheitswerte in Variablen
+- Ich habe im Spiel mindestens 8 von 10 Bedingungen richtig ausgewertet. → Spiel: Wahr oder falsch?
 :::
 
 ## Wissenstest

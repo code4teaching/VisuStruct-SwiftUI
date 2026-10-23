@@ -93,6 +93,62 @@ Se `&&` e `||` aparecerem juntos, o `&&` é calculado primeiro, tal como a multi
 (idade >= 12 && idade < 18) || estudante == 1
 ```
 
+## A tabela de verdade
+
+Uma **tabela de verdade** mostra de relance o que resulta de `&&`, `||` e `!`. À esquerda estão as quatro possibilidades para duas condições `a` e `b`, à direita o resultado:
+
+::: grafik l09-wahrheitstabelle.svg
+Verde é true, vermelho é false. Com && só há uma linha verde, com || só uma vermelha.
+:::
+
+Para fixar:
+
+- `a && b` só é verdadeiro se **ambas** forem verdadeiras.
+- `a || b` só é falso se **ambas** forem falsas.
+- `!a` inverte o valor.
+
+## Valores lógicos em variáveis
+
+O resultado de uma condição é um **valor lógico** do tipo `boolean`. Podes guardá-lo numa variável, tal como um número, e usá-lo mais tarde:
+
+```
+boolean fimDeSemana = dia == 6 || dia == 7
+```
+
+Na decisão fica então só `fimDeSemana`. Lê-se quase como uma frase: "Se for fim de semana, então …". Não escrevas `fimDeSemana == true`, porque `fimDeSemana` já é true ou false.
+
+Com `!fimDeSemana` perguntas pelo contrário, ou seja, um dia útil.
+
+::: ludwig
+Condições longas ficam mais claras se puseres partes delas em variáveis boolean com nomes claros, por exemplo `boolean jovem = idade >= 12 && idade < 18`.
+:::
+
+## Jogo: Verdadeiro ou falso?
+
+Agora é a tua vez. Calcula cada condição de cabeça. Depois de cada resposta vês como o VisuStruct a avalia passo a passo.
+
+::: spiel
+idade: 8..20
+dia: 1..7
+nota: 0..6
+estudante: boolean
+fimDeSemana: boolean
+? idade >= 18
+? dia == 6
+? nota != 3
+? idade >= 12 && idade < 18
+? dia == 6 || dia == 7
+? estudante && fimDeSemana
+? !estudante
+? nota >= 1 && nota <= 5
+? !(idade < 18)
+? estudante || idade >= 18
+? (idade >= 12 && idade < 18) || estudante
+? !(nota >= 1 && nota <= 5)
+? !fimDeSemana && dia != 3
+? idade >= 12 && idade < 18 && !estudante
+:::
+
 ## Exercício: Ano bissexto
 
 ::: übung l08-schaltjahr
@@ -116,6 +172,9 @@ lösung: l08-schaltjahr-loesung.visustruct
 - Sei quando uma combinação com || é verdadeira. → Ou: ||
 - Sei inverter uma condição com !. → Não e parênteses
 - Sei verificar se um valor está num intervalo como de 1 a 5. → Verificar intervalos de valores
+- Sei ler a tabela de verdade de &&, || e !. → A tabela de verdade
+- Sei guardar o resultado de uma condição numa variável boolean. → Valores lógicos em variáveis
+- Acertei pelo menos 8 de 10 condições no jogo. → Jogo: Verdadeiro ou falso?
 :::
 
 ## Teste de conhecimentos

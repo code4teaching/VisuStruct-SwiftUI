@@ -1,4 +1,5 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
+import { parseBoolGame, type BoolGame } from './boolGame'
 
 /**
  * Lektionen und Aufgaben als Markdown mit Kopfzeilen und `:::`-Blöcken (siehe `lessons/README.md`).
@@ -14,6 +15,7 @@ export type Block =
   | { kind: 'brag'; text: string; tip?: boolean }
   | { kind: 'images'; files: string[]; caption: string }
   | { kind: 'graphic'; file: string; caption: string }
+  | { kind: 'game'; game: BoolGame }
 
 export interface Exercise {
   id: string
@@ -209,6 +211,13 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       case 'angeberwissen':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim() })
+        break
+      case 'spiel':
+        try {
+          blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
+        } catch (err) {
+          throw new FormatError((err as Error).message)
+        }
         break
       case 'ludwig':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim(), tip: true })

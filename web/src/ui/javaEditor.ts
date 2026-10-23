@@ -2,8 +2,8 @@ import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap, s
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
-import { Annotation, Compartment, EditorSelection, EditorState, Prec, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
-import { Decoration, EditorView, highlightActiveLineGutter, keymap, lineNumbers, type DecorationSet } from '@codemirror/view'
+import { Annotation, Compartment, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
+import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 
 /**
@@ -18,6 +18,8 @@ export interface EditorMarks {
   problems: { from: number; to: number }[]
   /** Zeilen des ausgewählten Elements (ab 0, einschließlich). */
   lines?: { from: number; to: number }
+  /** Debugger: Zeile, die als Nächstes ausgeführt wird (ab 0, gelb). */
+  current?: number
 }
 
 /** Wörter der Vorlagen in der Sprache der Oberfläche. */
@@ -46,6 +48,10 @@ export interface JavaEditorHooks {
   /** ⌘Z / ⌘⇧Z: gilt für Code und Struktogramm gemeinsam. */
   onUndo(redo: boolean): void
   words(): SnippetWords
+  /** Klick auf die Zeilennummer: Zeile für den Haltepunkt (Anfang des Elements) oder keine. */
+  breakpointLine(line: number): number | undefined
+  /** Haltepunkte geändert. */
+  onBreakpoints(): void
 }
 
 /** Eigene Textänderungen (z. B. nach einer Änderung im Struktogramm) lösen kein `onChange` aus. */
@@ -55,6 +61,7 @@ const setMarks = StateEffect.define<EditorMarks>()
 const phMark = Decoration.mark({ class: 'cm-ph' })
 const errMark = Decoration.mark({ class: 'cm-err' })
 const selLine = Decoration.line({ class: 'cm-sel' })
+const currentLine = Decoration.line({ class: 'cm-debug-line' })
 
 interface MarkState {
   marks: EditorMarks
@@ -71,6 +78,9 @@ function buildDecorations(state: EditorState, marks: EditorMarks): DecorationSet
       ranges.push({ from: line.from, to: line.from, deco: selLine })
     }
   }
+  if (marks.current !== undefined && marks.current < state.doc.lines) {
+    ranges.push({ from: state.doc.line(marks.current + 1).from, to: state.doc.line(marks.current + 1).from, deco: currentLine })
+  }
   for (const p of marks.placeholders) if (p.to <= len && p.from < p.to) ranges.push({ from: p.from, to: p.to, deco: phMark })
   for (const p of marks.problems) {
     const from = Math.min(p.from, len)
@@ -78,7 +88,8 @@ function buildDecorations(state: EditorState, marks: EditorMarks): DecorationSet
     if (from < to) ranges.push({ from, to, deco: errMark })
   }
   // Zeilen-Dekorationen vor Markierungen an derselben Stelle.
-  ranges.sort((a, b) => a.from - b.from || Number(b.deco === selLine) - Number(a.deco === selLine) || a.to - b.to)
+  const isLine = (d: Decoration) => d === selLine || d === currentLine
+  ranges.sort((a, b) => a.from - b.from || Number(isLine(b.deco)) - Number(isLine(a.deco)) || a.to - b.to)
   const builder = new RangeSetBuilder<Decoration>()
   for (const r of ranges) builder.add(r.from, r.to, r.deco)
   return builder.finish()
@@ -96,6 +107,57 @@ const marksField = StateField.define<MarkState>({
   },
   provide: (f) => EditorView.decorations.from(f, (v) => v.decorations),
 })
+
+// MARK: - Haltepunkte
+
+/** Roter Punkt vor der Zeilennummer: Hier hält „Ausführen“ an. */
+class BreakpointMarker extends GutterMarker {
+  toDOM() {
+    const dot = document.createElement('span')
+    dot.className = 'cm-breakpoint'
+    return dot
+  }
+}
+const breakpointMarker = new BreakpointMarker()
+const toggleBreakpoint = StateEffect.define<number>()
+
+/** Haltepunkte als Positionen am Zeilenanfang: Sie wandern beim Tippen mit ihrer Zeile mit. */
+const breakpointsField = StateField.define<RangeSet<GutterMarker>>({
+  create: () => RangeSet.empty,
+  update(set, tr) {
+    set = set.map(tr.changes)
+    for (const e of tr.effects) {
+      if (!e.is(toggleBreakpoint)) continue
+      let has = false
+      set.between(e.value, e.value, () => {
+        has = true
+      })
+      set = has ? set.update({ filter: (from) => from !== e.value }) : set.update({ add: [breakpointMarker.range(e.value)] })
+    }
+    return set
+  },
+})
+
+function breakpointGutter(hooks: JavaEditorHooks): Extension {
+  const toggle = (view: EditorView, block: BlockInfo) => {
+    const line = hooks.breakpointLine(view.state.doc.lineAt(block.from).number - 1)
+    if (line === undefined || line >= view.state.doc.lines) return false
+    view.dispatch({ effects: toggleBreakpoint.of(view.state.doc.line(line + 1).from) })
+    queueMicrotask(() => hooks.onBreakpoints())
+    return true
+  }
+  const handlers = { mousedown: toggle }
+  return [
+    breakpointsField,
+    gutter({
+      class: 'cm-breakpoint-gutter',
+      markers: (v) => v.state.field(breakpointsField),
+      initialSpacer: () => breakpointMarker,
+      domEventHandlers: handlers,
+    }),
+    lineNumbers({ domEventHandlers: handlers }),
+  ]
+}
 
 /** Platzhalter am Cursor (auch direkt davor oder dahinter). */
 function placeholderAt(state: EditorState, pos: number) {
@@ -203,7 +265,7 @@ export class JavaEditor {
       }
     }
     const extensions: Extension[] = [
-      lineNumbers(),
+      breakpointGutter(hooks),
       highlightActiveLineGutter(),
       java(),
       syntaxHighlighting(highlight),
@@ -250,6 +312,16 @@ export class JavaEditor {
     return this.view.hasFocus
   }
 
+  /** Zeilen mit Haltepunkt (ab 0). */
+  get breakpoints(): Set<number> {
+    const lines = new Set<number>()
+    const doc = this.view.state.doc
+    this.view.state.field(breakpointsField).between(0, doc.length, (from) => {
+      lines.add(doc.lineAt(from).number - 1)
+    })
+    return lines
+  }
+
   lineAt(offset: number): number {
     return this.view.state.doc.lineAt(Math.min(offset, this.view.state.doc.length)).number - 1
   }
@@ -257,8 +329,14 @@ export class JavaEditor {
   /** Text von außen setzen (Struktogramm geändert, Rückgängig); der Cursor bleibt möglichst an seiner Stelle. */
   setText(text: string) {
     const caret = Math.min(this.caret, text.length)
+    // Nur den geänderten Teil ersetzen: Haltepunkte davor und danach bleiben an ihrer Zeile.
+    const old = this.text
+    let start = 0
+    while (start < old.length && start < text.length && old[start] === text[start]) start++
+    let end = 0
+    while (end < old.length - start && end < text.length - start && old[old.length - 1 - end] === text[text.length - 1 - end]) end++
     this.view.dispatch({
-      changes: { from: 0, to: this.view.state.doc.length, insert: text },
+      changes: { from: start, to: old.length - end, insert: text.slice(start, text.length - end) },
       selection: { anchor: caret },
       annotations: fromOutside.of(true),
     })
@@ -266,7 +344,9 @@ export class JavaEditor {
 
   setMarks(marks: EditorMarks, scrollToSelection: boolean) {
     const effects: StateEffect<unknown>[] = [setMarks.of(marks)]
-    if (scrollToSelection && marks.lines && marks.lines.from < this.view.state.doc.lines) {
+    if (marks.current !== undefined && marks.current < this.view.state.doc.lines) {
+      effects.push(EditorView.scrollIntoView(this.view.state.doc.line(marks.current + 1).from, { y: 'nearest' }))
+    } else if (scrollToSelection && marks.lines && marks.lines.from < this.view.state.doc.lines) {
       effects.push(EditorView.scrollIntoView(this.view.state.doc.line(marks.lines.from + 1).from, { y: 'nearest' }))
     }
     this.view.dispatch({ effects })

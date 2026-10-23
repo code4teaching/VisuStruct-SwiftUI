@@ -10,8 +10,8 @@ import {
 import { parseLiveJava, type JavaProblem, type ParsedJava } from '../core/javaParser'
 import { documentFromJava, liveJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../core/liveSource'
 import type { VSDocument } from '../core/model'
-import { SimulationEngine, type SubprogramResolver } from '../core/simulation'
-import { noticeText, type ConsoleTranscript } from './simulationPanel'
+import { describeValue, SimulationEngine, type SimStep, type SubprogramResolver } from '../core/simulation'
+import { gridTable, noticeText, type ConsoleTranscript } from './simulationPanel'
 import { JavaEditor, type SnippetWords } from './javaEditor'
 import { icons } from './icons'
 import { sidebarIcon } from './learnPanel'
@@ -129,14 +129,35 @@ export class LiveCodePanel {
   private problems: JavaProblem[] = []
   private problemTimer?: number
   private showProblems = true
-  private run?: { engine: SimulationEngine; printed: number; timer?: number }
+  /**
+   * Laufendes Programm. `paused`: Debugger hält vor einer Zeile an (Haltepunkt oder Einzelschritt).
+   * `stepping`: nach einer Eingabe wieder anhalten statt weiterlaufen.
+   */
+  private run?: {
+    engine: SimulationEngine
+    doc: VSDocument
+    printed: number
+    timer?: number
+    paused: boolean
+    stepping: boolean
+    /** Einmal angehalten: Variablen bleiben bis zum Ende sichtbar. */
+    debugged: boolean
+    /** Werte beim letzten Anhalten, um Änderungen hervorzuheben. */
+    values?: Map<string, string>
+  }
+  /** Zeile, die als Nächstes ausgeführt wird (gelb), solange der Debugger anhält. */
+  private debugLine?: number
+  private breakpoints = new Set<number>()
   /** Swing-Unterstützung (Zahnrad-Menü): Java läuft dann als echtes Java mit CheerpJ. */
   private swing = storedFlag(swingKey)
   /** Fläche für die Swing-Fenster; bleibt über `build()` hinweg bestehen, weil CheerpJ sie einmal übernimmt. */
   private swingElement: HTMLElement
   private swingDisplay: HTMLElement
   private runButton!: HTMLButtonElement
+  private stepButton!: HTMLButtonElement
   private stopButton!: HTMLButtonElement
+  private debugPanel!: HTMLElement
+  private debugVars!: HTMLElement
   /** Konsole unter dem Code, darüber eine Trennlinie zum Verschieben. */
   private consoleElement: HTMLElement
   private consoleResizer: HTMLElement
@@ -186,6 +207,7 @@ export class LiveCodePanel {
         <h2>${esc(t('web_live_title'))}</h2>
         <span class="livecode-lang"></span>
         <button class="icon livecode-run primary" data-run="play" data-tip="${esc(t('web_live_run_title'))}" aria-label="${esc(t('web_live_run'))}">${icons.play}</button>
+        <button class="icon livecode-run" data-run="step" data-tip="${esc(t('web_debug_step_title'))}" aria-label="${esc(t('web_debug_step'))}">${icons.step}</button>
         <button class="icon livecode-run" data-run="stop" data-tip="${esc(t('simulation_stop'))}" aria-label="${esc(t('simulation_stop'))}" disabled>${icons.stop}</button>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
@@ -193,6 +215,10 @@ export class LiveCodePanel {
       <pre class="code-view livecode-view" tabindex="0" dir="ltr"></pre>
       <div class="code-view livecode-editor" dir="ltr"></div>
       <p class="livecode-problem" role="status" aria-live="polite"></p>
+      <section class="livecode-debug" hidden>
+        <h2>${esc(t('simulation_variables'))}</h2>
+        <div class="sim-vars livecode-vars" dir="ltr"></div>
+      </section>
     `
     this.consoleElement.innerHTML = `
       <div class="console-head">
@@ -213,7 +239,10 @@ export class LiveCodePanel {
     this.hint = this.element.querySelector('.hint')!
     this.element.querySelector('.learn-hide')!.addEventListener('click', () => this.onHide())
     this.runButton = this.element.querySelector('[data-run=play]')!
+    this.stepButton = this.element.querySelector('[data-run=step]')!
     this.stopButton = this.element.querySelector('[data-run=stop]')!
+    this.debugPanel = this.element.querySelector('.livecode-debug')!
+    this.debugVars = this.element.querySelector('.livecode-vars')!
     this.swingElement.innerHTML = `
       <div class="console-head">
         <h2>${esc(t('web_live_swing_windows'))}</h2>
@@ -232,7 +261,8 @@ export class LiveCodePanel {
     this.consoleForm = c.querySelector('.livecode-console-input')!
     this.consoleNotice = c.querySelector('.livecode-console-notice')!
     c.querySelector('.console-hide')!.addEventListener('click', () => this.hideConsole())
-    this.runButton.addEventListener('click', () => this.startRun())
+    this.runButton.addEventListener('click', () => (this.run?.paused ? this.resume() : this.startRun(false)))
+    this.stepButton.addEventListener('click', () => (this.run?.paused ? this.stepOnce() : this.startRun(true)))
     this.stopButton.addEventListener('click', () => this.stopRun(true))
     this.consoleForm.addEventListener('submit', (e) => {
       e.preventDefault()
@@ -252,9 +282,14 @@ export class LiveCodePanel {
         onCaret: () => this.caretMoved(),
         onUndo: (redo) => this.onUndo(redo),
         words: () => this.snippetWords,
+        breakpointLine: (line) => spanAtLine(this.spans, line)?.from,
+        onBreakpoints: () => (this.breakpoints = this.code.breakpoints),
       },
       t('web_live_edit_label'),
     )
+    this.editor.querySelector<HTMLElement>('.cm-gutters')!.title = t('web_debug_gutter_title')
+    this.breakpoints = new Set()
+    this.debugLine = undefined
     this.highlighted = undefined
     this.html = ''
     this.parsed = undefined
@@ -376,18 +411,32 @@ export class LiveCodePanel {
 
   // MARK: - Ausführen
 
-  /** Das Programm mit der Simulation ausführen, ohne Schritt-für-Schritt-Anzeige: nur Ausgaben und Eingaben. */
-  private startRun() {
-    if (this.swing && this.target === 'java') return void this.startJavaRun()
+  /**
+   * Das Programm mit der Simulation ausführen: Ausgaben und Eingaben in der Konsole.
+   * Es hält an Haltepunkten an; `stepping`: gleich vor der ersten Zeile anhalten (Einzelschritt).
+   */
+  private startRun(stepping: boolean) {
+    // Debuggen geht nur mit der Simulation; ohne Haltepunkt und Einzelschritt läuft Swing-Code als echtes Java.
+    if (this.swing && this.target === 'java' && !stepping && this.code.breakpoints.size === 0) return void this.startJavaRun()
     if (!this.last) return
     this.stopRun(false)
-    this.run = { engine: new SimulationEngine(this.last.doc, this.last.context.resolve), printed: 0 }
+    this.run = {
+      engine: new SimulationEngine(this.last.doc, this.last.context.resolve),
+      doc: this.last.doc,
+      printed: 0,
+      paused: false,
+      stepping,
+      debugged: false,
+    }
+    this.breakpoints = this.code.breakpoints
+    this.debugPanel.hidden = true
     this.setConsoleVisible(true)
     this.consoleLines.replaceChildren()
     this.consoleNotice.textContent = ''
     this.consoleNotice.classList.remove('error')
     this.setRunning(true)
-    this.continueRun()
+    if (stepping) this.pause()
+    else this.continueRun(false)
   }
 
   /** Mit Swing-Unterstützung: den getippten Java-Code mit javac übersetzen und als echtes Java starten. */
@@ -399,7 +448,7 @@ export class LiveCodePanel {
     this.consoleLines.id = 'console'
     this.consoleForm.hidden = true
     this.consoleNotice.classList.remove('error')
-    this.runButton.disabled = true
+    this.runButton.disabled = this.stepButton.disabled = true
     try {
       this.consoleNotice.textContent = t('web_live_swing_loading')
       await prepareJava(this.swingDisplay)
@@ -415,22 +464,126 @@ export class LiveCodePanel {
       this.consoleNotice.textContent = t('web_live_swing_failed')
       this.consoleNotice.classList.add('error')
     }
-    this.runButton.disabled = false
+    this.runButton.disabled = this.stepButton.disabled = false
   }
 
-  private continueRun() {
+  /** `fromPause`: Der erste Schritt läuft auch auf einem Haltepunkt, sonst bliebe „Weiter“ dort stehen. */
+  private continueRun(fromPause: boolean) {
     const run = this.run
     if (!run) return
     const { engine } = run
-    for (let i = 0; i < runChunk && engine.canStep; i++) engine.step()
-    this.printNewLines()
-    const state = engine.state
-    if (state.inputRequest) return this.askInput()
-    if (state.isHalted || !engine.canStep) {
-      this.finishRun(state.isHalted && state.notice ? noticeText(state.notice) : t('web_live_run_finished'), state.isHalted)
-      return
+    for (let i = 0; i < runChunk && engine.canStep; i++) {
+      if (!(fromPause && i === 0) && this.atBreakpoint(engine.steps[engine.state.stepIndex])) {
+        this.printNewLines()
+        return this.pause()
+      }
+      engine.step()
     }
-    run.timer = window.setTimeout(() => this.continueRun(), 0)
+    if (this.afterSteps()) return
+    run.timer = window.setTimeout(() => this.continueRun(false), 0)
+  }
+
+  /** Ausgaben zeigen; Eingabe, Ende oder Fehler behandeln. `true`: Es geht nicht von selbst weiter. */
+  private afterSteps(): boolean {
+    const run = this.run!
+    const state = run.engine.state
+    this.printNewLines()
+    if (state.inputRequest) {
+      this.askInput()
+      return true
+    }
+    if (state.isHalted || !run.engine.canStep) {
+      this.finishRun(state.isHalted && state.notice ? noticeText(state.notice) : t('web_live_run_finished'), state.isHalted)
+      return true
+    }
+    return false
+  }
+
+  /** Haltepunkt vor diesem Schritt? Im Unterprogramm nicht (dessen Zeilen stehen nicht hier), bei `for` nur vor der Bedingung. */
+  private atBreakpoint(step: SimStep | undefined): boolean {
+    if (!step || step.callPath || step.kind === 'forLoopIncrement' || step.kind === 'forLoopStart' || step.kind === 'callEnd') return false
+    const line = this.lineOf(step.path)
+    return line !== undefined && this.breakpoints.has(line)
+  }
+
+  private lineOf(path: number[] | undefined): number | undefined {
+    return path && this.spans.find((s) => samePath(s.path, path))?.from
+  }
+
+  /** Debugger hält an: Zeile gelb, Element im Struktogramm ausgewählt, Variablen zeigen. */
+  private pause() {
+    const run = this.run!
+    run.paused = true
+    run.debugged = true
+    const path = run.engine.currentStepPath
+    this.debugLine = this.lineOf(path)
+    this.consoleNotice.classList.remove('error')
+    this.consoleNotice.textContent = this.debugLine === undefined ? '' : t('web_debug_paused_fmt', this.debugLine + 1)
+    this.showVariables()
+    this.setRunning(true)
+    const current = this.last?.highlight
+    if (path && !(current && samePath(current, path))) this.onSelect(path)
+    else this.drawMarks(this.last?.highlight)
+  }
+
+  /** Weiter bis zum nächsten Haltepunkt oder zum Ende. */
+  private resume() {
+    const run = this.run
+    if (!run?.paused) return
+    run.paused = false
+    run.stepping = false
+    this.leavePause()
+    this.continueRun(true)
+  }
+
+  /** Einzelschritt: einen Schritt ausführen und wieder anhalten. */
+  private stepOnce() {
+    const run = this.run
+    if (!run?.paused) return
+    run.paused = false
+    run.stepping = true
+    this.leavePause()
+    const { engine } = run
+    const kind = engine.steps[engine.state.stepIndex]?.kind
+    engine.step()
+    // `for`: Zählen bzw. Anfangswert und Prüfen der Bedingung sind ein Schritt (dieselbe Zeile).
+    if ((kind === 'forLoopStart' || kind === 'forLoopIncrement') && engine.canStep && engine.steps[engine.state.stepIndex]?.kind === 'forLoopCondition') {
+      engine.step()
+    }
+    if (!this.afterSteps()) this.pause()
+  }
+
+  private leavePause() {
+    this.debugLine = undefined
+    this.consoleNotice.textContent = ''
+    this.setRunning(true)
+    this.drawMarks(this.last?.highlight)
+  }
+
+  /** Variablen wie in der Simulation; seit dem letzten Anhalten geänderte Werte leuchten kurz auf. */
+  private showVariables() {
+    const run = this.run!
+    const variables = run.engine.state.variables
+    this.debugPanel.hidden = false
+    const names = [...variables.keys()].sort((a, b) => a.localeCompare(b))
+    if (names.length === 0) {
+      this.debugVars.innerHTML = `<p class="placeholder">${esc(t('simulation_variables_placeholder'))}</p>`
+    } else {
+      const table = document.createElement('table')
+      for (const name of names) {
+        const value = variables.get(name)!
+        const text = describeValue(value)
+        const row = table.insertRow()
+        row.insertCell().textContent = name
+        const cell = row.insertCell()
+        if (value.kind === 'grid') cell.append(gridTable(value))
+        else cell.textContent = text
+        if (run.values && run.values.get(name) !== text) row.classList.add('changed')
+      }
+      this.debugVars.replaceChildren(table)
+    }
+    // Beim ersten Anhalten ist alles neu: dann nichts hervorheben.
+    run.values = new Map(names.map((name) => [name, describeValue(variables.get(name)!)]))
   }
 
   /** `typed`: Eingabezeile mit Frage und der getippten Antwort (farbig). */
@@ -479,7 +632,8 @@ export class LiveCodePanel {
     this.printNewLines({ prompt, value: field.value })
     field.value = ''
     this.consoleForm.hidden = true
-    this.continueRun()
+    if (!run.stepping) return this.continueRun(false)
+    if (!this.afterSteps()) this.pause()
   }
 
   private stopRun(byUser: boolean) {
@@ -487,7 +641,10 @@ export class LiveCodePanel {
     window.clearTimeout(this.run.timer)
     if (byUser) this.finishRun(t('web_live_run_stopped'), false)
     this.run = undefined
+    this.debugLine = undefined
+    this.debugPanel.hidden = true
     this.setRunning(false)
+    this.drawMarks(this.last?.highlight)
   }
 
   private finishRun(message: string, error: boolean) {
@@ -495,8 +652,13 @@ export class LiveCodePanel {
     this.consoleForm.hidden = true
     this.consoleNotice.textContent = message
     this.consoleNotice.classList.toggle('error', error)
+    // Nach dem Debuggen die Werte am Ende zeigen.
+    if (this.run?.debugged) this.showVariables()
+    else this.debugPanel.hidden = true
     this.run = undefined
+    this.debugLine = undefined
     this.setRunning(false)
+    this.drawMarks(this.last?.highlight)
   }
 
   /** Während der Simulation: Konsole zeigt deren Ausgaben und Eingaben (beim Start leer). */
@@ -578,9 +740,17 @@ export class LiveCodePanel {
   }
 
   private setRunning(on: boolean) {
-    this.runButton.disabled = on
+    const paused = !!this.run?.paused
+    this.runButton.disabled = on && !paused
+    this.stepButton.disabled = on && !paused
     this.stopButton.disabled = !on
-    this.element.classList.toggle('running', on)
+    const tip = t(paused ? 'web_debug_continue' : 'web_live_run_title')
+    this.runButton.dataset.tip = tip
+    this.runButton.setAttribute('aria-label', paused ? tip : t('web_live_run'))
+    this.element.classList.toggle('running', on && !paused)
+    this.element.classList.toggle('debugging', paused)
+    // Während das Programm läuft, bleibt der Code, wie er ist.
+    this.code.setReadOnly(on || !this.last?.context.editable)
   }
 
   // MARK: - Java tippen
@@ -598,7 +768,9 @@ export class LiveCodePanel {
     const text = this.textForDocument(doc, context)
     this.textFor.set(doc, text)
     this.shown.set(context.owner, { doc, text })
-    this.code.setReadOnly(!context.editable)
+    // Struktogramm geändert oder anderer Reiter: Das laufende Programm passt nicht mehr dazu.
+    if (this.run && this.run.doc !== doc) this.stopRun(false)
+    this.code.setReadOnly(!context.editable || !!this.run)
     if (this.code.text !== text) {
       this.code.setText(text)
       this.analyze(text, context)
@@ -623,6 +795,7 @@ export class LiveCodePanel {
         placeholders: this.placeholders,
         problems: this.showProblems ? this.problems : [],
         lines: span ? { from: span.from, to: span.to } : undefined,
+        current: this.debugLine,
       },
       key !== undefined && key !== this.highlighted && !this.code.hasFocus,
     )
