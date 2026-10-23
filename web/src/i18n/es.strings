@@ -163,6 +163,7 @@
 "web_game_boom_time" = "💥 ¡Bum! Se acabó el tiempo.";
 "web_game_boom_wrong" = "💥 ¡Bum! Esa no era la línea.";
 "web_game_fix" = "La línea correcta:";
+"web_game_order_hint" = "Toca los pasos en el orden correcto.";
 "web_debug_step" = "Paso a paso";
 "web_debug_step_title" = "Paso a paso: ejecutar una instrucción y detenerse de nuevo";
 "web_debug_continue" = "Continuar hasta el siguiente punto de interrupción";

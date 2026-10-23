@@ -2,7 +2,7 @@ import { inline } from '../learn/markdown'
 import { click, clickButton, parseLayoutPicture, parseSwingWindow, startState, type ClickStep, type RoundGame, type SwingWindow } from '../learn/roundGame'
 import { t } from './i18n'
 
-/** Rundenspiele „Wer hört zu?“, „Vertrag erfüllt?“, „Wo landet der Knopf?“ und „Bombe entschärfen“ im Lernbereich. */
+/** Rundenspiele „Wer hört zu?“, „Vertrag erfüllt?“, „Wo landet der Knopf?“, „Bombe entschärfen“ und „Wer ist dran?“ im Lernbereich. */
 
 function h(tag: string, attrs: Record<string, string> = {}, ...children: (Node | string)[]): HTMLElement {
   const e = document.createElement(tag)
@@ -104,11 +104,56 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
     timers.push(id)
   }
 
+  /** Reihenfolge: Die gemischten Schritte der Reihe nach antippen, ein falscher Tipp beendet die Runde. */
+  const showOrderRound = () => {
+    const round = game.rounds[index]
+    const parts: HTMLElement[] = []
+    if (round.code.trim()) parts.push(codeView(round.code).element)
+    parts.push(rich('p', { class: 'learn-game-question' }, round.question), h('p', { class: 'learn-order-hint' }, t('web_game_order_hint')))
+    const list = h('div', { class: 'learn-game-options learn-order' })
+    const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
+    let done = 0
+    const buttons = shuffled(round.options.length).map((k) => {
+      const badge = h('span', { class: 'learn-order-badge', 'aria-hidden': 'true' })
+      const text = h('span', {})
+      text.innerHTML = inline(round.options[k].text)
+      const b = h('button', {}, badge, text) as HTMLButtonElement
+      b.addEventListener('click', () => {
+        if (k !== done) {
+          b.classList.add('wrong')
+          return finish(false)
+        }
+        b.classList.add('right')
+        badge.textContent = String(++done)
+        b.disabled = true
+        if (done === round.options.length) finish(true)
+      })
+      list.append(b)
+      return { k, b, badge }
+    })
+    const finish = (right: boolean) => {
+      // Zum Schluss stehen die Schritte richtig sortiert und nummeriert da.
+      for (const { k, b, badge } of [...buttons].sort((x, y) => x.k - y.k)) {
+        b.disabled = true
+        badge.textContent = String(k + 1)
+        list.append(b)
+      }
+      if (right) score++
+      showStatus()
+      feedback.className = `learn-game-feedback ${right ? 'right' : 'wrong'}`
+      const n = next()
+      feedback.replaceChildren(h('p', {}, right ? t('web_game_right') : t('web_game_wrong_short')), rich('div', { class: 'learn-game-explain' }, round.explanation), n)
+      n.focus({ preventScroll: true })
+    }
+    stage.replaceChildren(...parts, list, feedback)
+  }
+
   const showRound = () => {
     clearTimers()
-    if (game.kind === 'bombe') {
+    if (game.kind === 'bombe' || game.kind === 'reihenfolge') {
       showStatus()
-      showBombRound()
+      if (game.kind === 'bombe') showBombRound()
+      else showOrderRound()
       return
     }
     const round = game.rounds[index]
@@ -169,6 +214,18 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
   start.addEventListener('click', showRound)
   stage.append(rich('p', {}, game.intro), start)
   return box
+}
+
+/** Die Zahlen 0 bis n-1 gemischt, nie in der richtigen Reihenfolge. */
+function shuffled(n: number): number[] {
+  const order = [...Array(n).keys()]
+  while (order.every((k, i) => k === i)) {
+    for (let i = n - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[order[i], order[j]] = [order[j], order[i]]
+    }
+  }
+  return order
 }
 
 function codeView(code: string) {

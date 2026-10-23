@@ -237,7 +237,7 @@ export function parseBlocks(body: string, file: string): Block[] {
         try {
           if (isRoundGameKind(arg)) blocks.push({ kind: 'roundGame', game: parseRoundGame(arg, inner, file) })
           else if (arg === 'prinzessin') blocks.push({ kind: 'rescueGame', game: parseRescueGame(inner, file) })
-          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag, layout, bombe oder prinzessin).`)
+          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag, layout, bombe, frage, reihenfolge oder prinzessin).`)
           else blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
         } catch (err) {
           throw new FormatError((err as Error).message)

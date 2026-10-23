@@ -11,6 +11,8 @@
  *   ist der „Code“ eine CSV-Datei statt Java.
  * - `frage`: Code (auch leer) und eine Frage mit Antworten. `\n` in einer Antwort beginnt eine neue Zeile; solche
  *   Antworten erscheinen als kleine Datei.
+ * - `reihenfolge` („Wer ist dran?“): Die Antworten stehen in der richtigen Reihenfolge da (ohne `[x]`), das Spiel
+ *   mischt sie. Man tippt sie der Reihe nach an; ein falscher Tipp beendet die Runde.
  *
  * Format (Schlüsselwörter wie in den anderen Blöcken auf Deutsch, auch in den Übersetzungen):
  *
@@ -29,7 +31,7 @@
  *     > Erklärung
  */
 
-export type RoundGameKind = 'zuhoerer' | 'vertrag' | 'layout' | 'bombe' | 'frage'
+export type RoundGameKind = 'zuhoerer' | 'vertrag' | 'layout' | 'bombe' | 'frage' | 'reihenfolge'
 
 export interface RoundOption {
   text: string
@@ -62,7 +64,7 @@ export interface RoundGame {
 export class RoundGameError extends Error {}
 
 export function isRoundGameKind(arg: string): arg is RoundGameKind {
-  return arg === 'zuhoerer' || arg === 'vertrag' || arg === 'layout' || arg === 'bombe' || arg === 'frage'
+  return arg === 'zuhoerer' || arg === 'vertrag' || arg === 'layout' || arg === 'bombe' || arg === 'frage' || arg === 'reihenfolge'
 }
 
 export function parseRoundGame(kind: RoundGameKind, lines: string[], file: string): RoundGame {
@@ -126,6 +128,13 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
       if (!n || !Number.isInteger(n) || n < 1 || n > lines.length || !lines[n - 1].trim()) fail(`Runde ${i + 1}: „fehler:“ muss eine Zeile des Codes sein.`)
       if (!round.fix) fail(`Runde ${i + 1}: „besser:“ fehlt.`)
       if (round.options.length) fail(`Runde ${i + 1}: Bei „bombe“ gibt es keine Antworten, man tippt auf die Zeile.`)
+      if (!round.question) fail(`Runde ${i + 1}: keine Frage.`)
+      return
+    }
+    if (kind === 'reihenfolge') {
+      if (round.options.length < 3) fail(`Runde ${i + 1}: „reihenfolge“ braucht mindestens drei Schritte.`)
+      if (round.options.some((o) => o.right)) fail(`Runde ${i + 1}: Bei „reihenfolge“ gibt es kein [x], die Schritte stehen der Reihe nach da.`)
+      if (new Set(round.options.map((o) => o.text)).size !== round.options.length) fail(`Runde ${i + 1}: zwei Schritte sind gleich.`)
       if (!round.question) fail(`Runde ${i + 1}: keine Frage.`)
       return
     }

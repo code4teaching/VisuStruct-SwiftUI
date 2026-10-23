@@ -163,6 +163,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_game_boom_time" = "💥 Bum! Tiden er gået.";
 "web_game_boom_wrong" = "💥 Bum! Det var den forkerte linje.";
 "web_game_fix" = "Den rigtige linje:";
+"web_game_order_hint" = "Tryk på trinnene i den rigtige rækkefølge.";
 "web_debug_step" = "Trin";
 "web_debug_step_title" = "Trin: kør én sætning og hold pause igen";
 "web_debug_continue" = "Fortsæt til næste breakpoint";

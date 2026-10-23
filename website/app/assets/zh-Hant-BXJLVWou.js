@@ -163,6 +163,7 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_game_boom_time" = "💥 砰！時間到了。";
 "web_game_boom_wrong" = "💥 砰！這不是出錯的那一行。";
 "web_game_fix" = "正確的寫法：";
+"web_game_order_hint" = "按正確的順序點擊各個步驟。";
 "web_debug_step" = "單步";
 "web_debug_step_title" = "單步：執行一條敘述後再次暫停";
 "web_debug_continue" = "繼續執行到下一個中斷點";

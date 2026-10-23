@@ -220,6 +220,7 @@
 "web_game_boom_time" = "💥 Boom! Time is up.";
 "web_game_boom_wrong" = "💥 Boom! That was the wrong line.";
 "web_game_fix" = "The correct line:";
+"web_game_order_hint" = "Tap the steps in the right order.";
 "web_debug_step" = "Step";
 "web_debug_step_title" = "Step: run one statement and pause again";
 "web_debug_continue" = "Continue to the next breakpoint";
