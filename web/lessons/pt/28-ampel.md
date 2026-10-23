@@ -108,6 +108,22 @@ O BorderLayout é o layout que um `JFrame` usa quando não lhe dás nenhum. Um `
 Os profissionais avançam a fase numa linha: `fase = (fase + 1) % 3;`. O operador de resto `%` dá o resto da divisão. 3 % 3 é 0, por isso depois do 2 recomeça no 0.
 :::
 
+## Que layout para quê?
+
+Já conheces três layouts. Cada um arruma os blocos de outra maneira:
+
+| Layout | Como arruma | Bom para |
+|---|---|---|
+| `FlowLayout` (lição 24) | lado a lado, como palavras numa linha, cada bloco do tamanho necessário | alguns botões numa fila |
+| `GridLayout` (lição 26) | uma grelha de células do mesmo tamanho, preenchida linha a linha | formulários, teclados como o da calculadora |
+| `BorderLayout` (esta lição) | cinco lugares: em cima, em baixo, à esquerda, à direita e o meio, que fica com o resto | algo grande no meio, por exemplo uma imagem ou um mostrador, com botões na margem |
+
+Sem `setLayout`, uma janela usa o BorderLayout. É por isso que, nesse caso, tudo vai para o meio.
+
+::: ludwig
+Ao planear, pergunta-te: todas as partes devem ter o mesmo tamanho? Então GridLayout. Uma parte deve ser grande e o resto estreito na margem? Então BorderLayout. As partes devem simplesmente manter o tamanho normal? Então FlowLayout.
+:::
+
 ## Jogo: Onde fica o botão?
 
 ::: spiel layout
@@ -220,6 +236,7 @@ Com quatro fases, depois do 3 vem o 0. Ajusta por isso o número em `if (fase > 
 - Consigo pintar uma etiqueta com setOpaque e setBackground. → Cores no Swing
 - Consigo guardar um estado numa variável static. → Lembrar a cor
 - Com o BorderLayout consigo pôr algo grande no meio e algo estreito em baixo. → O programa completo
+- Sei para que servem o FlowLayout, o GridLayout e o BorderLayout. → Que layout para quê?
 - O meu semáforo tem quatro fases. → Tarefa: semáforo
 :::
 

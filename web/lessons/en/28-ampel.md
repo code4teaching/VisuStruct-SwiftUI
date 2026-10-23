@@ -108,6 +108,22 @@ BorderLayout is the layout a `JFrame` uses when you don't give it one. An `add` 
 Professionals switch on in one line: `phase = (phase + 1) % 3;`. The remainder operator `%` gives the remainder of a division. 3 % 3 is 0, so after 2 it starts at 0 again.
 :::
 
+## Which layout for what?
+
+You now know three layouts. Each one arranges the building blocks differently:
+
+| Layout | How it arranges | Good for |
+|---|---|---|
+| `FlowLayout` (lesson 24) | next to each other like words in a line, each block as big as needed | a few buttons in a row |
+| `GridLayout` (lesson 26) | a grid of cells of the same size, filled row by row | forms, keypads like on a calculator |
+| `BorderLayout` (this lesson) | five places: top, bottom, left, right and the middle, which gets the rest | something big in the middle, such as a picture or a display, with buttons at the edge |
+
+Without `setLayout` a window uses the BorderLayout. That is why everything then lands in the middle.
+
+::: ludwig
+Ask yourself when planning: should all parts be the same size? Then GridLayout. Should one part be big and the rest narrow at the edge? Then BorderLayout. Should the parts simply keep their normal size? Then FlowLayout.
+:::
+
 ## Game: Where does the button go?
 
 ::: spiel layout
@@ -220,6 +236,7 @@ With four phases, 0 comes after 3. So change the number in `if (phase > 2)`.
 - I can colour a label with setOpaque and setBackground. → Colours in Swing
 - I can remember a state with a static variable. → Remembering the colour
 - With BorderLayout I can put something big in the middle and something narrow at the bottom. → The whole program
+- I know what FlowLayout, GridLayout and BorderLayout are good for. → Which layout for what?
 - My traffic light has four phases. → Task: traffic light
 :::
 
