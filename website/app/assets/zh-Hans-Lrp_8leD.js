@@ -130,4 +130,9 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_game_good" = "很棒！再看看错题，然后再试一次。";
 "web_game_practice" = "熟能生巧。再读一遍上面的真值表，再玩一轮吧。";
 "web_game_again" = "再玩一次";
+"web_debug_step" = "单步";
+"web_debug_step_title" = "单步：执行一条语句后再次暂停";
+"web_debug_continue" = "继续运行到下一个断点";
+"web_debug_paused_fmt" = "在第 %d 行之前暂停。";
+"web_debug_gutter_title" = "点击行号可设置或删除断点";
 `;export{e as default};

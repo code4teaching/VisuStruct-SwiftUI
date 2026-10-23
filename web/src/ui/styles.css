@@ -1869,6 +1869,63 @@ button.danger-text:not(:disabled) {
   background: var(--accent-soft);
   border-inline-start-color: var(--accent);
 }
+/* Debugger: nächste Zeile gelb, Haltepunkte als rote Punkte vor der Zeilennummer */
+.livecode-editor .cm-line.cm-debug-line {
+  background: rgba(255, 214, 10, 0.35);
+  border-inline-start-color: #e0a800;
+}
+.livecode-editor .cm-breakpoint-gutter .cm-gutterElement,
+.livecode-editor .cm-lineNumbers .cm-gutterElement {
+  cursor: pointer;
+}
+.livecode-editor .cm-breakpoint-gutter .cm-gutterElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  padding-inline-start: 4px;
+}
+.livecode-editor .cm-breakpoint {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d33;
+}
+.livecode-editor .cm-breakpoint-gutter .cm-gutterElement:not(:has(.cm-breakpoint)):hover::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(221, 51, 51, 0.3);
+}
+.livecode-debug {
+  flex: none;
+  max-height: 30%;
+  overflow-y: auto;
+}
+.livecode-debug[hidden] {
+  display: none;
+}
+.livecode-debug h2 {
+  margin: 0 0 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.livecode-vars tr.changed td {
+  animation: var-changed 1.6s ease-out;
+  font-weight: 700;
+}
+@keyframes var-changed {
+  from {
+    background: rgba(255, 214, 10, 0.7);
+  }
+  to {
+    background: transparent;
+  }
+}
 .livecode-editor .cm-ph,
 .livecode-editor .cm-ph * {
   color: var(--muted) !important;

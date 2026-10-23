@@ -130,4 +130,9 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_game_good" = "훌륭해요! 틀린 것을 다시 보고 한 번 더 해 보세요.";
 "web_game_practice" = "연습이 실력을 만듭니다. 위의 진리표를 다시 읽고 한 번 더 해 보세요.";
 "web_game_again" = "다시 하기";
+"web_debug_step" = "한 단계";
+"web_debug_step_title" = "한 단계: 문장 하나를 실행하고 다시 멈춥니다";
+"web_debug_continue" = "다음 중단점까지 계속";
+"web_debug_paused_fmt" = "%d번째 줄 앞에서 멈춤.";
+"web_debug_gutter_title" = "줄 번호를 클릭하면 중단점을 설정하거나 지웁니다";
 `;export{e as default};

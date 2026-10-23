@@ -185,4 +185,9 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_game_good" = "Muito bem! Revê os teus erros e tenta outra vez.";
 "web_game_practice" = "A prática faz o mestre. Lê outra vez a tabela de verdade acima e joga mais uma ronda.";
 "web_game_again" = "Jogar outra vez";
+"web_debug_step" = "Passo a passo";
+"web_debug_step_title" = "Passo a passo: executar uma instrução e parar outra vez";
+"web_debug_continue" = "Continuar até ao próximo ponto de paragem";
+"web_debug_paused_fmt" = "Parado antes da linha %d.";
+"web_debug_gutter_title" = "Clica num número de linha para pôr ou tirar um ponto de paragem";
 `;export{e as default};

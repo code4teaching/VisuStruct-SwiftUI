@@ -130,4 +130,9 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_game_good" = "Harika! Hatalarına bir daha bak ve yeniden dene.";
 "web_game_practice" = "Pratik mükemmelleştirir. Yukarıdaki doğruluk tablosunu tekrar oku ve bir tur daha oyna.";
 "web_game_again" = "Tekrar oyna";
+"web_debug_step" = "Adım";
+"web_debug_step_title" = "Adım: bir komutu çalıştır ve yeniden dur";
+"web_debug_continue" = "Bir sonraki kesme noktasına kadar devam et";
+"web_debug_paused_fmt" = "%d. satırdan önce duraklatıldı.";
+"web_debug_gutter_title" = "Kesme noktası koymak veya kaldırmak için satır numarasına tıkla";
 `;export{e as default};

@@ -130,3 +130,8 @@
 "web_game_good" = "¡Muy bien! Revisa tus errores e inténtalo de nuevo.";
 "web_game_practice" = "La práctica hace al maestro. Vuelve a leer la tabla de verdad y juega otra ronda.";
 "web_game_again" = "Jugar otra vez";
+"web_debug_step" = "Paso a paso";
+"web_debug_step_title" = "Paso a paso: ejecutar una instrucción y detenerse de nuevo";
+"web_debug_continue" = "Continuar hasta el siguiente punto de interrupción";
+"web_debug_paused_fmt" = "Detenido antes de la línea %d.";
+"web_debug_gutter_title" = "Haz clic en un número de línea para poner o quitar un punto de interrupción";

@@ -187,4 +187,9 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_game_good" = "Stark! Schau dir die Fehler noch einmal an und versuch es nochmal.";
 "web_game_practice" = "Übung macht den Meister. Lies dir die Wahrheitstabelle oben noch einmal durch und spiel noch eine Runde.";
 "web_game_again" = "Noch einmal";
+"web_debug_step" = "Einzelschritt";
+"web_debug_step_title" = "Einzelschritt: eine Anweisung ausführen und wieder anhalten";
+"web_debug_continue" = "Weiter bis zum nächsten Haltepunkt";
+"web_debug_paused_fmt" = "Angehalten vor Zeile %d.";
+"web_debug_gutter_title" = "Auf die Zeilennummer klicken: Haltepunkt setzen oder entfernen";
 `;export{e as default};

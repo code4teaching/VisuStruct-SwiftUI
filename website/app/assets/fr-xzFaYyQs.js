@@ -130,4 +130,9 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_game_good" = "Bravo ! Regarde encore tes erreurs et réessaie.";
 "web_game_practice" = "C’est en forgeant qu’on devient forgeron. Relis la table de vérité et rejoue une partie.";
 "web_game_again" = "Rejouer";
+"web_debug_step" = "Pas à pas";
+"web_debug_step_title" = "Pas à pas : exécuter une instruction et s’arrêter à nouveau";
+"web_debug_continue" = "Continuer jusqu’au prochain point d’arrêt";
+"web_debug_paused_fmt" = "Arrêté avant la ligne %d.";
+"web_debug_gutter_title" = "Clique sur un numéro de ligne pour poser ou retirer un point d’arrêt";
 `;export{e as default};

@@ -114,6 +114,30 @@ Die Grenze zwischen Code und Konsole kannst du mit der Maus nach oben oder unten
 Profis nennen ein Programm, in dem man Code schreibt, ausführt und Fehler sucht, eine **IDE** (Integrated Development Environment). Mit Code live ist VisuStruct eine kleine IDE mit eingebautem Struktogramm.
 :::
 
+## Fehler suchen mit dem Debugger
+
+Manchmal läuft ein Programm, rechnet aber falsch. Dann hilft der **Debugger**: Er führt dein Programm langsam aus, und du schaust ihm dabei zu.
+
+- **Haltepunkt:** Klicke links auf eine Zeilennummer. Ein roter Punkt erscheint. [▶︎ Ausführen](#zeige-ausfuehren) hält vor dieser Zeile an. Ein zweiter Klick nimmt den Punkt wieder weg.
+- **Gelbe Zeile:** Sie wird als Nächstes ausgeführt. Im Struktogramm ist der passende Kasten markiert.
+- **Variablen:** Unter dem Code steht, welchen Wert jede Variable gerade hat. Was sich seit dem letzten Anhalten geändert hat, leuchtet kurz gelb.
+- **Einzelschritt:** Der Knopf [Einzelschritt](#zeige-einzelschritt) neben ▶︎ führt genau eine Zeile aus und hält wieder an. Ohne Haltepunkt startet er das Programm und hält vor der ersten Zeile.
+- **Weiter:** ▶︎ läuft bis zum nächsten Haltepunkt oder bis zum Ende. **■ Stopp** bricht ab.
+
+Probier es mit diesem Programm aus. Setze einen Haltepunkt in Zeile 3 und drücke mehrmals ▶︎. Wie wachsen `i` und `summe`?
+
+```
+int summe = 0;
+for (int i = 1; i <= 4; i++) {
+    summe = summe + i;
+}
+System.out.println("Summe: " + summe);
+```
+
+::: ludwig
+Das ist ein Schreibtischtest, nur dass der Computer für dich mitschreibt. Überleg dir vor jedem Schritt, welchen Wert die Variable gleich haben müsste. Stimmt die Tabelle nicht mit deiner Vermutung überein, hast du die Stelle mit dem Fehler gefunden.
+:::
+
 ## Übung: Erst Code, dann Struktogramm
 
 Diesmal zeichnest du nicht. Öffne Code live und tippe diesen Java-Code ab:
@@ -206,6 +230,7 @@ lösung: l17-ticket-loesung.visustruct
 - Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
 - Ich kann in Code live Java tippen und das entstehende Struktogramm lesen. → Code live: Java direkt schreiben
 - Ich kann ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen. → Das Programm ausführen
+- Ich kann Haltepunkte setzen und ein Programm im Einzelschritt verfolgen. → Fehler suchen mit dem Debugger
 :::
 
 ## Wissenstest
@@ -233,4 +258,10 @@ lösung: l17-ticket-loesung.visustruct
 - [x] break;
 - [ ] return;
 - [ ] exit();
+
+? Was passiert an einem roten Punkt vor der Zeilennummer?
+- [ ] Die Zeile wird übersprungen.
+- [x] Das Programm hält vor dieser Zeile an.
+- [ ] Die Zeile enthält einen Fehler.
+> Das ist ein Haltepunkt. Danach geht es mit ▶︎ oder dem Einzelschritt weiter.
 :::

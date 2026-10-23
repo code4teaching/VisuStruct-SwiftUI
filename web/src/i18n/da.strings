@@ -130,3 +130,8 @@
 "web_game_good" = "Flot! Se på dine fejl og prøv igen.";
 "web_game_practice" = "Øvelse gør mester. Læs sandhedstabellen igen, og spil en runde mere.";
 "web_game_again" = "Spil igen";
+"web_debug_step" = "Trin";
+"web_debug_step_title" = "Trin: kør én sætning og hold pause igen";
+"web_debug_continue" = "Fortsæt til næste breakpoint";
+"web_debug_paused_fmt" = "Sat på pause før linje %d.";
+"web_debug_gutter_title" = "Klik på et linjenummer for at sætte eller fjerne et breakpoint";

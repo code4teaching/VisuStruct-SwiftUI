@@ -130,4 +130,9 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_game_good" = "Bra! Se på feilene dine og prøv igjen.";
 "web_game_practice" = "Øvelse gjør mester. Les sannhetstabellen igjen og spill en runde til.";
 "web_game_again" = "Spill igjen";
+"web_debug_step" = "Steg";
+"web_debug_step_title" = "Steg: kjør én setning og stopp igjen";
+"web_debug_continue" = "Fortsett til neste stoppunkt";
+"web_debug_paused_fmt" = "Stoppet før linje %d.";
+"web_debug_gutter_title" = "Klikk på et linjenummer for å sette eller fjerne et stoppunkt";
 `;export{e as default};

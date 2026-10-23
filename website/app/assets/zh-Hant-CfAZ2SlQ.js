@@ -130,4 +130,9 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_game_good" = "很棒！再看看錯題，然後再試一次。";
 "web_game_practice" = "熟能生巧。再讀一遍上面的真值表，再玩一輪吧。";
 "web_game_again" = "再玩一次";
+"web_debug_step" = "單步";
+"web_debug_step_title" = "單步：執行一條敘述後再次暫停";
+"web_debug_continue" = "繼續執行到下一個中斷點";
+"web_debug_paused_fmt" = "在第 %d 行之前暫停。";
+"web_debug_gutter_title" = "點擊行號可設定或刪除中斷點";
 `;export{e as default};

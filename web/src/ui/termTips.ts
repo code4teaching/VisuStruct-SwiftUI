@@ -133,6 +133,7 @@ export const uiTargets: Record<string, string> = {
   codelive: '.live-rail, .livecode',
   ausfuehren: '[data-run=play]',
   konsole: '.livecode .console',
+  einzelschritt: '[data-run=step]',
   elemente: '.palette',
   struktogramm: '.canvas',
   objektinspektor: '.inspector',

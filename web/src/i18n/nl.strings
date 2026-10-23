@@ -130,3 +130,8 @@
 "web_game_good" = "Sterk! Bekijk je fouten nog eens en probeer het opnieuw.";
 "web_game_practice" = "Oefening baart kunst. Lees de waarheidstabel nog eens en speel nog een ronde.";
 "web_game_again" = "Nog een keer";
+"web_debug_step" = "Stap";
+"web_debug_step_title" = "Stap: één opdracht uitvoeren en weer pauzeren";
+"web_debug_continue" = "Doorgaan tot het volgende breekpunt";
+"web_debug_paused_fmt" = "Gepauzeerd vóór regel %d.";
+"web_debug_gutter_title" = "Klik op een regelnummer om een breekpunt te plaatsen of te verwijderen";

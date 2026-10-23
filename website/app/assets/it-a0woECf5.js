@@ -130,4 +130,9 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_game_good" = "Ottimo! Riguarda gli errori e riprova.";
 "web_game_practice" = "La pratica rende perfetti. Rileggi la tabella di verità e gioca un altro turno.";
 "web_game_again" = "Gioca ancora";
+"web_debug_step" = "Passo singolo";
+"web_debug_step_title" = "Passo singolo: esegui un’istruzione e fermati di nuovo";
+"web_debug_continue" = "Continua fino al prossimo punto di interruzione";
+"web_debug_paused_fmt" = "Fermo prima della riga %d.";
+"web_debug_gutter_title" = "Clicca sul numero di riga per mettere o togliere un punto di interruzione";
 `;export{e as default};

@@ -130,4 +130,9 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_game_good" = "Świetnie! Przejrzyj błędy i spróbuj jeszcze raz.";
 "web_game_practice" = "Trening czyni mistrza. Przeczytaj jeszcze raz tabelę prawdy i zagraj ponownie.";
 "web_game_again" = "Zagraj ponownie";
+"web_debug_step" = "Krok";
+"web_debug_step_title" = "Krok: wykonaj jedną instrukcję i zatrzymaj się ponownie";
+"web_debug_continue" = "Dalej do następnego punktu przerwania";
+"web_debug_paused_fmt" = "Zatrzymano przed wierszem %d.";
+"web_debug_gutter_title" = "Kliknij numer wiersza, aby ustawić lub usunąć punkt przerwania";
 `;export{e as default};

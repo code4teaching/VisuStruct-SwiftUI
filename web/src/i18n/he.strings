@@ -130,3 +130,8 @@
 "web_game_good" = "מצוין! עברו שוב על הטעויות ונסו שוב.";
 "web_game_practice" = "תרגול עושה מושלם. קראו שוב את טבלת האמת ושחקו עוד סבב.";
 "web_game_again" = "לשחק שוב";
+"web_debug_step" = "צעד";
+"web_debug_step_title" = "צעד: להריץ הוראה אחת ולעצור שוב";
+"web_debug_continue" = "להמשיך עד נקודת העצירה הבאה";
+"web_debug_paused_fmt" = "נעצר לפני שורה %d.";
+"web_debug_gutter_title" = "לחיצה על מספר שורה מוסיפה או מסירה נקודת עצירה";

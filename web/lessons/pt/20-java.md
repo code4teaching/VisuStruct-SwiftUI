@@ -114,6 +114,30 @@ Podes arrastar com o rato a fronteira entre o código e a consola para cima ou p
 Os profissionais chamam **IDE** (Integrated Development Environment) a um programa onde se escreve código, se executa e se procuram erros. Com o Código ao vivo, o VisuStruct é um pequeno IDE com estrutograma incluído.
 :::
 
+## Encontrar erros com o depurador
+
+Às vezes um programa corre, mas calcula mal. Aí ajuda o **depurador** (debugger): executa o teu programa devagar e tu vês o que acontece.
+
+- **Ponto de paragem:** Clica num número de linha à esquerda. Aparece um ponto vermelho. [▶︎ Executar](#zeige-ausfuehren) para antes dessa linha. Outro clique tira o ponto.
+- **Linha amarela:** É a próxima a ser executada. No estrutograma, o bloco correspondente fica selecionado.
+- **Variáveis:** Por baixo do código vês o valor atual de cada variável. O que mudou desde a última paragem acende-se a amarelo por um momento.
+- **Passo a passo:** O botão [Passo a passo](#zeige-einzelschritt) ao lado de ▶︎ executa exatamente uma linha e para outra vez. Sem ponto de paragem, inicia o programa e para antes da primeira linha.
+- **Continuar:** ▶︎ corre até ao próximo ponto de paragem ou até ao fim. **■ Parar** termina.
+
+Experimenta com este programa. Põe um ponto de paragem na linha 3 e carrega várias vezes em ▶︎. Como crescem `i` e `soma`?
+
+```
+int soma = 0;
+for (int i = 1; i <= 4; i++) {
+    soma = soma + i;
+}
+System.out.println("Soma: " + soma);
+```
+
+::: ludwig
+É um teste de secretária, só que o computador toma notas por ti. Antes de cada passo, pensa no valor que a variável devia ter a seguir. Quando a tabela não bate com o que esperavas, encontraste o sítio do erro.
+:::
+
 ## Exercício: Primeiro o código, depois o estrutograma
 
 Desta vez não desenhas. Abre o Código ao vivo e escreve este código Java:
@@ -206,6 +230,7 @@ lösung: l17-ticket-loesung.visustruct
 - Sei reconstruir um programa Java curto como estrutograma. → Exercício: Java como estrutograma
 - Sei escrever Java no Código ao vivo e ler o estrutograma que é construído. → Código ao vivo: escrever Java diretamente
 - Sei executar um programa com ▶︎ e usar entradas e saídas na consola. → Executar o programa
+- Consigo pôr pontos de paragem e seguir um programa passo a passo. → Encontrar erros com o depurador
 :::
 
 ## Teste de conhecimentos
@@ -233,4 +258,10 @@ lösung: l17-ticket-loesung.visustruct
 - [x] break;
 - [ ] return;
 - [ ] exit();
+
+? O que acontece num ponto vermelho antes do número da linha?
+- [ ] A linha é ignorada.
+- [x] O programa para antes dessa linha.
+- [ ] A linha tem um erro.
+> É um ponto de paragem. Continua-se com ▶︎ ou com Passo a passo.
 :::
