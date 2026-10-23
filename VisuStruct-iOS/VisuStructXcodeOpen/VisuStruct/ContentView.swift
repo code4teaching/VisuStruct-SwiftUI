@@ -38,6 +38,8 @@ struct ContentView: View {
     @State private var showExporter = false
     @State private var showInfo = false
     @State private var showCourseStore = false
+    /// Lernbereich: Spalte rechts neben dem Editor (iPad, Mac) bzw. Blatt (iPhone).
+    @State private var showLearn = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
     @State private var simulation: SimulationController
@@ -161,7 +163,15 @@ struct ContentView: View {
                 NavigationSplitView {
                     iPadPaletteSidebarColumn
                 } detail: {
-                    mainEditorNavigationStack
+                    HStack(spacing: 0) {
+                        mainEditorNavigationStack
+                        if showLearn && CoursePurchaseGate.isOffered {
+                            Divider()
+                            learnPanel
+                                .frame(width: 400)
+                                .transition(.move(edge: .trailing))
+                        }
+                    }
                 }
                 .navigationSplitViewStyle(.balanced)
             } else {
@@ -181,6 +191,14 @@ struct ContentView: View {
                         .environment(\.appLanguage, lang)
                         .presentationDetents([.medium, .large])
                         // Diagramm bleibt bedienbar, z. B. um eine Einfügestelle zu wählen.
+                        .presentationBackgroundInteraction(.enabled(upThrough: .medium))
+                        .presentationDragIndicator(.visible)
+                }
+                .sheet(isPresented: compactLearnSheetBinding) {
+                    learnPanel
+                        .environment(\.appLanguage, lang)
+                        .presentationDetents([.medium, .large])
+                        // Wie die Palette: Editor bleibt bedienbar, während die Lektion offen ist.
                         .presentationBackgroundInteraction(.enabled(upThrough: .medium))
                         .presentationDragIndicator(.visible)
                 }
@@ -640,6 +658,9 @@ struct ContentView: View {
             onShareDocument: shareDocumentAsFile,
             onExportPDF: shareDiagramPDF,
             onShowCourse: CoursePurchaseGate.isOffered ? { showCourseStore = true } : nil,
+            onToggleLearn: CoursePurchaseGate.isOffered ? { withAnimation(.easeInOut(duration: 0.2)) { showLearn.toggle() } } : nil,
+            learnTitle: CourseLibrary.content(for: lang)?.t("title") ?? lang.tr("course_title"),
+            isLearnShown: showLearn,
             onShowAbout: { showInfo = true },
             onKeyboardDismiss: {
                 focusedField = nil
@@ -962,6 +983,96 @@ struct ContentView: View {
 
     private func pdfFilenameForCurrentTab() -> String {
         DiagramExportFilename.pdfFilename(fromVisustructFilename: exportFilenameForCurrentTab())
+    }
+
+    // MARK: - Lernbereich
+
+    private var learnPanel: some View {
+        LearnPanelView(host: learnHost) {
+            withAnimation(.easeInOut(duration: 0.2)) { showLearn = false }
+        }
+    }
+
+    private var compactLearnSheetBinding: Binding<Bool> {
+        Binding(
+            get: { showLearn && CoursePurchaseGate.isOffered && horizontalSizeClass != .regular },
+            set: { showLearn = $0 }
+        )
+    }
+
+    private var learnHost: LearnHost {
+        LearnHost(
+            openExercise: { exercise, doc in
+                openLearnTab(exerciseID: exercise.id, title: exercise.title, document: doc)
+            },
+            exerciseDocument: { id in
+                tabsModel.tabs.first { $0.exerciseID == id }?.document
+            },
+            subprograms: { id in
+                var result: [String: VisuStructDocument] = [:]
+                for tab in tabsModel.tabs where tab.exerciseID != id {
+                    for name in [tab.document.caption, tab.title] {
+                        let key = VisuStructSimulationEngine.subprogramKey(name)
+                        if !key.isEmpty, result[key] == nil { result[key] = tab.document }
+                    }
+                }
+                return result
+            },
+            resetExercise: { id, doc in
+                guard let tab = tabsModel.tabs.first(where: { $0.exerciseID == id }) else { return }
+                if isSimulationMode { endSimulationMode() }
+                tabsModel.selectedTabId = tab.id
+                resetHistoryAndDocument(doc)
+                tabsModel.updateCurrentTab { $0.selectedPath = [0] }
+                refreshLineEditor()
+            },
+            openDiagram: { doc, title in
+                openLearnTab(exerciseID: nil, title: title, document: doc)
+            },
+            stopSimulation: {
+                if isSimulationMode { endSimulationMode() }
+            },
+            showCourseStore: { showCourseStore = true }
+        )
+    }
+
+    /// Übung oder Beispiel aus dem Lernbereich in einem Reiter öffnen. Ein leerer, unberührter Reiter wird dafür benutzt.
+    private func openLearnTab(exerciseID: String?, title: String, document: VisuStructDocument) {
+        if isSimulationMode { endSimulationMode() }
+        if let exerciseID, let existing = tabsModel.tabs.first(where: { $0.exerciseID == exerciseID }) {
+            tabsModel.selectedTabId = existing.id
+            refreshLineEditor()
+            return
+        }
+        let current = tabsModel.currentTab
+        let reusable = current.exerciseID == nil
+            && current.linkedFileBookmarkData == nil
+            && !tabsModel.tabHasUnsavedChanges(current)
+            && VisuStructDocumentEditing.isSingleRootPlaceholder(in: current.document)
+        if !reusable {
+            tabsModel.addDiagramTab(language: lang)
+        }
+        resetHistoryAndDocument(document)
+        tabsModel.updateCurrentTab { tab in
+            tab.title = title
+            tab.exerciseID = exerciseID
+            tab.selectedPath = [0]
+            tab.errorText = nil
+            tab.linkedFileBookmarkData = nil
+            tab.linkedFileDisplayName = nil
+        }
+        refreshLineEditor()
+    }
+
+    /// Stand einer Übung bei jeder Änderung merken; der Reiter gilt dann als gesichert (kein „Speichern?“ beim Schließen).
+    private func saveExerciseDraft() {
+        let tab = tabsModel.currentTab
+        guard let id = tab.exerciseID else { return }
+        let data = VisuStructXMLCodec.encode(tab.document)
+        CourseProgress.shared.saveDraft(id, xml: String(decoding: data, as: UTF8.self))
+        if tab.savedDocumentBaseline != data {
+            tabsModel.updateCurrentTab { $0.savedDocumentBaseline = data }
+        }
     }
 
     // MARK: - Diagramm-Reiter verwalten (Tabs öffnen/schließen)
@@ -1294,6 +1405,7 @@ struct ContentView: View {
     /// Ersetzt das Dokument und legt einen Undo-Snapshot des bisherigen Zustands ab.
     private func commitDocument(_ new: VisuStructDocument) {
         tabsModel.commitDocument(new)
+        saveExerciseDraft()
     }
 
     /// Neu / Import: Historie verwerfen, Zustand setzen.
@@ -1303,12 +1415,14 @@ struct ContentView: View {
 
     private func performUndo() {
         guard tabsModel.undo() else { return }
+        saveExerciseDraft()
         tabsModel.syncTabTitleWithDocumentCaption(tabIndex: tabsModel.currentTabIndex, language: lang)
         refreshLineEditor()
     }
 
     private func performRedo() {
         guard tabsModel.redo() else { return }
+        saveExerciseDraft()
         tabsModel.syncTabTitleWithDocumentCaption(tabIndex: tabsModel.currentTabIndex, language: lang)
         refreshLineEditor()
     }
