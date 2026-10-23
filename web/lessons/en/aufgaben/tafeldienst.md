@@ -19,4 +19,19 @@ tipp: You create the array with `String[] names = new String[5]`. Careful: the d
 lösung: aufgabe-tafeldienst-loesung.visustruct
 :::
 
+And now the same in Java:
+
+::: übung aufgabe-tafeldienst-java
+titel: Draw for board duty in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: Ada, Ben, Cem, Dana, Emil, 3 -> Board duty: Cem
+test: Ada, Ben, Cem, Dana, Emil, 1 -> Board duty: Ada
+test: Lea, Max, Nia, Ole, Pia, 5 -> Board duty: Pia
+braucht: forSchleife
+tipp: Create an array for five names with `String[] names = new String[5];`.
+tipp: In the loop: `names[i] = scanner.next();`. Ticket number 1 belongs to slot 0, so you output `names[pick - 1]`.
+lösung: aufgabe-tafeldienst-loesung.visustruct
+:::
+
 > With `int pick = (int) (Math.random() * 5) + 1` you can also let chance draw the number. But for the automatic check we need a fixed input.

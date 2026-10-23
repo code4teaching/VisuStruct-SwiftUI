@@ -24,3 +24,19 @@ tipp: Teile die Zahl immer wieder durch 2 und merke dir jeden Rest. Die Reste r�
 tipp: Sammle die Ziffern in einem Text: `String binaer = ""`. In der Schleife berechnest du `int rest = zahl % 2` und hängst den Rest **vorne** an: `binaer = rest + binaer`. Danach `zahl = zahl / 2`. Weil zahl eine ganze Zahl ist, fällt der Rest dabei weg.
 lösung: aufgabe-binaer-loesung.visustruct
 :::
+
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-binaer-java
+titel: Binärzahl in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: 6 -> 110
+test: 13 -> 1101
+test: 1 -> 1
+test: 8 -> 1000
+braucht: whileSchleife
+tipp: Fang mit `String binaer = "";` an. Die Schleife läuft mit `while (zahl > 0)`.
+tipp: Im Rumpf: `int rest = zahl % 2;`, dann `binaer = rest + binaer;` und `zahl = zahl / 2;`. Weil `binaer` ein String ist, hängt `+` den Rest vorne an.
+lösung: aufgabe-binaer-loesung.visustruct
+:::

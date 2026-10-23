@@ -17,3 +17,18 @@ tipp: O bubble sort da lição 19 ordena por ordem crescente. Para decrescente b
 tipp: Troca-se quando `pontos[i] < pontos[i + 1]`, com uma variável auxiliar. Para a saída, calcula primeiro `int lugar = i + 1` e depois mostra `lugar + ". " + pontos[i]`.
 lösung: aufgabe-bestenliste-loesung.visustruct
 :::
+
+E agora o mesmo em Java:
+
+::: übung aufgabe-bestenliste-java
+titel: Classificação em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: 3, 9, 2, 9, 1 -> 1. 9 | 2. 9 | 3. 3 | 4. 2 | 5. 1
+test: 10, 20, 30, 40, 50 -> 1. 50 | 2. 40 | 3. 30 | 4. 20 | 5. 10
+test: 5, 4, 3, 2, 1 -> 1. 5 | 2. 4 | 3. 3 | 4. 2 | 5. 1
+braucht: forSchleife, verzweigung
+tipp: Lê cada número primeiro para uma variável e depois põe-no no array: `int numero = scanner.nextInt();` e `pontos[i] = numero;`.
+tipp: A troca também precisa de uma variável auxiliar em Java: `int aux = pontos[i]; pontos[i] = pontos[i + 1]; pontos[i + 1] = aux;`.
+lösung: aufgabe-bestenliste-loesung.visustruct
+:::

@@ -24,3 +24,19 @@ tipp: Vai dividindo o número por 2 e guarda cada resto. Os restos lidos ao cont
 tipp: Junta os algarismos num texto: `String binario = ""`. No ciclo calculas `int resto = numero % 2` e acrescentas o resto à **frente**: `binario = resto + binario`. Depois, `numero = numero / 2`. Como numero é um número inteiro, o resto desaparece.
 lösung: aufgabe-binaer-loesung.visustruct
 :::
+
+E agora o mesmo em Java:
+
+::: übung aufgabe-binaer-java
+titel: Número binário em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: 6 -> 110
+test: 13 -> 1101
+test: 1 -> 1
+test: 8 -> 1000
+braucht: whileSchleife
+tipp: Começa com `String binario = "";`. O ciclo corre com `while (numero > 0)`.
+tipp: No corpo: `int resto = numero % 2;`, depois `binario = resto + binario;` e `numero = numero / 2;`. Como `binario` é uma String, o `+` põe o resto à frente.
+lösung: aufgabe-binaer-loesung.visustruct
+:::

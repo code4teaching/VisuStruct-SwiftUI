@@ -24,6 +24,21 @@ tipp: The while loop runs as long as `number != 1`. You check whether a number i
 lösung: aufgabe-collatz-loesung.visustruct
 :::
 
+And now the same in Java:
+
+::: übung aufgabe-collatz-java
+titel: Collatz sequence in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 6 -> 3 | 10 | 5 | 16 | 8 | 4 | 2 | 1 | Steps: 8
+test: 3 -> 10 | 5 | 16 | 8 | 4 | 2 | 1 | Steps: 7
+test: 1 -> Steps: 0
+braucht: whileSchleife, verzweigung
+tipp: A `while` loop runs as long as `number != 1`. Inside it, an `if` with `number % 2 == 0` decides.
+tipp: In the body: halve it or `number = number * 3 + 1;`, then `System.out.println(number);` and `steps++;`. After the loop comes `"Steps: " + steps`.
+lösung: aufgabe-collatz-loesung.visustruct
+:::
+
 ::: angeberwissen
 This task could make you rich! The mathematician Paul Erdős offered 500 dollars for a proof. In 2021 the Japanese company Bakuage added quite a bit more: 120 million yen, about a million dollars at the time, for a proof or a counterexample. Nobody has collected the money yet. By the way, the puzzle was invented by the German mathematician Lothar Collatz in 1937. I am going to start calculating right now; that much money buys a lot of hay.
 :::

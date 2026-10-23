@@ -19,4 +19,19 @@ tipp: Mit `String[] namen = new String[5]` legst du das Array an. Achtung: Die L
 lösung: aufgabe-tafeldienst-loesung.visustruct
 :::
 
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-tafeldienst-java
+titel: Tafeldienst auslosen in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: Ada, Ben, Cem, Dana, Emil, 3 -> Tafeldienst: Cem
+test: Ada, Ben, Cem, Dana, Emil, 1 -> Tafeldienst: Ada
+test: Lea, Max, Nia, Ole, Pia, 5 -> Tafeldienst: Pia
+braucht: forSchleife
+tipp: Ein Array für fünf Namen legst du mit `String[] namen = new String[5];` an.
+tipp: In der Schleife: `namen[i] = scanner.next();`. Die Losnummer 1 gehört zum Fach 0, darum gibst du `namen[nummer - 1]` aus.
+lösung: aufgabe-tafeldienst-loesung.visustruct
+:::
+
 > Mit `int nummer = (int) (Math.random() * 5) + 1` kannst du die Losnummer auch vom Zufall ziehen lassen. Für die automatische Prüfung brauchen wir aber eine feste Eingabe.

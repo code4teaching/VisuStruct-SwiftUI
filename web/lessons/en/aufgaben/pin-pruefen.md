@@ -18,3 +18,19 @@ tipp: The loop ends in two cases: when the PIN is right or when three tries have
 tipp: The PIN is asked for at least once, so a do-while loop fits. Create `int pin = 0` and `int attempts = 0` before it. The loop repeats as long as `pin != 1234 && attempts < 3`. After the loop, a branch decides what is output.
 lösung: aufgabe-pin-loesung.visustruct
 :::
+
+And now the same in Java:
+
+::: übung aufgabe-pin-java
+titel: Check the PIN in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 1234 -> PIN correct
+test: 1111, 1234 -> PIN correct
+test: 1, 2, 1234 -> PIN correct
+test: 1, 2, 3 -> Card blocked
+braucht: doUntilSchleife, verzweigung
+tipp: `do { … } while (…);` asks at least once. There is a semicolon after `while (…)`.
+tipp: Create `int pin = 0;` and `int attempts = 0;` first. In the loop: `int entered = scanner.nextInt();`, `pin = entered;` and `attempts++;`. The condition is `pin != 1234 && attempts < 3`.
+lösung: aufgabe-pin-java-loesung.visustruct
+:::

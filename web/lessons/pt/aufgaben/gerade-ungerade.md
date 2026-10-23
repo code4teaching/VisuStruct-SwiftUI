@@ -18,3 +18,19 @@ tipp: Uma decisão escolhe entre par e ímpar. Par quer dizer: divisível por 2 
 tipp: A condição é `numero % 2 == 0`. Na saída juntas o número e o texto com `+`, p. ex. `numero + " é par"`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::
+
+E agora o mesmo em Java:
+
+::: übung aufgabe-gerade-java
+titel: Par ou ímpar em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: 4 -> 4 é par
+test: 7 -> 7 é ímpar
+test: 0 -> 0 é par
+test: 15 -> 15 é ímpar
+braucht: verzweigung
+tipp: Lês um número com `int numero = scanner.nextInt();`. Antes disso perguntas com `System.out.println(…)`.
+tipp: `if (numero % 2 == 0) { … } else { … }`. A saída é `System.out.println(numero + " é par");`.
+lösung: aufgabe-gerade-loesung.visustruct
+:::

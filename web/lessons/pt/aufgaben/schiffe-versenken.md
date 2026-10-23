@@ -21,3 +21,17 @@ tipp: Percorre o mar com dois ciclos encaixados, tal como no cinema. Só mostras
 tipp: O ciclo exterior conta `fila`, o interior `coluna`, os dois a partir de 0. Se houver um navio em `mar[fila][coluna]`, mostras a letra de `colunas[coluna]` e o número da fila: `output: colunas[coluna] + (fila + 1)`. Precisas do `+ 1` porque o jogo começa a contar em 1.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::
+
+E agora o mesmo em Java:
+
+::: übung aufgabe-schiffe-java
+titel: Batalha naval em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+start: aufgabe-schiffe-start.visustruct
+test: - -> B1 | C1 | D1 | E3 | E4 | A5
+braucht: forSchleife, verzweigung
+tipp: Dois ciclos `for` um dentro do outro: fora a fila, dentro a coluna, ambos até `.length`.
+tipp: `if (mar[fila][coluna]) { System.out.println(colunas[coluna] + (fila + 1)); }`. Os parênteses à volta de `fila + 1` fazem o Java calcular primeiro.
+lösung: aufgabe-schiffe-loesung.visustruct
+:::

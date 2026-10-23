@@ -24,6 +24,21 @@ tipp: Die While-Schleife läuft, solange `zahl != 1` gilt. Ob eine Zahl gerade i
 lösung: aufgabe-collatz-loesung.visustruct
 :::
 
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-collatz-java
+titel: Collatz-Folge in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: 6 -> 3 | 10 | 5 | 16 | 8 | 4 | 2 | 1 | Schritte: 8
+test: 3 -> 10 | 5 | 16 | 8 | 4 | 2 | 1 | Schritte: 7
+test: 1 -> Schritte: 0
+braucht: whileSchleife, verzweigung
+tipp: Eine `while`-Schleife läuft, solange `zahl != 1` ist. Darin entscheidet ein `if` mit `zahl % 2 == 0`.
+tipp: Im Rumpf: halbieren oder `zahl = zahl * 3 + 1;`, dann `System.out.println(zahl);` und `schritte++;`. Nach der Schleife kommt `"Schritte: " + schritte`.
+lösung: aufgabe-collatz-loesung.visustruct
+:::
+
 ::: angeberwissen
 Mit dieser Aufgabe kann man reich werden! Der Mathematiker Paul Erdős setzte für einen Beweis 500 Dollar aus. 2021 legte die japanische Firma Bakuage noch einiges drauf: 120 Millionen Yen, damals umgerechnet rund eine Million Dollar, für einen Beweis oder ein Gegenbeispiel. Abgeholt hat das Geld bis heute niemand. Erfunden hat das Rätsel übrigens der deutsche Mathematiker Lothar Collatz im Jahr 1937. Ich rechne gleich mal los, für so viel Geld gibt es eine Menge Heu.
 :::

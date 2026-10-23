@@ -26,6 +26,21 @@ tipp: Merke dir die beiden letzten Zahlen in `zahl1` und `zahl2` und gib beide v
 lösung: aufgabe-fibonacci-loesung.visustruct
 :::
 
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-fibonacci-java
+titel: Fibonacci-Zahlen in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: 5 -> 1 | 1 | 2 | 3 | 5
+test: 8 -> 1 | 1 | 2 | 3 | 5 | 8 | 13 | 21
+test: 2 -> 1 | 1
+braucht: forSchleife
+tipp: Die ersten beiden Zahlen gibst du vor der Schleife aus. Die `for`-Schleife beginnt dann bei `int i = 2`.
+tipp: Im Rumpf: `int zahl3 = zahl1 + zahl2;`, ausgeben, dann `zahl1 = zahl2;` und `zahl2 = zahl3;`.
+lösung: aufgabe-fibonacci-loesung.visustruct
+:::
+
 ::: quiz
 ? Warum muss in der Schleife `zahl1 = zahl2` vor `zahl2 = zahl3` stehen?
 - [ ] Weil Java die Zuweisungen sonst nicht erlaubt

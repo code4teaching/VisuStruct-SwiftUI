@@ -18,3 +18,19 @@ tipp: A switch fits several fixed numbers. What happens with all the other numbe
 tipp: Read in the number with `input: int pick "Which dish?"`. The switch checks `pick`, and the cases are called `1`, `2` and `3`. All other numbers end up in the case `default`.
 lösung: aufgabe-speisekarte-loesung.visustruct
 :::
+
+And now the same in Java:
+
+::: übung aufgabe-speisekarte-java
+titel: Menu in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 1 -> Greek salad
+test: 2 -> Rice bowl
+test: 3 -> Falafel wrap
+test: 7 -> Please choose a valid number
+braucht: fallauswahl
+tipp: In Java this is a switch: `switch (pick) { … }`.
+tipp: Every case looks like this: `case 1 -> { System.out.println("…"); }`. All other numbers go to `default -> { … }`.
+lösung: aufgabe-speisekarte-loesung.visustruct
+:::

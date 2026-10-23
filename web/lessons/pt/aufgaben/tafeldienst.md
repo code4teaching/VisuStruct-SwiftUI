@@ -19,4 +19,19 @@ tipp: Crias o array com `String[] nomes = new String[5]`. Atenção: o número s
 lösung: aufgabe-tafeldienst-loesung.visustruct
 :::
 
+E agora o mesmo em Java:
+
+::: übung aufgabe-tafeldienst-java
+titel: Sortear quem limpa o quadro em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: Ada, Rui, Inês, Duarte, Eva, 3 -> Limpa o quadro: Inês
+test: Ada, Rui, Inês, Duarte, Eva, 1 -> Limpa o quadro: Ada
+test: Lara, Mário, Nuno, Olga, Pedro, 5 -> Limpa o quadro: Pedro
+braucht: forSchleife
+tipp: Um array para cinco nomes crias com `String[] nomes = new String[5];`.
+tipp: No ciclo: `nomes[i] = scanner.next();`. O número 1 corresponde à posição 0, por isso mostras `nomes[sorteado - 1]`.
+lösung: aufgabe-tafeldienst-loesung.visustruct
+:::
+
 > Com `int sorteado = (int) (Math.random() * 5) + 1` também podes deixar o acaso sortear o número. Mas para a verificação automática precisamos de uma entrada fixa.
