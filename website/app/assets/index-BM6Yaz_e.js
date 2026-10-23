@@ -22903,7 +22903,7 @@ ${x}
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${j(f("about_nav_title"))}</button>
-              <span class="settings-version">${j(f("web_about_version_fmt").replace("%@","0.3.8"))}</span>
+              <span class="settings-version">${j(f("web_about_version_fmt").replace("%@","0.3.9"))}</span>
             </footer>
           </div>
         </div>
@@ -22959,7 +22959,7 @@ ${x}
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${j(f("web_brand_suffix"))}</small></h3>
-            <p class="about-version">${j(f("web_about_version_fmt").replace("%@","0.3.8"))}</p>
+            <p class="about-version">${j(f("web_about_version_fmt").replace("%@","0.3.9"))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${e("about_web_label","https://www.visustruct.org","www.visustruct.org")}
             ${e("about_developer_label","https://www.sebastiao.org","www.sebastiao.org")}
