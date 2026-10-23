@@ -79,12 +79,57 @@ A seleção só verifica se um valor é **exatamente igual** a um nome de caso. 
 
 Por isso, para “idade 18 ou mais” continuas a precisar da decisão. Não podes criar um caso próprio para cada idade possível.
 
+## Agora em Java
+
+A máquina de bebidas fica assim em Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("1 água, 2 sumo, 3 chocolate quente");
+int escolha = scanner.nextInt();
+switch (escolha) {
+    case 1 -> {
+        System.out.println("Aqui está a tua água.");
+    }
+    case 2 -> {
+        System.out.println("Aqui está o teu sumo.");
+    }
+    case 3 -> {
+        System.out.println("Aqui está o teu chocolate quente.");
+    }
+    default -> {
+        System.out.println("Este botão não existe.");
+    }
+}
+```
+
+- Depois de `switch`, a variável que é comparada fica entre parênteses curvos.
+- Cada caso começa com `case`, o valor e uma seta `->`. Depois, entre chavetas, fica o que deve acontecer.
+- `default` é o caso “senão”. Corre quando nenhum valor serve.
+
+::: übung l10-java-wuerfel
+titel: Dado por extenso
+code: java
+auftrag: Escreve um programa em Java com `switch` que lê um número. Para 1 mostra **um**, para 2 **dois**, para 3 **três** e senão **não conheço**.
+test: 1 -> um
+test: 2 -> dois
+test: 3 -> três
+test: 7 -> não conheço
+braucht: fallauswahl
+tipp: Precisas de três casos `case` e um caso `default`.
+tipp: `switch (numero) { case 1 -> { System.out.println("um"); } … default -> { System.out.println("não conheço"); } }`
+lösung: l10-java-wuerfel-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
 - Sei inserir uma seleção, acrescentar casos e alterar os nomes dos casos. → Como se constrói uma seleção
 - Sei quando é executado o caso default. → Como se constrói uma seleção
 - Sei decidir se serve melhor uma seleção ou uma decisão. → Seleção ou decisão?
+- Sei escrever uma seleção múltipla em Java com switch. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -119,4 +164,9 @@ Por isso, para “idade 18 ou mais” continuas a precisar da decisão. Não pod
 - [ ] Sequência
 - [x] Seleção múltipla
 > É escolhido um de muitos casos. Por isso também se chama seleção múltipla.
+
+? Como se chama em Java o caso “senão” de um switch?
+- [ ] else
+- [x] default
+- [ ] case 0
 :::

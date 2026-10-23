@@ -106,6 +106,27 @@ lösung: sim-kino-loesung.visustruct
 
 > If a simulation keeps running forever, click **Stop**. When you **Check** an exercise, VisuStruct stops by itself after a very large number of steps.
 
+## Now in Java
+
+You can run Java code step by step too. In the [Programming](#zeige-codelive) area the tool for this is called the **debugger**:
+
+- Click a line number on the left. A red dot appears: that is a **breakpoint**. [▶︎ Run](#zeige-ausfuehren) pauses before this line.
+- The [Step](#zeige-einzelschritt) button runs exactly one line, like **Step** in the simulation.
+- Below the code you see the current value of every variable. That is your desk check, except that the computer writes it down for you.
+
+::: übung l07-java-pizza
+titel: Fix the pizza order
+code: java
+auftrag: A pizza costs 8 euros, extra cheese 2 euros. For 3 pizzas with extra cheese the program should output **Total: 30**. But it outputs 14.
+  Go through the Java code with Step and watch `total`. Find the mistake and fix it in the code.
+start: l07-java-pizza-start.visustruct
+test: - -> Total: 30
+braucht: anweisung
+tipp: What value is in `total` after the fourth line? Work out in your head what Java calculates first.
+tipp: As in maths, multiplication comes before addition: `price + cheese * count` is `8 + 6`. Add brackets: `(price + cheese) * count`.
+lösung: l07-java-pizza-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -113,6 +134,7 @@ lösung: sim-kino-loesung.visustruct
 - During the simulation I can read the variables, the output and the last step. → What the simulation shows
 - I can do a desk check by hand as a table. → The desk check
 - I can find a mistake by comparing the values with what I expect. → Find mistakes
+- I can follow Java code with Step. → Now in Java
 :::
 
 ## Quiz
@@ -145,4 +167,10 @@ lösung: sim-kino-loesung.visustruct
 - [x] sum is used before it has been given a value.
 - [ ] sum is too big.
 - [ ] The structure chart has too many boxes.
+
+? What does a red dot in front of a line number in the Programming area do?
+- [ ] It marks an error.
+- [x] The program pauses before this line.
+- [ ] The line is skipped.
+> That is a breakpoint. ▶︎ or Step carries on.
 :::

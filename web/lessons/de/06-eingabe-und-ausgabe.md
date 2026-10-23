@@ -120,6 +120,39 @@ tipp: Für Kommazahlen nimmst du den Typ `double`. Der Mittelwert ist die Summe 
 lösung: l06-mittelwert-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+So sieht das EVA-Beispiel vom Anfang in Java aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Erste Zahl?");
+int a = scanner.nextInt();
+System.out.println("Zweite Zahl?");
+int b = scanner.nextInt();
+int summe = a + b;
+System.out.println("Summe: " + summe);
+```
+
+- Für Eingaben braucht Java einen **Scanner**. Die ersten beiden Zeilen schreibst du einmal ganz oben, dann kannst du beliebig oft einlesen.
+- `scanner.nextInt()` liest eine ganze Zahl, `scanner.nextDouble()` eine Kommazahl und `scanner.next()` ein Wort.
+- Die Frage an den Benutzer ist eine normale Ausgabe direkt davor. VisuStruct macht aus beiden Zeilen zusammen einen Eingabe-Kasten.
+
+::: übung l06-java-tage
+titel: Alter in Tagen
+code: java
+auftrag: Schreibe ein Java-Programm, das nach dem Alter in Jahren fragt und ausgibt, wie viele Tage das ungefähr sind. Rechne mit 365 Tagen pro Jahr. Bei 2 Jahren erscheint **Das sind etwa 730 Tage.**
+test: 2 -> Das sind etwa 730 Tage.
+test: 10 -> Das sind etwa 3650 Tage.
+test: 1 -> Das sind etwa 365 Tage.
+braucht: anweisung
+tipp: Erst die beiden Scanner-Zeilen, dann Frage und Eingabe, dann rechnen, dann ausgeben.
+tipp: `int jahre = scanner.nextInt();` liest ein. `int tage = jahre * 365;` rechnet, und `System.out.println("Das sind etwa " + tage + " Tage.");` gibt aus.
+lösung: l06-java-tage-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -128,6 +161,7 @@ lösung: l06-mittelwert-loesung.visustruct
 - Ich kann Text und Variablen in einer Ausgabe mit + verbinden. → Vorsicht mit + in der Ausgabe
 - Ich rechne vor der Ausgabe in einer Variablen. → Vorsicht mit + in der Ausgabe
 - Ich kann aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen. → Vom Aufgabentext zum Struktogramm
+- Ich kann in Java mit dem Scanner Zahlen einlesen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -161,4 +195,10 @@ lösung: l06-mittelwert-loesung.visustruct
 = Umfang = 2 * 3.14 * Radius -> Verarbeitung
 = zeigt seinen Umfang an -> Ausgabe
 > Gegeben ist der Radius, gesucht der Umfang. Die Formel verbindet beides.
+
+? Was liest `scanner.nextInt()` ein?
+- [x] Eine ganze Zahl
+- [ ] Eine Kommazahl
+- [ ] Einen ganzen Satz
+> Für Kommazahlen gibt es `scanner.nextDouble()`, für ein Wort `scanner.next()`.
 :::

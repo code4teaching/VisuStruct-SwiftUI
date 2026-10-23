@@ -120,6 +120,38 @@ tipp: Der Gesamtpreis ist eine Kommazahl, also braucht `gesamt` den Typ `double`
 lösung: l05-einkauf-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Die Variablen von oben sehen in Java so aus:
+
+```
+int alter = 14;
+double groesse = 1.62;
+String name = "Mia";
+System.out.println(name + " ist " + alter + " Jahre alt.");
+System.out.println("Größe: " + groesse + " m");
+```
+
+- Eine Variable legst du in Java genauso an wie im Kasten: erst der Datentyp, dann der Name, dann der Wert.
+- Am Ende jeder Anweisung steht ein **Semikolon** `;`.
+- `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet Groß- und Kleinbuchstaben.
+- Eine Ausgabe heißt in Java `System.out.println(…)`.
+
+Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
+
+::: übung l04-java-steckbrief
+titel: Steckbrief in Java
+code: java
+auftrag: Schreibe einen Steckbrief für Ludwig den Geißbock. Lege drei Variablen an: den Namen **Ludwig**, das Alter **7** und die Größe **1.2**. Gib dann diese zwei Zeilen aus:
+  **Ludwig ist 7 Jahre alt.** und **Größe: 1.2 m**
+  „Im Editor öffnen“ öffnet rechts auch den Bereich Programmieren. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
+test: - -> Ludwig ist 7 Jahre alt. | Größe: 1.2 m
+braucht: anweisung
+tipp: Du brauchst einen `String`, einen `int` und einen `double`. Jede Zeile endet mit einem Semikolon.
+tipp: `String name = "Ludwig";`, `int alter = 7;` und `double groesse = 1.2;`. Die Ausgabe setzt du mit `+` zusammen: `System.out.println(name + " ist " + alter + " Jahre alt.");`
+lösung: l04-java-steckbrief-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -127,6 +159,7 @@ lösung: l05-einkauf-loesung.visustruct
 - Ich kenne die Datentypen int, double, String und boolean. → Die vier Datentypen
 - Ich weiß, dass = eine Zuweisung ist und kein Vergleich. → Zuweisung mit =
 - Ich kann mit + - * / % rechnen und kenne die ganzzahlige Division. → Rechnen
+- Ich kann Variablen in Java anlegen und ausgeben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -156,4 +189,10 @@ lösung: l05-einkauf-loesung.visustruct
 - [ ] 12
 - [x] 20
 > Rechts wird mit dem alten Wert 10 gerechnet, das Ergebnis 20 wird in punkte gespeichert.
+
+? Welche Zeile legt in Java richtig eine Kommazahl an?
+- [ ] double preis = 2,5;
+- [x] double preis = 2.5;
+- [ ] Double preis = 2.5
+> Kommazahlen schreibst du mit Punkt, und am Ende steht ein Semikolon.
 :::

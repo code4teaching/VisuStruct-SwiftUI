@@ -71,7 +71,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 ## Jetzt in Java
 
-Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Das Tauschen von oben sieht in Java so aus:
+Wie in Lektion 4 kannst du auch eine Sequenz direkt in Java schreiben. Das Tauschen von oben sieht so aus:
 
 ```
 int a = 5;

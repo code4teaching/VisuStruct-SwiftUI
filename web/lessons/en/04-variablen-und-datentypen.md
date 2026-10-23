@@ -120,6 +120,38 @@ tipp: The total price is a decimal number, so `total` needs the type `double`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 
+## Now in Java
+
+A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. The variables from above look like this in Java:
+
+```
+int age = 14;
+double height = 1.62;
+String name = "Mia";
+System.out.println(name + " is " + age + " years old.");
+System.out.println("Height: " + height + " m");
+```
+
+- You create a variable in Java just like in the box: first the data type, then the name, then the value.
+- Every statement ends with a **semicolon** `;`.
+- `String` starts with a capital letter, `int`, `double` and `boolean` are lower case. Java tells upper and lower case apart.
+- An output is called `System.out.println(…)` in Java.
+
+You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+
+::: übung l04-java-steckbrief
+titel: Profile in Java
+code: java
+auftrag: Write a profile of Ludwig the billy goat. Create three variables: the name **Ludwig**, the age **7** and the height **1.2**. Then output these two lines:
+  **Ludwig is 7 years old.** and **Height: 1.2 m**
+  “Open in editor” also opens the Programming area on the right. Type your code there; the structure chart builds itself. Then click Check.
+test: - -> Ludwig is 7 years old. | Height: 1.2 m
+braucht: anweisung
+tipp: You need a `String`, an `int` and a `double`. Every line ends with a semicolon.
+tipp: `String name = "Ludwig";`, `int age = 7;` and `double height = 1.2;`. You join the output with `+`: `System.out.println(name + " is " + age + " years old.");`
+lösung: l04-java-steckbrief-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -127,6 +159,7 @@ lösung: l05-einkauf-loesung.visustruct
 - I know the data types int, double, String and boolean. → The four data types
 - I know that = is an assignment and not a comparison. → Assignment with =
 - I can calculate with + - * / % and know whole-number division. → Calculating
+- I can create and output variables in Java. → Now in Java
 :::
 
 ## Quiz
@@ -156,4 +189,10 @@ lösung: l05-einkauf-loesung.visustruct
 - [ ] 12
 - [x] 20
 > The right-hand side is calculated with the old value 10, and the result 20 is stored in points.
+
+? Which line correctly creates a decimal number in Java?
+- [ ] double price = 2,5;
+- [x] double price = 2.5;
+- [ ] Double price = 2.5
+> Decimal numbers use a point, and the line ends with a semicolon.
 :::

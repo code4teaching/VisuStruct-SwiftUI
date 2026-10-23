@@ -71,7 +71,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 ## Agora em Java
 
-Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. A troca de cima fica assim em Java:
+Tal como na lição 4, também podes escrever uma sequência diretamente em Java. A troca de cima fica assim:
 
 ```
 int a = 5;

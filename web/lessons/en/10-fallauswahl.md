@@ -79,12 +79,57 @@ The switch only checks whether a value is **exactly equal** to a case name. So:
 
 So for “age 18 or older” you still need the branch. You cannot create a case of its own for every possible age.
 
+## Now in Java
+
+The drinks machine looks like this in Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("1 water, 2 juice, 3 cocoa");
+int choice = scanner.nextInt();
+switch (choice) {
+    case 1 -> {
+        System.out.println("Here is your water.");
+    }
+    case 2 -> {
+        System.out.println("Here is your juice.");
+    }
+    case 3 -> {
+        System.out.println("Here is your cocoa.");
+    }
+    default -> {
+        System.out.println("This button does not exist.");
+    }
+}
+```
+
+- After `switch`, the variable being compared is in round brackets.
+- Every case starts with `case`, the value and an arrow `->`. After it, curly brackets hold what should happen.
+- `default` is the otherwise case. It runs when no value matches.
+
+::: übung l10-java-wuerfel
+titel: Dice in words
+code: java
+auftrag: Write a Java program with `switch` that reads a number. For 1 it outputs **one**, for 2 **two**, for 3 **three** and otherwise **unknown**.
+test: 1 -> one
+test: 2 -> two
+test: 3 -> three
+test: 7 -> unknown
+braucht: fallauswahl
+tipp: You need three `case` branches and one `default` branch.
+tipp: `switch (number) { case 1 -> { System.out.println("one"); } … default -> { System.out.println("unknown"); } }`
+lösung: l10-java-wuerfel-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
 - I can insert a switch, add cases and change case names. → How a switch is built
 - I know when the case default runs. → How a switch is built
 - I can decide whether a switch or a branch fits better. → Switch or branch?
+- I can write a case selection in Java with switch. → Now in Java
 :::
 
 ## Quiz
@@ -119,4 +164,9 @@ So for “age 18 or older” you still need the branch. You cannot create a case
 - [ ] Sequence
 - [x] Multiple selection
 > One of many cases is selected. That is why it is also called multiple selection.
+
+? What is the otherwise case of a switch called in Java?
+- [ ] else
+- [x] default
+- [ ] case 0
 :::

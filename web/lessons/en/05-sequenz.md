@@ -71,7 +71,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 ## Now in Java
 
-A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. The swap from above looks like this in Java:
+As in lesson 4, you can also write a sequence directly in Java. The swap from above looks like this:
 
 ```
 int a = 5;

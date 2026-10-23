@@ -79,12 +79,57 @@ Die Fallauswahl prüft nur, ob ein Wert **genau gleich** einem Fallnamen ist. Da
 
 Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht für jedes mögliche Alter einen eigenen Fall anlegen.
 
+## Jetzt in Java
+
+Der Getränkeautomat sieht in Java so aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("1 Wasser, 2 Saft, 3 Kakao");
+int wahl = scanner.nextInt();
+switch (wahl) {
+    case 1 -> {
+        System.out.println("Hier ist dein Wasser.");
+    }
+    case 2 -> {
+        System.out.println("Hier ist dein Saft.");
+    }
+    case 3 -> {
+        System.out.println("Hier ist dein Kakao.");
+    }
+    default -> {
+        System.out.println("Diese Taste gibt es nicht.");
+    }
+}
+```
+
+- Nach `switch` steht in runden Klammern die Variable, die verglichen wird.
+- Jeder Fall beginnt mit `case`, dem Wert und einem Pfeil `->`. Dahinter steht in geschweiften Klammern, was passieren soll.
+- `default` ist der Sonst-Fall. Er läuft, wenn kein Wert passt.
+
+::: übung l10-java-wuerfel
+titel: Würfel in Worten
+code: java
+auftrag: Schreibe ein Java-Programm mit `switch`, das eine Zahl einliest. Bei 1 gibt es **eins** aus, bei 2 **zwei**, bei 3 **drei** und sonst **kenne ich nicht**.
+test: 1 -> eins
+test: 2 -> zwei
+test: 3 -> drei
+test: 7 -> kenne ich nicht
+braucht: fallauswahl
+tipp: Du brauchst drei `case`-Fälle und einen `default`-Fall.
+tipp: `switch (zahl) { case 1 -> { System.out.println("eins"); } … default -> { System.out.println("kenne ich nicht"); } }`
+lösung: l10-java-wuerfel-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
 - Ich kann eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern. → So ist die Fallauswahl aufgebaut
 - Ich weiß, wann der Fall default ausgeführt wird. → So ist die Fallauswahl aufgebaut
 - Ich kann entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt. → Fallauswahl oder Verzweigung?
+- Ich kann eine Fallauswahl in Java mit switch schreiben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -119,4 +164,9 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 - [ ] Sequenz
 - [x] Mehrfachauswahl
 > Aus vielen Fällen wird einer ausgewählt. Darum heißt sie auch Mehrfachauswahl.
+
+? Wie heißt in Java der Sonst-Fall einer Fallauswahl?
+- [ ] else
+- [x] default
+- [ ] case 0
 :::
