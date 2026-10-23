@@ -590,9 +590,72 @@ function parseJavaStyleSimpleAssignment(rawLine: string): { name: string; rhs: s
 }
 
 function javaIntCastExpression(rhs: string): string | undefined {
-  const g = groups(/^\s*\(\s*int(?:eger)?\s*\)\s*\(?\s*(.+?)\s*\)?\s*$/i, rhs)
+  const g = groups(/^\s*\(\s*int(?:eger)?\s*\)\s*(.+?)\s*$/i, rhs)
   const e = g?.[1].trim()
-  return e ? e : undefined
+  // `(int) wort.charAt(i)` liefert den Zeichencode, das übernimmt `convertCharCasts`.
+  if (!e || isCharOperand(e)) return undefined
+  return e.startsWith('(') && matchingClose(e, 0) === e.length - 1 ? e.slice(1, -1).trim() : e
+}
+
+/** Index der schließenden Klammer zu `s[open]` (rund oder eckig), sonst -1. */
+function matchingClose(s: string, open: number): number {
+  let depth = 0
+  for (let i = open; i < s.length; i++) {
+    if (s[i] === '(' || s[i] === '[') depth++
+    else if ((s[i] === ')' || s[i] === ']') && --depth === 0) return i
+  }
+  return -1
+}
+
+/** Ein einzelnes Zeichen: `'A'` oder `wort.charAt(i)`. */
+const isCharOperand = (e: string) => /^'.'$/u.test(e) || /\.charAt\(.*\)$/.test(e)
+
+/** Ende des Operanden ab `start`: `(…)`, `'A'`, eine Zahl oder ein Name mit `.methode(…)` und `[…]`; sonst -1. */
+function operandEnd(s: string, start: number): number {
+  if (s[start] === '(') {
+    const close = matchingClose(s, start)
+    return close < 0 ? -1 : close + 1
+  }
+  if (s[start] === "'") return s[start + 2] === "'" ? start + 3 : -1
+  const head = /^(?:[A-Za-z_]\w*|\d+)/.exec(s.slice(start))
+  if (!head) return -1
+  let i = start + head[0].length
+  for (;;) {
+    const member = /^\.[A-Za-z_]\w*/.exec(s.slice(i))
+    if (member) i += member[0].length
+    else if (s[i] === '(' || s[i] === '[') {
+      const close = matchingClose(s, i)
+      if (close < 0) return -1
+      i = close + 1
+    } else return i
+  }
+}
+
+/**
+ * Umwandlungen zwischen Zeichen und Zeichencode wie in Java: `(int) wort.charAt(i)` → Python `ord(…)`,
+ * JavaScript `….charCodeAt(0)`; `(char) code` → Python `chr(code)`, JavaScript `String.fromCharCode(code)`.
+ */
+function convertCharCasts(s: string, target: 'python' | 'javascript'): string {
+  return mapOutsideStringLiterals(s, (code) => {
+    const re = /\(\s*(int|char)\s*\)\s*/g
+    let out = ''
+    let last = 0
+    for (let m = re.exec(code); m; m = re.exec(code)) {
+      const start = m.index + m[0].length
+      const end = operandEnd(code, start)
+      if (end < 0) continue
+      const operand = code.slice(start, end)
+      if (m[1] === 'int' && !isCharOperand(operand)) continue
+      const inner = convertCharCasts(operand.startsWith('(') ? operand.slice(1, -1).trim() : operand, target)
+      const replacement = m[1] === 'int'
+        ? (target === 'python' ? `ord(${inner})` : `${inner}.charCodeAt(0)`)
+        : (target === 'python' ? `chr(${inner})` : `String.fromCharCode(${inner})`)
+      out += code.slice(last, m.index) + replacement
+      last = end
+      re.lastIndex = end
+    }
+    return out + code.slice(last)
+  })
 }
 
 function pythonRhsFromJavaRhs(rhs: string, intVariables: Set<string> = new Set()): string {
@@ -1337,9 +1400,9 @@ export const generateLiveJava = (document: VSDocument, labels: LiveLabels) => ge
 function postProcessLengthSyntax(s: string, target: CodeTarget): string {
   switch (target) {
     case 'javascript':
-      return s.replace(/\.length\(\)/g, '.length').replace(/\.contains\(/g, '.includes(')
+      return convertCharCasts(s, 'javascript').replace(/\.length\(\)/g, '.length').replace(/\.contains\(/g, '.includes(')
     case 'python':
-      return pythonStringMethodsDeep(s).replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\)|\b)/g, 'len($1)')
+      return pythonStringMethodsDeep(convertCharCasts(s, 'python')).replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\)|\b)/g, 'len($1)')
     case 'java':
       return replaceIdentifierDotLengthWithParensInJava(s)
   }

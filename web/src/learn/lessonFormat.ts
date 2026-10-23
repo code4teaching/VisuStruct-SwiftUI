@@ -18,6 +18,7 @@ export type Block =
   | { kind: 'graphic'; file: string; caption: string }
   | { kind: 'game'; game: BoolGame }
   | { kind: 'roundGame'; game: RoundGame }
+  | { kind: 'caesar'; key: number; text: string }
 
 export interface Exercise {
   id: string
@@ -232,6 +233,12 @@ export function parseBlocks(body: string, file: string): Block[] {
       case 'ludwig':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim(), tip: true })
         break
+      case 'caesar': {
+        const key = arg ? Number(arg) : 3
+        if (!Number.isInteger(key) || key < 0 || key > 25) throw new FormatError(`${file}: „::: caesar“ braucht einen Schlüssel von 0 bis 25.`)
+        blocks.push({ kind: 'caesar', key, text: inner.join(' ').trim() })
+        break
+      }
       default:
         throw new FormatError(`${file}: Unbekannter Block „::: ${open[1]}“.`)
     }

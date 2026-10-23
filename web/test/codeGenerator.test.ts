@@ -331,3 +331,25 @@ describe('Code live in Python', () => {
     expect(live.spans.find((s) => s.path.join() === '0')).toMatchObject({ from: 1, to: 4 })
   })
 })
+
+describe('Codegenerierung: Zeichen und Zeichencodes', () => {
+  const doc = {
+    caption: 'Caesar',
+    elements: [
+      makeElement(ElementType.anweisung, { textLines: ['int code = (int) wort.charAt(i)'] }),
+      makeElement(ElementType.anweisung, { textLines: ['int z = (int) (x / 2)'] }),
+      makeElement(ElementType.anweisung, { textLines: ['geheim = geheim + (char) (code + 3)'] }),
+    ],
+  }
+
+  it('übersetzt (int) und (char) nach Python und JavaScript', () => {
+    const python = generateCode(doc, 'python')
+    expect(python).toContain('code = ord(wort[i])')
+    expect(python).toContain('z = int(x / 2)')
+    expect(python).toContain('chr(code + 3)')
+    const js = generateCode(doc, 'javascript')
+    expect(js).toContain('wort.charAt(i).charCodeAt(0)')
+    expect(js).toContain('Math.floor(x / 2)')
+    expect(js).toContain('String.fromCharCode(code + 3)')
+  })
+})

@@ -214,4 +214,15 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_debug_continue" = "Continuar até ao próximo ponto de paragem";
 "web_debug_paused_fmt" = "Parado antes da linha %d.";
 "web_debug_gutter_title" = "Clica num número de linha para pôr ou tirar um ponto de paragem";
+
+/* Lernbereich: Caesar-Scheibe */
+"web_learn_caesar_title" = "Disco de César";
+"web_learn_caesar_hint" = "Roda o disco interior ou toca em −1 e +1. Por fora está o texto simples, por dentro o texto cifrado.";
+"web_learn_caesar_key_fmt" = "Chave %d";
+"web_learn_caesar_plain" = "Texto simples";
+"web_learn_caesar_secret" = "Texto cifrado";
+"web_learn_caesar_encrypt" = "Cifrar";
+"web_learn_caesar_decrypt" = "Decifrar";
+"web_learn_caesar_back" = "Rodar o disco uma letra para trás";
+"web_learn_caesar_forward" = "Rodar o disco uma letra para a frente";
 `;export{e as default};
