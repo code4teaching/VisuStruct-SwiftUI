@@ -341,7 +341,7 @@ export class SimulationPanel {
 }
 
 /** Ein 2D-Array als kleine Tabelle: eine Tabellenzeile pro Zeile des Arrays. */
-function gridTable(value: SimValue & { kind: 'grid' }): HTMLTableElement {
+export function gridTable(value: SimValue & { kind: 'grid' }): HTMLTableElement {
   const table = document.createElement('table')
   table.className = 'sim-grid'
   for (const row of value.value) {

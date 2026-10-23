@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 190" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="15" fill="#1c1c1e">
+  <rect width="440" height="190" fill="#ffffff"/>
+  <rect x="20" y="14" width="80" height="32" fill="#f2f2f7" stroke="#8e8e93"/><text x="60.0" y="35" text-anchor="middle" font-weight="700">a</text>
+  <rect x="100" y="14" width="80" height="32" fill="#f2f2f7" stroke="#8e8e93"/><text x="140.0" y="35" text-anchor="middle" font-weight="700">b</text>
+  <rect x="180" y="14" width="80" height="32" fill="#f2f2f7" stroke="#8e8e93"/><text x="220.0" y="35" text-anchor="middle" font-weight="700">a &amp;&amp; b</text>
+  <rect x="260" y="14" width="80" height="32" fill="#f2f2f7" stroke="#8e8e93"/><text x="300.0" y="35" text-anchor="middle" font-weight="700">a || b</text>
+  <rect x="340" y="14" width="80" height="32" fill="#f2f2f7" stroke="#8e8e93"/><text x="380.0" y="35" text-anchor="middle" font-weight="700">!a</text>
+  <rect x="20" y="46" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="60.0" y="67" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="100" y="46" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="140.0" y="67" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="180" y="46" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="220.0" y="67" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="260" y="46" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="300.0" y="67" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="340" y="46" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="380.0" y="67" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="20" y="78" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="60.0" y="99" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="100" y="78" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="140.0" y="99" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="180" y="78" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="220.0" y="99" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="260" y="78" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="300.0" y="99" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="340" y="78" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="380.0" y="99" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="20" y="110" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="60.0" y="131" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="100" y="110" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="140.0" y="131" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="180" y="110" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="220.0" y="131" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="260" y="110" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="300.0" y="131" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="340" y="110" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="380.0" y="131" text-anchor="middle" fill="#15803d">true</text>
+  <rect x="20" y="142" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="60.0" y="163" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="100" y="142" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="140.0" y="163" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="180" y="142" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="220.0" y="163" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="260" y="142" width="80" height="32" fill="#fee2e2" stroke="#8e8e93"/><text x="300.0" y="163" text-anchor="middle" fill="#b91c1c">false</text>
+  <rect x="340" y="142" width="80" height="32" fill="#dcfce7" stroke="#8e8e93"/><text x="380.0" y="163" text-anchor="middle" fill="#15803d">true</text>
+  <line x1="180" y1="14" x2="180" y2="174" stroke="#1c1c1e" stroke-width="3"/>
+</svg>

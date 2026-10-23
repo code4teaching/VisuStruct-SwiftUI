@@ -3,6 +3,7 @@ import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
+import { explain, makeRound, usedValues, type BoolGame } from '../learn/boolGame'
 import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
@@ -352,6 +353,8 @@ export class LearnPanel {
         return this.renderImages(block.files, block.caption)
       case 'graphic':
         return this.renderGraphic(block.file, block.caption)
+      case 'game':
+        return this.renderGame(block.game)
     }
   }
 
@@ -362,6 +365,68 @@ export class LearnPanel {
     const body = h('div', {}, h('p', { class: 'learn-brag-title' }, t(tip ? 'web_learn_ludwig_tip' : 'web_learn_brag')))
     body.append(html('div', { class: 'learn-text' }, markdownToHTML(text)))
     box.append(body)
+    return box
+  }
+
+  /** Spiel „Wahr oder falsch?“: zehn Runden, die Bedingungen werden schwerer. */
+  private renderGame(game: BoolGame): HTMLElement {
+    const rounds = 10
+    const box = h('section', { class: 'learn-game' })
+    const head = h('div', { class: 'learn-game-head' })
+    head.append(h('img', { src: ludwigURL, alt: '', width: '40', height: '40' }), h('strong', {}, t('web_game_title')))
+    const status = h('p', { class: 'learn-game-status' })
+    const stage = h('div', { class: 'learn-game-stage' })
+    box.append(head, status, stage)
+    let index = 0
+    let score = 0
+
+    const showRound = () => {
+      const round = makeRound(game, index, rounds)
+      status.textContent = `${t('web_game_round_fmt', index + 1, rounds)} · ${t('web_game_score_fmt', score)}`
+      const values = h('div', { class: 'learn-game-values mono' })
+      for (const [name, value] of usedValues(round)) values.append(h('code', {}, `${name} = ${value}`))
+      const answers = h('div', { class: 'group learn-game-answers' })
+      const yes = h('button', { class: 'learn-game-true' }, `✓ ${t('web_game_true')}`) as HTMLButtonElement
+      const no = h('button', { class: 'learn-game-false' }, `✗ ${t('web_game_false')}`) as HTMLButtonElement
+      answers.append(yes, no)
+      const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
+      const answer = (guess: boolean) => {
+        yes.disabled = no.disabled = true
+        const right = guess === round.answer
+        if (right) score++
+        status.textContent = `${t('web_game_round_fmt', index + 1, rounds)} · ${t('web_game_score_fmt', score)}`
+        feedback.className = `learn-game-feedback ${right ? 'right' : 'wrong'}`
+        const steps = h('div', { class: 'learn-game-steps mono' })
+        explain(round.condition, round.values).forEach((s, i) => steps.append(h('div', {}, `${i ? '→ ' : ''}${s}`)))
+        const next = h('button', { class: 'primary' }, index + 1 < rounds ? t('web_game_next') : t('web_game_finish'))
+        next.addEventListener('click', () => {
+          index++
+          if (index < rounds) showRound()
+          else showEnd()
+        })
+        feedback.replaceChildren(h('p', {}, right ? t('web_game_right') : t('web_game_wrong')), steps, next)
+        next.focus()
+      }
+      yes.addEventListener('click', () => answer(true))
+      no.addEventListener('click', () => answer(false))
+      stage.replaceChildren(values, h('div', { class: 'learn-game-condition mono' }, round.condition), answers, feedback)
+    }
+    const showEnd = () => {
+      status.textContent = ''
+      const again = h('button', { class: 'primary' }, t('web_game_again'))
+      again.addEventListener('click', () => {
+        index = score = 0
+        showRound()
+      })
+      stage.replaceChildren(
+        h('p', { class: 'learn-game-result' }, t('web_game_done_fmt', score, rounds)),
+        h('p', {}, t(score === rounds ? 'web_game_perfect' : score >= rounds * 0.7 ? 'web_game_good' : 'web_game_practice')),
+        again,
+      )
+    }
+    const start = h('button', { class: 'primary' }, t('web_game_start'))
+    start.addEventListener('click', showRound)
+    stage.append(h('p', {}, t('web_game_intro')), start)
     return box
   }
 

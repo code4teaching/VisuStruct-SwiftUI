@@ -9,6 +9,8 @@ The format is loosely inspired by Keep a Changelog.
 ### Added
 
 - **Web:** “About VisuStruct” has a section “Third-party software” (CodeMirror and Lezer, MIT; CheerpJ and javac for Swing support) with a link to `licenses.txt`. The build writes that file next to the app with the licence texts of all bundled packages, as the MIT License requires.
+- **Web, Code live: debugger.** Click a line number to set a breakpoint (red dot); ▶ Run pauses before that line. The next line is yellow and its element is selected in the structure chart, a variables table below the code shows the current values and briefly highlights what changed. New Step button (own icon) runs one line and pauses again (also starts the program paused before the first line); ▶ continues to the next breakpoint. The code is read-only while the program runs. Lesson 20 (de/en/pt) gets the section “Find mistakes with the debugger” with a Ludwig tip, checklist item and quiz question.
+- **Web, lesson 9 (de/en/pt):** truth table graphic for &&, || and !, a step on storing conditions in boolean variables, and the game “True or false?” (new lesson block `::: spiel`): ten rounds with values and a condition that get harder, each answer explained step by step (`15 >= 12 && 15 < 18` → `true && true` → `true`).
 - **Web, lessons (de/en/pt):** new section “Windows with Swing” with three lessons: 22 “Your first window” (JFrame, setSize, setDefaultCloseOperation, why setVisible comes last; expert box on classes and objects), 23 “A button in the window” (JButton, add, FlowLayout; the button can be pressed but nothing happens yet) and 24 “The button reacts” (ActionListener with a lambda, several statements on a click; expert box: ActionListener is an interface, with the anonymous class). Lesson 20 now points to Swing support. New glossary terms event and interface. Ludwig boxes with a code block or long code no longer overflow the learning column.
 - **Web, Code live:** a lambda with a block (`e -> { … }`) or an anonymous class (`new ActionListener() { … }`) inside a statement no longer reports a missing `}`; the whole statement becomes one statement box.
 - **Repository:** VisuStruct is now licensed under the MIT License (`LICENSE`).
@@ -31,7 +33,7 @@ The format is loosely inspired by Keep a Changelog.
 ### Changed
 
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.7) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.8) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

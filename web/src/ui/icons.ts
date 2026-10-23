@@ -16,6 +16,8 @@ export const icons = {
   share: svg('<path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>'),
   code: svg('<path d="M8 6l-6 6 6 6"/><path d="M16 6l6 6-6 6"/>'),
   play: svg('<path d="M7 4l13 8-13 8z"/>', true),
+  /** Einzelschritt (wie „Step over“ in Entwicklungsumgebungen): Bogen über eine Zeile zur nächsten. */
+  step: svg('<path d="M4 13a8 8 0 0 1 14.5-4.5"/><path d="M19.5 4v5h-5"/><circle cx="12" cy="18" r="2.2" fill="currentColor"/>'),
   stop: svg('<rect x="6" y="6" width="12" height="12" rx="1.5"/>', true),
   folder: svg('<path d="M3 18V6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
   newFolder: svg('<path d="M3 18V6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/>'),
