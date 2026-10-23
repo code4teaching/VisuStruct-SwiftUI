@@ -47,4 +47,13 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_site_home" = "Strona główna";
 "web_site_imprint" = "Nota prawna";
 "web_site_privacy" = "Prywatność";
+
+/* Code live */
+"web_live_title" = "Kod na żywo";
+"web_live_toggle_title" = "Pokaż kod Java na żywo obok diagramu";
+"web_live_hide" = "Ukryj kod na żywo";
+"web_live_resize" = "Zmień szerokość obszaru kodu (dwuklik: resetuj)";
+"web_live_hint" = "Kod rośnie razem z diagramem. Szary = symbol zastępczy: wpisz tekst w inspektorze, a pojawi się tutaj. Kliknij wiersz, aby zaznaczyć jego element.";
+"web_live_ph_selector" = "zmienna";
+"web_live_ph_code" = "Twój kod";
 `;export{e as default};

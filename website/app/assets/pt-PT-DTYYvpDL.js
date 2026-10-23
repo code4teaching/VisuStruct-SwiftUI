@@ -103,4 +103,13 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_site_home" = "Página inicial";
 "web_site_imprint" = "Contacto";
 "web_site_privacy" = "Privacidade";
+
+/* Code live */
+"web_live_title" = "Código ao vivo";
+"web_live_toggle_title" = "Mostrar o código Java ao vivo ao lado do diagrama";
+"web_live_hide" = "Ocultar código ao vivo";
+"web_live_resize" = "Alterar a largura da área de código (duplo clique: repor)";
+"web_live_hint" = "O código cresce com o teu diagrama. Cinzento = marcador: escreve no inspetor de objetos e o teu texto aparece aí. Clica numa linha para selecionar o elemento.";
+"web_live_ph_selector" = "variável";
+"web_live_ph_code" = "O teu código";
 `;export{e as default};

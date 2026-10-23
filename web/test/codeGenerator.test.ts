@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { generateCode, generateJavaClassFile, sanitizedJavaClassName, type CodeTarget } from '../src/core/codeGenerator'
+import { generateCode, generateJavaClassFile, generateLiveJava, sanitizedJavaClassName, type CodeTarget } from '../src/core/codeGenerator'
 import { ElementType, makeElement } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
 
@@ -216,5 +216,60 @@ describe('Codegenerierung: String-Methoden', () => {
     const js = generateCode(doc, 'javascript')
     expect(js).toContain('w.length + w.charAt(w.length - 1)')
     expect(js).toContain('w.includes("x")')
+  })
+})
+
+describe('Code live (Anfänger-Ansicht)', () => {
+  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Startwert', step: 'Schritt' }
+  const plain = (s: string) => s.replace(//g, '«').replace(//g, '»')
+  const stub = () => makeElement(ElementType.anweisung, { textLines: ['ø'] })
+
+  it('leere Anweisung wird zu `;`, Text bekommt ein Semikolon', () => {
+    const doc = { caption: '', elements: [makeElement(ElementType.anweisung), makeElement(ElementType.anweisung, { textLines: ['int zahl = 0'] })] }
+    expect(plain(generateLiveJava(doc, labels).text)).toBe(';\nint zahl = 0;')
+  })
+
+  it('neue Verzweigung: `if (Bedingung)` mit Platzhaltern in den Blöcken', () => {
+    const doc = {
+      caption: '',
+      elements: [makeElement(ElementType.verzweigung, { cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [stub()] }] })],
+    }
+    expect(plain(generateLiveJava(doc, labels).text)).toBe(
+      'if («Bedingung») {\n    «// Dein Code»\n} else {\n    «// Dein Code»\n}',
+    )
+  })
+
+  it('leere Schleifenfelder werden Platzhalter, ausgefüllte bleiben', () => {
+    const doc = {
+      caption: '',
+      elements: [makeElement(ElementType.forSchleife, { textLines: ['int i = 0', '', 'i++'], loopBody: [stub()] })],
+    }
+    expect(plain(generateLiveJava(doc, labels).text).split('\n')[0]).toBe('for (int i = 0; «Bedingung»; i++) {')
+  })
+
+  it('ordnet jedem Element seine Zeilen zu (auch nach Scanner-Vorspann und bei else if)', () => {
+    const inner = makeElement(ElementType.verzweigung, { textLines: ['a < 0'], cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [stub()] }] })
+    const doc = {
+      caption: '',
+      elements: [
+        makeElement(ElementType.anweisung, { textLines: ['input: int a'] }),
+        makeElement(ElementType.verzweigung, { textLines: ['a > 0'], cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [inner] }] }),
+      ],
+    }
+    const live = generateLiveJava(doc, labels)
+    const lines = plain(live.text).split('\n')
+    const linesOf = (path: number[]) => {
+      const s = live.spans.find((x) => x.path.join() === path.join())!
+      return lines.slice(s.from, s.to + 1)
+    }
+    expect(linesOf([0])).toEqual(['System.out.println("a: ");', 'int a = scanner.nextInt();'])
+    expect(linesOf([1])[0]).toBe('if (a > 0) {')
+    expect(linesOf([1, 1, 0])[0]).toBe('} else if (a < 0) {')
+    expect(linesOf([1, 1, 0, 0, 0])).toEqual(['    «// Dein Code»'])
+  })
+
+  it('der normale Code-Generator bleibt unverändert', () => {
+    const doc = { caption: '', elements: [makeElement(ElementType.verzweigung, { cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [stub()] }] })] }
+    expect(generateCode(doc, 'java')).toBe('if (true) {\n    // empty element\n} else {\n    // empty element\n}')
   })
 })

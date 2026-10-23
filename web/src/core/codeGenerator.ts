@@ -22,6 +22,8 @@ export interface CodeOptions {
   arrayElementTypes?: Map<string, string>
   /** Text-Variablen: In Python ohne `str(…)` verketten. */
   stringVariables?: Set<string>
+  /** Nur für die Ansicht „Code live“: graue Platzhalter statt `true`/„empty element“, Zeilen je Element. */
+  live?: LiveContext
 }
 
 export const defaultCodeOptions: CodeOptions = {
@@ -89,6 +91,11 @@ function documentOptions(document: VSDocument, target: CodeTarget, options: Part
 const javaTypeName = (type: SubprogramHeader['returnType']) =>
   type === 'string' ? 'String' : type === undefined ? 'void' : type
 
+function javaMethodHeader(header: SubprogramHeader): string {
+  const params = header.params.map((p) => `${javaTypeName(p.type)}${'[]'.repeat(p.dims ?? 0)} ${p.name}`).join(', ')
+  return `public static ${javaTypeName(header.returnType)} ${header.name}(${params}) {`
+}
+
 /** Kopfzeile wie `int quadrat(int x)` als Java-Methode, Python-`def` oder JavaScript-`function`. */
 function subprogramDefinition(
   document: VSDocument,
@@ -108,10 +115,8 @@ function subprogramDefinition(
   for (const el of document.elements) emit(el, target, opts, indent + opts.indentPerLevel, sink)
   if (sink.out.trim() === '') sink.out = sp(indent + opts.indentPerLevel) + (target === 'python' ? 'pass\n' : '\n')
   switch (target) {
-    case 'java': {
-      const params = header.params.map((p) => `${javaTypeName(p.type)}${'[]'.repeat(p.dims ?? 0)} ${p.name}`).join(', ')
-      return `${sp(indent)}public static ${javaTypeName(header.returnType)} ${header.name}(${params}) {\n${sink.out}${sp(indent)}}\n`
-    }
+    case 'java':
+      return `${sp(indent)}${javaMethodHeader(header)}\n${sink.out}${sp(indent)}}\n`
     case 'python':
       return `${sp(indent)}def ${header.name}(${names}):\n${sink.out}`
     case 'javascript':
@@ -906,7 +911,11 @@ function forcedCaseComment(name: string, target: CodeTarget): string {
 
 function emitInstructionLike(textLines: string[], target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
   const body = textLines.map((l) => l.trim())
-  if (body.every((l) => l === '')) return
+  if (body.every((l) => l === '')) {
+    // Neue, noch leere Anweisung: in Java eine leere Anweisung.
+    if (options.live) sink.out += sp(indent) + ';\n'
+    return
+  }
   if (options.includeDiagramTextAsComments) {
     const forDiagram = body.filter((l) => l !== '' && !isDiagramEmptyPlaceholderText(l))
     if (forDiagram.length > 0) sink.out += blockComment(forDiagram, target, indent)
@@ -914,7 +923,7 @@ function emitInstructionLike(textLines: string[], target: CodeTarget, options: C
   for (const raw of body) {
     if (raw === '') continue
     if (isDiagramEmptyPlaceholderText(raw)) {
-      sink.out += emptyElementCommentLine(indent, target)
+      sink.out += options.live ? livePlaceholderLine(indent, options.live) : emptyElementCommentLine(indent, target)
       continue
     }
     const ints = options.jsIntVariables ?? new Set<string>()
@@ -951,8 +960,13 @@ function emitConditionHeader(
   options: CodeOptions,
   indent: number,
   sink: Sink,
+  livePlaceholder = options.live?.labels.condition,
 ) {
   if (options.includeDiagramTextAsComments) sink.out += blockComment(textLines, target, indent)
+  if (livePlaceholder !== undefined && isBlank(textLines)) {
+    sink.out += sp(indent) + prefix + livePlaceholderText(livePlaceholder) + suffix
+    return
+  }
   const condition = conditionText(textLines)
   const ints = options.jsIntVariables ?? new Set<string>()
   const text =
@@ -968,6 +982,7 @@ function emitConditionHeader(
 function emitBlockBody(elements: VSElement[], target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
   const before = sink.out.length
   for (const el of elements) emit(el, target, options, indent, sink)
+  if (options.live && sink.out.length === before) sink.out += livePlaceholderLine(indent, options.live)
   if (target !== 'python') return
   // Nur Kommentare (z. B. „# empty element“) zählen in Python nicht als Anweisung.
   const emitted = sink.out.slice(before).split('\n').map((l) => l.trim())
@@ -1001,8 +1016,11 @@ function emitIfChain(element: VSElement, target: CodeTarget, options: CodeOption
   }
   emitConditionHeader(isElseIf ? '} else if (' : 'if (', ') {\n', element.textLines, target, options, indent, sink)
   emitBlockBody(cases[0].elements, target, options, inner, sink)
-  if (next) emitIfChain(next, target, options, indent, sink, true)
-  else if (omitElse) sink.out += sp(indent) + '}\n'
+  if (next) {
+    const start = sink.out.length
+    emitIfChain(next, target, options, indent, sink, true)
+    recordLiveSpan(options, next, sink, start)
+  } else if (omitElse) sink.out += sp(indent) + '}\n'
   else {
     sink.out += sp(indent) + '} else {\n'
     emitBlockBody(cases[1].elements, target, options, inner, sink)
@@ -1011,6 +1029,12 @@ function emitIfChain(element: VSElement, target: CodeTarget, options: CodeOption
 }
 
 function emit(element: VSElement, target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
+  const start = sink.out.length
+  emitElement(element, target, options, indent, sink)
+  recordLiveSpan(options, element, sink, start)
+}
+
+function emitElement(element: VSElement, target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
   const step = options.indentPerLevel
   const py = target === 'python'
   const body = (els: VSElement[], i: number) => emitBlockBody(els, target, options, i, sink)
@@ -1022,7 +1046,7 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
 
   switch (element.type) {
     case ElementType.leerElement:
-      sink.out += emptyElementCommentLine(indent, target)
+      sink.out += options.live ? livePlaceholderLine(indent, options.live) : emptyElementCommentLine(indent, target)
       return
 
     case ElementType.anweisung:
@@ -1045,7 +1069,16 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
     case ElementType.fallauswahl: {
       const cases = element.cases
       if (!cases || cases.length === 0) return
-      header(py ? 'match ' : 'switch (', py ? ':\n' : ') {\n')
+      emitConditionHeader(
+        py ? 'match ' : 'switch (',
+        py ? ':\n' : ') {\n',
+        element.textLines,
+        target,
+        options,
+        indent,
+        sink,
+        options.live?.labels.selector,
+      )
       cases.forEach((c, i) => {
         const isLast = i === cases.length - 1
         if (target === 'java') {
@@ -1074,7 +1107,8 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
     case ElementType.forSchleife:
       if (target === 'java') {
         commentIfWanted()
-        sink.out += sp(indent) + 'for (' + cStyleForLoopHeaderText(element.textLines) + ') {\n'
+        const head = options.live ? liveForLoopHeaderText(element.textLines, options.live.labels) : cStyleForLoopHeaderText(element.textLines)
+        sink.out += sp(indent) + 'for (' + head + ') {\n'
       } else if (py) {
         const ints = options.jsIntVariables ?? new Set<string>()
         const loop = pythonForLoop(element.textLines, ints)
@@ -1107,7 +1141,10 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
       return
 
     case ElementType.doUntilSchleife: {
-      const cond = conditionText(element.textLines)
+      const cond =
+        options.live && isBlank(element.textLines)
+          ? livePlaceholderText(options.live.labels.condition)
+          : conditionText(element.textLines)
       if (py) {
         sink.out += sp(indent) + 'while True:\n'
         const bodyStart = indent + step
@@ -1134,6 +1171,98 @@ function emit(element: VSElement, target: CodeTarget, options: CodeOptions, inde
       if (!py) sink.out += sp(indent) + '}\n'
       return
     }
+  }
+}
+
+// MARK: - Ansicht „Code live“
+
+/** Platzhalter stehen zwischen diesen Zeichen; die Ansicht zeigt sie grau und ohne die Zeichen. */
+export const livePlaceholderStart = '\uE000'
+export const livePlaceholderEnd = '\uE001'
+
+/** Platzhalter-Wörter in der Sprache der Oberfläche, z. B. „Bedingung“. */
+export interface LiveLabels {
+  condition: string
+  selector: string
+  code: string
+  start: string
+  step: string
+}
+
+/** Zeilen eines Elements im erzeugten Code (ab 0, `to` einschließlich). */
+export interface LiveSpan {
+  path: number[]
+  from: number
+  to: number
+}
+
+export interface LiveCode {
+  /** Java mit Platzhalter-Markierungen (`livePlaceholderStart` … `livePlaceholderEnd`). */
+  text: string
+  spans: LiveSpan[]
+}
+
+interface LiveContext {
+  labels: LiveLabels
+  paths: Map<VSElement, number[]>
+  spans: LiveSpan[]
+}
+
+const livePlaceholderText = (label: string) => livePlaceholderStart + label + livePlaceholderEnd
+const livePlaceholderLine = (indent: number, live: LiveContext) => sp(indent) + livePlaceholderText('// ' + live.labels.code) + '\n'
+const isBlank = (lines: string[]) => lines.every((l) => l.trim() === '')
+
+/** `for (Startwert; Bedingung; Schritt)`: leere Felder werden zu Platzhaltern. */
+function liveForLoopHeaderText(lines: string[], labels: LiveLabels): string {
+  if (isBlank(lines) || lines.length === 3) {
+    const placeholders = [labels.start, labels.condition, labels.step]
+    return placeholders
+      .map((label, i) => {
+        const field = stripTrailingSemicolon(lines[i] ?? '')
+        return field === '' ? livePlaceholderText(label) : field
+      })
+      .join('; ')
+  }
+  return cStyleForLoopHeaderText(lines)
+}
+
+/** Pfade wie in `editing.ts`: `[i, Zweig, j, …]`, Schleifenrumpf = Zweig 0. */
+function elementPaths(elements: VSElement[], prefix: number[] = [], out = new Map<VSElement, number[]>()) {
+  elements.forEach((e, i) => {
+    const path = [...prefix, i]
+    if (!out.has(e)) out.set(e, path)
+    if (e.loopBody) elementPaths(e.loopBody, [...path, 0], out)
+    e.cases?.forEach((c, k) => elementPaths(c.elements, [...path, k], out))
+  })
+  return out
+}
+
+function recordLiveSpan(options: CodeOptions, element: VSElement, sink: Sink, start: number) {
+  const live = options.live
+  const path = live?.paths.get(element)
+  if (!live || !path || sink.out.length === start) return
+  const lineAt = (offset: number) => sink.out.slice(0, offset).split('\n').length - 1
+  live.spans.push({ path, from: lineAt(start), to: lineAt(sink.out.length - 1) })
+}
+
+/**
+ * Java für die Ansicht „Code live“: wie das Code-Snippet, aber für Anfänger lesbar, solange noch etwas fehlt
+ * (leere Anweisung `;`, `if (Bedingung)`, `// Dein Code` in leeren Blöcken), und mit den Zeilen jedes Elements.
+ */
+export function generateLiveJava(document: VSDocument, labels: LiveLabels): LiveCode {
+  const live: LiveContext = { labels, paths: elementPaths(document.elements), spans: [] }
+  const opts = documentOptions(document, 'java', { includeEmptyElseBranch: true, live })
+  let prelude = ''
+  if (documentContainsJavaInput(document)) prelude += '// import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
+  const header = parseSubprogramHeader(document.caption)
+  if (header) prelude += javaMethodHeader(header) + '\n'
+  const sink = { out: '' }
+  emitBlockBody(document.elements, 'java', opts, header ? opts.indentPerLevel : 0, sink)
+  if (header) sink.out += '}\n'
+  const offset = prelude.split('\n').length - 1
+  return {
+    text: postProcessLengthSyntax((prelude + sink.out).replace(/\n+$/, ''), 'java'),
+    spans: live.spans.map((s) => ({ ...s, from: s.from + offset, to: s.to + offset })),
   }
 }
 

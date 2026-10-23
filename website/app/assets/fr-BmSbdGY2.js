@@ -47,4 +47,13 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_site_home" = "Accueil";
 "web_site_imprint" = "Mentions légales";
 "web_site_privacy" = "Confidentialité";
+
+/* Code live */
+"web_live_title" = "Code en direct";
+"web_live_toggle_title" = "Afficher le code Java en direct à côté du diagramme";
+"web_live_hide" = "Masquer le code en direct";
+"web_live_resize" = "Modifier la largeur de la zone de code (double-clic : réinitialiser)";
+"web_live_hint" = "Le code évolue avec ton diagramme. Gris = espace réservé : écris dans l’inspecteur et ton texte apparaît ici. Clique sur une ligne pour sélectionner son élément.";
+"web_live_ph_selector" = "variable";
+"web_live_ph_code" = "Ton code";
 `;export{e as default};

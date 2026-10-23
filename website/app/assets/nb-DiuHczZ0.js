@@ -47,4 +47,13 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_site_home" = "Forside";
 "web_site_imprint" = "Kolofon";
 "web_site_privacy" = "Personvern";
+
+/* Code live */
+"web_live_title" = "Live-kode";
+"web_live_toggle_title" = "Vis Java-kode live ved siden av diagrammet";
+"web_live_hide" = "Skjul live-kode";
+"web_live_resize" = "Endre bredden på kodeområdet (dobbeltklikk: tilbakestill)";
+"web_live_hint" = "Koden vokser med diagrammet ditt. Grått = plassholder: skriv i inspektøren, så vises teksten her. Klikk på en linje for å velge elementet.";
+"web_live_ph_selector" = "variabel";
+"web_live_ph_code" = "Din kode";
 `;export{e as default};

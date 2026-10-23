@@ -30,6 +30,7 @@ import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
+import { LiveCodePanel } from './liveCodePanel'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
 import { currentLanguage, offeredLanguages, setLanguage, t, type LanguageCode } from './i18n'
@@ -168,6 +169,8 @@ const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
 const learnKey = 'visustruct.learn.open'
 const learnWidthKey = 'visustruct.learn.width'
+const liveKey = 'visustruct.live.open'
+const liveWidthKey = 'visustruct.live.width'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
 const maxUndoSteps = 80
@@ -231,6 +234,10 @@ export class App {
   private coding = false
   private code!: CodePanel
   private codeButton!: HTMLButtonElement
+  /** Ansicht „Code live“ rechts neben dem Editor. */
+  private liveCoding = false
+  private live: LiveCodePanel
+  private liveButton?: HTMLButtonElement
 
   private measure = createCanvasMeasure()
   private metrics = diagramDisplayMetrics(true)
@@ -260,7 +267,14 @@ export class App {
     this.shell = document.createElement('div')
     this.shell.className = 'shell'
     root.replaceWith(this.shell)
-    this.shell.append(this.learnRail(), this.learn.element, this.learnResizer(), root)
+    this.live = new LiveCodePanel(
+      () => this.setLiveCoding(false),
+      (path) => {
+        this.selected = path
+        this.render()
+      },
+    )
+    this.shell.append(this.learnRail(), this.learn.element, this.learnResizer(), root, this.liveResizer(), this.live.element)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
@@ -274,6 +288,7 @@ export class App {
     this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), fromSite)
     const z = Number(storedValue(zoomKey))
     if (zoomSteps.some((s) => s.value === z)) this.zoom = z
+    this.setLiveCoding(storedValue(liveKey) === '1')
     this.buildUI()
     this.render()
     window.addEventListener('pointermove', (e) => this.onPointerMove(e))
@@ -325,6 +340,7 @@ export class App {
         </div>
         <div class="group">
           <button data-action="learn" aria-pressed="false" title="${e(t('web_learn_toggle_title'))}">🎓 ${e(t('web_learn_title'))}</button>
+          <button data-action="live" aria-pressed="false" title="${e(t('web_live_toggle_title'))}">&lt;/&gt; ${e(t('web_live_title'))}</button>
           <button data-action="code" aria-pressed="false" title="${e(t('a11y_generate_code'))}">{ } Code</button>
           <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="${e(t('web_simulation_start_title'))}">▶︎ ${e(t('action_simulation'))}</button>
         </div>
@@ -401,6 +417,9 @@ export class App {
     this.learnButton = $('[data-action=learn]')
     this.learnButton.addEventListener('click', () => this.setLearning(!this.learning))
     this.learnButton.setAttribute('aria-pressed', String(this.learning))
+    this.liveButton = $('[data-action=live]')
+    this.liveButton.addEventListener('click', () => this.setLiveCoding(!this.liveCoding))
+    this.liveButton.setAttribute('aria-pressed', String(this.liveCoding))
     this.tabStrip = $('.tabs')
     this.exportSelect = $<HTMLSelectElement>('[data-action=export]')
     this.exportSelect.addEventListener('change', () => {
@@ -466,6 +485,7 @@ export class App {
     await setLanguage(code)
     applyCanvasStubTexts()
     this.sim.end()
+    this.live.build()
     this.buildUI()
     this.render()
     this.learn.render()
@@ -631,6 +651,7 @@ export class App {
     this.codeButton.disabled = this.simulating
     this.exportSelect.disabled = this.simulating
     if (this.coding) this.code.refresh()
+    if (this.liveCoding) this.live.refresh(this.doc, this.simulating ? this.simPath : this.selected, !this.simulating)
     this.renderTabs()
     this.renderInspector()
     this.updateStatus()
@@ -816,6 +837,8 @@ export class App {
 
   private setCoding(on: boolean) {
     if (on === this.coding) return
+    // Beide Code-Spalten nebeneinander wären zu eng.
+    if (on) this.setLiveCoding(false)
     this.coding = on
     this.root.classList.toggle('coding', on)
     this.codeButton.setAttribute('aria-pressed', String(on))
@@ -824,20 +847,40 @@ export class App {
     this.renderDiagramOnly()
   }
 
+  // MARK: - Code live
+
+  private setLiveCoding(on: boolean) {
+    if (on && this.coding) this.setCoding(false)
+    this.liveCoding = on
+    this.shell.classList.toggle('live', on)
+    this.liveButton?.setAttribute('aria-pressed', String(on))
+    storeValue(liveKey, on ? '1' : '0')
+    if (this.canvasHost) this.render()
+  }
+
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
   /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
   /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
   private learnResizer(): HTMLElement {
-    const panel = this.learn.element
-    const bar = h('div', { class: 'learn-resizer', role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title: t('web_learn_resize') })
+    return this.panelResizer(this.learn.element, 'learn-resizer', learnWidthKey, t('web_learn_resize'), 1)
+  }
+
+  /** Wie beim Lernbereich, nur am anderen Rand: Ziehen nach links macht den Code breiter. */
+  private liveResizer(): HTMLElement {
+    return this.panelResizer(this.live.element, 'live-resizer', liveWidthKey, t('web_live_resize'), -1)
+  }
+
+  /** `side`: 1 = Bereich liegt am Anfang der Zeile (links), -1 = am Ende (rechts). */
+  private panelResizer(panel: HTMLElement, className: string, widthKey: string, title: string, side: 1 | -1): HTMLElement {
+    const bar = h('div', { class: className, role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title })
     const apply = (width: number | undefined, remember: boolean) => {
-      panel.style.width = width === undefined ? '' : `${clampLearnWidth(width)}px`
-      if (remember) storeValue(learnWidthKey, width === undefined ? '' : String(clampLearnWidth(width)))
+      panel.style.width = width === undefined ? '' : `${clampPanelWidth(width)}px`
+      if (remember) storeValue(widthKey, width === undefined ? '' : String(clampPanelWidth(width)))
     }
-    const saved = Number(storedValue(learnWidthKey))
+    const saved = Number(storedValue(widthKey))
     if (saved > 0) apply(saved, false)
-    // Im Rechts-nach-links-Layout liegt der Lernbereich rechts.
-    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? -1 : 1)
+    // Im Rechts-nach-links-Layout sind die Seiten vertauscht.
+    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? -side : side)
     bar.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return
       e.preventDefault()
@@ -1490,7 +1533,7 @@ function tabTitle(tab: Tab): string {
 }
 
 /** Breite des Lernbereichs: mindestens 260 px, dem Editor bleiben mindestens 420 px. */
-function clampLearnWidth(width: number): number {
+function clampPanelWidth(width: number): number {
   return Math.round(Math.max(260, Math.min(width, 720, window.innerWidth - 420)))
 }
 
