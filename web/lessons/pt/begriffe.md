@@ -171,3 +171,11 @@ Uma forma de pesquisar em valores ordenados. Olha para o meio e continua a pesqu
 ### Bubble sort
 auch: bubble sort, Bubblesort, ordenação por bolha
 Uma forma simples de ordenar. Compara sempre dois vizinhos e troca-os se estiverem na ordem errada.
+
+### Evento
+auch: evento, eventos, Eventos
+Algo que uma pessoa faz num programa com janelas, por exemplo clicar num botão. O programa reage com um ouvinte (ActionListener).
+
+### Interface
+auch: Interfaces
+Uma espécie de contrato em Java: diz que métodos uma classe tem de ter. `ActionListener` é uma interface com o método `actionPerformed`.

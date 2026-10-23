@@ -162,3 +162,11 @@ Ein Suchverfahren für sortierte Werte. Es sieht sich die Mitte an und sucht nur
 
 ### Bubblesort
 Ein einfaches Sortierverfahren. Es vergleicht immer zwei Nachbarn und tauscht sie, wenn sie falsch herum stehen.
+
+### Ereignis
+auch: Ereignisse, Ereignissen, Ereignisses
+Etwas, das der Mensch an einem Fensterprogramm tut, zum Beispiel einen Knopf anklicken. Das Programm reagiert darauf mit einem Zuhörer (ActionListener).
+
+### Interface
+auch: Interfaces
+Eine Art Vertrag in Java: Er legt fest, welche Methoden eine Klasse haben muss. `ActionListener` ist ein Interface mit der Methode `actionPerformed`.
