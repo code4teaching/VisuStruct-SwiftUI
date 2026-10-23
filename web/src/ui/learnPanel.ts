@@ -1,4 +1,4 @@
-import { checkExercise, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
+import { checkExercise, fileLines, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
@@ -15,6 +15,7 @@ import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
+import { textFileView } from './textFileView'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
 
 /**
@@ -365,18 +366,8 @@ export class LearnPanel {
       case 'caesar':
         return renderCaesarDisc(block.key, block.text)
       case 'textFile':
-        return this.renderTextFile(block.name, block.content)
+        return textFileView(block.name, block.content)
     }
-  }
-
-  /** Eine Textdatei wie im Editor: Name oben, darunter der Inhalt mit Zeilennummern. */
-  private renderTextFile(name: string, content: string): HTMLElement {
-    const box = h('figure', { class: 'learn-file' })
-    box.append(h('figcaption', {}, h('span', { class: 'learn-file-icon', 'aria-hidden': 'true' }, '📄'), name))
-    const pre = h('pre', { class: 'learn-file-text' })
-    content.split('\n').forEach((line, i) => pre.append(h('span', { class: 'ln' }, String(i + 1)), line + '\n'))
-    box.append(pre)
-    return box
   }
 
   /** Ludwig der Geißbock erzählt etwas zum Angeben oder gibt einen Tipp. */
@@ -613,6 +604,12 @@ export class LearnPanel {
         h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, o.test.expected.join(' | ') || '–')),
         h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, o.result.outputs.join(' | ') || '–')),
       )
+      for (const f of o.test.files ?? []) {
+        detail.append(
+          h('span', {}, `📄 ${f.name}, ${t('web_learn_expected')}: `, h('code', {}, f.lines.join(' | ') || '–')),
+          h('span', {}, `📄 ${f.name}, ${t('web_learn_actual')}: `, h('code', {}, fileLines(o.result.files?.get(f.name)).join(' | ') || '–')),
+        )
+      }
       if (o.result.error) detail.append(h('span', { class: 'learn-error' }, noticeText(o.result.error)))
       if (o.result.missingInput) detail.append(h('span', { class: 'learn-error' }, t('web_learn_missing_input')))
       if (o.result.tooManySteps) detail.append(h('span', { class: 'learn-error' }, t('web_learn_too_many_steps')))

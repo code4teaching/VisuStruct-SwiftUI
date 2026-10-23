@@ -1519,6 +1519,13 @@ button.danger-text:not(:disabled) {
   line-height: 1.5;
   white-space: pre;
 }
+.learn-file.written {
+  margin: 8px 0;
+  border-color: #15803d;
+}
+.learn-file.written figcaption {
+  background: #dcfce7;
+}
 .learn-file-text .ln {
   display: inline-block;
   min-width: 2ch;
@@ -1769,6 +1776,14 @@ button.danger-text:not(:disabled) {
   background: #fee2e2;
   color: inherit;
   opacity: 1;
+}
+.learn-game-file {
+  margin: 0;
+  padding: 2px 0;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre;
+  background: none;
 }
 .learn-game-explain {
   margin-bottom: 10px;

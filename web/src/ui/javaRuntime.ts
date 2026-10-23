@@ -21,6 +21,20 @@ const runnerSource = `public class VisuStructRunner {
         new java.io.File(dir).mkdirs();
     }
 
+    public static void copy(String from, String to) throws Exception {
+        java.nio.file.Files.copy(java.nio.file.Paths.get(from), java.nio.file.Paths.get(to), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    /** Namen der Dateien im Ordner, durch Zeilenumbrüche getrennt. */
+    public static String list(String dir) {
+        String[] names = new java.io.File(dir).list();
+        return names == null ? "" : String.join("\\n", names);
+    }
+
+    public static String read(String path) throws Exception {
+        return new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(path)), "UTF-8");
+    }
+
     public static void closeAll() {
         for (java.awt.Window w : java.awt.Window.getWindows()) w.dispose();
     }
@@ -54,6 +68,9 @@ const runnerSource = `public class VisuStructRunner {
 
 interface Runner {
   mkdirs(dir: string): Promise<void>
+  copy(from: string, to: string): Promise<void>
+  list(dir: string): Promise<string>
+  read(path: string): Promise<string>
   closeAll(): Promise<void>
   openWindows(): Promise<number>
   run(dir: string, name: string): Promise<void>
@@ -106,6 +123,48 @@ export function mainClassName(source: string): string {
   return m ? m[1] : 'Main'
 }
 
+/** Liest oder schreibt der Code Dateien? */
+export function usesFiles(source: string): boolean {
+  return /\bFiles\s*\.\s*\w+\s*\(|\bnew\s+(?:File|FileReader|FileWriter|PrintWriter|BufferedReader)\s*\(/.test(source)
+}
+
+/** Dateinamen wie `"liste.txt"` im Code: Sie zeigen im Browser in den Ordner `dir`. */
+export function filesInto(source: string, dir: string): string {
+  return source.replace(/"([\w.-]+\.(?:txt|csv|json))"/g, `"${dir}$1"`)
+}
+
+/** Der Compiler hier ist javac 8: `Files.readString` und `Files.writeString` (ab Java 11) werden umgeschrieben. */
+export function java8Files(source: string): string {
+  source = source.replace(
+    /\bFiles\s*\.\s*readString\s*\(\s*(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*\)/g,
+    'new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get($1)), "UTF-8")',
+  )
+  const write = /\bFiles\s*\.\s*writeString\s*\(\s*(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*,/g
+  let out = ''
+  let last = 0
+  for (let m = write.exec(source); m; m = write.exec(source)) {
+    // Das zweite Argument reicht bis zur schließenden Klammer von `writeString(`.
+    let depth = 1
+    let i = m.index + m[0].length
+    let quote = false
+    for (; i < source.length && depth > 0; i++) {
+      const c = source[i]
+      if (quote) {
+        if (c === '\\') i++
+        else if (c === '"') quote = false
+      } else if (c === '"') quote = true
+      else if (c === '(') depth++
+      else if (c === ')') depth--
+    }
+    if (depth > 0) break
+    const text = source.slice(m.index + m[0].length, i - 1).trim()
+    out += source.slice(last, m.index) + `java.nio.file.Files.write(java.nio.file.Paths.get(${m[1]}), (${text}).getBytes("UTF-8"))`
+    last = i
+    write.lastIndex = i
+  }
+  return out + source.slice(last)
+}
+
 /** Code ohne Klasse (Snippet oder nur Methoden) in eine Klasse mit main packen. */
 export function asProgram(source: string): string {
   if (/\bclass\s+\w+/.test(source)) return source
@@ -114,8 +173,8 @@ export function asProgram(source: string): string {
   source = source.replace(/^[ \t]*import\s+[\w.]+(?:\.\*)?\s*;[ \t]*$/gm, (line) => (own.push(line.trim()), ''))
   const imports = [...own, 'import java.util.*;', 'import java.awt.*;', 'import java.awt.event.*;', 'import javax.swing.*;'].join('\n') + '\n\n'
   if (/\bstatic\s+void\s+main\s*\(/.test(source)) return `${imports}public class Main {\n${source}\n}\n`
-  // `Files.readString` kann eine IOException werfen; ohne `throws` meldet javac einen Fehler.
-  const throwsClause = /\bFiles\s*\.\s*readString\s*\(/.test(source) ? ' throws Exception' : ''
+  // Dateien lesen und schreiben kann eine IOException werfen; ohne `throws` meldet javac einen Fehler.
+  const throwsClause = usesFiles(source) ? ' throws Exception' : ''
   return `${imports}public class Main {\n    public static void main(String[] args)${throwsClause} {\n${source}\n    }\n}\n`
 }
 
@@ -124,7 +183,7 @@ export async function closeWindows() {
   if (ready) await (await ready).closeAll()
 }
 
-export type RunResult = 'compile-error' | 'windows' | 'finished'
+export type RunResult = { result: 'compile-error' | 'windows' | 'finished'; files: Map<string, string> }
 
 /**
  * Kompilieren und starten. `compile-error`: javac meldet Fehler (die stehen dann in der Konsole).
@@ -132,29 +191,33 @@ export type RunResult = 'compile-error' | 'windows' | 'finished'
  */
 export async function compileAndRun(source: string, onCompiled: () => void): Promise<RunResult> {
   const runner = await ready!
-  // Textdateien aus den Lektionen liegen im Browser unter /str/; `Path.of("brief.txt")` zeigt dorthin.
-  for (const [file, content] of textFileEntries()) {
-    cheerpOSAddStringFile(`/str/${file}`, content)
-    source = source.replaceAll(`"${file}"`, `"/str/${file}"`)
-  }
-  // Der Compiler hier ist javac 8: `Files.readString` (ab Java 11) wird zu `readAllBytes`.
-  source = source.replace(
-    /\bFiles\s*\.\s*readString\s*\(\s*(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*\)/g,
-    'new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get($1)), "UTF-8")',
-  )
-  const program = asProgram(source)
-  const name = mainClassName(program)
   // Jeder Lauf in ein eigenes Verzeichnis mit eigenem Klassenlader, damit nichts vom vorigen Lauf übrig bleibt.
   const dir = `/files/run${++run}/`
   await runner.mkdirs(dir)
+  // Die Textdateien der Lektionen kommen in einen beschreibbaren Ordner des Laufs; `"brief.txt"` im Code zeigt dorthin.
+  const data = `${dir}data/`
+  const files = new Map(textFileEntries())
+  await runner.mkdirs(data)
+  for (const [file, content] of files) {
+    cheerpOSAddStringFile(`/str/${file}`, content)
+    await runner.copy(`/str/${file}`, data + file)
+  }
+  const program = asProgram(java8Files(filesInto(source, data)))
+  const name = mainClassName(program)
   cheerpOSAddStringFile(`/str/${name}.java`, program)
   if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, `/str/${name}.java`, '-d', dir, '-encoding', 'UTF-8')) !== 0) {
-    return 'compile-error'
+    return { result: 'compile-error', files: new Map() }
   }
   // Die Fensterfläche muss vor dem Start sichtbar sein: Bei 0×0 Pixeln zeichnet Swing nichts.
   onCompiled()
   await runner.run(dir, name)
-  if ((await runner.openWindows()) > 0) return 'windows'
+  // Geschrieben hat das Programm, was neu ist oder sich geändert hat.
+  const written = new Map<string, string>()
+  for (const file of (await runner.list(data)).split('\n').filter(Boolean)) {
+    const content = await runner.read(data + file)
+    if (files.get(file) !== content) written.set(file, content)
+  }
+  if ((await runner.openWindows()) > 0) return { result: 'windows', files: written }
   await new Promise((resolve) => setTimeout(resolve, 500))
-  return (await runner.openWindows()) > 0 ? 'windows' : 'finished'
+  return { result: (await runner.openWindows()) > 0 ? 'windows' : 'finished', files: written }
 }

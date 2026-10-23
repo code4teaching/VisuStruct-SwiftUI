@@ -221,12 +221,16 @@ class Parser {
   /** Getippte Imports ohne Leerzeichen, z. B. `importjava.util.Scanner;`. */
   private imports: string[] = []
 
-  /** Wie javac: `Scanner` ohne `import java.util.Scanner;` (oder `java.util.*`) ist ein Fehler, ebenso `Files` und `Path` ohne `java.nio.file`. */
+  /**
+   * Wie javac: `Scanner` ohne `import java.util.Scanner;` (oder `java.util.*`) ist ein Fehler, ebenso `Files` und `Path` ohne
+   * `java.nio.file` und `File`, `PrintWriter`, `FileReader`, `FileWriter`, `BufferedReader` ohne `java.io`.
+   */
   checkImports() {
-    for (const [name, pkg] of [['Scanner', 'java.util'], ['Files', 'java.nio.file'], ['Path', 'java.nio.file'], ['Paths', 'java.nio.file']]) {
+    const io = ['File', 'PrintWriter', 'FileReader', 'FileWriter', 'BufferedReader', 'IOException', 'FileNotFoundException'].map((n) => [n, 'java.io'])
+    for (const [name, pkg] of [['Scanner', 'java.util'], ['Files', 'java.nio.file'], ['Path', 'java.nio.file'], ['Paths', 'java.nio.file'], ...io]) {
       const known = this.imports.some((i) => i === `import${pkg}.${name};` || i === `import${pkg}.*;`)
       // `Files.readString(…)`: nur als Klasse vor einem Punkt, damit eine Variable `path` o. Ä. nicht zählt.
-      const use = this.toks.find((t, k) => t.kind === 'id' && t.text === name && (name === 'Scanner' || this.toks[k + 1]?.text === '.'))
+      const use = this.toks.find((t, k) => t.kind === 'id' && t.text === name && (pkg !== 'java.nio.file' || this.toks[k + 1]?.text === '.'))
       if (!known && use) {
         this.problem('web_parse_missing_import', use, pkg === 'java.util' ? `import ${pkg}.${name};` : `import ${pkg}.*;`)
         return
@@ -740,8 +744,13 @@ class Parser {
     if (stack.length) this.missingAfter(last, closing[stack[stack.length - 1].text])
   }
 
+  /** Variablen mit einem Scanner auf einer Datei (`new Scanner(new File(…))`). */
+  private fileScanners = new Set<string>()
+
   /** Anweisungstext → Kasten. `undefined` = gehört nicht ins Struktogramm (z. B. `Scanner scanner = …`). */
   private simpleElement(raw: string): { element: VSElement; prompt?: string } | undefined {
+    const fileScanner = /^(?:Scanner\s+)?(\w+)\s*=\s*new\s+Scanner\s*\(\s*new\s+File\b/.exec(raw)
+    if (fileScanner) this.fileScanners.add(fileScanner[1])
     if (/^(?:(?:private|public|static|final)\s+)*Scanner\s+\w+\s*=\s*new\s+Scanner\s*\(\s*System\.in\s*\)$/.test(raw)) return undefined
     const anweisung = (text: string) => makeElement(ElementType.anweisung, { textLines: [text] })
     // Auch unfertig (`System.out.println(` beim Tippen) und leer schon eine Ausgabe.
@@ -754,7 +763,8 @@ class Parser {
       return { element: anweisung(`output: ${expr}`), prompt: prompt !== undefined && !prompt.includes('"') ? prompt : undefined }
     }
     const input = new RegExp(`^(?:(${declTypes})\\s+)?([A-Za-z_]\\w*(?:\\s*\\[[^\\]]+\\])*)\\s*=\\s*\\w+\\.(nextInt|nextDouble|nextLine|next|nextBoolean)\\s*\\(\\s*\\)$`).exec(raw)
-    if (input) {
+    // `zeile = datei.nextLine()` mit einem Scanner auf einer Datei liest nicht von der Tastatur.
+    if (input && !this.fileScanners.has(raw.replace(/^[\s\S]*=\s*(\w+)\.\w+\s*\(\s*\)$/, '$1'))) {
       const kind = { nextInt: 'int', nextDouble: 'double', nextLine: 'String', next: 'String', nextBoolean: 'boolean' }[input[3]]!
       const name = input[2].replace(/\s+/g, '')
       // Ohne Typ nur bei Array-Zellen, sonst würde der erzeugte Code die Variable ein zweites Mal anlegen.

@@ -1,10 +1,10 @@
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { generateCode } from '../src/core/codeGenerator'
-import { sameOutput, usedElementTypes } from '../src/core/exerciseCheck'
+import { fileLines, sameOutput, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType } from '../src/core/model'
 import { parseSubprogramHeader, textFileEntries } from '../src/core/simulation'
 import { contentLanguages, diagram, lessons, tasks, useContentLanguage } from '../src/learn/content'
@@ -36,11 +36,16 @@ describe.skipIf(!python)('Python-Export', () => {
       if (usedElementTypes(doc).has(ElementType.aufruf) && !(subs.length > 0 && subs.every((d) => parseSubprogramHeader(d.caption)))) continue
       const code = generateCode(doc, 'python', {}, subs)
       for (const test of block.exercise.tests) {
+        for (const f of test.files ?? []) rmSync(join(cwd, f.name), { force: true })
         const run = spawnSync('python3', ['-c', runnable(code)], { input: test.inputs.join('\n') + '\n', encoding: 'utf8', cwd })
         const outputs = run.stdout.split('\n').slice(0, -1)
         const where = `${block.exercise.id} mit ${JSON.stringify(test.inputs)}\n${code}\n${run.stderr}`
         expect(run.status, where).toBe(0)
         expect(sameOutput(outputs, test.expected), `${where}\n${JSON.stringify(outputs)}`).toBe(true)
+        for (const f of test.files ?? []) {
+          const written = existsSync(join(cwd, f.name)) ? readFileSync(join(cwd, f.name), 'utf8') : undefined
+          expect(sameOutput(fileLines(written), f.lines), `${where}\n${f.name}: ${JSON.stringify(written)}`).toBe(true)
+        }
       }
       checked++
     }

@@ -44,6 +44,9 @@
 "web_sim_call_arguments_fmt" = "呼叫與 %@ 的首行不相符。請檢查括號中的值。";
 "web_sim_missing_return_fmt" = "%@ 結束時沒有用 return 傳回值。";
 "web_sim_file_not_found_fmt" = "沒有名為 %@ 的檔案。";
+"web_sim_end_of_file_fmt" = "檔案 %@ 沒有更多行了。";
+"web_sim_null_value_fmt" = "%@ 是 null。";
+"web_sim_written_file_fmt" = "%@(已儲存)";
 "web_site_home" = "首頁";
 "web_site_imprint" = "版權資訊";
 "web_site_privacy" = "隱私";

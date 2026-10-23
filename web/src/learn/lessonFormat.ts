@@ -107,7 +107,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|datei|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -116,6 +116,14 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
         case 'auftrag': ex.task = value; last = 'task'; break
         case 'start': ex.start = value; break
         case 'test': ex.tests.push(parseTest(value, file)); break
+        case 'datei': {
+          // `datei: neu.txt -> Heu | Äpfel`: Diese Datei soll das Programm im letzten Test speichern.
+          const m = /^([\w.-]+)\s*(?:->|→)\s*(.*)$/.exec(value.trim())
+          if (!m || !ex.tests.length) throw new FormatError(`${file}: Übung „${id}“: „datei:“ braucht vorher einen Test und die Form „name.txt -> Zeile | Zeile“.`)
+          const expected = ex.tests[ex.tests.length - 1]
+          expected.files = [...(expected.files ?? []), { name: m[1], lines: m[2].trim() === '' ? [] : m[2].split(/\s*\|\s*/).map((x) => x.trim()) }]
+          break
+        }
         case 'braucht': ex.requires.push(...value.split(/\s*,\s*/).filter(Boolean)); break
         case 'tipp': ex.hints.push(value); last = 'hint'; break
         case 'lösung':
@@ -245,7 +253,7 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       }
       case 'datei': {
-        if (!/^[\w.-]+\.txt$/u.test(arg)) throw new FormatError(`${file}: „::: datei“ braucht einen Dateinamen wie brief.txt.`)
+        if (!/^[\w.-]+\.(txt|csv|json)$/u.test(arg)) throw new FormatError(`${file}: „::: datei“ braucht einen Dateinamen wie brief.txt, liste.csv oder daten.json.`)
         // Der Inhalt bleibt genau so, wie er dasteht, nur ohne Leerzeilen am Anfang und Ende.
         while (inner.length && inner[0].trim() === '') inner.shift()
         while (inner.length && inner[inner.length - 1].trim() === '') inner.pop()
