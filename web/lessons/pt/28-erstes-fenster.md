@@ -83,6 +83,80 @@ O Java é, na verdade, uma linguagem **orientada a objetos**. `JFrame` é uma cl
 `setSize` e `setVisible` são métodos que qualquer objeto janela sabe fazer. Por isso escreves `janela.setSize(…)`: o objeto `janela` executa o seu método. O teu próprio programa também é uma classe, neste caso `MinhaJanela`.
 :::
 
+## Jogo: O que acontece?
+
+::: spiel frage
+titel: Jogo: O que acontece?
+intro: O Ludwig andou a mexer no programa da janela. Lê as linhas e prevê o que acontece. Seis rondas.
+
+runde:
+    JFrame janela = new JFrame("Olá");
+    janela.setSize(300, 200);
+    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frage: O que vês depois de executar?
+- uma janela com o título "Olá"
+- [x] nenhuma janela
+- uma mensagem de erro
+> Falta `setVisible(true)`. A janela está construída, mas fica invisível.
+
+runde:
+    JFrame janela = new JFrame("Olá");
+    janela.setSize(200, 300);
+    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    janela.setVisible(true);
+frage: Como é a janela?
+- mais larga do que alta
+- [x] mais alta do que larga
+- quadrada
+> O primeiro número é a largura, o segundo a altura: 200 de largura, 300 de altura.
+
+runde:
+    JFrame janela = new JFrame("Olá");
+    janela.setSize(300, 200);
+    janela.setVisible(true);
+frage: Fechas a janela. O que acontece ao programa?
+- Termina.
+- [x] Continua a correr, invisível.
+- A janela volta logo a abrir.
+> Sem `setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)`, o Java só esconde a janela.
+
+runde:
+    JFrame janela = new JFrame();
+    janela.setSize(300, 200);
+    janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    janela.setVisible(true);
+frage: O que aparece no topo da moldura da janela?
+- janela
+- JFrame
+- [x] nada, o título está vazio
+> Sem texto entre os parênteses, a janela não tem título. O nome da variável `janela` nunca aparece na janela.
+
+runde:
+    public class Teste {
+        public static void main(String[] args) {
+            JFrame janela = new JFrame("Teste");
+            janela.setVisible(true);
+        }
+    }
+frage: O que diz o javac?
+- [x] cannot find symbol: class JFrame
+- nada, a janela aparece
+- missing return statement
+> Falta a linha `import javax.swing.*;`. Sem ela, o Java não conhece `JFrame`.
+
+runde:
+    JFrame a = new JFrame("Uma");
+    JFrame b = new JFrame("Duas");
+    a.setSize(300, 200);
+    b.setSize(300, 200);
+    a.setVisible(true);
+frage: O que vês?
+- [x] uma janela com o título "Uma"
+- duas janelas
+- uma janela com o título "Duas"
+> Duas janelas feitas com a mesma planta, mas só a `a` fica visível.
+:::
+
 ## Tarefa: a tua própria janela
 
 Altera o programa de forma que

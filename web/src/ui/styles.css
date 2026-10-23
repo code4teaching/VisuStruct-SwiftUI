@@ -1787,6 +1787,32 @@ button.danger-text:not(:disabled) {
   color: inherit;
   opacity: 1;
 }
+.learn-order-hint {
+  margin: 0 0 6px;
+  font-size: 13px;
+  opacity: 0.75;
+}
+.learn-order button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.learn-order-badge {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0.5;
+}
+.learn-order button.right .learn-order-badge,
+.learn-order button:disabled .learn-order-badge:not(:empty) {
+  opacity: 1;
+}
 .learn-game-file {
   margin: 0;
   padding: 2px 0;

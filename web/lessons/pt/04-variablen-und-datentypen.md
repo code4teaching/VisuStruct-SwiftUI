@@ -152,6 +152,54 @@ tipp: `String nome = "Ludwig";`, `int idade = 7;` e `double altura = 1.2;`. Junt
 lösung: l04-java-steckbrief-loesung.visustruct
 :::
 
+## Jogo: Que tipo de dados?
+
+::: spiel frage
+titel: Jogo: Que tipo de dados?
+intro: O Ludwig juntou valores. Que tipo de dados serve para cada valor? Oito rondas.
+antworten: int | double | String | boolean
+
+runde:
+frage: Que tipo de dados serve para `17`?
+richtig: int
+> Um número inteiro sem ponto decimal é um `int`.
+
+runde:
+frage: Que tipo de dados serve para `3.5`?
+richtig: double
+> Números com ponto decimal são `double`.
+
+runde:
+frage: Que tipo de dados serve para `"Olá"`?
+richtig: String
+> Texto entre aspas é uma `String`.
+
+runde:
+frage: Que tipo de dados serve para `true`?
+richtig: boolean
+> `true` e `false` são os dois valores lógicos, tipo de dados `boolean`.
+
+runde:
+frage: Que tipo de dados serve para `"17"`?
+richtig: String
+> Atenção às aspas! Aqui 17 é um texto com o qual não se pode calcular.
+
+runde:
+frage: Que tipo de dados serve para `-4`?
+richtig: int
+> Os números inteiros negativos também são `int`.
+
+runde:
+frage: Que tipo de dados serve para `0.0`?
+richtig: double
+> O ponto torna-o um número decimal, mesmo que a seguir só esteja um 0.
+
+runde:
+frage: Que tipo de dados serve para `"false"`?
+richtig: String
+> Entre aspas, false também é só um texto. O valor lógico não tem aspas.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

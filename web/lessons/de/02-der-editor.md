@@ -83,6 +83,62 @@ tipp: Jede Ausgabe ist ein eigener Kasten. Ziehe die zweite Anweisung auf die un
 lösung: l2-zwei-zeilen-loesung.visustruct
 :::
 
+## Spiel: Editor-Profi
+
+::: spiel frage
+titel: Spiel: Editor-Profi
+intro: Ludwig testet, ob du den Editor im Griff hast. Sieben Runden.
+
+runde:
+frage: Du ziehst eine Anweisung auf den Platzhalter **ø**. Was passiert?
+- [x] Die Anweisung ersetzt den Platzhalter.
+- Die Anweisung kommt hinter den Platzhalter.
+- Nichts, auf ø darf man nichts ziehen.
+> Der Platzhalter hält nur den Platz frei. Das neue Element nimmt ihn ein.
+
+runde:
+frage: Du ziehst ein Element auf die **obere** Hälfte eines Kastens. Wo landet es?
+- [x] davor
+- dahinter
+- Es ersetzt den Kasten.
+> Obere Hälfte heißt davor, untere Hälfte heißt dahinter. Die blaue Linie zeigt es dir beim Ziehen.
+
+runde:
+frage: Du ziehst ein Element auf die **untere** Hälfte eines Kastens. Wo landet es?
+- davor
+- [x] dahinter
+- ganz am Ende des Struktogramms
+> Untere Hälfte heißt: direkt hinter diesen Kasten.
+
+runde:
+frage: Du hast aus Versehen einen Kasten gelöscht. Was holt ihn zurück?
+- Strg+C
+- [x] Strg+Z
+- Strg+V
+> Strg+Z (am Mac ⌘Z) macht den letzten Schritt rückgängig. Strg+C kopiert, Strg+V fügt ein.
+
+runde:
+frage: Beim Ausführen soll genau **Hallo** erscheinen. Was steht im Kasten?
+- [x] output: "Hallo"
+- output: Hallo
+- "Hallo"
+> Text, der genau so angezeigt werden soll, steht in Anführungszeichen. Das `output:` setzt der Editor davor, wenn du die Art Ausgabe wählst.
+
+runde:
+frage: Wo änderst du den Text des ausgewählten Kastens?
+- in den Elementen
+- [x] im Objektinspektor
+- in der Leiste ganz oben
+> Der Objektinspektor unter dem Diagramm zeigt den Text des ausgewählten Kastens.
+
+runde:
+frage: Du wählst ein Element in den Elementen aus und drückst **Enter**. Wo landet es?
+- [x] hinter dem ausgewählten Kasten
+- ganz am Anfang
+- ganz am Ende
+> Mit der Tastatur kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
+:::
+
 ## Checkliste
 
 ::: checkliste

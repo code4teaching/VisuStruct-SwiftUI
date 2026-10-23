@@ -133,6 +133,86 @@ Em vez de um erro na consola, vês agora um aviso na janela.
 A seta já tem um `e` para o evento. Por isso a exceção no `catch` precisa de outro nome, aqui `erro`. O Java não permite duas variáveis com o mesmo nome.
 :::
 
+## Jogo: O que fica na janela?
+
+::: spiel frage
+titel: Jogo: O que fica na janela?
+intro: O Ludwig escreve algo no campo de texto e clica em Calcular. Lê o ouvinte e prevê o que a janela mostra depois. Seis rondas.
+
+runde:
+    botao.addActionListener(e -> {
+        int numero = Integer.parseInt(campo.getText());
+        campo.setText("" + numero * 2);
+    });
+frage: No campo de texto está 21. O que fica lá depois do clique?
+- 2121
+- [x] 42
+- 21
+> `parseInt` transforma o texto no número 21. O dobro é 42.
+
+runde:
+    botao.addActionListener(e -> {
+        int numero = Integer.parseInt(campo.getText());
+        campo.setText("" + numero * 2);
+    });
+frage: No campo de texto está 21. Clicas duas vezes. O que fica lá depois?
+- 42
+- [x] 84
+- 4242
+> Cada clique duplica o que está no campo nesse momento: 21, 42, 84.
+
+runde:
+    botao.addActionListener(e -> {
+        campo.setText(campo.getText() + campo.getText());
+    });
+frage: No campo de texto está 21. O que fica lá depois do clique?
+- 42
+- [x] 2121
+- 21
+> Sem `parseInt` continua a ser texto, e `+` junta textos.
+
+runde:
+    botao.addActionListener(e -> {
+        try {
+            int numero = Integer.parseInt(campo.getText());
+            campo.setText("" + numero * 2);
+        } catch (NumberFormatException erro) {
+            etiqueta.setText("Escreve um número inteiro!");
+        }
+    });
+frage: No campo de texto está abc. O que acontece com o clique?
+- [x] A etiqueta mostra "Escreve um número inteiro!"
+- No campo de texto fica abcabc.
+- A janela vai abaixo.
+> `parseInt` lança uma NumberFormatException, e o `catch` apanha-a.
+
+runde:
+    botao.addActionListener(e -> {
+        try {
+            int numero = Integer.parseInt(campo.getText());
+            campo.setText("" + numero * 2);
+        } catch (NumberFormatException erro) {
+            etiqueta.setText("Escreve um número inteiro!");
+        }
+    });
+frage: No campo de texto está 2.5. O que acontece com o clique?
+- No campo de texto fica 5.0.
+- No campo de texto fica 5.
+- [x] A etiqueta mostra "Escreve um número inteiro!"
+> `Integer.parseInt` só conhece números inteiros. Para ele, 2.5 não é um número.
+
+runde:
+    botao.addActionListener(e -> {
+        int numero = Integer.parseInt(campo.getText());
+        campo.setText("" + numero + numero);
+    });
+frage: No campo de texto está 5. O que fica lá depois do clique?
+- 10
+- [x] 55
+- 5
+> `"" + numero` já é um texto, e o segundo `+` junta outra vez o 5. Com `"" + (numero + numero)` o Java calcula primeiro.
+:::
+
 ## Tarefa: duplicar um número
 
 Junta o programa todo:

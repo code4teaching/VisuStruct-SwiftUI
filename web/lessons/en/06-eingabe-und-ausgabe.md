@@ -153,6 +153,75 @@ tipp: `int years = scanner.nextInt();` reads. `int days = years * 365;` calculat
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Game: What is output?
+
+::: spiel frage
+titel: Game: What is output?
+intro: Ludwig has built inputs and outputs. Predict what happens. Seven rounds.
+
+runde:
+    int a = 3
+    int b = 4
+    output: a + b
+frage: What is output?
+- 7
+- [x] 34
+- a + b
+> In an output, `+` always joins the parts together, even numbers.
+
+runde:
+    int a = 3
+    int b = 4
+    int sum = a + b
+    output: "Sum: " + sum
+frage: What is output?
+- [x] Sum: 7
+- Sum: 34
+- Sum: sum
+> The calculating happens before, in a variable. The output only joins text and result.
+
+runde:
+    input: String name "What is your name?"
+    output: "Hello" + name + "!"
+frage: You type Mia. What is output?
+- Hello Mia!
+- [x] HelloMia!
+- Hello name!
+> The text `"Hello"` has no space at the end. That's why everything sticks together.
+
+runde:
+    input: int age "How old are you?"
+frage: You type 2.5. What happens?
+- age is 2.
+- age is 2.5.
+- [x] The simulation reports an error.
+> The data type `int` only allows whole numbers.
+
+runde:
+    input: double price "Price in euros?"
+frage: Which part of IPO does this box belong to?
+- [x] Input
+- Process
+- Output
+> `input:` asks for a value. That is the input.
+
+runde:
+    double mean = (a + b) / 2.0
+frage: Which part of IPO does this box belong to?
+- Input
+- [x] Process
+- Output
+> Here something is calculated. That is the process.
+
+runde:
+    output: "Mean: " + mean
+frage: Which part of IPO does this box belong to?
+- Input
+- Process
+- [x] Output
+> `output:` shows the result. That is the output.
+:::
+
 ## Checklist
 
 ::: checkliste

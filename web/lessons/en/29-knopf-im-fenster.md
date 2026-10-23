@@ -82,6 +82,78 @@ Click the button. It turns a little darker while you press it. So Swing shows th
 
 That is not a mistake: you have not told the program **what** should happen on a click yet. You will learn that in the next lesson.
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every window program contains **exactly one mistake**, and the bomb is ticking. Read what the program should do and tap the wrong line before time runs out. Six rounds, 25 seconds each.
+zeit: 25
+
+runde:
+    JFrame window = new JFrame("Button");
+    window.setSize(300, 200);
+    JButton button = new JButton(Click me);
+    window.add(button);
+    window.setVisible(true);
+frage: Should show a button "Click me".
+fehler: 3
+besser: JButton button = new JButton("Click me");
+> The caption is a text and needs quotation marks.
+
+runde:
+    JFrame window = new JFrame("Button");
+    window.setSize(300, 200);
+    JButton button = new JButton("OK");
+    window.add(window);
+    window.setVisible(true);
+frage: Should put the button "OK" into the window.
+fehler: 4
+besser: window.add(button);
+> The button goes into the window, not the window itself.
+
+runde:
+    import java.swing.*;
+    import java.awt.*;
+frage: Should bring Swing and the FlowLayout into the program.
+fehler: 1
+besser: import javax.swing.*;
+> Swing lives in `javax.swing`, with an x. The FlowLayout comes from `java.awt`, without an x.
+
+runde:
+    JFrame window = new JFrame("Button");
+    window.setSize(300, 200);
+    window.setLayout(new FlowLayout);
+    window.add(new JButton("OK"));
+    window.setVisible(true);
+frage: Should show the button at its normal size.
+fehler: 3
+besser: window.setLayout(new FlowLayout());
+> After `new` and the name there are always round brackets, even if nothing is inside.
+
+runde:
+    JFrame window = new JFrame("Button");
+    window.setSize(300, 200);
+    window.setLayout(new FlowLayout());
+    JButton button = new Jbutton("OK");
+    window.add(button);
+    window.setVisible(true);
+frage: Should show a button "OK".
+fehler: 4
+besser: JButton button = new JButton("OK");
+> Java tells capital and small letters apart: `JButton` with a capital B.
+
+runde:
+    JFrame window = new JFrame("Button");
+    window.setSize(300, 200);
+    window.setLayout(new FlowLayout());
+    window.add(new JButton("OK"));
+    window.setVisible(false);
+frage: Should show the window with the button.
+fehler: 5
+besser: window.setVisible(true);
+> With `false` the window stays invisible.
+:::
+
 ## Task: click me
 
 Build a window with the title “Button test”, 300 by 200 pixels, with a button “Click me” in normal size. It should be possible to press the button, even though nothing happens yet.

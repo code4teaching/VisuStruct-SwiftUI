@@ -83,6 +83,62 @@ tipp: Cada saída é um bloco próprio. Arrasta a segunda Instrução para a met
 lösung: l2-zwei-zeilen-loesung.visustruct
 :::
 
+## Jogo: Profissional do editor
+
+::: spiel frage
+titel: Jogo: Profissional do editor
+intro: O Ludwig testa se dominas o editor. Sete rondas.
+
+runde:
+frage: Arrastas uma instrução para o marcador **ø**. O que acontece?
+- [x] A instrução substitui o marcador.
+- A instrução fica depois do marcador.
+- Nada, não se pode largar nada sobre ø.
+> O marcador só guarda o lugar. O novo elemento ocupa-o.
+
+runde:
+frage: Arrastas um elemento para a metade **de cima** de um bloco. Onde fica?
+- [x] antes dele
+- depois dele
+- Substitui o bloco.
+> Metade de cima quer dizer antes, metade de baixo quer dizer depois. A linha azul mostra-te enquanto arrastas.
+
+runde:
+frage: Arrastas um elemento para a metade **de baixo** de um bloco. Onde fica?
+- antes dele
+- [x] depois dele
+- no fim do estrutograma
+> Metade de baixo quer dizer: logo a seguir a este bloco.
+
+runde:
+frage: Apagaste um bloco sem querer. O que o traz de volta?
+- Ctrl+C
+- [x] Ctrl+Z
+- Ctrl+V
+> Ctrl+Z (no Mac ⌘Z) anula o último passo. Ctrl+C copia, Ctrl+V cola.
+
+runde:
+frage: Ao executar deve aparecer exatamente **Olá**. O que está no bloco?
+- [x] output: "Olá"
+- output: Olá
+- "Olá"
+> Um texto que deve aparecer tal e qual fica entre aspas. O editor põe `output:` à frente quando escolhes o tipo Saída.
+
+runde:
+frage: Onde alteras o texto do bloco selecionado?
+- na área Elementos
+- [x] no Inspetor de objetos
+- na barra de ferramentas lá em cima
+> O Inspetor de objetos por baixo do diagrama mostra o texto do bloco selecionado.
+
+runde:
+frage: Selecionas um elemento na área Elementos e premes **Enter**. Onde fica?
+- [x] depois do bloco selecionado
+- no início
+- no fim
+> Com o teclado, o novo elemento fica depois do bloco que está selecionado nesse momento.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

@@ -230,6 +230,76 @@ tipp: Drag a second branch with the condition `age < 18` into the false path of 
 lösung: l17-ticket-loesung.visustruct
 :::
 
+## Game: Which box?
+
+::: spiel frage
+titel: Game: Which box?
+intro: Ludwig shows you Java. Which box from the structure chart is behind it? Eight rounds.
+frage: Which box is this?
+
+runde:
+    do {
+        number = number * 2;
+    } while (number < 100);
+- While loop
+- [x] Do-while loop
+- For loop
+> The condition is at the bottom. So the body runs at least once.
+
+runde:
+    switch (choice) {
+        case 1 -> { System.out.println("water"); }
+        default -> { System.out.println("There is no such button."); }
+    }
+- Branch
+- [x] Switch
+- Call
+> One variable is compared with fixed values: that is the switch.
+
+runde:
+    break;
+- Call
+- Endless loop
+- [x] Break
+> `break` leaves the loop it stands in straight away.
+
+runde:
+    calculate();
+- [x] Call
+- Output
+- Statement
+> A name with round brackets: a subprogram is called here.
+
+runde:
+    int number = scanner.nextInt();
+- Output
+- [x] Input
+- Call
+> The scanner reads in a value. That is an input.
+
+runde:
+    while (true) {
+        System.out.println("Hello");
+    }
+- While loop with a condition
+- [x] Endless loop
+- Do-while loop
+> `while (true)` has no real condition. Only a break could end it.
+
+runde:
+frage: You want a complete Java file that you can compile and run straight away. What do you choose in the code view?
+- Snippet
+- [x] Class
+> A snippet is only the statements for the `main` method. Class creates the whole file.
+
+runde:
+frage: In the debugger, a line is yellow. What does that mean?
+- It has a mistake.
+- [x] It runs next.
+- There is a breakpoint there.
+> Yellow is the next line. A breakpoint is a red dot at the line number.
+:::
+
 ## Checklist
 
 ::: checkliste

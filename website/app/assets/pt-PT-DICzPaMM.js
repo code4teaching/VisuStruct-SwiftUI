@@ -218,6 +218,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_game_boom_time" = "💥 Bum! O tempo acabou.";
 "web_game_boom_wrong" = "💥 Bum! Era a linha errada.";
 "web_game_fix" = "A linha correta:";
+"web_game_order_hint" = "Toca nos passos pela ordem certa.";
 "web_debug_step" = "Passo a passo";
 "web_debug_step_title" = "Passo a passo: executar uma instrução e parar outra vez";
 "web_debug_continue" = "Continuar até ao próximo ponto de paragem";

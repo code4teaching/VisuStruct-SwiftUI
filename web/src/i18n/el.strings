@@ -163,6 +163,7 @@
 "web_game_boom_time" = "💥 Μπαμ! Ο χρόνος τελείωσε.";
 "web_game_boom_wrong" = "💥 Μπαμ! Ήταν λάθος γραμμή.";
 "web_game_fix" = "Η σωστή γραμμή:";
+"web_game_order_hint" = "Πάτησε τα βήματα με τη σωστή σειρά.";
 "web_debug_step" = "Βήμα";
 "web_debug_step_title" = "Βήμα: εκτέλεση μίας εντολής και νέα παύση";
 "web_debug_continue" = "Συνέχεια έως το επόμενο σημείο διακοπής";

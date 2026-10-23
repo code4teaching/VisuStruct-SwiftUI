@@ -98,6 +98,75 @@ tipp: `do { zahl = zahl * 2; System.out.println(zahl); } while (zahl < 100);`
 lösung: l12-java-verdoppeln-loesung.visustruct
 :::
 
+## Spiel: Mindestens einmal?
+
+::: spiel frage
+titel: Spiel: Mindestens einmal?
+intro: While oder do-while? Ludwig zeigt dir Schleifen. Sag vorher, was passiert. Sechs Runden.
+
+runde:
+    int i = 10;
+    do {
+        System.out.println(i);
+        i = i + 1;
+    } while (i < 5);
+frage: Was wird ausgegeben?
+- nichts
+- [x] 10
+- 10 bis 4
+> Erst machen, dann prüfen: Der Rumpf läuft einmal, danach ist 11 < 5 falsch.
+
+runde:
+    int i = 10;
+    while (i < 5) {
+        System.out.println(i);
+        i = i + 1;
+    }
+frage: Was wird ausgegeben?
+- [x] nichts
+- 10
+- 11
+> Bei der While-Schleife kommt die Bedingung zuerst. 10 < 5 ist falsch, also läuft gar nichts.
+
+runde:
+    int zahl = 200;
+    do {
+        zahl = zahl * 2;
+    } while (zahl < 100);
+    System.out.println(zahl);
+frage: Was wird ausgegeben?
+- 200
+- [x] 400
+- 800
+> Einmal wird auf jeden Fall verdoppelt. Danach ist 400 < 100 falsch.
+
+runde:
+    int zahl = 30;
+    do {
+        zahl = zahl * 2;
+        System.out.println(zahl);
+    } while (zahl < 100);
+frage: Was wird ausgegeben?
+- 60
+- [x] 60\n120
+- 60\n120\n240
+> Nach 60 ist 60 < 100 wahr, es geht weiter. Nach 120 ist Schluss.
+
+runde:
+frage: Welche Zeile beendet eine Do-while-Schleife in Java richtig?
+- [x] `} while (i < 5);`
+- `} while (i < 5)`
+- `while (i < 5) {`
+> Hinter dem `while (…)` der Do-while-Schleife steht ein Semikolon.
+
+runde:
+frage: Wofür nimmt man typischerweise eine Do-while-Schleife?
+- [x] eine Eingabe wiederholen, bis sie gültig ist
+- von 1 bis 10 zählen
+- zwei Werte tauschen
+> Gefragt wird mindestens einmal. Erst danach weiß man, ob die Eingabe gültig war.
+:::
+
 ## Checkliste
 
 ::: checkliste

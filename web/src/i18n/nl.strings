@@ -163,6 +163,7 @@
 "web_game_boom_time" = "💥 Boem! De tijd is om.";
 "web_game_boom_wrong" = "💥 Boem! Dat was de verkeerde regel.";
 "web_game_fix" = "De juiste regel:";
+"web_game_order_hint" = "Tik de stappen in de juiste volgorde aan.";
 "web_debug_step" = "Stap";
 "web_debug_step_title" = "Stap: één opdracht uitvoeren en weer pauzeren";
 "web_debug_continue" = "Doorgaan tot het volgende breekpunt";

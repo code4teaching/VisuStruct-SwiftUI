@@ -163,6 +163,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_game_boom_time" = "💥 펑! 시간이 다 됐어요.";
 "web_game_boom_wrong" = "💥 펑! 틀린 줄이었어요.";
 "web_game_fix" = "올바른 줄:";
+"web_game_order_hint" = "올바른 순서대로 단계를 눌러 보세요.";
 "web_debug_step" = "한 단계";
 "web_debug_step_title" = "한 단계: 문장 하나를 실행하고 다시 멈춥니다";
 "web_debug_continue" = "다음 중단점까지 계속";

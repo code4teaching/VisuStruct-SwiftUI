@@ -101,6 +101,48 @@ tipp: `int preco = 9;` e `int quantidade = 3;` criam as variáveis. `int total =
 lösung: l05-java-kino-loesung.visustruct
 :::
 
+## Jogo: Ordenar os blocos
+
+::: spiel reihenfolge
+titel: Jogo: Ordenar os blocos
+intro: O Ludwig baralhou os blocos. Põe-nos pela ordem certa. Quatro rondas.
+
+runde:
+frage: No fim deve aparecer **7**.
+- `int numero = 3`
+- `numero = numero * 2`
+- `numero = numero + 1`
+- `output: numero`
+> Primeiro duplicar, depois somar 1: 3 · 2 + 1 = 7. Ao contrário dava (3 + 1) · 2 = 8.
+
+runde:
+frage: No fim deve aparecer **8**.
+- `int numero = 3`
+- `numero = numero + 1`
+- `numero = numero * 2`
+- `output: numero`
+> Os mesmos blocos, outra ordem, outro resultado: (3 + 1) · 2 = 8.
+
+runde:
+    int a = 3
+    int b = 5
+frage: a e b devem trocar os seus valores.
+- `int aux = a`
+- `a = b`
+- `b = aux`
+- `output: a + " " + b`
+> Primeiro guarda-se a em aux. Senão o valor antigo perde-se assim que a recebe o valor de b.
+
+runde:
+frage: O Ludwig faz chá.
+- Encher a chaleira com água
+- Ligar a chaleira
+- Esperar até a água ferver
+- Deitar a água sobre o saquinho de chá
+- Deixar o chá em infusão
+> Cada passo precisa do anterior. Tal como num estrutograma.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

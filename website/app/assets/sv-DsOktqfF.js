@@ -163,6 +163,7 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_game_boom_time" = "💥 Pang! Tiden är ute.";
 "web_game_boom_wrong" = "💥 Pang! Det var fel rad.";
 "web_game_fix" = "Rätt rad:";
+"web_game_order_hint" = "Tryck på stegen i rätt ordning.";
 "web_debug_step" = "Steg";
 "web_debug_step_title" = "Steg: kör en sats och pausa igen";
 "web_debug_continue" = "Fortsätt till nästa brytpunkt";

@@ -125,6 +125,92 @@ Every exception is an object of its own class, for example `ArithmeticException`
 A `try` may be followed by several `catch` blocks, one for each kind of error. `catch (Exception e)` catches all exceptions, but then tells you less about what happened. And a `finally { … }` block at the end always runs, whether there was an error or not.
 :::
 
+## Game: Does the net catch it?
+
+::: spiel frage
+titel: Game: Does the net catch it?
+intro: Ludwig is swinging on the trapeze. Do try and catch save him, or does the program crash? Seven rounds.
+
+runde:
+    int[] grades = {2, 3, 1};
+    System.out.println(grades[3]);
+    System.out.println("Done!");
+frage: What happens with real Java?
+- 1 and Done! appear.
+- Only Done! appears.
+- [x] The program crashes with an ArrayIndexOutOfBoundsException.
+> There is no slot 3. Nobody catches the exception, so Done! never arrives.
+
+runde:
+    int[] grades = {2, 3, 1};
+    try {
+        System.out.println(grades[3]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+        System.out.println("This grade does not exist.");
+    }
+    System.out.println("Done!");
+frage: What is output?
+- Done!
+- [x] This grade does not exist.\nDone!
+- This grade does not exist.
+> The catch block catches the exception, and after that the program carries on as normal.
+
+runde:
+    try {
+        System.out.println("A");
+        System.out.println(10 / 0);
+        System.out.println("B");
+    } catch (ArithmeticException e) {
+        System.out.println("C");
+    }
+frage: What is output?
+- A\nB\nC
+- [x] A\nC
+- C
+> At 10 / 0, Java jumps straight into the catch block. The rest of the try block, B, is skipped.
+
+runde:
+    String input = "12";
+    try {
+        int number = Integer.parseInt(input);
+        System.out.println("Double: " + number * 2);
+    } catch (NumberFormatException e) {
+        System.out.println("That is not a number: " + input);
+    }
+frage: What is output?
+- [x] Double: 24
+- That is not a number: 12
+- Double: 1212
+> "12" can be converted. If everything goes well in the try block, catch is skipped.
+
+runde:
+frage: Which exception does `Integer.parseInt("2.5")` throw?
+- ArithmeticException
+- [x] NumberFormatException
+- none, the result is 2
+> parseInt only converts whole numbers. With a point it isn't a valid format.
+
+runde:
+frage: Which exception does `12 / 0` throw with `int`?
+- [x] ArithmeticException
+- NumberFormatException
+- ArrayIndexOutOfBoundsException
+> Dividing by 0 doesn't work with whole numbers. The message is `/ by zero`.
+
+runde:
+    try {
+        int pieces = 12 / 0;
+    } catch (NumberFormatException e) {
+        System.out.println("Error!");
+    }
+    System.out.println("Done!");
+frage: What happens?
+- Error! and Done! appear.
+- Only Done! appears.
+- [x] The program crashes.
+> catch only catches the exception named in the brackets. An ArithmeticException falls through the net.
+:::
+
 ## Task: dividing safely
 
 This program crashes:

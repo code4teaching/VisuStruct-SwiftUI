@@ -163,6 +163,7 @@
 "web_game_boom_time" = "💥 嘭！时间到了。";
 "web_game_boom_wrong" = "💥 嘭！这不是出错的那一行。";
 "web_game_fix" = "正确的写法：";
+"web_game_order_hint" = "按正确的顺序点击各个步骤。";
 "web_debug_step" = "单步";
 "web_debug_step_title" = "单步：执行一条语句后再次暂停";
 "web_debug_continue" = "继续运行到下一个断点";

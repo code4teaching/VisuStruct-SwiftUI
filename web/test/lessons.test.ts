@@ -8,7 +8,7 @@ import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
-import { parseSwingWindow, simulate } from '../src/learn/roundGame'
+import { parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
@@ -261,6 +261,39 @@ describe('Bombe entschärfen', () => {
 })
 
 describe('Rundenspiele (Swing)', () => {
+  it('„reihenfolge“: Schritte stehen der Reihe nach da, ohne [x] und mindestens drei', () => {
+    const game = parseRoundGame('reihenfolge', ['titel: Spiel: Wer ist dran?', 'runde:', 'frage: Was zuerst?', '- Klick', '- `model.erhoehen()`', '- Anzeige', '> So.'], 't.md')
+    expect(game.rounds[0].options.map((o) => o.text)).toEqual(['Klick', '`model.erhoehen()`', 'Anzeige'])
+    expect(game.rounds[0].code).toBe('')
+    expect(() => parseRoundGame('reihenfolge', ['titel: x', 'runde:', 'frage: ?', '- a', '- b'], 't.md')).toThrow(/mindestens drei/)
+    expect(() => parseRoundGame('reihenfolge', ['titel: x', 'runde:', 'frage: ?', '- a', '- [x] b', '- c'], 't.md')).toThrow(/kein \[x\]/)
+    expect(() => parseRoundGame('reihenfolge', ['titel: x', 'runde:', 'frage: ?', '- a', '- a', '- c'], 't.md')).toThrow(/gleich/)
+  })
+
+  it('ein Zuhörer für mehrere Knöpfe mit getActionCommand, getSource und if/else', () => {
+    const win = parseSwingWindow(
+      [
+        'JLabel anzeige = new JLabel("");',
+        'JButton eins = new JButton("1");',
+        'JButton zwei = new JButton("2");',
+        'JButton weg = new JButton("C");',
+        'ActionListener taste = e -> {',
+        '    if (e.getSource() == weg) {',
+        '        anzeige.setText("");',
+        '    } else if (e.getActionCommand().equals("2")) anzeige.setText(anzeige.getText() + "zwei");',
+        '    else anzeige.setText(anzeige.getText() + e.getActionCommand());',
+        '};',
+        'eins.addActionListener(taste);',
+        'zwei.addActionListener(taste);',
+        'weg.addActionListener(taste);',
+      ].join('\n'),
+    )
+    expect(win.listeners.map((l) => [l.button, l.from, l.to])).toEqual([['eins', 4, 9], ['zwei', 4, 9], ['weg', 4, 9]])
+    const steps = simulate(win, ['1', '2', '1'])
+    expect(steps.at(-1)!.texts.anzeige).toBe('1zwei1')
+    expect(simulate(win, ['1', 'C', '1']).at(-1)!.texts.anzeige).toBe('1')
+  })
+
   it.each(contentLanguages)('„Wer hört zu?“: die richtige Antwort ergibt sich beim Nachspielen (%s)', (lang) => {
     useContentLanguage(lang)
     let checked = 0

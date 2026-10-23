@@ -6,6 +6,8 @@ import { Annotation, type ChangeSpec, Compartment, EditorSelection, EditorState,
 import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { indentJava } from '../core/javaIndent'
+import { memberCompletionsAt, type JavaMember, type MemberLanguage } from '../core/javaMembers'
+import { currentLanguage } from './i18n'
 
 /**
  * Code-Editor der Ansicht „Code live“ (CodeMirror 6): farbige Java-Syntax, Vorschläge beim Tippen
@@ -256,6 +258,23 @@ export function completions(words: SnippetWords): Completion[] {
   ]
 }
 
+/** Vorschlag hinter dem Punkt: Methoden mit Klammern (Cursor dazwischen, wenn Werte nötig sind), Felder wie `length` ohne. */
+export function memberCompletion(member: JavaMember): Completion {
+  const label = member.kind === 'field' ? member.name : `${member.name}(${member.params ? '…' : ''})`
+  const completion: Completion = {
+    label,
+    detail: member.returns === 'void' ? member.description : `${member.returns} · ${member.description}`,
+    type: member.kind === 'field' ? 'property' : 'method',
+  }
+  if (member.kind === 'field') return { ...completion, apply: member.name }
+  return member.params ? snippetCompletion(`${member.name}(\${})`, completion) : { ...completion, apply: `${member.name}()` }
+}
+
+function memberLanguage(): MemberLanguage {
+  const lang = currentLanguage()
+  return lang === 'de' ? 'de' : lang === 'pt-PT' ? 'pt' : 'en'
+}
+
 /** Variablen aus dem eigenen Code: `int zahl = …`, `String[] namen`, Parameter. */
 function declaredNames(text: string): Completion[] {
   const names = new Set<string>()
@@ -275,13 +294,18 @@ export class JavaEditor {
       const line = context.state.doc.lineAt(context.pos)
       const before = line.text.slice(0, context.pos - line.from)
       if (/\/\//.test(before) || (before.match(/"/g)?.length ?? 0) % 2 === 1) return null
+      // Hinter `variable.` die Methoden ihres Typs (aus der Deklaration im Code), z. B. `eingabe.` → nextInt().
+      // Reihenfolge wie in der Liste (das Häufigste zuerst) statt alphabetisch.
+      const members = memberCompletionsAt(context.state.doc.toString(), context.pos, memberLanguage())
+      if (members) return { from: members.from, options: members.members.map((m, i) => ({ ...memberCompletion(m), boost: 50 - i })), validFor: /^\w*$/ }
       // Hinter `void` tippt man den Namen der Methode selbst: keine main-Vorlage anbieten.
       const afterVoid = /\bvoid\s+[\w.]*$/.test(before)
       const options = completions(hooks.words()).filter((c) => !(afterVoid && (c.label === 'main' || c.label === 'psvm')))
       return {
         from: word.from,
         options: [...options, ...declaredNames(context.state.doc.toString())],
-        validFor: /^[\w.]*$/,
+        // Ohne Punkt: beim Tippen von `.` neu fragen, damit die Methoden des Typs kommen.
+        validFor: /^\w*$/,
       }
     }
     const extensions: Extension[] = [

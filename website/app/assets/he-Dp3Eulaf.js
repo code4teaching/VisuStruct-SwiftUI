@@ -163,6 +163,7 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_game_boom_time" = "💥 בום! הזמן נגמר.";
 "web_game_boom_wrong" = "💥 בום! זו הייתה השורה הלא נכונה.";
 "web_game_fix" = "השורה הנכונה:";
+"web_game_order_hint" = "הקש על השלבים בסדר הנכון.";
 "web_debug_step" = "צעד";
 "web_debug_step_title" = "צעד: להריץ הוראה אחת ולעצור שוב";
 "web_debug_continue" = "להמשיך עד נקודת העצירה הבאה";

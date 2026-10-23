@@ -50,6 +50,45 @@ Com [Exportar](#zeige-exportieren) nas ferramentas (ícone com uma seta para cim
 
 Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
 
+## Jogo: Como o partilhas?
+
+::: spiel frage
+titel: Jogo: Como o partilhas?
+intro: O Ludwig quer partilhar o seu estrutograma. Que formato serve melhor? Seis rondas.
+frage: Que formato serve?
+antworten: .visustruct | PNG | SVG | PDF
+
+runde:
+frage: Amanhã queres continuar a trabalhar no teu estrutograma.
+richtig: .visustruct
+> Só o ficheiro .visustruct pode voltar a ser aberto e editado no VisuStruct.
+
+runde:
+frage: O estrutograma deve entrar numa apresentação como imagem.
+richtig: PNG
+> Uma imagem PNG pode ser posta em qualquer apresentação e em qualquer ficha de trabalho.
+
+runde:
+frage: O teu professor quer imprimir o teu trabalho numa página A4.
+richtig: PDF
+> O PDF é exatamente uma página A4 para entregar ou imprimir.
+
+runde:
+frage: O estrutograma vai para um cartaz e deve ficar nítido mesmo em tamanho enorme.
+richtig: SVG
+> Um gráfico vetorial fica nítido em qualquer tamanho. Um PNG fica com pixéis quando o aumentas.
+
+runde:
+frage: A tua amiga deve alterar o estrutograma na app VisuStruct do iPad dela.
+richtig: .visustruct
+> Todas as versões do VisuStruct abrem o mesmo ficheiro .visustruct: no browser, no Mac, no iPad e no iPhone.
+
+runde:
+frage: Queres enviar depressa uma imagem para um chat.
+richtig: PNG
+> Um PNG pode ser visto logo por qualquer pessoa, sem VisuStruct.
+:::
+
 ## Experimenta
 
 Abre um dos teus exercícios da lição 2 e experimenta o seguinte:

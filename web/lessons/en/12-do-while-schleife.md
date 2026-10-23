@@ -98,6 +98,75 @@ tipp: `do { number = number * 2; System.out.println(number); } while (number < 1
 lösung: l12-java-verdoppeln-loesung.visustruct
 :::
 
+## Game: At least once?
+
+::: spiel frage
+titel: Game: At least once?
+intro: While or do-while? Ludwig shows you loops. Predict what happens. Six rounds.
+
+runde:
+    int i = 10;
+    do {
+        System.out.println(i);
+        i = i + 1;
+    } while (i < 5);
+frage: What is output?
+- nothing
+- [x] 10
+- 10 to 4
+> First do, then check: the body runs once, after that 11 < 5 is false.
+
+runde:
+    int i = 10;
+    while (i < 5) {
+        System.out.println(i);
+        i = i + 1;
+    }
+frage: What is output?
+- [x] nothing
+- 10
+- 11
+> In a while loop the condition comes first. 10 < 5 is false, so nothing runs at all.
+
+runde:
+    int number = 200;
+    do {
+        number = number * 2;
+    } while (number < 100);
+    System.out.println(number);
+frage: What is output?
+- 200
+- [x] 400
+- 800
+> It is doubled once no matter what. After that 400 < 100 is false.
+
+runde:
+    int number = 30;
+    do {
+        number = number * 2;
+        System.out.println(number);
+    } while (number < 100);
+frage: What is output?
+- 60
+- [x] 60\n120
+- 60\n120\n240
+> After 60, 60 < 100 is true, so it goes on. After 120 it stops.
+
+runde:
+frage: Which line ends a do-while loop in Java correctly?
+- [x] `} while (i < 5);`
+- `} while (i < 5)`
+- `while (i < 5) {`
+> After the `while (…)` of a do-while loop there is a semicolon.
+
+runde:
+frage: What is a do-while loop typically used for?
+- [x] repeating an input until it is valid
+- counting from 1 to 10
+- swapping two values
+> The question is asked at least once. Only after that do you know whether the input was valid.
+:::
+
 ## Checklist
 
 ::: checkliste

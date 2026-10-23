@@ -110,6 +110,91 @@ tipp: In the outer loop: `String line = "";`, then `for (int j = 1; j <= i; j++)
 lösung: l14-java-treppe-loesung.visustruct
 :::
 
+## Game: Inside and outside
+
+::: spiel frage
+titel: Game: Inside and outside
+intro: Ludwig has put building blocks inside each other. Read from the outside in and predict what happens. Six rounds.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        for (int j = 1; j <= 2; j++) {
+            System.out.println("*");
+        }
+    }
+frage: How many stars are output?
+- 3
+- 5
+- [x] 6
+> The inner loop runs completely in each of the 3 runs of the outer loop: 3 · 2 = 6.
+
+runde:
+    for (int i = 1; i <= 2; i++) {
+        for (int j = 1; j <= 3; j++) {
+            System.out.println(i + " " + j);
+        }
+    }
+frage: Which line is output fourth?
+- 1 4
+- [x] 2 1
+- 2 2
+> First j runs through for i = 1: 1 1, 1 2, 1 3. Then j starts again at 1, now with i = 2.
+
+runde:
+    int count = 0;
+    for (int i = 1; i <= 10; i++) {
+        if (i % 3 == 0) {
+            count++;
+        }
+    }
+    System.out.println(count);
+frage: What is output?
+- [x] 3
+- 10
+- 4
+> The branch only counts 3, 6 and 9.
+
+runde:
+    for (int i = 1; i <= 4; i++) {
+        if (i % 2 == 0) {
+            System.out.println("even");
+        } else {
+            System.out.println(i);
+        }
+    }
+frage: What is output?
+- 1\n2\n3\n4
+- [x] 1\neven\n3\neven
+- even\neven
+> For every number the branch decides again: odd numbers themselves, even ones as a word.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        String line = "";
+        for (int j = 1; j <= i; j++) {
+            line = line + "*";
+        }
+        System.out.println(line);
+    }
+frage: What is output?
+- ***\n***\n***
+- [x] *\n**\n***
+- ***\n**\n*
+> The inner loop runs up to i. That's why every line gets one star longer.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(i);
+        }
+    }
+frage: What happens?
+- 1 to 3 is output three times.
+- 1 to 3 is output once.
+- [x] Java reports an error.
+> Two loops inside each other need two different counter variables, for example `row` and `column`.
+:::
+
 ## Checklist
 
 ::: checkliste

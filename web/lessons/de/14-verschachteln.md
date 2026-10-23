@@ -110,6 +110,91 @@ tipp: In der äußeren Schleife: `String zeile = "";`, dann `for (int j = 1; j <
 lösung: l14-java-treppe-loesung.visustruct
 :::
 
+## Spiel: Innen und außen
+
+::: spiel frage
+titel: Spiel: Innen und außen
+intro: Ludwig hat Bausteine ineinander gesteckt. Lies von außen nach innen und sag vorher, was passiert. Sechs Runden.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        for (int j = 1; j <= 2; j++) {
+            System.out.println("*");
+        }
+    }
+frage: Wie viele Sterne werden ausgegeben?
+- 3
+- 5
+- [x] 6
+> Die innere Schleife läuft bei jedem der 3 Durchläufe der äußeren komplett durch: 3 · 2 = 6.
+
+runde:
+    for (int i = 1; i <= 2; i++) {
+        for (int j = 1; j <= 3; j++) {
+            System.out.println(i + " " + j);
+        }
+    }
+frage: Welche Zeile wird als vierte ausgegeben?
+- 1 4
+- [x] 2 1
+- 2 2
+> Erst läuft j für i = 1 durch: 1 1, 1 2, 1 3. Danach beginnt j wieder bei 1, jetzt mit i = 2.
+
+runde:
+    int anzahl = 0;
+    for (int i = 1; i <= 10; i++) {
+        if (i % 3 == 0) {
+            anzahl++;
+        }
+    }
+    System.out.println(anzahl);
+frage: Was wird ausgegeben?
+- [x] 3
+- 10
+- 4
+> Die Verzweigung zählt nur 3, 6 und 9 mit.
+
+runde:
+    for (int i = 1; i <= 4; i++) {
+        if (i % 2 == 0) {
+            System.out.println("gerade");
+        } else {
+            System.out.println(i);
+        }
+    }
+frage: Was wird ausgegeben?
+- 1\n2\n3\n4
+- [x] 1\ngerade\n3\ngerade
+- gerade\ngerade
+> Bei jeder Zahl entscheidet die Verzweigung neu: ungerade Zahlen selbst, gerade als Wort.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        String zeile = "";
+        for (int j = 1; j <= i; j++) {
+            zeile = zeile + "*";
+        }
+        System.out.println(zeile);
+    }
+frage: Was wird ausgegeben?
+- ***\n***\n***
+- [x] *\n**\n***
+- ***\n**\n*
+> Die innere Schleife läuft bis i. Darum wird jede Zeile einen Stern länger.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(i);
+        }
+    }
+frage: Was passiert?
+- 1 bis 3 wird dreimal ausgegeben.
+- 1 bis 3 wird einmal ausgegeben.
+- [x] Java meldet einen Fehler.
+> Zwei Schleifen ineinander brauchen zwei verschiedene Zählvariablen, zum Beispiel `zeile` und `spalte`.
+:::
+
 ## Checkliste
 
 ::: checkliste

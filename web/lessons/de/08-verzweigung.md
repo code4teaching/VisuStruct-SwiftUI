@@ -127,6 +127,103 @@ tipp: Die Bedingung lautet `punkte >= 50`. In den Zweigen steht `System.out.prin
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
+## Spiel: Welcher Weg?
+
+::: spiel frage
+titel: Spiel: Welcher Weg?
+intro: Ludwig hat Verzweigungen in Java geschrieben. Rechne die Bedingung im Kopf aus und sag vorher, was ausgegeben wird. Sieben Runden.
+
+runde:
+    int x = 5;
+    if (x > 5) {
+        System.out.println("groß");
+    } else {
+        System.out.println("klein");
+    }
+frage: Was wird ausgegeben?
+- groß
+- [x] klein
+- nichts
+> 5 > 5 ist falsch, denn 5 ist nicht größer als 5. Also der false-Zweig.
+
+runde:
+    int x = 5;
+    if (x >= 5) {
+        System.out.println("groß");
+    } else {
+        System.out.println("klein");
+    }
+frage: Was wird ausgegeben?
+- [x] groß
+- klein
+- groß und klein
+> `>=` heißt „größer oder gleich“. 5 >= 5 ist wahr.
+
+runde:
+    int zahl = 7;
+    if (zahl % 2 == 0) {
+        System.out.println("gerade");
+    } else {
+        System.out.println("ungerade");
+    }
+frage: Was wird ausgegeben?
+- gerade
+- [x] ungerade
+- 1
+> 7 % 2 ist der Rest 1, also nicht 0. Die Zahl ist ungerade.
+
+runde:
+    int x = -4;
+    if (x < 0) {
+        x = -x;
+    }
+    System.out.println(x);
+frage: Was wird ausgegeben?
+- -4
+- [x] 4
+- nichts
+> -4 < 0 ist wahr, also wird das Vorzeichen umgedreht.
+
+runde:
+    int x = 4;
+    if (x < 0) {
+        x = -x;
+    }
+    System.out.println(x);
+frage: Was wird ausgegeben?
+- -4
+- [x] 4
+- nichts
+> 4 < 0 ist falsch. Der false-Zweig ist leer, das Programm macht einfach unten weiter.
+
+runde:
+    int note = 3;
+    if (note != 3) {
+        System.out.println("anders");
+    } else {
+        System.out.println("drei");
+    }
+frage: Was wird ausgegeben?
+- anders
+- [x] drei
+- nichts
+> `!=` heißt „ungleich“. 3 != 3 ist falsch.
+
+runde:
+    int a = 8;
+    int b = 12;
+    if (a > b) {
+        System.out.println(a);
+    } else {
+        System.out.println(b);
+    }
+frage: Was wird ausgegeben?
+- 8
+- [x] 12
+- 20
+> Das Programm gibt die größere der beiden Zahlen aus.
+:::
+
 ## Checkliste
 
 ::: checkliste

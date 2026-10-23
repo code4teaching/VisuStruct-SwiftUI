@@ -163,6 +163,7 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_game_boom_time" = "💥 ドカン！時間切れです。";
 "web_game_boom_wrong" = "💥 ドカン！その行ではありません。";
 "web_game_fix" = "正しい行:";
+"web_game_order_hint" = "正しい順番でステップをタップしよう。";
 "web_debug_step" = "ステップ実行";
 "web_debug_step_title" = "ステップ実行：命令を1つ実行して再び止まる";
 "web_debug_continue" = "次のブレークポイントまで続行";

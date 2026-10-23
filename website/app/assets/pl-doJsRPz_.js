@@ -163,6 +163,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_game_boom_time" = "💥 Bum! Czas minął.";
 "web_game_boom_wrong" = "💥 Bum! To była zła linia.";
 "web_game_fix" = "Poprawna linia:";
+"web_game_order_hint" = "Stuknij kroki we właściwej kolejności.";
 "web_debug_step" = "Krok";
 "web_debug_step_title" = "Krok: wykonaj jedną instrukcję i zatrzymaj się ponownie";
 "web_debug_continue" = "Dalej do następnego punktu przerwania";

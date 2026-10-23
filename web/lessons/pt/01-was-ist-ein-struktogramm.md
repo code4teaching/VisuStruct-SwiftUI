@@ -154,6 +154,54 @@ Com a **simulação** também podes executar o teu estrutograma passo a passo e 
 Programas que saltam para todo o lado chamam-se **código esparguete**: se tentares seguir um fio, ficas todo enrolado, como num prato de esparguete. Antigamente, o culpado era o comando GOTO, que quer dizer “salta para a linha …”. Por isso, em 1968, o informático Edsger Dijkstra escreveu uma carta famosa: “Go To Statement Considered Harmful”. Desde então, os programas são construídos só com sequência, decisão e ciclo. Em Java, `goto` ainda hoje é uma palavra reservada, mas não a podes usar. Mééé, prefiro comer esparguete a programá-lo.
 :::
 
+## Jogo: Que bloco básico?
+
+::: spiel frage
+titel: Jogo: Que bloco básico?
+intro: O Ludwig descreve coisas do seu dia a dia. Que bloco básico se esconde em cada uma? Oito rondas.
+antworten: sequência | decisão | ciclo
+
+runde:
+frage: "Pasta na escova, lavar os dentes, bochechar."
+richtig: sequência
+> Três passos, cada um exatamente uma vez e sempre por esta ordem.
+
+runde:
+frage: "Se chover, levo o guarda-chuva, senão os óculos de sol."
+richtig: decisão
+> Uma condição decide qual dos dois caminhos é seguido.
+
+runde:
+frage: "Mexer até a massa ficar lisa."
+richtig: ciclo
+> Mexe-se repetidamente enquanto a massa ainda não estiver lisa.
+
+runde:
+frage: "Correr dez voltas ao campo de desporto."
+richtig: ciclo
+> A mesma volta é corrida dez vezes.
+
+runde:
+frage: "Calçar os sapatos, vestir o casaco, abrir a porta, e lá vamos."
+richtig: sequência
+> Um passo a seguir ao outro, nada é saltado nem repetido.
+
+runde:
+frage: "Se o semáforo estiver verde, atravessas a rua."
+richtig: decisão
+> Mesmo sem "senão" é uma decisão. O ramo senão fica simplesmente vazio.
+
+runde:
+frage: "Lançar o dado até sair um seis."
+richtig: ciclo
+> Não se sabe antes quantas vezes. Lança-se até a condição se cumprir.
+
+runde:
+frage: "Se alguém disser 'Entra', entras. Senão, esperas à porta."
+richtig: decisão
+> A resposta decide entre dois caminhos: entrar ou esperar.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

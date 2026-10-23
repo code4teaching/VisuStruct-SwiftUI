@@ -123,6 +123,79 @@ tipp: `switch (numero) { case 1 -> { System.out.println("um"); } … default -> 
 lösung: l10-java-wuerfel-loesung.visustruct
 :::
 
+## Jogo: Que caso?
+
+::: spiel frage
+titel: Jogo: Que caso?
+intro: O Ludwig carrega em botões da máquina de bebidas e de outras seleções. O que acontece? Seis rondas.
+
+runde:
+    int escolha = 2;
+    switch (escolha) {
+        case 1 -> { System.out.println("água"); }
+        case 2 -> { System.out.println("sumo"); }
+        case 3 -> { System.out.println("chocolate quente"); }
+        default -> { System.out.println("Esse botão não existe."); }
+    }
+frage: O que aparece?
+- água
+- [x] sumo
+- Esse botão não existe.
+> escolha é 2, por isso corre exatamente o `case 2`.
+
+runde:
+    int escolha = 4;
+    switch (escolha) {
+        case 1 -> { System.out.println("água"); }
+        case 2 -> { System.out.println("sumo"); }
+        case 3 -> { System.out.println("chocolate quente"); }
+        default -> { System.out.println("Esse botão não existe."); }
+    }
+frage: O que aparece?
+- chocolate quente
+- nada
+- [x] Esse botão não existe.
+> Nenhum caso serve para 4, por isso corre o `default`.
+
+runde:
+    String dia = "segunda";
+    switch (dia) {
+        case "Segunda" -> { System.out.println("Matemática"); }
+        case "Terça" -> { System.out.println("Educação Física"); }
+        default -> { System.out.println("livre"); }
+    }
+frage: O que aparece?
+- Matemática
+- Educação Física
+- [x] livre
+> Nos textos conta cada letra: "segunda" com s minúsculo não é "Segunda".
+
+runde:
+    int nota = 0;
+    switch (nota) {
+        case 1 -> { System.out.println("muito bom"); }
+        case 2 -> { System.out.println("bom"); }
+        case 3 -> { System.out.println("suficiente"); }
+    }
+frage: O que aparece?
+- muito bom
+- [x] nada
+- suficiente
+> Nenhum caso serve e não há `default`. Então simplesmente não acontece nada.
+
+runde:
+frage: Queres verificar se `idade >= 18`. O que serve melhor?
+- [x] uma decisão
+- uma seleção
+> Uma seleção só compara com valores fixos. Para "maior ou igual" precisas de uma decisão.
+
+runde:
+frage: Um dado mostra de 1 a 6, e para cada número deve aparecer uma palavra diferente. O que serve melhor?
+- uma decisão
+- [x] uma seleção
+> Uma variável, seis valores fixos: é exatamente para isso que serve a seleção.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

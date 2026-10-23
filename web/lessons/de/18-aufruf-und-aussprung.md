@@ -232,6 +232,105 @@ tipp: In `while (true) { … }` liest du den Preis ein. Gleich danach prüfst du
 lösung: l18-java-kasse-loesung.visustruct
 :::
 
+## Spiel: Was kommt zurück?
+
+::: spiel frage
+titel: Spiel: Was kommt zurück?
+intro: Ludwig ruft Methoden auf und springt aus Schleifen. Sag vorher, was ausgegeben wird. Sieben Runden.
+
+runde:
+    public static int quadrat(int x) {
+        return x * x;
+    }
+
+    int q = quadrat(5);
+    System.out.println(q);
+frage: Was wird ausgegeben?
+- 5
+- 10
+- [x] 25
+> Der Aufruf gibt 5 in x, return liefert 5 · 5 zurück.
+
+runde:
+    public static void zeigeSumme(int a, int b) {
+        System.out.println(a + b);
+    }
+
+    int x = 2;
+    zeigeSumme(x, x + 1);
+frage: Was wird ausgegeben?
+- [x] 5
+- 23
+- 3
+> Der erste Wert 2 kommt in a, der zweite 3 in b. In Java rechnet `a + b` mit Zahlen ganz normal.
+
+runde:
+frage: Was liefert eine Methode zurück, vor deren Namen `void` steht?
+- eine ganze Zahl
+- [x] nichts
+- immer 0
+> `void` heißt: kein Rückgabewert. Steht dort `int`, kommt eine ganze Zahl zurück.
+
+runde:
+    public static void verdopple(int x) {
+        x = x * 2;
+    }
+
+    int zahl = 5;
+    verdopple(zahl);
+    System.out.println(zahl);
+frage: Was wird ausgegeben?
+- [x] 5
+- 10
+- 0
+> Call by value: verdopple bekommt eine Kopie. zahl bleibt 5.
+
+runde:
+    public static void leeren(boolean[] plaetze) {
+        for (int i = 0; i < plaetze.length; i++) {
+            plaetze[i] = false;
+        }
+    }
+
+    boolean[] reihe = {true, true};
+    leeren(reihe);
+    System.out.println(reihe[0]);
+frage: Was wird ausgegeben?
+- true
+- [x] false
+> Bei einem Array zeigen reihe und plaetze auf dasselbe Array. Die Änderung sieht auch der Aufrufer.
+
+runde:
+    int summe = 0;
+    for (int i = 1; i <= 10; i++) {
+        if (i == 4) {
+            break;
+        }
+        summe = summe + i;
+    }
+    System.out.println(summe);
+frage: Was wird ausgegeben?
+- [x] 6
+- 10
+- 55
+> Bei i = 4 springt `break` sofort aus der Schleife. Gezählt sind nur 1 + 2 + 3.
+
+runde:
+    int zahl = 1;
+    while (true) {
+        zahl = zahl * 3;
+        if (zahl > 20) {
+            break;
+        }
+    }
+    System.out.println(zahl);
+frage: Was wird ausgegeben?
+- 9
+- 20
+- [x] 27
+> 3, 9, 27. Erst 27 ist größer als 20, dann endet die Endlosschleife mit break.
+:::
+
 ## Checkliste
 
 ::: checkliste

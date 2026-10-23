@@ -121,6 +121,101 @@ botao.addActionListener(e -> {
 `||` quer dizer “ou” (lição 9). A condição é verdadeira se a percentagem for demasiado pequena **ou** demasiado grande.
 :::
 
+## Jogo: Que nível?
+
+::: spiel frage
+titel: Jogo: Que nível?
+intro: O Ludwig construiu calculadoras de níveis, mas nem todas estão certas. Calcula que nível sai. Seis rondas.
+
+runde:
+    if (percentagem >= 90) {
+        nivel = 5;
+    } else if (percentagem >= 70) {
+        nivel = 4;
+    } else if (percentagem >= 50) {
+        nivel = 3;
+    } else {
+        nivel = 2;
+    }
+frage: percentagem é 70. Que nível sai?
+- 5
+- [x] 4
+- 3
+> 70 >= 90 é falso, 70 >= 70 é verdadeiro. O limite ainda pertence ao 4.
+
+runde:
+    if (percentagem >= 90) {
+        nivel = 5;
+    } else if (percentagem >= 70) {
+        nivel = 4;
+    } else if (percentagem >= 50) {
+        nivel = 3;
+    } else if (percentagem >= 20) {
+        nivel = 2;
+    } else {
+        nivel = 1;
+    }
+frage: percentagem é 49. Que nível sai?
+- 3
+- [x] 2
+- 1
+> 49 >= 50 é falso por pouco, 49 >= 20 é verdadeiro. Portanto nível 2.
+
+runde:
+    if (percentagem >= 50) {
+        nivel = 3;
+    } else if (percentagem >= 90) {
+        nivel = 5;
+    } else {
+        nivel = 1;
+    }
+frage: percentagem é 95. Que nível sai?
+- 5
+- [x] 3
+- 1
+> Ganha a primeira condição verdadeira. 95 >= 50 já é verdadeiro, o 5 nunca é alcançado. Por isso verifica-se das percentagens altas para baixo.
+
+runde:
+    nivel = 1;
+    if (percentagem >= 20) {
+        nivel = 2;
+    }
+    if (percentagem >= 50) {
+        nivel = 3;
+    }
+frage: percentagem é 80. Que valor tem nivel depois?
+- 1
+- 2
+- [x] 3
+> Sem `else`, todos os `if` são verificados. Os dois são verdadeiros, e o último dá o nível 3.
+
+runde:
+    // nivel já está calculado
+    if (percentagem < 0 || percentagem > 100) {
+        resultado.setText("Escreve um valor de 0 a 100.");
+    } else {
+        resultado.setText("Nível: " + nivel);
+    }
+frage: No campo de texto está 100. O que mostra a janela?
+- [x] Nível: 5
+- Escreve um valor de 0 a 100.
+- Isso não é um número.
+> 100 > 100 é falso. Portanto 100 é válido e dá o nível 5.
+
+runde:
+    // nivel já está calculado
+    if (percentagem < 0 && percentagem > 100) {
+        resultado.setText("Escreve um valor de 0 a 100.");
+    } else {
+        resultado.setText("Nível: " + nivel);
+    }
+frage: No campo de texto está 150. O que mostra a janela?
+- Escreve um valor de 0 a 100.
+- [x] um nível, embora 150 não seja válido
+- Isso não é um número.
+> Com `&&`, a percentagem teria de ser ao mesmo tempo menor que 0 e maior que 100. Isso nunca acontece, por isso o programa nunca avisa. O certo é `||`.
+:::
+
 ## Tarefa: calculadora de níveis
 
 Junta a calculadora de níveis, com as duas verificações do último passo. Testa com 90, 89, 0, 100, 101 e “dez”.

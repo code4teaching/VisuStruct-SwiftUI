@@ -133,6 +133,86 @@ Instead of an error in the console, you now see a hint in the window.
 The arrow already has an `e` for the event. That is why the exception in `catch` needs a different name, here `error`. Java doesn't allow two variables with the same name.
 :::
 
+## Game: What is in the window afterwards?
+
+::: spiel frage
+titel: Game: What is in the window afterwards?
+intro: Ludwig types something into the text field and clicks Calculate. Read the listener and predict what the window shows afterwards. Six rounds.
+
+runde:
+    button.addActionListener(e -> {
+        int number = Integer.parseInt(field.getText());
+        field.setText("" + number * 2);
+    });
+frage: The text field says 21. What does it say after the click?
+- 2121
+- [x] 42
+- 21
+> `parseInt` turns the text into the number 21. Double that is 42.
+
+runde:
+    button.addActionListener(e -> {
+        int number = Integer.parseInt(field.getText());
+        field.setText("" + number * 2);
+    });
+frage: The text field says 21. You click twice. What does it say afterwards?
+- 42
+- [x] 84
+- 4242
+> Every click doubles whatever is in the field right now: 21, 42, 84.
+
+runde:
+    button.addActionListener(e -> {
+        field.setText(field.getText() + field.getText());
+    });
+frage: The text field says 21. What does it say after the click?
+- 42
+- [x] 2121
+- 21
+> Without `parseInt` it stays a text, and `+` joins texts together.
+
+runde:
+    button.addActionListener(e -> {
+        try {
+            int number = Integer.parseInt(field.getText());
+            field.setText("" + number * 2);
+        } catch (NumberFormatException error) {
+            label.setText("Please enter a whole number!");
+        }
+    });
+frage: The text field says abc. What happens on the click?
+- [x] The label shows "Please enter a whole number!"
+- The text field says abcabc.
+- The window crashes.
+> `parseInt` throws a NumberFormatException, and `catch` catches it.
+
+runde:
+    button.addActionListener(e -> {
+        try {
+            int number = Integer.parseInt(field.getText());
+            field.setText("" + number * 2);
+        } catch (NumberFormatException error) {
+            label.setText("Please enter a whole number!");
+        }
+    });
+frage: The text field says 2.5. What happens on the click?
+- The text field says 5.0.
+- The text field says 5.
+- [x] The label shows "Please enter a whole number!"
+> `Integer.parseInt` only knows whole numbers. For it, 2.5 is not a number.
+
+runde:
+    button.addActionListener(e -> {
+        int number = Integer.parseInt(field.getText());
+        field.setText("" + number + number);
+    });
+frage: The text field says 5. What does it say after the click?
+- 10
+- [x] 55
+- 5
+> `"" + number` is already a text, and the second `+` adds the 5 once more. With `"" + (number + number)` Java calculates first.
+:::
+
 ## Task: doubling a number
 
 Put the whole program together:

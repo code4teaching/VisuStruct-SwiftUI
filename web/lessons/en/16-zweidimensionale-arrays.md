@@ -135,6 +135,79 @@ tipp: `int[][] points = {{3, 5}, {4, 1}, {2, 2}};` and in the inner loop `sum = 
 lösung: l16-java-punkte-loesung.visustruct
 :::
 
+## Game: Which seat?
+
+::: spiel frage
+titel: Game: Which seat?
+intro: Ludwig is selling cinema tickets. First the row, then the seat, both from 0. Seven rounds.
+
+runde:
+    boolean[][] seats = new boolean[3][5];
+    System.out.println(seats.length);
+frage: What is output?
+- [x] 3
+- 5
+- 15
+> `seats.length` is the number of rows.
+
+runde:
+    boolean[][] seats = new boolean[3][5];
+    System.out.println(seats[0].length);
+frage: What is output?
+- 3
+- [x] 5
+- 15
+> `seats[0]` is row 0. Its length is the number of seats in this row.
+
+runde:
+    int[][] table = new int[4][6];
+frage: How many slots does the table have?
+- 10
+- [x] 24
+- 35
+> 4 rows with 6 seats each: 4 · 6 = 24.
+
+runde:
+    int[][] t = {{1, 2}, {3, 4}};
+    System.out.println(t[1][0]);
+frage: What is output?
+- 2
+- [x] 3
+- 4
+> Row 1 is `{3, 4}`, and seat 0 in it is the 3.
+
+runde:
+    boolean[][] seats = new boolean[3][5];
+    seats[3][0] = true;
+frage: What happens?
+- The first seat in row 3 is sold.
+- The first seat in the last row is sold.
+- [x] There is an error, because the rows are called 0, 1 and 2.
+> Just like with a normal array, the last index is one less than the length.
+
+runde:
+    int[][] t = {{1, 2, 3}, {4, 5, 6}};
+    int sum = 0;
+    for (int row = 0; row < t.length; row++) {
+        for (int seat = 0; seat < t[row].length; seat++) {
+            sum = sum + t[row][seat];
+        }
+    }
+    System.out.println(sum);
+frage: What is output?
+- 6
+- 15
+- [x] 21
+> The two loops visit all six slots: 1 + 2 + 3 + 4 + 5 + 6 = 21.
+
+runde:
+frage: Two loops go through the cinema `new boolean[3][5]`. Which slot comes right after `seats[0][4]`?
+- `seats[0][5]`
+- [x] `seats[1][0]`
+- `seats[1][4]`
+> Row 0 is done. The outer loop counts on, and the seat starts again at 0.
+:::
+
 ## Checklist
 
 ::: checkliste

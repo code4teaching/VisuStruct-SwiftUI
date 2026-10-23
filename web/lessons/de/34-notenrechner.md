@@ -126,6 +126,101 @@ knopf.addActionListener(e -> {
 `||` heißt „oder“ (Lektion 9). Die Bedingung ist wahr, wenn die Punkte zu klein **oder** zu groß sind.
 :::
 
+## Spiel: Welche Note?
+
+::: spiel frage
+titel: Spiel: Welche Note?
+intro: Ludwig hat Notenrechner gebaut, aber nicht alle sind richtig. Rechne nach, welche Note herauskommt. Sechs Runden.
+
+runde:
+    if (punkte >= 92) {
+        note = 1;
+    } else if (punkte >= 81) {
+        note = 2;
+    } else if (punkte >= 67) {
+        note = 3;
+    } else {
+        note = 4;
+    }
+frage: punkte ist 81. Welche Note kommt heraus?
+- 1
+- [x] 2
+- 3
+> 81 >= 92 ist falsch, 81 >= 81 ist wahr. Die Grenze gehört noch zur 2.
+
+runde:
+    if (punkte >= 92) {
+        note = 1;
+    } else if (punkte >= 81) {
+        note = 2;
+    } else if (punkte >= 67) {
+        note = 3;
+    } else if (punkte >= 50) {
+        note = 4;
+    } else {
+        note = 5;
+    }
+frage: punkte ist 66. Welche Note kommt heraus?
+- 3
+- [x] 4
+- 5
+> 66 >= 67 ist knapp falsch, 66 >= 50 ist wahr. Also Note 4.
+
+runde:
+    if (punkte >= 50) {
+        note = 4;
+    } else if (punkte >= 92) {
+        note = 1;
+    } else {
+        note = 6;
+    }
+frage: punkte ist 95. Welche Note kommt heraus?
+- 1
+- [x] 4
+- 6
+> Die erste wahre Bedingung gewinnt. 95 >= 50 ist schon wahr, die 1 wird nie erreicht. Deshalb prüft man von den hohen Punkten nach unten.
+
+runde:
+    note = 6;
+    if (punkte >= 30) {
+        note = 5;
+    }
+    if (punkte >= 50) {
+        note = 4;
+    }
+frage: punkte ist 70. Welche Note steht danach in note?
+- 6
+- 5
+- [x] 4
+> Ohne `else` wird jedes `if` geprüft. Beide sind wahr, das letzte setzt die Note 4.
+
+runde:
+    // note ist schon berechnet
+    if (punkte < 0 || punkte > 100) {
+        ergebnis.setText("Bitte 0 bis 100 eingeben.");
+    } else {
+        ergebnis.setText("Note: " + note);
+    }
+frage: Im Textfeld steht 100. Was zeigt das Fenster?
+- [x] Note: 1
+- Bitte 0 bis 100 eingeben.
+- Das ist keine Zahl.
+> 100 > 100 ist falsch. 100 Punkte sind also gültig und ergeben die Note 1.
+
+runde:
+    // note ist schon berechnet
+    if (punkte < 0 && punkte > 100) {
+        ergebnis.setText("Bitte 0 bis 100 eingeben.");
+    } else {
+        ergebnis.setText("Note: " + note);
+    }
+frage: Im Textfeld steht 150. Was zeigt das Fenster?
+- Bitte 0 bis 100 eingeben.
+- [x] eine Note, obwohl 150 ungültig ist
+- Das ist keine Zahl.
+> Mit `&&` müssten die Punkte gleichzeitig unter 0 und über 100 sein. Das geht nie, also warnt das Programm nie. Richtig ist `||`.
+:::
+
 ## Aufgabe: Notenrechner
 
 Baue den Notenrechner zusammen, mit beiden Prüfungen aus dem letzten Schritt. Teste ihn mit 92, 91, 0, 100, 101 und „zehn“.

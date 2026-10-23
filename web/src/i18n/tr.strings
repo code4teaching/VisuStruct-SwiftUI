@@ -163,6 +163,7 @@
 "web_game_boom_time" = "💥 Bum! Süre doldu.";
 "web_game_boom_wrong" = "💥 Bum! Yanlış satırdı.";
 "web_game_fix" = "Doğru satır:";
+"web_game_order_hint" = "Adımlara doğru sırayla dokun.";
 "web_debug_step" = "Adım";
 "web_debug_step_title" = "Adım: bir komutu çalıştır ve yeniden dur";
 "web_debug_continue" = "Bir sonraki kesme noktasına kadar devam et";

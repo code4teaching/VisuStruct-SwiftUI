@@ -127,6 +127,72 @@ tipp: Como na matemática, a multiplicação vem antes da soma: `preco + queijo 
 lösung: l07-java-pizza-loesung.visustruct
 :::
 
+## Jogo: Desativar a bomba
+
+::: spiel bombe
+titel: Jogo: Desativar a bomba
+intro: Cada programa tem **exatamente um erro**, e a bomba está a fazer tique-taque. Faz o teste de secretária de cabeça e toca na linha errada antes de o tempo acabar. Os programas estão em Java, mas cada linha é um bloco como no estrutograma. Seis rondas, 30 segundos cada.
+zeit: 30
+
+runde:
+    int a = 3;
+    int b = 5;
+    int aux = a;
+    a = b;
+    b = a;
+frage: Deve trocar os valores de a e b.
+fehler: 5
+besser: b = aux;
+> a já tem o valor de b. O valor antigo de a está em aux.
+
+runde:
+    int a = 4;
+    int b = 6;
+    double media = a + b / 2;
+    System.out.println(media);
+frage: Deve mostrar a média 5.0.
+fehler: 3
+besser: double media = (a + b) / 2.0;
+> Sem parênteses, a divisão vem primeiro: 4 + 6 / 2 = 7.
+
+runde:
+    int bilhetes = 3;
+    double preco = 8.5;
+    double total = bilhetes + preco;
+    System.out.println("Total: " + total);
+frage: Deve mostrar o preço de 3 bilhetes de cinema a 8,50 € cada.
+fehler: 3
+besser: double total = bilhetes * preco;
+> Para o preço total multiplica-se, não se soma.
+
+runde:
+    int minutos = 135;
+    int horas = minutos / 60;
+    int resto = minutos / 60;
+    System.out.println(horas + " h " + resto + " min");
+frage: Deve mostrar 2 h 15 min.
+fehler: 3
+besser: int resto = minutos % 60;
+> `%` dá o resto de uma divisão. Com `/`, resto também ficava com 2.
+
+runde:
+    String nome = "Ada";
+    System.out.println("Olá " + "nome" + "!");
+frage: Deve mostrar "Olá Ada!".
+fehler: 2
+besser: System.out.println("Olá " + nome + "!");
+> Entre aspas, nome é só um texto. A variável não tem aspas.
+
+runde:
+    double preco = 100;
+    preco = preco * 0.1;
+    System.out.println(preco);
+frage: Deve aumentar o preço em 10 %, ou seja, mostrar 110.0.
+fehler: 2
+besser: preco = preco + preco * 0.1;
+> Vezes 0.1 dá só os 10 %, ou seja, 10.0. Isso ainda tem de ser somado ao preço antigo.
+:::
+
 ## Lista de verificação
 
 ::: checkliste
