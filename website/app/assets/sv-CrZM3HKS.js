@@ -57,6 +57,9 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_live_ph_code" = "Din kod";
 "web_live_ph_end" = "slut";
 "web_live_language" = "Programmeringsspråk";
+"web_live_java_class" = "Som klass";
+"web_live_java_class_hint" = "Klassnamn = diagrammets titel";
+"web_live_java_main" = "Med main-metod";
 "web_live_hint_edit" = "Skriv Java-kod här så bygger diagrammet sig självt. Eller arbeta i diagrammet så växer koden med. Grått = platshållare, skriv bara över.";
 "web_live_edit_label" = "Java-kod";
 "web_parse_line_fmt" = "Rad %d: %@";

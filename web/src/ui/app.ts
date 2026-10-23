@@ -374,6 +374,14 @@ export class App {
                 .map((name) => `<option value="${name.toLowerCase()}">${name}</option>`)
                 .join('')}</select>
             </label>
+            <label class="check java-only">
+              <input type="checkbox" data-action="java-class" />
+              <span>${e(t('web_live_java_class'))}<small>${e(t('web_live_java_class_hint'))}</small></span>
+            </label>
+            <label class="check java-only">
+              <input type="checkbox" data-action="java-main" />
+              <span>${e(t('web_live_java_main'))}<small>public static void main(String[] args)</small></span>
+            </label>
             <label class="check">
               <input type="checkbox" data-action="keywords" />
               <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
@@ -467,7 +475,21 @@ export class App {
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
     const liveLanguage = $<HTMLSelectElement>('[data-action=live-language]')
     liveLanguage.value = this.live.language
-    liveLanguage.addEventListener('change', () => this.live.setTarget(liveLanguage.value as LiveTarget))
+    const javaClass = $<HTMLInputElement>('[data-action=java-class]')
+    const javaMain = $<HTMLInputElement>('[data-action=java-main]')
+    const showJavaForm = () => {
+      javaClass.checked = this.live.javaForm.asClass
+      javaMain.checked = this.live.javaForm.withMain
+      for (const box of [javaClass, javaMain]) box.disabled = this.live.language !== 'java'
+    }
+    showJavaForm()
+    liveLanguage.addEventListener('change', () => {
+      this.live.setTarget(liveLanguage.value as LiveTarget)
+      showJavaForm()
+    })
+    for (const box of [javaClass, javaMain]) {
+      box.addEventListener('change', () => this.live.setJavaForm({ asClass: javaClass.checked, withMain: javaMain.checked }))
+    }
     const zoom = $<HTMLSelectElement>('[data-action=zoom]')
     zoom.value = String(this.zoom)
     zoom.addEventListener('change', () => {
@@ -500,6 +522,8 @@ export class App {
       this.doc = { ...this.doc, caption: this.captionInput.value }
       this.dirty = true
       this.updateStatus()
+      // Der Titel ist in „Code live“ der Klassenname.
+      this.refreshLive()
     })
     this.captionInput.addEventListener('change', () => {
       if (captionBefore && captionBefore.caption !== this.doc.caption) this.pushUndo(captionBefore)
@@ -760,16 +784,19 @@ export class App {
     this.codeButton.disabled = this.simulating
     this.exportSelect.disabled = this.simulating
     if (this.coding) this.code.refresh()
-    if (this.liveCoding) {
-      this.live.refresh(this.doc, this.simulating ? this.simPath : this.selected, {
-        owner: this.tab,
-        subprograms: new Set(this.tabs.filter((tab) => tab !== this.tab).flatMap((tab) => parseSubprogramHeader(tab.doc.caption)?.name ?? [])),
-        editable: !this.simulating,
-      })
-    }
+    this.refreshLive()
     this.renderTabs()
     this.renderInspector()
     this.updateStatus()
+  }
+
+  private refreshLive() {
+    if (!this.liveCoding) return
+    this.live.refresh(this.doc, this.simulating ? this.simPath : this.selected, {
+      owner: this.tab,
+      subprograms: new Set(this.tabs.filter((tab) => tab !== this.tab).flatMap((tab) => parseSubprogramHeader(tab.doc.caption)?.name ?? [])),
+      editable: !this.simulating,
+    })
   }
 
   private updateStatus() {

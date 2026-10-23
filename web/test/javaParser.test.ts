@@ -4,13 +4,19 @@ import { describe, expect, it } from 'vitest'
 import type { LiveLabels } from '../src/core/codeGenerator'
 import { setTextLines, insertAfterSibling } from '../src/core/editing'
 import { parseLiveJava } from '../src/core/javaParser'
-import { documentFromJava, mergeLiveJava, plainLiveJava } from '../src/core/liveSource'
+import { documentFromJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../src/core/liveSource'
 import { ElementType, makeElement, type VSDocument } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
 const parse = (src: string, subprograms?: Set<string>) => parseLiveJava(src, labels, { subprograms })
 const doc = (src: string): VSDocument => documentFromJava({ caption: '', elements: [] }, parse(src))
+const forms: JavaForm[] = [
+  { asClass: false, withMain: false },
+  { asClass: false, withMain: true },
+  { asClass: true, withMain: false },
+  { asClass: true, withMain: true },
+]
 const types = (src: string) => parse(src).elements.map((e) => e.type)
 
 /** Alle Struktogramme im Repo: Beispiele, Lektionen, Übungen. */
@@ -30,9 +36,14 @@ describe('Java tippen → Struktogramm', () => {
     expect(files.length).toBeGreaterThan(100)
     for (const file of files) {
       const original = decodeDocument(readFileSync(file, 'utf8'))
+      for (const form of forms) {
+        const code = plainLiveJava(original, labels, form)
+        const back = documentFromJava(original, parse(code))
+        expect(plainLiveJava(back, labels, form), `${file} ${JSON.stringify(form)}`).toBe(code)
+        expect(back.caption, file).toBe(original.caption)
+      }
       const code = plainLiveJava(original, labels)
       const parsed = parse(code)
-      expect(plainLiveJava(documentFromJava(original, parsed), labels), file).toBe(code)
       // Fehlendes `;` erzeugt der Generator selbst bei Pseudocode wie „Switch on the kettle“.
       expect(parsed.problems.filter((p) => p.arg !== ';'), file).toEqual([])
     }
@@ -66,6 +77,13 @@ describe('Java tippen → Struktogramm', () => {
     expect(els[7].cases?.map((c) => c.name)).toEqual(['1', 'default'])
   })
 
+  it('println ist schon beim Tippen eine Ausgabe', () => {
+    expect(parse('System.out.println();').elements[0].textLines).toEqual(['output: '])
+    expect(parse('System.out.println(').elements[0].textLines).toEqual(['output: '])
+    expect(parse('System.out.println("Hal').elements[0].textLines).toEqual(['output: "Hal'])
+    expect(plainLiveJava(doc('System.out.println();'), labels)).toBe('System.out.println();')
+  })
+
   it('Eingabe mit Hinweis wird ein Eingabe-Kasten', () => {
     const els = parse('System.out.println("Wie alt bist du?");\nint alter = scanner.nextInt();').elements
     expect(els.map((e) => e.textLines)).toEqual([['input: int alter "Wie alt bist du?"']])
@@ -80,6 +98,31 @@ describe('Java tippen → Struktogramm', () => {
     const method = parse('public static int quadrat(int x) {\n    return x * x;\n}')
     expect(method.caption).toBe('int quadrat(int x)')
     expect(method.elements[0].textLines).toEqual(['return x * x'])
+  })
+
+  it('Klasse und main: Titel = Klassenname, in beide Richtungen', () => {
+    const doc0: VSDocument = { caption: 'Rechner', elements: [makeElement(ElementType.anweisung, { textLines: ['input: int x'] })] }
+    expect(plainLiveJava(doc0, labels, { asClass: true, withMain: true })).toBe(
+      [
+        'import java.util.Scanner;',
+        '',
+        'public class Rechner {',
+        '    public static void main(String[] args) {',
+        '        Scanner scanner = new Scanner(System.in);',
+        '',
+        '        System.out.println("x: ");',
+        '        int x = scanner.nextInt();',
+        '    }',
+        '}',
+      ].join('\n'),
+    )
+    expect(plainLiveJava(doc0, labels, { asClass: false, withMain: true }).split('\n')[0]).toBe('public static void main(String[] args) {')
+    // Klassenname tippen ändert den Titel …
+    expect(documentFromJava(doc0, parse('public class Taschenrechner {\n}')).caption).toBe('Taschenrechner')
+    // … aber aus „Mein Programm“ wird `Mein_Programm`, und der Titel bleibt.
+    expect(documentFromJava({ ...doc0, caption: 'Mein Programm' }, parse('public class Mein_Programm {\n}')).caption).toBe('Mein Programm')
+    // Klasse ohne main: Anweisungen direkt in der Klasse.
+    expect(parse('public class A {\n    int x = 1;\n}').elements[0].textLines).toEqual(['int x = 1'])
   })
 
   it('Aufruf eines Unterprogramms aus einem anderen Reiter', () => {

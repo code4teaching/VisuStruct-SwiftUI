@@ -57,6 +57,9 @@
 "web_live_ph_code" = "ここにコード";
 "web_live_ph_end" = "終了";
 "web_live_language" = "プログラミング言語";
+"web_live_java_class" = "クラスとして";
+"web_live_java_class_hint" = "クラス名 = 図のタイトル";
+"web_live_java_main" = "main メソッド付き";
 "web_live_hint_edit" = "ここに Java コードを入力すると、図が一緒にできあがります。図で作業すると、コードも一緒に育ちます。灰色＝プレースホルダー、そのまま上書きできます。";
 "web_live_edit_label" = "Java コード";
 "web_parse_line_fmt" = "%d 行目: %@";

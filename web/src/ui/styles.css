@@ -1689,3 +1689,7 @@ button.danger-text:not(:disabled) {
   flex: 1;
   min-width: 0;
 }
+/* Klasse/main gibt es nur für Java. */
+.settings-menu label.check:has(input:disabled) {
+  opacity: 0.5;
+}
