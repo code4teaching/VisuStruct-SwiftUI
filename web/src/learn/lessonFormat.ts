@@ -1,6 +1,7 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
+import { parseRescueGame, type RescueGame } from './rescueGame'
 
 /**
  * Lektionen und Aufgaben als Markdown mit Kopfzeilen und `:::`-Blöcken (siehe `lessons/README.md`).
@@ -18,6 +19,7 @@ export type Block =
   | { kind: 'graphic'; file: string; caption: string }
   | { kind: 'game'; game: BoolGame }
   | { kind: 'roundGame'; game: RoundGame }
+  | { kind: 'rescueGame'; game: RescueGame }
   | { kind: 'caesar'; key: number; text: string }
   /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
   | { kind: 'textFile'; name: string; content: string }
@@ -226,7 +228,8 @@ export function parseBlocks(body: string, file: string): Block[] {
       case 'spiel':
         try {
           if (isRoundGameKind(arg)) blocks.push({ kind: 'roundGame', game: parseRoundGame(arg, inner, file) })
-          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag oder layout).`)
+          else if (arg === 'prinzessin') blocks.push({ kind: 'rescueGame', game: parseRescueGame(inner, file) })
+          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag, layout, bombe oder prinzessin).`)
           else blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
         } catch (err) {
           throw new FormatError((err as Error).message)

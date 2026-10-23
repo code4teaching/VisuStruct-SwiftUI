@@ -275,6 +275,83 @@ Consulta estes métodos. Não estão nesta lição:
 > Na coluna “Modifier and Type” está boolean: a resposta é true ou false.
 :::
 
+## Jogo: Salvar a princesa
+
+Agora ajudas o Ludwig. A raposa fechou a princesa Zora na sua torre, e o portão só abre com uma palavra secreta.
+
+::: spiel prinzessin
+titel: Jogo: Salvar a princesa
+intro: No caminho para a torre, o Ludwig passa por **seis estações**. Em cada uma há um pedaço de código Java, e sai um número. Com `alphabet.charAt(numero)` o número transforma-se numa letra, que vai para as **palavras cruzadas**. Resolve-as, e os quadrados amarelos formam a palavra secreta para o portão.
+
+station: No fosso
+    String nome = "   Zora   ";
+    int numero = nome.trim().length();
+frage: Que número fica em `numero`?
+zahl: 4
+feld: 5 1
+tipp: `trim()` corta os espaços no início e no fim. Depois conta os caracteres.
+> Depois do `trim()` fica só `"Zora"`, que tem 4 caracteres.
+
+station: Na floresta da raposa
+    String lugar = "A raposa";
+    int numero = lugar.length();
+frage: Que número fica em `numero`?
+zahl: 8
+feld: 4 4
+tipp: `length()` conta todos os caracteres, também o espaço.
+> O A, o espaço e r-a-p-o-s-a dão 8 caracteres.
+
+station: Na rocha das cabras
+    String texto = "Ludwig o bode";
+    int numero = texto.indexOf(" ");
+frage: Que número fica em `numero`?
+zahl: 6
+feld: 4 6
+tipp: `indexOf` devolve a posição do primeiro espaço. O L tem o índice 0.
+> L u d w i g tem os índices 0 a 5, por isso o primeiro espaço está no índice 6.
+
+station: Na escada da torre
+    String palavra = "Princesa";
+    int numero = palavra.indexOf("a", 5);
+frage: Que número fica em `numero`? Procura `indexOf(String str, int fromIndex)` na API do Java.
+zahl: 7
+feld: 6 6
+tipp: A pesquisa começa no índice 5. Escreve os índices por baixo das letras.
+> P r i n c e s a tem os índices 0 a 7. A partir do índice 5, o primeiro “a” está no 7.
+
+station: Diante da toca da raposa
+    int numero = "Zora".compareTo("Zoe");
+frage: Que número fica em `numero`?
+zahl: 13
+feld: 1 9
+tipp: `compareTo` procura a primeira posição em que os textos são diferentes e subtrai os códigos dos caracteres. `'r'` é 114, `'e'` é 101.
+> “Zo” é igual, depois vem `'r'` contra `'e'`: 114 − 101 = 13.
+
+station: No portão da torre
+    int numero = Integer.parseInt("1" + "1") / 5;
+frage: Que número fica em `numero`?
+zahl: 2
+feld: 6 5
+tipp: Primeiro os textos são juntados, depois passam a número. Com `int`, a divisão deita fora o resto.
+> `"1" + "1"` é `"11"`, o `parseInt` faz disso 11, e 11 / 5 dá 2 com números inteiros.
+
+kreuzwort: As letras azuis já as tens. Preenche os outros quadrados com termos do Java. Clica numa pista para saltar para a palavra.
+- → 1 3 BOOLEAN: Tipo de dados para verdadeiro ou falso
+- → 4 1 STRING: Tipo de dados para texto
+- → 6 5 CHAR: Tipo de dados para um único carácter
+- ↓ 1 6 LENGTH: Método que conta os caracteres de uma string
+- ↓ 2 1 ELSE: A parte “senão” de uma decisão
+- ↓ 3 3 BREAK: Sai imediatamente de um ciclo
+lösung: 1 3, 4 3, 2 6, 6 7, 7 3
+
+tor: O Ludwig está diante do portão. A fechadura compara a tua palavra com `equals`. Escreve a palavra secreta.
+    String palavra = "___";
+    if (palavra.equals(palavraSecreta)) {
+        portao.abrir();
+    }
+ende: A Zora está livre, e a raposa fugiu a correr. A palavra secreta era `BREAK`: com `break` sai-se de qualquer ciclo, e a Zora sai da torre.
+:::
+
 ## Lista de verificação
 
 ::: checkliste
