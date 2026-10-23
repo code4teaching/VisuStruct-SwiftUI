@@ -29,6 +29,8 @@ Links neben dem Lernbereich findest du die Spalte [📁 Dateien](#zeige-dateien)
 
 Ein Klick auf ein Programm in der Spalte öffnet es wieder. So findest du später jede Stunde schnell wieder.
 
+Auch dein **Lernstand** landet im Workspace: in der Datei `lernstand.json` stehen deine erledigten Lektionen und Übungen. Öffnest du den Workspace in einem anderen Browser, ist dein Lernstand wieder da.
+
 > Der Speicher im Browser bleibt nur in diesem Browser auf diesem Gerät. Ein echter Ordner auf dem Rechner ist sicherer, weil du ihn auch sichern und weitergeben kannst.
 
 ## Mehrere Diagramme in Reitern
