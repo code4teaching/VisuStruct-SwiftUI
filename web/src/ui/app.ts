@@ -1427,7 +1427,9 @@ export class App {
 
   private onKeyDown(e: KeyboardEvent) {
     const mod = e.metaKey || e.ctrlKey
-    const typing = e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement
+    // Auch der Code-Editor in „Code live“ (contenteditable): Löschen und ⌘Z gehören dort dem Text.
+    const typing =
+      e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement || (e.target as HTMLElement | null)?.isContentEditable === true
     if (mod && e.key.toLowerCase() === 's') {
       e.preventDefault()
       this.save()

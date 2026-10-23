@@ -1370,77 +1370,100 @@ button.danger-text:not(:disabled) {
   background: var(--accent-soft);
   border-inline-start-color: var(--accent);
 }
-.livecode-view .ph,
-.livecode-layer .ph {
+.livecode-view .ph {
   color: var(--muted);
   font-style: italic;
 }
-/* Java selbst tippen: unsichtbares Textfeld über den gezeichneten Zeilen (gleiche Schrift, gleiche Abstände). */
+/* Java selbst tippen: Code-Editor (CodeMirror) */
 .livecode-editor {
   flex: 1;
   min-height: 0;
   padding: 0;
   font-size: 14px;
   white-space: normal;
+  overflow: hidden;
+  --syn-keyword: #9b2393;
+  --syn-type: #0b4f79;
+  --syn-string: #c41a16;
+  --syn-number: #1c00cf;
 }
 .livecode-editor[hidden],
 .livecode-view[hidden],
 .livecode-problem[hidden] {
   display: none;
 }
-.livecode-stack {
-  position: relative;
-  min-width: 100%;
-  min-height: 100%;
-  width: max-content;
+.livecode-editor .cm-editor {
+  height: 100%;
+  background: transparent;
 }
-.livecode-layer {
+.livecode-editor .cm-editor.cm-focused {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: -2px;
+  border-radius: 10px;
+}
+.livecode-editor .cm-scroller {
+  font: inherit;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  line-height: 1.5;
+}
+.livecode-editor .cm-content {
   padding: 10px 0;
-  pointer-events: none;
-  white-space: pre;
+  caret-color: var(--text);
 }
-.livecode-layer .ln {
+.livecode-editor .cm-line {
   padding: 0 12px;
-  min-height: 1.5em;
   border-inline-start: 3px solid transparent;
 }
-.livecode-layer .ln.sel {
+.livecode-editor .cm-line.cm-sel {
   background: var(--accent-soft);
   border-inline-start-color: var(--accent);
 }
-.livecode-layer .err {
+.livecode-editor .cm-ph,
+.livecode-editor .cm-ph * {
+  color: var(--muted) !important;
+  font-style: italic;
+  font-weight: normal !important;
+}
+.livecode-editor .cm-err {
   text-decoration: underline wavy #d33;
   text-decoration-skip-ink: none;
   text-underline-offset: 3px;
 }
-.livecode-layer .err.end {
-  text-decoration: none;
-  border-bottom: 2px solid #d33;
+.livecode-editor .cm-selectionBackground,
+.livecode-editor .cm-focused .cm-selectionBackground {
+  background: color-mix(in srgb, var(--accent) 25%, transparent) !important;
 }
-.livecode-input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 10px 12px 10px 15px;
-  border: none;
-  outline: none;
-  resize: none;
+.livecode-editor .cm-matchingBracket {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--accent) 50%, transparent);
+}
+/* Vorschläge: groß genug für Finger auf dem Tablet */
+.cm-tooltip.cm-tooltip-autocomplete {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   overflow: hidden;
-  background: transparent;
-  color: transparent;
-  caret-color: var(--text);
-  font: inherit;
-  line-height: inherit;
-  white-space: pre;
-  tab-size: 4;
 }
-.livecode-input::selection {
-  background: color-mix(in srgb, var(--accent) 30%, transparent);
+.cm-tooltip.cm-tooltip-autocomplete > ul {
+  font: 14px/1.4 ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  max-height: 16em;
 }
-.livecode-editor:focus-within {
-  box-shadow: 0 0 0 2px var(--accent-soft);
+.cm-tooltip.cm-tooltip-autocomplete > ul > li {
+  padding: 4px 10px;
+}
+.cm-tooltip.cm-tooltip-autocomplete > ul > li[aria-selected] {
+  background: var(--accent);
+  color: white;
+}
+.cm-tooltip-autocomplete .cm-completionDetail {
+  margin-inline-start: 12px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-style: normal;
+  color: var(--muted);
+}
+.cm-tooltip-autocomplete li[aria-selected] .cm-completionDetail {
+  color: rgba(255, 255, 255, 0.85);
 }
 .livecode-problem {
   margin: 0;

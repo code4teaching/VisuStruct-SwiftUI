@@ -17,5 +17,14 @@
     "vite": "^6.4.4",
     "vite-plugin-singlefile": "^2.3.4",
     "vitest": "^3.2.7"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.20.4",
+    "@codemirror/commands": "^6.11.1",
+    "@codemirror/lang-java": "^6.0.2",
+    "@codemirror/language": "^6.13.1",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.15",
+    "@lezer/highlight": "^1.2.5"
   }
 }
