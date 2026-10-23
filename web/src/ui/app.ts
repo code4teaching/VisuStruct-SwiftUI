@@ -30,6 +30,7 @@ import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
 import { icons } from './icons'
+import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
 import type { LiveTarget } from '../core/codeGenerator'
@@ -139,6 +140,8 @@ interface Tab {
   /** Dateiname mit Endung; `undefined` = unbenannt. */
   fileName?: string
   fileHandle?: FileHandle
+  /** Programm im Workspace (Spalte „Dateien“): Speichern schreibt dorthin, mit .java daneben. */
+  workspace?: WorkspaceFile
   dirty: boolean
   undoStack: VSDocument[]
   redoStack: VSDocument[]
@@ -179,6 +182,8 @@ function shortcut(key: string, shift = false): string {
 const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
 const learnKey = 'visustruct.learn.open'
+const filesKey = 'visustruct.files.open'
+const filesWidthKey = 'visustruct.files.width'
 const learnWidthKey = 'visustruct.learn.width'
 const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
@@ -244,6 +249,8 @@ export class App {
   /** Fußzeile unter allen Spalten. */
   private bottombar = h('div', { class: 'bottombar' })
   private editorHidden = false
+  private files!: FilesPanel
+  private filesRailButton?: HTMLButtonElement
   private closeSettings?: (ev: PointerEvent) => void
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
@@ -298,9 +305,17 @@ export class App {
       (doc, path) => this.commitFromCode(doc, path),
       (redo) => (redo ? this.redo() : this.undo()),
     )
-    // Oben die Werkzeugleiste, darunter drei Spalten: Lernen | Struktogramm | Code live, jede einklappbar.
+    this.files = new FilesPanel({
+      open: (xml, file, java) => this.openFromWorkspace(xml, file, java),
+      hide: () => this.setFilesOpen(false),
+      message: (text) => this.showMessage(text),
+    })
+    // Oben die Werkzeugleiste, darunter vier Spalten: Dateien | Lernen | Struktogramm | Code live, jede einklappbar.
     const columns = h('div', { class: 'columns' })
     columns.append(
+      this.filesRail(),
+      this.files.element,
+      this.panelResizer(this.files.element, 'files-resizer', filesWidthKey, t('web_files_resize'), 1),
       this.learnRail(),
       this.learn.element,
       this.learnResizer(),
@@ -322,6 +337,7 @@ export class App {
       history.replaceState(history.state, '', `${location.pathname}${query ? `?${query}` : ''}${location.hash}`)
     }
     this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), fromSite)
+    this.setFilesOpen(storedValue(filesKey) === '1')
     const z = Number(storedValue(zoomKey))
     if (zoomSteps.some((s) => s.value === z)) this.zoom = z
     this.setLiveCoding(storedValue(liveKey) === '1')
@@ -593,14 +609,84 @@ export class App {
     applyCanvasStubTexts()
     this.sim.end()
     this.live.build()
+    this.files.build()
     this.buildUI()
     this.render()
     this.learn.render()
     this.labelLearnRail()
     this.labelLiveRail()
     this.labelEditorRail()
+    this.labelFilesRail()
     this.topbar.querySelector<HTMLButtonElement>('[data-action=settings]')?.click()
     this.topbar.querySelector<HTMLElement>(`[data-action=${control}]`)?.focus()
+  }
+
+  // MARK: - Dateien
+
+  private setFilesOpen(on: boolean) {
+    this.shell.classList.toggle('files-open', on)
+    storeValue(filesKey, on ? '1' : '0')
+    this.keepAColumnOpen()
+    if (this.canvasHost) this.renderDiagramOnly()
+  }
+
+  private filesRail(): HTMLElement {
+    this.filesRailButton = h('button', { class: 'learn-rail files-rail' }) as HTMLButtonElement
+    this.labelFilesRail()
+    this.filesRailButton.addEventListener('click', () => this.setFilesOpen(true))
+    return this.filesRailButton
+  }
+
+  private labelFilesRail() {
+    if (!this.filesRailButton) return
+    this.filesRailButton.title = t('web_files_show')
+    this.filesRailButton.innerHTML = `${sidebarIcon}<span>📁 ${e(t('web_files_title'))}</span>`
+  }
+
+  /** Programm aus dem Workspace öffnen; gespeicherter Code (.java) behält seine Kommentare. */
+  private openFromWorkspace(xml: string, file: WorkspaceFile, java: string | undefined) {
+    const already = this.tabs.find((tab) => tab.workspace?.dir === file.dir && tab.workspace.base === file.base)
+    if (already) {
+      this.tabIndex = this.tabs.indexOf(already)
+      this.render()
+      return
+    }
+    if (xml) this.loadXML(xml, `${file.base}.visustruct`)
+    else if (java !== undefined) {
+      if (this.dirty || this.tab.fileName || this.tab.exerciseId) this.addTab()
+      this.doc = this.live.documentFromJavaText(java)
+      this.tab.fileName = `${file.base}.visustruct`
+      this.resetHistory()
+    }
+    this.tab.workspace = file
+    this.tab.fileHandle = undefined
+    if (java !== undefined) {
+      this.live.adoptJava(this.doc, java)
+      this.setLiveCoding(true)
+    }
+    this.render()
+  }
+
+  /** Speichern in den Workspace: in den Ordner des Programms, sonst Klasse/Tagesordner. `false` = dort nicht möglich. */
+  private async saveToWorkspace(): Promise<boolean> {
+    if (!this.files.ready || (this.tab.fileHandle && !this.tab.workspace)) return false
+    const title = this.doc.caption.trim() || tabTitle(this.tab)
+    const java = this.live.language === 'java' ? this.live.javaFor(this.doc, this.tab) : undefined
+    try {
+      const place = await this.files.save(title, encodeDocument(this.doc), java, this.tab.workspace)
+      if (!place) {
+        this.setFilesOpen(true)
+        return true
+      }
+      this.tab.workspace = place
+      this.tab.fileName = `${place.base}.visustruct`
+      this.dirty = false
+      this.render()
+      this.showMessage(t('web_files_saved_fmt', place.path))
+    } catch (err) {
+      this.showMessage((err as Error).message)
+    }
+    return true
   }
 
   // MARK: - Lernbereich
@@ -626,7 +712,9 @@ export class App {
 
   /** Mindestens eine Spalte bleibt offen; sonst kommt das Struktogramm zurück. */
   private keepAColumnOpen() {
-    if (this.editorHidden && !this.liveCoding && !this.shell.classList.contains('learning')) this.setEditorHidden(false)
+    if (this.editorHidden && !this.liveCoding && !this.shell.classList.contains('learning') && !this.shell.classList.contains('files-open')) {
+      this.setEditorHidden(false)
+    }
   }
 
   private editorRail(): HTMLElement {
@@ -1104,7 +1192,7 @@ export class App {
     const clamp = (width: number) => {
       const total = panel.parentElement?.getBoundingClientRect().width ?? 0
       if (total === 0) return clampPanelWidth(width)
-      const others = [this.learn.element, this.live.element]
+      const others = [this.files.element, this.learn.element, this.live.element]
         .filter((p) => p !== panel && p.offsetParent !== null && getComputedStyle(p).flexGrow === '0')
         .reduce((sum, p) => sum + p.getBoundingClientRect().width, 0)
       const min = parseFloat(getComputedStyle(panel).minWidth) || 200
@@ -1413,6 +1501,7 @@ export class App {
   }
 
   private async save() {
+    if (!this.downloads && (await this.saveToWorkspace())) return
     const blob = new Blob([encodeDocument(this.doc)], { type: 'application/xml' })
     const w = window as PickerWindow
     try {

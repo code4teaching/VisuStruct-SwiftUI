@@ -17,5 +17,9 @@ export const icons = {
   code: svg('<path d="M8 6l-6 6 6 6"/><path d="M16 6l6 6-6 6"/>'),
   play: svg('<path d="M7 4l13 8-13 8z"/>', true),
   stop: svg('<rect x="6" y="6" width="12" height="12" rx="1.5"/>', true),
+  folder: svg('<path d="M3 18V6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+  newFolder: svg('<path d="M3 18V6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 10v6M9 13h6"/>'),
+  diagram: svg('<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M4 8h16M4 8l8 5 8-5M12 13v8"/>'),
+  fileText: svg('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/>'),
   pencil: svg('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/>'),
 }

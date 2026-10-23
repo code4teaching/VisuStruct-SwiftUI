@@ -964,6 +964,165 @@ button.danger-text:not(:disabled) {
 .print-sheet {
   display: none;
 }
+/* Dateien: Workspace als Baum (Klasse → Tag → Programme) */
+.files {
+  display: none;
+  flex: 0 1 auto;
+  flex-direction: column;
+  width: 260px;
+  min-width: 200px;
+  min-height: 0;
+  background: var(--panel);
+  border-inline-end: 1px solid var(--border);
+}
+.shell.files-open .files {
+  display: flex;
+}
+.shell.files-open .files-rail {
+  display: none;
+}
+.files-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 10px 12px 6px;
+}
+.files-head h2 {
+  flex: 1;
+  margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.files-head button.icon {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 5px;
+}
+.files-head [hidden] {
+  display: none;
+}
+.files-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 8px 12px;
+  font-size: 14px;
+}
+.files-where {
+  margin: 0 4px 6px;
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.files-hint,
+.files-empty {
+  margin: 8px 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.files-start {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 8px 0;
+  justify-content: center;
+}
+.files-row {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+.files-row:hover,
+.files-row:focus-within {
+  background: var(--accent-soft);
+}
+.files-row.current > .files-name {
+  font-weight: 600;
+}
+.files-name {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px calc(6px + var(--depth) * 16px);
+  border: none;
+  background: none;
+  text-align: start;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+.files-name:disabled {
+  cursor: default;
+  color: var(--muted);
+}
+.files-name svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+}
+.files-name span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.files-name small {
+  margin-inline-start: auto;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+}
+.files-row .files-delete {
+  visibility: hidden;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--muted);
+}
+.files-row:hover .files-delete,
+.files-row:focus-within .files-delete {
+  visibility: visible;
+}
+.files-error {
+  color: #c62828;
+}
+.files-resizer {
+  display: none;
+  flex: none;
+  width: 10px;
+  margin-inline: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.shell.files-open .files-resizer {
+  display: block;
+}
+.files-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+}
+.files-resizer:hover::after,
+.files-resizer:focus-visible::after {
+  background: var(--accent);
+}
+
 /* Lernbereich */
 /* Lernen und Code live geben nach, wenn das Fenster zu schmal wird; das Struktogramm behält mindestens 240 px. */
 .learn {
@@ -1055,7 +1214,7 @@ button.danger-text:not(:disabled) {
   writing-mode: vertical-rl;
   white-space: nowrap;
 }
-.shell.learning .learn-rail:not(.live-rail):not(.editor-rail) {
+.shell.learning .learn-rail:not(.live-rail):not(.editor-rail):not(.files-rail) {
   display: none;
 }
 /* Code live eingeklappt: dieselbe Leiste, nur am rechten Rand. */
@@ -1807,6 +1966,15 @@ button.danger-text:not(:disabled) {
   .shell.live .live-resizer {
     display: none;
   }
+  .shell.files-open .files-resizer {
+    display: none;
+  }
+  .shell .files {
+    width: auto !important;
+    max-height: 40vh;
+    border-inline-end: none;
+    border-bottom: 1px solid var(--border);
+  }
   .shell .learn,
   .shell .livecode,
   .columns > .app {
@@ -1986,4 +2154,8 @@ button.danger-text:not(:disabled) {
 /* Klasse/main gibt es nur für Java. */
 .settings-menu label.check:has(input:disabled) {
   opacity: 0.5;
+}
+.shell.editor-hidden:not(.live):not(.learning) .files {
+  flex: 1 1 0;
+  width: auto !important;
 }
