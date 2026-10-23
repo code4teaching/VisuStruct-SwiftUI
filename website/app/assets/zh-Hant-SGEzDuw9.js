@@ -75,4 +75,5 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_editor_hide" = "隱藏結構圖";
 "web_keywords_title" = "程式碼關鍵字";
 "web_keywords_hint" = "用 if、while、for 取代元素名稱";
+"web_about_version_fmt" = "版本 %@";
 `;export{e as default};

@@ -130,4 +130,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_editor_hide" = "Ocultar diagrama";
 "web_keywords_title" = "Palavras-chave do código";
 "web_keywords_hint" = "if, while, for em vez de Decisão, Ciclo …";
+"web_about_version_fmt" = "Versão %@";
 `;export{e as default};

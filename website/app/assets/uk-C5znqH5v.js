@@ -75,4 +75,5 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_editor_hide" = "Сховати діаграму";
 "web_keywords_title" = "Ключові слова коду";
 "web_keywords_hint" = "if, while, for замість назв елементів";
+"web_about_version_fmt" = "Версія %@";
 `;export{e as default};

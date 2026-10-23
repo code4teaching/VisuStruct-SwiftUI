@@ -75,4 +75,5 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_editor_hide" = "Скрыть диаграмму";
 "web_keywords_title" = "Ключевые слова кода";
 "web_keywords_hint" = "if, while, for вместо названий элементов";
+"web_about_version_fmt" = "Версия %@";
 `;export{e as default};

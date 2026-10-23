@@ -75,4 +75,5 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_editor_hide" = "Skjul strukturdiagram";
 "web_keywords_title" = "Kode-nøkkelord";
 "web_keywords_hint" = "if, while, for i stedet for elementnavn";
+"web_about_version_fmt" = "Versjon %@";
 `;export{e as default};

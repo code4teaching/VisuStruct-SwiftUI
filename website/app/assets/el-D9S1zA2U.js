@@ -75,4 +75,5 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_editor_hide" = "Απόκρυψη διαγράμματος";
 "web_keywords_title" = "Λέξεις-κλειδιά κώδικα";
 "web_keywords_hint" = "if, while, for αντί για ονόματα στοιχείων";
+"web_about_version_fmt" = "Έκδοση %@";
 `;export{e as default};

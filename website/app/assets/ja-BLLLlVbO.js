@@ -75,4 +75,5 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_editor_hide" = "構造図を隠す";
 "web_keywords_title" = "コードのキーワード";
 "web_keywords_hint" = "要素名の代わりに if, while, for";
+"web_about_version_fmt" = "バージョン %@";
 `;export{e as default};

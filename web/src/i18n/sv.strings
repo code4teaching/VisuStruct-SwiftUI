@@ -75,3 +75,4 @@
 "web_editor_hide" = "Dölj strukturdiagram";
 "web_keywords_title" = "Kodnyckelord";
 "web_keywords_hint" = "if, while, for i stället för elementnamn";
+"web_about_version_fmt" = "Version %@";

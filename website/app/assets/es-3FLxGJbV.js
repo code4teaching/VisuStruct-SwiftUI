@@ -75,4 +75,5 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_editor_hide" = "Ocultar diagrama";
 "web_keywords_title" = "Palabras clave de código";
 "web_keywords_hint" = "if, while, for en lugar de los nombres de los elementos";
+"web_about_version_fmt" = "Versión %@";
 `;export{e as default};

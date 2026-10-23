@@ -75,3 +75,4 @@
 "web_editor_hide" = "Ukryj diagram";
 "web_keywords_title" = "Słowa kluczowe kodu";
 "web_keywords_hint" = "if, while, for zamiast nazw elementów";
+"web_about_version_fmt" = "Wersja %@";

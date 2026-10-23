@@ -75,4 +75,5 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_editor_hide" = "Diagram verbergen";
 "web_keywords_title" = "Code-sleutelwoorden";
 "web_keywords_hint" = "if, while, for in plaats van elementnamen";
+"web_about_version_fmt" = "Versie %@";
 `;export{e as default};

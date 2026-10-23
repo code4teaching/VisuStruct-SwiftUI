@@ -132,3 +132,4 @@
 "web_editor_hide" = "Hide diagram";
 "web_keywords_title" = "Code keywords";
 "web_keywords_hint" = "if, while, for instead of Branch, For loop …";
+"web_about_version_fmt" = "Version %@";

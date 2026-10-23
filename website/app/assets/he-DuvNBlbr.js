@@ -75,4 +75,5 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_editor_hide" = "הסתרת התרשים";
 "web_keywords_title" = "מילות מפתח של קוד";
 "web_keywords_hint" = "if, while, for במקום שמות הרכיבים";
+"web_about_version_fmt" = "גרסה %@";
 `;export{e as default};

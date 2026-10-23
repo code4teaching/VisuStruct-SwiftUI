@@ -75,4 +75,5 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_editor_hide" = "Ukryj diagram";
 "web_keywords_title" = "Słowa kluczowe kodu";
 "web_keywords_hint" = "if, while, for zamiast nazw elementów";
+"web_about_version_fmt" = "Wersja %@";
 `;export{e as default};

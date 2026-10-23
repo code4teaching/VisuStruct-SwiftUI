@@ -75,4 +75,5 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_editor_hide" = "Masquer le diagramme";
 "web_keywords_title" = "Mots-clés du code";
 "web_keywords_hint" = "if, while, for au lieu des noms des éléments";
+"web_about_version_fmt" = "Version %@";
 `;export{e as default};

@@ -75,4 +75,5 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_editor_hide" = "隐藏结构图";
 "web_keywords_title" = "代码关键字";
 "web_keywords_hint" = "用 if、while、for 代替元素名称";
+"web_about_version_fmt" = "版本 %@";
 `;export{e as default};

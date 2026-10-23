@@ -165,6 +165,9 @@ dialog.about h2 {
   font-weight: 400;
   color: var(--muted);
 }
+.about-body .about-version {
+  font-variant-numeric: tabular-nums;
+}
 .about-body .about-author {
   color: var(--text);
   font-weight: 600;

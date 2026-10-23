@@ -75,3 +75,4 @@
 "web_editor_hide" = "Skjul strukturdiagram";
 "web_keywords_title" = "Kode-nøkkelord";
 "web_keywords_hint" = "if, while, for i stedet for elementnavn";
+"web_about_version_fmt" = "Versjon %@";

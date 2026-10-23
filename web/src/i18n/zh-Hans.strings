@@ -75,3 +75,4 @@
 "web_editor_hide" = "隐藏结构图";
 "web_keywords_title" = "代码关键字";
 "web_keywords_hint" = "用 if、while、for 代替元素名称";
+"web_about_version_fmt" = "版本 %@";

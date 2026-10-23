@@ -121,6 +121,9 @@ function placeholderFor(el: VSElement): string {
 }
 
 /** Kleines DOM-Hilfsmittel für den Inspector. */
+/** Aus `package.json`, siehe `vite.config.ts`. */
+declare const __APP_VERSION__: string
+
 function h(tag: string, attrs: Record<string, string> = {}, ...children: (Node | string)[]): HTMLElement {
   const e = document.createElement(tag)
   for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v)
@@ -624,6 +627,7 @@ export class App {
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${e(t('web_brand_suffix'))}</small></h3>
+            <p class="about-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${link('about_web_label', 'https://www.visustruct.org', 'www.visustruct.org')}
             ${link('about_developer_label', 'https://www.sebastiao.org', 'www.sebastiao.org')}
@@ -633,8 +637,6 @@ export class App {
         <h4>${e(t('about_dateiformat_heading'))}</h4>
         <p>${e(t('about_dateiformat_part1'))}<code>.visustruct</code>${e(t('about_dateiformat_part2'))}</p>
         <p>${e(t('about_dateiformat_strk'))}</p>
-        <h4>${e(t('about_lineage_heading'))}</h4>
-        <p>${e(t('about_lineage_body'))}</p>
         <p class="about-copy">${e(t('about_copyright'))}</p>
       </div>`
     dialog.querySelector('[data-action=about-done]')!.addEventListener('click', () => dialog.close())
