@@ -38,3 +38,7 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 ## Changelog / release notes
 
 Versioned release notes live in **[CHANGELOG.md](CHANGELOG.md)**. On the repository’s **GitHub home page**, only this **README** is shown in full by default; open `CHANGELOG.md` in the file list (or use the **Changes** link at the top) to read the history. The **Releases** tab only shows extra notes if you create [GitHub Releases](https://github.com/code4teaching/VisuStruct-SwiftUI/releases) (optional, in addition to the changelog file).
+
+## License
+
+VisuStruct is open source under the **[MIT License](LICENSE)**. Third-party parts keep their own licenses (e.g. CodeMirror: MIT). The optional Swing support in the web app loads [CheerpJ](https://cheerpj.com) by Leaning Technologies from its CDN at runtime (Community License, not part of this repository).
