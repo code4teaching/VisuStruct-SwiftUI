@@ -106,6 +106,35 @@ tipp: The indices run from 0 to 9, but the numbers from 1 to 10. That is why the
 lösung: kino-einmaleins-loesung.visustruct
 :::
 
+## Now in Java
+
+The cinema looks like this in Java:
+
+```
+boolean[][] seats = new boolean[3][5];
+seats[0][2] = true;
+seats[1][1] = true;
+seats[1][2] = true;
+System.out.println("Rows: " + seats.length);
+System.out.println("Seats per row: " + seats[0].length);
+System.out.println("Row 1, seat 2 sold? " + seats[1][2]);
+```
+
+- Two pairs of square brackets `[][]` stand for a table: first the row, then the seat.
+- `seats.length` is the number of rows, `seats[0].length` the number of seats in one row.
+- With fixed values you write every row in its own curly brackets: `int[][] t = {{1, 2}, {3, 4}};`
+
+::: übung l16-java-punkte
+titel: Add up the points
+code: java
+auftrag: Three players have played two rounds each. Create the table `points` in Java with the rows {3, 5}, {4, 1} and {2, 2}. Add up all points with two nested for loops and output **Sum: 17**.
+test: - -> Sum: 17
+braucht: forSchleife
+tipp: The outer loop goes through the rows, the inner one through the seats of a row.
+tipp: `int[][] points = {{3, 5}, {4, 1}, {2, 2}};` and in the inner loop `sum = sum + points[i][j];`. The inner loop runs up to `points[i].length`.
+lösung: l16-java-punkte-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -113,6 +142,7 @@ lösung: kino-einmaleins-loesung.visustruct
 - I can read and write a slot with a row and a seat. → Reach a slot
 - I know the difference between `seats.length` and `seats[0].length`. → Reach a slot
 - I can explain in which order two nested loops visit the slots. → Two loops inside each other
+- I can create and go through a two-dimensional array in Java. → Now in Java
 :::
 
 ## Quiz
@@ -141,4 +171,9 @@ lösung: kino-einmaleins-loesung.visustruct
 = seats[0].length -> Number of seats in row 0
 = seats[2][4] -> Row 2, seat 4
 = seats[1][0] = true -> Seat 0 in row 1 is sold
+
+? What does `seats.length` give for `new boolean[3][5]`?
+- [x] 3, the number of rows
+- [ ] 5, the number of seats
+- [ ] 15, all seats together
 :::

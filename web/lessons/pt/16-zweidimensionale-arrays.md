@@ -106,6 +106,35 @@ tipp: Os índices vão de 0 a 9, mas os números de 1 a 10. Por isso, a posiçã
 lösung: kino-einmaleins-loesung.visustruct
 :::
 
+## Agora em Java
+
+A sala de cinema fica assim em Java:
+
+```
+boolean[][] lugares = new boolean[3][5];
+lugares[0][2] = true;
+lugares[1][1] = true;
+lugares[1][2] = true;
+System.out.println("Filas: " + lugares.length);
+System.out.println("Lugares por fila: " + lugares[0].length);
+System.out.println("Fila 1, lugar 2 vendido? " + lugares[1][2]);
+```
+
+- Dois pares de parênteses retos `[][]` representam uma tabela: primeiro a fila, depois o lugar.
+- `lugares.length` é o número de filas, `lugares[0].length` o número de lugares numa fila.
+- Com valores fixos, escreves cada fila nas suas próprias chavetas: `int[][] t = {{1, 2}, {3, 4}};`
+
+::: übung l16-java-punkte
+titel: Somar os pontos
+code: java
+auftrag: Três jogadores jogaram duas rondas cada um. Cria em Java a tabela `pontos` com as filas {3, 5}, {4, 1} e {2, 2}. Soma todos os pontos com dois ciclos for encaixados e mostra **Soma: 17**.
+test: - -> Soma: 17
+braucht: forSchleife
+tipp: O ciclo exterior percorre as filas, o interior os lugares de uma fila.
+tipp: `int[][] pontos = {{3, 5}, {4, 1}, {2, 2}};` e no ciclo interior `soma = soma + pontos[i][j];`. O ciclo interior vai até `pontos[i].length`.
+lösung: l16-java-punkte-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -113,6 +142,7 @@ lösung: kino-einmaleins-loesung.visustruct
 - Sei ler e escrever uma posição com fila e lugar. → Chegar a uma posição
 - Sei a diferença entre `lugares.length` e `lugares[0].length`. → Chegar a uma posição
 - Sei explicar por que ordem dois ciclos encaixados visitam as posições. → Dois ciclos um dentro do outro
+- Sei criar e percorrer um array bidimensional em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -141,4 +171,9 @@ lösung: kino-einmaleins-loesung.visustruct
 = lugares[0].length -> Número de lugares da fila 0
 = lugares[2][4] -> Fila 2, lugar 4
 = lugares[1][0] = true -> O lugar 0 da fila 1 está vendido
+
+? O que dá `lugares.length` para `new boolean[3][5]`?
+- [x] 3, o número de filas
+- [ ] 5, o número de lugares
+- [ ] 15, todos os lugares juntos
 :::

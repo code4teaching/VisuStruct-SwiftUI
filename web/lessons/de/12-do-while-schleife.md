@@ -70,12 +70,41 @@ tipp: Lege vor der Schleife `int summe = 0` und `int zahl = 0` an. In der Schlei
 lösung: l11-summe-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Die Schleife, die trotzdem einmal läuft, sieht in Java so aus:
+
+```
+int i = 10;
+do {
+    System.out.println(i);
+    i = i + 1;
+} while (i < 5);
+```
+
+- Der Rumpf steht zwischen `do {` und `}`, die Bedingung kommt erst danach.
+- Hinter `while (…)` steht hier ein **Semikolon**. Das ist anders als bei der While-Schleife.
+
+::: übung l12-java-verdoppeln
+titel: Mindestens einmal verdoppeln
+code: java
+auftrag: Schreibe ein Java-Programm, das eine Startzahl einliest. Mit einer Do-while-Schleife wird sie verdoppelt und ausgegeben, solange sie kleiner als 100 ist. Auch eine Zahl ab 100 wird mindestens einmal verdoppelt: Aus 200 wird 400.
+test: 30 -> 60 | 120
+test: 200 -> 400
+test: 13 -> 26 | 52 | 104
+braucht: doUntilSchleife
+tipp: Im Rumpf verdoppelst du die Zahl und gibst sie aus. Die Bedingung steht am Ende.
+tipp: `do { zahl = zahl * 2; System.out.println(zahl); } while (zahl < 100);`
+lösung: l12-java-verdoppeln-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
 - Ich weiß, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst machen, dann prüfen
 - Ich weiß, dass der Inhalt mindestens einmal ausgeführt wird. → Mindestens ein Durchlauf
 - Ich kann eine Eingabe so lange wiederholen lassen, bis sie gültig ist. → Typisch: Eingabe wiederholen
+- Ich kann eine Do-while-Schleife in Java schreiben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -103,4 +132,10 @@ lösung: l11-summe-loesung.visustruct
 - [x] Wenn der Inhalt auf jeden Fall einmal laufen muss, z. B. bei einer Eingabe
 - [ ] Wenn die Schleife vielleicht gar nicht laufen soll
 - [ ] Wenn man genau bis 10 zählen will
+
+? Was steht in Java am Ende einer Do-while-Schleife?
+- [ ] } while (bedingung) {
+- [x] } while (bedingung);
+- [ ] } until (bedingung);
+> Nach der Bedingung kommt ein Semikolon.
 :::

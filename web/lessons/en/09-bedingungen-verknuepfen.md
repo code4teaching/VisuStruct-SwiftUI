@@ -165,6 +165,39 @@ tipp: Divisible by 4 means `year % 4 == 0`, not divisible by 100 means `year % 1
 lösung: l08-schaltjahr-loesung.visustruct
 :::
 
+## Now in Java
+
+The youth ticket from the start looks like this in Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("How old are you?");
+int age = scanner.nextInt();
+if (age >= 12 && age < 18) {
+    System.out.println("Youth ticket");
+} else {
+    System.out.println("No youth ticket");
+}
+```
+
+The symbols `&&`, `||` and `!` are exactly the ones you already use in the structure chart. They come from Java. As always, the whole condition is in the round brackets after `if`.
+
+::: übung l09-java-schule
+titel: School or free time
+code: java
+auftrag: Write a Java program that asks for the hour (0 to 23). From 8 up to and including 15 it outputs **School**, otherwise **Free time**.
+test: 8 -> School
+test: 15 -> School
+test: 16 -> Free time
+test: 7 -> Free time
+braucht: verzweigung
+tipp: The hour has to meet two conditions at the same time. Which operator means “and”?
+tipp: `if (hour >= 8 && hour <= 15) { … } else { … }`
+lösung: l09-java-schule-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -175,6 +208,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 - I can read the truth table for &&, || and !. → The truth table
 - I can store the result of a condition in a boolean variable. → Truth values in variables
 - I got at least 8 of 10 conditions right in the game. → Game: True or false?
+- I can combine conditions in Java with && and ||. → Now in Java
 :::
 
 ## Quiz
@@ -201,4 +235,10 @@ lösung: l08-schaltjahr-loesung.visustruct
 - [ ] true
 - [x] false
 > 5 > 3 is true, and ! turns that round.
+
+? How do you write “age is at least 12 and less than 18” in Java?
+- [ ] if (12 <= age < 18)
+- [x] if (age >= 12 && age < 18)
+- [ ] if (age >= 12 || age < 18)
+> Each comparison stands on its own, joined with `&&`.
 :::

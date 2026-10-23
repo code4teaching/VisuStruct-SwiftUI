@@ -70,12 +70,41 @@ tipp: Before the loop, create `int sum = 0` and `int number = 0`. In the loop yo
 lösung: l11-summe-loesung.visustruct
 :::
 
+## Now in Java
+
+The loop that still runs once looks like this in Java:
+
+```
+int i = 10;
+do {
+    System.out.println(i);
+    i = i + 1;
+} while (i < 5);
+```
+
+- The body is between `do {` and `}`, the condition only comes afterwards.
+- Here there is a **semicolon** after `while (…)`. That is different from the while loop.
+
+::: übung l12-java-verdoppeln
+titel: Double at least once
+code: java
+auftrag: Write a Java program that reads a start number. A do-while loop doubles it and outputs it as long as it is less than 100. A number of 100 or more is still doubled at least once: 200 becomes 400.
+test: 30 -> 60 | 120
+test: 200 -> 400
+test: 13 -> 26 | 52 | 104
+braucht: doUntilSchleife
+tipp: In the body you double the number and output it. The condition comes at the end.
+tipp: `do { number = number * 2; System.out.println(number); } while (number < 100);`
+lösung: l12-java-verdoppeln-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
 - I know that the do-while loop only checks its condition after the inside. → Do first, check afterwards
 - I know that the inside runs at least once. → At least one pass
 - I can repeat an input until it is valid. → Typical use: repeat an input
+- I can write a do-while loop in Java. → Now in Java
 :::
 
 ## Quiz
@@ -103,4 +132,10 @@ lösung: l11-summe-loesung.visustruct
 - [x] When the inside has to run at least once, e.g. for an input
 - [ ] When the loop might not need to run at all
 - [ ] When you want to count exactly to 10
+
+? What comes at the end of a do-while loop in Java?
+- [ ] } while (condition) {
+- [x] } while (condition);
+- [ ] } until (condition);
+> A semicolon follows the condition.
 :::

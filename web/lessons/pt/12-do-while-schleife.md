@@ -70,12 +70,41 @@ tipp: Antes do ciclo, cria `int soma = 0` e `int numero = 0`. No ciclo pedes `nu
 lösung: l11-summe-loesung.visustruct
 :::
 
+## Agora em Java
+
+O ciclo que corre mesmo assim uma vez fica assim em Java:
+
+```
+int i = 10;
+do {
+    System.out.println(i);
+    i = i + 1;
+} while (i < 5);
+```
+
+- O corpo fica entre `do {` e `}`, a condição só vem depois.
+- Aqui, depois de `while (…)`, há um **ponto e vírgula**. É diferente do ciclo while.
+
+::: übung l12-java-verdoppeln
+titel: Duplicar pelo menos uma vez
+code: java
+auftrag: Escreve um programa em Java que lê um número inicial. Um ciclo do-while duplica-o e mostra-o enquanto for menor do que 100. Um número a partir de 100 também é duplicado pelo menos uma vez: 200 passa a 400.
+test: 30 -> 60 | 120
+test: 200 -> 400
+test: 13 -> 26 | 52 | 104
+braucht: doUntilSchleife
+tipp: No corpo duplicas o número e mostras. A condição fica no fim.
+tipp: `do { numero = numero * 2; System.out.println(numero); } while (numero < 100);`
+lösung: l12-java-verdoppeln-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
 - Sei que o ciclo do-while só verifica a sua condição depois do interior. → Primeiro fazer, depois verificar
 - Sei que o interior é executado pelo menos uma vez. → Pelo menos uma iteração
 - Sei repetir uma entrada até ela ser válida. → Uso típico: repetir uma entrada
+- Sei escrever um ciclo do-while em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -103,4 +132,10 @@ lösung: l11-summe-loesung.visustruct
 - [x] Quando o interior tem de ser executado pelo menos uma vez, p. ex. numa entrada
 - [ ] Quando o ciclo talvez nem precise de ser executado
 - [ ] Quando queres contar exatamente até 10
+
+? O que fica no fim de um ciclo do-while em Java?
+- [ ] } while (condicao) {
+- [x] } while (condicao);
+- [ ] } until (condicao);
+> Depois da condição vem um ponto e vírgula.
 :::

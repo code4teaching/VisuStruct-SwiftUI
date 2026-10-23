@@ -131,6 +131,32 @@ tipp: Calcula a soma e o máximo em variáveis próprias e só os mostra no fim,
 lösung: l14-summe-max-loesung.visustruct
 :::
 
+## Agora em Java
+
+Percorrer um array fica assim em Java:
+
+```
+int[] numeros = {2, 4, 6, 8, 10};
+for (int i = 0; i < numeros.length; i++) {
+    System.out.println(numeros[i]);
+}
+```
+
+- `int[]` quer dizer “array de números inteiros”. Os valores ficam entre chavetas.
+- Um array vazio com 5 posições cria-se com `new int[5]`.
+- `numeros[i]` é a posição com o índice `i`, `numeros.length` é o comprimento.
+
+::: übung l15-java-noten
+titel: Soma das notas em Java
+code: java
+auftrag: Cria em Java o array `notas` com os valores 2, 3, 1 e 4. Soma todas as notas com um ciclo for e mostra **Soma: 10**.
+test: - -> Soma: 10
+braucht: forSchleife
+tipp: Cria `int soma = 0;` antes do ciclo. O ciclo vai de 0 até `notas.length - 1`.
+tipp: `int[] notas = {2, 3, 1, 4};`, depois `for (int i = 0; i < notas.length; i++) { soma = soma + notas[i]; }` e no fim `System.out.println("Soma: " + soma);`.
+lösung: l15-java-noten-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -138,6 +164,7 @@ lösung: l14-summe-max-loesung.visustruct
 - Sei que o índice começa em 0 e que o último índice é `length - 1`. → O índice começa em 0
 - Sei percorrer e encher um array com um ciclo for. → Percorrer um array com um ciclo
 - Sei calcular a soma e o máximo de um array. → Soma e máximo
+- Sei criar um array em Java e percorrê-lo com um ciclo. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -172,4 +199,9 @@ lösung: l14-summe-max-loesung.visustruct
 - [x] 4
 - [ ] 20
 > length é o número de posições, não o último índice nem o último valor.
+
+? Que linha cria em Java um array com três números?
+- [x] int[] numeros = {1, 2, 3};
+- [ ] int numeros = [1, 2, 3];
+- [ ] array numeros = (1, 2, 3);
 :::

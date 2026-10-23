@@ -120,6 +120,39 @@ tipp: For decimal numbers you use the type `double`. The mean is the sum divided
 lösung: l06-mittelwert-loesung.visustruct
 :::
 
+## Now in Java
+
+This is the IPO example from the start in Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("First number?");
+int a = scanner.nextInt();
+System.out.println("Second number?");
+int b = scanner.nextInt();
+int sum = a + b;
+System.out.println("Sum: " + sum);
+```
+
+- For input, Java needs a **Scanner**. You write the first two lines once at the very top, then you can read as often as you like.
+- `scanner.nextInt()` reads a whole number, `scanner.nextDouble()` a decimal number and `scanner.next()` a word.
+- The question to the user is a normal output right before it. VisuStruct turns both lines together into one input box.
+
+::: übung l06-java-tage
+titel: Age in days
+code: java
+auftrag: Write a Java program that asks for the age in years and outputs roughly how many days that is. Use 365 days per year. For 2 years it shows **That is about 730 days.**
+test: 2 -> That is about 730 days.
+test: 10 -> That is about 3650 days.
+test: 1 -> That is about 365 days.
+braucht: anweisung
+tipp: First the two scanner lines, then the question and the input, then the calculation, then the output.
+tipp: `int years = scanner.nextInt();` reads. `int days = years * 365;` calculates, and `System.out.println("That is about " + days + " days.");` outputs.
+lösung: l06-java-tage-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -128,6 +161,7 @@ lösung: l06-mittelwert-loesung.visustruct
 - I can join text and variables in an output with +. → Careful with + in an output
 - I calculate in a variable before the output. → Careful with + in an output
 - I can pick out input, process and output from a task. → From the task to the structure chart
+- I can read numbers in Java with the scanner. → Now in Java
 :::
 
 ## Quiz
@@ -161,4 +195,10 @@ lösung: l06-mittelwert-loesung.visustruct
 = circumference = 2 * 3.14 * radius -> Process
 = shows its circumference -> Output
 > The radius is given, the circumference is what you are looking for. The formula connects the two.
+
+? What does `scanner.nextInt()` read?
+- [x] A whole number
+- [ ] A decimal number
+- [ ] A whole sentence
+> For decimal numbers there is `scanner.nextDouble()`, for a word `scanner.next()`.
 :::

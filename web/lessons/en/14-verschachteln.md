@@ -74,12 +74,49 @@ With nested diagrams, the drawing helps you: whatever is further inside is inden
 This is exactly what the structure chart was invented for. Shneiderman asked himself: if we are supposed to do without GOTO, why not do without the arrows in the flowchart as well? The result: no arrow spaghetti, and every block stays nicely in its pen. [The whole story](https://visustruct.org/en/angeberwissen.html)
 :::
 
+## Now in Java
+
+Counting the even numbers looks like this in Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Up to which number?");
+int n = scanner.nextInt();
+int count = 0;
+for (int i = 1; i <= n; i++) {
+    if (i % 2 == 0) {
+        count++;
+    }
+}
+System.out.println(count);
+```
+
+What is nested in the structure chart is nested in curly brackets in Java. Every level is indented four spaces further. If your code gets messy, the **Indent** button at the top of the Programming area helps.
+
+`count++` is short for `count = count + 1`.
+
+::: übung l14-java-treppe
+titel: Stairs of stars
+code: java
+auftrag: Write a Java program that reads the number of steps and outputs stairs made of stars. For 3 steps that is `*`, `**` and `***`, each step on its own line.
+test: 3 -> * | ** | ***
+test: 1 -> *
+test: 4 -> * | ** | *** | ****
+braucht: forSchleife
+tipp: An outer loop counts the steps. In each step an inner loop builds a text of stars.
+tipp: In the outer loop: `String line = "";`, then `for (int j = 1; j <= i; j++) { line = line + "*"; }` and after that `System.out.println(line);`.
+lösung: l14-java-treppe-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
 - I can put a branch inside a loop. → A branch inside a loop
 - I can put a loop inside another loop. → A loop inside a loop
 - I know that the inner loop runs all the way through in every pass of the outer one. → A loop inside a loop
+- I can write nested loops and branches in Java. → Now in Java
 :::
 
 ## Quiz
@@ -102,4 +139,9 @@ This is exactly what the structure chart was invented for. Shneiderman asked him
 - [x] Once per pass of the loop
 - [ ] Only if it is true
 > The branch is part of the inside and runs in every pass.
+
+? How can you tell in Java what belongs to a loop?
+- [ ] By the colour
+- [x] By the curly brackets and the indentation
+- [ ] By the semicolons
 :::
