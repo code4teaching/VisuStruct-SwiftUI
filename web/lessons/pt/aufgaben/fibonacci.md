@@ -26,6 +26,21 @@ tipp: Guarda os dois últimos números em `numero1` e `numero2` e mostra os dois
 lösung: aufgabe-fibonacci-loesung.visustruct
 :::
 
+E agora o mesmo em Java:
+
+::: übung aufgabe-fibonacci-java
+titel: Números de Fibonacci em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: 5 -> 1 | 1 | 2 | 3 | 5
+test: 8 -> 1 | 1 | 2 | 3 | 5 | 8 | 13 | 21
+test: 2 -> 1 | 1
+braucht: forSchleife
+tipp: Os dois primeiros números mostras antes do ciclo. O ciclo `for` começa então em `int i = 2`.
+tipp: No corpo: `int numero3 = numero1 + numero2;`, mostrar, depois `numero1 = numero2;` e `numero2 = numero3;`.
+lösung: aufgabe-fibonacci-loesung.visustruct
+:::
+
 ::: quiz
 ? Porque é que no ciclo `numero1 = numero2` tem de vir antes de `numero2 = numero3`?
 - [ ] Porque senão o Java não permite as atribuições

@@ -17,3 +17,18 @@ tipp: Bubble sort from lesson 19 sorts in ascending order. For descending order 
 tipp: Swap when `points[i] < points[i + 1]`, using a temporary variable. For the output, first work out `int place = i + 1` and then output `place + ". " + points[i]`.
 lösung: aufgabe-bestenliste-loesung.visustruct
 :::
+
+And now the same in Java:
+
+::: übung aufgabe-bestenliste-java
+titel: Leaderboard in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 3, 9, 2, 9, 1 -> 1. 9 | 2. 9 | 3. 3 | 4. 2 | 5. 1
+test: 10, 20, 30, 40, 50 -> 1. 50 | 2. 40 | 3. 30 | 4. 20 | 5. 10
+test: 5, 4, 3, 2, 1 -> 1. 5 | 2. 4 | 3. 3 | 4. 2 | 5. 1
+braucht: forSchleife, verzweigung
+tipp: Read each number into a variable first and then put it into the array: `int number = scanner.nextInt();` and `points[i] = number;`.
+tipp: The swap needs a temporary variable in Java too: `int temp = points[i]; points[i] = points[i + 1]; points[i + 1] = temp;`.
+lösung: aufgabe-bestenliste-loesung.visustruct
+:::

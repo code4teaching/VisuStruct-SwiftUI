@@ -21,3 +21,17 @@ tipp: Go through the sea with two nested loops, just like the cinema. Only outpu
 tipp: The outer loop counts `row`, the inner one `column`, both from 0. If there is a ship on `sea[row][column]`, you output the letter from `columns[column]` and the row number: `output: columns[column] + (row + 1)`. You need the `+ 1` because the game starts counting at 1.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::
+
+And now the same in Java:
+
+::: übung aufgabe-schiffe-java
+titel: Battleship in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+start: aufgabe-schiffe-start.visustruct
+test: - -> B1 | C1 | D1 | E3 | E4 | A5
+braucht: forSchleife, verzweigung
+tipp: Two `for` loops inside each other: the row outside, the column inside, both up to `.length`.
+tipp: `if (sea[row][column]) { System.out.println(columns[column] + (row + 1)); }`. The brackets around `row + 1` make Java calculate first.
+lösung: aufgabe-schiffe-loesung.visustruct
+:::

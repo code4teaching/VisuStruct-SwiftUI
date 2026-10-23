@@ -21,3 +21,17 @@ tipp: Gehe das Meer wie den Kinosaal mit zwei verschachtelten Schleifen durch. G
 tipp: Die äußere Schleife zählt `reihe`, die innere `spalte`, beide ab 0. Liegt auf `meer[reihe][spalte]` ein Schiff, gibst du den Buchstaben aus `spalten[spalte]` und die Reihennummer aus: `output: spalten[spalte] + (reihe + 1)`. Das `+ 1` braucht es, weil das Spiel bei 1 zu zählen beginnt.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::
+
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-schiffe-java
+titel: Schiffe versenken in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+start: aufgabe-schiffe-start.visustruct
+test: - -> B1 | C1 | D1 | E3 | E4 | A5
+braucht: forSchleife, verzweigung
+tipp: Zwei `for`-Schleifen ineinander: außen die Reihe, innen die Spalte, beide bis `.length`.
+tipp: `if (meer[reihe][spalte]) { System.out.println(spalten[spalte] + (reihe + 1)); }`. Die Klammer um `reihe + 1` sorgt dafür, dass Java erst rechnet.
+lösung: aufgabe-schiffe-loesung.visustruct
+:::

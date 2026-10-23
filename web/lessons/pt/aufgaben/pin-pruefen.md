@@ -18,3 +18,19 @@ tipp: O ciclo termina em dois casos: quando o PIN está certo ou quando se gasta
 tipp: O PIN é pedido pelo menos uma vez, por isso serve um ciclo do-while. Antes dele, cria `int pin = 0` e `int tentativas = 0`. O ciclo repete-se enquanto `pin != 1234 && tentativas < 3`. Depois do ciclo, uma decisão decide o que é mostrado.
 lösung: aufgabe-pin-loesung.visustruct
 :::
+
+E agora o mesmo em Java:
+
+::: übung aufgabe-pin-java
+titel: Verificar o PIN em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: 1234 -> PIN correto
+test: 1111, 1234 -> PIN correto
+test: 1, 2, 1234 -> PIN correto
+test: 1, 2, 3 -> Cartão bloqueado
+braucht: doUntilSchleife, verzweigung
+tipp: `do { … } while (…);` pergunta pelo menos uma vez. Depois do `while (…)` há um ponto e vírgula.
+tipp: Cria antes `int pin = 0;` e `int tentativas = 0;`. No ciclo: `int entrada = scanner.nextInt();`, `pin = entrada;` e `tentativas++;`. A condição é `pin != 1234 && tentativas < 3`.
+lösung: aufgabe-pin-java-loesung.visustruct
+:::

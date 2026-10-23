@@ -18,3 +18,18 @@ tipp: Das Menü läuft immer wieder, bis jemand 0 wählt. Dafür eignet sich ein
 tipp: Nimm eine Endlosschleife. Darin steht zuerst die Eingabe `input: int wahl "1 = E-Bike, 2 = E-Scooter, 0 = Ende"`, danach eine Fallauswahl über `wahl` mit den Fällen `0`, `1`, `2` und `default`. Im Fall `0` stehen die Ausgabe und darunter der Aussprung.
 lösung: aufgabe-verleih-loesung.visustruct
 :::
+
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-verleih-java
+titel: Verleih-Menü in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: 0 -> Tschüss
+test: 1, 2, 0 -> E-Bike gebucht | E-Scooter gebucht | Tschüss
+test: 2, 5, 1, 0 -> E-Scooter gebucht | Ungültige Auswahl | E-Bike gebucht | Tschüss
+braucht: endlosschleife, aussprung
+tipp: `while (true) { … }` läuft endlos, bis ein `break;` kommt.
+tipp: Nimm in Java hier `if`/`else if` statt `switch`: Ein `break;` in einem `switch` verlässt nur den `switch`, nicht die Schleife. `if (wahl == 0) { System.out.println("Tschüss"); break; } else if (wahl == 1) { … }`.
+lösung: aufgabe-verleih-java-loesung.visustruct
+:::

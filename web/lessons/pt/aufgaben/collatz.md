@@ -24,6 +24,21 @@ tipp: O ciclo while é executado enquanto `numero != 1`. Verificas se um número
 lösung: aufgabe-collatz-loesung.visustruct
 :::
 
+E agora o mesmo em Java:
+
+::: übung aufgabe-collatz-java
+titel: Sequência de Collatz em Java
+code: java
+auftrag: Resolve agora em Java a tarefa de cima. As saídas ficam exatamente iguais.
+test: 6 -> 3 | 10 | 5 | 16 | 8 | 4 | 2 | 1 | Passos: 8
+test: 3 -> 10 | 5 | 16 | 8 | 4 | 2 | 1 | Passos: 7
+test: 1 -> Passos: 0
+braucht: whileSchleife, verzweigung
+tipp: Um ciclo `while` corre enquanto `numero != 1`. Lá dentro, um `if` com `numero % 2 == 0` decide.
+tipp: No corpo: dividir por 2 ou `numero = numero * 3 + 1;`, depois `System.out.println(numero);` e `passos++;`. Depois do ciclo vem `"Passos: " + passos`.
+lösung: aufgabe-collatz-loesung.visustruct
+:::
+
 ::: angeberwissen
 Esta tarefa pode tornar-te rico! O matemático Paul Erdős ofereceu 500 dólares por uma demonstração. Em 2021, a empresa japonesa Bakuage juntou bastante mais: 120 milhões de ienes, na altura cerca de um milhão de dólares, por uma demonstração ou um contraexemplo. Ainda ninguém foi buscar o dinheiro. Já agora, o enigma foi inventado pelo matemático alemão Lothar Collatz em 1937. Vou já começar a fazer contas; com tanto dinheiro compra-se muito feno.
 :::

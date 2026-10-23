@@ -18,3 +18,19 @@ tipp: A branch decides between even and odd. Even means: can be divided by 2 wit
 tipp: The condition is `number % 2 == 0`. In the output you join the number and the text with `+`, e.g. `number + " is even"`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::
+
+And now the same in Java:
+
+::: übung aufgabe-gerade-java
+titel: Even or odd in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 4 -> 4 is even
+test: 7 -> 7 is odd
+test: 0 -> 0 is even
+test: 15 -> 15 is odd
+braucht: verzweigung
+tipp: Read a number with `int number = scanner.nextInt();`. Ask with `System.out.println(…)` before that.
+tipp: `if (number % 2 == 0) { … } else { … }`. The output is `System.out.println(number + " is even");`.
+lösung: aufgabe-gerade-loesung.visustruct
+:::

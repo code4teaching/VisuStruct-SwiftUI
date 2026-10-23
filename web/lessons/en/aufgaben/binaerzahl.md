@@ -24,3 +24,19 @@ tipp: Keep dividing the number by 2 and remember every remainder. The remainders
 tipp: Collect the digits in a text: `String binary = ""`. In the loop you calculate `int remainder = number % 2` and add the remainder at the **front**: `binary = remainder + binary`. After that, `number = number / 2`. Because number is a whole number, the remainder is dropped.
 lösung: aufgabe-binaer-loesung.visustruct
 :::
+
+And now the same in Java:
+
+::: übung aufgabe-binaer-java
+titel: Binary number in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 6 -> 110
+test: 13 -> 1101
+test: 1 -> 1
+test: 8 -> 1000
+braucht: whileSchleife
+tipp: Start with `String binary = "";`. The loop runs with `while (number > 0)`.
+tipp: In the body: `int remainder = number % 2;`, then `binary = remainder + binary;` and `number = number / 2;`. Because `binary` is a String, `+` puts the remainder at the front.
+lösung: aufgabe-binaer-loesung.visustruct
+:::

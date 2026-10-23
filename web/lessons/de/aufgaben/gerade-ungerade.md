@@ -18,3 +18,19 @@ tipp: Eine Verzweigung entscheidet zwischen gerade und ungerade. Gerade heißt: 
 tipp: Die Bedingung lautet `zahl % 2 == 0`. In der Ausgabe verbindest du die Zahl und den Text mit `+`, z. B. `zahl + " ist gerade"`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::
+
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-gerade-java
+titel: Gerade oder ungerade in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: 4 -> 4 ist gerade
+test: 7 -> 7 ist ungerade
+test: 0 -> 0 ist gerade
+test: 15 -> 15 ist ungerade
+braucht: verzweigung
+tipp: Eine Zahl liest du mit `int zahl = scanner.nextInt();` ein. Vorher fragst du mit `System.out.println(…)`.
+tipp: `if (zahl % 2 == 0) { … } else { … }`. Die Ausgabe ist `System.out.println(zahl + " ist gerade");`.
+lösung: aufgabe-gerade-loesung.visustruct
+:::

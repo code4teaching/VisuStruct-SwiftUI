@@ -26,6 +26,21 @@ tipp: Keep the last two numbers in `number1` and `number2` and output both befor
 lösung: aufgabe-fibonacci-loesung.visustruct
 :::
 
+And now the same in Java:
+
+::: übung aufgabe-fibonacci-java
+titel: Fibonacci numbers in Java
+code: java
+auftrag: Now solve the task above in Java. The outputs stay exactly the same.
+test: 5 -> 1 | 1 | 2 | 3 | 5
+test: 8 -> 1 | 1 | 2 | 3 | 5 | 8 | 13 | 21
+test: 2 -> 1 | 1
+braucht: forSchleife
+tipp: Output the first two numbers before the loop. The `for` loop then starts at `int i = 2`.
+tipp: In the body: `int number3 = number1 + number2;`, output it, then `number1 = number2;` and `number2 = number3;`.
+lösung: aufgabe-fibonacci-loesung.visustruct
+:::
+
 ::: quiz
 ? Why must `number1 = number2` come before `number2 = number3` in the loop?
 - [ ] Because otherwise Java does not allow the assignments

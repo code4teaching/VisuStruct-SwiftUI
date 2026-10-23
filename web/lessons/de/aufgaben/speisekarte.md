@@ -18,3 +18,19 @@ tipp: Für mehrere feste Nummern passt eine Fallauswahl. Was passiert mit allen 
 tipp: Lies die Nummer mit `input: int nummer "Welches Gericht?"` ein. Die Fallauswahl prüft `nummer`, die Fälle heißen `1`, `2` und `3`. Alle anderen Nummern landen im Fall `default`.
 lösung: aufgabe-speisekarte-loesung.visustruct
 :::
+
+Und jetzt dasselbe in Java:
+
+::: übung aufgabe-speisekarte-java
+titel: Speisekarte in Java
+code: java
+auftrag: Löse die Aufgabe von oben jetzt in Java. Die Ausgaben bleiben genau dieselben.
+test: 1 -> Griechischer Salat
+test: 2 -> Reis-Bowl
+test: 3 -> Falafel-Wrap
+test: 7 -> Bitte eine gültige Nummer wählen
+braucht: fallauswahl
+tipp: In Java ist das eine Fallauswahl mit `switch (nummer) { … }`.
+tipp: Jeder Fall sieht so aus: `case 1 -> { System.out.println("…"); }`. Für alle anderen Nummern gibt es `default -> { … }`.
+lösung: aufgabe-speisekarte-loesung.visustruct
+:::
