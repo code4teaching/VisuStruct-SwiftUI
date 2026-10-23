@@ -213,7 +213,7 @@ const highlight = HighlightStyle.define([
 ])
 
 /** Vorlagen und Wörter für die Vorschläge. */
-function completions(words: SnippetWords): Completion[] {
+export function completions(words: SnippetWords): Completion[] {
   const w = words
   // `${…}` = Feld zum Ausfüllen (Tab springt weiter); stehen gelassen bleibt es ein grauer Platzhalter.
   const body = `\${// ${w.code}}`
@@ -227,6 +227,9 @@ function completions(words: SnippetWords): Completion[] {
     snippet('do … while', `do {\n\t${body}\n} while (\${${w.condition}});`, w.doLoop, 1),
     snippet('switch', `switch (\${${w.selector}}) {\n\tcase \${1} -> {\n\t\t${body}\n\t}\n\tdefault -> {\n\t\t\${// ${w.code}}\n\t}\n}`, w.switchCase, 1),
     snippet('System.out.println', 'System.out.println(${});', w.output, 3),
+    // Kürzel wie in Eclipse (`syso`, `sysout`) und IntelliJ/NetBeans (`sout`, `psvm`).
+    ...['syso', 'sysout', 'sout'].map((label) => snippet(label, 'System.out.println(${});', `System.out.println · ${w.output}`, 2)),
+    ...['main', 'psvm'].map((label) => snippet(label, `public static void main(String[] args) {\n\t${body}\n}`, 'public static void main(String[] args)', 2)),
     snippet('scanner.nextInt', 'int ${zahl} = scanner.nextInt();', w.input, 1),
     snippet('scanner.next', 'String ${text} = scanner.next();', w.input),
     snippet('scanner.nextDouble', 'double ${wert} = scanner.nextDouble();', w.input),

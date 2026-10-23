@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { JavaEditor } from '../src/ui/javaEditor'
+import { completions, JavaEditor } from '../src/ui/javaEditor'
 import { parseLiveJava } from '../src/core/javaParser'
 import type { LiveLabels } from '../src/core/codeGenerator'
 
@@ -27,5 +27,13 @@ describe('Code-Editor: Platzhalter', () => {
     editor.view.dispatch({ changes: { from: 0, insert: '// a\n' }, userEvent: 'input.paste' })
     expect(editor.text).toBe('// a\nint x = 1;')
     editor.view.destroy()
+  })
+})
+
+describe('Code-Editor: Kürzel', () => {
+  it('syso, sout und main stehen in den Vorschlägen', () => {
+    const words = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: '', step: '', branch: '', branchElse: '', switchCase: '', forLoop: '', whileLoop: '', doLoop: '', output: 'Ausgabe', input: 'Eingabe' }
+    const labels = completions(words).map((c) => c.label)
+    expect(labels).toEqual(expect.arrayContaining(['syso', 'sysout', 'sout', 'main', 'psvm']))
   })
 })

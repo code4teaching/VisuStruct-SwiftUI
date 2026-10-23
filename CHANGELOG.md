@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Code live:** shortcuts from Eclipse and IntelliJ in the suggestions: `syso`, `sysout` and `sout` insert `System.out.println();`, `main` and `psvm` insert the main method.
 - **Web:** “About VisuStruct” has a section “Third-party software” (CodeMirror and Lezer, MIT; CheerpJ and javac for Swing support) with a link to `licenses.txt`. The build writes that file next to the app with the licence texts of all bundled packages, as the MIT License requires.
 - **Web, Code live: debugger.** Click a line number to set a breakpoint (red dot); ▶ Run pauses before that line. The next line is yellow and its element is selected in the structure chart, a variables table below the code shows the current values and briefly highlights what changed. New Step button (own icon) runs one line and pauses again (also starts the program paused before the first line); ▶ continues to the next breakpoint. The code is read-only while the program runs. Lesson 20 (de/en/pt) gets the section “Find mistakes with the debugger” with a Ludwig tip, checklist item and quiz question.
 - **Web, lesson 9 (de/en/pt):** truth table graphic for &&, || and !, a step on storing conditions in boolean variables, and the game “True or false?” (new lesson block `::: spiel`): ten rounds with values and a condition that get harder, each answer explained step by step (`15 >= 12 && 15 < 18` → `true && true` → `true`).
