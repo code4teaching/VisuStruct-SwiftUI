@@ -8,7 +8,7 @@ kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und
 
 Bevor es mit Verzweigungen und Schleifen weitergeht, lernst du dein wichtigstes Werkzeug kennen. Mit der Simulation prüfst du ab jetzt jede Übung selbst.
 
-Mit [▶︎ Simulation](#zeige-simulation) in der Leiste führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Mit **✎ Diagramm** an derselben Stelle kehrst du zum Bearbeiten zurück.
+Mit dem Knopf [▶︎ Simulation](#zeige-simulation) rechts bei den Werkzeugen führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Mit dem Stift-Symbol an derselben Stelle kehrst du zum Bearbeiten zurück.
 
 Rechts erscheint die **Steuerung**:
 
@@ -30,6 +30,8 @@ Die Werte von a und b werden vertauscht. Die Variable hilf merkt sich dabei eine
 - **Letzter Schritt:** Hier steht, was gerade passiert ist, z. B. `a = 5 -> 5` nach dem Kasten `a = b`. Links sind die Variablen schon durch ihre Werte ersetzt, rechts vom Pfeil steht das Ergebnis.
 - **Variablen:** Alle Variablen mit ihren aktuellen Werten.
 - **Ausgabe:** Alles, was mit `output:` ausgegeben wurde.
+
+Ist rechts [Code live](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
 
 Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulation auf dem fehlerhaften Kasten stehen und zeigt eine Meldung, z. B. **Unbekannte Variable: gesamt**.
 

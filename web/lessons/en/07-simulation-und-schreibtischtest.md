@@ -8,7 +8,7 @@ kurz: Run a structure chart step by step, work it out by hand and find mistakes.
 
 Before branches and loops come along, you get to know your most important tool. From now on you can use the simulation to check every exercise yourself.
 
-With [▶︎ Simulation](#zeige-simulation) in the toolbar, VisuStruct runs your structure chart. While the simulation is running, you cannot edit the diagram. With **✎ Diagram** in the same place you go back to editing.
+With the [▶︎ Simulation](#zeige-simulation) button on the right of the tools, VisuStruct runs your structure chart. While the simulation is running, you cannot edit the diagram. With the pencil icon in the same place you go back to editing.
 
 On the right, the **Controls** appear:
 
@@ -30,6 +30,8 @@ The values of a and b are swapped. The variable temp keeps one value meanwhile.
 - **Last Step:** Here you see what has just happened, e.g. `a = 5 -> 5` after the box `a = b`. On the left, the variables have already been replaced by their values; to the right of the arrow is the result.
 - **Variables:** All variables with their current values.
 - **Output:** Everything that was output with `output:`.
+
+If [Live code](#zeige-codelive) is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
 
 At the end, **Simulation finished.** appears. If something goes wrong, the simulation stops on the faulty box and shows a message, e.g. **Unknown variable: total**.
 
