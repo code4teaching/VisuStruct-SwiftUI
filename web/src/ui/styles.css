@@ -1560,19 +1560,21 @@ button.danger-text:not(:disabled) {
   font-size: 13px;
   margin-inline-start: 6px;
 }
-/* Konsole unten über die volle Breite: Ausgaben, Eingabefeld, Ende oder Fehler. */
+/* Konsole in Code live unter dem Code: Ausgaben, Eingabefeld, Ende oder Fehler. */
 .console {
   display: flex;
   flex: none;
   flex-direction: column;
   gap: 6px;
-  height: 200px;
+  height: 180px;
   min-height: 80px;
-  padding: 6px 12px 8px;
-  background: var(--panel);
-  border-top: 1px solid var(--border);
+  padding: 6px 10px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
 }
-.console[hidden] {
+.console[hidden],
+.console-resizer[hidden] {
   display: none;
 }
 .console-head {
@@ -1593,17 +1595,12 @@ button.danger-text:not(:disabled) {
   font-size: 14px;
 }
 .console-resizer {
-  display: none;
   flex: none;
   height: 10px;
   margin-block: -5px;
-  z-index: 5;
   cursor: row-resize;
   touch-action: none;
   position: relative;
-}
-.shell.console-open .console-resizer {
-  display: block;
 }
 .console-resizer::after {
   content: '';
@@ -1614,15 +1611,11 @@ button.danger-text:not(:disabled) {
 }
 .console-resizer:hover::after,
 .console-resizer:focus-visible::after,
-.shell.resizing-rows .console-resizer::after {
+.console-resizer.dragging::after {
   background: var(--accent);
 }
 .console-resizer:focus-visible {
   outline: none;
-}
-.shell.resizing-rows {
-  cursor: row-resize;
-  user-select: none;
 }
 .livecode-console-lines {
   flex: 1;

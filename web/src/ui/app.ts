@@ -176,7 +176,6 @@ const learnWidthKey = 'visustruct.learn.width'
 const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
 const editorHiddenKey = 'visustruct.editor.hidden'
-const consoleHeightKey = 'visustruct.console.height'
 const gearIcon =
   '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
 
@@ -290,7 +289,6 @@ export class App {
       },
       (doc, path) => this.commitFromCode(doc, path),
       (redo) => (redo ? this.redo() : this.undo()),
-      (visible) => this.shell.classList.toggle('console-open', visible),
     )
     // Oben die Werkzeugleiste, darunter drei Spalten: Lernen | Struktogramm | Code live, jede einklappbar.
     const columns = h('div', { class: 'columns' })
@@ -304,8 +302,7 @@ export class App {
       this.live.element,
       this.liveRail(),
     )
-    // Darunter die Konsole (beim Ausführen), ganz unten die Fußzeile.
-    this.shell.append(this.topbar, columns, this.consoleResizer(), this.live.consoleElement, this.bottombar)
+    this.shell.append(this.topbar, columns, this.bottombar)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
@@ -1062,47 +1059,6 @@ export class App {
   /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
   private learnResizer(): HTMLElement {
     return this.panelResizer(this.learn.element, 'learn-resizer', learnWidthKey, t('web_learn_resize'), 1)
-  }
-
-  /** Waagrechte Trennlinie über der Konsole: nach oben ziehen macht die Konsole höher. */
-  private consoleResizer(): HTMLElement {
-    const panel = this.live.consoleElement
-    const bar = h('div', { class: 'console-resizer', role: 'separator', 'aria-orientation': 'horizontal', tabindex: '0', title: t('web_console_resize') })
-    const clamp = (height: number) => Math.round(Math.max(80, Math.min(height, this.shell.getBoundingClientRect().height - 220)))
-    const apply = (height: number | undefined, remember: boolean) => {
-      panel.style.height = height === undefined ? '' : `${clamp(height)}px`
-      if (remember) storeValue(consoleHeightKey, height === undefined ? '' : String(clamp(height)))
-    }
-    const saved = Number(storedValue(consoleHeightKey))
-    if (saved > 0) panel.style.height = `${saved}px`
-    bar.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return
-      e.preventDefault()
-      bar.setPointerCapture(e.pointerId)
-      const startY = e.clientY
-      const startHeight = panel.getBoundingClientRect().height
-      this.shell.classList.add('resizing-rows')
-      const move = (ev: PointerEvent) => apply(startHeight - (ev.clientY - startY), false)
-      const up = (ev: PointerEvent) => {
-        bar.removeEventListener('pointermove', move)
-        bar.removeEventListener('pointerup', up)
-        bar.removeEventListener('pointercancel', up)
-        this.shell.classList.remove('resizing-rows')
-        apply(startHeight - (ev.clientY - startY), true)
-        this.renderDiagramOnly()
-      }
-      bar.addEventListener('pointermove', move)
-      bar.addEventListener('pointerup', up)
-      bar.addEventListener('pointercancel', up)
-    })
-    bar.addEventListener('dblclick', () => apply(undefined, true))
-    bar.addEventListener('keydown', (e) => {
-      const step = e.key === 'ArrowUp' ? 20 : e.key === 'ArrowDown' ? -20 : 0
-      if (!step) return
-      e.preventDefault()
-      apply(panel.getBoundingClientRect().height + step, true)
-    })
-    return bar
   }
 
   /** Wie beim Lernbereich, nur am anderen Rand: Ziehen nach links macht den Code breiter. */

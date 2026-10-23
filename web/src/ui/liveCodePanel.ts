@@ -23,12 +23,29 @@ import { sidebarIcon } from './learnPanel'
 const targetKey = 'visustruct.live.target'
 const javaClassKey = 'visustruct.live.javaClass'
 const javaMainKey = 'visustruct.live.javaMain'
+const consoleHeightKey = 'visustruct.console.height'
 
 function storedFlag(key: string): boolean {
   try {
     return localStorage.getItem(key) === '1'
   } catch {
     return false
+  }
+}
+
+function storedValue(key: string): string | null {
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function storeValue(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    /* ohne Speicher: nur für diese Sitzung */
   }
 }
 
@@ -112,8 +129,9 @@ export class LiveCodePanel {
   private run?: { engine: SimulationEngine; printed: number; timer?: number }
   private runButton!: HTMLButtonElement
   private stopButton!: HTMLButtonElement
-  /** Konsole unten unter allen Spalten; die App hängt sie ein. */
-  readonly consoleElement: HTMLElement
+  /** Konsole unter dem Code, darüber eine Trennlinie zum Verschieben. */
+  private consoleElement: HTMLElement
+  private consoleResizer: HTMLElement
   private consoleLines!: HTMLElement
   private consoleForm!: HTMLFormElement
   private consoleNotice!: HTMLElement
@@ -125,14 +143,13 @@ export class LiveCodePanel {
     /** Getippter Code ergab ein neues Struktogramm. */
     private onCode: (doc: VSDocument, select: number[] | undefined) => void,
     private onUndo: (redo: boolean) => void,
-    /** Konsole ein- oder ausgeblendet (die App zeigt dazu die Trennlinie). */
-    private onConsole: (visible: boolean) => void = () => {},
   ) {
     this.element = document.createElement('aside')
     this.element.className = 'livecode'
     this.consoleElement = document.createElement('section')
     this.consoleElement.className = 'console'
     this.consoleElement.hidden = true
+    this.consoleResizer = this.makeConsoleResizer()
     this.build()
   }
 
@@ -164,7 +181,6 @@ export class LiveCodePanel {
       <div class="code-view livecode-editor" dir="ltr"></div>
       <p class="livecode-problem" role="status" aria-live="polite"></p>
     `
-    // Die Konsole liegt unten über die volle Breite (siehe App), gehört aber zum Ausführen hier.
     this.consoleElement.innerHTML = `
       <div class="console-head">
         <h2>${esc(t('web_console'))}</h2>
@@ -186,6 +202,8 @@ export class LiveCodePanel {
     this.runButton = this.element.querySelector('[data-run=play]')!
     this.stopButton = this.element.querySelector('[data-run=stop]')!
     const c = this.consoleElement
+    this.consoleResizer.title = t('web_console_resize')
+    this.element.append(this.consoleResizer, c)
     this.consoleLines = c.querySelector('.livecode-console-lines')!
     this.consoleForm = c.querySelector('.livecode-console-input')!
     this.consoleNotice = c.querySelector('.livecode-console-notice')!
@@ -401,7 +419,52 @@ export class LiveCodePanel {
   private setConsoleVisible(on: boolean) {
     if (this.consoleElement.hidden === !on) return
     this.consoleElement.hidden = !on
-    this.onConsole(on)
+    this.consoleResizer.hidden = !on
+  }
+
+  /** Waagrechte Trennlinie zwischen Code und Konsole: nach oben ziehen macht die Konsole höher. */
+  private makeConsoleResizer(): HTMLElement {
+    const bar = document.createElement('div')
+    bar.className = 'console-resizer'
+    bar.hidden = true
+    bar.tabIndex = 0
+    bar.setAttribute('role', 'separator')
+    bar.setAttribute('aria-orientation', 'horizontal')
+    const panel = this.consoleElement
+    const clamp = (height: number) => Math.round(Math.max(80, Math.min(height, this.element.getBoundingClientRect().height - 160)))
+    const apply = (height: number | undefined, remember: boolean) => {
+      panel.style.height = height === undefined ? '' : `${clamp(height)}px`
+      if (remember) storeValue(consoleHeightKey, height === undefined ? '' : String(clamp(height)))
+    }
+    const saved = Number(storedValue(consoleHeightKey))
+    if (saved > 0) panel.style.height = `${saved}px`
+    bar.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return
+      e.preventDefault()
+      bar.setPointerCapture(e.pointerId)
+      const startY = e.clientY
+      const startHeight = panel.getBoundingClientRect().height
+      bar.classList.add('dragging')
+      const move = (ev: PointerEvent) => apply(startHeight - (ev.clientY - startY), false)
+      const up = (ev: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        bar.classList.remove('dragging')
+        apply(startHeight - (ev.clientY - startY), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowUp' ? 20 : e.key === 'ArrowDown' ? -20 : 0
+      if (!step) return
+      e.preventDefault()
+      apply(panel.getBoundingClientRect().height + step, true)
+    })
+    return bar
   }
 
   private setRunning(on: boolean) {
