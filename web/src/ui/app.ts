@@ -158,6 +158,18 @@ const zoomSteps = [
   { value: 1.82, label: 'settings_ui_scale_extra_large' },
 ]
 
+/** Schriftgröße in Code live (Code, Konsole), unabhängig vom Struktogramm. */
+const codeSizes = [
+  { value: 14, label: 'settings_ui_scale_small' },
+  { value: 17, label: 'settings_ui_scale_medium' },
+  { value: 20, label: 'settings_ui_scale_large' },
+  { value: 24, label: 'settings_ui_scale_extra_large' },
+]
+
+function applyCodeSize(px: number) {
+  document.documentElement.style.setProperty('--code-size', `${px}px`)
+}
+
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 /** Tastenkürzel im Tooltip, z. B. „Strg+S“ bzw. „⌘S“. */
 /** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite. */
@@ -181,6 +193,7 @@ function shortcut(key: string, shift = false): string {
 }
 const e = escapeHTML
 const zoomKey = 'visustruct.ui.scale.canvas'
+const codeSizeKey = 'visustruct.ui.scale.code'
 const learnKey = 'visustruct.learn.open'
 const filesKey = 'visustruct.files.open'
 const filesWidthKey = 'visustruct.files.width'
@@ -375,8 +388,11 @@ export class App {
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
             <section>
               <h3>${e(t('web_settings_display'))}</h3>
-              <label>${e(t('settings_ui_scale_section'))}
+              <label>${e(t('web_scale_canvas'))}
                 <select data-action="zoom">${zoomSteps.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
+              </label>
+              <label>${e(t('web_scale_code'))}
+                <select data-action="code-size">${codeSizes.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
               </label>
               <label>${e(t('settings_language_title'))}
                 <select data-action="language" title="${e(t('web_language_title'))}">${offeredLanguages
@@ -573,6 +589,14 @@ export class App {
       this.zoom = Number(zoom.value)
       storeValue(zoomKey, zoom.value)
       this.renderDiagramOnly()
+    })
+    const codeSize = $<HTMLSelectElement>('[data-action=code-size]')
+    const storedSize = Number(storedValue(codeSizeKey))
+    codeSize.value = String(codeSizes.some((s) => s.value === storedSize) ? storedSize : codeSizes[0].value)
+    applyCodeSize(Number(codeSize.value))
+    codeSize.addEventListener('change', () => {
+      storeValue(codeSizeKey, codeSize.value)
+      applyCodeSize(Number(codeSize.value))
     })
     this.setupSettingsMenu($('[data-action=settings]'), $('.settings-menu'))
     $('[data-action=about]').addEventListener('click', () => {

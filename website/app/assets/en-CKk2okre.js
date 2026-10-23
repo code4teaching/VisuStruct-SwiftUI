@@ -107,6 +107,8 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 /* Code live */
 "web_live_title" = "Live code";
 "web_live_hide" = "Hide live code";
+"web_scale_canvas" = "Text size: structure chart";
+"web_scale_code" = "Text size: Live code";
 "web_live_indent" = "Indent";
 "web_live_indent_title" = "Indent the code: four spaces per level (selected lines, otherwise everything)";
 "web_live_show" = "Show live code";

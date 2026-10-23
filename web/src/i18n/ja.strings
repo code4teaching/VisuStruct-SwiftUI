@@ -50,6 +50,8 @@
 /* Code live */
 "web_live_title" = "ライブコード";
 "web_live_hide" = "ライブコードを隠す";
+"web_scale_canvas" = "文字サイズ: 構造化チャート";
+"web_scale_code" = "文字サイズ: ライブコード";
 "web_live_indent" = "インデント";
 "web_live_indent_title" = "コードをインデント: 1 レベルにつき空白 4 つ（選択した行、なければ全体）";
 "web_live_show" = "ライブコードを表示";

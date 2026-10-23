@@ -1836,7 +1836,7 @@ button.danger-text:not(:disabled) {
   flex: 1;
   min-height: 0;
   padding: 10px 0;
-  font-size: 14px;
+  font-size: var(--code-size, 14px);
 }
 .livecode-view .ln {
   padding: 0 12px;
@@ -1859,7 +1859,7 @@ button.danger-text:not(:disabled) {
   flex: 1;
   min-height: 0;
   padding: 0;
-  font-size: 14px;
+  font-size: var(--code-size, 14px);
   white-space: normal;
   overflow: hidden;
   --syn-keyword: #9b2393;
@@ -2081,7 +2081,7 @@ button.danger-text:not(:disabled) {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  font-size: 14px;
+  font-size: var(--code-size, 14px);
   white-space: pre-wrap;
 }
 .livecode-console-lines .typed {
@@ -2113,7 +2113,7 @@ button.danger-text:not(:disabled) {
   align-items: center;
   gap: 6px;
   min-width: 0;
-  font-size: 14px;
+  font-size: var(--code-size, 14px);
 }
 .livecode-console-input input {
   flex: 1;

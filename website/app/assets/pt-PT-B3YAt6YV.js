@@ -105,6 +105,8 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 /* Code live */
 "web_live_title" = "Código ao vivo";
 "web_live_hide" = "Ocultar código ao vivo";
+"web_scale_canvas" = "Tamanho do texto: estrutograma";
+"web_scale_code" = "Tamanho do texto: Código ao vivo";
 "web_live_indent" = "Indentar";
 "web_live_indent_title" = "Indentar o código: quatro espaços por nível (linhas selecionadas, senão tudo)";
 "web_live_show" = "Mostrar código ao vivo";

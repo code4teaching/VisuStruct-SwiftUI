@@ -50,6 +50,8 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 /* Code live */
 "web_live_title" = "Codice dal vivo";
 "web_live_hide" = "Nascondi codice dal vivo";
+"web_scale_canvas" = "Dimensione testo: diagramma";
+"web_scale_code" = "Dimensione testo: codice dal vivo";
 "web_live_indent" = "Indenta";
 "web_live_indent_title" = "Indenta il codice: quattro spazi per livello (righe selezionate, altrimenti tutto)";
 "web_live_show" = "Mostra codice dal vivo";
