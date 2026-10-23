@@ -163,6 +163,84 @@ tipp: `int numero = 2;` antes do ciclo, depois `while (numero <= n) { … }`. No
 lösung: l11-java-gerade-loesung.visustruct
 :::
 
+## Jogo: Quantas vezes?
+
+::: spiel frage
+titel: Jogo: Quantas vezes?
+intro: O Ludwig escreveu ciclos while. Faz o teste de secretária de cabeça. Seis rondas.
+
+runde:
+    int numero = 3;
+    while (numero > 0) {
+        System.out.println(numero);
+        numero = numero - 1;
+    }
+    System.out.println("Já!");
+frage: O que aparece?
+- [x] 3\n2\n1\nJá!
+- 3\n2\n1\n0\nJá!
+- Já!
+> Quando numero é 0, `numero > 0` é falso, por isso o 0 já não aparece.
+
+runde:
+    int i = 10;
+    while (i < 5) {
+        System.out.println(i);
+        i = i + 1;
+    }
+frage: O que aparece?
+- [x] nada
+- 10
+- de 10 a 4
+> A condição é verificada primeiro. 10 < 5 é falso, o corpo não corre nem uma vez.
+
+runde:
+    int i = 1;
+    while (i <= 3) {
+        System.out.println(i);
+    }
+frage: O que acontece?
+- Aparecem 1, 2 e 3.
+- [x] O ciclo nunca para.
+- Não aparece nada.
+> i nunca aumenta no corpo. A condição fica sempre verdadeira: um ciclo infinito.
+
+runde:
+    int numero = 1;
+    while (numero < 100) {
+        numero = numero * 2;
+    }
+    System.out.println(numero);
+frage: O que aparece?
+- 64
+- 100
+- [x] 128
+> 1, 2, 4, 8, 16, 32, 64, 128. Só com 128 é que `numero < 100` é falso.
+
+runde:
+    int i = 0;
+    while (i < 5) {
+        i = i + 2;
+    }
+    System.out.println(i);
+frage: O que aparece?
+- 4
+- 5
+- [x] 6
+> i passa por 0, 2, 4, 6. Com 6, `i < 5` é falso. O 5 é saltado.
+
+runde:
+    int i = 1;
+    while (i <= 10) {
+        i = i + 3;
+    }
+frage: Quantas vezes corre o corpo?
+- 3 vezes
+- [x] 4 vezes
+- 10 vezes
+> O corpo corre com i = 1, 4, 7 e 10. Depois i fica 13.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

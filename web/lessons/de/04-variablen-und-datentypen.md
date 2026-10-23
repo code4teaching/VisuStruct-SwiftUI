@@ -152,6 +152,54 @@ tipp: `String name = "Ludwig";`, `int alter = 7;` und `double groesse = 1.2;`. D
 lösung: l04-java-steckbrief-loesung.visustruct
 :::
 
+## Spiel: Welcher Datentyp?
+
+::: spiel frage
+titel: Spiel: Welcher Datentyp?
+intro: Ludwig hat Werte gesammelt. Welcher Datentyp passt zu jedem Wert? Acht Runden.
+antworten: int | double | String | boolean
+
+runde:
+frage: Welcher Datentyp passt zu `17`?
+richtig: int
+> Eine ganze Zahl ohne Komma ist ein `int`.
+
+runde:
+frage: Welcher Datentyp passt zu `3.5`?
+richtig: double
+> Kommazahlen sind `double`. In Java steht statt des Kommas ein Punkt.
+
+runde:
+frage: Welcher Datentyp passt zu `"Hallo"`?
+richtig: String
+> Text in Anführungszeichen ist ein `String`.
+
+runde:
+frage: Welcher Datentyp passt zu `true`?
+richtig: boolean
+> `true` und `false` sind die beiden Wahrheitswerte, Datentyp `boolean`.
+
+runde:
+frage: Welcher Datentyp passt zu `"17"`?
+richtig: String
+> Vorsicht, Anführungszeichen! Hier ist 17 ein Text, mit dem man nicht rechnen kann.
+
+runde:
+frage: Welcher Datentyp passt zu `-4`?
+richtig: int
+> Auch negative ganze Zahlen sind `int`.
+
+runde:
+frage: Welcher Datentyp passt zu `0.0`?
+richtig: double
+> Der Punkt macht es zur Kommazahl, auch wenn hinten nur eine 0 steht.
+
+runde:
+frage: Welcher Datentyp passt zu `"false"`?
+richtig: String
+> In Anführungszeichen ist auch false nur ein Text. Der Wahrheitswert steht ohne Anführungszeichen.
+:::
+
 ## Checkliste
 
 ::: checkliste

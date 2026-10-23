@@ -127,6 +127,72 @@ tipp: As in maths, multiplication comes before addition: `price + cheese * count
 lösung: l07-java-pizza-loesung.visustruct
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Do the desk check in your head and tap the wrong line before time runs out. The programs are in Java, but every line is a box like in the structure chart. Six rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    int a = 3;
+    int b = 5;
+    int temp = a;
+    a = b;
+    b = a;
+frage: Should swap the values of a and b.
+fehler: 5
+besser: b = temp;
+> a already holds the value of b. The old value of a is in temp.
+
+runde:
+    int a = 4;
+    int b = 6;
+    double mean = a + b / 2;
+    System.out.println(mean);
+frage: Should output the mean 5.0.
+fehler: 3
+besser: double mean = (a + b) / 2.0;
+> Without brackets the division comes first: 4 + 6 / 2 = 7.
+
+runde:
+    int tickets = 3;
+    double price = 8.5;
+    double total = tickets + price;
+    System.out.println("Total: " + total);
+frage: Should output the price for 3 cinema tickets at €8.50 each.
+fehler: 3
+besser: double total = tickets * price;
+> For the total price you multiply, you don't add.
+
+runde:
+    int minutes = 135;
+    int hours = minutes / 60;
+    int rest = minutes / 60;
+    System.out.println(hours + " h " + rest + " min");
+frage: Should output 2 h 15 min.
+fehler: 3
+besser: int rest = minutes % 60;
+> `%` gives the remainder of a division. With `/` rest would hold a 2 as well.
+
+runde:
+    String name = "Ada";
+    System.out.println("Hello " + "name" + "!");
+frage: Should output "Hello Ada!".
+fehler: 2
+besser: System.out.println("Hello " + name + "!");
+> In quotation marks, name is just a text. The variable has no quotation marks.
+
+runde:
+    double price = 100;
+    price = price * 0.1;
+    System.out.println(price);
+frage: Should raise the price by 10 %, so output 110.0.
+fehler: 2
+besser: price = price + price * 0.1;
+> Times 0.1 only gives the 10 %, so 10.0. That has to be added to the old price.
+:::
+
 ## Checklist
 
 ::: checkliste

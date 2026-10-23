@@ -101,6 +101,48 @@ tipp: `int preis = 9;` und `int anzahl = 3;` legen die Variablen an. `int gesamt
 lösung: l05-java-kino-loesung.visustruct
 :::
 
+## Spiel: Kästen sortieren
+
+::: spiel reihenfolge
+titel: Spiel: Kästen sortieren
+intro: Ludwig hat die Kästen durcheinandergeworfen. Bring sie in die richtige Reihenfolge. Vier Runden.
+
+runde:
+frage: Am Ende soll **7** ausgegeben werden.
+- `int zahl = 3`
+- `zahl = zahl * 2`
+- `zahl = zahl + 1`
+- `output: zahl`
+> Erst verdoppeln, dann 1 dazu: 3 · 2 + 1 = 7. Andersherum käme (3 + 1) · 2 = 8 heraus.
+
+runde:
+frage: Am Ende soll **8** ausgegeben werden.
+- `int zahl = 3`
+- `zahl = zahl + 1`
+- `zahl = zahl * 2`
+- `output: zahl`
+> Dieselben Kästen, andere Reihenfolge, anderes Ergebnis: (3 + 1) · 2 = 8.
+
+runde:
+    int a = 3
+    int b = 5
+frage: a und b sollen ihre Werte tauschen.
+- `int hilf = a`
+- `a = b`
+- `b = hilf`
+- `output: a + " " + b`
+> Zuerst wird a in hilf gerettet. Sonst ist der alte Wert weg, sobald a den Wert von b bekommt.
+
+runde:
+frage: Ludwig kocht Tee.
+- Wasser in den Wasserkocher füllen
+- Wasserkocher einschalten
+- Warten, bis das Wasser kocht
+- Wasser über den Teebeutel gießen
+- Tee ziehen lassen
+> Jeder Schritt braucht den vorherigen. Genau wie im Struktogramm.
+:::
+
 ## Checkliste
 
 ::: checkliste

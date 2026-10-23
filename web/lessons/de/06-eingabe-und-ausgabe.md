@@ -153,6 +153,75 @@ tipp: `int jahre = scanner.nextInt();` liest ein. `int tage = jahre * 365;` rech
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Spiel: Was wird ausgegeben?
+
+::: spiel frage
+titel: Spiel: Was wird ausgegeben?
+intro: Ludwig hat Ein- und Ausgaben gebaut. Sag vorher, was passiert. Sieben Runden.
+
+runde:
+    int a = 3
+    int b = 4
+    output: a + b
+frage: Was wird ausgegeben?
+- 7
+- [x] 34
+- a + b
+> In einer Ausgabe hängt `+` die Teile immer aneinander, auch bei Zahlen.
+
+runde:
+    int a = 3
+    int b = 4
+    int summe = a + b
+    output: "Summe: " + summe
+frage: Was wird ausgegeben?
+- [x] Summe: 7
+- Summe: 34
+- Summe: summe
+> Gerechnet wird vorher in einer Variablen. Die Ausgabe hängt nur noch Text und Ergebnis aneinander.
+
+runde:
+    input: String name "Wie heißt du?"
+    output: "Hallo" + name + "!"
+frage: Du tippst Mia. Was wird ausgegeben?
+- Hallo Mia!
+- [x] HalloMia!
+- Hallo name!
+> Im Text `"Hallo"` fehlt das Leerzeichen am Ende. Darum klebt alles zusammen.
+
+runde:
+    input: int alter "Wie alt bist du?"
+frage: Du tippst 2.5. Was passiert?
+- alter ist 2.
+- alter ist 2.5.
+- [x] Die Simulation meldet einen Fehler.
+> Der Datentyp `int` erlaubt nur ganze Zahlen.
+
+runde:
+    input: double preis "Preis in Euro?"
+frage: Zu welchem Teil von EVA gehört dieser Kasten?
+- [x] Eingabe
+- Verarbeitung
+- Ausgabe
+> `input:` fragt einen Wert ab. Das ist die Eingabe.
+
+runde:
+    double mittel = (a + b) / 2.0
+frage: Zu welchem Teil von EVA gehört dieser Kasten?
+- Eingabe
+- [x] Verarbeitung
+- Ausgabe
+> Hier wird gerechnet. Das ist die Verarbeitung.
+
+runde:
+    output: "Mittelwert: " + mittel
+frage: Zu welchem Teil von EVA gehört dieser Kasten?
+- Eingabe
+- Verarbeitung
+- [x] Ausgabe
+> `output:` zeigt das Ergebnis an. Das ist die Ausgabe.
+:::
+
 ## Checkliste
 
 ::: checkliste

@@ -101,6 +101,48 @@ tipp: `int price = 9;` and `int count = 3;` create the variables. `int total = p
 lösung: l05-java-kino-loesung.visustruct
 :::
 
+## Game: Sort the boxes
+
+::: spiel reihenfolge
+titel: Game: Sort the boxes
+intro: Ludwig has mixed up the boxes. Put them in the right order. Four rounds.
+
+runde:
+frage: At the end, **7** should be output.
+- `int number = 3`
+- `number = number * 2`
+- `number = number + 1`
+- `output: number`
+> First double, then add 1: 3 · 2 + 1 = 7. The other way round you'd get (3 + 1) · 2 = 8.
+
+runde:
+frage: At the end, **8** should be output.
+- `int number = 3`
+- `number = number + 1`
+- `number = number * 2`
+- `output: number`
+> The same boxes, a different order, a different result: (3 + 1) · 2 = 8.
+
+runde:
+    int a = 3
+    int b = 5
+frage: a and b should swap their values.
+- `int temp = a`
+- `a = b`
+- `b = temp`
+- `output: a + " " + b`
+> First a is saved in temp. Otherwise the old value is gone as soon as a gets the value of b.
+
+runde:
+frage: Ludwig makes tea.
+- Fill the kettle with water
+- Switch the kettle on
+- Wait until the water boils
+- Pour the water over the tea bag
+- Let the tea brew
+> Every step needs the one before. Just like in a structure chart.
+:::
+
 ## Checklist
 
 ::: checkliste

@@ -154,6 +154,54 @@ With the **simulation** you can also run your structure chart step by step and c
 Programs that jump all over the place are called **spaghetti code**: if you try to follow one thread, you get tangled up like in a plate of spaghetti. In the old days the culprit was the GOTO command, meaning “jump to line …”. So in 1968 the computer scientist Edsger Dijkstra wrote a famous letter: “Go To Statement Considered Harmful”. Since then, programs are built only from sequence, branch and loop. In Java, `goto` is still a reserved word today, but you are not allowed to use it. Baah, I would rather eat spaghetti than program it.
 :::
 
+## Game: Which building block?
+
+::: spiel frage
+titel: Game: Which building block?
+intro: Ludwig describes things from his everyday life. Which of the three building blocks is hidden in each? Eight rounds.
+antworten: sequence | branch | loop
+
+runde:
+frage: "Toothpaste on the brush, brush your teeth, rinse your mouth."
+richtig: sequence
+> Three steps, each exactly once and always in this order.
+
+runde:
+frage: "If it rains, take the umbrella, otherwise the sunglasses."
+richtig: branch
+> A condition decides which of the two ways is taken.
+
+runde:
+frage: "Stir until the dough is smooth."
+richtig: loop
+> Stirring is repeated as long as the dough isn't smooth yet.
+
+runde:
+frage: "Run ten laps around the sports field."
+richtig: loop
+> The same lap is run ten times.
+
+runde:
+frage: "Shoes on, jacket on, door open, off you go."
+richtig: sequence
+> One step after the other, nothing is skipped or repeated.
+
+runde:
+frage: "If the light is green, you cross the street."
+richtig: branch
+> Even without "otherwise" it is a branch. The otherwise branch is simply empty.
+
+runde:
+frage: "Roll the dice until you get a six."
+richtig: loop
+> You don't know beforehand how often. You roll until the condition is met.
+
+runde:
+frage: "If someone says 'Come in', you go in. Otherwise you wait at the door."
+richtig: branch
+> The answer decides between two ways: go in or wait.
+:::
+
 ## Checklist
 
 ::: checkliste

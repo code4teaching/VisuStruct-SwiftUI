@@ -98,6 +98,75 @@ tipp: `do { numero = numero * 2; System.out.println(numero); } while (numero < 1
 lösung: l12-java-verdoppeln-loesung.visustruct
 :::
 
+## Jogo: Pelo menos uma vez?
+
+::: spiel frage
+titel: Jogo: Pelo menos uma vez?
+intro: While ou do-while? O Ludwig mostra-te ciclos. Diz antes o que acontece. Seis rondas.
+
+runde:
+    int i = 10;
+    do {
+        System.out.println(i);
+        i = i + 1;
+    } while (i < 5);
+frage: O que aparece?
+- nada
+- [x] 10
+- de 10 a 4
+> Primeiro fazer, depois verificar: o corpo corre uma vez, depois 11 < 5 é falso.
+
+runde:
+    int i = 10;
+    while (i < 5) {
+        System.out.println(i);
+        i = i + 1;
+    }
+frage: O que aparece?
+- [x] nada
+- 10
+- 11
+> No ciclo while a condição vem primeiro. 10 < 5 é falso, por isso não corre nada.
+
+runde:
+    int numero = 200;
+    do {
+        numero = numero * 2;
+    } while (numero < 100);
+    System.out.println(numero);
+frage: O que aparece?
+- 200
+- [x] 400
+- 800
+> Duplica-se uma vez de certeza. Depois 400 < 100 é falso.
+
+runde:
+    int numero = 30;
+    do {
+        numero = numero * 2;
+        System.out.println(numero);
+    } while (numero < 100);
+frage: O que aparece?
+- 60
+- [x] 60\n120
+- 60\n120\n240
+> Depois de 60, 60 < 100 é verdadeiro, continua. Depois de 120 acaba.
+
+runde:
+frage: Que linha termina corretamente um ciclo do-while em Java?
+- [x] `} while (i < 5);`
+- `} while (i < 5)`
+- `while (i < 5) {`
+> Depois do `while (…)` do ciclo do-while há um ponto e vírgula.
+
+runde:
+frage: Para que se usa tipicamente um ciclo do-while?
+- [x] repetir uma entrada até ser válida
+- contar de 1 a 10
+- trocar dois valores
+> A pergunta é feita pelo menos uma vez. Só depois se sabe se a entrada era válida.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

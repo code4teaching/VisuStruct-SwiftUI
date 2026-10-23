@@ -50,6 +50,45 @@ Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struk
 
 Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
 
+## Spiel: Wie gibst du es weiter?
+
+::: spiel frage
+titel: Spiel: Wie gibst du es weiter?
+intro: Ludwig will sein Struktogramm weitergeben. Welches Format passt am besten? Sechs Runden.
+frage: Welches Format passt?
+antworten: .visustruct | PNG | SVG | PDF
+
+runde:
+frage: Du willst morgen an deinem Struktogramm weiterarbeiten.
+richtig: .visustruct
+> Nur die .visustruct-Datei kann VisuStruct wieder öffnen und bearbeiten.
+
+runde:
+frage: Das Struktogramm soll als Bild in eine Präsentation.
+richtig: PNG
+> Ein PNG-Bild lässt sich in jede Präsentation und jedes Arbeitsblatt einfügen.
+
+runde:
+frage: Die Lehrkraft will deine Abgabe als eine A4-Seite ausdrucken.
+richtig: PDF
+> Das PDF ist genau eine A4-Seite zum Abgeben oder Ausdrucken.
+
+runde:
+frage: Das Struktogramm kommt auf ein Plakat und soll auch riesig noch scharf sein.
+richtig: SVG
+> Eine Vektorgrafik bleibt in jeder Größe scharf. Ein PNG wird beim Vergrößern pixelig.
+
+runde:
+frage: Deine Freundin soll das Struktogramm in ihrer VisuStruct-App auf dem iPad ändern.
+richtig: .visustruct
+> Alle VisuStruct-Versionen öffnen dieselbe .visustruct-Datei: im Browser, auf Mac, iPad und iPhone.
+
+runde:
+frage: Du willst ein Bild schnell in einen Chat schicken.
+richtig: PNG
+> Ein PNG kann jeder sofort ansehen, ohne VisuStruct.
+:::
+
 ## Ausprobieren
 
 Öffne eine deiner Übungen aus Lektion 2 und probiere Folgendes aus:
