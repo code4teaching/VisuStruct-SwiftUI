@@ -50,6 +50,8 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 /* Code live */
 "web_live_title" = "실시간 코드";
 "web_live_hide" = "실시간 코드 숨기기";
+"web_live_indent" = "들여쓰기";
+"web_live_indent_title" = "코드 들여쓰기: 단계마다 공백 4칸 (선택한 줄, 없으면 전체)";
 "web_live_show" = "실시간 코드 표시";
 "web_live_resize" = "코드 영역 너비 변경(더블클릭: 초기화)";
 "web_live_hint" = "코드는 다이어그램과 함께 자랍니다. 회색 = 자리 표시자: 속성 창에 입력하면 여기에 표시됩니다. 줄을 클릭하면 해당 요소가 선택됩니다.";

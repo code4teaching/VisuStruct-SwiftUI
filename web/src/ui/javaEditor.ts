@@ -2,9 +2,10 @@ import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap, s
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
-import { Annotation, Compartment, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
+import { Annotation, type ChangeSpec, Compartment, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
 import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
+import { indentJava } from '../core/javaIndent'
 
 /**
  * Code-Editor der Ansicht „Code live“ (CodeMirror 6): farbige Java-Syntax, Vorschläge beim Tippen
@@ -261,9 +262,12 @@ export class JavaEditor {
       const line = context.state.doc.lineAt(context.pos)
       const before = line.text.slice(0, context.pos - line.from)
       if (/\/\//.test(before) || (before.match(/"/g)?.length ?? 0) % 2 === 1) return null
+      // Hinter `void` tippt man den Namen der Methode selbst: keine main-Vorlage anbieten.
+      const afterVoid = /\bvoid\s+[\w.]*$/.test(before)
+      const options = completions(hooks.words()).filter((c) => !(afterVoid && (c.label === 'main' || c.label === 'psvm')))
       return {
         from: word.from,
-        options: [...completions(hooks.words()), ...declaredNames(context.state.doc.toString())],
+        options: [...options, ...declaredNames(context.state.doc.toString())],
         validFor: /^[\w.]*$/,
       }
     }
@@ -343,6 +347,26 @@ export class JavaEditor {
       selection: { anchor: caret },
       annotations: fromOutside.of(true),
     })
+  }
+
+  /** Knopf „Einrücken“: die markierten Zeilen, ohne Markierung den ganzen Code. */
+  indent() {
+    const doc = this.view.state.doc
+    const sel = this.view.state.selection.main
+    const from = sel.empty ? 1 : doc.lineAt(sel.from).number
+    const to = sel.empty ? doc.lines : doc.lineAt(sel.to).number
+    // Nur die Leerzeichen am Zeilenanfang ändern: Haltepunkte und Cursor bleiben in ihrer Zeile.
+    const changes: ChangeSpec[] = []
+    indentJava(doc.toString(), from, to)
+      .split('\n')
+      .forEach((text, i) => {
+        const line = doc.line(i + 1)
+        const old = /^\s*/.exec(line.text)![0]
+        const now = /^\s*/.exec(text)![0]
+        if (old !== now) changes.push({ from: line.from, to: line.from + old.length, insert: now })
+      })
+    if (changes.length > 0) this.view.dispatch({ changes, userEvent: 'input.indent' })
+    this.view.focus()
   }
 
   setMarks(marks: EditorMarks, scrollToSelection: boolean) {

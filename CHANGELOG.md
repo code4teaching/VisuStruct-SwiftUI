@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Code live:** new button “Indent” (next to ▶ Run) indents the code like Eclipse or IntelliJ, four spaces per level, only the selected lines if there is a selection. It counts brackets, so half-finished code and pseudocode are indented too. After a change in the structure chart, the changed lines are indented to fit the typed code. Lesson 20 (de/en/pt) mentions the button.
 - **Web, Code live:** shortcuts from Eclipse and IntelliJ in the suggestions: `syso`, `sysout` and `sout` insert `System.out.println();`, `main` and `psvm` insert the main method.
 - **Web:** “About VisuStruct” has a section “Third-party software” (CodeMirror and Lezer, MIT; CheerpJ and javac for Swing support) with a link to `licenses.txt`. The build writes that file next to the app with the licence texts of all bundled packages, as the MIT License requires.
 - **Web, Code live: debugger.** Click a line number to set a breakpoint (red dot); ▶ Run pauses before that line. The next line is yellow and its element is selected in the structure chart, a variables table below the code shows the current values and briefly highlights what changed. New Step button (own icon) runs one line and pauses again (also starts the program paused before the first line); ▶ continues to the next breakpoint. The code is read-only while the program runs. Lesson 20 (de/en/pt) gets the section “Find mistakes with the debugger” with a Ludwig tip, checklist item and quiz question.
@@ -46,6 +47,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Fixed
 
+- **Web, Code live:** typing `void main` no longer suggests the main template, so Enter after the name doesn't insert a second main method.
 - **Web, Code live:** pasting (or dropping) code at a grey placeholder such as `// Your code` now replaces the placeholder, like typing does. Before, the placeholder stayed in front of the pasted text and commented out its first line (e.g. `import javax.swing.*;`).
 - **iPhone:** texts of existing elements (conditions, statements, …) can be edited again. Tapping the middle of an element now selects it and opens the text editor instead of setting an insert marker; insert before/after via the top/bottom strips or the palette. While an insert marker is set, “Edit text” is offered next to “Cancel insert”.
 

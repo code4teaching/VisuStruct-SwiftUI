@@ -37,3 +37,12 @@ describe('Code-Editor: Kürzel', () => {
     expect(labels).toEqual(expect.arrayContaining(['syso', 'sysout', 'sout', 'main', 'psvm']))
   })
 })
+
+describe('Code-Editor: Einrücken', () => {
+  it('rückt den ganzen Code ein, ohne Markierung', () => {
+    const editor = editorWith('if (x > 0) {\nx--;\n      }')
+    editor.indent()
+    expect(editor.text).toBe('if (x > 0) {\n    x--;\n}')
+    editor.view.destroy()
+  })
+})
