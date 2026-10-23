@@ -50,6 +50,8 @@
 /* Code live */
 "web_live_title" = "Código en vivo";
 "web_live_hide" = "Ocultar código en vivo";
+"web_scale_canvas" = "Tamaño del texto: diagrama";
+"web_scale_code" = "Tamaño del texto: código en vivo";
 "web_live_indent" = "Sangrar";
 "web_live_indent_title" = "Sangrar el código: cuatro espacios por nivel (líneas seleccionadas, si no, todo)";
 "web_live_show" = "Mostrar código en vivo";

@@ -50,6 +50,8 @@
 /* Code live */
 "web_live_title" = "即時程式碼";
 "web_live_hide" = "隱藏即時程式碼";
+"web_scale_canvas" = "文字大小：結構圖";
+"web_scale_code" = "文字大小：即時程式碼";
 "web_live_indent" = "縮排";
 "web_live_indent_title" = "縮排程式碼：每層四個空格（選取的行，否則全部）";
 "web_live_show" = "顯示即時程式碼";

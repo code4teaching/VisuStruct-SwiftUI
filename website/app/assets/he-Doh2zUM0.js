@@ -50,6 +50,8 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 /* Code live */
 "web_live_title" = "קוד חי";
 "web_live_hide" = "הסתרת קוד חי";
+"web_scale_canvas" = "גודל טקסט: תרשים";
+"web_scale_code" = "גודל טקסט: קוד חי";
 "web_live_indent" = "הזחה";
 "web_live_indent_title" = "הזחת הקוד: ארבעה רווחים לכל רמה (השורות המסומנות, אחרת הכול)";
 "web_live_show" = "הצגת קוד חי";

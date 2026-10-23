@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, settings:** separate text sizes for the structure chart and for Live code (code, console, input), each Small, Medium, Large or Extra large, so the code can be enlarged without the rest.
 - **Web, Code live:** new button “Indent” (next to ▶ Run) indents the code like Eclipse or IntelliJ, four spaces per level, only the selected lines if there is a selection. It counts brackets, so half-finished code and pseudocode are indented too. After a change in the structure chart, the changed lines are indented to fit the typed code. Lesson 20 (de/en/pt) mentions the button.
 - **Web, lessons (de/en/pt):** new lesson 22 “When the program crashes: try and catch” (section “Catching errors”): a crash with an array index, switching on real Java, reading the error message, try and catch, `Integer.parseInt` with `NumberFormatException`, an expert box on exceptions as objects and the task “Dividing safely”. The Swing lessons move to 23–25 (progress is carried over). New lesson 26 “Doubling a number in a window”: JLabel, JTextField and a “Calculate” button, why only the button shows without a layout (Ludwig), `GridLayout(0, 1)`, `getText`/`parseInt`/`setText` and try/catch against “abc”. New glossary term exception.
 - **Web, Code live:** `try { … } catch (…) { … } finally { … }` no longer reports problems; the whole block becomes one statement box (run it with real Java).

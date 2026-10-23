@@ -50,6 +50,8 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 /* Code live */
 "web_live_title" = "Live-kode";
 "web_live_hide" = "Skjul live-kode";
+"web_scale_canvas" = "Tekststørrelse: strukturdiagram";
+"web_scale_code" = "Tekststørrelse: live-kode";
 "web_live_indent" = "Rykk inn";
 "web_live_indent_title" = "Rykk inn koden: fire mellomrom per nivå (merkede linjer, ellers alt)";
 "web_live_show" = "Vis live-kode";

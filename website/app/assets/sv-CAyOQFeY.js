@@ -50,6 +50,8 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 /* Code live */
 "web_live_title" = "Live-kod";
 "web_live_hide" = "Dölj live-kod";
+"web_scale_canvas" = "Textstorlek: strukturdiagram";
+"web_scale_code" = "Textstorlek: live-kod";
 "web_live_indent" = "Indrag";
 "web_live_indent_title" = "Gör indrag i koden: fyra blanksteg per nivå (markerade rader, annars allt)";
 "web_live_show" = "Visa live-kod";

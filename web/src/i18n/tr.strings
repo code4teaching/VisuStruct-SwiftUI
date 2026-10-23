@@ -50,6 +50,8 @@
 /* Code live */
 "web_live_title" = "Canlı kod";
 "web_live_hide" = "Canlı kodu gizle";
+"web_scale_canvas" = "Yazı boyutu: yapı diyagramı";
+"web_scale_code" = "Yazı boyutu: canlı kod";
 "web_live_indent" = "Girinti";
 "web_live_indent_title" = "Kodu girintile: her seviye için dört boşluk (seçili satırlar, yoksa tümü)";
 "web_live_show" = "Canlı kodu göster";

@@ -50,6 +50,8 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 /* Code live */
 "web_live_title" = "Kod na żywo";
 "web_live_hide" = "Ukryj kod na żywo";
+"web_scale_canvas" = "Rozmiar tekstu: diagram";
+"web_scale_code" = "Rozmiar tekstu: kod na żywo";
 "web_live_indent" = "Wcięcia";
 "web_live_indent_title" = "Popraw wcięcia kodu: cztery spacje na poziom (zaznaczone wiersze, w przeciwnym razie wszystko)";
 "web_live_show" = "Pokaż kod na żywo";

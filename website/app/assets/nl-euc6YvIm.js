@@ -50,6 +50,8 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 /* Code live */
 "web_live_title" = "Live code";
 "web_live_hide" = "Live code verbergen";
+"web_scale_canvas" = "Tekstgrootte: structuurdiagram";
+"web_scale_code" = "Tekstgrootte: live code";
 "web_live_indent" = "Inspringen";
 "web_live_indent_title" = "Code laten inspringen: vier spaties per niveau (geselecteerde regels, anders alles)";
 "web_live_show" = "Live code tonen";
