@@ -135,6 +135,79 @@ tipp: `int[][] pontos = {{3, 5}, {4, 1}, {2, 2}};` e no ciclo interior `soma = s
 lösung: l16-java-punkte-loesung.visustruct
 :::
 
+## Jogo: Que lugar?
+
+::: spiel frage
+titel: Jogo: Que lugar?
+intro: O Ludwig vende bilhetes de cinema. Primeiro a fila, depois o lugar, ambos a partir de 0. Sete rondas.
+
+runde:
+    boolean[][] lugares = new boolean[3][5];
+    System.out.println(lugares.length);
+frage: O que aparece?
+- [x] 3
+- 5
+- 15
+> `lugares.length` é o número de filas.
+
+runde:
+    boolean[][] lugares = new boolean[3][5];
+    System.out.println(lugares[0].length);
+frage: O que aparece?
+- 3
+- [x] 5
+- 15
+> `lugares[0]` é a fila 0. O seu comprimento é o número de lugares nessa fila.
+
+runde:
+    int[][] tabela = new int[4][6];
+frage: Quantas posições tem a tabela?
+- 10
+- [x] 24
+- 35
+> 4 filas com 6 lugares cada: 4 · 6 = 24.
+
+runde:
+    int[][] t = {{1, 2}, {3, 4}};
+    System.out.println(t[1][0]);
+frage: O que aparece?
+- 2
+- [x] 3
+- 4
+> A fila 1 é `{3, 4}`, e o lugar 0 dela é o 3.
+
+runde:
+    boolean[][] lugares = new boolean[3][5];
+    lugares[3][0] = true;
+frage: O que acontece?
+- O primeiro lugar da fila 3 fica vendido.
+- O primeiro lugar da última fila fica vendido.
+- [x] Há um erro, porque as filas são 0, 1 e 2.
+> Tal como num array normal, o último índice é um a menos do que o comprimento.
+
+runde:
+    int[][] t = {{1, 2, 3}, {4, 5, 6}};
+    int soma = 0;
+    for (int fila = 0; fila < t.length; fila++) {
+        for (int lugar = 0; lugar < t[fila].length; lugar++) {
+            soma = soma + t[fila][lugar];
+        }
+    }
+    System.out.println(soma);
+frage: O que aparece?
+- 6
+- 15
+- [x] 21
+> Os dois ciclos passam pelas seis posições: 1 + 2 + 3 + 4 + 5 + 6 = 21.
+
+runde:
+frage: Dois ciclos percorrem a sala `new boolean[3][5]`. Que posição vem logo a seguir a `lugares[0][4]`?
+- `lugares[0][5]`
+- [x] `lugares[1][0]`
+- `lugares[1][4]`
+> A fila 0 terminou. O ciclo exterior avança, e o lugar recomeça em 0.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

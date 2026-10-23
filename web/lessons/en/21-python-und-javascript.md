@@ -134,6 +134,55 @@ tipp: `prompt` and `parseInt` together are one input: `input: int age "How old a
 lösung: l18-js-loesung.visustruct
 :::
 
+## Game: Which language?
+
+::: spiel frage
+titel: Game: Which language?
+intro: Ludwig has mixed up lines from three languages. Can you tell where each comes from? Eight rounds.
+frage: Which language is this written in?
+antworten: Java | Python | JavaScript
+
+runde:
+    print(number)
+richtig: Python
+> In Python the output is called `print(…)`, without a semicolon.
+
+runde:
+    console.log(number);
+richtig: JavaScript
+> `console.log` is the output in JavaScript.
+
+runde:
+    System.out.println(number);
+richtig: Java
+> The long output with `System.out` only exists in Java.
+
+runde:
+    let numbers = [2, 4, 6];
+richtig: JavaScript
+> `let` and square brackets: an array in JavaScript.
+
+runde:
+    for i in range(5):
+richtig: Python
+> A colon instead of curly brackets, and `range`: typical Python.
+
+runde:
+    int[] numbers = {2, 4, 6};
+richtig: Java
+> Only Java writes the data type `int[]` in front.
+
+runde:
+    number = int(input("Start value?"))
+richtig: Python
+> No data type in front of the variable, no semicolon, and `int(…)` around the input.
+
+runde:
+    let number = parseInt(prompt("Start value?"), 10);
+richtig: JavaScript
+> `prompt` asks for a value in the browser, `parseInt` turns it into a number.
+:::
+
 ## Checklist
 
 ::: checkliste

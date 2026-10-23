@@ -157,6 +157,76 @@ tipp: `int[] noten = {2, 3, 1, 4};`, dann `for (int i = 0; i < noten.length; i++
 lösung: l15-java-noten-loesung.visustruct
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler** rund um Arrays, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Sechs Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    int[] zahlen = {2, 4, 6, 8, 10};
+    for (int i = 0; i <= zahlen.length; i++) {
+        System.out.println(zahlen[i]);
+    }
+frage: Soll alle fünf Werte ausgeben.
+fehler: 2
+besser: for (int i = 0; i < zahlen.length; i++) {
+> Mit `<=` läuft i bis 5. Das Fach `zahlen[5]` gibt es nicht.
+
+runde:
+    String[] namen = {"Ada", "Ben", "Cem"};
+    System.out.println(namen[1]);
+frage: Soll den ersten Namen ausgeben, also Ada.
+fehler: 2
+besser: System.out.println(namen[0]);
+> Gezählt wird ab 0. `namen[1]` ist schon Ben.
+
+runde:
+    int[] zahlen = {2, 4, 6, 8, 10};
+    System.out.println(zahlen[zahlen.length]);
+frage: Soll den letzten Wert ausgeben, also 10.
+fehler: 2
+besser: System.out.println(zahlen[zahlen.length - 1]);
+> Der letzte Index ist immer eins weniger als die Länge.
+
+runde:
+    int[] punkte = {3, 9, 2};
+    int summe = 0;
+    for (int i = 0; i < punkte.length; i++) {
+        summe = punkte[i];
+    }
+    System.out.println(summe);
+frage: Soll die Summe 14 ausgeben.
+fehler: 4
+besser: summe = summe + punkte[i];
+> So überschreibt jeder Wert den vorigen, am Ende steht nur 2 in summe.
+
+runde:
+    int[] punkte = {-5, -2, -9};
+    int max = 0;
+    for (int i = 0; i < punkte.length; i++) {
+        if (punkte[i] > max) {
+            max = punkte[i];
+        }
+    }
+    System.out.println(max);
+frage: Soll das Maximum -2 ausgeben.
+fehler: 2
+besser: int max = punkte[0];
+> Keine der Zahlen ist größer als 0, also bliebe max bei 0. Das Maximum beginnt deshalb mit dem ersten Fach.
+
+runde:
+    int[] zahlen = {2, 4, 6, 8, 10};
+    for (int i = zahlen.length; i >= 0; i--) {
+        System.out.println(zahlen[i]);
+    }
+frage: Soll die Werte rückwärts ausgeben, von 10 bis 2.
+fehler: 2
+besser: for (int i = zahlen.length - 1; i >= 0; i--) {
+> Rückwärts beginnt man beim letzten Index, und der ist `zahlen.length - 1`.
+:::
+
 ## Checkliste
 
 ::: checkliste

@@ -157,6 +157,76 @@ tipp: `int[] grades = {2, 3, 1, 4};`, then `for (int i = 0; i < grades.length; i
 lösung: l15-java-noten-loesung.visustruct
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake** to do with arrays, and the bomb is ticking. Tap the wrong line before time runs out. Six rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    int[] numbers = {2, 4, 6, 8, 10};
+    for (int i = 0; i <= numbers.length; i++) {
+        System.out.println(numbers[i]);
+    }
+frage: Should output all five values.
+fehler: 2
+besser: for (int i = 0; i < numbers.length; i++) {
+> With `<=`, i runs up to 5. There is no slot `numbers[5]`.
+
+runde:
+    String[] names = {"Ada", "Ben", "Cem"};
+    System.out.println(names[1]);
+frage: Should output the first name, Ada.
+fehler: 2
+besser: System.out.println(names[0]);
+> Counting starts at 0. `names[1]` is already Ben.
+
+runde:
+    int[] numbers = {2, 4, 6, 8, 10};
+    System.out.println(numbers[numbers.length]);
+frage: Should output the last value, 10.
+fehler: 2
+besser: System.out.println(numbers[numbers.length - 1]);
+> The last index is always one less than the length.
+
+runde:
+    int[] points = {3, 9, 2};
+    int sum = 0;
+    for (int i = 0; i < points.length; i++) {
+        sum = points[i];
+    }
+    System.out.println(sum);
+frage: Should output the sum 14.
+fehler: 4
+besser: sum = sum + points[i];
+> Like this every value overwrites the one before, and at the end sum only holds 2.
+
+runde:
+    int[] points = {-5, -2, -9};
+    int max = 0;
+    for (int i = 0; i < points.length; i++) {
+        if (points[i] > max) {
+            max = points[i];
+        }
+    }
+    System.out.println(max);
+frage: Should output the maximum -2.
+fehler: 2
+besser: int max = points[0];
+> None of the numbers is greater than 0, so max would stay 0. That's why the maximum starts with the first slot.
+
+runde:
+    int[] numbers = {2, 4, 6, 8, 10};
+    for (int i = numbers.length; i >= 0; i--) {
+        System.out.println(numbers[i]);
+    }
+frage: Should output the values backwards, from 10 to 2.
+fehler: 2
+besser: for (int i = numbers.length - 1; i >= 0; i--) {
+> Backwards you start at the last index, and that is `numbers.length - 1`.
+:::
+
 ## Checklist
 
 ::: checkliste

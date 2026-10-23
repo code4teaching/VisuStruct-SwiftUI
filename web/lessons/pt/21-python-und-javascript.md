@@ -134,6 +134,55 @@ tipp: `prompt` e `parseInt` juntos são uma entrada: `input: int idade "Quantos 
 lösung: l18-js-loesung.visustruct
 :::
 
+## Jogo: Que linguagem?
+
+::: spiel frage
+titel: Jogo: Que linguagem?
+intro: O Ludwig misturou linhas de três linguagens. Reconheces de onde vem cada uma? Oito rondas.
+frage: Em que linguagem está isto escrito?
+antworten: Java | Python | JavaScript
+
+runde:
+    print(numero)
+richtig: Python
+> Em Python, a saída chama-se `print(…)`, sem ponto e vírgula.
+
+runde:
+    console.log(numero);
+richtig: JavaScript
+> `console.log` é a saída em JavaScript.
+
+runde:
+    System.out.println(numero);
+richtig: Java
+> A saída comprida com `System.out` só existe em Java.
+
+runde:
+    let numeros = [2, 4, 6];
+richtig: JavaScript
+> `let` e parênteses retos: um array em JavaScript.
+
+runde:
+    for i in range(5):
+richtig: Python
+> Dois pontos em vez de chavetas, e `range`: típico de Python.
+
+runde:
+    int[] numeros = {2, 4, 6};
+richtig: Java
+> Só o Java escreve o tipo de dados `int[]` à frente.
+
+runde:
+    numero = int(input("Valor inicial?"))
+richtig: Python
+> Sem tipo de dados antes da variável, sem ponto e vírgula, e `int(…)` à volta da entrada.
+
+runde:
+    let numero = parseInt(prompt("Valor inicial?"), 10);
+richtig: JavaScript
+> `prompt` pede um valor no browser, `parseInt` transforma-o num número.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

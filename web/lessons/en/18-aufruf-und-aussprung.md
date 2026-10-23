@@ -232,6 +232,105 @@ tipp: Inside `while (true) { … }` you read the price. Right after that you che
 lösung: l18-java-kasse-loesung.visustruct
 :::
 
+## Game: What comes back?
+
+::: spiel frage
+titel: Game: What comes back?
+intro: Ludwig calls methods and jumps out of loops. Predict what is output. Seven rounds.
+
+runde:
+    public static int square(int x) {
+        return x * x;
+    }
+
+    int q = square(5);
+    System.out.println(q);
+frage: What is output?
+- 5
+- 10
+- [x] 25
+> The call puts 5 into x, and return gives back 5 · 5.
+
+runde:
+    public static void showSum(int a, int b) {
+        System.out.println(a + b);
+    }
+
+    int x = 2;
+    showSum(x, x + 1);
+frage: What is output?
+- [x] 5
+- 23
+- 3
+> The first value 2 goes into a, the second value 3 into b. In Java, `a + b` calculates with numbers as usual.
+
+runde:
+frage: What does a method return when `void` stands in front of its name?
+- a whole number
+- [x] nothing
+- always 0
+> `void` means: no return value. With `int` there, a whole number comes back.
+
+runde:
+    public static void doubleIt(int x) {
+        x = x * 2;
+    }
+
+    int number = 5;
+    doubleIt(number);
+    System.out.println(number);
+frage: What is output?
+- [x] 5
+- 10
+- 0
+> Call by value: doubleIt gets a copy. number stays 5.
+
+runde:
+    public static void clear(boolean[] seats) {
+        for (int i = 0; i < seats.length; i++) {
+            seats[i] = false;
+        }
+    }
+
+    boolean[] row = {true, true};
+    clear(row);
+    System.out.println(row[0]);
+frage: What is output?
+- true
+- [x] false
+> With an array, row and seats point to the same array. The caller sees the change too.
+
+runde:
+    int sum = 0;
+    for (int i = 1; i <= 10; i++) {
+        if (i == 4) {
+            break;
+        }
+        sum = sum + i;
+    }
+    System.out.println(sum);
+frage: What is output?
+- [x] 6
+- 10
+- 55
+> At i = 4, `break` jumps out of the loop straight away. Only 1 + 2 + 3 have been added.
+
+runde:
+    int number = 1;
+    while (true) {
+        number = number * 3;
+        if (number > 20) {
+            break;
+        }
+    }
+    System.out.println(number);
+frage: What is output?
+- 9
+- 20
+- [x] 27
+> 3, 9, 27. Only 27 is greater than 20, then the endless loop ends with break.
+:::
+
 ## Checklist
 
 ::: checkliste

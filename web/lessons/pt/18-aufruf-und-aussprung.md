@@ -232,6 +232,105 @@ tipp: Dentro de `while (true) { … }` lês o preço. Logo a seguir verificas `i
 lösung: l18-java-kasse-loesung.visustruct
 :::
 
+## Jogo: O que é devolvido?
+
+::: spiel frage
+titel: Jogo: O que é devolvido?
+intro: O Ludwig chama métodos e sai de ciclos a meio. Diz antes o que aparece. Sete rondas.
+
+runde:
+    public static int quadrado(int x) {
+        return x * x;
+    }
+
+    int q = quadrado(5);
+    System.out.println(q);
+frage: O que aparece?
+- 5
+- 10
+- [x] 25
+> A chamada põe 5 em x, e o return devolve 5 · 5.
+
+runde:
+    public static void mostrarSoma(int a, int b) {
+        System.out.println(a + b);
+    }
+
+    int x = 2;
+    mostrarSoma(x, x + 1);
+frage: O que aparece?
+- [x] 5
+- 23
+- 3
+> O primeiro valor 2 vai para a, o segundo valor 3 para b. Em Java, `a + b` calcula com números normalmente.
+
+runde:
+frage: O que devolve um método que tem `void` antes do nome?
+- um número inteiro
+- [x] nada
+- sempre 0
+> `void` quer dizer: sem valor de retorno. Com `int` nesse lugar, é devolvido um número inteiro.
+
+runde:
+    public static void duplicar(int x) {
+        x = x * 2;
+    }
+
+    int numero = 5;
+    duplicar(numero);
+    System.out.println(numero);
+frage: O que aparece?
+- [x] 5
+- 10
+- 0
+> Passagem por valor (call by value): duplicar recebe uma cópia. numero continua a ser 5.
+
+runde:
+    public static void limpar(boolean[] lugares) {
+        for (int i = 0; i < lugares.length; i++) {
+            lugares[i] = false;
+        }
+    }
+
+    boolean[] fila = {true, true};
+    limpar(fila);
+    System.out.println(fila[0]);
+frage: O que aparece?
+- true
+- [x] false
+> Num array, fila e lugares apontam para o mesmo array. Quem chama também vê a alteração.
+
+runde:
+    int soma = 0;
+    for (int i = 1; i <= 10; i++) {
+        if (i == 4) {
+            break;
+        }
+        soma = soma + i;
+    }
+    System.out.println(soma);
+frage: O que aparece?
+- [x] 6
+- 10
+- 55
+> Com i = 4, o `break` sai logo do ciclo. Só foram somados 1 + 2 + 3.
+
+runde:
+    int numero = 1;
+    while (true) {
+        numero = numero * 3;
+        if (numero > 20) {
+            break;
+        }
+    }
+    System.out.println(numero);
+frage: O que aparece?
+- 9
+- 20
+- [x] 27
+> 3, 9, 27. Só 27 é maior do que 20, e então o ciclo infinito termina com break.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

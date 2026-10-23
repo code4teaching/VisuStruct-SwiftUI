@@ -149,6 +149,76 @@ tipp: `for (int i = 0; i < karten.length; i++)` und darin `if (karten[i] == gesu
 lösung: l19-java-zaehlen-loesung.visustruct
 :::
 
+## Spiel: Suchprofi
+
+::: spiel frage
+titel: Spiel: Suchprofi
+intro: Ludwig sucht und sortiert Karten. Wie schnell geht das, und was kommt heraus? Sieben Runden.
+
+runde:
+    int[] karten = {8, 4, 11, 4, 6};
+    int gesucht = 4;
+    int position = -1;
+    int i = 0;
+    while (position == -1 && i < karten.length) {
+        if (karten[i] == gesucht) {
+            position = i;
+        }
+        i = i + 1;
+    }
+    System.out.println("Position: " + position);
+frage: Was wird ausgegeben?
+- [x] Position: 1
+- Position: 3
+- Position: 2
+> Die Suche hört bei der ersten 4 auf. Sie liegt im Fach 1, gezählt wird ab 0.
+
+runde:
+    int[] karten = {8, 4, 11, 4, 6};
+    int gesucht = 7;
+frage: Mit derselben linearen Suche: Was steht danach in position?
+- 0
+- 5
+- [x] -1
+> Die 7 ist nicht dabei. position bleibt bei -1, das bedeutet „nicht gefunden“.
+
+runde:
+frage: Bei welchen Karten funktioniert die binäre Suche?
+- bei allen
+- [x] nur bei sortierten
+- nur bei weniger als 100
+> Nur wenn die Karten sortiert sind, weißt du nach dem Blick auf die Mitte, in welcher Hälfte du weitersuchen musst.
+
+runde:
+frage: Wie viele Vergleiche braucht die binäre Suche bei 100 Karten höchstens?
+- 50
+- [x] 7
+- 100
+> Jeder Vergleich halbiert den Stapel. 7-mal halbieren reicht bis 128 Karten, also auch für 100.
+
+runde:
+frage: Statt 1 000 Karten sind es jetzt 2 000. Wie viele Vergleiche braucht die binäre Suche höchstens mehr?
+- [x] einen
+- doppelt so viele
+- 1 000
+> Der erste Vergleich halbiert 2 000 auf 1 000. Danach geht es weiter wie vorher.
+
+runde:
+    int[] karten = {5, 3, 8, 1};
+frage: Ein Durchgang Bubblesort vergleicht von links nach rechts immer zwei Nachbarn. Wie liegen die Karten danach?
+- 1, 3, 5, 8
+- [x] 3, 5, 1, 8
+- 3, 5, 8, 1
+> 5 und 3 tauschen, 5 und 8 bleiben, 8 und 1 tauschen. Die größte Karte ist ganz rechts.
+
+runde:
+frage: Bubblesort tauscht `karten[i]` und `karten[i + 1]`. Was braucht es dafür?
+- [x] eine Hilfsvariable
+- ein zweites Array
+- eine binäre Suche
+> Wie beim Tauschen zweier Variablen: `int hilf = karten[i];`, sonst geht ein Wert verloren.
+:::
+
 ## Checkliste
 
 ::: checkliste

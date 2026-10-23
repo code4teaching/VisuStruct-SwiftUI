@@ -134,6 +134,55 @@ tipp: `prompt` und `parseInt` sind zusammen eine Eingabe: `input: int alter "Wie
 lösung: l18-js-loesung.visustruct
 :::
 
+## Spiel: Welche Sprache?
+
+::: spiel frage
+titel: Spiel: Welche Sprache?
+intro: Ludwig hat Zeilen aus drei Sprachen gemischt. Erkennst du, woher jede stammt? Acht Runden.
+frage: In welcher Sprache ist das geschrieben?
+antworten: Java | Python | JavaScript
+
+runde:
+    print(zahl)
+richtig: Python
+> Die Ausgabe heißt in Python `print(…)`, ohne Semikolon.
+
+runde:
+    console.log(zahl);
+richtig: JavaScript
+> `console.log` ist die Ausgabe in JavaScript.
+
+runde:
+    System.out.println(zahl);
+richtig: Java
+> Die lange Ausgabe mit `System.out` gibt es nur in Java.
+
+runde:
+    let zahlen = [2, 4, 6];
+richtig: JavaScript
+> `let` und eckige Klammern: ein Array in JavaScript.
+
+runde:
+    for i in range(5):
+richtig: Python
+> Doppelpunkt statt geschweifter Klammern und `range`: typisch Python.
+
+runde:
+    int[] zahlen = {2, 4, 6};
+richtig: Java
+> Nur Java schreibt den Datentyp `int[]` davor.
+
+runde:
+    zahl = int(input("Startwert?"))
+richtig: Python
+> Kein Datentyp vor der Variablen, kein Semikolon, und `int(…)` um die Eingabe.
+
+runde:
+    let zahl = parseInt(prompt("Startwert?"), 10);
+richtig: JavaScript
+> `prompt` fragt im Browser nach einem Wert, `parseInt` macht eine Zahl daraus.
+:::
+
 ## Checkliste
 
 ::: checkliste

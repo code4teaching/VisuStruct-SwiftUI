@@ -149,6 +149,76 @@ tipp: `for (int i = 0; i < cartas.length; i++)` e lá dentro `if (cartas[i] == p
 lösung: l19-java-zaehlen-loesung.visustruct
 :::
 
+## Jogo: Profissional da pesquisa
+
+::: spiel frage
+titel: Jogo: Profissional da pesquisa
+intro: O Ludwig procura e ordena cartas. Quão rápido é, e o que sai? Sete rondas.
+
+runde:
+    int[] cartas = {8, 4, 11, 4, 6};
+    int procurada = 4;
+    int posicao = -1;
+    int i = 0;
+    while (posicao == -1 && i < cartas.length) {
+        if (cartas[i] == procurada) {
+            posicao = i;
+        }
+        i = i + 1;
+    }
+    System.out.println("Posição: " + posicao);
+frage: O que aparece?
+- [x] Posição: 1
+- Posição: 3
+- Posição: 2
+> A pesquisa para no primeiro 4. Está na posição 1, contando a partir de 0.
+
+runde:
+    int[] cartas = {8, 4, 11, 4, 6};
+    int procurada = 7;
+frage: Com a mesma pesquisa linear: o que fica em posicao?
+- 0
+- 5
+- [x] -1
+> O 7 não está lá. posicao fica em -1, que quer dizer "não encontrado".
+
+runde:
+frage: Com que cartas funciona a pesquisa binária?
+- com todas
+- [x] só com cartas ordenadas
+- só com menos de 100
+> Só com as cartas ordenadas é que, depois de olhares para o meio, sabes em que metade continuar a procurar.
+
+runde:
+frage: De quantas comparações precisa no máximo a pesquisa binária com 100 cartas?
+- 50
+- [x] 7
+- 100
+> Cada comparação corta o monte a meio. Cortar 7 vezes chega para até 128 cartas, portanto também para 100.
+
+runde:
+frage: Em vez de 1000 cartas agora são 2000. Quantas comparações a mais precisa no máximo a pesquisa binária?
+- [x] uma
+- o dobro
+- 1000
+> A primeira comparação reduz 2000 a 1000. Depois continua como antes.
+
+runde:
+    int[] cartas = {5, 3, 8, 1};
+frage: Uma passagem do bubble sort compara sempre dois vizinhos, da esquerda para a direita. Como ficam as cartas depois?
+- 1, 3, 5, 8
+- [x] 3, 5, 1, 8
+- 3, 5, 8, 1
+> 5 e 3 trocam, 5 e 8 ficam, 8 e 1 trocam. A carta maior fica na ponta da direita.
+
+runde:
+frage: O bubble sort troca `cartas[i]` e `cartas[i + 1]`. De que precisa para isso?
+- [x] de uma variável auxiliar
+- de um segundo array
+- de uma pesquisa binária
+> Tal como ao trocar duas variáveis: `int aux = cartas[i];`, senão perde-se um valor.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

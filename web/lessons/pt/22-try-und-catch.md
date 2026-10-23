@@ -125,6 +125,92 @@ Cada exceção é um objeto de uma classe própria, por exemplo `ArithmeticExcep
 Depois de um `try` podem vir vários blocos `catch`, um para cada tipo de erro. `catch (Exception e)` apanha todas as exceções, mas diz-te menos sobre o que aconteceu. E um bloco `finally { … }` no fim corre sempre, quer tenha havido erro quer não.
 :::
 
+## Jogo: A rede apanha?
+
+::: spiel frage
+titel: Jogo: A rede apanha?
+intro: O Ludwig anda no trapézio. O try e o catch apanham-no, ou o programa vai abaixo? Sete rondas.
+
+runde:
+    int[] notas = {2, 3, 1};
+    System.out.println(notas[3]);
+    System.out.println("Pronto!");
+frage: O que acontece com Java a sério?
+- Aparece 1 e Pronto!
+- Só aparece Pronto!
+- [x] O programa vai abaixo com uma ArrayIndexOutOfBoundsException.
+> A posição 3 não existe. Ninguém apanha a exceção, por isso Pronto! nunca chega a aparecer.
+
+runde:
+    int[] notas = {2, 3, 1};
+    try {
+        System.out.println(notas[3]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+        System.out.println("Esta nota não existe.");
+    }
+    System.out.println("Pronto!");
+frage: O que aparece?
+- Pronto!
+- [x] Esta nota não existe.\nPronto!
+- Esta nota não existe.
+> O bloco catch apanha a exceção, e depois o programa continua normalmente.
+
+runde:
+    try {
+        System.out.println("A");
+        System.out.println(10 / 0);
+        System.out.println("B");
+    } catch (ArithmeticException e) {
+        System.out.println("C");
+    }
+frage: O que aparece?
+- A\nB\nC
+- [x] A\nC
+- C
+> Em 10 / 0, o Java salta logo para o bloco catch. O resto do bloco try, o B, é saltado.
+
+runde:
+    String entrada = "12";
+    try {
+        int numero = Integer.parseInt(entrada);
+        System.out.println("Dobro: " + numero * 2);
+    } catch (NumberFormatException e) {
+        System.out.println("Isto não é um número: " + entrada);
+    }
+frage: O que aparece?
+- [x] Dobro: 24
+- Isto não é um número: 12
+- Dobro: 1212
+> "12" pode ser convertido. Se tudo correr bem no bloco try, o catch é saltado.
+
+runde:
+frage: Que exceção lança `Integer.parseInt("2.5")`?
+- ArithmeticException
+- [x] NumberFormatException
+- nenhuma, o resultado é 2
+> parseInt só converte números inteiros. Com um ponto, o formato não é válido.
+
+runde:
+frage: Que exceção lança `12 / 0` com `int`?
+- [x] ArithmeticException
+- NumberFormatException
+- ArrayIndexOutOfBoundsException
+> Dividir por 0 não funciona com números inteiros. A mensagem é `/ by zero`.
+
+runde:
+    try {
+        int fatias = 12 / 0;
+    } catch (NumberFormatException e) {
+        System.out.println("Erro!");
+    }
+    System.out.println("Pronto!");
+frage: O que acontece?
+- Aparece Erro! e Pronto!
+- Só aparece Pronto!
+- [x] O programa vai abaixo.
+> O catch só apanha a exceção que está entre parênteses. Uma ArithmeticException cai pela rede.
+:::
+
 ## Tarefa: dividir em segurança
 
 Este programa falha:
