@@ -1,5 +1,8 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
+import type { LiveLabels } from '../src/core/codeGenerator'
+import { parseLiveJava } from '../src/core/javaParser'
+import { documentFromJava, plainLiveJava } from '../src/core/liveSource'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
@@ -91,6 +94,23 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
         expect(outcome.passed, `${where}: ${ex.id} ${JSON.stringify(outcome)}`).toBe(true)
       }
       for (const r of ex.requires) expect(usedElementTypes(doc).has(ElementType[r as keyof typeof ElementType])).toBe(true)
+      checked++
+    }
+    expect(checked).toBeGreaterThanOrEqual(4)
+  })
+
+  it('Java-Übungen (code: java) lassen sich in Java lösen', () => {
+    const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
+    let checked = 0
+    for (const { where, block } of allBlocks()) {
+      if (block.kind !== 'exercise' || block.exercise.code !== 'java') continue
+      const ex = block.exercise
+      expect(ex.solution, `${where}: ${ex.id} braucht eine Musterlösung`).toBeDefined()
+      // Die Musterlösung so, wie man sie in Java tippen würde, und daraus wieder das Struktogramm
+      const parsed = parseLiveJava(plainLiveJava(diagram(ex.solution!)!, labels), labels)
+      expect(parsed.problems, `${where}: ${ex.id}`).toEqual([])
+      const doc = documentFromJava({ caption: '', elements: [] }, parsed)
+      for (const outcome of checkExercise(doc, ex.tests)) expect(outcome.passed, `${where}: ${ex.id} ${JSON.stringify(outcome)}`).toBe(true)
       checked++
     }
     expect(checked).toBeGreaterThanOrEqual(4)

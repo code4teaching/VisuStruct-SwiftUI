@@ -71,6 +71,7 @@ lösung: l2-hallo-loesung.visustruct
 - `tipp:` gestufte Tipps, eine Zeile je Tipp, vom allgemeinen zum genauen. Jeder Klick auf **Tipp** deckt den nächsten auf. Jede Übung hat mindestens zwei.
 - `lösung:` (optional) Musterlösung. Sichtbar ist sie nur im Lehrermodus (Lehrercode unten in der Lektions- oder Aufgabenliste, im Code steht nur sein SHA-256-Hash in `src/learn/teacher.ts`). Der Test prüft, dass sie alle Tests besteht.
 - `unterprogramm:` (optional) Unterprogramme zur Musterlösung, durch Komma getrennt. Ihr Titel ist der Name im Aufruf. Beim Prüfen findet VisuStruct Unterprogramme in den anderen offenen Reitern.
+- `code: java` (optional) Die Übung wird im Bereich Programmieren in Java gelöst. „Im Editor öffnen“ öffnet die Spalte gleich mit und stellt sie auf Java. Geprüft wird wie sonst das Struktogramm, das beim Tippen entsteht. Eine Musterlösung ist Pflicht, der Test tippt sie als Java und prüft sie.
 - Die Kennung (`l2-hallo`) muss überall eindeutig sein, denn unter ihr wird der Fortschritt gespeichert.
 
 Eine Checkliste zum Abhaken:

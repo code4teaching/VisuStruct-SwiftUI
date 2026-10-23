@@ -69,12 +69,45 @@ tipp: Cria uma variável auxiliar com `String aux = esquerda`. Depois disso prec
 lösung: l04-tauschen-loesung.visustruct
 :::
 
+## Agora em Java
+
+Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. A troca de cima fica assim em Java:
+
+```
+int a = 5;
+int b = 9;
+int aux = a;
+a = b;
+b = aux;
+System.out.println("a = " + a);
+System.out.println("b = " + b);
+```
+
+- Cada bloco passa a ser uma linha. As linhas correm de cima para baixo, tal como os blocos.
+- No fim de cada instrução há um **ponto e vírgula** `;`.
+- Uma saída chama-se `System.out.println(…)` em Java. Atenção ao S maiúsculo de `System`: o Java distingue maiúsculas de minúsculas.
+
+Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+
+::: übung l05-java-kino
+titel: Bilhetes de cinema em Java
+code: java
+auftrag: Um bilhete de cinema custa 9 euros. Escreve um programa em Java que calcula o preço de 3 bilhetes e mostra **Total: 27**.
+  “Abrir no editor” abre também a área Programação à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
+test: - -> Total: 27
+braucht: anweisung
+tipp: Precisas de três variáveis: o preço, a quantidade e o resultado. Cada linha termina com ponto e vírgula.
+tipp: `int preco = 9;` e `int quantidade = 3;` criam as variáveis. `int total = preco * quantidade;` calcula, e `System.out.println("Total: " + total);` mostra o resultado.
+lösung: l05-java-kino-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
 - Sei que uma sequência é executada de cima para baixo. → Passo a passo
 - Sei explicar porque é que a ordem dos passos conta. → A ordem conta
 - Sei trocar dois valores com uma variável auxiliar. → Trocar dois valores
+- Sei escrever uma sequência em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -102,4 +135,10 @@ lösung: l04-tauschen-loesung.visustruct
 - [x] 15
 - [ ] 4
 > Primeiro x passa a 5, depois a 15.
+
+? Com que termina cada instrução em Java?
+- [ ] Com um ponto .
+- [x] Com um ponto e vírgula ;
+- [ ] Com dois pontos :
+> Se faltar o ponto e vírgula, o VisuStruct mostra uma indicação por baixo do código.
 :::

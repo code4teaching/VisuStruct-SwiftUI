@@ -69,12 +69,45 @@ tipp: Create a temporary variable with `String temp = left`. After that you need
 lösung: l04-tauschen-loesung.visustruct
 :::
 
+## Now in Java
+
+A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. The swap from above looks like this in Java:
+
+```
+int a = 5;
+int b = 9;
+int temp = a;
+a = b;
+b = temp;
+System.out.println("a = " + a);
+System.out.println("b = " + b);
+```
+
+- Every box becomes one line. The lines run from top to bottom, just like the boxes.
+- Every statement ends with a **semicolon** `;`.
+- An output is called `System.out.println(…)` in Java. Mind the capital S in `System`: Java tells upper and lower case apart.
+
+You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+
+::: übung l05-java-kino
+titel: Cinema tickets in Java
+code: java
+auftrag: A cinema ticket costs 9 euros. Write a Java program that calculates the price of 3 tickets and outputs **Total: 27**.
+  “Open in editor” also opens the Programming area on the right. Type your code there; the structure chart builds itself. Then click Check.
+test: - -> Total: 27
+braucht: anweisung
+tipp: You need three variables: the price, the number of tickets and the result. Every line ends with a semicolon.
+tipp: `int price = 9;` and `int count = 3;` create the variables. `int total = price * count;` calculates, and `System.out.println("Total: " + total);` outputs the result.
+lösung: l05-java-kino-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
 - I know that a sequence runs from top to bottom. → Step by step
 - I can explain why the order of the steps matters. → Order matters
 - I can swap two values with a temporary variable. → Swap two values
+- I can write a sequence in Java. → Now in Java
 :::
 
 ## Quiz
@@ -102,4 +135,10 @@ lösung: l04-tauschen-loesung.visustruct
 - [x] 15
 - [ ] 4
 > First x becomes 5, then 15.
+
+? What does every statement end with in Java?
+- [ ] With a full stop .
+- [x] With a semicolon ;
+- [ ] With a colon :
+> If the semicolon is missing, VisuStruct shows a hint below the code.
 :::

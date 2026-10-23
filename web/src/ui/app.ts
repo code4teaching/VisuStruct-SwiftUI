@@ -869,6 +869,7 @@ export class App {
       collapse: () => this.setLearning(false),
       openExercise: (ex: Exercise, doc: VSDocument) => {
         this.setEditorHidden(false)
+        if (ex.code === 'java') this.openJavaColumn()
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
@@ -1214,6 +1215,19 @@ export class App {
   }
 
   // MARK: - Code live
+
+  /** Übungen mit `code: java`: Spalte Programmieren öffnen und auf Java stellen, wie über das Zahnrad. */
+  private openJavaColumn() {
+    if (this.live.language !== 'java') {
+      const sel = '[data-action=live-language]'
+      const select = this.topbar.querySelector<HTMLSelectElement>(sel) ?? this.root.querySelector<HTMLSelectElement>(sel)
+      if (select) {
+        select.value = 'java'
+        select.dispatchEvent(new Event('change'))
+      } else this.live.setTarget('java')
+    }
+    if (!this.liveCoding) this.setLiveCoding(true)
+  }
 
   private setLiveCoding(on: boolean) {
     if (on && this.coding) this.setCoding(false)

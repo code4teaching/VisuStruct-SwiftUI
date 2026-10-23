@@ -90,6 +90,43 @@ tipp: A condição é `numero < 0`. No ramo true trocas o sinal, p. ex. com `num
 lösung: l07-betrag-loesung.visustruct
 :::
 
+## Agora em Java
+
+Esta é a verificação da idade do início desta lição em Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Quantos anos tens?");
+int idade = scanner.nextInt();
+if (idade >= 18) {
+    System.out.println("És maior de idade.");
+} else {
+    System.out.println("Ainda não és maior de idade.");
+}
+```
+
+- A condição fica depois de `if`, entre **parênteses curvos** `( )`.
+- O ramo true fica entre **chavetas** `{ }`, o ramo false vem depois de `else`, nas suas próprias chavetas. Depois de uma chaveta não há ponto e vírgula.
+- Se o ramo false estiver vazio, deixas simplesmente de fora `else { }`.
+- O teu programa precisa das duas primeiras linhas uma vez, assim que lê alguma coisa. Depois, `scanner.nextInt()` lê um número inteiro. A pergunta antes disso é uma saída normal.
+
+::: übung l08-java-bestanden
+titel: Aprovado em Java
+code: java
+auftrag: Escreve um programa em Java que pergunta pela pontuação. A partir de 50 pontos mostra **aprovado**, senão **reprovado**.
+  Escreve o código na área Programação e depois clica em Verificar.
+test: 50 -> aprovado
+test: 49 -> reprovado
+test: 100 -> aprovado
+test: 0 -> reprovado
+braucht: verzweigung
+tipp: Começa pelas duas linhas do scanner. Depois perguntas pelos pontos, lês o valor e comparas com `if`.
+tipp: A condição é `pontos >= 50`. Num ramo fica `System.out.println("aprovado");` e depois de `else` vem `System.out.println("reprovado");`.
+lösung: l08-java-bestanden-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -97,6 +134,7 @@ lösung: l07-betrag-loesung.visustruct
 - Conheço os operadores de comparação == != < <= > >=. → Operadores de comparação
 - Sei distinguir == de =. → Operadores de comparação
 - Sei construir uma decisão com um ramo vazio. → Um ramo vazio
+- Sei escrever uma decisão com if e else em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -131,4 +169,10 @@ lösung: l07-betrag-loesung.visustruct
 - [x] Instrução condicional
 - [ ] Iteração
 > As instruções de um ramo só são executadas sob uma condição. Por isso também se chama instrução condicional.
+
+? Onde fica em Java a condição de uma decisão?
+- [x] Entre parênteses curvos logo a seguir a if
+- [ ] Entre chavetas depois de else
+- [ ] Depois de um ponto e vírgula
+> `if (idade >= 18) { … }`: os parênteses curvos pertencem à condição, as chavetas ao ramo.
 :::

@@ -92,12 +92,53 @@ tipp: Schau, mit welchem Wert von i die Schleife zuletzt läuft. Bei n = 4 muss 
 lösung: l16-summe-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Die Summe von 1 bis n sieht in Java so aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Bis zu welcher Zahl?");
+int n = scanner.nextInt();
+int summe = 0;
+for (int i = 1; i <= n; i++) {
+    summe = summe + i;
+}
+System.out.println(summe);
+```
+
+In den runden Klammern nach `for` stehen die drei Felder der For-Schleife, getrennt durch Semikolons:
+
+| Feld | In Java | Bedeutung |
+|---|---|---|
+| Startwert | `int i = 1` | `i` beginnt bei 1. |
+| Bedingung | `i <= n` | Die Schleife läuft, solange das gilt. |
+| Schritt | `i++` | Nach jedem Durchlauf wird `i` um 1 größer. |
+
+`i++` ist die Kurzform von `i = i + 1`. Rückwärts zählst du mit `i--`.
+
+::: übung l13-java-quadrate
+titel: Quadratzahlen in Java
+code: java
+auftrag: Schreibe ein Java-Programm, das eine ganze Zahl `n` einliest und mit einer For-Schleife die Quadratzahlen von 1 bis `n` ausgibt, jede in einer eigenen Zeile. Bei 3 also 1, 4 und 9.
+test: 3 -> 1 | 4 | 9
+test: 5 -> 1 | 4 | 9 | 16 | 25
+test: 1 -> 1
+braucht: forSchleife
+tipp: Die Schleife zählt `i` von 1 bis `n`. Die Quadratzahl von `i` ist `i * i`.
+tipp: `for (int i = 1; i <= n; i++) { … }` und im Rumpf `System.out.println(i * i);`.
+lösung: l13-java-quadrate-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
 - Ich kenne die drei Teile Start, Bedingung und Schritt der For-Schleife. → Zählen mit festem Plan
 - Ich weiß, in welcher Reihenfolge die drei Teile ausgeführt werden. → In welcher Reihenfolge?
 - Ich kann mit einer For-Schleife vorwärts, rückwärts und in größeren Schritten zählen. → Andere Schritte
+- Ich kann eine For-Schleife in Java schreiben und ihre drei Felder erklären. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -125,4 +166,10 @@ lösung: l16-summe-loesung.visustruct
 - [x] Wenn vorher feststeht, wie oft wiederholt wird
 - [ ] Wenn so lange gefragt wird, bis eine Eingabe gültig ist
 - [ ] Wenn nur ein einziger Wert geprüft wird
+
+? Was bedeutet `i++` in einer For-Schleife?
+- [ ] i wird verdoppelt.
+- [x] i wird um 1 größer.
+- [ ] i wird ausgegeben.
+> `i++` ist die Kurzform von `i = i + 1`.
 :::

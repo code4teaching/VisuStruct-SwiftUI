@@ -133,6 +133,36 @@ tipp: Inicia a simulação com o valor inicial 3 e observa i em Variáveis. O i 
 lösung: l16-countdown-loesung.visustruct
 :::
 
+## Agora em Java
+
+A contagem decrescente do início desta lição fica assim em Java:
+
+```
+int numero = 3;
+while (numero > 0) {
+    System.out.println(numero);
+    numero = numero - 1;
+}
+System.out.println("Partida!");
+```
+
+- Depois de `while`, a condição fica entre parênteses curvos, como em `if`.
+- Tudo o que se repete fica entre chavetas. É o corpo do ciclo.
+- O corpo está recuado. Assim vês, como no estrutograma, o que pertence ao ciclo.
+
+::: übung l11-java-gerade
+titel: Números pares em Java
+code: java
+auftrag: Escreve um programa em Java que lê um número inteiro `n` e, com um ciclo while, mostra todos os números pares de 2 até no máximo `n`. Para 7, são 2, 4 e 6.
+test: 7 -> 2 | 4 | 6
+test: 8 -> 2 | 4 | 6 | 8
+test: 2 -> 2
+braucht: whileSchleife
+tipp: Precisas de uma variável contadora que começa em 2. O ciclo corre enquanto ela não for maior do que `n`.
+tipp: `int numero = 2;` antes do ciclo, depois `while (numero <= n) { … }`. No corpo mostras `numero` e aumentas com `numero = numero + 2;`.
+lösung: l11-java-gerade-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -140,6 +170,7 @@ lösung: l16-countdown-loesung.visustruct
 - Sei usar uma variável contadora com valor inicial, condição e alteração. → Uma variável contadora
 - Noto quando um ciclo nunca acaba e sei corrigir o erro. → Atenção: ciclo infinito
 - Sei seguir um ciclo iteração a iteração num teste de secretária. → Ciclos num teste de secretária
+- Sei escrever um ciclo while em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -173,4 +204,10 @@ lösung: l16-countdown-loesung.visustruct
 - [x] A condição diz i < 5 em vez de i <= 5.
 - [ ] O ciclo é um ciclo while.
 - [ ] A variável i tem o nome errado.
+
+? Que linha começa corretamente um ciclo while em Java?
+- [ ] while numero > 0 {
+- [x] while (numero > 0) {
+- [ ] while (numero > 0);
+> A condição fica entre parênteses curvos, depois `{` abre o corpo.
 :::

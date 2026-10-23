@@ -133,6 +133,36 @@ tipp: Start the simulation with start value 3 and watch i under Variables. Does 
 lösung: l16-countdown-loesung.visustruct
 :::
 
+## Now in Java
+
+The countdown from the start of this lesson looks like this in Java:
+
+```
+int number = 3;
+while (number > 0) {
+    System.out.println(number);
+    number = number - 1;
+}
+System.out.println("Start!");
+```
+
+- After `while` the condition is in round brackets, as with `if`.
+- Everything that is repeated is in curly brackets. That is the body of the loop.
+- The body is indented. As in the structure chart, you can see what belongs to the loop.
+
+::: übung l11-java-gerade
+titel: Even numbers in Java
+code: java
+auftrag: Write a Java program that reads a whole number `n` and uses a while loop to output all even numbers from 2 up to at most `n`. For 7 that is 2, 4 and 6.
+test: 7 -> 2 | 4 | 6
+test: 8 -> 2 | 4 | 6 | 8
+test: 2 -> 2
+braucht: whileSchleife
+tipp: You need a counter variable that starts at 2. The loop runs as long as it is not greater than `n`.
+tipp: `int number = 2;` before the loop, then `while (number <= n) { … }`. In the body you output `number` and increase it with `number = number + 2;`.
+lösung: l11-java-gerade-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -140,6 +170,7 @@ lösung: l16-countdown-loesung.visustruct
 - I can use a counter variable with a start value, a condition and a change. → A counter variable
 - I notice when a loop never ends and can fix the mistake. → Watch out: endless loop
 - I can follow a loop pass by pass in a desk check. → Loops in a desk check
+- I can write a while loop in Java. → Now in Java
 :::
 
 ## Quiz
@@ -173,4 +204,10 @@ lösung: l16-countdown-loesung.visustruct
 - [x] The condition says i < 5 instead of i <= 5.
 - [ ] The loop is a while loop.
 - [ ] The variable i has the wrong name.
+
+? Which line starts a while loop correctly in Java?
+- [ ] while number > 0 {
+- [x] while (number > 0) {
+- [ ] while (number > 0);
+> The condition is in round brackets, then `{` opens the body.
 :::
