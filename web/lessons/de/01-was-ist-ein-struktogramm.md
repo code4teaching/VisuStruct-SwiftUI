@@ -154,6 +154,54 @@ Mit der **Simulation** kannst du dein Struktogramm außerdem Schritt für Schrit
 Programme, die kreuz und quer springen, heißen **Spaghetticode**: Wer einem Faden folgen will, verheddert sich wie in einem Teller Spaghetti. Schuld war früher der Befehl GOTO, also „springe zu Zeile …“. 1968 schrieb der Informatiker Edsger Dijkstra deshalb einen berühmten Brief: „Go To Statement Considered Harmful“, auf Deutsch „GOTO gilt als schädlich“. Seitdem baut man Programme nur noch aus Sequenz, Verzweigung und Wiederholung. In Java ist `goto` bis heute ein reserviertes Wort, benutzen darf man es aber nicht. Mäh, Spaghetti esse ich lieber, als sie zu programmieren.
 :::
 
+## Spiel: Welcher Baustein?
+
+::: spiel frage
+titel: Spiel: Welcher Baustein?
+intro: Ludwig beschreibt Dinge aus seinem Alltag. Welcher der drei Bausteine steckt darin? Acht Runden.
+antworten: Sequenz | Verzweigung | Wiederholung
+
+runde:
+frage: „Zahnpasta auf die Bürste, Zähne putzen, Mund ausspülen.“
+richtig: Sequenz
+> Drei Schritte, jeder genau einmal und immer in dieser Reihenfolge.
+
+runde:
+frage: „Wenn es regnet, nimm den Schirm mit, sonst die Sonnenbrille.“
+richtig: Verzweigung
+> Eine Bedingung entscheidet, welcher der zwei Wege genommen wird.
+
+runde:
+frage: „Rühre, bis der Teig glatt ist.“
+richtig: Wiederholung
+> Das Rühren wird wiederholt, solange der Teig noch nicht glatt ist.
+
+runde:
+frage: „Laufe zehn Runden um den Sportplatz.“
+richtig: Wiederholung
+> Dieselbe Runde wird zehnmal gelaufen.
+
+runde:
+frage: „Schuhe an, Jacke an, Tür auf, losgehen.“
+richtig: Sequenz
+> Ein Schritt nach dem anderen, nichts wird übersprungen oder wiederholt.
+
+runde:
+frage: „Ist die Ampel grün, gehst du über die Straße.“
+richtig: Verzweigung
+> Auch ohne „sonst“ ist es eine Verzweigung. Der Sonst-Zweig ist einfach leer.
+
+runde:
+frage: „Würfle so lange, bis du eine Sechs hast.“
+richtig: Wiederholung
+> Du weißt vorher nicht, wie oft. Gewürfelt wird, bis die Bedingung erfüllt ist.
+
+runde:
+frage: „Sagt jemand ‚Herein‘, gehst du hinein. Sonst wartest du vor der Tür.“
+richtig: Verzweigung
+> Die Antwort entscheidet zwischen zwei Wegen: hineingehen oder warten.
+:::
+
 ## Checkliste
 
 ::: checkliste

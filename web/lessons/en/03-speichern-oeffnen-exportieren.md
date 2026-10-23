@@ -50,6 +50,45 @@ With [Export](#zeige-exportieren) in the tools (icon with an arrow pointing up) 
 
 Under the [gear](#zeige-textgroesse) at the top right, Text size sets the font size. Larger text also shows when you export an image.
 
+## Game: How do you pass it on?
+
+::: spiel frage
+titel: Game: How do you pass it on?
+intro: Ludwig wants to pass on his structure chart. Which format fits best? Six rounds.
+frage: Which format fits?
+antworten: .visustruct | PNG | SVG | PDF
+
+runde:
+frage: You want to keep working on your structure chart tomorrow.
+richtig: .visustruct
+> Only the .visustruct file can be opened and edited in VisuStruct again.
+
+runde:
+frage: The structure chart should go into a presentation as a picture.
+richtig: PNG
+> A PNG image can be put into any presentation and any worksheet.
+
+runde:
+frage: Your teacher wants to print your work as one A4 page.
+richtig: PDF
+> The PDF is exactly one A4 page to hand in or print.
+
+runde:
+frage: The structure chart goes on a poster and should stay sharp even when huge.
+richtig: SVG
+> A vector graphic stays sharp at any size. A PNG gets pixelated when you enlarge it.
+
+runde:
+frage: Your friend should change the structure chart in her VisuStruct app on the iPad.
+richtig: .visustruct
+> All VisuStruct versions open the same .visustruct file: in the browser, on Mac, iPad and iPhone.
+
+runde:
+frage: You want to send a picture into a chat quickly.
+richtig: PNG
+> Anyone can look at a PNG straight away, without VisuStruct.
+:::
+
 ## Try it out
 
 Open one of your exercises from lesson 2 and try the following:

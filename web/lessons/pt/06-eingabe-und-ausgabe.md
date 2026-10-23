@@ -153,6 +153,75 @@ tipp: `int anos = scanner.nextInt();` lê. `int dias = anos * 365;` calcula, e `
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Jogo: O que aparece?
+
+::: spiel frage
+titel: Jogo: O que aparece?
+intro: O Ludwig construiu entradas e saídas. Diz antes o que acontece. Sete rondas.
+
+runde:
+    int a = 3
+    int b = 4
+    output: a + b
+frage: O que aparece?
+- 7
+- [x] 34
+- a + b
+> Numa saída, o `+` junta sempre as partes, mesmo números.
+
+runde:
+    int a = 3
+    int b = 4
+    int soma = a + b
+    output: "Soma: " + soma
+frage: O que aparece?
+- [x] Soma: 7
+- Soma: 34
+- Soma: soma
+> O cálculo acontece antes, numa variável. A saída só junta o texto e o resultado.
+
+runde:
+    input: String nome "Como te chamas?"
+    output: "Olá" + nome + "!"
+frage: Escreves Mia. O que aparece?
+- Olá Mia!
+- [x] OláMia!
+- Olá nome!
+> O texto `"Olá"` não tem espaço no fim. Por isso fica tudo colado.
+
+runde:
+    input: int idade "Quantos anos tens?"
+frage: Escreves 2.5. O que acontece?
+- idade fica 2.
+- idade fica 2.5.
+- [x] A simulação mostra um erro.
+> O tipo de dados `int` só aceita números inteiros.
+
+runde:
+    input: double preco "Preço em euros?"
+frage: A que parte do modelo EPS pertence este bloco?
+- [x] Entrada
+- Processamento
+- Saída
+> `input:` pede um valor. Isso é a entrada.
+
+runde:
+    double media = (a + b) / 2.0
+frage: A que parte do modelo EPS pertence este bloco?
+- Entrada
+- [x] Processamento
+- Saída
+> Aqui calcula-se alguma coisa. Isso é o processamento.
+
+runde:
+    output: "Média: " + media
+frage: A que parte do modelo EPS pertence este bloco?
+- Entrada
+- Processamento
+- [x] Saída
+> `output:` mostra o resultado. Isso é a saída.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

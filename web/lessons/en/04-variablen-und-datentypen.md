@@ -152,6 +152,54 @@ tipp: `String name = "Ludwig";`, `int age = 7;` and `double height = 1.2;`. You 
 lösung: l04-java-steckbrief-loesung.visustruct
 :::
 
+## Game: Which data type?
+
+::: spiel frage
+titel: Game: Which data type?
+intro: Ludwig has collected values. Which data type fits each value? Eight rounds.
+antworten: int | double | String | boolean
+
+runde:
+frage: Which data type fits `17`?
+richtig: int
+> A whole number without a decimal point is an `int`.
+
+runde:
+frage: Which data type fits `3.5`?
+richtig: double
+> Numbers with a decimal point are `double`.
+
+runde:
+frage: Which data type fits `"Hello"`?
+richtig: String
+> Text in quotation marks is a `String`.
+
+runde:
+frage: Which data type fits `true`?
+richtig: boolean
+> `true` and `false` are the two truth values, data type `boolean`.
+
+runde:
+frage: Which data type fits `"17"`?
+richtig: String
+> Careful, quotation marks! Here 17 is a text you can't calculate with.
+
+runde:
+frage: Which data type fits `-4`?
+richtig: int
+> Negative whole numbers are `int` as well.
+
+runde:
+frage: Which data type fits `0.0`?
+richtig: double
+> The point makes it a decimal number, even if there is only a 0 behind it.
+
+runde:
+frage: Which data type fits `"false"`?
+richtig: String
+> In quotation marks, false is just a text too. The truth value has no quotation marks.
+:::
+
 ## Checklist
 
 ::: checkliste

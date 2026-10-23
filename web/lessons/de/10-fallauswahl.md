@@ -123,6 +123,79 @@ tipp: `switch (zahl) { case 1 -> { System.out.println("eins"); } … default -> 
 lösung: l10-java-wuerfel-loesung.visustruct
 :::
 
+## Spiel: Welcher Fall?
+
+::: spiel frage
+titel: Spiel: Welcher Fall?
+intro: Ludwig drückt Tasten am Getränkeautomaten und an anderen Fallauswahlen. Was passiert? Sechs Runden.
+
+runde:
+    int wahl = 2;
+    switch (wahl) {
+        case 1 -> { System.out.println("Wasser"); }
+        case 2 -> { System.out.println("Saft"); }
+        case 3 -> { System.out.println("Kakao"); }
+        default -> { System.out.println("Diese Taste gibt es nicht."); }
+    }
+frage: Was wird ausgegeben?
+- Wasser
+- [x] Saft
+- Diese Taste gibt es nicht.
+> wahl ist 2, also läuft genau der Fall `case 2`.
+
+runde:
+    int wahl = 4;
+    switch (wahl) {
+        case 1 -> { System.out.println("Wasser"); }
+        case 2 -> { System.out.println("Saft"); }
+        case 3 -> { System.out.println("Kakao"); }
+        default -> { System.out.println("Diese Taste gibt es nicht."); }
+    }
+frage: Was wird ausgegeben?
+- Kakao
+- nichts
+- [x] Diese Taste gibt es nicht.
+> Kein Fall passt zu 4, also läuft `default`.
+
+runde:
+    String tag = "montag";
+    switch (tag) {
+        case "Montag" -> { System.out.println("Mathe"); }
+        case "Dienstag" -> { System.out.println("Sport"); }
+        default -> { System.out.println("frei"); }
+    }
+frage: Was wird ausgegeben?
+- Mathe
+- Sport
+- [x] frei
+> Bei Texten zählt jeder Buchstabe: "montag" mit kleinem m ist nicht "Montag".
+
+runde:
+    int note = 0;
+    switch (note) {
+        case 1 -> { System.out.println("sehr gut"); }
+        case 2 -> { System.out.println("gut"); }
+        case 3 -> { System.out.println("befriedigend"); }
+    }
+frage: Was wird ausgegeben?
+- sehr gut
+- [x] nichts
+- befriedigend
+> Kein Fall passt, und es gibt kein `default`. Dann passiert einfach nichts.
+
+runde:
+frage: Du willst prüfen, ob `alter >= 18` ist. Was passt besser?
+- [x] eine Verzweigung
+- eine Fallauswahl
+> Eine Fallauswahl vergleicht nur mit festen Werten. Für „größer oder gleich“ brauchst du eine Verzweigung.
+
+runde:
+frage: Ein Würfel zeigt 1 bis 6, und für jede Zahl soll ein anderes Wort erscheinen. Was passt besser?
+- eine Verzweigung
+- [x] eine Fallauswahl
+> Eine Variable, sechs feste Werte: genau dafür ist die Fallauswahl da.
+:::
+
 ## Checkliste
 
 ::: checkliste

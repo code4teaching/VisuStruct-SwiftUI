@@ -127,6 +127,103 @@ tipp: A condição é `pontos >= 50`. Num ramo fica `System.out.println("aprovad
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
+## Jogo: Que caminho?
+
+::: spiel frage
+titel: Jogo: Que caminho?
+intro: O Ludwig escreveu decisões em Java. Avalia a condição de cabeça e diz o que aparece. Sete rondas.
+
+runde:
+    int x = 5;
+    if (x > 5) {
+        System.out.println("grande");
+    } else {
+        System.out.println("pequeno");
+    }
+frage: O que aparece?
+- grande
+- [x] pequeno
+- nada
+> 5 > 5 é falso, porque 5 não é maior do que 5. Portanto, o ramo falso.
+
+runde:
+    int x = 5;
+    if (x >= 5) {
+        System.out.println("grande");
+    } else {
+        System.out.println("pequeno");
+    }
+frage: O que aparece?
+- [x] grande
+- pequeno
+- grande e pequeno
+> `>=` quer dizer "maior ou igual". 5 >= 5 é verdadeiro.
+
+runde:
+    int numero = 7;
+    if (numero % 2 == 0) {
+        System.out.println("par");
+    } else {
+        System.out.println("ímpar");
+    }
+frage: O que aparece?
+- par
+- [x] ímpar
+- 1
+> 7 % 2 dá resto 1, portanto não 0. O número é ímpar.
+
+runde:
+    int x = -4;
+    if (x < 0) {
+        x = -x;
+    }
+    System.out.println(x);
+frage: O que aparece?
+- -4
+- [x] 4
+- nada
+> -4 < 0 é verdadeiro, por isso o sinal é invertido.
+
+runde:
+    int x = 4;
+    if (x < 0) {
+        x = -x;
+    }
+    System.out.println(x);
+frage: O que aparece?
+- -4
+- [x] 4
+- nada
+> 4 < 0 é falso. O ramo falso está vazio, o programa continua simplesmente por baixo.
+
+runde:
+    int nota = 3;
+    if (nota != 3) {
+        System.out.println("diferente");
+    } else {
+        System.out.println("três");
+    }
+frage: O que aparece?
+- diferente
+- [x] três
+- nada
+> `!=` quer dizer "diferente de". 3 != 3 é falso.
+
+runde:
+    int a = 8;
+    int b = 12;
+    if (a > b) {
+        System.out.println(a);
+    } else {
+        System.out.println(b);
+    }
+frage: O que aparece?
+- 8
+- [x] 12
+- 20
+> O programa mostra o maior dos dois números.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

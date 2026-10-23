@@ -83,6 +83,62 @@ tipp: Every output is a box of its own. Drag the second Statement onto the botto
 lösung: l2-zwei-zeilen-loesung.visustruct
 :::
 
+## Game: Editor pro
+
+::: spiel frage
+titel: Game: Editor pro
+intro: Ludwig tests whether you have the editor under control. Seven rounds.
+
+runde:
+frage: You drag a statement onto the placeholder **ø**. What happens?
+- [x] The statement replaces the placeholder.
+- The statement goes after the placeholder.
+- Nothing, you can't drop anything on ø.
+> The placeholder only keeps the place free. The new element takes it.
+
+runde:
+frage: You drag an element onto the **top** half of a box. Where does it end up?
+- [x] in front of it
+- after it
+- It replaces the box.
+> Top half means in front, bottom half means after. The blue line shows you while dragging.
+
+runde:
+frage: You drag an element onto the **bottom** half of a box. Where does it end up?
+- in front of it
+- [x] after it
+- at the very end of the structure chart
+> Bottom half means: directly after this box.
+
+runde:
+frage: You deleted a box by accident. What brings it back?
+- Ctrl+C
+- [x] Ctrl+Z
+- Ctrl+V
+> Ctrl+Z (⌘Z on a Mac) undoes the last step. Ctrl+C copies, Ctrl+V pastes.
+
+runde:
+frage: When it runs, exactly **Hello** should appear. What is in the box?
+- [x] output: "Hello"
+- output: Hello
+- "Hello"
+> Text that should be shown exactly like that goes in quotation marks. The editor puts `output:` in front when you choose the kind Output.
+
+runde:
+frage: Where do you change the text of the selected box?
+- in the Elements
+- [x] in the Object Inspector
+- in the toolbar at the very top
+> The Object Inspector below the diagram shows the text of the selected box.
+
+runde:
+frage: You select an element in the Elements and press **Enter**. Where does it end up?
+- [x] after the selected box
+- at the very beginning
+- at the very end
+> With the keyboard the new element goes after the box that is selected right now.
+:::
+
 ## Checklist
 
 ::: checkliste
