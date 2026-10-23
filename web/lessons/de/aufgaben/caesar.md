@@ -20,6 +20,10 @@ Damit man nicht jedes Mal abzählen muss, baute man sich eine **Chiffrierscheibe
 Eine Chiffrierscheibe nach dem Vorbild historischer Messingscheiben. Das blaue Fenster zeigt: Mit dem Schlüssel 3 steht unter A das D.
 :::
 
+::: angeberwissen
+Caesar selbst hatte noch gar keine Scheibe! Das wissen wir vom römischen Geschichtsschreiber Sueton: Caesar verschob in seinen Briefen jeden Buchstaben um drei Stellen und zählte das einfach im Kopf ab. Die Scheibe erfand erst Leon Battista Alberti um 1467, also rund 1500 Jahre später. Ich zähle übrigens auch im Kopf, ich habe ja keine Finger, nur Hufe.
+:::
+
 Probiere es selbst aus. Drehe die innere Scheibe, tippe einen Text ein und schau zu, wie der Geheimtext entsteht. Mit **Entschlüsseln** geht es rückwärts.
 
 ::: caesar 3
