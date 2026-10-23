@@ -86,6 +86,9 @@
 "web_keywords_title" = "Kode-nøkkelord";
 "web_keywords_hint" = "if, while, for i stedet for elementnavn";
 "web_about_version_fmt" = "Versjon %@";
+"web_about_software" = "Programvare som brukes";
+"web_about_software_text" = "Kodeeditoren bruker CodeMirror og Lezer (MIT-lisens). Med Swing-støtte laster VisuStruct inn CheerpJ fra Leaning Technologies (Community-lisens) og javac fra OpenJDK.";
+"web_about_licenses" = "Lisenstekster";
 "web_live_run" = "Kjør";
 "web_live_run_title" = "Kjør programmet: utdata og inndata vises nedenfor";
 "web_live_run_finished" = "Programmet er ferdig.";

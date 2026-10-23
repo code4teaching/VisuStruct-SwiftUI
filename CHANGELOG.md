@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web:** “About VisuStruct” has a section “Third-party software” (CodeMirror and Lezer, MIT; CheerpJ and javac for Swing support) with a link to `licenses.txt`. The build writes that file next to the app with the licence texts of all bundled packages, as the MIT License requires.
 - **Web, lessons (de/en/pt):** new section “Windows with Swing” with three lessons: 22 “Your first window” (JFrame, setSize, setDefaultCloseOperation, why setVisible comes last; expert box on classes and objects), 23 “A button in the window” (JButton, add, FlowLayout; the button can be pressed but nothing happens yet) and 24 “The button reacts” (ActionListener with a lambda, several statements on a click; expert box: ActionListener is an interface, with the anonymous class). Lesson 20 now points to Swing support. New glossary terms event and interface. Ludwig boxes with a code block or long code no longer overflow the learning column.
 - **Web, Code live:** a lambda with a block (`e -> { … }`) or an anonymous class (`new ActionListener() { … }`) inside a statement no longer reports a missing `}`; the whole statement becomes one statement box.
 - **Repository:** VisuStruct is now licensed under the MIT License (`LICENSE`).
