@@ -108,7 +108,7 @@ Em cima, no Código ao vivo, [▶︎ Executar](#zeige-ausfuehren) inicia o teu p
 
 Podes arrastar com o rato a fronteira entre o código e a consola para cima ou para baixo.
 
-> O Código ao vivo entende os comandos Java que também existem como blocos no estrutograma. Ainda não conhece classes próprias nem objetos. Janelas com Swing funcionam na mesma: liga o **Suporte para Swing** na roda dentada (lição “A tua primeira janela”).
+> O Código ao vivo entende os comandos Java que também existem como blocos no estrutograma. Ainda não conhece classes próprias nem objetos. Janelas com Swing funcionam na mesma: liga o **Java verdadeiro (com Swing)** na roda dentada (lição “A tua primeira janela”).
 
 ::: angeberwissen
 Os profissionais chamam **IDE** (Integrated Development Environment) a um programa onde se escreve código, se executa e se procuram erros. Com o Código ao vivo, o VisuStruct é um pequeno IDE com estrutograma incluído.

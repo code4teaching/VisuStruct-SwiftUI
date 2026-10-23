@@ -118,7 +118,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_live_java_class_hint" = "Class name = title of the diagram";
 "web_live_java_main" = "With main method";
 "web_settings_display" = "Display";
-"web_live_swing" = "Swing support";
+"web_live_swing" = "Real Java (with Swing)";
 "web_live_swing_hint" = "Real Java with windows (CheerpJ). Downloads about 40 MB once, on the first run.";
 "web_live_swing_windows" = "Java windows";
 "web_live_swing_hide" = "Close Java windows";

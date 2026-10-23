@@ -61,7 +61,7 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_live_java_class_hint" = "Klassnamn = diagrammets titel";
 "web_live_java_main" = "Med main-metod";
 "web_settings_display" = "Visning";
-"web_live_swing" = "Swing-stöd";
+"web_live_swing" = "Riktig Java (med Swing)";
 "web_live_swing_hint" = "Riktig Java med fönster (CheerpJ). Laddar ner ca 40 MB en gång vid första körningen.";
 "web_live_swing_windows" = "Java-fönster";
 "web_live_swing_hide" = "Stäng Java-fönster";

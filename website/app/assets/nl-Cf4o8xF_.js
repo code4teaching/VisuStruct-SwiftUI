@@ -61,7 +61,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_live_java_class_hint" = "Klassenaam = titel van het diagram";
 "web_live_java_main" = "Met main-methode";
 "web_settings_display" = "Weergave";
-"web_live_swing" = "Swing-ondersteuning";
+"web_live_swing" = "Echte Java (met Swing)";
 "web_live_swing_hint" = "Echt Java met vensters (CheerpJ). Downloadt eenmalig ca. 40 MB bij de eerste keer uitvoeren.";
 "web_live_swing_windows" = "Java-vensters";
 "web_live_swing_hide" = "Java-vensters sluiten";

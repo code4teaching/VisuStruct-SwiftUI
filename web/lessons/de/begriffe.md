@@ -170,3 +170,7 @@ Etwas, das der Mensch an einem Fensterprogramm tut, zum Beispiel einen Knopf ank
 ### Interface
 auch: Interfaces
 Eine Art Vertrag in Java: Er legt fest, welche Methoden eine Klasse haben muss. `ActionListener` ist ein Interface mit der Methode `actionPerformed`.
+
+### Exception
+auch: Exceptions
+Ein Fehler, der erst beim Ausführen auftritt, zum Beispiel ein Index außerhalb des Arrays. Fängt ihn kein `catch` auf, bricht das Programm ab.

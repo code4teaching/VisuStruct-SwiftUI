@@ -179,3 +179,7 @@ Something a person does in a window program, for example clicking a button. The 
 ### Interface
 also: Interfaces
 A kind of contract in Java: it states which methods a class must have. `ActionListener` is an interface with the method `actionPerformed`.
+
+### Exception
+also: exception, exceptions, Exceptions
+An error that only happens while the program runs, for example an index outside the array. If no `catch` catches it, the program stops.

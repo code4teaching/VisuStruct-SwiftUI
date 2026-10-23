@@ -121,7 +121,7 @@ function tokenize(src: string, problems: JavaProblem[]): Tok[] {
 
 // MARK: - Lesen
 
-const statementKeywords = new Set(['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'default', 'break', 'return'])
+const statementKeywords = new Set(['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'default', 'break', 'return', 'try'])
 const modifiers = new Set(['public', 'private', 'protected', 'static', 'final', 'abstract'])
 const declTypes = '(?:int|long|short|byte|float|double|boolean|char|String)'
 
@@ -410,6 +410,8 @@ class Parser {
         return [this.parseFor()]
       case 'switch':
         return [this.parseSwitch()]
+      case 'try':
+        return this.parseTry()
       case 'break': {
         this.next()
         const semi = this.eat(';')
@@ -436,6 +438,46 @@ class Parser {
       return [this.record(makeElement(ElementType.anweisung), t.line, t.line)]
     }
     return this.parseSimple()
+  }
+
+  /**
+   * `try { … } catch (…) { … } finally { … }`: Im Struktogramm gibt es dafür keinen Kasten, deshalb wird alles
+   * zusammen ein Anweisungskasten (wie ein Lambda mit Rumpf). Fehlt eine `}`, wird sie gemeldet.
+   */
+  private parseTry(): Built[] {
+    const first = this.next()
+    let last = first
+    /** Klammerpaar ab dem aktuellen Wort überspringen; `false`, wenn die schließende Klammer fehlt. */
+    const skipPair = (open: string, close: string): boolean => {
+      const start = this.next()
+      last = start
+      let depth = 1
+      while (this.tok) {
+        const t = this.next()
+        last = t
+        if (t.kind === 'str') continue
+        if (t.text === open) depth++
+        else if (t.text === close && --depth === 0) return true
+      }
+      this.missingAfter(last, close)
+      return false
+    }
+    let complete = true
+    if (this.is('(')) complete = skipPair('(', ')')
+    if (complete && this.is('{')) complete = skipPair('{', '}')
+    else if (complete) this.missingAfter(last, '{')
+    while (complete && (this.is('catch') || this.is('finally'))) {
+      const isCatch = this.next().text === 'catch'
+      last = this.prev()!
+      if (isCatch) {
+        if (this.is('(')) complete = skipPair('(', ')')
+        else this.missingAfter(last, '(')
+      }
+      if (complete && this.is('{')) complete = skipPair('{', '}')
+      else if (complete) this.missingAfter(last, '{')
+    }
+    const raw = this.text(first.start, last.end).replace(/\s+/g, ' ')
+    return [this.record(makeElement(ElementType.anweisung, { textLines: [raw] }), first.line, last.line)]
   }
 
   /** Kommentar direkt hinter einem Wort in derselben Zeile, z. B. `break; // fertig`. */

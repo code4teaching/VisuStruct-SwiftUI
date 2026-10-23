@@ -1,6 +1,6 @@
 /**
  * Echtes Java (mit Swing) im Browser über CheerpJ (https://cheerpj.com), nur wenn im Zahnrad-Menü
- * „Swing-Unterstützung“ an ist. Erst dann werden Laufzeit und Compiler geladen (einmalig, danach Browser-Cache).
+ * „„Echtes Java (mit Swing)““ an ist. Erst dann werden Laufzeit und Compiler geladen (einmalig, danach Browser-Cache).
  *
  * - Laufzeit: vom CDN des Herstellers (Community-Lizenz: kostenlos für Einzelne und Open Source, nur über dieses CDN).
  * - Compiler: javac aus tools.jar (OpenJDK 8), aus dem JavaFiddle-Repo von Leaning Technologies (Apache-2.0).

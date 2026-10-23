@@ -61,7 +61,7 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_live_java_class_hint" = "Назва класу = заголовок діаграми";
 "web_live_java_main" = "З методом main";
 "web_settings_display" = "Вигляд";
-"web_live_swing" = "Підтримка Swing";
+"web_live_swing" = "Справжня Java (зі Swing)";
 "web_live_swing_hint" = "Справжня Java з вікнами (CheerpJ). Під час першого запуску одноразово завантажує близько 40 МБ.";
 "web_live_swing_windows" = "Вікна Java";
 "web_live_swing_hide" = "Закрити вікна Java";

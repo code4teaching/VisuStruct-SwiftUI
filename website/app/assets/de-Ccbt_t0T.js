@@ -118,7 +118,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_java_class_hint" = "Klassenname = Titel des Struktogramms";
 "web_live_java_main" = "Mit main-Methode";
 "web_settings_display" = "Darstellung";
-"web_live_swing" = "Swing-Unterstützung";
+"web_live_swing" = "Echtes Java (mit Swing)";
 "web_live_swing_hint" = "Echtes Java mit Fenstern (CheerpJ). Lädt beim ersten Ausführen einmalig ca. 40 MB.";
 "web_live_swing_windows" = "Java-Fenster";
 "web_live_swing_hide" = "Java-Fenster schließen";

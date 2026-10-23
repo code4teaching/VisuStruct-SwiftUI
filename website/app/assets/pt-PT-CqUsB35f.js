@@ -116,7 +116,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_live_java_class_hint" = "Nome da classe = título do diagrama";
 "web_live_java_main" = "Com método main";
 "web_settings_display" = "Apresentação";
-"web_live_swing" = "Suporte para Swing";
+"web_live_swing" = "Java verdadeiro (com Swing)";
 "web_live_swing_hint" = "Java verdadeiro com janelas (CheerpJ). Descarrega cerca de 40 MB uma vez, na primeira execução.";
 "web_live_swing_windows" = "Janelas Java";
 "web_live_swing_hide" = "Fechar janelas Java";

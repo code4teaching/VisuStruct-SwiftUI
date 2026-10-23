@@ -12,11 +12,11 @@ O Java traz uma caixa de ferramentas para isso: o **Swing**. No VisuStruct ligas
 
 1. Abre à direita o [Código ao vivo](#zeige-codelive).
 2. Clica na [roda dentada](#zeige-einstellungen) em cima à direita e escolhe Java como **Linguagem de programação**.
-3. Por baixo, na secção Java, marca **Suporte para Swing**.
+3. Por baixo, na secção Java, marca **Java verdadeiro (com Swing)**.
 
 Na primeira vez que clicas em [▶︎ Executar](#zeige-ausfuehren), o VisuStruct descarrega uma única vez cerca de 40 MB, o que demora um pouco. Depois disso o teu código corre como Java verdadeiro, e as tuas janelas aparecem no Código ao vivo na área **Janelas Java**, por cima da consola.
 
-> Com o Suporte para Swing, as entradas pela consola (`Scanner`) ainda não funcionam. Para programas com entradas, desliga outra vez a opção.
+> Com o “Java verdadeiro”, as entradas pela consola (`Scanner`) ainda não funcionam. Para programas com entradas, desliga outra vez a opção.
 
 ::: angeberwissen
 O Swing existe desde 1998. Antes disso, o Java só tinha o AWT, mais antigo, com uma classe `Frame`. Para ninguém confundir os blocos novos, quase todos os nomes no Swing começam por **J**: `JFrame`, `JButton`, `JLabel`. Pelo J reconheces logo o Swing.
@@ -94,13 +94,13 @@ Altera o programa de forma que
 Executa-o e verifica os três pontos.
 
 ::: ludwig
-Não te apetece escrever tanto? Com o Suporte para Swing podes escrever no Código ao vivo só as quatro linhas de `main`. O VisuStruct põe-nas sozinho dentro de uma classe e acrescenta as linhas `import`. Num ambiente de desenvolvimento Java a sério precisas, no entanto, do programa completo.
+Não te apetece escrever tanto? Com o “Java verdadeiro” podes escrever no Código ao vivo só as quatro linhas de `main`. O VisuStruct põe-nas sozinho dentro de uma classe e acrescenta as linhas `import`. Num ambiente de desenvolvimento Java a sério precisas, no entanto, do programa completo.
 :::
 
 ## Lista de verificação
 
 ::: checkliste
-- Sei ligar o Suporte para Swing no Código ao vivo. → Programas com janelas
+- Sei ligar o “Java verdadeiro” no Código ao vivo. → Programas com janelas
 - Sei abrir uma janela com título e tamanho. → O programa completo
 - Sei o que faz cada linha do programa com janela. → Linha a linha
 - Sei porque é que setVisible(true) fica no fim. → Porque é que setVisible fica no fim

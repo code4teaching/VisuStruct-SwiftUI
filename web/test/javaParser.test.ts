@@ -175,6 +175,16 @@ describe('Java tippen → Struktogramm', () => {
     expect(parse('knopf.addActionListener(e -> {\n    knopf.setText("x");').problems.map((p) => p.arg)).toContain('}')
   })
 
+  it('try/catch/finally ist ein Anweisungskasten', () => {
+    const r = parse('try {\n    int z = Integer.parseInt(text);\n} catch (NumberFormatException e) {\n    System.out.println("Keine Zahl");\n} finally {\n    fertig = true;\n}\nSystem.out.println("Weiter");')
+    expect(r.problems).toEqual([])
+    expect(r.elements.map((e) => e.textLines)).toEqual([
+      ['try { int z = Integer.parseInt(text); } catch (NumberFormatException e) { System.out.println("Keine Zahl"); } finally { fertig = true; }'],
+      ['output: "Weiter"'],
+    ])
+    expect(parse('try {\n    int z = 1;').problems.map((p) => p.arg)).toEqual(['}'])
+  })
+
   it('Platzhalter wie „Bedingung“ gelten als leer und werden markiert', () => {
     const src = 'if (Bedingung) {\n    // Dein Code\n}'
     const p = parse(src)
