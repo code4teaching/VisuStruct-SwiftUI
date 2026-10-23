@@ -157,6 +157,76 @@ tipp: `int[] notas = {2, 3, 1, 4};`, depois `for (int i = 0; i < notas.length; i
 lösung: l15-java-noten-loesung.visustruct
 :::
 
+## Jogo: Desativar a bomba
+
+::: spiel bombe
+titel: Jogo: Desativar a bomba
+intro: Cada programa tem **exatamente um erro** com arrays, e a bomba está a fazer tique-taque. Toca na linha errada antes de o tempo acabar. Seis rondas, 30 segundos cada.
+zeit: 30
+
+runde:
+    int[] numeros = {2, 4, 6, 8, 10};
+    for (int i = 0; i <= numeros.length; i++) {
+        System.out.println(numeros[i]);
+    }
+frage: Deve mostrar os cinco valores.
+fehler: 2
+besser: for (int i = 0; i < numeros.length; i++) {
+> Com `<=`, i vai até 5. A posição `numeros[5]` não existe.
+
+runde:
+    String[] nomes = {"Ada", "Ben", "Cem"};
+    System.out.println(nomes[1]);
+frage: Deve mostrar o primeiro nome, ou seja, Ada.
+fehler: 2
+besser: System.out.println(nomes[0]);
+> Conta-se a partir de 0. `nomes[1]` já é o Ben.
+
+runde:
+    int[] numeros = {2, 4, 6, 8, 10};
+    System.out.println(numeros[numeros.length]);
+frage: Deve mostrar o último valor, ou seja, 10.
+fehler: 2
+besser: System.out.println(numeros[numeros.length - 1]);
+> O último índice é sempre um a menos do que o comprimento.
+
+runde:
+    int[] pontos = {3, 9, 2};
+    int soma = 0;
+    for (int i = 0; i < pontos.length; i++) {
+        soma = pontos[i];
+    }
+    System.out.println(soma);
+frage: Deve mostrar a soma 14.
+fehler: 4
+besser: soma = soma + pontos[i];
+> Assim cada valor apaga o anterior, e no fim soma só tem 2.
+
+runde:
+    int[] pontos = {-5, -2, -9};
+    int max = 0;
+    for (int i = 0; i < pontos.length; i++) {
+        if (pontos[i] > max) {
+            max = pontos[i];
+        }
+    }
+    System.out.println(max);
+frage: Deve mostrar o máximo -2.
+fehler: 2
+besser: int max = pontos[0];
+> Nenhum dos números é maior do que 0, por isso max ficaria em 0. É por isso que o máximo começa com a primeira posição.
+
+runde:
+    int[] numeros = {2, 4, 6, 8, 10};
+    for (int i = numeros.length; i >= 0; i--) {
+        System.out.println(numeros[i]);
+    }
+frage: Deve mostrar os valores de trás para a frente, de 10 a 2.
+fehler: 2
+besser: for (int i = numeros.length - 1; i >= 0; i--) {
+> De trás para a frente começa-se no último índice, que é `numeros.length - 1`.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

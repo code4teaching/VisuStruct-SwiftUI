@@ -230,6 +230,76 @@ tipp: Arrasta uma segunda decisão com a condição `idade < 18` para o ramo fal
 lösung: l17-ticket-loesung.visustruct
 :::
 
+## Jogo: Que bloco é?
+
+::: spiel frage
+titel: Jogo: Que bloco é?
+intro: O Ludwig mostra-te Java. Que bloco do estrutograma está por trás? Oito rondas.
+frage: Que bloco é este?
+
+runde:
+    do {
+        numero = numero * 2;
+    } while (numero < 100);
+- Ciclo while
+- [x] Ciclo do-while
+- Ciclo for
+> A condição está em baixo. Por isso o corpo corre pelo menos uma vez.
+
+runde:
+    switch (escolha) {
+        case 1 -> { System.out.println("água"); }
+        default -> { System.out.println("Esse botão não existe."); }
+    }
+- Decisão
+- [x] Seleção
+- Chamada
+> Uma variável é comparada com valores fixos: isso é a seleção.
+
+runde:
+    break;
+- Chamada
+- Ciclo infinito
+- [x] Interrupção
+> O `break` sai logo do ciclo onde está.
+
+runde:
+    calcular();
+- [x] Chamada
+- Saída
+- Instrução
+> Um nome com parênteses: aqui é chamado um subprograma.
+
+runde:
+    int numero = scanner.nextInt();
+- Saída
+- [x] Entrada
+- Chamada
+> O scanner lê um valor. Isso é uma entrada.
+
+runde:
+    while (true) {
+        System.out.println("Olá");
+    }
+- Ciclo while com condição
+- [x] Ciclo infinito
+- Ciclo do-while
+> `while (true)` não tem uma condição verdadeira. Só um break o poderia terminar.
+
+runde:
+frage: Queres um ficheiro Java completo que possas compilar e executar logo. O que escolhes na vista de código?
+- Excerto
+- [x] Classe
+> Um excerto são só as instruções para o método `main`. Classe cria o ficheiro inteiro.
+
+runde:
+frage: No depurador, uma linha está amarela. O que quer dizer?
+- Tem um erro.
+- [x] É a próxima a ser executada.
+- Tem um ponto de paragem.
+> Amarela é a próxima linha. Um ponto de paragem é um ponto vermelho no número da linha.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

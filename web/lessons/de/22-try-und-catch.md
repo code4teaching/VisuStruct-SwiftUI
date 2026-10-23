@@ -125,6 +125,92 @@ Jede Exception ist ein Objekt einer eigenen Klasse, zum Beispiel `ArithmeticExce
 Hinter einem `try` dürfen mehrere `catch`-Blöcke stehen, für jede Art von Fehler einer. `catch (Exception e)` fängt alle Exceptions auf, verrät dir dann aber weniger darüber, was passiert ist. Und ein Block `finally { … }` am Ende läuft immer, egal ob es einen Fehler gab oder nicht.
 :::
 
+## Spiel: Fängt das Netz?
+
+::: spiel frage
+titel: Spiel: Fängt das Netz?
+intro: Ludwig turnt am Trapez. Fängt try und catch ihn auf, oder stürzt das Programm ab? Sieben Runden.
+
+runde:
+    int[] noten = {2, 3, 1};
+    System.out.println(noten[3]);
+    System.out.println("Fertig!");
+frage: Was passiert mit echtem Java?
+- Es erscheint 1 und Fertig!
+- Es erscheint nur Fertig!
+- [x] Das Programm stürzt mit einer ArrayIndexOutOfBoundsException ab.
+> Ein Fach 3 gibt es nicht. Niemand fängt die Exception auf, also kommt Fertig! nie an.
+
+runde:
+    int[] noten = {2, 3, 1};
+    try {
+        System.out.println(noten[3]);
+    } catch (ArrayIndexOutOfBoundsException e) {
+        System.out.println("Diese Note gibt es nicht.");
+    }
+    System.out.println("Fertig!");
+frage: Was wird ausgegeben?
+- Fertig!
+- [x] Diese Note gibt es nicht.\nFertig!
+- Diese Note gibt es nicht.
+> Der catch-Block fängt die Exception auf, danach geht das Programm normal weiter.
+
+runde:
+    try {
+        System.out.println("A");
+        System.out.println(10 / 0);
+        System.out.println("B");
+    } catch (ArithmeticException e) {
+        System.out.println("C");
+    }
+frage: Was wird ausgegeben?
+- A\nB\nC
+- [x] A\nC
+- C
+> Bei 10 / 0 springt Java sofort in den catch-Block. Der Rest des try-Blocks, also B, wird übersprungen.
+
+runde:
+    String eingabe = "12";
+    try {
+        int zahl = Integer.parseInt(eingabe);
+        System.out.println("Doppelt: " + zahl * 2);
+    } catch (NumberFormatException e) {
+        System.out.println("Das ist keine Zahl: " + eingabe);
+    }
+frage: Was wird ausgegeben?
+- [x] Doppelt: 24
+- Das ist keine Zahl: 12
+- Doppelt: 1212
+> „12“ lässt sich umwandeln. Läuft im try-Block alles gut, wird catch übersprungen.
+
+runde:
+frage: Welche Exception wirft `Integer.parseInt("2.5")`?
+- ArithmeticException
+- [x] NumberFormatException
+- keine, das Ergebnis ist 2
+> parseInt wandelt nur ganze Zahlen um. Mit Komma oder Punkt ist es kein gültiges Format.
+
+runde:
+frage: Welche Exception wirft `12 / 0` mit `int`?
+- [x] ArithmeticException
+- NumberFormatException
+- ArrayIndexOutOfBoundsException
+> Durch 0 teilen geht mit ganzen Zahlen nicht. Die Meldung lautet `/ by zero`.
+
+runde:
+    try {
+        int stuecke = 12 / 0;
+    } catch (NumberFormatException e) {
+        System.out.println("Fehler!");
+    }
+    System.out.println("Fertig!");
+frage: Was passiert?
+- Es erscheint Fehler! und Fertig!
+- Es erscheint nur Fertig!
+- [x] Das Programm stürzt ab.
+> catch fängt nur die Exception, die in der Klammer steht. Eine ArithmeticException fällt durch das Netz.
+:::
+
 ## Aufgabe: Sicher teilen
 
 Dieses Programm stürzt ab:

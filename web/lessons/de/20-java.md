@@ -230,6 +230,76 @@ tipp: Ziehe in den false-Zweig der ersten Verzweigung eine zweite Verzweigung mi
 lösung: l17-ticket-loesung.visustruct
 :::
 
+## Spiel: Welcher Kasten?
+
+::: spiel frage
+titel: Spiel: Welcher Kasten?
+intro: Ludwig zeigt dir Java. Welcher Kasten aus dem Struktogramm steckt dahinter? Acht Runden.
+frage: Welcher Kasten ist das?
+
+runde:
+    do {
+        zahl = zahl * 2;
+    } while (zahl < 100);
+- While-Schleife
+- [x] Do-while-Schleife
+- For-Schleife
+> Die Bedingung steht unten. Der Rumpf läuft also mindestens einmal.
+
+runde:
+    switch (wahl) {
+        case 1 -> { System.out.println("Wasser"); }
+        default -> { System.out.println("Gibt es nicht."); }
+    }
+- Verzweigung
+- [x] Fallauswahl
+- Aufruf
+> Eine Variable wird mit festen Werten verglichen: Das ist die Fallauswahl.
+
+runde:
+    break;
+- Aufruf
+- Endlosschleife
+- [x] Aussprung
+> `break` verlässt sofort die Schleife, in der es steht.
+
+runde:
+    berechne();
+- [x] Aufruf
+- Ausgabe
+- Anweisung
+> Name mit runden Klammern: Hier wird ein Unterprogramm aufgerufen.
+
+runde:
+    int zahl = scanner.nextInt();
+- Ausgabe
+- [x] Eingabe
+- Aufruf
+> Der Scanner liest einen Wert ein. Das ist eine Eingabe.
+
+runde:
+    while (true) {
+        System.out.println("Hallo");
+    }
+- While-Schleife mit Bedingung
+- [x] Endlosschleife
+- Do-while-Schleife
+> `while (true)` hat keine echte Bedingung. Nur ein break könnte sie beenden.
+
+runde:
+frage: Du willst eine vollständige Java-Datei, die du sofort übersetzen und starten kannst. Was wählst du in der Code-Ansicht?
+- Snippet
+- [x] Class
+> Ein Snippet sind nur die Anweisungen für die `main`-Methode. Class erzeugt die ganze Datei.
+
+runde:
+frage: Im Debugger ist eine Zeile gelb. Was bedeutet das?
+- Sie hat einen Fehler.
+- [x] Sie wird als Nächstes ausgeführt.
+- Dort steht ein Haltepunkt.
+> Gelb ist die nächste Zeile. Ein Haltepunkt ist ein roter Punkt an der Zeilennummer.
+:::
+
 ## Checkliste
 
 ::: checkliste

@@ -110,6 +110,91 @@ tipp: No ciclo exterior: `String linha = "";`, depois `for (int j = 1; j <= i; j
 lösung: l14-java-treppe-loesung.visustruct
 :::
 
+## Jogo: Dentro e fora
+
+::: spiel frage
+titel: Jogo: Dentro e fora
+intro: O Ludwig encaixou blocos uns nos outros. Lê de fora para dentro e diz antes o que acontece. Seis rondas.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        for (int j = 1; j <= 2; j++) {
+            System.out.println("*");
+        }
+    }
+frage: Quantas estrelas aparecem?
+- 3
+- 5
+- [x] 6
+> O ciclo interior corre por completo em cada uma das 3 voltas do ciclo exterior: 3 · 2 = 6.
+
+runde:
+    for (int i = 1; i <= 2; i++) {
+        for (int j = 1; j <= 3; j++) {
+            System.out.println(i + " " + j);
+        }
+    }
+frage: Que linha aparece em quarto lugar?
+- 1 4
+- [x] 2 1
+- 2 2
+> Primeiro j percorre tudo com i = 1: 1 1, 1 2, 1 3. Depois j recomeça em 1, agora com i = 2.
+
+runde:
+    int contagem = 0;
+    for (int i = 1; i <= 10; i++) {
+        if (i % 3 == 0) {
+            contagem++;
+        }
+    }
+    System.out.println(contagem);
+frage: O que aparece?
+- [x] 3
+- 10
+- 4
+> A decisão só conta o 3, o 6 e o 9.
+
+runde:
+    for (int i = 1; i <= 4; i++) {
+        if (i % 2 == 0) {
+            System.out.println("par");
+        } else {
+            System.out.println(i);
+        }
+    }
+frage: O que aparece?
+- 1\n2\n3\n4
+- [x] 1\npar\n3\npar
+- par\npar
+> Em cada número a decisão volta a decidir: os ímpares aparecem como número, os pares como palavra.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        String linha = "";
+        for (int j = 1; j <= i; j++) {
+            linha = linha + "*";
+        }
+        System.out.println(linha);
+    }
+frage: O que aparece?
+- ***\n***\n***
+- [x] *\n**\n***
+- ***\n**\n*
+> O ciclo interior vai até i. Por isso cada linha fica com mais uma estrela.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println(i);
+        }
+    }
+frage: O que acontece?
+- Aparece 1 a 3 três vezes.
+- Aparece 1 a 3 uma vez.
+- [x] O Java indica um erro.
+> Dois ciclos um dentro do outro precisam de duas variáveis de contagem diferentes, por exemplo `linha` e `coluna`.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

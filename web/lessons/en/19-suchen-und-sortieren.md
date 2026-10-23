@@ -149,6 +149,76 @@ tipp: `for (int i = 0; i < cards.length; i++)` and inside it `if (cards[i] == wa
 lösung: l19-java-zaehlen-loesung.visustruct
 :::
 
+## Game: Search pro
+
+::: spiel frage
+titel: Game: Search pro
+intro: Ludwig searches and sorts cards. How fast is it, and what comes out? Seven rounds.
+
+runde:
+    int[] cards = {8, 4, 11, 4, 6};
+    int wanted = 4;
+    int position = -1;
+    int i = 0;
+    while (position == -1 && i < cards.length) {
+        if (cards[i] == wanted) {
+            position = i;
+        }
+        i = i + 1;
+    }
+    System.out.println("Position: " + position);
+frage: What is output?
+- [x] Position: 1
+- Position: 3
+- Position: 2
+> The search stops at the first 4. It lies in slot 1, counting from 0.
+
+runde:
+    int[] cards = {8, 4, 11, 4, 6};
+    int wanted = 7;
+frage: With the same linear search: what is in position afterwards?
+- 0
+- 5
+- [x] -1
+> The 7 isn't there. position stays -1, which means "not found".
+
+runde:
+frage: For which cards does binary search work?
+- for all of them
+- [x] only for sorted ones
+- only for fewer than 100
+> Only if the cards are sorted do you know, after looking at the middle, in which half to keep searching.
+
+runde:
+frage: How many comparisons does binary search need at most for 100 cards?
+- 50
+- [x] 7
+- 100
+> Every comparison halves the pile. Halving 7 times is enough for up to 128 cards, so for 100 as well.
+
+runde:
+frage: Instead of 1,000 cards there are now 2,000. How many more comparisons does binary search need at most?
+- [x] one
+- twice as many
+- 1,000
+> The first comparison halves 2,000 to 1,000. After that it goes on as before.
+
+runde:
+    int[] cards = {5, 3, 8, 1};
+frage: One pass of bubble sort compares two neighbours at a time, from left to right. What is the order of the cards afterwards?
+- 1, 3, 5, 8
+- [x] 3, 5, 1, 8
+- 3, 5, 8, 1
+> 5 and 3 swap, 5 and 8 stay, 8 and 1 swap. The biggest card is on the far right.
+
+runde:
+frage: Bubble sort swaps `cards[i]` and `cards[i + 1]`. What does it need for that?
+- [x] a temporary variable
+- a second array
+- a binary search
+> Just like swapping two variables: `int temp = cards[i];`, otherwise a value gets lost.
+:::
+
 ## Checklist
 
 ::: checkliste

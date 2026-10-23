@@ -135,6 +135,79 @@ tipp: `int[][] punkte = {{3, 5}, {4, 1}, {2, 2}};` und in der inneren Schleife `
 lösung: l16-java-punkte-loesung.visustruct
 :::
 
+## Spiel: Welcher Platz?
+
+::: spiel frage
+titel: Spiel: Welcher Platz?
+intro: Ludwig verkauft Kinokarten. Erst die Reihe, dann der Platz, beide ab 0. Sieben Runden.
+
+runde:
+    boolean[][] sitze = new boolean[3][5];
+    System.out.println(sitze.length);
+frage: Was wird ausgegeben?
+- [x] 3
+- 5
+- 15
+> `sitze.length` ist die Anzahl der Reihen.
+
+runde:
+    boolean[][] sitze = new boolean[3][5];
+    System.out.println(sitze[0].length);
+frage: Was wird ausgegeben?
+- 3
+- [x] 5
+- 15
+> `sitze[0]` ist die Reihe 0. Ihre Länge ist die Anzahl der Plätze in dieser Reihe.
+
+runde:
+    int[][] tabelle = new int[4][6];
+frage: Wie viele Fächer hat die Tabelle?
+- 10
+- [x] 24
+- 35
+> 4 Reihen mit je 6 Plätzen: 4 · 6 = 24.
+
+runde:
+    int[][] t = {{1, 2}, {3, 4}};
+    System.out.println(t[1][0]);
+frage: Was wird ausgegeben?
+- 2
+- [x] 3
+- 4
+> Reihe 1 ist `{3, 4}`, darin Platz 0 die 3.
+
+runde:
+    boolean[][] sitze = new boolean[3][5];
+    sitze[3][0] = true;
+frage: Was passiert?
+- Der erste Platz in Reihe 3 ist verkauft.
+- Der erste Platz in der letzten Reihe ist verkauft.
+- [x] Es gibt einen Fehler, denn die Reihen heißen 0, 1 und 2.
+> Wie beim normalen Array ist der letzte Index eins weniger als die Länge.
+
+runde:
+    int[][] t = {{1, 2, 3}, {4, 5, 6}};
+    int summe = 0;
+    for (int reihe = 0; reihe < t.length; reihe++) {
+        for (int platz = 0; platz < t[reihe].length; platz++) {
+            summe = summe + t[reihe][platz];
+        }
+    }
+    System.out.println(summe);
+frage: Was wird ausgegeben?
+- 6
+- 15
+- [x] 21
+> Die zwei Schleifen besuchen alle sechs Fächer: 1 + 2 + 3 + 4 + 5 + 6 = 21.
+
+runde:
+frage: Zwei Schleifen gehen den Saal `new boolean[3][5]` durch. Welches Fach kommt direkt nach `sitze[0][4]`?
+- `sitze[0][5]`
+- [x] `sitze[1][0]`
+- `sitze[1][4]`
+> Reihe 0 ist fertig. Die äußere Schleife zählt weiter, und der Platz beginnt wieder bei 0.
+:::
+
 ## Checkliste
 
 ::: checkliste
