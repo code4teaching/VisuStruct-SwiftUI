@@ -110,6 +110,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_title" = "Code live";
 "web_live_toggle_title" = "Code live neben dem Struktogramm anzeigen";
 "web_live_hide" = "Code live ausblenden";
+"web_live_show" = "Code live aufklappen";
 "web_live_resize" = "Breite des Codebereichs ändern (Doppelklick: zurücksetzen)";
 "web_live_hint" = "Der Code wächst mit deinem Struktogramm. Grau = Platzhalter: Schreib im Objektinspektor, dann steht dort dein Text. Klick auf eine Zeile markiert das Element.";
 "web_live_ph_selector" = "Variable";

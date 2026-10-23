@@ -52,6 +52,7 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_live_title" = "ライブコード";
 "web_live_toggle_title" = "図の横にコードをライブ表示";
 "web_live_hide" = "ライブコードを隠す";
+"web_live_show" = "ライブコードを表示";
 "web_live_resize" = "コード領域の幅を変更（ダブルクリック：リセット）";
 "web_live_hint" = "コードは図と一緒に育ちます。灰色＝プレースホルダー：インスペクタに入力するとここに表示されます。行をクリックすると要素を選択します。";
 "web_live_ph_selector" = "変数";

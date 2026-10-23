@@ -224,6 +224,7 @@ export class App {
   private learning = false
   private learnButton?: HTMLButtonElement
   private railButton?: HTMLButtonElement
+  private liveRailButton?: HTMLButtonElement
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
@@ -274,7 +275,7 @@ export class App {
         this.render()
       },
     )
-    this.shell.append(this.learnRail(), this.learn.element, this.learnResizer(), root, this.liveResizer(), this.live.element)
+    this.shell.append(this.learnRail(), this.learn.element, this.learnResizer(), root, this.liveResizer(), this.live.element, this.liveRail())
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
@@ -490,6 +491,7 @@ export class App {
     this.render()
     this.learn.render()
     this.labelLearnRail()
+    this.labelLiveRail()
   }
 
   // MARK: - Lernbereich
@@ -508,6 +510,20 @@ export class App {
     this.labelLearnRail()
     this.railButton.addEventListener('click', () => this.setLearning(true))
     return this.railButton
+  }
+
+  /** Wie beim Lernbereich: eingeklappt bleibt „Code live“ als schmale Leiste am rechten Rand. */
+  private liveRail(): HTMLElement {
+    this.liveRailButton = h('button', { class: 'learn-rail live-rail' }) as HTMLButtonElement
+    this.labelLiveRail()
+    this.liveRailButton.addEventListener('click', () => this.setLiveCoding(true))
+    return this.liveRailButton
+  }
+
+  private labelLiveRail() {
+    if (!this.liveRailButton) return
+    this.liveRailButton.title = t('web_live_show')
+    this.liveRailButton.innerHTML = `${sidebarIcon}<span>&lt;/&gt; ${e(t('web_live_title'))}</span>`
   }
 
   private labelLearnRail() {

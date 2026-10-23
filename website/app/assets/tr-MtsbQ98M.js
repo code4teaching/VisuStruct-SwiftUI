@@ -52,6 +52,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_live_title" = "Canlı kod";
 "web_live_toggle_title" = "Kodu diyagramın yanında canlı göster";
 "web_live_hide" = "Canlı kodu gizle";
+"web_live_show" = "Canlı kodu göster";
 "web_live_resize" = "Kod alanının genişliğini değiştir (çift tıklama: sıfırla)";
 "web_live_hint" = "Kod diyagramınla birlikte büyür. Gri = yer tutucu: denetçiye yaz, metnin burada görünür. Öğesini seçmek için bir satıra tıkla.";
 "web_live_ph_selector" = "değişken";
