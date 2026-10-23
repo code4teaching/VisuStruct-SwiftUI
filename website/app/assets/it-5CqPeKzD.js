@@ -113,4 +113,5 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_files_class_placeholder" = "Nuova classe, es. 11FI1";
 "web_files_create_save" = "Crea e salva";
 "web_files_create" = "Crea";
+"web_learn_ludwig_tip" = "Il consiglio di Ludwig";
 `;export{e as default};

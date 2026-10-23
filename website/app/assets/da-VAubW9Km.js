@@ -113,4 +113,5 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_files_class_placeholder" = "Ny klasse, fx 11FI1";
 "web_files_create_save" = "Opret og gem";
 "web_files_create" = "Opret";
+"web_learn_ludwig_tip" = "Ludwigs tip";
 `;export{e as default};
