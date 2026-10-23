@@ -147,6 +147,12 @@
 "web_game_good" = "Sterk! Bekijk je fouten nog eens en probeer het opnieuw.";
 "web_game_practice" = "Oefening baart kunst. Lees de waarheidstabel nog eens en speel nog een ronde.";
 "web_game_again" = "Nog een keer";
+"web_game_wrong_short" = "Helaas, fout.";
+"web_game_practice_short" = "Oefening baart kunst. Lees de uitleg nog eens en speel nog een ronde.";
+"web_game_clicks" = "Klikken:";
+"web_game_nobody" = "Niemand luistert – er gebeurt niets.";
+"web_game_event_fmt" = "Klik op ‘%@’: de luisteraar hoort het en voert zijn code uit.";
+"web_game_try" = "Probeer de knoppen in het venster nu zelf uit.";
 "web_debug_step" = "Stap";
 "web_debug_step_title" = "Stap: één opdracht uitvoeren en weer pauzeren";
 "web_debug_continue" = "Doorgaan tot het volgende breekpunt";

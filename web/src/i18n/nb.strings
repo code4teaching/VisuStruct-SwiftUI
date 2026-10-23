@@ -147,6 +147,12 @@
 "web_game_good" = "Bra! Se på feilene dine og prøv igjen.";
 "web_game_practice" = "Øvelse gjør mester. Les sannhetstabellen igjen og spill en runde til.";
 "web_game_again" = "Spill igjen";
+"web_game_wrong_short" = "Dessverre feil.";
+"web_game_practice_short" = "Øvelse gjør mester. Les forklaringene igjen og spill en runde til.";
+"web_game_clicks" = "Klikk:";
+"web_game_nobody" = "Ingen lytter – ingenting skjer.";
+"web_game_event_fmt" = "Klikk på «%@»: lytteren hører det og kjører koden sin.";
+"web_game_try" = "Prøv nå knappene i vinduet selv.";
 "web_debug_step" = "Steg";
 "web_debug_step_title" = "Steg: kjør én setning og stopp igjen";
 "web_debug_continue" = "Fortsett til neste stoppunkt";

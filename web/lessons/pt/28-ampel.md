@@ -108,6 +108,97 @@ O BorderLayout é o layout que um `JFrame` usa quando não lhe dás nenhum. Um `
 Os profissionais avançam a fase numa linha: `fase = (fase + 1) % 3;`. O operador de resto `%` dá o resto da divisão. 3 % 3 é 0, por isso depois do 2 recomeça no 0.
 :::
 
+## Jogo: Onde fica o botão?
+
+::: spiel layout
+titel: Jogo: Onde fica o botão?
+intro: Já conheces três layouts e a janela sem layout nenhum. O Ludwig mostra-te código com os botões A, B, C … Como fica a janela? Toca na imagem certa.
+frage: Como fica a janela?
+
+runde:
+    janela.add(new JButton("A"));
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"));
+- flow: A B C
+- grid: A / B / C
+- [x] border: C=C
+> Sem layout próprio, cada `add` vai para o meio, do tamanho da janela. Os três ficam uns por cima dos outros e só se vê o último: C.
+
+runde:
+    janela.setLayout(new FlowLayout());
+    janela.add(new JButton("A"));
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"));
+- [x] flow: A B C
+- grid: A B C
+- border: C=C
+> O FlowLayout põe os botões no tamanho normal lado a lado, como palavras numa linha, e centra-os.
+
+runde:
+    janela.setLayout(new GridLayout(0, 1));
+    janela.add(new JButton("A"));
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"));
+- flow: A B C
+- [x] grid: A / B / C
+- grid: A B C
+> Uma coluna e tantas linhas quantas forem precisas: tudo uns por baixo dos outros, cada linha com a mesma altura e tão larga como a janela.
+
+runde:
+    janela.setLayout(new GridLayout(0, 2));
+    janela.add(new JButton("A"));
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"));
+    janela.add(new JButton("D"));
+- grid: A C / B D
+- [x] grid: A B / C D
+- grid: A / B / C / D
+> Duas colunas. As células são preenchidas linha a linha, sempre primeiro à esquerda e depois à direita: A B, depois C D.
+
+runde:
+    janela.setLayout(new GridLayout(2, 3));
+    janela.add(new JButton("A"));
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"));
+    janela.add(new JButton("D"));
+    janela.add(new JButton("E"));
+    janela.add(new JButton("F"));
+- grid: A B / C D / E F
+- [x] grid: A B C / D E F
+- flow: A B C D E F
+> Primeiro vêm as linhas, depois as colunas: 2 linhas com 3 colunas cada.
+
+runde:
+    janela.setLayout(new GridLayout(0, 2));
+    janela.add(new JButton("A"));
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"));
+- [x] grid: A B / C
+- grid: A B C
+- grid: A / B C
+> Duas colunas, três botões: a primeira linha fica cheia, na segunda o C fica à esquerda e a célula da direita fica vazia.
+
+runde:
+    janela.setLayout(new BorderLayout());
+    janela.add(new JButton("A"), BorderLayout.NORTH);
+    janela.add(new JButton("B"), BorderLayout.CENTER);
+    janela.add(new JButton("C"), BorderLayout.SOUTH);
+- grid: A / B / C
+- [x] border: N=A C=B S=C
+- border: N=C C=B S=A
+> NORTH é em cima, SOUTH em baixo. O meio fica com todo o espaço que sobra, por isso o B é grande.
+
+runde:
+    janela.setLayout(new BorderLayout());
+    janela.add(new JButton("A"), BorderLayout.WEST);
+    janela.add(new JButton("B"));
+    janela.add(new JButton("C"), BorderLayout.EAST);
+- flow: A B C
+- border: N=A C=B S=C
+- [x] border: W=A C=B E=C
+> WEST é à esquerda, EAST à direita. O B não tem lugar indicado e por isso vai para o CENTER.
+:::
+
 ## Tarefa: semáforo
 
 Reconstrói o semáforo e torna-o mais realista. Em alguns países, como a Alemanha, depois do vermelho acendem durante pouco tempo o vermelho e o amarelo juntos. Acrescenta por isso uma quarta fase:

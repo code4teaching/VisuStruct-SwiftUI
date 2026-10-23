@@ -108,6 +108,97 @@ BorderLayout is the layout a `JFrame` uses when you don't give it one. An `add` 
 Professionals switch on in one line: `phase = (phase + 1) % 3;`. The remainder operator `%` gives the remainder of a division. 3 % 3 is 0, so after 2 it starts at 0 again.
 :::
 
+## Game: Where does the button go?
+
+::: spiel layout
+titel: Game: Where does the button go?
+intro: You now know three layouts and the window with no layout at all. Ludwig shows you code with the buttons A, B, C … What does the window look like? Tap the right picture.
+frage: What does the window look like?
+
+runde:
+    window.add(new JButton("A"));
+    window.add(new JButton("B"));
+    window.add(new JButton("C"));
+- flow: A B C
+- grid: A / B / C
+- [x] border: C=C
+> Without a layout of its own, every `add` lands in the centre, as big as the window. The three lie on top of each other, and you only see the last one: C.
+
+runde:
+    window.setLayout(new FlowLayout());
+    window.add(new JButton("A"));
+    window.add(new JButton("B"));
+    window.add(new JButton("C"));
+- [x] flow: A B C
+- grid: A B C
+- border: C=C
+> FlowLayout puts the buttons next to each other at their normal size, like words in a line, and centres them.
+
+runde:
+    window.setLayout(new GridLayout(0, 1));
+    window.add(new JButton("A"));
+    window.add(new JButton("B"));
+    window.add(new JButton("C"));
+- flow: A B C
+- [x] grid: A / B / C
+- grid: A B C
+> One column, as many rows as needed: everything below each other, every row the same height and as wide as the window.
+
+runde:
+    window.setLayout(new GridLayout(0, 2));
+    window.add(new JButton("A"));
+    window.add(new JButton("B"));
+    window.add(new JButton("C"));
+    window.add(new JButton("D"));
+- grid: A C / B D
+- [x] grid: A B / C D
+- grid: A / B / C / D
+> Two columns. The cells are filled row by row, always left first, then right: A B, then C D.
+
+runde:
+    window.setLayout(new GridLayout(2, 3));
+    window.add(new JButton("A"));
+    window.add(new JButton("B"));
+    window.add(new JButton("C"));
+    window.add(new JButton("D"));
+    window.add(new JButton("E"));
+    window.add(new JButton("F"));
+- grid: A B / C D / E F
+- [x] grid: A B C / D E F
+- flow: A B C D E F
+> Rows come first, then columns: 2 rows with 3 columns each.
+
+runde:
+    window.setLayout(new GridLayout(0, 2));
+    window.add(new JButton("A"));
+    window.add(new JButton("B"));
+    window.add(new JButton("C"));
+- [x] grid: A B / C
+- grid: A B C
+- grid: A / B C
+> Two columns, three buttons: the first row is full, in the second C is on the left, and the cell on the right stays empty.
+
+runde:
+    window.setLayout(new BorderLayout());
+    window.add(new JButton("A"), BorderLayout.NORTH);
+    window.add(new JButton("B"), BorderLayout.CENTER);
+    window.add(new JButton("C"), BorderLayout.SOUTH);
+- grid: A / B / C
+- [x] border: N=A C=B S=C
+- border: N=C C=B S=A
+> NORTH is at the top, SOUTH at the bottom. The centre gets all the remaining space, which is why B is big.
+
+runde:
+    window.setLayout(new BorderLayout());
+    window.add(new JButton("A"), BorderLayout.WEST);
+    window.add(new JButton("B"));
+    window.add(new JButton("C"), BorderLayout.EAST);
+- flow: A B C
+- border: N=A C=B S=C
+- [x] border: W=A C=B E=C
+> WEST is on the left, EAST on the right. B has no place given, so it lands in CENTER.
+:::
+
 ## Task: traffic light
 
 Rebuild the traffic light and make it more realistic. In the UK and Germany, red and amber light up together briefly after red. So add a fourth phase:

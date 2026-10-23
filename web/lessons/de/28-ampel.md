@@ -108,6 +108,97 @@ Das BorderLayout ist das Layout, das ein `JFrame` ohne eigenes Layout benutzt. E
 Profis schreiben das Weiterschalten in einer Zeile: `phase = (phase + 1) % 3;`. Der Rest-Operator `%` liefert den Rest beim Teilen. 3 % 3 ist 0, also beginnt es nach 2 wieder bei 0.
 :::
 
+## Spiel: Wo landet der Knopf?
+
+::: spiel layout
+titel: Spiel: Wo landet der Knopf?
+intro: Du kennst jetzt drei Layouts und das Fenster ganz ohne Layout. Ludwig zeigt dir Code mit den Knöpfen A, B, C … Wie sieht das Fenster aus? Tippe auf das richtige Bild.
+frage: Wie sieht das Fenster aus?
+
+runde:
+    fenster.add(new JButton("A"));
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"));
+- flow: A B C
+- grid: A / B / C
+- [x] border: C=C
+> Ohne eigenes Layout landet jedes `add` in der Mitte, so groß wie das Fenster. Die drei liegen übereinander, man sieht nur den letzten: C.
+
+runde:
+    fenster.setLayout(new FlowLayout());
+    fenster.add(new JButton("A"));
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"));
+- [x] flow: A B C
+- grid: A B C
+- border: C=C
+> FlowLayout setzt die Knöpfe in normaler Größe nebeneinander, wie Wörter in einer Zeile, und zentriert sie.
+
+runde:
+    fenster.setLayout(new GridLayout(0, 1));
+    fenster.add(new JButton("A"));
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"));
+- flow: A B C
+- [x] grid: A / B / C
+- grid: A B C
+> Eine Spalte, so viele Zeilen wie nötig: alles untereinander, jede Zeile gleich hoch und so breit wie das Fenster.
+
+runde:
+    fenster.setLayout(new GridLayout(0, 2));
+    fenster.add(new JButton("A"));
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"));
+    fenster.add(new JButton("D"));
+- grid: A C / B D
+- [x] grid: A B / C D
+- grid: A / B / C / D
+> Zwei Spalten. Die Zellen werden Zeile für Zeile gefüllt, immer erst links, dann rechts: A B, dann C D.
+
+runde:
+    fenster.setLayout(new GridLayout(2, 3));
+    fenster.add(new JButton("A"));
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"));
+    fenster.add(new JButton("D"));
+    fenster.add(new JButton("E"));
+    fenster.add(new JButton("F"));
+- grid: A B / C D / E F
+- [x] grid: A B C / D E F
+- flow: A B C D E F
+> Erst kommen die Zeilen, dann die Spalten: 2 Zeilen mit je 3 Spalten.
+
+runde:
+    fenster.setLayout(new GridLayout(0, 2));
+    fenster.add(new JButton("A"));
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"));
+- [x] grid: A B / C
+- grid: A B C
+- grid: A / B C
+> Zwei Spalten, drei Knöpfe: Die erste Zeile ist voll, in der zweiten steht C links, und rechts bleibt die Zelle leer.
+
+runde:
+    fenster.setLayout(new BorderLayout());
+    fenster.add(new JButton("A"), BorderLayout.NORTH);
+    fenster.add(new JButton("B"), BorderLayout.CENTER);
+    fenster.add(new JButton("C"), BorderLayout.SOUTH);
+- grid: A / B / C
+- [x] border: N=A C=B S=C
+- border: N=C C=B S=A
+> NORTH ist oben, SOUTH unten. Die Mitte bekommt den ganzen übrigen Platz, darum ist B groß.
+
+runde:
+    fenster.setLayout(new BorderLayout());
+    fenster.add(new JButton("A"), BorderLayout.WEST);
+    fenster.add(new JButton("B"));
+    fenster.add(new JButton("C"), BorderLayout.EAST);
+- flow: A B C
+- border: N=A C=B S=C
+- [x] border: W=A C=B E=C
+> WEST ist links, EAST rechts. B hat keine Platzangabe und landet deshalb in CENTER.
+:::
+
 ## Aufgabe: Ampel
 
 Baue die Ampel nach und mach sie echter. In Deutschland leuchten nach Rot kurz Rot und Gelb zusammen. Nimm deshalb eine vierte Phase dazu:

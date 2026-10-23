@@ -1,5 +1,6 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
 import { parseBoolGame, type BoolGame } from './boolGame'
+import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 
 /**
  * Lektionen und Aufgaben als Markdown mit Kopfzeilen und `:::`-Blöcken (siehe `lessons/README.md`).
@@ -16,6 +17,7 @@ export type Block =
   | { kind: 'images'; files: string[]; caption: string }
   | { kind: 'graphic'; file: string; caption: string }
   | { kind: 'game'; game: BoolGame }
+  | { kind: 'roundGame'; game: RoundGame }
 
 export interface Exercise {
   id: string
@@ -214,7 +216,9 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       case 'spiel':
         try {
-          blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
+          if (isRoundGameKind(arg)) blocks.push({ kind: 'roundGame', game: parseRoundGame(arg, inner, file) })
+          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag oder layout).`)
+          else blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
         } catch (err) {
           throw new FormatError((err as Error).message)
         }

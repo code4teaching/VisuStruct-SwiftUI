@@ -75,6 +75,89 @@ button.addActionListener(e -> {
 Watch the ending: first `}` closes the block, then `)` closes the bracket of `addActionListener`, then comes the semicolon. So `});`. If any of it is missing, a hint appears below the code.
 :::
 
+## Game: Who is listening?
+
+::: spiel zuhoerer
+titel: Game: Who is listening?
+intro: Ludwig shows you code and the window that goes with it. Below it you see which buttons are clicked, one after the other. What happens? After your answer Ludwig plays the clicks: you see which listener hears the event and which lines then run.
+frage: What does the label say after the clicks?
+
+runde:
+    JFrame window = new JFrame("Greeting");
+    JLabel text = new JLabel("Start");
+    JButton button = new JButton("Hello");
+    button.addActionListener(e -> text.setText("Hello world"));
+klicks: Hello
+- Start
+- [x] Hello world
+- Hello
+> The button has a listener. On a click it runs `text.setText("Hello world")`, and the label shows “Hello world”.
+
+runde:
+    JFrame window = new JFrame("Fruit");
+    JLabel text = new JLabel("?");
+    JButton a = new JButton("A");
+    JButton b = new JButton("B");
+    a.addActionListener(e -> text.setText("Apple"));
+    b.addActionListener(e -> text.setText("Pear"));
+klicks: A, B
+- Apple
+- [x] Pear
+- Apple Pear
+> Each button has its own listener. First A writes “Apple”, then B overwrites it with “Pear”. `setText` replaces the old text, it doesn't add anything.
+
+runde:
+    JFrame window = new JFrame("Fruit");
+    JLabel text = new JLabel("?");
+    JButton a = new JButton("A");
+    JButton b = new JButton("B");
+    a.addActionListener(e -> text.setText("Apple"));
+klicks: B
+- Apple
+- Pear
+- [x] ?
+> Nobody signed up at button B: there is no `b.addActionListener`. The click is an event, but nobody is listening. So the question mark stays.
+
+runde:
+    JFrame window = new JFrame("Colours");
+    JLabel text = new JLabel("none");
+    JButton red = new JButton("Red");
+    JButton blue = new JButton("Blue");
+    red.addActionListener(e -> text.setText("Blue"));
+    blue.addActionListener(e -> text.setText("Red"));
+klicks: Red
+- Red
+- [x] Blue
+- none
+> Careful: what happens is decided by the code in the listener, not by the caption of the button. The listener on the button “Red” writes “Blue”.
+
+runde:
+    JFrame window = new JFrame("Button");
+    JLabel text = new JLabel("Please click");
+    JButton button = new JButton("Click me");
+    button.addActionListener(e -> {
+        button.setText("Thanks!");
+        text.setText("Clicked");
+    });
+klicks: Click me
+frage: What does the button say after the click?
+- Click me
+- [x] Thanks!
+- Clicked
+> The block after the arrow has two statements. Both run on the click, one after the other: the button gets “Thanks!”, the label “Clicked”.
+
+runde:
+    JFrame window = new JFrame("Console");
+    JButton button = new JButton("Go");
+    button.addActionListener(e -> System.out.println("Click!"));
+klicks: Go, Go, Go
+frage: How many lines “Click!” are in the console afterwards?
+- 1
+- [x] 3
+- 0
+> The listener runs on **every** click, not only on the first one. Three clicks, three lines.
+:::
+
 ## Expert knowledge: ActionListener is an interface
 
 This is not in the curriculum. If you want to know what is behind the arrow, read on.
@@ -100,6 +183,101 @@ button.addActionListener(new ActionListener() {
 ```
 
 For this you also need `import java.awt.event.*;` at the top. Both ways do exactly the same. The arrow `e -> …` is the short form (a lambda expression, since Java 8): `e` is the parameter of `actionPerformed`, and after the arrow comes its body. The short form works because the interface has only one method. So Java knows which method is meant.
+
+## Game: Contract fulfilled?
+
+::: spiel vertrag
+titel: Game: Contract fulfilled?
+intro: The contract `ActionListener` asks for exactly one method: `public void actionPerformed(ActionEvent e)`. Ludwig shows you code. Does it fulfil the contract, so that you can sign it up at a button? Ludwig checked every answer with the real Java compiler.
+frage: Does this fulfil the contract ActionListener?
+antworten: fulfilled | not fulfilled
+
+runde:
+    class Greeting implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Hello");
+        }
+    }
+richtig: fulfilled
+> Everything is there: `implements ActionListener` signs the contract, and the method is called exactly `actionPerformed`, is `public`, returns nothing (`void`) and gets an `ActionEvent`.
+
+runde:
+    class Greeting implements ActionListener {
+        public void actionPerfomed(ActionEvent e) {
+            System.out.println("Hello");
+        }
+    }
+richtig: not fulfilled
+> Look closely: `actionPerfomed` instead of `actionPerformed`, an r is missing. For Java that is a completely different method. The compiler reports that `actionPerformed` is missing.
+
+runde:
+    class Greeting implements ActionListener {
+        public void actionPerformed() {
+            System.out.println("Hello");
+        }
+    }
+richtig: not fulfilled
+> The parameter is missing. The contract asks for `actionPerformed(ActionEvent e)`, because on a click the button hands over the event.
+
+runde:
+    class Greeting implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            System.out.println("Hello");
+        }
+    }
+richtig: fulfilled
+> You can choose the name of the parameter freely. Only the type `ActionEvent` matters. So instead of `e` it may also be called `event`.
+
+runde:
+    class Greeting implements ActionListener {
+        void actionPerformed(ActionEvent e) {
+            System.out.println("Hello");
+        }
+    }
+richtig: not fulfilled
+> The `public` is missing. All methods of an interface are public, because the button has to be able to call them from outside. Without `public` the compiler reports an error.
+
+runde:
+    class Greeting implements ActionListener {
+        public int actionPerformed(ActionEvent e) {
+            return 0;
+        }
+    }
+richtig: not fulfilled
+> The contract says `void`: the method returns nothing. With `int` as the return type it no longer fits.
+
+runde:
+    class Greeting implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            sayHello();
+        }
+        void sayHello() {
+            System.out.println("Hello");
+        }
+    }
+richtig: fulfilled
+> Extra methods are allowed. The contract only asks that `actionPerformed` is there, not that nothing else is there.
+
+runde:
+    class Greeting {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Hello");
+        }
+    }
+    button.addActionListener(new Greeting());
+richtig: not fulfilled
+> The method is right, but the contract isn't signed: `implements ActionListener` is missing. At a button Java only accepts objects that officially fulfil the contract.
+
+runde:
+    button.addActionListener(e -> System.out.println("Hello"));
+richtig: fulfilled
+> The arrow is the short form. Because the contract has only one method, Java knows: `e` is the parameter of `actionPerformed`, and after the arrow comes its body.
+
+runde:
+    button.addActionListener((a, b) -> System.out.println("Hello"));
+richtig: not fulfilled
+> Here the arrow has two parameters. But `actionPerformed` gets exactly one, the event. So this short form doesn't fit the contract.
+:::
 
 ## Task: I was clicked
 

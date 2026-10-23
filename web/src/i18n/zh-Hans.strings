@@ -147,6 +147,12 @@
 "web_game_good" = "很棒！再看看错题，然后再试一次。";
 "web_game_practice" = "熟能生巧。再读一遍上面的真值表，再玩一轮吧。";
 "web_game_again" = "再玩一次";
+"web_game_wrong_short" = "很遗憾，答错了。";
+"web_game_practice_short" = "熟能生巧。再读一遍解释，再玩一轮吧。";
+"web_game_clicks" = "点击：";
+"web_game_nobody" = "没有人在监听——什么也不会发生。";
+"web_game_event_fmt" = "点击“%@”：监听器听到后执行它的代码。";
+"web_game_try" = "现在自己试试窗口里的按钮吧。";
 "web_debug_step" = "单步";
 "web_debug_step_title" = "单步：执行一条语句后再次暂停";
 "web_debug_continue" = "继续运行到下一个断点";

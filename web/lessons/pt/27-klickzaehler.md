@@ -93,6 +93,91 @@ public class Contador {
 Com `numero.setFont(new Font("SansSerif", Font.BOLD, 48));` o número fica grande e a negrito. `Font` vem de `java.awt`, que já importaste.
 :::
 
+## Jogo: Quem está a contar?
+
+::: spiel zuhoerer
+titel: Jogo: Quem está a contar?
+intro: Agora os ouvintes fazem contas com a variável da classe. O Ludwig mostra-te o código, a janela e os cliques. Que número aparece no fim? A seguir o Ludwig reproduz os cliques.
+frage: O que diz a etiqueta depois dos cliques?
+
+runde:
+    static int contagem = 0;
+    JLabel numero = new JLabel("0");
+    JButton mais = new JButton("+1");
+    mais.addActionListener(e -> {
+        contagem++;
+        numero.setText("" + contagem);
+    });
+klicks: +1, +1, +1
+- 1
+- [x] 3
+- 0
+> A variável está na classe e guarda o valor entre os cliques. Cada clique soma um: 1, 2, 3.
+
+runde:
+    static int contagem = 0;
+    JLabel numero = new JLabel("0");
+    JButton mais = new JButton("+1");
+    JButton reset = new JButton("Reset");
+    mais.addActionListener(e -> {
+        contagem++;
+        numero.setText("" + contagem);
+    });
+    reset.addActionListener(e -> {
+        contagem = 0;
+        numero.setText("0");
+    });
+klicks: +1, +1, Reset, +1
+- 3
+- 0
+- [x] 1
+> Depois de dois cliques aparece 2. O Reset põe a variável a 0, e o último clique volta a contar até 1.
+
+runde:
+    static int contagem = 0;
+    JLabel numero = new JLabel("0");
+    JButton mais = new JButton("+1");
+    mais.addActionListener(e -> contagem++);
+klicks: +1, +1
+- 2
+- [x] 0
+- 1
+> A variável fica a 2, mas ninguém a escreve na etiqueta. Sem `numero.setText(…)` a janela continua a mostrar 0. Calcular e mostrar são duas coisas diferentes.
+
+runde:
+    static int contagem = 0;
+    JLabel numero = new JLabel("Cliques: 0");
+    JButton mais = new JButton("+1");
+    mais.addActionListener(e -> {
+        contagem++;
+        numero.setText("Cliques: " + contagem + 1);
+    });
+klicks: +1
+- Cliques: 2
+- Cliques: 1
+- [x] Cliques: 11
+> A armadilha dos parênteses: o Java calcula da esquerda para a direita. `"Cliques: " + contagem` dá o texto “Cliques: 1”, e `+ 1` junta mais um 1 no fim.
+
+runde:
+    static int contagem = 0;
+    JLabel numero = new JLabel("0");
+    JButton um = new JButton("+1");
+    JButton dez = new JButton("+10");
+    um.addActionListener(e -> {
+        contagem++;
+        numero.setText("" + contagem);
+    });
+    dez.addActionListener(e -> {
+        contagem += 10;
+        numero.setText("" + contagem);
+    });
+klicks: +10, +1, +10
+- 12
+- [x] 21
+- 111
+> Os dois ouvintes alteram a mesma variável: 10, depois 11, depois 21. `contagem += 10` é a forma curta de `contagem = contagem + 10`.
+:::
+
 ## Tarefa: contador de cliques
 
 Reconstrói o contador de cliques e acrescenta:

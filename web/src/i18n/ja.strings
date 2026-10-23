@@ -147,6 +147,12 @@
 "web_game_good" = "すごい！間違えたところを見直して、もう一度やってみよう。";
 "web_game_practice" = "練習あるのみ。上の真理値表をもう一度読んで、もう一回挑戦しよう。";
 "web_game_again" = "もう一度";
+"web_game_wrong_short" = "残念、不正解です。";
+"web_game_practice_short" = "習うより慣れよ。説明をもう一度読んで、もう一回遊んでみよう。";
+"web_game_clicks" = "クリック:";
+"web_game_nobody" = "だれも聞いていません。何も起こりません。";
+"web_game_event_fmt" = "「%@」をクリック: リスナーが気づいて自分のコードを実行します。";
+"web_game_try" = "ウィンドウのボタンを自分で試してみよう。";
 "web_debug_step" = "ステップ実行";
 "web_debug_step_title" = "ステップ実行：命令を1つ実行して再び止まる";
 "web_debug_continue" = "次のブレークポイントまで続行";
