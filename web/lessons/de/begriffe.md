@@ -178,3 +178,9 @@ Ein Fehler, der erst beim Ausführen auftritt, zum Beispiel ein Index außerhalb
 ### Attribut
 auch: Attribute, Attributs
 Eine Variable, die direkt in der Klasse steht und nicht in einer Methode. Mit `static` gehört sie zur Klasse selbst und lebt so lange wie das Programm, zum Beispiel ein Klickzähler, den mehrere Zuhörer ändern.
+
+### Scanner
+Ein fertiger Baustein von Java, der Eingaben über die Tastatur liest, z. B. mit `scanner.nextInt()` eine Zahl. Er braucht ganz oben `import java.util.Scanner;`.
+
+### import
+Eine Zeile ganz oben im Java-Code, die einen fertigen Baustein aus einem Paket holt, z. B. `import java.util.Scanner;`. Ohne sie kennt Java den Namen nicht.

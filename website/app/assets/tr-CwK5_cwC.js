@@ -84,6 +84,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_parse_case_outside_switch" = "“case” ve “default” bir “switch” içinde olmalı.";
 "web_parse_missing_do_while" = "“do { … }” sonrasında “while (koşul);” eksik.";
 "web_parse_more_methods" = "Şimdilik burada yalnızca bir metot sayılır. Diğer alt programları ayrı sekmelerde oluştur.";
+"web_parse_missing_import" = "En üstte %@ eksik. Bu satır olmadan Java Scanner’ı tanımaz.";
 "web_editor_title" = "Diyagram";
 "web_editor_show" = "Diyagramı göster";
 "web_editor_hide" = "Diyagramı gizle";

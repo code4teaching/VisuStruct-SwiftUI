@@ -84,6 +84,7 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_parse_case_outside_switch" = "«case» і «default» мають бути всередині «switch».";
 "web_parse_missing_do_while" = "Після «do { … }» бракує «while (умова);».";
 "web_parse_more_methods" = "Поки що тут враховується лише один метод. Інші підпрограми створи в окремих вкладках.";
+"web_parse_missing_import" = "На самому початку бракує %@ Без цього рядка Java не знає Scanner.";
 "web_editor_title" = "Діаграма";
 "web_editor_show" = "Показати діаграму";
 "web_editor_hide" = "Сховати діаграму";

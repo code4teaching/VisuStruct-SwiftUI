@@ -234,10 +234,23 @@ export function completions(words: SnippetWords): Completion[] {
     snippet('scanner.nextInt', 'int ${zahl} = scanner.nextInt();', w.input, 1),
     snippet('scanner.next', 'String ${text} = scanner.next();', w.input),
     snippet('scanner.nextDouble', 'double ${wert} = scanner.nextDouble();', w.input),
-    ...['int', 'double', 'String', 'boolean', 'char', 'final', 'break;', 'return', 'true', 'false', 'else'].map((label) => ({
+    snippet('try … catch', `try {\n\t${body}\n} catch (\${Exception} e) {\n\t\${// ${w.code}}\n}`, 'try … catch', 1),
+    snippet('public class', `public class \${Main} {\n\t${body}\n}`, 'public class', -2),
+    // Bei `import` gleich die üblichen Zeilen anbieten.
+    ...['import java.util.Scanner;', 'import javax.swing.*;', 'import java.awt.*;', 'import java.awt.event.*;'].map((label, i) =>
+      snippet(label, label, 'import', 1 - i),
+    ),
+    // Schlüsselwörter, auch für Klassen und Methoden (z. B. `pu` → public).
+    ...['int', 'double', 'String', 'boolean', 'char', 'long', 'final', 'break;', 'continue;', 'return', 'true', 'false', 'else', 'null', 'new',
+      'public', 'private', 'static', 'void', 'class', 'extends', 'implements', 'interface', 'this'].map((label) => ({
       label,
       type: 'keyword',
       boost: -1,
+    })),
+    ...['Scanner', 'Math', 'JFrame', 'JButton', 'JLabel', 'JTextField', 'ActionListener', 'ActionEvent', 'Color', 'FlowLayout', 'GridLayout', 'BorderLayout'].map((label) => ({
+      label,
+      type: 'type',
+      boost: -2,
     })),
     ...['Math.random()', 'Math.abs(', 'Math.sqrt(', 'Math.max(', 'Math.min(', '.length()', '.equals('].map((label) => ({ label, type: 'function', boost: -2 })),
   ]

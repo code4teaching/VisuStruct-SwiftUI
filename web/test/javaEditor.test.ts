@@ -36,6 +36,13 @@ describe('Code-Editor: Kürzel', () => {
     const labels = completions(words).map((c) => c.label)
     expect(labels).toEqual(expect.arrayContaining(['syso', 'sysout', 'sout', 'main', 'psvm']))
   })
+
+  it('Schlüsselwörter für Klassen und Methoden stehen in den Vorschlägen', () => {
+    const words = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: '', step: '', branch: '', branchElse: '', switchCase: '', forLoop: '', whileLoop: '', doLoop: '', output: 'Ausgabe', input: 'Eingabe' }
+    const labels = completions(words).map((c) => c.label)
+    expect(labels).toEqual(expect.arrayContaining(['public', 'private', 'static', 'void', 'class', 'public class', 'try … catch', 'JButton']))
+    expect(new Set(labels).size).toBe(labels.length)
+  })
 })
 
 describe('Code-Editor: Einrücken', () => {

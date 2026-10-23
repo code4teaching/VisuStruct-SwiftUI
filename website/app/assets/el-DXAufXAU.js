@@ -84,6 +84,7 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_parse_case_outside_switch" = "Τα «case» και «default» ανήκουν μέσα σε «switch».";
 "web_parse_missing_do_while" = "Μετά το «do { … }» λείπει το «while (συνθήκη);».";
 "web_parse_more_methods" = "Προς το παρόν μετράει μόνο μία μέθοδος. Δημιούργησε τα άλλα υποπρογράμματα σε ξεχωριστές καρτέλες.";
+"web_parse_missing_import" = "Λείπει στην αρχή το %@ Χωρίς αυτή τη γραμμή η Java δεν γνωρίζει το Scanner.";
 "web_editor_title" = "Διάγραμμα";
 "web_editor_show" = "Εμφάνιση διαγράμματος";
 "web_editor_hide" = "Απόκρυψη διαγράμματος";

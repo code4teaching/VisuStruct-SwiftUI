@@ -84,6 +84,7 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_parse_case_outside_switch" = "«case» e «default» vanno dentro uno «switch».";
 "web_parse_missing_do_while" = "Dopo «do { … }» manca ancora «while (condizione);».";
 "web_parse_more_methods" = "Per ora qui conta un solo metodo. Crea gli altri sottoprogrammi in schede separate.";
+"web_parse_missing_import" = "Manca %@ in cima. Senza questa riga Java non conosce Scanner.";
 "web_editor_title" = "Diagramma";
 "web_editor_show" = "Mostra diagramma";
 "web_editor_hide" = "Nascondi diagramma";

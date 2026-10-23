@@ -108,7 +108,10 @@ export function mainClassName(source: string): string {
 /** Code ohne Klasse (Snippet oder nur Methoden) in eine Klasse mit main packen. */
 export function asProgram(source: string): string {
   if (/\bclass\s+\w+/.test(source)) return source
-  const imports = 'import java.util.*;\nimport java.awt.*;\nimport java.awt.event.*;\nimport javax.swing.*;\n\n'
+  // Getippte Imports gehören vor die Klasse, nicht in `main`.
+  const own: string[] = []
+  source = source.replace(/^[ \t]*import\s+[\w.]+(?:\.\*)?\s*;[ \t]*$/gm, (line) => (own.push(line.trim()), ''))
+  const imports = [...own, 'import java.util.*;', 'import java.awt.*;', 'import java.awt.event.*;', 'import javax.swing.*;'].join('\n') + '\n\n'
   if (/\bstatic\s+void\s+main\s*\(/.test(source)) return `${imports}public class Main {\n${source}\n}\n`
   return `${imports}public class Main {\n    public static void main(String[] args) {\n${source}\n    }\n}\n`
 }

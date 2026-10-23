@@ -84,6 +84,7 @@
 "web_parse_case_outside_switch" = "「case」と「default」は「switch」の中に書きます。";
 "web_parse_missing_do_while" = "「do { … }」の後に「while (条件);」が必要です。";
 "web_parse_more_methods" = "今はここでメソッドを 1 つだけ使います。ほかのサブプログラムは別のタブに作ってください。";
+"web_parse_missing_import" = "先頭に %@ がありません。この行がないと Java は Scanner を知りません。";
 "web_editor_title" = "構造図";
 "web_editor_show" = "構造図を表示";
 "web_editor_hide" = "構造図を隠す";

@@ -422,6 +422,18 @@ export class LiveCodePanel {
    * Es hält an Haltepunkten an; `stepping`: gleich vor der ersten Zeile anhalten (Einzelschritt).
    */
   private startRun(stepping: boolean) {
+    // Wie javac: Ohne Import startet das Programm nicht.
+    const missing = this.target === 'java' ? this.problems.find((p) => p.key === 'web_parse_missing_import') : undefined
+    if (missing) {
+      this.stopRun(false)
+      this.setConsoleVisible(true)
+      this.consoleLines.replaceChildren()
+      this.consoleNotice.textContent = t('web_parse_line_fmt', this.code.lineAt(missing.from) + 1, t(missing.key, missing.arg ?? ''))
+      this.consoleNotice.classList.add('error')
+      this.showProblems = true
+      this.drawMarks(this.last?.highlight)
+      return
+    }
     // Debuggen geht nur mit der Simulation; ohne Haltepunkt und Einzelschritt läuft Swing-Code als echtes Java.
     if (this.swing && this.target === 'java' && !stepping && this.code.breakpoints.size === 0) return void this.startJavaRun()
     if (!this.last) return

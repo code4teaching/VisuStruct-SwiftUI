@@ -19,7 +19,7 @@ export interface JavaForm {
 
 export const snippetForm: JavaForm = { asClass: false, withMain: false }
 
-const scannerImportComment = '// import java.util.Scanner;'
+const scannerImport = 'import java.util.Scanner;'
 const indented = (lines: string[]) => lines.map((l) => (l.trim() === '' ? '' : '    ' + l))
 
 /** Erzeugter Java-Code der Ansicht „Code live“ als reiner Text (Platzhalter ohne Markierung) mit den Zeilen jedes Elements. */
@@ -29,21 +29,25 @@ export function liveJava(doc: VSDocument, labels: LiveLabels, form: JavaForm = s
   let spans = live.spans
   const shift = (by: number) => (spans = spans.map((s) => ({ ...s, from: s.from + by, to: s.to + by })))
   const isMethod = parseSubprogramHeader(doc.caption) !== undefined
+  // Um `main` oder eine Klasse herum gehört der Import ganz nach oben.
+  const at = lines.findIndex((l) => l.trim() === scannerImport)
+  const imports = at >= 0 && ((form.withMain && !isMethod) || form.asClass) ? [scannerImport, ''] : []
+  if (imports.length) {
+    lines.splice(at, 1)
+    spans = spans.map((s) => ({ ...s, from: s.from > at ? s.from - 1 : s.from, to: s.to > at ? s.to - 1 : s.to }))
+  }
   // Ein Unterprogramm ist schon eine Methode: kein `main` drumherum.
   if (form.withMain && !isMethod) {
     lines = ['public static void main(String[] args) {', ...indented(lines), '}']
     shift(1)
   }
   if (form.asClass) {
-    // In einer Klasse wird aus dem Kommentar ein echter Import vor der Klasse.
-    const at = lines.findIndex((l) => l.trim() === scannerImportComment)
-    const imports = at >= 0 ? ['import java.util.Scanner;', ''] : []
-    if (at >= 0) {
-      lines.splice(at, 1)
-      spans = spans.map((s) => ({ ...s, from: s.from > at ? s.from - 1 : s.from, to: s.to > at ? s.to - 1 : s.to }))
-    }
-    lines = [...imports, `public class ${sanitizedJavaClassName(isMethod ? 'Main' : doc.caption)} {`, ...indented(lines), '}']
-    shift(imports.length + 1)
+    lines = [`public class ${sanitizedJavaClassName(isMethod ? 'Main' : doc.caption)} {`, ...indented(lines), '}']
+    shift(1)
+  }
+  if (imports.length) {
+    lines = [...imports, ...lines]
+    shift(imports.length)
   }
   return { text: lines.join('\n'), spans }
 }

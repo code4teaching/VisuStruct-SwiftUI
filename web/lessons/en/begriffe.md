@@ -183,3 +183,9 @@ A kind of contract in Java: it states which methods a class must have. `ActionLi
 ### Exception
 also: exception, exceptions, Exceptions
 An error that only happens while the program runs, for example an index outside the array. If no `catch` catches it, the program stops.
+
+### Scanner
+A ready-made Java building block that reads input from the keyboard, for example a number with `scanner.nextInt()`. It needs `import java.util.Scanner;` at the very top.
+
+### import
+A line at the very top of Java code that fetches a ready-made building block from a package, for example `import java.util.Scanner;`. Without it, Java doesn't know the name.

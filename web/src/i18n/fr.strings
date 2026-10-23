@@ -84,6 +84,7 @@
 "web_parse_case_outside_switch" = "« case » et « default » vont dans un « switch ».";
 "web_parse_missing_do_while" = "Après « do { … } », il manque « while (condition); ».";
 "web_parse_more_methods" = "Pour l’instant, une seule méthode compte ici. Crée les autres sous-programmes dans des onglets séparés.";
+"web_parse_missing_import" = "Il manque %@ tout en haut. Sans cette ligne, Java ne connaît pas Scanner.";
 "web_editor_title" = "Diagramme";
 "web_editor_show" = "Afficher le diagramme";
 "web_editor_hide" = "Masquer le diagramme";

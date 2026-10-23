@@ -15,5 +15,9 @@ describe('Java mit CheerpJ', () => {
     expect(withMain.match(/static void main/g)).toHaveLength(1)
     expect(mainClassName(withMain)).toBe('Main')
     expect(asProgram('public class A {}')).toBe('public class A {}')
+    // Getippter Import kommt vor die Klasse, nicht in main.
+    const imported = asProgram('import java.util.Scanner;\nScanner s = new Scanner(System.in);')
+    expect(imported.startsWith('import java.util.Scanner;\n')).toBe(true)
+    expect(imported.split('public class Main')[1]).not.toContain('import')
   })
 })

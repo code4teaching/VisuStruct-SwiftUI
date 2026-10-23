@@ -84,6 +84,7 @@
 "web_parse_case_outside_switch" = "«case» и «default» должны быть внутри «switch».";
 "web_parse_missing_do_while" = "После «do { … }» не хватает «while (условие);».";
 "web_parse_more_methods" = "Пока здесь учитывается только один метод. Создай другие подпрограммы в отдельных вкладках.";
+"web_parse_missing_import" = "В самом начале не хватает %@ Без этой строки Java не знает Scanner.";
 "web_editor_title" = "Диаграмма";
 "web_editor_show" = "Показать диаграмму";
 "web_editor_hide" = "Скрыть диаграмму";
