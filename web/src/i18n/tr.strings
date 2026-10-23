@@ -60,6 +60,16 @@
 "web_live_java_class" = "Sınıf olarak";
 "web_live_java_class_hint" = "Sınıf adı = diyagram başlığı";
 "web_live_java_main" = "main metoduyla";
+"web_settings_display" = "Görünüm";
+"web_live_swing" = "Swing desteği";
+"web_live_swing_hint" = "Pencereli gerçek Java (CheerpJ). İlk çalıştırmada bir kez yaklaşık 40 MB indirir.";
+"web_live_swing_windows" = "Java pencereleri";
+"web_live_swing_hide" = "Java pencerelerini kapat";
+"web_live_swing_loading" = "Java yükleniyor (ilk seferde yaklaşık 40 MB) …";
+"web_live_swing_compiling" = "Derleniyor …";
+"web_live_swing_running" = "Program çalışıyor.";
+"web_live_swing_compile_failed" = "Derleme hatası, yukarıya bak.";
+"web_live_swing_failed" = "Java yüklenemedi. İnternet bağlantını kontrol et.";
 "web_live_hint_edit" = "Buraya Java kodu yaz, diyagram kendiliğinden oluşsun. Ya da diyagramda çalış, kod onunla büyüsün. Gri = yer tutucu, üzerine yazman yeterli.";
 "web_live_edit_label" = "Java kodu";
 "web_parse_line_fmt" = "Satır %d: %@";

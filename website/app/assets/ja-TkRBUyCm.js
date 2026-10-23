@@ -60,6 +60,16 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_live_java_class" = "クラスとして";
 "web_live_java_class_hint" = "クラス名 = 図のタイトル";
 "web_live_java_main" = "main メソッド付き";
+"web_settings_display" = "表示";
+"web_live_swing" = "Swing サポート";
+"web_live_swing_hint" = "ウィンドウ付きの本物の Java（CheerpJ）。初回実行時に一度だけ約 40 MB をダウンロードします。";
+"web_live_swing_windows" = "Java ウィンドウ";
+"web_live_swing_hide" = "Java ウィンドウを閉じる";
+"web_live_swing_loading" = "Java を読み込み中（初回は約 40 MB）…";
+"web_live_swing_compiling" = "コンパイル中…";
+"web_live_swing_running" = "プログラム実行中。";
+"web_live_swing_compile_failed" = "コンパイルエラー。上を見てください。";
+"web_live_swing_failed" = "Java を読み込めませんでした。インターネット接続を確認してください。";
 "web_live_hint_edit" = "ここに Java コードを入力すると、図が一緒にできあがります。図で作業すると、コードも一緒に育ちます。灰色＝プレースホルダー、そのまま上書きできます。";
 "web_live_edit_label" = "Java コード";
 "web_parse_line_fmt" = "%d 行目: %@";

@@ -60,6 +60,16 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_live_java_class" = "Som klasse";
 "web_live_java_class_hint" = "Klassenavn = diagrammets tittel";
 "web_live_java_main" = "Med main-metode";
+"web_settings_display" = "Visning";
+"web_live_swing" = "Swing-støtte";
+"web_live_swing_hint" = "Ekte Java med vinduer (CheerpJ). Laster ned ca. 40 MB én gang ved første kjøring.";
+"web_live_swing_windows" = "Java-vinduer";
+"web_live_swing_hide" = "Lukk Java-vinduer";
+"web_live_swing_loading" = "Java lastes inn (første gang ca. 40 MB) …";
+"web_live_swing_compiling" = "Kompilerer …";
+"web_live_swing_running" = "Programmet kjører.";
+"web_live_swing_compile_failed" = "Kompileringsfeil, se over.";
+"web_live_swing_failed" = "Java kunne ikke lastes inn. Sjekk internettforbindelsen.";
 "web_live_hint_edit" = "Skriv Java-kode her, så bygger diagrammet seg selv. Eller arbeid i diagrammet, så vokser koden med. Grått = plassholder, bare skriv over.";
 "web_live_edit_label" = "Java-kode";
 "web_parse_line_fmt" = "Linje %d: %@";
