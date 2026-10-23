@@ -56,6 +56,7 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kode";
 "web_live_ph_end" = "slutt";
+"web_live_language" = "Programmeringsspråk";
 "web_live_hint_edit" = "Skriv Java-kode her, så bygger diagrammet seg selv. Eller arbeid i diagrammet, så vokser koden med. Grått = plassholder, bare skriv over.";
 "web_live_edit_label" = "Java-kode";
 "web_parse_line_fmt" = "Linje %d: %@";

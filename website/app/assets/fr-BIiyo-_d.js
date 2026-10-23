@@ -56,6 +56,7 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Ton code";
 "web_live_ph_end" = "fin";
+"web_live_language" = "Langage de programmation";
 "web_live_hint_edit" = "Tape ici du code Java et le diagramme se construit tout seul. Ou travaille dans le diagramme et le code suit. Gris = espace réservé, il suffit d’écrire par-dessus.";
 "web_live_edit_label" = "Code Java";
 "web_parse_line_fmt" = "Ligne %d : %@";

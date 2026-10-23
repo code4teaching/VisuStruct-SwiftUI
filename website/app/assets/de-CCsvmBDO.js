@@ -113,6 +113,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_ph_selector" = "Variable";
 "web_live_ph_code" = "Dein Code";
 "web_live_ph_end" = "Ende";
+"web_live_language" = "Programmiersprache";
 "web_live_hint_edit" = "Tippe hier Java-Code, dann baut sich das Struktogramm mit. Oder arbeite im Struktogramm, dann wächst der Code mit. Grau = Platzhalter, einfach drüberschreiben.";
 "web_live_edit_label" = "Java-Code";
 "web_parse_line_fmt" = "Zeile %d: %@";

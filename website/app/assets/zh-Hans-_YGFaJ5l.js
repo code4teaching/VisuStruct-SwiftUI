@@ -56,6 +56,7 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_live_ph_selector" = "变量";
 "web_live_ph_code" = "你的代码";
 "web_live_ph_end" = "结束";
+"web_live_language" = "编程语言";
 "web_live_hint_edit" = "在这里输入 Java 代码，结构图会随之生成。或者在结构图中操作，代码也会一起增长。灰色 = 占位符，直接覆盖输入即可。";
 "web_live_edit_label" = "Java 代码";
 "web_parse_line_fmt" = "第 %d 行：%@";

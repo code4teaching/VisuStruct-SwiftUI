@@ -1338,12 +1338,14 @@ button.danger-text:not(:disabled) {
   margin: 0;
   font-size: 16px;
 }
-.livecode-head .segmented {
-  margin: 0 0 0 auto;
-}
-.livecode-head .segmented button {
-  min-height: 28px;
-  padding: 2px 10px;
+.livecode-lang {
+  margin-inline-start: auto;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
 }
 /* Seitenleisten-Symbol gespiegelt: der Bereich liegt rechts. */
 .livecode .learn-hide svg {

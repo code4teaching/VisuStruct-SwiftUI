@@ -122,9 +122,7 @@ export class LiveCodePanel {
     this.element.innerHTML = `
       <div class="livecode-head">
         <h2>${esc(t('web_live_title'))}</h2>
-        <div class="segmented livecode-target" role="group" aria-label="${esc(t('web_codegen_language'))}">
-          <button data-target="java">Java</button><button data-target="javascript">JavaScript</button><button data-target="python">Python</button>
-        </div>
+        <span class="livecode-lang"></span>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
       <p class="hint"></p>
@@ -143,10 +141,6 @@ export class LiveCodePanel {
       const span = spanAtLine(this.spans, Number(row.dataset.line))
       if (span) this.onSelect(span.path)
     })
-    for (const b of this.element.querySelectorAll<HTMLButtonElement>('[data-target]')) {
-      b.setAttribute('aria-pressed', String(b.dataset.target === this.target))
-      b.addEventListener('click', () => this.setTarget(b.dataset.target as LiveTarget))
-    }
     this.code = new JavaEditor(
       this.editor,
       {
@@ -163,15 +157,17 @@ export class LiveCodePanel {
     this.showMode()
   }
 
-  private setTarget(target: LiveTarget) {
+  /** Programmiersprache (im Zahnrad-Menü). */
+  get language(): LiveTarget {
+    return this.target
+  }
+
+  setTarget(target: LiveTarget) {
     this.target = target
     try {
       localStorage.setItem(targetKey, target)
     } catch {
       /* ohne Speicher: nur für diese Sitzung */
-    }
-    for (const b of this.element.querySelectorAll<HTMLButtonElement>('[data-target]')) {
-      b.setAttribute('aria-pressed', String(b.dataset.target === target))
     }
     this.showMode()
     if (this.last) this.refresh(this.last.doc, this.last.highlight, this.last.context)
@@ -184,6 +180,7 @@ export class LiveCodePanel {
     this.editor.hidden = !java
     this.problemLine.hidden = !java
     this.hint.textContent = t(java ? 'web_live_hint_edit' : 'web_live_hint')
+    this.element.querySelector('.livecode-lang')!.textContent = { java: 'Java', javascript: 'JavaScript', python: 'Python' }[this.target]
   }
 
   /** `highlight`: ausgewähltes Element bzw. Schritt der Simulation. */

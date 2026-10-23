@@ -31,6 +31,7 @@ import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './r
 import { CodePanel } from './codePanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
+import type { LiveTarget } from '../core/codeGenerator'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
@@ -368,6 +369,11 @@ export class App {
                 .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
                 .join('')}</select>
             </label>
+            <label>${e(t('web_live_language'))}
+              <select data-action="live-language">${['Java', 'JavaScript', 'Python']
+                .map((name) => `<option value="${name.toLowerCase()}">${name}</option>`)
+                .join('')}</select>
+            </label>
             <label class="check">
               <input type="checkbox" data-action="keywords" />
               <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
@@ -459,6 +465,9 @@ export class App {
     const keywords = $<HTMLInputElement>('[data-action=keywords]')
     keywords.checked = codeKeywords()
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
+    const liveLanguage = $<HTMLSelectElement>('[data-action=live-language]')
+    liveLanguage.value = this.live.language
+    liveLanguage.addEventListener('change', () => this.live.setTarget(liveLanguage.value as LiveTarget))
     const zoom = $<HTMLSelectElement>('[data-action=zoom]')
     zoom.value = String(this.zoom)
     zoom.addEventListener('change', () => {

@@ -56,6 +56,7 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_live_ph_selector" = "variabile";
 "web_live_ph_code" = "Il tuo codice";
 "web_live_ph_end" = "fine";
+"web_live_language" = "Linguaggio di programmazione";
 "web_live_hint_edit" = "Scrivi qui codice Java e il diagramma si costruisce da solo. Oppure lavora nel diagramma e il codice cresce con lui. Grigio = segnaposto, basta scriverci sopra.";
 "web_live_edit_label" = "Codice Java";
 "web_parse_line_fmt" = "Riga %d: %@";

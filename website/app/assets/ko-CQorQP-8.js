@@ -56,6 +56,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_live_ph_selector" = "변수";
 "web_live_ph_code" = "코드 작성";
 "web_live_ph_end" = "끝";
+"web_live_language" = "프로그래밍 언어";
 "web_live_hint_edit" = "여기에 Java 코드를 입력하면 순서도가 함께 만들어집니다. 또는 순서도에서 작업하면 코드가 함께 자랍니다. 회색 = 자리표시자, 그대로 덮어쓰면 됩니다.";
 "web_live_edit_label" = "Java 코드";
 "web_parse_line_fmt" = "%d행: %@";
