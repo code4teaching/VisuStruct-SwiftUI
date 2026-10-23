@@ -6,7 +6,7 @@ kurz: Ein Spiel mit Zufallszahl, Versuchszähler und einem Knopf, der sich am En
 
 ## Das Ziel
 
-Zum Abschluss ein Spiel: Der Computer denkt sich eine Zahl von 1 bis 100 aus. Du rätst, und das Fenster sagt dir „zu klein“ oder „zu groß“. Hast du sie gefunden, verrät es dir, wie viele Versuche du gebraucht hast.
+Jetzt wird gespielt: Der Computer denkt sich eine Zahl von 1 bis 100 aus. Du rätst, und das Fenster sagt dir „zu klein“ oder „zu groß“. Hast du sie gefunden, verrät es dir, wie viele Versuche du gebraucht hast.
 
 Neu sind diesmal **Zufallszahlen** und ein Knopf, der sich am Ende **abschaltet**.
 

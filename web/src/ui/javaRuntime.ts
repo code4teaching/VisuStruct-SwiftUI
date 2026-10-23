@@ -183,6 +183,45 @@ export async function closeWindows() {
   if (ready) await (await ready).closeAll()
 }
 
+/** Geschrieben hat das Programm, was neu ist oder sich geändert hat. */
+async function writtenFiles(runner: Runner, data: string, before: Map<string, string>): Promise<Map<string, string>> {
+  const written = new Map<string, string>()
+  for (const file of (await runner.list(data)).split('\n').filter(Boolean)) {
+    const content = await runner.read(data + file)
+    if (before.get(file) !== content) written.set(file, content)
+  }
+  return written
+}
+
+/**
+ * Ein Swing-Programm läuft nach main weiter und speichert vielleicht erst beim Klick. Solange seine Fenster offen sind
+ * und kein neuer Lauf beginnt, meldet `onChange` jede Datei, die danach neu gespeichert wird. Liefert die Funktion zum Beenden.
+ */
+export function watchWrittenFiles(shown: Map<string, string>, onChange: (files: Map<string, string>) => void): () => void {
+  const mine = run
+  const data = `/files/run${mine}/data/`
+  const before = new Map([...textFileEntries(), ...shown])
+  let stopped = false
+  const tick = async () => {
+    if (stopped || run !== mine || !ready) return
+    try {
+      const runner = await ready
+      const changed = await writtenFiles(runner, data, before)
+      for (const [file, content] of changed) before.set(file, content)
+      if (changed.size) onChange(changed)
+      if ((await runner.openWindows()) === 0) return
+    } catch {
+      return
+    }
+    timer = window.setTimeout(tick, 1500)
+  }
+  let timer = window.setTimeout(tick, 1500)
+  return () => {
+    stopped = true
+    window.clearTimeout(timer)
+  }
+}
+
 export type RunResult = { result: 'compile-error' | 'windows' | 'finished'; files: Map<string, string> }
 
 /**
@@ -211,12 +250,7 @@ export async function compileAndRun(source: string, onCompiled: () => void): Pro
   // Die Fensterfläche muss vor dem Start sichtbar sein: Bei 0×0 Pixeln zeichnet Swing nichts.
   onCompiled()
   await runner.run(dir, name)
-  // Geschrieben hat das Programm, was neu ist oder sich geändert hat.
-  const written = new Map<string, string>()
-  for (const file of (await runner.list(data)).split('\n').filter(Boolean)) {
-    const content = await runner.read(data + file)
-    if (files.get(file) !== content) written.set(file, content)
-  }
+  const written = await writtenFiles(runner, data, files)
   if ((await runner.openWindows()) > 0) return { result: 'windows', files: written }
   await new Promise((resolve) => setTimeout(resolve, 500))
   return { result: (await runner.openWindows()) > 0 ? 'windows' : 'finished', files: written }

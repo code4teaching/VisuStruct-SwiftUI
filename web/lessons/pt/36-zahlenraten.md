@@ -6,7 +6,7 @@ kurz: Um jogo com número aleatório, contagem de tentativas e um botão que se 
 
 ## O objetivo
 
-Para terminar, um jogo: o computador pensa num número de 1 a 100. Tu adivinhas, e a janela diz-te “demasiado pequeno” ou “demasiado grande”. Quando o encontrares, diz-te quantas tentativas precisaste.
+Agora um jogo: o computador pensa num número de 1 a 100. Tu adivinhas, e a janela diz-te “demasiado pequeno” ou “demasiado grande”. Quando o encontrares, diz-te quantas tentativas precisaste.
 
 As novidades desta vez são os **números aleatórios** e um botão que se **desliga** no fim.
 
