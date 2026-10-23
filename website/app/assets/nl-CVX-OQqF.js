@@ -113,4 +113,5 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_files_class_placeholder" = "Nieuwe klas, bijv. 11FI1";
 "web_files_create_save" = "Maken en opslaan";
 "web_files_create" = "Maken";
+"web_learn_ludwig_tip" = "Ludwigs tip";
 `;export{e as default};

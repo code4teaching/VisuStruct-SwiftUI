@@ -113,4 +113,5 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_files_class_placeholder" = "Ny klass, t.ex. 11FI1";
 "web_files_create_save" = "Skapa och spara";
 "web_files_create" = "Skapa";
+"web_learn_ludwig_tip" = "Ludwigs tips";
 `;export{e as default};

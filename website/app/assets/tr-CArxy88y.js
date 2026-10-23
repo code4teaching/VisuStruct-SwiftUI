@@ -113,4 +113,5 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_files_class_placeholder" = "Yeni sınıf, ör. 11FI1";
 "web_files_create_save" = "Oluştur ve kaydet";
 "web_files_create" = "Oluştur";
+"web_learn_ludwig_tip" = "Ludwig’in ipucu";
 `;export{e as default};

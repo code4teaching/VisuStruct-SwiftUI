@@ -11,7 +11,7 @@ export type Block =
   | { kind: 'exercise'; exercise: Exercise }
   | { kind: 'checklist'; items: ChecklistItem[] }
   | { kind: 'quiz'; questions: QuizQuestion[] }
-  | { kind: 'brag'; text: string }
+  | { kind: 'brag'; text: string; tip?: boolean }
   | { kind: 'images'; files: string[]; caption: string }
   | { kind: 'graphic'; file: string; caption: string }
 
@@ -209,6 +209,9 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       case 'angeberwissen':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim() })
+        break
+      case 'ludwig':
+        blocks.push({ kind: 'brag', text: inner.join('\n').trim(), tip: true })
         break
       default:
         throw new FormatError(`${file}: Unbekannter Block „::: ${open[1]}“.`)

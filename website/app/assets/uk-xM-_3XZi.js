@@ -113,4 +113,5 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_files_class_placeholder" = "Новий клас, напр. 11FI1";
 "web_files_create_save" = "Створити й зберегти";
 "web_files_create" = "Створити";
+"web_learn_ludwig_tip" = "Порада Людвіга";
 `;export{e as default};

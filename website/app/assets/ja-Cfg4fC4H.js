@@ -113,4 +113,5 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_files_class_placeholder" = "新しいクラス（例：11FI1）";
 "web_files_create_save" = "作成して保存";
 "web_files_create" = "作成";
+"web_learn_ludwig_tip" = "ルートヴィヒのヒント";
 `;export{e as default};
