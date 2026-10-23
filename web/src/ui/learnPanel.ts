@@ -17,6 +17,7 @@ import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { textFileView } from './textFileView'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
+import { buyCourse, courseLocked, onCourseChange } from './appHost'
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -103,6 +104,7 @@ export class LearnPanel {
       this.lessonId = lessons.some((l) => l.id === view.lesson) ? view.lesson : undefined
       this.taskId = tasks.some((x) => x.id === view.task) ? view.task : undefined
     }
+    onCourseChange(() => this.render())
     this.render()
   }
 
@@ -137,11 +139,13 @@ export class LearnPanel {
     this.element.replaceChildren(head, this.body)
     if (this.tab === 'lessons') {
       const lesson = lessons.find((l) => l.id === this.lessonId)
-      if (lesson) this.renderLesson(lesson)
+      if (lesson && courseLocked(lesson.number)) this.renderCourseLocked()
+      else if (lesson) this.renderLesson(lesson)
       else this.renderLessonList()
     } else if (this.tab === 'tasks') {
       const task = tasks.find((x) => x.id === this.taskId)
-      if (task) this.renderTask(task)
+      if (task && courseLocked(task.after ?? 0)) this.renderCourseLocked()
+      else if (task) this.renderTask(task)
       else this.renderTaskList()
     } else {
       const terms = glossary.map((e) => `- **${e.term}:** ${e.text}`).join('\n')
@@ -171,10 +175,11 @@ export class LearnPanel {
       const list = h('ol', { class: 'learn-list' })
       for (const l of section.lessons) {
         const p = progress.lesson(l.id)
-        const status = p.done ? '✓' : p.step > 0 ? t('web_learn_step_of_fmt', p.step + 1, l.steps.length) : ''
+        const locked = courseLocked(l.number)
+        const status = locked ? '🔒' : p.done ? '✓' : p.step > 0 ? t('web_learn_step_of_fmt', p.step + 1, l.steps.length) : ''
         const item = h(
           'button',
-          { class: 'learn-item' + (p.done ? ' done' : ''), 'data-lesson': l.id },
+          { class: 'learn-item' + (p.done ? ' done' : '') + (locked ? ' locked' : ''), 'data-lesson': l.id },
           h('span', { class: 'learn-num' }, String(l.number)),
           h('span', { class: 'learn-item-text' }, h('strong', {}, l.title), h('small', {}, l.summary)),
           h('span', { class: 'learn-status' }, status),
@@ -262,10 +267,11 @@ export class LearnPanel {
     const list = h('ul', { class: 'learn-list' })
     for (const task of tasks) {
       const done = this.taskExercises(task).every((ex) => progress.exercise(ex.id).done)
+      const locked = courseLocked(task.after ?? 0)
       const after = lessons.find((l) => l.number === task.after)
       const item = h(
         'button',
-        { class: 'learn-item' + (done ? ' done' : ''), 'data-task': task.id },
+        { class: 'learn-item' + (done ? ' done' : '') + (locked ? ' locked' : ''), 'data-task': task.id },
         h('span', { class: 'learn-num', 'aria-label': t('web_learn_level_fmt', task.level) }, '★'.repeat(task.level)),
         h(
           'span',
@@ -273,7 +279,7 @@ export class LearnPanel {
           h('strong', {}, task.title),
           h('small', {}, after ? t('web_learn_after_fmt', after.number, after.title) : ''),
         ),
-        h('span', { class: 'learn-status' }, done ? '✓' : ''),
+        h('span', { class: 'learn-status' }, locked ? '🔒' : done ? '✓' : ''),
       )
       item.addEventListener('click', () => {
         this.taskId = task.id
@@ -284,6 +290,23 @@ export class LearnPanel {
       list.append(h('li', {}, item))
     }
     this.body.append(list, this.renderTeacherBox())
+  }
+
+  /** In der App ohne Kurs-Kauf: Hinweis statt Lektion oder Aufgabe. */
+  private renderCourseLocked() {
+    const back = h('button', { class: 'learn-back' }, `← ${t(this.tab === 'tasks' ? 'web_learn_all_tasks' : 'web_learn_all_lessons')}`)
+    back.addEventListener('click', () => {
+      if (this.tab === 'tasks') this.taskId = undefined
+      else this.lessonId = undefined
+      this.persist()
+      this.render()
+    })
+    const buy = h('button', { class: 'primary' }, t('web_course_buy'))
+    buy.addEventListener('click', buyCourse)
+    this.body.append(
+      back,
+      h('div', { class: 'learn-locked' }, h('h2', { class: 'learn-title' }, `🔒 ${t('web_course_locked_title')}`), h('p', {}, t('web_course_locked_text')), buy),
+    )
   }
 
   /** Lehrkräfte schalten mit dem Lehrercode die Musterlösungen frei. */

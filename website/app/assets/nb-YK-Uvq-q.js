@@ -168,4 +168,8 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_debug_continue" = "Fortsett til neste stoppunkt";
 "web_debug_paused_fmt" = "Stoppet før linje %d.";
 "web_debug_gutter_title" = "Klikk på et linjenummer for å sette eller fjerne et stoppunkt";
+
+"web_course_locked_title" = "En del av kurset";
+"web_course_locked_text" = "De første leksjonene kan du prøve gratis. Lås opp kurset én gang, så får du alle leksjoner, oppgaver og spill på iPhone, iPad og Mac.";
+"web_course_buy" = "Lås opp kurset";
 `;export{e as default};

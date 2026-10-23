@@ -168,3 +168,7 @@
 "web_debug_continue" = "Doorgaan tot het volgende breekpunt";
 "web_debug_paused_fmt" = "Gepauzeerd vóór regel %d.";
 "web_debug_gutter_title" = "Klik op een regelnummer om een breekpunt te plaatsen of te verwijderen";
+
+"web_course_locked_title" = "Onderdeel van de cursus";
+"web_course_locked_text" = "De eerste lessen kun je gratis proberen. Ontgrendel de cursus één keer en je krijgt alle lessen, opdrachten en spellen op iPhone, iPad en Mac.";
+"web_course_buy" = "Cursus ontgrendelen";

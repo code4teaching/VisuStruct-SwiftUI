@@ -168,3 +168,7 @@
 "web_debug_continue" = "Continuar hasta el siguiente punto de interrupción";
 "web_debug_paused_fmt" = "Detenido antes de la línea %d.";
 "web_debug_gutter_title" = "Haz clic en un número de línea para poner o quitar un punto de interrupción";
+
+"web_course_locked_title" = "Parte del curso";
+"web_course_locked_text" = "Puedes probar gratis las primeras lecciones. Desbloquea el curso una vez y tendrás todas las lecciones, tareas y juegos en iPhone, iPad y Mac.";
+"web_course_buy" = "Desbloquear curso";

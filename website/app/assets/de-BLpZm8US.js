@@ -257,4 +257,8 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_learn_rescue_gate_case" = "Fast! equals unterscheidet Groß- und Kleinbuchstaben. Schreib das Wort genau so wie im Rätsel.";
 "web_learn_rescue_gate_wrong" = "Das Tor bleibt zu. Schau noch einmal auf die gelben Felder.";
 "web_learn_rescue_freed" = "🎉 Das Tor ist offen!";
+
+"web_course_locked_title" = "Teil des Kurses";
+"web_course_locked_text" = "Die ersten Lektionen kannst du kostenlos ausprobieren. Schalte den Kurs einmal frei, dann hast du alle Lektionen, Aufgaben und Spiele auf iPhone, iPad und Mac.";
+"web_course_buy" = "Kurs freischalten";
 `;export{e as default};

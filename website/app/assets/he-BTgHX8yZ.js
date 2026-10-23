@@ -168,4 +168,8 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_debug_continue" = "להמשיך עד נקודת העצירה הבאה";
 "web_debug_paused_fmt" = "נעצר לפני שורה %d.";
 "web_debug_gutter_title" = "לחיצה על מספר שורה מוסיפה או מסירה נקודת עצירה";
+
+"web_course_locked_title" = "חלק מהקורס";
+"web_course_locked_text" = "את השיעורים הראשונים אפשר לנסות בחינם. פתחו את הקורס פעם אחת וקבלו את כל השיעורים, המשימות והמשחקים ב-iPhone, ב-iPad וב-Mac.";
+"web_course_buy" = "פתיחת הקורס";
 `;export{e as default};

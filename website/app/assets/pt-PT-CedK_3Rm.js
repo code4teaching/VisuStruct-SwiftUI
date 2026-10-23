@@ -255,4 +255,8 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_learn_rescue_gate_case" = "Quase! O equals distingue maiúsculas de minúsculas. Escreve a palavra exatamente como nas palavras cruzadas.";
 "web_learn_rescue_gate_wrong" = "O portão continua fechado. Olha outra vez para os quadrados amarelos.";
 "web_learn_rescue_freed" = "🎉 O portão está aberto!";
+
+"web_course_locked_title" = "Faz parte do curso";
+"web_course_locked_text" = "As primeiras lições são gratuitas para experimentar. Desbloqueia o curso uma vez e tens todas as lições, tarefas e jogos no iPhone, iPad e Mac.";
+"web_course_buy" = "Desbloquear curso";
 `;export{e as default};

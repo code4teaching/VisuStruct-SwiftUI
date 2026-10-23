@@ -168,4 +168,8 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_debug_continue" = "Continua fino al prossimo punto di interruzione";
 "web_debug_paused_fmt" = "Fermo prima della riga %d.";
 "web_debug_gutter_title" = "Clicca sul numero di riga per mettere o togliere un punto di interruzione";
+
+"web_course_locked_title" = "Parte del corso";
+"web_course_locked_text" = "Le prime lezioni sono gratuite. Sblocca il corso una volta sola per avere tutte le lezioni, i compiti e i giochi su iPhone, iPad e Mac.";
+"web_course_buy" = "Sblocca il corso";
 `;export{e as default};

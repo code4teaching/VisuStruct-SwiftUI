@@ -257,4 +257,8 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_learn_rescue_gate_case" = "Almost! equals tells capital and small letters apart. Write the word exactly as in the crossword.";
 "web_learn_rescue_gate_wrong" = "The gate stays shut. Look at the yellow squares again.";
 "web_learn_rescue_freed" = "🎉 The gate is open!";
+
+"web_course_locked_title" = "Part of the course";
+"web_course_locked_text" = "The first lessons are free to try. Unlock the course once to get all lessons, tasks and games on iPhone, iPad and Mac.";
+"web_course_buy" = "Unlock course";
 `;export{e as default};

@@ -168,3 +168,7 @@
 "web_debug_continue" = "다음 중단점까지 계속";
 "web_debug_paused_fmt" = "%d번째 줄 앞에서 멈춤.";
 "web_debug_gutter_title" = "줄 번호를 클릭하면 중단점을 설정하거나 지웁니다";
+
+"web_course_locked_title" = "코스의 일부";
+"web_course_locked_text" = "처음 몇 개의 레슨은 무료로 체험할 수 있습니다. 코스를 한 번 잠금 해제하면 iPhone, iPad, Mac에서 모든 레슨, 과제, 게임을 이용할 수 있습니다.";
+"web_course_buy" = "코스 잠금 해제";

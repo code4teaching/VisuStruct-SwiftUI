@@ -168,4 +168,8 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_debug_continue" = "次のブレークポイントまで続行";
 "web_debug_paused_fmt" = "%d 行目の前で一時停止中。";
 "web_debug_gutter_title" = "行番号をクリックするとブレークポイントを設定・解除できます";
+
+"web_course_locked_title" = "コースの一部";
+"web_course_locked_text" = "最初のレッスンは無料でお試しいただけます。コースを一度ロック解除すると、iPhone、iPad、Mac ですべてのレッスン、課題、ゲームを利用できます。";
+"web_course_buy" = "コースのロックを解除";
 `;export{e as default};

@@ -52,6 +52,7 @@ enum DiagramMenuNotification {
     static let exportPDF = Notification.Name("visustruct.menu.exportPDF")
     static let showAbout = Notification.Name("visustruct.menu.showAbout")
     static let showCourse = Notification.Name("visustruct.menu.showCourse")
+    static let showWebApp = Notification.Name("visustruct.menu.showWebApp")
 
     static let recentFileIDKey = "id"
 }
@@ -147,6 +148,10 @@ final class DiagramCommandCenter: ObservableObject {
 
     func showCourse() {
         NotificationCenter.default.post(name: DiagramMenuNotification.showCourse, object: nil)
+    }
+
+    func showWebApp() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.showWebApp, object: nil)
     }
 
     func openRecent(_ file: RecentVisuStructFile) {
@@ -328,6 +333,10 @@ private struct VisuStructCommands: Commands {
                 commandCenter.showAbout()
             }
             if CoursePurchaseGate.isOffered {
+                Button(lang.tr("webapp_title")) {
+                    commandCenter.showWebApp()
+                }
+                .keyboardShortcut("l", modifiers: [.command, .shift])
                 Button(lang.tr("course_title")) {
                     commandCenter.showCourse()
                 }

@@ -168,4 +168,8 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_debug_continue" = "متابعة حتى نقطة التوقف التالية";
 "web_debug_paused_fmt" = "متوقف قبل السطر %d.";
 "web_debug_gutter_title" = "انقر على رقم السطر لوضع نقطة توقف أو إزالتها";
+
+"web_course_locked_title" = "جزء من الدورة";
+"web_course_locked_text" = "يمكنك تجربة الدروس الأولى مجانًا. افتح الدورة مرة واحدة لتحصل على جميع الدروس والمهام والألعاب على iPhone وiPad وMac.";
+"web_course_buy" = "فتح الدورة";
 `;export{e as default};

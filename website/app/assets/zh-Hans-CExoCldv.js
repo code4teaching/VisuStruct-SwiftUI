@@ -168,4 +168,8 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_debug_continue" = "继续运行到下一个断点";
 "web_debug_paused_fmt" = "在第 %d 行之前暂停。";
 "web_debug_gutter_title" = "点击行号可设置或删除断点";
+
+"web_course_locked_title" = "课程内容";
+"web_course_locked_text" = "前几节课可以免费试学。只需解锁一次课程，即可在 iPhone、iPad 和 Mac 上使用所有课程、任务和游戏。";
+"web_course_buy" = "解锁课程";
 `;export{e as default};

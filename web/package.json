@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "build:single": "tsc --noEmit && vite build --mode single",
     "test": "vitest run",
-    "build:site": "tsc --noEmit && vite build --outDir ../website/app --emptyOutDir"
+    "build:site": "tsc --noEmit && vite build --outDir ../website/app --emptyOutDir",
+    "build:app": "tsc --noEmit && vite build --mode single --outDir dist-app --emptyOutDir && cp dist-app/index.html ../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/WebApp/VisuStructWeb.html && cp dist-app/licenses.txt ../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/WebApp/licenses.txt"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

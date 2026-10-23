@@ -168,4 +168,8 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_debug_continue" = "Continuer jusqu’au prochain point d’arrêt";
 "web_debug_paused_fmt" = "Arrêté avant la ligne %d.";
 "web_debug_gutter_title" = "Clique sur un numéro de ligne pour poser ou retirer un point d’arrêt";
+
+"web_course_locked_title" = "Fait partie du cours";
+"web_course_locked_text" = "Les premières leçons sont gratuites. Débloque le cours une seule fois pour obtenir toutes les leçons, tâches et jeux sur iPhone, iPad et Mac.";
+"web_course_buy" = "Débloquer le cours";
 `;export{e as default};

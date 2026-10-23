@@ -253,3 +253,4 @@
 "course_restore_done" = "A tua compra do curso foi restaurada.";
 "course_restore_none" = "Não foi encontrada nenhuma compra do curso para esta Conta Apple.";
 "course_unavailable" = "Neste momento não é possível carregar o curso da App Store. Verifica a ligação à internet e tenta mais tarde.";
+"webapp_title" = "Aprender e programar";

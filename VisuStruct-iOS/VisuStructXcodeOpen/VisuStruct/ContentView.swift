@@ -38,6 +38,7 @@ struct ContentView: View {
     @State private var showExporter = false
     @State private var showInfo = false
     @State private var showCourseStore = false
+    @State private var showWebApp = false
     @State private var showCodeGeneratorPaywall = false
     @State private var showCodeGeneratorPlaceholder = false
     @State private var simulation: SimulationController
@@ -251,6 +252,9 @@ struct ContentView: View {
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.showCourse)) { _ in
             showCourseStore = true
         }
+        .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.showWebApp)) { _ in
+            showWebApp = true
+        }
         .onReceive(NotificationCenter.default.publisher(for: DiagramMenuNotification.close)) { _ in
             guard !isSimulationMode else { return }
             requestCloseDiagramTab(id: tabsModel.selectedTabId)
@@ -328,6 +332,10 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showCourseStore) {
             CourseStoreView()
+        }
+        .fullScreenCover(isPresented: $showWebApp) {
+            WebAppScreen()
+                .environment(\.appLanguage, lang)
         }
         .sheet(isPresented: $showCodeGeneratorPaywall) {
             CodeGeneratorPaywallSheet()
@@ -639,6 +647,7 @@ struct ContentView: View {
             onSharePNG: exportPNG,
             onShareDocument: shareDocumentAsFile,
             onExportPDF: shareDiagramPDF,
+            onShowWebApp: CoursePurchaseGate.isOffered ? { showWebApp = true } : nil,
             onShowCourse: CoursePurchaseGate.isOffered ? { showCourseStore = true } : nil,
             onShowAbout: { showInfo = true },
             onKeyboardDismiss: {

@@ -9,7 +9,8 @@ enum CoursePurchaseGate {
     /// Produkt in App Store Connect: nicht verbrauchbar, Familienfreigabe an.
     static let productID = "org.visustruct.VisuStruct.kurs"
 
-    /// Menüeintrag „Kurs“ anzeigen. Bis der Lernbereich in der App ist, nur in Debug-Builds (Test in Xcode).
+    /// „Lernen & Programmieren“ und „Kurs“ anzeigen (geplant für Version 2.0). Bis App Store Connect eingerichtet ist,
+    /// nur in Debug-Builds (Test in Xcode); für die Veröffentlichung hier `true` zurückgeben.
     static var isOffered: Bool {
         #if DEBUG
         return true

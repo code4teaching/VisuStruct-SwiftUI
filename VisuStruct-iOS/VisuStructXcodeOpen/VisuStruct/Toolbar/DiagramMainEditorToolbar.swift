@@ -32,6 +32,8 @@ struct DiagramMainEditorToolbar: ToolbarContent {
     let onSharePNG: () -> Void
     let onShareDocument: () -> Void
     let onExportPDF: () -> Void
+    /// „Lernen & Programmieren“ (eingebettete Web-App); `nil` ohne Knopf, solange `CoursePurchaseGate.isOffered` aus ist.
+    let onShowWebApp: (() -> Void)?
     /// Nur solange der Kurs angeboten wird (`CoursePurchaseGate.isOffered`); sonst `nil` und kein Eintrag.
     let onShowCourse: (() -> Void)?
     let onShowAbout: () -> Void
@@ -73,6 +75,13 @@ struct DiagramMainEditorToolbar: ToolbarContent {
             .help(lang.tr("menu_save"))
             .keyboardShortcut("s", modifiers: .command)
             .disabledAndDimmed(isSimulationMode)
+            if let onShowWebApp {
+                Button(action: onShowWebApp) {
+                    Label(lang.tr("webapp_title"), systemImage: "book")
+                }
+                .help(lang.tr("webapp_title"))
+                .disabledAndDimmed(isSimulationMode)
+            }
             if isPhone {
                 Button(action: onTogglePalettePhone) {
                     Label(lang.tr("palette_header"), systemImage: "square.grid.2x2")

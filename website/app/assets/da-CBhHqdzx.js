@@ -168,4 +168,8 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_debug_continue" = "Fortsæt til næste breakpoint";
 "web_debug_paused_fmt" = "Sat på pause før linje %d.";
 "web_debug_gutter_title" = "Klik på et linjenummer for at sætte eller fjerne et breakpoint";
+
+"web_course_locked_title" = "En del af kurset";
+"web_course_locked_text" = "De første lektioner kan du prøve gratis. Lås kurset op én gang, så får du alle lektioner, opgaver og spil på iPhone, iPad og Mac.";
+"web_course_buy" = "Lås kurset op";
 `;export{e as default};

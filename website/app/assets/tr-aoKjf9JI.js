@@ -168,4 +168,8 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_debug_continue" = "Bir sonraki kesme noktasına kadar devam et";
 "web_debug_paused_fmt" = "%d. satırdan önce duraklatıldı.";
 "web_debug_gutter_title" = "Kesme noktası koymak veya kaldırmak için satır numarasına tıkla";
+
+"web_course_locked_title" = "Kursun bir parçası";
+"web_course_locked_text" = "İlk dersleri ücretsiz deneyebilirsin. Kursun kilidini bir kez aç; iPhone, iPad ve Mac'te tüm derslere, görevlere ve oyunlara eriş.";
+"web_course_buy" = "Kursun kilidini aç";
 `;export{e as default};

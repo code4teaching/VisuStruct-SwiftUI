@@ -32,6 +32,7 @@ import { CodePanel } from './codePanel'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
+import { inApp } from './appHost'
 import { LiveCodePanel } from './liveCodePanel'
 import type { LiveTarget } from '../core/codeGenerator'
 import type { Exercise } from '../learn/lessonFormat'
@@ -567,6 +568,11 @@ export class App {
     const javaClass = $<HTMLInputElement>('[data-action=java-class]')
     const javaMain = $<HTMLInputElement>('[data-action=java-main]')
     const javaSwing = $<HTMLInputElement>('[data-action=java-swing]')
+    // In der App kein CheerpJ (Lizenz nur für nicht-kommerzielle Nutzung), siehe appHost.ts.
+    if (inApp) {
+      if (this.live.swingSupport) this.live.setSwingSupport(false)
+      javaSwing.closest('label')!.hidden = true
+    }
     javaSwing.checked = this.live.swingSupport
     javaSwing.addEventListener('change', () => this.live.setSwingSupport(javaSwing.checked))
     const showJavaForm = () => {

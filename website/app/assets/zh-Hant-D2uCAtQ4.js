@@ -168,4 +168,8 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_debug_continue" = "繼續執行到下一個中斷點";
 "web_debug_paused_fmt" = "在第 %d 行之前暫停。";
 "web_debug_gutter_title" = "點擊行號可設定或刪除中斷點";
+
+"web_course_locked_title" = "課程內容";
+"web_course_locked_text" = "前幾堂課可以免費試學。只需解鎖一次課程，即可在 iPhone、iPad 和 Mac 上使用所有課程、任務和遊戲。";
+"web_course_buy" = "解鎖課程";
 `;export{e as default};

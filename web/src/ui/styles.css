@@ -1393,6 +1393,16 @@ button.danger-text:not(:disabled) {
   color: #248a3d;
   font-weight: 700;
 }
+/* Nur in der App: Lektion braucht den Kurs-Kauf (appHost.ts). */
+.learn-item.locked .learn-item-text {
+  opacity: 0.6;
+}
+.learn-locked {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+  margin-top: 12px;
+}
 .learn-back,
 .link-button {
   border: none;

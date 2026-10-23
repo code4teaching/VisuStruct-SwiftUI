@@ -252,4 +252,5 @@ const e=`/* Palette */
 "course_restore_done" = "Your course purchase has been restored.";
 "course_restore_none" = "No course purchase was found for this Apple Account.";
 "course_unavailable" = "The course can’t be loaded from the App Store right now. Please check your internet connection and try again later.";
+"webapp_title" = "Learn & Program";
 `;export{e as default};
