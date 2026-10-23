@@ -159,6 +159,36 @@ besser: System.out.println(i);
 `fehler:` ist die Nummer der falschen Zeile (ab 1), `besser:` die richtige Zeile. Der Test setzt sie ein und prüft, dass
 Java dann keinen Fehler mehr meldet.
 
+„Prinzessin retten“ (`::: spiel prinzessin`, beschrieben in `src/learn/rescueGame.ts`): An jeder Station kommt eine Zahl
+heraus, `alphabet.charAt(zahl)` füllt damit ein Feld im Kreuzworträtsel. Die Felder bei `lösung:` ergeben das Wort, das am
+Ende in den Code bei `tor:` (statt `___`) eingetippt wird. Der Test prüft, dass jeder Buchstabe ins Rätsel passt.
+
+```
+::: spiel prinzessin
+titel: Spiel: Prinzessin retten
+intro: …
+
+station: Am Burggraben
+    int zahl = "   Zora   ".trim().length();
+frage: Welche Zahl steht in `zahl`?
+zahl: 4
+feld: 5 1
+tipp: `trim()` schneidet die Leerzeichen ab.
+> Übrig bleibt "Zora" mit 4 Zeichen.
+
+kreuzwort: Fülle die Felder mit Fachbegriffen aus Java.
+- → 4 1 STRING: Datentyp für Text
+- ↓ 2 1 ELSE: Der „sonst“-Teil einer Verzweigung
+lösung: 4 1, 2 1
+
+tor: Trag das geheime Wort ein.
+    String wort = "___";
+ende: Zora ist frei!
+:::
+```
+
+`feld:` und die Wörter haben Zeile und Spalte ab 1, `→` ist waagrecht, `↓` senkrecht.
+
 Ein Kasten „Ludwigs Tipp“: Ludwig gibt einen Hinweis zum Vorgehen, z. B. eine Brücke zu einer früheren Lektion:
 
 ```

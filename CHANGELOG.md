@@ -13,6 +13,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, lesson 17 (de/en/pt):** new game “Rescue the princess” (new block `::: spiel prinzessin`). The fox has locked Princess Zora in his tower. At six stations a piece of Java code with string methods gives a number, `alphabet.charAt(number)` turns it into a letter for a small crossword with Java terms, and the yellow squares spell the secret word that opens the gate with `equals` (with a hint if only the capital letters are wrong).
 - **Web, lesson 17 (de/en/pt):** three new steps. “Even more methods” (`lastIndexOf`, `isEmpty`, `equalsIgnoreCase`, `compareTo`, `repeat`, `concat`, `Integer.parseInt`, `Double.parseDouble`, `String.valueOf`), “Text from a file” with a text file shown in the lesson (new block `::: datei name.txt`) that `Files.readString(Path.of(…))` reads in the simulation, Python/JavaScript export and real Java (exercise “Read the letter”), and “The Java API” with a link to the `String` documentation and a quiz where methods have to be looked up. A missing file is reported in the simulation.
 - **Web, simulation:** `output: age + 1` now adds like Java (numbers are added until the first text, then joined), before it printed “71”.
 - **Web, task Caesar cipher (de/en/pt):** a fun fact box with Ludwig: Caesar shifted letters in his head (Suetonius), the cipher wheel only came with Alberti around 1467.
@@ -54,7 +55,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.18) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.19) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

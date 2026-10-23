@@ -273,6 +273,83 @@ Look up these methods. They are not in this lesson:
 > The column “Modifier and Type” says boolean: the answer is true or false.
 :::
 
+## Game: Rescue the princess
+
+Now you help Ludwig. The fox has locked Princess Zora in his tower, and the gate only opens with a secret word.
+
+::: spiel prinzessin
+titel: Game: Rescue the princess
+intro: On the way to the tower Ludwig comes to **six stations**. Each one has a piece of Java code, and a number comes out. `alphabet.charAt(number)` turns the number into a letter that goes into the **crossword**. Solve the crossword, and the yellow squares spell the secret word for the gate.
+
+station: At the moat
+    String name = "   Zora   ";
+    int number = name.trim().length();
+frage: Which number is in `number`?
+zahl: 4
+feld: 5 1
+tipp: `trim()` cuts off the spaces at the front and the back. Then count the characters.
+> After `trim()` only `"Zora"` is left, and that is 4 characters.
+
+station: In the fox forest
+    String place = "Fox lair";
+    int number = place.length();
+frage: Which number is in `number`?
+zahl: 8
+feld: 4 4
+tipp: `length()` counts every character, the space too.
+> F-o-x, the space and l-a-i-r make 8 characters.
+
+station: At the goat rock
+    String text = "Ludwig the goat";
+    int number = text.indexOf(" ");
+frage: Which number is in `number`?
+zahl: 6
+feld: 4 6
+tipp: `indexOf` returns the position of the first space. The L has index 0.
+> L u d w i g has the indexes 0 to 5, so the first space is at index 6.
+
+station: On the tower stairs
+    String word = "Princess";
+    int number = word.indexOf("s", 7);
+frage: Which number is in `number`? Look up `indexOf(String str, int fromIndex)` in the Java API.
+zahl: 7
+feld: 6 6
+tipp: The search starts at index 7, and index 7 itself counts. Write the indexes under the letters.
+> P r i n c e s s has the indexes 0 to 7. Searching from index 7, the first “s” is right at 7.
+
+station: In front of the fox den
+    int number = "Zora".compareTo("Zoe");
+frage: Which number is in `number`?
+zahl: 13
+feld: 1 9
+tipp: `compareTo` looks for the first position where the texts differ and subtracts the character codes. `'r'` is 114, `'e'` is 101.
+> “Zo” is the same, then `'r'` meets `'e'`: 114 − 101 = 13.
+
+station: At the tower gate
+    int number = Integer.parseInt("1" + "1") / 5;
+frage: Which number is in `number`?
+zahl: 2
+feld: 6 5
+tipp: First the texts are joined, then they become a number. With `int`, division drops the remainder.
+> `"1" + "1"` is `"11"`, `parseInt` makes 11 of it, and 11 / 5 is 2 for whole numbers.
+
+kreuzwort: You already have the blue letters. Fill the other squares with Java terms. Click a clue to jump to its word.
+- → 1 3 BOOLEAN: Data type for true or false
+- → 4 1 STRING: Data type for text
+- → 6 5 CHAR: Data type for a single character
+- ↓ 1 6 LENGTH: Method that counts the characters of a string
+- ↓ 2 1 ELSE: The “otherwise” part of a branch
+- ↓ 3 3 BREAK: Jumps straight out of a loop
+lösung: 1 3, 4 3, 2 6, 6 7, 7 3
+
+tor: Ludwig stands in front of the gate. The lock compares your word with `equals`. Enter the secret word.
+    String word = "___";
+    if (word.equals(secretWord)) {
+        gate.open();
+    }
+ende: Zora is free, and the fox has run off. The secret word was `BREAK`: with `break` you get out of any loop, and Zora gets out of the tower.
+:::
+
 ## Checklist
 
 ::: checkliste

@@ -2818,3 +2818,217 @@ button.danger-text:not(:disabled) {
 .learn-caesar-output {
   background: var(--bg);
 }
+/* Prinzessin retten: Weg zum Turm, Alphabet mit Indizes, Kreuzworträtsel */
+.learn-rescue-path {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 2px;
+}
+.learn-rescue-ludwig {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  flex: none;
+}
+.learn-rescue-dot {
+  flex: 1;
+  height: 6px;
+  max-width: 48px;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.3s;
+}
+.learn-rescue-dot.done {
+  background: #15803d;
+}
+.learn-rescue-tower {
+  position: relative;
+  font-size: 34px;
+  line-height: 1;
+  margin-inline-start: auto;
+}
+.learn-rescue-zora,
+.learn-rescue-fox {
+  position: absolute;
+  font-size: 15px;
+}
+.learn-rescue-zora {
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.learn-rescue-fox {
+  bottom: -2px;
+  right: -12px;
+  transition: transform 0.8s, opacity 0.8s;
+}
+.learn-rescue.freed .learn-rescue-fox {
+  transform: translateX(60px);
+  opacity: 0;
+}
+.learn-rescue.freed .learn-rescue-zora {
+  display: none;
+}
+.learn-rescue-free {
+  font-size: 24px;
+  line-height: 1;
+  animation: learn-rescue-jump 0.6s ease-out 3;
+}
+@keyframes learn-rescue-jump {
+  50% { transform: translateY(-12px); }
+}
+.learn-rescue-answer {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.learn-rescue-number {
+  width: 6ch;
+  font-size: 1.1em;
+  padding: 6px 8px;
+  text-align: center;
+}
+.learn-rescue-label {
+  margin: 14px 0 4px;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+.learn-rescue-alphabet {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+.learn-rescue-letter {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 22px;
+  padding: 2px 0;
+  border-radius: 4px;
+  background: var(--bg);
+}
+.learn-rescue-letter small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.learn-rescue-letter.hit {
+  background: #fde68a;
+  outline: 2px solid #d97706;
+}
+.learn-rescue-charat {
+  font-weight: 600;
+}
+.learn-rescue-moved {
+  font-weight: 400 !important;
+}
+.learn-rescue-word {
+  font: inherit;
+  padding: 1px 4px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+}
+.learn-rescue-gate {
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+.learn-cw {
+  --cw-cell: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-bottom: 10px;
+}
+.learn-cw-grid {
+  display: grid;
+  gap: 2px;
+}
+.learn-cw-cell {
+  position: relative;
+  width: var(--cw-cell);
+  height: var(--cw-cell);
+}
+.learn-cw-cell input {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  border: 1px solid #6e6e73;
+  border-radius: 3px;
+  background: #fff;
+  color: #1c1c1e;
+  text-align: center;
+  font: 600 16px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+}
+.learn-cw-cell input:disabled {
+  opacity: 1;
+  -webkit-text-fill-color: #1c1c1e;
+}
+.learn-cw-cell.key input {
+  background: #fde68a;
+}
+.learn-cw-cell.given input {
+  color: #1d4ed8;
+  -webkit-text-fill-color: #1d4ed8;
+}
+.learn-cw-cell.arrived input {
+  animation: learn-cw-arrive 0.6s ease-out;
+}
+.learn-cw-cell input.wrong {
+  border-color: #b91c1c;
+  background: #fee2e2;
+}
+@keyframes learn-cw-arrive {
+  from { transform: scale(1.6); }
+}
+.learn-cw-number,
+.learn-cw-keyindex {
+  position: absolute;
+  font-size: 8px;
+  line-height: 1;
+  pointer-events: none;
+  color: #6e6e73;
+  z-index: 1;
+}
+.learn-cw-number {
+  top: 2px;
+  left: 2px;
+}
+.learn-cw-keyindex {
+  bottom: 2px;
+  right: 2px;
+  color: #b45309;
+}
+.learn-cw-keyword {
+  margin: 8px 0 0;
+  font-weight: 600;
+}
+.learn-cw-keybox {
+  display: inline-block;
+  width: 22px;
+  height: 24px;
+  margin-inline-end: 2px;
+  border-bottom: 2px solid #d97706;
+  background: #fef3c7;
+  text-align: center;
+  line-height: 24px;
+  white-space: pre;
+}
+.learn-cw-cluebox {
+  flex: 1;
+  min-width: 200px;
+}
+.learn-cw-clues {
+  margin: 4px 0 10px;
+  padding-inline-start: 24px;
+}
+.learn-cw-clues li {
+  cursor: pointer;
+}
+@media (max-width: 380px) {
+  .learn-cw {
+    --cw-cell: 28px;
+  }
+}

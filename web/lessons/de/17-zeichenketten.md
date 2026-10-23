@@ -275,6 +275,83 @@ Schlag diese Methoden nach. Sie stehen nicht in dieser Lektion:
 > In der Spalte „Modifier and Type“ steht boolean: Die Antwort ist true oder false.
 :::
 
+## Spiel: Prinzessin retten
+
+Jetzt hilfst du Ludwig. Der Fuchs hat Prinzessin Zora in seinen Turm gesperrt, und das Tor öffnet sich nur mit einem geheimen Wort.
+
+::: spiel prinzessin
+titel: Spiel: Prinzessin retten
+intro: Auf dem Weg zum Turm kommt Ludwig an **sechs Stationen**. An jeder steht ein Stück Java-Code, und heraus kommt eine Zahl. Mit `alphabet.charAt(zahl)` wird aus der Zahl ein Buchstabe, der im **Kreuzworträtsel** landet. Löst du das Rätsel, ergeben die gelben Felder das geheime Wort für das Tor.
+
+station: Am Burggraben
+    String name = "   Zora   ";
+    int zahl = name.trim().length();
+frage: Welche Zahl steht in `zahl`?
+zahl: 4
+feld: 5 1
+tipp: `trim()` schneidet die Leerzeichen vorne und hinten ab. Zähle danach die Zeichen.
+> Nach `trim()` bleibt `"Zora"` übrig, und das sind 4 Zeichen.
+
+station: Im Fuchswald
+    String ort = "Fuchsbau";
+    int zahl = ort.length();
+frage: Welche Zahl steht in `zahl`?
+zahl: 8
+feld: 4 4
+tipp: `length()` zählt alle Zeichen. Zähle F-u-c-h-s-b-a-u.
+> „Fuchsbau“ hat 8 Zeichen.
+
+station: Am Ziegenfelsen
+    String wort = "Ziegenbock";
+    int zahl = wort.indexOf("bock");
+frage: Welche Zahl steht in `zahl`?
+zahl: 6
+feld: 4 6
+tipp: `indexOf` gibt die Stelle zurück, an der „bock“ anfängt. Das Z hat den Index 0.
+> Z i e g e n hat die Indizes 0 bis 5, also beginnt „bock“ bei Index 6.
+
+station: Auf der Turmtreppe
+    String wort = "Prinzessin";
+    int zahl = wort.indexOf("s", 7);
+frage: Welche Zahl steht in `zahl`? Schlag `indexOf(String str, int fromIndex)` in der Java-API nach.
+zahl: 7
+feld: 6 6
+tipp: Die Suche beginnt bei Index 7, und Index 7 zählt schon mit. Schreib dir die Indizes unter die Buchstaben.
+> P r i n z e s s i n hat die Indizes 0 bis 9. Ab Index 7 gesucht, steht das erste „s“ genau bei 7.
+
+station: Vor der Fuchshöhle
+    int zahl = "Zora".compareTo("Zoe");
+frage: Welche Zahl steht in `zahl`?
+zahl: 13
+feld: 1 9
+tipp: `compareTo` sucht die erste Stelle, an der sich die Texte unterscheiden, und rechnet die Differenz der Zeichencodes aus. `'r'` ist 114, `'e'` ist 101.
+> „Zo“ ist gleich, dann kommt `'r'` gegen `'e'`: 114 − 101 = 13.
+
+station: Am Turmtor
+    int zahl = Integer.parseInt("1" + "1") / 5;
+frage: Welche Zahl steht in `zahl`?
+zahl: 2
+feld: 6 5
+tipp: Zuerst werden die Texte verbunden, dann wird daraus eine Zahl. Bei `int` wird beim Teilen der Rest weggelassen.
+> `"1" + "1"` ist `"11"`, `parseInt` macht daraus 11, und 11 / 5 ist bei ganzen Zahlen 2.
+
+kreuzwort: Die blauen Buchstaben hast du schon. Fülle die anderen Felder mit Fachbegriffen aus Java. Klick auf einen Hinweis, um zum Wort zu springen.
+- → 1 3 BOOLEAN: Datentyp für wahr oder falsch
+- → 4 1 STRING: Datentyp für Text, also für eine Zeichenkette
+- → 6 5 CHAR: Datentyp für ein einzelnes Zeichen
+- ↓ 1 6 LENGTH: Methode, die die Zeichen eines Strings zählt
+- ↓ 2 1 ELSE: Der „sonst“-Teil einer Verzweigung
+- ↓ 3 3 BREAK: Springt sofort aus einer Schleife heraus
+lösung: 1 3, 4 3, 2 6, 6 7, 7 3
+
+tor: Ludwig steht vor dem Tor. Das Schloss vergleicht dein Wort mit `equals`. Trag das geheime Wort ein.
+    String wort = "___";
+    if (wort.equals(geheimesWort)) {
+        tor.oeffnen();
+    }
+ende: Zora ist frei, und der Fuchs ist schnell davongelaufen. Das geheime Wort war `BREAK`: Mit `break` kommt man aus jeder Schleife heraus, und Zora aus dem Turm.
+:::
+
 ## Checkliste
 
 ::: checkliste
