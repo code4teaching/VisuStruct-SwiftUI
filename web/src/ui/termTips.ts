@@ -126,7 +126,7 @@ export function attachTermTips(container: HTMLElement) {
  * den echten Bereich im Editor neben dem Lernbereich hervor.
  */
 export const uiTargets: Record<string, string> = {
-  leiste: '.app > .toolbar',
+  leiste: '.topbar > .toolbar',
   elemente: '.palette',
   struktogramm: '.canvas',
   objektinspektor: '.inspector',

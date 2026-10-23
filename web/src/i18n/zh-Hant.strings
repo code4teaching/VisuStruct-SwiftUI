@@ -57,3 +57,6 @@
 "web_live_ph_selector" = "變數";
 "web_live_ph_code" = "你的程式碼";
 "web_live_ph_end" = "結束";
+"web_editor_title" = "結構圖";
+"web_editor_show" = "顯示結構圖";
+"web_editor_hide" = "隱藏結構圖";

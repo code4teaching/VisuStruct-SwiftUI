@@ -114,3 +114,6 @@
 "web_live_ph_selector" = "Variable";
 "web_live_ph_code" = "Dein Code";
 "web_live_ph_end" = "Ende";
+"web_editor_title" = "Struktogramm";
+"web_editor_show" = "Struktogramm aufklappen";
+"web_editor_hide" = "Struktogramm einklappen";

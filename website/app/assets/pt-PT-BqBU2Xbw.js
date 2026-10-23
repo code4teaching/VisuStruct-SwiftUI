@@ -112,4 +112,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_live_ph_selector" = "variável";
 "web_live_ph_code" = "O teu código";
 "web_live_ph_end" = "fim";
+"web_editor_title" = "Diagrama";
+"web_editor_show" = "Mostrar diagrama";
+"web_editor_hide" = "Ocultar diagrama";
 `;export{e as default};

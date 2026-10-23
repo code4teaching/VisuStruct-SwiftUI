@@ -57,4 +57,7 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_live_ph_selector" = "المتغير";
 "web_live_ph_code" = "شيفرتك";
 "web_live_ph_end" = "النهاية";
+"web_editor_title" = "المخطط";
+"web_editor_show" = "إظهار المخطط";
+"web_editor_hide" = "إخفاء المخطط";
 `;export{e as default};

@@ -57,4 +57,7 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_live_ph_selector" = "змінна";
 "web_live_ph_code" = "Твій код";
 "web_live_ph_end" = "кінець";
+"web_editor_title" = "Діаграма";
+"web_editor_show" = "Показати діаграму";
+"web_editor_hide" = "Сховати діаграму";
 `;export{e as default};

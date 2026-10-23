@@ -57,4 +57,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_live_ph_selector" = "변수";
 "web_live_ph_code" = "코드 작성";
 "web_live_ph_end" = "끝";
+"web_editor_title" = "구조도";
+"web_editor_show" = "구조도 표시";
+"web_editor_hide" = "구조도 숨기기";
 `;export{e as default};

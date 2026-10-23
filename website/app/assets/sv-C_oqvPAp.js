@@ -57,4 +57,7 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kod";
 "web_live_ph_end" = "slut";
+"web_editor_title" = "Strukturdiagram";
+"web_editor_show" = "Visa strukturdiagram";
+"web_editor_hide" = "Dölj strukturdiagram";
 `;export{e as default};
