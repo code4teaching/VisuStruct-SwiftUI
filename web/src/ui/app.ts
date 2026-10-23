@@ -252,6 +252,7 @@ export class App {
   private files!: FilesPanel
   private filesRailButton?: HTMLButtonElement
   private closeSettings?: (ev: PointerEvent) => void
+  private escapeSettings?: (ev: KeyboardEvent) => void
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
@@ -412,6 +413,7 @@ export class App {
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
+              <span class="settings-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</span>
             </footer>
           </div>
         </div>
@@ -795,15 +797,18 @@ export class App {
     button.addEventListener('click', () => show(menu.hidden))
     // Nach einem Sprachwechsel wird die Leiste neu gebaut: alten Zuhörer entfernen.
     if (this.closeSettings) document.removeEventListener('pointerdown', this.closeSettings)
+    if (this.escapeSettings) document.removeEventListener('keydown', this.escapeSettings)
     this.closeSettings = (ev: PointerEvent) => {
       if (!menu.hidden && !button.parentElement!.contains(ev.target as Node)) show(false)
     }
     document.addEventListener('pointerdown', this.closeSettings)
-    menu.addEventListener('keydown', (ev) => {
-      if (ev.key !== 'Escape') return
+    // Am Dokument statt am Menü: Safari gibt einem angeklickten Haken keinen Fokus.
+    this.escapeSettings = (ev: KeyboardEvent) => {
+      if (ev.key !== 'Escape' || menu.hidden) return
       show(false)
       button.focus()
-    })
+    }
+    document.addEventListener('keydown', this.escapeSettings)
   }
 
   private learnRail(): HTMLElement {

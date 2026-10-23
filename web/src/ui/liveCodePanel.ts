@@ -404,10 +404,14 @@ export class LiveCodePanel {
       this.consoleNotice.textContent = t('web_live_swing_loading')
       await prepareJava(this.swingDisplay)
       this.consoleNotice.textContent = t('web_live_swing_compiling')
-      const ok = await compileAndRun(this.code.text)
-      this.consoleNotice.textContent = t(ok ? 'web_live_swing_running' : 'web_live_swing_compile_failed')
-      this.consoleNotice.classList.toggle('error', !ok)
-      if (ok) this.swingElement.hidden = false
+      this.swingElement.hidden = false
+      const result = await compileAndRun(this.code.text)
+      this.consoleNotice.textContent = t(
+        { 'compile-error': 'web_live_swing_compile_failed', windows: 'web_live_swing_running', finished: 'web_live_run_finished' }[result],
+      )
+      this.consoleNotice.classList.toggle('error', result === 'compile-error')
+      // Ohne offenes Fenster braucht es die Fensterfläche nicht.
+      this.swingElement.hidden = result !== 'windows'
     } catch {
       this.consoleNotice.textContent = t('web_live_swing_failed')
       this.consoleNotice.classList.add('error')

@@ -12,25 +12,56 @@ const toolsURL = 'https://raw.githubusercontent.com/leaningtech/javafiddle/main/
 const toolsJar = '/str/tools.jar'
 
 /**
- * Schließt die Fenster des vorigen Laufs und legt das Ausgabeverzeichnis für den nächsten an
- * (javac legt es mit `-d` nicht selbst an).
+ * Startet die Programme der Schüler. Alle Läufe gehen über diese eine Klasse (als Bibliothek geladen),
+ * damit sie dieselben Fenster sehen: Ein eigener `cheerpjRunMain` pro Lauf sieht die Fenster des vorigen nicht.
  */
-const resetSource = `public class VisuStructReset {
-    public static void main(String[] args) {
+const runnerSource = `public class VisuStructRunner {
+    public static void mkdirs(String dir) {
+        new java.io.File(dir).mkdirs();
+    }
+
+    public static void closeAll() {
         for (java.awt.Window w : java.awt.Window.getWindows()) w.dispose();
-        for (String dir : args) new java.io.File(dir).mkdirs();
+    }
+
+    public static int openWindows() {
+        int n = 0;
+        for (java.awt.Window w : java.awt.Window.getWindows()) if (w.isShowing()) n++;
+        return n;
+    }
+
+    public static void run(String dir, String name) {
+        closeAll();
+        try {
+            java.net.URLClassLoader loader = new java.net.URLClassLoader(new java.net.URL[] { new java.io.File(dir).toURI().toURL() });
+            loader.loadClass(name).getMethod("main", String[].class).invoke(null, (Object) new String[0]);
+        } catch (java.lang.reflect.InvocationTargetException e) {
+            e.getCause().printStackTrace();
+        } catch (NoSuchMethodException e) {
+            System.err.println("Die Klasse " + name + " hat keine Methode public static void main(String[] args).");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 `
+
+interface Runner {
+  mkdirs(dir: string): Promise<void>
+  closeAll(): Promise<void>
+  openWindows(): Promise<number>
+  run(dir: string, name: string): Promise<void>
+}
 
 declare global {
   function cheerpjInit(options?: object): Promise<void>
   function cheerpjCreateDisplay(width: number, height: number, parent?: HTMLElement): HTMLElement
   function cheerpjRunMain(className: string, classPath: string, ...args: string[]): Promise<number>
+  function cheerpjRunLibrary(classPath: string): Promise<Record<string, Promise<unknown>>>
   function cheerpjAddStringFile(path: string, data: string | Uint8Array): void
 }
 
-let ready: Promise<void> | undefined
+let ready: Promise<Runner> | undefined
 let run = 0
 
 function loadScript(src: string): Promise<void> {
@@ -44,7 +75,7 @@ function loadScript(src: string): Promise<void> {
 }
 
 /** Laufzeit und Compiler laden; `display`: Fläche für die Swing-Fenster. Mehrfach aufrufbar. */
-export function prepareJava(display: HTMLElement): Promise<void> {
+export function prepareJava(display: HTMLElement): Promise<Runner> {
   ready ??= (async () => {
     await loadScript(loaderURL)
     await cheerpjInit({ status: 'none' })
@@ -52,10 +83,12 @@ export function prepareJava(display: HTMLElement): Promise<void> {
     const response = await fetch(toolsURL)
     if (!response.ok) throw new Error(toolsURL)
     cheerpjAddStringFile(toolsJar, new Uint8Array(await response.arrayBuffer()))
-    cheerpjAddStringFile('/str/VisuStructReset.java', resetSource)
-    if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, '/str/VisuStructReset.java', '-d', '/files/')) !== 0) {
+    cheerpjAddStringFile('/str/VisuStructRunner.java', runnerSource)
+    if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, '/str/VisuStructRunner.java', '-d', '/files/')) !== 0) {
       throw new Error('javac')
     }
+    const lib = await cheerpjRunLibrary('/files/')
+    return (await lib.VisuStructRunner) as Runner
   })()
   ready.catch(() => (ready = undefined))
   return ready
@@ -75,23 +108,28 @@ export function asProgram(source: string): string {
   return `${imports}public class Main {\n    public static void main(String[] args) {\n${source}\n    }\n}\n`
 }
 
-/** Fenster des vorigen Laufs schließen und ggf. Verzeichnisse anlegen. */
-export async function closeWindows(...dirs: string[]) {
-  if (ready) await cheerpjRunMain('VisuStructReset', '/files/', ...dirs)
+/** Fenster des vorigen Laufs schließen. */
+export async function closeWindows() {
+  if (ready) await (await ready).closeAll()
 }
 
-/** Kompilieren und starten. `false`, wenn javac Fehler meldet (die stehen dann in der Konsole). */
-export async function compileAndRun(source: string): Promise<boolean> {
+export type RunResult = 'compile-error' | 'windows' | 'finished'
+
+/**
+ * Kompilieren und starten. `compile-error`: javac meldet Fehler (die stehen dann in der Konsole).
+ * Sonst nach dem Ende von main: `windows`, wenn noch Fenster offen sind (das Programm läuft weiter), oder `finished`.
+ */
+export async function compileAndRun(source: string): Promise<RunResult> {
+  const runner = await ready!
   const program = asProgram(source)
   const name = mainClassName(program)
-  // Jeder Lauf in ein eigenes Verzeichnis, damit keine Klasse vom vorigen Lauf übrig bleibt.
+  // Jeder Lauf in ein eigenes Verzeichnis mit eigenem Klassenlader, damit nichts vom vorigen Lauf übrig bleibt.
   const dir = `/files/run${++run}/`
-  await closeWindows(dir)
+  await runner.mkdirs(dir)
   cheerpjAddStringFile(`/str/${name}.java`, program)
   if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, `/str/${name}.java`, '-d', dir, '-encoding', 'UTF-8')) !== 0) {
-    return false
+    return 'compile-error'
   }
-  // main kehrt bei Swing sofort zurück, die Fenster bleiben offen; darum nicht auf das Ende warten.
-  void cheerpjRunMain(name, `${dir}:${toolsJar}`)
-  return true
+  await runner.run(dir, name)
+  return (await runner.openWindows()) > 0 ? 'windows' : 'finished'
 }
