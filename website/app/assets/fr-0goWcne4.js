@@ -50,7 +50,6 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 
 /* Code live */
 "web_live_title" = "Code en direct";
-"web_live_toggle_title" = "Afficher le code en direct à côté du diagramme";
 "web_live_hide" = "Masquer le code en direct";
 "web_live_show" = "Afficher le code en direct";
 "web_live_resize" = "Modifier la largeur de la zone de code (double-clic : réinitialiser)";

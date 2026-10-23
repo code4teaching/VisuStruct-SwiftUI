@@ -45,7 +45,6 @@
 
 /* Lernbereich (Lektionen gibt es vorerst nur auf Deutsch) */
 "web_learn_title" = "Lernen";
-"web_learn_toggle_title" = "Lektionen, Aufgaben und Nachschlagen ein- oder ausblenden";
 "web_learn_hide" = "Lernbereich einklappen";
 "web_learn_show" = "Lernbereich aufklappen: Lektionen, Aufgaben und Nachschlagen";
 "web_learn_lessons" = "Lektionen";
@@ -108,7 +107,6 @@
 
 /* Code live */
 "web_live_title" = "Code live";
-"web_live_toggle_title" = "Code live neben dem Struktogramm anzeigen";
 "web_live_hide" = "Code live ausblenden";
 "web_live_show" = "Code live aufklappen";
 "web_live_resize" = "Breite des Codebereichs ändern (Doppelklick: zurücksetzen)";

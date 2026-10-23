@@ -221,8 +221,6 @@ export class App {
   private exportSelect!: HTMLSelectElement
   private learn: LearnPanel
   private shell: HTMLElement
-  private learning = false
-  private learnButton?: HTMLButtonElement
   private railButton?: HTMLButtonElement
   private liveRailButton?: HTMLButtonElement
   private exerciseSaveTimer?: number
@@ -238,7 +236,6 @@ export class App {
   /** Ansicht „Code live“ rechts neben dem Editor. */
   private liveCoding = false
   private live: LiveCodePanel
-  private liveButton?: HTMLButtonElement
 
   private measure = createCanvasMeasure()
   private metrics = diagramDisplayMetrics(true)
@@ -340,8 +337,6 @@ export class App {
             .join('')}</select>
         </div>
         <div class="group">
-          <button data-action="learn" aria-pressed="false" title="${e(t('web_learn_toggle_title'))}">🎓 ${e(t('web_learn_title'))}</button>
-          <button data-action="live" aria-pressed="false" title="${e(t('web_live_toggle_title'))}">&lt;/&gt; ${e(t('web_live_title'))}</button>
           <button data-action="code" aria-pressed="false" title="${e(t('a11y_generate_code'))}">{ } Code</button>
           <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="${e(t('web_simulation_start_title'))}">▶︎ ${e(t('action_simulation'))}</button>
         </div>
@@ -415,12 +410,6 @@ export class App {
       list.append(li)
     }
 
-    this.learnButton = $('[data-action=learn]')
-    this.learnButton.addEventListener('click', () => this.setLearning(!this.learning))
-    this.learnButton.setAttribute('aria-pressed', String(this.learning))
-    this.liveButton = $('[data-action=live]')
-    this.liveButton.addEventListener('click', () => this.setLiveCoding(!this.liveCoding))
-    this.liveButton.setAttribute('aria-pressed', String(this.liveCoding))
     this.tabStrip = $('.tabs')
     this.exportSelect = $<HTMLSelectElement>('[data-action=export]')
     this.exportSelect.addEventListener('change', () => {
@@ -497,9 +486,7 @@ export class App {
   // MARK: - Lernbereich
 
   private setLearning(on: boolean, remember = true) {
-    this.learning = on
     this.shell.classList.toggle('learning', on)
-    this.learnButton?.setAttribute('aria-pressed', String(on))
     if (remember) storeValue(learnKey, on ? '1' : '0')
     if (this.canvasHost) this.renderDiagramOnly()
   }
@@ -869,7 +856,6 @@ export class App {
     if (on && this.coding) this.setCoding(false)
     this.liveCoding = on
     this.shell.classList.toggle('live', on)
-    this.liveButton?.setAttribute('aria-pressed', String(on))
     storeValue(liveKey, on ? '1' : '0')
     if (this.canvasHost) this.render()
   }

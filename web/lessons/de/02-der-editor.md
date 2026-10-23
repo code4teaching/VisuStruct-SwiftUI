@@ -13,7 +13,7 @@ Der Editor besteht aus vier Bereichen. Fahre mit der Maus über ein blaues Wort 
 - **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
 - **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier bearbeitest du den Text des ausgewählten Elements.
 
-> Diesen Lernbereich kannst du jederzeit über [Lernen](#zeige-lernen) in der Leiste ein- und ausblenden. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest.
+> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest.
 
 ## Ein Element einfügen
 

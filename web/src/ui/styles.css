@@ -830,7 +830,7 @@ button.danger-text:not(:disabled) {
   writing-mode: vertical-rl;
   white-space: nowrap;
 }
-.shell.learning .learn-rail {
+.shell.learning .learn-rail:not(.live-rail) {
   display: none;
 }
 /* Code live eingeklappt: dieselbe Leiste, nur am rechten Rand. */
@@ -1224,10 +1224,6 @@ button.danger-text:not(:disabled) {
   gap: 8px;
   margin-top: 18px;
 }
-button[data-action='learn'][aria-pressed='true'] {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
 @media (max-width: 1100px) {
   .learn {
     width: 340px;
@@ -1329,10 +1325,6 @@ button[data-action='learn'][aria-pressed='true'] {
 }
 .live-resizer:focus-visible {
   outline: none;
-}
-button[data-action='live'][aria-pressed='true'] {
-  border-color: var(--accent);
-  background: var(--accent-soft);
 }
 @media (max-width: 1100px) {
   .livecode {

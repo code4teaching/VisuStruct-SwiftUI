@@ -50,7 +50,6 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 
 /* Code live */
 "web_live_title" = "Código en vivo";
-"web_live_toggle_title" = "Mostrar el código en vivo junto al diagrama";
 "web_live_hide" = "Ocultar código en vivo";
 "web_live_show" = "Mostrar código en vivo";
 "web_live_resize" = "Cambiar el ancho del área de código (doble clic: restablecer)";

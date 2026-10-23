@@ -43,7 +43,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_run_error" = "Erro durante a execução.";
 "web_run_dropped_fmt" = "… %d linhas anteriores ocultas";
 "web_learn_title" = "Aprender";
-"web_learn_toggle_title" = "Mostrar ou ocultar lições, exercícios e consulta";
 "web_learn_hide" = "Recolher a área de aprendizagem";
 "web_learn_show" = "Expandir a área de aprendizagem: lições, exercícios e consulta";
 "web_learn_lessons" = "Lições";
@@ -106,7 +105,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 
 /* Code live */
 "web_live_title" = "Código ao vivo";
-"web_live_toggle_title" = "Mostrar o código ao vivo ao lado do diagrama";
 "web_live_hide" = "Ocultar código ao vivo";
 "web_live_show" = "Mostrar código ao vivo";
 "web_live_resize" = "Alterar a largura da área de código (duplo clique: repor)";

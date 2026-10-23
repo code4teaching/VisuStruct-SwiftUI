@@ -50,7 +50,6 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 
 /* Code live */
 "web_live_title" = "Live-kode";
-"web_live_toggle_title" = "Vis kode live ved siden af diagrammet";
 "web_live_hide" = "Skjul live-kode";
 "web_live_show" = "Vis live-kode";
 "web_live_resize" = "Skift kodeområdets bredde (dobbeltklik: nulstil)";

@@ -50,7 +50,6 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 
 /* Code live */
 "web_live_title" = "실시간 코드";
-"web_live_toggle_title" = "다이어그램 옆에 코드를 실시간으로 표시";
 "web_live_hide" = "실시간 코드 숨기기";
 "web_live_show" = "실시간 코드 표시";
 "web_live_resize" = "코드 영역 너비 변경(더블클릭: 초기화)";

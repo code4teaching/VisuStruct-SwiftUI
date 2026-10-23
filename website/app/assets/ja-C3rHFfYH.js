@@ -50,7 +50,6 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 
 /* Code live */
 "web_live_title" = "ライブコード";
-"web_live_toggle_title" = "図の横にコードをライブ表示";
 "web_live_hide" = "ライブコードを隠す";
 "web_live_show" = "ライブコードを表示";
 "web_live_resize" = "コード領域の幅を変更（ダブルクリック：リセット）";

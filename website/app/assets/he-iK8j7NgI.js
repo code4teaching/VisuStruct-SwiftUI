@@ -50,7 +50,6 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 
 /* Code live */
 "web_live_title" = "קוד חי";
-"web_live_toggle_title" = "הצגת קוד בזמן אמת ליד התרשים";
 "web_live_hide" = "הסתרת קוד חי";
 "web_live_show" = "הצגת קוד חי";
 "web_live_resize" = "שינוי רוחב אזור הקוד (לחיצה כפולה: איפוס)";
