@@ -14,6 +14,7 @@ The format is loosely inspired by Keep a Changelog.
 ### Added
 
 - **Web, task Caesar cipher (de/en/pt):** a fun fact box with Ludwig: Caesar shifted letters in his head (Suetonius), the cipher wheel only came with Alberti around 1467.
+- **Web, lessons 17, 18 and 19 (de/en/pt)** end with the step “Now in Java”: lesson 17 compares texts with `equals` (exercise “Check the password”), lesson 18 shows a method and `while (true)` with `break` (exercise “Till with break”), lesson 19 shows the linear search in Java (exercise “Count cards”). Lesson 20 now points back to lessons 4 to 19 and lists `String` in its table.
 - **Web, tasks (de/en/pt):** new task “Caesar cipher” after lesson 17 with a drawn cipher wheel, an interactive wheel to turn (new block `::: caesar`), two solutions (array vs. ASCII with `(int)`/`(char)`) and decryption. The simulation now calculates with character codes like Java (`'A'` = 65, `(int) word.charAt(i)`, `(char) code`); Python and JavaScript code use `ord`/`chr` and `charCodeAt`/`String.fromCharCode`.
 - **Web, Code live:** `Scanner` without `import java.util.Scanner;` (or `java.util.*`) is an error, as with javac: a hint under the code, and ▶ Run stops with the message. Code generated from the structure chart now writes the real import line at the very top (also around `main` and the class); typed imports are moved in front of the class when running real Java. Suggestions now also offer `public`, `private`, `static`, `void`, `class`, `public class`, `try … catch`, the usual `import` lines and the Swing types. New glossary terms Scanner and import (de/en/pt).
 - **Web, lesson 28 (de/en/pt):** new step “Which layout for what?” with a table comparing FlowLayout, GridLayout and BorderLayout, a Ludwig tip for choosing one and a checklist item.
@@ -51,7 +52,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.17) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.18) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

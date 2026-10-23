@@ -6,7 +6,7 @@ kurz: Alle Elemente in Java auf einen Blick, Code erzeugen, im Bereich Programmi
 
 ## Die Code-Ansicht
 
-In den Lektionen 4 bis 16 hast du jedes Element schon einmal in Java geschrieben. Hier siehst du alles auf einen Blick und lernst, wie VisuStruct aus einem ganzen Struktogramm ein Java-Programm macht.
+In den Lektionen 4 bis 19 hast du jedes Element schon einmal in Java geschrieben. Hier siehst du alles auf einen Blick und lernst, wie VisuStruct aus einem ganzen Struktogramm ein Java-Programm macht.
 
 Ein Struktogramm beschreibt einen Ablauf. Damit ein Computer ihn ausführt, brauchst du ein Programm in einer Programmiersprache. VisuStruct schreibt diesen Code für dich.
 
@@ -62,10 +62,11 @@ Jede Anweisung endet in Java mit einem **Semikolon** `;`. Was in einem Kasten st
 | While-Schleife | `while (bedingung) { … }` | 11 |
 | Do-while-Schleife | `do { … } while (bedingung);` | 12 |
 | For-Schleife | `for (int i = 0; i < 5; i++) { … }` | 13 |
-| Endlosschleife | `while (true) { … }` | 11 |
+| Endlosschleife | `while (true) { … }` | 11, 18 |
 | Aussprung | `break;` | 18 |
 | Aufruf | `berechne();` | 18 |
 | Array | `int[] zahlen = new int[5];` | 15, 16 |
+| Text (String) | `String name = scanner.next();` | 17 |
 
 Für Eingaben steht ganz oben einmal `import java.util.Scanner;` und `Scanner scanner = new Scanner(System.in);`. Vor jeder Eingabe gibt VisuStruct die Frage mit `System.out.println(…)` aus.
 

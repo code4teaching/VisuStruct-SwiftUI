@@ -126,6 +126,39 @@ tipp: Split the sentence into a String array with `sentence.split(" ")`. Its len
 lösung: zk-woerter-loesung.visustruct
 :::
 
+## Now in Java
+
+The methods in this lesson already are Java. A whole program with a text looks like this:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("What is your name?");
+String name = scanner.next();
+System.out.println("Hello " + name.toUpperCase() + "!");
+System.out.println("Your name has " + name.length() + " letters.");
+```
+
+- `scanner.next()` reads one word, that is text up to the next space. For numbers you keep using `scanner.nextInt()`.
+- Text goes in **double** quotes `"Ludwig"`, a single character in **single** quotes `'L'`.
+- `length()`, `toUpperCase()` and the other methods always have round brackets after them, even when nothing is inside.
+- You compare two texts with `equals`. Every letter counts: `"Ludwig".equals("ludwig")` is false.
+
+::: übung l17-java-passwort
+titel: Check the password
+code: java
+auftrag: Write a Java program that asks for the password. If it is **Ludwig**, it outputs **Welcome!**, otherwise **Wrong password**.
+  Mind upper and lower case: `ludwig` is wrong.
+test: Ludwig -> Welcome!
+test: ludwig -> Wrong password
+test: Geißbock -> Wrong password
+braucht: verzweigung
+tipp: Read the password with `scanner.next()` into a String variable. Then compare it in a selection.
+tipp: The condition is `input.equals("Ludwig")`. In Java, `==` does not reliably compare texts.
+lösung: l17-java-passwort-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -135,6 +168,7 @@ lösung: zk-woerter-loesung.visustruct
 - I know `indexOf`, `contains`, `toUpperCase` and `equals`. → Search and compare
 - I can go through a text character by character with a loop. → Character by character
 - I can split a text into a String array with `split`. → Split with split
+- I can read a text in Java and compare it with `equals`. → Now in Java
 :::
 
 ## Quiz
@@ -168,4 +202,10 @@ lösung: zk-woerter-loesung.visustruct
 = charAt(0) -> B
 = indexOf("goat") -> 5
 = substring(5) -> goat
+
+? Which condition checks in Java whether `input` contains the text Ludwig?
+- [ ] input = "Ludwig"
+- [ ] input == 'Ludwig'
+- [x] input.equals("Ludwig")
+> You compare texts with equals. Single quotes are only for a single character.
 :::

@@ -6,7 +6,7 @@ kurz: All elements in Java at a glance, generate code, write Java in the Program
 
 ## The code view
 
-In lessons 4 to 16 you have already written every element in Java. Here you see everything at a glance and learn how VisuStruct turns a whole structure chart into a Java program.
+In lessons 4 to 19 you have already written every element in Java. Here you see everything at a glance and learn how VisuStruct turns a whole structure chart into a Java program.
 
 A structure chart describes a process. For a computer to run it, you need a program in a programming language. VisuStruct writes this code for you.
 
@@ -62,10 +62,11 @@ In Java every statement ends with a **semicolon** `;`. Whatever is inside a box 
 | While loop | `while (condition) { … }` | 11 |
 | Do-while loop | `do { … } while (condition);` | 12 |
 | For loop | `for (int i = 0; i < 5; i++) { … }` | 13 |
-| Endless loop | `while (true) { … }` | 11 |
+| Endless loop | `while (true) { … }` | 11, 18 |
 | Break | `break;` | 18 |
 | Call | `calculate();` | 18 |
 | Array | `int[] numbers = new int[5];` | 15, 16 |
+| Text (String) | `String name = scanner.next();` | 17 |
 
 For input, `import java.util.Scanner;` and `Scanner scanner = new Scanner(System.in);` are written once at the very top. Before every input VisuStruct outputs the question with `System.out.println(…)`.
 
