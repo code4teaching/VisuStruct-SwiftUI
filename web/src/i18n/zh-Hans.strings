@@ -60,6 +60,16 @@
 "web_live_java_class" = "作为类";
 "web_live_java_class_hint" = "类名 = 结构图标题";
 "web_live_java_main" = "包含 main 方法";
+"web_settings_display" = "显示";
+"web_live_swing" = "Swing 支持";
+"web_live_swing_hint" = "带窗口的真正 Java（CheerpJ）。首次运行时一次性下载约 40 MB。";
+"web_live_swing_windows" = "Java 窗口";
+"web_live_swing_hide" = "关闭 Java 窗口";
+"web_live_swing_loading" = "正在加载 Java（首次约 40 MB）…";
+"web_live_swing_compiling" = "正在编译…";
+"web_live_swing_running" = "程序正在运行。";
+"web_live_swing_compile_failed" = "编译错误，见上方。";
+"web_live_swing_failed" = "无法加载 Java。请检查网络连接。";
 "web_live_hint_edit" = "在这里输入 Java 代码，结构图会随之生成。或者在结构图中操作，代码也会一起增长。灰色 = 占位符，直接覆盖输入即可。";
 "web_live_edit_label" = "Java 代码";
 "web_parse_line_fmt" = "第 %d 行：%@";

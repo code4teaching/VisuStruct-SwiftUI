@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Code live:** new setting “Swing support” (gear menu, Java section). When it is on, ▶ Run compiles the typed Java with the real `javac` and runs it as real Java via CheerpJ, so Swing windows appear in a “Java windows” area above the console. Runtime and compiler (about 40 MB) are loaded only on the first run. Code without a class is wrapped in `public class Main`.
 - **Web, Files:** saving without a chosen class asks first: pick one of the class folders or type a new one (“Create and save”); the choice stays selected. Creating a folder and deleting now use the same in-page dialog instead of the browser's prompt/confirm, which embedded views block.
 - **Web, Code live:** the element of the code line with the cursor is filled light blue in the structure chart, like the code line itself.
 - **Web, Code live:** the Java editor shows line numbers (matching the line given in hints such as “Line 9: One too many }”).
@@ -23,6 +24,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.
 - **Web:** The footer (status, home page, imprint, privacy) now runs below all three columns – Learning, diagram and Code live – instead of only under the diagram.

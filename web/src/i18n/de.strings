@@ -117,6 +117,16 @@
 "web_live_java_class" = "Als Klasse";
 "web_live_java_class_hint" = "Klassenname = Titel des Struktogramms";
 "web_live_java_main" = "Mit main-Methode";
+"web_settings_display" = "Darstellung";
+"web_live_swing" = "Swing-Unterstützung";
+"web_live_swing_hint" = "Echtes Java mit Fenstern (CheerpJ). Lädt beim ersten Ausführen einmalig ca. 40 MB.";
+"web_live_swing_windows" = "Java-Fenster";
+"web_live_swing_hide" = "Java-Fenster schließen";
+"web_live_swing_loading" = "Java wird geladen (beim ersten Mal ca. 40 MB) …";
+"web_live_swing_compiling" = "Kompiliere …";
+"web_live_swing_running" = "Programm läuft.";
+"web_live_swing_compile_failed" = "Fehler beim Kompilieren, siehe oben.";
+"web_live_swing_failed" = "Java konnte nicht geladen werden. Prüfe die Internetverbindung.";
 "web_live_hint_edit" = "Tippe hier Java-Code, dann baut sich das Struktogramm mit. Oder arbeite im Struktogramm, dann wächst der Code mit. Grau = Platzhalter, einfach drüberschreiben.";
 "web_live_edit_label" = "Java-Code";
 "web_parse_line_fmt" = "Zeile %d: %@";

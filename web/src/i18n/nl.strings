@@ -60,6 +60,16 @@
 "web_live_java_class" = "Als klasse";
 "web_live_java_class_hint" = "Klassenaam = titel van het diagram";
 "web_live_java_main" = "Met main-methode";
+"web_settings_display" = "Weergave";
+"web_live_swing" = "Swing-ondersteuning";
+"web_live_swing_hint" = "Echt Java met vensters (CheerpJ). Downloadt eenmalig ca. 40 MB bij de eerste keer uitvoeren.";
+"web_live_swing_windows" = "Java-vensters";
+"web_live_swing_hide" = "Java-vensters sluiten";
+"web_live_swing_loading" = "Java wordt geladen (de eerste keer ca. 40 MB) …";
+"web_live_swing_compiling" = "Compileren …";
+"web_live_swing_running" = "Programma draait.";
+"web_live_swing_compile_failed" = "Compileerfout, zie hierboven.";
+"web_live_swing_failed" = "Java kon niet worden geladen. Controleer de internetverbinding.";
 "web_live_hint_edit" = "Typ hier Java-code en het diagram bouwt zichzelf op. Of werk in het diagram en de code groeit mee. Grijs = tijdelijke tekst, typ er gewoon overheen.";
 "web_live_edit_label" = "Java-code";
 "web_parse_line_fmt" = "Regel %d: %@";

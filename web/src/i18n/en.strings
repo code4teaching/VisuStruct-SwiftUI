@@ -117,6 +117,16 @@
 "web_live_java_class" = "As a class";
 "web_live_java_class_hint" = "Class name = title of the diagram";
 "web_live_java_main" = "With main method";
+"web_settings_display" = "Display";
+"web_live_swing" = "Swing support";
+"web_live_swing_hint" = "Real Java with windows (CheerpJ). Downloads about 40 MB once, on the first run.";
+"web_live_swing_windows" = "Java windows";
+"web_live_swing_hide" = "Close Java windows";
+"web_live_swing_loading" = "Loading Java (about 40 MB the first time) …";
+"web_live_swing_compiling" = "Compiling …";
+"web_live_swing_running" = "Program is running.";
+"web_live_swing_compile_failed" = "Compile error, see above.";
+"web_live_swing_failed" = "Java could not be loaded. Check your internet connection.";
 "web_live_hint_edit" = "Type Java code here and the diagram builds itself. Or work in the diagram and the code grows along. Grey = placeholder, just type over it.";
 "web_live_edit_label" = "Java code";
 "web_parse_line_fmt" = "Line %d: %@";
