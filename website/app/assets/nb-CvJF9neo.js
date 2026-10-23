@@ -43,6 +43,7 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_run_dropped_fmt" = "… %d tidligere linjer skjult";
 "web_sim_call_arguments_fmt" = "Kallet passer ikke til hodet i %@. Sjekk verdiene i parentesene.";
 "web_sim_missing_return_fmt" = "%@ ble avsluttet uten å returnere en verdi med return.";
+"web_sim_file_not_found_fmt" = "Det finnes ingen fil som heter %@.";
 "web_site_home" = "Forside";
 "web_site_imprint" = "Kolofon";
 "web_site_privacy" = "Personvern";

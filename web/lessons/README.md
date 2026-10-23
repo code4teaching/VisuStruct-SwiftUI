@@ -179,6 +179,18 @@ LUDWIG
 In der Simulation rechnet ein `char` wie in Java mit seinem Zeichencode: `(int) wort.charAt(i)` liefert z. B. 65 für A,
 `'A'` zählt in einer Rechnung als 65 und `(char) 68` ergibt `'D'`.
 
+Eine Textdatei zum Einlesen. Der Inhalt bleibt Zeile für Zeile so, wie er dasteht. Java liest ihn mit
+`Files.readString(Path.of("brief.txt"))`, in der Simulation, im Python-Export (`open(…)`) und im echten Java:
+
+```
+::: datei brief.txt
+Lieber Ludwig,
+der Fuchs hat mich in seinen Turm gesperrt.
+:::
+```
+
+Der Name endet auf `.txt` und gilt für alle Lektionen einer Sprache. Verschiedene Dateien brauchen deshalb verschiedene Namen.
+
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
 ```

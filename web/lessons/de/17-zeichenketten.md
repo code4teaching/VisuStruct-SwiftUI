@@ -159,6 +159,122 @@ tipp: Die Bedingung heißt `eingabe.equals("Ludwig")`. Mit `==` klappt der Vergl
 lösung: l17-java-passwort-loesung.visustruct
 :::
 
+## Noch mehr Methoden
+
+Ein String kann noch viel mehr. Diese Methoden brauchst du auch oft:
+
+| Methode | Bedeutung | Beispiel | Ergebnis |
+|---|---|---|---|
+| `lastIndexOf("e")` | Wo steht das letzte e? | `"Ziegenbock".lastIndexOf("e")` | 4 |
+| `isEmpty()` | Ist der Text leer? | `"".isEmpty()` | true |
+| `equalsIgnoreCase(…)` | gleicher Text, egal ob groß oder klein? | `"Ziegenbock".equalsIgnoreCase("ZIEGENBOCK")` | true |
+| `replace(alt, neu)` | ersetzt jede Stelle | `"Ziegenbock".replace("bock", "käse")` | Ziegenkäse |
+| `repeat(n)` | den Text n-mal hintereinander | `"Mäh".repeat(3)` | MähMähMäh |
+| `concat(…)` | hängt Text an, wie `+` | `"Ziegen".concat("bock")` | Ziegenbock |
+| `compareTo(…)` | Wer kommt im Alphabet zuerst? | `"Anna".compareTo("Ben")` | -1 |
+
+`compareTo` liefert eine Zahl: **negativ**, wenn der Text im Alphabet vorher kommt, **0**, wenn beide gleich sind, und **positiv**, wenn er danach kommt. Damit kannst du Namen sortieren.
+
+Zwei Methoden gehören nicht zu einem Text, sondern zu einer Klasse. Davor steht deshalb der Name der Klasse:
+
+- `Integer.parseInt("7")` macht aus dem Text "7" die Zahl 7. Mit ihr kannst du rechnen.
+- `String.valueOf(7)` macht aus der Zahl 7 den Text "7".
+
+::: diagramm zk-mehr.visustruct
+Alle neuen Methoden an einem Beispiel. Gehe es in der Simulation durch und vergleiche jede Ausgabe mit der Tabelle.
+:::
+
+## Text aus einer Datei
+
+Programme bekommen Text oft aus einer **Datei**. Prinzessin Zora hat Ludwig einen Brief geschrieben. Er liegt als Datei `brief.txt` bereit:
+
+::: datei brief.txt
+Lieber Ludwig,
+der Fuchs hat mich in seinen Turm gesperrt.
+Die Tür hat ein Schloss mit einem geheimen Wort.
+Das Wort findest du nur mit Java.
+Bitte hilf mir!
+Deine Prinzessin Zora
+:::
+
+Diese Zeilen lesen die ganze Datei in einen String:
+
+```
+import java.nio.file.*;
+
+String brief = Files.readString(Path.of("brief.txt"));
+```
+
+Wie das Lesen genau funktioniert, lernst du später in einer eigenen Lektion über Dateien. Hier reicht: Danach steht der ganze Brief in `brief`, mit allen Zeilen.
+
+Am Ende jeder Zeile steht ein unsichtbares Zeichen für den **Zeilenumbruch**. In Java schreibst du es als `"\n"`. Mit `brief.split("\n")` zerlegst du den Brief deshalb in seine Zeilen.
+
+::: übung l17-java-brief
+titel: Wo steckt der Fuchs?
+code: java
+auftrag: Im Startcode wird der Brief schon gelesen. Zerlege ihn in Zeilen und gib **Zeilen:** und die Anzahl aus. Suche dann die Zeile, in der **Fuchs** steht, und gib **Fuchs in Zeile** und ihre Nummer aus. Die erste Zeile hat die Nummer 1.
+start: l17-java-brief-start.visustruct
+test: - -> Zeilen: 6 | Fuchs in Zeile 2
+braucht: forSchleife, verzweigung
+tipp: `String[] zeilen = brief.split("\n");` zerlegt den Brief. Mit einer For-Schleife gehst du dann alle Zeilen durch.
+tipp: In der Schleife prüfst du `zeilen[i].contains("Fuchs")`. Der Index beginnt bei 0, deshalb gibst du `(i + 1)` aus. Die Klammern brauchst du, damit Java rechnet und nicht 1 an den Text hängt.
+lösung: l17-java-brief-loesung.visustruct
+:::
+
+## Die Java-API
+
+Niemand kennt alle Methoden auswendig, auch Profis nicht. Sie schlagen nach, in der **Java-API**. API heißt Application Programming Interface. Gemeint ist die Beschreibung von allem, was Java schon mitbringt.
+
+Alle Methoden von String findest du hier: [String in der Java-API](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html)
+
+Scrolle dort zur Tabelle **Method Summary**. Jede Zeile beschreibt eine Methode:
+
+| Spalte | Beispiel | Bedeutung |
+|---|---|---|
+| Modifier and Type | `int` | Was die Methode zurückgibt |
+| Method | `lastIndexOf(String str)` | Name und Parameter mit ihrem Datentyp |
+| Description | Returns the index within this string of the last occurrence … | Was die Methode macht |
+
+Die API ist auf Englisch. Dein Browser kann die Seite übersetzen. Die Namen der Methoden bleiben englisch, denn so schreibst du sie auch in Java.
+
+::: ludwig
+Die Seite ist sehr lang. Mit Strg+F (am Mac ⌘+F) suchst du nach dem Namen der Methode und bist sofort da.
+:::
+
+Schlag diese Methoden nach. Sie stehen nicht in dieser Lektion:
+
+::: quiz
+? Schlag `strip()` nach. Was macht die Methode?
+- [ ] Sie entfernt alle Leerzeichen im Text.
+- [x] Sie entfernt die Leerzeichen am Anfang und am Ende.
+- [ ] Sie schneidet das letzte Zeichen ab.
+> Wie `trim()`. `strip()` kennt aber auch besondere Leerzeichen aus anderen Schriften.
+
+? Schlag `isBlank()` nach. Was liefert `"   ".isBlank()`?
+- [x] true
+- [ ] false
+- [ ] 3
+> isBlank prüft, ob der Text leer ist oder nur aus Leerzeichen besteht. `"   ".isEmpty()` wäre dagegen false.
+
+? Schlag `toCharArray()` nach. Welchen Datentyp liefert die Methode?
+- [ ] String
+- [ ] String[]
+- [x] char[]
+> Ein Array mit allen Zeichen des Textes, für jedes Zeichen ein Fach.
+
+? Schlag `indexOf` mit zwei Parametern nach. Was liefert `"Ziegenbock".indexOf("e", 3)`?
+- [ ] 2
+- [x] 4
+- [ ] -1
+> Die Suche beginnt erst bei Index 3. Das erste e ab dort steht bei Index 4.
+
+? Schlag `startsWith` nach. Welchen Datentyp liefert die Methode?
+- [x] boolean
+- [ ] int
+- [ ] String
+> In der Spalte „Modifier and Type“ steht boolean: Die Antwort ist true oder false.
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -169,6 +285,9 @@ lösung: l17-java-passwort-loesung.visustruct
 - Ich kann einen Text mit einer Schleife Zeichen für Zeichen durchgehen. → Zeichen für Zeichen
 - Ich kann einen Text mit `split` in ein String-Array zerlegen. → Zerlegen mit split
 - Ich kann in Java einen Text einlesen und mit `equals` vergleichen. → Jetzt in Java
+- Ich kenne weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt`. → Noch mehr Methoden
+- Ich kann einen Text aus einer Datei mit `split("\n")` in Zeilen zerlegen. → Text aus einer Datei
+- Ich kann eine Methode in der Java-API nachschlagen und ihre Beschreibung lesen. → Die Java-API
 :::
 
 ## Wissenstest
@@ -208,4 +327,10 @@ lösung: l17-java-passwort-loesung.visustruct
 - [ ] eingabe == 'Ludwig'
 - [x] eingabe.equals("Ludwig")
 > Texte vergleichst du mit equals. Einfache Anführungszeichen sind nur für ein einzelnes Zeichen.
+
+? Was liefert `Integer.parseInt("12") + 1`?
+- [ ] "121"
+- [x] 13
+- [ ] eine Fehlermeldung
+> parseInt macht aus dem Text eine Zahl. Danach rechnet Java ganz normal.
 :::

@@ -98,6 +98,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_learn_step_fmt" = "Passo %d: %@";
 "web_sim_call_arguments_fmt" = "A chamada não corresponde ao cabeçalho de %@. Verifica os valores entre parênteses.";
 "web_sim_missing_return_fmt" = "%@ terminou sem devolver um valor com return.";
+"web_sim_file_not_found_fmt" = "Não existe nenhum ficheiro chamado %@.";
 "web_site_home" = "Página inicial";
 "web_site_imprint" = "Contacto";
 "web_site_privacy" = "Privacidade";

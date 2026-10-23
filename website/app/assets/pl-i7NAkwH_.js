@@ -43,6 +43,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_run_dropped_fmt" = "… ukryto wcześniejsze wiersze: %d";
 "web_sim_call_arguments_fmt" = "Wywołanie nie pasuje do nagłówka %@. Sprawdź wartości w nawiasach.";
 "web_sim_missing_return_fmt" = "%@ zakończył się bez zwrócenia wartości przez return.";
+"web_sim_file_not_found_fmt" = "Nie ma pliku o nazwie %@.";
 "web_site_home" = "Strona główna";
 "web_site_imprint" = "Nota prawna";
 "web_site_privacy" = "Prywatność";

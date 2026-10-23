@@ -43,6 +43,7 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_run_dropped_fmt" = "… 已隱藏先前的 %d 行";
 "web_sim_call_arguments_fmt" = "呼叫與 %@ 的首行不相符。請檢查括號中的值。";
 "web_sim_missing_return_fmt" = "%@ 結束時沒有用 return 傳回值。";
+"web_sim_file_not_found_fmt" = "沒有名為 %@ 的檔案。";
 "web_site_home" = "首頁";
 "web_site_imprint" = "版權資訊";
 "web_site_privacy" = "隱私";

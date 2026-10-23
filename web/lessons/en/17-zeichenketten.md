@@ -159,6 +159,120 @@ tipp: The condition is `input.equals("Ludwig")`. In Java, `==` does not reliably
 lösung: l17-java-passwort-loesung.visustruct
 :::
 
+## Even more methods
+
+A String can do much more. You will often need these methods too:
+
+| Method | Meaning | Example | Result |
+|---|---|---|---|
+| `lastIndexOf("l")` | Where is the last l? | `"Billygoat".lastIndexOf("l")` | 3 |
+| `isEmpty()` | Is the text empty? | `"".isEmpty()` | true |
+| `equalsIgnoreCase(…)` | same text, whether upper or lower case? | `"Billygoat".equalsIgnoreCase("BILLYGOAT")` | true |
+| `replace(old, new)` | replaces every occurrence | `"Billygoat".replace("Billy", "Nanny")` | Nannygoat |
+| `repeat(n)` | the text n times in a row | `"Baa".repeat(3)` | BaaBaaBaa |
+| `concat(…)` | adds text to the end, like `+` | `"Billy".concat("goat")` | Billygoat |
+| `compareTo(…)` | Which comes first in the alphabet? | `"Anna".compareTo("Ben")` | -1 |
+
+`compareTo` returns a number: **negative** if the text comes earlier in the alphabet, **0** if both are the same, and **positive** if it comes later. You can use it to sort names.
+
+Two methods do not belong to a text but to a class. That is why the class name comes first:
+
+- `Integer.parseInt("7")` turns the text "7" into the number 7. You can calculate with it.
+- `String.valueOf(7)` turns the number 7 into the text "7".
+
+::: diagramm zk-mehr.visustruct
+All the new methods in one example. Go through it in the simulation and compare every output with the table.
+:::
+
+## Text from a file
+
+Programs often get their text from a **file**. Princess Zora has written Ludwig a letter. It is ready as the file `letter.txt`:
+
+::: datei letter.txt
+Dear Ludwig,
+the fox has locked me in his tower.
+The door has a lock with a secret word.
+You can only find the word with Java.
+Please help me!
+Yours, Princess Zora
+:::
+
+These lines read the whole file into a String:
+
+```
+import java.nio.file.*;
+
+String letter = Files.readString(Path.of("letter.txt"));
+```
+
+You will learn exactly how reading works later, in a lesson of its own about files. For now this is enough: afterwards the whole letter is in `letter`, with all its lines.
+
+At the end of every line there is an invisible character for the **line break**. In Java you write it as `"\n"`. So `letter.split("\n")` splits the letter into its lines.
+
+::: übung l17-java-brief
+titel: Where is the fox?
+code: java
+auftrag: The start code already reads the letter. Split it into lines and output **Lines:** and the number of lines. Then find the line that contains **fox** and output **Fox in line** and its number. The first line has the number 1.
+start: l17-java-brief-start.visustruct
+test: - -> Lines: 6 | Fox in line 2
+braucht: forSchleife, verzweigung
+tipp: `String[] lines = letter.split("\n");` splits the letter. Then a for loop goes through all the lines.
+tipp: In the loop you check `lines[i].contains("fox")`. The index starts at 0, so you output `(i + 1)`. You need the brackets so that Java calculates instead of adding 1 to the text.
+lösung: l17-java-brief-loesung.visustruct
+:::
+
+## The Java API
+
+Nobody knows all methods by heart, not even professionals. They look them up in the **Java API**. API stands for Application Programming Interface. It means the description of everything Java already brings along.
+
+You can find all methods of String here: [String in the Java API](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html)
+
+Scroll down to the table **Method Summary**. Each row describes one method:
+
+| Column | Example | Meaning |
+|---|---|---|
+| Modifier and Type | `int` | What the method returns |
+| Method | `lastIndexOf(String str)` | Name and parameters with their data type |
+| Description | Returns the index within this string of the last occurrence … | What the method does |
+
+::: ludwig
+The page is very long. Press Ctrl+F (on a Mac ⌘+F) and search for the name of the method to get there at once.
+:::
+
+Look up these methods. They are not in this lesson:
+
+::: quiz
+? Look up `strip()`. What does the method do?
+- [ ] It removes all spaces in the text.
+- [x] It removes the spaces at the beginning and the end.
+- [ ] It cuts off the last character.
+> Like `trim()`. But `strip()` also knows special spaces from other writing systems.
+
+? Look up `isBlank()`. What does `"   ".isBlank()` return?
+- [x] true
+- [ ] false
+- [ ] 3
+> isBlank checks whether the text is empty or only contains spaces. `"   ".isEmpty()`, on the other hand, would be false.
+
+? Look up `toCharArray()`. Which data type does the method return?
+- [ ] String
+- [ ] String[]
+- [x] char[]
+> An array with all characters of the text, one element for each character.
+
+? Look up `indexOf` with two parameters. What does `"Billygoat".indexOf("l", 3)` return?
+- [ ] 2
+- [x] 3
+- [ ] -1
+> The search only starts at index 3. The first l from there is at index 3.
+
+? Look up `startsWith`. Which data type does the method return?
+- [x] boolean
+- [ ] int
+- [ ] String
+> The column “Modifier and Type” says boolean: the answer is true or false.
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -169,6 +283,9 @@ lösung: l17-java-passwort-loesung.visustruct
 - I can go through a text character by character with a loop. → Character by character
 - I can split a text into a String array with `split`. → Split with split
 - I can read a text in Java and compare it with `equals`. → Now in Java
+- I know more methods such as `lastIndexOf`, `replace`, `compareTo` and `Integer.parseInt`. → Even more methods
+- I can split a text from a file into lines with `split("\n")`. → Text from a file
+- I can look up a method in the Java API and read its description. → The Java API
 :::
 
 ## Quiz
@@ -208,4 +325,10 @@ lösung: l17-java-passwort-loesung.visustruct
 - [ ] input == 'Ludwig'
 - [x] input.equals("Ludwig")
 > You compare texts with equals. Single quotes are only for a single character.
+
+? What does `Integer.parseInt("12") + 1` return?
+- [ ] "121"
+- [x] 13
+- [ ] an error message
+> parseInt turns the text into a number. After that Java calculates as usual.
 :::

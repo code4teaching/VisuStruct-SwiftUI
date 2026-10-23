@@ -43,6 +43,7 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_run_dropped_fmt" = "… %d líneas anteriores ocultas";
 "web_sim_call_arguments_fmt" = "La llamada no coincide con la cabecera de %@. Revisa los valores entre paréntesis.";
 "web_sim_missing_return_fmt" = "%@ terminó sin devolver un valor con return.";
+"web_sim_file_not_found_fmt" = "No existe ningún archivo llamado %@.";
 "web_site_home" = "Página de inicio";
 "web_site_imprint" = "Aviso legal";
 "web_site_privacy" = "Privacidad";

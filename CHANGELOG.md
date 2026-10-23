@@ -13,6 +13,8 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, lesson 17 (de/en/pt):** three new steps. “Even more methods” (`lastIndexOf`, `isEmpty`, `equalsIgnoreCase`, `compareTo`, `repeat`, `concat`, `Integer.parseInt`, `Double.parseDouble`, `String.valueOf`), “Text from a file” with a text file shown in the lesson (new block `::: datei name.txt`) that `Files.readString(Path.of(…))` reads in the simulation, Python/JavaScript export and real Java (exercise “Read the letter”), and “The Java API” with a link to the `String` documentation and a quiz where methods have to be looked up. A missing file is reported in the simulation.
+- **Web, simulation:** `output: age + 1` now adds like Java (numbers are added until the first text, then joined), before it printed “71”.
 - **Web, task Caesar cipher (de/en/pt):** a fun fact box with Ludwig: Caesar shifted letters in his head (Suetonius), the cipher wheel only came with Alberti around 1467.
 - **Web, lessons 17, 18 and 19 (de/en/pt)** end with the step “Now in Java”: lesson 17 compares texts with `equals` (exercise “Check the password”), lesson 18 shows a method and `while (true)` with `break` (exercise “Till with break”), lesson 19 shows the linear search in Java (exercise “Count cards”). Lesson 20 now points back to lessons 4 to 19 and lists `String` in its table.
 - **Web, tasks (de/en/pt):** new task “Caesar cipher” after lesson 17 with a drawn cipher wheel, an interactive wheel to turn (new block `::: caesar`), two solutions (array vs. ASCII with `(int)`/`(char)`) and decryption. The simulation now calculates with character codes like Java (`'A'` = 65, `(int) word.charAt(i)`, `(char) code`); Python and JavaScript code use `ord`/`chr` and `charCodeAt`/`String.fromCharCode`.

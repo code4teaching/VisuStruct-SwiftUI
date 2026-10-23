@@ -1,9 +1,12 @@
 import { spawnSync } from 'node:child_process'
+import { mkdtempSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { generateCode } from '../src/core/codeGenerator'
 import { sameOutput, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType } from '../src/core/model'
-import { parseSubprogramHeader } from '../src/core/simulation'
+import { parseSubprogramHeader, textFileEntries } from '../src/core/simulation'
 import { contentLanguages, diagram, lessons, tasks, useContentLanguage } from '../src/learn/content'
 
 // Jede Musterlösung als echtes Python ausführen: gleiche Ausgabe wie in der Simulation.
@@ -20,6 +23,9 @@ function runnable(code: string): string {
 describe.skipIf(!python)('Python-Export', () => {
   it.each(contentLanguages)('jede Musterlösung läuft als Python mit derselben Ausgabe (%s)', (lang) => {
     useContentLanguage(lang)
+    // Textdateien der Lektionen liegen im Arbeitsordner, wie bei `open("brief.txt")` erwartet.
+    const cwd = mkdtempSync(join(tmpdir(), 'visustruct-'))
+    for (const [name, content] of textFileEntries()) writeFileSync(join(cwd, name), content)
     let checked = 0
     const blocks = [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]
     for (const block of blocks) {
@@ -30,7 +36,7 @@ describe.skipIf(!python)('Python-Export', () => {
       if (usedElementTypes(doc).has(ElementType.aufruf) && !(subs.length > 0 && subs.every((d) => parseSubprogramHeader(d.caption)))) continue
       const code = generateCode(doc, 'python', {}, subs)
       for (const test of block.exercise.tests) {
-        const run = spawnSync('python3', ['-c', runnable(code)], { input: test.inputs.join('\n') + '\n', encoding: 'utf8' })
+        const run = spawnSync('python3', ['-c', runnable(code)], { input: test.inputs.join('\n') + '\n', encoding: 'utf8', cwd })
         const outputs = run.stdout.split('\n').slice(0, -1)
         const where = `${block.exercise.id} mit ${JSON.stringify(test.inputs)}\n${code}\n${run.stderr}`
         expect(run.status, where).toBe(0)
