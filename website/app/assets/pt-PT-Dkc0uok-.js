@@ -114,4 +114,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";
+"web_keywords_title" = "Palavras-chave do código";
+"web_keywords_hint" = "if, while, for em vez de Decisão, Ciclo …";
 `;export{e as default};

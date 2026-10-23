@@ -59,4 +59,6 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";
+"web_keywords_title" = "Kode-nøgleord";
+"web_keywords_hint" = "if, while, for i stedet for elementnavne";
 `;export{e as default};

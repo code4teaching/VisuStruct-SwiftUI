@@ -59,4 +59,6 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_editor_title" = "Diyagram";
 "web_editor_show" = "Diyagramı göster";
 "web_editor_hide" = "Diyagramı gizle";
+"web_keywords_title" = "Kod anahtar sözcükleri";
+"web_keywords_hint" = "Öğe adları yerine if, while, for";
 `;export{e as default};

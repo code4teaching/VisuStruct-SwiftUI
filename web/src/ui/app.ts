@@ -33,7 +33,7 @@ import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
-import { currentLanguage, offeredLanguages, setLanguage, t, type LanguageCode } from './i18n'
+import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -364,6 +364,10 @@ export class App {
                 .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
                 .join('')}</select>
             </label>
+            <label class="check">
+              <input type="checkbox" data-action="keywords" />
+              <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
+            </label>
           </div>
         </div>
       </header>
@@ -447,7 +451,10 @@ export class App {
     })
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
-    language.addEventListener('change', () => void this.changeLanguage(language.value as LanguageCode))
+    language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
+    const keywords = $<HTMLInputElement>('[data-action=keywords]')
+    keywords.checked = codeKeywords()
+    keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
     const zoom = $<HTMLSelectElement>('[data-action=zoom]')
     zoom.value = String(this.zoom)
     zoom.addEventListener('change', () => {
@@ -498,10 +505,11 @@ export class App {
   }
 
   /** Sprache wechseln wie in den App-Einstellungen: Oberfläche neu aufbauen, Reiter und Verlauf bleiben. */
-  private async changeLanguage(code: LanguageCode) {
+  /** Sprache oder Code-Keywords umstellen und alle Texte neu aufbauen; das Einstellungsmenü bleibt offen. */
+  private async changeLanguage(change: () => Promise<void>, control: string) {
     this.setSimulating(false)
     this.setCoding(false)
-    await setLanguage(code)
+    await change()
     applyCanvasStubTexts()
     this.sim.end()
     this.live.build()
@@ -511,6 +519,8 @@ export class App {
     this.labelLearnRail()
     this.labelLiveRail()
     this.labelEditorRail()
+    this.topbar.querySelector<HTMLButtonElement>('[data-action=settings]')?.click()
+    this.topbar.querySelector<HTMLElement>(`[data-action=${control}]`)?.focus()
   }
 
   // MARK: - Lernbereich

@@ -59,4 +59,6 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_editor_title" = "구조도";
 "web_editor_show" = "구조도 표시";
 "web_editor_hide" = "구조도 숨기기";
+"web_keywords_title" = "코드 키워드";
+"web_keywords_hint" = "요소 이름 대신 if, while, for";
 `;export{e as default};

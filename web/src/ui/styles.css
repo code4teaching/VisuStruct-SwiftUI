@@ -87,6 +87,21 @@ body {
   font-weight: 600;
   color: var(--muted);
 }
+.settings-menu label.check {
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 8px;
+  color: var(--text);
+  cursor: pointer;
+}
+.settings-menu label.check input {
+  margin: 2px 0 0;
+}
+.settings-menu label.check small {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+}
 
 .brand {
   font-weight: 700;

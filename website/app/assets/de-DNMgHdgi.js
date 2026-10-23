@@ -116,4 +116,6 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_editor_title" = "Struktogramm";
 "web_editor_show" = "Struktogramm aufklappen";
 "web_editor_hide" = "Struktogramm einklappen";
+"web_keywords_title" = "Code-Keywords";
+"web_keywords_hint" = "if, while, for statt Verzweigung, For-Schleife …";
 `;export{e as default};

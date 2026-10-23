@@ -59,4 +59,6 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_editor_title" = "المخطط";
 "web_editor_show" = "إظهار المخطط";
 "web_editor_hide" = "إخفاء المخطط";
+"web_keywords_title" = "كلمات الشيفرة المفتاحية";
+"web_keywords_hint" = "if و while و for بدلًا من أسماء العناصر";
 `;export{e as default};

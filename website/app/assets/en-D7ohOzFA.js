@@ -116,4 +116,6 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Show diagram";
 "web_editor_hide" = "Hide diagram";
+"web_keywords_title" = "Code keywords";
+"web_keywords_hint" = "if, while, for instead of Branch, For loop …";
 `;export{e as default};
