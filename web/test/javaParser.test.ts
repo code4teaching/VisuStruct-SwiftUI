@@ -159,6 +159,22 @@ describe('Java tippen → Struktogramm', () => {
     expect(parse('x = 1;\n}').problems.map((p) => p.key)).toEqual(['web_parse_extra'])
   })
 
+  it('Swing: Lambda und anonyme Klasse mit Rumpf sind eine Anweisung', () => {
+    const lambda = parse('knopf.addActionListener(e -> {\n    knopf.setText("Ich wurde geklickt");\n});\nfenster.setVisible(true);')
+    expect(lambda.problems).toEqual([])
+    expect(lambda.elements.map((e) => e.textLines)).toEqual([
+      ['knopf.addActionListener(e -> { knopf.setText("Ich wurde geklickt"); })'],
+      ['fenster.setVisible(true)'],
+    ])
+    const anonym = parse(
+      'knopf.addActionListener(new ActionListener() {\n    public void actionPerformed(ActionEvent e) {\n        knopf.setText("Ich wurde geklickt");\n    }\n});',
+    )
+    expect(anonym.problems).toEqual([])
+    expect(anonym.elements).toHaveLength(1)
+    // Noch nicht fertig getippt: Die fehlende `}` wird gemeldet.
+    expect(parse('knopf.addActionListener(e -> {\n    knopf.setText("x");').problems.map((p) => p.arg)).toContain('}')
+  })
+
   it('Platzhalter wie „Bedingung“ gelten als leer und werden markiert', () => {
     const src = 'if (Bedingung) {\n    // Dein Code\n}'
     const p = parse(src)
