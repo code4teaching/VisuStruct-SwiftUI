@@ -60,6 +60,16 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_live_java_class" = "Ως κλάση";
 "web_live_java_class_hint" = "Όνομα κλάσης = τίτλος διαγράμματος";
 "web_live_java_main" = "Με μέθοδο main";
+"web_settings_display" = "Εμφάνιση";
+"web_live_swing" = "Υποστήριξη Swing";
+"web_live_swing_hint" = "Πραγματική Java με παράθυρα (CheerpJ). Κατεβάζει μία φορά περίπου 40 MB στην πρώτη εκτέλεση.";
+"web_live_swing_windows" = "Παράθυρα Java";
+"web_live_swing_hide" = "Κλείσιμο παραθύρων Java";
+"web_live_swing_loading" = "Φόρτωση Java (την πρώτη φορά περίπου 40 MB) …";
+"web_live_swing_compiling" = "Μεταγλώττιση …";
+"web_live_swing_running" = "Το πρόγραμμα εκτελείται.";
+"web_live_swing_compile_failed" = "Σφάλμα μεταγλώττισης, δες παραπάνω.";
+"web_live_swing_failed" = "Δεν ήταν δυνατή η φόρτωση της Java. Έλεγξε τη σύνδεση στο διαδίκτυο.";
 "web_live_hint_edit" = "Γράψε εδώ κώδικα Java και το διάγραμμα φτιάχνεται μόνο του. Ή δούλεψε στο διάγραμμα και ο κώδικας μεγαλώνει μαζί. Γκρι = σύμβολο κράτησης θέσης, απλώς γράψε από πάνω.";
 "web_live_edit_label" = "Κώδικας Java";
 "web_parse_line_fmt" = "Γραμμή %d: %@";
@@ -113,4 +123,5 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_files_class_placeholder" = "Νέα τάξη, π.χ. 11FI1";
 "web_files_create_save" = "Δημιουργία και αποθήκευση";
 "web_files_create" = "Δημιουργία";
+"web_learn_ludwig_tip" = "Η συμβουλή του Ludwig";
 `;export{e as default};

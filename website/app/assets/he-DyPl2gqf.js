@@ -60,6 +60,16 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_live_java_class" = "כמחלקה";
 "web_live_java_class_hint" = "שם המחלקה = כותרת התרשים";
 "web_live_java_main" = "עם מתודת main";
+"web_settings_display" = "תצוגה";
+"web_live_swing" = "תמיכה ב-Swing";
+"web_live_swing_hint" = "ג׳אווה אמיתית עם חלונות (CheerpJ). מורידה פעם אחת כ-40 MB בהרצה הראשונה.";
+"web_live_swing_windows" = "חלונות ג׳אווה";
+"web_live_swing_hide" = "סגירת חלונות ג׳אווה";
+"web_live_swing_loading" = "טוען ג׳אווה (בפעם הראשונה כ-40 MB) …";
+"web_live_swing_compiling" = "מהדר …";
+"web_live_swing_running" = "התוכנית רצה.";
+"web_live_swing_compile_failed" = "שגיאת הידור, ראה למעלה.";
+"web_live_swing_failed" = "לא ניתן לטעון את ג׳אווה. בדוק את החיבור לאינטרנט.";
 "web_live_hint_edit" = "הקלד כאן קוד Java והתרשים נבנה בעצמו. או עבוד בתרשים והקוד יגדל איתו. אפור = ממלא מקום, פשוט כתוב מעליו.";
 "web_live_edit_label" = "קוד Java";
 "web_parse_line_fmt" = "שורה %d: %@";
@@ -113,4 +123,5 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_files_class_placeholder" = "כיתה חדשה, למשל 11FI1";
 "web_files_create_save" = "יצירה ושמירה";
 "web_files_create" = "יצירה";
+"web_learn_ludwig_tip" = "הטיפ של לודוויג";
 `;export{e as default};

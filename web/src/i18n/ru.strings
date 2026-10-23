@@ -60,6 +60,16 @@
 "web_live_java_class" = "Как класс";
 "web_live_java_class_hint" = "Имя класса = заголовок диаграммы";
 "web_live_java_main" = "С методом main";
+"web_settings_display" = "Отображение";
+"web_live_swing" = "Поддержка Swing";
+"web_live_swing_hint" = "Настоящая Java с окнами (CheerpJ). При первом запуске однократно загружает около 40 МБ.";
+"web_live_swing_windows" = "Окна Java";
+"web_live_swing_hide" = "Закрыть окна Java";
+"web_live_swing_loading" = "Загрузка Java (в первый раз около 40 МБ) …";
+"web_live_swing_compiling" = "Компиляция …";
+"web_live_swing_running" = "Программа выполняется.";
+"web_live_swing_compile_failed" = "Ошибка компиляции, см. выше.";
+"web_live_swing_failed" = "Не удалось загрузить Java. Проверь подключение к интернету.";
 "web_live_hint_edit" = "Набери здесь код Java, и диаграмма построится сама. Или работай в диаграмме, и код будет расти вместе с ней. Серый = заполнитель, просто пиши поверх.";
 "web_live_edit_label" = "Код Java";
 "web_parse_line_fmt" = "Строка %d: %@";
@@ -113,3 +123,4 @@
 "web_files_class_placeholder" = "Новый класс, напр. 11FI1";
 "web_files_create_save" = "Создать и сохранить";
 "web_files_create" = "Создать";
+"web_learn_ludwig_tip" = "Совет Людвига";

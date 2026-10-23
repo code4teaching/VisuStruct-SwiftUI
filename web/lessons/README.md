@@ -123,6 +123,14 @@ Ben Shneiderman hatte die Idee 1972. [Mehr dazu](https://visustruct.org/de/angeb
 :::
 ```
 
+Ein Kasten „Ludwigs Tipp“: Ludwig gibt einen Hinweis zum Vorgehen, z. B. eine Brücke zu einer früheren Lektion:
+
+```
+::: ludwig
+Wie beim Tauschen gilt: Überschreibe keinen Wert, den du noch brauchst.
+:::
+```
+
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
 ```

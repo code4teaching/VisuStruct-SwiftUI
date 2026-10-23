@@ -60,6 +60,16 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_live_java_class" = "클래스로";
 "web_live_java_class_hint" = "클래스 이름 = 순서도 제목";
 "web_live_java_main" = "main 메서드 포함";
+"web_settings_display" = "표시";
+"web_live_swing" = "Swing 지원";
+"web_live_swing_hint" = "창이 있는 진짜 Java(CheerpJ). 처음 실행할 때 한 번 약 40MB를 내려받습니다.";
+"web_live_swing_windows" = "Java 창";
+"web_live_swing_hide" = "Java 창 닫기";
+"web_live_swing_loading" = "Java 불러오는 중(처음에는 약 40MB) …";
+"web_live_swing_compiling" = "컴파일 중 …";
+"web_live_swing_running" = "프로그램 실행 중.";
+"web_live_swing_compile_failed" = "컴파일 오류, 위를 보세요.";
+"web_live_swing_failed" = "Java를 불러올 수 없습니다. 인터넷 연결을 확인하세요.";
 "web_live_hint_edit" = "여기에 Java 코드를 입력하면 순서도가 함께 만들어집니다. 또는 순서도에서 작업하면 코드가 함께 자랍니다. 회색 = 자리표시자, 그대로 덮어쓰면 됩니다.";
 "web_live_edit_label" = "Java 코드";
 "web_parse_line_fmt" = "%d행: %@";
@@ -113,4 +123,5 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_files_class_placeholder" = "새 반, 예: 11FI1";
 "web_files_create_save" = "만들고 저장";
 "web_files_create" = "만들기";
+"web_learn_ludwig_tip" = "루트비히의 팁";
 `;export{e as default};

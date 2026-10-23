@@ -60,6 +60,16 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_live_java_class" = "Jako klasa";
 "web_live_java_class_hint" = "Nazwa klasy = tytuł diagramu";
 "web_live_java_main" = "Z metodą main";
+"web_settings_display" = "Wygląd";
+"web_live_swing" = "Obsługa Swing";
+"web_live_swing_hint" = "Prawdziwa Java z oknami (CheerpJ). Przy pierwszym uruchomieniu jednorazowo pobiera ok. 40 MB.";
+"web_live_swing_windows" = "Okna Java";
+"web_live_swing_hide" = "Zamknij okna Java";
+"web_live_swing_loading" = "Ładowanie Javy (za pierwszym razem ok. 40 MB) …";
+"web_live_swing_compiling" = "Kompilowanie …";
+"web_live_swing_running" = "Program działa.";
+"web_live_swing_compile_failed" = "Błąd kompilacji, zobacz powyżej.";
+"web_live_swing_failed" = "Nie udało się załadować Javy. Sprawdź połączenie z internetem.";
 "web_live_hint_edit" = "Wpisz tu kod Java, a diagram zbuduje się sam. Albo pracuj w diagramie, a kod będzie rósł razem z nim. Szary = symbol zastępczy, po prostu pisz.";
 "web_live_edit_label" = "Kod Java";
 "web_parse_line_fmt" = "Wiersz %d: %@";
@@ -113,4 +123,5 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_files_class_placeholder" = "Nowa klasa, np. 11FI1";
 "web_files_create_save" = "Utwórz i zapisz";
 "web_files_create" = "Utwórz";
+"web_learn_ludwig_tip" = "Wskazówka Ludwiga";
 `;export{e as default};

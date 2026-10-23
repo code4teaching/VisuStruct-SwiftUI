@@ -60,6 +60,16 @@
 "web_live_java_class" = "كصنف";
 "web_live_java_class_hint" = "اسم الصنف = عنوان المخطط";
 "web_live_java_main" = "مع الطريقة main";
+"web_settings_display" = "العرض";
+"web_live_swing" = "دعم Swing";
+"web_live_swing_hint" = "جافا حقيقية مع نوافذ (CheerpJ). تُنزّل نحو 40 ميغابايت مرة واحدة عند أول تشغيل.";
+"web_live_swing_windows" = "نوافذ جافا";
+"web_live_swing_hide" = "إغلاق نوافذ جافا";
+"web_live_swing_loading" = "جارٍ تحميل جافا (نحو 40 ميغابايت في المرة الأولى) …";
+"web_live_swing_compiling" = "جارٍ الترجمة …";
+"web_live_swing_running" = "البرنامج قيد التشغيل.";
+"web_live_swing_compile_failed" = "خطأ في الترجمة، انظر أعلاه.";
+"web_live_swing_failed" = "تعذّر تحميل جافا. تحقّق من الاتصال بالإنترنت.";
 "web_live_hint_edit" = "اكتب هنا شيفرة Java وسيُبنى المخطط تلقائيًا. أو اعمل في المخطط وستنمو الشيفرة معه. الرمادي = عنصر نائب، اكتب فوقه مباشرة.";
 "web_live_edit_label" = "شيفرة Java";
 "web_parse_line_fmt" = "السطر %d: %@";
@@ -113,3 +123,4 @@
 "web_files_class_placeholder" = "صف جديد، مثلاً 11FI1";
 "web_files_create_save" = "إنشاء وحفظ";
 "web_files_create" = "إنشاء";
+"web_learn_ludwig_tip" = "نصيحة لودفيغ";

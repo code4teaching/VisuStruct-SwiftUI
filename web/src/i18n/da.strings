@@ -60,6 +60,16 @@
 "web_live_java_class" = "Som klasse";
 "web_live_java_class_hint" = "Klassenavn = diagrammets titel";
 "web_live_java_main" = "Med main-metode";
+"web_settings_display" = "Visning";
+"web_live_swing" = "Swing-understøttelse";
+"web_live_swing_hint" = "Rigtig Java med vinduer (CheerpJ). Henter ca. 40 MB én gang ved første kørsel.";
+"web_live_swing_windows" = "Java-vinduer";
+"web_live_swing_hide" = "Luk Java-vinduer";
+"web_live_swing_loading" = "Java indlæses (første gang ca. 40 MB) …";
+"web_live_swing_compiling" = "Kompilerer …";
+"web_live_swing_running" = "Programmet kører.";
+"web_live_swing_compile_failed" = "Kompileringsfejl, se ovenfor.";
+"web_live_swing_failed" = "Java kunne ikke indlæses. Tjek internetforbindelsen.";
 "web_live_hint_edit" = "Skriv Java-kode her, så bygger diagrammet sig selv. Eller arbejd i diagrammet, så vokser koden med. Gråt = pladsholder, skriv bare ovenpå.";
 "web_live_edit_label" = "Java-kode";
 "web_parse_line_fmt" = "Linje %d: %@";
@@ -113,3 +123,4 @@
 "web_files_class_placeholder" = "Ny klasse, fx 11FI1";
 "web_files_create_save" = "Opret og gem";
 "web_files_create" = "Opret";
+"web_learn_ludwig_tip" = "Ludwigs tip";
