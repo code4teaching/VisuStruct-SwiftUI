@@ -71,7 +71,8 @@ struct CodeGeneratorPlaceholderSheet: View {
             baseIndent: 0,
             indentPerLevel: 4,
             includeDiagramTextAsComments: includeDiagramComments,
-            includeEmptyElseBranch: includeEmptyElse
+            includeEmptyElseBranch: includeEmptyElse,
+            pseudocodeNote: lang.tr("codegen_pseudocode_note")
         )
     }
 
@@ -276,6 +277,13 @@ struct CodeGeneratorPlaceholderSheet: View {
                         .accessibilityLabel(lang.tr("codegen_java_output_mode"))
                     }
 
+                    Toggle(lang.tr("codegen_pseudocode_toggle"), isOn: $document.isPseudocode)
+                    if document.isPseudocode {
+                        Text(lang.tr("codegen_pseudocode_hint"))
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+
                     Text(verbatim: generatedCode)
                         .font(.system(.body, design: .monospaced))
                         .textSelection(.enabled)
@@ -306,7 +314,7 @@ struct CodeGeneratorPlaceholderSheet: View {
                         }
                     }
                 }
-                if target == .javascript {
+                if target == .javascript, !document.isPseudocode {
                     ToolbarItem(placement: .primaryAction) {
                         Button {
                             openJavaScriptRunner(generatedCode)
@@ -346,6 +354,9 @@ struct CodeGeneratorPlaceholderSheet: View {
             refreshGeneratedCode()
         }
         .onChange(of: includeEmptyElse) { _, _ in
+            refreshGeneratedCode()
+        }
+        .onChange(of: document.isPseudocode) { _, _ in
             refreshGeneratedCode()
         }
     }

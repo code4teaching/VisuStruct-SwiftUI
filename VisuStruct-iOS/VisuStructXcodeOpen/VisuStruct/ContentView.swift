@@ -753,7 +753,8 @@ struct ContentView: View {
                         insertTarget: $insertTarget,
                         elementClipboard: $elementClipboard,
                         canvasScaleStep: canvasScaleStep,
-                        minViewportSize: CGSize(width: geo.size.width, height: geo.size.height)
+                        minViewportSize: CGSize(width: geo.size.width, height: geo.size.height),
+                        onPhoneEditText: showTextEditorOnPhone
                     )
                     .padding(.vertical, 8)
                     // WICHTIG: horizontal nicht komprimieren lassen → sonst hat der ScrollView keine Content-Breite zum Scrollen.
@@ -1105,7 +1106,7 @@ struct ContentView: View {
             insertTargetActive: insertTarget != nil,
             hideInspectorOnPhone: hideInspectorOnPhone,
             onCancelInsert: { insertTarget = nil },
-            onShowInspector: { hideInspectorOnPhone = false },
+            onShowInspector: showTextEditorOnPhone,
             onHideInspector: {
                 focusedField = nil
                 hideInspectorOnPhone = true
@@ -1113,6 +1114,16 @@ struct ContentView: View {
         ) {
             inspectorPanel
         }
+    }
+
+    /// iPhone: Texteditor für das ausgewählte Element einblenden (Einfügemarke und Palette schließen).
+    private func showTextEditorOnPhone() {
+        guard isPhone else { return }
+        insertTarget = nil
+        withAnimation(.easeInOut(duration: 0.15)) {
+            showPaletteOnPhone = false
+        }
+        hideInspectorOnPhone = false
     }
 
     // MARK: - Tastatur (Overlap unter dem Inspector)
@@ -1200,13 +1211,14 @@ struct ContentView: View {
 
     // MARK: - Inspector: Zählschleife & Gruppentitel
 
-    /// Titel der Textbox: Kacheltyp statt generischem „ausgewähltes Element“ (Diagramm-Titel steht oben separat).
+    /// Titel der Textbox = sichtbare Bereichsüberschrift wie im Web und in den Lektionen: „Objektinspektor · Verzweigung“.
     private var inspectorGroupBoxTitle: String {
+        let header = lang.tr("inspector_header")
         guard let path = selectedPath,
               let el = try? VisuStructDocumentEditing.element(at: path, in: document) else {
-            return lang.tr("inspector_group_element")
+            return header
         }
-        return InspectorElementTypeLocalization.title(for: el.type, lang: lang)
+        return "\(header) · \(InspectorElementTypeLocalization.title(for: el.type, lang: lang))"
     }
 
     private var inspectorShowsForLoopThreeFields: Bool {

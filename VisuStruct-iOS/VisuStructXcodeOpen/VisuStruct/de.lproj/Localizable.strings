@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "Elemente";
+"inspector_header" = "Objektinspektor";
 
 /* Aktionen */
 "action_share_png" = "Grafik teilen …";
@@ -231,3 +232,10 @@
 "sim_notice_division_by_zero" = "Division durch null.";
 "sim_notice_whole_number_expected" = "Bitte eine ganze Zahl eingeben.";
 "sim_notice_number_expected" = "Bitte eine Zahl eingeben.";
+"sim_notice_boolean_expected" = "Bitte true oder false eingeben.";
+"sim_notice_subprogram_not_found_fmt" = "Kein offenes Diagramm heißt %@. Der Aufruf wurde übersprungen.";
+"sim_notice_call_too_deep" = "Zu viele verschachtelte Aufrufe. Ruft sich ein Unterprogramm selbst auf?";
+
+"codegen_pseudocode_toggle" = "Pseudocode (kein lauffähiger Code)";
+"codegen_pseudocode_note" = "Pseudocode – kein lauffähiges Programm";
+"codegen_pseudocode_hint" = "Dieses Diagramm ist als Pseudocode markiert. Der Code ist nur eine Skizze und lässt sich nicht ausführen.";

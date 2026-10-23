@@ -4,6 +4,7 @@ public enum VisuStructSimulationValue: Equatable, Sendable, CustomStringConverti
     case int(Int)
     case double(Double)
     case string(String)
+    case bool(Bool)
     case intArray([Int])
     case doubleArray([Double])
     case stringArray([String])
@@ -16,6 +17,8 @@ public enum VisuStructSimulationValue: Equatable, Sendable, CustomStringConverti
             return Self.formatDouble(value)
         case .string(let value):
             return value
+        case .bool(let value):
+            return value ? "true" : "false"
         case .intArray(let values):
             return "[" + values.map(String.init).joined(separator: ", ") + "]"
         case .doubleArray(let values):
@@ -29,7 +32,7 @@ public enum VisuStructSimulationValue: Equatable, Sendable, CustomStringConverti
         switch self {
         case .int(let value): return Double(value)
         case .double(let value): return value
-        case .string, .intArray, .doubleArray, .stringArray: return .nan
+        case .string, .bool, .intArray, .doubleArray, .stringArray: return .nan
         }
     }
 
@@ -45,6 +48,7 @@ public enum VisuStructSimulationValueType: Equatable, Sendable {
     case int
     case double
     case string
+    case bool
 }
 
 public enum VisuStructSimulationStepKind: Equatable, Sendable {
@@ -58,6 +62,16 @@ public enum VisuStructSimulationStepKind: Equatable, Sendable {
     case doUntilLoop
     case doUntilCondition
     case infiniteLoop
+    case jump
+    case call
+    case callEnd
+
+    var isLoopContinuation: Bool {
+        switch self {
+        case .forLoopIncrement, .forLoopCondition, .whileLoop, .doUntilCondition, .infiniteLoop: return true
+        default: return false
+        }
+    }
 }
 
 public struct VisuStructSimulationStep: Equatable, Sendable {
@@ -67,6 +81,10 @@ public struct VisuStructSimulationStep: Equatable, Sendable {
     public var cases: [VisuStructCase]?
     public var loopBody: [VisuStructElement]?
     public var forParts: [String]?
+    /// Aufrufebene: 0 ist das Hauptprogramm, jeder Aufruf bekommt eine neue Nummer.
+    public var frame: Int
+    /// Im Unterprogramm: Pfad des Aufruf-Kastens im Hauptprogramm, der markiert bleibt.
+    public var callPath: [Int]?
 
     public init(
         path: [Int],
@@ -74,7 +92,9 @@ public struct VisuStructSimulationStep: Equatable, Sendable {
         kind: VisuStructSimulationStepKind = .statement,
         cases: [VisuStructCase]? = nil,
         loopBody: [VisuStructElement]? = nil,
-        forParts: [String]? = nil
+        forParts: [String]? = nil,
+        frame: Int = 0,
+        callPath: [Int]? = nil
     ) {
         self.path = path
         self.text = text
@@ -82,6 +102,8 @@ public struct VisuStructSimulationStep: Equatable, Sendable {
         self.cases = cases
         self.loopBody = loopBody
         self.forParts = forParts
+        self.frame = frame
+        self.callPath = callPath
     }
 }
 
@@ -139,21 +161,40 @@ extension VisuStructSimulationState {
 }
 
 public struct VisuStructSimulationEngine: Equatable, Sendable {
+    /// Ab dieser Tiefe bricht die Simulation ab (vermutlich ein Aufruf, der sich selbst aufruft).
+    public static let maxCallDepth = 100
+
     public private(set) var steps: [VisuStructSimulationStep]
     public private(set) var state: VisuStructSimulationState
+    /// Diagramme für Aufrufe, Schlüssel aus `subprogramKey` (z. B. die anderen offenen Reiter).
+    public var subprograms: [String: VisuStructDocument]
+    private var nextFrame = 1
+    private var callDepth = 0
 
+    /// Im Unterprogramm bleibt der Aufruf-Kasten im Hauptprogramm markiert.
     public var currentStepPath: [Int]? {
         guard state.stepIndex < steps.count else { return nil }
-        return steps[state.stepIndex].path
+        return steps[state.stepIndex].callPath ?? steps[state.stepIndex].path
+    }
+
+    /// `zeigeTitel()` und `zeigeTitel();` heißen beide `zeigetitel`.
+    public static func subprogramKey(_ text: String) -> String {
+        var name = stripTrailingSemicolon(text)
+        if name.hasSuffix(")"), let open = name.lastIndex(of: "("),
+           name[name.index(after: open)..<name.index(before: name.endIndex)].allSatisfy(\.isWhitespace) {
+            name = String(name[..<open])
+        }
+        return name.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
     }
 
     public var canStep: Bool {
         !state.isHalted && state.inputRequest == nil && state.stepIndex < steps.count
     }
 
-    public init(document: VisuStructDocument) {
+    public init(document: VisuStructDocument, subprograms: [String: VisuStructDocument] = [:]) {
         self.steps = Self.steps(in: document.elements)
         self.state = VisuStructSimulationState()
+        self.subprograms = subprograms
     }
 
     public mutating func reset(document: VisuStructDocument? = nil) {
@@ -161,6 +202,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             steps = Self.steps(in: document.elements)
         }
         state = VisuStructSimulationState()
+        nextFrame = 1
+        callDepth = 0
     }
 
     public mutating func step() {
@@ -202,6 +245,15 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return
             case .infiniteLoop:
                 enterInfiniteLoop(step)
+                return
+            case .jump:
+                executeJump(step)
+                return
+            case .call:
+                try executeCall(step)
+                return
+            case .callEnd:
+                executeCallEnd(step)
                 return
             }
             if state.inputRequest != nil {
@@ -249,68 +301,88 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return .double(value)
         case .string:
             return .string(rawValue)
+        case .bool:
+            switch trimmed.lowercased() {
+            case "true", "wahr": return .bool(true)
+            case "false", "falsch": return .bool(false)
+            default: throw SimulationError.invalidInput(.booleanExpected)
+            }
         }
     }
 
     private static func steps(
         in elements: [VisuStructElement],
-        pathPrefix: [Int] = []
+        pathPrefix: [Int] = [],
+        frame: Int = 0,
+        callPath: [Int]? = nil
     ) -> [VisuStructSimulationStep] {
-        elements.enumerated().compactMap { index, element in
-            let path = pathPrefix + [index]
-            let text = element.textLines
-                .joined(separator: " ")
-                .trimmingCharacters(in: .whitespacesAndNewlines)
-            switch element.type {
-            case .anweisung:
-                guard !text.isEmpty else { return nil }
-                return VisuStructSimulationStep(path: path, text: text)
-            case .verzweigung:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .branch,
-                    cases: element.cases
-                )
-            case .fallauswahl:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "0" : text,
-                    kind: .switchSelection,
-                    cases: element.cases
-                )
-            case .forSchleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text,
-                    kind: .forLoopStart,
-                    loopBody: element.loopBody,
-                    forParts: normalizedForParts(element.textLines)
-                )
-            case .whileSchleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .whileLoop,
-                    loopBody: element.loopBody
-                )
-            case .doUntilSchleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .doUntilLoop,
-                    loopBody: element.loopBody
-                )
-            case .endlosschleife:
-                return VisuStructSimulationStep(
-                    path: path,
-                    text: text.isEmpty ? "true" : text,
-                    kind: .infiniteLoop,
-                    loopBody: element.loopBody
-                )
-            default:
-                return nil
-            }
+        elements.enumerated().compactMap { index, element -> VisuStructSimulationStep? in
+            guard var step = Self.step(for: element, path: pathPrefix + [index]) else { return nil }
+            step.frame = frame
+            step.callPath = callPath
+            return step
+        }
+    }
+
+    private static func step(for element: VisuStructElement, path: [Int]) -> VisuStructSimulationStep? {
+        let text = element.textLines
+            .joined(separator: " ")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        switch element.type {
+        case .anweisung:
+            // Leere Anweisung und Platzhalter „ø“ werden übersprungen
+            guard !text.isEmpty, text != "ø" else { return nil }
+            return VisuStructSimulationStep(path: path, text: text)
+        case .verzweigung:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .branch,
+                cases: element.cases
+            )
+        case .fallauswahl:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "0" : text,
+                kind: .switchSelection,
+                cases: element.cases
+            )
+        case .forSchleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text,
+                kind: .forLoopStart,
+                loopBody: element.loopBody,
+                forParts: normalizedForParts(element.textLines)
+            )
+        case .whileSchleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .whileLoop,
+                loopBody: element.loopBody
+            )
+        case .doUntilSchleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .doUntilLoop,
+                loopBody: element.loopBody
+            )
+        case .endlosschleife:
+            return VisuStructSimulationStep(
+                path: path,
+                text: text.isEmpty ? "true" : text,
+                kind: .infiniteLoop,
+                loopBody: element.loopBody
+            )
+        case .aussprung:
+            return VisuStructSimulationStep(path: path, text: text, kind: .jump)
+        case .aufruf:
+            guard !text.isEmpty, text != "ø" else { return nil }
+            return VisuStructSimulationStep(path: path, text: text, kind: .call)
+        default:
+            return nil
         }
     }
 
@@ -350,7 +422,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let selectedCaseIndex = result ? 0 : 1
         let branchSteps = Self.steps(
             in: cases[selectedCaseIndex].elements,
-            pathPrefix: step.path + [selectedCaseIndex]
+            pathPrefix: step.path + [selectedCaseIndex],
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: branchSteps, at: state.stepIndex)
@@ -369,7 +443,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let selectedCase = cases[selectedCaseIndex]
         let caseSteps = Self.steps(
             in: selectedCase.elements,
-            pathPrefix: step.path + [selectedCaseIndex]
+            pathPrefix: step.path + [selectedCaseIndex],
+            frame: step.frame,
+            callPath: step.callPath
         )
 
         steps.remove(at: state.stepIndex)
@@ -391,7 +467,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             text: parts[1],
             kind: .forLoopCondition,
             loopBody: step.loopBody,
-            forParts: parts
+            forParts: parts,
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(conditionStep, at: state.stepIndex)
@@ -408,21 +486,27 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         if shouldEnter {
             let bodySteps = Self.steps(
                 in: step.loopBody ?? [],
-                pathPrefix: step.path + [0]
+                pathPrefix: step.path + [0],
+                frame: step.frame,
+                callPath: step.callPath
             )
             let incrementStep = VisuStructSimulationStep(
                 path: step.path,
                 text: parts[2],
                 kind: .forLoopIncrement,
                 loopBody: step.loopBody,
-                forParts: parts
+                forParts: parts,
+                frame: step.frame,
+                callPath: step.callPath
             )
             let conditionStep = VisuStructSimulationStep(
                 path: step.path,
                 text: parts[1],
                 kind: .forLoopCondition,
                 loopBody: step.loopBody,
-                forParts: parts
+                forParts: parts,
+                frame: step.frame,
+                callPath: step.callPath
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [incrementStep, conditionStep], at: state.stepIndex)
@@ -448,13 +532,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         if shouldEnter {
             let bodySteps = Self.steps(
                 in: step.loopBody ?? [],
-                pathPrefix: step.path + [0]
+                pathPrefix: step.path + [0],
+                frame: step.frame,
+                callPath: step.callPath
             )
             let conditionStep = VisuStructSimulationStep(
                 path: step.path,
                 text: step.text,
                 kind: .whileLoop,
-                loopBody: step.loopBody
+                loopBody: step.loopBody,
+                frame: step.frame,
+                callPath: step.callPath
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
@@ -468,13 +556,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     private mutating func enterDoUntilLoop(_ step: VisuStructSimulationStep) throws {
         let bodySteps = Self.steps(
             in: step.loopBody ?? [],
-            pathPrefix: step.path + [0]
+            pathPrefix: step.path + [0],
+            frame: step.frame,
+            callPath: step.callPath
         )
         let conditionStep = VisuStructSimulationStep(
             path: step.path,
             text: step.text,
             kind: .doUntilCondition,
-            loopBody: step.loopBody
+            loopBody: step.loopBody,
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
@@ -488,13 +580,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         if shouldRepeat {
             let bodySteps = Self.steps(
                 in: step.loopBody ?? [],
-                pathPrefix: step.path + [0]
+                pathPrefix: step.path + [0],
+                frame: step.frame,
+                callPath: step.callPath
             )
             let conditionStep = VisuStructSimulationStep(
                 path: step.path,
                 text: step.text,
                 kind: .doUntilCondition,
-                loopBody: step.loopBody
+                loopBody: step.loopBody,
+                frame: step.frame,
+                callPath: step.callPath
             )
             steps.remove(at: state.stepIndex)
             steps.insert(contentsOf: bodySteps + [conditionStep], at: state.stepIndex)
@@ -507,18 +603,86 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     private mutating func enterInfiniteLoop(_ step: VisuStructSimulationStep) {
         let bodySteps = Self.steps(
             in: step.loopBody ?? [],
-            pathPrefix: step.path + [0]
+            pathPrefix: step.path + [0],
+            frame: step.frame,
+            callPath: step.callPath
         )
         let loopStep = VisuStructSimulationStep(
             path: step.path,
             text: step.text,
             kind: .infiniteLoop,
-            loopBody: step.loopBody
+            loopBody: step.loopBody,
+            frame: step.frame,
+            callPath: step.callPath
         )
         steps.remove(at: state.stepIndex)
         steps.insert(contentsOf: bodySteps + [loopStep], at: state.stepIndex)
         state.lastTrace = "true -> true"
         state.notice = !bodySteps.isEmpty ? nil : .infiniteLoopWithoutBody
+    }
+
+    // MARK: Aussprung und Aufruf
+
+    /// Wie `break`: verlässt die innerste Schleife, in der der Aussprung steht. Außerhalb jeder Schleife endet
+    /// das Unterprogramm bzw. im Hauptprogramm das ganze Programm.
+    private mutating func executeJump(_ step: VisuStructSimulationStep) {
+        func isPrefix(_ p: [Int]) -> Bool {
+            p.count < step.path.count && Array(step.path.prefix(p.count)) == p
+        }
+        var end = steps.count
+        var outcome = "end"
+        var i = state.stepIndex + 1
+        while i < steps.count {
+            let s = steps[i]
+            if s.frame == step.frame {
+                if s.kind == .callEnd {
+                    end = i + 1
+                    outcome = "return"
+                    break
+                }
+                if s.kind.isLoopContinuation, isPrefix(s.path) {
+                    end = i + 1
+                    // Bei der For-Schleife folgt auf das Hochzählen noch die Bedingung
+                    while end < steps.count, steps[end].frame == s.frame, steps[end].path == s.path {
+                        end += 1
+                    }
+                    outcome = "break"
+                    break
+                }
+            }
+            i += 1
+        }
+        if outcome == "return" { callDepth -= 1 }
+        steps.removeSubrange(state.stepIndex..<end)
+        state.lastTrace = "\(step.text.isEmpty ? "break" : step.text) -> \(outcome)"
+        state.notice = state.stepIndex >= steps.count ? .finished : nil
+    }
+
+    /// Führt das Diagramm mit dem Namen aus dem Aufruf-Kasten aus und macht danach hier weiter.
+    private mutating func executeCall(_ step: VisuStructSimulationStep) throws {
+        guard let document = subprograms[Self.subprogramKey(step.text)] else {
+            steps.remove(at: state.stepIndex)
+            state.lastTrace = "\(step.text) -> ?"
+            state.notice = state.stepIndex >= steps.count ? .finished : .subprogramNotFound(step.text)
+            return
+        }
+        guard callDepth < Self.maxCallDepth else { throw SimulationError.callTooDeep }
+        callDepth += 1
+        let frame = nextFrame
+        nextFrame += 1
+        let callPath = step.callPath ?? step.path
+        let bodySteps = Self.steps(in: document.elements, frame: frame, callPath: callPath)
+        let endStep = VisuStructSimulationStep(path: step.path, text: step.text, kind: .callEnd, frame: frame, callPath: callPath)
+        steps.remove(at: state.stepIndex)
+        steps.insert(contentsOf: bodySteps + [endStep], at: state.stepIndex)
+        state.lastTrace = "\(step.text) -> call"
+    }
+
+    private mutating func executeCallEnd(_ step: VisuStructSimulationStep) {
+        callDepth -= 1
+        steps.remove(at: state.stepIndex)
+        state.lastTrace = "\(step.text) -> return"
+        state.notice = state.stepIndex >= steps.count ? .finished : nil
     }
 
     private mutating func execute(statement rawText: String) throws {
@@ -662,6 +826,10 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     }
 
     private func parseAssignmentTarget(_ text: String) throws -> AssignmentTarget {
+        // Ein Arrayfach darf Leerzeichen im Index haben: `karten[i + 1] = hilf`.
+        if Self.parseArrayElementAccess(text) != nil {
+            return AssignmentTarget(variableName: text.trimmingCharacters(in: .whitespacesAndNewlines), valueType: nil)
+        }
         let parts = text.split(whereSeparator: { $0.isWhitespace }).map(String.init)
         let name: String
         let valueType: VisuStructSimulationValueType?
@@ -724,7 +892,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let leftParts = left.split(whereSeparator: { $0.isWhitespace }).map(String.init)
         guard leftParts.count == 2, leftParts[0].hasSuffix("[]") else { return nil }
         let typeName = String(leftParts[0].dropLast(2))
-        guard let valueType = Self.valueTypeKeyword(typeName), Self.isIdentifier(leftParts[1]) else {
+        guard let valueType = Self.valueTypeKeyword(typeName), valueType != .bool, Self.isIdentifier(leftParts[1]) else {
             throw SimulationError.unsupportedStatement(left)
         }
 
@@ -746,6 +914,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                     }
                     return try evaluateOutputExpression(item)
                 })
+            case .bool:
+                throw SimulationError.unsupportedStatement(left)
             }
             return ArrayDeclaration(name: leftParts[1], typeName: typeName, count: rawItems.count, value: value)
         }
@@ -766,6 +936,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             value = .doubleArray(Array(repeating: 0, count: count))
         case .string:
             value = .stringArray(Array(repeating: "", count: count))
+        case .bool:
+            throw SimulationError.unsupportedStatement(left)
         }
         return ArrayDeclaration(name: leftParts[1], typeName: typeName, count: count, value: value)
     }
@@ -780,6 +952,16 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         guard trimmed.hasSuffix("]"), let open = trimmed.firstIndex(of: "[") else { return nil }
         let name = String(trimmed[..<open]).trimmingCharacters(in: .whitespacesAndNewlines)
         guard isIdentifier(name) else { return nil }
+        // Die Klammer nach dem Namen muss erst am Ende schließen, sonst ist es z. B. `a[i] > a[i + 1]`.
+        var depth = 0
+        for character in trimmed[open..<trimmed.index(before: trimmed.endIndex)] {
+            if character == "[" {
+                depth += 1
+            } else if character == "]" {
+                depth -= 1
+                if depth == 0 { return nil }
+            }
+        }
         let afterOpen = trimmed.index(after: open)
         let indexExpression = String(trimmed[afterOpen..<trimmed.index(before: trimmed.endIndex)])
         return ArrayElementAccess(arrayName: name, indexExpression: indexExpression)
@@ -916,12 +1098,19 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return .string(value.description)
             }
             return .string(try evaluateOutputExpression(expression))
+        case .bool:
+            return .bool(try evaluateBoolExpression(expression))
         }
     }
 
     private func evaluateNumericExpression(_ expression: String) throws -> VisuStructSimulationValue {
-        let value = try evaluateDoubleExpression(expression)
-        return value.rounded() == value ? .int(Int(value)) : .double(value)
+        var parser = NumericExpressionParser(
+            tokens: try NumericExpressionTokenizer.tokenize(Self.normalizeNumericExpression(expression)),
+            variables: state.variables
+        )
+        let result = try parser.parseNumber()
+        let value = result.value
+        return result.isInt || (value.isFinite && value.rounded() == value) ? .int(Int(value)) : .double(value)
     }
 
     private func evaluateIntExpression(_ expression: String) throws -> Int {
@@ -946,6 +1135,9 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         let trimmed = expression.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed == "true" { return true }
         if trimmed == "false" { return false }
+        if let value = try evaluateReference(trimmed), case .bool(let flag) = value {
+            return flag
+        }
 
         let orParts = Self.splitTopLevel(trimmed, separator: "||")
         if orParts.count > 1 {
@@ -986,6 +1178,14 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
     }
 
     private func evaluateComparison(lhs: String, op: String, rhs: String) throws -> Bool {
+        let leftBool = try boolOperand(lhs)
+        let rightBool = try boolOperand(rhs)
+        if leftBool != nil || rightBool != nil, op == "==" || op == "!=" {
+            let left = try leftBool ?? evaluateBoolExpression(lhs)
+            let right = try rightBool ?? evaluateBoolExpression(rhs)
+            return op == "==" ? left == right : left != right
+        }
+
         let leftString = try stringOperand(lhs)
         let rightString = try stringOperand(rhs)
         if leftString != nil || rightString != nil {
@@ -1014,6 +1214,17 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
         case ">=": return leftValue >= rightValue
         default: throw SimulationError.invalidExpression("\(lhs) \(op) \(rhs)")
         }
+    }
+
+    /// `true`, `false` oder eine bool-Variable; sonst `nil`.
+    private func boolOperand(_ text: String) throws -> Bool? {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed == "true" { return true }
+        if trimmed == "false" { return false }
+        if let value = try evaluateReference(trimmed), case .bool(let flag) = value {
+            return flag
+        }
+        return nil
     }
 
     /// String-Literal oder String-Variable (auch Element eines String-Arrays); sonst `nil`.
@@ -1046,7 +1257,7 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
                 return .int(Int(value))
             case .string(let value):
                 return .text(value)
-            case .intArray, .doubleArray, .stringArray:
+            case .bool, .intArray, .doubleArray, .stringArray:
                 throw SimulationError.invalidExpression(trimmed)
             }
         }
@@ -1303,6 +1514,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return .double
         case "string":
             return .string
+        case "boolean", "bool":
+            return .bool
         default:
             return nil
         }
@@ -1316,6 +1529,8 @@ public struct VisuStructSimulationEngine: Equatable, Sendable {
             return .double
         case .string:
             return .string
+        case .bool:
+            return .bool
         case .intArray, .doubleArray, .stringArray:
             return .string
         }
@@ -1352,6 +1567,7 @@ private enum SimulationError: LocalizedError, Equatable {
     case invalidExpression(String)
     case unknownVariable(String)
     case divisionByZero
+    case callTooDeep
     case invalidInput(VisuStructSimulationNotice)
 
     var notice: VisuStructSimulationNotice {
@@ -1360,6 +1576,7 @@ private enum SimulationError: LocalizedError, Equatable {
         case .invalidExpression(let text): return .invalidExpression(text)
         case .unknownVariable(let name): return .unknownVariable(name)
         case .divisionByZero: return .divisionByZero
+        case .callTooDeep: return .callTooDeep
         case .invalidInput(let notice): return notice
         }
     }
@@ -1377,6 +1594,9 @@ public enum VisuStructSimulationNotice: Equatable, Sendable {
     case divisionByZero
     case wholeNumberExpected
     case numberExpected
+    case booleanExpected
+    case subprogramNotFound(String)
+    case callTooDeep
     /// Fehler aus einer anderen Quelle, nur als Text bekannt.
     case other(String)
 
@@ -1398,6 +1618,9 @@ public enum VisuStructSimulationNotice: Equatable, Sendable {
         case .divisionByZero: return "Division by zero."
         case .wholeNumberExpected: return "Please enter a whole number."
         case .numberExpected: return "Please enter a number."
+        case .booleanExpected: return "Please enter true or false."
+        case .subprogramNotFound(let name): return "No open diagram is called \(name). The call was skipped."
+        case .callTooDeep: return "Too many nested calls. Does a subprogram call itself?"
         case .other(let text): return text
         }
     }
@@ -1491,13 +1714,18 @@ private enum NumericExpressionTokenizer {
     }
 }
 
+struct NumericResult {
+    var value: Double
+    var isInt: Bool
+}
+
 private struct NumericExpressionParser {
     var tokens: [NumericExpressionToken]
     var variables: [String: VisuStructSimulationValue]
     var index = 0
 
     mutating func parseInt() throws -> Int {
-        let value = try parseDoubleExpression()
+        let value = try parseDoubleExpression().value
         guard index == tokens.count else {
             throw SimulationError.invalidExpression("")
         }
@@ -1506,6 +1734,11 @@ private struct NumericExpressionParser {
     }
 
     mutating func parseDouble() throws -> Double {
+        try parseNumber().value
+    }
+
+    /// Wert samt Angabe, ob er wie in Java ganzzahlig ist (nur `int`-Werte und Literale ohne Punkt).
+    mutating func parseNumber() throws -> NumericResult {
         let value = try parseDoubleExpression()
         guard index == tokens.count else {
             throw SimulationError.invalidExpression("")
@@ -1513,105 +1746,48 @@ private struct NumericExpressionParser {
         return value
     }
 
-    private mutating func parseIntExpression() throws -> Int {
-        var value = try parseIntTerm()
+    private mutating func parseDoubleExpression() throws -> NumericResult {
+        var value = try parseDoubleTerm()
         while let token = current, token == .plus || token == .minus {
             index += 1
-            let rhs = try parseIntTerm()
-            value = token == .plus ? value + rhs : value - rhs
+            let rhs = try parseDoubleTerm()
+            value = NumericResult(
+                value: token == .plus ? value.value + rhs.value : value.value - rhs.value,
+                isInt: value.isInt && rhs.isInt
+            )
         }
         return value
     }
 
-    private mutating func parseIntTerm() throws -> Int {
-        var value = try parseIntFactor()
+    private mutating func parseDoubleTerm() throws -> NumericResult {
+        var value = try parseDoubleFactor()
         while let token = current, token == .multiply || token == .divide || token == .modulo {
             index += 1
-            let rhs = try parseIntFactor()
+            let rhs = try parseDoubleFactor()
+            let bothInt = value.isInt && rhs.isInt
             if token == .multiply {
-                value *= rhs
+                value = NumericResult(value: value.value * rhs.value, isInt: bothInt)
             } else if token == .divide {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value /= rhs
+                guard rhs.value != 0 else { throw SimulationError.divisionByZero }
+                // Wie in Java: int / int schneidet Richtung null ab (7 / 2 = 3, -7 / 2 = -3)
+                let quotient = value.value / rhs.value
+                value = NumericResult(value: bothInt ? quotient.rounded(.towardZero) : quotient, isInt: bothInt)
             } else {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value %= rhs
+                guard rhs.value != 0 else { throw SimulationError.divisionByZero }
+                value = NumericResult(value: value.value.truncatingRemainder(dividingBy: rhs.value), isInt: bothInt)
             }
         }
         return value
     }
 
-    private mutating func parseIntFactor() throws -> Int {
+    private mutating func parseDoubleFactor() throws -> NumericResult {
         guard let token = current else {
             throw SimulationError.invalidExpression("")
         }
         index += 1
         switch token {
         case .number(let literal, let value):
-            guard value.rounded() == value, !literal.contains(".") else {
-                throw SimulationError.invalidExpression(literal)
-            }
-            return Int(value)
-        case .identifier(let name):
-            guard let value = variables[name] else {
-                throw SimulationError.unknownVariable(name)
-            }
-            switch value {
-            case .int(let intValue):
-                return intValue
-            case .double, .string, .intArray, .doubleArray, .stringArray:
-                throw SimulationError.invalidExpression(name)
-            }
-        case .minus:
-            return try -parseIntFactor()
-        case .leftParen:
-            let value = try parseIntExpression()
-            guard current == .rightParen else {
-                throw SimulationError.invalidExpression("")
-            }
-            index += 1
-            return value
-        default:
-            throw SimulationError.invalidExpression("")
-        }
-    }
-
-    private mutating func parseDoubleExpression() throws -> Double {
-        var value = try parseDoubleTerm()
-        while let token = current, token == .plus || token == .minus {
-            index += 1
-            let rhs = try parseDoubleTerm()
-            value = token == .plus ? value + rhs : value - rhs
-        }
-        return value
-    }
-
-    private mutating func parseDoubleTerm() throws -> Double {
-        var value = try parseDoubleFactor()
-        while let token = current, token == .multiply || token == .divide || token == .modulo {
-            index += 1
-            let rhs = try parseDoubleFactor()
-            if token == .multiply {
-                value *= rhs
-            } else if token == .divide {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value /= rhs
-            } else {
-                guard rhs != 0 else { throw SimulationError.divisionByZero }
-                value = value.truncatingRemainder(dividingBy: rhs)
-            }
-        }
-        return value
-    }
-
-    private mutating func parseDoubleFactor() throws -> Double {
-        guard let token = current else {
-            throw SimulationError.invalidExpression("")
-        }
-        index += 1
-        switch token {
-        case .number(_, let value):
-            return value
+            return NumericResult(value: value, isInt: !literal.contains("."))
         case .identifier(let name):
             if name == "Math", current == .dot {
                 index += 1
@@ -1627,7 +1803,7 @@ private struct NumericExpressionParser {
                     throw SimulationError.invalidExpression("Math.random")
                 }
                 index += 1
-                return Double.random(in: 0..<1)
+                return NumericResult(value: Double.random(in: 0..<1), isInt: false)
             }
             guard let value = variables[name] else {
                 throw SimulationError.unknownVariable(name)
@@ -1647,18 +1823,18 @@ private struct NumericExpressionParser {
                 }
                 switch value {
                 case .intArray(let values):
-                    return Double(values.count)
+                    return NumericResult(value: Double(values.count), isInt: true)
                 case .doubleArray(let values):
-                    return Double(values.count)
+                    return NumericResult(value: Double(values.count), isInt: true)
                 case .stringArray(let values):
-                    return Double(values.count)
+                    return NumericResult(value: Double(values.count), isInt: true)
                 default:
                     throw SimulationError.invalidExpression(name)
                 }
             }
             if current == .leftBracket {
                 index += 1
-                let elementIndex = Int(try parseDoubleExpression())
+                let elementIndex = Int(try parseDoubleExpression().value)
                 guard current == .rightBracket else {
                     throw SimulationError.invalidExpression(name)
                 }
@@ -1666,10 +1842,10 @@ private struct NumericExpressionParser {
                 switch value {
                 case .intArray(let values):
                     guard values.indices.contains(elementIndex) else { throw SimulationError.invalidExpression("\(name)[\(elementIndex)]") }
-                    return Double(values[elementIndex])
+                    return NumericResult(value: Double(values[elementIndex]), isInt: true)
                 case .doubleArray(let values):
                     guard values.indices.contains(elementIndex) else { throw SimulationError.invalidExpression("\(name)[\(elementIndex)]") }
-                    return values[elementIndex]
+                    return NumericResult(value: values[elementIndex], isInt: false)
                 default:
                     throw SimulationError.invalidExpression(name)
                 }
@@ -1678,9 +1854,13 @@ private struct NumericExpressionParser {
             guard numericValue.isFinite else {
                 throw SimulationError.invalidExpression(name)
             }
-            return numericValue
+            if case .int = value {
+                return NumericResult(value: numericValue, isInt: true)
+            }
+            return NumericResult(value: numericValue, isInt: false)
         case .minus:
-            return try -parseDoubleFactor()
+            let inner = try parseDoubleFactor()
+            return NumericResult(value: -inner.value, isInt: inner.isInt)
         case .leftParen:
             let value = try parseDoubleExpression()
             guard current == .rightParen else {

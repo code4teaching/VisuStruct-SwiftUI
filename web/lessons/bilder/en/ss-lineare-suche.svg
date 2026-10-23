@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 404 196" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="13" fill="#1c1c1e">
+<rect width="404" height="196" fill="#ffffff"/>
+<text x="14" y="24" font-weight="600" font-size="15">Looking for the 9. The cards are mixed up.</text>
+<g><rect x="14" y="50" width="40" height="56" rx="5" fill="#f2f2f7" stroke="#1c1c1e" stroke-width="1"/><text x="34.0" y="75.2" text-anchor="middle" font-size="18" font-weight="700" fill="#dc2626">7</text><text x="34.0" y="95.91999999999999" text-anchor="middle" font-size="15" fill="#dc2626">♥</text></g>
+<text x="34.0" y="130" text-anchor="middle" font-size="16" font-weight="600" fill="#dc2626">✗</text>
+<text x="34.0" y="148" text-anchor="middle" font-size="13" fill="#6e6e73">1.</text>
+<g><rect x="62" y="50" width="40" height="56" rx="5" fill="#f2f2f7" stroke="#1c1c1e" stroke-width="1"/><text x="82.0" y="75.2" text-anchor="middle" font-size="18" font-weight="700" fill="#1c1c1e">3</text><text x="82.0" y="95.91999999999999" text-anchor="middle" font-size="15" fill="#1c1c1e">♠</text></g>
+<text x="82.0" y="130" text-anchor="middle" font-size="16" font-weight="600" fill="#dc2626">✗</text>
+<text x="82.0" y="148" text-anchor="middle" font-size="13" fill="#6e6e73">2.</text>
+<g><rect x="110" y="50" width="40" height="56" rx="5" fill="#f2f2f7" stroke="#1c1c1e" stroke-width="1"/><text x="130.0" y="75.2" text-anchor="middle" font-size="18" font-weight="700" fill="#dc2626">10</text><text x="130.0" y="95.91999999999999" text-anchor="middle" font-size="15" fill="#dc2626">♦</text></g>
+<text x="130.0" y="130" text-anchor="middle" font-size="16" font-weight="600" fill="#dc2626">✗</text>
+<text x="130.0" y="148" text-anchor="middle" font-size="13" fill="#6e6e73">3.</text>
+<g><rect x="158" y="50" width="40" height="56" rx="5" fill="#f2f2f7" stroke="#1c1c1e" stroke-width="1"/><text x="178.0" y="75.2" text-anchor="middle" font-size="18" font-weight="700" fill="#1c1c1e">5</text><text x="178.0" y="95.91999999999999" text-anchor="middle" font-size="15" fill="#1c1c1e">♣</text></g>
+<text x="178.0" y="130" text-anchor="middle" font-size="16" font-weight="600" fill="#dc2626">✗</text>
+<text x="178.0" y="148" text-anchor="middle" font-size="13" fill="#6e6e73">4.</text>
+<g><rect x="206" y="50" width="40" height="56" rx="5" fill="#dcfce7" stroke="#15803d" stroke-width="3"/><text x="226.0" y="75.2" text-anchor="middle" font-size="18" font-weight="700" fill="#1c1c1e">9</text><text x="226.0" y="95.91999999999999" text-anchor="middle" font-size="15" fill="#1c1c1e">♠</text></g>
+<text x="226.0" y="130" text-anchor="middle" font-size="16" font-weight="600" fill="#15803d">✓</text>
+<text x="226.0" y="148" text-anchor="middle" font-size="13" fill="#6e6e73">5.</text>
+<g><rect x="254" y="50" width="40" height="56" rx="5" fill="#1d4ed8" stroke="#1c1c1e" stroke-width="1"/><rect x="258" y="54" width="32" height="48" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.2" stroke-dasharray="3 2"/></g>
+<g><rect x="302" y="50" width="40" height="56" rx="5" fill="#1d4ed8" stroke="#1c1c1e" stroke-width="1"/><rect x="306" y="54" width="32" height="48" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.2" stroke-dasharray="3 2"/></g>
+<g><rect x="350" y="50" width="40" height="56" rx="5" fill="#1d4ed8" stroke="#1c1c1e" stroke-width="1"/><rect x="354" y="54" width="32" height="48" rx="3" fill="none" stroke="#93c5fd" stroke-width="1.2" stroke-dasharray="3 2"/></g>
+<text x="14" y="168" font-size="15" fill="#6e6e73">Turn them over from left to right:</text><text x="14" y="188" font-size="15" fill="#6e6e73">After 5 comparisons the 9 is found.</text>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+<rect width="420" height="280" fill="#ffffff"/>
+<text x="22" y="22" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">String wort = "Geißbock"</text>
+<text x="45.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">0</text>
+<rect x="22" y="54" width="46" height="46" fill="#dcfce7" stroke="#15803d" stroke-width="2.5"/><text x="45.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">G</text>
+<text x="91.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">1</text>
+<rect x="68" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="91.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">e</text>
+<text x="137.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">2</text>
+<rect x="114" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="137.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">i</text>
+<text x="183.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">3</text>
+<rect x="160" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="183.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">ß</text>
+<text x="229.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">4</text>
+<rect x="206" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="229.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">b</text>
+<text x="275.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">5</text>
+<rect x="252" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="275.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">o</text>
+<text x="321.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">6</text>
+<rect x="298" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="321.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">c</text>
+<text x="367.0" y="48" text-anchor="middle" font-size="14" fill="#6e6e73">7</text>
+<rect x="344" y="54" width="46" height="46" fill="#ffffff" stroke="#1c1c1e" stroke-width="1.5"/><text x="367.0" y="83" text-anchor="middle" font-size="20" font-weight="700" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">k</text>
+<path d="M25 112 L25 120 L203 120 L203 112" fill="none" stroke="#1d4ed8" stroke-width="2.5"/><text x="114.0" y="142" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#1d4ed8">substring(0, 4)</text>
+<text x="114" y="162" text-anchor="middle" font-size="16" fill="#1d4ed8">→ "Geiß"</text>
+<path d="M209 112 L209 120 L387 120 L387 112" fill="none" stroke="#b45309" stroke-width="2.5"/><text x="298.0" y="142" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#b45309">substring(4)</text>
+<text x="298" y="162" text-anchor="middle" font-size="16" fill="#b45309">→ "bock"</text>
+<text x="22" y="198" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15"><tspan fill="#15803d">charAt(0)</tspan> → 'G'</text><text x="222" y="198" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">length() → 8</text>
+<text x="22" y="224" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">indexOf("bock") → 4</text>
+<text x="22" y="252" font-size="15" fill="#6e6e73">Das Ende von substring gehört nicht dazu.</text>
+</svg>

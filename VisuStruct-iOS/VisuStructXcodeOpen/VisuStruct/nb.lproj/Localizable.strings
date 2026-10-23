@@ -1,5 +1,6 @@
 /* NOTE: Initial Norwegian Bokmål localization. */
 "palette_header" = "Elementer";
+"inspector_header" = "Objektinspektør";
 
 /* Actions */
 "action_share_png" = "Del bilde…";
@@ -140,5 +141,12 @@
 "sim_notice_division_by_zero" = "Divisjon med null.";
 "sim_notice_whole_number_expected" = "Skriv inn et heltall.";
 "sim_notice_number_expected" = "Skriv inn et tall.";
+"sim_notice_boolean_expected" = "Skriv inn true eller false.";
+"sim_notice_subprogram_not_found_fmt" = "Ingen åpne diagrammer heter %@. Kallet ble hoppet over.";
+"sim_notice_call_too_deep" = "For mange nøstede kall. Kaller et underprogram seg selv?";
 "phone_hide_text_editor" = "Skjul";
 "phone_title_done" = "Ferdig";
+
+"codegen_pseudocode_toggle" = "Pseudokode (ikke kjørbar kode)";
+"codegen_pseudocode_note" = "Pseudokode – ikke et kjørbart program";
+"codegen_pseudocode_hint" = "Dette diagrammet er merket som pseudokode. Koden er bare en skisse og kan ikke kjøres.";

@@ -1,0 +1,122 @@
+---
+titel: Switch
+bereich: Basics
+kurz: Run one of many cases, depending on the value of a variable.
+---
+
+## Many possibilities, one variable
+
+A drinks machine has three buttons: 1 for water, 2 for juice, 3 for cocoa. With branches you need three boxes nested inside each other. That quickly gets wide and confusing.
+
+::: diagramm l09-verschachtelt.visustruct
+The machine with three nested branches. Each branch checks the same variable choice again.
+:::
+
+Whenever you compare **one variable** with **several fixed values**, there is an easier way: the **switch**.
+
+## How a switch is built
+
+At the top of the box is the variable that decides. Below it there is a column of its own for every case. Above each column is the value it belongs to.
+
+::: diagramm l09-automat.visustruct
+The same machine as a switch. If choice has the value 2, only column 2 runs.
+:::
+
+- The simulation looks for the case whose name matches the value exactly.
+- If no case matches, **default** runs. This case is always on the far right.
+- After that, the program continues below the switch. Only **one** case ever runs.
+
+> A new switch has the cases 1, 2 and default. Click a case to change its **Case name** in the Object Inspector. With **Add Case** you get a new column in front of default.
+
+## Cases with text
+
+The cases do not have to be numbers. You can also choose by the content of a `String` variable. Then you write the text as the case name, for example `red`.
+
+::: diagramm l09-ampel.visustruct
+A traffic light: depending on the colour typed in, a different message appears. In the simulation, also try a colour that does not exist.
+:::
+
+Upper and lower case matter: `Red` does not match the case `red`.
+
+## Exercise: Grade in words
+
+::: übung l09-note
+titel: Grade in words
+auftrag: Ask for a grade as a whole number and output it in words: 1 very good, 2 good, 3 satisfactory, 4 sufficient, 5 poor, 6 fail.
+  For any other number, **Not a valid grade** should appear.
+test: 1 -> very good
+test: 4 -> sufficient
+test: 6 -> fail
+test: 9 -> Not a valid grade
+braucht: fallauswahl
+tipp: For many fixed values, a switch is clearer than lots of branches. Every grade gets a case of its own.
+tipp: Keep using “Add Case” until you have the cases 1 to 6 and default. At the top of the switch you write `grade`.
+lösung: l09-note-loesung.visustruct
+:::
+
+## Exercise: Calculator
+
+::: übung l09-rechner
+titel: Calculator
+auftrag: Ask, one after another, for a whole number `a`, an operator as a `String` and a second whole number `b`.
+  For `+`, `-` and `*` you output the result. For any other sign, **Unknown operator** appears.
+test: 3, +, 4 -> 7
+test: 10, -, 4 -> 6
+test: 6, *, 7 -> 42
+test: 1, x, 2 -> Unknown operator
+braucht: fallauswahl
+tipp: First read in all three values. After that, a switch on the operator decides what is calculated.
+tipp: Before the switch, create `int result = 0`. In each case you calculate, for example, `result = a + b` and then output `result`. The case names are simply `+`, `-` and `*`.
+lösung: l09-rechner-loesung.visustruct
+:::
+
+## Switch or branch?
+
+The switch only checks whether a value is **exactly equal** to a case name. So:
+
+- **Switch:** one variable, several fixed values. Examples: choosing from a menu, day of the week as a number, grades.
+- **Branch:** ranges and combined conditions. Examples: `age >= 18`, `temperature < 0 || temperature > 30`.
+
+So for “age 18 or older” you still need the branch. You cannot create a case of its own for every possible age.
+
+## Checklist
+
+::: checkliste
+- I can insert a switch, add cases and change case names. → How a switch is built
+- I know when the case default runs. → How a switch is built
+- I can decide whether a switch or a branch fits better. → Switch or branch?
+:::
+
+## Quiz
+
+::: quiz
+? The variable day has the value 5. There are the cases 1, 2, 3 and default. What runs?
+- [ ] Nothing at all
+- [ ] The case 3
+- [x] The case default
+> No case name matches 5, so default applies.
+
+? How many cases run each time the switch runs?
+- [x] Exactly one
+- [ ] All cases from the matching one on
+- [ ] All cases
+> After the matching case, the program continues straight below the switch.
+
+? What is a switch NOT suitable for?
+- [ ] Choosing menu item 1, 2 or 3
+- [x] Checking whether a temperature is above 30 degrees
+- [ ] Handling a colour such as red, yellow or green
+> “Above 30” is a range. For that you need a branch with a comparison.
+
+? At the traffic light you type `Red`, and the case is called `red`. What happens?
+- [ ] The case red runs.
+- [x] The case default runs.
+- [ ] The simulation reports an error.
+> Upper and lower case matter. Red and red are different texts.
+
+? Under which name do you also find the switch in textbooks?
+- [ ] Conditional statement
+- [ ] Sequence
+- [x] Multiple selection
+> One of many cases is selected. That is why it is also called multiple selection.
+:::

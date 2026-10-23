@@ -1,0 +1,176 @@
+---
+titel: While loop
+bereich: Basics
+kurz: Repeat steps as long as a condition is true.
+---
+
+## Repeat as long as something holds
+
+Often a program should do something several times. Instead of writing the same box five times, you use a **loop**.
+
+The **while loop** repeats its inside **as long as** its condition is true. The condition is at the top, in the head of the box. The inside is indented below it, framed by a bracket on the left.
+
+::: diagramm l10-countdown.visustruct
+A countdown: as long as number is greater than 0, number is output and gets smaller by 1. After that, Start! appears.
+:::
+
+## The condition comes first
+
+The while loop is a **pre-test loop**. Before **every** pass, the condition is checked:
+
+1. Check the condition.
+2. If it is true, run the inside once and start again at 1.
+3. If it is false, the program continues below the loop.
+
+::: grafik l10-kopfgesteuert.svg
+After every pass it goes back to the condition. Only when it is false does the program continue below the loop.
+:::
+
+In the countdown the condition is checked four times: with 3, 2 and 1 it is true, with 0 it is false.
+
+> If the condition is already false the first time it is checked, the inside runs **not even once**. Start the countdown with `int number = 0` and only Start! appears.
+
+## A counter variable
+
+Many loops count along. For that you need three things:
+
+- **A start value before the loop**, e.g. `int i = 1`
+- **A condition in the head**, e.g. `i <= 5`
+- **A change inside**, e.g. `i = i + 1` (short: `i++`)
+
+If one of these parts is missing, the loop counts wrongly or not at all.
+
+::: angeberwissen
+Counting loops are ancient! In their 1973 article, Nassi and Shneiderman showed their idea using the **factorial**, among other things: 5! = 1 · 2 · 3 · 4 · 5 = 120. Here is my goat version of it. Try it with **Step** in the simulation and watch `factorial` grow. Baaah, that goes fast!
+:::
+
+::: diagramm l10-fakultaet.visustruct
+The factorial with a counter variable `i`, rebuilt from an example in the 1973 article.
+:::
+
+## Exercise: Count to n
+
+::: übung l10-bis-n
+titel: Count to n
+auftrag: Ask for a whole number `n` and output all numbers from 1 to `n`, each on its own line.
+test: 3 -> 1 | 2 | 3
+test: 5 -> 1 | 2 | 3 | 4 | 5
+test: 1 -> 1
+braucht: whileSchleife
+tipp: You need a counter variable that starts at 1 and grows by 1 in every pass.
+tipp: Before the loop, create `int i = 1`. The condition is `i <= n`. Inside, you output `i` and then increase `i` by 1.
+lösung: l10-bis-n-loesung.visustruct
+:::
+
+## Watch out: endless loop
+
+If nothing inside the loop changes the condition, it stays true forever. The loop never stops. This is called an **endless loop**.
+
+::: diagramm l10-endlos.visustruct
+Here number = number - 1 is missing. The loop outputs 3 again and again and never reaches Start!
+:::
+
+Ask yourself for every loop: **What inside makes sure that the condition becomes false at some point?** When an exercise is checked, VisuStruct stops after a very large number of steps and reports a possible endless loop.
+
+## Exercise: Double up to 100
+
+::: übung l10-verdoppeln
+titel: Double up to 100
+auftrag: Ask for a whole number. Keep doubling it until it is at least 100.
+  At the end, output **how often** you doubled it.
+test: 10 -> 4
+test: 30 -> 2
+test: 1 -> 7
+test: 100 -> 0
+braucht: whileSchleife
+tipp: The loop runs as long as the number is still too small. Count along how often it has run.
+tipp: You need a second variable `int steps = 0`. The condition is `number < 100`. Inside, you double the number with `number = number * 2` and increase `steps` by 1. If the number is already 100, the loop does not run at all.
+lösung: l10-verdoppeln-loesung.visustruct
+:::
+
+## Loops in a desk check
+
+With a loop, the **desk check** is especially valuable. You see exactly how often the loop runs and with which value it stops. Every check of the condition gets a row of its own.
+
+::: diagramm l16-schreibtisch.visustruct
+A while loop adds up the numbers 1, 2 and 3.
+:::
+
+| Step | sum | i | Output |
+|---|---|---|---|
+| `int sum = 0` | 0 | – | |
+| `int i = 1` | 0 | 1 | |
+| `i <= 3` → true | 0 | 1 | |
+| `sum = sum + i` | 1 | 1 | |
+| `i = i + 1` | 1 | 2 | |
+| `i <= 3` → true | 1 | 2 | |
+| `sum = sum + i` | 3 | 2 | |
+| `i = i + 1` | 3 | 3 | |
+| `i <= 3` → true | 3 | 3 | |
+| `sum = sum + i` | 6 | 3 | |
+| `i = i + 1` | 6 | 4 | |
+| `i <= 3` → false | 6 | 4 | |
+| `output: sum` | 6 | 4 | 6 |
+
+Common mistakes in loops are:
+
+- The loop runs **once too often or once too few**, e.g. `<` instead of `<=`.
+- A variable is **not changed** in the loop, or changed in the wrong direction. Then the loop never ends.
+- A variable gets its start value **inside** the loop instead of before it and is reset in every pass.
+
+## Exercise: Fix the countdown
+
+::: übung l16-countdown
+titel: Fix the countdown
+auftrag: The countdown should count down from the start value and output **Go!** at the end. So with 3: 3, 2, 1, Go!
+  The start diagram has two mistakes. Find and fix both.
+start: l16-countdown-start.visustruct
+test: 3 -> 3 | 2 | 1 | Go!
+test: 1 -> 1 | Go!
+test: 0 -> Go!
+tipp: There are two mistakes. One is about counting, the other about the output at the end.
+tipp: Start the simulation with start value 3 and watch i under Variables. Does i get smaller? Also compare the last output carefully with the task.
+lösung: l16-countdown-loesung.visustruct
+:::
+
+## Checklist
+
+::: checkliste
+- I know that the while loop checks its condition before every pass. → The condition comes first
+- I can use a counter variable with a start value, a condition and a change. → A counter variable
+- I notice when a loop never ends and can fix the mistake. → Watch out: endless loop
+- I can follow a loop pass by pass in a desk check. → Loops in a desk check
+:::
+
+## Quiz
+
+::: quiz
+? What does pre-test loop mean?
+- [x] The condition is checked before every pass.
+- [ ] The condition is checked after every pass.
+- [ ] The loop always runs exactly once.
+> The head with the condition is at the top and is worked out first.
+
+? `int i = 5`, then a while loop with the condition `i < 3`. How often does the inside run?
+- [x] Not at all
+- [ ] Once
+- [ ] Three times
+> The very first time it is checked, 5 < 3 is false.
+
+? Why does a loop with the condition `number > 0` never end if the inside only contains `output: number`?
+- [ ] Because output makes the number bigger
+- [x] Because number never changes and the condition stays true
+- [ ] Because the condition is written wrongly
+> Something has to happen inside that makes the condition false at some point.
+
+? What else are loops called in textbooks?
+- [x] Iteration or repetition
+- [ ] Branches
+- [ ] Subprograms
+> A loop repeats statements. That is why it is also called iteration or repetition.
+
+? A loop should count from 1 to 5, but it only goes up to 4. What is the likely mistake?
+- [x] The condition says i < 5 instead of i <= 5.
+- [ ] The loop is a while loop.
+- [ ] The variable i has the wrong name.
+:::

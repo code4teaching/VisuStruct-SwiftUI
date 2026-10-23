@@ -166,6 +166,10 @@ extension VisuStructCodeGenerator {
                 out += blockComment(lines: forDiagram, target: target, indent: indent)
             }
         }
+        // Im JavaScript-Export: `/` zwischen ganzen Zahlen wie in Java abschneiden
+        func js(_ code: String) -> String {
+            target == .javascript ? javaScriptIntegerDivision(code, intVariables: options.jsIntVariables) : code
+        }
         for raw in body {
             if raw.isEmpty { continue }
             if isDiagramEmptyPlaceholderText(raw) {
@@ -173,56 +177,52 @@ extension VisuStructCodeGenerator {
                 continue
             }
             if target == .java {
-                if let s = emitJavaInputLineIfNeeded(raw, indent: indent) {
-                    out += s
+                if let s = emitJavaInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
+                    out += js(s)
                     continue
                 }
                 if let s = emitJavaPrintLineIfNeeded(raw, indent: indent) {
-                    out += s
+                    out += js(s)
                     continue
                 }
             }
             if target == .javascript {
-                if let s = emitJavaScriptInputLineIfNeeded(raw, indent: indent) {
-                    out += s
+                if let s = emitJavaScriptInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
+                    out += js(s)
                     continue
                 }
                 if let s = emitJavaScriptPrintLineIfNeeded(raw, indent: indent) {
-                    out += s
+                    out += js(s)
                     continue
                 }
             }
             if target == .python {
-                if let s = emitPythonInputLineIfNeeded(raw, indent: indent) {
-                    out += s
+                if let s = emitPythonInputLineIfNeeded(raw, indent: indent, arrayTypes: options.arrayElementTypes) {
+                    out += js(s)
                     continue
                 }
-                if let s = emitPythonPrintLineIfNeeded(raw, indent: indent) {
-                    out += s
+                if let s = emitPythonPrintLineIfNeeded(raw, indent: indent, options: options) {
+                    out += js(s)
                     continue
                 }
             }
-            if let s = emitConstTypedLineIfNeeded(raw, target: target, indent: indent) {
-                out += s
+            if let s = emitConstTypedLineIfNeeded(raw, target: target, indent: indent, intVariables: options.jsIntVariables) {
+                out += js(s)
                 continue
             }
-            if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent) {
-                out += s
+            if let s = emitTranslatedJavaLikeAssignmentIfNeeded(raw, target: target, indent: indent, options: options) {
+                out += js(s)
                 continue
             }
-            if let s = emitBareLeadingStringAsPrintIfNeeded(raw, target: target, indent: indent) {
-                out += s
+            if let s = emitBareLeadingStringAsPrintIfNeeded(raw, target: target, indent: indent, options: options) {
+                out += js(s)
                 continue
             }
             let line: String = {
                 if isCStyleSemicolonTarget(target) {
-                    if target == .javascript,
-                       let transformed = javaScriptIntegerDivisionIfNeeded(raw, intVariables: options.jsIntVariables) {
-                        return formatCStyleStatementLine(transformed)
-                    }
-                    return formatCStyleStatementLine(raw)
+                    return formatCStyleStatementLine(js(raw))
                 }
-                return raw
+                return pythonStatementLine(raw, intVariables: options.jsIntVariables, stringVariables: options.stringVariables)
             }()
             if line.isEmpty { continue }
             out += sp(indent) + line + "\n"
@@ -246,9 +246,72 @@ extension VisuStructCodeGenerator {
         case .java:
             out += sp(indent) + prefix + cond + suffix
         case .python:
-            out += sp(indent) + prefix + cond + suffix
+            out += sp(indent) + prefix + pythonExpression(cond, intVariables: options.jsIntVariables) + suffix
         case .javascript:
-            out += sp(indent) + prefix + cond + suffix
+            out += sp(indent) + prefix + javaScriptIntegerDivision(cond, intVariables: options.jsIntVariables) + suffix
+        }
+    }
+
+    /// Steht im false-Zweig nur eine weitere Verzweigung, wird daraus `else if` (Python: `elif`) statt eines verschachtelten Blocks.
+    static func elseIfBranch(_ elements: [VisuStructElement], options: Options) -> VisuStructElement? {
+        // Mit Diagrammtext als Kommentar stünde der Kommentar zwischen `}` und `else if`: dann verschachtelt lassen.
+        guard !options.includeDiagramTextAsComments, elements.count == 1 else { return nil }
+        let only = elements[0]
+        guard only.type == .verzweigung, (only.cases?.count ?? 0) >= 2 else { return nil }
+        return only
+    }
+
+    static func emitIfChain(
+        element: VisuStructElement,
+        target: Target,
+        options: Options,
+        indent: Int,
+        isElseIf: Bool,
+        into out: inout String
+    ) {
+        guard let cases = element.cases, cases.count >= 2 else { return }
+        let inner = indent + options.indentPerLevel
+        let trueBranch = cases[0].elements
+        let falseBranch = cases[1].elements
+        let omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(falseBranch)
+        let next = omitElse ? nil : elseIfBranch(falseBranch, options: options)
+        if target == .python {
+            emitConditionHeader(
+                prefix: isElseIf ? "elif " : "if ",
+                suffix: ":\n",
+                textLines: element.textLines,
+                target: target,
+                options: options,
+                indent: indent,
+                into: &out
+            )
+            emitBlockBody(trueBranch, target: target, options: options, indent: inner, into: &out)
+            if let next {
+                emitIfChain(element: next, target: target, options: options, indent: indent, isElseIf: true, into: &out)
+            } else if !omitElse {
+                out += sp(indent) + "else:\n"
+                emitBlockBody(falseBranch, target: target, options: options, indent: inner, into: &out)
+            }
+            return
+        }
+        emitConditionHeader(
+            prefix: isElseIf ? "} else if (" : "if (",
+            suffix: ") {\n",
+            textLines: element.textLines,
+            target: target,
+            options: options,
+            indent: indent,
+            into: &out
+        )
+        emitBlockBody(trueBranch, target: target, options: options, indent: inner, into: &out)
+        if let next {
+            emitIfChain(element: next, target: target, options: options, indent: indent, isElseIf: true, into: &out)
+        } else if omitElse {
+            out += sp(indent) + "}\n"
+        } else {
+            out += sp(indent) + "} else {\n"
+            emitBlockBody(falseBranch, target: target, options: options, indent: inner, into: &out)
+            out += sp(indent) + "}\n"
         }
     }
 
@@ -283,63 +346,7 @@ extension VisuStructCodeGenerator {
             }
 
         case .verzweigung:
-            guard let cases = element.cases, cases.count >= 2 else { return }
-            let trueBranch = cases[0].elements
-            let falseBranch = cases[1].elements
-            let omitElse = !options.includeEmptyElseBranch && isIfElseFalseBranchVisuallyEmpty(falseBranch)
-            switch target {
-            case .java:
-                emitConditionHeader(
-                    prefix: "if (",
-                    suffix: ") {\n",
-                    textLines: element.textLines,
-                    target: target,
-                    options: options,
-                    indent: indent,
-                    into: &out
-                )
-                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                if omitElse {
-                    out += sp(indent) + "}\n"
-                } else {
-                    out += sp(indent) + "} else {\n"
-                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                    out += sp(indent) + "}\n"
-                }
-            case .python:
-                emitConditionHeader(
-                    prefix: "if ",
-                    suffix: ":\n",
-                    textLines: element.textLines,
-                    target: target,
-                    options: options,
-                    indent: indent,
-                    into: &out
-                )
-                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                if !omitElse {
-                    out += sp(indent) + "else:\n"
-                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                }
-            case .javascript:
-                emitConditionHeader(
-                    prefix: "if (",
-                    suffix: ") {\n",
-                    textLines: element.textLines,
-                    target: target,
-                    options: options,
-                    indent: indent,
-                    into: &out
-                )
-                emitBlockBody(trueBranch, target: target, options: options, indent: indent + step, into: &out)
-                if omitElse {
-                    out += sp(indent) + "}\n"
-                } else {
-                    out += sp(indent) + "} else {\n"
-                    emitBlockBody(falseBranch, target: target, options: options, indent: indent + step, into: &out)
-                    out += sp(indent) + "}\n"
-                }
-            }
+            emitIfChain(element: element, target: target, options: options, indent: indent, isElseIf: false, into: &out)
 
         case .fallauswahl:
             guard let cases = element.cases, !cases.isEmpty else { return }
@@ -423,11 +430,22 @@ extension VisuStructCodeGenerator {
                 }
                 out += sp(indent) + "for (" + cond + ") {\n"
             case .python:
-                if let pyLine = pythonForLineFromJavaLikeLoopFields(element.textLines) {
+                let ints = options.jsIntVariables
+                if let loop = pythonForLoop(element.textLines, intVariables: ints) {
                     if options.includeDiagramTextAsComments {
                         out += blockComment(lines: element.textLines, target: target, indent: indent)
                     }
-                    out += sp(indent) + pyLine + "\n"
+                    if let rangeLine = loop.rangeLine {
+                        out += sp(indent) + rangeLine + "\n"
+                    } else {
+                        // Kein passendes `range`: Startwert, `while` mit Bedingung, Schritt am Ende des Rumpfs.
+                        out += sp(indent) + loop.initLine + "\n"
+                        out += sp(indent) + "while " + pythonExpression(loop.condition, intVariables: ints) + ":\n"
+                        emitList(element.loopBody ?? [], target: target, options: options, indent: indent + step, into: &out)
+                        let increment = pythonStatementLine(loop.increment, intVariables: ints, stringVariables: options.stringVariables)
+                        out += sp(indent + step) + increment + "\n"
+                        return
+                    }
                 } else {
                     emitConditionHeader(prefix: "for ", suffix: ":\n", textLines: element.textLines, target: target, options: options, indent: indent, into: &out)
                 }
@@ -470,7 +488,7 @@ extension VisuStructCodeGenerator {
                 if options.includeDiagramTextAsComments {
                     out += blockComment(lines: element.textLines, target: target, indent: bodyStart)
                 }
-                out += sp(bodyStart) + "if not (" + cond + "):\n"
+                out += sp(bodyStart) + "if not (" + pythonExpression(cond, intVariables: options.jsIntVariables) + "):\n"
                 out += sp(bodyStart + step) + "break\n"
             case .javascript:
                 out += sp(indent) + "do {\n"
@@ -551,11 +569,11 @@ extension VisuStructCodeGenerator {
             return "0"
         }
         if target == .python {
-            if t.allSatisfy({ $0.isNumber }) { return t }
+            if t.allSatisfy({ $0.isNumber }) || isDoubleQuotedLiteral(t) { return t }
             return "\"" + t.replacingOccurrences(of: "\"", with: "\\\"") + "\""
         }
         if target == .javascript {
-            if t.allSatisfy({ $0.isNumber }) { return t }
+            if t.allSatisfy({ $0.isNumber }) || isDoubleQuotedLiteral(t) { return t }
             return "\"" + t.replacingOccurrences(of: "\"", with: "\\\"") + "\""
         }
         return t
@@ -594,12 +612,14 @@ extension VisuStructCodeGenerator {
         indent: Int,
         into out: inout String
     ) {
-        if elements.isEmpty {
-            if target == .python {
-                out += sp(indent) + "pass\n"
-            }
-            return
-        }
+        let before = out.utf8.count
         emitList(elements, target: target, options: options, indent: indent, into: &out)
+        guard target == .python else { return }
+        // Nur Kommentare (z. B. „# empty element“) zählen in Python nicht als Anweisung.
+        let tail = String(decoding: out.utf8.dropFirst(before), as: UTF8.self)
+        let emitted = tail.split(separator: "\n").map { $0.trimmingCharacters(in: .whitespaces) }
+        if emitted.allSatisfy({ $0.isEmpty || $0.hasPrefix("#") }) {
+            out += sp(indent) + "pass\n"
+        }
     }
 }

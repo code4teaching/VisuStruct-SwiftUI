@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1c1c1e"/></marker></defs>
+  <rect width="400" height="260" fill="#ffffff"/>
+  <g stroke="#6e6e73" stroke-width="2" fill="none">
+    <path d="M40 110 L48 180 L102 180 L110 110"/>
+    <path d="M165 110 L173 180 L227 180 L235 110"/>
+    <path d="M290 110 L298 180 L352 180 L360 110"/>
+  </g>
+  <path d="M44 135 L48 180 L102 180 L106 135 Z" fill="#fdba74"/>
+  <path d="M294 135 L298 180 L352 180 L356 135 Z" fill="#93c5fd"/>
+  <text x="75" y="200" text-anchor="middle" font-weight="600">left</text>
+  <text x="75" y="217" text-anchor="middle" fill="#6e6e73">juice</text>
+  <text x="200" y="200" text-anchor="middle" font-weight="600">temp</text>
+  <text x="200" y="217" text-anchor="middle" fill="#6e6e73">empty</text>
+  <text x="325" y="200" text-anchor="middle" font-weight="600">right</text>
+  <text x="325" y="217" text-anchor="middle" fill="#6e6e73">water</text>
+  <g fill="none" stroke="#1c1c1e" stroke-width="1.8" marker-end="url(#a)">
+    <path d="M88 104 C110 70, 160 70, 186 104"/>
+    <path d="M318 104 C270 15, 130 15, 82 104"/>
+    <path d="M214 104 C240 70, 290 70, 312 104"/>
+  </g>
+  <g font-weight="700" text-anchor="middle">
+    <circle cx="137" cy="80" r="11" fill="#ffffff" stroke="#1c1c1e"/><text x="137" y="85">1</text>
+    <circle cx="200" cy="38" r="11" fill="#ffffff" stroke="#1c1c1e"/><text x="200" y="43">2</text>
+    <circle cx="263" cy="80" r="11" fill="#ffffff" stroke="#1c1c1e"/><text x="263" y="85">3</text>
+  </g>
+  <g text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-size="12">
+    <text x="70" y="247">1: temp = left</text>
+    <text x="200" y="247">2: left = right</text>
+    <text x="330" y="247">3: right = temp</text>
+  </g>
+</svg>

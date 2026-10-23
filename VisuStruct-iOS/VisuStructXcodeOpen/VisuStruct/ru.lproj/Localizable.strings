@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "Элементы";
+"inspector_header" = "Инспектор объектов";
 
 /* Actions */
 "action_share_png" = "Поделиться изображением…";
@@ -229,3 +230,10 @@
 "sim_notice_division_by_zero" = "Деление на ноль.";
 "sim_notice_whole_number_expected" = "Введите целое число.";
 "sim_notice_number_expected" = "Введите число.";
+"sim_notice_boolean_expected" = "Введите true или false.";
+"sim_notice_subprogram_not_found_fmt" = "Нет открытой диаграммы с именем %@. Вызов пропущен.";
+"sim_notice_call_too_deep" = "Слишком много вложенных вызовов. Подпрограмма вызывает сама себя?";
+
+"codegen_pseudocode_toggle" = "Псевдокод (не исполняемый код)";
+"codegen_pseudocode_note" = "Псевдокод – не исполняемая программа";
+"codegen_pseudocode_hint" = "Эта диаграмма отмечена как псевдокод. Код — лишь набросок, его нельзя запустить.";

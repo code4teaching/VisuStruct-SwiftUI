@@ -67,20 +67,15 @@ extension DiagramCanvasView {
         .contentShape(Rectangle())
         .offset(x: CGFloat(node.frame.x), y: CGFloat(node.frame.y))
         .onTapGesture {
-            if isPhone, let target = insertTarget {
-                // Falls bereits ein Ziel gesetzt ist: Tap auf Kachel selektiert normal (zum Text bearbeiten).
-                // Einfügemarke bleibt.
-                selectedPath = node.idPath
-                _ = target
-            } else if isPhone {
-                // iPhone: Tap markiert Einfügeziel. Für Platzhalter = replace, sonst "on" ist nicht zulässig.
+            if isPhone {
+                // iPhone: Platzhalter = Einfügeziel „ersetzen“; bestehendes Element = auswählen und Text bearbeiten
+                // (Einfügen davor/danach über die Streifen oben/unten oder die Palette).
                 if isPlaceholderNode {
                     insertTarget = .replace(node.idPath)
+                    selectedPath = node.idPath
                 } else {
-                    // Default: Einfügen NACH dem Element (am häufigsten sinnvoll beim Tippen).
-                    insertTarget = .after(node.idPath)
+                    selectForTextEditingOnPhone(node.idPath)
                 }
-                selectedPath = node.idPath
             } else {
                 selectedPath = node.idPath
             }
@@ -279,6 +274,11 @@ extension DiagramCanvasView {
                 case .on:
                     if VisuStructDocumentEditing.isPlaceholderSlot(at: node.idPath, in: document) {
                         insertTarget = .replace(node.idPath)
+                    } else {
+                        // Mitte eines bestehenden Elements: keine Einfügemarke, sondern Text bearbeiten —
+                        // sonst wären Bedingungen/Anweisungen nach dem Einfügen nicht mehr editierbar.
+                        selectForTextEditingOnPhone(node.idPath)
+                        return
                     }
                 }
                 selectedPath = node.idPath
@@ -286,6 +286,13 @@ extension DiagramCanvasView {
         } else {
             bandCore
         }
+    }
+
+    /// iPhone: Element auswählen, Einfügemarke verwerfen und den Texteditor dafür einblenden.
+    func selectForTextEditingOnPhone(_ path: [Int]) {
+        insertTarget = nil
+        selectedPath = path
+        onPhoneEditText()
     }
 
     func applyNodeDrop(_ items: [DiagramDragPayload], node: VisuStructLayout.Node, band: DropBand) -> Bool {

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 450" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+<defs><marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1c1c1e"/></marker><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1d4ed8"/></marker><marker id="o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#b45309"/></marker></defs>
+<rect width="420" height="450" fill="#ffffff"/>
+<text x="10" y="22" font-size="15" font-weight="700">Wertübergabe: eine Kopie</text>
+<rect x="10" y="38" width="160" height="86" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="20" y="58" font-size="13" fill="#1d4ed8">Hauptprogramm</text>
+<text x="20" y="98">zahl</text>
+<rect x="70" y="78" width="56" height="30" rx="4" fill="#ffffff" stroke="#1c1c1e"/>
+<text x="98" y="99" text-anchor="middle" font-weight="700">5</text>
+<rect x="250" y="38" width="160" height="86" rx="8" fill="#fff7ed" stroke="#b45309" stroke-width="1.5"/>
+<text x="260" y="58" font-size="13" fill="#b45309">verdopple</text>
+<text x="260" y="98">x</text>
+<rect x="280" y="78" width="80" height="30" rx="4" fill="#ffffff" stroke="#1c1c1e"/>
+<text x="320" y="99" text-anchor="middle"><tspan fill="#6e6e73" text-decoration="line-through">5</tspan> <tspan font-weight="700">10</tspan></text>
+<line x1="128" y1="93" x2="248" y2="93" stroke="#1c1c1e" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#k)"/>
+<text x="210" y="84" text-anchor="middle" font-size="13">Kopie</text>
+<text x="10" y="150" font-size="13" fill="#6e6e73">x wird 10, aber zahl bleibt 5.</text>
+<text x="10" y="168" font-size="13" fill="#6e6e73">Wie bei einer Fotokopie: Wer auf der Kopie schreibt,</text>
+<text x="10" y="186" font-size="13" fill="#6e6e73">ändert das Original nicht.</text>
+<line x1="10" y1="208" x2="410" y2="208" stroke="#d1d1d6"/>
+<text x="10" y="236" font-size="15" font-weight="700">Referenzübergabe: dasselbe Array</text>
+<rect x="10" y="252" width="160" height="62" rx="8" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"/>
+<text x="20" y="272" font-size="13" fill="#1d4ed8">Hauptprogramm</text>
+<text x="20" y="300">reihe</text>
+<circle cx="150" cy="295" r="5" fill="#1d4ed8"/>
+<rect x="250" y="252" width="160" height="62" rx="8" fill="#fff7ed" stroke="#b45309" stroke-width="1.5"/>
+<text x="260" y="272" font-size="13" fill="#b45309">leeren</text>
+<text x="260" y="300">plaetze</text>
+<circle cx="390" cy="295" r="5" fill="#b45309"/>
+<path d="M150 300 L150 340 L140 352" fill="none" stroke="#1d4ed8" stroke-width="1.5" marker-end="url(#b)"/>
+<path d="M390 300 L390 340 L322 354" fill="none" stroke="#b45309" stroke-width="1.5" marker-end="url(#o)"/>
+<rect x="90" y="358" width="60" height="32" fill="#ffffff" stroke="#1c1c1e"/>
+<rect x="150" y="358" width="60" height="32" fill="#ffffff" stroke="#1c1c1e"/>
+<rect x="210" y="358" width="60" height="32" fill="#ffffff" stroke="#1c1c1e"/>
+<rect x="270" y="358" width="60" height="32" fill="#ffffff" stroke="#1c1c1e"/>
+<text x="120" y="379" text-anchor="middle" font-size="13">false</text>
+<text x="180" y="379" text-anchor="middle" font-size="13">false</text>
+<text x="240" y="379" text-anchor="middle" font-size="13">false</text>
+<text x="300" y="379" text-anchor="middle" font-size="13">false</text>
+<text x="10" y="416" font-size="13" fill="#6e6e73">Es gibt nur ein Array. Was leeren über plaetze ändert,</text>
+<text x="10" y="434" font-size="13" fill="#6e6e73">sieht das Hauptprogramm unter reihe.</text>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#007aff"/></marker></defs>
+  <rect width="400" height="200" fill="#ffffff"/>
+  <g font-family="ui-monospace, Menlo, Consolas, monospace" font-size="20">
+    <text x="60" y="110" text-anchor="middle" font-weight="700">points</text>
+    <text x="125" y="110" text-anchor="middle" fill="#007aff" font-weight="700">=</text>
+    <text x="260" y="110" text-anchor="middle">points + 5</text>
+  </g>
+  <rect x="180" y="86" width="160" height="34" rx="6" fill="none" stroke="#15803d" stroke-width="2"/>
+  <text x="260" y="148" text-anchor="middle" fill="#15803d">① work out the right: 10 + 5 = 15</text>
+  <path d="M250 82 C230 30, 90 30, 64 84" fill="none" stroke="#007aff" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="160" y="36" text-anchor="middle" fill="#007aff">② store the result on the left</text>
+  <rect x="20" y="164" width="360" height="26" rx="6" fill="#f2f2f7"/>
+  <text x="200" y="182" text-anchor="middle">points before: <tspan font-weight="700">10</tspan>   →   points after: <tspan font-weight="700">15</tspan></text>
+</svg>

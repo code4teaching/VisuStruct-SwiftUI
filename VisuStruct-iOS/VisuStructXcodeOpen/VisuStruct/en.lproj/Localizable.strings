@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "Elements";
+"inspector_header" = "Object Inspector";
 
 /* Actions */
 "action_share_png" = "Share Graphic…";
@@ -231,3 +232,10 @@
 "sim_notice_division_by_zero" = "Division by zero.";
 "sim_notice_whole_number_expected" = "Please enter a whole number.";
 "sim_notice_number_expected" = "Please enter a number.";
+"sim_notice_boolean_expected" = "Please enter true or false.";
+"sim_notice_subprogram_not_found_fmt" = "No open diagram is called %@. The call was skipped.";
+"sim_notice_call_too_deep" = "Too many nested calls. Does a subprogram call itself?";
+
+"codegen_pseudocode_toggle" = "Pseudocode (not runnable code)";
+"codegen_pseudocode_note" = "Pseudocode – not a runnable program";
+"codegen_pseudocode_hint" = "This diagram is marked as pseudocode. The code is only a sketch and cannot be run.";

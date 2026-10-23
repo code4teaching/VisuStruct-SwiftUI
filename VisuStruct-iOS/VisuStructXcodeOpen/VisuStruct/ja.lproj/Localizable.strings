@@ -1,5 +1,6 @@
 /* Palette */
 "palette_header" = "要素";
+"inspector_header" = "オブジェクトインスペクタ";
 
 /* Actions */
 "action_share_png" = "画像を共有…";
@@ -230,3 +231,10 @@
 "sim_notice_division_by_zero" = "0 で割ることはできません。";
 "sim_notice_whole_number_expected" = "整数を入力してください。";
 "sim_notice_number_expected" = "数値を入力してください。";
+"sim_notice_boolean_expected" = "true または false を入力してください。";
+"sim_notice_subprogram_not_found_fmt" = "%@ という名前の開いている図はありません。呼び出しをスキップしました。";
+"sim_notice_call_too_deep" = "呼び出しの入れ子が多すぎます。サブプログラムが自分自身を呼び出していませんか？";
+
+"codegen_pseudocode_toggle" = "疑似コード（実行できないコード）";
+"codegen_pseudocode_note" = "疑似コード – 実行可能なプログラムではありません";
+"codegen_pseudocode_hint" = "この図は疑似コードとしてマークされています。コードは下書きにすぎず、実行できません。";

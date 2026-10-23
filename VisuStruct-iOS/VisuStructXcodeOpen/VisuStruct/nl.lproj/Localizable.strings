@@ -1,5 +1,6 @@
 /* NOTE: Initial Dutch localization. */
 "palette_header" = "Elementen";
+"inspector_header" = "Objectinspector";
 
 /* Actions */
 "action_share_png" = "Deel afbeelding…";
@@ -140,5 +141,12 @@
 "sim_notice_division_by_zero" = "Deling door nul.";
 "sim_notice_whole_number_expected" = "Voer een geheel getal in.";
 "sim_notice_number_expected" = "Voer een getal in.";
+"sim_notice_boolean_expected" = "Voer true of false in.";
+"sim_notice_subprogram_not_found_fmt" = "Er is geen open diagram met de naam %@. De aanroep is overgeslagen.";
+"sim_notice_call_too_deep" = "Te veel geneste aanroepen. Roept een subprogramma zichzelf aan?";
 "phone_hide_text_editor" = "Inklappen";
 "phone_title_done" = "Gereed";
+
+"codegen_pseudocode_toggle" = "Pseudocode (geen uitvoerbare code)";
+"codegen_pseudocode_note" = "Pseudocode – geen uitvoerbaar programma";
+"codegen_pseudocode_hint" = "Dit diagram is gemarkeerd als pseudocode. De code is alleen een schets en kan niet worden uitgevoerd.";
