@@ -107,4 +107,10 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_files_pick_class" = "Επίλεξε πρώτα μια τάξη στα «Αρχεία» αριστερά.";
 "web_files_default_name" = "Πρόγραμμα";
 "web_files_saved_fmt" = "Αποθηκεύτηκε: %@";
+"web_files_ask_class" = "Αποθήκευση σε ποια τάξη;";
+"web_files_ask_class_hint" = "Επίλεξε μια τάξη ή δημιούργησε νέα. Μένει επιλεγμένη στη συνέχεια.";
+"web_files_ask_class_new_hint" = "Δημιούργησε έναν φάκελο για την τάξη σου. Μένει επιλεγμένη στη συνέχεια.";
+"web_files_class_placeholder" = "Νέα τάξη, π.χ. 11FI1";
+"web_files_create_save" = "Δημιουργία και αποθήκευση";
+"web_files_create" = "Δημιουργία";
 `;export{e as default};

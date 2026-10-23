@@ -107,4 +107,10 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_files_pick_class" = "Velg først en klasse under «Filer» til venstre.";
 "web_files_default_name" = "Program";
 "web_files_saved_fmt" = "Lagret: %@";
+"web_files_ask_class" = "Lagre i hvilken klasse?";
+"web_files_ask_class_hint" = "Velg en klasse eller lag en ny. Den forblir valgt etterpå.";
+"web_files_ask_class_new_hint" = "Lag en mappe for klassen din. Den forblir valgt etterpå.";
+"web_files_class_placeholder" = "Ny klasse, f.eks. 11FI1";
+"web_files_create_save" = "Lag og lagre";
+"web_files_create" = "Lag";
 `;export{e as default};

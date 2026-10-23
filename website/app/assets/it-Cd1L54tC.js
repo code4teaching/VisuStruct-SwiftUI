@@ -107,4 +107,10 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_files_pick_class" = "Prima scegli una classe in «File» a sinistra.";
 "web_files_default_name" = "Programma";
 "web_files_saved_fmt" = "Salvato: %@";
+"web_files_ask_class" = "Salvare in quale classe?";
+"web_files_ask_class_hint" = "Scegli una classe o creane una nuova. Resta poi selezionata.";
+"web_files_ask_class_new_hint" = "Crea una cartella per la tua classe. Resta poi selezionata.";
+"web_files_class_placeholder" = "Nuova classe, es. 11FI1";
+"web_files_create_save" = "Crea e salva";
+"web_files_create" = "Crea";
 `;export{e as default};

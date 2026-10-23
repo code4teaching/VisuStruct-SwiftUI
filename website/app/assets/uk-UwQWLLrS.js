@@ -107,4 +107,10 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_files_pick_class" = "Спочатку вибери клас у «Файли» ліворуч.";
 "web_files_default_name" = "Програма";
 "web_files_saved_fmt" = "Збережено: %@";
+"web_files_ask_class" = "Зберегти в який клас?";
+"web_files_ask_class_hint" = "Вибери клас або створи новий. Потім він залишиться вибраним.";
+"web_files_ask_class_new_hint" = "Створи теку для свого класу. Потім він залишиться вибраним.";
+"web_files_class_placeholder" = "Новий клас, напр. 11FI1";
+"web_files_create_save" = "Створити й зберегти";
+"web_files_create" = "Створити";
 `;export{e as default};

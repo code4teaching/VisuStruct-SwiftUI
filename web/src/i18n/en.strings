@@ -164,3 +164,9 @@
 "web_files_pick_class" = "First choose a class under “Files” on the left.";
 "web_files_default_name" = "Program";
 "web_files_saved_fmt" = "Saved: %@";
+"web_files_ask_class" = "Save to which class?";
+"web_files_ask_class_hint" = "Choose a class or create a new one. It stays selected afterwards.";
+"web_files_ask_class_new_hint" = "Create a folder for your class. It stays selected afterwards.";
+"web_files_class_placeholder" = "New class, e.g. 11FI1";
+"web_files_create_save" = "Create and save";
+"web_files_create" = "Create";

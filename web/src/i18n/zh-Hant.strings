@@ -107,3 +107,9 @@
 "web_files_pick_class" = "請先在左側「檔案」中選擇一個班級。";
 "web_files_default_name" = "程式";
 "web_files_saved_fmt" = "已儲存：%@";
+"web_files_ask_class" = "儲存到哪個班級？";
+"web_files_ask_class_hint" = "選擇一個班級或新增一個。之後會保持選取。";
+"web_files_ask_class_new_hint" = "為你的班級新增一個資料夾。之後會保持選取。";
+"web_files_class_placeholder" = "新班級，例如 11FI1";
+"web_files_create_save" = "新增並儲存";
+"web_files_create" = "新增";

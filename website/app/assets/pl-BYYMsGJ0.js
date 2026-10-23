@@ -107,4 +107,10 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_files_pick_class" = "Najpierw wybierz klasę w „Pliki” po lewej.";
 "web_files_default_name" = "Program";
 "web_files_saved_fmt" = "Zapisano: %@";
+"web_files_ask_class" = "Zapisać w której klasie?";
+"web_files_ask_class_hint" = "Wybierz klasę lub utwórz nową. Pozostanie potem wybrana.";
+"web_files_ask_class_new_hint" = "Utwórz folder dla swojej klasy. Pozostanie potem wybrana.";
+"web_files_class_placeholder" = "Nowa klasa, np. 11FI1";
+"web_files_create_save" = "Utwórz i zapisz";
+"web_files_create" = "Utwórz";
 `;export{e as default};
