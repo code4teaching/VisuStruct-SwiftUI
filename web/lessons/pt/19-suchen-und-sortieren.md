@@ -113,6 +113,42 @@ tipp: Só precisas de alterar um único caractere. Quando devem ser trocados doi
 lösung: ss-absteigend-loesung.visustruct
 :::
 
+## Agora em Java
+
+A pesquisa linear do exercício fica assim em Java:
+
+```
+int[] cartas = {8, 4, 11, 4, 6};
+int procurada = 4;
+int posicao = -1;
+int i = 0;
+while (posicao == -1 && i < cartas.length) {
+    if (cartas[i] == procurada) {
+        posicao = i;
+    }
+    i = i + 1;
+}
+System.out.println("Posição: " + posicao);
+```
+
+- `&&` significa “e”: o ciclo só corre enquanto não se encontrou nada **e** ainda há cartas.
+- Se o ramo false estiver vazio, deixas simplesmente de fora `else`.
+- A troca no bubble sort também precisa de uma variável auxiliar em Java: `int aux = cartas[i];`
+
+::: übung l19-java-zaehlen
+titel: Contar cartas
+code: java
+auftrag: As cartas {8, 4, 11, 4, 6} estão num array. Escreve em Java um programa que pergunta por uma carta e conta quantas vezes aparece. Mostra **Quantidade:** e o número.
+  Com 4 aparece **Quantidade: 2**.
+test: 4 -> Quantidade: 2
+test: 8 -> Quantidade: 1
+test: 9 -> Quantidade: 0
+braucht: forSchleife, verzweigung
+tipp: Ao contrário da pesquisa, não paras no primeiro resultado. Um ciclo for percorre todas as cartas.
+tipp: `for (int i = 0; i < cartas.length; i++)` e lá dentro `if (cartas[i] == procurada) { quantidade = quantidade + 1; }`. `quantidade` começa em 0 antes do ciclo.
+lösung: l19-java-zaehlen-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -121,6 +157,7 @@ lösung: ss-absteigend-loesung.visustruct
 - Sei porque é que a pesquisa binária só funciona com valores ordenados. → Pesquisa binária: ordenado é mais rápido
 - Sei explicar porque é que a pesquisa binária é muito mais rápida com muitos valores. → Quão rápido é?
 - Sei mostrar uma ronda de bubble sort com cartas de jogar. → Ordenar com bubble sort
+- Sei percorrer um array em Java e contar resultados. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -159,4 +196,10 @@ lösung: ss-absteigend-loesung.visustruct
 = Pesquisa linear -> olhar para uma carta a seguir à outra
 = Pesquisa binária -> olhar para o meio e pôr de lado uma metade
 = Bubble sort -> comparar vizinhos e trocá-los
+
+? Porque usas um ciclo for para contar e não uma pesquisa que para no primeiro resultado?
+- [ ] Um ciclo for é sempre mais rápido.
+- [x] Tens de ver todas as cartas, senão faltam resultados mais à frente.
+- [ ] Um ciclo while não consegue percorrer arrays.
+> A carta pode aparecer várias vezes. Por isso percorres todas as cartas até ao fim.
 :::

@@ -113,6 +113,42 @@ tipp: Du musst nur ein einziges Zeichen ändern. Wann sollen zwei Nachbarn getau
 lösung: ss-absteigend-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Die lineare Suche aus der Übung sieht in Java so aus:
+
+```
+int[] karten = {8, 4, 11, 4, 6};
+int gesucht = 4;
+int position = -1;
+int i = 0;
+while (position == -1 && i < karten.length) {
+    if (karten[i] == gesucht) {
+        position = i;
+    }
+    i = i + 1;
+}
+System.out.println("Position: " + position);
+```
+
+- `&&` heißt „und“: Die Schleife läuft nur, solange noch nichts gefunden ist **und** es noch Karten gibt.
+- Ist der false-Zweig leer, lässt du `else` einfach weg.
+- Der Tausch beim Bubblesort braucht auch in Java eine Hilfsvariable: `int hilf = karten[i];`
+
+::: übung l19-java-zaehlen
+titel: Karten zählen
+code: java
+auftrag: Die Karten {8, 4, 11, 4, 6} liegen in einem Array. Schreibe in Java ein Programm, das nach einer Karte fragt und zählt, wie oft sie vorkommt. Es gibt **Anzahl:** und die Zahl aus.
+  Bei 4 erscheint **Anzahl: 2**.
+test: 4 -> Anzahl: 2
+test: 8 -> Anzahl: 1
+test: 9 -> Anzahl: 0
+braucht: forSchleife, verzweigung
+tipp: Anders als bei der Suche hörst du beim ersten Treffer nicht auf. Eine For-Schleife geht alle Karten durch.
+tipp: `for (int i = 0; i < karten.length; i++)` und darin `if (karten[i] == gesucht) { anzahl = anzahl + 1; }`. `anzahl` startet vor der Schleife mit 0.
+lösung: l19-java-zaehlen-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -121,6 +157,7 @@ lösung: ss-absteigend-loesung.visustruct
 - Ich weiß, warum die binäre Suche nur bei sortierten Werten funktioniert. → Binäre Suche: sortiert geht es schneller
 - Ich kann begründen, warum die binäre Suche bei vielen Werten viel schneller ist. → Wie schnell ist das?
 - Ich kann einen Durchgang von Bubblesort mit Spielkarten vormachen. → Sortieren mit Bubblesort
+- Ich kann in Java ein Array durchsuchen und Treffer zählen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -159,4 +196,10 @@ lösung: ss-absteigend-loesung.visustruct
 = Lineare Suche -> eine Karte nach der anderen ansehen
 = Binäre Suche -> die Mitte ansehen und eine Hälfte weglassen
 = Bubblesort -> Nachbarn vergleichen und tauschen
+
+? Warum nimmst du zum Zählen eine For-Schleife und keine Suche, die beim ersten Treffer aufhört?
+- [ ] Eine For-Schleife ist immer schneller.
+- [x] Du musst jede Karte ansehen, sonst fehlen spätere Treffer.
+- [ ] Eine While-Schleife kann keine Arrays durchlaufen.
+> Die Karte kann mehrmals vorkommen. Darum gehst du alle Karten bis zum Ende durch.
 :::

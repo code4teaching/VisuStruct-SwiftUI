@@ -195,6 +195,43 @@ tipp: Pede o primeiro número antes do ciclo. O ciclo while é executado com a c
 lösung: l15-bis-null-loesung.visustruct
 :::
 
+## Agora em Java
+
+Em Java, um subprograma chama-se **método**. O quadrado de cima fica assim:
+
+```
+public static int quadrado(int x) {
+    int resultado = x * x;
+    return resultado;
+}
+```
+
+O programa principal chama o método pelo nome e passa-lhe o valor entre parênteses curvos:
+
+```
+int q = quadrado(numero);
+System.out.println("O quadrado é " + q);
+```
+
+- No cabeçalho, antes do nome, fica o que o método devolve (`int`). Se não devolver nada, fica `void`.
+- Os parâmetros ficam entre parênteses curvos, com o tipo de dados: `(int x)`. Separas vários com vírgulas.
+- Na área Programação escreves cada método no seu próprio separador, tal como cada subprograma tem o seu próprio estrutograma.
+- Em Java, a saída chama-se `break`. Com `while (true)` constróis um ciclo que só termina com `break`.
+
+::: übung l18-java-kasse
+titel: Caixa com break
+code: java
+auftrag: Escreve uma caixa registadora em Java. Pergunta repetidamente por um preço em euros inteiros. Com 0 sai do ciclo com `break`. Depois mostra quantos artigos foram e quanto custam ao todo.
+  Com 3, 4 e depois 0 aparece **Artigos: 2** e **Total: 7**.
+test: 3, 4, 0 -> Artigos: 2 | Total: 7
+test: 0 -> Artigos: 0 | Total: 0
+test: 10, 2, 5, 0 -> Artigos: 3 | Total: 17
+braucht: endlosschleife, aussprung
+tipp: Precisas de duas variáveis que começam em 0 antes do ciclo: uma para a soma e outra para a quantidade de artigos.
+tipp: Dentro de `while (true) { … }` lês o preço. Logo a seguir verificas `if (preco == 0) { break; }`. Só depois somas o preço e aumentas os artigos em 1.
+lösung: l18-java-kasse-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -205,6 +242,7 @@ lösung: l15-bis-null-loesung.visustruct
 - Sei explicar porque é que um subprograma não consegue alterar um número, mas consegue alterar um array. → Cópia ou original: passagem por valor e passagem por referência
 - Sei o que faz uma Interrupção e porque está numa decisão. → A interrupção
 - Sei terminar um ciclo com uma Interrupção ou através da sua condição. → Interrupção na simulação
+- Reconheço um método em Java e sei sair de um ciclo com `break`. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -269,4 +307,10 @@ lösung: l15-bis-null-loesung.visustruct
 = Ciclo -> Iteração
 = Subprograma -> Método
 > Os dois nomes querem dizer o mesmo. Se conheces um deles, também percebes o outro.
+
+? O que fica no cabeçalho de um método Java que não devolve nada?
+- [ ] int
+- [x] void
+- [ ] return
+> void significa “vazio”: o método faz alguma coisa, mas não devolve nenhum valor.
 :::

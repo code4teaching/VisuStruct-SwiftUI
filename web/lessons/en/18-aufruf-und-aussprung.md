@@ -195,6 +195,43 @@ tipp: Ask for the first number before the loop. The while loop runs with the con
 lösung: l15-bis-null-loesung.visustruct
 :::
 
+## Now in Java
+
+In Java a subprogram is called a **method**. The square from above looks like this:
+
+```
+public static int square(int x) {
+    int result = x * x;
+    return result;
+}
+```
+
+The main program calls the method by its name and passes the value in round brackets:
+
+```
+int q = square(number);
+System.out.println("The square is " + q);
+```
+
+- In the header, what the method returns (`int`) comes before the name. If it returns nothing, it says `void`.
+- The parameters go in the round brackets with their data type: `(int x)`. You separate several with commas.
+- In the Programming area you write every method in its own tab, just as every subprogram has its own structure chart.
+- In Java the exit is called `break`. With `while (true)` you build a loop that only ends through `break`.
+
+::: übung l18-java-kasse
+titel: Till with break
+code: java
+auftrag: Write a till in Java. It keeps asking for a price in whole euros. At 0 it leaves the loop with `break`. Then it outputs how many items there were and what they cost altogether.
+  For 3, 4 and then 0 you see **Items: 2** and **Total: 7**.
+test: 3, 4, 0 -> Items: 2 | Total: 7
+test: 0 -> Items: 0 | Total: 0
+test: 10, 2, 5, 0 -> Items: 3 | Total: 17
+braucht: endlosschleife, aussprung
+tipp: You need two variables that start at 0 before the loop: one for the sum and one for the count.
+tipp: Inside `while (true) { … }` you read the price. Right after that you check `if (price == 0) { break; }`. Only after that do you add the price to the sum and increase the count by 1.
+lösung: l18-java-kasse-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -205,6 +242,7 @@ lösung: l15-bis-null-loesung.visustruct
 - I can explain why a subprogram cannot change a number but can change an array. → Copy or original: call by value and call by reference
 - I know what a Break does and why it sits in a branch. → The break
 - I can end a loop with a Break or through its condition. → Break in the simulation
+- I recognise a method in Java and can leave a loop with `break`. → Now in Java
 :::
 
 ## Quiz
@@ -269,4 +307,10 @@ lösung: l15-bis-null-loesung.visustruct
 = Loop -> Iteration
 = Subprogram -> Method
 > Both names mean the same thing. If you know one of them, you understand the other as well.
+
+? What is written in the header of a Java method that returns nothing?
+- [ ] int
+- [x] void
+- [ ] return
+> void means “empty”: the method does something but returns no value.
 :::

@@ -126,6 +126,39 @@ tipp: Divide a frase num array de Strings com `frase.split(" ")`. O seu comprime
 lösung: zk-woerter-loesung.visustruct
 :::
 
+## Agora em Java
+
+Os métodos desta lição já são Java. Um programa completo com um texto fica assim:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Como te chamas?");
+String nome = scanner.next();
+System.out.println("Olá " + nome.toUpperCase() + "!");
+System.out.println("O teu nome tem " + nome.length() + " letras.");
+```
+
+- `scanner.next()` lê uma palavra, ou seja, texto até ao próximo espaço. Para números continuas a usar `scanner.nextInt()`.
+- O texto fica entre aspas **duplas** `"Ludwig"`, um único carácter entre aspas **simples** `'L'`.
+- Depois de `length()`, `toUpperCase()` e dos outros métodos há sempre parênteses curvos, mesmo quando não há nada lá dentro.
+- Comparas dois textos com `equals`. Cada letra conta: `"Ludwig".equals("ludwig")` é false.
+
+::: übung l17-java-passwort
+titel: Verificar a palavra-passe
+code: java
+auftrag: Escreve em Java um programa que pergunta pela palavra-passe. Se for **Ludwig**, mostra **Bem-vindo!**, senão **Palavra-passe errada**.
+  Atenção às maiúsculas e minúsculas: `ludwig` está errado.
+test: Ludwig -> Bem-vindo!
+test: ludwig -> Palavra-passe errada
+test: Geißbock -> Palavra-passe errada
+braucht: verzweigung
+tipp: Lê a palavra-passe com `scanner.next()` para uma variável String. Depois comparas numa decisão.
+tipp: A condição é `entrada.equals("Ludwig")`. Em Java, `==` não compara textos de forma fiável.
+lösung: l17-java-passwort-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -135,6 +168,7 @@ lösung: zk-woerter-loesung.visustruct
 - Conheço `indexOf`, `contains`, `toUpperCase` e `equals`. → Pesquisar e comparar
 - Sei percorrer um texto caractere a caractere com um ciclo. → Caractere a caractere
 - Sei dividir um texto num array de Strings com `split`. → Dividir com split
+- Sei ler um texto em Java e compará-lo com `equals`. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -168,4 +202,10 @@ lösung: zk-woerter-loesung.visustruct
 = charAt(0) -> P
 = indexOf("tempo") -> 5
 = substring(5) -> tempo
+
+? Que condição verifica em Java se `entrada` contém o texto Ludwig?
+- [ ] entrada = "Ludwig"
+- [ ] entrada == 'Ludwig'
+- [x] entrada.equals("Ludwig")
+> Comparas textos com equals. As aspas simples são só para um único carácter.
 :::

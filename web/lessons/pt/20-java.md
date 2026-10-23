@@ -6,7 +6,7 @@ kurz: Todos os elementos em Java num relance, gerar código, escrever Java na á
 
 ## A vista de código
 
-Nas lições 4 a 16 já escreveste cada elemento em Java. Aqui vês tudo num relance e aprendes como o VisuStruct transforma um estrutograma inteiro num programa Java.
+Nas lições 4 a 19 já escreveste cada elemento em Java. Aqui vês tudo num relance e aprendes como o VisuStruct transforma um estrutograma inteiro num programa Java.
 
 Um estrutograma descreve um processo. Para um computador o executar, precisas de um programa numa linguagem de programação. O VisuStruct escreve esse código por ti.
 
@@ -62,10 +62,11 @@ Em Java, cada instrução termina com um **ponto e vírgula** `;`. O que está d
 | Ciclo while | `while (condição) { … }` | 11 |
 | Ciclo do-while | `do { … } while (condição);` | 12 |
 | Ciclo for | `for (int i = 0; i < 5; i++) { … }` | 13 |
-| Ciclo infinito | `while (true) { … }` | 11 |
+| Ciclo infinito | `while (true) { … }` | 11, 18 |
 | Interrupção | `break;` | 18 |
 | Chamada | `calcular();` | 18 |
 | Array | `int[] numeros = new int[5];` | 15, 16 |
+| Texto (String) | `String nome = scanner.next();` | 17 |
 
 Para entradas, `import java.util.Scanner;` e `Scanner scanner = new Scanner(System.in);` são escritos uma vez lá em cima. Antes de cada entrada, o VisuStruct mostra a pergunta com `System.out.println(…)`.
 

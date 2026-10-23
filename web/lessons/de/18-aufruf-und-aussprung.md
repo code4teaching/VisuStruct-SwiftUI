@@ -195,6 +195,43 @@ tipp: Frage die erste Zahl schon vor der Schleife ab. Die While-Schleife läuft 
 lösung: l15-bis-null-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Ein Unterprogramm heißt in Java **Methode**. Das Quadrat von oben sieht so aus:
+
+```
+public static int quadrat(int x) {
+    int ergebnis = x * x;
+    return ergebnis;
+}
+```
+
+Das Hauptprogramm ruft die Methode mit ihrem Namen auf und gibt ihr den Wert in runden Klammern mit:
+
+```
+int q = quadrat(zahl);
+System.out.println("Das Quadrat ist " + q);
+```
+
+- In der Kopfzeile steht vor dem Namen, was die Methode zurückgibt (`int`). Gibt sie nichts zurück, steht dort `void`.
+- Die Parameter stehen mit Datentyp in den runden Klammern: `(int x)`. Mehrere trennst du mit Komma.
+- Im Bereich Programmieren schreibst du jede Methode in einen eigenen Reiter, so wie jedes Unterprogramm ein eigenes Struktogramm hat.
+- Der Aussprung heißt in Java `break`. Mit `while (true)` baust du eine Schleife, die nur durch `break` endet.
+
+::: übung l18-java-kasse
+titel: Kasse mit break
+code: java
+auftrag: Schreibe in Java eine Kasse. Sie fragt immer wieder nach einem Preis in ganzen Euro. Bei 0 verlässt sie die Schleife mit `break`. Danach gibt sie aus, wie viele Artikel es waren und was alles zusammen kostet.
+  Bei 3, 4 und dann 0 erscheint **Artikel: 2** und **Gesamt: 7**.
+test: 3, 4, 0 -> Artikel: 2 | Gesamt: 7
+test: 0 -> Artikel: 0 | Gesamt: 0
+test: 10, 2, 5, 0 -> Artikel: 3 | Gesamt: 17
+braucht: endlosschleife, aussprung
+tipp: Du brauchst zwei Variablen, die vor der Schleife mit 0 anfangen: eine für die Summe und eine für die Anzahl.
+tipp: In `while (true) { … }` liest du den Preis ein. Gleich danach prüfst du `if (preis == 0) { break; }`. Erst dahinter zählst du den Preis zur Summe und die Anzahl um 1 hoch.
+lösung: l18-java-kasse-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -205,6 +242,7 @@ lösung: l15-bis-null-loesung.visustruct
 - Ich kann erklären, warum ein Unterprogramm eine Zahl nicht verändern kann, ein Array aber schon. → Kopie oder Original: call by value und call by reference
 - Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht. → Der Aussprung
 - Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden. → Aussprung in der Simulation
+- Ich erkenne in Java eine Methode und kann eine Schleife mit `break` verlassen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -270,4 +308,10 @@ lösung: l15-bis-null-loesung.visustruct
 = Array -> Feld
 = Unterprogramm -> Methode
 > Beide Namen meinen dasselbe. Wenn du einen davon kennst, verstehst du auch den anderen.
+
+? Was steht in Java in der Kopfzeile einer Methode, die nichts zurückgibt?
+- [ ] int
+- [x] void
+- [ ] return
+> void heißt „leer“: Die Methode macht etwas, gibt aber keinen Wert zurück.
 :::

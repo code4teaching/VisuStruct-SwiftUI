@@ -221,4 +221,6 @@ const e=`/* VisuStruct Java-Desktop-Preset (kein .lproj — gültig für App Sto
 "err_image_render_failed" = "Could not create the image.";
 "err_diagram_too_small_print" = "The diagram is too small — nothing to print.";
 "err_print_unavailable" = "Printing is not available on this device.";
+
+"inspector_header" = "Object Inspector";
 `;export{e as default};

@@ -113,6 +113,42 @@ tipp: You only need to change one single character. When should two neighbours b
 lösung: ss-absteigend-loesung.visustruct
 :::
 
+## Now in Java
+
+The linear search from the exercise looks like this in Java:
+
+```
+int[] cards = {8, 4, 11, 4, 6};
+int wanted = 4;
+int position = -1;
+int i = 0;
+while (position == -1 && i < cards.length) {
+    if (cards[i] == wanted) {
+        position = i;
+    }
+    i = i + 1;
+}
+System.out.println("Position: " + position);
+```
+
+- `&&` means “and”: the loop only runs while nothing has been found **and** there are still cards left.
+- If the false branch is empty, you simply leave out `else`.
+- The swap in bubble sort needs a helper variable in Java too: `int temp = cards[i];`
+
+::: übung l19-java-zaehlen
+titel: Count cards
+code: java
+auftrag: The cards {8, 4, 11, 4, 6} are in an array. Write a Java program that asks for a card and counts how often it appears. It outputs **Count:** and the number.
+  For 4 you see **Count: 2**.
+test: 4 -> Count: 2
+test: 8 -> Count: 1
+test: 9 -> Count: 0
+braucht: forSchleife, verzweigung
+tipp: Unlike the search, you do not stop at the first match. A for loop goes through all cards.
+tipp: `for (int i = 0; i < cards.length; i++)` and inside it `if (cards[i] == wanted) { count = count + 1; }`. `count` starts at 0 before the loop.
+lösung: l19-java-zaehlen-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -121,6 +157,7 @@ lösung: ss-absteigend-loesung.visustruct
 - I know why binary search only works with sorted values. → Binary search: sorted is faster
 - I can explain why binary search is much faster with many values. → How fast is it?
 - I can show one round of bubble sort with playing cards. → Sorting with bubble sort
+- I can search an array in Java and count matches. → Now in Java
 :::
 
 ## Quiz
@@ -159,4 +196,10 @@ lösung: ss-absteigend-loesung.visustruct
 = Linear search -> look at one card after another
 = Binary search -> look at the middle and drop one half
 = Bubble sort -> compare neighbours and swap them
+
+? Why do you use a for loop for counting and not a search that stops at the first match?
+- [ ] A for loop is always faster.
+- [x] You have to look at every card, otherwise later matches are missing.
+- [ ] A while loop cannot go through arrays.
+> The card can appear several times. That is why you go through all cards to the end.
 :::

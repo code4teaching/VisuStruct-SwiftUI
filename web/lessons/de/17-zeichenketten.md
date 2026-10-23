@@ -126,6 +126,39 @@ tipp: Zerlege den Satz mit `satz.split(" ")` in ein String-Array. Seine Länge i
 lösung: zk-woerter-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Die Methoden in dieser Lektion sind schon Java. Ein ganzes Programm mit einem Text sieht so aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Wie heißt du?");
+String name = scanner.next();
+System.out.println("Hallo " + name.toUpperCase() + "!");
+System.out.println("Dein Name hat " + name.length() + " Buchstaben.");
+```
+
+- `scanner.next()` liest ein Wort, also Text bis zum nächsten Leerzeichen. Für Zahlen nimmst du weiter `scanner.nextInt()`.
+- Text steht in **doppelten** Anführungszeichen `"Ludwig"`, ein einzelnes Zeichen in **einfachen** `'L'`.
+- Hinter `length()`, `toUpperCase()` und den anderen Methoden stehen immer runde Klammern, auch wenn nichts darin steht.
+- Zwei Texte vergleichst du mit `equals`. Dabei zählt jeder Buchstabe: `"Ludwig".equals("ludwig")` ist false.
+
+::: übung l17-java-passwort
+titel: Passwort prüfen
+code: java
+auftrag: Schreibe in Java ein Programm, das nach dem Passwort fragt. Ist es **Ludwig**, gibt es **Willkommen!** aus, sonst **Falsches Passwort**.
+  Achte auf Groß- und Kleinschreibung: `ludwig` ist falsch.
+test: Ludwig -> Willkommen!
+test: ludwig -> Falsches Passwort
+test: Geißbock -> Falsches Passwort
+braucht: verzweigung
+tipp: Lies das Passwort mit `scanner.next()` in eine String-Variable. Dann vergleichst du in einer Verzweigung.
+tipp: Die Bedingung heißt `eingabe.equals("Ludwig")`. Mit `==` klappt der Vergleich von Texten in Java nicht zuverlässig.
+lösung: l17-java-passwort-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -135,6 +168,7 @@ lösung: zk-woerter-loesung.visustruct
 - Ich kenne `indexOf`, `contains`, `toUpperCase` und `equals`. → Suchen und vergleichen
 - Ich kann einen Text mit einer Schleife Zeichen für Zeichen durchgehen. → Zeichen für Zeichen
 - Ich kann einen Text mit `split` in ein String-Array zerlegen. → Zerlegen mit split
+- Ich kann in Java einen Text einlesen und mit `equals` vergleichen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -168,4 +202,10 @@ lösung: zk-woerter-loesung.visustruct
 = charAt(0) -> G
 = indexOf("bock") -> 4
 = substring(4) -> bock
+
+? Welche Bedingung prüft in Java, ob in `eingabe` der Text Ludwig steht?
+- [ ] eingabe = "Ludwig"
+- [ ] eingabe == 'Ludwig'
+- [x] eingabe.equals("Ludwig")
+> Texte vergleichst du mit equals. Einfache Anführungszeichen sind nur für ein einzelnes Zeichen.
 :::
