@@ -133,6 +133,86 @@ Statt eines Fehlers in der Konsole sieht man jetzt einen Hinweis im Fenster.
 Der Pfeil hat schon ein `e` für das Ereignis. Deshalb braucht die Exception im `catch` einen anderen Namen, hier `fehler`. Zwei Variablen mit demselben Namen erlaubt Java nicht.
 :::
 
+## Spiel: Was steht danach im Fenster?
+
+::: spiel frage
+titel: Spiel: Was steht danach im Fenster?
+intro: Ludwig tippt etwas ins Textfeld und klickt auf Berechne. Lies den Zuhörer und sag vorher, was danach im Fenster steht. Sechs Runden.
+
+runde:
+    knopf.addActionListener(e -> {
+        int zahl = Integer.parseInt(feld.getText());
+        feld.setText("" + zahl * 2);
+    });
+frage: Im Textfeld steht 21. Was steht nach dem Klick darin?
+- 2121
+- [x] 42
+- 21
+> `parseInt` macht aus dem Text die Zahl 21. Das Doppelte ist 42.
+
+runde:
+    knopf.addActionListener(e -> {
+        int zahl = Integer.parseInt(feld.getText());
+        feld.setText("" + zahl * 2);
+    });
+frage: Im Textfeld steht 21. Du klickst zweimal. Was steht danach darin?
+- 42
+- [x] 84
+- 4242
+> Jeder Klick verdoppelt, was gerade im Feld steht: 21, 42, 84.
+
+runde:
+    knopf.addActionListener(e -> {
+        feld.setText(feld.getText() + feld.getText());
+    });
+frage: Im Textfeld steht 21. Was steht nach dem Klick darin?
+- 42
+- [x] 2121
+- 21
+> Ohne `parseInt` bleibt es ein Text, und `+` hängt Texte aneinander.
+
+runde:
+    knopf.addActionListener(e -> {
+        try {
+            int zahl = Integer.parseInt(feld.getText());
+            feld.setText("" + zahl * 2);
+        } catch (NumberFormatException fehler) {
+            beschriftung.setText("Bitte eine ganze Zahl eingeben!");
+        }
+    });
+frage: Im Textfeld steht abc. Was passiert beim Klick?
+- [x] Die Beschriftung zeigt „Bitte eine ganze Zahl eingeben!“
+- Im Textfeld steht abcabc.
+- Das Fenster stürzt ab.
+> `parseInt` wirft eine NumberFormatException, und `catch` fängt sie ab.
+
+runde:
+    knopf.addActionListener(e -> {
+        try {
+            int zahl = Integer.parseInt(feld.getText());
+            feld.setText("" + zahl * 2);
+        } catch (NumberFormatException fehler) {
+            beschriftung.setText("Bitte eine ganze Zahl eingeben!");
+        }
+    });
+frage: Im Textfeld steht 2.5. Was passiert beim Klick?
+- Im Textfeld steht 5.0.
+- Im Textfeld steht 5.
+- [x] Die Beschriftung zeigt „Bitte eine ganze Zahl eingeben!“
+> `Integer.parseInt` kennt nur ganze Zahlen. 2.5 ist für ihn keine Zahl.
+
+runde:
+    knopf.addActionListener(e -> {
+        int zahl = Integer.parseInt(feld.getText());
+        feld.setText("" + zahl + zahl);
+    });
+frage: Im Textfeld steht 5. Was steht nach dem Klick darin?
+- 10
+- [x] 55
+- 5
+> `"" + zahl` ist schon ein Text, und das zweite `+` hängt die 5 noch einmal an. Mit `"" + (zahl + zahl)` wird zuerst gerechnet.
+:::
+
 ## Aufgabe: Zahl verdoppeln
 
 Baue das ganze Programm zusammen:

@@ -82,6 +82,78 @@ Clica no botão. Ele fica um pouco mais escuro enquanto o carregas. O Swing most
 
 Isto não é um erro: ainda não disseste ao programa **o que** deve acontecer com um clique. Isso aprendes na próxima lição.
 
+## Jogo: Desativar a bomba
+
+::: spiel bombe
+titel: Jogo: Desativar a bomba
+intro: Em cada programa de janela há **exatamente um erro**, e a bomba está a contar. Lê o que o programa deve fazer e toca na linha errada antes de o tempo acabar. Seis rondas, 25 segundos cada.
+zeit: 25
+
+runde:
+    JFrame janela = new JFrame("Botão");
+    janela.setSize(300, 200);
+    JButton botao = new JButton(Clica-me);
+    janela.add(botao);
+    janela.setVisible(true);
+frage: Deve mostrar um botão "Clica-me".
+fehler: 3
+besser: JButton botao = new JButton("Clica-me");
+> A legenda é um texto e precisa de aspas.
+
+runde:
+    JFrame janela = new JFrame("Botão");
+    janela.setSize(300, 200);
+    JButton botao = new JButton("OK");
+    janela.add(janela);
+    janela.setVisible(true);
+frage: Deve pôr o botão "OK" na janela.
+fehler: 4
+besser: janela.add(botao);
+> Na janela entra o botão, não a própria janela.
+
+runde:
+    import java.swing.*;
+    import java.awt.*;
+frage: Deve trazer o Swing e o FlowLayout para o programa.
+fehler: 1
+besser: import javax.swing.*;
+> O Swing está em `javax.swing`, com x. O FlowLayout vem de `java.awt`, sem x.
+
+runde:
+    JFrame janela = new JFrame("Botão");
+    janela.setSize(300, 200);
+    janela.setLayout(new FlowLayout);
+    janela.add(new JButton("OK"));
+    janela.setVisible(true);
+frage: Deve mostrar o botão no tamanho normal.
+fehler: 3
+besser: janela.setLayout(new FlowLayout());
+> Depois de `new` e do nome vêm sempre parênteses, mesmo que não haja nada lá dentro.
+
+runde:
+    JFrame janela = new JFrame("Botão");
+    janela.setSize(300, 200);
+    janela.setLayout(new FlowLayout());
+    JButton botao = new Jbutton("OK");
+    janela.add(botao);
+    janela.setVisible(true);
+frage: Deve mostrar um botão "OK".
+fehler: 4
+besser: JButton botao = new JButton("OK");
+> O Java distingue maiúsculas de minúsculas: `JButton` com B maiúsculo.
+
+runde:
+    JFrame janela = new JFrame("Botão");
+    janela.setSize(300, 200);
+    janela.setLayout(new FlowLayout());
+    janela.add(new JButton("OK"));
+    janela.setVisible(false);
+frage: Deve mostrar a janela com o botão.
+fehler: 5
+besser: janela.setVisible(true);
+> Com `false`, a janela fica invisível.
+:::
+
 ## Tarefa: clica-me
 
 Constrói uma janela com o título “Teste do botão”, com 300 por 200 píxeis e um botão “Clica-me” de tamanho normal. Deve ser possível carregar no botão, mesmo que ainda não aconteça nada.

@@ -83,6 +83,80 @@ Java is really an **object-oriented** language. `JFrame` is a class, a blueprint
 `setSize` and `setVisible` are methods that every window object has. That is why you write `window.setSize(…)`: the object `window` runs its method. Your program itself is a class too, namely `MyWindow`.
 :::
 
+## Game: What happens?
+
+::: spiel frage
+titel: Game: What happens?
+intro: Ludwig has been tinkering with the window program. Read the lines and predict what happens. Six rounds.
+
+runde:
+    JFrame window = new JFrame("Hello");
+    window.setSize(300, 200);
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frage: What do you see after running it?
+- a window with the title "Hello"
+- [x] no window at all
+- an error message
+> `setVisible(true)` is missing. The window is built, but it stays invisible.
+
+runde:
+    JFrame window = new JFrame("Hello");
+    window.setSize(200, 300);
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    window.setVisible(true);
+frage: What does the window look like?
+- wider than high
+- [x] higher than wide
+- square
+> The first number is the width, the second the height: 200 wide, 300 high.
+
+runde:
+    JFrame window = new JFrame("Hello");
+    window.setSize(300, 200);
+    window.setVisible(true);
+frage: You close the window. What happens to the program?
+- It ends.
+- [x] It keeps running invisibly.
+- The window opens again right away.
+> Without `setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)` Java only hides the window.
+
+runde:
+    JFrame window = new JFrame();
+    window.setSize(300, 200);
+    window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    window.setVisible(true);
+frage: What is written at the top of the window frame?
+- window
+- JFrame
+- [x] nothing, the title is empty
+> Without text in the brackets the window has no title. The variable name `window` never shows up in the window.
+
+runde:
+    public class Test {
+        public static void main(String[] args) {
+            JFrame window = new JFrame("Test");
+            window.setVisible(true);
+        }
+    }
+frage: What does javac report?
+- [x] cannot find symbol: class JFrame
+- nothing, the window appears
+- missing return statement
+> The line `import javax.swing.*;` is missing. Without it Java doesn't know `JFrame`.
+
+runde:
+    JFrame a = new JFrame("One");
+    JFrame b = new JFrame("Two");
+    a.setSize(300, 200);
+    b.setSize(300, 200);
+    a.setVisible(true);
+frage: What do you see?
+- [x] one window with the title "One"
+- two windows
+- one window with the title "Two"
+> Two windows from the same blueprint, but only `a` is made visible.
+:::
+
 ## Task: your own window
 
 Change the program so that

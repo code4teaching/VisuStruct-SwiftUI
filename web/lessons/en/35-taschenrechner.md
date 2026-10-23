@@ -126,6 +126,93 @@ Every listener reads the same two fields. You can move this repetition into a me
 The listener then just says `result.setText("" + (number(field1) + number(field2)));`.
 :::
 
+## Game: What does the calculator show?
+
+::: spiel frage
+titel: Game: What does the calculator show?
+intro: Ludwig has been tinkering with the calculator. Read the listener and predict what the result shows. Six rounds.
+
+runde:
+    plus.addActionListener(e -> {
+        int a = Integer.parseInt(field1.getText());
+        int b = Integer.parseInt(field2.getText());
+        result.setText("" + a + b);
+    });
+frage: You type 3 and 4 and click +. What does the result show?
+- 7
+- [x] 34
+- 12
+> Without brackets Java works from left to right: `"" + 3` is the text "3", and `+ 4` adds the 4 to the end.
+
+runde:
+    times.addActionListener(e -> {
+        int a = Integer.parseInt(field1.getText());
+        int b = Integer.parseInt(field2.getText());
+        result.setText("" + a * b);
+    });
+frage: You type 3 and 4 and click *. What does the result show?
+- 34
+- [x] 12
+- 7
+> Multiplication comes before addition here too: Java first works out 3 * 4, then adds the 12 to the text. Plus doesn't get this priority, which is why it needs the brackets.
+
+runde:
+    divide.addActionListener(e -> {
+        int a = Integer.parseInt(field1.getText());
+        int b = Integer.parseInt(field2.getText());
+        result.setText("" + (a / b));
+    });
+frage: You type 7 and 2 and click /. What does the result show?
+- 3.5
+- [x] 3
+- 4
+> With `int` Java cuts off the decimal places. It doesn't round.
+
+runde:
+    divide.addActionListener(e -> {
+        int a = Integer.parseInt(field1.getText());
+        int b = Integer.parseInt(field2.getText());
+        try {
+            result.setText("" + (a / b));
+        } catch (ArithmeticException error) {
+            result.setText("Not by 0!");
+        }
+    });
+frage: You type 8 and 0 and click /. What does the result show?
+- 0
+- [x] Not by 0!
+- Infinity
+> With `int`, dividing by 0 throws an ArithmeticException, and `catch` writes the hint.
+
+runde:
+    divide.addActionListener(e -> {
+        double a = Double.parseDouble(field1.getText());
+        double b = Double.parseDouble(field2.getText());
+        result.setText("" + (a / b));
+    });
+frage: You type 7 and 2 and click /. What does the result show?
+- 3
+- [x] 3.5
+- 3.0
+> With `double` the decimal places are kept.
+
+runde:
+    divide.addActionListener(e -> {
+        double a = Double.parseDouble(field1.getText());
+        double b = Double.parseDouble(field2.getText());
+        try {
+            result.setText("" + (a / b));
+        } catch (ArithmeticException error) {
+            result.setText("Not by 0!");
+        }
+    });
+frage: You type 8 and 0 and click /. What does the result show?
+- Not by 0!
+- [x] Infinity
+- 0.0
+> With `double` there is no exception. The result is `Infinity`, and the `catch` never gets its turn.
+:::
+
 ## Task: calculator
 
 Finish the calculator:

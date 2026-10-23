@@ -121,6 +121,101 @@ button.addActionListener(e -> {
 `||` means “or” (lesson 9). The condition is true if the points are too small **or** too big.
 :::
 
+## Game: Which grade?
+
+::: spiel frage
+titel: Game: Which grade?
+intro: Ludwig has built grade calculators, but not all of them are right. Work out which grade comes out. Six rounds.
+
+runde:
+    if (points >= 90) {
+        grade = "A";
+    } else if (points >= 80) {
+        grade = "B";
+    } else if (points >= 70) {
+        grade = "C";
+    } else {
+        grade = "D";
+    }
+frage: points is 80. Which grade comes out?
+- A
+- [x] B
+- C
+> 80 >= 90 is false, 80 >= 80 is true. The limit still belongs to B.
+
+runde:
+    if (points >= 90) {
+        grade = "A";
+    } else if (points >= 80) {
+        grade = "B";
+    } else if (points >= 70) {
+        grade = "C";
+    } else if (points >= 60) {
+        grade = "D";
+    } else {
+        grade = "F";
+    }
+frage: points is 69. Which grade comes out?
+- C
+- [x] D
+- F
+> 69 >= 70 is only just false, 69 >= 60 is true. So grade D.
+
+runde:
+    if (points >= 60) {
+        grade = "D";
+    } else if (points >= 90) {
+        grade = "A";
+    } else {
+        grade = "F";
+    }
+frage: points is 95. Which grade comes out?
+- A
+- [x] D
+- F
+> The first true condition wins. 95 >= 60 is already true, so A is never reached. That's why you check from the high points downwards.
+
+runde:
+    grade = "F";
+    if (points >= 60) {
+        grade = "D";
+    }
+    if (points >= 70) {
+        grade = "C";
+    }
+frage: points is 85. What is in grade afterwards?
+- F
+- D
+- [x] C
+> Without `else` every `if` is checked. Both are true, and the last one sets grade C.
+
+runde:
+    // grade has already been worked out
+    if (points < 0 || points > 100) {
+        result.setText("Please enter 0 to 100.");
+    } else {
+        result.setText("Grade: " + grade);
+    }
+frage: The text field says 100. What does the window show?
+- [x] Grade: A
+- Please enter 0 to 100.
+- That is not a number.
+> 100 > 100 is false. So 100 points are valid and give grade A.
+
+runde:
+    // grade has already been worked out
+    if (points < 0 && points > 100) {
+        result.setText("Please enter 0 to 100.");
+    } else {
+        result.setText("Grade: " + grade);
+    }
+frage: The text field says 150. What does the window show?
+- Please enter 0 to 100.
+- [x] a grade, although 150 is not valid
+- That is not a number.
+> With `&&` the points would have to be below 0 and above 100 at the same time. That never happens, so the program never warns. The right one is `||`.
+:::
+
 ## Task: grade calculator
 
 Put the grade calculator together, with both checks from the last step. Test it with 90, 89, 0, 100, 101 and “ten”.

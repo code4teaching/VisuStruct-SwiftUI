@@ -83,6 +83,80 @@ Java ist eigentlich eine **objektorientierte** Sprache. `JFrame` ist eine Klasse
 `setSize` und `setVisible` sind Methoden, die jedes Fenster-Objekt kann. Deshalb schreibst du `fenster.setSize(…)`: Das Objekt `fenster` führt seine Methode aus. Auch dein Programm selbst ist eine Klasse, nämlich `MeinFenster`.
 :::
 
+## Spiel: Was passiert?
+
+::: spiel frage
+titel: Spiel: Was passiert?
+intro: Ludwig hat am Fensterprogramm herumgebastelt. Lies die Zeilen und sag vorher, was passiert. Sechs Runden.
+
+runde:
+    JFrame fenster = new JFrame("Hallo");
+    fenster.setSize(300, 200);
+    fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frage: Was siehst du nach dem Ausführen?
+- ein Fenster mit dem Titel „Hallo“
+- [x] gar kein Fenster
+- eine Fehlermeldung
+> `setVisible(true)` fehlt. Das Fenster ist gebaut, bleibt aber unsichtbar.
+
+runde:
+    JFrame fenster = new JFrame("Hallo");
+    fenster.setSize(200, 300);
+    fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenster.setVisible(true);
+frage: Wie sieht das Fenster aus?
+- breiter als hoch
+- [x] höher als breit
+- quadratisch
+> Die erste Zahl ist die Breite, die zweite die Höhe: 200 breit, 300 hoch.
+
+runde:
+    JFrame fenster = new JFrame("Hallo");
+    fenster.setSize(300, 200);
+    fenster.setVisible(true);
+frage: Du schließt das Fenster. Was passiert mit dem Programm?
+- Es endet.
+- [x] Es läuft unsichtbar weiter.
+- Das Fenster geht sofort wieder auf.
+> Ohne `setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)` versteckt Java das Fenster nur.
+
+runde:
+    JFrame fenster = new JFrame();
+    fenster.setSize(300, 200);
+    fenster.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    fenster.setVisible(true);
+frage: Was steht oben im Fensterrahmen?
+- fenster
+- JFrame
+- [x] nichts, der Titel ist leer
+> Ohne Text in den Klammern hat das Fenster keinen Titel. Der Variablenname `fenster` erscheint nie im Fenster.
+
+runde:
+    public class Test {
+        public static void main(String[] args) {
+            JFrame fenster = new JFrame("Test");
+            fenster.setVisible(true);
+        }
+    }
+frage: Was meldet javac?
+- [x] cannot find symbol: class JFrame
+- nichts, das Fenster erscheint
+- missing return statement
+> Die Zeile `import javax.swing.*;` fehlt. Ohne sie kennt Java `JFrame` nicht.
+
+runde:
+    JFrame a = new JFrame("Eins");
+    JFrame b = new JFrame("Zwei");
+    a.setSize(300, 200);
+    b.setSize(300, 200);
+    a.setVisible(true);
+frage: Was siehst du?
+- [x] ein Fenster mit dem Titel „Eins“
+- zwei Fenster
+- ein Fenster mit dem Titel „Zwei“
+> Zwei Fenster nach demselben Bauplan, aber nur `a` wird sichtbar gemacht.
+:::
+
 ## Aufgabe: Dein eigenes Fenster
 
 Ändere das Programm so, dass

@@ -126,6 +126,93 @@ Jeder Zuhörer liest dieselben zwei Felder. Diese Wiederholung kannst du in eine
 Im Zuhörer heißt es dann nur noch `ergebnis.setText("" + (zahl(feld1) + zahl(feld2)));`.
 :::
 
+## Spiel: Was zeigt der Rechner?
+
+::: spiel frage
+titel: Spiel: Was zeigt der Rechner?
+intro: Ludwig hat am Taschenrechner geschraubt. Lies den Zuhörer und sag vorher, was im Ergebnis steht. Sechs Runden.
+
+runde:
+    plus.addActionListener(e -> {
+        int a = Integer.parseInt(feld1.getText());
+        int b = Integer.parseInt(feld2.getText());
+        ergebnis.setText("" + a + b);
+    });
+frage: Du tippst 3 und 4 und klickst auf +. Was steht im Ergebnis?
+- 7
+- [x] 34
+- 12
+> Ohne Klammern rechnet Java von links nach rechts: `"" + 3` ist der Text „3“, und `+ 4` hängt die 4 an.
+
+runde:
+    mal.addActionListener(e -> {
+        int a = Integer.parseInt(feld1.getText());
+        int b = Integer.parseInt(feld2.getText());
+        ergebnis.setText("" + a * b);
+    });
+frage: Du tippst 3 und 4 und klickst auf *. Was steht im Ergebnis?
+- 34
+- [x] 12
+- 7
+> Punkt vor Strich gilt auch hier: Erst rechnet Java 3 * 4, dann hängt es die 12 an den Text. Beim Plus fehlt dieser Vorrang, darum braucht es dort die Klammern.
+
+runde:
+    geteilt.addActionListener(e -> {
+        int a = Integer.parseInt(feld1.getText());
+        int b = Integer.parseInt(feld2.getText());
+        ergebnis.setText("" + (a / b));
+    });
+frage: Du tippst 7 und 2 und klickst auf /. Was steht im Ergebnis?
+- 3.5
+- [x] 3
+- 4
+> Mit `int` schneidet Java die Nachkommastellen ab. Es wird nicht gerundet.
+
+runde:
+    geteilt.addActionListener(e -> {
+        int a = Integer.parseInt(feld1.getText());
+        int b = Integer.parseInt(feld2.getText());
+        try {
+            ergebnis.setText("" + (a / b));
+        } catch (ArithmeticException fehler) {
+            ergebnis.setText("Nicht durch 0!");
+        }
+    });
+frage: Du tippst 8 und 0 und klickst auf /. Was steht im Ergebnis?
+- 0
+- [x] Nicht durch 0!
+- Infinity
+> Bei `int` wirft das Teilen durch 0 eine ArithmeticException, und `catch` schreibt den Hinweis.
+
+runde:
+    geteilt.addActionListener(e -> {
+        double a = Double.parseDouble(feld1.getText());
+        double b = Double.parseDouble(feld2.getText());
+        ergebnis.setText("" + (a / b));
+    });
+frage: Du tippst 7 und 2 und klickst auf /. Was steht im Ergebnis?
+- 3
+- [x] 3.5
+- 3.0
+> Mit `double` bleiben die Nachkommastellen erhalten.
+
+runde:
+    geteilt.addActionListener(e -> {
+        double a = Double.parseDouble(feld1.getText());
+        double b = Double.parseDouble(feld2.getText());
+        try {
+            ergebnis.setText("" + (a / b));
+        } catch (ArithmeticException fehler) {
+            ergebnis.setText("Nicht durch 0!");
+        }
+    });
+frage: Du tippst 8 und 0 und klickst auf /. Was steht im Ergebnis?
+- Nicht durch 0!
+- [x] Infinity
+- 0.0
+> Bei `double` gibt es keine Exception. Das Ergebnis ist `Infinity`, also „unendlich“, und das `catch` kommt nie dran.
+:::
+
 ## Aufgabe: Taschenrechner
 
 Baue den Rechner fertig:
