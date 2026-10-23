@@ -203,7 +203,8 @@ export class LearnPanel {
     this.body.append(
       back,
       h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}`),
-      h('h2', { class: 'learn-title' }, lesson.title),
+      // Dieselbe Nummer wie in der Liste, gut sichtbar neben dem Titel.
+      h('h2', { class: 'learn-title' }, h('span', { class: 'learn-num', 'aria-hidden': 'true' }, String(lesson.number)), lesson.title),
       bar,
       h('h3', { class: 'learn-step-title' }, `${index + 1}. ${step.title}`),
     )

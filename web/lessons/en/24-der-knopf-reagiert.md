@@ -81,9 +81,13 @@ This is not in the curriculum. If you want to know what is behind the arrow, rea
 
 ::: angeberwissen
 `ActionListener` is an **interface**, a kind of contract. It says: whoever wants to be an ActionListener must have a method `actionPerformed(ActionEvent e)`. On every click the button calls exactly this method.
-
-The arrow `e -> …` is a short form (a lambda expression, since Java 8). It works because the interface has only one method. So Java knows which method is meant.
 :::
+
+You already know the line with the arrow from step 2:
+
+```
+button.addActionListener(e -> button.setText("I was clicked"));
+```
 
 Without the arrow you write the listener as a class without a name that fulfils the contract (an anonymous class):
 
@@ -95,7 +99,7 @@ button.addActionListener(new ActionListener() {
 });
 ```
 
-For this you also need `import java.awt.event.*;` at the top. Both ways do exactly the same, the one with the arrow is just shorter.
+For this you also need `import java.awt.event.*;` at the top. Both ways do exactly the same. The arrow `e -> …` is the short form (a lambda expression, since Java 8): `e` is the parameter of `actionPerformed`, and after the arrow comes its body. The short form works because the interface has only one method. So Java knows which method is meant.
 
 ## Task: I was clicked
 
