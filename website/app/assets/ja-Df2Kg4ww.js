@@ -107,4 +107,10 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_files_pick_class" = "まず左の「ファイル」でクラスを選んでください。";
 "web_files_default_name" = "プログラム";
 "web_files_saved_fmt" = "保存しました：%@";
+"web_files_ask_class" = "どのクラスに保存しますか？";
+"web_files_ask_class_hint" = "クラスを選ぶか、新しく作ってください。その後も選ばれたままになります。";
+"web_files_ask_class_new_hint" = "クラス用のフォルダを作ってください。その後も選ばれたままになります。";
+"web_files_class_placeholder" = "新しいクラス（例：11FI1）";
+"web_files_create_save" = "作成して保存";
+"web_files_create" = "作成";
 `;export{e as default};

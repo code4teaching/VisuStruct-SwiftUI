@@ -560,6 +560,29 @@ a.brand {
   justify-content: flex-end;
   margin-top: 12px;
 }
+.files-ask {
+  width: min(360px, 100%);
+}
+.files-ask input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+.files-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 10px;
+}
+.files-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.files-choice svg {
+  width: 16px;
+  height: 16px;
+}
 button.danger {
   background: #d70015;
   border-color: #d70015;

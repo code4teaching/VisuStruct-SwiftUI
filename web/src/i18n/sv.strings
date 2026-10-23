@@ -107,3 +107,9 @@
 "web_files_pick_class" = "Välj först en klass under ”Filer” till vänster.";
 "web_files_default_name" = "Program";
 "web_files_saved_fmt" = "Sparat: %@";
+"web_files_ask_class" = "Spara i vilken klass?";
+"web_files_ask_class_hint" = "Välj en klass eller skapa en ny. Den förblir vald efteråt.";
+"web_files_ask_class_new_hint" = "Skapa en mapp för din klass. Den förblir vald efteråt.";
+"web_files_class_placeholder" = "Ny klass, t.ex. 11FI1";
+"web_files_create_save" = "Skapa och spara";
+"web_files_create" = "Skapa";

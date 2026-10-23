@@ -107,4 +107,10 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_files_pick_class" = "Primero elige una clase en «Archivos», a la izquierda.";
 "web_files_default_name" = "Programa";
 "web_files_saved_fmt" = "Guardado: %@";
+"web_files_ask_class" = "¿Guardar en qué clase?";
+"web_files_ask_class_hint" = "Elige una clase o crea una nueva. Después queda seleccionada.";
+"web_files_ask_class_new_hint" = "Crea una carpeta para tu clase. Después queda seleccionada.";
+"web_files_class_placeholder" = "Nueva clase, p. ej. 11FI1";
+"web_files_create_save" = "Crear y guardar";
+"web_files_create" = "Crear";
 `;export{e as default};

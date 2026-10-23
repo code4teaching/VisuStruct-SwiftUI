@@ -107,4 +107,10 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_files_pick_class" = "먼저 왼쪽 “파일”에서 반을 선택하세요.";
 "web_files_default_name" = "프로그램";
 "web_files_saved_fmt" = "저장됨: %@";
+"web_files_ask_class" = "어느 반에 저장할까요?";
+"web_files_ask_class_hint" = "반을 선택하거나 새로 만드세요. 이후에도 선택된 채로 유지됩니다.";
+"web_files_ask_class_new_hint" = "반 폴더를 만드세요. 이후에도 선택된 채로 유지됩니다.";
+"web_files_class_placeholder" = "새 반, 예: 11FI1";
+"web_files_create_save" = "만들고 저장";
+"web_files_create" = "만들기";
 `;export{e as default};

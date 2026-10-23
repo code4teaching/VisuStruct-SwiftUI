@@ -107,4 +107,10 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_files_pick_class" = "Kies eerst links onder „Bestanden” een klas.";
 "web_files_default_name" = "Programma";
 "web_files_saved_fmt" = "Opgeslagen: %@";
+"web_files_ask_class" = "In welke klas opslaan?";
+"web_files_ask_class_hint" = "Kies een klas of maak een nieuwe. Die blijft daarna gekozen.";
+"web_files_ask_class_new_hint" = "Maak een map voor je klas. Die blijft daarna gekozen.";
+"web_files_class_placeholder" = "Nieuwe klas, bijv. 11FI1";
+"web_files_create_save" = "Maken en opslaan";
+"web_files_create" = "Maken";
 `;export{e as default};

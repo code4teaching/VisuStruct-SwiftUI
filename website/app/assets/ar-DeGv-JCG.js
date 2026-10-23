@@ -107,4 +107,10 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_files_pick_class" = "اختر صفاً أولاً تحت «الملفات» على اليسار.";
 "web_files_default_name" = "برنامج";
 "web_files_saved_fmt" = "تم الحفظ: %@";
+"web_files_ask_class" = "الحفظ في أي صف؟";
+"web_files_ask_class_hint" = "اختر صفاً أو أنشئ صفاً جديداً. يبقى محدداً بعد ذلك.";
+"web_files_ask_class_new_hint" = "أنشئ مجلداً لصفك. يبقى محدداً بعد ذلك.";
+"web_files_class_placeholder" = "صف جديد، مثلاً 11FI1";
+"web_files_create_save" = "إنشاء وحفظ";
+"web_files_create" = "إنشاء";
 `;export{e as default};

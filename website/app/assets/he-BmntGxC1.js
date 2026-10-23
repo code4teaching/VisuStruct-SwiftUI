@@ -107,4 +107,10 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_files_pick_class" = "בחרו קודם כיתה תחת „קבצים“ משמאל.";
 "web_files_default_name" = "תוכנית";
 "web_files_saved_fmt" = "נשמר: %@";
+"web_files_ask_class" = "לשמור באיזו כיתה?";
+"web_files_ask_class_hint" = "בחרו כיתה או צרו חדשה. היא תישאר בחורה אחר כך.";
+"web_files_ask_class_new_hint" = "צרו תיקייה לכיתה שלכם. היא תישאר בחורה אחר כך.";
+"web_files_class_placeholder" = "כיתה חדשה, למשל 11FI1";
+"web_files_create_save" = "יצירה ושמירה";
+"web_files_create" = "יצירה";
 `;export{e as default};

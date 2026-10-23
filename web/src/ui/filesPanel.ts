@@ -65,6 +65,54 @@ function store(key: string, value: string | null) {
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
+interface AskOptions {
+  title: string
+  hint?: string
+  /** Knöpfe, die ihren Text zurückgeben (z. B. vorhandene Klassen). */
+  choices?: string[]
+  /** Eingabefeld mit diesem Platzhalter. */
+  input?: string
+  ok?: string
+  danger?: boolean
+}
+
+/** Rückfrage im Fenster selbst (`window.prompt`/`confirm` sind in eingebetteten Ansichten gesperrt). */
+function ask(o: AskOptions): Promise<string | undefined> {
+  return new Promise((resolve) => {
+    const box = document.createElement('div')
+    box.className = 'confirm'
+    const choices = (o.choices ?? []).map((c) => `<button class="files-choice" data-choice="${esc(c)}">${icons.folder}<span>${esc(c)}</span></button>`).join('')
+    box.innerHTML = `<form class="confirm-card files-ask" role="dialog" aria-label="${esc(o.title)}">
+      <p><strong>${esc(o.title)}</strong></p>
+      ${o.hint ? `<p class="hint">${esc(o.hint)}</p>` : ''}
+      ${choices ? `<div class="files-choices">${choices}</div>` : ''}
+      ${o.input !== undefined ? `<input type="text" name="name" autocomplete="off" placeholder="${esc(o.input)}">` : ''}
+      <div class="group"><button type="button" data-cancel>${esc(t('close_unsaved_cancel'))}</button><button type="submit" class="${o.danger ? 'danger' : 'primary'}">${esc(o.ok ?? 'OK')}</button></div>
+    </form>`
+    const form = box.querySelector('form')!
+    const field = form.querySelector('input')
+    const done = (value: string | undefined) => {
+      box.remove()
+      resolve(value)
+    }
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
+      if (!field) return done('')
+      if (field.value.trim()) done(field.value)
+      else field.focus()
+    })
+    box.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement
+      const choice = target.closest<HTMLElement>('[data-choice]')?.dataset.choice
+      if (choice !== undefined) done(choice)
+      else if (target === box || target.closest('[data-cancel]')) done(undefined)
+    })
+    box.addEventListener('keydown', (e) => e.key === 'Escape' && done(undefined))
+    document.body.append(box)
+    ;(field ?? form.querySelector<HTMLButtonElement>('[data-cancel]'))!.focus()
+  })
+}
+
 export class FilesPanel {
   readonly element: HTMLElement
   private body!: HTMLElement
@@ -276,7 +324,7 @@ export class FilesPanel {
     const path = row.dataset.path!
     const program = row.dataset.kind === 'program'
     const label = program ? path.replace(/\.(visustruct|java)$/i, '') : path
-    if (!window.confirm(t('web_files_delete_confirm_fmt', label))) return
+    if ((await ask({ title: t('web_files_delete_confirm_fmt', label), ok: t('web_files_delete'), danger: true })) === undefined) return
     try {
       const { dir, name } = await this.locate(path)
       if (program) {
@@ -297,7 +345,7 @@ export class FilesPanel {
 
   private async newFolder() {
     if (!this.workspace) return
-    const name = validFolderName(window.prompt(t('web_files_folder_prompt')) ?? '')
+    const name = validFolderName((await ask({ title: t('web_files_folder_prompt'), input: '11FI1', ok: t('web_files_create') })) ?? '')
     if (!name) return
     try {
       await this.workspace.root.dir(name, true)
@@ -318,21 +366,41 @@ export class FilesPanel {
    * Programm speichern: in seinen bisherigen Ordner, sonst in Klasse/Tagesordner (wird angelegt).
    * `undefined`, wenn noch kein Workspace oder keine Klasse gewählt ist.
    */
+  /** Speichern ohne Klasse: vorhandene Klasse wählen oder neue anlegen. Die Wahl bleibt eingestellt. */
+  private async askClass(): Promise<boolean> {
+    const ws = this.workspace!
+    const classes = (await ws.root.list())
+      .filter((e) => e.kind === 'directory')
+      .map((e) => e.name)
+      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+    const answer = await ask({
+      title: t('web_files_ask_class'),
+      hint: t(classes.length ? 'web_files_ask_class_hint' : 'web_files_ask_class_new_hint'),
+      choices: classes,
+      input: t('web_files_class_placeholder'),
+      ok: t('web_files_create_save'),
+    })
+    const name = classes.includes(answer ?? '') ? answer! : validFolderName(answer ?? '')
+    if (!name) return false
+    await ws.root.dir(name, true)
+    this.className = name
+    store(classKey, name)
+    return true
+  }
+
   async save(title: string, xml: string, java: string | undefined, file?: WorkspaceFile): Promise<WorkspaceFile | undefined> {
     const ws = this.workspace
     if (!ws) return undefined
     let target = file
     if (!target) {
-      if (!this.className) {
-        this.host.message(t('web_files_pick_class'))
-        return undefined
-      }
+      if (!this.className && !(await this.askClass())) return undefined
+      const className = this.className!
       const day = todayFolder()
-      const dir = await (await ws.root.dir(this.className, true)).dir(day, true)
+      const dir = await (await ws.root.dir(className, true)).dir(day, true)
       const base = uniqueBaseName(programBaseName(title, t('web_files_default_name')), (await dir.list()).map((e) => e.name))
-      target = { dir, base, path: `${this.className}/${day}/${base}` }
-      this.expanded.add(this.className)
-      this.expanded.add(`${this.className}/${day}`)
+      target = { dir, base, path: `${className}/${day}/${base}` }
+      this.expanded.add(className)
+      this.expanded.add(`${className}/${day}`)
       this.rememberExpanded()
     }
     await target.dir.write(`${target.base}.visustruct`, xml)

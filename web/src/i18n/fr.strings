@@ -107,3 +107,9 @@
 "web_files_pick_class" = "Choisis d’abord une classe sous « Fichiers » à gauche.";
 "web_files_default_name" = "Programme";
 "web_files_saved_fmt" = "Enregistré : %@";
+"web_files_ask_class" = "Enregistrer dans quelle classe ?";
+"web_files_ask_class_hint" = "Choisis une classe ou crées-en une nouvelle. Elle reste ensuite sélectionnée.";
+"web_files_ask_class_new_hint" = "Crée un dossier pour ta classe. Elle reste ensuite sélectionnée.";
+"web_files_class_placeholder" = "Nouvelle classe, p. ex. 11FI1";
+"web_files_create_save" = "Créer et enregistrer";
+"web_files_create" = "Créer";

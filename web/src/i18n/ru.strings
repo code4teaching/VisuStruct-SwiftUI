@@ -107,3 +107,9 @@
 "web_files_pick_class" = "Сначала выбери класс в «Файлы» слева.";
 "web_files_default_name" = "Программа";
 "web_files_saved_fmt" = "Сохранено: %@";
+"web_files_ask_class" = "Сохранить в какой класс?";
+"web_files_ask_class_hint" = "Выбери класс или создай новый. Потом он останется выбранным.";
+"web_files_ask_class_new_hint" = "Создай папку для своего класса. Потом он останется выбранным.";
+"web_files_class_placeholder" = "Новый класс, напр. 11FI1";
+"web_files_create_save" = "Создать и сохранить";
+"web_files_create" = "Создать";

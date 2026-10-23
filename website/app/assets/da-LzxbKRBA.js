@@ -107,4 +107,10 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_files_pick_class" = "Vælg først en klasse under “Filer” til venstre.";
 "web_files_default_name" = "Program";
 "web_files_saved_fmt" = "Gemt: %@";
+"web_files_ask_class" = "Gem i hvilken klasse?";
+"web_files_ask_class_hint" = "Vælg en klasse, eller opret en ny. Den forbliver valgt bagefter.";
+"web_files_ask_class_new_hint" = "Opret en mappe til din klasse. Den forbliver valgt bagefter.";
+"web_files_class_placeholder" = "Ny klasse, fx 11FI1";
+"web_files_create_save" = "Opret og gem";
+"web_files_create" = "Opret";
 `;export{e as default};

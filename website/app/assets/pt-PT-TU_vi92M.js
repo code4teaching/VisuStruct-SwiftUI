@@ -162,4 +162,10 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_files_pick_class" = "Escolhe primeiro uma turma em “Ficheiros”, à esquerda.";
 "web_files_default_name" = "Programa";
 "web_files_saved_fmt" = "Guardado: %@";
+"web_files_ask_class" = "Guardar em que turma?";
+"web_files_ask_class_hint" = "Escolhe uma turma ou cria uma nova. Fica selecionada depois.";
+"web_files_ask_class_new_hint" = "Cria uma pasta para a tua turma. Fica selecionada depois.";
+"web_files_class_placeholder" = "Nova turma, p. ex. 11FI1";
+"web_files_create_save" = "Criar e guardar";
+"web_files_create" = "Criar";
 `;export{e as default};

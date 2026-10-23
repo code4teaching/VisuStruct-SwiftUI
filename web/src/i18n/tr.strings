@@ -107,3 +107,9 @@
 "web_files_pick_class" = "Önce soldaki “Dosyalar” altında bir sınıf seç.";
 "web_files_default_name" = "Program";
 "web_files_saved_fmt" = "Kaydedildi: %@";
+"web_files_ask_class" = "Hangi sınıfa kaydedilsin?";
+"web_files_ask_class_hint" = "Bir sınıf seç veya yeni bir tane oluştur. Sonra seçili kalır.";
+"web_files_ask_class_new_hint" = "Sınıfın için bir klasör oluştur. Sonra seçili kalır.";
+"web_files_class_placeholder" = "Yeni sınıf, ör. 11FI1";
+"web_files_create_save" = "Oluştur ve kaydet";
+"web_files_create" = "Oluştur";
