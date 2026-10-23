@@ -171,3 +171,11 @@ A way of searching sorted values. It looks at the middle and keeps searching onl
 ### Bubble sort
 also: bubble sort, Bubblesort
 A simple way of sorting. It always compares two neighbours and swaps them if they are the wrong way round.
+
+### Event
+also: event, events, Events
+Something a person does in a window program, for example clicking a button. The program reacts to it with a listener (ActionListener).
+
+### Interface
+also: Interfaces
+A kind of contract in Java: it states which methods a class must have. `ActionListener` is an interface with the method `actionPerformed`.

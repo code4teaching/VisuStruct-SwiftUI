@@ -108,7 +108,7 @@ At the top of Live code, [▶︎ Run](#zeige-ausfuehren) starts your program and
 
 You can drag the border between code and console up or down with the mouse.
 
-> Live code understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes, objects or windows yet. For those you need a Java development environment on your computer.
+> Live code understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Swing support** under the gear (lesson “Your first window”).
 
 ::: angeberwissen
 Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With Live code, VisuStruct is a small IDE with a built-in structure chart.
