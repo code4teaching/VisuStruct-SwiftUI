@@ -12,11 +12,11 @@ Java comes with a toolbox for this: **Swing**. In VisuStruct you switch it on li
 
 1. Open [Live code](#zeige-codelive) on the right.
 2. Click the [gear](#zeige-einstellungen) at the top right and choose Java as the **Programming language**.
-3. Below that, in the Java section, tick **Swing support**.
+3. Below that, in the Java section, tick **Real Java (with Swing)**.
 
 The first time you click [▶︎ Run](#zeige-ausfuehren), VisuStruct downloads about 40 MB once, which takes a moment. After that your code runs as real Java, and your windows appear in Live code in the **Java windows** area above the console.
 
-> With Swing support, input from the console (`Scanner`) does not work yet. For programs with input, untick the box again.
+> With “Real Java”, input from the console (`Scanner`) does not work yet. For programs with input, untick the box again.
 
 ::: angeberwissen
 Swing has been around since 1998. Before that, Java only had the older AWT with a class called `Frame`. So that nobody mixes up the new building blocks, almost all names in Swing start with **J**: `JFrame`, `JButton`, `JLabel`. The J tells you straight away that it is Swing.
@@ -94,13 +94,13 @@ Change the program so that
 Run it and check all three points.
 
 ::: ludwig
-Don't feel like typing so much? With Swing support you may type just the four lines from `main` into Live code. VisuStruct then wraps them in a class itself and adds the `import` lines. In a real Java development environment, though, you need the whole program.
+Don't feel like typing so much? With “Real Java” you may type just the four lines from `main` into Live code. VisuStruct then wraps them in a class itself and adds the `import` lines. In a real Java development environment, though, you need the whole program.
 :::
 
 ## Checklist
 
 ::: checkliste
-- I can switch on Swing support in Live code. → Programs with windows
+- I can switch on “Real Java” in Live code. → Programs with windows
 - I can open a window with a title and a size. → The whole program
 - I know what each line of the window program does. → Line by line
 - I know why setVisible(true) comes last. → Why setVisible comes last

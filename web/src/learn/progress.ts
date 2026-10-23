@@ -47,6 +47,9 @@ const renamedLessons: Record<string, string> = {
   '18-python-und-javascript': '21-python-und-javascript',
   '19-python-und-javascript': '21-python-und-javascript',
   '20-python-und-javascript': '21-python-und-javascript',
+  '22-erstes-fenster': '23-erstes-fenster',
+  '23-knopf-im-fenster': '24-knopf-im-fenster',
+  '24-der-knopf-reagiert': '25-der-knopf-reagiert',
 }
 
 function migrate(s: Store): Store {

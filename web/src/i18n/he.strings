@@ -63,7 +63,7 @@
 "web_live_java_class_hint" = "שם המחלקה = כותרת התרשים";
 "web_live_java_main" = "עם מתודת main";
 "web_settings_display" = "תצוגה";
-"web_live_swing" = "תמיכה ב-Swing";
+"web_live_swing" = "Java אמיתית (עם Swing)";
 "web_live_swing_hint" = "ג׳אווה אמיתית עם חלונות (CheerpJ). מורידה פעם אחת כ-40 MB בהרצה הראשונה.";
 "web_live_swing_windows" = "חלונות ג׳אווה";
 "web_live_swing_hide" = "סגירת חלונות ג׳אווה";

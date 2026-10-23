@@ -63,7 +63,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_live_java_class_hint" = "Nazwa klasy = tytuł diagramu";
 "web_live_java_main" = "Z metodą main";
 "web_settings_display" = "Wygląd";
-"web_live_swing" = "Obsługa Swing";
+"web_live_swing" = "Prawdziwa Java (ze Swing)";
 "web_live_swing_hint" = "Prawdziwa Java z oknami (CheerpJ). Przy pierwszym uruchomieniu jednorazowo pobiera ok. 40 MB.";
 "web_live_swing_windows" = "Okna Java";
 "web_live_swing_hide" = "Zamknij okna Java";

@@ -63,7 +63,7 @@
 "web_live_java_class_hint" = "Имя класса = заголовок диаграммы";
 "web_live_java_main" = "С методом main";
 "web_settings_display" = "Отображение";
-"web_live_swing" = "Поддержка Swing";
+"web_live_swing" = "Настоящая Java (со Swing)";
 "web_live_swing_hint" = "Настоящая Java с окнами (CheerpJ). При первом запуске однократно загружает около 40 МБ.";
 "web_live_swing_windows" = "Окна Java";
 "web_live_swing_hide" = "Закрыть окна Java";

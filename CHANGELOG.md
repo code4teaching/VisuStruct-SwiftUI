@@ -9,6 +9,9 @@ The format is loosely inspired by Keep a Changelog.
 ### Added
 
 - **Web, Code live:** new button “Indent” (next to ▶ Run) indents the code like Eclipse or IntelliJ, four spaces per level, only the selected lines if there is a selection. It counts brackets, so half-finished code and pseudocode are indented too. After a change in the structure chart, the changed lines are indented to fit the typed code. Lesson 20 (de/en/pt) mentions the button.
+- **Web, lessons (de/en/pt):** new lesson 22 “When the program crashes: try and catch” (section “Catching errors”): a crash with an array index, switching on real Java, reading the error message, try and catch, `Integer.parseInt` with `NumberFormatException`, an expert box on exceptions as objects and the task “Dividing safely”. The Swing lessons move to 23–25 (progress is carried over). New lesson 26 “Doubling a number in a window”: JLabel, JTextField and a “Calculate” button, why only the button shows without a layout (Ludwig), `GridLayout(0, 1)`, `getText`/`parseInt`/`setText` and try/catch against “abc”. New glossary term exception.
+- **Web, Code live:** `try { … } catch (…) { … } finally { … }` no longer reports problems; the whole block becomes one statement box (run it with real Java).
+- **Web:** the browser tab shows the VisuStruct app icon, as on the website.
 - **Web, Code live:** shortcuts from Eclipse and IntelliJ in the suggestions: `syso`, `sysout` and `sout` insert `System.out.println();`, `main` and `psvm` insert the main method.
 - **Web:** “About VisuStruct” has a section “Third-party software” (CodeMirror and Lezer, MIT; CheerpJ and javac for Swing support) with a link to `licenses.txt`. The build writes that file next to the app with the licence texts of all bundled packages, as the MIT License requires.
 - **Web, Code live: debugger.** Click a line number to set a breakpoint (red dot); ▶ Run pauses before that line. The next line is yellow and its element is selected in the structure chart, a variables table below the code shows the current values and briefly highlights what changed. New Step button (own icon) runs one line and pauses again (also starts the program paused before the first line); ▶ continues to the next breakpoint. The code is read-only while the program runs. Lesson 20 (de/en/pt) gets the section “Find mistakes with the debugger” with a Ludwig tip, checklist item and quiz question.
@@ -34,8 +37,9 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.9) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.10) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

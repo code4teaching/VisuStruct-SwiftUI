@@ -63,7 +63,7 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_live_java_class_hint" = "Όνομα κλάσης = τίτλος διαγράμματος";
 "web_live_java_main" = "Με μέθοδο main";
 "web_settings_display" = "Εμφάνιση";
-"web_live_swing" = "Υποστήριξη Swing";
+"web_live_swing" = "Πραγματική Java (με Swing)";
 "web_live_swing_hint" = "Πραγματική Java με παράθυρα (CheerpJ). Κατεβάζει μία φορά περίπου 40 MB στην πρώτη εκτέλεση.";
 "web_live_swing_windows" = "Παράθυρα Java";
 "web_live_swing_hide" = "Κλείσιμο παραθύρων Java";

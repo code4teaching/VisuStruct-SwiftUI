@@ -63,7 +63,7 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_live_java_class_hint" = "اسم الصنف = عنوان المخطط";
 "web_live_java_main" = "مع الطريقة main";
 "web_settings_display" = "العرض";
-"web_live_swing" = "دعم Swing";
+"web_live_swing" = "جافا حقيقية (مع Swing)";
 "web_live_swing_hint" = "جافا حقيقية مع نوافذ (CheerpJ). تُنزّل نحو 40 ميغابايت مرة واحدة عند أول تشغيل.";
 "web_live_swing_windows" = "نوافذ جافا";
 "web_live_swing_hide" = "إغلاق نوافذ جافا";

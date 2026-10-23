@@ -63,7 +63,7 @@
 "web_live_java_class_hint" = "Klassenavn = diagrammets titel";
 "web_live_java_main" = "Med main-metode";
 "web_settings_display" = "Visning";
-"web_live_swing" = "Swing-understøttelse";
+"web_live_swing" = "Ægte Java (med Swing)";
 "web_live_swing_hint" = "Rigtig Java med vinduer (CheerpJ). Henter ca. 40 MB én gang ved første kørsel.";
 "web_live_swing_windows" = "Java-vinduer";
 "web_live_swing_hide" = "Luk Java-vinduer";

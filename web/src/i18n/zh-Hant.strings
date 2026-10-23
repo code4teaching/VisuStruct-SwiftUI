@@ -63,7 +63,7 @@
 "web_live_java_class_hint" = "類別名稱 = 結構圖標題";
 "web_live_java_main" = "包含 main 方法";
 "web_settings_display" = "顯示";
-"web_live_swing" = "Swing 支援";
+"web_live_swing" = "真正的 Java（含 Swing）";
 "web_live_swing_hint" = "帶視窗的真正 Java（CheerpJ）。首次執行時一次性下載約 40 MB。";
 "web_live_swing_windows" = "Java 視窗";
 "web_live_swing_hide" = "關閉 Java 視窗";

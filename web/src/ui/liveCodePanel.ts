@@ -149,7 +149,7 @@ export class LiveCodePanel {
   /** Zeile, die als Nächstes ausgeführt wird (gelb), solange der Debugger anhält. */
   private debugLine?: number
   private breakpoints = new Set<number>()
-  /** Swing-Unterstützung (Zahnrad-Menü): Java läuft dann als echtes Java mit CheerpJ. */
+  /** „Echtes Java (mit Swing)“ (Zahnrad-Menü): Java läuft dann als echtes Java mit CheerpJ. */
   private swing = storedFlag(swingKey)
   /** Fläche für die Swing-Fenster; bleibt über `build()` hinweg bestehen, weil CheerpJ sie einmal übernimmt. */
   private swingElement: HTMLElement
@@ -342,7 +342,7 @@ export class LiveCodePanel {
     if (this.last) this.refresh(this.last.doc, this.last.highlight, this.last.context)
   }
 
-  /** Swing-Unterstützung (Zahnrad-Menü): erst beim nächsten Ausführen wird Java geladen. */
+  /** „Echtes Java (mit Swing)“ (Zahnrad-Menü): erst beim nächsten Ausführen wird Java geladen. */
   get swingSupport(): boolean {
     return this.swing
   }
@@ -445,7 +445,7 @@ export class LiveCodePanel {
     else this.continueRun(false)
   }
 
-  /** Mit Swing-Unterstützung: den getippten Java-Code mit javac übersetzen und als echtes Java starten. */
+  /** Mit „Echtes Java (mit Swing)“: den getippten Java-Code mit javac übersetzen und als echtes Java starten. */
   private async startJavaRun() {
     this.stopRun(false)
     this.setConsoleVisible(true)

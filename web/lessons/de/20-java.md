@@ -109,7 +109,7 @@ Oben in Code live startet [▶︎ Ausführen](#zeige-ausfuehren) dein Programm, 
 
 Die Grenze zwischen Code und Konsole kannst du mit der Maus nach oben oder unten ziehen.
 
-> Code live versteht die Java-Befehle, die es auch als Kasten im Struktogramm gibt. Eigene Klassen und Objekte kennt es noch nicht. Fenster mit Swing gehen trotzdem: Schalte dafür im Zahnrad die **Swing-Unterstützung** ein (Lektion „Dein erstes Fenster“).
+> Code live versteht die Java-Befehle, die es auch als Kasten im Struktogramm gibt. Eigene Klassen und Objekte kennt es noch nicht. Fenster mit Swing gehen trotzdem: Schalte dafür im Zahnrad **Echtes Java (mit Swing)** ein (Lektion „Dein erstes Fenster“).
 
 ::: angeberwissen
 Profis nennen ein Programm, in dem man Code schreibt, ausführt und Fehler sucht, eine **IDE** (Integrated Development Environment). Mit Code live ist VisuStruct eine kleine IDE mit eingebautem Struktogramm.

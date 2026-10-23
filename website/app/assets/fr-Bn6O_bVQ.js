@@ -63,7 +63,7 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_live_java_class_hint" = "Nom de la classe = titre du diagramme";
 "web_live_java_main" = "Avec méthode main";
 "web_settings_display" = "Affichage";
-"web_live_swing" = "Prise en charge de Swing";
+"web_live_swing" = "Vrai Java (avec Swing)";
 "web_live_swing_hint" = "Du vrai Java avec fenêtres (CheerpJ). Télécharge environ 40 Mo une seule fois, au premier lancement.";
 "web_live_swing_windows" = "Fenêtres Java";
 "web_live_swing_hide" = "Fermer les fenêtres Java";
