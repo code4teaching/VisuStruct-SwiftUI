@@ -56,6 +56,16 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_live_ph_selector" = "змінна";
 "web_live_ph_code" = "Твій код";
 "web_live_ph_end" = "кінець";
+"web_live_hint_edit" = "Набери тут код Java, і діаграма будується сама. Або працюй у діаграмі, і код росте разом із нею. Сірий = заповнювач, просто пиши поверх.";
+"web_live_edit_label" = "Код Java";
+"web_parse_line_fmt" = "Рядок %d: %@";
+"web_parse_missing" = "Тут ще бракує: %@";
+"web_parse_extra" = "Зайве: %@";
+"web_parse_unclosed_string" = "Бракує закривного %@.";
+"web_parse_else_without_if" = "Цей «else» не має «if».";
+"web_parse_case_outside_switch" = "«case» і «default» мають бути всередині «switch».";
+"web_parse_missing_do_while" = "Після «do { … }» бракує «while (умова);».";
+"web_parse_more_methods" = "Поки що тут враховується лише один метод. Інші підпрограми створи в окремих вкладках.";
 "web_editor_title" = "Діаграма";
 "web_editor_show" = "Показати діаграму";
 "web_editor_hide" = "Сховати діаграму";

@@ -243,6 +243,8 @@ export class App {
   private codeButton!: HTMLButtonElement
   /** Ansicht „Code live“ rechts neben dem Editor. */
   private liveCoding = false
+  /** Laufende Eingabe in „Code live“: fasst Tastendrücke zu Rückgängig-Schritten zusammen. */
+  private codeTyping?: { tab: Tab; start: number; last: number }
   private live: LiveCodePanel
 
   private measure = createCanvasMeasure()
@@ -279,6 +281,8 @@ export class App {
         this.selected = path
         this.render()
       },
+      (doc, path) => this.commitFromCode(doc, path),
+      (redo) => (redo ? this.redo() : this.undo()),
     )
     // Oben die Werkzeugleiste, darunter drei Spalten: Lernen | Struktogramm | Code live, jede einklappbar.
     const columns = h('div', { class: 'columns' })
@@ -747,7 +751,13 @@ export class App {
     this.codeButton.disabled = this.simulating
     this.exportSelect.disabled = this.simulating
     if (this.coding) this.code.refresh()
-    if (this.liveCoding) this.live.refresh(this.doc, this.simulating ? this.simPath : this.selected, !this.simulating)
+    if (this.liveCoding) {
+      this.live.refresh(this.doc, this.simulating ? this.simPath : this.selected, {
+        owner: this.tab,
+        subprograms: new Set(this.tabs.filter((tab) => tab !== this.tab).flatMap((tab) => parseSubprogramHeader(tab.doc.caption)?.name ?? [])),
+        editable: !this.simulating,
+      })
+    }
     this.renderTabs()
     this.renderInspector()
     this.updateStatus()
@@ -1039,10 +1049,28 @@ export class App {
   // MARK: - Dokument
 
   private commit(next: VSDocument, select?: number[]) {
+    this.codeTyping = undefined
     this.pushUndo(this.doc)
     this.doc = next
     this.dirty = true
     if (select) this.selected = select
+    this.render()
+  }
+
+  /**
+   * Getippter Code in „Code live“ ergab ein neues Struktogramm. Wer am Stück tippt, bekommt einen
+   * Rückgängig-Schritt pro kurzer Pause statt einen pro Buchstabe.
+   */
+  private commitFromCode(next: VSDocument, select?: number[]) {
+    const now = Date.now()
+    const typing = this.codeTyping
+    if (!typing || typing.tab !== this.tab || now - typing.last > 1000 || now - typing.start > 5000) {
+      this.pushUndo(this.doc)
+      this.codeTyping = { tab: this.tab, start: now, last: now }
+    } else typing.last = now
+    this.doc = next
+    this.dirty = true
+    this.selected = sanitizedSelection(select ?? this.selected, next)
     this.render()
   }
 
@@ -1055,6 +1083,7 @@ export class App {
   private undo() {
     const prev = this.undoStack.pop()
     if (!prev) return
+    this.codeTyping = undefined
     this.redoStack.push(this.doc)
     this.doc = prev
     this.dirty = true
@@ -1065,6 +1094,7 @@ export class App {
   private redo() {
     const next = this.redoStack.pop()
     if (!next) return
+    this.codeTyping = undefined
     this.undoStack.push(this.doc)
     this.doc = next
     this.dirty = true

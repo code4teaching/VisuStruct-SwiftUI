@@ -56,6 +56,16 @@
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kod";
 "web_live_ph_end" = "slut";
+"web_live_hint_edit" = "Skriv Java-kod här så bygger diagrammet sig självt. Eller arbeta i diagrammet så växer koden med. Grått = platshållare, skriv bara över.";
+"web_live_edit_label" = "Java-kod";
+"web_parse_line_fmt" = "Rad %d: %@";
+"web_parse_missing" = "Här saknas ännu: %@";
+"web_parse_extra" = "För mycket: %@";
+"web_parse_unclosed_string" = "Det avslutande %@ saknas.";
+"web_parse_else_without_if" = "Denna ”else” har ingen ”if”.";
+"web_parse_case_outside_switch" = "”case” och ”default” hör hemma i en ”switch”.";
+"web_parse_missing_do_while" = "Efter ”do { … }” saknas ”while (villkor);”.";
+"web_parse_more_methods" = "För tillfället räknas bara en metod här. Skapa andra underprogram i egna flikar.";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Visa strukturdiagram";
 "web_editor_hide" = "Dölj strukturdiagram";

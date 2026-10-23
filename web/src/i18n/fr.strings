@@ -56,6 +56,16 @@
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Ton code";
 "web_live_ph_end" = "fin";
+"web_live_hint_edit" = "Tape ici du code Java et le diagramme se construit tout seul. Ou travaille dans le diagramme et le code suit. Gris = espace réservé, il suffit d’écrire par-dessus.";
+"web_live_edit_label" = "Code Java";
+"web_parse_line_fmt" = "Ligne %d : %@";
+"web_parse_missing" = "Il manque encore ici : %@";
+"web_parse_extra" = "En trop : %@";
+"web_parse_unclosed_string" = "Le %@ de fermeture manque ici.";
+"web_parse_else_without_if" = "Ce « else » n’a pas de « if ».";
+"web_parse_case_outside_switch" = "« case » et « default » vont dans un « switch ».";
+"web_parse_missing_do_while" = "Après « do { … } », il manque « while (condition); ».";
+"web_parse_more_methods" = "Pour l’instant, une seule méthode compte ici. Crée les autres sous-programmes dans des onglets séparés.";
 "web_editor_title" = "Diagramme";
 "web_editor_show" = "Afficher le diagramme";
 "web_editor_hide" = "Masquer le diagramme";

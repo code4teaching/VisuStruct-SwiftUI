@@ -1370,9 +1370,83 @@ button.danger-text:not(:disabled) {
   background: var(--accent-soft);
   border-inline-start-color: var(--accent);
 }
-.livecode-view .ph {
+.livecode-view .ph,
+.livecode-layer .ph {
   color: var(--muted);
   font-style: italic;
+}
+/* Java selbst tippen: unsichtbares Textfeld über den gezeichneten Zeilen (gleiche Schrift, gleiche Abstände). */
+.livecode-editor {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  font-size: 14px;
+  white-space: normal;
+}
+.livecode-editor[hidden],
+.livecode-view[hidden],
+.livecode-problem[hidden] {
+  display: none;
+}
+.livecode-stack {
+  position: relative;
+  min-width: 100%;
+  min-height: 100%;
+  width: max-content;
+}
+.livecode-layer {
+  padding: 10px 0;
+  pointer-events: none;
+  white-space: pre;
+}
+.livecode-layer .ln {
+  padding: 0 12px;
+  min-height: 1.5em;
+  border-inline-start: 3px solid transparent;
+}
+.livecode-layer .ln.sel {
+  background: var(--accent-soft);
+  border-inline-start-color: var(--accent);
+}
+.livecode-layer .err {
+  text-decoration: underline wavy #d33;
+  text-decoration-skip-ink: none;
+  text-underline-offset: 3px;
+}
+.livecode-layer .err.end {
+  text-decoration: none;
+  border-bottom: 2px solid #d33;
+}
+.livecode-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px 12px 10px 15px;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: hidden;
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text);
+  font: inherit;
+  line-height: inherit;
+  white-space: pre;
+  tab-size: 4;
+}
+.livecode-input::selection {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.livecode-editor:focus-within {
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.livecode-problem {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 13px;
+  color: #c62828;
 }
 .live-resizer {
   display: none;

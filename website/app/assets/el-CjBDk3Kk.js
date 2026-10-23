@@ -56,6 +56,16 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_live_ph_selector" = "μεταβλητή";
 "web_live_ph_code" = "Ο κώδικάς σου";
 "web_live_ph_end" = "τέλος";
+"web_live_hint_edit" = "Γράψε εδώ κώδικα Java και το διάγραμμα φτιάχνεται μόνο του. Ή δούλεψε στο διάγραμμα και ο κώδικας μεγαλώνει μαζί. Γκρι = σύμβολο κράτησης θέσης, απλώς γράψε από πάνω.";
+"web_live_edit_label" = "Κώδικας Java";
+"web_parse_line_fmt" = "Γραμμή %d: %@";
+"web_parse_missing" = "Λείπει ακόμα εδώ: %@";
+"web_parse_extra" = "Περισσεύει: %@";
+"web_parse_unclosed_string" = "Λείπει το %@ που κλείνει.";
+"web_parse_else_without_if" = "Αυτό το «else» δεν έχει «if».";
+"web_parse_case_outside_switch" = "Τα «case» και «default» ανήκουν μέσα σε «switch».";
+"web_parse_missing_do_while" = "Μετά το «do { … }» λείπει το «while (συνθήκη);».";
+"web_parse_more_methods" = "Προς το παρόν μετράει μόνο μία μέθοδος. Δημιούργησε τα άλλα υποπρογράμματα σε ξεχωριστές καρτέλες.";
 "web_editor_title" = "Διάγραμμα";
 "web_editor_show" = "Εμφάνιση διαγράμματος";
 "web_editor_hide" = "Απόκρυψη διαγράμματος";

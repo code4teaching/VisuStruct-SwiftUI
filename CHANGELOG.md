@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Code live:** type Java in the code column and the diagram builds itself as you type (unfinished code is tolerated: open blocks count as closed, missing parts become placeholders, a hint names what is still missing). Changing the diagram afterwards only rewrites the lines of the changed elements, so your own comments and formatting stay. JavaScript and Python stay display-only for now.
 - **Website:** GitHub Actions workflow that publishes `website/` to visustruct.org via SFTP after the web tests pass (tag `web-v…` or manual start).
 
 ### Changed

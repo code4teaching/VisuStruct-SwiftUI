@@ -56,6 +56,16 @@
 "web_live_ph_selector" = "변수";
 "web_live_ph_code" = "코드 작성";
 "web_live_ph_end" = "끝";
+"web_live_hint_edit" = "여기에 Java 코드를 입력하면 순서도가 함께 만들어집니다. 또는 순서도에서 작업하면 코드가 함께 자랍니다. 회색 = 자리표시자, 그대로 덮어쓰면 됩니다.";
+"web_live_edit_label" = "Java 코드";
+"web_parse_line_fmt" = "%d행: %@";
+"web_parse_missing" = "여기에 아직 없음: %@";
+"web_parse_extra" = "하나 더 많음: %@";
+"web_parse_unclosed_string" = "닫는 %@가 없습니다.";
+"web_parse_else_without_if" = "이 “else”에 맞는 “if”가 없습니다.";
+"web_parse_case_outside_switch" = "“case”와 “default”는 “switch” 안에 있어야 합니다.";
+"web_parse_missing_do_while" = "“do { … }” 다음에 “while (조건);”이 필요합니다.";
+"web_parse_more_methods" = "지금은 메서드 하나만 사용됩니다. 다른 서브프로그램은 별도 탭으로 만드세요.";
 "web_editor_title" = "구조도";
 "web_editor_show" = "구조도 표시";
 "web_editor_hide" = "구조도 숨기기";

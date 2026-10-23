@@ -56,6 +56,16 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_live_ph_selector" = "משתנה";
 "web_live_ph_code" = "הקוד שלך";
 "web_live_ph_end" = "סוף";
+"web_live_hint_edit" = "הקלד כאן קוד Java והתרשים נבנה בעצמו. או עבוד בתרשים והקוד יגדל איתו. אפור = ממלא מקום, פשוט כתוב מעליו.";
+"web_live_edit_label" = "קוד Java";
+"web_parse_line_fmt" = "שורה %d: %@";
+"web_parse_missing" = "עדיין חסר כאן: %@";
+"web_parse_extra" = "מיותר: %@";
+"web_parse_unclosed_string" = "חסר כאן ה־%@ הסוגר.";
+"web_parse_else_without_if" = "ל־“else” הזה אין “if”.";
+"web_parse_case_outside_switch" = "“case” ו־“default” שייכים בתוך “switch”.";
+"web_parse_missing_do_while" = "אחרי “do { … }” עדיין חסר “while (תנאי);”.";
+"web_parse_more_methods" = "כרגע נחשבת כאן רק מתודה אחת. צור תוכניות משנה נוספות בכרטיסיות נפרדות.";
 "web_editor_title" = "תרשים";
 "web_editor_show" = "הצגת התרשים";
 "web_editor_hide" = "הסתרת התרשים";

@@ -56,6 +56,16 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kode";
 "web_live_ph_end" = "slutt";
+"web_live_hint_edit" = "Skriv Java-kode her, så bygger diagrammet seg selv. Eller arbeid i diagrammet, så vokser koden med. Grått = plassholder, bare skriv over.";
+"web_live_edit_label" = "Java-kode";
+"web_parse_line_fmt" = "Linje %d: %@";
+"web_parse_missing" = "Her mangler fortsatt: %@";
+"web_parse_extra" = "For mye: %@";
+"web_parse_unclosed_string" = "Det avsluttende %@ mangler.";
+"web_parse_else_without_if" = "Denne «else» har ingen «if».";
+"web_parse_case_outside_switch" = "«case» og «default» hører hjemme i en «switch».";
+"web_parse_missing_do_while" = "Etter «do { … }» mangler «while (betingelse);».";
+"web_parse_more_methods" = "Foreløpig teller bare én metode her. Lag andre underprogrammer i egne faner.";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";

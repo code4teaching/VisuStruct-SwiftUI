@@ -56,6 +56,16 @@
 "web_live_ph_selector" = "переменная";
 "web_live_ph_code" = "Твой код";
 "web_live_ph_end" = "конец";
+"web_live_hint_edit" = "Набери здесь код Java, и диаграмма построится сама. Или работай в диаграмме, и код будет расти вместе с ней. Серый = заполнитель, просто пиши поверх.";
+"web_live_edit_label" = "Код Java";
+"web_parse_line_fmt" = "Строка %d: %@";
+"web_parse_missing" = "Здесь ещё не хватает: %@";
+"web_parse_extra" = "Лишнее: %@";
+"web_parse_unclosed_string" = "Не хватает закрывающей %@.";
+"web_parse_else_without_if" = "У этого «else» нет «if».";
+"web_parse_case_outside_switch" = "«case» и «default» должны быть внутри «switch».";
+"web_parse_missing_do_while" = "После «do { … }» не хватает «while (условие);».";
+"web_parse_more_methods" = "Пока здесь учитывается только один метод. Создай другие подпрограммы в отдельных вкладках.";
 "web_editor_title" = "Диаграмма";
 "web_editor_show" = "Показать диаграмму";
 "web_editor_hide" = "Скрыть диаграмму";

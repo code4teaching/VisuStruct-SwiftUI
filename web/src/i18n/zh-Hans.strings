@@ -56,6 +56,16 @@
 "web_live_ph_selector" = "变量";
 "web_live_ph_code" = "你的代码";
 "web_live_ph_end" = "结束";
+"web_live_hint_edit" = "在这里输入 Java 代码，结构图会随之生成。或者在结构图中操作，代码也会一起增长。灰色 = 占位符，直接覆盖输入即可。";
+"web_live_edit_label" = "Java 代码";
+"web_parse_line_fmt" = "第 %d 行：%@";
+"web_parse_missing" = "这里还缺少：%@";
+"web_parse_extra" = "多余：%@";
+"web_parse_unclosed_string" = "这里缺少结尾的 %@。";
+"web_parse_else_without_if" = "这个“else”没有对应的“if”。";
+"web_parse_case_outside_switch" = "“case”和“default”应写在“switch”里面。";
+"web_parse_missing_do_while" = "“do { … }”之后还缺少“while (条件);”。";
+"web_parse_more_methods" = "目前这里只计入一个方法。请在单独的标签页中创建其他子程序。";
 "web_editor_title" = "结构图";
 "web_editor_show" = "显示结构图";
 "web_editor_hide" = "隐藏结构图";
