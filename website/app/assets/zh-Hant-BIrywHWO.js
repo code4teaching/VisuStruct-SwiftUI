@@ -56,6 +56,7 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_live_ph_selector" = "變數";
 "web_live_ph_code" = "你的程式碼";
 "web_live_ph_end" = "結束";
+"web_live_language" = "程式語言";
 "web_live_hint_edit" = "在這裡輸入 Java 程式碼，結構圖會隨之產生。或者在結構圖中操作，程式碼也會一起成長。灰色 = 預留位置，直接覆寫輸入即可。";
 "web_live_edit_label" = "Java 程式碼";
 "web_parse_line_fmt" = "第 %d 行：%@";

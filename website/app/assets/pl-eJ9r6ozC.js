@@ -56,6 +56,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_live_ph_selector" = "zmienna";
 "web_live_ph_code" = "Twój kod";
 "web_live_ph_end" = "koniec";
+"web_live_language" = "Język programowania";
 "web_live_hint_edit" = "Wpisz tu kod Java, a diagram zbuduje się sam. Albo pracuj w diagramie, a kod będzie rósł razem z nim. Szary = symbol zastępczy, po prostu pisz.";
 "web_live_edit_label" = "Kod Java";
 "web_parse_line_fmt" = "Wiersz %d: %@";

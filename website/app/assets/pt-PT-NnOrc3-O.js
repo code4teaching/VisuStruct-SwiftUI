@@ -111,6 +111,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_live_ph_selector" = "variável";
 "web_live_ph_code" = "O teu código";
 "web_live_ph_end" = "fim";
+"web_live_language" = "Linguagem de programação";
 "web_live_hint_edit" = "Escreve aqui código Java e o diagrama constrói-se sozinho. Ou trabalha no diagrama e o código cresce com ele. Cinzento = marcador, basta escrever por cima.";
 "web_live_edit_label" = "Código Java";
 "web_parse_line_fmt" = "Linha %d: %@";

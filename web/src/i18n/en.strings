@@ -113,6 +113,7 @@
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Your code";
 "web_live_ph_end" = "end";
+"web_live_language" = "Programming language";
 "web_live_hint_edit" = "Type Java code here and the diagram builds itself. Or work in the diagram and the code grows along. Grey = placeholder, just type over it.";
 "web_live_edit_label" = "Java code";
 "web_parse_line_fmt" = "Line %d: %@";
