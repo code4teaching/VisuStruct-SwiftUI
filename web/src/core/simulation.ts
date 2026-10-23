@@ -75,6 +75,8 @@ export type SimNotice =
   | { kind: 'callArguments'; text: string }
   /** Ein Unterprogramm mit Rückgabetyp endet ohne `return`. */
   | { kind: 'missingReturn'; text: string }
+  /** `Files.readString(Path.of("…"))` mit einem Namen, den es nicht gibt. */
+  | { kind: 'fileNotFound'; text: string }
   | { kind: 'other'; text: string }
 
 export interface SimState {
@@ -106,6 +108,7 @@ export function noticeEnglish(n: SimNotice): string {
     case 'callTooDeep': return 'Too many nested calls. Does a subprogram call itself?'
     case 'callArguments': return `The call does not match the header of ${n.text}. Check the values in the parentheses.`
     case 'missingReturn': return `${n.text} ended without returning a value with return.`
+    case 'fileNotFound': return `There is no file called ${n.text}.`
     case 'other': return n.text
   }
 }
@@ -125,6 +128,7 @@ export function noticeGerman(n: SimNotice): string {
     case 'callTooDeep': return 'Zu viele verschachtelte Aufrufe. Ruft sich ein Unterprogramm selbst auf?'
     case 'callArguments': return `Der Aufruf passt nicht zur Kopfzeile von ${n.text}. Prüfe die Werte in den Klammern.`
     case 'missingReturn': return `${n.text} hat keinen Wert mit return zurückgegeben.`
+    case 'fileNotFound': return `Es gibt keine Datei ${n.text}.`
     case 'other': return n.text
   }
 }
@@ -139,6 +143,15 @@ const unsupported = (text: string) => new SimulationError({ kind: 'unsupportedSt
 const invalid = (text: string) => new SimulationError({ kind: 'invalidExpression', text })
 const unknownVar = (text: string) => new SimulationError({ kind: 'unknownVariable', text })
 const divByZero = () => new SimulationError({ kind: 'divisionByZero' })
+
+/** Textdateien, die Java mit `Files.readString(Path.of("name"))` liest, z. B. aus einer Lektion. */
+const textFiles = new Map<string, string>()
+
+export function registerTextFile(name: string, content: string) {
+  textFiles.set(name, content)
+}
+
+export const textFileEntries = (): [string, string][] => [...textFiles]
 
 function toNotice(error: unknown): SimNotice {
   if (error instanceof SimulationError) return error.notice
@@ -1528,11 +1541,16 @@ export class SimulationEngine {
   /**
    * String-Methoden wie in Java: `wort.length()`, `wort.charAt(i)`, `wort.substring(a, b)`, `wort.indexOf("x")`,
    * `wort.toUpperCase()`, `wort.toLowerCase()`, `wort.trim()`, `wort.contains("x")`, `wort.startsWith("x")`,
-   * `wort.endsWith("x")`, `wort.replace("a", "b")`, `satz.split(" ")`. Sonst `undefined`.
+   * `wort.endsWith("x")`, `wort.replace("a", "b")`, `satz.split(" ")`, `wort.lastIndexOf("x")`, `wort.isEmpty()`,
+   * `wort.equalsIgnoreCase("x")`, `wort.compareTo("x")`, `wort.repeat(3)`, `wort.concat("x")`, dazu
+   * `Integer.parseInt("12")`, `Double.parseDouble("1.5")`, `String.valueOf(12)` und
+   * `Files.readString(Path.of("brief.txt"))`. Sonst `undefined`.
    */
   private evaluateStringMethod(text: string): SimValue | undefined {
     const call = parseMethodCall(text)
     if (!call) return undefined
+    const staticValue = this.evaluateStaticCall(text, call)
+    if (staticValue) return staticValue
     const target = unquotedString(call.target) ?? this.stringValueOf(call.target)
     if (target === undefined) return undefined
     const args = call.args
@@ -1571,11 +1589,38 @@ export class SimulationEngine {
         if (end < begin) throw invalid(text)
         return { kind: 'string', value: chars.slice(begin, end).join('') }
       }
-      case 'indexOf': {
-        count(1)
-        const found = target.indexOf(str(0))
+      case 'indexOf':
+      case 'lastIndexOf': {
+        if (args.length !== 1 && args.length !== 2) throw invalid(text)
+        // Die Stelle zählt wie in Java in Zeichen, nicht in UTF-16-Einheiten.
+        const from = args.length === 2 ? Array.from(target).slice(0, Math.max(0, num(1))).join('').length : undefined
+        const found = call.method === 'indexOf' ? target.indexOf(str(0), from) : target.lastIndexOf(str(0), from)
         return int(found < 0 ? -1 : Array.from(target.slice(0, found)).length)
       }
+      case 'isEmpty':
+        count(0)
+        return { kind: 'boolean', value: chars.length === 0 }
+      case 'equalsIgnoreCase':
+        count(1)
+        return { kind: 'boolean', value: target.toLowerCase() === str(0).toLowerCase() }
+      case 'compareTo': {
+        // Wie Java: Unterschied der ersten verschiedenen Zeichen, sonst der Längen.
+        count(1)
+        const other = Array.from(str(0))
+        for (let i = 0; i < Math.min(chars.length, other.length); i++) {
+          if (chars[i] !== other[i]) return int(chars[i].codePointAt(0)! - other[i].codePointAt(0)!)
+        }
+        return int(chars.length - other.length)
+      }
+      case 'repeat': {
+        count(1)
+        const times = num(0)
+        if (times < 0) throw invalid(text)
+        return { kind: 'string', value: target.repeat(times) }
+      }
+      case 'concat':
+        count(1)
+        return { kind: 'string', value: target + str(0) }
       case 'toUpperCase':
         count(0)
         return { kind: 'string', value: target.toUpperCase() }
@@ -1610,6 +1655,45 @@ export class SimulationEngine {
     }
   }
 
+  /** `Integer.parseInt(…)`, `Double.parseDouble(…)`, `String.valueOf(…)`, `Files.readString(Path.of(…))`. */
+  private evaluateStaticCall(text: string, call: { target: string; method: string; args: string[] }): SimValue | undefined {
+    const one = () => {
+      if (call.args.length !== 1) throw invalid(text)
+      return call.args[0]
+    }
+    const stringArg = (a: string) => {
+      const literal = unquotedString(a.trim())
+      if (literal !== undefined) return literal
+      const ref = this.evaluateReference(a)
+      if (ref?.kind === 'string') return ref.value
+      throw invalid(a)
+    }
+    switch (`${call.target}.${call.method}`) {
+      case 'Integer.parseInt': {
+        const digits = stringArg(one()).trim()
+        if (!/^[+-]?\d+$/u.test(digits)) throw new SimulationError({ kind: 'wholeNumberExpected' })
+        return int(Number(digits))
+      }
+      case 'Double.parseDouble': {
+        const value = Number(stringArg(one()).trim())
+        if (!Number.isFinite(value)) throw new SimulationError({ kind: 'numberExpected' })
+        return dbl(value)
+      }
+      case 'String.valueOf':
+        return { kind: 'string', value: this.evaluateOutputExpression(one()) }
+      case 'Files.readString': {
+        const path = /^(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)$/u.exec(one().trim())
+        if (!path) throw invalid(text)
+        const name = unquotedString(path[1])!
+        const content = textFiles.get(name)
+        if (content === undefined) throw new SimulationError({ kind: 'fileNotFound', text: name })
+        return { kind: 'string', value: content }
+      }
+      default:
+        return undefined
+    }
+  }
+
   /** Wert einer String-Variablen oder eines String-Fachs; sonst `undefined`. */
   private stringValueOf(text: string): string | undefined {
     const trimmed = text.trim()
@@ -1626,7 +1710,7 @@ export class SimulationEngine {
     if (!expression.includes('(')) return expression
     let result = ''
     let rest = expression
-    const re = /([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf|charAt)\s*\(/u
+    const re = /([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf|lastIndexOf|compareTo|charAt|parseInt|parseDouble)\s*\(/u
     for (let m = re.exec(rest); m; m = re.exec(rest)) {
       const open = m.index + m[0].length - 1
       const close = matchingCloseParenthesis(Array.from(rest), Array.from(rest.slice(0, open)).length)
@@ -1639,6 +1723,9 @@ export class SimulationEngine {
       const code = value?.kind === 'string' ? charCode(value.value) : undefined
       if (value?.kind === 'int') {
         result += before + String(value.value)
+      } else if (value?.kind === 'double') {
+        // `Double.parseDouble("7")` bleibt eine Kommazahl, damit `/ 2` nicht ganzzahlig teilt.
+        result += before + (Number.isInteger(value.value) ? value.value.toFixed(1) : String(value.value))
       } else if (code !== undefined) {
         result += before + String(code)
       } else {
@@ -1730,17 +1817,24 @@ export class SimulationEngine {
 
   // MARK: Ausdrücke
 
+  /** Wie Java von links nach rechts: Zahlen werden addiert, bis ein Text kommt; ab dann wird alles angehängt. */
   private evaluateOutputExpression(expression: string): string {
-    return splitByPlusOutsideQuotes(expression)
-      .map((part) => {
-        const trimmed = part.trim()
-        const literal = unquotedString(trimmed)
-        if (literal !== undefined) return literal
-        const ref = this.evaluateReference(trimmed)
-        if (ref) return describeValue(ref)
-        return describeValue(this.evaluateNumeric(trimmed))
-      })
-      .join('')
+    let sum: SimValue | undefined
+    let text: string | undefined
+    for (const part of splitByPlusOutsideQuotes(expression)) {
+      const trimmed = part.trim()
+      const literal = unquotedString(trimmed)
+      const value: SimValue = literal !== undefined ? { kind: 'string', value: literal } : (this.evaluateReference(trimmed) ?? this.evaluateNumeric(trimmed))
+      const isNumber = value.kind === 'int' || value.kind === 'double'
+      if (text === undefined && isNumber) {
+        if (!sum) sum = value
+        else sum = sum.kind === 'int' && value.kind === 'int' ? int(sum.value + value.value) : dbl((sum.value as number) + (value.value as number))
+        continue
+      }
+      text = (text ?? (sum ? describeValue(sum) : '')) + describeValue(value)
+      sum = undefined
+    }
+    return text ?? (sum ? describeValue(sum) : '')
   }
 
   private renderOutputExpression(expression: string): string {

@@ -100,6 +100,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_learn_step_fmt" = "Schritt %d: %@";
 "web_sim_call_arguments_fmt" = "Der Aufruf passt nicht zur Kopfzeile von %@. Prüfe die Werte in den Klammern.";
 "web_sim_missing_return_fmt" = "%@ hat keinen Wert mit return zurückgegeben.";
+"web_sim_file_not_found_fmt" = "Es gibt keine Datei %@.";
 "web_site_home" = "Startseite";
 "web_site_imprint" = "Impressum";
 "web_site_privacy" = "Datenschutz";

@@ -43,6 +43,7 @@
 "web_run_dropped_fmt" = "… %d lignes précédentes masquées";
 "web_sim_call_arguments_fmt" = "L’appel ne correspond pas à l’en-tête de %@. Vérifie les valeurs entre parenthèses.";
 "web_sim_missing_return_fmt" = "%@ s’est terminé sans renvoyer de valeur avec return.";
+"web_sim_file_not_found_fmt" = "Il n’existe aucun fichier nommé %@.";
 "web_site_home" = "Accueil";
 "web_site_imprint" = "Mentions légales";
 "web_site_privacy" = "Confidentialité";

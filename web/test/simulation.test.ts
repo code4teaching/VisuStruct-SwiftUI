@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { ElementType, makeElement, type VSDocument, type VSElement } from '../src/core/model'
-import { SimulationEngine, type SimState } from '../src/core/simulation'
+import { registerTextFile, SimulationEngine, type SimState } from '../src/core/simulation'
 import { decodeDocument } from '../src/core/xmlCodec'
 
 // Port von SimulationEngineTests.swift und SimulationConditionTests.swift.
@@ -571,6 +571,53 @@ describe('Zeichenketten', () => {
     expect(v('gross')).toEqual({ kind: 'string', value: 'ZIEGENBOCK' })
     expect(v('hat')).toEqual({ kind: 'boolean', value: true })
     expect(state.outputLines).toEqual(['4 Geißbock Ziegeni'])
+  })
+
+  it('kennt weitere String-Methoden, parseInt, valueOf und Textdateien', () => {
+    registerTextFile('brief.txt', 'Liebe Ziege,\nder Fuchs hat dich eingesperrt.\nLudwig')
+    const state = runSimulation(
+      doc([
+        stmt('String wort = "Ziegenbock"'),
+        stmt('int hinten = wort.lastIndexOf("e")'),
+        stmt('int ab = wort.indexOf("e", 3)'),
+        stmt('boolean leer = "".isEmpty()'),
+        stmt('boolean gleich = wort.equalsIgnoreCase("ZIEGENBOCK")'),
+        stmt('int vorher = "Anna".compareTo("Ben")'),
+        stmt('int laenger = "Ab".compareTo("A")'),
+        stmt('String linie = "-".repeat(4)'),
+        stmt('String ganz = "Ziegen".concat("bock")'),
+        stmt('int zahl = Integer.parseInt("41") + 1'),
+        stmt('double haelfte = Double.parseDouble("7") / 2'),
+        stmt('String text = String.valueOf(zahl) + "!"'),
+        stmt('String brief = Files.readString(Path.of("brief.txt"))'),
+        stmt('String[] zeilen = brief.split("\\n")'),
+        stmt('output: zeilen.length + " " + zeilen[2].toUpperCase() + " " + brief.indexOf("Fuchs")'),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    const v = (name: string) => state.variables.get(name)
+    expect(v('hinten')).toEqual({ kind: 'int', value: 4 })
+    expect(v('ab')).toEqual({ kind: 'int', value: 4 })
+    expect(v('leer')).toEqual({ kind: 'boolean', value: true })
+    expect(v('gleich')).toEqual({ kind: 'boolean', value: true })
+    expect(v('vorher')).toEqual({ kind: 'int', value: -1 })
+    expect(v('laenger')).toEqual({ kind: 'int', value: 1 })
+    expect(v('linie')).toEqual({ kind: 'string', value: '----' })
+    expect(v('ganz')).toEqual({ kind: 'string', value: 'Ziegenbock' })
+    expect(v('zahl')).toEqual({ kind: 'int', value: 42 })
+    expect(v('haelfte')).toEqual({ kind: 'double', value: 3.5 })
+    expect(v('text')).toEqual({ kind: 'string', value: '42!' })
+    expect(state.outputLines).toEqual(['3 LUDWIG 17'])
+  })
+
+  it('addiert in einer Ausgabe wie Java erst die Zahlen und hängt ab dem ersten Text an', () => {
+    const state = runSimulation(doc([stmt('int a = 7'), stmt('double b = 0.5'), stmt('output: a + 1'), stmt('output: a + b + "!"'), stmt('output: "a = " + a + 1')]))
+    expect(state.outputLines).toEqual(['8', '7.5!', 'a = 71'])
+  })
+
+  it('meldet eine Datei, die es nicht gibt, und Text, der keine Zahl ist', () => {
+    expect(runSimulation(doc([stmt('String t = Files.readString(Path.of("gibtsnicht.txt"))')])).notice).toEqual({ kind: 'fileNotFound', text: 'gibtsnicht.txt' })
+    expect(runSimulation(doc([stmt('int n = Integer.parseInt("zwölf")')])).notice?.kind).toBe('wholeNumberExpected')
   })
 
   it('rechnet wie Java mit Zeichencodes: (int), (char) und Zeichenliterale', () => {

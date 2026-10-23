@@ -1,3 +1,4 @@
+import { textFileEntries } from '../core/simulation'
 /**
  * Echtes Java (mit Swing) im Browser über CheerpJ (https://cheerpj.com), nur wenn im Zahnrad-Menü
  * „„Echtes Java (mit Swing)““ an ist. Erst dann werden Laufzeit und Compiler geladen (einmalig, danach Browser-Cache).
@@ -113,7 +114,9 @@ export function asProgram(source: string): string {
   source = source.replace(/^[ \t]*import\s+[\w.]+(?:\.\*)?\s*;[ \t]*$/gm, (line) => (own.push(line.trim()), ''))
   const imports = [...own, 'import java.util.*;', 'import java.awt.*;', 'import java.awt.event.*;', 'import javax.swing.*;'].join('\n') + '\n\n'
   if (/\bstatic\s+void\s+main\s*\(/.test(source)) return `${imports}public class Main {\n${source}\n}\n`
-  return `${imports}public class Main {\n    public static void main(String[] args) {\n${source}\n    }\n}\n`
+  // `Files.readString` kann eine IOException werfen; ohne `throws` meldet javac einen Fehler.
+  const throwsClause = /\bFiles\s*\.\s*readString\s*\(/.test(source) ? ' throws Exception' : ''
+  return `${imports}public class Main {\n    public static void main(String[] args)${throwsClause} {\n${source}\n    }\n}\n`
 }
 
 /** Fenster des vorigen Laufs schließen. */
@@ -129,6 +132,16 @@ export type RunResult = 'compile-error' | 'windows' | 'finished'
  */
 export async function compileAndRun(source: string, onCompiled: () => void): Promise<RunResult> {
   const runner = await ready!
+  // Textdateien aus den Lektionen liegen im Browser unter /str/; `Path.of("brief.txt")` zeigt dorthin.
+  for (const [file, content] of textFileEntries()) {
+    cheerpOSAddStringFile(`/str/${file}`, content)
+    source = source.replaceAll(`"${file}"`, `"/str/${file}"`)
+  }
+  // Der Compiler hier ist javac 8: `Files.readString` (ab Java 11) wird zu `readAllBytes`.
+  source = source.replace(
+    /\bFiles\s*\.\s*readString\s*\(\s*(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*\)/g,
+    'new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get($1)), "UTF-8")',
+  )
   const program = asProgram(source)
   const name = mainClassName(program)
   // Jeder Lauf in ein eigenes Verzeichnis mit eigenem Klassenlader, damit nichts vom vorigen Lauf übrig bleibt.

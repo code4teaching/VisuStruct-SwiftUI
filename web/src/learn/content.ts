@@ -1,3 +1,4 @@
+import { registerTextFile } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import type { VSDocument } from '../core/model'
 import { parseGlossary, type GlossaryEntry } from './glossary'
@@ -60,6 +61,10 @@ export function useContentLanguage(lang: ContentLanguage) {
   tasks = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
     .map(([name, source]) => parseTask(source, `${lang}/aufgaben/${name}`))
     .sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
+  // Textdateien aus den Lektionen kann die Simulation mit `Files.readString(Path.of("name"))` lesen.
+  for (const block of [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]) {
+    if (block.kind === 'textFile') registerTextFile(block.name, block.content)
+  }
   reference = pages.find(([name]) => name === 'nachschlagen.md')?.[1] ?? ''
   glossary = parseGlossary(pages.find(([name]) => name === 'begriffe.md')?.[1] ?? '')
 }

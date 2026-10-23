@@ -43,6 +43,7 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_run_dropped_fmt" = "… %d שורות קודמות מוסתרות";
 "web_sim_call_arguments_fmt" = "הקריאה אינה תואמת את הכותרת של %@. בדוק את הערכים בסוגריים.";
 "web_sim_missing_return_fmt" = "%@ הסתיים בלי להחזיר ערך עם return.";
+"web_sim_file_not_found_fmt" = "אין קובץ בשם %@.";
 "web_site_home" = "דף הבית";
 "web_site_imprint" = "פרטי המפרסם";
 "web_site_privacy" = "פרטיות";

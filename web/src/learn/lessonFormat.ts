@@ -19,6 +19,8 @@ export type Block =
   | { kind: 'game'; game: BoolGame }
   | { kind: 'roundGame'; game: RoundGame }
   | { kind: 'caesar'; key: number; text: string }
+  /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
+  | { kind: 'textFile'; name: string; content: string }
 
 export interface Exercise {
   id: string
@@ -237,6 +239,14 @@ export function parseBlocks(body: string, file: string): Block[] {
         const key = arg ? Number(arg) : 3
         if (!Number.isInteger(key) || key < 0 || key > 25) throw new FormatError(`${file}: „::: caesar“ braucht einen Schlüssel von 0 bis 25.`)
         blocks.push({ kind: 'caesar', key, text: inner.join(' ').trim() })
+        break
+      }
+      case 'datei': {
+        if (!/^[\w.-]+\.txt$/u.test(arg)) throw new FormatError(`${file}: „::: datei“ braucht einen Dateinamen wie brief.txt.`)
+        // Der Inhalt bleibt genau so, wie er dasteht, nur ohne Leerzeilen am Anfang und Ende.
+        while (inner.length && inner[0].trim() === '') inner.shift()
+        while (inner.length && inner[inner.length - 1].trim() === '') inner.pop()
+        blocks.push({ kind: 'textFile', name: arg, content: inner.join('\n') })
         break
       }
       default:

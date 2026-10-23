@@ -159,6 +159,122 @@ tipp: A condição é `entrada.equals("Ludwig")`. Em Java, `==` não compara tex
 lösung: l17-java-passwort-loesung.visustruct
 :::
 
+## Ainda mais métodos
+
+Uma String sabe fazer muito mais. Também vais precisar muitas vezes destes métodos:
+
+| Método | Significado | Exemplo | Resultado |
+|---|---|---|---|
+| `lastIndexOf("a")` | Onde está o último a? | `"Passatempo".lastIndexOf("a")` | 4 |
+| `isEmpty()` | O texto está vazio? | `"".isEmpty()` | true |
+| `equalsIgnoreCase(…)` | o mesmo texto, sem contar maiúsculas e minúsculas? | `"Passatempo".equalsIgnoreCase("PASSATEMPO")` | true |
+| `replace(antigo, novo)` | substitui todas as ocorrências | `"Passatempo".replace("tempo", "porte")` | Passaporte |
+| `repeat(n)` | o texto n vezes seguidas | `"Mé".repeat(3)` | MéMéMé |
+| `concat(…)` | junta texto no fim, como `+` | `"Passa".concat("tempo")` | Passatempo |
+| `compareTo(…)` | Qual vem primeiro no alfabeto? | `"Anna".compareTo("Ben")` | -1 |
+
+`compareTo` devolve um número: **negativo** se o texto vem antes no alfabeto, **0** se os dois são iguais e **positivo** se vem depois. Assim podes ordenar nomes.
+
+Dois métodos não pertencem a um texto, mas a uma classe. Por isso, à frente fica o nome da classe:
+
+- `Integer.parseInt("7")` transforma o texto "7" no número 7. Com ele já podes fazer contas.
+- `String.valueOf(7)` transforma o número 7 no texto "7".
+
+::: diagramm zk-mehr.visustruct
+Todos os métodos novos num só exemplo. Percorre-o na simulação e compara cada saída com a tabela.
+:::
+
+## Texto de um ficheiro
+
+Os programas recebem muitas vezes o texto de um **ficheiro**. A Princesa Zora escreveu uma carta ao Ludwig. Ela está pronta no ficheiro `carta.txt`:
+
+::: datei carta.txt
+Querido Ludwig,
+a raposa fechou-me na sua torre.
+A porta tem um cadeado com uma palavra secreta.
+Só encontras a palavra com Java.
+Ajuda-me, por favor!
+A tua Princesa Zora
+:::
+
+Estas linhas leem o ficheiro inteiro para uma String:
+
+```
+import java.nio.file.*;
+
+String carta = Files.readString(Path.of("carta.txt"));
+```
+
+Como a leitura funciona ao certo, vais aprender mais tarde, numa lição só sobre ficheiros. Por agora basta: depois disto, a carta inteira está em `carta`, com todas as linhas.
+
+No fim de cada linha há um carácter invisível para a **mudança de linha**. Em Java escreve-se `"\n"`. Por isso, `carta.split("\n")` divide a carta nas suas linhas.
+
+::: übung l17-java-brief
+titel: Onde está a raposa?
+code: java
+auftrag: O código inicial já lê a carta. Divide-a em linhas e mostra **Linhas:** e o número de linhas. Depois procura a linha onde está **raposa** e mostra **Raposa na linha** e o seu número. A primeira linha tem o número 1.
+start: l17-java-brief-start.visustruct
+test: - -> Linhas: 6 | Raposa na linha 2
+braucht: forSchleife, verzweigung
+tipp: `String[] linhas = carta.split("\n");` divide a carta. Depois, um ciclo for percorre todas as linhas.
+tipp: No ciclo verificas `linhas[i].contains("raposa")`. O índice começa em 0, por isso mostras `(i + 1)`. Os parênteses são precisos para o Java fazer a conta em vez de juntar 1 ao texto.
+lösung: l17-java-brief-loesung.visustruct
+:::
+
+## A API do Java
+
+Ninguém sabe todos os métodos de cor, nem os profissionais. Eles consultam a **API do Java**. API significa Application Programming Interface. É a descrição de tudo o que o Java já traz consigo.
+
+Todos os métodos de String estão aqui: [String na API do Java](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html)
+
+Desce até à tabela **Method Summary**. Cada linha descreve um método:
+
+| Coluna | Exemplo | Significado |
+|---|---|---|
+| Modifier and Type | `int` | O que o método devolve |
+| Method | `lastIndexOf(String str)` | Nome e parâmetros com o seu tipo de dados |
+| Description | Returns the index within this string of the last occurrence … | O que o método faz |
+
+A API está em inglês. O teu browser pode traduzir a página. Os nomes dos métodos ficam em inglês, porque é assim que os escreves em Java.
+
+::: ludwig
+A página é muito comprida. Com Ctrl+F (no Mac ⌘+F) procuras o nome do método e chegas lá logo.
+:::
+
+Consulta estes métodos. Não estão nesta lição:
+
+::: quiz
+? Consulta `strip()`. O que faz o método?
+- [ ] Remove todos os espaços do texto.
+- [x] Remove os espaços no início e no fim.
+- [ ] Corta o último carácter.
+> Como `trim()`. Mas `strip()` também conhece espaços especiais de outras escritas.
+
+? Consulta `isBlank()`. O que devolve `"   ".isBlank()`?
+- [x] true
+- [ ] false
+- [ ] 3
+> isBlank verifica se o texto está vazio ou só tem espaços. Já `"   ".isEmpty()` seria false.
+
+? Consulta `toCharArray()`. Que tipo de dados devolve o método?
+- [ ] String
+- [ ] String[]
+- [x] char[]
+> Um array com todos os caracteres do texto, uma posição para cada carácter.
+
+? Consulta `indexOf` com dois parâmetros. O que devolve `"Passatempo".indexOf("a", 2)`?
+- [ ] 1
+- [x] 4
+- [ ] -1
+> A pesquisa só começa no índice 2. O primeiro a a partir daí está no índice 4.
+
+? Consulta `startsWith`. Que tipo de dados devolve o método?
+- [x] boolean
+- [ ] int
+- [ ] String
+> Na coluna “Modifier and Type” está boolean: a resposta é true ou false.
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -169,6 +285,9 @@ lösung: l17-java-passwort-loesung.visustruct
 - Sei percorrer um texto caractere a caractere com um ciclo. → Caractere a caractere
 - Sei dividir um texto num array de Strings com `split`. → Dividir com split
 - Sei ler um texto em Java e compará-lo com `equals`. → Agora em Java
+- Conheço mais métodos, como `lastIndexOf`, `replace`, `compareTo` e `Integer.parseInt`. → Ainda mais métodos
+- Sei dividir o texto de um ficheiro em linhas com `split("\n")`. → Texto de um ficheiro
+- Sei consultar um método na API do Java e ler a sua descrição. → A API do Java
 :::
 
 ## Teste de conhecimentos
@@ -208,4 +327,10 @@ lösung: l17-java-passwort-loesung.visustruct
 - [ ] entrada == 'Ludwig'
 - [x] entrada.equals("Ludwig")
 > Comparas textos com equals. As aspas simples são só para um único carácter.
+
+? O que devolve `Integer.parseInt("12") + 1`?
+- [ ] "121"
+- [x] 13
+- [ ] uma mensagem de erro
+> parseInt transforma o texto num número. Depois o Java faz a conta normalmente.
 :::

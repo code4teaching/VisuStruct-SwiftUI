@@ -43,6 +43,7 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_run_dropped_fmt" = "… %d tidigare rader dolda";
 "web_sim_call_arguments_fmt" = "Anropet passar inte till huvudet i %@. Kontrollera värdena inom parentes.";
 "web_sim_missing_return_fmt" = "%@ avslutades utan att returnera ett värde med return.";
+"web_sim_file_not_found_fmt" = "Det finns ingen fil som heter %@.";
 "web_site_home" = "Startsida";
 "web_site_imprint" = "Kontaktuppgifter";
 "web_site_privacy" = "Integritet";
