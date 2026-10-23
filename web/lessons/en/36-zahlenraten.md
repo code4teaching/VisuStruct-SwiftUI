@@ -6,7 +6,7 @@ kurz: A game with a random number, a counter for the guesses and a button that s
 
 ## The goal
 
-To finish, a game: the computer thinks of a number from 1 to 100. You guess, and the window tells you “too small” or “too big”. Once you have found it, it tells you how many guesses you needed.
+Time for a game: the computer thinks of a number from 1 to 100. You guess, and the window tells you “too small” or “too big”. Once you have found it, it tells you how many guesses you needed.
 
 New this time are **random numbers** and a button that **switches itself off** at the end.
 

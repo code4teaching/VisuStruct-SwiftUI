@@ -16,7 +16,7 @@ import { JavaEditor, type SnippetWords } from './javaEditor'
 import { icons } from './icons'
 import { indentJava } from '../core/javaIndent'
 import { sidebarIcon } from './learnPanel'
-import { closeWindows, compileAndRun, prepareJava } from './javaRuntime'
+import { closeWindows, compileAndRun, prepareJava, watchWrittenFiles } from './javaRuntime'
 import { writtenFilesView } from './textFileView'
 
 /**
@@ -155,6 +155,8 @@ export class LiveCodePanel {
   /** Fläche für die Swing-Fenster; bleibt über `build()` hinweg bestehen, weil CheerpJ sie einmal übernimmt. */
   private swingElement: HTMLElement
   private swingDisplay: HTMLElement
+  /** Beendet das Nachsehen, ob ein laufendes Swing-Programm noch Dateien speichert. */
+  private stopWatchingFiles?: () => void
   private runButton!: HTMLButtonElement
   private stepButton!: HTMLButtonElement
   private stopButton!: HTMLButtonElement
@@ -461,6 +463,7 @@ export class LiveCodePanel {
   /** Mit „Echtes Java (mit Swing)“: den getippten Java-Code mit javac übersetzen und als echtes Java starten. */
   private async startJavaRun() {
     this.stopRun(false)
+    this.stopWatchingFiles?.()
     this.setConsoleVisible(true)
     this.consoleLines.replaceChildren()
     // CheerpJ schreibt System.out in das Element mit dieser id.
@@ -480,6 +483,7 @@ export class LiveCodePanel {
       this.consoleNotice.classList.toggle('error', result === 'compile-error')
       // Ohne offenes Fenster braucht es die Fensterfläche nicht.
       this.swingElement.hidden = result !== 'windows'
+      if (result === 'windows') this.stopWatchingFiles = watchWrittenFiles(files, (later) => this.showWrittenFiles(later))
     } catch {
       this.consoleNotice.textContent = t('web_live_swing_failed')
       this.consoleNotice.classList.add('error')
