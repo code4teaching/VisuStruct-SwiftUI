@@ -50,7 +50,7 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <StoreKitConfigurationFileReference
-         identifier = "../VisuStruct.storekit">
+         identifier = "../../VisuStruct.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction
