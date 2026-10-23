@@ -238,6 +238,27 @@ export class LiveCodePanel {
     this.showMode()
   }
 
+  /** Java-Code zum Speichern: wie in Code live (mit getippten Kommentaren), sonst neu erzeugt. */
+  javaFor(doc: VSDocument, owner: object): string {
+    const known = this.textFor.get(doc)
+    if (known !== undefined) return known
+    const before = this.shown.get(owner)
+    if (before) return mergeLiveJava(before.text, before.doc, doc, this.labels, {}, this.form)
+    return plainLiveJava(doc, this.labels, this.form)
+  }
+
+  /** Gespeicherten Code (.java) zum geöffneten Struktogramm übernehmen, samt Kommentaren. */
+  adoptJava(doc: VSDocument, text: string) {
+    this.textFor.set(doc, text)
+    this.parsed = undefined
+    if (this.last) this.refresh(this.last.doc, this.last.highlight, this.last.context)
+  }
+
+  /** Struktogramm aus einer .java-Datei ohne passendes .visustruct. */
+  documentFromJavaText(text: string): VSDocument {
+    return documentFromJava({ caption: '', elements: [] }, parseLiveJava(text, this.labels))
+  }
+
   /** Java als Snippet, mit `main`, in einer Klasse (Zahnrad-Menü). */
   get javaForm(): JavaForm {
     return this.form
