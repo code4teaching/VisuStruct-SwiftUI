@@ -123,6 +123,18 @@ Ben Shneiderman hatte die Idee 1972. [Mehr dazu](https://visustruct.org/de/angeb
 :::
 ```
 
+Ein Spiel „Wahr oder falsch?“: oben die Variablen (`name: von..bis` für ganze Zahlen, `name: boolean`), darunter mit `?` die
+Bedingungen vom leichten zum schweren. Zehn Runden; Werte knapp an den Grenzen der Vergleiche kommen öfter vor:
+
+```
+::: spiel
+alter: 8..20
+schueler: boolean
+? alter >= 18
+? alter >= 12 && alter < 18 || schueler
+:::
+```
+
 Ein Kasten „Ludwigs Tipp“: Ludwig gibt einen Hinweis zum Vorgehen, z. B. eine Brücke zu einer früheren Lektion:
 
 ```
