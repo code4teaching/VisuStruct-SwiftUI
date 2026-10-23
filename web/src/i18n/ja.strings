@@ -57,3 +57,6 @@
 "web_live_ph_selector" = "変数";
 "web_live_ph_code" = "ここにコード";
 "web_live_ph_end" = "終了";
+"web_editor_title" = "構造図";
+"web_editor_show" = "構造図を表示";
+"web_editor_hide" = "構造図を隠す";

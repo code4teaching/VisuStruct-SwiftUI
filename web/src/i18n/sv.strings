@@ -57,3 +57,6 @@
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kod";
 "web_live_ph_end" = "slut";
+"web_editor_title" = "Strukturdiagram";
+"web_editor_show" = "Visa strukturdiagram";
+"web_editor_hide" = "Dölj strukturdiagram";

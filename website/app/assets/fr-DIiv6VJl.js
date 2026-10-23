@@ -57,4 +57,7 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Ton code";
 "web_live_ph_end" = "fin";
+"web_editor_title" = "Diagramme";
+"web_editor_show" = "Afficher le diagramme";
+"web_editor_hide" = "Masquer le diagramme";
 `;export{e as default};

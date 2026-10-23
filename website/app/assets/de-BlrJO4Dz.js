@@ -114,4 +114,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_ph_selector" = "Variable";
 "web_live_ph_code" = "Dein Code";
 "web_live_ph_end" = "Ende";
+"web_editor_title" = "Struktogramm";
+"web_editor_show" = "Struktogramm aufklappen";
+"web_editor_hide" = "Struktogramm einklappen";
 `;export{e as default};

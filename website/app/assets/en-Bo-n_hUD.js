@@ -114,4 +114,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Your code";
 "web_live_ph_end" = "end";
+"web_editor_title" = "Diagram";
+"web_editor_show" = "Show diagram";
+"web_editor_hide" = "Hide diagram";
 `;export{e as default};

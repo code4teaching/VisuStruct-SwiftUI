@@ -57,4 +57,7 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_live_ph_selector" = "变量";
 "web_live_ph_code" = "你的代码";
 "web_live_ph_end" = "结束";
+"web_editor_title" = "结构图";
+"web_editor_show" = "显示结构图";
+"web_editor_hide" = "隐藏结构图";
 `;export{e as default};

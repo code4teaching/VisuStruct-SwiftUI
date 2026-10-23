@@ -57,4 +57,7 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_live_ph_selector" = "μεταβλητή";
 "web_live_ph_code" = "Ο κώδικάς σου";
 "web_live_ph_end" = "τέλος";
+"web_editor_title" = "Διάγραμμα";
+"web_editor_show" = "Εμφάνιση διαγράμματος";
+"web_editor_hide" = "Απόκρυψη διαγράμματος";
 `;export{e as default};

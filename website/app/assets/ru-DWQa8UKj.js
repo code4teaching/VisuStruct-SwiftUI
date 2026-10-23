@@ -57,4 +57,7 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_live_ph_selector" = "переменная";
 "web_live_ph_code" = "Твой код";
 "web_live_ph_end" = "конец";
+"web_editor_title" = "Диаграмма";
+"web_editor_show" = "Показать диаграмму";
+"web_editor_hide" = "Скрыть диаграмму";
 `;export{e as default};

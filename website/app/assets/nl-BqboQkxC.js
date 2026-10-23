@@ -57,4 +57,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_live_ph_selector" = "variabele";
 "web_live_ph_code" = "Jouw code";
 "web_live_ph_end" = "einde";
+"web_editor_title" = "Diagram";
+"web_editor_show" = "Diagram tonen";
+"web_editor_hide" = "Diagram verbergen";
 `;export{e as default};

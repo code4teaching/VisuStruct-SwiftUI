@@ -57,4 +57,7 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_live_ph_selector" = "משתנה";
 "web_live_ph_code" = "הקוד שלך";
 "web_live_ph_end" = "סוף";
+"web_editor_title" = "תרשים";
+"web_editor_show" = "הצגת התרשים";
+"web_editor_hide" = "הסתרת התרשים";
 `;export{e as default};

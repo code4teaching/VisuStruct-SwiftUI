@@ -171,6 +171,7 @@ const learnKey = 'visustruct.learn.open'
 const learnWidthKey = 'visustruct.learn.width'
 const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
+const editorHiddenKey = 'visustruct.editor.hidden'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
 const maxUndoSteps = 80
@@ -223,6 +224,10 @@ export class App {
   private shell: HTMLElement
   private railButton?: HTMLButtonElement
   private liveRailButton?: HTMLButtonElement
+  private editorRailButton?: HTMLButtonElement
+  /** Werkzeugleiste über allen Spalten. */
+  private topbar = h('div', { class: 'topbar' })
+  private editorHidden = false
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
@@ -272,7 +277,19 @@ export class App {
         this.render()
       },
     )
-    this.shell.append(this.learnRail(), this.learn.element, this.learnResizer(), root, this.liveResizer(), this.live.element, this.liveRail())
+    // Oben die Werkzeugleiste, darunter drei Spalten: Lernen | Struktogramm | Code live, jede einklappbar.
+    const columns = h('div', { class: 'columns' })
+    columns.append(
+      this.learnRail(),
+      this.learn.element,
+      this.learnResizer(),
+      this.editorRail(),
+      root,
+      this.liveResizer(),
+      this.live.element,
+      this.liveRail(),
+    )
+    this.shell.append(this.topbar, columns)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
@@ -287,6 +304,7 @@ export class App {
     const z = Number(storedValue(zoomKey))
     if (zoomSteps.some((s) => s.value === z)) this.zoom = z
     this.setLiveCoding(storedValue(liveKey) === '1')
+    this.setEditorHidden(storedValue(editorHiddenKey) === '1')
     this.buildUI()
     this.render()
     window.addEventListener('pointermove', (e) => this.onPointerMove(e))
@@ -362,7 +380,9 @@ export class App {
       </footer>
       <input type="file" accept=".visustruct,.strk,.xml" hidden />
     `
-    const $ = <T extends Element>(s: string) => this.root.querySelector(s) as T
+    // Die Werkzeugleiste steht über allen Spalten, nicht im Editor.
+    this.topbar.replaceChildren(this.root.querySelector('.toolbar')!)
+    const $ = <T extends Element>(s: string) => (this.root.querySelector(s) ?? this.topbar.querySelector(s)) as T
     this.canvasHost = $('.canvas')
     this.inspector = $('.inspector')
     this.captionInput = $('.caption')
@@ -481,6 +501,7 @@ export class App {
     this.learn.render()
     this.labelLearnRail()
     this.labelLiveRail()
+    this.labelEditorRail()
   }
 
   // MARK: - Lernbereich
@@ -488,7 +509,38 @@ export class App {
   private setLearning(on: boolean, remember = true) {
     this.shell.classList.toggle('learning', on)
     if (remember) storeValue(learnKey, on ? '1' : '0')
+    this.keepAColumnOpen()
     if (this.canvasHost) this.renderDiagramOnly()
+  }
+
+  // MARK: - Spalte Struktogramm
+
+  /** Struktogramm-Spalte einklappen, z. B. um nur Code live (wie in einer IDE) oder nur Lektionen zu sehen. */
+  private setEditorHidden(hidden: boolean) {
+    this.editorHidden = hidden
+    this.shell.classList.toggle('editor-hidden', hidden)
+    storeValue(editorHiddenKey, hidden ? '1' : '0')
+    // Ohne Struktogramm soll der Code zu sehen sein, nicht eine leere Fläche.
+    if (hidden && !this.liveCoding && !this.shell.classList.contains('learning')) this.setLiveCoding(true)
+    if (!hidden && this.canvasHost) this.render()
+  }
+
+  /** Mindestens eine Spalte bleibt offen; sonst kommt das Struktogramm zurück. */
+  private keepAColumnOpen() {
+    if (this.editorHidden && !this.liveCoding && !this.shell.classList.contains('learning')) this.setEditorHidden(false)
+  }
+
+  private editorRail(): HTMLElement {
+    this.editorRailButton = h('button', { class: 'learn-rail editor-rail' }) as HTMLButtonElement
+    this.labelEditorRail()
+    this.editorRailButton.addEventListener('click', () => this.setEditorHidden(false))
+    return this.editorRailButton
+  }
+
+  private labelEditorRail() {
+    if (!this.editorRailButton) return
+    this.editorRailButton.title = t('web_editor_show')
+    this.editorRailButton.innerHTML = `${sidebarIcon}<span>✎ ${e(t('web_editor_title'))}</span>`
   }
 
   /** Schmale Leiste am Rand, solange der Lernbereich eingeklappt ist. */
@@ -523,6 +575,7 @@ export class App {
     return {
       collapse: () => this.setLearning(false),
       openExercise: (ex: Exercise, doc: VSDocument) => {
+        this.setEditorHidden(false)
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
@@ -541,6 +594,7 @@ export class App {
         this.render()
       },
       openDiagram: (doc: VSDocument, fileName: string) => {
+        this.setEditorHidden(false)
         // Tab nach der Diagrammüberschrift benennen, nicht nach der Datei (l1-tee)
         this.loadXML(encodeDocument(doc), doc.caption.trim() ? `${doc.caption.trim()}.visustruct` : fileName)
       },
@@ -827,6 +881,7 @@ export class App {
     this.simButton.title = t(on ? 'web_simulation_end_title' : 'web_simulation_start_title')
     if (on) {
       this.setCoding(false)
+      this.setEditorHidden(false)
       this.sim.begin()
     } else {
       this.sim.end()
@@ -841,7 +896,10 @@ export class App {
   private setCoding(on: boolean) {
     if (on === this.coding) return
     // Beide Code-Spalten nebeneinander wären zu eng.
-    if (on) this.setLiveCoding(false)
+    if (on) {
+      this.setLiveCoding(false)
+      this.setEditorHidden(false)
+    }
     this.coding = on
     this.root.classList.toggle('coding', on)
     this.codeButton.setAttribute('aria-pressed', String(on))
@@ -857,6 +915,7 @@ export class App {
     this.liveCoding = on
     this.shell.classList.toggle('live', on)
     storeValue(liveKey, on ? '1' : '0')
+    this.keepAColumnOpen()
     if (this.canvasHost) this.render()
   }
 
@@ -1050,7 +1109,10 @@ export class App {
     add.title = t('a11y_new_diagram_tab')
     add.setAttribute('aria-label', t('a11y_new_diagram_tab'))
     add.addEventListener('click', () => this.addTab())
-    strip.append(add)
+    const hide = h('button', { class: 'learn-hide editor-hide', title: t('web_editor_hide'), 'aria-label': t('web_editor_hide') })
+    hide.innerHTML = sidebarIcon
+    hide.addEventListener('click', () => this.setEditorHidden(true))
+    strip.append(add, hide)
   }
 
   // MARK: - Zwischenablage (Element)

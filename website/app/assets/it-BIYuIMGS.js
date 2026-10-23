@@ -57,4 +57,7 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_live_ph_selector" = "variabile";
 "web_live_ph_code" = "Il tuo codice";
 "web_live_ph_end" = "fine";
+"web_editor_title" = "Diagramma";
+"web_editor_show" = "Mostra diagramma";
+"web_editor_hide" = "Nascondi diagramma";
 `;export{e as default};

@@ -57,3 +57,6 @@
 "web_live_ph_selector" = "变量";
 "web_live_ph_code" = "你的代码";
 "web_live_ph_end" = "结束";
+"web_editor_title" = "结构图";
+"web_editor_show" = "显示结构图";
+"web_editor_hide" = "隐藏结构图";

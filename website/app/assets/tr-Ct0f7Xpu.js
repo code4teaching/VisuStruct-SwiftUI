@@ -57,4 +57,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_live_ph_selector" = "değişken";
 "web_live_ph_code" = "Kodun";
 "web_live_ph_end" = "bitiş";
+"web_editor_title" = "Diyagram";
+"web_editor_show" = "Diyagramı göster";
+"web_editor_hide" = "Diyagramı gizle";
 `;export{e as default};
