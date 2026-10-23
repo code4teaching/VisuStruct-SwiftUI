@@ -83,4 +83,5 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_console" = "Консоль";
 "web_console_hide" = "Сховати консоль";
 "web_console_resize" = "Змінити висоту консолі";
+"web_diagram_tools" = "Інструменти діаграми";
 `;export{e as default};

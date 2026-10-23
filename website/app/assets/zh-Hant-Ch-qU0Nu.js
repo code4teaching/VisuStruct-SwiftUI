@@ -83,4 +83,5 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_console" = "主控台";
 "web_console_hide" = "隱藏主控台";
 "web_console_resize" = "調整主控台高度";
+"web_diagram_tools" = "圖表工具";
 `;export{e as default};

@@ -83,4 +83,5 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_console" = "Konsoll";
 "web_console_hide" = "Skjul konsollen";
 "web_console_resize" = "Endre høyden på konsollen";
+"web_diagram_tools" = "Diagramverktøy";
 `;export{e as default};

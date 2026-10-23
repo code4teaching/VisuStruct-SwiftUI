@@ -83,4 +83,5 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_console" = "控制台";
 "web_console_hide" = "隐藏控制台";
 "web_console_resize" = "调整控制台高度";
+"web_diagram_tools" = "图表工具";
 `;export{e as default};

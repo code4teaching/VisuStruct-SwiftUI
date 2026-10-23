@@ -83,4 +83,5 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_console" = "Console";
 "web_console_hide" = "Masquer la console";
 "web_console_resize" = "Redimensionner la console";
+"web_diagram_tools" = "Outils du diagramme";
 `;export{e as default};

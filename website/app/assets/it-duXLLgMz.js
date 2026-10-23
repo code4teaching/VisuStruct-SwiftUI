@@ -83,4 +83,5 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_console" = "Console";
 "web_console_hide" = "Nascondi console";
 "web_console_resize" = "Ridimensiona la console";
+"web_diagram_tools" = "Strumenti del diagramma";
 `;export{e as default};

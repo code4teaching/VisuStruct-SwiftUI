@@ -83,3 +83,4 @@
 "web_console" = "コンソール";
 "web_console_hide" = "コンソールを隠す";
 "web_console_resize" = "コンソールの高さを変更";
+"web_diagram_tools" = "図のツール";

@@ -83,4 +83,5 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_console" = "Консоль";
 "web_console_hide" = "Скрыть консоль";
 "web_console_resize" = "Изменить высоту консоли";
+"web_diagram_tools" = "Инструменты диаграммы";
 `;export{e as default};

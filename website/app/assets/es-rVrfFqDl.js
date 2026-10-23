@@ -83,4 +83,5 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_console" = "Consola";
 "web_console_hide" = "Ocultar consola";
 "web_console_resize" = "Cambiar la altura de la consola";
+"web_diagram_tools" = "Herramientas del diagrama";
 `;export{e as default};
