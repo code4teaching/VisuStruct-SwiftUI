@@ -28,6 +28,7 @@ export type JavaProblemKey =
   | 'web_parse_case_outside_switch'
   | 'web_parse_missing_do_while'
   | 'web_parse_more_methods'
+  | 'web_parse_missing_import'
 
 export interface ParsedJava {
   /** Kopfzeile eines Unterprogramms, z. B. `int quadrat(int x)`; `undefined` = Hauptprogramm. */
@@ -217,6 +218,15 @@ class Parser {
   // Programm
 
   className?: string
+  /** Getippte Imports ohne Leerzeichen, z. B. `importjava.util.Scanner;`. */
+  private imports: string[] = []
+
+  /** Wie javac: `Scanner` ohne `import java.util.Scanner;` (oder `java.util.*`) ist ein Fehler. */
+  checkImports() {
+    const known = this.imports.some((i) => i === 'importjava.util.Scanner;' || i === 'importjava.util.*;')
+    const use = this.toks.find((t) => t.kind === 'id' && t.text === 'Scanner')
+    if (!known && use) this.problem('web_parse_missing_import', use, 'import java.util.Scanner;')
+  }
 
   parseProgram(): { caption?: string; elements: VSElement[] } {
     const elements: Built[] = []
@@ -224,7 +234,9 @@ class Parser {
     let sawMethod = false
     while (this.tok) {
       if (this.is('import') || this.is('package')) {
+        const start = this.i
         this.skipPast(';')
+        this.imports.push(this.toks.slice(start, this.i).map((t) => t.text).join(''))
         continue
       }
       const cls = this.classStart()
@@ -773,6 +785,7 @@ export function parseLiveJava(source: string, labels: LiveLabels, opts: JavaPars
   const p = new Parser(source, labels, opts)
   const { caption, elements } = p.parseProgram()
   p.markPlaceholderComments()
+  p.checkImports()
   const spans = p.spansFor(elements)
   const problems = p.problems.sort((a, b) => a.from - b.from)
   return { caption, className: p.className, elements, spans, placeholders: p.placeholders.sort((a, b) => a.from - b.from), problems }

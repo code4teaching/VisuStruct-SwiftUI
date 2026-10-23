@@ -84,6 +84,7 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_parse_case_outside_switch" = "“case” ו־“default” שייכים בתוך “switch”.";
 "web_parse_missing_do_while" = "אחרי “do { … }” עדיין חסר “while (תנאי);”.";
 "web_parse_more_methods" = "כרגע נחשבת כאן רק מתודה אחת. צור תוכניות משנה נוספות בכרטיסיות נפרדות.";
+"web_parse_missing_import" = "חסר בראש הקוד %@ בלי השורה הזו Java לא מכירה את Scanner.";
 "web_editor_title" = "תרשים";
 "web_editor_show" = "הצגת התרשים";
 "web_editor_hide" = "הסתרת התרשים";

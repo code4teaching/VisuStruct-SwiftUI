@@ -141,6 +141,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_parse_case_outside_switch" = "“case” and “default” belong inside a “switch”.";
 "web_parse_missing_do_while" = "After “do { … }” you still need “while (condition);”.";
 "web_parse_more_methods" = "Only one method counts here for now. Create further subprograms as separate tabs.";
+"web_parse_missing_import" = "%@ is missing at the very top. Without this line Java doesn’t know Scanner.";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Show diagram";
 "web_editor_hide" = "Hide diagram";

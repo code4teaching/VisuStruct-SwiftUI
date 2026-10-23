@@ -1301,7 +1301,7 @@ export function generateLiveCode(document: VSDocument, target: LiveTarget, label
   const header = parseSubprogramHeader(document.caption)
   let prelude = ''
   if (target === 'java') {
-    if (documentContainsJavaInput(document)) prelude += '// import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
+    if (documentContainsJavaInput(document)) prelude += 'import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
     if (header) prelude += javaMethodHeader(header) + '\n'
   } else {
     if (header) {

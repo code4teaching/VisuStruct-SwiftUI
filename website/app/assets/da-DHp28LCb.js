@@ -84,6 +84,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_parse_case_outside_switch" = "“case” og “default” hører til i en “switch”.";
 "web_parse_missing_do_while" = "Efter “do { … }” mangler “while (betingelse);”.";
 "web_parse_more_methods" = "Indtil videre tæller kun én metode her. Opret andre underprogrammer i egne faner.";
+"web_parse_missing_import" = "Øverst mangler %@ Uden denne linje kender Java ikke Scanner.";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";

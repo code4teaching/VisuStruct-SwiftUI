@@ -187,3 +187,9 @@ Um erro que só acontece durante a execução, por exemplo um índice fora do ar
 ### Atributo
 auch: atributo, atributos, Atributos
 Uma variável que está diretamente na classe e não dentro de um método. Com `static` pertence à própria classe e vive tanto tempo como o programa, por exemplo um contador de cliques que vários ouvintes alteram.
+
+### Scanner
+Um bloco pronto do Java que lê entradas do teclado, por exemplo um número com `scanner.nextInt()`. Precisa de `import java.util.Scanner;` mesmo no início.
+
+### import
+Uma linha mesmo no início do código Java que vai buscar um bloco pronto a um pacote, por exemplo `import java.util.Scanner;`. Sem ela, o Java não conhece o nome.

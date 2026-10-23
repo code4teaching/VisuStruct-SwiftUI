@@ -141,6 +141,7 @@
 "web_parse_case_outside_switch" = "„case“ und „default“ gehören in ein „switch“.";
 "web_parse_missing_do_while" = "Nach „do { … }“ fehlt noch „while (Bedingung);“.";
 "web_parse_more_methods" = "Hier zählt im Moment nur eine Methode. Lege weitere Unterprogramme als eigene Reiter an.";
+"web_parse_missing_import" = "Ganz oben fehlt %@ Ohne diese Zeile kennt Java den Scanner nicht.";
 "web_editor_title" = "Struktogramm";
 "web_editor_show" = "Struktogramm aufklappen";
 "web_editor_hide" = "Struktogramm einklappen";

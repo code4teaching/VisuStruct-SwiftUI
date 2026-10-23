@@ -127,13 +127,29 @@ describe('Java tippen → Struktogramm', () => {
         '}',
       ].join('\n'),
     )
-    expect(plainLiveJava(doc0, labels, { asClass: false, withMain: true }).split('\n')[0]).toBe('public static void main(String[] args) {')
+    // Der Import steht auch um `main` herum ganz oben, im Snippet in der ersten Zeile.
+    expect(plainLiveJava(doc0, labels, { asClass: false, withMain: true }).split('\n').slice(0, 3)).toEqual([
+      'import java.util.Scanner;',
+      '',
+      'public static void main(String[] args) {',
+    ])
+    expect(plainLiveJava(doc0, labels).split('\n')[0]).toBe('import java.util.Scanner;')
     // Klassenname tippen ändert den Titel …
     expect(documentFromJava(doc0, parse('public class Taschenrechner {\n}')).caption).toBe('Taschenrechner')
     // … aber aus „Mein Programm“ wird `Mein_Programm`, und der Titel bleibt.
     expect(documentFromJava({ ...doc0, caption: 'Mein Programm' }, parse('public class Mein_Programm {\n}')).caption).toBe('Mein Programm')
     // Klasse ohne main: Anweisungen direkt in der Klasse.
     expect(parse('public class A {\n    int x = 1;\n}').elements[0].textLines).toEqual(['int x = 1'])
+  })
+
+  it('Scanner ohne import ist ein Fehler, wie bei javac', () => {
+    const keys = (src: string) => parse(src).problems.map((p) => p.key)
+    expect(keys('Scanner scanner = new Scanner(System.in);\nint x = scanner.nextInt();')).toEqual(['web_parse_missing_import'])
+    expect(keys('import java.util.Scanner;\nScanner scanner = new Scanner(System.in);')).toEqual([])
+    expect(keys('import java.util.*;\npublic class A {\n    public static void main(String[] args) {\n        Scanner s = new Scanner(System.in);\n    }\n}')).toEqual([])
+    // Nur im Kommentar oder in einem Text zählt nicht.
+    expect(keys('// import java.util.Scanner;\nScanner s = new Scanner(System.in);')).toEqual(['web_parse_missing_import'])
+    expect(keys('System.out.println("Scanner");')).toEqual([])
   })
 
   it('Aufruf eines Unterprogramms aus einem anderen Reiter', () => {
