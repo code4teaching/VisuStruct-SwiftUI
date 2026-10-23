@@ -83,4 +83,5 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_console" = "מסוף";
 "web_console_hide" = "הסתרת המסוף";
 "web_console_resize" = "שינוי גובה המסוף";
+"web_diagram_tools" = "כלי התרשים";
 `;export{e as default};

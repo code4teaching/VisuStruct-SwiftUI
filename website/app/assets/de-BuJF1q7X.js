@@ -140,4 +140,5 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_console" = "Konsole";
 "web_console_hide" = "Konsole ausblenden";
 "web_console_resize" = "Höhe der Konsole ändern";
+"web_diagram_tools" = "Werkzeuge für das Struktogramm";
 `;export{e as default};

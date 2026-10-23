@@ -140,3 +140,4 @@
 "web_console" = "Konsole";
 "web_console_hide" = "Konsole ausblenden";
 "web_console_resize" = "Höhe der Konsole ändern";
+"web_diagram_tools" = "Werkzeuge für das Struktogramm";

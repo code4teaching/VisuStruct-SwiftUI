@@ -140,4 +140,5 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_console" = "Console";
 "web_console_hide" = "Hide console";
 "web_console_resize" = "Resize console";
+"web_diagram_tools" = "Diagram tools";
 `;export{e as default};

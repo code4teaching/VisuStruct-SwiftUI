@@ -83,4 +83,5 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_console" = "Konsol";
 "web_console_hide" = "Konsolu gizle";
 "web_console_resize" = "Konsolu yeniden boyutlandır";
+"web_diagram_tools" = "Diyagram araçları";
 `;export{e as default};

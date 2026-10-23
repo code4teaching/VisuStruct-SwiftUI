@@ -83,4 +83,5 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_console" = "Konsola";
 "web_console_hide" = "Ukryj konsolę";
 "web_console_resize" = "Zmień wysokość konsoli";
+"web_diagram_tools" = "Narzędzia diagramu";
 `;export{e as default};

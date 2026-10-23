@@ -83,4 +83,5 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_console" = "وحدة التحكم";
 "web_console_hide" = "إخفاء وحدة التحكم";
 "web_console_resize" = "تغيير ارتفاع وحدة التحكم";
+"web_diagram_tools" = "أدوات المخطط";
 `;export{e as default};

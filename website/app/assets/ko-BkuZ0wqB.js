@@ -83,4 +83,5 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_console" = "콘솔";
 "web_console_hide" = "콘솔 숨기기";
 "web_console_resize" = "콘솔 크기 조절";
+"web_diagram_tools" = "다이어그램 도구";
 `;export{e as default};

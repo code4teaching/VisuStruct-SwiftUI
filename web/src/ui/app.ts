@@ -29,6 +29,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
 import { CodePanel } from './codePanel'
+import { icons } from './icons'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
 import type { LiveTarget } from '../core/codeGenerator'
@@ -165,6 +166,12 @@ function siteURL(section?: 'contact' | 'privacy'): string {
   return `${base}${lang}/index.html${section ? `#${section}` : ''}`
 }
 
+/** Symbolknopf; der Name (mit Tastenkürzel) erscheint als Tooltip. */
+function iconButton(action: string, label: string, icon: string, keys?: string): string {
+  const tip = keys ? `${label} (${keys})` : label
+  return `<button class="icon" data-action="${action}" data-tip="${e(tip)}" aria-label="${e(label)}">${icon}</button>`
+}
+
 function shortcut(key: string, shift = false): string {
   if (isMac) return `${shift ? '⇧' : ''}⌘${key}`
   return [t('web_key_ctrl'), ...(shift ? [t('web_key_shift')] : []), key].join('+')
@@ -225,7 +232,8 @@ export class App {
     this.tab.selected = v
   }
   private simulating = false
-  private exportSelect!: HTMLSelectElement
+  private exportButton!: HTMLButtonElement
+  private closeExport?: (ev: PointerEvent) => void
   private learn: LearnPanel
   private shell: HTMLElement
   private railButton?: HTMLButtonElement
@@ -340,31 +348,12 @@ export class App {
       <header class="toolbar">
         <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}"><span class="logo"></span>VisuStruct <small>${e(t('web_brand_suffix'))}</small></a>
         <div class="group">
-          <button data-action="new" title="${e(t('a11y_new_diagram_tab'))}">${e(t('toolbar_new'))}</button>
-          <button data-action="open" title="${e(t('menu_open'))} (${shortcut('O')})">${e(t('menu_open'))}</button>
-          <button data-action="save" title="${e(t('menu_save'))} (${shortcut('S')})">${e(t('menu_save'))}</button>
-          <select data-action="export" title="${e(t('web_export_title'))}">
-            <option value="">${e(t('web_export'))}</option>
-            <option value="png">${e(t('web_export_png'))}</option>
-            <option value="svg">${e(t('web_export_svg'))}</option>
-            <option value="pdf">${e(t('web_export_pdf'))}</option>
-            <option value="print">${e(t('menu_print'))} (${shortcut('P')})</option>
-          </select>
-        </div>
-        <div class="group">
-          <button data-action="undo" title="${e(t('toolbar_undo'))} (${shortcut('Z')})" aria-label="${e(t('toolbar_undo'))}">↶</button>
-          <button data-action="redo" title="${e(t('toolbar_redo'))} (${shortcut('Z', true)})" aria-label="${e(t('toolbar_redo'))}">↷</button>
-          <button data-action="cut" title="${e(t('ctx_cut'))} (${shortcut('X')})" aria-label="${e(t('ctx_cut'))}">✂︎</button>
-          <button data-action="copy" title="${e(t('ctx_copy'))} (${shortcut('C')})" aria-label="${e(t('ctx_copy'))}">⧉</button>
-          <button data-action="paste" title="${e(t('ctx_paste'))} (${shortcut('V')})" aria-label="${e(t('ctx_paste'))}">📋︎</button>
-          <button data-action="delete" title="${e(t('action_delete_selection'))} (${e(t('web_key_delete'))})">${e(t('web_delete'))}</button>
-        </div>
-        <div class="group">
-          <button data-action="code" aria-pressed="false" title="${e(t('a11y_generate_code'))}">{ } Code</button>
-          <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="${e(t('web_simulation_start_title'))}">▶︎ ${e(t('action_simulation'))}</button>
+          ${iconButton('new', t('toolbar_new'), icons.newFile)}
+          ${iconButton('open', t('menu_open'), icons.open, shortcut('O'))}
+          ${iconButton('save', t('menu_save'), icons.save, shortcut('S'))}
         </div>
         <div class="group settings">
-          <button data-action="settings" aria-haspopup="true" aria-expanded="false" title="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
+          <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
             <label>${e(t('settings_ui_scale_section'))}
               <select data-action="zoom">${zoomSteps.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
@@ -400,6 +389,27 @@ export class App {
         <p class="hint">${e(t('web_palette_hint'))}</p>
         <ul></ul>
       </aside>
+      <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
+        ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
+        ${iconButton('redo', t('toolbar_redo'), icons.redo, shortcut('Z', true))}
+        <span class="sep"></span>
+        ${iconButton('cut', t('ctx_cut'), icons.cut, shortcut('X'))}
+        ${iconButton('copy', t('ctx_copy'), icons.copy, shortcut('C'))}
+        ${iconButton('paste', t('ctx_paste'), icons.paste, shortcut('V'))}
+        ${iconButton('delete', t('action_delete_selection'), icons.trash, t('web_key_delete'))}
+        <span class="sep"></span>
+        <div class="menu-host">
+          ${iconButton('export', t('web_export_title'), icons.share)}
+          <div class="export-menu" role="menu" hidden>
+            <button role="menuitem" data-export="png">${e(t('web_export_png'))}</button>
+            <button role="menuitem" data-export="svg">${e(t('web_export_svg'))}</button>
+            <button role="menuitem" data-export="pdf">${e(t('web_export_pdf'))}</button>
+            <button role="menuitem" data-export="print">${e(t('menu_print'))} (${shortcut('P')})</button>
+          </div>
+        </div>
+        ${iconButton('code', t('a11y_generate_code'), icons.code)}
+        <button class="icon sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('action_simulation'))}">${icons.play}</button>
+      </div>
       <main class="workspace">
         <nav class="tabs" aria-label="${e(t('web_tabs_label'))}"></nav>
         <input class="caption" placeholder="${e(t('diagram_title_placeholder'))}" aria-label="${e(t('diagram_title_label'))}" />
@@ -473,12 +483,29 @@ export class App {
     }
 
     this.tabStrip = $('.tabs')
-    this.exportSelect = $<HTMLSelectElement>('[data-action=export]')
-    this.exportSelect.addEventListener('change', () => {
-      const kind = this.exportSelect.value as ExportKind | ''
-      this.exportSelect.value = ''
-      if (kind) void this.exportDiagram(kind)
+    this.exportButton = $<HTMLButtonElement>('[data-action=export]')
+    const exportMenu = $<HTMLElement>('.export-menu')
+    this.exportButton.setAttribute('aria-haspopup', 'menu')
+    this.exportButton.addEventListener('click', () => {
+      exportMenu.hidden = !exportMenu.hidden
+      if (!exportMenu.hidden) exportMenu.querySelector('button')?.focus()
     })
+    exportMenu.addEventListener('click', (ev) => {
+      const kind = (ev.target as HTMLElement).closest<HTMLElement>('[data-export]')?.dataset.export as ExportKind | undefined
+      if (!kind) return
+      exportMenu.hidden = true
+      void this.exportDiagram(kind)
+    })
+    exportMenu.addEventListener('keydown', (ev) => {
+      if (ev.key !== 'Escape') return
+      exportMenu.hidden = true
+      this.exportButton.focus()
+    })
+    if (this.closeExport) document.removeEventListener('pointerdown', this.closeExport)
+    this.closeExport = (ev: PointerEvent) => {
+      if (!exportMenu.hidden && !exportMenu.parentElement!.contains(ev.target as Node)) exportMenu.hidden = true
+    }
+    document.addEventListener('pointerdown', this.closeExport)
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
     language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
@@ -833,7 +860,7 @@ export class App {
     this.deleteButton.disabled = this.simulating || !this.selected || !canDeleteElement(this.doc, this.selected)
     this.captionInput.readOnly = this.simulating
     this.codeButton.disabled = this.simulating
-    this.exportSelect.disabled = this.simulating
+    this.exportButton.disabled = this.simulating
     if (this.coding) this.code.refresh()
     this.refreshLive()
     this.renderTabs()
@@ -1014,8 +1041,9 @@ export class App {
     this.simulating = on
     this.root.classList.toggle('simulating', on)
     this.simButton.setAttribute('aria-pressed', String(on))
-    this.simButton.textContent = on ? `✎ ${t('action_diagram')}` : `▶︎ ${t('action_simulation')}`
-    this.simButton.title = t(on ? 'web_simulation_end_title' : 'web_simulation_start_title')
+    this.simButton.innerHTML = on ? icons.pencil : icons.play
+    this.simButton.dataset.tip = t(on ? 'web_simulation_end_title' : 'web_simulation_start_title')
+    this.simButton.setAttribute('aria-label', t(on ? 'action_diagram' : 'action_simulation'))
     if (on) {
       this.setCoding(false)
       this.setEditorHidden(false)

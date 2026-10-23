@@ -83,4 +83,5 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_console" = "コンソール";
 "web_console_hide" = "コンソールを隠す";
 "web_console_resize" = "コンソールの高さを変更";
+"web_diagram_tools" = "図のツール";
 `;export{e as default};

@@ -13,6 +13,7 @@ import type { VSDocument } from '../core/model'
 import { SimulationEngine, type SubprogramResolver } from '../core/simulation'
 import { noticeText, type ConsoleTranscript } from './simulationPanel'
 import { JavaEditor, type SnippetWords } from './javaEditor'
+import { icons } from './icons'
 import { sidebarIcon } from './learnPanel'
 
 /**
@@ -172,8 +173,8 @@ export class LiveCodePanel {
       <div class="livecode-head">
         <h2>${esc(t('web_live_title'))}</h2>
         <span class="livecode-lang"></span>
-        <button class="livecode-run primary" data-run="play" title="${esc(t('web_live_run_title'))}">▶︎ ${esc(t('web_live_run'))}</button>
-        <button class="livecode-run" data-run="stop" disabled>■ ${esc(t('simulation_stop'))}</button>
+        <button class="icon livecode-run primary" data-run="play" data-tip="${esc(t('web_live_run_title'))}" aria-label="${esc(t('web_live_run'))}">${icons.play}</button>
+        <button class="icon livecode-run" data-run="stop" data-tip="${esc(t('simulation_stop'))}" aria-label="${esc(t('simulation_stop'))}" disabled>${icons.stop}</button>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
       <p class="hint"></p>

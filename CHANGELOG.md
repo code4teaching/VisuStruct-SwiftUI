@@ -18,6 +18,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.
 - **Web:** The footer (status, home page, imprint, privacy) now runs below all three columns – Learning, diagram and Code live – instead of only under the diagram.
 - **App:** the area below the diagram is headed “Object Inspector · <element kind>” (German „Objektinspektor · Verzweigung“ etc.), matching the web editor and the lessons. The palette keeps its heading “Elements”.

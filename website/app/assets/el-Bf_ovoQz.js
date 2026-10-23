@@ -83,4 +83,5 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_console" = "Κονσόλα";
 "web_console_hide" = "Απόκρυψη κονσόλας";
 "web_console_resize" = "Αλλαγή ύψους κονσόλας";
+"web_diagram_tools" = "Εργαλεία διαγράμματος";
 `;export{e as default};

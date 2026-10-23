@@ -138,4 +138,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_console" = "Consola";
 "web_console_hide" = "Ocultar consola";
 "web_console_resize" = "Alterar a altura da consola";
+"web_diagram_tools" = "Ferramentas do diagrama";
 `;export{e as default};

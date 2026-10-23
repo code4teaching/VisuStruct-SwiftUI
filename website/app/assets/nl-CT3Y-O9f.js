@@ -83,4 +83,5 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_console" = "Console";
 "web_console_hide" = "Console verbergen";
 "web_console_resize" = "Hoogte van de console wijzigen";
+"web_diagram_tools" = "Diagramgereedschap";
 `;export{e as default};
