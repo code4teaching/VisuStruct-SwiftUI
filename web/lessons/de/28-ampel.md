@@ -108,6 +108,22 @@ Das BorderLayout ist das Layout, das ein `JFrame` ohne eigenes Layout benutzt. E
 Profis schreiben das Weiterschalten in einer Zeile: `phase = (phase + 1) % 3;`. Der Rest-Operator `%` liefert den Rest beim Teilen. 3 % 3 ist 0, also beginnt es nach 2 wieder bei 0.
 :::
 
+## Welches Layout wofür?
+
+Du kennst jetzt drei Layouts. Jedes ordnet die Bausteine anders an:
+
+| Layout | So ordnet es an | Gut für |
+|---|---|---|
+| `FlowLayout` (Lektion 24) | nebeneinander wie Wörter in einer Zeile, jeder Baustein so groß wie nötig | ein paar Knöpfe in einer Reihe |
+| `GridLayout` (Lektion 26) | ein Gitter aus gleich großen Zellen, Zeile für Zeile gefüllt | Formulare, Tastenfelder wie beim Taschenrechner |
+| `BorderLayout` (diese Lektion) | fünf Plätze: oben, unten, links, rechts und die Mitte, die den Rest bekommt | etwas Großes in der Mitte, z. B. ein Bild oder eine Anzeige, mit Knöpfen am Rand |
+
+Ohne `setLayout` benutzt ein Fenster das BorderLayout. Darum landet dann alles in der Mitte.
+
+::: ludwig
+Frag dich beim Planen: Sollen alle Teile gleich groß sein? Dann GridLayout. Soll ein Teil groß sein und der Rest schmal am Rand? Dann BorderLayout. Sollen die Teile einfach ihre normale Größe behalten? Dann FlowLayout.
+:::
+
 ## Spiel: Wo landet der Knopf?
 
 ::: spiel layout
@@ -220,6 +236,7 @@ Mit vier Phasen kommt nach 3 wieder 0. Pass also die Zahl in `if (phase > 2)` an
 - Ich kann mit setOpaque und setBackground eine Beschriftung färben. → Farben in Swing
 - Ich kann mir mit einer static-Variable einen Zustand merken. → Sich die Farbe merken
 - Ich kann mit BorderLayout etwas groß in die Mitte und etwas schmal nach unten setzen. → Das ganze Programm
+- Ich weiß, wofür FlowLayout, GridLayout und BorderLayout gut sind. → Welches Layout wofür?
 - Meine Ampel hat vier Phasen. → Aufgabe: Ampel
 :::
 
