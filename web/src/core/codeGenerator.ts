@@ -912,8 +912,8 @@ function forcedCaseComment(name: string, target: CodeTarget): string {
 function emitInstructionLike(textLines: string[], target: CodeTarget, options: CodeOptions, indent: number, sink: Sink) {
   const body = textLines.map((l) => l.trim())
   if (body.every((l) => l === '')) {
-    // Neue, noch leere Anweisung: in Java eine leere Anweisung.
-    if (options.live) sink.out += sp(indent) + ';\n'
+    // Neue, noch leere Anweisung: eine leere Anweisung (Python: `pass`).
+    if (options.live) sink.out += sp(indent) + (target === 'python' ? 'pass' : ';') + '\n'
     return
   }
   if (options.includeDiagramTextAsComments) {
@@ -1123,6 +1123,8 @@ function emitElement(element: VSElement, target: CodeTarget, options: CodeOption
           for (const el of element.loopBody ?? []) emit(el, target, options, indent + step, sink)
           sink.out += sp(indent + step) + pythonStatementLine(loop.increment, ints) + '\n'
           return
+        } else if (options.live) {
+          sink.out += sp(indent) + livePythonForLoopHeaderText(element.textLines, options.live.labels, ints) + '\n'
         } else {
           header('for ', ':\n')
         }
@@ -1153,7 +1155,8 @@ function emitElement(element: VSElement, target: CodeTarget, options: CodeOption
         const bodyStart = indent + step
         body(element.loopBody ?? [], bodyStart)
         commentIfWanted(bodyStart)
-        sink.out += sp(bodyStart) + 'if not (' + pythonExpression(cond, options.jsIntVariables ?? new Set()) + '):\n'
+        const expression = cond.includes(livePlaceholderStart) ? cond : pythonExpression(cond, options.jsIntVariables ?? new Set())
+        sink.out += sp(bodyStart) + 'if not (' + expression + '):\n'
         sink.out += sp(bodyStart + step) + 'break\n'
       } else {
         sink.out += sp(indent) + 'do {\n'
@@ -1190,6 +1193,8 @@ export interface LiveLabels {
   code: string
   start: string
   step: string
+  /** Obergrenze von `range(…)` in Python. */
+  end: string
 }
 
 /** Zeilen eines Elements im erzeugten Code (ab 0, `to` einschließlich). */
@@ -1206,13 +1211,16 @@ export interface LiveCode {
 }
 
 interface LiveContext {
+  target: LiveTarget
   labels: LiveLabels
   paths: Map<VSElement, number[]>
   spans: LiveSpan[]
 }
 
 const livePlaceholderText = (label: string) => livePlaceholderStart + label + livePlaceholderEnd
-const livePlaceholderLine = (indent: number, live: LiveContext) => sp(indent) + livePlaceholderText('// ' + live.labels.code) + '\n'
+/** Leerer Block: `// Dein Code`; Python braucht dort eine Anweisung, also `pass  # Dein Code`. */
+const livePlaceholderLine = (indent: number, live: LiveContext) =>
+  sp(indent) + livePlaceholderText(live.target === 'python' ? `pass  # ${live.labels.code}` : `// ${live.labels.code}`) + '\n'
 const isBlank = (lines: string[]) => lines.every((l) => l.trim() === '')
 
 /** `for (Startwert; Bedingung; Schritt)`: leere Felder werden zu Platzhaltern. */
@@ -1237,6 +1245,26 @@ function liveJavaScriptForLoopHeaderText(lines: string[], labels: LiveLabels): s
   return parts.join(';')
 }
 
+/**
+ * Unvollständige Zählschleife in Python: `for i in range(Start, Ende):`, fehlende Teile als Platzhalter.
+ * (Vollständige Köpfe übersetzt `pythonForLoop`.)
+ */
+function livePythonForLoopHeaderText(lines: string[], labels: LiveLabels, intVariables: Set<string>): string {
+  const [initS = '', condS = '', stepS = ''] = lines.length === 3 ? lines.map((l) => stripTrailingSemicolon(l)) : []
+  const init = groups(/^\s*(?:integer|int|long|short|byte|double|float)?\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i, initS)
+  const name = init?.[1] ?? groups(/^\s*([a-zA-Z_]\w*)\s*(?:<=|<|>=|>)/, condS)?.[1]
+  const start = init ? pythonExpression(init[2], intVariables) : livePlaceholderText(labels.start)
+  const cond = groups(/^\s*(\w+)\s*(<=|<)\s*(.+)$/, condS)
+  let stop = livePlaceholderText(labels.end)
+  if (cond && (name === undefined || cond[1] === name)) {
+    stop = pythonExpression(cond[3], intVariables)
+    if (cond[2] === '<=') stop = shiftedBound(stop, 1)
+  }
+  const step = name === undefined ? undefined : forLoopStepSize(stepS, name)
+  const args = [start, stop, ...(step !== undefined && step !== 1 ? [String(step)] : [])]
+  return `for ${name ?? livePlaceholderText(labels.selector)} in range(${args.join(', ')}):`
+}
+
 /** Pfade wie in `editing.ts`: `[i, Zweig, j, …]`, Schleifenrumpf = Zweig 0. */
 function elementPaths(elements: VSElement[], prefix: number[] = [], out = new Map<VSElement, number[]>()) {
   elements.forEach((e, i) => {
@@ -1256,15 +1284,15 @@ function recordLiveSpan(options: CodeOptions, element: VSElement, sink: Sink, st
   live.spans.push({ path, from: lineAt(start), to: lineAt(sink.out.length - 1) })
 }
 
-/** Zielsprachen der Ansicht „Code live“ (Python folgt). */
-export type LiveTarget = 'java' | 'javascript'
+/** Zielsprachen der Ansicht „Code live“. */
+export type LiveTarget = 'java' | 'javascript' | 'python'
 
 /**
  * Code für die Ansicht „Code live“: wie das Code-Snippet, aber für Anfänger lesbar, solange noch etwas fehlt
  * (leere Anweisung `;`, `if (Bedingung)`, `// Dein Code` in leeren Blöcken), und mit den Zeilen jedes Elements.
  */
 export function generateLiveCode(document: VSDocument, target: LiveTarget, labels: LiveLabels): LiveCode {
-  const live: LiveContext = { labels, paths: elementPaths(document.elements), spans: [] }
+  const live: LiveContext = { target, labels, paths: elementPaths(document.elements), spans: [] }
   const opts = documentOptions(document, target, { includeEmptyElseBranch: true, live })
   const header = parseSubprogramHeader(document.caption)
   let prelude = ''
@@ -1272,15 +1300,25 @@ export function generateLiveCode(document: VSDocument, target: LiveTarget, label
     if (documentContainsJavaInput(document)) prelude += '// import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
     if (header) prelude += javaMethodHeader(header) + '\n'
   } else {
-    prelude += '"use strict";\n\n'
     if (header) {
-      for (const p of header.params) if (!p.dims && p.type === 'int') opts.jsIntVariables!.add(p.name)
-      prelude += `function ${header.name}(${header.params.map((p) => p.name).join(', ')}) {\n`
+      for (const p of header.params) {
+        if (p.dims) continue
+        if (p.type === 'int') opts.jsIntVariables!.add(p.name)
+        if (p.type === 'string') opts.stringVariables!.add(p.name)
+      }
+    }
+    const names = header?.params.map((p) => p.name).join(', ')
+    if (target === 'javascript') {
+      prelude += '"use strict";\n\n'
+      if (header) prelude += `function ${header.name}(${names}) {\n`
+    } else {
+      if (documentContainsJavaMathRandom(document)) prelude += 'import random\n\n'
+      if (header) prelude += `def ${header.name}(${names}):\n`
     }
   }
   const sink = { out: '' }
   emitBlockBody(document.elements, target, opts, header ? opts.indentPerLevel : 0, sink)
-  if (header) sink.out += '}\n'
+  if (header && target !== 'python') sink.out += '}\n'
   const offset = prelude.split('\n').length - 1
   return {
     text: postProcessLengthSyntax((prelude + sink.out).replace(/\n+$/, ''), target),

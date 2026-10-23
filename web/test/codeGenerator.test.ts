@@ -220,7 +220,7 @@ describe('Codegenerierung: String-Methoden', () => {
 })
 
 describe('Code live (Anfänger-Ansicht)', () => {
-  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Startwert', step: 'Schritt' }
+  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
   const plain = (s: string) => s.replace(//g, '«').replace(//g, '»')
   const stub = () => makeElement(ElementType.anweisung, { textLines: ['ø'] })
 
@@ -275,7 +275,7 @@ describe('Code live (Anfänger-Ansicht)', () => {
 })
 
 describe('Code live in JavaScript', () => {
-  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Start', step: 'Schritt' }
+  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Start', step: 'Schritt', end: 'Ende' }
   const plain = (s: string) => s.replace(//g, '«').replace(//g, '»')
   const stub = () => makeElement(ElementType.anweisung, { textLines: ['ø'] })
 
@@ -294,5 +294,40 @@ describe('Code live in JavaScript', () => {
         'for (let i = 0; «Bedingung»; «Schritt») {\n    «// Dein Code»\n}',
     )
     expect(live.spans.find((s) => s.path.join() === '0')).toMatchObject({ from: 2, to: 2 })
+  })
+})
+
+describe('Code live in Python', () => {
+  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Start', step: 'Schritt', end: 'Ende' }
+  const plain = (s: string) => s.replace(//g, '«').replace(//g, '»')
+  const stub = () => makeElement(ElementType.anweisung, { textLines: ['ø'] })
+  const py = (elements: ReturnType<typeof makeElement>[]) => plain(generateLiveCode({ caption: '', elements }, 'python', labels).text)
+
+  it('pass statt `;`, `if Bedingung:` und `pass  # Dein Code` in leeren Blöcken', () => {
+    expect(
+      py([
+        makeElement(ElementType.anweisung),
+        makeElement(ElementType.anweisung, { textLines: ['int zahl = 0'] }),
+        makeElement(ElementType.verzweigung, { cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [stub()] }] }),
+      ]),
+    ).toBe('pass\nzahl = 0\nif «Bedingung»:\n    «pass  # Dein Code»\nelse:\n    «pass  # Dein Code»')
+  })
+
+  it('Zählschleife: range mit Platzhaltern, solange Felder fehlen', () => {
+    const loop = (lines: string[]) => py([makeElement(ElementType.forSchleife, { textLines: lines, loopBody: [stub()] })]).split('\n')[0]
+    expect(loop(['', '', ''])).toBe('for «Variable» in range(«Start», «Ende»):')
+    expect(loop(['int i = 0', '', ''])).toBe('for i in range(0, «Ende»):')
+    expect(loop(['int i = 1', 'i <= 10', ''])).toBe('for i in range(1, 11):')
+    expect(loop(['int i = 0', 'i < 10', 'i++'])).toBe('for i in range(10):')
+  })
+
+  it('Do-while und Unterprogramm', () => {
+    const doc = {
+      caption: 'int doppelt(int x)',
+      elements: [makeElement(ElementType.doUntilSchleife, { loopBody: [stub()] })],
+    }
+    const live = generateLiveCode(doc, 'python', labels)
+    expect(plain(live.text)).toBe('def doppelt(x):\n    while True:\n        «pass  # Dein Code»\n        if not («Bedingung»):\n            break')
+    expect(live.spans.find((s) => s.path.join() === '0')).toMatchObject({ from: 1, to: 4 })
   })
 })

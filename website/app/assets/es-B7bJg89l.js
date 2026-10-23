@@ -56,4 +56,5 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_live_hint" = "El código crece con tu diagrama. Gris = marcador: escribe en el inspector y tu texto aparecerá ahí. Haz clic en una línea para seleccionar su elemento.";
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Tu código";
+"web_live_ph_end" = "fin";
 `;export{e as default};

@@ -56,4 +56,5 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_live_hint" = "Kod diyagramınla birlikte büyür. Gri = yer tutucu: denetçiye yaz, metnin burada görünür. Öğesini seçmek için bir satıra tıkla.";
 "web_live_ph_selector" = "değişken";
 "web_live_ph_code" = "Kodun";
+"web_live_ph_end" = "bitiş";
 `;export{e as default};

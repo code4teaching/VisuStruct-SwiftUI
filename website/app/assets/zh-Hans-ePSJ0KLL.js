@@ -56,4 +56,5 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_live_hint" = "代码随图一起生成。灰色 = 占位符：在检查器中输入，文字就会出现在这里。点击某行可选中对应元素。";
 "web_live_ph_selector" = "变量";
 "web_live_ph_code" = "你的代码";
+"web_live_ph_end" = "结束";
 `;export{e as default};

@@ -114,4 +114,5 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_live_hint" = "The code grows with your diagram. Grey = placeholder: type in the object inspector and your text appears there. Click a line to select its element.";
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Your code";
+"web_live_ph_end" = "end";
 `;export{e as default};

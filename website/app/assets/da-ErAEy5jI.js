@@ -56,4 +56,5 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_live_hint" = "Koden vokser med dit diagram. Gråt = pladsholder: skriv i inspektøren, så vises teksten her. Klik på en linje for at vælge elementet.";
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kode";
+"web_live_ph_end" = "slut";
 `;export{e as default};

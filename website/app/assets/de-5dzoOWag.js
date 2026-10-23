@@ -114,4 +114,5 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_hint" = "Der Code wächst mit deinem Struktogramm. Grau = Platzhalter: Schreib im Objektinspektor, dann steht dort dein Text. Klick auf eine Zeile markiert das Element.";
 "web_live_ph_selector" = "Variable";
 "web_live_ph_code" = "Dein Code";
+"web_live_ph_end" = "Ende";
 `;export{e as default};

@@ -56,4 +56,5 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_live_hint" = "Le code évolue avec ton diagramme. Gris = espace réservé : écris dans l’inspecteur et ton texte apparaît ici. Clique sur une ligne pour sélectionner son élément.";
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Ton code";
+"web_live_ph_end" = "fin";
 `;export{e as default};

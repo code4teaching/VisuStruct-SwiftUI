@@ -56,4 +56,5 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_live_hint" = "Il codice cresce con il tuo diagramma. Grigio = segnaposto: scrivi nell’ispettore e il tuo testo appare qui. Clicca su una riga per selezionarne l’elemento.";
 "web_live_ph_selector" = "variabile";
 "web_live_ph_code" = "Il tuo codice";
+"web_live_ph_end" = "fine";
 `;export{e as default};

@@ -56,4 +56,5 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_live_hint" = "コードは図と一緒に育ちます。灰色＝プレースホルダー：インスペクタに入力するとここに表示されます。行をクリックすると要素を選択します。";
 "web_live_ph_selector" = "変数";
 "web_live_ph_code" = "ここにコード";
+"web_live_ph_end" = "終了";
 `;export{e as default};
