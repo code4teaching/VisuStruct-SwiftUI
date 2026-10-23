@@ -21069,7 +21069,7 @@ ${x}
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${D(f("web_brand_suffix"))}</small></h3>
-            <p class="about-version">${D(f("web_about_version_fmt").replace("%@","0.2.11"))}</p>
+            <p class="about-version">${D(f("web_about_version_fmt").replace("%@","0.3.0"))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${e("about_web_label","https://www.visustruct.org","www.visustruct.org")}
             ${e("about_developer_label","https://www.sebastiao.org","www.sebastiao.org")}
