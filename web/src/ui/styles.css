@@ -1491,7 +1491,7 @@ button.danger-text:not(:disabled) {
 }
 .learn-brag {
   display: grid;
-  grid-template-columns: 48px 1fr;
+  grid-template-columns: 48px minmax(0, 1fr);
   gap: 10px;
   align-items: start;
   border: 1px solid var(--border);

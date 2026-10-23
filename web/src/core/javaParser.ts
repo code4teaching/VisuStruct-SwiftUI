@@ -626,20 +626,23 @@ class Parser {
   private parseSimple(): Built[] {
     const first = this.next()
     let last = first
-    let depth = first.text === '(' || first.text === '[' || first.text === '{' ? 1 : 0
+    // Offene Klammern dieser Anweisung. Steht die innerste `{` in der Anweisung (Lambda `e -> { … }` oder
+    // anonyme Klasse `new ActionListener() { … }`), gehören `;` und neue Zeilen darin noch dazu.
+    const open: string[] = first.text === '(' || first.text === '[' || first.text === '{' ? [first.text] : []
+    const inBraces = () => open.length > 0 && open[open.length - 1] === '{' && first.text !== '{'
     let semi: Tok | undefined
     while (this.tok) {
       const t = this.tok
-      if (t.text === ';' && t.kind === 'op') {
+      if (t.text === ';' && t.kind === 'op' && !inBraces()) {
         semi = this.next()
         break
       }
-      if (t.line !== last.line) {
-        if (depth <= 0 || (t.kind === 'id' && statementKeywords.has(t.text)) || t.text === '}') break
+      if (t.line !== last.line && !inBraces()) {
+        if (open.length === 0 || (t.kind === 'id' && statementKeywords.has(t.text)) || t.text === '}') break
       }
-      if (t.text === '}' && depth <= 0) break
-      if (t.text === '(' || t.text === '[' || t.text === '{') depth++
-      if (t.text === ')' || t.text === ']' || t.text === '}') depth--
+      if (t.text === '}' && open.length === 0) break
+      if (t.text === '(' || t.text === '[' || t.text === '{') open.push(t.text)
+      if (t.text === ')' || t.text === ']' || t.text === '}') open.pop()
       last = this.next()
     }
     if (!semi) this.missingAfter(last, ';')
