@@ -13,7 +13,6 @@
 "web_export_failed_fmt" = "Exporten misslyckades: %@";
 "web_print_hint" = "Använd ”Exportera… → PDF” för att spara diagrammet och skriva ut det därifrån.";
 "web_delete" = "Radera";
-"web_zoom_option_fmt" = "Text: %@";
 "web_language_title" = "Gränssnittets språk";
 "web_simulation_start_title" = "Kör struktogrammet steg för steg";
 "web_simulation_end_title" = "Avsluta simuleringen och fortsätt redigera";
@@ -70,3 +69,5 @@
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Visa strukturdiagram";
 "web_editor_hide" = "Dölj strukturdiagram";
+"web_keywords_title" = "Kodnyckelord";
+"web_keywords_hint" = "if, while, for i stället för elementnamn";

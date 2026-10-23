@@ -33,7 +33,7 @@ import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
-import { currentLanguage, offeredLanguages, setLanguage, t, type LanguageCode } from './i18n'
+import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -172,6 +172,8 @@ const learnWidthKey = 'visustruct.learn.width'
 const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
 const editorHiddenKey = 'visustruct.editor.hidden'
+const gearIcon =
+  '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
 const maxUndoSteps = 80
@@ -228,6 +230,7 @@ export class App {
   /** Werkzeugleiste über allen Spalten. */
   private topbar = h('div', { class: 'topbar' })
   private editorHidden = false
+  private closeSettings?: (ev: PointerEvent) => void
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
@@ -351,16 +354,25 @@ export class App {
           <button data-action="delete" title="${e(t('action_delete_selection'))} (${e(t('web_key_delete'))})">${e(t('web_delete'))}</button>
         </div>
         <div class="group">
-          <select data-action="zoom" title="${e(t('settings_ui_scale_section'))}">${zoomSteps
-            .map((z) => `<option value="${z.value}">${e(t('web_zoom_option_fmt', t(z.label)))}</option>`)
-            .join('')}</select>
-          <select data-action="language" title="${e(t('web_language_title'))}" aria-label="${e(t('web_language_title'))}">${offeredLanguages
-            .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
-            .join('')}</select>
-        </div>
-        <div class="group">
           <button data-action="code" aria-pressed="false" title="${e(t('a11y_generate_code'))}">{ } Code</button>
           <button data-action="simulate" class="sim-toggle" aria-pressed="false" title="${e(t('web_simulation_start_title'))}">▶︎ ${e(t('action_simulation'))}</button>
+        </div>
+        <div class="group settings">
+          <button data-action="settings" aria-haspopup="true" aria-expanded="false" title="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
+          <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
+            <label>${e(t('settings_ui_scale_section'))}
+              <select data-action="zoom">${zoomSteps.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
+            </label>
+            <label>${e(t('settings_language_title'))}
+              <select data-action="language" title="${e(t('web_language_title'))}">${offeredLanguages
+                .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
+                .join('')}</select>
+            </label>
+            <label class="check">
+              <input type="checkbox" data-action="keywords" />
+              <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
+            </label>
+          </div>
         </div>
       </header>
       <aside class="palette">
@@ -443,7 +455,10 @@ export class App {
     })
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
-    language.addEventListener('change', () => void this.changeLanguage(language.value as LanguageCode))
+    language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
+    const keywords = $<HTMLInputElement>('[data-action=keywords]')
+    keywords.checked = codeKeywords()
+    keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
     const zoom = $<HTMLSelectElement>('[data-action=zoom]')
     zoom.value = String(this.zoom)
     zoom.addEventListener('change', () => {
@@ -451,6 +466,7 @@ export class App {
       storeValue(zoomKey, zoom.value)
       this.renderDiagramOnly()
     })
+    this.setupSettingsMenu($('[data-action=settings]'), $('.settings-menu'))
     $('[data-action=cut]').addEventListener('click', () => this.cutSelection())
     $('[data-action=copy]').addEventListener('click', () => this.copySelection())
     $('[data-action=paste]').addEventListener('click', () => this.paste())
@@ -493,10 +509,11 @@ export class App {
   }
 
   /** Sprache wechseln wie in den App-Einstellungen: Oberfläche neu aufbauen, Reiter und Verlauf bleiben. */
-  private async changeLanguage(code: LanguageCode) {
+  /** Sprache oder Code-Keywords umstellen und alle Texte neu aufbauen; das Einstellungsmenü bleibt offen. */
+  private async changeLanguage(change: () => Promise<void>, control: string) {
     this.setSimulating(false)
     this.setCoding(false)
-    await setLanguage(code)
+    await change()
     applyCanvasStubTexts()
     this.sim.end()
     this.live.build()
@@ -506,6 +523,8 @@ export class App {
     this.labelLearnRail()
     this.labelLiveRail()
     this.labelEditorRail()
+    this.topbar.querySelector<HTMLButtonElement>('[data-action=settings]')?.click()
+    this.topbar.querySelector<HTMLElement>(`[data-action=${control}]`)?.focus()
   }
 
   // MARK: - Lernbereich
@@ -548,6 +567,26 @@ export class App {
   }
 
   /** Schmale Leiste am Rand, solange der Lernbereich eingeklappt ist. */
+  /** Zahnrad oben rechts: Textgröße und Sprache. Schließt bei Klick daneben und mit Escape. */
+  private setupSettingsMenu(button: HTMLButtonElement, menu: HTMLElement) {
+    const show = (open: boolean) => {
+      menu.hidden = !open
+      button.setAttribute('aria-expanded', String(open))
+    }
+    button.addEventListener('click', () => show(menu.hidden))
+    // Nach einem Sprachwechsel wird die Leiste neu gebaut: alten Zuhörer entfernen.
+    if (this.closeSettings) document.removeEventListener('pointerdown', this.closeSettings)
+    this.closeSettings = (ev: PointerEvent) => {
+      if (!menu.hidden && !button.parentElement!.contains(ev.target as Node)) show(false)
+    }
+    document.addEventListener('pointerdown', this.closeSettings)
+    menu.addEventListener('keydown', (ev) => {
+      if (ev.key !== 'Escape') return
+      show(false)
+      button.focus()
+    })
+  }
+
   private learnRail(): HTMLElement {
     this.railButton = h('button', { class: 'learn-rail' }) as HTMLButtonElement
     this.labelLearnRail()

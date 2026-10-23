@@ -13,7 +13,6 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_export_failed_fmt" = "Eksport mislykkedes: %@";
 "web_print_hint" = "Brug »Eksportér… → PDF« til at gemme diagrammet og udskrive det derfra.";
 "web_delete" = "Slet";
-"web_zoom_option_fmt" = "Tekst: %@";
 "web_language_title" = "Sprog i brugerfladen";
 "web_simulation_start_title" = "Kør struktogrammet trin for trin";
 "web_simulation_end_title" = "Afslut simuleringen og fortsæt redigeringen";
@@ -70,4 +69,6 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";
+"web_keywords_title" = "Kode-nøgleord";
+"web_keywords_hint" = "if, while, for i stedet for elementnavne";
 `;export{e as default};

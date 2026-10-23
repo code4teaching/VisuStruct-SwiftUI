@@ -13,7 +13,6 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_export_failed_fmt" = "导出失败：%@";
 "web_print_hint" = "请通过“导出… → PDF”保存图表，然后从那里打印。";
 "web_delete" = "删除";
-"web_zoom_option_fmt" = "文字：%@";
 "web_language_title" = "界面语言";
 "web_simulation_start_title" = "逐步运行结构图";
 "web_simulation_end_title" = "结束模拟并继续编辑";
@@ -70,4 +69,6 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_editor_title" = "结构图";
 "web_editor_show" = "显示结构图";
 "web_editor_hide" = "隐藏结构图";
+"web_keywords_title" = "代码关键字";
+"web_keywords_hint" = "用 if、while、for 代替元素名称";
 `;export{e as default};

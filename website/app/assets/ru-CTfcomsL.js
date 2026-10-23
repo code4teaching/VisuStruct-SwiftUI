@@ -13,7 +13,6 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_export_failed_fmt" = "Ошибка экспорта: %@";
 "web_print_hint" = "Через «Экспорт… → PDF» можно сохранить схему и затем распечатать её.";
 "web_delete" = "Удалить";
-"web_zoom_option_fmt" = "Текст: %@";
 "web_language_title" = "Язык интерфейса";
 "web_simulation_start_title" = "Выполнить схему шаг за шагом";
 "web_simulation_end_title" = "Завершить симуляцию и продолжить редактирование";
@@ -70,4 +69,6 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_editor_title" = "Диаграмма";
 "web_editor_show" = "Показать диаграмму";
 "web_editor_hide" = "Скрыть диаграмму";
+"web_keywords_title" = "Ключевые слова кода";
+"web_keywords_hint" = "if, while, for вместо названий элементов";
 `;export{e as default};

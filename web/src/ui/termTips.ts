@@ -137,7 +137,9 @@ export const uiTargets: Record<string, string> = {
   speichern: '[data-action=save]',
   exportieren: '[data-action=export]',
   rueckgaengig: '[data-action=undo]',
-  textgroesse: '[data-action=zoom]',
+  // Textgröße und Sprache liegen im Menü hinter dem Zahnrad.
+  textgroesse: '[data-action=settings]',
+  einstellungen: '[data-action=settings]',
   lernen: '.learn .learn-hide',
   code: '[data-action=code]',
   simulation: '[data-action=simulate]',

@@ -13,7 +13,6 @@
 "web_export_failed_fmt" = "فشل التصدير: %@";
 "web_print_hint" = "استخدم «تصدير… → PDF» لحفظ المخطط ثم طباعته من هناك.";
 "web_delete" = "حذف";
-"web_zoom_option_fmt" = "النص: %@";
 "web_language_title" = "لغة الواجهة";
 "web_simulation_start_title" = "تشغيل المخطط خطوة بخطوة";
 "web_simulation_end_title" = "إنهاء المحاكاة ومتابعة التحرير";
@@ -70,3 +69,5 @@
 "web_editor_title" = "المخطط";
 "web_editor_show" = "إظهار المخطط";
 "web_editor_hide" = "إخفاء المخطط";
+"web_keywords_title" = "كلمات الشيفرة المفتاحية";
+"web_keywords_hint" = "if و while و for بدلًا من أسماء العناصر";

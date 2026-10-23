@@ -13,7 +13,6 @@
 "web_export_failed_fmt" = "匯出失敗：%@";
 "web_print_hint" = "請透過「匯出… → PDF」儲存圖表，再從那裡列印。";
 "web_delete" = "刪除";
-"web_zoom_option_fmt" = "文字：%@";
 "web_language_title" = "介面語言";
 "web_simulation_start_title" = "逐步執行結構圖";
 "web_simulation_end_title" = "結束模擬並繼續編輯";
@@ -70,3 +69,5 @@
 "web_editor_title" = "結構圖";
 "web_editor_show" = "顯示結構圖";
 "web_editor_hide" = "隱藏結構圖";
+"web_keywords_title" = "程式碼關鍵字";
+"web_keywords_hint" = "用 if、while、for 取代元素名稱";

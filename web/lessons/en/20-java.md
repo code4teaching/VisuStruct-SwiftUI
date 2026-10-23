@@ -88,7 +88,7 @@ The name of the class comes from the **title** of the diagram. The file must hav
 
 ## The Java language mode
 
-In the toolbar you can change the language of the interface. Besides English, German and many others there is **Java (Keywords)**. Then the building blocks in the Elements area have the same names as the commands in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` and `call`. The rest of the interface is then in English.
+Under the [gear](#zeige-einstellungen) at the top right you can switch on **Code keywords**. Then the building blocks in the Elements area have the same names as the commands in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` and `call`. The rest of the interface stays in your language.
 
 This helps you match the boxes to the Java commands. Your diagram itself stays unchanged.
 

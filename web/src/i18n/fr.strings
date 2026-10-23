@@ -13,7 +13,6 @@
 "web_export_failed_fmt" = "Échec de l’exportation : %@";
 "web_print_hint" = "Utilisez « Exporter… → PDF » pour enregistrer le diagramme, puis imprimez-le.";
 "web_delete" = "Supprimer";
-"web_zoom_option_fmt" = "Texte : %@";
 "web_language_title" = "Langue de l’interface";
 "web_simulation_start_title" = "Exécuter l’organigramme étape par étape";
 "web_simulation_end_title" = "Terminer la simulation et reprendre l’édition";
@@ -70,3 +69,5 @@
 "web_editor_title" = "Diagramme";
 "web_editor_show" = "Afficher le diagramme";
 "web_editor_hide" = "Masquer le diagramme";
+"web_keywords_title" = "Mots-clés du code";
+"web_keywords_hint" = "if, while, for au lieu des noms des éléments";

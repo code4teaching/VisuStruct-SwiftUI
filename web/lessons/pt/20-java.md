@@ -88,7 +88,7 @@ O nome da classe vem do **título** do diagrama. O ficheiro tem de ter exatament
 
 ## O modo de linguagem Java
 
-Na barra de ferramentas podes mudar o idioma da interface. Além do português, inglês, alemão e muitos outros, existe **Java (Keywords)**. Então os blocos da área Elementos têm os mesmos nomes que os comandos em Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` e `call`. O resto da interface fica então em inglês.
+Na [roda dentada](#zeige-einstellungen) em cima à direita podes ativar as **Palavras-chave do código**. Então os blocos da área Elementos têm os mesmos nomes que os comandos em Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` e `call`. O resto da interface fica no teu idioma.
 
 Isto ajuda-te a associar os blocos aos comandos Java. O teu diagrama em si fica igual.
 

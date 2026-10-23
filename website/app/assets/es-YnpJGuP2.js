@@ -13,7 +13,6 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_export_failed_fmt" = "Error al exportar: %@";
 "web_print_hint" = "Usa “Exportar… → PDF” para guardar el diagrama e imprimirlo desde allí.";
 "web_delete" = "Eliminar";
-"web_zoom_option_fmt" = "Texto: %@";
 "web_language_title" = "Idioma de la interfaz";
 "web_simulation_start_title" = "Ejecutar el diagrama paso a paso";
 "web_simulation_end_title" = "Terminar la simulación y seguir editando";
@@ -70,4 +69,6 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";
+"web_keywords_title" = "Palabras clave de código";
+"web_keywords_hint" = "if, while, for en lugar de los nombres de los elementos";
 `;export{e as default};

@@ -34,7 +34,7 @@ Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struk
 - **PDF (A4):** eine Seite zum Abgeben oder Ausdrucken
 - **Drucken** (Strg+P): direkt auf den Drucker
 
-Mit [Text](#zeige-textgroesse) in der Leiste stellst du die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
+Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
 
 ## Ausprobieren
 

@@ -31,8 +31,11 @@ export const languages = [
 
 export type LanguageCode = (typeof languages)[number]['code']
 
-/** Sprachen, die die Web-App zur Auswahl anbietet (Holger, 2026-10-22). Die übrigen bleiben übersetzt und lassen sich hier wieder einschalten. */
-const offered: readonly LanguageCode[] = ['de', 'en', 'pt-PT', 'java']
+/**
+ * Sprachen, die die Web-App zur Auswahl anbietet (Holger, 2026-10-22). Die übrigen bleiben übersetzt und lassen sich hier wieder einschalten.
+ * Java ist keine Sprache mehr, sondern der Schalter „Code-Keywords“ in den Einstellungen (Holger, 2026-10-23).
+ */
+const offered: readonly LanguageCode[] = ['de', 'en', 'pt-PT']
 export const offeredLanguages = languages.filter((l) => offered.includes(l.code))
 const isOffered = (code: string): code is LanguageCode => offered.includes(code as LanguageCode)
 
@@ -82,9 +85,61 @@ let table = new Map<string, string>()
 let english = new Map<string, string>()
 
 const storageKey = 'appLanguageCode'
+const keywordsKey = 'visustruct.keywords'
+
+/** Code-Keywords: Elemente heißen if, while, for … statt Verzweigung, While-Schleife …, unabhängig von der Sprache. */
+let keywords = new Map<string, string>()
+let keywordsOn = false
+
+/** Nur Beschriftungen im Struktogramm aus `Java.strings`: Elementnamen und Platzhalter. */
+const isKeywordLabel = (key: string) => key.startsWith('element_') || key.startsWith('canvas_stub_')
+
+/** Früher war „Java (Keywords)“ eine Sprache: gespeichert oder per ?lang=java wird daraus Englisch mit Code-Keywords. */
+function migrateJavaLanguage(): boolean {
+  try {
+    const java = new URLSearchParams(location.search).get('lang') === 'java' || localStorage.getItem(storageKey) === 'java'
+    if (java) {
+      localStorage.setItem(storageKey, 'en')
+      localStorage.setItem(keywordsKey, '1')
+    }
+    return java
+  } catch {
+    return false
+  }
+}
+
+export function storedCodeKeywords(): boolean {
+  try {
+    return localStorage.getItem(keywordsKey) === '1'
+  } catch {
+    return false
+  }
+}
+
+export async function setCodeKeywords(on: boolean, remember = true) {
+  if (on && keywords.size === 0) {
+    if (english.size === 0) english = await loadTable('en')
+    const load = loader(javaStrings, '/Java.strings')
+    // Nur echte Keywords: Wo Java.strings nur Englisch ist (z. B. „Statement“), bleibt die gewählte Sprache.
+    if (load) for (const [k, v] of parseStrings(await load())) if (isKeywordLabel(k) && v !== english.get(k)) keywords.set(k, v)
+  }
+  keywordsOn = on
+  if (remember) {
+    try {
+      localStorage.setItem(keywordsKey, on ? '1' : '0')
+    } catch {
+      /* nur für diese Sitzung */
+    }
+  }
+}
+
+export function codeKeywords(): boolean {
+  return keywordsOn
+}
 
 /** Wie `AppLanguage.deviceDefault`: erste Browsersprache, die VisuStruct anbietet, sonst Englisch. */
 export function preferredLanguage(): LanguageCode {
+  if (migrateJavaLanguage()) return 'en'
   // Link von der Webseite, z. B. visustruct.org/app/?lang=de
   const fromURL = new URLSearchParams(location.search).get('lang')
   if (fromURL && isOffered(fromURL)) return fromURL
@@ -97,7 +152,7 @@ export function preferredLanguage(): LanguageCode {
   for (const tag of navigator.languages ?? [navigator.language]) {
     const t = tag.toLowerCase()
     if (t.startsWith('pt')) return 'pt-PT'
-    const hit = offeredLanguages.find((l) => l.code !== 'java' && l.code === t.split('-')[0])
+    const hit = offeredLanguages.find((l) => l.code === t.split('-')[0])
     if (hit) return hit.code
   }
   return 'en'
@@ -125,7 +180,7 @@ export function currentLanguage(): LanguageCode {
 
 /** Übersetzung zu `key`; `%@`, `%d` und `%1$@` werden der Reihe nach durch `args` ersetzt. */
 export function t(key: string, ...args: (string | number)[]): string {
-  const text = table.get(key) ?? english.get(key) ?? key
+  const text = (keywordsOn ? keywords.get(key) : undefined) ?? table.get(key) ?? english.get(key) ?? key
   if (args.length === 0) return text
   let next = 0
   return text.replace(/%(?:(\d+)\$)?[@d]/g, (_, pos: string | undefined) => String(args[pos ? Number(pos) - 1 : next++] ?? ''))

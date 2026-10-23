@@ -8,7 +8,7 @@ kurz: Insert elements, type text, move and delete.
 
 The editor has four areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
 
-- **At the top, the [toolbar](#zeige-leiste):** New, Open, Save, Export, Undo, Copy and Paste, text size, Code and Simulation.
+- **At the top, the [toolbar](#zeige-leiste):** New, Open, Save, Export, Undo, Copy and Paste, Code and Simulation. On the far right, the gear for [Settings](#zeige-einstellungen): text size and language.
 - **On the left, the [Elements](#zeige-elemente):** Here are all the building blocks you can drag into the structure chart. Some people also call this area the palette.
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
 - **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.

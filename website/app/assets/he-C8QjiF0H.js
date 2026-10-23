@@ -13,7 +13,6 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_export_failed_fmt" = "הייצוא נכשל: %@";
 "web_print_hint" = "השתמשו ב„ייצוא… → PDF” כדי לשמור את התרשים ולהדפיס אותו משם.";
 "web_delete" = "מחיקה";
-"web_zoom_option_fmt" = "טקסט: %@";
 "web_language_title" = "שפת הממשק";
 "web_simulation_start_title" = "הרצת התרשים צעד אחר צעד";
 "web_simulation_end_title" = "סיום הסימולציה והמשך עריכה";
@@ -70,4 +69,6 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_editor_title" = "תרשים";
 "web_editor_show" = "הצגת התרשים";
 "web_editor_hide" = "הסתרת התרשים";
+"web_keywords_title" = "מילות מפתח של קוד";
+"web_keywords_hint" = "if, while, for במקום שמות הרכיבים";
 `;export{e as default};

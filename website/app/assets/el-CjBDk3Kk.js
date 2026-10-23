@@ -13,7 +13,6 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_export_failed_fmt" = "Η εξαγωγή απέτυχε: %@";
 "web_print_hint" = "Με «Εξαγωγή… → PDF» μπορείτε να αποθηκεύσετε το διάγραμμα και να το εκτυπώσετε από εκεί.";
 "web_delete" = "Διαγραφή";
-"web_zoom_option_fmt" = "Κείμενο: %@";
 "web_language_title" = "Γλώσσα περιβάλλοντος";
 "web_simulation_start_title" = "Εκτέλεση του διαγράμματος βήμα προς βήμα";
 "web_simulation_end_title" = "Τέλος προσομοίωσης και συνέχεια επεξεργασίας";
@@ -70,4 +69,6 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_editor_title" = "Διάγραμμα";
 "web_editor_show" = "Εμφάνιση διαγράμματος";
 "web_editor_hide" = "Απόκρυψη διαγράμματος";
+"web_keywords_title" = "Λέξεις-κλειδιά κώδικα";
+"web_keywords_hint" = "if, while, for αντί για ονόματα στοιχείων";
 `;export{e as default};
