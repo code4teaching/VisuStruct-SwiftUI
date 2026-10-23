@@ -25,7 +25,7 @@ body {
 .app {
   display: grid;
   /* Wie in der App: Eingabe unter dem Diagramm, damit das Diagramm die ganze Breite bekommt */
-  grid-template: 'pal work' 1fr 'pal insp' auto 'status status' auto / 210px minmax(0, 1fr);
+  grid-template: 'pal work' 1fr 'pal insp' auto / 210px minmax(0, 1fr);
   height: 100%;
   flex: 1;
   min-width: 0;
@@ -101,6 +101,87 @@ body {
   display: block;
   font-weight: 400;
   color: var(--muted);
+}
+
+.settings-menu .about-button {
+  justify-self: start;
+  padding: 6px 10px;
+  font-size: 13px;
+}
+
+/* „Über VisuStruct“: ohne Innenabstand, damit ein Klick auf den Dialog selbst nur der Rand sein kann. */
+dialog.about {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  padding: 0;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+dialog.about::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+dialog.about header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+dialog.about h2 {
+  margin: 0;
+  font-size: 16px;
+}
+.about-body {
+  padding: 20px 24px 24px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.about-body p {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+.about-head {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.about-head .logo {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  color: var(--accent);
+}
+.about-head h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+.about-head h3 small {
+  font-weight: 400;
+  color: var(--muted);
+}
+.about-body .about-author {
+  color: var(--text);
+  font-weight: 600;
+}
+.about-link {
+  margin: 0 0 2px;
+}
+.about-body h4 {
+  margin: 16px 0 6px;
+  font-size: 15px;
+}
+.about-body code {
+  font-weight: 600;
+  color: var(--text);
+}
+.about-body .about-copy {
+  margin-top: 16px;
 }
 
 .brand {
@@ -291,7 +372,6 @@ h2 {
 }
 
 .statusbar {
-  grid-area: status;
   display: flex;
   flex-wrap: wrap;
   gap: 2px 16px;
@@ -334,7 +414,7 @@ a.brand {
     white-space: nowrap;
   }
   .app {
-    grid-template: 'pal' auto 'work' 1fr 'insp' auto 'status' auto / minmax(0, 1fr);
+    grid-template: 'pal' auto 'work' 1fr 'insp' auto / minmax(0, 1fr);
   }
   .palette,
   .inspector {
@@ -406,7 +486,7 @@ button.danger {
   overflow-y: auto;
 }
 .app.simulating {
-  grid-template: 'work insp' 1fr 'status status' auto / minmax(0, 1fr) 320px;
+  grid-template: 'work insp' 1fr / minmax(0, 1fr) 320px;
 }
 .app.simulating .palette,
 .app.simulating .inspector {
@@ -542,7 +622,7 @@ button.sim-toggle[aria-pressed='false'] {
 
 @media (max-width: 820px) {
   .app.simulating {
-    grid-template: 'work' minmax(200px, 1fr) 'insp' auto 'status' auto / minmax(0, 1fr);
+    grid-template: 'work' minmax(200px, 1fr) 'insp' auto / minmax(0, 1fr);
   }
   .simpanel {
     border-inline-start: none;
@@ -564,8 +644,7 @@ button.sim-toggle[aria-pressed='false'] {
 .app.coding {
   grid-template:
     'pal work code' 1fr
-    'pal insp code' auto
-    'status status status' auto / 210px minmax(0, 1fr) 400px;
+    'pal insp code' auto / 210px minmax(0, 1fr) 400px;
 }
 .app.coding .codepanel {
   display: block;
@@ -671,7 +750,7 @@ button.primary {
 
 @media (max-width: 820px) {
   .app.coding {
-    grid-template: 'pal' auto 'work' minmax(240px, 1fr) 'insp' auto 'code' auto 'status' auto / minmax(0, 1fr);
+    grid-template: 'pal' auto 'work' minmax(240px, 1fr) 'insp' auto 'code' auto / minmax(0, 1fr);
   }
   .codepanel {
     border-inline-start: none;
