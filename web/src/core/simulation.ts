@@ -527,6 +527,13 @@ function tokenize(expression: string): Token[] {
       tokens.push({ t: 'identifier', name: chars.slice(start, i).join('') })
       continue
     }
+    // Zeichenliteral wie in Java: in einer Rechnung zählt sein Zeichencode, also 'A' = 65
+    if (c === "'" && chars[i + 2] === "'" && chars[i + 1] !== undefined) {
+      const code = chars[i + 1].codePointAt(0)!
+      tokens.push({ t: 'number', literal: String(code), value: code })
+      i += 3
+      continue
+    }
     if ('+-*/%.()[]'.includes(c)) {
       tokens.push({ t: c as '+' })
       i += 1
@@ -538,6 +545,12 @@ function tokenize(expression: string): Token[] {
 }
 
 type Num = { v: number; int: boolean }
+
+/** Zeichencode eines `char` (String mit genau einem Zeichen) wie in Java, wenn damit gerechnet wird; sonst `undefined`. */
+function charCode(text: string | undefined): number | undefined {
+  const chars = text === undefined ? [] : Array.from(text)
+  return chars.length === 1 ? chars[0].codePointAt(0) : undefined
+}
 
 class NumericParser {
   private index = 0
@@ -669,7 +682,15 @@ class NumericParser {
             if (!(elementIndex >= 0 && elementIndex < value.value.length)) throw invalid(`${name}[${elementIndex}]`)
             return { v: value.value[elementIndex], int: value.kind === 'intArray' }
           }
+          if (value.kind === 'stringArray') {
+            const code = charCode(value.value[elementIndex])
+            if (code !== undefined) return { v: code, int: true }
+          }
           throw invalid(name)
+        }
+        if (value.kind === 'string') {
+          const code = charCode(value.value)
+          if (code !== undefined) return { v: code, int: true }
         }
         const numeric = asDouble(value)
         if (!Number.isFinite(numeric)) throw invalid(name)
@@ -1492,6 +1513,13 @@ export class SimulationEngine {
     if (direct) return direct
     const call = this.evaluateStringMethod(trimmed)
     if (call) return call
+    // `(char) code` wie in Java: aus dem Zeichencode wird wieder ein Zeichen
+    const charCast = /^\(\s*char\s*\)\s*(.+)$/su.exec(trimmed)
+    if (charCast) {
+      const code = this.evaluateInt(charCast[1])
+      if (!(code >= 0 && code <= 0x10ffff)) throw invalid(trimmed)
+      return { kind: 'string', value: String.fromCodePoint(code) }
+    }
     const access = parseArrayElementAccess(trimmed)
     if (!access) return undefined
     return this.valueInArray(access.arrayName, access.indexExpressions.map((e) => this.arrayIndex(e)))
@@ -1598,7 +1626,7 @@ export class SimulationEngine {
     if (!expression.includes('(')) return expression
     let result = ''
     let rest = expression
-    const re = /([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf)\s*\(/u
+    const re = /([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf|charAt)\s*\(/u
     for (let m = re.exec(rest); m; m = re.exec(rest)) {
       const open = m.index + m[0].length - 1
       const close = matchingCloseParenthesis(Array.from(rest), Array.from(rest.slice(0, open)).length)
@@ -1607,8 +1635,12 @@ export class SimulationEngine {
       const callText = chars.slice(Array.from(rest.slice(0, m.index)).length, close + 1).join('')
       const value = this.evaluateStringMethod(callText)
       const before = chars.slice(0, Array.from(rest.slice(0, m.index)).length).join('')
+      // Mit `wort.charAt(i)` wird wie in Java über den Zeichencode gerechnet.
+      const code = value?.kind === 'string' ? charCode(value.value) : undefined
       if (value?.kind === 'int') {
         result += before + String(value.value)
+      } else if (code !== undefined) {
+        result += before + String(code)
       } else {
         result += before + callText
       }

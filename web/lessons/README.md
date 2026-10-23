@@ -144,6 +144,18 @@ Wie beim Tauschen gilt: Überschreibe keinen Wert, den du noch brauchst.
 :::
 ```
 
+Eine digitale Caesar-Scheibe zum Drehen: außen der Klartext, innen der Geheimtext, darunter ein Eingabefeld, das live ver- oder
+entschlüsselt. Hinter `caesar` steht der Startschlüssel (0 bis 25), die Zeile darin ist der Starttext:
+
+```
+::: caesar 3
+LUDWIG
+:::
+```
+
+In der Simulation rechnet ein `char` wie in Java mit seinem Zeichencode: `(int) wort.charAt(i)` liefert z. B. 65 für A,
+`'A'` zählt in einer Rechnung als 65 und `(char) 68` ergibt `'D'`.
+
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
 ```

@@ -2579,3 +2579,119 @@ button.danger-text:not(:disabled) {
   border-radius: 6px;
   background: #e9ecf0;
 }
+
+/* Caesar-Scheibe im Lernbereich: außen Klartext (fest), innen Geheimtext (drehbar) */
+.learn-caesar-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.learn-caesar-disc {
+  width: min(100%, 320px);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.learn-caesar-disc text {
+  font: 600 19px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.learn-caesar-disc .outer-disc {
+  fill: #f3e6c8;
+  stroke: #8a6d3b;
+  stroke-width: 3;
+}
+.learn-caesar-disc .outer-letters text {
+  fill: #3d2f14;
+  cursor: pointer;
+}
+.learn-caesar-disc .inner {
+  cursor: grab;
+  transition: transform 0.25s ease;
+}
+.learn-caesar-disc .inner.dragging {
+  cursor: grabbing;
+  transition: none;
+}
+.learn-caesar-disc .inner-disc {
+  fill: #6b4f2a;
+  stroke: #3d2f14;
+  stroke-width: 2;
+}
+.learn-caesar-disc .inner-letters text {
+  fill: #fff8e8;
+}
+.learn-caesar-disc .tick {
+  stroke: #8a6d3b;
+  stroke-width: 1;
+  opacity: 0.6;
+}
+.learn-caesar-disc .hub {
+  fill: #f3e6c8;
+  stroke: #3d2f14;
+  stroke-width: 2;
+}
+.learn-caesar-disc .window {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+.learn-caesar-disc .marked text {
+  fill: var(--accent);
+  font-size: 23px;
+}
+.learn-caesar-disc .inner-letters .marked text {
+  fill: #ffd54a;
+}
+.learn-caesar-disc .key {
+  font-size: 40px;
+  font-weight: 700;
+  fill: #3d2f14;
+}
+.learn-caesar-disc .key-label {
+  font-size: 15px;
+  fill: #6e5a33;
+}
+.learn-caesar-controls,
+.learn-caesar-mode {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.learn-caesar-controls button {
+  min-width: 56px;
+  font-size: 1.05em;
+}
+.learn-caesar-mode {
+  margin: 10px 0 6px;
+}
+.learn-caesar-mode button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.learn-caesar-fields {
+  display: grid;
+  gap: 8px;
+}
+.learn-caesar-fields label,
+.learn-caesar-fields > div {
+  display: grid;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+.learn-caesar-fields input,
+.learn-caesar-output {
+  font: 600 1.15em ui-monospace, Menlo, Consolas, monospace;
+  letter-spacing: 0.08em;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--panel);
+  overflow-wrap: anywhere;
+}
+.learn-caesar-output {
+  background: var(--bg);
+}

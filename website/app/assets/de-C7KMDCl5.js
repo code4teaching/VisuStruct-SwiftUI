@@ -216,4 +216,15 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_debug_continue" = "Weiter bis zum nächsten Haltepunkt";
 "web_debug_paused_fmt" = "Angehalten vor Zeile %d.";
 "web_debug_gutter_title" = "Auf die Zeilennummer klicken: Haltepunkt setzen oder entfernen";
+
+/* Lernbereich: Caesar-Scheibe */
+"web_learn_caesar_title" = "Caesar-Scheibe";
+"web_learn_caesar_hint" = "Drehe die innere Scheibe oder tippe auf −1 und +1. Außen steht der Klartext, innen der Geheimtext.";
+"web_learn_caesar_key_fmt" = "Schlüssel %d";
+"web_learn_caesar_plain" = "Klartext";
+"web_learn_caesar_secret" = "Geheimtext";
+"web_learn_caesar_encrypt" = "Verschlüsseln";
+"web_learn_caesar_decrypt" = "Entschlüsseln";
+"web_learn_caesar_back" = "Scheibe eins zurück";
+"web_learn_caesar_forward" = "Scheibe eins weiter";
 `;export{e as default};

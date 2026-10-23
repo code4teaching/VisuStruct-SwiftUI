@@ -12,6 +12,7 @@ import { progress } from '../learn/progress'
 import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { currentLanguage, t } from './i18n'
 import { noticeText } from './simulationPanel'
+import { renderCaesarDisc } from './caesarDisc'
 import { renderRoundGame } from './roundGameView'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
 
@@ -358,6 +359,8 @@ export class LearnPanel {
         return this.renderGame(block.game)
       case 'roundGame':
         return renderRoundGame(block.game, ludwigURL)
+      case 'caesar':
+        return renderCaesarDisc(block.key, block.text)
     }
   }
 

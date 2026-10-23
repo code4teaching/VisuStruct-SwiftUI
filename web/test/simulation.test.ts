@@ -573,6 +573,24 @@ describe('Zeichenketten', () => {
     expect(state.outputLines).toEqual(['4 Geißbock Ziegeni'])
   })
 
+  it('rechnet wie Java mit Zeichencodes: (int), (char) und Zeichenliterale', () => {
+    const state = runSimulation(
+      doc([
+        stmt('String wort = "XYZ"'),
+        stmt('int code = (int) wort.charAt(0)'),
+        stmt("char c = 'B'"),
+        stmt("int abstand = c - 'A'"),
+        stmt('char neu = (char) ((code - 65 + 3) % 26 + 65)'),
+        stmt('output: "Geheim: " + (char) (code + 1) + neu'),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    expect(state.variables.get('code')).toEqual({ kind: 'int', value: 88 })
+    expect(state.variables.get('abstand')).toEqual({ kind: 'int', value: 1 })
+    expect(state.variables.get('neu')).toEqual({ kind: 'string', value: 'A' })
+    expect(state.outputLines).toEqual(['Geheim: YA'])
+  })
+
   it('vergleicht Zeichen in einer Schleife', () => {
     const state = runSimulation(
       doc([
