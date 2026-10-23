@@ -8,7 +8,7 @@ kurz: Executar um estrutograma passo a passo, segui-lo à mão e encontrar erros
 
 Antes de chegarem as decisões e os ciclos, vais conhecer a tua ferramenta mais importante. A partir de agora podes usar a simulação para verificar sozinho cada exercício.
 
-Com [▶︎ Simulação](#zeige-simulation) na barra de ferramentas, o VisuStruct executa o teu estrutograma. Enquanto a simulação está a correr, não podes editar o diagrama. Com **✎ Diagrama**, no mesmo sítio, voltas a editar.
+Com o botão [▶︎ Simulação](#zeige-simulation) à direita nas ferramentas, o VisuStruct executa o teu estrutograma. Enquanto a simulação está a correr, não podes editar o diagrama. Com o ícone do lápis, no mesmo sítio, voltas a editar.
 
 À direita aparecem os **Controlos**:
 
@@ -30,6 +30,8 @@ Os valores de a e b são trocados. A variável aux guarda um dos valores entreta
 - **Último passo:** Aqui vês o que acabou de acontecer, p. ex. `a = 5 -> 5` depois do bloco `a = b`. À esquerda, as variáveis já foram substituídas pelos seus valores; à direita da seta está o resultado.
 - **Variáveis:** Todas as variáveis com os seus valores atuais.
 - **Saída:** Tudo o que foi mostrado com `output:`.
+
+Se o [Código ao vivo](#zeige-codelive) estiver aberto à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
 
 No fim aparece **Simulação terminada.** Se algo correr mal, a simulação para no bloco com erro e mostra uma mensagem, p. ex. **Variável desconhecida: total**.
 

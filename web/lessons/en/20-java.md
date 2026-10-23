@@ -1,14 +1,14 @@
 ---
 titel: Java
 bereich: From structure chart to code
-kurz: Generate and read Java code from the structure chart, and the other way round, rebuild Java code as a structure chart.
+kurz: Generate and read Java code from the structure chart, write Java directly in Live code and run it.
 ---
 
 ## The code view
 
 A structure chart describes a process. For a computer to run it, you need a program in a programming language. VisuStruct writes this code for you.
 
-Click [{ } Code](#zeige-code) in the toolbar. On the right, the **Code generator** appears:
+Click [Code](#zeige-code) in the tools (icon with angle brackets). On the right, the **Code generator** appears:
 
 - At the top you choose the language: **Java**, **Python** or **JavaScript**.
 - For Java you also choose under **Java output** between **Snippet** (only the statements) and **Class** (a complete Java file).
@@ -92,6 +92,55 @@ Under the [gear](#zeige-einstellungen) at the top right you can switch on **Code
 
 This helps you match the boxes to the Java commands. Your diagram itself stays unchanged.
 
+## Live code: write Java directly
+
+So far you drew the structure chart first and then looked at the code. With [Live code](#zeige-codelive) it also works the other way round. Click the slim **Live code** strip on the right. Next to the structure chart a column appears where you type Java yourself.
+
+- **Structure chart to code:** When you change something in the structure chart, the Java code changes right away.
+- **Code to structure chart:** When you type Java, VisuStruct builds the structure chart as you type. If something is still missing, for example a closing bracket `}`, a hint appears below the code.
+- **Suggestions:** While you type, VisuStruct suggests templates, for example for `if`, `for` or `while`. Press Enter to accept a template. Simply replace the grey placeholders with your own text.
+
+So you can try both ways. Drawing the structure chart first is good for planning a process. Writing code directly is faster when you already know what you want. The structure chart then helps you check your code.
+
+## Run the program
+
+At the top of Live code, [▶︎ Run](#zeige-ausfuehren) starts your program and **■ Stop** ends it, for example in an endless loop. What your program outputs appears below in the [console](#zeige-konsole). If it asks for input, type it there and press Enter.
+
+You can drag the border between code and console up or down with the mouse.
+
+> Live code understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes, objects or windows yet. For those you need a Java development environment on your computer.
+
+::: angeberwissen
+Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With Live code, VisuStruct is a small IDE with a built-in structure chart.
+:::
+
+## Exercise: Code first, then the structure chart
+
+This time you don't draw. Open Live code and type in this Java code:
+
+```
+System.out.println("Start number?");
+int zahl = scanner.nextInt();
+while (zahl > 0) {
+    System.out.println(zahl);
+    zahl = zahl - 1;
+}
+System.out.println("Start!");
+```
+
+::: übung l20-countdown
+titel: Countdown
+auftrag: Type the Java code above into Live code. Run it with ▶︎ and enter a start number in the console.
+  Then look at the structure chart that was built and click Check.
+test: 3 -> 3 | 2 | 1 | Start!
+test: 1 -> 1 | Start!
+test: 0 -> Start!
+braucht: whileSchleife
+tipp: Open Live code with the slim strip on the far right and just start typing.
+tipp: Watch out for the semicolon at the end of every statement and the curly brackets of the while loop. A hint below the code tells you when something is still missing.
+lösung: l20-countdown-loesung.visustruct
+:::
+
 ## Exercise: Java as a structure chart
 
 Now the other way round: here is a piece of Java code. Rebuild it as a structure chart.
@@ -155,6 +204,8 @@ lösung: l17-ticket-loesung.visustruct
 - I know what output, input, branches and loops look like in Java. → The elements in Java
 - I know the difference between Snippet and Class. → Snippet or Class
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
+- I can type Java in Live code and read the structure chart that is built. → Live code: write Java directly
+- I can run a program with ▶︎ and use input and output in the console. → Run the program
 :::
 
 ## Quiz
