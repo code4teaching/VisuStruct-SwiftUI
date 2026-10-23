@@ -3794,9 +3794,13 @@ Das steht nicht im Lehrplan. Wenn du wissen willst, was hinter dem Pfeil steckt,
 
 ::: angeberwissen
 \`ActionListener\` ist ein **Interface**, eine Art Vertrag. Darin steht: Wer ein ActionListener sein will, muss eine Methode \`actionPerformed(ActionEvent e)\` haben. Der Knopf ruft bei jedem Klick genau diese Methode auf.
-
-Der Pfeil \`e -> …\` ist eine Kurzform (ein Lambda-Ausdruck, seit Java 8). Sie geht, weil das Interface nur eine einzige Methode hat. Java weiß also, welche Methode gemeint ist.
 :::
+
+Die Zeile mit dem Pfeil kennst du schon aus Schritt 2:
+
+\`\`\`
+knopf.addActionListener(e -> knopf.setText("Ich wurde geklickt"));
+\`\`\`
 
 Ohne Pfeil schreibt man den Zuhörer als Klasse ohne Namen, die den Vertrag erfüllt (eine anonyme Klasse):
 
@@ -3808,7 +3812,7 @@ knopf.addActionListener(new ActionListener() {
 });
 \`\`\`
 
-Dafür brauchst du oben noch \`import java.awt.event.*;\`. Beide Schreibweisen machen genau dasselbe, die mit dem Pfeil ist nur kürzer.
+Dafür brauchst du oben noch \`import java.awt.event.*;\`. Beide Schreibweisen machen genau dasselbe. Der Pfeil \`e -> …\` ist die Kurzform (ein Lambda-Ausdruck, seit Java 8): \`e\` ist der Parameter von \`actionPerformed\`, und hinter dem Pfeil steht ihr Rumpf. Die Kurzform geht, weil das Interface nur eine einzige Methode hat. Java weiß also, welche Methode gemeint ist.
 
 ## Aufgabe: Ich wurde geklickt
 
@@ -7725,9 +7729,13 @@ This is not in the curriculum. If you want to know what is behind the arrow, rea
 
 ::: angeberwissen
 \`ActionListener\` is an **interface**, a kind of contract. It says: whoever wants to be an ActionListener must have a method \`actionPerformed(ActionEvent e)\`. On every click the button calls exactly this method.
-
-The arrow \`e -> …\` is a short form (a lambda expression, since Java 8). It works because the interface has only one method. So Java knows which method is meant.
 :::
+
+You already know the line with the arrow from step 2:
+
+\`\`\`
+button.addActionListener(e -> button.setText("I was clicked"));
+\`\`\`
 
 Without the arrow you write the listener as a class without a name that fulfils the contract (an anonymous class):
 
@@ -7739,7 +7747,7 @@ button.addActionListener(new ActionListener() {
 });
 \`\`\`
 
-For this you also need \`import java.awt.event.*;\` at the top. Both ways do exactly the same, the one with the arrow is just shorter.
+For this you also need \`import java.awt.event.*;\` at the top. Both ways do exactly the same. The arrow \`e -> …\` is the short form (a lambda expression, since Java 8): \`e\` is the parameter of \`actionPerformed\`, and after the arrow comes its body. The short form works because the interface has only one method. So Java knows which method is meant.
 
 ## Task: I was clicked
 
@@ -11665,9 +11673,13 @@ Isto não está no programa da disciplina. Se quiseres saber o que está por tr�
 
 ::: angeberwissen
 \`ActionListener\` é uma **interface**, uma espécie de contrato. Diz: quem quiser ser um ActionListener tem de ter um método \`actionPerformed(ActionEvent e)\`. A cada clique o botão chama exatamente esse método.
-
-A seta \`e -> …\` é uma forma curta (uma expressão lambda, desde o Java 8). Funciona porque a interface tem um único método. Assim o Java sabe de que método se trata.
 :::
+
+A linha com a seta já conheces do passo 2:
+
+\`\`\`
+botao.addActionListener(e -> botao.setText("Fui clicado"));
+\`\`\`
 
 Sem a seta escreve-se o ouvinte como uma classe sem nome que cumpre o contrato (uma classe anónima):
 
@@ -11679,7 +11691,7 @@ botao.addActionListener(new ActionListener() {
 });
 \`\`\`
 
-Para isso precisas ainda de \`import java.awt.event.*;\` em cima. As duas formas fazem exatamente o mesmo, a da seta é só mais curta.
+Para isso precisas ainda de \`import java.awt.event.*;\` em cima. As duas formas fazem exatamente o mesmo. A seta \`e -> …\` é a forma curta (uma expressão lambda, desde o Java 8): \`e\` é o parâmetro de \`actionPerformed\`, e depois da seta vem o seu corpo. A forma curta funciona porque a interface tem um único método. Assim o Java sabe de que método se trata.
 
 ## Tarefa: fui clicado
 
