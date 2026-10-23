@@ -230,6 +230,8 @@ export class App {
   private editorRailButton?: HTMLButtonElement
   /** Werkzeugleiste über allen Spalten. */
   private topbar = h('div', { class: 'topbar' })
+  /** Fußzeile unter allen Spalten. */
+  private bottombar = h('div', { class: 'bottombar' })
   private editorHidden = false
   private closeSettings?: (ev: PointerEvent) => void
   private exerciseSaveTimer?: number
@@ -297,7 +299,7 @@ export class App {
       this.live.element,
       this.liveRail(),
     )
-    this.shell.append(this.topbar, columns)
+    this.shell.append(this.topbar, columns, this.bottombar)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
@@ -412,7 +414,10 @@ export class App {
     `
     // Die Werkzeugleiste steht über allen Spalten, nicht im Editor.
     this.topbar.replaceChildren(this.root.querySelector('.toolbar')!)
-    const $ = <T extends Element>(s: string) => (this.root.querySelector(s) ?? this.topbar.querySelector(s)) as T
+    // Die Fußzeile ebenso unter allen Spalten.
+    this.bottombar.replaceChildren(this.root.querySelector('.statusbar')!)
+    const $ = <T extends Element>(s: string) =>
+      (this.root.querySelector(s) ?? this.topbar.querySelector(s) ?? this.bottombar.querySelector(s)) as T
     this.canvasHost = $('.canvas')
     this.inspector = $('.inspector')
     this.captionInput = $('.caption')
