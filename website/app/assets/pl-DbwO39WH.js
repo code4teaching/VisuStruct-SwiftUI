@@ -56,4 +56,5 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_live_hint" = "Kod rośnie razem z diagramem. Szary = symbol zastępczy: wpisz tekst w inspektorze, a pojawi się tutaj. Kliknij wiersz, aby zaznaczyć jego element.";
 "web_live_ph_selector" = "zmienna";
 "web_live_ph_code" = "Twój kod";
+"web_live_ph_end" = "koniec";
 `;export{e as default};

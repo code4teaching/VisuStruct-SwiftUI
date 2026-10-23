@@ -56,4 +56,5 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_live_hint" = "Koden växer med ditt diagram. Grått = platshållare: skriv i inspektören så visas texten här. Klicka på en rad för att markera elementet.";
 "web_live_ph_selector" = "variabel";
 "web_live_ph_code" = "Din kod";
+"web_live_ph_end" = "slut";
 `;export{e as default};

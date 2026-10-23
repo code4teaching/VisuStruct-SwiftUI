@@ -112,4 +112,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_live_hint" = "O código cresce com o teu diagrama. Cinzento = marcador: escreve no inspetor de objetos e o teu texto aparece aí. Clica numa linha para selecionar o elemento.";
 "web_live_ph_selector" = "variável";
 "web_live_ph_code" = "O teu código";
+"web_live_ph_end" = "fim";
 `;export{e as default};

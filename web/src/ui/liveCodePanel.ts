@@ -3,13 +3,14 @@ import { generateLiveCode, livePlaceholderEnd, livePlaceholderStart, type LiveSp
 import type { VSDocument } from '../core/model'
 import { sidebarIcon } from './learnPanel'
 
-/** Ansicht „Code live“: rechts neben dem Struktogramm der Java- oder JavaScript-Code, der bei jeder Änderung mitwächst. */
+/** Ansicht „Code live“: rechts neben dem Struktogramm der Java-, JavaScript- oder Python-Code, der bei jeder Änderung mitwächst. */
 
 const targetKey = 'visustruct.live.target'
 
 function storedTarget(): LiveTarget {
   try {
-    return localStorage.getItem(targetKey) === 'javascript' ? 'javascript' : 'java'
+    const stored = localStorage.getItem(targetKey)
+    return stored === 'javascript' || stored === 'python' ? stored : 'java'
   } catch {
     return 'java'
   }
@@ -69,7 +70,7 @@ export class LiveCodePanel {
       <div class="livecode-head">
         <h2>${esc(t('web_live_title'))}</h2>
         <div class="segmented livecode-target" role="group" aria-label="${esc(t('web_codegen_language'))}">
-          <button data-target="java">Java</button><button data-target="javascript">JavaScript</button>
+          <button data-target="java">Java</button><button data-target="javascript">JavaScript</button><button data-target="python">Python</button>
         </div>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
@@ -115,6 +116,7 @@ export class LiveCodePanel {
       code: t('web_live_ph_code'),
       start: t('inspector_for_init'),
       step: t('inspector_for_step'),
+      end: t('web_live_ph_end'),
     })
     this.spans = live.spans
     const span = highlight && live.spans.find((s) => samePath(s.path, highlight))

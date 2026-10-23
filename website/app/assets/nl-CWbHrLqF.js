@@ -56,4 +56,5 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_live_hint" = "De code groeit mee met je diagram. Grijs = plaatshouder: typ in de inspector en je tekst verschijnt hier. Klik op een regel om het element te selecteren.";
 "web_live_ph_selector" = "variabele";
 "web_live_ph_code" = "Jouw code";
+"web_live_ph_end" = "einde";
 `;export{e as default};

@@ -56,4 +56,5 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_live_hint" = "程式碼會隨圖一起產生。灰色 = 預留位置：在檢閱器中輸入，文字就會出現在這裡。點一下某行可選取對應元素。";
 "web_live_ph_selector" = "變數";
 "web_live_ph_code" = "你的程式碼";
+"web_live_ph_end" = "結束";
 `;export{e as default};

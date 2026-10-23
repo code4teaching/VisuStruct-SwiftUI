@@ -56,3 +56,4 @@
 "web_live_hint" = "코드는 다이어그램과 함께 자랍니다. 회색 = 자리 표시자: 속성 창에 입력하면 여기에 표시됩니다. 줄을 클릭하면 해당 요소가 선택됩니다.";
 "web_live_ph_selector" = "변수";
 "web_live_ph_code" = "코드 작성";
+"web_live_ph_end" = "끝";
