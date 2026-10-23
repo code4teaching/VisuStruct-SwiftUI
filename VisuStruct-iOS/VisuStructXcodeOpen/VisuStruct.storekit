@@ -1,0 +1,40 @@
+{
+  "identifier" : "6F4C2A1B",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : true,
+      "internalID" : "6754000001",
+      "localizations" : [
+        {
+          "description" : "All lessons with exercises, Java tasks and games.",
+          "displayName" : "VisuStruct Course",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Alle Lektionen mit Übungen, Java-Aufgaben und Spielen.",
+          "displayName" : "VisuStruct-Kurs",
+          "locale" : "de"
+        }
+      ],
+      "productID" : "org.visustruct.VisuStruct.kurs",
+      "referenceName" : "Kurs",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "de",
+    "_storefront" : "DEU"
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

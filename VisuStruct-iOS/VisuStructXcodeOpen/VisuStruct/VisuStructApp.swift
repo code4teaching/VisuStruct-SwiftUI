@@ -51,6 +51,7 @@ enum DiagramMenuNotification {
     static let shareDocument = Notification.Name("visustruct.menu.shareDocument")
     static let exportPDF = Notification.Name("visustruct.menu.exportPDF")
     static let showAbout = Notification.Name("visustruct.menu.showAbout")
+    static let showCourse = Notification.Name("visustruct.menu.showCourse")
 
     static let recentFileIDKey = "id"
 }
@@ -142,6 +143,10 @@ final class DiagramCommandCenter: ObservableObject {
 
     func showAbout() {
         NotificationCenter.default.post(name: DiagramMenuNotification.showAbout, object: nil)
+    }
+
+    func showCourse() {
+        NotificationCenter.default.post(name: DiagramMenuNotification.showCourse, object: nil)
     }
 
     func openRecent(_ file: RecentVisuStructFile) {
@@ -290,6 +295,7 @@ struct VisuStructApp: App {
             "visustruct.codegen.includeDiagramComments": false
         ])
         AppLanguage.storeDeviceDefaultIfNeeded()
+        Task { @MainActor in CourseStore.shared.start() }
     }
 
     // Hinweis: Kein `UITextField.appearance().smartQuotesType` / `UITextView.appearance()` hier —
@@ -320,6 +326,11 @@ private struct VisuStructCommands: Commands {
         CommandGroup(replacing: .appInfo) {
             Button(lang.tr("action_about")) {
                 commandCenter.showAbout()
+            }
+            if CoursePurchaseGate.isOffered {
+                Button(lang.tr("course_title")) {
+                    commandCenter.showCourse()
+                }
             }
         }
         CommandGroup(replacing: .newItem) {
