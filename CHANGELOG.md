@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Repository:** VisuStruct is now licensed under the MIT License (`LICENSE`).
 - **Web, Files:** the learning progress (finished lessons and exercises, exercise diagrams, quiz answers) is also kept as `lernstand.json` in the workspace. Opening a workspace merges the file with the browser's progress (finished stays finished, the furthest step counts) and every change is written back about a second later.
 - **Web, Files:** saving without a chosen class asks first: pick one of the class folders or type a new one (“Create and save”); the choice stays selected. Creating a folder and deleting now use the same in-page dialog instead of the browser's prompt/confirm, which embedded views block.
 - **Web, Code live:** the element of the code line with the cursor is filled light blue in the structure chart, like the code line itself.
