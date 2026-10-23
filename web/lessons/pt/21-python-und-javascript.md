@@ -6,7 +6,7 @@ kurz: Gerar código Python e JavaScript a partir do estrutograma e executar Java
 
 ## O mesmo diagrama, três linguagens
 
-Na vista de código (**{ } Code** na barra de ferramentas) escolhes a linguagem em cima. O estrutograma fica igual; só muda a forma de escrever. Assim podes comparar as linguagens facilmente.
+Na vista de código ([Código](#zeige-code) nas ferramentas) escolhes a linguagem em cima. O estrutograma fica igual; só muda a forma de escrever. Assim podes comparar as linguagens facilmente.
 
 ::: diagramm l18-beispiel.visustruct
 Um número é diminuído em 3 uma e outra vez até deixar de ser maior do que 0.

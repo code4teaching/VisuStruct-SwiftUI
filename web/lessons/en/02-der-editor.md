@@ -6,14 +6,15 @@ kurz: Insert elements, type text, move and delete.
 
 ## The screen
 
-The editor has four areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
+The editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
 
-- **At the top, the [toolbar](#zeige-leiste):** New, Open, Save, Export, Undo, Copy and Paste, Code and Simulation. On the far right, the gear for [Settings](#zeige-einstellungen): text size and language.
+- **At the very top, the [toolbar](#zeige-leiste):** New, Open and Save. On the far right, the gear for [Settings](#zeige-einstellungen): text size and language.
+- **Below it, the [tools](#zeige-werkzeuge)** above the elements and the structure chart: Undo, Cut, Copy, Paste, Delete, Export, Code and Simulation. The buttons only show icons. Hold the mouse over one and its name appears.
 - **On the left, the [Elements](#zeige-elemente):** Here are all the building blocks you can drag into the structure chart. Some people also call this area the palette.
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
 - **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.
 
-> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read.
+> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and [Live code](#zeige-codelive) on the right for Java (lesson 20).
 
 ## Insert an element
 

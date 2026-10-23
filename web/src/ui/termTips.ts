@@ -127,6 +127,12 @@ export function attachTermTips(container: HTMLElement) {
  */
 export const uiTargets: Record<string, string> = {
   leiste: '.topbar > .toolbar',
+  werkzeuge: '.diagram-tools',
+  // Eingeklappt leuchtet die schmale Leiste, sonst die Spalte.
+  dateien: '.files-rail, .files',
+  codelive: '.live-rail, .livecode',
+  ausfuehren: '[data-run=play]',
+  konsole: '.livecode .console',
   elemente: '.palette',
   struktogramm: '.canvas',
   objektinspektor: '.inspector',
@@ -169,8 +175,9 @@ export function attachPointers(container: HTMLElement) {
   }
   const on = (pointer: HTMLElement, forAWhile: boolean) => {
     off()
-    const target = document.querySelector(uiTargets[pointer.dataset.target ?? ''] ?? ':not(*)')
-    if (!target || target.getClientRects().length === 0) return
+    // Bei mehreren Treffern (Spalte oder eingeklappte Leiste) zählt der sichtbare.
+    const target = [...document.querySelectorAll(uiTargets[pointer.dataset.target ?? ''] ?? ':not(*)')].find((el) => el.getClientRects().length > 0)
+    if (!target) return
     lit = target
     target.classList.add('ui-spot')
     if (forAWhile) timer = window.setTimeout(off, 2500)

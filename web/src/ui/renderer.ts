@@ -49,6 +49,8 @@ export class DiagramRenderer {
 
   /** Im Simulationsmodus bedeutet die Markierung „aktueller Schritt“ statt Bearbeitungsauswahl. */
   usesSimulationHighlight = false
+  /** Code live offen: das Element der Cursorzeile wie die Codezeile hellblau füllen. */
+  fillsSelection = false
 
   render(
     layout: Layout,
@@ -184,7 +186,7 @@ export class DiagramRenderer {
     const cell = el('g', { 'data-path': node.idPath.join(',') })
     g.append(cell)
     const sim = this.usesSimulationHighlight
-    const fill = isSelected && sim ? 'rgba(199, 230, 255, 0.55)' : 'white'
+    const fill = isSelected && (sim || this.fillsSelection) ? 'rgba(199, 230, 255, 0.55)' : 'white'
     cell.append(el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill }))
     this.strokeCellBorder(cell, r, omission)
 

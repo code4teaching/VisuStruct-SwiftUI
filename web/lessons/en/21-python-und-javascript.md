@@ -6,7 +6,7 @@ kurz: Generate Python and JavaScript code from the structure chart and run JavaS
 
 ## The same diagram, three languages
 
-In the code view (**{ } Code** in the toolbar) you choose the language at the top. The structure chart stays the same; only the way it is written changes. That way you can compare the languages easily.
+In the code view ([Code](#zeige-code) in the tools) you choose the language at the top. The structure chart stays the same; only the way it is written changes. That way you can compare the languages easily.
 
 ::: diagramm l18-beispiel.visustruct
 A number is made smaller by 3 again and again until it is no longer greater than 0.

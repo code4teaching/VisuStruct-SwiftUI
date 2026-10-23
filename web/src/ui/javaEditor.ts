@@ -3,7 +3,7 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
 import { Annotation, Compartment, EditorSelection, EditorState, Prec, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
-import { Decoration, EditorView, keymap, type DecorationSet } from '@codemirror/view'
+import { Decoration, EditorView, highlightActiveLineGutter, keymap, lineNumbers, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 
 /**
@@ -191,6 +191,8 @@ export class JavaEditor {
       }
     }
     const extensions: Extension[] = [
+      lineNumbers(),
+      highlightActiveLineGutter(),
       java(),
       syntaxHighlighting(highlight),
       indentUnit.of('    '),

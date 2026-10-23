@@ -1740,6 +1740,19 @@ button.danger-text:not(:disabled) {
   font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   line-height: 1.5;
 }
+.livecode-editor .cm-gutters {
+  background: transparent;
+  border-inline-end: 1px solid var(--border);
+  color: var(--muted);
+}
+.livecode-editor .cm-lineNumbers .cm-gutterElement {
+  padding: 0 8px 0 10px;
+  min-width: 2ch;
+}
+.livecode-editor .cm-activeLineGutter {
+  background: transparent;
+  color: var(--text);
+}
 .livecode-editor .cm-content {
   padding: 10px 0;
   caret-color: var(--text);

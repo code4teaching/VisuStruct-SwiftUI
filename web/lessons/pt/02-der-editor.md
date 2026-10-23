@@ -6,14 +6,15 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 ## O ecrã
 
-O editor tem quatro áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
+O editor tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
 
-- **Em cima, a [barra de ferramentas](#zeige-leiste):** Novo, Abrir, Guardar, Exportar, Anular, Copiar e Colar, Code e Simulação. À direita, a roda dentada das [Definições](#zeige-einstellungen): tamanho do texto e idioma.
+- **Mesmo em cima, a [barra de ferramentas](#zeige-leiste):** Novo, Abrir e Guardar. À direita, a roda dentada das [Definições](#zeige-einstellungen): tamanho do texto e idioma.
+- **Por baixo, as [ferramentas](#zeige-werkzeuge)** por cima dos elementos e do estrutograma: Anular, Cortar, Copiar, Colar, Eliminar, Exportar, Código e Simulação. Os botões só mostram ícones. Se puseres o rato por cima de um, aparece o nome.
 - **À esquerda, os [Elementos](#zeige-elemente):** Aqui estão todos os blocos que podes arrastar para o estrutograma. Há quem chame a esta área a paleta.
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
 - **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.
 
-> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês.
+> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita o [Código ao vivo](#zeige-codelive) para Java (lição 20).
 
 ## Inserir um elemento
 

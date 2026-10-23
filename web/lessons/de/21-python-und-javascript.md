@@ -6,7 +6,7 @@ kurz: Python- und JavaScript-Code aus dem Struktogramm erzeugen und JavaScript d
 
 ## Dasselbe Diagramm, drei Sprachen
 
-In der Code-Ansicht (**{ } Code** in der Leiste) wählst du oben die Sprache. Das Struktogramm bleibt gleich, nur die Schreibweise ändert sich. So kannst du die Sprachen gut vergleichen.
+In der Code-Ansicht ([Code](#zeige-code) bei den Werkzeugen) wählst du oben die Sprache. Das Struktogramm bleibt gleich, nur die Schreibweise ändert sich. So kannst du die Sprachen gut vergleichen.
 
 ::: diagramm l18-beispiel.visustruct
 Eine Zahl wird so lange um 3 verkleinert, bis sie nicht mehr größer als 0 ist.
