@@ -20,6 +20,10 @@ To avoid counting every time, people built a **cipher wheel**: two discs with th
 A cipher wheel modelled on historical brass wheels. The blue window shows: with the key 3, D is below A.
 :::
 
+::: angeberwissen
+Caesar himself didn’t even have a wheel! We know this from the Roman historian Suetonius: in his letters, Caesar shifted every letter by three places and simply counted it out in his head. The wheel was only invented by Leon Battista Alberti around 1467, about 1500 years later. By the way, I count in my head too. I don’t have fingers, only hooves.
+:::
+
 Try it yourself. Turn the inner wheel, type a text and watch the secret text appear. **Decrypt** goes the other way.
 
 ::: caesar 3

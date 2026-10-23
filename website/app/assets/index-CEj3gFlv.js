@@ -18704,6 +18704,10 @@ Damit man nicht jedes Mal abzählen muss, baute man sich eine **Chiffrierscheibe
 Eine Chiffrierscheibe nach dem Vorbild historischer Messingscheiben. Das blaue Fenster zeigt: Mit dem Schlüssel 3 steht unter A das D.
 :::
 
+::: angeberwissen
+Caesar selbst hatte noch gar keine Scheibe! Das wissen wir vom römischen Geschichtsschreiber Sueton: Caesar verschob in seinen Briefen jeden Buchstaben um drei Stellen und zählte das einfach im Kopf ab. Die Scheibe erfand erst Leon Battista Alberti um 1467, also rund 1500 Jahre später. Ich zähle übrigens auch im Kopf, ich habe ja keine Finger, nur Hufe.
+:::
+
 Probiere es selbst aus. Drehe die innere Scheibe, tippe einen Text ein und schau zu, wie der Geheimtext entsteht. Mit **Entschlüsseln** geht es rückwärts.
 
 ::: caesar 3
@@ -19183,6 +19187,10 @@ To avoid counting every time, people built a **cipher wheel**: two discs with th
 A cipher wheel modelled on historical brass wheels. The blue window shows: with the key 3, D is below A.
 :::
 
+::: angeberwissen
+Caesar himself didn’t even have a wheel! We know this from the Roman historian Suetonius: in his letters, Caesar shifted every letter by three places and simply counted it out in his head. The wheel was only invented by Leon Battista Alberti around 1467, about 1500 years later. By the way, I count in my head too. I don’t have fingers, only hooves.
+:::
+
 Try it yourself. Turn the inner wheel, type a text and watch the secret text appear. **Decrypt** goes the other way.
 
 ::: caesar 3
@@ -19660,6 +19668,10 @@ Para não ter de contar sempre, construiu-se um **disco de cifra**: dois discos 
 
 ::: grafik caesar-scheibe.svg
 Um disco de cifra inspirado nos discos históricos de latão. A janela azul mostra: com a chave 3, por baixo do A está o D.
+:::
+
+::: angeberwissen
+O próprio César nem sequer tinha um disco! Sabemo-lo pelo historiador romano Suetónio: nas suas cartas, César avançava cada letra três posições e contava isso simplesmente de cabeça. O disco só foi inventado por Leon Battista Alberti por volta de 1467, cerca de 1500 anos mais tarde. Aliás, eu também conto de cabeça. Não tenho dedos, só cascos.
 :::
 
 Experimenta tu. Roda o disco interior, escreve um texto e vê como surge o texto cifrado. Com **Decifrar** faz-se o caminho inverso.
@@ -30852,7 +30864,7 @@ ${b}
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${D(p("about_nav_title"))}</button>
-              <span class="settings-version">${D(p("web_about_version_fmt").replace("%@","0.3.16"))}</span>
+              <span class="settings-version">${D(p("web_about_version_fmt").replace("%@","0.3.17"))}</span>
             </footer>
           </div>
         </div>
@@ -30908,7 +30920,7 @@ ${b}
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${D(p("web_brand_suffix"))}</small></h3>
-            <p class="about-version">${D(p("web_about_version_fmt").replace("%@","0.3.16"))}</p>
+            <p class="about-version">${D(p("web_about_version_fmt").replace("%@","0.3.17"))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${e("about_web_label","https://www.visustruct.org","www.visustruct.org")}
             ${e("about_developer_label","https://www.sebastiao.org","www.sebastiao.org")}

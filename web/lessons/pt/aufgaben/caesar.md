@@ -20,6 +20,10 @@ Para não ter de contar sempre, construiu-se um **disco de cifra**: dois discos 
 Um disco de cifra inspirado nos discos históricos de latão. A janela azul mostra: com a chave 3, por baixo do A está o D.
 :::
 
+::: angeberwissen
+O próprio César nem sequer tinha um disco! Sabemo-lo pelo historiador romano Suetónio: nas suas cartas, César avançava cada letra três posições e contava isso simplesmente de cabeça. O disco só foi inventado por Leon Battista Alberti por volta de 1467, cerca de 1500 anos mais tarde. Aliás, eu também conto de cabeça. Não tenho dedos, só cascos.
+:::
+
 Experimenta tu. Roda o disco interior, escreve um texto e vê como surge o texto cifrado. Com **Decifrar** faz-se o caminho inverso.
 
 ::: caesar 3
