@@ -29,6 +29,8 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 
 Um clique num programa da coluna volta a abri-lo. Assim encontras depressa cada aula mais tarde.
 
+Também o teu **progresso** fica no espaço de trabalho: o ficheiro `lernstand.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
+
 > O armazenamento do navegador só fica neste navegador, neste dispositivo. Uma pasta real no computador é mais segura, porque também a podes copiar e partilhar.
 
 ## Vários diagramas em separadores

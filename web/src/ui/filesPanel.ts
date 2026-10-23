@@ -1,3 +1,4 @@
+import { progress } from '../learn/progress'
 import { compareEntries, programBaseName, todayFolder, uniqueBaseName, validFolderName } from '../core/workspace'
 import { t } from './i18n'
 import { icons } from './icons'
@@ -27,10 +28,15 @@ export interface WorkspaceFile {
   path: string
 }
 
+/** Lernstand im Workspace (ein Lernstand je Workspace). */
+export const progressFile = 'lernstand.json'
+
 export interface FilesHost {
   open(xml: string, file: WorkspaceFile, java: string | undefined): void
   hide(): void
   message(text: string): void
+  /** Lernstand aus dem Workspace übernommen: Lernbereich neu zeichnen. */
+  progressLoaded(): void
 }
 
 const modeKey = 'visustruct.files.mode'
@@ -123,11 +129,15 @@ export class FilesPanel {
   /** Aufgeklappte Ordner als Pfade, z. B. `11FI1/2026-10-23`. */
   private expanded = new Set<string>(storedList(expandedKey))
   private rendering = 0
+  /** Workspace, mit dem der Lernstand gerade abgeglichen wird. */
+  private progressWorkspace?: Workspace
+  private progressTimer?: number
 
   constructor(private host: FilesHost) {
     this.element = document.createElement('aside')
     this.element.className = 'files'
     this.build()
+    progress.onChange(() => this.progressChanged())
     void this.restore()
   }
 
@@ -207,11 +217,47 @@ export class FilesPanel {
     await this.render()
   }
 
+  // MARK: - Lernstand
+
+  /** Neuer Workspace: `lernstand.json` einlesen, zusammenführen und gleich zurückschreiben. */
+  private async syncProgress(ws: Workspace | undefined) {
+    this.progressWorkspace = ws
+    if (!ws) return
+    try {
+      if (await ws.root.has(progressFile)) {
+        if (progress.mergeFile(await ws.root.read(progressFile))) this.host.progressLoaded()
+      }
+      await this.writeProgress(ws)
+    } catch {
+      /* Ordner nicht lesbar: Lernstand bleibt im Browser */
+    }
+  }
+
+  private async writeProgress(ws: Workspace) {
+    if (ws !== this.progressWorkspace) return
+    try {
+      const fresh = !(await ws.root.has(progressFile))
+      await ws.root.write(progressFile, progress.toFile())
+      if (fresh) await this.render()
+    } catch {
+      /* z. B. Zugriff nach dem Neuladen noch nicht erlaubt */
+    }
+  }
+
+  /** Änderungen im Lernbereich gesammelt (nach einer Sekunde Ruhe) in die Datei schreiben. */
+  private progressChanged() {
+    const ws = this.progressWorkspace
+    if (!ws) return
+    window.clearTimeout(this.progressTimer)
+    this.progressTimer = window.setTimeout(() => void this.writeProgress(ws), 1000)
+  }
+
   // MARK: - Baum
 
   async render() {
     const ticket = ++this.rendering
     const ws = this.workspace
+    if (ws !== this.progressWorkspace) void this.syncProgress(ws)
     this.element.querySelector<HTMLButtonElement>('[data-files=new-folder]')!.hidden = !ws
     this.element.querySelector<HTMLButtonElement>('[data-files=switch]')!.hidden = !ws
     if (!ws) {
