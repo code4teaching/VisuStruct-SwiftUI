@@ -74,12 +74,49 @@ Bei verschachtelten Diagrammen hilft dir die Darstellung: Was weiter innen steht
 Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man auf GOTO verzichten soll, warum dann nicht gleich auf die Pfeile im Flussdiagramm? Ergebnis: kein Pfeil-Spaghetti, und jeder Block bleibt brav in seinem Gatter. [Die ganze Geschichte](https://visustruct.org/de/angeberwissen.html)
 :::
 
+## Jetzt in Java
+
+Das Zählen der geraden Zahlen sieht in Java so aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Bis zu welcher Zahl?");
+int n = scanner.nextInt();
+int anzahl = 0;
+for (int i = 1; i <= n; i++) {
+    if (i % 2 == 0) {
+        anzahl++;
+    }
+}
+System.out.println(anzahl);
+```
+
+Was im Struktogramm ineinander steckt, steht in Java in geschweiften Klammern ineinander. Jede Ebene ist vier Leerzeichen weiter eingerückt. Ist dein Code durcheinander, hilft der Knopf **Einrücken** oben im Bereich Programmieren.
+
+`anzahl++` ist die Kurzform von `anzahl = anzahl + 1`.
+
+::: übung l14-java-treppe
+titel: Treppe aus Sternen
+code: java
+auftrag: Schreibe ein Java-Programm, das die Anzahl der Stufen einliest und eine Treppe aus Sternchen ausgibt. Bei 3 Stufen also `*`, `**` und `***`, jede Stufe in einer eigenen Zeile.
+test: 3 -> * | ** | ***
+test: 1 -> *
+test: 4 -> * | ** | *** | ****
+braucht: forSchleife
+tipp: Eine äußere Schleife zählt die Stufen. In jeder Stufe baut eine innere Schleife einen Text aus Sternchen zusammen.
+tipp: In der äußeren Schleife: `String zeile = "";`, dann `for (int j = 1; j <= i; j++) { zeile = zeile + "*"; }` und danach `System.out.println(zeile);`.
+lösung: l14-java-treppe-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
 - Ich kann eine Verzweigung in eine Schleife setzen. → Verzweigung in der Schleife
 - Ich kann eine Schleife in eine andere Schleife setzen. → Schleife in der Schleife
 - Ich weiß, dass die innere Schleife bei jedem Durchlauf der äußeren komplett durchläuft. → Schleife in der Schleife
+- Ich kann verschachtelte Schleifen und Verzweigungen in Java schreiben. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -102,4 +139,9 @@ Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man 
 - [x] Einmal pro Durchlauf der Schleife
 - [ ] Nur wenn sie wahr ist
 > Die Verzweigung gehört zum Inhalt und kommt bei jedem Durchlauf dran.
+
+? Woran erkennst du in Java, was zu einer Schleife gehört?
+- [ ] An der Farbe
+- [x] An den geschweiften Klammern und der Einrückung
+- [ ] An den Semikolons
 :::

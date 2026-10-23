@@ -1,10 +1,12 @@
 ---
-titel: Java
+titel: Struktogramm und Code
 bereich: Vom Struktogramm zum Code
-kurz: Java-Code aus dem Struktogramm erzeugen, lesen, im Bereich Programmieren direkt Java schreiben und ausführen.
+kurz: Alle Elemente in Java auf einen Blick, Code erzeugen, im Bereich Programmieren Java schreiben, ausführen und Fehler suchen.
 ---
 
 ## Die Code-Ansicht
+
+In den Lektionen 4 bis 16 hast du jedes Element schon einmal in Java geschrieben. Hier siehst du alles auf einen Blick und lernst, wie VisuStruct aus einem ganzen Struktogramm ein Java-Programm macht.
 
 Ein Struktogramm beschreibt einen Ablauf. Damit ein Computer ihn ausführt, brauchst du ein Programm in einer Programmiersprache. VisuStruct schreibt diesen Code für dich.
 
@@ -50,17 +52,22 @@ Jede Anweisung endet in Java mit einem **Semikolon** `;`. Was in einem Kasten st
 
 ## Die Elemente in Java
 
-- **Anweisung:** `int summe = 0` wird zu `int summe = 0;`
-- **Ausgabe:** `output: summe` wird zu `System.out.println(summe);`
-- **Eingabe:** `input: int zahl "Zahl?"` wird zu zwei Zeilen: `System.out.println("Zahl?");` und `int zahl = scanner.nextInt();`. Für den `Scanner` steht oben einmal `Scanner scanner = new Scanner(System.in);`.
-- **Verzweigung:** `if (bedingung) { … } else { … }`
-- **Fallauswahl:** `switch (wert) { case 1 -> { … } default -> { … } }`
-- **While-Schleife:** `while (bedingung) { … }`
-- **Do-while-Schleife:** `do { … } while (bedingung);`
-- **For-Schleife:** `for (int i = 0; i < 5; i++) { … }`, die drei Felder stehen mit Semikolon nacheinander in der Klammer.
-- **Endlosschleife:** `while (true) { … }`
-- **Aussprung:** `break;`
-- **Aufruf:** `berechne();`
+| Element | Java | Lektion |
+|---|---|---|
+| Anweisung | `int summe = 0;` | 4, 5 |
+| Ausgabe | `System.out.println(summe);` | 6 |
+| Eingabe | `int zahl = scanner.nextInt();` | 6 |
+| Verzweigung | `if (bedingung) { … } else { … }` | 8, 9 |
+| Fallauswahl | `switch (wert) { case 1 -> { … } default -> { … } }` | 10 |
+| While-Schleife | `while (bedingung) { … }` | 11 |
+| Do-while-Schleife | `do { … } while (bedingung);` | 12 |
+| For-Schleife | `for (int i = 0; i < 5; i++) { … }` | 13 |
+| Endlosschleife | `while (true) { … }` | 11 |
+| Aussprung | `break;` | 18 |
+| Aufruf | `berechne();` | 18 |
+| Array | `int[] zahlen = new int[5];` | 15, 16 |
+
+Für Eingaben steht ganz oben einmal `import java.util.Scanner;` und `Scanner scanner = new Scanner(System.in);`. Vor jeder Eingabe gibt VisuStruct die Frage mit `System.out.println(…)` aus.
 
 Ist der Nein-Zweig einer Verzweigung leer, erzeugt VisuStruct trotzdem einen `else`-Teil, in dem nur der Kommentar `// empty element` steht. Wenn du **Leeren else-Zweig im Code ausgeben** ausschaltest, fällt der leere `else`-Teil weg.
 

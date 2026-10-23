@@ -74,12 +74,49 @@ Nos diagramas encaixados, o desenho ajuda-te: o que está mais para dentro fica 
 Foi exatamente para isto que o estrutograma foi inventado. Shneiderman perguntou-se: se devemos passar sem GOTO, porque não passar também sem as setas do fluxograma? O resultado: nada de esparguete de setas, e cada bloco fica bem arrumado no seu cercado. [A história toda](https://visustruct.org/pt/angeberwissen.html)
 :::
 
+## Agora em Java
+
+Contar os números pares fica assim em Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Até que número?");
+int n = scanner.nextInt();
+int quantidade = 0;
+for (int i = 1; i <= n; i++) {
+    if (i % 2 == 0) {
+        quantidade++;
+    }
+}
+System.out.println(quantidade);
+```
+
+O que no estrutograma está encaixado, em Java está encaixado entre chavetas. Cada nível fica quatro espaços mais para dentro. Se o teu código ficar desarrumado, ajuda o botão **Indentar** em cima na área Programação.
+
+`quantidade++` é a forma curta de `quantidade = quantidade + 1`.
+
+::: übung l14-java-treppe
+titel: Escada de estrelas
+code: java
+auftrag: Escreve um programa em Java que lê o número de degraus e mostra uma escada de asteriscos. Para 3 degraus são `*`, `**` e `***`, cada degrau na sua linha.
+test: 3 -> * | ** | ***
+test: 1 -> *
+test: 4 -> * | ** | *** | ****
+braucht: forSchleife
+tipp: Um ciclo exterior conta os degraus. Em cada degrau, um ciclo interior junta um texto de asteriscos.
+tipp: No ciclo exterior: `String linha = "";`, depois `for (int j = 1; j <= i; j++) { linha = linha + "*"; }` e a seguir `System.out.println(linha);`.
+lösung: l14-java-treppe-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
 - Sei pôr uma decisão dentro de um ciclo. → Uma decisão dentro de um ciclo
 - Sei pôr um ciclo dentro de outro ciclo. → Um ciclo dentro de um ciclo
 - Sei que o ciclo interior é executado do princípio ao fim em cada iteração do exterior. → Um ciclo dentro de um ciclo
+- Sei escrever ciclos e decisões encaixados em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -102,4 +139,9 @@ Foi exatamente para isto que o estrutograma foi inventado. Shneiderman perguntou
 - [x] Uma vez por iteração do ciclo
 - [ ] Só se for verdadeira
 > A decisão faz parte do interior e é executada em cada iteração.
+
+? Como reconheces em Java o que pertence a um ciclo?
+- [ ] Pela cor
+- [x] Pelas chavetas e pela indentação
+- [ ] Pelos pontos e vírgulas
 :::

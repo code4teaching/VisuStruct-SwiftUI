@@ -165,6 +165,39 @@ tipp: Teilbar durch 4 heißt `jahr % 4 == 0`, nicht teilbar durch 100 heißt `ja
 lösung: l08-schaltjahr-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Das Jugendticket vom Anfang sieht in Java so aus:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Wie alt bist du?");
+int alter = scanner.nextInt();
+if (alter >= 12 && alter < 18) {
+    System.out.println("Jugendticket");
+} else {
+    System.out.println("Kein Jugendticket");
+}
+```
+
+Die Zeichen `&&`, `||` und `!` sind genau die, die du schon im Struktogramm benutzt. Sie kommen aus Java. Die ganze Bedingung steht wie immer in den runden Klammern nach `if`.
+
+::: übung l09-java-schule
+titel: Schule oder Freizeit
+code: java
+auftrag: Schreibe ein Java-Programm, das nach der Stunde fragt (0 bis 23). Von 8 bis einschließlich 15 Uhr gibt es **Schule** aus, sonst **Freizeit**.
+test: 8 -> Schule
+test: 15 -> Schule
+test: 16 -> Freizeit
+test: 7 -> Freizeit
+braucht: verzweigung
+tipp: Die Stunde muss zwei Bedingungen gleichzeitig erfüllen. Welcher Operator heißt „und“?
+tipp: `if (stunde >= 8 && stunde <= 15) { … } else { … }`
+lösung: l09-java-schule-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -175,6 +208,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 - Ich kann die Wahrheitstabelle für &&, || und ! lesen. → Die Wahrheitstabelle
 - Ich kann das Ergebnis einer Bedingung in einer boolean-Variablen speichern. → Wahrheitswerte in Variablen
 - Ich habe im Spiel mindestens 8 von 10 Bedingungen richtig ausgewertet. → Spiel: Wahr oder falsch?
+- Ich kann Bedingungen in Java mit && und || verknüpfen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -201,4 +235,10 @@ lösung: l08-schaltjahr-loesung.visustruct
 - [ ] true
 - [x] false
 > 5 > 3 ist wahr, und ! dreht das um.
+
+? Wie schreibst du in Java „alter ist mindestens 12 und kleiner als 18“?
+- [ ] if (12 <= alter < 18)
+- [x] if (alter >= 12 && alter < 18)
+- [ ] if (alter >= 12 || alter < 18)
+> Jeder Vergleich steht für sich, verbunden mit `&&`.
 :::

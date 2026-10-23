@@ -120,6 +120,39 @@ tipp: Para números decimais usas o tipo `double`. A média é a soma a dividir 
 lösung: l06-mittelwert-loesung.visustruct
 :::
 
+## Agora em Java
+
+O exemplo EPS do início fica assim em Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Primeiro número?");
+int a = scanner.nextInt();
+System.out.println("Segundo número?");
+int b = scanner.nextInt();
+int soma = a + b;
+System.out.println("Soma: " + soma);
+```
+
+- Para entradas, o Java precisa de um **Scanner**. Escreves as duas primeiras linhas uma vez lá em cima e depois podes ler quantas vezes quiseres.
+- `scanner.nextInt()` lê um número inteiro, `scanner.nextDouble()` um número decimal e `scanner.next()` uma palavra.
+- A pergunta ao utilizador é uma saída normal logo antes. O VisuStruct junta as duas linhas num bloco de entrada.
+
+::: übung l06-java-tage
+titel: Idade em dias
+code: java
+auftrag: Escreve um programa em Java que pergunta a idade em anos e mostra quantos dias são, mais ou menos. Conta 365 dias por ano. Para 2 anos aparece **São cerca de 730 dias.**
+test: 2 -> São cerca de 730 dias.
+test: 10 -> São cerca de 3650 dias.
+test: 1 -> São cerca de 365 dias.
+braucht: anweisung
+tipp: Primeiro as duas linhas do scanner, depois a pergunta e a entrada, depois o cálculo, depois a saída.
+tipp: `int anos = scanner.nextInt();` lê. `int dias = anos * 365;` calcula, e `System.out.println("São cerca de " + dias + " dias.");` mostra.
+lösung: l06-java-tage-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -128,6 +161,7 @@ lösung: l06-mittelwert-loesung.visustruct
 - Sei juntar texto e variáveis numa saída com +. → Cuidado com o + numa saída
 - Calculo numa variável antes da saída. → Cuidado com o + numa saída
 - Sei identificar a entrada, o processamento e a saída numa tarefa. → Da tarefa ao estrutograma
+- Sei ler números em Java com o scanner. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -161,4 +195,10 @@ lösung: l06-mittelwert-loesung.visustruct
 = perímetro = 2 * 3.14 * raio -> Processamento
 = mostra o seu perímetro -> Saída
 > O raio é dado, o perímetro é o que procuras. A fórmula liga os dois.
+
+? O que lê `scanner.nextInt()`?
+- [x] Um número inteiro
+- [ ] Um número decimal
+- [ ] Uma frase inteira
+> Para números decimais há `scanner.nextDouble()`, para uma palavra `scanner.next()`.
 :::

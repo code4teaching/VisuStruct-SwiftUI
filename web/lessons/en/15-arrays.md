@@ -131,6 +131,32 @@ tipp: Calculate the sum and the maximum in variables of their own and only outpu
 lösung: l14-summe-max-loesung.visustruct
 :::
 
+## Now in Java
+
+Going through an array looks like this in Java:
+
+```
+int[] numbers = {2, 4, 6, 8, 10};
+for (int i = 0; i < numbers.length; i++) {
+    System.out.println(numbers[i]);
+}
+```
+
+- `int[]` means “array of whole numbers”. The values are in curly brackets.
+- You create an empty array with 5 slots with `new int[5]`.
+- `numbers[i]` is the slot with index `i`, `numbers.length` is the length.
+
+::: übung l15-java-noten
+titel: Sum of grades in Java
+code: java
+auftrag: Create the array `grades` in Java with the values 2, 3, 1 and 4. Add up all grades with a for loop and output **Sum: 10**.
+test: - -> Sum: 10
+braucht: forSchleife
+tipp: Create `int sum = 0;` before the loop. The loop runs from 0 to `grades.length - 1`.
+tipp: `int[] grades = {2, 3, 1, 4};`, then `for (int i = 0; i < grades.length; i++) { sum = sum + grades[i]; }` and finally `System.out.println("Sum: " + sum);`.
+lösung: l15-java-noten-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste
@@ -138,6 +164,7 @@ lösung: l14-summe-max-loesung.visustruct
 - I know that the index starts at 0 and that the last index is `length - 1`. → The index starts at 0
 - I can go through and fill an array with a for loop. → Go through an array with a loop
 - I can calculate the sum and the maximum of an array. → Sum and maximum
+- I can create an array in Java and go through it with a loop. → Now in Java
 :::
 
 ## Quiz
@@ -172,4 +199,9 @@ lösung: l14-summe-max-loesung.visustruct
 - [x] 4
 - [ ] 20
 > length is the number of slots, not the last index and not the last value.
+
+? Which line creates an array with three numbers in Java?
+- [x] int[] numbers = {1, 2, 3};
+- [ ] int numbers = [1, 2, 3];
+- [ ] array numbers = (1, 2, 3);
 :::

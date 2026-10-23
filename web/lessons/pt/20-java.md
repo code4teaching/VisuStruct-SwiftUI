@@ -1,10 +1,12 @@
 ---
-titel: Java
+titel: Estrutograma e código
 bereich: Do estrutograma ao código
-kurz: Gerar e ler código Java a partir do estrutograma, escrever Java diretamente na área Programação e executá-lo.
+kurz: Todos os elementos em Java num relance, gerar código, escrever Java na área Programação, executá-lo e procurar erros.
 ---
 
 ## A vista de código
+
+Nas lições 4 a 16 já escreveste cada elemento em Java. Aqui vês tudo num relance e aprendes como o VisuStruct transforma um estrutograma inteiro num programa Java.
 
 Um estrutograma descreve um processo. Para um computador o executar, precisas de um programa numa linguagem de programação. O VisuStruct escreve esse código por ti.
 
@@ -50,17 +52,22 @@ Em Java, cada instrução termina com um **ponto e vírgula** `;`. O que está d
 
 ## Os elementos em Java
 
-- **Instrução:** `int soma = 0` passa a `int soma = 0;`
-- **Saída:** `output: soma` passa a `System.out.println(soma);`
-- **Entrada:** `input: int numero "Número?"` passa a duas linhas: `System.out.println("Número?");` e `int numero = scanner.nextInt();`. Para o `Scanner`, `Scanner scanner = new Scanner(System.in);` é escrito uma vez lá em cima.
-- **Decisão:** `if (condição) { … } else { … }`
-- **Seleção:** `switch (valor) { case 1 -> { … } default -> { … } }`
-- **Ciclo while:** `while (condição) { … }`
-- **Ciclo do-while:** `do { … } while (condição);`
-- **Ciclo for:** `for (int i = 0; i < 5; i++) { … }`; os três campos ficam uns a seguir aos outros entre os parênteses, separados por ponto e vírgula.
-- **Ciclo infinito:** `while (true) { … }`
-- **Interrupção:** `break;`
-- **Chamada:** `calcular();`
+| Elemento | Java | Lição |
+|---|---|---|
+| Instrução | `int soma = 0;` | 4, 5 |
+| Saída | `System.out.println(soma);` | 6 |
+| Entrada | `int numero = scanner.nextInt();` | 6 |
+| Decisão | `if (condição) { … } else { … }` | 8, 9 |
+| Seleção | `switch (valor) { case 1 -> { … } default -> { … } }` | 10 |
+| Ciclo while | `while (condição) { … }` | 11 |
+| Ciclo do-while | `do { … } while (condição);` | 12 |
+| Ciclo for | `for (int i = 0; i < 5; i++) { … }` | 13 |
+| Ciclo infinito | `while (true) { … }` | 11 |
+| Interrupção | `break;` | 18 |
+| Chamada | `calcular();` | 18 |
+| Array | `int[] numeros = new int[5];` | 15, 16 |
+
+Para entradas, `import java.util.Scanner;` e `Scanner scanner = new Scanner(System.in);` são escritos uma vez lá em cima. Antes de cada entrada, o VisuStruct mostra a pergunta com `System.out.println(…)`.
 
 Se o ramo false de uma decisão estiver vazio, o VisuStruct gera mesmo assim uma parte `else` que só contém o comentário `// empty element`. Se desligares **Gerar ramo else vazio no código**, a parte `else` vazia desaparece.
 

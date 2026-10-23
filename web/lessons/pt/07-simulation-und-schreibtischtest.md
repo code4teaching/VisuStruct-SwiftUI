@@ -106,6 +106,27 @@ lösung: sim-kino-loesung.visustruct
 
 > Se uma simulação nunca mais acabar, clica em **Parar**. Quando **Verificas** um exercício, o VisuStruct para sozinho depois de um número muito grande de passos.
 
+## Agora em Java
+
+Também podes executar código Java passo a passo. Na área [Programação](#zeige-codelive), a ferramenta para isso chama-se **depurador** (debugger):
+
+- Clica num número de linha à esquerda. Aparece um ponto vermelho: é um **ponto de paragem**. [▶︎ Executar](#zeige-ausfuehren) para antes dessa linha.
+- O botão [Passo a passo](#zeige-einzelschritt) executa exatamente uma linha, como **Passo** na simulação.
+- Por baixo do código vês o valor atual de cada variável. É o teu teste de secretária, só que é o computador que escreve.
+
+::: übung l07-java-pizza
+titel: Corrigir a encomenda de pizzas
+code: java
+auftrag: Uma pizza custa 8 euros, o queijo extra 2 euros. Para 3 pizzas com queijo extra, o programa deve mostrar **Total: 30**. Mas mostra 14.
+  Percorre o código Java com Passo a passo e observa `total`. Encontra o erro e corrige-o no código.
+start: l07-java-pizza-start.visustruct
+test: - -> Total: 30
+braucht: anweisung
+tipp: Que valor está em `total` depois da quarta linha? Faz as contas de cabeça: o que é que o Java calcula primeiro?
+tipp: Como na matemática, a multiplicação vem antes da soma: `preco + queijo * quantidade` é `8 + 6`. Põe parênteses: `(preco + queijo) * quantidade`.
+lösung: l07-java-pizza-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -113,6 +134,7 @@ lösung: sim-kino-loesung.visustruct
 - Durante a simulação sei ler as variáveis, a saída e o último passo. → O que a simulação mostra
 - Sei fazer um teste de secretária à mão, em forma de tabela. → O teste de secretária
 - Sei encontrar um erro comparando os valores com o que espero. → Encontrar erros
+- Sei acompanhar código Java com Passo a passo. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -145,4 +167,10 @@ lösung: sim-kino-loesung.visustruct
 - [x] soma é usada antes de lhe ter sido dado um valor.
 - [ ] soma é demasiado grande.
 - [ ] O estrutograma tem demasiados blocos.
+
+? O que faz um ponto vermelho antes de um número de linha na área Programação?
+- [ ] Marca um erro.
+- [x] O programa para antes dessa linha.
+- [ ] A linha é saltada.
+> É um ponto de paragem. Continuas com ▶︎ ou com Passo a passo.
 :::

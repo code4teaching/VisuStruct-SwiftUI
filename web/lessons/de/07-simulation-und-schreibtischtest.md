@@ -106,6 +106,27 @@ lösung: sim-kino-loesung.visustruct
 
 > Läuft eine Simulation endlos weiter, klicke auf **Stopp**. Beim **Prüfen** einer Übung bricht VisuStruct nach sehr vielen Schritten von selbst ab.
 
+## Jetzt in Java
+
+Auch Java-Code kannst du Schritt für Schritt ausführen. Im Bereich [Programmieren](#zeige-codelive) heißt das Werkzeug dafür **Debugger**:
+
+- Klicke links auf eine Zeilennummer. Ein roter Punkt erscheint, das ist ein **Haltepunkt**. [▶︎ Ausführen](#zeige-ausfuehren) hält vor dieser Zeile an.
+- Der Knopf [Einzelschritt](#zeige-einzelschritt) führt genau eine Zeile aus, wie **Schritt** in der Simulation.
+- Unter dem Code steht, welchen Wert jede Variable gerade hat. Das ist dein Schreibtischtest, nur dass der Computer mitschreibt.
+
+::: übung l07-java-pizza
+titel: Pizzabestellung reparieren
+code: java
+auftrag: Eine Pizza kostet 8 Euro, Extra-Käse 2 Euro. Für 3 Pizzen mit Extra-Käse soll das Programm **Gesamt: 30** ausgeben. Es gibt aber 14 aus.
+  Gehe den Java-Code mit dem Einzelschritt durch und beobachte `gesamt`. Finde den Fehler und repariere ihn im Code.
+start: l07-java-pizza-start.visustruct
+test: - -> Gesamt: 30
+braucht: anweisung
+tipp: Welcher Wert steht nach der vierten Zeile in `gesamt`? Rechne im Kopf nach, was Java zuerst ausrechnet.
+tipp: Wie in Mathe gilt Punkt vor Strich: `preis + kaese * anzahl` ist `8 + 6`. Setze Klammern: `(preis + kaese) * anzahl`.
+lösung: l07-java-pizza-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -113,6 +134,7 @@ lösung: sim-kino-loesung.visustruct
 - Ich kann während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen. → Was die Simulation anzeigt
 - Ich kann einen Schreibtischtest als Tabelle von Hand durchführen. → Der Schreibtischtest
 - Ich kann einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche. → Fehler finden
+- Ich kann Java-Code mit dem Einzelschritt verfolgen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -145,4 +167,10 @@ lösung: sim-kino-loesung.visustruct
 - [x] summe wird benutzt, bevor sie einen Wert bekommen hat.
 - [ ] summe ist zu groß.
 - [ ] Das Struktogramm hat zu viele Kästen.
+
+? Was macht ein roter Punkt vor einer Zeilennummer im Bereich Programmieren?
+- [ ] Er markiert einen Fehler.
+- [x] Das Programm hält vor dieser Zeile an.
+- [ ] Die Zeile wird übersprungen.
+> Das ist ein Haltepunkt. Mit ▶︎ oder dem Einzelschritt geht es weiter.
 :::

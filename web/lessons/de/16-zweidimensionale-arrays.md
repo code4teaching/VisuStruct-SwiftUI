@@ -106,6 +106,35 @@ tipp: Die Indizes laufen von 0 bis 9, die Zahlen aber von 1 bis 10. Darum steht 
 lösung: kino-einmaleins-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Der Kinosaal sieht in Java so aus:
+
+```
+boolean[][] sitze = new boolean[3][5];
+sitze[0][2] = true;
+sitze[1][1] = true;
+sitze[1][2] = true;
+System.out.println("Reihen: " + sitze.length);
+System.out.println("Plätze pro Reihe: " + sitze[0].length);
+System.out.println("Reihe 1, Platz 2 verkauft? " + sitze[1][2]);
+```
+
+- Zwei Paar eckige Klammern `[][]` stehen für eine Tabelle: erst die Reihe, dann der Platz.
+- `sitze.length` ist die Zahl der Reihen, `sitze[0].length` die Zahl der Plätze in einer Reihe.
+- Mit festen Werten schreibst du jede Reihe in eigene geschweifte Klammern: `int[][] t = {{1, 2}, {3, 4}};`
+
+::: übung l16-java-punkte
+titel: Punkte zusammenzählen
+code: java
+auftrag: Drei Spieler haben je zwei Runden gespielt. Lege in Java die Tabelle `punkte` mit den Reihen {3, 5}, {4, 1} und {2, 2} an. Zähle mit zwei verschachtelten For-Schleifen alle Punkte zusammen und gib **Summe: 17** aus.
+test: - -> Summe: 17
+braucht: forSchleife
+tipp: Die äußere Schleife geht durch die Reihen, die innere durch die Plätze einer Reihe.
+tipp: `int[][] punkte = {{3, 5}, {4, 1}, {2, 2}};` und in der inneren Schleife `summe = summe + punkte[i][j];`. Die innere Schleife läuft bis `punkte[i].length`.
+lösung: l16-java-punkte-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -113,6 +142,7 @@ lösung: kino-einmaleins-loesung.visustruct
 - Ich kann ein Fach mit Reihe und Platz lesen und schreiben. → Ein Fach ansprechen
 - Ich kenne den Unterschied zwischen `sitze.length` und `sitze[0].length`. → Ein Fach ansprechen
 - Ich kann erklären, in welcher Reihenfolge zwei verschachtelte Schleifen die Fächer besuchen. → Zwei Schleifen ineinander
+- Ich kann in Java ein zweidimensionales Array anlegen und durchlaufen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -141,4 +171,9 @@ lösung: kino-einmaleins-loesung.visustruct
 = sitze[0].length -> Anzahl der Plätze in Reihe 0
 = sitze[2][4] -> Reihe 2, Platz 4
 = sitze[1][0] = true -> In Reihe 1 ist Platz 0 verkauft
+
+? Was gibt `sitze.length` bei `new boolean[3][5]` an?
+- [x] 3, die Zahl der Reihen
+- [ ] 5, die Zahl der Plätze
+- [ ] 15, alle Plätze zusammen
 :::

@@ -165,6 +165,39 @@ tipp: Divisível por 4 é `ano % 4 == 0`, não divisível por 100 é `ano % 100 
 lösung: l08-schaltjahr-loesung.visustruct
 :::
 
+## Agora em Java
+
+O bilhete jovem do início fica assim em Java:
+
+```
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Quantos anos tens?");
+int idade = scanner.nextInt();
+if (idade >= 12 && idade < 18) {
+    System.out.println("Bilhete jovem");
+} else {
+    System.out.println("Sem bilhete jovem");
+}
+```
+
+Os sinais `&&`, `||` e `!` são exatamente os que já usas no estrutograma. Vêm do Java. Como sempre, a condição inteira fica entre os parênteses curvos depois de `if`.
+
+::: übung l09-java-schule
+titel: Escola ou tempo livre
+code: java
+auftrag: Escreve um programa em Java que pergunta a hora (0 a 23). Das 8 até às 15, inclusive, mostra **Escola**, senão **Tempo livre**.
+test: 8 -> Escola
+test: 15 -> Escola
+test: 16 -> Tempo livre
+test: 7 -> Tempo livre
+braucht: verzweigung
+tipp: A hora tem de cumprir duas condições ao mesmo tempo. Que operador quer dizer “e”?
+tipp: `if (hora >= 8 && hora <= 15) { … } else { … }`
+lösung: l09-java-schule-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -175,6 +208,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 - Sei ler a tabela de verdade de &&, || e !. → A tabela de verdade
 - Sei guardar o resultado de uma condição numa variável boolean. → Valores lógicos em variáveis
 - Acertei pelo menos 8 de 10 condições no jogo. → Jogo: Verdadeiro ou falso?
+- Sei ligar condições em Java com && e ||. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -201,4 +235,10 @@ lösung: l08-schaltjahr-loesung.visustruct
 - [ ] true
 - [x] false
 > 5 > 3 é verdadeiro, e o ! inverte isso.
+
+? Como escreves em Java “idade é pelo menos 12 e menor do que 18”?
+- [ ] if (12 <= idade < 18)
+- [x] if (idade >= 12 && idade < 18)
+- [ ] if (idade >= 12 || idade < 18)
+> Cada comparação fica sozinha, ligada com `&&`.
 :::

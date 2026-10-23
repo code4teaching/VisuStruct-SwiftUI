@@ -154,6 +154,11 @@
 "web_game_nobody" = "Kimse dinlemiyor – hiçbir şey olmuyor.";
 "web_game_event_fmt" = "“%@” tıklandı: dinleyici bunu duyar ve kodunu çalıştırır.";
 "web_game_try" = "Şimdi penceredeki düğmeleri kendin dene.";
+"web_game_time_fmt" = "%@ sn kaldı";
+"web_game_defused" = "✂️ Etkisiz hâle getirildi! Hatayı buldun.";
+"web_game_boom_time" = "💥 Bum! Süre doldu.";
+"web_game_boom_wrong" = "💥 Bum! Yanlış satırdı.";
+"web_game_fix" = "Doğru satır:";
 "web_debug_step" = "Adım";
 "web_debug_step_title" = "Adım: bir komutu çalıştır ve yeniden dur";
 "web_debug_continue" = "Bir sonraki kesme noktasına kadar devam et";

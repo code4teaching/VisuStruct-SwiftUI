@@ -131,6 +131,32 @@ tipp: Rechne Summe und Maximum in eigenen Variablen aus und gib sie erst am Ende
 lösung: l14-summe-max-loesung.visustruct
 :::
 
+## Jetzt in Java
+
+Das Durchlaufen eines Arrays sieht in Java so aus:
+
+```
+int[] zahlen = {2, 4, 6, 8, 10};
+for (int i = 0; i < zahlen.length; i++) {
+    System.out.println(zahlen[i]);
+}
+```
+
+- `int[]` heißt „Array aus ganzen Zahlen“. Die Werte stehen in geschweiften Klammern.
+- Ein leeres Array mit 5 Fächern legst du mit `new int[5]` an.
+- `zahlen[i]` ist das Fach mit dem Index `i`, `zahlen.length` die Länge.
+
+::: übung l15-java-noten
+titel: Notensumme in Java
+code: java
+auftrag: Lege in Java das Array `noten` mit den Werten 2, 3, 1 und 4 an. Zähle alle Noten mit einer For-Schleife zusammen und gib **Summe: 10** aus.
+test: - -> Summe: 10
+braucht: forSchleife
+tipp: Lege vor der Schleife `int summe = 0;` an. Die Schleife läuft von 0 bis `noten.length - 1`.
+tipp: `int[] noten = {2, 3, 1, 4};`, dann `for (int i = 0; i < noten.length; i++) { summe = summe + noten[i]; }` und zum Schluss `System.out.println("Summe: " + summe);`.
+lösung: l15-java-noten-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste
@@ -138,6 +164,7 @@ lösung: l14-summe-max-loesung.visustruct
 - Ich weiß, dass der Index bei 0 beginnt und der letzte Index `length - 1` ist. → Der Index beginnt bei 0
 - Ich kann ein Array mit einer For-Schleife durchlaufen und füllen. → Ein Array mit der Schleife durchlaufen
 - Ich kann die Summe und das Maximum eines Arrays berechnen. → Summe und Maximum
+- Ich kann in Java ein Array anlegen und mit einer Schleife durchlaufen. → Jetzt in Java
 :::
 
 ## Wissenstest
@@ -172,4 +199,9 @@ lösung: l14-summe-max-loesung.visustruct
 - [x] Feld
 - [ ] Fall
 > Ein Array heißt auf Deutsch oft Feld. Gemeint ist dasselbe: viele Fächer unter einem Namen.
+
+? Welche Zeile legt in Java ein Array mit drei Zahlen an?
+- [x] int[] zahlen = {1, 2, 3};
+- [ ] int zahlen = [1, 2, 3];
+- [ ] array zahlen = (1, 2, 3);
 :::

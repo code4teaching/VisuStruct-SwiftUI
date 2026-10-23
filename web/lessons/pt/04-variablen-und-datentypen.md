@@ -120,6 +120,38 @@ tipp: O preço total é um número decimal, por isso `total` precisa do tipo `do
 lösung: l05-einkauf-loesung.visustruct
 :::
 
+## Agora em Java
+
+Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As variáveis de cima ficam assim em Java:
+
+```
+int idade = 14;
+double altura = 1.62;
+String nome = "Inês";
+System.out.println(nome + " tem " + idade + " anos.");
+System.out.println("Altura: " + altura + " m");
+```
+
+- Em Java crias uma variável tal como no bloco: primeiro o tipo de dados, depois o nome, depois o valor.
+- No fim de cada instrução há um **ponto e vírgula** `;`.
+- `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue maiúsculas de minúsculas.
+- Uma saída chama-se `System.out.println(…)` em Java.
+
+Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+
+::: übung l04-java-steckbrief
+titel: Ficha em Java
+code: java
+auftrag: Escreve a ficha do Ludwig, o bode. Cria três variáveis: o nome **Ludwig**, a idade **7** e a altura **1.2**. Depois mostra estas duas linhas:
+  **Ludwig tem 7 anos.** e **Altura: 1.2 m**
+  “Abrir no editor” abre também a área Programação à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
+test: - -> Ludwig tem 7 anos. | Altura: 1.2 m
+braucht: anweisung
+tipp: Precisas de uma `String`, um `int` e um `double`. Cada linha termina com ponto e vírgula.
+tipp: `String nome = "Ludwig";`, `int idade = 7;` e `double altura = 1.2;`. Juntas a saída com `+`: `System.out.println(nome + " tem " + idade + " anos.");`
+lösung: l04-java-steckbrief-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste
@@ -127,6 +159,7 @@ lösung: l05-einkauf-loesung.visustruct
 - Conheço os tipos de dados int, double, String e boolean. → Os quatro tipos de dados
 - Sei que = é uma atribuição e não uma comparação. → Atribuição com =
 - Sei fazer contas com + - * / % e conheço a divisão inteira. → Fazer contas
+- Sei criar e mostrar variáveis em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
@@ -156,4 +189,10 @@ lösung: l05-einkauf-loesung.visustruct
 - [ ] 12
 - [x] 20
 > O lado direito é calculado com o valor antigo 10, e o resultado 20 é guardado em pontos.
+
+? Que linha cria corretamente um número decimal em Java?
+- [ ] double preco = 2,5;
+- [x] double preco = 2.5;
+- [ ] Double preco = 2.5
+> Os números decimais escrevem-se com ponto, e no fim há um ponto e vírgula.
 :::

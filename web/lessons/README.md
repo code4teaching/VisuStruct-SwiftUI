@@ -136,6 +136,29 @@ schueler: boolean
 :::
 ```
 
+Rundenspiele `::: spiel zuhoerer`, `vertrag` und `layout` (Swing) sind in `src/learn/roundGame.ts` beschrieben. Dort steht
+auch „Bombe entschärfen“: Code mit genau einem Fehler, man tippt vor Ablauf der Zeit auf die falsche Zeile.
+
+```
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt genau ein Fehler.
+zeit: 25
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        System.out.println(i)
+    }
+frage: Soll 1, 2 und 3 ausgeben.
+fehler: 2
+besser: System.out.println(i);
+> Am Ende der Anweisung fehlt das Semikolon.
+:::
+```
+
+`fehler:` ist die Nummer der falschen Zeile (ab 1), `besser:` die richtige Zeile. Der Test setzt sie ein und prüft, dass
+Java dann keinen Fehler mehr meldet.
+
 Ein Kasten „Ludwigs Tipp“: Ludwig gibt einen Hinweis zum Vorgehen, z. B. eine Brücke zu einer früheren Lektion:
 
 ```
