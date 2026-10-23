@@ -1325,6 +1325,9 @@ button.danger-text:not(:disabled) {
   line-height: 1.5;
 }
 .learn-body h2.learn-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 20px;
   text-transform: none;
   letter-spacing: 0;

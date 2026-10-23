@@ -29,7 +29,8 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
-- **Web:** the settings menu shows the version number (now 0.3.6) right next to “About VisuStruct”.
+- **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
+- **Web:** the settings menu shows the version number (now 0.3.7) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.
@@ -41,6 +42,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Fixed
 
+- **Web, Code live:** pasting (or dropping) code at a grey placeholder such as `// Your code` now replaces the placeholder, like typing does. Before, the placeholder stayed in front of the pasted text and commented out its first line (e.g. `import javax.swing.*;`).
 - **iPhone:** texts of existing elements (conditions, statements, …) can be edited again. Tapping the middle of an element now selects it and opens the text editor instead of setting an insert marker; insert before/after via the top/bottom strips or the palette. While an insert marker is set, “Edit text” is offered next to “Cancel insert”.
 
 ### Planned / Notes

@@ -81,9 +81,13 @@ Das steht nicht im Lehrplan. Wenn du wissen willst, was hinter dem Pfeil steckt,
 
 ::: angeberwissen
 `ActionListener` ist ein **Interface**, eine Art Vertrag. Darin steht: Wer ein ActionListener sein will, muss eine Methode `actionPerformed(ActionEvent e)` haben. Der Knopf ruft bei jedem Klick genau diese Methode auf.
-
-Der Pfeil `e -> …` ist eine Kurzform (ein Lambda-Ausdruck, seit Java 8). Sie geht, weil das Interface nur eine einzige Methode hat. Java weiß also, welche Methode gemeint ist.
 :::
+
+Die Zeile mit dem Pfeil kennst du schon aus Schritt 2:
+
+```
+knopf.addActionListener(e -> knopf.setText("Ich wurde geklickt"));
+```
 
 Ohne Pfeil schreibt man den Zuhörer als Klasse ohne Namen, die den Vertrag erfüllt (eine anonyme Klasse):
 
@@ -95,7 +99,7 @@ knopf.addActionListener(new ActionListener() {
 });
 ```
 
-Dafür brauchst du oben noch `import java.awt.event.*;`. Beide Schreibweisen machen genau dasselbe, die mit dem Pfeil ist nur kürzer.
+Dafür brauchst du oben noch `import java.awt.event.*;`. Beide Schreibweisen machen genau dasselbe. Der Pfeil `e -> …` ist die Kurzform (ein Lambda-Ausdruck, seit Java 8): `e` ist der Parameter von `actionPerformed`, und hinter dem Pfeil steht ihr Rumpf. Die Kurzform geht, weil das Interface nur eine einzige Methode hat. Java weiß also, welche Methode gemeint ist.
 
 ## Aufgabe: Ich wurde geklickt
 
