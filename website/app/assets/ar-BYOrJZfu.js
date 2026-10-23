@@ -76,4 +76,8 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_keywords_title" = "كلمات الشيفرة المفتاحية";
 "web_keywords_hint" = "if و while و for بدلًا من أسماء العناصر";
 "web_about_version_fmt" = "الإصدار %@";
+"web_live_run" = "تشغيل";
+"web_live_run_title" = "تشغيل البرنامج: تظهر المخرجات والمدخلات بالأسفل";
+"web_live_run_finished" = "انتهى البرنامج.";
+"web_live_run_stopped" = "تم الإيقاف.";
 `;export{e as default};

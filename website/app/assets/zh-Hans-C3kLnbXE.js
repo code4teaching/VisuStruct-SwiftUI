@@ -76,4 +76,8 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_keywords_title" = "代码关键字";
 "web_keywords_hint" = "用 if、while、for 代替元素名称";
 "web_about_version_fmt" = "版本 %@";
+"web_live_run" = "运行";
+"web_live_run_title" = "运行程序：输出和输入显示在下方";
+"web_live_run_finished" = "程序已结束。";
+"web_live_run_stopped" = "已停止。";
 `;export{e as default};

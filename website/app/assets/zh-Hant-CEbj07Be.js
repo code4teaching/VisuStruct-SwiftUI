@@ -76,4 +76,8 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_keywords_title" = "程式碼關鍵字";
 "web_keywords_hint" = "用 if、while、for 取代元素名稱";
 "web_about_version_fmt" = "版本 %@";
+"web_live_run" = "執行";
+"web_live_run_title" = "執行程式：輸出與輸入顯示在下方";
+"web_live_run_finished" = "程式已結束。";
+"web_live_run_stopped" = "已停止。";
 `;export{e as default};

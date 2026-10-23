@@ -76,4 +76,8 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_keywords_title" = "코드 키워드";
 "web_keywords_hint" = "요소 이름 대신 if, while, for";
 "web_about_version_fmt" = "버전 %@";
+"web_live_run" = "실행";
+"web_live_run_title" = "프로그램 실행: 출력과 입력이 아래에 표시됩니다";
+"web_live_run_finished" = "프로그램이 끝났습니다.";
+"web_live_run_stopped" = "중지됨.";
 `;export{e as default};

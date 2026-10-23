@@ -76,4 +76,8 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_keywords_title" = "Code-sleutelwoorden";
 "web_keywords_hint" = "if, while, for in plaats van elementnamen";
 "web_about_version_fmt" = "Versie %@";
+"web_live_run" = "Uitvoeren";
+"web_live_run_title" = "Programma uitvoeren: uitvoer en invoer verschijnen eronder";
+"web_live_run_finished" = "Programma klaar.";
+"web_live_run_stopped" = "Gestopt.";
 `;export{e as default};

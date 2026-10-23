@@ -76,4 +76,8 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_keywords_title" = "Mots-clés du code";
 "web_keywords_hint" = "if, while, for au lieu des noms des éléments";
 "web_about_version_fmt" = "Version %@";
+"web_live_run" = "Exécuter";
+"web_live_run_title" = "Exécuter le programme : les sorties et les entrées apparaissent en dessous";
+"web_live_run_finished" = "Programme terminé.";
+"web_live_run_stopped" = "Arrêté.";
 `;export{e as default};

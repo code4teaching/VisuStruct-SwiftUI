@@ -76,4 +76,8 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_keywords_title" = "Λέξεις-κλειδιά κώδικα";
 "web_keywords_hint" = "if, while, for αντί για ονόματα στοιχείων";
 "web_about_version_fmt" = "Έκδοση %@";
+"web_live_run" = "Εκτέλεση";
+"web_live_run_title" = "Εκτέλεση προγράμματος: η έξοδος και η είσοδος εμφανίζονται παρακάτω";
+"web_live_run_finished" = "Το πρόγραμμα τελείωσε.";
+"web_live_run_stopped" = "Διακόπηκε.";
 `;export{e as default};

@@ -76,4 +76,8 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_keywords_title" = "Kode-nøgleord";
 "web_keywords_hint" = "if, while, for i stedet for elementnavne";
 "web_about_version_fmt" = "Version %@";
+"web_live_run" = "Kør";
+"web_live_run_title" = "Kør programmet: output og input vises nedenfor";
+"web_live_run_finished" = "Programmet er færdigt.";
+"web_live_run_stopped" = "Stoppet.";
 `;export{e as default};

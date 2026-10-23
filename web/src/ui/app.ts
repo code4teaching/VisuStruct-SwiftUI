@@ -844,6 +844,7 @@ export class App {
       owner: this.tab,
       subprograms: new Set(this.tabs.filter((tab) => tab !== this.tab).flatMap((tab) => parseSubprogramHeader(tab.doc.caption)?.name ?? [])),
       editable: !this.simulating,
+      resolve: (name) => this.findSubprogram(name),
     })
   }
 

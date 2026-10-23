@@ -76,4 +76,8 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_keywords_title" = "Słowa kluczowe kodu";
 "web_keywords_hint" = "if, while, for zamiast nazw elementów";
 "web_about_version_fmt" = "Wersja %@";
+"web_live_run" = "Uruchom";
+"web_live_run_title" = "Uruchom program: wyjście i wejście pojawią się poniżej";
+"web_live_run_finished" = "Program zakończony.";
+"web_live_run_stopped" = "Zatrzymano.";
 `;export{e as default};

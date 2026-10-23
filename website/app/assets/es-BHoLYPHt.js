@@ -76,4 +76,8 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_keywords_title" = "Palabras clave de código";
 "web_keywords_hint" = "if, while, for en lugar de los nombres de los elementos";
 "web_about_version_fmt" = "Versión %@";
+"web_live_run" = "Ejecutar";
+"web_live_run_title" = "Ejecutar el programa: la salida y la entrada aparecen abajo";
+"web_live_run_finished" = "Programa terminado.";
+"web_live_run_stopped" = "Detenido.";
 `;export{e as default};

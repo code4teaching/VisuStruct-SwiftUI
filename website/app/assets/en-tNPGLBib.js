@@ -133,4 +133,8 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_keywords_title" = "Code keywords";
 "web_keywords_hint" = "if, while, for instead of Branch, For loop …";
 "web_about_version_fmt" = "Version %@";
+"web_live_run" = "Run";
+"web_live_run_title" = "Run the program: output and input appear below";
+"web_live_run_finished" = "Program finished.";
+"web_live_run_stopped" = "Stopped.";
 `;export{e as default};

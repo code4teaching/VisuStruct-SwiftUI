@@ -76,4 +76,8 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_keywords_title" = "מילות מפתח של קוד";
 "web_keywords_hint" = "if, while, for במקום שמות הרכיבים";
 "web_about_version_fmt" = "גרסה %@";
+"web_live_run" = "הרצה";
+"web_live_run_title" = "הרצת התוכנית: הפלט והקלט מופיעים למטה";
+"web_live_run_finished" = "התוכנית הסתיימה.";
+"web_live_run_stopped" = "נעצר.";
 `;export{e as default};
