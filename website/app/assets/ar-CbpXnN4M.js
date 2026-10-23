@@ -57,6 +57,16 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_live_ph_selector" = "المتغير";
 "web_live_ph_code" = "شيفرتك";
 "web_live_ph_end" = "النهاية";
+"web_live_hint_edit" = "اكتب هنا شيفرة Java وسيُبنى المخطط تلقائيًا. أو اعمل في المخطط وستنمو الشيفرة معه. الرمادي = عنصر نائب، اكتب فوقه مباشرة.";
+"web_live_edit_label" = "شيفرة Java";
+"web_parse_line_fmt" = "السطر %d: %@";
+"web_parse_missing" = "ما زال ينقص هنا: %@";
+"web_parse_extra" = "زائد: %@";
+"web_parse_unclosed_string" = "ينقص %@ الإغلاق هنا.";
+"web_parse_else_without_if" = "لا يوجد «if» لهذا «else».";
+"web_parse_case_outside_switch" = "«case» و«default» مكانهما داخل «switch».";
+"web_parse_missing_do_while" = "بعد «do { … }» ينقص «while (الشرط);».";
+"web_parse_more_methods" = "حاليًا تُحتسب طريقة واحدة فقط هنا. أنشئ البرامج الفرعية الأخرى في علامات تبويب منفصلة.";
 "web_editor_title" = "المخطط";
 "web_editor_show" = "إظهار المخطط";
 "web_editor_hide" = "إخفاء المخطط";

@@ -57,6 +57,16 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_live_ph_selector" = "variable";
 "web_live_ph_code" = "Tu código";
 "web_live_ph_end" = "fin";
+"web_live_hint_edit" = "Escribe aquí código Java y el diagrama se construye solo. O trabaja en el diagrama y el código crece con él. Gris = marcador, escribe encima.";
+"web_live_edit_label" = "Código Java";
+"web_parse_line_fmt" = "Línea %d: %@";
+"web_parse_missing" = "Aquí falta: %@";
+"web_parse_extra" = "Sobra: %@";
+"web_parse_unclosed_string" = "Falta el %@ de cierre.";
+"web_parse_else_without_if" = "Este «else» no tiene un «if».";
+"web_parse_case_outside_switch" = "«case» y «default» van dentro de un «switch».";
+"web_parse_missing_do_while" = "Después de «do { … }» falta «while (condición);».";
+"web_parse_more_methods" = "Por ahora solo cuenta un método. Crea otros subprogramas en pestañas propias.";
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";

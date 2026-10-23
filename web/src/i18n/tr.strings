@@ -57,6 +57,16 @@
 "web_live_ph_selector" = "değişken";
 "web_live_ph_code" = "Kodun";
 "web_live_ph_end" = "bitiş";
+"web_live_hint_edit" = "Buraya Java kodu yaz, diyagram kendiliğinden oluşsun. Ya da diyagramda çalış, kod onunla büyüsün. Gri = yer tutucu, üzerine yazman yeterli.";
+"web_live_edit_label" = "Java kodu";
+"web_parse_line_fmt" = "Satır %d: %@";
+"web_parse_missing" = "Burada hâlâ eksik: %@";
+"web_parse_extra" = "Fazla: %@";
+"web_parse_unclosed_string" = "Kapanış %@ eksik.";
+"web_parse_else_without_if" = "Bu “else” için bir “if” yok.";
+"web_parse_case_outside_switch" = "“case” ve “default” bir “switch” içinde olmalı.";
+"web_parse_missing_do_while" = "“do { … }” sonrasında “while (koşul);” eksik.";
+"web_parse_more_methods" = "Şimdilik burada yalnızca bir metot sayılır. Diğer alt programları ayrı sekmelerde oluştur.";
 "web_editor_title" = "Diyagram";
 "web_editor_show" = "Diyagramı göster";
 "web_editor_hide" = "Diyagramı gizle";
