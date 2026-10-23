@@ -132,6 +132,89 @@ tipp: `for (int i = 1; i <= n; i++) { … }` e no corpo `System.out.println(i * 
 lösung: l13-java-quadrate-loesung.visustruct
 :::
 
+## Jogo: Desativar a bomba
+
+::: spiel bombe
+titel: Jogo: Desativar a bomba
+intro: Cada programa esconde **exatamente um erro**, e a bomba está a fazer tiquetaque. Lê o que o programa deve fazer e toca na linha errada antes de o tempo acabar. Oito rondas, 25 segundos cada.
+zeit: 25
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        System.out.println(i)
+    }
+frage: Deve mostrar 1, 2 e 3.
+fehler: 2
+besser: System.out.println(i);
+> Falta o ponto e vírgula no fim da instrução.
+
+runde:
+    for (int i = 1, i <= 5, i++) {
+        System.out.println(i);
+    }
+frage: Deve mostrar de 1 a 5.
+fehler: 1
+besser: for (int i = 1; i <= 5; i++) {
+> Os três campos do ciclo for separam-se com ponto e vírgula, não com vírgulas.
+
+runde:
+    for (int i = 10; i >= 1; i++) {
+        System.out.println(i);
+    }
+frage: Deve contar para trás de 10 até 1.
+fehler: 1
+besser: for (int i = 10; i >= 1; i--) {
+> Com `i++`, `i` fica sempre maior e a condição `i >= 1` continua verdadeira: um ciclo infinito. Para contar para trás usas `i--`.
+
+runde:
+    int soma = 0;
+    for (int i = 1; i <= 4; i++) {
+        soma = i;
+    }
+    System.out.println(soma);
+frage: Deve mostrar a soma 1 + 2 + 3 + 4 = 10.
+fehler: 3
+besser: soma = soma + i;
+> `soma = i` substitui a soma em cada iteração. No fim fica lá só 4.
+
+runde:
+    for (int i = 0; i <= 5; i++) {
+        System.out.println("Mééé");
+    }
+frage: Deve mostrar Mééé exatamente cinco vezes.
+fehler: 1
+besser: for (int i = 0; i < 5; i++) {
+> De 0 até 5, inclusive, são seis iterações. Quem começa em 0 usa `<`.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        system.out.println(i);
+    }
+frage: Deve mostrar 1, 2 e 3.
+fehler: 2
+besser: System.out.println(i);
+> O Java distingue maiúsculas de minúsculas: `System` escreve-se com S maiúsculo.
+
+runde:
+    int numero = 7;
+    for (int i = 1; i <= 10; i++) {
+        System.out.println(numero + " x " + i + " = " + numero * numero);
+    }
+frage: Deve mostrar a tabuada do 7: 7 x 1 = 7, 7 x 2 = 14 e assim por diante.
+fehler: 3
+besser: System.out.println(numero + " x " + i + " = " + numero * i);
+> `numero * numero` dá sempre 49. Tem de ser `numero * i`.
+
+runde:
+    for (int i = 2; i <= 10; i + 2) {
+        System.out.println(i);
+    }
+frage: Deve mostrar os números pares 2, 4, 6, 8 e 10.
+fehler: 1
+besser: for (int i = 2; i <= 10; i = i + 2) {
+> `i + 2` só calcula e não guarda nada. Para `i` crescer mesmo, é preciso `i = i + 2`.
+:::
+
 ## Lista de verificação
 
 ::: checkliste

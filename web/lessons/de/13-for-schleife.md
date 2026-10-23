@@ -132,6 +132,89 @@ tipp: `for (int i = 1; i <= n; i++) { … }` und im Rumpf `System.out.println(i 
 lösung: l13-java-quadrate-loesung.visustruct
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was das Programm tun soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Acht Runden, je 25 Sekunden.
+zeit: 25
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        System.out.println(i)
+    }
+frage: Soll 1, 2 und 3 ausgeben.
+fehler: 2
+besser: System.out.println(i);
+> Am Ende der Anweisung fehlt das Semikolon.
+
+runde:
+    for (int i = 1, i <= 5, i++) {
+        System.out.println(i);
+    }
+frage: Soll 1 bis 5 ausgeben.
+fehler: 1
+besser: for (int i = 1; i <= 5; i++) {
+> Die drei Felder der For-Schleife werden mit Semikolons getrennt, nicht mit Kommas.
+
+runde:
+    for (int i = 10; i >= 1; i++) {
+        System.out.println(i);
+    }
+frage: Soll von 10 bis 1 rückwärts zählen.
+fehler: 1
+besser: for (int i = 10; i >= 1; i--) {
+> Mit `i++` wird `i` immer größer, die Bedingung `i >= 1` bleibt wahr: eine Endlosschleife. Rückwärts zählst du mit `i--`.
+
+runde:
+    int summe = 0;
+    for (int i = 1; i <= 4; i++) {
+        summe = i;
+    }
+    System.out.println(summe);
+frage: Soll die Summe 1 + 2 + 3 + 4 = 10 ausgeben.
+fehler: 3
+besser: summe = summe + i;
+> `summe = i` überschreibt die Summe in jedem Durchlauf. Am Ende steht dort nur 4.
+
+runde:
+    for (int i = 0; i <= 5; i++) {
+        System.out.println("Määäh");
+    }
+frage: Soll genau fünfmal Määäh ausgeben.
+fehler: 1
+besser: for (int i = 0; i < 5; i++) {
+> Von 0 bis einschließlich 5 sind es sechs Durchläufe. Wer bei 0 anfängt, nimmt `<`.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        system.out.println(i);
+    }
+frage: Soll 1, 2 und 3 ausgeben.
+fehler: 2
+besser: System.out.println(i);
+> Java unterscheidet Groß- und Kleinbuchstaben: `System` schreibt man mit großem S.
+
+runde:
+    int zahl = 7;
+    for (int i = 1; i <= 10; i++) {
+        System.out.println(zahl + " x " + i + " = " + zahl * zahl);
+    }
+frage: Soll die Siebenerreihe ausgeben: 7 x 1 = 7, 7 x 2 = 14 und so weiter.
+fehler: 3
+besser: System.out.println(zahl + " x " + i + " = " + zahl * i);
+> `zahl * zahl` ist immer 49. Gerechnet werden muss `zahl * i`.
+
+runde:
+    for (int i = 2; i <= 10; i + 2) {
+        System.out.println(i);
+    }
+frage: Soll die geraden Zahlen 2, 4, 6, 8 und 10 ausgeben.
+fehler: 1
+besser: for (int i = 2; i <= 10; i = i + 2) {
+> `i + 2` rechnet nur, speichert aber nichts. Damit `i` wirklich wächst, braucht es `i = i + 2`.
+:::
+
 ## Checkliste
 
 ::: checkliste

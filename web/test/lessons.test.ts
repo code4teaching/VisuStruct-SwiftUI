@@ -235,6 +235,26 @@ describe('Lehrermodus', () => {
   })
 })
 
+describe('Bombe entschärfen', () => {
+  it.each(contentLanguages)('mit der verbesserten Zeile meldet Java keinen Fehler mehr (%s)', (lang) => {
+    useContentLanguage(lang)
+    const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
+    let checked = 0
+    for (const block of lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks))) {
+      if (block.kind !== 'roundGame' || block.game.kind !== 'bombe') continue
+      for (const round of block.game.rounds) {
+        const lines = round.code.split('\n')
+        const wrong = lines[round.wrongLine! - 1]
+        expect(round.fix!.trim(), round.code).not.toBe(wrong.trim())
+        lines[round.wrongLine! - 1] = wrong.match(/^\s*/)![0] + round.fix!.trim()
+        expect(parseLiveJava(lines.join('\n'), labels).problems, lines.join('\n')).toEqual([])
+        checked++
+      }
+    }
+    expect(checked).toBeGreaterThanOrEqual(8)
+  })
+})
+
 describe('Rundenspiele (Swing)', () => {
   it.each(contentLanguages)('„Wer hört zu?“: die richtige Antwort ergibt sich beim Nachspielen (%s)', (lang) => {
     useContentLanguage(lang)

@@ -154,6 +154,11 @@
 "web_game_nobody" = "אף אחד לא מאזין – שום דבר לא קורה.";
 "web_game_event_fmt" = "לחיצה על „%@”: המאזין שומע ומריץ את הקוד שלו.";
 "web_game_try" = "עכשיו נסה בעצמך את הכפתורים בחלון.";
+"web_game_time_fmt" = "נותרו %@ שנ׳";
+"web_game_defused" = "✂️ נוטרלה! מצאת את הטעות.";
+"web_game_boom_time" = "💥 בום! הזמן נגמר.";
+"web_game_boom_wrong" = "💥 בום! זו הייתה השורה הלא נכונה.";
+"web_game_fix" = "השורה הנכונה:";
 "web_debug_step" = "צעד";
 "web_debug_step_title" = "צעד: להריץ הוראה אחת ולעצור שוב";
 "web_debug_continue" = "להמשיך עד נקודת העצירה הבאה";

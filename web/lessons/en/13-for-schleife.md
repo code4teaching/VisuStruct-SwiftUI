@@ -132,6 +132,89 @@ tipp: `for (int i = 1; i <= n; i++) { … }` and in the body `System.out.println
 lösung: l13-java-quadrate-loesung.visustruct
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program hides **exactly one mistake**, and the bomb is ticking. Read what the program should do and tap the wrong line before time runs out. Eight rounds, 25 seconds each.
+zeit: 25
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        System.out.println(i)
+    }
+frage: Should output 1, 2 and 3.
+fehler: 2
+besser: System.out.println(i);
+> The semicolon at the end of the statement is missing.
+
+runde:
+    for (int i = 1, i <= 5, i++) {
+        System.out.println(i);
+    }
+frage: Should output 1 to 5.
+fehler: 1
+besser: for (int i = 1; i <= 5; i++) {
+> The three fields of the for loop are separated by semicolons, not commas.
+
+runde:
+    for (int i = 10; i >= 1; i++) {
+        System.out.println(i);
+    }
+frage: Should count backwards from 10 to 1.
+fehler: 1
+besser: for (int i = 10; i >= 1; i--) {
+> With `i++`, `i` keeps growing and the condition `i >= 1` stays true: an endless loop. To count backwards, use `i--`.
+
+runde:
+    int sum = 0;
+    for (int i = 1; i <= 4; i++) {
+        sum = i;
+    }
+    System.out.println(sum);
+frage: Should output the sum 1 + 2 + 3 + 4 = 10.
+fehler: 3
+besser: sum = sum + i;
+> `sum = i` overwrites the sum in every pass. In the end it only holds 4.
+
+runde:
+    for (int i = 0; i <= 5; i++) {
+        System.out.println("Baaa");
+    }
+frage: Should output Baaa exactly five times.
+fehler: 1
+besser: for (int i = 0; i < 5; i++) {
+> From 0 up to and including 5 there are six passes. If you start at 0, use `<`.
+
+runde:
+    for (int i = 1; i <= 3; i++) {
+        system.out.println(i);
+    }
+frage: Should output 1, 2 and 3.
+fehler: 2
+besser: System.out.println(i);
+> Java tells upper and lower case apart: `System` is written with a capital S.
+
+runde:
+    int number = 7;
+    for (int i = 1; i <= 10; i++) {
+        System.out.println(number + " x " + i + " = " + number * number);
+    }
+frage: Should output the 7 times table: 7 x 1 = 7, 7 x 2 = 14 and so on.
+fehler: 3
+besser: System.out.println(number + " x " + i + " = " + number * i);
+> `number * number` is always 49. It has to be `number * i`.
+
+runde:
+    for (int i = 2; i <= 10; i + 2) {
+        System.out.println(i);
+    }
+frage: Should output the even numbers 2, 4, 6, 8 and 10.
+fehler: 1
+besser: for (int i = 2; i <= 10; i = i + 2) {
+> `i + 2` only calculates and stores nothing. For `i` to really grow, you need `i = i + 2`.
+:::
+
 ## Checklist
 
 ::: checkliste

@@ -1621,6 +1621,93 @@ button.danger-text:not(:disabled) {
   background: #fef3c7;
   border-inline-start-color: #d97706;
 }
+/* Bombe entschärfen: Zeilen sind Knöpfe, darüber der Countdown */
+.learn-bomb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.learn-bomb-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+.learn-bomb.hurry .learn-bomb-icon {
+  animation: learn-bomb-shake 0.25s infinite alternate;
+}
+.learn-bomb.boom .learn-bomb-icon {
+  animation: learn-bomb-boom 0.5s ease-out;
+}
+@keyframes learn-bomb-shake {
+  from { transform: rotate(-8deg); }
+  to { transform: rotate(8deg); }
+}
+@keyframes learn-bomb-boom {
+  from { transform: scale(0.6); }
+  60% { transform: scale(1.5); }
+  to { transform: scale(1); }
+}
+.learn-bomb-time {
+  min-width: 7ch;
+  font-variant-numeric: tabular-nums;
+}
+.learn-bomb-fuse {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+.learn-bomb-fuse span {
+  display: block;
+  height: 100%;
+  background: #f59e0b;
+  transition: width 0.2s linear;
+}
+.learn-bomb.hurry .learn-bomb-fuse span {
+  background: #dc2626;
+}
+.learn-bomb.defused .learn-bomb-fuse span {
+  background: #15803d;
+}
+.learn-bomb-code .ln {
+  display: block;
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  border-block: 0;
+  border-inline-end: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  min-height: 0;
+  height: auto;
+  padding-block: 1px;
+  text-align: start;
+  cursor: pointer;
+}
+.learn-bomb-code .ln:not(:disabled):hover {
+  background: #fef3c7;
+}
+.learn-bomb-code .ln:disabled {
+  cursor: default;
+  opacity: 1;
+}
+.learn-bomb-code .ln.right,
+.learn-bomb-code .ln.right:hover {
+  background: #dcfce7;
+  border-inline-start-color: #15803d;
+}
+.learn-bomb-code .ln.wrong,
+.learn-bomb-code .ln.wrong:hover {
+  background: #fee2e2;
+  border-inline-start-color: #b91c1c;
+}
+.learn-bomb-fix code {
+  white-space: pre-wrap;
+}
 .learn-game-options {
   display: grid;
   gap: 6px;
