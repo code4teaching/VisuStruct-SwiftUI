@@ -80,4 +80,7 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_live_run_title" = "プログラムを実行：出力と入力は下に表示されます";
 "web_live_run_finished" = "プログラムが終了しました。";
 "web_live_run_stopped" = "停止しました。";
+"web_console" = "コンソール";
+"web_console_hide" = "コンソールを隠す";
+"web_console_resize" = "コンソールの高さを変更";
 `;export{e as default};

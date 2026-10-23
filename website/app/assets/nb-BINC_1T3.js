@@ -80,4 +80,7 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_live_run_title" = "Kjør programmet: utdata og inndata vises nedenfor";
 "web_live_run_finished" = "Programmet er ferdig.";
 "web_live_run_stopped" = "Stoppet.";
+"web_console" = "Konsoll";
+"web_console_hide" = "Skjul konsollen";
+"web_console_resize" = "Endre høyden på konsollen";
 `;export{e as default};

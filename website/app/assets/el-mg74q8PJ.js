@@ -80,4 +80,7 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_live_run_title" = "Εκτέλεση προγράμματος: η έξοδος και η είσοδος εμφανίζονται παρακάτω";
 "web_live_run_finished" = "Το πρόγραμμα τελείωσε.";
 "web_live_run_stopped" = "Διακόπηκε.";
+"web_console" = "Κονσόλα";
+"web_console_hide" = "Απόκρυψη κονσόλας";
+"web_console_resize" = "Αλλαγή ύψους κονσόλας";
 `;export{e as default};

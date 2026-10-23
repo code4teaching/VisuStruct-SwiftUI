@@ -135,4 +135,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_live_run_title" = "Executar o programa: as saídas e entradas aparecem em baixo";
 "web_live_run_finished" = "Programa terminado.";
 "web_live_run_stopped" = "Parado.";
+"web_console" = "Consola";
+"web_console_hide" = "Ocultar consola";
+"web_console_resize" = "Alterar a altura da consola";
 `;export{e as default};

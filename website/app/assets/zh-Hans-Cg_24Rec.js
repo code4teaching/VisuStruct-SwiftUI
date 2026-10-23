@@ -80,4 +80,7 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_live_run_title" = "运行程序：输出和输入显示在下方";
 "web_live_run_finished" = "程序已结束。";
 "web_live_run_stopped" = "已停止。";
+"web_console" = "控制台";
+"web_console_hide" = "隐藏控制台";
+"web_console_resize" = "调整控制台高度";
 `;export{e as default};

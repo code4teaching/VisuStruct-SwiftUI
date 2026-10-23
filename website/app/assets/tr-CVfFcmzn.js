@@ -80,4 +80,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_live_run_title" = "Programı çalıştır: çıktı ve girdi aşağıda görünür";
 "web_live_run_finished" = "Program bitti.";
 "web_live_run_stopped" = "Durduruldu.";
+"web_console" = "Konsol";
+"web_console_hide" = "Konsolu gizle";
+"web_console_resize" = "Konsolu yeniden boyutlandır";
 `;export{e as default};

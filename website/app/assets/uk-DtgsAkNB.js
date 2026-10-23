@@ -80,4 +80,7 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_live_run_title" = "Запустити програму: виведення і введення з’являться нижче";
 "web_live_run_finished" = "Програму завершено.";
 "web_live_run_stopped" = "Зупинено.";
+"web_console" = "Консоль";
+"web_console_hide" = "Сховати консоль";
+"web_console_resize" = "Змінити висоту консолі";
 `;export{e as default};

@@ -80,4 +80,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_live_run_title" = "Uruchom program: wyjście i wejście pojawią się poniżej";
 "web_live_run_finished" = "Program zakończony.";
 "web_live_run_stopped" = "Zatrzymano.";
+"web_console" = "Konsola";
+"web_console_hide" = "Ukryj konsolę";
+"web_console_resize" = "Zmień wysokość konsoli";
 `;export{e as default};

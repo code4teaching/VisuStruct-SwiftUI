@@ -80,4 +80,7 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_live_run_title" = "הרצת התוכנית: הפלט והקלט מופיעים למטה";
 "web_live_run_finished" = "התוכנית הסתיימה.";
 "web_live_run_stopped" = "נעצר.";
+"web_console" = "מסוף";
+"web_console_hide" = "הסתרת המסוף";
+"web_console_resize" = "שינוי גובה המסוף";
 `;export{e as default};

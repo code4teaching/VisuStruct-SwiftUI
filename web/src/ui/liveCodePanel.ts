@@ -112,7 +112,8 @@ export class LiveCodePanel {
   private run?: { engine: SimulationEngine; printed: number; timer?: number }
   private runButton!: HTMLButtonElement
   private stopButton!: HTMLButtonElement
-  private console!: HTMLElement
+  /** Konsole unten unter allen Spalten; die App hängt sie ein. */
+  readonly consoleElement: HTMLElement
   private consoleLines!: HTMLElement
   private consoleForm!: HTMLFormElement
   private consoleNotice!: HTMLElement
@@ -124,9 +125,14 @@ export class LiveCodePanel {
     /** Getippter Code ergab ein neues Struktogramm. */
     private onCode: (doc: VSDocument, select: number[] | undefined) => void,
     private onUndo: (redo: boolean) => void,
+    /** Konsole ein- oder ausgeblendet (die App zeigt dazu die Trennlinie). */
+    private onConsole: (visible: boolean) => void = () => {},
   ) {
     this.element = document.createElement('aside')
     this.element.className = 'livecode'
+    this.consoleElement = document.createElement('section')
+    this.consoleElement.className = 'console'
+    this.consoleElement.hidden = true
     this.build()
   }
 
@@ -144,6 +150,7 @@ export class LiveCodePanel {
 
   /** Neu aufbauen, z. B. nach einem Sprachwechsel. */
   build() {
+    if (this.run) window.clearTimeout(this.run.timer)
     this.element.innerHTML = `
       <div class="livecode-head">
         <h2>${esc(t('web_live_title'))}</h2>
@@ -156,16 +163,20 @@ export class LiveCodePanel {
       <pre class="code-view livecode-view" tabindex="0" dir="ltr"></pre>
       <div class="code-view livecode-editor" dir="ltr"></div>
       <p class="livecode-problem" role="status" aria-live="polite"></p>
-      <section class="livecode-console" hidden>
-        <h3>${esc(t('simulation_output'))}</h3>
-        <div class="livecode-console-lines mono" dir="ltr" aria-live="polite"></div>
-        <form class="livecode-console-input" hidden>
-          <label><span></span><input autocomplete="off" /></label>
-          <button type="submit">${esc(t('simulation_input_submit'))}</button>
-          <p class="livecode-console-error"></p>
-        </form>
-        <p class="livecode-console-notice" role="status"></p>
-      </section>
+    `
+    // Die Konsole liegt unten über die volle Breite (siehe App), gehört aber zum Ausführen hier.
+    this.consoleElement.innerHTML = `
+      <div class="console-head">
+        <h2>${esc(t('web_console'))}</h2>
+        <button class="console-hide" title="${esc(t('web_console_hide'))}" aria-label="${esc(t('web_console_hide'))}">▾</button>
+      </div>
+      <div class="livecode-console-lines mono" dir="ltr" aria-live="polite"></div>
+      <form class="livecode-console-input" hidden>
+        <label><span></span><input autocomplete="off" /></label>
+        <button type="submit">${esc(t('simulation_input_submit'))}</button>
+        <p class="livecode-console-error"></p>
+      </form>
+      <p class="livecode-console-notice" role="status"></p>
     `
     this.view = this.element.querySelector('.livecode-view')!
     this.editor = this.element.querySelector('.livecode-editor')!
@@ -174,10 +185,11 @@ export class LiveCodePanel {
     this.element.querySelector('.learn-hide')!.addEventListener('click', () => this.onHide())
     this.runButton = this.element.querySelector('[data-run=play]')!
     this.stopButton = this.element.querySelector('[data-run=stop]')!
-    this.console = this.element.querySelector('.livecode-console')!
-    this.consoleLines = this.element.querySelector('.livecode-console-lines')!
-    this.consoleForm = this.element.querySelector('.livecode-console-input')!
-    this.consoleNotice = this.element.querySelector('.livecode-console-notice')!
+    const c = this.consoleElement
+    this.consoleLines = c.querySelector('.livecode-console-lines')!
+    this.consoleForm = c.querySelector('.livecode-console-input')!
+    this.consoleNotice = c.querySelector('.livecode-console-notice')!
+    c.querySelector('.console-hide')!.addEventListener('click', () => this.hideConsole())
     this.runButton.addEventListener('click', () => this.startRun())
     this.stopButton.addEventListener('click', () => this.stopRun(true))
     this.consoleForm.addEventListener('submit', (e) => {
@@ -291,7 +303,7 @@ export class LiveCodePanel {
     if (!this.last) return
     this.stopRun(false)
     this.run = { engine: new SimulationEngine(this.last.doc, this.last.context.resolve), printed: 0 }
-    this.console.hidden = false
+    this.setConsoleVisible(true)
     this.consoleLines.replaceChildren()
     this.consoleNotice.textContent = ''
     this.consoleNotice.classList.remove('error')
@@ -378,6 +390,18 @@ export class LiveCodePanel {
     this.consoleNotice.classList.toggle('error', error)
     this.run = undefined
     this.setRunning(false)
+  }
+
+  /** Konsole schließen; ein laufendes Programm hält dabei an. */
+  hideConsole() {
+    this.stopRun(false)
+    this.setConsoleVisible(false)
+  }
+
+  private setConsoleVisible(on: boolean) {
+    if (this.consoleElement.hidden === !on) return
+    this.consoleElement.hidden = !on
+    this.onConsole(on)
   }
 
   private setRunning(on: boolean) {

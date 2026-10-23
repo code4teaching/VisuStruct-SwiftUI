@@ -80,3 +80,6 @@
 "web_live_run_title" = "執行程式：輸出與輸入顯示在下方";
 "web_live_run_finished" = "程式已結束。";
 "web_live_run_stopped" = "已停止。";
+"web_console" = "主控台";
+"web_console_hide" = "隱藏主控台";
+"web_console_resize" = "調整主控台高度";

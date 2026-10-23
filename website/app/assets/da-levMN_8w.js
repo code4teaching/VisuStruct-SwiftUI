@@ -80,4 +80,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_live_run_title" = "Kør programmet: output og input vises nedenfor";
 "web_live_run_finished" = "Programmet er færdigt.";
 "web_live_run_stopped" = "Stoppet.";
+"web_console" = "Konsol";
+"web_console_hide" = "Skjul konsollen";
+"web_console_resize" = "Ændr konsollens højde";
 `;export{e as default};

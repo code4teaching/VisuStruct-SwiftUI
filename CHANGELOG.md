@@ -8,7 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
-- **Web, Code live:** ▶ Run and ■ Stop buttons run the program (via the simulation engine, at full speed). Output and input appear in a console below the code; errors and endless loops can be stopped.
+- **Web, Code live:** ▶ Run and ■ Stop buttons run the program (via the simulation engine, at full speed). Output and input appear in a console at the bottom across all columns, resizable with a draggable divider; endless loops can be stopped.
 - **Web:** “About VisuStruct” button in the settings menu (gear), with the web app’s version number (from `web/package.json`), author, links and file format.
 - **Web, Code live:** Java can be shown as a snippet, with a `main` method, as a class, or both (settings menu). The class name is the diagram title – typing `public class Name` in the code renames the diagram.
 - **Web, Code live:** the Java column is now a real code editor (CodeMirror 6, MIT): coloured syntax, bracket matching, automatic indentation and suggestions while typing – templates for `if`, `if … else`, `for`, `while`, `do … while`, `switch`, output and input with grey placeholders, plus the variables of your own code.

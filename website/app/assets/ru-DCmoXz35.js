@@ -80,4 +80,7 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_live_run_title" = "Запустить программу: вывод и ввод появятся ниже";
 "web_live_run_finished" = "Программа завершена.";
 "web_live_run_stopped" = "Остановлено.";
+"web_console" = "Консоль";
+"web_console_hide" = "Скрыть консоль";
+"web_console_resize" = "Изменить высоту консоли";
 `;export{e as default};

@@ -80,3 +80,6 @@
 "web_live_run_title" = "Kör programmet: utdata och indata visas nedanför";
 "web_live_run_finished" = "Programmet är klart.";
 "web_live_run_stopped" = "Stoppat.";
+"web_console" = "Konsol";
+"web_console_hide" = "Dölj konsolen";
+"web_console_resize" = "Ändra konsolens höjd";

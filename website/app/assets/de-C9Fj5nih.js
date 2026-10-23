@@ -137,4 +137,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_run_title" = "Programm ausführen: Ausgaben und Eingaben erscheinen darunter";
 "web_live_run_finished" = "Programm beendet.";
 "web_live_run_stopped" = "Gestoppt.";
+"web_console" = "Konsole";
+"web_console_hide" = "Konsole ausblenden";
+"web_console_resize" = "Höhe der Konsole ändern";
 `;export{e as default};

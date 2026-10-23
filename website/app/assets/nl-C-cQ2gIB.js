@@ -80,4 +80,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_live_run_title" = "Programma uitvoeren: uitvoer en invoer verschijnen eronder";
 "web_live_run_finished" = "Programma klaar.";
 "web_live_run_stopped" = "Gestopt.";
+"web_console" = "Console";
+"web_console_hide" = "Console verbergen";
+"web_console_resize" = "Hoogte van de console wijzigen";
 `;export{e as default};
