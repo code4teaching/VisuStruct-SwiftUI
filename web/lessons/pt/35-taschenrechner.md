@@ -126,6 +126,93 @@ Cada ouvinte lê os mesmos dois campos. Podes passar esta repetição para um m�
 No ouvinte basta então escrever `resultado.setText("" + (numero(campo1) + numero(campo2)));`.
 :::
 
+## Jogo: O que mostra a calculadora?
+
+::: spiel frage
+titel: Jogo: O que mostra a calculadora?
+intro: O Ludwig andou a mexer na calculadora. Lê o ouvinte e prevê o que aparece no resultado. Seis rondas.
+
+runde:
+    mais.addActionListener(e -> {
+        int a = Integer.parseInt(campo1.getText());
+        int b = Integer.parseInt(campo2.getText());
+        resultado.setText("" + a + b);
+    });
+frage: Escreves 3 e 4 e clicas em +. O que aparece no resultado?
+- 7
+- [x] 34
+- 12
+> Sem parênteses, o Java trabalha da esquerda para a direita: `"" + 3` é o texto "3", e `+ 4` junta o 4 no fim.
+
+runde:
+    vezes.addActionListener(e -> {
+        int a = Integer.parseInt(campo1.getText());
+        int b = Integer.parseInt(campo2.getText());
+        resultado.setText("" + a * b);
+    });
+frage: Escreves 3 e 4 e clicas em *. O que aparece no resultado?
+- 34
+- [x] 12
+- 7
+> A multiplicação vem antes da soma também aqui: o Java calcula primeiro 3 * 4 e depois junta o 12 ao texto. O mais não tem esta prioridade, por isso precisa dos parênteses.
+
+runde:
+    dividir.addActionListener(e -> {
+        int a = Integer.parseInt(campo1.getText());
+        int b = Integer.parseInt(campo2.getText());
+        resultado.setText("" + (a / b));
+    });
+frage: Escreves 7 e 2 e clicas em /. O que aparece no resultado?
+- 3.5
+- [x] 3
+- 4
+> Com `int`, o Java corta as casas decimais. Não arredonda.
+
+runde:
+    dividir.addActionListener(e -> {
+        int a = Integer.parseInt(campo1.getText());
+        int b = Integer.parseInt(campo2.getText());
+        try {
+            resultado.setText("" + (a / b));
+        } catch (ArithmeticException erro) {
+            resultado.setText("Não se divide por 0!");
+        }
+    });
+frage: Escreves 8 e 0 e clicas em /. O que aparece no resultado?
+- 0
+- [x] Não se divide por 0!
+- Infinity
+> Com `int`, dividir por 0 lança uma ArithmeticException, e o `catch` escreve o aviso.
+
+runde:
+    dividir.addActionListener(e -> {
+        double a = Double.parseDouble(campo1.getText());
+        double b = Double.parseDouble(campo2.getText());
+        resultado.setText("" + (a / b));
+    });
+frage: Escreves 7 e 2 e clicas em /. O que aparece no resultado?
+- 3
+- [x] 3.5
+- 3.0
+> Com `double`, as casas decimais ficam.
+
+runde:
+    dividir.addActionListener(e -> {
+        double a = Double.parseDouble(campo1.getText());
+        double b = Double.parseDouble(campo2.getText());
+        try {
+            resultado.setText("" + (a / b));
+        } catch (ArithmeticException erro) {
+            resultado.setText("Não se divide por 0!");
+        }
+    });
+frage: Escreves 8 e 0 e clicas em /. O que aparece no resultado?
+- Não se divide por 0!
+- [x] Infinity
+- 0.0
+> Com `double` não há exceção. O resultado é `Infinity`, ou seja "infinito", e o `catch` nunca chega a entrar.
+:::
+
 ## Tarefa: calculadora
 
 Acaba a calculadora:
