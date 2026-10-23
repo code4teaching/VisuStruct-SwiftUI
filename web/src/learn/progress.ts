@@ -1,4 +1,4 @@
-/** Fortschritt im Lernbereich, nur in diesem Browser (wie bei PicoJavaGoat). */
+/** Fortschritt im Lernbereich: im Browser und, wenn eingerichtet, als `lernstand.json` im Workspace. */
 
 export interface LessonProgress {
   step: number
@@ -73,6 +73,7 @@ function load(): Store {
 }
 
 let store = load()
+const listeners = new Set<() => void>()
 
 function save() {
   try {
@@ -80,6 +81,38 @@ function save() {
   } catch {
     /* nur für diese Sitzung */
   }
+  for (const f of listeners) f()
+}
+
+/** Kennung der Lernstand-Datei, damit eine fremde JSON-Datei nicht eingelesen wird. */
+export const progressFormat = 'visustruct-lernstand'
+
+function or(a?: boolean, b?: boolean): boolean | undefined {
+  return a || b || undefined
+}
+
+function mergeLesson(mine: LessonProgress | undefined, theirs: LessonProgress): LessonProgress {
+  if (!mine) return theirs
+  const checks = { ...theirs.checks }
+  for (const [k, v] of Object.entries(mine.checks ?? {})) checks[k] = v || !!checks[k]
+  return {
+    step: Math.max(mine.step ?? 0, theirs.step ?? 0),
+    done: or(mine.done, theirs.done),
+    checks: Object.keys(checks).length ? checks : undefined,
+    quiz: mine.quiz || theirs.quiz ? { ...theirs.quiz, ...mine.quiz } : undefined,
+  }
+}
+
+/** Zwei Stände zusammenführen: erledigt bleibt erledigt, der weiteste Schritt zählt, eigene Diagramme gehen vor. */
+export function mergeProgress(mine: Pick<Store, 'lessons' | 'exercises'>, theirs: Pick<Store, 'lessons' | 'exercises'>) {
+  const lessons = { ...mine.lessons }
+  for (const [id, l] of Object.entries(theirs.lessons)) lessons[id] = mergeLesson(mine.lessons[id], l)
+  const exercises = { ...mine.exercises }
+  for (const [id, e] of Object.entries(theirs.exercises)) {
+    const m = mine.exercises[id]
+    exercises[id] = m ? { done: or(m.done, e.done), xml: m.xml ?? e.xml } : e
+  }
+  return { lessons, exercises }
 }
 
 export const progress = {
@@ -107,6 +140,31 @@ export const progress = {
   setView(view: Store['view']) {
     store.view = view
     save()
+  },
+  /** Bei jeder Änderung, z. B. um die Datei im Workspace nachzuziehen. */
+  onChange(f: () => void): () => void {
+    listeners.add(f)
+    return () => listeners.delete(f)
+  },
+  /** Inhalt von `lernstand.json`. */
+  toFile(): string {
+    return JSON.stringify({ format: progressFormat, version: 1, saved: new Date().toISOString(), lessons: store.lessons, exercises: store.exercises }, null, 2)
+  },
+  /** `lernstand.json` einlesen und mit dem Stand im Browser zusammenführen. Falsche Dateien bleiben unbeachtet. */
+  mergeFile(text: string): boolean {
+    let data: Partial<Store> & { format?: string }
+    try {
+      data = JSON.parse(text) as typeof data
+    } catch {
+      return false
+    }
+    if (data?.format !== progressFormat) return false
+    const theirs = migrate({ lessons: data.lessons ?? {}, exercises: data.exercises ?? {} })
+    const merged = mergeProgress(store, theirs)
+    const changed = JSON.stringify(merged) !== JSON.stringify({ lessons: store.lessons, exercises: store.exercises })
+    store = { ...store, ...merged }
+    if (changed) save()
+    return changed
   },
   /** Für Tests. */
   reload() {

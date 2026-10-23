@@ -29,6 +29,8 @@ To the left of the learning area you find the [📁 Files](#zeige-dateien) colum
 
 Clicking a program in the column opens it again. That way you quickly find every lesson later.
 
+Your **learning progress** goes into the workspace too: the file `lernstand.json` lists the lessons and exercises you have finished. If you open the workspace in another browser, your progress is back.
+
 > Browser storage only stays in this browser on this device. A real folder on your computer is safer, because you can also back it up and pass it on.
 
 ## Several diagrams in tabs
