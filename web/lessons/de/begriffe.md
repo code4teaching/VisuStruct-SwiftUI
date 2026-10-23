@@ -174,3 +174,7 @@ Eine Art Vertrag in Java: Er legt fest, welche Methoden eine Klasse haben muss. 
 ### Exception
 auch: Exceptions
 Ein Fehler, der erst beim Ausführen auftritt, zum Beispiel ein Index außerhalb des Arrays. Fängt ihn kein `catch` auf, bricht das Programm ab.
+
+### Attribut
+auch: Attribute, Attributs
+Eine Variable, die direkt in der Klasse steht und nicht in einer Methode. Mit `static` gehört sie zur Klasse selbst und lebt so lange wie das Programm, zum Beispiel ein Klickzähler, den mehrere Zuhörer ändern.

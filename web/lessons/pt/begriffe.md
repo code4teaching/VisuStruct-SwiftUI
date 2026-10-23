@@ -183,3 +183,7 @@ Uma espécie de contrato em Java: diz que métodos uma classe tem de ter. `Actio
 ### Exceção
 auch: exceção, exceções, Exceções, Exception, Exceptions
 Um erro que só acontece durante a execução, por exemplo um índice fora do array. Se nenhum `catch` a apanhar, o programa termina.
+
+### Atributo
+auch: atributo, atributos, Atributos
+Uma variável que está diretamente na classe e não dentro de um método. Com `static` pertence à própria classe e vive tanto tempo como o programa, por exemplo um contador de cliques que vários ouvintes alteram.
