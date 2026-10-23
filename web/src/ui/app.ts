@@ -252,6 +252,7 @@ export class App {
   private files!: FilesPanel
   private filesRailButton?: HTMLButtonElement
   private closeSettings?: (ev: PointerEvent) => void
+  private escapeSettings?: (ev: KeyboardEvent) => void
   private exerciseSaveTimer?: number
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
@@ -372,32 +373,48 @@ export class App {
         <div class="group settings">
           <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
-            <label>${e(t('settings_ui_scale_section'))}
-              <select data-action="zoom">${zoomSteps.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
-            </label>
-            <label>${e(t('settings_language_title'))}
-              <select data-action="language" title="${e(t('web_language_title'))}">${offeredLanguages
-                .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
-                .join('')}</select>
-            </label>
-            <label>${e(t('web_live_language'))}
-              <select data-action="live-language">${['Java', 'JavaScript', 'Python']
-                .map((name) => `<option value="${name.toLowerCase()}">${name}</option>`)
-                .join('')}</select>
-            </label>
-            <label class="check java-only">
-              <input type="checkbox" data-action="java-class" />
-              <span>${e(t('web_live_java_class'))}<small>${e(t('web_live_java_class_hint'))}</small></span>
-            </label>
-            <label class="check java-only">
-              <input type="checkbox" data-action="java-main" />
-              <span>${e(t('web_live_java_main'))}<small>public static void main(String[] args)</small></span>
-            </label>
-            <label class="check">
-              <input type="checkbox" data-action="keywords" />
-              <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
-            </label>
-            <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
+            <section>
+              <h3>${e(t('web_settings_display'))}</h3>
+              <label>${e(t('settings_ui_scale_section'))}
+                <select data-action="zoom">${zoomSteps.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
+              </label>
+              <label>${e(t('settings_language_title'))}
+                <select data-action="language" title="${e(t('web_language_title'))}">${offeredLanguages
+                  .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
+                  .join('')}</select>
+              </label>
+            </section>
+            <section>
+              <h3>${e(t('web_live_title'))}</h3>
+              <label>${e(t('web_live_language'))}
+                <select data-action="live-language">${['Java', 'JavaScript', 'Python']
+                  .map((name) => `<option value="${name.toLowerCase()}">${name}</option>`)
+                  .join('')}</select>
+              </label>
+              <label class="check">
+                <input type="checkbox" data-action="keywords" />
+                <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
+              </label>
+            </section>
+            <section class="java-only">
+              <h3>Java</h3>
+              <label class="check">
+                <input type="checkbox" data-action="java-class" />
+                <span>${e(t('web_live_java_class'))}<small>${e(t('web_live_java_class_hint'))}</small></span>
+              </label>
+              <label class="check">
+                <input type="checkbox" data-action="java-main" />
+                <span>${e(t('web_live_java_main'))}<small>public static void main(String[] args)</small></span>
+              </label>
+              <label class="check">
+                <input type="checkbox" data-action="java-swing" />
+                <span>${e(t('web_live_swing'))}<small>${e(t('web_live_swing_hint'))}</small></span>
+              </label>
+            </section>
+            <footer>
+              <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
+              <span class="settings-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</span>
+            </footer>
           </div>
         </div>
       </header>
@@ -533,10 +550,14 @@ export class App {
     liveLanguage.value = this.live.language
     const javaClass = $<HTMLInputElement>('[data-action=java-class]')
     const javaMain = $<HTMLInputElement>('[data-action=java-main]')
+    const javaSwing = $<HTMLInputElement>('[data-action=java-swing]')
+    javaSwing.checked = this.live.swingSupport
+    javaSwing.addEventListener('change', () => this.live.setSwingSupport(javaSwing.checked))
     const showJavaForm = () => {
       javaClass.checked = this.live.javaForm.asClass
       javaMain.checked = this.live.javaForm.withMain
-      for (const box of [javaClass, javaMain]) box.disabled = this.live.language !== 'java'
+      // Die Java-Einstellungen nur zeigen, wenn Java gewählt ist.
+      $<HTMLElement>('.settings-menu .java-only').hidden = this.live.language !== 'java'
     }
     showJavaForm()
     liveLanguage.addEventListener('change', () => {
@@ -776,15 +797,18 @@ export class App {
     button.addEventListener('click', () => show(menu.hidden))
     // Nach einem Sprachwechsel wird die Leiste neu gebaut: alten Zuhörer entfernen.
     if (this.closeSettings) document.removeEventListener('pointerdown', this.closeSettings)
+    if (this.escapeSettings) document.removeEventListener('keydown', this.escapeSettings)
     this.closeSettings = (ev: PointerEvent) => {
       if (!menu.hidden && !button.parentElement!.contains(ev.target as Node)) show(false)
     }
     document.addEventListener('pointerdown', this.closeSettings)
-    menu.addEventListener('keydown', (ev) => {
-      if (ev.key !== 'Escape') return
+    // Am Dokument statt am Menü: Safari gibt einem angeklickten Haken keinen Fokus.
+    this.escapeSettings = (ev: KeyboardEvent) => {
+      if (ev.key !== 'Escape' || menu.hidden) return
       show(false)
       button.focus()
-    })
+    }
+    document.addEventListener('keydown', this.escapeSettings)
   }
 
   private learnRail(): HTMLElement {

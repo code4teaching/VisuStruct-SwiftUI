@@ -15,6 +15,7 @@ import { gridTable, noticeText, type ConsoleTranscript } from './simulationPanel
 import { JavaEditor, type SnippetWords } from './javaEditor'
 import { icons } from './icons'
 import { sidebarIcon } from './learnPanel'
+import { closeWindows, compileAndRun, prepareJava } from './javaRuntime'
 
 /**
  * Ansicht „Code live“: rechts neben dem Struktogramm der Java-, JavaScript- oder Python-Code, der bei jeder Änderung mitwächst.
@@ -24,6 +25,7 @@ import { sidebarIcon } from './learnPanel'
 const targetKey = 'visustruct.live.target'
 const javaClassKey = 'visustruct.live.javaClass'
 const javaMainKey = 'visustruct.live.javaMain'
+const swingKey = 'visustruct.live.swing'
 const consoleHeightKey = 'visustruct.console.height'
 
 function storedFlag(key: string): boolean {
@@ -146,6 +148,11 @@ export class LiveCodePanel {
   /** Zeile, die als Nächstes ausgeführt wird (gelb), solange der Debugger anhält. */
   private debugLine?: number
   private breakpoints = new Set<number>()
+  /** Swing-Unterstützung (Zahnrad-Menü): Java läuft dann als echtes Java mit CheerpJ. */
+  private swing = storedFlag(swingKey)
+  /** Fläche für die Swing-Fenster; bleibt über `build()` hinweg bestehen, weil CheerpJ sie einmal übernimmt. */
+  private swingElement: HTMLElement
+  private swingDisplay: HTMLElement
   private runButton!: HTMLButtonElement
   private stepButton!: HTMLButtonElement
   private stopButton!: HTMLButtonElement
@@ -172,6 +179,11 @@ export class LiveCodePanel {
     this.consoleElement.className = 'console'
     this.consoleElement.hidden = true
     this.consoleResizer = this.makeConsoleResizer()
+    this.swingElement = document.createElement('section')
+    this.swingElement.className = 'console livecode-swing'
+    this.swingElement.hidden = true
+    this.swingDisplay = document.createElement('div')
+    this.swingDisplay.className = 'livecode-swing-display'
     this.build()
   }
 
@@ -231,9 +243,20 @@ export class LiveCodePanel {
     this.stopButton = this.element.querySelector('[data-run=stop]')!
     this.debugPanel = this.element.querySelector('.livecode-debug')!
     this.debugVars = this.element.querySelector('.livecode-vars')!
+    this.swingElement.innerHTML = `
+      <div class="console-head">
+        <h2>${esc(t('web_live_swing_windows'))}</h2>
+        <button class="console-hide" title="${esc(t('web_live_swing_hide'))}" aria-label="${esc(t('web_live_swing_hide'))}">▾</button>
+      </div>
+    `
+    this.swingElement.append(this.swingDisplay)
+    this.swingElement.querySelector('.console-hide')!.addEventListener('click', () => {
+      this.swingElement.hidden = true
+      void closeWindows()
+    })
     const c = this.consoleElement
     this.consoleResizer.title = t('web_console_resize')
-    this.element.append(this.consoleResizer, c)
+    this.element.append(this.swingElement, this.consoleResizer, c)
     this.consoleLines = c.querySelector('.livecode-console-lines')!
     this.consoleForm = c.querySelector('.livecode-console-input')!
     this.consoleNotice = c.querySelector('.livecode-console-notice')!
@@ -314,6 +337,21 @@ export class LiveCodePanel {
     if (this.last) this.refresh(this.last.doc, this.last.highlight, this.last.context)
   }
 
+  /** Swing-Unterstützung (Zahnrad-Menü): erst beim nächsten Ausführen wird Java geladen. */
+  get swingSupport(): boolean {
+    return this.swing
+  }
+
+  setSwingSupport(on: boolean) {
+    this.swing = on
+    try {
+      localStorage.setItem(swingKey, on ? '1' : '0')
+    } catch {
+      /* ohne Speicher: nur für diese Sitzung */
+    }
+    if (!on) this.swingElement.hidden = true
+  }
+
   /** Programmiersprache (im Zahnrad-Menü). */
   get language(): LiveTarget {
     return this.target
@@ -378,6 +416,8 @@ export class LiveCodePanel {
    * Es hält an Haltepunkten an; `stepping`: gleich vor der ersten Zeile anhalten (Einzelschritt).
    */
   private startRun(stepping: boolean) {
+    // Debuggen geht nur mit der Simulation; ohne Haltepunkt und Einzelschritt läuft Swing-Code als echtes Java.
+    if (this.swing && this.target === 'java' && !stepping && this.code.breakpoints.size === 0) return void this.startJavaRun()
     if (!this.last) return
     this.stopRun(false)
     this.run = {
@@ -397,6 +437,34 @@ export class LiveCodePanel {
     this.setRunning(true)
     if (stepping) this.pause()
     else this.continueRun(false)
+  }
+
+  /** Mit Swing-Unterstützung: den getippten Java-Code mit javac übersetzen und als echtes Java starten. */
+  private async startJavaRun() {
+    this.stopRun(false)
+    this.setConsoleVisible(true)
+    this.consoleLines.replaceChildren()
+    // CheerpJ schreibt System.out in das Element mit dieser id.
+    this.consoleLines.id = 'console'
+    this.consoleForm.hidden = true
+    this.consoleNotice.classList.remove('error')
+    this.runButton.disabled = this.stepButton.disabled = true
+    try {
+      this.consoleNotice.textContent = t('web_live_swing_loading')
+      await prepareJava(this.swingDisplay)
+      this.consoleNotice.textContent = t('web_live_swing_compiling')
+      const result = await compileAndRun(this.code.text, () => (this.swingElement.hidden = false))
+      this.consoleNotice.textContent = t(
+        { 'compile-error': 'web_live_swing_compile_failed', windows: 'web_live_swing_running', finished: 'web_live_run_finished' }[result],
+      )
+      this.consoleNotice.classList.toggle('error', result === 'compile-error')
+      // Ohne offenes Fenster braucht es die Fensterfläche nicht.
+      this.swingElement.hidden = result !== 'windows'
+    } catch {
+      this.consoleNotice.textContent = t('web_live_swing_failed')
+      this.consoleNotice.classList.add('error')
+    }
+    this.runButton.disabled = this.stepButton.disabled = false
   }
 
   /** `fromPause`: Der erste Schritt läuft auch auf einem Haltepunkt, sonst bliebe „Weiter“ dort stehen. */

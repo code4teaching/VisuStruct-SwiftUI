@@ -60,6 +60,16 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_live_java_class" = "Як клас";
 "web_live_java_class_hint" = "Назва класу = заголовок діаграми";
 "web_live_java_main" = "З методом main";
+"web_settings_display" = "Вигляд";
+"web_live_swing" = "Підтримка Swing";
+"web_live_swing_hint" = "Справжня Java з вікнами (CheerpJ). Під час першого запуску одноразово завантажує близько 40 МБ.";
+"web_live_swing_windows" = "Вікна Java";
+"web_live_swing_hide" = "Закрити вікна Java";
+"web_live_swing_loading" = "Завантаження Java (уперше близько 40 МБ) …";
+"web_live_swing_compiling" = "Компіляція …";
+"web_live_swing_running" = "Програма виконується.";
+"web_live_swing_compile_failed" = "Помилка компіляції, див. вище.";
+"web_live_swing_failed" = "Не вдалося завантажити Java. Перевір підключення до інтернету.";
 "web_live_hint_edit" = "Набери тут код Java, і діаграма будується сама. Або працюй у діаграмі, і код росте разом із нею. Сірий = заповнювач, просто пиши поверх.";
 "web_live_edit_label" = "Код Java";
 "web_parse_line_fmt" = "Рядок %d: %@";
