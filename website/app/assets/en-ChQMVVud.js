@@ -105,4 +105,13 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_site_home" = "Home page";
 "web_site_imprint" = "Imprint";
 "web_site_privacy" = "Privacy";
+
+/* Code live */
+"web_live_title" = "Live code";
+"web_live_toggle_title" = "Show code live next to the diagram";
+"web_live_hide" = "Hide live code";
+"web_live_resize" = "Change width of the code area (double-click: reset)";
+"web_live_hint" = "The code grows with your diagram. Grey = placeholder: type in the object inspector and your text appears there. Click a line to select its element.";
+"web_live_ph_selector" = "variable";
+"web_live_ph_code" = "Your code";
 `;export{e as default};

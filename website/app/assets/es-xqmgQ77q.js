@@ -47,4 +47,13 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_site_home" = "Página de inicio";
 "web_site_imprint" = "Aviso legal";
 "web_site_privacy" = "Privacidad";
+
+/* Code live */
+"web_live_title" = "Código en vivo";
+"web_live_toggle_title" = "Mostrar el código en vivo junto al diagrama";
+"web_live_hide" = "Ocultar código en vivo";
+"web_live_resize" = "Cambiar el ancho del área de código (doble clic: restablecer)";
+"web_live_hint" = "El código crece con tu diagrama. Gris = marcador: escribe en el inspector y tu texto aparecerá ahí. Haz clic en una línea para seleccionar su elemento.";
+"web_live_ph_selector" = "variable";
+"web_live_ph_code" = "Tu código";
 `;export{e as default};

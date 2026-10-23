@@ -1227,13 +1227,123 @@ button[data-action='learn'][aria-pressed='true'] {
     width: 300px;
   }
 }
+/* Code live: rechts neben dem Editor, wächst bei jeder Änderung mit */
+.livecode {
+  display: none;
+  flex: none;
+  width: 420px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px 12px;
+  background: var(--panel);
+  border-inline-start: 1px solid var(--border);
+  min-height: 0;
+}
+.shell.live .livecode {
+  display: flex;
+}
+.livecode-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.livecode-head h2 {
+  margin: 0;
+  font-size: 16px;
+}
+.livecode-head .segmented {
+  margin: 0 0 0 auto;
+}
+.livecode-head .segmented button {
+  min-height: 28px;
+  padding: 2px 10px;
+}
+/* Seitenleisten-Symbol gespiegelt: der Bereich liegt rechts. */
+.livecode .learn-hide svg {
+  transform: scaleX(-1);
+}
+.livecode .hint {
+  margin: 0;
+}
+.livecode-view {
+  flex: 1;
+  min-height: 0;
+  padding: 10px 0;
+  font-size: 14px;
+}
+.livecode-view .ln {
+  padding: 0 12px;
+  min-height: 1.5em;
+  border-inline-start: 3px solid transparent;
+}
+.livecode-view.selectable .ln {
+  cursor: pointer;
+}
+.livecode-view .ln.sel {
+  background: var(--accent-soft);
+  border-inline-start-color: var(--accent);
+}
+.livecode-view .ph {
+  color: var(--muted);
+  font-style: italic;
+}
+.live-resizer {
+  display: none;
+  flex: none;
+  width: 10px;
+  margin-inline: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.shell.live .live-resizer {
+  display: block;
+}
+.live-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.live-resizer:hover::after,
+.live-resizer:focus-visible::after,
+.shell.resizing .live-resizer::after {
+  background: var(--accent);
+}
+.live-resizer:focus-visible {
+  outline: none;
+}
+button[data-action='live'][aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+@media (max-width: 1100px) {
+  .livecode {
+    width: 340px;
+  }
+}
+
 /* Erst auf dem Handy untereinander; auf dem iPad hochkant bleibt der Lernbereich daneben. */
 @media (max-width: 700px) {
-  .shell.learning .learn-resizer {
+  .shell.learning .learn-resizer,
+  .shell.live .live-resizer {
     display: none;
   }
-  .shell .learn {
+  .shell .learn,
+  .shell .livecode {
     width: auto !important;
+  }
+  .livecode {
+    height: 40vh;
+    height: 40dvh;
+    border-inline-start: none;
+    border-top: 1px solid var(--border);
   }
   .learn-rail {
     flex-direction: row;

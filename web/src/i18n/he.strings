@@ -47,3 +47,12 @@
 "web_site_home" = "דף הבית";
 "web_site_imprint" = "פרטי המפרסם";
 "web_site_privacy" = "פרטיות";
+
+/* Code live */
+"web_live_title" = "קוד חי";
+"web_live_toggle_title" = "הצגת קוד בזמן אמת ליד התרשים";
+"web_live_hide" = "הסתרת קוד חי";
+"web_live_resize" = "שינוי רוחב אזור הקוד (לחיצה כפולה: איפוס)";
+"web_live_hint" = "הקוד גדל יחד עם התרשים. אפור = ממלא מקום: כתבו במפקח והטקסט יופיע כאן. לחצו על שורה כדי לבחור את הרכיב.";
+"web_live_ph_selector" = "משתנה";
+"web_live_ph_code" = "הקוד שלך";

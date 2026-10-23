@@ -47,4 +47,13 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_site_home" = "Forside";
 "web_site_imprint" = "Kolofon";
 "web_site_privacy" = "Privatliv";
+
+/* Code live */
+"web_live_title" = "Live-kode";
+"web_live_toggle_title" = "Vis kode live ved siden af diagrammet";
+"web_live_hide" = "Skjul live-kode";
+"web_live_resize" = "Skift kodeområdets bredde (dobbeltklik: nulstil)";
+"web_live_hint" = "Koden vokser med dit diagram. Gråt = pladsholder: skriv i inspektøren, så vises teksten her. Klik på en linje for at vælge elementet.";
+"web_live_ph_selector" = "variabel";
+"web_live_ph_code" = "Din kode";
 `;export{e as default};

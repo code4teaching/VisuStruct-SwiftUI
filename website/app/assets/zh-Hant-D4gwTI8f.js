@@ -47,4 +47,13 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_site_home" = "首頁";
 "web_site_imprint" = "版權資訊";
 "web_site_privacy" = "隱私";
+
+/* Code live */
+"web_live_title" = "即時程式碼";
+"web_live_toggle_title" = "在圖旁即時顯示程式碼";
+"web_live_hide" = "隱藏即時程式碼";
+"web_live_resize" = "變更程式碼區寬度（按兩下：重設）";
+"web_live_hint" = "程式碼會隨圖一起產生。灰色 = 預留位置：在檢閱器中輸入，文字就會出現在這裡。點一下某行可選取對應元素。";
+"web_live_ph_selector" = "變數";
+"web_live_ph_code" = "你的程式碼";
 `;export{e as default};
