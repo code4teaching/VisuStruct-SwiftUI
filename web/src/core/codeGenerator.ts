@@ -1128,7 +1128,10 @@ function emitElement(element: VSElement, target: CodeTarget, options: CodeOption
         }
       } else {
         commentIfWanted()
-        sink.out += sp(indent) + 'for (' + javaScriptForLoopHeaderText(element.textLines) + ') {\n'
+        const head = options.live
+          ? liveJavaScriptForLoopHeaderText(element.textLines, options.live.labels)
+          : javaScriptForLoopHeaderText(element.textLines)
+        sink.out += sp(indent) + 'for (' + head + ') {\n'
       }
       body(element.loopBody ?? [], indent + step)
       if (!py) sink.out += sp(indent) + '}\n'
@@ -1197,7 +1200,7 @@ export interface LiveSpan {
 }
 
 export interface LiveCode {
-  /** Java mit Platzhalter-Markierungen (`livePlaceholderStart` … `livePlaceholderEnd`). */
+  /** Code mit Platzhalter-Markierungen (`livePlaceholderStart` … `livePlaceholderEnd`). */
   text: string
   spans: LiveSpan[]
 }
@@ -1226,6 +1229,14 @@ function liveForLoopHeaderText(lines: string[], labels: LiveLabels): string {
   return cStyleForLoopHeaderText(lines)
 }
 
+/** Wie `javaScriptForLoopHeaderText`: `int i = 0` wird zu `let i = 0`, Platzhalter bleiben. */
+function liveJavaScriptForLoopHeaderText(lines: string[], labels: LiveLabels): string {
+  const parts = liveForLoopHeaderText(lines, labels).split(';')
+  const translated = parts[0].includes(livePlaceholderStart) ? undefined : javaScriptForInitializerFromJavaTypedDeclaration(parts[0])
+  if (translated !== undefined) parts[0] = translated
+  return parts.join(';')
+}
+
 /** Pfade wie in `editing.ts`: `[i, Zweig, j, …]`, Schleifenrumpf = Zweig 0. */
 function elementPaths(elements: VSElement[], prefix: number[] = [], out = new Map<VSElement, number[]>()) {
   elements.forEach((e, i) => {
@@ -1245,26 +1256,39 @@ function recordLiveSpan(options: CodeOptions, element: VSElement, sink: Sink, st
   live.spans.push({ path, from: lineAt(start), to: lineAt(sink.out.length - 1) })
 }
 
+/** Zielsprachen der Ansicht „Code live“ (Python folgt). */
+export type LiveTarget = 'java' | 'javascript'
+
 /**
- * Java für die Ansicht „Code live“: wie das Code-Snippet, aber für Anfänger lesbar, solange noch etwas fehlt
+ * Code für die Ansicht „Code live“: wie das Code-Snippet, aber für Anfänger lesbar, solange noch etwas fehlt
  * (leere Anweisung `;`, `if (Bedingung)`, `// Dein Code` in leeren Blöcken), und mit den Zeilen jedes Elements.
  */
-export function generateLiveJava(document: VSDocument, labels: LiveLabels): LiveCode {
+export function generateLiveCode(document: VSDocument, target: LiveTarget, labels: LiveLabels): LiveCode {
   const live: LiveContext = { labels, paths: elementPaths(document.elements), spans: [] }
-  const opts = documentOptions(document, 'java', { includeEmptyElseBranch: true, live })
-  let prelude = ''
-  if (documentContainsJavaInput(document)) prelude += '// import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
+  const opts = documentOptions(document, target, { includeEmptyElseBranch: true, live })
   const header = parseSubprogramHeader(document.caption)
-  if (header) prelude += javaMethodHeader(header) + '\n'
+  let prelude = ''
+  if (target === 'java') {
+    if (documentContainsJavaInput(document)) prelude += '// import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
+    if (header) prelude += javaMethodHeader(header) + '\n'
+  } else {
+    prelude += '"use strict";\n\n'
+    if (header) {
+      for (const p of header.params) if (!p.dims && p.type === 'int') opts.jsIntVariables!.add(p.name)
+      prelude += `function ${header.name}(${header.params.map((p) => p.name).join(', ')}) {\n`
+    }
+  }
   const sink = { out: '' }
-  emitBlockBody(document.elements, 'java', opts, header ? opts.indentPerLevel : 0, sink)
+  emitBlockBody(document.elements, target, opts, header ? opts.indentPerLevel : 0, sink)
   if (header) sink.out += '}\n'
   const offset = prelude.split('\n').length - 1
   return {
-    text: postProcessLengthSyntax((prelude + sink.out).replace(/\n+$/, ''), 'java'),
+    text: postProcessLengthSyntax((prelude + sink.out).replace(/\n+$/, ''), target),
     spans: live.spans.map((s) => ({ ...s, from: s.from + offset, to: s.to + offset })),
   }
 }
+
+export const generateLiveJava = (document: VSDocument, labels: LiveLabels) => generateLiveCode(document, 'java', labels)
 
 // MARK: - Nachbearbeitung: `.length` / `.length()` zielsprachentauglich (Heuristik)
 

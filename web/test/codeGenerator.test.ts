@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { generateCode, generateJavaClassFile, generateLiveJava, sanitizedJavaClassName, type CodeTarget } from '../src/core/codeGenerator'
+import { generateCode, generateJavaClassFile, generateLiveCode, generateLiveJava, sanitizedJavaClassName, type CodeTarget } from '../src/core/codeGenerator'
 import { ElementType, makeElement } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
 
@@ -271,5 +271,28 @@ describe('Code live (Anfänger-Ansicht)', () => {
   it('der normale Code-Generator bleibt unverändert', () => {
     const doc = { caption: '', elements: [makeElement(ElementType.verzweigung, { cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [stub()] }] })] }
     expect(generateCode(doc, 'java')).toBe('if (true) {\n    // empty element\n} else {\n    // empty element\n}')
+  })
+})
+
+describe('Code live in JavaScript', () => {
+  const labels = { condition: 'Bedingung', selector: 'Variable', code: 'Dein Code', start: 'Start', step: 'Schritt' }
+  const plain = (s: string) => s.replace(//g, '«').replace(//g, '»')
+  const stub = () => makeElement(ElementType.anweisung, { textLines: ['ø'] })
+
+  it('let statt int, Platzhalter wie in Java', () => {
+    const doc = {
+      caption: '',
+      elements: [
+        makeElement(ElementType.anweisung, { textLines: ['int zahl = 0'] }),
+        makeElement(ElementType.verzweigung, { cases: [{ name: 'true', elements: [stub()] }, { name: 'false', elements: [stub()] }] }),
+        makeElement(ElementType.forSchleife, { textLines: ['int i = 0', '', ''], loopBody: [stub()] }),
+      ],
+    }
+    const live = generateLiveCode(doc, 'javascript', labels)
+    expect(plain(live.text)).toBe(
+      '"use strict";\n\nlet zahl = 0;\nif («Bedingung») {\n    «// Dein Code»\n} else {\n    «// Dein Code»\n}\n' +
+        'for (let i = 0; «Bedingung»; «Schritt») {\n    «// Dein Code»\n}',
+    )
+    expect(live.spans.find((s) => s.path.join() === '0')).toMatchObject({ from: 2, to: 2 })
   })
 })

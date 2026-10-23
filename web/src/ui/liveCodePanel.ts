@@ -1,9 +1,19 @@
 import { t } from './i18n'
-import { generateLiveJava, livePlaceholderEnd, livePlaceholderStart, type LiveSpan } from '../core/codeGenerator'
+import { generateLiveCode, livePlaceholderEnd, livePlaceholderStart, type LiveSpan, type LiveTarget } from '../core/codeGenerator'
 import type { VSDocument } from '../core/model'
 import { sidebarIcon } from './learnPanel'
 
-/** Ansicht „Code live“: rechts neben dem Struktogramm der Java-Code, der bei jeder Änderung mitwächst. */
+/** Ansicht „Code live“: rechts neben dem Struktogramm der Java- oder JavaScript-Code, der bei jeder Änderung mitwächst. */
+
+const targetKey = 'visustruct.live.target'
+
+function storedTarget(): LiveTarget {
+  try {
+    return localStorage.getItem(targetKey) === 'javascript' ? 'javascript' : 'java'
+  } catch {
+    return 'java'
+  }
+}
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -40,6 +50,8 @@ export class LiveCodePanel {
   private spans: LiveSpan[] = []
   private highlighted?: string
   private html = ''
+  private target = storedTarget()
+  private last?: { doc: VSDocument; highlight?: number[]; selectable: boolean }
 
   constructor(
     private onHide: () => void,
@@ -55,7 +67,10 @@ export class LiveCodePanel {
   build() {
     this.element.innerHTML = `
       <div class="livecode-head">
-        <h2>${esc(t('web_live_title'))} <small>Java</small></h2>
+        <h2>${esc(t('web_live_title'))}</h2>
+        <div class="segmented livecode-target" role="group" aria-label="${esc(t('web_codegen_language'))}">
+          <button data-target="java">Java</button><button data-target="javascript">JavaScript</button>
+        </div>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
       <p class="hint">${esc(t('web_live_hint'))}</p>
@@ -69,14 +84,32 @@ export class LiveCodePanel {
       const span = spanAtLine(this.spans, Number(row.dataset.line))
       if (span) this.onSelect(span.path)
     })
+    for (const b of this.element.querySelectorAll<HTMLButtonElement>('[data-target]')) {
+      b.setAttribute('aria-pressed', String(b.dataset.target === this.target))
+      b.addEventListener('click', () => this.setTarget(b.dataset.target as LiveTarget))
+    }
     this.highlighted = undefined
     this.html = ''
   }
 
+  private setTarget(target: LiveTarget) {
+    this.target = target
+    try {
+      localStorage.setItem(targetKey, target)
+    } catch {
+      /* ohne Speicher: nur für diese Sitzung */
+    }
+    for (const b of this.element.querySelectorAll<HTMLButtonElement>('[data-target]')) {
+      b.setAttribute('aria-pressed', String(b.dataset.target === target))
+    }
+    if (this.last) this.refresh(this.last.doc, this.last.highlight, this.last.selectable)
+  }
+
   /** `highlight`: ausgewähltes Element bzw. Schritt der Simulation; `selectable`: Zeilen anklickbar. */
   refresh(doc: VSDocument, highlight: number[] | undefined, selectable: boolean) {
+    this.last = { doc, highlight, selectable }
     // Dieselben Wörter wie im Struktogramm und im Objektinspektor.
-    const live = generateLiveJava(doc, {
+    const live = generateLiveCode(doc, this.target, {
       condition: t('canvas_stub_condition'),
       selector: t('web_live_ph_selector'),
       code: t('web_live_ph_code'),

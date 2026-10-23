@@ -50,7 +50,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 
 /* Code live */
 "web_live_title" = "Live code";
-"web_live_toggle_title" = "Java-code live naast het diagram tonen";
+"web_live_toggle_title" = "Code live naast het diagram tonen";
 "web_live_hide" = "Live code verbergen";
 "web_live_resize" = "Breedte van het codegebied wijzigen (dubbelklik: herstellen)";
 "web_live_hint" = "De code groeit mee met je diagram. Grijs = plaatshouder: typ in de inspector en je tekst verschijnt hier. Klik op een regel om het element te selecteren.";

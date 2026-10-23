@@ -1244,6 +1244,7 @@ button[data-action='learn'][aria-pressed='true'] {
 }
 .livecode-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 6px;
@@ -1252,13 +1253,12 @@ button[data-action='learn'][aria-pressed='true'] {
   margin: 0;
   font-size: 16px;
 }
-.livecode-head small {
-  margin-inline-start: 4px;
-  padding: 1px 6px;
-  border-radius: 6px;
-  background: var(--accent-soft);
-  font-size: 12px;
-  font-weight: 600;
+.livecode-head .segmented {
+  margin: 0 0 0 auto;
+}
+.livecode-head .segmented button {
+  min-height: 28px;
+  padding: 2px 10px;
 }
 /* Seitenleisten-Symbol gespiegelt: der Bereich liegt rechts. */
 .livecode .learn-hide svg {
