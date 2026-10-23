@@ -50,7 +50,6 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 
 /* Code live */
 "web_live_title" = "即時程式碼";
-"web_live_toggle_title" = "在圖旁即時顯示程式碼";
 "web_live_hide" = "隱藏即時程式碼";
 "web_live_show" = "顯示即時程式碼";
 "web_live_resize" = "變更程式碼區寬度（按兩下：重設）";

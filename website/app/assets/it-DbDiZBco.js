@@ -50,7 +50,6 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 
 /* Code live */
 "web_live_title" = "Codice dal vivo";
-"web_live_toggle_title" = "Mostra il codice dal vivo accanto al diagramma";
 "web_live_hide" = "Nascondi codice dal vivo";
 "web_live_show" = "Mostra codice dal vivo";
 "web_live_resize" = "Modifica la larghezza dell’area codice (doppio clic: ripristina)";

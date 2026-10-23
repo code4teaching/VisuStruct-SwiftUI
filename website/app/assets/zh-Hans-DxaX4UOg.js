@@ -50,7 +50,6 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 
 /* Code live */
 "web_live_title" = "实时代码";
-"web_live_toggle_title" = "在图旁实时显示代码";
 "web_live_hide" = "隐藏实时代码";
 "web_live_show" = "显示实时代码";
 "web_live_resize" = "更改代码区宽度（双击：重置）";

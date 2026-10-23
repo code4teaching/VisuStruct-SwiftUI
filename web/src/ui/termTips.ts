@@ -138,7 +138,7 @@ export const uiTargets: Record<string, string> = {
   exportieren: '[data-action=export]',
   rueckgaengig: '[data-action=undo]',
   textgroesse: '[data-action=zoom]',
-  lernen: '[data-action=learn]',
+  lernen: '.learn .learn-hide',
   code: '[data-action=code]',
   simulation: '[data-action=simulate]',
 }

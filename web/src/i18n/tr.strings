@@ -50,7 +50,6 @@
 
 /* Code live */
 "web_live_title" = "Canlı kod";
-"web_live_toggle_title" = "Kodu diyagramın yanında canlı göster";
 "web_live_hide" = "Canlı kodu gizle";
 "web_live_show" = "Canlı kodu göster";
 "web_live_resize" = "Kod alanının genişliğini değiştir (çift tıklama: sıfırla)";

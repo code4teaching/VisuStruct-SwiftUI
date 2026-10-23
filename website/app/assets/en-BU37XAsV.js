@@ -45,7 +45,6 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 
 /* Learning area (lessons are German only for now) */
 "web_learn_title" = "Learn";
-"web_learn_toggle_title" = "Show or hide lessons, exercises and reference";
 "web_learn_hide" = "Collapse the learning area";
 "web_learn_show" = "Expand the learning area: lessons, exercises and reference";
 "web_learn_lessons" = "Lessons";
@@ -108,7 +107,6 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 
 /* Code live */
 "web_live_title" = "Live code";
-"web_live_toggle_title" = "Show code live next to the diagram";
 "web_live_hide" = "Hide live code";
 "web_live_show" = "Show live code";
 "web_live_resize" = "Change width of the code area (double-click: reset)";

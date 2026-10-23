@@ -13,7 +13,7 @@ The editor has four areas. Move the mouse over a blue word or tap it, and that a
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
 - **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.
 
-> You can show and hide this learning area at any time with [Learn](#zeige-lernen) in the toolbar. It stays open next to the editor so you can try out right away what you read.
+> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read.
 
 ## Insert an element
 
