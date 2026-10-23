@@ -1627,6 +1627,17 @@ button.danger-text:not(:disabled) {
 .livecode-console-lines .typed {
   color: var(--accent);
 }
+/* Simulation wartet auf eine Eingabe (im Simulationsbereich). */
+.livecode-console-lines .pending::after {
+  content: '▌';
+  color: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 .livecode-console-input {
   display: flex;
   flex-wrap: wrap;

@@ -2,6 +2,15 @@ import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimNotice, type SimValue, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
 
+/** Was eine Konsole zeigen würde: Ausgaben, Eingaben mit Antwort, offene Frage, Ende oder Fehler. */
+export interface ConsoleTranscript {
+  lines: { text: string; typed?: string }[]
+  /** Frage einer Eingabe, auf die die Simulation gerade wartet. */
+  pending?: string
+  notice?: string
+  error: boolean
+}
+
 /** `sim_notice_*` aus Localizable.strings. */
 export function noticeText(n: SimNotice): string {
   switch (n.kind) {
@@ -63,6 +72,8 @@ export class SimulationPanel {
   private trace!: HTMLElement
   private variables!: HTMLElement
   private output!: HTMLElement
+  private transcript: ConsoleTranscript['lines'] = []
+  private printed = 0
   private notice!: HTMLElement
   private editButton!: HTMLButtonElement
 
@@ -74,6 +85,8 @@ export class SimulationPanel {
     private findSubprogram: SubprogramResolver = () => undefined,
     /** Simulation beenden und weiter bearbeiten. */
     private onEdit: () => void = () => {},
+    /** Konsole in Code live: zeigt dieselben Ausgaben und Eingaben wie beim Ausführen. */
+    private onTranscript: (transcript: ConsoleTranscript) => void = () => {},
   ) {
     this.engine = new SimulationEngine(currentDocument(), findSubprogram)
     this.element = document.createElement('aside')
@@ -102,6 +115,7 @@ export class SimulationPanel {
     const wasPlaying = this.isPlaying
     const lastExecutedPath = this.engine.currentStepPath
     this.engine.step()
+    this.collectOutput()
     if (this.highlightMode === 'nextToExecute' && this.engine.canStep) {
       this.onHighlight(this.engine.currentStepPath)
     } else {
@@ -146,8 +160,12 @@ export class SimulationPanel {
   private submitInput(field: HTMLInputElement) {
     const shouldResume = this.isPlaying || this.wasPlayingBeforeInput
     this.pause()
+    const prompt = this.engine.state.inputRequest?.prompt ?? ''
     this.engine.provideInput(field.value)
-    if (!this.engine.state.inputRequest) field.value = ''
+    if (!this.engine.state.inputRequest) {
+      this.transcript.push({ text: prompt ? `${prompt} ` : '', typed: field.value })
+      field.value = ''
+    }
     this.onHighlight(this.engine.currentStepPath)
     if (shouldResume && this.engine.canStep) {
       this.wasPlayingBeforeInput = false
@@ -158,6 +176,8 @@ export class SimulationPanel {
 
   private restartEngine() {
     this.engine = new SimulationEngine(this.currentDocument(), this.findSubprogram)
+    this.transcript = []
+    this.printed = 0
     this.wasPlayingBeforeInput = false
     this.onHighlight(this.engine.currentStepPath)
     this.update()
@@ -226,9 +246,20 @@ export class SimulationPanel {
     this.notice = q('.sim-notice')
   }
 
+  private collectOutput() {
+    const lines = this.engine.state.outputLines
+    for (; this.printed < lines.length; this.printed++) this.transcript.push({ text: lines[this.printed] })
+  }
+
   private update() {
     if (!this.buttons) return
     const { state, canStep } = this.engine
+    this.onTranscript({
+      lines: this.transcript,
+      pending: state.inputRequest?.prompt,
+      notice: state.notice ? noticeText(state.notice) : undefined,
+      error: state.isHalted,
+    })
     this.buttons.play.disabled = this.isPlaying || !canStep
     this.buttons.pause.disabled = !this.isPlaying
     this.buttons.step.disabled = this.isPlaying || !canStep
