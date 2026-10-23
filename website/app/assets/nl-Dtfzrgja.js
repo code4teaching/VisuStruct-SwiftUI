@@ -57,6 +57,16 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_live_ph_selector" = "variabele";
 "web_live_ph_code" = "Jouw code";
 "web_live_ph_end" = "einde";
+"web_live_hint_edit" = "Typ hier Java-code en het diagram bouwt zichzelf op. Of werk in het diagram en de code groeit mee. Grijs = tijdelijke tekst, typ er gewoon overheen.";
+"web_live_edit_label" = "Java-code";
+"web_parse_line_fmt" = "Regel %d: %@";
+"web_parse_missing" = "Hier ontbreekt nog: %@";
+"web_parse_extra" = "Te veel: %@";
+"web_parse_unclosed_string" = "De afsluitende %@ ontbreekt.";
+"web_parse_else_without_if" = "Bij deze “else” hoort geen “if”.";
+"web_parse_case_outside_switch" = "“case” en “default” horen in een “switch”.";
+"web_parse_missing_do_while" = "Na “do { … }” ontbreekt nog “while (voorwaarde);”.";
+"web_parse_more_methods" = "Voorlopig telt hier maar één methode. Maak andere subprogramma’s in aparte tabbladen.";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Diagram tonen";
 "web_editor_hide" = "Diagram verbergen";

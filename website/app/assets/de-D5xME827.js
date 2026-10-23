@@ -114,6 +114,16 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_live_ph_selector" = "Variable";
 "web_live_ph_code" = "Dein Code";
 "web_live_ph_end" = "Ende";
+"web_live_hint_edit" = "Tippe hier Java-Code, dann baut sich das Struktogramm mit. Oder arbeite im Struktogramm, dann wächst der Code mit. Grau = Platzhalter, einfach drüberschreiben.";
+"web_live_edit_label" = "Java-Code";
+"web_parse_line_fmt" = "Zeile %d: %@";
+"web_parse_missing" = "Hier fehlt noch: %@";
+"web_parse_extra" = "Das ist zu viel: %@";
+"web_parse_unclosed_string" = "Hier fehlt das schließende %@.";
+"web_parse_else_without_if" = "Zu diesem „else“ gehört kein „if“.";
+"web_parse_case_outside_switch" = "„case“ und „default“ gehören in ein „switch“.";
+"web_parse_missing_do_while" = "Nach „do { … }“ fehlt noch „while (Bedingung);“.";
+"web_parse_more_methods" = "Hier zählt im Moment nur eine Methode. Lege weitere Unterprogramme als eigene Reiter an.";
 "web_editor_title" = "Struktogramm";
 "web_editor_show" = "Struktogramm aufklappen";
 "web_editor_hide" = "Struktogramm einklappen";

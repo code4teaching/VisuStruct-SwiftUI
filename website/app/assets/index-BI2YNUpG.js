@@ -1,150 +1,150 @@
-var _a=Object.defineProperty;var ja=(a,e,t)=>e in a?_a(a,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):a[e]=t;var b=(a,e,t)=>ja(a,typeof e!="symbol"?e+"":e,t);(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))n(i);new MutationObserver(i=>{for(const s of i)if(s.type==="childList")for(const r of s.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&n(r)}).observe(document,{childList:!0,subtree:!0});function t(i){const s={};return i.integrity&&(s.integrity=i.integrity),i.referrerPolicy&&(s.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?s.credentials="include":i.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function n(i){if(i.ep)return;i.ep=!0;const s=t(i);fetch(i.href,s)}})();var g=(a=>(a[a.anweisung=0]="anweisung",a[a.verzweigung=1]="verzweigung",a[a.fallauswahl=2]="fallauswahl",a[a.forSchleife=3]="forSchleife",a[a.whileSchleife=4]="whileSchleife",a[a.doUntilSchleife=5]="doUntilSchleife",a[a.endlosschleife=6]="endlosschleife",a[a.aussprung=7]="aussprung",a[a.aufruf=8]="aufruf",a[a.leerElement=9]="leerElement",a))(g||{});function Pa(a){return a===3||a===4||a===5||a===6}function Ca(a){return a===1||a===2}function K(a,e={}){return{type:a,zoomX:0,zoomY:0,textLines:[""],...e}}function Aa(a){const e=a.textLines;if(!e.every(t=>t.trim()===""))switch(a.type){case g.forSchleife:return e.length<=1?e:[Da(e)];case g.verzweigung:return Ve("if",e);case g.whileSchleife:return Ve("while",e);case g.doUntilSchleife:return Ve("while",Ta(e));case g.fallauswahl:return Ve("switch",e);default:return e}}function Ta(a){if(a.length===0)return a;const e=a[0].trim(),t=e.toLowerCase(),n=[...a];if(t==="until")n[0]="";else if(t.startsWith("until "))n[0]=e.slice(6).trim();else if(t.startsWith("until("))n[0]=e.slice(5);else return a;return n}function ft(a){const e=new Set(["if","for","while","until","switch"]),t=["input:","output:","print:"],n=a.trim(),i=n.toLowerCase();for(const o of t){if(i===o)return{keyword:n,rest:""};if(i.startsWith(o+" "))return{keyword:n.slice(0,o.length),rest:n.slice(o.length).trim()}}const s=n.indexOf(" ");if(s<0)return;const r=n.slice(0,s);if(e.has(r.toLowerCase()))return{keyword:r,rest:n.slice(s+1).trim()}}function Ve(a,e){if(e.length===0)return e;const t=e[0].trim(),n=t.toLowerCase();if(n===a||n.startsWith(a+" "))return e;const i=[...e];return i[0]=a+" "+t,i}function Da(a){let e=[...a];for(;e.length<3;)e.push("");e=e.slice(0,3);const t=i=>{let s=i.trim();for(;s.endsWith(";");)s=s.slice(0,-1).trim();return s},n=e.map(t).join("; ").trim();return n===""?"for":"for "+n}const zn={[g.anweisung]:"Anweisung",[g.verzweigung]:"Bedingung",[g.fallauswahl]:"Fallauswahl",[g.forSchleife]:"for 0 < i < anzahl",[g.whileSchleife]:"while …",[g.doUntilSchleife]:"while …",[g.endlosschleife]:"endless",[g.aussprung]:"break",[g.aufruf]:"Aufruf()",[g.leerElement]:"ø"};function Wa(a){Object.assign(zn,a)}function tt(a){return Aa(a)??[zn[a.type]]}class E extends Error{}const se=a=>structuredClone(a);function Be(){return K(g.anweisung,{textLines:["ø"]})}function Ba(){return{caption:"",elements:[Be()]}}function nt(a){if(a.type===g.leerElement)return!0;if(a.type===g.anweisung){const e=a.textLines;return e.length===0||e.length===1&&e[0]==="ø"}return!1}function ve(a,e){const t=$(a,e);return t!==void 0&&nt(t)}function Ee(a,e){if(e.length===0)throw new E("Invalid element path.");const[t,...n]=e;if(t<0||t>=a.length)throw new E("Invalid element path.");if(n.length===0)return{list:a,index:t};const[i,...s]=n;if(s.length===0)throw new E("Invalid element path.");return Ee(vn(a[t],i),s)}function vn(a,e){if(Pa(a.type)){if(e!==0||!a.loopBody)throw new E("Invalid element path.");return a.loopBody}if(Ca(a.type)){if(!a.cases||e<0||e>=a.cases.length)throw new E("Invalid element path.");return a.cases[e].elements}throw new E("Invalid element path.")}function ne(a,e){const{list:t,index:n}=Ee(a.elements,e);return t[n]}function $(a,e){try{return ne(a,e)}catch{return}}function ge(a,e,t){const n=se(a),{list:i,index:s}=Ee(n.elements,e);return i[s]=se(t),n}function w1(a,e,t){const n=se(ne(a,e));return n.textLines=t.length===0?[""]:t,ge(a,e,n)}function S1(a,e){return e.length===0?!1:e.length===1&&a.elements.length===1?!ve(a,e):$(a,e)!==void 0}function He(a,e){const t=se(a),{list:n,index:i}=Ee(t.elements,e);if(e.length===1&&n.length===1){if(nt(n[0]))throw new E("The last root element cannot be deleted.");return n[0]=Be(),t}return n.splice(i,1),e.length>1&&n.length===0&&n.push(Be()),t}function Ce(a,e,t,n){const i=se(a);let s;if(e.length===0)s=i.elements;else{const r=e.slice(0,-1),o=e[e.length-1],{list:l,index:m}=Ee(i.elements,r);s=vn(l[m],o)}return s.splice(Math.min(Math.max(0,t),s.length),0,se(n)),i}function wn(a,e,t){if(t.length===0)throw new E("Invalid element path.");return Ce(a,t.slice(0,-1),t[t.length-1],e)}function H1(a,e,t){if(t.length===0)throw new E("Invalid element path.");return Ce(a,t.slice(0,-1),t[t.length-1]+1,e)}function at(a,e){return a.length<e.length&&a.every((t,n)=>e[n]===t)}function it(a,e){if(e.length===0)return a;const t=e[e.length-1],n=e.slice(0,-1);if(a.length<=n.length||!n.every((r,o)=>a[o]===r))return a;const i=n.length;if(a[i]<=t)return a;const s=[...a];return s[i]-=1,s}const st=(a,e)=>a.length===e.length&&a.every((t,n)=>t===e[n]);function Ha(a,e,t){if(st(e,t))return a;if(at(e,t))throw new E("Invalid element path.");const n=ne(a,e),i=He(a,e);return wn(i,n,it(t,e))}function Ga(a,e,t){if(st(e,t))return a;if(at(e,t))throw new E("Invalid element path.");const n=ne(a,e),i=He(a,e);return H1(i,n,it(t,e))}function Na(a,e,t){if(!ve(a,t))throw new E("Invalid element path.");if(st(e,t))return a;if(at(e,t))throw new E("Invalid element path.");const n=ne(a,e),i=He(a,e);return ge(i,it(t,e),n)}function Ea(a,e){const t=se(ne(a,e)),n=t.cases;if(t.type!==g.fallauswahl||!n||n.length===0)throw new E("Invalid element path.");const i=n[n.length-1].name.toLowerCase()==="default",s=i?n.length-1:n.length,r=String(i?n.length:n.length+1);return n.splice(s,0,{name:r,elements:[Be()]}),{doc:ge(a,e,t),path:[...e,s,0]}}function La(a,e,t){const n=se(ne(a,e)),i=n.cases;if(n.type!==g.fallauswahl||!i)throw new E("Invalid element path.");if(i.length<=2)throw new E("A switch needs at least two cases.");if(t<0||t>=i.length)throw new E("Invalid element path.");i.splice(t,1);const s=Math.min(t,i.length-1);return{doc:ge(a,e,n),path:[...e,s,0]}}function Va(a,e,t,n){const i=se(ne(a,e)),s=i.cases;if(i.type!==g.fallauswahl||!s)throw new E("Invalid element path.");if(t<0||t>=s.length)throw new E("Invalid element path.");const r=n.trim();if(r==="")throw new E("Invalid element path.");return s[t].name=r,ge(a,e,i)}function Ra(a,e){var t;if(!(!a||a.length===0))for(let n=a.length;n>=1;n--){const i=a.slice(0,n);if(((t=$(e,i))==null?void 0:t.type)===g.fallauswahl)return i}}function Ua(a,e){if(!(!a||a.length<=e.length))return a[e.length]}function yt(a,e){if(e.elements.length!==0)return!a||!$(e,a)?[0]:a}const Sn=a=>a!==void 0&&/\s/.test(a);function i1(a){const e=a.trim().toLowerCase();return e.startsWith("input:")?"input":e.startsWith("output:")||e.startsWith("print:")?"output":"statement"}function Fa(a){const e=a.trim(),t=e.toLowerCase();return t.startsWith("input:")?e.slice(6).trim():t.startsWith("output:")?e.slice(7).trim():t.startsWith("print:")?e.slice(6).trim():a}function zt(a,e){const t=e.trim();return t===""?`${a} `:`${a} ${t}`}function Ya(a,e){const t=Fa(e);switch(a){case"statement":return t;case"input":return zt("input:",t);case"output":return zt("output:",t)}}const Ke=a=>Sn(a[0])?a.slice(1):a;function Oa(a){const e=a.replace(/^\s+/,""),t=e.toLowerCase();return t.startsWith("input:")?Ke(e.slice(6)):t.startsWith("output:")?Ke(e.slice(7)):t.startsWith("print:")?Ke(e.slice(6)):a}function vt(a,e){const t=e.replace(/^\s+/,"");if(!t.toLowerCase().startsWith(a.toLowerCase()))return e;const n=t.slice(a.length);if(!(n===""||Sn(n[0])||n[0]==="("))return e;const i=Ke(n);return i.startsWith("(")&&i.endsWith(")")&&i.length>=2?i.slice(1,-1):i}function wt(a,e){if(a==="input:"||a==="output:")return Oa(e);const t=vt(a,e);if(a==="while"&&t===e){const n=vt("until",e);if(n!==e)return n}return t}function Qa(a,e){return e===""?`${a} `:`${a} ${e}`}function kn(a){return a.replace(/[“”„«»]/g,'"').replace(/[’‘‚´]/g,"'")}function St(a){const e=a.length===0?[""]:a.slice(0,3);for(;e.length<3;)e.push("");return e}function Xa(a){let e=kn(a);for(;;){const t=e.trim();if(!t.endsWith(";"))return e;e=t.slice(0,-1).trim()}}const p1='system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';function Ja(a,e){return`${e==="bold"?700:500} ${a}px ${p1}`}const Mn=(a,e,t)=>[...a].length*e*(t==="bold"?.68:.62);function qa(){if(typeof document>"u"||!document.body)return;const a="http://www.w3.org/2000/svg",e=document.createElementNS(a,"svg");e.setAttribute("aria-hidden","true"),e.setAttribute("width","0"),e.setAttribute("height","0"),e.style.cssText="position:absolute;left:-9999px;top:0;visibility:hidden;overflow:hidden";const t=document.createElementNS(a,"text");if(t.setAttribute("font-family",p1),t.style.whiteSpace="pre",e.append(t),document.body.append(e),typeof t.getComputedTextLength!="function"||typeof t.getBBox!="function"){e.remove();return}if(t.textContent="Mg",t.setAttribute("font-size","20"),!(t.getComputedTextLength()>0)){e.remove();return}return t}let k1;function Zn(){return k1===void 0&&(k1=qa()??null),k1??void 0}function _n(a,e,t){a.setAttribute("font-size",String(e)),a.setAttribute("font-weight",t==="bold"?"700":"500")}function kt(a,e){const t=`${a}|${e}`;let n=Mt.get(t);if(!n){const i=Zn();if(n={ascent:a*.95,descent:a*.24},i){_n(i,a,e),i.setAttribute("y","0"),i.textContent="Mg";const s=i.getBBox();s.height>0&&(n={ascent:-s.y,descent:s.height+s.y})}Mt.set(t,n)}return n}const Mt=new Map;function Ka(){const a=Zn();if(a){const n=new Map;return(i,s,r)=>{const o=`${s}|${r}|${i}`;let l=n.get(o);return l===void 0&&(_n(a,s,r),a.textContent=i,l=i===""?0:a.getComputedTextLength(),n.size>2e3&&n.clear(),n.set(o,l)),l}}const e=typeof document<"u"?document.createElement("canvas").getContext("2d"):null;if(!e)return Mn;const t=new Map;return(n,i,s)=>{const r=`${i}|${s}|${n}`;let o=t.get(r);return o===void 0&&(e.font=Ja(i,s),o=e.measureText(n).width,t.size>2e3&&t.clear(),t.set(r,o)),o}}const jn={fontSize:15,lineHeight:20,charWidth:7,baseHeaderExtra:20,minSidePadding:42,cellTextInsetY:15,doUntilDoLabelTopInset:2,doUntilFooterTopInset:6,doUntilFooterBottomInset:8};function $a(a){return{...jn,fontSize:14,lineHeight:21,charWidth:5.5*(14/12),baseHeaderExtra:21,minSidePadding:40}}const Re=a=>a===g.forSchleife||a===g.whileSchleife||a===g.doUntilSchleife||a===g.endlosschleife,Ue=a=>a===g.fallauswahl||a===g.verzweigung;function Fe(a,e,t,n=0){return{idPath:a,element:e,frame:t,headerBandHeight:n,topBandHeight:0,loopBodyLeadingInset:0,caseColumnFrames:[],children:[]}}function F(a){return{...a,frame:{...a.frame}}}class Pn{constructor(e=jn,t=Mn){this.metrics=e,this.measure=t}layout(e,t={left:28,top:28}){const i=this.layoutList(e.elements,t.left,t.top,[]).map(l=>this.stretchLoopBodiesVertically(l));let s=0,r=0;const o=l=>{s=Math.max(s,l.frame.x+l.frame.width),r=Math.max(r,l.frame.y+l.frame.height),l.children.forEach(o)};return i.forEach(o),{canvasSize:{width:s+t.left,height:r+t.top},elements:i}}lineWidth(e){return Math.ceil(this.measure(e,this.metrics.fontSize,"medium"))}lineWidthBold(e){return Math.ceil(this.measure(e,this.metrics.fontSize,"bold"))}layoutList(e,t,n,i){let s=[],r=n;e.forEach((l,m)=>{const u=this.layoutElement(l,t,r,[...i,m]);s.push(u),r+=u.frame.height});const o=Math.max(0,...s.map(l=>l.frame.width));return o>0&&(s=s.map(l=>this.stretchNodeTreeToWidth(l,o))),s}stretchMultiwayNodeToWidth(e,t){const n=F(e),i=n.frame.width;if(!(i>0)||n.caseColumnFrames.length===0)return n;const s=t/i;n.frame.width=t;let r=n.frame.x;const o=n.caseColumnFrames.map(l=>{const m=l.width*s,u={x:r,y:l.y,width:m,height:l.height};return r+=m,u});return n.caseColumnFrames=o,n.dividerX=o.length>0?o[o.length-1].x:n.frame.x+t,n.columns&&n.columns.length===o.length&&(n.columns=n.columns.map((l,m)=>{const u=o[m];return l.map(c=>{const h=F(c);return h.frame.x=u.x,h.frame.width=u.width,this.stretchDescendantsWidths(h,u.width)})}),n.children=n.columns.flat()),n}stretchLoopChildren(e,t){const n=this.effectiveLoopBodyLeading(e),i=Math.max(0,t-n);e.children=e.children.map(s=>{const r=F(s);return r.frame.x=e.frame.x+n,r.frame.width=i,this.stretchDescendantsWidths(r,i)})}stretchNodeTreeToWidth(e,t){const n=F(e);return n.frame.width>0?Ue(n.element.type)&&n.caseColumnFrames.length>0?this.stretchMultiwayNodeToWidth(n,t):(n.frame.width=t,Re(n.element.type)?this.stretchLoopChildren(n,t):n.children=n.children.map(s=>this.stretchDescendantsWidths(s,t)),n):n}stretchDescendantsWidths(e,t){let n=F(e);return Ue(n.element.type)?n=this.stretchNodeTreeToWidth(n,t):Re(n.element.type)?(n.frame.width=t,this.stretchLoopChildren(n,t)):(n.frame.width=t,n.children=n.children.map(i=>this.stretchDescendantsWidths(i,t))),n}stretchLoopBodiesVertically(e){const t=F(e);if(t.columns&&t.columns.length>0)return t.columns=t.columns.map(s=>s.map(r=>this.stretchLoopBodiesVertically(r))),t.children=t.columns.flat(),t;t.children=t.children.map(s=>this.stretchLoopBodiesVertically(s));const n=s=>s===g.anweisung||s===g.leerElement||s===g.aufruf||s===g.aussprung||Re(s);let i;switch(t.element.type){case g.forSchleife:case g.whileSchleife:case g.endlosschleife:{const s=t.element.type===g.endlosschleife?40:0;i=t.frame.y+t.frame.height-s;break}case g.doUntilSchleife:i=t.frame.y+t.frame.height-t.headerBandHeight;break}if(i!==void 0&&t.children.length>0){const s=t.children.length-1;let r=F(t.children[s]);const o=i-(r.frame.y+r.frame.height);o>.5&&n(r.element.type)&&(r.frame.height+=o,r=this.stretchLoopBodiesVertically(r),t.children=[...t.children.slice(0,s),r])}return t}headerHeight(e){const t=this.metrics,n=Math.max(1,e.textLines.length);if(e.type===g.doUntilSchleife)return t.doUntilFooterTopInset+n*t.lineHeight+t.doUntilFooterBottomInset+e.zoomY;let i;switch(e.type){case g.fallauswahl:i=40;break;case g.verzweigung:i=20;break;case g.forSchleife:case g.whileSchleife:case g.endlosschleife:i=t.baseHeaderExtra+4;break;default:i=14}return i+n*t.lineHeight+e.zoomY}doUntilBodyLeadingInset(){return Math.max(20,this.lineWidthBold("do")+12)}effectiveLoopBodyLeading(e){return e.element.type===g.doUntilSchleife?e.loopBodyLeadingInset>0?e.loopBodyLeadingInset:this.doUntilBodyLeadingInset():20}horizontalPaddingInsideCell(e){return Ue(e)?Math.max(100,this.metrics.minSidePadding*2.45):this.metrics.minSidePadding}minWidth(e){const t=e.textLines.length===0?0:Math.max(...e.textLines.map(s=>this.lineWidth(s)));let n=t+e.zoomX+this.horizontalPaddingInsideCell(e.type);if(e.type===g.aufruf){const s=Math.max(68,this.metrics.minSidePadding*1.7),r=Math.max(8,this.metrics.minSidePadding*.2);n=Math.max(n,t+e.zoomX+s+r)}const i=e.type===g.leerElement?76:e.type===g.aufruf?104:72;return Math.max(i,n)}layoutElement(e,t,n,i){if(Ue(e.type))return this.layoutMultiway(e,t,n,i);if(Re(e.type))return this.layoutLoop(e,t,n,i);const s=this.headerHeight(e);return Fe(i,e,{x:t,y:n,width:this.minWidth(e),height:s},s)}layoutLoop(e,t,n,i){const s=I=>I.reduce((v,w)=>v+w.frame.height,0),r=I=>Math.max(0,...I.map(v=>v.frame.width)),o=e.loopBody??[];if(e.type===g.doUntilSchleife){const I=this.doUntilBodyLeadingInset(),v=e.zoomY,w=this.headerHeight(e),j=this.layoutList(o,t+I,n+v,[...i,0]),_=Math.max(this.minWidth(e),r(j)+I),Z=s(j)+w+v,C=Math.max(0,_-I),A=Fe(i,e,{x:t,y:n,width:_,height:Z},w);return A.topBandHeight=v,A.loopBodyLeadingInset=I,A.children=j.map(W=>{const B=F(W);return B.frame.x=t+I,B.frame.width=C,this.stretchDescendantsWidths(B,C)}),A}const l=20,m=this.headerHeight(e),u=e.type===g.endlosschleife?40:0,c=this.layoutList(o,t+l,n+m,[...i,0]),h=Math.max(this.minWidth(e),r(c)+l),p=m+u+s(c),x=Math.max(0,h-l),y=Fe(i,e,{x:t,y:n,width:h,height:p},m);return y.children=c.map(I=>{const v=F(I);return v.frame.x=t+l,v.frame.width=x,this.stretchDescendantsWidths(v,x)}),y}layoutMultiway(e,t,n,i){const s=this.headerHeight(e),r=e.cases??[],o=Math.max(1,r.length),l=Math.max(this.minWidth(e)/o,132);let m=[],u=[],c=0,h=0;if(r.forEach((I,v)=>{const w=t+c,j=this.layoutList(I.elements,w,n+s,[...i,v]),_=Math.max(0,...j.map(A=>A.frame.width));let Z;e.type===g.verzweigung&&o===2?Z=Math.max(_,(v===0?"true":"false").length*this.metrics.charWidth+24):Z=Math.max(l,_);const C=j.reduce((A,W)=>A+W.frame.height,0);h=Math.max(h,C),m.push({x:w,y:n+s,width:Z,height:C}),u.push(j.map(A=>{const W=F(A);return W.frame.x=w,W.frame.width=Z,this.stretchDescendantsWidths(W,Z)})),c+=Z}),e.type===g.verzweigung&&o===2&&m.length===2){const I=Math.max(m[0].width,m[1].width),v=t,w=t+I,j=w-m[1].x;m[0]={...m[0],x:v,width:I},m[1]={...m[1],x:w,width:I},c=I*2,u[0]=u[0].map(_=>{const Z=F(_);return Z.frame.x=v,Z.frame.width=I,this.stretchDescendantsWidths(Z,I)}),u[1]=u[1].map(_=>{const Z=G1(_,j);return Z.frame.width=I,this.stretchDescendantsWidths(Z,I)})}if(u.length>0){const I=ei(u,n+s);u=I.columns.map(v=>v.map(w=>this.stretchLoopBodiesVertically(w)));for(let v=0;v<Math.min(m.length,I.columnHeights.length);v++)m[v]={...m[v],height:I.columnHeights[v]};h=I.columnHeights.length>0?Math.max(...I.columnHeights):h}let p=Math.max(c,this.minWidth(e));if(c>.5&&p>c+.5){const I=p/c;let v=t;const w=[],j=[];m.forEach((_,Z)=>{const C=_.width*I;j.push(u[Z].map(A=>{const W=F(A);return W.frame.x=v,W.frame.width=C,this.stretchDescendantsWidths(W,C)})),w.push({x:v,y:_.y,width:C,height:_.height}),v+=C}),m=w,u=j,c=v-t,p=c}const x=m.length>0?m[m.length-1].width:c/o,y=Fe(i,e,{x:t,y:n,width:p,height:s+h},s);return y.caseColumnFrames=m,y.dividerX=m.length>0?m[m.length-1].x:t+c-x,y.dividerYInset=e.type===g.fallauswahl?-20:0,y.columns=u,y.children=u.flat(),y}}function Cn(a,e){if(Math.abs(e)<=1e-4)return a;const t=F(a),n=i=>{const s=F(i);return s.frame.y+=e,Cn(s,e)};return t.columns?(t.columns=t.columns.map(i=>i.map(n)),t.children=t.columns.flat()):t.children=t.children.map(n),t}function G1(a,e){if(Math.abs(e)<=1e-4)return a;const t=F(a);return t.frame.x+=e,t.columns?(t.columns=t.columns.map(n=>n.map(i=>G1(i,e))),t.children=t.columns.flat()):t.children=t.children.map(n=>G1(n,e)),t}function ei(a,e){if(a.length<2)return{columns:a,columnHeights:a.map(m=>m.reduce((u,c)=>u+c.frame.height,0))};const t=.5,n=[e];for(const m of a)for(const u of m)n.push(u.frame.y+u.frame.height);const i=Math.max(...n);n.push(i),n.sort((m,u)=>m-u);let s=[];for(const m of n)s.length>0&&Math.abs(m-s[s.length-1])<=t||s.push(m);(s.length===0||Math.abs(s[0]-e)>t)&&s.unshift(e),s.length===0?s=[e,i]:s[s.length-1]<i-1e-6?s.push(i):s[s.length-1]=i;const r=(m,u)=>{let c=Math.max(0,u);for(;c<s.length&&s[c]<m-t;)c++;return Math.min(c,s.length-1)},o=[],l=[];for(const m of a){if(m.length===0){o.push([]),l.push(0);continue}const u=[];let c=0;m.forEach((h,p)=>{let x=F(h);const y=s[c],I=h.frame.y+h.frame.height,v=p===m.length-1?s.length-1:r(I,c+1),w=s[v],j=y-x.frame.y;x.frame.y=y,x.frame.height=Math.max(0,w-y),x=Cn(x,j),u.push(x),c=v}),o.push(u),l.push(s[s.length-1]-e)}return{columns:o,columnHeights:l}}const Zt=[{item:"anweisung",label:"Anweisung"},{item:"verzweigung",label:"Verzweigung"},{item:"fallauswahl",label:"Fallauswahl"},{item:"forZaehlSchleife",label:"For-Schleife"},{item:"whileSchleife",label:"While-Schleife"},{item:"doUntilSchleife",label:"Do-while-Schleife"},{item:"endlosschleife",label:"Endlosschleife"},{item:"aufruf",label:"Aufruf"},{item:"aussprung",label:"Aussprung"}];function Ye(a){const e=Be;switch(a){case"anweisung":return K(g.anweisung);case"verzweigung":return K(g.verzweigung,{cases:[{name:"true",elements:[e()]},{name:"false",elements:[e()]}]});case"fallauswahl":return K(g.fallauswahl,{cases:[{name:"1",elements:[e()]},{name:"2",elements:[e()]},{name:"default",elements:[e()]}]});case"forZaehlSchleife":return K(g.forSchleife,{textLines:["","",""],loopBody:[e()]});case"whileSchleife":return K(g.whileSchleife,{loopBody:[e()]});case"doUntilSchleife":return K(g.doUntilSchleife,{loopBody:[e()]});case"endlosschleife":return K(g.endlosschleife,{loopBody:[e()]});case"aussprung":return K(g.aussprung);case"aufruf":return K(g.aufruf)}}function s1(a){if(a==="")return"-1;";let e="";for(const t of a)e+=t.codePointAt(0)+";";return e}function N1(a){const e=a.split(";").filter(n=>n!=="");if(e.length===1&&e[0]==="-1")return"";let t="";for(const n of e){if(!/^[+-]?\d+$/.test(n))continue;const i=Number(n);i!==-1&&(i<0||i>1114111||i>=55296&&i<=57343||(t+=String.fromCodePoint(i)))}return t}class _t extends Error{}function rt(a){const e=new DOMParser().parseFromString(a,"application/xml");if(e.getElementsByTagName("parsererror").length>0)throw new _t("Could not read XML.");const t=e.documentElement;if(!t||t.tagName!=="struktogramm")throw new _t("Invalid XML: root element is not <struktogramm>.");const n={caption:Pt(t,"caption")??"",elements:L1(t)},i=Pt(t,"fontfamily");i!==void 0&&(n.fontFamily=i);const s=Ae(t,"fontsize");s!==void 0&&(n.fontSize=s);const r=Ae(t,"fontstyle");return r!==void 0&&(n.fontStyle=r),t.getAttribute("pseudocode")==="true"&&(n.pseudocode=!0),n}function M1(a){const e=(n,i)=>i===void 0?"":` ${n}="${An(i)}"`;let t=`<?xml version="1.0" encoding="UTF-8"?>
-`;t+="<struktogramm",t+=e("fontfamily",a.fontFamily===void 0?void 0:s1(a.fontFamily)),t+=e("fontstyle",a.fontStyle===void 0?void 0:String(a.fontStyle)),t+=e("fontsize",a.fontSize===void 0?void 0:String(a.fontSize)),t+=e("caption",s1(a.caption)),t+=e("pseudocode",a.pseudocode?"true":void 0),t+=`>
-`;for(const n of a.elements)t+=E1(n,"  ");return t+=`</struktogramm>
-`,t}function E1(a,e){let t=`${e}<strelem typ="${a.type}" zx="${a.zoomX}" zy="${a.zoomY}"`;a.textColor&&(t+=` textcolor="${jt(a.textColor)}"`),a.backgroundColor&&(t+=` bgcolor="${jt(a.backgroundColor)}"`),t+=`>
-`;for(const n of a.textLines)t+=`${e}  <text>${ti(s1(n))}</text>
-`;if(a.loopBody){t+=`${e}  <schleifeninhalt>
-`;for(const n of a.loopBody)t+=E1(n,e+"    ");t+=`${e}  </schleifeninhalt>
-`}if(a.cases)for(const n of a.cases){t+=`${e}  <fall fallname="${An(s1(n.name))}">
-`;for(const i of n.elements)t+=E1(i,e+"    ");t+=`${e}  </fall>
+var Vi=Object.defineProperty;var Ri=(i,e,t)=>e in i?Vi(i,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):i[e]=t;var I=(i,e,t)=>Ri(i,typeof e!="symbol"?e+"":e,t);(function(){const e=document.createElement("link").relList;if(e&&e.supports&&e.supports("modulepreload"))return;for(const a of document.querySelectorAll('link[rel="modulepreload"]'))n(a);new MutationObserver(a=>{for(const s of a)if(s.type==="childList")for(const r of s.addedNodes)r.tagName==="LINK"&&r.rel==="modulepreload"&&n(r)}).observe(document,{childList:!0,subtree:!0});function t(a){const s={};return a.integrity&&(s.integrity=a.integrity),a.referrerPolicy&&(s.referrerPolicy=a.referrerPolicy),a.crossOrigin==="use-credentials"?s.credentials="include":a.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function n(a){if(a.ep)return;a.ep=!0;const s=t(a);fetch(a.href,s)}})();var p=(i=>(i[i.anweisung=0]="anweisung",i[i.verzweigung=1]="verzweigung",i[i.fallauswahl=2]="fallauswahl",i[i.forSchleife=3]="forSchleife",i[i.whileSchleife=4]="whileSchleife",i[i.doUntilSchleife=5]="doUntilSchleife",i[i.endlosschleife=6]="endlosschleife",i[i.aussprung=7]="aussprung",i[i.aufruf=8]="aufruf",i[i.leerElement=9]="leerElement",i))(p||{});function Ui(i){return i===3||i===4||i===5||i===6}function Fi(i){return i===1||i===2}function N(i,e={}){return{type:i,zoomX:0,zoomY:0,textLines:[""],...e}}function Yi(i){const e=i.textLines;if(!e.every(t=>t.trim()===""))switch(i.type){case p.forSchleife:return e.length<=1?e:[Qi(e)];case p.verzweigung:return Ue("if",e);case p.whileSchleife:return Ue("while",e);case p.doUntilSchleife:return Ue("while",Oi(e));case p.fallauswahl:return Ue("switch",e);default:return e}}function Oi(i){if(i.length===0)return i;const e=i[0].trim(),t=e.toLowerCase(),n=[...i];if(t==="until")n[0]="";else if(t.startsWith("until "))n[0]=e.slice(6).trim();else if(t.startsWith("until("))n[0]=e.slice(5);else return i;return n}function _t(i){const e=new Set(["if","for","while","until","switch"]),t=["input:","output:","print:"],n=i.trim(),a=n.toLowerCase();for(const o of t){if(a===o)return{keyword:n,rest:""};if(a.startsWith(o+" "))return{keyword:n.slice(0,o.length),rest:n.slice(o.length).trim()}}const s=n.indexOf(" ");if(s<0)return;const r=n.slice(0,s);if(e.has(r.toLowerCase()))return{keyword:r,rest:n.slice(s+1).trim()}}function Ue(i,e){if(e.length===0)return e;const t=e[0].trim(),n=t.toLowerCase();if(n===i||n.startsWith(i+" "))return e;const a=[...e];return a[0]=i+" "+t,a}function Qi(i){let e=[...i];for(;e.length<3;)e.push("");e=e.slice(0,3);const t=a=>{let s=a.trim();for(;s.endsWith(";");)s=s.slice(0,-1).trim();return s},n=e.map(t).join("; ").trim();return n===""?"for":"for "+n}const Tn={[p.anweisung]:"Anweisung",[p.verzweigung]:"Bedingung",[p.fallauswahl]:"Fallauswahl",[p.forSchleife]:"for 0 < i < anzahl",[p.whileSchleife]:"while …",[p.doUntilSchleife]:"while …",[p.endlosschleife]:"endless",[p.aussprung]:"break",[p.aufruf]:"Aufruf()",[p.leerElement]:"ø"};function Xi(i){Object.assign(Tn,i)}function mt(i){return Yi(i)??[Tn[i.type]]}class L extends Error{}const le=i=>structuredClone(i);function ie(){return N(p.anweisung,{textLines:["ø"]})}function Ji(){return{caption:"",elements:[ie()]}}function ut(i){if(i.type===p.leerElement)return!0;if(i.type===p.anweisung){const e=i.textLines;return e.length===0||e.length===1&&e[0]==="ø"}return!1}function we(i,e){const t=$(i,e);return t!==void 0&&ut(t)}function Le(i,e){if(e.length===0)throw new L("Invalid element path.");const[t,...n]=e;if(t<0||t>=i.length)throw new L("Invalid element path.");if(n.length===0)return{list:i,index:t};const[a,...s]=n;if(s.length===0)throw new L("Invalid element path.");return Le(Dn(i[t],a),s)}function Dn(i,e){if(Ui(i.type)){if(e!==0||!i.loopBody)throw new L("Invalid element path.");return i.loopBody}if(Fi(i.type)){if(!i.cases||e<0||e>=i.cases.length)throw new L("Invalid element path.");return i.cases[e].elements}throw new L("Invalid element path.")}function ae(i,e){const{list:t,index:n}=Le(i.elements,e);return t[n]}function $(i,e){try{return ae(i,e)}catch{return}}function xe(i,e,t){const n=le(i),{list:a,index:s}=Le(n.elements,e);return a[s]=le(t),n}function k1(i,e,t){const n=le(ae(i,e));return n.textLines=t.length===0?[""]:t,xe(i,e,n)}function M1(i,e){return e.length===0?!1:e.length===1&&i.elements.length===1?!we(i,e):$(i,e)!==void 0}function Ge(i,e){const t=le(i),{list:n,index:a}=Le(t.elements,e);if(e.length===1&&n.length===1){if(ut(n[0]))throw new L("The last root element cannot be deleted.");return n[0]=ie(),t}return n.splice(a,1),e.length>1&&n.length===0&&n.push(ie()),t}function Ae(i,e,t,n){const a=le(i);let s;if(e.length===0)s=a.elements;else{const r=e.slice(0,-1),o=e[e.length-1],{list:l,index:m}=Le(a.elements,r);s=Dn(l[m],o)}return s.splice(Math.min(Math.max(0,t),s.length),0,le(n)),a}function Bn(i,e,t){if(t.length===0)throw new L("Invalid element path.");return Ae(i,t.slice(0,-1),t[t.length-1],e)}function R1(i,e,t){if(t.length===0)throw new L("Invalid element path.");return Ae(i,t.slice(0,-1),t[t.length-1]+1,e)}function ct(i,e){return i.length<e.length&&i.every((t,n)=>e[n]===t)}function dt(i,e){if(e.length===0)return i;const t=e[e.length-1],n=e.slice(0,-1);if(i.length<=n.length||!n.every((r,o)=>i[o]===r))return i;const a=n.length;if(i[a]<=t)return i;const s=[...i];return s[a]-=1,s}const ht=(i,e)=>i.length===e.length&&i.every((t,n)=>t===e[n]);function qi(i,e,t){if(ht(e,t))return i;if(ct(e,t))throw new L("Invalid element path.");const n=ae(i,e),a=Ge(i,e);return Bn(a,n,dt(t,e))}function Ki(i,e,t){if(ht(e,t))return i;if(ct(e,t))throw new L("Invalid element path.");const n=ae(i,e),a=Ge(i,e);return R1(a,n,dt(t,e))}function $i(i,e,t){if(!we(i,t))throw new L("Invalid element path.");if(ht(e,t))return i;if(ct(e,t))throw new L("Invalid element path.");const n=ae(i,e),a=Ge(i,e);return xe(a,dt(t,e),n)}function ea(i,e){const t=le(ae(i,e)),n=t.cases;if(t.type!==p.fallauswahl||!n||n.length===0)throw new L("Invalid element path.");const a=n[n.length-1].name.toLowerCase()==="default",s=a?n.length-1:n.length,r=String(a?n.length:n.length+1);return n.splice(s,0,{name:r,elements:[ie()]}),{doc:xe(i,e,t),path:[...e,s,0]}}function ta(i,e,t){const n=le(ae(i,e)),a=n.cases;if(n.type!==p.fallauswahl||!a)throw new L("Invalid element path.");if(a.length<=2)throw new L("A switch needs at least two cases.");if(t<0||t>=a.length)throw new L("Invalid element path.");a.splice(t,1);const s=Math.min(t,a.length-1);return{doc:xe(i,e,n),path:[...e,s,0]}}function na(i,e,t,n){const a=le(ae(i,e)),s=a.cases;if(a.type!==p.fallauswahl||!s)throw new L("Invalid element path.");if(t<0||t>=s.length)throw new L("Invalid element path.");const r=n.trim();if(r==="")throw new L("Invalid element path.");return s[t].name=r,xe(i,e,a)}function ia(i,e){var t;if(!(!i||i.length===0))for(let n=i.length;n>=1;n--){const a=i.slice(0,n);if(((t=$(e,a))==null?void 0:t.type)===p.fallauswahl)return a}}function aa(i,e){if(!(!i||i.length<=e.length))return i[e.length]}function Z1(i,e){if(e.elements.length!==0)return!i||!$(e,i)?[0]:i}const Wn=i=>i!==void 0&&/\s/.test(i);function o1(i){const e=i.trim().toLowerCase();return e.startsWith("input:")?"input":e.startsWith("output:")||e.startsWith("print:")?"output":"statement"}function sa(i){const e=i.trim(),t=e.toLowerCase();return t.startsWith("input:")?e.slice(6).trim():t.startsWith("output:")?e.slice(7).trim():t.startsWith("print:")?e.slice(6).trim():i}function jt(i,e){const t=e.trim();return t===""?`${i} `:`${i} ${t}`}function ra(i,e){const t=sa(e);switch(i){case"statement":return t;case"input":return jt("input:",t);case"output":return jt("output:",t)}}const t1=i=>Wn(i[0])?i.slice(1):i;function oa(i){const e=i.replace(/^\s+/,""),t=e.toLowerCase();return t.startsWith("input:")?t1(e.slice(6)):t.startsWith("output:")?t1(e.slice(7)):t.startsWith("print:")?t1(e.slice(6)):i}function Pt(i,e){const t=e.replace(/^\s+/,"");if(!t.toLowerCase().startsWith(i.toLowerCase()))return e;const n=t.slice(i.length);if(!(n===""||Wn(n[0])||n[0]==="("))return e;const a=t1(n);return a.startsWith("(")&&a.endsWith(")")&&a.length>=2?a.slice(1,-1):a}function Ct(i,e){if(i==="input:"||i==="output:")return oa(e);const t=Pt(i,e);if(i==="while"&&t===e){const n=Pt("until",e);if(n!==e)return n}return t}function la(i,e){return e===""?`${i} `:`${i} ${e}`}function Hn(i){return i.replace(/[“”„«»]/g,'"').replace(/[’‘‚´]/g,"'")}function At(i){const e=i.length===0?[""]:i.slice(0,3);for(;e.length<3;)e.push("");return e}function ma(i){let e=Hn(i);for(;;){const t=e.trim();if(!t.endsWith(";"))return e;e=t.slice(0,-1).trim()}}const b1='system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';function ua(i,e){return`${e==="bold"?700:500} ${i}px ${b1}`}const Gn=(i,e,t)=>[...i].length*e*(t==="bold"?.68:.62);function ca(){if(typeof document>"u"||!document.body)return;const i="http://www.w3.org/2000/svg",e=document.createElementNS(i,"svg");e.setAttribute("aria-hidden","true"),e.setAttribute("width","0"),e.setAttribute("height","0"),e.style.cssText="position:absolute;left:-9999px;top:0;visibility:hidden;overflow:hidden";const t=document.createElementNS(i,"text");if(t.setAttribute("font-family",b1),t.style.whiteSpace="pre",e.append(t),document.body.append(e),typeof t.getComputedTextLength!="function"||typeof t.getBBox!="function"){e.remove();return}if(t.textContent="Mg",t.setAttribute("font-size","20"),!(t.getComputedTextLength()>0)){e.remove();return}return t}let _1;function Nn(){return _1===void 0&&(_1=ca()??null),_1??void 0}function En(i,e,t){i.setAttribute("font-size",String(e)),i.setAttribute("font-weight",t==="bold"?"700":"500")}function Tt(i,e){const t=`${i}|${e}`;let n=Dt.get(t);if(!n){const a=Nn();if(n={ascent:i*.95,descent:i*.24},a){En(a,i,e),a.setAttribute("y","0"),a.textContent="Mg";const s=a.getBBox();s.height>0&&(n={ascent:-s.y,descent:s.height+s.y})}Dt.set(t,n)}return n}const Dt=new Map;function da(){const i=Nn();if(i){const n=new Map;return(a,s,r)=>{const o=`${s}|${r}|${a}`;let l=n.get(o);return l===void 0&&(En(i,s,r),i.textContent=a,l=a===""?0:i.getComputedTextLength(),n.size>2e3&&n.clear(),n.set(o,l)),l}}const e=typeof document<"u"?document.createElement("canvas").getContext("2d"):null;if(!e)return Gn;const t=new Map;return(n,a,s)=>{const r=`${a}|${s}|${n}`;let o=t.get(r);return o===void 0&&(e.font=ua(a,s),o=e.measureText(n).width,t.size>2e3&&t.clear(),t.set(r,o)),o}}const Ln={fontSize:15,lineHeight:20,charWidth:7,baseHeaderExtra:20,minSidePadding:42,cellTextInsetY:15,doUntilDoLabelTopInset:2,doUntilFooterTopInset:6,doUntilFooterBottomInset:8};function ha(i){return{...Ln,fontSize:14,lineHeight:21,charWidth:5.5*(14/12),baseHeaderExtra:21,minSidePadding:40}}const Fe=i=>i===p.forSchleife||i===p.whileSchleife||i===p.doUntilSchleife||i===p.endlosschleife,Ye=i=>i===p.fallauswahl||i===p.verzweigung;function Oe(i,e,t,n=0){return{idPath:i,element:e,frame:t,headerBandHeight:n,topBandHeight:0,loopBodyLeadingInset:0,caseColumnFrames:[],children:[]}}function Y(i){return{...i,frame:{...i.frame}}}class Vn{constructor(e=Ln,t=Gn){this.metrics=e,this.measure=t}layout(e,t={left:28,top:28}){const a=this.layoutList(e.elements,t.left,t.top,[]).map(l=>this.stretchLoopBodiesVertically(l));let s=0,r=0;const o=l=>{s=Math.max(s,l.frame.x+l.frame.width),r=Math.max(r,l.frame.y+l.frame.height),l.children.forEach(o)};return a.forEach(o),{canvasSize:{width:s+t.left,height:r+t.top},elements:a}}lineWidth(e){return Math.ceil(this.measure(e,this.metrics.fontSize,"medium"))}lineWidthBold(e){return Math.ceil(this.measure(e,this.metrics.fontSize,"bold"))}layoutList(e,t,n,a){let s=[],r=n;e.forEach((l,m)=>{const u=this.layoutElement(l,t,r,[...a,m]);s.push(u),r+=u.frame.height});const o=Math.max(0,...s.map(l=>l.frame.width));return o>0&&(s=s.map(l=>this.stretchNodeTreeToWidth(l,o))),s}stretchMultiwayNodeToWidth(e,t){const n=Y(e),a=n.frame.width;if(!(a>0)||n.caseColumnFrames.length===0)return n;const s=t/a;n.frame.width=t;let r=n.frame.x;const o=n.caseColumnFrames.map(l=>{const m=l.width*s,u={x:r,y:l.y,width:m,height:l.height};return r+=m,u});return n.caseColumnFrames=o,n.dividerX=o.length>0?o[o.length-1].x:n.frame.x+t,n.columns&&n.columns.length===o.length&&(n.columns=n.columns.map((l,m)=>{const u=o[m];return l.map(c=>{const h=Y(c);return h.frame.x=u.x,h.frame.width=u.width,this.stretchDescendantsWidths(h,u.width)})}),n.children=n.columns.flat()),n}stretchLoopChildren(e,t){const n=this.effectiveLoopBodyLeading(e),a=Math.max(0,t-n);e.children=e.children.map(s=>{const r=Y(s);return r.frame.x=e.frame.x+n,r.frame.width=a,this.stretchDescendantsWidths(r,a)})}stretchNodeTreeToWidth(e,t){const n=Y(e);return n.frame.width>0?Ye(n.element.type)&&n.caseColumnFrames.length>0?this.stretchMultiwayNodeToWidth(n,t):(n.frame.width=t,Fe(n.element.type)?this.stretchLoopChildren(n,t):n.children=n.children.map(s=>this.stretchDescendantsWidths(s,t)),n):n}stretchDescendantsWidths(e,t){let n=Y(e);return Ye(n.element.type)?n=this.stretchNodeTreeToWidth(n,t):Fe(n.element.type)?(n.frame.width=t,this.stretchLoopChildren(n,t)):(n.frame.width=t,n.children=n.children.map(a=>this.stretchDescendantsWidths(a,t))),n}stretchLoopBodiesVertically(e){const t=Y(e);if(t.columns&&t.columns.length>0)return t.columns=t.columns.map(s=>s.map(r=>this.stretchLoopBodiesVertically(r))),t.children=t.columns.flat(),t;t.children=t.children.map(s=>this.stretchLoopBodiesVertically(s));const n=s=>s===p.anweisung||s===p.leerElement||s===p.aufruf||s===p.aussprung||Fe(s);let a;switch(t.element.type){case p.forSchleife:case p.whileSchleife:case p.endlosschleife:{const s=t.element.type===p.endlosschleife?40:0;a=t.frame.y+t.frame.height-s;break}case p.doUntilSchleife:a=t.frame.y+t.frame.height-t.headerBandHeight;break}if(a!==void 0&&t.children.length>0){const s=t.children.length-1;let r=Y(t.children[s]);const o=a-(r.frame.y+r.frame.height);o>.5&&n(r.element.type)&&(r.frame.height+=o,r=this.stretchLoopBodiesVertically(r),t.children=[...t.children.slice(0,s),r])}return t}headerHeight(e){const t=this.metrics,n=Math.max(1,e.textLines.length);if(e.type===p.doUntilSchleife)return t.doUntilFooterTopInset+n*t.lineHeight+t.doUntilFooterBottomInset+e.zoomY;let a;switch(e.type){case p.fallauswahl:a=40;break;case p.verzweigung:a=20;break;case p.forSchleife:case p.whileSchleife:case p.endlosschleife:a=t.baseHeaderExtra+4;break;default:a=14}return a+n*t.lineHeight+e.zoomY}doUntilBodyLeadingInset(){return Math.max(20,this.lineWidthBold("do")+12)}effectiveLoopBodyLeading(e){return e.element.type===p.doUntilSchleife?e.loopBodyLeadingInset>0?e.loopBodyLeadingInset:this.doUntilBodyLeadingInset():20}horizontalPaddingInsideCell(e){return Ye(e)?Math.max(100,this.metrics.minSidePadding*2.45):this.metrics.minSidePadding}minWidth(e){const t=e.textLines.length===0?0:Math.max(...e.textLines.map(s=>this.lineWidth(s)));let n=t+e.zoomX+this.horizontalPaddingInsideCell(e.type);if(e.type===p.aufruf){const s=Math.max(68,this.metrics.minSidePadding*1.7),r=Math.max(8,this.metrics.minSidePadding*.2);n=Math.max(n,t+e.zoomX+s+r)}const a=e.type===p.leerElement?76:e.type===p.aufruf?104:72;return Math.max(a,n)}layoutElement(e,t,n,a){if(Ye(e.type))return this.layoutMultiway(e,t,n,a);if(Fe(e.type))return this.layoutLoop(e,t,n,a);const s=this.headerHeight(e);return Oe(a,e,{x:t,y:n,width:this.minWidth(e),height:s},s)}layoutLoop(e,t,n,a){const s=b=>b.reduce((z,v)=>z+v.frame.height,0),r=b=>Math.max(0,...b.map(z=>z.frame.width)),o=e.loopBody??[];if(e.type===p.doUntilSchleife){const b=this.doUntilBodyLeadingInset(),z=e.zoomY,v=this.headerHeight(e),j=this.layoutList(o,t+b,n+z,[...a,0]),_=Math.max(this.minWidth(e),r(j)+b),Z=s(j)+v+z,C=Math.max(0,_-b),A=Oe(a,e,{x:t,y:n,width:_,height:Z},v);return A.topBandHeight=z,A.loopBodyLeadingInset=b,A.children=j.map(B=>{const W=Y(B);return W.frame.x=t+b,W.frame.width=C,this.stretchDescendantsWidths(W,C)}),A}const l=20,m=this.headerHeight(e),u=e.type===p.endlosschleife?40:0,c=this.layoutList(o,t+l,n+m,[...a,0]),h=Math.max(this.minWidth(e),r(c)+l),g=m+u+s(c),x=Math.max(0,h-l),f=Oe(a,e,{x:t,y:n,width:h,height:g},m);return f.children=c.map(b=>{const z=Y(b);return z.frame.x=t+l,z.frame.width=x,this.stretchDescendantsWidths(z,x)}),f}layoutMultiway(e,t,n,a){const s=this.headerHeight(e),r=e.cases??[],o=Math.max(1,r.length),l=Math.max(this.minWidth(e)/o,132);let m=[],u=[],c=0,h=0;if(r.forEach((b,z)=>{const v=t+c,j=this.layoutList(b.elements,v,n+s,[...a,z]),_=Math.max(0,...j.map(A=>A.frame.width));let Z;e.type===p.verzweigung&&o===2?Z=Math.max(_,(z===0?"true":"false").length*this.metrics.charWidth+24):Z=Math.max(l,_);const C=j.reduce((A,B)=>A+B.frame.height,0);h=Math.max(h,C),m.push({x:v,y:n+s,width:Z,height:C}),u.push(j.map(A=>{const B=Y(A);return B.frame.x=v,B.frame.width=Z,this.stretchDescendantsWidths(B,Z)})),c+=Z}),e.type===p.verzweigung&&o===2&&m.length===2){const b=Math.max(m[0].width,m[1].width),z=t,v=t+b,j=v-m[1].x;m[0]={...m[0],x:z,width:b},m[1]={...m[1],x:v,width:b},c=b*2,u[0]=u[0].map(_=>{const Z=Y(_);return Z.frame.x=z,Z.frame.width=b,this.stretchDescendantsWidths(Z,b)}),u[1]=u[1].map(_=>{const Z=U1(_,j);return Z.frame.width=b,this.stretchDescendantsWidths(Z,b)})}if(u.length>0){const b=ga(u,n+s);u=b.columns.map(z=>z.map(v=>this.stretchLoopBodiesVertically(v)));for(let z=0;z<Math.min(m.length,b.columnHeights.length);z++)m[z]={...m[z],height:b.columnHeights[z]};h=b.columnHeights.length>0?Math.max(...b.columnHeights):h}let g=Math.max(c,this.minWidth(e));if(c>.5&&g>c+.5){const b=g/c;let z=t;const v=[],j=[];m.forEach((_,Z)=>{const C=_.width*b;j.push(u[Z].map(A=>{const B=Y(A);return B.frame.x=z,B.frame.width=C,this.stretchDescendantsWidths(B,C)})),v.push({x:z,y:_.y,width:C,height:_.height}),z+=C}),m=v,u=j,c=z-t,g=c}const x=m.length>0?m[m.length-1].width:c/o,f=Oe(a,e,{x:t,y:n,width:g,height:s+h},s);return f.caseColumnFrames=m,f.dividerX=m.length>0?m[m.length-1].x:t+c-x,f.dividerYInset=e.type===p.fallauswahl?-20:0,f.columns=u,f.children=u.flat(),f}}function Rn(i,e){if(Math.abs(e)<=1e-4)return i;const t=Y(i),n=a=>{const s=Y(a);return s.frame.y+=e,Rn(s,e)};return t.columns?(t.columns=t.columns.map(a=>a.map(n)),t.children=t.columns.flat()):t.children=t.children.map(n),t}function U1(i,e){if(Math.abs(e)<=1e-4)return i;const t=Y(i);return t.frame.x+=e,t.columns?(t.columns=t.columns.map(n=>n.map(a=>U1(a,e))),t.children=t.columns.flat()):t.children=t.children.map(n=>U1(n,e)),t}function ga(i,e){if(i.length<2)return{columns:i,columnHeights:i.map(m=>m.reduce((u,c)=>u+c.frame.height,0))};const t=.5,n=[e];for(const m of i)for(const u of m)n.push(u.frame.y+u.frame.height);const a=Math.max(...n);n.push(a),n.sort((m,u)=>m-u);let s=[];for(const m of n)s.length>0&&Math.abs(m-s[s.length-1])<=t||s.push(m);(s.length===0||Math.abs(s[0]-e)>t)&&s.unshift(e),s.length===0?s=[e,a]:s[s.length-1]<a-1e-6?s.push(a):s[s.length-1]=a;const r=(m,u)=>{let c=Math.max(0,u);for(;c<s.length&&s[c]<m-t;)c++;return Math.min(c,s.length-1)},o=[],l=[];for(const m of i){if(m.length===0){o.push([]),l.push(0);continue}const u=[];let c=0;m.forEach((h,g)=>{let x=Y(h);const f=s[c],b=h.frame.y+h.frame.height,z=g===m.length-1?s.length-1:r(b,c+1),v=s[z],j=f-x.frame.y;x.frame.y=f,x.frame.height=Math.max(0,v-f),x=Rn(x,j),u.push(x),c=z}),o.push(u),l.push(s[s.length-1]-e)}return{columns:o,columnHeights:l}}const Bt=[{item:"anweisung",label:"Anweisung"},{item:"verzweigung",label:"Verzweigung"},{item:"fallauswahl",label:"Fallauswahl"},{item:"forZaehlSchleife",label:"For-Schleife"},{item:"whileSchleife",label:"While-Schleife"},{item:"doUntilSchleife",label:"Do-while-Schleife"},{item:"endlosschleife",label:"Endlosschleife"},{item:"aufruf",label:"Aufruf"},{item:"aussprung",label:"Aussprung"}];function Qe(i){const e=ie;switch(i){case"anweisung":return N(p.anweisung);case"verzweigung":return N(p.verzweigung,{cases:[{name:"true",elements:[e()]},{name:"false",elements:[e()]}]});case"fallauswahl":return N(p.fallauswahl,{cases:[{name:"1",elements:[e()]},{name:"2",elements:[e()]},{name:"default",elements:[e()]}]});case"forZaehlSchleife":return N(p.forSchleife,{textLines:["","",""],loopBody:[e()]});case"whileSchleife":return N(p.whileSchleife,{loopBody:[e()]});case"doUntilSchleife":return N(p.doUntilSchleife,{loopBody:[e()]});case"endlosschleife":return N(p.endlosschleife,{loopBody:[e()]});case"aussprung":return N(p.aussprung);case"aufruf":return N(p.aufruf)}}function l1(i){if(i==="")return"-1;";let e="";for(const t of i)e+=t.codePointAt(0)+";";return e}function F1(i){const e=i.split(";").filter(n=>n!=="");if(e.length===1&&e[0]==="-1")return"";let t="";for(const n of e){if(!/^[+-]?\d+$/.test(n))continue;const a=Number(n);a!==-1&&(a<0||a>1114111||a>=55296&&a<=57343||(t+=String.fromCodePoint(a)))}return t}class Wt extends Error{}function gt(i){const e=new DOMParser().parseFromString(i,"application/xml");if(e.getElementsByTagName("parsererror").length>0)throw new Wt("Could not read XML.");const t=e.documentElement;if(!t||t.tagName!=="struktogramm")throw new Wt("Invalid XML: root element is not <struktogramm>.");const n={caption:Gt(t,"caption")??"",elements:O1(t)},a=Gt(t,"fontfamily");a!==void 0&&(n.fontFamily=a);const s=Te(t,"fontsize");s!==void 0&&(n.fontSize=s);const r=Te(t,"fontstyle");return r!==void 0&&(n.fontStyle=r),t.getAttribute("pseudocode")==="true"&&(n.pseudocode=!0),n}function j1(i){const e=(n,a)=>a===void 0?"":` ${n}="${Un(a)}"`;let t=`<?xml version="1.0" encoding="UTF-8"?>
+`;t+="<struktogramm",t+=e("fontfamily",i.fontFamily===void 0?void 0:l1(i.fontFamily)),t+=e("fontstyle",i.fontStyle===void 0?void 0:String(i.fontStyle)),t+=e("fontsize",i.fontSize===void 0?void 0:String(i.fontSize)),t+=e("caption",l1(i.caption)),t+=e("pseudocode",i.pseudocode?"true":void 0),t+=`>
+`;for(const n of i.elements)t+=Y1(n,"  ");return t+=`</struktogramm>
+`,t}function Y1(i,e){let t=`${e}<strelem typ="${i.type}" zx="${i.zoomX}" zy="${i.zoomY}"`;i.textColor&&(t+=` textcolor="${Ht(i.textColor)}"`),i.backgroundColor&&(t+=` bgcolor="${Ht(i.backgroundColor)}"`),t+=`>
+`;for(const n of i.textLines)t+=`${e}  <text>${pa(l1(n))}</text>
+`;if(i.loopBody){t+=`${e}  <schleifeninhalt>
+`;for(const n of i.loopBody)t+=Y1(n,e+"    ");t+=`${e}  </schleifeninhalt>
+`}if(i.cases)for(const n of i.cases){t+=`${e}  <fall fallname="${Un(l1(n.name))}">
+`;for(const a of n.elements)t+=Y1(a,e+"    ");t+=`${e}  </fall>
 `}return t+=`${e}</strelem>
-`,t}function An(a){return a.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}function ti(a){return a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}function jt(a){return String(a.a<<24|a.r<<16|a.g<<8|a.b|0)}function $e(a,e){return Array.from(a.children).filter(t=>t.tagName===e)}function L1(a){const e=[];for(const t of $e(a,"strelem")){const n=ni(t);n&&e.push(n)}return e}function ni(a){const e=Ae(a,"typ");if(e===void 0||g[e]===void 0)return;const t={type:e,zoomX:Ae(a,"zx")??0,zoomY:Ae(a,"zy")??0,textLines:$e(a,"text").map(o=>N1((o.textContent??"").trim()))},n=Ct(a.getAttribute("textcolor"));n&&(t.textColor=n);const i=Ct(a.getAttribute("bgcolor"));i&&(t.backgroundColor=i),t.textLines.length===0&&(t.textLines=[""]);const s=$e(a,"schleifeninhalt")[0];if(s){const o=L1(s);o.length>0&&(t.loopBody=o)}const r=$e(a,"fall").map(o=>({name:N1(o.getAttribute("fallname")??""),elements:L1(o)}));return r.length>0&&(t.cases=r),t}function Pt(a,e){const t=a.getAttribute(e);return t===null?void 0:N1(t)}function Ae(a,e){const t=a.getAttribute(e);if(!(t===null||!/^[+-]?\d+$/.test(t)))return Number(t)}function Ct(a){if(a===null||!/^[+-]?\d+$/.test(a))return;const e=Number(a);if(e<-2147483648||e>2147483647)return;const t=e>>>0;return{a:t>>>24&255,r:t>>>16&255,g:t>>>8&255,b:t&255}}const ai="http://www.w3.org/2000/svg",L={diagramLineWidth:2,outerFrameLineWidth:2,selectionLineWidth:3.5,canvasOuterMargin:16,cellTextInsetX:18,cellTextInsetY:15,multiHeaderFirstLineY:14,branchLabelInsetX:10,fallauswahlCaseLabelBand:26,callSideBarInset:14,callTextInsetFromSideBar:20,loopBodyLeadingInset:20};function D(a,e={}){const t=document.createElementNS(ai,a);for(const[n,i]of Object.entries(e))t.setAttribute(n,String(i));return t}class Tn{constructor(e,t){b(this,"usesSimulationHighlight",!1);this.metrics=e,this.measure=t}get lineHeight(){return this.metrics.lineHeight}get fontSize(){return this.metrics.fontSize}render(e,t,n,i=L.canvasOuterMargin){const s=D("svg",{width:t.width,height:t.height,viewBox:`0 0 ${t.width} ${t.height}`,"font-family":p1,"font-size":this.fontSize,class:"diagram"});s.append(D("rect",{x:0,y:0,width:t.width,height:t.height,fill:"#fafafa"}));const r=i;s.append(D("rect",{x:r,y:r,width:e.canvasSize.width-2*r-1,height:e.canvasSize.height-2*r-1,fill:"none",stroke:"black","stroke-width":L.outerFrameLineWidth}));const o=D("g");for(const l of e.elements)this.drawNode(l,o,n,{},void 0);return s.append(o),s}line(e,t){e.append(D("polyline",{points:t.map(n=>n.join(",")).join(" "),fill:"none",stroke:"black","stroke-width":L.diagramLineWidth,"stroke-linejoin":"miter"}))}strokeCellBorder(e,t,n){const i=t.x,s=t.y,r=t.x+t.width,o=t.y+t.height;if(!n.top&&!n.left&&!n.bottom&&!n.right){e.append(D("rect",{x:i,y:s,width:t.width,height:t.height,fill:"none",stroke:"black","stroke-width":L.diagramLineWidth}));return}n.top||this.line(e,[[i,s],[r,s]]),n.right||this.line(e,[[r,s],[r,o]]),n.bottom||this.line(e,[[r,o],[i,o]]),n.left||this.line(e,[[i,o],[i,s]])}textWidth(e){const t=ft(e);return t?this.measure(t.keyword,this.fontSize,"bold")+(t.rest===""?0:this.measure(" "+t.rest,this.fontSize,"medium")):this.measure(e,this.fontSize,"medium")}drawKeywordLine(e,t,n,i){const s=D("text",{x:n,y:i+kt(this.fontSize,"medium").ascent,"font-weight":500});s.style.whiteSpace="pre";const r=ft(t);if(r){const o=D("tspan",{"font-weight":700});if(o.textContent=r.keyword,s.append(o),r.rest!==""){const l=D("tspan",{});l.textContent=" "+r.rest,s.append(l)}}else s.textContent=t;e.append(s)}drawLabel(e,t,n,i,s,r){const o=kt(this.fontSize,s?"bold":"medium"),l=D("text",{x:n,y:r==="top"?i+o.ascent:i-o.descent,"font-weight":s?700:500});l.style.whiteSpace="pre",l.textContent=t,e.append(l)}roofMetrics(e,t,n,i){const s=t.y+n,r=e.dividerYInset??0,o=12,l=Math.max(e.element.textLines.length,1)*this.lineHeight,m=t.y+L.multiHeaderFirstLineY;if(e.element.type===g.fallauswahl){const c=Math.max(L.fallauswahlCaseLabelBand,this.lineHeight+10),h=s-c,p=Math.min(s+r,h-8),x=Math.max(p,m+l+6);return{apex:{x:i,y:x},maxTextBottom:h-o,roofBottom:s}}const u={x:i,y:s+r};return{apex:u,maxTextBottom:u.y-o,roofBottom:s}}drawNode(e,t,n,i,s){var j;const r=e.frame,o=e.element,l=r.x+r.width,m=r.y+r.height,u=o.type===g.verzweigung||o.type===g.fallauswahl,c=u?e.headerBandHeight:0,h=n!==void 0&&V1(e.idPath,n),p=tt(o),x=D("g",{"data-path":e.idPath.join(",")});t.append(x);const y=this.usesSimulationHighlight,I=h&&y?"rgba(199, 230, 255, 0.55)":"white";x.append(D("rect",{x:r.x,y:r.y,width:r.width,height:r.height,fill:I})),this.strokeCellBorder(x,r,i);const v=L.callSideBarInset;if(o.type===g.aufruf?(this.line(x,[[r.x+v,r.y],[r.x+v,m]]),this.line(x,[[l-v,r.y],[l-v,m]])):o.type===g.aussprung&&this.line(x,[[r.x+v,r.y],[r.x,r.y+r.height/2],[r.x+v,m]]),u&&e.dividerX!==void 0){const _=e.dividerX,Z=this.roofMetrics(e,r,c,_),C=Math.max(p.length,1)*this.lineHeight,A=r.y+L.multiHeaderFirstLineY;this.line(x,[[r.x,r.y],[Z.apex.x,Z.apex.y],[l,r.y]]),o.type===g.fallauswahl&&this.line(x,[[r.x,Z.roofBottom],[l,Z.roofBottom]]);let W;A+C<=Z.maxTextBottom?W=A:W=Math.max(r.y+2,Z.maxTextBottom-(Math.max(p.length,1)-1)*this.lineHeight-this.lineHeight),p.forEach((B,oe)=>{const le=this.textWidth(B);let be;if(o.type===g.verzweigung){const v1=r.x+L.cellTextInsetX,Za=l-le-L.cellTextInsetX;be=Math.min(Math.max(_-le/2,v1),Za)}else be=r.x+r.width/2-le/2;this.drawKeywordLine(x,B,be,W+oe*this.lineHeight)})}else if(o.type!==g.doUntilSchleife)if(o.type===g.anweisung||o.type===g.aufruf||o.type===g.aussprung){const _=L.cellTextInsetX;let Z=r.x+_,C=l-_;o.type===g.aufruf?(Z=r.x+v+L.callTextInsetFromSideBar,C=l-v-L.callTextInsetFromSideBar):o.type===g.aussprung&&(Z=r.x+v+_);const A=Math.max(0,C-Z);let W=r.y+r.height/2-Math.max(1,p.length)*this.lineHeight/2;for(const B of p)this.drawKeywordLine(x,B,Z+(A-this.textWidth(B))/2,W),W+=this.lineHeight}else{const _=Math.max(1,p.length)*this.lineHeight;let Z=s===g.doUntilSchleife?r.y+r.height/2-_/2:r.y+L.cellTextInsetY;for(const C of p)this.drawKeywordLine(x,C,r.x+L.cellTextInsetX,Z),Z+=this.lineHeight}e.children.forEach((_,Z)=>{const C=o.type===g.doUntilSchleife&&Z===0?{top:!0,left:!0}:{};this.drawNode(_,t,n,C,o.type)});const w=D("g");if(t.append(w),o.type===g.doUntilSchleife){const _=((j=e.children[0])==null?void 0:j.frame.x)??r.x+(e.loopBodyLeadingInset>0?e.loopBodyLeadingInset:L.loopBodyLeadingInset);this.drawLabel(w,"do",r.x+4,r.y+this.metrics.doUntilDoLabelTopInset,!0,"top");const Z=m-e.headerBandHeight;this.line(w,[[_,Z],[l,Z]]),this.line(w,[[_,r.y],[_,Z]]);let C=Z+this.metrics.doUntilFooterTopInset;for(const A of p)this.drawKeywordLine(w,A,r.x+L.cellTextInsetX,C),C+=this.lineHeight}if(u&&e.dividerX!==void 0&&e.caseColumnFrames.length>1){const _=this.roofMetrics(e,r,c,e.dividerX),Z=_.apex;e.caseColumnFrames.forEach((A,W)=>{if(W>=e.caseColumnFrames.length-1)return;const B=A.x+A.width,oe=ii(B,r,Z),le=Number.isFinite(oe)?Math.min(Math.max(oe,r.y),m):r.y;this.line(w,[[B,m],[B,le]])});const C=o.cases;if(C&&C.length===e.caseColumnFrames.length){const A=o.type===g.fallauswahl?_.roofBottom-6:r.y+c-8,W=L.branchLabelInsetX;if(o.type===g.verzweigung&&C.length===2){this.drawLabel(w,"true",r.x+W,A,!0,"bottom");const B=e.caseColumnFrames[1],oe=this.measure("false",this.fontSize,"bold");this.drawLabel(w,"false",B.x+B.width-W-oe,A,!0,"bottom")}else C.forEach((B,oe)=>{const le=e.caseColumnFrames[oe],be=["default","true","false"].includes(B.name.toLowerCase()),v1=this.measure(B.name,this.fontSize,be?"bold":"medium");this.drawLabel(w,B.name,le.x+le.width/2-v1/2,A,be,"bottom")})}}h&&w.append(D("rect",{x:r.x,y:r.y,width:r.width,height:r.height,fill:"none",stroke:y?"rgba(66, 140, 242, 0.78)":"rgba(0, 122, 255, 0.9)","stroke-width":L.selectionLineWidth}))}}function ii(a,e,t){const n=e.y;if(a<=t.x){const s=t.x-e.x;return Math.abs(s)<.5?t.y:n+(t.y-n)/s*(a-e.x)}const i=e.x+e.width-t.x;return Math.abs(i)<.5?t.y:t.y+(n-t.y)/i*(a-t.x)}function V1(a,e){return a.length===e.length&&a.every((t,n)=>t===e[n])}function si(a){const e=[],t=n=>{e.push(n),n.children.forEach(t)};return a.forEach(t),e}function r1(a){var e,t;return{...a,textLines:tt(a),loopBody:(e=a.loopBody)==null?void 0:e.map(r1),cases:(t=a.cases)==null?void 0:t.map(n=>({name:n.name,elements:n.elements.map(r1)}))}}const ri="modulepreload",oi=function(a,e){return new URL(a,e).href},At={},M=function(e,t,n){let i=Promise.resolve();if(t&&t.length>0){let r=function(u){return Promise.all(u.map(c=>Promise.resolve(c).then(h=>({status:"fulfilled",value:h}),h=>({status:"rejected",reason:h}))))};const o=document.getElementsByTagName("link"),l=document.querySelector("meta[property=csp-nonce]"),m=(l==null?void 0:l.nonce)||(l==null?void 0:l.getAttribute("nonce"));i=r(t.map(u=>{if(u=oi(u,n),u in At)return;At[u]=!0;const c=u.endsWith(".css"),h=c?'[rel="stylesheet"]':"";if(!!n)for(let y=o.length-1;y>=0;y--){const I=o[y];if(I.href===u&&(!c||I.rel==="stylesheet"))return}else if(document.querySelector(`link[href="${u}"]${h}`))return;const x=document.createElement("link");if(x.rel=c?"stylesheet":ri,c||(x.as="script"),x.crossOrigin="",x.href=u,m&&x.setAttribute("nonce",m),document.head.appendChild(x),c)return new Promise((y,I)=>{x.addEventListener("load",y),x.addEventListener("error",()=>I(new Error(`Unable to preload CSS for ${u}`)))})}))}function s(r){const o=new Event("vite:preloadError",{cancelable:!0});if(o.payload=r,window.dispatchEvent(o),!o.defaultPrevented)throw r}return i.then(r=>{for(const o of r||[])o.status==="rejected"&&s(o.reason);return e().catch(s)})},li=[{code:"de",name:"Deutsch"},{code:"en",name:"English"},{code:"es",name:"Español"},{code:"fr",name:"Français"},{code:"it",name:"Italiano"},{code:"pl",name:"Polski"},{code:"tr",name:"Türkçe"},{code:"ko",name:"한국어"},{code:"ja",name:"日本語"},{code:"el",name:"Ελληνικά"},{code:"uk",name:"Українська"},{code:"ar",name:"العربية"},{code:"ru",name:"Русский"},{code:"he",name:"עברית"},{code:"nl",name:"Nederlands"},{code:"sv",name:"Svenska"},{code:"da",name:"Dansk"},{code:"nb",name:"Norsk bokmål"},{code:"zh-Hans",name:"中文（简体）"},{code:"zh-Hant",name:"中文（繁體）"},{code:"pt-PT",name:"Português"},{code:"java",name:"Java (Keywords)"}],Dn=["de","en","pt-PT","java"],Wn=li.filter(a=>Dn.includes(a.code)),Tt=a=>Dn.includes(a),mi=Object.assign({"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ar.lproj/Localizable.strings":()=>M(()=>import("./Localizable-CxCno28C.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/da.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BAutdlBb.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/de.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DZlyYK1P.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/el.lproj/Localizable.strings":()=>M(()=>import("./Localizable-rqA-20hM.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/en.lproj/Localizable.strings":()=>M(()=>import("./Localizable-Dj42XC1o.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/es.lproj/Localizable.strings":()=>M(()=>import("./Localizable-LSTVB2Q5.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/fr.lproj/Localizable.strings":()=>M(()=>import("./Localizable-ByPZS4RL.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/he.lproj/Localizable.strings":()=>M(()=>import("./Localizable-R-16GCrk.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/it.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DXAPah1g.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ja.lproj/Localizable.strings":()=>M(()=>import("./Localizable-CkJEmEEP.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/java.lproj/Localizable.strings":()=>M(()=>import("./Localizable-a8HTzUdm.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ko.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BudCXCER.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/nb.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DSvkBkp-.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/nl.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BJ55WGVD.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/pl.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BYJK0mdR.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/pt-PT.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DvUiKfBy.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ru.lproj/Localizable.strings":()=>M(()=>import("./Localizable-1QZ0wfvJ.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/sv.lproj/Localizable.strings":()=>M(()=>import("./Localizable-M33nNbEe.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/tr.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BM86Igqt.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/uk.lproj/Localizable.strings":()=>M(()=>import("./Localizable-UGog_aku.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/zh-Hans.lproj/Localizable.strings":()=>M(()=>import("./Localizable-CaVEL1es.js"),[],import.meta.url).then(a=>a.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/zh-Hant.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DqIDp_hh.js"),[],import.meta.url).then(a=>a.default)}),ui=Object.assign({"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/Java.strings":()=>M(()=>import("./Java-C92fuLac.js"),[],import.meta.url).then(a=>a.default)}),ci=Object.assign({"../i18n/ar.strings":()=>M(()=>import("./ar-cSNPyatn.js"),[],import.meta.url).then(a=>a.default),"../i18n/da.strings":()=>M(()=>import("./da-CBamFy_M.js"),[],import.meta.url).then(a=>a.default),"../i18n/de.strings":()=>M(()=>import("./de-BlrJO4Dz.js"),[],import.meta.url).then(a=>a.default),"../i18n/el.strings":()=>M(()=>import("./el-D6en3tJq.js"),[],import.meta.url).then(a=>a.default),"../i18n/en.strings":()=>M(()=>import("./en-Bo-n_hUD.js"),[],import.meta.url).then(a=>a.default),"../i18n/es.strings":()=>M(()=>import("./es-CETy3Txr.js"),[],import.meta.url).then(a=>a.default),"../i18n/fr.strings":()=>M(()=>import("./fr-DIiv6VJl.js"),[],import.meta.url).then(a=>a.default),"../i18n/he.strings":()=>M(()=>import("./he-BhEWk3rL.js"),[],import.meta.url).then(a=>a.default),"../i18n/it.strings":()=>M(()=>import("./it-BIYuIMGS.js"),[],import.meta.url).then(a=>a.default),"../i18n/ja.strings":()=>M(()=>import("./ja-fE1Gqj-_.js"),[],import.meta.url).then(a=>a.default),"../i18n/ko.strings":()=>M(()=>import("./ko-DJOWLcci.js"),[],import.meta.url).then(a=>a.default),"../i18n/nb.strings":()=>M(()=>import("./nb-BhaA6tVN.js"),[],import.meta.url).then(a=>a.default),"../i18n/nl.strings":()=>M(()=>import("./nl-BqboQkxC.js"),[],import.meta.url).then(a=>a.default),"../i18n/pl.strings":()=>M(()=>import("./pl-S1xQneKs.js"),[],import.meta.url).then(a=>a.default),"../i18n/pt-PT.strings":()=>M(()=>import("./pt-PT-BqBU2Xbw.js"),[],import.meta.url).then(a=>a.default),"../i18n/ru.strings":()=>M(()=>import("./ru-DWQa8UKj.js"),[],import.meta.url).then(a=>a.default),"../i18n/sv.strings":()=>M(()=>import("./sv-C_oqvPAp.js"),[],import.meta.url).then(a=>a.default),"../i18n/tr.strings":()=>M(()=>import("./tr-Ct0f7Xpu.js"),[],import.meta.url).then(a=>a.default),"../i18n/uk.strings":()=>M(()=>import("./uk-BvG1O0q8.js"),[],import.meta.url).then(a=>a.default),"../i18n/zh-Hans.strings":()=>M(()=>import("./zh-Hans-DZ6rJ7Sg.js"),[],import.meta.url).then(a=>a.default),"../i18n/zh-Hant.strings":()=>M(()=>import("./zh-Hant-Cchxwnka.js"),[],import.meta.url).then(a=>a.default)});function Z1(a,e){var t;return(t=Object.entries(a).find(([n])=>n.endsWith(e)))==null?void 0:t[1]}function di(a){const e=new Map,t=a.replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*\/\/.*$/gm,""),n=/"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)"\s*;/g,i=s=>s.replace(/\\(u[0-9a-fA-F]{4}|.)/g,(r,o)=>o==="n"?`
-`:o==="t"?"	":o.startsWith("u")&&o.length===5?String.fromCharCode(parseInt(o.slice(1),16)):o);for(const s of t.matchAll(n))e.set(i(s[1]),i(s[2]));return e}async function Dt(a){const e=a==="java"?Z1(ui,"/Java.strings"):Z1(mi,`/${a}.lproj/Localizable.strings`),t=Z1(ci,`/${a}.strings`),n=new Map;for(const i of[e,t])if(i)for(const[s,r]of di(await i()))n.set(s,r);return n}let Bn="en",Hn=new Map,e1=new Map;const Gn="appLanguageCode";function hi(){const a=new URLSearchParams(location.search).get("lang");if(a&&Tt(a))return a;try{const e=localStorage.getItem(Gn);if(e&&Tt(e))return e}catch{}for(const e of navigator.languages??[navigator.language]){const t=e.toLowerCase();if(t.startsWith("pt"))return"pt-PT";const n=Wn.find(i=>i.code!=="java"&&i.code===t.split("-")[0]);if(n)return n.code}return"en"}async function Nn(a,e=!0){if(e1.size===0&&(e1=await Dt("en")),Hn=a==="en"?e1:await Dt(a),Bn=a,e)try{localStorage.setItem(Gn,a)}catch{}const t=document.documentElement;t.lang=a==="java"?"en":a,t.dir=a==="ar"||a==="he"?"rtl":"ltr"}function ke(){return Bn}function d(a,...e){const t=Hn.get(a)??e1.get(a)??a;if(e.length===0)return t;let n=0;return t.replace(/%(?:(\d+)\$)?[@d]/g,(i,s)=>String(e[s?Number(s)-1:n++]??""))}const gi=100;function En(a){switch(a.kind){case"finished":return"Simulation finished.";case"infiniteLoopWithoutBody":return"Infinite loop has no body.";case"unsupportedStatement":return`Unsupported statement: ${a.text}`;case"invalidExpression":return`Invalid expression: ${a.text}`;case"unknownVariable":return`Unknown variable: ${a.text}`;case"divisionByZero":return"Division by zero.";case"wholeNumberExpected":return"Please enter a whole number.";case"numberExpected":return"Please enter a number.";case"booleanExpected":return"Please enter true or false.";case"subprogramNotFound":return`No open diagram is called ${a.text}. The call was skipped.`;case"callTooDeep":return"Too many nested calls. Does a subprogram call itself?";case"callArguments":return`The call does not match the header of ${a.text}. Check the values in the parentheses.`;case"missingReturn":return`${a.text} ended without returning a value with return.`;case"other":return a.text}}class J extends Error{constructor(e){super(En(e)),this.notice=e}}const Y=a=>new J({kind:"unsupportedStatement",text:a}),S=a=>new J({kind:"invalidExpression",text:a}),_e=a=>new J({kind:"unknownVariable",text:a}),pi=()=>new J({kind:"divisionByZero"});function Wt(a){return a instanceof J?a.notice:{kind:"other",text:a instanceof Error?a.message:String(a)}}function xi(a){if(a===0)return"0";if(!Number.isFinite(a))return Number.isNaN(a)?"nan":a>0?"inf":"-inf";const e=Math.floor(Math.log10(Math.abs(Number(a.toPrecision(12)))));if(e<-4||e>=12){const[n,i]=a.toExponential(11).split("e"),s=n.includes(".")?n.replace(/0+$/,"").replace(/\.$/,""):n,r=Number(i);return`${s}e${r<0?"-":"+"}${String(Math.abs(r)).padStart(2,"0")}`}const t=a.toFixed(Math.max(0,11-e));return t.includes(".")?t.replace(/0+$/,"").replace(/\.$/,""):t}function Bt(a){return Number.isFinite(a)&&Math.round(a)===a?a.toFixed(1):xi(a)}function U(a){switch(a.kind){case"int":return String(a.value);case"double":return Bt(a.value);case"string":return a.value;case"boolean":return String(a.value);case"intArray":return"["+a.value.map(String).join(", ")+"]";case"doubleArray":return"["+a.value.map(Bt).join(", ")+"]";case"stringArray":return"["+a.value.join(", ")+"]";case"booleanArray":return"["+a.value.map(String).join(", ")+"]";case"grid":return"["+Ii(a).join(", ")+"]"}}function Ii(a){return a.value.map(e=>"["+e.map(t=>U(Ln(a.elementType,t))).join(", ")+"]")}function Ln(a,e){switch(a){case"int":return{kind:"int",value:e};case"double":return{kind:"double",value:e};case"string":return{kind:"string",value:e};case"boolean":return{kind:"boolean",value:e}}}function bi(a){return a==="string"?"":a==="boolean"?!1:0}function R1(a){return a.kind==="intArray"||a.kind==="doubleArray"||a.kind==="stringArray"||a.kind==="booleanArray"||a.kind==="grid"}function fi(a){return a.kind==="int"||a.kind==="double"?a.value:NaN}const ce=a=>({kind:"int",value:a}),te=a=>({kind:"double",value:a}),ot=a=>a!==void 0&&/\s/u.test(a),o1=a=>new RegExp("\\p{L}","u").test(a),je=a=>new RegExp("\\p{N}","u").test(a);function Te(a){const e=Array.from(a);return e.length===0||!(o1(e[0])||e[0]==="_")?!1:e.every(t=>o1(t)||je(t)||t==="_")}function ie(a){switch(a.toLowerCase()){case"int":return"int";case"double":return"double";case"string":return"string";case"char":return"string";case"boolean":case"bool":return"boolean";default:return}}function Ht(a){return a.kind==="int"?"int":a.kind==="double"?"double":a.kind==="boolean"?"boolean":"string"}function q(a){const e=Array.from(a);if(e.length===3&&e[0]==="'"&&e[2]==="'")return e[1];if(!(e.length<2||e[0]!=='"'||e[e.length-1]!=='"'))return e.slice(1,-1).join("").replaceAll('\\"','"').replaceAll("\\n",`
-`)}function Gt(a){return a.replaceAll("(int)","").replaceAll("(double)","").trim()}function lt(a){const e=new Array(a.length).fill(!1);let t=0,n=!1,i=!1;return a.forEach((s,r)=>{if(n){i?i=!1:s==="\\"?i=!0:s==='"'&&(n=!1);return}switch(s){case'"':n=!0;break;case"(":case"[":t+=1;break;case")":case"]":t-=1;break;default:e[r]=t===0}}),e}function l1(a,e){const t=Array.from(a),n=Array.from(e),i=lt(t),s=[];let r=[],o=0;for(;o<t.length;){const l=o+n.length;if(l<=t.length&&n.every((m,u)=>t[o+u]===m)&&i.slice(o,l).every(Boolean)){s.push(r.join("").trim()),r=[],o=l;continue}r.push(t[o]),o+=1}return s.push(r.join("").trim()),s}function yi(a){const e=Array.from(a),t=lt(e);for(let n=0;n<e.length;n++){if(!t[n])continue;let i;if(n+1<e.length&&t[n+1]){const o=e[n]+e[n+1];[">=","<=","==","!="].includes(o)&&(i=o)}if(i===void 0&&(e[n]==="<"||e[n]===">")&&(i=e[n]),i===void 0)continue;const s=e.slice(0,n).join("").trim(),r=e.slice(n+i.length).join("").trim();return{lhs:s,op:i,rhs:r}}}function x1(a,e){let t=0,n=!1,i=!1;for(let s=e;s<a.length;s++){const r=a[s];if(n){i?i=!1:r==="\\"?i=!0:r==='"'&&(n=!1);continue}if(r==='"')n=!0;else if(r==="(")t+=1;else if(r===")"&&(t-=1,t===0))return s}}function Vn(a){const e=Array.from(a);if(!(e[0]!=="("||e[e.length-1]!==")"||x1(e,0)!==e.length-1))return e.slice(1,-1).join("").trim()}function zi(a){const e=Array.from(a),t=Array.from(".equals(");if(e[e.length-1]!==")")return;const n=lt(e);for(let i=0;i<e.length;i++){if(!n[i]||i+t.length>e.length||!t.every((r,o)=>e[i+o]===r))continue;const s=i+t.length-1;if(x1(e,s)===e.length-1)return{lhs:e.slice(0,i).join("").trim(),rhs:e.slice(s+1,-1).join("").trim()}}}function Oe(a){const e=a.trim();for(const t of["if","while","until","switch"]){if(!e.startsWith(t))continue;const n=e.slice(t.length);if(!(n===""||ot(n[0])||n[0]==="("))continue;let i=n.trim();const s=Vn(i);return s!==void 0&&(i=s),i===""?"true":i}return e===""?"true":e}function ye(a){const e=a.trim(),t=e.indexOf("[");if(!e.endsWith("]")||t<0)return;const n=e.slice(0,t).trim();if(!Te(n))return;const i=[];let s=t;for(;s<e.length;){if(e[s]!=="[")return;let r=0,o=-1;for(let l=s;l<e.length;l++)if(e[l]==="[")r+=1;else if(e[l]==="]"&&--r===0){o=l;break}if(o<0)return;for(i.push(e.slice(s+1,o)),s=o+1;s<e.length&&ot(e[s]);)s+=1}if(!(i.length>2))return{arrayName:n,indexExpressions:i}}function vi(a){const e=a.trim();if(!e.endsWith(")"))return;const t=/^([A-Za-z_]\w*(?:\s*\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*([A-Za-z_]\w*)\s*\(/u.exec(e);if(!t)return;const n=Array.from(e),i=Array.from(t[0]).length-1;if(x1(n,i)!==n.length-1)return;const s=n.slice(i+1,-1).join("").trim();return{target:t[1],method:t[2],args:s===""?[]:l1(s,",")}}function Nt(a){return Te(a)||ye(a)!==void 0}function Et(a){const e=[];let t="",n=!1,i=!1,s=0;for(const r of a){if(i){t+=r,i=!1;continue}if(r==="\\"){t+=r,i=!0;continue}if(r==='"'){n=!n,t+=r;continue}if(!n&&r==="("&&(s+=1),!n&&r===")"&&(s-=1),r==="+"&&!n&&s===0){e.push(t),t="";continue}t+=r}if(n)throw S(a);return e.push(t),e}function wi(a){const e=[];let t=0,n="";for(const i of a){if(i==="{"&&(t+=1),i==="}"&&(t-=1),i===","&&t===0){e.push(n),n="";continue}n+=i}return n.trim()!==""&&e.push(n),e}function Lt(a){const e=Array.from(a),t=[];let n=0;for(;n<e.length;){const i=e[n];if(ot(i)){n+=1;continue}if(je(i)||i==="."&&n+1<e.length&&je(e[n+1])){const s=n;let r=0;for(;n<e.length;){if(e[n]==="."){if(r+=1,r>1)throw S(a)}else if(!je(e[n]))break;n+=1}const o=e.slice(s,n).join("");if(o==="."||!/^[0-9]*\.?[0-9]*$/.test(o))throw S(a);t.push({t:"number",literal:o,value:Number(o)});continue}if(o1(i)||i==="_"){const s=n;for(;n<e.length&&(o1(e[n])||je(e[n])||e[n]==="_");)n+=1;t.push({t:"identifier",name:e.slice(s,n).join("")});continue}if("+-*/%.()[]".includes(i)){t.push({t:i}),n+=1;continue}throw S(a)}return t}class Si{constructor(e,t){b(this,"index",0);this.tokens=e,this.variables=t}parseInt(){const e=this.expression().v;if(this.index!==this.tokens.length||!Number.isFinite(e))throw S("");return Math.trunc(e)}parseDouble(){return this.parseNumber().v}parseNumber(){const e=this.expression();if(this.index!==this.tokens.length)throw S("");return e}get current(){return this.tokens[this.index]}kind(){var e;return(e=this.tokens[this.index])==null?void 0:e.t}isIdent(e){const t=this.current;return(t==null?void 0:t.t)==="identifier"&&t.name===e}expression(){let e=this.term();for(let t=this.current;t&&(t.t==="+"||t.t==="-");t=this.current){this.index+=1;const n=this.term();e={v:t.t==="+"?e.v+n.v:e.v-n.v,int:e.int&&n.int}}return e}term(){let e=this.factor();for(let t=this.current;t&&(t.t==="*"||t.t==="/"||t.t==="%");t=this.current){this.index+=1;const n=this.factor(),i=e.int&&n.int;if(t.t==="*")e={v:e.v*n.v,int:i};else{if(n.v===0)throw pi();e={v:t.t==="/"?i?Math.trunc(e.v/n.v):e.v/n.v:e.v%n.v,int:i}}}return e}factor(){const e=this.current;if(!e)throw S("");switch(this.index+=1,e.t){case"number":return{v:e.value,int:!e.literal.includes(".")};case"identifier":{const t=e.name;if(t==="Math"&&this.kind()==="."){if(this.index+=1,!this.isIdent("random"))throw S(t);if(this.index+=1,this.kind()!=="("||(this.index+=1,this.kind()!==")"))throw S("Math.random");return this.index+=1,{v:Math.random(),int:!1}}const n=this.variables.get(t);if(!n)throw _e(t);if(this.kind()==="."){if(this.index+=1,!this.isIdent("length"))throw S(t);if(this.index+=1,this.kind()==="("){if(this.index+=1,this.kind()!==")")throw S(`${t}.length`);this.index+=1}if(R1(n))return{v:n.value.length,int:!0};throw S(t)}if(this.kind()==="["){this.index+=1;const s=Math.trunc(this.expression().v);if(this.kind()!=="]")throw S(t);if(this.index+=1,n.kind==="grid"){if(!(s>=0&&s<n.value.length))throw S(`${t}[${s}]`);const r=n.value[s];if(this.kind()==="."){if(this.index+=1,!this.isIdent("length"))throw S(t);if(this.index+=1,this.kind()==="("){if(this.index+=1,this.kind()!==")")throw S(`${t}.length`);this.index+=1}return{v:r.length,int:!0}}if(this.kind()!=="[")throw S(t);this.index+=1;const o=Math.trunc(this.expression().v);if(this.kind()!=="]")throw S(t);if(this.index+=1,!(o>=0&&o<r.length))throw S(`${t}[${s}][${o}]`);if(n.elementType!=="int"&&n.elementType!=="double")throw S(t);return{v:r[o],int:n.elementType==="int"}}if(n.kind==="intArray"||n.kind==="doubleArray"){if(!(s>=0&&s<n.value.length))throw S(`${t}[${s}]`);return{v:n.value[s],int:n.kind==="intArray"}}throw S(t)}const i=fi(n);if(!Number.isFinite(i))throw S(t);return{v:i,int:n.kind==="int"}}case"-":{const t=this.factor();return{v:-t.v,int:t.int}}case"(":{const t=this.expression();if(this.kind()!==")")throw S("");return this.index+=1,t}default:throw S("")}}}function Le(a){let e=a.trim();for(;e.endsWith(";");)e=e.slice(0,-1).trim();return e}function Vt(a){const e=a.slice(0,3);for(;e.length<3;)e.push("");return e}function U1(a){const e=a.map(t=>Le(t).trim());return e.length===1&&e[0].includes(";")?Vt(e[0].split(";").map(t=>t.trim())):Vt(e)}const O=a=>a.frame?{frame:a.frame,callPath:a.callPath}:{};function ee(a,e=[],t={}){const n=[],i=s=>n.push(t.frame?{...s,...t}:s);return a.forEach((s,r)=>{const o=[...e,r],l=s.textLines.join(" ").trim();switch(s.type){case g.anweisung:l!==""&&l!=="ø"&&i({path:o,text:l,kind:"statement"});break;case g.verzweigung:i({path:o,text:l||"true",kind:"branch",cases:s.cases});break;case g.fallauswahl:i({path:o,text:l||"0",kind:"switchSelection",cases:s.cases});break;case g.forSchleife:i({path:o,text:l,kind:"forLoopStart",loopBody:s.loopBody,forParts:U1(s.textLines)});break;case g.whileSchleife:i({path:o,text:l||"true",kind:"whileLoop",loopBody:s.loopBody});break;case g.doUntilSchleife:i({path:o,text:l||"true",kind:"doUntilLoop",loopBody:s.loopBody});break;case g.endlosschleife:i({path:o,text:l||"true",kind:"infiniteLoop",loopBody:s.loopBody});break;case g.aussprung:i({path:o,text:l,kind:"jump"});break;case g.aufruf:l!==""&&l!=="ø"&&i({path:o,text:l,kind:"call"});break}}),n}function ki(a,e){const t=a.trim().replaceAll(",",".");switch(e){case"int":if(!/^[+-]?[0-9]+$/.test(t))throw new J({kind:"wholeNumberExpected"});return ce(Number(t));case"double":if(!/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?$/.test(t))throw new J({kind:"numberExpected"});return te(Number(t));case"string":return{kind:"string",value:a};case"boolean":switch(t.toLowerCase()){case"true":case"wahr":return{kind:"boolean",value:!0};case"false":case"falsch":return{kind:"boolean",value:!1};default:throw new J({kind:"booleanExpected"})}}}function Rt(){return{stepIndex:0,variables:new Map,outputLines:[],isHalted:!1}}function Mi(a,e){for(let t=0;t<e.length;t++){const n=e[t].name.trim();if(n.toLowerCase()!=="default"){if(a.kind==="int"){if(/^[+-]?[0-9]+$/.test(n)&&Number(n)===a.value)return t}else if(q(n)===a.value||n===a.value)return t}}}function Zi(a){return a==="forLoopIncrement"||a==="forLoopCondition"||a==="whileLoop"||a==="doUntilCondition"||a==="infiniteLoop"}function _i(a,e){return(a.frame??0)===(e.frame??0)&&a.path.length===e.path.length&&a.path.every((t,n)=>t===e.path[n])}function pe(a){const e=/^(void|int|double|String|boolean)\s+([A-Za-z_]\w*)\s*\((.*)\)$/u.exec(Le(a));if(!e)return;const t=[];if(e[3].trim()!=="")for(const n of e[3].split(",")){const i=/^(int|double|String|boolean|char)\s*((?:\[\s*\]){0,2})\s+([A-Za-z_]\w*)$/u.exec(n.trim());if(!i)return;const s=(i[2].match(/\[/gu)??[]).length;t.push({type:ie(i[1]),name:i[3],...s>0?{dims:s}:{}})}return{returnType:ie(e[1]),name:e[2],params:t}}function Rn(a){const e=/^(?:(?:(int|double|String|boolean)\s+)?([A-Za-z_]\w*)\s*=\s*)?([A-Za-z_]\w*)\s*\((.*)\)$/u.exec(Le(a));if(e)return{targetType:e[1]?ie(e[1]):void 0,target:e[2],name:e[3],args:e[4].trim()===""?[]:l1(e[4],",")}}function m1(a){var t,n;const e=Le(a);return((t=pe(e))==null?void 0:t.name)??((n=Rn(e))==null?void 0:n.name)??e.replace(/\(\s*\)$/u,"").trim()}class F1{constructor(e,t=()=>{}){b(this,"steps");b(this,"state",Rt());b(this,"nextFrame",1);b(this,"callDepth",0);b(this,"frames",new Map);this.resolveSubprogram=t,this.steps=ee(e.elements)}get currentStepPath(){const e=this.steps[this.state.stepIndex];return(e==null?void 0:e.callPath)??(e==null?void 0:e.path)}get canStep(){return!this.state.isHalted&&!this.state.inputRequest&&this.state.stepIndex<this.steps.length}get message(){return this.state.notice&&En(this.state.notice)}reset(e){e&&(this.steps=ee(e.elements)),this.state=Rt(),this.nextFrame=1,this.callDepth=0,this.frames.clear()}step(){const e=this.state;if(!this.canStep){!e.inputRequest&&!e.isHalted&&(e.notice={kind:"finished"});return}const t=this.steps[e.stepIndex];try{switch(t.kind){case"statement":if(/^return\b/u.test(t.text))return this.executeReturn(t);this.executeStatement(t.text);break;case"branch":return this.executeBranch(t);case"switchSelection":return this.executeSwitchSelection(t);case"forLoopStart":return this.executeForLoopStart(t);case"forLoopCondition":return this.executeForLoopCondition(t);case"forLoopIncrement":return this.executeForLoopIncrement(t);case"whileLoop":return this.executeWhileLoop(t);case"doUntilLoop":return this.enterDoUntilLoop(t);case"doUntilCondition":return this.executeDoUntilCondition(t);case"infiniteLoop":return this.enterInfiniteLoop(t);case"jump":return this.executeJump(t);case"call":return this.executeCall(t);case"callEnd":return this.executeCallEnd(t)}if(e.inputRequest){e.notice=void 0;return}e.stepIndex+=1,e.notice=this.finishedIfAtEnd()}catch(n){e.notice=Wt(n),e.isHalted=!0}}provideInput(e){const t=this.state.inputRequest;if(t){try{const n=ki(e,t.valueType);this.assignValue(n,t.variableName),this.state.lastTrace=`${t.variableName} = input -> ${U(n)}`}catch(n){this.state.inputErrorNotice=Wt(n);return}this.state.inputRequest=void 0,this.state.inputErrorNotice=void 0,this.state.stepIndex+=1,this.state.notice=this.finishedIfAtEnd()}}finishedIfAtEnd(){return this.state.stepIndex>=this.steps.length?{kind:"finished"}:void 0}splice(e){this.steps.splice(this.state.stepIndex,1,...e)}noticeAfterEntering(e){return e.length>0?void 0:this.finishedIfAtEnd()}executeBranch(e){const t=e.cases;if(!t||t.length<2)throw Y(e.text);const n=Oe(e.text),i=this.evaluateBool(n),s=i?0:1,r=ee(t[s].elements,[...e.path,s],O(e));this.splice(r),this.state.lastTrace=`${n} -> ${i}`,this.state.notice=this.noticeAfterEntering(r)}executeSwitchSelection(e){const t=e.cases;if(!t||t.length===0)throw Y(e.text);const n=Oe(e.text),i=this.evaluateSwitchSelector(n),s=Mi(i,t)??t.length-1,r=ee(t[s].elements,[...e.path,s],O(e));this.splice(r),this.state.lastTrace=`${n} -> ${t[s].name}`,this.state.notice=this.noticeAfterEntering(r)}executeForLoopStart(e){const t=U1(e.forParts??[e.text]);t[0]!==""&&this.executeStatement(t[0]),this.splice([{...O(e),path:e.path,text:t[1],kind:"forLoopCondition",loopBody:e.loopBody,forParts:t}])}executeForLoopCondition(e){const t=U1(e.forParts??[e.text]),n=t[1]===""?"true":t[1],i=this.evaluateBool(n);if(this.state.lastTrace=`${n} -> ${i}`,i){const s=ee(e.loopBody??[],[...e.path,0],O(e));this.splice([...s,{...O(e),path:e.path,text:t[2],kind:"forLoopIncrement",loopBody:e.loopBody,forParts:t},{...O(e),path:e.path,text:t[1],kind:"forLoopCondition",loopBody:e.loopBody,forParts:t}])}else this.splice([]),this.state.notice=this.finishedIfAtEnd()}executeForLoopIncrement(e){const t=e.text.trim();t!==""&&this.executeIncrement(t),this.splice([])}executeWhileLoop(e){const t=Oe(e.text),n=this.evaluateBool(t);if(this.state.lastTrace=`${t} -> ${n}`,n){const i=ee(e.loopBody??[],[...e.path,0],O(e));this.splice([...i,{...O(e),path:e.path,text:e.text,kind:"whileLoop",loopBody:e.loopBody}]),this.state.notice=this.noticeAfterEntering(i)}else this.splice([]),this.state.notice=this.finishedIfAtEnd()}enterDoUntilLoop(e){const t=ee(e.loopBody??[],[...e.path,0],O(e));this.splice([...t,{...O(e),path:e.path,text:e.text,kind:"doUntilCondition",loopBody:e.loopBody}]),this.state.notice=this.noticeAfterEntering(t)}executeDoUntilCondition(e){const t=Oe(e.text),n=this.evaluateBool(t);if(this.state.lastTrace=`${t} -> ${n}`,n){const i=ee(e.loopBody??[],[...e.path,0],O(e));this.splice([...i,{...O(e),path:e.path,text:e.text,kind:"doUntilCondition",loopBody:e.loopBody}])}else this.splice([]),this.state.notice=this.finishedIfAtEnd()}enterInfiniteLoop(e){const t=ee(e.loopBody??[],[...e.path,0],O(e));this.splice([...t,{...O(e),path:e.path,text:e.text,kind:"infiniteLoop",loopBody:e.loopBody}]),this.state.lastTrace="true -> true",this.state.notice=t.length>0?void 0:{kind:"infiniteLoopWithoutBody"}}executeJump(e){const t=e.frame??0,n=o=>o.length<e.path.length&&o.every((l,m)=>l===e.path[m]);let i=this.steps.length,s="end";for(let o=this.state.stepIndex+1;o<this.steps.length;o++){const l=this.steps[o];if((l.frame??0)===t){if(l.kind==="callEnd"){i=o+1,s="return";break}if(Zi(l.kind)&&n(l.path)){for(i=o+1;i<this.steps.length&&_i(this.steps[i],l);)i+=1;s="break";break}}}const r=this.steps[i-1];s==="return"&&(this.callDepth-=1),this.steps.splice(this.state.stepIndex,i-this.state.stepIndex),this.state.lastTrace=`${e.text||"break"} -> ${s}`,s==="return"&&this.finishFrame(r),this.state.notice=this.finishedIfAtEnd()}executeCall(e){const t=e.text,n=this.resolveSubprogram(m1(t));if(!n){this.splice([]),this.state.lastTrace=`${t} -> ?`,this.state.notice={kind:"subprogramNotFound",text:t},this.state.stepIndex>=this.steps.length&&(this.state.notice={kind:"finished"});return}const i=Rn(t),s=pe(n.caption);if(s?((i==null?void 0:i.args.length)??0)!==s.params.length||(i==null?void 0:i.target)!==void 0&&!s.returnType:i!==void 0&&(i.args.length>0||i.target!==void 0))throw new J({kind:"callArguments",text:(s==null?void 0:s.name)??m1(t)});if(this.callDepth>=gi)throw new J({kind:"callTooDeep"});const o=new Map,l=[];s==null||s.params.forEach((h,p)=>{const x=i.args[p].trim();if(!h.dims){o.set(h.name,this.evaluateExpression(x,h.type));return}const y=this.state.variables.get(x);if(!y)throw/^[A-Za-z_]\w*$/u.test(x)?new J({kind:"unknownVariable",text:x}):S(x);if(!(h.dims===1?y.kind===`${h.type}Array`:y.kind==="grid"&&y.elementType===h.type))throw S(x);o.set(h.name,y),l.push({param:h.name,callerName:x})}),this.callDepth+=1;const m={frame:this.nextFrame++,callPath:e.callPath??e.path};s&&(this.frames.set(m.frame,{saved:this.state.variables,header:s,call:i,references:l}),this.state.variables=o);const u=ee(n.elements,[],m);this.splice([...u,{...m,path:e.path,text:t,kind:"callEnd"}]);const c=s==null?void 0:s.params.map((h,p)=>`${h.name} = ${h.dims?i.args[p].trim():U(o.get(h.name))}`).join(", ");this.state.lastTrace=c?`${t} -> ${c}`:`${t} -> call`}executeCallEnd(e){this.callDepth-=1,this.splice([]),this.state.lastTrace=`${e.text} -> return`,this.finishFrame(e),this.state.notice=this.finishedIfAtEnd()}executeReturn(e){const t=e.frame??0,n=Le(e.text).slice(6).trim(),i=this.frames.get(t);if(i&&n!==""){if(!i.header.returnType)throw S(e.text);i.returnValue=this.evaluateExpression(n,i.header.returnType)}const s=i!=null&&i.returnValue?`${e.text} -> ${U(i.returnValue)}`:`${e.text} -> return`;if(t===0){this.steps.splice(this.state.stepIndex),this.state.lastTrace=s,this.state.notice={kind:"finished"};return}let r=this.state.stepIndex+1;for(;r<this.steps.length&&!(this.steps[r].kind==="callEnd"&&this.steps[r].frame===t);)r++;const o=this.steps[r];this.steps.splice(this.state.stepIndex,r-this.state.stepIndex+1),this.callDepth-=1,this.state.lastTrace=s,o&&this.finishFrame(o),this.state.notice=this.finishedIfAtEnd()}finishFrame(e){var l,m;const t=this.frames.get(e.frame??0);if(!t)return;this.frames.delete(e.frame??0);const n=t.references.length>0?new Map(t.saved):t.saved;for(const u of t.references){const c=this.state.variables.get(u.param);c&&n.set(u.callerName,c)}this.state.variables=n;const i=t.returnValue;if(t.header.returnType&&!i)throw new J({kind:"missingReturn",text:t.header.name});const s=(l=t.call)==null?void 0:l.target;if(!s||!i)return;let r=(m=t.call)==null?void 0:m.targetType;if(!r)try{r=this.inferTargetValueType(s)}catch{r=t.header.returnType}const o=r==="double"&&i.kind==="int"?te(i.value):r==="string"?{kind:"string",value:U(i)}:i;if(Ht(o)!==r)throw S(e.text);this.assignValue(o,s),this.state.lastTrace=`${s} = ${e.text.slice(e.text.indexOf("=")+1).trim()} -> ${U(o)}`}executeStatement(e){const t=this.state,n=e.trim(),i=n.toLowerCase();if(i.startsWith("input:")){t.inputRequest=this.parseInputRequest(n),t.inputErrorNotice=void 0;return}if(i.startsWith("output:")||i.startsWith("print:")){const p=n.slice(i.startsWith("output:")?7:6),x=this.renderOutputExpression(p),y=this.evaluateOutputExpression(p);t.outputLines.push(y),t.lastTrace=`${x} -> ${y}`;return}if(n.endsWith("++")||n.endsWith("--")||n.includes("+=")||n.includes("-=")){this.executeIncrement(n);return}const s=n.indexOf("=");if(s<0)throw Y(n);const r=n.slice(0,s).trim(),o=n.slice(s+1),l=this.parseArrayDeclaration(r,o);if(l){t.variables.set(l.name,l.value),t.lastTrace=`${l.name} = new ${l.typeName}[${l.count}]`;return}const m=this.parseAssignmentTarget(r);let u;try{u=this.renderNumericExpression(o)}catch{u=o.trim()}let c=m.valueType;if(!c)try{c=this.inferTargetValueType(m.variableName)}catch{c="int"}const h=this.evaluateExpression(o,c);this.assignValue(h,m.variableName),t.lastTrace=`${m.variableName} = ${u} -> ${U(h)}`}executeIncrement(e){const t=this.state.variables;for(const[n,i]of[["++",1],["--",-1]]){if(!e.endsWith(n))continue;const s=e.slice(0,-2).trim(),r=t.get(s);if(!Te(s)||!r)throw Y(e);const o=i>0?"+":"-";if(r.kind==="int"){t.set(s,ce(r.value+i)),this.state.lastTrace=`${s} = ${r.value} ${o} 1 -> ${r.value+i}`;return}if(r.kind==="double"){const l=r.value+i;t.set(s,te(l)),this.state.lastTrace=`${s} = ${U(r)} ${o} 1 -> ${U(te(l))}`;return}throw Y(e)}for(const[n,i]of[["+=",1],["-=",-1]]){const s=e.indexOf(n);if(s<0)continue;const r=e.slice(0,s).trim(),o=e.slice(s+2),l=t.get(r);if(!Te(r)||!l)throw Y(e);const m=i>0?"+":"-";if(l.kind==="int"){const u=this.evaluateInt(o),c=l.value+i*u;t.set(r,ce(c)),this.state.lastTrace=`${r} = ${l.value} ${m} ${u} -> ${c}`;return}if(l.kind==="double"){const u=this.evaluateDouble(o),c=l.value+i*u;t.set(r,te(c)),this.state.lastTrace=`${r} = ${U(l)} ${m} ${U(te(u))} -> ${U(te(c))}`;return}throw Y(e)}this.executeStatement(e)}parseAssignmentTarget(e){if(ye(e))return{variableName:e.trim()};const t=e.split(/\s+/u).filter(Boolean);let n,i;if(t.length===1)n=t[0];else if(t.length===2&&ie(t[0]))n=t[1],i=ie(t[0]);else if(t.length===3&&t[0]==="const"&&ie(t[1]))n=t[2],i=ie(t[1]);else throw Y(e);if(!Nt(n))throw Y(e);return{variableName:n,valueType:i}}parseInputRequest(e){const t=e.slice(6).trim(),n=/^(\S+)(?:\s+(\S+))?(?:\s+([\s\S]*))?$/u.exec(t);if(!n)throw Y(e);const i=[n[1],n[2],n[3]].filter(u=>u!==void 0);let s,r,o;const l=ie(i[0]);if(i.length>=2&&l?(s=i[1],r=l,o=(i[2]??"").trim()):(s=i[0],r=this.inferTargetValueType(s),o=(i[1]??"").trim()),!Nt(s))throw Y(e);const m=q(o)??o;return{variableName:s,valueType:r,prompt:m===""?`${s}:`:m}}parseArrayDeclaration(e,t){const n=e.split(/\s+/u).filter(Boolean);if(n.length!==2||!n[0].endsWith("[]"))return;const i=n[0].endsWith("[][]"),s=n[0].slice(0,i?-4:-2),r=ie(s),o=n[1];if(!r||!Te(o))throw Y(e);if(i)return this.parseGridDeclaration(o,s,r,t);const l=t.trim();if(l.startsWith("{")&&l.endsWith("}")){const p=l.slice(1,-1).split(",").map(y=>y.trim());let x;switch(r){case"int":x={kind:"intArray",value:p.map(y=>this.evaluateInt(y))};break;case"double":x={kind:"doubleArray",value:p.map(y=>this.evaluateDouble(y))};break;case"string":x={kind:"stringArray",value:p.map(y=>q(y)??this.evaluateOutputExpression(y))};break;case"boolean":x={kind:"booleanArray",value:p.map(y=>this.evaluateBool(y))};break}return{name:o,typeName:s,count:p.length,value:x}}const m=`new ${s}[`;if(!l.startsWith(m)){const p=this.evaluateStringMethod(l);if((p==null?void 0:p.kind)==="stringArray"&&r==="string")return{name:o,typeName:s,count:p.value.length,value:p}}if(!l.startsWith(m)||!l.endsWith("]"))throw Y(t);const u=l.slice(m.length,-1),c=this.evaluateInt(u);if(c<0)throw S(u);const h=r==="int"?{kind:"intArray",value:new Array(c).fill(0)}:r==="double"?{kind:"doubleArray",value:new Array(c).fill(0)}:r==="boolean"?{kind:"booleanArray",value:new Array(c).fill(!1)}:{kind:"stringArray",value:new Array(c).fill("")};return{name:o,typeName:s,count:c,value:h}}parseGridDeclaration(e,t,n,i){var c;const s=i.trim(),r=h=>{switch(n){case"int":return this.evaluateInt(h);case"double":return this.evaluateDouble(h);case"boolean":return this.evaluateBool(h);case"string":return q(h.trim())??this.evaluateOutputExpression(h)}};if(s.startsWith("{")&&s.endsWith("}")){const h=wi(s.slice(1,-1)).map(p=>{const x=p.trim();if(!x.startsWith("{")||!x.endsWith("}"))throw S(x);return x.slice(1,-1).trim()===""?[]:x.slice(1,-1).split(",").map(y=>r(y.trim()))});return{name:e,typeName:t,count:`${h.length}][${((c=h[0])==null?void 0:c.length)??0}`,value:{kind:"grid",elementType:n,value:h}}}const o=new RegExp(String.raw`^new\s+${t}\s*\[(.+)\]\s*\[(.+)\]$`,"u").exec(s);if(!o)throw Y(i);const l=this.evaluateInt(o[1]),m=this.evaluateInt(o[2]);if(l<0)throw S(o[1]);if(m<0)throw S(o[2]);const u={kind:"grid",elementType:n,value:Array.from({length:l},()=>new Array(m).fill(bi(n)))};return{name:e,typeName:t,count:`${l}][${m}`,value:u}}arrayIndex(e){const t=this.evaluateInt(e);if(t<0)throw S(e);return t}evaluateReference(e){const t=e.trim(),n=this.state.variables.get(t);if(n)return n;const i=this.evaluateStringMethod(t);if(i)return i;const s=ye(t);if(s)return this.valueInArray(s.arrayName,s.indexExpressions.map(r=>this.arrayIndex(r)))}evaluateStringMethod(e){const t=vi(e);if(!t)return;const n=q(t.target)??this.stringValueOf(t.target);if(n===void 0)return;const i=t.args,s=u=>{const c=i[u];if(c===void 0)throw S(e);const h=q(c.trim());if(h!==void 0)return h;const p=this.evaluateReference(c);if((p==null?void 0:p.kind)==="string")return p.value;throw S(c)},r=u=>{if(i[u]===void 0)throw S(e);return this.evaluateInt(i[u])},o=u=>{if(i.length!==u)throw S(e)},l=Array.from(n),m=(u,c)=>{if(u<0||u>c)throw S(e);return u};switch(t.method){case"length":return o(0),ce(l.length);case"charAt":return o(1),{kind:"string",value:l[m(r(0),l.length-1)]};case"substring":{if(i.length!==1&&i.length!==2)throw S(e);const u=m(r(0),l.length),c=i.length===2?m(r(1),l.length):l.length;if(c<u)throw S(e);return{kind:"string",value:l.slice(u,c).join("")}}case"indexOf":{o(1);const u=n.indexOf(s(0));return ce(u<0?-1:Array.from(n.slice(0,u)).length)}case"toUpperCase":return o(0),{kind:"string",value:n.toUpperCase()};case"toLowerCase":return o(0),{kind:"string",value:n.toLowerCase()};case"trim":return o(0),{kind:"string",value:n.trim()};case"contains":return o(1),{kind:"boolean",value:n.includes(s(0))};case"startsWith":return o(1),{kind:"boolean",value:n.startsWith(s(0))};case"endsWith":return o(1),{kind:"boolean",value:n.endsWith(s(0))};case"replace":return o(2),{kind:"string",value:n.replaceAll(s(0),s(1))};case"split":{o(1);const u=s(0),c=u===""?l:n.split(u);for(;c.length>0&&c[c.length-1]==="";)c.pop();return{kind:"stringArray",value:c}}default:return}}stringValueOf(e){const t=e.trim(),n=this.state.variables.get(t);if(n)return n.kind==="string"?n.value:void 0;const i=ye(t);if(!i)return;const s=this.valueInArray(i.arrayName,i.indexExpressions.map(r=>this.arrayIndex(r)));return s.kind==="string"?s.value:void 0}substituteStringCalls(e){if(!e.includes("("))return e;let t="",n=e;const i=/([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf)\s*\(/u;for(let s=i.exec(n);s;s=i.exec(n)){const r=s.index+s[0].length-1,o=x1(Array.from(n),Array.from(n.slice(0,r)).length);if(o===void 0)break;const l=Array.from(n),m=l.slice(Array.from(n.slice(0,s.index)).length,o+1).join(""),u=this.evaluateStringMethod(m),c=l.slice(0,Array.from(n.slice(0,s.index)).length).join("");(u==null?void 0:u.kind)==="int"?t+=c+String(u.value):t+=c+m,n=l.slice(o+1).join("")}return t+n}valueInArray(e,t){const n=this.state.variables.get(e);if(!n)throw _e(e);const i=`${e}[${t.join("][")}]`;if(n.kind==="grid"){if(t.length!==2)throw S(i);const r=n.value[t[0]];if(!r||t[1]>=r.length)throw S(i);return Ln(n.elementType,r[t[1]])}if(t.length!==1)throw S(i);const s=t[0];if(!R1(n))throw S(e);if(s>=n.value.length)throw S(i);switch(n.kind){case"intArray":return ce(n.value[s]);case"doubleArray":return te(n.value[s]);case"stringArray":return{kind:"string",value:n.value[s]};case"booleanArray":return{kind:"boolean",value:n.value[s]};default:throw S(e)}}inferTargetValueType(e){const t=e.trim(),n=this.state.variables.get(t);if(n)return Ht(n);const i=ye(t);if(i){const s=this.state.variables.get(i.arrayName);if(!s)throw _e(i.arrayName);if(s.kind==="intArray")return"int";if(s.kind==="doubleArray")return"double";if(s.kind==="stringArray")return"string";if(s.kind==="booleanArray")return"boolean";if(s.kind==="grid")return s.elementType;throw S(i.arrayName)}throw Y(e)}assignValue(e,t){const n=t.trim(),i=ye(n);if(!i){this.state.variables.set(n,e);return}const s=i.indexExpressions.map(m=>this.arrayIndex(m)),r=this.state.variables.get(i.arrayName);if(!r)throw _e(i.arrayName);if(r.kind==="grid"){if(s.length!==2||s[0]>=r.value.length||s[1]>=r.value[s[0]].length)throw S(n);const m=r.elementType==="double"&&e.kind==="int"||e.kind===r.elementType?e.value:void 0;if(m===void 0||R1(e))throw S(n);const u=r.value.map(c=>[...c]);u[s[0]][s[1]]=m,this.state.variables.set(i.arrayName,{...r,value:u});return}if(s.length!==1)throw S(n);const o=s[0];let l;if(r.kind==="intArray"&&e.kind==="int")l={kind:"intArray",value:[...r.value]};else if(r.kind==="doubleArray"&&(e.kind==="double"||e.kind==="int"))l={kind:"doubleArray",value:[...r.value]};else if(r.kind==="stringArray"&&e.kind==="string")l={kind:"stringArray",value:[...r.value]};else if(r.kind==="booleanArray"&&e.kind==="boolean")l={kind:"booleanArray",value:[...r.value]};else throw S(n);if(o>=l.value.length)throw S(n);l.value[o]=e.value,this.state.variables.set(i.arrayName,l)}evaluateOutputExpression(e){return Et(e).map(t=>{const n=t.trim(),i=q(n);if(i!==void 0)return i;const s=this.evaluateReference(n);return U(s||this.evaluateNumeric(n))}).join("")}renderOutputExpression(e){return Et(e).map(t=>{const n=t.trim();if(q(n)!==void 0)return n;const i=this.evaluateReference(n);if(i)return U(i);try{return this.renderNumericExpression(n)}catch{return n}}).join(" + ")}evaluateExpression(e,t){switch(t){case"int":return ce(this.evaluateInt(e));case"double":return te(this.evaluateDouble(e));case"string":{const n=e.trim(),i=q(n);if(i!==void 0)return{kind:"string",value:i};const s=this.evaluateReference(n);return s?{kind:"string",value:U(s)}:{kind:"string",value:this.evaluateOutputExpression(e)}}case"boolean":return{kind:"boolean",value:this.evaluateBool(e)}}}evaluateNumeric(e){const{v:t,int:n}=this.parser(e).parseNumber();return n||Number.isFinite(t)&&Math.round(t)===t?ce(t):te(t)}parser(e){return new Si(Lt(Gt(this.substituteStringCalls(e))),this.state.variables)}evaluateInt(e){return this.parser(e).parseInt()}evaluateDouble(e){return this.parser(e).parseDouble()}evaluateBool(e){const t=e.trim();if(t==="true")return!0;if(t==="false")return!1;const n=this.evaluateReference(t);if((n==null?void 0:n.kind)==="boolean")return n.value;const i=l1(t,"||");if(i.length>1)return i.some(m=>this.evaluateBool(m));const s=l1(t,"&&");if(s.length>1)return s.every(m=>this.evaluateBool(m));if(t.startsWith("!")&&!t.startsWith("!="))return!this.evaluateBool(t.slice(1));const r=Vn(t);if(r!==void 0)return this.evaluateBool(r);const o=zi(t);if(o)return this.evaluateComparison(o.lhs,"==",o.rhs);const l=yi(t);if(l)return this.evaluateComparison(l.lhs,l.op,l.rhs);if(this.stringOperand(t)!==void 0)throw S(t);return this.evaluateDouble(t)!==0}evaluateComparison(e,t,n){const i=this.booleanOperand(e),s=this.booleanOperand(n);if((i!==void 0||s!==void 0)&&(t==="=="||t==="!=")){const u=i??this.evaluateBool(e),c=s??this.evaluateBool(n);return t==="=="?u===c:u!==c}const r=this.stringOperand(e),o=this.stringOperand(n);let l,m;if(r!==void 0||o!==void 0){if(r===void 0||o===void 0)throw S(`${e} ${t} ${n}`);l=r,m=o}else l=this.evaluateDouble(e),m=this.evaluateDouble(n);switch(t){case"==":return l===m;case"!=":return l!==m;case"<":return l<m;case"<=":return l<=m;case">":return l>m;case">=":return l>=m;default:throw S(`${e} ${t} ${n}`)}}booleanOperand(e){const t=e.trim();if(t==="true")return!0;if(t==="false")return!1;const n=this.evaluateReference(t);return(n==null?void 0:n.kind)==="boolean"?n.value:void 0}stringOperand(e){const t=e.trim(),n=q(t);if(n!==void 0)return n;const i=this.evaluateReference(t);return(i==null?void 0:i.kind)==="string"?i.value:void 0}evaluateSwitchSelector(e){const t=e.trim(),n=q(t);if(n!==void 0)return{kind:"text",value:n};const i=this.state.variables.get(t);if(i)switch(i.kind){case"int":return{kind:"int",value:i.value};case"double":return{kind:"int",value:Math.trunc(i.value)};case"string":return{kind:"text",value:i.value};default:throw S(t)}return/^[+-]?[0-9]+$/.test(t)?{kind:"int",value:Number(t)}:{kind:"int",value:this.evaluateInt(t)}}renderNumericExpression(e){return Lt(Gt(e)).map(t=>{if(t.t==="number")return t.literal;if(t.t==="identifier"){const n=this.state.variables.get(t.name);if(!n)throw _e(t.name);return U(n)}return t.t}).join(" ").replaceAll("( ","(").replaceAll(" )",")").replaceAll(" . ",".").replaceAll("[ ","[").replaceAll(" ]","]")}}const Un={baseIndent:0,indentPerLevel:4,includeDiagramTextAsComments:!1,includeEmptyElseBranch:!0,pseudocodeNote:"Pseudocode – not a runnable program"};function Fn(a,e,t={},n=[]){const i=mt(a,e,t);let s="";e==="javascript"&&(s+=`"use strict";
+`,t}function Un(i){return i.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}function pa(i){return i.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}function Ht(i){return String(i.a<<24|i.r<<16|i.g<<8|i.b|0)}function n1(i,e){return Array.from(i.children).filter(t=>t.tagName===e)}function O1(i){const e=[];for(const t of n1(i,"strelem")){const n=xa(t);n&&e.push(n)}return e}function xa(i){const e=Te(i,"typ");if(e===void 0||p[e]===void 0)return;const t={type:e,zoomX:Te(i,"zx")??0,zoomY:Te(i,"zy")??0,textLines:n1(i,"text").map(o=>F1((o.textContent??"").trim()))},n=Nt(i.getAttribute("textcolor"));n&&(t.textColor=n);const a=Nt(i.getAttribute("bgcolor"));a&&(t.backgroundColor=a),t.textLines.length===0&&(t.textLines=[""]);const s=n1(i,"schleifeninhalt")[0];if(s){const o=O1(s);o.length>0&&(t.loopBody=o)}const r=n1(i,"fall").map(o=>({name:F1(o.getAttribute("fallname")??""),elements:O1(o)}));return r.length>0&&(t.cases=r),t}function Gt(i,e){const t=i.getAttribute(e);return t===null?void 0:F1(t)}function Te(i,e){const t=i.getAttribute(e);if(!(t===null||!/^[+-]?\d+$/.test(t)))return Number(t)}function Nt(i){if(i===null||!/^[+-]?\d+$/.test(i))return;const e=Number(i);if(e<-2147483648||e>2147483647)return;const t=e>>>0;return{a:t>>>24&255,r:t>>>16&255,g:t>>>8&255,b:t&255}}const Ia="http://www.w3.org/2000/svg",V={diagramLineWidth:2,outerFrameLineWidth:2,selectionLineWidth:3.5,canvasOuterMargin:16,cellTextInsetX:18,cellTextInsetY:15,multiHeaderFirstLineY:14,branchLabelInsetX:10,fallauswahlCaseLabelBand:26,callSideBarInset:14,callTextInsetFromSideBar:20,loopBodyLeadingInset:20};function D(i,e={}){const t=document.createElementNS(Ia,i);for(const[n,a]of Object.entries(e))t.setAttribute(n,String(a));return t}class Fn{constructor(e,t){I(this,"usesSimulationHighlight",!1);this.metrics=e,this.measure=t}get lineHeight(){return this.metrics.lineHeight}get fontSize(){return this.metrics.fontSize}render(e,t,n,a=V.canvasOuterMargin){const s=D("svg",{width:t.width,height:t.height,viewBox:`0 0 ${t.width} ${t.height}`,"font-family":b1,"font-size":this.fontSize,class:"diagram"});s.append(D("rect",{x:0,y:0,width:t.width,height:t.height,fill:"#fafafa"}));const r=a;s.append(D("rect",{x:r,y:r,width:e.canvasSize.width-2*r-1,height:e.canvasSize.height-2*r-1,fill:"none",stroke:"black","stroke-width":V.outerFrameLineWidth}));const o=D("g");for(const l of e.elements)this.drawNode(l,o,n,{},void 0);return s.append(o),s}line(e,t){e.append(D("polyline",{points:t.map(n=>n.join(",")).join(" "),fill:"none",stroke:"black","stroke-width":V.diagramLineWidth,"stroke-linejoin":"miter"}))}strokeCellBorder(e,t,n){const a=t.x,s=t.y,r=t.x+t.width,o=t.y+t.height;if(!n.top&&!n.left&&!n.bottom&&!n.right){e.append(D("rect",{x:a,y:s,width:t.width,height:t.height,fill:"none",stroke:"black","stroke-width":V.diagramLineWidth}));return}n.top||this.line(e,[[a,s],[r,s]]),n.right||this.line(e,[[r,s],[r,o]]),n.bottom||this.line(e,[[r,o],[a,o]]),n.left||this.line(e,[[a,o],[a,s]])}textWidth(e){const t=_t(e);return t?this.measure(t.keyword,this.fontSize,"bold")+(t.rest===""?0:this.measure(" "+t.rest,this.fontSize,"medium")):this.measure(e,this.fontSize,"medium")}drawKeywordLine(e,t,n,a){const s=D("text",{x:n,y:a+Tt(this.fontSize,"medium").ascent,"font-weight":500});s.style.whiteSpace="pre";const r=_t(t);if(r){const o=D("tspan",{"font-weight":700});if(o.textContent=r.keyword,s.append(o),r.rest!==""){const l=D("tspan",{});l.textContent=" "+r.rest,s.append(l)}}else s.textContent=t;e.append(s)}drawLabel(e,t,n,a,s,r){const o=Tt(this.fontSize,s?"bold":"medium"),l=D("text",{x:n,y:r==="top"?a+o.ascent:a-o.descent,"font-weight":s?700:500});l.style.whiteSpace="pre",l.textContent=t,e.append(l)}roofMetrics(e,t,n,a){const s=t.y+n,r=e.dividerYInset??0,o=12,l=Math.max(e.element.textLines.length,1)*this.lineHeight,m=t.y+V.multiHeaderFirstLineY;if(e.element.type===p.fallauswahl){const c=Math.max(V.fallauswahlCaseLabelBand,this.lineHeight+10),h=s-c,g=Math.min(s+r,h-8),x=Math.max(g,m+l+6);return{apex:{x:a,y:x},maxTextBottom:h-o,roofBottom:s}}const u={x:a,y:s+r};return{apex:u,maxTextBottom:u.y-o,roofBottom:s}}drawNode(e,t,n,a,s){var j;const r=e.frame,o=e.element,l=r.x+r.width,m=r.y+r.height,u=o.type===p.verzweigung||o.type===p.fallauswahl,c=u?e.headerBandHeight:0,h=n!==void 0&&Q1(e.idPath,n),g=mt(o),x=D("g",{"data-path":e.idPath.join(",")});t.append(x);const f=this.usesSimulationHighlight,b=h&&f?"rgba(199, 230, 255, 0.55)":"white";x.append(D("rect",{x:r.x,y:r.y,width:r.width,height:r.height,fill:b})),this.strokeCellBorder(x,r,a);const z=V.callSideBarInset;if(o.type===p.aufruf?(this.line(x,[[r.x+z,r.y],[r.x+z,m]]),this.line(x,[[l-z,r.y],[l-z,m]])):o.type===p.aussprung&&this.line(x,[[r.x+z,r.y],[r.x,r.y+r.height/2],[r.x+z,m]]),u&&e.dividerX!==void 0){const _=e.dividerX,Z=this.roofMetrics(e,r,c,_),C=Math.max(g.length,1)*this.lineHeight,A=r.y+V.multiHeaderFirstLineY;this.line(x,[[r.x,r.y],[Z.apex.x,Z.apex.y],[l,r.y]]),o.type===p.fallauswahl&&this.line(x,[[r.x,Z.roofBottom],[l,Z.roofBottom]]);let B;A+C<=Z.maxTextBottom?B=A:B=Math.max(r.y+2,Z.maxTextBottom-(Math.max(g.length,1)-1)*this.lineHeight-this.lineHeight),g.forEach((W,ue)=>{const ce=this.textWidth(W);let fe;if(o.type===p.verzweigung){const S1=r.x+V.cellTextInsetX,Li=l-ce-V.cellTextInsetX;fe=Math.min(Math.max(_-ce/2,S1),Li)}else fe=r.x+r.width/2-ce/2;this.drawKeywordLine(x,W,fe,B+ue*this.lineHeight)})}else if(o.type!==p.doUntilSchleife)if(o.type===p.anweisung||o.type===p.aufruf||o.type===p.aussprung){const _=V.cellTextInsetX;let Z=r.x+_,C=l-_;o.type===p.aufruf?(Z=r.x+z+V.callTextInsetFromSideBar,C=l-z-V.callTextInsetFromSideBar):o.type===p.aussprung&&(Z=r.x+z+_);const A=Math.max(0,C-Z);let B=r.y+r.height/2-Math.max(1,g.length)*this.lineHeight/2;for(const W of g)this.drawKeywordLine(x,W,Z+(A-this.textWidth(W))/2,B),B+=this.lineHeight}else{const _=Math.max(1,g.length)*this.lineHeight;let Z=s===p.doUntilSchleife?r.y+r.height/2-_/2:r.y+V.cellTextInsetY;for(const C of g)this.drawKeywordLine(x,C,r.x+V.cellTextInsetX,Z),Z+=this.lineHeight}e.children.forEach((_,Z)=>{const C=o.type===p.doUntilSchleife&&Z===0?{top:!0,left:!0}:{};this.drawNode(_,t,n,C,o.type)});const v=D("g");if(t.append(v),o.type===p.doUntilSchleife){const _=((j=e.children[0])==null?void 0:j.frame.x)??r.x+(e.loopBodyLeadingInset>0?e.loopBodyLeadingInset:V.loopBodyLeadingInset);this.drawLabel(v,"do",r.x+4,r.y+this.metrics.doUntilDoLabelTopInset,!0,"top");const Z=m-e.headerBandHeight;this.line(v,[[_,Z],[l,Z]]),this.line(v,[[_,r.y],[_,Z]]);let C=Z+this.metrics.doUntilFooterTopInset;for(const A of g)this.drawKeywordLine(v,A,r.x+V.cellTextInsetX,C),C+=this.lineHeight}if(u&&e.dividerX!==void 0&&e.caseColumnFrames.length>1){const _=this.roofMetrics(e,r,c,e.dividerX),Z=_.apex;e.caseColumnFrames.forEach((A,B)=>{if(B>=e.caseColumnFrames.length-1)return;const W=A.x+A.width,ue=ba(W,r,Z),ce=Number.isFinite(ue)?Math.min(Math.max(ue,r.y),m):r.y;this.line(v,[[W,m],[W,ce]])});const C=o.cases;if(C&&C.length===e.caseColumnFrames.length){const A=o.type===p.fallauswahl?_.roofBottom-6:r.y+c-8,B=V.branchLabelInsetX;if(o.type===p.verzweigung&&C.length===2){this.drawLabel(v,"true",r.x+B,A,!0,"bottom");const W=e.caseColumnFrames[1],ue=this.measure("false",this.fontSize,"bold");this.drawLabel(v,"false",W.x+W.width-B-ue,A,!0,"bottom")}else C.forEach((W,ue)=>{const ce=e.caseColumnFrames[ue],fe=["default","true","false"].includes(W.name.toLowerCase()),S1=this.measure(W.name,this.fontSize,fe?"bold":"medium");this.drawLabel(v,W.name,ce.x+ce.width/2-S1/2,A,fe,"bottom")})}}h&&v.append(D("rect",{x:r.x,y:r.y,width:r.width,height:r.height,fill:"none",stroke:f?"rgba(66, 140, 242, 0.78)":"rgba(0, 122, 255, 0.9)","stroke-width":V.selectionLineWidth}))}}function ba(i,e,t){const n=e.y;if(i<=t.x){const s=t.x-e.x;return Math.abs(s)<.5?t.y:n+(t.y-n)/s*(i-e.x)}const a=e.x+e.width-t.x;return Math.abs(a)<.5?t.y:t.y+(n-t.y)/a*(i-t.x)}function Q1(i,e){return i.length===e.length&&i.every((t,n)=>t===e[n])}function fa(i){const e=[],t=n=>{e.push(n),n.children.forEach(t)};return i.forEach(t),e}function m1(i){var e,t;return{...i,textLines:mt(i),loopBody:(e=i.loopBody)==null?void 0:e.map(m1),cases:(t=i.cases)==null?void 0:t.map(n=>({name:n.name,elements:n.elements.map(m1)}))}}const ya="modulepreload",za=function(i,e){return new URL(i,e).href},Et={},M=function(e,t,n){let a=Promise.resolve();if(t&&t.length>0){let r=function(u){return Promise.all(u.map(c=>Promise.resolve(c).then(h=>({status:"fulfilled",value:h}),h=>({status:"rejected",reason:h}))))};const o=document.getElementsByTagName("link"),l=document.querySelector("meta[property=csp-nonce]"),m=(l==null?void 0:l.nonce)||(l==null?void 0:l.getAttribute("nonce"));a=r(t.map(u=>{if(u=za(u,n),u in Et)return;Et[u]=!0;const c=u.endsWith(".css"),h=c?'[rel="stylesheet"]':"";if(!!n)for(let f=o.length-1;f>=0;f--){const b=o[f];if(b.href===u&&(!c||b.rel==="stylesheet"))return}else if(document.querySelector(`link[href="${u}"]${h}`))return;const x=document.createElement("link");if(x.rel=c?"stylesheet":ya,c||(x.as="script"),x.crossOrigin="",x.href=u,m&&x.setAttribute("nonce",m),document.head.appendChild(x),c)return new Promise((f,b)=>{x.addEventListener("load",f),x.addEventListener("error",()=>b(new Error(`Unable to preload CSS for ${u}`)))})}))}function s(r){const o=new Event("vite:preloadError",{cancelable:!0});if(o.payload=r,window.dispatchEvent(o),!o.defaultPrevented)throw r}return a.then(r=>{for(const o of r||[])o.status==="rejected"&&s(o.reason);return e().catch(s)})},va=[{code:"de",name:"Deutsch"},{code:"en",name:"English"},{code:"es",name:"Español"},{code:"fr",name:"Français"},{code:"it",name:"Italiano"},{code:"pl",name:"Polski"},{code:"tr",name:"Türkçe"},{code:"ko",name:"한국어"},{code:"ja",name:"日本語"},{code:"el",name:"Ελληνικά"},{code:"uk",name:"Українська"},{code:"ar",name:"العربية"},{code:"ru",name:"Русский"},{code:"he",name:"עברית"},{code:"nl",name:"Nederlands"},{code:"sv",name:"Svenska"},{code:"da",name:"Dansk"},{code:"nb",name:"Norsk bokmål"},{code:"zh-Hans",name:"中文（简体）"},{code:"zh-Hant",name:"中文（繁體）"},{code:"pt-PT",name:"Português"},{code:"java",name:"Java (Keywords)"}],Yn=["de","en","pt-PT","java"],On=va.filter(i=>Yn.includes(i.code)),Lt=i=>Yn.includes(i),wa=Object.assign({"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ar.lproj/Localizable.strings":()=>M(()=>import("./Localizable-CxCno28C.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/da.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BAutdlBb.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/de.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DZlyYK1P.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/el.lproj/Localizable.strings":()=>M(()=>import("./Localizable-rqA-20hM.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/en.lproj/Localizable.strings":()=>M(()=>import("./Localizable-Dj42XC1o.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/es.lproj/Localizable.strings":()=>M(()=>import("./Localizable-LSTVB2Q5.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/fr.lproj/Localizable.strings":()=>M(()=>import("./Localizable-ByPZS4RL.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/he.lproj/Localizable.strings":()=>M(()=>import("./Localizable-R-16GCrk.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/it.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DXAPah1g.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ja.lproj/Localizable.strings":()=>M(()=>import("./Localizable-CkJEmEEP.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/java.lproj/Localizable.strings":()=>M(()=>import("./Localizable-a8HTzUdm.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ko.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BudCXCER.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/nb.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DSvkBkp-.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/nl.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BJ55WGVD.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/pl.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BYJK0mdR.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/pt-PT.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DvUiKfBy.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/ru.lproj/Localizable.strings":()=>M(()=>import("./Localizable-1QZ0wfvJ.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/sv.lproj/Localizable.strings":()=>M(()=>import("./Localizable-M33nNbEe.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/tr.lproj/Localizable.strings":()=>M(()=>import("./Localizable-BM86Igqt.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/uk.lproj/Localizable.strings":()=>M(()=>import("./Localizable-UGog_aku.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/zh-Hans.lproj/Localizable.strings":()=>M(()=>import("./Localizable-CaVEL1es.js"),[],import.meta.url).then(i=>i.default),"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/zh-Hant.lproj/Localizable.strings":()=>M(()=>import("./Localizable-DqIDp_hh.js"),[],import.meta.url).then(i=>i.default)}),Sa=Object.assign({"../../../VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/Java.strings":()=>M(()=>import("./Java-C92fuLac.js"),[],import.meta.url).then(i=>i.default)}),ka=Object.assign({"../i18n/ar.strings":()=>M(()=>import("./ar-CbpXnN4M.js"),[],import.meta.url).then(i=>i.default),"../i18n/da.strings":()=>M(()=>import("./da-RYl104nS.js"),[],import.meta.url).then(i=>i.default),"../i18n/de.strings":()=>M(()=>import("./de-D5xME827.js"),[],import.meta.url).then(i=>i.default),"../i18n/el.strings":()=>M(()=>import("./el-PL0l3-hQ.js"),[],import.meta.url).then(i=>i.default),"../i18n/en.strings":()=>M(()=>import("./en-3dyjS_Az.js"),[],import.meta.url).then(i=>i.default),"../i18n/es.strings":()=>M(()=>import("./es-DP_SZpld.js"),[],import.meta.url).then(i=>i.default),"../i18n/fr.strings":()=>M(()=>import("./fr-B65fmpUb.js"),[],import.meta.url).then(i=>i.default),"../i18n/he.strings":()=>M(()=>import("./he-DtrHl9R-.js"),[],import.meta.url).then(i=>i.default),"../i18n/it.strings":()=>M(()=>import("./it-CPyhkmbl.js"),[],import.meta.url).then(i=>i.default),"../i18n/ja.strings":()=>M(()=>import("./ja-BGvw1kUi.js"),[],import.meta.url).then(i=>i.default),"../i18n/ko.strings":()=>M(()=>import("./ko-Bm2g1uai.js"),[],import.meta.url).then(i=>i.default),"../i18n/nb.strings":()=>M(()=>import("./nb-Dp2qWGvg.js"),[],import.meta.url).then(i=>i.default),"../i18n/nl.strings":()=>M(()=>import("./nl-Dtfzrgja.js"),[],import.meta.url).then(i=>i.default),"../i18n/pl.strings":()=>M(()=>import("./pl-FzdPzqwa.js"),[],import.meta.url).then(i=>i.default),"../i18n/pt-PT.strings":()=>M(()=>import("./pt-PT-Bq6-jjW7.js"),[],import.meta.url).then(i=>i.default),"../i18n/ru.strings":()=>M(()=>import("./ru-BLP9iJ3k.js"),[],import.meta.url).then(i=>i.default),"../i18n/sv.strings":()=>M(()=>import("./sv-CKFIAdAR.js"),[],import.meta.url).then(i=>i.default),"../i18n/tr.strings":()=>M(()=>import("./tr-SKhDyAUs.js"),[],import.meta.url).then(i=>i.default),"../i18n/uk.strings":()=>M(()=>import("./uk-D2KFjW0O.js"),[],import.meta.url).then(i=>i.default),"../i18n/zh-Hans.strings":()=>M(()=>import("./zh-Hans-4Kc36pVM.js"),[],import.meta.url).then(i=>i.default),"../i18n/zh-Hant.strings":()=>M(()=>import("./zh-Hant-BeLAr1wv.js"),[],import.meta.url).then(i=>i.default)});function P1(i,e){var t;return(t=Object.entries(i).find(([n])=>n.endsWith(e)))==null?void 0:t[1]}function Ma(i){const e=new Map,t=i.replace(/\/\*[\s\S]*?\*\//g,"").replace(/^\s*\/\/.*$/gm,""),n=/"((?:[^"\\]|\\.)*)"\s*=\s*"((?:[^"\\]|\\.)*)"\s*;/g,a=s=>s.replace(/\\(u[0-9a-fA-F]{4}|.)/g,(r,o)=>o==="n"?`
+`:o==="t"?"	":o.startsWith("u")&&o.length===5?String.fromCharCode(parseInt(o.slice(1),16)):o);for(const s of t.matchAll(n))e.set(a(s[1]),a(s[2]));return e}async function Vt(i){const e=i==="java"?P1(Sa,"/Java.strings"):P1(wa,`/${i}.lproj/Localizable.strings`),t=P1(ka,`/${i}.strings`),n=new Map;for(const a of[e,t])if(a)for(const[s,r]of Ma(await a()))n.set(s,r);return n}let Qn="en",Xn=new Map,i1=new Map;const Jn="appLanguageCode";function Za(){const i=new URLSearchParams(location.search).get("lang");if(i&&Lt(i))return i;try{const e=localStorage.getItem(Jn);if(e&&Lt(e))return e}catch{}for(const e of navigator.languages??[navigator.language]){const t=e.toLowerCase();if(t.startsWith("pt"))return"pt-PT";const n=On.find(a=>a.code!=="java"&&a.code===t.split("-")[0]);if(n)return n.code}return"en"}async function qn(i,e=!0){if(i1.size===0&&(i1=await Vt("en")),Xn=i==="en"?i1:await Vt(i),Qn=i,e)try{localStorage.setItem(Jn,i)}catch{}const t=document.documentElement;t.lang=i==="java"?"en":i,t.dir=i==="ar"||i==="he"?"rtl":"ltr"}function Me(){return Qn}function d(i,...e){const t=Xn.get(i)??i1.get(i)??i;if(e.length===0)return t;let n=0;return t.replace(/%(?:(\d+)\$)?[@d]/g,(a,s)=>String(e[s?Number(s)-1:n++]??""))}const _a=100;function Kn(i){switch(i.kind){case"finished":return"Simulation finished.";case"infiniteLoopWithoutBody":return"Infinite loop has no body.";case"unsupportedStatement":return`Unsupported statement: ${i.text}`;case"invalidExpression":return`Invalid expression: ${i.text}`;case"unknownVariable":return`Unknown variable: ${i.text}`;case"divisionByZero":return"Division by zero.";case"wholeNumberExpected":return"Please enter a whole number.";case"numberExpected":return"Please enter a number.";case"booleanExpected":return"Please enter true or false.";case"subprogramNotFound":return`No open diagram is called ${i.text}. The call was skipped.`;case"callTooDeep":return"Too many nested calls. Does a subprogram call itself?";case"callArguments":return`The call does not match the header of ${i.text}. Check the values in the parentheses.`;case"missingReturn":return`${i.text} ended without returning a value with return.`;case"other":return i.text}}class q extends Error{constructor(e){super(Kn(e)),this.notice=e}}const O=i=>new q({kind:"unsupportedStatement",text:i}),S=i=>new q({kind:"invalidExpression",text:i}),je=i=>new q({kind:"unknownVariable",text:i}),ja=()=>new q({kind:"divisionByZero"});function Rt(i){return i instanceof q?i.notice:{kind:"other",text:i instanceof Error?i.message:String(i)}}function Pa(i){if(i===0)return"0";if(!Number.isFinite(i))return Number.isNaN(i)?"nan":i>0?"inf":"-inf";const e=Math.floor(Math.log10(Math.abs(Number(i.toPrecision(12)))));if(e<-4||e>=12){const[n,a]=i.toExponential(11).split("e"),s=n.includes(".")?n.replace(/0+$/,"").replace(/\.$/,""):n,r=Number(a);return`${s}e${r<0?"-":"+"}${String(Math.abs(r)).padStart(2,"0")}`}const t=i.toFixed(Math.max(0,11-e));return t.includes(".")?t.replace(/0+$/,"").replace(/\.$/,""):t}function Ut(i){return Number.isFinite(i)&&Math.round(i)===i?i.toFixed(1):Pa(i)}function F(i){switch(i.kind){case"int":return String(i.value);case"double":return Ut(i.value);case"string":return i.value;case"boolean":return String(i.value);case"intArray":return"["+i.value.map(String).join(", ")+"]";case"doubleArray":return"["+i.value.map(Ut).join(", ")+"]";case"stringArray":return"["+i.value.join(", ")+"]";case"booleanArray":return"["+i.value.map(String).join(", ")+"]";case"grid":return"["+Ca(i).join(", ")+"]"}}function Ca(i){return i.value.map(e=>"["+e.map(t=>F($n(i.elementType,t))).join(", ")+"]")}function $n(i,e){switch(i){case"int":return{kind:"int",value:e};case"double":return{kind:"double",value:e};case"string":return{kind:"string",value:e};case"boolean":return{kind:"boolean",value:e}}}function Aa(i){return i==="string"?"":i==="boolean"?!1:0}function X1(i){return i.kind==="intArray"||i.kind==="doubleArray"||i.kind==="stringArray"||i.kind==="booleanArray"||i.kind==="grid"}function Ta(i){return i.kind==="int"||i.kind==="double"?i.value:NaN}const ge=i=>({kind:"int",value:i}),ne=i=>({kind:"double",value:i}),pt=i=>i!==void 0&&/\s/u.test(i),u1=i=>new RegExp("\\p{L}","u").test(i),Pe=i=>new RegExp("\\p{N}","u").test(i);function De(i){const e=Array.from(i);return e.length===0||!(u1(e[0])||e[0]==="_")?!1:e.every(t=>u1(t)||Pe(t)||t==="_")}function re(i){switch(i.toLowerCase()){case"int":return"int";case"double":return"double";case"string":return"string";case"char":return"string";case"boolean":case"bool":return"boolean";default:return}}function Ft(i){return i.kind==="int"?"int":i.kind==="double"?"double":i.kind==="boolean"?"boolean":"string"}function K(i){const e=Array.from(i);if(e.length===3&&e[0]==="'"&&e[2]==="'")return e[1];if(!(e.length<2||e[0]!=='"'||e[e.length-1]!=='"'))return e.slice(1,-1).join("").replaceAll('\\"','"').replaceAll("\\n",`
+`)}function Yt(i){return i.replaceAll("(int)","").replaceAll("(double)","").trim()}function xt(i){const e=new Array(i.length).fill(!1);let t=0,n=!1,a=!1;return i.forEach((s,r)=>{if(n){a?a=!1:s==="\\"?a=!0:s==='"'&&(n=!1);return}switch(s){case'"':n=!0;break;case"(":case"[":t+=1;break;case")":case"]":t-=1;break;default:e[r]=t===0}}),e}function c1(i,e){const t=Array.from(i),n=Array.from(e),a=xt(t),s=[];let r=[],o=0;for(;o<t.length;){const l=o+n.length;if(l<=t.length&&n.every((m,u)=>t[o+u]===m)&&a.slice(o,l).every(Boolean)){s.push(r.join("").trim()),r=[],o=l;continue}r.push(t[o]),o+=1}return s.push(r.join("").trim()),s}function Da(i){const e=Array.from(i),t=xt(e);for(let n=0;n<e.length;n++){if(!t[n])continue;let a;if(n+1<e.length&&t[n+1]){const o=e[n]+e[n+1];[">=","<=","==","!="].includes(o)&&(a=o)}if(a===void 0&&(e[n]==="<"||e[n]===">")&&(a=e[n]),a===void 0)continue;const s=e.slice(0,n).join("").trim(),r=e.slice(n+a.length).join("").trim();return{lhs:s,op:a,rhs:r}}}function f1(i,e){let t=0,n=!1,a=!1;for(let s=e;s<i.length;s++){const r=i[s];if(n){a?a=!1:r==="\\"?a=!0:r==='"'&&(n=!1);continue}if(r==='"')n=!0;else if(r==="(")t+=1;else if(r===")"&&(t-=1,t===0))return s}}function ei(i){const e=Array.from(i);if(!(e[0]!=="("||e[e.length-1]!==")"||f1(e,0)!==e.length-1))return e.slice(1,-1).join("").trim()}function Ba(i){const e=Array.from(i),t=Array.from(".equals(");if(e[e.length-1]!==")")return;const n=xt(e);for(let a=0;a<e.length;a++){if(!n[a]||a+t.length>e.length||!t.every((r,o)=>e[a+o]===r))continue;const s=a+t.length-1;if(f1(e,s)===e.length-1)return{lhs:e.slice(0,a).join("").trim(),rhs:e.slice(s+1,-1).join("").trim()}}}function Xe(i){const e=i.trim();for(const t of["if","while","until","switch"]){if(!e.startsWith(t))continue;const n=e.slice(t.length);if(!(n===""||pt(n[0])||n[0]==="("))continue;let a=n.trim();const s=ei(a);return s!==void 0&&(a=s),a===""?"true":a}return e===""?"true":e}function ze(i){const e=i.trim(),t=e.indexOf("[");if(!e.endsWith("]")||t<0)return;const n=e.slice(0,t).trim();if(!De(n))return;const a=[];let s=t;for(;s<e.length;){if(e[s]!=="[")return;let r=0,o=-1;for(let l=s;l<e.length;l++)if(e[l]==="[")r+=1;else if(e[l]==="]"&&--r===0){o=l;break}if(o<0)return;for(a.push(e.slice(s+1,o)),s=o+1;s<e.length&&pt(e[s]);)s+=1}if(!(a.length>2))return{arrayName:n,indexExpressions:a}}function Wa(i){const e=i.trim();if(!e.endsWith(")"))return;const t=/^([A-Za-z_]\w*(?:\s*\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*([A-Za-z_]\w*)\s*\(/u.exec(e);if(!t)return;const n=Array.from(e),a=Array.from(t[0]).length-1;if(f1(n,a)!==n.length-1)return;const s=n.slice(a+1,-1).join("").trim();return{target:t[1],method:t[2],args:s===""?[]:c1(s,",")}}function Ot(i){return De(i)||ze(i)!==void 0}function Qt(i){const e=[];let t="",n=!1,a=!1,s=0;for(const r of i){if(a){t+=r,a=!1;continue}if(r==="\\"){t+=r,a=!0;continue}if(r==='"'){n=!n,t+=r;continue}if(!n&&r==="("&&(s+=1),!n&&r===")"&&(s-=1),r==="+"&&!n&&s===0){e.push(t),t="";continue}t+=r}if(n)throw S(i);return e.push(t),e}function Ha(i){const e=[];let t=0,n="";for(const a of i){if(a==="{"&&(t+=1),a==="}"&&(t-=1),a===","&&t===0){e.push(n),n="";continue}n+=a}return n.trim()!==""&&e.push(n),e}function Xt(i){const e=Array.from(i),t=[];let n=0;for(;n<e.length;){const a=e[n];if(pt(a)){n+=1;continue}if(Pe(a)||a==="."&&n+1<e.length&&Pe(e[n+1])){const s=n;let r=0;for(;n<e.length;){if(e[n]==="."){if(r+=1,r>1)throw S(i)}else if(!Pe(e[n]))break;n+=1}const o=e.slice(s,n).join("");if(o==="."||!/^[0-9]*\.?[0-9]*$/.test(o))throw S(i);t.push({t:"number",literal:o,value:Number(o)});continue}if(u1(a)||a==="_"){const s=n;for(;n<e.length&&(u1(e[n])||Pe(e[n])||e[n]==="_");)n+=1;t.push({t:"identifier",name:e.slice(s,n).join("")});continue}if("+-*/%.()[]".includes(a)){t.push({t:a}),n+=1;continue}throw S(i)}return t}class Ga{constructor(e,t){I(this,"index",0);this.tokens=e,this.variables=t}parseInt(){const e=this.expression().v;if(this.index!==this.tokens.length||!Number.isFinite(e))throw S("");return Math.trunc(e)}parseDouble(){return this.parseNumber().v}parseNumber(){const e=this.expression();if(this.index!==this.tokens.length)throw S("");return e}get current(){return this.tokens[this.index]}kind(){var e;return(e=this.tokens[this.index])==null?void 0:e.t}isIdent(e){const t=this.current;return(t==null?void 0:t.t)==="identifier"&&t.name===e}expression(){let e=this.term();for(let t=this.current;t&&(t.t==="+"||t.t==="-");t=this.current){this.index+=1;const n=this.term();e={v:t.t==="+"?e.v+n.v:e.v-n.v,int:e.int&&n.int}}return e}term(){let e=this.factor();for(let t=this.current;t&&(t.t==="*"||t.t==="/"||t.t==="%");t=this.current){this.index+=1;const n=this.factor(),a=e.int&&n.int;if(t.t==="*")e={v:e.v*n.v,int:a};else{if(n.v===0)throw ja();e={v:t.t==="/"?a?Math.trunc(e.v/n.v):e.v/n.v:e.v%n.v,int:a}}}return e}factor(){const e=this.current;if(!e)throw S("");switch(this.index+=1,e.t){case"number":return{v:e.value,int:!e.literal.includes(".")};case"identifier":{const t=e.name;if(t==="Math"&&this.kind()==="."){if(this.index+=1,!this.isIdent("random"))throw S(t);if(this.index+=1,this.kind()!=="("||(this.index+=1,this.kind()!==")"))throw S("Math.random");return this.index+=1,{v:Math.random(),int:!1}}const n=this.variables.get(t);if(!n)throw je(t);if(this.kind()==="."){if(this.index+=1,!this.isIdent("length"))throw S(t);if(this.index+=1,this.kind()==="("){if(this.index+=1,this.kind()!==")")throw S(`${t}.length`);this.index+=1}if(X1(n))return{v:n.value.length,int:!0};throw S(t)}if(this.kind()==="["){this.index+=1;const s=Math.trunc(this.expression().v);if(this.kind()!=="]")throw S(t);if(this.index+=1,n.kind==="grid"){if(!(s>=0&&s<n.value.length))throw S(`${t}[${s}]`);const r=n.value[s];if(this.kind()==="."){if(this.index+=1,!this.isIdent("length"))throw S(t);if(this.index+=1,this.kind()==="("){if(this.index+=1,this.kind()!==")")throw S(`${t}.length`);this.index+=1}return{v:r.length,int:!0}}if(this.kind()!=="[")throw S(t);this.index+=1;const o=Math.trunc(this.expression().v);if(this.kind()!=="]")throw S(t);if(this.index+=1,!(o>=0&&o<r.length))throw S(`${t}[${s}][${o}]`);if(n.elementType!=="int"&&n.elementType!=="double")throw S(t);return{v:r[o],int:n.elementType==="int"}}if(n.kind==="intArray"||n.kind==="doubleArray"){if(!(s>=0&&s<n.value.length))throw S(`${t}[${s}]`);return{v:n.value[s],int:n.kind==="intArray"}}throw S(t)}const a=Ta(n);if(!Number.isFinite(a))throw S(t);return{v:a,int:n.kind==="int"}}case"-":{const t=this.factor();return{v:-t.v,int:t.int}}case"(":{const t=this.expression();if(this.kind()!==")")throw S("");return this.index+=1,t}default:throw S("")}}}function Ve(i){let e=i.trim();for(;e.endsWith(";");)e=e.slice(0,-1).trim();return e}function Jt(i){const e=i.slice(0,3);for(;e.length<3;)e.push("");return e}function J1(i){const e=i.map(t=>Ve(t).trim());return e.length===1&&e[0].includes(";")?Jt(e[0].split(";").map(t=>t.trim())):Jt(e)}const Q=i=>i.frame?{frame:i.frame,callPath:i.callPath}:{};function te(i,e=[],t={}){const n=[],a=s=>n.push(t.frame?{...s,...t}:s);return i.forEach((s,r)=>{const o=[...e,r],l=s.textLines.join(" ").trim();switch(s.type){case p.anweisung:l!==""&&l!=="ø"&&a({path:o,text:l,kind:"statement"});break;case p.verzweigung:a({path:o,text:l||"true",kind:"branch",cases:s.cases});break;case p.fallauswahl:a({path:o,text:l||"0",kind:"switchSelection",cases:s.cases});break;case p.forSchleife:a({path:o,text:l,kind:"forLoopStart",loopBody:s.loopBody,forParts:J1(s.textLines)});break;case p.whileSchleife:a({path:o,text:l||"true",kind:"whileLoop",loopBody:s.loopBody});break;case p.doUntilSchleife:a({path:o,text:l||"true",kind:"doUntilLoop",loopBody:s.loopBody});break;case p.endlosschleife:a({path:o,text:l||"true",kind:"infiniteLoop",loopBody:s.loopBody});break;case p.aussprung:a({path:o,text:l,kind:"jump"});break;case p.aufruf:l!==""&&l!=="ø"&&a({path:o,text:l,kind:"call"});break}}),n}function Na(i,e){const t=i.trim().replaceAll(",",".");switch(e){case"int":if(!/^[+-]?[0-9]+$/.test(t))throw new q({kind:"wholeNumberExpected"});return ge(Number(t));case"double":if(!/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)([eE][+-]?[0-9]+)?$/.test(t))throw new q({kind:"numberExpected"});return ne(Number(t));case"string":return{kind:"string",value:i};case"boolean":switch(t.toLowerCase()){case"true":case"wahr":return{kind:"boolean",value:!0};case"false":case"falsch":return{kind:"boolean",value:!1};default:throw new q({kind:"booleanExpected"})}}}function qt(){return{stepIndex:0,variables:new Map,outputLines:[],isHalted:!1}}function Ea(i,e){for(let t=0;t<e.length;t++){const n=e[t].name.trim();if(n.toLowerCase()!=="default"){if(i.kind==="int"){if(/^[+-]?[0-9]+$/.test(n)&&Number(n)===i.value)return t}else if(K(n)===i.value||n===i.value)return t}}}function La(i){return i==="forLoopIncrement"||i==="forLoopCondition"||i==="whileLoop"||i==="doUntilCondition"||i==="infiniteLoop"}function Va(i,e){return(i.frame??0)===(e.frame??0)&&i.path.length===e.path.length&&i.path.every((t,n)=>t===e.path[n])}function ee(i){const e=/^(void|int|double|String|boolean)\s+([A-Za-z_]\w*)\s*\((.*)\)$/u.exec(Ve(i));if(!e)return;const t=[];if(e[3].trim()!=="")for(const n of e[3].split(",")){const a=/^(int|double|String|boolean|char)\s*((?:\[\s*\]){0,2})\s+([A-Za-z_]\w*)$/u.exec(n.trim());if(!a)return;const s=(a[2].match(/\[/gu)??[]).length;t.push({type:re(a[1]),name:a[3],...s>0?{dims:s}:{}})}return{returnType:re(e[1]),name:e[2],params:t}}function ti(i){const e=/^(?:(?:(int|double|String|boolean)\s+)?([A-Za-z_]\w*)\s*=\s*)?([A-Za-z_]\w*)\s*\((.*)\)$/u.exec(Ve(i));if(e)return{targetType:e[1]?re(e[1]):void 0,target:e[2],name:e[3],args:e[4].trim()===""?[]:c1(e[4],",")}}function d1(i){var t,n;const e=Ve(i);return((t=ee(e))==null?void 0:t.name)??((n=ti(e))==null?void 0:n.name)??e.replace(/\(\s*\)$/u,"").trim()}class q1{constructor(e,t=()=>{}){I(this,"steps");I(this,"state",qt());I(this,"nextFrame",1);I(this,"callDepth",0);I(this,"frames",new Map);this.resolveSubprogram=t,this.steps=te(e.elements)}get currentStepPath(){const e=this.steps[this.state.stepIndex];return(e==null?void 0:e.callPath)??(e==null?void 0:e.path)}get canStep(){return!this.state.isHalted&&!this.state.inputRequest&&this.state.stepIndex<this.steps.length}get message(){return this.state.notice&&Kn(this.state.notice)}reset(e){e&&(this.steps=te(e.elements)),this.state=qt(),this.nextFrame=1,this.callDepth=0,this.frames.clear()}step(){const e=this.state;if(!this.canStep){!e.inputRequest&&!e.isHalted&&(e.notice={kind:"finished"});return}const t=this.steps[e.stepIndex];try{switch(t.kind){case"statement":if(/^return\b/u.test(t.text))return this.executeReturn(t);this.executeStatement(t.text);break;case"branch":return this.executeBranch(t);case"switchSelection":return this.executeSwitchSelection(t);case"forLoopStart":return this.executeForLoopStart(t);case"forLoopCondition":return this.executeForLoopCondition(t);case"forLoopIncrement":return this.executeForLoopIncrement(t);case"whileLoop":return this.executeWhileLoop(t);case"doUntilLoop":return this.enterDoUntilLoop(t);case"doUntilCondition":return this.executeDoUntilCondition(t);case"infiniteLoop":return this.enterInfiniteLoop(t);case"jump":return this.executeJump(t);case"call":return this.executeCall(t);case"callEnd":return this.executeCallEnd(t)}if(e.inputRequest){e.notice=void 0;return}e.stepIndex+=1,e.notice=this.finishedIfAtEnd()}catch(n){e.notice=Rt(n),e.isHalted=!0}}provideInput(e){const t=this.state.inputRequest;if(t){try{const n=Na(e,t.valueType);this.assignValue(n,t.variableName),this.state.lastTrace=`${t.variableName} = input -> ${F(n)}`}catch(n){this.state.inputErrorNotice=Rt(n);return}this.state.inputRequest=void 0,this.state.inputErrorNotice=void 0,this.state.stepIndex+=1,this.state.notice=this.finishedIfAtEnd()}}finishedIfAtEnd(){return this.state.stepIndex>=this.steps.length?{kind:"finished"}:void 0}splice(e){this.steps.splice(this.state.stepIndex,1,...e)}noticeAfterEntering(e){return e.length>0?void 0:this.finishedIfAtEnd()}executeBranch(e){const t=e.cases;if(!t||t.length<2)throw O(e.text);const n=Xe(e.text),a=this.evaluateBool(n),s=a?0:1,r=te(t[s].elements,[...e.path,s],Q(e));this.splice(r),this.state.lastTrace=`${n} -> ${a}`,this.state.notice=this.noticeAfterEntering(r)}executeSwitchSelection(e){const t=e.cases;if(!t||t.length===0)throw O(e.text);const n=Xe(e.text),a=this.evaluateSwitchSelector(n),s=Ea(a,t)??t.length-1,r=te(t[s].elements,[...e.path,s],Q(e));this.splice(r),this.state.lastTrace=`${n} -> ${t[s].name}`,this.state.notice=this.noticeAfterEntering(r)}executeForLoopStart(e){const t=J1(e.forParts??[e.text]);t[0]!==""&&this.executeStatement(t[0]),this.splice([{...Q(e),path:e.path,text:t[1],kind:"forLoopCondition",loopBody:e.loopBody,forParts:t}])}executeForLoopCondition(e){const t=J1(e.forParts??[e.text]),n=t[1]===""?"true":t[1],a=this.evaluateBool(n);if(this.state.lastTrace=`${n} -> ${a}`,a){const s=te(e.loopBody??[],[...e.path,0],Q(e));this.splice([...s,{...Q(e),path:e.path,text:t[2],kind:"forLoopIncrement",loopBody:e.loopBody,forParts:t},{...Q(e),path:e.path,text:t[1],kind:"forLoopCondition",loopBody:e.loopBody,forParts:t}])}else this.splice([]),this.state.notice=this.finishedIfAtEnd()}executeForLoopIncrement(e){const t=e.text.trim();t!==""&&this.executeIncrement(t),this.splice([])}executeWhileLoop(e){const t=Xe(e.text),n=this.evaluateBool(t);if(this.state.lastTrace=`${t} -> ${n}`,n){const a=te(e.loopBody??[],[...e.path,0],Q(e));this.splice([...a,{...Q(e),path:e.path,text:e.text,kind:"whileLoop",loopBody:e.loopBody}]),this.state.notice=this.noticeAfterEntering(a)}else this.splice([]),this.state.notice=this.finishedIfAtEnd()}enterDoUntilLoop(e){const t=te(e.loopBody??[],[...e.path,0],Q(e));this.splice([...t,{...Q(e),path:e.path,text:e.text,kind:"doUntilCondition",loopBody:e.loopBody}]),this.state.notice=this.noticeAfterEntering(t)}executeDoUntilCondition(e){const t=Xe(e.text),n=this.evaluateBool(t);if(this.state.lastTrace=`${t} -> ${n}`,n){const a=te(e.loopBody??[],[...e.path,0],Q(e));this.splice([...a,{...Q(e),path:e.path,text:e.text,kind:"doUntilCondition",loopBody:e.loopBody}])}else this.splice([]),this.state.notice=this.finishedIfAtEnd()}enterInfiniteLoop(e){const t=te(e.loopBody??[],[...e.path,0],Q(e));this.splice([...t,{...Q(e),path:e.path,text:e.text,kind:"infiniteLoop",loopBody:e.loopBody}]),this.state.lastTrace="true -> true",this.state.notice=t.length>0?void 0:{kind:"infiniteLoopWithoutBody"}}executeJump(e){const t=e.frame??0,n=o=>o.length<e.path.length&&o.every((l,m)=>l===e.path[m]);let a=this.steps.length,s="end";for(let o=this.state.stepIndex+1;o<this.steps.length;o++){const l=this.steps[o];if((l.frame??0)===t){if(l.kind==="callEnd"){a=o+1,s="return";break}if(La(l.kind)&&n(l.path)){for(a=o+1;a<this.steps.length&&Va(this.steps[a],l);)a+=1;s="break";break}}}const r=this.steps[a-1];s==="return"&&(this.callDepth-=1),this.steps.splice(this.state.stepIndex,a-this.state.stepIndex),this.state.lastTrace=`${e.text||"break"} -> ${s}`,s==="return"&&this.finishFrame(r),this.state.notice=this.finishedIfAtEnd()}executeCall(e){const t=e.text,n=this.resolveSubprogram(d1(t));if(!n){this.splice([]),this.state.lastTrace=`${t} -> ?`,this.state.notice={kind:"subprogramNotFound",text:t},this.state.stepIndex>=this.steps.length&&(this.state.notice={kind:"finished"});return}const a=ti(t),s=ee(n.caption);if(s?((a==null?void 0:a.args.length)??0)!==s.params.length||(a==null?void 0:a.target)!==void 0&&!s.returnType:a!==void 0&&(a.args.length>0||a.target!==void 0))throw new q({kind:"callArguments",text:(s==null?void 0:s.name)??d1(t)});if(this.callDepth>=_a)throw new q({kind:"callTooDeep"});const o=new Map,l=[];s==null||s.params.forEach((h,g)=>{const x=a.args[g].trim();if(!h.dims){o.set(h.name,this.evaluateExpression(x,h.type));return}const f=this.state.variables.get(x);if(!f)throw/^[A-Za-z_]\w*$/u.test(x)?new q({kind:"unknownVariable",text:x}):S(x);if(!(h.dims===1?f.kind===`${h.type}Array`:f.kind==="grid"&&f.elementType===h.type))throw S(x);o.set(h.name,f),l.push({param:h.name,callerName:x})}),this.callDepth+=1;const m={frame:this.nextFrame++,callPath:e.callPath??e.path};s&&(this.frames.set(m.frame,{saved:this.state.variables,header:s,call:a,references:l}),this.state.variables=o);const u=te(n.elements,[],m);this.splice([...u,{...m,path:e.path,text:t,kind:"callEnd"}]);const c=s==null?void 0:s.params.map((h,g)=>`${h.name} = ${h.dims?a.args[g].trim():F(o.get(h.name))}`).join(", ");this.state.lastTrace=c?`${t} -> ${c}`:`${t} -> call`}executeCallEnd(e){this.callDepth-=1,this.splice([]),this.state.lastTrace=`${e.text} -> return`,this.finishFrame(e),this.state.notice=this.finishedIfAtEnd()}executeReturn(e){const t=e.frame??0,n=Ve(e.text).slice(6).trim(),a=this.frames.get(t);if(a&&n!==""){if(!a.header.returnType)throw S(e.text);a.returnValue=this.evaluateExpression(n,a.header.returnType)}const s=a!=null&&a.returnValue?`${e.text} -> ${F(a.returnValue)}`:`${e.text} -> return`;if(t===0){this.steps.splice(this.state.stepIndex),this.state.lastTrace=s,this.state.notice={kind:"finished"};return}let r=this.state.stepIndex+1;for(;r<this.steps.length&&!(this.steps[r].kind==="callEnd"&&this.steps[r].frame===t);)r++;const o=this.steps[r];this.steps.splice(this.state.stepIndex,r-this.state.stepIndex+1),this.callDepth-=1,this.state.lastTrace=s,o&&this.finishFrame(o),this.state.notice=this.finishedIfAtEnd()}finishFrame(e){var l,m;const t=this.frames.get(e.frame??0);if(!t)return;this.frames.delete(e.frame??0);const n=t.references.length>0?new Map(t.saved):t.saved;for(const u of t.references){const c=this.state.variables.get(u.param);c&&n.set(u.callerName,c)}this.state.variables=n;const a=t.returnValue;if(t.header.returnType&&!a)throw new q({kind:"missingReturn",text:t.header.name});const s=(l=t.call)==null?void 0:l.target;if(!s||!a)return;let r=(m=t.call)==null?void 0:m.targetType;if(!r)try{r=this.inferTargetValueType(s)}catch{r=t.header.returnType}const o=r==="double"&&a.kind==="int"?ne(a.value):r==="string"?{kind:"string",value:F(a)}:a;if(Ft(o)!==r)throw S(e.text);this.assignValue(o,s),this.state.lastTrace=`${s} = ${e.text.slice(e.text.indexOf("=")+1).trim()} -> ${F(o)}`}executeStatement(e){const t=this.state,n=e.trim(),a=n.toLowerCase();if(a.startsWith("input:")){t.inputRequest=this.parseInputRequest(n),t.inputErrorNotice=void 0;return}if(a.startsWith("output:")||a.startsWith("print:")){const g=n.slice(a.startsWith("output:")?7:6),x=this.renderOutputExpression(g),f=this.evaluateOutputExpression(g);t.outputLines.push(f),t.lastTrace=`${x} -> ${f}`;return}if(n.endsWith("++")||n.endsWith("--")||n.includes("+=")||n.includes("-=")){this.executeIncrement(n);return}const s=n.indexOf("=");if(s<0)throw O(n);const r=n.slice(0,s).trim(),o=n.slice(s+1),l=this.parseArrayDeclaration(r,o);if(l){t.variables.set(l.name,l.value),t.lastTrace=`${l.name} = new ${l.typeName}[${l.count}]`;return}const m=this.parseAssignmentTarget(r);let u;try{u=this.renderNumericExpression(o)}catch{u=o.trim()}let c=m.valueType;if(!c)try{c=this.inferTargetValueType(m.variableName)}catch{c="int"}const h=this.evaluateExpression(o,c);this.assignValue(h,m.variableName),t.lastTrace=`${m.variableName} = ${u} -> ${F(h)}`}executeIncrement(e){const t=this.state.variables;for(const[n,a]of[["++",1],["--",-1]]){if(!e.endsWith(n))continue;const s=e.slice(0,-2).trim(),r=t.get(s);if(!De(s)||!r)throw O(e);const o=a>0?"+":"-";if(r.kind==="int"){t.set(s,ge(r.value+a)),this.state.lastTrace=`${s} = ${r.value} ${o} 1 -> ${r.value+a}`;return}if(r.kind==="double"){const l=r.value+a;t.set(s,ne(l)),this.state.lastTrace=`${s} = ${F(r)} ${o} 1 -> ${F(ne(l))}`;return}throw O(e)}for(const[n,a]of[["+=",1],["-=",-1]]){const s=e.indexOf(n);if(s<0)continue;const r=e.slice(0,s).trim(),o=e.slice(s+2),l=t.get(r);if(!De(r)||!l)throw O(e);const m=a>0?"+":"-";if(l.kind==="int"){const u=this.evaluateInt(o),c=l.value+a*u;t.set(r,ge(c)),this.state.lastTrace=`${r} = ${l.value} ${m} ${u} -> ${c}`;return}if(l.kind==="double"){const u=this.evaluateDouble(o),c=l.value+a*u;t.set(r,ne(c)),this.state.lastTrace=`${r} = ${F(l)} ${m} ${F(ne(u))} -> ${F(ne(c))}`;return}throw O(e)}this.executeStatement(e)}parseAssignmentTarget(e){if(ze(e))return{variableName:e.trim()};const t=e.split(/\s+/u).filter(Boolean);let n,a;if(t.length===1)n=t[0];else if(t.length===2&&re(t[0]))n=t[1],a=re(t[0]);else if(t.length===3&&t[0]==="const"&&re(t[1]))n=t[2],a=re(t[1]);else throw O(e);if(!Ot(n))throw O(e);return{variableName:n,valueType:a}}parseInputRequest(e){const t=e.slice(6).trim(),n=/^(\S+)(?:\s+(\S+))?(?:\s+([\s\S]*))?$/u.exec(t);if(!n)throw O(e);const a=[n[1],n[2],n[3]].filter(u=>u!==void 0);let s,r,o;const l=re(a[0]);if(a.length>=2&&l?(s=a[1],r=l,o=(a[2]??"").trim()):(s=a[0],r=this.inferTargetValueType(s),o=(a[1]??"").trim()),!Ot(s))throw O(e);const m=K(o)??o;return{variableName:s,valueType:r,prompt:m===""?`${s}:`:m}}parseArrayDeclaration(e,t){const n=e.split(/\s+/u).filter(Boolean);if(n.length!==2||!n[0].endsWith("[]"))return;const a=n[0].endsWith("[][]"),s=n[0].slice(0,a?-4:-2),r=re(s),o=n[1];if(!r||!De(o))throw O(e);if(a)return this.parseGridDeclaration(o,s,r,t);const l=t.trim();if(l.startsWith("{")&&l.endsWith("}")){const g=l.slice(1,-1).split(",").map(f=>f.trim());let x;switch(r){case"int":x={kind:"intArray",value:g.map(f=>this.evaluateInt(f))};break;case"double":x={kind:"doubleArray",value:g.map(f=>this.evaluateDouble(f))};break;case"string":x={kind:"stringArray",value:g.map(f=>K(f)??this.evaluateOutputExpression(f))};break;case"boolean":x={kind:"booleanArray",value:g.map(f=>this.evaluateBool(f))};break}return{name:o,typeName:s,count:g.length,value:x}}const m=`new ${s}[`;if(!l.startsWith(m)){const g=this.evaluateStringMethod(l);if((g==null?void 0:g.kind)==="stringArray"&&r==="string")return{name:o,typeName:s,count:g.value.length,value:g}}if(!l.startsWith(m)||!l.endsWith("]"))throw O(t);const u=l.slice(m.length,-1),c=this.evaluateInt(u);if(c<0)throw S(u);const h=r==="int"?{kind:"intArray",value:new Array(c).fill(0)}:r==="double"?{kind:"doubleArray",value:new Array(c).fill(0)}:r==="boolean"?{kind:"booleanArray",value:new Array(c).fill(!1)}:{kind:"stringArray",value:new Array(c).fill("")};return{name:o,typeName:s,count:c,value:h}}parseGridDeclaration(e,t,n,a){var c;const s=a.trim(),r=h=>{switch(n){case"int":return this.evaluateInt(h);case"double":return this.evaluateDouble(h);case"boolean":return this.evaluateBool(h);case"string":return K(h.trim())??this.evaluateOutputExpression(h)}};if(s.startsWith("{")&&s.endsWith("}")){const h=Ha(s.slice(1,-1)).map(g=>{const x=g.trim();if(!x.startsWith("{")||!x.endsWith("}"))throw S(x);return x.slice(1,-1).trim()===""?[]:x.slice(1,-1).split(",").map(f=>r(f.trim()))});return{name:e,typeName:t,count:`${h.length}][${((c=h[0])==null?void 0:c.length)??0}`,value:{kind:"grid",elementType:n,value:h}}}const o=new RegExp(String.raw`^new\s+${t}\s*\[(.+)\]\s*\[(.+)\]$`,"u").exec(s);if(!o)throw O(a);const l=this.evaluateInt(o[1]),m=this.evaluateInt(o[2]);if(l<0)throw S(o[1]);if(m<0)throw S(o[2]);const u={kind:"grid",elementType:n,value:Array.from({length:l},()=>new Array(m).fill(Aa(n)))};return{name:e,typeName:t,count:`${l}][${m}`,value:u}}arrayIndex(e){const t=this.evaluateInt(e);if(t<0)throw S(e);return t}evaluateReference(e){const t=e.trim(),n=this.state.variables.get(t);if(n)return n;const a=this.evaluateStringMethod(t);if(a)return a;const s=ze(t);if(s)return this.valueInArray(s.arrayName,s.indexExpressions.map(r=>this.arrayIndex(r)))}evaluateStringMethod(e){const t=Wa(e);if(!t)return;const n=K(t.target)??this.stringValueOf(t.target);if(n===void 0)return;const a=t.args,s=u=>{const c=a[u];if(c===void 0)throw S(e);const h=K(c.trim());if(h!==void 0)return h;const g=this.evaluateReference(c);if((g==null?void 0:g.kind)==="string")return g.value;throw S(c)},r=u=>{if(a[u]===void 0)throw S(e);return this.evaluateInt(a[u])},o=u=>{if(a.length!==u)throw S(e)},l=Array.from(n),m=(u,c)=>{if(u<0||u>c)throw S(e);return u};switch(t.method){case"length":return o(0),ge(l.length);case"charAt":return o(1),{kind:"string",value:l[m(r(0),l.length-1)]};case"substring":{if(a.length!==1&&a.length!==2)throw S(e);const u=m(r(0),l.length),c=a.length===2?m(r(1),l.length):l.length;if(c<u)throw S(e);return{kind:"string",value:l.slice(u,c).join("")}}case"indexOf":{o(1);const u=n.indexOf(s(0));return ge(u<0?-1:Array.from(n.slice(0,u)).length)}case"toUpperCase":return o(0),{kind:"string",value:n.toUpperCase()};case"toLowerCase":return o(0),{kind:"string",value:n.toLowerCase()};case"trim":return o(0),{kind:"string",value:n.trim()};case"contains":return o(1),{kind:"boolean",value:n.includes(s(0))};case"startsWith":return o(1),{kind:"boolean",value:n.startsWith(s(0))};case"endsWith":return o(1),{kind:"boolean",value:n.endsWith(s(0))};case"replace":return o(2),{kind:"string",value:n.replaceAll(s(0),s(1))};case"split":{o(1);const u=s(0),c=u===""?l:n.split(u);for(;c.length>0&&c[c.length-1]==="";)c.pop();return{kind:"stringArray",value:c}}default:return}}stringValueOf(e){const t=e.trim(),n=this.state.variables.get(t);if(n)return n.kind==="string"?n.value:void 0;const a=ze(t);if(!a)return;const s=this.valueInArray(a.arrayName,a.indexExpressions.map(r=>this.arrayIndex(r)));return s.kind==="string"?s.value:void 0}substituteStringCalls(e){if(!e.includes("("))return e;let t="",n=e;const a=/([A-Za-z_]\w*(?:\[[^\[\]]*\])*|"(?:[^"\\]|\\.)*")\s*\.\s*(length|indexOf)\s*\(/u;for(let s=a.exec(n);s;s=a.exec(n)){const r=s.index+s[0].length-1,o=f1(Array.from(n),Array.from(n.slice(0,r)).length);if(o===void 0)break;const l=Array.from(n),m=l.slice(Array.from(n.slice(0,s.index)).length,o+1).join(""),u=this.evaluateStringMethod(m),c=l.slice(0,Array.from(n.slice(0,s.index)).length).join("");(u==null?void 0:u.kind)==="int"?t+=c+String(u.value):t+=c+m,n=l.slice(o+1).join("")}return t+n}valueInArray(e,t){const n=this.state.variables.get(e);if(!n)throw je(e);const a=`${e}[${t.join("][")}]`;if(n.kind==="grid"){if(t.length!==2)throw S(a);const r=n.value[t[0]];if(!r||t[1]>=r.length)throw S(a);return $n(n.elementType,r[t[1]])}if(t.length!==1)throw S(a);const s=t[0];if(!X1(n))throw S(e);if(s>=n.value.length)throw S(a);switch(n.kind){case"intArray":return ge(n.value[s]);case"doubleArray":return ne(n.value[s]);case"stringArray":return{kind:"string",value:n.value[s]};case"booleanArray":return{kind:"boolean",value:n.value[s]};default:throw S(e)}}inferTargetValueType(e){const t=e.trim(),n=this.state.variables.get(t);if(n)return Ft(n);const a=ze(t);if(a){const s=this.state.variables.get(a.arrayName);if(!s)throw je(a.arrayName);if(s.kind==="intArray")return"int";if(s.kind==="doubleArray")return"double";if(s.kind==="stringArray")return"string";if(s.kind==="booleanArray")return"boolean";if(s.kind==="grid")return s.elementType;throw S(a.arrayName)}throw O(e)}assignValue(e,t){const n=t.trim(),a=ze(n);if(!a){this.state.variables.set(n,e);return}const s=a.indexExpressions.map(m=>this.arrayIndex(m)),r=this.state.variables.get(a.arrayName);if(!r)throw je(a.arrayName);if(r.kind==="grid"){if(s.length!==2||s[0]>=r.value.length||s[1]>=r.value[s[0]].length)throw S(n);const m=r.elementType==="double"&&e.kind==="int"||e.kind===r.elementType?e.value:void 0;if(m===void 0||X1(e))throw S(n);const u=r.value.map(c=>[...c]);u[s[0]][s[1]]=m,this.state.variables.set(a.arrayName,{...r,value:u});return}if(s.length!==1)throw S(n);const o=s[0];let l;if(r.kind==="intArray"&&e.kind==="int")l={kind:"intArray",value:[...r.value]};else if(r.kind==="doubleArray"&&(e.kind==="double"||e.kind==="int"))l={kind:"doubleArray",value:[...r.value]};else if(r.kind==="stringArray"&&e.kind==="string")l={kind:"stringArray",value:[...r.value]};else if(r.kind==="booleanArray"&&e.kind==="boolean")l={kind:"booleanArray",value:[...r.value]};else throw S(n);if(o>=l.value.length)throw S(n);l.value[o]=e.value,this.state.variables.set(a.arrayName,l)}evaluateOutputExpression(e){return Qt(e).map(t=>{const n=t.trim(),a=K(n);if(a!==void 0)return a;const s=this.evaluateReference(n);return F(s||this.evaluateNumeric(n))}).join("")}renderOutputExpression(e){return Qt(e).map(t=>{const n=t.trim();if(K(n)!==void 0)return n;const a=this.evaluateReference(n);if(a)return F(a);try{return this.renderNumericExpression(n)}catch{return n}}).join(" + ")}evaluateExpression(e,t){switch(t){case"int":return ge(this.evaluateInt(e));case"double":return ne(this.evaluateDouble(e));case"string":{const n=e.trim(),a=K(n);if(a!==void 0)return{kind:"string",value:a};const s=this.evaluateReference(n);return s?{kind:"string",value:F(s)}:{kind:"string",value:this.evaluateOutputExpression(e)}}case"boolean":return{kind:"boolean",value:this.evaluateBool(e)}}}evaluateNumeric(e){const{v:t,int:n}=this.parser(e).parseNumber();return n||Number.isFinite(t)&&Math.round(t)===t?ge(t):ne(t)}parser(e){return new Ga(Xt(Yt(this.substituteStringCalls(e))),this.state.variables)}evaluateInt(e){return this.parser(e).parseInt()}evaluateDouble(e){return this.parser(e).parseDouble()}evaluateBool(e){const t=e.trim();if(t==="true")return!0;if(t==="false")return!1;const n=this.evaluateReference(t);if((n==null?void 0:n.kind)==="boolean")return n.value;const a=c1(t,"||");if(a.length>1)return a.some(m=>this.evaluateBool(m));const s=c1(t,"&&");if(s.length>1)return s.every(m=>this.evaluateBool(m));if(t.startsWith("!")&&!t.startsWith("!="))return!this.evaluateBool(t.slice(1));const r=ei(t);if(r!==void 0)return this.evaluateBool(r);const o=Ba(t);if(o)return this.evaluateComparison(o.lhs,"==",o.rhs);const l=Da(t);if(l)return this.evaluateComparison(l.lhs,l.op,l.rhs);if(this.stringOperand(t)!==void 0)throw S(t);return this.evaluateDouble(t)!==0}evaluateComparison(e,t,n){const a=this.booleanOperand(e),s=this.booleanOperand(n);if((a!==void 0||s!==void 0)&&(t==="=="||t==="!=")){const u=a??this.evaluateBool(e),c=s??this.evaluateBool(n);return t==="=="?u===c:u!==c}const r=this.stringOperand(e),o=this.stringOperand(n);let l,m;if(r!==void 0||o!==void 0){if(r===void 0||o===void 0)throw S(`${e} ${t} ${n}`);l=r,m=o}else l=this.evaluateDouble(e),m=this.evaluateDouble(n);switch(t){case"==":return l===m;case"!=":return l!==m;case"<":return l<m;case"<=":return l<=m;case">":return l>m;case">=":return l>=m;default:throw S(`${e} ${t} ${n}`)}}booleanOperand(e){const t=e.trim();if(t==="true")return!0;if(t==="false")return!1;const n=this.evaluateReference(t);return(n==null?void 0:n.kind)==="boolean"?n.value:void 0}stringOperand(e){const t=e.trim(),n=K(t);if(n!==void 0)return n;const a=this.evaluateReference(t);return(a==null?void 0:a.kind)==="string"?a.value:void 0}evaluateSwitchSelector(e){const t=e.trim(),n=K(t);if(n!==void 0)return{kind:"text",value:n};const a=this.state.variables.get(t);if(a)switch(a.kind){case"int":return{kind:"int",value:a.value};case"double":return{kind:"int",value:Math.trunc(a.value)};case"string":return{kind:"text",value:a.value};default:throw S(t)}return/^[+-]?[0-9]+$/.test(t)?{kind:"int",value:Number(t)}:{kind:"int",value:this.evaluateInt(t)}}renderNumericExpression(e){return Xt(Yt(e)).map(t=>{if(t.t==="number")return t.literal;if(t.t==="identifier"){const n=this.state.variables.get(t.name);if(!n)throw je(t.name);return F(n)}return t.t}).join(" ").replaceAll("( ","(").replaceAll(" )",")").replaceAll(" . ",".").replaceAll("[ ","[").replaceAll(" ]","]")}}const ni={baseIndent:0,indentPerLevel:4,includeDiagramTextAsComments:!1,includeEmptyElseBranch:!0,pseudocodeNote:"Pseudocode – not a runnable program"};function ii(i,e,t={},n=[]){const a=It(i,e,t);let s="";e==="javascript"&&(s+=`"use strict";
 
-`);const r=[a,...e==="java"?[]:n];if(e==="python"&&r.some(sa)&&(s+=`import random
+`);const r=[i,...e==="java"?[]:n];if(e==="python"&&r.some(Ii)&&(s+=`import random
 
-`),e==="java"&&d1(a)&&(s+=`// import java.util.Scanner;
+`),e==="java"&&p1(i)&&(s+=`// import java.util.Scanner;
 `,s+=`Scanner scanner = new Scanner(System.in);
 
-`),a.pseudocode&&(s+=(e==="python"?"# ":"// ")+i.pseudocodeNote+`
+`),i.pseudocode&&(s+=(e==="python"?"# ":"// ")+a.pseudocodeNote+`
 
-`),e!=="java")for(const m of n){if(m===a)continue;const u=pe(m.caption);u&&(s+=Y1(m,u,e,t,0)+`
-`)}const o=pe(a.caption),l={out:""};if(o)l.out=Y1(a,o,e,t,i.baseIndent);else for(const m of a.elements)y1(m,e,i,i.baseIndent,l);if(s+=l.out,s.trim()===""){const m=ji(e);return e==="javascript"?`"use strict";
+`),e!=="java")for(const m of n){if(m===i)continue;const u=ee(m.caption);u&&(s+=K1(m,u,e,t,0)+`
+`)}const o=ee(i.caption),l={out:""};if(o)l.out=K1(i,o,e,t,a.baseIndent);else for(const m of i.elements)w1(m,e,a,a.baseIndent,l);if(s+=l.out,s.trim()===""){const m=Ra(e);return e==="javascript"?`"use strict";
 
-`+m:m}return ma(s.replace(/^[\n\r]+|[\n\r]+$/g,""),e)}function mt(a,e,t){const n={...Un,...t,jsIntVariables:new Set,arrayElementTypes:Gi(a),stringVariables:Hi(a)};return e!=="java"&&(n.jsIntVariables=$i(a)),n}const Ut=a=>a==="string"?"String":a===void 0?"void":a;function Yn(a){const e=a.params.map(t=>`${Ut(t.type)}${"[]".repeat(t.dims??0)} ${t.name}`).join(", ");return`public static ${Ut(a.returnType)} ${a.name}(${e}) {`}function Y1(a,e,t,n,i){const s=mt(a,t,n);for(const l of e.params)l.dims||(l.type==="int"&&s.jsIntVariables.add(l.name),l.type==="string"&&s.stringVariables.add(l.name));const r=e.params.map(l=>l.name).join(", "),o={out:""};for(const l of a.elements)y1(l,t,s,i+s.indentPerLevel,o);switch(o.out.trim()===""&&(o.out=z(i+s.indentPerLevel)+(t==="python"?`pass
+`+m:m}return yi(s.replace(/^[\n\r]+|[\n\r]+$/g,""),e)}function It(i,e,t){const n={...ni,...t,jsIntVariables:new Set,arrayElementTypes:Ka(i),stringVariables:qa(i)};return e!=="java"&&(n.jsIntVariables=hs(i)),n}const Kt=i=>i==="string"?"String":i===void 0?"void":i;function ai(i){const e=i.params.map(t=>`${Kt(t.type)}${"[]".repeat(t.dims??0)} ${t.name}`).join(", ");return`public static ${Kt(i.returnType)} ${i.name}(${e}) {`}function K1(i,e,t,n,a){const s=It(i,t,n);for(const l of e.params)l.dims||(l.type==="int"&&s.jsIntVariables.add(l.name),l.type==="string"&&s.stringVariables.add(l.name));const r=e.params.map(l=>l.name).join(", "),o={out:""};for(const l of i.elements)w1(l,t,s,a+s.indentPerLevel,o);switch(o.out.trim()===""&&(o.out=w(a+s.indentPerLevel)+(t==="python"?`pass
 `:`
-`)),t){case"java":return`${z(i)}${Yn(e)}
-${o.out}${z(i)}}
-`;case"python":return`${z(i)}def ${e.name}(${r}):
-${o.out}`;case"javascript":return`${z(i)}function ${e.name}(${r}) {
-${o.out}${z(i)}}
-`}}const z=a=>a>0?" ".repeat(a):"";function T(a,e){const t=a.exec(e);return t?Array.from(t,n=>n??""):void 0}function ji(a,e){return a==="python"?"# empty element":"// empty element"}const O1=a=>a.trim()==="ø";function On(a,e){return z(a)+(e==="python"?`# empty element
+`)),t){case"java":return`${w(a)}${ai(e)}
+${o.out}${w(a)}}
+`;case"python":return`${w(a)}def ${e.name}(${r}):
+${o.out}`;case"javascript":return`${w(a)}function ${e.name}(${r}) {
+${o.out}${w(a)}}
+`}}const w=i=>i>0?" ".repeat(i):"";function T(i,e){const t=i.exec(e);return t?Array.from(t,n=>n??""):void 0}function Ra(i,e){return i==="python"?"# empty element":"// empty element"}const $1=i=>i.trim()==="ø";function si(i,e){return w(i)+(e==="python"?`# empty element
 `:`// empty element
-`)}function Pi(a){switch(a.type){case g.leerElement:return!0;case g.anweisung:case g.aufruf:return a.textLines.map(e=>e.trim()).every(e=>e===""||O1(e));default:return!1}}function Ci(a){return a.every(Pi)}function ut(a,e,t){const n=a.map(i=>i.replace(/^[ \t]+|[ \t]+$/g,"")).filter(i=>i!=="");return n.length===0?"":e==="python"?z(t)+`"""
-`+n.map(i=>z(t)+i+`
-`).join("")+z(t)+`"""
-`:n.length===1?z(t)+"/* "+n[0]+` */
-`:z(t)+`/*
-`+n.map(i=>z(t)+" * "+i+`
-`).join("")+z(t)+` */
-`}const Ai=a=>a==="java"||a==="javascript";function u1(a){const e=a.trim();if(e==="")return"";if(e.startsWith("//")||e.startsWith("/*")||e.startsWith("*")||e.startsWith("#")||e.startsWith("{")||e.startsWith("}")||e.endsWith("{")||e.endsWith(";"))return e;const t=e.toLowerCase();for(const n of["if ","else","for ","while ","do ","switch ","case ","default"])if(t.startsWith(n))return e;return e+";"}function t1(a){const e=a.map(t=>t.trim()).filter(t=>t!=="");return Ti(e.length===0?"true":e.join(" "))}function Ti(a){const e=a.trim();for(const t of["if","while","until","switch"]){const n=Qn(t,e);if(n!==void 0)return n===""?"true":n}return e}function Qn(a,e){if(!e.toLowerCase().startsWith(a))return;const t=e.slice(a.length);if(!(t===""||/^\s/.test(t)||t[0]==="("))return;let n=t.trim();return n.startsWith("(")&&n.endsWith(")")&&n.length>=2&&(n=n.slice(1,-1).trim()),n}function re(a){let e=a.trim();for(;e.endsWith(";");)e=e.slice(0,-1).trim();return e}function Di(a){const e=a.trim(),t=e.toLowerCase();let n;if(t.startsWith("output:"))n=e.slice(7).trim();else if(t.startsWith("print:"))n=e.slice(6).trim();else return;return n===""?void 0:n}const I1=a=>a.name.includes("[")&&a.name.includes("]");function ct(a){const e=a.trim();if(e==="")return;const t=T(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+([a-zA-Z_]\w*(?:\s*\[[^\]]+\])?)(?:\s+"([^"]*)")?\s*$/i,e);if(t){const s=t[2].replaceAll(" ","");if(s==="")return;const r=(t[3]??"").trim();return{type:c1(t[1]),name:s,customPrompt:r===""?void 0:r}}const n=T(/^\s*([a-zA-Z_]\w*(?:\s*\[[^\]]+\])?)\s+"([^"]*)"\s*$/i,e);if(n){const s=n[1].replaceAll(" ","");return["int","integer","long","float","double","string","boolean","char","bool","void"].includes(s.toLowerCase())?void 0:{type:s.includes("[")?"String":"int",name:s,customPrompt:n[2].trim()}}const i=Wi(e);if(i)return{type:c1(i[0]),name:i[1]}}function c1(a){switch(a.trim().toLowerCase()){case"integer":case"int":return"int";case"long":return"long";case"float":return"float";case"double":return"double";case"string":return"String";case"boolean":case"bool":return"boolean";case"char":return"char";default:return a}}function Wi(a){const e=a.split(/[ \t]+/).filter(Boolean);if(e.length===0)return;if(e.length>=2)return[e[0],e[1]];if(!["int","double","string","boolean","char","long","float","short","byte","void","bool","integer"].includes(e[0].toLowerCase()))return["int",e[0]]}function Bi(a,e,t,n,i){const s=re(a).trim();if(s.startsWith('"'))switch(e){case"java":return z(t)+"System.out.println("+s+`);
-`;case"javascript":return z(t)+"console.log("+s+`);
-`;case"python":return z(t)+"print("+Ne(s,n,i)+`)
-`}}function Ge(a){return a.replaceAll("\\","\\\\").replaceAll('"','\\"').replaceAll(`
-`,"\\n").replaceAll("\r","\\r")}function dt(a,e){const t=a.trim();if(!t.toLowerCase().startsWith("input:"))return;const n=t.slice(6).trim();if(n==="")return;const i=ct(n);if(i&&I1(i)&&!/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s/i.test(n)){const s=e.get(i.name.slice(0,i.name.indexOf("[")).trim());if(s)return{...i,type:s}}return i}function Hi(a){const e=new Set;return Ie(a.elements,t=>{for(const n of t.textLines){const i=n.trim();if(i.toLowerCase().startsWith("input:")){const o=ct(i.slice(6).trim());(o==null?void 0:o.type)==="String"&&!I1(o)&&e.add(o.name);continue}const s=T(/^\s*(?:const\s+)?string\s+([a-zA-Z_]\w*)\s*=/i,i);s&&e.add(s[1]);const r=T(/^\s*string\s*\[\s*\]\s*([a-zA-Z_]\w*)\s*=/i,i);r&&e.add(r[1]+"[]")}}),e}function Gi(a){const e=new Map;return Ie(a.elements,t=>{for(const n of t.textLines){const i=T(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s*\[\s*\]\s*([a-zA-Z_]\w*)/i,n)??T(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+([a-zA-Z_]\w*)\s*\[\s*\]/i,n);i&&e.set(i[2],c1(i[1]))}}),e}function Ni(a,e,t){const n=dt(a,t);if(!n)return;const i=n.customPrompt?n.customPrompt:n.name+": ",s=z(e)+'System.out.println("'+Ge(i)+`");
-`,r=o=>I1(n)?n.name:`${o} ${n.name}`;switch(n.type){case"int":return s+z(e)+`${r("int")} = scanner.nextInt();
-`;case"double":return s+z(e)+`${r("double")} = scanner.nextDouble();
-`;case"String":return s+z(e)+`${r("String")} = scanner.next();
-`;case"boolean":return s+z(e)+`${r("boolean")} = scanner.nextBoolean();
-`;default:return}}function Ei(a,e,t){const n=dt(a,t);if(!n)return;const i=!!n.customPrompt,s=i?"":z(e)+'console.log("'+Ge(n.name+": ")+`");
-`,r=l=>{const m=i?n.customPrompt:n.name+": ";return`(prompt("${Ge(m)}") ?? "${l}")`},o=I1(n)?n.name:`let ${n.name}`;switch(n.type){case"int":return s+z(e)+`${o} = parseInt(${r("0")}, 10);
-`;case"double":return s+z(e)+`${o} = Number(${r("0")});
-`;case"String":return s+z(e)+`${o} = ${r("")};
-`;case"boolean":return s+z(e)+`${o} = ${r("")}.trim().toLowerCase() === "true";
-`;default:return}}function Li(a,e,t){const n=dt(a,t);if(!n)return;const i=!!n.customPrompt,s=i?"":z(e)+'print("'+Ge(n.name+": ")+`")
-`,r=`input("${Ge(i?n.customPrompt:n.name+": ")}")`;switch(n.type){case"int":return s+z(e)+`${n.name} = int(${r})
-`;case"double":return s+z(e)+`${n.name} = float(${r})
-`;case"String":return s+z(e)+`${n.name} = ${r}
-`;case"boolean":return s+z(e)+`${n.name} = ${r}.strip().lower() in ("true", "wahr")
-`;default:return}}function Vi(a,e,t,n,i){const s=Di(a);if(s!==void 0)switch(e){case"java":return z(t)+"System.out.println("+s+`);
-`;case"javascript":return z(t)+"console.log("+s+`);
-`;case"python":return z(t)+"print("+Ne(s,n,i)+`)
-`}}function ht(a){const e=a.map(re).filter(t=>t!=="");return e.length===0?";;":e.join("; ")}function Ri(a){const t=ht(a).split(";"),n=Xn(t[0]);return n!==void 0&&(t[0]=n),t.join(";")}function Xn(a){const e=T(/^(\s*)(?:integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s*=\s*(.*))?\s*$/i,a);if(!e)return;const t=e[2].trim();if(t==="")return;const n=(e[3]??"").trim();return a.includes("=")&&n!==""?e[1]+`let ${t} = ${n}`:e[1]+`let ${t}`}function Ui(a){const e=a.map(n=>re(n).trim()).filter(n=>n!=="");let t=e;if(e.length===1){let n=e[0];const i=Qn("for",n);i!==void 0&&(n=i),t=n.split(";").map(s=>s.trim())}if(!(t.length!==3||t.some(n=>n==="")))return[t[0],t[1],t[2]]}function Jn(a,e){let t=T(/^\s*(\w+)\s*(\+\+|--)\s*$/,a)??T(/^\s*(\+\+|--)\s*(\w+)\s*$/,a);if(t){const[n,i]=t[1]==="++"||t[1]==="--"?[t[2],t[1]]:[t[1],t[2]];return n===e?i==="++"?1:-1:void 0}if(t=T(/^\s*(\w+)\s*(\+|-)=\s*(\d+)\s*$/,a),t)return t[1]===e?(t[2]==="+"?1:-1)*Number(t[3]):void 0;if(t=T(/^\s*(\w+)\s*=\s*(\w+)\s*(\+|-)\s*(\d+)\s*$/,a),t)return t[1]===e&&t[2]===e?(t[3]==="+"?1:-1)*Number(t[4]):void 0}function Q1(a,e){if(/^-?\d+$/.test(a))return String(Number(a)+e);const t=/^[\w.()[\]]+$/.test(a)?a:`(${a})`;return e>0?`${t} + ${e}`:`${t} - ${-e}`}function Fi(a,e){const t=Ui(a);if(!t)return;const[n,i,s]=t,r=T(/^\s*(?:integer|int|long|short|byte|double|float)?\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i,n);if(!r)return;const o=r[1],l={variable:o,init:`${o} = ${N(r[2],e)}`,condition:i,increment:s},m=T(/^\s*(\w+)\s*(<=|<|>=|>)\s*(.+)$/,i),u=Jn(s,o);if(!m||m[1]!==o||u===void 0||u===0)return l;const c=N(r[2],e);let h=N(m[3],e);const p=m[2];if(u>0&&p==="<=")h=Q1(h,1);else if(u<0&&p===">=")h=Q1(h,-1);else if(!(u>0&&p==="<")&&!(u<0&&p===">"))return l;const x=u===1?c==="0"?[h]:[c,h]:[c,h,String(u)];return l.rangeLine=`for ${o} in range(${x.join(", ")}):`,l}function qn(a){const e=re(a).trim();if(e==="")return;const t=T(/^\s*const\s+(integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s*=\s*(.*))?$/i,e);if(!t)return;const n=t[2].trim();if(n==="")return;if(!e.includes("="))return{rawType:t[1].trim(),name:n};const i=(t[3]??"").trim();if(i!=="")return{rawType:t[1].trim(),name:n,rhs:i}}function Yi(a,e,t,n){var o;const i=qn(a);if(!i)return;const s=c1(i.rawType),r=(o=i.rhs)==null?void 0:o.trim();switch(e){case"java":return z(t)+u1(r?`final ${s} ${i.name} = ${r}`:`final ${s} ${i.name}`)+`
-`;case"javascript":return r?z(t)+u1(`const ${i.name} = ${r}`)+`
-`:z(t)+`let ${i.name};  // from diagram: const ${s} ${i.name}
-`;case"python":return r?z(t)+`${i.name} = ${f1(r,n)}  # const ${s}
-`:z(t)+`${i.name} = None  # const ${s}, uninitialized
-`}}function Oi(a){const e=re(a).trim();if(e===""||aa(e))return;const t=T(/^\s*(?:integer|int|long|float|double|string|boolean|char|bool)(?:\s*\[\s*\]\s+(\w+)|\s+(\w+)(\s*\[\s*\])?)\s*=\s*(.*)$/i,e);if(!t)return;const n=t[1]===""?t[2]:t[1],i=t[4].trim();if(i!=="")return{name:n,rhs:i,isArray:t[1]!==""||t[3]!==""}}function b1(a){const e=T(/^\s*\(\s*int(?:eger)?\s*\)\s*\(?\s*(.+?)\s*\)?\s*$/i,a),t=e==null?void 0:e[1].trim();return t||void 0}function f1(a,e=new Set){const t=a.trim();if(t==="null")return"None";const n=b1(t);return n!==void 0?`int(${f1(n,e)})`:N(t,e)}function Kn(a,e){let t="",n="",i=0;for(;i<a.length;){if(a[i]!=='"'){n+=a[i++];continue}t+=e(n),n="";let s=i+1;for(;s<a.length&&a[s]!=='"';)s+=a[s]==="\\"?2:1;t+=a.slice(i,s+1),i=s+1}return t+e(n)}function N(a,e){const t=a.replace(/\.equals\(\s*("(?:[^"\\]|\\.)*"|[^()"]*?)\s*\)/g," == $1"),n=i=>/^\d+$/.test(i)||e.has(i);return Kn(t,i=>i.replace(/\bMath\.random\s*\(\s*\)/gi,"random.random()").replace(/===/g,"==").replace(/!==/g,"!=").replace(/\s*&&\s*/g," and ").replace(/\s*\|\|\s*/g," or ").replace(/!(?!=)\s*/g,"not ").replace(/\btrue\b/g,"True").replace(/\bfalse\b/g,"False").replace(/\bnull\b/g,"None").replace(new RegExp("(?<![\\w.])([a-zA-Z_]\\w*|\\d+)\\s*\\/\\s*([a-zA-Z_]\\w*|\\d+)(?![\\w.(\\[])","g"),(s,r,o)=>n(r)&&n(o)?`${r} // ${o}`:s))}function $n(a){const e=[];let t=0,n="",i=!1;for(let s=0;s<a.length;s++){const r=a[s];if(i){n+=r,r==="\\"&&s+1<a.length?n+=a[++s]:r==='"'&&(i=!1);continue}if(r==='"')i=!0;else if(r==="("||r==="[")t++;else if(r===")"||r==="]")t--;else if(r==="+"&&t===0){e.push(n.trim()),n="";continue}n+=r}return e.push(n.trim()),e}const gt=a=>/^"(?:[^"\\]|\\.)*"$/.test(a);function Ne(a,e,t){const n=$n(a),i=s=>gt(s)||t.has(s)||t.has(s.replace(/^([A-Za-z_]\w*)\[[^[\]]*\]$/u,"$1[]"));return n.length<2||!n.some(i)||n.some(s=>s==="")?N(a,e):n.map(s=>i(s)?s:`str(${N(s,e)})`).join(" + ")}function ea(a,e,t=new Set){const n=re(a).trim(),i=T(/^(\w+(?:\[[^\]]*\])?)\s*(\+\+|--)$/,n)??T(/^(\+\+|--)\s*(\w+(?:\[[^\]]*\])?)$/,n);if(i){const[o,l]=i[1]==="++"||i[1]==="--"?[i[2],i[1]]:[i[1],i[2]];return`${N(o,e)} ${l==="++"?"+=":"-="} 1`}const s=T(/^(\w+)\s*\/=\s*(.+)$/,n);if(s&&e.has(s[1]))return`${s[1]} //= ${N(s[2],e)}`;const r=T(/^([\w[\]. ]+?)\s*(=|\+=|-=|\*=|\/=|%=)\s*(.+)$/,n);if(r&&!r[3].startsWith("=")){const[,o,l,m]=r;let u;if(l==="+="&&t.has(o.trim())){const c=$n(m);u=Ne(`"" + ${m}`,e,t).replace(/^"" \+ /,""),c.length===1&&!gt(m.trim())&&!t.has(m.trim())&&(u=`str(${N(m,e)})`)}else l==="="&&b1(m)===void 0&&m.trim()!=="null"?u=Ne(m,e,t):u=l==="="?f1(m,e):N(m,e);return`${o} ${l} ${u}`}return N(n,e)}const Qi=a=>a.replace(/\bMath\.random\b(?!\s*\()/gi,"Math.random()");function ta(a){const e=a.trim();return e.startsWith("{")&&e.endsWith("}")?"["+e.slice(1,-1)+"]":a}function na(a){const e=T(/^\s*new\s+(?:byte|short|int|long|float|double|boolean|char|string)\s*\[\s*(.+)\s*\]\s*$/i,a),t=e==null?void 0:e[1].trim();return t||void 0}function aa(a){const e=T(/^\s*(int|double|string|boolean)\s*\[\s*\]\s*\[\s*\]\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i,re(a).trim());return e?{elementType:e[1].toLowerCase(),name:e[2],rhs:e[3].trim()}:void 0}function Xi(a){const e=T(/^\s*new\s+(?:int|double|string|boolean)\s*\[\s*(.+?)\s*\]\s*\[\s*(.+?)\s*\]\s*$/i,a);return e?[e[1],e[2]]:void 0}const Ft=a=>a.replaceAll("{","[").replaceAll("}","]");function Yt(a,e){return a==="boolean"?e==="python"?"False":"false":a==="string"?'""':a==="double"?"0.0":"0"}function Ji(a,e,t){const n=Xi(a.rhs);return e==="javascript"?n?`Array.from({ length: ${n[0]} }, () => new Array(${n[1]}).fill(${Yt(a.elementType,e)}))`:Ft(a.rhs):n?`[[${Yt(a.elementType,e)}] * ${N(n[1],t)} for _ in range(${N(n[0],t)})]`:N(Ft(a.rhs),t)}function ia(a,e){const t=a.trim();if(e){const i=na(t);return i!==void 0?`new Array(${i})`:ta(t)}const n=b1(t);return n!==void 0?`Math.floor(${ia(n,!1)})`:Qi(t)}function qi(a,e,t){const n=a.trim();if(e){const i=na(n);return i!==void 0?`[None] * ${i}`:N(ta(n),t)}return f1(n,t)}function Ki(a,e,t,n,i){if(e==="java")return;const s=aa(a);if(s){const m=Ji(s,e,n);return e==="javascript"?z(t)+`let ${s.name} = ${m};
-`:z(t)+`${s.name} = ${m}
-`}const r=Oi(a);if(!r)return;if(e==="javascript")return z(t)+u1(`let ${r.name} = ${ia(r.rhs,r.isArray)}`)+`
-`;const l=!r.isArray&&b1(r.rhs)===void 0&&r.rhs.trim()!=="null"?Ne(r.rhs,n,i):qi(r.rhs,r.isArray,n);return z(t)+`${r.name} = ${l}
-`}function Ie(a,e){for(const t of a){e(t),t.loopBody&&Ie(t.loopBody,e);for(const n of t.cases??[])Ie(n.elements,e)}}function $i(a){const e=n=>["int","integer","long","short","byte"].includes(n.trim().toLowerCase()),t=new Set;return Ie(a.elements,n=>{for(const i of n.textLines){const s=i.trim();if(s==="")continue;if(s.toLowerCase().startsWith("input:")){const l=ct(s.slice(6).trim());l&&e(l.type)&&!l.name.includes("[")&&t.add(l.name);continue}const r=qn(s);if(r&&e(r.rawType)){t.add(r.name);continue}const o=T(/^\s*(integer|int|long|short|byte)\s+([a-zA-Z_]\w*)\s*=/i,s);o&&t.add(o[2].trim())}}),t}function X1(a,e){const t=r=>/^\d+$/.test(r)||e.has(r),n=String.raw`(?:[a-zA-Z_]\w*|\d+(?:\.\d+)?)`,i=new RegExp(String.raw`(?<![\w.*/%]\s*)${n}(?:\s*[*/%]\s*${n})+(?![\w.(\[])`,"g"),s=r=>{const o=r.split(/\s*([*/%])\s*/);if(!o.some(u=>u==="/"))return r;let l=o[0],m=t(o[0]);for(let u=1;u<o.length;u+=2){const c=o[u],h=o[u+1];c==="/"&&m&&t(h)?l=`Math.trunc(${l} / ${h})`:l=`${l} ${c} ${h}`,m=m&&t(h)}return l};return Kn(a,r=>r.replace(i,s).replace(new RegExp("(?<![\\w.])([a-zA-Z_]\\w*)\\s*\\/=\\s*([a-zA-Z_]\\w*|\\d+)(?![\\w.(\\[])","g"),(o,l,m)=>t(l)&&t(m)?`${l} = Math.trunc(${l} / ${m})`:o))}function d1(a){let e=!1;return Ie(a.elements,t=>{t.type===g.anweisung&&t.textLines.some(n=>n.trim().toLowerCase().startsWith("input:"))&&(e=!0)}),e}function sa(a){let e=!1;return Ie(a.elements,t=>{t.textLines.some(n=>/\bMath\.random\s*\(/i.test(n))&&(e=!0)}),e}function _1(a,e){const t=a.trim();return t===""?e==="python"?'""':"0":e==="java"||new RegExp("^\\p{N}+$","u").test(t)||gt(t)?t:'"'+t.replaceAll('"','\\"')+'"'}function j1(a,e){const t=a.trim();if(t==="")return"";switch(e){case"java":return"/* "+t+" */";case"python":return"  # "+t;case"javascript":return" /* "+t+" */"}}function es(a,e,t,n,i){const s=a.map(r=>r.trim());if(s.every(r=>r==="")){t.live&&(i.out+=z(n)+(e==="python"?"pass":";")+`
-`);return}if(t.includeDiagramTextAsComments){const r=s.filter(o=>o!==""&&!O1(o));r.length>0&&(i.out+=ut(r,e,n))}for(const r of s){if(r==="")continue;if(O1(r)){i.out+=t.live?pt(n,t.live):On(n,e);continue}const o=t.jsIntVariables??new Set,l=t.arrayElementTypes??new Map,m=t.stringVariables??new Set,u=(e==="java"?Ni(r,n,l):void 0)??(e==="javascript"?Ei(r,n,l):void 0)??(e==="python"?Li(r,n,l):void 0)??Vi(r,e,n,o,m)??Yi(r,e,n,o)??Ki(r,e,n,o,m)??Bi(r,e,n,o,m);if(u!==void 0){i.out+=e==="javascript"?X1(u,o):u;continue}let c=r;Ai(e)?c=u1(e==="javascript"?X1(r,o):r):e==="python"&&(c=ea(r,o,m)),c!==""&&(i.out+=z(n)+c+`
-`)}}function h1(a,e,t,n,i,s,r,o=(l=>(l=i.live)==null?void 0:l.labels.condition)()){if(i.includeDiagramTextAsComments&&(r.out+=ut(t,n,s)),o!==void 0&&xt(t)){r.out+=z(s)+a+xe(o)+e;return}const m=t1(t),u=i.jsIntVariables??new Set,c=n==="python"?N(m,u):n==="javascript"?X1(m,u):m;r.out+=z(s)+a+c+e}function we(a,e,t,n,i){const s=i.out.length;for(const o of a)y1(o,e,t,n,i);if(t.live&&i.out.length===s&&(i.out+=pt(n,t.live)),e!=="python")return;i.out.slice(s).split(`
-`).map(o=>o.trim()).every(o=>o===""||o.startsWith("#"))&&(i.out+=z(n)+`pass
-`)}function ts(a,e){var n;if(e.includeDiagramTextAsComments||a.length!==1)return;const t=a[0];return t.type===g.verzweigung&&(((n=t.cases)==null?void 0:n.length)??0)>=2?t:void 0}function J1(a,e,t,n,i,s){const r=a.cases;if(!r||r.length<2)return;const o=e==="python",l=n+t.indentPerLevel,m=!t.includeEmptyElseBranch&&Ci(r[1].elements),u=m?void 0:ts(r[1].elements,t);if(o){h1(s?"elif ":"if ",`:
-`,a.textLines,e,t,n,i),we(r[0].elements,e,t,l,i),u?J1(u,e,t,n,i,!0):m||(i.out+=z(n)+`else:
-`,we(r[1].elements,e,t,l,i));return}if(h1(s?"} else if (":"if (",`) {
-`,a.textLines,e,t,n,i),we(r[0].elements,e,t,l,i),u){const c=i.out.length;J1(u,e,t,n,i,!0),la(t,u,i,c)}else m||(i.out+=z(n)+`} else {
-`,we(r[1].elements,e,t,l,i)),i.out+=z(n)+`}
-`}function y1(a,e,t,n,i){const s=i.out.length;ns(a,e,t,n,i),la(t,a,i,s)}function ns(a,e,t,n,i){var u;const s=t.indentPerLevel,r=e==="python",o=(c,h)=>we(c,e,t,h,i),l=(c,h)=>h1(c,h,a.textLines,e,t,n,i),m=(c=n)=>{t.includeDiagramTextAsComments&&(i.out+=ut(a.textLines,e,c))};switch(a.type){case g.leerElement:i.out+=t.live?pt(n,t.live):On(n,e);return;case g.anweisung:case g.aufruf:es(a.textLines,e,t,n,i);return;case g.aussprung:{const c=t1(a.textLines);a.textLines.some(h=>h.trim()!=="")&&m(),r?i.out+=z(n)+(c===""?`break
+`)}function Ua(i){switch(i.type){case p.leerElement:return!0;case p.anweisung:case p.aufruf:return i.textLines.map(e=>e.trim()).every(e=>e===""||$1(e));default:return!1}}function Fa(i){return i.every(Ua)}function bt(i,e,t){const n=i.map(a=>a.replace(/^[ \t]+|[ \t]+$/g,"")).filter(a=>a!=="");return n.length===0?"":e==="python"?w(t)+`"""
+`+n.map(a=>w(t)+a+`
+`).join("")+w(t)+`"""
+`:n.length===1?w(t)+"/* "+n[0]+` */
+`:w(t)+`/*
+`+n.map(a=>w(t)+" * "+a+`
+`).join("")+w(t)+` */
+`}const Ya=i=>i==="java"||i==="javascript";function h1(i){const e=i.trim();if(e==="")return"";if(e.startsWith("//")||e.startsWith("/*")||e.startsWith("*")||e.startsWith("#")||e.startsWith("{")||e.startsWith("}")||e.endsWith("{")||e.endsWith(";"))return e;const t=e.toLowerCase();for(const n of["if ","else","for ","while ","do ","switch ","case ","default"])if(t.startsWith(n))return e;return e+";"}function a1(i){const e=i.map(t=>t.trim()).filter(t=>t!=="");return Oa(e.length===0?"true":e.join(" "))}function Oa(i){const e=i.trim();for(const t of["if","while","until","switch"]){const n=ri(t,e);if(n!==void 0)return n===""?"true":n}return e}function ri(i,e){if(!e.toLowerCase().startsWith(i))return;const t=e.slice(i.length);if(!(t===""||/^\s/.test(t)||t[0]==="("))return;let n=t.trim();return n.startsWith("(")&&n.endsWith(")")&&n.length>=2&&(n=n.slice(1,-1).trim()),n}function me(i){let e=i.trim();for(;e.endsWith(";");)e=e.slice(0,-1).trim();return e}function Qa(i){const e=i.trim(),t=e.toLowerCase();let n;if(t.startsWith("output:"))n=e.slice(7).trim();else if(t.startsWith("print:"))n=e.slice(6).trim();else return;return n===""?void 0:n}const y1=i=>i.name.includes("[")&&i.name.includes("]");function ft(i){const e=i.trim();if(e==="")return;const t=T(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+([a-zA-Z_]\w*(?:\s*\[[^\]]+\])?)(?:\s+"([^"]*)")?\s*$/i,e);if(t){const s=t[2].replaceAll(" ","");if(s==="")return;const r=(t[3]??"").trim();return{type:g1(t[1]),name:s,customPrompt:r===""?void 0:r}}const n=T(/^\s*([a-zA-Z_]\w*(?:\s*\[[^\]]+\])?)\s+"([^"]*)"\s*$/i,e);if(n){const s=n[1].replaceAll(" ","");return["int","integer","long","float","double","string","boolean","char","bool","void"].includes(s.toLowerCase())?void 0:{type:s.includes("[")?"String":"int",name:s,customPrompt:n[2].trim()}}const a=Xa(e);if(a)return{type:g1(a[0]),name:a[1]}}function g1(i){switch(i.trim().toLowerCase()){case"integer":case"int":return"int";case"long":return"long";case"float":return"float";case"double":return"double";case"string":return"String";case"boolean":case"bool":return"boolean";case"char":return"char";default:return i}}function Xa(i){const e=i.split(/[ \t]+/).filter(Boolean);if(e.length===0)return;if(e.length>=2)return[e[0],e[1]];if(!["int","double","string","boolean","char","long","float","short","byte","void","bool","integer"].includes(e[0].toLowerCase()))return["int",e[0]]}function Ja(i,e,t,n,a){const s=me(i).trim();if(s.startsWith('"'))switch(e){case"java":return w(t)+"System.out.println("+s+`);
+`;case"javascript":return w(t)+"console.log("+s+`);
+`;case"python":return w(t)+"print("+Ee(s,n,a)+`)
+`}}function Ne(i){return i.replaceAll("\\","\\\\").replaceAll('"','\\"').replaceAll(`
+`,"\\n").replaceAll("\r","\\r")}function yt(i,e){const t=i.trim();if(!t.toLowerCase().startsWith("input:"))return;const n=t.slice(6).trim();if(n==="")return;const a=ft(n);if(a&&y1(a)&&!/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s/i.test(n)){const s=e.get(a.name.slice(0,a.name.indexOf("[")).trim());if(s)return{...a,type:s}}return a}function qa(i){const e=new Set;return be(i.elements,t=>{for(const n of t.textLines){const a=n.trim();if(a.toLowerCase().startsWith("input:")){const o=ft(a.slice(6).trim());(o==null?void 0:o.type)==="String"&&!y1(o)&&e.add(o.name);continue}const s=T(/^\s*(?:const\s+)?string\s+([a-zA-Z_]\w*)\s*=/i,a);s&&e.add(s[1]);const r=T(/^\s*string\s*\[\s*\]\s*([a-zA-Z_]\w*)\s*=/i,a);r&&e.add(r[1]+"[]")}}),e}function Ka(i){const e=new Map;return be(i.elements,t=>{for(const n of t.textLines){const a=T(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s*\[\s*\]\s*([a-zA-Z_]\w*)/i,n)??T(/^\s*(integer|int|long|float|double|string|boolean|char|bool)\s+([a-zA-Z_]\w*)\s*\[\s*\]/i,n);a&&e.set(a[2],g1(a[1]))}}),e}function $a(i,e,t){const n=yt(i,t);if(!n)return;const a=n.customPrompt?n.customPrompt:n.name+": ",s=w(e)+'System.out.println("'+Ne(a)+`");
+`,r=o=>y1(n)?n.name:`${o} ${n.name}`;switch(n.type){case"int":return s+w(e)+`${r("int")} = scanner.nextInt();
+`;case"double":return s+w(e)+`${r("double")} = scanner.nextDouble();
+`;case"String":return s+w(e)+`${r("String")} = scanner.next();
+`;case"boolean":return s+w(e)+`${r("boolean")} = scanner.nextBoolean();
+`;default:return}}function es(i,e,t){const n=yt(i,t);if(!n)return;const a=!!n.customPrompt,s=a?"":w(e)+'console.log("'+Ne(n.name+": ")+`");
+`,r=l=>{const m=a?n.customPrompt:n.name+": ";return`(prompt("${Ne(m)}") ?? "${l}")`},o=y1(n)?n.name:`let ${n.name}`;switch(n.type){case"int":return s+w(e)+`${o} = parseInt(${r("0")}, 10);
+`;case"double":return s+w(e)+`${o} = Number(${r("0")});
+`;case"String":return s+w(e)+`${o} = ${r("")};
+`;case"boolean":return s+w(e)+`${o} = ${r("")}.trim().toLowerCase() === "true";
+`;default:return}}function ts(i,e,t){const n=yt(i,t);if(!n)return;const a=!!n.customPrompt,s=a?"":w(e)+'print("'+Ne(n.name+": ")+`")
+`,r=`input("${Ne(a?n.customPrompt:n.name+": ")}")`;switch(n.type){case"int":return s+w(e)+`${n.name} = int(${r})
+`;case"double":return s+w(e)+`${n.name} = float(${r})
+`;case"String":return s+w(e)+`${n.name} = ${r}
+`;case"boolean":return s+w(e)+`${n.name} = ${r}.strip().lower() in ("true", "wahr")
+`;default:return}}function ns(i,e,t,n,a){const s=Qa(i);if(s!==void 0)switch(e){case"java":return w(t)+"System.out.println("+s+`);
+`;case"javascript":return w(t)+"console.log("+s+`);
+`;case"python":return w(t)+"print("+Ee(s,n,a)+`)
+`}}function zt(i){const e=i.map(me).filter(t=>t!=="");return e.length===0?";;":e.join("; ")}function is(i){const t=zt(i).split(";"),n=oi(t[0]);return n!==void 0&&(t[0]=n),t.join(";")}function oi(i){const e=T(/^(\s*)(?:integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s*=\s*(.*))?\s*$/i,i);if(!e)return;const t=e[2].trim();if(t==="")return;const n=(e[3]??"").trim();return i.includes("=")&&n!==""?e[1]+`let ${t} = ${n}`:e[1]+`let ${t}`}function as(i){const e=i.map(n=>me(n).trim()).filter(n=>n!=="");let t=e;if(e.length===1){let n=e[0];const a=ri("for",n);a!==void 0&&(n=a),t=n.split(";").map(s=>s.trim())}if(!(t.length!==3||t.some(n=>n==="")))return[t[0],t[1],t[2]]}function li(i,e){let t=T(/^\s*(\w+)\s*(\+\+|--)\s*$/,i)??T(/^\s*(\+\+|--)\s*(\w+)\s*$/,i);if(t){const[n,a]=t[1]==="++"||t[1]==="--"?[t[2],t[1]]:[t[1],t[2]];return n===e?a==="++"?1:-1:void 0}if(t=T(/^\s*(\w+)\s*(\+|-)=\s*(\d+)\s*$/,i),t)return t[1]===e?(t[2]==="+"?1:-1)*Number(t[3]):void 0;if(t=T(/^\s*(\w+)\s*=\s*(\w+)\s*(\+|-)\s*(\d+)\s*$/,i),t)return t[1]===e&&t[2]===e?(t[3]==="+"?1:-1)*Number(t[4]):void 0}function et(i,e){if(/^-?\d+$/.test(i))return String(Number(i)+e);const t=/^[\w.()[\]]+$/.test(i)?i:`(${i})`;return e>0?`${t} + ${e}`:`${t} - ${-e}`}function ss(i,e){const t=as(i);if(!t)return;const[n,a,s]=t,r=T(/^\s*(?:integer|int|long|short|byte|double|float)?\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i,n);if(!r)return;const o=r[1],l={variable:o,init:`${o} = ${E(r[2],e)}`,condition:a,increment:s},m=T(/^\s*(\w+)\s*(<=|<|>=|>)\s*(.+)$/,a),u=li(s,o);if(!m||m[1]!==o||u===void 0||u===0)return l;const c=E(r[2],e);let h=E(m[3],e);const g=m[2];if(u>0&&g==="<=")h=et(h,1);else if(u<0&&g===">=")h=et(h,-1);else if(!(u>0&&g==="<")&&!(u<0&&g===">"))return l;const x=u===1?c==="0"?[h]:[c,h]:[c,h,String(u)];return l.rangeLine=`for ${o} in range(${x.join(", ")}):`,l}function mi(i){const e=me(i).trim();if(e==="")return;const t=T(/^\s*const\s+(integer|int|long|float|double|string|boolean|char|bool)\s+(\w+)(?:\s*=\s*(.*))?$/i,e);if(!t)return;const n=t[2].trim();if(n==="")return;if(!e.includes("="))return{rawType:t[1].trim(),name:n};const a=(t[3]??"").trim();if(a!=="")return{rawType:t[1].trim(),name:n,rhs:a}}function rs(i,e,t,n){var o;const a=mi(i);if(!a)return;const s=g1(a.rawType),r=(o=a.rhs)==null?void 0:o.trim();switch(e){case"java":return w(t)+h1(r?`final ${s} ${a.name} = ${r}`:`final ${s} ${a.name}`)+`
+`;case"javascript":return r?w(t)+h1(`const ${a.name} = ${r}`)+`
+`:w(t)+`let ${a.name};  // from diagram: const ${s} ${a.name}
+`;case"python":return r?w(t)+`${a.name} = ${v1(r,n)}  # const ${s}
+`:w(t)+`${a.name} = None  # const ${s}, uninitialized
+`}}function os(i){const e=me(i).trim();if(e===""||pi(e))return;const t=T(/^\s*(?:integer|int|long|float|double|string|boolean|char|bool)(?:\s*\[\s*\]\s+(\w+)|\s+(\w+)(\s*\[\s*\])?)\s*=\s*(.*)$/i,e);if(!t)return;const n=t[1]===""?t[2]:t[1],a=t[4].trim();if(a!=="")return{name:n,rhs:a,isArray:t[1]!==""||t[3]!==""}}function z1(i){const e=T(/^\s*\(\s*int(?:eger)?\s*\)\s*\(?\s*(.+?)\s*\)?\s*$/i,i),t=e==null?void 0:e[1].trim();return t||void 0}function v1(i,e=new Set){const t=i.trim();if(t==="null")return"None";const n=z1(t);return n!==void 0?`int(${v1(n,e)})`:E(t,e)}function ui(i,e){let t="",n="",a=0;for(;a<i.length;){if(i[a]!=='"'){n+=i[a++];continue}t+=e(n),n="";let s=a+1;for(;s<i.length&&i[s]!=='"';)s+=i[s]==="\\"?2:1;t+=i.slice(a,s+1),a=s+1}return t+e(n)}function E(i,e){const t=i.replace(/\.equals\(\s*("(?:[^"\\]|\\.)*"|[^()"]*?)\s*\)/g," == $1"),n=a=>/^\d+$/.test(a)||e.has(a);return ui(t,a=>a.replace(/\bMath\.random\s*\(\s*\)/gi,"random.random()").replace(/===/g,"==").replace(/!==/g,"!=").replace(/\s*&&\s*/g," and ").replace(/\s*\|\|\s*/g," or ").replace(/!(?!=)\s*/g,"not ").replace(/\btrue\b/g,"True").replace(/\bfalse\b/g,"False").replace(/\bnull\b/g,"None").replace(new RegExp("(?<![\\w.])([a-zA-Z_]\\w*|\\d+)\\s*\\/\\s*([a-zA-Z_]\\w*|\\d+)(?![\\w.(\\[])","g"),(s,r,o)=>n(r)&&n(o)?`${r} // ${o}`:s))}function ci(i){const e=[];let t=0,n="",a=!1;for(let s=0;s<i.length;s++){const r=i[s];if(a){n+=r,r==="\\"&&s+1<i.length?n+=i[++s]:r==='"'&&(a=!1);continue}if(r==='"')a=!0;else if(r==="("||r==="[")t++;else if(r===")"||r==="]")t--;else if(r==="+"&&t===0){e.push(n.trim()),n="";continue}n+=r}return e.push(n.trim()),e}const vt=i=>/^"(?:[^"\\]|\\.)*"$/.test(i);function Ee(i,e,t){const n=ci(i),a=s=>vt(s)||t.has(s)||t.has(s.replace(/^([A-Za-z_]\w*)\[[^[\]]*\]$/u,"$1[]"));return n.length<2||!n.some(a)||n.some(s=>s==="")?E(i,e):n.map(s=>a(s)?s:`str(${E(s,e)})`).join(" + ")}function di(i,e,t=new Set){const n=me(i).trim(),a=T(/^(\w+(?:\[[^\]]*\])?)\s*(\+\+|--)$/,n)??T(/^(\+\+|--)\s*(\w+(?:\[[^\]]*\])?)$/,n);if(a){const[o,l]=a[1]==="++"||a[1]==="--"?[a[2],a[1]]:[a[1],a[2]];return`${E(o,e)} ${l==="++"?"+=":"-="} 1`}const s=T(/^(\w+)\s*\/=\s*(.+)$/,n);if(s&&e.has(s[1]))return`${s[1]} //= ${E(s[2],e)}`;const r=T(/^([\w[\]. ]+?)\s*(=|\+=|-=|\*=|\/=|%=)\s*(.+)$/,n);if(r&&!r[3].startsWith("=")){const[,o,l,m]=r;let u;if(l==="+="&&t.has(o.trim())){const c=ci(m);u=Ee(`"" + ${m}`,e,t).replace(/^"" \+ /,""),c.length===1&&!vt(m.trim())&&!t.has(m.trim())&&(u=`str(${E(m,e)})`)}else l==="="&&z1(m)===void 0&&m.trim()!=="null"?u=Ee(m,e,t):u=l==="="?v1(m,e):E(m,e);return`${o} ${l} ${u}`}return E(n,e)}const ls=i=>i.replace(/\bMath\.random\b(?!\s*\()/gi,"Math.random()");function hi(i){const e=i.trim();return e.startsWith("{")&&e.endsWith("}")?"["+e.slice(1,-1)+"]":i}function gi(i){const e=T(/^\s*new\s+(?:byte|short|int|long|float|double|boolean|char|string)\s*\[\s*(.+)\s*\]\s*$/i,i),t=e==null?void 0:e[1].trim();return t||void 0}function pi(i){const e=T(/^\s*(int|double|string|boolean)\s*\[\s*\]\s*\[\s*\]\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i,me(i).trim());return e?{elementType:e[1].toLowerCase(),name:e[2],rhs:e[3].trim()}:void 0}function ms(i){const e=T(/^\s*new\s+(?:int|double|string|boolean)\s*\[\s*(.+?)\s*\]\s*\[\s*(.+?)\s*\]\s*$/i,i);return e?[e[1],e[2]]:void 0}const $t=i=>i.replaceAll("{","[").replaceAll("}","]");function en(i,e){return i==="boolean"?e==="python"?"False":"false":i==="string"?'""':i==="double"?"0.0":"0"}function us(i,e,t){const n=ms(i.rhs);return e==="javascript"?n?`Array.from({ length: ${n[0]} }, () => new Array(${n[1]}).fill(${en(i.elementType,e)}))`:$t(i.rhs):n?`[[${en(i.elementType,e)}] * ${E(n[1],t)} for _ in range(${E(n[0],t)})]`:E($t(i.rhs),t)}function xi(i,e){const t=i.trim();if(e){const a=gi(t);return a!==void 0?`new Array(${a})`:hi(t)}const n=z1(t);return n!==void 0?`Math.floor(${xi(n,!1)})`:ls(t)}function cs(i,e,t){const n=i.trim();if(e){const a=gi(n);return a!==void 0?`[None] * ${a}`:E(hi(n),t)}return v1(n,t)}function ds(i,e,t,n,a){if(e==="java")return;const s=pi(i);if(s){const m=us(s,e,n);return e==="javascript"?w(t)+`let ${s.name} = ${m};
+`:w(t)+`${s.name} = ${m}
+`}const r=os(i);if(!r)return;if(e==="javascript")return w(t)+h1(`let ${r.name} = ${xi(r.rhs,r.isArray)}`)+`
+`;const l=!r.isArray&&z1(r.rhs)===void 0&&r.rhs.trim()!=="null"?Ee(r.rhs,n,a):cs(r.rhs,r.isArray,n);return w(t)+`${r.name} = ${l}
+`}function be(i,e){for(const t of i){e(t),t.loopBody&&be(t.loopBody,e);for(const n of t.cases??[])be(n.elements,e)}}function hs(i){const e=n=>["int","integer","long","short","byte"].includes(n.trim().toLowerCase()),t=new Set;return be(i.elements,n=>{for(const a of n.textLines){const s=a.trim();if(s==="")continue;if(s.toLowerCase().startsWith("input:")){const l=ft(s.slice(6).trim());l&&e(l.type)&&!l.name.includes("[")&&t.add(l.name);continue}const r=mi(s);if(r&&e(r.rawType)){t.add(r.name);continue}const o=T(/^\s*(integer|int|long|short|byte)\s+([a-zA-Z_]\w*)\s*=/i,s);o&&t.add(o[2].trim())}}),t}function tt(i,e){const t=r=>/^\d+$/.test(r)||e.has(r),n=String.raw`(?:[a-zA-Z_]\w*|\d+(?:\.\d+)?)`,a=new RegExp(String.raw`(?<![\w.*/%]\s*)${n}(?:\s*[*/%]\s*${n})+(?![\w.(\[])`,"g"),s=r=>{const o=r.split(/\s*([*/%])\s*/);if(!o.some(u=>u==="/"))return r;let l=o[0],m=t(o[0]);for(let u=1;u<o.length;u+=2){const c=o[u],h=o[u+1];c==="/"&&m&&t(h)?l=`Math.trunc(${l} / ${h})`:l=`${l} ${c} ${h}`,m=m&&t(h)}return l};return ui(i,r=>r.replace(a,s).replace(new RegExp("(?<![\\w.])([a-zA-Z_]\\w*)\\s*\\/=\\s*([a-zA-Z_]\\w*|\\d+)(?![\\w.(\\[])","g"),(o,l,m)=>t(l)&&t(m)?`${l} = Math.trunc(${l} / ${m})`:o))}function p1(i){let e=!1;return be(i.elements,t=>{t.type===p.anweisung&&t.textLines.some(n=>n.trim().toLowerCase().startsWith("input:"))&&(e=!0)}),e}function Ii(i){let e=!1;return be(i.elements,t=>{t.textLines.some(n=>/\bMath\.random\s*\(/i.test(n))&&(e=!0)}),e}function C1(i,e){const t=i.trim();return t===""?e==="python"?'""':"0":e==="java"||new RegExp("^\\p{N}+$","u").test(t)||vt(t)?t:'"'+t.replaceAll('"','\\"')+'"'}function A1(i,e){const t=i.trim();if(t==="")return"";switch(e){case"java":return"/* "+t+" */";case"python":return"  # "+t;case"javascript":return" /* "+t+" */"}}function gs(i,e,t,n,a){const s=i.map(r=>r.trim());if(s.every(r=>r==="")){t.live&&(a.out+=w(n)+(e==="python"?"pass":";")+`
+`);return}if(t.includeDiagramTextAsComments){const r=s.filter(o=>o!==""&&!$1(o));r.length>0&&(a.out+=bt(r,e,n))}for(const r of s){if(r==="")continue;if($1(r)){a.out+=t.live?St(n,t.live):si(n,e);continue}const o=t.jsIntVariables??new Set,l=t.arrayElementTypes??new Map,m=t.stringVariables??new Set,u=(e==="java"?$a(r,n,l):void 0)??(e==="javascript"?es(r,n,l):void 0)??(e==="python"?ts(r,n,l):void 0)??ns(r,e,n,o,m)??rs(r,e,n,o)??ds(r,e,n,o,m)??Ja(r,e,n,o,m);if(u!==void 0){a.out+=e==="javascript"?tt(u,o):u;continue}let c=r;Ya(e)?c=h1(e==="javascript"?tt(r,o):r):e==="python"&&(c=di(r,o,m)),c!==""&&(a.out+=w(n)+c+`
+`)}}function x1(i,e,t,n,a,s,r,o=(l=>(l=a.live)==null?void 0:l.labels.condition)()){if(a.includeDiagramTextAsComments&&(r.out+=bt(t,n,s)),o!==void 0&&kt(t)){r.out+=w(s)+i+Ie(o)+e;return}const m=a1(t),u=a.jsIntVariables??new Set,c=n==="python"?E(m,u):n==="javascript"?tt(m,u):m;r.out+=w(s)+i+c+e}function Se(i,e,t,n,a){const s=a.out.length;for(const o of i)w1(o,e,t,n,a);if(t.live&&a.out.length===s&&(a.out+=St(n,t.live)),e!=="python")return;a.out.slice(s).split(`
+`).map(o=>o.trim()).every(o=>o===""||o.startsWith("#"))&&(a.out+=w(n)+`pass
+`)}function ps(i,e){var n;if(e.includeDiagramTextAsComments||i.length!==1)return;const t=i[0];return t.type===p.verzweigung&&(((n=t.cases)==null?void 0:n.length)??0)>=2?t:void 0}function nt(i,e,t,n,a,s){const r=i.cases;if(!r||r.length<2)return;const o=e==="python",l=n+t.indentPerLevel,m=!t.includeEmptyElseBranch&&Fa(r[1].elements),u=m?void 0:ps(r[1].elements,t);if(o){x1(s?"elif ":"if ",`:
+`,i.textLines,e,t,n,a),Se(r[0].elements,e,t,l,a),u?nt(u,e,t,n,a,!0):m||(a.out+=w(n)+`else:
+`,Se(r[1].elements,e,t,l,a));return}if(x1(s?"} else if (":"if (",`) {
+`,i.textLines,e,t,n,a),Se(r[0].elements,e,t,l,a),u){const c=a.out.length;nt(u,e,t,n,a,!0),fi(t,u,a,c)}else m||(a.out+=w(n)+`} else {
+`,Se(r[1].elements,e,t,l,a)),a.out+=w(n)+`}
+`}function w1(i,e,t,n,a){const s=a.out.length;xs(i,e,t,n,a),fi(t,i,a,s)}function xs(i,e,t,n,a){var u;const s=t.indentPerLevel,r=e==="python",o=(c,h)=>Se(c,e,t,h,a),l=(c,h)=>x1(c,h,i.textLines,e,t,n,a),m=(c=n)=>{t.includeDiagramTextAsComments&&(a.out+=bt(i.textLines,e,c))};switch(i.type){case p.leerElement:a.out+=t.live?St(n,t.live):si(n,e);return;case p.anweisung:case p.aufruf:gs(i.textLines,e,t,n,a);return;case p.aussprung:{const c=a1(i.textLines);i.textLines.some(h=>h.trim()!=="")&&m(),r?a.out+=w(n)+(c===""?`break
 `:`break  # ${c}
-`):i.out+=z(n)+(c===""?`break;
+`):a.out+=w(n)+(c===""?`break;
 `:`break; // ${c}
-`);return}case g.verzweigung:J1(a,e,t,n,i,!1);return;case g.fallauswahl:{const c=a.cases;if(!c||c.length===0)return;h1(r?"match ":"switch (",r?`:
+`);return}case p.verzweigung:nt(i,e,t,n,a,!1);return;case p.fallauswahl:{const c=i.cases;if(!c||c.length===0)return;x1(r?"match ":"switch (",r?`:
 `:`) {
-`,a.textLines,e,t,n,i,(u=t.live)==null?void 0:u.labels.selector),c.forEach((h,p)=>{const x=p===c.length-1;if(e==="java"){const y=x?"default -> { "+j1(h.name,e)+`
-`:"case "+_1(h.name,e)+` -> {
-`;i.out+=z(n+s)+y,o(h.elements,n+s*2),i.out+=z(n+s)+`}
-`}else if(r){const y=x?"case _:"+j1(h.name,e):"case "+_1(h.name,e)+":";i.out+=z(n+s)+y+`
-`,o(h.elements,n+s*2)}else{const y=x?"default:"+j1(h.name,e):"case "+_1(h.name,e)+":";i.out+=z(n+s)+y+`
-`,o(h.elements,n+s*2),i.out+=z(n+s*2)+`break;
-`}}),r||(i.out+=z(n)+`}
-`);return}case g.forSchleife:if(e==="java"){m();const c=t.live?oa(a.textLines,t.live.labels):ht(a.textLines);i.out+=z(n)+"for ("+c+`) {
-`}else if(r){const c=t.jsIntVariables??new Set,h=Fi(a.textLines,c);if((h==null?void 0:h.rangeLine)!==void 0)m(),i.out+=z(n)+h.rangeLine+`
-`;else if(h){m(),i.out+=z(n)+h.init+`
-`,i.out+=z(n)+"while "+N(h.condition,c)+`:
-`;for(const p of a.loopBody??[])y1(p,e,t,n+s,i);i.out+=z(n+s)+ea(h.increment,c)+`
-`;return}else t.live?i.out+=z(n)+is(a.textLines,t.live.labels,c)+`
+`,i.textLines,e,t,n,a,(u=t.live)==null?void 0:u.labels.selector),c.forEach((h,g)=>{const x=g===c.length-1;if(e==="java"){const f=x?"default -> { "+A1(h.name,e)+`
+`:"case "+C1(h.name,e)+` -> {
+`;a.out+=w(n+s)+f,o(h.elements,n+s*2),a.out+=w(n+s)+`}
+`}else if(r){const f=x?"case _:"+A1(h.name,e):"case "+C1(h.name,e)+":";a.out+=w(n+s)+f+`
+`,o(h.elements,n+s*2)}else{const f=x?"default:"+A1(h.name,e):"case "+C1(h.name,e)+":";a.out+=w(n+s)+f+`
+`,o(h.elements,n+s*2),a.out+=w(n+s*2)+`break;
+`}}),r||(a.out+=w(n)+`}
+`);return}case p.forSchleife:if(e==="java"){m();const c=t.live?bi(i.textLines,t.live.labels):zt(i.textLines);a.out+=w(n)+"for ("+c+`) {
+`}else if(r){const c=t.jsIntVariables??new Set,h=ss(i.textLines,c);if((h==null?void 0:h.rangeLine)!==void 0)m(),a.out+=w(n)+h.rangeLine+`
+`;else if(h){m(),a.out+=w(n)+h.init+`
+`,a.out+=w(n)+"while "+E(h.condition,c)+`:
+`;for(const g of i.loopBody??[])w1(g,e,t,n+s,a);a.out+=w(n+s)+di(h.increment,c)+`
+`;return}else t.live?a.out+=w(n)+bs(i.textLines,t.live.labels,c)+`
 `:l("for ",`:
-`)}else{m();const c=t.live?as(a.textLines,t.live.labels):Ri(a.textLines);i.out+=z(n)+"for ("+c+`) {
-`}o(a.loopBody??[],n+s),r||(i.out+=z(n)+`}
-`);return;case g.whileSchleife:l(r?"while ":"while (",r?`:
+`)}else{m();const c=t.live?Is(i.textLines,t.live.labels):is(i.textLines);a.out+=w(n)+"for ("+c+`) {
+`}o(i.loopBody??[],n+s),r||(a.out+=w(n)+`}
+`);return;case p.whileSchleife:l(r?"while ":"while (",r?`:
 `:`) {
-`),o(a.loopBody??[],n+s),r||(i.out+=z(n)+`}
-`);return;case g.doUntilSchleife:{const c=t.live&&xt(a.textLines)?xe(t.live.labels.condition):t1(a.textLines);if(r){i.out+=z(n)+`while True:
-`;const h=n+s;o(a.loopBody??[],h),m(h);const p=c.includes(z1)?c:N(c,t.jsIntVariables??new Set);i.out+=z(h)+"if not ("+p+`):
-`,i.out+=z(h+s)+`break
-`}else i.out+=z(n)+`do {
-`,o(a.loopBody??[],n+s),m(),i.out+=z(n)+"} while ("+c+`);
-`;return}case g.endlosschleife:{const c=t1(a.textLines),h=c===""||c==="true";h||m(),r?i.out+=z(n)+(h?`while True:
+`),o(i.loopBody??[],n+s),r||(a.out+=w(n)+`}
+`);return;case p.doUntilSchleife:{const c=t.live&&kt(i.textLines)?Ie(t.live.labels.condition):a1(i.textLines);if(r){a.out+=w(n)+`while True:
+`;const h=n+s;o(i.loopBody??[],h),m(h);const g=c.includes(Re)?c:E(c,t.jsIntVariables??new Set);a.out+=w(h)+"if not ("+g+`):
+`,a.out+=w(h+s)+`break
+`}else a.out+=w(n)+`do {
+`,o(i.loopBody??[],n+s),m(),a.out+=w(n)+"} while ("+c+`);
+`;return}case p.endlosschleife:{const c=a1(i.textLines),h=c===""||c==="true";h||m(),r?a.out+=w(n)+(h?`while True:
 `:`while True:  # ${c}
-`):i.out+=z(n)+(h?`while (true) {
+`):a.out+=w(n)+(h?`while (true) {
 `:`while (true) /* ${c} */ {
-`),o(a.loopBody??[],n+s),r||(i.out+=z(n)+`}
-`);return}}}const z1="",ra="",xe=a=>z1+a+ra,pt=(a,e)=>z(a)+xe(e.target==="python"?`pass  # ${e.labels.code}`:`// ${e.labels.code}`)+`
-`,xt=a=>a.every(e=>e.trim()==="");function oa(a,e){return xt(a)||a.length===3?[e.start,e.condition,e.step].map((n,i)=>{const s=re(a[i]??"");return s===""?xe(n):s}).join("; "):ht(a)}function as(a,e){const t=oa(a,e).split(";"),n=t[0].includes(z1)?void 0:Xn(t[0]);return n!==void 0&&(t[0]=n),t.join(";")}function is(a,e,t){var p;const[n="",i="",s=""]=a.length===3?a.map(x=>re(x)):[],r=T(/^\s*(?:integer|int|long|short|byte|double|float)?\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i,n),o=(r==null?void 0:r[1])??((p=T(/^\s*([a-zA-Z_]\w*)\s*(?:<=|<|>=|>)/,i))==null?void 0:p[1]),l=r?N(r[2],t):xe(e.start),m=T(/^\s*(\w+)\s*(<=|<)\s*(.+)$/,i);let u=xe(e.end);m&&(o===void 0||m[1]===o)&&(u=N(m[3],t),m[2]==="<="&&(u=Q1(u,1)));const c=o===void 0?void 0:Jn(s,o),h=[l,u,...c!==void 0&&c!==1?[String(c)]:[]];return`for ${o??xe(e.selector)} in range(${h.join(", ")}):`}function q1(a,e=[],t=new Map){return a.forEach((n,i)=>{var r;const s=[...e,i];t.has(n)||t.set(n,s),n.loopBody&&q1(n.loopBody,[...s,0],t),(r=n.cases)==null||r.forEach((o,l)=>q1(o.elements,[...s,l],t))}),t}function la(a,e,t,n){const i=a.live,s=i==null?void 0:i.paths.get(e);if(!i||!s||t.out.length===n)return;const r=o=>t.out.slice(0,o).split(`
-`).length-1;i.spans.push({path:s,from:r(n),to:r(t.out.length-1)})}function ss(a,e,t){const n={target:e,labels:t,paths:q1(a.elements),spans:[]},i=mt(a,e,{includeEmptyElseBranch:!0,live:n}),s=pe(a.caption);let r="";if(e==="java")d1(a)&&(r+=`// import java.util.Scanner;
+`),o(i.loopBody??[],n+s),r||(a.out+=w(n)+`}
+`);return}}}const Re="",wt="",Ie=i=>Re+i+wt,St=(i,e)=>w(i)+Ie(e.target==="python"?`pass  # ${e.labels.code}`:`// ${e.labels.code}`)+`
+`,kt=i=>i.every(e=>e.trim()==="");function bi(i,e){return kt(i)||i.length===3?[e.start,e.condition,e.step].map((n,a)=>{const s=me(i[a]??"");return s===""?Ie(n):s}).join("; "):zt(i)}function Is(i,e){const t=bi(i,e).split(";"),n=t[0].includes(Re)?void 0:oi(t[0]);return n!==void 0&&(t[0]=n),t.join(";")}function bs(i,e,t){var g;const[n="",a="",s=""]=i.length===3?i.map(x=>me(x)):[],r=T(/^\s*(?:integer|int|long|short|byte|double|float)?\s*([a-zA-Z_]\w*)\s*=\s*(.+)$/i,n),o=(r==null?void 0:r[1])??((g=T(/^\s*([a-zA-Z_]\w*)\s*(?:<=|<|>=|>)/,a))==null?void 0:g[1]),l=r?E(r[2],t):Ie(e.start),m=T(/^\s*(\w+)\s*(<=|<)\s*(.+)$/,a);let u=Ie(e.end);m&&(o===void 0||m[1]===o)&&(u=E(m[3],t),m[2]==="<="&&(u=et(u,1)));const c=o===void 0?void 0:li(s,o),h=[l,u,...c!==void 0&&c!==1?[String(c)]:[]];return`for ${o??Ie(e.selector)} in range(${h.join(", ")}):`}function it(i,e=[],t=new Map){return i.forEach((n,a)=>{var r;const s=[...e,a];t.has(n)||t.set(n,s),n.loopBody&&it(n.loopBody,[...s,0],t),(r=n.cases)==null||r.forEach((o,l)=>it(o.elements,[...s,l],t))}),t}function fi(i,e,t,n){const a=i.live,s=a==null?void 0:a.paths.get(e);if(!a||!s||t.out.length===n)return;const r=o=>t.out.slice(0,o).split(`
+`).length-1;a.spans.push({path:s,from:r(n),to:r(t.out.length-1)})}function at(i,e,t){const n={target:e,labels:t,paths:it(i.elements),spans:[]},a=It(i,e,{includeEmptyElseBranch:!0,live:n}),s=ee(i.caption);let r="";if(e==="java")p1(i)&&(r+=`// import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
-`),s&&(r+=Yn(s)+`
-`);else{if(s)for(const u of s.params)u.dims||(u.type==="int"&&i.jsIntVariables.add(u.name),u.type==="string"&&i.stringVariables.add(u.name));const m=s==null?void 0:s.params.map(u=>u.name).join(", ");e==="javascript"?(r+=`"use strict";
+`),s&&(r+=ai(s)+`
+`);else{if(s)for(const u of s.params)u.dims||(u.type==="int"&&a.jsIntVariables.add(u.name),u.type==="string"&&a.stringVariables.add(u.name));const m=s==null?void 0:s.params.map(u=>u.name).join(", ");e==="javascript"?(r+=`"use strict";
 
 `,s&&(r+=`function ${s.name}(${m}) {
-`)):(sa(a)&&(r+=`import random
+`)):(Ii(i)&&(r+=`import random
 
 `),s&&(r+=`def ${s.name}(${m}):
-`))}const o={out:""};we(a.elements,e,i,s?i.indentPerLevel:0,o),s&&e!=="python"&&(o.out+=`}
+`))}const o={out:""};Se(i.elements,e,a,s?a.indentPerLevel:0,o),s&&e!=="python"&&(o.out+=`}
 `);const l=r.split(`
-`).length-1;return{text:ma((r+o.out).replace(/\n+$/,""),e),spans:n.spans.map(m=>({...m,from:m.from+l,to:m.to+l}))}}function ma(a,e){switch(e){case"javascript":return a.replace(/\.length\(\)/g,".length").replace(/\.contains\(/g,".includes(");case"python":return rs(a).replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\)|\b)/g,"len($1)");case"java":return ls(a)}}function rs(a){for(let e=0;e<5;e++){const t=ua(a);if(t===a)break;a=t}return a}function ua(a){const e={indexOf:"find",toUpperCase:"upper",toLowerCase:"lower",trim:"strip",startsWith:"startswith",endsWith:"endswith"},t=/([A-Za-z_]\w*(?:\[[^[\]]*\]|\.\w+\(\))*|"(?:[^"\\]|\\.)*")\.(charAt|substring|contains|indexOf|toUpperCase|toLowerCase|trim|startsWith|endsWith)\(/g;let n="",i=0;for(let s=t.exec(a);s;s=t.exec(a)){const r=s.index+s[0].length-1;let o=0,l=-1;for(let h=r;h<a.length;h++)if(a[h]==="(")o+=1;else if(a[h]===")"&&--o===0){l=h;break}if(l<0)break;const m=s[1],u=ua(a.slice(r+1,l));let c;switch(s[2]){case"charAt":c=`${m}[${u}]`;break;case"substring":{let h=0;const p=[...u].findIndex(y=>y==="("?(h+=1,!1):y===")"?(h-=1,!1):y===","&&h===0),x=p<0?[u]:[u.slice(0,p),u.slice(p+1)];c=x.length===2?`${m}[${x[0].trim()}:${x[1].trim()}]`:`${m}[${u.trim()}:]`;break}case"contains":c=`(${u.trim()} in ${m})`;break;default:c=`${m}.${e[s[2]]}(${u})`}n+=a.slice(i,s.index)+c,i=l+1,t.lastIndex=l+1}return n+a.slice(i)}function os(a){const e="(?:byte|short|int|long|float|double|boolean|char|String)",t=[new RegExp(`\\b(?:final\\s+)?${e}\\s*\\[\\s*\\](?:\\s*\\[\\s*\\])?\\s+([a-zA-Z_]\\w*)\\b`,"g"),new RegExp(`\\b(?:final\\s+)?${e}\\s+([a-zA-Z_]\\w*)\\s*\\[\\s*\\]`,"g")],n=new Set;for(const i of t)for(const s of a.matchAll(i))n.add(s[1].toLowerCase());return n}function ls(a){const e=os(a);return a.replace(/\b([a-zA-Z_]\w*)\.length(?!\()/g,(t,n)=>e.has(n.toLowerCase())?t:`${n}.length()`)}const ms=new Set("abstract assert boolean break byte case catch char class const continue default do double else enum extends final finally float for goto if implements import instanceof int interface long native new package private protected public return short static strictfp super switch synchronized this throw throws transient try void volatile while true false null var record sealed permits yield module open opens requires exports to uses provides with transitive".split(" "));function ca(a){const e=a.trim();if(e==="")return"Main";let t="";return Array.from(e).forEach((n,i)=>{i===0?new RegExp("\\p{L}","u").test(n)||n==="_"||n==="$"?t+=n:new RegExp("\\p{Nd}","u").test(n)?t+="_"+n:t+="_":/[\p{L}\p{M}\p{N}]/u.test(n)||n==="_"||n==="$"?t+=n:t+="_"}),t=t.replace(/_{2,}/g,"_").replace(/^_+|_+$/g,""),t===""?"Main":(new RegExp("^\\p{Nd}","u").test(t)&&(t="_"+t),ms.has(t.toLowerCase())&&(t="_"+t),t)}function Ot(a,e,t={},n=[]){const i={...Un,...t},s=ca(e),r=[a,...n].filter((w,j,_)=>_.indexOf(w)===j).map(w=>({d:w,header:pe(w.caption)})).filter(w=>w.header!==void 0),o=r.map(w=>Y1(w.d,w.header,"java",t,i.indentPerLevel)),l=pe(a.caption),m=r.some(w=>d1(w.d)),u=Fn(a,"java",i),c=i.indentPerLevel*2,h=d1(a),p=h?us(u):u,x=z(c),y=p.trim()===""?"":p.split(`
-`).map(w=>w.trim()===""?x:x+w).join(`
-`);let I="";const v=o.length>0&&(h||m);(h||m)&&(I+=`import java.util.Scanner;
+`).length-1;return{text:yi((r+o.out).replace(/\n+$/,""),e),spans:n.spans.map(m=>({...m,from:m.from+l,to:m.to+l}))}}function yi(i,e){switch(e){case"javascript":return i.replace(/\.length\(\)/g,".length").replace(/\.contains\(/g,".includes(");case"python":return fs(i).replace(/\b([a-zA-Z_]\w*(?:\[[^[\]]*\])?)\.length(?:\(\)|\b)/g,"len($1)");case"java":return zs(i)}}function fs(i){for(let e=0;e<5;e++){const t=zi(i);if(t===i)break;i=t}return i}function zi(i){const e={indexOf:"find",toUpperCase:"upper",toLowerCase:"lower",trim:"strip",startsWith:"startswith",endsWith:"endswith"},t=/([A-Za-z_]\w*(?:\[[^[\]]*\]|\.\w+\(\))*|"(?:[^"\\]|\\.)*")\.(charAt|substring|contains|indexOf|toUpperCase|toLowerCase|trim|startsWith|endsWith)\(/g;let n="",a=0;for(let s=t.exec(i);s;s=t.exec(i)){const r=s.index+s[0].length-1;let o=0,l=-1;for(let h=r;h<i.length;h++)if(i[h]==="(")o+=1;else if(i[h]===")"&&--o===0){l=h;break}if(l<0)break;const m=s[1],u=zi(i.slice(r+1,l));let c;switch(s[2]){case"charAt":c=`${m}[${u}]`;break;case"substring":{let h=0;const g=[...u].findIndex(f=>f==="("?(h+=1,!1):f===")"?(h-=1,!1):f===","&&h===0),x=g<0?[u]:[u.slice(0,g),u.slice(g+1)];c=x.length===2?`${m}[${x[0].trim()}:${x[1].trim()}]`:`${m}[${u.trim()}:]`;break}case"contains":c=`(${u.trim()} in ${m})`;break;default:c=`${m}.${e[s[2]]}(${u})`}n+=i.slice(a,s.index)+c,a=l+1,t.lastIndex=l+1}return n+i.slice(a)}function ys(i){const e="(?:byte|short|int|long|float|double|boolean|char|String)",t=[new RegExp(`\\b(?:final\\s+)?${e}\\s*\\[\\s*\\](?:\\s*\\[\\s*\\])?\\s+([a-zA-Z_]\\w*)\\b`,"g"),new RegExp(`\\b(?:final\\s+)?${e}\\s+([a-zA-Z_]\\w*)\\s*\\[\\s*\\]`,"g")],n=new Set;for(const a of t)for(const s of i.matchAll(a))n.add(s[1].toLowerCase());return n}function zs(i){const e=ys(i);return i.replace(/\b([a-zA-Z_]\w*)\.length(?!\()/g,(t,n)=>e.has(n.toLowerCase())?t:`${n}.length()`)}const vs=new Set("abstract assert boolean break byte case catch char class const continue default do double else enum extends final finally float for goto if implements import instanceof int interface long native new package private protected public return short static strictfp super switch synchronized this throw throws transient try void volatile while true false null var record sealed permits yield module open opens requires exports to uses provides with transitive".split(" "));function vi(i){const e=i.trim();if(e==="")return"Main";let t="";return Array.from(e).forEach((n,a)=>{a===0?new RegExp("\\p{L}","u").test(n)||n==="_"||n==="$"?t+=n:new RegExp("\\p{Nd}","u").test(n)?t+="_"+n:t+="_":/[\p{L}\p{M}\p{N}]/u.test(n)||n==="_"||n==="$"?t+=n:t+="_"}),t=t.replace(/_{2,}/g,"_").replace(/^_+|_+$/g,""),t===""?"Main":(new RegExp("^\\p{Nd}","u").test(t)&&(t="_"+t),vs.has(t.toLowerCase())&&(t="_"+t),t)}function tn(i,e,t={},n=[]){const a={...ni,...t},s=vi(e),r=[i,...n].filter((v,j,_)=>_.indexOf(v)===j).map(v=>({d:v,header:ee(v.caption)})).filter(v=>v.header!==void 0),o=r.map(v=>K1(v.d,v.header,"java",t,a.indentPerLevel)),l=ee(i.caption),m=r.some(v=>p1(v.d)),u=ii(i,"java",a),c=a.indentPerLevel*2,h=p1(i),g=h?ws(u):u,x=w(c),f=g.trim()===""?"":g.split(`
+`).map(v=>v.trim()===""?x:x+v).join(`
+`);let b="";const z=o.length>0&&(h||m);(h||m)&&(b+=`import java.util.Scanner;
 
-`),I+=`public class ${s} {
-`,v&&(I+=z(i.indentPerLevel)+`static Scanner scanner = new Scanner(System.in);
+`),b+=`public class ${s} {
+`,z&&(b+=w(a.indentPerLevel)+`static Scanner scanner = new Scanner(System.in);
 
-`),l||(I+=z(i.indentPerLevel)+`public static void main(String[] args) {
-`,h&&!v&&(I+=z(c)+`Scanner scanner = new Scanner(System.in);
-`,y!==""&&(I+=`
-`)),I+=y,y!==""&&!y.endsWith(`
-`)&&(I+=`
-`),I+=z(i.indentPerLevel)+`}
-`);for(const[w,j]of o.entries())I+=(w>0||!l?`
-`:"")+j;return I+=`}
-`,I}function us(a){const e=a.split(`
+`),l||(b+=w(a.indentPerLevel)+`public static void main(String[] args) {
+`,h&&!z&&(b+=w(c)+`Scanner scanner = new Scanner(System.in);
+`,f!==""&&(b+=`
+`)),b+=f,f!==""&&!f.endsWith(`
+`)&&(b+=`
+`),b+=w(a.indentPerLevel)+`}
+`);for(const[v,j]of o.entries())b+=(v>0||!l?`
+`:"")+j;return b+=`}
+`,b}function ws(i){const e=i.split(`
 `);let t=0;for(e[t]==="// import java.util.Scanner;"&&t++;t<e.length&&e[t].trim()==="";)t++;for(e[t]==="Scanner scanner = new Scanner(System.in);"&&t++;t<e.length&&e[t].trim()==="";)t++;return t>=e.length?"":e.slice(t).join(`
-`)}const me={target:"visustruct.codegen.target",javaMode:"visustruct.codegen.javaOutputMode",comments:"visustruct.codegen.includeDiagramComments",emptyElse:"visustruct.codegen.includeEmptyElse"};function Qe(a){try{return localStorage.getItem(a)}catch{return null}}function Xe(a,e){try{localStorage.setItem(a,e)}catch{}}const cs=()=>d("web_run_stopped_loop"),da=()=>d("web_run_cancelled"),V=a=>a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");function ds(a){let e=0;return a.replace(/^(\s*)while\s*\(\s*true\s*\)(?:\s*\/\*.*?\*\/)?\s*\{/gm,(t,n)=>{const i=`__visuStructLoopGuard${e++}`;return`${n}for (let ${i} = 0; ${i} < 100000 || (() => { throw new Error(${JSON.stringify(cs())}); })(); ${i}++) {`})}function hs(a){return ds(a).replace(/\bprompt\s*\(/g,"await __visuStructPrompt(")}const gs=`
+`)}const de={target:"visustruct.codegen.target",javaMode:"visustruct.codegen.javaOutputMode",comments:"visustruct.codegen.includeDiagramComments",emptyElse:"visustruct.codegen.includeEmptyElse"};function Je(i){try{return localStorage.getItem(i)}catch{return null}}function qe(i,e){try{localStorage.setItem(i,e)}catch{}}const Ss=()=>d("web_run_stopped_loop"),wi=()=>d("web_run_cancelled"),R=i=>i.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");function ks(i){let e=0;return i.replace(/^(\s*)while\s*\(\s*true\s*\)(?:\s*\/\*.*?\*\/)?\s*\{/gm,(t,n)=>{const a=`__visuStructLoopGuard${e++}`;return`${n}for (let ${a} = 0; ${a} < 100000 || (() => { throw new Error(${JSON.stringify(Ss())}); })(); ${a}++) {`})}function Ms(i){return ks(i).replace(/\bprompt\s*\(/g,"await __visuStructPrompt(")}const Zs=`
 let answer
 let lines = []
 const flush = () => {
@@ -163,7 +163,7 @@ console.log = (...args) => {
 }
 setInterval(flush, 50)
 const __visuStructPrompt = (label) => new Promise((resolve, reject) => {
-  answer = (value) => (value === null ? reject(new Error(${JSON.stringify(da())})) : resolve(value))
+  answer = (value) => (value === null ? reject(new Error(${JSON.stringify(wi())})) : resolve(value))
   send('prompt', String(label ?? ''))
 })
 onmessage = async (e) => {
@@ -176,40 +176,40 @@ onmessage = async (e) => {
     send('error', String(err))
   }
 }
-`,P1=2e3;class ps{constructor(e,t,n,i,s=()=>[]){b(this,"element");b(this,"target");b(this,"javaMode");b(this,"comments");b(this,"emptyElse");b(this,"code","");b(this,"codeView");b(this,"javaModeRow");b(this,"runButton");b(this,"saveButton");b(this,"copyButton");b(this,"runner");b(this,"runOutput");b(this,"runInput");b(this,"pseudocodeBox");b(this,"pseudocodeHint");b(this,"worker");b(this,"outputLines",[]);b(this,"droppedLines",0);b(this,"outputFrame");b(this,"pendingAnswer");this.currentDocument=e,this.saveFile=t,this.onClose=n,this.setPseudocode=i,this.subprograms=s;const r=Qe(me.target);this.target=r==="python"||r==="javascript"?r:"java",this.javaMode=Qe(me.javaMode)==="class"?"class":"snippet",this.comments=Qe(me.comments)==="true",this.emptyElse=Qe(me.emptyElse)!=="false",this.element=document.createElement("aside"),this.element.className="codepanel",this.build()}refresh(){const e=this.currentDocument(),t=this.options();this.code=this.target==="java"&&this.javaMode==="class"?Ot(e,this.classStem(),t,this.subprograms()):Fn(e,this.target,t,this.subprograms()),this.codeView.textContent=this.code,this.javaModeRow.hidden=this.target!=="java",this.saveButton.hidden=this.target!=="java",this.runButton.hidden=this.target!=="javascript"||!!e.pseudocode,this.runButton.hidden&&this.stopRun(!0),this.pseudocodeBox.checked=!!e.pseudocode,this.pseudocodeHint.hidden=!e.pseudocode;for(const n of this.element.querySelectorAll("[data-target]"))n.setAttribute("aria-pressed",String(n.dataset.target===this.target));for(const n of this.element.querySelectorAll("[data-java-mode]"))n.setAttribute("aria-pressed",String(n.dataset.javaMode===this.javaMode))}close(){this.stopRun(!0)}options(){return{includeDiagramTextAsComments:this.comments,includeEmptyElseBranch:this.emptyElse,pseudocodeNote:d("codegen_pseudocode_note")}}classStem(){return m1(this.currentDocument().caption)||"Main"}build(){this.element.innerHTML=`
+`,T1=2e3;class _s{constructor(e,t,n,a,s=()=>[]){I(this,"element");I(this,"target");I(this,"javaMode");I(this,"comments");I(this,"emptyElse");I(this,"code","");I(this,"codeView");I(this,"javaModeRow");I(this,"runButton");I(this,"saveButton");I(this,"copyButton");I(this,"runner");I(this,"runOutput");I(this,"runInput");I(this,"pseudocodeBox");I(this,"pseudocodeHint");I(this,"worker");I(this,"outputLines",[]);I(this,"droppedLines",0);I(this,"outputFrame");I(this,"pendingAnswer");this.currentDocument=e,this.saveFile=t,this.onClose=n,this.setPseudocode=a,this.subprograms=s;const r=Je(de.target);this.target=r==="python"||r==="javascript"?r:"java",this.javaMode=Je(de.javaMode)==="class"?"class":"snippet",this.comments=Je(de.comments)==="true",this.emptyElse=Je(de.emptyElse)!=="false",this.element=document.createElement("aside"),this.element.className="codepanel",this.build()}refresh(){const e=this.currentDocument(),t=this.options();this.code=this.target==="java"&&this.javaMode==="class"?tn(e,this.classStem(),t,this.subprograms()):ii(e,this.target,t,this.subprograms()),this.codeView.textContent=this.code,this.javaModeRow.hidden=this.target!=="java",this.saveButton.hidden=this.target!=="java",this.runButton.hidden=this.target!=="javascript"||!!e.pseudocode,this.runButton.hidden&&this.stopRun(!0),this.pseudocodeBox.checked=!!e.pseudocode,this.pseudocodeHint.hidden=!e.pseudocode;for(const n of this.element.querySelectorAll("[data-target]"))n.setAttribute("aria-pressed",String(n.dataset.target===this.target));for(const n of this.element.querySelectorAll("[data-java-mode]"))n.setAttribute("aria-pressed",String(n.dataset.javaMode===this.javaMode))}close(){this.stopRun(!0)}options(){return{includeDiagramTextAsComments:this.comments,includeEmptyElseBranch:this.emptyElse,pseudocodeNote:d("codegen_pseudocode_note")}}classStem(){return d1(this.currentDocument().caption)||"Main"}build(){this.element.innerHTML=`
       <div class="code-head">
-        <h2>${V(d("codegen_placeholder_title"))}</h2>
-        <button class="code-close" title="${V(d("menu_close"))}" aria-label="${V(d("menu_close"))}">✕</button>
+        <h2>${R(d("codegen_placeholder_title"))}</h2>
+        <button class="code-close" title="${R(d("menu_close"))}" aria-label="${R(d("menu_close"))}">✕</button>
       </div>
-      <div class="segmented" role="group" aria-label="${V(d("web_codegen_language"))}">
+      <div class="segmented" role="group" aria-label="${R(d("web_codegen_language"))}">
         <button data-target="java">Java</button><button data-target="python">Python</button><button data-target="javascript">JavaScript</button>
       </div>
-      <div class="segmented java-mode" role="group" aria-label="${V(d("codegen_java_output_mode"))}">
-        <button data-java-mode="snippet">${V(d("codegen_java_output_snippet"))}</button><button data-java-mode="class">${V(d("codegen_java_output_class"))}</button>
+      <div class="segmented java-mode" role="group" aria-label="${R(d("codegen_java_output_mode"))}">
+        <button data-java-mode="snippet">${R(d("codegen_java_output_snippet"))}</button><button data-java-mode="class">${R(d("codegen_java_output_class"))}</button>
       </div>
-      <label class="check"><input type="checkbox" data-opt="comments" /> ${V(d("web_codegen_comments"))}</label>
-      <label class="check"><input type="checkbox" data-opt="emptyElse" /> ${V(d("web_codegen_empty_else"))}</label>
-      <label class="check"><input type="checkbox" data-opt="pseudocode" /> ${V(d("codegen_pseudocode_toggle"))}</label>
-      <p class="hint pseudocode-hint" hidden>${V(d("codegen_pseudocode_hint"))}</p>
+      <label class="check"><input type="checkbox" data-opt="comments" /> ${R(d("web_codegen_comments"))}</label>
+      <label class="check"><input type="checkbox" data-opt="emptyElse" /> ${R(d("web_codegen_empty_else"))}</label>
+      <label class="check"><input type="checkbox" data-opt="pseudocode" /> ${R(d("codegen_pseudocode_toggle"))}</label>
+      <p class="hint pseudocode-hint" hidden>${R(d("codegen_pseudocode_hint"))}</p>
       <div class="code-actions">
-        <button data-act="copy">${V(d("codegen_copy"))}</button>
-        <button data-act="save">${V(d("codegen_save_java"))}</button>
-        <button data-act="run" class="primary">${V(d("codegen_run_in_browser"))}</button>
+        <button data-act="copy">${R(d("codegen_copy"))}</button>
+        <button data-act="save">${R(d("codegen_save_java"))}</button>
+        <button data-act="run" class="primary">${R(d("codegen_run_in_browser"))}</button>
       </div>
       <pre class="code-view" tabindex="0" dir="ltr"></pre>
       <div class="runner" hidden>
-        <div class="runner-head"><h2>${V(d("simulation_output"))}</h2><button data-act="stop">${V(d("simulation_stop"))}</button></div>
+        <div class="runner-head"><h2>${R(d("simulation_output"))}</h2><button data-act="stop">${R(d("simulation_stop"))}</button></div>
         <pre class="runner-out" dir="ltr"></pre>
         <form class="runner-input" hidden>
           <label></label>
-          <div class="sim-input-row"><input autocomplete="off" /><button type="submit">${V(d("simulation_input_submit"))}</button><button type="button" data-act="cancel">${V(d("close_unsaved_cancel"))}</button></div>
+          <div class="sim-input-row"><input autocomplete="off" /><button type="submit">${R(d("simulation_input_submit"))}</button><button type="button" data-act="cancel">${R(d("close_unsaved_cancel"))}</button></div>
         </form>
       </div>
-      <p class="hint">${V(d("codegen_generated_hint"))}</p>
-    `;const e=i=>this.element.querySelector(i);this.codeView=e(".code-view"),this.javaModeRow=e(".java-mode"),this.runButton=e("[data-act=run]"),this.saveButton=e("[data-act=save]"),this.copyButton=e("[data-act=copy]"),this.runner=e(".runner"),this.runOutput=e(".runner-out"),this.runInput=e(".runner-input"),this.pseudocodeBox=e("[data-opt=pseudocode]"),this.pseudocodeHint=e(".pseudocode-hint"),this.pseudocodeBox.addEventListener("change",()=>this.setPseudocode(this.pseudocodeBox.checked)),e(".code-close").addEventListener("click",()=>this.onClose());for(const i of this.element.querySelectorAll("[data-target]"))i.addEventListener("click",()=>{this.target=i.dataset.target,Xe(me.target,this.target),this.refresh()});for(const i of this.element.querySelectorAll("[data-java-mode]"))i.addEventListener("click",()=>{this.javaMode=i.dataset.javaMode,Xe(me.javaMode,this.javaMode),this.refresh()});const t=e("[data-opt=comments]");t.checked=this.comments,t.addEventListener("change",()=>{this.comments=t.checked,Xe(me.comments,String(this.comments)),this.refresh()});const n=e("[data-opt=emptyElse]");n.checked=this.emptyElse,n.addEventListener("change",()=>{this.emptyElse=n.checked,Xe(me.emptyElse,String(this.emptyElse)),this.refresh()}),this.copyButton.addEventListener("click",()=>this.copy()),this.saveButton.addEventListener("click",()=>{const i=ca(this.classStem()),s=Ot(this.currentDocument(),this.classStem(),this.options());this.saveFile(`${i}.java`,s)}),this.runButton.addEventListener("click",()=>this.run()),e("[data-act=stop]").addEventListener("click",()=>this.stopRun(!1)),e("[data-act=cancel]").addEventListener("click",()=>this.answer(null)),this.runInput.addEventListener("submit",i=>{i.preventDefault(),this.answer(this.runInput.querySelector("input").value)})}async copy(){var t;let e=!1;try{await navigator.clipboard.writeText(this.code),e=!0}catch{const n=document.createRange();n.selectNodeContents(this.codeView);const i=getSelection();i==null||i.removeAllRanges(),i==null||i.addRange(n),e=((t=document.execCommand)==null?void 0:t.call(document,"copy"))??!1}this.copyButton.textContent=d(e?"web_copied_check":"web_copy_manual"),setTimeout(()=>this.copyButton.textContent=d("codegen_copy"),2e3)}run(){this.stopRun(!0),this.runner.hidden=!1,this.runOutput.textContent="",this.outputLines=[],this.droppedLines=0,this.runOutput.classList.remove("error");const e=hs(this.code),t=n=>this.onRunnerMessage(n);try{const n=URL.createObjectURL(new Blob([gs],{type:"text/javascript"})),i=new Worker(n);URL.revokeObjectURL(n),i.onmessage=s=>t(s.data),i.onerror=s=>{s.preventDefault(),t({type:"error",text:s.message||d("web_run_error")})},i.postMessage({type:"run",code:e}),this.worker=i}catch{this.runInPage(e,t)}this.setRunning(!0)}runInPage(e,t){const n={log:(...r)=>t({type:"log",lines:[r.map(o=>typeof o=="string"?o:JSON.stringify(o)).join(" ")]})},i=r=>new Promise((o,l)=>{this.pendingAnswer=m=>m===null?l(new Error(da())):o(m),t({type:"prompt",text:r})}),s=(async()=>{}).constructor;new s("__visuStructPrompt","console",e)(i,n).then(()=>t({type:"done"})).catch(r=>t({type:"error",text:String(r)}))}onRunnerMessage(e){switch(e.type){case"log":this.appendOutput(e.lines??[]);break;case"prompt":{this.runInput.hidden=!1,this.runInput.querySelector("label").textContent=e.text??"";const t=this.runInput.querySelector("input");t.value="",t.focus();break}case"error":this.appendOutput([e.text??""]),this.runOutput.classList.add("error"),this.stopRun(!1);break;case"done":this.stopRun(!1);break}}appendOutput(e){this.outputLines.push(...e),this.outputLines.length>P1&&(this.droppedLines+=this.outputLines.length-P1,this.outputLines.splice(0,this.outputLines.length-P1)),this.outputFrame===void 0&&(this.outputFrame=requestAnimationFrame(()=>{this.outputFrame=void 0;const t=this.droppedLines>0?d("web_run_dropped_fmt",this.droppedLines)+`
+      <p class="hint">${R(d("codegen_generated_hint"))}</p>
+    `;const e=a=>this.element.querySelector(a);this.codeView=e(".code-view"),this.javaModeRow=e(".java-mode"),this.runButton=e("[data-act=run]"),this.saveButton=e("[data-act=save]"),this.copyButton=e("[data-act=copy]"),this.runner=e(".runner"),this.runOutput=e(".runner-out"),this.runInput=e(".runner-input"),this.pseudocodeBox=e("[data-opt=pseudocode]"),this.pseudocodeHint=e(".pseudocode-hint"),this.pseudocodeBox.addEventListener("change",()=>this.setPseudocode(this.pseudocodeBox.checked)),e(".code-close").addEventListener("click",()=>this.onClose());for(const a of this.element.querySelectorAll("[data-target]"))a.addEventListener("click",()=>{this.target=a.dataset.target,qe(de.target,this.target),this.refresh()});for(const a of this.element.querySelectorAll("[data-java-mode]"))a.addEventListener("click",()=>{this.javaMode=a.dataset.javaMode,qe(de.javaMode,this.javaMode),this.refresh()});const t=e("[data-opt=comments]");t.checked=this.comments,t.addEventListener("change",()=>{this.comments=t.checked,qe(de.comments,String(this.comments)),this.refresh()});const n=e("[data-opt=emptyElse]");n.checked=this.emptyElse,n.addEventListener("change",()=>{this.emptyElse=n.checked,qe(de.emptyElse,String(this.emptyElse)),this.refresh()}),this.copyButton.addEventListener("click",()=>this.copy()),this.saveButton.addEventListener("click",()=>{const a=vi(this.classStem()),s=tn(this.currentDocument(),this.classStem(),this.options());this.saveFile(`${a}.java`,s)}),this.runButton.addEventListener("click",()=>this.run()),e("[data-act=stop]").addEventListener("click",()=>this.stopRun(!1)),e("[data-act=cancel]").addEventListener("click",()=>this.answer(null)),this.runInput.addEventListener("submit",a=>{a.preventDefault(),this.answer(this.runInput.querySelector("input").value)})}async copy(){var t;let e=!1;try{await navigator.clipboard.writeText(this.code),e=!0}catch{const n=document.createRange();n.selectNodeContents(this.codeView);const a=getSelection();a==null||a.removeAllRanges(),a==null||a.addRange(n),e=((t=document.execCommand)==null?void 0:t.call(document,"copy"))??!1}this.copyButton.textContent=d(e?"web_copied_check":"web_copy_manual"),setTimeout(()=>this.copyButton.textContent=d("codegen_copy"),2e3)}run(){this.stopRun(!0),this.runner.hidden=!1,this.runOutput.textContent="",this.outputLines=[],this.droppedLines=0,this.runOutput.classList.remove("error");const e=Ms(this.code),t=n=>this.onRunnerMessage(n);try{const n=URL.createObjectURL(new Blob([Zs],{type:"text/javascript"})),a=new Worker(n);URL.revokeObjectURL(n),a.onmessage=s=>t(s.data),a.onerror=s=>{s.preventDefault(),t({type:"error",text:s.message||d("web_run_error")})},a.postMessage({type:"run",code:e}),this.worker=a}catch{this.runInPage(e,t)}this.setRunning(!0)}runInPage(e,t){const n={log:(...r)=>t({type:"log",lines:[r.map(o=>typeof o=="string"?o:JSON.stringify(o)).join(" ")]})},a=r=>new Promise((o,l)=>{this.pendingAnswer=m=>m===null?l(new Error(wi())):o(m),t({type:"prompt",text:r})}),s=(async()=>{}).constructor;new s("__visuStructPrompt","console",e)(a,n).then(()=>t({type:"done"})).catch(r=>t({type:"error",text:String(r)}))}onRunnerMessage(e){switch(e.type){case"log":this.appendOutput(e.lines??[]);break;case"prompt":{this.runInput.hidden=!1,this.runInput.querySelector("label").textContent=e.text??"";const t=this.runInput.querySelector("input");t.value="",t.focus();break}case"error":this.appendOutput([e.text??""]),this.runOutput.classList.add("error"),this.stopRun(!1);break;case"done":this.stopRun(!1);break}}appendOutput(e){this.outputLines.push(...e),this.outputLines.length>T1&&(this.droppedLines+=this.outputLines.length-T1,this.outputLines.splice(0,this.outputLines.length-T1)),this.outputFrame===void 0&&(this.outputFrame=requestAnimationFrame(()=>{this.outputFrame=void 0;const t=this.droppedLines>0?d("web_run_dropped_fmt",this.droppedLines)+`
 `:"";this.runOutput.textContent=t+this.outputLines.join(`
 `)+(this.outputLines.length?`
-`:""),this.runOutput.scrollTop=this.runOutput.scrollHeight}))}answer(e){var t;this.runInput.hidden=!0,this.worker?this.worker.postMessage({type:"answer",value:e}):(t=this.pendingAnswer)==null||t.call(this,e),this.pendingAnswer=void 0}stopRun(e){var t;(t=this.worker)==null||t.terminate(),this.worker=void 0,this.pendingAnswer=void 0,this.runInput&&(this.runInput.hidden=!0),e&&this.runner&&(this.runner.hidden=!0),this.setRunning(!1)}setRunning(e){const t=this.element.querySelector("[data-act=stop]");t&&(t.disabled=!e)}}const xs=1e5;function Is(a,e,t){const n=new F1(a,t),i=[...e];for(let s=0;s<xs;s++){const{state:r}=n;if(r.inputRequest){const o=i.shift();if(o===void 0)return{outputs:[...r.outputLines],missingInput:!0};if(n.provideInput(o),r.inputErrorNotice)return{outputs:[...r.outputLines],error:r.inputErrorNotice};continue}if(r.isHalted)return{outputs:[...r.outputLines],error:r.notice};if(!n.canStep)return{outputs:[...r.outputLines],unusedInputs:i.length||void 0};n.step()}return{outputs:[...n.state.outputLines],tooManySteps:!0}}function bs(a,e){return a.length!==e.length?!1:a.every((t,n)=>Qt(t)===Qt(e[n]))}function Qt(a){const e=a.trim().replace(/\s+/g," ");return/^-?\d+\.0+$/.test(e)?e.replace(/\.0+$/,""):e}function fs(a,e,t){return e.map(n=>{const i=Is(a,n.inputs,t),s=!i.error&&!i.missingInput&&!i.tooManySteps&&bs(i.outputs,n.expected);return{test:n,result:i,passed:s}})}function ys(a){const e=new Set,t=n=>{for(const i of n){e.add(i.type),i.loopBody&&t(i.loopBody);for(const s of i.cases??[])t(s.elements)}};return t(a.elements),e}const zs=`---
+`:""),this.runOutput.scrollTop=this.runOutput.scrollHeight}))}answer(e){var t;this.runInput.hidden=!0,this.worker?this.worker.postMessage({type:"answer",value:e}):(t=this.pendingAnswer)==null||t.call(this,e),this.pendingAnswer=void 0}stopRun(e){var t;(t=this.worker)==null||t.terminate(),this.worker=void 0,this.pendingAnswer=void 0,this.runInput&&(this.runInput.hidden=!0),e&&this.runner&&(this.runner.hidden=!0),this.setRunning(!1)}setRunning(e){const t=this.element.querySelector("[data-act=stop]");t&&(t.disabled=!e)}}const js=1e5;function Ps(i,e,t){const n=new q1(i,t),a=[...e];for(let s=0;s<js;s++){const{state:r}=n;if(r.inputRequest){const o=a.shift();if(o===void 0)return{outputs:[...r.outputLines],missingInput:!0};if(n.provideInput(o),r.inputErrorNotice)return{outputs:[...r.outputLines],error:r.inputErrorNotice};continue}if(r.isHalted)return{outputs:[...r.outputLines],error:r.notice};if(!n.canStep)return{outputs:[...r.outputLines],unusedInputs:a.length||void 0};n.step()}return{outputs:[...n.state.outputLines],tooManySteps:!0}}function Cs(i,e){return i.length!==e.length?!1:i.every((t,n)=>nn(t)===nn(e[n]))}function nn(i){const e=i.trim().replace(/\s+/g," ");return/^-?\d+\.0+$/.test(e)?e.replace(/\.0+$/,""):e}function As(i,e,t){return e.map(n=>{const a=Ps(i,n.inputs,t),s=!a.error&&!a.missingInput&&!a.tooManySteps&&Cs(a.outputs,n.expected);return{test:n,result:a,passed:s}})}function Ts(i){const e=new Set,t=n=>{for(const a of n){e.add(a.type),a.loopBody&&t(a.loopBody);for(const s of a.cases??[])t(s.elements)}};return t(i.elements),e}const Ds=`---
 titel: Was ist ein Struktogramm?
 bereich: Erste Schritte
 kurz: Algorithmen als Folge klarer Schritte darstellen und lesen.
@@ -428,7 +428,7 @@ Programme, die kreuz und quer springen, heißen **Spaghetticode**: Wer einem Fad
 - [ ] Ein Pfeil
 > Alles zwischen SOLANGE und ENDE SOLANGE ist eingerückt und wird wiederholt.
 :::
-`,vs=`---
+`,Bs=`---
 titel: Der Editor
 bereich: Erste Schritte
 kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
@@ -540,7 +540,7 @@ lösung: l2-zwei-zeilen-loesung.visustruct
 - [ ] input: "Guten Tag"
 > Ohne Anführungszeichen wird Guten Tag als Name einer Variablen verstanden.
 :::
-`,ws=`---
+`,Ws=`---
 titel: Speichern, Öffnen, Exportieren
 bereich: Erste Schritte
 kurz: Dateien sichern, mehrere Diagramme öffnen und als Bild oder PDF weitergeben.
@@ -603,7 +603,7 @@ Mit [Text](#zeige-textgroesse) in der Leiste stellst du die Schriftgröße ein. 
 - [x] Weil der Browser die Daten nur auf diesem Gerät behält und sie verloren gehen können
 - [ ] Weil man ohne Speichern nicht exportieren kann
 :::
-`,Ss=`---
+`,Hs=`---
 titel: Variablen und Datentypen
 bereich: Grundlagen
 kurz: Werte speichern, die Datentypen int, double, String und boolean kennen und rechnen.
@@ -762,7 +762,7 @@ lösung: l05-einkauf-loesung.visustruct
 - [x] 20
 > Rechts wird mit dem alten Wert 10 gerechnet, das Ergebnis 20 wird in punkte gespeichert.
 :::
-`,ks=`---
+`,Gs=`---
 titel: Sequenz
 bereich: Grundlagen
 kurz: Schritte nacheinander ausführen, auf die Reihenfolge achten und Werte tauschen.
@@ -867,7 +867,7 @@ lösung: l04-tauschen-loesung.visustruct
 - [ ] 4
 > Erst wird x zu 5, dann zu 15.
 :::
-`,Ms=`---
+`,Ns=`---
 titel: Eingabe und Ausgabe
 bereich: Grundlagen
 kurz: Werte abfragen, Ergebnisse anzeigen und das EVA-Prinzip anwenden.
@@ -1031,7 +1031,7 @@ lösung: l06-mittelwert-loesung.visustruct
 = zeigt seinen Umfang an -> Ausgabe
 > Gegeben ist der Radius, gesucht der Umfang. Die Formel verbindet beides.
 :::
-`,Zs=`---
+`,Es=`---
 titel: Simulation und Schreibtischtest
 bereich: Grundlagen
 kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und Fehler finden.
@@ -1177,7 +1177,7 @@ lösung: sim-kino-loesung.visustruct
 - [ ] summe ist zu groß.
 - [ ] Das Struktogramm hat zu viele Kästen.
 :::
-`,_s=`---
+`,Ls=`---
 titel: Verzweigung
 bereich: Grundlagen
 kurz: Mit einer Bedingung entscheiden, welcher von zwei Wegen ausgeführt wird.
@@ -1311,7 +1311,7 @@ lösung: l07-betrag-loesung.visustruct
 - [ ] Wiederholungsstruktur
 > Die Anweisungen in einem Zweig werden nur unter einer Bedingung ausgeführt. Darum heißt sie auch bedingte Anweisung.
 :::
-`,js=`---
+`,Vs=`---
 titel: Bedingungen verknüpfen
 bereich: Grundlagen
 kurz: Mehrere Bedingungen mit und, oder und nicht verbinden und Wertebereiche prüfen.
@@ -1456,7 +1456,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 - [x] false
 > 5 > 3 ist wahr, und ! dreht das um.
 :::
-`,Ps=`---
+`,Rs=`---
 titel: Fallauswahl
 bereich: Grundlagen
 kurz: Je nach Wert einer Variablen einen von vielen Fällen ausführen.
@@ -1578,7 +1578,7 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 - [x] Mehrfachauswahl
 > Aus vielen Fällen wird einer ausgewählt. Darum heißt sie auch Mehrfachauswahl.
 :::
-`,Cs=`---
+`,Us=`---
 titel: While-Schleife
 bereich: Grundlagen
 kurz: Schritte wiederholen, solange eine Bedingung wahr ist.
@@ -1754,7 +1754,7 @@ lösung: l16-countdown-loesung.visustruct
 - [ ] Die Schleife ist eine While-Schleife.
 - [ ] Die Variable i heißt falsch.
 :::
-`,As=`---
+`,Fs=`---
 titel: Do-while-Schleife
 bereich: Grundlagen
 kurz: Erst ausführen, dann prüfen: Schleifen mit mindestens einem Durchlauf.
@@ -1860,7 +1860,7 @@ lösung: l11-summe-loesung.visustruct
 - [ ] Wenn die Schleife vielleicht gar nicht laufen soll
 - [ ] Wenn man genau bis 10 zählen will
 :::
-`,Ts=`---
+`,Ys=`---
 titel: For-Schleife
 bereich: Grundlagen
 kurz: Mit Start, Bedingung und Schritt eine feste Anzahl von Durchläufen zählen.
@@ -1988,7 +1988,7 @@ lösung: l16-summe-loesung.visustruct
 - [ ] Wenn so lange gefragt wird, bis eine Eingabe gültig ist
 - [ ] Wenn nur ein einziger Wert geprüft wird
 :::
-`,Ds=`---
+`,Os=`---
 titel: Verschachteln
 bereich: Grundlagen
 kurz: Verzweigungen in Schleifen und Schleifen in Schleifen kombinieren.
@@ -2093,7 +2093,7 @@ Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man 
 - [ ] Nur wenn sie wahr ist
 > Die Verzweigung gehört zum Inhalt und kommt bei jedem Durchlauf dran.
 :::
-`,Ws=`---
+`,Qs=`---
 titel: Arrays
 bereich: Grundlagen
 kurz: Viele Werte unter einem Namen speichern, mit dem Index darauf zugreifen und sie mit einer Schleife durchlaufen.
@@ -2268,7 +2268,7 @@ lösung: l14-summe-max-loesung.visustruct
 - [ ] Fall
 > Ein Array heißt auf Deutsch oft Feld. Gemeint ist dasselbe: viele Fächer unter einem Namen.
 :::
-`,Bs=`---
+`,Xs=`---
 titel: Zweidimensionale Arrays
 bereich: Grundlagen
 kurz: Werte in Zeilen und Spalten speichern, wie die Sitze in einem Kinosaal, und mit zwei verschachtelten Schleifen durchlaufen.
@@ -2412,7 +2412,7 @@ lösung: kino-einmaleins-loesung.visustruct
 = sitze[2][4] -> Reihe 2, Platz 4
 = sitze[1][0] = true -> In Reihe 1 ist Platz 0 verkauft
 :::
-`,Hs=`---
+`,Js=`---
 titel: Zeichenketten
 bereich: Grundlagen
 kurz: Mit Texten arbeiten, also einzelne Zeichen lesen, Teile herausschneiden, suchen, vergleichen und zerlegen.
@@ -2583,7 +2583,7 @@ lösung: zk-woerter-loesung.visustruct
 = indexOf("bock") -> 4
 = substring(4) -> bock
 :::
-`,Gs=`---
+`,qs=`---
 titel: Aufruf und Aussprung
 bereich: Grundlagen
 kurz: Große Aufgaben in Unterprogramme zerlegen und Schleifen vorzeitig verlassen.
@@ -2856,7 +2856,7 @@ lösung: l15-bis-null-loesung.visustruct
 = Unterprogramm -> Methode
 > Beide Namen meinen dasselbe. Wenn du einen davon kennst, verstehst du auch den anderen.
 :::
-`,Ns=`---
+`,Ks=`---
 titel: Suchen und Sortieren
 bereich: Grundlagen
 kurz: Mit Spielkarten verstehen, wie lineare und binäre Suche und Bubblesort arbeiten und warum manche Verfahren viel schneller sind.
@@ -3018,7 +3018,7 @@ lösung: ss-absteigend-loesung.visustruct
 = Binäre Suche -> die Mitte ansehen und eine Hälfte weglassen
 = Bubblesort -> Nachbarn vergleichen und tauschen
 :::
-`,Es=`---
+`,$s=`---
 titel: Java
 bereich: Vom Struktogramm zum Code
 kurz: Java-Code aus dem Struktogramm erzeugen, lesen und umgekehrt Java-Code als Struktogramm nachbauen.
@@ -3203,7 +3203,7 @@ lösung: l17-ticket-loesung.visustruct
 - [ ] return;
 - [ ] exit();
 :::
-`,Ls=`---
+`,er=`---
 titel: Python und JavaScript
 bereich: Vom Struktogramm zum Code
 kurz: Python- und JavaScript-Code aus dem Struktogramm erzeugen und JavaScript direkt im Browser ausführen.
@@ -3373,7 +3373,7 @@ lösung: l18-js-loesung.visustruct
 - [ ] Es wird Summe: ausgegeben.
 > Mit str(summe) wird aus der Zahl ein Text.
 :::
-`,Vs=`Fachbegriffe für den Lernbereich. Kommt ein Begriff in einem Schritt vor, wird er dort einmal markiert und zeigt beim
+`,tr=`Fachbegriffe für den Lernbereich. Kommt ein Begriff in einem Schritt vor, wird er dort einmal markiert und zeigt beim
 Hovern oder Antippen seine Erklärung. Steht er im Schritt fett, wird er gerade erklärt und deshalb nicht markiert.
 \`auch:\` nennt weitere Formen, die ebenfalls erkannt werden. Groß- und Kleinschreibung zählt.
 
@@ -3537,7 +3537,7 @@ Ein Suchverfahren für sortierte Werte. Es sieht sich die Mitte an und sucht nur
 
 ### Bubblesort
 Ein einfaches Sortierverfahren. Es vergleicht immer zwei Nachbarn und tauscht sie, wenn sie falsch herum stehen.
-`,Rs=`### Anweisung
+`,nr=`### Anweisung
 
 Ein einzelner Schritt. Damit legst du Variablen an oder rechnest.
 
@@ -3651,7 +3651,7 @@ boolean[][] sitze = new boolean[3][5]
 sitze[1][4] = true
 output: sitze.length + " Reihen, " + sitze[0].length + " Plätze"
 \`\`\`
-`,Us=`---
+`,ir=`---
 titel: What is a structure chart?
 bereich: First steps
 kurz: Show and read algorithms as a series of clear steps.
@@ -3870,7 +3870,7 @@ Programs that jump all over the place are called **spaghetti code**: if you try 
 - [ ] An arrow
 > Everything between WHILE and END WHILE is indented and is repeated.
 :::
-`,Fs=`---
+`,ar=`---
 titel: The editor
 bereich: First steps
 kurz: Insert elements, type text, move and delete.
@@ -3982,7 +3982,7 @@ lösung: l2-zwei-zeilen-loesung.visustruct
 - [ ] input: "Good morning"
 > Without quotation marks, Good morning is understood as the name of a variable.
 :::
-`,Ys=`---
+`,sr=`---
 titel: Save, open, export
 bereich: First steps
 kurz: Keep your files safe, open several diagrams and share them as an image or PDF.
@@ -4045,7 +4045,7 @@ Open one of your exercises from lesson 2 and try the following:
 - [x] Because the browser only keeps the data on this device and it can get lost
 - [ ] Because you cannot export without saving
 :::
-`,Os=`---
+`,rr=`---
 titel: Variables and data types
 bereich: Basics
 kurz: Store values, get to know the data types int, double, String and boolean, and calculate.
@@ -4204,7 +4204,7 @@ lösung: l05-einkauf-loesung.visustruct
 - [x] 20
 > The right-hand side is calculated with the old value 10, and the result 20 is stored in points.
 :::
-`,Qs=`---
+`,or=`---
 titel: Sequence
 bereich: Basics
 kurz: Run steps one after another, watch the order and swap values.
@@ -4309,7 +4309,7 @@ lösung: l04-tauschen-loesung.visustruct
 - [ ] 4
 > First x becomes 5, then 15.
 :::
-`,Xs=`---
+`,lr=`---
 titel: Input and output
 bereich: Basics
 kurz: Ask for values, show results and use the IPO model.
@@ -4473,7 +4473,7 @@ lösung: l06-mittelwert-loesung.visustruct
 = shows its circumference -> Output
 > The radius is given, the circumference is what you are looking for. The formula connects the two.
 :::
-`,Js=`---
+`,mr=`---
 titel: Simulation and desk check
 bereich: Basics
 kurz: Run a structure chart step by step, work it out by hand and find mistakes.
@@ -4619,7 +4619,7 @@ lösung: sim-kino-loesung.visustruct
 - [ ] sum is too big.
 - [ ] The structure chart has too many boxes.
 :::
-`,qs=`---
+`,ur=`---
 titel: Branch
 bereich: Basics
 kurz: Use a condition to decide which of two paths runs.
@@ -4753,7 +4753,7 @@ lösung: l07-betrag-loesung.visustruct
 - [ ] Iteration
 > The statements in a path only run under a condition. That is why it is also called a conditional statement.
 :::
-`,Ks=`---
+`,cr=`---
 titel: Combining conditions
 bereich: Basics
 kurz: Join several conditions with and, or and not, and check ranges of values.
@@ -4898,7 +4898,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 - [x] false
 > 5 > 3 is true, and ! turns that round.
 :::
-`,$s=`---
+`,dr=`---
 titel: Switch
 bereich: Basics
 kurz: Run one of many cases, depending on the value of a variable.
@@ -5020,7 +5020,7 @@ So for “age 18 or older” you still need the branch. You cannot create a case
 - [x] Multiple selection
 > One of many cases is selected. That is why it is also called multiple selection.
 :::
-`,er=`---
+`,hr=`---
 titel: While loop
 bereich: Basics
 kurz: Repeat steps as long as a condition is true.
@@ -5196,7 +5196,7 @@ lösung: l16-countdown-loesung.visustruct
 - [ ] The loop is a while loop.
 - [ ] The variable i has the wrong name.
 :::
-`,tr=`---
+`,gr=`---
 titel: Do-while loop
 bereich: Basics
 kurz: Run first, check afterwards: loops with at least one pass.
@@ -5302,7 +5302,7 @@ lösung: l11-summe-loesung.visustruct
 - [ ] When the loop might not need to run at all
 - [ ] When you want to count exactly to 10
 :::
-`,nr=`---
+`,pr=`---
 titel: For loop
 bereich: Basics
 kurz: Count a fixed number of passes with Init, Condition and Step.
@@ -5430,7 +5430,7 @@ lösung: l16-summe-loesung.visustruct
 - [ ] When you keep asking until an input is valid
 - [ ] When only a single value is checked
 :::
-`,ar=`---
+`,xr=`---
 titel: Nesting
 bereich: Basics
 kurz: Combine branches inside loops and loops inside loops.
@@ -5535,7 +5535,7 @@ This is exactly what the structure chart was invented for. Shneiderman asked him
 - [ ] Only if it is true
 > The branch is part of the inside and runs in every pass.
 :::
-`,ir=`---
+`,Ir=`---
 titel: Arrays
 bereich: Basics
 kurz: Store many values under one name, reach them with the index and go through them with a loop.
@@ -5710,7 +5710,7 @@ lösung: l14-summe-max-loesung.visustruct
 - [ ] 20
 > length is the number of slots, not the last index and not the last value.
 :::
-`,sr=`---
+`,br=`---
 titel: Two-dimensional arrays
 bereich: Basics
 kurz: Store values in rows and columns, like the seats in a cinema, and go through them with two nested loops.
@@ -5854,7 +5854,7 @@ lösung: kino-einmaleins-loesung.visustruct
 = seats[2][4] -> Row 2, seat 4
 = seats[1][0] = true -> Seat 0 in row 1 is sold
 :::
-`,rr=`---
+`,fr=`---
 titel: Strings
 bereich: Basics
 kurz: Work with text: read single characters, cut out parts, search, compare and split.
@@ -6025,7 +6025,7 @@ lösung: zk-woerter-loesung.visustruct
 = indexOf("goat") -> 5
 = substring(5) -> goat
 :::
-`,or=`---
+`,yr=`---
 titel: Call and break
 bereich: Basics
 kurz: Split big tasks into subprograms and leave loops early.
@@ -6297,7 +6297,7 @@ lösung: l15-bis-null-loesung.visustruct
 = Subprogram -> Method
 > Both names mean the same thing. If you know one of them, you understand the other as well.
 :::
-`,lr=`---
+`,zr=`---
 titel: Searching and sorting
 bereich: Basics
 kurz: Use playing cards to understand how linear search, binary search and bubble sort work, and why some methods are much faster.
@@ -6459,7 +6459,7 @@ lösung: ss-absteigend-loesung.visustruct
 = Binary search -> look at the middle and drop one half
 = Bubble sort -> compare neighbours and swap them
 :::
-`,mr=`---
+`,vr=`---
 titel: Java
 bereich: From structure chart to code
 kurz: Generate and read Java code from the structure chart, and the other way round, rebuild Java code as a structure chart.
@@ -6644,7 +6644,7 @@ lösung: l17-ticket-loesung.visustruct
 - [ ] return;
 - [ ] exit();
 :::
-`,ur=`---
+`,wr=`---
 titel: Python and JavaScript
 bereich: From structure chart to code
 kurz: Generate Python and JavaScript code from the structure chart and run JavaScript straight in the browser.
@@ -6814,7 +6814,7 @@ lösung: l18-js-loesung.visustruct
 - [ ] Sum: is output.
 > str(sum) turns the number into text.
 :::
-`,cr=`Technical terms for the learning area. When a term appears in a step, it is marked there once and shows its explanation
+`,Sr=`Technical terms for the learning area. When a term appears in a step, it is marked there once and shows its explanation
 on hover or tap. If it is in bold in that step, it is being explained right there and is not marked.
 \`also:\` lists other forms that are recognised too. Upper and lower case matter.
 
@@ -6987,7 +6987,7 @@ A way of searching sorted values. It looks at the middle and keeps searching onl
 ### Bubble sort
 also: bubble sort, Bubblesort
 A simple way of sorting. It always compares two neighbours and swaps them if they are the wrong way round.
-`,dr=`### Statement
+`,kr=`### Statement
 
 A single step. You use it to create variables or to calculate.
 
@@ -7101,7 +7101,7 @@ boolean[][] seats = new boolean[3][5]
 seats[1][4] = true
 output: seats.length + " rows, " + seats[0].length + " seats"
 \`\`\`
-`,hr=`---
+`,Mr=`---
 titel: O que é um estrutograma?
 bereich: Primeiros passos
 kurz: Mostrar e ler algoritmos como uma série de passos claros.
@@ -7320,7 +7320,7 @@ Programas que saltam para todo o lado chamam-se **código esparguete**: se tenta
 - [ ] Uma seta
 > Tudo o que está entre ENQUANTO e FIM ENQUANTO está recuado e é repetido.
 :::
-`,gr=`---
+`,Zr=`---
 titel: O editor
 bereich: Primeiros passos
 kurz: Inserir elementos, escrever texto, mover e eliminar.
@@ -7432,7 +7432,7 @@ lösung: l2-zwei-zeilen-loesung.visustruct
 - [ ] input: "Bom dia"
 > Sem aspas, Bom dia é entendido como o nome de uma variável.
 :::
-`,pr=`---
+`,_r=`---
 titel: Guardar, abrir, exportar
 bereich: Primeiros passos
 kurz: Guardar os teus ficheiros em segurança, abrir vários diagramas e partilhá-los como imagem ou PDF.
@@ -7495,7 +7495,7 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 - [x] Porque o navegador só guarda os dados neste dispositivo e eles podem perder-se
 - [ ] Porque não se pode exportar sem guardar
 :::
-`,xr=`---
+`,jr=`---
 titel: Variáveis e tipos de dados
 bereich: Fundamentos
 kurz: Guardar valores, conhecer os tipos de dados int, double, String e boolean, e fazer contas.
@@ -7654,7 +7654,7 @@ lösung: l05-einkauf-loesung.visustruct
 - [x] 20
 > O lado direito é calculado com o valor antigo 10, e o resultado 20 é guardado em pontos.
 :::
-`,Ir=`---
+`,Pr=`---
 titel: Sequência
 bereich: Fundamentos
 kurz: Executar passos um a seguir ao outro, prestar atenção à ordem e trocar valores.
@@ -7759,7 +7759,7 @@ lösung: l04-tauschen-loesung.visustruct
 - [ ] 4
 > Primeiro x passa a 5, depois a 15.
 :::
-`,br=`---
+`,Cr=`---
 titel: Entrada e saída
 bereich: Fundamentos
 kurz: Pedir valores, mostrar resultados e usar o modelo EPS.
@@ -7923,7 +7923,7 @@ lösung: l06-mittelwert-loesung.visustruct
 = mostra o seu perímetro -> Saída
 > O raio é dado, o perímetro é o que procuras. A fórmula liga os dois.
 :::
-`,fr=`---
+`,Ar=`---
 titel: Simulação e teste de secretária
 bereich: Fundamentos
 kurz: Executar um estrutograma passo a passo, segui-lo à mão e encontrar erros.
@@ -8069,7 +8069,7 @@ lösung: sim-kino-loesung.visustruct
 - [ ] soma é demasiado grande.
 - [ ] O estrutograma tem demasiados blocos.
 :::
-`,yr=`---
+`,Tr=`---
 titel: Decisão
 bereich: Fundamentos
 kurz: Usar uma condição para decidir qual de dois ramos é executado.
@@ -8203,7 +8203,7 @@ lösung: l07-betrag-loesung.visustruct
 - [ ] Iteração
 > As instruções de um ramo só são executadas sob uma condição. Por isso também se chama instrução condicional.
 :::
-`,zr=`---
+`,Dr=`---
 titel: Combinar condições
 bereich: Fundamentos
 kurz: Juntar várias condições com e, ou e não, e verificar intervalos de valores.
@@ -8348,7 +8348,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 - [x] false
 > 5 > 3 é verdadeiro, e o ! inverte isso.
 :::
-`,vr=`---
+`,Br=`---
 titel: Seleção
 bereich: Fundamentos
 kurz: Executar um de vários casos, consoante o valor de uma variável.
@@ -8470,7 +8470,7 @@ Por isso, para “idade 18 ou mais” continuas a precisar da decisão. Não pod
 - [x] Seleção múltipla
 > É escolhido um de muitos casos. Por isso também se chama seleção múltipla.
 :::
-`,wr=`---
+`,Wr=`---
 titel: Ciclo while
 bereich: Fundamentos
 kurz: Repetir passos enquanto uma condição for verdadeira.
@@ -8646,7 +8646,7 @@ lösung: l16-countdown-loesung.visustruct
 - [ ] O ciclo é um ciclo while.
 - [ ] A variável i tem o nome errado.
 :::
-`,Sr=`---
+`,Hr=`---
 titel: Ciclo do-while
 bereich: Fundamentos
 kurz: Primeiro executar, depois verificar: ciclos com pelo menos uma iteração.
@@ -8752,7 +8752,7 @@ lösung: l11-summe-loesung.visustruct
 - [ ] Quando o ciclo talvez nem precise de ser executado
 - [ ] Quando queres contar exatamente até 10
 :::
-`,kr=`---
+`,Gr=`---
 titel: Ciclo for
 bereich: Fundamentos
 kurz: Contar um número fixo de iterações com Início, Condição e Passo.
@@ -8880,7 +8880,7 @@ lösung: l16-summe-loesung.visustruct
 - [ ] Quando perguntas até uma entrada ser válida
 - [ ] Quando só é verificado um único valor
 :::
-`,Mr=`---
+`,Nr=`---
 titel: Encaixar
 bereich: Fundamentos
 kurz: Combinar decisões dentro de ciclos e ciclos dentro de ciclos.
@@ -8985,7 +8985,7 @@ Foi exatamente para isto que o estrutograma foi inventado. Shneiderman perguntou
 - [ ] Só se for verdadeira
 > A decisão faz parte do interior e é executada em cada iteração.
 :::
-`,Zr=`---
+`,Er=`---
 titel: Arrays
 bereich: Fundamentos
 kurz: Guardar muitos valores com um só nome, chegar a eles com o índice e percorrê-los com um ciclo.
@@ -9160,7 +9160,7 @@ lösung: l14-summe-max-loesung.visustruct
 - [ ] 20
 > length é o número de posições, não o último índice nem o último valor.
 :::
-`,_r=`---
+`,Lr=`---
 titel: Arrays bidimensionais
 bereich: Fundamentos
 kurz: Guardar valores em linhas e colunas, como os lugares de um cinema, e percorrê-los com dois ciclos encaixados.
@@ -9304,7 +9304,7 @@ lösung: kino-einmaleins-loesung.visustruct
 = lugares[2][4] -> Fila 2, lugar 4
 = lugares[1][0] = true -> O lugar 0 da fila 1 está vendido
 :::
-`,jr=`---
+`,Vr=`---
 titel: Strings
 bereich: Fundamentos
 kurz: Trabalhar com texto: ler caracteres, recortar partes, pesquisar, comparar e dividir.
@@ -9475,7 +9475,7 @@ lösung: zk-woerter-loesung.visustruct
 = indexOf("tempo") -> 5
 = substring(5) -> tempo
 :::
-`,Pr=`---
+`,Rr=`---
 titel: Chamada e interrupção
 bereich: Fundamentos
 kurz: Dividir tarefas grandes em subprogramas e sair mais cedo dos ciclos.
@@ -9747,7 +9747,7 @@ lösung: l15-bis-null-loesung.visustruct
 = Subprograma -> Método
 > Os dois nomes querem dizer o mesmo. Se conheces um deles, também percebes o outro.
 :::
-`,Cr=`---
+`,Ur=`---
 titel: Pesquisar e ordenar
 bereich: Fundamentos
 kurz: Perceber com cartas de jogar como funcionam a pesquisa linear, a pesquisa binária e o bubble sort, e porque é que alguns métodos são muito mais rápidos.
@@ -9909,7 +9909,7 @@ lösung: ss-absteigend-loesung.visustruct
 = Pesquisa binária -> olhar para o meio e pôr de lado uma metade
 = Bubble sort -> comparar vizinhos e trocá-los
 :::
-`,Ar=`---
+`,Fr=`---
 titel: Java
 bereich: Do estrutograma ao código
 kurz: Gerar e ler código Java a partir do estrutograma e, ao contrário, reconstruir código Java como estrutograma.
@@ -10094,7 +10094,7 @@ lösung: l17-ticket-loesung.visustruct
 - [ ] return;
 - [ ] exit();
 :::
-`,Tr=`---
+`,Yr=`---
 titel: Python e JavaScript
 bereich: Do estrutograma ao código
 kurz: Gerar código Python e JavaScript a partir do estrutograma e executar JavaScript diretamente no navegador.
@@ -10264,7 +10264,7 @@ lösung: l18-js-loesung.visustruct
 - [ ] É mostrado Soma:.
 > str(soma) transforma o número em texto.
 :::
-`,Dr=`Termos técnicos da área de aprendizagem. Quando um termo aparece num passo, fica marcado uma vez e mostra a sua
+`,Or=`Termos técnicos da área de aprendizagem. Quando um termo aparece num passo, fica marcado uma vez e mostra a sua
 explicação ao passar o rato ou ao tocar. Se estiver a negrito nesse passo, é explicado ali mesmo e não é marcado.
 \`auch:\` indica outras formas que também são reconhecidas. Maiúsculas e minúsculas contam.
 
@@ -10437,7 +10437,7 @@ Uma forma de pesquisar em valores ordenados. Olha para o meio e continua a pesqu
 ### Bubble sort
 auch: bubble sort, Bubblesort, ordenação por bolha
 Uma forma simples de ordenar. Compara sempre dois vizinhos e troca-os se estiverem na ordem errada.
-`,Wr=`### Instrução
+`,Qr=`### Instrução
 
 Um único passo. Serve para criar variáveis ou para calcular.
 
@@ -10551,7 +10551,7 @@ boolean[][] lugares = new boolean[3][5]
 lugares[1][4] = true
 output: lugares.length + " filas, " + lugares[0].length + " lugares"
 \`\`\`
-`,Br=`---
+`,Xr=`---
 titel: Alter im Unterprogramm
 nach: 18
 stufe: 2
@@ -10572,7 +10572,7 @@ tipp: Öffne die Übung im Editor und baue dort das Hauptprogramm mit dem Aufruf
 lösung: aufgabe-alter-haupt-loesung.visustruct
 unterprogramm: aufgabe-alter-unterprogramm-loesung.visustruct
 :::
-`,Hr=`---
+`,Jr=`---
 titel: Binärzahl
 nach: 11
 stufe: 3
@@ -10598,7 +10598,7 @@ tipp: Teile die Zahl immer wieder durch 2 und merke dir jeden Rest. Die Reste r�
 tipp: Sammle die Ziffern in einem Text: \`String binaer = ""\`. In der Schleife berechnest du \`int rest = zahl % 2\` und hängst den Rest **vorne** an: \`binaer = rest + binaer\`. Danach \`zahl = zahl / 2\`. Weil zahl eine ganze Zahl ist, fällt der Rest dabei weg.
 lösung: aufgabe-binaer-loesung.visustruct
 :::
-`,Gr=`---
+`,qr=`---
 titel: Collatz-Folge
 nach: 11
 stufe: 2
@@ -10627,7 +10627,7 @@ lösung: aufgabe-collatz-loesung.visustruct
 ::: angeberwissen
 Mit dieser Aufgabe kann man reich werden! Der Mathematiker Paul Erdős setzte für einen Beweis 500 Dollar aus. 2021 legte die japanische Firma Bakuage noch einiges drauf: 120 Millionen Yen, damals umgerechnet rund eine Million Dollar, für einen Beweis oder ein Gegenbeispiel. Abgeholt hat das Geld bis heute niemand. Erfunden hat das Rätsel übrigens der deutsche Mathematiker Lothar Collatz im Jahr 1937. Ich rechne gleich mal los, für so viel Geld gibt es eine Menge Heu.
 :::
-`,Nr=`---
+`,Kr=`---
 titel: Fibonacci-Zahlen
 nach: 13
 stufe: 2
@@ -10650,7 +10650,7 @@ tipp: Jede neue Zahl ist die Summe der beiden vorherigen. Du musst dir also imme
 tipp: Merke dir die beiden letzten Zahlen in \`zahl1\` und \`zahl2\` und gib beide vor der Schleife aus. Die Schleife beginnt bei \`int i = 2\`. Darin berechnest du \`int zahl3 = zahl1 + zahl2\`, gibst sie aus und schiebst dann weiter: \`zahl1 = zahl2\` und \`zahl2 = zahl3\`.
 lösung: aufgabe-fibonacci-loesung.visustruct
 :::
-`,Er=`---
+`,$r=`---
 titel: Gerade oder ungerade
 nach: 8
 stufe: 1
@@ -10670,7 +10670,7 @@ tipp: Eine Verzweigung entscheidet zwischen gerade und ungerade. Gerade heißt: 
 tipp: Die Bedingung lautet \`zahl % 2 == 0\`. In der Ausgabe verbindest du die Zahl und den Text mit \`+\`, z. B. \`zahl + " ist gerade"\`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::
-`,Lr=`---
+`,eo=`---
 titel: Mehrwertsteuer
 nach: 6
 stufe: 1
@@ -10711,7 +10711,7 @@ lösung: aufgabe-mehrwertsteuer-loesung.visustruct
 - [ ] Weil man Kommazahlen nur als Konstante speichern kann
 > Eine Konstante behält ihren Wert. Ändert sich der Steuersatz einmal, passt du nur die eine Zeile mit \`const\` an.
 :::
-`,Vr=`---
+`,to=`---
 titel: Notendurchschnitt
 nach: 13
 stufe: 2
@@ -10731,7 +10731,7 @@ tipp: Du brauchst die Summe aller Noten und ihre Anzahl. Der Durchschnitt ist di
 tipp: Die For-Schleife läuft von \`int i = 0\` bis \`i < anzahl\`. Darin liest du eine Note ein und zählst sie zur Summe. Den Durchschnitt speicherst du als Kommazahl: \`double schnitt = summe * 1.0 / anzahl\`. Das \`* 1.0\` sorgt dafür, dass auch in Java nicht ganzzahlig geteilt wird.
 lösung: aufgabe-durchschnitt-loesung.visustruct
 :::
-`,Rr=`---
+`,no=`---
 titel: PIN prüfen
 nach: 12
 stufe: 2
@@ -10751,7 +10751,7 @@ tipp: Die Schleife endet in zwei Fällen: wenn die PIN stimmt oder wenn drei Ver
 tipp: Die PIN wird mindestens einmal abgefragt, deshalb passt eine Do-while-Schleife. Lege vorher \`int pin = 0\` und \`int versuche = 0\` an. Die Schleife wiederholt sich, solange \`pin != 1234 && versuche < 3\` gilt. Nach der Schleife entscheidet eine Verzweigung, was ausgegeben wird.
 lösung: aufgabe-pin-loesung.visustruct
 :::
-`,Ur=`---
+`,io=`---
 titel: Schiffe versenken
 nach: 16
 stufe: 2
@@ -10774,7 +10774,7 @@ tipp: Gehe das Meer wie den Kinosaal mit zwei verschachtelten Schleifen durch. G
 tipp: Die äußere Schleife zählt \`reihe\`, die innere \`spalte\`, beide ab 0. Liegt auf \`meer[reihe][spalte]\` ein Schiff, gibst du den Buchstaben aus \`spalten[spalte]\` und die Reihennummer aus: \`output: spalten[spalte] + (reihe + 1)\`. Das \`+ 1\` braucht es, weil das Spiel bei 1 zu zählen beginnt.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::
-`,Fr=`---
+`,ao=`---
 titel: Speisekarte
 nach: 10
 stufe: 1
@@ -10794,7 +10794,7 @@ tipp: Für mehrere feste Nummern passt eine Fallauswahl. Was passiert mit allen 
 tipp: Lies die Nummer mit \`input: int nummer "Welches Gericht?"\` ein. Die Fallauswahl prüft \`nummer\`, die Fälle heißen \`1\`, \`2\` und \`3\`. Alle anderen Nummern landen im Fall \`default\`.
 lösung: aufgabe-speisekarte-loesung.visustruct
 :::
-`,Yr=`---
+`,so=`---
 titel: Summe bilden
 nach: 2
 stufe: 1
@@ -10810,7 +10810,7 @@ tipp: Du brauchst drei Variablen: zwei für die Zahlen und eine für das Ergebni
 tipp: Eine Variable legst du mit einer Anweisung wie \`int zahl1 = 4\` fest. Für die Ausgabe schreibst du den Namen der Variablen ohne Anführungszeichen.
 lösung: aufgabe-summe-loesung.visustruct
 :::
-`,Or=`---
+`,ro=`---
 titel: Tafeldienst auslosen
 nach: 15
 stufe: 2
@@ -10832,7 +10832,7 @@ lösung: aufgabe-tafeldienst-loesung.visustruct
 :::
 
 > Mit \`int nummer = (int) (Math.random() * 5) + 1\` kannst du die Losnummer auch vom Zufall ziehen lassen. Für die automatische Prüfung brauchen wir aber eine feste Eingabe.
-`,Qr='---\ntitel: Taschenrechner\nnach: 10\nstufe: 2\n---\n\nEin kleiner Taschenrechner: zwei Zahlen und ein Rechenzeichen eingeben, das Ergebnis erscheint.\n\n::: übung aufgabe-rechner\ntitel: Taschenrechner\nauftrag: Frage nach zwei ganzen Zahlen und danach nach einem Rechenzeichen als Text: `+`, `-` oder `*`. Gib das Ergebnis aus. Bei einem anderen Zeichen gib **Unbekanntes Rechenzeichen** aus.\ntest: 3, 4, + -> 7\ntest: 10, 4, - -> 6\ntest: 6, 7, * -> 42\ntest: 1, 2, x -> Unbekanntes Rechenzeichen\nbraucht: fallauswahl\ntipp: Lies alle drei Werte ein. Eine Fallauswahl über das Rechenzeichen entscheidet dann, was gerechnet wird.\ntipp: Das Rechenzeichen liest du mit `input: String zeichen "Rechenzeichen"` ein. Die Fallauswahl prüft `zeichen`, die Fälle heißen `"+"`, `"-"` und `"*"`, der letzte Fall ist `default`. Rechne in jedem Fall erst in einer Variablen und gib sie dann aus, sonst hängt `+` die Zahlen nur aneinander.\nlösung: aufgabe-rechner-loesung.visustruct\n:::\n',Xr=`---
+`,oo='---\ntitel: Taschenrechner\nnach: 10\nstufe: 2\n---\n\nEin kleiner Taschenrechner: zwei Zahlen und ein Rechenzeichen eingeben, das Ergebnis erscheint.\n\n::: übung aufgabe-rechner\ntitel: Taschenrechner\nauftrag: Frage nach zwei ganzen Zahlen und danach nach einem Rechenzeichen als Text: `+`, `-` oder `*`. Gib das Ergebnis aus. Bei einem anderen Zeichen gib **Unbekanntes Rechenzeichen** aus.\ntest: 3, 4, + -> 7\ntest: 10, 4, - -> 6\ntest: 6, 7, * -> 42\ntest: 1, 2, x -> Unbekanntes Rechenzeichen\nbraucht: fallauswahl\ntipp: Lies alle drei Werte ein. Eine Fallauswahl über das Rechenzeichen entscheidet dann, was gerechnet wird.\ntipp: Das Rechenzeichen liest du mit `input: String zeichen "Rechenzeichen"` ein. Die Fallauswahl prüft `zeichen`, die Fälle heißen `"+"`, `"-"` und `"*"`, der letzte Fall ist `default`. Rechne in jedem Fall erst in einer Variablen und gib sie dann aus, sonst hängt `+` die Zahlen nur aneinander.\nlösung: aufgabe-rechner-loesung.visustruct\n:::\n',lo=`---
 titel: Verleih-Menü
 nach: 18
 stufe: 2
@@ -10852,7 +10852,7 @@ tipp: Das Menü läuft immer wieder, bis jemand 0 wählt. Dafür eignet sich ein
 tipp: Nimm eine Endlosschleife. Darin steht zuerst die Eingabe \`input: int wahl "1 = E-Bike, 2 = E-Scooter, 0 = Ende"\`, danach eine Fallauswahl über \`wahl\` mit den Fällen \`0\`, \`1\`, \`2\` und \`default\`. Im Fall \`0\` stehen die Ausgabe und darunter der Aussprung.
 lösung: aufgabe-verleih-loesung.visustruct
 :::
-`,Jr=`---
+`,mo=`---
 titel: Volljährig?
 nach: 8
 stufe: 1
@@ -10872,7 +10872,7 @@ tipp: Es gibt zwei mögliche Ausgaben, also brauchst du eine Verzweigung.
 tipp: Lies das Alter mit \`input: int alter "Wie alt bist du?"\` ein. Die Bedingung der Verzweigung lautet \`alter >= 18\`. Achte darauf, dass 18 schon volljährig ist.
 lösung: aufgabe-volljaehrig-loesung.visustruct
 :::
-`,qr=`---
+`,uo=`---
 titel: Zahl verdoppeln
 nach: 2
 stufe: 1
@@ -10888,7 +10888,7 @@ tipp: Verdoppeln heißt: mal 2. Das Ergebnis speicherst du wieder in derselben V
 tipp: \`zahl = zahl * 2\` rechnet mit dem alten Wert und speichert das Ergebnis wieder in \`zahl\`. Text und Variable verbindest du mit \`+\`.
 lösung: aufgabe-verdoppeln-loesung.visustruct
 :::
-`,Kr=`---
+`,co=`---
 titel: Age in a subprogram
 nach: 18
 stufe: 2
@@ -10909,7 +10909,7 @@ tipp: Open the exercise in the editor and build the main program there with the 
 lösung: aufgabe-alter-haupt-loesung.visustruct
 unterprogramm: aufgabe-alter-unterprogramm-loesung.visustruct
 :::
-`,$r=`---
+`,ho=`---
 titel: Binary number
 nach: 11
 stufe: 3
@@ -10935,7 +10935,7 @@ tipp: Keep dividing the number by 2 and remember every remainder. The remainders
 tipp: Collect the digits in a text: \`String binary = ""\`. In the loop you calculate \`int remainder = number % 2\` and add the remainder at the **front**: \`binary = remainder + binary\`. After that, \`number = number / 2\`. Because number is a whole number, the remainder is dropped.
 lösung: aufgabe-binaer-loesung.visustruct
 :::
-`,eo=`---
+`,go=`---
 titel: Collatz sequence
 nach: 11
 stufe: 2
@@ -10964,7 +10964,7 @@ lösung: aufgabe-collatz-loesung.visustruct
 ::: angeberwissen
 This task could make you rich! The mathematician Paul Erdős offered 500 dollars for a proof. In 2021 the Japanese company Bakuage added quite a bit more: 120 million yen, about a million dollars at the time, for a proof or a counterexample. Nobody has collected the money yet. By the way, the puzzle was invented by the German mathematician Lothar Collatz in 1937. I am going to start calculating right now; that much money buys a lot of hay.
 :::
-`,to=`---
+`,po=`---
 titel: Fibonacci numbers
 nach: 13
 stufe: 2
@@ -10987,7 +10987,7 @@ tipp: Every new number is the sum of the two before it. So you always have to re
 tipp: Keep the last two numbers in \`number1\` and \`number2\` and output both before the loop. The loop starts at \`int i = 2\`. Inside it you calculate \`int number3 = number1 + number2\`, output it and then move on: \`number1 = number2\` and \`number2 = number3\`.
 lösung: aufgabe-fibonacci-loesung.visustruct
 :::
-`,no=`---
+`,xo=`---
 titel: Even or odd
 nach: 8
 stufe: 1
@@ -11007,7 +11007,7 @@ tipp: A branch decides between even and odd. Even means: can be divided by 2 wit
 tipp: The condition is \`number % 2 == 0\`. In the output you join the number and the text with \`+\`, e.g. \`number + " is even"\`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::
-`,ao=`---
+`,Io=`---
 titel: Sales tax
 nach: 6
 stufe: 1
@@ -11048,7 +11048,7 @@ lösung: aufgabe-mehrwertsteuer-loesung.visustruct
 - [ ] Because decimal numbers can only be stored as constants
 > A constant keeps its value. If the tax rate ever changes, you only change the one line with \`const\`.
 :::
-`,io=`---
+`,bo=`---
 titel: Grade average
 nach: 13
 stufe: 2
@@ -11068,7 +11068,7 @@ tipp: You need the sum of all grades and how many there are. The average is the 
 tipp: The for loop runs from \`int i = 0\` while \`i < count\`. Inside it you read in a grade and add it to the sum. You store the average as a decimal number: \`double average = sum * 1.0 / count\`. The \`* 1.0\` makes sure that Java does not do whole-number division either.
 lösung: aufgabe-durchschnitt-loesung.visustruct
 :::
-`,so=`---
+`,fo=`---
 titel: Check the PIN
 nach: 12
 stufe: 2
@@ -11088,7 +11088,7 @@ tipp: The loop ends in two cases: when the PIN is right or when three tries have
 tipp: The PIN is asked for at least once, so a do-while loop fits. Create \`int pin = 0\` and \`int attempts = 0\` before it. The loop repeats as long as \`pin != 1234 && attempts < 3\`. After the loop, a branch decides what is output.
 lösung: aufgabe-pin-loesung.visustruct
 :::
-`,ro=`---
+`,yo=`---
 titel: Battleship
 nach: 16
 stufe: 2
@@ -11111,7 +11111,7 @@ tipp: Go through the sea with two nested loops, just like the cinema. Only outpu
 tipp: The outer loop counts \`row\`, the inner one \`column\`, both from 0. If there is a ship on \`sea[row][column]\`, you output the letter from \`columns[column]\` and the row number: \`output: columns[column] + (row + 1)\`. You need the \`+ 1\` because the game starts counting at 1.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::
-`,oo=`---
+`,zo=`---
 titel: Menu
 nach: 10
 stufe: 1
@@ -11131,7 +11131,7 @@ tipp: A switch fits several fixed numbers. What happens with all the other numbe
 tipp: Read in the number with \`input: int pick "Which dish?"\`. The switch checks \`pick\`, and the cases are called \`1\`, \`2\` and \`3\`. All other numbers end up in the case \`default\`.
 lösung: aufgabe-speisekarte-loesung.visustruct
 :::
-`,lo=`---
+`,vo=`---
 titel: Add up
 nach: 2
 stufe: 1
@@ -11147,7 +11147,7 @@ tipp: You need three variables: two for the numbers and one for the result.
 tipp: You set a variable with a statement such as \`int number1 = 4\`. For the output you write the name of the variable without quotation marks.
 lösung: aufgabe-summe-loesung.visustruct
 :::
-`,mo=`---
+`,wo=`---
 titel: Draw for board duty
 nach: 15
 stufe: 2
@@ -11169,7 +11169,7 @@ lösung: aufgabe-tafeldienst-loesung.visustruct
 :::
 
 > With \`int pick = (int) (Math.random() * 5) + 1\` you can also let chance draw the number. But for the automatic check we need a fixed input.
-`,uo='---\ntitel: Calculator\nnach: 10\nstufe: 2\n---\n\nA small calculator: type in two numbers and an operator, and the result appears.\n\n::: übung aufgabe-rechner\ntitel: Calculator\nauftrag: Ask for two whole numbers and then for an operator as text: `+`, `-` or `*`. Output the result. For any other sign output **Unknown operator**.\ntest: 3, 4, + -> 7\ntest: 10, 4, - -> 6\ntest: 6, 7, * -> 42\ntest: 1, 2, x -> Unknown operator\nbraucht: fallauswahl\ntipp: Read in all three values. A switch on the operator then decides what is calculated.\ntipp: You read in the operator with `input: String operator "Operator"`. The switch checks `operator`, the cases are called `"+"`, `"-"` and `"*"`, and the last case is `default`. In every case, first calculate in a variable and then output it, otherwise `+` only joins the numbers together.\nlösung: aufgabe-rechner-loesung.visustruct\n:::\n',co=`---
+`,So='---\ntitel: Calculator\nnach: 10\nstufe: 2\n---\n\nA small calculator: type in two numbers and an operator, and the result appears.\n\n::: übung aufgabe-rechner\ntitel: Calculator\nauftrag: Ask for two whole numbers and then for an operator as text: `+`, `-` or `*`. Output the result. For any other sign output **Unknown operator**.\ntest: 3, 4, + -> 7\ntest: 10, 4, - -> 6\ntest: 6, 7, * -> 42\ntest: 1, 2, x -> Unknown operator\nbraucht: fallauswahl\ntipp: Read in all three values. A switch on the operator then decides what is calculated.\ntipp: You read in the operator with `input: String operator "Operator"`. The switch checks `operator`, the cases are called `"+"`, `"-"` and `"*"`, and the last case is `default`. In every case, first calculate in a variable and then output it, otherwise `+` only joins the numbers together.\nlösung: aufgabe-rechner-loesung.visustruct\n:::\n',ko=`---
 titel: Rental menu
 nach: 18
 stufe: 2
@@ -11189,7 +11189,7 @@ tipp: The menu runs again and again until someone chooses 0. An endless loop wit
 tipp: Use an endless loop. Inside it, first comes the input \`input: int choice "1 = e-bike, 2 = e-scooter, 0 = quit"\`, then a switch on \`choice\` with the cases \`0\`, \`1\`, \`2\` and \`default\`. The case \`0\` holds the output and, below it, the Break.
 lösung: aufgabe-verleih-loesung.visustruct
 :::
-`,ho=`---
+`,Mo=`---
 titel: Adult?
 nach: 8
 stufe: 1
@@ -11209,7 +11209,7 @@ tipp: There are two possible outputs, so you need a branch.
 tipp: Read in the age with \`input: int age "How old are you?"\`. The condition of the branch is \`age >= 18\`. Make sure that 18 already counts as adult.
 lösung: aufgabe-volljaehrig-loesung.visustruct
 :::
-`,go=`---
+`,Zo=`---
 titel: Double a number
 nach: 2
 stufe: 1
@@ -11225,7 +11225,7 @@ tipp: Doubling means: times 2. You store the result in the same variable again.
 tipp: \`number = number * 2\` calculates with the old value and stores the result in \`number\` again. You join text and a variable with \`+\`.
 lösung: aufgabe-verdoppeln-loesung.visustruct
 :::
-`,po=`---
+`,_o=`---
 titel: Idade num subprograma
 nach: 18
 stufe: 2
@@ -11246,7 +11246,7 @@ tipp: Abre o exercício no editor e constrói lá o programa principal com a cha
 lösung: aufgabe-alter-haupt-loesung.visustruct
 unterprogramm: aufgabe-alter-unterprogramm-loesung.visustruct
 :::
-`,xo=`---
+`,jo=`---
 titel: Número binário
 nach: 11
 stufe: 3
@@ -11272,7 +11272,7 @@ tipp: Vai dividindo o número por 2 e guarda cada resto. Os restos lidos ao cont
 tipp: Junta os algarismos num texto: \`String binario = ""\`. No ciclo calculas \`int resto = numero % 2\` e acrescentas o resto à **frente**: \`binario = resto + binario\`. Depois, \`numero = numero / 2\`. Como numero é um número inteiro, o resto desaparece.
 lösung: aufgabe-binaer-loesung.visustruct
 :::
-`,Io=`---
+`,Po=`---
 titel: Sequência de Collatz
 nach: 11
 stufe: 2
@@ -11301,7 +11301,7 @@ lösung: aufgabe-collatz-loesung.visustruct
 ::: angeberwissen
 Esta tarefa pode tornar-te rico! O matemático Paul Erdős ofereceu 500 dólares por uma demonstração. Em 2021, a empresa japonesa Bakuage juntou bastante mais: 120 milhões de ienes, na altura cerca de um milhão de dólares, por uma demonstração ou um contraexemplo. Ainda ninguém foi buscar o dinheiro. Já agora, o enigma foi inventado pelo matemático alemão Lothar Collatz em 1937. Vou já começar a fazer contas; com tanto dinheiro compra-se muito feno.
 :::
-`,bo=`---
+`,Co=`---
 titel: Números de Fibonacci
 nach: 13
 stufe: 2
@@ -11324,7 +11324,7 @@ tipp: Cada número novo é a soma dos dois anteriores. Por isso tens sempre de g
 tipp: Guarda os dois últimos números em \`numero1\` e \`numero2\` e mostra os dois antes do ciclo. O ciclo começa em \`int i = 2\`. Lá dentro calculas \`int numero3 = numero1 + numero2\`, mostras e depois avanças: \`numero1 = numero2\` e \`numero2 = numero3\`.
 lösung: aufgabe-fibonacci-loesung.visustruct
 :::
-`,fo=`---
+`,Ao=`---
 titel: Par ou ímpar
 nach: 8
 stufe: 1
@@ -11344,7 +11344,7 @@ tipp: Uma decisão escolhe entre par e ímpar. Par quer dizer: divisível por 2 
 tipp: A condição é \`numero % 2 == 0\`. Na saída juntas o número e o texto com \`+\`, p. ex. \`numero + " é par"\`.
 lösung: aufgabe-gerade-loesung.visustruct
 :::
-`,yo=`---
+`,To=`---
 titel: IVA
 nach: 6
 stufe: 1
@@ -11385,7 +11385,7 @@ lösung: aufgabe-mehrwertsteuer-loesung.visustruct
 - [ ] Porque os números decimais só podem ser guardados como constantes
 > Uma constante mantém o seu valor. Se a taxa alguma vez mudar, só alteras a linha com \`const\`.
 :::
-`,zo=`---
+`,Do=`---
 titel: Média das notas
 nach: 13
 stufe: 2
@@ -11405,7 +11405,7 @@ tipp: Precisas da soma de todas as notas e de quantas são. A média é a soma a
 tipp: O ciclo for vai de \`int i = 0\` enquanto \`i < quantidade\`. Lá dentro lês uma nota e somas à soma. Guardas a média como número decimal: \`double media = soma * 1.0 / quantidade\`. O \`* 1.0\` garante que também o Java não faz uma divisão inteira.
 lösung: aufgabe-durchschnitt-loesung.visustruct
 :::
-`,vo=`---
+`,Bo=`---
 titel: Verificar o PIN
 nach: 12
 stufe: 2
@@ -11425,7 +11425,7 @@ tipp: O ciclo termina em dois casos: quando o PIN está certo ou quando se gasta
 tipp: O PIN é pedido pelo menos uma vez, por isso serve um ciclo do-while. Antes dele, cria \`int pin = 0\` e \`int tentativas = 0\`. O ciclo repete-se enquanto \`pin != 1234 && tentativas < 3\`. Depois do ciclo, uma decisão decide o que é mostrado.
 lösung: aufgabe-pin-loesung.visustruct
 :::
-`,wo=`---
+`,Wo=`---
 titel: Batalha naval
 nach: 16
 stufe: 2
@@ -11448,7 +11448,7 @@ tipp: Percorre o mar com dois ciclos encaixados, tal como no cinema. Só mostras
 tipp: O ciclo exterior conta \`fila\`, o interior \`coluna\`, os dois a partir de 0. Se houver um navio em \`mar[fila][coluna]\`, mostras a letra de \`colunas[coluna]\` e o número da fila: \`output: colunas[coluna] + (fila + 1)\`. Precisas do \`+ 1\` porque o jogo começa a contar em 1.
 lösung: aufgabe-schiffe-loesung.visustruct
 :::
-`,So=`---
+`,Ho=`---
 titel: Ementa
 nach: 10
 stufe: 1
@@ -11468,7 +11468,7 @@ tipp: Para vários números fixos serve uma seleção. O que acontece com todos 
 tipp: Lê o número com \`input: int prato "Que prato?"\`. A seleção verifica \`prato\`, e os casos chamam-se \`1\`, \`2\` e \`3\`. Todos os outros números vão parar ao caso \`default\`.
 lösung: aufgabe-speisekarte-loesung.visustruct
 :::
-`,ko=`---
+`,Go=`---
 titel: Somar
 nach: 2
 stufe: 1
@@ -11484,7 +11484,7 @@ tipp: Precisas de três variáveis: duas para os números e uma para o resultado
 tipp: Defines uma variável com uma instrução como \`int numero1 = 4\`. Na saída escreves o nome da variável sem aspas.
 lösung: aufgabe-summe-loesung.visustruct
 :::
-`,Mo=`---
+`,No=`---
 titel: Sortear quem limpa o quadro
 nach: 15
 stufe: 2
@@ -11506,7 +11506,7 @@ lösung: aufgabe-tafeldienst-loesung.visustruct
 :::
 
 > Com \`int sorteado = (int) (Math.random() * 5) + 1\` também podes deixar o acaso sortear o número. Mas para a verificação automática precisamos de uma entrada fixa.
-`,Zo='---\ntitel: Calculadora\nnach: 10\nstufe: 2\n---\n\nUma pequena calculadora: escreves dois números e um operador, e aparece o resultado.\n\n::: übung aufgabe-rechner\ntitel: Calculadora\nauftrag: Pede dois números inteiros e depois um operador como texto: `+`, `-` ou `*`. Mostra o resultado. Para qualquer outro sinal mostra **Operador desconhecido**.\ntest: 3, 4, + -> 7\ntest: 10, 4, - -> 6\ntest: 6, 7, * -> 42\ntest: 1, 2, x -> Operador desconhecido\nbraucht: fallauswahl\ntipp: Lê os três valores. Depois, uma seleção sobre o operador decide o que é calculado.\ntipp: Lês o operador com `input: String operador "Operador"`. A seleção verifica `operador`, os casos chamam-se `"+"`, `"-"` e `"*"`, e o último caso é `default`. Em cada caso, calcula primeiro numa variável e depois mostra-a, senão o `+` só junta os números.\nlösung: aufgabe-rechner-loesung.visustruct\n:::\n',_o=`---
+`,Eo='---\ntitel: Calculadora\nnach: 10\nstufe: 2\n---\n\nUma pequena calculadora: escreves dois números e um operador, e aparece o resultado.\n\n::: übung aufgabe-rechner\ntitel: Calculadora\nauftrag: Pede dois números inteiros e depois um operador como texto: `+`, `-` ou `*`. Mostra o resultado. Para qualquer outro sinal mostra **Operador desconhecido**.\ntest: 3, 4, + -> 7\ntest: 10, 4, - -> 6\ntest: 6, 7, * -> 42\ntest: 1, 2, x -> Operador desconhecido\nbraucht: fallauswahl\ntipp: Lê os três valores. Depois, uma seleção sobre o operador decide o que é calculado.\ntipp: Lês o operador com `input: String operador "Operador"`. A seleção verifica `operador`, os casos chamam-se `"+"`, `"-"` e `"*"`, e o último caso é `default`. Em cada caso, calcula primeiro numa variável e depois mostra-a, senão o `+` só junta os números.\nlösung: aufgabe-rechner-loesung.visustruct\n:::\n',Lo=`---
 titel: Menu de aluguer
 nach: 18
 stufe: 2
@@ -11526,7 +11526,7 @@ tipp: O menu é executado uma e outra vez até alguém escolher 0. Para isso ser
 tipp: Usa um ciclo infinito. Lá dentro vem primeiro a entrada \`input: int escolha "1 = bicicleta elétrica, 2 = trotinete elétrica, 0 = sair"\`, depois uma seleção sobre \`escolha\` com os casos \`0\`, \`1\`, \`2\` e \`default\`. O caso \`0\` tem a saída e, por baixo, a Interrupção.
 lösung: aufgabe-verleih-loesung.visustruct
 :::
-`,jo=`---
+`,Vo=`---
 titel: Maior de idade?
 nach: 8
 stufe: 1
@@ -11546,7 +11546,7 @@ tipp: Há duas saídas possíveis, por isso precisas de uma decisão.
 tipp: Lê a idade com \`input: int idade "Quantos anos tens?"\`. A condição da decisão é \`idade >= 18\`. Garante que 18 já conta como maior de idade.
 lösung: aufgabe-volljaehrig-loesung.visustruct
 :::
-`,Po=`---
+`,Ro=`---
 titel: Duplicar um número
 nach: 2
 stufe: 1
@@ -11562,7 +11562,7 @@ tipp: Duplicar quer dizer: vezes 2. Guardas o resultado outra vez na mesma vari�
 tipp: \`numero = numero * 2\` calcula com o valor antigo e volta a guardar o resultado em \`numero\`. Juntas texto e uma variável com \`+\`.
 lösung: aufgabe-verdoppeln-loesung.visustruct
 :::
-`,Co=`<?xml version="1.0" encoding="UTF-8"?>
+`,Uo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="72;97;117;112;116;112;114;111;103;114;97;109;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;87;105;108;108;107;111;109;109;101;110;34;</text>
@@ -11574,7 +11574,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;117;102;32;87;105;101;100;101;114;115;101;104;101;110;34;</text>
   </strelem>
 </struktogramm>
-`,Ao=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="112;114;117;101;102;101;65;108;116;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;108;116;101;114;32;34;87;105;101;32;97;108;116;32;98;105;115;116;32;100;117;63;34;</text>
@@ -11593,7 +11593,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,To=`<?xml version="1.0" encoding="UTF-8"?>
+`,Yo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;110;228;114;122;97;104;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;71;97;110;122;101;32;90;97;104;108;32;101;105;110;103;101;98;101;110;34;</text>
@@ -11619,7 +11619,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;105;110;97;101;114;</text>
   </strelem>
 </struktogramm>
-`,Do=`<?xml version="1.0" encoding="UTF-8"?>
+`,Oo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;108;108;97;116;122;45;70;111;108;103;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;83;116;97;114;116;122;97;104;108;32;101;105;110;103;101;98;101;110;34;</text>
@@ -11655,7 +11655,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;99;104;114;105;116;116;101;58;32;34;32;43;32;115;99;104;114;105;116;116;101;</text>
   </strelem>
 </struktogramm>
-`,Wo=`<?xml version="1.0" encoding="UTF-8"?>
+`,Qo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;101;110;100;117;114;99;104;115;99;104;110;105;116;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;122;97;104;108;32;34;87;105;101;32;118;105;101;108;101;32;78;111;116;101;110;63;34;</text>
@@ -11683,7 +11683,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;99;104;110;105;116;116;</text>
   </strelem>
 </struktogramm>
-`,Bo=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;105;98;111;110;97;99;99;105;45;90;97;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;122;97;104;108;32;34;87;105;101;32;118;105;101;108;101;32;90;97;104;108;101;110;63;34;</text>
@@ -11720,7 +11720,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Ho=`<?xml version="1.0" encoding="UTF-8"?>
+`,Jo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;114;97;100;101;32;111;100;101;114;32;117;110;103;101;114;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;90;97;104;108;32;101;105;110;103;101;98;101;110;34;</text>
@@ -11739,7 +11739,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Go=`<?xml version="1.0" encoding="UTF-8"?>
+`,qo=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;101;104;114;119;101;114;116;115;116;101;117;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>99;111;110;115;116;32;100;111;117;98;108;101;32;77;87;83;84;32;61;32;48;46;49;57;</text>
@@ -11760,7 +11760,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;114;117;116;116;111;112;114;101;105;115;</text>
   </strelem>
 </struktogramm>
-`,No=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ko=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;73;78;32;112;114;252;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>99;111;110;115;116;32;105;110;116;32;80;73;78;32;61;32;49;50;51;52;</text>
@@ -11796,7 +11796,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Eo=`<?xml version="1.0" encoding="UTF-8"?>
+`,$o=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;115;99;104;101;110;114;101;99;104;110;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;49;32;34;69;114;115;116;101;32;90;97;104;108;34;</text>
@@ -11840,7 +11840,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Lo=`<?xml version="1.0" encoding="UTF-8"?>
+`,el=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;99;104;105;102;102;101;32;118;101;114;115;101;110;107;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;109;101;101;114;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;53;93;91;53;93;</text>
@@ -11894,7 +11894,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Vo=`<?xml version="1.0" encoding="UTF-8"?>
+`,tl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;99;104;105;102;102;101;32;118;101;114;115;101;110;107;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;109;101;101;114;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;53;93;91;53;93;</text>
@@ -11921,7 +11921,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;91;93;32;115;112;97;108;116;101;110;32;61;32;123;34;65;34;44;32;34;66;34;44;32;34;67;34;44;32;34;68;34;44;32;34;69;34;125;</text>
   </strelem>
 </struktogramm>
-`,Ro=`<?xml version="1.0" encoding="UTF-8"?>
+`,nl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;112;101;105;115;101;107;97;114;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;109;101;114;32;34;87;101;108;99;104;101;115;32;71;101;114;105;99;104;116;63;32;40;49;44;32;50;32;111;100;101;114;32;51;41;34;</text>
@@ -11950,7 +11950,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Uo=`<?xml version="1.0" encoding="UTF-8"?>
+`,il=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;98;105;108;100;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;49;32;61;32;52;</text>
@@ -11965,7 +11965,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Fo=`<?xml version="1.0" encoding="UTF-8"?>
+`,al=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;102;101;108;100;105;101;110;115;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;97;109;101;110;32;61;32;110;101;119;32;83;116;114;105;110;103;91;53;93;</text>
@@ -11987,7 +11987,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;97;102;101;108;100;105;101;110;115;116;58;32;34;32;43;32;110;97;109;101;110;91;110;117;109;109;101;114;32;45;32;49;93;</text>
   </strelem>
 </struktogramm>
-`,Yo=`<?xml version="1.0" encoding="UTF-8"?>
+`,sl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="90;97;104;108;32;118;101;114;100;111;112;112;101;108;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;52;</text>
@@ -11999,7 +11999,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;86;101;114;100;111;112;112;101;108;116;101;32;90;97;104;108;58;32;34;32;43;32;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,Oo=`<?xml version="1.0" encoding="UTF-8"?>
+`,rl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;108;101;105;104;">
   <strelem typ="6" zx="0" zy="0">
     <text></text>
@@ -12036,7 +12036,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Qo=`<?xml version="1.0" encoding="UTF-8"?>
+`,ol=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;111;108;108;106;228;104;114;105;103;63;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;108;116;101;114;32;34;87;105;101;32;97;108;116;32;98;105;115;116;32;100;117;63;34;</text>
@@ -12055,7 +12055,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Xo=`<?xml version="1.0" encoding="UTF-8"?>
+`,ll=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;97;105;110;32;112;114;111;103;114;97;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;87;101;108;99;111;109;101;34;</text>
@@ -12067,7 +12067,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;111;111;100;98;121;101;34;</text>
   </strelem>
 </struktogramm>
-`,Jo=`<?xml version="1.0" encoding="UTF-8"?>
+`,ml=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="99;104;101;99;107;65;103;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;72;111;119;32;111;108;100;32;97;114;101;32;121;111;117;63;34;</text>
@@ -12086,7 +12086,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,qo=`<?xml version="1.0" encoding="UTF-8"?>
+`,ul=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;110;97;114;121;32;110;117;109;98;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;69;110;116;101;114;32;97;32;119;104;111;108;101;32;110;117;109;98;101;114;34;</text>
@@ -12112,7 +12112,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;105;110;97;114;121;</text>
   </strelem>
 </struktogramm>
-`,Ko=`<?xml version="1.0" encoding="UTF-8"?>
+`,cl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;108;108;97;116;122;32;115;101;113;117;101;110;99;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;69;110;116;101;114;32;97;32;115;116;97;114;116;32;110;117;109;98;101;114;34;</text>
@@ -12148,7 +12148,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;116;101;112;115;58;32;34;32;43;32;115;116;101;112;115;</text>
   </strelem>
 </struktogramm>
-`,$o=`<?xml version="1.0" encoding="UTF-8"?>
+`,dl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;97;100;101;32;97;118;101;114;97;103;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;111;117;110;116;32;34;72;111;119;32;109;97;110;121;32;103;114;97;100;101;115;63;34;</text>
@@ -12176,7 +12176,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;118;101;114;97;103;101;</text>
   </strelem>
 </struktogramm>
-`,e0=`<?xml version="1.0" encoding="UTF-8"?>
+`,hl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;105;98;111;110;97;99;99;105;32;110;117;109;98;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;111;117;110;116;32;34;72;111;119;32;109;97;110;121;32;110;117;109;98;101;114;115;63;34;</text>
@@ -12213,7 +12213,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,t0=`<?xml version="1.0" encoding="UTF-8"?>
+`,gl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;118;101;110;32;111;114;32;111;100;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;69;110;116;101;114;32;97;32;110;117;109;98;101;114;34;</text>
@@ -12232,7 +12232,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,n0=`<?xml version="1.0" encoding="UTF-8"?>
+`,pl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;97;108;101;115;32;116;97;120;">
   <strelem typ="0" zx="0" zy="0">
     <text>99;111;110;115;116;32;100;111;117;98;108;101;32;86;65;84;32;61;32;48;46;49;57;</text>
@@ -12253,7 +12253,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;103;114;111;115;115;80;114;105;99;101;</text>
   </strelem>
 </struktogramm>
-`,a0=`<?xml version="1.0" encoding="UTF-8"?>
+`,xl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;104;101;99;107;32;116;104;101;32;80;73;78;">
   <strelem typ="0" zx="0" zy="0">
     <text>99;111;110;115;116;32;105;110;116;32;80;73;78;32;61;32;49;50;51;52;</text>
@@ -12289,7 +12289,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,i0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Il=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;116;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;49;32;34;70;105;114;115;116;32;110;117;109;98;101;114;34;</text>
@@ -12333,7 +12333,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,s0=`<?xml version="1.0" encoding="UTF-8"?>
+`,bl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;97;116;116;108;101;115;104;105;112;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;53;93;91;53;93;</text>
@@ -12387,7 +12387,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,r0=`<?xml version="1.0" encoding="UTF-8"?>
+`,fl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;97;116;116;108;101;115;104;105;112;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;53;93;91;53;93;</text>
@@ -12414,7 +12414,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;91;93;32;99;111;108;117;109;110;115;32;61;32;123;34;65;34;44;32;34;66;34;44;32;34;67;34;44;32;34;68;34;44;32;34;69;34;125;</text>
   </strelem>
 </struktogramm>
-`,o0=`<?xml version="1.0" encoding="UTF-8"?>
+`,yl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;101;110;117;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;112;105;99;107;32;34;87;104;105;99;104;32;100;105;115;104;63;32;40;49;44;32;50;32;111;114;32;51;41;34;</text>
@@ -12443,7 +12443,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,l0=`<?xml version="1.0" encoding="UTF-8"?>
+`,zl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;100;100;32;117;112;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;49;32;61;32;52;</text>
@@ -12458,7 +12458,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,m0=`<?xml version="1.0" encoding="UTF-8"?>
+`,vl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;111;97;114;100;32;100;117;116;121;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;97;109;101;115;32;61;32;110;101;119;32;83;116;114;105;110;103;91;53;93;</text>
@@ -12480,7 +12480,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;66;111;97;114;100;32;100;117;116;121;58;32;34;32;43;32;110;97;109;101;115;91;112;105;99;107;32;45;32;49;93;</text>
   </strelem>
 </struktogramm>
-`,u0=`<?xml version="1.0" encoding="UTF-8"?>
+`,wl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;111;117;98;108;101;32;97;32;110;117;109;98;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;52;</text>
@@ -12492,7 +12492,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;111;117;98;108;101;100;32;110;117;109;98;101;114;58;32;34;32;43;32;110;117;109;98;101;114;</text>
   </strelem>
 </struktogramm>
-`,c0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Sl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;110;116;97;108;">
   <strelem typ="6" zx="0" zy="0">
     <text></text>
@@ -12529,7 +12529,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,d0=`<?xml version="1.0" encoding="UTF-8"?>
+`,kl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;100;117;108;116;63;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;72;111;119;32;111;108;100;32;97;114;101;32;121;111;117;63;34;</text>
@@ -12548,7 +12548,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,h0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ml=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;105;109;101;115;32;116;97;98;108;101;32;103;114;105;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;91;93;32;116;97;98;108;101;32;61;32;110;101;119;32;105;110;116;91;49;48;93;91;49;48;93;</text>
@@ -12580,7 +12580,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;183;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;116;97;98;108;101;91;97;32;45;32;49;93;91;98;32;45;32;49;93;</text>
   </strelem>
 </struktogramm>
-`,g0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Zl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;114;101;101;32;115;101;97;116;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;116;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -12628,7 +12628,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;114;101;101;58;32;34;32;43;32;102;114;101;101;</text>
   </strelem>
 </struktogramm>
-`,p0=`<?xml version="1.0" encoding="UTF-8"?>
+`,_l=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;114;101;101;32;115;101;97;116;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;116;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -12643,7 +12643,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>115;101;97;116;115;91;50;93;91;51;93;32;61;32;116;114;117;101;</text>
   </strelem>
 </struktogramm>
-`,x0=`<?xml version="1.0" encoding="UTF-8"?>
+`,jl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;108;108;32;97;32;116;105;99;107;101;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;116;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -12677,7 +12677,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,I0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Pl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;108;108;32;97;32;116;105;99;107;101;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;116;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -12695,7 +12695,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>105;110;112;117;116;58;32;105;110;116;32;115;101;97;116;32;34;83;101;97;116;34;</text>
   </strelem>
 </struktogramm>
-`,b0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Cl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;97;116;105;110;103;32;112;108;97;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;116;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -12743,7 +12743,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,f0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Al=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;105;110;101;109;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;101;97;116;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -12767,7 +12767,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;111;119;32;49;44;32;115;101;97;116;32;50;32;115;111;108;100;63;32;34;32;43;32;115;101;97;116;115;91;49;93;91;50;93;</text>
   </strelem>
 </struktogramm>
-`,y0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Tl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;114;32;109;97;116;116;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;51;</text>
@@ -12782,7 +12782,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;98;101;114;</text>
   </strelem>
 </struktogramm>
-`,z0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Dl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;50;</text>
@@ -12797,7 +12797,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;98;101;114;</text>
   </strelem>
 </struktogramm>
-`,v0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Bl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;110;117;109;98;101;114;</text>
@@ -12812,7 +12812,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>110;117;109;98;101;114;32;61;32;110;117;109;98;101;114;32;43;32;51;</text>
   </strelem>
 </struktogramm>
-`,w0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Wl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;119;97;112;32;103;108;97;115;115;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;108;101;102;116;32;61;32;34;106;117;105;99;101;34;</text>
@@ -12836,7 +12836,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;105;103;104;116;58;32;34;32;43;32;114;105;103;104;116;</text>
   </strelem>
 </struktogramm>
-`,S0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Hl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;119;97;112;32;103;108;97;115;115;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;108;101;102;116;32;61;32;34;106;117;105;99;101;34;</text>
@@ -12851,7 +12851,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;105;103;104;116;58;32;34;32;43;32;114;105;103;104;116;</text>
   </strelem>
 </struktogramm>
-`,k0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Gl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;119;97;112;32;118;97;108;117;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;32;61;32;53;</text>
@@ -12875,7 +12875,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;98;32;61;32;34;32;43;32;98;</text>
   </strelem>
 </struktogramm>
-`,M0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Nl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;97;116;97;32;116;121;112;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;103;101;32;61;32;49;52;</text>
@@ -12893,7 +12893,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;101;105;103;104;116;58;32;34;32;43;32;104;101;105;103;104;116;32;43;32;34;32;109;34;</text>
   </strelem>
 </struktogramm>
-`,Z0=`<?xml version="1.0" encoding="UTF-8"?>
+`,El=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;32;109;105;110;117;116;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;109;105;110;117;116;101;115;32;61;32;49;51;53;</text>
@@ -12908,7 +12908,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;104;111;117;114;115;32;43;32;34;32;104;111;117;114;115;32;97;110;100;32;34;32;43;32;114;101;109;97;105;110;100;101;114;32;43;32;34;32;109;105;110;117;116;101;115;34;</text>
   </strelem>
 </struktogramm>
-`,_0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ll=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;104;111;112;112;105;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;99;111;117;110;116;32;61;32;51;</text>
@@ -12923,7 +12923,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,j0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Vl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;116;97;110;103;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;108;101;110;103;116;104;32;61;32;55;</text>
@@ -12944,7 +12944,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;101;114;105;109;101;116;101;114;58;32;34;32;43;32;112;101;114;105;109;101;116;101;114;</text>
   </strelem>
 </struktogramm>
-`,P0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Rl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;32;115;101;99;111;110;100;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;99;111;110;100;115;32;61;32;50;48;48;</text>
@@ -12959,7 +12959,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;101;115;32;43;32;34;32;109;105;110;117;116;101;115;32;97;110;100;32;34;32;43;32;114;101;109;97;105;110;100;101;114;32;43;32;34;32;115;101;99;111;110;100;115;34;</text>
   </strelem>
 </struktogramm>
-`,C0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ul=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;32;115;101;99;111;110;100;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;99;111;110;100;115;32;61;32;50;48;48;</text>
@@ -12968,7 +12968,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;101;115;32;43;32;34;32;109;105;110;117;116;101;115;32;97;110;100;32;34;32;43;32;114;101;109;97;105;110;100;101;114;32;43;32;34;32;115;101;99;111;110;100;115;34;</text>
   </strelem>
 </struktogramm>
-`,A0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;101;101;116;105;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;110;97;109;101;32;34;87;104;97;116;32;105;115;32;121;111;117;114;32;110;97;109;101;63;34;</text>
@@ -12977,7 +12977,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;101;108;108;111;32;34;32;43;32;110;97;109;101;32;43;32;34;33;34;</text>
   </strelem>
 </struktogramm>
-`,T0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Yl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;111;102;32;116;119;111;32;110;117;109;98;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;70;105;114;115;116;32;110;117;109;98;101;114;63;34;</text>
@@ -12992,7 +12992,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;117;109;58;32;34;32;43;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,D0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ol=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;101;97;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;120;32;34;70;105;114;115;116;32;110;117;109;98;101;114;63;34;</text>
@@ -13007,7 +13007,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;101;97;110;58;32;34;32;43;32;109;101;97;110;</text>
   </strelem>
 </struktogramm>
-`,W0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ql=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;116;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;70;105;114;115;116;32;110;117;109;98;101;114;63;34;</text>
@@ -13028,7 +13028,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;114;111;100;117;99;116;58;32;34;32;43;32;112;114;111;100;117;99;116;</text>
   </strelem>
 </struktogramm>
-`,B0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;104;101;99;107;32;97;103;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;72;111;119;32;111;108;100;32;97;114;101;32;121;111;117;63;34;</text>
@@ -13047,7 +13047,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,H0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Jl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;98;115;111;108;117;116;101;32;118;97;108;117;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;78;117;109;98;101;114;63;34;</text>
@@ -13069,7 +13069,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;98;101;114;</text>
   </strelem>
 </struktogramm>
-`,G0=`<?xml version="1.0" encoding="UTF-8"?>
+`,ql=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;118;101;110;32;111;114;32;111;100;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;78;117;109;98;101;114;63;34;</text>
@@ -13088,7 +13088,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,N0=`<?xml version="1.0" encoding="UTF-8"?>
+`,Kl=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;97;114;103;101;114;32;110;117;109;98;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;70;105;114;115;116;32;110;117;109;98;101;114;63;34;</text>
@@ -13110,7 +13110,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,E0=`<?xml version="1.0" encoding="UTF-8"?>
+`,$l=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;105;115;99;111;117;110;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;112;114;105;99;101;32;34;80;114;105;99;101;32;105;110;32;101;117;114;111;115;63;34;</text>
@@ -13132,7 +13132,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;32;112;97;121;58;32;34;32;43;32;112;114;105;99;101;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,L0=`<?xml version="1.0" encoding="UTF-8"?>
+`,e0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;97;100;101;32;118;97;108;105;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;103;114;97;100;101;32;34;71;114;97;100;101;63;34;</text>
@@ -13151,7 +13151,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,V0=`<?xml version="1.0" encoding="UTF-8"?>
+`,t0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="89;111;117;116;104;32;116;105;99;107;101;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;72;111;119;32;111;108;100;32;97;114;101;32;121;111;117;63;34;</text>
@@ -13170,7 +13170,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,R0=`<?xml version="1.0" encoding="UTF-8"?>
+`,n0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;104;101;99;107;32;116;104;101;32;103;114;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;103;114;97;100;101;32;34;71;114;97;100;101;63;34;</text>
@@ -13189,7 +13189,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,U0=`<?xml version="1.0" encoding="UTF-8"?>
+`,i0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;101;97;112;32;121;101;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;121;101;97;114;32;34;89;101;97;114;63;34;</text>
@@ -13208,7 +13208,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,F0=`<?xml version="1.0" encoding="UTF-8"?>
+`,a0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="87;101;101;107;101;110;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;100;97;121;32;34;68;97;121;32;40;49;32;116;111;32;55;41;63;34;</text>
@@ -13227,7 +13227,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Y0=`<?xml version="1.0" encoding="UTF-8"?>
+`,s0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;97;102;102;105;99;32;108;105;103;104;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;99;111;108;111;114;32;34;87;104;97;116;32;99;111;108;111;114;32;105;115;32;116;104;101;32;116;114;97;102;102;105;99;32;108;105;103;104;116;63;34;</text>
@@ -13256,7 +13256,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,O0=`<?xml version="1.0" encoding="UTF-8"?>
+`,r0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;114;105;110;107;115;32;109;97;99;104;105;110;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;104;111;105;99;101;32;34;49;32;119;97;116;101;114;44;32;50;32;106;117;105;99;101;44;32;51;32;99;111;99;111;97;34;</text>
@@ -13285,7 +13285,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Q0=`<?xml version="1.0" encoding="UTF-8"?>
+`,o0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;97;100;101;32;105;110;32;119;111;114;100;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;103;114;97;100;101;32;34;87;104;105;99;104;32;103;114;97;100;101;63;34;</text>
@@ -13329,7 +13329,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,X0=`<?xml version="1.0" encoding="UTF-8"?>
+`,l0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;116;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;70;105;114;115;116;32;110;117;109;98;101;114;34;</text>
@@ -13376,7 +13376,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,J0=`<?xml version="1.0" encoding="UTF-8"?>
+`,m0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;114;105;110;107;115;32;109;97;99;104;105;110;101;32;119;105;116;104;32;98;114;97;110;99;104;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;104;111;105;99;101;32;34;49;32;119;97;116;101;114;44;32;50;32;106;117;105;99;101;44;32;51;32;99;111;99;111;97;34;</text>
@@ -13415,7 +13415,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,q0=`<?xml version="1.0" encoding="UTF-8"?>
+`,u0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;104;101;32;116;104;114;101;101;32;98;97;115;105;99;32;98;117;105;108;100;105;110;103;32;98;108;111;99;107;115;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>80;117;116;32;97;32;99;117;112;32;111;110;32;116;104;101;32;116;97;98;108;101;</text>
@@ -13445,7 +13445,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>68;114;105;110;107;32;116;104;101;32;116;101;97;</text>
   </strelem>
 </struktogramm>
-`,K0=`<?xml version="1.0" encoding="UTF-8"?>
+`,c0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;110;32;116;104;101;32;109;111;114;110;105;110;103;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>71;101;116;32;117;112;</text>
@@ -13460,7 +13460,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>72;97;118;101;32;98;114;101;97;107;102;97;115;116;</text>
   </strelem>
 </struktogramm>
-`,$0=`<?xml version="1.0" encoding="UTF-8"?>
+`,d0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;97;107;101;32;116;101;97;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>70;105;108;108;32;116;104;101;32;107;101;116;116;108;101;32;119;105;116;104;32;119;97;116;101;114;</text>
@@ -13481,7 +13481,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;97;107;101;32;111;117;116;32;116;104;101;32;116;101;97;32;98;97;103;</text>
   </strelem>
 </struktogramm>
-`,el=`<?xml version="1.0" encoding="UTF-8"?>
+`,h0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;111;32;111;117;116;115;105;100;101;" pseudocode="true">
   <strelem typ="1" zx="0" zy="0">
     <text>73;115;32;105;116;32;114;97;105;110;105;110;103;63;</text>
@@ -13500,7 +13500,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>76;101;97;118;101;</text>
   </strelem>
 </struktogramm>
-`,tl=`<?xml version="1.0" encoding="UTF-8"?>
+`,g0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;97;116;" pseudocode="true">
   <strelem typ="4" zx="0" zy="0">
     <text>80;108;97;116;101;32;110;111;116;32;101;109;112;116;121;</text>
@@ -13514,7 +13514,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>67;108;101;97;114;32;116;104;101;32;112;108;97;116;101;</text>
   </strelem>
 </struktogramm>
-`,nl=`<?xml version="1.0" encoding="UTF-8"?>
+`,p0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;32;116;111;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;67;111;117;110;116;32;117;112;32;116;111;63;34;</text>
@@ -13534,7 +13534,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,al=`<?xml version="1.0" encoding="UTF-8"?>
+`,x0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;51;</text>
@@ -13554,7 +13554,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;116;97;114;116;33;34;</text>
   </strelem>
 </struktogramm>
-`,il=`<?xml version="1.0" encoding="UTF-8"?>
+`,I0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;117;103;58;32;101;110;100;108;101;115;115;32;108;111;111;112;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;51;</text>
@@ -13571,7 +13571,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;116;97;114;116;33;34;</text>
   </strelem>
 </struktogramm>
-`,sl=`<?xml version="1.0" encoding="UTF-8"?>
+`,b0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;99;116;111;114;105;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;70;97;99;116;111;114;105;97;108;32;111;102;32;119;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -13597,7 +13597,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;32;43;32;34;33;32;61;32;34;32;43;32;102;97;99;116;111;114;105;97;108;</text>
   </strelem>
 </struktogramm>
-`,rl=`<?xml version="1.0" encoding="UTF-8"?>
+`,f0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;111;117;98;108;101;32;117;112;32;116;111;32;49;48;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;83;116;97;114;116;32;110;117;109;98;101;114;34;</text>
@@ -13620,7 +13620,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;116;101;112;115;</text>
   </strelem>
 </struktogramm>
-`,ol=`<?xml version="1.0" encoding="UTF-8"?>
+`,y0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;104;101;99;107;32;116;104;101;32;105;110;112;117;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;48;</text>
@@ -13637,7 +13637,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;104;97;110;107;32;121;111;117;33;34;</text>
   </strelem>
 </struktogramm>
-`,ll=`<?xml version="1.0" encoding="UTF-8"?>
+`,z0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;116;32;108;101;97;115;116;32;111;110;99;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;48;</text>
@@ -13654,7 +13654,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,ml=`<?xml version="1.0" encoding="UTF-8"?>
+`,v0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;97;108;105;100;32;103;114;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;103;114;97;100;101;32;61;32;48;</text>
@@ -13671,7 +13671,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;89;111;117;114;32;103;114;97;100;101;58;32;34;32;43;32;103;114;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,ul=`<?xml version="1.0" encoding="UTF-8"?>
+`,w0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;117;110;116;105;108;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;32;61;32;48;</text>
@@ -13694,7 +13694,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,cl=`<?xml version="1.0" encoding="UTF-8"?>
+`,S0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;83;116;97;114;116;32;110;117;109;98;101;114;34;</text>
@@ -13713,7 +13713,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;111;33;34;</text>
   </strelem>
 </struktogramm>
-`,dl=`<?xml version="1.0" encoding="UTF-8"?>
+`,k0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;105;109;101;115;32;116;97;98;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;87;104;105;99;104;32;116;105;109;101;115;32;116;97;98;108;101;63;34;</text>
@@ -13732,7 +13732,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,hl=`<?xml version="1.0" encoding="UTF-8"?>
+`,M0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;32;102;114;111;109;32;49;32;116;111;32;53;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;</text>
@@ -13745,7 +13745,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,gl=`<?xml version="1.0" encoding="UTF-8"?>
+`,Z0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;102;114;111;109;32;49;32;116;111;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;85;112;32;116;111;32;119;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -13767,7 +13767,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,pl=`<?xml version="1.0" encoding="UTF-8"?>
+`,_0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;116;97;114;32;116;114;105;97;110;103;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;72;111;119;32;109;97;110;121;32;108;105;110;101;115;63;34;</text>
@@ -13796,7 +13796,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,xl=`<?xml version="1.0" encoding="UTF-8"?>
+`,j0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;32;101;118;101;110;32;105;110;112;117;116;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;99;111;117;110;116;32;61;32;48;</text>
@@ -13828,7 +13828,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;99;111;117;110;116;</text>
   </strelem>
 </struktogramm>
-`,Il=`<?xml version="1.0" encoding="UTF-8"?>
+`,P0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;32;101;118;101;110;32;110;117;109;98;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;85;112;32;116;111;32;119;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -13860,7 +13860,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;99;111;117;110;116;</text>
   </strelem>
 </struktogramm>
-`,bl=`<?xml version="1.0" encoding="UTF-8"?>
+`,C0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;116;97;110;103;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;119;105;100;116;104;32;34;87;105;100;116;104;34;</text>
@@ -13892,7 +13892,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,fl=`<?xml version="1.0" encoding="UTF-8"?>
+`,A0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;111;111;112;32;116;104;114;111;117;103;104;32;97;110;32;97;114;114;97;121;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;98;101;114;115;32;61;32;123;50;44;32;52;44;32;54;44;32;56;44;32;49;48;125;</text>
@@ -13908,7 +13908,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,yl=`<?xml version="1.0" encoding="UTF-8"?>
+`,T0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;105;114;115;116;32;97;110;100;32;108;97;115;116;32;118;97;108;117;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;118;97;108;117;101;115;32;61;32;123;52;44;32;56;44;32;49;53;44;32;49;54;44;32;50;51;44;32;52;50;125;</text>
@@ -13923,7 +13923,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;118;97;108;117;101;115;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,zl=`<?xml version="1.0" encoding="UTF-8"?>
+`,D0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;110;116;101;114;32;110;97;109;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;97;109;101;115;32;61;32;110;101;119;32;83;116;114;105;110;103;91;51;93;</text>
@@ -13942,7 +13942,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;105;114;115;116;32;110;97;109;101;58;32;34;32;43;32;110;97;109;101;115;91;48;93;</text>
   </strelem>
 </struktogramm>
-`,vl=`<?xml version="1.0" encoding="UTF-8"?>
+`,B0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;105;110;116;32;98;97;99;107;119;97;114;100;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;98;101;114;115;32;61;32;110;101;119;32;105;110;116;91;52;93;</text>
@@ -13968,7 +13968,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,wl=`<?xml version="1.0" encoding="UTF-8"?>
+`,W0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;97;110;100;32;109;97;120;105;109;117;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;98;101;114;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -14019,7 +14019,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;97;120;105;109;117;109;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,Sl=`<?xml version="1.0" encoding="UTF-8"?>
+`,H0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;97;110;100;32;109;97;120;105;109;117;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;105;110;116;115;32;61;32;123;49;50;44;32;55;44;32;49;57;44;32;52;125;</text>
@@ -14060,7 +14060,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;97;120;105;109;117;109;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,kl=`<?xml version="1.0" encoding="UTF-8"?>
+`,G0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;117;110;116;105;108;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;32;61;32;48;</text>
@@ -14083,7 +14083,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;117;109;58;32;34;32;43;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,Ml=`<?xml version="1.0" encoding="UTF-8"?>
+`,N0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;117;110;116;105;108;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;32;61;32;48;</text>
@@ -14113,7 +14113,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;117;109;58;32;34;32;43;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,Zl=`<?xml version="1.0" encoding="UTF-8"?>
+`,E0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;116;97;110;103;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;101;110;103;116;104;32;34;76;101;110;103;116;104;63;34;</text>
@@ -14128,13 +14128,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;114;101;97;58;32;34;32;43;32;102;</text>
   </strelem>
 </struktogramm>
-`,_l=`<?xml version="1.0" encoding="UTF-8"?>
+`,L0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="105;110;116;32;97;114;101;97;40;105;110;116;32;97;44;32;105;110;116;32;98;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>114;101;116;117;114;110;32;97;32;42;32;98;</text>
   </strelem>
 </struktogramm>
-`,jl=`<?xml version="1.0" encoding="UTF-8"?>
+`,V0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;105;122;">
   <strelem typ="8" zx="0" zy="0">
     <text>115;104;111;119;71;114;101;101;116;105;110;103;40;41;</text>
@@ -14146,7 +14146,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>115;104;111;119;82;101;115;117;108;116;40;41;</text>
   </strelem>
 </struktogramm>
-`,Pl=`<?xml version="1.0" encoding="UTF-8"?>
+`,R0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;113;117;97;114;101;32;110;117;109;98;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;87;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -14158,7 +14158,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;104;101;32;115;113;117;97;114;101;32;105;115;32;34;32;43;32;113;</text>
   </strelem>
 </struktogramm>
-`,Cl=`<?xml version="1.0" encoding="UTF-8"?>
+`,U0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="105;110;116;32;115;113;117;97;114;101;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;114;101;115;117;108;116;32;61;32;120;32;42;32;120;</text>
@@ -14167,7 +14167,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>114;101;116;117;114;110;32;114;101;115;117;108;116;</text>
   </strelem>
 </struktogramm>
-`,Al=`<?xml version="1.0" encoding="UTF-8"?>
+`,F0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;101;101;116;105;110;103;32;119;105;116;104;32;97;32;99;97;108;108;">
   <strelem typ="8" zx="0" zy="0">
     <text>115;104;111;119;84;105;116;108;101;40;41;</text>
@@ -14179,7 +14179,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;101;108;108;111;32;34;32;43;32;110;97;109;101;</text>
   </strelem>
 </struktogramm>
-`,Tl=`<?xml version="1.0" encoding="UTF-8"?>
+`,Y0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="115;104;111;119;71;114;101;101;116;105;110;103;40;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;87;101;108;99;111;109;101;32;116;111;32;116;104;101;32;113;117;105;122;33;34;</text>
@@ -14188,7 +14188,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;89;111;117;32;103;101;116;32;116;104;114;101;101;32;113;117;101;115;116;105;111;110;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,Dl=`<?xml version="1.0" encoding="UTF-8"?>
+`,O0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;104;111;119;32;115;117;109;115;">
   <strelem typ="8" zx="0" zy="0">
     <text>115;104;111;119;83;117;109;40;51;44;32;52;41;</text>
@@ -14200,7 +14200,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>115;104;111;119;83;117;109;40;120;44;32;120;32;43;32;49;41;</text>
   </strelem>
 </struktogramm>
-`,Wl=`<?xml version="1.0" encoding="UTF-8"?>
+`,Q0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;115;104;111;119;83;117;109;40;105;110;116;32;97;44;32;105;110;116;32;98;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;32;61;32;97;32;43;32;98;</text>
@@ -14209,7 +14209,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;43;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,Bl=`<?xml version="1.0" encoding="UTF-8"?>
+`,X0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;115;116;97;114;116;32;34;83;116;97;114;116;32;118;97;108;117;101;34;</text>
@@ -14232,7 +14232,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;111;33;34;</text>
   </strelem>
 </struktogramm>
-`,Hl=`<?xml version="1.0" encoding="UTF-8"?>
+`,J0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;32;40;119;105;116;104;32;97;32;98;117;103;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;115;116;97;114;116;32;34;83;116;97;114;116;32;118;97;108;117;101;34;</text>
@@ -14255,7 +14255,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;111;34;</text>
   </strelem>
 </struktogramm>
-`,Gl=`<?xml version="1.0" encoding="UTF-8"?>
+`,q0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;115;107;32;99;104;101;99;107;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;32;61;32;48;</text>
@@ -14278,7 +14278,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,Nl=`<?xml version="1.0" encoding="UTF-8"?>
+`,K0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;117;112;32;116;111;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;85;112;32;116;111;32;119;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -14300,7 +14300,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,El=`<?xml version="1.0" encoding="UTF-8"?>
+`,$0=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;32;117;112;32;116;111;32;110;32;40;119;105;116;104;32;97;32;98;117;103;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;85;112;32;116;111;32;119;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -14322,7 +14322,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;</text>
   </strelem>
 </struktogramm>
-`,Ll=`<?xml version="1.0" encoding="UTF-8"?>
+`,em=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;105;109;101;115;84;97;98;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;87;104;105;99;104;32;116;105;109;101;115;32;116;97;98;108;101;63;34;</text>
@@ -14354,7 +14354,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Vl=`<?xml version="1.0" encoding="UTF-8"?>
+`,tm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;99;116;111;114;105;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;69;110;116;101;114;32;97;32;110;117;109;98;101;114;34;</text>
@@ -14376,7 +14376,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;102;97;99;116;111;114;105;97;108;</text>
   </strelem>
 </struktogramm>
-`,Rl=`<?xml version="1.0" encoding="UTF-8"?>
+`,nm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;105;99;107;101;116;32;112;114;105;99;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;72;111;119;32;111;108;100;32;97;114;101;32;121;111;117;63;34;</text>
@@ -14405,7 +14405,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Ul=`<?xml version="1.0" encoding="UTF-8"?>
+`,im=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;116;101;112;115;32;111;102;32;116;104;114;101;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;98;101;114;32;34;83;116;97;114;116;32;118;97;108;117;101;63;34;</text>
@@ -14425,7 +14425,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;69;110;100;34;</text>
   </strelem>
 </struktogramm>
-`,Fl=`<?xml version="1.0" encoding="UTF-8"?>
+`,am=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;111;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;103;101;32;34;72;111;119;32;111;108;100;32;97;114;101;32;121;111;117;63;34;</text>
@@ -14447,7 +14447,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Yl=`<?xml version="1.0" encoding="UTF-8"?>
+`,sm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;118;101;110;32;110;117;109;98;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;105;109;105;116;32;34;85;112;32;116;111;32;119;104;105;99;104;32;110;117;109;98;101;114;63;34;</text>
@@ -14463,7 +14463,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Ol=`<?xml version="1.0" encoding="UTF-8"?>
+`,rm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;101;101;116;105;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;71;111;111;100;32;109;111;114;110;105;110;103;34;</text>
@@ -14472,13 +14472,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;100;97;121;32;119;101;32;108;101;97;114;110;32;115;116;114;117;99;116;117;114;101;32;99;104;97;114;116;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,Ql=`<?xml version="1.0" encoding="UTF-8"?>
+`,om=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="72;101;108;108;111;32;87;111;114;108;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;72;101;108;108;111;32;87;111;114;108;100;34;</text>
   </strelem>
 </struktogramm>
-`,Xl=`<?xml version="1.0" encoding="UTF-8"?>
+`,lm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;119;111;32;108;105;110;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;72;101;108;108;111;34;</text>
@@ -14487,7 +14487,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;73;32;97;109;32;108;101;97;114;110;105;110;103;32;115;116;114;117;99;116;117;114;101;32;99;104;97;114;116;115;34;</text>
   </strelem>
 </struktogramm>
-`,Jl=`<?xml version="1.0" encoding="UTF-8"?>
+`,mm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;105;110;101;109;97;32;116;105;99;107;101;116;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;111;117;110;116;32;34;72;111;119;32;109;97;110;121;32;116;105;99;107;101;116;115;63;34;</text>
@@ -14499,7 +14499,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;</text>
   </strelem>
 </struktogramm>
-`,ql=`<?xml version="1.0" encoding="UTF-8"?>
+`,um=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;105;110;101;109;97;32;116;105;99;107;101;116;115;32;40;119;105;116;104;32;97;32;98;117;103;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;111;117;110;116;32;34;72;111;119;32;109;97;110;121;32;116;105;99;107;101;116;115;63;34;</text>
@@ -14511,7 +14511,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>100;111;117;98;108;101;32;116;111;116;97;108;32;61;32;99;111;117;110;116;32;42;32;56;46;53;</text>
   </strelem>
 </struktogramm>
-`,Kl=`<?xml version="1.0" encoding="UTF-8"?>
+`,cm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;119;97;112;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;70;105;114;115;116;32;110;117;109;98;101;114;34;</text>
@@ -14535,7 +14535,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;</text>
   </strelem>
 </struktogramm>
-`,$l=`<?xml version="1.0" encoding="UTF-8"?>
+`,dm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;119;97;112;32;40;119;105;116;104;32;97;32;98;117;103;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;70;105;114;115;116;32;110;117;109;98;101;114;34;</text>
@@ -14556,7 +14556,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;</text>
   </strelem>
 </struktogramm>
-`,em=`<?xml version="1.0" encoding="UTF-8"?>
+`,hm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;119;97;112;32;118;97;108;117;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;32;61;32;51;</text>
@@ -14580,7 +14580,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;98;32;61;32;34;32;43;32;98;</text>
   </strelem>
 </struktogramm>
-`,tm=`<?xml version="1.0" encoding="UTF-8"?>
+`,gm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;114;116;32;100;101;115;99;101;110;100;105;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;100;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -14639,7 +14639,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,nm=`<?xml version="1.0" encoding="UTF-8"?>
+`,pm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;114;116;32;100;101;115;99;101;110;100;105;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;100;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -14698,7 +14698,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,am=`<?xml version="1.0" encoding="UTF-8"?>
+`,xm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;110;97;114;121;32;115;101;97;114;99;104;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;100;115;32;61;32;123;50;44;32;51;44;32;53;44;32;55;44;32;56;44;32;49;48;44;32;49;50;44;32;49;51;44;32;49;53;44;32;49;56;44;32;50;48;44;32;50;49;44;32;50;52;44;32;50;55;44;32;51;48;125;</text>
@@ -14772,7 +14772,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;67;111;109;112;97;114;105;115;111;110;115;58;32;34;32;43;32;99;111;109;112;97;114;105;115;111;110;115;</text>
   </strelem>
 </struktogramm>
-`,im=`<?xml version="1.0" encoding="UTF-8"?>
+`,Im=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;117;98;98;108;101;32;115;111;114;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;100;115;32;61;32;123;55;44;32;51;44;32;49;48;44;32;53;44;32;50;125;</text>
@@ -14821,7 +14821,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,sm=`<?xml version="1.0" encoding="UTF-8"?>
+`,bm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;105;110;100;32;97;32;99;97;114;100;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;100;115;32;61;32;123;56;44;32;52;44;32;49;49;44;32;52;44;32;54;125;</text>
@@ -14870,7 +14870,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,rm=`<?xml version="1.0" encoding="UTF-8"?>
+`,fm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;105;110;101;97;114;32;115;101;97;114;99;104;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;100;115;32;61;32;123;50;44;32;51;44;32;53;44;32;55;44;32;56;44;32;49;48;44;32;49;50;44;32;49;51;44;32;49;53;44;32;49;56;44;32;50;48;44;32;50;49;44;32;50;52;44;32;50;55;44;32;51;48;125;</text>
@@ -14928,7 +14928,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;67;111;109;112;97;114;105;115;111;110;115;58;32;34;32;43;32;99;111;109;112;97;114;105;115;111;110;115;</text>
   </strelem>
 </struktogramm>
-`,om=`<?xml version="1.0" encoding="UTF-8"?>
+`,ym=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;97;105;110;32;112;114;111;103;114;97;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;105;110;116;115;32;61;32;123;51;44;32;53;44;32;56;125;</text>
@@ -14947,7 +14947,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,lm=`<?xml version="1.0" encoding="UTF-8"?>
+`,zm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;97;105;110;32;112;114;111;103;114;97;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;105;110;116;115;32;61;32;123;51;44;32;53;44;32;56;125;</text>
@@ -14966,7 +14966,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,mm=`<?xml version="1.0" encoding="UTF-8"?>
+`,vm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;98;111;110;117;115;40;105;110;116;91;93;32;112;111;105;110;116;115;41;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;48;</text>
@@ -14979,7 +14979,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,um=`<?xml version="1.0" encoding="UTF-8"?>
+`,wm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;97;105;110;32;112;114;111;103;114;97;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;98;101;114;32;61;32;53;</text>
@@ -15003,7 +15003,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;102;116;101;114;58;32;34;32;43;32;114;111;119;91;48;93;32;43;32;34;44;32;34;32;43;32;114;111;119;91;49;93;</text>
   </strelem>
 </struktogramm>
-`,cm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Sm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;99;108;101;97;114;40;98;111;111;108;101;97;110;91;93;32;115;101;97;116;115;41;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;48;</text>
@@ -15016,7 +15016,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,dm=`<?xml version="1.0" encoding="UTF-8"?>
+`,km=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;100;111;117;98;108;101;73;116;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>120;32;61;32;120;32;42;32;50;</text>
@@ -15025,7 +15025,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;73;110;32;116;104;101;32;115;117;98;112;114;111;103;114;97;109;58;32;120;32;61;32;34;32;43;32;120;</text>
   </strelem>
 </struktogramm>
-`,hm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Mm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;110;105;116;105;97;108;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;102;105;114;115;116;78;97;109;101;32;34;70;105;114;115;116;32;110;97;109;101;34;</text>
@@ -15037,7 +15037,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;102;105;114;115;116;78;97;109;101;46;99;104;97;114;65;116;40;48;41;32;43;32;34;46;32;34;32;43;32;108;97;115;116;78;97;109;101;46;99;104;97;114;65;116;40;48;41;32;43;32;34;46;34;</text>
   </strelem>
 </struktogramm>
-`,gm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Zm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;97;99;107;119;97;114;100;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;119;111;114;100;32;34;69;110;116;101;114;32;97;32;119;111;114;100;34;</text>
@@ -15059,7 +15059,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;97;99;107;119;97;114;100;115;</text>
   </strelem>
 </struktogramm>
-`,pm=`<?xml version="1.0" encoding="UTF-8"?>
+`,_m=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;112;108;105;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;108;105;110;101;32;61;32;34;76;117;100;119;105;103;59;98;105;108;108;121;32;103;111;97;116;59;55;34;</text>
@@ -15078,7 +15078,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,xm=`<?xml version="1.0" encoding="UTF-8"?>
+`,jm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;32;119;111;114;100;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;115;101;110;116;101;110;99;101;32;34;69;110;116;101;114;32;97;32;115;101;110;116;101;110;99;101;34;</text>
@@ -15090,7 +15090,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;87;111;114;100;115;58;32;34;32;43;32;119;111;114;100;115;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,Im=`<?xml version="1.0" encoding="UTF-8"?>
+`,Pm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;32;108;101;116;116;101;114;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;119;111;114;100;32;34;69;110;116;101;114;32;97;32;119;111;114;100;34;</text>
@@ -15122,7 +15122,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;78;117;109;98;101;114;32;111;102;32;101;58;32;34;32;43;32;99;111;117;110;116;</text>
   </strelem>
 </struktogramm>
-`,bm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Cm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;116;114;105;110;103;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;119;111;114;100;32;61;32;34;66;105;108;108;121;103;111;97;116;34;</text>
@@ -15146,7 +15146,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;119;111;114;100;46;116;111;85;112;112;101;114;67;97;115;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,fm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Am=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;105;110;109;97;108;101;105;110;115;45;84;97;98;101;108;108;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;91;93;32;116;97;98;101;108;108;101;32;61;32;110;101;119;32;105;110;116;91;49;48;93;91;49;48;93;</text>
@@ -15178,7 +15178,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;183;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;116;97;98;101;108;108;101;91;97;32;45;32;49;93;91;98;32;45;32;49;93;</text>
   </strelem>
 </struktogramm>
-`,ym=`<?xml version="1.0" encoding="UTF-8"?>
+`,Tm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;114;101;105;101;32;80;108;228;116;122;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;105;116;122;101;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -15226,7 +15226,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;114;101;105;58;32;34;32;43;32;102;114;101;105;</text>
   </strelem>
 </struktogramm>
-`,zm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Dm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;114;101;105;101;32;80;108;228;116;122;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;105;116;122;101;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -15241,7 +15241,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>115;105;116;122;101;91;50;93;91;51;93;32;61;32;116;114;117;101;</text>
   </strelem>
 </struktogramm>
-`,vm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Bm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="75;97;114;116;101;32;118;101;114;107;97;117;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;105;116;122;101;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -15275,7 +15275,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,wm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Wm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="75;97;114;116;101;32;118;101;114;107;97;117;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;105;116;122;101;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -15293,7 +15293,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>105;110;112;117;116;58;32;105;110;116;32;112;108;97;116;122;32;34;80;108;97;116;122;34;</text>
   </strelem>
 </struktogramm>
-`,Sm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Hm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;97;97;108;112;108;97;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;105;116;122;101;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -15341,7 +15341,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,km=`<?xml version="1.0" encoding="UTF-8"?>
+`,Gm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="75;105;110;111;115;97;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;115;105;116;122;101;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -15365,7 +15365,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;101;105;104;101;32;49;44;32;80;108;97;116;122;32;50;32;118;101;114;107;97;117;102;116;63;32;34;32;43;32;115;105;116;122;101;91;49;93;91;50;93;</text>
   </strelem>
 </struktogramm>
-`,Mm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Nm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;105;104;101;110;102;111;108;103;101;32;122;228;104;108;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;51;</text>
@@ -15380,7 +15380,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,Zm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Em=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;105;104;101;110;102;111;108;103;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;50;</text>
@@ -15395,7 +15395,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,_m=`<?xml version="1.0" encoding="UTF-8"?>
+`,Lm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;105;104;101;110;102;111;108;103;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;122;97;104;108;</text>
@@ -15410,7 +15410,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>122;97;104;108;32;61;32;122;97;104;108;32;43;32;51;</text>
   </strelem>
 </struktogramm>
-`,jm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Vm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;108;228;115;101;114;32;116;97;117;115;99;104;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;108;105;110;107;115;32;61;32;34;83;97;102;116;34;</text>
@@ -15434,7 +15434,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;101;99;104;116;115;58;32;34;32;43;32;114;101;99;104;116;115;</text>
   </strelem>
 </struktogramm>
-`,Pm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Rm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;108;228;115;101;114;32;116;97;117;115;99;104;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;108;105;110;107;115;32;61;32;34;83;97;102;116;34;</text>
@@ -15449,7 +15449,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;101;99;104;116;115;58;32;34;32;43;32;114;101;99;104;116;115;</text>
   </strelem>
 </struktogramm>
-`,Cm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Um=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="87;101;114;116;101;32;116;97;117;115;99;104;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;32;61;32;53;</text>
@@ -15473,7 +15473,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;98;32;61;32;34;32;43;32;98;</text>
   </strelem>
 </struktogramm>
-`,Am=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;97;116;101;110;116;121;112;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;108;116;101;114;32;61;32;49;52;</text>
@@ -15491,7 +15491,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;114;246;223;101;58;32;34;32;43;32;103;114;111;101;115;115;101;32;43;32;34;32;109;34;</text>
   </strelem>
 </struktogramm>
-`,Tm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ym=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;105;110;117;116;101;110;32;117;109;114;101;99;104;110;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;109;105;110;117;116;101;110;32;61;32;49;51;53;</text>
@@ -15506,7 +15506,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;116;117;110;100;101;110;32;43;32;34;32;83;116;117;110;100;101;110;32;117;110;100;32;34;32;43;32;114;101;115;116;32;43;32;34;32;77;105;110;117;116;101;110;34;</text>
   </strelem>
 </struktogramm>
-`,Dm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Om=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;105;110;107;97;117;102;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;110;122;97;104;108;32;61;32;51;</text>
@@ -15521,7 +15521,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;101;115;97;109;116;58;32;34;32;43;32;103;101;115;97;109;116;32;43;32;34;32;69;117;114;111;34;</text>
   </strelem>
 </struktogramm>
-`,Wm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Qm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;104;116;101;99;107;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;108;97;101;110;103;101;32;61;32;55;</text>
@@ -15542,7 +15542,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;85;109;102;97;110;103;58;32;34;32;43;32;117;109;102;97;110;103;</text>
   </strelem>
 </struktogramm>
-`,Bm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;107;117;110;100;101;110;32;117;109;114;101;99;104;110;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;107;117;110;100;101;110;32;61;32;50;48;48;</text>
@@ -15557,7 +15557,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;101;110;32;43;32;34;32;77;105;110;117;116;101;110;32;117;110;100;32;34;32;43;32;114;101;115;116;32;43;32;34;32;83;101;107;117;110;100;101;110;34;</text>
   </strelem>
 </struktogramm>
-`,Hm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Jm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;107;117;110;100;101;110;32;117;109;114;101;99;104;110;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;107;117;110;100;101;110;32;61;32;50;48;48;</text>
@@ -15566,7 +15566,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;101;110;32;43;32;34;32;77;105;110;117;116;101;110;32;117;110;100;32;34;32;43;32;114;101;115;116;32;43;32;34;32;83;101;107;117;110;100;101;110;34;</text>
   </strelem>
 </struktogramm>
-`,Gm=`<?xml version="1.0" encoding="UTF-8"?>
+`,qm=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;101;103;114;252;223;117;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;110;97;109;101;32;34;87;105;101;32;104;101;105;223;116;32;100;117;63;34;</text>
@@ -15575,7 +15575,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;97;108;108;111;32;34;32;43;32;110;97;109;101;32;43;32;34;33;34;</text>
   </strelem>
 </struktogramm>
-`,Nm=`<?xml version="1.0" encoding="UTF-8"?>
+`,Km=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;122;119;101;105;101;114;32;90;97;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;69;114;115;116;101;32;90;97;104;108;63;34;</text>
@@ -15590,7 +15590,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;117;109;109;101;58;32;34;32;43;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Em=`<?xml version="1.0" encoding="UTF-8"?>
+`,$m=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;105;116;116;101;108;119;101;114;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;120;32;34;69;114;115;116;101;32;90;97;104;108;63;34;</text>
@@ -15605,7 +15605,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;105;116;116;101;108;119;101;114;116;58;32;34;32;43;32;109;105;116;116;101;108;</text>
   </strelem>
 </struktogramm>
-`,Lm=`<?xml version="1.0" encoding="UTF-8"?>
+`,eu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;104;110;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;69;114;115;116;101;32;90;97;104;108;63;34;</text>
@@ -15626,7 +15626,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;114;111;100;117;107;116;58;32;34;32;43;32;112;114;111;100;117;107;116;</text>
   </strelem>
 </struktogramm>
-`,Vm=`<?xml version="1.0" encoding="UTF-8"?>
+`,tu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;108;116;101;114;32;112;114;252;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;108;116;101;114;32;34;87;105;101;32;97;108;116;32;98;105;115;116;32;100;117;63;34;</text>
@@ -15645,7 +15645,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Rm=`<?xml version="1.0" encoding="UTF-8"?>
+`,nu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;101;116;114;97;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;90;97;104;108;63;34;</text>
@@ -15667,7 +15667,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,Um=`<?xml version="1.0" encoding="UTF-8"?>
+`,iu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;114;97;100;101;32;111;100;101;114;32;117;110;103;101;114;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;90;97;104;108;63;34;</text>
@@ -15686,7 +15686,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Fm=`<?xml version="1.0" encoding="UTF-8"?>
+`,au=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;114;246;223;101;114;101;32;90;97;104;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;69;114;115;116;101;32;90;97;104;108;63;34;</text>
@@ -15708,7 +15708,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Ym=`<?xml version="1.0" encoding="UTF-8"?>
+`,su=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;97;98;97;116;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;112;114;101;105;115;32;34;80;114;101;105;115;32;105;110;32;69;117;114;111;63;34;</text>
@@ -15730,7 +15730,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;90;117;32;122;97;104;108;101;110;58;32;34;32;43;32;112;114;101;105;115;32;43;32;34;32;69;117;114;111;34;</text>
   </strelem>
 </struktogramm>
-`,Om=`<?xml version="1.0" encoding="UTF-8"?>
+`,ru=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;101;32;103;252;108;116;105;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;101;32;34;78;111;116;101;63;34;</text>
@@ -15749,7 +15749,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Qm=`<?xml version="1.0" encoding="UTF-8"?>
+`,ou=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="74;117;103;101;110;100;116;105;99;107;101;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;108;116;101;114;32;34;87;105;101;32;97;108;116;32;98;105;115;116;32;100;117;63;34;</text>
@@ -15768,7 +15768,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Xm=`<?xml version="1.0" encoding="UTF-8"?>
+`,lu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;101;32;112;114;252;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;101;32;34;78;111;116;101;63;34;</text>
@@ -15787,7 +15787,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Jm=`<?xml version="1.0" encoding="UTF-8"?>
+`,mu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;99;104;97;108;116;106;97;104;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;106;97;104;114;32;34;74;97;104;114;63;34;</text>
@@ -15806,7 +15806,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,qm=`<?xml version="1.0" encoding="UTF-8"?>
+`,uu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="87;111;99;104;101;110;101;110;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;116;97;103;32;34;84;97;103;32;40;49;32;98;105;115;32;55;41;63;34;</text>
@@ -15825,7 +15825,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Km=`<?xml version="1.0" encoding="UTF-8"?>
+`,cu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;109;112;101;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;102;97;114;98;101;32;34;87;101;108;99;104;101;32;70;97;114;98;101;32;104;97;116;32;100;105;101;32;65;109;112;101;108;63;34;</text>
@@ -15854,7 +15854,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,$m=`<?xml version="1.0" encoding="UTF-8"?>
+`,du=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;116;114;228;110;107;101;97;117;116;111;109;97;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;119;97;104;108;32;34;49;32;87;97;115;115;101;114;44;32;50;32;83;97;102;116;44;32;51;32;75;97;107;97;111;34;</text>
@@ -15883,7 +15883,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,eu=`<?xml version="1.0" encoding="UTF-8"?>
+`,hu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;101;32;105;110;32;87;111;114;116;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;101;32;34;87;101;108;99;104;101;32;78;111;116;101;63;34;</text>
@@ -15927,7 +15927,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,tu=`<?xml version="1.0" encoding="UTF-8"?>
+`,gu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;115;99;104;101;110;114;101;99;104;110;101;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;69;114;115;116;101;32;90;97;104;108;34;</text>
@@ -15974,7 +15974,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,nu=`<?xml version="1.0" encoding="UTF-8"?>
+`,pu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;116;114;228;110;107;101;97;117;116;111;109;97;116;32;109;105;116;32;86;101;114;122;119;101;105;103;117;110;103;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;119;97;104;108;32;34;49;32;87;97;115;115;101;114;44;32;50;32;83;97;102;116;44;32;51;32;75;97;107;97;111;34;</text>
@@ -16013,7 +16013,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,au=`<?xml version="1.0" encoding="UTF-8"?>
+`,xu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;105;101;32;100;114;101;105;32;71;114;117;110;100;98;97;117;115;116;101;105;110;101;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>84;97;115;115;101;32;97;117;102;32;100;101;110;32;84;105;115;99;104;32;115;116;101;108;108;101;110;</text>
@@ -16043,7 +16043,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;101;101;32;116;114;105;110;107;101;110;</text>
   </strelem>
 </struktogramm>
-`,iu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Iu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;111;114;103;101;110;115;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>65;117;102;115;116;101;104;101;110;</text>
@@ -16058,7 +16058,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>70;114;252;104;115;116;252;99;107;101;110;</text>
   </strelem>
 </struktogramm>
-`,su=`<?xml version="1.0" encoding="UTF-8"?>
+`,bu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;101;101;32;107;111;99;104;101;110;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>87;97;115;115;101;114;32;105;110;32;100;101;110;32;87;97;115;115;101;114;107;111;99;104;101;114;32;102;252;108;108;101;110;</text>
@@ -16079,7 +16079,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;101;101;98;101;117;116;101;108;32;104;101;114;97;117;115;110;101;104;109;101;110;</text>
   </strelem>
 </struktogramm>
-`,ru=`<?xml version="1.0" encoding="UTF-8"?>
+`,fu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;97;117;115;103;101;104;101;110;" pseudocode="true">
   <strelem typ="1" zx="0" zy="0">
     <text>82;101;103;110;101;116;32;101;115;63;</text>
@@ -16098,7 +16098,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>76;111;115;103;101;104;101;110;</text>
   </strelem>
 </struktogramm>
-`,ou=`<?xml version="1.0" encoding="UTF-8"?>
+`,yu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;115;115;101;110;" pseudocode="true">
   <strelem typ="4" zx="0" zy="0">
     <text>84;101;108;108;101;114;32;110;105;99;104;116;32;108;101;101;114;</text>
@@ -16112,7 +16112,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;101;108;108;101;114;32;97;98;114;228;117;109;101;110;</text>
   </strelem>
 </struktogramm>
-`,lu=`<?xml version="1.0" encoding="UTF-8"?>
+`,zu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="90;228;104;108;101;110;32;98;105;115;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;66;105;115;32;119;111;104;105;110;32;122;228;104;108;101;110;63;34;</text>
@@ -16132,7 +16132,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,mu=`<?xml version="1.0" encoding="UTF-8"?>
+`,vu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;51;</text>
@@ -16152,7 +16152,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;116;97;114;116;33;34;</text>
   </strelem>
 </struktogramm>
-`,uu=`<?xml version="1.0" encoding="UTF-8"?>
+`,wu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;101;104;108;101;114;58;32;69;110;100;108;111;115;115;99;104;108;101;105;102;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;51;</text>
@@ -16169,7 +16169,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;116;97;114;116;33;34;</text>
   </strelem>
 </struktogramm>
-`,cu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Su=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;107;117;108;116;228;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;70;97;107;117;108;116;228;116;32;118;111;110;32;119;101;108;99;104;101;114;32;90;97;104;108;63;34;</text>
@@ -16195,7 +16195,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;32;43;32;34;33;32;61;32;34;32;43;32;102;97;107;117;108;116;97;101;116;</text>
   </strelem>
 </struktogramm>
-`,du=`<?xml version="1.0" encoding="UTF-8"?>
+`,ku=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;100;111;112;112;101;108;110;32;98;105;115;32;49;48;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;83;116;97;114;116;122;97;104;108;34;</text>
@@ -16218,7 +16218,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;99;104;114;105;116;116;101;</text>
   </strelem>
 </struktogramm>
-`,hu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Mu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;105;110;103;97;98;101;32;112;114;252;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;48;</text>
@@ -16235,7 +16235,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;97;110;107;101;33;34;</text>
   </strelem>
 </struktogramm>
-`,gu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Zu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;105;110;100;101;115;116;101;110;115;32;101;105;110;109;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;48;</text>
@@ -16252,7 +16252,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,pu=`<?xml version="1.0" encoding="UTF-8"?>
+`,_u=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;252;108;116;105;103;101;32;78;111;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;111;116;101;32;61;32;48;</text>
@@ -16269,7 +16269,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;101;105;110;101;32;78;111;116;101;58;32;34;32;43;32;110;111;116;101;</text>
   </strelem>
 </struktogramm>
-`,xu=`<?xml version="1.0" encoding="UTF-8"?>
+`,ju=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;98;105;115;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;109;101;32;61;32;48;</text>
@@ -16292,7 +16292,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Iu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Pu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;83;116;97;114;116;122;97;104;108;34;</text>
@@ -16311,7 +16311,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;76;111;115;33;34;</text>
   </strelem>
 </struktogramm>
-`,bu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Cu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;105;110;109;97;108;101;105;110;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;87;101;108;99;104;101;32;82;101;105;104;101;63;34;</text>
@@ -16330,7 +16330,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,fu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Au=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="90;228;104;108;101;110;32;118;111;110;32;49;32;98;105;115;32;53;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;</text>
@@ -16343,7 +16343,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,yu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Tu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;118;111;110;32;49;32;98;105;115;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;66;105;115;32;122;117;32;119;101;108;99;104;101;114;32;90;97;104;108;63;34;</text>
@@ -16365,7 +16365,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,zu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Du=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;116;101;114;110;101;110;100;114;101;105;101;99;107;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;87;105;101;32;118;105;101;108;101;32;90;101;105;108;101;110;63;34;</text>
@@ -16394,7 +16394,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,vu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Bu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;114;97;100;101;32;69;105;110;103;97;98;101;110;32;122;228;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;110;122;97;104;108;32;61;32;48;</text>
@@ -16426,7 +16426,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;110;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,wu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Wu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;114;97;100;101;32;90;97;104;108;101;110;32;122;228;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;66;105;115;32;122;117;32;119;101;108;99;104;101;114;32;90;97;104;108;63;34;</text>
@@ -16458,7 +16458,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;110;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,Su=`<?xml version="1.0" encoding="UTF-8"?>
+`,Hu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;104;116;101;99;107;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;98;114;101;105;116;101;32;34;66;114;101;105;116;101;34;</text>
@@ -16490,7 +16490,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,ku=`<?xml version="1.0" encoding="UTF-8"?>
+`,Gu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;114;114;97;121;32;100;117;114;99;104;108;97;117;102;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;122;97;104;108;101;110;32;61;32;123;50;44;32;52;44;32;54;44;32;56;44;32;49;48;125;</text>
@@ -16506,7 +16506,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Mu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Nu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;114;115;116;101;114;32;117;110;100;32;108;101;116;122;116;101;114;32;87;101;114;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;119;101;114;116;101;32;61;32;123;52;44;32;56;44;32;49;53;44;32;49;54;44;32;50;51;44;32;52;50;125;</text>
@@ -16521,7 +16521,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;119;101;114;116;101;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,Zu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Eu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;97;109;101;110;32;101;105;110;103;101;98;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;97;109;101;110;32;61;32;110;101;119;32;83;116;114;105;110;103;91;51;93;</text>
@@ -16540,7 +16540,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;69;114;115;116;101;114;32;78;97;109;101;58;32;34;32;43;32;110;97;109;101;110;91;48;93;</text>
   </strelem>
 </struktogramm>
-`,_u=`<?xml version="1.0" encoding="UTF-8"?>
+`,Lu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;252;99;107;119;228;114;116;115;32;97;117;115;103;101;98;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;122;97;104;108;101;110;32;61;32;110;101;119;32;105;110;116;91;52;93;</text>
@@ -16566,7 +16566,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,ju=`<?xml version="1.0" encoding="UTF-8"?>
+`,Vu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;117;110;100;32;77;97;120;105;109;117;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;122;97;104;108;101;110;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -16617,7 +16617,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;97;120;105;109;117;109;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,Pu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ru=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;117;110;100;32;77;97;120;105;109;117;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;117;110;107;116;101;32;61;32;123;49;50;44;32;55;44;32;49;57;44;32;52;125;</text>
@@ -16658,7 +16658,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;97;120;105;109;117;109;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,Cu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Uu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;98;105;115;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;109;101;32;61;32;48;</text>
@@ -16681,7 +16681,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;117;109;109;101;58;32;34;32;43;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Au=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;98;105;115;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;109;101;32;61;32;48;</text>
@@ -16711,7 +16711,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;117;109;109;101;58;32;34;32;43;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Tu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Yu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;99;104;116;101;99;107;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;97;101;110;103;101;32;34;76;228;110;103;101;63;34;</text>
@@ -16726,13 +16726,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;108;228;99;104;101;58;32;34;32;43;32;102;</text>
   </strelem>
 </struktogramm>
-`,Du=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ou=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="105;110;116;32;102;108;97;101;99;104;101;40;105;110;116;32;97;44;32;105;110;116;32;98;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>114;101;116;117;114;110;32;97;32;42;32;98;</text>
   </strelem>
 </struktogramm>
-`,Wu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Qu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;105;122;">
   <strelem typ="8" zx="0" zy="0">
     <text>122;101;105;103;101;66;101;103;114;117;101;115;115;117;110;103;40;41;</text>
@@ -16744,7 +16744,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>122;101;105;103;101;69;114;103;101;98;110;105;115;40;41;</text>
   </strelem>
 </struktogramm>
-`,Bu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;97;100;114;97;116;122;97;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;87;101;108;99;104;101;32;90;97;104;108;63;34;</text>
@@ -16756,7 +16756,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;97;115;32;81;117;97;100;114;97;116;32;105;115;116;32;34;32;43;32;113;</text>
   </strelem>
 </struktogramm>
-`,Hu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ju=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="105;110;116;32;113;117;97;100;114;97;116;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;101;114;103;101;98;110;105;115;32;61;32;120;32;42;32;120;</text>
@@ -16765,7 +16765,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>114;101;116;117;114;110;32;101;114;103;101;98;110;105;115;</text>
   </strelem>
 </struktogramm>
-`,Gu=`<?xml version="1.0" encoding="UTF-8"?>
+`,qu=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;101;103;114;252;223;117;110;103;32;109;105;116;32;65;117;102;114;117;102;">
   <strelem typ="8" zx="0" zy="0">
     <text>122;101;105;103;101;84;105;116;101;108;40;41;</text>
@@ -16777,7 +16777,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;97;108;108;111;32;34;32;43;32;110;97;109;101;</text>
   </strelem>
 </struktogramm>
-`,Nu=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ku=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="122;101;105;103;101;66;101;103;114;117;101;115;115;117;110;103;40;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;87;105;108;108;107;111;109;109;101;110;32;122;117;109;32;81;117;105;122;33;34;</text>
@@ -16786,7 +16786,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;117;32;98;101;107;111;109;109;115;116;32;100;114;101;105;32;70;114;97;103;101;110;46;34;</text>
   </strelem>
 </struktogramm>
-`,Eu=`<?xml version="1.0" encoding="UTF-8"?>
+`,$u=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;110;32;122;101;105;103;101;110;">
   <strelem typ="8" zx="0" zy="0">
     <text>122;101;105;103;101;83;117;109;109;101;40;51;44;32;52;41;</text>
@@ -16798,7 +16798,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>122;101;105;103;101;83;117;109;109;101;40;120;44;32;120;32;43;32;49;41;</text>
   </strelem>
 </struktogramm>
-`,Lu=`<?xml version="1.0" encoding="UTF-8"?>
+`,ec=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;122;101;105;103;101;83;117;109;109;101;40;105;110;116;32;97;44;32;105;110;116;32;98;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;109;101;32;61;32;97;32;43;32;98;</text>
@@ -16807,7 +16807,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;43;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Vu=`<?xml version="1.0" encoding="UTF-8"?>
+`,tc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;115;116;97;114;116;32;34;83;116;97;114;116;119;101;114;116;34;</text>
@@ -16830,7 +16830,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;76;111;115;33;34;</text>
   </strelem>
 </struktogramm>
-`,Ru=`<?xml version="1.0" encoding="UTF-8"?>
+`,nc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;117;110;116;100;111;119;110;32;40;102;101;104;108;101;114;104;97;102;116;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;115;116;97;114;116;32;34;83;116;97;114;116;119;101;114;116;34;</text>
@@ -16853,7 +16853,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;76;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,Uu=`<?xml version="1.0" encoding="UTF-8"?>
+`,ic=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;99;104;114;101;105;98;116;105;115;99;104;116;101;115;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;117;109;109;101;32;61;32;48;</text>
@@ -16876,7 +16876,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Fu=`<?xml version="1.0" encoding="UTF-8"?>
+`,ac=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;98;105;115;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;66;105;115;32;119;111;104;105;110;63;34;</text>
@@ -16898,7 +16898,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Yu=`<?xml version="1.0" encoding="UTF-8"?>
+`,sc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;117;109;109;101;32;98;105;115;32;110;32;40;102;101;104;108;101;114;104;97;102;116;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;66;105;115;32;119;111;104;105;110;63;34;</text>
@@ -16920,7 +16920,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;117;109;109;101;</text>
   </strelem>
 </struktogramm>
-`,Ou=`<?xml version="1.0" encoding="UTF-8"?>
+`,rc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;105;110;109;97;108;101;105;110;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;87;101;108;99;104;101;32;82;101;105;104;101;63;34;</text>
@@ -16952,7 +16952,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Qu=`<?xml version="1.0" encoding="UTF-8"?>
+`,oc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;107;117;108;116;228;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;90;97;104;108;32;101;105;110;103;101;98;101;110;34;</text>
@@ -16974,7 +16974,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;102;97;107;117;108;116;97;101;116;</text>
   </strelem>
 </struktogramm>
-`,Xu=`<?xml version="1.0" encoding="UTF-8"?>
+`,lc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;105;99;107;101;116;112;114;101;105;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;108;116;101;114;32;34;87;105;101;32;97;108;116;32;98;105;115;116;32;100;117;63;34;</text>
@@ -17003,7 +17003,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Ju=`<?xml version="1.0" encoding="UTF-8"?>
+`,mc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;114;101;105;101;114;115;99;104;114;105;116;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;122;97;104;108;32;34;83;116;97;114;116;119;101;114;116;63;34;</text>
@@ -17023,7 +17023,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;69;110;100;101;34;</text>
   </strelem>
 </struktogramm>
-`,qu=`<?xml version="1.0" encoding="UTF-8"?>
+`,uc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="87;228;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;108;116;101;114;32;34;87;105;101;32;97;108;116;32;98;105;115;116;32;100;117;63;34;</text>
@@ -17045,7 +17045,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Ku=`<?xml version="1.0" encoding="UTF-8"?>
+`,cc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;101;114;97;100;101;32;90;97;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;103;114;101;110;122;101;32;34;66;105;115;32;119;111;104;105;110;63;34;</text>
@@ -17061,7 +17061,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,$u=`<?xml version="1.0" encoding="UTF-8"?>
+`,dc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;101;103;114;252;223;117;110;103;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;71;117;116;101;110;32;77;111;114;103;101;110;34;</text>
@@ -17070,13 +17070,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;101;117;116;101;32;108;101;114;110;101;110;32;119;105;114;32;83;116;114;117;107;116;111;103;114;97;109;109;101;46;34;</text>
   </strelem>
 </struktogramm>
-`,ec=`<?xml version="1.0" encoding="UTF-8"?>
+`,hc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="72;97;108;108;111;32;87;101;108;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;72;97;108;108;111;32;87;101;108;116;34;</text>
   </strelem>
 </struktogramm>
-`,tc=`<?xml version="1.0" encoding="UTF-8"?>
+`,gc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="90;119;101;105;32;90;101;105;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;72;97;108;108;111;34;</text>
@@ -17085,7 +17085,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;73;99;104;32;108;101;114;110;101;32;83;116;114;117;107;116;111;103;114;97;109;109;101;34;</text>
   </strelem>
 </struktogramm>
-`,nc=`<?xml version="1.0" encoding="UTF-8"?>
+`,pc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;111;103;114;97;109;97;32;112;114;105;110;99;105;112;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;66;101;109;45;118;105;110;100;111;34;</text>
@@ -17097,7 +17097,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;100;101;117;115;34;</text>
   </strelem>
 </struktogramm>
-`,ac=`<?xml version="1.0" encoding="UTF-8"?>
+`,xc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;101;114;105;102;105;99;97;114;73;100;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -17116,7 +17116,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,ic=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ic=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;32;98;105;110;225;114;105;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;73;110;116;114;111;100;117;122;32;117;109;32;110;250;109;101;114;111;32;105;110;116;101;105;114;111;34;</text>
@@ -17142,7 +17142,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;105;110;97;114;105;111;</text>
   </strelem>
 </struktogramm>
-`,sc=`<?xml version="1.0" encoding="UTF-8"?>
+`,bc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;113;117;234;110;99;105;97;32;100;101;32;67;111;108;108;97;116;122;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;73;110;116;114;111;100;117;122;32;117;109;32;110;250;109;101;114;111;32;105;110;105;99;105;97;108;34;</text>
@@ -17178,7 +17178,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;97;115;115;111;115;58;32;34;32;43;32;112;97;115;115;111;115;</text>
   </strelem>
 </struktogramm>
-`,rc=`<?xml version="1.0" encoding="UTF-8"?>
+`,fc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;233;100;105;97;32;100;97;115;32;110;111;116;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;34;81;117;97;110;116;97;115;32;110;111;116;97;115;63;34;</text>
@@ -17206,7 +17206,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;101;100;105;97;</text>
   </strelem>
 </struktogramm>
-`,oc=`<?xml version="1.0" encoding="UTF-8"?>
+`,yc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;115;32;100;101;32;70;105;98;111;110;97;99;99;105;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;110;250;109;101;114;111;115;63;34;</text>
@@ -17243,7 +17243,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,lc=`<?xml version="1.0" encoding="UTF-8"?>
+`,zc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;97;114;32;111;117;32;237;109;112;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;73;110;116;114;111;100;117;122;32;117;109;32;110;250;109;101;114;111;34;</text>
@@ -17262,7 +17262,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,mc=`<?xml version="1.0" encoding="UTF-8"?>
+`,vc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;86;65;">
   <strelem typ="0" zx="0" zy="0">
     <text>99;111;110;115;116;32;100;111;117;98;108;101;32;73;86;65;32;61;32;48;46;50;51;</text>
@@ -17283,7 +17283,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;112;114;101;99;111;67;111;109;73;118;97;</text>
   </strelem>
 </struktogramm>
-`,uc=`<?xml version="1.0" encoding="UTF-8"?>
+`,wc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;111;32;80;73;78;">
   <strelem typ="0" zx="0" zy="0">
     <text>99;111;110;115;116;32;105;110;116;32;80;73;78;32;61;32;49;50;51;52;</text>
@@ -17319,7 +17319,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,cc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Sc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;100;111;114;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;49;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;34;</text>
@@ -17363,7 +17363,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,dc=`<?xml version="1.0" encoding="UTF-8"?>
+`,kc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;97;116;97;108;104;97;32;110;97;118;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;109;97;114;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;53;93;91;53;93;</text>
@@ -17417,7 +17417,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,hc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Mc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;97;116;97;108;104;97;32;110;97;118;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;109;97;114;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;53;93;91;53;93;</text>
@@ -17444,7 +17444,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;91;93;32;99;111;108;117;110;97;115;32;61;32;123;34;65;34;44;32;34;66;34;44;32;34;67;34;44;32;34;68;34;44;32;34;69;34;125;</text>
   </strelem>
 </struktogramm>
-`,gc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Zc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;109;101;110;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;112;114;97;116;111;32;34;81;117;101;32;112;114;97;116;111;63;32;40;49;44;32;50;32;111;117;32;51;41;34;</text>
@@ -17473,7 +17473,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,pc=`<?xml version="1.0" encoding="UTF-8"?>
+`,_c=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;49;32;61;32;52;</text>
@@ -17488,7 +17488,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,xc=`<?xml version="1.0" encoding="UTF-8"?>
+`,jc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;105;109;112;97;114;32;111;32;113;117;97;100;114;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;111;109;101;115;32;61;32;110;101;119;32;83;116;114;105;110;103;91;53;93;</text>
@@ -17510,7 +17510,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;76;105;109;112;97;32;111;32;113;117;97;100;114;111;58;32;34;32;43;32;110;111;109;101;115;91;115;111;114;116;101;97;100;111;32;45;32;49;93;</text>
   </strelem>
 </struktogramm>
-`,Ic=`<?xml version="1.0" encoding="UTF-8"?>
+`,Pc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;117;112;108;105;99;97;114;32;117;109;32;110;250;109;101;114;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;52;</text>
@@ -17522,7 +17522,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;78;250;109;101;114;111;32;100;117;112;108;105;99;97;100;111;58;32;34;32;43;32;110;117;109;101;114;111;</text>
   </strelem>
 </struktogramm>
-`,bc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Cc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;108;117;103;117;101;114;">
   <strelem typ="6" zx="0" zy="0">
     <text></text>
@@ -17559,7 +17559,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,fc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ac=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;97;105;111;114;32;100;101;32;105;100;97;100;101;63;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -17578,7 +17578,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,yc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Tc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;98;101;108;97;32;100;97;32;116;97;98;117;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;91;93;32;116;97;98;101;108;97;32;61;32;110;101;119;32;105;110;116;91;49;48;93;91;49;48;93;</text>
@@ -17610,7 +17610,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;183;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;116;97;98;101;108;97;91;97;32;45;32;49;93;91;98;32;45;32;49;93;</text>
   </strelem>
 </struktogramm>
-`,zc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Dc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;117;103;97;114;101;115;32;108;105;118;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;108;117;103;97;114;101;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -17658,7 +17658,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;76;105;118;114;101;115;58;32;34;32;43;32;108;105;118;114;101;115;</text>
   </strelem>
 </struktogramm>
-`,vc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Bc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;117;103;97;114;101;115;32;108;105;118;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;108;117;103;97;114;101;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -17673,7 +17673,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>108;117;103;97;114;101;115;91;50;93;91;51;93;32;61;32;116;114;117;101;</text>
   </strelem>
 </struktogramm>
-`,wc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Wc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;110;100;101;114;32;117;109;32;98;105;108;104;101;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;108;117;103;97;114;101;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -17707,7 +17707,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Sc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Hc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;110;100;101;114;32;117;109;32;98;105;108;104;101;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;108;117;103;97;114;101;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -17725,7 +17725,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>105;110;112;117;116;58;32;105;110;116;32;108;117;103;97;114;32;34;76;117;103;97;114;34;</text>
   </strelem>
 </struktogramm>
-`,kc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Gc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;108;97;110;116;97;32;100;97;32;115;97;108;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;108;117;103;97;114;101;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -17773,7 +17773,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Mc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Nc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;105;110;101;109;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>98;111;111;108;101;97;110;91;93;91;93;32;108;117;103;97;114;101;115;32;61;32;110;101;119;32;98;111;111;108;101;97;110;91;51;93;91;53;93;</text>
@@ -17797,7 +17797,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;105;108;97;32;49;44;32;108;117;103;97;114;32;50;32;118;101;110;100;105;100;111;63;32;34;32;43;32;108;117;103;97;114;101;115;91;49;93;91;50;93;</text>
   </strelem>
 </struktogramm>
-`,Zc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ec=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;32;111;114;100;101;109;32;99;111;110;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;51;</text>
@@ -17812,7 +17812,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;101;114;111;</text>
   </strelem>
 </struktogramm>
-`,_c=`<?xml version="1.0" encoding="UTF-8"?>
+`,Lc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;50;</text>
@@ -17827,7 +17827,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;101;114;111;</text>
   </strelem>
 </struktogramm>
-`,jc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Vc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;110;117;109;101;114;111;</text>
@@ -17842,7 +17842,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>110;117;109;101;114;111;32;61;32;110;117;109;101;114;111;32;43;32;51;</text>
   </strelem>
 </struktogramm>
-`,Pc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Rc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;111;99;97;114;32;99;111;112;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;101;115;113;117;101;114;100;97;32;61;32;34;115;117;109;111;34;</text>
@@ -17866,7 +17866,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;105;114;101;105;116;97;58;32;34;32;43;32;100;105;114;101;105;116;97;</text>
   </strelem>
 </struktogramm>
-`,Cc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Uc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;111;99;97;114;32;99;111;112;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;101;115;113;117;101;114;100;97;32;61;32;34;115;117;109;111;34;</text>
@@ -17881,7 +17881,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;105;114;101;105;116;97;58;32;34;32;43;32;100;105;114;101;105;116;97;</text>
   </strelem>
 </struktogramm>
-`,Ac=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;111;99;97;114;32;118;97;108;111;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;32;61;32;53;</text>
@@ -17905,7 +17905,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;98;32;61;32;34;32;43;32;98;</text>
   </strelem>
 </struktogramm>
-`,Tc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Yc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;105;112;111;115;32;100;101;32;100;97;100;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;105;100;97;100;101;32;61;32;49;52;</text>
@@ -17923,7 +17923,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;108;116;117;114;97;58;32;34;32;43;32;97;108;116;117;114;97;32;43;32;34;32;109;34;</text>
   </strelem>
 </struktogramm>
-`,Dc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Oc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;101;114;32;109;105;110;117;116;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;109;105;110;117;116;111;115;32;61;32;49;51;53;</text>
@@ -17938,7 +17938,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;104;111;114;97;115;32;43;32;34;32;104;111;114;97;115;32;101;32;34;32;43;32;114;101;115;116;111;32;43;32;34;32;109;105;110;117;116;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,Wc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Qc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;109;112;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;61;32;51;</text>
@@ -17953,7 +17953,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,Bc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;116;226;110;103;117;108;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;99;111;109;112;114;105;109;101;110;116;111;32;61;32;55;</text>
@@ -17974,7 +17974,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;101;114;237;109;101;116;114;111;58;32;34;32;43;32;112;101;114;105;109;101;116;114;111;</text>
   </strelem>
 </struktogramm>
-`,Hc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Jc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;101;114;32;115;101;103;117;110;100;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;103;117;110;100;111;115;32;61;32;50;48;48;</text>
@@ -17989,7 +17989,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;111;115;32;43;32;34;32;109;105;110;117;116;111;115;32;101;32;34;32;43;32;114;101;115;116;111;32;43;32;34;32;115;101;103;117;110;100;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,Gc=`<?xml version="1.0" encoding="UTF-8"?>
+`,qc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;101;114;32;115;101;103;117;110;100;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;103;117;110;100;111;115;32;61;32;50;48;48;</text>
@@ -17998,7 +17998,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;111;115;32;43;32;34;32;109;105;110;117;116;111;115;32;101;32;34;32;43;32;114;101;115;116;111;32;43;32;34;32;115;101;103;117;110;100;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,Nc=`<?xml version="1.0" encoding="UTF-8"?>
+`,Kc=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;117;109;112;114;105;109;101;110;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;110;111;109;101;32;34;67;111;109;111;32;116;101;32;99;104;97;109;97;115;63;34;</text>
@@ -18007,7 +18007,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;108;225;32;34;32;43;32;110;111;109;101;32;43;32;34;33;34;</text>
   </strelem>
 </struktogramm>
-`,Ec=`<?xml version="1.0" encoding="UTF-8"?>
+`,$c=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;100;101;32;100;111;105;115;32;110;250;109;101;114;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -18022,7 +18022,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Lc=`<?xml version="1.0" encoding="UTF-8"?>
+`,ed=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;233;100;105;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;120;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -18037,7 +18037,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;233;100;105;97;58;32;34;32;43;32;109;101;100;105;97;</text>
   </strelem>
 </struktogramm>
-`,Vc=`<?xml version="1.0" encoding="UTF-8"?>
+`,td=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;100;111;114;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -18058,7 +18058,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;114;111;100;117;116;111;58;32;34;32;43;32;112;114;111;100;117;116;111;</text>
   </strelem>
 </struktogramm>
-`,Rc=`<?xml version="1.0" encoding="UTF-8"?>
+`,nd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;97;32;105;100;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -18077,7 +18077,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Uc=`<?xml version="1.0" encoding="UTF-8"?>
+`,id=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;97;108;111;114;32;97;98;115;111;108;117;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;63;34;</text>
@@ -18099,7 +18099,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;101;114;111;</text>
   </strelem>
 </struktogramm>
-`,Fc=`<?xml version="1.0" encoding="UTF-8"?>
+`,ad=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;97;114;32;111;117;32;237;109;112;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;63;34;</text>
@@ -18118,7 +18118,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Yc=`<?xml version="1.0" encoding="UTF-8"?>
+`,sd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;32;109;97;105;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -18140,7 +18140,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Oc=`<?xml version="1.0" encoding="UTF-8"?>
+`,rd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;115;99;111;110;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;112;114;101;99;111;32;34;80;114;101;231;111;32;101;109;32;101;117;114;111;115;63;34;</text>
@@ -18162,7 +18162,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;32;112;97;103;97;114;58;32;34;32;43;32;112;114;101;99;111;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,Qc=`<?xml version="1.0" encoding="UTF-8"?>
+`,od=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;97;32;118;225;108;105;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;97;32;34;78;111;116;97;63;34;</text>
@@ -18181,7 +18181,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Xc=`<?xml version="1.0" encoding="UTF-8"?>
+`,ld=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;108;104;101;116;101;32;106;111;118;101;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -18200,7 +18200,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Jc=`<?xml version="1.0" encoding="UTF-8"?>
+`,md=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;97;32;110;111;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;97;32;34;78;111;116;97;63;34;</text>
@@ -18219,7 +18219,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,qc=`<?xml version="1.0" encoding="UTF-8"?>
+`,ud=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;110;111;32;98;105;115;115;101;120;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;111;32;34;65;110;111;63;34;</text>
@@ -18238,7 +18238,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Kc=`<?xml version="1.0" encoding="UTF-8"?>
+`,cd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;105;109;32;100;101;32;115;101;109;97;110;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;100;105;97;32;34;68;105;97;32;40;49;32;97;32;55;41;63;34;</text>
@@ -18257,7 +18257,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,$c=`<?xml version="1.0" encoding="UTF-8"?>
+`,dd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;109;225;102;111;114;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;99;111;114;32;34;68;101;32;113;117;101;32;99;111;114;32;101;115;116;225;32;111;32;115;101;109;225;102;111;114;111;63;34;</text>
@@ -18286,7 +18286,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,ed=`<?xml version="1.0" encoding="UTF-8"?>
+`,hd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;225;113;117;105;110;97;32;100;101;32;98;101;98;105;100;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;101;115;99;111;108;104;97;32;34;49;32;225;103;117;97;44;32;50;32;115;117;109;111;44;32;51;32;99;104;111;99;111;108;97;116;101;32;113;117;101;110;116;101;34;</text>
@@ -18315,7 +18315,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,td=`<?xml version="1.0" encoding="UTF-8"?>
+`,gd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;97;32;112;111;114;32;101;120;116;101;110;115;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;97;32;34;81;117;101;32;110;111;116;97;63;34;</text>
@@ -18354,7 +18354,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,nd=`<?xml version="1.0" encoding="UTF-8"?>
+`,pd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;100;111;114;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;34;</text>
@@ -18401,7 +18401,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,ad=`<?xml version="1.0" encoding="UTF-8"?>
+`,xd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;225;113;117;105;110;97;32;100;101;32;98;101;98;105;100;97;115;32;99;111;109;32;100;101;99;105;115;245;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;101;115;99;111;108;104;97;32;34;49;32;225;103;117;97;44;32;50;32;115;117;109;111;44;32;51;32;99;104;111;99;111;108;97;116;101;32;113;117;101;110;116;101;34;</text>
@@ -18440,7 +18440,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,id=`<?xml version="1.0" encoding="UTF-8"?>
+`,Id=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;115;32;116;114;234;115;32;98;108;111;99;111;115;32;98;225;115;105;99;111;115;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>80;244;114;32;117;109;97;32;99;104;225;118;101;110;97;32;110;97;32;109;101;115;97;</text>
@@ -18470,7 +18470,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>66;101;98;101;114;32;111;32;99;104;225;</text>
   </strelem>
 </struktogramm>
-`,sd=`<?xml version="1.0" encoding="UTF-8"?>
+`,bd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;32;109;97;110;104;227;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>76;101;118;97;110;116;97;114;</text>
@@ -18485,7 +18485,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;111;109;97;114;32;111;32;112;101;113;117;101;110;111;45;97;108;109;111;231;111;</text>
   </strelem>
 </struktogramm>
-`,rd=`<?xml version="1.0" encoding="UTF-8"?>
+`,fd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;122;101;114;32;99;104;225;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>69;110;99;104;101;114;32;97;32;99;104;97;108;101;105;114;97;32;99;111;109;32;225;103;117;97;</text>
@@ -18506,7 +18506,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;105;114;97;114;32;97;32;115;97;113;117;101;116;97;32;100;101;32;99;104;225;</text>
   </strelem>
 </struktogramm>
-`,od=`<?xml version="1.0" encoding="UTF-8"?>
+`,yd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;97;105;114;32;100;101;32;99;97;115;97;" pseudocode="true">
   <strelem typ="1" zx="0" zy="0">
     <text>69;115;116;225;32;97;32;99;104;111;118;101;114;63;</text>
@@ -18525,7 +18525,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;97;105;114;</text>
   </strelem>
 </struktogramm>
-`,ld=`<?xml version="1.0" encoding="UTF-8"?>
+`,zd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;109;101;114;" pseudocode="true">
   <strelem typ="4" zx="0" zy="0">
     <text>80;114;97;116;111;32;110;227;111;32;118;97;122;105;111;</text>
@@ -18539,7 +18539,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>76;101;118;97;110;116;97;114;32;111;32;112;114;97;116;111;</text>
   </strelem>
 </struktogramm>
-`,md=`<?xml version="1.0" encoding="UTF-8"?>
+`,vd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;97;116;233;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;67;111;110;116;97;114;32;97;116;233;63;34;</text>
@@ -18559,7 +18559,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,ud=`<?xml version="1.0" encoding="UTF-8"?>
+`,wd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;51;</text>
@@ -18579,7 +18579,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;97;114;116;105;100;97;33;34;</text>
   </strelem>
 </struktogramm>
-`,cd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Sd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;114;114;111;58;32;99;105;99;108;111;32;105;110;102;105;110;105;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;51;</text>
@@ -18596,7 +18596,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;97;114;116;105;100;97;33;34;</text>
   </strelem>
 </struktogramm>
-`,dd=`<?xml version="1.0" encoding="UTF-8"?>
+`,kd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;116;111;114;105;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;70;97;116;111;114;105;97;108;32;100;101;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -18622,7 +18622,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;32;43;32;34;33;32;61;32;34;32;43;32;102;97;116;111;114;105;97;108;</text>
   </strelem>
 </struktogramm>
-`,hd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Md=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;117;112;108;105;99;97;114;32;97;116;233;32;49;48;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;32;105;110;105;99;105;97;108;34;</text>
@@ -18645,7 +18645,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;112;97;115;115;111;115;</text>
   </strelem>
 </struktogramm>
-`,gd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Zd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;97;32;101;110;116;114;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;48;</text>
@@ -18662,7 +18662,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;98;114;105;103;97;100;111;33;34;</text>
   </strelem>
 </struktogramm>
-`,pd=`<?xml version="1.0" encoding="UTF-8"?>
+`,_d=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;101;108;111;32;109;101;110;111;115;32;117;109;97;32;118;101;122;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;48;</text>
@@ -18679,7 +18679,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,xd=`<?xml version="1.0" encoding="UTF-8"?>
+`,jd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;97;32;118;225;108;105;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;111;116;97;32;61;32;48;</text>
@@ -18696,7 +18696,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;32;116;117;97;32;110;111;116;97;58;32;34;32;43;32;110;111;116;97;</text>
   </strelem>
 </struktogramm>
-`,Id=`<?xml version="1.0" encoding="UTF-8"?>
+`,Pd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;32;97;116;233;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -18719,7 +18719,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,bd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Cd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;78;250;109;101;114;111;32;105;110;105;99;105;97;108;34;</text>
@@ -18738,7 +18738,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;74;225;33;34;</text>
   </strelem>
 </struktogramm>
-`,fd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ad=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;98;117;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;116;97;98;117;97;100;97;63;34;</text>
@@ -18757,7 +18757,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,yd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Td=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;100;101;32;49;32;97;32;53;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;</text>
@@ -18770,7 +18770,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,zd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Dd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;100;101;32;49;32;97;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -18792,7 +18792,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,vd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Bd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;105;226;110;103;117;108;111;32;100;101;32;101;115;116;114;101;108;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;81;117;97;110;116;97;115;32;108;105;110;104;97;115;63;34;</text>
@@ -18821,7 +18821,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,wd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Wd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;101;110;116;114;97;100;97;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;61;32;48;</text>
@@ -18853,7 +18853,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,Sd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Hd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;110;250;109;101;114;111;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -18885,7 +18885,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,kd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Gd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;116;226;110;103;117;108;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;97;114;103;117;114;97;32;34;76;97;114;103;117;114;97;34;</text>
@@ -18917,7 +18917,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Md=`<?xml version="1.0" encoding="UTF-8"?>
+`,Nd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;101;114;99;111;114;114;101;114;32;117;109;32;97;114;114;97;121;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;101;114;111;115;32;61;32;123;50;44;32;52;44;32;54;44;32;56;44;32;49;48;125;</text>
@@ -18933,7 +18933,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Zd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ed=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;105;109;101;105;114;111;32;101;32;250;108;116;105;109;111;32;118;97;108;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;118;97;108;111;114;101;115;32;61;32;123;52;44;32;56;44;32;49;53;44;32;49;54;44;32;50;51;44;32;52;50;125;</text>
@@ -18948,7 +18948,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;118;97;108;111;114;101;115;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,_d=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ld=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;110;116;114;111;100;117;122;105;114;32;110;111;109;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;111;109;101;115;32;61;32;110;101;119;32;83;116;114;105;110;103;91;51;93;</text>
@@ -18967,7 +18967,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;114;105;109;101;105;114;111;32;110;111;109;101;58;32;34;32;43;32;110;111;109;101;115;91;48;93;</text>
   </strelem>
 </struktogramm>
-`,jd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Vd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;111;115;116;114;97;114;32;97;111;32;99;111;110;116;114;225;114;105;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;101;114;111;115;32;61;32;110;101;119;32;105;110;116;91;52;93;</text>
@@ -18993,7 +18993,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Pd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Rd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;101;32;109;225;120;105;109;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;101;114;111;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -19044,7 +19044,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;225;120;105;109;111;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,Cd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ud=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;101;32;109;225;120;105;109;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;110;116;111;115;32;61;32;123;49;50;44;32;55;44;32;49;57;44;32;52;125;</text>
@@ -19085,7 +19085,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;225;120;105;109;111;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,Ad=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;32;97;116;233;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -19108,7 +19108,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Td=`<?xml version="1.0" encoding="UTF-8"?>
+`,Yd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;32;97;116;233;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -19138,7 +19138,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Dd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Od=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;116;226;110;103;117;108;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;111;109;112;114;105;109;101;110;116;111;32;34;67;111;109;112;114;105;109;101;110;116;111;63;34;</text>
@@ -19153,7 +19153,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;193;114;101;97;58;32;34;32;43;32;102;</text>
   </strelem>
 </struktogramm>
-`,Wd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Qd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;105;122;">
   <strelem typ="8" zx="0" zy="0">
     <text>109;111;115;116;114;97;114;66;111;97;115;86;105;110;100;97;115;40;41;</text>
@@ -19165,7 +19165,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>109;111;115;116;114;97;114;82;101;115;117;108;116;97;100;111;40;41;</text>
   </strelem>
 </struktogramm>
-`,Bd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;115;32;97;111;32;113;117;97;100;114;97;100;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -19177,7 +19177,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;32;113;117;97;100;114;97;100;111;32;233;32;34;32;43;32;113;</text>
   </strelem>
 </struktogramm>
-`,Hd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Jd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="105;110;116;32;113;117;97;100;114;97;100;111;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;114;101;115;117;108;116;97;100;111;32;61;32;120;32;42;32;120;</text>
@@ -19186,7 +19186,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>114;101;116;117;114;110;32;114;101;115;117;108;116;97;100;111;</text>
   </strelem>
 </struktogramm>
-`,Gd=`<?xml version="1.0" encoding="UTF-8"?>
+`,qd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;117;109;112;114;105;109;101;110;116;111;32;99;111;109;32;99;104;97;109;97;100;97;">
   <strelem typ="8" zx="0" zy="0">
     <text>109;111;115;116;114;97;114;84;105;116;117;108;111;40;41;</text>
@@ -19198,7 +19198,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;108;225;32;34;32;43;32;110;111;109;101;</text>
   </strelem>
 </struktogramm>
-`,Nd=`<?xml version="1.0" encoding="UTF-8"?>
+`,Kd=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="109;111;115;116;114;97;114;66;111;97;115;86;105;110;100;97;115;40;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;66;101;109;45;118;105;110;100;111;32;97;111;32;113;117;105;122;33;34;</text>
@@ -19207,7 +19207,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;86;97;105;115;32;116;101;114;32;116;114;234;115;32;112;101;114;103;117;110;116;97;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,Ed=`<?xml version="1.0" encoding="UTF-8"?>
+`,$d=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;111;115;116;114;97;114;32;115;111;109;97;115;">
   <strelem typ="8" zx="0" zy="0">
     <text>109;111;115;116;114;97;114;83;111;109;97;40;51;44;32;52;41;</text>
@@ -19219,7 +19219,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>109;111;115;116;114;97;114;83;111;109;97;40;120;44;32;120;32;43;32;49;41;</text>
   </strelem>
 </struktogramm>
-`,Ld=`<?xml version="1.0" encoding="UTF-8"?>
+`,eh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;109;111;115;116;114;97;114;83;111;109;97;40;105;110;116;32;97;44;32;105;110;116;32;98;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;97;32;43;32;98;</text>
@@ -19228,7 +19228,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;43;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Vd=`<?xml version="1.0" encoding="UTF-8"?>
+`,th=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;110;105;99;105;111;32;34;86;97;108;111;114;32;105;110;105;99;105;97;108;34;</text>
@@ -19251,7 +19251,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;74;225;33;34;</text>
   </strelem>
 </struktogramm>
-`,Rd=`<?xml version="1.0" encoding="UTF-8"?>
+`,nh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;32;40;99;111;109;32;101;114;114;111;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;110;105;99;105;111;32;34;86;97;108;111;114;32;105;110;105;99;105;97;108;34;</text>
@@ -19274,7 +19274,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;74;225;34;</text>
   </strelem>
 </struktogramm>
-`,Ud=`<?xml version="1.0" encoding="UTF-8"?>
+`,ih=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;101;115;116;101;32;100;101;32;115;101;99;114;101;116;225;114;105;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -19297,7 +19297,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Fd=`<?xml version="1.0" encoding="UTF-8"?>
+`,ah=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;97;116;233;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -19319,7 +19319,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Yd=`<?xml version="1.0" encoding="UTF-8"?>
+`,sh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;97;116;233;32;110;32;40;99;111;109;32;101;114;114;111;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -19341,7 +19341,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,Od=`<?xml version="1.0" encoding="UTF-8"?>
+`,rh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;98;117;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;116;97;98;117;97;100;97;63;34;</text>
@@ -19373,7 +19373,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Qd=`<?xml version="1.0" encoding="UTF-8"?>
+`,oh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;116;111;114;105;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;73;110;116;114;111;100;117;122;32;117;109;32;110;250;109;101;114;111;34;</text>
@@ -19395,7 +19395,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;102;97;116;111;114;105;97;108;</text>
   </strelem>
 </struktogramm>
-`,Xd=`<?xml version="1.0" encoding="UTF-8"?>
+`,lh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;101;231;111;32;100;111;32;98;105;108;104;101;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -19424,7 +19424,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Jd=`<?xml version="1.0" encoding="UTF-8"?>
+`,mh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;32;116;114;234;115;32;101;109;32;116;114;234;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;86;97;108;111;114;32;105;110;105;99;105;97;108;63;34;</text>
@@ -19444,7 +19444,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;105;109;34;</text>
   </strelem>
 </struktogramm>
-`,qd=`<?xml version="1.0" encoding="UTF-8"?>
+`,uh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;111;116;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -19466,7 +19466,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Kd=`<?xml version="1.0" encoding="UTF-8"?>
+`,ch=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;105;109;105;116;101;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -19482,7 +19482,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,$d=`<?xml version="1.0" encoding="UTF-8"?>
+`,dh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;117;109;112;114;105;109;101;110;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;66;111;109;32;100;105;97;34;</text>
@@ -19491,13 +19491,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;111;106;101;32;97;112;114;101;110;100;101;109;111;115;32;101;115;116;114;117;116;111;103;114;97;109;97;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,eh=`<?xml version="1.0" encoding="UTF-8"?>
+`,hh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;108;225;32;77;117;110;100;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;79;108;225;32;77;117;110;100;111;34;</text>
   </strelem>
 </struktogramm>
-`,th=`<?xml version="1.0" encoding="UTF-8"?>
+`,gh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;117;97;115;32;108;105;110;104;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;79;108;225;34;</text>
@@ -19506,7 +19506,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;69;115;116;111;117;32;97;32;97;112;114;101;110;100;101;114;32;101;115;116;114;117;116;111;103;114;97;109;97;115;34;</text>
   </strelem>
 </struktogramm>
-`,nh=`<?xml version="1.0" encoding="UTF-8"?>
+`,ph=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;108;104;101;116;101;115;32;100;101;32;99;105;110;101;109;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;98;105;108;104;101;116;101;115;63;34;</text>
@@ -19518,7 +19518,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;</text>
   </strelem>
 </struktogramm>
-`,ah=`<?xml version="1.0" encoding="UTF-8"?>
+`,xh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;108;104;101;116;101;115;32;100;101;32;99;105;110;101;109;97;32;40;99;111;109;32;101;114;114;111;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;98;105;108;104;101;116;101;115;63;34;</text>
@@ -19530,7 +19530,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>100;111;117;98;108;101;32;116;111;116;97;108;32;61;32;113;117;97;110;116;105;100;97;100;101;32;42;32;56;46;53;</text>
   </strelem>
 </struktogramm>
-`,ih=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ih=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;111;99;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;34;</text>
@@ -19554,7 +19554,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;</text>
   </strelem>
 </struktogramm>
-`,sh=`<?xml version="1.0" encoding="UTF-8"?>
+`,bh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;111;99;97;32;40;99;111;109;32;101;114;114;111;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;34;</text>
@@ -19575,7 +19575,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;</text>
   </strelem>
 </struktogramm>
-`,rh=`<?xml version="1.0" encoding="UTF-8"?>
+`,fh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;111;99;97;114;32;118;97;108;111;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;32;61;32;51;</text>
@@ -19599,7 +19599,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;98;32;61;32;34;32;43;32;98;</text>
   </strelem>
 </struktogramm>
-`,oh=`<?xml version="1.0" encoding="UTF-8"?>
+`,yh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;110;97;114;32;112;111;114;32;111;114;100;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -19658,7 +19658,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,lh=`<?xml version="1.0" encoding="UTF-8"?>
+`,zh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;114;100;101;110;97;114;32;112;111;114;32;111;114;100;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -19717,7 +19717,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,mh=`<?xml version="1.0" encoding="UTF-8"?>
+`,vh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;101;115;113;117;105;115;97;32;98;105;110;225;114;105;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;123;50;44;32;51;44;32;53;44;32;55;44;32;56;44;32;49;48;44;32;49;50;44;32;49;51;44;32;49;53;44;32;49;56;44;32;50;48;44;32;50;49;44;32;50;52;44;32;50;55;44;32;51;48;125;</text>
@@ -19791,7 +19791,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;67;111;109;112;97;114;97;231;245;101;115;58;32;34;32;43;32;99;111;109;112;97;114;97;99;111;101;115;</text>
   </strelem>
 </struktogramm>
-`,uh=`<?xml version="1.0" encoding="UTF-8"?>
+`,wh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;117;98;98;108;101;32;115;111;114;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;123;55;44;32;51;44;32;49;48;44;32;53;44;32;50;125;</text>
@@ -19840,7 +19840,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,ch=`<?xml version="1.0" encoding="UTF-8"?>
+`,Sh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;110;99;111;110;116;114;97;114;32;117;109;97;32;99;97;114;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;123;56;44;32;52;44;32;49;49;44;32;52;44;32;54;125;</text>
@@ -19889,7 +19889,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,dh=`<?xml version="1.0" encoding="UTF-8"?>
+`,kh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;101;115;113;117;105;115;97;32;108;105;110;101;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;123;50;44;32;51;44;32;53;44;32;55;44;32;56;44;32;49;48;44;32;49;50;44;32;49;51;44;32;49;53;44;32;49;56;44;32;50;48;44;32;50;49;44;32;50;52;44;32;50;55;44;32;51;48;125;</text>
@@ -19947,7 +19947,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;67;111;109;112;97;114;97;231;245;101;115;58;32;34;32;43;32;99;111;109;112;97;114;97;99;111;101;115;</text>
   </strelem>
 </struktogramm>
-`,hh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Mh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;111;103;114;97;109;97;32;112;114;105;110;99;105;112;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;110;116;111;115;32;61;32;123;51;44;32;53;44;32;56;125;</text>
@@ -19966,7 +19966,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,gh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Zh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;111;103;114;97;109;97;32;112;114;105;110;99;105;112;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;110;116;111;115;32;61;32;123;51;44;32;53;44;32;56;125;</text>
@@ -19985,7 +19985,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,ph=`<?xml version="1.0" encoding="UTF-8"?>
+`,_h=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;98;111;110;117;115;40;105;110;116;91;93;32;112;111;110;116;111;115;41;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;48;</text>
@@ -19998,7 +19998,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,xh=`<?xml version="1.0" encoding="UTF-8"?>
+`,jh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;111;103;114;97;109;97;32;112;114;105;110;99;105;112;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;53;</text>
@@ -20022,7 +20022,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;68;101;112;111;105;115;58;32;34;32;43;32;102;105;108;97;91;48;93;32;43;32;34;44;32;34;32;43;32;102;105;108;97;91;49;93;</text>
   </strelem>
 </struktogramm>
-`,Ih=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ph=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;108;105;109;112;97;114;40;98;111;111;108;101;97;110;91;93;32;108;117;103;97;114;101;115;41;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;48;</text>
@@ -20035,7 +20035,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,bh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ch=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;100;117;112;108;105;99;97;114;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>120;32;61;32;120;32;42;32;50;</text>
@@ -20044,7 +20044,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;78;111;32;115;117;98;112;114;111;103;114;97;109;97;58;32;120;32;61;32;34;32;43;32;120;</text>
   </strelem>
 </struktogramm>
-`,fh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Ah=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;110;105;99;105;97;105;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;110;111;109;101;32;34;78;111;109;101;32;112;114;243;112;114;105;111;34;</text>
@@ -20056,7 +20056,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;111;109;101;46;99;104;97;114;65;116;40;48;41;32;43;32;34;46;32;34;32;43;32;97;112;101;108;105;100;111;46;99;104;97;114;65;116;40;48;41;32;43;32;34;46;34;</text>
   </strelem>
 </struktogramm>
-`,yh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Th=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;111;32;99;111;110;116;114;225;114;105;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;112;97;108;97;118;114;97;32;34;73;110;116;114;111;100;117;122;32;117;109;97;32;112;97;108;97;118;114;97;34;</text>
@@ -20078,7 +20078,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;105;110;118;101;114;116;105;100;97;</text>
   </strelem>
 </struktogramm>
-`,zh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Dh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;105;118;105;100;105;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;108;105;110;104;97;32;61;32;34;76;117;100;119;105;103;59;98;111;100;101;59;55;34;</text>
@@ -20097,7 +20097,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,vh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Bh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;112;97;108;97;118;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;102;114;97;115;101;32;34;73;110;116;114;111;100;117;122;32;117;109;97;32;102;114;97;115;101;34;</text>
@@ -20109,7 +20109,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;97;108;97;118;114;97;115;58;32;34;32;43;32;112;97;108;97;118;114;97;115;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,wh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Wh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;108;101;116;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;112;97;108;97;118;114;97;32;34;73;110;116;114;111;100;117;122;32;117;109;97;32;112;97;108;97;118;114;97;34;</text>
@@ -20141,7 +20141,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;78;250;109;101;114;111;32;100;101;32;97;58;32;34;32;43;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,Sh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Hh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;116;114;105;110;103;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;112;97;108;97;118;114;97;32;61;32;34;80;97;115;115;97;116;101;109;112;111;34;</text>
@@ -20165,7 +20165,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;112;97;108;97;118;114;97;46;116;111;85;112;112;101;114;67;97;115;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,kh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Gh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="75;105;110;111;107;97;114;116;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;122;97;104;108;32;34;87;105;101;32;118;105;101;108;101;32;75;97;114;116;101;110;63;34;</text>
@@ -20177,7 +20177,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;71;101;115;97;109;116;58;32;34;32;43;32;103;101;115;97;109;116;</text>
   </strelem>
 </struktogramm>
-`,Mh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Nh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="75;105;110;111;107;97;114;116;101;110;32;40;102;101;104;108;101;114;104;97;102;116;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;122;97;104;108;32;34;87;105;101;32;118;105;101;108;101;32;75;97;114;116;101;110;63;34;</text>
@@ -20189,7 +20189,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>100;111;117;98;108;101;32;103;101;115;97;109;116;32;61;32;97;110;122;97;104;108;32;42;32;56;46;53;</text>
   </strelem>
 </struktogramm>
-`,Zh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Eh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;117;115;99;104;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;69;114;115;116;101;32;90;97;104;108;34;</text>
@@ -20213,7 +20213,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;</text>
   </strelem>
 </struktogramm>
-`,_h=`<?xml version="1.0" encoding="UTF-8"?>
+`,Lh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;117;115;99;104;101;110;32;40;102;101;104;108;101;114;104;97;102;116;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;69;114;115;116;101;32;90;97;104;108;34;</text>
@@ -20234,7 +20234,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;98;</text>
   </strelem>
 </struktogramm>
-`,jh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Vh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="87;101;114;116;101;32;116;97;117;115;99;104;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;97;32;61;32;51;</text>
@@ -20258,7 +20258,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;98;32;61;32;34;32;43;32;98;</text>
   </strelem>
 </struktogramm>
-`,Ph=`<?xml version="1.0" encoding="UTF-8"?>
+`,Rh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;98;115;116;101;105;103;101;110;100;32;115;111;114;116;105;101;114;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;107;97;114;116;101;110;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -20317,7 +20317,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Ch=`<?xml version="1.0" encoding="UTF-8"?>
+`,Uh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;98;115;116;101;105;103;101;110;100;32;115;111;114;116;105;101;114;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;107;97;114;116;101;110;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -20376,7 +20376,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Ah=`<?xml version="1.0" encoding="UTF-8"?>
+`,Fh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;110;228;114;101;32;83;117;99;104;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;107;97;114;116;101;110;32;61;32;123;50;44;32;51;44;32;53;44;32;55;44;32;56;44;32;49;48;44;32;49;50;44;32;49;51;44;32;49;53;44;32;49;56;44;32;50;48;44;32;50;49;44;32;50;52;44;32;50;55;44;32;51;48;125;</text>
@@ -20450,7 +20450,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;86;101;114;103;108;101;105;99;104;101;58;32;34;32;43;32;118;101;114;103;108;101;105;99;104;101;</text>
   </strelem>
 </struktogramm>
-`,Th=`<?xml version="1.0" encoding="UTF-8"?>
+`,Yh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;117;98;98;108;101;115;111;114;116;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;107;97;114;116;101;110;32;61;32;123;55;44;32;51;44;32;49;48;44;32;53;44;32;50;125;</text>
@@ -20499,7 +20499,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Dh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Oh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="75;97;114;116;101;32;115;117;99;104;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;107;97;114;116;101;110;32;61;32;123;56;44;32;52;44;32;49;49;44;32;52;44;32;54;125;</text>
@@ -20548,7 +20548,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,Wh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Qh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;105;110;101;97;114;101;32;83;117;99;104;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;107;97;114;116;101;110;32;61;32;123;50;44;32;51;44;32;53;44;32;55;44;32;56;44;32;49;48;44;32;49;50;44;32;49;51;44;32;49;53;44;32;49;56;44;32;50;48;44;32;50;49;44;32;50;52;44;32;50;55;44;32;51;48;125;</text>
@@ -20606,7 +20606,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;86;101;114;103;108;101;105;99;104;101;58;32;34;32;43;32;118;101;114;103;108;101;105;99;104;101;</text>
   </strelem>
 </struktogramm>
-`,Bh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Xh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="72;97;117;112;116;112;114;111;103;114;97;109;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;117;110;107;116;101;32;61;32;123;51;44;32;53;44;32;56;125;</text>
@@ -20625,7 +20625,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Hh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Jh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="72;97;117;112;116;112;114;111;103;114;97;109;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;117;110;107;116;101;32;61;32;123;51;44;32;53;44;32;56;125;</text>
@@ -20644,7 +20644,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Gh=`<?xml version="1.0" encoding="UTF-8"?>
+`,qh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;98;111;110;117;115;40;105;110;116;91;93;32;112;117;110;107;116;101;41;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;48;</text>
@@ -20657,7 +20657,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Nh=`<?xml version="1.0" encoding="UTF-8"?>
+`,Kh=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="72;97;117;112;116;112;114;111;103;114;97;109;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;122;97;104;108;32;61;32;53;</text>
@@ -20681,7 +20681,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;78;97;99;104;104;101;114;58;32;34;32;43;32;114;101;105;104;101;91;48;93;32;43;32;34;44;32;34;32;43;32;114;101;105;104;101;91;49;93;</text>
   </strelem>
 </struktogramm>
-`,Eh=`<?xml version="1.0" encoding="UTF-8"?>
+`,$h=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;108;101;101;114;101;110;40;98;111;111;108;101;97;110;91;93;32;112;108;97;101;116;122;101;41;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;48;</text>
@@ -20694,7 +20694,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Lh=`<?xml version="1.0" encoding="UTF-8"?>
+`,eg=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;118;101;114;100;111;112;112;108;101;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>120;32;61;32;120;32;42;32;50;</text>
@@ -20703,7 +20703,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;73;109;32;85;110;116;101;114;112;114;111;103;114;97;109;109;58;32;120;32;61;32;34;32;43;32;120;</text>
   </strelem>
 </struktogramm>
-`,Vh=`<?xml version="1.0" encoding="UTF-8"?>
+`,tg=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;110;105;116;105;97;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;118;111;114;110;97;109;101;32;34;86;111;114;110;97;109;101;34;</text>
@@ -20715,7 +20715,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;118;111;114;110;97;109;101;46;99;104;97;114;65;116;40;48;41;32;43;32;34;46;32;34;32;43;32;110;97;99;104;110;97;109;101;46;99;104;97;114;65;116;40;48;41;32;43;32;34;46;34;</text>
   </strelem>
 </struktogramm>
-`,Rh=`<?xml version="1.0" encoding="UTF-8"?>
+`,ng=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;252;99;107;119;228;114;116;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;119;111;114;116;32;34;87;111;114;116;32;101;105;110;103;101;98;101;110;34;</text>
@@ -20737,7 +20737,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;114;117;101;99;107;119;97;101;114;116;115;</text>
   </strelem>
 </struktogramm>
-`,Uh=`<?xml version="1.0" encoding="UTF-8"?>
+`,ig=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="90;101;114;108;101;103;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;122;101;105;108;101;32;61;32;34;76;117;100;119;105;103;59;71;101;105;223;98;111;99;107;59;55;34;</text>
@@ -20756,7 +20756,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Fh=`<?xml version="1.0" encoding="UTF-8"?>
+`,ag=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="87;246;114;116;101;114;32;122;228;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;115;97;116;122;32;34;83;97;116;122;32;101;105;110;103;101;98;101;110;34;</text>
@@ -20768,7 +20768,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;87;246;114;116;101;114;58;32;34;32;43;32;119;111;101;114;116;101;114;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,Yh=`<?xml version="1.0" encoding="UTF-8"?>
+`,sg=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;117;99;104;115;116;97;98;101;110;32;122;228;104;108;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;119;111;114;116;32;34;87;111;114;116;32;101;105;110;103;101;98;101;110;34;</text>
@@ -20800,7 +20800,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;110;122;97;104;108;32;101;58;32;34;32;43;32;97;110;122;97;104;108;</text>
   </strelem>
 </struktogramm>
-`,Oh=`<?xml version="1.0" encoding="UTF-8"?>
+`,rg=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="90;101;105;99;104;101;110;107;101;116;116;101;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;119;111;114;116;32;61;32;34;71;101;105;223;98;111;99;107;34;</text>
@@ -20824,25 +20824,25 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;119;111;114;116;46;116;111;85;112;112;101;114;67;97;115;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,Qh=""+new URL("aufgabe-mehrwertsteuer-C-TFTrWz.svg",import.meta.url).href,Xh=""+new URL("ben-shneiderman-Cev5hrqS.jpg",import.meta.url).href,Jh=""+new URL("aufgabe-mehrwertsteuer-CnrZ00ny.svg",import.meta.url).href,qh=""+new URL("kino-saal-C8zaJk4X.svg",import.meta.url).href,Kh=""+new URL("kino-schleifen-D7sfo9iK.svg",import.meta.url).href,$h="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDkyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDkyIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgPCEtLSBTdGFydCAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2QxZjJkOSIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjM4IiB4Mj0iMTUwIiB5Mj0iNTQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gQW53ZWlzdW5nIC0tPgogICAgPHJlY3QgeD0iNTAiIHk9IjU2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iODYiIHgyPSIxNTAiIHkyPSI5OCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogICAgPCEtLSBSYXV0ZSAxIC0tPgogICAgPHBhdGggZD0iTTE1MCAxMDAgTDIzNSAxMjggTDE1MCAxNTYgTDY1IDEyOCBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMTU2IiB4Mj0iMTUwIiB5Mj0iMTcyIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8cmVjdCB4PSI1MCIgeT0iMTc0IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMjA0IiB4Mj0iMTUwIiB5Mj0iMjUwIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIG5laW4tV2VnIHVtIGRlbiBLYXN0ZW4gaGVydW0gLS0+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyMzUsMTI4IDI4NSwxMjggMjg1LDIyMiAxNTAsMjIyIiBmaWxsPSJub25lIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIFJhdXRlIDIgLS0+CiAgICA8cGF0aCBkPSJNMTUwIDI1MiBMMjM1IDI4MCBMMTUwIDMwOCBMNjUgMjgwIFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxsaW5lIHgxPSIyMzUiIHkxPSIyODAiIHgyPSIyNjgiIHkyPSIyODAiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjI3MCIgeT0iMjY1IiB3aWR0aD0iMTE1IiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8IS0tIHp1csO8Y2sgenVyIFByw7xmdW5nIC0tPgogICAgPHBvbHlsaW5lIHBvaW50cz0iMzI3LDI2NSAzMjcsMjM4IDE1MCwyMzgiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDgiIHgyPSIxNTAiIHkyPSIzMjYiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjUwIiB5PSIzMjgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlNWYwZmYiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzNTgiIHgyPSIxNTAiIHkyPSIzNzQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gRW5kZSAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMzc2IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNkMWYyZDkiLz4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI5Ij5TdGFydDwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iNzYiPlB1dCBhIGN1cCBvbiB0aGUgdGFibGU8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjEzMyI+U3VnYXIgd2FudGVkPzwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTk0Ij5BZGQgc3VnYXI8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI4NSI+VGVhIHN0aWxsIHRvbyBob3Q/PC90ZXh0PgogICAgPHRleHQgeD0iMzI3LjUiIHk9IjI4NSI+V2FpdCAxIG1pbnV0ZTwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzQ4Ij5EcmluayB0aGUgdGVhPC90ZXh0PgogICAgPHRleHQgeD0iMTUwIiB5PSIzOTUiPkVuZDwvdGV4dD4KICA8L2c+CiAgPGcgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCI+CiAgICA8dGV4dCB4PSIxNTYiIHk9IjE2OCIgZmlsbD0iIzI0OGEzZCI+eWVzPC90ZXh0PgogICAgPHRleHQgeD0iMjQyIiB5PSIxMjIiIGZpbGw9IiNkNzAwMTUiPm5vPC90ZXh0PgogICAgPHRleHQgeD0iMjQwIiB5PSIyNzQiIGZpbGw9IiMyNDhhM2QiPnllczwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1NiIgeT0iMzIwIiBmaWxsPSIjZDcwMDE1Ij5ubzwvdGV4dD4KICA8L2c+CiAgPCEtLSBMZWdlbmRlIC0tPgogIDxsaW5lIHgxPSIxMCIgeTE9IjQxOCIgeDI9IjM5MCIgeTI9IjQxOCIgc3Ryb2tlPSIjZDFkMWQ2Ii8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICA8cmVjdCB4PSI0MCIgeT0iNDMwIiB3aWR0aD0iMzYiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSIjZDFmMmQ5Ii8+CiAgICA8cmVjdCB4PSIyMjAiIHk9IjQzMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE4IiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8cGF0aCBkPSJNNTggNDU4IEw3NiA0NjkgTDU4IDQ4MCBMNDAgNDY5IFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxwYXRoIGQ9Ik0yMjYgNDYwIEwyNTYgNDYwIEwyNTAgNDc4IEwyMjAgNDc4IFoiIGZpbGw9IiNmMmU2ZmYiLz4KICA8L2c+CiAgPGcgZm9udC1zaXplPSIxMiIgZmlsbD0iIzNhM2EzYyI+CiAgICA8dGV4dCB4PSI4NiIgeT0iNDQzIj5TdGFydCBvciBlbmQ8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjYiIHk9IjQ0MyI+U3RhdGVtZW50PC90ZXh0PgogICAgPHRleHQgeD0iODYiIHk9IjQ3MyI+RGVjaXNpb248L3RleHQ+CiAgICA8dGV4dCB4PSIyNjYiIHk9IjQ3MyI+SW5wdXQgb3Igb3V0cHV0PC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",eg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE5MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwIiB5PSIyNCIgZm9udC13ZWlnaHQ9IjYwMCI+V2hlcmUgZG9lcyB0aGUgZWxlbWVudCBsYW5kPzwvdGV4dD4KICA8cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkYmVhZmUiLz4KICA8cmVjdCB4PSIyMCIgeT0iNzUiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkY2ZjZTciLz4KICA8bGluZSB4MT0iMjAiIHkxPSI3NSIgeDI9IjIxMCIgeTI9Ijc1IiBzdHJva2U9IiM2ZTZlNzMiIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPgogIDxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWQ0ZWQ4Ij50b3AgaGFsZjwvdGV4dD4KICA8dGV4dCB4PSIxMTUiIHk9Ijk3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTU4MDNkIj5ib3R0b20gaGFsZjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9IjYyIj7ihpIgZ29lcyA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+aW4gZnJvbnQ8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9Ijk3Ij7ihpIgZ29lcyA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+YWZ0ZXI8L3RzcGFuPjwvdGV4dD4KICA8cmVjdCB4PSIyMCIgeT0iMTMyIiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjExNSIgeT0iMTU3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2Ij7DuDwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9IjE1NyI+4oaSIDx0c3BhbiBmb250LXdlaWdodD0iNjAwIj5yZXBsYWNlczwvdHNwYW4+IGl0PC90ZXh0Pgo8L3N2Zz4K",tg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjEwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIxMCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE2Ij5pbnQgYWdlID0gMTQ8L3RleHQ+CiAgPHBhdGggZD0iTTEzMCA3MCBMMTcwIDUwIEwzMDAgNTAgTDI2MCA3MCBaIiBmaWxsPSIjYzk4YTNjIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMzQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI1MCIgcng9IjMiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSIyMDIiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNzAwIj4xNDwvdGV4dD4KICA8cmVjdCB4PSIxMzAiIHk9IjcwIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2U5Yjg3MiIgc3Ryb2tlPSIjOGE1YTFmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMjYwIDcwIEwzMDAgNTAgTDMwMCAxNTAgTDI2MCAxNzAgWiIgZmlsbD0iI2Q0OWE0YyIgc3Ryb2tlPSIjOGE1YTFmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cmVjdCB4PSIxNTAiIHk9IjEwMCIgd2lkdGg9IjkwIiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjOGE1YTFmIi8+CiAgPHRleHQgeD0iMTk1IiB5PSIxMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPmFnZTwvdGV4dD4KICA8cmVjdCB4PSIxMzgiIHk9IjE0MiIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiMwMDdhZmYiLz4KICA8dGV4dCB4PSIxNTUiIHk9IjE1NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZmZmZiIgZm9udC13ZWlnaHQ9IjYwMCI+aW50PC90ZXh0PgogIDxnIHN0cm9rZT0iIzZlNmU3MyI+CiAgICA8bGluZSB4MT0iMzEwIiB5MT0iNDgiIHgyPSIyMjYiIHkyPSI1MiIvPgogICAgPGxpbmUgeDE9IjMxMCIgeTE9IjExNSIgeDI9IjI0MiIgeTI9IjExNSIvPgogICAgPGxpbmUgeDE9IjgwIiB5MT0iMTUyIiB4Mj0iMTM0IiB5Mj0iMTUyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjMxNiIgeT0iNTIiPlZhbHVlPC90ZXh0PgogIDx0ZXh0IHg9IjMxNiIgeT0iMTE5Ij5OYW1lPC90ZXh0PgogIDx0ZXh0IHg9IjgiIHk9IjE1NiI+RGF0YSB0eXBlPC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iMTk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5UaGUgbmFtZSBnZXRzIHlvdSB0byB0aGUgdmFsdWUuPC90ZXh0Pgo8L3N2Zz4K",ng="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjAiPgogICAgPHRleHQgeD0iNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+cG9pbnRzPC90ZXh0PgogICAgPHRleHQgeD0iMTI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPj08L3RleHQ+CiAgICA8dGV4dCB4PSIyNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9pbnRzICsgNTwvdGV4dD4KICA8L2c+CiAgPHJlY3QgeD0iMTgwIiB5PSI4NiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjYwIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPuKRoCB3b3JrIG91dCB0aGUgcmlnaHQ6IDEwICsgNSA9IDE1PC90ZXh0PgogIDxwYXRoIGQ9Ik0yNTAgODIgQzIzMCAzMCwgOTAgMzAsIDY0IDg0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdhZmYiIHN0cm9rZS13aWR0aD0iMi41IiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgPHRleHQgeD0iMTYwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiI+4pGhIHN0b3JlIHRoZSByZXN1bHQgb24gdGhlIGxlZnQ8L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjE2NCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSIyNiIgcng9IjYiIGZpbGw9IiNmMmYyZjciLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9pbnRzIGJlZm9yZTogPHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiPjEwPC90c3Bhbj4gICDihpIgICBwb2ludHMgYWZ0ZXI6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xNTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K",ag="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTQwIDExMCBMNDggMTgwIEwxMDIgMTgwIEwxMTAgMTEwIi8+CiAgICA8cGF0aCBkPSJNMTY1IDExMCBMMTczIDE4MCBMMjI3IDE4MCBMMjM1IDExMCIvPgogICAgPHBhdGggZD0iTTI5MCAxMTAgTDI5OCAxODAgTDM1MiAxODAgTDM2MCAxMTAiLz4KICA8L2c+CiAgPHBhdGggZD0iTTQ0IDEzNSBMNDggMTgwIEwxMDIgMTgwIEwxMDYgMTM1IFoiIGZpbGw9IiNmZGJhNzQiLz4KICA8cGF0aCBkPSJNMjk0IDEzNSBMMjk4IDE4MCBMMzUyIDE4MCBMMzU2IDEzNSBaIiBmaWxsPSIjOTNjNWZkIi8+CiAgPHRleHQgeD0iNzUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+bGVmdDwvdGV4dD4KICA8dGV4dCB4PSI3NSIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5qdWljZTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+dGVtcDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+ZW1wdHk8L3RleHQ+CiAgPHRleHQgeD0iMzI1IiB5PSIyMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPnJpZ2h0PC90ZXh0PgogIDx0ZXh0IHg9IjMyNSIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj53YXRlcjwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxwYXRoIGQ9Ik04OCAxMDQgQzExMCA3MCwgMTYwIDcwLCAxODYgMTA0Ii8+CiAgICA8cGF0aCBkPSJNMzE4IDEwNCBDMjcwIDE1LCAxMzAgMTUsIDgyIDEwNCIvPgogICAgPHBhdGggZD0iTTIxNCAxMDQgQzI0MCA3MCwgMjkwIDcwLCAzMTIgMTA0Ii8+CiAgPC9nPgogIDxnIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPGNpcmNsZSBjeD0iMTM3IiBjeT0iODAiIHI9IjExIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz48dGV4dCB4PSIxMzciIHk9Ijg1Ij4xPC90ZXh0PgogICAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMzgiIHI9IjExIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz48dGV4dCB4PSIyMDAiIHk9IjQzIj4yPC90ZXh0PgogICAgPGNpcmNsZSBjeD0iMjYzIiBjeT0iODAiIHI9IjExIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz48dGV4dCB4PSIyNjMiIHk9Ijg1Ij4zPC90ZXh0PgogIDwvZz4KICA8ZyB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMiI+CiAgICA8dGV4dCB4PSI3MCIgeT0iMjQ3Ij4xOiB0ZW1wID0gbGVmdDwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMjQ3Ij4yOiBsZWZ0ID0gcmlnaHQ8L3RleHQ+CiAgICA8dGV4dCB4PSIzMzAiIHk9IjI0NyI+MzogcmlnaHQgPSB0ZW1wPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",ig="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+PHJlY3QgeD0iMzEwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+CiAgPHJlY3QgeD0iOTAiIHk9IjUwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZGNmY2U3Ii8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iNzQiIHgyPSIzODAiIHkyPSI3NCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iNDYiIHkxPSI2OCIgeDI9IjQ2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDYiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wPC90ZXh0PgogIDxsaW5lIHgxPSI5MCIgeTE9IjY4IiB4Mj0iOTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+CiAgPGxpbmUgeDE9IjEzNCIgeTE9IjY4IiB4Mj0iMTM0IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTM0IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD4KICA8bGluZSB4MT0iMTc4IiB5MT0iNjgiIHgyPSIxNzgiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNzgiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zPC90ZXh0PgogIDxsaW5lIHgxPSIyMjIiIHkxPSI2OCIgeDI9IjIyMiIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIyMiIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjI2NiIgeTE9IjY4IiB4Mj0iMjY2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjY2IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD4KICA8bGluZSB4MT0iMzEwIiB5MT0iNjgiIHgyPSIzMTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj42PC90ZXh0PgogIDxsaW5lIHgxPSIzNTQiIHkxPSI2OCIgeDI9IjM1NCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjM1NCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjc8L3RleHQ+CiAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3NCIgcj0iNiIgZmlsbD0iIzE1ODAzZCIvPjxjaXJjbGUgY3g9IjMxMCIgY3k9Ijc0IiByPSI2IiBmaWxsPSIjMTU4MDNkIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dmFsaWQ8L3RleHQ+CiAgPHRleHQgeD0iNDAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5pbnZhbGlkPC90ZXh0Pjx0ZXh0IHg9IjM2MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPmludmFsaWQ8L3RleHQ+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPHRleHQgeD0iMjAwIiB5PSIxMjQiIGZpbGw9IiMxNTgwM2QiPmdyYWRlICZndDs9IDEgJmFtcDsmYW1wOyBncmFkZSAmbHQ7PSA2PC90ZXh0PgogICAgPHRleHQgeD0iMjAwIiB5PSIxNDIiIGZpbGw9IiNiOTFjMWMiPmdyYWRlICZsdDsgMSB8fCBncmFkZSAmZ3Q7IDY8L3RleHQ+CiAgPC9nPgo8L3N2Zz4K",sg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIj5Ib3cgdGhlIHdoaWxlIGxvb3AgcnVuczwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjQ0IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI2OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIGNoZWNrIHRoZSBjb25kaXRpb248L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSIxMjgiIHdpZHRoPSIxNjAiIGhlaWdodD0iNDAiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTUzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgcnVuIHRoZSBpbnNpZGU8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iODQiIHgyPSIyMDAiIHkyPSIxMjYiLz4KICAgIDxwYXRoIGQ9Ik0xMjAgMTQ4IEM4MCAxNDgsIDgwIDY0LCAxMTggNjQiLz4KICAgIDxwYXRoIGQ9Ik0yODAgNjQgTDM0MCA2NCBMMzQwIDIwMCBMMjgyIDIwMCIvPgogIDwvZz4KICA8dGV4dCB4PSIyMDgiIHk9IjExMCIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dHJ1ZTwvdGV4dD4KICA8dGV4dCB4PSIzOCIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5iYWNrPC90ZXh0PgogIDx0ZXh0IHg9IjM4IiB5PSIxMjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPnRvIHRoZSB0b3A8L3RleHQ+CiAgPHRleHQgeD0iMzQ4IiB5PSIxMzQiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPmZhbHNlPC90ZXh0PgogIDx0ZXh0IHg9IjI3NiIgeT0iMjA1IiB0ZXh0LWFuY2hvcj0iZW5kIj5jb250aW51ZSBiZWxvdyB0aGUgbG9vcDwvdGV4dD4KPC9zdmc+Cg==",rg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+cHJlLXRlc3QgKHdoaWxlKTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNjAwIj5wb3N0LXRlc3QgKGRvLXdoaWxlKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTAiIHgyPSIyMDAiIHkyPSIyMjAiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxyZWN0IHg9IjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCBjb25kaXRpb248L3RleHQ+CiAgPHJlY3QgeD0iMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIxNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoSBpbnNpZGU8L3RleHQ+CiAgPHJlY3QgeD0iMjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI2NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIGluc2lkZTwvdGV4dD4KICA8cmVjdCB4PSIyMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iMTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgY29uZGl0aW9uPC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYSkiPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjgwIiB4Mj0iMTAwIiB5Mj0iMTIyIi8+CiAgICA8cGF0aCBkPSJNMzUgMTQyIEM4IDE0MiwgOCA2MiwgMzMgNjIiLz4KICAgIDxsaW5lIHgxPSIzMDAiIHkxPSI4MCIgeDI9IjMwMCIgeTI9IjEyMiIvPgogICAgPHBhdGggZD0iTTM2NSAxNDIgQzM5MiAxNDIsIDM5MiA2MiwgMzY3IDYyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjEwNiIgeT0iMTA2IiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjM4MCIgeT0iMTA2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5JZiB0aGUgY29uZGl0aW9uIGlzIGZhbHNlIGF0IG9uY2UsPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj50aGUgaW5zaWRlIHJ1bnMgPHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPm5ldmVyPC90c3Bhbj4uPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5UaGUgaW5zaWRlIGFsd2F5cyBydW5zPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj48dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+YXQgbGVhc3Qgb25jZTwvdHNwYW4+LjwvdGV4dD4KPC9zdmc+Cg==",og="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIFN0YXJ0IDx0c3BhbiBmaWxsPSIjNmU2ZTczIj4ob25seSBvbmNlKTwvdHNwYW4+PC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iNzYiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzQiIHJ4PSIxNyIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjYjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgY2hlY2sgdGhlIGNvbmRpdGlvbjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjEzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIxNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoiBydW4gdGhlIGluc2lkZTwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjIwMCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIyMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoyBzdGVwLCBlLmcuIGkrKzwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSI0OCIgeDI9IjIwMCIgeTI9Ijc0Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTEwIiB4Mj0iMjAwIiB5Mj0iMTM2Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTcyIiB4Mj0iMjAwIiB5Mj0iMTk4Ii8+CiAgICA8cGF0aCBkPSJNMTIwIDIxNyBDNjAgMjE3LCA2MCA5MywgMTE4IDkzIi8+CiAgICA8cGF0aCBkPSJNMjgwIDkzIEwzMzAgOTMiLz4KICA8L2c+CiAgPHRleHQgeD0iMjA4IiB5PSIxMjkiIGZpbGw9IiMxNTgwM2QiIGZvbnQtd2VpZ2h0PSI2MDAiPnRydWU8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+YmFjazwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMTc2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj50byDikaE8L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSI4NCIgZmlsbD0iI2I5MWMxYyIgZm9udC13ZWlnaHQ9IjYwMCI+ZmFsc2U8L3RleHQ+CiAgPHRleHQgeD0iMzM2IiB5PSI5OCI+ZG9uZTwvdGV4dD4KPC9zdmc+Cg==",lg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCI+aW50W10gbnVtYmVycyA9IHsyLCA0LCA2LCA4LCAxMH08L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjU0IiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj5JbmRleDwvdGV4dD4KICA8dGV4dCB4PSI5MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjA8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iOTAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj4yPC90ZXh0PgogIDx0ZXh0IHg9IjE1MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjE8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjE1MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjQ8L3RleHQ+CiAgPHRleHQgeD0iMjEwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MjwvdGV4dD48cmVjdCB4PSIxODAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjEwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+NjwvdGV4dD4KICA8dGV4dCB4PSIyNzAiIHk9IjU0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIiBmb250LXdlaWdodD0iNzAwIj4zPC90ZXh0PjxyZWN0IHg9IjI0MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyNzAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj44PC90ZXh0PgogIDx0ZXh0IHg9IjMzMCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjQ8L3RleHQ+PHJlY3QgeD0iMzAwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMzMCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjEwPC90ZXh0PgogIDx0ZXh0IHg9IjIwIiB5PSI5MCIgZmlsbD0iIzZlNmU3MyIgZm9udC1zaXplPSIxMiI+VmFsdWU8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA3YWZmIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+PGxpbmUgeDE9IjkwIiB5MT0iMTQwIiB4Mj0iOTAiIHkyPSIxMTIiLz48bGluZSB4MT0iMzMwIiB5MT0iMTQwIiB4Mj0iMzMwIiB5Mj0iMTEyIi8+PC9nPgogIDxnIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48dGV4dCB4PSI5MCIgeT0iMTU2Ij5udW1iZXJzWzBdIGlzIDI8L3RleHQ+PHRleHQgeD0iMzMwIiB5PSIxNTYiPm51bWJlcnNbNF0gaXMgMTA8L3RleHQ+PC9nPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTgyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj41IHNsb3RzLCBjb3VudGluZyBzdGFydHMgYXQgMDogdGhlIGxhc3QgaW5kZXggaXMgNC48L3RleHQ+Cjwvc3ZnPgo=",mg=""+new URL("ss-binaere-suche-D02W1TH_.svg",import.meta.url).href,ug=""+new URL("ss-bubblesort-CmKEoNfO.svg",import.meta.url).href,cg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDQgMTk2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KPHJlY3Qgd2lkdGg9IjQwNCIgaGVpZ2h0PSIxOTYiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMTQiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjE1Ij5Mb29raW5nIGZvciB0aGUgOS4gVGhlIGNhcmRzIGFyZSBtaXhlZCB1cC48L3RleHQ+CjxnPjxyZWN0IHg9IjE0IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48dGV4dCB4PSIzNC4wIiB5PSI3NS4yIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZGMyNjI2Ij43PC90ZXh0Pjx0ZXh0IHg9IjM0LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjZGMyNjI2Ij7imaU8L3RleHQ+PC9nPgo8dGV4dCB4PSIzNC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMzQuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj4xLjwvdGV4dD4KPGc+PHJlY3QgeD0iNjIiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjgyLjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjM8L3RleHQ+PHRleHQgeD0iODIuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxYzFjMWUiPuKZoDwvdGV4dD48L2c+Cjx0ZXh0IHg9IjgyLjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSI4Mi4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjIuPC90ZXh0Pgo8Zz48cmVjdCB4PSIxMTAiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjEzMC4wIiB5PSI3NS4yIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZGMyNjI2Ij4xMDwvdGV4dD48dGV4dCB4PSIxMzAuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNkYzI2MjYiPuKZpjwvdGV4dD48L2c+Cjx0ZXh0IHg9IjEzMC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMTMwLjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+My48L3RleHQ+CjxnPjxyZWN0IHg9IjE1OCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iMTc4LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjU8L3RleHQ+PHRleHQgeD0iMTc4LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMWMxYzFlIj7imaM8L3RleHQ+PC9nPgo8dGV4dCB4PSIxNzguMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGMyNjI2Ij7inJc8L3RleHQ+Cjx0ZXh0IHg9IjE3OC4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjQuPC90ZXh0Pgo8Zz48cmVjdCB4PSIyMDYiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZGNmY2U3IiBzdHJva2U9IiMxNTgwM2QiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjIyNi4wIiB5PSI3NS4yIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWMxYzFlIj45PC90ZXh0Pjx0ZXh0IHg9IjIyNi4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzFjMWMxZSI+4pmgPC90ZXh0PjwvZz4KPHRleHQgeD0iMjI2LjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE1ODAzZCI+4pyTPC90ZXh0Pgo8dGV4dCB4PSIyMjYuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj41LjwvdGV4dD4KPGc+PHJlY3QgeD0iMjU0IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iIzFkNGVkOCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSIyNTgiIHk9IjU0IiB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2M1ZmQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSIzIDIiLz48L2c+CjxnPjxyZWN0IHg9IjMwMiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiMxZDRlZDgiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iMzA2IiB5PSI1NCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQ4IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNjNWZkIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyAyIi8+PC9nPgo8Zz48cmVjdCB4PSIzNTAiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjMWQ0ZWQ4IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjM1NCIgeT0iNTQiIHdpZHRoPSIzMiIgaGVpZ2h0PSI0OCIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYzVmZCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjwvZz4KPHRleHQgeD0iMTQiIHk9IjE2OCIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzZlNmU3MyI+VHVybiB0aGVtIG92ZXIgZnJvbSBsZWZ0IHRvIHJpZ2h0OjwvdGV4dD48dGV4dCB4PSIxNCIgeT0iMTg4IiBmb250LXNpemU9IjE1IiBmaWxsPSIjNmU2ZTczIj5BZnRlciA1IGNvbXBhcmlzb25zIHRoZSA5IGlzIGZvdW5kLjwvdGV4dD4KPC9zdmc+Cg==",dg=""+new URL("ss-vergleiche-UczNldcC.svg",import.meta.url).href,hg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgNDUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KPGRlZnM+PG1hcmtlciBpZD0iayIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNiIgbWFya2VySGVpZ2h0PSI2IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDAgTDEwIDUgTDAgMTAgWiIgZmlsbD0iIzFjMWMxZSIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImIiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEwxMCA1IEwwIDEwIFoiIGZpbGw9IiMxZDRlZDgiLz48L21hcmtlcj48bWFya2VyIGlkPSJvIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI2IiBtYXJrZXJIZWlnaHQ9IjYiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjYjQ1MzA5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPkNhbGwgYnkgdmFsdWU6IGEgY29weTwvdGV4dD4KPHJlY3QgeD0iMTAiIHk9IjM4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9Ijg2IiByeD0iOCIgZmlsbD0iI2VmZjZmZiIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIyMCIgeT0iNTgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPk1haW4gcHJvZ3JhbTwvdGV4dD4KPHRleHQgeD0iMTYiIHk9Ijk4IiBmb250LXNpemU9IjEyIj5udW1iZXI8L3RleHQ+CjxyZWN0IHg9IjcwIiB5PSI3OCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9Ijk4IiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+NTwvdGV4dD4KPHJlY3QgeD0iMjUwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNmZmY3ZWQiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjYwIiB5PSI1OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+ZG91YmxlSXQ8L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iOTgiPng8L3RleHQ+CjxyZWN0IHg9IjI4MCIgeT0iNzgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIzMCIgcng9IjQiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8dGV4dCB4PSIzMjAiIHk9Ijk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48dHNwYW4gZmlsbD0iIzZlNmU3MyIgdGV4dC1kZWNvcmF0aW9uPSJsaW5lLXRocm91Z2giPjU8L3RzcGFuPiA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCI+MTA8L3RzcGFuPjwvdGV4dD4KPGxpbmUgeDE9IjEyOCIgeTE9IjkzIiB4Mj0iMjQ4IiB5Mj0iOTMiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIgbWFya2VyLWVuZD0idXJsKCNrKSIvPgo8dGV4dCB4PSIyMTAiIHk9Ijg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5jb3B5PC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iMTUwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj54IGJlY29tZXMgMTAsIGJ1dCBudW1iZXIgc3RheXMgNS48L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxNjgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPkxpa2UgYSBwaG90b2NvcHk6IHdyaXRpbmcgb24gdGhlIGNvcHk8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxODYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPmRvZXMgbm90IGNoYW5nZSB0aGUgb3JpZ2luYWwuPC90ZXh0Pgo8bGluZSB4MT0iMTAiIHkxPSIyMDgiIHgyPSI0MTAiIHkyPSIyMDgiIHN0cm9rZT0iI2QxZDFkNiIvPgo8dGV4dCB4PSIxMCIgeT0iMjM2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj5DYWxsIGJ5IHJlZmVyZW5jZTogdGhlIHNhbWUgYXJyYXk8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZWZmNmZmIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIwIiB5PSIyNzIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPk1haW4gcHJvZ3JhbTwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjMwMCI+cm93PC90ZXh0Pgo8Y2lyY2xlIGN4PSIxNTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiMxZDRlZDgiLz4KPHJlY3QgeD0iMjUwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZmZmN2VkIiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjI2MCIgeT0iMjcyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ1MzA5Ij5jbGVhcjwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIzMDAiPnNlYXRzPC90ZXh0Pgo8Y2lyY2xlIGN4PSIzOTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiNiNDUzMDkiLz4KPHBhdGggZD0iTTE1MCAzMDAgTDE1MCAzNDAgTDE0MCAzNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjYikiLz4KPHBhdGggZD0iTTM5MCAzMDAgTDM5MCAzNDAgTDMyMiAzNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjbykiLz4KPHJlY3QgeD0iOTAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHJlY3QgeD0iMTUwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+CjxyZWN0IHg9IjIxMCIgeT0iMzU4IiB3aWR0aD0iNjAiIGhlaWdodD0iMzIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8cmVjdCB4PSIyNzAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHRleHQgeD0iMTIwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjM3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+ZmFsc2U8L3RleHQ+Cjx0ZXh0IHg9IjI0MCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMzAwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iNDE2IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj5UaGVyZSBpcyBvbmx5IG9uZSBhcnJheS4gV2hhdCBjbGVhciBjaGFuZ2VzIHRocm91Z2ggc2VhdHMsPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iNDM0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj50aGUgbWFpbiBwcm9ncmFtIHNlZXMgdW5kZXIgcm93LjwvdGV4dD4KPC9zdmc+Cg==",gg=""+new URL("zk-zeichen-CgUEhNoK.svg",import.meta.url).href,pg=""+new URL("ike-nassi-D2w47gvX.jpg",import.meta.url).href,xg=""+new URL("kino-saal-CYMOok4_.svg",import.meta.url).href,Ig=""+new URL("kino-schleifen-DrTQV7dq.svg",import.meta.url).href,bg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDkyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDkyIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgPCEtLSBTdGFydCAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2QxZjJkOSIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjM4IiB4Mj0iMTUwIiB5Mj0iNTQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gQW53ZWlzdW5nIC0tPgogICAgPHJlY3QgeD0iNTAiIHk9IjU2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iODYiIHgyPSIxNTAiIHkyPSI5OCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogICAgPCEtLSBSYXV0ZSAxIC0tPgogICAgPHBhdGggZD0iTTE1MCAxMDAgTDIzNSAxMjggTDE1MCAxNTYgTDY1IDEyOCBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMTU2IiB4Mj0iMTUwIiB5Mj0iMTcyIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8cmVjdCB4PSI1MCIgeT0iMTc0IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMjA0IiB4Mj0iMTUwIiB5Mj0iMjUwIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIG5laW4tV2VnIHVtIGRlbiBLYXN0ZW4gaGVydW0gLS0+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyMzUsMTI4IDI4NSwxMjggMjg1LDIyMiAxNTAsMjIyIiBmaWxsPSJub25lIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIFJhdXRlIDIgLS0+CiAgICA8cGF0aCBkPSJNMTUwIDI1MiBMMjM1IDI4MCBMMTUwIDMwOCBMNjUgMjgwIFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxsaW5lIHgxPSIyMzUiIHkxPSIyODAiIHgyPSIyNjgiIHkyPSIyODAiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjI3MCIgeT0iMjY1IiB3aWR0aD0iMTE1IiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8IS0tIHp1csO8Y2sgenVyIFByw7xmdW5nIC0tPgogICAgPHBvbHlsaW5lIHBvaW50cz0iMzI3LDI2NSAzMjcsMjM4IDE1MCwyMzgiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDgiIHgyPSIxNTAiIHkyPSIzMjYiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjUwIiB5PSIzMjgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlNWYwZmYiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzNTgiIHgyPSIxNTAiIHkyPSIzNzQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gRW5kZSAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMzc2IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNkMWYyZDkiLz4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI5Ij5TdGFydDwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iNzYiPlRhc3NlIGF1ZiBkZW4gVGlzY2ggc3RlbGxlbjwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTMzIj5adWNrZXIgZ2V3w7xuc2NodD88L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjE5NCI+WnVja2VyIGhpbmVpbmdlYmVuPC90ZXh0PgogICAgPHRleHQgeD0iMTUwIiB5PSIyODUiPlRlZSBub2NoIHp1IGhlacOfPzwvdGV4dD4KICAgIDx0ZXh0IHg9IjMyNy41IiB5PSIyODUiPjEgTWludXRlIHdhcnRlbjwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzQ4Ij5UZWUgdHJpbmtlbjwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzk1Ij5FbmRlPC90ZXh0PgogIDwvZz4KICA8ZyBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNjAwIj4KICAgIDx0ZXh0IHg9IjE1NiIgeT0iMTY4IiBmaWxsPSIjMjQ4YTNkIj5qYTwvdGV4dD4KICAgIDx0ZXh0IHg9IjI0MiIgeT0iMTIyIiBmaWxsPSIjZDcwMDE1Ij5uZWluPC90ZXh0PgogICAgPHRleHQgeD0iMjQwIiB5PSIyNzQiIGZpbGw9IiMyNDhhM2QiPmphPC90ZXh0PgogICAgPHRleHQgeD0iMTU2IiB5PSIzMjAiIGZpbGw9IiNkNzAwMTUiPm5laW48L3RleHQ+CiAgPC9nPgogIDwhLS0gTGVnZW5kZSAtLT4KICA8bGluZSB4MT0iMTAiIHkxPSI0MTgiIHgyPSIzOTAiIHkyPSI0MTgiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxnIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogICAgPHJlY3QgeD0iNDAiIHk9IjQzMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE4IiByeD0iOSIgZmlsbD0iI2QxZjJkOSIvPgogICAgPHJlY3QgeD0iMjIwIiB5PSI0MzAiIHdpZHRoPSIzNiIgaGVpZ2h0PSIxOCIgZmlsbD0iI2U1ZjBmZiIvPgogICAgPHBhdGggZD0iTTU4IDQ1OCBMNzYgNDY5IEw1OCA0ODAgTDQwIDQ2OSBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8cGF0aCBkPSJNMjI2IDQ2MCBMMjU2IDQ2MCBMMjUwIDQ3OCBMMjIwIDQ3OCBaIiBmaWxsPSIjZjJlNmZmIi8+CiAgPC9nPgogIDxnIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzYTNhM2MiPgogICAgPHRleHQgeD0iODYiIHk9IjQ0MyI+U3RhcnQgb2RlciBFbmRlPC90ZXh0PgogICAgPHRleHQgeD0iMjY2IiB5PSI0NDMiPkFud2Vpc3VuZzwvdGV4dD4KICAgIDx0ZXh0IHg9Ijg2IiB5PSI0NzMiPlZlcnp3ZWlndW5nPC90ZXh0PgogICAgPHRleHQgeD0iMjY2IiB5PSI0NzMiPkVpbi0gb2RlciBBdXNnYWJlPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",fg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE5MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwIiB5PSIyNCIgZm9udC13ZWlnaHQ9IjYwMCI+V29oaW4gbGFuZGV0IGRhcyBFbGVtZW50PzwvdGV4dD4KICA8cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkYmVhZmUiLz4KICA8cmVjdCB4PSIyMCIgeT0iNzUiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkY2ZjZTciLz4KICA8bGluZSB4MT0iMjAiIHkxPSI3NSIgeDI9IjIxMCIgeTI9Ijc1IiBzdHJva2U9IiM2ZTZlNzMiIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPgogIDxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWQ0ZWQ4Ij5vYmVyZSBIw6RsZnRlPC90ZXh0PgogIDx0ZXh0IHg9IjExNSIgeT0iOTciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPnVudGVyZSBIw6RsZnRlPC90ZXh0PgogIDx0ZXh0IHg9IjIyNCIgeT0iNjIiPuKGkiBrb21tdCA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+ZGF2b3I8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9Ijk3Ij7ihpIga29tbXQgPHRzcGFuIGZvbnQtd2VpZ2h0PSI2MDAiPmRhaGludGVyPC90c3Bhbj48L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjEzMiIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjE1NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiI+w7g8L3RleHQ+CiAgPHRleHQgeD0iMjI0IiB5PSIxNTciPuKGkiA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+ZXJzZXR6dDwvdHNwYW4+IGRlbiBQbGF0emhhbHRlcjwvdGV4dD4KPC9zdmc+Cg==",yg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjEwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIxMCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE2Ij5pbnQgYWx0ZXIgPSAxNDwvdGV4dD4KICA8cGF0aCBkPSJNMTMwIDcwIEwxNzAgNTAgTDMwMCA1MCBMMjYwIDcwIFoiIGZpbGw9IiNjOThhM2MiIHN0cm9rZT0iIzhhNWExZiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHJlY3QgeD0iMTgwIiB5PSIzNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjUwIiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDx0ZXh0IHg9IjIwMiIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiPjE0PC90ZXh0PgogIDxyZWN0IHg9IjEzMCIgeT0iNzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZTliODcyIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yNjAgNzAgTDMwMCA1MCBMMzAwIDE1MCBMMjYwIDE3MCBaIiBmaWxsPSIjZDQ5YTRjIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE1MCIgeT0iMTAwIiB3aWR0aD0iOTAiIGhlaWdodD0iMzAiIHJ4PSI0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiM4YTVhMWYiLz4KICA8dGV4dCB4PSIxOTUiIHk9IjEyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+YWx0ZXI8L3RleHQ+CiAgPHJlY3QgeD0iMTM4IiB5PSIxNDIiIHdpZHRoPSIzNCIgaGVpZ2h0PSIyMCIgcng9IjEwIiBmaWxsPSIjMDA3YWZmIi8+CiAgPHRleHQgeD0iMTU1IiB5PSIxNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmZmZmYiIGZvbnQtd2VpZ2h0PSI2MDAiPmludDwvdGV4dD4KICA8ZyBzdHJva2U9IiM2ZTZlNzMiPgogICAgPGxpbmUgeDE9IjMxMCIgeTE9IjQ4IiB4Mj0iMjI2IiB5Mj0iNTIiLz4KICAgIDxsaW5lIHgxPSIzMTAiIHkxPSIxMTUiIHgyPSIyNDIiIHkyPSIxMTUiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjE1MiIgeDI9IjEzNCIgeTI9IjE1MiIvPgogIDwvZz4KICA8dGV4dCB4PSIzMTYiIHk9IjUyIj5XZXJ0PC90ZXh0PgogIDx0ZXh0IHg9IjMxNiIgeT0iMTE5Ij5OYW1lPC90ZXh0PgogIDx0ZXh0IHg9IjgiIHk9IjE1NiI+RGF0ZW50eXA8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPsOcYmVyIGRlbiBOYW1lbiBrb21tc3QgZHUgYW4gZGVuIFdlcnQuPC90ZXh0Pgo8L3N2Zz4K",zg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjAiPgogICAgPHRleHQgeD0iNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+cHVua3RlPC90ZXh0PgogICAgPHRleHQgeD0iMTI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPj08L3RleHQ+CiAgICA8dGV4dCB4PSIyNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cHVua3RlICsgNTwvdGV4dD4KICA8L2c+CiAgPHJlY3QgeD0iMTgwIiB5PSI4NiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjYwIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPuKRoCByZWNodHMgYXVzcmVjaG5lbjogMTAgKyA1ID0gMTU8L3RleHQ+CiAgPHBhdGggZD0iTTI1MCA4MiBDMjMwIDMwLCA5MCAzMCwgNjQgODQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwN2FmZiIgc3Ryb2tlLXdpZHRoPSIyLjUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjM2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIj7ikaEgRXJnZWJuaXMgbGlua3Mgc3BlaWNoZXJuPC90ZXh0PgogIDxyZWN0IHg9IjIwIiB5PSIxNjQiIHdpZHRoPSIzNjAiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSIjZjJmMmY3Ii8+CiAgPHRleHQgeD0iMjAwIiB5PSIxODIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPnB1bmt0ZSB2b3JoZXI6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xMDwvdHNwYW4+ICAg4oaSICAgcHVua3RlIG5hY2hoZXI6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xNTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K",vg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTQwIDExMCBMNDggMTgwIEwxMDIgMTgwIEwxMTAgMTEwIi8+CiAgICA8cGF0aCBkPSJNMTY1IDExMCBMMTczIDE4MCBMMjI3IDE4MCBMMjM1IDExMCIvPgogICAgPHBhdGggZD0iTTI5MCAxMTAgTDI5OCAxODAgTDM1MiAxODAgTDM2MCAxMTAiLz4KICA8L2c+CiAgPHBhdGggZD0iTTQ0IDEzNSBMNDggMTgwIEwxMDIgMTgwIEwxMDYgMTM1IFoiIGZpbGw9IiNmZGJhNzQiLz4KICA8cGF0aCBkPSJNMjk0IDEzNSBMMjk4IDE4MCBMMzUyIDE4MCBMMzU2IDEzNSBaIiBmaWxsPSIjOTNjNWZkIi8+CiAgPHRleHQgeD0iNzUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+bGlua3M8L3RleHQ+CiAgPHRleHQgeD0iNzUiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+U2FmdDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+aGlsZjwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+bGVlcjwvdGV4dD4KICA8dGV4dCB4PSIzMjUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+cmVjaHRzPC90ZXh0PgogIDx0ZXh0IHg9IjMyNSIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5XYXNzZXI8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8cGF0aCBkPSJNODggMTA0IEMxMTAgNzAsIDE2MCA3MCwgMTg2IDEwNCIvPgogICAgPHBhdGggZD0iTTMxOCAxMDQgQzI3MCAxNSwgMTMwIDE1LCA4MiAxMDQiLz4KICAgIDxwYXRoIGQ9Ik0yMTQgMTA0IEMyNDAgNzAsIDI5MCA3MCwgMzEyIDEwNCIvPgogIDwvZz4KICA8ZyBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4KICAgIDxjaXJjbGUgY3g9IjEzNyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMTM3IiB5PSI4NSI+MTwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjM4IiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjAwIiB5PSI0MyI+MjwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjI2MyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjYzIiB5PSI4NSI+MzwvdGV4dD4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPgogICAgPHRleHQgeD0iNzAiIHk9IjI0NyI+MTogaGlsZiA9IGxpbmtzPC90ZXh0PgogICAgPHRleHQgeD0iMjAwIiB5PSIyNDciPjI6IGxpbmtzID0gcmVjaHRzPC90ZXh0PgogICAgPHRleHQgeD0iMzMwIiB5PSIyNDciPjM6IHJlY2h0cyA9IGhpbGY8L3RleHQ+CiAgPC9nPgo8L3N2Zz4K",wg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+PHJlY3QgeD0iMzEwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+CiAgPHJlY3QgeD0iOTAiIHk9IjUwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZGNmY2U3Ii8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iNzQiIHgyPSIzODAiIHkyPSI3NCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iNDYiIHkxPSI2OCIgeDI9IjQ2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDYiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wPC90ZXh0PgogIDxsaW5lIHgxPSI5MCIgeTE9IjY4IiB4Mj0iOTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+CiAgPGxpbmUgeDE9IjEzNCIgeTE9IjY4IiB4Mj0iMTM0IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTM0IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD4KICA8bGluZSB4MT0iMTc4IiB5MT0iNjgiIHgyPSIxNzgiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNzgiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zPC90ZXh0PgogIDxsaW5lIHgxPSIyMjIiIHkxPSI2OCIgeDI9IjIyMiIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIyMiIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjI2NiIgeTE9IjY4IiB4Mj0iMjY2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjY2IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD4KICA8bGluZSB4MT0iMzEwIiB5MT0iNjgiIHgyPSIzMTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj42PC90ZXh0PgogIDxsaW5lIHgxPSIzNTQiIHkxPSI2OCIgeDI9IjM1NCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjM1NCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjc8L3RleHQ+CiAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3NCIgcj0iNiIgZmlsbD0iIzE1ODAzZCIvPjxjaXJjbGUgY3g9IjMxMCIgY3k9Ijc0IiByPSI2IiBmaWxsPSIjMTU4MDNkIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+Z8O8bHRpZzwvdGV4dD4KICA8dGV4dCB4PSI0MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPnVuZ8O8bHRpZzwvdGV4dD48dGV4dCB4PSIzNjAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj51bmfDvGx0aWc8L3RleHQ+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPHRleHQgeD0iMjAwIiB5PSIxMjQiIGZpbGw9IiMxNTgwM2QiPm5vdGUgJmd0Oz0gMSAmYW1wOyZhbXA7IG5vdGUgJmx0Oz0gNjwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMTQyIiBmaWxsPSIjYjkxYzFjIj5ub3RlICZsdDsgMSB8fCBub3RlICZndDsgNjwvdGV4dD4KICA8L2c+Cjwvc3ZnPgo=",Sg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIj5BYmxhdWYgZGVyIFdoaWxlLVNjaGxlaWZlPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iNDQiIHdpZHRoPSIxNjAiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjYjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjY5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaAgQmVkaW5ndW5nIHByw7xmZW48L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSIxMjgiIHdpZHRoPSIxNjAiIGhlaWdodD0iNDAiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTUzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgSW5oYWx0IGF1c2bDvGhyZW48L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iODQiIHgyPSIyMDAiIHkyPSIxMjYiLz4KICAgIDxwYXRoIGQ9Ik0xMjAgMTQ4IEM4MCAxNDgsIDgwIDY0LCAxMTggNjQiLz4KICAgIDxwYXRoIGQ9Ik0yODAgNjQgTDM0MCA2NCBMMzQwIDIwMCBMMjgyIDIwMCIvPgogIDwvZz4KICA8dGV4dCB4PSIyMDgiIHk9IjExMCIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dHJ1ZTwvdGV4dD4KICA8dGV4dCB4PSIzOCIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj53aWVkZXI8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjEyNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+bmFjaCBvYmVuPC90ZXh0PgogIDx0ZXh0IHg9IjM0OCIgeT0iMTM0IiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5mYWxzZTwvdGV4dD4KICA8dGV4dCB4PSIyNzYiIHk9IjIwNSIgdGV4dC1hbmNob3I9ImVuZCI+d2VpdGVyIHVudGVyIGRlciBTY2hsZWlmZTwvdGV4dD4KPC9zdmc+Cg==",kg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+a29wZmdlc3RldWVydCAoV2hpbGUpPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPmZ1w59nZXN0ZXVlcnQgKERvLXdoaWxlKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTAiIHgyPSIyMDAiIHkyPSIyMjAiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxyZWN0IHg9IjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCBCZWRpbmd1bmc8L3RleHQ+CiAgPHJlY3QgeD0iMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIxNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoSBJbmhhbHQ8L3RleHQ+CiAgPHJlY3QgeD0iMjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI2NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIEluaGFsdDwvdGV4dD4KICA8cmVjdCB4PSIyMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iMTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgQmVkaW5ndW5nPC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYSkiPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjgwIiB4Mj0iMTAwIiB5Mj0iMTIyIi8+CiAgICA8cGF0aCBkPSJNMzUgMTQyIEM4IDE0MiwgOCA2MiwgMzMgNjIiLz4KICAgIDxsaW5lIHgxPSIzMDAiIHkxPSI4MCIgeDI9IjMwMCIgeTI9IjEyMiIvPgogICAgPHBhdGggZD0iTTM2NSAxNDIgQzM5MiAxNDIsIDM5MiA2MiwgMzY3IDYyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjEwNiIgeT0iMTA2IiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjM4MCIgeT0iMTA2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5Jc3QgZGllIEJlZGluZ3VuZyBnbGVpY2ggZmFsc2UsPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5sw6R1ZnQgZGVyIEluaGFsdCA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+bmllPC90c3Bhbj4uPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5EZXIgSW5oYWx0IGzDpHVmdCBpbW1lcjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjIwNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+PHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPm1pbmRlc3RlbnMgZWlubWFsPC90c3Bhbj4uPC90ZXh0Pgo8L3N2Zz4K",Mg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIFN0YXJ0IDx0c3BhbiBmaWxsPSIjNmU2ZTczIj4obnVyIGVpbm1hbCk8L3RzcGFuPjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9Ijc2IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iMTciIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGhIEJlZGluZ3VuZyBwcsO8ZmVuPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iMTM4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iNiIgZmlsbD0iI2RiZWFmZSIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGiIEluaGFsdCBhdXNmw7xocmVuPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iMjAwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iNiIgZmlsbD0iI2RjZmNlNyIgc3Ryb2tlPSIjMTU4MDNkIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGjIFNjaHJpdHQsIHouIEIuIGkrKzwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSI0OCIgeDI9IjIwMCIgeTI9Ijc0Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTEwIiB4Mj0iMjAwIiB5Mj0iMTM2Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTcyIiB4Mj0iMjAwIiB5Mj0iMTk4Ii8+CiAgICA8cGF0aCBkPSJNMTIwIDIxNyBDNjAgMjE3LCA2MCA5MywgMTE4IDkzIi8+CiAgICA8cGF0aCBkPSJNMjgwIDkzIEwzMzAgOTMiLz4KICA8L2c+CiAgPHRleHQgeD0iMjA4IiB5PSIxMjkiIGZpbGw9IiMxNTgwM2QiIGZvbnQtd2VpZ2h0PSI2MDAiPnRydWU8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+enVyw7xjazwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMTc2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj56dSDikaE8L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSI4NCIgZmlsbD0iI2I5MWMxYyIgZm9udC13ZWlnaHQ9IjYwMCI+ZmFsc2U8L3RleHQ+CiAgPHRleHQgeD0iMzM2IiB5PSI5OCI+ZmVydGlnPC90ZXh0Pgo8L3N2Zz4K",Zg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCI+aW50W10gemFobGVuID0gezIsIDQsIDYsIDgsIDEwfTwvdGV4dD4KICA8dGV4dCB4PSIyMCIgeT0iNTQiIGZpbGw9IiM2ZTZlNzMiIGZvbnQtc2l6ZT0iMTIiPkluZGV4PC90ZXh0PgogIDx0ZXh0IHg9IjkwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MDwvdGV4dD48cmVjdCB4PSI2MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjI8L3RleHQ+CiAgPHRleHQgeD0iMTUwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MTwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTUwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+NDwvdGV4dD4KICA8dGV4dCB4PSIyMTAiIHk9IjU0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIiBmb250LXdlaWdodD0iNzAwIj4yPC90ZXh0PjxyZWN0IHg9IjE4MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMTAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj42PC90ZXh0PgogIDx0ZXh0IHg9IjI3MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjM8L3RleHQ+PHJlY3QgeD0iMjQwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjI3MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjg8L3RleHQ+CiAgPHRleHQgeD0iMzMwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+NDwvdGV4dD48cmVjdCB4PSIzMDAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzMwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+MTA8L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjkwIiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj5XZXJ0PC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwN2FmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYSkiPjxsaW5lIHgxPSI5MCIgeTE9IjE0MCIgeDI9IjkwIiB5Mj0iMTEyIi8+PGxpbmUgeDE9IjMzMCIgeTE9IjE0MCIgeDI9IjMzMCIgeTI9IjExMiIvPjwvZz4KICA8ZyBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHRleHQgeD0iOTAiIHk9IjE1NiI+emFobGVuWzBdIGlzdCAyPC90ZXh0Pjx0ZXh0IHg9IjMzMCIgeT0iMTU2Ij56YWhsZW5bNF0gaXN0IDEwPC90ZXh0PjwvZz4KICA8dGV4dCB4PSIyMDAiIHk9IjE4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+NSBGw6RjaGVyLCBnZXrDpGhsdCB3aXJkIGFiIDA6IGRlciBsZXR6dGUgSW5kZXggaXN0IDQuPC90ZXh0Pgo8L3N2Zz4K",_g=""+new URL("aufgabe-mehrwertsteuer-KUkerRBd.svg",import.meta.url).href,jg=""+new URL("kino-saal-BOvcmdzb.svg",import.meta.url).href,Pg=""+new URL("kino-schleifen-Ci9yPnbo.svg",import.meta.url).href,Cg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDkyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDkyIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgPCEtLSBTdGFydCAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2QxZjJkOSIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjM4IiB4Mj0iMTUwIiB5Mj0iNTQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gQW53ZWlzdW5nIC0tPgogICAgPHJlY3QgeD0iNTAiIHk9IjU2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iODYiIHgyPSIxNTAiIHkyPSI5OCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogICAgPCEtLSBSYXV0ZSAxIC0tPgogICAgPHBhdGggZD0iTTE1MCAxMDAgTDIzNSAxMjggTDE1MCAxNTYgTDY1IDEyOCBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMTU2IiB4Mj0iMTUwIiB5Mj0iMTcyIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8cmVjdCB4PSI1MCIgeT0iMTc0IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMjA0IiB4Mj0iMTUwIiB5Mj0iMjUwIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIG5laW4tV2VnIHVtIGRlbiBLYXN0ZW4gaGVydW0gLS0+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyMzUsMTI4IDI4NSwxMjggMjg1LDIyMiAxNTAsMjIyIiBmaWxsPSJub25lIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIFJhdXRlIDIgLS0+CiAgICA8cGF0aCBkPSJNMTUwIDI1MiBMMjM1IDI4MCBMMTUwIDMwOCBMNjUgMjgwIFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxsaW5lIHgxPSIyMzUiIHkxPSIyODAiIHgyPSIyNjgiIHkyPSIyODAiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjI3MCIgeT0iMjY1IiB3aWR0aD0iMTE1IiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8IS0tIHp1csO8Y2sgenVyIFByw7xmdW5nIC0tPgogICAgPHBvbHlsaW5lIHBvaW50cz0iMzI3LDI2NSAzMjcsMjM4IDE1MCwyMzgiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDgiIHgyPSIxNTAiIHkyPSIzMjYiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjUwIiB5PSIzMjgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlNWYwZmYiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzNTgiIHgyPSIxNTAiIHkyPSIzNzQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gRW5kZSAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMzc2IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNkMWYyZDkiLz4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI5Ij5JbsOtY2lvPC90ZXh0PgogICAgPHRleHQgeD0iMTUwIiB5PSI3NiI+UMO0ciB1bWEgY2jDoXZlbmEgbmEgbWVzYTwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTMzIj5RdWVyIGHDp8O6Y2FyPzwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTk0Ij5KdW50YXIgYcOnw7pjYXI8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI4NSI+Q2jDoSBtdWl0byBxdWVudGU/PC90ZXh0PgogICAgPHRleHQgeD0iMzI3LjUiIHk9IjI4NSI+RXNwZXJhciAxIG1pbnV0bzwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzQ4Ij5CZWJlciBvIGNow6E8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjM5NSI+RmltPC90ZXh0PgogIDwvZz4KICA8ZyBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNjAwIj4KICAgIDx0ZXh0IHg9IjE1NiIgeT0iMTY4IiBmaWxsPSIjMjQ4YTNkIj5zaW08L3RleHQ+CiAgICA8dGV4dCB4PSIyNDIiIHk9IjEyMiIgZmlsbD0iI2Q3MDAxNSI+bsOjbzwvdGV4dD4KICAgIDx0ZXh0IHg9IjI0MCIgeT0iMjc0IiBmaWxsPSIjMjQ4YTNkIj5zaW08L3RleHQ+CiAgICA8dGV4dCB4PSIxNTYiIHk9IjMyMCIgZmlsbD0iI2Q3MDAxNSI+bsOjbzwvdGV4dD4KICA8L2c+CiAgPCEtLSBMZWdlbmRlIC0tPgogIDxsaW5lIHgxPSIxMCIgeTE9IjQxOCIgeDI9IjM5MCIgeTI9IjQxOCIgc3Ryb2tlPSIjZDFkMWQ2Ii8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICA8cmVjdCB4PSI0MCIgeT0iNDMwIiB3aWR0aD0iMzYiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSIjZDFmMmQ5Ii8+CiAgICA8cmVjdCB4PSIyMjAiIHk9IjQzMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE4IiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8cGF0aCBkPSJNNTggNDU4IEw3NiA0NjkgTDU4IDQ4MCBMNDAgNDY5IFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxwYXRoIGQ9Ik0yMjYgNDYwIEwyNTYgNDYwIEwyNTAgNDc4IEwyMjAgNDc4IFoiIGZpbGw9IiNmMmU2ZmYiLz4KICA8L2c+CiAgPGcgZm9udC1zaXplPSIxMiIgZmlsbD0iIzNhM2EzYyI+CiAgICA8dGV4dCB4PSI4NiIgeT0iNDQzIj5JbsOtY2lvIG91IGZpbTwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NiIgeT0iNDQzIj5JbnN0cnXDp8OjbzwvdGV4dD4KICAgIDx0ZXh0IHg9Ijg2IiB5PSI0NzMiPkRlY2lzw6NvPC90ZXh0PgogICAgPHRleHQgeD0iMjY2IiB5PSI0NzMiPkVudHJhZGEgb3Ugc2HDrWRhPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",Ag="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE5MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwIiB5PSIyNCIgZm9udC13ZWlnaHQ9IjYwMCI+T25kZSBmaWNhIG8gZWxlbWVudG8/PC90ZXh0PgogIDxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSIzNSIgZmlsbD0iI2RiZWFmZSIvPgogIDxyZWN0IHg9IjIwIiB5PSI3NSIgd2lkdGg9IjE5MCIgaGVpZ2h0PSIzNSIgZmlsbD0iI2RjZmNlNyIvPgogIDxsaW5lIHgxPSIyMCIgeTE9Ijc1IiB4Mj0iMjEwIiB5Mj0iNzUiIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjQwIiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjcwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjExNSIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxZDRlZDgiPm1ldGFkZSBkZSBjaW1hPC90ZXh0PgogIDx0ZXh0IHg9IjExNSIgeT0iOTciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPm1ldGFkZSBkZSBiYWl4bzwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9IjYyIj7ihpIgZmljYSA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+YW50ZXM8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9Ijk3Ij7ihpIgZmljYSA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+ZGVwb2lzPC90c3Bhbj48L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjEzMiIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjE1NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiI+w7g8L3RleHQ+CiAgPHRleHQgeD0iMjI0IiB5PSIxNTciPuKGkiA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+c3Vic3RpdHVpLW88L3RzcGFuPjwvdGV4dD4KPC9zdmc+Cg==",Tg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjEwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIxMCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE2Ij5pbnQgaWRhZGUgPSAxNDwvdGV4dD4KICA8cGF0aCBkPSJNMTMwIDcwIEwxNzAgNTAgTDMwMCA1MCBMMjYwIDcwIFoiIGZpbGw9IiNjOThhM2MiIHN0cm9rZT0iIzhhNWExZiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHJlY3QgeD0iMTgwIiB5PSIzNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjUwIiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDx0ZXh0IHg9IjIwMiIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiPjE0PC90ZXh0PgogIDxyZWN0IHg9IjEzMCIgeT0iNzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZTliODcyIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yNjAgNzAgTDMwMCA1MCBMMzAwIDE1MCBMMjYwIDE3MCBaIiBmaWxsPSIjZDQ5YTRjIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE1MCIgeT0iMTAwIiB3aWR0aD0iOTAiIGhlaWdodD0iMzAiIHJ4PSI0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiM4YTVhMWYiLz4KICA8dGV4dCB4PSIxOTUiIHk9IjEyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+aWRhZGU8L3RleHQ+CiAgPHJlY3QgeD0iMTM4IiB5PSIxNDIiIHdpZHRoPSIzNCIgaGVpZ2h0PSIyMCIgcng9IjEwIiBmaWxsPSIjMDA3YWZmIi8+CiAgPHRleHQgeD0iMTU1IiB5PSIxNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmZmZmYiIGZvbnQtd2VpZ2h0PSI2MDAiPmludDwvdGV4dD4KICA8ZyBzdHJva2U9IiM2ZTZlNzMiPgogICAgPGxpbmUgeDE9IjMxMCIgeTE9IjQ4IiB4Mj0iMjI2IiB5Mj0iNTIiLz4KICAgIDxsaW5lIHgxPSIzMTAiIHkxPSIxMTUiIHgyPSIyNDIiIHkyPSIxMTUiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjE1MiIgeDI9IjEzNCIgeTI9IjE1MiIvPgogIDwvZz4KICA8dGV4dCB4PSIzMTYiIHk9IjUyIj5WYWxvcjwvdGV4dD4KICA8dGV4dCB4PSIzMTYiIHk9IjExOSI+Tm9tZTwvdGV4dD4KICA8dGV4dCB4PSI4IiB5PSIxNTYiPlRpcG8gZGUgZGFkb3M8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPlBlbG8gbm9tZSBjaGVnYXMgYW8gdmFsb3IuPC90ZXh0Pgo8L3N2Zz4K",Dg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjAiPgogICAgPHRleHQgeD0iNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+cG9udG9zPC90ZXh0PgogICAgPHRleHQgeD0iMTI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPj08L3RleHQ+CiAgICA8dGV4dCB4PSIyNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9udG9zICsgNTwvdGV4dD4KICA8L2c+CiAgPHJlY3QgeD0iMTgwIiB5PSI4NiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjYwIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPuKRoCBjYWxjdWxhciBhIGRpcmVpdGE6IDEwICsgNSA9IDE1PC90ZXh0PgogIDxwYXRoIGQ9Ik0yNTAgODIgQzIzMCAzMCwgOTAgMzAsIDY0IDg0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdhZmYiIHN0cm9rZS13aWR0aD0iMi41IiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgPHRleHQgeD0iMTYwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiI+4pGhIGd1YXJkYXIgbyByZXN1bHRhZG8gw6AgZXNxdWVyZGE8L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjE2NCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSIyNiIgcng9IjYiIGZpbGw9IiNmMmYyZjciLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9udG9zIGFudGVzOiA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCI+MTA8L3RzcGFuPiAgIOKGkiAgIHBvbnRvcyBkZXBvaXM6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xNTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K",Wg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTQwIDExMCBMNDggMTgwIEwxMDIgMTgwIEwxMTAgMTEwIi8+CiAgICA8cGF0aCBkPSJNMTY1IDExMCBMMTczIDE4MCBMMjI3IDE4MCBMMjM1IDExMCIvPgogICAgPHBhdGggZD0iTTI5MCAxMTAgTDI5OCAxODAgTDM1MiAxODAgTDM2MCAxMTAiLz4KICA8L2c+CiAgPHBhdGggZD0iTTQ0IDEzNSBMNDggMTgwIEwxMDIgMTgwIEwxMDYgMTM1IFoiIGZpbGw9IiNmZGJhNzQiLz4KICA8cGF0aCBkPSJNMjk0IDEzNSBMMjk4IDE4MCBMMzUyIDE4MCBMMzU2IDEzNSBaIiBmaWxsPSIjOTNjNWZkIi8+CiAgPHRleHQgeD0iNzUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+ZXNxdWVyZGE8L3RleHQ+CiAgPHRleHQgeD0iNzUiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+c3VtbzwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+YXV4PC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj52YXppbzwvdGV4dD4KICA8dGV4dCB4PSIzMjUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+ZGlyZWl0YTwvdGV4dD4KICA8dGV4dCB4PSIzMjUiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+w6FndWE8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8cGF0aCBkPSJNODggMTA0IEMxMTAgNzAsIDE2MCA3MCwgMTg2IDEwNCIvPgogICAgPHBhdGggZD0iTTMxOCAxMDQgQzI3MCAxNSwgMTMwIDE1LCA4MiAxMDQiLz4KICAgIDxwYXRoIGQ9Ik0yMTQgMTA0IEMyNDAgNzAsIDI5MCA3MCwgMzEyIDEwNCIvPgogIDwvZz4KICA8ZyBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4KICAgIDxjaXJjbGUgY3g9IjEzNyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMTM3IiB5PSI4NSI+MTwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjM4IiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjAwIiB5PSI0MyI+MjwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjI2MyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjYzIiB5PSI4NSI+MzwvdGV4dD4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPgogICAgPHRleHQgeD0iMjAwIiB5PSIyNTAiPjE6IGF1eCA9IGVzcXVlcmRhPC90ZXh0PgogICAgPHRleHQgeD0iMjAwIiB5PSIyNjgiPjI6IGVzcXVlcmRhID0gZGlyZWl0YTwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMjg2Ij4zOiBkaXJlaXRhID0gYXV4PC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",Bg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+PHJlY3QgeD0iMzAwIiB5PSI1MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+CiAgPHJlY3QgeD0iMTAwIiB5PSI1MCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2RjZmNlNyIvPgogIDxsaW5lIHgxPSIyMCIgeTE9Ijc0IiB4Mj0iMzgwIiB5Mj0iNzQiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjUwIiB5MT0iNjgiIHgyPSI1MCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MDwvdGV4dD4KICA8bGluZSB4MT0iMTAwIiB5MT0iNjgiIHgyPSIxMDAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMDAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xPC90ZXh0PgogIDxsaW5lIHgxPSIxNTAiIHkxPSI2OCIgeDI9IjE1MCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjE1MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjI8L3RleHQ+CiAgPGxpbmUgeDE9IjIwMCIgeTE9IjY4IiB4Mj0iMjAwIiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjAwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzwvdGV4dD4KICA8bGluZSB4MT0iMjUwIiB5MT0iNjgiIHgyPSIyNTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyNTAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj40PC90ZXh0PgogIDxsaW5lIHgxPSIzMDAiIHkxPSI2OCIgeDI9IjMwMCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMwMCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjU8L3RleHQ+CiAgPGxpbmUgeDE9IjM1MCIgeTE9IjY4IiB4Mj0iMzUwIiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzUwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NjwvdGV4dD4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI3NCIgcj0iNiIgZmlsbD0iIzE1ODAzZCIvPjxjaXJjbGUgY3g9IjMwMCIgY3k9Ijc0IiByPSI2IiBmaWxsPSIjMTU4MDNkIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dsOhbGlkYTwvdGV4dD4KICA8dGV4dCB4PSI1MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPmludsOhbGlkYTwvdGV4dD48dGV4dCB4PSIzNTAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5pbnbDoWxpZGE8L3RleHQ+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPHRleHQgeD0iMjAwIiB5PSIxMjQiIGZpbGw9IiMxNTgwM2QiPm5vdGEgJmd0Oz0gMSAmYW1wOyZhbXA7IG5vdGEgJmx0Oz0gNTwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMTQyIiBmaWxsPSIjYjkxYzFjIj5ub3RhICZsdDsgMSB8fCBub3RhICZndDsgNTwvdGV4dD4KICA8L2c+Cjwvc3ZnPgo=",Hg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIj5Db21vIGZ1bmNpb25hIG8gY2ljbG8gd2hpbGU8L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSI0NCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI0MCIgcng9IjIwIiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCB2ZXJpZmljYXIgYSBjb25kacOnw6NvPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iMTI4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjQwIiByeD0iNiIgZmlsbD0iI2RiZWFmZSIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE1MyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGhIGV4ZWN1dGFyIG8gaW50ZXJpb3I8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iODQiIHgyPSIyMDAiIHkyPSIxMjYiLz4KICAgIDxwYXRoIGQ9Ik0xMjAgMTQ4IEM4MCAxNDgsIDgwIDY0LCAxMTggNjQiLz4KICAgIDxwYXRoIGQ9Ik0yODAgNjQgTDM0MCA2NCBMMzQwIDIwMCBMMjgyIDIwMCIvPgogIDwvZz4KICA8dGV4dCB4PSIyMDgiIHk9IjExMCIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dHJ1ZTwvdGV4dD4KICA8dGV4dCB4PSIzOCIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj52b2x0YXI8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjEyNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+cGFyYSBjaW1hPC90ZXh0PgogIDx0ZXh0IHg9IjM0OCIgeT0iMTM0IiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5mYWxzZTwvdGV4dD4KICA8dGV4dCB4PSIyNzYiIHk9IjIwNSIgdGV4dC1hbmNob3I9ImVuZCI+Y29udGludWFyIHBvciBiYWl4byBkbyBjaWNsbzwvdGV4dD4KPC9zdmc+Cg==",Gg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+cHLDqS10ZXN0ZSAod2hpbGUpPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPnDDs3MtdGVzdGUgKGRvLXdoaWxlKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTAiIHgyPSIyMDAiIHkyPSIyMjAiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxyZWN0IHg9IjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCBjb25kacOnw6NvPC90ZXh0PgogIDxyZWN0IHg9IjM1IiB5PSIxMjQiIHdpZHRoPSIxMzAiIGhlaWdodD0iMzYiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgaW50ZXJpb3I8L3RleHQ+CiAgPHJlY3QgeD0iMjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI2NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIGludGVyaW9yPC90ZXh0PgogIDxyZWN0IHg9IjIzNSIgeT0iMTI0IiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjM2IiByeD0iMTgiIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSIxNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoSBjb25kacOnw6NvPC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYSkiPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjgwIiB4Mj0iMTAwIiB5Mj0iMTIyIi8+CiAgICA8cGF0aCBkPSJNMzUgMTQyIEM4IDE0MiwgOCA2MiwgMzMgNjIiLz4KICAgIDxsaW5lIHgxPSIzMDAiIHkxPSI4MCIgeDI9IjMwMCIgeTI9IjEyMiIvPgogICAgPHBhdGggZD0iTTM2NSAxNDIgQzM5MiAxNDIsIDM5MiA2MiwgMzY3IDYyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjEwNiIgeT0iMTA2IiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjM4MCIgeT0iMTA2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5TZSBhIGNvbmRpw6fDo28gZm9yIGxvZ28gZmFsc2EsPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5vIGludGVyaW9yIDx0c3BhbiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWMxYzFlIj5udW5jYTwvdHNwYW4+IMOpIGV4ZWN1dGFkby48L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSIxOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPk8gaW50ZXJpb3Igw6kgc2VtcHJlIGV4ZWN1dGFkbzwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjIwNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+PHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPnBlbG8gbWVub3MgdW1hIHZlejwvdHNwYW4+LjwvdGV4dD4KPC9zdmc+Cg==",Ng="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIEluw61jaW8gPHRzcGFuIGZpbGw9IiM2ZTZlNzMiPihzw7MgdW1hIHZleik8L3RzcGFuPjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9Ijc2IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iMTciIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGhIHZlcmlmaWNhciBhIGNvbmRpw6fDo288L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSIxMzgiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzQiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaIgZXhlY3V0YXIgbyBpbnRlcmlvcjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjIwMCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIyMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoyBwYXNzbywgcC4gZXguIGkrKzwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSI0OCIgeDI9IjIwMCIgeTI9Ijc0Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTEwIiB4Mj0iMjAwIiB5Mj0iMTM2Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTcyIiB4Mj0iMjAwIiB5Mj0iMTk4Ii8+CiAgICA8cGF0aCBkPSJNMTIwIDIxNyBDNjAgMjE3LCA2MCA5MywgMTE4IDkzIi8+CiAgICA8cGF0aCBkPSJNMjgwIDkzIEwzMzAgOTMiLz4KICA8L2c+CiAgPHRleHQgeD0iMjA4IiB5PSIxMjkiIGZpbGw9IiMxNTgwM2QiIGZvbnQtd2VpZ2h0PSI2MDAiPnRydWU8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+dm9sdGFyPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxNzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPmFvIOKRoTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9Ijg0IiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5mYWxzZTwvdGV4dD4KICA8dGV4dCB4PSIzMzYiIHk9Ijk4Ij5maW08L3RleHQ+Cjwvc3ZnPgo=",Eg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCI+aW50W10gbnVtZXJvcyA9IHsyLCA0LCA2LCA4LCAxMH08L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjU0IiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj7DjW5kaWNlPC90ZXh0PgogIDx0ZXh0IHg9IjkwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MDwvdGV4dD48cmVjdCB4PSI2MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjI8L3RleHQ+CiAgPHRleHQgeD0iMTUwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MTwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTUwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+NDwvdGV4dD4KICA8dGV4dCB4PSIyMTAiIHk9IjU0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIiBmb250LXdlaWdodD0iNzAwIj4yPC90ZXh0PjxyZWN0IHg9IjE4MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMTAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj42PC90ZXh0PgogIDx0ZXh0IHg9IjI3MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjM8L3RleHQ+PHJlY3QgeD0iMjQwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjI3MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjg8L3RleHQ+CiAgPHRleHQgeD0iMzMwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+NDwvdGV4dD48cmVjdCB4PSIzMDAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzMwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+MTA8L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjkwIiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj5WYWxvcjwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdhZmYiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj48bGluZSB4MT0iOTAiIHkxPSIxNDAiIHgyPSI5MCIgeTI9IjExMiIvPjxsaW5lIHgxPSIzMzAiIHkxPSIxNDAiIHgyPSIzMzAiIHkyPSIxMTIiLz48L2c+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjx0ZXh0IHg9IjkwIiB5PSIxNTYiPm51bWVyb3NbMF0gw6kgMjwvdGV4dD48dGV4dCB4PSIzMzAiIHk9IjE1NiI+bnVtZXJvc1s0XSDDqSAxMDwvdGV4dD48L2c+CiAgPHRleHQgeD0iMjAwIiB5PSIxODIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPjUgcG9zacOnw7VlcywgY29udGEtc2UgYSBwYXJ0aXIgZGUgMDogbyDDumx0aW1vIMOtbmRpY2Ugw6kgNC48L3RleHQ+Cjwvc3ZnPgo=",Lg=""+new URL("schiffe-versenken-iEBDHIxD.svg",import.meta.url).href,Vg=""+new URL("ss-binaere-suche-DVVS2SNc.svg",import.meta.url).href,Rg=""+new URL("ss-bubblesort-AFDcFDah.svg",import.meta.url).href,Ug="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDQgMTk2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KPHJlY3Qgd2lkdGg9IjQwNCIgaGVpZ2h0PSIxOTYiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMTQiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjE1Ij5Qcm9jdXJhLXNlIG8gOS4gQXMgY2FydGFzIGVzdMOjbyBiYXJhbGhhZGFzLjwvdGV4dD4KPGc+PHJlY3QgeD0iMTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjM0LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjc8L3RleHQ+PHRleHQgeD0iMzQuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNkYzI2MjYiPuKZpTwvdGV4dD48L2c+Cjx0ZXh0IHg9IjM0LjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIzNC4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjEuPC90ZXh0Pgo8Zz48cmVjdCB4PSI2MiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iODIuMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+MzwvdGV4dD48dGV4dCB4PSI4Mi4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzFjMWMxZSI+4pmgPC90ZXh0PjwvZz4KPHRleHQgeD0iODIuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGMyNjI2Ij7inJc8L3RleHQ+Cjx0ZXh0IHg9IjgyLjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+Mi48L3RleHQ+CjxnPjxyZWN0IHg9IjExMCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iMTMwLjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjEwPC90ZXh0Pjx0ZXh0IHg9IjEzMC4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2RjMjYyNiI+4pmmPC90ZXh0PjwvZz4KPHRleHQgeD0iMTMwLjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIxMzAuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj4zLjwvdGV4dD4KPGc+PHJlY3QgeD0iMTU4IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48dGV4dCB4PSIxNzguMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+NTwvdGV4dD48dGV4dCB4PSIxNzguMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxYzFjMWUiPuKZozwvdGV4dD48L2c+Cjx0ZXh0IHg9IjE3OC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMTc4LjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+NC48L3RleHQ+CjxnPjxyZWN0IHg9IjIwNiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMjI2LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjk8L3RleHQ+PHRleHQgeD0iMjI2LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMWMxYzFlIj7imaA8L3RleHQ+PC9nPgo8dGV4dCB4PSIyMjYuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTU4MDNkIj7inJM8L3RleHQ+Cjx0ZXh0IHg9IjIyNi4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjUuPC90ZXh0Pgo8Zz48cmVjdCB4PSIyNTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjMWQ0ZWQ4IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjI1OCIgeT0iNTQiIHdpZHRoPSIzMiIgaGVpZ2h0PSI0OCIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYzVmZCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjwvZz4KPGc+PHJlY3QgeD0iMzAyIiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iIzFkNGVkOCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSIzMDYiIHk9IjU0IiB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2M1ZmQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSIzIDIiLz48L2c+CjxnPjxyZWN0IHg9IjM1MCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiMxZDRlZDgiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iMzU0IiB5PSI1NCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQ4IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNjNWZkIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyAyIi8+PC9nPgo8dGV4dCB4PSIxNCIgeT0iMTY4IiBmb250LXNpemU9IjE1IiBmaWxsPSIjNmU2ZTczIj5WaXJhciBkYSBlc3F1ZXJkYSBwYXJhIGEgZGlyZWl0YTo8L3RleHQ+PHRleHQgeD0iMTQiIHk9IjE4OCIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzZlNmU3MyI+QXDDs3MgNSBjb21wYXJhw6fDtWVzLCBvIDkgw6kgZW5jb250cmFkby48L3RleHQ+Cjwvc3ZnPgo=",Fg=""+new URL("ss-vergleiche-DWgkIvLr.svg",import.meta.url).href,Yg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgNDUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KPGRlZnM+PG1hcmtlciBpZD0iayIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNiIgbWFya2VySGVpZ2h0PSI2IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDAgTDEwIDUgTDAgMTAgWiIgZmlsbD0iIzFjMWMxZSIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImIiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEwxMCA1IEwwIDEwIFoiIGZpbGw9IiMxZDRlZDgiLz48L21hcmtlcj48bWFya2VyIGlkPSJvIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI2IiBtYXJrZXJIZWlnaHQ9IjYiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjYjQ1MzA5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPlBhc3NhZ2VtIHBvciB2YWxvcjogdW1hIGPDs3BpYTwvdGV4dD4KPHJlY3QgeD0iMTAiIHk9IjM4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9Ijg2IiByeD0iOCIgZmlsbD0iI2VmZjZmZiIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIyMCIgeT0iNTgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPlByb2dyYW1hIHByaW5jaXBhbDwvdGV4dD4KPHRleHQgeD0iMTYiIHk9Ijk4IiBmb250LXNpemU9IjEyIj5udW1lcm88L3RleHQ+CjxyZWN0IHg9IjcwIiB5PSI3OCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9Ijk4IiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+NTwvdGV4dD4KPHJlY3QgeD0iMjUwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNmZmY3ZWQiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjYwIiB5PSI1OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+ZHVwbGljYXI8L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iOTgiPng8L3RleHQ+CjxyZWN0IHg9IjI4MCIgeT0iNzgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIzMCIgcng9IjQiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8dGV4dCB4PSIzMjAiIHk9Ijk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48dHNwYW4gZmlsbD0iIzZlNmU3MyIgdGV4dC1kZWNvcmF0aW9uPSJsaW5lLXRocm91Z2giPjU8L3RzcGFuPiA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCI+MTA8L3RzcGFuPjwvdGV4dD4KPGxpbmUgeDE9IjEyOCIgeTE9IjkzIiB4Mj0iMjQ4IiB5Mj0iOTMiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIgbWFya2VyLWVuZD0idXJsKCNrKSIvPgo8dGV4dCB4PSIyMTAiIHk9Ijg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5jw7NwaWE8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxNTAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPnggcGFzc2EgYSAxMCwgbWFzIG51bWVybyBmaWNhIDUuPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iMTY4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj5Db21vIHVtYSBmb3RvY8OzcGlhOiBlc2NyZXZlciBuYSBjw7NwaWE8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxODYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPm7Do28gYWx0ZXJhIG8gb3JpZ2luYWwuPC90ZXh0Pgo8bGluZSB4MT0iMTAiIHkxPSIyMDgiIHgyPSI0MTAiIHkyPSIyMDgiIHN0cm9rZT0iI2QxZDFkNiIvPgo8dGV4dCB4PSIxMCIgeT0iMjM2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj5QYXNzYWdlbSBwb3IgcmVmZXLDqm5jaWE6IG8gbWVzbW8gYXJyYXk8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZWZmNmZmIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIwIiB5PSIyNzIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPlByb2dyYW1hIHByaW5jaXBhbDwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjMwMCI+ZmlsYTwvdGV4dD4KPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjk1IiByPSI1IiBmaWxsPSIjMWQ0ZWQ4Ii8+CjxyZWN0IHg9IjI1MCIgeT0iMjUyIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYyIiByeD0iOCIgZmlsbD0iI2ZmZjdlZCIgc3Ryb2tlPSIjYjQ1MzA5IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIyNjAiIHk9IjI3MiIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+bGltcGFyPC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9IjMwMCI+bHVnYXJlczwvdGV4dD4KPGNpcmNsZSBjeD0iMzkwIiBjeT0iMjk1IiByPSI1IiBmaWxsPSIjYjQ1MzA5Ii8+CjxwYXRoIGQ9Ik0xNTAgMzAwIEwxNTAgMzQwIEwxNDAgMzUyIiBmaWxsPSJub25lIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41IiBtYXJrZXItZW5kPSJ1cmwoI2IpIi8+CjxwYXRoIGQ9Ik0zOTAgMzAwIEwzOTAgMzQwIEwzMjIgMzU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMS41IiBtYXJrZXItZW5kPSJ1cmwoI28pIi8+CjxyZWN0IHg9IjkwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+CjxyZWN0IHg9IjE1MCIgeT0iMzU4IiB3aWR0aD0iNjAiIGhlaWdodD0iMzIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8cmVjdCB4PSIyMTAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHJlY3QgeD0iMjcwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9IjEyMCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMTgwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIyNDAiIHk9IjM3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+ZmFsc2U8L3RleHQ+Cjx0ZXh0IHg9IjMwMCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjQxNiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+U8OzIGjDoSB1bSBhcnJheS4gTyBxdWUgbGltcGFyIGFsdGVyYSBhdHJhdsOpcyBkZSBsdWdhcmVzLDwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjQzNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+byBwcm9ncmFtYSBwcmluY2lwYWwgdsOqIGVtIGZpbGEuPC90ZXh0Pgo8L3N2Zz4K",Og=""+new URL("zk-zeichen-8efNmpGx.svg",import.meta.url).href,Qg=""+new URL("schiffe-versenken-CXt1SF0S.svg",import.meta.url).href,Xg=""+new URL("ss-binaere-suche-CPsLGldq.svg",import.meta.url).href,Jg=""+new URL("ss-bubblesort-Dic2ZfaT.svg",import.meta.url).href,qg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDQgMTk2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KPHJlY3Qgd2lkdGg9IjQwNCIgaGVpZ2h0PSIxOTYiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMTQiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjE1Ij5HZXN1Y2h0OiBkaWUgOS4gRGllIEthcnRlbiBzaW5kIGdlbWlzY2h0LjwvdGV4dD4KPGc+PHJlY3QgeD0iMTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjM0LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjc8L3RleHQ+PHRleHQgeD0iMzQuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNkYzI2MjYiPuKZpTwvdGV4dD48L2c+Cjx0ZXh0IHg9IjM0LjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIzNC4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjEuPC90ZXh0Pgo8Zz48cmVjdCB4PSI2MiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iODIuMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+MzwvdGV4dD48dGV4dCB4PSI4Mi4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzFjMWMxZSI+4pmgPC90ZXh0PjwvZz4KPHRleHQgeD0iODIuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGMyNjI2Ij7inJc8L3RleHQ+Cjx0ZXh0IHg9IjgyLjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+Mi48L3RleHQ+CjxnPjxyZWN0IHg9IjExMCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iMTMwLjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjEwPC90ZXh0Pjx0ZXh0IHg9IjEzMC4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2RjMjYyNiI+4pmmPC90ZXh0PjwvZz4KPHRleHQgeD0iMTMwLjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIxMzAuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj4zLjwvdGV4dD4KPGc+PHJlY3QgeD0iMTU4IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48dGV4dCB4PSIxNzguMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+NTwvdGV4dD48dGV4dCB4PSIxNzguMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxYzFjMWUiPuKZozwvdGV4dD48L2c+Cjx0ZXh0IHg9IjE3OC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMTc4LjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+NC48L3RleHQ+CjxnPjxyZWN0IHg9IjIwNiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMjI2LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjk8L3RleHQ+PHRleHQgeD0iMjI2LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMWMxYzFlIj7imaA8L3RleHQ+PC9nPgo8dGV4dCB4PSIyMjYuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTU4MDNkIj7inJM8L3RleHQ+Cjx0ZXh0IHg9IjIyNi4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjUuPC90ZXh0Pgo8Zz48cmVjdCB4PSIyNTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjMWQ0ZWQ4IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjI1OCIgeT0iNTQiIHdpZHRoPSIzMiIgaGVpZ2h0PSI0OCIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYzVmZCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjwvZz4KPGc+PHJlY3QgeD0iMzAyIiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iIzFkNGVkOCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSIzMDYiIHk9IjU0IiB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2M1ZmQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSIzIDIiLz48L2c+CjxnPjxyZWN0IHg9IjM1MCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiMxZDRlZDgiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iMzU0IiB5PSI1NCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQ4IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNjNWZkIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyAyIi8+PC9nPgo8dGV4dCB4PSIxNCIgeT0iMTY4IiBmb250LXNpemU9IjE1IiBmaWxsPSIjNmU2ZTczIj5Wb24gbGlua3MgbmFjaCByZWNodHMgdW1kcmVoZW46PC90ZXh0Pjx0ZXh0IHg9IjE0IiB5PSIxODgiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiM2ZTZlNzMiPk5hY2ggNSBWZXJnbGVpY2hlbiBpc3QgZGllIDkgZ2VmdW5kZW4uPC90ZXh0Pgo8L3N2Zz4K",Kg=""+new URL("ss-vergleiche-DRqzU2TZ.svg",import.meta.url).href,$g="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgNDUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KPGRlZnM+PG1hcmtlciBpZD0iayIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNiIgbWFya2VySGVpZ2h0PSI2IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDAgTDEwIDUgTDAgMTAgWiIgZmlsbD0iIzFjMWMxZSIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImIiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEwxMCA1IEwwIDEwIFoiIGZpbGw9IiMxZDRlZDgiLz48L21hcmtlcj48bWFya2VyIGlkPSJvIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI2IiBtYXJrZXJIZWlnaHQ9IjYiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjYjQ1MzA5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPldlcnTDvGJlcmdhYmU6IGVpbmUgS29waWU8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNlZmY2ZmYiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjAiIHk9IjU4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWQ0ZWQ4Ij5IYXVwdHByb2dyYW1tPC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iOTgiPnphaGw8L3RleHQ+CjxyZWN0IHg9IjcwIiB5PSI3OCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9Ijk4IiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+NTwvdGV4dD4KPHJlY3QgeD0iMjUwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNmZmY3ZWQiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjYwIiB5PSI1OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+dmVyZG9wcGxlPC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9Ijk4Ij54PC90ZXh0Pgo8cmVjdCB4PSIyODAiIHk9Ijc4IiB3aWR0aD0iODAiIGhlaWdodD0iMzAiIHJ4PSI0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHRleHQgeD0iMzIwIiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHRzcGFuIGZpbGw9IiM2ZTZlNzMiIHRleHQtZGVjb3JhdGlvbj0ibGluZS10aHJvdWdoIj41PC90c3Bhbj4gPHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiPjEwPC90c3Bhbj48L3RleHQ+CjxsaW5lIHgxPSIxMjgiIHkxPSI5MyIgeDI9IjI0OCIgeTI9IjkzIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtZGFzaGFycmF5PSI1IDQiIG1hcmtlci1lbmQ9InVybCgjaykiLz4KPHRleHQgeD0iMjEwIiB5PSI4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+S29waWU8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxNTAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPnggd2lyZCAxMCwgYWJlciB6YWhsIGJsZWlidCA1LjwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjE2OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+V2llIGJlaSBlaW5lciBGb3Rva29waWU6IFdlciBhdWYgZGVyIEtvcGllIHNjaHJlaWJ0LDwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjE4NiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+w6RuZGVydCBkYXMgT3JpZ2luYWwgbmljaHQuPC90ZXh0Pgo8bGluZSB4MT0iMTAiIHkxPSIyMDgiIHgyPSI0MTAiIHkyPSIyMDgiIHN0cm9rZT0iI2QxZDFkNiIvPgo8dGV4dCB4PSIxMCIgeT0iMjM2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj5SZWZlcmVuesO8YmVyZ2FiZTogZGFzc2VsYmUgQXJyYXk8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZWZmNmZmIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIwIiB5PSIyNzIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPkhhdXB0cHJvZ3JhbW08L3RleHQ+Cjx0ZXh0IHg9IjIwIiB5PSIzMDAiPnJlaWhlPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxNTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiMxZDRlZDgiLz4KPHJlY3QgeD0iMjUwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZmZmN2VkIiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjI2MCIgeT0iMjcyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ1MzA5Ij5sZWVyZW48L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iMzAwIj5wbGFldHplPC90ZXh0Pgo8Y2lyY2xlIGN4PSIzOTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiNiNDUzMDkiLz4KPHBhdGggZD0iTTE1MCAzMDAgTDE1MCAzNDAgTDE0MCAzNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjYikiLz4KPHBhdGggZD0iTTM5MCAzMDAgTDM5MCAzNDAgTDMyMiAzNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjbykiLz4KPHJlY3QgeD0iOTAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHJlY3QgeD0iMTUwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+CjxyZWN0IHg9IjIxMCIgeT0iMzU4IiB3aWR0aD0iNjAiIGhlaWdodD0iMzIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8cmVjdCB4PSIyNzAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHRleHQgeD0iMTIwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjM3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+ZmFsc2U8L3RleHQ+Cjx0ZXh0IHg9IjI0MCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMzAwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iNDE2IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj5FcyBnaWJ0IG51ciBlaW4gQXJyYXkuIFdhcyBsZWVyZW4gw7xiZXIgcGxhZXR6ZSDDpG5kZXJ0LDwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjQzNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+c2llaHQgZGFzIEhhdXB0cHJvZ3JhbW0gdW50ZXIgcmVpaGUuPC90ZXh0Pgo8L3N2Zz4K",e3=""+new URL("zk-zeichen-vYvc3iJg.svg",import.meta.url).href;function t3(a){const e=[];for(const t of a.replace(/\r\n/g,`
+`,og=""+new URL("aufgabe-mehrwertsteuer-C-TFTrWz.svg",import.meta.url).href,lg=""+new URL("ben-shneiderman-Cev5hrqS.jpg",import.meta.url).href,mg=""+new URL("aufgabe-mehrwertsteuer-CnrZ00ny.svg",import.meta.url).href,ug=""+new URL("kino-saal-C8zaJk4X.svg",import.meta.url).href,cg=""+new URL("kino-schleifen-D7sfo9iK.svg",import.meta.url).href,dg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDkyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDkyIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgPCEtLSBTdGFydCAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2QxZjJkOSIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjM4IiB4Mj0iMTUwIiB5Mj0iNTQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gQW53ZWlzdW5nIC0tPgogICAgPHJlY3QgeD0iNTAiIHk9IjU2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iODYiIHgyPSIxNTAiIHkyPSI5OCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogICAgPCEtLSBSYXV0ZSAxIC0tPgogICAgPHBhdGggZD0iTTE1MCAxMDAgTDIzNSAxMjggTDE1MCAxNTYgTDY1IDEyOCBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMTU2IiB4Mj0iMTUwIiB5Mj0iMTcyIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8cmVjdCB4PSI1MCIgeT0iMTc0IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMjA0IiB4Mj0iMTUwIiB5Mj0iMjUwIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIG5laW4tV2VnIHVtIGRlbiBLYXN0ZW4gaGVydW0gLS0+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyMzUsMTI4IDI4NSwxMjggMjg1LDIyMiAxNTAsMjIyIiBmaWxsPSJub25lIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIFJhdXRlIDIgLS0+CiAgICA8cGF0aCBkPSJNMTUwIDI1MiBMMjM1IDI4MCBMMTUwIDMwOCBMNjUgMjgwIFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxsaW5lIHgxPSIyMzUiIHkxPSIyODAiIHgyPSIyNjgiIHkyPSIyODAiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjI3MCIgeT0iMjY1IiB3aWR0aD0iMTE1IiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8IS0tIHp1csO8Y2sgenVyIFByw7xmdW5nIC0tPgogICAgPHBvbHlsaW5lIHBvaW50cz0iMzI3LDI2NSAzMjcsMjM4IDE1MCwyMzgiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDgiIHgyPSIxNTAiIHkyPSIzMjYiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjUwIiB5PSIzMjgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlNWYwZmYiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzNTgiIHgyPSIxNTAiIHkyPSIzNzQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gRW5kZSAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMzc2IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNkMWYyZDkiLz4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI5Ij5TdGFydDwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iNzYiPlB1dCBhIGN1cCBvbiB0aGUgdGFibGU8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjEzMyI+U3VnYXIgd2FudGVkPzwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTk0Ij5BZGQgc3VnYXI8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI4NSI+VGVhIHN0aWxsIHRvbyBob3Q/PC90ZXh0PgogICAgPHRleHQgeD0iMzI3LjUiIHk9IjI4NSI+V2FpdCAxIG1pbnV0ZTwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzQ4Ij5EcmluayB0aGUgdGVhPC90ZXh0PgogICAgPHRleHQgeD0iMTUwIiB5PSIzOTUiPkVuZDwvdGV4dD4KICA8L2c+CiAgPGcgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjYwMCI+CiAgICA8dGV4dCB4PSIxNTYiIHk9IjE2OCIgZmlsbD0iIzI0OGEzZCI+eWVzPC90ZXh0PgogICAgPHRleHQgeD0iMjQyIiB5PSIxMjIiIGZpbGw9IiNkNzAwMTUiPm5vPC90ZXh0PgogICAgPHRleHQgeD0iMjQwIiB5PSIyNzQiIGZpbGw9IiMyNDhhM2QiPnllczwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1NiIgeT0iMzIwIiBmaWxsPSIjZDcwMDE1Ij5ubzwvdGV4dD4KICA8L2c+CiAgPCEtLSBMZWdlbmRlIC0tPgogIDxsaW5lIHgxPSIxMCIgeTE9IjQxOCIgeDI9IjM5MCIgeTI9IjQxOCIgc3Ryb2tlPSIjZDFkMWQ2Ii8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICA8cmVjdCB4PSI0MCIgeT0iNDMwIiB3aWR0aD0iMzYiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSIjZDFmMmQ5Ii8+CiAgICA8cmVjdCB4PSIyMjAiIHk9IjQzMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE4IiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8cGF0aCBkPSJNNTggNDU4IEw3NiA0NjkgTDU4IDQ4MCBMNDAgNDY5IFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxwYXRoIGQ9Ik0yMjYgNDYwIEwyNTYgNDYwIEwyNTAgNDc4IEwyMjAgNDc4IFoiIGZpbGw9IiNmMmU2ZmYiLz4KICA8L2c+CiAgPGcgZm9udC1zaXplPSIxMiIgZmlsbD0iIzNhM2EzYyI+CiAgICA8dGV4dCB4PSI4NiIgeT0iNDQzIj5TdGFydCBvciBlbmQ8L3RleHQ+CiAgICA8dGV4dCB4PSIyNjYiIHk9IjQ0MyI+U3RhdGVtZW50PC90ZXh0PgogICAgPHRleHQgeD0iODYiIHk9IjQ3MyI+RGVjaXNpb248L3RleHQ+CiAgICA8dGV4dCB4PSIyNjYiIHk9IjQ3MyI+SW5wdXQgb3Igb3V0cHV0PC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",hg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE5MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwIiB5PSIyNCIgZm9udC13ZWlnaHQ9IjYwMCI+V2hlcmUgZG9lcyB0aGUgZWxlbWVudCBsYW5kPzwvdGV4dD4KICA8cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkYmVhZmUiLz4KICA8cmVjdCB4PSIyMCIgeT0iNzUiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkY2ZjZTciLz4KICA8bGluZSB4MT0iMjAiIHkxPSI3NSIgeDI9IjIxMCIgeTI9Ijc1IiBzdHJva2U9IiM2ZTZlNzMiIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPgogIDxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWQ0ZWQ4Ij50b3AgaGFsZjwvdGV4dD4KICA8dGV4dCB4PSIxMTUiIHk9Ijk3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMTU4MDNkIj5ib3R0b20gaGFsZjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9IjYyIj7ihpIgZ29lcyA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+aW4gZnJvbnQ8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9Ijk3Ij7ihpIgZ29lcyA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+YWZ0ZXI8L3RzcGFuPjwvdGV4dD4KICA8cmVjdCB4PSIyMCIgeT0iMTMyIiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjExNSIgeT0iMTU3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2Ij7DuDwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9IjE1NyI+4oaSIDx0c3BhbiBmb250LXdlaWdodD0iNjAwIj5yZXBsYWNlczwvdHNwYW4+IGl0PC90ZXh0Pgo8L3N2Zz4K",gg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjEwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIxMCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE2Ij5pbnQgYWdlID0gMTQ8L3RleHQ+CiAgPHBhdGggZD0iTTEzMCA3MCBMMTcwIDUwIEwzMDAgNTAgTDI2MCA3MCBaIiBmaWxsPSIjYzk4YTNjIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE4MCIgeT0iMzQiIHdpZHRoPSI0NCIgaGVpZ2h0PSI1MCIgcng9IjMiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KICA8dGV4dCB4PSIyMDIiIHk9IjYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjIwIiBmb250LXdlaWdodD0iNzAwIj4xNDwvdGV4dD4KICA8cmVjdCB4PSIxMzAiIHk9IjcwIiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2U5Yjg3MiIgc3Ryb2tlPSIjOGE1YTFmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cGF0aCBkPSJNMjYwIDcwIEwzMDAgNTAgTDMwMCAxNTAgTDI2MCAxNzAgWiIgZmlsbD0iI2Q0OWE0YyIgc3Ryb2tlPSIjOGE1YTFmIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8cmVjdCB4PSIxNTAiIHk9IjEwMCIgd2lkdGg9IjkwIiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjOGE1YTFmIi8+CiAgPHRleHQgeD0iMTk1IiB5PSIxMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPmFnZTwvdGV4dD4KICA8cmVjdCB4PSIxMzgiIHk9IjE0MiIgd2lkdGg9IjM0IiBoZWlnaHQ9IjIwIiByeD0iMTAiIGZpbGw9IiMwMDdhZmYiLz4KICA8dGV4dCB4PSIxNTUiIHk9IjE1NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMiIgZmlsbD0iI2ZmZmZmZiIgZm9udC13ZWlnaHQ9IjYwMCI+aW50PC90ZXh0PgogIDxnIHN0cm9rZT0iIzZlNmU3MyI+CiAgICA8bGluZSB4MT0iMzEwIiB5MT0iNDgiIHgyPSIyMjYiIHkyPSI1MiIvPgogICAgPGxpbmUgeDE9IjMxMCIgeTE9IjExNSIgeDI9IjI0MiIgeTI9IjExNSIvPgogICAgPGxpbmUgeDE9IjgwIiB5MT0iMTUyIiB4Mj0iMTM0IiB5Mj0iMTUyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjMxNiIgeT0iNTIiPlZhbHVlPC90ZXh0PgogIDx0ZXh0IHg9IjMxNiIgeT0iMTE5Ij5OYW1lPC90ZXh0PgogIDx0ZXh0IHg9IjgiIHk9IjE1NiI+RGF0YSB0eXBlPC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iMTk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5UaGUgbmFtZSBnZXRzIHlvdSB0byB0aGUgdmFsdWUuPC90ZXh0Pgo8L3N2Zz4K",pg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjAiPgogICAgPHRleHQgeD0iNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+cG9pbnRzPC90ZXh0PgogICAgPHRleHQgeD0iMTI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPj08L3RleHQ+CiAgICA8dGV4dCB4PSIyNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9pbnRzICsgNTwvdGV4dD4KICA8L2c+CiAgPHJlY3QgeD0iMTgwIiB5PSI4NiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjYwIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPuKRoCB3b3JrIG91dCB0aGUgcmlnaHQ6IDEwICsgNSA9IDE1PC90ZXh0PgogIDxwYXRoIGQ9Ik0yNTAgODIgQzIzMCAzMCwgOTAgMzAsIDY0IDg0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdhZmYiIHN0cm9rZS13aWR0aD0iMi41IiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgPHRleHQgeD0iMTYwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiI+4pGhIHN0b3JlIHRoZSByZXN1bHQgb24gdGhlIGxlZnQ8L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjE2NCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSIyNiIgcng9IjYiIGZpbGw9IiNmMmYyZjciLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9pbnRzIGJlZm9yZTogPHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiPjEwPC90c3Bhbj4gICDihpIgICBwb2ludHMgYWZ0ZXI6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xNTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K",xg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTQwIDExMCBMNDggMTgwIEwxMDIgMTgwIEwxMTAgMTEwIi8+CiAgICA8cGF0aCBkPSJNMTY1IDExMCBMMTczIDE4MCBMMjI3IDE4MCBMMjM1IDExMCIvPgogICAgPHBhdGggZD0iTTI5MCAxMTAgTDI5OCAxODAgTDM1MiAxODAgTDM2MCAxMTAiLz4KICA8L2c+CiAgPHBhdGggZD0iTTQ0IDEzNSBMNDggMTgwIEwxMDIgMTgwIEwxMDYgMTM1IFoiIGZpbGw9IiNmZGJhNzQiLz4KICA8cGF0aCBkPSJNMjk0IDEzNSBMMjk4IDE4MCBMMzUyIDE4MCBMMzU2IDEzNSBaIiBmaWxsPSIjOTNjNWZkIi8+CiAgPHRleHQgeD0iNzUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+bGVmdDwvdGV4dD4KICA8dGV4dCB4PSI3NSIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5qdWljZTwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+dGVtcDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+ZW1wdHk8L3RleHQ+CiAgPHRleHQgeD0iMzI1IiB5PSIyMDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPnJpZ2h0PC90ZXh0PgogIDx0ZXh0IHg9IjMyNSIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj53YXRlcjwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxwYXRoIGQ9Ik04OCAxMDQgQzExMCA3MCwgMTYwIDcwLCAxODYgMTA0Ii8+CiAgICA8cGF0aCBkPSJNMzE4IDEwNCBDMjcwIDE1LCAxMzAgMTUsIDgyIDEwNCIvPgogICAgPHBhdGggZD0iTTIxNCAxMDQgQzI0MCA3MCwgMjkwIDcwLCAzMTIgMTA0Ii8+CiAgPC9nPgogIDxnIGZvbnQtd2VpZ2h0PSI3MDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPGNpcmNsZSBjeD0iMTM3IiBjeT0iODAiIHI9IjExIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz48dGV4dCB4PSIxMzciIHk9Ijg1Ij4xPC90ZXh0PgogICAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMzgiIHI9IjExIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz48dGV4dCB4PSIyMDAiIHk9IjQzIj4yPC90ZXh0PgogICAgPGNpcmNsZSBjeD0iMjYzIiBjeT0iODAiIHI9IjExIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz48dGV4dCB4PSIyNjMiIHk9Ijg1Ij4zPC90ZXh0PgogIDwvZz4KICA8ZyB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMiI+CiAgICA8dGV4dCB4PSI3MCIgeT0iMjQ3Ij4xOiB0ZW1wID0gbGVmdDwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMjQ3Ij4yOiBsZWZ0ID0gcmlnaHQ8L3RleHQ+CiAgICA8dGV4dCB4PSIzMzAiIHk9IjI0NyI+MzogcmlnaHQgPSB0ZW1wPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",Ig="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+PHJlY3QgeD0iMzEwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+CiAgPHJlY3QgeD0iOTAiIHk9IjUwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZGNmY2U3Ii8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iNzQiIHgyPSIzODAiIHkyPSI3NCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iNDYiIHkxPSI2OCIgeDI9IjQ2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDYiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wPC90ZXh0PgogIDxsaW5lIHgxPSI5MCIgeTE9IjY4IiB4Mj0iOTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+CiAgPGxpbmUgeDE9IjEzNCIgeTE9IjY4IiB4Mj0iMTM0IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTM0IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD4KICA8bGluZSB4MT0iMTc4IiB5MT0iNjgiIHgyPSIxNzgiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNzgiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zPC90ZXh0PgogIDxsaW5lIHgxPSIyMjIiIHkxPSI2OCIgeDI9IjIyMiIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIyMiIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjI2NiIgeTE9IjY4IiB4Mj0iMjY2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjY2IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD4KICA8bGluZSB4MT0iMzEwIiB5MT0iNjgiIHgyPSIzMTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj42PC90ZXh0PgogIDxsaW5lIHgxPSIzNTQiIHkxPSI2OCIgeDI9IjM1NCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjM1NCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjc8L3RleHQ+CiAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3NCIgcj0iNiIgZmlsbD0iIzE1ODAzZCIvPjxjaXJjbGUgY3g9IjMxMCIgY3k9Ijc0IiByPSI2IiBmaWxsPSIjMTU4MDNkIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dmFsaWQ8L3RleHQ+CiAgPHRleHQgeD0iNDAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5pbnZhbGlkPC90ZXh0Pjx0ZXh0IHg9IjM2MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPmludmFsaWQ8L3RleHQ+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPHRleHQgeD0iMjAwIiB5PSIxMjQiIGZpbGw9IiMxNTgwM2QiPmdyYWRlICZndDs9IDEgJmFtcDsmYW1wOyBncmFkZSAmbHQ7PSA2PC90ZXh0PgogICAgPHRleHQgeD0iMjAwIiB5PSIxNDIiIGZpbGw9IiNiOTFjMWMiPmdyYWRlICZsdDsgMSB8fCBncmFkZSAmZ3Q7IDY8L3RleHQ+CiAgPC9nPgo8L3N2Zz4K",bg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIj5Ib3cgdGhlIHdoaWxlIGxvb3AgcnVuczwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjQ0IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI2OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIGNoZWNrIHRoZSBjb25kaXRpb248L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSIxMjgiIHdpZHRoPSIxNjAiIGhlaWdodD0iNDAiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTUzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgcnVuIHRoZSBpbnNpZGU8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iODQiIHgyPSIyMDAiIHkyPSIxMjYiLz4KICAgIDxwYXRoIGQ9Ik0xMjAgMTQ4IEM4MCAxNDgsIDgwIDY0LCAxMTggNjQiLz4KICAgIDxwYXRoIGQ9Ik0yODAgNjQgTDM0MCA2NCBMMzQwIDIwMCBMMjgyIDIwMCIvPgogIDwvZz4KICA8dGV4dCB4PSIyMDgiIHk9IjExMCIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dHJ1ZTwvdGV4dD4KICA8dGV4dCB4PSIzOCIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5iYWNrPC90ZXh0PgogIDx0ZXh0IHg9IjM4IiB5PSIxMjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPnRvIHRoZSB0b3A8L3RleHQ+CiAgPHRleHQgeD0iMzQ4IiB5PSIxMzQiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPmZhbHNlPC90ZXh0PgogIDx0ZXh0IHg9IjI3NiIgeT0iMjA1IiB0ZXh0LWFuY2hvcj0iZW5kIj5jb250aW51ZSBiZWxvdyB0aGUgbG9vcDwvdGV4dD4KPC9zdmc+Cg==",fg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+cHJlLXRlc3QgKHdoaWxlKTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjIyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNjAwIj5wb3N0LXRlc3QgKGRvLXdoaWxlKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTAiIHgyPSIyMDAiIHkyPSIyMjAiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxyZWN0IHg9IjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCBjb25kaXRpb248L3RleHQ+CiAgPHJlY3QgeD0iMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIxNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoSBpbnNpZGU8L3RleHQ+CiAgPHJlY3QgeD0iMjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI2NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIGluc2lkZTwvdGV4dD4KICA8cmVjdCB4PSIyMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iMTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgY29uZGl0aW9uPC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYSkiPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjgwIiB4Mj0iMTAwIiB5Mj0iMTIyIi8+CiAgICA8cGF0aCBkPSJNMzUgMTQyIEM4IDE0MiwgOCA2MiwgMzMgNjIiLz4KICAgIDxsaW5lIHgxPSIzMDAiIHkxPSI4MCIgeDI9IjMwMCIgeTI9IjEyMiIvPgogICAgPHBhdGggZD0iTTM2NSAxNDIgQzM5MiAxNDIsIDM5MiA2MiwgMzY3IDYyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjEwNiIgeT0iMTA2IiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjM4MCIgeT0iMTA2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5JZiB0aGUgY29uZGl0aW9uIGlzIGZhbHNlIGF0IG9uY2UsPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj50aGUgaW5zaWRlIHJ1bnMgPHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPm5ldmVyPC90c3Bhbj4uPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5UaGUgaW5zaWRlIGFsd2F5cyBydW5zPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj48dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+YXQgbGVhc3Qgb25jZTwvdHNwYW4+LjwvdGV4dD4KPC9zdmc+Cg==",yg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIFN0YXJ0IDx0c3BhbiBmaWxsPSIjNmU2ZTczIj4ob25seSBvbmNlKTwvdHNwYW4+PC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iNzYiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzQiIHJ4PSIxNyIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjYjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgY2hlY2sgdGhlIGNvbmRpdGlvbjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjEzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIxNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoiBydW4gdGhlIGluc2lkZTwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjIwMCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIyMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoyBzdGVwLCBlLmcuIGkrKzwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSI0OCIgeDI9IjIwMCIgeTI9Ijc0Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTEwIiB4Mj0iMjAwIiB5Mj0iMTM2Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTcyIiB4Mj0iMjAwIiB5Mj0iMTk4Ii8+CiAgICA8cGF0aCBkPSJNMTIwIDIxNyBDNjAgMjE3LCA2MCA5MywgMTE4IDkzIi8+CiAgICA8cGF0aCBkPSJNMjgwIDkzIEwzMzAgOTMiLz4KICA8L2c+CiAgPHRleHQgeD0iMjA4IiB5PSIxMjkiIGZpbGw9IiMxNTgwM2QiIGZvbnQtd2VpZ2h0PSI2MDAiPnRydWU8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+YmFjazwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMTc2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj50byDikaE8L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSI4NCIgZmlsbD0iI2I5MWMxYyIgZm9udC13ZWlnaHQ9IjYwMCI+ZmFsc2U8L3RleHQ+CiAgPHRleHQgeD0iMzM2IiB5PSI5OCI+ZG9uZTwvdGV4dD4KPC9zdmc+Cg==",zg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCI+aW50W10gbnVtYmVycyA9IHsyLCA0LCA2LCA4LCAxMH08L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjU0IiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj5JbmRleDwvdGV4dD4KICA8dGV4dCB4PSI5MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjA8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iOTAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj4yPC90ZXh0PgogIDx0ZXh0IHg9IjE1MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjE8L3RleHQ+PHJlY3QgeD0iMTIwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjE1MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjQ8L3RleHQ+CiAgPHRleHQgeD0iMjEwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MjwvdGV4dD48cmVjdCB4PSIxODAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjEwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+NjwvdGV4dD4KICA8dGV4dCB4PSIyNzAiIHk9IjU0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIiBmb250LXdlaWdodD0iNzAwIj4zPC90ZXh0PjxyZWN0IHg9IjI0MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyNzAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj44PC90ZXh0PgogIDx0ZXh0IHg9IjMzMCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjQ8L3RleHQ+PHJlY3QgeD0iMzAwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMzMCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjEwPC90ZXh0PgogIDx0ZXh0IHg9IjIwIiB5PSI5MCIgZmlsbD0iIzZlNmU3MyIgZm9udC1zaXplPSIxMiI+VmFsdWU8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDA3YWZmIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+PGxpbmUgeDE9IjkwIiB5MT0iMTQwIiB4Mj0iOTAiIHkyPSIxMTIiLz48bGluZSB4MT0iMzMwIiB5MT0iMTQwIiB4Mj0iMzMwIiB5Mj0iMTEyIi8+PC9nPgogIDxnIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjEzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48dGV4dCB4PSI5MCIgeT0iMTU2Ij5udW1iZXJzWzBdIGlzIDI8L3RleHQ+PHRleHQgeD0iMzMwIiB5PSIxNTYiPm51bWJlcnNbNF0gaXMgMTA8L3RleHQ+PC9nPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTgyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj41IHNsb3RzLCBjb3VudGluZyBzdGFydHMgYXQgMDogdGhlIGxhc3QgaW5kZXggaXMgNC48L3RleHQ+Cjwvc3ZnPgo=",vg=""+new URL("ss-binaere-suche-D02W1TH_.svg",import.meta.url).href,wg=""+new URL("ss-bubblesort-CmKEoNfO.svg",import.meta.url).href,Sg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDQgMTk2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KPHJlY3Qgd2lkdGg9IjQwNCIgaGVpZ2h0PSIxOTYiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMTQiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjE1Ij5Mb29raW5nIGZvciB0aGUgOS4gVGhlIGNhcmRzIGFyZSBtaXhlZCB1cC48L3RleHQ+CjxnPjxyZWN0IHg9IjE0IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48dGV4dCB4PSIzNC4wIiB5PSI3NS4yIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZGMyNjI2Ij43PC90ZXh0Pjx0ZXh0IHg9IjM0LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjZGMyNjI2Ij7imaU8L3RleHQ+PC9nPgo8dGV4dCB4PSIzNC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMzQuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj4xLjwvdGV4dD4KPGc+PHJlY3QgeD0iNjIiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjgyLjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjM8L3RleHQ+PHRleHQgeD0iODIuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxYzFjMWUiPuKZoDwvdGV4dD48L2c+Cjx0ZXh0IHg9IjgyLjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSI4Mi4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjIuPC90ZXh0Pgo8Zz48cmVjdCB4PSIxMTAiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjEzMC4wIiB5PSI3NS4yIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZGMyNjI2Ij4xMDwvdGV4dD48dGV4dCB4PSIxMzAuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNkYzI2MjYiPuKZpjwvdGV4dD48L2c+Cjx0ZXh0IHg9IjEzMC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMTMwLjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+My48L3RleHQ+CjxnPjxyZWN0IHg9IjE1OCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iMTc4LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjU8L3RleHQ+PHRleHQgeD0iMTc4LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMWMxYzFlIj7imaM8L3RleHQ+PC9nPgo8dGV4dCB4PSIxNzguMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGMyNjI2Ij7inJc8L3RleHQ+Cjx0ZXh0IHg9IjE3OC4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjQuPC90ZXh0Pgo8Zz48cmVjdCB4PSIyMDYiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZGNmY2U3IiBzdHJva2U9IiMxNTgwM2QiIHN0cm9rZS13aWR0aD0iMyIvPjx0ZXh0IHg9IjIyNi4wIiB5PSI3NS4yIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWMxYzFlIj45PC90ZXh0Pjx0ZXh0IHg9IjIyNi4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzFjMWMxZSI+4pmgPC90ZXh0PjwvZz4KPHRleHQgeD0iMjI2LjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE1ODAzZCI+4pyTPC90ZXh0Pgo8dGV4dCB4PSIyMjYuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj41LjwvdGV4dD4KPGc+PHJlY3QgeD0iMjU0IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iIzFkNGVkOCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSIyNTgiIHk9IjU0IiB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2M1ZmQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSIzIDIiLz48L2c+CjxnPjxyZWN0IHg9IjMwMiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiMxZDRlZDgiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iMzA2IiB5PSI1NCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQ4IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNjNWZkIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyAyIi8+PC9nPgo8Zz48cmVjdCB4PSIzNTAiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjMWQ0ZWQ4IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjM1NCIgeT0iNTQiIHdpZHRoPSIzMiIgaGVpZ2h0PSI0OCIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYzVmZCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjwvZz4KPHRleHQgeD0iMTQiIHk9IjE2OCIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzZlNmU3MyI+VHVybiB0aGVtIG92ZXIgZnJvbSBsZWZ0IHRvIHJpZ2h0OjwvdGV4dD48dGV4dCB4PSIxNCIgeT0iMTg4IiBmb250LXNpemU9IjE1IiBmaWxsPSIjNmU2ZTczIj5BZnRlciA1IGNvbXBhcmlzb25zIHRoZSA5IGlzIGZvdW5kLjwvdGV4dD4KPC9zdmc+Cg==",kg=""+new URL("ss-vergleiche-UczNldcC.svg",import.meta.url).href,Mg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgNDUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KPGRlZnM+PG1hcmtlciBpZD0iayIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNiIgbWFya2VySGVpZ2h0PSI2IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDAgTDEwIDUgTDAgMTAgWiIgZmlsbD0iIzFjMWMxZSIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImIiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEwxMCA1IEwwIDEwIFoiIGZpbGw9IiMxZDRlZDgiLz48L21hcmtlcj48bWFya2VyIGlkPSJvIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI2IiBtYXJrZXJIZWlnaHQ9IjYiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjYjQ1MzA5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPkNhbGwgYnkgdmFsdWU6IGEgY29weTwvdGV4dD4KPHJlY3QgeD0iMTAiIHk9IjM4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9Ijg2IiByeD0iOCIgZmlsbD0iI2VmZjZmZiIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIyMCIgeT0iNTgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPk1haW4gcHJvZ3JhbTwvdGV4dD4KPHRleHQgeD0iMTYiIHk9Ijk4IiBmb250LXNpemU9IjEyIj5udW1iZXI8L3RleHQ+CjxyZWN0IHg9IjcwIiB5PSI3OCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9Ijk4IiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+NTwvdGV4dD4KPHJlY3QgeD0iMjUwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNmZmY3ZWQiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjYwIiB5PSI1OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+ZG91YmxlSXQ8L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iOTgiPng8L3RleHQ+CjxyZWN0IHg9IjI4MCIgeT0iNzgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIzMCIgcng9IjQiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8dGV4dCB4PSIzMjAiIHk9Ijk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48dHNwYW4gZmlsbD0iIzZlNmU3MyIgdGV4dC1kZWNvcmF0aW9uPSJsaW5lLXRocm91Z2giPjU8L3RzcGFuPiA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCI+MTA8L3RzcGFuPjwvdGV4dD4KPGxpbmUgeDE9IjEyOCIgeTE9IjkzIiB4Mj0iMjQ4IiB5Mj0iOTMiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIgbWFya2VyLWVuZD0idXJsKCNrKSIvPgo8dGV4dCB4PSIyMTAiIHk9Ijg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5jb3B5PC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iMTUwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj54IGJlY29tZXMgMTAsIGJ1dCBudW1iZXIgc3RheXMgNS48L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxNjgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPkxpa2UgYSBwaG90b2NvcHk6IHdyaXRpbmcgb24gdGhlIGNvcHk8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxODYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPmRvZXMgbm90IGNoYW5nZSB0aGUgb3JpZ2luYWwuPC90ZXh0Pgo8bGluZSB4MT0iMTAiIHkxPSIyMDgiIHgyPSI0MTAiIHkyPSIyMDgiIHN0cm9rZT0iI2QxZDFkNiIvPgo8dGV4dCB4PSIxMCIgeT0iMjM2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj5DYWxsIGJ5IHJlZmVyZW5jZTogdGhlIHNhbWUgYXJyYXk8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZWZmNmZmIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIwIiB5PSIyNzIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPk1haW4gcHJvZ3JhbTwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjMwMCI+cm93PC90ZXh0Pgo8Y2lyY2xlIGN4PSIxNTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiMxZDRlZDgiLz4KPHJlY3QgeD0iMjUwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZmZmN2VkIiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjI2MCIgeT0iMjcyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ1MzA5Ij5jbGVhcjwvdGV4dD4KPHRleHQgeD0iMjYwIiB5PSIzMDAiPnNlYXRzPC90ZXh0Pgo8Y2lyY2xlIGN4PSIzOTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiNiNDUzMDkiLz4KPHBhdGggZD0iTTE1MCAzMDAgTDE1MCAzNDAgTDE0MCAzNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjYikiLz4KPHBhdGggZD0iTTM5MCAzMDAgTDM5MCAzNDAgTDMyMiAzNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjbykiLz4KPHJlY3QgeD0iOTAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHJlY3QgeD0iMTUwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+CjxyZWN0IHg9IjIxMCIgeT0iMzU4IiB3aWR0aD0iNjAiIGhlaWdodD0iMzIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8cmVjdCB4PSIyNzAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHRleHQgeD0iMTIwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjM3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+ZmFsc2U8L3RleHQ+Cjx0ZXh0IHg9IjI0MCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMzAwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iNDE2IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj5UaGVyZSBpcyBvbmx5IG9uZSBhcnJheS4gV2hhdCBjbGVhciBjaGFuZ2VzIHRocm91Z2ggc2VhdHMsPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iNDM0IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj50aGUgbWFpbiBwcm9ncmFtIHNlZXMgdW5kZXIgcm93LjwvdGV4dD4KPC9zdmc+Cg==",Zg=""+new URL("zk-zeichen-CgUEhNoK.svg",import.meta.url).href,_g=""+new URL("ike-nassi-D2w47gvX.jpg",import.meta.url).href,jg=""+new URL("kino-saal-CYMOok4_.svg",import.meta.url).href,Pg=""+new URL("kino-schleifen-DrTQV7dq.svg",import.meta.url).href,Cg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDkyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDkyIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgPCEtLSBTdGFydCAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2QxZjJkOSIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjM4IiB4Mj0iMTUwIiB5Mj0iNTQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gQW53ZWlzdW5nIC0tPgogICAgPHJlY3QgeD0iNTAiIHk9IjU2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iODYiIHgyPSIxNTAiIHkyPSI5OCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogICAgPCEtLSBSYXV0ZSAxIC0tPgogICAgPHBhdGggZD0iTTE1MCAxMDAgTDIzNSAxMjggTDE1MCAxNTYgTDY1IDEyOCBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMTU2IiB4Mj0iMTUwIiB5Mj0iMTcyIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8cmVjdCB4PSI1MCIgeT0iMTc0IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMjA0IiB4Mj0iMTUwIiB5Mj0iMjUwIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIG5laW4tV2VnIHVtIGRlbiBLYXN0ZW4gaGVydW0gLS0+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyMzUsMTI4IDI4NSwxMjggMjg1LDIyMiAxNTAsMjIyIiBmaWxsPSJub25lIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIFJhdXRlIDIgLS0+CiAgICA8cGF0aCBkPSJNMTUwIDI1MiBMMjM1IDI4MCBMMTUwIDMwOCBMNjUgMjgwIFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxsaW5lIHgxPSIyMzUiIHkxPSIyODAiIHgyPSIyNjgiIHkyPSIyODAiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjI3MCIgeT0iMjY1IiB3aWR0aD0iMTE1IiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8IS0tIHp1csO8Y2sgenVyIFByw7xmdW5nIC0tPgogICAgPHBvbHlsaW5lIHBvaW50cz0iMzI3LDI2NSAzMjcsMjM4IDE1MCwyMzgiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDgiIHgyPSIxNTAiIHkyPSIzMjYiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjUwIiB5PSIzMjgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlNWYwZmYiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzNTgiIHgyPSIxNTAiIHkyPSIzNzQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gRW5kZSAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMzc2IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNkMWYyZDkiLz4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI5Ij5TdGFydDwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iNzYiPlRhc3NlIGF1ZiBkZW4gVGlzY2ggc3RlbGxlbjwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTMzIj5adWNrZXIgZ2V3w7xuc2NodD88L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjE5NCI+WnVja2VyIGhpbmVpbmdlYmVuPC90ZXh0PgogICAgPHRleHQgeD0iMTUwIiB5PSIyODUiPlRlZSBub2NoIHp1IGhlacOfPzwvdGV4dD4KICAgIDx0ZXh0IHg9IjMyNy41IiB5PSIyODUiPjEgTWludXRlIHdhcnRlbjwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzQ4Ij5UZWUgdHJpbmtlbjwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzk1Ij5FbmRlPC90ZXh0PgogIDwvZz4KICA8ZyBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNjAwIj4KICAgIDx0ZXh0IHg9IjE1NiIgeT0iMTY4IiBmaWxsPSIjMjQ4YTNkIj5qYTwvdGV4dD4KICAgIDx0ZXh0IHg9IjI0MiIgeT0iMTIyIiBmaWxsPSIjZDcwMDE1Ij5uZWluPC90ZXh0PgogICAgPHRleHQgeD0iMjQwIiB5PSIyNzQiIGZpbGw9IiMyNDhhM2QiPmphPC90ZXh0PgogICAgPHRleHQgeD0iMTU2IiB5PSIzMjAiIGZpbGw9IiNkNzAwMTUiPm5laW48L3RleHQ+CiAgPC9nPgogIDwhLS0gTGVnZW5kZSAtLT4KICA8bGluZSB4MT0iMTAiIHkxPSI0MTgiIHgyPSIzOTAiIHkyPSI0MTgiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxnIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjUiPgogICAgPHJlY3QgeD0iNDAiIHk9IjQzMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE4IiByeD0iOSIgZmlsbD0iI2QxZjJkOSIvPgogICAgPHJlY3QgeD0iMjIwIiB5PSI0MzAiIHdpZHRoPSIzNiIgaGVpZ2h0PSIxOCIgZmlsbD0iI2U1ZjBmZiIvPgogICAgPHBhdGggZD0iTTU4IDQ1OCBMNzYgNDY5IEw1OCA0ODAgTDQwIDQ2OSBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8cGF0aCBkPSJNMjI2IDQ2MCBMMjU2IDQ2MCBMMjUwIDQ3OCBMMjIwIDQ3OCBaIiBmaWxsPSIjZjJlNmZmIi8+CiAgPC9nPgogIDxnIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzYTNhM2MiPgogICAgPHRleHQgeD0iODYiIHk9IjQ0MyI+U3RhcnQgb2RlciBFbmRlPC90ZXh0PgogICAgPHRleHQgeD0iMjY2IiB5PSI0NDMiPkFud2Vpc3VuZzwvdGV4dD4KICAgIDx0ZXh0IHg9Ijg2IiB5PSI0NzMiPlZlcnp3ZWlndW5nPC90ZXh0PgogICAgPHRleHQgeD0iMjY2IiB5PSI0NzMiPkVpbi0gb2RlciBBdXNnYWJlPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",Ag="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE5MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwIiB5PSIyNCIgZm9udC13ZWlnaHQ9IjYwMCI+V29oaW4gbGFuZGV0IGRhcyBFbGVtZW50PzwvdGV4dD4KICA8cmVjdCB4PSIyMCIgeT0iNDAiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkYmVhZmUiLz4KICA8cmVjdCB4PSIyMCIgeT0iNzUiIHdpZHRoPSIxOTAiIGhlaWdodD0iMzUiIGZpbGw9IiNkY2ZjZTciLz4KICA8bGluZSB4MT0iMjAiIHkxPSI3NSIgeDI9IjIxMCIgeTI9Ijc1IiBzdHJva2U9IiM2ZTZlNzMiIHN0cm9rZS1kYXNoYXJyYXk9IjQgMyIvPgogIDxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI3MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjYyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWQ0ZWQ4Ij5vYmVyZSBIw6RsZnRlPC90ZXh0PgogIDx0ZXh0IHg9IjExNSIgeT0iOTciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPnVudGVyZSBIw6RsZnRlPC90ZXh0PgogIDx0ZXh0IHg9IjIyNCIgeT0iNjIiPuKGkiBrb21tdCA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+ZGF2b3I8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9Ijk3Ij7ihpIga29tbXQgPHRzcGFuIGZvbnQtd2VpZ2h0PSI2MDAiPmRhaGludGVyPC90c3Bhbj48L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjEzMiIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjE1NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiI+w7g8L3RleHQ+CiAgPHRleHQgeD0iMjI0IiB5PSIxNTciPuKGkiA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+ZXJzZXR6dDwvdHNwYW4+IGRlbiBQbGF0emhhbHRlcjwvdGV4dD4KPC9zdmc+Cg==",Tg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjEwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIxMCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE2Ij5pbnQgYWx0ZXIgPSAxNDwvdGV4dD4KICA8cGF0aCBkPSJNMTMwIDcwIEwxNzAgNTAgTDMwMCA1MCBMMjYwIDcwIFoiIGZpbGw9IiNjOThhM2MiIHN0cm9rZT0iIzhhNWExZiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHJlY3QgeD0iMTgwIiB5PSIzNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjUwIiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDx0ZXh0IHg9IjIwMiIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiPjE0PC90ZXh0PgogIDxyZWN0IHg9IjEzMCIgeT0iNzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZTliODcyIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yNjAgNzAgTDMwMCA1MCBMMzAwIDE1MCBMMjYwIDE3MCBaIiBmaWxsPSIjZDQ5YTRjIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE1MCIgeT0iMTAwIiB3aWR0aD0iOTAiIGhlaWdodD0iMzAiIHJ4PSI0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiM4YTVhMWYiLz4KICA8dGV4dCB4PSIxOTUiIHk9IjEyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+YWx0ZXI8L3RleHQ+CiAgPHJlY3QgeD0iMTM4IiB5PSIxNDIiIHdpZHRoPSIzNCIgaGVpZ2h0PSIyMCIgcng9IjEwIiBmaWxsPSIjMDA3YWZmIi8+CiAgPHRleHQgeD0iMTU1IiB5PSIxNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmZmZmYiIGZvbnQtd2VpZ2h0PSI2MDAiPmludDwvdGV4dD4KICA8ZyBzdHJva2U9IiM2ZTZlNzMiPgogICAgPGxpbmUgeDE9IjMxMCIgeTE9IjQ4IiB4Mj0iMjI2IiB5Mj0iNTIiLz4KICAgIDxsaW5lIHgxPSIzMTAiIHkxPSIxMTUiIHgyPSIyNDIiIHkyPSIxMTUiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjE1MiIgeDI9IjEzNCIgeTI9IjE1MiIvPgogIDwvZz4KICA8dGV4dCB4PSIzMTYiIHk9IjUyIj5XZXJ0PC90ZXh0PgogIDx0ZXh0IHg9IjMxNiIgeT0iMTE5Ij5OYW1lPC90ZXh0PgogIDx0ZXh0IHg9IjgiIHk9IjE1NiI+RGF0ZW50eXA8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPsOcYmVyIGRlbiBOYW1lbiBrb21tc3QgZHUgYW4gZGVuIFdlcnQuPC90ZXh0Pgo8L3N2Zz4K",Dg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjAiPgogICAgPHRleHQgeD0iNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+cHVua3RlPC90ZXh0PgogICAgPHRleHQgeD0iMTI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPj08L3RleHQ+CiAgICA8dGV4dCB4PSIyNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cHVua3RlICsgNTwvdGV4dD4KICA8L2c+CiAgPHJlY3QgeD0iMTgwIiB5PSI4NiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjYwIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPuKRoCByZWNodHMgYXVzcmVjaG5lbjogMTAgKyA1ID0gMTU8L3RleHQ+CiAgPHBhdGggZD0iTTI1MCA4MiBDMjMwIDMwLCA5MCAzMCwgNjQgODQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwN2FmZiIgc3Ryb2tlLXdpZHRoPSIyLjUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjM2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIj7ikaEgRXJnZWJuaXMgbGlua3Mgc3BlaWNoZXJuPC90ZXh0PgogIDxyZWN0IHg9IjIwIiB5PSIxNjQiIHdpZHRoPSIzNjAiIGhlaWdodD0iMjYiIHJ4PSI2IiBmaWxsPSIjZjJmMmY3Ii8+CiAgPHRleHQgeD0iMjAwIiB5PSIxODIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPnB1bmt0ZSB2b3JoZXI6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xMDwvdHNwYW4+ICAg4oaSICAgcHVua3RlIG5hY2hoZXI6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xNTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K",Bg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjYwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjYwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTQwIDExMCBMNDggMTgwIEwxMDIgMTgwIEwxMTAgMTEwIi8+CiAgICA8cGF0aCBkPSJNMTY1IDExMCBMMTczIDE4MCBMMjI3IDE4MCBMMjM1IDExMCIvPgogICAgPHBhdGggZD0iTTI5MCAxMTAgTDI5OCAxODAgTDM1MiAxODAgTDM2MCAxMTAiLz4KICA8L2c+CiAgPHBhdGggZD0iTTQ0IDEzNSBMNDggMTgwIEwxMDIgMTgwIEwxMDYgMTM1IFoiIGZpbGw9IiNmZGJhNzQiLz4KICA8cGF0aCBkPSJNMjk0IDEzNSBMMjk4IDE4MCBMMzUyIDE4MCBMMzU2IDEzNSBaIiBmaWxsPSIjOTNjNWZkIi8+CiAgPHRleHQgeD0iNzUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+bGlua3M8L3RleHQ+CiAgPHRleHQgeD0iNzUiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+U2FmdDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+aGlsZjwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+bGVlcjwvdGV4dD4KICA8dGV4dCB4PSIzMjUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+cmVjaHRzPC90ZXh0PgogIDx0ZXh0IHg9IjMyNSIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5XYXNzZXI8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8cGF0aCBkPSJNODggMTA0IEMxMTAgNzAsIDE2MCA3MCwgMTg2IDEwNCIvPgogICAgPHBhdGggZD0iTTMxOCAxMDQgQzI3MCAxNSwgMTMwIDE1LCA4MiAxMDQiLz4KICAgIDxwYXRoIGQ9Ik0yMTQgMTA0IEMyNDAgNzAsIDI5MCA3MCwgMzEyIDEwNCIvPgogIDwvZz4KICA8ZyBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4KICAgIDxjaXJjbGUgY3g9IjEzNyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMTM3IiB5PSI4NSI+MTwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjM4IiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjAwIiB5PSI0MyI+MjwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjI2MyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjYzIiB5PSI4NSI+MzwvdGV4dD4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPgogICAgPHRleHQgeD0iNzAiIHk9IjI0NyI+MTogaGlsZiA9IGxpbmtzPC90ZXh0PgogICAgPHRleHQgeD0iMjAwIiB5PSIyNDciPjI6IGxpbmtzID0gcmVjaHRzPC90ZXh0PgogICAgPHRleHQgeD0iMzMwIiB5PSIyNDciPjM6IHJlY2h0cyA9IGhpbGY8L3RleHQ+CiAgPC9nPgo8L3N2Zz4K",Wg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+PHJlY3QgeD0iMzEwIiB5PSI1MCIgd2lkdGg9IjcwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+CiAgPHJlY3QgeD0iOTAiIHk9IjUwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZGNmY2U3Ii8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iNzQiIHgyPSIzODAiIHkyPSI3NCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8bGluZSB4MT0iNDYiIHkxPSI2OCIgeDI9IjQ2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iNDYiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4wPC90ZXh0PgogIDxsaW5lIHgxPSI5MCIgeTE9IjY4IiB4Mj0iOTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE8L3RleHQ+CiAgPGxpbmUgeDE9IjEzNCIgeTE9IjY4IiB4Mj0iMTM0IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTM0IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MjwvdGV4dD4KICA8bGluZSB4MT0iMTc4IiB5MT0iNjgiIHgyPSIxNzgiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxNzgiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zPC90ZXh0PgogIDxsaW5lIHgxPSIyMjIiIHkxPSI2OCIgeDI9IjIyMiIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjIyMiIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjQ8L3RleHQ+CiAgPGxpbmUgeDE9IjI2NiIgeTE9IjY4IiB4Mj0iMjY2IiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjY2IiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NTwvdGV4dD4KICA8bGluZSB4MT0iMzEwIiB5MT0iNjgiIHgyPSIzMTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIzMTAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj42PC90ZXh0PgogIDxsaW5lIHgxPSIzNTQiIHkxPSI2OCIgeDI9IjM1NCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjM1NCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjc8L3RleHQ+CiAgPGNpcmNsZSBjeD0iOTAiIGN5PSI3NCIgcj0iNiIgZmlsbD0iIzE1ODAzZCIvPjxjaXJjbGUgY3g9IjMxMCIgY3k9Ijc0IiByPSI2IiBmaWxsPSIjMTU4MDNkIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+Z8O8bHRpZzwvdGV4dD4KICA8dGV4dCB4PSI0MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPnVuZ8O8bHRpZzwvdGV4dD48dGV4dCB4PSIzNjAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj51bmfDvGx0aWc8L3RleHQ+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPHRleHQgeD0iMjAwIiB5PSIxMjQiIGZpbGw9IiMxNTgwM2QiPm5vdGUgJmd0Oz0gMSAmYW1wOyZhbXA7IG5vdGUgJmx0Oz0gNjwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMTQyIiBmaWxsPSIjYjkxYzFjIj5ub3RlICZsdDsgMSB8fCBub3RlICZndDsgNjwvdGV4dD4KICA8L2c+Cjwvc3ZnPgo=",Hg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIj5BYmxhdWYgZGVyIFdoaWxlLVNjaGxlaWZlPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iNDQiIHdpZHRoPSIxNjAiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjYjQ1MzA5IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjY5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaAgQmVkaW5ndW5nIHByw7xmZW48L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSIxMjgiIHdpZHRoPSIxNjAiIGhlaWdodD0iNDAiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTUzIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgSW5oYWx0IGF1c2bDvGhyZW48L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iODQiIHgyPSIyMDAiIHkyPSIxMjYiLz4KICAgIDxwYXRoIGQ9Ik0xMjAgMTQ4IEM4MCAxNDgsIDgwIDY0LCAxMTggNjQiLz4KICAgIDxwYXRoIGQ9Ik0yODAgNjQgTDM0MCA2NCBMMzQwIDIwMCBMMjgyIDIwMCIvPgogIDwvZz4KICA8dGV4dCB4PSIyMDgiIHk9IjExMCIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dHJ1ZTwvdGV4dD4KICA8dGV4dCB4PSIzOCIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj53aWVkZXI8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjEyNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+bmFjaCBvYmVuPC90ZXh0PgogIDx0ZXh0IHg9IjM0OCIgeT0iMTM0IiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5mYWxzZTwvdGV4dD4KICA8dGV4dCB4PSIyNzYiIHk9IjIwNSIgdGV4dC1hbmNob3I9ImVuZCI+d2VpdGVyIHVudGVyIGRlciBTY2hsZWlmZTwvdGV4dD4KPC9zdmc+Cg==",Gg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+a29wZmdlc3RldWVydCAoV2hpbGUpPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPmZ1w59nZXN0ZXVlcnQgKERvLXdoaWxlKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTAiIHgyPSIyMDAiIHkyPSIyMjAiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxyZWN0IHg9IjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCBCZWRpbmd1bmc8L3RleHQ+CiAgPHJlY3QgeD0iMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIxNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoSBJbmhhbHQ8L3RleHQ+CiAgPHJlY3QgeD0iMjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI2NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIEluaGFsdDwvdGV4dD4KICA8cmVjdCB4PSIyMzUiIHk9IjEyNCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjMwMCIgeT0iMTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgQmVkaW5ndW5nPC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYSkiPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjgwIiB4Mj0iMTAwIiB5Mj0iMTIyIi8+CiAgICA8cGF0aCBkPSJNMzUgMTQyIEM4IDE0MiwgOCA2MiwgMzMgNjIiLz4KICAgIDxsaW5lIHgxPSIzMDAiIHkxPSI4MCIgeDI9IjMwMCIgeTI9IjEyMiIvPgogICAgPHBhdGggZD0iTTM2NSAxNDIgQzM5MiAxNDIsIDM5MiA2MiwgMzY3IDYyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjEwNiIgeT0iMTA2IiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjM4MCIgeT0iMTA2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5Jc3QgZGllIEJlZGluZ3VuZyBnbGVpY2ggZmFsc2UsPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5sw6R1ZnQgZGVyIEluaGFsdCA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+bmllPC90c3Bhbj4uPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5EZXIgSW5oYWx0IGzDpHVmdCBpbW1lcjwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjIwNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+PHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPm1pbmRlc3RlbnMgZWlubWFsPC90c3Bhbj4uPC90ZXh0Pgo8L3N2Zz4K",Ng="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIFN0YXJ0IDx0c3BhbiBmaWxsPSIjNmU2ZTczIj4obnVyIGVpbm1hbCk8L3RzcGFuPjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9Ijc2IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iMTciIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGhIEJlZGluZ3VuZyBwcsO8ZmVuPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iMTM4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iNiIgZmlsbD0iI2RiZWFmZSIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGiIEluaGFsdCBhdXNmw7xocmVuPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iMjAwIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iNiIgZmlsbD0iI2RjZmNlNyIgc3Ryb2tlPSIjMTU4MDNkIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGjIFNjaHJpdHQsIHouIEIuIGkrKzwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSI0OCIgeDI9IjIwMCIgeTI9Ijc0Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTEwIiB4Mj0iMjAwIiB5Mj0iMTM2Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTcyIiB4Mj0iMjAwIiB5Mj0iMTk4Ii8+CiAgICA8cGF0aCBkPSJNMTIwIDIxNyBDNjAgMjE3LCA2MCA5MywgMTE4IDkzIi8+CiAgICA8cGF0aCBkPSJNMjgwIDkzIEwzMzAgOTMiLz4KICA8L2c+CiAgPHRleHQgeD0iMjA4IiB5PSIxMjkiIGZpbGw9IiMxNTgwM2QiIGZvbnQtd2VpZ2h0PSI2MDAiPnRydWU8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+enVyw7xjazwvdGV4dD4KICA8dGV4dCB4PSI0OCIgeT0iMTc2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj56dSDikaE8L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSI4NCIgZmlsbD0iI2I5MWMxYyIgZm9udC13ZWlnaHQ9IjYwMCI+ZmFsc2U8L3RleHQ+CiAgPHRleHQgeD0iMzM2IiB5PSI5OCI+ZmVydGlnPC90ZXh0Pgo8L3N2Zz4K",Eg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCI+aW50W10gemFobGVuID0gezIsIDQsIDYsIDgsIDEwfTwvdGV4dD4KICA8dGV4dCB4PSIyMCIgeT0iNTQiIGZpbGw9IiM2ZTZlNzMiIGZvbnQtc2l6ZT0iMTIiPkluZGV4PC90ZXh0PgogIDx0ZXh0IHg9IjkwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MDwvdGV4dD48cmVjdCB4PSI2MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjI8L3RleHQ+CiAgPHRleHQgeD0iMTUwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MTwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTUwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+NDwvdGV4dD4KICA8dGV4dCB4PSIyMTAiIHk9IjU0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIiBmb250LXdlaWdodD0iNzAwIj4yPC90ZXh0PjxyZWN0IHg9IjE4MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMTAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj42PC90ZXh0PgogIDx0ZXh0IHg9IjI3MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjM8L3RleHQ+PHJlY3QgeD0iMjQwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjI3MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjg8L3RleHQ+CiAgPHRleHQgeD0iMzMwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+NDwvdGV4dD48cmVjdCB4PSIzMDAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzMwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+MTA8L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjkwIiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj5XZXJ0PC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwN2FmZiIgc3Ryb2tlLXdpZHRoPSIxLjgiIG1hcmtlci1lbmQ9InVybCgjYSkiPjxsaW5lIHgxPSI5MCIgeTE9IjE0MCIgeDI9IjkwIiB5Mj0iMTEyIi8+PGxpbmUgeDE9IjMzMCIgeTE9IjE0MCIgeDI9IjMzMCIgeTI9IjExMiIvPjwvZz4KICA8ZyBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxMyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHRleHQgeD0iOTAiIHk9IjE1NiI+emFobGVuWzBdIGlzdCAyPC90ZXh0Pjx0ZXh0IHg9IjMzMCIgeT0iMTU2Ij56YWhsZW5bNF0gaXN0IDEwPC90ZXh0PjwvZz4KICA8dGV4dCB4PSIyMDAiIHk9IjE4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+NSBGw6RjaGVyLCBnZXrDpGhsdCB3aXJkIGFiIDA6IGRlciBsZXR6dGUgSW5kZXggaXN0IDQuPC90ZXh0Pgo8L3N2Zz4K",Lg=""+new URL("aufgabe-mehrwertsteuer-KUkerRBd.svg",import.meta.url).href,Vg=""+new URL("kino-saal-BOvcmdzb.svg",import.meta.url).href,Rg=""+new URL("kino-schleifen-Ci9yPnbo.svg",import.meta.url).href,Ug="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDkyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDkyIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiPgogICAgPCEtLSBTdGFydCAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMjgiIHJ4PSIxNCIgZmlsbD0iI2QxZjJkOSIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjM4IiB4Mj0iMTUwIiB5Mj0iNTQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gQW53ZWlzdW5nIC0tPgogICAgPHJlY3QgeD0iNTAiIHk9IjU2IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iODYiIHgyPSIxNTAiIHkyPSI5OCIgbWFya2VyLWVuZD0idXJsKCNhKSIvPgogICAgPCEtLSBSYXV0ZSAxIC0tPgogICAgPHBhdGggZD0iTTE1MCAxMDAgTDIzNSAxMjggTDE1MCAxNTYgTDY1IDEyOCBaIiBmaWxsPSIjZmZmNGQ2Ii8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMTU2IiB4Mj0iMTUwIiB5Mj0iMTcyIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8cmVjdCB4PSI1MCIgeT0iMTc0IiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8bGluZSB4MT0iMTUwIiB5MT0iMjA0IiB4Mj0iMTUwIiB5Mj0iMjUwIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIG5laW4tV2VnIHVtIGRlbiBLYXN0ZW4gaGVydW0gLS0+CiAgICA8cG9seWxpbmUgcG9pbnRzPSIyMzUsMTI4IDI4NSwxMjggMjg1LDIyMiAxNTAsMjIyIiBmaWxsPSJub25lIiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgICA8IS0tIFJhdXRlIDIgLS0+CiAgICA8cGF0aCBkPSJNMTUwIDI1MiBMMjM1IDI4MCBMMTUwIDMwOCBMNjUgMjgwIFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxsaW5lIHgxPSIyMzUiIHkxPSIyODAiIHgyPSIyNjgiIHkyPSIyODAiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjI3MCIgeT0iMjY1IiB3aWR0aD0iMTE1IiBoZWlnaHQ9IjMwIiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8IS0tIHp1csO8Y2sgenVyIFByw7xmdW5nIC0tPgogICAgPHBvbHlsaW5lIHBvaW50cz0iMzI3LDI2NSAzMjcsMjM4IDE1MCwyMzgiIGZpbGw9Im5vbmUiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzMDgiIHgyPSIxNTAiIHkyPSIzMjYiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDxyZWN0IHg9IjUwIiB5PSIzMjgiIHdpZHRoPSIyMDAiIGhlaWdodD0iMzAiIGZpbGw9IiNlNWYwZmYiLz4KICAgIDxsaW5lIHgxPSIxNTAiIHkxPSIzNTgiIHgyPSIxNTAiIHkyPSIzNzQiIG1hcmtlci1lbmQ9InVybCgjYSkiLz4KICAgIDwhLS0gRW5kZSAtLT4KICAgIDxyZWN0IHg9IjEwMCIgeT0iMzc2IiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjI4IiByeD0iMTQiIGZpbGw9IiNkMWYyZDkiLz4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSI+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI5Ij5JbsOtY2lvPC90ZXh0PgogICAgPHRleHQgeD0iMTUwIiB5PSI3NiI+UMO0ciB1bWEgY2jDoXZlbmEgbmEgbWVzYTwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTMzIj5RdWVyIGHDp8O6Y2FyPzwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMTk0Ij5KdW50YXIgYcOnw7pjYXI8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjI4NSI+Q2jDoSBtdWl0byBxdWVudGU/PC90ZXh0PgogICAgPHRleHQgeD0iMzI3LjUiIHk9IjI4NSI+RXNwZXJhciAxIG1pbnV0bzwvdGV4dD4KICAgIDx0ZXh0IHg9IjE1MCIgeT0iMzQ4Ij5CZWJlciBvIGNow6E8L3RleHQ+CiAgICA8dGV4dCB4PSIxNTAiIHk9IjM5NSI+RmltPC90ZXh0PgogIDwvZz4KICA8ZyBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNjAwIj4KICAgIDx0ZXh0IHg9IjE1NiIgeT0iMTY4IiBmaWxsPSIjMjQ4YTNkIj5zaW08L3RleHQ+CiAgICA8dGV4dCB4PSIyNDIiIHk9IjEyMiIgZmlsbD0iI2Q3MDAxNSI+bsOjbzwvdGV4dD4KICAgIDx0ZXh0IHg9IjI0MCIgeT0iMjc0IiBmaWxsPSIjMjQ4YTNkIj5zaW08L3RleHQ+CiAgICA8dGV4dCB4PSIxNTYiIHk9IjMyMCIgZmlsbD0iI2Q3MDAxNSI+bsOjbzwvdGV4dD4KICA8L2c+CiAgPCEtLSBMZWdlbmRlIC0tPgogIDxsaW5lIHgxPSIxMCIgeTE9IjQxOCIgeDI9IjM5MCIgeTI9IjQxOCIgc3Ryb2tlPSIjZDFkMWQ2Ii8+CiAgPGcgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuNSI+CiAgICA8cmVjdCB4PSI0MCIgeT0iNDMwIiB3aWR0aD0iMzYiIGhlaWdodD0iMTgiIHJ4PSI5IiBmaWxsPSIjZDFmMmQ5Ii8+CiAgICA8cmVjdCB4PSIyMjAiIHk9IjQzMCIgd2lkdGg9IjM2IiBoZWlnaHQ9IjE4IiBmaWxsPSIjZTVmMGZmIi8+CiAgICA8cGF0aCBkPSJNNTggNDU4IEw3NiA0NjkgTDU4IDQ4MCBMNDAgNDY5IFoiIGZpbGw9IiNmZmY0ZDYiLz4KICAgIDxwYXRoIGQ9Ik0yMjYgNDYwIEwyNTYgNDYwIEwyNTAgNDc4IEwyMjAgNDc4IFoiIGZpbGw9IiNmMmU2ZmYiLz4KICA8L2c+CiAgPGcgZm9udC1zaXplPSIxMiIgZmlsbD0iIzNhM2EzYyI+CiAgICA8dGV4dCB4PSI4NiIgeT0iNDQzIj5JbsOtY2lvIG91IGZpbTwvdGV4dD4KICAgIDx0ZXh0IHg9IjI2NiIgeT0iNDQzIj5JbnN0cnXDp8OjbzwvdGV4dD4KICAgIDx0ZXh0IHg9Ijg2IiB5PSI0NzMiPkRlY2lzw6NvPC90ZXh0PgogICAgPHRleHQgeD0iMjY2IiB5PSI0NzMiPkVudHJhZGEgb3Ugc2HDrWRhPC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",Fg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE5MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwIiB5PSIyNCIgZm9udC13ZWlnaHQ9IjYwMCI+T25kZSBmaWNhIG8gZWxlbWVudG8/PC90ZXh0PgogIDxyZWN0IHg9IjIwIiB5PSI0MCIgd2lkdGg9IjE5MCIgaGVpZ2h0PSIzNSIgZmlsbD0iI2RiZWFmZSIvPgogIDxyZWN0IHg9IjIwIiB5PSI3NSIgd2lkdGg9IjE5MCIgaGVpZ2h0PSIzNSIgZmlsbD0iI2RjZmNlNyIvPgogIDxsaW5lIHgxPSIyMCIgeTE9Ijc1IiB4Mj0iMjEwIiB5Mj0iNzUiIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPHJlY3QgeD0iMjAiIHk9IjQwIiB3aWR0aD0iMTkwIiBoZWlnaHQ9IjcwIiBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjExNSIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxZDRlZDgiPm1ldGFkZSBkZSBjaW1hPC90ZXh0PgogIDx0ZXh0IHg9IjExNSIgeT0iOTciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPm1ldGFkZSBkZSBiYWl4bzwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9IjYyIj7ihpIgZmljYSA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+YW50ZXM8L3RzcGFuPjwvdGV4dD4KICA8dGV4dCB4PSIyMjQiIHk9Ijk3Ij7ihpIgZmljYSA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+ZGVwb2lzPC90c3Bhbj48L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjEzMiIgd2lkdGg9IjE5MCIgaGVpZ2h0PSI0MCIgZmlsbD0iI2ZlZjNjNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIxMTUiIHk9IjE1NyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiI+w7g8L3RleHQ+CiAgPHRleHQgeD0iMjI0IiB5PSIxNTciPuKGkiA8dHNwYW4gZm9udC13ZWlnaHQ9IjYwMCI+c3Vic3RpdHVpLW88L3RzcGFuPjwvdGV4dD4KPC9zdmc+Cg==",Yg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjEwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIxMCIgZmlsbD0iI2ZmZmZmZiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJ1aS1tb25vc3BhY2UsIE1lbmxvLCBDb25zb2xhcywgbW9ub3NwYWNlIiBmb250LXNpemU9IjE2Ij5pbnQgaWRhZGUgPSAxNDwvdGV4dD4KICA8cGF0aCBkPSJNMTMwIDcwIEwxNzAgNTAgTDMwMCA1MCBMMjYwIDcwIFoiIGZpbGw9IiNjOThhM2MiIHN0cm9rZT0iIzhhNWExZiIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHJlY3QgeD0iMTgwIiB5PSIzNCIgd2lkdGg9IjQ0IiBoZWlnaHQ9IjUwIiByeD0iMyIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjEuNSIvPgogIDx0ZXh0IHg9IjIwMiIgeT0iNjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSI3MDAiPjE0PC90ZXh0PgogIDxyZWN0IHg9IjEzMCIgeT0iNzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMTAwIiBmaWxsPSIjZTliODcyIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik0yNjAgNzAgTDMwMCA1MCBMMzAwIDE1MCBMMjYwIDE3MCBaIiBmaWxsPSIjZDQ5YTRjIiBzdHJva2U9IiM4YTVhMWYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxyZWN0IHg9IjE1MCIgeT0iMTAwIiB3aWR0aD0iOTAiIGhlaWdodD0iMzAiIHJ4PSI0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiM4YTVhMWYiLz4KICA8dGV4dCB4PSIxOTUiIHk9IjEyMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+aWRhZGU8L3RleHQ+CiAgPHJlY3QgeD0iMTM4IiB5PSIxNDIiIHdpZHRoPSIzNCIgaGVpZ2h0PSIyMCIgcng9IjEwIiBmaWxsPSIjMDA3YWZmIi8+CiAgPHRleHQgeD0iMTU1IiB5PSIxNTYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNmZmZmZmYiIGZvbnQtd2VpZ2h0PSI2MDAiPmludDwvdGV4dD4KICA8ZyBzdHJva2U9IiM2ZTZlNzMiPgogICAgPGxpbmUgeDE9IjMxMCIgeTE9IjQ4IiB4Mj0iMjI2IiB5Mj0iNTIiLz4KICAgIDxsaW5lIHgxPSIzMTAiIHkxPSIxMTUiIHgyPSIyNDIiIHkyPSIxMTUiLz4KICAgIDxsaW5lIHgxPSI4MCIgeTE9IjE1MiIgeDI9IjEzNCIgeTI9IjE1MiIvPgogIDwvZz4KICA8dGV4dCB4PSIzMTYiIHk9IjUyIj5WYWxvcjwvdGV4dD4KICA8dGV4dCB4PSIzMTYiIHk9IjExOSI+Tm9tZTwvdGV4dD4KICA8dGV4dCB4PSI4IiB5PSIxNTYiPlRpcG8gZGUgZGFkb3M8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIxOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPlBlbG8gbm9tZSBjaGVnYXMgYW8gdmFsb3IuPC90ZXh0Pgo8L3N2Zz4K",Og="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMjAiPgogICAgPHRleHQgeD0iNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+cG9udG9zPC90ZXh0PgogICAgPHRleHQgeD0iMTI1IiB5PSIxMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPj08L3RleHQ+CiAgICA8dGV4dCB4PSIyNjAiIHk9IjExMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9udG9zICsgNTwvdGV4dD4KICA8L2c+CiAgPHJlY3QgeD0iMTgwIiB5PSI4NiIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjYwIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMxNTgwM2QiPuKRoCBjYWxjdWxhciBhIGRpcmVpdGE6IDEwICsgNSA9IDE1PC90ZXh0PgogIDxwYXRoIGQ9Ik0yNTAgODIgQzIzMCAzMCwgOTAgMzAsIDY0IDg0IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdhZmYiIHN0cm9rZS13aWR0aD0iMi41IiBtYXJrZXItZW5kPSJ1cmwoI2EpIi8+CiAgPHRleHQgeD0iMTYwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiI+4pGhIGd1YXJkYXIgbyByZXN1bHRhZG8gw6AgZXNxdWVyZGE8L3RleHQ+CiAgPHJlY3QgeD0iMjAiIHk9IjE2NCIgd2lkdGg9IjM2MCIgaGVpZ2h0PSIyNiIgcng9IjYiIGZpbGw9IiNmMmYyZjciLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE4MiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+cG9udG9zIGFudGVzOiA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCI+MTA8L3RzcGFuPiAgIOKGkiAgIHBvbnRvcyBkZXBvaXM6IDx0c3BhbiBmb250LXdlaWdodD0iNzAwIj4xNTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K",Qg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMzAwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPGcgc3Ryb2tlPSIjNmU2ZTczIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiPgogICAgPHBhdGggZD0iTTQwIDExMCBMNDggMTgwIEwxMDIgMTgwIEwxMTAgMTEwIi8+CiAgICA8cGF0aCBkPSJNMTY1IDExMCBMMTczIDE4MCBMMjI3IDE4MCBMMjM1IDExMCIvPgogICAgPHBhdGggZD0iTTI5MCAxMTAgTDI5OCAxODAgTDM1MiAxODAgTDM2MCAxMTAiLz4KICA8L2c+CiAgPHBhdGggZD0iTTQ0IDEzNSBMNDggMTgwIEwxMDIgMTgwIEwxMDYgMTM1IFoiIGZpbGw9IiNmZGJhNzQiLz4KICA8cGF0aCBkPSJNMjk0IDEzNSBMMjk4IDE4MCBMMzUyIDE4MCBMMzU2IDEzNSBaIiBmaWxsPSIjOTNjNWZkIi8+CiAgPHRleHQgeD0iNzUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+ZXNxdWVyZGE8L3RleHQ+CiAgPHRleHQgeD0iNzUiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+c3VtbzwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+YXV4PC90ZXh0PgogIDx0ZXh0IHg9IjIwMCIgeT0iMjE3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj52YXppbzwvdGV4dD4KICA8dGV4dCB4PSIzMjUiIHk9IjIwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+ZGlyZWl0YTwvdGV4dD4KICA8dGV4dCB4PSIzMjUiIHk9IjIxNyIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+w6FndWE8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8cGF0aCBkPSJNODggMTA0IEMxMTAgNzAsIDE2MCA3MCwgMTg2IDEwNCIvPgogICAgPHBhdGggZD0iTTMxOCAxMDQgQzI3MCAxNSwgMTMwIDE1LCA4MiAxMDQiLz4KICAgIDxwYXRoIGQ9Ik0yMTQgMTA0IEMyNDAgNzAsIDI5MCA3MCwgMzEyIDEwNCIvPgogIDwvZz4KICA8ZyBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4KICAgIDxjaXJjbGUgY3g9IjEzNyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMTM3IiB5PSI4NSI+MTwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjM4IiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjAwIiB5PSI0MyI+MjwvdGV4dD4KICAgIDxjaXJjbGUgY3g9IjI2MyIgY3k9IjgwIiByPSIxMSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+PHRleHQgeD0iMjYzIiB5PSI4NSI+MzwvdGV4dD4KICA8L2c+CiAgPGcgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTIiPgogICAgPHRleHQgeD0iMjAwIiB5PSIyNTAiPjE6IGF1eCA9IGVzcXVlcmRhPC90ZXh0PgogICAgPHRleHQgeD0iMjAwIiB5PSIyNjgiPjI6IGVzcXVlcmRhID0gZGlyZWl0YTwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMjg2Ij4zOiBkaXJlaXRhID0gYXV4PC90ZXh0PgogIDwvZz4KPC9zdmc+Cg==",Xg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iI2ZmZmZmZiIvPgogIDxyZWN0IHg9IjIwIiB5PSI1MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+PHJlY3QgeD0iMzAwIiB5PSI1MCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjI0IiBmaWxsPSIjZmVlMmUyIi8+CiAgPHJlY3QgeD0iMTAwIiB5PSI1MCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2RjZmNlNyIvPgogIDxsaW5lIHgxPSIyMCIgeTE9Ijc0IiB4Mj0iMzgwIiB5Mj0iNzQiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPGxpbmUgeDE9IjUwIiB5MT0iNjgiIHgyPSI1MCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MDwvdGV4dD4KICA8bGluZSB4MT0iMTAwIiB5MT0iNjgiIHgyPSIxMDAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMDAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xPC90ZXh0PgogIDxsaW5lIHgxPSIxNTAiIHkxPSI2OCIgeDI9IjE1MCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjE1MCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjI8L3RleHQ+CiAgPGxpbmUgeDE9IjIwMCIgeTE9IjY4IiB4Mj0iMjAwIiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMjAwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MzwvdGV4dD4KICA8bGluZSB4MT0iMjUwIiB5MT0iNjgiIHgyPSIyNTAiIHkyPSI4MCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyNTAiIHk9Ijk4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj40PC90ZXh0PgogIDxsaW5lIHgxPSIzMDAiIHkxPSI2OCIgeDI9IjMwMCIgeTI9IjgwIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjMwMCIgeT0iOTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjU8L3RleHQ+CiAgPGxpbmUgeDE9IjM1MCIgeTE9IjY4IiB4Mj0iMzUwIiB5Mj0iODAiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzUwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+NjwvdGV4dD4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI3NCIgcj0iNiIgZmlsbD0iIzE1ODAzZCIvPjxjaXJjbGUgY3g9IjMwMCIgY3k9Ijc0IiByPSI2IiBmaWxsPSIjMTU4MDNkIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dsOhbGlkYTwvdGV4dD4KICA8dGV4dCB4PSI1MCIgeT0iNDAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiNiOTFjMWMiIGZvbnQtd2VpZ2h0PSI2MDAiPmludsOhbGlkYTwvdGV4dD48dGV4dCB4PSIzNTAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5pbnbDoWxpZGE8L3RleHQ+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPgogICAgPHRleHQgeD0iMjAwIiB5PSIxMjQiIGZpbGw9IiMxNTgwM2QiPm5vdGEgJmd0Oz0gMSAmYW1wOyZhbXA7IG5vdGEgJmx0Oz0gNTwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMTQyIiBmaWxsPSIjYjkxYzFjIj5ub3RhICZsdDsgMSB8fCBub3RhICZndDsgNTwvdGV4dD4KICA8L2c+Cjwvc3ZnPgo=",Jg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIj5Db21vIGZ1bmNpb25hIG8gY2ljbG8gd2hpbGU8L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSI0NCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI0MCIgcng9IjIwIiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iNjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCB2ZXJpZmljYXIgYSBjb25kacOnw6NvPC90ZXh0PgogIDxyZWN0IHg9IjEyMCIgeT0iMTI4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjQwIiByeD0iNiIgZmlsbD0iI2RiZWFmZSIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSIyMDAiIHk9IjE1MyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGhIGV4ZWN1dGFyIG8gaW50ZXJpb3I8L3RleHQ+CiAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEuOCIgbWFya2VyLWVuZD0idXJsKCNhKSI+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iODQiIHgyPSIyMDAiIHkyPSIxMjYiLz4KICAgIDxwYXRoIGQ9Ik0xMjAgMTQ4IEM4MCAxNDgsIDgwIDY0LCAxMTggNjQiLz4KICAgIDxwYXRoIGQ9Ik0yODAgNjQgTDM0MCA2NCBMMzQwIDIwMCBMMjgyIDIwMCIvPgogIDwvZz4KICA8dGV4dCB4PSIyMDgiIHk9IjExMCIgZmlsbD0iIzE1ODAzZCIgZm9udC13ZWlnaHQ9IjYwMCI+dHJ1ZTwvdGV4dD4KICA8dGV4dCB4PSIzOCIgeT0iMTEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj52b2x0YXI8L3RleHQ+CiAgPHRleHQgeD0iMzgiIHk9IjEyNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+cGFyYSBjaW1hPC90ZXh0PgogIDx0ZXh0IHg9IjM0OCIgeT0iMTM0IiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5mYWxzZTwvdGV4dD4KICA8dGV4dCB4PSIyNzYiIHk9IjIwNSIgdGV4dC1hbmNob3I9ImVuZCI+Y29udGludWFyIHBvciBiYWl4byBkbyBjaWNsbzwvdGV4dD4KPC9zdmc+Cg==",qg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjMwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjMwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMTAwIiB5PSIyMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjYwMCI+cHLDqS10ZXN0ZSAod2hpbGUpPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI2MDAiPnDDs3MtdGVzdGUgKGRvLXdoaWxlKTwvdGV4dD4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTAiIHgyPSIyMDAiIHkyPSIyMjAiIHN0cm9rZT0iI2QxZDFkNiIvPgogIDxyZWN0IHg9IjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjE4IiBmaWxsPSIjZmVmM2M3IiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iNjciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoCBjb25kacOnw6NvPC90ZXh0PgogIDxyZWN0IHg9IjM1IiB5PSIxMjQiIHdpZHRoPSIxMzAiIGhlaWdodD0iMzYiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjEwMCIgeT0iMTQ3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaEgaW50ZXJpb3I8L3RleHQ+CiAgPHJlY3QgeD0iMjM1IiB5PSI0NCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNiIgcng9IjYiIGZpbGw9IiNkYmVhZmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSI2NyIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIGludGVyaW9yPC90ZXh0PgogIDxyZWN0IHg9IjIzNSIgeT0iMTI0IiB3aWR0aD0iMTMwIiBoZWlnaHQ9IjM2IiByeD0iMTgiIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAwIiB5PSIxNDciIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoSBjb25kacOnw6NvPC90ZXh0PgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjYiIG1hcmtlci1lbmQ9InVybCgjYSkiPgogICAgPGxpbmUgeDE9IjEwMCIgeTE9IjgwIiB4Mj0iMTAwIiB5Mj0iMTIyIi8+CiAgICA8cGF0aCBkPSJNMzUgMTQyIEM4IDE0MiwgOCA2MiwgMzMgNjIiLz4KICAgIDxsaW5lIHgxPSIzMDAiIHkxPSI4MCIgeDI9IjMwMCIgeTI9IjEyMiIvPgogICAgPHBhdGggZD0iTTM2NSAxNDIgQzM5MiAxNDIsIDM5MiA2MiwgMzY3IDYyIi8+CiAgPC9nPgogIDx0ZXh0IHg9IjEwNiIgeT0iMTA2IiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjM4MCIgeT0iMTA2IiB0ZXh0LWFuY2hvcj0iZW5kIiBmaWxsPSIjMTU4MDNkIiBmb250LXdlaWdodD0iNjAwIj50cnVlPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMTkwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5TZSBhIGNvbmRpw6fDo28gZm9yIGxvZ28gZmFsc2EsPC90ZXh0PgogIDx0ZXh0IHg9IjEwMCIgeT0iMjA2IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNmU2ZTczIj5vIGludGVyaW9yIDx0c3BhbiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMWMxYzFlIj5udW5jYTwvdHNwYW4+IMOpIGV4ZWN1dGFkby48L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSIxOTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPk8gaW50ZXJpb3Igw6kgc2VtcHJlIGV4ZWN1dGFkbzwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9IjIwNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+PHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPnBlbG8gbWVub3MgdW1hIHZlejwvdHNwYW4+LjwvdGV4dD4KPC9zdmc+Cg==",Kg="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMWMxYzFlIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHJlY3QgeD0iMTIwIiB5PSIxNCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzZlNmU3MyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGgIEluw61jaW8gPHRzcGFuIGZpbGw9IiM2ZTZlNzMiPihzw7MgdW1hIHZleik8L3RzcGFuPjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9Ijc2IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjM0IiByeD0iMTciIGZpbGw9IiNmZWYzYzciIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSI5OCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+4pGhIHZlcmlmaWNhciBhIGNvbmRpw6fDo288L3RleHQ+CiAgPHJlY3QgeD0iMTIwIiB5PSIxMzgiIHdpZHRoPSIxNjAiIGhlaWdodD0iMzQiIHJ4PSI2IiBmaWxsPSIjZGJlYWZlIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMTYwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj7ikaIgZXhlY3V0YXIgbyBpbnRlcmlvcjwvdGV4dD4KICA8cmVjdCB4PSIxMjAiIHk9IjIwMCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMjAwIiB5PSIyMjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiPuKRoyBwYXNzbywgcC4gZXguIGkrKzwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj4KICAgIDxsaW5lIHgxPSIyMDAiIHkxPSI0OCIgeDI9IjIwMCIgeTI9Ijc0Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTEwIiB4Mj0iMjAwIiB5Mj0iMTM2Ii8+CiAgICA8bGluZSB4MT0iMjAwIiB5MT0iMTcyIiB4Mj0iMjAwIiB5Mj0iMTk4Ii8+CiAgICA8cGF0aCBkPSJNMTIwIDIxNyBDNjAgMjE3LCA2MCA5MywgMTE4IDkzIi8+CiAgICA8cGF0aCBkPSJNMjgwIDkzIEwzMzAgOTMiLz4KICA8L2c+CiAgPHRleHQgeD0iMjA4IiB5PSIxMjkiIGZpbGw9IiMxNTgwM2QiIGZvbnQtd2VpZ2h0PSI2MDAiPnRydWU8L3RleHQ+CiAgPHRleHQgeD0iNDgiIHk9IjE2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzZlNmU3MyI+dm9sdGFyPC90ZXh0PgogIDx0ZXh0IHg9IjQ4IiB5PSIxNzYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPmFvIOKRoTwvdGV4dD4KICA8dGV4dCB4PSIzMDAiIHk9Ijg0IiBmaWxsPSIjYjkxYzFjIiBmb250LXdlaWdodD0iNjAwIj5mYWxzZTwvdGV4dD4KICA8dGV4dCB4PSIzMzYiIHk9Ijk4Ij5maW08L3RleHQ+Cjwvc3ZnPgo=",$g="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMTkwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KICA8ZGVmcz48bWFya2VyIGlkPSJhIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI3IiBtYXJrZXJIZWlnaHQ9IjciIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjMDA3YWZmIi8+PC9tYXJrZXI+PC9kZWZzPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMTkwIiBmaWxsPSIjZmZmZmZmIi8+CiAgPHRleHQgeD0iMjAiIHk9IjI0IiBmb250LWZhbWlseT0idWktbW9ub3NwYWNlLCBNZW5sbywgQ29uc29sYXMsIG1vbm9zcGFjZSIgZm9udC1zaXplPSIxNCI+aW50W10gbnVtZXJvcyA9IHsyLCA0LCA2LCA4LCAxMH08L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjU0IiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj7DjW5kaWNlPC90ZXh0PgogIDx0ZXh0IHg9IjkwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MDwvdGV4dD48cmVjdCB4PSI2MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI5MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjI8L3RleHQ+CiAgPHRleHQgeD0iMTUwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+MTwvdGV4dD48cmVjdCB4PSIxMjAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMTUwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+NDwvdGV4dD4KICA8dGV4dCB4PSIyMTAiIHk9IjU0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMDA3YWZmIiBmb250LXdlaWdodD0iNzAwIj4yPC90ZXh0PjxyZWN0IHg9IjE4MCIgeT0iNjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI0NiIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIyMTAiIHk9IjkyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iNjAwIj42PC90ZXh0PgogIDx0ZXh0IHg9IjI3MCIgeT0iNTQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiMwMDdhZmYiIGZvbnQtd2VpZ2h0PSI3MDAiPjM8L3RleHQ+PHJlY3QgeD0iMjQwIiB5PSI2MiIgd2lkdGg9IjYwIiBoZWlnaHQ9IjQ2IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjI3MCIgeT0iOTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI2MDAiPjg8L3RleHQ+CiAgPHRleHQgeD0iMzMwIiB5PSI1NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzAwN2FmZiIgZm9udC13ZWlnaHQ9IjcwMCI+NDwvdGV4dD48cmVjdCB4PSIzMDAiIHk9IjYyIiB3aWR0aD0iNjAiIGhlaWdodD0iNDYiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PHRleHQgeD0iMzMwIiB5PSI5MiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjYwMCI+MTA8L3RleHQ+CiAgPHRleHQgeD0iMjAiIHk9IjkwIiBmaWxsPSIjNmU2ZTczIiBmb250LXNpemU9IjEyIj5WYWxvcjwvdGV4dD4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMwMDdhZmYiIHN0cm9rZS13aWR0aD0iMS44IiBtYXJrZXItZW5kPSJ1cmwoI2EpIj48bGluZSB4MT0iOTAiIHkxPSIxNDAiIHgyPSI5MCIgeTI9IjExMiIvPjxsaW5lIHgxPSIzMzAiIHkxPSIxNDAiIHgyPSIzMzAiIHkyPSIxMTIiLz48L2c+CiAgPGcgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgTWVubG8sIENvbnNvbGFzLCBtb25vc3BhY2UiIGZvbnQtc2l6ZT0iMTMiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjx0ZXh0IHg9IjkwIiB5PSIxNTYiPm51bWVyb3NbMF0gw6kgMjwvdGV4dD48dGV4dCB4PSIzMzAiIHk9IjE1NiI+bnVtZXJvc1s0XSDDqSAxMDwvdGV4dD48L2c+CiAgPHRleHQgeD0iMjAwIiB5PSIxODIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2ZTZlNzMiPjUgcG9zacOnw7VlcywgY29udGEtc2UgYSBwYXJ0aXIgZGUgMDogbyDDumx0aW1vIMOtbmRpY2Ugw6kgNC48L3RleHQ+Cjwvc3ZnPgo=",e3=""+new URL("schiffe-versenken-iEBDHIxD.svg",import.meta.url).href,t3=""+new URL("ss-binaere-suche-DVVS2SNc.svg",import.meta.url).href,n3=""+new URL("ss-bubblesort-AFDcFDah.svg",import.meta.url).href,i3="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDQgMTk2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KPHJlY3Qgd2lkdGg9IjQwNCIgaGVpZ2h0PSIxOTYiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMTQiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjE1Ij5Qcm9jdXJhLXNlIG8gOS4gQXMgY2FydGFzIGVzdMOjbyBiYXJhbGhhZGFzLjwvdGV4dD4KPGc+PHJlY3QgeD0iMTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjM0LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjc8L3RleHQ+PHRleHQgeD0iMzQuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNkYzI2MjYiPuKZpTwvdGV4dD48L2c+Cjx0ZXh0IHg9IjM0LjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIzNC4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjEuPC90ZXh0Pgo8Zz48cmVjdCB4PSI2MiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iODIuMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+MzwvdGV4dD48dGV4dCB4PSI4Mi4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzFjMWMxZSI+4pmgPC90ZXh0PjwvZz4KPHRleHQgeD0iODIuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGMyNjI2Ij7inJc8L3RleHQ+Cjx0ZXh0IHg9IjgyLjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+Mi48L3RleHQ+CjxnPjxyZWN0IHg9IjExMCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iMTMwLjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjEwPC90ZXh0Pjx0ZXh0IHg9IjEzMC4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2RjMjYyNiI+4pmmPC90ZXh0PjwvZz4KPHRleHQgeD0iMTMwLjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIxMzAuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj4zLjwvdGV4dD4KPGc+PHJlY3QgeD0iMTU4IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48dGV4dCB4PSIxNzguMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+NTwvdGV4dD48dGV4dCB4PSIxNzguMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxYzFjMWUiPuKZozwvdGV4dD48L2c+Cjx0ZXh0IHg9IjE3OC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMTc4LjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+NC48L3RleHQ+CjxnPjxyZWN0IHg9IjIwNiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMjI2LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjk8L3RleHQ+PHRleHQgeD0iMjI2LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMWMxYzFlIj7imaA8L3RleHQ+PC9nPgo8dGV4dCB4PSIyMjYuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTU4MDNkIj7inJM8L3RleHQ+Cjx0ZXh0IHg9IjIyNi4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjUuPC90ZXh0Pgo8Zz48cmVjdCB4PSIyNTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjMWQ0ZWQ4IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjI1OCIgeT0iNTQiIHdpZHRoPSIzMiIgaGVpZ2h0PSI0OCIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYzVmZCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjwvZz4KPGc+PHJlY3QgeD0iMzAyIiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iIzFkNGVkOCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSIzMDYiIHk9IjU0IiB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2M1ZmQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSIzIDIiLz48L2c+CjxnPjxyZWN0IHg9IjM1MCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiMxZDRlZDgiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iMzU0IiB5PSI1NCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQ4IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNjNWZkIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyAyIi8+PC9nPgo8dGV4dCB4PSIxNCIgeT0iMTY4IiBmb250LXNpemU9IjE1IiBmaWxsPSIjNmU2ZTczIj5WaXJhciBkYSBlc3F1ZXJkYSBwYXJhIGEgZGlyZWl0YTo8L3RleHQ+PHRleHQgeD0iMTQiIHk9IjE4OCIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzZlNmU3MyI+QXDDs3MgNSBjb21wYXJhw6fDtWVzLCBvIDkgw6kgZW5jb250cmFkby48L3RleHQ+Cjwvc3ZnPgo=",a3=""+new URL("ss-vergleiche-DWgkIvLr.svg",import.meta.url).href,s3="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgNDUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KPGRlZnM+PG1hcmtlciBpZD0iayIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNiIgbWFya2VySGVpZ2h0PSI2IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDAgTDEwIDUgTDAgMTAgWiIgZmlsbD0iIzFjMWMxZSIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImIiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEwxMCA1IEwwIDEwIFoiIGZpbGw9IiMxZDRlZDgiLz48L21hcmtlcj48bWFya2VyIGlkPSJvIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI2IiBtYXJrZXJIZWlnaHQ9IjYiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjYjQ1MzA5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPlBhc3NhZ2VtIHBvciB2YWxvcjogdW1hIGPDs3BpYTwvdGV4dD4KPHJlY3QgeD0iMTAiIHk9IjM4IiB3aWR0aD0iMTYwIiBoZWlnaHQ9Ijg2IiByeD0iOCIgZmlsbD0iI2VmZjZmZiIgc3Ryb2tlPSIjMWQ0ZWQ4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIyMCIgeT0iNTgiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPlByb2dyYW1hIHByaW5jaXBhbDwvdGV4dD4KPHRleHQgeD0iMTYiIHk9Ijk4IiBmb250LXNpemU9IjEyIj5udW1lcm88L3RleHQ+CjxyZWN0IHg9IjcwIiB5PSI3OCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9Ijk4IiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+NTwvdGV4dD4KPHJlY3QgeD0iMjUwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNmZmY3ZWQiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjYwIiB5PSI1OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+ZHVwbGljYXI8L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iOTgiPng8L3RleHQ+CjxyZWN0IHg9IjI4MCIgeT0iNzgiIHdpZHRoPSI4MCIgaGVpZ2h0PSIzMCIgcng9IjQiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8dGV4dCB4PSIzMjAiIHk9Ijk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj48dHNwYW4gZmlsbD0iIzZlNmU3MyIgdGV4dC1kZWNvcmF0aW9uPSJsaW5lLXRocm91Z2giPjU8L3RzcGFuPiA8dHNwYW4gZm9udC13ZWlnaHQ9IjcwMCI+MTA8L3RzcGFuPjwvdGV4dD4KPGxpbmUgeDE9IjEyOCIgeTE9IjkzIiB4Mj0iMjQ4IiB5Mj0iOTMiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjUgNCIgbWFya2VyLWVuZD0idXJsKCNrKSIvPgo8dGV4dCB4PSIyMTAiIHk9Ijg0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5jw7NwaWE8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxNTAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPnggcGFzc2EgYSAxMCwgbWFzIG51bWVybyBmaWNhIDUuPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iMTY4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj5Db21vIHVtYSBmb3RvY8OzcGlhOiBlc2NyZXZlciBuYSBjw7NwaWE8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxODYiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPm7Do28gYWx0ZXJhIG8gb3JpZ2luYWwuPC90ZXh0Pgo8bGluZSB4MT0iMTAiIHkxPSIyMDgiIHgyPSI0MTAiIHkyPSIyMDgiIHN0cm9rZT0iI2QxZDFkNiIvPgo8dGV4dCB4PSIxMCIgeT0iMjM2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj5QYXNzYWdlbSBwb3IgcmVmZXLDqm5jaWE6IG8gbWVzbW8gYXJyYXk8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZWZmNmZmIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIwIiB5PSIyNzIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPlByb2dyYW1hIHByaW5jaXBhbDwvdGV4dD4KPHRleHQgeD0iMjAiIHk9IjMwMCI+ZmlsYTwvdGV4dD4KPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjk1IiByPSI1IiBmaWxsPSIjMWQ0ZWQ4Ii8+CjxyZWN0IHg9IjI1MCIgeT0iMjUyIiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjYyIiByeD0iOCIgZmlsbD0iI2ZmZjdlZCIgc3Ryb2tlPSIjYjQ1MzA5IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8dGV4dCB4PSIyNjAiIHk9IjI3MiIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+bGltcGFyPC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9IjMwMCI+bHVnYXJlczwvdGV4dD4KPGNpcmNsZSBjeD0iMzkwIiBjeT0iMjk1IiByPSI1IiBmaWxsPSIjYjQ1MzA5Ii8+CjxwYXRoIGQ9Ik0xNTAgMzAwIEwxNTAgMzQwIEwxNDAgMzUyIiBmaWxsPSJub25lIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41IiBtYXJrZXItZW5kPSJ1cmwoI2IpIi8+CjxwYXRoIGQ9Ik0zOTAgMzAwIEwzOTAgMzQwIEwzMjIgMzU0IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMS41IiBtYXJrZXItZW5kPSJ1cmwoI28pIi8+CjxyZWN0IHg9IjkwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+CjxyZWN0IHg9IjE1MCIgeT0iMzU4IiB3aWR0aD0iNjAiIGhlaWdodD0iMzIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8cmVjdCB4PSIyMTAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHJlY3QgeD0iMjcwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9IjEyMCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMTgwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIyNDAiIHk9IjM3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+ZmFsc2U8L3RleHQ+Cjx0ZXh0IHg9IjMwMCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjQxNiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+U8OzIGjDoSB1bSBhcnJheS4gTyBxdWUgbGltcGFyIGFsdGVyYSBhdHJhdsOpcyBkZSBsdWdhcmVzLDwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjQzNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+byBwcm9ncmFtYSBwcmluY2lwYWwgdsOqIGVtIGZpbGEuPC90ZXh0Pgo8L3N2Zz4K",r3=""+new URL("zk-zeichen-8efNmpGx.svg",import.meta.url).href,o3=""+new URL("schiffe-versenken-CXt1SF0S.svg",import.meta.url).href,l3=""+new URL("ss-binaere-suche-CPsLGldq.svg",import.meta.url).href,m3=""+new URL("ss-bubblesort-Dic2ZfaT.svg",import.meta.url).href,u3="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDQgMTk2IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWMxYzFlIj4KPHJlY3Qgd2lkdGg9IjQwNCIgaGVpZ2h0PSIxOTYiIGZpbGw9IiNmZmZmZmYiLz4KPHRleHQgeD0iMTQiIHk9IjI0IiBmb250LXdlaWdodD0iNjAwIiBmb250LXNpemU9IjE1Ij5HZXN1Y2h0OiBkaWUgOS4gRGllIEthcnRlbiBzaW5kIGdlbWlzY2h0LjwvdGV4dD4KPGc+PHJlY3QgeD0iMTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjZjJmMmY3IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjx0ZXh0IHg9IjM0LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjc8L3RleHQ+PHRleHQgeD0iMzQuMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiNkYzI2MjYiPuKZpTwvdGV4dD48L2c+Cjx0ZXh0IHg9IjM0LjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIzNC4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjEuPC90ZXh0Pgo8Zz48cmVjdCB4PSI2MiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iODIuMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+MzwvdGV4dD48dGV4dCB4PSI4Mi4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzFjMWMxZSI+4pmgPC90ZXh0PjwvZz4KPHRleHQgeD0iODIuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjZGMyNjI2Ij7inJc8L3RleHQ+Cjx0ZXh0IHg9IjgyLjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+Mi48L3RleHQ+CjxnPjxyZWN0IHg9IjExMCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNmMmYyZjciIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHRleHQgeD0iMTMwLjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNkYzI2MjYiPjEwPC90ZXh0Pjx0ZXh0IHg9IjEzMC4wIiB5PSI5NS45MTk5OTk5OTk5OTk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNSIgZmlsbD0iI2RjMjYyNiI+4pmmPC90ZXh0PjwvZz4KPHRleHQgeD0iMTMwLjAiIHk9IjEzMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iI2RjMjYyNiI+4pyXPC90ZXh0Pgo8dGV4dCB4PSIxMzAuMCIgeT0iMTQ4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj4zLjwvdGV4dD4KPGc+PHJlY3QgeD0iMTU4IiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iI2YyZjJmNyIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48dGV4dCB4PSIxNzguMCIgeT0iNzUuMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzFjMWMxZSI+NTwvdGV4dD48dGV4dCB4PSIxNzguMCIgeT0iOTUuOTE5OTk5OTk5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxYzFjMWUiPuKZozwvdGV4dD48L2c+Cjx0ZXh0IHg9IjE3OC4wIiB5PSIxMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTYiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNkYzI2MjYiPuKclzwvdGV4dD4KPHRleHQgeD0iMTc4LjAiIHk9IjE0OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+NC48L3RleHQ+CjxnPjxyZWN0IHg9IjIwNiIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiNkY2ZjZTciIHN0cm9rZT0iIzE1ODAzZCIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMjI2LjAiIHk9Ijc1LjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiMxYzFjMWUiPjk8L3RleHQ+PHRleHQgeD0iMjI2LjAiIHk9Ijk1LjkxOTk5OTk5OTk5OTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMWMxYzFlIj7imaA8L3RleHQ+PC9nPgo8dGV4dCB4PSIyMjYuMCIgeT0iMTMwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iNjAwIiBmaWxsPSIjMTU4MDNkIj7inJM8L3RleHQ+Cjx0ZXh0IHg9IjIyNi4wIiB5PSIxNDgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPjUuPC90ZXh0Pgo8Zz48cmVjdCB4PSIyNTQiIHk9IjUwIiB3aWR0aD0iNDAiIGhlaWdodD0iNTYiIHJ4PSI1IiBmaWxsPSIjMWQ0ZWQ4IiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMSIvPjxyZWN0IHg9IjI1OCIgeT0iNTQiIHdpZHRoPSIzMiIgaGVpZ2h0PSI0OCIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzkzYzVmZCIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1kYXNoYXJyYXk9IjMgMiIvPjwvZz4KPGc+PHJlY3QgeD0iMzAyIiB5PSI1MCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjU2IiByeD0iNSIgZmlsbD0iIzFkNGVkOCIgc3Ryb2tlPSIjMWMxYzFlIiBzdHJva2Utd2lkdGg9IjEiLz48cmVjdCB4PSIzMDYiIHk9IjU0IiB3aWR0aD0iMzIiIGhlaWdodD0iNDgiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiM5M2M1ZmQiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtZGFzaGFycmF5PSIzIDIiLz48L2c+CjxnPjxyZWN0IHg9IjM1MCIgeT0iNTAiIHdpZHRoPSI0MCIgaGVpZ2h0PSI1NiIgcng9IjUiIGZpbGw9IiMxZDRlZDgiIHN0cm9rZT0iIzFjMWMxZSIgc3Ryb2tlLXdpZHRoPSIxIi8+PHJlY3QgeD0iMzU0IiB5PSI1NCIgd2lkdGg9IjMyIiBoZWlnaHQ9IjQ4IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTNjNWZkIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iMyAyIi8+PC9nPgo8dGV4dCB4PSIxNCIgeT0iMTY4IiBmb250LXNpemU9IjE1IiBmaWxsPSIjNmU2ZTczIj5Wb24gbGlua3MgbmFjaCByZWNodHMgdW1kcmVoZW46PC90ZXh0Pjx0ZXh0IHg9IjE0IiB5PSIxODgiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiM2ZTZlNzMiPk5hY2ggNSBWZXJnbGVpY2hlbiBpc3QgZGllIDkgZ2VmdW5kZW4uPC90ZXh0Pgo8L3N2Zz4K",c3=""+new URL("ss-vergleiche-DRqzU2TZ.svg",import.meta.url).href,d3="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MjAgNDUwIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBTZWdvZSBVSSwgUm9ib3RvLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjMWMxYzFlIj4KPGRlZnM+PG1hcmtlciBpZD0iayIgdmlld0JveD0iMCAwIDEwIDEwIiByZWZYPSI5IiByZWZZPSI1IiBtYXJrZXJXaWR0aD0iNiIgbWFya2VySGVpZ2h0PSI2IiBvcmllbnQ9ImF1dG8iPjxwYXRoIGQ9Ik0wIDAgTDEwIDUgTDAgMTAgWiIgZmlsbD0iIzFjMWMxZSIvPjwvbWFya2VyPjxtYXJrZXIgaWQ9ImIiIHZpZXdCb3g9IjAgMCAxMCAxMCIgcmVmWD0iOSIgcmVmWT0iNSIgbWFya2VyV2lkdGg9IjYiIG1hcmtlckhlaWdodD0iNiIgb3JpZW50PSJhdXRvIj48cGF0aCBkPSJNMCAwIEwxMCA1IEwwIDEwIFoiIGZpbGw9IiMxZDRlZDgiLz48L21hcmtlcj48bWFya2VyIGlkPSJvIiB2aWV3Qm94PSIwIDAgMTAgMTAiIHJlZlg9IjkiIHJlZlk9IjUiIG1hcmtlcldpZHRoPSI2IiBtYXJrZXJIZWlnaHQ9IjYiIG9yaWVudD0iYXV0byI+PHBhdGggZD0iTTAgMCBMMTAgNSBMMCAxMCBaIiBmaWxsPSIjYjQ1MzA5Ii8+PC9tYXJrZXI+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNDIwIiBoZWlnaHQ9IjQ1MCIgZmlsbD0iI2ZmZmZmZiIvPgo8dGV4dCB4PSIxMCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiPldlcnTDvGJlcmdhYmU6IGVpbmUgS29waWU8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNlZmY2ZmYiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjAiIHk9IjU4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMWQ0ZWQ4Ij5IYXVwdHByb2dyYW1tPC90ZXh0Pgo8dGV4dCB4PSIyMCIgeT0iOTgiPnphaGw8L3RleHQ+CjxyZWN0IHg9IjcwIiB5PSI3OCIgd2lkdGg9IjU2IiBoZWlnaHQ9IjMwIiByeD0iNCIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+Cjx0ZXh0IHg9Ijk4IiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC13ZWlnaHQ9IjcwMCI+NTwvdGV4dD4KPHJlY3QgeD0iMjUwIiB5PSIzOCIgd2lkdGg9IjE2MCIgaGVpZ2h0PSI4NiIgcng9IjgiIGZpbGw9IiNmZmY3ZWQiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4KPHRleHQgeD0iMjYwIiB5PSI1OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iI2I0NTMwOSI+dmVyZG9wcGxlPC90ZXh0Pgo8dGV4dCB4PSIyNjAiIHk9Ijk4Ij54PC90ZXh0Pgo8cmVjdCB4PSIyODAiIHk9Ijc4IiB3aWR0aD0iODAiIGhlaWdodD0iMzAiIHJ4PSI0IiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHRleHQgeD0iMzIwIiB5PSI5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+PHRzcGFuIGZpbGw9IiM2ZTZlNzMiIHRleHQtZGVjb3JhdGlvbj0ibGluZS10aHJvdWdoIj41PC90c3Bhbj4gPHRzcGFuIGZvbnQtd2VpZ2h0PSI3MDAiPjEwPC90c3Bhbj48L3RleHQ+CjxsaW5lIHgxPSIxMjgiIHkxPSI5MyIgeDI9IjI0OCIgeTI9IjkzIiBzdHJva2U9IiMxYzFjMWUiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtZGFzaGFycmF5PSI1IDQiIG1hcmtlci1lbmQ9InVybCgjaykiLz4KPHRleHQgeD0iMjEwIiB5PSI4NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+S29waWU8L3RleHQ+Cjx0ZXh0IHg9IjEwIiB5PSIxNTAiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiM2ZTZlNzMiPnggd2lyZCAxMCwgYWJlciB6YWhsIGJsZWlidCA1LjwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjE2OCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+V2llIGJlaSBlaW5lciBGb3Rva29waWU6IFdlciBhdWYgZGVyIEtvcGllIHNjaHJlaWJ0LDwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjE4NiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+w6RuZGVydCBkYXMgT3JpZ2luYWwgbmljaHQuPC90ZXh0Pgo8bGluZSB4MT0iMTAiIHkxPSIyMDgiIHgyPSI0MTAiIHkyPSIyMDgiIHN0cm9rZT0iI2QxZDFkNiIvPgo8dGV4dCB4PSIxMCIgeT0iMjM2IiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIj5SZWZlcmVuesO8YmVyZ2FiZTogZGFzc2VsYmUgQXJyYXk8L3RleHQ+CjxyZWN0IHg9IjEwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZWZmNmZmIiBzdHJva2U9IiMxZDRlZDgiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjIwIiB5PSIyNzIiIGZvbnQtc2l6ZT0iMTMiIGZpbGw9IiMxZDRlZDgiPkhhdXB0cHJvZ3JhbW08L3RleHQ+Cjx0ZXh0IHg9IjIwIiB5PSIzMDAiPnJlaWhlPC90ZXh0Pgo8Y2lyY2xlIGN4PSIxNTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiMxZDRlZDgiLz4KPHJlY3QgeD0iMjUwIiB5PSIyNTIiIHdpZHRoPSIxNjAiIGhlaWdodD0iNjIiIHJ4PSI4IiBmaWxsPSIjZmZmN2VkIiBzdHJva2U9IiNiNDUzMDkiIHN0cm9rZS13aWR0aD0iMS41Ii8+Cjx0ZXh0IHg9IjI2MCIgeT0iMjcyIiBmb250LXNpemU9IjEzIiBmaWxsPSIjYjQ1MzA5Ij5sZWVyZW48L3RleHQ+Cjx0ZXh0IHg9IjI2MCIgeT0iMzAwIj5wbGFldHplPC90ZXh0Pgo8Y2lyY2xlIGN4PSIzOTAiIGN5PSIyOTUiIHI9IjUiIGZpbGw9IiNiNDUzMDkiLz4KPHBhdGggZD0iTTE1MCAzMDAgTDE1MCAzNDAgTDE0MCAzNTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFkNGVkOCIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjYikiLz4KPHBhdGggZD0iTTM5MCAzMDAgTDM5MCAzNDAgTDMyMiAzNTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2I0NTMwOSIgc3Ryb2tlLXdpZHRoPSIxLjUiIG1hcmtlci1lbmQ9InVybCgjbykiLz4KPHJlY3QgeD0iOTAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHJlY3QgeD0iMTUwIiB5PSIzNTgiIHdpZHRoPSI2MCIgaGVpZ2h0PSIzMiIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjMWMxYzFlIi8+CjxyZWN0IHg9IjIxMCIgeT0iMzU4IiB3aWR0aD0iNjAiIGhlaWdodD0iMzIiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzFjMWMxZSIvPgo8cmVjdCB4PSIyNzAiIHk9IjM1OCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjMyIiBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMxYzFjMWUiLz4KPHRleHQgeD0iMTIwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxODAiIHk9IjM3OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1zaXplPSIxMyI+ZmFsc2U8L3RleHQ+Cjx0ZXh0IHg9IjI0MCIgeT0iMzc5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXNpemU9IjEzIj5mYWxzZTwvdGV4dD4KPHRleHQgeD0iMzAwIiB5PSIzNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTMiPmZhbHNlPC90ZXh0Pgo8dGV4dCB4PSIxMCIgeT0iNDE2IiBmb250LXNpemU9IjEzIiBmaWxsPSIjNmU2ZTczIj5FcyBnaWJ0IG51ciBlaW4gQXJyYXkuIFdhcyBsZWVyZW4gw7xiZXIgcGxhZXR6ZSDDpG5kZXJ0LDwvdGV4dD4KPHRleHQgeD0iMTAiIHk9IjQzNCIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzZlNmU3MyI+c2llaHQgZGFzIEhhdXB0cHJvZ3JhbW0gdW50ZXIgcmVpaGUuPC90ZXh0Pgo8L3N2Zz4K",h3=""+new URL("zk-zeichen-vYvc3iJg.svg",import.meta.url).href;function g3(i){const e=[];for(const t of i.replace(/\r\n/g,`
 `).split(`
-`)){const n=/^###\s+(.+)$/.exec(t),i=e.at(-1);if(n){const s=n[1].trim();e.push({term:s,forms:[s],text:""})}else i&&/^(auch|also):/i.test(t)?i.forms.push(...t.replace(/^(auch|also):/i,"").split(",").map(s=>s.trim()).filter(Boolean)):i&&t.trim()!==""&&(i.text=(i.text+" "+t.trim()).trim())}return e.filter(t=>t.text!=="")}const n3=a=>a.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");function Xt(a){const e=a.flatMap(t=>t.forms).sort((t,n)=>n.length-t.length);if(e.length!==0)return new RegExp(`(?<![\\p{L}\\p{N}_-])(?:${e.map(n3).join("|")})(?![\\p{L}\\p{N}_-])`,"u")}function Jt(a,e){return a.find(t=>t.forms.includes(e))}class R extends Error{}function ha(a,e){const t=/^---\n([\s\S]*?)\n---\n?/.exec(a.replace(/\r\n/g,`
-`));if(!t)throw new R(`${e}: Kopfzeilen (--- … ---) fehlen.`);const n=new Map;for(const i of t[1].split(`
-`)){const s=/^([a-zäöüß]+):\s*(.*)$/i.exec(i.trim());s&&n.set(s[1].toLowerCase(),s[2].trim())}return{meta:n,body:a.replace(/\r\n/g,`
-`).slice(t[0].length)}}function a3(a,e){const t=a.split(/\s*(?:->|→)\s*/);if(t.length!==2)throw new R(`${e}: Test „${a}“ braucht genau ein „->“.`);const n=(i,s)=>i.trim()===""||i.trim()==="-"?[]:i.split(s).map(r=>r.trim());return{inputs:n(t[0],/\s*,\s*/),expected:n(t[1],/\s*\|\s*/)}}function i3(a,e,t){const n={id:a,title:"",task:"",tests:[],requires:[],hints:[],subprograms:[]};let i;for(const s of e){const r=/^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm):\s*(.*)$/i.exec(s.trim());if(r){const[,o,l]=r;switch(i=void 0,o.toLowerCase()){case"titel":n.title=l;break;case"auftrag":n.task=l,i="task";break;case"start":n.start=l;break;case"test":n.tests.push(a3(l,t));break;case"braucht":n.requires.push(...l.split(/\s*,\s*/).filter(Boolean));break;case"tipp":n.hints.push(l),i="hint";break;case"lösung":case"loesung":n.solution=l;break;case"unterprogramm":n.subprograms.push(...l.split(/\s*,\s*/).filter(Boolean));break}}else i&&s.trim()!==""?i==="task"?n.task+=`
+`)){const n=/^###\s+(.+)$/.exec(t),a=e.at(-1);if(n){const s=n[1].trim();e.push({term:s,forms:[s],text:""})}else a&&/^(auch|also):/i.test(t)?a.forms.push(...t.replace(/^(auch|also):/i,"").split(",").map(s=>s.trim()).filter(Boolean)):a&&t.trim()!==""&&(a.text=(a.text+" "+t.trim()).trim())}return e.filter(t=>t.text!=="")}const p3=i=>i.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");function an(i){const e=i.flatMap(t=>t.forms).sort((t,n)=>n.length-t.length);if(e.length!==0)return new RegExp(`(?<![\\p{L}\\p{N}_-])(?:${e.map(p3).join("|")})(?![\\p{L}\\p{N}_-])`,"u")}function sn(i,e){return i.find(t=>t.forms.includes(e))}class U extends Error{}function Si(i,e){const t=/^---\n([\s\S]*?)\n---\n?/.exec(i.replace(/\r\n/g,`
+`));if(!t)throw new U(`${e}: Kopfzeilen (--- … ---) fehlen.`);const n=new Map;for(const a of t[1].split(`
+`)){const s=/^([a-zäöüß]+):\s*(.*)$/i.exec(a.trim());s&&n.set(s[1].toLowerCase(),s[2].trim())}return{meta:n,body:i.replace(/\r\n/g,`
+`).slice(t[0].length)}}function x3(i,e){const t=i.split(/\s*(?:->|→)\s*/);if(t.length!==2)throw new U(`${e}: Test „${i}“ braucht genau ein „->“.`);const n=(a,s)=>a.trim()===""||a.trim()==="-"?[]:a.split(s).map(r=>r.trim());return{inputs:n(t[0],/\s*,\s*/),expected:n(t[1],/\s*\|\s*/)}}function I3(i,e,t){const n={id:i,title:"",task:"",tests:[],requires:[],hints:[],subprograms:[]};let a;for(const s of e){const r=/^(titel|auftrag|start|test|braucht|tipp|lösung|loesung|unterprogramm):\s*(.*)$/i.exec(s.trim());if(r){const[,o,l]=r;switch(a=void 0,o.toLowerCase()){case"titel":n.title=l;break;case"auftrag":n.task=l,a="task";break;case"start":n.start=l;break;case"test":n.tests.push(x3(l,t));break;case"braucht":n.requires.push(...l.split(/\s*,\s*/).filter(Boolean));break;case"tipp":n.hints.push(l),a="hint";break;case"lösung":case"loesung":n.solution=l;break;case"unterprogramm":n.subprograms.push(...l.split(/\s*,\s*/).filter(Boolean));break}}else a&&s.trim()!==""?a==="task"?n.task+=`
 `+s.trim():n.hints[n.hints.length-1]+=`
-`+s.trim():s.trim()===""&&i==="task"&&(n.task+=`
-`)}if(!n.title)throw new R(`${t}: Übung „${a}“ hat keinen Titel.`);if(!n.task.trim())throw new R(`${t}: Übung „${a}“ hat keinen Auftrag.`);return n.task=n.task.trim(),n}function s3(a,e){const t=[];for(const n of a){const i=n.trim();if(i.startsWith("?"))t.push({question:i.slice(1).trim(),options:[]});else if(/^- \[[ xX]\]/.test(i)){const s=t.at(-1);if(!s)throw new R(`${e}: Antwort ohne Frage im Quiz.`);s.options.push({text:i.slice(5).trim(),correct:i[3].toLowerCase()==="x"})}else if(i.startsWith("= ")){const s=t.at(-1),r=/^=\s+(.+?)\s+->\s+(.+)$/.exec(i);if(!s||!r)throw new R(`${e}: Zuordnung „${i}“ braucht die Form „= links -> rechts“ nach einer Frage.`);(s.pairs??(s.pairs=[])).push({left:r[1].trim(),right:r[2].trim()})}else if(i.startsWith(">")){const s=t.at(-1);s&&(s.explanation=((s.explanation?s.explanation+" ":"")+i.slice(1).trim()).trim())}}for(const n of t){if(n.pairs){const i=new Set(n.pairs.map(s=>s.right));if(n.options.length>0||n.pairs.length<2||i.size!==n.pairs.length)throw new R(`${e}: Zuordnung „${n.question}“ braucht mindestens zwei Paare mit verschiedenen rechten Seiten und keine Antworten.`);continue}if(n.options.length<2||!n.options.some(i=>i.correct))throw new R(`${e}: Quizfrage „${n.question}“ braucht mindestens zwei Antworten, davon eine richtige.`)}return t}function ga(a,e){const t=[],n=a.split(`
-`);let i=[];const s=()=>{const r=i.join(`
-`).trim();r&&t.push({kind:"markdown",text:r}),i=[]};for(let r=0;r<n.length;r++){const o=/^:::\s*([a-zäöüß]+)\s*(.*)$/i.exec(n[r].trim());if(!o){i.push(n[r]);continue}s();const l=[];let m=r+1;for(;m<n.length&&n[m].trim()!==":::";)l.push(n[m++]);if(m>=n.length)throw new R(`${e}: Block „::: ${o[1]}“ wird nicht mit „:::“ geschlossen.`);const u=o[1].toLowerCase(),c=o[2].trim();switch(u){case"diagramm":if(!c)throw new R(`${e}: „::: diagramm“ braucht einen Dateinamen.`);t.push({kind:"diagram",file:c,caption:l.join(" ").trim()});break;case"übung":case"uebung":if(!c)throw new R(`${e}: „::: übung“ braucht eine Kennung.`);t.push({kind:"exercise",exercise:i3(c,l,e)});break;case"checkliste":t.push({kind:"checklist",items:l.map(h=>h.trim()).filter(h=>h.startsWith("- ")).map(h=>r3(h.slice(2).trim()))});break;case"quiz":t.push({kind:"quiz",questions:s3(l,e)});break;case"bild":if(!c)throw new R(`${e}: „::: bild“ braucht einen Dateinamen.`);t.push({kind:"images",files:c.split(/\s+/),caption:l.join(" ").trim()});break;case"grafik":if(!c)throw new R(`${e}: „::: grafik“ braucht einen Dateinamen.`);t.push({kind:"graphic",file:c,caption:l.join(" ").trim()});break;case"angeberwissen":t.push({kind:"brag",text:l.join(`
-`).trim()});break;default:throw new R(`${e}: Unbekannter Block „::: ${o[1]}“.`)}r=m}return s(),t}function r3(a){const e=/^(.*?)\s+→\s+(.+)$/.exec(a);return e?{text:e[1],ref:e[2].trim()}:{text:a}}function o3(a,e){const t=new Map(a.map((n,i)=>[n.title.toLowerCase(),i]));for(const n of a.flatMap(i=>i.blocks))if(n.kind==="checklist"){for(const i of n.items)if(i.ref!==void 0&&(i.step=t.get(i.ref.toLowerCase()),i.step===void 0))throw new R(`${e}: Checkliste verweist auf unbekannten Schritt „${i.ref}“.`)}}function l3(a,e){var c;const{meta:t,body:n}=ha(a,e),i=e.replace(/^.*\//,"").replace(/\.md$/,""),s=Number((c=/^(\d+)/.exec(i))==null?void 0:c[1]);if(!Number.isFinite(s))throw new R(`${e}: Dateiname muss mit der Nummer beginnen (z. B. 01-…).`);const r=[];let o=[],l;const m=()=>{l&&r.push({title:l.title,blocks:ga(l.lines.join(`
+`+s.trim():s.trim()===""&&a==="task"&&(n.task+=`
+`)}if(!n.title)throw new U(`${t}: Übung „${i}“ hat keinen Titel.`);if(!n.task.trim())throw new U(`${t}: Übung „${i}“ hat keinen Auftrag.`);return n.task=n.task.trim(),n}function b3(i,e){const t=[];for(const n of i){const a=n.trim();if(a.startsWith("?"))t.push({question:a.slice(1).trim(),options:[]});else if(/^- \[[ xX]\]/.test(a)){const s=t.at(-1);if(!s)throw new U(`${e}: Antwort ohne Frage im Quiz.`);s.options.push({text:a.slice(5).trim(),correct:a[3].toLowerCase()==="x"})}else if(a.startsWith("= ")){const s=t.at(-1),r=/^=\s+(.+?)\s+->\s+(.+)$/.exec(a);if(!s||!r)throw new U(`${e}: Zuordnung „${a}“ braucht die Form „= links -> rechts“ nach einer Frage.`);(s.pairs??(s.pairs=[])).push({left:r[1].trim(),right:r[2].trim()})}else if(a.startsWith(">")){const s=t.at(-1);s&&(s.explanation=((s.explanation?s.explanation+" ":"")+a.slice(1).trim()).trim())}}for(const n of t){if(n.pairs){const a=new Set(n.pairs.map(s=>s.right));if(n.options.length>0||n.pairs.length<2||a.size!==n.pairs.length)throw new U(`${e}: Zuordnung „${n.question}“ braucht mindestens zwei Paare mit verschiedenen rechten Seiten und keine Antworten.`);continue}if(n.options.length<2||!n.options.some(a=>a.correct))throw new U(`${e}: Quizfrage „${n.question}“ braucht mindestens zwei Antworten, davon eine richtige.`)}return t}function ki(i,e){const t=[],n=i.split(`
+`);let a=[];const s=()=>{const r=a.join(`
+`).trim();r&&t.push({kind:"markdown",text:r}),a=[]};for(let r=0;r<n.length;r++){const o=/^:::\s*([a-zäöüß]+)\s*(.*)$/i.exec(n[r].trim());if(!o){a.push(n[r]);continue}s();const l=[];let m=r+1;for(;m<n.length&&n[m].trim()!==":::";)l.push(n[m++]);if(m>=n.length)throw new U(`${e}: Block „::: ${o[1]}“ wird nicht mit „:::“ geschlossen.`);const u=o[1].toLowerCase(),c=o[2].trim();switch(u){case"diagramm":if(!c)throw new U(`${e}: „::: diagramm“ braucht einen Dateinamen.`);t.push({kind:"diagram",file:c,caption:l.join(" ").trim()});break;case"übung":case"uebung":if(!c)throw new U(`${e}: „::: übung“ braucht eine Kennung.`);t.push({kind:"exercise",exercise:I3(c,l,e)});break;case"checkliste":t.push({kind:"checklist",items:l.map(h=>h.trim()).filter(h=>h.startsWith("- ")).map(h=>f3(h.slice(2).trim()))});break;case"quiz":t.push({kind:"quiz",questions:b3(l,e)});break;case"bild":if(!c)throw new U(`${e}: „::: bild“ braucht einen Dateinamen.`);t.push({kind:"images",files:c.split(/\s+/),caption:l.join(" ").trim()});break;case"grafik":if(!c)throw new U(`${e}: „::: grafik“ braucht einen Dateinamen.`);t.push({kind:"graphic",file:c,caption:l.join(" ").trim()});break;case"angeberwissen":t.push({kind:"brag",text:l.join(`
+`).trim()});break;default:throw new U(`${e}: Unbekannter Block „::: ${o[1]}“.`)}r=m}return s(),t}function f3(i){const e=/^(.*?)\s+→\s+(.+)$/.exec(i);return e?{text:e[1],ref:e[2].trim()}:{text:i}}function y3(i,e){const t=new Map(i.map((n,a)=>[n.title.toLowerCase(),a]));for(const n of i.flatMap(a=>a.blocks))if(n.kind==="checklist"){for(const a of n.items)if(a.ref!==void 0&&(a.step=t.get(a.ref.toLowerCase()),a.step===void 0))throw new U(`${e}: Checkliste verweist auf unbekannten Schritt „${a.ref}“.`)}}function z3(i,e){var c;const{meta:t,body:n}=Si(i,e),a=e.replace(/^.*\//,"").replace(/\.md$/,""),s=Number((c=/^(\d+)/.exec(a))==null?void 0:c[1]);if(!Number.isFinite(s))throw new U(`${e}: Dateiname muss mit der Nummer beginnen (z. B. 01-…).`);const r=[];let o=[],l;const m=()=>{l&&r.push({title:l.title,blocks:ki(l.lines.join(`
 `),e)})};for(const h of n.split(`
-`)){const p=/^##\s+(.*)$/.exec(h);p?(m(),l={title:p[1].trim(),lines:[]}):l?l.lines.push(h):o.push(h)}if(m(),r.length===0)throw new R(`${e}: Keine Schritte (## Überschrift) gefunden.`);o3(r,e);const u=t.get("titel");if(!u)throw new R(`${e}: „titel:“ fehlt.`);return{id:i,number:s,title:u,section:t.get("bereich")??"",summary:t.get("kurz")??o.join(" ").trim(),steps:r}}function m3(a,e){const{meta:t,body:n}=ha(a,e),i=t.get("titel");if(!i)throw new R(`${e}: „titel:“ fehlt.`);const s=t.get("nach");return{id:e.replace(/^.*\//,"").replace(/\.md$/,""),title:i,after:s?Number(s):void 0,level:Number(t.get("stufe")??"1")||1,blocks:ga(n,e)}}const u3=Object.assign({"../../lessons/de/01-was-ist-ein-struktogramm.md":zs,"../../lessons/de/02-der-editor.md":vs,"../../lessons/de/03-speichern-oeffnen-exportieren.md":ws,"../../lessons/de/04-variablen-und-datentypen.md":Ss,"../../lessons/de/05-sequenz.md":ks,"../../lessons/de/06-eingabe-und-ausgabe.md":Ms,"../../lessons/de/07-simulation-und-schreibtischtest.md":Zs,"../../lessons/de/08-verzweigung.md":_s,"../../lessons/de/09-bedingungen-verknuepfen.md":js,"../../lessons/de/10-fallauswahl.md":Ps,"../../lessons/de/11-while-schleife.md":Cs,"../../lessons/de/12-do-while-schleife.md":As,"../../lessons/de/13-for-schleife.md":Ts,"../../lessons/de/14-verschachteln.md":Ds,"../../lessons/de/15-arrays.md":Ws,"../../lessons/de/16-zweidimensionale-arrays.md":Bs,"../../lessons/de/17-zeichenketten.md":Hs,"../../lessons/de/18-aufruf-und-aussprung.md":Gs,"../../lessons/de/19-suchen-und-sortieren.md":Ns,"../../lessons/de/20-java.md":Es,"../../lessons/de/21-python-und-javascript.md":Ls,"../../lessons/de/begriffe.md":Vs,"../../lessons/de/nachschlagen.md":Rs,"../../lessons/en/01-was-ist-ein-struktogramm.md":Us,"../../lessons/en/02-der-editor.md":Fs,"../../lessons/en/03-speichern-oeffnen-exportieren.md":Ys,"../../lessons/en/04-variablen-und-datentypen.md":Os,"../../lessons/en/05-sequenz.md":Qs,"../../lessons/en/06-eingabe-und-ausgabe.md":Xs,"../../lessons/en/07-simulation-und-schreibtischtest.md":Js,"../../lessons/en/08-verzweigung.md":qs,"../../lessons/en/09-bedingungen-verknuepfen.md":Ks,"../../lessons/en/10-fallauswahl.md":$s,"../../lessons/en/11-while-schleife.md":er,"../../lessons/en/12-do-while-schleife.md":tr,"../../lessons/en/13-for-schleife.md":nr,"../../lessons/en/14-verschachteln.md":ar,"../../lessons/en/15-arrays.md":ir,"../../lessons/en/16-zweidimensionale-arrays.md":sr,"../../lessons/en/17-zeichenketten.md":rr,"../../lessons/en/18-aufruf-und-aussprung.md":or,"../../lessons/en/19-suchen-und-sortieren.md":lr,"../../lessons/en/20-java.md":mr,"../../lessons/en/21-python-und-javascript.md":ur,"../../lessons/en/begriffe.md":cr,"../../lessons/en/nachschlagen.md":dr,"../../lessons/pt/01-was-ist-ein-struktogramm.md":hr,"../../lessons/pt/02-der-editor.md":gr,"../../lessons/pt/03-speichern-oeffnen-exportieren.md":pr,"../../lessons/pt/04-variablen-und-datentypen.md":xr,"../../lessons/pt/05-sequenz.md":Ir,"../../lessons/pt/06-eingabe-und-ausgabe.md":br,"../../lessons/pt/07-simulation-und-schreibtischtest.md":fr,"../../lessons/pt/08-verzweigung.md":yr,"../../lessons/pt/09-bedingungen-verknuepfen.md":zr,"../../lessons/pt/10-fallauswahl.md":vr,"../../lessons/pt/11-while-schleife.md":wr,"../../lessons/pt/12-do-while-schleife.md":Sr,"../../lessons/pt/13-for-schleife.md":kr,"../../lessons/pt/14-verschachteln.md":Mr,"../../lessons/pt/15-arrays.md":Zr,"../../lessons/pt/16-zweidimensionale-arrays.md":_r,"../../lessons/pt/17-zeichenketten.md":jr,"../../lessons/pt/18-aufruf-und-aussprung.md":Pr,"../../lessons/pt/19-suchen-und-sortieren.md":Cr,"../../lessons/pt/20-java.md":Ar,"../../lessons/pt/21-python-und-javascript.md":Tr,"../../lessons/pt/begriffe.md":Dr,"../../lessons/pt/nachschlagen.md":Wr}),c3=Object.assign({"../../lessons/de/aufgaben/alter-unterprogramm.md":Br,"../../lessons/de/aufgaben/binaerzahl.md":Hr,"../../lessons/de/aufgaben/collatz.md":Gr,"../../lessons/de/aufgaben/fibonacci.md":Nr,"../../lessons/de/aufgaben/gerade-ungerade.md":Er,"../../lessons/de/aufgaben/mehrwertsteuer.md":Lr,"../../lessons/de/aufgaben/notendurchschnitt.md":Vr,"../../lessons/de/aufgaben/pin-pruefen.md":Rr,"../../lessons/de/aufgaben/schiffe-versenken.md":Ur,"../../lessons/de/aufgaben/speisekarte.md":Fr,"../../lessons/de/aufgaben/summe-bilden.md":Yr,"../../lessons/de/aufgaben/tafeldienst.md":Or,"../../lessons/de/aufgaben/taschenrechner.md":Qr,"../../lessons/de/aufgaben/verleih-menue.md":Xr,"../../lessons/de/aufgaben/volljaehrig.md":Jr,"../../lessons/de/aufgaben/zahl-verdoppeln.md":qr,"../../lessons/en/aufgaben/alter-unterprogramm.md":Kr,"../../lessons/en/aufgaben/binaerzahl.md":$r,"../../lessons/en/aufgaben/collatz.md":eo,"../../lessons/en/aufgaben/fibonacci.md":to,"../../lessons/en/aufgaben/gerade-ungerade.md":no,"../../lessons/en/aufgaben/mehrwertsteuer.md":ao,"../../lessons/en/aufgaben/notendurchschnitt.md":io,"../../lessons/en/aufgaben/pin-pruefen.md":so,"../../lessons/en/aufgaben/schiffe-versenken.md":ro,"../../lessons/en/aufgaben/speisekarte.md":oo,"../../lessons/en/aufgaben/summe-bilden.md":lo,"../../lessons/en/aufgaben/tafeldienst.md":mo,"../../lessons/en/aufgaben/taschenrechner.md":uo,"../../lessons/en/aufgaben/verleih-menue.md":co,"../../lessons/en/aufgaben/volljaehrig.md":ho,"../../lessons/en/aufgaben/zahl-verdoppeln.md":go,"../../lessons/pt/aufgaben/alter-unterprogramm.md":po,"../../lessons/pt/aufgaben/binaerzahl.md":xo,"../../lessons/pt/aufgaben/collatz.md":Io,"../../lessons/pt/aufgaben/fibonacci.md":bo,"../../lessons/pt/aufgaben/gerade-ungerade.md":fo,"../../lessons/pt/aufgaben/mehrwertsteuer.md":yo,"../../lessons/pt/aufgaben/notendurchschnitt.md":zo,"../../lessons/pt/aufgaben/pin-pruefen.md":vo,"../../lessons/pt/aufgaben/schiffe-versenken.md":wo,"../../lessons/pt/aufgaben/speisekarte.md":So,"../../lessons/pt/aufgaben/summe-bilden.md":ko,"../../lessons/pt/aufgaben/tafeldienst.md":Mo,"../../lessons/pt/aufgaben/taschenrechner.md":Zo,"../../lessons/pt/aufgaben/verleih-menue.md":_o,"../../lessons/pt/aufgaben/volljaehrig.md":jo,"../../lessons/pt/aufgaben/zahl-verdoppeln.md":Po}),d3=Object.assign({"../../lessons/diagramme/aufgabe-alter-haupt-loesung.visustruct":Co,"../../lessons/diagramme/aufgabe-alter-unterprogramm-loesung.visustruct":Ao,"../../lessons/diagramme/aufgabe-binaer-loesung.visustruct":To,"../../lessons/diagramme/aufgabe-collatz-loesung.visustruct":Do,"../../lessons/diagramme/aufgabe-durchschnitt-loesung.visustruct":Wo,"../../lessons/diagramme/aufgabe-fibonacci-loesung.visustruct":Bo,"../../lessons/diagramme/aufgabe-gerade-loesung.visustruct":Ho,"../../lessons/diagramme/aufgabe-mehrwertsteuer-loesung.visustruct":Go,"../../lessons/diagramme/aufgabe-pin-loesung.visustruct":No,"../../lessons/diagramme/aufgabe-rechner-loesung.visustruct":Eo,"../../lessons/diagramme/aufgabe-schiffe-loesung.visustruct":Lo,"../../lessons/diagramme/aufgabe-schiffe-start.visustruct":Vo,"../../lessons/diagramme/aufgabe-speisekarte-loesung.visustruct":Ro,"../../lessons/diagramme/aufgabe-summe-loesung.visustruct":Uo,"../../lessons/diagramme/aufgabe-tafeldienst-loesung.visustruct":Fo,"../../lessons/diagramme/aufgabe-verdoppeln-loesung.visustruct":Yo,"../../lessons/diagramme/aufgabe-verleih-loesung.visustruct":Oo,"../../lessons/diagramme/aufgabe-volljaehrig-loesung.visustruct":Qo,"../../lessons/diagramme/en/aufgabe-alter-haupt-loesung.visustruct":Xo,"../../lessons/diagramme/en/aufgabe-alter-unterprogramm-loesung.visustruct":Jo,"../../lessons/diagramme/en/aufgabe-binaer-loesung.visustruct":qo,"../../lessons/diagramme/en/aufgabe-collatz-loesung.visustruct":Ko,"../../lessons/diagramme/en/aufgabe-durchschnitt-loesung.visustruct":$o,"../../lessons/diagramme/en/aufgabe-fibonacci-loesung.visustruct":e0,"../../lessons/diagramme/en/aufgabe-gerade-loesung.visustruct":t0,"../../lessons/diagramme/en/aufgabe-mehrwertsteuer-loesung.visustruct":n0,"../../lessons/diagramme/en/aufgabe-pin-loesung.visustruct":a0,"../../lessons/diagramme/en/aufgabe-rechner-loesung.visustruct":i0,"../../lessons/diagramme/en/aufgabe-schiffe-loesung.visustruct":s0,"../../lessons/diagramme/en/aufgabe-schiffe-start.visustruct":r0,"../../lessons/diagramme/en/aufgabe-speisekarte-loesung.visustruct":o0,"../../lessons/diagramme/en/aufgabe-summe-loesung.visustruct":l0,"../../lessons/diagramme/en/aufgabe-tafeldienst-loesung.visustruct":m0,"../../lessons/diagramme/en/aufgabe-verdoppeln-loesung.visustruct":u0,"../../lessons/diagramme/en/aufgabe-verleih-loesung.visustruct":c0,"../../lessons/diagramme/en/aufgabe-volljaehrig-loesung.visustruct":d0,"../../lessons/diagramme/en/kino-einmaleins-loesung.visustruct":h0,"../../lessons/diagramme/en/kino-frei-loesung.visustruct":g0,"../../lessons/diagramme/en/kino-frei-start.visustruct":p0,"../../lessons/diagramme/en/kino-karte-loesung.visustruct":x0,"../../lessons/diagramme/en/kino-karte-start.visustruct":I0,"../../lessons/diagramme/en/kino-saalplan.visustruct":b0,"../../lessons/diagramme/en/kino-verkaufen.visustruct":f0,"../../lessons/diagramme/en/l04-rechnen.visustruct":y0,"../../lessons/diagramme/en/l04-reihenfolge-loesung.visustruct":z0,"../../lessons/diagramme/en/l04-reihenfolge-start.visustruct":v0,"../../lessons/diagramme/en/l04-tauschen-loesung.visustruct":w0,"../../lessons/diagramme/en/l04-tauschen-start.visustruct":S0,"../../lessons/diagramme/en/l04-tauschen.visustruct":k0,"../../lessons/diagramme/en/l05-datentypen.visustruct":M0,"../../lessons/diagramme/en/l05-division.visustruct":Z0,"../../lessons/diagramme/en/l05-einkauf-loesung.visustruct":_0,"../../lessons/diagramme/en/l05-rechteck-loesung.visustruct":j0,"../../lessons/diagramme/en/l05-sekunden-loesung.visustruct":P0,"../../lessons/diagramme/en/l05-sekunden-start.visustruct":C0,"../../lessons/diagramme/en/l06-begruessung-loesung.visustruct":A0,"../../lessons/diagramme/en/l06-eva.visustruct":T0,"../../lessons/diagramme/en/l06-mittelwert-loesung.visustruct":D0,"../../lessons/diagramme/en/l06-rechner-loesung.visustruct":W0,"../../lessons/diagramme/en/l07-alter-pruefen.visustruct":B0,"../../lessons/diagramme/en/l07-betrag-loesung.visustruct":H0,"../../lessons/diagramme/en/l07-gerade-loesung.visustruct":G0,"../../lessons/diagramme/en/l07-maximum-loesung.visustruct":N0,"../../lessons/diagramme/en/l07-rabatt.visustruct":E0,"../../lessons/diagramme/en/l08-gueltig-loesung.visustruct":L0,"../../lessons/diagramme/en/l08-jugendticket.visustruct":V0,"../../lessons/diagramme/en/l08-note.visustruct":R0,"../../lessons/diagramme/en/l08-schaltjahr-loesung.visustruct":U0,"../../lessons/diagramme/en/l08-wochenende-loesung.visustruct":F0,"../../lessons/diagramme/en/l09-ampel.visustruct":Y0,"../../lessons/diagramme/en/l09-automat.visustruct":O0,"../../lessons/diagramme/en/l09-note-loesung.visustruct":Q0,"../../lessons/diagramme/en/l09-rechner-loesung.visustruct":X0,"../../lessons/diagramme/en/l09-verschachtelt.visustruct":J0,"../../lessons/diagramme/en/l1-grundbausteine.visustruct":q0,"../../lessons/diagramme/en/l1-sequenz.visustruct":K0,"../../lessons/diagramme/en/l1-tee.visustruct":$0,"../../lessons/diagramme/en/l1-verzweigung.visustruct":el,"../../lessons/diagramme/en/l1-wiederholung.visustruct":tl,"../../lessons/diagramme/en/l10-bis-n-loesung.visustruct":nl,"../../lessons/diagramme/en/l10-countdown.visustruct":al,"../../lessons/diagramme/en/l10-endlos.visustruct":il,"../../lessons/diagramme/en/l10-fakultaet.visustruct":sl,"../../lessons/diagramme/en/l10-verdoppeln-loesung.visustruct":rl,"../../lessons/diagramme/en/l11-eingabe-pruefen.visustruct":ol,"../../lessons/diagramme/en/l11-einmal.visustruct":ll,"../../lessons/diagramme/en/l11-note-loesung.visustruct":ml,"../../lessons/diagramme/en/l11-summe-loesung.visustruct":ul,"../../lessons/diagramme/en/l12-countdown-loesung.visustruct":cl,"../../lessons/diagramme/en/l12-einmaleins-loesung.visustruct":dl,"../../lessons/diagramme/en/l12-eins-bis-fuenf.visustruct":hl,"../../lessons/diagramme/en/l12-summe.visustruct":gl,"../../lessons/diagramme/en/l13-dreieck.visustruct":pl,"../../lessons/diagramme/en/l13-gerade-eingaben-loesung.visustruct":xl,"../../lessons/diagramme/en/l13-gerade-zaehlen.visustruct":Il,"../../lessons/diagramme/en/l13-rechteck-loesung.visustruct":bl,"../../lessons/diagramme/en/l14-array-durchlaufen.visustruct":fl,"../../lessons/diagramme/en/l14-erster-letzter-loesung.visustruct":yl,"../../lessons/diagramme/en/l14-namen-eingeben.visustruct":zl,"../../lessons/diagramme/en/l14-rueckwaerts-loesung.visustruct":vl,"../../lessons/diagramme/en/l14-summe-max-loesung.visustruct":wl,"../../lessons/diagramme/en/l14-summe-maximum.visustruct":Sl,"../../lessons/diagramme/en/l15-bis-null-loesung.visustruct":kl,"../../lessons/diagramme/en/l15-endlos-aussprung.visustruct":Ml,"../../lessons/diagramme/en/l15-flaeche-loesung.visustruct":Zl,"../../lessons/diagramme/en/l15-flaeche-unterprogramm-loesung.visustruct":_l,"../../lessons/diagramme/en/l15-hauptprogramm.visustruct":jl,"../../lessons/diagramme/en/l15-quadrat-haupt.visustruct":Pl,"../../lessons/diagramme/en/l15-quadrat.visustruct":Cl,"../../lessons/diagramme/en/l15-titel-loesung.visustruct":Al,"../../lessons/diagramme/en/l15-unterprogramm.visustruct":Tl,"../../lessons/diagramme/en/l15-zeige-summe-haupt.visustruct":Dl,"../../lessons/diagramme/en/l15-zeige-summe.visustruct":Wl,"../../lessons/diagramme/en/l16-countdown-loesung.visustruct":Bl,"../../lessons/diagramme/en/l16-countdown-start.visustruct":Hl,"../../lessons/diagramme/en/l16-schreibtisch.visustruct":Gl,"../../lessons/diagramme/en/l16-summe-loesung.visustruct":Nl,"../../lessons/diagramme/en/l16-summe-start.visustruct":El,"../../lessons/diagramme/en/l17-beispiel.visustruct":Ll,"../../lessons/diagramme/en/l17-fakultaet-loesung.visustruct":Vl,"../../lessons/diagramme/en/l17-ticket-loesung.visustruct":Rl,"../../lessons/diagramme/en/l18-beispiel.visustruct":Ul,"../../lessons/diagramme/en/l18-js-loesung.visustruct":Fl,"../../lessons/diagramme/en/l18-python-loesung.visustruct":Yl,"../../lessons/diagramme/en/l2-ausgabe.visustruct":Ol,"../../lessons/diagramme/en/l2-hallo-loesung.visustruct":Ql,"../../lessons/diagramme/en/l2-zwei-zeilen-loesung.visustruct":Xl,"../../lessons/diagramme/en/sim-kino-loesung.visustruct":Jl,"../../lessons/diagramme/en/sim-kino-start.visustruct":ql,"../../lessons/diagramme/en/sim-tausch-loesung.visustruct":Kl,"../../lessons/diagramme/en/sim-tausch-start.visustruct":$l,"../../lessons/diagramme/en/sim-tausch.visustruct":em,"../../lessons/diagramme/en/ss-absteigend-loesung.visustruct":tm,"../../lessons/diagramme/en/ss-absteigend-start.visustruct":nm,"../../lessons/diagramme/en/ss-binaere-suche.visustruct":am,"../../lessons/diagramme/en/ss-bubblesort.visustruct":im,"../../lessons/diagramme/en/ss-karte-suchen-loesung.visustruct":sm,"../../lessons/diagramme/en/ss-lineare-suche.visustruct":rm,"../../lessons/diagramme/en/uebergabe-bonus-loesung.visustruct":om,"../../lessons/diagramme/en/uebergabe-bonus-start.visustruct":lm,"../../lessons/diagramme/en/uebergabe-bonus-unterprogramm-loesung.visustruct":mm,"../../lessons/diagramme/en/uebergabe-haupt.visustruct":um,"../../lessons/diagramme/en/uebergabe-leeren.visustruct":cm,"../../lessons/diagramme/en/uebergabe-verdopple.visustruct":dm,"../../lessons/diagramme/en/zk-initialen-loesung.visustruct":hm,"../../lessons/diagramme/en/zk-rueckwaerts-loesung.visustruct":gm,"../../lessons/diagramme/en/zk-split.visustruct":pm,"../../lessons/diagramme/en/zk-woerter-loesung.visustruct":xm,"../../lessons/diagramme/en/zk-zaehlen.visustruct":Im,"../../lessons/diagramme/en/zk-zeichen.visustruct":bm,"../../lessons/diagramme/kino-einmaleins-loesung.visustruct":fm,"../../lessons/diagramme/kino-frei-loesung.visustruct":ym,"../../lessons/diagramme/kino-frei-start.visustruct":zm,"../../lessons/diagramme/kino-karte-loesung.visustruct":vm,"../../lessons/diagramme/kino-karte-start.visustruct":wm,"../../lessons/diagramme/kino-saalplan.visustruct":Sm,"../../lessons/diagramme/kino-verkaufen.visustruct":km,"../../lessons/diagramme/l04-rechnen.visustruct":Mm,"../../lessons/diagramme/l04-reihenfolge-loesung.visustruct":Zm,"../../lessons/diagramme/l04-reihenfolge-start.visustruct":_m,"../../lessons/diagramme/l04-tauschen-loesung.visustruct":jm,"../../lessons/diagramme/l04-tauschen-start.visustruct":Pm,"../../lessons/diagramme/l04-tauschen.visustruct":Cm,"../../lessons/diagramme/l05-datentypen.visustruct":Am,"../../lessons/diagramme/l05-division.visustruct":Tm,"../../lessons/diagramme/l05-einkauf-loesung.visustruct":Dm,"../../lessons/diagramme/l05-rechteck-loesung.visustruct":Wm,"../../lessons/diagramme/l05-sekunden-loesung.visustruct":Bm,"../../lessons/diagramme/l05-sekunden-start.visustruct":Hm,"../../lessons/diagramme/l06-begruessung-loesung.visustruct":Gm,"../../lessons/diagramme/l06-eva.visustruct":Nm,"../../lessons/diagramme/l06-mittelwert-loesung.visustruct":Em,"../../lessons/diagramme/l06-rechner-loesung.visustruct":Lm,"../../lessons/diagramme/l07-alter-pruefen.visustruct":Vm,"../../lessons/diagramme/l07-betrag-loesung.visustruct":Rm,"../../lessons/diagramme/l07-gerade-loesung.visustruct":Um,"../../lessons/diagramme/l07-maximum-loesung.visustruct":Fm,"../../lessons/diagramme/l07-rabatt.visustruct":Ym,"../../lessons/diagramme/l08-gueltig-loesung.visustruct":Om,"../../lessons/diagramme/l08-jugendticket.visustruct":Qm,"../../lessons/diagramme/l08-note.visustruct":Xm,"../../lessons/diagramme/l08-schaltjahr-loesung.visustruct":Jm,"../../lessons/diagramme/l08-wochenende-loesung.visustruct":qm,"../../lessons/diagramme/l09-ampel.visustruct":Km,"../../lessons/diagramme/l09-automat.visustruct":$m,"../../lessons/diagramme/l09-note-loesung.visustruct":eu,"../../lessons/diagramme/l09-rechner-loesung.visustruct":tu,"../../lessons/diagramme/l09-verschachtelt.visustruct":nu,"../../lessons/diagramme/l1-grundbausteine.visustruct":au,"../../lessons/diagramme/l1-sequenz.visustruct":iu,"../../lessons/diagramme/l1-tee.visustruct":su,"../../lessons/diagramme/l1-verzweigung.visustruct":ru,"../../lessons/diagramme/l1-wiederholung.visustruct":ou,"../../lessons/diagramme/l10-bis-n-loesung.visustruct":lu,"../../lessons/diagramme/l10-countdown.visustruct":mu,"../../lessons/diagramme/l10-endlos.visustruct":uu,"../../lessons/diagramme/l10-fakultaet.visustruct":cu,"../../lessons/diagramme/l10-verdoppeln-loesung.visustruct":du,"../../lessons/diagramme/l11-eingabe-pruefen.visustruct":hu,"../../lessons/diagramme/l11-einmal.visustruct":gu,"../../lessons/diagramme/l11-note-loesung.visustruct":pu,"../../lessons/diagramme/l11-summe-loesung.visustruct":xu,"../../lessons/diagramme/l12-countdown-loesung.visustruct":Iu,"../../lessons/diagramme/l12-einmaleins-loesung.visustruct":bu,"../../lessons/diagramme/l12-eins-bis-fuenf.visustruct":fu,"../../lessons/diagramme/l12-summe.visustruct":yu,"../../lessons/diagramme/l13-dreieck.visustruct":zu,"../../lessons/diagramme/l13-gerade-eingaben-loesung.visustruct":vu,"../../lessons/diagramme/l13-gerade-zaehlen.visustruct":wu,"../../lessons/diagramme/l13-rechteck-loesung.visustruct":Su,"../../lessons/diagramme/l14-array-durchlaufen.visustruct":ku,"../../lessons/diagramme/l14-erster-letzter-loesung.visustruct":Mu,"../../lessons/diagramme/l14-namen-eingeben.visustruct":Zu,"../../lessons/diagramme/l14-rueckwaerts-loesung.visustruct":_u,"../../lessons/diagramme/l14-summe-max-loesung.visustruct":ju,"../../lessons/diagramme/l14-summe-maximum.visustruct":Pu,"../../lessons/diagramme/l15-bis-null-loesung.visustruct":Cu,"../../lessons/diagramme/l15-endlos-aussprung.visustruct":Au,"../../lessons/diagramme/l15-flaeche-loesung.visustruct":Tu,"../../lessons/diagramme/l15-flaeche-unterprogramm-loesung.visustruct":Du,"../../lessons/diagramme/l15-hauptprogramm.visustruct":Wu,"../../lessons/diagramme/l15-quadrat-haupt.visustruct":Bu,"../../lessons/diagramme/l15-quadrat.visustruct":Hu,"../../lessons/diagramme/l15-titel-loesung.visustruct":Gu,"../../lessons/diagramme/l15-unterprogramm.visustruct":Nu,"../../lessons/diagramme/l15-zeige-summe-haupt.visustruct":Eu,"../../lessons/diagramme/l15-zeige-summe.visustruct":Lu,"../../lessons/diagramme/l16-countdown-loesung.visustruct":Vu,"../../lessons/diagramme/l16-countdown-start.visustruct":Ru,"../../lessons/diagramme/l16-schreibtisch.visustruct":Uu,"../../lessons/diagramme/l16-summe-loesung.visustruct":Fu,"../../lessons/diagramme/l16-summe-start.visustruct":Yu,"../../lessons/diagramme/l17-beispiel.visustruct":Ou,"../../lessons/diagramme/l17-fakultaet-loesung.visustruct":Qu,"../../lessons/diagramme/l17-ticket-loesung.visustruct":Xu,"../../lessons/diagramme/l18-beispiel.visustruct":Ju,"../../lessons/diagramme/l18-js-loesung.visustruct":qu,"../../lessons/diagramme/l18-python-loesung.visustruct":Ku,"../../lessons/diagramme/l2-ausgabe.visustruct":$u,"../../lessons/diagramme/l2-hallo-loesung.visustruct":ec,"../../lessons/diagramme/l2-zwei-zeilen-loesung.visustruct":tc,"../../lessons/diagramme/pt/aufgabe-alter-haupt-loesung.visustruct":nc,"../../lessons/diagramme/pt/aufgabe-alter-unterprogramm-loesung.visustruct":ac,"../../lessons/diagramme/pt/aufgabe-binaer-loesung.visustruct":ic,"../../lessons/diagramme/pt/aufgabe-collatz-loesung.visustruct":sc,"../../lessons/diagramme/pt/aufgabe-durchschnitt-loesung.visustruct":rc,"../../lessons/diagramme/pt/aufgabe-fibonacci-loesung.visustruct":oc,"../../lessons/diagramme/pt/aufgabe-gerade-loesung.visustruct":lc,"../../lessons/diagramme/pt/aufgabe-mehrwertsteuer-loesung.visustruct":mc,"../../lessons/diagramme/pt/aufgabe-pin-loesung.visustruct":uc,"../../lessons/diagramme/pt/aufgabe-rechner-loesung.visustruct":cc,"../../lessons/diagramme/pt/aufgabe-schiffe-loesung.visustruct":dc,"../../lessons/diagramme/pt/aufgabe-schiffe-start.visustruct":hc,"../../lessons/diagramme/pt/aufgabe-speisekarte-loesung.visustruct":gc,"../../lessons/diagramme/pt/aufgabe-summe-loesung.visustruct":pc,"../../lessons/diagramme/pt/aufgabe-tafeldienst-loesung.visustruct":xc,"../../lessons/diagramme/pt/aufgabe-verdoppeln-loesung.visustruct":Ic,"../../lessons/diagramme/pt/aufgabe-verleih-loesung.visustruct":bc,"../../lessons/diagramme/pt/aufgabe-volljaehrig-loesung.visustruct":fc,"../../lessons/diagramme/pt/kino-einmaleins-loesung.visustruct":yc,"../../lessons/diagramme/pt/kino-frei-loesung.visustruct":zc,"../../lessons/diagramme/pt/kino-frei-start.visustruct":vc,"../../lessons/diagramme/pt/kino-karte-loesung.visustruct":wc,"../../lessons/diagramme/pt/kino-karte-start.visustruct":Sc,"../../lessons/diagramme/pt/kino-saalplan.visustruct":kc,"../../lessons/diagramme/pt/kino-verkaufen.visustruct":Mc,"../../lessons/diagramme/pt/l04-rechnen.visustruct":Zc,"../../lessons/diagramme/pt/l04-reihenfolge-loesung.visustruct":_c,"../../lessons/diagramme/pt/l04-reihenfolge-start.visustruct":jc,"../../lessons/diagramme/pt/l04-tauschen-loesung.visustruct":Pc,"../../lessons/diagramme/pt/l04-tauschen-start.visustruct":Cc,"../../lessons/diagramme/pt/l04-tauschen.visustruct":Ac,"../../lessons/diagramme/pt/l05-datentypen.visustruct":Tc,"../../lessons/diagramme/pt/l05-division.visustruct":Dc,"../../lessons/diagramme/pt/l05-einkauf-loesung.visustruct":Wc,"../../lessons/diagramme/pt/l05-rechteck-loesung.visustruct":Bc,"../../lessons/diagramme/pt/l05-sekunden-loesung.visustruct":Hc,"../../lessons/diagramme/pt/l05-sekunden-start.visustruct":Gc,"../../lessons/diagramme/pt/l06-begruessung-loesung.visustruct":Nc,"../../lessons/diagramme/pt/l06-eva.visustruct":Ec,"../../lessons/diagramme/pt/l06-mittelwert-loesung.visustruct":Lc,"../../lessons/diagramme/pt/l06-rechner-loesung.visustruct":Vc,"../../lessons/diagramme/pt/l07-alter-pruefen.visustruct":Rc,"../../lessons/diagramme/pt/l07-betrag-loesung.visustruct":Uc,"../../lessons/diagramme/pt/l07-gerade-loesung.visustruct":Fc,"../../lessons/diagramme/pt/l07-maximum-loesung.visustruct":Yc,"../../lessons/diagramme/pt/l07-rabatt.visustruct":Oc,"../../lessons/diagramme/pt/l08-gueltig-loesung.visustruct":Qc,"../../lessons/diagramme/pt/l08-jugendticket.visustruct":Xc,"../../lessons/diagramme/pt/l08-note.visustruct":Jc,"../../lessons/diagramme/pt/l08-schaltjahr-loesung.visustruct":qc,"../../lessons/diagramme/pt/l08-wochenende-loesung.visustruct":Kc,"../../lessons/diagramme/pt/l09-ampel.visustruct":$c,"../../lessons/diagramme/pt/l09-automat.visustruct":ed,"../../lessons/diagramme/pt/l09-note-loesung.visustruct":td,"../../lessons/diagramme/pt/l09-rechner-loesung.visustruct":nd,"../../lessons/diagramme/pt/l09-verschachtelt.visustruct":ad,"../../lessons/diagramme/pt/l1-grundbausteine.visustruct":id,"../../lessons/diagramme/pt/l1-sequenz.visustruct":sd,"../../lessons/diagramme/pt/l1-tee.visustruct":rd,"../../lessons/diagramme/pt/l1-verzweigung.visustruct":od,"../../lessons/diagramme/pt/l1-wiederholung.visustruct":ld,"../../lessons/diagramme/pt/l10-bis-n-loesung.visustruct":md,"../../lessons/diagramme/pt/l10-countdown.visustruct":ud,"../../lessons/diagramme/pt/l10-endlos.visustruct":cd,"../../lessons/diagramme/pt/l10-fakultaet.visustruct":dd,"../../lessons/diagramme/pt/l10-verdoppeln-loesung.visustruct":hd,"../../lessons/diagramme/pt/l11-eingabe-pruefen.visustruct":gd,"../../lessons/diagramme/pt/l11-einmal.visustruct":pd,"../../lessons/diagramme/pt/l11-note-loesung.visustruct":xd,"../../lessons/diagramme/pt/l11-summe-loesung.visustruct":Id,"../../lessons/diagramme/pt/l12-countdown-loesung.visustruct":bd,"../../lessons/diagramme/pt/l12-einmaleins-loesung.visustruct":fd,"../../lessons/diagramme/pt/l12-eins-bis-fuenf.visustruct":yd,"../../lessons/diagramme/pt/l12-summe.visustruct":zd,"../../lessons/diagramme/pt/l13-dreieck.visustruct":vd,"../../lessons/diagramme/pt/l13-gerade-eingaben-loesung.visustruct":wd,"../../lessons/diagramme/pt/l13-gerade-zaehlen.visustruct":Sd,"../../lessons/diagramme/pt/l13-rechteck-loesung.visustruct":kd,"../../lessons/diagramme/pt/l14-array-durchlaufen.visustruct":Md,"../../lessons/diagramme/pt/l14-erster-letzter-loesung.visustruct":Zd,"../../lessons/diagramme/pt/l14-namen-eingeben.visustruct":_d,"../../lessons/diagramme/pt/l14-rueckwaerts-loesung.visustruct":jd,"../../lessons/diagramme/pt/l14-summe-max-loesung.visustruct":Pd,"../../lessons/diagramme/pt/l14-summe-maximum.visustruct":Cd,"../../lessons/diagramme/pt/l15-bis-null-loesung.visustruct":Ad,"../../lessons/diagramme/pt/l15-endlos-aussprung.visustruct":Td,"../../lessons/diagramme/pt/l15-flaeche-loesung.visustruct":Dd,"../../lessons/diagramme/pt/l15-hauptprogramm.visustruct":Wd,"../../lessons/diagramme/pt/l15-quadrat-haupt.visustruct":Bd,"../../lessons/diagramme/pt/l15-quadrat.visustruct":Hd,"../../lessons/diagramme/pt/l15-titel-loesung.visustruct":Gd,"../../lessons/diagramme/pt/l15-unterprogramm.visustruct":Nd,"../../lessons/diagramme/pt/l15-zeige-summe-haupt.visustruct":Ed,"../../lessons/diagramme/pt/l15-zeige-summe.visustruct":Ld,"../../lessons/diagramme/pt/l16-countdown-loesung.visustruct":Vd,"../../lessons/diagramme/pt/l16-countdown-start.visustruct":Rd,"../../lessons/diagramme/pt/l16-schreibtisch.visustruct":Ud,"../../lessons/diagramme/pt/l16-summe-loesung.visustruct":Fd,"../../lessons/diagramme/pt/l16-summe-start.visustruct":Yd,"../../lessons/diagramme/pt/l17-beispiel.visustruct":Od,"../../lessons/diagramme/pt/l17-fakultaet-loesung.visustruct":Qd,"../../lessons/diagramme/pt/l17-ticket-loesung.visustruct":Xd,"../../lessons/diagramme/pt/l18-beispiel.visustruct":Jd,"../../lessons/diagramme/pt/l18-js-loesung.visustruct":qd,"../../lessons/diagramme/pt/l18-python-loesung.visustruct":Kd,"../../lessons/diagramme/pt/l2-ausgabe.visustruct":$d,"../../lessons/diagramme/pt/l2-hallo-loesung.visustruct":eh,"../../lessons/diagramme/pt/l2-zwei-zeilen-loesung.visustruct":th,"../../lessons/diagramme/pt/sim-kino-loesung.visustruct":nh,"../../lessons/diagramme/pt/sim-kino-start.visustruct":ah,"../../lessons/diagramme/pt/sim-tausch-loesung.visustruct":ih,"../../lessons/diagramme/pt/sim-tausch-start.visustruct":sh,"../../lessons/diagramme/pt/sim-tausch.visustruct":rh,"../../lessons/diagramme/pt/ss-absteigend-loesung.visustruct":oh,"../../lessons/diagramme/pt/ss-absteigend-start.visustruct":lh,"../../lessons/diagramme/pt/ss-binaere-suche.visustruct":mh,"../../lessons/diagramme/pt/ss-bubblesort.visustruct":uh,"../../lessons/diagramme/pt/ss-karte-suchen-loesung.visustruct":ch,"../../lessons/diagramme/pt/ss-lineare-suche.visustruct":dh,"../../lessons/diagramme/pt/uebergabe-bonus-loesung.visustruct":hh,"../../lessons/diagramme/pt/uebergabe-bonus-start.visustruct":gh,"../../lessons/diagramme/pt/uebergabe-bonus-unterprogramm-loesung.visustruct":ph,"../../lessons/diagramme/pt/uebergabe-haupt.visustruct":xh,"../../lessons/diagramme/pt/uebergabe-leeren.visustruct":Ih,"../../lessons/diagramme/pt/uebergabe-verdopple.visustruct":bh,"../../lessons/diagramme/pt/zk-initialen-loesung.visustruct":fh,"../../lessons/diagramme/pt/zk-rueckwaerts-loesung.visustruct":yh,"../../lessons/diagramme/pt/zk-split.visustruct":zh,"../../lessons/diagramme/pt/zk-woerter-loesung.visustruct":vh,"../../lessons/diagramme/pt/zk-zaehlen.visustruct":wh,"../../lessons/diagramme/pt/zk-zeichen.visustruct":Sh,"../../lessons/diagramme/sim-kino-loesung.visustruct":kh,"../../lessons/diagramme/sim-kino-start.visustruct":Mh,"../../lessons/diagramme/sim-tausch-loesung.visustruct":Zh,"../../lessons/diagramme/sim-tausch-start.visustruct":_h,"../../lessons/diagramme/sim-tausch.visustruct":jh,"../../lessons/diagramme/ss-absteigend-loesung.visustruct":Ph,"../../lessons/diagramme/ss-absteigend-start.visustruct":Ch,"../../lessons/diagramme/ss-binaere-suche.visustruct":Ah,"../../lessons/diagramme/ss-bubblesort.visustruct":Th,"../../lessons/diagramme/ss-karte-suchen-loesung.visustruct":Dh,"../../lessons/diagramme/ss-lineare-suche.visustruct":Wh,"../../lessons/diagramme/uebergabe-bonus-loesung.visustruct":Bh,"../../lessons/diagramme/uebergabe-bonus-start.visustruct":Hh,"../../lessons/diagramme/uebergabe-bonus-unterprogramm-loesung.visustruct":Gh,"../../lessons/diagramme/uebergabe-haupt.visustruct":Nh,"../../lessons/diagramme/uebergabe-leeren.visustruct":Eh,"../../lessons/diagramme/uebergabe-verdopple.visustruct":Lh,"../../lessons/diagramme/zk-initialen-loesung.visustruct":Vh,"../../lessons/diagramme/zk-rueckwaerts-loesung.visustruct":Rh,"../../lessons/diagramme/zk-split.visustruct":Uh,"../../lessons/diagramme/zk-woerter-loesung.visustruct":Fh,"../../lessons/diagramme/zk-zaehlen.visustruct":Yh,"../../lessons/diagramme/zk-zeichen.visustruct":Oh}),h3=Object.assign({"../../lessons/bilder/aufgabe-mehrwertsteuer.svg":Qh,"../../lessons/bilder/ben-shneiderman.jpg":Xh,"../../lessons/bilder/en/aufgabe-mehrwertsteuer.svg":Jh,"../../lessons/bilder/en/kino-saal.svg":qh,"../../lessons/bilder/en/kino-schleifen.svg":Kh,"../../lessons/bilder/en/l01-pap.svg":$h,"../../lessons/bilder/en/l02-einfuegen.svg":eg,"../../lessons/bilder/en/l04-variable.svg":tg,"../../lessons/bilder/en/l04-zuweisung.svg":ng,"../../lessons/bilder/en/l05-tauschen.svg":ag,"../../lessons/bilder/en/l08-zahlenstrahl.svg":ig,"../../lessons/bilder/en/l10-kopfgesteuert.svg":sg,"../../lessons/bilder/en/l11-vergleich.svg":rg,"../../lessons/bilder/en/l12-for-ablauf.svg":og,"../../lessons/bilder/en/l14-array.svg":lg,"../../lessons/bilder/en/ss-binaere-suche.svg":mg,"../../lessons/bilder/en/ss-bubblesort.svg":ug,"../../lessons/bilder/en/ss-lineare-suche.svg":cg,"../../lessons/bilder/en/ss-vergleiche.svg":dg,"../../lessons/bilder/en/uebergabe.svg":hg,"../../lessons/bilder/en/zk-zeichen.svg":gg,"../../lessons/bilder/ike-nassi.jpg":pg,"../../lessons/bilder/kino-saal.svg":xg,"../../lessons/bilder/kino-schleifen.svg":Ig,"../../lessons/bilder/l01-pap.svg":bg,"../../lessons/bilder/l02-einfuegen.svg":fg,"../../lessons/bilder/l04-variable.svg":yg,"../../lessons/bilder/l04-zuweisung.svg":zg,"../../lessons/bilder/l05-tauschen.svg":vg,"../../lessons/bilder/l08-zahlenstrahl.svg":wg,"../../lessons/bilder/l10-kopfgesteuert.svg":Sg,"../../lessons/bilder/l11-vergleich.svg":kg,"../../lessons/bilder/l12-for-ablauf.svg":Mg,"../../lessons/bilder/l14-array.svg":Zg,"../../lessons/bilder/pt/aufgabe-mehrwertsteuer.svg":_g,"../../lessons/bilder/pt/kino-saal.svg":jg,"../../lessons/bilder/pt/kino-schleifen.svg":Pg,"../../lessons/bilder/pt/l01-pap.svg":Cg,"../../lessons/bilder/pt/l02-einfuegen.svg":Ag,"../../lessons/bilder/pt/l04-variable.svg":Tg,"../../lessons/bilder/pt/l04-zuweisung.svg":Dg,"../../lessons/bilder/pt/l05-tauschen.svg":Wg,"../../lessons/bilder/pt/l08-zahlenstrahl.svg":Bg,"../../lessons/bilder/pt/l10-kopfgesteuert.svg":Hg,"../../lessons/bilder/pt/l11-vergleich.svg":Gg,"../../lessons/bilder/pt/l12-for-ablauf.svg":Ng,"../../lessons/bilder/pt/l14-array.svg":Eg,"../../lessons/bilder/pt/schiffe-versenken.svg":Lg,"../../lessons/bilder/pt/ss-binaere-suche.svg":Vg,"../../lessons/bilder/pt/ss-bubblesort.svg":Rg,"../../lessons/bilder/pt/ss-lineare-suche.svg":Ug,"../../lessons/bilder/pt/ss-vergleiche.svg":Fg,"../../lessons/bilder/pt/uebergabe.svg":Yg,"../../lessons/bilder/pt/zk-zeichen.svg":Og,"../../lessons/bilder/schiffe-versenken.svg":Qg,"../../lessons/bilder/ss-binaere-suche.svg":Xg,"../../lessons/bilder/ss-bubblesort.svg":Jg,"../../lessons/bilder/ss-lineare-suche.svg":qg,"../../lessons/bilder/ss-vergleiche.svg":Kg,"../../lessons/bilder/uebergabe.svg":$g,"../../lessons/bilder/zk-zeichen.svg":e3}),g3=a=>a.replace(/^.*\//,"");function qt(a,e,t){const n=s=>new Map(Object.entries(a).filter(([r])=>{var o;return((o=e.exec(r))==null?void 0:o[1])===s}).map(([r,o])=>[g3(r),o]));return[...new Map([...n("en"),...t==="en"?[]:n(t)])]}function Kt(a){return a==="de"?"de":a==="pt-PT"?"pt":"en"}let De="en",de=[],n1=[],pa="",a1=[];function K1(a){var t,n;if(a===De&&de.length>0)return;De=a;const e=qt(u3,/\/lessons\/([^/]+)\/[^/]+\.md$/,a);de=e.filter(([i])=>/^\d+/.test(i)).map(([i,s])=>l3(s,`${a}/${i}`)).sort((i,s)=>i.number-s.number),n1=qt(c3,/\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/,a).map(([i,s])=>m3(s,`${a}/aufgaben/${i}`)).sort((i,s)=>(i.after??0)-(s.after??0)||i.level-s.level||i.title.localeCompare(s.title,a)),pa=((t=e.find(([i])=>i==="nachschlagen.md"))==null?void 0:t[1])??"",a1=t3(((n=e.find(([i])=>i==="begriffe.md"))==null?void 0:n[1])??"")}K1("en");function xa(a,e){return De==="de"?a.get(e)??a.get(`en/${e}`):(De==="en"?void 0:a.get(`${De}/${e}`))??a.get(`en/${e}`)??a.get(e)}const Ia=(a,e)=>a.slice(a.indexOf(e)+e.length),p3=new Map(Object.entries(d3).map(([a,e])=>[Ia(a,"/diagramme/"),e]));function Pe(a){const e=xa(p3,a);return e===void 0?void 0:rt(e)}const x3=new Map(Object.entries(h3).map(([a,e])=>[Ia(a,"/bilder/"),e]));function $t(a){return xa(x3,a)}const ba=a=>a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");function X(a){const e=[];let t=ba(a).replace(/`([^`]+)`/g,(n,i)=>(e.push(i),`\0${e.length-1}\0`));return t=t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\s][^*]*?)\*/g,"$1<em>$2</em>").replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(n,i,s)=>{const r=/^(https?:|mailto:|#|\.{0,2}\/)/.test(s)?s:"#",o=/^https?:/.test(r)?' target="_blank" rel="noopener noreferrer"':"";return`<a href="${r}"${o}>${i}</a>`}),t.replace(/\u0000(\d+)\u0000/g,(n,i)=>`<code>${e[Number(i)]}</code>`)}function ze(a){const e=[],t=a.replace(/\r\n/g,`
+`)){const g=/^##\s+(.*)$/.exec(h);g?(m(),l={title:g[1].trim(),lines:[]}):l?l.lines.push(h):o.push(h)}if(m(),r.length===0)throw new U(`${e}: Keine Schritte (## Überschrift) gefunden.`);y3(r,e);const u=t.get("titel");if(!u)throw new U(`${e}: „titel:“ fehlt.`);return{id:a,number:s,title:u,section:t.get("bereich")??"",summary:t.get("kurz")??o.join(" ").trim(),steps:r}}function v3(i,e){const{meta:t,body:n}=Si(i,e),a=t.get("titel");if(!a)throw new U(`${e}: „titel:“ fehlt.`);const s=t.get("nach");return{id:e.replace(/^.*\//,"").replace(/\.md$/,""),title:a,after:s?Number(s):void 0,level:Number(t.get("stufe")??"1")||1,blocks:ki(n,e)}}const w3=Object.assign({"../../lessons/de/01-was-ist-ein-struktogramm.md":Ds,"../../lessons/de/02-der-editor.md":Bs,"../../lessons/de/03-speichern-oeffnen-exportieren.md":Ws,"../../lessons/de/04-variablen-und-datentypen.md":Hs,"../../lessons/de/05-sequenz.md":Gs,"../../lessons/de/06-eingabe-und-ausgabe.md":Ns,"../../lessons/de/07-simulation-und-schreibtischtest.md":Es,"../../lessons/de/08-verzweigung.md":Ls,"../../lessons/de/09-bedingungen-verknuepfen.md":Vs,"../../lessons/de/10-fallauswahl.md":Rs,"../../lessons/de/11-while-schleife.md":Us,"../../lessons/de/12-do-while-schleife.md":Fs,"../../lessons/de/13-for-schleife.md":Ys,"../../lessons/de/14-verschachteln.md":Os,"../../lessons/de/15-arrays.md":Qs,"../../lessons/de/16-zweidimensionale-arrays.md":Xs,"../../lessons/de/17-zeichenketten.md":Js,"../../lessons/de/18-aufruf-und-aussprung.md":qs,"../../lessons/de/19-suchen-und-sortieren.md":Ks,"../../lessons/de/20-java.md":$s,"../../lessons/de/21-python-und-javascript.md":er,"../../lessons/de/begriffe.md":tr,"../../lessons/de/nachschlagen.md":nr,"../../lessons/en/01-was-ist-ein-struktogramm.md":ir,"../../lessons/en/02-der-editor.md":ar,"../../lessons/en/03-speichern-oeffnen-exportieren.md":sr,"../../lessons/en/04-variablen-und-datentypen.md":rr,"../../lessons/en/05-sequenz.md":or,"../../lessons/en/06-eingabe-und-ausgabe.md":lr,"../../lessons/en/07-simulation-und-schreibtischtest.md":mr,"../../lessons/en/08-verzweigung.md":ur,"../../lessons/en/09-bedingungen-verknuepfen.md":cr,"../../lessons/en/10-fallauswahl.md":dr,"../../lessons/en/11-while-schleife.md":hr,"../../lessons/en/12-do-while-schleife.md":gr,"../../lessons/en/13-for-schleife.md":pr,"../../lessons/en/14-verschachteln.md":xr,"../../lessons/en/15-arrays.md":Ir,"../../lessons/en/16-zweidimensionale-arrays.md":br,"../../lessons/en/17-zeichenketten.md":fr,"../../lessons/en/18-aufruf-und-aussprung.md":yr,"../../lessons/en/19-suchen-und-sortieren.md":zr,"../../lessons/en/20-java.md":vr,"../../lessons/en/21-python-und-javascript.md":wr,"../../lessons/en/begriffe.md":Sr,"../../lessons/en/nachschlagen.md":kr,"../../lessons/pt/01-was-ist-ein-struktogramm.md":Mr,"../../lessons/pt/02-der-editor.md":Zr,"../../lessons/pt/03-speichern-oeffnen-exportieren.md":_r,"../../lessons/pt/04-variablen-und-datentypen.md":jr,"../../lessons/pt/05-sequenz.md":Pr,"../../lessons/pt/06-eingabe-und-ausgabe.md":Cr,"../../lessons/pt/07-simulation-und-schreibtischtest.md":Ar,"../../lessons/pt/08-verzweigung.md":Tr,"../../lessons/pt/09-bedingungen-verknuepfen.md":Dr,"../../lessons/pt/10-fallauswahl.md":Br,"../../lessons/pt/11-while-schleife.md":Wr,"../../lessons/pt/12-do-while-schleife.md":Hr,"../../lessons/pt/13-for-schleife.md":Gr,"../../lessons/pt/14-verschachteln.md":Nr,"../../lessons/pt/15-arrays.md":Er,"../../lessons/pt/16-zweidimensionale-arrays.md":Lr,"../../lessons/pt/17-zeichenketten.md":Vr,"../../lessons/pt/18-aufruf-und-aussprung.md":Rr,"../../lessons/pt/19-suchen-und-sortieren.md":Ur,"../../lessons/pt/20-java.md":Fr,"../../lessons/pt/21-python-und-javascript.md":Yr,"../../lessons/pt/begriffe.md":Or,"../../lessons/pt/nachschlagen.md":Qr}),S3=Object.assign({"../../lessons/de/aufgaben/alter-unterprogramm.md":Xr,"../../lessons/de/aufgaben/binaerzahl.md":Jr,"../../lessons/de/aufgaben/collatz.md":qr,"../../lessons/de/aufgaben/fibonacci.md":Kr,"../../lessons/de/aufgaben/gerade-ungerade.md":$r,"../../lessons/de/aufgaben/mehrwertsteuer.md":eo,"../../lessons/de/aufgaben/notendurchschnitt.md":to,"../../lessons/de/aufgaben/pin-pruefen.md":no,"../../lessons/de/aufgaben/schiffe-versenken.md":io,"../../lessons/de/aufgaben/speisekarte.md":ao,"../../lessons/de/aufgaben/summe-bilden.md":so,"../../lessons/de/aufgaben/tafeldienst.md":ro,"../../lessons/de/aufgaben/taschenrechner.md":oo,"../../lessons/de/aufgaben/verleih-menue.md":lo,"../../lessons/de/aufgaben/volljaehrig.md":mo,"../../lessons/de/aufgaben/zahl-verdoppeln.md":uo,"../../lessons/en/aufgaben/alter-unterprogramm.md":co,"../../lessons/en/aufgaben/binaerzahl.md":ho,"../../lessons/en/aufgaben/collatz.md":go,"../../lessons/en/aufgaben/fibonacci.md":po,"../../lessons/en/aufgaben/gerade-ungerade.md":xo,"../../lessons/en/aufgaben/mehrwertsteuer.md":Io,"../../lessons/en/aufgaben/notendurchschnitt.md":bo,"../../lessons/en/aufgaben/pin-pruefen.md":fo,"../../lessons/en/aufgaben/schiffe-versenken.md":yo,"../../lessons/en/aufgaben/speisekarte.md":zo,"../../lessons/en/aufgaben/summe-bilden.md":vo,"../../lessons/en/aufgaben/tafeldienst.md":wo,"../../lessons/en/aufgaben/taschenrechner.md":So,"../../lessons/en/aufgaben/verleih-menue.md":ko,"../../lessons/en/aufgaben/volljaehrig.md":Mo,"../../lessons/en/aufgaben/zahl-verdoppeln.md":Zo,"../../lessons/pt/aufgaben/alter-unterprogramm.md":_o,"../../lessons/pt/aufgaben/binaerzahl.md":jo,"../../lessons/pt/aufgaben/collatz.md":Po,"../../lessons/pt/aufgaben/fibonacci.md":Co,"../../lessons/pt/aufgaben/gerade-ungerade.md":Ao,"../../lessons/pt/aufgaben/mehrwertsteuer.md":To,"../../lessons/pt/aufgaben/notendurchschnitt.md":Do,"../../lessons/pt/aufgaben/pin-pruefen.md":Bo,"../../lessons/pt/aufgaben/schiffe-versenken.md":Wo,"../../lessons/pt/aufgaben/speisekarte.md":Ho,"../../lessons/pt/aufgaben/summe-bilden.md":Go,"../../lessons/pt/aufgaben/tafeldienst.md":No,"../../lessons/pt/aufgaben/taschenrechner.md":Eo,"../../lessons/pt/aufgaben/verleih-menue.md":Lo,"../../lessons/pt/aufgaben/volljaehrig.md":Vo,"../../lessons/pt/aufgaben/zahl-verdoppeln.md":Ro}),k3=Object.assign({"../../lessons/diagramme/aufgabe-alter-haupt-loesung.visustruct":Uo,"../../lessons/diagramme/aufgabe-alter-unterprogramm-loesung.visustruct":Fo,"../../lessons/diagramme/aufgabe-binaer-loesung.visustruct":Yo,"../../lessons/diagramme/aufgabe-collatz-loesung.visustruct":Oo,"../../lessons/diagramme/aufgabe-durchschnitt-loesung.visustruct":Qo,"../../lessons/diagramme/aufgabe-fibonacci-loesung.visustruct":Xo,"../../lessons/diagramme/aufgabe-gerade-loesung.visustruct":Jo,"../../lessons/diagramme/aufgabe-mehrwertsteuer-loesung.visustruct":qo,"../../lessons/diagramme/aufgabe-pin-loesung.visustruct":Ko,"../../lessons/diagramme/aufgabe-rechner-loesung.visustruct":$o,"../../lessons/diagramme/aufgabe-schiffe-loesung.visustruct":el,"../../lessons/diagramme/aufgabe-schiffe-start.visustruct":tl,"../../lessons/diagramme/aufgabe-speisekarte-loesung.visustruct":nl,"../../lessons/diagramme/aufgabe-summe-loesung.visustruct":il,"../../lessons/diagramme/aufgabe-tafeldienst-loesung.visustruct":al,"../../lessons/diagramme/aufgabe-verdoppeln-loesung.visustruct":sl,"../../lessons/diagramme/aufgabe-verleih-loesung.visustruct":rl,"../../lessons/diagramme/aufgabe-volljaehrig-loesung.visustruct":ol,"../../lessons/diagramme/en/aufgabe-alter-haupt-loesung.visustruct":ll,"../../lessons/diagramme/en/aufgabe-alter-unterprogramm-loesung.visustruct":ml,"../../lessons/diagramme/en/aufgabe-binaer-loesung.visustruct":ul,"../../lessons/diagramme/en/aufgabe-collatz-loesung.visustruct":cl,"../../lessons/diagramme/en/aufgabe-durchschnitt-loesung.visustruct":dl,"../../lessons/diagramme/en/aufgabe-fibonacci-loesung.visustruct":hl,"../../lessons/diagramme/en/aufgabe-gerade-loesung.visustruct":gl,"../../lessons/diagramme/en/aufgabe-mehrwertsteuer-loesung.visustruct":pl,"../../lessons/diagramme/en/aufgabe-pin-loesung.visustruct":xl,"../../lessons/diagramme/en/aufgabe-rechner-loesung.visustruct":Il,"../../lessons/diagramme/en/aufgabe-schiffe-loesung.visustruct":bl,"../../lessons/diagramme/en/aufgabe-schiffe-start.visustruct":fl,"../../lessons/diagramme/en/aufgabe-speisekarte-loesung.visustruct":yl,"../../lessons/diagramme/en/aufgabe-summe-loesung.visustruct":zl,"../../lessons/diagramme/en/aufgabe-tafeldienst-loesung.visustruct":vl,"../../lessons/diagramme/en/aufgabe-verdoppeln-loesung.visustruct":wl,"../../lessons/diagramme/en/aufgabe-verleih-loesung.visustruct":Sl,"../../lessons/diagramme/en/aufgabe-volljaehrig-loesung.visustruct":kl,"../../lessons/diagramme/en/kino-einmaleins-loesung.visustruct":Ml,"../../lessons/diagramme/en/kino-frei-loesung.visustruct":Zl,"../../lessons/diagramme/en/kino-frei-start.visustruct":_l,"../../lessons/diagramme/en/kino-karte-loesung.visustruct":jl,"../../lessons/diagramme/en/kino-karte-start.visustruct":Pl,"../../lessons/diagramme/en/kino-saalplan.visustruct":Cl,"../../lessons/diagramme/en/kino-verkaufen.visustruct":Al,"../../lessons/diagramme/en/l04-rechnen.visustruct":Tl,"../../lessons/diagramme/en/l04-reihenfolge-loesung.visustruct":Dl,"../../lessons/diagramme/en/l04-reihenfolge-start.visustruct":Bl,"../../lessons/diagramme/en/l04-tauschen-loesung.visustruct":Wl,"../../lessons/diagramme/en/l04-tauschen-start.visustruct":Hl,"../../lessons/diagramme/en/l04-tauschen.visustruct":Gl,"../../lessons/diagramme/en/l05-datentypen.visustruct":Nl,"../../lessons/diagramme/en/l05-division.visustruct":El,"../../lessons/diagramme/en/l05-einkauf-loesung.visustruct":Ll,"../../lessons/diagramme/en/l05-rechteck-loesung.visustruct":Vl,"../../lessons/diagramme/en/l05-sekunden-loesung.visustruct":Rl,"../../lessons/diagramme/en/l05-sekunden-start.visustruct":Ul,"../../lessons/diagramme/en/l06-begruessung-loesung.visustruct":Fl,"../../lessons/diagramme/en/l06-eva.visustruct":Yl,"../../lessons/diagramme/en/l06-mittelwert-loesung.visustruct":Ol,"../../lessons/diagramme/en/l06-rechner-loesung.visustruct":Ql,"../../lessons/diagramme/en/l07-alter-pruefen.visustruct":Xl,"../../lessons/diagramme/en/l07-betrag-loesung.visustruct":Jl,"../../lessons/diagramme/en/l07-gerade-loesung.visustruct":ql,"../../lessons/diagramme/en/l07-maximum-loesung.visustruct":Kl,"../../lessons/diagramme/en/l07-rabatt.visustruct":$l,"../../lessons/diagramme/en/l08-gueltig-loesung.visustruct":e0,"../../lessons/diagramme/en/l08-jugendticket.visustruct":t0,"../../lessons/diagramme/en/l08-note.visustruct":n0,"../../lessons/diagramme/en/l08-schaltjahr-loesung.visustruct":i0,"../../lessons/diagramme/en/l08-wochenende-loesung.visustruct":a0,"../../lessons/diagramme/en/l09-ampel.visustruct":s0,"../../lessons/diagramme/en/l09-automat.visustruct":r0,"../../lessons/diagramme/en/l09-note-loesung.visustruct":o0,"../../lessons/diagramme/en/l09-rechner-loesung.visustruct":l0,"../../lessons/diagramme/en/l09-verschachtelt.visustruct":m0,"../../lessons/diagramme/en/l1-grundbausteine.visustruct":u0,"../../lessons/diagramme/en/l1-sequenz.visustruct":c0,"../../lessons/diagramme/en/l1-tee.visustruct":d0,"../../lessons/diagramme/en/l1-verzweigung.visustruct":h0,"../../lessons/diagramme/en/l1-wiederholung.visustruct":g0,"../../lessons/diagramme/en/l10-bis-n-loesung.visustruct":p0,"../../lessons/diagramme/en/l10-countdown.visustruct":x0,"../../lessons/diagramme/en/l10-endlos.visustruct":I0,"../../lessons/diagramme/en/l10-fakultaet.visustruct":b0,"../../lessons/diagramme/en/l10-verdoppeln-loesung.visustruct":f0,"../../lessons/diagramme/en/l11-eingabe-pruefen.visustruct":y0,"../../lessons/diagramme/en/l11-einmal.visustruct":z0,"../../lessons/diagramme/en/l11-note-loesung.visustruct":v0,"../../lessons/diagramme/en/l11-summe-loesung.visustruct":w0,"../../lessons/diagramme/en/l12-countdown-loesung.visustruct":S0,"../../lessons/diagramme/en/l12-einmaleins-loesung.visustruct":k0,"../../lessons/diagramme/en/l12-eins-bis-fuenf.visustruct":M0,"../../lessons/diagramme/en/l12-summe.visustruct":Z0,"../../lessons/diagramme/en/l13-dreieck.visustruct":_0,"../../lessons/diagramme/en/l13-gerade-eingaben-loesung.visustruct":j0,"../../lessons/diagramme/en/l13-gerade-zaehlen.visustruct":P0,"../../lessons/diagramme/en/l13-rechteck-loesung.visustruct":C0,"../../lessons/diagramme/en/l14-array-durchlaufen.visustruct":A0,"../../lessons/diagramme/en/l14-erster-letzter-loesung.visustruct":T0,"../../lessons/diagramme/en/l14-namen-eingeben.visustruct":D0,"../../lessons/diagramme/en/l14-rueckwaerts-loesung.visustruct":B0,"../../lessons/diagramme/en/l14-summe-max-loesung.visustruct":W0,"../../lessons/diagramme/en/l14-summe-maximum.visustruct":H0,"../../lessons/diagramme/en/l15-bis-null-loesung.visustruct":G0,"../../lessons/diagramme/en/l15-endlos-aussprung.visustruct":N0,"../../lessons/diagramme/en/l15-flaeche-loesung.visustruct":E0,"../../lessons/diagramme/en/l15-flaeche-unterprogramm-loesung.visustruct":L0,"../../lessons/diagramme/en/l15-hauptprogramm.visustruct":V0,"../../lessons/diagramme/en/l15-quadrat-haupt.visustruct":R0,"../../lessons/diagramme/en/l15-quadrat.visustruct":U0,"../../lessons/diagramme/en/l15-titel-loesung.visustruct":F0,"../../lessons/diagramme/en/l15-unterprogramm.visustruct":Y0,"../../lessons/diagramme/en/l15-zeige-summe-haupt.visustruct":O0,"../../lessons/diagramme/en/l15-zeige-summe.visustruct":Q0,"../../lessons/diagramme/en/l16-countdown-loesung.visustruct":X0,"../../lessons/diagramme/en/l16-countdown-start.visustruct":J0,"../../lessons/diagramme/en/l16-schreibtisch.visustruct":q0,"../../lessons/diagramme/en/l16-summe-loesung.visustruct":K0,"../../lessons/diagramme/en/l16-summe-start.visustruct":$0,"../../lessons/diagramme/en/l17-beispiel.visustruct":em,"../../lessons/diagramme/en/l17-fakultaet-loesung.visustruct":tm,"../../lessons/diagramme/en/l17-ticket-loesung.visustruct":nm,"../../lessons/diagramme/en/l18-beispiel.visustruct":im,"../../lessons/diagramme/en/l18-js-loesung.visustruct":am,"../../lessons/diagramme/en/l18-python-loesung.visustruct":sm,"../../lessons/diagramme/en/l2-ausgabe.visustruct":rm,"../../lessons/diagramme/en/l2-hallo-loesung.visustruct":om,"../../lessons/diagramme/en/l2-zwei-zeilen-loesung.visustruct":lm,"../../lessons/diagramme/en/sim-kino-loesung.visustruct":mm,"../../lessons/diagramme/en/sim-kino-start.visustruct":um,"../../lessons/diagramme/en/sim-tausch-loesung.visustruct":cm,"../../lessons/diagramme/en/sim-tausch-start.visustruct":dm,"../../lessons/diagramme/en/sim-tausch.visustruct":hm,"../../lessons/diagramme/en/ss-absteigend-loesung.visustruct":gm,"../../lessons/diagramme/en/ss-absteigend-start.visustruct":pm,"../../lessons/diagramme/en/ss-binaere-suche.visustruct":xm,"../../lessons/diagramme/en/ss-bubblesort.visustruct":Im,"../../lessons/diagramme/en/ss-karte-suchen-loesung.visustruct":bm,"../../lessons/diagramme/en/ss-lineare-suche.visustruct":fm,"../../lessons/diagramme/en/uebergabe-bonus-loesung.visustruct":ym,"../../lessons/diagramme/en/uebergabe-bonus-start.visustruct":zm,"../../lessons/diagramme/en/uebergabe-bonus-unterprogramm-loesung.visustruct":vm,"../../lessons/diagramme/en/uebergabe-haupt.visustruct":wm,"../../lessons/diagramme/en/uebergabe-leeren.visustruct":Sm,"../../lessons/diagramme/en/uebergabe-verdopple.visustruct":km,"../../lessons/diagramme/en/zk-initialen-loesung.visustruct":Mm,"../../lessons/diagramme/en/zk-rueckwaerts-loesung.visustruct":Zm,"../../lessons/diagramme/en/zk-split.visustruct":_m,"../../lessons/diagramme/en/zk-woerter-loesung.visustruct":jm,"../../lessons/diagramme/en/zk-zaehlen.visustruct":Pm,"../../lessons/diagramme/en/zk-zeichen.visustruct":Cm,"../../lessons/diagramme/kino-einmaleins-loesung.visustruct":Am,"../../lessons/diagramme/kino-frei-loesung.visustruct":Tm,"../../lessons/diagramme/kino-frei-start.visustruct":Dm,"../../lessons/diagramme/kino-karte-loesung.visustruct":Bm,"../../lessons/diagramme/kino-karte-start.visustruct":Wm,"../../lessons/diagramme/kino-saalplan.visustruct":Hm,"../../lessons/diagramme/kino-verkaufen.visustruct":Gm,"../../lessons/diagramme/l04-rechnen.visustruct":Nm,"../../lessons/diagramme/l04-reihenfolge-loesung.visustruct":Em,"../../lessons/diagramme/l04-reihenfolge-start.visustruct":Lm,"../../lessons/diagramme/l04-tauschen-loesung.visustruct":Vm,"../../lessons/diagramme/l04-tauschen-start.visustruct":Rm,"../../lessons/diagramme/l04-tauschen.visustruct":Um,"../../lessons/diagramme/l05-datentypen.visustruct":Fm,"../../lessons/diagramme/l05-division.visustruct":Ym,"../../lessons/diagramme/l05-einkauf-loesung.visustruct":Om,"../../lessons/diagramme/l05-rechteck-loesung.visustruct":Qm,"../../lessons/diagramme/l05-sekunden-loesung.visustruct":Xm,"../../lessons/diagramme/l05-sekunden-start.visustruct":Jm,"../../lessons/diagramme/l06-begruessung-loesung.visustruct":qm,"../../lessons/diagramme/l06-eva.visustruct":Km,"../../lessons/diagramme/l06-mittelwert-loesung.visustruct":$m,"../../lessons/diagramme/l06-rechner-loesung.visustruct":eu,"../../lessons/diagramme/l07-alter-pruefen.visustruct":tu,"../../lessons/diagramme/l07-betrag-loesung.visustruct":nu,"../../lessons/diagramme/l07-gerade-loesung.visustruct":iu,"../../lessons/diagramme/l07-maximum-loesung.visustruct":au,"../../lessons/diagramme/l07-rabatt.visustruct":su,"../../lessons/diagramme/l08-gueltig-loesung.visustruct":ru,"../../lessons/diagramme/l08-jugendticket.visustruct":ou,"../../lessons/diagramme/l08-note.visustruct":lu,"../../lessons/diagramme/l08-schaltjahr-loesung.visustruct":mu,"../../lessons/diagramme/l08-wochenende-loesung.visustruct":uu,"../../lessons/diagramme/l09-ampel.visustruct":cu,"../../lessons/diagramme/l09-automat.visustruct":du,"../../lessons/diagramme/l09-note-loesung.visustruct":hu,"../../lessons/diagramme/l09-rechner-loesung.visustruct":gu,"../../lessons/diagramme/l09-verschachtelt.visustruct":pu,"../../lessons/diagramme/l1-grundbausteine.visustruct":xu,"../../lessons/diagramme/l1-sequenz.visustruct":Iu,"../../lessons/diagramme/l1-tee.visustruct":bu,"../../lessons/diagramme/l1-verzweigung.visustruct":fu,"../../lessons/diagramme/l1-wiederholung.visustruct":yu,"../../lessons/diagramme/l10-bis-n-loesung.visustruct":zu,"../../lessons/diagramme/l10-countdown.visustruct":vu,"../../lessons/diagramme/l10-endlos.visustruct":wu,"../../lessons/diagramme/l10-fakultaet.visustruct":Su,"../../lessons/diagramme/l10-verdoppeln-loesung.visustruct":ku,"../../lessons/diagramme/l11-eingabe-pruefen.visustruct":Mu,"../../lessons/diagramme/l11-einmal.visustruct":Zu,"../../lessons/diagramme/l11-note-loesung.visustruct":_u,"../../lessons/diagramme/l11-summe-loesung.visustruct":ju,"../../lessons/diagramme/l12-countdown-loesung.visustruct":Pu,"../../lessons/diagramme/l12-einmaleins-loesung.visustruct":Cu,"../../lessons/diagramme/l12-eins-bis-fuenf.visustruct":Au,"../../lessons/diagramme/l12-summe.visustruct":Tu,"../../lessons/diagramme/l13-dreieck.visustruct":Du,"../../lessons/diagramme/l13-gerade-eingaben-loesung.visustruct":Bu,"../../lessons/diagramme/l13-gerade-zaehlen.visustruct":Wu,"../../lessons/diagramme/l13-rechteck-loesung.visustruct":Hu,"../../lessons/diagramme/l14-array-durchlaufen.visustruct":Gu,"../../lessons/diagramme/l14-erster-letzter-loesung.visustruct":Nu,"../../lessons/diagramme/l14-namen-eingeben.visustruct":Eu,"../../lessons/diagramme/l14-rueckwaerts-loesung.visustruct":Lu,"../../lessons/diagramme/l14-summe-max-loesung.visustruct":Vu,"../../lessons/diagramme/l14-summe-maximum.visustruct":Ru,"../../lessons/diagramme/l15-bis-null-loesung.visustruct":Uu,"../../lessons/diagramme/l15-endlos-aussprung.visustruct":Fu,"../../lessons/diagramme/l15-flaeche-loesung.visustruct":Yu,"../../lessons/diagramme/l15-flaeche-unterprogramm-loesung.visustruct":Ou,"../../lessons/diagramme/l15-hauptprogramm.visustruct":Qu,"../../lessons/diagramme/l15-quadrat-haupt.visustruct":Xu,"../../lessons/diagramme/l15-quadrat.visustruct":Ju,"../../lessons/diagramme/l15-titel-loesung.visustruct":qu,"../../lessons/diagramme/l15-unterprogramm.visustruct":Ku,"../../lessons/diagramme/l15-zeige-summe-haupt.visustruct":$u,"../../lessons/diagramme/l15-zeige-summe.visustruct":ec,"../../lessons/diagramme/l16-countdown-loesung.visustruct":tc,"../../lessons/diagramme/l16-countdown-start.visustruct":nc,"../../lessons/diagramme/l16-schreibtisch.visustruct":ic,"../../lessons/diagramme/l16-summe-loesung.visustruct":ac,"../../lessons/diagramme/l16-summe-start.visustruct":sc,"../../lessons/diagramme/l17-beispiel.visustruct":rc,"../../lessons/diagramme/l17-fakultaet-loesung.visustruct":oc,"../../lessons/diagramme/l17-ticket-loesung.visustruct":lc,"../../lessons/diagramme/l18-beispiel.visustruct":mc,"../../lessons/diagramme/l18-js-loesung.visustruct":uc,"../../lessons/diagramme/l18-python-loesung.visustruct":cc,"../../lessons/diagramme/l2-ausgabe.visustruct":dc,"../../lessons/diagramme/l2-hallo-loesung.visustruct":hc,"../../lessons/diagramme/l2-zwei-zeilen-loesung.visustruct":gc,"../../lessons/diagramme/pt/aufgabe-alter-haupt-loesung.visustruct":pc,"../../lessons/diagramme/pt/aufgabe-alter-unterprogramm-loesung.visustruct":xc,"../../lessons/diagramme/pt/aufgabe-binaer-loesung.visustruct":Ic,"../../lessons/diagramme/pt/aufgabe-collatz-loesung.visustruct":bc,"../../lessons/diagramme/pt/aufgabe-durchschnitt-loesung.visustruct":fc,"../../lessons/diagramme/pt/aufgabe-fibonacci-loesung.visustruct":yc,"../../lessons/diagramme/pt/aufgabe-gerade-loesung.visustruct":zc,"../../lessons/diagramme/pt/aufgabe-mehrwertsteuer-loesung.visustruct":vc,"../../lessons/diagramme/pt/aufgabe-pin-loesung.visustruct":wc,"../../lessons/diagramme/pt/aufgabe-rechner-loesung.visustruct":Sc,"../../lessons/diagramme/pt/aufgabe-schiffe-loesung.visustruct":kc,"../../lessons/diagramme/pt/aufgabe-schiffe-start.visustruct":Mc,"../../lessons/diagramme/pt/aufgabe-speisekarte-loesung.visustruct":Zc,"../../lessons/diagramme/pt/aufgabe-summe-loesung.visustruct":_c,"../../lessons/diagramme/pt/aufgabe-tafeldienst-loesung.visustruct":jc,"../../lessons/diagramme/pt/aufgabe-verdoppeln-loesung.visustruct":Pc,"../../lessons/diagramme/pt/aufgabe-verleih-loesung.visustruct":Cc,"../../lessons/diagramme/pt/aufgabe-volljaehrig-loesung.visustruct":Ac,"../../lessons/diagramme/pt/kino-einmaleins-loesung.visustruct":Tc,"../../lessons/diagramme/pt/kino-frei-loesung.visustruct":Dc,"../../lessons/diagramme/pt/kino-frei-start.visustruct":Bc,"../../lessons/diagramme/pt/kino-karte-loesung.visustruct":Wc,"../../lessons/diagramme/pt/kino-karte-start.visustruct":Hc,"../../lessons/diagramme/pt/kino-saalplan.visustruct":Gc,"../../lessons/diagramme/pt/kino-verkaufen.visustruct":Nc,"../../lessons/diagramme/pt/l04-rechnen.visustruct":Ec,"../../lessons/diagramme/pt/l04-reihenfolge-loesung.visustruct":Lc,"../../lessons/diagramme/pt/l04-reihenfolge-start.visustruct":Vc,"../../lessons/diagramme/pt/l04-tauschen-loesung.visustruct":Rc,"../../lessons/diagramme/pt/l04-tauschen-start.visustruct":Uc,"../../lessons/diagramme/pt/l04-tauschen.visustruct":Fc,"../../lessons/diagramme/pt/l05-datentypen.visustruct":Yc,"../../lessons/diagramme/pt/l05-division.visustruct":Oc,"../../lessons/diagramme/pt/l05-einkauf-loesung.visustruct":Qc,"../../lessons/diagramme/pt/l05-rechteck-loesung.visustruct":Xc,"../../lessons/diagramme/pt/l05-sekunden-loesung.visustruct":Jc,"../../lessons/diagramme/pt/l05-sekunden-start.visustruct":qc,"../../lessons/diagramme/pt/l06-begruessung-loesung.visustruct":Kc,"../../lessons/diagramme/pt/l06-eva.visustruct":$c,"../../lessons/diagramme/pt/l06-mittelwert-loesung.visustruct":ed,"../../lessons/diagramme/pt/l06-rechner-loesung.visustruct":td,"../../lessons/diagramme/pt/l07-alter-pruefen.visustruct":nd,"../../lessons/diagramme/pt/l07-betrag-loesung.visustruct":id,"../../lessons/diagramme/pt/l07-gerade-loesung.visustruct":ad,"../../lessons/diagramme/pt/l07-maximum-loesung.visustruct":sd,"../../lessons/diagramme/pt/l07-rabatt.visustruct":rd,"../../lessons/diagramme/pt/l08-gueltig-loesung.visustruct":od,"../../lessons/diagramme/pt/l08-jugendticket.visustruct":ld,"../../lessons/diagramme/pt/l08-note.visustruct":md,"../../lessons/diagramme/pt/l08-schaltjahr-loesung.visustruct":ud,"../../lessons/diagramme/pt/l08-wochenende-loesung.visustruct":cd,"../../lessons/diagramme/pt/l09-ampel.visustruct":dd,"../../lessons/diagramme/pt/l09-automat.visustruct":hd,"../../lessons/diagramme/pt/l09-note-loesung.visustruct":gd,"../../lessons/diagramme/pt/l09-rechner-loesung.visustruct":pd,"../../lessons/diagramme/pt/l09-verschachtelt.visustruct":xd,"../../lessons/diagramme/pt/l1-grundbausteine.visustruct":Id,"../../lessons/diagramme/pt/l1-sequenz.visustruct":bd,"../../lessons/diagramme/pt/l1-tee.visustruct":fd,"../../lessons/diagramme/pt/l1-verzweigung.visustruct":yd,"../../lessons/diagramme/pt/l1-wiederholung.visustruct":zd,"../../lessons/diagramme/pt/l10-bis-n-loesung.visustruct":vd,"../../lessons/diagramme/pt/l10-countdown.visustruct":wd,"../../lessons/diagramme/pt/l10-endlos.visustruct":Sd,"../../lessons/diagramme/pt/l10-fakultaet.visustruct":kd,"../../lessons/diagramme/pt/l10-verdoppeln-loesung.visustruct":Md,"../../lessons/diagramme/pt/l11-eingabe-pruefen.visustruct":Zd,"../../lessons/diagramme/pt/l11-einmal.visustruct":_d,"../../lessons/diagramme/pt/l11-note-loesung.visustruct":jd,"../../lessons/diagramme/pt/l11-summe-loesung.visustruct":Pd,"../../lessons/diagramme/pt/l12-countdown-loesung.visustruct":Cd,"../../lessons/diagramme/pt/l12-einmaleins-loesung.visustruct":Ad,"../../lessons/diagramme/pt/l12-eins-bis-fuenf.visustruct":Td,"../../lessons/diagramme/pt/l12-summe.visustruct":Dd,"../../lessons/diagramme/pt/l13-dreieck.visustruct":Bd,"../../lessons/diagramme/pt/l13-gerade-eingaben-loesung.visustruct":Wd,"../../lessons/diagramme/pt/l13-gerade-zaehlen.visustruct":Hd,"../../lessons/diagramme/pt/l13-rechteck-loesung.visustruct":Gd,"../../lessons/diagramme/pt/l14-array-durchlaufen.visustruct":Nd,"../../lessons/diagramme/pt/l14-erster-letzter-loesung.visustruct":Ed,"../../lessons/diagramme/pt/l14-namen-eingeben.visustruct":Ld,"../../lessons/diagramme/pt/l14-rueckwaerts-loesung.visustruct":Vd,"../../lessons/diagramme/pt/l14-summe-max-loesung.visustruct":Rd,"../../lessons/diagramme/pt/l14-summe-maximum.visustruct":Ud,"../../lessons/diagramme/pt/l15-bis-null-loesung.visustruct":Fd,"../../lessons/diagramme/pt/l15-endlos-aussprung.visustruct":Yd,"../../lessons/diagramme/pt/l15-flaeche-loesung.visustruct":Od,"../../lessons/diagramme/pt/l15-hauptprogramm.visustruct":Qd,"../../lessons/diagramme/pt/l15-quadrat-haupt.visustruct":Xd,"../../lessons/diagramme/pt/l15-quadrat.visustruct":Jd,"../../lessons/diagramme/pt/l15-titel-loesung.visustruct":qd,"../../lessons/diagramme/pt/l15-unterprogramm.visustruct":Kd,"../../lessons/diagramme/pt/l15-zeige-summe-haupt.visustruct":$d,"../../lessons/diagramme/pt/l15-zeige-summe.visustruct":eh,"../../lessons/diagramme/pt/l16-countdown-loesung.visustruct":th,"../../lessons/diagramme/pt/l16-countdown-start.visustruct":nh,"../../lessons/diagramme/pt/l16-schreibtisch.visustruct":ih,"../../lessons/diagramme/pt/l16-summe-loesung.visustruct":ah,"../../lessons/diagramme/pt/l16-summe-start.visustruct":sh,"../../lessons/diagramme/pt/l17-beispiel.visustruct":rh,"../../lessons/diagramme/pt/l17-fakultaet-loesung.visustruct":oh,"../../lessons/diagramme/pt/l17-ticket-loesung.visustruct":lh,"../../lessons/diagramme/pt/l18-beispiel.visustruct":mh,"../../lessons/diagramme/pt/l18-js-loesung.visustruct":uh,"../../lessons/diagramme/pt/l18-python-loesung.visustruct":ch,"../../lessons/diagramme/pt/l2-ausgabe.visustruct":dh,"../../lessons/diagramme/pt/l2-hallo-loesung.visustruct":hh,"../../lessons/diagramme/pt/l2-zwei-zeilen-loesung.visustruct":gh,"../../lessons/diagramme/pt/sim-kino-loesung.visustruct":ph,"../../lessons/diagramme/pt/sim-kino-start.visustruct":xh,"../../lessons/diagramme/pt/sim-tausch-loesung.visustruct":Ih,"../../lessons/diagramme/pt/sim-tausch-start.visustruct":bh,"../../lessons/diagramme/pt/sim-tausch.visustruct":fh,"../../lessons/diagramme/pt/ss-absteigend-loesung.visustruct":yh,"../../lessons/diagramme/pt/ss-absteigend-start.visustruct":zh,"../../lessons/diagramme/pt/ss-binaere-suche.visustruct":vh,"../../lessons/diagramme/pt/ss-bubblesort.visustruct":wh,"../../lessons/diagramme/pt/ss-karte-suchen-loesung.visustruct":Sh,"../../lessons/diagramme/pt/ss-lineare-suche.visustruct":kh,"../../lessons/diagramme/pt/uebergabe-bonus-loesung.visustruct":Mh,"../../lessons/diagramme/pt/uebergabe-bonus-start.visustruct":Zh,"../../lessons/diagramme/pt/uebergabe-bonus-unterprogramm-loesung.visustruct":_h,"../../lessons/diagramme/pt/uebergabe-haupt.visustruct":jh,"../../lessons/diagramme/pt/uebergabe-leeren.visustruct":Ph,"../../lessons/diagramme/pt/uebergabe-verdopple.visustruct":Ch,"../../lessons/diagramme/pt/zk-initialen-loesung.visustruct":Ah,"../../lessons/diagramme/pt/zk-rueckwaerts-loesung.visustruct":Th,"../../lessons/diagramme/pt/zk-split.visustruct":Dh,"../../lessons/diagramme/pt/zk-woerter-loesung.visustruct":Bh,"../../lessons/diagramme/pt/zk-zaehlen.visustruct":Wh,"../../lessons/diagramme/pt/zk-zeichen.visustruct":Hh,"../../lessons/diagramme/sim-kino-loesung.visustruct":Gh,"../../lessons/diagramme/sim-kino-start.visustruct":Nh,"../../lessons/diagramme/sim-tausch-loesung.visustruct":Eh,"../../lessons/diagramme/sim-tausch-start.visustruct":Lh,"../../lessons/diagramme/sim-tausch.visustruct":Vh,"../../lessons/diagramme/ss-absteigend-loesung.visustruct":Rh,"../../lessons/diagramme/ss-absteigend-start.visustruct":Uh,"../../lessons/diagramme/ss-binaere-suche.visustruct":Fh,"../../lessons/diagramme/ss-bubblesort.visustruct":Yh,"../../lessons/diagramme/ss-karte-suchen-loesung.visustruct":Oh,"../../lessons/diagramme/ss-lineare-suche.visustruct":Qh,"../../lessons/diagramme/uebergabe-bonus-loesung.visustruct":Xh,"../../lessons/diagramme/uebergabe-bonus-start.visustruct":Jh,"../../lessons/diagramme/uebergabe-bonus-unterprogramm-loesung.visustruct":qh,"../../lessons/diagramme/uebergabe-haupt.visustruct":Kh,"../../lessons/diagramme/uebergabe-leeren.visustruct":$h,"../../lessons/diagramme/uebergabe-verdopple.visustruct":eg,"../../lessons/diagramme/zk-initialen-loesung.visustruct":tg,"../../lessons/diagramme/zk-rueckwaerts-loesung.visustruct":ng,"../../lessons/diagramme/zk-split.visustruct":ig,"../../lessons/diagramme/zk-woerter-loesung.visustruct":ag,"../../lessons/diagramme/zk-zaehlen.visustruct":sg,"../../lessons/diagramme/zk-zeichen.visustruct":rg}),M3=Object.assign({"../../lessons/bilder/aufgabe-mehrwertsteuer.svg":og,"../../lessons/bilder/ben-shneiderman.jpg":lg,"../../lessons/bilder/en/aufgabe-mehrwertsteuer.svg":mg,"../../lessons/bilder/en/kino-saal.svg":ug,"../../lessons/bilder/en/kino-schleifen.svg":cg,"../../lessons/bilder/en/l01-pap.svg":dg,"../../lessons/bilder/en/l02-einfuegen.svg":hg,"../../lessons/bilder/en/l04-variable.svg":gg,"../../lessons/bilder/en/l04-zuweisung.svg":pg,"../../lessons/bilder/en/l05-tauschen.svg":xg,"../../lessons/bilder/en/l08-zahlenstrahl.svg":Ig,"../../lessons/bilder/en/l10-kopfgesteuert.svg":bg,"../../lessons/bilder/en/l11-vergleich.svg":fg,"../../lessons/bilder/en/l12-for-ablauf.svg":yg,"../../lessons/bilder/en/l14-array.svg":zg,"../../lessons/bilder/en/ss-binaere-suche.svg":vg,"../../lessons/bilder/en/ss-bubblesort.svg":wg,"../../lessons/bilder/en/ss-lineare-suche.svg":Sg,"../../lessons/bilder/en/ss-vergleiche.svg":kg,"../../lessons/bilder/en/uebergabe.svg":Mg,"../../lessons/bilder/en/zk-zeichen.svg":Zg,"../../lessons/bilder/ike-nassi.jpg":_g,"../../lessons/bilder/kino-saal.svg":jg,"../../lessons/bilder/kino-schleifen.svg":Pg,"../../lessons/bilder/l01-pap.svg":Cg,"../../lessons/bilder/l02-einfuegen.svg":Ag,"../../lessons/bilder/l04-variable.svg":Tg,"../../lessons/bilder/l04-zuweisung.svg":Dg,"../../lessons/bilder/l05-tauschen.svg":Bg,"../../lessons/bilder/l08-zahlenstrahl.svg":Wg,"../../lessons/bilder/l10-kopfgesteuert.svg":Hg,"../../lessons/bilder/l11-vergleich.svg":Gg,"../../lessons/bilder/l12-for-ablauf.svg":Ng,"../../lessons/bilder/l14-array.svg":Eg,"../../lessons/bilder/pt/aufgabe-mehrwertsteuer.svg":Lg,"../../lessons/bilder/pt/kino-saal.svg":Vg,"../../lessons/bilder/pt/kino-schleifen.svg":Rg,"../../lessons/bilder/pt/l01-pap.svg":Ug,"../../lessons/bilder/pt/l02-einfuegen.svg":Fg,"../../lessons/bilder/pt/l04-variable.svg":Yg,"../../lessons/bilder/pt/l04-zuweisung.svg":Og,"../../lessons/bilder/pt/l05-tauschen.svg":Qg,"../../lessons/bilder/pt/l08-zahlenstrahl.svg":Xg,"../../lessons/bilder/pt/l10-kopfgesteuert.svg":Jg,"../../lessons/bilder/pt/l11-vergleich.svg":qg,"../../lessons/bilder/pt/l12-for-ablauf.svg":Kg,"../../lessons/bilder/pt/l14-array.svg":$g,"../../lessons/bilder/pt/schiffe-versenken.svg":e3,"../../lessons/bilder/pt/ss-binaere-suche.svg":t3,"../../lessons/bilder/pt/ss-bubblesort.svg":n3,"../../lessons/bilder/pt/ss-lineare-suche.svg":i3,"../../lessons/bilder/pt/ss-vergleiche.svg":a3,"../../lessons/bilder/pt/uebergabe.svg":s3,"../../lessons/bilder/pt/zk-zeichen.svg":r3,"../../lessons/bilder/schiffe-versenken.svg":o3,"../../lessons/bilder/ss-binaere-suche.svg":l3,"../../lessons/bilder/ss-bubblesort.svg":m3,"../../lessons/bilder/ss-lineare-suche.svg":u3,"../../lessons/bilder/ss-vergleiche.svg":c3,"../../lessons/bilder/uebergabe.svg":d3,"../../lessons/bilder/zk-zeichen.svg":h3}),Z3=i=>i.replace(/^.*\//,"");function rn(i,e,t){const n=s=>new Map(Object.entries(i).filter(([r])=>{var o;return((o=e.exec(r))==null?void 0:o[1])===s}).map(([r,o])=>[Z3(r),o]));return[...new Map([...n("en"),...t==="en"?[]:n(t)])]}function on(i){return i==="de"?"de":i==="pt-PT"?"pt":"en"}let Be="en",pe=[],s1=[],Mi="",r1=[];function st(i){var t,n;if(i===Be&&pe.length>0)return;Be=i;const e=rn(w3,/\/lessons\/([^/]+)\/[^/]+\.md$/,i);pe=e.filter(([a])=>/^\d+/.test(a)).map(([a,s])=>z3(s,`${i}/${a}`)).sort((a,s)=>a.number-s.number),s1=rn(S3,/\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/,i).map(([a,s])=>v3(s,`${i}/aufgaben/${a}`)).sort((a,s)=>(a.after??0)-(s.after??0)||a.level-s.level||a.title.localeCompare(s.title,i)),Mi=((t=e.find(([a])=>a==="nachschlagen.md"))==null?void 0:t[1])??"",r1=g3(((n=e.find(([a])=>a==="begriffe.md"))==null?void 0:n[1])??"")}st("en");function Zi(i,e){return Be==="de"?i.get(e)??i.get(`en/${e}`):(Be==="en"?void 0:i.get(`${Be}/${e}`))??i.get(`en/${e}`)??i.get(e)}const _i=(i,e)=>i.slice(i.indexOf(e)+e.length),_3=new Map(Object.entries(k3).map(([i,e])=>[_i(i,"/diagramme/"),e]));function Ce(i){const e=Zi(_3,i);return e===void 0?void 0:gt(e)}const j3=new Map(Object.entries(M3).map(([i,e])=>[_i(i,"/bilder/"),e]));function ln(i){return Zi(j3,i)}const ji=i=>i.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");function J(i){const e=[];let t=ji(i).replace(/`([^`]+)`/g,(n,a)=>(e.push(a),`\0${e.length-1}\0`));return t=t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\s][^*]*?)\*/g,"$1<em>$2</em>").replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(n,a,s)=>{const r=/^(https?:|mailto:|#|\.{0,2}\/)/.test(s)?s:"#",o=/^https?:/.test(r)?' target="_blank" rel="noopener noreferrer"':"";return`<a href="${r}"${o}>${a}</a>`}),t.replace(/\u0000(\d+)\u0000/g,(n,a)=>`<code>${e[Number(a)]}</code>`)}function ve(i){const e=[],t=i.replace(/\r\n/g,`
 `).split(`
-`);let n=0;for(;n<t.length;){const i=t[n];if(i.trim()===""){n++;continue}if(i.startsWith("```")){const o=[];for(n++;n<t.length&&!t[n].startsWith("```");)o.push(t[n++]);n++,e.push(`<pre class="lesson-code" dir="ltr"><code>${ba(o.join(`
-`))}</code></pre>`);continue}const s=/^(#{3,4})\s+(.*)$/.exec(i);if(s){const o=s[1].length;e.push(`<h${o}>${X(s[2])}</h${o}>`),n++;continue}if(/^\s*([-*]|\d+\.)\s+/.test(i)){const o=/^\s*\d+\./.test(i),l=[];for(;n<t.length&&/^\s*([-*]|\d+\.)\s+/.test(t[n]);){let m=t[n].replace(/^\s*([-*]|\d+\.)\s+/,"");for(n++;n<t.length&&/^\s{2,}\S/.test(t[n])&&!/^\s*([-*]|\d+\.)\s+/.test(t[n]);)m+=" "+t[n++].trim();l.push(`<li>${X(m)}</li>`)}e.push(o?`<ol>${l.join("")}</ol>`:`<ul>${l.join("")}</ul>`);continue}if(i.startsWith("|")&&/^\|?[\s:|-]*-{3,}[\s:|-]*$/.test(t[n+1]??"")){const o=u=>u.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(c=>X(c.trim())),l=o(i);n+=2;const m=[];for(;n<t.length&&t[n].startsWith("|");)m.push(o(t[n++]));e.push(`<div class="lesson-table"><table><thead><tr>${l.map(u=>`<th>${u}</th>`).join("")}</tr></thead><tbody>${m.map(u=>`<tr>${u.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);continue}if(i.startsWith(">")){const o=[];for(;n<t.length&&t[n].startsWith(">");)o.push(t[n++].replace(/^>\s?/,""));e.push(`<aside class="lesson-note">${ze(o.join(`
-`))}</aside>`);continue}const r=[];for(;n<t.length&&t[n].trim()!==""&&!/^(```|#{3,4}\s|>|\||\s*([-*]|\d+\.)\s+)/.test(t[n]);)r.push(t[n++].trim());e.push(`<p>${X(r.join(" "))}</p>`)}return e.join(`
-`)}const I3=""+new URL("ludwig-Cus1i402.webp",import.meta.url).href,fa="visustruct.learn.progress",C1={"04-sequenz":"05-sequenz","05-variablen-und-datentypen":"04-variablen-und-datentypen","07-verzweigung":"08-verzweigung","08-bedingungen-verknuepfen":"09-bedingungen-verknuepfen","09-fallauswahl":"10-fallauswahl","10-while-schleife":"11-while-schleife","11-do-while-schleife":"12-do-while-schleife","12-for-schleife":"13-for-schleife","13-verschachteln":"14-verschachteln","14-arrays":"15-arrays","15-aufruf-und-aussprung":"18-aufruf-und-aussprung","16-aufruf-und-aussprung":"18-aufruf-und-aussprung","17-aufruf-und-aussprung":"18-aufruf-und-aussprung","17-suchen-und-sortieren":"19-suchen-und-sortieren","18-suchen-und-sortieren":"19-suchen-und-sortieren","16-simulation-und-schreibtischtest":"07-simulation-und-schreibtischtest","17-java":"20-java","18-java":"20-java","19-java":"20-java","18-python-und-javascript":"21-python-und-javascript","19-python-und-javascript":"21-python-und-javascript","20-python-und-javascript":"21-python-und-javascript"};function b3(a){var n;const e={...a.lessons};for(const[i,s]of Object.entries(C1))a.lessons[i]&&!a.lessons[s]&&(e[s]=a.lessons[i]),a.lessons[i]&&delete e[i];const t=(n=a.view)!=null&&n.lesson&&C1[a.view.lesson]?{...a.view,lesson:C1[a.view.lesson]}:a.view;return{...a,lessons:e,view:t}}function ya(){try{const a=localStorage.getItem(fa);if(a){const e=JSON.parse(a);return b3({lessons:e.lessons??{},exercises:e.exercises??{},view:e.view})}}catch{}return{lessons:{},exercises:{}}}let ae=ya();function Je(){try{localStorage.setItem(fa,JSON.stringify(ae))}catch{}}const G={lesson(a){var e;return(e=ae.lessons)[a]??(e[a]={step:0})},updateLesson(a,e){ae.lessons[a]={...G.lesson(a),...e},Je()},exercise(a){return ae.exercises[a]??{}},updateExercise(a,e){ae.exercises[a]={...G.exercise(a),...e},Je()},resetExercise(a){delete ae.exercises[a],Je()},view(){return ae.view},setView(a){ae.view=a,Je()},reload(){ae=ya()}},$1="f4ecc8e489ae7865308288c7d0fa313333cf2be3ff529b23bc214bee010310e0",It="visustruct.learn.teacher";let bt=!1;function en(){if(bt)return!0;try{return localStorage.getItem(It)===$1}catch{return!1}}async function f3(a){const e=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(a));return[...new Uint8Array(e)].map(t=>t.toString(16).padStart(2,"0")).join("")}async function y3(a){let e=!1;try{e=await f3(a.trim())===$1}catch{return!1}if(e){bt=!0;try{localStorage.setItem(It,$1)}catch{}}return e}function z3(){bt=!1;try{localStorage.removeItem(It)}catch{}}function et(a){switch(a.kind){case"finished":return d("sim_notice_finished");case"infiniteLoopWithoutBody":return d("sim_notice_infinite_loop_empty");case"unsupportedStatement":return d("sim_notice_unsupported_statement_fmt",a.text);case"invalidExpression":return d("sim_notice_invalid_expression_fmt",a.text);case"unknownVariable":return d("sim_notice_unknown_variable_fmt",a.text);case"divisionByZero":return d("sim_notice_division_by_zero");case"wholeNumberExpected":return d("sim_notice_whole_number_expected");case"numberExpected":return d("sim_notice_number_expected");case"booleanExpected":return d("sim_notice_boolean_expected");case"subprogramNotFound":return d("sim_notice_subprogram_not_found_fmt",a.text);case"callTooDeep":return d("sim_notice_call_too_deep");case"callArguments":return d("web_sim_call_arguments_fmt",a.text);case"missingReturn":return d("web_sim_missing_return_fmt",a.text);case"other":return a.text}}const H=a=>a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"),tn=["0.2","0.5","1.0","1.5","2.0"],v3=a=>Number(a).toLocaleString(ke()==="java"?"en":ke(),{minimumFractionDigits:1}),A1="visustruct.simulation.stepDelay",nn="visustruct.simulation.highlightMode";function T1(a){try{return localStorage.getItem(a)}catch{return null}}function an(a,e){try{localStorage.setItem(a,e)}catch{}}class w3{constructor(e,t,n=()=>{},i=()=>{}){b(this,"element");b(this,"engine");b(this,"isPlaying",!1);b(this,"playTimer");b(this,"wasPlayingBeforeInput",!1);b(this,"delay",tn.includes(T1(A1)??"")?T1(A1):"0.5");b(this,"highlightMode",T1(nn)==="nextToExecute"?"nextToExecute":"lastExecuted");b(this,"buttons");b(this,"inputSection");b(this,"trace");b(this,"variables");b(this,"output");b(this,"notice");b(this,"editButton");this.currentDocument=e,this.onHighlight=t,this.findSubprogram=n,this.onEdit=i,this.engine=new F1(e(),n),this.element=document.createElement("aside"),this.element.className="simpanel",this.build()}begin(){this.pause(),this.restartEngine()}end(){this.pause()}step(){if(!this.engine.canStep){this.pause();return}const e=this.isPlaying,t=this.engine.currentStepPath;this.engine.step(),this.highlightMode==="nextToExecute"&&this.engine.canStep?this.onHighlight(this.engine.currentStepPath):this.onHighlight(t??this.engine.currentStepPath),this.engine.state.inputRequest&&e&&(this.wasPlayingBeforeInput=!0),this.engine.canStep||this.pause(),this.update()}reset(){this.pause(),this.restartEngine()}play(){if(this.isPlaying||!this.engine.canStep)return;this.isPlaying=!0;const e=()=>{this.playTimer=void 0,this.isPlaying&&(this.step(),this.isPlaying&&this.engine.canStep?this.playTimer=window.setTimeout(e,Number(this.delay)*1e3):(this.isPlaying=!1,this.update()))};e()}pause(){this.playTimer!==void 0&&window.clearTimeout(this.playTimer),this.playTimer=void 0,this.isPlaying=!1,this.update()}submitInput(e){const t=this.isPlaying||this.wasPlayingBeforeInput;this.pause(),this.engine.provideInput(e.value),this.engine.state.inputRequest||(e.value=""),this.onHighlight(this.engine.currentStepPath),t&&this.engine.canStep&&(this.wasPlayingBeforeInput=!1,this.play()),this.update()}restartEngine(){this.engine=new F1(this.currentDocument(),this.findSubprogram),this.wasPlayingBeforeInput=!1,this.onHighlight(this.engine.currentStepPath),this.update()}build(){this.element.innerHTML=`
+`);let n=0;for(;n<t.length;){const a=t[n];if(a.trim()===""){n++;continue}if(a.startsWith("```")){const o=[];for(n++;n<t.length&&!t[n].startsWith("```");)o.push(t[n++]);n++,e.push(`<pre class="lesson-code" dir="ltr"><code>${ji(o.join(`
+`))}</code></pre>`);continue}const s=/^(#{3,4})\s+(.*)$/.exec(a);if(s){const o=s[1].length;e.push(`<h${o}>${J(s[2])}</h${o}>`),n++;continue}if(/^\s*([-*]|\d+\.)\s+/.test(a)){const o=/^\s*\d+\./.test(a),l=[];for(;n<t.length&&/^\s*([-*]|\d+\.)\s+/.test(t[n]);){let m=t[n].replace(/^\s*([-*]|\d+\.)\s+/,"");for(n++;n<t.length&&/^\s{2,}\S/.test(t[n])&&!/^\s*([-*]|\d+\.)\s+/.test(t[n]);)m+=" "+t[n++].trim();l.push(`<li>${J(m)}</li>`)}e.push(o?`<ol>${l.join("")}</ol>`:`<ul>${l.join("")}</ul>`);continue}if(a.startsWith("|")&&/^\|?[\s:|-]*-{3,}[\s:|-]*$/.test(t[n+1]??"")){const o=u=>u.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(c=>J(c.trim())),l=o(a);n+=2;const m=[];for(;n<t.length&&t[n].startsWith("|");)m.push(o(t[n++]));e.push(`<div class="lesson-table"><table><thead><tr>${l.map(u=>`<th>${u}</th>`).join("")}</tr></thead><tbody>${m.map(u=>`<tr>${u.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);continue}if(a.startsWith(">")){const o=[];for(;n<t.length&&t[n].startsWith(">");)o.push(t[n++].replace(/^>\s?/,""));e.push(`<aside class="lesson-note">${ve(o.join(`
+`))}</aside>`);continue}const r=[];for(;n<t.length&&t[n].trim()!==""&&!/^(```|#{3,4}\s|>|\||\s*([-*]|\d+\.)\s+)/.test(t[n]);)r.push(t[n++].trim());e.push(`<p>${J(r.join(" "))}</p>`)}return e.join(`
+`)}const P3=""+new URL("ludwig-Cus1i402.webp",import.meta.url).href,Pi="visustruct.learn.progress",D1={"04-sequenz":"05-sequenz","05-variablen-und-datentypen":"04-variablen-und-datentypen","07-verzweigung":"08-verzweigung","08-bedingungen-verknuepfen":"09-bedingungen-verknuepfen","09-fallauswahl":"10-fallauswahl","10-while-schleife":"11-while-schleife","11-do-while-schleife":"12-do-while-schleife","12-for-schleife":"13-for-schleife","13-verschachteln":"14-verschachteln","14-arrays":"15-arrays","15-aufruf-und-aussprung":"18-aufruf-und-aussprung","16-aufruf-und-aussprung":"18-aufruf-und-aussprung","17-aufruf-und-aussprung":"18-aufruf-und-aussprung","17-suchen-und-sortieren":"19-suchen-und-sortieren","18-suchen-und-sortieren":"19-suchen-und-sortieren","16-simulation-und-schreibtischtest":"07-simulation-und-schreibtischtest","17-java":"20-java","18-java":"20-java","19-java":"20-java","18-python-und-javascript":"21-python-und-javascript","19-python-und-javascript":"21-python-und-javascript","20-python-und-javascript":"21-python-und-javascript"};function C3(i){var n;const e={...i.lessons};for(const[a,s]of Object.entries(D1))i.lessons[a]&&!i.lessons[s]&&(e[s]=i.lessons[a]),i.lessons[a]&&delete e[a];const t=(n=i.view)!=null&&n.lesson&&D1[i.view.lesson]?{...i.view,lesson:D1[i.view.lesson]}:i.view;return{...i,lessons:e,view:t}}function Ci(){try{const i=localStorage.getItem(Pi);if(i){const e=JSON.parse(i);return C3({lessons:e.lessons??{},exercises:e.exercises??{},view:e.view})}}catch{}return{lessons:{},exercises:{}}}let se=Ci();function Ke(){try{localStorage.setItem(Pi,JSON.stringify(se))}catch{}}const G={lesson(i){var e;return(e=se.lessons)[i]??(e[i]={step:0})},updateLesson(i,e){se.lessons[i]={...G.lesson(i),...e},Ke()},exercise(i){return se.exercises[i]??{}},updateExercise(i,e){se.exercises[i]={...G.exercise(i),...e},Ke()},resetExercise(i){delete se.exercises[i],Ke()},view(){return se.view},setView(i){se.view=i,Ke()},reload(){se=Ci()}},rt="f4ecc8e489ae7865308288c7d0fa313333cf2be3ff529b23bc214bee010310e0",Mt="visustruct.learn.teacher";let Zt=!1;function mn(){if(Zt)return!0;try{return localStorage.getItem(Mt)===rt}catch{return!1}}async function A3(i){const e=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(i));return[...new Uint8Array(e)].map(t=>t.toString(16).padStart(2,"0")).join("")}async function T3(i){let e=!1;try{e=await A3(i.trim())===rt}catch{return!1}if(e){Zt=!0;try{localStorage.setItem(Mt,rt)}catch{}}return e}function D3(){Zt=!1;try{localStorage.removeItem(Mt)}catch{}}function ot(i){switch(i.kind){case"finished":return d("sim_notice_finished");case"infiniteLoopWithoutBody":return d("sim_notice_infinite_loop_empty");case"unsupportedStatement":return d("sim_notice_unsupported_statement_fmt",i.text);case"invalidExpression":return d("sim_notice_invalid_expression_fmt",i.text);case"unknownVariable":return d("sim_notice_unknown_variable_fmt",i.text);case"divisionByZero":return d("sim_notice_division_by_zero");case"wholeNumberExpected":return d("sim_notice_whole_number_expected");case"numberExpected":return d("sim_notice_number_expected");case"booleanExpected":return d("sim_notice_boolean_expected");case"subprogramNotFound":return d("sim_notice_subprogram_not_found_fmt",i.text);case"callTooDeep":return d("sim_notice_call_too_deep");case"callArguments":return d("web_sim_call_arguments_fmt",i.text);case"missingReturn":return d("web_sim_missing_return_fmt",i.text);case"other":return i.text}}const H=i=>i.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"),un=["0.2","0.5","1.0","1.5","2.0"],B3=i=>Number(i).toLocaleString(Me()==="java"?"en":Me(),{minimumFractionDigits:1}),B1="visustruct.simulation.stepDelay",cn="visustruct.simulation.highlightMode";function W1(i){try{return localStorage.getItem(i)}catch{return null}}function dn(i,e){try{localStorage.setItem(i,e)}catch{}}class W3{constructor(e,t,n=()=>{},a=()=>{}){I(this,"element");I(this,"engine");I(this,"isPlaying",!1);I(this,"playTimer");I(this,"wasPlayingBeforeInput",!1);I(this,"delay",un.includes(W1(B1)??"")?W1(B1):"0.5");I(this,"highlightMode",W1(cn)==="nextToExecute"?"nextToExecute":"lastExecuted");I(this,"buttons");I(this,"inputSection");I(this,"trace");I(this,"variables");I(this,"output");I(this,"notice");I(this,"editButton");this.currentDocument=e,this.onHighlight=t,this.findSubprogram=n,this.onEdit=a,this.engine=new q1(e(),n),this.element=document.createElement("aside"),this.element.className="simpanel",this.build()}begin(){this.pause(),this.restartEngine()}end(){this.pause()}step(){if(!this.engine.canStep){this.pause();return}const e=this.isPlaying,t=this.engine.currentStepPath;this.engine.step(),this.highlightMode==="nextToExecute"&&this.engine.canStep?this.onHighlight(this.engine.currentStepPath):this.onHighlight(t??this.engine.currentStepPath),this.engine.state.inputRequest&&e&&(this.wasPlayingBeforeInput=!0),this.engine.canStep||this.pause(),this.update()}reset(){this.pause(),this.restartEngine()}play(){if(this.isPlaying||!this.engine.canStep)return;this.isPlaying=!0;const e=()=>{this.playTimer=void 0,this.isPlaying&&(this.step(),this.isPlaying&&this.engine.canStep?this.playTimer=window.setTimeout(e,Number(this.delay)*1e3):(this.isPlaying=!1,this.update()))};e()}pause(){this.playTimer!==void 0&&window.clearTimeout(this.playTimer),this.playTimer=void 0,this.isPlaying=!1,this.update()}submitInput(e){const t=this.isPlaying||this.wasPlayingBeforeInput;this.pause(),this.engine.provideInput(e.value),this.engine.state.inputRequest||(e.value=""),this.onHighlight(this.engine.currentStepPath),t&&this.engine.canStep&&(this.wasPlayingBeforeInput=!1,this.play()),this.update()}restartEngine(){this.engine=new q1(this.currentDocument(),this.findSubprogram),this.wasPlayingBeforeInput=!1,this.onHighlight(this.engine.currentStepPath),this.update()}build(){this.element.innerHTML=`
       <section>
         <h2>${H(d("simulation_controls"))}</h2>
         <div class="sim-buttons">
@@ -20858,7 +20858,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
           </select>
         </label>
         <label class="sim-option">${H(d("web_sim_delay"))}
-          <select data-sim="delay">${tn.map(i=>`<option value="${i}">${H(d("web_sim_delay_value_fmt",v3(i)))}</option>`).join("")}</select>
+          <select data-sim="delay">${un.map(a=>`<option value="${a}">${H(d("web_sim_delay_value_fmt",B3(a)))}</option>`).join("")}</select>
         </label>
       </section>
       <p class="sim-notice" role="status"></p>
@@ -20867,71 +20867,92 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
       <section><h2>${H(d("simulation_trace"))}</h2><div class="sim-trace mono" dir="ltr"></div></section>
       <section><h2>${H(d("simulation_variables"))}</h2><div class="sim-vars" dir="ltr"></div></section>
       <section><h2>${H(d("simulation_output"))}</h2><div class="sim-output mono" dir="ltr"></div></section>
-    `;const e=i=>this.element.querySelector(i);this.buttons={play:e("[data-sim=play]"),pause:e("[data-sim=pause]"),step:e("[data-sim=step]"),stop:e("[data-sim=stop]")},this.buttons.play.addEventListener("click",()=>this.play()),this.buttons.pause.addEventListener("click",()=>this.pause()),this.buttons.step.addEventListener("click",()=>this.step()),this.buttons.stop.addEventListener("click",()=>this.reset()),this.editButton=e(".sim-edit"),this.editButton.addEventListener("click",()=>this.onEdit());const t=e("[data-sim=highlight]");t.value=this.highlightMode,t.addEventListener("change",()=>{this.highlightMode=t.value,an(nn,this.highlightMode)});const n=e("[data-sim=delay]");n.value=this.delay,n.addEventListener("change",()=>{this.delay=n.value,an(A1,this.delay)}),this.inputSection=e(".sim-input > div"),this.trace=e(".sim-trace"),this.variables=e(".sim-vars"),this.output=e(".sim-output"),this.notice=e(".sim-notice")}update(){if(!this.buttons)return;const{state:e,canStep:t}=this.engine;this.buttons.play.disabled=this.isPlaying||!t,this.buttons.pause.disabled=!this.isPlaying,this.buttons.step.disabled=this.isPlaying||!t,this.notice.textContent=e.notice?et(e.notice):"",this.notice.hidden=!e.notice,this.notice.classList.toggle("error",e.isHalted),this.editButton.hidden=!e.isHalted,this.updateInput(),this.trace.textContent=e.lastTrace??d("simulation_trace_placeholder"),this.trace.classList.toggle("placeholder",!e.lastTrace);const n=[...e.variables.keys()].sort((i,s)=>i.localeCompare(s));if(n.length===0)this.variables.innerHTML=`<p class="placeholder">${H(d("simulation_variables_placeholder"))}</p>`;else{const i=document.createElement("table");for(const s of n){const r=i.insertRow();r.insertCell().textContent=s;const o=e.variables.get(s),l=r.insertCell();o.kind==="grid"?l.append(S3(o)):l.textContent=U(o)}this.variables.replaceChildren(i)}e.outputLines.length===0?this.output.innerHTML=`<p class="placeholder">${H(d("simulation_output_placeholder"))}</p>`:(this.output.replaceChildren(...e.outputLines.map(i=>{const s=document.createElement("div");return s.textContent=i,s})),this.output.scrollTop=this.output.scrollHeight)}updateInput(){const e=this.engine.state.inputRequest,t=this.inputSection;if(t.parentElement.classList.toggle("active",!!e),!e){t.innerHTML=`<p class="placeholder">${H(d("simulation_input_placeholder"))}</p>`;return}let n=t.querySelector("form");if(!n){n=document.createElement("form"),n.innerHTML=`<p class="sim-prompt"></p><div class="sim-input-row"><input autocomplete="off" /><button type="submit">${H(d("simulation_input_submit"))}</button></div><p class="sim-input-error"></p>`;const o=n.querySelector("input");n.addEventListener("submit",l=>{l.preventDefault(),this.submitInput(o)}),t.replaceChildren(n),requestAnimationFrame(()=>o.focus())}n.querySelector(".sim-prompt").textContent=e.prompt;const i=n.querySelector("input");i.inputMode=e.valueType==="string"||e.valueType==="boolean"?"text":"decimal";const s=this.engine.state.inputErrorNotice,r=n.querySelector(".sim-input-error");r.textContent=s?et(s):"",r.hidden=!s}}function S3(a){const e=document.createElement("table");e.className="sim-grid";for(const t of a.value){const n=e.insertRow();for(const i of t){const s=n.insertCell();s.textContent=String(i),i===!0&&(s.className="sim-grid-true")}}return e}const k3="code, pre, a, button, h1, h2, h3, h4, strong, .term, .ui-pointer";function sn(a,e){var s;const t=[...a.querySelectorAll(".learn-text")],n=new Set;for(const r of t.flatMap(o=>[...o.querySelectorAll("strong")])){const o=Xt(e),l=o==null?void 0:o.exec(r.textContent??""),m=l?Jt(e,l[0]):void 0;m&&n.add(m)}let i=e.filter(r=>!n.has(r));for(const r of t){const o=document.createTreeWalker(r,NodeFilter.SHOW_TEXT),l=[];for(;o.nextNode();){const m=o.currentNode;(s=m.parentElement)!=null&&s.closest(k3)||l.push(m)}for(let m of l)for(;;){const u=Xt(i),c=u==null?void 0:u.exec(m.data),h=c?Jt(i,c[0]):void 0;if(!c||!h)break;const p=m.splitText(c.index);m=p.splitText(c[0].length);const x=document.createElement("span");x.className="term",x.tabIndex=0,x.setAttribute("role","button"),x.setAttribute("aria-describedby","term-tip"),x.dataset.term=h.term,x.dataset.text=h.text,p.replaceWith(x),x.append(p),i=i.filter(y=>y!==h)}}}function M3(a){const e=document.createElement("div");e.id="term-tip",e.className="term-tip",e.setAttribute("role","tooltip"),e.hidden=!0,document.body.append(e);let t,n=!1;const i=o=>{t=o,e.replaceChildren();const l=document.createElement("strong");l.textContent=o.dataset.term??"",e.append(l,document.createTextNode(" "+(o.dataset.text??""))),e.hidden=!1;const m=o.getBoundingClientRect(),u=e.offsetWidth,c=e.offsetHeight,h=Math.max(8,Math.min(m.left,window.innerWidth-u-8)),p=m.bottom+6;e.style.left=`${h}px`,e.style.top=`${p+c>window.innerHeight-8?Math.max(8,m.top-c-6):p}px`,o.setAttribute("aria-expanded","true")},s=()=>{t==null||t.setAttribute("aria-expanded","false"),t=void 0,n=!1,e.hidden=!0},r=o=>{var l,m;return((m=(l=o.target)==null?void 0:l.closest)==null?void 0:m.call(l,".term"))??void 0};return a.addEventListener("pointerover",o=>{const l=r(o);l&&o.pointerType==="mouse"&&!n&&i(l)}),a.addEventListener("pointerout",o=>{r(o)&&o.pointerType==="mouse"&&!n&&s()}),a.addEventListener("click",o=>{const l=r(o);if(l){if(n&&t===l)return s();i(l),n=!0}}),a.addEventListener("focusin",o=>{const l=r(o);l&&!n&&i(l)}),a.addEventListener("focusout",o=>{r(o)&&!n&&s()}),a.addEventListener("keydown",o=>{const l=r(o);o.key==="Escape"&&t?s():l&&(o.key==="Enter"||o.key===" ")&&(o.preventDefault(),l.click())}),a.addEventListener("scroll",s,!0),document.addEventListener("pointerdown",o=>{t&&!r(o)&&!e.contains(o.target)&&s()}),{hide:s}}const za={leiste:".topbar > .toolbar",elemente:".palette",struktogramm:".canvas",objektinspektor:".inspector",reiter:".tabs",titel:".caption",neu:"[data-action=new]",oeffnen:"[data-action=open]",speichern:"[data-action=save]",exportieren:"[data-action=export]",rueckgaengig:"[data-action=undo]",textgroesse:"[data-action=zoom]",lernen:".learn .learn-hide",code:"[data-action=code]",simulation:"[data-action=simulate]"};function rn(a){for(const e of a.querySelectorAll('a[href^="#zeige-"]')){const t=e.getAttribute("href").slice(7);if(!(t in za))continue;const n=document.createElement("span");n.className="ui-pointer",n.tabIndex=0,n.setAttribute("role","button"),n.dataset.target=t,n.append(...e.childNodes),e.replaceWith(n)}}function Z3(a){let e,t;const n=()=>{e==null||e.classList.remove("ui-spot"),e=void 0,window.clearTimeout(t)},i=(r,o)=>{n();const l=document.querySelector(za[r.dataset.target??""]??":not(*)");!l||l.getClientRects().length===0||(e=l,l.classList.add("ui-spot"),o&&(t=window.setTimeout(n,2500)))},s=r=>{var o,l;return((l=(o=r.target)==null?void 0:o.closest)==null?void 0:l.call(o,".ui-pointer"))??void 0};return a.addEventListener("pointerover",r=>{const o=s(r);o&&r.pointerType==="mouse"&&i(o,!1)}),a.addEventListener("pointerout",r=>{s(r)&&r.pointerType==="mouse"&&n()}),a.addEventListener("click",r=>{const o=s(r);o&&i(o,!0)}),a.addEventListener("focusin",r=>{const o=s(r);o&&i(o,!1)}),a.addEventListener("focusout",r=>{s(r)&&n()}),a.addEventListener("keydown",r=>{const o=s(r);o&&(r.key==="Enter"||r.key===" ")&&(r.preventDefault(),i(o,!0))}),{off:n}}const Se='<svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="18" height="14" rx="3"/><path d="M7.5 1v14"/><path d="M3.5 4.5h2M3.5 7h2M3.5 9.5h2" stroke-linecap="round"/></svg>',_3=()=>{const a=[];for(const e of de){const t=a.at(-1);t&&t.name===e.section?t.lessons.push(e):a.push({name:e.section,lessons:[e]})}return a};function f(a,e={},...t){const n=document.createElement(a);for(const[i,s]of Object.entries(e))n.setAttribute(i,s);return n.append(...t),n}function Q(a,e,t){const n=f(a,e);return n.innerHTML=t,n}const j3=a=>d(`element_${g[a]}`);function P3(a){return{caption:a,elements:[K(g.anweisung,{textLines:["ø"]})]}}function on(a){const e=a.start?Pe(a.start):void 0;return e?{...e,caption:e.caption||a.title}:P3(a.title)}class C3{constructor(e){b(this,"element");b(this,"tab","lessons");b(this,"returnTo");b(this,"lessonId");b(this,"taskId");b(this,"body");b(this,"tips");b(this,"pointers");this.host=e,this.element=f("aside",{class:"learn","aria-label":d("web_learn_title")}),this.tips=M3(this.element),this.pointers=Z3(this.element),K1(Kt(ke()));const t=G.view();t&&(this.tab=["lessons","tasks","reference"].find(n=>n===t.tab)??"lessons",this.lessonId=de.some(n=>n.id===t.lesson)?t.lesson:void 0,this.taskId=n1.some(n=>n.id===t.task)?t.task:void 0),this.render()}render(){this.tips.hide(),this.pointers.off(),K1(Kt(ke()));const e=f("div",{class:"segmented learn-tabs",role:"tablist"});for(const[i,s]of[["lessons",d("web_learn_lessons")],["tasks",d("web_learn_tasks")],["reference",d("web_learn_reference")]]){const r=f("button",{role:"tab","aria-pressed":String(this.tab===i),"data-learn-tab":i},s);r.addEventListener("click",()=>{this.tab===i&&(i==="lessons"&&(this.lessonId=void 0),i==="tasks"&&(this.taskId=void 0)),this.tab=i,this.persist(),this.render()}),e.append(r)}const t=Q("button",{class:"learn-hide",title:d("web_learn_hide"),"aria-label":d("web_learn_hide")},Se);t.addEventListener("click",()=>this.host.collapse());const n=f("div",{class:"learn-head"},e,t);if(this.body=f("div",{class:"learn-body"}),this.element.replaceChildren(n,this.body),this.tab==="lessons"){const i=de.find(s=>s.id===this.lessonId);i?this.renderLesson(i):this.renderLessonList()}else if(this.tab==="tasks"){const i=n1.find(s=>s.id===this.taskId);i?this.renderTask(i):this.renderTaskList()}else{const i=a1.map(s=>`- **${s.term}:** ${s.text}`).join(`
-`);this.body.append(Q("div",{class:"learn-text learn-reference"},ze(`${pa}
+    `;const e=a=>this.element.querySelector(a);this.buttons={play:e("[data-sim=play]"),pause:e("[data-sim=pause]"),step:e("[data-sim=step]"),stop:e("[data-sim=stop]")},this.buttons.play.addEventListener("click",()=>this.play()),this.buttons.pause.addEventListener("click",()=>this.pause()),this.buttons.step.addEventListener("click",()=>this.step()),this.buttons.stop.addEventListener("click",()=>this.reset()),this.editButton=e(".sim-edit"),this.editButton.addEventListener("click",()=>this.onEdit());const t=e("[data-sim=highlight]");t.value=this.highlightMode,t.addEventListener("change",()=>{this.highlightMode=t.value,dn(cn,this.highlightMode)});const n=e("[data-sim=delay]");n.value=this.delay,n.addEventListener("change",()=>{this.delay=n.value,dn(B1,this.delay)}),this.inputSection=e(".sim-input > div"),this.trace=e(".sim-trace"),this.variables=e(".sim-vars"),this.output=e(".sim-output"),this.notice=e(".sim-notice")}update(){if(!this.buttons)return;const{state:e,canStep:t}=this.engine;this.buttons.play.disabled=this.isPlaying||!t,this.buttons.pause.disabled=!this.isPlaying,this.buttons.step.disabled=this.isPlaying||!t,this.notice.textContent=e.notice?ot(e.notice):"",this.notice.hidden=!e.notice,this.notice.classList.toggle("error",e.isHalted),this.editButton.hidden=!e.isHalted,this.updateInput(),this.trace.textContent=e.lastTrace??d("simulation_trace_placeholder"),this.trace.classList.toggle("placeholder",!e.lastTrace);const n=[...e.variables.keys()].sort((a,s)=>a.localeCompare(s));if(n.length===0)this.variables.innerHTML=`<p class="placeholder">${H(d("simulation_variables_placeholder"))}</p>`;else{const a=document.createElement("table");for(const s of n){const r=a.insertRow();r.insertCell().textContent=s;const o=e.variables.get(s),l=r.insertCell();o.kind==="grid"?l.append(H3(o)):l.textContent=F(o)}this.variables.replaceChildren(a)}e.outputLines.length===0?this.output.innerHTML=`<p class="placeholder">${H(d("simulation_output_placeholder"))}</p>`:(this.output.replaceChildren(...e.outputLines.map(a=>{const s=document.createElement("div");return s.textContent=a,s})),this.output.scrollTop=this.output.scrollHeight)}updateInput(){const e=this.engine.state.inputRequest,t=this.inputSection;if(t.parentElement.classList.toggle("active",!!e),!e){t.innerHTML=`<p class="placeholder">${H(d("simulation_input_placeholder"))}</p>`;return}let n=t.querySelector("form");if(!n){n=document.createElement("form"),n.innerHTML=`<p class="sim-prompt"></p><div class="sim-input-row"><input autocomplete="off" /><button type="submit">${H(d("simulation_input_submit"))}</button></div><p class="sim-input-error"></p>`;const o=n.querySelector("input");n.addEventListener("submit",l=>{l.preventDefault(),this.submitInput(o)}),t.replaceChildren(n),requestAnimationFrame(()=>o.focus())}n.querySelector(".sim-prompt").textContent=e.prompt;const a=n.querySelector("input");a.inputMode=e.valueType==="string"||e.valueType==="boolean"?"text":"decimal";const s=this.engine.state.inputErrorNotice,r=n.querySelector(".sim-input-error");r.textContent=s?ot(s):"",r.hidden=!s}}function H3(i){const e=document.createElement("table");e.className="sim-grid";for(const t of i.value){const n=e.insertRow();for(const a of t){const s=n.insertCell();s.textContent=String(a),a===!0&&(s.className="sim-grid-true")}}return e}const G3="code, pre, a, button, h1, h2, h3, h4, strong, .term, .ui-pointer";function hn(i,e){var s;const t=[...i.querySelectorAll(".learn-text")],n=new Set;for(const r of t.flatMap(o=>[...o.querySelectorAll("strong")])){const o=an(e),l=o==null?void 0:o.exec(r.textContent??""),m=l?sn(e,l[0]):void 0;m&&n.add(m)}let a=e.filter(r=>!n.has(r));for(const r of t){const o=document.createTreeWalker(r,NodeFilter.SHOW_TEXT),l=[];for(;o.nextNode();){const m=o.currentNode;(s=m.parentElement)!=null&&s.closest(G3)||l.push(m)}for(let m of l)for(;;){const u=an(a),c=u==null?void 0:u.exec(m.data),h=c?sn(a,c[0]):void 0;if(!c||!h)break;const g=m.splitText(c.index);m=g.splitText(c[0].length);const x=document.createElement("span");x.className="term",x.tabIndex=0,x.setAttribute("role","button"),x.setAttribute("aria-describedby","term-tip"),x.dataset.term=h.term,x.dataset.text=h.text,g.replaceWith(x),x.append(g),a=a.filter(f=>f!==h)}}}function N3(i){const e=document.createElement("div");e.id="term-tip",e.className="term-tip",e.setAttribute("role","tooltip"),e.hidden=!0,document.body.append(e);let t,n=!1;const a=o=>{t=o,e.replaceChildren();const l=document.createElement("strong");l.textContent=o.dataset.term??"",e.append(l,document.createTextNode(" "+(o.dataset.text??""))),e.hidden=!1;const m=o.getBoundingClientRect(),u=e.offsetWidth,c=e.offsetHeight,h=Math.max(8,Math.min(m.left,window.innerWidth-u-8)),g=m.bottom+6;e.style.left=`${h}px`,e.style.top=`${g+c>window.innerHeight-8?Math.max(8,m.top-c-6):g}px`,o.setAttribute("aria-expanded","true")},s=()=>{t==null||t.setAttribute("aria-expanded","false"),t=void 0,n=!1,e.hidden=!0},r=o=>{var l,m;return((m=(l=o.target)==null?void 0:l.closest)==null?void 0:m.call(l,".term"))??void 0};return i.addEventListener("pointerover",o=>{const l=r(o);l&&o.pointerType==="mouse"&&!n&&a(l)}),i.addEventListener("pointerout",o=>{r(o)&&o.pointerType==="mouse"&&!n&&s()}),i.addEventListener("click",o=>{const l=r(o);if(l){if(n&&t===l)return s();a(l),n=!0}}),i.addEventListener("focusin",o=>{const l=r(o);l&&!n&&a(l)}),i.addEventListener("focusout",o=>{r(o)&&!n&&s()}),i.addEventListener("keydown",o=>{const l=r(o);o.key==="Escape"&&t?s():l&&(o.key==="Enter"||o.key===" ")&&(o.preventDefault(),l.click())}),i.addEventListener("scroll",s,!0),document.addEventListener("pointerdown",o=>{t&&!r(o)&&!e.contains(o.target)&&s()}),{hide:s}}const Ai={leiste:".topbar > .toolbar",elemente:".palette",struktogramm:".canvas",objektinspektor:".inspector",reiter:".tabs",titel:".caption",neu:"[data-action=new]",oeffnen:"[data-action=open]",speichern:"[data-action=save]",exportieren:"[data-action=export]",rueckgaengig:"[data-action=undo]",textgroesse:"[data-action=zoom]",lernen:".learn .learn-hide",code:"[data-action=code]",simulation:"[data-action=simulate]"};function gn(i){for(const e of i.querySelectorAll('a[href^="#zeige-"]')){const t=e.getAttribute("href").slice(7);if(!(t in Ai))continue;const n=document.createElement("span");n.className="ui-pointer",n.tabIndex=0,n.setAttribute("role","button"),n.dataset.target=t,n.append(...e.childNodes),e.replaceWith(n)}}function E3(i){let e,t;const n=()=>{e==null||e.classList.remove("ui-spot"),e=void 0,window.clearTimeout(t)},a=(r,o)=>{n();const l=document.querySelector(Ai[r.dataset.target??""]??":not(*)");!l||l.getClientRects().length===0||(e=l,l.classList.add("ui-spot"),o&&(t=window.setTimeout(n,2500)))},s=r=>{var o,l;return((l=(o=r.target)==null?void 0:o.closest)==null?void 0:l.call(o,".ui-pointer"))??void 0};return i.addEventListener("pointerover",r=>{const o=s(r);o&&r.pointerType==="mouse"&&a(o,!1)}),i.addEventListener("pointerout",r=>{s(r)&&r.pointerType==="mouse"&&n()}),i.addEventListener("click",r=>{const o=s(r);o&&a(o,!0)}),i.addEventListener("focusin",r=>{const o=s(r);o&&a(o,!1)}),i.addEventListener("focusout",r=>{s(r)&&n()}),i.addEventListener("keydown",r=>{const o=s(r);o&&(r.key==="Enter"||r.key===" ")&&(r.preventDefault(),a(o,!0))}),{off:n}}const ke='<svg viewBox="0 0 20 16" width="18" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="18" height="14" rx="3"/><path d="M7.5 1v14"/><path d="M3.5 4.5h2M3.5 7h2M3.5 9.5h2" stroke-linecap="round"/></svg>',L3=()=>{const i=[];for(const e of pe){const t=i.at(-1);t&&t.name===e.section?t.lessons.push(e):i.push({name:e.section,lessons:[e]})}return i};function y(i,e={},...t){const n=document.createElement(i);for(const[a,s]of Object.entries(e))n.setAttribute(a,s);return n.append(...t),n}function X(i,e,t){const n=y(i,e);return n.innerHTML=t,n}const V3=i=>d(`element_${p[i]}`);function R3(i){return{caption:i,elements:[N(p.anweisung,{textLines:["ø"]})]}}function pn(i){const e=i.start?Ce(i.start):void 0;return e?{...e,caption:e.caption||i.title}:R3(i.title)}class U3{constructor(e){I(this,"element");I(this,"tab","lessons");I(this,"returnTo");I(this,"lessonId");I(this,"taskId");I(this,"body");I(this,"tips");I(this,"pointers");this.host=e,this.element=y("aside",{class:"learn","aria-label":d("web_learn_title")}),this.tips=N3(this.element),this.pointers=E3(this.element),st(on(Me()));const t=G.view();t&&(this.tab=["lessons","tasks","reference"].find(n=>n===t.tab)??"lessons",this.lessonId=pe.some(n=>n.id===t.lesson)?t.lesson:void 0,this.taskId=s1.some(n=>n.id===t.task)?t.task:void 0),this.render()}render(){this.tips.hide(),this.pointers.off(),st(on(Me()));const e=y("div",{class:"segmented learn-tabs",role:"tablist"});for(const[a,s]of[["lessons",d("web_learn_lessons")],["tasks",d("web_learn_tasks")],["reference",d("web_learn_reference")]]){const r=y("button",{role:"tab","aria-pressed":String(this.tab===a),"data-learn-tab":a},s);r.addEventListener("click",()=>{this.tab===a&&(a==="lessons"&&(this.lessonId=void 0),a==="tasks"&&(this.taskId=void 0)),this.tab=a,this.persist(),this.render()}),e.append(r)}const t=X("button",{class:"learn-hide",title:d("web_learn_hide"),"aria-label":d("web_learn_hide")},ke);t.addEventListener("click",()=>this.host.collapse());const n=y("div",{class:"learn-head"},e,t);if(this.body=y("div",{class:"learn-body"}),this.element.replaceChildren(n,this.body),this.tab==="lessons"){const a=pe.find(s=>s.id===this.lessonId);a?this.renderLesson(a):this.renderLessonList()}else if(this.tab==="tasks"){const a=s1.find(s=>s.id===this.taskId);a?this.renderTask(a):this.renderTaskList()}else{const a=r1.map(s=>`- **${s.term}:** ${s.text}`).join(`
+`);this.body.append(X("div",{class:"learn-text learn-reference"},ve(`${Mi}
 
 ### ${d("web_learn_terms")}
 
-${i}`)))}}persist(){G.setView({tab:this.tab,lesson:this.lessonId,task:this.taskId})}openLesson(e){this.tab="lessons",this.lessonId=e,this.returnTo=void 0,this.persist(),this.render(),this.body.scrollTop=0}renderLessonList(){this.body.append(f("p",{class:"hint"},d("web_learn_intro")));for(const e of _3()){this.body.append(f("h3",{class:"learn-section"},e.name));const t=f("ol",{class:"learn-list"});for(const n of e.lessons){const i=G.lesson(n.id),s=i.done?"✓":i.step>0?d("web_learn_step_of_fmt",i.step+1,n.steps.length):"",r=f("button",{class:"learn-item"+(i.done?" done":""),"data-lesson":n.id},f("span",{class:"learn-num"},String(n.number)),f("span",{class:"learn-item-text"},f("strong",{},n.title),f("small",{},n.summary)),f("span",{class:"learn-status"},s));r.addEventListener("click",()=>this.openLesson(n.id)),t.append(f("li",{},r))}this.body.append(t)}this.body.append(this.renderTeacherBox())}renderLesson(e){var c;const t=G.lesson(e.id),n=Math.min(t.step,e.steps.length-1),i=e.steps[n],s=f("button",{class:"learn-back"},`← ${d("web_learn_all_lessons")}`);s.addEventListener("click",()=>this.openLesson(void 0));const r=f("nav",{class:"learn-progress","aria-label":d("web_learn_step_of_fmt",n+1,e.steps.length)});r.append(...e.steps.map((h,p)=>{const x=d("web_learn_step_fmt",p+1,h.title),y=f("button",{class:p<n?"past":p===n?"current":"",title:x,"aria-label":x},String(p+1));return p===n&&y.setAttribute("aria-current","step"),y.addEventListener("click",()=>this.goToStep(e,p)),y})),this.body.append(s,f("p",{class:"learn-kicker"},`${d("web_learn_lesson_fmt",e.number)} · ${e.section}`),f("h2",{class:"learn-title"},e.title),r,f("h3",{class:"learn-step-title"},`${n+1}. ${i.title}`));const o=((c=this.returnTo)==null?void 0:c.lesson)===e.id&&this.returnTo.step!==n?this.returnTo:void 0,l=()=>{const h=f("button",{class:"learn-return"},`↩ ${d("web_learn_back_to_checklist")}`);return h.addEventListener("click",()=>{this.returnTo=void 0,this.goToStep(e,o.step),this.body.scrollTop=o.scroll}),h};o&&this.body.append(l()),i.blocks.forEach((h,p)=>this.body.append(this.renderBlock(h,`${n}-${p}`,e))),rn(this.body),sn(this.body,a1);const m=f("div",{class:"learn-nav"}),u=f("button",{},`← ${d("web_learn_back")}`);if(u.disabled=n===0,u.addEventListener("click",()=>this.goToStep(e,n-1)),m.append(u),n<e.steps.length-1){const h=f("button",{class:"primary"},`${d("web_learn_next")} →`);h.addEventListener("click",()=>this.goToStep(e,n+1)),m.append(h)}else{const h=f("button",{class:"primary"},t.done?`✓ ${d("web_learn_done")}`:d("web_learn_finish"));h.addEventListener("click",()=>{G.updateLesson(e.id,{done:!0});const p=de.find(x=>x.number===e.number+1);this.openLesson(p==null?void 0:p.id)}),m.append(h)}this.body.append(m),o&&this.body.append(l())}goToStep(e,t){G.updateLesson(e.id,{step:t}),this.render(),this.body.scrollTop=0}renderTaskList(){this.body.append(f("p",{class:"hint"},d("web_learn_tasks_intro")));const e=f("ul",{class:"learn-list"});for(const t of n1){const n=this.taskExercises(t).every(r=>G.exercise(r.id).done),i=de.find(r=>r.number===t.after),s=f("button",{class:"learn-item"+(n?" done":""),"data-task":t.id},f("span",{class:"learn-num","aria-label":d("web_learn_level_fmt",t.level)},"★".repeat(t.level)),f("span",{class:"learn-item-text"},f("strong",{},t.title),f("small",{},i?d("web_learn_after_fmt",i.number,i.title):"")),f("span",{class:"learn-status"},n?"✓":""));s.addEventListener("click",()=>{this.taskId=t.id,this.persist(),this.render(),this.body.scrollTop=0}),e.append(f("li",{},s))}this.body.append(e,this.renderTeacherBox())}renderTeacherBox(){const e=f("details",{class:"learn-teacher"},f("summary",{},d("web_learn_teacher")));if(en()){e.setAttribute("open","");const s=f("button",{},d("web_learn_teacher_off"));return s.addEventListener("click",()=>{z3(),this.render()}),e.append(f("p",{},d("web_learn_teacher_on")),s),e}const t=f("input",{type:"password",autocomplete:"off","aria-label":d("web_learn_teacher_code"),placeholder:d("web_learn_teacher_code")}),n=f("p",{class:"learn-result",role:"status"}),i=f("form",{class:"group"},t,f("button",{type:"submit"},d("web_learn_teacher_unlock")));return i.addEventListener("submit",async s=>{s.preventDefault(),await y3(t.value)?this.render():(n.className="learn-result info",n.textContent=d("web_learn_teacher_wrong"))}),e.append(f("p",{class:"hint"},d("web_learn_teacher_intro")),i,n),e}taskExercises(e){return e.blocks.flatMap(t=>t.kind==="exercise"?[t.exercise]:[])}renderTask(e){const t=f("button",{class:"learn-back"},`← ${d("web_learn_all_tasks")}`);t.addEventListener("click",()=>{this.taskId=void 0,this.persist(),this.render()});const n=de.find(i=>i.number===e.after);if(this.body.append(t,f("h2",{class:"learn-title"},e.title)),n){const i=f("button",{class:"link-button"},d("web_learn_after_fmt",n.number,n.title));i.addEventListener("click",()=>this.openLesson(n.id)),this.body.append(f("p",{class:"learn-kicker"},i))}e.blocks.forEach((i,s)=>this.body.append(this.renderBlock(i,`task-${s}`))),rn(this.body),sn(this.body,a1)}renderBlock(e,t,n){switch(e.kind){case"markdown":return Q("div",{class:"learn-text"},ze(e.text));case"diagram":return this.renderDiagram(e.file,e.caption);case"exercise":return this.renderExercise(e.exercise);case"checklist":return this.renderChecklist(e.items,t,n);case"quiz":return this.renderQuiz(e.questions,t,n);case"brag":return this.renderBrag(e.text);case"images":return this.renderImages(e.files,e.caption);case"graphic":return this.renderGraphic(e.file,e.caption)}}renderBrag(e){const t=f("aside",{class:"learn-brag"});t.append(f("img",{src:I3,alt:"",width:"48",height:"48"}));const n=f("div",{},f("p",{class:"learn-brag-title"},d("web_learn_brag")));return n.append(Q("div",{class:"learn-text"},ze(e))),t.append(n),t}renderImages(e,t){const n=f("figure",{class:"learn-figure"}),i=f("div",{class:"learn-images"});for(const s of e){const r=$t(s);r&&i.append(f("img",{src:r,alt:"",loading:"lazy"}))}return n.append(i),t&&n.append(Q("figcaption",{},X(t))),n}renderGraphic(e,t){const n=f("figure",{class:"learn-figure"}),i=$t(e);return i&&n.append(f("img",{class:"learn-graphic",src:i,alt:"",loading:"lazy"})),t&&n.append(Q("figcaption",{},X(t))),n}renderDiagram(e,t){const n=Pe(e),i=f("figure",{class:"learn-figure"});if(!n)return i;const s=this.host.preview(n);s&&i.append(f("div",{class:"learn-preview",dir:"ltr"},s)),t&&i.append(Q("figcaption",{},X(t)));const r=f("button",{},d("web_learn_open_in_editor"));return r.addEventListener("click",()=>this.host.openDiagram(n,e)),i.append(r),i}renderExercise(e){const t=f("section",{class:"learn-exercise","data-exercise":e.id}),n=()=>G.exercise(e.id),i=f("span",{class:"learn-badge"},`✓ ${d("web_learn_solved")}`);i.hidden=!n().done,t.append(f("h4",{},`${d("web_learn_exercise")}: ${e.title}`,i),Q("div",{class:"learn-text"},ze(e.task)));const s=f("div",{class:"learn-result",role:"status"}),r=f("div",{class:"learn-hints"}),o=f("div",{class:"group"}),l=f("button",{class:"primary"},d("web_learn_open_exercise"));l.addEventListener("click",()=>{const c=n().xml;let h=on(e);if(c)try{h=rt(c)}catch{}this.host.openExercise(e,h)});const m=f("button",{},d("web_learn_check"));if(m.addEventListener("click",()=>{const c=this.host.exerciseDocument(e.id);if(!c){s.className="learn-result info",s.textContent=d("web_learn_open_first");return}if(c.elements.every(nt)){s.className="learn-result info",s.textContent=d("web_learn_empty");return}this.host.stopSimulation();const h=fs(c,e.tests,this.host.subprogramsFor(e.id)),p=ys(c),x=e.requires.map(I=>I==="forZaehlSchleife"?"forSchleife":I).filter(I=>I in g&&!p.has(g[I])),y=h.every(I=>I.passed)&&x.length===0;this.showResult(s,h,x,y),y&&(G.updateExercise(e.id,{done:!0}),i.hidden=!1)}),o.append(l,m),e.hints.length>0){const c=f("button",{},d("web_learn_hint"));c.addEventListener("click",()=>{const h=r.children.length;if(h>=e.hints.length)return;const p=e.hints.length>1?`**${d("web_learn_hint_fmt",h+1,e.hints.length)}:** `:"";r.append(Q("aside",{class:"lesson-note"},ze(p+e.hints[h]))),c.textContent=d("web_learn_hint_more"),c.toggleAttribute("disabled",h+1>=e.hints.length)}),o.append(c)}const u=f("button",{class:"danger-text"},d("web_learn_reset"));if(u.addEventListener("click",()=>{if(u.dataset.confirm!=="1"){u.dataset.confirm="1",u.textContent=d("web_learn_reset_confirm"),setTimeout(()=>{u.dataset.confirm="",u.textContent=d("web_learn_reset")},4e3);return}G.resetExercise(e.id),this.host.resetExercise(e.id,on(e)),i.hidden=!0,s.replaceChildren(),s.className="learn-result",u.dataset.confirm="",u.textContent=d("web_learn_reset")}),o.append(u),t.append(o,r,s),en()&&e.solution){const c=Pe(e.solution);if(c){const h=f("details",{class:"learn-solution"},f("summary",{},d("web_learn_solution")));h.addEventListener("toggle",()=>{if(!h.open||h.querySelector(".learn-preview"))return;const p=this.host.preview(c);p&&h.append(f("div",{class:"learn-preview",dir:"ltr"},p));const x=f("button",{},d("web_learn_open_in_editor"));x.addEventListener("click",()=>{this.host.openDiagram(c,e.solution);for(const y of e.subprograms){const I=Pe(y);I&&this.host.openDiagram(I,y)}});for(const y of e.subprograms){const I=Pe(y),v=I&&this.host.preview(I);v&&h.append(f("div",{class:"learn-preview",dir:"ltr"},v))}h.append(x)}),t.append(h)}}return t}showResult(e,t,n,i){e.className="learn-result "+(i?"ok":"fail"),e.replaceChildren(f("p",{class:"learn-result-head"},i?`🎉 ${d("web_learn_passed")}`:d("web_learn_failed")));for(const r of n)e.append(f("p",{},`✗ ${d("web_learn_missing_fmt",j3(g[r]))}`));const s=f("ul",{class:"learn-tests",dir:"auto"});for(const r of t){const o=r.test.inputs.length?d("web_learn_input_fmt",r.test.inputs.join(", ")):d("web_learn_no_input"),l=[`${r.passed?"✓":"✗"} ${o}`],m=f("div",{class:"learn-test-detail"});m.append(f("span",{},`${d("web_learn_expected")}: `,f("code",{},r.test.expected.join(" | ")||"–")),f("span",{},`${d("web_learn_actual")}: `,f("code",{},r.result.outputs.join(" | ")||"–"))),r.result.error&&m.append(f("span",{class:"learn-error"},et(r.result.error))),r.result.missingInput&&m.append(f("span",{class:"learn-error"},d("web_learn_missing_input"))),r.result.tooManySteps&&m.append(f("span",{class:"learn-error"},d("web_learn_too_many_steps"))),!r.passed&&r.result.unusedInputs&&m.append(f("span",{class:"learn-error"},d("web_learn_unused_input"))),s.append(f("li",{class:r.passed?"ok":"fail"},...l,m))}e.append(s)}renderChecklist(e,t,n){const i=f("ul",{class:"learn-checklist"});return e.forEach((s,r)=>{var c;const o=`${t}-${r}`,l=f("input",{type:"checkbox"});l.checked=!!(n&&((c=G.lesson(n.id).checks)!=null&&c[o])),l.addEventListener("change",()=>{if(!n)return;const h={...G.lesson(n.id).checks??{},[o]:l.checked};G.updateLesson(n.id,{checks:h})});const m=f("label",{},l);m.insertAdjacentHTML("beforeend"," "+X(s.text));const u=f("li",{},m);if(n&&s.step!==void 0){const h=s.step,p=d("web_learn_step_fmt",h+1,n.steps[h].title),x=f("button",{class:"link-button learn-check-link",title:p,"aria-label":`${d("web_learn_review")}: ${p}`},d("web_learn_review"));x.addEventListener("click",()=>{this.returnTo={lesson:n.id,step:G.lesson(n.id).step,scroll:this.body.scrollTop},this.goToStep(n,h)}),u.append(x)}i.append(u)}),i}renderQuiz(e,t,n){const i=f("div",{class:"learn-quiz"}),s=f("p",{class:"learn-score",role:"status"}),r=()=>n?G.lesson(n.id).quiz??{}:{},o=()=>{const l=r(),m=(p,x)=>p.pairs?p.pairs.every((y,I)=>l[`${t}-${x}-${I}`]!==void 0):l[`${t}-${x}`]!==void 0,u=(p,x)=>{var y;return p.pairs?p.pairs.every((I,v)=>ln(p)[l[`${t}-${x}-${v}`]]===p.pairs[v].right):(y=p.options[l[`${t}-${x}`]])==null?void 0:y.correct},c=e.filter(m).length,h=e.filter(u).length;s.textContent=c===e.length?d("web_learn_score_fmt",h,e.length):""};return e.forEach((l,m)=>{const u=`${t}-${m}`,c=f("fieldset",{},Q("legend",{},X(l.question))),h=Q("p",{class:"learn-explanation"},X(l.explanation??""));if(l.pairs){c.append(this.renderMatch(l,u,r,n,h,o),h),i.append(c);return}const p=x=>{c.querySelectorAll("button").forEach((y,I)=>{y.classList.toggle("right",x!==void 0&&l.options[I].correct),y.classList.toggle("wrong",x===I&&!l.options[I].correct),y.setAttribute("aria-pressed",String(x===I))}),h.hidden=x===void 0||!l.explanation};l.options.forEach((x,y)=>{const I=Q("button",{class:"learn-option"},X(x.text));I.addEventListener("click",()=>{n&&G.updateLesson(n.id,{quiz:{...r(),[u]:y}}),p(y),o()}),c.append(I)}),c.append(h),p(r()[u]),i.append(c)}),i.append(s),o(),i}renderMatch(e,t,n,i,s,r){const o=e.pairs,l=ln(e),m=f("div",{class:"learn-match"});let u={};const c=()=>i?n():u,h=I=>i?G.updateLesson(i.id,{quiz:I}):u=I,p=I=>c()[`${t}-${I}`],x=o.map(I=>{const v=f("select",{class:"learn-match-select"});v.append(f("option",{value:""},"–")),l.forEach((j,_)=>v.append(f("option",{value:String(_)},j)));const w=Q("label",{class:"learn-match-left"},X(I.left));return w.append(v),m.append(w),v}),y=()=>{const I=o.every((v,w)=>p(w)!==void 0);x.forEach((v,w)=>{const j=p(w);v.value=j===void 0?"":String(j),v.classList.toggle("right",I&&l[j]===o[w].right),v.classList.toggle("wrong",I&&l[j]!==o[w].right)}),s.hidden=!I||!e.explanation};return x.forEach((I,v)=>I.addEventListener("change",()=>{const w={...c()};I.value===""?delete w[`${t}-${v}`]:w[`${t}-${v}`]=Number(I.value),h(w),y(),r()})),y(),m}}function ln(a){return(a.pairs??[]).map(e=>e.right).sort((e,t)=>e.localeCompare(t,"de"))}const va="visustruct.live.target";function A3(){try{const a=localStorage.getItem(va);return a==="javascript"||a==="python"?a:"java"}catch{return"java"}}const he=a=>a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");function T3(a){let e="",t=a;for(;;){const n=t.indexOf(z1);if(n<0)break;const i=t.indexOf(ra,n);if(i<0)break;e+=he(t.slice(0,n))+`<span class="ph">${he(t.slice(n+1,i))}</span>`,t=t.slice(i+1)}return e+he(t)}const D3=(a,e)=>a.length===e.length&&a.every((t,n)=>t===e[n]);function W3(a,e){let t;for(const n of a)e<n.from||e>n.to||(!t||n.to-n.from<t.to-t.from||n.to-n.from===t.to-t.from&&n.path.length>t.path.length)&&(t=n);return t}class B3{constructor(e,t){b(this,"element");b(this,"view");b(this,"spans",[]);b(this,"highlighted");b(this,"html","");b(this,"target",A3());b(this,"last");this.onHide=e,this.onSelect=t,this.element=document.createElement("aside"),this.element.className="livecode",this.build()}build(){this.element.innerHTML=`
+${a}`)))}}persist(){G.setView({tab:this.tab,lesson:this.lessonId,task:this.taskId})}openLesson(e){this.tab="lessons",this.lessonId=e,this.returnTo=void 0,this.persist(),this.render(),this.body.scrollTop=0}renderLessonList(){this.body.append(y("p",{class:"hint"},d("web_learn_intro")));for(const e of L3()){this.body.append(y("h3",{class:"learn-section"},e.name));const t=y("ol",{class:"learn-list"});for(const n of e.lessons){const a=G.lesson(n.id),s=a.done?"✓":a.step>0?d("web_learn_step_of_fmt",a.step+1,n.steps.length):"",r=y("button",{class:"learn-item"+(a.done?" done":""),"data-lesson":n.id},y("span",{class:"learn-num"},String(n.number)),y("span",{class:"learn-item-text"},y("strong",{},n.title),y("small",{},n.summary)),y("span",{class:"learn-status"},s));r.addEventListener("click",()=>this.openLesson(n.id)),t.append(y("li",{},r))}this.body.append(t)}this.body.append(this.renderTeacherBox())}renderLesson(e){var c;const t=G.lesson(e.id),n=Math.min(t.step,e.steps.length-1),a=e.steps[n],s=y("button",{class:"learn-back"},`← ${d("web_learn_all_lessons")}`);s.addEventListener("click",()=>this.openLesson(void 0));const r=y("nav",{class:"learn-progress","aria-label":d("web_learn_step_of_fmt",n+1,e.steps.length)});r.append(...e.steps.map((h,g)=>{const x=d("web_learn_step_fmt",g+1,h.title),f=y("button",{class:g<n?"past":g===n?"current":"",title:x,"aria-label":x},String(g+1));return g===n&&f.setAttribute("aria-current","step"),f.addEventListener("click",()=>this.goToStep(e,g)),f})),this.body.append(s,y("p",{class:"learn-kicker"},`${d("web_learn_lesson_fmt",e.number)} · ${e.section}`),y("h2",{class:"learn-title"},e.title),r,y("h3",{class:"learn-step-title"},`${n+1}. ${a.title}`));const o=((c=this.returnTo)==null?void 0:c.lesson)===e.id&&this.returnTo.step!==n?this.returnTo:void 0,l=()=>{const h=y("button",{class:"learn-return"},`↩ ${d("web_learn_back_to_checklist")}`);return h.addEventListener("click",()=>{this.returnTo=void 0,this.goToStep(e,o.step),this.body.scrollTop=o.scroll}),h};o&&this.body.append(l()),a.blocks.forEach((h,g)=>this.body.append(this.renderBlock(h,`${n}-${g}`,e))),gn(this.body),hn(this.body,r1);const m=y("div",{class:"learn-nav"}),u=y("button",{},`← ${d("web_learn_back")}`);if(u.disabled=n===0,u.addEventListener("click",()=>this.goToStep(e,n-1)),m.append(u),n<e.steps.length-1){const h=y("button",{class:"primary"},`${d("web_learn_next")} →`);h.addEventListener("click",()=>this.goToStep(e,n+1)),m.append(h)}else{const h=y("button",{class:"primary"},t.done?`✓ ${d("web_learn_done")}`:d("web_learn_finish"));h.addEventListener("click",()=>{G.updateLesson(e.id,{done:!0});const g=pe.find(x=>x.number===e.number+1);this.openLesson(g==null?void 0:g.id)}),m.append(h)}this.body.append(m),o&&this.body.append(l())}goToStep(e,t){G.updateLesson(e.id,{step:t}),this.render(),this.body.scrollTop=0}renderTaskList(){this.body.append(y("p",{class:"hint"},d("web_learn_tasks_intro")));const e=y("ul",{class:"learn-list"});for(const t of s1){const n=this.taskExercises(t).every(r=>G.exercise(r.id).done),a=pe.find(r=>r.number===t.after),s=y("button",{class:"learn-item"+(n?" done":""),"data-task":t.id},y("span",{class:"learn-num","aria-label":d("web_learn_level_fmt",t.level)},"★".repeat(t.level)),y("span",{class:"learn-item-text"},y("strong",{},t.title),y("small",{},a?d("web_learn_after_fmt",a.number,a.title):"")),y("span",{class:"learn-status"},n?"✓":""));s.addEventListener("click",()=>{this.taskId=t.id,this.persist(),this.render(),this.body.scrollTop=0}),e.append(y("li",{},s))}this.body.append(e,this.renderTeacherBox())}renderTeacherBox(){const e=y("details",{class:"learn-teacher"},y("summary",{},d("web_learn_teacher")));if(mn()){e.setAttribute("open","");const s=y("button",{},d("web_learn_teacher_off"));return s.addEventListener("click",()=>{D3(),this.render()}),e.append(y("p",{},d("web_learn_teacher_on")),s),e}const t=y("input",{type:"password",autocomplete:"off","aria-label":d("web_learn_teacher_code"),placeholder:d("web_learn_teacher_code")}),n=y("p",{class:"learn-result",role:"status"}),a=y("form",{class:"group"},t,y("button",{type:"submit"},d("web_learn_teacher_unlock")));return a.addEventListener("submit",async s=>{s.preventDefault(),await T3(t.value)?this.render():(n.className="learn-result info",n.textContent=d("web_learn_teacher_wrong"))}),e.append(y("p",{class:"hint"},d("web_learn_teacher_intro")),a,n),e}taskExercises(e){return e.blocks.flatMap(t=>t.kind==="exercise"?[t.exercise]:[])}renderTask(e){const t=y("button",{class:"learn-back"},`← ${d("web_learn_all_tasks")}`);t.addEventListener("click",()=>{this.taskId=void 0,this.persist(),this.render()});const n=pe.find(a=>a.number===e.after);if(this.body.append(t,y("h2",{class:"learn-title"},e.title)),n){const a=y("button",{class:"link-button"},d("web_learn_after_fmt",n.number,n.title));a.addEventListener("click",()=>this.openLesson(n.id)),this.body.append(y("p",{class:"learn-kicker"},a))}e.blocks.forEach((a,s)=>this.body.append(this.renderBlock(a,`task-${s}`))),gn(this.body),hn(this.body,r1)}renderBlock(e,t,n){switch(e.kind){case"markdown":return X("div",{class:"learn-text"},ve(e.text));case"diagram":return this.renderDiagram(e.file,e.caption);case"exercise":return this.renderExercise(e.exercise);case"checklist":return this.renderChecklist(e.items,t,n);case"quiz":return this.renderQuiz(e.questions,t,n);case"brag":return this.renderBrag(e.text);case"images":return this.renderImages(e.files,e.caption);case"graphic":return this.renderGraphic(e.file,e.caption)}}renderBrag(e){const t=y("aside",{class:"learn-brag"});t.append(y("img",{src:P3,alt:"",width:"48",height:"48"}));const n=y("div",{},y("p",{class:"learn-brag-title"},d("web_learn_brag")));return n.append(X("div",{class:"learn-text"},ve(e))),t.append(n),t}renderImages(e,t){const n=y("figure",{class:"learn-figure"}),a=y("div",{class:"learn-images"});for(const s of e){const r=ln(s);r&&a.append(y("img",{src:r,alt:"",loading:"lazy"}))}return n.append(a),t&&n.append(X("figcaption",{},J(t))),n}renderGraphic(e,t){const n=y("figure",{class:"learn-figure"}),a=ln(e);return a&&n.append(y("img",{class:"learn-graphic",src:a,alt:"",loading:"lazy"})),t&&n.append(X("figcaption",{},J(t))),n}renderDiagram(e,t){const n=Ce(e),a=y("figure",{class:"learn-figure"});if(!n)return a;const s=this.host.preview(n);s&&a.append(y("div",{class:"learn-preview",dir:"ltr"},s)),t&&a.append(X("figcaption",{},J(t)));const r=y("button",{},d("web_learn_open_in_editor"));return r.addEventListener("click",()=>this.host.openDiagram(n,e)),a.append(r),a}renderExercise(e){const t=y("section",{class:"learn-exercise","data-exercise":e.id}),n=()=>G.exercise(e.id),a=y("span",{class:"learn-badge"},`✓ ${d("web_learn_solved")}`);a.hidden=!n().done,t.append(y("h4",{},`${d("web_learn_exercise")}: ${e.title}`,a),X("div",{class:"learn-text"},ve(e.task)));const s=y("div",{class:"learn-result",role:"status"}),r=y("div",{class:"learn-hints"}),o=y("div",{class:"group"}),l=y("button",{class:"primary"},d("web_learn_open_exercise"));l.addEventListener("click",()=>{const c=n().xml;let h=pn(e);if(c)try{h=gt(c)}catch{}this.host.openExercise(e,h)});const m=y("button",{},d("web_learn_check"));if(m.addEventListener("click",()=>{const c=this.host.exerciseDocument(e.id);if(!c){s.className="learn-result info",s.textContent=d("web_learn_open_first");return}if(c.elements.every(ut)){s.className="learn-result info",s.textContent=d("web_learn_empty");return}this.host.stopSimulation();const h=As(c,e.tests,this.host.subprogramsFor(e.id)),g=Ts(c),x=e.requires.map(b=>b==="forZaehlSchleife"?"forSchleife":b).filter(b=>b in p&&!g.has(p[b])),f=h.every(b=>b.passed)&&x.length===0;this.showResult(s,h,x,f),f&&(G.updateExercise(e.id,{done:!0}),a.hidden=!1)}),o.append(l,m),e.hints.length>0){const c=y("button",{},d("web_learn_hint"));c.addEventListener("click",()=>{const h=r.children.length;if(h>=e.hints.length)return;const g=e.hints.length>1?`**${d("web_learn_hint_fmt",h+1,e.hints.length)}:** `:"";r.append(X("aside",{class:"lesson-note"},ve(g+e.hints[h]))),c.textContent=d("web_learn_hint_more"),c.toggleAttribute("disabled",h+1>=e.hints.length)}),o.append(c)}const u=y("button",{class:"danger-text"},d("web_learn_reset"));if(u.addEventListener("click",()=>{if(u.dataset.confirm!=="1"){u.dataset.confirm="1",u.textContent=d("web_learn_reset_confirm"),setTimeout(()=>{u.dataset.confirm="",u.textContent=d("web_learn_reset")},4e3);return}G.resetExercise(e.id),this.host.resetExercise(e.id,pn(e)),a.hidden=!0,s.replaceChildren(),s.className="learn-result",u.dataset.confirm="",u.textContent=d("web_learn_reset")}),o.append(u),t.append(o,r,s),mn()&&e.solution){const c=Ce(e.solution);if(c){const h=y("details",{class:"learn-solution"},y("summary",{},d("web_learn_solution")));h.addEventListener("toggle",()=>{if(!h.open||h.querySelector(".learn-preview"))return;const g=this.host.preview(c);g&&h.append(y("div",{class:"learn-preview",dir:"ltr"},g));const x=y("button",{},d("web_learn_open_in_editor"));x.addEventListener("click",()=>{this.host.openDiagram(c,e.solution);for(const f of e.subprograms){const b=Ce(f);b&&this.host.openDiagram(b,f)}});for(const f of e.subprograms){const b=Ce(f),z=b&&this.host.preview(b);z&&h.append(y("div",{class:"learn-preview",dir:"ltr"},z))}h.append(x)}),t.append(h)}}return t}showResult(e,t,n,a){e.className="learn-result "+(a?"ok":"fail"),e.replaceChildren(y("p",{class:"learn-result-head"},a?`🎉 ${d("web_learn_passed")}`:d("web_learn_failed")));for(const r of n)e.append(y("p",{},`✗ ${d("web_learn_missing_fmt",V3(p[r]))}`));const s=y("ul",{class:"learn-tests",dir:"auto"});for(const r of t){const o=r.test.inputs.length?d("web_learn_input_fmt",r.test.inputs.join(", ")):d("web_learn_no_input"),l=[`${r.passed?"✓":"✗"} ${o}`],m=y("div",{class:"learn-test-detail"});m.append(y("span",{},`${d("web_learn_expected")}: `,y("code",{},r.test.expected.join(" | ")||"–")),y("span",{},`${d("web_learn_actual")}: `,y("code",{},r.result.outputs.join(" | ")||"–"))),r.result.error&&m.append(y("span",{class:"learn-error"},ot(r.result.error))),r.result.missingInput&&m.append(y("span",{class:"learn-error"},d("web_learn_missing_input"))),r.result.tooManySteps&&m.append(y("span",{class:"learn-error"},d("web_learn_too_many_steps"))),!r.passed&&r.result.unusedInputs&&m.append(y("span",{class:"learn-error"},d("web_learn_unused_input"))),s.append(y("li",{class:r.passed?"ok":"fail"},...l,m))}e.append(s)}renderChecklist(e,t,n){const a=y("ul",{class:"learn-checklist"});return e.forEach((s,r)=>{var c;const o=`${t}-${r}`,l=y("input",{type:"checkbox"});l.checked=!!(n&&((c=G.lesson(n.id).checks)!=null&&c[o])),l.addEventListener("change",()=>{if(!n)return;const h={...G.lesson(n.id).checks??{},[o]:l.checked};G.updateLesson(n.id,{checks:h})});const m=y("label",{},l);m.insertAdjacentHTML("beforeend"," "+J(s.text));const u=y("li",{},m);if(n&&s.step!==void 0){const h=s.step,g=d("web_learn_step_fmt",h+1,n.steps[h].title),x=y("button",{class:"link-button learn-check-link",title:g,"aria-label":`${d("web_learn_review")}: ${g}`},d("web_learn_review"));x.addEventListener("click",()=>{this.returnTo={lesson:n.id,step:G.lesson(n.id).step,scroll:this.body.scrollTop},this.goToStep(n,h)}),u.append(x)}a.append(u)}),a}renderQuiz(e,t,n){const a=y("div",{class:"learn-quiz"}),s=y("p",{class:"learn-score",role:"status"}),r=()=>n?G.lesson(n.id).quiz??{}:{},o=()=>{const l=r(),m=(g,x)=>g.pairs?g.pairs.every((f,b)=>l[`${t}-${x}-${b}`]!==void 0):l[`${t}-${x}`]!==void 0,u=(g,x)=>{var f;return g.pairs?g.pairs.every((b,z)=>xn(g)[l[`${t}-${x}-${z}`]]===g.pairs[z].right):(f=g.options[l[`${t}-${x}`]])==null?void 0:f.correct},c=e.filter(m).length,h=e.filter(u).length;s.textContent=c===e.length?d("web_learn_score_fmt",h,e.length):""};return e.forEach((l,m)=>{const u=`${t}-${m}`,c=y("fieldset",{},X("legend",{},J(l.question))),h=X("p",{class:"learn-explanation"},J(l.explanation??""));if(l.pairs){c.append(this.renderMatch(l,u,r,n,h,o),h),a.append(c);return}const g=x=>{c.querySelectorAll("button").forEach((f,b)=>{f.classList.toggle("right",x!==void 0&&l.options[b].correct),f.classList.toggle("wrong",x===b&&!l.options[b].correct),f.setAttribute("aria-pressed",String(x===b))}),h.hidden=x===void 0||!l.explanation};l.options.forEach((x,f)=>{const b=X("button",{class:"learn-option"},J(x.text));b.addEventListener("click",()=>{n&&G.updateLesson(n.id,{quiz:{...r(),[u]:f}}),g(f),o()}),c.append(b)}),c.append(h),g(r()[u]),a.append(c)}),a.append(s),o(),a}renderMatch(e,t,n,a,s,r){const o=e.pairs,l=xn(e),m=y("div",{class:"learn-match"});let u={};const c=()=>a?n():u,h=b=>a?G.updateLesson(a.id,{quiz:b}):u=b,g=b=>c()[`${t}-${b}`],x=o.map(b=>{const z=y("select",{class:"learn-match-select"});z.append(y("option",{value:""},"–")),l.forEach((j,_)=>z.append(y("option",{value:String(_)},j)));const v=X("label",{class:"learn-match-left"},J(b.left));return v.append(z),m.append(v),z}),f=()=>{const b=o.every((z,v)=>g(v)!==void 0);x.forEach((z,v)=>{const j=g(v);z.value=j===void 0?"":String(j),z.classList.toggle("right",b&&l[j]===o[v].right),z.classList.toggle("wrong",b&&l[j]!==o[v].right)}),s.hidden=!b||!e.explanation};return x.forEach((b,z)=>b.addEventListener("change",()=>{const v={...c()};b.value===""?delete v[`${t}-${z}`]:v[`${t}-${z}`]=Number(b.value),h(v),f(),r()})),f(),m}}function xn(i){return(i.pairs??[]).map(e=>e.right).sort((e,t)=>e.localeCompare(t,"de"))}const F3=[">>>=","<<=",">>=",">>>","->","::","++","--","==","!=","<=",">=","&&","||","+=","-=","*=","/=","%=","&=","|=","^=","<<"];function Y3(i,e){const t=[];let n=0,a=0;const s=(r,o,l,m)=>t.push({kind:r,text:i.slice(o,l),start:o,end:l,line:m});for(;n<i.length;){const r=i[n];if(r===`
+`){a++,n++;continue}if(/\s/.test(r)){n++;continue}const o=n,l=a;if(r==="/"&&i[n+1]==="/"){for(;n<i.length&&i[n]!==`
+`;)n++;s("comment",o,n,l);continue}if(r==="/"&&i[n+1]==="*"){const h=i.indexOf("*/",n+2);n=h<0?i.length:h+2;for(let g=o;g<n;g++)i[g]===`
+`&&a++;s("comment",o,n,l);continue}if(r==='"'||r==="'"){for(n++;n<i.length&&i[n]!==r&&i[n]!==`
+`;)n+=i[n]==="\\"?2:1;i[n]===r?n++:e.push({from:o,to:Math.min(n,i.length),key:"web_parse_unclosed_string",arg:r}),s("str",o,Math.min(n,i.length),l);continue}const m=/^\d[\d_]*(?:\.\d+)?(?:[eE][+-]?\d+)?[lLfFdD]?/.exec(i.slice(n,n+64));if(m){n+=m[0].length,s("num",o,n,l);continue}const u=/^[\p{L}_$][\p{L}\p{N}_$]*/u.exec(i.slice(n,n+256));if(u){n+=u[0].length,s("id",o,n,l);continue}const c=F3.find(h=>i.startsWith(h,n))??r;n+=c.length,s("op",o,n,l)}return t}const In=new Set(["if","else","for","while","do","switch","case","default","break","return"]),bn=new Set(["public","private","protected","static","final","abstract"]),fn="(?:int|long|short|byte|float|double|boolean|char|String)";class O3{constructor(e,t,n){I(this,"toks");I(this,"comments");I(this,"i",0);I(this,"problems",[]);I(this,"placeholders",[]);I(this,"lines",new Map);this.src=e,this.labels=t,this.opts=n;const a=Y3(e,this.problems);this.toks=a.filter(s=>s.kind!=="comment"),this.comments=a.filter(s=>s.kind==="comment")}get tok(){return this.toks[this.i]}is(e,t=this.tok){return t!==void 0&&t.text===e&&t.kind!=="str"}next(){return this.toks[this.i++]}eat(e){return this.is(e)?this.next():void 0}prev(){return this.toks[this.i-1]}problem(e,t,n){const a=t??{start:this.src.length,end:this.src.length};this.problems.push({from:a.start,to:Math.max(a.end,a.start+1),key:e,arg:n})}missingAfter(e,t){const n=e?e.end:this.src.length;this.problems.push({from:Math.max(0,n-1),to:n,key:"web_parse_missing",arg:t})}text(e,t){let n="",a=e;for(const s of this.comments)s.end<=e||s.start>=t||(n+=this.src.slice(a,Math.max(a,s.start)),a=Math.max(a,s.end));return n+=this.src.slice(a,Math.max(a,t)),n.replace(/\s*\n\s*/g," ").trim()}slot(e,t,n){const a=this.text(e,t);if(a===n){const s=this.src.indexOf(n,e);return s>=0&&this.placeholders.push({from:s,to:s+n.length}),""}return a}record(e,t,n){return this.lines.set(e,[t,n]),{element:e,from:t,to:n}}lineOf(e){var t;return(e==null?void 0:e.line)??((t=this.toks[this.toks.length-1])==null?void 0:t.line)??0}parseProgram(){const e=[];let t,n=!1;for(;this.tok;){if(this.is("import")||this.is("package")){this.skipPast(";");continue}const a=this.classStart();if(a!==void 0){this.i=a;const r=this.parseClassBody();e.push(...r.elements),t??(t=r.caption);continue}const s=this.methodStart();if(s){n&&this.problem("web_parse_more_methods",this.tok);const r=this.parseMethod(s);n||(t=s.caption,e.push(...r)),n=!0;continue}if(this.is("}")){this.problem("web_parse_extra",this.next(),"}");continue}e.push(...this.parseStatement())}return{caption:t,elements:this.finishList(e)}}skipPast(e){for(;this.tok&&!this.is(e);)this.next();this.eat(e)}classStart(){var t,n;let e=this.i;for(;this.toks[e]&&bn.has(this.toks[e].text);)e++;if(!(((t=this.toks[e])==null?void 0:t.text)!=="class"||((n=this.toks[e+1])==null?void 0:n.kind)!=="id")){for(e+=2;this.toks[e]&&this.toks[e].text!=="{";)e++;return e+1}}parseClassBody(){let e,t,n=!1;for(;this.tok&&!this.is("}");){const a=this.methodStart();if(!a){this.is("{")?this.parseBlock():this.skipStatement();continue}const s=this.tok,r=this.parseMethod(a);a.name==="main"?e??(e=r):t?n=!0:t={caption:a.caption,body:r},(e&&t||n)&&this.problem("web_parse_more_methods",s)}return this.eat("}"),e?{elements:e}:{caption:t==null?void 0:t.caption,elements:(t==null?void 0:t.body)??[]}}skipStatement(){let e=0;for(;this.tok;){const t=this.next();if(t.text==="("||t.text==="[")e++;else if(t.text===")"||t.text==="]")e--;else if(t.text===";"&&e<=0)return}}methodStart(){var g,x,f,b,z;let e=this.i,t=0;for(;this.toks[e]&&bn.has(this.toks[e].text);)e++,t++;const n=this.toks[e];if((n==null?void 0:n.kind)!=="id"||In.has(n.text)||n.text==="new")return;for(e++;((g=this.toks[e])==null?void 0:g.text)==="["&&((x=this.toks[e+1])==null?void 0:x.text)==="]";)e+=2;const a=this.toks[e];if((a==null?void 0:a.kind)!=="id"||((f=this.toks[e+1])==null?void 0:f.text)!=="(")return;let s=0,r=e+1;for(;this.toks[r];r++){const v=this.toks[r].text;if(v==="(")s++;else{if(v===")"&&--s===0)break;if(v===";"||v==="{"||v==="}")break}}const o=this.toks[r+1];if(!(((b=this.toks[r])==null?void 0:b.text)===")"&&(o==null?void 0:o.text)==="{")&&!(t>0&&(o===void 0||this.toks[r]===void 0)))return;const m=((z=this.toks[r])==null?void 0:z.text)===")"?this.toks[r].start:this.src.length,u=this.text(this.toks[e+1].end,m),h=`${this.text(n.start,this.toks[e-1].end).replace(/\s+/g,"")} ${a.text}(${u.replace(/\s*,\s*/g,", ")})`;return this.i=Math.min(r+1,this.toks.length),{name:a.text,caption:a.text==="main"||!ee(h)?void 0:h}}parseMethod(e){return this.is("{")?this.parseBlock().elements:(this.missingAfter(this.prev(),"{"),[])}parseBlock(){const e=this.next(),t=[];for(;this.tok&&!this.is("}")&&!(this.is("case")||this.is("default"));)t.push(...this.parseStatement());const n=this.eat("}");if(n||this.problem("web_parse_missing",e,"}"),t.length===0){const a=(n==null?void 0:n.start)??this.src.length,s=this.comments.find(r=>r.start>e.end&&r.start<a&&this.isCodePlaceholder(r));s&&t.push(this.record(ie(),s.line,s.line))}return{elements:t,end:this.lineOf(n??this.prev())}}parseBody(){if(this.is("{")){const t=this.parseBlock();return{elements:this.finishList(t.elements),end:t.end}}if(!this.tok||this.is("}"))return this.missingAfter(this.prev(),"{"),{elements:[ie()],end:this.lineOf(this.prev())};const e=this.parseStatement();return{elements:this.finishList(e),end:e.length?e[e.length-1].to:this.lineOf(this.prev())}}finishList(e){const t=[];for(const n of e){const a=t[t.length-1],s=n.element.type===p.anweisung?/^input: (\S+(?: \S+)?)$/.exec(n.element.textLines[0]):null;if(s&&(a==null?void 0:a.prompt)!==void 0){const r=s[1].split(" ").pop();a.prompt!==`${r}: `&&(n.element.textLines=[`${n.element.textLines[0]} "${a.prompt}"`]),t.pop(),this.lines.delete(a.element),t.push(this.record(n.element,a.from,n.to));continue}t.push(n)}return t.length===0?[ie()]:t.map(n=>n.element)}parseStatement(){const e=this.tok;switch(e.kind==="id"?e.text:""){case"if":return[this.parseIf()];case"while":return[this.parseWhile()];case"do":return[this.parseDo()];case"for":return[this.parseFor()];case"switch":return[this.parseSwitch()];case"break":{this.next();const t=this.eat(";");t||this.missingAfter(e,";");const n=this.trailingComment(t??e);return[this.record(N(p.aussprung,{textLines:[n]}),e.line,e.line)]}case"else":return this.problem("web_parse_else_without_if",this.next()),[];case"case":case"default":for(this.problem("web_parse_case_outside_switch",this.next());this.tok&&!this.is(":")&&!this.is("->")&&!this.is(";");)this.next();return this.next(),[]}return this.is("{")?this.parseBlock().elements:this.is(";")?(this.next(),[this.record(N(p.anweisung),e.line,e.line)]):this.parseSimple()}trailingComment(e){const t=this.comments.find(a=>a.start>=e.end&&a.line===e.line),n=this.toks.find(a=>a.start>=e.end);return!t||n&&n.start<t.start?"":t.text.replace(/^\/\/|^\/\*|\*\/$/g,"").trim()}parenthesized(e,t){const n=this.eat("(");n||this.missingAfter(e,"(");const a=this.tok;let s=0,r;for(;this.tok;){const u=this.tok;if(!n&&u.line!==e.line||u.text==="{"||u.text==="}"||u.text===";")break;if(u.text==="("&&s++,u.text===")"){if(s===0)break;s--}r=this.next()}const o=n?this.eat(")"):void 0;n&&!o&&this.missingAfter(r??n,")");const l=n?n.end:(a==null?void 0:a.start)??e.end,m=o?o.start:(r==null?void 0:r.end)??l;return{text:this.slot(l,m,t),close:o}}parseIf(){const e=this.next(),t=this.parenthesized(e,this.labels.condition),n=this.parseBody();let a=[ie()],s=n.end;if(this.is("else"))if(this.next(),this.is("if")){const o=this.parseIf();a=[o.element],s=o.to}else{const o=this.parseBody();a=o.elements,s=o.end}const r=N(p.verzweigung,{textLines:[t.text],cases:[{name:"true",elements:n.elements},{name:"false",elements:a}]});return this.record(r,e.line,s)}parseWhile(){const e=this.next(),t=this.parenthesized(e,this.labels.condition),n=this.parseBody(),a=t.text==="true",s=N(a?p.endlosschleife:p.whileSchleife,{textLines:[a?"":t.text],loopBody:n.elements});return this.record(s,e.line,n.end)}parseDo(){const e=this.next(),t=this.parseBody();let n="",a=t.end;const s=this.eat("while");return s?(n=this.parenthesized(s,this.labels.condition).text,this.eat(";")||this.missingAfter(this.prev(),";"),a=this.lineOf(this.prev())):this.problem("web_parse_missing_do_while",e),this.record(N(p.doUntilSchleife,{textLines:[n],loopBody:t.elements}),e.line,a)}parseFor(){var h,g;const e=this.next(),t=this.eat("(");t||this.missingAfter(e,"(");const n=[],a=[this.labels.start,this.labels.condition,this.labels.step];let s=(t==null?void 0:t.end)??((h=this.tok)==null?void 0:h.start)??e.end,r=0,o,l;for(;this.tok;){const x=this.tok;if(x.text==="{"||x.text==="}"||!t&&x.line!==e.line)break;if(x.text==="("&&r++,x.text===")"){if(r===0){o=this.next();break}r--}if(x.text===";"&&r===0){n.push(this.slot(s,x.start,a[n.length]??"")),this.next(),s=x.end;continue}l=this.next()}t&&!o&&this.missingAfter(l??this.prev()??t,")");const m=o?o.start:(l==null?void 0:l.end)??((g=this.prev())==null?void 0:g.end)??s;n.push(this.slot(s,Math.max(s,m),a[n.length]??""));let u=n;for(n.length===1&&n[0]!==""&&!n[0].includes(":")&&(u=[n[0],"",""]);u.length<3&&u.length>1;)u.push("");const c=this.parseBody();return this.record(N(p.forSchleife,{textLines:u,loopBody:c.elements}),e.line,c.end)}parseSwitch(){const e=this.next(),t=this.parenthesized(e,this.labels.selector),n=[];let a=this.lineOf(this.prev());const s=this.eat("{");if(!s)this.missingAfter(this.prev(),"{");else{for(;this.tok&&!this.is("}");){if(!this.is("case")&&!this.is("default")){this.problem("web_parse_case_outside_switch",this.tok),this.parseStatement();continue}n.push(this.parseCase())}const o=this.eat("}");o||this.problem("web_parse_missing",s,"}"),a=this.lineOf(o??this.prev())}n.some(o=>o.isDefault)||n.push({name:"default",elements:[ie()],isDefault:!0});const r=[...n.filter(o=>!o.isDefault),...n.filter(o=>o.isDefault)].map(({name:o,elements:l})=>({name:o,elements:l}));return this.record(N(p.fallauswahl,{textLines:[t.text],cases:r}),e.line,a)}parseCase(){var l;const e=this.next(),t=e.text==="default",n=((l=this.tok)==null?void 0:l.start)??e.end;let a=n;for(;this.tok&&!this.is("->")&&!this.is(":")&&!this.is("{")&&!this.is("}");)a=this.next().end;const s=this.eat("->")??this.eat(":");s||this.missingAfter(this.prev(),"->");let r=t?"default":this.text(n,a),o=[];if((s==null?void 0:s.text)==="->")this.is("{")?(t&&(r=this.trailingComment(this.tok)||r),o=this.parseBlock().elements):this.tok&&!this.is("}")&&(o=this.parseStatement());else{for(t&&s&&(r=this.trailingComment(s)||r);this.tok&&!this.is("case")&&!this.is("default")&&!this.is("}");)o.push(...this.parseStatement());const m=o[o.length-1];(m==null?void 0:m.element.type)===p.aussprung&&m.element.textLines.every(u=>u==="")&&o.pop()}return{name:r,elements:this.finishList(o),isDefault:t}}parseSimple(){const e=this.next();let t=e,n=e.text==="("||e.text==="["||e.text==="{"?1:0,a;for(;this.tok;){const l=this.tok;if(l.text===";"&&l.kind==="op"){a=this.next();break}if(l.line!==t.line&&(n<=0||l.kind==="id"&&In.has(l.text)||l.text==="}")||l.text==="}"&&n<=0)break;(l.text==="("||l.text==="["||l.text==="{")&&n++,(l.text===")"||l.text==="]"||l.text==="}")&&n--,t=this.next()}a||this.missingAfter(t,";"),this.checkBrackets(e,t);const s=this.text(e.start,t.end),r=this.simpleElement(s);if(!r)return[];const o=this.record(r.element,e.line,t.line);return o.prompt=r.prompt,[o]}checkBrackets(e,t){const n=[],a={")":"(","]":"[","}":"{"},s={"(":")","[":"]","{":"}"};for(let r=this.toks.indexOf(e);r>=0&&r<this.toks.length&&this.toks[r].start<=t.start;r++){const o=this.toks[r];o.kind==="op"&&(s[o.text]?n.push(o):a[o.text]&&(n.length&&n[n.length-1].text===a[o.text]?n.pop():this.problem("web_parse_extra",o,o.text)))}n.length&&this.missingAfter(t,s[n[n.length-1].text])}simpleElement(e){var o;if(/^Scanner\s+\w+\s*=\s*new\s+Scanner\s*\(\s*System\.in\s*\)$/.test(e))return;const t=l=>N(p.anweisung,{textLines:[l]}),n=/^System\.out\.println\s*\(([\s\S]*)\)$/.exec(e);if(n&&n[1].trim()!==""){const l=n[1].trim(),m=/^"((?:[^"\\]|\\.)*)"$/.exec(l),u=m?Q3(m[1]):void 0;return{element:t(`output: ${l}`),prompt:u!==void 0&&!u.includes('"')?u:void 0}}const a=new RegExp(`^(?:(${fn})\\s+)?([A-Za-z_]\\w*(?:\\s*\\[[^\\]]+\\])*)\\s*=\\s*\\w+\\.(nextInt|nextDouble|nextLine|next|nextBoolean)\\s*\\(\\s*\\)$`).exec(e);if(a){const l={nextInt:"int",nextDouble:"double",nextLine:"String",next:"String",nextBoolean:"boolean"}[a[3]],m=a[2].replace(/\s+/g,"");if((a[1]===l||!a[1]&&m.includes("["))&&l)return{element:t(`input: ${l} ${m}`)}}const s=new RegExp(`^final\\s+(${fn}\\s+[\\s\\S]*)$`).exec(e);if(s)return{element:t(`const ${s[1]}`)};const r=/^(?:(?:\w+\s+)?\w+\s*=\s*)?([A-Za-z_]\w*)\s*\(/.exec(e);return r&&((o=this.opts.subprograms)!=null&&o.has(r[1]))?{element:N(p.aufruf,{textLines:[e]})}:{element:t(e)}}spansFor(e,t=[],n=[]){return e.forEach((a,s)=>{var l;const r=[...t,s],o=this.lines.get(a);o&&n.push({path:r,from:o[0],to:o[1]}),a.loopBody&&this.spansFor(a.loopBody,[...r,0],n),(l=a.cases)==null||l.forEach((m,u)=>this.spansFor(m.elements,[...r,u],n))}),n}isCodePlaceholder(e){return e.text.startsWith("//")&&e.text.slice(2).trim()===this.labels.code}markPlaceholderComments(){for(const e of this.comments)this.isCodePlaceholder(e)&&this.placeholders.push({from:e.start,to:e.end})}}function Q3(i){return i.replace(/\\(.)/g,(e,t)=>({n:`
+`,r:"\r",t:"	"})[t]??t)}function Ti(i,e,t={}){const n=new O3(i,e,t),{caption:a,elements:s}=n.parseProgram();n.markPlaceholderComments();const r=n.spansFor(s),o=n.problems.sort((l,m)=>l.from-m.from);return{caption:a,elements:s,spans:r,placeholders:n.placeholders.sort((l,m)=>l.from-m.from),problems:o}}function We(i,e){return at(i,"java",e).text.replaceAll(Re,"").replaceAll(wt,"")}function H1(i){const e=Di(i).code;return(e.trim()===""?i:e).replace(/\s+/g,"")}function Di(i){let e="";for(let t=0;t<i.length;t++){const n=i[t];if(e)n==="\\"?t++:n===e&&(e="");else if(n==='"'||n==="'")e=n;else if(n==="/"&&i[t+1]==="/")return{code:i.slice(0,t).replace(/\s+$/,""),comment:i.slice(t)}}return{code:i,comment:""}}function yn(i,e,t){const n=i.length,a=e.length,s=Array.from({length:n+1},()=>new Array(a+1).fill(0));for(let m=n-1;m>=0;m--)for(let u=a-1;u>=0;u--)s[m][u]=t(i[m],e[u])?s[m+1][u+1]+1:Math.max(s[m+1][u],s[m][u+1]);const r=[];let o=0,l=0;for(;o<n||l<a;)o<n&&l<a&&t(i[o],e[l])?r.push({kind:"keep",a:o++,b:l++}):o<n&&(l===a||s[o+1][l]>=s[o][l+1])?r.push({kind:"del",a:o++}):r.push({kind:"ins",b:l++});return r}function X3(i,e,t,n,a={}){const s=We(t,n),r=We(e,n);if(i===r)return s;const o=r.split(`
+`),l=s.split(`
+`),m=i.split(`
+`),u=new Array(o.length).fill(-1);for(const z of yn(o,m,(v,j)=>H1(v)!==""&&H1(v)===H1(j)))z.kind==="keep"&&(u[z.a]=z.b);const c=[];let h=0,g="";const x=z=>{for(;h<z;)c.push(m[h++])};for(const z of yn(o,l,(v,j)=>v===j))if(z.kind==="keep")u[z.a]>=0&&(x(u[z.a]+1),g="");else if(z.kind==="del"){const v=u[z.a];if(v<0)continue;x(v),g||(g=Di(m[v]).comment),h=v+1}else{const v=l[z.b];c.push(g&&v.trim()!==""?`${v} ${g}`:v),v.trim()!==""&&(g="")}x(m.length);const f=c.join(`
+`),b=Ti(f,n,a);return We(Bi(t,b),n)===s?f:s}function Bi(i,e){const t=e.caption??(ee(i.caption)?"":i.caption);return{...i,caption:t,elements:lt(i.elements,e.elements)}}function lt(i,e){return e.map((t,n)=>{const a=i[n];if(!a||a.type!==t.type)return t;const s={...t,zoomX:a.zoomX,zoomY:a.zoomY};return a.textColor&&(s.textColor=a.textColor),a.backgroundColor&&(s.backgroundColor=a.backgroundColor),t.loopBody&&(s.loopBody=lt(a.loopBody??[],t.loopBody)),t.cases&&(s.cases=t.cases.map((r,o)=>{var l,m;return{...r,elements:lt(((m=(l=a.cases)==null?void 0:l[o])==null?void 0:m.elements)??[],r.elements)}})),s})}const Wi="visustruct.live.target";function J3(){try{const i=localStorage.getItem(Wi);return i==="javascript"||i==="python"?i:"java"}catch{return"java"}}const oe=i=>i.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");function q3(i){let e="",t=i;for(;;){const n=t.indexOf(Re);if(n<0)break;const a=t.indexOf(wt,n);if(a<0)break;e+=oe(t.slice(0,n))+`<span class="ph">${oe(t.slice(n+1,a))}</span>`,t=t.slice(a+1)}return e+oe(t)}function K3(i,e){const t=[];let n=0;for(const a of i.split(`
+`)){const s=n+a.length,r=e.filter(m=>m.from<s+1&&m.to>n).map(m=>({...m,from:Math.max(m.from,n)-n,to:Math.min(m.to,s)-n})),o=[...new Set([0,a.length,...r.flatMap(m=>[m.from,m.to])])].filter(m=>m>=0&&m<=a.length).sort((m,u)=>m-u);let l="";for(let m=0;m<o.length-1;m++){const[u,c]=[o[m],o[m+1]],h=[...new Set(r.filter(x=>x.from<=u&&x.to>=c).map(x=>x.cls))],g=oe(a.slice(u,c));l+=h.length?`<span class="${h.join(" ")}">${g}</span>`:g}r.some(m=>m.cls==="err"&&m.from>=a.length)&&(l+='<span class="err end"> </span>'),t.push(l),n=s+1}return t}const G1=(i,e)=>i.length===e.length&&i.every((t,n)=>t===e[n]);function N1(i,e){let t;for(const n of i)e<n.from||e>n.to||(!t||n.to-n.from<t.to-t.from||n.to-n.from===t.to-t.from&&n.path.length>t.path.length)&&(t=n);return t}const $e="    ",$3=900;class e2{constructor(e,t,n,a){I(this,"element");I(this,"view");I(this,"editor");I(this,"input");I(this,"layer");I(this,"problemLine");I(this,"hint");I(this,"spans",[]);I(this,"highlighted");I(this,"html","");I(this,"target",J3());I(this,"last");I(this,"textFor",new WeakMap);I(this,"shown",new WeakMap);I(this,"parsed");I(this,"placeholders",[]);I(this,"problems",[]);I(this,"problemTimer");I(this,"showProblems",!0);this.onHide=e,this.onSelect=t,this.onCode=n,this.onUndo=a,this.element=document.createElement("aside"),this.element.className="livecode",this.build()}get labels(){return{condition:d("canvas_stub_condition"),selector:d("web_live_ph_selector"),code:d("web_live_ph_code"),start:d("inspector_for_init"),step:d("inspector_for_step"),end:d("web_live_ph_end")}}build(){this.element.innerHTML=`
       <div class="livecode-head">
-        <h2>${he(d("web_live_title"))}</h2>
-        <div class="segmented livecode-target" role="group" aria-label="${he(d("web_codegen_language"))}">
+        <h2>${oe(d("web_live_title"))}</h2>
+        <div class="segmented livecode-target" role="group" aria-label="${oe(d("web_codegen_language"))}">
           <button data-target="java">Java</button><button data-target="javascript">JavaScript</button><button data-target="python">Python</button>
         </div>
-        <button class="learn-hide" title="${he(d("web_live_hide"))}" aria-label="${he(d("web_live_hide"))}">${Se}</button>
+        <button class="learn-hide" title="${oe(d("web_live_hide"))}" aria-label="${oe(d("web_live_hide"))}">${ke}</button>
       </div>
-      <p class="hint">${he(d("web_live_hint"))}</p>
+      <p class="hint"></p>
       <pre class="code-view livecode-view" tabindex="0" dir="ltr"></pre>
-    `,this.view=this.element.querySelector(".livecode-view"),this.element.querySelector(".learn-hide").addEventListener("click",()=>this.onHide()),this.view.addEventListener("click",e=>{const t=e.target.closest(".ln");if(!t||!this.view.classList.contains("selectable"))return;const n=W3(this.spans,Number(t.dataset.line));n&&this.onSelect(n.path)});for(const e of this.element.querySelectorAll("[data-target]"))e.setAttribute("aria-pressed",String(e.dataset.target===this.target)),e.addEventListener("click",()=>this.setTarget(e.dataset.target));this.highlighted=void 0,this.html=""}setTarget(e){this.target=e;try{localStorage.setItem(va,e)}catch{}for(const t of this.element.querySelectorAll("[data-target]"))t.setAttribute("aria-pressed",String(t.dataset.target===e));this.last&&this.refresh(this.last.doc,this.last.highlight,this.last.selectable)}refresh(e,t,n){var l;this.last={doc:e,highlight:t,selectable:n};const i=ss(e,this.target,{condition:d("canvas_stub_condition"),selector:d("web_live_ph_selector"),code:d("web_live_ph_code"),start:d("inspector_for_init"),step:d("inspector_for_step"),end:d("web_live_ph_end")});this.spans=i.spans;const s=t&&i.spans.find(m=>D3(m.path,t));this.view.classList.toggle("selectable",n);const r=i.text.split(`
-`).map((m,u)=>`<div class="ln${s&&u>=s.from&&u<=s.to?" sel":""}" data-line="${u}">${T3(m)||" "}</div>`).join("");r!==this.html&&(this.view.innerHTML=r),this.html=r;const o=s?`${s.from}-${s.to}`:void 0;o&&o!==this.highlighted&&((l=this.view.querySelector(`.ln[data-line="${s.from}"]`))==null||l.scrollIntoView({block:"nearest"})),this.highlighted=o}}const H3={left:12,top:10},G3=8,g1=8e3,We=16,D1=12,wa="#fafafa";function Sa(a){const e=a.caption.trim();return e===""?d("diagram_title_placeholder"):e}function mn(a){let e=a.trim().replace(/\.visustruct$/i,"");if(e==="")return"";for(e=e.replace(/\s/g,"-").replace(/[/:\\*?"<>|]/g,"-");e.includes("--");)e=e.replace(/--/g,"-");return e=e.replace(/^-+|-+$/g,""),e.length>120&&(e=e.slice(0,120).replace(/^-+|-+$/g,"")),e}function N3(a,e){return mn(a.caption)||mn(e)||"VisuStruct"}function E3(a,e,t){const n=a.split(/\s+/),i=[];let s="";for(const r of n){const o=s?`${s} ${r}`:r;s&&t(o,We,"bold")>e?(i.push(s),s=r):s=o}if(s&&i.push(s),i.length>2){let r=i.slice(1).join(" ");for(;r.length>1&&t(r+"…",We,"bold")>e;)r=r.slice(0,-1);return[i[0],r+"…"]}return i}function un(a,e,t,n=320){const i={...a,elements:a.elements.map(r1)},s=new Pn(e,t).layout(i,H3),r=Math.min(g1,Math.max(n,s.canvasSize.width)),o=Math.min(g1,Math.max(n,s.canvasSize.height));if(r<=2||o<=2)return;const l=E3(Sa(a),r-2*D1,t),m=Math.ceil(We*1.2),u=Math.min(56,l.length*m+2),c=u+o,h=new Tn(e,t).render(s,{width:r,height:o},void 0,G3);h.setAttribute("y",String(u)),h.removeAttribute("class");const p=D("svg",{xmlns:"http://www.w3.org/2000/svg",width:r,height:c,viewBox:`0 0 ${r} ${c}`});p.append(D("rect",{x:0,y:0,width:r,height:c,fill:wa}));const x=D("text",{x:D1,y:0,"font-family":p1,"font-size":We,"font-weight":600,fill:"black"});return l.forEach((y,I)=>{const v=D("tspan",{x:D1,y:I*m+We});v.textContent=y,x.append(v)}),p.append(x,h),{svg:p,width:r,height:c}}function ka(a){return`<?xml version="1.0" encoding="UTF-8"?>
-`+new XMLSerializer().serializeToString(a.svg)}async function cn(a,e){const t=Math.max(1,Math.min(e,g1/a.width,g1/a.height)),n=URL.createObjectURL(new Blob([ka(a)],{type:"image/svg+xml"}));try{const i=new Image;i.src=n,await i.decode();const s=document.createElement("canvas");s.width=Math.round(a.width*t),s.height=Math.round(a.height*t);const r=s.getContext("2d");return r.fillStyle=wa,r.fillRect(0,0,s.width,s.height),r.drawImage(i,0,0,s.width,s.height),s}finally{URL.revokeObjectURL(n)}}function L3(a){return new Promise((e,t)=>a.toBlob(n=>n?e(n):t(new Error("PNG konnte nicht erzeugt werden.")),"image/png"))}function V3(a,e){const i=Math.max(1,a),s=Math.max(1,e),r=y=>{const I=y.width-64,v=y.height-64;return{s:Math.min(I/i,v/s)*.98,cw:I,ch:v}},o={width:595,height:842},l={width:842,height:595},m=r(o),u=r(l),[c,h]=u.s>m.s?[l,u]:[o,m],p=i*h.s,x=s*h.s;return{page:c,draw:{x:32+(h.cw-p)/2,y:32+(h.ch-x)/2,width:p,height:x}}}async function R3(a){const e=new Blob([a]).stream().pipeThrough(new CompressionStream("deflate"));return new Uint8Array(await new Response(e).arrayBuffer())}function dn(a){let e="FEFF";for(let t=0;t<a.length;t++)e+=a.charCodeAt(t).toString(16).padStart(4,"0").toUpperCase();return`<${e}>`}async function U3(a,e,t,n,i){const{page:s,draw:r}=V3(n.width,n.height),o=await R3(a),l=v=>(Math.round(v*100)/100).toString(),m=`q ${l(r.width)} 0 0 ${l(r.height)} ${l(r.x)} ${l(s.height-r.y-r.height)} cm /Im0 Do Q`,u=new TextEncoder,c=[["<< /Type /Catalog /Pages 2 0 R >>"],["<< /Type /Pages /Kids [3 0 R] /Count 1 >>"],[`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${s.width} ${s.height}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`],[`<< /Type /XObject /Subtype /Image /Width ${e} /Height ${t} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length ${o.length} >>
+      <div class="code-view livecode-editor" dir="ltr">
+        <div class="livecode-stack">
+          <div class="livecode-layer" aria-hidden="true"></div>
+          <textarea class="livecode-input" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off"
+            aria-label="${oe(d("web_live_edit_label"))}"></textarea>
+        </div>
+      </div>
+      <p class="livecode-problem" role="status" aria-live="polite"></p>
+    `,this.view=this.element.querySelector(".livecode-view"),this.editor=this.element.querySelector(".livecode-editor"),this.input=this.element.querySelector(".livecode-input"),this.layer=this.element.querySelector(".livecode-layer"),this.problemLine=this.element.querySelector(".livecode-problem"),this.hint=this.element.querySelector(".hint"),this.element.querySelector(".learn-hide").addEventListener("click",()=>this.onHide()),this.view.addEventListener("click",e=>{const t=e.target.closest(".ln");if(!t||!this.view.classList.contains("selectable"))return;const n=N1(this.spans,Number(t.dataset.line));n&&this.onSelect(n.path)});for(const e of this.element.querySelectorAll("[data-target]"))e.setAttribute("aria-pressed",String(e.dataset.target===this.target)),e.addEventListener("click",()=>this.setTarget(e.dataset.target));this.setupEditor(),this.highlighted=void 0,this.html="",this.showMode()}setTarget(e){this.target=e;try{localStorage.setItem(Wi,e)}catch{}for(const t of this.element.querySelectorAll("[data-target]"))t.setAttribute("aria-pressed",String(t.dataset.target===e));this.showMode(),this.last&&this.refresh(this.last.doc,this.last.highlight,this.last.context)}showMode(){const e=this.target==="java";this.view.hidden=e,this.editor.hidden=!e,this.problemLine.hidden=!e,this.hint.textContent=d(e?"web_live_hint_edit":"web_live_hint")}refresh(e,t,n){this.last={doc:e,highlight:t,context:n},this.target==="java"?this.refreshEditor(e,t,n):this.refreshView(e,t,n.editable)}refreshView(e,t,n){var l;const a=at(e,this.target,this.labels);this.spans=a.spans;const s=t&&a.spans.find(m=>G1(m.path,t));this.view.classList.toggle("selectable",n);const r=a.text.split(`
+`).map((m,u)=>`<div class="ln${s&&u>=s.from&&u<=s.to?" sel":""}" data-line="${u}">${q3(m)||" "}</div>`).join("");r!==this.html&&(this.view.innerHTML=r),this.html=r;const o=s?`${s.from}-${s.to}`:void 0;o&&o!==this.highlighted&&((l=this.view.querySelector(`.ln[data-line="${s.from}"]`))==null||l.scrollIntoView({block:"nearest"})),this.highlighted=o}textForDocument(e,t){const n=this.textFor.get(e);if(n!==void 0)return n;const a=this.shown.get(t.owner);return a?X3(a.text,a.doc,e,this.labels,{subprograms:t.subprograms}):We(e,this.labels)}refreshEditor(e,t,n){var s;const a=this.textForDocument(e,n);if(this.textFor.set(e,a),this.shown.set(n.owner,{doc:e,text:a}),this.input.readOnly=!n.editable,this.input.value!==a){const r=this.input.selectionStart;this.input.value=a,document.activeElement===this.input&&this.input.setSelectionRange(Math.min(r,a.length),Math.min(r,a.length)),this.analyze(a,n)}else this.parsed||this.analyze(a,n);this.spans=a===We(e,this.labels)?at(e,"java",this.labels).spans:((s=this.parsed)==null?void 0:s.spans)??[],this.drawLayer(t)}analyze(e,t){this.parsed=Ti(e,this.labels,{subprograms:t.subprograms}),this.placeholders=this.parsed.placeholders,this.problems=this.parsed.problems}drawLayer(e){var r;const t=e&&this.spans.find(o=>G1(o.path,e)),n=this.placeholders.map(o=>({...o,cls:"ph"}));this.showProblems&&n.push(...this.problems.map(o=>({from:o.from,to:o.to,cls:"err"}))),this.layer.innerHTML=K3(this.input.value,n).map((o,l)=>`<div class="ln${t&&l>=t.from&&l<=t.to?" sel":""}">${o||" "}</div>`).join("");const a=this.showProblems?this.problems[0]:void 0;this.problemLine.textContent=a?d("web_parse_line_fmt",this.lineAt(a.from)+1,d(a.key,a.arg??"")):"";const s=t?`${t.from}-${t.to}`:void 0;s&&s!==this.highlighted&&document.activeElement!==this.input&&((r=this.layer.children[t.from])==null||r.scrollIntoView({block:"nearest"})),this.highlighted=s}lineAt(e){return this.input.value.slice(0,e).split(`
+`).length-1}codeChanged(){var m,u,c,h,g;const e=(m=this.last)==null?void 0:m.context,t=(u=this.last)==null?void 0:u.doc;if(!e||!t)return;const n=this.input.value;this.analyze(n,e);const a=Bi(t,this.parsed),s=JSON.stringify([a.caption,a.elements])===JSON.stringify([t.caption,t.elements]),r=s?t:a;this.textFor.set(r,n),this.shown.set(e.owner,{doc:r,text:n}),this.showProblems=!1,window.clearTimeout(this.problemTimer),this.problemTimer=window.setTimeout(()=>{var x;this.showProblems=!0,this.drawLayer((x=this.last)==null?void 0:x.highlight)},$3);const o=this.lineAt(this.input.selectionStart),l=(c=N1(this.parsed.spans,o))==null?void 0:c.path;s?(this.spans=this.parsed.spans,this.drawLayer((h=this.last)==null?void 0:h.highlight),l&&this.onSelect(l)):this.onCode(r,l),(g=this.layer.children[o])==null||g.scrollIntoView({block:"nearest",inline:"nearest"})}caretMoved(){var s;const{selectionStart:e,selectionEnd:t}=this.input;if(e===t){const r=this.placeholders.find(o=>e>o.from&&e<o.to);r&&this.input.setSelectionRange(r.from,r.to)}const n=N1(this.spans,this.lineAt(e)),a=(s=this.last)==null?void 0:s.highlight;n&&!this.input.readOnly&&!(a&&G1(a,n.path))&&this.onSelect(n.path)}replace(e,t,n){this.input.setRangeText(n,e,t,"end"),this.codeChanged()}setupEditor(){const e=this.input;e.addEventListener("input",()=>this.codeChanged()),e.addEventListener("scroll",()=>{e.scrollTop=0,e.scrollLeft=0});for(const t of["click","keyup"])e.addEventListener(t,()=>this.caretMoved());e.addEventListener("beforeinput",t=>{var r;if(e.readOnly)return;const{selectionStart:n,selectionEnd:a}=e;if(n!==a)return;const s=this.placeholders.find(o=>n>=o.from&&n<=o.to);if(s)if(t.inputType==="insertText"||t.inputType==="insertFromPaste"){const o=t.data??((r=t.dataTransfer)==null?void 0:r.getData("text/plain"))??"";t.preventDefault(),this.replace(s.from,s.to,o)}else(t.inputType==="deleteContentBackward"&&n>s.from||t.inputType==="deleteContentForward"&&n<s.to)&&(t.preventDefault(),this.replace(s.from,s.to,""))}),e.addEventListener("keydown",t=>{var u;if(t.isComposing)return;const n=t.metaKey||t.ctrlKey;if(n&&(t.key.toLowerCase()==="z"||t.key.toLowerCase()==="y")){t.preventDefault(),this.onUndo(t.key.toLowerCase()==="y"||t.shiftKey);return}if(e.readOnly||n||t.altKey)return;const{selectionStart:a,selectionEnd:s,value:r}=e,o=r.lastIndexOf(`
+`,a-1)+1,l=r.slice(o,a),m=/^[ \t]*/.exec(l)[0];if(t.key==="Enter"){t.preventDefault();const c=/[{:]\s*$|->\s*$/.test(l.replace(/\/\/.*$/,""));this.replace(a,s,`
+`+m+(c?$e:""))}else if(t.key==="Tab")if(t.preventDefault(),t.shiftKey){const c=((u=/^( {1,4}|\t)/.exec(r.slice(o)))==null?void 0:u[0].length)??0;c&&(e.setRangeText("",o,o+c,"preserve"),e.setSelectionRange(Math.max(o,a-c),Math.max(o,s-c)),this.codeChanged())}else this.replace(a,s,$e);else t.key==="}"&&a===s&&l.trim()===""&&l.endsWith($e)?(t.preventDefault(),this.replace(a-$e.length,a,"}")):t.key==="Escape"&&e.blur()})}}const t2={left:12,top:10},n2=8,I1=8e3,He=16,E1=12,Hi="#fafafa";function Gi(i){const e=i.caption.trim();return e===""?d("diagram_title_placeholder"):e}function zn(i){let e=i.trim().replace(/\.visustruct$/i,"");if(e==="")return"";for(e=e.replace(/\s/g,"-").replace(/[/:\\*?"<>|]/g,"-");e.includes("--");)e=e.replace(/--/g,"-");return e=e.replace(/^-+|-+$/g,""),e.length>120&&(e=e.slice(0,120).replace(/^-+|-+$/g,"")),e}function i2(i,e){return zn(i.caption)||zn(e)||"VisuStruct"}function a2(i,e,t){const n=i.split(/\s+/),a=[];let s="";for(const r of n){const o=s?`${s} ${r}`:r;s&&t(o,He,"bold")>e?(a.push(s),s=r):s=o}if(s&&a.push(s),a.length>2){let r=a.slice(1).join(" ");for(;r.length>1&&t(r+"…",He,"bold")>e;)r=r.slice(0,-1);return[a[0],r+"…"]}return a}function vn(i,e,t,n=320){const a={...i,elements:i.elements.map(m1)},s=new Vn(e,t).layout(a,t2),r=Math.min(I1,Math.max(n,s.canvasSize.width)),o=Math.min(I1,Math.max(n,s.canvasSize.height));if(r<=2||o<=2)return;const l=a2(Gi(i),r-2*E1,t),m=Math.ceil(He*1.2),u=Math.min(56,l.length*m+2),c=u+o,h=new Fn(e,t).render(s,{width:r,height:o},void 0,n2);h.setAttribute("y",String(u)),h.removeAttribute("class");const g=D("svg",{xmlns:"http://www.w3.org/2000/svg",width:r,height:c,viewBox:`0 0 ${r} ${c}`});g.append(D("rect",{x:0,y:0,width:r,height:c,fill:Hi}));const x=D("text",{x:E1,y:0,"font-family":b1,"font-size":He,"font-weight":600,fill:"black"});return l.forEach((f,b)=>{const z=D("tspan",{x:E1,y:b*m+He});z.textContent=f,x.append(z)}),g.append(x,h),{svg:g,width:r,height:c}}function Ni(i){return`<?xml version="1.0" encoding="UTF-8"?>
+`+new XMLSerializer().serializeToString(i.svg)}async function wn(i,e){const t=Math.max(1,Math.min(e,I1/i.width,I1/i.height)),n=URL.createObjectURL(new Blob([Ni(i)],{type:"image/svg+xml"}));try{const a=new Image;a.src=n,await a.decode();const s=document.createElement("canvas");s.width=Math.round(i.width*t),s.height=Math.round(i.height*t);const r=s.getContext("2d");return r.fillStyle=Hi,r.fillRect(0,0,s.width,s.height),r.drawImage(a,0,0,s.width,s.height),s}finally{URL.revokeObjectURL(n)}}function s2(i){return new Promise((e,t)=>i.toBlob(n=>n?e(n):t(new Error("PNG konnte nicht erzeugt werden.")),"image/png"))}function r2(i,e){const a=Math.max(1,i),s=Math.max(1,e),r=f=>{const b=f.width-64,z=f.height-64;return{s:Math.min(b/a,z/s)*.98,cw:b,ch:z}},o={width:595,height:842},l={width:842,height:595},m=r(o),u=r(l),[c,h]=u.s>m.s?[l,u]:[o,m],g=a*h.s,x=s*h.s;return{page:c,draw:{x:32+(h.cw-g)/2,y:32+(h.ch-x)/2,width:g,height:x}}}async function o2(i){const e=new Blob([i]).stream().pipeThrough(new CompressionStream("deflate"));return new Uint8Array(await new Response(e).arrayBuffer())}function Sn(i){let e="FEFF";for(let t=0;t<i.length;t++)e+=i.charCodeAt(t).toString(16).padStart(4,"0").toUpperCase();return`<${e}>`}async function l2(i,e,t,n,a){const{page:s,draw:r}=r2(n.width,n.height),o=await o2(i),l=z=>(Math.round(z*100)/100).toString(),m=`q ${l(r.width)} 0 0 ${l(r.height)} ${l(r.x)} ${l(s.height-r.y-r.height)} cm /Im0 Do Q`,u=new TextEncoder,c=[["<< /Type /Catalog /Pages 2 0 R >>"],["<< /Type /Pages /Kids [3 0 R] /Count 1 >>"],[`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${s.width} ${s.height}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`],[`<< /Type /XObject /Subtype /Image /Width ${e} /Height ${t} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /FlateDecode /Length ${o.length} >>
 stream
 `,o,`
 endstream`],[`<< /Length ${m.length} >>
 stream
 ${m}
-endstream`],[`<< /Creator ${dn("VisuStruct")} /Title ${dn(i)} >>`]],h=[];let p=0;const x=v=>{const w=typeof v=="string"?u.encode(v):v;h.push(w),p+=w.length};x(`%PDF-1.4
+endstream`],[`<< /Creator ${Sn("VisuStruct")} /Title ${Sn(a)} >>`]],h=[];let g=0;const x=z=>{const v=typeof z=="string"?u.encode(z):z;h.push(v),g+=v.length};x(`%PDF-1.4
 %âãÏÓ
-`);const y=[];c.forEach((v,w)=>{y.push(p),x(`${w+1} 0 obj
-`),v.forEach(x),x(`
+`);const f=[];c.forEach((z,v)=>{f.push(g),x(`${v+1} 0 obj
+`),z.forEach(x),x(`
 endobj
-`)});const I=p;x(`xref
+`)});const b=g;x(`xref
 0 ${c.length+1}
 0000000000 65535 f 
-`);for(const v of y)x(`${String(v).padStart(10,"0")} 00000 n 
+`);for(const z of f)x(`${String(z).padStart(10,"0")} 00000 n 
 `);return x(`trailer
 << /Size ${c.length+1} /Root 1 0 R /Info ${c.length} 0 R >>
 startxref
-${I}
+${b}
 %%EOF
-`),new Blob(h,{type:"application/pdf"})}function F3(a){const{data:e}=a.getContext("2d").getImageData(0,0,a.width,a.height),t=new Uint8Array(a.width*a.height*3);for(let n=0,i=0;n<e.length;n+=4,i+=3)t[i]=e[n],t[i+1]=e[n+1],t[i+2]=e[n+2];return t}const hn=()=>[{description:d("web_file_type"),accept:{"application/xml":[".visustruct",".strk"]}}],W1=a=>d(`element_${g[a]}`),Y3={[g.verzweigung]:"age >= 18",[g.whileSchleife]:"i < 10",[g.doUntilSchleife]:"again == 1",[g.fallauswahl]:"day"},O3={statement:'int number = 5  |  double x = 1.5  |  String text = "Your text"  |  boolean ok = true  |  const double PI = 3.14',input:'input: int age "Enter age"  |  input: double price "Enter price"  |  input: String name "Enter name"',output:'output: number  |  output: "Your text"  |  output: "Your age: " + age'};function gn(a){switch(a.type){case g.anweisung:{const e=i1(a.textLines.join(`
-`));return e==="input"?"input:":e==="output"?"output:":void 0}case g.verzweigung:return"if";case g.whileSchleife:case g.doUntilSchleife:return"while";case g.fallauswahl:return"switch";default:return}}function Q3(a){switch(a.type){case g.anweisung:{const e=i1(a.textLines.join(`
-`));return e==="input"?'int age "Enter age"':e==="output"?'"Your age: " + age':d("inspector_placeholder_statement")}case g.verzweigung:case g.whileSchleife:case g.doUntilSchleife:case g.endlosschleife:return d("inspector_placeholder_condition");case g.fallauswahl:return d("inspector_placeholder_selector");case g.aufruf:return d("inspector_placeholder_call");case g.aussprung:return d("inspector_placeholder_break");default:return""}}function P(a,e={},...t){const n=document.createElement(a);for(const[i,s]of Object.entries(e))n.setAttribute(i,s);return n.append(...t),n}const pn=[{value:1,label:"settings_ui_scale_small"},{value:1.22,label:"settings_ui_scale_medium"},{value:1.5,label:"settings_ui_scale_large"},{value:1.82,label:"settings_ui_scale_extra_large"}],X3=/Mac|iPhone|iPad/.test(navigator.platform);function qe(a){const e=ke(),t=e==="pt-PT"?"pt":e==="de"?"de":"en";return`${/\/app\/(index\.html)?$/.test(location.pathname)?"../":"https://visustruct.org/"}${t}/index.html${a?`#${a}`:""}`}function ue(a,e=!1){return X3?`${e?"⇧":""}⌘${a}`:[d("web_key_ctrl"),...e?[d("web_key_shift")]:[],a].join("+")}const k=e2,xn="visustruct.ui.scale.canvas",In="visustruct.learn.open",J3="visustruct.learn.width",bn="visustruct.live.open",q3="visustruct.live.width",fn="visustruct.editor.hidden",K3=80;class $3{constructor(e){b(this,"tabs",[]);b(this,"tabIndex",0);b(this,"nextTabSerial",1);b(this,"clipboard");b(this,"zoom",1);b(this,"simulating",!1);b(this,"exportSelect");b(this,"learn");b(this,"shell");b(this,"railButton");b(this,"liveRailButton");b(this,"editorRailButton");b(this,"topbar",P("div",{class:"topbar"}));b(this,"editorHidden",!1);b(this,"exerciseSaveTimer");b(this,"resizeObserver");b(this,"renderedHostSize",{width:-1,height:-1});b(this,"simPath");b(this,"sim");b(this,"simButton");b(this,"coding",!1);b(this,"code");b(this,"codeButton");b(this,"liveCoding",!1);b(this,"live");b(this,"measure",Ka());b(this,"metrics",$a());b(this,"engine",new Pn(this.metrics,this.measure));b(this,"renderer",new Tn(this.metrics,this.measure));b(this,"layout");b(this,"flat",[]);b(this,"canvasHost");b(this,"svg");b(this,"overlay");b(this,"inspector");b(this,"captionInput");b(this,"undoButton");b(this,"redoButton");b(this,"deleteButton");b(this,"statusLine");b(this,"drag");b(this,"downloads",null);b(this,"inViewer","claude"in window);b(this,"tabStrip");this.root=e,this.tabs.push(this.makeTab()),this.learn=new C3(this.learnHost()),this.shell=document.createElement("div"),this.shell.className="shell",e.replaceWith(this.shell),this.live=new B3(()=>this.setLiveCoding(!1),l=>{this.selected=l,this.render()});const t=P("div",{class:"columns"});t.append(this.learnRail(),this.learn.element,this.learnResizer(),this.editorRail(),e,this.liveResizer(),this.live.element,this.liveRail()),this.shell.append(this.topbar,t);const n=Me(In),i=new URLSearchParams(location.search),s=i.has("learn");if(s){i.delete("learn");const l=i.toString();history.replaceState(history.state,"",`${location.pathname}${l?`?${l}`:""}${location.hash}`)}this.setLearning(s||(n===null?window.innerWidth>1100:n==="1"),s);const r=Number(Me(xn));pn.some(l=>l.value===r)&&(this.zoom=r),this.setLiveCoding(Me(bn)==="1"),this.setEditorHidden(Me(fn)==="1"),this.buildUI(),this.render(),window.addEventListener("pointermove",l=>this.onPointerMove(l)),window.addEventListener("pointerup",l=>this.onPointerUp(l)),window.addEventListener("pointercancel",()=>this.endDrag()),window.addEventListener("keydown",l=>this.onKeyDown(l)),window.addEventListener("beforeunload",l=>{this.tabs.some(m=>m.dirty&&!m.exerciseId)&&l.preventDefault()}),this.setupFileDrop();const o=window.claude;o==null||o.use("downloads").then(l=>this.downloads=l)}get tab(){return this.tabs[this.tabIndex]}get doc(){return this.tab.doc}set doc(e){this.tab.doc=e}get fileName(){return this.tab.fileName??`${fe(this.tab)}.visustruct`}get fileHandle(){return this.tab.fileHandle}set fileHandle(e){this.tab.fileHandle=e}get dirty(){return this.tab.dirty}set dirty(e){this.tab.dirty=e}get undoStack(){return this.tab.undoStack}get redoStack(){return this.tab.redoStack}get selected(){return this.tab.selected}set selected(e){this.tab.selected=e}buildUI(){var o;this.root.className="app",this.root.innerHTML=`
+`),new Blob(h,{type:"application/pdf"})}function m2(i){const{data:e}=i.getContext("2d").getImageData(0,0,i.width,i.height),t=new Uint8Array(i.width*i.height*3);for(let n=0,a=0;n<e.length;n+=4,a+=3)t[a]=e[n],t[a+1]=e[n+1],t[a+2]=e[n+2];return t}const kn=()=>[{description:d("web_file_type"),accept:{"application/xml":[".visustruct",".strk"]}}],L1=i=>d(`element_${p[i]}`),u2={[p.verzweigung]:"age >= 18",[p.whileSchleife]:"i < 10",[p.doUntilSchleife]:"again == 1",[p.fallauswahl]:"day"},c2={statement:'int number = 5  |  double x = 1.5  |  String text = "Your text"  |  boolean ok = true  |  const double PI = 3.14',input:'input: int age "Enter age"  |  input: double price "Enter price"  |  input: String name "Enter name"',output:'output: number  |  output: "Your text"  |  output: "Your age: " + age'};function Mn(i){switch(i.type){case p.anweisung:{const e=o1(i.textLines.join(`
+`));return e==="input"?"input:":e==="output"?"output:":void 0}case p.verzweigung:return"if";case p.whileSchleife:case p.doUntilSchleife:return"while";case p.fallauswahl:return"switch";default:return}}function d2(i){switch(i.type){case p.anweisung:{const e=o1(i.textLines.join(`
+`));return e==="input"?'int age "Enter age"':e==="output"?'"Your age: " + age':d("inspector_placeholder_statement")}case p.verzweigung:case p.whileSchleife:case p.doUntilSchleife:case p.endlosschleife:return d("inspector_placeholder_condition");case p.fallauswahl:return d("inspector_placeholder_selector");case p.aufruf:return d("inspector_placeholder_call");case p.aussprung:return d("inspector_placeholder_break");default:return""}}function P(i,e={},...t){const n=document.createElement(i);for(const[a,s]of Object.entries(e))n.setAttribute(a,s);return n.append(...t),n}const Zn=[{value:1,label:"settings_ui_scale_small"},{value:1.22,label:"settings_ui_scale_medium"},{value:1.5,label:"settings_ui_scale_large"},{value:1.82,label:"settings_ui_scale_extra_large"}],h2=/Mac|iPhone|iPad/.test(navigator.platform);function e1(i){const e=Me(),t=e==="pt-PT"?"pt":e==="de"?"de":"en";return`${/\/app\/(index\.html)?$/.test(location.pathname)?"../":"https://visustruct.org/"}${t}/index.html${i?`#${i}`:""}`}function he(i,e=!1){return h2?`${e?"⇧":""}⌘${i}`:[d("web_key_ctrl"),...e?[d("web_key_shift")]:[],i].join("+")}const k=b2,_n="visustruct.ui.scale.canvas",jn="visustruct.learn.open",g2="visustruct.learn.width",Pn="visustruct.live.open",p2="visustruct.live.width",Cn="visustruct.editor.hidden",x2=80;class I2{constructor(e){I(this,"tabs",[]);I(this,"tabIndex",0);I(this,"nextTabSerial",1);I(this,"clipboard");I(this,"zoom",1);I(this,"simulating",!1);I(this,"exportSelect");I(this,"learn");I(this,"shell");I(this,"railButton");I(this,"liveRailButton");I(this,"editorRailButton");I(this,"topbar",P("div",{class:"topbar"}));I(this,"editorHidden",!1);I(this,"exerciseSaveTimer");I(this,"resizeObserver");I(this,"renderedHostSize",{width:-1,height:-1});I(this,"simPath");I(this,"sim");I(this,"simButton");I(this,"coding",!1);I(this,"code");I(this,"codeButton");I(this,"liveCoding",!1);I(this,"codeTyping");I(this,"live");I(this,"measure",da());I(this,"metrics",ha());I(this,"engine",new Vn(this.metrics,this.measure));I(this,"renderer",new Fn(this.metrics,this.measure));I(this,"layout");I(this,"flat",[]);I(this,"canvasHost");I(this,"svg");I(this,"overlay");I(this,"inspector");I(this,"captionInput");I(this,"undoButton");I(this,"redoButton");I(this,"deleteButton");I(this,"statusLine");I(this,"drag");I(this,"downloads",null);I(this,"inViewer","claude"in window);I(this,"tabStrip");this.root=e,this.tabs.push(this.makeTab()),this.learn=new U3(this.learnHost()),this.shell=document.createElement("div"),this.shell.className="shell",e.replaceWith(this.shell),this.live=new e2(()=>this.setLiveCoding(!1),l=>{this.selected=l,this.render()},(l,m)=>this.commitFromCode(l,m),l=>l?this.redo():this.undo());const t=P("div",{class:"columns"});t.append(this.learnRail(),this.learn.element,this.learnResizer(),this.editorRail(),e,this.liveResizer(),this.live.element,this.liveRail()),this.shell.append(this.topbar,t);const n=Ze(jn),a=new URLSearchParams(location.search),s=a.has("learn");if(s){a.delete("learn");const l=a.toString();history.replaceState(history.state,"",`${location.pathname}${l?`?${l}`:""}${location.hash}`)}this.setLearning(s||(n===null?window.innerWidth>1100:n==="1"),s);const r=Number(Ze(_n));Zn.some(l=>l.value===r)&&(this.zoom=r),this.setLiveCoding(Ze(Pn)==="1"),this.setEditorHidden(Ze(Cn)==="1"),this.buildUI(),this.render(),window.addEventListener("pointermove",l=>this.onPointerMove(l)),window.addEventListener("pointerup",l=>this.onPointerUp(l)),window.addEventListener("pointercancel",()=>this.endDrag()),window.addEventListener("keydown",l=>this.onKeyDown(l)),window.addEventListener("beforeunload",l=>{this.tabs.some(m=>m.dirty&&!m.exerciseId)&&l.preventDefault()}),this.setupFileDrop();const o=window.claude;o==null||o.use("downloads").then(l=>this.downloads=l)}get tab(){return this.tabs[this.tabIndex]}get doc(){return this.tab.doc}set doc(e){this.tab.doc=e}get fileName(){return this.tab.fileName??`${ye(this.tab)}.visustruct`}get fileHandle(){return this.tab.fileHandle}set fileHandle(e){this.tab.fileHandle=e}get dirty(){return this.tab.dirty}set dirty(e){this.tab.dirty=e}get undoStack(){return this.tab.undoStack}get redoStack(){return this.tab.redoStack}get selected(){return this.tab.selected}set selected(e){this.tab.selected=e}buildUI(){var o;this.root.className="app",this.root.innerHTML=`
       <header class="toolbar">
-        <a class="brand" href="${k(qe())}" title="${k(d("web_site_home"))}"><span class="logo"></span>VisuStruct <small>${k(d("web_brand_suffix"))}</small></a>
+        <a class="brand" href="${k(e1())}" title="${k(d("web_site_home"))}"><span class="logo"></span>VisuStruct <small>${k(d("web_brand_suffix"))}</small></a>
         <div class="group">
           <button data-action="new" title="${k(d("a11y_new_diagram_tab"))}">${k(d("toolbar_new"))}</button>
-          <button data-action="open" title="${k(d("menu_open"))} (${ue("O")})">${k(d("menu_open"))}</button>
-          <button data-action="save" title="${k(d("menu_save"))} (${ue("S")})">${k(d("menu_save"))}</button>
+          <button data-action="open" title="${k(d("menu_open"))} (${he("O")})">${k(d("menu_open"))}</button>
+          <button data-action="save" title="${k(d("menu_save"))} (${he("S")})">${k(d("menu_save"))}</button>
           <select data-action="export" title="${k(d("web_export_title"))}">
             <option value="">${k(d("web_export"))}</option>
             <option value="png">${k(d("web_export_png"))}</option>
             <option value="svg">${k(d("web_export_svg"))}</option>
             <option value="pdf">${k(d("web_export_pdf"))}</option>
-            <option value="print">${k(d("menu_print"))} (${ue("P")})</option>
+            <option value="print">${k(d("menu_print"))} (${he("P")})</option>
           </select>
         </div>
         <div class="group">
-          <button data-action="undo" title="${k(d("toolbar_undo"))} (${ue("Z")})" aria-label="${k(d("toolbar_undo"))}">↶</button>
-          <button data-action="redo" title="${k(d("toolbar_redo"))} (${ue("Z",!0)})" aria-label="${k(d("toolbar_redo"))}">↷</button>
-          <button data-action="cut" title="${k(d("ctx_cut"))} (${ue("X")})" aria-label="${k(d("ctx_cut"))}">✂︎</button>
-          <button data-action="copy" title="${k(d("ctx_copy"))} (${ue("C")})" aria-label="${k(d("ctx_copy"))}">⧉</button>
-          <button data-action="paste" title="${k(d("ctx_paste"))} (${ue("V")})" aria-label="${k(d("ctx_paste"))}">📋︎</button>
+          <button data-action="undo" title="${k(d("toolbar_undo"))} (${he("Z")})" aria-label="${k(d("toolbar_undo"))}">↶</button>
+          <button data-action="redo" title="${k(d("toolbar_redo"))} (${he("Z",!0)})" aria-label="${k(d("toolbar_redo"))}">↷</button>
+          <button data-action="cut" title="${k(d("ctx_cut"))} (${he("X")})" aria-label="${k(d("ctx_cut"))}">✂︎</button>
+          <button data-action="copy" title="${k(d("ctx_copy"))} (${he("C")})" aria-label="${k(d("ctx_copy"))}">⧉</button>
+          <button data-action="paste" title="${k(d("ctx_paste"))} (${he("V")})" aria-label="${k(d("ctx_paste"))}">📋︎</button>
           <button data-action="delete" title="${k(d("action_delete_selection"))} (${k(d("web_key_delete"))})">${k(d("web_delete"))}</button>
         </div>
         <div class="group">
-          <select data-action="zoom" title="${k(d("settings_ui_scale_section"))}">${pn.map(l=>`<option value="${l.value}">${k(d("web_zoom_option_fmt",d(l.label)))}</option>`).join("")}</select>
-          <select data-action="language" title="${k(d("web_language_title"))}" aria-label="${k(d("web_language_title"))}">${Wn.map(l=>`<option value="${l.code}" lang="${l.code==="java"?"en":l.code}">${k(l.name)}</option>`).join("")}</select>
+          <select data-action="zoom" title="${k(d("settings_ui_scale_section"))}">${Zn.map(l=>`<option value="${l.value}">${k(d("web_zoom_option_fmt",d(l.label)))}</option>`).join("")}</select>
+          <select data-action="language" title="${k(d("web_language_title"))}" aria-label="${k(d("web_language_title"))}">${On.map(l=>`<option value="${l.code}" lang="${l.code==="java"?"en":l.code}">${k(l.name)}</option>`).join("")}</select>
         </div>
         <div class="group">
           <button data-action="code" aria-pressed="false" title="${k(d("a11y_generate_code"))}">{ } Code</button>
@@ -20952,19 +20973,19 @@ ${I}
       <footer class="statusbar">
         <span class="status"></span>
         <nav class="site-links" aria-label="VisuStruct">
-          <a href="${k(qe())}">${k(d("web_site_home"))}</a>
-          <a href="${k(qe("contact"))}" target="_blank" rel="noopener">${k(d("web_site_imprint"))}</a>
-          <a href="${k(qe("privacy"))}" target="_blank" rel="noopener">${k(d("web_site_privacy"))}</a>
+          <a href="${k(e1())}">${k(d("web_site_home"))}</a>
+          <a href="${k(e1("contact"))}" target="_blank" rel="noopener">${k(d("web_site_imprint"))}</a>
+          <a href="${k(e1("privacy"))}" target="_blank" rel="noopener">${k(d("web_site_privacy"))}</a>
         </nav>
       </footer>
       <input type="file" accept=".visustruct,.strk,.xml" hidden />
-    `,this.topbar.replaceChildren(this.root.querySelector(".toolbar"));const e=l=>this.root.querySelector(l)??this.topbar.querySelector(l);this.canvasHost=e(".canvas"),this.inspector=e(".inspector"),this.captionInput=e(".caption"),this.undoButton=e("[data-action=undo]"),this.redoButton=e("[data-action=redo]"),this.deleteButton=e("[data-action=delete]"),this.statusLine=e(".status"),this.simButton=e("[data-action=simulate]"),this.sim=new w3(()=>this.doc,l=>{this.simPath=l,this.simulating&&this.renderDiagramOnly(),this.scrollToSimPath()},l=>this.findSubprogram(l),()=>this.setSimulating(!1)),this.root.append(this.sim.element),this.simButton.addEventListener("click",()=>this.setSimulating(!this.simulating)),this.codeButton=e("[data-action=code]"),this.code=new ps(()=>this.doc,(l,m)=>this.offerDownload(l,new Blob([m],{type:"text/plain"})),()=>this.setCoding(!1),l=>this.commit({...this.doc,pseudocode:l||void 0}),()=>this.tabs.filter(l=>l!==this.tab&&pe(l.doc.caption)).map(l=>l.doc)),this.root.append(this.code.element),this.codeButton.addEventListener("click",()=>this.setCoding(!this.coding));const t=e(".palette ul");for(const{item:l}of Zt){const m=W1(Ye(l).type),u=document.createElement("li");u.className="palette-item",u.dataset.item=l,u.append(this.paletteIcon(l),document.createTextNode(m)),u.addEventListener("pointerdown",c=>this.beginDrag(c,{kind:"palette",item:l})),u.tabIndex=0,u.addEventListener("keydown",c=>{(c.key==="Enter"||c.key===" ")&&this.insertNearSelection(Ye(l))}),t.append(u)}this.tabStrip=e(".tabs"),this.exportSelect=e("[data-action=export]"),this.exportSelect.addEventListener("change",()=>{const l=this.exportSelect.value;this.exportSelect.value="",l&&this.exportDiagram(l)});const n=e("[data-action=language]");n.value=ke(),n.addEventListener("change",()=>void this.changeLanguage(n.value));const i=e("[data-action=zoom]");i.value=String(this.zoom),i.addEventListener("change",()=>{this.zoom=Number(i.value),Ze(xn,i.value),this.renderDiagramOnly()}),e("[data-action=cut]").addEventListener("click",()=>this.cutSelection()),e("[data-action=copy]").addEventListener("click",()=>this.copySelection()),e("[data-action=paste]").addEventListener("click",()=>this.paste());const s=e("input[type=file]");s.addEventListener("change",async()=>{var m;const l=(m=s.files)==null?void 0:m[0];s.value="",l&&this.loadXML(await l.text(),l.name)}),e("[data-action=new]").addEventListener("click",()=>this.addTab()),e("[data-action=open]").addEventListener("click",()=>this.open(s)),e("[data-action=save]").addEventListener("click",()=>this.save()),this.undoButton.addEventListener("click",()=>this.undo()),this.redoButton.addEventListener("click",()=>this.redo()),this.deleteButton.addEventListener("click",()=>this.deleteSelection());let r;this.captionInput.addEventListener("focus",()=>r=this.doc),this.captionInput.addEventListener("input",()=>{this.doc={...this.doc,caption:this.captionInput.value},this.dirty=!0,this.updateStatus()}),this.captionInput.addEventListener("change",()=>{r&&r.caption!==this.doc.caption&&this.pushUndo(r),r=this.doc}),this.canvasHost.addEventListener("pointerdown",l=>this.onCanvasPointerDown(l)),(o=this.resizeObserver)==null||o.disconnect(),this.resizeObserver=new ResizeObserver(()=>{const{clientWidth:l,clientHeight:m}=this.canvasHost;l===this.renderedHostSize.width&&m===this.renderedHostSize.height||this.renderDiagramOnly()}),this.resizeObserver.observe(this.canvasHost)}async changeLanguage(e){this.setSimulating(!1),this.setCoding(!1),await Nn(e),Ma(),this.sim.end(),this.live.build(),this.buildUI(),this.render(),this.learn.render(),this.labelLearnRail(),this.labelLiveRail(),this.labelEditorRail()}setLearning(e,t=!0){this.shell.classList.toggle("learning",e),t&&Ze(In,e?"1":"0"),this.keepAColumnOpen(),this.canvasHost&&this.renderDiagramOnly()}setEditorHidden(e){this.editorHidden=e,this.shell.classList.toggle("editor-hidden",e),Ze(fn,e?"1":"0"),e&&!this.liveCoding&&!this.shell.classList.contains("learning")&&this.setLiveCoding(!0),!e&&this.canvasHost&&this.render()}keepAColumnOpen(){this.editorHidden&&!this.liveCoding&&!this.shell.classList.contains("learning")&&this.setEditorHidden(!1)}editorRail(){return this.editorRailButton=P("button",{class:"learn-rail editor-rail"}),this.labelEditorRail(),this.editorRailButton.addEventListener("click",()=>this.setEditorHidden(!1)),this.editorRailButton}labelEditorRail(){this.editorRailButton&&(this.editorRailButton.title=d("web_editor_show"),this.editorRailButton.innerHTML=`${Se}<span>✎ ${k(d("web_editor_title"))}</span>`)}learnRail(){return this.railButton=P("button",{class:"learn-rail"}),this.labelLearnRail(),this.railButton.addEventListener("click",()=>this.setLearning(!0)),this.railButton}liveRail(){return this.liveRailButton=P("button",{class:"learn-rail live-rail"}),this.labelLiveRail(),this.liveRailButton.addEventListener("click",()=>this.setLiveCoding(!0)),this.liveRailButton}labelLiveRail(){this.liveRailButton&&(this.liveRailButton.title=d("web_live_show"),this.liveRailButton.innerHTML=`${Se}<span>&lt;/&gt; ${k(d("web_live_title"))}</span>`)}labelLearnRail(){this.railButton&&(this.railButton.title=d("web_learn_show"),this.railButton.innerHTML=`${Se}<span>🎓 ${k(d("web_learn_title"))}</span>`)}learnHost(){return{collapse:()=>this.setLearning(!1),openExercise:(e,t)=>{this.setEditorHidden(!1);const n=this.tabs.findIndex(s=>s.exerciseId===e.id);if(n>=0){this.switchTab(n),this.setSimulating(!1);return}const i=this.makeTab();i.doc=t,i.exerciseId=e.id,i.selected=t.elements.length>0?[0]:void 0,this.isPristine(this.tab)?this.tabs[this.tabIndex]=i:this.tabs.push(i),this.tabIndex=this.tabs.indexOf(i),this.setSimulating(!1),this.render()},openDiagram:(e,t)=>{this.setEditorHidden(!1),this.loadXML(M1(e),e.caption.trim()?`${e.caption.trim()}.visustruct`:t)},exerciseDocument:e=>{var t;return(t=this.tabs.find(n=>n.exerciseId===e))==null?void 0:t.doc},subprogramsFor:e=>{const t=this.tabs.find(n=>n.exerciseId===e);return n=>this.findSubprogram(n,t)},stopSimulation:()=>this.setSimulating(!1),resetExercise:(e,t)=>{const n=this.tabs.find(i=>i.exerciseId===e);n&&(n.undoStack.push(n.doc),n.doc=t,n.redoStack=[],n.selected=[0],n===this.tab&&this.render())},preview:e=>{const t=un(e,this.metrics,this.measure,0);if(!t)return;const n=t.svg.getAttribute("width");return n&&(t.svg.style.maxWidth=`${n}px`),t.svg.removeAttribute("width"),t.svg.removeAttribute("height"),t.svg}}}isPristine(e){return!e.dirty&&!e.fileName&&!e.exerciseId&&e.undoStack.length===0}rememberExercise(){const e=this.tab;e.exerciseId&&(clearTimeout(this.exerciseSaveTimer),this.exerciseSaveTimer=window.setTimeout(()=>{e.exerciseId&&G.updateExercise(e.exerciseId,{xml:M1(e.doc)})},300))}paletteIcon(e){const t=D("svg",{viewBox:"0 0 28 20",width:28,height:20,class:"icon"}),n={fill:"none",stroke:"currentColor","stroke-width":1.5};t.append(D("rect",{x:1,y:1,width:26,height:18,...n}));const i=s=>t.append(D("path",{d:s,...n}));switch(e){case"verzweigung":i("M1 1 L14 10 L27 1 M14 10 V19");break;case"fallauswahl":i("M1 1 L20 10 L27 1 M1 10 H27 M10 10 V19 M20 10 V19");break;case"forZaehlSchleife":case"whileSchleife":i("M7 7 H27 M7 7 V19");break;case"doUntilSchleife":i("M7 1 V13 H27");break;case"endlosschleife":i("M7 6 H27 M7 6 V14 H27");break;case"aufruf":i("M5 1 V19 M23 1 V19");break;case"aussprung":i("M6 1 L1 10 L6 19");break}return t}render(){const e={...this.doc,elements:this.doc.elements.map(r1)};this.layout=this.engine.layout(e),this.flat=si(this.layout.elements),this.selected&&!$(this.doc,this.selected)&&(this.selected=void 0);const t=this.zoom,n=this.canvasHost;this.renderedHostSize={width:n.clientWidth,height:n.clientHeight};const i={width:Math.max(320,this.layout.canvasSize.width,Math.floor(n.clientWidth/t)),height:Math.max(240,this.layout.canvasSize.height+60,Math.floor(n.clientHeight/t))};this.renderer.usesSimulationHighlight=this.simulating,this.svg=this.renderer.render(this.layout,i,this.simulating?this.simPath:this.selected),this.svg.setAttribute("width",String(Math.floor(i.width*t))),this.svg.setAttribute("height",String(Math.floor(i.height*t))),this.overlay=D("g",{class:"drop-overlay"}),this.svg.append(this.overlay),this.canvasHost.replaceChildren(this.svg),document.activeElement!==this.captionInput&&(this.captionInput.value=this.doc.caption),this.undoButton.disabled=this.simulating||this.undoStack.length===0,this.redoButton.disabled=this.simulating||this.redoStack.length===0,this.deleteButton.disabled=this.simulating||!this.selected||!S1(this.doc,this.selected),this.captionInput.readOnly=this.simulating,this.codeButton.disabled=this.simulating,this.exportSelect.disabled=this.simulating,this.coding&&this.code.refresh(),this.liveCoding&&this.live.refresh(this.doc,this.simulating?this.simPath:this.selected,!this.simulating),this.renderTabs(),this.renderInspector(),this.updateStatus()}updateStatus(){this.rememberExercise(),document.title=`${this.dirty?"• ":""}${this.fileName} – VisuStruct Web`,this.statusLine.textContent=`${this.fileName}${this.dirty?` (${d("web_status_modified")})`:""}`}renderInspector(){const e=this.selected,t=e?$(this.doc,e):void 0,n=this.inspector;if(!e||!t){n.replaceChildren(P("h2",{},d("web_inspector_title")),P("p",{class:"hint"},d("inspector_no_selection")),P("p",{class:"hint"},d("web_inspector_help_drop")),P("p",{class:"hint"},d("web_inspector_help_files")));return}if(n.replaceChildren(P("h2",{},`${d("web_inspector_title")} · ${W1(t.type)}`)),t.type===g.anweisung){const i=i1(t.textLines.join(`
-`)),s=P("div",{class:"segmented",role:"group","aria-label":d("inspector_io_mode_title")});for(const[r,o]of[["statement",d("inspector_io_mode_statement")],["input",d("inspector_io_mode_input")],["output",d("inspector_io_mode_output")]]){const l=P("button",{"aria-pressed":String(r===i)},o);l.addEventListener("click",()=>{var c,h;const m=((c=$(this.doc,e))==null?void 0:c.textLines.join(`
-`))??"";if(r===i1(m))return;const u=Ya(r,m);this.commit(w1(this.doc,e,u.split(`
-`))),(h=this.inspector.querySelector("textarea"))==null||h.focus()}),s.append(l)}n.append(s,P("p",{class:"hint mono-hint"},O3[i]))}if(t.type===g.forSchleife){const i=P("div",{class:"for-fields"}),s=St(t.textLines);[[d("inspector_for_init"),d("inspector_for_placeholder_init")],[d("inspector_for_condition"),d("inspector_for_placeholder_condition")],[d("inspector_for_step"),d("inspector_for_placeholder_step")]].forEach(([o,l],m)=>{const u=P("input",{placeholder:l,spellcheck:"false",autocomplete:"off"});u.value=s[m],this.liveEdit(u,c=>{const h=$(this.doc,e);if(!h)return;const p=St(h.textLines);return p[m]=Xa(c),w1(this.doc,e,p)}),i.append(P("label",{},o,u))}),n.append(i)}else if(t.type!==g.leerElement){const i=Y3[t.type];i&&n.append(P("p",{class:"hint mono-hint"},i));const s=gn(t),r=P("textarea",{rows:"3",spellcheck:"false"}),o=t.textLines.join(`
-`);r.value=s?wt(s,o):o,r.placeholder=Q3(t),r.addEventListener("focus",()=>{r.value.trim()==="ø"&&r.select()}),this.liveEdit(r,m=>{const u=gn($(this.doc,e)??t),c=u?Qa(u,wt(u,m)):m;return w1(this.doc,e,c.split(`
-`))});const l=P("div",{class:"editor-row"});s&&l.append(P("span",{class:"fixed-prefix"},s)),l.append(r),n.append(l)}this.renderCaseControls(e)}renderCaseControls(e){var l;const t=Ra(e,this.doc);if(!t)return;const n=((l=$(this.doc,t))==null?void 0:l.cases)??[],i=Ua(e,t),s=P("div",{class:"case-controls"});if(i!==void 0&&n[i]){const m=P("input",{placeholder:d("web_case_name_placeholder"),spellcheck:"false",autocomplete:"off"});m.value=n[i].name,this.liveEdit(m,u=>u.trim()===""?void 0:Va(this.doc,t,i,u)),s.append(P("label",{},d("web_case_name"),m))}const r=P("button",{},`＋ ${d("inspector_add_case")}`);r.addEventListener("click",()=>{const m=Ea(this.doc,t);this.commit(m.doc,m.path)});const o=P("button",{class:"danger-text"},`－ ${d("inspector_remove_case")}`);o.disabled=n.length<=2||i===void 0,o.addEventListener("click",()=>{if(i===void 0)return;const m=La(this.doc,t,i);this.commit(m.doc,m.path)}),s.append(P("div",{class:"group"},r,o)),this.inspector.append(s)}liveEdit(e,t){let n;e.addEventListener("focus",()=>n=this.doc),e.addEventListener("input",()=>{const i=kn(e.value);if(i!==e.value){const r=e.selectionStart;e.value=i,e.setSelectionRange(r,r)}const s=t(i);s&&(this.doc=s,this.dirty=!0,this.renderDiagramOnly())}),e.addEventListener("blur",()=>{n&&n!==this.doc&&this.pushUndo(n),n=void 0,this.renderDiagramOnly()})}renderDiagramOnly(){const e=this.selected,t=this.inspector,n=document.createElement("aside");this.inspector=n,this.render(),this.inspector=t,this.selected=e}setSimulating(e){e!==this.simulating&&(document.activeElement instanceof HTMLElement&&document.activeElement.blur(),this.endDrag(),this.simulating=e,this.root.classList.toggle("simulating",e),this.simButton.setAttribute("aria-pressed",String(e)),this.simButton.textContent=e?`✎ ${d("action_diagram")}`:`▶︎ ${d("action_simulation")}`,this.simButton.title=d(e?"web_simulation_end_title":"web_simulation_start_title"),e?(this.setCoding(!1),this.setEditorHidden(!1),this.sim.begin()):(this.sim.end(),this.simPath=void 0,!this.selected&&this.doc.elements.length>0&&(this.selected=[0])),this.render())}setCoding(e){e!==this.coding&&(e&&(this.setLiveCoding(!1),this.setEditorHidden(!1)),this.coding=e,this.root.classList.toggle("coding",e),this.codeButton.setAttribute("aria-pressed",String(e)),e?this.code.refresh():this.code.close(),this.renderDiagramOnly())}setLiveCoding(e){e&&this.coding&&this.setCoding(!1),this.liveCoding=e,this.shell.classList.toggle("live",e),Ze(bn,e?"1":"0"),this.keepAColumnOpen(),this.canvasHost&&this.render()}learnResizer(){return this.panelResizer(this.learn.element,"learn-resizer",J3,d("web_learn_resize"),1)}liveResizer(){return this.panelResizer(this.live.element,"live-resizer",q3,d("web_live_resize"),-1)}panelResizer(e,t,n,i,s){const r=P("div",{class:t,role:"separator","aria-orientation":"vertical",tabindex:"0",title:i}),o=(u,c)=>{e.style.width=u===void 0?"":`${yn(u)}px`,c&&Ze(n,u===void 0?"":String(yn(u)))},l=Number(Me(n));l>0&&o(l,!1);const m=()=>getComputedStyle(this.shell).direction==="rtl"?-s:s;return r.addEventListener("pointerdown",u=>{if(u.button!==0)return;u.preventDefault(),r.setPointerCapture(u.pointerId);const c=u.clientX,h=e.getBoundingClientRect().width,p=m();this.shell.classList.add("resizing");const x=I=>o(h+p*(I.clientX-c),!1),y=I=>{r.removeEventListener("pointermove",x),r.removeEventListener("pointerup",y),r.removeEventListener("pointercancel",y),this.shell.classList.remove("resizing"),o(h+p*(I.clientX-c),!0)};r.addEventListener("pointermove",x),r.addEventListener("pointerup",y),r.addEventListener("pointercancel",y)}),r.addEventListener("dblclick",()=>o(void 0,!0)),r.addEventListener("keydown",u=>{const c=u.key==="ArrowRight"?20:u.key==="ArrowLeft"?-20:0;c&&(u.preventDefault(),o(e.getBoundingClientRect().width+m()*c,!0))}),r}findSubprogram(e,t=this.tab){const n=B1(e);if(n==="")return;const i=this.tabs.find(s=>s!==t&&(B1(s.doc.caption)===n||B1(fe(s))===n));return i==null?void 0:i.doc}scrollToSimPath(){const e=this.simPath;if(!this.simulating||!e)return;const t=this.flat.find(o=>V1(o.idPath,e));if(!t)return;const n=this.canvasHost,i=this.zoom,s={x:t.frame.x*i,y:t.frame.y*i,width:t.frame.width*i,height:t.frame.height*i},r=24;s.y<n.scrollTop?n.scrollTop=Math.max(0,s.y-r):s.y+Math.min(s.height,n.clientHeight-2*r)>n.scrollTop+n.clientHeight&&(n.scrollTop=s.y-r),(s.x<n.scrollLeft||s.x>n.scrollLeft+n.clientWidth-r)&&(n.scrollLeft=Math.max(0,s.x-r))}commit(e,t){this.pushUndo(this.doc),this.doc=e,this.dirty=!0,t&&(this.selected=t),this.render()}pushUndo(e){for(this.undoStack.push(e);this.undoStack.length>K3;)this.undoStack.shift();this.tab.redoStack=[]}undo(){const e=this.undoStack.pop();e&&(this.redoStack.push(this.doc),this.doc=e,this.dirty=!0,this.selected=yt(this.selected,this.doc),this.render())}redo(){const e=this.redoStack.pop();e&&(this.undoStack.push(this.doc),this.doc=e,this.dirty=!0,this.selected=yt(this.selected,this.doc),this.render())}resetHistory(){this.setSimulating(!1),this.tab.undoStack=[],this.tab.redoStack=[],this.selected=void 0,this.dirty=!1,this.render()}makeTab(){return{doc:Ba(),serial:this.nextTabSerial++,dirty:!1,undoStack:[],redoStack:[],selected:[0]}}addTab(e=this.makeTab()){this.setSimulating(!1),this.tabs.push(e),this.tabIndex=this.tabs.length-1,this.render()}switchTab(e){e===this.tabIndex||!this.tabs[e]||(document.activeElement instanceof HTMLElement&&document.activeElement.blur(),this.setSimulating(!1),this.tabIndex=e,this.render())}async closeTab(e){if(this.tabs.length<=1)return;const t=this.tabs[e];t.dirty&&!t.exerciseId&&(this.switchTab(e),!await this.confirmDiscard())||(this.setSimulating(!1),this.tabs.splice(e,1),(this.tabIndex>e||this.tabIndex>=this.tabs.length)&&(this.tabIndex=Math.max(0,this.tabIndex-1)),this.render())}renderTabs(){const e=this.tabStrip;e.replaceChildren(),this.tabs.forEach((i,s)=>{const r=document.createElement("div");r.className="tab"+(s===this.tabIndex?" active":""),r.setAttribute("role","tab"),r.setAttribute("aria-selected",String(s===this.tabIndex));const o=document.createElement("button");if(o.className="tab-label",o.textContent=(i.dirty?"• ":"")+fe(i),o.title=i.fileName??fe(i),o.addEventListener("click",()=>this.switchTab(s)),r.append(o),this.tabs.length>1){const l=document.createElement("button");l.className="tab-close",l.textContent="✕",l.title=d("a11y_close_tab"),l.setAttribute("aria-label",`${d("a11y_close_tab")}: ${fe(i)}`),l.addEventListener("click",()=>this.closeTab(s)),r.append(l)}e.append(r)});const t=document.createElement("button");t.className="tab-add",t.textContent="+",t.title=d("a11y_new_diagram_tab"),t.setAttribute("aria-label",d("a11y_new_diagram_tab")),t.addEventListener("click",()=>this.addTab());const n=P("button",{class:"learn-hide editor-hide",title:d("web_editor_hide"),"aria-label":d("web_editor_hide")});n.innerHTML=Se,n.addEventListener("click",()=>this.setEditorHidden(!0)),e.append(t,n)}copySelection(){const e=this.selected&&$(this.doc,this.selected);return e?(this.clipboard=structuredClone(e),this.showMessage(d("web_copied")),!0):!1}cutSelection(){this.selected&&S1(this.doc,this.selected)&&this.copySelection()&&this.deleteSelection()}paste(){this.clipboard&&this.insertNearSelection(structuredClone(this.clipboard))}deleteSelection(){!this.selected||!S1(this.doc,this.selected)||(this.commit(He(this.doc,this.selected)),this.selected=void 0,this.render())}insertNearSelection(e){const t=this.selected;if(t&&ve(this.doc,t))return this.commit(ge(this.doc,t,e),t);if(t){const n=[...t.slice(0,-1),t[t.length-1]+1];return this.commit(H1(this.doc,e,t),n)}if(this.doc.elements.length===1&&ve(this.doc,[0]))return this.commit(ge(this.doc,[0],e),[0]);this.commit(Ce(this.doc,[],this.doc.elements.length,e),[this.doc.elements.length])}confirmDiscard(){return this.dirty?new Promise(e=>{const t=document.createElement("div");t.className="confirm",t.innerHTML=`<div class="confirm-card" role="alertdialog" aria-label="${k(d("close_unsaved_title"))}">
+    `,this.topbar.replaceChildren(this.root.querySelector(".toolbar"));const e=l=>this.root.querySelector(l)??this.topbar.querySelector(l);this.canvasHost=e(".canvas"),this.inspector=e(".inspector"),this.captionInput=e(".caption"),this.undoButton=e("[data-action=undo]"),this.redoButton=e("[data-action=redo]"),this.deleteButton=e("[data-action=delete]"),this.statusLine=e(".status"),this.simButton=e("[data-action=simulate]"),this.sim=new W3(()=>this.doc,l=>{this.simPath=l,this.simulating&&this.renderDiagramOnly(),this.scrollToSimPath()},l=>this.findSubprogram(l),()=>this.setSimulating(!1)),this.root.append(this.sim.element),this.simButton.addEventListener("click",()=>this.setSimulating(!this.simulating)),this.codeButton=e("[data-action=code]"),this.code=new _s(()=>this.doc,(l,m)=>this.offerDownload(l,new Blob([m],{type:"text/plain"})),()=>this.setCoding(!1),l=>this.commit({...this.doc,pseudocode:l||void 0}),()=>this.tabs.filter(l=>l!==this.tab&&ee(l.doc.caption)).map(l=>l.doc)),this.root.append(this.code.element),this.codeButton.addEventListener("click",()=>this.setCoding(!this.coding));const t=e(".palette ul");for(const{item:l}of Bt){const m=L1(Qe(l).type),u=document.createElement("li");u.className="palette-item",u.dataset.item=l,u.append(this.paletteIcon(l),document.createTextNode(m)),u.addEventListener("pointerdown",c=>this.beginDrag(c,{kind:"palette",item:l})),u.tabIndex=0,u.addEventListener("keydown",c=>{(c.key==="Enter"||c.key===" ")&&this.insertNearSelection(Qe(l))}),t.append(u)}this.tabStrip=e(".tabs"),this.exportSelect=e("[data-action=export]"),this.exportSelect.addEventListener("change",()=>{const l=this.exportSelect.value;this.exportSelect.value="",l&&this.exportDiagram(l)});const n=e("[data-action=language]");n.value=Me(),n.addEventListener("change",()=>void this.changeLanguage(n.value));const a=e("[data-action=zoom]");a.value=String(this.zoom),a.addEventListener("change",()=>{this.zoom=Number(a.value),_e(_n,a.value),this.renderDiagramOnly()}),e("[data-action=cut]").addEventListener("click",()=>this.cutSelection()),e("[data-action=copy]").addEventListener("click",()=>this.copySelection()),e("[data-action=paste]").addEventListener("click",()=>this.paste());const s=e("input[type=file]");s.addEventListener("change",async()=>{var m;const l=(m=s.files)==null?void 0:m[0];s.value="",l&&this.loadXML(await l.text(),l.name)}),e("[data-action=new]").addEventListener("click",()=>this.addTab()),e("[data-action=open]").addEventListener("click",()=>this.open(s)),e("[data-action=save]").addEventListener("click",()=>this.save()),this.undoButton.addEventListener("click",()=>this.undo()),this.redoButton.addEventListener("click",()=>this.redo()),this.deleteButton.addEventListener("click",()=>this.deleteSelection());let r;this.captionInput.addEventListener("focus",()=>r=this.doc),this.captionInput.addEventListener("input",()=>{this.doc={...this.doc,caption:this.captionInput.value},this.dirty=!0,this.updateStatus()}),this.captionInput.addEventListener("change",()=>{r&&r.caption!==this.doc.caption&&this.pushUndo(r),r=this.doc}),this.canvasHost.addEventListener("pointerdown",l=>this.onCanvasPointerDown(l)),(o=this.resizeObserver)==null||o.disconnect(),this.resizeObserver=new ResizeObserver(()=>{const{clientWidth:l,clientHeight:m}=this.canvasHost;l===this.renderedHostSize.width&&m===this.renderedHostSize.height||this.renderDiagramOnly()}),this.resizeObserver.observe(this.canvasHost)}async changeLanguage(e){this.setSimulating(!1),this.setCoding(!1),await qn(e),Ei(),this.sim.end(),this.live.build(),this.buildUI(),this.render(),this.learn.render(),this.labelLearnRail(),this.labelLiveRail(),this.labelEditorRail()}setLearning(e,t=!0){this.shell.classList.toggle("learning",e),t&&_e(jn,e?"1":"0"),this.keepAColumnOpen(),this.canvasHost&&this.renderDiagramOnly()}setEditorHidden(e){this.editorHidden=e,this.shell.classList.toggle("editor-hidden",e),_e(Cn,e?"1":"0"),e&&!this.liveCoding&&!this.shell.classList.contains("learning")&&this.setLiveCoding(!0),!e&&this.canvasHost&&this.render()}keepAColumnOpen(){this.editorHidden&&!this.liveCoding&&!this.shell.classList.contains("learning")&&this.setEditorHidden(!1)}editorRail(){return this.editorRailButton=P("button",{class:"learn-rail editor-rail"}),this.labelEditorRail(),this.editorRailButton.addEventListener("click",()=>this.setEditorHidden(!1)),this.editorRailButton}labelEditorRail(){this.editorRailButton&&(this.editorRailButton.title=d("web_editor_show"),this.editorRailButton.innerHTML=`${ke}<span>✎ ${k(d("web_editor_title"))}</span>`)}learnRail(){return this.railButton=P("button",{class:"learn-rail"}),this.labelLearnRail(),this.railButton.addEventListener("click",()=>this.setLearning(!0)),this.railButton}liveRail(){return this.liveRailButton=P("button",{class:"learn-rail live-rail"}),this.labelLiveRail(),this.liveRailButton.addEventListener("click",()=>this.setLiveCoding(!0)),this.liveRailButton}labelLiveRail(){this.liveRailButton&&(this.liveRailButton.title=d("web_live_show"),this.liveRailButton.innerHTML=`${ke}<span>&lt;/&gt; ${k(d("web_live_title"))}</span>`)}labelLearnRail(){this.railButton&&(this.railButton.title=d("web_learn_show"),this.railButton.innerHTML=`${ke}<span>🎓 ${k(d("web_learn_title"))}</span>`)}learnHost(){return{collapse:()=>this.setLearning(!1),openExercise:(e,t)=>{this.setEditorHidden(!1);const n=this.tabs.findIndex(s=>s.exerciseId===e.id);if(n>=0){this.switchTab(n),this.setSimulating(!1);return}const a=this.makeTab();a.doc=t,a.exerciseId=e.id,a.selected=t.elements.length>0?[0]:void 0,this.isPristine(this.tab)?this.tabs[this.tabIndex]=a:this.tabs.push(a),this.tabIndex=this.tabs.indexOf(a),this.setSimulating(!1),this.render()},openDiagram:(e,t)=>{this.setEditorHidden(!1),this.loadXML(j1(e),e.caption.trim()?`${e.caption.trim()}.visustruct`:t)},exerciseDocument:e=>{var t;return(t=this.tabs.find(n=>n.exerciseId===e))==null?void 0:t.doc},subprogramsFor:e=>{const t=this.tabs.find(n=>n.exerciseId===e);return n=>this.findSubprogram(n,t)},stopSimulation:()=>this.setSimulating(!1),resetExercise:(e,t)=>{const n=this.tabs.find(a=>a.exerciseId===e);n&&(n.undoStack.push(n.doc),n.doc=t,n.redoStack=[],n.selected=[0],n===this.tab&&this.render())},preview:e=>{const t=vn(e,this.metrics,this.measure,0);if(!t)return;const n=t.svg.getAttribute("width");return n&&(t.svg.style.maxWidth=`${n}px`),t.svg.removeAttribute("width"),t.svg.removeAttribute("height"),t.svg}}}isPristine(e){return!e.dirty&&!e.fileName&&!e.exerciseId&&e.undoStack.length===0}rememberExercise(){const e=this.tab;e.exerciseId&&(clearTimeout(this.exerciseSaveTimer),this.exerciseSaveTimer=window.setTimeout(()=>{e.exerciseId&&G.updateExercise(e.exerciseId,{xml:j1(e.doc)})},300))}paletteIcon(e){const t=D("svg",{viewBox:"0 0 28 20",width:28,height:20,class:"icon"}),n={fill:"none",stroke:"currentColor","stroke-width":1.5};t.append(D("rect",{x:1,y:1,width:26,height:18,...n}));const a=s=>t.append(D("path",{d:s,...n}));switch(e){case"verzweigung":a("M1 1 L14 10 L27 1 M14 10 V19");break;case"fallauswahl":a("M1 1 L20 10 L27 1 M1 10 H27 M10 10 V19 M20 10 V19");break;case"forZaehlSchleife":case"whileSchleife":a("M7 7 H27 M7 7 V19");break;case"doUntilSchleife":a("M7 1 V13 H27");break;case"endlosschleife":a("M7 6 H27 M7 6 V14 H27");break;case"aufruf":a("M5 1 V19 M23 1 V19");break;case"aussprung":a("M6 1 L1 10 L6 19");break}return t}render(){const e={...this.doc,elements:this.doc.elements.map(m1)};this.layout=this.engine.layout(e),this.flat=fa(this.layout.elements),this.selected&&!$(this.doc,this.selected)&&(this.selected=void 0);const t=this.zoom,n=this.canvasHost;this.renderedHostSize={width:n.clientWidth,height:n.clientHeight};const a={width:Math.max(320,this.layout.canvasSize.width,Math.floor(n.clientWidth/t)),height:Math.max(240,this.layout.canvasSize.height+60,Math.floor(n.clientHeight/t))};this.renderer.usesSimulationHighlight=this.simulating,this.svg=this.renderer.render(this.layout,a,this.simulating?this.simPath:this.selected),this.svg.setAttribute("width",String(Math.floor(a.width*t))),this.svg.setAttribute("height",String(Math.floor(a.height*t))),this.overlay=D("g",{class:"drop-overlay"}),this.svg.append(this.overlay),this.canvasHost.replaceChildren(this.svg),document.activeElement!==this.captionInput&&(this.captionInput.value=this.doc.caption),this.undoButton.disabled=this.simulating||this.undoStack.length===0,this.redoButton.disabled=this.simulating||this.redoStack.length===0,this.deleteButton.disabled=this.simulating||!this.selected||!M1(this.doc,this.selected),this.captionInput.readOnly=this.simulating,this.codeButton.disabled=this.simulating,this.exportSelect.disabled=this.simulating,this.coding&&this.code.refresh(),this.liveCoding&&this.live.refresh(this.doc,this.simulating?this.simPath:this.selected,{owner:this.tab,subprograms:new Set(this.tabs.filter(s=>s!==this.tab).flatMap(s=>{var r;return((r=ee(s.doc.caption))==null?void 0:r.name)??[]})),editable:!this.simulating}),this.renderTabs(),this.renderInspector(),this.updateStatus()}updateStatus(){this.rememberExercise(),document.title=`${this.dirty?"• ":""}${this.fileName} – VisuStruct Web`,this.statusLine.textContent=`${this.fileName}${this.dirty?` (${d("web_status_modified")})`:""}`}renderInspector(){const e=this.selected,t=e?$(this.doc,e):void 0,n=this.inspector;if(!e||!t){n.replaceChildren(P("h2",{},d("web_inspector_title")),P("p",{class:"hint"},d("inspector_no_selection")),P("p",{class:"hint"},d("web_inspector_help_drop")),P("p",{class:"hint"},d("web_inspector_help_files")));return}if(n.replaceChildren(P("h2",{},`${d("web_inspector_title")} · ${L1(t.type)}`)),t.type===p.anweisung){const a=o1(t.textLines.join(`
+`)),s=P("div",{class:"segmented",role:"group","aria-label":d("inspector_io_mode_title")});for(const[r,o]of[["statement",d("inspector_io_mode_statement")],["input",d("inspector_io_mode_input")],["output",d("inspector_io_mode_output")]]){const l=P("button",{"aria-pressed":String(r===a)},o);l.addEventListener("click",()=>{var c,h;const m=((c=$(this.doc,e))==null?void 0:c.textLines.join(`
+`))??"";if(r===o1(m))return;const u=ra(r,m);this.commit(k1(this.doc,e,u.split(`
+`))),(h=this.inspector.querySelector("textarea"))==null||h.focus()}),s.append(l)}n.append(s,P("p",{class:"hint mono-hint"},c2[a]))}if(t.type===p.forSchleife){const a=P("div",{class:"for-fields"}),s=At(t.textLines);[[d("inspector_for_init"),d("inspector_for_placeholder_init")],[d("inspector_for_condition"),d("inspector_for_placeholder_condition")],[d("inspector_for_step"),d("inspector_for_placeholder_step")]].forEach(([o,l],m)=>{const u=P("input",{placeholder:l,spellcheck:"false",autocomplete:"off"});u.value=s[m],this.liveEdit(u,c=>{const h=$(this.doc,e);if(!h)return;const g=At(h.textLines);return g[m]=ma(c),k1(this.doc,e,g)}),a.append(P("label",{},o,u))}),n.append(a)}else if(t.type!==p.leerElement){const a=u2[t.type];a&&n.append(P("p",{class:"hint mono-hint"},a));const s=Mn(t),r=P("textarea",{rows:"3",spellcheck:"false"}),o=t.textLines.join(`
+`);r.value=s?Ct(s,o):o,r.placeholder=d2(t),r.addEventListener("focus",()=>{r.value.trim()==="ø"&&r.select()}),this.liveEdit(r,m=>{const u=Mn($(this.doc,e)??t),c=u?la(u,Ct(u,m)):m;return k1(this.doc,e,c.split(`
+`))});const l=P("div",{class:"editor-row"});s&&l.append(P("span",{class:"fixed-prefix"},s)),l.append(r),n.append(l)}this.renderCaseControls(e)}renderCaseControls(e){var l;const t=ia(e,this.doc);if(!t)return;const n=((l=$(this.doc,t))==null?void 0:l.cases)??[],a=aa(e,t),s=P("div",{class:"case-controls"});if(a!==void 0&&n[a]){const m=P("input",{placeholder:d("web_case_name_placeholder"),spellcheck:"false",autocomplete:"off"});m.value=n[a].name,this.liveEdit(m,u=>u.trim()===""?void 0:na(this.doc,t,a,u)),s.append(P("label",{},d("web_case_name"),m))}const r=P("button",{},`＋ ${d("inspector_add_case")}`);r.addEventListener("click",()=>{const m=ea(this.doc,t);this.commit(m.doc,m.path)});const o=P("button",{class:"danger-text"},`－ ${d("inspector_remove_case")}`);o.disabled=n.length<=2||a===void 0,o.addEventListener("click",()=>{if(a===void 0)return;const m=ta(this.doc,t,a);this.commit(m.doc,m.path)}),s.append(P("div",{class:"group"},r,o)),this.inspector.append(s)}liveEdit(e,t){let n;e.addEventListener("focus",()=>n=this.doc),e.addEventListener("input",()=>{const a=Hn(e.value);if(a!==e.value){const r=e.selectionStart;e.value=a,e.setSelectionRange(r,r)}const s=t(a);s&&(this.doc=s,this.dirty=!0,this.renderDiagramOnly())}),e.addEventListener("blur",()=>{n&&n!==this.doc&&this.pushUndo(n),n=void 0,this.renderDiagramOnly()})}renderDiagramOnly(){const e=this.selected,t=this.inspector,n=document.createElement("aside");this.inspector=n,this.render(),this.inspector=t,this.selected=e}setSimulating(e){e!==this.simulating&&(document.activeElement instanceof HTMLElement&&document.activeElement.blur(),this.endDrag(),this.simulating=e,this.root.classList.toggle("simulating",e),this.simButton.setAttribute("aria-pressed",String(e)),this.simButton.textContent=e?`✎ ${d("action_diagram")}`:`▶︎ ${d("action_simulation")}`,this.simButton.title=d(e?"web_simulation_end_title":"web_simulation_start_title"),e?(this.setCoding(!1),this.setEditorHidden(!1),this.sim.begin()):(this.sim.end(),this.simPath=void 0,!this.selected&&this.doc.elements.length>0&&(this.selected=[0])),this.render())}setCoding(e){e!==this.coding&&(e&&(this.setLiveCoding(!1),this.setEditorHidden(!1)),this.coding=e,this.root.classList.toggle("coding",e),this.codeButton.setAttribute("aria-pressed",String(e)),e?this.code.refresh():this.code.close(),this.renderDiagramOnly())}setLiveCoding(e){e&&this.coding&&this.setCoding(!1),this.liveCoding=e,this.shell.classList.toggle("live",e),_e(Pn,e?"1":"0"),this.keepAColumnOpen(),this.canvasHost&&this.render()}learnResizer(){return this.panelResizer(this.learn.element,"learn-resizer",g2,d("web_learn_resize"),1)}liveResizer(){return this.panelResizer(this.live.element,"live-resizer",p2,d("web_live_resize"),-1)}panelResizer(e,t,n,a,s){const r=P("div",{class:t,role:"separator","aria-orientation":"vertical",tabindex:"0",title:a}),o=(u,c)=>{e.style.width=u===void 0?"":`${An(u)}px`,c&&_e(n,u===void 0?"":String(An(u)))},l=Number(Ze(n));l>0&&o(l,!1);const m=()=>getComputedStyle(this.shell).direction==="rtl"?-s:s;return r.addEventListener("pointerdown",u=>{if(u.button!==0)return;u.preventDefault(),r.setPointerCapture(u.pointerId);const c=u.clientX,h=e.getBoundingClientRect().width,g=m();this.shell.classList.add("resizing");const x=b=>o(h+g*(b.clientX-c),!1),f=b=>{r.removeEventListener("pointermove",x),r.removeEventListener("pointerup",f),r.removeEventListener("pointercancel",f),this.shell.classList.remove("resizing"),o(h+g*(b.clientX-c),!0)};r.addEventListener("pointermove",x),r.addEventListener("pointerup",f),r.addEventListener("pointercancel",f)}),r.addEventListener("dblclick",()=>o(void 0,!0)),r.addEventListener("keydown",u=>{const c=u.key==="ArrowRight"?20:u.key==="ArrowLeft"?-20:0;c&&(u.preventDefault(),o(e.getBoundingClientRect().width+m()*c,!0))}),r}findSubprogram(e,t=this.tab){const n=V1(e);if(n==="")return;const a=this.tabs.find(s=>s!==t&&(V1(s.doc.caption)===n||V1(ye(s))===n));return a==null?void 0:a.doc}scrollToSimPath(){const e=this.simPath;if(!this.simulating||!e)return;const t=this.flat.find(o=>Q1(o.idPath,e));if(!t)return;const n=this.canvasHost,a=this.zoom,s={x:t.frame.x*a,y:t.frame.y*a,width:t.frame.width*a,height:t.frame.height*a},r=24;s.y<n.scrollTop?n.scrollTop=Math.max(0,s.y-r):s.y+Math.min(s.height,n.clientHeight-2*r)>n.scrollTop+n.clientHeight&&(n.scrollTop=s.y-r),(s.x<n.scrollLeft||s.x>n.scrollLeft+n.clientWidth-r)&&(n.scrollLeft=Math.max(0,s.x-r))}commit(e,t){this.codeTyping=void 0,this.pushUndo(this.doc),this.doc=e,this.dirty=!0,t&&(this.selected=t),this.render()}commitFromCode(e,t){const n=Date.now(),a=this.codeTyping;!a||a.tab!==this.tab||n-a.last>1e3||n-a.start>5e3?(this.pushUndo(this.doc),this.codeTyping={tab:this.tab,start:n,last:n}):a.last=n,this.doc=e,this.dirty=!0,this.selected=Z1(t??this.selected,e),this.render()}pushUndo(e){for(this.undoStack.push(e);this.undoStack.length>x2;)this.undoStack.shift();this.tab.redoStack=[]}undo(){const e=this.undoStack.pop();e&&(this.codeTyping=void 0,this.redoStack.push(this.doc),this.doc=e,this.dirty=!0,this.selected=Z1(this.selected,this.doc),this.render())}redo(){const e=this.redoStack.pop();e&&(this.codeTyping=void 0,this.undoStack.push(this.doc),this.doc=e,this.dirty=!0,this.selected=Z1(this.selected,this.doc),this.render())}resetHistory(){this.setSimulating(!1),this.tab.undoStack=[],this.tab.redoStack=[],this.selected=void 0,this.dirty=!1,this.render()}makeTab(){return{doc:Ji(),serial:this.nextTabSerial++,dirty:!1,undoStack:[],redoStack:[],selected:[0]}}addTab(e=this.makeTab()){this.setSimulating(!1),this.tabs.push(e),this.tabIndex=this.tabs.length-1,this.render()}switchTab(e){e===this.tabIndex||!this.tabs[e]||(document.activeElement instanceof HTMLElement&&document.activeElement.blur(),this.setSimulating(!1),this.tabIndex=e,this.render())}async closeTab(e){if(this.tabs.length<=1)return;const t=this.tabs[e];t.dirty&&!t.exerciseId&&(this.switchTab(e),!await this.confirmDiscard())||(this.setSimulating(!1),this.tabs.splice(e,1),(this.tabIndex>e||this.tabIndex>=this.tabs.length)&&(this.tabIndex=Math.max(0,this.tabIndex-1)),this.render())}renderTabs(){const e=this.tabStrip;e.replaceChildren(),this.tabs.forEach((a,s)=>{const r=document.createElement("div");r.className="tab"+(s===this.tabIndex?" active":""),r.setAttribute("role","tab"),r.setAttribute("aria-selected",String(s===this.tabIndex));const o=document.createElement("button");if(o.className="tab-label",o.textContent=(a.dirty?"• ":"")+ye(a),o.title=a.fileName??ye(a),o.addEventListener("click",()=>this.switchTab(s)),r.append(o),this.tabs.length>1){const l=document.createElement("button");l.className="tab-close",l.textContent="✕",l.title=d("a11y_close_tab"),l.setAttribute("aria-label",`${d("a11y_close_tab")}: ${ye(a)}`),l.addEventListener("click",()=>this.closeTab(s)),r.append(l)}e.append(r)});const t=document.createElement("button");t.className="tab-add",t.textContent="+",t.title=d("a11y_new_diagram_tab"),t.setAttribute("aria-label",d("a11y_new_diagram_tab")),t.addEventListener("click",()=>this.addTab());const n=P("button",{class:"learn-hide editor-hide",title:d("web_editor_hide"),"aria-label":d("web_editor_hide")});n.innerHTML=ke,n.addEventListener("click",()=>this.setEditorHidden(!0)),e.append(t,n)}copySelection(){const e=this.selected&&$(this.doc,this.selected);return e?(this.clipboard=structuredClone(e),this.showMessage(d("web_copied")),!0):!1}cutSelection(){this.selected&&M1(this.doc,this.selected)&&this.copySelection()&&this.deleteSelection()}paste(){this.clipboard&&this.insertNearSelection(structuredClone(this.clipboard))}deleteSelection(){!this.selected||!M1(this.doc,this.selected)||(this.commit(Ge(this.doc,this.selected)),this.selected=void 0,this.render())}insertNearSelection(e){const t=this.selected;if(t&&we(this.doc,t))return this.commit(xe(this.doc,t,e),t);if(t){const n=[...t.slice(0,-1),t[t.length-1]+1];return this.commit(R1(this.doc,e,t),n)}if(this.doc.elements.length===1&&we(this.doc,[0]))return this.commit(xe(this.doc,[0],e),[0]);this.commit(Ae(this.doc,[],this.doc.elements.length,e),[this.doc.elements.length])}confirmDiscard(){return this.dirty?new Promise(e=>{const t=document.createElement("div");t.className="confirm",t.innerHTML=`<div class="confirm-card" role="alertdialog" aria-label="${k(d("close_unsaved_title"))}">
         <p><strong>${k(d("close_unsaved_title"))}</strong></p>
         <p class="hint">${k(d("web_discard_message_fmt",this.fileName))}</p>
         <div class="group"><button data-r="0">${k(d("close_unsaved_cancel"))}</button><button data-r="1" class="danger">${k(d("close_unsaved_discard"))}</button></div>
-      </div>`,t.addEventListener("click",n=>{const i=n.target.dataset.r;i===void 0&&n.target!==t||(t.remove(),e(i==="1"))}),document.body.append(t),t.querySelector('[data-r="0"]').focus()}):Promise.resolve(!0)}showMessage(e){this.statusLine.textContent=e,this.statusLine.classList.add("message"),setTimeout(()=>{this.statusLine.classList.remove("message"),this.updateStatus()},6e3)}loadXML(e,t,n){let i;try{i=rt(e)}catch(s){this.showMessage(d("web_err_unreadable_fmt",t,s.message));return}(this.dirty||this.tab.fileName||this.tab.exerciseId)&&this.addTab(),this.doc=i,this.tab.fileName=t.replace(/\.(strk|xml)$/i,".visustruct"),this.fileHandle=n&&/\.visustruct$/i.test(t)?n:void 0,this.resetHistory()}async open(e){const t=window;if(!t.showOpenFilePicker||this.inViewer)return e.click();try{const[n]=await t.showOpenFilePicker({types:hn()}),i=await n.getFile();this.loadXML(await i.text(),i.name,n)}catch{}}async save(){var n,i;const e=new Blob([M1(this.doc)],{type:"application/xml"}),t=window;try{if(this.downloads){const s=this.fileName+".txt";await this.downloads.save({filename:s,data:e}),(n=this.tab).fileName??(n.fileName=this.fileName),this.dirty=!1,this.render(),this.showMessage(d("web_saved_txt_fmt",s));return}if(!this.fileHandle&&t.showSaveFilePicker&&!this.inViewer&&(this.fileHandle=await t.showSaveFilePicker({suggestedName:this.fileName,types:hn()}),this.tab.fileName=this.fileHandle.name),this.fileHandle){const s=await this.fileHandle.createWritable();await s.write(e),await s.close()}else{const s=document.createElement("a");s.href=URL.createObjectURL(e),s.download=this.fileName,s.click(),setTimeout(()=>URL.revokeObjectURL(s.href),1e3)}(i=this.tab).fileName??(i.fileName=this.fileName),this.dirty=!1,this.render()}catch{}}async exportDiagram(e){const t=un(this.doc,this.metrics,this.measure);if(!t){this.showMessage(d(e==="print"?"err_diagram_too_small_print":"err_diagram_too_small_export"));return}const n=N3(this.doc,fe(this.tab)),i=Math.max(2,window.devicePixelRatio||1)*this.zoom;try{switch(e){case"svg":{t.svg.setAttribute("width",String(t.width*this.zoom)),t.svg.setAttribute("height",String(t.height*this.zoom)),await this.offerDownload(`${n}.svg`,new Blob([ka(t)],{type:"image/svg+xml"}));break}case"png":{const s=await cn(t,i);await this.offerDownload(`${n}.png`,await L3(s));break}case"pdf":{const s=await cn(t,Math.max(i,3)),r=await U3(F3(s),s.width,s.height,t,Sa(this.doc));await this.offerDownload(`${n}.pdf`,r);break}case"print":this.printDiagram(t);break}}catch(s){this.showMessage(d("web_export_failed_fmt",s instanceof Error?s.message:String(s)))}}printDiagram(e){const t=document.createElement("div");t.className="print-sheet",e.svg.removeAttribute("width"),e.svg.removeAttribute("height"),t.append(e.svg),document.body.append(t);const n=()=>t.remove();window.addEventListener("afterprint",n,{once:!0});try{window.print()}catch{n(),this.showMessage(`${d("err_print_unavailable")} ${d("web_print_hint")}`);return}setTimeout(n,6e4)}async offerDownload(e,t){try{if(this.downloads){try{await this.downloads.save({filename:e,data:t}),this.showMessage(d("web_saved_fmt",e))}catch{await this.downloads.save({filename:e+".txt",data:t}),this.showMessage(d("web_saved_txt_fmt",e+".txt"))}return}const n=document.createElement("a");n.href=URL.createObjectURL(t),n.download=e,n.click(),setTimeout(()=>URL.revokeObjectURL(n.href),1e3)}catch{this.showMessage(d("err_save_failed_fmt",e))}}setupFileDrop(){window.addEventListener("dragover",e=>{var t;(t=e.dataTransfer)!=null&&t.types.includes("Files")&&(e.preventDefault(),this.root.classList.add("file-drag"))}),window.addEventListener("dragleave",e=>{e.relatedTarget===null&&this.root.classList.remove("file-drag")}),window.addEventListener("drop",async e=>{var n;this.root.classList.remove("file-drag");const t=(n=e.dataTransfer)==null?void 0:n.files[0];t&&(e.preventDefault(),this.loadXML(await t.text(),t.name))})}onKeyDown(e){var i;const t=e.metaKey||e.ctrlKey,n=e.target instanceof HTMLTextAreaElement||e.target instanceof HTMLInputElement;if(t&&e.key.toLowerCase()==="s")e.preventDefault(),this.save();else if(t&&e.key.toLowerCase()==="p")e.preventDefault(),this.simulating||this.exportDiagram("print");else if(t&&e.key.toLowerCase()==="o")e.preventDefault(),this.open(this.root.querySelector("input[type=file]"));else{if(n||this.simulating)return;t&&e.key.toLowerCase()==="z"?(e.preventDefault(),e.shiftKey?this.redo():this.undo()):t&&e.key.toLowerCase()==="c"&&!((i=getSelection())!=null&&i.toString())?this.copySelection()&&e.preventDefault():t&&e.key.toLowerCase()==="x"?(e.preventDefault(),this.cutSelection()):t&&e.key.toLowerCase()==="v"?(e.preventDefault(),this.paste()):t&&e.key.toLowerCase()==="y"?(e.preventDefault(),this.redo()):e.key==="Delete"||e.key==="Backspace"?(e.preventDefault(),this.deleteSelection()):e.key==="Escape"&&(this.drag?this.endDrag():(this.selected=void 0,this.render()))}}svgPoint(e,t){if(!this.svg)return;const n=this.svg.getBoundingClientRect(),i=e-n.left,s=t-n.top;if(!(i<0||s<0||i>n.width||s>n.height))return{x:i/this.zoom,y:s/this.zoom}}nodeAt(e,t){for(let n=this.flat.length-1;n>=0;n--){const i=this.flat[n].frame;if(e>=i.x&&e<=i.x+i.width&&t>=i.y&&t<=i.y+i.height)return this.flat[n]}}onCanvasPointerDown(e){if(this.simulating)return;const t=this.svgPoint(e.clientX,e.clientY);if(!t)return;document.activeElement instanceof HTMLElement&&document.activeElement.blur();const n=this.nodeAt(t.x,t.y),i=n&&this.selected&&V1(n.idPath,this.selected);this.selected=n==null?void 0:n.idPath,this.render(),n&&e.pointerType!=="touch"&&!(ve(this.doc,n.idPath)&&!i)&&this.beginDrag(e,{kind:"move",path:n.idPath})}beginDrag(e,t){e.button!==0||this.simulating||(e.preventDefault(),this.drag={source:t,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,active:!1})}onPointerMove(e){const t=this.drag;if(!t||e.pointerId!==t.pointerId)return;if(!t.active){if(Math.hypot(e.clientX-t.startX,e.clientY-t.startY)<5)return;t.active=!0,t.ghost=this.makeGhost(t.source),document.body.append(t.ghost),this.root.classList.add("dragging")}t.ghost.style.transform=`translate(${e.clientX+12}px, ${e.clientY+12}px)`,this.autoScroll(e.clientX,e.clientY);const n=this.svgPoint(e.clientX,e.clientY);t.target=n?this.dropTargetAt(n.x,n.y,t.source):void 0,this.showDropTarget(t.target)}onPointerUp(e){const t=this.drag;!t||e.pointerId!==t.pointerId||(t.active&&t.target?this.applyDrop(t.source,t.target):!t.active&&t.source.kind==="palette"&&this.insertNearSelection(Ye(t.source.item)),this.endDrag())}endDrag(){var e,t;(t=(e=this.drag)==null?void 0:e.ghost)==null||t.remove(),this.drag=void 0,this.root.classList.remove("dragging"),this.showDropTarget(void 0)}makeGhost(e){const t=document.createElement("div");if(t.className="drag-ghost",e.kind==="palette")t.textContent=Zt.find(n=>n.item===e.item).label;else{const n=ne(this.doc,e.path);t.textContent=`${W1(n.type)}: ${tt(n)[0]}`}return t}autoScroll(e,t){const n=this.canvasHost.getBoundingClientRect(),i=40,s=12;t>n.bottom-i&&t<n.bottom+i?this.canvasHost.scrollTop+=s:t<n.top+i&&t>n.top-i&&(this.canvasHost.scrollTop-=s),e>n.right-i&&e<n.right+i?this.canvasHost.scrollLeft+=s:e<n.left+i&&e>n.left-i&&(this.canvasHost.scrollLeft-=s)}dropTargetAt(e,t,n){var l;const i=((l=this.layout)==null?void 0:l.elements)??[],s=this.nodeAt(e,t);if(!s){const m=i[i.length-1];if(!m)return;const u=m.frame.y+m.frame.height;return t>u?n.kind==="move"&&n.path.length===1&&n.path[0]===i.length-1?void 0:{kind:"rootAppend",frame:{x:m.frame.x,y:u,width:m.frame.width,height:0}}:t<i[0].frame.y?{kind:"before",path:[0],frame:i[0].frame}:void 0}const r=s.idPath;return n.kind==="move"&&r.length>=n.path.length&&n.path.every((m,u)=>r[u]===m)?void 0:ve(this.doc,r)?{kind:"replace",path:r,frame:s.frame}:{kind:t<s.frame.y+s.frame.height/2?"before":"after",path:r,frame:s.frame}}showDropTarget(e){if(!this.overlay||(this.overlay.replaceChildren(),!e))return;const t=e.frame;if(e.kind==="replace"){this.overlay.append(D("rect",{x:t.x+2,y:t.y+2,width:t.width-4,height:t.height-4,class:"drop-replace"}));return}const n=e.kind==="before"?t.y:t.y+t.height;this.overlay.append(D("rect",{x:t.x,y:n-3,width:t.width,height:6,rx:3,class:"drop-line"}))}applyDrop(e,t){const n=this.doc;try{if(e.kind==="palette"){const s=Ye(e.item);switch(t.kind){case"replace":return this.commit(ge(n,t.path,s),t.path);case"before":return this.commit(wn(n,s,t.path),t.path);case"after":return this.commit(H1(n,s,t.path),[...t.path.slice(0,-1),t.path[t.path.length-1]+1]);case"rootAppend":return this.commit(Ce(n,[],n.elements.length,s),[n.elements.length])}}const i=e.path;switch(t.kind){case"replace":return this.commit(Na(n,i,t.path));case"before":return this.commit(Ha(n,i,t.path));case"after":return this.commit(Ga(n,i,t.path));case"rootAppend":{const s=ne(n,i);return this.commit(Ce(He(n,i),[],Number.MAX_SAFE_INTEGER,s))}}}catch(i){console.warn("Ablegen nicht möglich",i)}finally{e.kind==="move"&&(this.selected=void 0,this.render())}}}function Ma(){Wa({[g.anweisung]:d("canvas_stub_anweisung"),[g.verzweigung]:d("canvas_stub_condition"),[g.fallauswahl]:d("canvas_stub_fallauswahl"),[g.forSchleife]:d("canvas_stub_for"),[g.whileSchleife]:d("canvas_stub_while"),[g.doUntilSchleife]:d("canvas_stub_while"),[g.endlosschleife]:d("canvas_stub_endless"),[g.aussprung]:d("canvas_stub_break"),[g.aufruf]:d("canvas_stub_call")})}function B1(a){return m1(a).toLowerCase()}function fe(a){return a.fileName?a.fileName.replace(/\.(visustruct|strk)$/i,""):a.doc.caption.trim()||d("tab_title_format",a.serial)}function yn(a){return Math.round(Math.max(260,Math.min(a,720,window.innerWidth-420)))}function Me(a){try{return localStorage.getItem(a)}catch{return null}}function Ze(a,e){try{localStorage.setItem(a,e)}catch{}}function e2(a){return a.replace(/[&<>"]/g,e=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[e])}Nn(hi(),!1).then(()=>{Ma(),new $3(document.getElementById("app"))});
+      </div>`,t.addEventListener("click",n=>{const a=n.target.dataset.r;a===void 0&&n.target!==t||(t.remove(),e(a==="1"))}),document.body.append(t),t.querySelector('[data-r="0"]').focus()}):Promise.resolve(!0)}showMessage(e){this.statusLine.textContent=e,this.statusLine.classList.add("message"),setTimeout(()=>{this.statusLine.classList.remove("message"),this.updateStatus()},6e3)}loadXML(e,t,n){let a;try{a=gt(e)}catch(s){this.showMessage(d("web_err_unreadable_fmt",t,s.message));return}(this.dirty||this.tab.fileName||this.tab.exerciseId)&&this.addTab(),this.doc=a,this.tab.fileName=t.replace(/\.(strk|xml)$/i,".visustruct"),this.fileHandle=n&&/\.visustruct$/i.test(t)?n:void 0,this.resetHistory()}async open(e){const t=window;if(!t.showOpenFilePicker||this.inViewer)return e.click();try{const[n]=await t.showOpenFilePicker({types:kn()}),a=await n.getFile();this.loadXML(await a.text(),a.name,n)}catch{}}async save(){var n,a;const e=new Blob([j1(this.doc)],{type:"application/xml"}),t=window;try{if(this.downloads){const s=this.fileName+".txt";await this.downloads.save({filename:s,data:e}),(n=this.tab).fileName??(n.fileName=this.fileName),this.dirty=!1,this.render(),this.showMessage(d("web_saved_txt_fmt",s));return}if(!this.fileHandle&&t.showSaveFilePicker&&!this.inViewer&&(this.fileHandle=await t.showSaveFilePicker({suggestedName:this.fileName,types:kn()}),this.tab.fileName=this.fileHandle.name),this.fileHandle){const s=await this.fileHandle.createWritable();await s.write(e),await s.close()}else{const s=document.createElement("a");s.href=URL.createObjectURL(e),s.download=this.fileName,s.click(),setTimeout(()=>URL.revokeObjectURL(s.href),1e3)}(a=this.tab).fileName??(a.fileName=this.fileName),this.dirty=!1,this.render()}catch{}}async exportDiagram(e){const t=vn(this.doc,this.metrics,this.measure);if(!t){this.showMessage(d(e==="print"?"err_diagram_too_small_print":"err_diagram_too_small_export"));return}const n=i2(this.doc,ye(this.tab)),a=Math.max(2,window.devicePixelRatio||1)*this.zoom;try{switch(e){case"svg":{t.svg.setAttribute("width",String(t.width*this.zoom)),t.svg.setAttribute("height",String(t.height*this.zoom)),await this.offerDownload(`${n}.svg`,new Blob([Ni(t)],{type:"image/svg+xml"}));break}case"png":{const s=await wn(t,a);await this.offerDownload(`${n}.png`,await s2(s));break}case"pdf":{const s=await wn(t,Math.max(a,3)),r=await l2(m2(s),s.width,s.height,t,Gi(this.doc));await this.offerDownload(`${n}.pdf`,r);break}case"print":this.printDiagram(t);break}}catch(s){this.showMessage(d("web_export_failed_fmt",s instanceof Error?s.message:String(s)))}}printDiagram(e){const t=document.createElement("div");t.className="print-sheet",e.svg.removeAttribute("width"),e.svg.removeAttribute("height"),t.append(e.svg),document.body.append(t);const n=()=>t.remove();window.addEventListener("afterprint",n,{once:!0});try{window.print()}catch{n(),this.showMessage(`${d("err_print_unavailable")} ${d("web_print_hint")}`);return}setTimeout(n,6e4)}async offerDownload(e,t){try{if(this.downloads){try{await this.downloads.save({filename:e,data:t}),this.showMessage(d("web_saved_fmt",e))}catch{await this.downloads.save({filename:e+".txt",data:t}),this.showMessage(d("web_saved_txt_fmt",e+".txt"))}return}const n=document.createElement("a");n.href=URL.createObjectURL(t),n.download=e,n.click(),setTimeout(()=>URL.revokeObjectURL(n.href),1e3)}catch{this.showMessage(d("err_save_failed_fmt",e))}}setupFileDrop(){window.addEventListener("dragover",e=>{var t;(t=e.dataTransfer)!=null&&t.types.includes("Files")&&(e.preventDefault(),this.root.classList.add("file-drag"))}),window.addEventListener("dragleave",e=>{e.relatedTarget===null&&this.root.classList.remove("file-drag")}),window.addEventListener("drop",async e=>{var n;this.root.classList.remove("file-drag");const t=(n=e.dataTransfer)==null?void 0:n.files[0];t&&(e.preventDefault(),this.loadXML(await t.text(),t.name))})}onKeyDown(e){var a;const t=e.metaKey||e.ctrlKey,n=e.target instanceof HTMLTextAreaElement||e.target instanceof HTMLInputElement;if(t&&e.key.toLowerCase()==="s")e.preventDefault(),this.save();else if(t&&e.key.toLowerCase()==="p")e.preventDefault(),this.simulating||this.exportDiagram("print");else if(t&&e.key.toLowerCase()==="o")e.preventDefault(),this.open(this.root.querySelector("input[type=file]"));else{if(n||this.simulating)return;t&&e.key.toLowerCase()==="z"?(e.preventDefault(),e.shiftKey?this.redo():this.undo()):t&&e.key.toLowerCase()==="c"&&!((a=getSelection())!=null&&a.toString())?this.copySelection()&&e.preventDefault():t&&e.key.toLowerCase()==="x"?(e.preventDefault(),this.cutSelection()):t&&e.key.toLowerCase()==="v"?(e.preventDefault(),this.paste()):t&&e.key.toLowerCase()==="y"?(e.preventDefault(),this.redo()):e.key==="Delete"||e.key==="Backspace"?(e.preventDefault(),this.deleteSelection()):e.key==="Escape"&&(this.drag?this.endDrag():(this.selected=void 0,this.render()))}}svgPoint(e,t){if(!this.svg)return;const n=this.svg.getBoundingClientRect(),a=e-n.left,s=t-n.top;if(!(a<0||s<0||a>n.width||s>n.height))return{x:a/this.zoom,y:s/this.zoom}}nodeAt(e,t){for(let n=this.flat.length-1;n>=0;n--){const a=this.flat[n].frame;if(e>=a.x&&e<=a.x+a.width&&t>=a.y&&t<=a.y+a.height)return this.flat[n]}}onCanvasPointerDown(e){if(this.simulating)return;const t=this.svgPoint(e.clientX,e.clientY);if(!t)return;document.activeElement instanceof HTMLElement&&document.activeElement.blur();const n=this.nodeAt(t.x,t.y),a=n&&this.selected&&Q1(n.idPath,this.selected);this.selected=n==null?void 0:n.idPath,this.render(),n&&e.pointerType!=="touch"&&!(we(this.doc,n.idPath)&&!a)&&this.beginDrag(e,{kind:"move",path:n.idPath})}beginDrag(e,t){e.button!==0||this.simulating||(e.preventDefault(),this.drag={source:t,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,active:!1})}onPointerMove(e){const t=this.drag;if(!t||e.pointerId!==t.pointerId)return;if(!t.active){if(Math.hypot(e.clientX-t.startX,e.clientY-t.startY)<5)return;t.active=!0,t.ghost=this.makeGhost(t.source),document.body.append(t.ghost),this.root.classList.add("dragging")}t.ghost.style.transform=`translate(${e.clientX+12}px, ${e.clientY+12}px)`,this.autoScroll(e.clientX,e.clientY);const n=this.svgPoint(e.clientX,e.clientY);t.target=n?this.dropTargetAt(n.x,n.y,t.source):void 0,this.showDropTarget(t.target)}onPointerUp(e){const t=this.drag;!t||e.pointerId!==t.pointerId||(t.active&&t.target?this.applyDrop(t.source,t.target):!t.active&&t.source.kind==="palette"&&this.insertNearSelection(Qe(t.source.item)),this.endDrag())}endDrag(){var e,t;(t=(e=this.drag)==null?void 0:e.ghost)==null||t.remove(),this.drag=void 0,this.root.classList.remove("dragging"),this.showDropTarget(void 0)}makeGhost(e){const t=document.createElement("div");if(t.className="drag-ghost",e.kind==="palette")t.textContent=Bt.find(n=>n.item===e.item).label;else{const n=ae(this.doc,e.path);t.textContent=`${L1(n.type)}: ${mt(n)[0]}`}return t}autoScroll(e,t){const n=this.canvasHost.getBoundingClientRect(),a=40,s=12;t>n.bottom-a&&t<n.bottom+a?this.canvasHost.scrollTop+=s:t<n.top+a&&t>n.top-a&&(this.canvasHost.scrollTop-=s),e>n.right-a&&e<n.right+a?this.canvasHost.scrollLeft+=s:e<n.left+a&&e>n.left-a&&(this.canvasHost.scrollLeft-=s)}dropTargetAt(e,t,n){var l;const a=((l=this.layout)==null?void 0:l.elements)??[],s=this.nodeAt(e,t);if(!s){const m=a[a.length-1];if(!m)return;const u=m.frame.y+m.frame.height;return t>u?n.kind==="move"&&n.path.length===1&&n.path[0]===a.length-1?void 0:{kind:"rootAppend",frame:{x:m.frame.x,y:u,width:m.frame.width,height:0}}:t<a[0].frame.y?{kind:"before",path:[0],frame:a[0].frame}:void 0}const r=s.idPath;return n.kind==="move"&&r.length>=n.path.length&&n.path.every((m,u)=>r[u]===m)?void 0:we(this.doc,r)?{kind:"replace",path:r,frame:s.frame}:{kind:t<s.frame.y+s.frame.height/2?"before":"after",path:r,frame:s.frame}}showDropTarget(e){if(!this.overlay||(this.overlay.replaceChildren(),!e))return;const t=e.frame;if(e.kind==="replace"){this.overlay.append(D("rect",{x:t.x+2,y:t.y+2,width:t.width-4,height:t.height-4,class:"drop-replace"}));return}const n=e.kind==="before"?t.y:t.y+t.height;this.overlay.append(D("rect",{x:t.x,y:n-3,width:t.width,height:6,rx:3,class:"drop-line"}))}applyDrop(e,t){const n=this.doc;try{if(e.kind==="palette"){const s=Qe(e.item);switch(t.kind){case"replace":return this.commit(xe(n,t.path,s),t.path);case"before":return this.commit(Bn(n,s,t.path),t.path);case"after":return this.commit(R1(n,s,t.path),[...t.path.slice(0,-1),t.path[t.path.length-1]+1]);case"rootAppend":return this.commit(Ae(n,[],n.elements.length,s),[n.elements.length])}}const a=e.path;switch(t.kind){case"replace":return this.commit($i(n,a,t.path));case"before":return this.commit(qi(n,a,t.path));case"after":return this.commit(Ki(n,a,t.path));case"rootAppend":{const s=ae(n,a);return this.commit(Ae(Ge(n,a),[],Number.MAX_SAFE_INTEGER,s))}}}catch(a){console.warn("Ablegen nicht möglich",a)}finally{e.kind==="move"&&(this.selected=void 0,this.render())}}}function Ei(){Xi({[p.anweisung]:d("canvas_stub_anweisung"),[p.verzweigung]:d("canvas_stub_condition"),[p.fallauswahl]:d("canvas_stub_fallauswahl"),[p.forSchleife]:d("canvas_stub_for"),[p.whileSchleife]:d("canvas_stub_while"),[p.doUntilSchleife]:d("canvas_stub_while"),[p.endlosschleife]:d("canvas_stub_endless"),[p.aussprung]:d("canvas_stub_break"),[p.aufruf]:d("canvas_stub_call")})}function V1(i){return d1(i).toLowerCase()}function ye(i){return i.fileName?i.fileName.replace(/\.(visustruct|strk)$/i,""):i.doc.caption.trim()||d("tab_title_format",i.serial)}function An(i){return Math.round(Math.max(260,Math.min(i,720,window.innerWidth-420)))}function Ze(i){try{return localStorage.getItem(i)}catch{return null}}function _e(i,e){try{localStorage.setItem(i,e)}catch{}}function b2(i){return i.replace(/[&<>"]/g,e=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[e])}qn(Za(),!1).then(()=>{Ei(),new I2(document.getElementById("app"))});

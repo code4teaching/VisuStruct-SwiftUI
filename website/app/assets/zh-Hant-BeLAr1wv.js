@@ -57,6 +57,16 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_live_ph_selector" = "變數";
 "web_live_ph_code" = "你的程式碼";
 "web_live_ph_end" = "結束";
+"web_live_hint_edit" = "在這裡輸入 Java 程式碼，結構圖會隨之產生。或者在結構圖中操作，程式碼也會一起成長。灰色 = 預留位置，直接覆寫輸入即可。";
+"web_live_edit_label" = "Java 程式碼";
+"web_parse_line_fmt" = "第 %d 行：%@";
+"web_parse_missing" = "這裡還缺少：%@";
+"web_parse_extra" = "多餘：%@";
+"web_parse_unclosed_string" = "這裡缺少結尾的 %@。";
+"web_parse_else_without_if" = "這個「else」沒有對應的「if」。";
+"web_parse_case_outside_switch" = "「case」和「default」應寫在「switch」裡面。";
+"web_parse_missing_do_while" = "「do { … }」之後還缺少「while (條件);」。";
+"web_parse_more_methods" = "目前這裡只計入一個方法。請在單獨的分頁中建立其他子程式。";
 "web_editor_title" = "結構圖";
 "web_editor_show" = "顯示結構圖";
 "web_editor_hide" = "隱藏結構圖";

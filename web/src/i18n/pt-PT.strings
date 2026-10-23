@@ -112,6 +112,16 @@
 "web_live_ph_selector" = "variável";
 "web_live_ph_code" = "O teu código";
 "web_live_ph_end" = "fim";
+"web_live_hint_edit" = "Escreve aqui código Java e o diagrama constrói-se sozinho. Ou trabalha no diagrama e o código cresce com ele. Cinzento = marcador, basta escrever por cima.";
+"web_live_edit_label" = "Código Java";
+"web_parse_line_fmt" = "Linha %d: %@";
+"web_parse_missing" = "Ainda falta aqui: %@";
+"web_parse_extra" = "Está a mais: %@";
+"web_parse_unclosed_string" = "Falta aqui o %@ de fecho.";
+"web_parse_else_without_if" = "Este “else” não tem um “if” correspondente.";
+"web_parse_case_outside_switch" = "“case” e “default” pertencem a um “switch”.";
+"web_parse_missing_do_while" = "Depois de “do { … }” ainda falta “while (condição);”.";
+"web_parse_more_methods" = "Por agora só conta um método aqui. Cria outros subprogramas em separadores próprios.";
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";
