@@ -833,6 +833,17 @@ button.danger-text:not(:disabled) {
 .shell.learning .learn-rail {
   display: none;
 }
+/* Code live eingeklappt: dieselbe Leiste, nur am rechten Rand. */
+.live-rail {
+  border-inline-end: none;
+  border-inline-start: 1px solid var(--border);
+}
+.live-rail svg {
+  transform: scaleX(-1);
+}
+.shell.live .live-rail {
+  display: none;
+}
 .learn-body {
   overflow-y: auto;
   /* Sonst: Scrollbalken erscheint → Vorschaubilder schmaler und kürzer → Scrollbalken verschwindet → … */
@@ -1355,6 +1366,11 @@ button[data-action='live'][aria-pressed='true'] {
   }
   .learn-rail span {
     writing-mode: horizontal-tb;
+  }
+  .live-rail {
+    border-inline-start: none;
+    border-bottom: none;
+    border-top: 1px solid var(--border);
   }
   .shell {
     flex-direction: column;
