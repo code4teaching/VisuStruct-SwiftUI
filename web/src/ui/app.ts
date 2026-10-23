@@ -388,6 +388,7 @@ export class App {
               <input type="checkbox" data-action="keywords" />
               <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
             </label>
+            <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
           </div>
         </div>
       </header>
@@ -503,6 +504,10 @@ export class App {
       this.renderDiagramOnly()
     })
     this.setupSettingsMenu($('[data-action=settings]'), $('.settings-menu'))
+    $('[data-action=about]').addEventListener('click', () => {
+      $<HTMLElement>('.settings-menu').hidden = true
+      this.showAbout()
+    })
     $('[data-action=cut]').addEventListener('click', () => this.cutSelection())
     $('[data-action=copy]').addEventListener('click', () => this.copySelection())
     $('[data-action=paste]').addEventListener('click', () => this.paste())
@@ -602,6 +607,42 @@ export class App {
     if (!this.editorRailButton) return
     this.editorRailButton.title = t('web_editor_show')
     this.editorRailButton.innerHTML = `${sidebarIcon}<span>✎ ${e(t('web_editor_title'))}</span>`
+  }
+
+  /** „Über VisuStruct“ wie in der App (dieselben Texte aus `Localizable.strings`). */
+  private showAbout() {
+    const link = (label: string, href: string, text: string) =>
+      `<p class="about-link"><span>${e(t(label))}</span> <a href="${href}" target="_blank" rel="noopener">${text}</a></p>`
+    const dialog = h('dialog', { class: 'about', 'aria-labelledby': 'about-title' }) as HTMLDialogElement
+    dialog.innerHTML = `
+      <header>
+        <h2 id="about-title">${e(t('about_nav_title'))}</h2>
+        <button type="button" data-action="about-done">${e(t('about_done'))}</button>
+      </header>
+      <div class="about-body">
+        <div class="about-head">
+          <span class="logo" aria-hidden="true"></span>
+          <div>
+            <h3>VisuStruct <small>${e(t('web_brand_suffix'))}</small></h3>
+            <p class="about-author">Holger Sebastiao</p>
+            ${link('about_web_label', 'https://www.visustruct.org', 'www.visustruct.org')}
+            ${link('about_developer_label', 'https://www.sebastiao.org', 'www.sebastiao.org')}
+            ${link('about_project_github_label', 'https://github.com/code4teaching/VisuStruct', 'code4teaching/VisuStruct')}
+          </div>
+        </div>
+        <h4>${e(t('about_dateiformat_heading'))}</h4>
+        <p>${e(t('about_dateiformat_part1'))}<code>.visustruct</code>${e(t('about_dateiformat_part2'))}</p>
+        <p>${e(t('about_dateiformat_strk'))}</p>
+        <h4>${e(t('about_lineage_heading'))}</h4>
+        <p>${e(t('about_lineage_body'))}</p>
+        <p class="about-copy">${e(t('about_copyright'))}</p>
+      </div>`
+    dialog.querySelector('[data-action=about-done]')!.addEventListener('click', () => dialog.close())
+    // Klick auf den abgedunkelten Rand schließt ebenfalls.
+    dialog.addEventListener('click', (ev) => ev.target === dialog && dialog.close())
+    dialog.addEventListener('close', () => dialog.remove())
+    document.body.append(dialog)
+    dialog.showModal()
   }
 
   /** Schmale Leiste am Rand, solange der Lernbereich eingeklappt ist. */
