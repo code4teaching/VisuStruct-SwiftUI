@@ -15,6 +15,12 @@ export type SimValue =
   | { kind: 'booleanArray'; value: boolean[] }
   /** Zweidimensionales Array (`boolean[][] sitze`): Zeilen, darin die Werte. */
   | { kind: 'grid'; elementType: SimValueType; value: (number | string | boolean)[][] }
+  /** `new Scanner(new File(…))` oder `new BufferedReader(new FileReader(…))`: liest Zeile für Zeile, `next` ist die nächste. */
+  | { kind: 'reader'; className: 'Scanner' | 'BufferedReader'; file: string; lines: string[]; next: number }
+  /** `new PrintWriter(…)`: sammelt Text, der erst mit `close()` in der Datei landet (wie in Java). */
+  | { kind: 'writer'; file: string; text: string }
+  /** `null`, z. B. von `readLine()` am Ende der Datei. */
+  | { kind: 'null' }
 
 export type SimValueType = 'int' | 'double' | 'string' | 'boolean'
 
@@ -77,6 +83,10 @@ export type SimNotice =
   | { kind: 'missingReturn'; text: string }
   /** `Files.readString(Path.of("…"))` mit einem Namen, den es nicht gibt. */
   | { kind: 'fileNotFound'; text: string }
+  /** `nextLine()`, obwohl die Datei zu Ende ist (in Java eine NoSuchElementException). */
+  | { kind: 'endOfFile'; text: string }
+  /** Eine Methode auf `null` (in Java eine NullPointerException). */
+  | { kind: 'nullValue'; text: string }
   | { kind: 'other'; text: string }
 
 export interface SimState {
@@ -91,6 +101,8 @@ export interface SimState {
   notice?: SimNotice
   /** Nach einem Fehler bleibt die Simulation auf dem fehlerhaften Schritt stehen. */
   isHalted: boolean
+  /** Dateien, die das Programm geschrieben hat (Name → Inhalt). */
+  files: Map<string, string>
 }
 
 export function noticeEnglish(n: SimNotice): string {
@@ -109,6 +121,8 @@ export function noticeEnglish(n: SimNotice): string {
     case 'callArguments': return `The call does not match the header of ${n.text}. Check the values in the parentheses.`
     case 'missingReturn': return `${n.text} ended without returning a value with return.`
     case 'fileNotFound': return `There is no file called ${n.text}.`
+    case 'endOfFile': return `The file ${n.text} has no more lines.`
+    case 'nullValue': return `${n.text} is null.`
     case 'other': return n.text
   }
 }
@@ -129,6 +143,8 @@ export function noticeGerman(n: SimNotice): string {
     case 'callArguments': return `Der Aufruf passt nicht zur Kopfzeile von ${n.text}. Prüfe die Werte in den Klammern.`
     case 'missingReturn': return `${n.text} hat keinen Wert mit return zurückgegeben.`
     case 'fileNotFound': return `Es gibt keine Datei ${n.text}.`
+    case 'endOfFile': return `Die Datei ${n.text} hat keine Zeile mehr.`
+    case 'nullValue': return `${n.text} ist null.`
     case 'other': return n.text
   }
 }
@@ -191,6 +207,9 @@ export function describeValue(v: SimValue): string {
     case 'stringArray': return '[' + v.value.join(', ') + ']'
     case 'booleanArray': return '[' + v.value.map(String).join(', ') + ']'
     case 'grid': return '[' + describeRows(v).join(', ') + ']'
+    case 'reader': return `${v.className}(${v.file})`
+    case 'writer': return `PrintWriter(${v.file})`
+    case 'null': return 'null'
   }
 }
 
@@ -256,7 +275,10 @@ function unquotedString(text: string): string | undefined {
   // Zeichenliteral wie in Java: 'a'
   if (chars.length === 3 && chars[0] === "'" && chars[2] === "'") return chars[1]
   if (chars.length < 2 || chars[0] !== '"' || chars[chars.length - 1] !== '"') return undefined
-  return chars.slice(1, -1).join('').replaceAll('\\"', '"').replaceAll('\\n', '\n')
+  const inner = chars.slice(1, -1).join('')
+  // `"a\"" + b + "\"c"` beginnt und endet auch mit `"`, ist aber kein einzelnes Literal.
+  if (!/^(?:[^"\\]|\\.)*$/u.test(inner)) return undefined
+  return inner.replaceAll('\\"', '"').replaceAll('\\n', '\n')
 }
 
 function normalizeNumericExpression(expression: string): string {
@@ -659,7 +681,7 @@ class NumericParser {
             if (this.kind() !== ')') throw invalid(`${name}.length`)
             this.index += 1
           }
-          if (isArrayValue(value)) return { v: (value.value as unknown[]).length, int: true }
+          if (isArrayValue(value)) return { v: ((value as { value: unknown[] }).value).length, int: true }
           throw invalid(name)
         }
         if (this.kind() === '[') {
@@ -821,7 +843,7 @@ function parseInputValue(rawValue: string, valueType: SimValueType): SimValue {
 }
 
 function freshState(): SimState {
-  return { stepIndex: 0, variables: new Map(), outputLines: [], isHalted: false }
+  return { stepIndex: 0, variables: new Map(), outputLines: [], isHalted: false, files: new Map() }
 }
 
 type SwitchSelector = { kind: 'int'; value: number } | { kind: 'text'; value: string }
@@ -922,6 +944,8 @@ export class SimulationEngine {
   private nextFrame = 1
   private callDepth = 0
   private frames = new Map<number, CallFrame>()
+  /** Beim Aufbereiten der Anzeige (`lastTrace`) lesen `nextLine()`/`readLine()` nur nach, ohne weiterzugehen. */
+  private peeking = false
 
   constructor(
     document: VSDocument,
@@ -1283,12 +1307,14 @@ export class SimulationEngine {
 
     if (lower.startsWith('output:') || lower.startsWith('print:')) {
       const expression = text.slice(lower.startsWith('output:') ? 'output:'.length : 'print:'.length)
-      const rendered = this.renderOutputExpression(expression)
+      const rendered = this.peek(() => this.renderOutputExpression(expression))
       const output = this.evaluateOutputExpression(expression)
       state.outputLines.push(output)
       state.lastTrace = `${rendered} -> ${output}`
       return
     }
+
+    if (this.executeFileStatement(text)) return
 
     if (text.endsWith('++') || text.endsWith('--') || text.includes('+=') || text.includes('-=')) {
       this.executeIncrement(text)
@@ -1309,7 +1335,7 @@ export class SimulationEngine {
     const target = this.parseAssignmentTarget(left)
     let rendered: string
     try {
-      rendered = this.renderNumericExpression(expression)
+      rendered = this.peek(() => this.renderNumericExpression(expression))
     } catch {
       rendered = expression.trim()
     }
@@ -1324,6 +1350,104 @@ export class SimulationEngine {
     const value = this.evaluateExpression(expression, targetType)
     this.assignValue(value, target.variableName)
     state.lastTrace = `${target.variableName} = ${rendered} -> ${describeValue(value)}`
+  }
+
+  /**
+   * Dateien: `Scanner datei = new Scanner(new File("a.txt"))`, `new BufferedReader(new FileReader(…))`,
+   * `new PrintWriter("a.txt")`, `aus.println(…)`, `aus.print(…)`, `x.close()` und `Files.writeString(Path.of(…), text)`.
+   */
+  private executeFileStatement(text: string): boolean {
+    const state = this.state
+    const statement = stripTrailingSemicolon(text).trim()
+    const made = /^(?:(Scanner|BufferedReader|PrintWriter)\s+)?([A-Za-z_]\w*)\s*=\s*new\s+(Scanner|BufferedReader|PrintWriter)\s*\(([\s\S]*)\)$/u.exec(statement)
+    if (made) {
+      const [, declared, name, className, inner] = made
+      if (declared && declared !== className) throw invalid(statement)
+      const source =
+        className === 'Scanner' ? /^new\s+File\s*\(([\s\S]+)\)$/u.exec(inner.trim())
+        : className === 'BufferedReader' ? /^new\s+FileReader\s*\(([\s\S]+)\)$/u.exec(inner.trim())
+        : /^(?:new\s+(?:File|FileWriter)\s*\(([\s\S]+)\)|([\s\S]+))$/u.exec(inner.trim())
+      if (!source) throw unsupported(statement)
+      const file = this.fileNameValue(source[1] ?? source[2])
+      if (className === 'PrintWriter') {
+        state.variables.set(name, { kind: 'writer', file, text: '' })
+      } else {
+        const content = this.fileContent(file)
+        const lines = content.split(/\r?\n/u)
+        if (lines[lines.length - 1] === '') lines.pop()
+        state.variables.set(name, { kind: 'reader', className: className as 'Scanner', file, lines, next: 0 })
+      }
+      state.lastTrace = `${name} = new ${className}(${file})`
+      return true
+    }
+    const files = /^Files\s*\.\s*writeString\s*\(\s*(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(([^()]+)\)\s*,([\s\S]+)\)$/u.exec(statement)
+    if (files) {
+      const file = this.fileNameValue(files[1])
+      const content = this.evaluateOutputExpression(files[2])
+      state.files.set(file, content)
+      state.lastTrace = `${file} ← ${JSON.stringify(content)}`
+      return true
+    }
+    const call = /^([A-Za-z_]\w*)\s*\.\s*(println|print|close)\s*\(([\s\S]*)\)$/u.exec(statement)
+    const object = call && state.variables.get(call[1])
+    if (!call || !object) return false
+    if (object.kind === 'null') throw new SimulationError({ kind: 'nullValue', text: call[1] })
+    if (object.kind === 'reader' && call[2] === 'close') {
+      state.lastTrace = `${call[1]}.close()`
+      return true
+    }
+    if (object.kind !== 'writer') return false
+    if (call[2] === 'close') {
+      state.files.set(object.file, object.text)
+      state.lastTrace = `${object.file} ← ${JSON.stringify(object.text)}`
+      return true
+    }
+    const value = call[3].trim() === '' ? '' : this.evaluateOutputExpression(call[3])
+    const added = call[2] === 'println' ? value + '\n' : value
+    state.variables.set(call[1], { ...object, text: object.text + added })
+    state.lastTrace = `${call[1]}.${call[2]}(${JSON.stringify(value)})`
+    return true
+  }
+
+  /** Name einer Datei: `"a.txt"` oder eine String-Variable. */
+  private fileNameValue(text: string): string {
+    const trimmed = text.trim()
+    const literal = unquotedString(trimmed)
+    if (literal !== undefined) return literal
+    const ref = this.evaluateReference(trimmed)
+    if (ref?.kind === 'string') return ref.value
+    throw invalid(trimmed)
+  }
+
+  /** Inhalt einer Datei: zuerst, was das Programm geschrieben hat, sonst die Datei der Lektion. */
+  private fileContent(name: string): string {
+    const content = this.state.files.get(name) ?? textFiles.get(name)
+    if (content === undefined) throw new SimulationError({ kind: 'fileNotFound', text: name })
+    return content
+  }
+
+  /** `datei.hasNextLine()`, `datei.nextLine()` und `leser.readLine()`. */
+  private readerMethod(name: string, reader: SimValue & { kind: 'reader' }, call: { method: string; args: string[] }, text: string): SimValue | undefined {
+    if (call.args.length) throw invalid(text)
+    const left = reader.next < reader.lines.length
+    if (call.method === 'hasNextLine' && reader.className === 'Scanner') return { kind: 'boolean', value: left }
+    const reads = (call.method === 'nextLine' && reader.className === 'Scanner') || (call.method === 'readLine' && reader.className === 'BufferedReader')
+    if (!reads) return undefined
+    let value: SimValue
+    if (left) value = { kind: 'string', value: reader.lines[reader.next] }
+    else if (reader.className === 'BufferedReader') value = { kind: 'null' }
+    else throw new SimulationError({ kind: 'endOfFile', text: reader.file })
+    if (!this.peeking) this.state.variables.set(name, { ...reader, next: Math.min(reader.next + 1, reader.lines.length) })
+    return value
+  }
+
+  private peek<T>(render: () => T): T {
+    this.peeking = true
+    try {
+      return render()
+    } finally {
+      this.peeking = false
+    }
   }
 
   private executeIncrement(text: string): void {
@@ -1551,6 +1675,9 @@ export class SimulationEngine {
     if (!call) return undefined
     const staticValue = this.evaluateStaticCall(text, call)
     if (staticValue) return staticValue
+    const object = this.state.variables.get(call.target.trim())
+    if (object?.kind === 'reader') return this.readerMethod(call.target.trim(), object, call, text)
+    if (object?.kind === 'null') throw new SimulationError({ kind: 'nullValue', text: call.target.trim() })
     const target = unquotedString(call.target) ?? this.stringValueOf(call.target)
     if (target === undefined) return undefined
     const args = call.args
@@ -1749,7 +1876,7 @@ export class SimulationEngine {
     if (indices.length !== 1) throw invalid(at)
     const index = indices[0]
     if (!isArrayValue(value)) throw invalid(name)
-    if (index >= (value.value as unknown[]).length) throw invalid(at)
+    if (index >= ((value as { value: unknown[] }).value).length) throw invalid(at)
     switch (value.kind) {
       case 'intArray': return int(value.value[index])
       case 'doubleArray': return dbl(value.value[index])
@@ -1828,7 +1955,7 @@ export class SimulationEngine {
       const isNumber = value.kind === 'int' || value.kind === 'double'
       if (text === undefined && isNumber) {
         if (!sum) sum = value
-        else sum = sum.kind === 'int' && value.kind === 'int' ? int(sum.value + value.value) : dbl((sum.value as number) + (value.value as number))
+        else sum = sum.kind === 'int' && value.kind === 'int' ? int(sum.value + value.value) : dbl((sum as { value: number }).value + (value as { value: number }).value)
         continue
       }
       text = (text ?? (sum ? describeValue(sum) : '')) + describeValue(value)
@@ -1863,7 +1990,9 @@ export class SimulationEngine {
         const trimmed = expression.trim()
         const literal = unquotedString(trimmed)
         if (literal !== undefined) return { kind: 'string', value: literal }
+        if (trimmed === 'null') return { kind: 'null' }
         const ref = this.evaluateReference(trimmed)
+        if (ref?.kind === 'null') return ref
         if (ref) return { kind: 'string', value: describeValue(ref) }
         return { kind: 'string', value: this.evaluateOutputExpression(expression) }
       }
@@ -1919,6 +2048,11 @@ export class SimulationEngine {
   }
 
   private evaluateComparison(lhs: string, op: string, rhs: string): boolean {
+    if ((lhs.trim() === 'null' || rhs.trim() === 'null') && (op === '==' || op === '!=')) {
+      const isNull = (side: string) => side.trim() === 'null' || this.evaluateReference(side)?.kind === 'null'
+      const same = isNull(lhs) === isNull(rhs)
+      return op === '==' ? same : !same
+    }
     const lb = this.booleanOperand(lhs)
     const rb = this.booleanOperand(rhs)
     if ((lb !== undefined || rb !== undefined) && (op === '==' || op === '!=')) {

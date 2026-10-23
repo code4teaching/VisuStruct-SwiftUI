@@ -50,6 +50,7 @@ export function generateCode(
   if (target === 'javascript') out += '"use strict";\n\n'
   const all = [document, ...(target === 'java' ? [] : subprograms)]
   if (target === 'python' && all.some(documentContainsJavaMathRandom)) out += 'import random\n\n'
+  if (target !== 'java') out += fileHelperClasses(all, target)
   if (target === 'java' && documentContainsJavaInput(document)) {
     // Snippet-Modus: Import als Kommentar (damit es auch beim Einfügen in `main` nicht „falsch“ steht).
     out += '// import java.util.Scanner;\n'
@@ -413,6 +414,139 @@ function emitPythonInputLineIfNeeded(raw: string, indent: number, arrayTypes: Ma
     case 'boolean': return hint + sp(indent) + `${p.name} = ${input}.strip().lower() in ("true", "wahr")\n`
     default: return undefined
   }
+}
+
+// MARK: - Dateien
+
+const fileName = String.raw`("(?:[^"\\]|\\.)*"|[A-Za-z_]\w*)`
+const fileReaders: [RegExp, string][] = [
+  [new RegExp(String.raw`^new\s+Scanner\s*\(\s*new\s+File\s*\(\s*${fileName}\s*\)\s*\)$`), 'Scanner'],
+  [new RegExp(String.raw`^new\s+BufferedReader\s*\(\s*new\s+FileReader\s*\(\s*${fileName}\s*\)\s*\)$`), 'BufferedReader'],
+  [new RegExp(String.raw`^new\s+PrintWriter\s*\(\s*(?:new\s+(?:File|FileWriter)\s*\(\s*)?${fileName}\s*\)?\s*\)$`), 'PrintWriter'],
+]
+
+/** `new Scanner(new File("a.txt"))` → `Scanner`, `"a.txt"`; ebenso `BufferedReader` und `PrintWriter`. */
+export function fileConstructor(rhs: string): { kind: 'Scanner' | 'BufferedReader' | 'PrintWriter'; name: string } | undefined {
+  const t = rhs.trim()
+  for (const [re, kind] of fileReaders) {
+    const m = re.exec(t)
+    if (m) return { kind: kind as 'Scanner', name: m[1] }
+  }
+  return undefined
+}
+
+/**
+ * Python und JavaScript kennen `Scanner`, `BufferedReader` und `PrintWriter` nicht; der erzeugte Code bekommt kleine
+ * Klassen mit denselben Methodennamen (siehe `fileHelperClasses`). Hier: Anlegen, `println`/`print` und `Files.writeString`.
+ */
+function emitFileLineIfNeeded(
+  raw: string,
+  target: CodeTarget,
+  indent: number,
+  intVariables: Set<string>,
+  stringVariables: Set<string>,
+): string | undefined {
+  if (target === 'java') return undefined
+  const t = stripTrailingSemicolon(raw).trim()
+  const decl = /^(?:(?:Scanner|BufferedReader|PrintWriter)\s+)?([A-Za-z_]\w*)\s*=\s*(new\s[\s\S]+)$/.exec(t)
+  const made = decl && fileConstructor(decl[2])
+  if (decl && made) {
+    const declared = /^(?:Scanner|BufferedReader|PrintWriter)\s/.test(t)
+    return target === 'python'
+      ? sp(indent) + `${decl[1]} = ${made.kind}(${made.name})\n`
+      : sp(indent) + `${declared ? 'let ' : ''}${decl[1]} = new ${made.kind}(${made.name});\n`
+  }
+  const write = /^([A-Za-z_]\w*)\.(println|print)\s*\(([\s\S]*)\)$/.exec(t)
+  if (write && write[1] !== 'System') {
+    const expr = write[3].trim()
+    const value = target === 'python' && expr !== '' ? pythonConcatenation(expr, intVariables, stringVariables) : expr
+    return sp(indent) + `${write[1]}.${write[2]}(${value})${target === 'javascript' ? ';' : ''}\n`
+  }
+  const files = /^Files\.writeString\s*\(\s*(?:Path\.of|Paths\.get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)\s*,\s*([\s\S]+)\)$/.exec(t)
+  if (files) {
+    const text = files[2].trim()
+    return target === 'python'
+      ? sp(indent) + `open(${files[1]}, "w", encoding="utf-8").write(${pythonConcatenation(text, intVariables, stringVariables)})\n`
+      : sp(indent) + `require("fs").writeFileSync(${files[1]}, ${text});\n`
+  }
+  return undefined
+}
+
+/** Welche Datei-Klassen ein Diagramm anlegt. */
+function usedFileClasses(docs: VSDocument[]): Set<'Scanner' | 'BufferedReader' | 'PrintWriter'> {
+  const used = new Set<'Scanner' | 'BufferedReader' | 'PrintWriter'>()
+  for (const doc of docs) {
+    walkElements(doc.elements, (e) => {
+      for (const l of e.textLines) {
+        const m = /=\s*(new\s.+?);?\s*$/.exec(l)
+        const made = m && fileConstructor(m[1])
+        if (made) used.add(made.kind)
+      }
+    })
+  }
+  return used
+}
+
+const pythonFileHelpers: Record<string, string> = {
+  Scanner: `class Scanner:
+    def __init__(self, name):
+        self.lines = open(name, encoding="utf-8").read().splitlines()
+    def hasNextLine(self):
+        return len(self.lines) > 0
+    def nextLine(self):
+        return self.lines.pop(0)
+    def close(self):
+        pass
+`,
+  BufferedReader: `class BufferedReader:
+    def __init__(self, name):
+        self.lines = open(name, encoding="utf-8").read().splitlines()
+    def readLine(self):
+        return self.lines.pop(0) if self.lines else None
+    def close(self):
+        pass
+`,
+  PrintWriter: `class PrintWriter:
+    def __init__(self, name):
+        self.file = open(name, "w", encoding="utf-8")
+    def println(self, text=""):
+        self.file.write(str(text) + "\\n")
+    def print(self, text):
+        self.file.write(str(text))
+    def close(self):
+        self.file.close()
+`,
+}
+
+const javaScriptFileHelpers: Record<string, string> = {
+  Scanner: `class Scanner {
+  constructor(name) { this.lines = require("fs").readFileSync(name, "utf8").split(/\\r?\\n/); if (this.lines.at(-1) === "") this.lines.pop(); }
+  hasNextLine() { return this.lines.length > 0; }
+  nextLine() { return this.lines.shift(); }
+  close() {}
+}
+`,
+  BufferedReader: `class BufferedReader {
+  constructor(name) { this.lines = require("fs").readFileSync(name, "utf8").split(/\\r?\\n/); if (this.lines.at(-1) === "") this.lines.pop(); }
+  readLine() { return this.lines.length > 0 ? this.lines.shift() : null; }
+  close() {}
+}
+`,
+  PrintWriter: `class PrintWriter {
+  constructor(name) { this.name = name; this.text = ""; }
+  println(text = "") { this.text += text + "\\n"; }
+  print(text) { this.text += text; }
+  close() { require("fs").writeFileSync(this.name, this.text); }
+}
+`,
+}
+
+/** Kleine Klassen für Python und JavaScript, die wie Javas `Scanner`, `BufferedReader` und `PrintWriter` heißen. */
+function fileHelperClasses(docs: VSDocument[], target: 'python' | 'javascript'): string {
+  const used = usedFileClasses(docs)
+  if (used.size === 0) return ''
+  const helpers = target === 'python' ? pythonFileHelpers : javaScriptFileHelpers
+  return [...used].map((k) => helpers[k]).join('\n') + '\n'
 }
 
 function emitPrintLineIfNeeded(
@@ -949,13 +1083,27 @@ function documentContainsJavaInput(doc: VSDocument): boolean {
   return found
 }
 
-/** Liest das Programm eine Datei mit `Files.readString(…)`? Dann braucht Java `import java.nio.file.*;`. */
-export function documentReadsFiles(doc: VSDocument): boolean {
-  let found = false
+/**
+ * Imports für Dateien: `Files`/`Path` aus `java.nio.file`, `File`, `PrintWriter`, `FileReader` und `BufferedReader` aus
+ * `java.io`, dazu `java.util.Scanner` für einen Scanner auf einer Datei.
+ */
+export function fileImports(doc: VSDocument): string[] {
+  let nio = false
+  let io = false
+  let scanner = false
   walkElements(doc.elements, (e) => {
-    if (e.textLines.some((l) => /\bFiles\s*\.\s*readString\s*\(/.test(l))) found = true
+    for (const l of e.textLines) {
+      if (/\bFiles\s*\./.test(l)) nio = true
+      if (/\bnew\s+(?:File|PrintWriter|FileReader|FileWriter|BufferedReader)\s*\(/.test(l)) io = true
+      if (/\bnew\s+Scanner\s*\(\s*new\s+File\b/.test(l)) scanner = true
+    }
   })
-  return found
+  return [...(io ? ['import java.io.*;'] : []), ...(nio ? ['import java.nio.file.*;'] : []), ...(scanner ? ['import java.util.Scanner;'] : [])]
+}
+
+/** Arbeitet das Programm mit Dateien? Dann kann eine IOException kommen, und Java verlangt `throws` an der Methode. */
+export function documentReadsFiles(doc: VSDocument): boolean {
+  return fileImports(doc).length > 0
 }
 
 function documentContainsJavaMathRandom(doc: VSDocument): boolean {
@@ -1009,6 +1157,7 @@ function emitInstructionLike(textLines: string[], target: CodeTarget, options: C
       (target === 'java' ? emitJavaInputLineIfNeeded(raw, indent, arrays) : undefined) ??
       (target === 'javascript' ? emitJavaScriptInputLineIfNeeded(raw, indent, arrays) : undefined) ??
       (target === 'python' ? emitPythonInputLineIfNeeded(raw, indent, arrays) : undefined) ??
+      emitFileLineIfNeeded(raw, target, indent, ints, texts) ??
       emitPrintLineIfNeeded(raw, target, indent, ints, texts) ??
       emitConstTypedLineIfNeeded(raw, target, indent, ints) ??
       emitTranslatedJavaLikeAssignmentIfNeeded(raw, target, indent, ints, texts) ??
@@ -1373,10 +1522,12 @@ export function generateLiveCode(document: VSDocument, target: LiveTarget, label
   const header = parseSubprogramHeader(document.caption)
   let prelude = ''
   if (target === 'java') {
-    const files = documentReadsFiles(document)
-    if (files) prelude += 'import java.nio.file.*;\n'
-    if (documentContainsJavaInput(document)) prelude += 'import java.util.Scanner;\nScanner scanner = new Scanner(System.in);\n\n'
-    else if (files) prelude += '\n'
+    const files = fileImports(document)
+    for (const line of files) prelude += line + '\n'
+    if (documentContainsJavaInput(document)) {
+      if (!files.includes('import java.util.Scanner;')) prelude += 'import java.util.Scanner;\n'
+      prelude += 'Scanner scanner = new Scanner(System.in);\n\n'
+    } else if (files.length) prelude += '\n'
     if (header) prelude += javaMethodHeader(header) + '\n'
   } else {
     if (header) {
@@ -1389,9 +1540,11 @@ export function generateLiveCode(document: VSDocument, target: LiveTarget, label
     const names = header?.params.map((p) => p.name).join(', ')
     if (target === 'javascript') {
       prelude += '"use strict";\n\n'
+      prelude += fileHelperClasses([document], 'javascript')
       if (header) prelude += `function ${header.name}(${names}) {\n`
     } else {
       if (documentContainsJavaMathRandom(document)) prelude += 'import random\n\n'
+      prelude += fileHelperClasses([document], 'python')
       if (header) prelude += `def ${header.name}(${names}):\n`
     }
   }
@@ -1626,10 +1779,11 @@ export function generateJavaClassFile(
   let out = ''
   const scannerField = methods.length > 0 && (hasInput || methodInput)
   // `Files.readString` kann eine IOException werfen; Java verlangt dann `throws` an der Methode.
-  const files = methodDocs.some((m) => documentReadsFiles(m.d)) || documentReadsFiles(document)
-  if (files) out += 'import java.nio.file.*;\n'
-  if (hasInput || methodInput) out += 'import java.util.Scanner;\n'
-  if (files || hasInput || methodInput) out += '\n'
+  const imports = [...new Set([document, ...methodDocs.map((m) => m.d)].flatMap(fileImports))]
+  const files = imports.length > 0
+  if ((hasInput || methodInput) && !imports.includes('import java.util.Scanner;')) imports.push('import java.util.Scanner;')
+  for (const line of imports) out += line + '\n'
+  if (imports.length) out += '\n'
   out += `public class ${name} {\n`
   if (scannerField) out += sp(opts.indentPerLevel) + 'static Scanner scanner = new Scanner(System.in);\n\n'
   // Ein Unterprogramm allein ist nur eine Methode, ohne `main`.

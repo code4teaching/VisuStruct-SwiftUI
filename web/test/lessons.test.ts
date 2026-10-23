@@ -247,7 +247,12 @@ describe('Bombe entschärfen', () => {
         const wrong = lines[round.wrongLine! - 1]
         expect(round.fix!.trim(), round.code).not.toBe(wrong.trim())
         lines[round.wrongLine! - 1] = wrong.match(/^\s*/)![0] + round.fix!.trim()
-        expect(parseLiveJava(lines.join('\n'), labels).problems, lines.join('\n')).toEqual([])
+        // CSV: Die richtige Zeile hat so viele Felder wie die Kopfzeile, die falsche nicht.
+        if (block.game.data === 'csv') {
+          const fields = (line: string) => line.split(';').length
+          expect(lines.every((l) => fields(l) === fields(lines[0])), lines.join('\n')).toBe(true)
+          expect(fields(wrong) === fields(lines[0]) && wrong.split(';').slice(1).every((v) => /^\d+$/.test(v.trim())), round.code).toBe(false)
+        } else expect(parseLiveJava(lines.join('\n'), labels).problems, lines.join('\n')).toEqual([])
         checked++
       }
     }

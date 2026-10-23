@@ -99,6 +99,9 @@
 "web_sim_call_arguments_fmt" = "A chamada não corresponde ao cabeçalho de %@. Verifica os valores entre parênteses.";
 "web_sim_missing_return_fmt" = "%@ terminou sem devolver um valor com return.";
 "web_sim_file_not_found_fmt" = "Não existe nenhum ficheiro chamado %@.";
+"web_sim_end_of_file_fmt" = "O ficheiro %@ não tem mais linhas.";
+"web_sim_null_value_fmt" = "%@ é null.";
+"web_sim_written_file_fmt" = "%@ (guardado)";
 "web_site_home" = "Página inicial";
 "web_site_imprint" = "Contacto";
 "web_site_privacy" = "Privacidade";

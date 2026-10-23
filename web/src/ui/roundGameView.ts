@@ -120,13 +120,14 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
       swing = swingView(parseSwingWindow(round.code), code)
       parts.push(h('div', { class: 'learn-swing-row' }, code.element, swing.element))
       if (round.clicks.length) parts.push(h('p', { class: 'learn-swing-clicks' }, `${t('web_game_clicks')} `, ...round.clicks.flatMap((c, i) => [...(i ? [' → '] : []), h('code', {}, c)])))
-    } else parts.push(code.element)
+    } else if (round.code.trim()) parts.push(code.element)
     parts.push(rich('p', { class: 'learn-game-question' }, round.question))
     const answers = h('div', { class: `learn-game-options ${game.kind === 'layout' ? 'pictures' : ''}` })
     const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
     const buttons = round.options.map((option) => {
       const b = h('button', {}) as HTMLButtonElement
       if (game.kind === 'layout') b.append(layoutPicture(option.text))
+      else if (option.text.includes('\n')) b.append(filePicture(option.text))
       else b.innerHTML = inline(option.text)
       b.addEventListener('click', () => answer(option.right, b))
       answers.append(b)
@@ -243,6 +244,11 @@ function swingView(win: SwingWindow, code: ReturnType<typeof codeView>) {
       return ids
     },
   }
+}
+
+/** Mehrzeilige Antwort als kleine Datei; `(leer)` u. Ä. ohne Zeilen bleibt Text. */
+function filePicture(text: string): HTMLElement {
+  return h('pre', { class: 'learn-game-file mono', dir: 'ltr' }, text)
 }
 
 /** Kleines Fenster als Antwort: GridLayout, FlowLayout oder BorderLayout. */

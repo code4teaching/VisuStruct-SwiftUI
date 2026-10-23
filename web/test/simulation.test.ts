@@ -620,6 +620,33 @@ describe('Zeichenketten', () => {
     expect(runSimulation(doc([stmt('int n = Integer.parseInt("zwölf")')])).notice?.kind).toBe('wholeNumberExpected')
   })
 
+  it('liest Dateien mit Scanner und BufferedReader und schreibt sie erst beim close()', () => {
+    registerTextFile('vorrat.txt', 'Heu\nÄpfel')
+    const state = runSimulation(
+      doc([
+        stmt('Scanner datei = new Scanner(new File("vorrat.txt"))'),
+        stmt('PrintWriter aus = new PrintWriter("kopie.txt")'),
+        makeElement(ElementType.whileSchleife, { textLines: ['datei.hasNextLine()'], loopBody: [stmt('aus.println(datei.nextLine())')] }),
+        stmt('aus.println("Kuchen")'),
+        stmt('datei.close()'),
+        stmt('output: "vorher: " + "x"'),
+        stmt('aus.close()'),
+        stmt('BufferedReader leser = new BufferedReader(new FileReader("kopie.txt"))'),
+        stmt('String zeile = leser.readLine()'),
+        makeElement(ElementType.whileSchleife, { textLines: ['zeile != null'], loopBody: [stmt('output: zeile'), stmt('zeile = leser.readLine()')] }),
+        stmt('leser.close()'),
+      ]),
+    )
+    expect(state.notice).toEqual({ kind: 'finished' })
+    expect(state.outputLines).toEqual(['vorher: x', 'Heu', 'Äpfel', 'Kuchen'])
+    expect(state.files.get('kopie.txt')).toBe('Heu\nÄpfel\nKuchen\n')
+  })
+
+  it('setzt Texte mit \\" wie Java zusammen (JSON schreiben)', () => {
+    const state = runSimulation(doc([stmt('String name = "Zora"'), stmt('String eintrag = "{\\"name\\": \\"" + name + "\\"}"'), stmt('output: eintrag')]))
+    expect(state.outputLines).toEqual(['{"name": "Zora"}'])
+  })
+
   it('rechnet wie Java mit Zeichencodes: (int), (char) und Zeichenliterale', () => {
     const state = runSimulation(
       doc([

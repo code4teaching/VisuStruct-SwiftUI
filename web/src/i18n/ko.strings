@@ -44,6 +44,9 @@
 "web_sim_call_arguments_fmt" = "호출이 %@의 머리글과 맞지 않습니다. 괄호 안의 값을 확인하세요.";
 "web_sim_missing_return_fmt" = "%@이(가) return으로 값을 반환하지 않고 끝났습니다.";
 "web_sim_file_not_found_fmt" = "%@(이)라는 파일이 없습니다.";
+"web_sim_end_of_file_fmt" = "파일 %@에 더 이상 줄이 없습니다.";
+"web_sim_null_value_fmt" = "%@은(는) null입니다.";
+"web_sim_written_file_fmt" = "%@ (저장됨)";
 "web_site_home" = "홈페이지";
 "web_site_imprint" = "사이트 정보";
 "web_site_privacy" = "개인정보";

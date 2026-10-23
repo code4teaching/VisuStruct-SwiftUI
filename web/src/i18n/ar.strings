@@ -44,6 +44,9 @@
 "web_sim_call_arguments_fmt" = "الاستدعاء لا يطابق ترويسة %@. تحقق من القيم بين القوسين.";
 "web_sim_missing_return_fmt" = "انتهى %@ دون إرجاع قيمة باستخدام return.";
 "web_sim_file_not_found_fmt" = "لا يوجد ملف باسم %@.";
+"web_sim_end_of_file_fmt" = "لا يوجد سطر آخر في الملف %@.";
+"web_sim_null_value_fmt" = "القيمة في %@ هي null.";
+"web_sim_written_file_fmt" = "%@ (محفوظ)";
 "web_site_home" = "الصفحة الرئيسية";
 "web_site_imprint" = "بيانات الناشر";
 "web_site_privacy" = "الخصوصية";
