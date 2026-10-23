@@ -57,6 +57,9 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_live_ph_code" = "Kodun";
 "web_live_ph_end" = "bitiş";
 "web_live_language" = "Programlama dili";
+"web_live_java_class" = "Sınıf olarak";
+"web_live_java_class_hint" = "Sınıf adı = diyagram başlığı";
+"web_live_java_main" = "main metoduyla";
 "web_live_hint_edit" = "Buraya Java kodu yaz, diyagram kendiliğinden oluşsun. Ya da diyagramda çalış, kod onunla büyüsün. Gri = yer tutucu, üzerine yazman yeterli.";
 "web_live_edit_label" = "Java kodu";
 "web_parse_line_fmt" = "Satır %d: %@";

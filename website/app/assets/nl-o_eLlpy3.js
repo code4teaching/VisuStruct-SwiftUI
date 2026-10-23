@@ -57,6 +57,9 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_live_ph_code" = "Jouw code";
 "web_live_ph_end" = "einde";
 "web_live_language" = "Programmeertaal";
+"web_live_java_class" = "Als klasse";
+"web_live_java_class_hint" = "Klassenaam = titel van het diagram";
+"web_live_java_main" = "Met main-methode";
 "web_live_hint_edit" = "Typ hier Java-code en het diagram bouwt zichzelf op. Of werk in het diagram en de code groeit mee. Grijs = tijdelijke tekst, typ er gewoon overheen.";
 "web_live_edit_label" = "Java-code";
 "web_parse_line_fmt" = "Regel %d: %@";

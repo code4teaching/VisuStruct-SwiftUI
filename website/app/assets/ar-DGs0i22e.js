@@ -57,6 +57,9 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_live_ph_code" = "شيفرتك";
 "web_live_ph_end" = "النهاية";
 "web_live_language" = "لغة البرمجة";
+"web_live_java_class" = "كصنف";
+"web_live_java_class_hint" = "اسم الصنف = عنوان المخطط";
+"web_live_java_main" = "مع الطريقة main";
 "web_live_hint_edit" = "اكتب هنا شيفرة Java وسيُبنى المخطط تلقائيًا. أو اعمل في المخطط وستنمو الشيفرة معه. الرمادي = عنصر نائب، اكتب فوقه مباشرة.";
 "web_live_edit_label" = "شيفرة Java";
 "web_parse_line_fmt" = "السطر %d: %@";

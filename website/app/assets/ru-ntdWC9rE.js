@@ -57,6 +57,9 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_live_ph_code" = "Твой код";
 "web_live_ph_end" = "конец";
 "web_live_language" = "Язык программирования";
+"web_live_java_class" = "Как класс";
+"web_live_java_class_hint" = "Имя класса = заголовок диаграммы";
+"web_live_java_main" = "С методом main";
 "web_live_hint_edit" = "Набери здесь код Java, и диаграмма построится сама. Или работай в диаграмме, и код будет расти вместе с ней. Серый = заполнитель, просто пиши поверх.";
 "web_live_edit_label" = "Код Java";
 "web_parse_line_fmt" = "Строка %d: %@";

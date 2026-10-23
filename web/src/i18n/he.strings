@@ -57,6 +57,9 @@
 "web_live_ph_code" = "הקוד שלך";
 "web_live_ph_end" = "סוף";
 "web_live_language" = "שפת תכנות";
+"web_live_java_class" = "כמחלקה";
+"web_live_java_class_hint" = "שם המחלקה = כותרת התרשים";
+"web_live_java_main" = "עם מתודת main";
 "web_live_hint_edit" = "הקלד כאן קוד Java והתרשים נבנה בעצמו. או עבוד בתרשים והקוד יגדל איתו. אפור = ממלא מקום, פשוט כתוב מעליו.";
 "web_live_edit_label" = "קוד Java";
 "web_parse_line_fmt" = "שורה %d: %@";

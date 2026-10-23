@@ -32,6 +32,8 @@ export type JavaProblemKey =
 export interface ParsedJava {
   /** Kopfzeile eines Unterprogramms, z. B. `int quadrat(int x)`; `undefined` = Hauptprogramm. */
   caption?: string
+  /** Name aus `public class Name`, falls der Code eine Klasse ist. */
+  className?: string
   elements: VSElement[]
   /** Zeilen jedes Elements im getippten Code (ab 0), Pfade wie in `editing.ts`. */
   spans: LiveSpan[]
@@ -214,6 +216,8 @@ class Parser {
 
   // Programm
 
+  className?: string
+
   parseProgram(): { caption?: string; elements: VSElement[] } {
     const elements: Built[] = []
     let caption: string | undefined
@@ -225,7 +229,8 @@ class Parser {
       }
       const cls = this.classStart()
       if (cls !== undefined) {
-        this.i = cls
+        this.className ??= cls.name
+        this.i = cls.index
         const inner = this.parseClassBody()
         elements.push(...inner.elements)
         caption ??= inner.caption
@@ -256,26 +261,28 @@ class Parser {
     this.eat(text)
   }
 
-  /** `public class Name {`: Index hinter `{`. */
-  private classStart(): number | undefined {
+  /** `public class Name {`: Name und Index hinter `{`. */
+  private classStart(): { name: string; index: number } | undefined {
     let k = this.i
     while (this.toks[k] && modifiers.has(this.toks[k].text)) k++
     if (this.toks[k]?.text !== 'class' || this.toks[k + 1]?.kind !== 'id') return undefined
+    const name = this.toks[k + 1].text
     k += 2
     while (this.toks[k] && this.toks[k].text !== '{') k++
-    return k + 1
+    return { name, index: k + 1 }
   }
 
   private parseClassBody(): { caption?: string; elements: Built[] } {
     let main: Built[] | undefined
     let other: { caption?: string; body: Built[] } | undefined
     let extra = false
+    // Klasse ohne `main`: Anweisungen stehen direkt in der Klasse.
+    const loose: Built[] = []
     while (this.tok && !this.is('}')) {
       const method = this.methodStart()
       if (!method) {
-        // Felder wie `static Scanner scanner = …;` gehören nicht ins Struktogramm.
-        if (this.is('{')) this.parseBlock()
-        else this.skipStatement()
+        if (this.is('{')) loose.push(...this.parseBlock().elements)
+        else loose.push(...this.parseStatement())
         continue
       }
       const start = this.tok
@@ -287,17 +294,8 @@ class Parser {
     }
     this.eat('}')
     if (main) return { elements: main }
-    return { caption: other?.caption, elements: other?.body ?? [] }
-  }
-
-  private skipStatement() {
-    let depth = 0
-    while (this.tok) {
-      const t = this.next()
-      if (t.text === '(' || t.text === '[') depth++
-      else if (t.text === ')' || t.text === ']') depth--
-      else if (t.text === ';' && depth <= 0) return
-    }
+    if (loose.length > 0 || !other) return { elements: loose }
+    return { caption: other.caption, elements: other.body }
   }
 
   /** `[public static] int quadrat(int x) {`: Name und Kopfzeile, Index steht danach auf `{`. */
@@ -673,7 +671,7 @@ class Parser {
 
   /** Anweisungstext → Kasten. `undefined` = gehört nicht ins Struktogramm (z. B. `Scanner scanner = …`). */
   private simpleElement(raw: string): { element: VSElement; prompt?: string } | undefined {
-    if (/^Scanner\s+\w+\s*=\s*new\s+Scanner\s*\(\s*System\.in\s*\)$/.test(raw)) return undefined
+    if (/^(?:(?:private|public|static|final)\s+)*Scanner\s+\w+\s*=\s*new\s+Scanner\s*\(\s*System\.in\s*\)$/.test(raw)) return undefined
     const anweisung = (text: string) => makeElement(ElementType.anweisung, { textLines: [text] })
     const out = /^System\.out\.println\s*\(([\s\S]*)\)$/.exec(raw)
     if (out && out[1].trim() !== '') {
@@ -730,5 +728,5 @@ export function parseLiveJava(source: string, labels: LiveLabels, opts: JavaPars
   p.markPlaceholderComments()
   const spans = p.spansFor(elements)
   const problems = p.problems.sort((a, b) => a.from - b.from)
-  return { caption, elements, spans, placeholders: p.placeholders.sort((a, b) => a.from - b.from), problems }
+  return { caption, className: p.className, elements, spans, placeholders: p.placeholders.sort((a, b) => a.from - b.from), problems }
 }

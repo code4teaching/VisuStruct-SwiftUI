@@ -1,4 +1,4 @@
-import { generateLiveCode, livePlaceholderEnd, livePlaceholderStart, type LiveLabels } from './codeGenerator'
+import { generateLiveCode, livePlaceholderEnd, livePlaceholderStart, sanitizedJavaClassName, type LiveCode, type LiveLabels } from './codeGenerator'
 import { parseLiveJava, type JavaParseOptions, type ParsedJava } from './javaParser'
 import type { VSDocument, VSElement } from './model'
 import { parseSubprogramHeader } from './simulation'
@@ -9,9 +9,47 @@ import { parseSubprogramHeader } from './simulation'
  * und Einrückungen im übrigen Code bleiben so, wie man sie getippt hat.
  */
 
-/** Erzeugter Java-Code der Ansicht „Code live“ als reiner Text (Platzhalter ohne Markierung). */
-export function plainLiveJava(doc: VSDocument, labels: LiveLabels): string {
-  return generateLiveCode(doc, 'java', labels).text.replaceAll(livePlaceholderStart, '').replaceAll(livePlaceholderEnd, '')
+/** Form des Java-Codes in „Code live“ (Zahnrad-Menü): Snippet, mit `main`, in einer Klasse oder beides. */
+export interface JavaForm {
+  /** `public class <Titel> { … }` */
+  asClass: boolean
+  /** `public static void main(String[] args) { … }` */
+  withMain: boolean
+}
+
+export const snippetForm: JavaForm = { asClass: false, withMain: false }
+
+const scannerImportComment = '// import java.util.Scanner;'
+const indented = (lines: string[]) => lines.map((l) => (l.trim() === '' ? '' : '    ' + l))
+
+/** Erzeugter Java-Code der Ansicht „Code live“ als reiner Text (Platzhalter ohne Markierung) mit den Zeilen jedes Elements. */
+export function liveJava(doc: VSDocument, labels: LiveLabels, form: JavaForm = snippetForm): LiveCode {
+  const live = generateLiveCode(doc, 'java', labels)
+  let lines = live.text.replaceAll(livePlaceholderStart, '').replaceAll(livePlaceholderEnd, '').split('\n')
+  let spans = live.spans
+  const shift = (by: number) => (spans = spans.map((s) => ({ ...s, from: s.from + by, to: s.to + by })))
+  const isMethod = parseSubprogramHeader(doc.caption) !== undefined
+  // Ein Unterprogramm ist schon eine Methode: kein `main` drumherum.
+  if (form.withMain && !isMethod) {
+    lines = ['public static void main(String[] args) {', ...indented(lines), '}']
+    shift(1)
+  }
+  if (form.asClass) {
+    // In einer Klasse wird aus dem Kommentar ein echter Import vor der Klasse.
+    const at = lines.findIndex((l) => l.trim() === scannerImportComment)
+    const imports = at >= 0 ? ['import java.util.Scanner;', ''] : []
+    if (at >= 0) {
+      lines.splice(at, 1)
+      spans = spans.map((s) => ({ ...s, from: s.from > at ? s.from - 1 : s.from, to: s.to > at ? s.to - 1 : s.to }))
+    }
+    lines = [...imports, `public class ${sanitizedJavaClassName(isMethod ? 'Main' : doc.caption)} {`, ...indented(lines), '}']
+    shift(imports.length + 1)
+  }
+  return { text: lines.join('\n'), spans }
+}
+
+export function plainLiveJava(doc: VSDocument, labels: LiveLabels, form: JavaForm = snippetForm): string {
+  return liveJava(doc, labels, form).text
 }
 
 /** Zum Vergleichen: ohne Leerraum, Kommentar am Zeilenende weg (ganze Kommentarzeilen bleiben). */
@@ -60,9 +98,16 @@ function diff(a: string[], b: string[], eq: (x: string, y: string) => boolean): 
  * `userText` gehört zu `oldDoc`; das Struktogramm wurde zu `newDoc` geändert.
  * Ergebnis: `userText` mit den Änderungen. Lässt sich das nicht sicher übertragen, der neu erzeugte Code.
  */
-export function mergeLiveJava(userText: string, oldDoc: VSDocument, newDoc: VSDocument, labels: LiveLabels, opts: JavaParseOptions = {}): string {
-  const generatedNew = plainLiveJava(newDoc, labels)
-  const generatedOld = plainLiveJava(oldDoc, labels)
+export function mergeLiveJava(
+  userText: string,
+  oldDoc: VSDocument,
+  newDoc: VSDocument,
+  labels: LiveLabels,
+  opts: JavaParseOptions = {},
+  form: JavaForm = snippetForm,
+): string {
+  const generatedNew = plainLiveJava(newDoc, labels, form)
+  const generatedOld = plainLiveJava(oldDoc, labels, form)
   if (userText === generatedOld) return generatedNew
   const oldLines = generatedOld.split('\n')
   const newLines = generatedNew.split('\n')
@@ -100,7 +145,7 @@ export function mergeLiveJava(userText: string, oldDoc: VSDocument, newDoc: VSDo
   const merged = out.join('\n')
   // Nur übernehmen, wenn der Code wirklich das neue Struktogramm ergibt.
   const parsed = parseLiveJava(merged, labels, opts)
-  return plainLiveJava(documentFromJava(newDoc, parsed), labels) === generatedNew ? merged : generatedNew
+  return plainLiveJava(documentFromJava(newDoc, parsed), labels, form) === generatedNew ? merged : generatedNew
 }
 
 /**
@@ -108,7 +153,9 @@ export function mergeLiveJava(userText: string, oldDoc: VSDocument, newDoc: VSDo
  * soweit an derselben Stelle noch dieselbe Art Element steht.
  */
 export function documentFromJava(prev: VSDocument, parsed: ParsedJava): VSDocument {
-  const caption = parsed.caption ?? (parseSubprogramHeader(prev.caption) ? '' : prev.caption)
+  let caption = parsed.caption ?? (parseSubprogramHeader(prev.caption) ? '' : prev.caption)
+  // `public class Rechner` wird zum Titel; aus „Mein Programm“ wird zwar `Mein_Programm`, der Titel bleibt dann aber.
+  if (!parsed.caption && parsed.className && sanitizedJavaClassName(caption) !== parsed.className) caption = parsed.className
   return { ...prev, caption, elements: carryLooks(prev.elements, parsed.elements) }
 }
 

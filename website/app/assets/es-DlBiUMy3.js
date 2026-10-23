@@ -57,6 +57,9 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_live_ph_code" = "Tu código";
 "web_live_ph_end" = "fin";
 "web_live_language" = "Lenguaje de programación";
+"web_live_java_class" = "Como clase";
+"web_live_java_class_hint" = "Nombre de la clase = título del diagrama";
+"web_live_java_main" = "Con método main";
 "web_live_hint_edit" = "Escribe aquí código Java y el diagrama se construye solo. O trabaja en el diagrama y el código crece con él. Gris = marcador, escribe encima.";
 "web_live_edit_label" = "Código Java";
 "web_parse_line_fmt" = "Línea %d: %@";

@@ -8,7 +8,7 @@ import {
   type LiveTarget,
 } from '../core/codeGenerator'
 import { parseLiveJava, type JavaProblem, type ParsedJava } from '../core/javaParser'
-import { documentFromJava, mergeLiveJava, plainLiveJava } from '../core/liveSource'
+import { documentFromJava, liveJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../core/liveSource'
 import type { VSDocument } from '../core/model'
 import { JavaEditor, type SnippetWords } from './javaEditor'
 import { sidebarIcon } from './learnPanel'
@@ -19,6 +19,16 @@ import { sidebarIcon } from './learnPanel'
  */
 
 const targetKey = 'visustruct.live.target'
+const javaClassKey = 'visustruct.live.javaClass'
+const javaMainKey = 'visustruct.live.javaMain'
+
+function storedFlag(key: string): boolean {
+  try {
+    return localStorage.getItem(key) === '1'
+  } catch {
+    return false
+  }
+}
 
 function storedTarget(): LiveTarget {
   try {
@@ -84,6 +94,7 @@ export class LiveCodePanel {
   private last?: { doc: VSDocument; highlight?: number[]; context: LiveContext }
   /** Getippter Code zu einem Dokument (auch für Rückgängig). */
   private textFor = new WeakMap<VSDocument, string>()
+  private form: JavaForm = { asClass: storedFlag(javaClassKey), withMain: storedFlag(javaMainKey) }
   /** Zuletzt gezeigter Code je Reiter: Grundlage, wenn sich das Struktogramm danach ändert. */
   private shown = new WeakMap<object, { doc: VSDocument; text: string }>()
   private parsed?: ParsedJava
@@ -157,6 +168,26 @@ export class LiveCodePanel {
     this.showMode()
   }
 
+  /** Java als Snippet, mit `main`, in einer Klasse (Zahnrad-Menü). */
+  get javaForm(): JavaForm {
+    return this.form
+  }
+
+  setJavaForm(form: JavaForm) {
+    this.form = form
+    try {
+      localStorage.setItem(javaClassKey, form.asClass ? '1' : '0')
+      localStorage.setItem(javaMainKey, form.withMain ? '1' : '0')
+    } catch {
+      /* ohne Speicher: nur für diese Sitzung */
+    }
+    // Neu erzeugen: Der bisherige Text hat noch die alte Form.
+    this.textFor = new WeakMap()
+    this.shown = new WeakMap()
+    this.parsed = undefined
+    if (this.last) this.refresh(this.last.doc, this.last.highlight, this.last.context)
+  }
+
   /** Programmiersprache (im Zahnrad-Menü). */
   get language(): LiveTarget {
     return this.target
@@ -221,8 +252,8 @@ export class LiveCodePanel {
     const known = this.textFor.get(doc)
     if (known !== undefined) return known
     const before = this.shown.get(context.owner)
-    if (before) return mergeLiveJava(before.text, before.doc, doc, this.labels, { subprograms: context.subprograms })
-    return plainLiveJava(doc, this.labels)
+    if (before) return mergeLiveJava(before.text, before.doc, doc, this.labels, { subprograms: context.subprograms }, this.form)
+    return plainLiveJava(doc, this.labels, this.form)
   }
 
   private refreshEditor(doc: VSDocument, highlight: number[] | undefined, context: LiveContext) {
@@ -235,7 +266,8 @@ export class LiveCodePanel {
       this.analyze(text, context)
     } else if (!this.parsed) this.analyze(text, context)
     // Unverändert erzeugter Code: Zeilen genau wie beim Erzeugen (auch bei Kästen mit mehreren Zeilen).
-    this.spans = text === plainLiveJava(doc, this.labels) ? generateLiveCode(doc, 'java', this.labels).spans : (this.parsed?.spans ?? [])
+    const generated = liveJava(doc, this.labels, this.form)
+    this.spans = text === generated.text ? generated.spans : (this.parsed?.spans ?? [])
     this.drawMarks(highlight)
   }
 

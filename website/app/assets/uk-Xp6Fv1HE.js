@@ -57,6 +57,9 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_live_ph_code" = "Твій код";
 "web_live_ph_end" = "кінець";
 "web_live_language" = "Мова програмування";
+"web_live_java_class" = "Як клас";
+"web_live_java_class_hint" = "Назва класу = заголовок діаграми";
+"web_live_java_main" = "З методом main";
 "web_live_hint_edit" = "Набери тут код Java, і діаграма будується сама. Або працюй у діаграмі, і код росте разом із нею. Сірий = заповнювач, просто пиши поверх.";
 "web_live_edit_label" = "Код Java";
 "web_parse_line_fmt" = "Рядок %d: %@";
