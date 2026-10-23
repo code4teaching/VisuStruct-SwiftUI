@@ -81,9 +81,13 @@ Isto não está no programa da disciplina. Se quiseres saber o que está por tr�
 
 ::: angeberwissen
 `ActionListener` é uma **interface**, uma espécie de contrato. Diz: quem quiser ser um ActionListener tem de ter um método `actionPerformed(ActionEvent e)`. A cada clique o botão chama exatamente esse método.
-
-A seta `e -> …` é uma forma curta (uma expressão lambda, desde o Java 8). Funciona porque a interface tem um único método. Assim o Java sabe de que método se trata.
 :::
+
+A linha com a seta já conheces do passo 2:
+
+```
+botao.addActionListener(e -> botao.setText("Fui clicado"));
+```
 
 Sem a seta escreve-se o ouvinte como uma classe sem nome que cumpre o contrato (uma classe anónima):
 
@@ -95,7 +99,7 @@ botao.addActionListener(new ActionListener() {
 });
 ```
 
-Para isso precisas ainda de `import java.awt.event.*;` em cima. As duas formas fazem exatamente o mesmo, a da seta é só mais curta.
+Para isso precisas ainda de `import java.awt.event.*;` em cima. As duas formas fazem exatamente o mesmo. A seta `e -> …` é a forma curta (uma expressão lambda, desde o Java 8): `e` é o parâmetro de `actionPerformed`, e depois da seta vem o seu corpo. A forma curta funciona porque a interface tem um único método. Assim o Java sabe de que método se trata.
 
 ## Tarefa: fui clicado
 

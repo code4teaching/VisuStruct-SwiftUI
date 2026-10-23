@@ -173,6 +173,18 @@ const placeholderTyping = EditorView.inputHandler.of((view, from, to, text) => {
   return true
 })
 
+/** Einfügen und Hineinziehen ersetzen den Platzhalter genauso (sonst bleibt z. B. `// Dein Code` vor dem Text stehen). */
+const placeholderPaste = EditorState.transactionFilter.of((tr) => {
+  if (!tr.docChanged || !(tr.isUserEvent('input.paste') || tr.isUserEvent('input.drop'))) return tr
+  const changes: { from: number; to: number; text: string }[] = []
+  tr.changes.iterChanges((from, to, _fromB, _toB, inserted) => changes.push({ from, to, text: inserted.toString() }))
+  if (changes.length !== 1 || changes[0].from !== changes[0].to) return tr
+  const ph = placeholderAt(tr.startState, changes[0].from)
+  if (!ph) return tr
+  const { text } = changes[0]
+  return { changes: { from: ph.from, to: ph.to, insert: text }, selection: { anchor: ph.from + text.length }, userEvent: 'input.paste', scrollIntoView: true }
+})
+
 const deletePlaceholder = (forward: boolean) => (view: EditorView) => {
   const sel = view.state.selection.main
   if (!sel.empty) return false
@@ -264,6 +276,7 @@ export class JavaEditor {
       closeBrackets(),
       marksField,
       placeholderTyping,
+      placeholderPaste,
       placeholderClick,
       this.readOnly.of(EditorState.readOnly.of(false)),
       autocompletion({ override: [source], icons: false }),
