@@ -13,7 +13,6 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_export_failed_fmt" = "匯出失敗：%@";
 "web_print_hint" = "請透過「匯出… → PDF」儲存圖表，再從那裡列印。";
 "web_delete" = "刪除";
-"web_zoom_option_fmt" = "文字：%@";
 "web_language_title" = "介面語言";
 "web_simulation_start_title" = "逐步執行結構圖";
 "web_simulation_end_title" = "結束模擬並繼續編輯";

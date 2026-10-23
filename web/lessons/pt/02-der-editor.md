@@ -8,7 +8,7 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 O editor tem quatro áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
 
-- **Em cima, a [barra de ferramentas](#zeige-leiste):** Novo, Abrir, Guardar, Exportar, Anular, Copiar e Colar, tamanho do texto, Code e Simulação.
+- **Em cima, a [barra de ferramentas](#zeige-leiste):** Novo, Abrir, Guardar, Exportar, Anular, Copiar e Colar, Code e Simulação. À direita, a roda dentada das [Definições](#zeige-einstellungen): tamanho do texto e idioma.
 - **À esquerda, os [Elementos](#zeige-elemente):** Aqui estão todos os blocos que podes arrastar para o estrutograma. Há quem chame a esta área a paleta.
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
 - **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.

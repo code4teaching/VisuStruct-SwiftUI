@@ -34,7 +34,7 @@ Com [Exportar…](#zeige-exportieren) na barra de ferramentas podes partilhar o 
 - **PDF (A4):** uma página para entregar ou imprimir
 - **Imprimir** (Ctrl+P): diretamente para a impressora
 
-Com [Texto](#zeige-textgroesse) na barra de ferramentas defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
+Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
 
 ## Experimenta
 

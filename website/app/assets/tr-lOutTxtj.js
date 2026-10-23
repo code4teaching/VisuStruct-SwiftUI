@@ -13,7 +13,6 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_export_failed_fmt" = "Dışa aktarma başarısız: %@";
 "web_print_hint" = "Diyagramı kaydetmek için “Dışa aktar… → PDF” seçeneğini kullanın ve oradan yazdırın.";
 "web_delete" = "Sil";
-"web_zoom_option_fmt" = "Metin: %@";
 "web_language_title" = "Arayüz dili";
 "web_simulation_start_title" = "Yapı şemasını adım adım çalıştır";
 "web_simulation_end_title" = "Simülasyonu bitir ve düzenlemeye devam et";

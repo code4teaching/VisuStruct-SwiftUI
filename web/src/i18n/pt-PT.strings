@@ -13,7 +13,6 @@
 "web_export_failed_fmt" = "Falha na exportação: %@";
 "web_print_hint" = "Use “Exportar… → PDF” para guardar o diagrama e imprimi-lo a partir daí.";
 "web_delete" = "Eliminar";
-"web_zoom_option_fmt" = "Texto: %@";
 "web_language_title" = "Idioma da interface";
 "web_simulation_start_title" = "Executar o diagrama passo a passo";
 "web_simulation_end_title" = "Terminar a simulação e continuar a editar";

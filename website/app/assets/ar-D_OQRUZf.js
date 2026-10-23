@@ -13,7 +13,6 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_export_failed_fmt" = "فشل التصدير: %@";
 "web_print_hint" = "استخدم «تصدير… → PDF» لحفظ المخطط ثم طباعته من هناك.";
 "web_delete" = "حذف";
-"web_zoom_option_fmt" = "النص: %@";
 "web_language_title" = "لغة الواجهة";
 "web_simulation_start_title" = "تشغيل المخطط خطوة بخطوة";
 "web_simulation_end_title" = "إنهاء المحاكاة ومتابعة التحرير";

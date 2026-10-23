@@ -13,7 +13,6 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_export_failed_fmt" = "Eksporten mislyktes: %@";
 "web_print_hint" = "Bruk «Eksporter… → PDF» for å lagre diagrammet og skrive det ut derfra.";
 "web_delete" = "Slett";
-"web_zoom_option_fmt" = "Tekst: %@";
 "web_language_title" = "Språk i grensesnittet";
 "web_simulation_start_title" = "Kjør struktogrammet trinn for trinn";
 "web_simulation_end_title" = "Avslutt simuleringen og fortsett redigeringen";

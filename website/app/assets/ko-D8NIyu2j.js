@@ -13,7 +13,6 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_export_failed_fmt" = "내보내기 실패: %@";
 "web_print_hint" = "“내보내기… → PDF”로 다이어그램을 저장한 뒤 인쇄하세요.";
 "web_delete" = "삭제";
-"web_zoom_option_fmt" = "텍스트: %@";
 "web_language_title" = "인터페이스 언어";
 "web_simulation_start_title" = "구조도를 단계별로 실행";
 "web_simulation_end_title" = "시뮬레이션을 끝내고 계속 편집";

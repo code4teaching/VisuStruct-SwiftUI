@@ -13,7 +13,6 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_export_failed_fmt" = "Esportazione non riuscita: %@";
 "web_print_hint" = "Usa “Esporta… → PDF” per salvare il diagramma e stamparlo da lì.";
 "web_delete" = "Elimina";
-"web_zoom_option_fmt" = "Testo: %@";
 "web_language_title" = "Lingua dell’interfaccia";
 "web_simulation_start_title" = "Esegui il diagramma passo dopo passo";
 "web_simulation_end_title" = "Termina la simulazione e continua a modificare";

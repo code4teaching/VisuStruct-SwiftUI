@@ -54,6 +54,40 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+/* Zahnrad oben rechts: Textgröße und Sprache */
+.settings {
+  position: relative;
+}
+.settings > button {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 8px;
+}
+.settings-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  inset-inline-end: 0;
+  z-index: 30;
+  display: grid;
+  gap: 10px;
+  min-width: 220px;
+  padding: 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+.settings-menu[hidden] {
+  display: none;
+}
+.settings-menu label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
 .brand {
   font-weight: 700;
   font-size: 16px;

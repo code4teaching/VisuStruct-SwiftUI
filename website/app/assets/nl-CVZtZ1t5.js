@@ -13,7 +13,6 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_export_failed_fmt" = "Exporteren mislukt: %@";
 "web_print_hint" = "Gebruik “Exporteren… → PDF” om het diagram op te slaan en het daarna af te drukken.";
 "web_delete" = "Verwijderen";
-"web_zoom_option_fmt" = "Tekst: %@";
 "web_language_title" = "Taal van de interface";
 "web_simulation_start_title" = "Het structogram stap voor stap uitvoeren";
 "web_simulation_end_title" = "Simulatie beëindigen en verder bewerken";

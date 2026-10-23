@@ -13,7 +13,6 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_export_failed_fmt" = "エクスポートに失敗しました：%@";
 "web_print_hint" = "「エクスポート… → PDF」で図を保存し、そこから印刷してください。";
 "web_delete" = "削除";
-"web_zoom_option_fmt" = "テキスト：%@";
 "web_language_title" = "表示言語";
 "web_simulation_start_title" = "構造図をステップごとに実行";
 "web_simulation_end_title" = "シミュレーションを終了して編集を続ける";

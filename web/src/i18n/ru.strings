@@ -13,7 +13,6 @@
 "web_export_failed_fmt" = "Ошибка экспорта: %@";
 "web_print_hint" = "Через «Экспорт… → PDF» можно сохранить схему и затем распечатать её.";
 "web_delete" = "Удалить";
-"web_zoom_option_fmt" = "Текст: %@";
 "web_language_title" = "Язык интерфейса";
 "web_simulation_start_title" = "Выполнить схему шаг за шагом";
 "web_simulation_end_title" = "Завершить симуляцию и продолжить редактирование";

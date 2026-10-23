@@ -34,7 +34,7 @@ With [Export…](#zeige-exportieren) in the toolbar you can share your structure
 - **PDF (A4):** one page to hand in or print
 - **Print** (Ctrl+P): straight to the printer
 
-With [Text](#zeige-textgroesse) in the toolbar you set the font size. Larger text also shows when you export an image.
+Under the [gear](#zeige-textgroesse) at the top right, Text size sets the font size. Larger text also shows when you export an image.
 
 ## Try it out
 
