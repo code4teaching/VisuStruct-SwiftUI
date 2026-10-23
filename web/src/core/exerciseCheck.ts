@@ -6,10 +6,14 @@ import { SimulationEngine, type SimNotice, type SubprogramResolver } from './sim
 export interface ExerciseTest {
   inputs: string[]
   expected: string[]
+  /** Dateien, die das Programm speichern soll, mit ihren Zeilen. */
+  files?: { name: string; lines: string[] }[]
 }
 
 export interface RunResult {
   outputs: string[]
+  /** Gespeicherte Dateien (Name → Inhalt). */
+  files?: Map<string, string>
   /** Fehler der Simulation (z. B. unbekannte Variable). */
   error?: SimNotice
   /** Das Diagramm wollte mehr Eingaben, als der Test hat. */
@@ -27,20 +31,26 @@ export function runWithInputs(doc: VSDocument, inputs: string[], subprograms?: S
   const queue = [...inputs]
   for (let i = 0; i < maxCheckSteps; i++) {
     const { state } = engine
+    const done = () => ({ outputs: [...state.outputLines], files: new Map(state.files) })
     if (state.inputRequest) {
       const next = queue.shift()
-      if (next === undefined) return { outputs: [...state.outputLines], missingInput: true }
+      if (next === undefined) return { ...done(), missingInput: true }
       engine.provideInput(next)
-      if (state.inputErrorNotice) return { outputs: [...state.outputLines], error: state.inputErrorNotice }
+      if (state.inputErrorNotice) return { ...done(), error: state.inputErrorNotice }
       continue
     }
-    if (state.isHalted) return { outputs: [...state.outputLines], error: state.notice }
+    if (state.isHalted) return { ...done(), error: state.notice }
     if (!engine.canStep) {
-      return { outputs: [...state.outputLines], unusedInputs: queue.length || undefined }
+      return { ...done(), unusedInputs: queue.length || undefined }
     }
     engine.step()
   }
-  return { outputs: [...engine.state.outputLines], tooManySteps: true }
+  return { outputs: [...engine.state.outputLines], files: new Map(engine.state.files), tooManySteps: true }
+}
+
+/** Zeilen einer gespeicherten Datei; der Zeilenumbruch am Ende beginnt keine neue Zeile. Fehlt die Datei: keine Zeilen. */
+export function fileLines(content: string | undefined): string[] {
+  return content === undefined || content === '' ? [] : content.replace(/\n$/, '').split('\n')
 }
 
 /** Gleiche Ausgabe: Zeile für Zeile, Leerraum am Rand egal, `1.0` gleich `1`. */
@@ -64,7 +74,8 @@ export interface TestOutcome {
 export function checkExercise(doc: VSDocument, tests: ExerciseTest[], subprograms?: SubprogramResolver): TestOutcome[] {
   return tests.map((test) => {
     const result = runWithInputs(doc, test.inputs, subprograms)
-    const passed = !result.error && !result.missingInput && !result.tooManySteps && sameOutput(result.outputs, test.expected)
+    const filesRight = (test.files ?? []).every((f) => sameOutput(fileLines(result.files?.get(f.name)), f.lines))
+    const passed = !result.error && !result.missingInput && !result.tooManySteps && sameOutput(result.outputs, test.expected) && filesRight
     return { test, result, passed }
   })
 }

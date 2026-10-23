@@ -1,6 +1,7 @@
 import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimNotice, type SimValue, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
+import { writtenFilesView } from './textFileView'
 
 /** Was eine Konsole zeigen würde: Ausgaben, Eingaben mit Antwort, offene Frage, Ende oder Fehler. */
 export interface ConsoleTranscript {
@@ -28,6 +29,8 @@ export function noticeText(n: SimNotice): string {
     case 'callArguments': return t('web_sim_call_arguments_fmt', n.text)
     case 'missingReturn': return t('web_sim_missing_return_fmt', n.text)
     case 'fileNotFound': return t('web_sim_file_not_found_fmt', n.text)
+    case 'endOfFile': return t('web_sim_end_of_file_fmt', n.text)
+    case 'nullValue': return t('web_sim_null_value_fmt', n.text)
     case 'other': return n.text
   }
 }
@@ -296,7 +299,7 @@ export class SimulationPanel {
       this.variables.replaceChildren(table)
     }
 
-    if (state.outputLines.length === 0) {
+    if (state.outputLines.length === 0 && state.files.size === 0) {
       this.output.innerHTML = `<p class="placeholder">${esc(t('simulation_output_placeholder'))}</p>`
     } else {
       this.output.replaceChildren(
@@ -305,6 +308,7 @@ export class SimulationPanel {
           div.textContent = line
           return div
         }),
+        ...writtenFilesView(state.files),
       )
       this.output.scrollTop = this.output.scrollHeight
     }

@@ -47,9 +47,18 @@ const renamedLessons: Record<string, string> = {
   '18-python-und-javascript': '21-python-und-javascript',
   '19-python-und-javascript': '21-python-und-javascript',
   '20-python-und-javascript': '21-python-und-javascript',
-  '22-erstes-fenster': '23-erstes-fenster',
-  '23-knopf-im-fenster': '24-knopf-im-fenster',
-  '24-der-knopf-reagiert': '25-der-knopf-reagiert',
+  '22-erstes-fenster': '28-erstes-fenster',
+  '23-knopf-im-fenster': '29-knopf-im-fenster',
+  '24-der-knopf-reagiert': '30-der-knopf-reagiert',
+  '23-erstes-fenster': '28-erstes-fenster',
+  '24-knopf-im-fenster': '29-knopf-im-fenster',
+  '25-der-knopf-reagiert': '30-der-knopf-reagiert',
+  '26-zahl-verdoppeln': '31-zahl-verdoppeln',
+  '27-klickzaehler': '32-klickzaehler',
+  '28-ampel': '33-ampel',
+  '29-notenrechner': '34-notenrechner',
+  '30-taschenrechner': '35-taschenrechner',
+  '31-zahlenraten': '36-zahlenraten',
 }
 
 function migrate(s: Store): Store {

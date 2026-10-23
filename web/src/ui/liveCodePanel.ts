@@ -17,6 +17,7 @@ import { icons } from './icons'
 import { indentJava } from '../core/javaIndent'
 import { sidebarIcon } from './learnPanel'
 import { closeWindows, compileAndRun, prepareJava } from './javaRuntime'
+import { writtenFilesView } from './textFileView'
 
 /**
  * Ansicht „Code live“: rechts neben dem Struktogramm der Java-, JavaScript- oder Python-Code, der bei jeder Änderung mitwächst.
@@ -471,7 +472,8 @@ export class LiveCodePanel {
       this.consoleNotice.textContent = t('web_live_swing_loading')
       await prepareJava(this.swingDisplay)
       this.consoleNotice.textContent = t('web_live_swing_compiling')
-      const result = await compileAndRun(this.code.text, () => (this.swingElement.hidden = false))
+      const { result, files } = await compileAndRun(this.code.text, () => (this.swingElement.hidden = false))
+      this.showWrittenFiles(files)
       this.consoleNotice.textContent = t(
         { 'compile-error': 'web_live_swing_compile_failed', windows: 'web_live_swing_running', finished: 'web_live_run_finished' }[result],
       )
@@ -511,6 +513,7 @@ export class LiveCodePanel {
       return true
     }
     if (state.isHalted || !run.engine.canStep) {
+      this.showWrittenFiles(state.files)
       this.finishRun(state.isHalted && state.notice ? noticeText(state.notice) : t('web_live_run_finished'), state.isHalted)
       return true
     }
@@ -617,6 +620,13 @@ export class LiveCodePanel {
       value.textContent = typed.value
       div.append(value)
     }
+    this.consoleLines.scrollTop = this.consoleLines.scrollHeight
+  }
+
+  /** Nach dem Lauf: die Dateien, die das Programm gespeichert hat. */
+  private showWrittenFiles(files: Map<string, string>) {
+    if (!files.size) return
+    this.consoleLines.append(...writtenFilesView(files))
     this.consoleLines.scrollTop = this.consoleLines.scrollHeight
   }
 

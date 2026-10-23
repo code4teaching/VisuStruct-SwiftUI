@@ -7,7 +7,10 @@
  * - `vertrag` („Vertrag erfüllt?“): Klassen, die ein Interface erfüllen sollen.
  * - `layout` („Wo landet der Knopf?“): Die Antworten sind kleine Fenster (`grid: A B / C D`, …).
  * - `bombe` („Bombe entschärfen“): Code mit genau einer falschen Zeile und ein Countdown (`zeit:` Sekunden je
- *   Runde). Man tippt auf die Zeile; `fehler:` ist ihre Nummer (ab 1), `besser:` die richtige Zeile.
+ *   Runde). Man tippt auf die Zeile; `fehler:` ist ihre Nummer (ab 1), `besser:` die richtige Zeile. Mit `daten: csv`
+ *   ist der „Code“ eine CSV-Datei statt Java.
+ * - `frage`: Code (auch leer) und eine Frage mit Antworten. `\n` in einer Antwort beginnt eine neue Zeile; solche
+ *   Antworten erscheinen als kleine Datei.
  *
  * Format (Schlüsselwörter wie in den anderen Blöcken auf Deutsch, auch in den Übersetzungen):
  *
@@ -26,7 +29,7 @@
  *     > Erklärung
  */
 
-export type RoundGameKind = 'zuhoerer' | 'vertrag' | 'layout' | 'bombe'
+export type RoundGameKind = 'zuhoerer' | 'vertrag' | 'layout' | 'bombe' | 'frage'
 
 export interface RoundOption {
   text: string
@@ -51,13 +54,15 @@ export interface RoundGame {
   intro: string
   /** Nur `bombe`: Sekunden je Runde. */
   seconds?: number
+  /** Nur `bombe`: Was in den Runden steht, Java (Standard) oder eine CSV-Datei. */
+  data?: 'csv'
   rounds: Round[]
 }
 
 export class RoundGameError extends Error {}
 
 export function isRoundGameKind(arg: string): arg is RoundGameKind {
-  return arg === 'zuhoerer' || arg === 'vertrag' || arg === 'layout' || arg === 'bombe'
+  return arg === 'zuhoerer' || arg === 'vertrag' || arg === 'layout' || arg === 'bombe' || arg === 'frage'
 }
 
 export function parseRoundGame(kind: RoundGameKind, lines: string[], file: string): RoundGame {
@@ -69,6 +74,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
   let question = ''
   let answers: string[] = []
   let seconds: number | undefined
+  let data: 'csv' | undefined
   const rounds: (Round & { rightText?: string })[] = []
   let current: (Round & { rightText?: string }) | undefined
   let inCode = false
@@ -80,7 +86,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
     }
     inCode = false
     if (!line) continue
-    const key = /^(titel|intro|antworten|frage|runde|klicks|richtig|zeit|fehler|besser):\s*(.*)$/.exec(line)
+    const key = /^(titel|intro|antworten|frage|runde|klicks|richtig|zeit|fehler|besser|daten):\s*(.*)$/.exec(line)
     if (key) {
       const [, name, value] = key
       if (name === 'runde') {
@@ -93,6 +99,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
         else if (name === 'antworten') answers = value.split('|').map((a) => a.trim())
         else if (name === 'frage') question = value
         else if (name === 'zeit') seconds = Number(value)
+        else if (name === 'daten') data = value === 'csv' ? value : fail(`„daten:“ kennt nur „csv“.`)
         else fail(`„${name}:“ gehört in eine Runde.`)
       } else if (name === 'frage') current.question = value
       else if (name === 'fehler') current.wrongLine = Number(value)
@@ -105,7 +112,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
     if (!current) fail(`Unbekannte Zeile vor der ersten Runde: „${line}“`)
     const round = current!
     const option = /^-\s+(\[x\]\s+)?(.+)$/.exec(line)
-    if (option) round.options.push({ text: option[2].trim(), right: !!option[1] })
+    if (option) round.options.push({ text: option[2].trim().replaceAll('\\n', '\n'), right: !!option[1] })
     else if (line.startsWith('>')) round.explanation += (round.explanation ? ' ' : '') + line.slice(1).trim()
     else fail(`Unbekannte Zeile im Spiel: „${line}“`)
   }
@@ -143,7 +150,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
     delete round.rightText
   })
   if (kind === 'bombe' && !(seconds && seconds > 0)) fail('„bombe“ braucht „zeit:“ mit den Sekunden je Runde.')
-  return { kind, title, intro, ...(kind === 'bombe' ? { seconds } : {}), rounds }
+  return { kind, title, intro, ...(kind === 'bombe' ? { seconds, ...(data ? { data } : {}) } : {}), rounds }
 }
 
 // MARK: - Layout-Bilder

@@ -71,6 +71,8 @@ lösung: l2-hallo-loesung.visustruct
 - `tipp:` gestufte Tipps, eine Zeile je Tipp, vom allgemeinen zum genauen. Jeder Klick auf **Tipp** deckt den nächsten auf. Jede Übung hat mindestens zwei.
 - `lösung:` (optional) Musterlösung. Sichtbar ist sie nur im Lehrermodus (Lehrercode unten in der Lektions- oder Aufgabenliste, im Code steht nur sein SHA-256-Hash in `src/learn/teacher.ts`). Der Test prüft, dass sie alle Tests besteht.
 - `unterprogramm:` (optional) Unterprogramme zur Musterlösung, durch Komma getrennt. Ihr Titel ist der Name im Aufruf. Beim Prüfen findet VisuStruct Unterprogramme in den anderen offenen Reitern.
+- `datei:` (optional, nach einem `test:`) Diese Datei soll das Programm in diesem Test speichern, zum Beispiel
+  `datei: einkauf-neu.txt -> Heu | Äpfel | Kuchen`. Verglichen wird Zeile für Zeile wie bei den Ausgaben.
 - `code: java` (optional) Die Übung wird im Bereich Programmieren in Java gelöst. „Im Editor öffnen“ öffnet die Spalte gleich mit und stellt sie auf Java. Geprüft wird wie sonst das Struktogramm, das beim Tippen entsteht. Eine Musterlösung ist Pflicht, der Test tippt sie als Java und prüft sie.
 - Die Kennung (`l2-hallo`) muss überall eindeutig sein, denn unter ihr wird der Fortschritt gespeichert.
 
@@ -159,6 +161,30 @@ besser: System.out.println(i);
 `fehler:` ist die Nummer der falschen Zeile (ab 1), `besser:` die richtige Zeile. Der Test setzt sie ein und prüft, dass
 Java dann keinen Fehler mehr meldet.
 
+Mit `daten: csv` (vor der ersten Runde) ist der Code einer Bombe eine CSV-Datei. Der Test prüft dann, dass jede Zeile mit
+`besser:` so viele Felder hat wie die Kopfzeile und die falsche Zeile nicht.
+
+`::: spiel frage` zeigt in jeder Runde Code (er darf auch fehlen) und eine Frage mit Antworten. `\n` in einer Antwort
+beginnt eine neue Zeile, solche Antworten erscheinen als kleine Datei. Mit `antworten: txt | CSV | JSON` vor der ersten
+Runde gelten die Antworten für alle Runden, je Runde steht dann `richtig: CSV`:
+
+```
+::: spiel frage
+titel: Spiel: Was steht in der Datei?
+intro: Sag voraus, was danach in der Datei steht.
+frage: Was steht danach in der Datei?
+
+runde:
+    PrintWriter aus = new PrintWriter("gruss.txt");
+    aus.println("Hallo");
+    aus.println("Zora");
+    aus.close();
+- [x] Hallo\nZora
+- HalloZora
+> `println` beginnt nach jedem Text eine neue Zeile.
+:::
+```
+
 „Prinzessin retten“ (`::: spiel prinzessin`, beschrieben in `src/learn/rescueGame.ts`): An jeder Station kommt eine Zahl
 heraus, `alphabet.charAt(zahl)` füllt damit ein Feld im Kreuzworträtsel. Die Felder bei `lösung:` ergeben das Wort, das am
 Ende in den Code bei `tor:` (statt `___`) eingetippt wird. Der Test prüft, dass jeder Buchstabe ins Rätsel passt.
@@ -210,7 +236,9 @@ In der Simulation rechnet ein `char` wie in Java mit seinem Zeichencode: `(int) 
 `'A'` zählt in einer Rechnung als 65 und `(char) 68` ergibt `'D'`.
 
 Eine Textdatei zum Einlesen. Der Inhalt bleibt Zeile für Zeile so, wie er dasteht. Java liest ihn mit
-`Files.readString(Path.of("brief.txt"))`, in der Simulation, im Python-Export (`open(…)`) und im echten Java:
+`Files.readString(Path.of("brief.txt"))`, `new Scanner(new File(…))` oder `new BufferedReader(new FileReader(…))`, in der
+Simulation, im Python- und JavaScript-Export und im echten Java. Was ein Programm mit `PrintWriter` speichert, zeigt
+VisuStruct nach dem Lauf unter der Ausgabe:
 
 ```
 ::: datei brief.txt
@@ -219,7 +247,7 @@ der Fuchs hat mich in seinen Turm gesperrt.
 :::
 ```
 
-Der Name endet auf `.txt` und gilt für alle Lektionen einer Sprache. Verschiedene Dateien brauchen deshalb verschiedene Namen.
+Der Name endet auf `.txt`, `.csv` oder `.json` und gilt für alle Lektionen einer Sprache. Verschiedene Dateien brauchen deshalb verschiedene Namen.
 
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
