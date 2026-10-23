@@ -43,6 +43,9 @@ body {
   flex: 1;
   min-height: 0;
 }
+.columns > .app {
+  min-width: 240px;
+}
 
 .toolbar {
   display: flex;
@@ -164,6 +167,9 @@ dialog.about h2 {
 .about-head h3 small {
   font-weight: 400;
   color: var(--muted);
+}
+.about-body .about-version {
+  font-variant-numeric: tabular-nums;
 }
 .about-body .about-author {
   color: var(--text);
@@ -874,10 +880,12 @@ button.danger-text:not(:disabled) {
   display: none;
 }
 /* Lernbereich */
+/* Lernen und Code live geben nach, wenn das Fenster zu schmal wird; das Struktogramm behält mindestens 240 px. */
 .learn {
   display: none;
-  flex: none;
+  flex: 0 1 auto;
   width: 400px;
+  min-width: 280px;
   flex-direction: column;
   background: var(--panel);
   border-inline-end: 1px solid var(--border);
@@ -976,7 +984,7 @@ button.danger-text:not(:disabled) {
 .shell.live .live-rail {
   display: none;
 }
-/* Struktogramm eingeklappt: Leiste in der Mitte, die offenen Spalten teilen sich die Breite. */
+/* Struktogramm eingeklappt: Leiste in der Mitte. Lernen behält seine (verschiebbare) Breite, Code live füllt den Rest. */
 .editor-rail {
   display: none;
   border-inline-start: 1px solid var(--border);
@@ -985,12 +993,12 @@ button.danger-text:not(:disabled) {
   display: flex;
 }
 .shell.editor-hidden .app,
-.shell.editor-hidden .learn-resizer,
-.shell.editor-hidden .live-resizer {
+.shell.editor-hidden .live-resizer,
+.shell.editor-hidden:not(.live) .learn-resizer {
   display: none;
 }
-.shell.editor-hidden .learn,
-.shell.editor-hidden .livecode {
+.shell.editor-hidden .livecode,
+.shell.editor-hidden:not(.live) .learn {
   flex: 1 1 0;
   width: auto !important;
   min-width: 0;
@@ -1394,8 +1402,9 @@ button.danger-text:not(:disabled) {
 /* Code live: rechts neben dem Editor, wächst bei jeder Änderung mit */
 .livecode {
   display: none;
-  flex: none;
+  flex: 0 1 auto;
   width: 420px;
+  min-width: 200px;
   flex-direction: column;
   gap: 6px;
   padding: 10px 12px 12px;
@@ -1546,6 +1555,114 @@ button.danger-text:not(:disabled) {
 .cm-tooltip-autocomplete li[aria-selected] .cm-completionDetail {
   color: rgba(255, 255, 255, 0.85);
 }
+.livecode-run {
+  padding: 3px 10px;
+  font-size: 13px;
+  margin-inline-start: 6px;
+}
+/* Konsole in Code live unter dem Code: Ausgaben, Eingabefeld, Ende oder Fehler. */
+.console {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 6px;
+  height: 180px;
+  min-height: 80px;
+  padding: 6px 10px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.console[hidden],
+.console-resizer[hidden] {
+  display: none;
+}
+.console-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.console-head h2 {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.console-hide {
+  margin-inline-start: auto;
+  padding: 0 8px;
+  font-size: 14px;
+}
+.console-resizer {
+  flex: none;
+  height: 10px;
+  margin-block: -5px;
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.console-resizer::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 4px;
+  height: 2px;
+}
+.console-resizer:hover::after,
+.console-resizer:focus-visible::after,
+.console-resizer.dragging::after {
+  background: var(--accent);
+}
+.console-resizer:focus-visible {
+  outline: none;
+}
+.livecode-console-lines {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+.livecode-console-lines .typed {
+  color: var(--accent);
+}
+.livecode-console-input {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.livecode-console-input[hidden] {
+  display: none;
+}
+.livecode-console-input label {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 14px;
+}
+.livecode-console-input input {
+  flex: 1;
+  min-width: 60px;
+  padding: 4px 8px;
+  font: inherit;
+}
+.livecode-console-error,
+.livecode-console-notice {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.livecode-console-error {
+  flex-basis: 100%;
+  color: #c62828;
+}
+.livecode-console-notice.error {
+  color: #c62828;
+}
 .livecode-problem {
   margin: 0;
   min-height: 1.4em;
@@ -1595,8 +1712,10 @@ button.danger-text:not(:disabled) {
     display: none;
   }
   .shell .learn,
-  .shell .livecode {
+  .shell .livecode,
+  .columns > .app {
     width: auto !important;
+    min-width: 0;
   }
   .livecode {
     height: 40vh;

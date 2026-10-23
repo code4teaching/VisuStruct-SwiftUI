@@ -10,6 +10,8 @@ import {
 import { parseLiveJava, type JavaProblem, type ParsedJava } from '../core/javaParser'
 import { documentFromJava, liveJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../core/liveSource'
 import type { VSDocument } from '../core/model'
+import { SimulationEngine, type SubprogramResolver } from '../core/simulation'
+import { noticeText } from './simulationPanel'
 import { JavaEditor, type SnippetWords } from './javaEditor'
 import { sidebarIcon } from './learnPanel'
 
@@ -21,12 +23,29 @@ import { sidebarIcon } from './learnPanel'
 const targetKey = 'visustruct.live.target'
 const javaClassKey = 'visustruct.live.javaClass'
 const javaMainKey = 'visustruct.live.javaMain'
+const consoleHeightKey = 'visustruct.console.height'
 
 function storedFlag(key: string): boolean {
   try {
     return localStorage.getItem(key) === '1'
   } catch {
     return false
+  }
+}
+
+function storedValue(key: string): string | null {
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function storeValue(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    /* ohne Speicher: nur für diese Sitzung */
   }
 }
 
@@ -78,7 +97,12 @@ export interface LiveContext {
   subprograms: Set<string>
   /** Zeilen anklickbar und Code bearbeitbar (nicht während der Simulation). */
   editable: boolean
+  /** Für „Ausführen“: Unterprogramme in anderen Reitern. */
+  resolve: SubprogramResolver
 }
+
+/** So viele Schritte am Stück, dann kurz Luft für die Oberfläche (und für „Stopp“ bei Endlosschleifen). */
+const runChunk = 2000
 
 export class LiveCodePanel {
   readonly element: HTMLElement
@@ -102,6 +126,15 @@ export class LiveCodePanel {
   private problems: JavaProblem[] = []
   private problemTimer?: number
   private showProblems = true
+  private run?: { engine: SimulationEngine; printed: number; timer?: number }
+  private runButton!: HTMLButtonElement
+  private stopButton!: HTMLButtonElement
+  /** Konsole unter dem Code, darüber eine Trennlinie zum Verschieben. */
+  private consoleElement: HTMLElement
+  private consoleResizer: HTMLElement
+  private consoleLines!: HTMLElement
+  private consoleForm!: HTMLFormElement
+  private consoleNotice!: HTMLElement
 
   constructor(
     private onHide: () => void,
@@ -113,6 +146,10 @@ export class LiveCodePanel {
   ) {
     this.element = document.createElement('aside')
     this.element.className = 'livecode'
+    this.consoleElement = document.createElement('section')
+    this.consoleElement.className = 'console'
+    this.consoleElement.hidden = true
+    this.consoleResizer = this.makeConsoleResizer()
     this.build()
   }
 
@@ -130,10 +167,13 @@ export class LiveCodePanel {
 
   /** Neu aufbauen, z. B. nach einem Sprachwechsel. */
   build() {
+    if (this.run) window.clearTimeout(this.run.timer)
     this.element.innerHTML = `
       <div class="livecode-head">
         <h2>${esc(t('web_live_title'))}</h2>
         <span class="livecode-lang"></span>
+        <button class="livecode-run primary" data-run="play" title="${esc(t('web_live_run_title'))}">▶︎ ${esc(t('web_live_run'))}</button>
+        <button class="livecode-run" data-run="stop" disabled>■ ${esc(t('simulation_stop'))}</button>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
       <p class="hint"></p>
@@ -141,11 +181,40 @@ export class LiveCodePanel {
       <div class="code-view livecode-editor" dir="ltr"></div>
       <p class="livecode-problem" role="status" aria-live="polite"></p>
     `
+    this.consoleElement.innerHTML = `
+      <div class="console-head">
+        <h2>${esc(t('web_console'))}</h2>
+        <button class="console-hide" title="${esc(t('web_console_hide'))}" aria-label="${esc(t('web_console_hide'))}">▾</button>
+      </div>
+      <div class="livecode-console-lines mono" dir="ltr" aria-live="polite"></div>
+      <form class="livecode-console-input" hidden>
+        <label><span></span><input autocomplete="off" /></label>
+        <button type="submit">${esc(t('simulation_input_submit'))}</button>
+        <p class="livecode-console-error"></p>
+      </form>
+      <p class="livecode-console-notice" role="status"></p>
+    `
     this.view = this.element.querySelector('.livecode-view')!
     this.editor = this.element.querySelector('.livecode-editor')!
     this.problemLine = this.element.querySelector('.livecode-problem')!
     this.hint = this.element.querySelector('.hint')!
     this.element.querySelector('.learn-hide')!.addEventListener('click', () => this.onHide())
+    this.runButton = this.element.querySelector('[data-run=play]')!
+    this.stopButton = this.element.querySelector('[data-run=stop]')!
+    const c = this.consoleElement
+    this.consoleResizer.title = t('web_console_resize')
+    this.element.append(this.consoleResizer, c)
+    this.consoleLines = c.querySelector('.livecode-console-lines')!
+    this.consoleForm = c.querySelector('.livecode-console-input')!
+    this.consoleNotice = c.querySelector('.livecode-console-notice')!
+    c.querySelector('.console-hide')!.addEventListener('click', () => this.hideConsole())
+    this.runButton.addEventListener('click', () => this.startRun())
+    this.stopButton.addEventListener('click', () => this.stopRun(true))
+    this.consoleForm.addEventListener('submit', (e) => {
+      e.preventDefault()
+      this.submitInput()
+    })
+    this.run = undefined
     this.view.addEventListener('click', (e) => {
       const row = (e.target as HTMLElement).closest<HTMLElement>('.ln')
       if (!row || !this.view.classList.contains('selectable')) return
@@ -243,6 +312,165 @@ export class LiveCodePanel {
       this.view.querySelector(`.ln[data-line="${span!.from}"]`)?.scrollIntoView({ block: 'nearest' })
     }
     this.highlighted = key
+  }
+
+  // MARK: - Ausführen
+
+  /** Das Programm mit der Simulation ausführen, ohne Schritt-für-Schritt-Anzeige: nur Ausgaben und Eingaben. */
+  private startRun() {
+    if (!this.last) return
+    this.stopRun(false)
+    this.run = { engine: new SimulationEngine(this.last.doc, this.last.context.resolve), printed: 0 }
+    this.setConsoleVisible(true)
+    this.consoleLines.replaceChildren()
+    this.consoleNotice.textContent = ''
+    this.consoleNotice.classList.remove('error')
+    this.setRunning(true)
+    this.continueRun()
+  }
+
+  private continueRun() {
+    const run = this.run
+    if (!run) return
+    const { engine } = run
+    for (let i = 0; i < runChunk && engine.canStep; i++) engine.step()
+    this.printNewLines()
+    const state = engine.state
+    if (state.inputRequest) return this.askInput()
+    if (state.isHalted || !engine.canStep) {
+      this.finishRun(state.isHalted && state.notice ? noticeText(state.notice) : t('web_live_run_finished'), state.isHalted)
+      return
+    }
+    run.timer = window.setTimeout(() => this.continueRun(), 0)
+  }
+
+  /** `typed`: Eingabezeile mit Frage und der getippten Antwort (farbig). */
+  private printNewLines(typed?: { prompt: string; value: string }) {
+    const run = this.run
+    if (!run) return
+    const lines = run.engine.state.outputLines
+    for (; run.printed < lines.length; run.printed++) this.consoleLine(lines[run.printed])
+    if (typed) {
+      const div = this.consoleLine(typed.prompt ? `${typed.prompt} ` : '')
+      const value = document.createElement('span')
+      value.className = 'typed'
+      value.textContent = typed.value
+      div.append(value)
+    }
+    this.consoleLines.scrollTop = this.consoleLines.scrollHeight
+  }
+
+  private consoleLine(text: string): HTMLElement {
+    const div = document.createElement('div')
+    div.textContent = text
+    this.consoleLines.append(div)
+    return div
+  }
+
+  private askInput() {
+    const request = this.run!.engine.state.inputRequest!
+    const error = this.run!.engine.state.inputErrorNotice
+    this.consoleForm.hidden = false
+    this.consoleForm.querySelector('span')!.textContent = request.prompt
+    const field = this.consoleForm.querySelector('input')!
+    field.inputMode = request.valueType === 'string' || request.valueType === 'boolean' ? 'text' : 'decimal'
+    const errorLine = this.consoleForm.querySelector<HTMLElement>('.livecode-console-error')!
+    errorLine.textContent = error ? noticeText(error) : ''
+    errorLine.hidden = !error
+    requestAnimationFrame(() => field.focus())
+  }
+
+  private submitInput() {
+    const run = this.run
+    if (!run?.engine.state.inputRequest) return
+    const field = this.consoleForm.querySelector('input')!
+    const prompt = run.engine.state.inputRequest.prompt
+    run.engine.provideInput(field.value)
+    if (run.engine.state.inputRequest) return this.askInput()
+    this.printNewLines({ prompt, value: field.value })
+    field.value = ''
+    this.consoleForm.hidden = true
+    this.continueRun()
+  }
+
+  private stopRun(byUser: boolean) {
+    if (!this.run) return
+    window.clearTimeout(this.run.timer)
+    if (byUser) this.finishRun(t('web_live_run_stopped'), false)
+    this.run = undefined
+    this.setRunning(false)
+  }
+
+  private finishRun(message: string, error: boolean) {
+    if (this.run) window.clearTimeout(this.run.timer)
+    this.consoleForm.hidden = true
+    this.consoleNotice.textContent = message
+    this.consoleNotice.classList.toggle('error', error)
+    this.run = undefined
+    this.setRunning(false)
+  }
+
+  /** Konsole schließen; ein laufendes Programm hält dabei an. */
+  hideConsole() {
+    this.stopRun(false)
+    this.setConsoleVisible(false)
+  }
+
+  private setConsoleVisible(on: boolean) {
+    if (this.consoleElement.hidden === !on) return
+    this.consoleElement.hidden = !on
+    this.consoleResizer.hidden = !on
+  }
+
+  /** Waagrechte Trennlinie zwischen Code und Konsole: nach oben ziehen macht die Konsole höher. */
+  private makeConsoleResizer(): HTMLElement {
+    const bar = document.createElement('div')
+    bar.className = 'console-resizer'
+    bar.hidden = true
+    bar.tabIndex = 0
+    bar.setAttribute('role', 'separator')
+    bar.setAttribute('aria-orientation', 'horizontal')
+    const panel = this.consoleElement
+    const clamp = (height: number) => Math.round(Math.max(80, Math.min(height, this.element.getBoundingClientRect().height - 160)))
+    const apply = (height: number | undefined, remember: boolean) => {
+      panel.style.height = height === undefined ? '' : `${clamp(height)}px`
+      if (remember) storeValue(consoleHeightKey, height === undefined ? '' : String(clamp(height)))
+    }
+    const saved = Number(storedValue(consoleHeightKey))
+    if (saved > 0) panel.style.height = `${saved}px`
+    bar.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return
+      e.preventDefault()
+      bar.setPointerCapture(e.pointerId)
+      const startY = e.clientY
+      const startHeight = panel.getBoundingClientRect().height
+      bar.classList.add('dragging')
+      const move = (ev: PointerEvent) => apply(startHeight - (ev.clientY - startY), false)
+      const up = (ev: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        bar.classList.remove('dragging')
+        apply(startHeight - (ev.clientY - startY), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowUp' ? 20 : e.key === 'ArrowDown' ? -20 : 0
+      if (!step) return
+      e.preventDefault()
+      apply(panel.getBoundingClientRect().height + step, true)
+    })
+    return bar
+  }
+
+  private setRunning(on: boolean) {
+    this.runButton.disabled = on
+    this.stopButton.disabled = !on
+    this.element.classList.toggle('running', on)
   }
 
   // MARK: - Java tippen

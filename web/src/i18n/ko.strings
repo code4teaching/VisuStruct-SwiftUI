@@ -75,3 +75,11 @@
 "web_editor_hide" = "구조도 숨기기";
 "web_keywords_title" = "코드 키워드";
 "web_keywords_hint" = "요소 이름 대신 if, while, for";
+"web_about_version_fmt" = "버전 %@";
+"web_live_run" = "실행";
+"web_live_run_title" = "프로그램 실행: 출력과 입력이 아래에 표시됩니다";
+"web_live_run_finished" = "프로그램이 끝났습니다.";
+"web_live_run_stopped" = "중지됨.";
+"web_console" = "콘솔";
+"web_console_hide" = "콘솔 숨기기";
+"web_console_resize" = "콘솔 크기 조절";

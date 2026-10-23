@@ -121,6 +121,9 @@ function placeholderFor(el: VSElement): string {
 }
 
 /** Kleines DOM-Hilfsmittel für den Inspector. */
+/** Aus `package.json`, siehe `vite.config.ts`. */
+declare const __APP_VERSION__: string
+
 function h(tag: string, attrs: Record<string, string> = {}, ...children: (Node | string)[]): HTMLElement {
   const e = document.createElement(tag)
   for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v)
@@ -624,6 +627,7 @@ export class App {
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${e(t('web_brand_suffix'))}</small></h3>
+            <p class="about-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${link('about_web_label', 'https://www.visustruct.org', 'www.visustruct.org')}
             ${link('about_developer_label', 'https://www.sebastiao.org', 'www.sebastiao.org')}
@@ -633,8 +637,6 @@ export class App {
         <h4>${e(t('about_dateiformat_heading'))}</h4>
         <p>${e(t('about_dateiformat_part1'))}<code>.visustruct</code>${e(t('about_dateiformat_part2'))}</p>
         <p>${e(t('about_dateiformat_strk'))}</p>
-        <h4>${e(t('about_lineage_heading'))}</h4>
-        <p>${e(t('about_lineage_body'))}</p>
         <p class="about-copy">${e(t('about_copyright'))}</p>
       </div>`
     dialog.querySelector('[data-action=about-done]')!.addEventListener('click', () => dialog.close())
@@ -842,6 +844,7 @@ export class App {
       owner: this.tab,
       subprograms: new Set(this.tabs.filter((tab) => tab !== this.tab).flatMap((tab) => parseSubprogramHeader(tab.doc.caption)?.name ?? [])),
       editable: !this.simulating,
+      resolve: (name) => this.findSubprogram(name),
     })
   }
 
@@ -1045,6 +1048,7 @@ export class App {
     if (on && this.coding) this.setCoding(false)
     this.liveCoding = on
     this.shell.classList.toggle('live', on)
+    if (!on) this.live.hideConsole()
     storeValue(liveKey, on ? '1' : '0')
     this.keepAColumnOpen()
     if (this.canvasHost) this.render()
@@ -1065,9 +1069,19 @@ export class App {
   /** `side`: 1 = Bereich liegt am Anfang der Zeile (links), -1 = am Ende (rechts). */
   private panelResizer(panel: HTMLElement, className: string, widthKey: string, title: string, side: 1 | -1): HTMLElement {
     const bar = h('div', { class: className, role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title })
+    // Höchstens so breit, dass die Spalte daneben noch 240 px behält; feste Breiten anderer Bereiche zählen mit.
+    const clamp = (width: number) => {
+      const total = panel.parentElement?.getBoundingClientRect().width ?? 0
+      if (total === 0) return clampPanelWidth(width)
+      const others = [this.learn.element, this.live.element]
+        .filter((p) => p !== panel && p.offsetParent !== null && getComputedStyle(p).flexGrow === '0')
+        .reduce((sum, p) => sum + p.getBoundingClientRect().width, 0)
+      const min = parseFloat(getComputedStyle(panel).minWidth) || 200
+      return Math.round(Math.max(min, Math.min(width, total - others - 240)))
+    }
     const apply = (width: number | undefined, remember: boolean) => {
-      panel.style.width = width === undefined ? '' : `${clampPanelWidth(width)}px`
-      if (remember) storeValue(widthKey, width === undefined ? '' : String(clampPanelWidth(width)))
+      panel.style.width = width === undefined ? '' : `${clamp(width)}px`
+      if (remember) storeValue(widthKey, width === undefined ? '' : String(clamp(width)))
     }
     const saved = Number(storedValue(widthKey))
     if (saved > 0) apply(saved, false)
@@ -1751,7 +1765,7 @@ function tabTitle(tab: Tab): string {
 
 /** Breite des Lernbereichs: mindestens 260 px, dem Editor bleiben mindestens 420 px. */
 function clampPanelWidth(width: number): number {
-  return Math.round(Math.max(260, Math.min(width, 720, window.innerWidth - 420)))
+  return Math.round(Math.max(200, Math.min(width, window.innerWidth - 300)))
 }
 
 function storedValue(key: string): string | null {

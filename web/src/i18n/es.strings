@@ -75,3 +75,11 @@
 "web_editor_hide" = "Ocultar diagrama";
 "web_keywords_title" = "Palabras clave de código";
 "web_keywords_hint" = "if, while, for en lugar de los nombres de los elementos";
+"web_about_version_fmt" = "Versión %@";
+"web_live_run" = "Ejecutar";
+"web_live_run_title" = "Ejecutar el programa: la salida y la entrada aparecen abajo";
+"web_live_run_finished" = "Programa terminado.";
+"web_live_run_stopped" = "Detenido.";
+"web_console" = "Consola";
+"web_console_hide" = "Ocultar consola";
+"web_console_resize" = "Cambiar la altura de la consola";

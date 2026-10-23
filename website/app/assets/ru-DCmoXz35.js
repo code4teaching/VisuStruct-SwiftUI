@@ -75,4 +75,12 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_editor_hide" = "Скрыть диаграмму";
 "web_keywords_title" = "Ключевые слова кода";
 "web_keywords_hint" = "if, while, for вместо названий элементов";
+"web_about_version_fmt" = "Версия %@";
+"web_live_run" = "Запустить";
+"web_live_run_title" = "Запустить программу: вывод и ввод появятся ниже";
+"web_live_run_finished" = "Программа завершена.";
+"web_live_run_stopped" = "Остановлено.";
+"web_console" = "Консоль";
+"web_console_hide" = "Скрыть консоль";
+"web_console_resize" = "Изменить высоту консоли";
 `;export{e as default};

@@ -75,4 +75,12 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_editor_hide" = "Diyagramı gizle";
 "web_keywords_title" = "Kod anahtar sözcükleri";
 "web_keywords_hint" = "Öğe adları yerine if, while, for";
+"web_about_version_fmt" = "Sürüm %@";
+"web_live_run" = "Çalıştır";
+"web_live_run_title" = "Programı çalıştır: çıktı ve girdi aşağıda görünür";
+"web_live_run_finished" = "Program bitti.";
+"web_live_run_stopped" = "Durduruldu.";
+"web_console" = "Konsol";
+"web_console_hide" = "Konsolu gizle";
+"web_console_resize" = "Konsolu yeniden boyutlandır";
 `;export{e as default};

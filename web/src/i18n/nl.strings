@@ -75,3 +75,11 @@
 "web_editor_hide" = "Diagram verbergen";
 "web_keywords_title" = "Code-sleutelwoorden";
 "web_keywords_hint" = "if, while, for in plaats van elementnamen";
+"web_about_version_fmt" = "Versie %@";
+"web_live_run" = "Uitvoeren";
+"web_live_run_title" = "Programma uitvoeren: uitvoer en invoer verschijnen eronder";
+"web_live_run_finished" = "Programma klaar.";
+"web_live_run_stopped" = "Gestopt.";
+"web_console" = "Console";
+"web_console_hide" = "Console verbergen";
+"web_console_resize" = "Hoogte van de console wijzigen";

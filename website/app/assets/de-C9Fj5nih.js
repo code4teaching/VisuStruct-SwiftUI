@@ -132,4 +132,12 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_editor_hide" = "Struktogramm einklappen";
 "web_keywords_title" = "Code-Keywords";
 "web_keywords_hint" = "if, while, for statt Verzweigung, For-Schleife …";
+"web_about_version_fmt" = "Version %@";
+"web_live_run" = "Ausführen";
+"web_live_run_title" = "Programm ausführen: Ausgaben und Eingaben erscheinen darunter";
+"web_live_run_finished" = "Programm beendet.";
+"web_live_run_stopped" = "Gestoppt.";
+"web_console" = "Konsole";
+"web_console_hide" = "Konsole ausblenden";
+"web_console_resize" = "Höhe der Konsole ändern";
 `;export{e as default};

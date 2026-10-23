@@ -75,4 +75,12 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_editor_hide" = "Skjul strukturdiagram";
 "web_keywords_title" = "Kode-nøkkelord";
 "web_keywords_hint" = "if, while, for i stedet for elementnavn";
+"web_about_version_fmt" = "Versjon %@";
+"web_live_run" = "Kjør";
+"web_live_run_title" = "Kjør programmet: utdata og inndata vises nedenfor";
+"web_live_run_finished" = "Programmet er ferdig.";
+"web_live_run_stopped" = "Stoppet.";
+"web_console" = "Konsoll";
+"web_console_hide" = "Skjul konsollen";
+"web_console_resize" = "Endre høyden på konsollen";
 `;export{e as default};
