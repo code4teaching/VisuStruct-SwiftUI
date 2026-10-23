@@ -1596,6 +1596,198 @@ button.danger-text:not(:disabled) {
   font-size: 1.2em;
   font-weight: 700;
 }
+.learn-game-question {
+  font-weight: 600;
+  margin: 10px 0 8px;
+}
+.learn-game-code {
+  margin: 0 0 8px;
+  padding: 8px 0;
+  border-radius: 8px;
+  background: var(--bg, #f2f2f7);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+.learn-game-code .ln {
+  padding: 0 10px 0 calc(10px + 2ch);
+  text-indent: -2ch;
+  border-inline-start: 3px solid transparent;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  transition: background 0.2s;
+}
+.learn-game-code .ln.hit {
+  background: #fef3c7;
+  border-inline-start-color: #d97706;
+}
+.learn-game-options {
+  display: grid;
+  gap: 6px;
+}
+.learn-game-options button {
+  text-align: start;
+  padding: 8px 12px;
+}
+.learn-game-options.pictures {
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+}
+.learn-game-options.pictures button {
+  padding: 6px;
+}
+.learn-game-options button.right {
+  border-color: #15803d;
+  background: #dcfce7;
+  color: inherit;
+  opacity: 1;
+}
+.learn-game-options button.wrong {
+  border-color: #b91c1c;
+  background: #fee2e2;
+  color: inherit;
+  opacity: 1;
+}
+.learn-game-explain {
+  margin-bottom: 10px;
+}
+/* „Wer hört zu?“: Code und nachgebautes Fenster nebeneinander (schmal: untereinander) */
+.learn-swing-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+.learn-swing-window {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  color: #1c1c1e;
+}
+.learn-swing-title {
+  padding: 3px 8px;
+  font-size: 12px;
+  text-align: center;
+  background: #e5e5ea;
+  border-bottom: 1px solid #d1d1d6;
+  min-height: 1.4em;
+}
+.learn-swing-body {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+}
+.learn-swing-label {
+  padding: 4px 2px;
+  min-height: 1.4em;
+}
+.learn-swing-label.changed,
+.learn-swing-button.changed {
+  animation: swing-changed 1s ease-out;
+}
+@keyframes swing-changed {
+  from {
+    background: rgba(255, 214, 10, 0.8);
+  }
+}
+.learn-swing-button {
+  padding: 6px 10px;
+  background: #fff;
+  color: #1c1c1e;
+  border: 1px solid #a1a1aa;
+  border-radius: 6px;
+}
+.learn-swing-button:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.learn-swing-button.pressed {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  transform: scale(0.96);
+}
+.learn-swing-event {
+  margin: 0;
+  padding: 0 10px 8px;
+  font-size: 12px;
+  min-height: 1.4em;
+}
+.learn-swing-event.heard {
+  color: #b45309;
+  font-weight: 600;
+}
+.learn-swing-event.nobody {
+  color: #6b7280;
+  font-style: italic;
+}
+.learn-swing-console {
+  margin: 0 10px 10px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: #1c1c1e;
+  color: #f2f2f7;
+  font-size: 12px;
+}
+.learn-swing-console[hidden] {
+  display: none;
+}
+.learn-swing-clicks {
+  margin: 8px 0 0;
+}
+.learn-swing-try {
+  font-weight: normal !important;
+  font-style: italic;
+}
+/* „Wo landet der Knopf?“: kleine Fenster als Antworten */
+.learn-layout-window {
+  width: 100%;
+  border: 1px solid #a1a1aa;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  color: #1c1c1e;
+}
+.learn-layout-title {
+  height: 10px;
+  background: #e5e5ea;
+  border-bottom: 1px solid #d1d1d6;
+}
+.learn-layout-body {
+  height: 80px;
+  padding: 3px;
+  gap: 3px;
+  font-size: 12px;
+}
+.learn-layout-body.grid {
+  display: grid;
+  grid-auto-rows: 1fr;
+}
+.learn-layout-body.flow {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.learn-layout-row {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+.learn-layout-body.border {
+  display: grid;
+  grid-template: 'N N N' auto 'W C E' 1fr 'S S S' auto / auto 1fr auto;
+}
+.learn-layout-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  padding: 2px 6px;
+  border: 1px solid #a1a1aa;
+  border-radius: 4px;
+  background: #f4f4f5;
+  font-weight: 600;
+}
 .learn-figure {
   margin: 0 0 14px;
   display: grid;

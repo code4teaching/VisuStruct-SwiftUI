@@ -93,6 +93,91 @@ public class Zaehler {
 Mit `zahl.setFont(new Font("SansSerif", Font.BOLD, 48));` wird die Zahl groß und fett. `Font` kommt aus `java.awt`, das du schon importiert hast.
 :::
 
+## Spiel: Wer zählt mit?
+
+::: spiel zuhoerer
+titel: Spiel: Wer zählt mit?
+intro: Jetzt rechnen die Zuhörer mit der Variable aus der Klasse. Ludwig zeigt dir Code, Fenster und die Klicks. Welche Zahl steht am Ende da? Danach spielt Ludwig die Klicks ab.
+frage: Was steht nach den Klicks in der Beschriftung?
+
+runde:
+    static int anzahl = 0;
+    JLabel zahl = new JLabel("0");
+    JButton plus = new JButton("+1");
+    plus.addActionListener(e -> {
+        anzahl++;
+        zahl.setText("" + anzahl);
+    });
+klicks: +1, +1, +1
+- 1
+- [x] 3
+- 0
+> Die Variable steht in der Klasse und behält ihren Wert zwischen den Klicks. Jeder Klick zählt eins hoch: 1, 2, 3.
+
+runde:
+    static int anzahl = 0;
+    JLabel zahl = new JLabel("0");
+    JButton plus = new JButton("+1");
+    JButton reset = new JButton("Reset");
+    plus.addActionListener(e -> {
+        anzahl++;
+        zahl.setText("" + anzahl);
+    });
+    reset.addActionListener(e -> {
+        anzahl = 0;
+        zahl.setText("0");
+    });
+klicks: +1, +1, Reset, +1
+- 3
+- 0
+- [x] 1
+> Nach zwei Klicks steht 2 da. Reset setzt die Variable auf 0, und der letzte Klick zählt wieder auf 1.
+
+runde:
+    static int anzahl = 0;
+    JLabel zahl = new JLabel("0");
+    JButton plus = new JButton("+1");
+    plus.addActionListener(e -> anzahl++);
+klicks: +1, +1
+- 2
+- [x] 0
+- 1
+> Die Variable ist danach 2, aber niemand schreibt sie in die Beschriftung. Ohne `zahl.setText(…)` zeigt das Fenster weiter 0. Rechnen und Anzeigen sind zwei verschiedene Dinge.
+
+runde:
+    static int anzahl = 0;
+    JLabel zahl = new JLabel("Klicks: 0");
+    JButton plus = new JButton("+1");
+    plus.addActionListener(e -> {
+        anzahl++;
+        zahl.setText("Klicks: " + anzahl + 1);
+    });
+klicks: +1
+- Klicks: 2
+- Klicks: 1
+- [x] Klicks: 11
+> Die Klammerfalle: Java rechnet von links nach rechts. `"Klicks: " + anzahl` ergibt den Text „Klicks: 1“, und `+ 1` hängt eine weitere 1 an.
+
+runde:
+    static int anzahl = 0;
+    JLabel zahl = new JLabel("0");
+    JButton eins = new JButton("+1");
+    JButton zehn = new JButton("+10");
+    eins.addActionListener(e -> {
+        anzahl++;
+        zahl.setText("" + anzahl);
+    });
+    zehn.addActionListener(e -> {
+        anzahl += 10;
+        zahl.setText("" + anzahl);
+    });
+klicks: +10, +1, +10
+- 12
+- [x] 21
+- 111
+> Beide Zuhörer ändern dieselbe Variable: 10, dann 11, dann 21. `anzahl += 10` ist die Kurzform von `anzahl = anzahl + 10`.
+:::
+
 ## Aufgabe: Klickzähler
 
 Baue den Klickzähler nach und erweitere ihn:

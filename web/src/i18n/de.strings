@@ -204,6 +204,12 @@
 "web_game_good" = "Stark! Schau dir die Fehler noch einmal an und versuch es nochmal.";
 "web_game_practice" = "Übung macht den Meister. Lies dir die Wahrheitstabelle oben noch einmal durch und spiel noch eine Runde.";
 "web_game_again" = "Noch einmal";
+"web_game_wrong_short" = "Leider falsch.";
+"web_game_practice_short" = "Übung macht den Meister. Lies dir die Erklärungen noch einmal durch und spiel noch eine Runde.";
+"web_game_clicks" = "Klicks:";
+"web_game_nobody" = "Niemand hört zu – nichts passiert.";
+"web_game_event_fmt" = "Klick auf „%@“: Der Zuhörer hört es und führt seinen Code aus.";
+"web_game_try" = "Probier die Knöpfe im Fenster jetzt selbst aus.";
 "web_debug_step" = "Einzelschritt";
 "web_debug_step_title" = "Einzelschritt: eine Anweisung ausführen und wieder anhalten";
 "web_debug_continue" = "Weiter bis zum nächsten Haltepunkt";

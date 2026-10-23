@@ -147,6 +147,12 @@
 "web_game_good" = "Harika! Hatalarına bir daha bak ve yeniden dene.";
 "web_game_practice" = "Pratik mükemmelleştirir. Yukarıdaki doğruluk tablosunu tekrar oku ve bir tur daha oyna.";
 "web_game_again" = "Tekrar oyna";
+"web_game_wrong_short" = "Maalesef yanlış.";
+"web_game_practice_short" = "Pratik mükemmelleştirir. Açıklamaları tekrar oku ve bir tur daha oyna.";
+"web_game_clicks" = "Tıklamalar:";
+"web_game_nobody" = "Kimse dinlemiyor – hiçbir şey olmuyor.";
+"web_game_event_fmt" = "“%@” tıklandı: dinleyici bunu duyar ve kodunu çalıştırır.";
+"web_game_try" = "Şimdi penceredeki düğmeleri kendin dene.";
 "web_debug_step" = "Adım";
 "web_debug_step_title" = "Adım: bir komutu çalıştır ve yeniden dur";
 "web_debug_continue" = "Bir sonraki kesme noktasına kadar devam et";

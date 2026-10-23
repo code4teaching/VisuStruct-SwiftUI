@@ -147,6 +147,12 @@
 "web_game_good" = "Ottimo! Riguarda gli errori e riprova.";
 "web_game_practice" = "La pratica rende perfetti. Rileggi la tabella di verità e gioca un altro turno.";
 "web_game_again" = "Gioca ancora";
+"web_game_wrong_short" = "Peccato, è sbagliato.";
+"web_game_practice_short" = "La pratica rende perfetti. Rileggi le spiegazioni e gioca un altro turno.";
+"web_game_clicks" = "Clic:";
+"web_game_nobody" = "Nessuno ascolta: non succede nulla.";
+"web_game_event_fmt" = "Clic su «%@»: l'ascoltatore lo sente ed esegue il suo codice.";
+"web_game_try" = "Ora prova tu i pulsanti della finestra.";
 "web_debug_step" = "Passo singolo";
 "web_debug_step_title" = "Passo singolo: esegui un’istruzione e fermati di nuovo";
 "web_debug_continue" = "Continua fino al prossimo punto di interruzione";

@@ -75,6 +75,89 @@ knopf.addActionListener(e -> {
 Achte auf das Ende: Erst schließt `}` den Block, dann `)` die Klammer von `addActionListener`, dann kommt das Semikolon. Also `});`. Fehlt etwas davon, steht unter dem Code ein Hinweis.
 :::
 
+## Spiel: Wer hört zu?
+
+::: spiel zuhoerer
+titel: Spiel: Wer hört zu?
+intro: Ludwig zeigt dir Code und das Fenster dazu. Darunter steht, welche Knöpfe nacheinander geklickt werden. Was passiert? Nach deiner Antwort spielt Ludwig die Klicks ab: Du siehst, welcher Zuhörer das Ereignis hört und welche Zeilen dann laufen.
+frage: Was steht nach den Klicks in der Beschriftung?
+
+runde:
+    JFrame fenster = new JFrame("Gruß");
+    JLabel text = new JLabel("Start");
+    JButton knopf = new JButton("Hallo");
+    knopf.addActionListener(e -> text.setText("Hallo Welt"));
+klicks: Hallo
+- Start
+- [x] Hallo Welt
+- Hallo
+> Der Knopf hat einen Zuhörer. Beim Klick führt er `text.setText("Hallo Welt")` aus, und die Beschriftung zeigt „Hallo Welt“.
+
+runde:
+    JFrame fenster = new JFrame("Obst");
+    JLabel text = new JLabel("?");
+    JButton a = new JButton("A");
+    JButton b = new JButton("B");
+    a.addActionListener(e -> text.setText("Apfel"));
+    b.addActionListener(e -> text.setText("Birne"));
+klicks: A, B
+- Apfel
+- [x] Birne
+- Apfel Birne
+> Jeder Knopf hat seinen eigenen Zuhörer. Erst schreibt A „Apfel“ hinein, dann überschreibt B das mit „Birne“. `setText` ersetzt den alten Text, es hängt nichts an.
+
+runde:
+    JFrame fenster = new JFrame("Obst");
+    JLabel text = new JLabel("?");
+    JButton a = new JButton("A");
+    JButton b = new JButton("B");
+    a.addActionListener(e -> text.setText("Apfel"));
+klicks: B
+- Apfel
+- Birne
+- [x] ?
+> Beim Knopf B hat sich niemand angemeldet: Es gibt kein `b.addActionListener`. Der Klick ist ein Ereignis, aber niemand hört zu. Deshalb bleibt das Fragezeichen stehen.
+
+runde:
+    JFrame fenster = new JFrame("Farben");
+    JLabel text = new JLabel("keine");
+    JButton rot = new JButton("Rot");
+    JButton blau = new JButton("Blau");
+    rot.addActionListener(e -> text.setText("Blau"));
+    blau.addActionListener(e -> text.setText("Rot"));
+klicks: Rot
+- Rot
+- [x] Blau
+- keine
+> Aufgepasst: Was passiert, entscheidet der Code im Zuhörer, nicht die Beschriftung des Knopfs. Der Zuhörer am Knopf „Rot“ schreibt „Blau“ hinein.
+
+runde:
+    JFrame fenster = new JFrame("Knopf");
+    JLabel text = new JLabel("Bitte klicken");
+    JButton knopf = new JButton("Klick mich");
+    knopf.addActionListener(e -> {
+        knopf.setText("Danke!");
+        text.setText("Geklickt");
+    });
+klicks: Klick mich
+frage: Was steht nach dem Klick auf dem Knopf?
+- Klick mich
+- [x] Danke!
+- Geklickt
+> Im Block hinter dem Pfeil stehen zwei Anweisungen. Beide laufen beim Klick nacheinander: Der Knopf bekommt „Danke!“, die Beschriftung „Geklickt“.
+
+runde:
+    JFrame fenster = new JFrame("Konsole");
+    JButton knopf = new JButton("Los");
+    knopf.addActionListener(e -> System.out.println("Klick!"));
+klicks: Los, Los, Los
+frage: Wie viele Zeilen „Klick!“ stehen danach in der Konsole?
+- 1
+- [x] 3
+- 0
+> Der Zuhörer läuft bei **jedem** Klick, nicht nur beim ersten. Drei Klicks, drei Zeilen.
+:::
+
 ## Profiwissen: ActionListener ist ein Interface
 
 Das steht nicht im Lehrplan. Wenn du wissen willst, was hinter dem Pfeil steckt, lies weiter.
@@ -100,6 +183,101 @@ knopf.addActionListener(new ActionListener() {
 ```
 
 Dafür brauchst du oben noch `import java.awt.event.*;`. Beide Schreibweisen machen genau dasselbe. Der Pfeil `e -> …` ist die Kurzform (ein Lambda-Ausdruck, seit Java 8): `e` ist der Parameter von `actionPerformed`, und hinter dem Pfeil steht ihr Rumpf. Die Kurzform geht, weil das Interface nur eine einzige Methode hat. Java weiß also, welche Methode gemeint ist.
+
+## Spiel: Vertrag erfüllt?
+
+::: spiel vertrag
+titel: Spiel: Vertrag erfüllt?
+intro: Der Vertrag `ActionListener` verlangt genau eine Methode: `public void actionPerformed(ActionEvent e)`. Ludwig zeigt dir Code. Erfüllt er den Vertrag, sodass man ihn beim Knopf anmelden kann? Jede Antwort hat Ludwig mit dem echten Java-Compiler geprüft.
+frage: Erfüllt das den Vertrag ActionListener?
+antworten: erfüllt | nicht erfüllt
+
+runde:
+    class Gruss implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Hallo");
+        }
+    }
+richtig: erfüllt
+> Alles da: `implements ActionListener` unterschreibt den Vertrag, und die Methode heißt genau `actionPerformed`, ist `public`, gibt nichts zurück (`void`) und bekommt ein `ActionEvent`.
+
+runde:
+    class Gruss implements ActionListener {
+        public void actionPerfomed(ActionEvent e) {
+            System.out.println("Hallo");
+        }
+    }
+richtig: nicht erfüllt
+> Schau genau hin: `actionPerfomed` statt `actionPerformed`, ein r fehlt. Für Java ist das eine ganz andere Methode. Der Compiler meldet, dass `actionPerformed` fehlt.
+
+runde:
+    class Gruss implements ActionListener {
+        public void actionPerformed() {
+            System.out.println("Hallo");
+        }
+    }
+richtig: nicht erfüllt
+> Der Parameter fehlt. Der Vertrag verlangt `actionPerformed(ActionEvent e)`, denn der Knopf übergibt beim Klick das Ereignis.
+
+runde:
+    class Gruss implements ActionListener {
+        public void actionPerformed(ActionEvent ereignis) {
+            System.out.println("Hallo");
+        }
+    }
+richtig: erfüllt
+> Der Name des Parameters ist frei wählbar. Wichtig ist nur der Typ `ActionEvent`. Statt `e` darf er also auch `ereignis` heißen.
+
+runde:
+    class Gruss implements ActionListener {
+        void actionPerformed(ActionEvent e) {
+            System.out.println("Hallo");
+        }
+    }
+richtig: nicht erfüllt
+> Das `public` fehlt. Alle Methoden eines Interfaces sind öffentlich, denn der Knopf muss sie von außen aufrufen können. Ohne `public` meldet der Compiler einen Fehler.
+
+runde:
+    class Gruss implements ActionListener {
+        public int actionPerformed(ActionEvent e) {
+            return 0;
+        }
+    }
+richtig: nicht erfüllt
+> Der Vertrag sagt `void`: Die Methode gibt nichts zurück. Mit `int` als Rückgabetyp passt sie nicht mehr.
+
+runde:
+    class Gruss implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            sagHallo();
+        }
+        void sagHallo() {
+            System.out.println("Hallo");
+        }
+    }
+richtig: erfüllt
+> Zusätzliche Methoden sind erlaubt. Der Vertrag verlangt nur, dass `actionPerformed` da ist, nicht, dass sonst nichts da ist.
+
+runde:
+    class Gruss {
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("Hallo");
+        }
+    }
+    knopf.addActionListener(new Gruss());
+richtig: nicht erfüllt
+> Die Methode stimmt, aber der Vertrag ist nicht unterschrieben: Es fehlt `implements ActionListener`. Java nimmt beim Knopf nur Objekte an, die den Vertrag offiziell erfüllen.
+
+runde:
+    knopf.addActionListener(e -> System.out.println("Hallo"));
+richtig: erfüllt
+> Der Pfeil ist die Kurzform. Weil der Vertrag nur eine Methode hat, weiß Java: `e` ist der Parameter von `actionPerformed`, und hinter dem Pfeil steht ihr Rumpf.
+
+runde:
+    knopf.addActionListener((a, b) -> System.out.println("Hallo"));
+richtig: nicht erfüllt
+> Hier hat der Pfeil zwei Parameter. `actionPerformed` bekommt aber genau einen, das Ereignis. Darum passt diese Kurzform nicht zum Vertrag.
+:::
 
 ## Aufgabe: Ich wurde geklickt
 

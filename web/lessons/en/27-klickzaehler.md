@@ -93,6 +93,91 @@ public class Counter {
 With `number.setFont(new Font("SansSerif", Font.BOLD, 48));` the number becomes big and bold. `Font` comes from `java.awt`, which you have already imported.
 :::
 
+## Game: Who is counting?
+
+::: spiel zuhoerer
+titel: Game: Who is counting?
+intro: Now the listeners calculate with the variable of the class. Ludwig shows you code, window and the clicks. Which number is shown at the end? Afterwards Ludwig plays the clicks.
+frage: What does the label say after the clicks?
+
+runde:
+    static int count = 0;
+    JLabel number = new JLabel("0");
+    JButton plus = new JButton("+1");
+    plus.addActionListener(e -> {
+        count++;
+        number.setText("" + count);
+    });
+klicks: +1, +1, +1
+- 1
+- [x] 3
+- 0
+> The variable is in the class and keeps its value between the clicks. Every click counts up by one: 1, 2, 3.
+
+runde:
+    static int count = 0;
+    JLabel number = new JLabel("0");
+    JButton plus = new JButton("+1");
+    JButton reset = new JButton("Reset");
+    plus.addActionListener(e -> {
+        count++;
+        number.setText("" + count);
+    });
+    reset.addActionListener(e -> {
+        count = 0;
+        number.setText("0");
+    });
+klicks: +1, +1, Reset, +1
+- 3
+- 0
+- [x] 1
+> After two clicks it shows 2. Reset sets the variable to 0, and the last click counts up to 1 again.
+
+runde:
+    static int count = 0;
+    JLabel number = new JLabel("0");
+    JButton plus = new JButton("+1");
+    plus.addActionListener(e -> count++);
+klicks: +1, +1
+- 2
+- [x] 0
+- 1
+> Afterwards the variable is 2, but nobody writes it into the label. Without `number.setText(…)` the window keeps showing 0. Calculating and showing are two different things.
+
+runde:
+    static int count = 0;
+    JLabel number = new JLabel("Clicks: 0");
+    JButton plus = new JButton("+1");
+    plus.addActionListener(e -> {
+        count++;
+        number.setText("Clicks: " + count + 1);
+    });
+klicks: +1
+- Clicks: 2
+- Clicks: 1
+- [x] Clicks: 11
+> The bracket trap: Java works from left to right. `"Clicks: " + count` gives the text “Clicks: 1”, and `+ 1` adds another 1 to the end.
+
+runde:
+    static int count = 0;
+    JLabel number = new JLabel("0");
+    JButton one = new JButton("+1");
+    JButton ten = new JButton("+10");
+    one.addActionListener(e -> {
+        count++;
+        number.setText("" + count);
+    });
+    ten.addActionListener(e -> {
+        count += 10;
+        number.setText("" + count);
+    });
+klicks: +10, +1, +10
+- 12
+- [x] 21
+- 111
+> Both listeners change the same variable: 10, then 11, then 21. `count += 10` is the short form of `count = count + 10`.
+:::
+
 ## Task: click counter
 
 Rebuild the click counter and extend it:

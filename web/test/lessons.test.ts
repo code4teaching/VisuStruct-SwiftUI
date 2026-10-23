@@ -5,6 +5,7 @@ import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
+import { parseSwingWindow, simulate } from '../src/learn/roundGame'
 
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
@@ -211,5 +212,24 @@ describe('Lehrermodus', () => {
     expect(await unlockTeacher('falsch')).toBe(false)
     expect(await unlockTeacher('')).toBe(false)
     expect(isTeacher()).toBe(false)
+  })
+})
+
+describe('Rundenspiele (Swing)', () => {
+  it.each(contentLanguages)('„Wer hört zu?“: die richtige Antwort ergibt sich beim Nachspielen (%s)', (lang) => {
+    useContentLanguage(lang)
+    let checked = 0
+    for (const block of lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks))) {
+      if (block.kind !== 'roundGame' || block.game.kind !== 'zuhoerer') continue
+      for (const round of block.game.rounds) {
+        const steps = simulate(parseSwingWindow(round.code), round.clicks)
+        const last = steps.at(-1)!
+        const results = [...Object.values(last.texts), String(steps.flatMap((s) => s.console).length)]
+        const right = round.options.find((o) => o.right)!.text
+        expect(results, `${round.code}\n→ ${right}`).toContain(right)
+        checked++
+      }
+    }
+    expect(checked).toBeGreaterThan(5)
   })
 })
