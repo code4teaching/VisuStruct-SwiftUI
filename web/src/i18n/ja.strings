@@ -86,6 +86,9 @@
 "web_keywords_title" = "コードのキーワード";
 "web_keywords_hint" = "要素名の代わりに if, while, for";
 "web_about_version_fmt" = "バージョン %@";
+"web_about_software" = "使用しているソフトウェア";
+"web_about_software_text" = "コードエディターは CodeMirror と Lezer（MIT ライセンス）を使用しています。Swing サポートを有効にすると、VisuStruct は Leaning Technologies の CheerpJ（Community ライセンス）と OpenJDK の javac を読み込みます。";
+"web_about_licenses" = "ライセンス文";
 "web_live_run" = "実行";
 "web_live_run_title" = "プログラムを実行：出力と入力は下に表示されます";
 "web_live_run_finished" = "プログラムが終了しました。";

@@ -777,6 +777,8 @@ export class App {
         <h4>${e(t('about_dateiformat_heading'))}</h4>
         <p>${e(t('about_dateiformat_part1'))}<code>.visustruct</code>${e(t('about_dateiformat_part2'))}</p>
         <p>${e(t('about_dateiformat_strk'))}</p>
+        <h4>${e(t('web_about_software'))}</h4>
+        <p>${e(t('web_about_software_text'))} <a href="licenses.txt" target="_blank" rel="noopener">${e(t('web_about_licenses'))}</a></p>
         <p class="about-copy">${e(t('about_copyright'))}</p>
       </div>`
     dialog.querySelector('[data-action=about-done]')!.addEventListener('click', () => dialog.close())

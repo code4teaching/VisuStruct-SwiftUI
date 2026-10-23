@@ -86,6 +86,9 @@
 "web_keywords_title" = "كلمات الشيفرة المفتاحية";
 "web_keywords_hint" = "if و while و for بدلًا من أسماء العناصر";
 "web_about_version_fmt" = "الإصدار %@";
+"web_about_software" = "البرمجيات المستخدمة";
+"web_about_software_text" = "يستخدم محرر الشيفرة CodeMirror و Lezer (ترخيص MIT). مع دعم Swing يحمّل VisuStruct برنامج CheerpJ من Leaning Technologies (ترخيص Community) و javac من OpenJDK.";
+"web_about_licenses" = "نصوص التراخيص";
 "web_live_run" = "تشغيل";
 "web_live_run_title" = "تشغيل البرنامج: تظهر المخرجات والمدخلات بالأسفل";
 "web_live_run_finished" = "انتهى البرنامج.";

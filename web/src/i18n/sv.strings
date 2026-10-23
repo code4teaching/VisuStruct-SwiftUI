@@ -86,6 +86,9 @@
 "web_keywords_title" = "Kodnyckelord";
 "web_keywords_hint" = "if, while, for i stället för elementnamn";
 "web_about_version_fmt" = "Version %@";
+"web_about_software" = "Programvara som används";
+"web_about_software_text" = "Kodredigeraren använder CodeMirror och Lezer (MIT-licens). Med Swing-stöd laddar VisuStruct CheerpJ från Leaning Technologies (Community-licens) och javac från OpenJDK.";
+"web_about_licenses" = "Licenstexter";
 "web_live_run" = "Kör";
 "web_live_run_title" = "Kör programmet: utdata och indata visas nedanför";
 "web_live_run_finished" = "Programmet är klart.";
