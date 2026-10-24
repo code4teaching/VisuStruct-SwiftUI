@@ -459,6 +459,7 @@ export class App {
         </div>
         ${iconButton('code', t('a11y_generate_code'), icons.code)}
         <button class="icon sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('action_simulation'))}">${icons.play}</button>
+        <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
       </div>
       <main class="workspace">
         <nav class="tabs" aria-label="${e(t('web_tabs_label'))}"></nav>
@@ -490,6 +491,7 @@ export class App {
     this.deleteButton = $('[data-action=delete]')
     this.statusLine = $('.status')
     this.simButton = $('[data-action=simulate]')
+    $('[data-action=hide-editor]').addEventListener('click', () => this.setEditorHidden(true))
     this.sim = new SimulationPanel(
       () => this.doc,
       (path) => {
@@ -872,6 +874,10 @@ export class App {
       },
       showLiveCode: () => {
         if (!this.liveCoding) this.setLiveCoding(true)
+      },
+      showFiles: () => {
+        if (!this.shell.classList.contains('files-open')) this.setFilesOpen(true)
+        if (!this.editorHidden) this.setEditorHidden(true)
       },
       openExercise: (ex: Exercise, doc: VSDocument) => {
         this.setEditorHidden(false)
@@ -1465,10 +1471,7 @@ export class App {
     add.title = t('a11y_new_diagram_tab')
     add.setAttribute('aria-label', t('a11y_new_diagram_tab'))
     add.addEventListener('click', () => this.addTab())
-    const hide = h('button', { class: 'learn-hide editor-hide', title: t('web_editor_hide'), 'aria-label': t('web_editor_hide') })
-    hide.innerHTML = sidebarIcon
-    hide.addEventListener('click', () => this.setEditorHidden(true))
-    strip.append(add, hide)
+    strip.append(add)
   }
 
   // MARK: - Zwischenablage (Element)

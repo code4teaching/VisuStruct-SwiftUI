@@ -6,7 +6,7 @@ kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
 
 ## Die Oberfläche
 
-VisuStruct hat zwei Editoren: den **Struktogramm-Editor**, um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 20). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst.
+VisuStruct hat zwei Editoren: den **Struktogramm-Editor**, um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst.
 
 Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf.
 
@@ -16,7 +16,7 @@ Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über
 - **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
 - **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier bearbeitest du den Text des ausgewählten Elements.
 
-> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts den Bereich [Programmieren](#zeige-codelive) für Java (Lektion 20).
+> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts den Bereich [Programmieren](#zeige-codelive) für Java (ab Lektion 4).
 
 ## Ein Element einfügen
 
@@ -30,7 +30,9 @@ Ziehe ein Element aus dem Bereich **Elemente** auf das Struktogramm. Beim Ziehen
 Wohin du ziehst, entscheidet, wo das neue Element landet.
 :::
 
-Du kannst auch ein Element im Bereich Elemente mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
+Es geht auch ohne Ziehen: **Klicke** auf ein Element im Bereich Elemente (oder tippe es an). Dann wird es hinter dem ausgewählten Kasten eingefügt. Ist der Platzhalter **ø** ausgewählt, ersetzt es ihn.
+
+Mit der Tastatur springst du mit der **Tab**-Taste zu einem Element und drückst **Enter**. Das neue Element landet dann ebenfalls hinter dem ausgewählten Kasten.
 
 ::: angeberwissen
 Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, genau, der vom Struktogramm. Der Mann war fleißiger als ich beim Grasen.
@@ -57,7 +59,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 - **Verschieben:** Einen vorhandenen Kasten mit der Maus an eine neue Stelle ziehen.
 - **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten.
 - **Löschen:** Kasten auswählen und Entf drücken.
-- **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her.
+- **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z).
 
 ## Übung: Hallo Welt
 
@@ -114,10 +116,10 @@ frage: Du ziehst ein Element auf die **untere** Hälfte eines Kastens. Wo landet
 
 runde:
 frage: Du hast aus Versehen einen Kasten gelöscht. Was holt ihn zurück?
-- Strg+C
-- [x] Strg+Z
-- Strg+V
-> Strg+Z (am Mac ⌘Z) macht den letzten Schritt rückgängig. Strg+C kopiert, Strg+V fügt ein.
+- Strg+C / ⌘C
+- [x] Strg+Z / ⌘Z
+- Strg+V / ⌘V
+> Strg+Z / ⌘Z macht den letzten Schritt rückgängig. Strg+C / ⌘C kopiert, Strg+V / ⌘V fügt ein.
 
 runde:
 frage: Beim Ausführen soll genau **Hallo** erscheinen. Was steht im Kasten?
@@ -134,11 +136,11 @@ frage: Wo änderst du den Text des ausgewählten Kastens?
 > Der Objektinspektor unter dem Diagramm zeigt den Text des ausgewählten Kastens.
 
 runde:
-frage: Du wählst ein Element in den Elementen aus und drückst **Enter**. Wo landet es?
+frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet es?
 - [x] hinter dem ausgewählten Kasten
 - ganz am Anfang
 - ganz am Ende
-> Mit der Tastatur kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
+> Ohne Ziehen (Klick oder Tab und Enter) kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
 :::
 
 ## Checkliste

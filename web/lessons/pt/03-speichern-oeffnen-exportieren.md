@@ -14,8 +14,8 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 
 ## Guardar e abrir
 
-- **[Guardar](#zeige-speichern)** (Ctrl+S): O diagrama é guardado como ficheiro. Se a coluna **Ficheiros** estiver configurada (ver abaixo), fica lá. Caso contrário, o navegador pergunta onde o guardar ou põe o ficheiro na pasta de transferências.
-- **[Abrir](#zeige-oeffnen)** (Ctrl+O): Voltar a carregar um ficheiro guardado. Também podes simplesmente arrastar um ficheiro para a janela do navegador.
+- **[Guardar](#zeige-speichern)** (Ctrl+S, no Mac ⌘S): O diagrama é guardado como ficheiro. Se a coluna **Ficheiros** estiver configurada (ver abaixo), fica lá. Caso contrário, o navegador pergunta onde o guardar ou põe o ficheiro na pasta de transferências.
+- **[Abrir](#zeige-oeffnen)** (Ctrl+O, no Mac ⌘O): Voltar a carregar um ficheiro guardado. Também podes simplesmente arrastar um ficheiro para a janela do navegador.
 
 > O navegador memoriza os teus exercícios automaticamente. Mas isso só funciona neste navegador, neste dispositivo. Por isso, guarda sempre também os trabalhos importantes como ficheiro.
 
@@ -46,7 +46,7 @@ Com [Exportar](#zeige-exportieren) nas ferramentas (ícone com uma seta para cim
 - **Imagem (PNG):** para pôr numa ficha de trabalho ou numa apresentação
 - **Gráfico vetorial (SVG):** fica nítido em qualquer tamanho
 - **PDF (A4):** uma página para entregar ou imprimir
-- **Imprimir** (Ctrl+P): diretamente para a impressora
+- **Imprimir** (Ctrl+P, no Mac ⌘P): diretamente para a impressora
 
 Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
 

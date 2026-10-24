@@ -6,7 +6,7 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 ## O ecrã
 
-O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programar](#zeige-codelive) para código Java (a partir da lição 20). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
+O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programar](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
 
 O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
 
@@ -16,7 +16,7 @@ O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palav
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
 - **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.
 
-> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Programação](#zeige-codelive) para Java (lição 20).
+> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Programação](#zeige-codelive) para Java (a partir da lição 4).
 
 ## Inserir um elemento
 
@@ -30,7 +30,9 @@ Arrasta um elemento da área **Elementos** para o estrutograma. Enquanto arrasta
 O sítio onde largas decide onde fica o novo elemento.
 :::
 
-Também podes selecionar um elemento na área Elementos com o teclado e premir **Enter**. Ele é então inserido depois do bloco selecionado.
+Também funciona sem arrastar: **clica** num elemento da área Elementos (ou toca nele). Ele é então inserido depois do bloco selecionado. Se o marcador **ø** estiver selecionado, substitui-o.
+
+Com o teclado, usa a tecla **Tab** para saltar para um elemento e prime **Enter**. O novo elemento também fica depois do bloco selecionado.
 
 ::: angeberwissen
 Agarrar blocos e arrastá-los de um lado para o outro, tal como estás a fazer agora, tem um nome pomposo: **manipulação direta**. Foi Ben Shneiderman quem inventou o termo em 1982. Sim, o senhor dos estrutogramas. Aquele homem trabalhava mais do que eu quando estou a pastar.
@@ -57,7 +59,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 - **Mover:** Arrasta um bloco existente com o rato para um novo sítio.
 - **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado.
 - **Eliminar:** Seleciona um bloco e prime Del.
-- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo.
+- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z).
 
 ## Exercício: Olá Mundo
 
@@ -114,10 +116,10 @@ frage: Arrastas um elemento para a metade **de baixo** de um bloco. Onde fica?
 
 runde:
 frage: Apagaste um bloco sem querer. O que o traz de volta?
-- Ctrl+C
-- [x] Ctrl+Z
-- Ctrl+V
-> Ctrl+Z (no Mac ⌘Z) anula o último passo. Ctrl+C copia, Ctrl+V cola.
+- Ctrl+C / ⌘C
+- [x] Ctrl+Z / ⌘Z
+- Ctrl+V / ⌘V
+> Ctrl+Z / ⌘Z anula o último passo. Ctrl+C / ⌘C copia, Ctrl+V / ⌘V cola.
 
 runde:
 frage: Ao executar deve aparecer exatamente **Olá**. O que está no bloco?
@@ -134,11 +136,11 @@ frage: Onde alteras o texto do bloco selecionado?
 > O Inspetor de objetos por baixo do diagrama mostra o texto do bloco selecionado.
 
 runde:
-frage: Selecionas um elemento na área Elementos e premes **Enter**. Onde fica?
+frage: Clicas num elemento da área Elementos, sem arrastar. Onde fica?
 - [x] depois do bloco selecionado
 - no início
 - no fim
-> Com o teclado, o novo elemento fica depois do bloco que está selecionado nesse momento.
+> Sem arrastar (clique, ou Tab e Enter), o novo elemento fica depois do bloco que está selecionado nesse momento.
 :::
 
 ## Lista de verificação

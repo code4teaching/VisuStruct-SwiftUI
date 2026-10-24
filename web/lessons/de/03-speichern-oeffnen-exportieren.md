@@ -14,8 +14,8 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 
 ## Speichern und Öffnen
 
-- **[Speichern](#zeige-speichern)** (Strg+S): Das Diagramm wird als Datei gespeichert. Ist die Spalte **Dateien** eingerichtet (siehe unten), landet es dort. Sonst fragt der Browser nach dem Ort oder legt die Datei in den Download-Ordner.
-- **[Öffnen](#zeige-oeffnen)** (Strg+O): Eine gespeicherte Datei wieder laden. Du kannst eine Datei auch einfach ins Browserfenster ziehen.
+- **[Speichern](#zeige-speichern)** (Strg+S, am Mac ⌘S): Das Diagramm wird als Datei gespeichert. Ist die Spalte **Dateien** eingerichtet (siehe unten), landet es dort. Sonst fragt der Browser nach dem Ort oder legt die Datei in den Download-Ordner.
+- **[Öffnen](#zeige-oeffnen)** (Strg+O, am Mac ⌘O): Eine gespeicherte Datei wieder laden. Du kannst eine Datei auch einfach ins Browserfenster ziehen.
 
 > Deine Übungen merkt sich der Browser automatisch. Das klappt aber nur in diesem Browser auf diesem Gerät. Wichtige Arbeiten solltest du deshalb immer zusätzlich als Datei speichern.
 
@@ -46,7 +46,7 @@ Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struk
 - **Bild (PNG):** zum Einfügen in ein Arbeitsblatt oder eine Präsentation
 - **Vektorgrafik (SVG):** bleibt in jeder Größe scharf
 - **PDF (A4):** eine Seite zum Abgeben oder Ausdrucken
-- **Drucken** (Strg+P): direkt auf den Drucker
+- **Drucken** (Strg+P, am Mac ⌘P): direkt auf den Drucker
 
 Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
 

@@ -1309,12 +1309,6 @@ button.danger-text:not(:disabled) {
   width: auto !important;
   min-width: 0;
 }
-.tabs .editor-hide {
-  margin-inline-start: auto;
-  align-self: center;
-  margin-bottom: 4px;
-  flex: none;
-}
 .learn-body {
   overflow-y: auto;
   /* Sonst: Scrollbalken erscheint → Vorschaubilder schmaler und kürzer → Scrollbalken verschwindet → … */

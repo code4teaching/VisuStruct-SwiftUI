@@ -8,7 +8,9 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
-- **Web, learning area:** a lesson step that explains areas of the structure chart editor (e.g. lesson 2) opens that editor if it was collapsed. Steps that point to Run, the console or single step open the Programming area. Lesson 2 (de/en/pt) now says that there are two editors: the structure chart editor and the Programming area.
+- **Web:** the button that collapses the structure chart editor sits in the toolbar right of the simulation button. In the tab bar it was pushed out of sight when several tabs were open.
+- **Web, lesson 2 (de/en/pt):** the Programming area is now introduced as used from lesson 4 on (it said lesson 20). Step 2 now explains that a simple click on an element inserts it without dragging, and that the keyboard way is Tab then Enter. Lessons 2 and 3 also name the Mac shortcuts (⌘Z, ⌘⇧Z, ⌘S, ⌘O, ⌘P), and the shortcut quiz in lesson 2 shows both, e.g. “Strg+Z / ⌘Z”.
+- **Web, learning area:** a lesson step that explains areas of the structure chart editor (e.g. lesson 2) opens that editor if it was collapsed. Steps that point to Run, the console or single step open the Programming area. The step about the Files column (lesson 3) opens that column and collapses the structure chart editor to make room. Lesson 2 (de/en/pt) now says that there are two editors: the structure chart editor and the Programming area.
 - **Web, lesson 1 (de/en/pt):** the three building blocks have their own colours (statements light blue, branch light orange, loop light green) in the diagrams of steps 3–7, and the words in the text are marked in the same colours. Step 7 now really shows all three forms: the structure chart was missing next to the flowchart and the pseudocode. The links “More Angeberwissen” in lessons 1, 2, 14 and 21 are gone.
 - **Web:** structure charts show the background colour stored in a file (`bgcolor`), as the Java version does. Lesson texts can mark a word with `[word]{.blau}`, `{.orange}` or `{.gruen}`.
 - **Web, tasks:** tasks without a checked exercise (the Swing tasks “Unit converter” and “Rolling dice with MVC”) no longer show up green with a tick in the task list.
@@ -75,7 +77,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.29) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.31) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

@@ -6,7 +6,7 @@ kurz: Insert elements, type text, move and delete.
 
 ## The screen
 
-VisuStruct has two editors: the **structure chart editor**, which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 20). If the structure chart editor is collapsed, this lesson opens it for you.
+VisuStruct has two editors: the **structure chart editor**, which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you.
 
 The structure chart editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
 
@@ -16,7 +16,7 @@ The structure chart editor has several areas. Move the mouse over a blue word or
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
 - **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.
 
-> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Programming](#zeige-codelive) area on the right for Java (lesson 20).
+> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Programming](#zeige-codelive) area on the right for Java (from lesson 4).
 
 ## Insert an element
 
@@ -30,7 +30,9 @@ Drag an element from the **Elements** area onto the structure chart. While you d
 Where you drop it decides where the new element lands.
 :::
 
-You can also select an element in the Elements area with the keyboard and press **Enter**. Then it is inserted after the selected box.
+It also works without dragging: **click** an element in the Elements area (or tap it). Then it is inserted after the selected box. If the placeholder **ø** is selected, it replaces it.
+
+With the keyboard, press **Tab** to jump to an element and press **Enter**. The new element also goes after the selected box.
 
 ::: angeberwissen
 Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze.
@@ -57,7 +59,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 - **Move:** Drag an existing box to a new place with the mouse.
 - **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box.
 - **Delete:** Select a box and press Del.
-- **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back.
+- **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z).
 
 ## Exercise: Hello World
 
@@ -114,10 +116,10 @@ frage: You drag an element onto the **bottom** half of a box. Where does it end 
 
 runde:
 frage: You deleted a box by accident. What brings it back?
-- Ctrl+C
-- [x] Ctrl+Z
-- Ctrl+V
-> Ctrl+Z (⌘Z on a Mac) undoes the last step. Ctrl+C copies, Ctrl+V pastes.
+- Ctrl+C / ⌘C
+- [x] Ctrl+Z / ⌘Z
+- Ctrl+V / ⌘V
+> Ctrl+Z / ⌘Z undoes the last step. Ctrl+C / ⌘C copies, Ctrl+V / ⌘V pastes.
 
 runde:
 frage: When it runs, exactly **Hello** should appear. What is in the box?
@@ -134,11 +136,11 @@ frage: Where do you change the text of the selected box?
 > The Object Inspector below the diagram shows the text of the selected box.
 
 runde:
-frage: You select an element in the Elements and press **Enter**. Where does it end up?
+frage: You click an element in the Elements area without dragging. Where does it end up?
 - [x] after the selected box
 - at the very beginning
 - at the very end
-> With the keyboard the new element goes after the box that is selected right now.
+> Without dragging (click, or Tab and Enter) the new element goes after the box that is selected right now.
 :::
 
 ## Checklist

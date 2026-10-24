@@ -17,7 +17,7 @@ import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
 import { textFileView } from './textFileView'
-import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoLiveCode } from './termTips'
+import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoFiles, pointsIntoLiveCode } from './termTips'
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -37,6 +37,8 @@ export interface LearnHost {
   showEditor(): void
   /** Spalte „Programmieren“ öffnen. */
   showLiveCode(): void
+  /** Spalte Dateien öffnen; die Struktogramm-Spalte macht dafür Platz. */
+  showFiles(): void
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
   stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
@@ -232,6 +234,8 @@ export class LearnPanel {
     markPointers(this.body)
     // Erklärt der Schritt Bereiche des Editors (z. B. Lektion 2), muss der Editor zu sehen sein.
     if (pointsIntoEditor(this.body)) this.host.showEditor()
+    // Geht es nur um die Spalte Dateien (Lektion 3), öffnet sie sich statt des Editors.
+    else if (pointsIntoFiles(this.body)) this.host.showFiles()
     // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Programmieren“.
     if (pointsIntoLiveCode(this.body)) this.host.showLiveCode()
     markTerms(this.body, glossary)
