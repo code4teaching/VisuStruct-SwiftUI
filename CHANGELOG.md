@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web, lesson 4 (de/en/pt):** variable names start with a lowercase letter, and names of several words use camelCase (`preisMitSteuer`), with an Angeberwissen box about the camel humps. camelCase is in the glossary.
 - **Web, Files column:** no class folders any more. Saving goes straight into a folder with today’s date in the workspace (`VisuStruct-Dateien/2026-10-24/…`), without asking for a class. The learning progress file is now called `learnProgress.json`; an existing `lernstand.json` is read in and then removed.
 - **Web:** the button that collapses the structure chart editor sits in the toolbar right of the simulation button. In the tab bar it was pushed out of sight when several tabs were open.
 - **Web, lesson 2 (de/en/pt):** the Programming area is now introduced as used from lesson 4 on (it said lesson 20). Step 2 now explains that a simple click on an element inserts it without dragging, and that the keyboard way is Tab then Enter. Lessons 2 and 3 also name the Mac shortcuts (⌘Z, ⌘⇧Z, ⌘S, ⌘O, ⌘P), and the shortcut quiz in lesson 2 shows both, e.g. “Strg+Z / ⌘Z”.

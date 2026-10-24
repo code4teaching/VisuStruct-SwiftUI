@@ -18,7 +18,13 @@ Here the variable is called `age`, its data type is `int` (whole number), and it
 The variable as a box: the name on the label, the data type as a sticker, the value inside.
 :::
 
-> Variable names start with a letter and contain no spaces. Good names say what is inside: `price` is better than `p`.
+> Variable names start with a **lowercase letter** and contain no spaces. Good names say what is inside: `price` is better than `p`.
+
+If a name is made of several words, you write them together and start every further word with a capital letter: `priceWithTax`, `numberOfStudents`. This way of writing is called **camelCase**.
+
+::: angeberwissen
+camelCase got its name because the capital letters in the middle stick out of the word like the humps of a camel: `priceWithTax` has two humps. Me, I'm a billy goat with zero humps but two horns. Sadly, nobody has invented GoatCase yet.
+:::
 
 ## The four data types
 

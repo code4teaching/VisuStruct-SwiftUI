@@ -18,7 +18,13 @@ Hier heißt die Variable `alter`, ihr Datentyp ist `int` (ganze Zahl), und ihr W
 Die Variable als Kiste: Name auf dem Etikett, Datentyp als Aufkleber, Wert darin.
 :::
 
-> Variablennamen beginnen mit einem Buchstaben und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: `preis` ist besser als `p`.
+> Variablennamen beginnen mit einem **Kleinbuchstaben** und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: `preis` ist besser als `p`.
+
+Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst jedes weitere Wort mit einem Großbuchstaben: `preisMitSteuer`, `anzahlSchueler`. Diese Schreibweise heißt **CamelCase**.
+
+::: angeberwissen
+CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines Kamels aus dem Wort ragen: `preisMitSteuer` hat zwei Höcker. Ich als Geißbock habe übrigens null Höcker, dafür zwei Hörner. Leider hat noch niemand die GeißbockSchreibweise erfunden.
+:::
 
 ## Die vier Datentypen
 

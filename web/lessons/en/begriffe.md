@@ -65,6 +65,10 @@ Runs your structure chart in the editor, step by step if you like. That way you 
 also: variable, variables, Variables
 A labelled box for a value. It has a name, a data type and a value.
 
+### camelCase
+also: CamelCase
+A way of writing names made of several words: written together, every further word starts with a capital, e.g. `priceWithTax`.
+
 ### Constant
 also: constant, constants, Constants
 A variable whose value stays the same once it is set. You write `const` in front of it, e.g. `const double VAT = 0.19`.

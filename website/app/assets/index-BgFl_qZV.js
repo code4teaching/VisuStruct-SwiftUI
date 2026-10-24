@@ -863,7 +863,13 @@ Hier heißt die Variable \`alter\`, ihr Datentyp ist \`int\` (ganze Zahl), und i
 Die Variable als Kiste: Name auf dem Etikett, Datentyp als Aufkleber, Wert darin.
 :::
 
-> Variablennamen beginnen mit einem Buchstaben und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: \`preis\` ist besser als \`p\`.
+> Variablennamen beginnen mit einem **Kleinbuchstaben** und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: \`preis\` ist besser als \`p\`.
+
+Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst jedes weitere Wort mit einem Großbuchstaben: \`preisMitSteuer\`, \`anzahlSchueler\`. Diese Schreibweise heißt **CamelCase**.
+
+::: angeberwissen
+CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines Kamels aus dem Wort ragen: \`preisMitSteuer\` hat zwei Höcker. Ich als Geißbock habe übrigens null Höcker, dafür zwei Hörner. Leider hat noch niemand die GeißbockSchreibweise erfunden.
+:::
 
 ## Die vier Datentypen
 
@@ -11061,6 +11067,10 @@ Führt dein Struktogramm im Editor aus, auf Wunsch Schritt für Schritt. So sieh
 auch: Variablen
 Eine beschriftete Kiste für einen Wert. Sie hat einen Namen, einen Datentyp und einen Wert.
 
+### CamelCase
+auch: camelCase
+Schreibweise für Namen aus mehreren Wörtern: zusammengeschrieben, jedes weitere Wort beginnt groß, z. B. \`preisMitSteuer\`.
+
 ### Konstante
 auch: Konstanten
 Eine Variable, deren Wert nach dem Festlegen gleich bleibt. Man schreibt \`const\` davor, z. B. \`const double MWST = 0.19\`.
@@ -11898,7 +11908,13 @@ Here the variable is called \`age\`, its data type is \`int\` (whole number), an
 The variable as a box: the name on the label, the data type as a sticker, the value inside.
 :::
 
-> Variable names start with a letter and contain no spaces. Good names say what is inside: \`price\` is better than \`p\`.
+> Variable names start with a **lowercase letter** and contain no spaces. Good names say what is inside: \`price\` is better than \`p\`.
+
+If a name is made of several words, you write them together and start every further word with a capital letter: \`priceWithTax\`, \`numberOfStudents\`. This way of writing is called **camelCase**.
+
+::: angeberwissen
+camelCase got its name because the capital letters in the middle stick out of the word like the humps of a camel: \`priceWithTax\` has two humps. Me, I'm a billy goat with zero humps but two horns. Sadly, nobody has invented GoatCase yet.
+:::
 
 ## The four data types
 
@@ -22091,6 +22107,10 @@ Runs your structure chart in the editor, step by step if you like. That way you 
 also: variable, variables, Variables
 A labelled box for a value. It has a name, a data type and a value.
 
+### camelCase
+also: CamelCase
+A way of writing names made of several words: written together, every further word starts with a capital, e.g. \`priceWithTax\`.
+
 ### Constant
 also: constant, constants, Constants
 A variable whose value stays the same once it is set. You write \`const\` in front of it, e.g. \`const double VAT = 0.19\`.
@@ -22929,7 +22949,13 @@ Aqui a variável chama-se \`idade\`, o seu tipo de dados é \`int\` (número int
 A variável como caixa: o nome na etiqueta, o tipo de dados como autocolante, o valor lá dentro.
 :::
 
-> Os nomes de variáveis começam por uma letra e não têm espaços. Bons nomes dizem o que está lá dentro: \`preco\` é melhor do que \`p\`. Evita acentos e cedilhas nos nomes: escreve \`preco\` e não \`preço\`.
+> Os nomes de variáveis começam por uma **letra minúscula** e não têm espaços. Bons nomes dizem o que está lá dentro: \`preco\` é melhor do que \`p\`. Evita acentos e cedilhas nos nomes: escreve \`preco\` e não \`preço\`.
+
+Se um nome tiver várias palavras, escreves-as juntas e começas cada palavra seguinte com maiúscula: \`precoComIva\`, \`numeroDeAlunos\`. Esta forma de escrever chama-se **camelCase**.
+
+::: angeberwissen
+O camelCase tem este nome porque as maiúsculas no meio saem da palavra como as bossas de um camelo: \`precoComIva\` tem duas bossas. Eu, como bode, tenho zero bossas, mas dois chifres. Infelizmente ainda ninguém inventou a escrita BodeCase.
+:::
 
 ## Os quatro tipos de dados
 
@@ -33123,6 +33149,10 @@ Executa o teu estrutograma no editor, se quiseres passo a passo. Assim vês o qu
 ### Variável
 auch: variável, variáveis, Variáveis
 Uma caixa com etiqueta para um valor. Tem um nome, um tipo de dados e um valor.
+
+### camelCase
+auch: CamelCase
+Forma de escrever nomes com várias palavras: escritas juntas, cada palavra seguinte começa com maiúscula, p. ex. \`precoComIva\`.
 
 ### Constante
 auch: constante, constantes, Constantes

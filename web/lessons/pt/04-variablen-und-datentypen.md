@@ -18,7 +18,13 @@ Aqui a variável chama-se `idade`, o seu tipo de dados é `int` (número inteiro
 A variável como caixa: o nome na etiqueta, o tipo de dados como autocolante, o valor lá dentro.
 :::
 
-> Os nomes de variáveis começam por uma letra e não têm espaços. Bons nomes dizem o que está lá dentro: `preco` é melhor do que `p`. Evita acentos e cedilhas nos nomes: escreve `preco` e não `preço`.
+> Os nomes de variáveis começam por uma **letra minúscula** e não têm espaços. Bons nomes dizem o que está lá dentro: `preco` é melhor do que `p`. Evita acentos e cedilhas nos nomes: escreve `preco` e não `preço`.
+
+Se um nome tiver várias palavras, escreves-as juntas e começas cada palavra seguinte com maiúscula: `precoComIva`, `numeroDeAlunos`. Esta forma de escrever chama-se **camelCase**.
+
+::: angeberwissen
+O camelCase tem este nome porque as maiúsculas no meio saem da palavra como as bossas de um camelo: `precoComIva` tem duas bossas. Eu, como bode, tenho zero bossas, mas dois chifres. Infelizmente ainda ninguém inventou a escrita BodeCase.
+:::
 
 ## Os quatro tipos de dados
 
