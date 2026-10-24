@@ -3,6 +3,7 @@ import { checkExercise, loopDepth, usedElementTypes } from '../src/core/exercise
 import { ElementType } from '../src/core/model'
 import { diagram, lessons, tasks, useContentLanguage, useVisuBotContent } from '../src/learn/content'
 import type { Block } from '../src/learn/lessonFormat'
+import { isMBotPart, MBOT_PARTS } from '../src/core/mbot'
 
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
@@ -44,12 +45,23 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     expect(checked).toBeGreaterThanOrEqual(5)
   })
 
-  it('Checklisten verweisen auf Schritte, das 3D-Modell erklärt alle Teile', () => {
+  it('Checklisten verweisen auf Schritte', () => {
     for (const l of lessons)
       for (const s of l.steps)
-        for (const b of s.blocks) {
-          if (b.kind === 'checklist') for (const item of b.items) expect(item.step, `${l.id}: ${item.text}`).toBeDefined()
-          if (b.kind === 'robotModel') expect(b.parts.map((p) => p.part).sort()).toEqual(['chassis', 'cyberpi', 'lineSensor', 'motors', 'ultrasonic'])
-        }
+        for (const b of s.blocks) if (b.kind === 'checklist') for (const item of b.items) expect(item.step, `${l.id}: ${item.text}`).toBeDefined()
+  })
+
+  it('Lektion 1 ist eine Tour durch alle Teile, jedes gezeigte Teil ist im Text verlinkt', () => {
+    const tour = lessons[0]
+    const blocks = tour.steps.flatMap((s) => s.blocks)
+    const shown = new Set(blocks.flatMap((b) => (b.kind === 'robotModel' ? b.focus : b.kind === 'robotQuiz' ? b.tasks.map((t) => t.part) : [])))
+    expect([...shown].sort()).toEqual([...MBOT_PARTS].sort())
+    expect(blocks.some((b) => b.kind === 'robotQuiz')).toBe(true)
+    for (const step of tour.steps) {
+      const text = JSON.stringify(step.blocks)
+      const linked = new Set([...text.matchAll(/\{(?:teil|part)=([\w,]+)\}/g)].flatMap((m) => m[1].split(',')))
+      for (const b of step.blocks) if (b.kind === 'robotModel') for (const p of b.focus) expect(linked, `${step.title}: ${p}`).toContain(p)
+      for (const p of linked) expect(isMBotPart(p), `${step.title}: ${p}`).toBe(true)
+    }
   })
 })

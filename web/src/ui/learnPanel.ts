@@ -14,7 +14,7 @@ import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { currentLanguage, t } from './i18n'
 import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
-import { renderRobotModel } from './visubotModel'
+import { renderRobotModel, renderRobotQuiz, wireRobotLinks } from './visubotModel'
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
@@ -236,6 +236,7 @@ export class LearnPanel {
     if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
     markPointers(this.body)
+    wireRobotLinks(this.body)
     this.openNeededColumns(step.blocks)
     markTerms(this.body, glossary)
 
@@ -400,7 +401,9 @@ export class LearnPanel {
       case 'textFile':
         return textFileView(block.name, block.content)
       case 'robotModel':
-        return renderRobotModel(block.parts)
+        return renderRobotModel(block.focus, block.view, block.spin)
+      case 'robotQuiz':
+        return renderRobotQuiz(block.tasks, block.done)
     }
   }
 

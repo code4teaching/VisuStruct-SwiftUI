@@ -28,7 +28,49 @@ export interface RobotWorldSetup {
   walls: Wall[]
   /** Schwarze Klebeband-Linien (je ein Linienzug). */
   lines: Point[][]
+  /** Wandklötze von 10 × 10 cm (Mitte) aus einer Weltkarte, wie die Bäume bei Kara. */
+  blocks?: Point[]
+  /** Schwarze Felder von 10 × 10 cm (Mitte); der Liniensensor sieht sie. */
+  marks?: Point[]
+  /** Zielfelder von 10 × 10 cm (Mitte); sie sind ebenfalls schwarz. */
+  goals?: Point[]
 }
+
+/** Größe eines Feldes in einer Weltkarte (cm). */
+export const CELL = 10
+
+/**
+ * Weltkarte als Text, ein Zeichen = 10 cm, oben ist hinten (weg vom Betrachter):
+ * `#` Wand, `=` schwarzes Feld, `Z` Ziel (auch schwarz), `^ > v <` Start mit Blickrichtung, sonst freier Boden.
+ * Zeilen mit `//` am Anfang sind Kommentare. Um die Karte kommt automatisch der Rahmen.
+ */
+export function parseWorldMap(text: string): RobotWorldSetup {
+  const rows = text.replace(/\r/g, '').split('\n').filter((l) => !l.startsWith('//'))
+  while (rows.length && rows[rows.length - 1].trim() === '') rows.pop()
+  while (rows.length && rows[0].trim() === '') rows.shift()
+  const cols = Math.max(...rows.map((r) => r.length))
+  const width = cols * CELL
+  const depth = rows.length * CELL
+  const center = (c: number, r: number): Point => ({ x: -width / 2 + (c + 0.5) * CELL, y: depth / 2 - (r + 0.5) * CELL })
+  const setup: RobotWorldSetup = { width, depth, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [], blocks: [], marks: [], goals: [] }
+  let starts = 0
+  rows.forEach((row, r) => {
+    Array.from(row).forEach((ch, c) => {
+      const p = center(c, r)
+      if (ch === '#') setup.blocks!.push(p)
+      else if (ch === '=') setup.marks!.push(p)
+      else if (ch === 'Z') setup.goals!.push(p)
+      else if ('^>v<'.includes(ch)) {
+        starts++
+        setup.start = { ...p, heading: { '^': 0, '>': 90, v: 180, '<': 270 }[ch]! }
+      }
+    })
+  })
+  if (starts !== 1) throw new Error(`Die Weltkarte braucht genau einen Start (^ > v <), gefunden: ${starts}`)
+  return setup
+}
+
+const inCell = (p: Point, cell: Point) => Math.abs(p.x - cell.x) <= CELL / 2 && Math.abs(p.y - cell.y) <= CELL / 2
 
 /** Radius um die Mitte, mit dem der mBot2 an Wände stößt (er ist etwa 17 × 13 cm groß). */
 export const ROBOT_RADIUS = 9
@@ -71,7 +113,24 @@ export class RobotWorld {
     const w = this.setup.width / 2
     const d = this.setup.depth / 2
     const c = [{ x: -w, y: -d }, { x: w, y: -d }, { x: w, y: d }, { x: -w, y: d }]
-    return [...this.setup.walls, ...c.map((from, i) => ({ from, to: c[(i + 1) % 4] }))]
+    return [...this.setup.walls, ...c.map((from, i) => ({ from, to: c[(i + 1) % 4] })), ...this.blockWalls]
+  }
+
+  /** Kanten der Wandklötze (einmal berechnet). */
+  private get blockWalls(): Wall[] {
+    this.blockWallCache ??= (this.setup.blocks ?? []).flatMap((b) => {
+      const h = CELL / 2
+      const c = [{ x: b.x - h, y: b.y - h }, { x: b.x + h, y: b.y - h }, { x: b.x + h, y: b.y + h }, { x: b.x - h, y: b.y + h }]
+      return c.map((from, i) => ({ from, to: c[(i + 1) % 4] }))
+    })
+    return this.blockWallCache
+  }
+
+  private blockWallCache?: Wall[]
+
+  /** Steht die Mitte des Roboters auf einem Zielfeld? */
+  atGoal(): boolean {
+    return (this.setup.goals ?? []).some((g) => inCell(this.pose, g))
   }
 
   apply(action: MBotAction) {
@@ -118,7 +177,8 @@ export class RobotWorld {
         x: this.pose.x + dir.x * LINE_OFFSET + right.x * side,
         y: this.pose.y + dir.y * LINE_OFFSET + right.y * side,
       }
-      if (this.setup.lines.some((line) => distanceToPolyline(p, line) <= LINE_WIDTH / 2)) bits |= 1 << (3 - i)
+      const dark = [...(this.setup.marks ?? []), ...(this.setup.goals ?? [])].some((cell) => inCell(p, cell))
+      if (dark || this.setup.lines.some((line) => distanceToPolyline(p, line) <= LINE_WIDTH / 2)) bits |= 1 << (3 - i)
     })
     return bits
   }

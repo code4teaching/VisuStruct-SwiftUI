@@ -3270,18 +3270,49 @@ button.danger-text:not(:disabled) {
 .visubot-model {
   margin: 12px 0;
 }
-.visubot-part-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 8px 0;
+.visubot-model .visubot-stage {
+  height: 300px;
 }
-.visubot-part-buttons button.active {
-  background: var(--accent);
-  border-color: var(--accent);
+.visubot-model-hint {
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+.visubot-part-label {
+  position: absolute;
+  pointer-events: none;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(20, 24, 30, 0.85);
   color: white;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 1;
 }
-.visubot-part-info {
-  font-size: 14px;
-  min-height: 3em;
+/* Wörter im Text, die auf ein Teil des mBot2 zeigen (wie bei JavaPicoGoat gelb unterstrichen) */
+.robot-part-link {
+  text-decoration: underline 2px #f2b705;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.robot-part-link:hover,
+.robot-part-link:focus-visible {
+  background: color-mix(in srgb, #f2b705 25%, transparent);
+  outline: none;
+}
+.visubot-quiz-question {
+  font-size: 15px;
+  margin: 12px 0 6px;
+}
+.visubot-quiz-question.done {
+  color: var(--success, #2f9e44);
+}
+.visubot-quiz-feedback {
+  min-height: 1.4em;
+  margin: 6px 0;
+}
+.visubot-quiz-feedback.right {
+  color: var(--success, #2f9e44);
+}
+.visubot-quiz-feedback.wrong {
+  color: var(--danger, #c92a2a);
 }

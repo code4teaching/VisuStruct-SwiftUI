@@ -6,17 +6,122 @@ kurz: Get to know the robot you are about to program.
 
 ## Hello mBot2
 
-The **mBot2** is a small robot made by Makeblock. It has two wheels, sensors to notice its surroundings, and a small computer that runs your program.
+::: mbot2
+focus:
+spin: yes
+:::
+
+The **mBot2** is a small robot made by Makeblock. In this lesson you take a tour through all its parts:
+
+- the [CyberPi]{part=cyberpi}, the small computer on top
+- the [shield with battery]{part=shield} that the CyberPi sits on
+- two [motors]{part=motors} with [wheels]{part=wheels}
+- the [ultrasonic sensor]{part=ultrasonic} at the front, which looks like two eyes
+- the [line sensor]{part=lineSensor} under the nose
+- the blue [chassis]{part=chassis} that holds everything together
 
 In VisuBot you program it with structure charts. You can try every program in the simulator first, even without a real robot.
 
+> Move the mouse over a word underlined in yellow and the part lights up in the model. Tap the word and the camera flies there. You can rotate the model with the mouse or your finger and zoom with the mouse wheel.
+
+## The CyberPi
+
 ::: mbot2
-cyberpi: **CyberPi** – the brain. A small computer with a screen, five coloured LEDs, a speaker and two buttons. It runs your program.
-motors: **Motors and wheels** – two motors drive the wheels. If both turn at the same speed, the mBot2 drives straight. If they turn in opposite directions, it turns on the spot.
-ultrasonic: **Ultrasonic sensor** – the “eyes” at the front. It sends out sound and measures how long the echo takes. That is how the mBot2 knows how far away the next wall is.
-lineSensor: **Line sensor** – four small sensors under the nose. They detect whether there is a dark line underneath.
-chassis: **Chassis** – the blue aluminium frame holds everything together.
+focus: cyberpi, screen, joystick, buttons, leds, lightSensor, microphone
 :::
+
+The [CyberPi]{part=cyberpi,screen,joystick,buttons,leds,lightSensor,microphone} is the brain of the mBot2: a **microcontroller**, a small computer without a keyboard. It runs your program.
+
+A lot is already built in:
+
+- a colour [screen]{part=screen} that shows text and pictures
+- a [joystick]{part=joystick} you can push in four directions
+- the [buttons A, B and Home]{part=buttons}
+- five colourful [LEDs]{part=leds}
+- a [light sensor]{part=lightSensor} and a [microphone]{part=microphone}
+
+There is also a speaker and a motion sensor that you cannot see from outside. The motion sensor notices when the CyberPi is tilted or turned.
+
+> The model is a replica. On the real CyberPi some parts sit a little differently. Look at your own mBot2 and compare.
+
+## Screen and LEDs
+
+::: mbot2
+focus: screen, leds
+view: front
+:::
+
+With the [screen]{part=screen} and the five [LEDs]{part=leds} the mBot2 shows you what it is doing. Each LED can glow in almost any colour because it mixes red, green and blue. That is why they are called **RGB LEDs**.
+
+Later you make the LEDs glow red with `mbot.setLed(255, 0, 0)`. The three numbers are red, green and blue, each from 0 to 255.
+
+## Measuring light and sound
+
+::: mbot2
+focus: lightSensor, microphone
+view: top
+:::
+
+The [light sensor]{part=lightSensor} measures how bright it is. The [microphone]{part=microphone} measures how loud it is. For example, the mBot2 can start driving when you clap your hands.
+
+## Power: the shield with battery
+
+::: mbot2
+focus: shield, powerSwitch
+view: side
+:::
+
+Under the CyberPi sits the black [mBot2 shield]{part=shield}. It contains the **battery** that powers the robot. The motors are plugged into the shield as well.
+
+On the side is the [power switch]{part=powerSwitch}. Switch the mBot2 off when you do not need it, so the battery lasts longer. You charge it with the USB cable on the CyberPi.
+
+## Motors and wheels
+
+::: mbot2
+focus: motors, wheels
+view: side
+:::
+
+Two [motors]{part=motors} drive the two [wheels]{part=wheels}, each its own.
+
+- If both wheels turn forward at the same speed, the mBot2 drives **straight**.
+- If one wheel turns forward and the other backward, it turns **on the spot**.
+
+The motors are **encoder motors**: they count how far the wheel has turned. That is how the mBot2 knows when it has driven exactly 10 cm or turned exactly 90°.
+
+## The ultrasonic sensor
+
+::: mbot2
+focus: ultrasonic
+view: front
+:::
+
+At the front sits the [ultrasonic sensor]{part=ultrasonic}. It looks like two eyes but is more like an ear: one circle sends out a very high sound we cannot hear. The other waits for the echo. The longer the echo takes, the farther away the wall is.
+
+That is how the mBot2 measures distances in centimetres. The blue rings around the circles are lights you can switch on too.
+
+::: angeberwissen
+Bats do exactly what the ultrasonic sensor does: they call so high that we cannot hear it and listen for the echo. Sound travels about 343 metres per second. If a wall is one metre in front of the mBot2, the echo is back after just under 6 thousandths of a second.
+:::
+
+## Under the robot
+
+::: mbot2
+focus: lineSensor, caster
+view: bottom
+:::
+
+Now you look from below. Under the nose sits the [line sensor]{part=lineSensor}. It has **four** small probes side by side. Each one shines light on the floor and measures how much comes back. A black line reflects little, a bright floor a lot. That is how the mBot2 knows whether it is on a line.
+
+The silver [ball caster]{part=caster} is the third leg. It has no motor and simply rolls along in any direction.
+
+## The chassis
+
+::: mbot2
+focus: chassis
+:::
+
+The [chassis]{part=chassis} is the blue aluminium frame. It holds all the parts together. The many holes are there on purpose: you can screw more parts onto them.
 
 ## Sensors and actuators
 
@@ -41,8 +146,18 @@ Your program reads the sensors and controls the actuators. You already know this
 > Actuators do something, sensors measure something.
 :::
 
-::: angeberwissen
-Bats do exactly what the ultrasonic sensor does: they call so high that we cannot hear it and listen for the echo. Sound travels about 343 metres per second. If a wall is one metre in front of the mBot2, the echo is back after just under 6 thousandths of a second.
+## Find the parts
+
+Your turn: click the part you are looking for in the model. If you are right, the next question appears.
+
+::: mbot2quiz
+- ultrasonic: What does the mBot2 use to measure how far away the wall is?
+- screen: Where does text from your program appear?
+- wheels: What moves the mBot2 forward?
+- lineSensor: What detects a black line on the floor? (Hint: rotate the model.)
+- powerSwitch: Where do you switch the mBot2 on and off?
+- leds: What glows red with `mbot.setLed(255, 0, 0)`?
+done: Great, you know your way around the mBot2!
 :::
 
 ## Commands for the mBot2
@@ -76,6 +191,8 @@ lösung: vb-gerade-loesung.visustruct
 
 ::: checkliste
 - I know the parts of the mBot2. → Hello mBot2
+- I know how the mBot2 measures distances. → The ultrasonic sensor
+- I know how the mBot2 detects a line. → Under the robot
 - I know what sensors and actuators are. → Sensors and actuators
 - I can control the mBot2 with elements from the VisuBot group. → Commands for the mBot2
 - I can let the mBot2 drive in the simulator. → First drive

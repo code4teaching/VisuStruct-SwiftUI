@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
+import type { MBotPart } from '../core/mbot'
 
 /**
  * Der mBot2 aus Grundformen nachgebaut (keine Modelldaten von Makeblock). Maße in cm, ungefähr wie das Original:
@@ -8,7 +9,7 @@ import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeom
  * Vorn ist −z, oben +y, der Boden liegt bei y = 0.
  */
 
-export type RobotPart = 'cyberpi' | 'motors' | 'ultrasonic' | 'lineSensor' | 'chassis'
+export type RobotPart = MBotPart
 
 export interface MBot2Model {
   group: THREE.Group
@@ -94,12 +95,12 @@ export function buildMBot2(): MBot2Model {
   const group = new THREE.Group()
   const parts = new Map<THREE.Object3D, RobotPart>()
   const partGroups = {} as Record<RobotPart, THREE.Group>
-  const part = (name: RobotPart) => {
+  const part = (name: RobotPart, parent: THREE.Object3D = group) => {
     const g = new THREE.Group()
     g.name = name
     partGroups[name] = g
     parts.set(g, name)
-    group.add(g)
+    parent.add(g)
     return g
   }
   const alu = material(blueAlu, { metalness: 0.75, roughness: 0.32 })
@@ -137,15 +138,23 @@ export function buildMBot2(): MBot2Model {
   // Akku-Shield mit Schalter, darauf der CyberPi
   const shield = new THREE.Mesh(new RoundedBoxGeometry(7.6, 1.7, 8.4, 3, 0.35), black)
   shield.position.set(0, 2.55 + 0.85, 1.6)
-  chassis.add(shield)
+  part('shield').add(shield)
+  const powerSwitch = part('powerSwitch')
   const switchSlot = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.5, 1.2), darkPlastic)
   switchSlot.position.set(3.85, 3.3, 3.6)
-  chassis.add(switchSlot)
+  powerSwitch.add(switchSlot)
   const switchKnob = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.35, 0.45), material(0xf2f2f2))
   switchKnob.position.set(3.9, 3.3, 3.35)
-  chassis.add(switchKnob)
+  powerSwitch.add(switchKnob)
 
-  const cyberpi = part('cyberpi')
+  // Der CyberPi besteht aus mehreren Teilen, die gemeinsam auf dem Shield sitzen.
+  const cyberpiBody = new THREE.Group()
+  group.add(cyberpiBody)
+  const cyberpi = part('cyberpi', cyberpiBody)
+  const screenPart = part('screen', cyberpiBody)
+  const joystick = part('joystick', cyberpiBody)
+  const buttons = part('buttons', cyberpiBody)
+  const ledPart = part('leds', cyberpiBody)
   const shell = new THREE.Mesh(new RoundedBoxGeometry(7.2, 0.6, 5.2, 3, 0.28), lightGrey)
   cyberpi.add(shell)
   const face = new THREE.Mesh(new RoundedBoxGeometry(6.9, 0.35, 4.9, 3, 0.22), darkPlastic)
@@ -158,48 +167,48 @@ export function buildMBot2(): MBot2Model {
   texture.colorSpace = THREE.SRGBColorSpace
   const bezel = new THREE.Mesh(new THREE.BoxGeometry(3.1, 0.1, 3.1), material(0x050608, { roughness: 0.2 }))
   bezel.position.set(-0.5, 0.5, 0.15)
-  cyberpi.add(bezel)
+  screenPart.add(bezel)
   const screen = new THREE.Mesh(
     new THREE.PlaneGeometry(2.7, 2.7),
     new THREE.MeshStandardMaterial({ map: texture, emissive: 0xffffff, emissiveMap: texture, emissiveIntensity: 0.9, roughness: 0.15 }),
   )
   screen.rotation.x = -Math.PI / 2
   screen.position.set(-0.5, 0.56, 0.15)
-  cyberpi.add(screen)
+  screenPart.add(screen)
   // Joystick rechts, Home-Taste links, Tasten A und B hinten
   const stickBase = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.62, 0.12, 20), material(0x50555c))
   stickBase.position.set(2.45, 0.5, 0.4)
-  cyberpi.add(stickBase)
+  joystick.add(stickBase)
   const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.48, 0.35, 20), material(0x111214, { roughness: 0.8 }))
   stick.position.set(2.45, 0.72, 0.4)
-  cyberpi.add(stick)
+  joystick.add(stick)
   const home = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.14, 16), material(0x6b7178))
   home.position.set(-2.75, 0.52, 0.4)
-  cyberpi.add(home)
+  buttons.add(home)
   for (const [x, color] of [[-1.6, 0xf2f2f2], [1.6, 0xf2f2f2]] as const) {
     const button = new THREE.Mesh(new RoundedBoxGeometry(1.1, 0.35, 0.5, 2, 0.12), material(color))
     button.position.set(x, 0.2, 2.75)
-    cyberpi.add(button)
+    buttons.add(button)
   }
   // Fünf RGB-LEDs vorn hinter einer milchigen Leiste
   const ledBar = new THREE.Mesh(new RoundedBoxGeometry(5.2, 0.25, 0.55, 2, 0.1), material(0xf4f4f4, { transparent: true, opacity: 0.55, roughness: 0.2 }))
   ledBar.position.set(0, 0.5, -1.9)
-  cyberpi.add(ledBar)
+  ledPart.add(ledBar)
   const leds: THREE.MeshStandardMaterial[] = []
   for (let i = 0; i < 5; i++) {
     const led = new THREE.MeshStandardMaterial({ color: 0xdddddd, emissiveIntensity: 2.2, roughness: 0.3 })
     leds.push(led)
     const dot = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 8), led)
     dot.position.set(-2 + i, 0.5, -1.9)
-    cyberpi.add(dot)
+    ledPart.add(dot)
   }
   // Lichtsensor und Mikrofon als kleine Punkte
-  for (const x of [1.4, 2.0]) {
+  for (const [x, name] of [[1.4, 'lightSensor'], [2.0, 'microphone']] as const) {
     const dot = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 0.08, 10), material(0x0a0a0a, { roughness: 0.2 }))
     dot.position.set(x, 0.5, -1.15)
-    cyberpi.add(dot)
+    part(name, cyberpiBody).add(dot)
   }
-  cyberpi.position.set(0, 4.55, 1.5)
+  cyberpiBody.position.set(0, 4.55, 1.5)
 
   // Ultraschallsensor 2: schwarzes Gehäuse, zwei silberne Schallwandler, blaue Leuchtringe
   const ultrasonic = part('ultrasonic')
@@ -228,6 +237,7 @@ export function buildMBot2(): MBot2Model {
 
   // Antrieb: zwei Encoder-Motoren, Räder mit Profil und hellgrauer Felge
   const motors = part('motors')
+  const wheels = part('wheels')
   for (const side of [-1, 1]) {
     const motor = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, 3.4, 24), black)
     motor.rotation.z = Math.PI / 2
@@ -262,16 +272,17 @@ export function buildMBot2(): MBot2Model {
     wheel.add(cap)
     wheel.position.set(side * 5.9, 3.2, 3.2)
     wheel.name = side < 0 ? 'wheelLeft' : 'wheelRight'
-    motors.add(wheel)
+    wheels.add(wheel)
   }
 
   // Kugelrolle vorn unter dem Blech
   const casterHousing = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.75, 1.4, 20), black)
   casterHousing.position.set(0, 1.6, -5.6)
-  chassis.add(casterHousing)
+  const caster = part('caster')
+  caster.add(casterHousing)
   const ball = new THREE.Mesh(new THREE.SphereGeometry(0.75, 20, 14), silver)
   ball.position.set(0, 0.75, -5.6)
-  chassis.add(ball)
+  caster.add(ball)
 
   // Quad-RGB-Liniensensor unter der Nase: vier Fühler mit Licht
   const lineSensor = part('lineSensor')
@@ -293,11 +304,14 @@ export function buildMBot2(): MBot2Model {
   }
   lineSensor.position.set(0, 1.25, -7.0)
 
+  // Jedes Teil bekommt eigene Materialien, damit beim Hervorheben nur dieses Teil leuchtet (LEDs bleiben geteilt).
   group.traverse((o) => {
-    if ((o as THREE.Mesh).isMesh) {
-      o.castShadow = true
-      o.receiveShadow = true
-    }
+    const mesh = o as THREE.Mesh
+    if (!mesh.isMesh) return
+    mesh.castShadow = true
+    mesh.receiveShadow = true
+    const m = mesh.material as THREE.MeshStandardMaterial
+    if (!leds.includes(m)) mesh.material = m.clone()
   })
   return { group, parts, partGroups, leds, screen: { canvas, texture } }
 }

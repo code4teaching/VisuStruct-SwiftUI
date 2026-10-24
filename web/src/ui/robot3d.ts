@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
 import { buildMBot2, type MBot2Model, type RobotPart } from './mbot2Model'
-import { LINE_WIDTH, type Point, type Pose, type RobotWorldSetup } from '../core/robotWorld'
+import { CELL, LINE_WIDTH, type Point, type Pose, type RobotWorldSetup } from '../core/robotWorld'
 
 /**
  * 3D-Ansicht des VisuBot-Simulators mit three.js (MIT). Der mBot2 ist aus einfachen Formen nachgebaut
@@ -49,6 +49,8 @@ export class Robot3D {
   private wasShown = false
   /** Zuletzt gezeigte Lage, um die Räder mitzudrehen */
   private wheelPose?: Pose
+  /** Kamerafahrt zu einem Teil (Tour durch das Modell) */
+  private flight?: { from: { pos: THREE.Vector3; target: THREE.Vector3 }; to: { pos: THREE.Vector3; target: THREE.Vector3 }; start: number; ms: number }
 
   constructor(private host: HTMLElement) {
     this.canvas = document.createElement('canvas')
@@ -90,6 +92,11 @@ export class Robot3D {
     this.controls.minDistance = 12
     this.controls.maxDistance = 600
     this.controls.update()
+    // Wer selbst dreht, hält die Kamerafahrt und das langsame Kreisen an.
+    this.controls.addEventListener('start', () => {
+      this.flight = undefined
+      this.controls.autoRotate = false
+    })
     this.resize = new ResizeObserver(() => this.fit())
     this.resize.observe(host)
     this.fit()
@@ -101,6 +108,7 @@ export class Robot3D {
     this.resize.disconnect()
     this.controls.dispose()
     this.renderer.dispose()
+    this.renderer.forceContextLoss()
     this.canvas.remove()
   }
 
@@ -132,6 +140,34 @@ export class Robot3D {
       box.position.copy(toScene({ x: (w.from.x + w.to.x) / 2, y: (w.from.y + w.to.y) / 2 }, height / 2))
       box.rotation.y = Math.atan2(w.to.y - w.from.y, w.to.x - w.from.x)
       this.worldGroup.add(box)
+    }
+    // Wandklötze, schwarze Felder und Ziele aus einer Weltkarte (wie die Bäume und Kleeblätter bei Kara)
+    const blockGeometry = new THREE.BoxGeometry(CELL, 12, CELL)
+    for (const b of setup.blocks ?? []) {
+      const box = new THREE.Mesh(blockGeometry, wallMaterial)
+      box.position.copy(toScene(b, 6))
+      box.castShadow = box.receiveShadow = true
+      this.worldGroup.add(box)
+    }
+    const cellGeometry = new THREE.BoxGeometry(CELL, 0.1, CELL)
+    const markMaterial = new THREE.MeshStandardMaterial({ color: colors.tape })
+    for (const m of setup.marks ?? []) {
+      const cell = new THREE.Mesh(cellGeometry, markMaterial)
+      cell.position.copy(toScene(m, 0.1))
+      this.worldGroup.add(cell)
+    }
+    const goalMaterial = new THREE.MeshStandardMaterial({ color: colors.tape })
+    const flagMaterial = new THREE.MeshStandardMaterial({ color: 0x2fb344, emissive: 0x1b7a2c, emissiveIntensity: 0.4 })
+    for (const g of setup.goals ?? []) {
+      const cell = new THREE.Mesh(cellGeometry, goalMaterial)
+      cell.position.copy(toScene(g, 0.1))
+      this.worldGroup.add(cell)
+      // Kleine Zielfahne in der Ecke, damit man das Ziel von den schwarzen Feldern unterscheidet
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 9, 8), new THREE.MeshStandardMaterial({ color: 0xdddddd }))
+      pole.position.copy(toScene({ x: g.x + CELL / 2 - 1, y: g.y + CELL / 2 - 1 }, 4.5))
+      const flag = new THREE.Mesh(new THREE.BoxGeometry(4, 2.6, 0.2), flagMaterial)
+      flag.position.copy(toScene({ x: g.x + CELL / 2 - 3, y: g.y + CELL / 2 - 1 }, 7.6))
+      this.worldGroup.add(pole, flag)
     }
     const tape = new THREE.MeshStandardMaterial({ color: colors.tape })
     for (const line of setup.lines) {
@@ -181,24 +217,64 @@ export class Robot3D {
     this.controls.update()
   }
 
-  /** Ein Teil hervorheben (leicht leuchten lassen), `undefined` = keins. */
-  highlight(part: RobotPart | undefined) {
-    for (const [name, group] of Object.entries(this.model.partGroups)) {
+  /** Teile hervorheben (leicht leuchten lassen), leere Liste = keins. */
+  highlight(part: RobotPart | RobotPart[] | undefined) {
+    const lit = new Set(part === undefined ? [] : Array.isArray(part) ? part : [part])
+    for (const [name, group] of Object.entries(this.model.partGroups) as [RobotPart, THREE.Group][]) {
       group.traverse((o) => {
         const mesh = o as THREE.Mesh
         if (!mesh.isMesh) return
         const m = mesh.material as THREE.MeshStandardMaterial
         m.userData.baseEmissive ??= { color: m.emissive.getHex(), intensity: m.emissiveIntensity }
         const base = m.userData.baseEmissive as { color: number; intensity: number }
-        if (name === part) {
-          m.emissive.setHex(0xffc94d)
-          m.emissiveIntensity = Math.max(base.intensity, 0.35)
+        if (lit.has(name)) {
+          m.emissive.setHex(0xffb000)
+          m.emissiveIntensity = Math.max(base.intensity, 0.22)
         } else {
           m.emissive.setHex(base.color)
           m.emissiveIntensity = base.intensity
         }
       })
     }
+  }
+
+  /**
+   * Kamera fährt zu den Teilen (leer = ganzer Roboter). `view`: Blickrichtung vorn, hinten, oben, unten, seite;
+   * sonst schräg von vorn links. `spin`: danach langsam um den Roboter kreisen.
+   */
+  focusOn(parts: RobotPart[], view = '', spin = false, ms = 900) {
+    const box = new THREE.Box3()
+    this.robot.updateMatrixWorld(true)
+    for (const p of parts) box.expandByObject(this.model.partGroups[p])
+    if (box.isEmpty()) box.setFromObject(this.robot)
+    const target = box.getCenter(new THREE.Vector3())
+    const size = box.getSize(new THREE.Vector3()).length()
+    const direction = new THREE.Vector3(
+      ...((
+        {
+          vorn: [0, 0.35, -1],
+          front: [0, 0.35, -1],
+          hinten: [0, 0.55, 1],
+          back: [0, 0.55, 1],
+          oben: [0, 1, 0.12],
+          top: [0, 1, 0.12],
+          unten: [0.05, -1, -0.3],
+          bottom: [0.05, -1, -0.3],
+          seite: [-1, 0.5, 0.15],
+          side: [-1, 0.5, 0.15],
+        } as Record<string, [number, number, number]>
+      )[view] ?? [-0.75, 0.6, -0.85]),
+    ).normalize()
+    const distance = Math.max(14, size * (parts.length ? 1.8 : 1.35) + 6)
+    const pos = target.clone().addScaledVector(direction, distance)
+    this.flight = {
+      from: { pos: this.camera.position.clone(), target: this.controls.target.clone() },
+      to: { pos, target },
+      start: performance.now(),
+      ms,
+    }
+    this.controls.autoRotate = spin
+    this.controls.autoRotateSpeed = 1.2
   }
 
   /** Farbe der LEDs auf dem CyberPi; `undefined` = aus. */
@@ -254,6 +330,24 @@ export class Robot3D {
       }
     }
     this.applyPose(current)
+    const flying = !!this.flight
+    if (this.flight) {
+      const k = Math.min(1, (performance.now() - this.flight.start) / this.flight.ms)
+      const e = k < 0.5 ? 4 * k * k * k : 1 - (-2 * k + 2) ** 3 / 2
+      const { from, to } = this.flight
+      this.controls.target.lerpVectors(from.target, to.target, e)
+      // Auf einem Bogen um das Ziel fliegen, nicht quer durch den Roboter
+      const a = from.pos.clone().sub(from.target)
+      const b = to.pos.clone().sub(to.target)
+      const dir = a.clone().normalize().lerp(b.clone().normalize(), e)
+      // Genau gegenüber (z. B. von oben nach unten): seitlich vorbei statt durch die Mitte
+      if (dir.lengthSq() < 1e-4) dir.set(-1, 0, 0)
+      dir.normalize()
+      const len = a.length() + (b.length() - a.length()) * e
+      this.camera.position.copy(this.controls.target).addScaledVector(dir, len)
+      if (k >= 1) this.flight = undefined
+    }
+    if (flying || this.controls.autoRotate) this.controls.update()
     this.renderer.render(this.scene, this.camera)
   }
 

@@ -1,5 +1,5 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
-import { driveSignature, parseDriveSpec } from '../core/mbot'
+import { driveSignature, isMBotPart, MBOT_PARTS, parseDriveSpec, type MBotPart } from '../core/mbot'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
@@ -24,7 +24,10 @@ export type Block =
   | { kind: 'rescueGame'; game: RescueGame }
   | { kind: 'caesar'; key: number; text: string }
   /** VisuBot: drehbares 3D-Modell des mBot2, Teile antippen zeigt ihre Erklärung. */
-  | { kind: 'robotModel'; parts: { part: string; text: string }[] }
+  /** VisuBot: der mBot2 in 3D; die Kamera fährt zu den Teilen in `focus` (Tour wie bei JavaPicoGoat). */
+  | { kind: 'robotModel'; focus: MBotPart[]; view?: string; spin?: boolean }
+  /** VisuBot: Teile im Modell anklicken („Wo ist der Ultraschallsensor?“). */
+  | { kind: 'robotQuiz'; tasks: { part: MBotPart; question: string }[]; done?: string }
   /** Fertiger Code mit Lücken für einzelne Wörter. */
   | { kind: 'cloze'; cloze: Cloze }
   /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
@@ -281,9 +284,31 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       }
       case 'mbot2': {
-        const parts = inner.filter((l) => l.trim()).map((l) => /^\s*(cyberpi|motors|ultrasonic|lineSensor|chassis):\s*(.+)$/.exec(l))
-        if (parts.some((m) => !m)) throw new FormatError(`${file}: „::: mbot2“ kennt nur Zeilen „cyberpi:“, „motors:“, „ultrasonic:“, „lineSensor:“ und „chassis:“.`)
-        blocks.push({ kind: 'robotModel', parts: parts.map((m) => ({ part: m![1], text: m![2].trim() })) })
+        // `fokus: cyberpi, screen`, `ansicht: unten`, `drehen: ja`
+        const block: Extract<Block, { kind: 'robotModel' }> = { kind: 'robotModel', focus: [] }
+        for (const line of inner.filter((l) => l.trim())) {
+          const m = /^\s*(fokus|focus|ansicht|view|drehen|spin):\s*(.*)$/i.exec(line)
+          if (!m) throw new FormatError(`${file}: „::: mbot2“ kennt nur Zeilen „fokus:“, „ansicht:“ und „drehen:“.`)
+          const key = m[1].toLowerCase()
+          if (key === 'fokus' || key === 'focus') block.focus = robotParts(m[2], file)
+          else if (key === 'ansicht' || key === 'view') block.view = m[2].trim().toLowerCase()
+          else block.spin = /^(ja|yes|true|sim)$/i.test(m[2].trim())
+        }
+        blocks.push(block)
+        break
+      }
+      case 'mbot2quiz': {
+        // `- ultrasonic: Wo ist der **Ultraschallsensor**?` und `fertig: Super!`
+        const block: Extract<Block, { kind: 'robotQuiz' }> = { kind: 'robotQuiz', tasks: [] }
+        for (const line of inner.filter((l) => l.trim())) {
+          const task = /^\s*-\s*(\w+)\s*:\s*(.+)$/.exec(line)
+          const done = /^\s*(fertig|done):\s*(.+)$/i.exec(line)
+          if (task) block.tasks.push({ part: robotParts(task[1], file)[0], question: task[2].trim() })
+          else if (done) block.done = done[2].trim()
+          else throw new FormatError(`${file}: „::: mbot2quiz“ braucht Zeilen „- teil: Frage“ und optional „fertig: Text“.`)
+        }
+        if (!block.tasks.length) throw new FormatError(`${file}: „::: mbot2quiz“ hat keine Fragen.`)
+        blocks.push(block)
         break
       }
       case 'datei': {
@@ -370,4 +395,11 @@ export function parseTask(source: string, file: string): Task {
     level: Number(meta.get('stufe') ?? '1') || 1,
     blocks: parseBlocks(body, file),
   }
+}
+
+/** `cyberpi, screen` → geprüfte Teilnamen des mBot2-Modells. */
+function robotParts(list: string, file: string): MBotPart[] {
+  const names = list.split(/\s*,\s*/).map((x) => x.trim()).filter(Boolean)
+  for (const n of names) if (!isMBotPart(n)) throw new FormatError(`${file}: Unbekanntes Teil „${n}“. Bekannt: ${MBOT_PARTS.join(', ')}.`)
+  return names as MBotPart[]
 }

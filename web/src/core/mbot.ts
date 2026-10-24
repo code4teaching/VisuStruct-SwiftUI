@@ -184,3 +184,29 @@ export function compressDrive(drive: string[]): string {
   }
   return drive.join(', ')
 }
+
+/**
+ * Teile des mBot2 im 3D-Modell, z. B. für `fokus:` im Lektionsblock `::: mbot2` und `[Wort]{teil=cyberpi}` im Text.
+ * Die ersten acht gehören zum CyberPi; `cyberpi` allein ist sein Gehäuse.
+ */
+export const MBOT_PARTS = [
+  'cyberpi',
+  'screen',
+  'joystick',
+  'buttons',
+  'leds',
+  'lightSensor',
+  'microphone',
+  'shield',
+  'powerSwitch',
+  'motors',
+  'wheels',
+  'ultrasonic',
+  'lineSensor',
+  'caster',
+  'chassis',
+] as const
+
+export type MBotPart = (typeof MBOT_PARTS)[number]
+
+export const isMBotPart = (name: string): name is MBotPart => (MBOT_PARTS as readonly string[]).includes(name)
