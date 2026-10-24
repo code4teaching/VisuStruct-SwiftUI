@@ -1,4 +1,4 @@
-/** Fortschritt im Lernbereich: im Browser und, wenn eingerichtet, als `lernstand.json` im Workspace. */
+/** Fortschritt im Lernbereich: im Browser und, wenn eingerichtet, als `learnProgress.json` im Workspace. */
 
 export interface LessonProgress {
   step: number
@@ -158,11 +158,11 @@ export const progress = {
     listeners.add(f)
     return () => listeners.delete(f)
   },
-  /** Inhalt von `lernstand.json`. */
+  /** Inhalt von `learnProgress.json`. */
   toFile(): string {
     return JSON.stringify({ format: progressFormat, version: 1, saved: new Date().toISOString(), lessons: store.lessons, exercises: store.exercises }, null, 2)
   },
-  /** `lernstand.json` einlesen und mit dem Stand im Browser zusammenführen. Falsche Dateien bleiben unbeachtet. */
+  /** `learnProgress.json` einlesen und mit dem Stand im Browser zusammenführen. Falsche Dateien bleiben unbeachtet. */
   mergeFile(text: string): boolean {
     let data: Partial<Store> & { format?: string }
     try {

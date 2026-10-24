@@ -61,6 +61,10 @@ Führt dein Struktogramm im Editor aus, auf Wunsch Schritt für Schritt. So sieh
 auch: Variablen
 Eine beschriftete Kiste für einen Wert. Sie hat einen Namen, einen Datentyp und einen Wert.
 
+### CamelCase
+auch: camelCase
+Schreibweise für Namen aus mehreren Wörtern: zusammengeschrieben, jedes weitere Wort beginnt groß, z. B. `preisMitSteuer`.
+
 ### Konstante
 auch: Konstanten
 Eine Variable, deren Wert nach dem Festlegen gleich bleibt. Man schreibt `const` davor, z. B. `const double MWST = 0.19`.

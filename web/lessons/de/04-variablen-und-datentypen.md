@@ -18,7 +18,13 @@ Hier heißt die Variable `alter`, ihr Datentyp ist `int` (ganze Zahl), und ihr W
 Die Variable als Kiste: Name auf dem Etikett, Datentyp als Aufkleber, Wert darin.
 :::
 
-> Variablennamen beginnen mit einem Buchstaben und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: `preis` ist besser als `p`.
+> Variablennamen beginnen mit einem **Kleinbuchstaben** und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: `preis` ist besser als `p`.
+
+Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst jedes weitere Wort mit einem Großbuchstaben: `preisMitSteuer`, `anzahlSchueler`. Diese Schreibweise heißt **CamelCase**.
+
+::: angeberwissen
+CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines Kamels aus dem Wort ragen: `preisMitSteuer` hat zwei Höcker. Ich als Geißbock habe übrigens null Höcker, dafür zwei Hörner. Leider hat noch niemand die GeißbockSchreibweise erfunden.
+:::
 
 ## Die vier Datentypen
 
@@ -33,14 +39,11 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
 :::
 
-Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 8. Du kannst das Ergebnis einer Bedingung auch in einer Variablen speichern:
+Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 8. Eine Variable vom Typ `boolean` bekommt einfach `true` oder `false`:
 
 ```
-int alter = 15
-boolean volljaehrig = alter >= 18
+boolean volljaehrig = false
 ```
-
-Danach steht in `volljaehrig` der Wert `false`.
 
 ::: angeberwissen
 Am 4. Juni 1996 explodierte die Rakete Ariane 5 schon 37 Sekunden nach dem Start. Schuld war eine einzige Zeile: Eine Kommazahl für die Geschwindigkeit wurde in eine Ganzzahl-Variable gesteckt, die für so große Werte zu klein war. Der Datentyp ist also keine Nebensache, er kann eine halbe Milliarde Euro kosten.

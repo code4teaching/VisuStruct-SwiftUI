@@ -1,7 +1,7 @@
 ---
 titel: Guardar, abrir, exportar
 bereich: Primeiros passos
-kurz: Guardar os teus ficheiros em segurança, usar o espaço de trabalho com pastas de turma, abrir vários diagramas e partilhá-los como imagem ou PDF.
+kurz: Guardar os teus ficheiros em segurança, usar o teu espaço de trabalho, abrir vários diagramas e partilhá-los como imagem ou PDF.
 ---
 
 ## O ficheiro .visustruct
@@ -23,13 +23,22 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 
 À esquerda da área de aprendizagem encontras a coluna [📁 Ficheiros](#zeige-dateien). Aí reúnes todos os teus programas num só sítio, o teu **espaço de trabalho**.
 
-1. Abre a coluna e configura o espaço de trabalho. No Chrome e no Edge escolhes para isso uma pasta no teu computador, por exemplo nos teus documentos. No iPad e noutros navegadores, o VisuStruct guarda no navegador.
-2. Com o ícone de pasta com **+** crias uma pasta para a tua turma, por exemplo `11FI1`. Um clique numa pasta de turma torna-a a **turma** atual.
-3. Guarda como de costume. Na tua turma, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo `2026-10-23`, e guarda lá o programa. O nome do ficheiro vem do título.
+**A tua vez:** Configura já o teu espaço de trabalho, antes de continuares a ler. A partir de hoje guardas lá todos os teus programas.
+
+1. Cria um espaço de trabalho: abre a coluna e clica em **Escolher pasta**. Na janela, vai aos teus **Documentos**, cria aí com **Nova pasta** uma pasta chamada `VisuStruct-Ficheiros` e seleciona-a. Permite que o VisuStruct use a pasta. Isto funciona no Chrome e no Edge. No iPad e noutros navegadores, clica antes em **Guardar no navegador**.
+2. Guarda como de costume. No teu espaço de trabalho, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo `2026-10-23`, e guarda lá o programa. O nome do ficheiro vem do título.
+
+O teu espaço de trabalho fica assim:
+
+```text
+VisuStruct-Ficheiros        ← espaço de trabalho
+└── 2026-10-23              ← dia
+    └── Fatorial.visustruct
+```
 
 Um clique num programa da coluna volta a abri-lo. Assim encontras depressa cada aula mais tarde.
 
-Também o teu **progresso** fica no espaço de trabalho: o ficheiro `lernstand.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
+Também o teu **progresso** fica no espaço de trabalho: o ficheiro `learnProgress.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
 
 > O armazenamento do navegador só fica neste navegador, neste dispositivo. Uma pasta real no computador é mais segura, porque também a podes copiar e partilhar.
 
@@ -39,13 +48,14 @@ Por cima do estrutograma vês os [separadores](#zeige-reiter). Com **+** ou [Nov
 
 O [título](#zeige-titel) de um diagrama escreve-se no campo por cima do estrutograma. Também aparece quando exportas e é sugerido como nome do ficheiro.
 
-## Partilhar como imagem ou PDF
+## Partilhar: imagem, PDF ou ficheiro
 
 Com [Exportar](#zeige-exportieren) nas ferramentas (ícone com uma seta para cima) podes partilhar o teu estrutograma:
 
 - **Imagem (PNG):** para pôr numa ficha de trabalho ou numa apresentação
 - **Gráfico vetorial (SVG):** fica nítido em qualquer tamanho
 - **PDF (A4):** uma página para entregar ou imprimir
+- **Ficheiro VisuStruct (.visustruct):** para passar a alguém que deva abrir e continuar a editar o teu estrutograma no VisuStruct, por exemplo por e-mail ou pela plataforma de aprendizagem
 - **Imprimir** (Ctrl+P, no Mac ⌘P): diretamente para a impressora
 
 Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
@@ -96,9 +106,10 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 ::: checkliste
 - Dei um título ao diagrama. → Experimenta
 - Guardei o diagrama como ficheiro .visustruct e voltei a abri-lo. → Guardar e abrir
-- Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar como imagem ou PDF
+- Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
 - Abri um segundo diagrama num novo separador. → Vários diagramas em separadores
-- Criei uma pasta de turma na coluna Ficheiros e guardei lá. → A coluna Ficheiros
+- Criei o meu espaço de trabalho `VisuStruct-Ficheiros`. → A coluna Ficheiros
+- Guardei um programa no meu espaço de trabalho. → A coluna Ficheiros
 :::
 
 ## Teste de conhecimentos
@@ -115,9 +126,9 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 - [x] Porque o navegador só guarda os dados neste dispositivo e eles podem perder-se
 - [ ] Porque não se pode exportar sem guardar
 
-? Hoje guardas na turma 11FI1. Onde fica o teu programa?
+? Hoje guardas um programa no teu espaço de trabalho. Onde fica?
 - [ ] Na pasta de transferências
-- [x] Na pasta 11FI1, dentro de uma pasta com a data de hoje
-- [ ] Diretamente na pasta 11FI1
+- [x] No espaço de trabalho, dentro de uma pasta com a data de hoje
+- [ ] Diretamente no espaço de trabalho, sem subpasta
 > O VisuStruct cria automaticamente uma pasta com a data de cada dia. Assim os programas ficam ordenados por aula.
 :::

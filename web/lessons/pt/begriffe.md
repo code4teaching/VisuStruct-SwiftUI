@@ -65,6 +65,10 @@ Executa o teu estrutograma no editor, se quiseres passo a passo. Assim vês o qu
 auch: variável, variáveis, Variáveis
 Uma caixa com etiqueta para um valor. Tem um nome, um tipo de dados e um valor.
 
+### camelCase
+auch: CamelCase
+Forma de escrever nomes com várias palavras: escritas juntas, cada palavra seguinte começa com maiúscula, p. ex. `precoComIva`.
+
 ### Constante
 auch: constante, constantes, Constantes
 Uma variável cujo valor não muda depois de definido. Escreve-se `const` à frente, p. ex. `const double IVA = 0.23`.

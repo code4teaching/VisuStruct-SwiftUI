@@ -454,6 +454,7 @@ export class App {
             <button role="menuitem" data-export="png">${e(t('web_export_png'))}</button>
             <button role="menuitem" data-export="svg">${e(t('web_export_svg'))}</button>
             <button role="menuitem" data-export="pdf">${e(t('web_export_pdf'))}</button>
+            <button role="menuitem" data-export="visustruct">${e(t('web_export_visustruct'))}</button>
             <button role="menuitem" data-export="print">${e(t('menu_print'))} (${shortcut('P')})</button>
           </div>
         </div>
@@ -1617,6 +1618,11 @@ export class App {
   // MARK: - Export (wie `DiagramExporter`)
 
   private async exportDiagram(kind: ExportKind) {
+    // Die Datei selbst zum Weitergeben, z. B. per Mail oder in die Lernplattform; ändert nicht, wo gespeichert wird.
+    if (kind === 'visustruct') {
+      const base = Export.exportFilenameBase(this.doc, tabTitle(this.tab))
+      return this.offerDownload(`${base}.visustruct`, new Blob([encodeDocument(this.doc)], { type: 'application/xml' }))
+    }
     const image = Export.renderExportSVG(this.doc, this.metrics, this.measure)
     if (!image) {
       this.showMessage(t(kind === 'print' ? 'err_diagram_too_small_print' : 'err_diagram_too_small_export'))
@@ -1931,7 +1937,7 @@ export class App {
   }
 }
 
-type ExportKind = 'png' | 'svg' | 'pdf' | 'print'
+type ExportKind = 'png' | 'svg' | 'pdf' | 'print' | 'visustruct'
 
 /** Wie `DiagramCanvasView.displayTextLines`: Texte leerer Elemente in der gewählten Sprache. */
 export function applyCanvasStubTexts() {

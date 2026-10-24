@@ -1,7 +1,7 @@
 ---
 titel: Speichern, Öffnen, Exportieren
 bereich: Erste Schritte
-kurz: Dateien sichern, den Workspace mit Klassenordnern nutzen, mehrere Diagramme öffnen und als Bild oder PDF weitergeben.
+kurz: Dateien sichern, deinen Workspace nutzen, mehrere Diagramme öffnen und als Bild oder PDF weitergeben.
 ---
 
 ## Die Datei .visustruct
@@ -23,13 +23,22 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 
 Links neben dem Lernbereich findest du die Spalte [📁 Dateien](#zeige-dateien). Dort sammelst du alle deine Programme an einem Ort, deinem **Workspace** (Arbeitsbereich).
 
-1. Öffne die Spalte und richte den Workspace ein. In Chrome und Edge wählst du dafür einen Ordner auf deinem Rechner, zum Beispiel in deinen Dokumenten. Auf dem iPad und in anderen Browsern speichert VisuStruct im Browser.
-2. Lege mit dem Ordner-Symbol mit **+** einen Ordner für deine Klasse an, zum Beispiel `11FI1`. Ein Klick auf einen Klassenordner macht ihn zur aktuellen **Klasse**.
-3. Speichere wie gewohnt. VisuStruct legt in deiner Klasse automatisch einen Ordner mit dem heutigen Datum an, zum Beispiel `2026-10-23`, und speichert das Programm darin. Der Dateiname kommt aus dem Titel.
+**Jetzt du:** Richte deinen Workspace jetzt gleich ein, bevor du weiterliest. Ab heute speicherst du alle deine Programme dort.
+
+1. Lege einen Workspace an: Öffne die Spalte und klicke auf **Ordner wählen**. Gehe im Fenster zu deinen **Dokumenten**, lege dort mit **Neuer Ordner** einen Ordner namens `VisuStruct-Dateien` an und wähle ihn aus. Erlaube VisuStruct, den Ordner zu benutzen. Das geht in Chrome und Edge. Auf dem iPad und in anderen Browsern klickst du stattdessen auf **Im Browser speichern**.
+2. Speichere wie gewohnt. VisuStruct legt in deinem Workspace automatisch einen Ordner mit dem heutigen Datum an, zum Beispiel `2026-10-23`, und speichert das Programm darin. Der Dateiname kommt aus dem Titel.
+
+So sieht dein Workspace danach aus:
+
+```text
+VisuStruct-Dateien          ← Workspace
+└── 2026-10-23              ← Tag
+    └── Fakultaet.visustruct
+```
 
 Ein Klick auf ein Programm in der Spalte öffnet es wieder. So findest du später jede Stunde schnell wieder.
 
-Auch dein **Lernstand** landet im Workspace: in der Datei `lernstand.json` stehen deine erledigten Lektionen und Übungen. Öffnest du den Workspace in einem anderen Browser, ist dein Lernstand wieder da.
+Auch dein **Lernstand** landet im Workspace: in der Datei `learnProgress.json` stehen deine erledigten Lektionen und Übungen. Öffnest du den Workspace in einem anderen Browser, ist dein Lernstand wieder da.
 
 > Der Speicher im Browser bleibt nur in diesem Browser auf diesem Gerät. Ein echter Ordner auf dem Rechner ist sicherer, weil du ihn auch sichern und weitergeben kannst.
 
@@ -39,13 +48,14 @@ Auch dein **Lernstand** landet im Workspace: in der Datei `lernstand.json` stehe
 
 Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struktogramm ein. Er erscheint auch beim Exportieren und wird als Dateiname vorgeschlagen.
 
-## Als Bild oder PDF weitergeben
+## Weitergeben: Bild, PDF oder Datei
 
 Über [Exportieren](#zeige-exportieren) bei den Werkzeugen (Symbol mit Pfeil nach oben) gibst du dein Struktogramm weiter:
 
 - **Bild (PNG):** zum Einfügen in ein Arbeitsblatt oder eine Präsentation
 - **Vektorgrafik (SVG):** bleibt in jeder Größe scharf
 - **PDF (A4):** eine Seite zum Abgeben oder Ausdrucken
+- **VisuStruct-Datei (.visustruct):** zum Weitergeben an jemanden, der dein Struktogramm in VisuStruct öffnen und weiterbearbeiten soll, zum Beispiel per Mail oder über die Lernplattform
 - **Drucken** (Strg+P, am Mac ⌘P): direkt auf den Drucker
 
 Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
@@ -96,9 +106,10 @@ richtig: PNG
 ::: checkliste
 - Ich habe dem Diagramm einen Titel gegeben. → Ausprobieren
 - Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet. → Speichern und Öffnen
-- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Als Bild oder PDF weitergeben
+- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Weitergeben: Bild, PDF oder Datei
 - Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet. → Mehrere Diagramme in Reitern
-- Ich habe in der Spalte Dateien einen Klassenordner angelegt und darin gespeichert. → Die Spalte Dateien
+- Ich habe meinen Workspace `VisuStruct-Dateien` angelegt. → Die Spalte Dateien
+- Ich habe ein Programm in meinem Workspace gespeichert. → Die Spalte Dateien
 :::
 
 ## Wissenstest
@@ -115,9 +126,9 @@ richtig: PNG
 - [x] Weil der Browser die Daten nur auf diesem Gerät behält und sie verloren gehen können
 - [ ] Weil man ohne Speichern nicht exportieren kann
 
-? Du speicherst heute in der Klasse 11FI1. Wo landet dein Programm?
+? Du speicherst heute ein Programm in deinem Workspace. Wo landet es?
 - [ ] Im Download-Ordner
-- [x] Im Ordner 11FI1 in einem Ordner mit dem heutigen Datum
-- [ ] Direkt im Ordner 11FI1
+- [x] Im Workspace in einem Ordner mit dem heutigen Datum
+- [ ] Direkt im Workspace ohne Unterordner
 > VisuStruct legt für jeden Tag automatisch einen Datumsordner an. So bleiben die Programme nach Stunden sortiert.
 :::

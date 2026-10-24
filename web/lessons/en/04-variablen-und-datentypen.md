@@ -18,7 +18,13 @@ Here the variable is called `age`, its data type is `int` (whole number), and it
 The variable as a box: the name on the label, the data type as a sticker, the value inside.
 :::
 
-> Variable names start with a letter and contain no spaces. Good names say what is inside: `price` is better than `p`.
+> Variable names start with a **lowercase letter** and contain no spaces. Good names say what is inside: `price` is better than `p`.
+
+If a name is made of several words, you write them together and start every further word with a capital letter: `priceWithTax`, `numberOfStudents`. This way of writing is called **camelCase**.
+
+::: angeberwissen
+camelCase got its name because the capital letters in the middle stick out of the word like the humps of a camel: `priceWithTax` has two humps. Me, I'm a billy goat with zero humps but two horns. Sadly, nobody has invented GoatCase yet.
+:::
 
 ## The four data types
 
@@ -33,14 +39,11 @@ The data type says what kind of value may be stored in the variable.
 Three variables with different data types. Open the diagram and start the simulation.
 :::
 
-You mostly meet truth values in **conditions**: `age >= 18` is either `true` or `false`. That is what lesson 8 is about. You can also store the result of a condition in a variable:
+You mostly meet truth values in **conditions**: `age >= 18` is either `true` or `false`. That is what lesson 8 is about. A variable of type `boolean` simply gets `true` or `false`:
 
 ```
-int age = 15
-boolean adult = age >= 18
+boolean adult = false
 ```
-
-After that, `adult` holds the value `false`.
 
 ::: angeberwissen
 On 4 June 1996 the Ariane 5 rocket exploded just 37 seconds after launch. The cause was a single line: a decimal number for the speed was put into a whole-number variable that was too small for such large values. So the data type is no small matter, it can cost half a billion euros.
