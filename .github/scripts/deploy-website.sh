@@ -46,7 +46,8 @@ connect_for() {
           settings="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate ${DEPLOY_VERIFY_CERT:-yes}" ;;
     *) echo "DEPLOY_PROTOCOL muss auto, sftp oder ftps sein" >&2; exit 1 ;;
   esac
-  printf '%s' "$settings; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes
+  # use-temp-file: erst unter einem Hilfsnamen hochladen, dann umbenennen. So sieht niemand halb hochgeladene Seiten.
+  printf '%s' "$settings; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes; set xfer:use-temp-file yes
 open --env-password -u \"$DEPLOY_USER\" $url"
 }
 
