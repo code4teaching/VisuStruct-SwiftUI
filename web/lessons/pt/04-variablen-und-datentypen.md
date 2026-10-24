@@ -20,6 +20,10 @@ A variável como caixa: o nome na etiqueta, o tipo de dados como autocolante, o 
 
 > Os nomes de variáveis começam por uma **letra minúscula** e não têm espaços. Bons nomes dizem o que está lá dentro: `preco` é melhor do que `p`. Evita acentos e cedilhas nos nomes: escreve `preco` e não `preço`.
 
+::: angeberwissen
+Em setembro de 1999 perdeu-se a sonda Mars Climate Orbiter. Uma equipa calculava a força de impulso em unidades americanas (libras), a outra esperava unidades métricas (newtons). Nos dados só estava o número, não a unidade. A sonda voou demasiado baixo na atmosfera de Marte e ardeu, um prejuízo de cerca de 125 milhões de dólares. Um nome que diz o que guarda, como `impulsoEmNewtonSegundos`, teria evitado a confusão. Já agora, eu escrevo sempre `fenoEmQuilos` na minha caixa de feno.
+:::
+
 Se um nome tiver várias palavras, escreves-as juntas e começas cada palavra seguinte com maiúscula: `precoComIva`, `numeroDeAlunos`. Esta forma de escrever chama-se **camelCase**.
 
 ::: angeberwissen
@@ -129,11 +133,11 @@ lösung: l05-sekunden-loesung.visustruct
 
 ::: übung l05-einkauf
 titel: Compras
-auftrag: Compras 3 cadernos a 2.5 euros cada. Cria `quantidade` como `int` e `preco` como `double`, calcula o preço total numa variável `total` e mostra `Total: 7.5 euros`.
+auftrag: Compras 3 cadernos a 2.5 euros cada. Cria `quantidade` como `int` e `preco` como `double`, calcula o preço total numa variável `precoTotal` e mostra `Total: 7.5 euros`.
 test: - -> Total: 7.5 euros
 braucht: anweisung
 tipp: A quantidade vezes o preço dá o preço total. Para cada variável, pensa se é um número inteiro ou um número decimal.
-tipp: O preço total é um número decimal, por isso `total` precisa do tipo `double`.
+tipp: O preço total é um número decimal, por isso `precoTotal` precisa do tipo `double`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 

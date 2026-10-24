@@ -20,6 +20,10 @@ The variable as a box: the name on the label, the data type as a sticker, the va
 
 > Variable names start with a **lowercase letter** and contain no spaces. Good names say what is inside: `price` is better than `p`.
 
+::: angeberwissen
+In September 1999 the Mars Climate Orbiter space probe was lost. One team calculated the thrust in American units (pounds), the other expected metric units (newtons). The data only contained the number, not the unit. The probe flew too low into the Martian atmosphere and burned up, a loss of about 125 million dollars. A meaningful name like `impulseInNewtonSeconds` would have said what is inside. By the way, I always label my hay box `hayInKilos`.
+:::
+
 If a name is made of several words, you write them together and start every further word with a capital letter: `priceWithTax`, `numberOfStudents`. This way of writing is called **camelCase**.
 
 ::: angeberwissen
@@ -129,11 +133,11 @@ lösung: l05-sekunden-loesung.visustruct
 
 ::: übung l05-einkauf
 titel: Shopping
-auftrag: You buy 3 exercise books at 2.5 euros each. Create `count` as an `int` and `price` as a `double`, calculate the total price in a variable `total` and output `Total: 7.5 euros`.
+auftrag: You buy 3 exercise books at 2.5 euros each. Create `count` as an `int` and `price` as a `double`, calculate the total price in a variable `totalPrice` and output `Total: 7.5 euros`.
 test: - -> Total: 7.5 euros
 braucht: anweisung
 tipp: The count times the price gives the total price. For each variable, think about whether it is a whole number or a decimal number.
-tipp: The total price is a decimal number, so `total` needs the type `double`.
+tipp: The total price is a decimal number, so `totalPrice` needs the type `double`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 

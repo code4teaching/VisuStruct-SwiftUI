@@ -865,6 +865,10 @@ Die Variable als Kiste: Name auf dem Etikett, Datentyp als Aufkleber, Wert darin
 
 > Variablennamen beginnen mit einem **Kleinbuchstaben** und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: \`preis\` ist besser als \`p\`.
 
+::: angeberwissen
+Im September 1999 ging die Mars-Sonde Mars Climate Orbiter verloren. Ein Team rechnete die Schubkraft in amerikanischen Einheiten (Pfund), das andere erwartete metrische Einheiten (Newton). In den Daten stand nur die Zahl, nicht die Einheit. Die Sonde flog zu tief in die Mars-Atmosphäre und verglühte, Schaden rund 125 Millionen Dollar. Ein sprechender Name wie \`impulsInNewtonSekunden\` hätte gesagt, was drinsteht. Ich schreibe auf mein Heufach übrigens immer \`heuInKilo\`.
+:::
+
 Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst jedes weitere Wort mit einem Großbuchstaben: \`preisMitSteuer\`, \`anzahlSchueler\`. Diese Schreibweise heißt **CamelCase**.
 
 ::: angeberwissen
@@ -974,11 +978,11 @@ lösung: l05-sekunden-loesung.visustruct
 
 ::: übung l05-einkauf
 titel: Einkauf
-auftrag: Du kaufst 3 Hefte zu je 2.5 Euro. Lege \`anzahl\` als \`int\` und \`preis\` als \`double\` an, berechne den Gesamtpreis in einer Variablen \`gesamt\` und gib \`Gesamt: 7.5 Euro\` aus.
+auftrag: Du kaufst 3 Hefte zu je 2.5 Euro. Lege \`anzahl\` als \`int\` und \`preis\` als \`double\` an, berechne den Gesamtpreis in einer Variablen \`gesamtPreis\` und gib \`Gesamt: 7.5 Euro\` aus.
 test: - -> Gesamt: 7.5 Euro
 braucht: anweisung
 tipp: Anzahl mal Preis ergibt den Gesamtpreis. Überlege für jede Variable, ob sie eine ganze Zahl oder eine Kommazahl ist.
-tipp: Der Gesamtpreis ist eine Kommazahl, also braucht \`gesamt\` den Typ \`double\`.
+tipp: Der Gesamtpreis ist eine Kommazahl, also braucht \`gesamtPreis\` den Typ \`double\`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 
@@ -11917,6 +11921,10 @@ The variable as a box: the name on the label, the data type as a sticker, the va
 
 > Variable names start with a **lowercase letter** and contain no spaces. Good names say what is inside: \`price\` is better than \`p\`.
 
+::: angeberwissen
+In September 1999 the Mars Climate Orbiter space probe was lost. One team calculated the thrust in American units (pounds), the other expected metric units (newtons). The data only contained the number, not the unit. The probe flew too low into the Martian atmosphere and burned up, a loss of about 125 million dollars. A meaningful name like \`impulseInNewtonSeconds\` would have said what is inside. By the way, I always label my hay box \`hayInKilos\`.
+:::
+
 If a name is made of several words, you write them together and start every further word with a capital letter: \`priceWithTax\`, \`numberOfStudents\`. This way of writing is called **camelCase**.
 
 ::: angeberwissen
@@ -12026,11 +12034,11 @@ lösung: l05-sekunden-loesung.visustruct
 
 ::: übung l05-einkauf
 titel: Shopping
-auftrag: You buy 3 exercise books at 2.5 euros each. Create \`count\` as an \`int\` and \`price\` as a \`double\`, calculate the total price in a variable \`total\` and output \`Total: 7.5 euros\`.
+auftrag: You buy 3 exercise books at 2.5 euros each. Create \`count\` as an \`int\` and \`price\` as a \`double\`, calculate the total price in a variable \`totalPrice\` and output \`Total: 7.5 euros\`.
 test: - -> Total: 7.5 euros
 braucht: anweisung
 tipp: The count times the price gives the total price. For each variable, think about whether it is a whole number or a decimal number.
-tipp: The total price is a decimal number, so \`total\` needs the type \`double\`.
+tipp: The total price is a decimal number, so \`totalPrice\` needs the type \`double\`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 
@@ -22965,6 +22973,10 @@ A variável como caixa: o nome na etiqueta, o tipo de dados como autocolante, o 
 
 > Os nomes de variáveis começam por uma **letra minúscula** e não têm espaços. Bons nomes dizem o que está lá dentro: \`preco\` é melhor do que \`p\`. Evita acentos e cedilhas nos nomes: escreve \`preco\` e não \`preço\`.
 
+::: angeberwissen
+Em setembro de 1999 perdeu-se a sonda Mars Climate Orbiter. Uma equipa calculava a força de impulso em unidades americanas (libras), a outra esperava unidades métricas (newtons). Nos dados só estava o número, não a unidade. A sonda voou demasiado baixo na atmosfera de Marte e ardeu, um prejuízo de cerca de 125 milhões de dólares. Um nome que diz o que guarda, como \`impulsoEmNewtonSegundos\`, teria evitado a confusão. Já agora, eu escrevo sempre \`fenoEmQuilos\` na minha caixa de feno.
+:::
+
 Se um nome tiver várias palavras, escreves-as juntas e começas cada palavra seguinte com maiúscula: \`precoComIva\`, \`numeroDeAlunos\`. Esta forma de escrever chama-se **camelCase**.
 
 ::: angeberwissen
@@ -23074,11 +23086,11 @@ lösung: l05-sekunden-loesung.visustruct
 
 ::: übung l05-einkauf
 titel: Compras
-auftrag: Compras 3 cadernos a 2.5 euros cada. Cria \`quantidade\` como \`int\` e \`preco\` como \`double\`, calcula o preço total numa variável \`total\` e mostra \`Total: 7.5 euros\`.
+auftrag: Compras 3 cadernos a 2.5 euros cada. Cria \`quantidade\` como \`int\` e \`preco\` como \`double\`, calcula o preço total numa variável \`precoTotal\` e mostra \`Total: 7.5 euros\`.
 test: - -> Total: 7.5 euros
 braucht: anweisung
 tipp: A quantidade vezes o preço dá o preço total. Para cada variável, pensa se é um número inteiro ou um número decimal.
-tipp: O preço total é um número decimal, por isso \`total\` precisa do tipo \`double\`.
+tipp: O preço total é um número decimal, por isso \`precoTotal\` precisa do tipo \`double\`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 
@@ -38479,10 +38491,10 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>100;111;117;98;108;101;32;112;114;105;99;101;32;61;32;50;46;53;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>100;111;117;98;108;101;32;116;111;116;97;108;32;61;32;99;111;117;110;116;32;42;32;112;114;105;99;101;</text>
+    <text>100;111;117;98;108;101;32;116;111;116;97;108;80;114;105;99;101;32;61;32;99;111;117;110;116;32;42;32;112;114;105;99;101;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;32;43;32;34;32;101;117;114;111;115;34;</text>
+    <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;80;114;105;99;101;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
 `,cy=`<?xml version="1.0" encoding="UTF-8"?>
@@ -42797,10 +42809,10 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>100;111;117;98;108;101;32;112;114;101;105;115;32;61;32;50;46;53;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>100;111;117;98;108;101;32;103;101;115;97;109;116;32;61;32;97;110;122;97;104;108;32;42;32;112;114;101;105;115;</text>
+    <text>100;111;117;98;108;101;32;103;101;115;97;109;116;80;114;101;105;115;32;61;32;97;110;122;97;104;108;32;42;32;112;114;101;105;115;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>111;117;116;112;117;116;58;32;34;71;101;115;97;109;116;58;32;34;32;43;32;103;101;115;97;109;116;32;43;32;34;32;69;117;114;111;34;</text>
+    <text>111;117;116;112;117;116;58;32;34;71;101;115;97;109;116;58;32;34;32;43;32;103;101;115;97;109;116;80;114;101;105;115;32;43;32;34;32;69;117;114;111;34;</text>
   </strelem>
 </struktogramm>
 `,D5=`<?xml version="1.0" encoding="UTF-8"?>
@@ -47438,10 +47450,10 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>100;111;117;98;108;101;32;112;114;101;99;111;32;61;32;50;46;53;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>100;111;117;98;108;101;32;116;111;116;97;108;32;61;32;113;117;97;110;116;105;100;97;100;101;32;42;32;112;114;101;99;111;</text>
+    <text>100;111;117;98;108;101;32;112;114;101;99;111;84;111;116;97;108;32;61;32;113;117;97;110;116;105;100;97;100;101;32;42;32;112;114;101;99;111;</text>
   </strelem>
   <strelem typ="0" zx="0" zy="0">
-    <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;32;43;32;34;32;101;117;114;111;115;34;</text>
+    <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;112;114;101;99;111;84;111;116;97;108;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
 `,p7=`<?xml version="1.0" encoding="UTF-8"?>
@@ -52341,7 +52353,7 @@ ${x}
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${L(f("about_nav_title"))}</button>
-              <span class="settings-version">${L(f("web_about_version_fmt").replace("%@","0.3.34"))}</span>
+              <span class="settings-version">${L(f("web_about_version_fmt").replace("%@","0.3.35"))}</span>
             </footer>
           </div>
         </div>
@@ -52399,7 +52411,7 @@ ${x}
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${L(f("web_brand_suffix"))}</small></h3>
-            <p class="about-version">${L(f("web_about_version_fmt").replace("%@","0.3.34"))}</p>
+            <p class="about-version">${L(f("web_about_version_fmt").replace("%@","0.3.35"))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${e("about_web_label","https://www.visustruct.org","www.visustruct.org")}
             ${e("about_developer_label","https://www.sebastiao.org","www.sebastiao.org")}
