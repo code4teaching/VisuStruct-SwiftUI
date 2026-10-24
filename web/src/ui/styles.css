@@ -103,6 +103,21 @@ button.icon svg {
 }
 .diagram-tools .sim-toggle {
   margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+/* Wird die Werkzeugzeile schmal (z. B. iPad hochkant mit Lernbereich), bleibt nur das Symbol, damit alles in eine Zeile passt. */
+.diagram-tools {
+  container-type: inline-size;
+}
+@container (max-width: 520px) {
+  .diagram-tools .sim-toggle span {
+    display: none;
+  }
 }
 .diagram-tools .sep {
   width: 1px;

@@ -15,6 +15,8 @@
 "web_print_hint" = "“내보내기… → PDF”로 다이어그램을 저장한 뒤 인쇄하세요.";
 "web_delete" = "삭제";
 "web_language_title" = "인터페이스 언어";
+"web_simulation_start" = "시뮬레이션 시작";
+"web_simulation_end" = "시뮬레이션 종료";
 "web_simulation_start_title" = "구조도를 단계별로 실행";
 "web_simulation_end_title" = "시뮬레이션을 끝내고 계속 편집";
 "web_palette_hint" = "구조도로 드래그하세요";

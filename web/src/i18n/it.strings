@@ -15,6 +15,8 @@
 "web_print_hint" = "Usa “Esporta… → PDF” per salvare il diagramma e stamparlo da lì.";
 "web_delete" = "Elimina";
 "web_language_title" = "Lingua dell’interfaccia";
+"web_simulation_start" = "Avvia simulazione";
+"web_simulation_end" = "Termina simulazione";
 "web_simulation_start_title" = "Esegui il diagramma passo dopo passo";
 "web_simulation_end_title" = "Termina la simulazione e continua a modificare";
 "web_palette_hint" = "Trascina nel diagramma";

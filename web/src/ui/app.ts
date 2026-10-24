@@ -459,7 +459,7 @@ export class App {
           </div>
         </div>
         ${iconButton('code', t('a11y_generate_code'), icons.code)}
-        <button class="icon sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('action_simulation'))}">${icons.play}</button>
+        <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
       </div>
       <main class="workspace">
@@ -1195,9 +1195,10 @@ export class App {
     this.simulating = on
     this.root.classList.toggle('simulating', on)
     this.simButton.setAttribute('aria-pressed', String(on))
-    this.simButton.innerHTML = on ? icons.pencil : icons.play
+    // Beschriftung statt Symbol allein: „Simulation starten“ wird zu „Simulation beenden“.
+    this.simButton.innerHTML = `${on ? icons.stop : icons.play}<span>${e(t(on ? 'web_simulation_end' : 'web_simulation_start'))}</span>`
     this.simButton.dataset.tip = t(on ? 'web_simulation_end_title' : 'web_simulation_start_title')
-    this.simButton.setAttribute('aria-label', t(on ? 'action_diagram' : 'action_simulation'))
+    this.simButton.setAttribute('aria-label', t(on ? 'web_simulation_end' : 'web_simulation_start'))
     if (on) {
       this.setCoding(false)
       this.setEditorHidden(false)

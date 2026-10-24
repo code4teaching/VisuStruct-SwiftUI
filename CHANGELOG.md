@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web:** the simulation button has a label: “▶ Simulation starten”, while simulating “■ Simulation beenden” (21 languages). The pencil icon is gone, also in the simulation panel after the program has ended. In a narrow toolbar only the symbol stays, so the collapse button stays in the same row. Lesson 7 (de/en/pt) uses the new names.
 - **Web, lesson 4 (de/en/pt):** `%` is explained like division with remainder in primary school (17 : 5 = 3 remainder 2), with a small table comparing `/` and `%` and a hint on even numbers.
 - **Web, lesson 4 (de/en/pt):** variable names start with a lowercase letter, and names of several words use camelCase (`preisMitSteuer`), with an Angeberwissen box about the camel humps. camelCase is in the glossary. The boolean example is now simply `boolean volljaehrig = false` instead of a comparison.
 - **Web, Files column:** no class folders any more. Saving goes straight into a folder with today’s date in the workspace (`VisuStruct-Dateien/2026-10-24/…`), without asking for a class. The learning progress file is now called `learnProgress.json`; an existing `lernstand.json` is read in and then removed.

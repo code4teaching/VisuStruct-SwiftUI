@@ -8,7 +8,7 @@ kurz: Executar um estrutograma passo a passo, segui-lo à mão e encontrar erros
 
 Antes de chegarem as decisões e os ciclos, vais conhecer a tua ferramenta mais importante. A partir de agora podes usar a simulação para verificar sozinho cada exercício.
 
-Com o botão [▶︎ Simulação](#zeige-simulation) à direita nas ferramentas, o VisuStruct executa o teu estrutograma. Enquanto a simulação está a correr, não podes editar o diagrama. Com o ícone do lápis, no mesmo sítio, voltas a editar.
+Com o botão [▶︎ Iniciar simulação](#zeige-simulation) à direita nas ferramentas, o VisuStruct executa o teu estrutograma. Enquanto a simulação está a correr, não podes editar o diagrama. O mesmo botão chama-se então **■ Terminar simulação** e leva-te de volta à edição.
 
 À direita aparecem os **Controlos**:
 
