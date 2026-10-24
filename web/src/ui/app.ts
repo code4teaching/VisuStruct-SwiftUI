@@ -150,6 +150,9 @@ interface Tab {
   exerciseId?: string
 }
 
+/** Unter dieser Breite der Struktogramm-Spalte stehen die Elemente kompakt. */
+const compactPaletteBelow = 760
+
 /** `VisuStructUIScaleStep`: Textgröße des Struktogramms. */
 const zoomSteps = [
   { value: 1, label: 'settings_ui_scale_small' },
@@ -267,6 +270,7 @@ export class App {
   private closeSettings?: (ev: PointerEvent) => void
   private escapeSettings?: (ev: KeyboardEvent) => void
   private exerciseSaveTimer?: number
+  private paletteObserver?: ResizeObserver
   private resizeObserver?: ResizeObserver
   private renderedHostSize = { width: -1, height: -1 }
   /** Im Simulationsmodus markierter Schritt (ersetzt die Auswahl). */
@@ -518,6 +522,13 @@ export class App {
     )
     this.root.append(this.code.element)
     this.codeButton.addEventListener('click', () => this.setCoding(!this.coding))
+
+    // Schmale Struktogramm-Spalte: Elemente kompakt (Symbol, Name klein darunter).
+    this.paletteObserver?.disconnect()
+    this.paletteObserver = new ResizeObserver(([entry]) => {
+      this.root.classList.toggle('compact-palette', entry.contentRect.width < compactPaletteBelow)
+    })
+    this.paletteObserver.observe(this.root)
 
     const list = $<HTMLUListElement>('.palette ul')
     for (const { item } of paletteItems) {
