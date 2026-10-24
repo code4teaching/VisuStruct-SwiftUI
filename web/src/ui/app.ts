@@ -378,8 +378,13 @@ export class App {
       if (this.tabs.some((t) => t.dirty && !t.exerciseId)) e.preventDefault()
     })
     this.setupFileDrop()
-    const claude = (window as { claude?: { use(name: string): Promise<unknown> } }).claude
-    claude?.use('downloads').then((d) => (this.downloads = d as App['downloads']))
+    // Nicht jede Vorschau mit `window.claude` kennt `use` (z. B. die Dateiansicht der Claude-App): dann ohne.
+    const claude = (window as { claude?: { use?: (name: string) => Promise<unknown> } }).claude
+    if (typeof claude?.use === 'function')
+      claude
+        .use('downloads')
+        .then((d) => (this.downloads = d as App['downloads']))
+        .catch(() => undefined)
   }
 
   // MARK: - UI
