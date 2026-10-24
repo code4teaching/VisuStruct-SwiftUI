@@ -275,8 +275,6 @@
 "web_visubot_el_left" = "drehe links";
 "web_visubot_el_led" = "LEDs an";
 "web_visubot_el_tone" = "Ton spielen";
-"web_visubot_el_wall" = "Wand vorn?";
-"web_visubot_el_until_wall" = "fahre bis zur Wand";
 "web_visubot_drive" = "Fahrt";
 "web_visubot_depth_fmt" = "Die Schleifen müssen %d-fach ineinander stecken.";
 "web_visubot_tap_part" = "Dreh den mBot2 mit der Maus oder dem Finger. Tippst du ein Teil an, siehst du seinen Namen.";
@@ -300,4 +298,7 @@
 "web_visubot_world_fmt" = "Welt %d";
 "web_visubot_goal_reached" = "Ziel erreicht";
 "web_visubot_goal_missed" = "Ziel nicht erreicht";
-"web_visubot_el_until_line" = "fahre bis zum Ziel";
+"web_visubot_commands" = "mBot2-Befehle";
+"web_visubot_sensors" = "mBot2-Sensoren";
+"web_visubot_sensor_distance" = "Abstand";
+"web_visubot_sensor_line" = "Linie";

@@ -651,7 +651,8 @@ export class LearnPanel {
         )
       }
       if (o.test.world) {
-        detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
+        if (world(o.test.world)?.goals?.length)
+          detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
         if (o.result.bumps) detail.append(h('span', { class: 'learn-error' }, `⚠︎ ${t('web_visubot_bumps')}: ${o.result.bumps}`))
       }
       if ((!o.test.drive && !o.test.world) || o.result.outputs.length) detail.append(

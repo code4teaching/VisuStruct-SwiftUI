@@ -143,13 +143,24 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
             throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
           }
           break
-        case 'welt':
+        case 'welt': {
           // VisuBot: `welt: wand-nah, wand-weit` – in jeder dieser Welten muss der Roboter ohne Anstoßen ins Ziel.
+          // `welt: wand-nah -> turnRight` – in dieser Welt soll er genau so fahren (für Verzweigungen mit Sensoren).
+          const arrow = /^([\w-]+)\s*(?:->|→)\s*(.+)$/.exec(value.trim())
+          if (arrow) {
+            try {
+              ex.tests.push({ inputs: [], expected: [], world: arrow[1], drive: driveSignature(parseDriveSpec(arrow[2])) })
+            } catch (err) {
+              throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+            }
+            break
+          }
           for (const name of value.split(/\s*,\s*/).filter(Boolean)) {
             if (!/^[\w-]+$/.test(name)) throw new FormatError(`${file}: Übung „${id}“: Weltname „${name}“ (nur Buchstaben, Ziffern, -).`)
             ex.tests.push({ inputs: [], expected: [], world: name })
           }
           break
+        }
         case 'schleifentiefe':
           ex.loopDepth = Number(value)
           if (!Number.isInteger(ex.loopDepth) || ex.loopDepth < 1) throw new FormatError(`${file}: Übung „${id}“: „schleifentiefe:“ braucht eine Zahl ab 1.`)

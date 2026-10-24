@@ -1,6 +1,6 @@
 ---
 titel: Das Labyrinth
-nach: 3
+nach: 4
 stufe: 2
 ---
 

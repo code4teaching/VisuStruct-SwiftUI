@@ -29,13 +29,27 @@ titel: Bis zur Wand
 auftrag: Der mBot2 soll vorwärts fahren, bis die Wand höchstens 15 cm entfernt ist. Dein Programm muss in allen drei Welten funktionieren. Über der Simulation wählst du, welche Welt du siehst.
 welt: wand-kurz, wand-mittel, wand-lang
 braucht: whileSchleife
-tipp: In der VisuBot-Gruppe gibt es den Kasten **fahre bis zur Wand**. Schau dir an, was darin steht.
+tipp: Zieh eine While-Schleife ins Struktogramm und den Sensor **Abstand** auf die Schleife. Dann fehlt nur noch der Vergleich.
 tipp: Eine While-Schleife mit der Bedingung `mbot.getDistance() > 15`, darin ein `mbot.forward()`.
 lösung: vb-bis-wand-loesung.visustruct
 :::
 
 ::: ludwig
 Eine Schleife, die eine Bedingung prüft, bevor sie fährt, ist wie ich am Futtertrog: Ich frage zuerst, ob noch etwas drin ist, und erst dann fresse ich weiter.
+:::
+
+## Bis zum Ziel
+
+Jetzt kommt der zweite Sensor dran. Das Ziel ist ein schwarzes Feld mit grüner Fahne. Fährt der mBot2 darauf, sieht es sein Liniensensor: `mbot.getLine()` ist dann nicht mehr `0`.
+
+::: übung vb-bis-ziel
+titel: Fahre bis zum Ziel
+auftrag: Der mBot2 soll so lange vorwärts fahren, bis er auf dem Ziel steht. Auch hier gibt es zwei Welten.
+welt: ziel-kurz, ziel-lang
+braucht: whileSchleife
+tipp: Die Schleife soll laufen, solange der Liniensensor **nichts** sieht. Zieh den Sensor **Linie** auf die While-Schleife.
+tipp: Die Bedingung heißt `mbot.getLine() == 0`. In der Schleife steht `mbot.forward()`.
+lösung: vb-bis-ziel-loesung.visustruct
 :::
 
 ## Was prüft die Schleife?
@@ -61,4 +75,5 @@ Die Idee mit den Welten stammt von **Kara**, einem Marienkäfer, mit dem in der 
 ::: checkliste
 - Ich kann mit `mbot.getDistance()` den Abstand abfragen. → Wie weit ist die Wand?
 - Ich weiß, wann ich eine While-Schleife statt einer For-Schleife nehme. → Drei Welten, ein Programm
+- Ich kann mit dem Liniensensor ein Ziel finden. → Bis zum Ziel
 :::

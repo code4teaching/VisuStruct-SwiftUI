@@ -47,6 +47,8 @@ function modelStage(focus: MBotPart[], view: string | undefined, spin: boolean, 
       const robot = new Robot3D(stage)
       robot.showcase()
       robot.highlight(focus)
+      // Geht es um die LEDs, leuchten sie blau wie nach dem Einschalten.
+      if (focus.includes('leds')) robot.setLed([40, 90, 255])
       // Zuerst etwas weiter weg, dann zu den Teilen fliegen: so sieht man, wo sie am Roboter sitzen.
       robot.focusOn([], view === 'unten' || view === 'bottom' ? '' : view, false, 1)
       robot.focusOn(focus, view, spin)

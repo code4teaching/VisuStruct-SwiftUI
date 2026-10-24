@@ -38,7 +38,7 @@ Auf ihm ist schon eine Menge eingebaut:
 - ein farbiger [Bildschirm]{teil=screen}, auf dem Text und Bilder erscheinen
 - ein [Joystick]{teil=joystick}, den du in vier Richtungen drücken kannst
 - zwei [Tasten]{teil=buttons}, eine mit Dreieck und eine mit Quadrat, und an der Seite neben dem USB-Anschluss die Home-Taste
-- fünf bunte [LEDs]{teil=leds}
+- fünf bunte [LEDs]{teil=leds} als Lichtleiste an der Rückseite
 - ein [Lichtsensor]{teil=lightSensor} und ein [Mikrofon]{teil=microphone}
 
 Dazu kommen ein Lautsprecher und ein Lagesensor, die du von außen nicht siehst. Der Lagesensor merkt, ob der CyberPi gekippt oder gedreht wird.
@@ -163,7 +163,7 @@ fertig: Super, du kennst dich am mBot2 aus!
 
 ## Befehle für den mBot2
 
-Unter den [Elementen](#zeige-elemente) gibt es in VisuBot eine eigene Gruppe **VisuBot**. Jeder Kasten darin ist eine Anweisung an den Roboter:
+Unter den [Elementen](#zeige-elemente) gibt es in VisuBot eine eigene Gruppe **mBot2-Befehle**. Jeder Kasten darin ist eine Anweisung an den Roboter:
 
 | Element | Text im Kasten | Was passiert |
 |---|---|---|
@@ -185,7 +185,7 @@ Starte nach dem Bauen die [Simulation](#zeige-simulation). Rechts erscheint die 
 titel: Geradeaus
 auftrag: Ziehe fünfmal **fahre vor** in das Struktogramm. Starte dann die Simulation und schau zu, wie der mBot2 50 cm geradeaus fährt.
 fahrt: 5 x (forward)
-tipp: Die Gruppe VisuBot findest du unter den normalen Elementen.
+tipp: Die Gruppe mBot2-Befehle findest du unter den normalen Elementen.
 tipp: Fünf Kästen `mbot.forward()` untereinander. Jeder fährt 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
@@ -195,6 +195,6 @@ lösung: vb-gerade-loesung.visustruct
 - Ich weiß, wie der mBot2 Abstände misst. → Der Ultraschallsensor
 - Ich weiß, wie der mBot2 eine Linie erkennt. → Unter dem Roboter
 - Ich weiß, was Sensoren und Aktoren sind. → Sensoren und Aktoren
-- Ich kann den mBot2 mit Elementen aus der Gruppe VisuBot steuern. → Befehle für den mBot2
+- Ich kann den mBot2 mit Elementen aus der Gruppe mBot2-Befehle steuern. → Befehle für den mBot2
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
 :::

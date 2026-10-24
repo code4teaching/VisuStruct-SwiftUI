@@ -354,13 +354,14 @@ export function buildMBot2(): MBot2Model {
   triangle.rotation.y = Math.PI / 2
   mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.22, 14).rotateZ(Math.PI / 2), greyButton, 3.98, 0.05, 0.5, buttons)
 
-  // Fünf RGB-LEDs (im Modell an der Rückkante des CyberPi)
+  // Fünf RGB-LEDs als Lichtleiste an der hinteren Längskante des CyberPi (Foto IMG_4737)
   const ledPart = part('leds', cyberpiBody)
+  mesh(new THREE.BoxGeometry(6.6, 0.3, 0.06), material(0xeeeeee, { transparent: true, opacity: 0.3, roughness: 0.2 }), 0, -0.12, 1.68, ledPart)
   const leds: THREE.MeshStandardMaterial[] = []
   for (let i = 0; i < 5; i++) {
-    const led = new THREE.MeshStandardMaterial({ color: 0xdddddd, emissiveIntensity: 2.2, roughness: 0.3 })
+    const led = new THREE.MeshStandardMaterial({ color: 0xdddddd, emissiveIntensity: 1, roughness: 0.3, toneMapped: false })
     leds.push(led)
-    mesh(new THREE.SphereGeometry(0.17, 12, 8), led, -1.2 + i * 0.75, -0.05, 1.56, ledPart)
+    mesh(new THREE.BoxGeometry(0.7, 0.22, 0.08), led, -2.8 + i * 1.4, -0.12, 1.63, ledPart)
   }
   // Lichtsensor und Mikrofon neben dem Joystick
   for (const [x, name] of [[-1.75, 'lightSensor'], [-1.75, 'microphone']] as const) {

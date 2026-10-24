@@ -39,7 +39,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { setVisuBotEnabled, visuBotEnabled, visuBotTemplates, VisuBotView } from './visubotView'
+import { setVisuBotEnabled, visuBotEnabled, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
 import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -47,9 +47,20 @@ import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 type DropTarget =
   | { kind: 'before' | 'after' | 'replace'; path: number[]; frame: Rect }
   | { kind: 'rootAppend'; frame: Rect }
+  /** VisuBot: Sensorwert in die Bedingung (bzw. den Text) eines Elements schreiben */
+  | { kind: 'condition'; path: number[]; frame: Rect }
 
-/** Aus der Palette: neues Element (auch die fertigen VisuBot-Kästen) samt Name für das Ziehbild. */
-type DragSource = { kind: 'palette'; make: () => VSElement; label: string } | { kind: 'move'; path: number[] }
+/**
+ * Aus der Palette: neues Element (auch die VisuBot-Befehle) samt Name für das Ziehbild,
+ * oder ein VisuBot-Sensor wie `mbot.getDistance()`, der in eine Bedingung wandert.
+ */
+type DragSource =
+  | { kind: 'palette'; make: () => VSElement; label: string }
+  | { kind: 'sensor'; text: string; label: string }
+  | { kind: 'move'; path: number[] }
+
+/** Elemente, in deren Text ein Sensorwert passt: Bedingungen und Anweisungen (`int abstand = mbot.getDistance()`). */
+const takesSensor = [ElementType.verzweigung, ElementType.whileSchleife, ElementType.doUntilSchleife, ElementType.anweisung]
 
 interface DragState {
   source: DragSource
@@ -466,8 +477,10 @@ export class App {
         <h2>${e(t('palette_header'))}</h2>
         <p class="hint">${e(t('web_palette_hint'))}</p>
         <ul class="palette-basic"></ul>
-        <h3 class="palette-visubot-title" hidden>🤖 VisuBot</h3>
+        <h3 class="palette-visubot-title" hidden>🤖 ${e(t('web_visubot_commands'))}</h3>
         <ul class="palette-visubot" hidden></ul>
+        <h3 class="palette-visubot-title palette-visubot-sensors-title" hidden>📡 ${e(t('web_visubot_sensors'))}</h3>
+        <ul class="palette-visubot palette-visubot-sensors" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
@@ -595,7 +608,28 @@ export class App {
     if (robotOn) {
       const icon = { [ElementType.verzweigung]: 'verzweigung', [ElementType.whileSchleife]: 'whileSchleife' } as Partial<Record<ElementType, PaletteItem>>
       for (const tpl of visuBotTemplates) addPaletteItem(robotList, icon[tpl.type] ?? 'anweisung', t(tpl.key), tpl.make, tpl.key)
+      // Sensoren: Werte zum Einbauen in eine Bedingung, keine eigenen Kästen
+      const sensorList = $<HTMLUListElement>('.palette-visubot-sensors')
+      sensorList.replaceChildren()
+      for (const sensor of visuBotSensors) {
+        const label = t(sensor.key)
+        const li = document.createElement('li')
+        li.className = 'palette-item palette-sensor'
+        li.dataset.item = sensor.key
+        li.title = sensor.text
+        const code = document.createElement('code')
+        code.textContent = sensor.text
+        li.append(document.createTextNode(label), code)
+        li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'sensor', text: sensor.text, label: sensor.text }))
+        li.tabIndex = 0
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') this.insertSensor(sensor.text)
+        })
+        sensorList.append(li)
+      }
     }
+    $<HTMLElement>('.palette-visubot-sensors').hidden = !robotOn
+    $<HTMLElement>('.palette-visubot-sensors-title').hidden = !robotOn
 
     this.tabStrip = $('.tabs')
     this.exportButton = $<HTMLButtonElement>('[data-action=export]')
@@ -1584,6 +1618,24 @@ export class App {
   }
 
   /** Einfügen ohne Ziehen: Platzhalter ersetzen bzw. hinter der Auswahl (oder ans Ende) einfügen. */
+  /**
+   * VisuBot: Sensorwert in den Text eines Elements schreiben (ohne Ziel: in das gewählte Element).
+   * Leere Bedingung → nur der Wert; sonst kommt er hinten dazu. Den Vergleich (`< 20`) schreiben die Schüler selbst.
+   */
+  private insertSensor(text: string, path = this.selected) {
+    if (!path || isPlaceholderSlot(this.doc, path)) return
+    const el = elementAt(this.doc, path)
+    if (!takesSensor.includes(el.type)) return
+    const old = (el.textLines ?? []).join(' ').trim()
+    this.commit(setTextLines(this.doc, path, [old ? `${old} ${text}` : text]), path)
+    // Gleich weiterschreiben können, z. B. ` < 20`
+    const ta = this.inspector.querySelector('textarea')
+    if (ta) {
+      ta.focus()
+      ta.setSelectionRange(ta.value.length, ta.value.length)
+    }
+  }
+
   private insertNearSelection(element: VSElement) {
     const path = this.selected
     if (path && isPlaceholderSlot(this.doc, path)) return this.commit(replaceAtPath(this.doc, path, element), path)
@@ -1912,6 +1964,7 @@ export class App {
     if (!d || e.pointerId !== d.pointerId) return
     if (d.active && d.target) this.applyDrop(d.source, d.target)
     else if (!d.active && d.source.kind === 'palette') this.insertNearSelection(d.source.make())
+    else if (!d.active && d.source.kind === 'sensor') this.insertSensor(d.source.text)
     this.endDrag()
   }
 
@@ -1925,7 +1978,7 @@ export class App {
   private makeGhost(source: DragSource): HTMLElement {
     const g = document.createElement('div')
     g.className = 'drag-ghost'
-    if (source.kind === 'palette') {
+    if (source.kind === 'palette' || source.kind === 'sensor') {
       g.textContent = source.label
     } else {
       const e = elementAt(this.doc, source.path)
@@ -1947,6 +2000,11 @@ export class App {
   private dropTargetAt(x: number, y: number, source: DragSource): DropTarget | undefined {
     const roots = this.layout?.elements ?? []
     const node = this.nodeAt(x, y)
+    if (source.kind === 'sensor') {
+      // Nur auf ein Element mit Bedingung oder eine Anweisung, nicht dazwischen
+      if (!node || isPlaceholderSlot(this.doc, node.idPath)) return undefined
+      return takesSensor.includes(elementAt(this.doc, node.idPath).type) ? { kind: 'condition', path: node.idPath, frame: node.frame } : undefined
+    }
     if (!node) {
       const last = roots[roots.length - 1]
       if (!last) return undefined
@@ -1972,7 +2030,7 @@ export class App {
     this.overlay.replaceChildren()
     if (!t) return
     const f = t.frame
-    if (t.kind === 'replace') {
+    if (t.kind === 'replace' || t.kind === 'condition') {
       this.overlay.append(el('rect', { x: f.x + 2, y: f.y + 2, width: f.width - 4, height: f.height - 4, class: 'drop-replace' }))
       return
     }
@@ -1983,6 +2041,11 @@ export class App {
   private applyDrop(source: DragSource, t: DropTarget) {
     const doc = this.doc
     try {
+      if (source.kind === 'sensor') {
+        if (t.kind === 'condition') this.insertSensor(source.text, t.path)
+        return
+      }
+      if (t.kind === 'condition') return
       if (source.kind === 'palette') {
         const element = source.make()
         switch (t.kind) {

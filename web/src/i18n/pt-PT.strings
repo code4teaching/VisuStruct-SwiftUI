@@ -273,8 +273,6 @@
 "web_visubot_el_left" = "rodar à esquerda";
 "web_visubot_el_led" = "LEDs ligados";
 "web_visubot_el_tone" = "tocar um som";
-"web_visubot_el_wall" = "Parede à frente?";
-"web_visubot_el_until_wall" = "andar até à parede";
 "web_visubot_drive" = "Percurso";
 "web_visubot_depth_fmt" = "Os ciclos têm de estar encaixados %d vezes.";
 "web_visubot_tap_part" = "Roda o mBot2 com o rato ou o dedo. Toca numa peça para ver o nome.";
@@ -298,4 +296,7 @@
 "web_visubot_world_fmt" = "Mundo %d";
 "web_visubot_goal_reached" = "Objetivo alcançado";
 "web_visubot_goal_missed" = "Objetivo não alcançado";
-"web_visubot_el_until_line" = "conduz até ao objetivo";
+"web_visubot_commands" = "Comandos do mBot2";
+"web_visubot_sensors" = "Sensores do mBot2";
+"web_visubot_sensor_distance" = "Distância";
+"web_visubot_sensor_line" = "Linha";

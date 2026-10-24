@@ -12,7 +12,7 @@ export interface ExerciseTest {
   files?: { name: string; lines: string[] }[]
   /** VisuBot: erwartete Fahrt (`driveSignature`), z. B. `['forward 50', 'turnRight 90']`. */
   drive?: string[]
-  /** VisuBot: Welt (Name einer Weltkarte in `lessons/welten`); der Roboter muss ohne Anstoßen ins Ziel. */
+  /** VisuBot: Welt (Name einer Weltkarte in `lessons/welten`); der Roboter darf nicht anstoßen und muss ins Ziel, falls sie eins hat. */
   world?: string
 }
 
@@ -104,7 +104,8 @@ export function checkExercise(
     const result = runWithInputs(doc, test.inputs, subprograms, world)
     const filesRight = (test.files ?? []).every((f) => sameOutput(fileLines(result.files?.get(f.name)), f.lines))
     const driveRight = !test.drive || sameOutput(result.drive ?? [], test.drive)
-    const worldRight = !test.world || (result.atGoal === true && result.bumps === 0)
+    // Hat die Welt ein Ziel, muss der Roboter hin; anstoßen darf er nie.
+    const worldRight = !test.world || (result.bumps === 0 && (!world?.goals?.length || result.atGoal === true))
     const passed =
       !result.error && !result.missingInput && !result.tooManySteps && sameOutput(result.outputs, test.expected) && filesRight && driveRight && worldRight
     return { test, result, passed }

@@ -38,7 +38,7 @@ A lot is already built in:
 - a colour [screen]{part=screen} that shows text and pictures
 - a [joystick]{part=joystick} you can push in four directions
 - two [buttons]{part=buttons}, one with a triangle and one with a square, and the Home button on the side next to the USB port
-- five colourful [LEDs]{part=leds}
+- five colourful [LEDs]{part=leds} as a light bar along the back
 - a [light sensor]{part=lightSensor} and a [microphone]{part=microphone}
 
 There is also a speaker and a motion sensor that you cannot see from outside. The motion sensor notices when the CyberPi is tilted or turned.
@@ -163,7 +163,7 @@ done: Great, you know your way around the mBot2!
 
 ## Commands for the mBot2
 
-In VisuBot the [Elements](#zeige-elemente) have their own group **VisuBot**. Each box in it is a command for the robot:
+In VisuBot the [Elements](#zeige-elemente) have their own group **mBot2 commands**. Each box in it is a command for the robot:
 
 | Element | Text in the box | What happens |
 |---|---|---|
@@ -185,7 +185,7 @@ After building, start the [simulation](#zeige-simulation). The VisuBot world wit
 titel: Straight ahead
 auftrag: Drag **move forward** into the structure chart five times. Then start the simulation and watch the mBot2 drive 50 cm straight ahead.
 fahrt: 5 x (forward)
-tipp: You find the VisuBot group below the normal elements.
+tipp: You find the group mBot2 commands below the normal elements.
 tipp: Five boxes `mbot.forward()` one below the other. Each drives 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
@@ -195,6 +195,6 @@ lösung: vb-gerade-loesung.visustruct
 - I know how the mBot2 measures distances. → The ultrasonic sensor
 - I know how the mBot2 detects a line. → Under the robot
 - I know what sensors and actuators are. → Sensors and actuators
-- I can control the mBot2 with elements from the VisuBot group. → Commands for the mBot2
+- I can control the mBot2 with elements from the group mBot2 commands. → Commands for the mBot2
 - I can let the mBot2 drive in the simulator. → First drive
 :::

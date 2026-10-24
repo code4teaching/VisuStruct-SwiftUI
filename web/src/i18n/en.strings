@@ -275,8 +275,6 @@
 "web_visubot_el_left" = "turn left";
 "web_visubot_el_led" = "LEDs on";
 "web_visubot_el_tone" = "play a tone";
-"web_visubot_el_wall" = "Wall ahead?";
-"web_visubot_el_until_wall" = "drive to the wall";
 "web_visubot_drive" = "Drive";
 "web_visubot_depth_fmt" = "The loops must be nested %d deep.";
 "web_visubot_tap_part" = "Rotate the mBot2 with the mouse or your finger. Tap a part to see its name.";
@@ -300,4 +298,7 @@
 "web_visubot_world_fmt" = "World %d";
 "web_visubot_goal_reached" = "Goal reached";
 "web_visubot_goal_missed" = "Goal not reached";
-"web_visubot_el_until_line" = "drive to the goal";
+"web_visubot_commands" = "mBot2 commands";
+"web_visubot_sensors" = "mBot2 sensors";
+"web_visubot_sensor_distance" = "Distance";
+"web_visubot_sensor_line" = "Line";

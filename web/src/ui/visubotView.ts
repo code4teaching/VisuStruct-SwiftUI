@@ -149,35 +149,10 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_left', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
   { key: 'web_visubot_el_led', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
   { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
-  {
-    key: 'web_visubot_el_wall',
-    type: ElementType.verzweigung,
-    make: () =>
-      makeElement(ElementType.verzweigung, {
-        textLines: ['mbot.getDistance() < 20'],
-        cases: [
-          { name: 'true', elements: [makeElement(ElementType.anweisung, { textLines: ['mbot.turnRight()'] })] },
-          { name: 'false', elements: [makeElement(ElementType.anweisung, { textLines: ['mbot.forward()'] })] },
-        ],
-      }),
-  },
-  {
-    key: 'web_visubot_el_until_wall',
-    type: ElementType.whileSchleife,
-    make: () =>
-      makeElement(ElementType.whileSchleife, {
-        textLines: ['mbot.getDistance() > 20'],
-        loopBody: [makeElement(ElementType.anweisung, { textLines: ['mbot.forward()'] })],
-      }),
-  },
-  {
-    // Liniensensor: Das Ziel ist ein schwarzes Feld.
-    key: 'web_visubot_el_until_line',
-    type: ElementType.whileSchleife,
-    make: () =>
-      makeElement(ElementType.whileSchleife, {
-        textLines: ['mbot.getLine() == 0'],
-        loopBody: [makeElement(ElementType.anweisung, { textLines: ['mbot.forward()'] })],
-      }),
-  },
+]
+
+/** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
+export const visuBotSensors: { key: string; text: string }[] = [
+  { key: 'web_visubot_sensor_distance', text: 'mbot.getDistance()' },
+  { key: 'web_visubot_sensor_line', text: 'mbot.getLine()' },
 ]

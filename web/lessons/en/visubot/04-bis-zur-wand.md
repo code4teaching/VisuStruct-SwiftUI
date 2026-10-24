@@ -29,13 +29,27 @@ titel: Up to the wall
 auftrag: The mBot2 should drive forward until the wall is at most 15 cm away. Your program must work in all three worlds. Above the simulation you choose which world you see.
 welt: wand-kurz, wand-mittel, wand-lang
 braucht: whileSchleife
-tipp: The VisuBot group has a box **drive to the wall**. Look at what it contains.
+tipp: Drag a while loop into the structure chart and the sensor **Distance** onto the loop. Then only the comparison is missing.
 tipp: A while loop with the condition `mbot.getDistance() > 15`, with `mbot.forward()` inside.
 lösung: vb-bis-wand-loesung.visustruct
 :::
 
 ::: ludwig
 A loop that checks a condition before it drives is like me at the feeding trough: first I check whether there is anything left, and only then do I keep eating.
+:::
+
+## To the goal
+
+Now it is the second sensor's turn. The goal is a black square with a green flag. When the mBot2 drives onto it, its line sensor sees it: `mbot.getLine()` is then no longer `0`.
+
+::: übung vb-bis-ziel
+titel: Drive to the goal
+auftrag: The mBot2 should keep driving forward until it is on the goal. Again there are two worlds.
+welt: ziel-kurz, ziel-lang
+braucht: whileSchleife
+tipp: The loop should run as long as the line sensor sees **nothing**. Drag the sensor **Line** onto the while loop.
+tipp: The condition is `mbot.getLine() == 0`. Inside the loop is `mbot.forward()`.
+lösung: vb-bis-ziel-loesung.visustruct
 :::
 
 ## What does the loop check?
@@ -61,4 +75,5 @@ The idea with the worlds comes from **Kara**, a ladybird that Swiss students hav
 ::: checkliste
 - I can ask for the distance with `mbot.getDistance()`. → How far away is the wall?
 - I know when to use a while loop instead of a for loop. → Three worlds, one program
+- I can find a goal with the line sensor. → To the goal
 :::
