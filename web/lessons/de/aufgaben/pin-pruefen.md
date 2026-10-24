@@ -6,6 +6,10 @@ stufe: 2
 
 Am Geldautomaten hast du drei Versuche für deine PIN. Gibst du dreimal eine falsche PIN ein, wird die Karte gesperrt.
 
+::: angeberwissen
+John Shepherd-Barron, der 1967 den ersten Geldautomaten in London aufstellte, wollte eigentlich sechsstellige PINs. Seine Frau sagte aber, sie könne sich höchstens vier Ziffern merken. Deshalb hat deine PIN heute vier Stellen.
+:::
+
 ::: übung aufgabe-pin
 titel: PIN prüfen
 auftrag: Die richtige PIN ist 1234. Frage so lange nach der PIN, bis sie richtig ist oder drei Versuche verbraucht sind. Gib danach **PIN richtig** oder **Karte gesperrt** aus.

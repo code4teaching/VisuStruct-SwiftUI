@@ -18,6 +18,10 @@ Quando clicas num ciclo for, ele tem três campos à direita:
 Um ciclo for que mostra os números de 1 a 5.
 :::
 
+::: angeberwissen
+Porque é que a variável de contagem se chama quase sempre `i`? Na matemática, `i` representa há muito tempo um índice. E em FORTRAN, uma das primeiras linguagens de programação, de 1957, todas as variáveis começadas por I a N eram automaticamente números inteiros. Os programadores ainda não perderam o hábito.
+:::
+
 ## Por que ordem?
 
 As três partes são executadas em momentos diferentes:

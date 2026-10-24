@@ -20,6 +20,10 @@ Em cima, no bloco, está `do`, e a condição fica no pé. Quando clicas no cicl
 
 > Tal como no ciclo while, a condição diz **quando é que o ciclo se repete**. Enquanto for verdadeira, o ciclo continua.
 
+::: angeberwissen
+O Python não tem ciclo do-while. Quem lá quer “primeiro fazer, depois verificar” escreve `while True:` e sai do ciclo com `break`. Java, C e JavaScript, pelo contrário, têm `do … while` há décadas.
+:::
+
 ## Pelo menos uma iteração
 
 Como a condição só é verificada no fim, o interior **é sempre executado pelo menos uma vez**. Essa é a diferença mais importante em relação ao ciclo while.

@@ -109,6 +109,10 @@ switch (wahl) {
 - Jeder Fall beginnt mit `case`, dem Wert und einem Pfeil `->`. Dahinter steht in geschweiften Klammern, was passieren soll.
 - `default` ist der Sonst-Fall. Er läuft, wenn kein Wert passt.
 
+::: angeberwissen
+Den Pfeil `case 1 ->` gibt es in Java erst seit 2020 (Java 14). Davor schrieb man `case 1:` und musste jeden Fall mit `break;` beenden. Wer das vergaß, lief einfach in den nächsten Fall weiter. Der Pfeil hat also sehr vielen Programmierern Ärger erspart.
+:::
+
 ::: übung l10-java-wuerfel
 titel: Würfel in Worten
 code: java

@@ -6,6 +6,10 @@ stufe: 2
 
 Numa caixa multibanco tens três tentativas para o teu PIN. Se escreveres um PIN errado três vezes, o cartão fica bloqueado.
 
+::: angeberwissen
+John Shepherd-Barron, que instalou o primeiro multibanco em Londres em 1967, queria PINs de seis algarismos. Mas a mulher dele disse que só conseguia decorar quatro. É por isso que o teu PIN tem hoje quatro algarismos.
+:::
+
 ::: übung aufgabe-pin
 titel: Verificar o PIN
 auftrag: O PIN certo é 1234. Pede o PIN até estar certo ou até se terem gastado três tentativas. Depois mostra **PIN correto** ou **Cartão bloqueado**.

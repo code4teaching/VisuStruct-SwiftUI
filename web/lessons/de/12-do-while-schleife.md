@@ -20,6 +20,10 @@ Oben im Kasten steht `do`, unten im Fuß die Bedingung. Wenn du die Schleife ank
 
 > Die Bedingung sagt wie bei der While-Schleife, **wann wiederholt wird**. Solange sie wahr ist, läuft die Schleife weiter.
 
+::: angeberwissen
+Python hat gar keine Do-while-Schleife. Wer dort „erst machen, dann prüfen“ will, schreibt `while True:` und verlässt die Schleife mit `break`. Java, C und JavaScript haben `do … while` dagegen schon seit Jahrzehnten.
+:::
+
 ## Mindestens ein Durchlauf
 
 Weil die Bedingung erst am Ende geprüft wird, läuft der Inhalt **immer mindestens einmal**. Das ist der wichtigste Unterschied zur While-Schleife.

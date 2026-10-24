@@ -15,6 +15,10 @@ Wiese;meadow
 
 Weil nur die Datei die Wörter kennt, kannst du später einfach neue Zeilen anhängen, ohne das Programm zu ändern.
 
+::: angeberwissen
+Die Lernkartei mit mehreren Fächern hat Sebastian Leitner 1972 bekannt gemacht: Gewusste Karten wandern ein Fach weiter und kommen seltener dran, falsche wandern zurück ins erste Fach. Viele Vokabel-Apps arbeiten bis heute nach diesem Prinzip.
+:::
+
 ::: übung aufgabe-vokabeln
 titel: Vokabeltrainer
 code: java

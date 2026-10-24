@@ -20,6 +20,10 @@ At the top of the box is `do`, and the condition is in the foot. When you click 
 
 > Just like with the while loop, the condition says **when the loop repeats**. As long as it is true, the loop keeps running.
 
+::: angeberwissen
+Python has no do-while loop at all. If you want “do first, check later” there, you write `while True:` and leave the loop with `break`. Java, C and JavaScript, on the other hand, have had `do … while` for decades.
+:::
+
 ## At least one pass
 
 Because the condition is only checked at the end, the inside **always runs at least once**. That is the most important difference from the while loop.

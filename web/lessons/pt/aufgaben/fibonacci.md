@@ -14,6 +14,10 @@ Encontras estes números surpreendentemente vezes na natureza, por exemplo na fo
 Lembras-te da **troca** da lição 5? Aí precisavas de uma variável auxiliar, porque `a = b` substitui o valor antigo de `a`. Aqui é igual: antes de `numero2` receber o número novo, o seu valor antigo tem de estar guardado em `numero1`. Atenção à **ordem**: primeiro `numero1 = numero2`, depois `numero2 = numero3`. Vais precisar outra vez de avançar e trocar valores mais tarde, por exemplo ao ordenar na lição 19.
 :::
 
+::: angeberwissen
+Em 1202, Leonardo de Pisa, conhecido como Fibonacci, pôs no seu livro de cálculo um problema sobre coelhos: a partir do segundo mês, cada casal de coelhos tem um novo casal todos os meses. Quantos casais há ao fim de um ano? A resposta é esta sequência. Infelizmente, o livro não tinha cabras.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Números de Fibonacci
 auftrag: Pergunta quantos números de Fibonacci devem ser mostrados. Depois mostra exatamente esses, cada um na sua linha. Podes partir do princípio de que é introduzido pelo menos 2.

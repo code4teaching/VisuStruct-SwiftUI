@@ -15,6 +15,10 @@ meadow;Wiese
 
 Because only the file knows the words, you can simply add new lines later without changing the program.
 
+::: angeberwissen
+Sebastian Leitner made the flashcard box with several compartments popular in 1972: cards you know move one compartment further and come up less often, wrong ones go back to the first compartment. Many vocabulary apps still work on this principle today.
+:::
+
 ::: übung aufgabe-vokabeln
 titel: Vocabulary trainer
 code: java

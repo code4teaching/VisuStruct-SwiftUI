@@ -107,6 +107,10 @@ Merksätze:
 - `a || b` ist nur falsch, wenn **beide** falsch sind.
 - `!a` dreht den Wert um.
 
+::: angeberwissen
+Der Datentyp `boolean` heißt nach **George Boole**. Der Engländer hat schon 1847 gezeigt, dass man mit wahr und falsch rechnen kann wie mit Zahlen, fast hundert Jahre bevor es den ersten Computer gab. Heute steckt seine Logik in jedem Chip.
+:::
+
 ## Wahrheitswerte in Variablen
 
 Das Ergebnis einer Bedingung ist ein **Wahrheitswert** vom Typ `boolean`. Du kannst ihn wie eine Zahl in einer Variablen speichern und später benutzen:

@@ -32,6 +32,10 @@ Isto é **JSON**, a "JavaScript Object Notation". Quase todas as aplicações we
 
 Objetos e listas podem ser **encaixados** uns nos outros: o objeto do zoo contém a lista `animais`, e cada animal é outra vez um objeto. Tal como nos arrays, a lista conta a partir de 0: `animais[1].nome` é `"Zora"`.
 
+::: angeberwissen
+Foi Douglas Crockford quem tornou o JSON conhecido no início dos anos 2000. Na licença do seu programa de JSON escreveu: “O software deve ser usado para o Bem, não para o Mal.” Por isso, a empresa IBM perguntou se o podia usar na mesma. Ele respondeu que a IBM e os seus clientes também o podiam usar para o Mal.
+:::
+
 ## Tirar um valor
 
 Os profissionais leem JSON com uma biblioteca, por exemplo o **Gson**. Ela não faz parte do Java e tem de ser adicionada primeiro. Para o nosso ficheiro do zoo chegam os métodos de String da lição 17, porque cada animal está na sua própria linha.

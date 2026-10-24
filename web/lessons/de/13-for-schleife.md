@@ -18,6 +18,10 @@ Wenn du eine For-Schleife anklickst, hat sie rechts drei Felder:
 Eine For-Schleife, die die Zahlen von 1 bis 5 ausgibt.
 :::
 
+::: angeberwissen
+Warum heißt die Zählvariable fast immer `i`? In der Mathematik steht `i` schon lange für einen Index. Und in FORTRAN, einer der ersten Programmiersprachen von 1957, waren alle Variablen, die mit I bis N anfingen, automatisch ganze Zahlen. Programmierer haben sich das bis heute nicht abgewöhnt.
+:::
+
 ## In welcher Reihenfolge?
 
 Die drei Teile kommen zu unterschiedlichen Zeiten dran:

@@ -94,6 +94,10 @@ O nome da classe vem do **título** do diagrama. O ficheiro tem de ter exatament
 
 > O código gerado é um bom começo, mas confirma-o. Se primeiro criares uma variável e mais tarde a voltares a ler com uma entrada, o VisuStruct escreve mesmo assim `int pin = scanner.nextInt();`. O Java indica então que `pin` já existe. Basta apagares o `int` nessa linha.
 
+::: angeberwissen
+Todos os ficheiros Java compilados (`.class`) começam com os mesmos quatro bytes, escritos em hexadecimal: `CA FE BA BE`. É assim que o computador reconhece que é Java. Foi James Gosling que inventou este “cafe babe”, a condizer com o café do nome.
+:::
+
 ## O modo de linguagem Java
 
 Na [roda dentada](#zeige-einstellungen) em cima à direita podes ativar as **Palavras-chave do código**. Então os blocos da área Elementos têm os mesmos nomes que os comandos em Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` e `call`. O resto da interface fica no teu idioma.

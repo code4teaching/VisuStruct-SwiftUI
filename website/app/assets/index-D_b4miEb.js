@@ -866,6 +866,10 @@ boolean volljaehrig = alter >= 18
 
 Danach steht in \`volljaehrig\` der Wert \`false\`.
 
+::: angeberwissen
+Am 4. Juni 1996 explodierte die Rakete Ariane 5 schon 37 Sekunden nach dem Start. Schuld war eine einzige Zeile: Eine Kommazahl für die Geschwindigkeit wurde in eine Ganzzahl-Variable gesteckt, die für so große Werte zu klein war. Der Datentyp ist also keine Nebensache, er kann eine halbe Milliarde Euro kosten.
+:::
+
 ## Zuweisung mit =
 
 Das Zeichen \`=\` heißt **Zuweisung**. Es bedeutet nicht „ist gleich“ wie in Mathe, sondern: Berechne die rechte Seite und speichere das Ergebnis in der Variablen links.
@@ -962,6 +966,10 @@ System.out.println("Größe: " + groesse + " m");
 - Eine Ausgabe heißt in Java \`System.out.println(…)\`.
 
 Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
+
+::: angeberwissen
+Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James Gosling. Sein Team bei Sun Microsystems wollte ab 1991 kleine Geräte wie Fernseh-Boxen programmieren. Den Namen Oak hatte aber schon eine andere Firma. Also wurde es 1995 **Java**, wie der Kaffee von der Insel Java. Deshalb ist das Logo eine dampfende Tasse.
+:::
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
@@ -1396,6 +1404,10 @@ System.out.println("Summe: " + summe);
 - \`scanner.nextInt()\` liest eine ganze Zahl, \`scanner.nextDouble()\` eine Kommazahl und \`scanner.next()\` ein Wort.
 - Die Frage an den Benutzer ist eine normale Ausgabe direkt davor. VisuStruct macht aus beiden Zeilen zusammen einen Eingabe-Kasten.
 
+::: angeberwissen
+Java sollte ursprünglich kleine Geräte steuern, und das tut es heute noch: Auf vielen SIM-Karten im Handy und auf Bankkarten läuft eine Mini-Version namens **Java Card**. Gut möglich, dass du gerade Java in der Hosentasche hast.
+:::
+
 ::: übung l06-java-tage
 titel: Alter in Tagen
 code: java
@@ -1600,6 +1612,10 @@ Häufige Fehler in einer Sequenz sind:
 - Zwei ganze Zahlen werden geteilt: \`7 / 2\` ergibt \`3\`, weil bei \`int\` die Nachkommastellen wegfallen.
 
 > Später kommen Verzweigungen und Schleifen dazu. Dann zeigt dir die Simulation auch, welcher Weg genommen wird und wie oft eine Schleife läuft.
+
+::: angeberwissen
+Am 9. September 1947 fand das Team von Grace Hopper im Rechner Harvard Mark II eine echte Motte, die zwischen zwei Kontakten klemmte. Sie klebten sie ins Logbuch und schrieben dazu: „Erster echter Fall, dass ein Bug gefunden wurde.“ Die Motte liegt heute in einem Museum in Washington.
+:::
 
 ## Übung: Tauschen reparieren
 
@@ -1883,6 +1899,10 @@ if (alter >= 18) {
 - Ist der false-Zweig leer, lässt du \`else { }\` einfach weg.
 - Die ersten beiden Zeilen braucht dein Programm einmal, sobald es etwas einliest. Danach liest \`scanner.nextInt()\` eine ganze Zahl ein. Die Frage davor ist eine normale Ausgabe.
 
+::: angeberwissen
+Java hat auch ein Maskottchen: **Duke**, ein kleiner schwarz-weißer Kerl mit großer roter Nase. Er wurde 1992 im Team von Java gezeichnet und winkt seitdem von Konferenzen und T-Shirts. Ludwig findet, ein Geißbock hätte besser gepasst.
+:::
+
 ::: übung l08-java-bestanden
 titel: Bestanden in Java
 code: java
@@ -2153,6 +2173,10 @@ Merksätze:
 - \`a || b\` ist nur falsch, wenn **beide** falsch sind.
 - \`!a\` dreht den Wert um.
 
+::: angeberwissen
+Der Datentyp \`boolean\` heißt nach **George Boole**. Der Engländer hat schon 1847 gezeigt, dass man mit wahr und falsch rechnen kann wie mit Zahlen, fast hundert Jahre bevor es den ersten Computer gab. Heute steckt seine Logik in jedem Chip.
+:::
+
 ## Wahrheitswerte in Variablen
 
 Das Ergebnis einer Bedingung ist ein **Wahrheitswert** vom Typ \`boolean\`. Du kannst ihn wie eine Zahl in einer Variablen speichern und später benutzen:
@@ -2398,6 +2422,10 @@ switch (wahl) {
 - Nach \`switch\` steht in runden Klammern die Variable, die verglichen wird.
 - Jeder Fall beginnt mit \`case\`, dem Wert und einem Pfeil \`->\`. Dahinter steht in geschweiften Klammern, was passieren soll.
 - \`default\` ist der Sonst-Fall. Er läuft, wenn kein Wert passt.
+
+::: angeberwissen
+Den Pfeil \`case 1 ->\` gibt es in Java erst seit 2020 (Java 14). Davor schrieb man \`case 1:\` und musste jeden Fall mit \`break;\` beenden. Wer das vergaß, lief einfach in den nächsten Fall weiter. Der Pfeil hat also sehr vielen Programmierern Ärger erspart.
+:::
 
 ::: übung l10-java-wuerfel
 titel: Würfel in Worten
@@ -2846,6 +2874,10 @@ Oben im Kasten steht \`do\`, unten im Fuß die Bedingung. Wenn du die Schleife a
 
 > Die Bedingung sagt wie bei der While-Schleife, **wann wiederholt wird**. Solange sie wahr ist, läuft die Schleife weiter.
 
+::: angeberwissen
+Python hat gar keine Do-while-Schleife. Wer dort „erst machen, dann prüfen“ will, schreibt \`while True:\` und verlässt die Schleife mit \`break\`. Java, C und JavaScript haben \`do … while\` dagegen schon seit Jahrzehnten.
+:::
+
 ## Mindestens ein Durchlauf
 
 Weil die Bedingung erst am Ende geprüft wird, läuft der Inhalt **immer mindestens einmal**. Das ist der wichtigste Unterschied zur While-Schleife.
@@ -3052,6 +3084,10 @@ Wenn du eine For-Schleife anklickst, hat sie rechts drei Felder:
 
 ::: diagramm l12-eins-bis-fuenf.visustruct
 Eine For-Schleife, die die Zahlen von 1 bis 5 ausgibt.
+:::
+
+::: angeberwissen
+Warum heißt die Zählvariable fast immer \`i\`? In der Mathematik steht \`i\` schon lange für einen Index. Und in FORTRAN, einer der ersten Programmiersprachen von 1957, waren alle Variablen, die mit I bis N anfingen, automatisch ganze Zahlen. Programmierer haben sich das bis heute nicht abgewöhnt.
 :::
 
 ## In welcher Reihenfolge?
@@ -5253,6 +5289,10 @@ Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genaus
 
 > Der erzeugte Code ist ein guter Anfang, aber prüfe ihn. Legst du eine Variable zuerst an und liest sie später mit einer Eingabe neu ein, schreibt VisuStruct trotzdem \`int pin = scanner.nextInt();\`. Java meldet dann, dass es \`pin\` schon gibt. Lösche in dieser Zeile einfach das \`int\`.
 
+::: angeberwissen
+Jede übersetzte Java-Datei (\`.class\`) beginnt mit denselben vier Bytes, in Hexadezimal geschrieben: \`CA FE BA BE\`. Daran erkennt der Computer, dass es Java ist. Das „Kaffee-Baby“ hat sich James Gosling ausgedacht, passend zum Kaffee im Namen.
+:::
+
 ## Der Java-Sprachmodus
 
 Unter dem [Zahnrad](#zeige-einstellungen) oben rechts kannst du **Code-Keywords** einschalten. Dann heißen die Bausteine im Bereich Elemente so wie die Befehle in Java: \`if\`, \`switch\`, \`for\`, \`while\`, \`do\`, \`while(true)\`, \`break\` und \`call\`. Die übrige Oberfläche bleibt in deiner Sprache.
@@ -5572,6 +5612,10 @@ JavaScript sieht Java ähnlich: geschweifte Klammern, Semikolons, \`while (…)\
 - Arrays stehen in eckigen Klammern: \`let zahlen = [2, 4, 6];\`.
 - \`"use strict";\` ganz oben sorgt dafür, dass JavaScript bei Tippfehlern in Variablennamen meckert.
 - JavaScript kennt nur einen Zahlentyp. Teilt das Struktogramm zwei \`int\`-Werte, schreibt VisuStruct \`Math.trunc(a / b)\`. Dann fallen die Nachkommastellen wie in Java weg.
+
+::: angeberwissen
+JavaScript hat mit Java fast nichts zu tun. Brendan Eich hat es 1995 in nur zehn Tagen für den Browser Netscape gebaut. Erst hieß es Mocha, dann LiveScript. Weil Java gerade alle begeisterte, wurde es kurz vor dem Start aus Werbegründen in JavaScript umbenannt. Seitdem werden die beiden ständig verwechselt, bis heute. Programmierer sagen dazu: Java und JavaScript haben so viel gemeinsam wie Auto und Autogramm.
+:::
 
 ## JavaScript im Browser ausführen
 
@@ -6285,6 +6329,10 @@ Erst eine Zeile lesen, dann prüfen, dann am Ende des Durchlaufs die nächste le
 Die Schleife sieht anders aus als beim Scanner: Die erste Zeile wird **vor** der Schleife gelesen, jede weitere **am Ende** des Durchlaufs. Vergisst du das Lesen am Ende, liest das Programm immer wieder dieselbe Zeile und hört nie auf.
 :::
 
+::: angeberwissen
+Wo eine Zeile endet, ist nicht überall gleich: Windows schreibt zwei unsichtbare Zeichen, „Wagenrücklauf“ und „Zeilenvorschub“, Linux und macOS nur den Zeilenvorschub. Die Namen stammen von der Schreibmaschine, bei der der Papierwagen zurückfuhr und das Papier eine Zeile weiterrückte. \`readLine()\` kommt mit beidem klar.
+:::
+
 ## Übung: Wie oft kommt der Fuchs vor?
 
 ::: übung l24-java-fuchs
@@ -6703,6 +6751,10 @@ Das ist **JSON**, die „JavaScript Object Notation“. Fast jede Web-App und je
 | \`"…"\` | ein Text. Zahlen und \`true\`/\`false\` stehen ohne Anführungszeichen. | \`"Ziege"\`, \`6\` |
 
 Objekte und Listen lassen sich **verschachteln**: Das ganze Zoo-Objekt enthält die Liste \`tiere\`, und jedes Tier ist wieder ein Objekt. Wie bei Arrays zählt die Liste ab 0: \`tiere[1].name\` ist \`"Zora"\`.
+
+::: angeberwissen
+JSON hat Douglas Crockford Anfang der 2000er bekannt gemacht. In die Lizenz seines JSON-Programms schrieb er: „Die Software soll für Gutes verwendet werden, nicht für Böses.“ Die Firma IBM fragte deshalb nach, ob sie es trotzdem benutzen darf. Er antwortete, IBM und seine Kunden dürften es auch für Böses verwenden.
+:::
 
 ## Einen Wert herausholen
 
@@ -11245,6 +11297,10 @@ boolean adult = age >= 18
 
 After that, \`adult\` holds the value \`false\`.
 
+::: angeberwissen
+On 4 June 1996 the Ariane 5 rocket exploded just 37 seconds after launch. The cause was a single line: a decimal number for the speed was put into a whole-number variable that was too small for such large values. So the data type is no small matter, it can cost half a billion euros.
+:::
+
 ## Assignment with =
 
 The sign \`=\` is called an **assignment**. It does not mean “equals” as in maths. It means: work out the right-hand side and store the result in the variable on the left.
@@ -11341,6 +11397,10 @@ System.out.println("Height: " + height + " m");
 - An output is called \`System.out.println(…)\` in Java.
 
 You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+
+::: angeberwissen
+Java was first called **Oak**, after the tree outside James Gosling’s office window. From 1991 his team at Sun Microsystems wanted to program small devices such as TV set-top boxes. But another company already had the name Oak. So in 1995 it became **Java**, like the coffee from the island of Java. That is why the logo is a steaming cup.
+:::
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java
@@ -11775,6 +11835,10 @@ System.out.println("Sum: " + sum);
 - \`scanner.nextInt()\` reads a whole number, \`scanner.nextDouble()\` a decimal number and \`scanner.next()\` a word.
 - The question to the user is a normal output right before it. VisuStruct turns both lines together into one input box.
 
+::: angeberwissen
+Java was originally meant to control small devices, and it still does: many SIM cards in phones and many bank cards run a mini version called **Java Card**. Quite possibly you have Java in your pocket right now.
+:::
+
 ::: übung l06-java-tage
 titel: Age in days
 code: java
@@ -11979,6 +12043,10 @@ Common mistakes in a sequence are:
 - Two whole numbers are divided: \`7 / 2\` gives \`3\`, because with \`int\` everything after the decimal point is dropped.
 
 > Later, branches and loops come along. Then the simulation also shows you which path is taken and how often a loop runs.
+
+::: angeberwissen
+On 9 September 1947 Grace Hopper’s team found a real moth stuck between two contacts in the Harvard Mark II computer. They taped it into the logbook and wrote: “First actual case of bug being found.” Today the moth is in a museum in Washington.
+:::
 
 ## Exercise: Fix the swap
 
@@ -12262,6 +12330,10 @@ if (age >= 18) {
 - If the false branch is empty, simply leave out \`else { }\`.
 - Your program needs the first two lines once as soon as it reads input. After that, \`scanner.nextInt()\` reads a whole number. The question before it is a normal output.
 
+::: angeberwissen
+Java has a mascot too: **Duke**, a little black-and-white fellow with a big red nose. He was drawn by the Java team in 1992 and has been waving from conferences and T-shirts ever since. Ludwig thinks a billy goat would have been a better fit.
+:::
+
 ::: übung l08-java-bestanden
 titel: Passed in Java
 code: java
@@ -12532,6 +12604,10 @@ Rules of thumb:
 - \`a || b\` is only false if **both** are false.
 - \`!a\` flips the value.
 
+::: angeberwissen
+The data type \`boolean\` is named after **George Boole**. As early as 1847 this Englishman showed that you can calculate with true and false just like with numbers, almost a hundred years before the first computer existed. Today his logic is in every chip.
+:::
+
 ## Truth values in variables
 
 The result of a condition is a **truth value** of type \`boolean\`. You can store it in a variable just like a number and use it later:
@@ -12777,6 +12853,10 @@ switch (choice) {
 - After \`switch\`, the variable being compared is in round brackets.
 - Every case starts with \`case\`, the value and an arrow \`->\`. After it, curly brackets hold what should happen.
 - \`default\` is the otherwise case. It runs when no value matches.
+
+::: angeberwissen
+The arrow \`case 1 ->\` has only existed in Java since 2020 (Java 14). Before that you wrote \`case 1:\` and had to end every case with \`break;\`. If you forgot it, the program simply ran on into the next case. So the arrow has saved a lot of programmers a lot of trouble.
+:::
 
 ::: übung l10-java-wuerfel
 titel: Dice in words
@@ -13225,6 +13305,10 @@ At the top of the box is \`do\`, and the condition is in the foot. When you clic
 
 > Just like with the while loop, the condition says **when the loop repeats**. As long as it is true, the loop keeps running.
 
+::: angeberwissen
+Python has no do-while loop at all. If you want “do first, check later” there, you write \`while True:\` and leave the loop with \`break\`. Java, C and JavaScript, on the other hand, have had \`do … while\` for decades.
+:::
+
 ## At least one pass
 
 Because the condition is only checked at the end, the inside **always runs at least once**. That is the most important difference from the while loop.
@@ -13431,6 +13515,10 @@ When you click a for loop, it has three fields on the right:
 
 ::: diagramm l12-eins-bis-fuenf.visustruct
 A for loop that outputs the numbers from 1 to 5.
+:::
+
+::: angeberwissen
+Why is the counting variable almost always called \`i\`? In maths \`i\` has long stood for an index. And in FORTRAN, one of the first programming languages from 1957, all variables starting with I to N were automatically whole numbers. Programmers have not broken the habit to this day.
 :::
 
 ## In which order?
@@ -15629,6 +15717,10 @@ The name of the class comes from the **title** of the diagram. The file must hav
 
 > The generated code is a good start, but check it. If you first create a variable and later read it in again with an input, VisuStruct still writes \`int pin = scanner.nextInt();\`. Java then reports that \`pin\` already exists. Simply delete the \`int\` in that line.
 
+::: angeberwissen
+Every compiled Java file (\`.class\`) starts with the same four bytes, written in hexadecimal: \`CA FE BA BE\`. That is how the computer recognises it as Java. James Gosling came up with this “cafe babe”, to go with the coffee in the name.
+:::
+
 ## The Java language mode
 
 Under the [gear](#zeige-einstellungen) at the top right you can switch on **Code keywords**. Then the building blocks in the Elements area have the same names as the commands in Java: \`if\`, \`switch\`, \`for\`, \`while\`, \`do\`, \`while(true)\`, \`break\` and \`call\`. The rest of the interface stays in your language.
@@ -15948,6 +16040,10 @@ JavaScript looks similar to Java: curly brackets, semicolons, \`while (…)\` an
 - Arrays go in square brackets: \`let numbers = [2, 4, 6];\`.
 - \`"use strict";\` at the very top makes JavaScript complain about typos in variable names.
 - JavaScript has only one number type. If the structure chart divides two \`int\` values, VisuStruct writes \`Math.trunc(a / b)\`. Then the digits after the decimal point are dropped, just like in Java.
+
+::: angeberwissen
+JavaScript has almost nothing to do with Java. Brendan Eich built it in 1995 in just ten days for the Netscape browser. First it was called Mocha, then LiveScript. Because everyone was excited about Java at the time, it was renamed JavaScript shortly before launch, for advertising reasons. People have been mixing the two up ever since. Programmers say: Java is to JavaScript as car is to carpet.
+:::
 
 ## Run JavaScript in the browser
 
@@ -16661,6 +16757,10 @@ First read a line, then check, then read the next one at the end of the pass.
 The loop looks different from the Scanner one: the first line is read **before** the loop, every further one **at the end** of the pass. If you forget the read at the end, the program reads the same line again and again and never stops.
 :::
 
+::: angeberwissen
+Where a line ends is not the same everywhere: Windows writes two invisible characters, “carriage return” and “line feed”, Linux and macOS only the line feed. The names come from the typewriter, where the carriage moved back and the paper moved up one line. \`readLine()\` copes with both.
+:::
+
 ## Exercise: How often does the fox appear?
 
 ::: übung l24-java-fuchs
@@ -17079,6 +17179,10 @@ This is **JSON**, the "JavaScript Object Notation". Almost every web app and eve
 | \`"…"\` | a text. Numbers and \`true\`/\`false\` have no quotation marks. | \`"goat"\`, \`6\` |
 
 Objects and lists can be **nested**: the whole zoo object contains the list \`animals\`, and each animal is an object again. As with arrays, the list counts from 0: \`animals[1].name\` is \`"Zora"\`.
+
+::: angeberwissen
+Douglas Crockford made JSON popular in the early 2000s. In the licence of his JSON program he wrote: “The Software shall be used for Good, not Evil.” So the company IBM asked whether it could use it anyway. He replied that IBM and its customers were allowed to use it for evil.
+:::
 
 ## Getting a value out
 
@@ -21620,6 +21724,10 @@ boolean adulto = idade >= 18
 
 Depois disso, \`adulto\` tem o valor \`false\`.
 
+::: angeberwissen
+A 4 de junho de 1996, o foguetão Ariane 5 explodiu apenas 37 segundos depois da descolagem. A culpa foi de uma única linha: um número decimal para a velocidade foi metido numa variável inteira demasiado pequena para valores tão grandes. O tipo de dados não é um pormenor, pode custar meio milhar de milhões de euros.
+:::
+
 ## Atribuição com =
 
 O sinal \`=\` chama-se **atribuição**. Não quer dizer “é igual a” como na matemática. Quer dizer: calcula o lado direito e guarda o resultado na variável da esquerda.
@@ -21716,6 +21824,10 @@ System.out.println("Altura: " + altura + " m");
 - Uma saída chama-se \`System.out.println(…)\` em Java.
 
 Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+
+::: angeberwissen
+O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java. É por isso que o logótipo é uma chávena a fumegar.
+:::
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java
@@ -22150,6 +22262,10 @@ System.out.println("Soma: " + soma);
 - \`scanner.nextInt()\` lê um número inteiro, \`scanner.nextDouble()\` um número decimal e \`scanner.next()\` uma palavra.
 - A pergunta ao utilizador é uma saída normal logo antes. O VisuStruct junta as duas linhas num bloco de entrada.
 
+::: angeberwissen
+O Java foi pensado para controlar pequenos aparelhos, e ainda o faz: em muitos cartões SIM de telemóvel e cartões bancários corre uma mini versão chamada **Java Card**. É bem possível que tenhas Java no bolso neste momento.
+:::
+
 ::: übung l06-java-tage
 titel: Idade em dias
 code: java
@@ -22354,6 +22470,10 @@ Erros frequentes numa sequência são:
 - São divididos dois números inteiros: \`7 / 2\` dá \`3\`, porque com \`int\` tudo o que vem depois da vírgula desaparece.
 
 > Mais tarde chegam as decisões e os ciclos. Aí a simulação também te mostra que ramo é seguido e quantas vezes um ciclo é executado.
+
+::: angeberwissen
+A 9 de setembro de 1947, a equipa de Grace Hopper encontrou uma traça verdadeira presa entre dois contactos do computador Harvard Mark II. Colaram-na no diário de bordo e escreveram: “Primeiro caso real de um bug encontrado.” Hoje a traça está num museu em Washington.
+:::
 
 ## Exercício: Corrigir a troca
 
@@ -22637,6 +22757,10 @@ if (idade >= 18) {
 - Se o ramo false estiver vazio, deixas simplesmente de fora \`else { }\`.
 - O teu programa precisa das duas primeiras linhas uma vez, assim que lê alguma coisa. Depois, \`scanner.nextInt()\` lê um número inteiro. A pergunta antes disso é uma saída normal.
 
+::: angeberwissen
+O Java também tem uma mascote: o **Duke**, um bonequinho preto e branco com um grande nariz vermelho. Foi desenhado pela equipa do Java em 1992 e desde então acena em conferências e t-shirts. O Ludwig acha que um bode teria ficado melhor.
+:::
+
 ::: übung l08-java-bestanden
 titel: Aprovado em Java
 code: java
@@ -22907,6 +23031,10 @@ Para fixar:
 - \`a || b\` só é falso se **ambas** forem falsas.
 - \`!a\` inverte o valor.
 
+::: angeberwissen
+O tipo de dados \`boolean\` tem o nome de **George Boole**. Este inglês mostrou já em 1847 que se pode calcular com verdadeiro e falso como com números, quase cem anos antes de existir o primeiro computador. Hoje a sua lógica está em todos os chips.
+:::
+
 ## Valores lógicos em variáveis
 
 O resultado de uma condição é um **valor lógico** do tipo \`boolean\`. Podes guardá-lo numa variável, tal como um número, e usá-lo mais tarde:
@@ -23152,6 +23280,10 @@ switch (escolha) {
 - Depois de \`switch\`, a variável que é comparada fica entre parênteses curvos.
 - Cada caso começa com \`case\`, o valor e uma seta \`->\`. Depois, entre chavetas, fica o que deve acontecer.
 - \`default\` é o caso “senão”. Corre quando nenhum valor serve.
+
+::: angeberwissen
+A seta \`case 1 ->\` só existe em Java desde 2020 (Java 14). Antes escrevia-se \`case 1:\` e era preciso terminar cada caso com \`break;\`. Quem se esquecia, continuava simplesmente para o caso seguinte. A seta poupou muitos problemas a muitos programadores.
+:::
 
 ::: übung l10-java-wuerfel
 titel: Dado por extenso
@@ -23600,6 +23732,10 @@ Em cima, no bloco, está \`do\`, e a condição fica no pé. Quando clicas no ci
 
 > Tal como no ciclo while, a condição diz **quando é que o ciclo se repete**. Enquanto for verdadeira, o ciclo continua.
 
+::: angeberwissen
+O Python não tem ciclo do-while. Quem lá quer “primeiro fazer, depois verificar” escreve \`while True:\` e sai do ciclo com \`break\`. Java, C e JavaScript, pelo contrário, têm \`do … while\` há décadas.
+:::
+
 ## Pelo menos uma iteração
 
 Como a condição só é verificada no fim, o interior **é sempre executado pelo menos uma vez**. Essa é a diferença mais importante em relação ao ciclo while.
@@ -23806,6 +23942,10 @@ Quando clicas num ciclo for, ele tem três campos à direita:
 
 ::: diagramm l12-eins-bis-fuenf.visustruct
 Um ciclo for que mostra os números de 1 a 5.
+:::
+
+::: angeberwissen
+Porque é que a variável de contagem se chama quase sempre \`i\`? Na matemática, \`i\` representa há muito tempo um índice. E em FORTRAN, uma das primeiras linguagens de programação, de 1957, todas as variáveis começadas por I a N eram automaticamente números inteiros. Os programadores ainda não perderam o hábito.
 :::
 
 ## Por que ordem?
@@ -26006,6 +26146,10 @@ O nome da classe vem do **título** do diagrama. O ficheiro tem de ter exatament
 
 > O código gerado é um bom começo, mas confirma-o. Se primeiro criares uma variável e mais tarde a voltares a ler com uma entrada, o VisuStruct escreve mesmo assim \`int pin = scanner.nextInt();\`. O Java indica então que \`pin\` já existe. Basta apagares o \`int\` nessa linha.
 
+::: angeberwissen
+Todos os ficheiros Java compilados (\`.class\`) começam com os mesmos quatro bytes, escritos em hexadecimal: \`CA FE BA BE\`. É assim que o computador reconhece que é Java. Foi James Gosling que inventou este “cafe babe”, a condizer com o café do nome.
+:::
+
 ## O modo de linguagem Java
 
 Na [roda dentada](#zeige-einstellungen) em cima à direita podes ativar as **Palavras-chave do código**. Então os blocos da área Elementos têm os mesmos nomes que os comandos em Java: \`if\`, \`switch\`, \`for\`, \`while\`, \`do\`, \`while(true)\`, \`break\` e \`call\`. O resto da interface fica no teu idioma.
@@ -26325,6 +26469,10 @@ O JavaScript parece-se com o Java: chavetas, ponto e vírgula, \`while (…)\` e
 - Os arrays ficam entre parênteses retos: \`let numeros = [2, 4, 6];\`.
 - \`"use strict";\` mesmo lá em cima faz o JavaScript queixar-se de erros de escrita nos nomes das variáveis.
 - O JavaScript só tem um tipo de número. Se o estrutograma dividir dois valores \`int\`, o VisuStruct escreve \`Math.trunc(a / b)\`. Assim desaparecem os algarismos depois da vírgula, tal como em Java.
+
+::: angeberwissen
+O JavaScript não tem quase nada a ver com o Java. Brendan Eich criou-o em 1995 em apenas dez dias para o navegador Netscape. Primeiro chamava-se Mocha, depois LiveScript. Como toda a gente andava entusiasmada com o Java, pouco antes do lançamento mudaram-lhe o nome para JavaScript, por razões de publicidade. Desde então, as duas linguagens são constantemente confundidas. Os programadores dizem que o Java e o JavaScript têm tanto em comum como um carro e uma carpete.
+:::
 
 ## Executar JavaScript no navegador
 
@@ -27038,6 +27186,10 @@ Primeiro ler uma linha, depois verificar, e no fim da volta ler a seguinte.
 O ciclo é diferente do ciclo com o Scanner: a primeira linha é lida **antes** do ciclo, e cada uma das seguintes **no fim** da volta. Se te esqueceres da leitura no fim, o programa lê sempre a mesma linha e nunca para.
 :::
 
+::: angeberwissen
+O fim de uma linha não é igual em todo o lado: o Windows escreve dois carateres invisíveis, “retorno do carro” e “avanço de linha”, o Linux e o macOS só o avanço de linha. Os nomes vêm da máquina de escrever, em que o carro voltava atrás e o papel subia uma linha. O \`readLine()\` funciona com os dois.
+:::
+
 ## Exercício: Quantas vezes aparece a Raposa?
 
 ::: übung l24-java-fuchs
@@ -27456,6 +27608,10 @@ Isto é **JSON**, a "JavaScript Object Notation". Quase todas as aplicações we
 | \`"…"\` | um texto. Números e \`true\`/\`false\` ficam sem aspas. | \`"cabra"\`, \`6\` |
 
 Objetos e listas podem ser **encaixados** uns nos outros: o objeto do zoo contém a lista \`animais\`, e cada animal é outra vez um objeto. Tal como nos arrays, a lista conta a partir de 0: \`animais[1].nome\` é \`"Zora"\`.
+
+::: angeberwissen
+Foi Douglas Crockford quem tornou o JSON conhecido no início dos anos 2000. Na licença do seu programa de JSON escreveu: “O software deve ser usado para o Bem, não para o Mal.” Por isso, a empresa IBM perguntou se o podia usar na mesma. Ele respondeu que a IBM e os seus clientes também o podiam usar para o Mal.
+:::
 
 ## Tirar um valor
 
@@ -31767,6 +31923,10 @@ Diese Zahlen findest du erstaunlich oft in der Natur, zum Beispiel bei der Anord
 Erinnerst du dich ans **Tauschen** aus Lektion 5? Dort brauchtest du eine Hilfsvariable, weil \`a = b\` den alten Wert von \`a\` überschreibt. Hier ist es genauso: Bevor \`zahl2\` die neue Zahl bekommt, muss ihr alter Wert in \`zahl1\` gerettet sein. Achte also auf die **Reihenfolge**: erst \`zahl1 = zahl2\`, dann \`zahl2 = zahl3\`. Dieses Weiterschieben und Tauschen brauchst du später wieder, zum Beispiel beim Sortieren in Lektion 19.
 :::
 
+::: angeberwissen
+Leonardo von Pisa, genannt Fibonacci, stellte 1202 in seinem Rechenbuch eine Aufgabe über Kaninchen: Jedes Kaninchenpaar bekommt ab dem zweiten Monat jeden Monat ein neues Paar. Wie viele Paare gibt es nach einem Jahr? Die Antwort ist diese Zahlenfolge. Ziegen kamen in dem Buch leider nicht vor.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Fibonacci-Zahlen
 auftrag: Frage, wie viele Fibonacci-Zahlen ausgegeben werden sollen. Gib dann genau so viele aus, jede in einer eigenen Zeile. Du kannst davon ausgehen, dass mindestens 2 eingegeben wird.
@@ -31920,6 +32080,10 @@ stufe: 2
 ---
 
 Am Geldautomaten hast du drei Versuche für deine PIN. Gibst du dreimal eine falsche PIN ein, wird die Karte gesperrt.
+
+::: angeberwissen
+John Shepherd-Barron, der 1967 den ersten Geldautomaten in London aufstellte, wollte eigentlich sechsstellige PINs. Seine Frau sagte aber, sie könne sich höchstens vier Ziffern merken. Deshalb hat deine PIN heute vier Stellen.
+:::
 
 ::: übung aufgabe-pin
 titel: PIN prüfen
@@ -32162,6 +32326,10 @@ Wiese;meadow
 :::
 
 Weil nur die Datei die Wörter kennt, kannst du später einfach neue Zeilen anhängen, ohne das Programm zu ändern.
+
+::: angeberwissen
+Die Lernkartei mit mehreren Fächern hat Sebastian Leitner 1972 bekannt gemacht: Gewusste Karten wandern ein Fach weiter und kommen seltener dran, falsche wandern zurück ins erste Fach. Viele Vokabel-Apps arbeiten bis heute nach diesem Prinzip.
+:::
 
 ::: übung aufgabe-vokabeln
 titel: Vokabeltrainer
@@ -32636,6 +32804,10 @@ You find these numbers surprisingly often in nature, for example in the way sunf
 Do you remember **swapping** from lesson 5? There you needed a helper variable, because \`a = b\` overwrites the old value of \`a\`. It is the same here: before \`number2\` gets the new number, its old value must be saved in \`number1\`. So watch the **order**: first \`number1 = number2\`, then \`number2 = number3\`. You will need this moving on and swapping again later, for example when sorting in lesson 19.
 :::
 
+::: angeberwissen
+In 1202 Leonardo of Pisa, known as Fibonacci, set a puzzle about rabbits in his arithmetic book: from its second month on, every pair of rabbits has a new pair every month. How many pairs are there after a year? The answer is this sequence. Sadly, there were no goats in the book.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Fibonacci numbers
 auftrag: Ask how many Fibonacci numbers should be output. Then output exactly that many, each on its own line. You can assume that at least 2 is typed in.
@@ -32789,6 +32961,10 @@ stufe: 2
 ---
 
 At a cash machine you have three tries for your PIN. If you type a wrong PIN three times, the card is blocked.
+
+::: angeberwissen
+John Shepherd-Barron, who set up the first cash machine in London in 1967, actually wanted six-digit PINs. But his wife said she could remember four digits at most. That is why your PIN has four digits today.
+:::
 
 ::: übung aufgabe-pin
 titel: Check the PIN
@@ -33031,6 +33207,10 @@ meadow;Wiese
 :::
 
 Because only the file knows the words, you can simply add new lines later without changing the program.
+
+::: angeberwissen
+Sebastian Leitner made the flashcard box with several compartments popular in 1972: cards you know move one compartment further and come up less often, wrong ones go back to the first compartment. Many vocabulary apps still work on this principle today.
+:::
 
 ::: übung aufgabe-vokabeln
 titel: Vocabulary trainer
@@ -33505,6 +33685,10 @@ Encontras estes números surpreendentemente vezes na natureza, por exemplo na fo
 Lembras-te da **troca** da lição 5? Aí precisavas de uma variável auxiliar, porque \`a = b\` substitui o valor antigo de \`a\`. Aqui é igual: antes de \`numero2\` receber o número novo, o seu valor antigo tem de estar guardado em \`numero1\`. Atenção à **ordem**: primeiro \`numero1 = numero2\`, depois \`numero2 = numero3\`. Vais precisar outra vez de avançar e trocar valores mais tarde, por exemplo ao ordenar na lição 19.
 :::
 
+::: angeberwissen
+Em 1202, Leonardo de Pisa, conhecido como Fibonacci, pôs no seu livro de cálculo um problema sobre coelhos: a partir do segundo mês, cada casal de coelhos tem um novo casal todos os meses. Quantos casais há ao fim de um ano? A resposta é esta sequência. Infelizmente, o livro não tinha cabras.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Números de Fibonacci
 auftrag: Pergunta quantos números de Fibonacci devem ser mostrados. Depois mostra exatamente esses, cada um na sua linha. Podes partir do princípio de que é introduzido pelo menos 2.
@@ -33658,6 +33842,10 @@ stufe: 2
 ---
 
 Numa caixa multibanco tens três tentativas para o teu PIN. Se escreveres um PIN errado três vezes, o cartão fica bloqueado.
+
+::: angeberwissen
+John Shepherd-Barron, que instalou o primeiro multibanco em Londres em 1967, queria PINs de seis algarismos. Mas a mulher dele disse que só conseguia decorar quatro. É por isso que o teu PIN tem hoje quatro algarismos.
+:::
 
 ::: übung aufgabe-pin
 titel: Verificar o PIN
@@ -33900,6 +34088,10 @@ prado;meadow
 :::
 
 Como só o ficheiro conhece as palavras, mais tarde podes simplesmente acrescentar linhas novas sem alterar o programa.
+
+::: angeberwissen
+Foi Sebastian Leitner quem, em 1972, tornou conhecida a caixa de fichas com várias divisões: as fichas que sabes passam para a divisão seguinte e aparecem menos vezes, as erradas voltam para a primeira. Muitas apps de vocabulário ainda funcionam assim.
+:::
 
 ::: übung aufgabe-vokabeln
 titel: Treino de vocabulário
@@ -43926,7 +44118,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;</text>
   </strelem>
 </struktogramm>
-`,e6=`<?xml version="1.0" encoding="UTF-8"?>
+`,eI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;116;226;110;103;117;108;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;99;111;109;112;114;105;109;101;110;116;111;32;61;32;55;</text>
@@ -43947,7 +44139,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;101;114;237;109;101;116;114;111;58;32;34;32;43;32;112;101;114;105;109;101;116;114;111;</text>
   </strelem>
 </struktogramm>
-`,t6=`<?xml version="1.0" encoding="UTF-8"?>
+`,tI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;101;114;32;115;101;103;117;110;100;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;103;117;110;100;111;115;32;61;32;50;48;48;</text>
@@ -43962,7 +44154,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;111;115;32;43;32;34;32;109;105;110;117;116;111;115;32;101;32;34;32;43;32;114;101;115;116;111;32;43;32;34;32;115;101;103;117;110;100;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,n6=`<?xml version="1.0" encoding="UTF-8"?>
+`,nI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;118;101;114;116;101;114;32;115;101;103;117;110;100;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;101;103;117;110;100;111;115;32;61;32;50;48;48;</text>
@@ -43971,7 +44163,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;109;105;110;117;116;111;115;32;43;32;34;32;109;105;110;117;116;111;115;32;101;32;34;32;43;32;114;101;115;116;111;32;43;32;34;32;115;101;103;117;110;100;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,i6=`<?xml version="1.0" encoding="UTF-8"?>
+`,iI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;117;109;112;114;105;109;101;110;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;110;111;109;101;32;34;67;111;109;111;32;116;101;32;99;104;97;109;97;115;63;34;</text>
@@ -43980,7 +44172,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;108;225;32;34;32;43;32;110;111;109;101;32;43;32;34;33;34;</text>
   </strelem>
 </struktogramm>
-`,a6=`<?xml version="1.0" encoding="UTF-8"?>
+`,aI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;100;101;32;100;111;105;115;32;110;250;109;101;114;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -43995,7 +44187,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,s6=`<?xml version="1.0" encoding="UTF-8"?>
+`,sI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;100;97;100;101;32;101;109;32;100;105;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;111;115;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -44007,7 +44199,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;227;111;32;99;101;114;99;97;32;100;101;32;34;32;43;32;100;105;97;115;32;43;32;34;32;100;105;97;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,r6=`<?xml version="1.0" encoding="UTF-8"?>
+`,rI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;233;100;105;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;120;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -44022,7 +44214,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;233;100;105;97;58;32;34;32;43;32;109;101;100;105;97;</text>
   </strelem>
 </struktogramm>
-`,o6=`<?xml version="1.0" encoding="UTF-8"?>
+`,oI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;100;111;114;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -44043,7 +44235,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;114;111;100;117;116;111;58;32;34;32;43;32;112;114;111;100;117;116;111;</text>
   </strelem>
 </struktogramm>
-`,l6=`<?xml version="1.0" encoding="UTF-8"?>
+`,lI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;97;32;105;100;97;100;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -44062,7 +44254,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,u6=`<?xml version="1.0" encoding="UTF-8"?>
+`,uI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;97;108;111;114;32;97;98;115;111;108;117;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;63;34;</text>
@@ -44084,7 +44276,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;117;109;101;114;111;</text>
   </strelem>
 </struktogramm>
-`,c6=`<?xml version="1.0" encoding="UTF-8"?>
+`,cI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;97;114;32;111;117;32;237;109;112;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;63;34;</text>
@@ -44103,7 +44295,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,m6=`<?xml version="1.0" encoding="UTF-8"?>
+`,mI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;110;99;111;109;101;110;100;97;32;100;101;32;112;105;122;122;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;112;114;101;99;111;32;61;32;56;</text>
@@ -44121,7 +44313,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;</text>
   </strelem>
 </struktogramm>
-`,d6=`<?xml version="1.0" encoding="UTF-8"?>
+`,dI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;110;99;111;109;101;110;100;97;32;100;101;32;112;105;122;122;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;112;114;101;99;111;32;61;32;56;</text>
@@ -44139,7 +44331,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;116;111;116;97;108;</text>
   </strelem>
 </struktogramm>
-`,h6=`<?xml version="1.0" encoding="UTF-8"?>
+`,hI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;32;109;97;105;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;63;34;</text>
@@ -44161,7 +44353,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,g6=`<?xml version="1.0" encoding="UTF-8"?>
+`,gI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;115;99;111;110;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;100;111;117;98;108;101;32;112;114;101;99;111;32;34;80;114;101;231;111;32;101;109;32;101;117;114;111;115;63;34;</text>
@@ -44183,7 +44375,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;32;112;97;103;97;114;58;32;34;32;43;32;112;114;101;99;111;32;43;32;34;32;101;117;114;111;115;34;</text>
   </strelem>
 </struktogramm>
-`,p6=`<?xml version="1.0" encoding="UTF-8"?>
+`,pI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;97;32;118;225;108;105;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;97;32;34;78;111;116;97;63;34;</text>
@@ -44202,7 +44394,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,f6=`<?xml version="1.0" encoding="UTF-8"?>
+`,fI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;112;114;111;118;97;100;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;112;111;110;116;111;115;32;34;81;117;97;110;116;111;115;32;112;111;110;116;111;115;63;34;</text>
@@ -44221,7 +44413,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,x6=`<?xml version="1.0" encoding="UTF-8"?>
+`,xI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="66;105;108;104;101;116;101;32;106;111;118;101;109;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -44240,7 +44432,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,b6=`<?xml version="1.0" encoding="UTF-8"?>
+`,bI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;97;32;110;111;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;97;32;34;78;111;116;97;63;34;</text>
@@ -44259,7 +44451,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,y6=`<?xml version="1.0" encoding="UTF-8"?>
+`,yI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;110;111;32;98;105;115;115;101;120;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;110;111;32;34;65;110;111;63;34;</text>
@@ -44278,7 +44470,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,v6=`<?xml version="1.0" encoding="UTF-8"?>
+`,vI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;105;109;32;100;101;32;115;101;109;97;110;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;100;105;97;32;34;68;105;97;32;40;49;32;97;32;55;41;63;34;</text>
@@ -44297,7 +44489,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,w6=`<?xml version="1.0" encoding="UTF-8"?>
+`,wI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;101;109;225;102;111;114;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;99;111;114;32;34;68;101;32;113;117;101;32;99;111;114;32;101;115;116;225;32;111;32;115;101;109;225;102;111;114;111;63;34;</text>
@@ -44326,7 +44518,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,z6=`<?xml version="1.0" encoding="UTF-8"?>
+`,zI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;225;113;117;105;110;97;32;100;101;32;98;101;98;105;100;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;101;115;99;111;108;104;97;32;34;49;32;225;103;117;97;44;32;50;32;115;117;109;111;44;32;51;32;99;104;111;99;111;108;97;116;101;32;113;117;101;110;116;101;34;</text>
@@ -44355,7 +44547,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,I6=`<?xml version="1.0" encoding="UTF-8"?>
+`,II=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;115;99;111;108;97;32;111;117;32;116;101;109;112;111;32;108;105;118;114;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;104;111;114;97;32;34;81;117;101;32;104;111;114;97;115;32;115;227;111;32;40;115;243;32;97;32;104;111;114;97;41;63;34;</text>
@@ -44374,7 +44566,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,S6=`<?xml version="1.0" encoding="UTF-8"?>
+`,SI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;97;32;112;111;114;32;101;120;116;101;110;115;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;111;116;97;32;34;81;117;101;32;110;111;116;97;63;34;</text>
@@ -44413,7 +44605,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,k6=`<?xml version="1.0" encoding="UTF-8"?>
+`,kI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;108;99;117;108;97;100;111;114;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;97;32;34;80;114;105;109;101;105;114;111;32;110;250;109;101;114;111;34;</text>
@@ -44460,7 +44652,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,O6=`<?xml version="1.0" encoding="UTF-8"?>
+`,OI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;225;113;117;105;110;97;32;100;101;32;98;101;98;105;100;97;115;32;99;111;109;32;100;101;99;105;115;245;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;101;115;99;111;108;104;97;32;34;49;32;225;103;117;97;44;32;50;32;115;117;109;111;44;32;51;32;99;104;111;99;111;108;97;116;101;32;113;117;101;110;116;101;34;</text>
@@ -44499,7 +44691,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,T6=`<?xml version="1.0" encoding="UTF-8"?>
+`,TI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;115;32;116;114;234;115;32;98;108;111;99;111;115;32;98;225;115;105;99;111;115;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>80;244;114;32;117;109;97;32;99;104;225;118;101;110;97;32;110;97;32;109;101;115;97;</text>
@@ -44529,7 +44721,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>66;101;98;101;114;32;111;32;99;104;225;</text>
   </strelem>
 </struktogramm>
-`,A6=`<?xml version="1.0" encoding="UTF-8"?>
+`,AI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;32;109;97;110;104;227;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>76;101;118;97;110;116;97;114;</text>
@@ -44544,7 +44736,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;111;109;97;114;32;111;32;112;101;113;117;101;110;111;45;97;108;109;111;231;111;</text>
   </strelem>
 </struktogramm>
-`,P6=`<?xml version="1.0" encoding="UTF-8"?>
+`,PI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;122;101;114;32;99;104;225;" pseudocode="true">
   <strelem typ="0" zx="0" zy="0">
     <text>69;110;99;104;101;114;32;97;32;99;104;97;108;101;105;114;97;32;99;111;109;32;225;103;117;97;</text>
@@ -44565,7 +44757,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>84;105;114;97;114;32;97;32;115;97;113;117;101;116;97;32;100;101;32;99;104;225;</text>
   </strelem>
 </struktogramm>
-`,C6=`<?xml version="1.0" encoding="UTF-8"?>
+`,CI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;97;105;114;32;100;101;32;99;97;115;97;" pseudocode="true">
   <strelem typ="1" zx="0" zy="0">
     <text>69;115;116;225;32;97;32;99;104;111;118;101;114;63;</text>
@@ -44584,7 +44776,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;97;105;114;</text>
   </strelem>
 </struktogramm>
-`,Z6=`<?xml version="1.0" encoding="UTF-8"?>
+`,ZI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;109;101;114;" pseudocode="true">
   <strelem typ="4" zx="0" zy="0">
     <text>80;114;97;116;111;32;110;227;111;32;118;97;122;105;111;</text>
@@ -44598,7 +44790,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>76;101;118;97;110;116;97;114;32;111;32;112;114;97;116;111;</text>
   </strelem>
 </struktogramm>
-`,j6=`<?xml version="1.0" encoding="UTF-8"?>
+`,jI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;97;116;233;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;67;111;110;116;97;114;32;97;116;233;63;34;</text>
@@ -44618,7 +44810,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,_6=`<?xml version="1.0" encoding="UTF-8"?>
+`,_I=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;51;</text>
@@ -44638,7 +44830,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;97;114;116;105;100;97;33;34;</text>
   </strelem>
 </struktogramm>
-`,M6=`<?xml version="1.0" encoding="UTF-8"?>
+`,MI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;114;114;111;58;32;99;105;99;108;111;32;105;110;102;105;110;105;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;51;</text>
@@ -44655,7 +44847,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;97;114;116;105;100;97;33;34;</text>
   </strelem>
 </struktogramm>
-`,D6=`<?xml version="1.0" encoding="UTF-8"?>
+`,DI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;116;111;114;105;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;70;97;116;111;114;105;97;108;32;100;101;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -44681,7 +44873,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;32;43;32;34;33;32;61;32;34;32;43;32;102;97;116;111;114;105;97;108;</text>
   </strelem>
 </struktogramm>
-`,B6=`<?xml version="1.0" encoding="UTF-8"?>
+`,BI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;97;100;111;32;112;111;114;32;101;120;116;101;110;115;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -44710,7 +44902,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,W6=`<?xml version="1.0" encoding="UTF-8"?>
+`,WI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;117;112;108;105;99;97;114;32;97;116;233;32;49;48;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;32;105;110;105;99;105;97;108;34;</text>
@@ -44733,7 +44925,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;112;97;115;115;111;115;</text>
   </strelem>
 </struktogramm>
-`,L6=`<?xml version="1.0" encoding="UTF-8"?>
+`,LI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;101;114;105;102;105;99;97;114;32;97;32;101;110;116;114;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;117;109;101;114;111;32;61;32;48;</text>
@@ -44750,7 +44942,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;98;114;105;103;97;100;111;33;34;</text>
   </strelem>
 </struktogramm>
-`,E6=`<?xml version="1.0" encoding="UTF-8"?>
+`,EI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;101;108;111;32;109;101;110;111;115;32;117;109;97;32;118;101;122;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;48;</text>
@@ -44767,7 +44959,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,N6=`<?xml version="1.0" encoding="UTF-8"?>
+`,NI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;111;110;100;101;63;34;</text>
@@ -44787,7 +44979,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,J6=`<?xml version="1.0" encoding="UTF-8"?>
+`,JI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;111;116;97;32;118;225;108;105;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;110;111;116;97;32;61;32;48;</text>
@@ -44804,7 +44996,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;65;32;116;117;97;32;110;111;116;97;58;32;34;32;43;32;110;111;116;97;</text>
   </strelem>
 </struktogramm>
-`,F6=`<?xml version="1.0" encoding="UTF-8"?>
+`,FI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;32;97;116;233;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -44827,7 +45019,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,G6=`<?xml version="1.0" encoding="UTF-8"?>
+`,GI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;78;250;109;101;114;111;32;105;110;105;99;105;97;108;34;</text>
@@ -44846,7 +45038,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;74;225;33;34;</text>
   </strelem>
 </struktogramm>
-`,R6=`<?xml version="1.0" encoding="UTF-8"?>
+`,RI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;98;117;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;116;97;98;117;97;100;97;63;34;</text>
@@ -44865,7 +45057,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,H6=`<?xml version="1.0" encoding="UTF-8"?>
+`,HI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;100;101;32;49;32;97;32;53;">
   <strelem typ="3" zx="0" zy="0">
     <text>105;110;116;32;105;32;61;32;49;</text>
@@ -44878,7 +45070,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,Q6=`<?xml version="1.0" encoding="UTF-8"?>
+`,QI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;117;112;108;105;99;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;78;250;109;101;114;111;32;105;110;105;99;105;97;108;63;34;</text>
@@ -44895,7 +45087,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,V6=`<?xml version="1.0" encoding="UTF-8"?>
+`,VI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;100;101;32;49;32;97;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -44917,7 +45109,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,q6=`<?xml version="1.0" encoding="UTF-8"?>
+`,qI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;114;105;226;110;103;117;108;111;32;100;101;32;101;115;116;114;101;108;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;81;117;97;110;116;97;115;32;108;105;110;104;97;115;63;34;</text>
@@ -44946,7 +45138,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,U6=`<?xml version="1.0" encoding="UTF-8"?>
+`,UI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;101;110;116;114;97;100;97;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;113;117;97;110;116;105;100;97;100;101;32;61;32;48;</text>
@@ -44978,7 +45170,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,$6=`<?xml version="1.0" encoding="UTF-8"?>
+`,$I=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;110;250;109;101;114;111;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -45010,7 +45202,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,Y6=`<?xml version="1.0" encoding="UTF-8"?>
+`,YI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;97;100;114;97;100;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -45026,7 +45218,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,X6=`<?xml version="1.0" encoding="UTF-8"?>
+`,XI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;116;226;110;103;117;108;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;97;114;103;117;114;97;32;34;76;97;114;103;117;114;97;34;</text>
@@ -45058,7 +45250,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,K6=`<?xml version="1.0" encoding="UTF-8"?>
+`,KI=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;101;114;99;111;114;114;101;114;32;117;109;32;97;114;114;97;121;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;101;114;111;115;32;61;32;123;50;44;32;52;44;32;54;44;32;56;44;32;49;48;125;</text>
@@ -45074,7 +45266,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,eI=`<?xml version="1.0" encoding="UTF-8"?>
+`,e6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;105;109;101;105;114;111;32;101;32;250;108;116;105;109;111;32;118;97;108;111;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;118;97;108;111;114;101;115;32;61;32;123;52;44;32;56;44;32;49;53;44;32;49;54;44;32;50;51;44;32;52;50;125;</text>
@@ -45089,7 +45281,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;118;97;108;111;114;101;115;46;108;101;110;103;116;104;</text>
   </strelem>
 </struktogramm>
-`,tI=`<?xml version="1.0" encoding="UTF-8"?>
+`,t6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;115;99;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;81;117;97;110;116;111;115;32;100;101;103;114;97;117;115;63;34;</text>
@@ -45118,7 +45310,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,nI=`<?xml version="1.0" encoding="UTF-8"?>
+`,n6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="73;110;116;114;111;100;117;122;105;114;32;110;111;109;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;111;109;101;115;32;61;32;110;101;119;32;83;116;114;105;110;103;91;51;93;</text>
@@ -45137,7 +45329,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;80;114;105;109;101;105;114;111;32;110;111;109;101;58;32;34;32;43;32;110;111;109;101;115;91;48;93;</text>
   </strelem>
 </struktogramm>
-`,iI=`<?xml version="1.0" encoding="UTF-8"?>
+`,i6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;111;115;116;114;97;114;32;97;111;32;99;111;110;116;114;225;114;105;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;101;114;111;115;32;61;32;110;101;119;32;105;110;116;91;52;93;</text>
@@ -45163,7 +45355,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,aI=`<?xml version="1.0" encoding="UTF-8"?>
+`,a6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;101;32;109;225;120;105;109;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;117;109;101;114;111;115;32;61;32;110;101;119;32;105;110;116;91;53;93;</text>
@@ -45214,7 +45406,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;225;120;105;109;111;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,sI=`<?xml version="1.0" encoding="UTF-8"?>
+`,s6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;101;32;109;225;120;105;109;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;112;111;110;116;111;115;32;61;32;123;49;50;44;32;55;44;32;49;57;44;32;52;125;</text>
@@ -45255,7 +45447,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;225;120;105;109;111;58;32;34;32;43;32;109;97;120;</text>
   </strelem>
 </struktogramm>
-`,rI=`<?xml version="1.0" encoding="UTF-8"?>
+`,r6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;32;97;116;233;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -45278,7 +45470,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,oI=`<?xml version="1.0" encoding="UTF-8"?>
+`,o6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;114;32;97;116;233;32;48;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -45308,7 +45500,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,lI=`<?xml version="1.0" encoding="UTF-8"?>
+`,l6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="82;101;116;226;110;103;117;108;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;99;111;109;112;114;105;109;101;110;116;111;32;34;67;111;109;112;114;105;109;101;110;116;111;63;34;</text>
@@ -45323,7 +45515,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;193;114;101;97;58;32;34;32;43;32;102;</text>
   </strelem>
 </struktogramm>
-`,uI=`<?xml version="1.0" encoding="UTF-8"?>
+`,u6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;105;122;">
   <strelem typ="8" zx="0" zy="0">
     <text>109;111;115;116;114;97;114;66;111;97;115;86;105;110;100;97;115;40;41;</text>
@@ -45335,7 +45527,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>109;111;115;116;114;97;114;82;101;115;117;108;116;97;100;111;40;41;</text>
   </strelem>
 </struktogramm>
-`,cI=`<?xml version="1.0" encoding="UTF-8"?>
+`,c6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;100;97;115;32;110;111;116;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;110;111;116;97;115;32;61;32;123;50;44;32;51;44;32;49;44;32;52;125;</text>
@@ -45357,7 +45549,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,mI=`<?xml version="1.0" encoding="UTF-8"?>
+`,m6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;115;32;97;111;32;113;117;97;100;114;97;100;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -45369,7 +45561,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;32;113;117;97;100;114;97;100;111;32;233;32;34;32;43;32;113;</text>
   </strelem>
 </struktogramm>
-`,dI=`<?xml version="1.0" encoding="UTF-8"?>
+`,d6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="105;110;116;32;113;117;97;100;114;97;100;111;40;105;110;116;32;120;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;114;101;115;117;108;116;97;100;111;32;61;32;120;32;42;32;120;</text>
@@ -45378,7 +45570,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>114;101;116;117;114;110;32;114;101;115;117;108;116;97;100;111;</text>
   </strelem>
 </struktogramm>
-`,hI=`<?xml version="1.0" encoding="UTF-8"?>
+`,h6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;117;109;112;114;105;109;101;110;116;111;32;99;111;109;32;99;104;97;109;97;100;97;">
   <strelem typ="8" zx="0" zy="0">
     <text>109;111;115;116;114;97;114;84;105;116;117;108;111;40;41;</text>
@@ -45390,7 +45582,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;79;108;225;32;34;32;43;32;110;111;109;101;</text>
   </strelem>
 </struktogramm>
-`,gI=`<?xml version="1.0" encoding="UTF-8"?>
+`,g6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="109;111;115;116;114;97;114;66;111;97;115;86;105;110;100;97;115;40;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;66;101;109;45;118;105;110;100;111;32;97;111;32;113;117;105;122;33;34;</text>
@@ -45399,7 +45591,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;86;97;105;115;32;116;101;114;32;116;114;234;115;32;112;101;114;103;117;110;116;97;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,pI=`<?xml version="1.0" encoding="UTF-8"?>
+`,p6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;111;115;116;114;97;114;32;115;111;109;97;115;">
   <strelem typ="8" zx="0" zy="0">
     <text>109;111;115;116;114;97;114;83;111;109;97;40;51;44;32;52;41;</text>
@@ -45411,7 +45603,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>109;111;115;116;114;97;114;83;111;109;97;40;120;44;32;120;32;43;32;49;41;</text>
   </strelem>
 </struktogramm>
-`,fI=`<?xml version="1.0" encoding="UTF-8"?>
+`,f6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="118;111;105;100;32;109;111;115;116;114;97;114;83;111;109;97;40;105;110;116;32;97;44;32;105;110;116;32;98;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;97;32;43;32;98;</text>
@@ -45420,7 +45612,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;97;32;43;32;34;32;43;32;34;32;43;32;98;32;43;32;34;32;61;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,xI=`<?xml version="1.0" encoding="UTF-8"?>
+`,x6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;110;105;99;105;111;32;34;86;97;108;111;114;32;105;110;105;99;105;97;108;34;</text>
@@ -45443,7 +45635,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;74;225;33;34;</text>
   </strelem>
 </struktogramm>
-`,bI=`<?xml version="1.0" encoding="UTF-8"?>
+`,b6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;103;101;109;32;100;101;99;114;101;115;99;101;110;116;101;32;40;99;111;109;32;101;114;114;111;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;110;105;99;105;111;32;34;86;97;108;111;114;32;105;110;105;99;105;97;108;34;</text>
@@ -45466,7 +45658,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;74;225;34;</text>
   </strelem>
 </struktogramm>
-`,yI=`<?xml version="1.0" encoding="UTF-8"?>
+`,y6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;111;110;116;111;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;91;93;32;112;111;110;116;111;115;32;61;32;123;123;51;44;32;53;125;44;32;123;52;44;32;49;125;44;32;123;50;44;32;50;125;125;</text>
@@ -45495,7 +45687,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;83;111;109;97;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,vI=`<?xml version="1.0" encoding="UTF-8"?>
+`,v6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;101;115;116;101;32;100;101;32;115;101;99;114;101;116;225;114;105;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -45518,7 +45710,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,wI=`<?xml version="1.0" encoding="UTF-8"?>
+`,w6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;97;116;233;32;110;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -45540,7 +45732,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,zI=`<?xml version="1.0" encoding="UTF-8"?>
+`,z6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="83;111;109;97;32;97;116;233;32;110;32;40;99;111;109;32;101;114;114;111;41;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -45562,7 +45754,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,II=`<?xml version="1.0" encoding="UTF-8"?>
+`,I6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;97;98;117;97;100;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;81;117;101;32;116;97;98;117;97;100;97;63;34;</text>
@@ -45594,7 +45786,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,SI=`<?xml version="1.0" encoding="UTF-8"?>
+`,S6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="70;97;116;111;114;105;97;108;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;32;34;73;110;116;114;111;100;117;122;32;117;109;32;110;250;109;101;114;111;34;</text>
@@ -45616,7 +45808,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;102;97;116;111;114;105;97;108;</text>
   </strelem>
 </struktogramm>
-`,kI=`<?xml version="1.0" encoding="UTF-8"?>
+`,k6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;101;114;32;97;32;99;97;114;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;99;97;114;116;97;32;61;32;70;105;108;101;115;46;114;101;97;100;83;116;114;105;110;103;40;80;97;116;104;46;111;102;40;34;99;97;114;116;97;46;116;120;116;34;41;41;</text>
@@ -45648,13 +45840,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,OI=`<?xml version="1.0" encoding="UTF-8"?>
+`,O6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="76;101;114;32;97;32;99;97;114;116;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;99;97;114;116;97;32;61;32;70;105;108;101;115;46;114;101;97;100;83;116;114;105;110;103;40;80;97;116;104;46;111;102;40;34;99;97;114;116;97;46;116;120;116;34;41;41;</text>
   </strelem>
 </struktogramm>
-`,TI=`<?xml version="1.0" encoding="UTF-8"?>
+`,T6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;97;108;97;118;114;97;45;112;97;115;115;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;83;116;114;105;110;103;32;101;110;116;114;97;100;97;32;34;80;97;108;97;118;114;97;45;112;97;115;115;101;63;34;</text>
@@ -45673,7 +45865,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,AI=`<?xml version="1.0" encoding="UTF-8"?>
+`,A6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="80;114;101;231;111;32;100;111;32;98;105;108;104;101;116;101;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -45702,7 +45894,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,PI=`<?xml version="1.0" encoding="UTF-8"?>
+`,P6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;32;116;114;234;115;32;101;109;32;116;114;234;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;110;117;109;101;114;111;32;34;86;97;108;111;114;32;105;110;105;99;105;97;108;63;34;</text>
@@ -45722,7 +45914,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;70;105;109;34;</text>
   </strelem>
 </struktogramm>
-`,CI=`<?xml version="1.0" encoding="UTF-8"?>
+`,C6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;97;105;120;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;32;115;111;109;97;32;61;32;48;</text>
@@ -45764,7 +45956,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;84;111;116;97;108;58;32;34;32;43;32;115;111;109;97;</text>
   </strelem>
 </struktogramm>
-`,ZI=`<?xml version="1.0" encoding="UTF-8"?>
+`,Z6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="86;111;116;97;114;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;105;100;97;100;101;32;34;81;117;97;110;116;111;115;32;97;110;111;115;32;116;101;110;115;63;34;</text>
@@ -45786,7 +45978,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </fall>
   </strelem>
 </struktogramm>
-`,jI=`<?xml version="1.0" encoding="UTF-8"?>
+`,j6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;250;109;101;114;111;115;32;112;97;114;101;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;112;117;116;58;32;105;110;116;32;108;105;109;105;116;101;32;34;65;116;233;32;113;117;101;32;110;250;109;101;114;111;63;34;</text>
@@ -45802,7 +45994,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     </schleifeninhalt>
   </strelem>
 </struktogramm>
-`,_I=`<?xml version="1.0" encoding="UTF-8"?>
+`,_6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;110;116;97;114;32;99;97;114;116;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>105;110;116;91;93;32;99;97;114;116;97;115;32;61;32;123;56;44;32;52;44;32;49;49;44;32;52;44;32;54;125;</text>
@@ -45837,7 +46029,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;81;117;97;110;116;105;100;97;100;101;58;32;34;32;43;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,MI=`<?xml version="1.0" encoding="UTF-8"?>
+`,M6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;117;109;112;114;105;109;101;110;116;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;66;111;109;32;100;105;97;34;</text>
@@ -45846,13 +46038,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;72;111;106;101;32;97;112;114;101;110;100;101;109;111;115;32;101;115;116;114;117;116;111;103;114;97;109;97;115;46;34;</text>
   </strelem>
 </struktogramm>
-`,DI=`<?xml version="1.0" encoding="UTF-8"?>
+`,D6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="79;108;225;32;77;117;110;100;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;79;108;225;32;77;117;110;100;111;34;</text>
   </strelem>
 </struktogramm>
-`,BI=`<?xml version="1.0" encoding="UTF-8"?>
+`,B6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;117;97;115;32;108;105;110;104;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>111;117;116;112;117;116;58;32;34;79;108;225;34;</text>
@@ -45861,7 +46053,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;69;115;116;111;117;32;97;32;97;112;114;101;110;100;101;114;32;101;115;116;114;117;116;111;103;114;97;109;97;115;34;</text>
   </strelem>
 </struktogramm>
-`,WI=`<?xml version="1.0" encoding="UTF-8"?>
+`,W6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;109;112;108;101;116;97;114;32;97;32;108;105;115;116;97;32;100;101;32;99;111;109;112;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;99;97;110;110;101;114;32;102;105;99;104;101;105;114;111;32;61;32;110;101;119;32;83;99;97;110;110;101;114;40;110;101;119;32;70;105;108;101;40;34;99;111;109;112;114;97;115;46;116;120;116;34;41;41;</text>
@@ -45902,7 +46094,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;113;117;97;110;116;105;100;97;100;101;32;43;32;34;32;108;105;110;104;97;115;32;103;117;97;114;100;97;100;97;115;34;</text>
   </strelem>
 </struktogramm>
-`,LI=`<?xml version="1.0" encoding="UTF-8"?>
+`,L6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="67;111;109;112;108;101;116;97;114;32;97;32;108;105;115;116;97;32;100;101;32;99;111;109;112;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;99;97;110;110;101;114;32;102;105;99;104;101;105;114;111;32;61;32;110;101;119;32;83;99;97;110;110;101;114;40;110;101;119;32;70;105;108;101;40;34;99;111;109;112;114;97;115;46;116;120;116;34;41;41;</text>
@@ -45911,7 +46103,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>80;114;105;110;116;87;114;105;116;101;114;32;115;97;105;100;97;32;61;32;110;101;119;32;80;114;105;110;116;87;114;105;116;101;114;40;34;99;111;109;112;114;97;115;45;110;111;118;97;46;116;120;116;34;41;</text>
   </strelem>
 </struktogramm>
-`,EI=`<?xml version="1.0" encoding="UTF-8"?>
+`,E6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;117;109;101;114;97;114;32;97;32;108;105;115;116;97;32;100;101;32;99;111;109;112;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;99;97;110;110;101;114;32;102;105;99;104;101;105;114;111;32;61;32;110;101;119;32;83;99;97;110;110;101;114;40;110;101;119;32;70;105;108;101;40;34;99;111;109;112;114;97;115;46;116;120;116;34;41;41;</text>
@@ -45937,13 +46129,13 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>102;105;99;104;101;105;114;111;46;99;108;111;115;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,NI=`<?xml version="1.0" encoding="UTF-8"?>
+`,N6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="78;117;109;101;114;97;114;32;97;32;108;105;115;116;97;32;100;101;32;99;111;109;112;114;97;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;99;97;110;110;101;114;32;102;105;99;104;101;105;114;111;32;61;32;110;101;119;32;83;99;97;110;110;101;114;40;110;101;119;32;70;105;108;101;40;34;99;111;109;112;114;97;115;46;116;120;116;34;41;41;</text>
   </strelem>
 </struktogramm>
-`,JI=`<?xml version="1.0" encoding="UTF-8"?>
+`,J6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;97;110;116;97;115;32;118;101;122;101;115;32;97;112;97;114;101;99;101;32;97;32;82;97;112;111;115;97;63;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;100;105;97;114;105;111;46;116;120;116;34;41;41;</text>
@@ -45982,7 +46174,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;82;97;112;111;115;97;58;32;34;32;43;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,FI=`<?xml version="1.0" encoding="UTF-8"?>
+`,F6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="81;117;97;110;116;97;115;32;118;101;122;101;115;32;97;112;97;114;101;99;101;32;97;32;82;97;112;111;115;97;63;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;100;105;97;114;105;111;46;116;120;116;34;41;41;</text>
@@ -45991,7 +46183,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;32;108;105;110;104;97;32;61;32;108;101;105;116;111;114;46;114;101;97;100;76;105;110;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,GI=`<?xml version="1.0" encoding="UTF-8"?>
+`,G6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;32;101;110;116;114;97;100;97;32;109;97;105;115;32;108;111;110;103;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;116;101;120;116;111;32;61;32;70;105;108;101;115;46;114;101;97;100;83;116;114;105;110;103;40;80;97;116;104;46;111;102;40;34;100;105;97;114;105;111;46;116;120;116;34;41;41;</text>
@@ -46026,7 +46218,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;69;110;116;114;97;100;97;32;109;97;105;115;32;108;111;110;103;97;58;32;34;32;43;32;109;97;105;115;76;111;110;103;97;</text>
   </strelem>
 </struktogramm>
-`,RI=`<?xml version="1.0" encoding="UTF-8"?>
+`,R6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="65;32;101;110;116;114;97;100;97;32;109;97;105;115;32;108;111;110;103;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;116;101;120;116;111;32;61;32;70;105;108;101;115;46;114;101;97;100;83;116;114;105;110;103;40;80;97;116;104;46;111;102;40;34;100;105;97;114;105;111;46;116;120;116;34;41;41;</text>
@@ -46035,7 +46227,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;91;93;32;108;105;110;104;97;115;32;61;32;116;101;120;116;111;46;115;112;108;105;116;40;34;92;110;34;41;</text>
   </strelem>
 </struktogramm>
-`,HI=`<?xml version="1.0" encoding="UTF-8"?>
+`,H6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;101;108;104;111;114;32;110;111;116;97;32;97;32;73;110;103;108;234;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;116;117;114;109;97;46;99;115;118;34;41;41;</text>
@@ -46089,7 +46281,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;101;108;104;111;114;32;110;111;116;97;32;97;32;73;110;103;108;234;115;58;32;34;32;43;32;109;101;108;104;111;114;78;111;109;101;32;43;32;34;32;40;34;32;43;32;109;101;108;104;111;114;78;111;116;97;32;43;32;34;41;34;</text>
   </strelem>
 </struktogramm>
-`,QI=`<?xml version="1.0" encoding="UTF-8"?>
+`,Q6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;101;108;104;111;114;32;110;111;116;97;32;97;32;73;110;103;108;234;115;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;116;117;114;109;97;46;99;115;118;34;41;41;</text>
@@ -46098,7 +46290,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;32;108;105;110;104;97;32;61;32;108;101;105;116;111;114;46;114;101;97;100;76;105;110;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,VI=`<?xml version="1.0" encoding="UTF-8"?>
+`,V6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;233;100;105;97;32;100;101;32;77;97;116;101;109;225;116;105;99;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;116;117;114;109;97;46;99;115;118;34;41;41;</text>
@@ -46139,7 +46331,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;34;77;233;100;105;97;32;100;101;32;77;97;116;101;109;225;116;105;99;97;58;32;34;32;43;32;115;111;109;97;32;47;32;113;117;97;110;116;105;100;97;100;101;</text>
   </strelem>
 </struktogramm>
-`,qI=`<?xml version="1.0" encoding="UTF-8"?>
+`,q6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;233;100;105;97;32;100;101;32;77;97;116;101;109;225;116;105;99;97;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;116;117;114;109;97;46;99;115;118;34;41;41;</text>
@@ -46148,7 +46340,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;32;108;105;110;104;97;32;61;32;108;101;105;116;111;114;46;114;101;97;100;76;105;110;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,UI=`<?xml version="1.0" encoding="UTF-8"?>
+`,U6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;111;100;111;115;32;111;115;32;110;111;109;101;115;32;100;111;32;122;111;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;122;111;111;46;106;115;111;110;34;41;41;</text>
@@ -46187,7 +46379,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>108;101;105;116;111;114;46;99;108;111;115;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,$I=`<?xml version="1.0" encoding="UTF-8"?>
+`,$6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="84;111;100;111;115;32;111;115;32;110;111;109;101;115;32;100;111;32;122;111;111;">
   <strelem typ="0" zx="0" zy="0">
     <text>66;117;102;102;101;114;101;100;82;101;97;100;101;114;32;108;101;105;116;111;114;32;61;32;110;101;119;32;66;117;102;102;101;114;101;100;82;101;97;100;101;114;40;110;101;119;32;70;105;108;101;82;101;97;100;101;114;40;34;122;111;111;46;106;115;111;110;34;41;41;</text>
@@ -46196,7 +46388,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>83;116;114;105;110;103;32;108;105;110;104;97;32;61;32;108;101;105;116;111;114;46;114;101;97;100;76;105;110;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,YI=`<?xml version="1.0" encoding="UTF-8"?>
+`,Y6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;117;97;114;100;97;114;32;112;111;110;116;111;115;32;101;109;32;74;83;79;78;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;111;109;101;115;32;61;32;123;34;76;117;100;119;105;103;34;44;32;34;90;111;114;97;34;44;32;34;82;97;112;111;115;97;34;125;</text>
@@ -46246,7 +46438,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>111;117;116;112;117;116;58;32;110;111;109;101;115;46;108;101;110;103;116;104;32;43;32;34;32;101;110;116;114;97;100;97;115;32;103;117;97;114;100;97;100;97;115;34;</text>
   </strelem>
 </struktogramm>
-`,XI=`<?xml version="1.0" encoding="UTF-8"?>
+`,X6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="71;117;97;114;100;97;114;32;112;111;110;116;111;115;32;101;109;32;74;83;79;78;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;91;93;32;110;111;109;101;115;32;61;32;123;34;76;117;100;119;105;103;34;44;32;34;90;111;114;97;34;44;32;34;82;97;112;111;115;97;34;125;</text>
@@ -46264,7 +46456,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
     <text>115;97;105;100;97;46;99;108;111;115;101;40;41;</text>
   </strelem>
 </struktogramm>
-`,KI=`<?xml version="1.0" encoding="UTF-8"?>
+`,K6=`<?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="68;101;32;67;83;86;32;112;97;114;97;32;74;83;79;78;">
   <strelem typ="0" zx="0" zy="0">
     <text>83;116;114;105;110;103;32;116;101;120;116;111;32;61;32;70;105;108;101;115;46;114;101;97;100;83;116;114;105;110;103;40;80;97;116;104;46;111;102;40;34;97;110;105;109;97;105;115;46;99;115;118;34;41;41;</text>
@@ -47820,7 +48012,7 @@ lösung: aufgabe-verdoppeln-loesung.visustruct
 `).trim(),tip:!0});break;case"caesar":{const d=m?Number(m):3;if(!Number.isInteger(d)||d<0||d>25)throw new re(`${e}: „::: caesar“ braucht einen Schlüssel von 0 bis 25.`);t.push({kind:"caesar",key:d,text:l.join(" ").trim()});break}case"datei":{if(!/^[\w.-]+\.(txt|csv|json)$/u.test(m))throw new re(`${e}: „::: datei“ braucht einen Dateinamen wie brief.txt, liste.csv oder daten.json.`);for(;l.length&&l[0].trim()==="";)l.shift();for(;l.length&&l[l.length-1].trim()==="";)l.pop();t.push({kind:"textFile",name:m,content:l.join(`
 `)});break}default:throw new re(`${e}: Unbekannter Block „::: ${o[1]}“.`)}r=u}return s(),t}function Ik(a){const e=/^(.*?)\s+→\s+(.+)$/.exec(a);return e?{text:e[1],ref:e[2].trim()}:{text:a}}function Sk(a,e){const t=new Map(a.map((n,i)=>[n.title.toLowerCase(),i]));for(const n of a.flatMap(i=>i.blocks))if(n.kind==="checklist"){for(const i of n.items)if(i.ref!==void 0&&(i.step=t.get(i.ref.toLowerCase()),i.step===void 0))throw new re(`${e}: Checkliste verweist auf unbekannten Schritt „${i.ref}“.`)}}function kk(a,e){var m;const{meta:t,body:n}=qm(a,e),i=e.replace(/^.*\//,"").replace(/\.md$/,""),s=Number((m=/^(\d+)/.exec(i))==null?void 0:m[1]);if(!Number.isFinite(s))throw new re(`${e}: Dateiname muss mit der Nummer beginnen (z. B. 01-…).`);const r=[];let o=[],l;const u=()=>{l&&r.push({title:l.title,blocks:Um(l.lines.join(`
 `),e)})};for(const d of n.split(`
-`)){const h=/^##\s+(.*)$/.exec(d);h?(u(),l={title:h[1].trim(),lines:[]}):l?l.lines.push(d):o.push(d)}if(u(),r.length===0)throw new re(`${e}: Keine Schritte (## Überschrift) gefunden.`);Sk(r,e);const c=t.get("titel");if(!c)throw new re(`${e}: „titel:“ fehlt.`);return{id:i,number:s,title:c,section:t.get("bereich")??"",summary:t.get("kurz")??o.join(" ").trim(),steps:r}}function Ok(a,e){const{meta:t,body:n}=qm(a,e),i=t.get("titel");if(!i)throw new re(`${e}: „titel:“ fehlt.`);const s=t.get("nach");return{id:e.replace(/^.*\//,"").replace(/\.md$/,""),title:i,after:s?Number(s):void 0,level:Number(t.get("stufe")??"1")||1,blocks:Um(n,e)}}const Tk=Object.assign({"../../lessons/de/01-was-ist-ein-struktogramm.md":e2,"../../lessons/de/02-der-editor.md":t2,"../../lessons/de/03-speichern-oeffnen-exportieren.md":n2,"../../lessons/de/04-variablen-und-datentypen.md":i2,"../../lessons/de/05-sequenz.md":a2,"../../lessons/de/06-eingabe-und-ausgabe.md":s2,"../../lessons/de/07-simulation-und-schreibtischtest.md":r2,"../../lessons/de/08-verzweigung.md":o2,"../../lessons/de/09-bedingungen-verknuepfen.md":l2,"../../lessons/de/10-fallauswahl.md":u2,"../../lessons/de/11-while-schleife.md":c2,"../../lessons/de/12-do-while-schleife.md":m2,"../../lessons/de/13-for-schleife.md":d2,"../../lessons/de/14-verschachteln.md":h2,"../../lessons/de/15-arrays.md":g2,"../../lessons/de/16-zweidimensionale-arrays.md":p2,"../../lessons/de/17-zeichenketten.md":f2,"../../lessons/de/18-aufruf-und-aussprung.md":x2,"../../lessons/de/19-suchen-und-sortieren.md":b2,"../../lessons/de/20-java.md":y2,"../../lessons/de/21-python-und-javascript.md":v2,"../../lessons/de/22-try-und-catch.md":w2,"../../lessons/de/23-text-einlesen-und-speichern.md":z2,"../../lessons/de/24-zeile-fuer-zeile.md":I2,"../../lessons/de/25-tabellen-als-csv.md":S2,"../../lessons/de/26-json.md":k2,"../../lessons/de/27-formate-im-vergleich.md":O2,"../../lessons/de/28-erstes-fenster.md":T2,"../../lessons/de/29-knopf-im-fenster.md":A2,"../../lessons/de/30-der-knopf-reagiert.md":P2,"../../lessons/de/31-zahl-verdoppeln.md":C2,"../../lessons/de/32-klickzaehler.md":Z2,"../../lessons/de/33-ampel.md":j2,"../../lessons/de/34-notenrechner.md":_2,"../../lessons/de/35-taschenrechner.md":M2,"../../lessons/de/36-zahlenraten.md":D2,"../../lessons/de/37-viele-knoepfe-ein-zuhoerer.md":B2,"../../lessons/de/38-innere-klassen.md":W2,"../../lessons/de/39-zwei-reiter.md":L2,"../../lessons/de/40-model-view-controller.md":E2,"../../lessons/de/begriffe.md":N2,"../../lessons/de/nachschlagen.md":J2,"../../lessons/en/01-was-ist-ein-struktogramm.md":F2,"../../lessons/en/02-der-editor.md":G2,"../../lessons/en/03-speichern-oeffnen-exportieren.md":R2,"../../lessons/en/04-variablen-und-datentypen.md":H2,"../../lessons/en/05-sequenz.md":Q2,"../../lessons/en/06-eingabe-und-ausgabe.md":V2,"../../lessons/en/07-simulation-und-schreibtischtest.md":q2,"../../lessons/en/08-verzweigung.md":U2,"../../lessons/en/09-bedingungen-verknuepfen.md":$2,"../../lessons/en/10-fallauswahl.md":Y2,"../../lessons/en/11-while-schleife.md":X2,"../../lessons/en/12-do-while-schleife.md":K2,"../../lessons/en/13-for-schleife.md":e3,"../../lessons/en/14-verschachteln.md":t3,"../../lessons/en/15-arrays.md":n3,"../../lessons/en/16-zweidimensionale-arrays.md":i3,"../../lessons/en/17-zeichenketten.md":a3,"../../lessons/en/18-aufruf-und-aussprung.md":s3,"../../lessons/en/19-suchen-und-sortieren.md":r3,"../../lessons/en/20-java.md":o3,"../../lessons/en/21-python-und-javascript.md":l3,"../../lessons/en/22-try-und-catch.md":u3,"../../lessons/en/23-text-einlesen-und-speichern.md":c3,"../../lessons/en/24-zeile-fuer-zeile.md":m3,"../../lessons/en/25-tabellen-als-csv.md":d3,"../../lessons/en/26-json.md":h3,"../../lessons/en/27-formate-im-vergleich.md":g3,"../../lessons/en/28-erstes-fenster.md":p3,"../../lessons/en/29-knopf-im-fenster.md":f3,"../../lessons/en/30-der-knopf-reagiert.md":x3,"../../lessons/en/31-zahl-verdoppeln.md":b3,"../../lessons/en/32-klickzaehler.md":y3,"../../lessons/en/33-ampel.md":v3,"../../lessons/en/34-notenrechner.md":w3,"../../lessons/en/35-taschenrechner.md":z3,"../../lessons/en/36-zahlenraten.md":I3,"../../lessons/en/37-viele-knoepfe-ein-zuhoerer.md":S3,"../../lessons/en/38-innere-klassen.md":k3,"../../lessons/en/39-zwei-reiter.md":O3,"../../lessons/en/40-model-view-controller.md":T3,"../../lessons/en/begriffe.md":A3,"../../lessons/en/nachschlagen.md":P3,"../../lessons/pt/01-was-ist-ein-struktogramm.md":C3,"../../lessons/pt/02-der-editor.md":Z3,"../../lessons/pt/03-speichern-oeffnen-exportieren.md":j3,"../../lessons/pt/04-variablen-und-datentypen.md":_3,"../../lessons/pt/05-sequenz.md":M3,"../../lessons/pt/06-eingabe-und-ausgabe.md":D3,"../../lessons/pt/07-simulation-und-schreibtischtest.md":B3,"../../lessons/pt/08-verzweigung.md":W3,"../../lessons/pt/09-bedingungen-verknuepfen.md":L3,"../../lessons/pt/10-fallauswahl.md":E3,"../../lessons/pt/11-while-schleife.md":N3,"../../lessons/pt/12-do-while-schleife.md":J3,"../../lessons/pt/13-for-schleife.md":F3,"../../lessons/pt/14-verschachteln.md":G3,"../../lessons/pt/15-arrays.md":R3,"../../lessons/pt/16-zweidimensionale-arrays.md":H3,"../../lessons/pt/17-zeichenketten.md":Q3,"../../lessons/pt/18-aufruf-und-aussprung.md":V3,"../../lessons/pt/19-suchen-und-sortieren.md":q3,"../../lessons/pt/20-java.md":U3,"../../lessons/pt/21-python-und-javascript.md":$3,"../../lessons/pt/22-try-und-catch.md":Y3,"../../lessons/pt/23-text-einlesen-und-speichern.md":X3,"../../lessons/pt/24-zeile-fuer-zeile.md":K3,"../../lessons/pt/25-tabellen-als-csv.md":ex,"../../lessons/pt/26-json.md":tx,"../../lessons/pt/27-formate-im-vergleich.md":nx,"../../lessons/pt/28-erstes-fenster.md":ix,"../../lessons/pt/29-knopf-im-fenster.md":ax,"../../lessons/pt/30-der-knopf-reagiert.md":sx,"../../lessons/pt/31-zahl-verdoppeln.md":rx,"../../lessons/pt/32-klickzaehler.md":ox,"../../lessons/pt/33-ampel.md":lx,"../../lessons/pt/34-notenrechner.md":ux,"../../lessons/pt/35-taschenrechner.md":cx,"../../lessons/pt/36-zahlenraten.md":mx,"../../lessons/pt/37-viele-knoepfe-ein-zuhoerer.md":dx,"../../lessons/pt/38-innere-klassen.md":hx,"../../lessons/pt/39-zwei-reiter.md":gx,"../../lessons/pt/40-model-view-controller.md":px,"../../lessons/pt/begriffe.md":fx,"../../lessons/pt/nachschlagen.md":xx}),Ak=Object.assign({"../../lessons/de/aufgaben/alter-unterprogramm.md":bx,"../../lessons/de/aufgaben/ballwurf.md":yx,"../../lessons/de/aufgaben/bestenliste.md":vx,"../../lessons/de/aufgaben/binaerzahl.md":wx,"../../lessons/de/aufgaben/caesar.md":zx,"../../lessons/de/aufgaben/collatz.md":Ix,"../../lessons/de/aufgaben/einheitenrechner.md":Sx,"../../lessons/de/aufgaben/fibonacci.md":kx,"../../lessons/de/aufgaben/gerade-ungerade.md":Ox,"../../lessons/de/aufgaben/mehrwertsteuer.md":Tx,"../../lessons/de/aufgaben/notendurchschnitt.md":Ax,"../../lessons/de/aufgaben/pin-pruefen.md":Px,"../../lessons/de/aufgaben/schiffe-versenken.md":Cx,"../../lessons/de/aufgaben/speisekarte.md":Zx,"../../lessons/de/aufgaben/summe-bilden.md":jx,"../../lessons/de/aufgaben/tafeldienst.md":_x,"../../lessons/de/aufgaben/taschenrechner.md":Mx,"../../lessons/de/aufgaben/verleih-menue.md":Dx,"../../lessons/de/aufgaben/vokabeltrainer.md":Bx,"../../lessons/de/aufgaben/volljaehrig.md":Wx,"../../lessons/de/aufgaben/wuerfel-mvc.md":Lx,"../../lessons/de/aufgaben/zahl-verdoppeln.md":Ex,"../../lessons/en/aufgaben/alter-unterprogramm.md":Nx,"../../lessons/en/aufgaben/ballwurf.md":Jx,"../../lessons/en/aufgaben/bestenliste.md":Fx,"../../lessons/en/aufgaben/binaerzahl.md":Gx,"../../lessons/en/aufgaben/caesar.md":Rx,"../../lessons/en/aufgaben/collatz.md":Hx,"../../lessons/en/aufgaben/einheitenrechner.md":Qx,"../../lessons/en/aufgaben/fibonacci.md":Vx,"../../lessons/en/aufgaben/gerade-ungerade.md":qx,"../../lessons/en/aufgaben/mehrwertsteuer.md":Ux,"../../lessons/en/aufgaben/notendurchschnitt.md":$x,"../../lessons/en/aufgaben/pin-pruefen.md":Yx,"../../lessons/en/aufgaben/schiffe-versenken.md":Xx,"../../lessons/en/aufgaben/speisekarte.md":Kx,"../../lessons/en/aufgaben/summe-bilden.md":eb,"../../lessons/en/aufgaben/tafeldienst.md":tb,"../../lessons/en/aufgaben/taschenrechner.md":nb,"../../lessons/en/aufgaben/verleih-menue.md":ib,"../../lessons/en/aufgaben/vokabeltrainer.md":ab,"../../lessons/en/aufgaben/volljaehrig.md":sb,"../../lessons/en/aufgaben/wuerfel-mvc.md":rb,"../../lessons/en/aufgaben/zahl-verdoppeln.md":ob,"../../lessons/pt/aufgaben/alter-unterprogramm.md":lb,"../../lessons/pt/aufgaben/ballwurf.md":ub,"../../lessons/pt/aufgaben/bestenliste.md":cb,"../../lessons/pt/aufgaben/binaerzahl.md":mb,"../../lessons/pt/aufgaben/caesar.md":db,"../../lessons/pt/aufgaben/collatz.md":hb,"../../lessons/pt/aufgaben/einheitenrechner.md":gb,"../../lessons/pt/aufgaben/fibonacci.md":pb,"../../lessons/pt/aufgaben/gerade-ungerade.md":fb,"../../lessons/pt/aufgaben/mehrwertsteuer.md":xb,"../../lessons/pt/aufgaben/notendurchschnitt.md":bb,"../../lessons/pt/aufgaben/pin-pruefen.md":yb,"../../lessons/pt/aufgaben/schiffe-versenken.md":vb,"../../lessons/pt/aufgaben/speisekarte.md":wb,"../../lessons/pt/aufgaben/summe-bilden.md":zb,"../../lessons/pt/aufgaben/tafeldienst.md":Ib,"../../lessons/pt/aufgaben/taschenrechner.md":Sb,"../../lessons/pt/aufgaben/verleih-menue.md":kb,"../../lessons/pt/aufgaben/vokabeltrainer.md":Ob,"../../lessons/pt/aufgaben/volljaehrig.md":Tb,"../../lessons/pt/aufgaben/wuerfel-mvc.md":Ab,"../../lessons/pt/aufgaben/zahl-verdoppeln.md":Pb}),Pk=Object.assign({"../../lessons/diagramme/aufgabe-alter-haupt-loesung.visustruct":Cb,"../../lessons/diagramme/aufgabe-alter-unterprogramm-loesung.visustruct":Zb,"../../lessons/diagramme/aufgabe-ballwurf-loesung.visustruct":jb,"../../lessons/diagramme/aufgabe-ballwurf-start.visustruct":_b,"../../lessons/diagramme/aufgabe-bestenliste-loesung.visustruct":Mb,"../../lessons/diagramme/aufgabe-binaer-loesung.visustruct":Db,"../../lessons/diagramme/aufgabe-caesar-array-loesung.visustruct":Bb,"../../lessons/diagramme/aufgabe-caesar-array-start.visustruct":Wb,"../../lessons/diagramme/aufgabe-caesar-ascii-loesung.visustruct":Lb,"../../lessons/diagramme/aufgabe-caesar-entschluesseln-loesung.visustruct":Eb,"../../lessons/diagramme/aufgabe-collatz-loesung.visustruct":Nb,"../../lessons/diagramme/aufgabe-durchschnitt-loesung.visustruct":Jb,"../../lessons/diagramme/aufgabe-fibonacci-loesung.visustruct":Fb,"../../lessons/diagramme/aufgabe-gerade-loesung.visustruct":Gb,"../../lessons/diagramme/aufgabe-mehrwertsteuer-loesung.visustruct":Rb,"../../lessons/diagramme/aufgabe-pin-java-loesung.visustruct":Hb,"../../lessons/diagramme/aufgabe-pin-loesung.visustruct":Qb,"../../lessons/diagramme/aufgabe-rechner-loesung.visustruct":Vb,"../../lessons/diagramme/aufgabe-schiffe-loesung.visustruct":qb,"../../lessons/diagramme/aufgabe-schiffe-start.visustruct":Ub,"../../lessons/diagramme/aufgabe-speisekarte-loesung.visustruct":$b,"../../lessons/diagramme/aufgabe-summe-loesung.visustruct":Yb,"../../lessons/diagramme/aufgabe-tafeldienst-loesung.visustruct":Xb,"../../lessons/diagramme/aufgabe-verdoppeln-loesung.visustruct":Kb,"../../lessons/diagramme/aufgabe-verleih-java-loesung.visustruct":e4,"../../lessons/diagramme/aufgabe-verleih-loesung.visustruct":t4,"../../lessons/diagramme/aufgabe-vokabeln-loesung.visustruct":n4,"../../lessons/diagramme/aufgabe-vokabeln-start.visustruct":i4,"../../lessons/diagramme/aufgabe-volljaehrig-loesung.visustruct":a4,"../../lessons/diagramme/dt-buffered.visustruct":s4,"../../lessons/diagramme/dt-csv.visustruct":r4,"../../lessons/diagramme/dt-json.visustruct":o4,"../../lessons/diagramme/dt-lesen.visustruct":l4,"../../lessons/diagramme/en/aufgabe-alter-haupt-loesung.visustruct":u4,"../../lessons/diagramme/en/aufgabe-alter-unterprogramm-loesung.visustruct":c4,"../../lessons/diagramme/en/aufgabe-ballwurf-loesung.visustruct":m4,"../../lessons/diagramme/en/aufgabe-ballwurf-start.visustruct":d4,"../../lessons/diagramme/en/aufgabe-bestenliste-loesung.visustruct":h4,"../../lessons/diagramme/en/aufgabe-binaer-loesung.visustruct":g4,"../../lessons/diagramme/en/aufgabe-caesar-array-loesung.visustruct":p4,"../../lessons/diagramme/en/aufgabe-caesar-array-start.visustruct":f4,"../../lessons/diagramme/en/aufgabe-caesar-ascii-loesung.visustruct":x4,"../../lessons/diagramme/en/aufgabe-caesar-entschluesseln-loesung.visustruct":b4,"../../lessons/diagramme/en/aufgabe-collatz-loesung.visustruct":y4,"../../lessons/diagramme/en/aufgabe-durchschnitt-loesung.visustruct":v4,"../../lessons/diagramme/en/aufgabe-fibonacci-loesung.visustruct":w4,"../../lessons/diagramme/en/aufgabe-gerade-loesung.visustruct":z4,"../../lessons/diagramme/en/aufgabe-mehrwertsteuer-loesung.visustruct":I4,"../../lessons/diagramme/en/aufgabe-pin-java-loesung.visustruct":S4,"../../lessons/diagramme/en/aufgabe-pin-loesung.visustruct":k4,"../../lessons/diagramme/en/aufgabe-rechner-loesung.visustruct":O4,"../../lessons/diagramme/en/aufgabe-schiffe-loesung.visustruct":T4,"../../lessons/diagramme/en/aufgabe-schiffe-start.visustruct":A4,"../../lessons/diagramme/en/aufgabe-speisekarte-loesung.visustruct":P4,"../../lessons/diagramme/en/aufgabe-summe-loesung.visustruct":C4,"../../lessons/diagramme/en/aufgabe-tafeldienst-loesung.visustruct":Z4,"../../lessons/diagramme/en/aufgabe-verdoppeln-loesung.visustruct":j4,"../../lessons/diagramme/en/aufgabe-verleih-java-loesung.visustruct":_4,"../../lessons/diagramme/en/aufgabe-verleih-loesung.visustruct":M4,"../../lessons/diagramme/en/aufgabe-vokabeln-loesung.visustruct":D4,"../../lessons/diagramme/en/aufgabe-vokabeln-start.visustruct":B4,"../../lessons/diagramme/en/aufgabe-volljaehrig-loesung.visustruct":W4,"../../lessons/diagramme/en/dt-buffered.visustruct":L4,"../../lessons/diagramme/en/dt-csv.visustruct":E4,"../../lessons/diagramme/en/dt-json.visustruct":N4,"../../lessons/diagramme/en/dt-lesen.visustruct":J4,"../../lessons/diagramme/en/kino-einmaleins-loesung.visustruct":F4,"../../lessons/diagramme/en/kino-frei-loesung.visustruct":G4,"../../lessons/diagramme/en/kino-frei-start.visustruct":R4,"../../lessons/diagramme/en/kino-karte-loesung.visustruct":H4,"../../lessons/diagramme/en/kino-karte-start.visustruct":Q4,"../../lessons/diagramme/en/kino-saalplan.visustruct":V4,"../../lessons/diagramme/en/kino-verkaufen.visustruct":q4,"../../lessons/diagramme/en/l04-java-steckbrief-loesung.visustruct":U4,"../../lessons/diagramme/en/l04-rechnen.visustruct":$4,"../../lessons/diagramme/en/l04-reihenfolge-loesung.visustruct":Y4,"../../lessons/diagramme/en/l04-reihenfolge-start.visustruct":X4,"../../lessons/diagramme/en/l04-tauschen-loesung.visustruct":K4,"../../lessons/diagramme/en/l04-tauschen-start.visustruct":ey,"../../lessons/diagramme/en/l04-tauschen.visustruct":ty,"../../lessons/diagramme/en/l05-datentypen.visustruct":ny,"../../lessons/diagramme/en/l05-division.visustruct":iy,"../../lessons/diagramme/en/l05-einkauf-loesung.visustruct":ay,"../../lessons/diagramme/en/l05-java-kino-loesung.visustruct":sy,"../../lessons/diagramme/en/l05-rechteck-loesung.visustruct":ry,"../../lessons/diagramme/en/l05-sekunden-loesung.visustruct":oy,"../../lessons/diagramme/en/l05-sekunden-start.visustruct":ly,"../../lessons/diagramme/en/l06-begruessung-loesung.visustruct":uy,"../../lessons/diagramme/en/l06-eva.visustruct":cy,"../../lessons/diagramme/en/l06-java-tage-loesung.visustruct":my,"../../lessons/diagramme/en/l06-mittelwert-loesung.visustruct":dy,"../../lessons/diagramme/en/l06-rechner-loesung.visustruct":hy,"../../lessons/diagramme/en/l07-alter-pruefen.visustruct":gy,"../../lessons/diagramme/en/l07-betrag-loesung.visustruct":py,"../../lessons/diagramme/en/l07-gerade-loesung.visustruct":fy,"../../lessons/diagramme/en/l07-java-pizza-loesung.visustruct":xy,"../../lessons/diagramme/en/l07-java-pizza-start.visustruct":by,"../../lessons/diagramme/en/l07-maximum-loesung.visustruct":yy,"../../lessons/diagramme/en/l07-rabatt.visustruct":vy,"../../lessons/diagramme/en/l08-gueltig-loesung.visustruct":wy,"../../lessons/diagramme/en/l08-java-bestanden-loesung.visustruct":zy,"../../lessons/diagramme/en/l08-jugendticket.visustruct":Iy,"../../lessons/diagramme/en/l08-note.visustruct":Sy,"../../lessons/diagramme/en/l08-schaltjahr-loesung.visustruct":ky,"../../lessons/diagramme/en/l08-wochenende-loesung.visustruct":Oy,"../../lessons/diagramme/en/l09-ampel.visustruct":Ty,"../../lessons/diagramme/en/l09-automat.visustruct":Ay,"../../lessons/diagramme/en/l09-java-schule-loesung.visustruct":Py,"../../lessons/diagramme/en/l09-note-loesung.visustruct":Cy,"../../lessons/diagramme/en/l09-rechner-loesung.visustruct":Zy,"../../lessons/diagramme/en/l09-verschachtelt.visustruct":jy,"../../lessons/diagramme/en/l1-grundbausteine.visustruct":_y,"../../lessons/diagramme/en/l1-sequenz.visustruct":My,"../../lessons/diagramme/en/l1-tee.visustruct":Dy,"../../lessons/diagramme/en/l1-verzweigung.visustruct":By,"../../lessons/diagramme/en/l1-wiederholung.visustruct":Wy,"../../lessons/diagramme/en/l10-bis-n-loesung.visustruct":Ly,"../../lessons/diagramme/en/l10-countdown.visustruct":Ey,"../../lessons/diagramme/en/l10-endlos.visustruct":Ny,"../../lessons/diagramme/en/l10-fakultaet.visustruct":Jy,"../../lessons/diagramme/en/l10-java-wuerfel-loesung.visustruct":Fy,"../../lessons/diagramme/en/l10-verdoppeln-loesung.visustruct":Gy,"../../lessons/diagramme/en/l11-eingabe-pruefen.visustruct":Ry,"../../lessons/diagramme/en/l11-einmal.visustruct":Hy,"../../lessons/diagramme/en/l11-java-gerade-loesung.visustruct":Qy,"../../lessons/diagramme/en/l11-note-loesung.visustruct":Vy,"../../lessons/diagramme/en/l11-summe-loesung.visustruct":qy,"../../lessons/diagramme/en/l12-countdown-loesung.visustruct":Uy,"../../lessons/diagramme/en/l12-einmaleins-loesung.visustruct":$y,"../../lessons/diagramme/en/l12-eins-bis-fuenf.visustruct":Yy,"../../lessons/diagramme/en/l12-java-verdoppeln-loesung.visustruct":Xy,"../../lessons/diagramme/en/l12-summe.visustruct":Ky,"../../lessons/diagramme/en/l13-dreieck.visustruct":ev,"../../lessons/diagramme/en/l13-gerade-eingaben-loesung.visustruct":tv,"../../lessons/diagramme/en/l13-gerade-zaehlen.visustruct":nv,"../../lessons/diagramme/en/l13-java-quadrate-loesung.visustruct":iv,"../../lessons/diagramme/en/l13-rechteck-loesung.visustruct":av,"../../lessons/diagramme/en/l14-array-durchlaufen.visustruct":sv,"../../lessons/diagramme/en/l14-erster-letzter-loesung.visustruct":rv,"../../lessons/diagramme/en/l14-java-treppe-loesung.visustruct":ov,"../../lessons/diagramme/en/l14-namen-eingeben.visustruct":lv,"../../lessons/diagramme/en/l14-rueckwaerts-loesung.visustruct":uv,"../../lessons/diagramme/en/l14-summe-max-loesung.visustruct":cv,"../../lessons/diagramme/en/l14-summe-maximum.visustruct":mv,"../../lessons/diagramme/en/l15-bis-null-loesung.visustruct":dv,"../../lessons/diagramme/en/l15-endlos-aussprung.visustruct":hv,"../../lessons/diagramme/en/l15-flaeche-loesung.visustruct":gv,"../../lessons/diagramme/en/l15-flaeche-unterprogramm-loesung.visustruct":pv,"../../lessons/diagramme/en/l15-hauptprogramm.visustruct":fv,"../../lessons/diagramme/en/l15-java-noten-loesung.visustruct":xv,"../../lessons/diagramme/en/l15-quadrat-haupt.visustruct":bv,"../../lessons/diagramme/en/l15-quadrat.visustruct":yv,"../../lessons/diagramme/en/l15-titel-loesung.visustruct":vv,"../../lessons/diagramme/en/l15-unterprogramm.visustruct":wv,"../../lessons/diagramme/en/l15-zeige-summe-haupt.visustruct":zv,"../../lessons/diagramme/en/l15-zeige-summe.visustruct":Iv,"../../lessons/diagramme/en/l16-countdown-loesung.visustruct":Sv,"../../lessons/diagramme/en/l16-countdown-start.visustruct":kv,"../../lessons/diagramme/en/l16-java-punkte-loesung.visustruct":Ov,"../../lessons/diagramme/en/l16-schreibtisch.visustruct":Tv,"../../lessons/diagramme/en/l16-summe-loesung.visustruct":Av,"../../lessons/diagramme/en/l16-summe-start.visustruct":Pv,"../../lessons/diagramme/en/l17-beispiel.visustruct":Cv,"../../lessons/diagramme/en/l17-fakultaet-loesung.visustruct":Zv,"../../lessons/diagramme/en/l17-java-brief-loesung.visustruct":jv,"../../lessons/diagramme/en/l17-java-brief-start.visustruct":_v,"../../lessons/diagramme/en/l17-java-passwort-loesung.visustruct":Mv,"../../lessons/diagramme/en/l17-ticket-loesung.visustruct":Dv,"../../lessons/diagramme/en/l18-beispiel.visustruct":Bv,"../../lessons/diagramme/en/l18-java-kasse-loesung.visustruct":Wv,"../../lessons/diagramme/en/l18-js-loesung.visustruct":Lv,"../../lessons/diagramme/en/l18-python-loesung.visustruct":Ev,"../../lessons/diagramme/en/l19-java-zaehlen-loesung.visustruct":Nv,"../../lessons/diagramme/en/l2-ausgabe.visustruct":Jv,"../../lessons/diagramme/en/l2-hallo-loesung.visustruct":Fv,"../../lessons/diagramme/en/l2-zwei-zeilen-loesung.visustruct":Gv,"../../lessons/diagramme/en/l23-java-ergaenzen-loesung.visustruct":Rv,"../../lessons/diagramme/en/l23-java-ergaenzen-start.visustruct":Hv,"../../lessons/diagramme/en/l23-java-nummern-loesung.visustruct":Qv,"../../lessons/diagramme/en/l23-java-nummern-start.visustruct":Vv,"../../lessons/diagramme/en/l24-java-fuchs-loesung.visustruct":qv,"../../lessons/diagramme/en/l24-java-fuchs-start.visustruct":Uv,"../../lessons/diagramme/en/l24-java-laengster-loesung.visustruct":$v,"../../lessons/diagramme/en/l24-java-laengster-start.visustruct":Yv,"../../lessons/diagramme/en/l25-java-beste-loesung.visustruct":Xv,"../../lessons/diagramme/en/l25-java-beste-start.visustruct":Kv,"../../lessons/diagramme/en/l25-java-schnitt-loesung.visustruct":e9,"../../lessons/diagramme/en/l25-java-schnitt-start.visustruct":t9,"../../lessons/diagramme/en/l26-java-namen-loesung.visustruct":n9,"../../lessons/diagramme/en/l26-java-namen-start.visustruct":i9,"../../lessons/diagramme/en/l26-java-schreiben-loesung.visustruct":a9,"../../lessons/diagramme/en/l26-java-schreiben-start.visustruct":s9,"../../lessons/diagramme/en/l27-java-json-loesung.visustruct":r9,"../../lessons/diagramme/en/l27-java-json-start.visustruct":o9,"../../lessons/diagramme/en/l27-java-saetze-loesung.visustruct":l9,"../../lessons/diagramme/en/l27-java-saetze-start.visustruct":u9,"../../lessons/diagramme/en/sim-kino-loesung.visustruct":c9,"../../lessons/diagramme/en/sim-kino-start.visustruct":m9,"../../lessons/diagramme/en/sim-tausch-loesung.visustruct":d9,"../../lessons/diagramme/en/sim-tausch-start.visustruct":h9,"../../lessons/diagramme/en/sim-tausch.visustruct":g9,"../../lessons/diagramme/en/ss-absteigend-loesung.visustruct":p9,"../../lessons/diagramme/en/ss-absteigend-start.visustruct":f9,"../../lessons/diagramme/en/ss-binaere-suche.visustruct":x9,"../../lessons/diagramme/en/ss-bubblesort.visustruct":b9,"../../lessons/diagramme/en/ss-karte-suchen-loesung.visustruct":y9,"../../lessons/diagramme/en/ss-lineare-suche.visustruct":v9,"../../lessons/diagramme/en/uebergabe-bonus-loesung.visustruct":w9,"../../lessons/diagramme/en/uebergabe-bonus-start.visustruct":z9,"../../lessons/diagramme/en/uebergabe-bonus-unterprogramm-loesung.visustruct":I9,"../../lessons/diagramme/en/uebergabe-haupt.visustruct":S9,"../../lessons/diagramme/en/uebergabe-leeren.visustruct":k9,"../../lessons/diagramme/en/uebergabe-verdopple.visustruct":O9,"../../lessons/diagramme/en/zk-initialen-loesung.visustruct":T9,"../../lessons/diagramme/en/zk-mehr.visustruct":A9,"../../lessons/diagramme/en/zk-rueckwaerts-loesung.visustruct":P9,"../../lessons/diagramme/en/zk-split.visustruct":C9,"../../lessons/diagramme/en/zk-woerter-loesung.visustruct":Z9,"../../lessons/diagramme/en/zk-zaehlen.visustruct":j9,"../../lessons/diagramme/en/zk-zeichen.visustruct":_9,"../../lessons/diagramme/kino-einmaleins-loesung.visustruct":M9,"../../lessons/diagramme/kino-frei-loesung.visustruct":D9,"../../lessons/diagramme/kino-frei-start.visustruct":B9,"../../lessons/diagramme/kino-karte-loesung.visustruct":W9,"../../lessons/diagramme/kino-karte-start.visustruct":L9,"../../lessons/diagramme/kino-saalplan.visustruct":E9,"../../lessons/diagramme/kino-verkaufen.visustruct":N9,"../../lessons/diagramme/l04-java-steckbrief-loesung.visustruct":J9,"../../lessons/diagramme/l04-rechnen.visustruct":F9,"../../lessons/diagramme/l04-reihenfolge-loesung.visustruct":G9,"../../lessons/diagramme/l04-reihenfolge-start.visustruct":R9,"../../lessons/diagramme/l04-tauschen-loesung.visustruct":H9,"../../lessons/diagramme/l04-tauschen-start.visustruct":Q9,"../../lessons/diagramme/l04-tauschen.visustruct":V9,"../../lessons/diagramme/l05-datentypen.visustruct":q9,"../../lessons/diagramme/l05-division.visustruct":U9,"../../lessons/diagramme/l05-einkauf-loesung.visustruct":$9,"../../lessons/diagramme/l05-java-kino-loesung.visustruct":Y9,"../../lessons/diagramme/l05-rechteck-loesung.visustruct":X9,"../../lessons/diagramme/l05-sekunden-loesung.visustruct":K9,"../../lessons/diagramme/l05-sekunden-start.visustruct":ew,"../../lessons/diagramme/l06-begruessung-loesung.visustruct":tw,"../../lessons/diagramme/l06-eva.visustruct":nw,"../../lessons/diagramme/l06-java-tage-loesung.visustruct":iw,"../../lessons/diagramme/l06-mittelwert-loesung.visustruct":aw,"../../lessons/diagramme/l06-rechner-loesung.visustruct":sw,"../../lessons/diagramme/l07-alter-pruefen.visustruct":rw,"../../lessons/diagramme/l07-betrag-loesung.visustruct":ow,"../../lessons/diagramme/l07-gerade-loesung.visustruct":lw,"../../lessons/diagramme/l07-java-pizza-loesung.visustruct":uw,"../../lessons/diagramme/l07-java-pizza-start.visustruct":cw,"../../lessons/diagramme/l07-maximum-loesung.visustruct":mw,"../../lessons/diagramme/l07-rabatt.visustruct":dw,"../../lessons/diagramme/l08-gueltig-loesung.visustruct":hw,"../../lessons/diagramme/l08-java-bestanden-loesung.visustruct":gw,"../../lessons/diagramme/l08-jugendticket.visustruct":pw,"../../lessons/diagramme/l08-note.visustruct":fw,"../../lessons/diagramme/l08-schaltjahr-loesung.visustruct":xw,"../../lessons/diagramme/l08-wochenende-loesung.visustruct":bw,"../../lessons/diagramme/l09-ampel.visustruct":yw,"../../lessons/diagramme/l09-automat.visustruct":vw,"../../lessons/diagramme/l09-java-schule-loesung.visustruct":ww,"../../lessons/diagramme/l09-note-loesung.visustruct":zw,"../../lessons/diagramme/l09-rechner-loesung.visustruct":Iw,"../../lessons/diagramme/l09-verschachtelt.visustruct":Sw,"../../lessons/diagramme/l1-grundbausteine.visustruct":kw,"../../lessons/diagramme/l1-sequenz.visustruct":Ow,"../../lessons/diagramme/l1-tee.visustruct":Tw,"../../lessons/diagramme/l1-verzweigung.visustruct":Aw,"../../lessons/diagramme/l1-wiederholung.visustruct":Pw,"../../lessons/diagramme/l10-bis-n-loesung.visustruct":Cw,"../../lessons/diagramme/l10-countdown.visustruct":Zw,"../../lessons/diagramme/l10-endlos.visustruct":jw,"../../lessons/diagramme/l10-fakultaet.visustruct":_w,"../../lessons/diagramme/l10-java-wuerfel-loesung.visustruct":Mw,"../../lessons/diagramme/l10-verdoppeln-loesung.visustruct":Dw,"../../lessons/diagramme/l11-eingabe-pruefen.visustruct":Bw,"../../lessons/diagramme/l11-einmal.visustruct":Ww,"../../lessons/diagramme/l11-java-gerade-loesung.visustruct":Lw,"../../lessons/diagramme/l11-note-loesung.visustruct":Ew,"../../lessons/diagramme/l11-summe-loesung.visustruct":Nw,"../../lessons/diagramme/l12-countdown-loesung.visustruct":Jw,"../../lessons/diagramme/l12-einmaleins-loesung.visustruct":Fw,"../../lessons/diagramme/l12-eins-bis-fuenf.visustruct":Gw,"../../lessons/diagramme/l12-java-verdoppeln-loesung.visustruct":Rw,"../../lessons/diagramme/l12-summe.visustruct":Hw,"../../lessons/diagramme/l13-dreieck.visustruct":Qw,"../../lessons/diagramme/l13-gerade-eingaben-loesung.visustruct":Vw,"../../lessons/diagramme/l13-gerade-zaehlen.visustruct":qw,"../../lessons/diagramme/l13-java-quadrate-loesung.visustruct":Uw,"../../lessons/diagramme/l13-rechteck-loesung.visustruct":$w,"../../lessons/diagramme/l14-array-durchlaufen.visustruct":Yw,"../../lessons/diagramme/l14-erster-letzter-loesung.visustruct":Xw,"../../lessons/diagramme/l14-java-treppe-loesung.visustruct":Kw,"../../lessons/diagramme/l14-namen-eingeben.visustruct":e5,"../../lessons/diagramme/l14-rueckwaerts-loesung.visustruct":t5,"../../lessons/diagramme/l14-summe-max-loesung.visustruct":n5,"../../lessons/diagramme/l14-summe-maximum.visustruct":i5,"../../lessons/diagramme/l15-bis-null-loesung.visustruct":a5,"../../lessons/diagramme/l15-endlos-aussprung.visustruct":s5,"../../lessons/diagramme/l15-flaeche-loesung.visustruct":r5,"../../lessons/diagramme/l15-flaeche-unterprogramm-loesung.visustruct":o5,"../../lessons/diagramme/l15-hauptprogramm.visustruct":l5,"../../lessons/diagramme/l15-java-noten-loesung.visustruct":u5,"../../lessons/diagramme/l15-quadrat-haupt.visustruct":c5,"../../lessons/diagramme/l15-quadrat.visustruct":m5,"../../lessons/diagramme/l15-titel-loesung.visustruct":d5,"../../lessons/diagramme/l15-unterprogramm.visustruct":h5,"../../lessons/diagramme/l15-zeige-summe-haupt.visustruct":g5,"../../lessons/diagramme/l15-zeige-summe.visustruct":p5,"../../lessons/diagramme/l16-countdown-loesung.visustruct":f5,"../../lessons/diagramme/l16-countdown-start.visustruct":x5,"../../lessons/diagramme/l16-java-punkte-loesung.visustruct":b5,"../../lessons/diagramme/l16-schreibtisch.visustruct":y5,"../../lessons/diagramme/l16-summe-loesung.visustruct":v5,"../../lessons/diagramme/l16-summe-start.visustruct":w5,"../../lessons/diagramme/l17-beispiel.visustruct":z5,"../../lessons/diagramme/l17-fakultaet-loesung.visustruct":I5,"../../lessons/diagramme/l17-java-brief-loesung.visustruct":S5,"../../lessons/diagramme/l17-java-brief-start.visustruct":k5,"../../lessons/diagramme/l17-java-passwort-loesung.visustruct":O5,"../../lessons/diagramme/l17-ticket-loesung.visustruct":T5,"../../lessons/diagramme/l18-beispiel.visustruct":A5,"../../lessons/diagramme/l18-java-kasse-loesung.visustruct":P5,"../../lessons/diagramme/l18-js-loesung.visustruct":C5,"../../lessons/diagramme/l18-python-loesung.visustruct":Z5,"../../lessons/diagramme/l19-java-zaehlen-loesung.visustruct":j5,"../../lessons/diagramme/l2-ausgabe.visustruct":_5,"../../lessons/diagramme/l2-hallo-loesung.visustruct":M5,"../../lessons/diagramme/l2-zwei-zeilen-loesung.visustruct":D5,"../../lessons/diagramme/l20-countdown-loesung.visustruct":B5,"../../lessons/diagramme/l23-java-ergaenzen-loesung.visustruct":W5,"../../lessons/diagramme/l23-java-ergaenzen-start.visustruct":L5,"../../lessons/diagramme/l23-java-nummern-loesung.visustruct":E5,"../../lessons/diagramme/l23-java-nummern-start.visustruct":N5,"../../lessons/diagramme/l24-java-fuchs-loesung.visustruct":J5,"../../lessons/diagramme/l24-java-fuchs-start.visustruct":F5,"../../lessons/diagramme/l24-java-laengster-loesung.visustruct":G5,"../../lessons/diagramme/l24-java-laengster-start.visustruct":R5,"../../lessons/diagramme/l25-java-beste-loesung.visustruct":H5,"../../lessons/diagramme/l25-java-beste-start.visustruct":Q5,"../../lessons/diagramme/l25-java-schnitt-loesung.visustruct":V5,"../../lessons/diagramme/l25-java-schnitt-start.visustruct":q5,"../../lessons/diagramme/l26-java-namen-loesung.visustruct":U5,"../../lessons/diagramme/l26-java-namen-start.visustruct":$5,"../../lessons/diagramme/l26-java-schreiben-loesung.visustruct":Y5,"../../lessons/diagramme/l26-java-schreiben-start.visustruct":X5,"../../lessons/diagramme/l27-java-json-loesung.visustruct":K5,"../../lessons/diagramme/l27-java-json-start.visustruct":ez,"../../lessons/diagramme/l27-java-saetze-loesung.visustruct":tz,"../../lessons/diagramme/l27-java-saetze-start.visustruct":nz,"../../lessons/diagramme/pt/aufgabe-alter-haupt-loesung.visustruct":iz,"../../lessons/diagramme/pt/aufgabe-alter-unterprogramm-loesung.visustruct":az,"../../lessons/diagramme/pt/aufgabe-ballwurf-loesung.visustruct":sz,"../../lessons/diagramme/pt/aufgabe-ballwurf-start.visustruct":rz,"../../lessons/diagramme/pt/aufgabe-bestenliste-loesung.visustruct":oz,"../../lessons/diagramme/pt/aufgabe-binaer-loesung.visustruct":lz,"../../lessons/diagramme/pt/aufgabe-caesar-array-loesung.visustruct":uz,"../../lessons/diagramme/pt/aufgabe-caesar-array-start.visustruct":cz,"../../lessons/diagramme/pt/aufgabe-caesar-ascii-loesung.visustruct":mz,"../../lessons/diagramme/pt/aufgabe-caesar-entschluesseln-loesung.visustruct":dz,"../../lessons/diagramme/pt/aufgabe-collatz-loesung.visustruct":hz,"../../lessons/diagramme/pt/aufgabe-durchschnitt-loesung.visustruct":gz,"../../lessons/diagramme/pt/aufgabe-fibonacci-loesung.visustruct":pz,"../../lessons/diagramme/pt/aufgabe-gerade-loesung.visustruct":fz,"../../lessons/diagramme/pt/aufgabe-mehrwertsteuer-loesung.visustruct":xz,"../../lessons/diagramme/pt/aufgabe-pin-java-loesung.visustruct":bz,"../../lessons/diagramme/pt/aufgabe-pin-loesung.visustruct":yz,"../../lessons/diagramme/pt/aufgabe-rechner-loesung.visustruct":vz,"../../lessons/diagramme/pt/aufgabe-schiffe-loesung.visustruct":wz,"../../lessons/diagramme/pt/aufgabe-schiffe-start.visustruct":zz,"../../lessons/diagramme/pt/aufgabe-speisekarte-loesung.visustruct":Iz,"../../lessons/diagramme/pt/aufgabe-summe-loesung.visustruct":Sz,"../../lessons/diagramme/pt/aufgabe-tafeldienst-loesung.visustruct":kz,"../../lessons/diagramme/pt/aufgabe-verdoppeln-loesung.visustruct":Oz,"../../lessons/diagramme/pt/aufgabe-verleih-java-loesung.visustruct":Tz,"../../lessons/diagramme/pt/aufgabe-verleih-loesung.visustruct":Az,"../../lessons/diagramme/pt/aufgabe-vokabeln-loesung.visustruct":Pz,"../../lessons/diagramme/pt/aufgabe-vokabeln-start.visustruct":Cz,"../../lessons/diagramme/pt/aufgabe-volljaehrig-loesung.visustruct":Zz,"../../lessons/diagramme/pt/dt-buffered.visustruct":jz,"../../lessons/diagramme/pt/dt-csv.visustruct":_z,"../../lessons/diagramme/pt/dt-json.visustruct":Mz,"../../lessons/diagramme/pt/dt-lesen.visustruct":Dz,"../../lessons/diagramme/pt/kino-einmaleins-loesung.visustruct":Bz,"../../lessons/diagramme/pt/kino-frei-loesung.visustruct":Wz,"../../lessons/diagramme/pt/kino-frei-start.visustruct":Lz,"../../lessons/diagramme/pt/kino-karte-loesung.visustruct":Ez,"../../lessons/diagramme/pt/kino-karte-start.visustruct":Nz,"../../lessons/diagramme/pt/kino-saalplan.visustruct":Jz,"../../lessons/diagramme/pt/kino-verkaufen.visustruct":Fz,"../../lessons/diagramme/pt/l04-java-steckbrief-loesung.visustruct":Gz,"../../lessons/diagramme/pt/l04-rechnen.visustruct":Rz,"../../lessons/diagramme/pt/l04-reihenfolge-loesung.visustruct":Hz,"../../lessons/diagramme/pt/l04-reihenfolge-start.visustruct":Qz,"../../lessons/diagramme/pt/l04-tauschen-loesung.visustruct":Vz,"../../lessons/diagramme/pt/l04-tauschen-start.visustruct":qz,"../../lessons/diagramme/pt/l04-tauschen.visustruct":Uz,"../../lessons/diagramme/pt/l05-datentypen.visustruct":$z,"../../lessons/diagramme/pt/l05-division.visustruct":Yz,"../../lessons/diagramme/pt/l05-einkauf-loesung.visustruct":Xz,"../../lessons/diagramme/pt/l05-java-kino-loesung.visustruct":Kz,"../../lessons/diagramme/pt/l05-rechteck-loesung.visustruct":e6,"../../lessons/diagramme/pt/l05-sekunden-loesung.visustruct":t6,"../../lessons/diagramme/pt/l05-sekunden-start.visustruct":n6,"../../lessons/diagramme/pt/l06-begruessung-loesung.visustruct":i6,"../../lessons/diagramme/pt/l06-eva.visustruct":a6,"../../lessons/diagramme/pt/l06-java-tage-loesung.visustruct":s6,"../../lessons/diagramme/pt/l06-mittelwert-loesung.visustruct":r6,"../../lessons/diagramme/pt/l06-rechner-loesung.visustruct":o6,"../../lessons/diagramme/pt/l07-alter-pruefen.visustruct":l6,"../../lessons/diagramme/pt/l07-betrag-loesung.visustruct":u6,"../../lessons/diagramme/pt/l07-gerade-loesung.visustruct":c6,"../../lessons/diagramme/pt/l07-java-pizza-loesung.visustruct":m6,"../../lessons/diagramme/pt/l07-java-pizza-start.visustruct":d6,"../../lessons/diagramme/pt/l07-maximum-loesung.visustruct":h6,"../../lessons/diagramme/pt/l07-rabatt.visustruct":g6,"../../lessons/diagramme/pt/l08-gueltig-loesung.visustruct":p6,"../../lessons/diagramme/pt/l08-java-bestanden-loesung.visustruct":f6,"../../lessons/diagramme/pt/l08-jugendticket.visustruct":x6,"../../lessons/diagramme/pt/l08-note.visustruct":b6,"../../lessons/diagramme/pt/l08-schaltjahr-loesung.visustruct":y6,"../../lessons/diagramme/pt/l08-wochenende-loesung.visustruct":v6,"../../lessons/diagramme/pt/l09-ampel.visustruct":w6,"../../lessons/diagramme/pt/l09-automat.visustruct":z6,"../../lessons/diagramme/pt/l09-java-schule-loesung.visustruct":I6,"../../lessons/diagramme/pt/l09-note-loesung.visustruct":S6,"../../lessons/diagramme/pt/l09-rechner-loesung.visustruct":k6,"../../lessons/diagramme/pt/l09-verschachtelt.visustruct":O6,"../../lessons/diagramme/pt/l1-grundbausteine.visustruct":T6,"../../lessons/diagramme/pt/l1-sequenz.visustruct":A6,"../../lessons/diagramme/pt/l1-tee.visustruct":P6,"../../lessons/diagramme/pt/l1-verzweigung.visustruct":C6,"../../lessons/diagramme/pt/l1-wiederholung.visustruct":Z6,"../../lessons/diagramme/pt/l10-bis-n-loesung.visustruct":j6,"../../lessons/diagramme/pt/l10-countdown.visustruct":_6,"../../lessons/diagramme/pt/l10-endlos.visustruct":M6,"../../lessons/diagramme/pt/l10-fakultaet.visustruct":D6,"../../lessons/diagramme/pt/l10-java-wuerfel-loesung.visustruct":B6,"../../lessons/diagramme/pt/l10-verdoppeln-loesung.visustruct":W6,"../../lessons/diagramme/pt/l11-eingabe-pruefen.visustruct":L6,"../../lessons/diagramme/pt/l11-einmal.visustruct":E6,"../../lessons/diagramme/pt/l11-java-gerade-loesung.visustruct":N6,"../../lessons/diagramme/pt/l11-note-loesung.visustruct":J6,"../../lessons/diagramme/pt/l11-summe-loesung.visustruct":F6,"../../lessons/diagramme/pt/l12-countdown-loesung.visustruct":G6,"../../lessons/diagramme/pt/l12-einmaleins-loesung.visustruct":R6,"../../lessons/diagramme/pt/l12-eins-bis-fuenf.visustruct":H6,"../../lessons/diagramme/pt/l12-java-verdoppeln-loesung.visustruct":Q6,"../../lessons/diagramme/pt/l12-summe.visustruct":V6,"../../lessons/diagramme/pt/l13-dreieck.visustruct":q6,"../../lessons/diagramme/pt/l13-gerade-eingaben-loesung.visustruct":U6,"../../lessons/diagramme/pt/l13-gerade-zaehlen.visustruct":$6,"../../lessons/diagramme/pt/l13-java-quadrate-loesung.visustruct":Y6,"../../lessons/diagramme/pt/l13-rechteck-loesung.visustruct":X6,"../../lessons/diagramme/pt/l14-array-durchlaufen.visustruct":K6,"../../lessons/diagramme/pt/l14-erster-letzter-loesung.visustruct":eI,"../../lessons/diagramme/pt/l14-java-treppe-loesung.visustruct":tI,"../../lessons/diagramme/pt/l14-namen-eingeben.visustruct":nI,"../../lessons/diagramme/pt/l14-rueckwaerts-loesung.visustruct":iI,"../../lessons/diagramme/pt/l14-summe-max-loesung.visustruct":aI,"../../lessons/diagramme/pt/l14-summe-maximum.visustruct":sI,"../../lessons/diagramme/pt/l15-bis-null-loesung.visustruct":rI,"../../lessons/diagramme/pt/l15-endlos-aussprung.visustruct":oI,"../../lessons/diagramme/pt/l15-flaeche-loesung.visustruct":lI,"../../lessons/diagramme/pt/l15-hauptprogramm.visustruct":uI,"../../lessons/diagramme/pt/l15-java-noten-loesung.visustruct":cI,"../../lessons/diagramme/pt/l15-quadrat-haupt.visustruct":mI,"../../lessons/diagramme/pt/l15-quadrat.visustruct":dI,"../../lessons/diagramme/pt/l15-titel-loesung.visustruct":hI,"../../lessons/diagramme/pt/l15-unterprogramm.visustruct":gI,"../../lessons/diagramme/pt/l15-zeige-summe-haupt.visustruct":pI,"../../lessons/diagramme/pt/l15-zeige-summe.visustruct":fI,"../../lessons/diagramme/pt/l16-countdown-loesung.visustruct":xI,"../../lessons/diagramme/pt/l16-countdown-start.visustruct":bI,"../../lessons/diagramme/pt/l16-java-punkte-loesung.visustruct":yI,"../../lessons/diagramme/pt/l16-schreibtisch.visustruct":vI,"../../lessons/diagramme/pt/l16-summe-loesung.visustruct":wI,"../../lessons/diagramme/pt/l16-summe-start.visustruct":zI,"../../lessons/diagramme/pt/l17-beispiel.visustruct":II,"../../lessons/diagramme/pt/l17-fakultaet-loesung.visustruct":SI,"../../lessons/diagramme/pt/l17-java-brief-loesung.visustruct":kI,"../../lessons/diagramme/pt/l17-java-brief-start.visustruct":OI,"../../lessons/diagramme/pt/l17-java-passwort-loesung.visustruct":TI,"../../lessons/diagramme/pt/l17-ticket-loesung.visustruct":AI,"../../lessons/diagramme/pt/l18-beispiel.visustruct":PI,"../../lessons/diagramme/pt/l18-java-kasse-loesung.visustruct":CI,"../../lessons/diagramme/pt/l18-js-loesung.visustruct":ZI,"../../lessons/diagramme/pt/l18-python-loesung.visustruct":jI,"../../lessons/diagramme/pt/l19-java-zaehlen-loesung.visustruct":_I,"../../lessons/diagramme/pt/l2-ausgabe.visustruct":MI,"../../lessons/diagramme/pt/l2-hallo-loesung.visustruct":DI,"../../lessons/diagramme/pt/l2-zwei-zeilen-loesung.visustruct":BI,"../../lessons/diagramme/pt/l23-java-ergaenzen-loesung.visustruct":WI,"../../lessons/diagramme/pt/l23-java-ergaenzen-start.visustruct":LI,"../../lessons/diagramme/pt/l23-java-nummern-loesung.visustruct":EI,"../../lessons/diagramme/pt/l23-java-nummern-start.visustruct":NI,"../../lessons/diagramme/pt/l24-java-fuchs-loesung.visustruct":JI,"../../lessons/diagramme/pt/l24-java-fuchs-start.visustruct":FI,"../../lessons/diagramme/pt/l24-java-laengster-loesung.visustruct":GI,"../../lessons/diagramme/pt/l24-java-laengster-start.visustruct":RI,"../../lessons/diagramme/pt/l25-java-beste-loesung.visustruct":HI,"../../lessons/diagramme/pt/l25-java-beste-start.visustruct":QI,"../../lessons/diagramme/pt/l25-java-schnitt-loesung.visustruct":VI,"../../lessons/diagramme/pt/l25-java-schnitt-start.visustruct":qI,"../../lessons/diagramme/pt/l26-java-namen-loesung.visustruct":UI,"../../lessons/diagramme/pt/l26-java-namen-start.visustruct":$I,"../../lessons/diagramme/pt/l26-java-schreiben-loesung.visustruct":YI,"../../lessons/diagramme/pt/l26-java-schreiben-start.visustruct":XI,"../../lessons/diagramme/pt/l27-java-json-loesung.visustruct":KI,"../../lessons/diagramme/pt/l27-java-json-start.visustruct":e7,"../../lessons/diagramme/pt/l27-java-saetze-loesung.visustruct":t7,"../../lessons/diagramme/pt/l27-java-saetze-start.visustruct":n7,"../../lessons/diagramme/pt/sim-kino-loesung.visustruct":i7,"../../lessons/diagramme/pt/sim-kino-start.visustruct":a7,"../../lessons/diagramme/pt/sim-tausch-loesung.visustruct":s7,"../../lessons/diagramme/pt/sim-tausch-start.visustruct":r7,"../../lessons/diagramme/pt/sim-tausch.visustruct":o7,"../../lessons/diagramme/pt/ss-absteigend-loesung.visustruct":l7,"../../lessons/diagramme/pt/ss-absteigend-start.visustruct":u7,"../../lessons/diagramme/pt/ss-binaere-suche.visustruct":c7,"../../lessons/diagramme/pt/ss-bubblesort.visustruct":m7,"../../lessons/diagramme/pt/ss-karte-suchen-loesung.visustruct":d7,"../../lessons/diagramme/pt/ss-lineare-suche.visustruct":h7,"../../lessons/diagramme/pt/uebergabe-bonus-loesung.visustruct":g7,"../../lessons/diagramme/pt/uebergabe-bonus-start.visustruct":p7,"../../lessons/diagramme/pt/uebergabe-bonus-unterprogramm-loesung.visustruct":f7,"../../lessons/diagramme/pt/uebergabe-haupt.visustruct":x7,"../../lessons/diagramme/pt/uebergabe-leeren.visustruct":b7,"../../lessons/diagramme/pt/uebergabe-verdopple.visustruct":y7,"../../lessons/diagramme/pt/zk-initialen-loesung.visustruct":v7,"../../lessons/diagramme/pt/zk-mehr.visustruct":w7,"../../lessons/diagramme/pt/zk-rueckwaerts-loesung.visustruct":z7,"../../lessons/diagramme/pt/zk-split.visustruct":I7,"../../lessons/diagramme/pt/zk-woerter-loesung.visustruct":S7,"../../lessons/diagramme/pt/zk-zaehlen.visustruct":k7,"../../lessons/diagramme/pt/zk-zeichen.visustruct":O7,"../../lessons/diagramme/sim-kino-loesung.visustruct":T7,"../../lessons/diagramme/sim-kino-start.visustruct":A7,"../../lessons/diagramme/sim-tausch-loesung.visustruct":P7,"../../lessons/diagramme/sim-tausch-start.visustruct":C7,"../../lessons/diagramme/sim-tausch.visustruct":Z7,"../../lessons/diagramme/ss-absteigend-loesung.visustruct":j7,"../../lessons/diagramme/ss-absteigend-start.visustruct":_7,"../../lessons/diagramme/ss-binaere-suche.visustruct":M7,"../../lessons/diagramme/ss-bubblesort.visustruct":D7,"../../lessons/diagramme/ss-karte-suchen-loesung.visustruct":B7,"../../lessons/diagramme/ss-lineare-suche.visustruct":W7,"../../lessons/diagramme/uebergabe-bonus-loesung.visustruct":L7,"../../lessons/diagramme/uebergabe-bonus-start.visustruct":E7,"../../lessons/diagramme/uebergabe-bonus-unterprogramm-loesung.visustruct":N7,"../../lessons/diagramme/uebergabe-haupt.visustruct":J7,"../../lessons/diagramme/uebergabe-leeren.visustruct":F7,"../../lessons/diagramme/uebergabe-verdopple.visustruct":G7,"../../lessons/diagramme/zk-initialen-loesung.visustruct":R7,"../../lessons/diagramme/zk-mehr.visustruct":H7,"../../lessons/diagramme/zk-rueckwaerts-loesung.visustruct":Q7,"../../lessons/diagramme/zk-split.visustruct":V7,"../../lessons/diagramme/zk-woerter-loesung.visustruct":q7,"../../lessons/diagramme/zk-zaehlen.visustruct":U7,"../../lessons/diagramme/zk-zeichen.visustruct":$7}),Ck=Object.assign({"../../lessons/bilder/aufgabe-mehrwertsteuer.svg":Y7,"../../lessons/bilder/ben-shneiderman.jpg":X7,"../../lessons/bilder/caesar-ascii.svg":K7,"../../lessons/bilder/caesar-scheibe.svg":eS,"../../lessons/bilder/caesar-verschiebung.svg":tS,"../../lessons/bilder/en/aufgabe-mehrwertsteuer.svg":nS,"../../lessons/bilder/en/kino-saal.svg":iS,"../../lessons/bilder/en/kino-schleifen.svg":aS,"../../lessons/bilder/en/l01-pap.svg":sS,"../../lessons/bilder/en/l02-einfuegen.svg":rS,"../../lessons/bilder/en/l04-variable.svg":oS,"../../lessons/bilder/en/l04-zuweisung.svg":lS,"../../lessons/bilder/en/l05-tauschen.svg":uS,"../../lessons/bilder/en/l08-zahlenstrahl.svg":cS,"../../lessons/bilder/en/l10-kopfgesteuert.svg":mS,"../../lessons/bilder/en/l11-vergleich.svg":dS,"../../lessons/bilder/en/l12-for-ablauf.svg":hS,"../../lessons/bilder/en/l14-array.svg":gS,"../../lessons/bilder/en/mvc-klick.svg":pS,"../../lessons/bilder/en/ss-binaere-suche.svg":fS,"../../lessons/bilder/en/ss-bubblesort.svg":xS,"../../lessons/bilder/en/ss-lineare-suche.svg":bS,"../../lessons/bilder/en/ss-vergleiche.svg":yS,"../../lessons/bilder/en/uebergabe.svg":vS,"../../lessons/bilder/en/zk-zeichen.svg":wS,"../../lessons/bilder/ike-nassi.jpg":zS,"../../lessons/bilder/kino-saal.svg":IS,"../../lessons/bilder/kino-schleifen.svg":SS,"../../lessons/bilder/l01-pap.svg":kS,"../../lessons/bilder/l02-einfuegen.svg":OS,"../../lessons/bilder/l04-variable.svg":TS,"../../lessons/bilder/l04-zuweisung.svg":AS,"../../lessons/bilder/l05-tauschen.svg":PS,"../../lessons/bilder/l08-zahlenstrahl.svg":CS,"../../lessons/bilder/l09-wahrheitstabelle.svg":ZS,"../../lessons/bilder/l10-kopfgesteuert.svg":jS,"../../lessons/bilder/l11-vergleich.svg":_S,"../../lessons/bilder/l12-for-ablauf.svg":MS,"../../lessons/bilder/l14-array.svg":DS,"../../lessons/bilder/mvc-klick.svg":BS,"../../lessons/bilder/pt/aufgabe-mehrwertsteuer.svg":WS,"../../lessons/bilder/pt/kino-saal.svg":LS,"../../lessons/bilder/pt/kino-schleifen.svg":ES,"../../lessons/bilder/pt/l01-pap.svg":NS,"../../lessons/bilder/pt/l02-einfuegen.svg":JS,"../../lessons/bilder/pt/l04-variable.svg":FS,"../../lessons/bilder/pt/l04-zuweisung.svg":GS,"../../lessons/bilder/pt/l05-tauschen.svg":RS,"../../lessons/bilder/pt/l08-zahlenstrahl.svg":HS,"../../lessons/bilder/pt/l10-kopfgesteuert.svg":QS,"../../lessons/bilder/pt/l11-vergleich.svg":VS,"../../lessons/bilder/pt/l12-for-ablauf.svg":qS,"../../lessons/bilder/pt/l14-array.svg":US,"../../lessons/bilder/pt/mvc-klick.svg":$S,"../../lessons/bilder/pt/schiffe-versenken.svg":YS,"../../lessons/bilder/pt/ss-binaere-suche.svg":XS,"../../lessons/bilder/pt/ss-bubblesort.svg":KS,"../../lessons/bilder/pt/ss-lineare-suche.svg":ek,"../../lessons/bilder/pt/ss-vergleiche.svg":tk,"../../lessons/bilder/pt/uebergabe.svg":nk,"../../lessons/bilder/pt/zk-zeichen.svg":ik,"../../lessons/bilder/schiffe-versenken.svg":ak,"../../lessons/bilder/ss-binaere-suche.svg":sk,"../../lessons/bilder/ss-bubblesort.svg":rk,"../../lessons/bilder/ss-lineare-suche.svg":ok,"../../lessons/bilder/ss-vergleiche.svg":lk,"../../lessons/bilder/uebergabe.svg":uk,"../../lessons/bilder/zk-zeichen.svg":ck}),Zk=a=>a.replace(/^.*\//,"");function b0(a,e,t){const n=s=>new Map(Object.entries(a).filter(([r])=>{var o;return((o=e.exec(r))==null?void 0:o[1])===s}).map(([r,o])=>[Zk(r),o]));return[...new Map([...n("en"),...t==="en"?[]:n(t)])]}function y0(a){return a==="de"?"de":a==="pt-PT"?"pt":"en"}let _1="en",Ft=[],M1=[],$m="",ta=[];function Tr(a){var t,n;if(a===_1&&Ft.length>0)return;_1=a;const e=b0(Tk,/\/lessons\/([^/]+)\/[^/]+\.md$/,a);Ft=e.filter(([i])=>/^\d+/.test(i)).map(([i,s])=>kk(s,`${a}/${i}`)).sort((i,s)=>i.number-s.number),M1=b0(Ak,/\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/,a).map(([i,s])=>Ok(s,`${a}/aufgaben/${i}`)).sort((i,s)=>(i.after??0)-(s.after??0)||i.level-s.level||i.title.localeCompare(s.title,a));for(const i of[...Ft.flatMap(s=>s.steps.flatMap(r=>r.blocks)),...M1.flatMap(s=>s.blocks)])i.kind==="textFile"&&Tp(i.name,i.content);$m=((t=e.find(([i])=>i==="nachschlagen.md"))==null?void 0:t[1])??"",ta=mk(((n=e.find(([i])=>i==="begriffe.md"))==null?void 0:n[1])??"")}Tr("en");function Ym(a,e){return _1==="de"?a.get(e)??a.get(`en/${e}`):(_1==="en"?void 0:a.get(`${_1}/${e}`))??a.get(`en/${e}`)??a.get(e)}const Xm=(a,e)=>a.slice(a.indexOf(e)+e.length),jk=new Map(Object.entries(Pk).map(([a,e])=>[Xm(a,"/diagramme/"),e]));function T1(a){const e=Ym(jk,a);return e===void 0?void 0:Zo(e)}const _k=new Map(Object.entries(Ck).map(([a,e])=>[Xm(a,"/bilder/"),e]));function v0(a){return Ym(_k,a)}const Km=a=>a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");function De(a){const e=[];let t=Km(a).replace(/`([^`]+)`/g,(n,i)=>(e.push(i),`\0${e.length-1}\0`));return t=t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\s][^*]*?)\*/g,"$1<em>$2</em>").replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(n,i,s)=>{const r=/^(https?:|mailto:|#|\.{0,2}\/)/.test(s)?s:"#",o=/^https?:/.test(r)?' target="_blank" rel="noopener noreferrer"':"";return`<a href="${r}"${o}>${i}</a>`}),t.replace(/\u0000(\d+)\u0000/g,(n,i)=>`<code>${e[Number(i)]}</code>`)}function Rn(a){const e=[],t=a.replace(/\r\n/g,`
+`)){const h=/^##\s+(.*)$/.exec(d);h?(u(),l={title:h[1].trim(),lines:[]}):l?l.lines.push(d):o.push(d)}if(u(),r.length===0)throw new re(`${e}: Keine Schritte (## Überschrift) gefunden.`);Sk(r,e);const c=t.get("titel");if(!c)throw new re(`${e}: „titel:“ fehlt.`);return{id:i,number:s,title:c,section:t.get("bereich")??"",summary:t.get("kurz")??o.join(" ").trim(),steps:r}}function Ok(a,e){const{meta:t,body:n}=qm(a,e),i=t.get("titel");if(!i)throw new re(`${e}: „titel:“ fehlt.`);const s=t.get("nach");return{id:e.replace(/^.*\//,"").replace(/\.md$/,""),title:i,after:s?Number(s):void 0,level:Number(t.get("stufe")??"1")||1,blocks:Um(n,e)}}const Tk=Object.assign({"../../lessons/de/01-was-ist-ein-struktogramm.md":e2,"../../lessons/de/02-der-editor.md":t2,"../../lessons/de/03-speichern-oeffnen-exportieren.md":n2,"../../lessons/de/04-variablen-und-datentypen.md":i2,"../../lessons/de/05-sequenz.md":a2,"../../lessons/de/06-eingabe-und-ausgabe.md":s2,"../../lessons/de/07-simulation-und-schreibtischtest.md":r2,"../../lessons/de/08-verzweigung.md":o2,"../../lessons/de/09-bedingungen-verknuepfen.md":l2,"../../lessons/de/10-fallauswahl.md":u2,"../../lessons/de/11-while-schleife.md":c2,"../../lessons/de/12-do-while-schleife.md":m2,"../../lessons/de/13-for-schleife.md":d2,"../../lessons/de/14-verschachteln.md":h2,"../../lessons/de/15-arrays.md":g2,"../../lessons/de/16-zweidimensionale-arrays.md":p2,"../../lessons/de/17-zeichenketten.md":f2,"../../lessons/de/18-aufruf-und-aussprung.md":x2,"../../lessons/de/19-suchen-und-sortieren.md":b2,"../../lessons/de/20-java.md":y2,"../../lessons/de/21-python-und-javascript.md":v2,"../../lessons/de/22-try-und-catch.md":w2,"../../lessons/de/23-text-einlesen-und-speichern.md":z2,"../../lessons/de/24-zeile-fuer-zeile.md":I2,"../../lessons/de/25-tabellen-als-csv.md":S2,"../../lessons/de/26-json.md":k2,"../../lessons/de/27-formate-im-vergleich.md":O2,"../../lessons/de/28-erstes-fenster.md":T2,"../../lessons/de/29-knopf-im-fenster.md":A2,"../../lessons/de/30-der-knopf-reagiert.md":P2,"../../lessons/de/31-zahl-verdoppeln.md":C2,"../../lessons/de/32-klickzaehler.md":Z2,"../../lessons/de/33-ampel.md":j2,"../../lessons/de/34-notenrechner.md":_2,"../../lessons/de/35-taschenrechner.md":M2,"../../lessons/de/36-zahlenraten.md":D2,"../../lessons/de/37-viele-knoepfe-ein-zuhoerer.md":B2,"../../lessons/de/38-innere-klassen.md":W2,"../../lessons/de/39-zwei-reiter.md":L2,"../../lessons/de/40-model-view-controller.md":E2,"../../lessons/de/begriffe.md":N2,"../../lessons/de/nachschlagen.md":J2,"../../lessons/en/01-was-ist-ein-struktogramm.md":F2,"../../lessons/en/02-der-editor.md":G2,"../../lessons/en/03-speichern-oeffnen-exportieren.md":R2,"../../lessons/en/04-variablen-und-datentypen.md":H2,"../../lessons/en/05-sequenz.md":Q2,"../../lessons/en/06-eingabe-und-ausgabe.md":V2,"../../lessons/en/07-simulation-und-schreibtischtest.md":q2,"../../lessons/en/08-verzweigung.md":U2,"../../lessons/en/09-bedingungen-verknuepfen.md":$2,"../../lessons/en/10-fallauswahl.md":Y2,"../../lessons/en/11-while-schleife.md":X2,"../../lessons/en/12-do-while-schleife.md":K2,"../../lessons/en/13-for-schleife.md":e3,"../../lessons/en/14-verschachteln.md":t3,"../../lessons/en/15-arrays.md":n3,"../../lessons/en/16-zweidimensionale-arrays.md":i3,"../../lessons/en/17-zeichenketten.md":a3,"../../lessons/en/18-aufruf-und-aussprung.md":s3,"../../lessons/en/19-suchen-und-sortieren.md":r3,"../../lessons/en/20-java.md":o3,"../../lessons/en/21-python-und-javascript.md":l3,"../../lessons/en/22-try-und-catch.md":u3,"../../lessons/en/23-text-einlesen-und-speichern.md":c3,"../../lessons/en/24-zeile-fuer-zeile.md":m3,"../../lessons/en/25-tabellen-als-csv.md":d3,"../../lessons/en/26-json.md":h3,"../../lessons/en/27-formate-im-vergleich.md":g3,"../../lessons/en/28-erstes-fenster.md":p3,"../../lessons/en/29-knopf-im-fenster.md":f3,"../../lessons/en/30-der-knopf-reagiert.md":x3,"../../lessons/en/31-zahl-verdoppeln.md":b3,"../../lessons/en/32-klickzaehler.md":y3,"../../lessons/en/33-ampel.md":v3,"../../lessons/en/34-notenrechner.md":w3,"../../lessons/en/35-taschenrechner.md":z3,"../../lessons/en/36-zahlenraten.md":I3,"../../lessons/en/37-viele-knoepfe-ein-zuhoerer.md":S3,"../../lessons/en/38-innere-klassen.md":k3,"../../lessons/en/39-zwei-reiter.md":O3,"../../lessons/en/40-model-view-controller.md":T3,"../../lessons/en/begriffe.md":A3,"../../lessons/en/nachschlagen.md":P3,"../../lessons/pt/01-was-ist-ein-struktogramm.md":C3,"../../lessons/pt/02-der-editor.md":Z3,"../../lessons/pt/03-speichern-oeffnen-exportieren.md":j3,"../../lessons/pt/04-variablen-und-datentypen.md":_3,"../../lessons/pt/05-sequenz.md":M3,"../../lessons/pt/06-eingabe-und-ausgabe.md":D3,"../../lessons/pt/07-simulation-und-schreibtischtest.md":B3,"../../lessons/pt/08-verzweigung.md":W3,"../../lessons/pt/09-bedingungen-verknuepfen.md":L3,"../../lessons/pt/10-fallauswahl.md":E3,"../../lessons/pt/11-while-schleife.md":N3,"../../lessons/pt/12-do-while-schleife.md":J3,"../../lessons/pt/13-for-schleife.md":F3,"../../lessons/pt/14-verschachteln.md":G3,"../../lessons/pt/15-arrays.md":R3,"../../lessons/pt/16-zweidimensionale-arrays.md":H3,"../../lessons/pt/17-zeichenketten.md":Q3,"../../lessons/pt/18-aufruf-und-aussprung.md":V3,"../../lessons/pt/19-suchen-und-sortieren.md":q3,"../../lessons/pt/20-java.md":U3,"../../lessons/pt/21-python-und-javascript.md":$3,"../../lessons/pt/22-try-und-catch.md":Y3,"../../lessons/pt/23-text-einlesen-und-speichern.md":X3,"../../lessons/pt/24-zeile-fuer-zeile.md":K3,"../../lessons/pt/25-tabellen-als-csv.md":ex,"../../lessons/pt/26-json.md":tx,"../../lessons/pt/27-formate-im-vergleich.md":nx,"../../lessons/pt/28-erstes-fenster.md":ix,"../../lessons/pt/29-knopf-im-fenster.md":ax,"../../lessons/pt/30-der-knopf-reagiert.md":sx,"../../lessons/pt/31-zahl-verdoppeln.md":rx,"../../lessons/pt/32-klickzaehler.md":ox,"../../lessons/pt/33-ampel.md":lx,"../../lessons/pt/34-notenrechner.md":ux,"../../lessons/pt/35-taschenrechner.md":cx,"../../lessons/pt/36-zahlenraten.md":mx,"../../lessons/pt/37-viele-knoepfe-ein-zuhoerer.md":dx,"../../lessons/pt/38-innere-klassen.md":hx,"../../lessons/pt/39-zwei-reiter.md":gx,"../../lessons/pt/40-model-view-controller.md":px,"../../lessons/pt/begriffe.md":fx,"../../lessons/pt/nachschlagen.md":xx}),Ak=Object.assign({"../../lessons/de/aufgaben/alter-unterprogramm.md":bx,"../../lessons/de/aufgaben/ballwurf.md":yx,"../../lessons/de/aufgaben/bestenliste.md":vx,"../../lessons/de/aufgaben/binaerzahl.md":wx,"../../lessons/de/aufgaben/caesar.md":zx,"../../lessons/de/aufgaben/collatz.md":Ix,"../../lessons/de/aufgaben/einheitenrechner.md":Sx,"../../lessons/de/aufgaben/fibonacci.md":kx,"../../lessons/de/aufgaben/gerade-ungerade.md":Ox,"../../lessons/de/aufgaben/mehrwertsteuer.md":Tx,"../../lessons/de/aufgaben/notendurchschnitt.md":Ax,"../../lessons/de/aufgaben/pin-pruefen.md":Px,"../../lessons/de/aufgaben/schiffe-versenken.md":Cx,"../../lessons/de/aufgaben/speisekarte.md":Zx,"../../lessons/de/aufgaben/summe-bilden.md":jx,"../../lessons/de/aufgaben/tafeldienst.md":_x,"../../lessons/de/aufgaben/taschenrechner.md":Mx,"../../lessons/de/aufgaben/verleih-menue.md":Dx,"../../lessons/de/aufgaben/vokabeltrainer.md":Bx,"../../lessons/de/aufgaben/volljaehrig.md":Wx,"../../lessons/de/aufgaben/wuerfel-mvc.md":Lx,"../../lessons/de/aufgaben/zahl-verdoppeln.md":Ex,"../../lessons/en/aufgaben/alter-unterprogramm.md":Nx,"../../lessons/en/aufgaben/ballwurf.md":Jx,"../../lessons/en/aufgaben/bestenliste.md":Fx,"../../lessons/en/aufgaben/binaerzahl.md":Gx,"../../lessons/en/aufgaben/caesar.md":Rx,"../../lessons/en/aufgaben/collatz.md":Hx,"../../lessons/en/aufgaben/einheitenrechner.md":Qx,"../../lessons/en/aufgaben/fibonacci.md":Vx,"../../lessons/en/aufgaben/gerade-ungerade.md":qx,"../../lessons/en/aufgaben/mehrwertsteuer.md":Ux,"../../lessons/en/aufgaben/notendurchschnitt.md":$x,"../../lessons/en/aufgaben/pin-pruefen.md":Yx,"../../lessons/en/aufgaben/schiffe-versenken.md":Xx,"../../lessons/en/aufgaben/speisekarte.md":Kx,"../../lessons/en/aufgaben/summe-bilden.md":eb,"../../lessons/en/aufgaben/tafeldienst.md":tb,"../../lessons/en/aufgaben/taschenrechner.md":nb,"../../lessons/en/aufgaben/verleih-menue.md":ib,"../../lessons/en/aufgaben/vokabeltrainer.md":ab,"../../lessons/en/aufgaben/volljaehrig.md":sb,"../../lessons/en/aufgaben/wuerfel-mvc.md":rb,"../../lessons/en/aufgaben/zahl-verdoppeln.md":ob,"../../lessons/pt/aufgaben/alter-unterprogramm.md":lb,"../../lessons/pt/aufgaben/ballwurf.md":ub,"../../lessons/pt/aufgaben/bestenliste.md":cb,"../../lessons/pt/aufgaben/binaerzahl.md":mb,"../../lessons/pt/aufgaben/caesar.md":db,"../../lessons/pt/aufgaben/collatz.md":hb,"../../lessons/pt/aufgaben/einheitenrechner.md":gb,"../../lessons/pt/aufgaben/fibonacci.md":pb,"../../lessons/pt/aufgaben/gerade-ungerade.md":fb,"../../lessons/pt/aufgaben/mehrwertsteuer.md":xb,"../../lessons/pt/aufgaben/notendurchschnitt.md":bb,"../../lessons/pt/aufgaben/pin-pruefen.md":yb,"../../lessons/pt/aufgaben/schiffe-versenken.md":vb,"../../lessons/pt/aufgaben/speisekarte.md":wb,"../../lessons/pt/aufgaben/summe-bilden.md":zb,"../../lessons/pt/aufgaben/tafeldienst.md":Ib,"../../lessons/pt/aufgaben/taschenrechner.md":Sb,"../../lessons/pt/aufgaben/verleih-menue.md":kb,"../../lessons/pt/aufgaben/vokabeltrainer.md":Ob,"../../lessons/pt/aufgaben/volljaehrig.md":Tb,"../../lessons/pt/aufgaben/wuerfel-mvc.md":Ab,"../../lessons/pt/aufgaben/zahl-verdoppeln.md":Pb}),Pk=Object.assign({"../../lessons/diagramme/aufgabe-alter-haupt-loesung.visustruct":Cb,"../../lessons/diagramme/aufgabe-alter-unterprogramm-loesung.visustruct":Zb,"../../lessons/diagramme/aufgabe-ballwurf-loesung.visustruct":jb,"../../lessons/diagramme/aufgabe-ballwurf-start.visustruct":_b,"../../lessons/diagramme/aufgabe-bestenliste-loesung.visustruct":Mb,"../../lessons/diagramme/aufgabe-binaer-loesung.visustruct":Db,"../../lessons/diagramme/aufgabe-caesar-array-loesung.visustruct":Bb,"../../lessons/diagramme/aufgabe-caesar-array-start.visustruct":Wb,"../../lessons/diagramme/aufgabe-caesar-ascii-loesung.visustruct":Lb,"../../lessons/diagramme/aufgabe-caesar-entschluesseln-loesung.visustruct":Eb,"../../lessons/diagramme/aufgabe-collatz-loesung.visustruct":Nb,"../../lessons/diagramme/aufgabe-durchschnitt-loesung.visustruct":Jb,"../../lessons/diagramme/aufgabe-fibonacci-loesung.visustruct":Fb,"../../lessons/diagramme/aufgabe-gerade-loesung.visustruct":Gb,"../../lessons/diagramme/aufgabe-mehrwertsteuer-loesung.visustruct":Rb,"../../lessons/diagramme/aufgabe-pin-java-loesung.visustruct":Hb,"../../lessons/diagramme/aufgabe-pin-loesung.visustruct":Qb,"../../lessons/diagramme/aufgabe-rechner-loesung.visustruct":Vb,"../../lessons/diagramme/aufgabe-schiffe-loesung.visustruct":qb,"../../lessons/diagramme/aufgabe-schiffe-start.visustruct":Ub,"../../lessons/diagramme/aufgabe-speisekarte-loesung.visustruct":$b,"../../lessons/diagramme/aufgabe-summe-loesung.visustruct":Yb,"../../lessons/diagramme/aufgabe-tafeldienst-loesung.visustruct":Xb,"../../lessons/diagramme/aufgabe-verdoppeln-loesung.visustruct":Kb,"../../lessons/diagramme/aufgabe-verleih-java-loesung.visustruct":e4,"../../lessons/diagramme/aufgabe-verleih-loesung.visustruct":t4,"../../lessons/diagramme/aufgabe-vokabeln-loesung.visustruct":n4,"../../lessons/diagramme/aufgabe-vokabeln-start.visustruct":i4,"../../lessons/diagramme/aufgabe-volljaehrig-loesung.visustruct":a4,"../../lessons/diagramme/dt-buffered.visustruct":s4,"../../lessons/diagramme/dt-csv.visustruct":r4,"../../lessons/diagramme/dt-json.visustruct":o4,"../../lessons/diagramme/dt-lesen.visustruct":l4,"../../lessons/diagramme/en/aufgabe-alter-haupt-loesung.visustruct":u4,"../../lessons/diagramme/en/aufgabe-alter-unterprogramm-loesung.visustruct":c4,"../../lessons/diagramme/en/aufgabe-ballwurf-loesung.visustruct":m4,"../../lessons/diagramme/en/aufgabe-ballwurf-start.visustruct":d4,"../../lessons/diagramme/en/aufgabe-bestenliste-loesung.visustruct":h4,"../../lessons/diagramme/en/aufgabe-binaer-loesung.visustruct":g4,"../../lessons/diagramme/en/aufgabe-caesar-array-loesung.visustruct":p4,"../../lessons/diagramme/en/aufgabe-caesar-array-start.visustruct":f4,"../../lessons/diagramme/en/aufgabe-caesar-ascii-loesung.visustruct":x4,"../../lessons/diagramme/en/aufgabe-caesar-entschluesseln-loesung.visustruct":b4,"../../lessons/diagramme/en/aufgabe-collatz-loesung.visustruct":y4,"../../lessons/diagramme/en/aufgabe-durchschnitt-loesung.visustruct":v4,"../../lessons/diagramme/en/aufgabe-fibonacci-loesung.visustruct":w4,"../../lessons/diagramme/en/aufgabe-gerade-loesung.visustruct":z4,"../../lessons/diagramme/en/aufgabe-mehrwertsteuer-loesung.visustruct":I4,"../../lessons/diagramme/en/aufgabe-pin-java-loesung.visustruct":S4,"../../lessons/diagramme/en/aufgabe-pin-loesung.visustruct":k4,"../../lessons/diagramme/en/aufgabe-rechner-loesung.visustruct":O4,"../../lessons/diagramme/en/aufgabe-schiffe-loesung.visustruct":T4,"../../lessons/diagramme/en/aufgabe-schiffe-start.visustruct":A4,"../../lessons/diagramme/en/aufgabe-speisekarte-loesung.visustruct":P4,"../../lessons/diagramme/en/aufgabe-summe-loesung.visustruct":C4,"../../lessons/diagramme/en/aufgabe-tafeldienst-loesung.visustruct":Z4,"../../lessons/diagramme/en/aufgabe-verdoppeln-loesung.visustruct":j4,"../../lessons/diagramme/en/aufgabe-verleih-java-loesung.visustruct":_4,"../../lessons/diagramme/en/aufgabe-verleih-loesung.visustruct":M4,"../../lessons/diagramme/en/aufgabe-vokabeln-loesung.visustruct":D4,"../../lessons/diagramme/en/aufgabe-vokabeln-start.visustruct":B4,"../../lessons/diagramme/en/aufgabe-volljaehrig-loesung.visustruct":W4,"../../lessons/diagramme/en/dt-buffered.visustruct":L4,"../../lessons/diagramme/en/dt-csv.visustruct":E4,"../../lessons/diagramme/en/dt-json.visustruct":N4,"../../lessons/diagramme/en/dt-lesen.visustruct":J4,"../../lessons/diagramme/en/kino-einmaleins-loesung.visustruct":F4,"../../lessons/diagramme/en/kino-frei-loesung.visustruct":G4,"../../lessons/diagramme/en/kino-frei-start.visustruct":R4,"../../lessons/diagramme/en/kino-karte-loesung.visustruct":H4,"../../lessons/diagramme/en/kino-karte-start.visustruct":Q4,"../../lessons/diagramme/en/kino-saalplan.visustruct":V4,"../../lessons/diagramme/en/kino-verkaufen.visustruct":q4,"../../lessons/diagramme/en/l04-java-steckbrief-loesung.visustruct":U4,"../../lessons/diagramme/en/l04-rechnen.visustruct":$4,"../../lessons/diagramme/en/l04-reihenfolge-loesung.visustruct":Y4,"../../lessons/diagramme/en/l04-reihenfolge-start.visustruct":X4,"../../lessons/diagramme/en/l04-tauschen-loesung.visustruct":K4,"../../lessons/diagramme/en/l04-tauschen-start.visustruct":ey,"../../lessons/diagramme/en/l04-tauschen.visustruct":ty,"../../lessons/diagramme/en/l05-datentypen.visustruct":ny,"../../lessons/diagramme/en/l05-division.visustruct":iy,"../../lessons/diagramme/en/l05-einkauf-loesung.visustruct":ay,"../../lessons/diagramme/en/l05-java-kino-loesung.visustruct":sy,"../../lessons/diagramme/en/l05-rechteck-loesung.visustruct":ry,"../../lessons/diagramme/en/l05-sekunden-loesung.visustruct":oy,"../../lessons/diagramme/en/l05-sekunden-start.visustruct":ly,"../../lessons/diagramme/en/l06-begruessung-loesung.visustruct":uy,"../../lessons/diagramme/en/l06-eva.visustruct":cy,"../../lessons/diagramme/en/l06-java-tage-loesung.visustruct":my,"../../lessons/diagramme/en/l06-mittelwert-loesung.visustruct":dy,"../../lessons/diagramme/en/l06-rechner-loesung.visustruct":hy,"../../lessons/diagramme/en/l07-alter-pruefen.visustruct":gy,"../../lessons/diagramme/en/l07-betrag-loesung.visustruct":py,"../../lessons/diagramme/en/l07-gerade-loesung.visustruct":fy,"../../lessons/diagramme/en/l07-java-pizza-loesung.visustruct":xy,"../../lessons/diagramme/en/l07-java-pizza-start.visustruct":by,"../../lessons/diagramme/en/l07-maximum-loesung.visustruct":yy,"../../lessons/diagramme/en/l07-rabatt.visustruct":vy,"../../lessons/diagramme/en/l08-gueltig-loesung.visustruct":wy,"../../lessons/diagramme/en/l08-java-bestanden-loesung.visustruct":zy,"../../lessons/diagramme/en/l08-jugendticket.visustruct":Iy,"../../lessons/diagramme/en/l08-note.visustruct":Sy,"../../lessons/diagramme/en/l08-schaltjahr-loesung.visustruct":ky,"../../lessons/diagramme/en/l08-wochenende-loesung.visustruct":Oy,"../../lessons/diagramme/en/l09-ampel.visustruct":Ty,"../../lessons/diagramme/en/l09-automat.visustruct":Ay,"../../lessons/diagramme/en/l09-java-schule-loesung.visustruct":Py,"../../lessons/diagramme/en/l09-note-loesung.visustruct":Cy,"../../lessons/diagramme/en/l09-rechner-loesung.visustruct":Zy,"../../lessons/diagramme/en/l09-verschachtelt.visustruct":jy,"../../lessons/diagramme/en/l1-grundbausteine.visustruct":_y,"../../lessons/diagramme/en/l1-sequenz.visustruct":My,"../../lessons/diagramme/en/l1-tee.visustruct":Dy,"../../lessons/diagramme/en/l1-verzweigung.visustruct":By,"../../lessons/diagramme/en/l1-wiederholung.visustruct":Wy,"../../lessons/diagramme/en/l10-bis-n-loesung.visustruct":Ly,"../../lessons/diagramme/en/l10-countdown.visustruct":Ey,"../../lessons/diagramme/en/l10-endlos.visustruct":Ny,"../../lessons/diagramme/en/l10-fakultaet.visustruct":Jy,"../../lessons/diagramme/en/l10-java-wuerfel-loesung.visustruct":Fy,"../../lessons/diagramme/en/l10-verdoppeln-loesung.visustruct":Gy,"../../lessons/diagramme/en/l11-eingabe-pruefen.visustruct":Ry,"../../lessons/diagramme/en/l11-einmal.visustruct":Hy,"../../lessons/diagramme/en/l11-java-gerade-loesung.visustruct":Qy,"../../lessons/diagramme/en/l11-note-loesung.visustruct":Vy,"../../lessons/diagramme/en/l11-summe-loesung.visustruct":qy,"../../lessons/diagramme/en/l12-countdown-loesung.visustruct":Uy,"../../lessons/diagramme/en/l12-einmaleins-loesung.visustruct":$y,"../../lessons/diagramme/en/l12-eins-bis-fuenf.visustruct":Yy,"../../lessons/diagramme/en/l12-java-verdoppeln-loesung.visustruct":Xy,"../../lessons/diagramme/en/l12-summe.visustruct":Ky,"../../lessons/diagramme/en/l13-dreieck.visustruct":ev,"../../lessons/diagramme/en/l13-gerade-eingaben-loesung.visustruct":tv,"../../lessons/diagramme/en/l13-gerade-zaehlen.visustruct":nv,"../../lessons/diagramme/en/l13-java-quadrate-loesung.visustruct":iv,"../../lessons/diagramme/en/l13-rechteck-loesung.visustruct":av,"../../lessons/diagramme/en/l14-array-durchlaufen.visustruct":sv,"../../lessons/diagramme/en/l14-erster-letzter-loesung.visustruct":rv,"../../lessons/diagramme/en/l14-java-treppe-loesung.visustruct":ov,"../../lessons/diagramme/en/l14-namen-eingeben.visustruct":lv,"../../lessons/diagramme/en/l14-rueckwaerts-loesung.visustruct":uv,"../../lessons/diagramme/en/l14-summe-max-loesung.visustruct":cv,"../../lessons/diagramme/en/l14-summe-maximum.visustruct":mv,"../../lessons/diagramme/en/l15-bis-null-loesung.visustruct":dv,"../../lessons/diagramme/en/l15-endlos-aussprung.visustruct":hv,"../../lessons/diagramme/en/l15-flaeche-loesung.visustruct":gv,"../../lessons/diagramme/en/l15-flaeche-unterprogramm-loesung.visustruct":pv,"../../lessons/diagramme/en/l15-hauptprogramm.visustruct":fv,"../../lessons/diagramme/en/l15-java-noten-loesung.visustruct":xv,"../../lessons/diagramme/en/l15-quadrat-haupt.visustruct":bv,"../../lessons/diagramme/en/l15-quadrat.visustruct":yv,"../../lessons/diagramme/en/l15-titel-loesung.visustruct":vv,"../../lessons/diagramme/en/l15-unterprogramm.visustruct":wv,"../../lessons/diagramme/en/l15-zeige-summe-haupt.visustruct":zv,"../../lessons/diagramme/en/l15-zeige-summe.visustruct":Iv,"../../lessons/diagramme/en/l16-countdown-loesung.visustruct":Sv,"../../lessons/diagramme/en/l16-countdown-start.visustruct":kv,"../../lessons/diagramme/en/l16-java-punkte-loesung.visustruct":Ov,"../../lessons/diagramme/en/l16-schreibtisch.visustruct":Tv,"../../lessons/diagramme/en/l16-summe-loesung.visustruct":Av,"../../lessons/diagramme/en/l16-summe-start.visustruct":Pv,"../../lessons/diagramme/en/l17-beispiel.visustruct":Cv,"../../lessons/diagramme/en/l17-fakultaet-loesung.visustruct":Zv,"../../lessons/diagramme/en/l17-java-brief-loesung.visustruct":jv,"../../lessons/diagramme/en/l17-java-brief-start.visustruct":_v,"../../lessons/diagramme/en/l17-java-passwort-loesung.visustruct":Mv,"../../lessons/diagramme/en/l17-ticket-loesung.visustruct":Dv,"../../lessons/diagramme/en/l18-beispiel.visustruct":Bv,"../../lessons/diagramme/en/l18-java-kasse-loesung.visustruct":Wv,"../../lessons/diagramme/en/l18-js-loesung.visustruct":Lv,"../../lessons/diagramme/en/l18-python-loesung.visustruct":Ev,"../../lessons/diagramme/en/l19-java-zaehlen-loesung.visustruct":Nv,"../../lessons/diagramme/en/l2-ausgabe.visustruct":Jv,"../../lessons/diagramme/en/l2-hallo-loesung.visustruct":Fv,"../../lessons/diagramme/en/l2-zwei-zeilen-loesung.visustruct":Gv,"../../lessons/diagramme/en/l23-java-ergaenzen-loesung.visustruct":Rv,"../../lessons/diagramme/en/l23-java-ergaenzen-start.visustruct":Hv,"../../lessons/diagramme/en/l23-java-nummern-loesung.visustruct":Qv,"../../lessons/diagramme/en/l23-java-nummern-start.visustruct":Vv,"../../lessons/diagramme/en/l24-java-fuchs-loesung.visustruct":qv,"../../lessons/diagramme/en/l24-java-fuchs-start.visustruct":Uv,"../../lessons/diagramme/en/l24-java-laengster-loesung.visustruct":$v,"../../lessons/diagramme/en/l24-java-laengster-start.visustruct":Yv,"../../lessons/diagramme/en/l25-java-beste-loesung.visustruct":Xv,"../../lessons/diagramme/en/l25-java-beste-start.visustruct":Kv,"../../lessons/diagramme/en/l25-java-schnitt-loesung.visustruct":e9,"../../lessons/diagramme/en/l25-java-schnitt-start.visustruct":t9,"../../lessons/diagramme/en/l26-java-namen-loesung.visustruct":n9,"../../lessons/diagramme/en/l26-java-namen-start.visustruct":i9,"../../lessons/diagramme/en/l26-java-schreiben-loesung.visustruct":a9,"../../lessons/diagramme/en/l26-java-schreiben-start.visustruct":s9,"../../lessons/diagramme/en/l27-java-json-loesung.visustruct":r9,"../../lessons/diagramme/en/l27-java-json-start.visustruct":o9,"../../lessons/diagramme/en/l27-java-saetze-loesung.visustruct":l9,"../../lessons/diagramme/en/l27-java-saetze-start.visustruct":u9,"../../lessons/diagramme/en/sim-kino-loesung.visustruct":c9,"../../lessons/diagramme/en/sim-kino-start.visustruct":m9,"../../lessons/diagramme/en/sim-tausch-loesung.visustruct":d9,"../../lessons/diagramme/en/sim-tausch-start.visustruct":h9,"../../lessons/diagramme/en/sim-tausch.visustruct":g9,"../../lessons/diagramme/en/ss-absteigend-loesung.visustruct":p9,"../../lessons/diagramme/en/ss-absteigend-start.visustruct":f9,"../../lessons/diagramme/en/ss-binaere-suche.visustruct":x9,"../../lessons/diagramme/en/ss-bubblesort.visustruct":b9,"../../lessons/diagramme/en/ss-karte-suchen-loesung.visustruct":y9,"../../lessons/diagramme/en/ss-lineare-suche.visustruct":v9,"../../lessons/diagramme/en/uebergabe-bonus-loesung.visustruct":w9,"../../lessons/diagramme/en/uebergabe-bonus-start.visustruct":z9,"../../lessons/diagramme/en/uebergabe-bonus-unterprogramm-loesung.visustruct":I9,"../../lessons/diagramme/en/uebergabe-haupt.visustruct":S9,"../../lessons/diagramme/en/uebergabe-leeren.visustruct":k9,"../../lessons/diagramme/en/uebergabe-verdopple.visustruct":O9,"../../lessons/diagramme/en/zk-initialen-loesung.visustruct":T9,"../../lessons/diagramme/en/zk-mehr.visustruct":A9,"../../lessons/diagramme/en/zk-rueckwaerts-loesung.visustruct":P9,"../../lessons/diagramme/en/zk-split.visustruct":C9,"../../lessons/diagramme/en/zk-woerter-loesung.visustruct":Z9,"../../lessons/diagramme/en/zk-zaehlen.visustruct":j9,"../../lessons/diagramme/en/zk-zeichen.visustruct":_9,"../../lessons/diagramme/kino-einmaleins-loesung.visustruct":M9,"../../lessons/diagramme/kino-frei-loesung.visustruct":D9,"../../lessons/diagramme/kino-frei-start.visustruct":B9,"../../lessons/diagramme/kino-karte-loesung.visustruct":W9,"../../lessons/diagramme/kino-karte-start.visustruct":L9,"../../lessons/diagramme/kino-saalplan.visustruct":E9,"../../lessons/diagramme/kino-verkaufen.visustruct":N9,"../../lessons/diagramme/l04-java-steckbrief-loesung.visustruct":J9,"../../lessons/diagramme/l04-rechnen.visustruct":F9,"../../lessons/diagramme/l04-reihenfolge-loesung.visustruct":G9,"../../lessons/diagramme/l04-reihenfolge-start.visustruct":R9,"../../lessons/diagramme/l04-tauschen-loesung.visustruct":H9,"../../lessons/diagramme/l04-tauschen-start.visustruct":Q9,"../../lessons/diagramme/l04-tauschen.visustruct":V9,"../../lessons/diagramme/l05-datentypen.visustruct":q9,"../../lessons/diagramme/l05-division.visustruct":U9,"../../lessons/diagramme/l05-einkauf-loesung.visustruct":$9,"../../lessons/diagramme/l05-java-kino-loesung.visustruct":Y9,"../../lessons/diagramme/l05-rechteck-loesung.visustruct":X9,"../../lessons/diagramme/l05-sekunden-loesung.visustruct":K9,"../../lessons/diagramme/l05-sekunden-start.visustruct":ew,"../../lessons/diagramme/l06-begruessung-loesung.visustruct":tw,"../../lessons/diagramme/l06-eva.visustruct":nw,"../../lessons/diagramme/l06-java-tage-loesung.visustruct":iw,"../../lessons/diagramme/l06-mittelwert-loesung.visustruct":aw,"../../lessons/diagramme/l06-rechner-loesung.visustruct":sw,"../../lessons/diagramme/l07-alter-pruefen.visustruct":rw,"../../lessons/diagramme/l07-betrag-loesung.visustruct":ow,"../../lessons/diagramme/l07-gerade-loesung.visustruct":lw,"../../lessons/diagramme/l07-java-pizza-loesung.visustruct":uw,"../../lessons/diagramme/l07-java-pizza-start.visustruct":cw,"../../lessons/diagramme/l07-maximum-loesung.visustruct":mw,"../../lessons/diagramme/l07-rabatt.visustruct":dw,"../../lessons/diagramme/l08-gueltig-loesung.visustruct":hw,"../../lessons/diagramme/l08-java-bestanden-loesung.visustruct":gw,"../../lessons/diagramme/l08-jugendticket.visustruct":pw,"../../lessons/diagramme/l08-note.visustruct":fw,"../../lessons/diagramme/l08-schaltjahr-loesung.visustruct":xw,"../../lessons/diagramme/l08-wochenende-loesung.visustruct":bw,"../../lessons/diagramme/l09-ampel.visustruct":yw,"../../lessons/diagramme/l09-automat.visustruct":vw,"../../lessons/diagramme/l09-java-schule-loesung.visustruct":ww,"../../lessons/diagramme/l09-note-loesung.visustruct":zw,"../../lessons/diagramme/l09-rechner-loesung.visustruct":Iw,"../../lessons/diagramme/l09-verschachtelt.visustruct":Sw,"../../lessons/diagramme/l1-grundbausteine.visustruct":kw,"../../lessons/diagramme/l1-sequenz.visustruct":Ow,"../../lessons/diagramme/l1-tee.visustruct":Tw,"../../lessons/diagramme/l1-verzweigung.visustruct":Aw,"../../lessons/diagramme/l1-wiederholung.visustruct":Pw,"../../lessons/diagramme/l10-bis-n-loesung.visustruct":Cw,"../../lessons/diagramme/l10-countdown.visustruct":Zw,"../../lessons/diagramme/l10-endlos.visustruct":jw,"../../lessons/diagramme/l10-fakultaet.visustruct":_w,"../../lessons/diagramme/l10-java-wuerfel-loesung.visustruct":Mw,"../../lessons/diagramme/l10-verdoppeln-loesung.visustruct":Dw,"../../lessons/diagramme/l11-eingabe-pruefen.visustruct":Bw,"../../lessons/diagramme/l11-einmal.visustruct":Ww,"../../lessons/diagramme/l11-java-gerade-loesung.visustruct":Lw,"../../lessons/diagramme/l11-note-loesung.visustruct":Ew,"../../lessons/diagramme/l11-summe-loesung.visustruct":Nw,"../../lessons/diagramme/l12-countdown-loesung.visustruct":Jw,"../../lessons/diagramme/l12-einmaleins-loesung.visustruct":Fw,"../../lessons/diagramme/l12-eins-bis-fuenf.visustruct":Gw,"../../lessons/diagramme/l12-java-verdoppeln-loesung.visustruct":Rw,"../../lessons/diagramme/l12-summe.visustruct":Hw,"../../lessons/diagramme/l13-dreieck.visustruct":Qw,"../../lessons/diagramme/l13-gerade-eingaben-loesung.visustruct":Vw,"../../lessons/diagramme/l13-gerade-zaehlen.visustruct":qw,"../../lessons/diagramme/l13-java-quadrate-loesung.visustruct":Uw,"../../lessons/diagramme/l13-rechteck-loesung.visustruct":$w,"../../lessons/diagramme/l14-array-durchlaufen.visustruct":Yw,"../../lessons/diagramme/l14-erster-letzter-loesung.visustruct":Xw,"../../lessons/diagramme/l14-java-treppe-loesung.visustruct":Kw,"../../lessons/diagramme/l14-namen-eingeben.visustruct":e5,"../../lessons/diagramme/l14-rueckwaerts-loesung.visustruct":t5,"../../lessons/diagramme/l14-summe-max-loesung.visustruct":n5,"../../lessons/diagramme/l14-summe-maximum.visustruct":i5,"../../lessons/diagramme/l15-bis-null-loesung.visustruct":a5,"../../lessons/diagramme/l15-endlos-aussprung.visustruct":s5,"../../lessons/diagramme/l15-flaeche-loesung.visustruct":r5,"../../lessons/diagramme/l15-flaeche-unterprogramm-loesung.visustruct":o5,"../../lessons/diagramme/l15-hauptprogramm.visustruct":l5,"../../lessons/diagramme/l15-java-noten-loesung.visustruct":u5,"../../lessons/diagramme/l15-quadrat-haupt.visustruct":c5,"../../lessons/diagramme/l15-quadrat.visustruct":m5,"../../lessons/diagramme/l15-titel-loesung.visustruct":d5,"../../lessons/diagramme/l15-unterprogramm.visustruct":h5,"../../lessons/diagramme/l15-zeige-summe-haupt.visustruct":g5,"../../lessons/diagramme/l15-zeige-summe.visustruct":p5,"../../lessons/diagramme/l16-countdown-loesung.visustruct":f5,"../../lessons/diagramme/l16-countdown-start.visustruct":x5,"../../lessons/diagramme/l16-java-punkte-loesung.visustruct":b5,"../../lessons/diagramme/l16-schreibtisch.visustruct":y5,"../../lessons/diagramme/l16-summe-loesung.visustruct":v5,"../../lessons/diagramme/l16-summe-start.visustruct":w5,"../../lessons/diagramme/l17-beispiel.visustruct":z5,"../../lessons/diagramme/l17-fakultaet-loesung.visustruct":I5,"../../lessons/diagramme/l17-java-brief-loesung.visustruct":S5,"../../lessons/diagramme/l17-java-brief-start.visustruct":k5,"../../lessons/diagramme/l17-java-passwort-loesung.visustruct":O5,"../../lessons/diagramme/l17-ticket-loesung.visustruct":T5,"../../lessons/diagramme/l18-beispiel.visustruct":A5,"../../lessons/diagramme/l18-java-kasse-loesung.visustruct":P5,"../../lessons/diagramme/l18-js-loesung.visustruct":C5,"../../lessons/diagramme/l18-python-loesung.visustruct":Z5,"../../lessons/diagramme/l19-java-zaehlen-loesung.visustruct":j5,"../../lessons/diagramme/l2-ausgabe.visustruct":_5,"../../lessons/diagramme/l2-hallo-loesung.visustruct":M5,"../../lessons/diagramme/l2-zwei-zeilen-loesung.visustruct":D5,"../../lessons/diagramme/l20-countdown-loesung.visustruct":B5,"../../lessons/diagramme/l23-java-ergaenzen-loesung.visustruct":W5,"../../lessons/diagramme/l23-java-ergaenzen-start.visustruct":L5,"../../lessons/diagramme/l23-java-nummern-loesung.visustruct":E5,"../../lessons/diagramme/l23-java-nummern-start.visustruct":N5,"../../lessons/diagramme/l24-java-fuchs-loesung.visustruct":J5,"../../lessons/diagramme/l24-java-fuchs-start.visustruct":F5,"../../lessons/diagramme/l24-java-laengster-loesung.visustruct":G5,"../../lessons/diagramme/l24-java-laengster-start.visustruct":R5,"../../lessons/diagramme/l25-java-beste-loesung.visustruct":H5,"../../lessons/diagramme/l25-java-beste-start.visustruct":Q5,"../../lessons/diagramme/l25-java-schnitt-loesung.visustruct":V5,"../../lessons/diagramme/l25-java-schnitt-start.visustruct":q5,"../../lessons/diagramme/l26-java-namen-loesung.visustruct":U5,"../../lessons/diagramme/l26-java-namen-start.visustruct":$5,"../../lessons/diagramme/l26-java-schreiben-loesung.visustruct":Y5,"../../lessons/diagramme/l26-java-schreiben-start.visustruct":X5,"../../lessons/diagramme/l27-java-json-loesung.visustruct":K5,"../../lessons/diagramme/l27-java-json-start.visustruct":ez,"../../lessons/diagramme/l27-java-saetze-loesung.visustruct":tz,"../../lessons/diagramme/l27-java-saetze-start.visustruct":nz,"../../lessons/diagramme/pt/aufgabe-alter-haupt-loesung.visustruct":iz,"../../lessons/diagramme/pt/aufgabe-alter-unterprogramm-loesung.visustruct":az,"../../lessons/diagramme/pt/aufgabe-ballwurf-loesung.visustruct":sz,"../../lessons/diagramme/pt/aufgabe-ballwurf-start.visustruct":rz,"../../lessons/diagramme/pt/aufgabe-bestenliste-loesung.visustruct":oz,"../../lessons/diagramme/pt/aufgabe-binaer-loesung.visustruct":lz,"../../lessons/diagramme/pt/aufgabe-caesar-array-loesung.visustruct":uz,"../../lessons/diagramme/pt/aufgabe-caesar-array-start.visustruct":cz,"../../lessons/diagramme/pt/aufgabe-caesar-ascii-loesung.visustruct":mz,"../../lessons/diagramme/pt/aufgabe-caesar-entschluesseln-loesung.visustruct":dz,"../../lessons/diagramme/pt/aufgabe-collatz-loesung.visustruct":hz,"../../lessons/diagramme/pt/aufgabe-durchschnitt-loesung.visustruct":gz,"../../lessons/diagramme/pt/aufgabe-fibonacci-loesung.visustruct":pz,"../../lessons/diagramme/pt/aufgabe-gerade-loesung.visustruct":fz,"../../lessons/diagramme/pt/aufgabe-mehrwertsteuer-loesung.visustruct":xz,"../../lessons/diagramme/pt/aufgabe-pin-java-loesung.visustruct":bz,"../../lessons/diagramme/pt/aufgabe-pin-loesung.visustruct":yz,"../../lessons/diagramme/pt/aufgabe-rechner-loesung.visustruct":vz,"../../lessons/diagramme/pt/aufgabe-schiffe-loesung.visustruct":wz,"../../lessons/diagramme/pt/aufgabe-schiffe-start.visustruct":zz,"../../lessons/diagramme/pt/aufgabe-speisekarte-loesung.visustruct":Iz,"../../lessons/diagramme/pt/aufgabe-summe-loesung.visustruct":Sz,"../../lessons/diagramme/pt/aufgabe-tafeldienst-loesung.visustruct":kz,"../../lessons/diagramme/pt/aufgabe-verdoppeln-loesung.visustruct":Oz,"../../lessons/diagramme/pt/aufgabe-verleih-java-loesung.visustruct":Tz,"../../lessons/diagramme/pt/aufgabe-verleih-loesung.visustruct":Az,"../../lessons/diagramme/pt/aufgabe-vokabeln-loesung.visustruct":Pz,"../../lessons/diagramme/pt/aufgabe-vokabeln-start.visustruct":Cz,"../../lessons/diagramme/pt/aufgabe-volljaehrig-loesung.visustruct":Zz,"../../lessons/diagramme/pt/dt-buffered.visustruct":jz,"../../lessons/diagramme/pt/dt-csv.visustruct":_z,"../../lessons/diagramme/pt/dt-json.visustruct":Mz,"../../lessons/diagramme/pt/dt-lesen.visustruct":Dz,"../../lessons/diagramme/pt/kino-einmaleins-loesung.visustruct":Bz,"../../lessons/diagramme/pt/kino-frei-loesung.visustruct":Wz,"../../lessons/diagramme/pt/kino-frei-start.visustruct":Lz,"../../lessons/diagramme/pt/kino-karte-loesung.visustruct":Ez,"../../lessons/diagramme/pt/kino-karte-start.visustruct":Nz,"../../lessons/diagramme/pt/kino-saalplan.visustruct":Jz,"../../lessons/diagramme/pt/kino-verkaufen.visustruct":Fz,"../../lessons/diagramme/pt/l04-java-steckbrief-loesung.visustruct":Gz,"../../lessons/diagramme/pt/l04-rechnen.visustruct":Rz,"../../lessons/diagramme/pt/l04-reihenfolge-loesung.visustruct":Hz,"../../lessons/diagramme/pt/l04-reihenfolge-start.visustruct":Qz,"../../lessons/diagramme/pt/l04-tauschen-loesung.visustruct":Vz,"../../lessons/diagramme/pt/l04-tauschen-start.visustruct":qz,"../../lessons/diagramme/pt/l04-tauschen.visustruct":Uz,"../../lessons/diagramme/pt/l05-datentypen.visustruct":$z,"../../lessons/diagramme/pt/l05-division.visustruct":Yz,"../../lessons/diagramme/pt/l05-einkauf-loesung.visustruct":Xz,"../../lessons/diagramme/pt/l05-java-kino-loesung.visustruct":Kz,"../../lessons/diagramme/pt/l05-rechteck-loesung.visustruct":eI,"../../lessons/diagramme/pt/l05-sekunden-loesung.visustruct":tI,"../../lessons/diagramme/pt/l05-sekunden-start.visustruct":nI,"../../lessons/diagramme/pt/l06-begruessung-loesung.visustruct":iI,"../../lessons/diagramme/pt/l06-eva.visustruct":aI,"../../lessons/diagramme/pt/l06-java-tage-loesung.visustruct":sI,"../../lessons/diagramme/pt/l06-mittelwert-loesung.visustruct":rI,"../../lessons/diagramme/pt/l06-rechner-loesung.visustruct":oI,"../../lessons/diagramme/pt/l07-alter-pruefen.visustruct":lI,"../../lessons/diagramme/pt/l07-betrag-loesung.visustruct":uI,"../../lessons/diagramme/pt/l07-gerade-loesung.visustruct":cI,"../../lessons/diagramme/pt/l07-java-pizza-loesung.visustruct":mI,"../../lessons/diagramme/pt/l07-java-pizza-start.visustruct":dI,"../../lessons/diagramme/pt/l07-maximum-loesung.visustruct":hI,"../../lessons/diagramme/pt/l07-rabatt.visustruct":gI,"../../lessons/diagramme/pt/l08-gueltig-loesung.visustruct":pI,"../../lessons/diagramme/pt/l08-java-bestanden-loesung.visustruct":fI,"../../lessons/diagramme/pt/l08-jugendticket.visustruct":xI,"../../lessons/diagramme/pt/l08-note.visustruct":bI,"../../lessons/diagramme/pt/l08-schaltjahr-loesung.visustruct":yI,"../../lessons/diagramme/pt/l08-wochenende-loesung.visustruct":vI,"../../lessons/diagramme/pt/l09-ampel.visustruct":wI,"../../lessons/diagramme/pt/l09-automat.visustruct":zI,"../../lessons/diagramme/pt/l09-java-schule-loesung.visustruct":II,"../../lessons/diagramme/pt/l09-note-loesung.visustruct":SI,"../../lessons/diagramme/pt/l09-rechner-loesung.visustruct":kI,"../../lessons/diagramme/pt/l09-verschachtelt.visustruct":OI,"../../lessons/diagramme/pt/l1-grundbausteine.visustruct":TI,"../../lessons/diagramme/pt/l1-sequenz.visustruct":AI,"../../lessons/diagramme/pt/l1-tee.visustruct":PI,"../../lessons/diagramme/pt/l1-verzweigung.visustruct":CI,"../../lessons/diagramme/pt/l1-wiederholung.visustruct":ZI,"../../lessons/diagramme/pt/l10-bis-n-loesung.visustruct":jI,"../../lessons/diagramme/pt/l10-countdown.visustruct":_I,"../../lessons/diagramme/pt/l10-endlos.visustruct":MI,"../../lessons/diagramme/pt/l10-fakultaet.visustruct":DI,"../../lessons/diagramme/pt/l10-java-wuerfel-loesung.visustruct":BI,"../../lessons/diagramme/pt/l10-verdoppeln-loesung.visustruct":WI,"../../lessons/diagramme/pt/l11-eingabe-pruefen.visustruct":LI,"../../lessons/diagramme/pt/l11-einmal.visustruct":EI,"../../lessons/diagramme/pt/l11-java-gerade-loesung.visustruct":NI,"../../lessons/diagramme/pt/l11-note-loesung.visustruct":JI,"../../lessons/diagramme/pt/l11-summe-loesung.visustruct":FI,"../../lessons/diagramme/pt/l12-countdown-loesung.visustruct":GI,"../../lessons/diagramme/pt/l12-einmaleins-loesung.visustruct":RI,"../../lessons/diagramme/pt/l12-eins-bis-fuenf.visustruct":HI,"../../lessons/diagramme/pt/l12-java-verdoppeln-loesung.visustruct":QI,"../../lessons/diagramme/pt/l12-summe.visustruct":VI,"../../lessons/diagramme/pt/l13-dreieck.visustruct":qI,"../../lessons/diagramme/pt/l13-gerade-eingaben-loesung.visustruct":UI,"../../lessons/diagramme/pt/l13-gerade-zaehlen.visustruct":$I,"../../lessons/diagramme/pt/l13-java-quadrate-loesung.visustruct":YI,"../../lessons/diagramme/pt/l13-rechteck-loesung.visustruct":XI,"../../lessons/diagramme/pt/l14-array-durchlaufen.visustruct":KI,"../../lessons/diagramme/pt/l14-erster-letzter-loesung.visustruct":e6,"../../lessons/diagramme/pt/l14-java-treppe-loesung.visustruct":t6,"../../lessons/diagramme/pt/l14-namen-eingeben.visustruct":n6,"../../lessons/diagramme/pt/l14-rueckwaerts-loesung.visustruct":i6,"../../lessons/diagramme/pt/l14-summe-max-loesung.visustruct":a6,"../../lessons/diagramme/pt/l14-summe-maximum.visustruct":s6,"../../lessons/diagramme/pt/l15-bis-null-loesung.visustruct":r6,"../../lessons/diagramme/pt/l15-endlos-aussprung.visustruct":o6,"../../lessons/diagramme/pt/l15-flaeche-loesung.visustruct":l6,"../../lessons/diagramme/pt/l15-hauptprogramm.visustruct":u6,"../../lessons/diagramme/pt/l15-java-noten-loesung.visustruct":c6,"../../lessons/diagramme/pt/l15-quadrat-haupt.visustruct":m6,"../../lessons/diagramme/pt/l15-quadrat.visustruct":d6,"../../lessons/diagramme/pt/l15-titel-loesung.visustruct":h6,"../../lessons/diagramme/pt/l15-unterprogramm.visustruct":g6,"../../lessons/diagramme/pt/l15-zeige-summe-haupt.visustruct":p6,"../../lessons/diagramme/pt/l15-zeige-summe.visustruct":f6,"../../lessons/diagramme/pt/l16-countdown-loesung.visustruct":x6,"../../lessons/diagramme/pt/l16-countdown-start.visustruct":b6,"../../lessons/diagramme/pt/l16-java-punkte-loesung.visustruct":y6,"../../lessons/diagramme/pt/l16-schreibtisch.visustruct":v6,"../../lessons/diagramme/pt/l16-summe-loesung.visustruct":w6,"../../lessons/diagramme/pt/l16-summe-start.visustruct":z6,"../../lessons/diagramme/pt/l17-beispiel.visustruct":I6,"../../lessons/diagramme/pt/l17-fakultaet-loesung.visustruct":S6,"../../lessons/diagramme/pt/l17-java-brief-loesung.visustruct":k6,"../../lessons/diagramme/pt/l17-java-brief-start.visustruct":O6,"../../lessons/diagramme/pt/l17-java-passwort-loesung.visustruct":T6,"../../lessons/diagramme/pt/l17-ticket-loesung.visustruct":A6,"../../lessons/diagramme/pt/l18-beispiel.visustruct":P6,"../../lessons/diagramme/pt/l18-java-kasse-loesung.visustruct":C6,"../../lessons/diagramme/pt/l18-js-loesung.visustruct":Z6,"../../lessons/diagramme/pt/l18-python-loesung.visustruct":j6,"../../lessons/diagramme/pt/l19-java-zaehlen-loesung.visustruct":_6,"../../lessons/diagramme/pt/l2-ausgabe.visustruct":M6,"../../lessons/diagramme/pt/l2-hallo-loesung.visustruct":D6,"../../lessons/diagramme/pt/l2-zwei-zeilen-loesung.visustruct":B6,"../../lessons/diagramme/pt/l23-java-ergaenzen-loesung.visustruct":W6,"../../lessons/diagramme/pt/l23-java-ergaenzen-start.visustruct":L6,"../../lessons/diagramme/pt/l23-java-nummern-loesung.visustruct":E6,"../../lessons/diagramme/pt/l23-java-nummern-start.visustruct":N6,"../../lessons/diagramme/pt/l24-java-fuchs-loesung.visustruct":J6,"../../lessons/diagramme/pt/l24-java-fuchs-start.visustruct":F6,"../../lessons/diagramme/pt/l24-java-laengster-loesung.visustruct":G6,"../../lessons/diagramme/pt/l24-java-laengster-start.visustruct":R6,"../../lessons/diagramme/pt/l25-java-beste-loesung.visustruct":H6,"../../lessons/diagramme/pt/l25-java-beste-start.visustruct":Q6,"../../lessons/diagramme/pt/l25-java-schnitt-loesung.visustruct":V6,"../../lessons/diagramme/pt/l25-java-schnitt-start.visustruct":q6,"../../lessons/diagramme/pt/l26-java-namen-loesung.visustruct":U6,"../../lessons/diagramme/pt/l26-java-namen-start.visustruct":$6,"../../lessons/diagramme/pt/l26-java-schreiben-loesung.visustruct":Y6,"../../lessons/diagramme/pt/l26-java-schreiben-start.visustruct":X6,"../../lessons/diagramme/pt/l27-java-json-loesung.visustruct":K6,"../../lessons/diagramme/pt/l27-java-json-start.visustruct":e7,"../../lessons/diagramme/pt/l27-java-saetze-loesung.visustruct":t7,"../../lessons/diagramme/pt/l27-java-saetze-start.visustruct":n7,"../../lessons/diagramme/pt/sim-kino-loesung.visustruct":i7,"../../lessons/diagramme/pt/sim-kino-start.visustruct":a7,"../../lessons/diagramme/pt/sim-tausch-loesung.visustruct":s7,"../../lessons/diagramme/pt/sim-tausch-start.visustruct":r7,"../../lessons/diagramme/pt/sim-tausch.visustruct":o7,"../../lessons/diagramme/pt/ss-absteigend-loesung.visustruct":l7,"../../lessons/diagramme/pt/ss-absteigend-start.visustruct":u7,"../../lessons/diagramme/pt/ss-binaere-suche.visustruct":c7,"../../lessons/diagramme/pt/ss-bubblesort.visustruct":m7,"../../lessons/diagramme/pt/ss-karte-suchen-loesung.visustruct":d7,"../../lessons/diagramme/pt/ss-lineare-suche.visustruct":h7,"../../lessons/diagramme/pt/uebergabe-bonus-loesung.visustruct":g7,"../../lessons/diagramme/pt/uebergabe-bonus-start.visustruct":p7,"../../lessons/diagramme/pt/uebergabe-bonus-unterprogramm-loesung.visustruct":f7,"../../lessons/diagramme/pt/uebergabe-haupt.visustruct":x7,"../../lessons/diagramme/pt/uebergabe-leeren.visustruct":b7,"../../lessons/diagramme/pt/uebergabe-verdopple.visustruct":y7,"../../lessons/diagramme/pt/zk-initialen-loesung.visustruct":v7,"../../lessons/diagramme/pt/zk-mehr.visustruct":w7,"../../lessons/diagramme/pt/zk-rueckwaerts-loesung.visustruct":z7,"../../lessons/diagramme/pt/zk-split.visustruct":I7,"../../lessons/diagramme/pt/zk-woerter-loesung.visustruct":S7,"../../lessons/diagramme/pt/zk-zaehlen.visustruct":k7,"../../lessons/diagramme/pt/zk-zeichen.visustruct":O7,"../../lessons/diagramme/sim-kino-loesung.visustruct":T7,"../../lessons/diagramme/sim-kino-start.visustruct":A7,"../../lessons/diagramme/sim-tausch-loesung.visustruct":P7,"../../lessons/diagramme/sim-tausch-start.visustruct":C7,"../../lessons/diagramme/sim-tausch.visustruct":Z7,"../../lessons/diagramme/ss-absteigend-loesung.visustruct":j7,"../../lessons/diagramme/ss-absteigend-start.visustruct":_7,"../../lessons/diagramme/ss-binaere-suche.visustruct":M7,"../../lessons/diagramme/ss-bubblesort.visustruct":D7,"../../lessons/diagramme/ss-karte-suchen-loesung.visustruct":B7,"../../lessons/diagramme/ss-lineare-suche.visustruct":W7,"../../lessons/diagramme/uebergabe-bonus-loesung.visustruct":L7,"../../lessons/diagramme/uebergabe-bonus-start.visustruct":E7,"../../lessons/diagramme/uebergabe-bonus-unterprogramm-loesung.visustruct":N7,"../../lessons/diagramme/uebergabe-haupt.visustruct":J7,"../../lessons/diagramme/uebergabe-leeren.visustruct":F7,"../../lessons/diagramme/uebergabe-verdopple.visustruct":G7,"../../lessons/diagramme/zk-initialen-loesung.visustruct":R7,"../../lessons/diagramme/zk-mehr.visustruct":H7,"../../lessons/diagramme/zk-rueckwaerts-loesung.visustruct":Q7,"../../lessons/diagramme/zk-split.visustruct":V7,"../../lessons/diagramme/zk-woerter-loesung.visustruct":q7,"../../lessons/diagramme/zk-zaehlen.visustruct":U7,"../../lessons/diagramme/zk-zeichen.visustruct":$7}),Ck=Object.assign({"../../lessons/bilder/aufgabe-mehrwertsteuer.svg":Y7,"../../lessons/bilder/ben-shneiderman.jpg":X7,"../../lessons/bilder/caesar-ascii.svg":K7,"../../lessons/bilder/caesar-scheibe.svg":eS,"../../lessons/bilder/caesar-verschiebung.svg":tS,"../../lessons/bilder/en/aufgabe-mehrwertsteuer.svg":nS,"../../lessons/bilder/en/kino-saal.svg":iS,"../../lessons/bilder/en/kino-schleifen.svg":aS,"../../lessons/bilder/en/l01-pap.svg":sS,"../../lessons/bilder/en/l02-einfuegen.svg":rS,"../../lessons/bilder/en/l04-variable.svg":oS,"../../lessons/bilder/en/l04-zuweisung.svg":lS,"../../lessons/bilder/en/l05-tauschen.svg":uS,"../../lessons/bilder/en/l08-zahlenstrahl.svg":cS,"../../lessons/bilder/en/l10-kopfgesteuert.svg":mS,"../../lessons/bilder/en/l11-vergleich.svg":dS,"../../lessons/bilder/en/l12-for-ablauf.svg":hS,"../../lessons/bilder/en/l14-array.svg":gS,"../../lessons/bilder/en/mvc-klick.svg":pS,"../../lessons/bilder/en/ss-binaere-suche.svg":fS,"../../lessons/bilder/en/ss-bubblesort.svg":xS,"../../lessons/bilder/en/ss-lineare-suche.svg":bS,"../../lessons/bilder/en/ss-vergleiche.svg":yS,"../../lessons/bilder/en/uebergabe.svg":vS,"../../lessons/bilder/en/zk-zeichen.svg":wS,"../../lessons/bilder/ike-nassi.jpg":zS,"../../lessons/bilder/kino-saal.svg":IS,"../../lessons/bilder/kino-schleifen.svg":SS,"../../lessons/bilder/l01-pap.svg":kS,"../../lessons/bilder/l02-einfuegen.svg":OS,"../../lessons/bilder/l04-variable.svg":TS,"../../lessons/bilder/l04-zuweisung.svg":AS,"../../lessons/bilder/l05-tauschen.svg":PS,"../../lessons/bilder/l08-zahlenstrahl.svg":CS,"../../lessons/bilder/l09-wahrheitstabelle.svg":ZS,"../../lessons/bilder/l10-kopfgesteuert.svg":jS,"../../lessons/bilder/l11-vergleich.svg":_S,"../../lessons/bilder/l12-for-ablauf.svg":MS,"../../lessons/bilder/l14-array.svg":DS,"../../lessons/bilder/mvc-klick.svg":BS,"../../lessons/bilder/pt/aufgabe-mehrwertsteuer.svg":WS,"../../lessons/bilder/pt/kino-saal.svg":LS,"../../lessons/bilder/pt/kino-schleifen.svg":ES,"../../lessons/bilder/pt/l01-pap.svg":NS,"../../lessons/bilder/pt/l02-einfuegen.svg":JS,"../../lessons/bilder/pt/l04-variable.svg":FS,"../../lessons/bilder/pt/l04-zuweisung.svg":GS,"../../lessons/bilder/pt/l05-tauschen.svg":RS,"../../lessons/bilder/pt/l08-zahlenstrahl.svg":HS,"../../lessons/bilder/pt/l10-kopfgesteuert.svg":QS,"../../lessons/bilder/pt/l11-vergleich.svg":VS,"../../lessons/bilder/pt/l12-for-ablauf.svg":qS,"../../lessons/bilder/pt/l14-array.svg":US,"../../lessons/bilder/pt/mvc-klick.svg":$S,"../../lessons/bilder/pt/schiffe-versenken.svg":YS,"../../lessons/bilder/pt/ss-binaere-suche.svg":XS,"../../lessons/bilder/pt/ss-bubblesort.svg":KS,"../../lessons/bilder/pt/ss-lineare-suche.svg":ek,"../../lessons/bilder/pt/ss-vergleiche.svg":tk,"../../lessons/bilder/pt/uebergabe.svg":nk,"../../lessons/bilder/pt/zk-zeichen.svg":ik,"../../lessons/bilder/schiffe-versenken.svg":ak,"../../lessons/bilder/ss-binaere-suche.svg":sk,"../../lessons/bilder/ss-bubblesort.svg":rk,"../../lessons/bilder/ss-lineare-suche.svg":ok,"../../lessons/bilder/ss-vergleiche.svg":lk,"../../lessons/bilder/uebergabe.svg":uk,"../../lessons/bilder/zk-zeichen.svg":ck}),Zk=a=>a.replace(/^.*\//,"");function b0(a,e,t){const n=s=>new Map(Object.entries(a).filter(([r])=>{var o;return((o=e.exec(r))==null?void 0:o[1])===s}).map(([r,o])=>[Zk(r),o]));return[...new Map([...n("en"),...t==="en"?[]:n(t)])]}function y0(a){return a==="de"?"de":a==="pt-PT"?"pt":"en"}let _1="en",Ft=[],M1=[],$m="",ta=[];function Tr(a){var t,n;if(a===_1&&Ft.length>0)return;_1=a;const e=b0(Tk,/\/lessons\/([^/]+)\/[^/]+\.md$/,a);Ft=e.filter(([i])=>/^\d+/.test(i)).map(([i,s])=>kk(s,`${a}/${i}`)).sort((i,s)=>i.number-s.number),M1=b0(Ak,/\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/,a).map(([i,s])=>Ok(s,`${a}/aufgaben/${i}`)).sort((i,s)=>(i.after??0)-(s.after??0)||i.level-s.level||i.title.localeCompare(s.title,a));for(const i of[...Ft.flatMap(s=>s.steps.flatMap(r=>r.blocks)),...M1.flatMap(s=>s.blocks)])i.kind==="textFile"&&Tp(i.name,i.content);$m=((t=e.find(([i])=>i==="nachschlagen.md"))==null?void 0:t[1])??"",ta=mk(((n=e.find(([i])=>i==="begriffe.md"))==null?void 0:n[1])??"")}Tr("en");function Ym(a,e){return _1==="de"?a.get(e)??a.get(`en/${e}`):(_1==="en"?void 0:a.get(`${_1}/${e}`))??a.get(`en/${e}`)??a.get(e)}const Xm=(a,e)=>a.slice(a.indexOf(e)+e.length),jk=new Map(Object.entries(Pk).map(([a,e])=>[Xm(a,"/diagramme/"),e]));function T1(a){const e=Ym(jk,a);return e===void 0?void 0:Zo(e)}const _k=new Map(Object.entries(Ck).map(([a,e])=>[Xm(a,"/bilder/"),e]));function v0(a){return Ym(_k,a)}const Km=a=>a.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");function De(a){const e=[];let t=Km(a).replace(/`([^`]+)`/g,(n,i)=>(e.push(i),`\0${e.length-1}\0`));return t=t.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/(^|[^*])\*([^*\s][^*]*?)\*/g,"$1<em>$2</em>").replace(/\[([^\]]+)\]\(([^)\s]+)\)/g,(n,i,s)=>{const r=/^(https?:|mailto:|#|\.{0,2}\/)/.test(s)?s:"#",o=/^https?:/.test(r)?' target="_blank" rel="noopener noreferrer"':"";return`<a href="${r}"${o}>${i}</a>`}),t.replace(/\u0000(\d+)\u0000/g,(n,i)=>`<code>${e[Number(i)]}</code>`)}function Rn(a){const e=[],t=a.replace(/\r\n/g,`
 `).split(`
 `);let n=0;for(;n<t.length;){const i=t[n];if(i.trim()===""){n++;continue}if(i.startsWith("```")){const o=[];for(n++;n<t.length&&!t[n].startsWith("```");)o.push(t[n++]);n++,e.push(`<pre class="lesson-code" dir="ltr"><code>${Km(o.join(`
 `))}</code></pre>`);continue}const s=/^(#{3,4})\s+(.*)$/.exec(i);if(s){const o=s[1].length;e.push(`<h${o}>${De(s[2])}</h${o}>`),n++;continue}if(/^\s*([-*]|\d+\.)\s+/.test(i)){const o=/^\s*\d+\./.test(i),l=[];for(;n<t.length&&/^\s*([-*]|\d+\.)\s+/.test(t[n]);){let u=t[n].replace(/^\s*([-*]|\d+\.)\s+/,"");for(n++;n<t.length&&/^\s{2,}\S/.test(t[n])&&!/^\s*([-*]|\d+\.)\s+/.test(t[n]);)u+=" "+t[n++].trim();l.push(`<li>${De(u)}</li>`)}e.push(o?`<ol>${l.join("")}</ol>`:`<ul>${l.join("")}</ul>`);continue}if(i.startsWith("|")&&/^\|?[\s:|-]*-{3,}[\s:|-]*$/.test(t[n+1]??"")){const o=c=>c.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(m=>De(m.trim())),l=o(i);n+=2;const u=[];for(;n<t.length&&t[n].startsWith("|");)u.push(o(t[n++]));e.push(`<div class="lesson-table"><table><thead><tr>${l.map(c=>`<th>${c}</th>`).join("")}</tr></thead><tbody>${u.map(c=>`<tr>${c.map(m=>`<td>${m}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`);continue}if(i.startsWith(">")){const o=[];for(;n<t.length&&t[n].startsWith(">");)o.push(t[n++].replace(/^>\s?/,""));e.push(`<aside class="lesson-note">${Rn(o.join(`

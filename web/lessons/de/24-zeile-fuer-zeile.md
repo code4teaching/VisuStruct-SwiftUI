@@ -56,6 +56,10 @@ Erst eine Zeile lesen, dann prüfen, dann am Ende des Durchlaufs die nächste le
 Die Schleife sieht anders aus als beim Scanner: Die erste Zeile wird **vor** der Schleife gelesen, jede weitere **am Ende** des Durchlaufs. Vergisst du das Lesen am Ende, liest das Programm immer wieder dieselbe Zeile und hört nie auf.
 :::
 
+::: angeberwissen
+Wo eine Zeile endet, ist nicht überall gleich: Windows schreibt zwei unsichtbare Zeichen, „Wagenrücklauf“ und „Zeilenvorschub“, Linux und macOS nur den Zeilenvorschub. Die Namen stammen von der Schreibmaschine, bei der der Papierwagen zurückfuhr und das Papier eine Zeile weiterrückte. `readLine()` kommt mit beidem klar.
+:::
+
 ## Übung: Wie oft kommt der Fuchs vor?
 
 ::: übung l24-java-fuchs

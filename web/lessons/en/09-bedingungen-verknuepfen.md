@@ -107,6 +107,10 @@ Rules of thumb:
 - `a || b` is only false if **both** are false.
 - `!a` flips the value.
 
+::: angeberwissen
+The data type `boolean` is named after **George Boole**. As early as 1847 this Englishman showed that you can calculate with true and false just like with numbers, almost a hundred years before the first computer existed. Today his logic is in every chip.
+:::
+
 ## Truth values in variables
 
 The result of a condition is a **truth value** of type `boolean`. You can store it in a variable just like a number and use it later:

@@ -32,6 +32,10 @@ This is **JSON**, the "JavaScript Object Notation". Almost every web app and eve
 
 Objects and lists can be **nested**: the whole zoo object contains the list `animals`, and each animal is an object again. As with arrays, the list counts from 0: `animals[1].name` is `"Zora"`.
 
+::: angeberwissen
+Douglas Crockford made JSON popular in the early 2000s. In the licence of his JSON program he wrote: “The Software shall be used for Good, not Evil.” So the company IBM asked whether it could use it anyway. He replied that IBM and its customers were allowed to use it for evil.
+:::
+
 ## Getting a value out
 
 Professionals read JSON with a library, for example **Gson**. It is not part of Java and has to be added first. For our zoo file, the string methods from lesson 17 are enough, because each animal is on its own line.

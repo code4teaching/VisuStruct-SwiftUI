@@ -112,6 +112,10 @@ if (alter >= 18) {
 - Ist der false-Zweig leer, lässt du `else { }` einfach weg.
 - Die ersten beiden Zeilen braucht dein Programm einmal, sobald es etwas einliest. Danach liest `scanner.nextInt()` eine ganze Zahl ein. Die Frage davor ist eine normale Ausgabe.
 
+::: angeberwissen
+Java hat auch ein Maskottchen: **Duke**, ein kleiner schwarz-weißer Kerl mit großer roter Nase. Er wurde 1992 im Team von Java gezeichnet und winkt seitdem von Konferenzen und T-Shirts. Ludwig findet, ein Geißbock hätte besser gepasst.
+:::
+
 ::: übung l08-java-bestanden
 titel: Bestanden in Java
 code: java

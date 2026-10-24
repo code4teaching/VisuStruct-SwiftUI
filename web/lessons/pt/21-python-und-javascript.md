@@ -68,6 +68,10 @@ O JavaScript parece-se com o Java: chavetas, ponto e vírgula, `while (…)` e `
 - `"use strict";` mesmo lá em cima faz o JavaScript queixar-se de erros de escrita nos nomes das variáveis.
 - O JavaScript só tem um tipo de número. Se o estrutograma dividir dois valores `int`, o VisuStruct escreve `Math.trunc(a / b)`. Assim desaparecem os algarismos depois da vírgula, tal como em Java.
 
+::: angeberwissen
+O JavaScript não tem quase nada a ver com o Java. Brendan Eich criou-o em 1995 em apenas dez dias para o navegador Netscape. Primeiro chamava-se Mocha, depois LiveScript. Como toda a gente andava entusiasmada com o Java, pouco antes do lançamento mudaram-lhe o nome para JavaScript, por razões de publicidade. Desde então, as duas linguagens são constantemente confundidas. Os programadores dizem que o Java e o JavaScript têm tanto em comum como um carro e uma carpete.
+:::
+
 ## Executar JavaScript no navegador
 
 O JavaScript é a linguagem dos navegadores. Por isso o VisuStruct consegue **executar o código logo**:

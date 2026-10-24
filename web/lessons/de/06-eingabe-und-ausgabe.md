@@ -140,6 +140,10 @@ System.out.println("Summe: " + summe);
 - `scanner.nextInt()` liest eine ganze Zahl, `scanner.nextDouble()` eine Kommazahl und `scanner.next()` ein Wort.
 - Die Frage an den Benutzer ist eine normale Ausgabe direkt davor. VisuStruct macht aus beiden Zeilen zusammen einen Eingabe-Kasten.
 
+::: angeberwissen
+Java sollte ursprünglich kleine Geräte steuern, und das tut es heute noch: Auf vielen SIM-Karten im Handy und auf Bankkarten läuft eine Mini-Version namens **Java Card**. Gut möglich, dass du gerade Java in der Hosentasche hast.
+:::
+
 ::: übung l06-java-tage
 titel: Alter in Tagen
 code: java

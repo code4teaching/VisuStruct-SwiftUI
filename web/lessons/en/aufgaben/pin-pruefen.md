@@ -6,6 +6,10 @@ stufe: 2
 
 At a cash machine you have three tries for your PIN. If you type a wrong PIN three times, the card is blocked.
 
+::: angeberwissen
+John Shepherd-Barron, who set up the first cash machine in London in 1967, actually wanted six-digit PINs. But his wife said she could remember four digits at most. That is why your PIN has four digits today.
+:::
+
 ::: übung aufgabe-pin
 titel: Check the PIN
 auftrag: The right PIN is 1234. Keep asking for the PIN until it is right or three tries have been used. Then output **PIN correct** or **Card blocked**.

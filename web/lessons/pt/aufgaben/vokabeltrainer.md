@@ -15,6 +15,10 @@ prado;meadow
 
 Como só o ficheiro conhece as palavras, mais tarde podes simplesmente acrescentar linhas novas sem alterar o programa.
 
+::: angeberwissen
+Foi Sebastian Leitner quem, em 1972, tornou conhecida a caixa de fichas com várias divisões: as fichas que sabes passam para a divisão seguinte e aparecem menos vezes, as erradas voltam para a primeira. Muitas apps de vocabulário ainda funcionam assim.
+:::
+
 ::: übung aufgabe-vokabeln
 titel: Treino de vocabulário
 code: java

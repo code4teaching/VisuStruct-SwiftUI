@@ -72,6 +72,10 @@ Common mistakes in a sequence are:
 
 > Later, branches and loops come along. Then the simulation also shows you which path is taken and how often a loop runs.
 
+::: angeberwissen
+On 9 September 1947 Grace Hopper’s team found a real moth stuck between two contacts in the Harvard Mark II computer. They taped it into the logbook and wrote: “First actual case of bug being found.” Today the moth is in a museum in Washington.
+:::
+
 ## Exercise: Fix the swap
 
 ::: übung sim-tausch
