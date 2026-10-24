@@ -23,8 +23,8 @@ const colors = {
 export type { RobotPart }
 
 /** Abstand der Räder (Mitte zu Mitte) und Radius, damit sich die Räder passend zur Fahrt drehen. */
-const TRACK = 11.8
-const WHEEL_RADIUS = 3.2
+const TRACK = 12.9
+const WHEEL_RADIUS = 3.3
 
 export class Robot3D {
   readonly canvas: HTMLCanvasElement
@@ -219,8 +219,8 @@ export class Robot3D {
     disc.receiveShadow = true
     this.worldGroup.add(disc)
     this.place({ x: 0, y: 0, heading: 0 }, [{ x: 0, y: 0 }])
-    this.controls.target.set(0, 4, -1)
-    this.camera.position.set(-20, 17, -22)
+    this.controls.target.set(0, 5, -2)
+    this.camera.position.set(-20, 18, -24)
     this.controls.update()
   }
 
@@ -232,6 +232,8 @@ export class Robot3D {
         const mesh = o as THREE.Mesh
         if (!mesh.isMesh) return
         const m = mesh.material as THREE.MeshStandardMaterial
+        // Beschriftungen (MeshBasicMaterial) leuchten nicht mit
+        if (!m.emissive) return
         m.userData.baseEmissive ??= { color: m.emissive.getHex(), intensity: m.emissiveIntensity }
         const base = m.userData.baseEmissive as { color: number; intensity: number }
         if (lit.has(name)) {

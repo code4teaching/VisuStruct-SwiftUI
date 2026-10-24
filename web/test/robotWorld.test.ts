@@ -21,17 +21,17 @@ describe('VisuBot-Welt', () => {
 
   it('misst den Abstand zum Rand und hält vor der Wand', () => {
     const w = new RobotWorld()
-    expect(w.distance()).toBe(93)
+    expect(w.distance()).toBe(91)
     act(w, 'forward', 500)
-    expect(w.pose.y).toBeCloseTo(91)
+    expect(w.pose.y).toBeCloseTo(90)
     expect(w.bumps).toBe(1)
   })
 
   it('sieht eine Wand vor sich', () => {
     const w = new RobotWorld({ width: 200, depth: 200, start: { x: 0, y: 0, heading: 0 }, walls: [{ from: { x: -20, y: 40 }, to: { x: 20, y: 40 } }], lines: [] })
-    expect(w.distance()).toBe(33)
+    expect(w.distance()).toBe(31)
     act(w, 'turnLeft', 90)
-    expect(w.distance()).toBe(93)
+    expect(w.distance()).toBe(91)
   })
 
   it('erkennt eine Linie unter dem Sensor', () => {
@@ -62,10 +62,10 @@ describe('Weltkarten', () => {
 
   it('Wandklötze bremsen und werden gemessen', () => {
     const r = new RobotWorld(parseWorldMap('.#.\n...\n...\n.^.\n'))
-    expect(r.distance()).toBe(25 - 7)
+    expect(r.distance()).toBe(25 - 9)
     r.apply(step('forward', [30]))
     expect(r.bumps).toBe(1)
-    expect(r.pose.y).toBeCloseTo(-15 + 25 - 9, 5)
+    expect(r.pose.y).toBeCloseTo(-15 + 25 - 10, 5)
   })
 
   // Die Musterlösungen der Lektionen, hier direkt in TypeScript: so passen Karten und Schwellen zusammen.

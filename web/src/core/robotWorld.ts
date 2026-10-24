@@ -72,14 +72,14 @@ export function parseWorldMap(text: string): RobotWorldSetup {
 
 const inCell = (p: Point, cell: Point) => Math.abs(p.x - cell.x) <= CELL / 2 && Math.abs(p.y - cell.y) <= CELL / 2
 
-/** Radius um die Mitte, mit dem der mBot2 an Wände stößt (er ist etwa 17 × 13 cm groß). */
-export const ROBOT_RADIUS = 9
+/** Abstand von der Radachse bis vorn (Sensoren, Ohren): so weit vorher hält der mBot2 vor einer Wand. Die Lage (x, y) ist die Mitte der Radachse. */
+export const ROBOT_RADIUS = 10
 /** Ultraschall sitzt vorn, so weit vor der Mitte. */
-const SONAR_OFFSET = 7
+const SONAR_OFFSET = 9
 /** Ultraschall misst höchstens so weit (mbuild ultrasonic2: 300 cm). */
 export const SONAR_MAX = 300
 /** Liniensensor: Abstand vor der Mitte und seitliche Lage der vier Fühler (L2, L1, R1, R2). */
-const LINE_OFFSET = 6
+const LINE_OFFSET = 8
 const LINE_PROBES = [-3.6, -1.2, 1.2, 3.6]
 export const LINE_WIDTH = 2.5
 

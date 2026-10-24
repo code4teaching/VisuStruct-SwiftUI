@@ -13,12 +13,12 @@ drehen: ja
 
 Der **mBot2** ist ein kleiner Roboter der Firma Makeblock. In dieser Lektion machst du eine Tour durch alle seine Teile:
 
-- den [CyberPi]{teil=cyberpi}, den kleinen Computer oben drauf
-- das [Shield mit Akku]{teil=shield}, auf dem der CyberPi sitzt
+- den [CyberPi]{teil=cyberpi}, den kleinen Computer hinten oben
+- das durchsichtige [Shield mit Akku]{teil=shield} in der Mitte
 - zwei [Motoren]{teil=motors} mit [Rädern]{teil=wheels}
 - den [Ultraschallsensor]{teil=ultrasonic} vorn, der wie zwei Augen aussieht
 - den [Liniensensor]{teil=lineSensor} unten an der Nase
-- das blaue [Chassis]{teil=chassis}, das alles zusammenhält
+- das türkise [Chassis]{teil=chassis}, das alles zusammenhält
 
 In VisuBot programmierst du ihn mit Struktogrammen. Jedes Programm kannst du zuerst im Simulator ausprobieren, auch ganz ohne echten Roboter.
 
@@ -28,27 +28,28 @@ In VisuBot programmierst du ihn mit Struktogrammen. Jedes Programm kannst du zue
 
 ::: mbot2
 fokus: cyberpi, screen, joystick, buttons, leds, lightSensor, microphone
+ansicht: hinten
 :::
 
-Der [CyberPi]{teil=cyberpi,screen,joystick,buttons,leds,lightSensor,microphone} ist das Gehirn des mBot2: ein **Mikrocontroller**, also ein kleiner Computer ohne Tastatur. Er führt dein Programm aus.
+Der [CyberPi]{teil=cyberpi,screen,joystick,buttons,leds,lightSensor,microphone} ist das Gehirn des mBot2: ein **Mikrocontroller**, also ein kleiner Computer ohne Tastatur. Er führt dein Programm aus. Er liegt quer hinten oben auf dem Roboter und lässt sich auch abnehmen.
 
 Auf ihm ist schon eine Menge eingebaut:
 
 - ein farbiger [Bildschirm]{teil=screen}, auf dem Text und Bilder erscheinen
 - ein [Joystick]{teil=joystick}, den du in vier Richtungen drücken kannst
-- die [Tasten A, B und Home]{teil=buttons}
+- zwei [Tasten]{teil=buttons}, eine mit Dreieck und eine mit Quadrat, und an der Seite neben dem USB-Anschluss die Home-Taste
 - fünf bunte [LEDs]{teil=leds}
 - ein [Lichtsensor]{teil=lightSensor} und ein [Mikrofon]{teil=microphone}
 
 Dazu kommen ein Lautsprecher und ein Lagesensor, die du von außen nicht siehst. Der Lagesensor merkt, ob der CyberPi gekippt oder gedreht wird.
 
-> Das Modell ist nachgebaut. Am echten CyberPi sitzen manche Teile etwas anders. Schau dir deinen eigenen mBot2 an und vergleiche.
+> Das Modell ist nach Fotos nachgebaut. Schau dir deinen eigenen mBot2 an und vergleiche.
 
 ## Bildschirm und LEDs
 
 ::: mbot2
 fokus: screen, leds
-ansicht: vorn
+ansicht: hinten
 :::
 
 Mit dem [Bildschirm]{teil=screen} und den fünf [LEDs]{teil=leds} zeigt dir der mBot2, was er gerade tut. Jede LED kann in fast jeder Farbe leuchten, weil sie Rot, Grün und Blau mischt. Darum heißen sie **RGB-LEDs**.
@@ -71,9 +72,9 @@ fokus: shield, powerSwitch
 ansicht: seite
 :::
 
-Unter dem CyberPi sitzt das schwarze [mBot2-Shield]{teil=shield}. Darin steckt der **Akku**, der den Roboter mit Strom versorgt. An das Shield sind auch die Motoren angeschlossen.
+Das große durchsichtige Gehäuse ist das [mBot2-Shield]{teil=shield}. Durch den Deckel siehst du den grauen **Akku**, der den Roboter mit Strom versorgt. Hinten am Shield stecken die Kabel der Motoren (M1 und M2) und des Ultraschallsensors.
 
-An der Seite ist der [Ein-Aus-Schalter]{teil=powerSwitch}. Schalte den mBot2 aus, wenn du ihn nicht brauchst, dann hält der Akku länger. Geladen wird er über das USB-Kabel am CyberPi.
+Links an der Seite ist der [Ein-Aus-Schalter]{teil=powerSwitch} mit der Aufschrift ON/OFF. Daneben liegen zwei Buchsen S1 und S2 für kleine Servomotoren. Schalte den mBot2 aus, wenn du ihn nicht brauchst, dann hält der Akku länger. Geladen wird er über das USB-Kabel am CyberPi.
 
 ## Motoren und Räder
 
@@ -82,7 +83,7 @@ fokus: motors, wheels
 ansicht: seite
 :::
 
-Zwei [Motoren]{teil=motors} treiben die beiden [Räder]{teil=wheels} an, jeder sein eigenes.
+Zwei [Motoren]{teil=motors} treiben die beiden [Räder]{teil=wheels} an, jeder sein eigenes. Du siehst sie von unten: silberne Motoren in hellblauen Getrieben.
 
 - Drehen sich beide Räder gleich schnell vorwärts, fährt der mBot2 **geradeaus**.
 - Dreht sich ein Rad vorwärts und das andere rückwärts, dreht er sich **auf der Stelle**.
@@ -96,9 +97,9 @@ fokus: ultrasonic
 ansicht: vorn
 :::
 
-Vorn sitzt der [Ultraschallsensor]{teil=ultrasonic}. Er sieht aus wie zwei Augen, ist aber eher ein Ohr: Der eine Kreis schickt einen sehr hohen Ton los, den wir nicht hören. Der andere wartet auf das Echo. Je länger das Echo braucht, desto weiter ist die Wand weg.
+Vorn sitzt der schwarze [Ultraschallsensor]{teil=ultrasonic}. Er sieht aus wie zwei Augen, ist aber eher ein Ohr: Der eine Kreis schickt einen sehr hohen Ton los, den wir nicht hören. Der andere wartet auf das Echo. Je länger das Echo braucht, desto weiter ist die Wand weg.
 
-So misst der mBot2 Abstände in Zentimetern. Die blauen Ringe um die Kreise sind Lichter, die man ebenfalls einschalten kann.
+So misst der mBot2 Abstände in Zentimetern. Die Ringe um die Kreise können außerdem blau leuchten.
 
 ::: angeberwissen
 Fledermäuse machen es genau wie der Ultraschallsensor: Sie rufen so hoch, dass wir es nicht hören, und lauschen auf das Echo. Schall ist etwa 343 Meter pro Sekunde schnell. Steht eine Wand einen Meter vor dem mBot2, ist das Echo schon nach knapp 6 Tausendstel Sekunden zurück.
@@ -111,9 +112,9 @@ fokus: lineSensor, caster
 ansicht: unten
 :::
 
-Jetzt schaust du von unten. Unter der Nase sitzt der [Liniensensor]{teil=lineSensor}. Er hat **vier** kleine Fühler nebeneinander. Jeder leuchtet den Boden an und misst, wie viel Licht zurückkommt. Auf einer schwarzen Linie kommt wenig zurück, auf hellem Boden viel. So erkennt der mBot2, ob er auf einer Linie fährt.
+Jetzt schaust du von unten. Ganz vorn schaut die schwarze Platine des [Liniensensors]{teil=lineSensor} heraus. Er hat **vier** kleine Fühler nebeneinander. Jeder leuchtet den Boden an und misst, wie viel Licht zurückkommt. Auf einer schwarzen Linie kommt wenig zurück, auf hellem Boden viel. So erkennt der mBot2, ob er auf einer Linie fährt.
 
-Die silberne [Kugelrolle]{teil=caster} ist das dritte Bein. Sie hat keinen Motor und rollt einfach in jede Richtung mit.
+Die [Kugelrolle]{teil=caster} dahinter ist das dritte Bein. Sie hat keinen Motor und rollt einfach in jede Richtung mit.
 
 ## Das Chassis
 
@@ -121,7 +122,7 @@ Die silberne [Kugelrolle]{teil=caster} ist das dritte Bein. Sie hat keinen Motor
 fokus: chassis
 :::
 
-Das [Chassis]{teil=chassis} ist der blaue Rahmen aus Aluminium. Er hält alle Teile zusammen. Die vielen Löcher sind kein Zufall: Dort kannst du weitere Teile anschrauben.
+Das [Chassis]{teil=chassis} ist der türkise Rahmen aus Aluminium. Er hält alle Teile zusammen. Vorn hat er zwei runde „Ohren“, hinten ein großes **M** für Makeblock. Die vielen Löcher sind kein Zufall: Dort kannst du weitere Teile anschrauben.
 
 ## Sensoren und Aktoren
 

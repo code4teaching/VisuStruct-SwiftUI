@@ -75,7 +75,8 @@ function modelStage(focus: MBotPart[], view: string | undefined, spin: boolean, 
       stage.addEventListener('pointerleave', () => (label.hidden = true))
       return robot
     })
-    .catch(() => {
+    .catch((err: unknown) => {
+      console.error(err)
       stage.textContent = t('web_visubot_no_3d')
       return undefined
     })
