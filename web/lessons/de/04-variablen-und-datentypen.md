@@ -20,6 +20,10 @@ Die Variable als Kiste: Name auf dem Etikett, Datentyp als Aufkleber, Wert darin
 
 > Variablennamen beginnen mit einem **Kleinbuchstaben** und enthalten keine Leerzeichen. Gute Namen sagen, was drinsteht: `preis` ist besser als `p`.
 
+::: angeberwissen
+Im September 1999 ging die Mars-Sonde Mars Climate Orbiter verloren. Ein Team rechnete die Schubkraft in amerikanischen Einheiten (Pfund), das andere erwartete metrische Einheiten (Newton). In den Daten stand nur die Zahl, nicht die Einheit. Die Sonde flog zu tief in die Mars-Atmosphäre und verglühte, Schaden rund 125 Millionen Dollar. Ein sprechender Name wie `impulsInNewtonSekunden` hätte gesagt, was drinsteht. Ich schreibe auf mein Heufach übrigens immer `heuInKilo`.
+:::
+
 Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst jedes weitere Wort mit einem Großbuchstaben: `preisMitSteuer`, `anzahlSchueler`. Diese Schreibweise heißt **CamelCase**.
 
 ::: angeberwissen
@@ -129,11 +133,11 @@ lösung: l05-sekunden-loesung.visustruct
 
 ::: übung l05-einkauf
 titel: Einkauf
-auftrag: Du kaufst 3 Hefte zu je 2.5 Euro. Lege `anzahl` als `int` und `preis` als `double` an, berechne den Gesamtpreis in einer Variablen `gesamt` und gib `Gesamt: 7.5 Euro` aus.
+auftrag: Du kaufst 3 Hefte zu je 2.5 Euro. Lege `anzahl` als `int` und `preis` als `double` an, berechne den Gesamtpreis in einer Variablen `gesamtPreis` und gib `Gesamt: 7.5 Euro` aus.
 test: - -> Gesamt: 7.5 Euro
 braucht: anweisung
 tipp: Anzahl mal Preis ergibt den Gesamtpreis. Überlege für jede Variable, ob sie eine ganze Zahl oder eine Kommazahl ist.
-tipp: Der Gesamtpreis ist eine Kommazahl, also braucht `gesamt` den Typ `double`.
+tipp: Der Gesamtpreis ist eine Kommazahl, also braucht `gesamtPreis` den Typ `double`.
 lösung: l05-einkauf-loesung.visustruct
 :::
 
