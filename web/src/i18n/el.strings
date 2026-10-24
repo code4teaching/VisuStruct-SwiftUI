@@ -10,6 +10,7 @@
 "web_export_png" = "Εικόνα (PNG)";
 "web_export_svg" = "Διανυσματικό γραφικό (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "Αρχείο VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "Η εξαγωγή απέτυχε: %@";
 "web_print_hint" = "Με «Εξαγωγή… → PDF» μπορείτε να αποθηκεύσετε το διάγραμμα και να το εκτυπώσετε από εκεί.";
 "web_delete" = "Διαγραφή";

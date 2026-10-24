@@ -10,6 +10,7 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_export_png" = "圖片（PNG）";
 "web_export_svg" = "向量圖形（SVG）";
 "web_export_pdf" = "PDF（A4）";
+"web_export_visustruct" = "VisuStruct 檔案（.visustruct）";
 "web_export_failed_fmt" = "匯出失敗：%@";
 "web_print_hint" = "請透過「匯出… → PDF」儲存圖表，再從那裡列印。";
 "web_delete" = "刪除";

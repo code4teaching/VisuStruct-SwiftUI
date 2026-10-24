@@ -10,6 +10,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_export_png" = "Billede (PNG)";
 "web_export_svg" = "Vektorgrafik (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "VisuStruct-fil (.visustruct)";
 "web_export_failed_fmt" = "Eksport mislykkedes: %@";
 "web_print_hint" = "Brug »Eksportér… → PDF« til at gemme diagrammet og udskrive det derfra.";
 "web_delete" = "Slet";

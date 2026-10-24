@@ -10,6 +10,7 @@
 "web_export_png" = "图片（PNG）";
 "web_export_svg" = "矢量图（SVG）";
 "web_export_pdf" = "PDF（A4）";
+"web_export_visustruct" = "VisuStruct 文件（.visustruct）";
 "web_export_failed_fmt" = "导出失败：%@";
 "web_print_hint" = "请通过“导出… → PDF”保存图表，然后从那里打印。";
 "web_delete" = "删除";

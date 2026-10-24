@@ -10,6 +10,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_export_png" = "이미지(PNG)";
 "web_export_svg" = "벡터 그래픽(SVG)";
 "web_export_pdf" = "PDF(A4)";
+"web_export_visustruct" = "VisuStruct 파일(.visustruct)";
 "web_export_failed_fmt" = "내보내기 실패: %@";
 "web_print_hint" = "“내보내기… → PDF”로 다이어그램을 저장한 뒤 인쇄하세요.";
 "web_delete" = "삭제";

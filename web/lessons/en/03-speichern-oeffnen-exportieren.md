@@ -39,13 +39,14 @@ Above the structure chart you see the [tabs](#zeige-reiter). With **+** or [New]
 
 You type the [title](#zeige-titel) of a diagram into the field above the structure chart. It also appears when you export and is suggested as the file name.
 
-## Share as an image or PDF
+## Share: image, PDF or file
 
 With [Export](#zeige-exportieren) in the tools (icon with an arrow pointing up) you can share your structure chart:
 
 - **Image (PNG):** to put into a worksheet or a presentation
 - **Vector graphic (SVG):** stays sharp at any size
 - **PDF (A4):** one page to hand in or print
+- **VisuStruct file (.visustruct):** to pass on to someone who should open and keep editing your structure chart in VisuStruct, for example by email or through the learning platform
 - **Print** (Ctrl+P, on a Mac ⌘P): straight to the printer
 
 Under the [gear](#zeige-textgroesse) at the top right, Text size sets the font size. Larger text also shows when you export an image.
@@ -96,7 +97,7 @@ Open one of your exercises from lesson 2 and try the following:
 ::: checkliste
 - I have given the diagram a title. → Try it out
 - I have saved the diagram as a .visustruct file and opened it again. → Save and open
-- I have exported the diagram as an image (PNG) or PDF. → Share as an image or PDF
+- I have exported the diagram as an image (PNG) or PDF. → Share: image, PDF or file
 - I have opened a second diagram in a new tab. → Several diagrams in tabs
 - I have created a class folder in the Files column and saved into it. → The Files column
 :::

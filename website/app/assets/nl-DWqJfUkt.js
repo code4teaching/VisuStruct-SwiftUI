@@ -10,6 +10,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_export_png" = "Afbeelding (PNG)";
 "web_export_svg" = "Vectorafbeelding (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "VisuStruct-bestand (.visustruct)";
 "web_export_failed_fmt" = "Exporteren mislukt: %@";
 "web_print_hint" = "Gebruik “Exporteren… → PDF” om het diagram op te slaan en het daarna af te drukken.";
 "web_delete" = "Verwijderen";

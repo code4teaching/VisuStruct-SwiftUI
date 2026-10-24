@@ -39,13 +39,14 @@ Por cima do estrutograma vês os [separadores](#zeige-reiter). Com **+** ou [Nov
 
 O [título](#zeige-titel) de um diagrama escreve-se no campo por cima do estrutograma. Também aparece quando exportas e é sugerido como nome do ficheiro.
 
-## Partilhar como imagem ou PDF
+## Partilhar: imagem, PDF ou ficheiro
 
 Com [Exportar](#zeige-exportieren) nas ferramentas (ícone com uma seta para cima) podes partilhar o teu estrutograma:
 
 - **Imagem (PNG):** para pôr numa ficha de trabalho ou numa apresentação
 - **Gráfico vetorial (SVG):** fica nítido em qualquer tamanho
 - **PDF (A4):** uma página para entregar ou imprimir
+- **Ficheiro VisuStruct (.visustruct):** para passar a alguém que deva abrir e continuar a editar o teu estrutograma no VisuStruct, por exemplo por e-mail ou pela plataforma de aprendizagem
 - **Imprimir** (Ctrl+P, no Mac ⌘P): diretamente para a impressora
 
 Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
@@ -96,7 +97,7 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 ::: checkliste
 - Dei um título ao diagrama. → Experimenta
 - Guardei o diagrama como ficheiro .visustruct e voltei a abri-lo. → Guardar e abrir
-- Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar como imagem ou PDF
+- Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
 - Abri um segundo diagrama num novo separador. → Vários diagramas em separadores
 - Criei uma pasta de turma na coluna Ficheiros e guardei lá. → A coluna Ficheiros
 :::

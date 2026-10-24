@@ -10,6 +10,7 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_export_png" = "画像（PNG）";
 "web_export_svg" = "ベクター画像（SVG）";
 "web_export_pdf" = "PDF（A4）";
+"web_export_visustruct" = "VisuStruct ファイル（.visustruct）";
 "web_export_failed_fmt" = "エクスポートに失敗しました：%@";
 "web_print_hint" = "「エクスポート… → PDF」で図を保存し、そこから印刷してください。";
 "web_delete" = "削除";

@@ -10,6 +10,7 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_export_png" = "Image (PNG)";
 "web_export_svg" = "Graphique vectoriel (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "Fichier VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "Échec de l’exportation : %@";
 "web_print_hint" = "Utilisez « Exporter… → PDF » pour enregistrer le diagramme, puis imprimez-le.";
 "web_delete" = "Supprimer";

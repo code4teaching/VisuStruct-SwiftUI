@@ -10,6 +10,7 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_export_png" = "Immagine (PNG)";
 "web_export_svg" = "Grafica vettoriale (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "File VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "Esportazione non riuscita: %@";
 "web_print_hint" = "Usa “Esporta… → PDF” per salvare il diagramma e stamparlo da lì.";
 "web_delete" = "Elimina";

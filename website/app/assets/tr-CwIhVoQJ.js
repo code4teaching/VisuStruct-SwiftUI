@@ -10,6 +10,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_export_png" = "Görsel (PNG)";
 "web_export_svg" = "Vektör grafik (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "VisuStruct dosyası (.visustruct)";
 "web_export_failed_fmt" = "Dışa aktarma başarısız: %@";
 "web_print_hint" = "Diyagramı kaydetmek için “Dışa aktar… → PDF” seçeneğini kullanın ve oradan yazdırın.";
 "web_delete" = "Sil";

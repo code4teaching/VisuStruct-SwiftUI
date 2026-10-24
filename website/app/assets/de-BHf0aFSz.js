@@ -10,6 +10,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_export_png" = "Bild (PNG)";
 "web_export_svg" = "Vektorgrafik (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "VisuStruct-Datei (.visustruct)";
 "web_export_failed_fmt" = "Export fehlgeschlagen: %@";
 "web_print_hint" = "Über „Exportieren … → PDF“ lässt sich das Diagramm speichern und dann drucken.";
 "web_delete" = "Löschen";

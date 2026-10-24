@@ -10,6 +10,7 @@
 "web_export_png" = "صورة (PNG)";
 "web_export_svg" = "رسم متجهي (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "ملف VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "فشل التصدير: %@";
 "web_print_hint" = "استخدم «تصدير… → PDF» لحفظ المخطط ثم طباعته من هناك.";
 "web_delete" = "حذف";

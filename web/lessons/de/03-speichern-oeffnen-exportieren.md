@@ -39,13 +39,14 @@ Auch dein **Lernstand** landet im Workspace: in der Datei `lernstand.json` stehe
 
 Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struktogramm ein. Er erscheint auch beim Exportieren und wird als Dateiname vorgeschlagen.
 
-## Als Bild oder PDF weitergeben
+## Weitergeben: Bild, PDF oder Datei
 
 Über [Exportieren](#zeige-exportieren) bei den Werkzeugen (Symbol mit Pfeil nach oben) gibst du dein Struktogramm weiter:
 
 - **Bild (PNG):** zum Einfügen in ein Arbeitsblatt oder eine Präsentation
 - **Vektorgrafik (SVG):** bleibt in jeder Größe scharf
 - **PDF (A4):** eine Seite zum Abgeben oder Ausdrucken
+- **VisuStruct-Datei (.visustruct):** zum Weitergeben an jemanden, der dein Struktogramm in VisuStruct öffnen und weiterbearbeiten soll, zum Beispiel per Mail oder über die Lernplattform
 - **Drucken** (Strg+P, am Mac ⌘P): direkt auf den Drucker
 
 Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
@@ -96,7 +97,7 @@ richtig: PNG
 ::: checkliste
 - Ich habe dem Diagramm einen Titel gegeben. → Ausprobieren
 - Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet. → Speichern und Öffnen
-- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Als Bild oder PDF weitergeben
+- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Weitergeben: Bild, PDF oder Datei
 - Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet. → Mehrere Diagramme in Reitern
 - Ich habe in der Spalte Dateien einen Klassenordner angelegt und darin gespeichert. → Die Spalte Dateien
 :::

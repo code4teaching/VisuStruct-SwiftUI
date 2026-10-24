@@ -10,6 +10,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_export_png" = "Image (PNG)";
 "web_export_svg" = "Vector graphic (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "VisuStruct file (.visustruct)";
 "web_export_failed_fmt" = "Export failed: %@";
 "web_print_hint" = "Use “Export… → PDF” to save the diagram and print it from there.";
 "web_delete" = "Delete";

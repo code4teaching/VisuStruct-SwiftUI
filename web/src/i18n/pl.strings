@@ -10,6 +10,7 @@
 "web_export_png" = "Obraz (PNG)";
 "web_export_svg" = "Grafika wektorowa (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "Plik VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "Eksport nie powiódł się: %@";
 "web_print_hint" = "Użyj „Eksportuj… → PDF“, aby zapisać diagram i wydrukować go z pliku.";
 "web_delete" = "Usuń";

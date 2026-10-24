@@ -10,6 +10,7 @@
 "web_export_png" = "תמונה (PNG)";
 "web_export_svg" = "גרפיקה וקטורית (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "קובץ VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "הייצוא נכשל: %@";
 "web_print_hint" = "השתמשו ב„ייצוא… → PDF” כדי לשמור את התרשים ולהדפיס אותו משם.";
 "web_delete" = "מחיקה";

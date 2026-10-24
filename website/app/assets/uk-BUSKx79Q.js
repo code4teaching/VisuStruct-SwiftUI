@@ -10,6 +10,7 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_export_png" = "Зображення (PNG)";
 "web_export_svg" = "Векторна графіка (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "Файл VisuStruct (.visustruct)";
 "web_export_failed_fmt" = "Помилка експорту: %@";
 "web_print_hint" = "Через «Експорт… → PDF» можна зберегти схему, а потім надрукувати її.";
 "web_delete" = "Видалити";

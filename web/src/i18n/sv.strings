@@ -10,6 +10,7 @@
 "web_export_png" = "Bild (PNG)";
 "web_export_svg" = "Vektorgrafik (SVG)";
 "web_export_pdf" = "PDF (A4)";
+"web_export_visustruct" = "VisuStruct-fil (.visustruct)";
 "web_export_failed_fmt" = "Exporten misslyckades: %@";
 "web_print_hint" = "Använd ”Exportera… → PDF” för att spara diagrammet och skriva ut det därifrån.";
 "web_delete" = "Radera";
