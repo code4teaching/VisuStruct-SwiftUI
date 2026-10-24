@@ -29,7 +29,9 @@ export interface WorkspaceFile {
 }
 
 /** Lernstand im Workspace (ein Lernstand je Workspace). */
-export const progressFile = 'lernstand.json'
+export const progressFile = 'learnProgress.json'
+/** Früherer Name der Lernstand-Datei (bis 0.3.31); wird übernommen und dann entfernt. */
+const legacyProgressFile = 'lernstand.json'
 
 export interface FilesHost {
   open(xml: string, file: WorkspaceFile, java: string | undefined): void
@@ -40,7 +42,6 @@ export interface FilesHost {
 }
 
 const modeKey = 'visustruct.files.mode'
-const classKey = 'visustruct.files.class'
 const expandedKey = 'visustruct.files.expanded'
 
 function storedList(key: string): string[] {
@@ -125,8 +126,7 @@ export class FilesPanel {
   private workspace?: Workspace
   /** Gemerkter Ordner, für den der Browser erst wieder fragen muss. */
   private pending?: FileSystemDirectoryHandle
-  private className = stored(classKey) ?? undefined
-  /** Aufgeklappte Ordner als Pfade, z. B. `11FI1/2026-10-23`. */
+  /** Aufgeklappte Ordner als Pfade, z. B. `2026-10-23`. */
   private expanded = new Set<string>(storedList(expandedKey))
   private rendering = 0
   /** Workspace, mit dem der Lernstand gerade abgeglichen wird. */
@@ -187,8 +187,6 @@ export class FilesPanel {
       this.workspace = await pickFolder()
       this.pending = undefined
       store(modeKey, 'folder')
-      this.className = undefined
-      store(classKey, null)
     } catch {
       /* abgebrochen */
     }
@@ -219,15 +217,21 @@ export class FilesPanel {
 
   // MARK: - Lernstand
 
-  /** Neuer Workspace: `lernstand.json` einlesen, zusammenführen und gleich zurückschreiben. */
+  /** Neuer Workspace: `learnProgress.json` (oder die alte `lernstand.json`) einlesen, zusammenführen und gleich zurückschreiben. */
   private async syncProgress(ws: Workspace | undefined) {
     this.progressWorkspace = ws
     if (!ws) return
     try {
-      if (await ws.root.has(progressFile)) {
-        if (progress.mergeFile(await ws.root.read(progressFile))) this.host.progressLoaded()
+      let loaded = false
+      for (const name of [progressFile, legacyProgressFile]) {
+        if (await ws.root.has(name)) loaded = progress.mergeFile(await ws.root.read(name)) || loaded
       }
+      if (loaded) this.host.progressLoaded()
       await this.writeProgress(ws)
+      if (await ws.root.has(legacyProgressFile)) {
+        await ws.root.remove(legacyProgressFile)
+        await this.render()
+      }
     } catch {
       /* Ordner nicht lesbar: Lernstand bleibt im Browser */
     }
@@ -271,10 +275,9 @@ export class FilesPanel {
         const full = path ? `${path}/${entry.name}` : entry.name
         if (entry.kind === 'directory') {
           const open = this.expanded.has(full)
-          const isClass = depth === 0 && entry.name === this.className
           rows.push(
-            `<div class="files-row dir${isClass ? ' current' : ''}" style="--depth:${depth}" data-path="${esc(full)}" data-kind="dir">
-              <button class="files-name" aria-expanded="${open}">${open ? '▾' : '▸'} ${icons.folder}<span>${esc(entry.name)}</span>${isClass ? `<small>${esc(t('web_files_current_class'))}</small>` : ''}</button>
+            `<div class="files-row dir" style="--depth:${depth}" data-path="${esc(full)}" data-kind="dir">
+              <button class="files-name" aria-expanded="${open}">${open ? '▾' : '▸'} ${icons.folder}<span>${esc(entry.name)}</span></button>
               <button class="icon files-delete" data-tip="${esc(t('web_files_delete'))}" aria-label="${esc(t('web_files_delete'))}">${icons.trash}</button>
             </div>`,
           )
@@ -299,7 +302,7 @@ export class FilesPanel {
     }
     if (ticket !== this.rendering) return
     const where = ws.kind === 'folder' ? `📁 ${esc(ws.root.name)}` : esc(t('web_files_in_browser'))
-    const hint = this.className ? t('web_files_save_hint_fmt', `${this.className}/${todayFolder()}`) : t('web_files_class_hint')
+    const hint = t('web_files_save_hint_fmt', todayFolder())
     this.body.innerHTML = `
       <p class="files-where">${where}</p>
       <div class="files-tree" role="tree">${rows.join('') || `<p class="files-empty">${esc(t('web_files_empty'))}</p>`}</div>
@@ -332,11 +335,6 @@ export class FilesPanel {
     const path = row.dataset.path!
     if (target.closest('.files-delete')) return this.remove(row)
     if (row.dataset.kind === 'dir') {
-      // Ein Ordner ganz oben ist eine Klasse: dort wird gespeichert.
-      if (!path.includes('/')) {
-        this.className = path
-        store(classKey, path)
-      }
       if (this.expanded.has(path)) this.expanded.delete(path)
       else this.expanded.add(path)
       this.rememberExpanded()
@@ -378,10 +376,6 @@ export class FilesPanel {
         for (const ext of ['.visustruct', '.java']) if (await dir.has(base + ext)) await dir.remove(base + ext)
       } else {
         await dir.remove(name)
-        if (path === this.className) {
-          this.className = undefined
-          store(classKey, null)
-        }
       }
     } catch (err) {
       this.host.message((err as Error).message)
@@ -391,15 +385,10 @@ export class FilesPanel {
 
   private async newFolder() {
     if (!this.workspace) return
-    const name = validFolderName((await ask({ title: t('web_files_folder_prompt'), input: '11FI1', ok: t('web_files_create') })) ?? '')
+    const name = validFolderName((await ask({ title: t('web_files_folder_prompt'), input: '', ok: t('web_files_create') })) ?? '')
     if (!name) return
     try {
       await this.workspace.root.dir(name, true)
-      // Der erste Ordner wird gleich die Klasse.
-      if (!this.className) {
-        this.className = name
-        store(classKey, name)
-      }
     } catch (err) {
       this.host.message((err as Error).message)
     }
@@ -409,44 +398,19 @@ export class FilesPanel {
   // MARK: - Speichern
 
   /**
-   * Programm speichern: in seinen bisherigen Ordner, sonst in Klasse/Tagesordner (wird angelegt).
-   * `undefined`, wenn noch kein Workspace oder keine Klasse gewählt ist.
+   * Programm speichern: in seinen bisherigen Ordner, sonst in den Tagesordner im Workspace (wird angelegt).
+   * `undefined`, wenn noch kein Workspace gewählt ist.
    */
-  /** Speichern ohne Klasse: vorhandene Klasse wählen oder neue anlegen. Die Wahl bleibt eingestellt. */
-  private async askClass(): Promise<boolean> {
-    const ws = this.workspace!
-    const classes = (await ws.root.list())
-      .filter((e) => e.kind === 'directory')
-      .map((e) => e.name)
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    const answer = await ask({
-      title: t('web_files_ask_class'),
-      hint: t(classes.length ? 'web_files_ask_class_hint' : 'web_files_ask_class_new_hint'),
-      choices: classes,
-      input: t('web_files_class_placeholder'),
-      ok: t('web_files_create_save'),
-    })
-    const name = classes.includes(answer ?? '') ? answer! : validFolderName(answer ?? '')
-    if (!name) return false
-    await ws.root.dir(name, true)
-    this.className = name
-    store(classKey, name)
-    return true
-  }
-
   async save(title: string, xml: string, java: string | undefined, file?: WorkspaceFile): Promise<WorkspaceFile | undefined> {
     const ws = this.workspace
     if (!ws) return undefined
     let target = file
     if (!target) {
-      if (!this.className && !(await this.askClass())) return undefined
-      const className = this.className!
       const day = todayFolder()
-      const dir = await (await ws.root.dir(className, true)).dir(day, true)
+      const dir = await ws.root.dir(day, true)
       const base = uniqueBaseName(programBaseName(title, t('web_files_default_name')), (await dir.list()).map((e) => e.name))
-      target = { dir, base, path: `${className}/${day}/${base}` }
-      this.expanded.add(className)
-      this.expanded.add(`${className}/${day}`)
+      target = { dir, base, path: `${day}/${base}` }
+      this.expanded.add(day)
       this.rememberExpanded()
     }
     await target.dir.write(`${target.base}.visustruct`, xml)

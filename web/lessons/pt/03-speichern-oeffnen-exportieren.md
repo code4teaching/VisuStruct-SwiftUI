@@ -1,7 +1,7 @@
 ---
 titel: Guardar, abrir, exportar
 bereich: Primeiros passos
-kurz: Guardar os teus ficheiros em segurança, usar o espaço de trabalho com pastas de turma, abrir vários diagramas e partilhá-los como imagem ou PDF.
+kurz: Guardar os teus ficheiros em segurança, usar o teu espaço de trabalho, abrir vários diagramas e partilhá-los como imagem ou PDF.
 ---
 
 ## O ficheiro .visustruct
@@ -26,21 +26,19 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 **A tua vez:** Configura já o teu espaço de trabalho, antes de continuares a ler. A partir de hoje guardas lá todos os teus programas.
 
 1. Cria um espaço de trabalho: abre a coluna e clica em **Escolher pasta**. Na janela, vai aos teus **Documentos**, cria aí com **Nova pasta** uma pasta chamada `VisuStruct-Ficheiros` e seleciona-a. Permite que o VisuStruct use a pasta. Isto funciona no Chrome e no Edge. No iPad e noutros navegadores, clica antes em **Guardar no navegador**.
-2. Com o ícone de pasta com **+** crias uma pasta para a tua turma, por exemplo `11FI1`. Um clique numa pasta de turma torna-a a **turma** atual.
-3. Guarda como de costume. Na tua turma, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo `2026-10-23`, e guarda lá o programa. O nome do ficheiro vem do título.
+2. Guarda como de costume. No teu espaço de trabalho, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo `2026-10-23`, e guarda lá o programa. O nome do ficheiro vem do título.
 
 O teu espaço de trabalho fica assim:
 
 ```text
 VisuStruct-Ficheiros        ← espaço de trabalho
-└── 11FI1                   ← turma
-    └── 2026-10-23          ← dia
-        └── Fatorial.visustruct
+└── 2026-10-23              ← dia
+    └── Fatorial.visustruct
 ```
 
 Um clique num programa da coluna volta a abri-lo. Assim encontras depressa cada aula mais tarde.
 
-Também o teu **progresso** fica no espaço de trabalho: o ficheiro `lernstand.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
+Também o teu **progresso** fica no espaço de trabalho: o ficheiro `learnProgress.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
 
 > O armazenamento do navegador só fica neste navegador, neste dispositivo. Uma pasta real no computador é mais segura, porque também a podes copiar e partilhar.
 
@@ -111,7 +109,7 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 - Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
 - Abri um segundo diagrama num novo separador. → Vários diagramas em separadores
 - Criei o meu espaço de trabalho `VisuStruct-Ficheiros`. → A coluna Ficheiros
-- Criei uma pasta de turma na coluna Ficheiros e guardei lá. → A coluna Ficheiros
+- Guardei um programa no meu espaço de trabalho. → A coluna Ficheiros
 :::
 
 ## Teste de conhecimentos
@@ -128,9 +126,9 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 - [x] Porque o navegador só guarda os dados neste dispositivo e eles podem perder-se
 - [ ] Porque não se pode exportar sem guardar
 
-? Hoje guardas na turma 11FI1. Onde fica o teu programa?
+? Hoje guardas um programa no teu espaço de trabalho. Onde fica?
 - [ ] Na pasta de transferências
-- [x] Na pasta 11FI1, dentro de uma pasta com a data de hoje
-- [ ] Diretamente na pasta 11FI1
+- [x] No espaço de trabalho, dentro de uma pasta com a data de hoje
+- [ ] Diretamente no espaço de trabalho, sem subpasta
 > O VisuStruct cria automaticamente uma pasta com a data de cada dia. Assim os programas ficam ordenados por aula.
 :::
