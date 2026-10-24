@@ -52399,7 +52399,7 @@ ${x}
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${W(f("about_nav_title"))}</button>
-              <span class="settings-version">${W(f("web_about_version_fmt").replace("%@","0.3.39"))}</span>
+              <span class="settings-version">${W(f("web_about_version_fmt").replace("%@","0.3.40"))}</span>
             </footer>
           </div>
         </div>
@@ -52457,7 +52457,7 @@ ${x}
           <span class="logo" aria-hidden="true"></span>
           <div>
             <h3>VisuStruct <small>${W(f("web_brand_suffix"))}</small></h3>
-            <p class="about-version">${W(f("web_about_version_fmt").replace("%@","0.3.39"))}</p>
+            <p class="about-version">${W(f("web_about_version_fmt").replace("%@","0.3.40"))}</p>
             <p class="about-author">Holger Sebastiao</p>
             ${e("about_web_label","https://www.visustruct.org","www.visustruct.org")}
             ${e("about_developer_label","https://www.sebastiao.org","www.sebastiao.org")}
