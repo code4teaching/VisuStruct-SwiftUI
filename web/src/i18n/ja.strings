@@ -97,6 +97,8 @@
 "web_editor_hide" = "構造図を隠す";
 "web_keywords_title" = "コードのキーワード";
 "web_keywords_hint" = "要素名の代わりに if, while, for";
+"web_palette_compact" = "要素を常にコンパクト表示";
+"web_palette_compact_hint" = "記号の下に小さく名前を表示。オフの場合は列が狭いときのみ";
 "web_about_version_fmt" = "バージョン %@";
 "web_about_software" = "使用しているソフトウェア";
 "web_about_software_text" = "コードエディターは CodeMirror と Lezer（MIT ライセンス）を使用しています。Swing サポートを有効にすると、VisuStruct は Leaning Technologies の CheerpJ（Community ライセンス）と OpenJDK の javac を読み込みます。";

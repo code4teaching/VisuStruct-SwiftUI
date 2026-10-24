@@ -97,6 +97,8 @@
 "web_editor_hide" = "Nascondi diagramma";
 "web_keywords_title" = "Parole chiave del codice";
 "web_keywords_hint" = "if, while, for al posto dei nomi degli elementi";
+"web_palette_compact" = "Elementi sempre compatti";
+"web_palette_compact_hint" = "Simbolo con il nome piccolo sotto, altrimenti solo con la colonna stretta";
 "web_about_version_fmt" = "Versione %@";
 "web_about_software" = "Software utilizzato";
 "web_about_software_text" = "L’editor di codice usa CodeMirror e Lezer (licenza MIT). Con il supporto Swing, VisuStruct carica CheerpJ di Leaning Technologies (licenza Community) e javac di OpenJDK.";

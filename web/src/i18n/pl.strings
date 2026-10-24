@@ -97,6 +97,8 @@
 "web_editor_hide" = "Ukryj diagram";
 "web_keywords_title" = "Słowa kluczowe kodu";
 "web_keywords_hint" = "if, while, for zamiast nazw elementów";
+"web_palette_compact" = "Elementy zawsze kompaktowe";
+"web_palette_compact_hint" = "Symbol z małą nazwą pod spodem, w przeciwnym razie tylko przy wąskiej kolumnie";
 "web_about_version_fmt" = "Wersja %@";
 "web_about_software" = "Używane oprogramowanie";
 "web_about_software_text" = "Edytor kodu korzysta z CodeMirror i Lezer (licencja MIT). Z obsługą Swing VisuStruct wczytuje CheerpJ firmy Leaning Technologies (licencja Community) oraz javac z OpenJDK.";

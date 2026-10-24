@@ -159,6 +159,8 @@
 "web_editor_hide" = "Hide diagram";
 "web_keywords_title" = "Code keywords";
 "web_keywords_hint" = "if, while, for instead of Branch, For loop …";
+"web_palette_compact" = "Elements always compact";
+"web_palette_compact_hint" = "Symbol with a small name below, otherwise only when the column is narrow";
 "web_about_version_fmt" = "Version %@";
 "web_about_software" = "Third-party software";
 "web_about_software_text" = "The code editor uses CodeMirror and Lezer (MIT License). With Swing support, VisuStruct loads CheerpJ by Leaning Technologies (Community License) and javac from OpenJDK.";
