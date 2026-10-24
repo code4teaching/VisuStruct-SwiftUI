@@ -135,6 +135,39 @@ tipp: `int[][] points = {{3, 5}, {4, 1}, {2, 2}};` and in the inner loop `sum = 
 lösung: l16-java-punkte-loesung.visustruct
 :::
 
+## Fill in the gaps: tables
+
+::: lückentext
+titel: Adding up all fields
+auftrag: The program adds up all numbers in the table. Fill in the missing words and symbols.
+```java
+[[int]][][] grid = {{1, 2, 3}, {4, 5, 6}};
+int sum = 0;
+for (int r = 0; r < grid.[[length]]; r++) {
+    for (int c = 0; c < grid[r].[[length]]; c++) {
+        sum = sum [[+]] grid[r][c];
+    }
+}
+System.out.println("Sum: " + sum);
+```
+erklärung: `int[][]` is a table. `grid.length` is the number of rows (2), `grid[r].length` the number of fields in row `r` (3). Output: **Sum: 21**
+:::
+
+## Find the bug: points
+
+::: übung l16-java-fehler
+titel: Fix player 2
+code: java
+auftrag: In the table `points` each row stands for one player. The program should add up the points of player 2 (row 1), so **Player 2: 11**. Instead it reports an error.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l16-java-fehler-start.visustruct
+test: - -> Player 2: 11
+braucht: forSchleife
+tipp: In `points[a][b]`, `a` is the row and `b` the place in the row. Which number stands for the row of player 2?
+tipp: The indices are swapped: `points[1][j]` instead of `points[j][1]`.
+lösung: l16-java-fehler-loesung.visustruct
+:::
+
 ## Game: Which seat?
 
 ::: spiel frage

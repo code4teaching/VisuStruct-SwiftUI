@@ -149,6 +149,47 @@ tipp: `for (int i = 0; i < cards.length; i++)` and inside it `if (cards[i] == wa
 lösung: l19-java-zaehlen-loesung.visustruct
 :::
 
+## Fill in the gaps: bubble sort
+
+::: lückentext
+titel: Sorting cards
+auftrag: The program sorts the cards in ascending order with bubble sort. Fill in the missing words and symbols.
+```java
+int[] cards = {5, 2, 8, 1};
+for (int round = 0; round < cards.[[length]] - 1; round++) {
+    for (int i = 0; i < cards.length - 1; i++) {
+        if (cards[i] [[>]] cards[i + 1]) {
+            [[int]] temp = cards[i];
+            cards[i] = cards[i + 1];
+            cards[i + 1] = [[temp]];
+        }
+    }
+}
+for (int i = 0; i < cards.length; i++) {
+    System.out.println(cards[i]);
+}
+```
+erklärung: If a card is larger than its right neighbour, the two are swapped, with a helper variable as when swapping glasses. After `length - 1` rounds everything is sorted: 1, 2, 5, 8.
+:::
+
+## Find the bug: search
+
+::: übung l19-java-fehler
+titel: Fix the linear search
+code: java
+auftrag: The cards {8, 4, 11, 4, 6} are in an array. The program should output the **first** position of the card you are looking for, so for 4 **Position: 1**. But it outputs **Position: 3**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l19-java-fehler-start.visustruct
+test: 4 -> Position: 1
+test: 6 -> Position: 4
+test: 9 -> Position: -1
+test: 8 -> Position: 0
+braucht: whileSchleife, verzweigung
+tipp: The loop always runs up to the last card. What happens when the 4 comes a second time?
+tipp: The loop should stop as soon as something has been found: `while (position == -1 && i < cards.length)`.
+lösung: l19-java-fehler-loesung.visustruct
+:::
+
 ## Game: Search pro
 
 ::: spiel frage

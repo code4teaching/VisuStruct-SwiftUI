@@ -149,6 +149,47 @@ tipp: `for (int i = 0; i < karten.length; i++)` und darin `if (karten[i] == gesu
 lösung: l19-java-zaehlen-loesung.visustruct
 :::
 
+## Lückentext: Bubblesort
+
+::: lückentext
+titel: Karten sortieren
+auftrag: Das Programm sortiert die Karten mit Bubblesort aufsteigend. Ergänze die fehlenden Wörter und Zeichen.
+```java
+int[] karten = {5, 2, 8, 1};
+for (int runde = 0; runde < karten.[[length]] - 1; runde++) {
+    for (int i = 0; i < karten.length - 1; i++) {
+        if (karten[i] [[>]] karten[i + 1]) {
+            [[int]] hilf = karten[i];
+            karten[i] = karten[i + 1];
+            karten[i + 1] = [[hilf]];
+        }
+    }
+}
+for (int i = 0; i < karten.length; i++) {
+    System.out.println(karten[i]);
+}
+```
+erklärung: Ist eine Karte größer als ihre rechte Nachbarin, werden die beiden getauscht, mit einer Hilfsvariablen wie beim Gläsertauschen. Nach `length - 1` Runden ist alles sortiert: 1, 2, 5, 8.
+:::
+
+## Fehler finden: Suche
+
+::: übung l19-java-fehler
+titel: Lineare Suche reparieren
+code: java
+auftrag: Die Karten {8, 4, 11, 4, 6} liegen in einem Array. Das Programm soll die **erste** Position der gesuchten Karte ausgeben, bei 4 also **Position: 1**. Es gibt aber **Position: 3** aus.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l19-java-fehler-start.visustruct
+test: 4 -> Position: 1
+test: 6 -> Position: 4
+test: 9 -> Position: -1
+test: 8 -> Position: 0
+braucht: whileSchleife, verzweigung
+tipp: Die Schleife läuft immer bis zur letzten Karte. Was passiert, wenn die 4 ein zweites Mal kommt?
+tipp: Die Schleife soll aufhören, sobald etwas gefunden ist: `while (position == -1 && i < karten.length)`.
+lösung: l19-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Suchprofi
 
 ::: spiel frage

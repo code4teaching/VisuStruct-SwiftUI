@@ -157,6 +157,39 @@ tipp: `int[] noten = {2, 3, 1, 4};`, dann `for (int i = 0; i < noten.length; i++
 lösung: l15-java-noten-loesung.visustruct
 :::
 
+## Lückentext: Arrays
+
+::: lückentext
+titel: Das Maximum suchen
+auftrag: Das Programm sucht den größten Wert im Array. Ergänze die fehlenden Wörter und Zeichen.
+```java
+[[int]][] werte = {3, 7, 1, 9, 4};
+int max = werte[0];
+[[for]] (int i = 1; i < werte.[[length]]; i++) {
+    if (werte[i] [[>]] max) {
+        max = werte[i];
+    }
+}
+System.out.println("Maximum: " + max);
+```
+erklärung: `int[]` ist ein Array aus ganzen Zahlen, `werte.length` seine Länge. `max` beginnt mit dem ersten Wert, die Schleife vergleicht alle weiteren damit. Ausgabe: **Maximum: 9**
+:::
+
+## Fehler finden: Temperaturen
+
+::: übung l15-java-fehler
+titel: Höchste Temperatur reparieren
+code: java
+auftrag: Im Januar wurden die Temperaturen -5, -2, -8 und -3 Grad gemessen. Das Programm soll die höchste ausgeben, also **Höchste Temperatur: -2**. Es behauptet aber 0 Grad, obwohl es so warm nie war.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l15-java-fehler-start.visustruct
+test: - -> Höchste Temperatur: -2
+braucht: forSchleife, verzweigung
+tipp: Mit welchem Wert beginnt `max`? Ist irgendeine der Temperaturen größer als dieser Startwert?
+tipp: `max` muss mit einem Wert aus dem Array beginnen: `int max = temperaturen[0];`
+lösung: l15-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Bombe entschärfen
 
 ::: spiel bombe

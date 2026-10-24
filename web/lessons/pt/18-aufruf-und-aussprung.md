@@ -232,6 +232,47 @@ tipp: Dentro de `while (true) { … }` lês o preço. Logo a seguir verificas `i
 lösung: l18-java-kasse-loesung.visustruct
 :::
 
+## Preenche os espaços: métodos e break
+
+::: lückentext
+titel: Método e saída
+auftrag: Preenche as palavras que faltam. Em cima está o método que calcula um quadrado. Por baixo está o programa principal, que o chama. Na área Programação, cada um fica no seu separador.
+```java
+public static [[int]] quadrado(int x) {
+    [[return]] x * x;
+}
+```
+```java
+int numero = 1;
+while ([[true]]) {
+    int q = [[quadrado]](numero);
+    if (q > 50) {
+        [[break]];
+    }
+    System.out.println(q);
+    numero = numero + 1;
+}
+```
+erklärung: `int` antes do nome do método quer dizer que o método devolve um número inteiro, com `return`. Se um método não devolver nada, aparece `void`. `while (true)` repete-se sem fim até `break` sair do ciclo. Saída: 1, 4, 9, 16, 25, 36 e 49.
+:::
+
+## Encontra o erro: adivinhar
+
+::: übung l18-java-fehler
+titel: Corrigir a contagem de tentativas
+code: java
+auftrag: Neste jogo de adivinhar, o número secreto é 7. O programa pede um palpite até aparecer o 7 e depois mostra o número de tentativas. Com 3, 5 e 7 foram 3 tentativas, mas o programa diz **Tentativas: 2**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l18-java-fehler-start.visustruct
+test: 3, 5, 7 -> Tentativas: 3
+test: 7 -> Tentativas: 1
+test: 1, 2, 3, 7 -> Tentativas: 4
+braucht: endlosschleife, aussprung
+tipp: O que acontece com o palpite certo? Ainda é contado antes de `break` sair do ciclo?
+tipp: Primeiro conta, depois verifica: `tentativas = tentativas + 1;` fica antes do `if` com o `break`.
+lösung: l18-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: O que é devolvido?
 
 ::: spiel frage

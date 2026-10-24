@@ -98,6 +98,39 @@ tipp: `do { numero = numero * 2; System.out.println(numero); } while (numero < 1
 lösung: l12-java-verdoppeln-loesung.visustruct
 :::
 
+## Preenche os espaços: do-while
+
+::: lückentext
+titel: Triplicar
+auftrag: O número é triplicado e mostrado enquanto for menor do que 100. Preenche as palavras e os sinais que faltam.
+```java
+int numero = 1;
+[[do]] {
+    numero = numero * 3;
+    System.out.println(numero);
+} [[while]] (numero [[<]] 100)[[;]]
+```
+erklärung: O corpo fica entre `do {` e `}`, a condição só vem depois. No ciclo do-while há um ponto e vírgula depois de `while (…)`. Saída: 3, 9, 27, 81 e 243.
+:::
+
+## Encontra o erro: dividir ao meio
+
+::: übung l12-java-fehler
+titel: Corrigir a divisão ao meio
+code: java
+auftrag: O programa lê um número inicial e, com um ciclo do-while, divide-o repetidamente por 2 (divisão inteira). Cada resultado é mostrado até chegar a **0**. Para 10 são 5, 2, 1 e 0. Mas falta o 0.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l12-java-fehler-start.visustruct
+test: 10 -> 5 | 2 | 1 | 0
+test: 1 -> 0
+test: 7 -> 3 | 1 | 0
+test: 20 -> 10 | 5 | 2 | 1 | 0
+braucht: doUntilSchleife
+tipp: Que valor tem `numero` depois de o 1 ser mostrado? O ciclo ainda se repete mais uma vez?
+tipp: O ciclo deve continuar enquanto o número for maior do que 0: `while (numero > 0);`
+lösung: l12-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Pelo menos uma vez?
 
 ::: spiel frage

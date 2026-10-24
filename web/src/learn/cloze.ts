@@ -10,14 +10,15 @@
  *     erklärung: Wird gezeigt, wenn alle Lücken stimmen.
  *     :::
  *
+ * Mehrere Codeblöcke stehen untereinander, z. B. eine Methode und das Hauptprogramm.
  * `[[a]]` ist eine Lücke. Weitere richtige Antworten stehen mit ` | ` (Leerzeichen davor und danach)
  * dahinter, damit `||` und `|` selbst als Antwort gehen: `[[i++ | i += 1]]`.
  */
 export interface Cloze {
   title: string
   task: string
-  /** Codezeilen; jede Zeile besteht aus Text und Lücken. */
-  lines: ClozePart[][]
+  /** Codeblöcke (z. B. Methode und Hauptprogramm wie in eigenen Reitern), darin Zeilen aus Text und Lücken. */
+  blocks: ClozePart[][][]
   explanation?: string
 }
 
@@ -26,21 +27,17 @@ export type ClozePart = string | { answers: string[] }
 const gapPattern = /\[\[(.+?)\]\]/g
 
 export function parseCloze(inner: string[], file: string): Cloze {
-  const cloze: Cloze = { title: '', task: '', lines: [] }
-  let code: string[] | undefined
+  const cloze: Cloze = { title: '', task: '', blocks: [] }
+  const codes: string[][] = []
   let inCode = false
   for (const raw of inner) {
     if (/^\s*```/.test(raw)) {
-      if (inCode) inCode = false
-      else if (code) throw new Error(`${file}: Ein Lückentext hat nur einen Codeblock.`)
-      else {
-        code = []
-        inCode = true
-      }
+      if (!inCode) codes.push([])
+      inCode = !inCode
       continue
     }
     if (inCode) {
-      code!.push(raw.replace(/\s+$/, ''))
+      codes[codes.length - 1].push(raw.replace(/\s+$/, ''))
       continue
     }
     const line = raw.trim()
@@ -58,11 +55,13 @@ export function parseCloze(inner: string[], file: string): Cloze {
   }
   if (inCode) throw new Error(`${file}: Der Codeblock im Lückentext wird nicht mit \`\`\` geschlossen.`)
   if (!cloze.title) throw new Error(`${file}: Ein Lückentext braucht einen Titel.`)
-  if (!code?.length) throw new Error(`${file}: Lückentext „${cloze.title}“ braucht einen Codeblock.`)
-  // Gemeinsame Einrückung entfernen, damit der Code links beginnt.
-  const indent = Math.min(...code.filter((l) => l.trim()).map((l) => /^ */.exec(l)![0].length))
-  cloze.lines = code.map((l) => splitGaps(l.slice(indent), file, cloze.title))
-  if (!cloze.lines.some((l) => l.some((p) => typeof p !== 'string'))) {
+  if (!codes.some((c) => c.some((l) => l.trim()))) throw new Error(`${file}: Lückentext „${cloze.title}“ braucht einen Codeblock.`)
+  cloze.blocks = codes.map((code) => {
+    // Gemeinsame Einrückung entfernen, damit der Code links beginnt.
+    const indent = Math.min(...code.filter((l) => l.trim()).map((l) => /^ */.exec(l)![0].length))
+    return code.map((l) => splitGaps(l.slice(indent), file, cloze.title))
+  })
+  if (!clozeGaps(cloze).length) {
     throw new Error(`${file}: Lückentext „${cloze.title}“ braucht mindestens eine Lücke [[…]].`)
   }
   return cloze
@@ -87,7 +86,7 @@ function splitGaps(line: string, file: string, title: string): ClozePart[] {
 
 /** Alle Lücken in Reihenfolge. */
 export function clozeGaps(cloze: Cloze): string[][] {
-  return cloze.lines.flatMap((l) => l.flatMap((p) => (typeof p === 'string' ? [] : [p.answers])))
+  return cloze.blocks.flat().flatMap((l) => l.flatMap((p) => (typeof p === 'string' ? [] : [p.answers])))
 }
 
 /** Leerzeichen zählen nicht: `i = i + 1` und `i=i+1` sind gleich. Groß/klein zählt (wie in Java). */

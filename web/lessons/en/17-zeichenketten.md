@@ -159,6 +159,44 @@ tipp: The condition is `input.equals("Ludwig")`. In Java, `==` does not reliably
 lösung: l17-java-passwort-loesung.visustruct
 :::
 
+## Fill in the gaps: texts
+
+::: lückentext
+titel: Examining a word
+auftrag: Fill in the missing methods and words.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("A word?");
+[[String]] word = scanner.next();
+System.out.println("Length: " + word.[[length]]());
+System.out.println("Capitals: " + word.[[toUpperCase]]());
+System.out.println("First letter: " + word.[[charAt]](0));
+if (word.[[equals]]("Ludwig")) {
+    System.out.println("Hello Ludwig!");
+}
+```
+erklärung: `length()` counts the characters, `toUpperCase()` makes everything upper case, `charAt(0)` gives the first character. You compare texts with `equals`, not with `==`.
+:::
+
+## Find the bug: initials
+
+::: übung l17-java-fehler
+titel: Fix the initials
+code: java
+auftrag: The program reads a first name and a last name and should output the initials. For Ludwig Geißbock that is **L. G.** But it outputs **u. e.**
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l17-java-fehler-start.visustruct
+test: Ludwig, Geißbock -> L. G.
+test: Mia, Meyer -> M. M.
+test: Ada, Lovelace -> A. L.
+braucht: anweisung
+tipp: At which index does Java start counting?
+tipp: The first character has the index 0: `first.charAt(0)` and `last.charAt(0)`.
+lösung: l17-java-fehler-loesung.visustruct
+:::
+
 ## Even more methods
 
 A String can do much more. You will often need these methods too:

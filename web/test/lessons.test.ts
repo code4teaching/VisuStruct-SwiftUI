@@ -209,7 +209,7 @@ describe('Lernbereich: Format', () => {
       cloze: {
         title: 'T',
         task: 'Ergänze.',
-        lines: [[{ answers: ['int'] }, ' x = 1;'], ['if (a ', { answers: ['||'] }, ' b) x', { answers: ['++', '+= 1'] }, ';']],
+        blocks: [[[{ answers: ['int'] }, ' x = 1;'], ['if (a ', { answers: ['||'] }, ' b) x', { answers: ['++', '+= 1'] }, ';']]],
         explanation: 'E',
       },
     })
@@ -269,20 +269,20 @@ describe('Lehrermodus', () => {
 
 describe('Lückentexte', () => {
   const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
-  /** Der Code mit der ersten Antwort in jeder Lücke, nur Lücke `gap` bekommt Antwort `answer`. */
+  /** Jeder Codeblock mit der ersten Antwort in jeder Lücke, nur Lücke `gap` bekommt Antwort `answer`. */
   const filled = (cloze: Cloze, gap = -1, answer = 0) => {
     let n = 0
-    return cloze.lines.map((l) => l.map((p) => (typeof p === 'string' ? p : p.answers[n++ === gap ? answer : 0])).join('')).join('\n')
+    return cloze.blocks.map((lines) => lines.map((l) => l.map((p) => (typeof p === 'string' ? p : p.answers[n++ === gap ? answer : 0])).join('')).join('\n'))
   }
+  const problems = (cloze: Cloze, gap = -1, answer = 0) => filled(cloze, gap, answer).flatMap((code) => parseLiveJava(code, labels).problems)
   it.each(contentLanguages)('mit jeder richtigen Antwort ist der Java-Code fehlerfrei (%s)', (lang) => {
     useContentLanguage(lang)
     let checked = 0
     for (const { where, block } of allBlocks()) {
       if (block.kind !== 'cloze') continue
       const cloze = block.cloze
-      expect(parseLiveJava(filled(cloze), labels).problems, `${where}\n${filled(cloze)}`).toEqual([])
       clozeGaps(cloze).forEach((answers, gi) =>
-        answers.forEach((_, ai) => expect(parseLiveJava(filled(cloze, gi, ai), labels).problems, `${where}\n${filled(cloze, gi, ai)}`).toEqual([])),
+        answers.forEach((_, ai) => expect(problems(cloze, gi, ai), `${where}\n${filled(cloze, gi, ai).join('\n')}`).toEqual([])),
       )
       checked++
     }

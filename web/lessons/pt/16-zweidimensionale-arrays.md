@@ -135,6 +135,39 @@ tipp: `int[][] pontos = {{3, 5}, {4, 1}, {2, 2}};` e no ciclo interior `soma = s
 lösung: l16-java-punkte-loesung.visustruct
 :::
 
+## Preenche os espaços: tabelas
+
+::: lückentext
+titel: Somar todos os campos
+auftrag: O programa soma todos os números da tabela. Preenche as palavras e os sinais que faltam.
+```java
+[[int]][][] campo = {{1, 2, 3}, {4, 5, 6}};
+int soma = 0;
+for (int l = 0; l < campo.[[length]]; l++) {
+    for (int c = 0; c < campo[l].[[length]]; c++) {
+        soma = soma [[+]] campo[l][c];
+    }
+}
+System.out.println("Soma: " + soma);
+```
+erklärung: `int[][]` é uma tabela. `campo.length` é o número de linhas (2), `campo[l].length` o número de campos na linha `l` (3). Saída: **Soma: 21**
+:::
+
+## Encontra o erro: pontos
+
+::: übung l16-java-fehler
+titel: Corrigir o jogador 2
+code: java
+auftrag: Na tabela `pontos`, cada linha corresponde a um jogador. O programa deve somar os pontos do jogador 2 (linha 1), ou seja, **Jogador 2: 11**. Em vez disso, dá um erro.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l16-java-fehler-start.visustruct
+test: - -> Jogador 2: 11
+braucht: forSchleife
+tipp: Em `pontos[a][b]`, `a` é a linha e `b` o lugar na linha. Que número corresponde à linha do jogador 2?
+tipp: Os índices estão trocados: `pontos[1][j]` em vez de `pontos[j][1]`.
+lösung: l16-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Que lugar?
 
 ::: spiel frage

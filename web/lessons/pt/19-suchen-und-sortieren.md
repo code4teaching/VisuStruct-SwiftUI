@@ -149,6 +149,47 @@ tipp: `for (int i = 0; i < cartas.length; i++)` e lá dentro `if (cartas[i] == p
 lösung: l19-java-zaehlen-loesung.visustruct
 :::
 
+## Preenche os espaços: bubble sort
+
+::: lückentext
+titel: Ordenar cartas
+auftrag: O programa ordena as cartas por ordem crescente com o bubble sort. Preenche as palavras e os sinais que faltam.
+```java
+int[] cartas = {5, 2, 8, 1};
+for (int ronda = 0; ronda < cartas.[[length]] - 1; ronda++) {
+    for (int i = 0; i < cartas.length - 1; i++) {
+        if (cartas[i] [[>]] cartas[i + 1]) {
+            [[int]] aux = cartas[i];
+            cartas[i] = cartas[i + 1];
+            cartas[i + 1] = [[aux]];
+        }
+    }
+}
+for (int i = 0; i < cartas.length; i++) {
+    System.out.println(cartas[i]);
+}
+```
+erklärung: Se uma carta for maior do que a vizinha da direita, as duas trocam de lugar, com uma variável auxiliar como ao trocar os copos. Depois de `length - 1` rondas está tudo ordenado: 1, 2, 5, 8.
+:::
+
+## Encontra o erro: pesquisa
+
+::: übung l19-java-fehler
+titel: Corrigir a pesquisa linear
+code: java
+auftrag: As cartas {8, 4, 11, 4, 6} estão num array. O programa deve mostrar a **primeira** posição da carta procurada, para o 4 é **Posição: 1**. Mas mostra **Posição: 3**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l19-java-fehler-start.visustruct
+test: 4 -> Posição: 1
+test: 6 -> Posição: 4
+test: 9 -> Posição: -1
+test: 8 -> Posição: 0
+braucht: whileSchleife, verzweigung
+tipp: O ciclo vai sempre até à última carta. O que acontece quando o 4 aparece uma segunda vez?
+tipp: O ciclo deve parar assim que encontrar algo: `while (posicao == -1 && i < cartas.length)`.
+lösung: l19-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Profissional da pesquisa
 
 ::: spiel frage

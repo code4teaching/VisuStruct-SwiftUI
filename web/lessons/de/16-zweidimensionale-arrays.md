@@ -135,6 +135,39 @@ tipp: `int[][] punkte = {{3, 5}, {4, 1}, {2, 2}};` und in der inneren Schleife `
 lösung: l16-java-punkte-loesung.visustruct
 :::
 
+## Lückentext: Tabellen
+
+::: lückentext
+titel: Alle Felder zusammenzählen
+auftrag: Das Programm zählt alle Zahlen in der Tabelle zusammen. Ergänze die fehlenden Wörter und Zeichen.
+```java
+[[int]][][] feld = {{1, 2, 3}, {4, 5, 6}};
+int summe = 0;
+for (int r = 0; r < feld.[[length]]; r++) {
+    for (int s = 0; s < feld[r].[[length]]; s++) {
+        summe = summe [[+]] feld[r][s];
+    }
+}
+System.out.println("Summe: " + summe);
+```
+erklärung: `int[][]` ist eine Tabelle. `feld.length` ist die Zahl der Reihen (2), `feld[r].length` die Zahl der Felder in Reihe `r` (3). Ausgabe: **Summe: 21**
+:::
+
+## Fehler finden: Punkte
+
+::: übung l16-java-fehler
+titel: Spieler 2 reparieren
+code: java
+auftrag: In der Tabelle `punkte` steht jede Reihe für einen Spieler. Das Programm soll die Punkte von Spieler 2 (Reihe 1) zusammenzählen, also **Spieler 2: 11**. Stattdessen meldet es einen Fehler.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l16-java-fehler-start.visustruct
+test: - -> Spieler 2: 11
+braucht: forSchleife
+tipp: Bei `punkte[a][b]` ist `a` die Reihe und `b` der Platz in der Reihe. Welche Zahl steht für die Reihe von Spieler 2?
+tipp: Die Indizes sind vertauscht: `punkte[1][j]` statt `punkte[j][1]`.
+lösung: l16-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Welcher Platz?
 
 ::: spiel frage

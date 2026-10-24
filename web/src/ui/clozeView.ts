@@ -24,33 +24,35 @@ export function renderCloze(cloze: Cloze): HTMLElement {
   box.append(h('p', { class: 'learn-cloze-hint' }, t('web_learn_cloze_hint')))
 
   const gaps: { input: HTMLInputElement; answers: string[] }[] = []
-  const code = h('pre', { class: 'learn-cloze-code mono', dir: 'ltr' })
-  for (const line of cloze.lines) {
-    const row = h('div', { class: 'ln' })
-    for (const part of line) {
-      if (typeof part === 'string') {
-        row.append(part)
-        continue
+  for (const lines of cloze.blocks) {
+    const code = h('pre', { class: 'learn-cloze-code mono', dir: 'ltr' })
+    for (const line of lines) {
+      const row = h('div', { class: 'ln' })
+      for (const part of line) {
+        if (typeof part === 'string') {
+          row.append(part)
+          continue
+        }
+        const input = h('input', {
+          type: 'text',
+          class: 'learn-cloze-gap mono',
+          autocomplete: 'off',
+          autocapitalize: 'off',
+          autocorrect: 'off',
+          spellcheck: 'false',
+          enterkeyhint: 'done',
+          'aria-label': `${gaps.length + 1}`,
+        }) as HTMLInputElement
+        input.style.width = `${Math.max(3, ...part.answers.map((a) => a.length)) + 1}ch`
+        gaps.push({ input, answers: part.answers })
+        row.append(input)
       }
-      const input = h('input', {
-        type: 'text',
-        class: 'learn-cloze-gap mono',
-        autocomplete: 'off',
-        autocapitalize: 'off',
-        autocorrect: 'off',
-        spellcheck: 'false',
-        enterkeyhint: 'done',
-        'aria-label': `${gaps.length + 1}`,
-      }) as HTMLInputElement
-      input.style.width = `${Math.max(3, ...part.answers.map((a) => a.length)) + 1}ch`
-      gaps.push({ input, answers: part.answers })
-      row.append(input)
+      // Leere Zeilen sollen ihre Höhe behalten.
+      if (!line.length) row.append('\n')
+      code.append(row)
     }
-    // Leere Zeilen sollen ihre Höhe behalten.
-    if (!line.length) row.append('\n')
-    code.append(row)
+    box.append(code)
   }
-  box.append(code)
 
   const status = h('p', { class: 'learn-cloze-status', role: 'status' })
   const explanation = cloze.explanation ? rich('p', { class: 'learn-explanation' }, cloze.explanation) : undefined
