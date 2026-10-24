@@ -17,7 +17,7 @@ import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
 import { textFileView } from './textFileView'
-import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
+import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoLiveCode } from './termTips'
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -33,6 +33,10 @@ export interface LearnHost {
   exerciseDocument(id: string): VSDocument | undefined
   /** Unterprogramme für Aufrufe in der Übung: die anderen offenen Reiter. */
   subprogramsFor(id: string): SubprogramResolver
+  /** Eingeklappte Struktogramm-Spalte wieder zeigen. */
+  showEditor(): void
+  /** Spalte „Programmieren“ öffnen. */
+  showLiveCode(): void
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
   stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
@@ -226,6 +230,10 @@ export class LearnPanel {
     if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
     markPointers(this.body)
+    // Erklärt der Schritt Bereiche des Editors (z. B. Lektion 2), muss der Editor zu sehen sein.
+    if (pointsIntoEditor(this.body)) this.host.showEditor()
+    // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Programmieren“.
+    if (pointsIntoLiveCode(this.body)) this.host.showLiveCode()
     markTerms(this.body, glossary)
 
     const nav = h('div', { class: 'learn-nav' })
