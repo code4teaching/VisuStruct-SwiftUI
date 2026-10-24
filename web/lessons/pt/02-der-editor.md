@@ -116,10 +116,10 @@ frage: Arrastas um elemento para a metade **de baixo** de um bloco. Onde fica?
 
 runde:
 frage: Apagaste um bloco sem querer. O que o traz de volta?
-- Ctrl+C
-- [x] Ctrl+Z
-- Ctrl+V
-> Ctrl+Z (no Mac ⌘Z) anula o último passo. Ctrl+C copia, Ctrl+V cola.
+- Ctrl+C / ⌘C
+- [x] Ctrl+Z / ⌘Z
+- Ctrl+V / ⌘V
+> Ctrl+Z / ⌘Z anula o último passo. Ctrl+C / ⌘C copia, Ctrl+V / ⌘V cola.
 
 runde:
 frage: Ao executar deve aparecer exatamente **Olá**. O que está no bloco?

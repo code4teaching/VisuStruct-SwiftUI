@@ -116,10 +116,10 @@ frage: You drag an element onto the **bottom** half of a box. Where does it end 
 
 runde:
 frage: You deleted a box by accident. What brings it back?
-- Ctrl+C
-- [x] Ctrl+Z
-- Ctrl+V
-> Ctrl+Z (⌘Z on a Mac) undoes the last step. Ctrl+C copies, Ctrl+V pastes.
+- Ctrl+C / ⌘C
+- [x] Ctrl+Z / ⌘Z
+- Ctrl+V / ⌘V
+> Ctrl+Z / ⌘Z undoes the last step. Ctrl+C / ⌘C copies, Ctrl+V / ⌘V pastes.
 
 runde:
 frage: When it runs, exactly **Hello** should appear. What is in the box?

@@ -116,10 +116,10 @@ frage: Du ziehst ein Element auf die **untere** Hälfte eines Kastens. Wo landet
 
 runde:
 frage: Du hast aus Versehen einen Kasten gelöscht. Was holt ihn zurück?
-- Strg+C
-- [x] Strg+Z
-- Strg+V
-> Strg+Z (am Mac ⌘Z) macht den letzten Schritt rückgängig. Strg+C kopiert, Strg+V fügt ein.
+- Strg+C / ⌘C
+- [x] Strg+Z / ⌘Z
+- Strg+V / ⌘V
+> Strg+Z / ⌘Z macht den letzten Schritt rückgängig. Strg+C / ⌘C kopiert, Strg+V / ⌘V fügt ein.
 
 runde:
 frage: Beim Ausführen soll genau **Hallo** erscheinen. Was steht im Kasten?

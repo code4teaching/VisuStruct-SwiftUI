@@ -654,10 +654,10 @@ frage: Du ziehst ein Element auf die **untere** Hälfte eines Kastens. Wo landet
 
 runde:
 frage: Du hast aus Versehen einen Kasten gelöscht. Was holt ihn zurück?
-- Strg+C
-- [x] Strg+Z
-- Strg+V
-> Strg+Z (am Mac ⌘Z) macht den letzten Schritt rückgängig. Strg+C kopiert, Strg+V fügt ein.
+- Strg+C / ⌘C
+- [x] Strg+Z / ⌘Z
+- Strg+V / ⌘V
+> Strg+Z / ⌘Z macht den letzten Schritt rückgängig. Strg+C / ⌘C kopiert, Strg+V / ⌘V fügt ein.
 
 runde:
 frage: Beim Ausführen soll genau **Hallo** erscheinen. Was steht im Kasten?
@@ -11678,10 +11678,10 @@ frage: You drag an element onto the **bottom** half of a box. Where does it end 
 
 runde:
 frage: You deleted a box by accident. What brings it back?
-- Ctrl+C
-- [x] Ctrl+Z
-- Ctrl+V
-> Ctrl+Z (⌘Z on a Mac) undoes the last step. Ctrl+C copies, Ctrl+V pastes.
+- Ctrl+C / ⌘C
+- [x] Ctrl+Z / ⌘Z
+- Ctrl+V / ⌘V
+> Ctrl+Z / ⌘Z undoes the last step. Ctrl+C / ⌘C copies, Ctrl+V / ⌘V pastes.
 
 runde:
 frage: When it runs, exactly **Hello** should appear. What is in the box?
@@ -22698,10 +22698,10 @@ frage: Arrastas um elemento para a metade **de baixo** de um bloco. Onde fica?
 
 runde:
 frage: Apagaste um bloco sem querer. O que o traz de volta?
-- Ctrl+C
-- [x] Ctrl+Z
-- Ctrl+V
-> Ctrl+Z (no Mac ⌘Z) anula o último passo. Ctrl+C copia, Ctrl+V cola.
+- Ctrl+C / ⌘C
+- [x] Ctrl+Z / ⌘Z
+- Ctrl+V / ⌘V
+> Ctrl+Z / ⌘Z anula o último passo. Ctrl+C / ⌘C copia, Ctrl+V / ⌘V cola.
 
 runde:
 frage: Ao executar deve aparecer exatamente **Olá**. O que está no bloco?
