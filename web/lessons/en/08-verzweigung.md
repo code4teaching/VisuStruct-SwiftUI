@@ -131,6 +131,44 @@ tipp: The condition is `points >= 50`. One branch has `System.out.println("passe
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
+## Fill in the gaps: even or odd
+
+::: lückentext
+titel: Even or odd
+auftrag: Fill in the missing words and symbols. The program should output whether a number is even.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Which number?");
+int number = scanner.nextInt();
+[[if]] (number [[%]] 2 [[==]] 0) [[{]]
+    System.out.println("even");
+[[}]] [[else]] {
+    System.out.println("odd");
+}
+```
+erklärung: `number % 2` is the remainder when dividing by 2. If it is 0, the number is even. To compare you need `==`, a single `=` is an assignment. Both branches are in curly brackets.
+:::
+
+## Find the bug: admission
+
+::: übung l08-java-fehler
+titel: Fix the admission
+code: java
+auftrag: At the zoo, children **under** 6 get in for free, everyone else pays 4 euros. But the program also lets six-year-olds in for free.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l08-java-fehler-start.visustruct
+test: 5 -> Free entry
+test: 6 -> 4 euros
+test: 10 -> 4 euros
+test: 0 -> Free entry
+braucht: verzweigung
+tipp: Try the program with 6. Which comparison operator still lets 6 through?
+tipp: “Under 6” means `age < 6`. `<=` means “less than or equal to”.
+lösung: l08-java-fehler-loesung.visustruct
+:::
+
 ## Game: Which way?
 
 ::: spiel frage

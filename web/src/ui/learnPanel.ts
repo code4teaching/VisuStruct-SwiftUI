@@ -15,6 +15,7 @@ import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
+import { renderCloze } from './clozeView'
 import { textFileView } from './textFileView'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
 
@@ -261,7 +262,9 @@ export class LearnPanel {
     this.body.append(h('p', { class: 'hint' }, t('web_learn_tasks_intro')))
     const list = h('ul', { class: 'learn-list' })
     for (const task of tasks) {
-      const done = this.taskExercises(task).every((ex) => progress.exercise(ex.id).done)
+      // Aufgaben ohne geprüfte Übung (z. B. Swing) gelten nie als erledigt.
+      const exercises = this.taskExercises(task)
+      const done = exercises.length > 0 && exercises.every((ex) => progress.exercise(ex.id).done)
       const after = lessons.find((l) => l.number === task.after)
       const item = h(
         'button',
@@ -365,6 +368,8 @@ export class LearnPanel {
         return renderRescueGame(block.game, ludwigURL)
       case 'caesar':
         return renderCaesarDisc(block.key, block.text)
+      case 'cloze':
+        return renderCloze(block.cloze)
       case 'textFile':
         return textFileView(block.name, block.content)
     }

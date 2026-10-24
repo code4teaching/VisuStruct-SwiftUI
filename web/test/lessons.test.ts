@@ -8,6 +8,7 @@ import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
+import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
 import { parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
 const allBlocks = (): { where: string; block: Block }[] => [
@@ -147,6 +148,16 @@ describe.each(['en', 'pt'] as const)('Lernbereich: Übersetzung (%s)', (lang) =>
     expect(exercises(lang)).toEqual(de)
     useContentLanguage('de')
   })
+
+  it('beide Sprachen haben gleich viele Lückentexte mit gleich vielen Lücken', () => {
+    const clozes = (l: 'de' | 'en' | 'pt') => {
+      useContentLanguage(l)
+      return allBlocks().flatMap(({ where, block }) => (block.kind === 'cloze' ? [`${where.split(' / ')[0]}: ${clozeGaps(block.cloze).length}`] : []))
+    }
+    const de = clozes('de')
+    expect(clozes(lang)).toEqual(de)
+    useContentLanguage('de')
+  })
 })
 
 describe('Lernbereich: Format', () => {
@@ -186,6 +197,27 @@ describe('Lernbereich: Format', () => {
     const block = parseLesson(source('erster schritt'), '01-t.md').steps[1].blocks[0]
     expect(block).toEqual({ kind: 'checklist', items: [{ text: 'Ich kann es.', ref: 'erster schritt', step: 0 }, { text: 'Ohne Verweis' }] })
     expect(() => parseLesson(source('Gibt es nicht'), '01-t.md')).toThrow(/unbekannten Schritt/)
+  })
+
+  it('liest Lückentexte', () => {
+    const [block] = parseBlocks(
+      '::: lückentext\ntitel: T\nauftrag: Ergänze.\n```java\n    [[int]] x = 1;\n    if (a [[||]] b) x[[++ | += 1]];\n```\nerklärung: E\n:::',
+      'x.md',
+    )
+    expect(block).toEqual({
+      kind: 'cloze',
+      cloze: {
+        title: 'T',
+        task: 'Ergänze.',
+        blocks: [[[{ answers: ['int'] }, ' x = 1;'], ['if (a ', { answers: ['||'] }, ' b) x', { answers: ['++', '+= 1'] }, ';']]],
+        explanation: 'E',
+      },
+    })
+    expect(clozeAnswerRight(['i = i + 1'], 'i=i+1')).toBe(true)
+    expect(clozeAnswerRight(['int'], 'Int')).toBe(false)
+    expect(clozeAnswerRight(['int'], ' ')).toBe(false)
+    expect(() => parseBlocks('::: lückentext\ntitel: T\n```\nint x;\n```\n:::', 'x.md')).toThrow(/mindestens eine Lücke/)
+    expect(() => parseBlocks('::: lückentext\ntitel: T\n```\n[[int]] x;\n:::', 'x.md')).toThrow(/nicht mit/)
   })
 
   it('Markdown maskiert HTML', () => {
@@ -232,6 +264,30 @@ describe('Lehrermodus', () => {
     expect(await unlockTeacher('falsch')).toBe(false)
     expect(await unlockTeacher('')).toBe(false)
     expect(isTeacher()).toBe(false)
+  })
+})
+
+describe('Lückentexte', () => {
+  const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
+  /** Jeder Codeblock mit der ersten Antwort in jeder Lücke, nur Lücke `gap` bekommt Antwort `answer`. */
+  const filled = (cloze: Cloze, gap = -1, answer = 0) => {
+    let n = 0
+    return cloze.blocks.map((lines) => lines.map((l) => l.map((p) => (typeof p === 'string' ? p : p.answers[n++ === gap ? answer : 0])).join('')).join('\n'))
+  }
+  const problems = (cloze: Cloze, gap = -1, answer = 0) => filled(cloze, gap, answer).flatMap((code) => parseLiveJava(code, labels).problems)
+  it.each(contentLanguages)('mit jeder richtigen Antwort ist der Java-Code fehlerfrei (%s)', (lang) => {
+    useContentLanguage(lang)
+    let checked = 0
+    for (const { where, block } of allBlocks()) {
+      if (block.kind !== 'cloze') continue
+      const cloze = block.cloze
+      clozeGaps(cloze).forEach((answers, gi) =>
+        answers.forEach((_, ai) => expect(problems(cloze, gi, ai), `${where}\n${filled(cloze, gi, ai).join('\n')}`).toEqual([])),
+      )
+      checked++
+    }
+    expect(checked).toBeGreaterThanOrEqual(8)
+    useContentLanguage('de')
   })
 })
 

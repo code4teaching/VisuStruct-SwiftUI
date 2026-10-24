@@ -159,6 +159,44 @@ tipp: A condição é `entrada.equals("Ludwig")`. Em Java, `==` não compara tex
 lösung: l17-java-passwort-loesung.visustruct
 :::
 
+## Preenche os espaços: textos
+
+::: lückentext
+titel: Analisar uma palavra
+auftrag: Preenche os métodos e as palavras que faltam.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Uma palavra?");
+[[String]] palavra = scanner.next();
+System.out.println("Comprimento: " + palavra.[[length]]());
+System.out.println("Maiúsculas: " + palavra.[[toUpperCase]]());
+System.out.println("Primeira letra: " + palavra.[[charAt]](0));
+if (palavra.[[equals]]("Ludwig")) {
+    System.out.println("Olá Ludwig!");
+}
+```
+erklärung: `length()` conta os carateres, `toUpperCase()` põe tudo em maiúsculas, `charAt(0)` dá o primeiro caráter. Textos comparas com `equals`, não com `==`.
+:::
+
+## Encontra o erro: iniciais
+
+::: übung l17-java-fehler
+titel: Corrigir as iniciais
+code: java
+auftrag: O programa lê o nome próprio e o apelido e deve mostrar as iniciais. Para Ludwig Geißbock é **L. G.** Mas mostra **u. e.**
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l17-java-fehler-start.visustruct
+test: Ludwig, Geißbock -> L. G.
+test: Mia, Meyer -> M. M.
+test: Ada, Lovelace -> A. L.
+braucht: anweisung
+tipp: Em que índice começa o Java a contar?
+tipp: O primeiro caráter tem o índice 0: `nome.charAt(0)` e `apelido.charAt(0)`.
+lösung: l17-java-fehler-loesung.visustruct
+:::
+
 ## Ainda mais métodos
 
 Uma String sabe fazer muito mais. Também vais precisar muitas vezes destes métodos:

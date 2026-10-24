@@ -202,6 +202,50 @@ tipp: `if (hour >= 8 && hour <= 15) { … } else { … }`
 lösung: l09-java-schule-loesung.visustruct
 :::
 
+## Fill in the gaps: conditions
+
+::: lückentext
+titel: Grade and weekend
+auftrag: Fill in the missing operators and words.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Which grade?");
+int grade = scanner.nextInt();
+if (grade >= 1 [[&&]] grade [[<=]] 6) {
+    System.out.println("valid grade");
+} else {
+    System.out.println("invalid grade");
+}
+System.out.println("Which day (1 to 7)?");
+int day = scanner.nextInt();
+[[boolean]] weekend = day == 6 [[||]] day == 7;
+if ([[!]]weekend) {
+    System.out.println("school day");
+}
+```
+erklärung: A grade is valid when **both** conditions are true, so `&&`. It is the weekend when **one** of the two is true, so `||`. The result fits into a `boolean` variable, and `!` turns it around.
+:::
+
+## Find the bug: no school
+
+::: übung l09-java-fehler
+titel: Fix the day off
+code: java
+auftrag: The program should output **no school** for day 6 (Saturday) and day 7 (Sunday), otherwise **school**. But it always outputs **school**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l09-java-fehler-start.visustruct
+test: 6 -> no school
+test: 7 -> no school
+test: 3 -> school
+test: 1 -> school
+braucht: verzweigung
+tipp: Can `day` be 6 **and** 7 at the same time?
+tipp: It is enough if one of the two conditions is true: `day == 6 || day == 7`.
+lösung: l09-java-fehler-loesung.visustruct
+:::
+
 ## Checklist
 
 ::: checkliste

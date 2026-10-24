@@ -101,6 +101,37 @@ tipp: `int price = 9;` and `int count = 3;` create the variables. `int total = p
 lösung: l05-java-kino-loesung.visustruct
 :::
 
+## Fill in the gaps: swapping glasses
+
+::: lückentext
+titel: Swap two values
+auftrag: The values of `a` and `b` should be swapped. Fill in the missing words.
+```java
+int a = 3;
+int b = 8;
+[[int]] temp = [[a]];
+a = [[b]];
+b = [[temp]];
+System.out.println("a = " + a + ", b = " + b);
+```
+erklärung: First you save `a` in the helper variable, then `a` gets the value of `b`, and finally `b` gets the saved value. Output: **a = 8, b = 3**
+:::
+
+## Find the bug: credit
+
+::: übung l05-java-fehler
+titel: Fix the credit
+code: java
+auftrag: The canteen card holds 20 euros. A meal costs 7 euros. The program should output the credit **after** paying, so **Left: 13**. But it outputs **Left: 20**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l05-java-fehler-start.visustruct
+test: - -> Left: 13
+braucht: anweisung
+tipp: All lines are right, only their order is not. When is the credit output, and when is the meal paid?
+tipp: Swap the last two lines: first `credit = credit - price;`, then the output.
+lösung: l05-java-fehler-loesung.visustruct
+:::
+
 ## Game: Sort the boxes
 
 ::: spiel reihenfolge

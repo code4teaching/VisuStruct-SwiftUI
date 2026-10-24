@@ -110,6 +110,40 @@ tipp: In the outer loop: `String line = "";`, then `for (int j = 1; j <= i; j++)
 lösung: l14-java-treppe-loesung.visustruct
 :::
 
+## Fill in the gaps: nesting
+
+::: lückentext
+titel: Rectangle of stars
+auftrag: The program outputs a rectangle of 3 lines with 4 stars each. Fill in the missing words and symbols.
+```java
+for (int line = 1; line <= 3; line++) {
+    String text = [[""]];
+    [[for]] (int column = 1; column [[<=]] 4; [[column++ | column += 1 | column = column + 1]]) {
+        text = text [[+]] "*";
+    }
+    System.out.[[println]](text);
+[[}]]
+```
+erklärung: The inner loop builds one line of 4 stars, the outer loop repeats that three times. Each line starts with an empty text `""`. The last bracket closes the outer loop.
+:::
+
+## Find the bug: divisible by 3
+
+::: übung l14-java-fehler
+titel: Fix the counting
+code: java
+auftrag: The program should count how many numbers from 1 to `n` are divisible by 3 and output the result **once**. For 10 that is just **Count: 3**. But it outputs far too many lines.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l14-java-fehler-start.visustruct
+test: 10 -> Count: 3
+test: 3 -> Count: 1
+test: 2 -> Count: 0
+braucht: forSchleife, verzweigung
+tipp: Look at the curly brackets: is the output inside the loop or after it?
+tipp: Move the line `System.out.println("Count: " + count);` after the closing bracket of the loop.
+lösung: l14-java-fehler-loesung.visustruct
+:::
+
 ## Game: Inside and outside
 
 ::: spiel frage

@@ -110,6 +110,40 @@ tipp: No ciclo exterior: `String linha = "";`, depois `for (int j = 1; j <= i; j
 lösung: l14-java-treppe-loesung.visustruct
 :::
 
+## Preenche os espaços: encaixar
+
+::: lückentext
+titel: Retângulo de estrelas
+auftrag: O programa mostra um retângulo de 3 linhas com 4 estrelas cada. Preenche as palavras e os sinais que faltam.
+```java
+for (int linha = 1; linha <= 3; linha++) {
+    String texto = [[""]];
+    [[for]] (int coluna = 1; coluna [[<=]] 4; [[coluna++ | coluna += 1 | coluna = coluna + 1]]) {
+        texto = texto [[+]] "*";
+    }
+    System.out.[[println]](texto);
+[[}]]
+```
+erklärung: O ciclo de dentro constrói uma linha de 4 estrelas, o de fora repete isso três vezes. Cada linha começa com um texto vazio `""`. A última chaveta fecha o ciclo de fora.
+:::
+
+## Encontra o erro: divisíveis por 3
+
+::: übung l14-java-fehler
+titel: Corrigir a contagem
+code: java
+auftrag: O programa deve contar quantos números de 1 a `n` são divisíveis por 3 e mostrar o resultado **uma vez**. Para 10 é só **Quantidade: 3**. Mas mostra linhas a mais.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l14-java-fehler-start.visustruct
+test: 10 -> Quantidade: 3
+test: 3 -> Quantidade: 1
+test: 2 -> Quantidade: 0
+braucht: forSchleife, verzweigung
+tipp: Repara nas chavetas: a saída está dentro do ciclo ou depois dele?
+tipp: Passa a linha `System.out.println("Quantidade: " + quantidade);` para depois da chaveta que fecha o ciclo.
+lösung: l14-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Dentro e fora
 
 ::: spiel frage

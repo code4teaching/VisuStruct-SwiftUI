@@ -127,6 +127,54 @@ tipp: `switch (zahl) { case 1 -> { System.out.println("eins"); } … default -> 
 lösung: l10-java-wuerfel-loesung.visustruct
 :::
 
+## Lückentext: switch
+
+::: lückentext
+titel: Monate in Worten
+auftrag: Ergänze die fehlenden Wörter und Zeichen der Fallauswahl.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Welcher Monat (1 bis 3)?");
+int monat = scanner.nextInt();
+[[switch]] (monat) {
+    [[case]] 1 -> {
+        System.out.println("Januar");
+    }
+    case 2 [[->]] {
+        System.out.println("Februar");
+    }
+    [[case]] 3 -> {
+        System.out.println("März");
+    }
+    [[default]] -> {
+        System.out.println("Kenne ich nicht");
+    }
+}
+```
+erklärung: Nach `switch` steht die Variable in runden Klammern. Jeder Fall beginnt mit `case`, dem Wert und dem Pfeil `->`. `default` läuft, wenn kein Fall passt.
+:::
+
+## Fehler finden: Rechner
+
+::: übung l10-java-fehler
+titel: Rechner reparieren
+code: java
+auftrag: Der Rechner liest zwei Zahlen und eine Wahl ein: 1 plus, 2 minus, 3 mal. Bei 7, 3 und Wahl 2 soll **4** herauskommen, er rechnet aber **-4**.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l10-java-fehler-start.visustruct
+test: 7, 3, 2 -> 4
+test: 7, 3, 1 -> 10
+test: 7, 3, 3 -> 21
+test: 7, 3, 5 -> Gibt es nicht
+test: 10, 4, 2 -> 6
+braucht: fallauswahl
+tipp: Plus und mal stimmen. Schau dir den Fall `case 2` genau an.
+tipp: Beim Minus zählt die Reihenfolge: `a - b` statt `b - a`.
+lösung: l10-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Welcher Fall?
 
 ::: spiel frage

@@ -110,6 +110,40 @@ tipp: In der äußeren Schleife: `String zeile = "";`, dann `for (int j = 1; j <
 lösung: l14-java-treppe-loesung.visustruct
 :::
 
+## Lückentext: verschachteln
+
+::: lückentext
+titel: Rechteck aus Sternen
+auftrag: Das Programm gibt ein Rechteck aus 3 Zeilen mit je 4 Sternchen aus. Ergänze die fehlenden Wörter und Zeichen.
+```java
+for (int zeile = 1; zeile <= 3; zeile++) {
+    String text = [[""]];
+    [[for]] (int spalte = 1; spalte [[<=]] 4; [[spalte++ | spalte += 1 | spalte = spalte + 1]]) {
+        text = text [[+]] "*";
+    }
+    System.out.[[println]](text);
+[[}]]
+```
+erklärung: Die innere Schleife baut eine Zeile aus 4 Sternchen, die äußere wiederholt das dreimal. Jede Zeile beginnt mit einem leeren Text `""`. Die letzte Klammer schließt die äußere Schleife.
+:::
+
+## Fehler finden: durch 3 teilbar
+
+::: übung l14-java-fehler
+titel: Zählen reparieren
+code: java
+auftrag: Das Programm soll zählen, wie viele Zahlen von 1 bis `n` durch 3 teilbar sind, und **einmal** das Ergebnis ausgeben. Bei 10 also nur **Anzahl: 3**. Es gibt aber viel zu viele Zeilen aus.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l14-java-fehler-start.visustruct
+test: 10 -> Anzahl: 3
+test: 3 -> Anzahl: 1
+test: 2 -> Anzahl: 0
+braucht: forSchleife, verzweigung
+tipp: Achte auf die geschweiften Klammern: Steht die Ausgabe in der Schleife oder dahinter?
+tipp: Verschiebe die Zeile `System.out.println("Anzahl: " + anzahl);` hinter die schließende Klammer der Schleife.
+lösung: l14-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Innen und außen
 
 ::: spiel frage

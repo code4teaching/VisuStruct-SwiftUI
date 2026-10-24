@@ -157,6 +157,41 @@ tipp: `int years = scanner.nextInt();` reads. `int days = years * 365;` calculat
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Fill in the gaps: input
+
+::: lückentext
+titel: Read a name and an age
+auftrag: Fill in the missing words so that the program reads a name and an age.
+```java
+import java.util.[[Scanner]];
+Scanner scanner = [[new]] Scanner(System.[[in]]);
+
+System.out.println("What is your name?");
+[[String]] name = scanner.[[next]]();
+System.out.println("How old are you?");
+int age = scanner.[[nextInt]]();
+System.out.println("Hello " + name + ", next year you will be " + [[(age + 1)]] + ".");
+```
+erklärung: `scanner.next()` reads a word, `scanner.nextInt()` a whole number. The brackets around `age + 1` matter: without them Java first appends `age` and then `1` to the text, and 14 would become **141**.
+:::
+
+## Find the bug: sum
+
+::: übung l06-java-fehler
+titel: Fix the sum
+code: java
+auftrag: The program reads two numbers and should output their sum. For 3 and 4, however, it shows **Sum: 34** instead of **Sum: 7**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l06-java-fehler-start.visustruct
+test: 3, 4 -> Sum: 7
+test: 10, 5 -> Sum: 15
+test: 0, 9 -> Sum: 9
+braucht: anweisung
+tipp: Read the output from left to right: what is `"Sum: " + a`? And what happens when `+ b` comes after it?
+tipp: Add brackets so that Java calculates first: `System.out.println("Sum: " + (a + b));`
+lösung: l06-java-fehler-loesung.visustruct
+:::
+
 ## Game: What is output?
 
 ::: spiel frage

@@ -163,6 +163,41 @@ tipp: `int zahl = 2;` vor der Schleife, dann `while (zahl <= n) { … }`. Im Rum
 lösung: l11-java-gerade-loesung.visustruct
 :::
 
+## Lückentext: while
+
+::: lückentext
+titel: Summe von 1 bis 10
+auftrag: Das Programm soll die Zahlen von 1 bis 10 zusammenzählen. Ergänze die fehlenden Wörter und Zeichen.
+```java
+int summe = 0;
+int zahl = 1;
+[[while]] (zahl [[<=]] 10) [[{]]
+    summe = summe + [[zahl]];
+    [[zahl]] = zahl + 1;
+}
+System.out.println("Summe: " + summe);
+```
+erklärung: Die Schleife läuft, solange `zahl` höchstens 10 ist. In jedem Durchlauf kommt `zahl` zur Summe dazu, danach wird `zahl` um 1 größer. Ohne diese Zeile wäre es eine Endlosschleife. Ausgabe: **Summe: 55**
+:::
+
+## Fehler finden: Sparen
+
+::: übung l11-java-fehler
+titel: Sparplan reparieren
+code: java
+auftrag: Ludwig spart jede Woche 5 Euro. Das Programm fragt nach dem Sparziel und soll ausgeben, nach wie vielen Wochen er es erreicht hat. Bei 50 Euro sind das 10 Wochen, das Programm sagt aber **Wochen: 11**.
+  Gehe den Code mit dem Einzelschritt durch und beobachte `geld` und `wochen`. Repariere den Fehler und klicke auf Prüfen.
+start: l11-java-fehler-start.visustruct
+test: 50 -> Wochen: 10
+test: 12 -> Wochen: 3
+test: 5 -> Wochen: 1
+test: 1 -> Wochen: 1
+braucht: whileSchleife
+tipp: Wie viel Geld hat Ludwig, wenn die Schleife zum letzten Mal läuft? Muss er dann wirklich noch eine Woche sparen?
+tipp: Gespart wird nur, solange das Ziel noch **nicht erreicht** ist: `while (geld < ziel)`.
+lösung: l11-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Wie oft?
 
 ::: spiel frage

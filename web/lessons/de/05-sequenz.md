@@ -101,6 +101,37 @@ tipp: `int preis = 9;` und `int anzahl = 3;` legen die Variablen an. `int gesamt
 lösung: l05-java-kino-loesung.visustruct
 :::
 
+## Lückentext: Gläser tauschen
+
+::: lückentext
+titel: Zwei Werte tauschen
+auftrag: Die Werte von `a` und `b` sollen getauscht werden. Ergänze die fehlenden Wörter.
+```java
+int a = 3;
+int b = 8;
+[[int]] hilf = [[a]];
+a = [[b]];
+b = [[hilf]];
+System.out.println("a = " + a + ", b = " + b);
+```
+erklärung: Erst rettest du `a` in die Hilfsvariable, dann bekommt `a` den Wert von `b`, und zuletzt bekommt `b` den geretteten Wert. Ausgabe: **a = 8, b = 3**
+:::
+
+## Fehler finden: Guthaben
+
+::: übung l05-java-fehler
+titel: Guthaben reparieren
+code: java
+auftrag: Auf der Mensakarte sind 20 Euro. Ein Essen kostet 7 Euro. Das Programm soll das Guthaben **nach** dem Bezahlen ausgeben, also **Übrig: 13**. Es gibt aber **Übrig: 20** aus.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l05-java-fehler-start.visustruct
+test: - -> Übrig: 13
+braucht: anweisung
+tipp: Alle Zeilen stimmen, nur die Reihenfolge nicht. Wann wird das Guthaben ausgegeben, wann wird bezahlt?
+tipp: Tausche die letzten beiden Zeilen: erst `guthaben = guthaben - preis;`, dann die Ausgabe.
+lösung: l05-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Kästen sortieren
 
 ::: spiel reihenfolge

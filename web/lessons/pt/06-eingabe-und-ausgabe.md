@@ -157,6 +157,41 @@ tipp: `int anos = scanner.nextInt();` lê. `int dias = anos * 365;` calcula, e `
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Preenche os espaços: entrada
+
+::: lückentext
+titel: Ler um nome e uma idade
+auftrag: Preenche as palavras que faltam para que o programa leia um nome e uma idade.
+```java
+import java.util.[[Scanner]];
+Scanner scanner = [[new]] Scanner(System.[[in]]);
+
+System.out.println("Como te chamas?");
+[[String]] nome = scanner.[[next]]();
+System.out.println("Que idade tens?");
+int idade = scanner.[[nextInt]]();
+System.out.println("Olá " + nome + ", para o ano vais ter " + [[(idade + 1)]] + " anos.");
+```
+erklärung: `scanner.next()` lê uma palavra, `scanner.nextInt()` um número inteiro. Os parênteses à volta de `idade + 1` são importantes: sem eles, o Java junta primeiro `idade` e depois `1` ao texto, e 14 passaria a **141**.
+:::
+
+## Encontra o erro: soma
+
+::: übung l06-java-fehler
+titel: Corrigir a soma
+code: java
+auftrag: O programa lê dois números e deve mostrar a soma. Mas com 3 e 4 aparece **Soma: 34** em vez de **Soma: 7**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l06-java-fehler-start.visustruct
+test: 3, 4 -> Soma: 7
+test: 10, 5 -> Soma: 15
+test: 0, 9 -> Soma: 9
+braucht: anweisung
+tipp: Lê a saída da esquerda para a direita: o que dá `"Soma: " + a`? E o que acontece quando ainda vem `+ b` a seguir?
+tipp: Põe parênteses para o Java calcular primeiro: `System.out.println("Soma: " + (a + b));`
+lösung: l06-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: O que aparece?
 
 ::: spiel frage

@@ -157,6 +157,39 @@ tipp: `int[] grades = {2, 3, 1, 4};`, then `for (int i = 0; i < grades.length; i
 lösung: l15-java-noten-loesung.visustruct
 :::
 
+## Fill in the gaps: arrays
+
+::: lückentext
+titel: Finding the maximum
+auftrag: The program looks for the largest value in the array. Fill in the missing words and symbols.
+```java
+[[int]][] values = {3, 7, 1, 9, 4};
+int max = values[0];
+[[for]] (int i = 1; i < values.[[length]]; i++) {
+    if (values[i] [[>]] max) {
+        max = values[i];
+    }
+}
+System.out.println("Maximum: " + max);
+```
+erklärung: `int[]` is an array of whole numbers, `values.length` is its length. `max` starts with the first value, and the loop compares all the others with it. Output: **Maximum: 9**
+:::
+
+## Find the bug: temperatures
+
+::: übung l15-java-fehler
+titel: Fix the highest temperature
+code: java
+auftrag: In January the temperatures -5, -2, -8 and -3 degrees were measured. The program should output the highest, so **Highest temperature: -2**. But it claims 0 degrees, although it was never that warm.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l15-java-fehler-start.visustruct
+test: - -> Highest temperature: -2
+braucht: forSchleife, verzweigung
+tipp: What value does `max` start with? Is any of the temperatures greater than this start value?
+tipp: `max` has to start with a value from the array: `int max = temperatures[0];`
+lösung: l15-java-fehler-loesung.visustruct
+:::
+
 ## Game: Defuse the bomb
 
 ::: spiel bombe

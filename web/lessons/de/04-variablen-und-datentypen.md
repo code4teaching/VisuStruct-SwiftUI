@@ -160,6 +160,40 @@ tipp: `String name = "Ludwig";`, `int alter = 7;` und `double groesse = 1.2;`. D
 lösung: l04-java-steckbrief-loesung.visustruct
 :::
 
+## Lückentext: Datentypen
+
+::: lückentext
+titel: Steckbrief in Java
+auftrag: Ergänze die fehlenden Wörter. Ganz außen steht der Rahmen, den jedes Java-Programm in einer eigenen Datei braucht. Darin stehen die Variablen.
+```java
+[[public]] class Steckbrief {
+    public static [[void]] main(String[] args) {
+        [[int]] alter = 14;
+        [[double]] groesse = 1.62;
+        [[String]] name = "Mia";
+        [[boolean]] hatHaustier = true;
+        System.out.[[println]](name + " ist " + alter + " Jahre alt.");
+    }
+}
+```
+erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Programmieren darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
+:::
+
+## Fehler finden: Sekunden
+
+::: übung l04-java-fehler
+titel: Sekunden reparieren
+code: java
+auftrag: Das Programm soll 200 Sekunden in Minuten und Sekunden umrechnen und **3 min 20 s** ausgeben. Es gibt aber **20 min 3 s** aus.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l04-java-fehler-start.visustruct
+test: - -> 3 min 20 s
+braucht: anweisung
+tipp: `/` teilt ganzzahlig, `%` liefert den Rest. Welches Zeichen brauchst du für die Minuten, welches für die übrigen Sekunden?
+tipp: Die beiden Zeichen sind vertauscht: `int minuten = sekunden / 60;` und `int rest = sekunden % 60;`
+lösung: l04-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Welcher Datentyp?
 
 ::: spiel frage

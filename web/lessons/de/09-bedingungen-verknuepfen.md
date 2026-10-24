@@ -202,6 +202,50 @@ tipp: `if (stunde >= 8 && stunde <= 15) { … } else { … }`
 lösung: l09-java-schule-loesung.visustruct
 :::
 
+## Lückentext: Bedingungen
+
+::: lückentext
+titel: Note und Wochenende
+auftrag: Ergänze die fehlenden Operatoren und Wörter.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Welche Note?");
+int note = scanner.nextInt();
+if (note >= 1 [[&&]] note [[<=]] 6) {
+    System.out.println("gültige Note");
+} else {
+    System.out.println("ungültige Note");
+}
+System.out.println("Welcher Tag (1 bis 7)?");
+int tag = scanner.nextInt();
+[[boolean]] wochenende = tag == 6 [[||]] tag == 7;
+if ([[!]]wochenende) {
+    System.out.println("Schultag");
+}
+```
+erklärung: Eine Note ist gültig, wenn **beide** Bedingungen stimmen, also `&&`. Wochenende ist, wenn **eine** der beiden stimmt, also `||`. Das Ergebnis passt in eine `boolean`-Variable, und `!` dreht es um.
+:::
+
+## Fehler finden: Schulfrei
+
+::: übung l09-java-fehler
+titel: Schulfrei reparieren
+code: java
+auftrag: Das Programm soll bei Tag 6 (Samstag) und Tag 7 (Sonntag) **schulfrei** ausgeben, sonst **Schule**. Es gibt aber immer **Schule** aus.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l09-java-fehler-start.visustruct
+test: 6 -> schulfrei
+test: 7 -> schulfrei
+test: 3 -> Schule
+test: 1 -> Schule
+braucht: verzweigung
+tipp: Kann `tag` gleichzeitig 6 **und** 7 sein?
+tipp: Es reicht, wenn eine der beiden Bedingungen stimmt: `tag == 6 || tag == 7`.
+lösung: l09-java-fehler-loesung.visustruct
+:::
+
 ## Checkliste
 
 ::: checkliste

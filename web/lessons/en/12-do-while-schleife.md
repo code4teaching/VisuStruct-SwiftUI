@@ -102,6 +102,39 @@ tipp: `do { number = number * 2; System.out.println(number); } while (number < 1
 lösung: l12-java-verdoppeln-loesung.visustruct
 :::
 
+## Fill in the gaps: do-while
+
+::: lückentext
+titel: Tripling
+auftrag: The number is tripled and output as long as it is less than 100. Fill in the missing words and symbols.
+```java
+int number = 1;
+[[do]] {
+    number = number * 3;
+    System.out.println(number);
+} [[while]] (number [[<]] 100)[[;]]
+```
+erklärung: The body is between `do {` and `}`, the condition only comes afterwards. In a do-while loop there is a semicolon after `while (…)`. Output: 3, 9, 27, 81 and 243.
+:::
+
+## Find the bug: halving
+
+::: übung l12-java-fehler
+titel: Fix the halving
+code: java
+auftrag: The program reads a start number and keeps dividing it by 2 (whole-number division) with a do-while loop. Every result is output until **0** is reached. For 10 that is 5, 2, 1 and 0. But the 0 is missing.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l12-java-fehler-start.visustruct
+test: 10 -> 5 | 2 | 1 | 0
+test: 1 -> 0
+test: 7 -> 3 | 1 | 0
+test: 20 -> 10 | 5 | 2 | 1 | 0
+braucht: doUntilSchleife
+tipp: What value does `number` have after the 1 has been output? Does the loop run once more then?
+tipp: The loop should keep going as long as the number is greater than 0: `while (number > 0);`
+lösung: l12-java-fehler-loesung.visustruct
+:::
+
 ## Game: At least once?
 
 ::: spiel frage

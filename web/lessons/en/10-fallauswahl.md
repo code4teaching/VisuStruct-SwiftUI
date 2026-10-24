@@ -127,6 +127,54 @@ tipp: `switch (number) { case 1 -> { System.out.println("one"); } … default ->
 lösung: l10-java-wuerfel-loesung.visustruct
 :::
 
+## Fill in the gaps: switch
+
+::: lückentext
+titel: Months in words
+auftrag: Fill in the missing words and symbols of the case selection.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Which month (1 to 3)?");
+int month = scanner.nextInt();
+[[switch]] (month) {
+    [[case]] 1 -> {
+        System.out.println("January");
+    }
+    case 2 [[->]] {
+        System.out.println("February");
+    }
+    [[case]] 3 -> {
+        System.out.println("March");
+    }
+    [[default]] -> {
+        System.out.println("Unknown");
+    }
+}
+```
+erklärung: After `switch` the variable is in round brackets. Each case starts with `case`, the value and the arrow `->`. `default` runs when no case matches.
+:::
+
+## Find the bug: calculator
+
+::: übung l10-java-fehler
+titel: Fix the calculator
+code: java
+auftrag: The calculator reads two numbers and a choice: 1 plus, 2 minus, 3 times. For 7, 3 and choice 2 the result should be **4**, but it calculates **-4**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l10-java-fehler-start.visustruct
+test: 7, 3, 2 -> 4
+test: 7, 3, 1 -> 10
+test: 7, 3, 3 -> 21
+test: 7, 3, 5 -> Not an option
+test: 10, 4, 2 -> 6
+braucht: fallauswahl
+tipp: Plus and times are right. Take a close look at `case 2`.
+tipp: With minus the order matters: `a - b` instead of `b - a`.
+lösung: l10-java-fehler-loesung.visustruct
+:::
+
 ## Game: Which case?
 
 ::: spiel frage

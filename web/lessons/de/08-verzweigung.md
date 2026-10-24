@@ -131,6 +131,44 @@ tipp: Die Bedingung lautet `punkte >= 50`. In den Zweigen steht `System.out.prin
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
+## Lückentext: Gerade oder ungerade
+
+::: lückentext
+titel: Gerade oder ungerade
+auftrag: Ergänze die fehlenden Wörter und Zeichen. Das Programm soll ausgeben, ob eine Zahl gerade ist.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Welche Zahl?");
+int zahl = scanner.nextInt();
+[[if]] (zahl [[%]] 2 [[==]] 0) [[{]]
+    System.out.println("gerade");
+[[}]] [[else]] {
+    System.out.println("ungerade");
+}
+```
+erklärung: `zahl % 2` ist der Rest beim Teilen durch 2. Ist er 0, ist die Zahl gerade. Zum Vergleichen brauchst du `==`, ein einzelnes `=` ist eine Zuweisung. Beide Zweige stehen in geschweiften Klammern.
+:::
+
+## Fehler finden: Eintritt
+
+::: übung l08-java-fehler
+titel: Eintritt reparieren
+code: java
+auftrag: Im Zoo haben Kinder **unter** 6 Jahren freien Eintritt, alle anderen zahlen 4 Euro. Das Programm lässt aber auch Sechsjährige umsonst hinein.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l08-java-fehler-start.visustruct
+test: 5 -> Eintritt frei
+test: 6 -> 4 Euro
+test: 10 -> 4 Euro
+test: 0 -> Eintritt frei
+braucht: verzweigung
+tipp: Probiere das Programm mit 6 aus. Welcher Vergleichsoperator lässt die 6 noch durch?
+tipp: „Unter 6“ heißt `alter < 6`. `<=` bedeutet „kleiner oder gleich“.
+lösung: l08-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Welcher Weg?
 
 ::: spiel frage

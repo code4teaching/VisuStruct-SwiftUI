@@ -131,6 +131,37 @@ tipp: Wie in Mathe gilt Punkt vor Strich: `preis + kaese * anzahl` ist `8 + 6`. 
 lösung: l07-java-pizza-loesung.visustruct
 :::
 
+## Lückentext: Schreibtischtest
+
+::: lückentext
+titel: Was steht in den Variablen?
+auftrag: Mach einen Schreibtischtest im Kopf. Trage hinter jeder Zeile ein, welchen Wert die Variable danach hat, und in der letzten Zeile, was ausgegeben wird.
+```java
+int a = 5;
+int b = 2;
+a = a + b;      // a ist jetzt [[7]]
+b = a * 2;      // b ist jetzt [[14]]
+a = b - a;      // a ist jetzt [[7]]
+System.out.println(a + b);      // Ausgabe: [[21]]
+```
+erklärung: Jede Zeile rechnet mit den Werten, die gerade in den Variablen stehen: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, Ausgabe 7 + 14 = 21. Mit dem Einzelschritt im Bereich Programmieren kannst du es nachprüfen.
+:::
+
+## Fehler finden: Spielstand
+
+::: übung l07-java-fehler
+titel: Spielstand reparieren
+code: java
+auftrag: Ludwig bekommt in einem Spiel erst 10 Punkte, dann 5 Punkte, dann verliert er 3 Punkte. Am Ende soll **Punkte: 12** erscheinen. Es erscheint aber **Punkte: 3**.
+  Gehe den Code mit dem Einzelschritt durch und beobachte `punkte`. Repariere die falsche Zeile und klicke auf Prüfen.
+start: l07-java-fehler-start.visustruct
+test: - -> Punkte: 12
+braucht: anweisung
+tipp: Nach welcher Zeile hat `punkte` plötzlich den Wert 3? Was soll in dieser Zeile eigentlich passieren?
+tipp: Ludwig verliert 3 Punkte, also wird vom alten Wert abgezogen: `punkte = punkte - 3;`
+lösung: l07-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Bombe entschärfen
 
 ::: spiel bombe
