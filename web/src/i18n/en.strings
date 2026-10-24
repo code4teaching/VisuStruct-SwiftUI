@@ -297,3 +297,7 @@
 "web_visubot_part_lineSensor" = "Line sensor (quad RGB)";
 "web_visubot_part_caster" = "Ball caster";
 "web_visubot_part_chassis" = "Chassis";
+"web_visubot_world_fmt" = "World %d";
+"web_visubot_goal_reached" = "Goal reached";
+"web_visubot_goal_missed" = "Goal not reached";
+"web_visubot_el_until_line" = "drive to the goal";

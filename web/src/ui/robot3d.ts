@@ -115,6 +115,13 @@ export class Robot3D {
   /** Boden, Wände und Klebeband neu aufbauen. */
   setWorld(setup: RobotWorldSetup) {
     this.worldGroup.clear()
+    // Kamera so, dass der ganze Boden schräg von hinten zu sehen ist
+    const m = Math.max(setup.width, setup.depth, 80)
+    this.flight = undefined
+    this.controls.autoRotate = false
+    this.controls.target.set(0, 0, 0)
+    this.camera.position.set(0, m * 0.95, m * 0.5)
+    this.controls.update()
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(setup.width, setup.depth), new THREE.MeshStandardMaterial({ color: colors.floor, roughness: 0.9 }))
     floor.rotation.x = -Math.PI / 2
     floor.receiveShadow = true

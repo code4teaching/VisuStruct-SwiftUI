@@ -110,6 +110,7 @@ export class SimulationPanel {
     this.robot = robot
     if (robot) {
       this.element.querySelector('section')!.after(robot.element)
+      robot.onWorldChange = () => this.restartEngine()
       robot.reset()
     }
   }

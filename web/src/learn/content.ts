@@ -1,5 +1,6 @@
 import { registerTextFile } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
+import { parseWorldMap, type RobotWorldSetup } from '../core/robotWorld'
 import type { VSDocument } from '../core/model'
 import { parseGlossary, type GlossaryEntry } from './glossary'
 import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
@@ -32,6 +33,9 @@ const diagramFiles = import.meta.glob('../../lessons/diagramme/**/*.visustruct',
   string,
   string
 >
+
+// VisuBot: Weltkarten für Übungen (`welt: labyrinth`), Zeichen wie in `parseWorldMap`.
+const worldFiles = import.meta.glob('../../lessons/welten/*.txt', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 const imageFiles = import.meta.glob('../../lessons/bilder/**/*.{jpg,png,webp,svg}', { query: '?url', import: 'default', eager: true }) as Record<
   string,
@@ -114,3 +118,17 @@ const images = new Map(Object.entries(imageFiles).map(([path, url]) => [relative
 export function image(file: string): string | undefined {
   return localized(images, file)
 }
+
+const worldMaps = new Map(Object.entries(worldFiles).map(([path, text]) => [baseName(path).replace(/\.txt$/, ''), text]))
+const parsedWorlds = new Map<string, RobotWorldSetup>()
+
+/** Welt aus `web/lessons/welten/<name>.txt`; `undefined`, wenn es sie nicht gibt. */
+export function world(name: string): RobotWorldSetup | undefined {
+  const text = worldMaps.get(name)
+  if (text === undefined) return undefined
+  let setup = parsedWorlds.get(name)
+  if (!setup) parsedWorlds.set(name, (setup = parseWorldMap(text)))
+  return setup
+}
+
+export const worldNames = () => [...worldMaps.keys()]

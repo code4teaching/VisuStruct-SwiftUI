@@ -297,3 +297,7 @@
 "web_visubot_part_lineSensor" = "Liniensensor (Quad-RGB)";
 "web_visubot_part_caster" = "Kugelrolle";
 "web_visubot_part_chassis" = "Chassis";
+"web_visubot_world_fmt" = "Welt %d";
+"web_visubot_goal_reached" = "Ziel erreicht";
+"web_visubot_goal_missed" = "Ziel nicht erreicht";
+"web_visubot_el_until_line" = "fahre bis zum Ziel";

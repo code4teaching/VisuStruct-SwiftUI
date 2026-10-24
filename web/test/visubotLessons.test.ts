@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { checkExercise, loopDepth, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType } from '../src/core/model'
-import { diagram, lessons, tasks, useContentLanguage, useVisuBotContent } from '../src/learn/content'
+import { diagram, lessons, tasks, useContentLanguage, useVisuBotContent, world } from '../src/learn/content'
 import type { Block } from '../src/learn/lessonFormat'
 import { isMBotPart, MBOT_PARTS } from '../src/core/mbot'
 
@@ -32,14 +32,14 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       if (block.kind !== 'exercise') continue
       const ex = block.exercise
       expect(ex.id.startsWith('vb-'), `${where}: Kennung beginnt mit vb-`).toBe(true)
-      expect(ex.tests.some((t) => t.drive), `${where}: fahrt:`).toBe(true)
+      expect(ex.tests.some((t) => t.drive || t.world), `${where}: fahrt: oder welt:`).toBe(true)
       expect(ex.hints.length).toBeGreaterThanOrEqual(2)
       const doc = diagram(ex.solution!)!
       expect(doc, `${where}: ${ex.solution}`).toBeDefined()
-      for (const o of checkExercise(doc, ex.tests)) expect(o.passed, `${where}: ${JSON.stringify(o.result)}`).toBe(true)
+      for (const o of checkExercise(doc, ex.tests, undefined, world)) expect(o.passed, `${where}: ${JSON.stringify(o.result)}`).toBe(true)
       for (const r of ex.requires) expect(usedElementTypes(doc).has(ElementType[r as keyof typeof ElementType])).toBe(true)
       if (ex.loopDepth) expect(loopDepth(doc.elements)).toBeGreaterThanOrEqual(ex.loopDepth)
-      expect(checkExercise({ caption: '', elements: [] }, ex.tests).every((o) => o.passed)).toBe(false)
+      expect(checkExercise({ caption: '', elements: [] }, ex.tests, undefined, world).every((o) => o.passed)).toBe(false)
       checked++
     }
     expect(checked).toBeGreaterThanOrEqual(5)

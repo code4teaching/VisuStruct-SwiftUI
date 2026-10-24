@@ -128,9 +128,11 @@ export class RobotWorld {
 
   private blockWallCache?: Wall[]
 
-  /** Steht die Mitte des Roboters auf einem Zielfeld? */
+  /** Ist der Roboter im Ziel? Ja, wenn seine Mitte oder sein Liniensensor über einem Zielfeld ist. */
   atGoal(): boolean {
-    return (this.setup.goals ?? []).some((g) => inCell(this.pose, g))
+    const dir = forwardOf(this.pose.heading)
+    const probe = { x: this.pose.x + dir.x * LINE_OFFSET, y: this.pose.y + dir.y * LINE_OFFSET }
+    return (this.setup.goals ?? []).some((g) => inCell(this.pose, g) || inCell(probe, g))
   }
 
   apply(action: MBotAction) {

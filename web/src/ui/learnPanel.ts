@@ -5,7 +5,7 @@ import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import { explain, makeRound, usedValues, type BoolGame } from '../learn/boolGame'
-import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage } from '../learn/content'
+import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage, world } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
@@ -552,7 +552,7 @@ export class LearnPanel {
         return
       }
       this.host.stopSimulation()
-      const outcomes = checkExercise(doc, ex.tests, this.host.subprogramsFor(ex.id))
+      const outcomes = checkExercise(doc, ex.tests, this.host.subprogramsFor(ex.id), world)
       const used = usedElementTypes(doc)
       const missing = ex.requires
         .map((r) => (r === 'forZaehlSchleife' ? 'forSchleife' : r))
@@ -636,7 +636,12 @@ export class LearnPanel {
     if (depth) box.append(h('p', {}, `✗ ${t('web_visubot_depth_fmt', depth)}`))
     const list = h('ul', { class: 'learn-tests', dir: 'auto' })
     for (const o of outcomes) {
-      const input = o.test.drive ? `🤖 ${t('web_visubot_drive')}` : o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
+      const worldIndex = o.test.world ? outcomes.filter((x) => x.test.world).indexOf(o) + 1 : 0
+      const input = o.test.world
+        ? `🗺 ${t('web_visubot_world_fmt', worldIndex)}`
+        : o.test.drive
+          ? `🤖 ${t('web_visubot_drive')}`
+          : o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
       const lines: (string | Node)[] = [`${o.passed ? '✓' : '✗'} ${input}`]
       const detail = h('div', { class: 'learn-test-detail' })
       if (o.test.drive) {
@@ -645,7 +650,11 @@ export class LearnPanel {
           h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, compressDrive(o.result.drive ?? []) || '–')),
         )
       }
-      if (!o.test.drive || o.result.outputs.length) detail.append(
+      if (o.test.world) {
+        detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
+        if (o.result.bumps) detail.append(h('span', { class: 'learn-error' }, `⚠︎ ${t('web_visubot_bumps')}: ${o.result.bumps}`))
+      }
+      if ((!o.test.drive && !o.test.world) || o.result.outputs.length) detail.append(
         h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, o.test.expected.join(' | ') || '–')),
         h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, o.result.outputs.join(' | ') || '–')),
       )

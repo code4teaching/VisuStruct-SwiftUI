@@ -3245,6 +3245,16 @@ button.danger-text:not(:disabled) {
   overflow: hidden;
   background: linear-gradient(#dfe9f3, #f6f3ec);
 }
+.visubot-worlds {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 6px;
+}
+.visubot-worlds button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
 .visubot-canvas {
   display: block;
   width: 100%;

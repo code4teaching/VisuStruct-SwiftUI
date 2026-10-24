@@ -40,7 +40,8 @@ import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLa
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 import { setVisuBotEnabled, visuBotEnabled, visuBotTemplates, VisuBotView } from './visubotView'
-import { useVisuBotContent } from '../learn/content'
+import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
+import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
 type DropTarget =
@@ -1281,6 +1282,8 @@ export class App {
     if (on) {
       this.setCoding(false)
       this.setEditorHidden(false)
+      // VisuBot: Die Simulation zeigt die Welten der Übung in diesem Reiter (sonst die freie Fläche).
+      this.visuBot?.setWorlds(exerciseWorlds(this.tab.exerciseId))
       this.sim.begin()
     } else {
       this.sim.end()
@@ -2067,4 +2070,17 @@ function storeValue(key: string, value: string) {
 
 function escapeHTML(s: string): string {
   return s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
+}
+
+/** Welten einer VisuBot-Übung (`welt:`), in der Reihenfolge der Tests. */
+function exerciseWorlds(id: string | undefined): RobotWorldSetup[] {
+  if (!id) return []
+  for (const block of [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]) {
+    if (block.kind !== 'exercise' || block.exercise.id !== id) continue
+    return block.exercise.tests.flatMap((test) => {
+      const setup = test.world ? world(test.world) : undefined
+      return setup ? [setup] : []
+    })
+  }
+  return []
 }

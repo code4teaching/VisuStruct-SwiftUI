@@ -295,3 +295,7 @@
 "web_visubot_part_lineSensor" = "Sensor de linha (quad RGB)";
 "web_visubot_part_caster" = "Roda livre";
 "web_visubot_part_chassis" = "Chassi";
+"web_visubot_world_fmt" = "Mundo %d";
+"web_visubot_goal_reached" = "Objetivo alcançado";
+"web_visubot_goal_missed" = "Objetivo não alcançado";
+"web_visubot_el_until_line" = "conduz até ao objetivo";

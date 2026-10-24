@@ -30,19 +30,23 @@ export function setVisuBotEnabled(on: boolean) {
  */
 export class VisuBotView {
   readonly element: HTMLElement
-  readonly world: RobotWorld
+  world: RobotWorld
   private view?: Robot3D
   private loading?: Promise<void>
   private status: HTMLElement
   private stage: HTMLElement
+  private picker: HTMLElement
   private applied = 0
+  /** Nach dem Umschalten der Welt: Simulation von vorn (setzt das Simulationspanel). */
+  onWorldChange?: () => void
 
   constructor(setup: RobotWorldSetup = emptyWorld) {
     this.world = new RobotWorld(setup)
     this.element = document.createElement('section')
     this.element.className = 'visubot'
-    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>`
+    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>`
     this.stage = this.element.querySelector('.visubot-stage')!
+    this.picker = this.element.querySelector('.visubot-worlds')!
     this.status = this.element.querySelector('.visubot-status')!
     this.updateStatus()
   }
@@ -57,6 +61,34 @@ export class VisuBotView {
     }).catch(() => {
       this.stage.textContent = t('web_visubot_no_3d')
     })
+  }
+
+  /**
+   * Welten einer Übung (Labyrinth usw.): Knöpfe zum Umschalten über der Ansicht; leer = freie Fläche.
+   * Programme laufen in der gewählten Welt.
+   */
+  setWorlds(worlds: RobotWorldSetup[]) {
+    this.picker.replaceChildren()
+    this.picker.hidden = worlds.length < 2
+    worlds.forEach((setup, i) => {
+      const b = document.createElement('button')
+      b.textContent = t('web_visubot_world_fmt', i + 1)
+      b.addEventListener('click', () => this.useWorld(setup, b))
+      this.picker.append(b)
+    })
+    this.useWorld(worlds[0] ?? emptyWorld, this.picker.firstElementChild as HTMLElement | null)
+  }
+
+  private useWorld(setup: RobotWorldSetup, button: HTMLElement | null) {
+    for (const b of this.picker.children) b.classList.toggle('active', b === button)
+    if (setup === this.world.setup) return
+    this.world = new RobotWorld(setup)
+    this.applied = 0
+    this.view?.setWorld(setup)
+    this.view?.place(this.world.pose, this.world.trail)
+    this.view?.setLed(undefined)
+    this.updateStatus()
+    this.onWorldChange?.()
   }
 
   reset() {
@@ -135,6 +167,16 @@ export const visuBotTemplates: VisuBotTemplate[] = [
     make: () =>
       makeElement(ElementType.whileSchleife, {
         textLines: ['mbot.getDistance() > 20'],
+        loopBody: [makeElement(ElementType.anweisung, { textLines: ['mbot.forward()'] })],
+      }),
+  },
+  {
+    // Liniensensor: Das Ziel ist ein schwarzes Feld.
+    key: 'web_visubot_el_until_line',
+    type: ElementType.whileSchleife,
+    make: () =>
+      makeElement(ElementType.whileSchleife, {
+        textLines: ['mbot.getLine() == 0'],
         loopBody: [makeElement(ElementType.anweisung, { textLines: ['mbot.forward()'] })],
       }),
   },

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<struktogramm caption="77;97;122;101;">
+  <strelem typ="4" zx="0" zy="0">
+    <text>109;98;111;116;46;103;101;116;76;105;110;101;40;41;32;61;61;32;48;</text>
+    <schleifeninhalt>
+      <strelem typ="1" zx="0" zy="0">
+        <text>109;98;111;116;46;103;101;116;68;105;115;116;97;110;99;101;40;41;32;62;32;49;53;</text>
+        <fall fallname="116;114;117;101;">
+          <strelem typ="0" zx="0" zy="0">
+            <text>109;98;111;116;46;102;111;114;119;97;114;100;40;41;</text>
+          </strelem>
+        </fall>
+        <fall fallname="102;97;108;115;101;">
+          <strelem typ="0" zx="0" zy="0">
+            <text>109;98;111;116;46;116;117;114;110;82;105;103;104;116;40;41;</text>
+          </strelem>
+          <strelem typ="1" zx="0" zy="0">
+            <text>109;98;111;116;46;103;101;116;68;105;115;116;97;110;99;101;40;41;32;60;32;49;53;</text>
+            <fall fallname="116;114;117;101;">
+              <strelem typ="0" zx="0" zy="0">
+                <text>109;98;111;116;46;116;117;114;110;82;105;103;104;116;40;49;56;48;41;</text>
+              </strelem>
+            </fall>
+            <fall fallname="102;97;108;115;101;">
+              <strelem typ="0" zx="0" zy="0">
+                <text>248;</text>
+              </strelem>
+            </fall>
+          </strelem>
+        </fall>
+      </strelem>
+    </schleifeninhalt>
+  </strelem>
+</struktogramm>

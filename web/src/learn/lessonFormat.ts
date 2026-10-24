@@ -118,7 +118,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|datei|fahrt|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|datei|fahrt|welt|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -141,6 +141,13 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
             ex.tests.push({ inputs: [], expected: [], drive: driveSignature(parseDriveSpec(value)) })
           } catch (err) {
             throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+          }
+          break
+        case 'welt':
+          // VisuBot: `welt: wand-nah, wand-weit` – in jeder dieser Welten muss der Roboter ohne Anstoßen ins Ziel.
+          for (const name of value.split(/\s*,\s*/).filter(Boolean)) {
+            if (!/^[\w-]+$/.test(name)) throw new FormatError(`${file}: Übung „${id}“: Weltname „${name}“ (nur Buchstaben, Ziffern, -).`)
+            ex.tests.push({ inputs: [], expected: [], world: name })
           }
           break
         case 'schleifentiefe':
