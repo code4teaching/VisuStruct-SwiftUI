@@ -734,7 +734,9 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 
 Links neben dem Lernbereich findest du die Spalte [📁 Dateien](#zeige-dateien). Dort sammelst du alle deine Programme an einem Ort, deinem **Workspace** (Arbeitsbereich).
 
-1. Öffne die Spalte und richte den Workspace ein. In Chrome und Edge wählst du dafür einen Ordner auf deinem Rechner, zum Beispiel in deinen Dokumenten. Auf dem iPad und in anderen Browsern speichert VisuStruct im Browser.
+**Jetzt du:** Richte deinen Workspace jetzt gleich ein, bevor du weiterliest. Ab heute speicherst du alle deine Programme dort.
+
+1. Lege einen Workspace an: Öffne die Spalte und klicke auf **Ordner wählen**. Gehe im Fenster zu deinen **Dokumenten**, lege dort mit **Neuer Ordner** einen Ordner namens \`VisuStruct-Dateien\` an und wähle ihn aus. Erlaube VisuStruct, den Ordner zu benutzen. Das geht in Chrome und Edge. Auf dem iPad und in anderen Browsern klickst du stattdessen auf **Im Browser speichern**.
 2. Lege mit dem Ordner-Symbol mit **+** einen Ordner für deine Klasse an, zum Beispiel \`11FI1\`. Ein Klick auf einen Klassenordner macht ihn zur aktuellen **Klasse**.
 3. Speichere wie gewohnt. VisuStruct legt in deiner Klasse automatisch einen Ordner mit dem heutigen Datum an, zum Beispiel \`2026-10-23\`, und speichert das Programm darin. Der Dateiname kommt aus dem Titel.
 
@@ -810,6 +812,7 @@ richtig: PNG
 - Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet. → Speichern und Öffnen
 - Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Weitergeben: Bild, PDF oder Datei
 - Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet. → Mehrere Diagramme in Reitern
+- Ich habe meinen Workspace \`VisuStruct-Dateien\` angelegt. → Die Spalte Dateien
 - Ich habe in der Spalte Dateien einen Klassenordner angelegt und darin gespeichert. → Die Spalte Dateien
 :::
 
@@ -11759,7 +11762,9 @@ When Nassi was a student, there were no files to save. There were punched cards.
 
 To the left of the learning area you find the [📁 Files](#zeige-dateien) column. There you keep all your programs in one place, your **workspace**.
 
-1. Open the column and set up the workspace. In Chrome and Edge you choose a folder on your computer for it, for example in your documents. On the iPad and in other browsers, VisuStruct saves in the browser.
+**Your turn:** Set up your workspace right now, before you read on. From today on you save all your programs there.
+
+1. Create a workspace: open the column and click **Choose folder**. In the window, go to your **Documents**, use **New Folder** to create a folder called \`VisuStruct-Files\` there and select it. Allow VisuStruct to use the folder. This works in Chrome and Edge. On the iPad and in other browsers, click **Save in the browser** instead.
 2. Use the folder icon with **+** to create a folder for your class, for example \`11FI1\`. Clicking a class folder makes it the current **class**.
 3. Save as usual. In your class, VisuStruct automatically creates a folder with today's date, for example \`2026-10-23\`, and saves the program in it. The file name comes from the title.
 
@@ -11835,6 +11840,7 @@ Open one of your exercises from lesson 2 and try the following:
 - I have saved the diagram as a .visustruct file and opened it again. → Save and open
 - I have exported the diagram as an image (PNG) or PDF. → Share: image, PDF or file
 - I have opened a second diagram in a new tab. → Several diagrams in tabs
+- I have created my workspace \`VisuStruct-Files\`. → The Files column
 - I have created a class folder in the Files column and saved into it. → The Files column
 :::
 
@@ -22780,7 +22786,9 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 
 À esquerda da área de aprendizagem encontras a coluna [📁 Ficheiros](#zeige-dateien). Aí reúnes todos os teus programas num só sítio, o teu **espaço de trabalho**.
 
-1. Abre a coluna e configura o espaço de trabalho. No Chrome e no Edge escolhes para isso uma pasta no teu computador, por exemplo nos teus documentos. No iPad e noutros navegadores, o VisuStruct guarda no navegador.
+**A tua vez:** Configura já o teu espaço de trabalho, antes de continuares a ler. A partir de hoje guardas lá todos os teus programas.
+
+1. Cria um espaço de trabalho: abre a coluna e clica em **Escolher pasta**. Na janela, vai aos teus **Documentos**, cria aí com **Nova pasta** uma pasta chamada \`VisuStruct-Ficheiros\` e seleciona-a. Permite que o VisuStruct use a pasta. Isto funciona no Chrome e no Edge. No iPad e noutros navegadores, clica antes em **Guardar no navegador**.
 2. Com o ícone de pasta com **+** crias uma pasta para a tua turma, por exemplo \`11FI1\`. Um clique numa pasta de turma torna-a a **turma** atual.
 3. Guarda como de costume. Na tua turma, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo \`2026-10-23\`, e guarda lá o programa. O nome do ficheiro vem do título.
 
@@ -22856,6 +22864,7 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 - Guardei o diagrama como ficheiro .visustruct e voltei a abri-lo. → Guardar e abrir
 - Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
 - Abri um segundo diagrama num novo separador. → Vários diagramas em separadores
+- Criei o meu espaço de trabalho \`VisuStruct-Ficheiros\`. → A coluna Ficheiros
 - Criei uma pasta de turma na coluna Ficheiros e guardei lá. → A coluna Ficheiros
 :::
 

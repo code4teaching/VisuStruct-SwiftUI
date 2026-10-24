@@ -23,7 +23,9 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 
 Links neben dem Lernbereich findest du die Spalte [📁 Dateien](#zeige-dateien). Dort sammelst du alle deine Programme an einem Ort, deinem **Workspace** (Arbeitsbereich).
 
-1. Öffne die Spalte und richte den Workspace ein. In Chrome und Edge wählst du dafür einen Ordner auf deinem Rechner, zum Beispiel in deinen Dokumenten. Auf dem iPad und in anderen Browsern speichert VisuStruct im Browser.
+**Jetzt du:** Richte deinen Workspace jetzt gleich ein, bevor du weiterliest. Ab heute speicherst du alle deine Programme dort.
+
+1. Lege einen Workspace an: Öffne die Spalte und klicke auf **Ordner wählen**. Gehe im Fenster zu deinen **Dokumenten**, lege dort mit **Neuer Ordner** einen Ordner namens `VisuStruct-Dateien` an und wähle ihn aus. Erlaube VisuStruct, den Ordner zu benutzen. Das geht in Chrome und Edge. Auf dem iPad und in anderen Browsern klickst du stattdessen auf **Im Browser speichern**.
 2. Lege mit dem Ordner-Symbol mit **+** einen Ordner für deine Klasse an, zum Beispiel `11FI1`. Ein Klick auf einen Klassenordner macht ihn zur aktuellen **Klasse**.
 3. Speichere wie gewohnt. VisuStruct legt in deiner Klasse automatisch einen Ordner mit dem heutigen Datum an, zum Beispiel `2026-10-23`, und speichert das Programm darin. Der Dateiname kommt aus dem Titel.
 
@@ -99,6 +101,7 @@ richtig: PNG
 - Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet. → Speichern und Öffnen
 - Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Weitergeben: Bild, PDF oder Datei
 - Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet. → Mehrere Diagramme in Reitern
+- Ich habe meinen Workspace `VisuStruct-Dateien` angelegt. → Die Spalte Dateien
 - Ich habe in der Spalte Dateien einen Klassenordner angelegt und darin gespeichert. → Die Spalte Dateien
 :::
 

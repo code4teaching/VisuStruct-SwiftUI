@@ -23,7 +23,9 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 
 À esquerda da área de aprendizagem encontras a coluna [📁 Ficheiros](#zeige-dateien). Aí reúnes todos os teus programas num só sítio, o teu **espaço de trabalho**.
 
-1. Abre a coluna e configura o espaço de trabalho. No Chrome e no Edge escolhes para isso uma pasta no teu computador, por exemplo nos teus documentos. No iPad e noutros navegadores, o VisuStruct guarda no navegador.
+**A tua vez:** Configura já o teu espaço de trabalho, antes de continuares a ler. A partir de hoje guardas lá todos os teus programas.
+
+1. Cria um espaço de trabalho: abre a coluna e clica em **Escolher pasta**. Na janela, vai aos teus **Documentos**, cria aí com **Nova pasta** uma pasta chamada `VisuStruct-Ficheiros` e seleciona-a. Permite que o VisuStruct use a pasta. Isto funciona no Chrome e no Edge. No iPad e noutros navegadores, clica antes em **Guardar no navegador**.
 2. Com o ícone de pasta com **+** crias uma pasta para a tua turma, por exemplo `11FI1`. Um clique numa pasta de turma torna-a a **turma** atual.
 3. Guarda como de costume. Na tua turma, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo `2026-10-23`, e guarda lá o programa. O nome do ficheiro vem do título.
 
@@ -99,6 +101,7 @@ Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 - Guardei o diagrama como ficheiro .visustruct e voltei a abri-lo. → Guardar e abrir
 - Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
 - Abri um segundo diagrama num novo separador. → Vários diagramas em separadores
+- Criei o meu espaço de trabalho `VisuStruct-Ficheiros`. → A coluna Ficheiros
 - Criei uma pasta de turma na coluna Ficheiros e guardei lá. → A coluna Ficheiros
 :::
 

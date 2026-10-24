@@ -23,7 +23,9 @@ When Nassi was a student, there were no files to save. There were punched cards.
 
 To the left of the learning area you find the [📁 Files](#zeige-dateien) column. There you keep all your programs in one place, your **workspace**.
 
-1. Open the column and set up the workspace. In Chrome and Edge you choose a folder on your computer for it, for example in your documents. On the iPad and in other browsers, VisuStruct saves in the browser.
+**Your turn:** Set up your workspace right now, before you read on. From today on you save all your programs there.
+
+1. Create a workspace: open the column and click **Choose folder**. In the window, go to your **Documents**, use **New Folder** to create a folder called `VisuStruct-Files` there and select it. Allow VisuStruct to use the folder. This works in Chrome and Edge. On the iPad and in other browsers, click **Save in the browser** instead.
 2. Use the folder icon with **+** to create a folder for your class, for example `11FI1`. Clicking a class folder makes it the current **class**.
 3. Save as usual. In your class, VisuStruct automatically creates a folder with today's date, for example `2026-10-23`, and saves the program in it. The file name comes from the title.
 
@@ -99,6 +101,7 @@ Open one of your exercises from lesson 2 and try the following:
 - I have saved the diagram as a .visustruct file and opened it again. → Save and open
 - I have exported the diagram as an image (PNG) or PDF. → Share: image, PDF or file
 - I have opened a second diagram in a new tab. → Several diagrams in tabs
+- I have created my workspace `VisuStruct-Files`. → The Files column
 - I have created a class folder in the Files column and saved into it. → The Files column
 :::
 
