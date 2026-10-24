@@ -29,6 +29,15 @@ Links neben dem Lernbereich findest du die Spalte [📁 Dateien](#zeige-dateien)
 2. Lege mit dem Ordner-Symbol mit **+** einen Ordner für deine Klasse an, zum Beispiel `11FI1`. Ein Klick auf einen Klassenordner macht ihn zur aktuellen **Klasse**.
 3. Speichere wie gewohnt. VisuStruct legt in deiner Klasse automatisch einen Ordner mit dem heutigen Datum an, zum Beispiel `2026-10-23`, und speichert das Programm darin. Der Dateiname kommt aus dem Titel.
 
+So sieht dein Workspace danach aus:
+
+```text
+VisuStruct-Dateien          ← Workspace
+└── 11FI1                   ← Klasse
+    └── 2026-10-23          ← Tag
+        └── Fakultaet.visustruct
+```
+
 Ein Klick auf ein Programm in der Spalte öffnet es wieder. So findest du später jede Stunde schnell wieder.
 
 Auch dein **Lernstand** landet im Workspace: in der Datei `lernstand.json` stehen deine erledigten Lektionen und Übungen. Öffnest du den Workspace in einem anderen Browser, ist dein Lernstand wieder da.

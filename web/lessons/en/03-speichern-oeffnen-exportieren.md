@@ -29,6 +29,15 @@ To the left of the learning area you find the [📁 Files](#zeige-dateien) colum
 2. Use the folder icon with **+** to create a folder for your class, for example `11FI1`. Clicking a class folder makes it the current **class**.
 3. Save as usual. In your class, VisuStruct automatically creates a folder with today's date, for example `2026-10-23`, and saves the program in it. The file name comes from the title.
 
+This is what your workspace looks like then:
+
+```text
+VisuStruct-Files            ← workspace
+└── 11FI1                   ← class
+    └── 2026-10-23          ← day
+        └── Factorial.visustruct
+```
+
 Clicking a program in the column opens it again. That way you quickly find every lesson later.
 
 Your **learning progress** goes into the workspace too: the file `lernstand.json` lists the lessons and exercises you have finished. If you open the workspace in another browser, your progress is back.

@@ -183,7 +183,7 @@
 "web_files_empty" = "Noch keine Ordner. Lege mit dem Ordner-Symbol einen Ordner für deine Klasse an.";
 "web_files_reconnect_hint" = "Der Browser fragt nach dem Neuladen noch einmal, ob VisuStruct deinen Ordner benutzen darf.";
 "web_files_reconnect_fmt" = "Ordner „%@“ öffnen";
-"web_files_connect_hint" = "Wähle einen Ordner als Arbeitsbereich. VisuStruct legt darin Ordner für Klassen und Tage an und speichert Struktogramm und Code.";
+"web_files_connect_hint" = "Wähle einen Ordner als Arbeitsbereich, am besten einen neuen Ordner „VisuStruct-Dateien“ in deinen Dokumenten. VisuStruct legt darin Ordner für Klassen und Tage an und speichert Struktogramm und Code.";
 "web_files_connect" = "Ordner wählen";
 "web_files_browser_hint" = "Dieser Browser kann keine Ordner auf dem Gerät öffnen (z. B. auf dem iPad). Deine Dateien bleiben dann im Speicher dieses Browsers.";
 "web_files_browser" = "Im Browser speichern";

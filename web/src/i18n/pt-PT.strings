@@ -181,7 +181,7 @@
 "web_files_empty" = "Ainda não há pastas. Usa o botão de pasta para criar uma para a tua turma.";
 "web_files_reconnect_hint" = "Depois de recarregar, o navegador pergunta outra vez se o VisuStruct pode usar a tua pasta.";
 "web_files_reconnect_fmt" = "Abrir a pasta “%@”";
-"web_files_connect_hint" = "Escolhe uma pasta como área de trabalho. O VisuStruct cria lá pastas para turmas e dias e guarda o diagrama e o código.";
+"web_files_connect_hint" = "Escolhe uma pasta como área de trabalho, de preferência uma pasta nova “VisuStruct-Ficheiros” nos teus Documentos. O VisuStruct cria lá pastas para turmas e dias e guarda o diagrama e o código.";
 "web_files_connect" = "Escolher pasta";
 "web_files_browser_hint" = "Este navegador não consegue abrir pastas no dispositivo (por exemplo no iPad). Os teus ficheiros ficam no armazenamento deste navegador.";
 "web_files_browser" = "Guardar no navegador";

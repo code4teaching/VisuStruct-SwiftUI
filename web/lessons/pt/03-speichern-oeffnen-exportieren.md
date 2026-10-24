@@ -29,6 +29,15 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 2. Com o ícone de pasta com **+** crias uma pasta para a tua turma, por exemplo `11FI1`. Um clique numa pasta de turma torna-a a **turma** atual.
 3. Guarda como de costume. Na tua turma, o VisuStruct cria automaticamente uma pasta com a data de hoje, por exemplo `2026-10-23`, e guarda lá o programa. O nome do ficheiro vem do título.
 
+O teu espaço de trabalho fica assim:
+
+```text
+VisuStruct-Ficheiros        ← espaço de trabalho
+└── 11FI1                   ← turma
+    └── 2026-10-23          ← dia
+        └── Fatorial.visustruct
+```
+
 Um clique num programa da coluna volta a abri-lo. Assim encontras depressa cada aula mais tarde.
 
 Também o teu **progresso** fica no espaço de trabalho: o ficheiro `lernstand.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
