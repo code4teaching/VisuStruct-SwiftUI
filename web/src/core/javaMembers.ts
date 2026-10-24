@@ -167,6 +167,22 @@ const extendsOf: Record<string, string[]> = {
 
 /** Klassenname mit Punkt: `Math.`, `System.`, `Integer.` … */
 const statics: Record<string, Row[]> = {
+  // mBot2 (siehe mbot.ts): fester Name wie `System.out`, ohne eigenes Objekt anzulegen.
+  mbot: [
+    ['forward', 'cm', 'void', 'Geradeaus vorwärts fahren', 'Drive forward', 'Andar para a frente'],
+    ['backward', 'cm', 'void', 'Rückwärts fahren', 'Drive backward', 'Andar para trás'],
+    ['turnLeft', 'grad', 'void', 'Auf der Stelle nach links drehen', 'Turn left on the spot', 'Rodar para a esquerda'],
+    ['turnRight', 'grad', 'void', 'Auf der Stelle nach rechts drehen', 'Turn right on the spot', 'Rodar para a direita'],
+    ['stop', '', 'void', 'Motoren anhalten', 'Stop the motors', 'Parar os motores'],
+    ['pause', 'ms', 'void', 'Millisekunden warten', 'Wait milliseconds', 'Esperar milissegundos'],
+    ['setLed', 'rot, gruen, blau', 'void', 'LEDs in einer Farbe (je 0–255)', 'LEDs in a colour (0–255 each)', 'LEDs numa cor (0–255 cada)'],
+    ['ledOff', '', 'void', 'LEDs aus', 'LEDs off', 'Desligar LEDs'],
+    ['playTone', 'hz, ms', 'void', 'Ton spielen, z. B. playTone(440, 500)', 'Play a tone, e.g. playTone(440, 500)', 'Tocar um som, p. ex. playTone(440, 500)'],
+    ['getDistance', '', 'int', 'Abstand vorn in cm (Ultraschall)', 'Distance ahead in cm (ultrasonic)', 'Distância à frente em cm (ultrassom)'],
+    ['getLine', '', 'int', 'Liniensensor: 0 = keine Linie, 15 = alle vier auf der Linie', 'Line sensor: 0 = no line, 15 = all four on the line', 'Sensor de linha: 0 = sem linha, 15 = os quatro na linha'],
+    ['getBrightness', '', 'int', 'Helligkeit 0–100', 'Brightness 0–100', 'Luminosidade 0–100'],
+    ['getLoudness', '', 'int', 'Lautstärke 0–100', 'Loudness 0–100', 'Volume 0–100'],
+  ],
   System: [
     ['out', null, 'PrintStream', 'Ausgabe in die Konsole', 'Output to the console', 'Saída para a consola'],
     ['in', null, 'InputStream', 'Eingabe von der Tastatur (für Scanner)', 'Keyboard input (for Scanner)', 'Entrada do teclado (para Scanner)'],

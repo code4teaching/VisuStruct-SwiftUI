@@ -3,6 +3,7 @@
  * Verzweigungen und Schleifen ersetzen sich beim Ausführen durch die Schritte ihres Rumpfs.
  */
 import { ElementType, type VSCase, type VSDocument, type VSElement } from './model'
+import { MBOT_COMMANDS, MBOT_SENSORS, makeMBotAction, parseMBotCommand, substituteMBotSensors, type MBotAction } from './mbot'
 
 export type SimValue =
   | { kind: 'int'; value: number }
@@ -103,6 +104,8 @@ export interface SimState {
   isHalted: boolean
   /** Dateien, die das Programm geschrieben hat (Name → Inhalt). */
   files: Map<string, string>
+  /** Befehle an den mBot2 in der Reihenfolge der Schritte (`mbot.forward(10)` usw.). */
+  robotActions: MBotAction[]
 }
 
 export function noticeEnglish(n: SimNotice): string {
@@ -843,7 +846,7 @@ function parseInputValue(rawValue: string, valueType: SimValueType): SimValue {
 }
 
 function freshState(): SimState {
-  return { stepIndex: 0, variables: new Map(), outputLines: [], isHalted: false, files: new Map() }
+  return { stepIndex: 0, variables: new Map(), outputLines: [], isHalted: false, files: new Map(), robotActions: [] }
 }
 
 type SwitchSelector = { kind: 'int'; value: number } | { kind: 'text'; value: string }
@@ -946,6 +949,8 @@ export class SimulationEngine {
   private frames = new Map<number, CallFrame>()
   /** Beim Aufbereiten der Anzeige (`lastTrace`) lesen `nextLine()`/`readLine()` nur nach, ohne weiterzugehen. */
   private peeking = false
+  /** Messwerte des echten mBot2; fehlt ein Wert, gilt der simulierte aus `MBOT_SENSORS`. */
+  robotSensors: Partial<Record<string, number>> = {}
 
   constructor(
     document: VSDocument,
@@ -1314,6 +1319,12 @@ export class SimulationEngine {
       return
     }
 
+    const robot = parseMBotCommand(text)
+    if (robot) {
+      this.executeMBotCommand(robot.method, robot.args, text)
+      return
+    }
+
     if (this.executeFileStatement(text)) return
 
     if (text.endsWith('++') || text.endsWith('--') || text.includes('+=') || text.includes('-=')) {
@@ -1350,6 +1361,16 @@ export class SimulationEngine {
     const value = this.evaluateExpression(expression, targetType)
     this.assignValue(value, target.variableName)
     state.lastTrace = `${target.variableName} = ${rendered} -> ${describeValue(value)}`
+  }
+
+  /** `mbot.forward(10)`: Befehl merken und in der Konsole zeigen; die Oberfläche fährt damit den echten Roboter. */
+  private executeMBotCommand(method: string, args: string[], text: string): void {
+    const spec = MBOT_COMMANDS[method]
+    if (!spec || args.length !== spec.args) throw invalid(text)
+    const action = makeMBotAction(method, args.map((a) => this.evaluateDouble(a)))
+    this.state.robotActions.push(action)
+    this.state.outputLines.push(`🤖 mBot2: ${action.label}`)
+    this.state.lastTrace = `${text} -> ${action.label}`
   }
 
   /**
@@ -2007,7 +2028,8 @@ export class SimulationEngine {
   }
 
   private parser(expression: string): NumericParser {
-    return new NumericParser(tokenize(normalizeNumericExpression(this.substituteStringCalls(expression))), this.state.variables)
+    const sensors = substituteMBotSensors(expression, (name) => this.robotSensors[name] ?? MBOT_SENSORS[name].simulated)
+    return new NumericParser(tokenize(normalizeNumericExpression(this.substituteStringCalls(sensors))), this.state.variables)
   }
 
   private evaluateInt(expression: string): number {
