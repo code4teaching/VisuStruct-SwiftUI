@@ -13,9 +13,11 @@ export function renderRobotModel(parts: { part: string; text: string }[]): HTMLE
   info.textContent = t('web_visubot_tap_part')
   const buttons = document.createElement('div')
   buttons.className = 'visubot-part-buttons'
+  let highlight: (part: RobotPart) => void = () => {}
   const show = (part: string) => {
     const entry = parts.find((p) => p.part === part)
     if (!entry) return
+    highlight(entry.part as RobotPart)
     info.innerHTML = markdownToHTML(entry.text)
     for (const b of buttons.children) b.classList.toggle('active', (b as HTMLElement).dataset.part === part)
   }
@@ -31,9 +33,8 @@ export function renderRobotModel(parts: { part: string; text: string }[]): HTMLE
   void import('./robot3d')
     .then(({ Robot3D }) => {
       const view = new Robot3D(stage)
-      view.setWorld({ width: 60, depth: 60, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [] })
-      view.place({ x: 0, y: 0, heading: 0 }, [{ x: 0, y: 0 }])
-      view.closeUp()
+      view.showcase()
+      highlight = (part) => view.highlight(part)
       let down: { x: number; y: number } | undefined
       stage.addEventListener('pointerdown', (e) => (down = { x: e.clientX, y: e.clientY }))
       // Antippen ohne Drehen wählt ein Teil.
