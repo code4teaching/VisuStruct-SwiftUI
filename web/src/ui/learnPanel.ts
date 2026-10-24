@@ -37,6 +37,8 @@ export interface LearnHost {
   showEditor(): void
   /** Spalte „Programmieren“ öffnen. */
   showLiveCode(): void
+  /** Spalte „Programmieren“ auf Java öffnen, Struktogramm-Editor einklappen. */
+  showJava(): void
   /** Spalte Dateien öffnen; die Struktogramm-Spalte macht dafür Platz. */
   showFiles(): void
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
@@ -236,6 +238,10 @@ export class LearnPanel {
     if (pointsIntoEditor(this.body)) this.host.showEditor()
     // Geht es nur um die Spalte Dateien (Lektion 3), öffnet sie sich statt des Editors.
     else if (pointsIntoFiles(this.body)) this.host.showFiles()
+    // Java-Schritte (Beispiel als ```java oder Übung mit `code: java`) zeigen nur die Spalte „Programmieren“.
+    else if (step.blocks.some((b) => b.kind === 'exercise' && b.exercise.code === 'java') || this.body.querySelector('.lesson-code[data-lang=java]')) this.host.showJava()
+    // Eine Struktogramm-Übung braucht den Struktogramm-Editor.
+    else if (step.blocks.some((b) => b.kind === 'exercise')) this.host.showEditor()
     // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Programmieren“.
     if (pointsIntoLiveCode(this.body)) this.host.showLiveCode()
     markTerms(this.body, glossary)

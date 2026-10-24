@@ -18,7 +18,7 @@ Até agora o teu programa corria de cima para baixo, como no estrutograma. O có
 
 É assim que registas o ouvinte:
 
-```
+```java
 botao.addActionListener(e -> botao.setText("Fui clicado"));
 ```
 
@@ -33,7 +33,7 @@ A linha vem depois de `new JButton(…)`, porque o botão já tem de existir. E,
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -61,7 +61,7 @@ Executa-o e clica no botão. Agora diz “Fui clicado”.
 
 Se com um clique deve acontecer mais do que uma coisa, pões chavetas depois da seta. Lá dentro, cada instrução tem o seu ponto e vírgula, como no corpo de um ciclo:
 
-```
+```java
 botao.addActionListener(e -> {
     botao.setText("Fui clicado");
     janela.setTitle("Obrigado!");
@@ -168,13 +168,13 @@ Isto não está no programa da disciplina. Se quiseres saber o que está por tr�
 
 A linha com a seta já conheces do passo 2:
 
-```
+```java
 botao.addActionListener(e -> botao.setText("Fui clicado"));
 ```
 
 Sem a seta escreve-se o ouvinte como uma classe sem nome que cumpre o contrato (uma classe anónima):
 
-```
+```java
 botao.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         botao.setText("Fui clicado");

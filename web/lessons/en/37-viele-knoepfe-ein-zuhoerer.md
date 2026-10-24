@@ -16,7 +16,7 @@ Tick **Real Java (with Swing)** in the [gear](#zeige-einstellungen).
 
 With one listener per key it would look like this:
 
-```
+```java
 one.addActionListener(e -> display.setText(display.getText() + "1"));
 two.addActionListener(e -> display.setText(display.getText() + "2"));
 three.addActionListener(e -> display.setText(display.getText() + "3"));
@@ -29,7 +29,7 @@ The lines only differ in the digit. If you want to change a small detail, you ha
 
 A listener can also be stored in a **variable**. Its data type is `ActionListener`, the contract from lesson 30. Then you sign up the same listener at several buttons:
 
-```
+```java
 ActionListener digit = e -> display.setText(display.getText() + e.getActionCommand());
 
 one.addActionListener(digit);
@@ -61,7 +61,7 @@ You compare texts with `equals` and buttons with `==`. If you want to decide by 
 
 With a shared listener you can even build the digit keys in a loop. So that they line up neatly in a grid, they go onto a **JPanel**. A JPanel is an area in the window with its own layout:
 
-```
+```java
 JPanel keys = new JPanel(new GridLayout(0, 3));
 for (int i = 1; i <= 9; i++) {
     JButton digit = new JButton("" + i);
@@ -76,7 +76,7 @@ for (int i = 1; i <= 9; i++) {
 
 ## The whole program
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

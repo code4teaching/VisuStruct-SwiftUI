@@ -23,7 +23,7 @@ Já o conseguias ler com o Scanner da lição 23. Mas, para ficheiros, os profis
 
 ## Ler com BufferedReader
 
-```
+```java
 import java.io.*;
 
 BufferedReader leitor = new BufferedReader(new FileReader("diario.txt"));
@@ -78,7 +78,7 @@ lösung: l24-java-fuchs-loesung.visustruct
 
 Para que o `close()` não seja esquecido, mesmo depois de uma exceção, existe uma forma curta do try: o que é criado entre os parênteses a seguir a `try` é fechado pelo Java sozinho no fim.
 
-```
+```java
 try (BufferedReader leitor = new BufferedReader(new FileReader("diario.txt"))) {
     String linha = leitor.readLine();
     while (linha != null) {
@@ -98,7 +98,7 @@ Isto chama-se **try-with-resources**. `IOException` apanha todos os erros ao ler
 
 Desde o Java 11 é ainda mais curto. `Files.readString` lê o ficheiro inteiro de uma vez, como já conheces da lição 17. Com `split("\n")` divides o texto num array de linhas:
 
-```
+```java
 import java.nio.file.*;
 
 String texto = Files.readString(Path.of("diario.txt"));

@@ -19,7 +19,7 @@ As in the last lessons, tick **Real Java (with Swing)** in the [gear](#zeige-ein
 
 We put all three building blocks into the window, just like the button in lesson 29:
 
-```
+```java
 import javax.swing.*;
 
 public class Doubling {
@@ -50,7 +50,7 @@ Remember the giant button? Without a layout of its own, a `JFrame` has only **on
 
 The solution is a layout again. This time we use the **GridLayout**. It divides the window into cells of equal size, like a grid:
 
-```
+```java
 window.setLayout(new GridLayout(0, 1));
 ```
 
@@ -64,7 +64,7 @@ The two numbers are rows and columns. `0` rows means “as many as needed”, `1
 
 ## The window with GridLayout
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -103,7 +103,7 @@ On a click, the program should take the number from the text field, double it an
 
 Together with the ActionListener from lesson 30 it looks like this:
 
-```
+```java
 button.addActionListener(e -> {
     int number = Integer.parseInt(field.getText());
     field.setText("" + number * 2);
@@ -116,7 +116,7 @@ button.addActionListener(e -> {
 
 Type “abc” into the text field and click Calculate. The window stays, but nothing happens, and the [console](#zeige-konsole) shows a `NumberFormatException`. From lesson 22 you know what to do:
 
-```
+```java
 button.addActionListener(e -> {
     try {
         int number = Integer.parseInt(field.getText());

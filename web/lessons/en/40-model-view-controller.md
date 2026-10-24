@@ -20,7 +20,7 @@ Tick **Real Java (with Swing)** in the [gear](#zeige-einstellungen).
 
 This is what the click counter looked like so far, everything sits in `main` and in one variable of the class:
 
-```
+```java
 static int count = 0;
 
 public static void main(String[] args) {
@@ -42,7 +42,7 @@ MVC unties the knot: every job gets its own class.
 
 The model is the counter itself, without any Swing:
 
-```
+```java
 class Counter {
     int value = 0;
 
@@ -62,7 +62,7 @@ class Counter {
 
 As the model needs no window, you can try it out without a window at all:
 
-```
+```java
 public class CounterTest {
     public static void main(String[] args) {
         Counter model = new Counter();
@@ -91,7 +91,7 @@ The output is 2. Several classes may stand in one file. Only one of them is `pub
 
 The view shows the value and does nothing else. It doesn't calculate, and it doesn't know where the number comes from:
 
-```
+```java
 class NumberView {
     JLabel number = new JLabel("0", SwingConstants.CENTER);
 
@@ -108,7 +108,7 @@ class NumberView {
 
 The controller is the listener at the button. It connects model and view:
 
-```
+```java
 Counter model = new Counter();
 NumberView view = new NumberView();
 
@@ -144,7 +144,7 @@ Remember: the model knows nothing about windows. In `Counter` there isn't a sing
 
 Now the count should also show up as a bar. For that a second view joins in. A `JProgressBar` is a bar that fills up, here from 0 to 10:
 
-```
+```java
 class BarView {
     JProgressBar bar = new JProgressBar(0, 10);
 
@@ -156,7 +156,7 @@ class BarView {
 
 The controller gets one more line. The model stays exactly as it was:
 
-```
+```java
 plus.addActionListener(e -> {
     model.increase();
     view.update(model.getValue());
@@ -168,7 +168,7 @@ That is exactly the pay-off of MVC: you can add or swap displays without touchin
 
 ## The whole program
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

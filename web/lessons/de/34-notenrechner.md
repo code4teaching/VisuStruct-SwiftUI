@@ -27,7 +27,7 @@ Wir nehmen den Notenschlüssel der IHK-Prüfungen:
 
 Mit `else if` prüfst du von oben nach unten. Die erste Bedingung, die zutrifft, gewinnt:
 
-```
+```java
 int note;
 if (punkte >= 92) {
     note = 1;
@@ -52,7 +52,7 @@ Du kannst diesen Teil ohne Fenster im Bereich [Programmieren](#zeige-codelive) a
 
 ## Das Fenster
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -107,7 +107,7 @@ Zwei Dinge können noch schiefgehen:
 
 Den ersten Fall fängst du mit try/catch ab, den zweiten mit einem `if` vor der Notenberechnung:
 
-```
+```java
 knopf.addActionListener(e -> {
     try {
         int punkte = Integer.parseInt(feld.getText());

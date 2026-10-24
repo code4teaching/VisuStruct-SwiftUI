@@ -10,7 +10,7 @@ Ein leeres Fenster ist langweilig. Jetzt kommt ein Knopf hinein. In Swing heißt
 
 Zwei neue Zeilen brauchst du dafür:
 
-```
+```java
 JButton knopf = new JButton("Klick mich");
 fenster.add(knopf);
 ```
@@ -22,7 +22,7 @@ fenster.add(knopf);
 
 Beide Zeilen kommen **vor** `setVisible(true)`, denn das Fenster soll erst fertig eingerichtet und dann gezeigt werden:
 
-```
+```java
 import javax.swing.*;
 
 public class KnopfFenster {
@@ -51,7 +51,7 @@ Wie ein Fenster seine Teile anordnet, bestimmt sein **Layout**. Ein `JFrame` leg
 
 Mit einem anderen Layout bekommt der Knopf seine normale Größe. Das **FlowLayout** stellt alles wie Wörter in einer Zeile nebeneinander, so groß wie nötig:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

@@ -26,7 +26,7 @@ We use this grading scale:
 
 With `else if` you check from top to bottom. The first condition that is true wins:
 
-```
+```java
 String grade;
 if (points >= 90) {
     grade = "A";
@@ -49,7 +49,7 @@ You can try this part without a window in the [Programming](#zeige-codelive) are
 
 ## The window
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -102,7 +102,7 @@ Two things can still go wrong:
 
 You catch the first case with try/catch, the second with an `if` before working out the grade:
 
-```
+```java
 button.addActionListener(e -> {
     try {
         int points = Integer.parseInt(field.getText());

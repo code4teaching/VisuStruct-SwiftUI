@@ -16,7 +16,7 @@ Tick **Real Java (with Swing)** in the [gear](#zeige-einstellungen).
 
 `Math.random()` gives a random decimal number from 0 to just under 1, for example 0.4173. Three steps turn it into a whole number from 1 to 100:
 
-```
+```java
 int secret = (int) (Math.random() * 100) + 1;
 ```
 
@@ -39,14 +39,14 @@ Computers can't actually roll dice. `Math.random()` uses a formula to calculate 
 
 The game has to remember two things across all clicks: the secret number and the number of guesses. As with the click counter from lesson 32, both go in the class:
 
-```
+```java
 static int secret = (int) (Math.random() * 100) + 1;
 static int guesses = 0;
 ```
 
 ## The whole program
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

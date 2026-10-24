@@ -19,7 +19,7 @@ Marca **Java verdadeiro (com Swing)** na [roda dentada](#zeige-einstellungen).
 
 Cada separador mostra a sua própria área. As áreas são JPanels, como o teclado do cadeado na lição 37:
 
-```
+```java
 JTabbedPane separadores = new JTabbedPane();
 JPanel entrada = new JPanel(new GridLayout(0, 1));
 JPanel lista = new JPanel(new BorderLayout());
@@ -41,7 +41,7 @@ No início está aberto o separador que foi adicionado primeiro.
 
 Um `JTextField` só tem uma linha. Para a lista precisas de uma `JTextArea`:
 
-```
+```java
 JTextArea area = new JTextArea();
 area.setEditable(false);
 area.append("Feno\n");
@@ -55,7 +55,7 @@ area.append("Feno\n");
 
 O botão **Adicionar** está no separador Entrada, a área de texto no separador Lista. Mesmo assim, o ouvinte pode usar os dois. Todas as peças são variáveis em `main`, e o lambda vê-as todas, seja qual for o separador em que aparecem depois:
 
-```
+```java
 adicionar.addActionListener(e -> {
     area.append(campo.getText() + "\n");
     info.setText(campo.getText() + " está na lista.");
@@ -71,7 +71,7 @@ Uma peça só pode estar numa **única** área. Se juntares o mesmo botão prime
 
 Para guardar usas o `PrintWriter` da lição 23. Dentro do ouvinte há um senão: a saída com `throws Exception` da lição 23 aqui não existe. O lambda é um método próprio, `actionPerformed`, e segundo o contrato não pode passar adiante uma `FileNotFoundException`. Por isso, guardar fica dentro de try e catch:
 
-```
+```java
 guardar.addActionListener(e -> {
     try {
         PrintWriter saida = new PrintWriter("listacompras.txt");
@@ -91,7 +91,7 @@ guardar.addActionListener(e -> {
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;

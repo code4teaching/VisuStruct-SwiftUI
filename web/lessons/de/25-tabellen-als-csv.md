@@ -35,7 +35,7 @@ Das ist eine **CSV-Datei**. CSV heißt „Comma-Separated Values“, also „dur
 
 `split(";")` kennst du aus Lektion 17. Es zerlegt einen Text an jedem Semikolon und liefert ein Array:
 
-```
+```java
 String zeile = "Zora;1;2;2";
 String[] teile = zeile.split(";");
 // teile[0] ist "Zora", teile[1] ist "1", teile[2] ist "2", teile[3] ist "2"
@@ -43,7 +43,7 @@ String[] teile = zeile.split(";");
 
 Die Noten sind danach noch **Text**. Rechnen kannst du erst, wenn du sie mit `Integer.parseInt` in eine Zahl verwandelst:
 
-```
+```java
 int mathe = Integer.parseInt(teile[1]);
 ```
 
@@ -55,7 +55,7 @@ Eine CSV-Zeile zerlegen und die Mathenote als Zahl lesen.
 
 Für die ganze Datei kombinierst du den BufferedReader aus Lektion 24 mit `split`. Die Kopfzeile enthält keine Noten, deshalb liest du sie vor der Schleife und überspringst sie:
 
-```
+```java
 BufferedReader leser = new BufferedReader(new FileReader("klasse.csv"));
 String zeile = leser.readLine();   // Kopfzeile
 zeile = leser.readLine();          // erster Datensatz

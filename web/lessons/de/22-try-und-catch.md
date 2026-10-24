@@ -8,7 +8,7 @@ kurz: Mit echtem Java Fehlermeldungen lesen und Abstürze mit try und catch abfa
 
 Dieses Programm soll drei Noten ausgeben. Tippe es im Bereich [Programmieren](#zeige-codelive) ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
 
-```
+```java
 int[] noten = {2, 3, 1};
 System.out.println("Erste Note: " + noten[0]);
 System.out.println("Vierte Note: " + noten[3]);
@@ -38,7 +38,7 @@ Beim ersten Ausführen lädt VisuStruct einmalig etwa 40 MB. Danach wird dein Co
 
 Schreib das Programm jetzt als ganze Klasse, damit die Zeilennummern stimmen, und führe es aus:
 
-```
+```java
 public class Noten {
     public static void main(String[] args) {
         int[] noten = {2, 3, 1};
@@ -77,7 +77,7 @@ Lies Fehlermeldungen immer von oben: Erst der Name der Exception, dann die Zeile
 
 Mit **try** und **catch** fängst du die Exception auf. Ändere die Zeile mit `noten[3]` so:
 
-```
+```java
 try {
     System.out.println("Vierte Note: " + noten[3]);
 } catch (ArrayIndexOutOfBoundsException e) {
@@ -103,7 +103,7 @@ try und catch sind wie das Netz unter dem Trapez im Zirkus: Solange alles klappt
 
 Oft steht eine Zahl zuerst als Text da, zum Beispiel später in einem Textfeld im Fenster. `Integer.parseInt` wandelt Text in eine ganze Zahl um:
 
-```
+```java
 String eingabe = "zwölf";
 try {
     int zahl = Integer.parseInt(eingabe);
@@ -215,7 +215,7 @@ frage: Was passiert?
 
 Dieses Programm stürzt ab:
 
-```
+```java
 int kuchen = 12;
 int personen = 0;
 System.out.println("Jeder bekommt " + kuchen / personen + " Stücke.");

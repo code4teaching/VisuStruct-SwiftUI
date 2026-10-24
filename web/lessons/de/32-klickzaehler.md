@@ -16,7 +16,7 @@ Schalte im [Zahnrad](#zeige-einstellungen) **Echtes Java (mit Swing)** ein.
 
 Naheliegend wäre, die Zahl wie gewohnt in `main` anzulegen und im Zuhörer hochzuzählen:
 
-```
+```java
 int anzahl = 0;
 knopf.addActionListener(e -> {
     anzahl++;
@@ -38,7 +38,7 @@ Der Zuhörer läuft erst später, bei jedem Klick, wenn `main` längst fertig is
 
 Die Lösung: Die Variable kommt **nicht** in `main`, sondern direkt in die Klasse, über `main`. Dann gehört sie der ganzen Klasse, und jeder Zuhörer darf sie ändern:
 
-```
+```java
 public class Zaehler {
     static int anzahl = 0;
 
@@ -53,7 +53,7 @@ public class Zaehler {
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

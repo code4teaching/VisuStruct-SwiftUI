@@ -26,14 +26,14 @@ Até agora, com `GridLayout(0, 1)`, ficava tudo umas por baixo das outras. Com `
 
 As etiquetas da esquerda não vais precisar delas mais tarde. Por isso podes construí-las logo dentro do `add`, sem variável:
 
-```
+```java
 janela.add(new JLabel("Primeiro número:"));
 janela.add(campo1);
 ```
 
 ## A janela com o primeiro botão
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -83,7 +83,7 @@ Atenção aos parênteses em `"" + (a + b)`. Sem eles, o Java calcula da esquerd
 
 Os botões -, \* e / funcionam da mesma maneira. Só muda o sinal na última linha:
 
-```
+```java
 menos.addActionListener(e -> {
     int a = Integer.parseInt(campo1.getText());
     int b = Integer.parseInt(campo2.getText());
@@ -98,7 +98,7 @@ O / tem duas particularidades:
 
 ## Apanhar a divisão por 0
 
-```
+```java
 dividir.addActionListener(e -> {
     int a = Integer.parseInt(campo1.getText());
     int b = Integer.parseInt(campo2.getText());

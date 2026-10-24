@@ -8,7 +8,7 @@ kurz: Ler mensagens de erro com Java verdadeiro e apanhar falhas com try e catch
 
 Este programa deve escrever três notas. Escreve-o na área [Programação](#zeige-codelive) e clica em [▶︎ Executar](#zeige-ausfuehren):
 
-```
+```java
 int[] notas = {2, 3, 1};
 System.out.println("Primeira nota: " + notas[0]);
 System.out.println("Quarta nota: " + notas[3]);
@@ -38,7 +38,7 @@ Na primeira execução, o VisuStruct descarrega uma única vez cerca de 40 MB. D
 
 Escreve agora o programa como uma classe completa, para que os números das linhas batam certo, e executa-o:
 
-```
+```java
 public class Notas {
     public static void main(String[] args) {
         int[] notas = {2, 3, 1};
@@ -77,7 +77,7 @@ Lê as mensagens de erro sempre de cima: primeiro o nome da exceção, depois o 
 
 Com **try** e **catch** apanhas a exceção. Altera a linha com `notas[3]` assim:
 
-```
+```java
 try {
     System.out.println("Quarta nota: " + notas[3]);
 } catch (ArrayIndexOutOfBoundsException e) {
@@ -103,7 +103,7 @@ try e catch são como a rede por baixo do trapézio no circo: enquanto tudo corr
 
 Muitas vezes um número começa por ser texto, por exemplo mais tarde num campo de texto numa janela. `Integer.parseInt` transforma texto num número inteiro:
 
-```
+```java
 String entrada = "doze";
 try {
     int numero = Integer.parseInt(entrada);
@@ -215,7 +215,7 @@ frage: O que acontece?
 
 Este programa falha:
 
-```
+```java
 int bolo = 12;
 int pessoas = 0;
 System.out.println("Cada um recebe " + bolo / pessoas + " fatias.");

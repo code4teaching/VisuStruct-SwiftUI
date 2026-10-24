@@ -23,7 +23,7 @@ Um ficheiro com a extensão `.txt` contém só texto, linha a linha. Podes abri-
 
 Já conheces o `Scanner`: `new Scanner(System.in)` lê do teclado. Se lhe deres um ficheiro em vez de `System.in`, ele lê do ficheiro:
 
-```
+```java
 import java.io.*;
 import java.util.Scanner;
 
@@ -56,7 +56,7 @@ Imagina o Scanner como um dedo a apontar para uma linha. `nextLine()` lê a linh
 
 Se o ficheiro não existir, o Java não o consegue ler e lança uma `FileNotFoundException`. O Java exige que o teu programa conte com isso. Ou apanhas a exceção com try e catch, como na lição 22:
 
-```
+```java
 try {
     Scanner ficheiro = new Scanner(new File("compras.txt"));
     // ... ler ...
@@ -68,7 +68,7 @@ try {
 
 Ou escreves `throws Exception` a seguir a `main`. Isso quer dizer: "Este método pode lançar uma exceção, eu não trato dela." Nesse caso, o programa para se o ficheiro não existir.
 
-```
+```java
 public static void main(String[] args) throws Exception {
 ```
 
@@ -92,7 +92,7 @@ lösung: l23-java-nummern-loesung.visustruct
 
 Para escrever existe o `PrintWriter`. Os seus métodos têm os mesmos nomes que os de `System.out`:
 
-```
+```java
 PrintWriter saida = new PrintWriter("saudacao.txt");
 saida.println("Olá Zora!");
 saida.println("Até amanhã, Ludwig");

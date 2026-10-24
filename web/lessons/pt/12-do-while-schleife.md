@@ -78,7 +78,7 @@ lösung: l11-summe-loesung.visustruct
 
 O ciclo que corre mesmo assim uma vez fica assim em Java:
 
-```
+```java
 int i = 10;
 do {
     System.out.println(i);

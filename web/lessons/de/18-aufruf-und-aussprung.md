@@ -199,7 +199,7 @@ lösung: l15-bis-null-loesung.visustruct
 
 Ein Unterprogramm heißt in Java **Methode**. Das Quadrat von oben sieht so aus:
 
-```
+```java
 public static int quadrat(int x) {
     int ergebnis = x * x;
     return ergebnis;
@@ -208,7 +208,7 @@ public static int quadrat(int x) {
 
 Das Hauptprogramm ruft die Methode mit ihrem Namen auf und gibt ihr den Wert in runden Klammern mit:
 
-```
+```java
 int q = quadrat(zahl);
 System.out.println("Das Quadrat ist " + q);
 ```

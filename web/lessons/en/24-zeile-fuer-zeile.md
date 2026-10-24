@@ -23,7 +23,7 @@ You could already read it with the Scanner from lesson 23. For files, though, pr
 
 ## Reading with BufferedReader
 
-```
+```java
 import java.io.*;
 
 BufferedReader reader = new BufferedReader(new FileReader("logbook.txt"));
@@ -78,7 +78,7 @@ lösung: l24-java-fuchs-loesung.visustruct
 
 So that `close()` isn't forgotten even after an exception, there is a short form of try: whatever is created in the round brackets after `try` is closed by Java on its own at the end.
 
-```
+```java
 try (BufferedReader reader = new BufferedReader(new FileReader("logbook.txt"))) {
     String line = reader.readLine();
     while (line != null) {
@@ -98,7 +98,7 @@ This is called **try-with-resources**. `IOException` catches all errors while re
 
 Since Java 11 it is even shorter. `Files.readString` reads the whole file at once, as you know from lesson 17. With `split("\n")` you split the text into an array of lines:
 
-```
+```java
 import java.nio.file.*;
 
 String text = Files.readString(Path.of("logbook.txt"));

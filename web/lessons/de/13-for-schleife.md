@@ -100,7 +100,7 @@ lösung: l16-summe-loesung.visustruct
 
 Die Summe von 1 bis n sieht in Java so aus:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

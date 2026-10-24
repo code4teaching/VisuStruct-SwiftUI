@@ -35,7 +35,7 @@ This is a **CSV file**. CSV stands for "Comma-Separated Values". Each line is a 
 
 You know `split(";")` from lesson 17. It splits a text at every semicolon and returns an array:
 
-```
+```java
 String line = "Zora;1;2;2";
 String[] parts = line.split(";");
 // parts[0] is "Zora", parts[1] is "1", parts[2] is "2", parts[3] is "2"
@@ -43,7 +43,7 @@ String[] parts = line.split(";");
 
 Afterwards the grades are still **text**. You can only calculate with them once you have turned them into a number with `Integer.parseInt`:
 
-```
+```java
 int maths = Integer.parseInt(parts[1]);
 ```
 
@@ -55,7 +55,7 @@ Split a CSV line and read the maths grade as a number.
 
 For the whole file, you combine the BufferedReader from lesson 24 with `split`. The header contains no grades, so you read it before the loop and skip it:
 
-```
+```java
 BufferedReader reader = new BufferedReader(new FileReader("class.csv"));
 String line = reader.readLine();   // header
 line = reader.readLine();          // first record

@@ -10,7 +10,7 @@ An empty window is boring. Now a button goes in. In Swing a button is called **J
 
 You need two new lines for it:
 
-```
+```java
 JButton button = new JButton("Click me");
 window.add(button);
 ```
@@ -22,7 +22,7 @@ window.add(button);
 
 Both lines go **before** `setVisible(true)`, because the window should be set up completely first and then shown:
 
-```
+```java
 import javax.swing.*;
 
 public class ButtonWindow {
@@ -51,7 +51,7 @@ How a window arranges its parts is decided by its **layout**. Without further in
 
 With a different layout the button gets its normal size. The **FlowLayout** places everything side by side like words in a line, only as big as needed:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

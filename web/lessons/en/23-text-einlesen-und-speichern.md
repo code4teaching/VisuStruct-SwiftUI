@@ -23,7 +23,7 @@ A file ending in `.txt` contains only text, line by line. You can open it with a
 
 You already know the `Scanner`: `new Scanner(System.in)` reads from the keyboard. If you give it a file instead of `System.in`, it reads from the file:
 
-```
+```java
 import java.io.*;
 import java.util.Scanner;
 
@@ -56,7 +56,7 @@ Imagine the Scanner as a finger pointing at a line. `nextLine()` reads the line 
 
 If the file does not exist, Java cannot read it and throws a `FileNotFoundException`. Java insists that your program is prepared for this. Either you catch it with try and catch, as in lesson 22:
 
-```
+```java
 try {
     Scanner file = new Scanner(new File("shopping.txt"));
     // ... read ...
@@ -68,7 +68,7 @@ try {
 
 Or you write `throws Exception` after `main`. It means: "This method may throw an exception, I won't deal with it." Then the program stops if the file is missing.
 
-```
+```java
 public static void main(String[] args) throws Exception {
 ```
 
@@ -92,7 +92,7 @@ lösung: l23-java-nummern-loesung.visustruct
 
 For writing there is the `PrintWriter`. Its methods have the same names as those of `System.out`:
 
-```
+```java
 PrintWriter out = new PrintWriter("greeting.txt");
 out.println("Hello Zora!");
 out.println("See you tomorrow, Ludwig");

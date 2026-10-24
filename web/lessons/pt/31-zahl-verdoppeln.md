@@ -19,7 +19,7 @@ Como nas últimas lições, marca **Java verdadeiro (com Swing)** na [roda denta
 
 Pomos as três peças na janela, tal como o botão na lição 29:
 
-```
+```java
 import javax.swing.*;
 
 public class Duplicar {
@@ -50,7 +50,7 @@ Lembras-te do botão gigante? Sem um layout próprio, um `JFrame` só tem **um**
 
 A solução é outra vez um layout. Desta vez usamos o **GridLayout**. Divide a janela em células do mesmo tamanho, como uma grelha:
 
-```
+```java
 janela.setLayout(new GridLayout(0, 1));
 ```
 
@@ -64,7 +64,7 @@ Os dois números são linhas e colunas. `0` linhas quer dizer “tantas quantas 
 
 ## A janela com GridLayout
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -103,7 +103,7 @@ Com um clique, o programa deve ir buscar o número ao campo de texto, duplicá-l
 
 Juntamente com o ActionListener da lição 30 fica assim:
 
-```
+```java
 botao.addActionListener(e -> {
     int numero = Integer.parseInt(campo.getText());
     campo.setText("" + numero * 2);
@@ -116,7 +116,7 @@ botao.addActionListener(e -> {
 
 Escreve “abc” no campo de texto e clica em Calcular. A janela fica, mas não acontece nada, e na [consola](#zeige-konsole) aparece uma `NumberFormatException`. Da lição 22 já sabes o que fazer:
 
-```
+```java
 botao.addActionListener(e -> {
     try {
         int numero = Integer.parseInt(campo.getText());

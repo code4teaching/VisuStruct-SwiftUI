@@ -30,7 +30,7 @@ Der Knopf ruft sie bei jedem Klick auf. Die drei Schreibweisen sind drei Wege, d
 
 Eine **innere Klasse** steht innerhalb einer anderen Klasse. Sie hat einen Namen, hier `Plus`, und erfüllt den Vertrag mit `implements ActionListener`:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -74,7 +74,7 @@ public class Zaehler {
 
 Brauchst du den Zuhörer nur an einer Stelle, kannst du die Klasse direkt dort schreiben, wo das Objekt gebraucht wird. Sie bekommt dann keinen Namen:
 
-```
+```java
 plus.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         anzahl++;
@@ -91,7 +91,7 @@ plus.addActionListener(new ActionListener() {
 
 Das Lambda ist die Kurzform der anonymen Klasse, seit Java 8:
 
-```
+```java
 plus.addActionListener(e -> {
     anzahl++;
     zahl.setText("" + anzahl);

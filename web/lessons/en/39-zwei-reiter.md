@@ -19,7 +19,7 @@ Tick **Real Java (with Swing)** in the [gear](#zeige-einstellungen).
 
 Each tab shows its own area. The areas are JPanels, like the keypad of the code lock in lesson 37:
 
-```
+```java
 JTabbedPane tabs = new JTabbedPane();
 JPanel input = new JPanel(new GridLayout(0, 1));
 JPanel list = new JPanel(new BorderLayout());
@@ -41,7 +41,7 @@ At the start, the tab that was added first is open.
 
 A `JTextField` has only one line. For the list you need a `JTextArea`:
 
-```
+```java
 JTextArea area = new JTextArea();
 area.setEditable(false);
 area.append("Hay\n");
@@ -55,7 +55,7 @@ area.append("Hay\n");
 
 The button **Add** is on the tab Input, the text area on the tab List. Still, the listener can use both. All building blocks are variables in `main`, and the lambda sees all of them, no matter on which tab they are shown later:
 
-```
+```java
 add.addActionListener(e -> {
     area.append(field.getText() + "\n");
     info.setText(field.getText() + " is on the list.");
@@ -71,7 +71,7 @@ A building block can only lie on **one** area. If you add the same button first 
 
 To save, you use the `PrintWriter` from lesson 23. Inside the listener there is a catch, though: the way out with `throws Exception` from lesson 23 doesn't exist here. The lambda is a method of its own, `actionPerformed`, and according to the contract it must not pass on a `FileNotFoundException`. That's why saving goes into try and catch:
 
-```
+```java
 save.addActionListener(e -> {
     try {
         PrintWriter out = new PrintWriter("shoppinglist.txt");
@@ -91,7 +91,7 @@ save.addActionListener(e -> {
 
 ## The whole program
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;

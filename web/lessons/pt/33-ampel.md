@@ -18,7 +18,7 @@ As cores estão na classe `Color` de `java.awt`. Cores já prontas são, por exe
 
 É assim que pintas uma etiqueta:
 
-```
+```java
 JLabel luz = new JLabel("", SwingConstants.CENTER);
 luz.setOpaque(true);
 luz.setBackground(Color.RED);
@@ -35,13 +35,13 @@ luz.setBackground(Color.RED);
 
 Para o semáforo saber o que vem a seguir, guarda o seu estado num número: 0 é vermelho, 1 é verde, 2 é amarelo. Tal como no contador de cliques da lição 32, a variável fica na classe, para o ouvinte a poder alterar:
 
-```
+```java
 static int fase = 0;
 ```
 
 A cada clique a fase avança um. Depois do amarelo (2) vem outra vez o vermelho (0):
 
-```
+```java
 seguinte.addActionListener(e -> {
     fase++;
     if (fase > 2) {
@@ -59,7 +59,7 @@ seguinte.addActionListener(e -> {
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

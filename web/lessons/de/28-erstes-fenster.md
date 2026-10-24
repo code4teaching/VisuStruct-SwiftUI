@@ -26,7 +26,7 @@ Swing gibt es seit 1998. Davor hatte Java nur das ältere AWT mit einer Klasse `
 
 So sieht das kleinste Programm aus, das ein Fenster öffnet. Tippe es im Bereich Programmieren ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
 
-```
+```java
 import javax.swing.*;
 
 public class MeinFenster {

@@ -18,7 +18,7 @@ Farben stehen in der Klasse `Color` aus `java.awt`. Fertige Farben sind zum Beis
 
 Eine Beschriftung färbst du so:
 
-```
+```java
 JLabel licht = new JLabel("", SwingConstants.CENTER);
 licht.setOpaque(true);
 licht.setBackground(Color.RED);
@@ -35,13 +35,13 @@ licht.setBackground(Color.RED);
 
 Damit die Ampel weiß, was als Nächstes kommt, merkt sie sich ihren Zustand in einer Zahl: 0 heißt Rot, 1 heißt Grün, 2 heißt Gelb. Wie beim Klickzähler aus Lektion 32 steht die Variable in der Klasse, damit der Zuhörer sie ändern darf:
 
-```
+```java
 static int phase = 0;
 ```
 
 Bei jedem Klick geht die Phase eins weiter. Nach Gelb (2) kommt wieder Rot (0):
 
-```
+```java
 weiter.addActionListener(e -> {
     phase++;
     if (phase > 2) {
@@ -59,7 +59,7 @@ weiter.addActionListener(e -> {
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

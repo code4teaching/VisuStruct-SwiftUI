@@ -145,7 +145,7 @@ lösung: l05-einkauf-loesung.visustruct
 
 Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
-```
+```java
 int quantidade = 3;
 double preco = 2.5;
 double precoTotal = quantidade * preco;
@@ -164,7 +164,7 @@ O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à
 
 As variáveis não guardam só números. Para texto existe o tipo de dados `String`:
 
-```
+```java
 String nome = "Inês";
 int idade = 14;
 double altura = 1.62;

@@ -30,7 +30,7 @@ The button calls it with every click. The three ways of writing are three ways o
 
 An **inner class** is a class inside another class. It has a name, here `Plus`, and fulfils the contract with `implements ActionListener`:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -74,7 +74,7 @@ public class Counter {
 
 If you only need the listener in one place, you can write the class right where the object is needed. Then it gets no name:
 
-```
+```java
 plus.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         count++;
@@ -91,7 +91,7 @@ plus.addActionListener(new ActionListener() {
 
 The lambda is the short form of the anonymous class, since Java 8:
 
-```
+```java
 plus.addActionListener(e -> {
     count++;
     number.setText("" + count);

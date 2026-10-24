@@ -42,7 +42,7 @@ Professionals read JSON with a library, for example **Gson**. It is not part of 
 
 In Java you write a quotation mark inside a text as `\"`. So the text `"\"name\": \""` is `"name": "`, exactly what comes before each name.
 
-```
+```java
 String line = "{\"name\": \"Zora\", \"species\": \"goat\", \"age\": 6},";
 int start = line.indexOf("\"name\": \"") + 9;
 int end = line.indexOf("\"", start);
@@ -75,7 +75,7 @@ lösung: l26-java-namen-loesung.visustruct
 
 To write, you put the text together with `+` and write it to the file with the PrintWriter from lesson 23. Texts in JSON need quotation marks, so `\"` in the Java text, numbers don't:
 
-```
+```java
 String name = "Zora";
 int points = 15;
 String entry = "{\"name\": \"" + name + "\", \"points\": " + points + "}";

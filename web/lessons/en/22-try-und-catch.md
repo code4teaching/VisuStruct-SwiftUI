@@ -8,7 +8,7 @@ kurz: Use real Java to read error messages and catch crashes with try and catch.
 
 This program should print three grades. Type it into the [Programming](#zeige-codelive) area and click [▶︎ Run](#zeige-ausfuehren):
 
-```
+```java
 int[] grades = {2, 3, 1};
 System.out.println("First grade: " + grades[0]);
 System.out.println("Fourth grade: " + grades[3]);
@@ -38,7 +38,7 @@ The first time you run a program, VisuStruct downloads about 40 MB once. After t
 
 Now write the program as a whole class, so that the line numbers match, and run it:
 
-```
+```java
 public class Grades {
     public static void main(String[] args) {
         int[] grades = {2, 3, 1};
@@ -77,7 +77,7 @@ Always read error messages from the top: first the name of the exception, then t
 
 With **try** and **catch** you catch the exception. Change the line with `grades[3]` like this:
 
-```
+```java
 try {
     System.out.println("Fourth grade: " + grades[3]);
 } catch (ArrayIndexOutOfBoundsException e) {
@@ -103,7 +103,7 @@ try and catch are like the net under the trapeze at the circus: as long as every
 
 Often a number is text at first, for example later in a text field in a window. `Integer.parseInt` turns text into a whole number:
 
-```
+```java
 String input = "twelve";
 try {
     int number = Integer.parseInt(input);
@@ -215,7 +215,7 @@ frage: What happens?
 
 This program crashes:
 
-```
+```java
 int cake = 12;
 int people = 0;
 System.out.println("Everyone gets " + cake / people + " pieces.");

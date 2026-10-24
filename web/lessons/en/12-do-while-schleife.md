@@ -78,7 +78,7 @@ lösung: l11-summe-loesung.visustruct
 
 The loop that still runs once looks like this in Java:
 
-```
+```java
 int i = 10;
 do {
     System.out.println(i);

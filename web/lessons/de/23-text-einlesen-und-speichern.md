@@ -23,7 +23,7 @@ Eine Datei mit der Endung `.txt` enthält nur Text, Zeile für Zeile. Du kannst 
 
 Den `Scanner` kennst du schon: `new Scanner(System.in)` liest von der Tastatur. Gibst du ihm statt `System.in` eine Datei, liest er aus der Datei:
 
-```
+```java
 import java.io.*;
 import java.util.Scanner;
 
@@ -56,7 +56,7 @@ Stell dir den Scanner wie einen Finger vor, der auf eine Zeile zeigt. `nextLine(
 
 Gibt es die Datei nicht, kann Java sie nicht lesen und wirft eine `FileNotFoundException`. Java verlangt, dass dein Programm damit rechnet. Entweder du fängst sie mit try und catch auf, wie in Lektion 22:
 
-```
+```java
 try {
     Scanner datei = new Scanner(new File("einkauf.txt"));
     // ... lesen ...
@@ -68,7 +68,7 @@ try {
 
 Oder du schreibst hinter `main` den Zusatz `throws Exception`. Das heißt: „Diese Methode kann eine Exception werfen, ich kümmere mich nicht darum.“ Dann bricht das Programm ab, wenn die Datei fehlt.
 
-```
+```java
 public static void main(String[] args) throws Exception {
 ```
 
@@ -92,7 +92,7 @@ lösung: l23-java-nummern-loesung.visustruct
 
 Zum Schreiben gibt es den `PrintWriter`. Seine Methoden heißen wie bei `System.out`:
 
-```
+```java
 PrintWriter aus = new PrintWriter("gruss.txt");
 aus.println("Hallo Zora!");
 aus.println("Bis morgen, Ludwig");

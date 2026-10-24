@@ -16,7 +16,7 @@ Marca **Java verdadeiro (com Swing)** na [roda dentada](#zeige-einstellungen).
 
 A ideia mais óbvia é criar o número no `main`, como de costume, e somá-lo no ouvinte:
 
-```
+```java
 int contagem = 0;
 botao.addActionListener(e -> {
     contagem++;
@@ -38,7 +38,7 @@ O ouvinte só corre mais tarde, a cada clique, muito depois de o `main` ter term
 
 A solução: a variável **não** vai para o `main`, mas diretamente para a classe, por cima do `main`. Assim pertence à classe toda, e qualquer ouvinte a pode alterar:
 
-```
+```java
 public class Contador {
     static int contagem = 0;
 
@@ -53,7 +53,7 @@ public class Contador {
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

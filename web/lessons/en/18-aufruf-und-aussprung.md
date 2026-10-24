@@ -199,7 +199,7 @@ lösung: l15-bis-null-loesung.visustruct
 
 In Java a subprogram is called a **method**. The square from above looks like this:
 
-```
+```java
 public static int square(int x) {
     int result = x * x;
     return result;
@@ -208,7 +208,7 @@ public static int square(int x) {
 
 The main program calls the method by its name and passes the value in round brackets:
 
-```
+```java
 int q = square(number);
 System.out.println("The square is " + q);
 ```

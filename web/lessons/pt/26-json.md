@@ -42,7 +42,7 @@ Os profissionais leem JSON com uma biblioteca, por exemplo o **Gson**. Ela não 
 
 Em Java, escreves umas aspas dentro de um texto como `\"`. Assim, o texto `"\"nome\": \""` é `"nome": "`, exatamente o que está antes de cada nome.
 
-```
+```java
 String linha = "{\"nome\": \"Zora\", \"especie\": \"cabra\", \"idade\": 6},";
 int inicio = linha.indexOf("\"nome\": \"") + 9;
 int fim = linha.indexOf("\"", inicio);
@@ -75,7 +75,7 @@ lösung: l26-java-namen-loesung.visustruct
 
 Para escrever, juntas o texto com `+` e escreves-o no ficheiro com o PrintWriter da lição 23. Os textos em JSON precisam de aspas, portanto `\"` no texto Java, os números não:
 
-```
+```java
 String nome = "Zora";
 int pontos = 15;
 String entrada = "{\"nome\": \"" + nome + "\", \"pontos\": " + pontos + "}";

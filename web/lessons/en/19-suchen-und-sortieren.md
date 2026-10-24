@@ -117,7 +117,7 @@ lösung: ss-absteigend-loesung.visustruct
 
 The linear search from the exercise looks like this in Java:
 
-```
+```java
 int[] cards = {8, 4, 11, 4, 6};
 int wanted = 4;
 int position = -1;

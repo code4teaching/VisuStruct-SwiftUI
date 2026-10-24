@@ -20,7 +20,7 @@ Schalte im [Zahnrad](#zeige-einstellungen) **Echtes Java (mit Swing)** ein.
 
 So sah der Klickzähler bisher aus, alles steckt in `main` und einer Variable der Klasse:
 
-```
+```java
 static int anzahl = 0;
 
 public static void main(String[] args) {
@@ -42,7 +42,7 @@ MVC löst den Knoten: Jede Aufgabe bekommt ihre eigene Klasse.
 
 Das Model ist der Zähler selbst, ganz ohne Swing:
 
-```
+```java
 class Zaehler {
     int wert = 0;
 
@@ -62,7 +62,7 @@ class Zaehler {
 
 Weil das Model kein Fenster braucht, kannst du es ganz ohne Fenster ausprobieren:
 
-```
+```java
 public class ZaehlerTest {
     public static void main(String[] args) {
         Zaehler model = new Zaehler();
@@ -91,7 +91,7 @@ Die Ausgabe ist 2. Mehrere Klassen dürfen in einer Datei stehen. Nur eine davon
 
 Die View zeigt den Wert an und macht sonst nichts. Sie rechnet nicht und weiß nicht, woher die Zahl kommt:
 
-```
+```java
 class ZahlAnzeige {
     JLabel zahl = new JLabel("0", SwingConstants.CENTER);
 
@@ -108,7 +108,7 @@ class ZahlAnzeige {
 
 Der Controller ist der Zuhörer am Knopf. Er verbindet Model und View:
 
-```
+```java
 Zaehler model = new Zaehler();
 ZahlAnzeige view = new ZahlAnzeige();
 
@@ -144,7 +144,7 @@ Merk dir: Das Model weiß nichts von Fenstern. In `Zaehler` steht kein einziges 
 
 Jetzt soll der Zählerstand zusätzlich als Balken erscheinen. Dafür kommt eine zweite View dazu. Ein `JProgressBar` ist ein Balken, der sich füllt, hier von 0 bis 10:
 
-```
+```java
 class BalkenAnzeige {
     JProgressBar balken = new JProgressBar(0, 10);
 
@@ -156,7 +156,7 @@ class BalkenAnzeige {
 
 Der Controller bekommt eine Zeile mehr. Das Model bleibt genau, wie es war:
 
-```
+```java
 plus.addActionListener(e -> {
     model.erhoehen();
     view.aktualisieren(model.getWert());
@@ -168,7 +168,7 @@ Genau das ist der Gewinn von MVC: Du kannst Anzeigen dazubauen oder austauschen,
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

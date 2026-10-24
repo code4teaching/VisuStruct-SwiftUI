@@ -26,7 +26,7 @@ Usamos a escala de níveis do ensino básico:
 
 Com `else if` verificas de cima para baixo. Ganha a primeira condição verdadeira:
 
-```
+```java
 int nivel;
 if (percentagem >= 90) {
     nivel = 5;
@@ -49,7 +49,7 @@ Podes experimentar esta parte sem janela na área [Programação](#zeige-codeliv
 
 ## A janela
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -102,7 +102,7 @@ Ainda há duas coisas que podem correr mal:
 
 O primeiro caso apanhas com try/catch, o segundo com um `if` antes de calcular o nível:
 
-```
+```java
 botao.addActionListener(e -> {
     try {
         int percentagem = Integer.parseInt(campo.getText());

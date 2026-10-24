@@ -117,7 +117,7 @@ lösung: ss-absteigend-loesung.visustruct
 
 Die lineare Suche aus der Übung sieht in Java so aus:
 
-```
+```java
 int[] karten = {8, 4, 11, 4, 6};
 int gesucht = 4;
 int position = -1;

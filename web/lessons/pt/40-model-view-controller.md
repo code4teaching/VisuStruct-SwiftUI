@@ -20,7 +20,7 @@ Marca **Java verdadeiro (com Swing)** na [roda dentada](#zeige-einstellungen).
 
 Até agora o contador de cliques era assim, tudo está em `main` e numa variável da classe:
 
-```
+```java
 static int contagem = 0;
 
 public static void main(String[] args) {
@@ -42,7 +42,7 @@ O MVC desata o nó: cada tarefa recebe a sua própria classe.
 
 O model é o próprio contador, sem nada de Swing:
 
-```
+```java
 class Contador {
     int valor = 0;
 
@@ -62,7 +62,7 @@ class Contador {
 
 Como o model não precisa de janela, podes experimentá-lo sem janela nenhuma:
 
-```
+```java
 public class ContadorTeste {
     public static void main(String[] args) {
         Contador model = new Contador();
@@ -91,7 +91,7 @@ A saída é 2. Num ficheiro podem estar várias classes. Só uma delas é `publi
 
 A view mostra o valor e mais nada. Não faz contas e não sabe de onde vem o número:
 
-```
+```java
 class VistaNumero {
     JLabel numero = new JLabel("0", SwingConstants.CENTER);
 
@@ -108,7 +108,7 @@ class VistaNumero {
 
 O controller é o ouvinte do botão. Liga o model à view:
 
-```
+```java
 Contador model = new Contador();
 VistaNumero view = new VistaNumero();
 
@@ -144,7 +144,7 @@ Lembra-te: o model não sabe nada de janelas. Em `Contador` não há nenhum `JLa
 
 Agora a contagem também deve aparecer como barra. Para isso junta-se uma segunda view. Uma `JProgressBar` é uma barra que se enche, aqui de 0 a 10:
 
-```
+```java
 class VistaBarra {
     JProgressBar barra = new JProgressBar(0, 10);
 
@@ -156,7 +156,7 @@ class VistaBarra {
 
 O controller ganha mais uma linha. O model fica exatamente como estava:
 
-```
+```java
 mais.addActionListener(e -> {
     model.aumentar();
     view.atualizar(model.getValor());
@@ -168,7 +168,7 @@ mais.addActionListener(e -> {
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

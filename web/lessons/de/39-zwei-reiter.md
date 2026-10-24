@@ -19,7 +19,7 @@ Schalte im [Zahnrad](#zeige-einstellungen) **Echtes Java (mit Swing)** ein.
 
 Jeder Reiter zeigt eine eigene Fläche. Die Flächen sind JPanels, wie das Tastenfeld beim Zahlenschloss in Lektion 37:
 
-```
+```java
 JTabbedPane reiter = new JTabbedPane();
 JPanel eingabe = new JPanel(new GridLayout(0, 1));
 JPanel liste = new JPanel(new BorderLayout());
@@ -41,7 +41,7 @@ Beim Start ist der Reiter offen, der zuerst hinzugefügt wurde.
 
 Ein `JTextField` hat nur eine Zeile. Für die Liste brauchst du eine `JTextArea`:
 
-```
+```java
 JTextArea bereich = new JTextArea();
 bereich.setEditable(false);
 bereich.append("Heu\n");
@@ -55,7 +55,7 @@ bereich.append("Heu\n");
 
 Der Knopf **Hinzufügen** steht im Reiter Eingabe, der Textbereich im Reiter Liste. Trotzdem kann der Zuhörer beide benutzen. Alle Bausteine sind Variablen in `main`, und das Lambda sieht sie alle, egal auf welchem Reiter sie später angezeigt werden:
 
-```
+```java
 hinzufuegen.addActionListener(e -> {
     bereich.append(feld.getText() + "\n");
     info.setText(feld.getText() + " steht auf der Liste.");
@@ -71,7 +71,7 @@ Ein Baustein kann nur auf **einer** Fläche liegen. Fügst du denselben Knopf er
 
 Zum Speichern nimmst du den `PrintWriter` aus Lektion 23. Im Zuhörer gibt es aber einen Haken: Den Ausweg `throws Exception` aus Lektion 23 gibt es hier nicht. Das Lambda ist eine eigene Methode, `actionPerformed`, und die darf laut Vertrag keine `FileNotFoundException` weiterwerfen. Darum steht das Speichern in try und catch:
 
-```
+```java
 speichern.addActionListener(e -> {
     try {
         PrintWriter aus = new PrintWriter("einkaufsliste.txt");
@@ -91,7 +91,7 @@ speichern.addActionListener(e -> {
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;

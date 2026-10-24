@@ -10,7 +10,7 @@ Uma janela vazia é aborrecida. Agora vai lá para dentro um botão. No Swing, u
 
 Precisas de duas linhas novas:
 
-```
+```java
 JButton botao = new JButton("Clica-me");
 janela.add(botao);
 ```
@@ -22,7 +22,7 @@ janela.add(botao);
 
 As duas linhas ficam **antes** de `setVisible(true)`, porque a janela deve primeiro ficar pronta e só depois ser mostrada:
 
-```
+```java
 import javax.swing.*;
 
 public class JanelaBotao {
@@ -51,7 +51,7 @@ A forma como uma janela arruma as suas partes é decidida pelo seu **layout**. S
 
 Com outro layout o botão fica com o tamanho normal. O **FlowLayout** põe tudo lado a lado, como palavras numa linha, só do tamanho necessário:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

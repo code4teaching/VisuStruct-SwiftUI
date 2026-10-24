@@ -124,7 +124,7 @@ lösung: l06-mittelwert-loesung.visustruct
 
 O exemplo EPS do início fica assim em Java:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
