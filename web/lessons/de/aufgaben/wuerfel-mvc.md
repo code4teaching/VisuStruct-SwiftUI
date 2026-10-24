@@ -8,7 +8,7 @@ Baue ein Würfelspiel nach Model View Controller. Ein Knopf **Würfeln** würfel
 
 Das Model ist schon fertig. Es würfelt und zählt mit, wie oft gewürfelt wurde und wie viele Sechsen dabei waren:
 
-```
+```java
 class Wuerfel {
     int augen = 1;
     int wuerfe = 0;

@@ -885,9 +885,11 @@ export class App {
         if (!this.editorHidden) this.setEditorHidden(true)
       },
       openExercise: (ex: Exercise, doc: VSDocument) => {
-        // Java-Übungen tippt man in „Programmieren“, der Struktogramm-Editor bleibt dabei, wie er ist.
-        if (ex.code === 'java') this.openJavaColumn()
-        else this.setEditorHidden(false)
+        // Java-Übungen tippt man in „Programmieren“, dafür klappt der Struktogramm-Editor ein.
+        if (ex.code === 'java') {
+          this.openJavaColumn()
+          this.setEditorHidden(true)
+        } else this.setEditorHidden(false)
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)

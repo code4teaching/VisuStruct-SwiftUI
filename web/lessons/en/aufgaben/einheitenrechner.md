@@ -14,7 +14,7 @@ The result is shown in a JLabel below the buttons. If the field doesn't contain 
 
 You can start like this:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

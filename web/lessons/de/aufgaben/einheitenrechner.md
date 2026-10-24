@@ -14,7 +14,7 @@ Das Ergebnis steht in einem JLabel unter den Knöpfen. Steht im Feld keine Zahl,
 
 So kannst du anfangen:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
