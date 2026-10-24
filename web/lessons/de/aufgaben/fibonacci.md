@@ -14,6 +14,10 @@ Diese Zahlen findest du erstaunlich oft in der Natur, zum Beispiel bei der Anord
 Erinnerst du dich ans **Tauschen** aus Lektion 5? Dort brauchtest du eine Hilfsvariable, weil `a = b` den alten Wert von `a` überschreibt. Hier ist es genauso: Bevor `zahl2` die neue Zahl bekommt, muss ihr alter Wert in `zahl1` gerettet sein. Achte also auf die **Reihenfolge**: erst `zahl1 = zahl2`, dann `zahl2 = zahl3`. Dieses Weiterschieben und Tauschen brauchst du später wieder, zum Beispiel beim Sortieren in Lektion 19.
 :::
 
+::: angeberwissen
+Leonardo von Pisa, genannt Fibonacci, stellte 1202 in seinem Rechenbuch eine Aufgabe über Kaninchen: Jedes Kaninchenpaar bekommt ab dem zweiten Monat jeden Monat ein neues Paar. Wie viele Paare gibt es nach einem Jahr? Die Antwort ist diese Zahlenfolge. Ziegen kamen in dem Buch leider nicht vor.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Fibonacci-Zahlen
 auftrag: Frage, wie viele Fibonacci-Zahlen ausgegeben werden sollen. Gib dann genau so viele aus, jede in einer eigenen Zeile. Du kannst davon ausgehen, dass mindestens 2 eingegeben wird.

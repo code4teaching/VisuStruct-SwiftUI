@@ -107,6 +107,10 @@ Para fixar:
 - `a || b` só é falso se **ambas** forem falsas.
 - `!a` inverte o valor.
 
+::: angeberwissen
+O tipo de dados `boolean` tem o nome de **George Boole**. Este inglês mostrou já em 1847 que se pode calcular com verdadeiro e falso como com números, quase cem anos antes de existir o primeiro computador. Hoje a sua lógica está em todos os chips.
+:::
+
 ## Valores lógicos em variáveis
 
 O resultado de uma condição é um **valor lógico** do tipo `boolean`. Podes guardá-lo numa variável, tal como um número, e usá-lo mais tarde:

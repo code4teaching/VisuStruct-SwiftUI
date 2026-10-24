@@ -14,6 +14,10 @@ You find these numbers surprisingly often in nature, for example in the way sunf
 Do you remember **swapping** from lesson 5? There you needed a helper variable, because `a = b` overwrites the old value of `a`. It is the same here: before `number2` gets the new number, its old value must be saved in `number1`. So watch the **order**: first `number1 = number2`, then `number2 = number3`. You will need this moving on and swapping again later, for example when sorting in lesson 19.
 :::
 
+::: angeberwissen
+In 1202 Leonardo of Pisa, known as Fibonacci, set a puzzle about rabbits in his arithmetic book: from its second month on, every pair of rabbits has a new pair every month. How many pairs are there after a year? The answer is this sequence. Sadly, there were no goats in the book.
+:::
+
 ::: übung aufgabe-fibonacci
 titel: Fibonacci numbers
 auftrag: Ask how many Fibonacci numbers should be output. Then output exactly that many, each on its own line. You can assume that at least 2 is typed in.

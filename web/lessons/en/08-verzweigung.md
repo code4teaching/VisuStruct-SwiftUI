@@ -112,6 +112,10 @@ if (age >= 18) {
 - If the false branch is empty, simply leave out `else { }`.
 - Your program needs the first two lines once as soon as it reads input. After that, `scanner.nextInt()` reads a whole number. The question before it is a normal output.
 
+::: angeberwissen
+Java has a mascot too: **Duke**, a little black-and-white fellow with a big red nose. He was drawn by the Java team in 1992 and has been waving from conferences and T-shirts ever since. Ludwig thinks a billy goat would have been a better fit.
+:::
+
 ::: übung l08-java-bestanden
 titel: Passed in Java
 code: java

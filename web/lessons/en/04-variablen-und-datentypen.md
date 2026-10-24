@@ -42,6 +42,10 @@ boolean adult = age >= 18
 
 After that, `adult` holds the value `false`.
 
+::: angeberwissen
+On 4 June 1996 the Ariane 5 rocket exploded just 37 seconds after launch. The cause was a single line: a decimal number for the speed was put into a whole-number variable that was too small for such large values. So the data type is no small matter, it can cost half a billion euros.
+:::
+
 ## Assignment with =
 
 The sign `=` is called an **assignment**. It does not mean “equals” as in maths. It means: work out the right-hand side and store the result in the variable on the left.
@@ -138,6 +142,10 @@ System.out.println("Height: " + height + " m");
 - An output is called `System.out.println(…)` in Java.
 
 You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+
+::: angeberwissen
+Java was first called **Oak**, after the tree outside James Gosling’s office window. From 1991 his team at Sun Microsystems wanted to program small devices such as TV set-top boxes. But another company already had the name Oak. So in 1995 it became **Java**, like the coffee from the island of Java. That is why the logo is a steaming cup.
+:::
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java

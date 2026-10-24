@@ -109,6 +109,10 @@ switch (choice) {
 - Every case starts with `case`, the value and an arrow `->`. After it, curly brackets hold what should happen.
 - `default` is the otherwise case. It runs when no value matches.
 
+::: angeberwissen
+The arrow `case 1 ->` has only existed in Java since 2020 (Java 14). Before that you wrote `case 1:` and had to end every case with `break;`. If you forgot it, the program simply ran on into the next case. So the arrow has saved a lot of programmers a lot of trouble.
+:::
+
 ::: übung l10-java-wuerfel
 titel: Dice in words
 code: java

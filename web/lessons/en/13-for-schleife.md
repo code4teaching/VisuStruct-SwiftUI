@@ -18,6 +18,10 @@ When you click a for loop, it has three fields on the right:
 A for loop that outputs the numbers from 1 to 5.
 :::
 
+::: angeberwissen
+Why is the counting variable almost always called `i`? In maths `i` has long stood for an index. And in FORTRAN, one of the first programming languages from 1957, all variables starting with I to N were automatically whole numbers. Programmers have not broken the habit to this day.
+:::
+
 ## In which order?
 
 The three parts run at different times:

@@ -140,6 +140,10 @@ System.out.println("Soma: " + soma);
 - `scanner.nextInt()` lê um número inteiro, `scanner.nextDouble()` um número decimal e `scanner.next()` uma palavra.
 - A pergunta ao utilizador é uma saída normal logo antes. O VisuStruct junta as duas linhas num bloco de entrada.
 
+::: angeberwissen
+O Java foi pensado para controlar pequenos aparelhos, e ainda o faz: em muitos cartões SIM de telemóvel e cartões bancários corre uma mini versão chamada **Java Card**. É bem possível que tenhas Java no bolso neste momento.
+:::
+
 ::: übung l06-java-tage
 titel: Idade em dias
 code: java

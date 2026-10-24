@@ -56,6 +56,10 @@ Primeiro ler uma linha, depois verificar, e no fim da volta ler a seguinte.
 O ciclo é diferente do ciclo com o Scanner: a primeira linha é lida **antes** do ciclo, e cada uma das seguintes **no fim** da volta. Se te esqueceres da leitura no fim, o programa lê sempre a mesma linha e nunca para.
 :::
 
+::: angeberwissen
+O fim de uma linha não é igual em todo o lado: o Windows escreve dois carateres invisíveis, “retorno do carro” e “avanço de linha”, o Linux e o macOS só o avanço de linha. Os nomes vêm da máquina de escrever, em que o carro voltava atrás e o papel subia uma linha. O `readLine()` funciona com os dois.
+:::
+
 ## Exercício: Quantas vezes aparece a Raposa?
 
 ::: übung l24-java-fuchs

@@ -140,6 +140,10 @@ System.out.println("Sum: " + sum);
 - `scanner.nextInt()` reads a whole number, `scanner.nextDouble()` a decimal number and `scanner.next()` a word.
 - The question to the user is a normal output right before it. VisuStruct turns both lines together into one input box.
 
+::: angeberwissen
+Java was originally meant to control small devices, and it still does: many SIM cards in phones and many bank cards run a mini version called **Java Card**. Quite possibly you have Java in your pocket right now.
+:::
+
 ::: übung l06-java-tage
 titel: Age in days
 code: java

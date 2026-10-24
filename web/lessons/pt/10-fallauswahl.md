@@ -109,6 +109,10 @@ switch (escolha) {
 - Cada caso começa com `case`, o valor e uma seta `->`. Depois, entre chavetas, fica o que deve acontecer.
 - `default` é o caso “senão”. Corre quando nenhum valor serve.
 
+::: angeberwissen
+A seta `case 1 ->` só existe em Java desde 2020 (Java 14). Antes escrevia-se `case 1:` e era preciso terminar cada caso com `break;`. Quem se esquecia, continuava simplesmente para o caso seguinte. A seta poupou muitos problemas a muitos programadores.
+:::
+
 ::: übung l10-java-wuerfel
 titel: Dado por extenso
 code: java

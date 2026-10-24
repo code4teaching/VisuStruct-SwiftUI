@@ -68,6 +68,10 @@ JavaScript sieht Java ähnlich: geschweifte Klammern, Semikolons, `while (…)` 
 - `"use strict";` ganz oben sorgt dafür, dass JavaScript bei Tippfehlern in Variablennamen meckert.
 - JavaScript kennt nur einen Zahlentyp. Teilt das Struktogramm zwei `int`-Werte, schreibt VisuStruct `Math.trunc(a / b)`. Dann fallen die Nachkommastellen wie in Java weg.
 
+::: angeberwissen
+JavaScript hat mit Java fast nichts zu tun. Brendan Eich hat es 1995 in nur zehn Tagen für den Browser Netscape gebaut. Erst hieß es Mocha, dann LiveScript. Weil Java gerade alle begeisterte, wurde es kurz vor dem Start aus Werbegründen in JavaScript umbenannt. Seitdem werden die beiden ständig verwechselt, bis heute. Programmierer sagen dazu: Java und JavaScript haben so viel gemeinsam wie Auto und Autogramm.
+:::
+
 ## JavaScript im Browser ausführen
 
 JavaScript ist die Sprache der Browser. Deshalb kann VisuStruct den Code **sofort ausführen**:

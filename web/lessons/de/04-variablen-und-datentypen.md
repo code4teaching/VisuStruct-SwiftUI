@@ -42,6 +42,10 @@ boolean volljaehrig = alter >= 18
 
 Danach steht in `volljaehrig` der Wert `false`.
 
+::: angeberwissen
+Am 4. Juni 1996 explodierte die Rakete Ariane 5 schon 37 Sekunden nach dem Start. Schuld war eine einzige Zeile: Eine Kommazahl für die Geschwindigkeit wurde in eine Ganzzahl-Variable gesteckt, die für so große Werte zu klein war. Der Datentyp ist also keine Nebensache, er kann eine halbe Milliarde Euro kosten.
+:::
+
 ## Zuweisung mit =
 
 Das Zeichen `=` heißt **Zuweisung**. Es bedeutet nicht „ist gleich“ wie in Mathe, sondern: Berechne die rechte Seite und speichere das Ergebnis in der Variablen links.
@@ -138,6 +142,10 @@ System.out.println("Größe: " + groesse + " m");
 - Eine Ausgabe heißt in Java `System.out.println(…)`.
 
 Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
+
+::: angeberwissen
+Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James Gosling. Sein Team bei Sun Microsystems wollte ab 1991 kleine Geräte wie Fernseh-Boxen programmieren. Den Namen Oak hatte aber schon eine andere Firma. Also wurde es 1995 **Java**, wie der Kaffee von der Insel Java. Deshalb ist das Logo eine dampfende Tasse.
+:::
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java

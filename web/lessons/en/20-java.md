@@ -94,6 +94,10 @@ The name of the class comes from the **title** of the diagram. The file must hav
 
 > The generated code is a good start, but check it. If you first create a variable and later read it in again with an input, VisuStruct still writes `int pin = scanner.nextInt();`. Java then reports that `pin` already exists. Simply delete the `int` in that line.
 
+::: angeberwissen
+Every compiled Java file (`.class`) starts with the same four bytes, written in hexadecimal: `CA FE BA BE`. That is how the computer recognises it as Java. James Gosling came up with this “cafe babe”, to go with the coffee in the name.
+:::
+
 ## The Java language mode
 
 Under the [gear](#zeige-einstellungen) at the top right you can switch on **Code keywords**. Then the building blocks in the Elements area have the same names as the commands in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` and `call`. The rest of the interface stays in your language.

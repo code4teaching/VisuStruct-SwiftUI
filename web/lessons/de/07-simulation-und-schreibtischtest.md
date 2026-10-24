@@ -72,6 +72,10 @@ Häufige Fehler in einer Sequenz sind:
 
 > Später kommen Verzweigungen und Schleifen dazu. Dann zeigt dir die Simulation auch, welcher Weg genommen wird und wie oft eine Schleife läuft.
 
+::: angeberwissen
+Am 9. September 1947 fand das Team von Grace Hopper im Rechner Harvard Mark II eine echte Motte, die zwischen zwei Kontakten klemmte. Sie klebten sie ins Logbuch und schrieben dazu: „Erster echter Fall, dass ein Bug gefunden wurde.“ Die Motte liegt heute in einem Museum in Washington.
+:::
+
 ## Übung: Tauschen reparieren
 
 ::: übung sim-tausch

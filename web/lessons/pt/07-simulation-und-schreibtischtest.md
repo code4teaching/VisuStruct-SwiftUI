@@ -72,6 +72,10 @@ Erros frequentes numa sequência são:
 
 > Mais tarde chegam as decisões e os ciclos. Aí a simulação também te mostra que ramo é seguido e quantas vezes um ciclo é executado.
 
+::: angeberwissen
+A 9 de setembro de 1947, a equipa de Grace Hopper encontrou uma traça verdadeira presa entre dois contactos do computador Harvard Mark II. Colaram-na no diário de bordo e escreveram: “Primeiro caso real de um bug encontrado.” Hoje a traça está num museu em Washington.
+:::
+
 ## Exercício: Corrigir a troca
 
 ::: übung sim-tausch

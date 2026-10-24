@@ -94,6 +94,10 @@ Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genaus
 
 > Der erzeugte Code ist ein guter Anfang, aber prüfe ihn. Legst du eine Variable zuerst an und liest sie später mit einer Eingabe neu ein, schreibt VisuStruct trotzdem `int pin = scanner.nextInt();`. Java meldet dann, dass es `pin` schon gibt. Lösche in dieser Zeile einfach das `int`.
 
+::: angeberwissen
+Jede übersetzte Java-Datei (`.class`) beginnt mit denselben vier Bytes, in Hexadezimal geschrieben: `CA FE BA BE`. Daran erkennt der Computer, dass es Java ist. Das „Kaffee-Baby“ hat sich James Gosling ausgedacht, passend zum Kaffee im Namen.
+:::
+
 ## Der Java-Sprachmodus
 
 Unter dem [Zahnrad](#zeige-einstellungen) oben rechts kannst du **Code-Keywords** einschalten. Dann heißen die Bausteine im Bereich Elemente so wie die Befehle in Java: `if`, `switch`, `for`, `while`, `do`, `while(true)`, `break` und `call`. Die übrige Oberfläche bleibt in deiner Sprache.

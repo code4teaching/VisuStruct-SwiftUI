@@ -56,6 +56,10 @@ First read a line, then check, then read the next one at the end of the pass.
 The loop looks different from the Scanner one: the first line is read **before** the loop, every further one **at the end** of the pass. If you forget the read at the end, the program reads the same line again and again and never stops.
 :::
 
+::: angeberwissen
+Where a line ends is not the same everywhere: Windows writes two invisible characters, “carriage return” and “line feed”, Linux and macOS only the line feed. The names come from the typewriter, where the carriage moved back and the paper moved up one line. `readLine()` copes with both.
+:::
+
 ## Exercise: How often does the fox appear?
 
 ::: übung l24-java-fuchs

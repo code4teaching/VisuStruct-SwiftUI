@@ -112,6 +112,10 @@ if (idade >= 18) {
 - Se o ramo false estiver vazio, deixas simplesmente de fora `else { }`.
 - O teu programa precisa das duas primeiras linhas uma vez, assim que lê alguma coisa. Depois, `scanner.nextInt()` lê um número inteiro. A pergunta antes disso é uma saída normal.
 
+::: angeberwissen
+O Java também tem uma mascote: o **Duke**, um bonequinho preto e branco com um grande nariz vermelho. Foi desenhado pela equipa do Java em 1992 e desde então acena em conferências e t-shirts. O Ludwig acha que um bode teria ficado melhor.
+:::
+
 ::: übung l08-java-bestanden
 titel: Aprovado em Java
 code: java

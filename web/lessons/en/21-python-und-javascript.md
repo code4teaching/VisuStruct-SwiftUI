@@ -68,6 +68,10 @@ JavaScript looks similar to Java: curly brackets, semicolons, `while (…)` and 
 - `"use strict";` at the very top makes JavaScript complain about typos in variable names.
 - JavaScript has only one number type. If the structure chart divides two `int` values, VisuStruct writes `Math.trunc(a / b)`. Then the digits after the decimal point are dropped, just like in Java.
 
+::: angeberwissen
+JavaScript has almost nothing to do with Java. Brendan Eich built it in 1995 in just ten days for the Netscape browser. First it was called Mocha, then LiveScript. Because everyone was excited about Java at the time, it was renamed JavaScript shortly before launch, for advertising reasons. People have been mixing the two up ever since. Programmers say: Java is to JavaScript as car is to carpet.
+:::
+
 ## Run JavaScript in the browser
 
 JavaScript is the language of browsers. That is why VisuStruct can **run the code straight away**:

@@ -42,6 +42,10 @@ boolean adulto = idade >= 18
 
 Depois disso, `adulto` tem o valor `false`.
 
+::: angeberwissen
+A 4 de junho de 1996, o foguetão Ariane 5 explodiu apenas 37 segundos depois da descolagem. A culpa foi de uma única linha: um número decimal para a velocidade foi metido numa variável inteira demasiado pequena para valores tão grandes. O tipo de dados não é um pormenor, pode custar meio milhar de milhões de euros.
+:::
+
 ## Atribuição com =
 
 O sinal `=` chama-se **atribuição**. Não quer dizer “é igual a” como na matemática. Quer dizer: calcula o lado direito e guarda o resultado na variável da esquerda.
@@ -138,6 +142,10 @@ System.out.println("Altura: " + altura + " m");
 - Uma saída chama-se `System.out.println(…)` em Java.
 
 Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+
+::: angeberwissen
+O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java. É por isso que o logótipo é uma chávena a fumegar.
+:::
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java
