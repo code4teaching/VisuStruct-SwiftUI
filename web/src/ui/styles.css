@@ -3157,3 +3157,18 @@ button.danger-text:not(:disabled) {
 .learn-cloze-status.wrong {
   background: #fee2e2;
 }
+/* Farbige Markierung im Text, passend zu farbigen Kästen in Lektion 1 */
+.learn-mark {
+  color: inherit;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+.learn-mark.blau {
+  background: #dbeafe;
+}
+.learn-mark.orange {
+  background: #ffedd5;
+}
+.learn-mark.gruen {
+  background: #dcfce7;
+}

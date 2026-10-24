@@ -32,7 +32,7 @@ Méééé, ouve bem! Em 1972, Nassi e Shneiderman ainda eram doutorandos na Univ
 
 ## Bloco básico 1: a sequência
 
-Qualquer algoritmo pode ser construído com apenas **três blocos básicos**: **sequência**, **decisão** e **ciclo**. Neste passo e nos dois seguintes vais conhecê-los um a um.
+Qualquer algoritmo pode ser construído com apenas **três blocos básicos**: [**sequência**]{.blau}, [**decisão**]{.orange} e [**ciclo**]{.gruen}. As cores ajudam-te a associá-los no início; nos teus próprios diagramas, as caixas são brancas. Neste passo e nos dois seguintes vais conhecê-los um a um.
 
 A **sequência** é o bloco mais simples: várias instruções são executadas **uma a seguir à outra**, cada uma exatamente uma vez.
 
@@ -90,7 +90,7 @@ Enquanto o prato não estiver vazio, dás uma garfada. Depois, o prato é levant
 
 ## Os três juntos
 
-Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma sequência de cima para baixo, uma decisão e um ciclo.
+Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma [sequência]{.blau} de cima para baixo, uma [decisão]{.orange} e um [ciclo]{.gruen}. As caixas azuis são instruções simples. Em rigor, o diagrama todo é uma sequência, porque a decisão e o ciclo também estão na fila de cima para baixo.
 
 ::: diagramm l1-grundbausteine.visustruct
 Reconheces a decisão pelo triângulo e o ciclo pelo parêntese à esquerda. Tudo junto forma uma sequência.
@@ -99,12 +99,18 @@ Reconheces a decisão pelo triângulo e o ciclo pelo parêntese à esquerda. Tud
 Os blocos também podem ser **encaixados** uns dentro dos outros: um ciclo ou um ramo pode voltar a conter sequências, decisões e ciclos.
 
 ::: angeberwissen
-Consolo para quem correu mal um teste: a famosa revista *Communications of the ACM* rejeitou o artigo sobre estrutogramas. Segundo Nassi, o revisor até disse que deviam juntar todas as cópias e queimá-las. Ai! O artigo saiu em 1973 numa revista mais pequena e hoje é citado milhares de vezes. Ha! [Mais curiosidades](https://visustruct.org/pt/angeberwissen.html)
+Consolo para quem correu mal um teste: a famosa revista *Communications of the ACM* rejeitou o artigo sobre estrutogramas. Segundo Nassi, o revisor até disse que deviam juntar todas as cópias e queimá-las. Ai! O artigo saiu em 1973 numa revista mais pequena e hoje é citado milhares de vezes. Ha!
 :::
 
 ## Outras formas de desenhar: fluxograma e pseudocódigo
 
-Um estrutograma não é a única forma de escrever um algoritmo. Nas aulas vais conhecer mais duas. Aqui vês o mesmo exemplo do chá nas três formas.
+Um estrutograma não é a única forma de escrever um algoritmo. Nas aulas vais conhecer mais duas. Aqui vês o exemplo do chá de “Os três juntos” nas três formas.
+
+### Estrutograma
+
+::: diagramm l1-grundbausteine.visustruct
+O exemplo do chá como estrutograma: primeiro a chávena, depois a decisão para o açúcar e depois o ciclo.
+:::
 
 ### Fluxograma
 

@@ -32,7 +32,7 @@ Määäh, aufgepasst! 1972 waren Nassi und Shneiderman noch Doktoranden an der S
 
 ## Baustein 1: Die Sequenz
 
-Jeder Algorithmus lässt sich aus nur **drei Grundbausteinen** zusammensetzen: **Sequenz**, **Verzweigung** und **Wiederholung**. In diesem und den nächsten beiden Schritten lernst du sie einzeln kennen.
+Jeder Algorithmus lässt sich aus nur **drei Grundbausteinen** zusammensetzen: [**Sequenz**]{.blau}, [**Verzweigung**]{.orange} und [**Wiederholung**]{.gruen}. Die Farben helfen dir am Anfang beim Zuordnen, in deinen eigenen Diagrammen sind die Kästen weiß. In diesem und den nächsten beiden Schritten lernst du sie einzeln kennen.
 
 Die **Sequenz** ist der einfachste Baustein: Mehrere Anweisungen werden **nacheinander** ausgeführt, jede genau einmal.
 
@@ -90,7 +90,7 @@ Solange der Teller nicht leer ist, wird ein Bissen gegessen. Danach wird der Tel
 
 ## Alle drei zusammen
 
-Richtig nützlich werden die Bausteine, wenn man sie kombiniert. Das Diagramm enthält alle drei: eine Sequenz von oben nach unten, eine Verzweigung und eine Schleife.
+Richtig nützlich werden die Bausteine, wenn man sie kombiniert. Das Diagramm enthält alle drei: eine [Sequenz]{.blau} von oben nach unten, eine [Verzweigung]{.orange} und eine [Schleife]{.gruen}. Blau sind die einfachen Anweisungen. Genau genommen ist das ganze Diagramm eine Sequenz, denn auch Verzweigung und Schleife stehen in der Reihe von oben nach unten.
 
 ::: diagramm l1-grundbausteine.visustruct
 Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles zusammen steht in einer Sequenz.
@@ -99,12 +99,18 @@ Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles
 Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife oder einem Zweig können wieder Sequenzen, Verzweigungen und Schleifen stehen.
 
 ::: angeberwissen
-Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschrift *Communications of the ACM* hat den Struktogramm-Artikel abgelehnt. Laut Nassi meinte der Gutachter sogar, sie sollten alle Exemplare einsammeln und verbrennen. Autsch! Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. Ätsch! [Mehr Angeberwissen](https://visustruct.org/de/angeberwissen.html)
+Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschrift *Communications of the ACM* hat den Struktogramm-Artikel abgelehnt. Laut Nassi meinte der Gutachter sogar, sie sollten alle Exemplare einsammeln und verbrennen. Autsch! Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. Ätsch!
 :::
 
 ## Andere Darstellungen: PAP und Pseudocode
 
-Ein Struktogramm ist nicht die einzige Art, einen Algorithmus aufzuschreiben. Zwei weitere wirst du im Unterricht treffen. Hier siehst du dasselbe Tee-Beispiel wie oben in allen drei Formen.
+Ein Struktogramm ist nicht die einzige Art, einen Algorithmus aufzuschreiben. Zwei weitere wirst du im Unterricht treffen. Hier siehst du das Tee-Beispiel aus „Alle drei zusammen“ in allen drei Formen.
+
+### Struktogramm
+
+::: diagramm l1-grundbausteine.visustruct
+Das Tee-Beispiel als Struktogramm: erst die Tasse, dann die Verzweigung für den Zucker, dann die Schleife.
+:::
 
 ### Programmablaufplan (PAP)
 

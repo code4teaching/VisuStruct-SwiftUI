@@ -77,7 +77,7 @@ O JavaScript não tem quase nada a ver com o Java. Brendan Eich criou-o em 1995 
 O JavaScript é a linguagem dos navegadores. Por isso o VisuStruct consegue **executar o código logo**:
 
 ::: angeberwissen
-Já agora, porque é que as ligações no navegador são azuis? Em 1985, a equipa de Ben Shneiderman testou que cor se vê bem mas não atrapalha a leitura. Ganhou o azul-claro. O vermelho destacava-se mais, mas as pessoas lembravam-se pior do texto a seguir. [Mais curiosidades](https://visustruct.org/pt/angeberwissen.html)
+Já agora, porque é que as ligações no navegador são azuis? Em 1985, a equipa de Ben Shneiderman testou que cor se vê bem mas não atrapalha a leitura. Ganhou o azul-claro. O vermelho destacava-se mais, mas as pessoas lembravam-se pior do texto a seguir.
 :::
 
 1. Escolhe **JavaScript** na vista de código.

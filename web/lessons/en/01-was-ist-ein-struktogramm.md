@@ -32,7 +32,7 @@ Baaah, listen up! In 1972 Nassi and Shneiderman were still PhD students at Stony
 
 ## Building block 1: the sequence
 
-Every algorithm can be built from just **three basic building blocks**: **sequence**, **branch** and **loop**. In this step and the next two you get to know them one by one.
+Every algorithm can be built from just **three basic building blocks**: [**sequence**]{.blau}, [**branch**]{.orange} and [**loop**]{.gruen}. The colours help you match them at the start; in your own diagrams the boxes are white. In this step and the next two you get to know them one by one.
 
 The **sequence** is the simplest building block: several statements run **one after another**, each exactly once.
 
@@ -90,7 +90,7 @@ As long as the plate is not empty, you take a bite. After that, the plate is cle
 
 ## All three together
 
-The building blocks become really useful when you combine them. This diagram contains all three: a sequence from top to bottom, a branch and a loop.
+The building blocks become really useful when you combine them. This diagram contains all three: a [sequence]{.blau} from top to bottom, a [branch]{.orange} and a [loop]{.gruen}. The blue boxes are simple statements. Strictly speaking, the whole diagram is a sequence, because the branch and the loop also stand in the row from top to bottom.
 
 ::: diagramm l1-grundbausteine.visustruct
 You recognise the branch by its triangle and the loop by the bracket on the left. Everything together sits in a sequence.
@@ -99,12 +99,18 @@ You recognise the branch by its triangle and the loop by the bracket on the left
 The boxes can also be **nested** inside each other: a loop or a path can contain sequences, branches and loops again.
 
 ::: angeberwissen
-Comfort for anyone who has messed up a test: the famous journal *Communications of the ACM* rejected the structure chart article. According to Nassi, the reviewer even said they should collect every copy and burn it. Ouch! It then appeared in 1973 in a smaller journal and today it is quoted thousands of times. Ha! [More fun facts](https://visustruct.org/en/angeberwissen.html)
+Comfort for anyone who has messed up a test: the famous journal *Communications of the ACM* rejected the structure chart article. According to Nassi, the reviewer even said they should collect every copy and burn it. Ouch! It then appeared in 1973 in a smaller journal and today it is quoted thousands of times. Ha!
 :::
 
 ## Other ways to draw it: flowchart and pseudocode
 
-A structure chart is not the only way to write down an algorithm. You will meet two more in class. Here you see the same tea example as above in all three forms.
+A structure chart is not the only way to write down an algorithm. You will meet two more in class. Here you see the tea example from “All three together” in all three forms.
+
+### Structure chart
+
+::: diagramm l1-grundbausteine.visustruct
+The tea example as a structure chart: first the cup, then the branch for the sugar, then the loop.
+:::
 
 ### Flowchart
 
