@@ -152,6 +152,26 @@ export const uiTargets: Record<string, string> = {
   simulation: '[data-action=simulate]',
 }
 
+/** Zeiger auf diese Bereiche brauchen die Struktogramm-Spalte. */
+const editorTargets = new Set(['werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'exportieren', 'code', 'simulation'])
+
+/** Zeiger auf diese Bereiche brauchen die offene Spalte „Programmieren“ (die schmale Leiste allein reicht nicht). */
+const liveCodeTargets = new Set(['ausfuehren', 'konsole', 'einzelschritt'])
+
+function pointsInto(root: HTMLElement, targets: Set<string>): boolean {
+  return [...root.querySelectorAll<HTMLElement>('.ui-pointer')].some((p) => targets.has(p.dataset.target ?? ''))
+}
+
+/** Zeigt der Text auf einen Bereich der Struktogramm-Spalte? */
+export function pointsIntoEditor(root: HTMLElement): boolean {
+  return pointsInto(root, editorTargets)
+}
+
+/** Zeigt der Text auf einen Bereich der Spalte „Programmieren“? */
+export function pointsIntoLiveCode(root: HTMLElement): boolean {
+  return pointsInto(root, liveCodeTargets)
+}
+
 export function markPointers(root: HTMLElement) {
   for (const a of root.querySelectorAll<HTMLAnchorElement>('a[href^="#zeige-"]')) {
     const key = a.getAttribute('href')!.slice('#zeige-'.length)

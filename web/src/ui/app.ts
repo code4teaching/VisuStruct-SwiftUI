@@ -867,6 +867,12 @@ export class App {
   private learnHost(): LearnHost {
     return {
       collapse: () => this.setLearning(false),
+      showEditor: () => {
+        if (this.editorHidden) this.setEditorHidden(false)
+      },
+      showLiveCode: () => {
+        if (!this.liveCoding) this.setLiveCoding(true)
+      },
       openExercise: (ex: Exercise, doc: VSDocument) => {
         this.setEditorHidden(false)
         if (ex.code === 'java') this.openJavaColumn()

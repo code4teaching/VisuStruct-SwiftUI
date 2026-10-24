@@ -6,7 +6,9 @@ kurz: Insert elements, type text, move and delete.
 
 ## The screen
 
-The editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
+VisuStruct has two editors: the **structure chart editor**, which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 20). If the structure chart editor is collapsed, this lesson opens it for you.
+
+The structure chart editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
 
 - **At the very top, the [toolbar](#zeige-leiste):** New, Open and Save. On the far right, the gear for [Settings](#zeige-einstellungen): text size and language.
 - **Below it, the [tools](#zeige-werkzeuge)** above the elements and the structure chart: Undo, Cut, Copy, Paste, Delete, Export, Code and Simulation. The buttons only show icons. Hold the mouse over one and its name appears.
