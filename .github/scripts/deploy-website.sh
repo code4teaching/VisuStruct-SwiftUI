@@ -108,13 +108,17 @@ if ! lftp -c "$connect; get $MANIFEST -o \"$work/old\"" 2>/dev/null; then
   : > "$work/old"
 fi
 
+# Die Assets des vorigen Builds bleiben eine Version lang liegen: Ein Browser, der noch
+# die alte Seite offen oder im Cache hat, findet so seine Skripte (sonst bleibt sie leer).
+grep '^app/assets/' "$work/old" | LC_ALL=C sort -u > "$work/keep" || true
+
 # app/assets/ wird von Vite bei jedem Build komplett neu erzeugt (Dateinamen mit
 # Hash). Was dort auf dem Server liegt und nicht mehr zum Build gehört, ist veraltet,
 # auch wenn es noch von Hand hochgeladen wurde.
 lftp -c "$connect; cls -1 app/assets/" 2>/dev/null | sed 's|^.*/||; s|^|app/assets/|' | grep -v '/$' >> "$work/old" || true
 
 # Dateien, die früher hochgeladen wurden und jetzt nicht mehr dazugehören
-LC_ALL=C sort -u "$work/old" | LC_ALL=C comm -23 - "$work/new" > "$work/stale"
+LC_ALL=C sort -u "$work/old" | LC_ALL=C comm -23 - "$work/new" | LC_ALL=C comm -23 - "$work/keep" > "$work/stale"
 : > "$work/rm.lftp"
 while IFS= read -r f; do
   case "$f" in
@@ -154,3 +158,9 @@ put "$work/htaccess" -o .htaccess
 put "$work/new" -o $MANIFEST
 LFTP
 echo "Fertig."
+
+# Kontrolle: Schickt der Server die Cache-Regeln aus .htaccess mit?
+for url in "${SITE_URL:-https://visustruct.org}/" "${SITE_URL:-https://visustruct.org}/app/index.html"; do
+  cc="$(curl -sI "$url" | tr -d '\r' | grep -i '^cache-control:' | cut -d' ' -f2- || true)"
+  echo "::notice::$url Cache-Control: ${cc:-(keiner)}"
+done
