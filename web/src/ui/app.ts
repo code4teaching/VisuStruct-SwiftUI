@@ -905,7 +905,16 @@ export class App {
         // Tab nach der Diagrammüberschrift benennen, nicht nach der Datei (l1-tee)
         this.loadXML(encodeDocument(doc), doc.caption.trim() ? `${doc.caption.trim()}.visustruct` : fileName)
       },
-      exerciseDocument: (id: string) => this.tabs.find((tab) => tab.exerciseId === id)?.doc,
+      exerciseDocument: (id: string) => {
+        const own = this.tabs.find((tab) => tab.exerciseId === id)
+        if (own) return own.doc
+        // Ohne „Übung öffnen“ gebaut: Das offene Struktogramm wird zur Übung, statt eine Fehlermeldung zu zeigen.
+        const tab = this.tab
+        if (tab.exerciseId || this.isPristine(tab)) return undefined
+        tab.exerciseId = id
+        progress.updateExercise(id, { xml: encodeDocument(tab.doc) })
+        return tab.doc
+      },
       subprogramsFor: (id: string) => {
         const own = this.tabs.find((tab) => tab.exerciseId === id)
         return (name) => this.findSubprogram(name, own)

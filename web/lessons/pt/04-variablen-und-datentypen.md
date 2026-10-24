@@ -143,26 +143,40 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
-Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As variáveis de cima ficam assim em Java:
+Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
 ```
-int idade = 14;
-double altura = 1.62;
-String nome = "Inês";
-System.out.println(nome + " tem " + idade + " anos.");
-System.out.println("Altura: " + altura + " m");
+int quantidade = 3;
+double preco = 2.5;
+double precoTotal = quantidade * preco;
+System.out.println("Total: " + precoTotal + " euros");
 ```
 
-- Em Java crias uma variável tal como no bloco: primeiro o tipo de dados, depois o nome, depois o valor.
-- No fim de cada instrução há um **ponto e vírgula** `;`.
-- `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue maiúsculas de minúsculas.
-- Uma saída chama-se `System.out.println(…)` em Java.
-
-Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+- Primeiro o tipo de dados, depois o nome, depois o valor, tal como no bloco.
+- Cada instrução termina com um **ponto e vírgula** `;`.
+- Em Java, uma saída escreve-se `System.out.println(…)`.
 
 ::: angeberwissen
 O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java. É por isso que o logótipo é uma chávena a fumegar.
 :::
+
+## Texto em Java
+
+As variáveis não guardam só números. Para texto existe o tipo de dados `String`:
+
+```
+String nome = "Inês";
+int idade = 14;
+double altura = 1.62;
+System.out.println(nome + " tem " + idade + " anos.");
+System.out.println("Altura: " + altura + " m");
+```
+
+- O texto fica entre aspas.
+- `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue-os.
+- Com `+` juntas texto e números.
+
+Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves.
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java

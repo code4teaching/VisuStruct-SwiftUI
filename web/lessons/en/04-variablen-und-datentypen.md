@@ -143,26 +143,40 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Now in Java
 
-A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. The variables from above look like this in Java:
+A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
 
 ```
-int age = 14;
-double height = 1.62;
-String name = "Mia";
-System.out.println(name + " is " + age + " years old.");
-System.out.println("Height: " + height + " m");
+int count = 3;
+double price = 2.5;
+double totalPrice = count * price;
+System.out.println("Total: " + totalPrice + " euros");
 ```
 
-- You create a variable in Java just like in the box: first the data type, then the name, then the value.
+- First the data type, then the name, then the value, just like in the box.
 - Every statement ends with a **semicolon** `;`.
-- `String` starts with a capital letter, `int`, `double` and `boolean` are lower case. Java tells upper and lower case apart.
-- An output is called `System.out.println(…)` in Java.
-
-You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+- Output in Java is written `System.out.println(…)`.
 
 ::: angeberwissen
 Java was first called **Oak**, after the tree outside James Gosling’s office window. From 1991 his team at Sun Microsystems wanted to program small devices such as TV set-top boxes. But another company already had the name Oak. So in 1995 it became **Java**, like the coffee from the island of Java. That is why the logo is a steaming cup.
 :::
+
+## Text in Java
+
+Variables do not only store numbers. For text there is the data type `String`:
+
+```
+String name = "Mia";
+int age = 14;
+double height = 1.62;
+System.out.println(name + " is " + age + " years old.");
+System.out.println("Height: " + height + " m");
+```
+
+- Text goes in quotation marks.
+- You write `String` with a capital letter, `int`, `double` and `boolean` in lowercase. Java tells them apart.
+- With `+` you join text and numbers together.
+
+You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type.
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java
