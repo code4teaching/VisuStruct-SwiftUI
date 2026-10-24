@@ -49,6 +49,7 @@ export class Robot3D {
   private anim?: { from: Pose; to: Pose; start: number; ms: number }
   private trail: Point[] = []
   private parts = new Map<THREE.Object3D, RobotPart>()
+  private wasShown = false
 
   constructor(private host: HTMLElement) {
     this.canvas = document.createElement('canvas')
@@ -193,6 +194,9 @@ export class Robot3D {
   }
 
   private loop = () => {
+    // Aus der Seite entfernt (z. B. andere Lektion): aufräumen statt weiterzuzeichnen.
+    if (this.canvas.isConnected) this.wasShown = true
+    else if (this.wasShown) return this.dispose()
     this.frame = requestAnimationFrame(this.loop)
     let current = this.shown
     if (this.anim) {

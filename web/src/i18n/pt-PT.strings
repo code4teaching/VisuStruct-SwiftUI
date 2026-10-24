@@ -275,3 +275,6 @@
 "web_visubot_el_tone" = "tocar um som";
 "web_visubot_el_wall" = "Parede à frente?";
 "web_visubot_el_until_wall" = "andar até à parede";
+"web_visubot_drive" = "Percurso";
+"web_visubot_depth_fmt" = "Os ciclos têm de estar encaixados %d vezes.";
+"web_visubot_tap_part" = "Roda o mBot2 com o rato ou o dedo e toca numa peça.";

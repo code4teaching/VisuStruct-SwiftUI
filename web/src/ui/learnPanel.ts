@@ -1,4 +1,5 @@
-import { checkExercise, fileLines, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
+import { checkExercise, fileLines, loopDepth, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
+import { compressDrive } from '../core/mbot'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
@@ -13,6 +14,7 @@ import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { currentLanguage, t } from './i18n'
 import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
+import { renderRobotModel } from './visubotModel'
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
@@ -397,6 +399,8 @@ export class LearnPanel {
         return renderCloze(block.cloze)
       case 'textFile':
         return textFileView(block.name, block.content)
+      case 'robotModel':
+        return renderRobotModel(block.parts)
     }
   }
 
@@ -550,8 +554,9 @@ export class LearnPanel {
       const missing = ex.requires
         .map((r) => (r === 'forZaehlSchleife' ? 'forSchleife' : r))
         .filter((r) => r in ElementType && !used.has(ElementType[r as keyof typeof ElementType]))
-      const passed = outcomes.every((o) => o.passed) && missing.length === 0
-      this.showResult(result, outcomes, missing, passed)
+      const tooFlat = ex.loopDepth !== undefined && loopDepth(doc.elements) < ex.loopDepth ? ex.loopDepth : undefined
+      const passed = outcomes.every((o) => o.passed) && missing.length === 0 && !tooFlat
+      this.showResult(result, outcomes, missing, passed, tooFlat)
       if (passed) {
         progress.updateExercise(ex.id, { done: true })
         badge.hidden = false
@@ -621,16 +626,23 @@ export class LearnPanel {
     return card
   }
 
-  private showResult(box: HTMLElement, outcomes: TestOutcome[], missing: string[], passed: boolean) {
+  private showResult(box: HTMLElement, outcomes: TestOutcome[], missing: string[], passed: boolean, depth?: number) {
     box.className = 'learn-result ' + (passed ? 'ok' : 'fail')
     box.replaceChildren(h('p', { class: 'learn-result-head' }, passed ? `🎉 ${t('web_learn_passed')}` : t('web_learn_failed')))
     for (const m of missing) box.append(h('p', {}, `✗ ${t('web_learn_missing_fmt', typeName(ElementType[m as keyof typeof ElementType]))}`))
+    if (depth) box.append(h('p', {}, `✗ ${t('web_visubot_depth_fmt', depth)}`))
     const list = h('ul', { class: 'learn-tests', dir: 'auto' })
     for (const o of outcomes) {
-      const input = o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
+      const input = o.test.drive ? `🤖 ${t('web_visubot_drive')}` : o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
       const lines: (string | Node)[] = [`${o.passed ? '✓' : '✗'} ${input}`]
       const detail = h('div', { class: 'learn-test-detail' })
-      detail.append(
+      if (o.test.drive) {
+        detail.append(
+          h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, compressDrive(o.test.drive) || '–')),
+          h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, compressDrive(o.result.drive ?? []) || '–')),
+        )
+      }
+      if (!o.test.drive || o.result.outputs.length) detail.append(
         h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, o.test.expected.join(' | ') || '–')),
         h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, o.result.outputs.join(' | ') || '–')),
       )

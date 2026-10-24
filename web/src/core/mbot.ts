@@ -113,3 +113,74 @@ function splitArgs(text: string): string[] {
   parts.push(text.slice(start).trim())
   return parts
 }
+
+/**
+ * Gefahrene Strecke als Liste wie `forward 50`, `turnRight 90`: aufeinanderfolgende Fahrten bzw. Drehungen
+ * zusammengefasst, LEDs und Töne zählen nicht. So ist `5 × forward()` dasselbe wie `forward(50)`.
+ */
+export function driveSignature(actions: { method: string; args: number[] }[]): string[] {
+  const out: { kind: 'drive' | 'turn'; value: number }[] = []
+  for (const a of actions) {
+    const value = { forward: a.args[0], backward: -a.args[0], turnRight: a.args[0], turnLeft: -a.args[0] }[a.method]
+    if (value === undefined) continue
+    const kind = a.method === 'forward' || a.method === 'backward' ? 'drive' : 'turn'
+    const last = out[out.length - 1]
+    if (last && last.kind === kind) last.value += value
+    else out.push({ kind, value })
+  }
+  return out.flatMap(({ kind, value }) => {
+    const v = kind === 'turn' ? ((((value + 180) % 360) + 360) % 360) - 180 : value
+    if (Math.abs(v) < 1e-6) return []
+    const r = Math.round(Math.abs(v) * 100) / 100
+    if (kind === 'drive') return [`${v > 0 ? 'forward' : 'backward'} ${r}`]
+    return [v === -180 ? 'turnRight 180' : `${v > 0 ? 'turnRight' : 'turnLeft'} ${r}`]
+  })
+}
+
+/**
+ * Erwartete Fahrt einer Übung, z. B. `fahrt: 4 x (forward 50, turnRight 90)`. Teile durch Kommas getrennt,
+ * `n x (…)` wiederholt; ohne Zahl gelten die Werte von `mbot.forward()` bzw. `turnRight()`.
+ */
+export function parseDriveSpec(spec: string): { method: string; args: number[] }[] {
+  let i = 0
+  const src = spec.trim()
+  const list = (): { method: string; args: number[] }[] => {
+    const items: { method: string; args: number[] }[] = []
+    for (;;) {
+      while (src[i] === ' ' || src[i] === ',') i++
+      if (i >= src.length || src[i] === ')') return items
+      const rep = /^(\d+)\s*[x×]\s*\(/u.exec(src.slice(i))
+      if (rep) {
+        i += rep[0].length
+        const inner = list()
+        if (src[i] !== ')') throw new Error(`„)“ fehlt in „${spec}“`)
+        i++
+        for (let k = 0; k < Number(rep[1]); k++) items.push(...inner)
+        continue
+      }
+      const step = /^([A-Za-z]+)(?:\s+(-?\d+(?:\.\d+)?))?/u.exec(src.slice(i))
+      if (!step) throw new Error(`Unbekannt in „${spec}“: ${src.slice(i)}`)
+      i += step[0].length
+      const args = mbotArguments(step[1], step[2] === undefined ? [] : [Number(step[2])])
+      if (!args) throw new Error(`Unbekannter Befehl in „${spec}“: ${step[1]}`)
+      items.push({ method: step[1], args })
+    }
+  }
+  const items = list()
+  if (i < src.length) throw new Error(`Zu viele „)“ in „${spec}“`)
+  return items
+}
+
+/** Fahrt kurz zum Anzeigen: Wiederholungen als `4 x (forward 50, turnRight 90)`, auch verschachtelt. */
+export function compressDrive(drive: string[]): string {
+  const n = drive.length
+  for (let unit = 1; unit <= n / 2; unit++) {
+    if (n % unit !== 0) continue
+    const times = n / unit
+    if (drive.every((s, i) => s === drive[i % unit])) {
+      const inner = compressDrive(drive.slice(0, unit))
+      return `${times} x ${unit === 1 ? inner : `(${inner})`}`
+    }
+  }
+  return drive.join(', ')
+}

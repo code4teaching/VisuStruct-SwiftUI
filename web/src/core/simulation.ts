@@ -1363,13 +1363,12 @@ export class SimulationEngine {
     state.lastTrace = `${target.variableName} = ${rendered} -> ${describeValue(value)}`
   }
 
-  /** `mbot.forward(10)`: Befehl merken und in der Konsole zeigen; die Oberfläche fährt damit den echten Roboter. */
+  /** `mbot.forward(10)`: Befehl merken; die VisuBot-Welt (und später der echte Roboter) fährt damit. */
   private executeMBotCommand(method: string, args: string[], text: string): void {
     const values = mbotArguments(method, args.map((a) => this.evaluateDouble(a)))
     if (!values) throw invalid(text)
     const action = makeMBotAction(method, values)
     this.state.robotActions.push(action)
-    this.state.outputLines.push(`🤖 mBot2: ${action.label}`)
     this.state.lastTrace = `${text} -> ${action.label}`
   }
 

@@ -3,7 +3,8 @@ import type { LiveLabels } from '../src/core/codeGenerator'
 import { memberCompletionsAt } from '../src/core/javaMembers'
 import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava } from '../src/core/liveSource'
-import { parseMBotCommand, substituteMBotSensors } from '../src/core/mbot'
+import { compressDrive, driveSignature, parseDriveSpec, parseMBotCommand, substituteMBotSensors } from '../src/core/mbot'
+import { checkExercise, loopDepth } from '../src/core/exerciseCheck'
 import { SimulationEngine } from '../src/core/simulation'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
@@ -35,7 +36,7 @@ describe('mBot2', () => {
   it('fährt ein Quadrat und merkt sich die Python-Zeilen', () => {
     const state = run(main(`    for (int i = 0; i < 4; i++) {\n      mbot.forward(20);\n      mbot.turnRight(90);\n    }`))
     expect(state.robotActions.map((a) => a.python)).toEqual(Array(4).fill(['mbot2.straight(20)', 'mbot2.turn(90)']).flat())
-    expect(state.outputLines[0]).toBe('🤖 mBot2: 20 cm vorwärts')
+    expect(state.outputLines).toEqual([])
   })
 
   it('liest den Abstand in Bedingungen und Variablen', () => {
@@ -55,5 +56,22 @@ describe('mBot2', () => {
     const names = memberCompletionsAt(code, code.indexOf('mbot.') + 5)?.members.map((m) => m.name)
     expect(names).toContain('forward')
     expect(names).toContain('getDistance')
+  })
+
+  it('fasst die Fahrt zusammen und liest erwartete Fahrten', () => {
+    const square = parseDriveSpec('4 x (5 x (forward), turnRight)')
+    expect(driveSignature(square)).toEqual(Array(4).fill(['forward 50', 'turnRight 90']).flat())
+    expect(driveSignature(parseDriveSpec('turnLeft 90, turnLeft 90, forward 10, backward 10'))).toEqual(['turnRight 180'])
+    expect(compressDrive(driveSignature(parseDriveSpec('4 x (forward 50, turnRight 90)')))).toBe('4 x (forward 50, turnRight 90)')
+    expect(() => parseDriveSpec('fly 3')).toThrow()
+  })
+
+  it('prüft eine Übung über die Fahrt und die Schleifentiefe', () => {
+    const parsed = parseLiveJava(main('    for (int i = 0; i < 4; i++) {\n      for (int k = 0; k < 5; k++) {\n        mbot.forward();\n      }\n      mbot.turnRight();\n    }'), labels, {})
+    const doc = documentFromJava({ caption: '', elements: [] }, parsed)
+    const drive = driveSignature(parseDriveSpec('4 x (forward 50, turnRight 90)'))
+    expect(checkExercise(doc, [{ inputs: [], expected: [], drive }])[0].passed).toBe(true)
+    expect(checkExercise(doc, [{ inputs: [], expected: [], drive: drive.slice(2) }])[0].passed).toBe(false)
+    expect(loopDepth(doc.elements)).toBe(2)
   })
 })

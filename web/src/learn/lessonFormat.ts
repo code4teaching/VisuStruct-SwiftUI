@@ -1,4 +1,5 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
+import { driveSignature, parseDriveSpec } from '../core/mbot'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
@@ -22,6 +23,8 @@ export type Block =
   | { kind: 'roundGame'; game: RoundGame }
   | { kind: 'rescueGame'; game: RescueGame }
   | { kind: 'caesar'; key: number; text: string }
+  /** VisuBot: drehbares 3D-Modell des mBot2, Teile antippen zeigt ihre Erklärung. */
+  | { kind: 'robotModel'; parts: { part: string; text: string }[] }
   /** Fertiger Code mit Lücken für einzelne Wörter. */
   | { kind: 'cloze'; cloze: Cloze }
   /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
@@ -44,6 +47,8 @@ export interface Exercise {
   subprograms: string[]
   /** `code: java`: Die Übung wird in Code live auf Java gelöst; „Übung öffnen“ öffnet die Spalte gleich mit. */
   code?: 'java'
+  /** VisuBot: Schleifen müssen mindestens so tief ineinander stecken (`schleifentiefe: 2`). */
+  loopDepth?: number
 }
 
 export interface ChecklistItem {
@@ -110,7 +115,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|datei|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|datei|fahrt|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -127,6 +132,18 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
           expected.files = [...(expected.files ?? []), { name: m[1], lines: m[2].trim() === '' ? [] : m[2].split(/\s*\|\s*/).map((x) => x.trim()) }]
           break
         }
+        case 'fahrt':
+          // VisuBot: `fahrt: 4 x (forward 50, turnRight 90)` – so soll der Roboter fahren (ohne Ausgabe, ohne Eingabe).
+          try {
+            ex.tests.push({ inputs: [], expected: [], drive: driveSignature(parseDriveSpec(value)) })
+          } catch (err) {
+            throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+          }
+          break
+        case 'schleifentiefe':
+          ex.loopDepth = Number(value)
+          if (!Number.isInteger(ex.loopDepth) || ex.loopDepth < 1) throw new FormatError(`${file}: Übung „${id}“: „schleifentiefe:“ braucht eine Zahl ab 1.`)
+          break
         case 'braucht': ex.requires.push(...value.split(/\s*,\s*/).filter(Boolean)); break
         case 'tipp': ex.hints.push(value); last = 'hint'; break
         case 'lösung':
@@ -197,7 +214,7 @@ export function parseBlocks(body: string, file: string): Block[] {
     markdown = []
   }
   for (let i = 0; i < lines.length; i++) {
-    const open = /^:::\s*([a-zäöüß]+)\s*(.*)$/i.exec(lines[i].trim())
+    const open = /^:::\s*([a-zäöüß][a-zäöüß0-9]*)\s*(.*)$/i.exec(lines[i].trim())
     if (!open) {
       markdown.push(lines[i])
       continue
@@ -261,6 +278,12 @@ export function parseBlocks(body: string, file: string): Block[] {
         const key = arg ? Number(arg) : 3
         if (!Number.isInteger(key) || key < 0 || key > 25) throw new FormatError(`${file}: „::: caesar“ braucht einen Schlüssel von 0 bis 25.`)
         blocks.push({ kind: 'caesar', key, text: inner.join(' ').trim() })
+        break
+      }
+      case 'mbot2': {
+        const parts = inner.filter((l) => l.trim()).map((l) => /^\s*(cyberpi|motors|ultrasonic|lineSensor|chassis):\s*(.+)$/.exec(l))
+        if (parts.some((m) => !m)) throw new FormatError(`${file}: „::: mbot2“ kennt nur Zeilen „cyberpi:“, „motors:“, „ultrasonic:“, „lineSensor:“ und „chassis:“.`)
+        blocks.push({ kind: 'robotModel', parts: parts.map((m) => ({ part: m![1], text: m![2].trim() })) })
         break
       }
       case 'datei': {

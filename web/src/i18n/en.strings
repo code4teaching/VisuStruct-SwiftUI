@@ -277,3 +277,6 @@
 "web_visubot_el_tone" = "play a tone";
 "web_visubot_el_wall" = "Wall ahead?";
 "web_visubot_el_until_wall" = "drive to the wall";
+"web_visubot_drive" = "Drive";
+"web_visubot_depth_fmt" = "The loops must be nested %d deep.";
+"web_visubot_tap_part" = "Rotate the mBot2 with the mouse or your finger and tap a part.";

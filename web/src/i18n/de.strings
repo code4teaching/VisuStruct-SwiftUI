@@ -277,3 +277,6 @@
 "web_visubot_el_tone" = "Ton spielen";
 "web_visubot_el_wall" = "Wand vorn?";
 "web_visubot_el_until_wall" = "fahre bis zur Wand";
+"web_visubot_drive" = "Fahrt";
+"web_visubot_depth_fmt" = "Die Schleifen müssen %d-fach ineinander stecken.";
+"web_visubot_tap_part" = "Dreh den mBot2 mit der Maus oder dem Finger und tippe ein Teil an.";

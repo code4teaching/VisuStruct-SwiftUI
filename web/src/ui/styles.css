@@ -3267,3 +3267,21 @@ button.danger-text:not(:disabled) {
   border-color: #8fb6ea;
   background: color-mix(in srgb, #2f7bd8 7%, transparent);
 }
+.visubot-model {
+  margin: 12px 0;
+}
+.visubot-part-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.visubot-part-buttons button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.visubot-part-info {
+  font-size: 14px;
+  min-height: 3em;
+}
