@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web, lesson 4 (de/en/pt):** `%` is explained like division with remainder in primary school (17 : 5 = 3 remainder 2), with a small table comparing `/` and `%` and a hint on even numbers.
 - **Web, lesson 4 (de/en/pt):** variable names start with a lowercase letter, and names of several words use camelCase (`preisMitSteuer`), with an Angeberwissen box about the camel humps. camelCase is in the glossary. The boolean example is now simply `boolean volljaehrig = false` instead of a comparison.
 - **Web, Files column:** no class folders any more. Saving goes straight into a folder with today’s date in the workspace (`VisuStruct-Dateien/2026-10-24/…`), without asking for a class. The learning progress file is now called `learnProgress.json`; an existing `lernstand.json` is read in and then removed.
 - **Web:** the button that collapses the structure chart editor sits in the toolbar right of the simulation button. In the tab bar it was pushed out of sight when several tabs were open.
@@ -80,7 +81,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.32) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.33) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

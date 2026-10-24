@@ -69,7 +69,17 @@ First the right-hand side is calculated, then the result lands in the variable o
 You can calculate with numbers:
 
 - `+` plus, `-` minus, `*` times, `/` divided by
-- `%` remainder of a division, e.g. `17 % 5` is 2
+- `%` remainder of a division (called “modulo”), e.g. `17 % 5` is 2
+
+You know **division with remainder** from primary school, before you learned about decimals: 17 ÷ 5 = 3 remainder 2. 5 fits into 17 three times, that makes 15. To get to 17, 2 are still missing: that is the remainder. The computer calculates with whole numbers in exactly this way: `/` gives the result without the remainder, `%` gives only the remainder.
+
+| Primary school | with `/` | with `%` |
+|---|---|---|
+| 17 ÷ 5 = 3 remainder 2 | `17 / 5` gives 3 | `17 % 5` gives 2 |
+| 20 ÷ 5 = 4 remainder 0 | `20 / 5` gives 4 | `20 % 5` gives 0 |
+| 3 ÷ 5 = 0 remainder 3 | `3 / 5` gives 0 | `3 % 5` gives 3 |
+
+If the remainder is 0, the division works out exactly. Later you use this to check whether a number is even: for even numbers, `number % 2` is 0.
 
 **Multiplication and division come before addition and subtraction**, and brackets are worked out first: `2 * (3 + 4)` is 14.
 
