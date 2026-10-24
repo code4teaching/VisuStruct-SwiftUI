@@ -162,6 +162,11 @@ function pointsInto(root: HTMLElement, targets: Set<string>): boolean {
   return [...root.querySelectorAll<HTMLElement>('.ui-pointer')].some((p) => targets.has(p.dataset.target ?? ''))
 }
 
+/** Zeigt der Text auf die Spalte Dateien? */
+export function pointsIntoFiles(root: HTMLElement): boolean {
+  return pointsInto(root, new Set(['dateien']))
+}
+
 /** Zeigt der Text auf einen Bereich der Struktogramm-Spalte? */
 export function pointsIntoEditor(root: HTMLElement): boolean {
   return pointsInto(root, editorTargets)
