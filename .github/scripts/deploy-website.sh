@@ -46,7 +46,8 @@ connect_for() {
           settings="set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate ${DEPLOY_VERIFY_CERT:-yes}" ;;
     *) echo "DEPLOY_PROTOCOL muss auto, sftp oder ftps sein" >&2; exit 1 ;;
   esac
-  printf '%s' "$settings; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes
+  # use-temp-file: erst unter einem Hilfsnamen hochladen, dann umbenennen. So sieht niemand halb hochgeladene Seiten.
+  printf '%s' "$settings; set net:max-retries 3; set net:timeout 30; set cmd:fail-exit yes; set xfer:use-temp-file yes
 open --env-password -u \"$DEPLOY_USER\" $url"
 }
 
@@ -125,6 +126,17 @@ done < "$work/stale"
 echo "Dateien: $(wc -l < "$work/new") hochladen, $(wc -l < "$work/rm.lftp") veraltete löschen (Ziel: $REMOTE_DIR)"
 sed 's/^rm -f /  löschen: /' "$work/rm.lftp"
 
+# .htaccess: Ein vorhandenes (z. B. mit HTTPS-Weiterleitung) bleibt erhalten,
+# nur unser Block zwischen den BEGIN/END-Zeilen wird ersetzt bzw. angehängt.
+cache_conf="$(dirname "$0")/htaccess-cache.conf"
+if ! lftp -c "$connect; get .htaccess -o \"$work/htaccess.old\"" 2>/dev/null; then
+  : > "$work/htaccess.old"
+fi
+sed '/^# BEGIN VisuStruct-Cache/,/^# END VisuStruct-Cache/d' "$work/htaccess.old" > "$work/htaccess"
+[ -s "$work/htaccess" ] && [ -n "$(tail -c 1 "$work/htaccess")" ] && echo >> "$work/htaccess"
+echo ".htaccess: $(grep -vc '^#\|^$' "$work/htaccess" || true) vorhandene Zeilen bleiben erhalten, der Cache-Block wird gesetzt."
+cat "$cache_conf" >> "$work/htaccess"
+
 if [ "$DRY_RUN" = "1" ]; then
   lftp -c "$connect; mirror -R --dry-run --no-perms --exclude-glob .DS_Store \"$SOURCE_DIR\" ." 2> >(tee "$work/err" >&2) || fail
   echo "Trockenlauf: nichts geändert."
@@ -138,6 +150,7 @@ $connect
 mirror -R --no-perms --parallel=4 --exclude-glob .DS_Store --exclude-glob *.html "$SOURCE_DIR" .
 mirror -R --no-perms --parallel=4 --exclude-glob .DS_Store "$SOURCE_DIR" .
 source "$work/rm.lftp"
+put "$work/htaccess" -o .htaccess
 put "$work/new" -o $MANIFEST
 LFTP
 echo "Fertig."
