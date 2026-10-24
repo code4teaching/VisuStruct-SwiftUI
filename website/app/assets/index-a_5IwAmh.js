@@ -914,7 +914,17 @@ Erst wird rechts gerechnet, dann landet das Ergebnis in der Variablen links.
 Mit Zahlen kannst du rechnen:
 
 - \`+\` plus, \`-\` minus, \`*\` mal, \`/\` geteilt
-- \`%\` Rest beim Teilen, z. B. ist \`17 % 5\` gleich 2
+- \`%\` Rest beim Teilen (gesprochen „Modulo“), z. B. ist \`17 % 5\` gleich 2
+
+**Teilen mit Rest** kennst du aus der Grundschule, als du noch keine Kommazahlen hattest: 17 : 5 = 3 Rest 2. Die 5 passt dreimal in die 17, das sind 15. Bis 17 fehlen dann noch 2, das ist der Rest. Genau so rechnet der Computer mit ganzen Zahlen: \`/\` liefert das Ergebnis ohne Rest, \`%\` nur den Rest.
+
+| Grundschule | mit \`/\` | mit \`%\` |
+|---|---|---|
+| 17 : 5 = 3 Rest 2 | \`17 / 5\` ergibt 3 | \`17 % 5\` ergibt 2 |
+| 20 : 5 = 4 Rest 0 | \`20 / 5\` ergibt 4 | \`20 % 5\` ergibt 0 |
+| 3 : 5 = 0 Rest 3 | \`3 / 5\` ergibt 0 | \`3 % 5\` ergibt 3 |
+
+Ist der Rest 0, geht die Teilung auf. So prüfst du später, ob eine Zahl gerade ist: Bei geraden Zahlen ist \`zahl % 2\` gleich 0.
 
 Es gilt **Punkt vor Strich**, und Klammern werden zuerst ausgerechnet: \`2 * (3 + 4)\` ist 14.
 
@@ -11956,7 +11966,17 @@ First the right-hand side is calculated, then the result lands in the variable o
 You can calculate with numbers:
 
 - \`+\` plus, \`-\` minus, \`*\` times, \`/\` divided by
-- \`%\` remainder of a division, e.g. \`17 % 5\` is 2
+- \`%\` remainder of a division (called “modulo”), e.g. \`17 % 5\` is 2
+
+You know **division with remainder** from primary school, before you learned about decimals: 17 ÷ 5 = 3 remainder 2. 5 fits into 17 three times, that makes 15. To get to 17, 2 are still missing: that is the remainder. The computer calculates with whole numbers in exactly this way: \`/\` gives the result without the remainder, \`%\` gives only the remainder.
+
+| Primary school | with \`/\` | with \`%\` |
+|---|---|---|
+| 17 ÷ 5 = 3 remainder 2 | \`17 / 5\` gives 3 | \`17 % 5\` gives 2 |
+| 20 ÷ 5 = 4 remainder 0 | \`20 / 5\` gives 4 | \`20 % 5\` gives 0 |
+| 3 ÷ 5 = 0 remainder 3 | \`3 / 5\` gives 0 | \`3 % 5\` gives 3 |
+
+If the remainder is 0, the division works out exactly. Later you use this to check whether a number is even: for even numbers, \`number % 2\` is 0.
 
 **Multiplication and division come before addition and subtraction**, and brackets are worked out first: \`2 * (3 + 4)\` is 14.
 
@@ -22994,7 +23014,17 @@ Primeiro calcula-se o lado direito, depois o resultado vai para a variável da e
 Podes fazer contas com números:
 
 - \`+\` mais, \`-\` menos, \`*\` vezes, \`/\` a dividir por
-- \`%\` resto de uma divisão, p. ex. \`17 % 5\` dá 2
+- \`%\` resto de uma divisão (diz-se “módulo”), p. ex. \`17 % 5\` dá 2
+
+A **divisão com resto** conheces da escola primária, quando ainda não sabias números decimais: 17 : 5 = 3 e sobram 2. O 5 cabe três vezes no 17, o que dá 15. Até 17 faltam ainda 2: esse é o resto. O computador calcula com números inteiros exatamente assim: \`/\` dá o resultado sem o resto, \`%\` dá só o resto.
+
+| Escola primária | com \`/\` | com \`%\` |
+|---|---|---|
+| 17 : 5 = 3, resto 2 | \`17 / 5\` dá 3 | \`17 % 5\` dá 2 |
+| 20 : 5 = 4, resto 0 | \`20 / 5\` dá 4 | \`20 % 5\` dá 0 |
+| 3 : 5 = 0, resto 3 | \`3 / 5\` dá 0 | \`3 % 5\` dá 3 |
+
+Se o resto for 0, a divisão é exata. Mais tarde usas isto para ver se um número é par: nos números pares, \`numero % 2\` dá 0.
 
 **A multiplicação e a divisão vêm antes da adição e da subtração**, e os parênteses calculam-se primeiro: \`2 * (3 + 4)\` dá 14.
 

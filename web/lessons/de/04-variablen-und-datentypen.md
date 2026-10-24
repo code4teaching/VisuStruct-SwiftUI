@@ -69,7 +69,17 @@ Erst wird rechts gerechnet, dann landet das Ergebnis in der Variablen links.
 Mit Zahlen kannst du rechnen:
 
 - `+` plus, `-` minus, `*` mal, `/` geteilt
-- `%` Rest beim Teilen, z. B. ist `17 % 5` gleich 2
+- `%` Rest beim Teilen (gesprochen „Modulo“), z. B. ist `17 % 5` gleich 2
+
+**Teilen mit Rest** kennst du aus der Grundschule, als du noch keine Kommazahlen hattest: 17 : 5 = 3 Rest 2. Die 5 passt dreimal in die 17, das sind 15. Bis 17 fehlen dann noch 2, das ist der Rest. Genau so rechnet der Computer mit ganzen Zahlen: `/` liefert das Ergebnis ohne Rest, `%` nur den Rest.
+
+| Grundschule | mit `/` | mit `%` |
+|---|---|---|
+| 17 : 5 = 3 Rest 2 | `17 / 5` ergibt 3 | `17 % 5` ergibt 2 |
+| 20 : 5 = 4 Rest 0 | `20 / 5` ergibt 4 | `20 % 5` ergibt 0 |
+| 3 : 5 = 0 Rest 3 | `3 / 5` ergibt 0 | `3 % 5` ergibt 3 |
+
+Ist der Rest 0, geht die Teilung auf. So prüfst du später, ob eine Zahl gerade ist: Bei geraden Zahlen ist `zahl % 2` gleich 0.
 
 Es gilt **Punkt vor Strich**, und Klammern werden zuerst ausgerechnet: `2 * (3 + 4)` ist 14.
 

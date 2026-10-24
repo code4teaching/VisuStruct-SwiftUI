@@ -69,7 +69,17 @@ Primeiro calcula-se o lado direito, depois o resultado vai para a variável da e
 Podes fazer contas com números:
 
 - `+` mais, `-` menos, `*` vezes, `/` a dividir por
-- `%` resto de uma divisão, p. ex. `17 % 5` dá 2
+- `%` resto de uma divisão (diz-se “módulo”), p. ex. `17 % 5` dá 2
+
+A **divisão com resto** conheces da escola primária, quando ainda não sabias números decimais: 17 : 5 = 3 e sobram 2. O 5 cabe três vezes no 17, o que dá 15. Até 17 faltam ainda 2: esse é o resto. O computador calcula com números inteiros exatamente assim: `/` dá o resultado sem o resto, `%` dá só o resto.
+
+| Escola primária | com `/` | com `%` |
+|---|---|---|
+| 17 : 5 = 3, resto 2 | `17 / 5` dá 3 | `17 % 5` dá 2 |
+| 20 : 5 = 4, resto 0 | `20 / 5` dá 4 | `20 % 5` dá 0 |
+| 3 : 5 = 0, resto 3 | `3 / 5` dá 0 | `3 % 5` dá 3 |
+
+Se o resto for 0, a divisão é exata. Mais tarde usas isto para ver se um número é par: nos números pares, `numero % 2` dá 0.
 
 **A multiplicação e a divisão vêm antes da adição e da subtração**, e os parênteses calculam-se primeiro: `2 * (3 + 4)` dá 14.
 
