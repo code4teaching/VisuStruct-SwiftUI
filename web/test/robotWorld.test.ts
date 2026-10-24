@@ -99,4 +99,95 @@ describe('Weltkarten', () => {
     blind.apply(step('forward', [100]))
     expect(blind.atGoal()).toBe(false)
   })
+
+  it('Raster 3: ein Zeichen wird 30 cm groß, Start in der Mitte, Haltefeld unsichtbar', () => {
+    const w = parseWorldMap('raster: 3\n#o\n>.\n')
+    expect(w.width).toBe(60)
+    expect(w.depth).toBe(60)
+    expect(w.start).toEqual({ x: -15, y: -15, heading: 90 })
+    expect(w.blocks).toHaveLength(9)
+    expect(w.targets).toHaveLength(9)
+    const r = new RobotWorld(w)
+    expect(r.atGoal()).toBe(false)
+    r.apply(step('turnLeft'))
+    expect(r.distance()).toBe(6)
+    r.apply(step('turnRight'))
+    r.apply(step('forward', [30]))
+    r.apply(step('turnLeft'))
+    expect(r.lineState()).toBe(0)
+    expect(r.atGoal()).toBe(false)
+    r.apply(step('forward', [30]))
+    expect(r.atGoal()).toBe(true)
+    expect(r.bumps).toBe(0)
+  })
+
+  // Kara-Aufgaben: ein Feld = 30 cm, Baum im Nachbarfeld heißt Abstand < 20.
+  const go = (r: RobotWorld, ...moves: [string, number?][]) => moves.forEach(([m, a]) => r.apply(step(m, a === undefined ? [] : [a])))
+  const around = (r: RobotWorld) => go(r, ['turnLeft'], ['forward', 30], ['turnRight'], ['forward', 60], ['turnRight'], ['forward', 30], ['turnLeft'])
+  const aroundRight = (r: RobotWorld) => go(r, ['turnRight'], ['forward', 30], ['turnLeft'], ['forward', 60], ['turnLeft'], ['forward', 30], ['turnRight'])
+
+  it('slalom: abwechselnd oben und unten herum ins Ziel', () => {
+    const r = new RobotWorld(world('slalom')!)
+    for (let i = 0; i < 2; i++) {
+      around(r)
+      aroundRight(r)
+    }
+    expect(r.atGoal()).toBe(true)
+    expect(r.bumps).toBe(0)
+    const straight = new RobotWorld(world('slalom')!)
+    straight.apply(step('forward', [240]))
+    expect(straight.bumps).toBe(1)
+  })
+
+  it.each(['wald-1', 'wald-2'])('%s: Bäume umfahren bis zum Ziel', (name) => {
+    const r = new RobotWorld(world(name)!)
+    for (let i = 0; i < 50 && r.lineState() === 0; i++) {
+      if (r.distance() < 20) around(r)
+      else r.apply(step('forward', [30]))
+    }
+    expect(r.atGoal()).toBe(true)
+    expect(r.bumps).toBe(0)
+  })
+
+  it.each(['tunnel-1', 'tunnel-2'])('%s: hält im ersten Tunnelfeld', (name) => {
+    const r = new RobotWorld(world(name)!)
+    let left = 99
+    let right = 99
+    for (let i = 0; i < 50 && !(left < 20 && right < 20); i++) {
+      r.apply(step('forward', [30]))
+      r.apply(step('turnLeft'))
+      left = r.distance()
+      r.apply(step('turnRight', [180]))
+      right = r.distance()
+      r.apply(step('turnLeft'))
+    }
+    expect(r.atGoal()).toBe(true)
+    expect(r.bumps).toBe(0)
+    // Nur eine Seite prüfen reicht nicht
+    const half = new RobotWorld(world(name)!)
+    for (let i = 0; i < 50; i++) {
+      half.apply(step('forward', [30]))
+      half.apply(step('turnLeft'))
+      const d = half.distance()
+      half.apply(step('turnRight'))
+      if (d < 20) break
+    }
+    expect(half.atGoal()).toBe(false)
+  })
+
+  it.each(['ausgang-1', 'ausgang-2'])('%s: durch jede Lücke nach oben ins Ziel', (name) => {
+    const r = new RobotWorld(world(name)!)
+    for (let i = 0; i < 100 && r.lineState() === 0; i++) {
+      r.apply(step('turnLeft'))
+      if (r.distance() > 20) {
+        r.apply(step('forward', [60]))
+        r.apply(step('turnRight'))
+      } else {
+        r.apply(step('turnRight'))
+        r.apply(step('forward', [30]))
+      }
+    }
+    expect(r.atGoal()).toBe(true)
+    expect(r.bumps).toBe(0)
+  })
 })

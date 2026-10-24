@@ -105,7 +105,7 @@ export function checkExercise(
     const filesRight = (test.files ?? []).every((f) => sameOutput(fileLines(result.files?.get(f.name)), f.lines))
     const driveRight = !test.drive || sameOutput(result.drive ?? [], test.drive)
     // Hat die Welt ein Ziel, muss der Roboter hin; anstoßen darf er nie.
-    const worldRight = !test.world || (result.bumps === 0 && (!world?.goals?.length || result.atGoal === true))
+    const worldRight = !test.world || (result.bumps === 0 && (!(world?.goals?.length || world?.targets?.length) || result.atGoal === true))
     const passed =
       !result.error && !result.missingInput && !result.tooManySteps && sameOutput(result.outputs, test.expected) && filesRight && driveRight && worldRight
     return { test, result, passed }

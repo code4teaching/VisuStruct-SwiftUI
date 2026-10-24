@@ -651,7 +651,7 @@ export class LearnPanel {
         )
       }
       if (o.test.world) {
-        if (world(o.test.world)?.goals?.length)
+        if (world(o.test.world)?.goals?.length || world(o.test.world)?.targets?.length)
           detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
         if (o.result.bumps) detail.append(h('span', { class: 'learn-error' }, `⚠︎ ${t('web_visubot_bumps')}: ${o.result.bumps}`))
       }

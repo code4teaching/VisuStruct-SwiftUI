@@ -165,16 +165,27 @@ export class Robot3D {
     }
     const goalMaterial = new THREE.MeshStandardMaterial({ color: colors.tape })
     const flagMaterial = new THREE.MeshStandardMaterial({ color: 0x2fb344, emissive: 0x1b7a2c, emissiveIntensity: 0.4 })
-    for (const g of setup.goals ?? []) {
+    const goals = setup.goals ?? []
+    const isGoal = (x: number, y: number) => goals.some((g) => Math.abs(g.x - x) < 1e-6 && Math.abs(g.y - y) < 1e-6)
+    for (const g of goals) {
       const cell = new THREE.Mesh(cellGeometry, goalMaterial)
       cell.position.copy(toScene(g, 0.1))
       this.worldGroup.add(cell)
+      // Eine Fahne je Zielfläche: nur im Feld hinten rechts
+      if (isGoal(g.x + CELL, g.y) || isGoal(g.x, g.y + CELL)) continue
       // Kleine Zielfahne in der Ecke, damit man das Ziel von den schwarzen Feldern unterscheidet
       const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 9, 8), new THREE.MeshStandardMaterial({ color: 0xdddddd }))
       pole.position.copy(toScene({ x: g.x + CELL / 2 - 1, y: g.y + CELL / 2 - 1 }, 4.5))
       const flag = new THREE.Mesh(new THREE.BoxGeometry(4, 2.6, 0.2), flagMaterial)
       flag.position.copy(toScene({ x: g.x + CELL / 2 - 3, y: g.y + CELL / 2 - 1 }, 7.6))
       this.worldGroup.add(pole, flag)
+    }
+    // Haltefelder: hellgrün, der Liniensensor sieht sie nicht
+    const targetMaterial = new THREE.MeshStandardMaterial({ color: 0x2fb344, transparent: true, opacity: 0.3, depthWrite: false })
+    for (const t of setup.targets ?? []) {
+      const cell = new THREE.Mesh(cellGeometry, targetMaterial)
+      cell.position.copy(toScene(t, 0.12))
+      this.worldGroup.add(cell)
     }
     const tape = new THREE.MeshStandardMaterial({ color: colors.tape })
     for (const line of setup.lines) {

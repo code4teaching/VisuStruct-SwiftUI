@@ -1,0 +1,7 @@
+// Labyrinth mit Ausgängen (nach Kara): jede Wandreihe hat genau eine Lücke, immer weiter rechts. Ein Zeichen = 30 cm.
+raster: 3
+.......Z
+#####.##
+........
+##.#####
+>.......

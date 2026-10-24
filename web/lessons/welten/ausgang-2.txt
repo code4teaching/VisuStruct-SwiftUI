@@ -1,0 +1,9 @@
+// Labyrinth mit Ausgängen, drei Reihen. Ein Zeichen = 30 cm.
+raster: 3
+........Z
+######.##
+.........
+####.####
+.........
+.########
+>........

@@ -34,6 +34,8 @@ export interface RobotWorldSetup {
   marks?: Point[]
   /** Zielfelder von 10 × 10 cm (Mitte); sie sind ebenfalls schwarz. */
   goals?: Point[]
+  /** Haltefelder von 10 × 10 cm (Mitte): Ziel, das der Liniensensor nicht sieht; die Radachse muss darauf stehen. */
+  targets?: Point[]
 }
 
 /** Größe eines Feldes in einer Weltkarte (cm). */
@@ -41,18 +43,33 @@ export const CELL = 10
 
 /**
  * Weltkarte als Text, ein Zeichen = 10 cm, oben ist hinten (weg vom Betrachter):
- * `#` Wand, `=` schwarzes Feld, `Z` Ziel (auch schwarz), `^ > v <` Start mit Blickrichtung, sonst freier Boden.
+ * `#` Wand, `=` schwarzes Feld, `Z` Ziel (auch schwarz), `o` Haltefeld (unsichtbares Ziel),
+ * `^ > v <` Start mit Blickrichtung, sonst freier Boden.
  * Zeilen mit `//` am Anfang sind Kommentare. Um die Karte kommt automatisch der Rahmen.
+ * Eine Zeile `raster: 3` vorweg macht aus jedem Zeichen 3 × 3 Felder (30 cm wie ein Kara-Feld, so breit wie der mBot2);
+ * der Start liegt dann in der Mitte seines großen Feldes.
  */
 export function parseWorldMap(text: string): RobotWorldSetup {
-  const rows = text.replace(/\r/g, '').split('\n').filter((l) => !l.startsWith('//'))
+  let rows = text.replace(/\r/g, '').split('\n').filter((l) => !l.startsWith('//'))
+  const rasterLine = rows.findIndex((l) => /^raster:\s*\d+\s*$/.test(l))
+  if (rasterLine >= 0) {
+    const n = Number(rows[rasterLine].split(':')[1])
+    rows.splice(rasterLine, 1)
+    rows = rows.flatMap((row) =>
+      Array.from({ length: n }, (_, i) =>
+        Array.from(row)
+          .map((ch) => Array.from({ length: n }, (_, j) => ('^>v<'.includes(ch) ? (i === (n >> 1) && j === (n >> 1) ? ch : '.') : ch)).join(''))
+          .join(''),
+      ),
+    )
+  }
   while (rows.length && rows[rows.length - 1].trim() === '') rows.pop()
   while (rows.length && rows[0].trim() === '') rows.shift()
   const cols = Math.max(...rows.map((r) => r.length))
   const width = cols * CELL
   const depth = rows.length * CELL
   const center = (c: number, r: number): Point => ({ x: -width / 2 + (c + 0.5) * CELL, y: depth / 2 - (r + 0.5) * CELL })
-  const setup: RobotWorldSetup = { width, depth, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [], blocks: [], marks: [], goals: [] }
+  const setup: RobotWorldSetup = { width, depth, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [], blocks: [], marks: [], goals: [], targets: [] }
   let starts = 0
   rows.forEach((row, r) => {
     Array.from(row).forEach((ch, c) => {
@@ -60,6 +77,7 @@ export function parseWorldMap(text: string): RobotWorldSetup {
       if (ch === '#') setup.blocks!.push(p)
       else if (ch === '=') setup.marks!.push(p)
       else if (ch === 'Z') setup.goals!.push(p)
+      else if (ch === 'o') setup.targets!.push(p)
       else if ('^>v<'.includes(ch)) {
         starts++
         setup.start = { ...p, heading: { '^': 0, '>': 90, v: 180, '<': 270 }[ch]! }
@@ -128,11 +146,11 @@ export class RobotWorld {
 
   private blockWallCache?: Wall[]
 
-  /** Ist der Roboter im Ziel? Ja, wenn seine Mitte oder sein Liniensensor über einem Zielfeld ist. */
+  /** Ist der Roboter im Ziel? Ja, wenn seine Mitte oder sein Liniensensor über einem Zielfeld ist oder seine Mitte auf einem Haltefeld. */
   atGoal(): boolean {
     const dir = forwardOf(this.pose.heading)
     const probe = { x: this.pose.x + dir.x * LINE_OFFSET, y: this.pose.y + dir.y * LINE_OFFSET }
-    return (this.setup.goals ?? []).some((g) => inCell(this.pose, g) || inCell(probe, g))
+    return (this.setup.goals ?? []).some((g) => inCell(this.pose, g) || inCell(probe, g)) || (this.setup.targets ?? []).some((t) => inCell(this.pose, t))
   }
 
   apply(action: MBotAction) {
