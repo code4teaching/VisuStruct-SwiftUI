@@ -68,10 +68,6 @@ lösung: vb-bis-ziel-loesung.visustruct
 > The for loop knows beforehand how often it runs. The while loop decides on the way.
 :::
 
-::: angeberwissen
-The idea with the worlds comes from **Kara**, a ladybird that Swiss students have used for many years to learn programming. Kara walks across a grid, avoids trees and collects clover leaves. There, too, a program has to work in several worlds.
-:::
-
 ::: checkliste
 - I can ask for the distance with `mbot.getDistance()`. → How far away is the wall?
 - I know when to use a while loop instead of a for loop. → Three worlds, one program

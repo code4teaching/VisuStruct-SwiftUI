@@ -68,10 +68,6 @@ lösung: vb-bis-ziel-loesung.visustruct
 > Die For-Schleife weiß vorher, wie oft sie läuft. Die While-Schleife entscheidet unterwegs.
 :::
 
-::: angeberwissen
-Die Idee mit den Welten stammt von **Kara**, einem Marienkäfer, mit dem in der Schweiz seit vielen Jahren Programmieren gelernt wird. Kara läuft über ein Raster, weicht Bäumen aus und sammelt Kleeblätter. Auch dort muss ein Programm in mehreren Welten funktionieren.
-:::
-
 ::: checkliste
 - Ich kann mit `mbot.getDistance()` den Abstand abfragen. → Wie weit ist die Wand?
 - Ich weiß, wann ich eine While-Schleife statt einer For-Schleife nehme. → Drei Welten, ein Programm
