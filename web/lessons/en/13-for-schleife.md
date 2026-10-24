@@ -132,6 +132,40 @@ tipp: `for (int i = 1; i <= n; i++) { … }` and in the body `System.out.println
 lösung: l13-java-quadrate-loesung.visustruct
 :::
 
+## Fill in the gaps: for
+
+::: lückentext
+titel: Counting up and down
+auftrag: The first loop adds up the numbers from 1 to 5, the second counts down from 10 to 0. Fill in the missing words and symbols.
+```java
+int sum = 0;
+[[for]] ([[int]] i = 1; i [[<=]] 5; [[i++ | i += 1 | i = i + 1]]) {
+    sum = sum + i;
+}
+System.out.println("Sum: " + sum);
+for (int i = 10; i [[>=]] 0; [[i-- | i -= 1 | i = i - 1]]) {
+    System.out.println(i);
+}
+```
+erklärung: The round brackets hold the start value, the condition and the step, separated by semicolons. `i++` counts up, `i--` counts down. When counting down to 0 the condition is `i >= 0`.
+:::
+
+## Find the bug: times table
+
+::: übung l13-java-fehler
+titel: Fix the times table
+code: java
+auftrag: The program asks for a times table and should output it from 1 times to 10 times, for 7 that is 7, 14, … up to 70. But the 70 is missing.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l13-java-fehler-start.visustruct
+test: 7 -> 7 | 14 | 21 | 28 | 35 | 42 | 49 | 56 | 63 | 70
+test: 3 -> 3 | 6 | 9 | 12 | 15 | 18 | 21 | 24 | 27 | 30
+braucht: forSchleife
+tipp: How often does the loop run? Count which values `i` takes.
+tipp: `i` should also take the value 10: `i <= 10` instead of `i < 10`.
+lösung: l13-java-fehler-loesung.visustruct
+:::
+
 ## Game: Defuse the bomb
 
 ::: spiel bombe

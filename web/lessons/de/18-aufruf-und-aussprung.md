@@ -232,6 +232,47 @@ tipp: In `while (true) { … }` liest du den Preis ein. Gleich danach prüfst du
 lösung: l18-java-kasse-loesung.visustruct
 :::
 
+## Lückentext: Methoden und break
+
+::: lückentext
+titel: Methode und Aussprung
+auftrag: Ergänze die fehlenden Wörter. Oben steht die Methode, die ein Quadrat ausrechnet. Darunter steht das Hauptprogramm, das sie aufruft. Im Bereich Programmieren stehen beide in eigenen Reitern.
+```java
+public static [[int]] quadrat(int x) {
+    [[return]] x * x;
+}
+```
+```java
+int zahl = 1;
+while ([[true]]) {
+    int q = [[quadrat]](zahl);
+    if (q > 50) {
+        [[break]];
+    }
+    System.out.println(q);
+    zahl = zahl + 1;
+}
+```
+erklärung: `int` vor dem Methodennamen heißt: Die Methode gibt eine ganze Zahl zurück, und zwar mit `return`. Gibt eine Methode nichts zurück, steht dort `void`. `while (true)` läuft endlos, bis `break` die Schleife verlässt. Ausgabe: 1, 4, 9, 16, 25, 36 und 49.
+:::
+
+## Fehler finden: Raten
+
+::: übung l18-java-fehler
+titel: Versuche zählen reparieren
+code: java
+auftrag: Beim Zahlenraten ist die gesuchte Zahl 7. Das Programm fragt so lange nach einem Tipp, bis die 7 kommt, und gibt dann die Zahl der Versuche aus. Bei 3, 5 und 7 waren es 3 Versuche, das Programm sagt aber **Versuche: 2**.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l18-java-fehler-start.visustruct
+test: 3, 5, 7 -> Versuche: 3
+test: 7 -> Versuche: 1
+test: 1, 2, 3, 7 -> Versuche: 4
+braucht: endlosschleife, aussprung
+tipp: Was passiert beim richtigen Tipp? Wird er noch mitgezählt, bevor `break` die Schleife verlässt?
+tipp: Zähle zuerst hoch und prüfe danach: `versuche = versuche + 1;` gehört vor das `if` mit dem `break`.
+lösung: l18-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Was kommt zurück?
 
 ::: spiel frage

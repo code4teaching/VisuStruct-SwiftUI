@@ -159,6 +159,44 @@ tipp: Die Bedingung heißt `eingabe.equals("Ludwig")`. Mit `==` klappt der Vergl
 lösung: l17-java-passwort-loesung.visustruct
 :::
 
+## Lückentext: Texte
+
+::: lückentext
+titel: Ein Wort untersuchen
+auftrag: Ergänze die fehlenden Methoden und Wörter.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Ein Wort?");
+[[String]] wort = scanner.next();
+System.out.println("Länge: " + wort.[[length]]());
+System.out.println("Groß: " + wort.[[toUpperCase]]());
+System.out.println("Erster Buchstabe: " + wort.[[charAt]](0));
+if (wort.[[equals]]("Ludwig")) {
+    System.out.println("Hallo Ludwig!");
+}
+```
+erklärung: `length()` zählt die Zeichen, `toUpperCase()` macht alles groß, `charAt(0)` liefert das erste Zeichen. Texte vergleichst du mit `equals`, nicht mit `==`.
+:::
+
+## Fehler finden: Initialen
+
+::: übung l17-java-fehler
+titel: Initialen reparieren
+code: java
+auftrag: Das Programm liest Vor- und Nachnamen ein und soll die Initialen ausgeben. Bei Ludwig Geißbock also **L. G.** Es gibt aber **u. e.** aus.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l17-java-fehler-start.visustruct
+test: Ludwig, Geißbock -> L. G.
+test: Mia, Meyer -> M. M.
+test: Ada, Lovelace -> A. L.
+braucht: anweisung
+tipp: Bei welchem Index beginnt Java zu zählen?
+tipp: Das erste Zeichen hat den Index 0: `vorname.charAt(0)` und `nachname.charAt(0)`.
+lösung: l17-java-fehler-loesung.visustruct
+:::
+
 ## Noch mehr Methoden
 
 Ein String kann noch viel mehr. Diese Methoden brauchst du auch oft:

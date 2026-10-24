@@ -98,6 +98,39 @@ tipp: `do { zahl = zahl * 2; System.out.println(zahl); } while (zahl < 100);`
 lösung: l12-java-verdoppeln-loesung.visustruct
 :::
 
+## Lückentext: do-while
+
+::: lückentext
+titel: Verdreifachen
+auftrag: Die Zahl wird verdreifacht und ausgegeben, solange sie kleiner als 100 ist. Ergänze die fehlenden Wörter und Zeichen.
+```java
+int zahl = 1;
+[[do]] {
+    zahl = zahl * 3;
+    System.out.println(zahl);
+} [[while]] (zahl [[<]] 100)[[;]]
+```
+erklärung: Der Rumpf steht zwischen `do {` und `}`, die Bedingung erst danach. Hinter `while (…)` steht bei der Do-while-Schleife ein Semikolon. Ausgabe: 3, 9, 27, 81 und 243.
+:::
+
+## Fehler finden: Halbieren
+
+::: übung l12-java-fehler
+titel: Halbieren reparieren
+code: java
+auftrag: Das Programm liest eine Startzahl ein und teilt sie mit einer Do-while-Schleife immer wieder ganzzahlig durch 2. Jedes Ergebnis wird ausgegeben, bis **0** erreicht ist. Bei 10 also 5, 2, 1 und 0. Die 0 fehlt aber.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l12-java-fehler-start.visustruct
+test: 10 -> 5 | 2 | 1 | 0
+test: 1 -> 0
+test: 7 -> 3 | 1 | 0
+test: 20 -> 10 | 5 | 2 | 1 | 0
+braucht: doUntilSchleife
+tipp: Welchen Wert hat `zahl`, nachdem die 1 ausgegeben wurde? Läuft die Schleife dann noch einmal?
+tipp: Die Schleife soll weiterlaufen, solange die Zahl größer als 0 ist: `while (zahl > 0);`
+lösung: l12-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Mindestens einmal?
 
 ::: spiel frage

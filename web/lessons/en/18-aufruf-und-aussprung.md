@@ -232,6 +232,47 @@ tipp: Inside `while (true) { … }` you read the price. Right after that you che
 lösung: l18-java-kasse-loesung.visustruct
 :::
 
+## Fill in the gaps: methods and break
+
+::: lückentext
+titel: Method and exit
+auftrag: Fill in the missing words. At the top is the method that calculates a square. Below is the main program that calls it. In the Programming area both are in tabs of their own.
+```java
+public static [[int]] square(int x) {
+    [[return]] x * x;
+}
+```
+```java
+int number = 1;
+while ([[true]]) {
+    int q = [[square]](number);
+    if (q > 50) {
+        [[break]];
+    }
+    System.out.println(q);
+    number = number + 1;
+}
+```
+erklärung: `int` before the method name means: the method returns a whole number, with `return`. If a method returns nothing, it says `void` there. `while (true)` runs endlessly until `break` leaves the loop. Output: 1, 4, 9, 16, 25, 36 and 49.
+:::
+
+## Find the bug: guessing
+
+::: übung l18-java-fehler
+titel: Fix the try counter
+code: java
+auftrag: In this guessing game the secret number is 7. The program keeps asking for a guess until 7 comes, then it outputs the number of tries. For 3, 5 and 7 that was 3 tries, but the program says **Tries: 2**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l18-java-fehler-start.visustruct
+test: 3, 5, 7 -> Tries: 3
+test: 7 -> Tries: 1
+test: 1, 2, 3, 7 -> Tries: 4
+braucht: endlosschleife, aussprung
+tipp: What happens with the right guess? Is it still counted before `break` leaves the loop?
+tipp: Count first, then check: `tries = tries + 1;` belongs before the `if` with the `break`.
+lösung: l18-java-fehler-loesung.visustruct
+:::
+
 ## Game: What comes back?
 
 ::: spiel frage

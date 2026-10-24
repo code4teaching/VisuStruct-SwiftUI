@@ -132,6 +132,40 @@ tipp: `for (int i = 1; i <= n; i++) { … }` e no corpo `System.out.println(i * 
 lösung: l13-java-quadrate-loesung.visustruct
 :::
 
+## Preenche os espaços: for
+
+::: lückentext
+titel: Contar para cima e para baixo
+auftrag: O primeiro ciclo soma os números de 1 a 5, o segundo conta de 10 até 0 para trás. Preenche as palavras e os sinais que faltam.
+```java
+int soma = 0;
+[[for]] ([[int]] i = 1; i [[<=]] 5; [[i++ | i += 1 | i = i + 1]]) {
+    soma = soma + i;
+}
+System.out.println("Soma: " + soma);
+for (int i = 10; i [[>=]] 0; [[i-- | i -= 1 | i = i - 1]]) {
+    System.out.println(i);
+}
+```
+erklärung: Entre os parênteses ficam o valor inicial, a condição e o passo, separados por ponto e vírgula. `i++` conta para cima, `i--` conta para baixo. Ao contar para trás até 0, a condição é `i >= 0`.
+:::
+
+## Encontra o erro: tabuada
+
+::: übung l13-java-fehler
+titel: Corrigir a tabuada
+code: java
+auftrag: O programa pergunta que tabuada queres e deve mostrá-la de 1 vez até 10 vezes, para o 7 são 7, 14, … até 70. Mas falta o 70.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l13-java-fehler-start.visustruct
+test: 7 -> 7 | 14 | 21 | 28 | 35 | 42 | 49 | 56 | 63 | 70
+test: 3 -> 3 | 6 | 9 | 12 | 15 | 18 | 21 | 24 | 27 | 30
+braucht: forSchleife
+tipp: Quantas vezes se repete o ciclo? Conta os valores que `i` toma.
+tipp: `i` também deve tomar o valor 10: `i <= 10` em vez de `i < 10`.
+lösung: l13-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Desativar a bomba
 
 ::: spiel bombe

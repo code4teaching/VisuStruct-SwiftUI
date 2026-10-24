@@ -276,6 +276,9 @@ erklärung: Ausgabe: Summe: 55
 :::
 ````
 
+Mehrere ```java-Blöcke stehen untereinander, z. B. eine Methode und das Hauptprogramm wie in eigenen Reitern; jeder wird
+für sich geprüft.
+
 Für „Fehler finden“ eignet sich eine normale Übung mit `code: java`, deren `start:`-Diagramm einen Fehler enthält.
 
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
