@@ -30,7 +30,9 @@ Ziehe ein Element aus dem Bereich **Elemente** auf das Struktogramm. Beim Ziehen
 Wohin du ziehst, entscheidet, wo das neue Element landet.
 :::
 
-Du kannst auch ein Element im Bereich Elemente mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
+Es geht auch ohne Ziehen: **Klicke** auf ein Element im Bereich Elemente (oder tippe es an). Dann wird es hinter dem ausgewählten Kasten eingefügt. Ist der Platzhalter **ø** ausgewählt, ersetzt es ihn.
+
+Mit der Tastatur springst du mit der **Tab**-Taste zu einem Element und drückst **Enter**. Das neue Element landet dann ebenfalls hinter dem ausgewählten Kasten.
 
 ::: angeberwissen
 Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, genau, der vom Struktogramm. Der Mann war fleißiger als ich beim Grasen.
@@ -134,11 +136,11 @@ frage: Wo änderst du den Text des ausgewählten Kastens?
 > Der Objektinspektor unter dem Diagramm zeigt den Text des ausgewählten Kastens.
 
 runde:
-frage: Du wählst ein Element in den Elementen aus und drückst **Enter**. Wo landet es?
+frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet es?
 - [x] hinter dem ausgewählten Kasten
 - ganz am Anfang
 - ganz am Ende
-> Mit der Tastatur kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
+> Ohne Ziehen (Klick oder Tab und Enter) kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
 :::
 
 ## Checkliste

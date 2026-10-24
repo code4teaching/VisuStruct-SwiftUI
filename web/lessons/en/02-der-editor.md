@@ -30,7 +30,9 @@ Drag an element from the **Elements** area onto the structure chart. While you d
 Where you drop it decides where the new element lands.
 :::
 
-You can also select an element in the Elements area with the keyboard and press **Enter**. Then it is inserted after the selected box.
+It also works without dragging: **click** an element in the Elements area (or tap it). Then it is inserted after the selected box. If the placeholder **ø** is selected, it replaces it.
+
+With the keyboard, press **Tab** to jump to an element and press **Enter**. The new element also goes after the selected box.
 
 ::: angeberwissen
 Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze.
@@ -134,11 +136,11 @@ frage: Where do you change the text of the selected box?
 > The Object Inspector below the diagram shows the text of the selected box.
 
 runde:
-frage: You select an element in the Elements and press **Enter**. Where does it end up?
+frage: You click an element in the Elements area without dragging. Where does it end up?
 - [x] after the selected box
 - at the very beginning
 - at the very end
-> With the keyboard the new element goes after the box that is selected right now.
+> Without dragging (click, or Tab and Enter) the new element goes after the box that is selected right now.
 :::
 
 ## Checklist

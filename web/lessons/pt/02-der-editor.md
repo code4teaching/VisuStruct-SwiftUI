@@ -30,7 +30,9 @@ Arrasta um elemento da área **Elementos** para o estrutograma. Enquanto arrasta
 O sítio onde largas decide onde fica o novo elemento.
 :::
 
-Também podes selecionar um elemento na área Elementos com o teclado e premir **Enter**. Ele é então inserido depois do bloco selecionado.
+Também funciona sem arrastar: **clica** num elemento da área Elementos (ou toca nele). Ele é então inserido depois do bloco selecionado. Se o marcador **ø** estiver selecionado, substitui-o.
+
+Com o teclado, usa a tecla **Tab** para saltar para um elemento e prime **Enter**. O novo elemento também fica depois do bloco selecionado.
 
 ::: angeberwissen
 Agarrar blocos e arrastá-los de um lado para o outro, tal como estás a fazer agora, tem um nome pomposo: **manipulação direta**. Foi Ben Shneiderman quem inventou o termo em 1982. Sim, o senhor dos estrutogramas. Aquele homem trabalhava mais do que eu quando estou a pastar.
@@ -134,11 +136,11 @@ frage: Onde alteras o texto do bloco selecionado?
 > O Inspetor de objetos por baixo do diagrama mostra o texto do bloco selecionado.
 
 runde:
-frage: Selecionas um elemento na área Elementos e premes **Enter**. Onde fica?
+frage: Clicas num elemento da área Elementos, sem arrastar. Onde fica?
 - [x] depois do bloco selecionado
 - no início
 - no fim
-> Com o teclado, o novo elemento fica depois do bloco que está selecionado nesse momento.
+> Sem arrastar (clique, ou Tab e Enter), o novo elemento fica depois do bloco que está selecionado nesse momento.
 :::
 
 ## Lista de verificação

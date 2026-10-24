@@ -568,7 +568,9 @@ Ziehe ein Element aus dem Bereich **Elemente** auf das Struktogramm. Beim Ziehen
 Wohin du ziehst, entscheidet, wo das neue Element landet.
 :::
 
-Du kannst auch ein Element im Bereich Elemente mit der Tastatur auswählen und **Enter** drücken. Dann wird es hinter dem ausgewählten Kasten eingefügt.
+Es geht auch ohne Ziehen: **Klicke** auf ein Element im Bereich Elemente (oder tippe es an). Dann wird es hinter dem ausgewählten Kasten eingefügt. Ist der Platzhalter **ø** ausgewählt, ersetzt es ihn.
+
+Mit der Tastatur springst du mit der **Tab**-Taste zu einem Element und drückst **Enter**. Das neue Element landet dann ebenfalls hinter dem ausgewählten Kasten.
 
 ::: angeberwissen
 Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **direkte Manipulation**. Den Begriff hat 1982 Ben Shneiderman geprägt, genau, der vom Struktogramm. Der Mann war fleißiger als ich beim Grasen.
@@ -672,11 +674,11 @@ frage: Wo änderst du den Text des ausgewählten Kastens?
 > Der Objektinspektor unter dem Diagramm zeigt den Text des ausgewählten Kastens.
 
 runde:
-frage: Du wählst ein Element in den Elementen aus und drückst **Enter**. Wo landet es?
+frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet es?
 - [x] hinter dem ausgewählten Kasten
 - ganz am Anfang
 - ganz am Ende
-> Mit der Tastatur kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
+> Ohne Ziehen (Klick oder Tab und Enter) kommt das neue Element hinter den Kasten, der gerade ausgewählt ist.
 :::
 
 ## Checkliste
@@ -11590,7 +11592,9 @@ Drag an element from the **Elements** area onto the structure chart. While you d
 Where you drop it decides where the new element lands.
 :::
 
-You can also select an element in the Elements area with the keyboard and press **Enter**. Then it is inserted after the selected box.
+It also works without dragging: **click** an element in the Elements area (or tap it). Then it is inserted after the selected box. If the placeholder **ø** is selected, it replaces it.
+
+With the keyboard, press **Tab** to jump to an element and press **Enter**. The new element also goes after the selected box.
 
 ::: angeberwissen
 Grabbing boxes and dragging them around, just like you are doing now, has a fancy name: **direct manipulation**. Ben Shneiderman coined the term in 1982. Yes, the structure chart guy. That man worked harder than I do when I graze.
@@ -11694,11 +11698,11 @@ frage: Where do you change the text of the selected box?
 > The Object Inspector below the diagram shows the text of the selected box.
 
 runde:
-frage: You select an element in the Elements and press **Enter**. Where does it end up?
+frage: You click an element in the Elements area without dragging. Where does it end up?
 - [x] after the selected box
 - at the very beginning
 - at the very end
-> With the keyboard the new element goes after the box that is selected right now.
+> Without dragging (click, or Tab and Enter) the new element goes after the box that is selected right now.
 :::
 
 ## Checklist
@@ -22608,7 +22612,9 @@ Arrasta um elemento da área **Elementos** para o estrutograma. Enquanto arrasta
 O sítio onde largas decide onde fica o novo elemento.
 :::
 
-Também podes selecionar um elemento na área Elementos com o teclado e premir **Enter**. Ele é então inserido depois do bloco selecionado.
+Também funciona sem arrastar: **clica** num elemento da área Elementos (ou toca nele). Ele é então inserido depois do bloco selecionado. Se o marcador **ø** estiver selecionado, substitui-o.
+
+Com o teclado, usa a tecla **Tab** para saltar para um elemento e prime **Enter**. O novo elemento também fica depois do bloco selecionado.
 
 ::: angeberwissen
 Agarrar blocos e arrastá-los de um lado para o outro, tal como estás a fazer agora, tem um nome pomposo: **manipulação direta**. Foi Ben Shneiderman quem inventou o termo em 1982. Sim, o senhor dos estrutogramas. Aquele homem trabalhava mais do que eu quando estou a pastar.
@@ -22712,11 +22718,11 @@ frage: Onde alteras o texto do bloco selecionado?
 > O Inspetor de objetos por baixo do diagrama mostra o texto do bloco selecionado.
 
 runde:
-frage: Selecionas um elemento na área Elementos e premes **Enter**. Onde fica?
+frage: Clicas num elemento da área Elementos, sem arrastar. Onde fica?
 - [x] depois do bloco selecionado
 - no início
 - no fim
-> Com o teclado, o novo elemento fica depois do bloco que está selecionado nesse momento.
+> Sem arrastar (clique, ou Tab e Enter), o novo elemento fica depois do bloco que está selecionado nesse momento.
 :::
 
 ## Lista de verificação
