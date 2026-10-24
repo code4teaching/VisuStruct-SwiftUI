@@ -39,7 +39,7 @@ export interface LearnHost {
   showLiveCode(): void
   /** Spalte „Programmieren“ auf Java öffnen (der Struktogramm-Editor bleibt, wie er ist). */
   showJava(): void
-  /** Spalte Dateien öffnen; die Struktogramm-Spalte macht dafür Platz. */
+  /** Spalte Dateien öffnen (die anderen Spalten bleiben, wie sie sind). */
   showFiles(): void
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
   stopSimulation(): void
@@ -272,7 +272,7 @@ export class LearnPanel {
     const exercises = blocks.flatMap((b) => (b.kind === 'exercise' ? [b.exercise] : []))
     // Erklärt der Text Bereiche des Editors (z. B. Lektion 2), muss der Editor zu sehen sein.
     if (pointsIntoEditor(this.body)) this.host.showEditor()
-    // Geht es nur um die Spalte Dateien (Lektion 3), öffnet sie sich statt des Editors.
+    // Geht es um die Spalte Dateien (Lektion 3), öffnet sie sich.
     else if (pointsIntoFiles(this.body)) this.host.showFiles()
     // Eine Struktogramm-Übung braucht den Struktogramm-Editor.
     else if (exercises.some((ex) => ex.code !== 'java')) this.host.showEditor()

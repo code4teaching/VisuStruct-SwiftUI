@@ -879,7 +879,6 @@ export class App {
       showJava: () => this.openJavaColumn(),
       showFiles: () => {
         if (!this.shell.classList.contains('files-open')) this.setFilesOpen(true)
-        if (!this.editorHidden) this.setEditorHidden(true)
       },
       openExercise: (ex: Exercise, doc: VSDocument) => {
         // Java-Übungen tippt man in „Programmieren“. Geschlossen wird nichts, so wächst das Struktogramm sichtbar mit.
