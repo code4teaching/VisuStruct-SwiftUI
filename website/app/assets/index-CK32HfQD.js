@@ -544,7 +544,7 @@ kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
 
 ## Die Oberfläche
 
-VisuStruct hat zwei Editoren: den **Struktogramm-Editor**, um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 20). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst.
+VisuStruct hat zwei Editoren: den **Struktogramm-Editor**, um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst.
 
 Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf.
 
@@ -554,7 +554,7 @@ Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über
 - **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
 - **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier bearbeitest du den Text des ausgewählten Elements.
 
-> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts den Bereich [Programmieren](#zeige-codelive) für Java (Lektion 20).
+> Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts den Bereich [Programmieren](#zeige-codelive) für Java (ab Lektion 4).
 
 ## Ein Element einfügen
 
@@ -11566,7 +11566,7 @@ kurz: Insert elements, type text, move and delete.
 
 ## The screen
 
-VisuStruct has two editors: the **structure chart editor**, which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 20). If the structure chart editor is collapsed, this lesson opens it for you.
+VisuStruct has two editors: the **structure chart editor**, which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you.
 
 The structure chart editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
 
@@ -11576,7 +11576,7 @@ The structure chart editor has several areas. Move the mouse over a blue word or
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
 - **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.
 
-> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Programming](#zeige-codelive) area on the right for Java (lesson 20).
+> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Programming](#zeige-codelive) area on the right for Java (from lesson 4).
 
 ## Insert an element
 
@@ -22584,7 +22584,7 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 ## O ecrã
 
-O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programar](#zeige-codelive) para código Java (a partir da lição 20). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
+O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programar](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
 
 O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
 
@@ -22594,7 +22594,7 @@ O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palav
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
 - **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.
 
-> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Programação](#zeige-codelive) para Java (lição 20).
+> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Programação](#zeige-codelive) para Java (a partir da lição 4).
 
 ## Inserir um elemento
 
