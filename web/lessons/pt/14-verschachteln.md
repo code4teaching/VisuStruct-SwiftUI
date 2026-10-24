@@ -71,7 +71,7 @@ Nos diagramas encaixados, o desenho ajuda-te: o que está mais para dentro fica 
 - Percorre um exemplo na simulação com **Passo** e observa as variáveis.
 
 ::: angeberwissen
-Foi exatamente para isto que o estrutograma foi inventado. Shneiderman perguntou-se: se devemos passar sem GOTO, porque não passar também sem as setas do fluxograma? O resultado: nada de esparguete de setas, e cada bloco fica bem arrumado no seu cercado. [A história toda](https://visustruct.org/pt/angeberwissen.html)
+Foi exatamente para isto que o estrutograma foi inventado. Shneiderman perguntou-se: se devemos passar sem GOTO, porque não passar também sem as setas do fluxograma? O resultado: nada de esparguete de setas, e cada bloco fica bem arrumado no seu cercado.
 :::
 
 ## Agora em Java

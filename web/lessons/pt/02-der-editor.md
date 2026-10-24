@@ -31,7 +31,7 @@ O sítio onde largas decide onde fica o novo elemento.
 Também podes selecionar um elemento na área Elementos com o teclado e premir **Enter**. Ele é então inserido depois do bloco selecionado.
 
 ::: angeberwissen
-Agarrar blocos e arrastá-los de um lado para o outro, tal como estás a fazer agora, tem um nome pomposo: **manipulação direta**. Foi Ben Shneiderman quem inventou o termo em 1982. Sim, o senhor dos estrutogramas. Aquele homem trabalhava mais do que eu quando estou a pastar. [Mais sobre ele](https://visustruct.org/pt/angeberwissen.html)
+Agarrar blocos e arrastá-los de um lado para o outro, tal como estás a fazer agora, tem um nome pomposo: **manipulação direta**. Foi Ben Shneiderman quem inventou o termo em 1982. Sim, o senhor dos estrutogramas. Aquele homem trabalhava mais do que eu quando estou a pastar.
 :::
 
 ## Escrever texto

@@ -186,7 +186,10 @@ export class DiagramRenderer {
     const cell = el('g', { 'data-path': node.idPath.join(',') })
     g.append(cell)
     const sim = this.usesSimulationHighlight
-    const fill = isSelected && (sim || this.fillsSelection) ? 'rgba(199, 230, 255, 0.55)' : 'white'
+    // Hintergrundfarbe aus der Datei (`bgcolor`), die Auswahl hat Vorrang.
+    const bg = e.backgroundColor
+    const own = bg && bg.a > 0 ? `rgba(${bg.r}, ${bg.g}, ${bg.b}, ${bg.a / 255})` : 'white'
+    const fill = isSelected && (sim || this.fillsSelection) ? 'rgba(199, 230, 255, 0.55)' : own
     cell.append(el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill }))
     this.strokeCellBorder(cell, r, omission)
 

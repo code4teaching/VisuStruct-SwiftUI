@@ -77,7 +77,7 @@ JavaScript has almost nothing to do with Java. Brendan Eich built it in 1995 in 
 JavaScript is the language of browsers. That is why VisuStruct can **run the code straight away**:
 
 ::: angeberwissen
-Why are links in the browser blue, anyway? In 1985 Ben Shneiderman's team tested which colour is easy to see but does not get in the way when you read. Light blue won. Red stood out more, but people remembered the text less well afterwards. [More fun facts](https://visustruct.org/en/angeberwissen.html)
+Why are links in the browser blue, anyway? In 1985 Ben Shneiderman's team tested which colour is easy to see but does not get in the way when you read. Light blue won. Red stood out more, but people remembered the text less well afterwards.
 :::
 
 1. Choose **JavaScript** in the code view.

@@ -223,6 +223,7 @@ describe('Lernbereich: Format', () => {
   it('Markdown maskiert HTML', () => {
     expect(markdownToHTML('<b>x</b> **fett** `a<b`')).toBe('<p>&lt;b&gt;x&lt;/b&gt; <strong>fett</strong> <code>a&lt;b</code></p>')
     expect(markdownToHTML('[x](javascript:alert(1))')).toContain('href="#"')
+    expect(markdownToHTML('[**Sequenz**]{.blau} und [rot]{.rot}')).toBe('<p><mark class="learn-mark blau"><strong>Sequenz</strong></mark> und [rot]{.rot}</p>')
   })
 })
 

@@ -8,6 +8,8 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web, lesson 1 (de/en/pt):** the three building blocks have their own colours (statements light blue, branch light orange, loop light green) in the diagrams of steps 3–7, and the words in the text are marked in the same colours. Step 7 now really shows all three forms: the structure chart was missing next to the flowchart and the pseudocode. The links “More Angeberwissen” in lessons 1, 2, 14 and 21 are gone.
+- **Web:** structure charts show the background colour stored in a file (`bgcolor`), as the Java version does. Lesson texts can mark a word with `[word]{.blau}`, `{.orange}` or `{.gruen}`.
 - **Web, tasks:** tasks without a checked exercise (the Swing tasks “Unit converter” and “Rolling dice with MVC”) no longer show up green with a tick in the task list.
 - **Web, lesson 20 (de/en/pt)** is now called “Structure chart and code”: it starts by pointing back to the Java steps in lessons 4 to 16, and “The elements in Java” is a table with the Java form of every element and the lesson where it is taught.
 - **Web:** the column “Code live” is now called “Programming” (de: „Programmieren“, pt: „Programação“) in all 21 UI languages and in the lessons (de/en/pt). The step in lesson 20 is now “Write Java directly”.
@@ -72,7 +74,7 @@ The format is loosely inspired by Keep a Changelog.
 
 - **Web, Code live:** the setting “Swing support” is now called “Real Java (with Swing)” in all languages.
 - **Web, learning area:** an open lesson shows its number as a badge next to the title, like in the lesson list.
-- **Web:** the settings menu shows the version number (now 0.3.27) right next to “About VisuStruct”.
+- **Web:** the settings menu shows the version number (now 0.3.28) right next to “About VisuStruct”.
 - **Web:** the settings menu (gear) is grouped into sections with headings: Display (text size, language), Code live (programming language, code keywords), Java (class, main, Swing support; only shown when Java is selected) and About VisuStruct at the bottom.
 - **Web:** toolbar buttons are icons with tooltips. The top bar keeps New, Open, Save and Settings; undo, clipboard, delete, export, code and simulation moved into a toolbar above the Elements and diagram columns. Run and Stop in Code live are icons too.
 - **Web:** Column widths are freely adjustable: with the diagram collapsed, Learning and Code live share the width at a draggable divider; with all three open, Learning and Code live can be dragged wider until the diagram keeps 240 px.

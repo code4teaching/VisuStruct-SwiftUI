@@ -71,7 +71,7 @@ With nested diagrams, the drawing helps you: whatever is further inside is inden
 - Go through an example in the simulation with **Step** and watch the variables.
 
 ::: angeberwissen
-This is exactly what the structure chart was invented for. Shneiderman asked himself: if we are supposed to do without GOTO, why not do without the arrows in the flowchart as well? The result: no arrow spaghetti, and every block stays nicely in its pen. [The whole story](https://visustruct.org/en/angeberwissen.html)
+This is exactly what the structure chart was invented for. Shneiderman asked himself: if we are supposed to do without GOTO, why not do without the arrows in the flowchart as well? The result: no arrow spaghetti, and every block stays nicely in its pen.
 :::
 
 ## Now in Java

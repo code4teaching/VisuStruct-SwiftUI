@@ -1,4 +1,5 @@
-/** Kleines Markdown für Lektionstexte: Absätze, ###, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url). */
+/** Kleines Markdown für Lektionstexte: Absätze, ###, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url),
+ * [Wort]{.blau} als farbige Markierung (blau, orange, gruen) passend zu farbigen Kästen. */
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -16,6 +17,7 @@ export function inline(text: string): string {
       const external = /^https?:/.test(safe) ? ' target="_blank" rel="noopener noreferrer"' : ''
       return `<a href="${safe}"${external}>${label}</a>`
     })
+    .replace(/\[([^\]]+)\]\{\.(blau|orange|gruen)\}/g, '<mark class="learn-mark $2">$1</mark>')
   return s.replace(/\u0000(\d+)\u0000/g, (_, i: string) => `<code>${codes[Number(i)]}</code>`)
 }
 
