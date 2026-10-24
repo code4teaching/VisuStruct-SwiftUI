@@ -2,6 +2,7 @@ import type { ExerciseTest } from '../core/exerciseCheck'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
+import { parseCloze, type Cloze } from './cloze'
 
 /**
  * Lektionen und Aufgaben als Markdown mit Kopfzeilen und `:::`-Blöcken (siehe `lessons/README.md`).
@@ -21,6 +22,8 @@ export type Block =
   | { kind: 'roundGame'; game: RoundGame }
   | { kind: 'rescueGame'; game: RescueGame }
   | { kind: 'caesar'; key: number; text: string }
+  /** Fertiger Code mit Lücken für einzelne Wörter. */
+  | { kind: 'cloze'; cloze: Cloze }
   /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
   | { kind: 'textFile'; name: string; content: string }
 
@@ -239,6 +242,14 @@ export function parseBlocks(body: string, file: string): Block[] {
           else if (arg === 'prinzessin') blocks.push({ kind: 'rescueGame', game: parseRescueGame(inner, file) })
           else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag, layout, bombe, frage, reihenfolge oder prinzessin).`)
           else blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
+        } catch (err) {
+          throw new FormatError((err as Error).message)
+        }
+        break
+      case 'lückentext':
+      case 'lueckentext':
+        try {
+          blocks.push({ kind: 'cloze', cloze: parseCloze(inner, file) })
         } catch (err) {
           throw new FormatError((err as Error).message)
         }

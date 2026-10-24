@@ -127,6 +127,37 @@ tipp: As in maths, multiplication comes before addition: `price + cheese * count
 lösung: l07-java-pizza-loesung.visustruct
 :::
 
+## Fill in the gaps: desk check
+
+::: lückentext
+titel: What is in the variables?
+auftrag: Do a desk check in your head. After each line, write down the value the variable has afterwards, and in the last line what is output.
+```java
+int a = 5;
+int b = 2;
+a = a + b;      // a is now [[7]]
+b = a * 2;      // b is now [[14]]
+a = b - a;      // a is now [[7]]
+System.out.println(a + b);      // output: [[21]]
+```
+erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Programming area.
+:::
+
+## Find the bug: score
+
+::: übung l07-java-fehler
+titel: Fix the score
+code: java
+auftrag: In a game Ludwig first gets 10 points, then 5 points, then he loses 3 points. At the end **Points: 12** should appear. But **Points: 3** appears.
+  Go through the code with Step and watch `points`. Fix the wrong line and click Check.
+start: l07-java-fehler-start.visustruct
+test: - -> Points: 12
+braucht: anweisung
+tipp: After which line does `points` suddenly have the value 3? What should actually happen in that line?
+tipp: Ludwig loses 3 points, so 3 is subtracted from the old value: `points = points - 3;`
+lösung: l07-java-fehler-loesung.visustruct
+:::
+
 ## Game: Defuse the bomb
 
 ::: spiel bombe

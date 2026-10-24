@@ -256,6 +256,28 @@ der Fuchs hat mich in seinen Turm gesperrt.
 
 Der Name endet auf `.txt`, `.csv` oder `.json` und gilt für alle Lektionen einer Sprache. Verschiedene Dateien brauchen deshalb verschiedene Namen.
 
+Ein Lückentext: fertiger Java-Code, in dem einzelne Wörter fehlen. Jede Lücke `[[…]]` wird ein Eingabefeld, „Prüfen“
+färbt richtige Lücken grün und falsche rot, nach einem Fehlversuch zeigt „Lösung zeigen“ die Antworten. Weitere richtige
+Antworten stehen mit ` | ` (Leerzeichen davor und danach) in derselben Lücke. Leerzeichen zählen beim Vergleich nicht,
+Groß- und Kleinschreibung schon. `erklärung:` erscheint, wenn alles stimmt. Ein Test prüft, dass der Code mit jeder
+richtigen Antwort fehlerfreies Java ist:
+
+````
+::: lückentext
+titel: Summe von 1 bis 10
+auftrag: Ergänze die fehlenden Wörter.
+```java
+int summe = 0;
+for ([[int]] i = 1; i [[<=]] 10; [[i++ | i += 1 | i = i + 1]]) {
+    summe = summe + i;
+}
+```
+erklärung: Ausgabe: Summe: 55
+:::
+````
+
+Für „Fehler finden“ eignet sich eine normale Übung mit `code: java`, deren `start:`-Diagramm einen Fehler enthält.
+
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
 ```

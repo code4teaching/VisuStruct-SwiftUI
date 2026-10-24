@@ -101,6 +101,37 @@ tipp: `int preco = 9;` e `int quantidade = 3;` criam as variáveis. `int total =
 lösung: l05-java-kino-loesung.visustruct
 :::
 
+## Preenche os espaços: trocar os copos
+
+::: lückentext
+titel: Trocar dois valores
+auftrag: Os valores de `a` e `b` devem ser trocados. Preenche as palavras que faltam.
+```java
+int a = 3;
+int b = 8;
+[[int]] aux = [[a]];
+a = [[b]];
+b = [[aux]];
+System.out.println("a = " + a + ", b = " + b);
+```
+erklärung: Primeiro guardas `a` na variável auxiliar, depois `a` recebe o valor de `b` e, por fim, `b` recebe o valor guardado. Saída: **a = 8, b = 3**
+:::
+
+## Encontra o erro: saldo
+
+::: übung l05-java-fehler
+titel: Corrigir o saldo
+code: java
+auftrag: O cartão da cantina tem 20 euros. Uma refeição custa 7 euros. O programa deve mostrar o saldo **depois** de pagar, ou seja, **Resta: 13**. Mas mostra **Resta: 20**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l05-java-fehler-start.visustruct
+test: - -> Resta: 13
+braucht: anweisung
+tipp: Todas as linhas estão certas, só a ordem não. Quando é mostrado o saldo e quando se paga?
+tipp: Troca as duas últimas linhas: primeiro `saldo = saldo - preco;`, depois a saída.
+lösung: l05-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Ordenar os blocos
 
 ::: spiel reihenfolge

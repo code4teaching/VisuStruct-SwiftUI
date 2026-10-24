@@ -163,6 +163,41 @@ tipp: `int numero = 2;` antes do ciclo, depois `while (numero <= n) { … }`. No
 lösung: l11-java-gerade-loesung.visustruct
 :::
 
+## Preenche os espaços: while
+
+::: lückentext
+titel: Soma de 1 a 10
+auftrag: O programa deve somar os números de 1 a 10. Preenche as palavras e os sinais que faltam.
+```java
+int soma = 0;
+int numero = 1;
+[[while]] (numero [[<=]] 10) [[{]]
+    soma = soma + [[numero]];
+    [[numero]] = numero + 1;
+}
+System.out.println("Soma: " + soma);
+```
+erklärung: O ciclo repete-se enquanto `numero` for no máximo 10. Em cada volta, `numero` é somado à soma e depois `numero` aumenta 1. Sem essa linha seria um ciclo infinito. Saída: **Soma: 55**
+:::
+
+## Encontra o erro: poupar
+
+::: übung l11-java-fehler
+titel: Corrigir o plano de poupança
+code: java
+auftrag: O Ludwig poupa 5 euros por semana. O programa pergunta o objetivo e deve mostrar ao fim de quantas semanas ele o atinge. Para 50 euros são 10 semanas, mas o programa diz **Semanas: 11**.
+  Percorre o código com Passo a passo e observa `dinheiro` e `semanas`. Corrige o erro e carrega em Verificar.
+start: l11-java-fehler-start.visustruct
+test: 50 -> Semanas: 10
+test: 12 -> Semanas: 3
+test: 5 -> Semanas: 1
+test: 1 -> Semanas: 1
+braucht: whileSchleife
+tipp: Quanto dinheiro tem o Ludwig quando o ciclo se repete pela última vez? Precisa mesmo de poupar mais uma semana?
+tipp: Só se poupa enquanto o objetivo **ainda não foi atingido**: `while (dinheiro < objetivo)`.
+lösung: l11-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Quantas vezes?
 
 ::: spiel frage

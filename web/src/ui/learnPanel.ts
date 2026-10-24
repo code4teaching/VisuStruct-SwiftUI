@@ -15,6 +15,7 @@ import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
+import { renderCloze } from './clozeView'
 import { textFileView } from './textFileView'
 import { attachPointers, attachTermTips, markPointers, markTerms } from './termTips'
 
@@ -367,6 +368,8 @@ export class LearnPanel {
         return renderRescueGame(block.game, ludwigURL)
       case 'caesar':
         return renderCaesarDisc(block.key, block.text)
+      case 'cloze':
+        return renderCloze(block.cloze)
       case 'textFile':
         return textFileView(block.name, block.content)
     }
