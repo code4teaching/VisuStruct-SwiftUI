@@ -262,7 +262,9 @@ export class LearnPanel {
     this.body.append(h('p', { class: 'hint' }, t('web_learn_tasks_intro')))
     const list = h('ul', { class: 'learn-list' })
     for (const task of tasks) {
-      const done = this.taskExercises(task).every((ex) => progress.exercise(ex.id).done)
+      // Aufgaben ohne geprüfte Übung (z. B. Swing) gelten nie als erledigt.
+      const exercises = this.taskExercises(task)
+      const done = exercises.length > 0 && exercises.every((ex) => progress.exercise(ex.id).done)
       const after = lessons.find((l) => l.number === task.after)
       const item = h(
         'button',

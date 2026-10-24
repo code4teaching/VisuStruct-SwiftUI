@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web, tasks:** tasks without a checked exercise (the Swing tasks “Unit converter” and “Rolling dice with MVC”) no longer show up green with a tick in the task list.
 - **Web, lesson 20 (de/en/pt)** is now called “Structure chart and code”: it starts by pointing back to the Java steps in lessons 4 to 16, and “The elements in Java” is a table with the Java form of every element and the lesson where it is taught.
 - **Web:** the column “Code live” is now called “Programming” (de: „Programmieren“, pt: „Programação“) in all 21 UI languages and in the lessons (de/en/pt). The step in lesson 20 is now “Write Java directly”.
 
