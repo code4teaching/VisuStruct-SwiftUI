@@ -37,7 +37,9 @@ export interface LearnHost {
   showEditor(): void
   /** Spalte „Programmieren“ öffnen. */
   showLiveCode(): void
-  /** Spalte Dateien öffnen; die Struktogramm-Spalte macht dafür Platz. */
+  /** Spalte „Programmieren“ auf Java öffnen (der Struktogramm-Editor bleibt, wie er ist). */
+  showJava(): void
+  /** Spalte Dateien öffnen (die anderen Spalten bleiben, wie sie sind). */
   showFiles(): void
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
   stopSimulation(): void
@@ -232,12 +234,7 @@ export class LearnPanel {
     if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
     markPointers(this.body)
-    // Erklärt der Schritt Bereiche des Editors (z. B. Lektion 2), muss der Editor zu sehen sein.
-    if (pointsIntoEditor(this.body)) this.host.showEditor()
-    // Geht es nur um die Spalte Dateien (Lektion 3), öffnet sie sich statt des Editors.
-    else if (pointsIntoFiles(this.body)) this.host.showFiles()
-    // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Programmieren“.
-    if (pointsIntoLiveCode(this.body)) this.host.showLiveCode()
+    this.openNeededColumns(step.blocks)
     markTerms(this.body, glossary)
 
     const nav = h('div', { class: 'learn-nav' })
@@ -269,6 +266,21 @@ export class LearnPanel {
   }
 
   // MARK: - Aufgaben
+
+  /** Ein Schritt oder eine Aufgabe öffnet die Spalten, die sie gerade braucht. */
+  private openNeededColumns(blocks: Block[]) {
+    const exercises = blocks.flatMap((b) => (b.kind === 'exercise' ? [b.exercise] : []))
+    // Erklärt der Text Bereiche des Editors (z. B. Lektion 2), muss der Editor zu sehen sein.
+    if (pointsIntoEditor(this.body)) this.host.showEditor()
+    // Geht es um die Spalte Dateien (Lektion 3), öffnet sie sich.
+    else if (pointsIntoFiles(this.body)) this.host.showFiles()
+    // Eine Struktogramm-Übung braucht den Struktogramm-Editor.
+    else if (exercises.some((ex) => ex.code !== 'java')) this.host.showEditor()
+    // Java (Beispiel als ```java oder Übung mit `code: java`) braucht die Spalte „Programmieren“.
+    else if (exercises.length > 0 || this.body.querySelector('.lesson-code[data-lang=java]')) this.host.showJava()
+    // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Programmieren“.
+    if (pointsIntoLiveCode(this.body)) this.host.showLiveCode()
+  }
 
   private renderTaskList() {
     this.body.append(h('p', { class: 'hint' }, t('web_learn_tasks_intro')))
@@ -349,6 +361,7 @@ export class LearnPanel {
     }
     task.blocks.forEach((block, i) => this.body.append(this.renderBlock(block, `task-${i}`)))
     markPointers(this.body)
+    this.openNeededColumns(task.blocks)
     markTerms(this.body, glossary)
   }
 

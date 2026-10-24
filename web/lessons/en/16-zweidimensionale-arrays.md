@@ -110,7 +110,7 @@ lösung: kino-einmaleins-loesung.visustruct
 
 The cinema looks like this in Java:
 
-```
+```java
 boolean[][] seats = new boolean[3][5];
 seats[0][2] = true;
 seats[1][1] = true;

@@ -16,7 +16,7 @@ Tick **Real Java (with Swing)** in the [gear](#zeige-einstellungen).
 
 The obvious idea is to create the number in `main` as usual and count it up in the listener:
 
-```
+```java
 int count = 0;
 button.addActionListener(e -> {
     count++;
@@ -38,7 +38,7 @@ The listener only runs later, on every click, long after `main` has finished. Th
 
 The solution: the variable does **not** go into `main`, but directly into the class, above `main`. Then it belongs to the whole class, and every listener may change it:
 
-```
+```java
 public class Counter {
     static int count = 0;
 
@@ -53,7 +53,7 @@ public class Counter {
 
 ## The whole program
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

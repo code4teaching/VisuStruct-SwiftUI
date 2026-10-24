@@ -145,7 +145,7 @@ lösung: l05-einkauf-loesung.visustruct
 
 Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
-```
+```java
 int anzahl = 3;
 double preis = 2.5;
 double gesamtPreis = anzahl * preis;
@@ -164,7 +164,7 @@ Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James 
 
 Variablen speichern nicht nur Zahlen. Für Text gibt es den Datentyp `String`:
 
-```
+```java
 String name = "Mia";
 int alter = 14;
 double groesse = 1.62;

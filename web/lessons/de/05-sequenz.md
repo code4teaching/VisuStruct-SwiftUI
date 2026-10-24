@@ -73,7 +73,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 Wie in Lektion 4 kannst du auch eine Sequenz direkt in Java schreiben. Das Tauschen von oben sieht so aus:
 
-```
+```java
 int a = 5;
 int b = 9;
 int hilf = a;

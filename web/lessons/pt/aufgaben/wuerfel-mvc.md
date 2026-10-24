@@ -8,7 +8,7 @@ Constrói um jogo de dados com Model View Controller. Um botão **Lançar** lan�
 
 O model já está pronto. Lança o dado e conta quantas vezes foi lançado e quantos seis saíram:
 
-```
+```java
 class Dado {
     int pontos = 1;
     int lancamentos = 0;

@@ -145,7 +145,7 @@ lösung: l05-einkauf-loesung.visustruct
 
 A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
 
-```
+```java
 int count = 3;
 double price = 2.5;
 double totalPrice = count * price;
@@ -164,7 +164,7 @@ Java was first called **Oak**, after the tree outside James Gosling’s office w
 
 Variables do not only store numbers. For text there is the data type `String`:
 
-```
+```java
 String name = "Mia";
 int age = 14;
 double height = 1.62;

@@ -8,7 +8,7 @@ Build a dice game with Model View Controller. A button **Roll** rolls the dice, 
 
 The model is already finished. It rolls and counts how often it was rolled and how many sixes came up:
 
-```
+```java
 class Dice {
     int pips = 1;
     int rolls = 0;

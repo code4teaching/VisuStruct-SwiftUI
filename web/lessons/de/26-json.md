@@ -42,7 +42,7 @@ Profis lesen JSON mit einer Bibliothek, zum Beispiel **Gson**. Sie gehört nicht
 
 Ein Anführungszeichen im Text schreibst du in Java als `\"`. Der Text `"\"name\": \""` ist also `"name": "`, genau das, was vor jedem Namen steht.
 
-```
+```java
 String zeile = "{\"name\": \"Zora\", \"art\": \"Ziege\", \"alter\": 6},";
 int start = zeile.indexOf("\"name\": \"") + 9;
 int ende = zeile.indexOf("\"", start);
@@ -75,7 +75,7 @@ lösung: l26-java-namen-loesung.visustruct
 
 Zum Schreiben setzt du den Text mit `+` zusammen und schreibst ihn mit dem PrintWriter aus Lektion 23 in die Datei. Texte im JSON brauchen Anführungszeichen, also `\"` im Java-Text, Zahlen nicht:
 
-```
+```java
 String name = "Zora";
 int punkte = 15;
 String eintrag = "{\"name\": \"" + name + "\", \"punkte\": " + punkte + "}";

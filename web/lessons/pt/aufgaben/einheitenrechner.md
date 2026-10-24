@@ -14,7 +14,7 @@ O resultado aparece num JLabel por baixo dos botões. Se no campo não estiver u
 
 Podes começar assim:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

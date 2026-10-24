@@ -124,7 +124,7 @@ lösung: l06-mittelwert-loesung.visustruct
 
 This is the IPO example from the start in Java:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

@@ -110,7 +110,7 @@ lösung: kino-einmaleins-loesung.visustruct
 
 Der Kinosaal sieht in Java so aus:
 
-```
+```java
 boolean[][] sitze = new boolean[3][5];
 sitze[0][2] = true;
 sitze[1][1] = true;

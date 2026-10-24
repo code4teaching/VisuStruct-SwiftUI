@@ -16,7 +16,7 @@ Marca **Java verdadeiro (com Swing)** na [roda dentada](#zeige-einstellungen).
 
 Com um ouvinte por tecla ficaria assim:
 
-```
+```java
 um.addActionListener(e -> visor.setText(visor.getText() + "1"));
 dois.addActionListener(e -> visor.setText(visor.getText() + "2"));
 tres.addActionListener(e -> visor.setText(visor.getText() + "3"));
@@ -29,7 +29,7 @@ As linhas só se distinguem pelo algarismo. Quem quiser mudar um pormenor tem de
 
 Um ouvinte também pode ficar numa **variável**. O seu tipo de dados é `ActionListener`, o contrato da lição 30. Depois registas o mesmo ouvinte em vários botões:
 
-```
+```java
 ActionListener algarismo = e -> visor.setText(visor.getText() + e.getActionCommand());
 
 um.addActionListener(algarismo);
@@ -61,7 +61,7 @@ Textos comparas com `equals`, botões com `==`. Se quiseres decidir pela legenda
 
 Com um ouvinte partilhado, podes até criar as teclas dos algarismos num ciclo. Para ficarem bem arrumadas numa grelha, vão para um **JPanel**. Um JPanel é uma área na janela com o seu próprio layout:
 
-```
+```java
 JPanel teclas = new JPanel(new GridLayout(0, 3));
 for (int i = 1; i <= 9; i++) {
     JButton algarismo = new JButton("" + i);
@@ -76,7 +76,7 @@ for (int i = 1; i <= 9; i++) {
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

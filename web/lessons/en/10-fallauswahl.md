@@ -83,7 +83,7 @@ So for “age 18 or older” you still need the branch. You cannot create a case
 
 The drinks machine looks like this in Java:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

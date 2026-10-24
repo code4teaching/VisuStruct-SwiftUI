@@ -73,7 +73,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 Tal como na lição 4, também podes escrever uma sequência diretamente em Java. A troca de cima fica assim:
 
-```
+```java
 int a = 5;
 int b = 9;
 int aux = a;

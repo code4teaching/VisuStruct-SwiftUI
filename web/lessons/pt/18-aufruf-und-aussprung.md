@@ -199,7 +199,7 @@ lösung: l15-bis-null-loesung.visustruct
 
 Em Java, um subprograma chama-se **método**. O quadrado de cima fica assim:
 
-```
+```java
 public static int quadrado(int x) {
     int resultado = x * x;
     return resultado;
@@ -208,7 +208,7 @@ public static int quadrado(int x) {
 
 O programa principal chama o método pelo nome e passa-lhe o valor entre parênteses curvos:
 
-```
+```java
 int q = quadrado(numero);
 System.out.println("O quadrado é " + q);
 ```

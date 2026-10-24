@@ -16,7 +16,7 @@ Schalte im [Zahnrad](#zeige-einstellungen) **Echtes Java (mit Swing)** ein.
 
 So sähe es mit einem Zuhörer pro Taste aus:
 
-```
+```java
 eins.addActionListener(e -> anzeige.setText(anzeige.getText() + "1"));
 zwei.addActionListener(e -> anzeige.setText(anzeige.getText() + "2"));
 drei.addActionListener(e -> anzeige.setText(anzeige.getText() + "3"));
@@ -29,7 +29,7 @@ Die Zeilen unterscheiden sich nur in der Ziffer. Wer eine Kleinigkeit ändern wi
 
 Ein Zuhörer kann auch in einer **Variable** stehen. Ihr Datentyp ist `ActionListener`, der Vertrag aus Lektion 30. Danach meldest du denselben Zuhörer bei mehreren Knöpfen an:
 
-```
+```java
 ActionListener ziffer = e -> anzeige.setText(anzeige.getText() + e.getActionCommand());
 
 eins.addActionListener(ziffer);
@@ -61,7 +61,7 @@ Texte vergleichst du mit `equals`, Knöpfe mit `==`. Willst du über die Beschri
 
 Mit einem gemeinsamen Zuhörer kannst du die Zifferntasten sogar in einer Schleife bauen. Damit sie ordentlich im Raster stehen, kommen sie auf ein **JPanel**. Ein JPanel ist eine Fläche im Fenster mit einem eigenen Layout:
 
-```
+```java
 JPanel tasten = new JPanel(new GridLayout(0, 3));
 for (int i = 1; i <= 9; i++) {
     JButton ziffer = new JButton("" + i);
@@ -76,7 +76,7 @@ for (int i = 1; i <= 9; i++) {
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

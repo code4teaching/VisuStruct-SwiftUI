@@ -78,7 +78,7 @@ This is exactly what the structure chart was invented for. Shneiderman asked him
 
 Counting the even numbers looks like this in Java:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

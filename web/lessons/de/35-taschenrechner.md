@@ -26,14 +26,14 @@ Bisher stand mit `GridLayout(0, 1)` alles untereinander. Mit `GridLayout(0, 2)` 
 
 Die Beschriftungen links brauchst du später nicht mehr. Du kannst sie deshalb direkt in `add` bauen, ohne Variable:
 
-```
+```java
 fenster.add(new JLabel("Erste Zahl:"));
 fenster.add(feld1);
 ```
 
 ## Das Fenster mit dem ersten Knopf
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -83,7 +83,7 @@ Achte auf die Klammern in `"" + (a + b)`. Ohne sie rechnet Java von links nach r
 
 Die Knöpfe -, \* und / funktionieren genauso. Nur das Rechenzeichen in der letzten Zeile ändert sich:
 
-```
+```java
 minus.addActionListener(e -> {
     int a = Integer.parseInt(feld1.getText());
     int b = Integer.parseInt(feld2.getText());
@@ -98,7 +98,7 @@ Bei / gibt es zwei Besonderheiten:
 
 ## Division durch 0 abfangen
 
-```
+```java
 geteilt.addActionListener(e -> {
     int a = Integer.parseInt(feld1.getText());
     int b = Integer.parseInt(feld2.getText());

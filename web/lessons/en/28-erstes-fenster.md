@@ -26,7 +26,7 @@ Swing has been around since 1998. Before that, Java only had the older AWT with 
 
 This is the smallest program that opens a window. Type it into the Programming area and click [▶︎ Run](#zeige-ausfuehren):
 
-```
+```java
 import javax.swing.*;
 
 public class MyWindow {

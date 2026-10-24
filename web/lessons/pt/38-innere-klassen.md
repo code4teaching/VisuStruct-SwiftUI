@@ -30,7 +30,7 @@ O botão chama-o a cada clique. As três maneiras de escrever são três caminho
 
 Uma **classe interna** fica dentro de outra classe. Tem um nome, aqui `Mais`, e cumpre o contrato com `implements ActionListener`:
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -74,7 +74,7 @@ public class Contador {
 
 Se só precisas do ouvinte num sítio, podes escrever a classe mesmo onde o objeto é preciso. Assim ela não recebe nome:
 
-```
+```java
 mais.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         contagem++;
@@ -91,7 +91,7 @@ mais.addActionListener(new ActionListener() {
 
 O lambda é a forma curta da classe anónima, desde o Java 8:
 
-```
+```java
 mais.addActionListener(e -> {
     contagem++;
     numero.setText("" + contagem);

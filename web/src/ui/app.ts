@@ -876,13 +876,14 @@ export class App {
       showLiveCode: () => {
         if (!this.liveCoding) this.setLiveCoding(true)
       },
+      showJava: () => this.openJavaColumn(),
       showFiles: () => {
         if (!this.shell.classList.contains('files-open')) this.setFilesOpen(true)
-        if (!this.editorHidden) this.setEditorHidden(true)
       },
       openExercise: (ex: Exercise, doc: VSDocument) => {
-        this.setEditorHidden(false)
+        // Java-Übungen tippt man in „Programmieren“. Geschlossen wird nichts, so wächst das Struktogramm sichtbar mit.
         if (ex.code === 'java') this.openJavaColumn()
+        else this.setEditorHidden(false)
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)

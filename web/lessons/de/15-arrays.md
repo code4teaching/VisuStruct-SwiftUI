@@ -135,7 +135,7 @@ lösung: l14-summe-max-loesung.visustruct
 
 Das Durchlaufen eines Arrays sieht in Java so aus:
 
-```
+```java
 int[] zahlen = {2, 4, 6, 8, 10};
 for (int i = 0; i < zahlen.length; i++) {
     System.out.println(zahlen[i]);

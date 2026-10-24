@@ -94,7 +94,7 @@ lösung: l07-betrag-loesung.visustruct
 
 This is the age check from the start of this lesson in Java:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

@@ -19,7 +19,7 @@ Schalte wie in den letzten Lektionen im [Zahnrad](#zeige-einstellungen) **Echtes
 
 Wir legen alle drei Bausteine ins Fenster, genau wie den Knopf in Lektion 29:
 
-```
+```java
 import javax.swing.*;
 
 public class Verdoppeln {
@@ -50,7 +50,7 @@ Erinnerst du dich an den Riesenknopf? Ein `JFrame` hat ohne eigenes Layout nur *
 
 Die Lösung ist wieder ein Layout. Diesmal nehmen wir das **GridLayout**. Es teilt das Fenster in gleich große Zellen wie ein Gitter:
 
-```
+```java
 fenster.setLayout(new GridLayout(0, 1));
 ```
 
@@ -64,7 +64,7 @@ Die beiden Zahlen sind Zeilen und Spalten. `0` Zeilen heißt „so viele wie nö
 
 ## Das Fenster mit GridLayout
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -103,7 +103,7 @@ Beim Klick soll das Programm die Zahl aus dem Textfeld holen, verdoppeln und wie
 
 Zusammen mit dem ActionListener aus Lektion 30 sieht das so aus:
 
-```
+```java
 knopf.addActionListener(e -> {
     int zahl = Integer.parseInt(feld.getText());
     feld.setText("" + zahl * 2);
@@ -116,7 +116,7 @@ knopf.addActionListener(e -> {
 
 Tippe „abc“ ins Textfeld und klicke auf Berechne. Das Fenster bleibt, aber es passiert nichts, und in der [Konsole](#zeige-konsole) steht eine `NumberFormatException`. Aus Lektion 22 weißt du, was zu tun ist:
 
-```
+```java
 knopf.addActionListener(e -> {
     try {
         int zahl = Integer.parseInt(feld.getText());

@@ -83,7 +83,7 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 
 Der Getränkeautomat sieht in Java so aus:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

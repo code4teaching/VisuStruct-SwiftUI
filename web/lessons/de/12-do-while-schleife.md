@@ -78,7 +78,7 @@ lösung: l11-summe-loesung.visustruct
 
 Die Schleife, die trotzdem einmal läuft, sieht in Java so aus:
 
-```
+```java
 int i = 10;
 do {
     System.out.println(i);

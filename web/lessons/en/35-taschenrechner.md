@@ -26,14 +26,14 @@ So far `GridLayout(0, 1)` put everything below each other. `GridLayout(0, 2)` gi
 
 You won't need the labels on the left later. So you can build them directly inside `add`, without a variable:
 
-```
+```java
 window.add(new JLabel("First number:"));
 window.add(field1);
 ```
 
 ## The window with the first button
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -83,7 +83,7 @@ Watch the brackets in `"" + (a + b)`. Without them Java works from left to right
 
 The buttons -, \* and / work the same way. Only the operator in the last line changes:
 
-```
+```java
 minus.addActionListener(e -> {
     int a = Integer.parseInt(field1.getText());
     int b = Integer.parseInt(field2.getText());
@@ -98,7 +98,7 @@ minus.addActionListener(e -> {
 
 ## Catching division by 0
 
-```
+```java
 divide.addActionListener(e -> {
     int a = Integer.parseInt(field1.getText());
     int b = Integer.parseInt(field2.getText());

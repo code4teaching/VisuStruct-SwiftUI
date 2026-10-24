@@ -16,7 +16,7 @@ Marca **Java verdadeiro (com Swing)** na [roda dentada](#zeige-einstellungen).
 
 `Math.random()` dá um número decimal aleatório de 0 até quase 1, por exemplo 0.4173. Em três passos transforma-se num número inteiro de 1 a 100:
 
-```
+```java
 int secreto = (int) (Math.random() * 100) + 1;
 ```
 
@@ -39,14 +39,14 @@ Na verdade, os computadores não sabem lançar dados. O `Math.random()` calcula 
 
 O jogo tem de se lembrar de duas coisas ao longo de todos os cliques: o número secreto e o número de tentativas. Tal como no contador de cliques da lição 32, as duas ficam na classe:
 
-```
+```java
 static int secreto = (int) (Math.random() * 100) + 1;
 static int tentativas = 0;
 ```
 
 ## O programa completo
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

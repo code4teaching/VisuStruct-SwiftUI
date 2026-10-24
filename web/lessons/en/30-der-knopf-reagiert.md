@@ -18,7 +18,7 @@ Until now your program ran from top to bottom, just like the structure chart. Th
 
 This is how you register the listener:
 
-```
+```java
 button.addActionListener(e -> button.setText("I was clicked"));
 ```
 
@@ -33,7 +33,7 @@ The line comes after `new JButton(…)`, because the button has to exist already
 
 ## The whole program
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -61,7 +61,7 @@ Run it and click the button. Now it says “I was clicked”.
 
 If more than one thing should happen on a click, put curly brackets after the arrow. Inside, every statement has its semicolon, just like in a loop body:
 
-```
+```java
 button.addActionListener(e -> {
     button.setText("I was clicked");
     window.setTitle("Thank you!");
@@ -168,13 +168,13 @@ This is not in the curriculum. If you want to know what is behind the arrow, rea
 
 You already know the line with the arrow from step 2:
 
-```
+```java
 button.addActionListener(e -> button.setText("I was clicked"));
 ```
 
 Without the arrow you write the listener as a class without a name that fulfils the contract (an anonymous class):
 
-```
+```java
 button.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         button.setText("I was clicked");

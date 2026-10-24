@@ -32,11 +32,12 @@ export function markdownToHTML(source: string): string {
       continue
     }
     if (line.startsWith('```')) {
+      const java = line.slice(3).trim() === 'java'
       const code: string[] = []
       i++
       while (i < lines.length && !lines[i].startsWith('```')) code.push(lines[i++])
       i++
-      out.push(`<pre class="lesson-code" dir="ltr"><code>${escape(code.join('\n'))}</code></pre>`)
+      out.push(`<pre class="lesson-code"${java ? ' data-lang="java"' : ''} dir="ltr"><code>${escape(code.join('\n'))}</code></pre>`)
       continue
     }
     const heading = /^(#{3,4})\s+(.*)$/.exec(line)

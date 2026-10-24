@@ -16,7 +16,7 @@ Schalte im [Zahnrad](#zeige-einstellungen) **Echtes Java (mit Swing)** ein.
 
 `Math.random()` liefert eine zufällige Kommazahl von 0 bis knapp unter 1, zum Beispiel 0.4173. Daraus wird in drei Schritten eine ganze Zahl von 1 bis 100:
 
-```
+```java
 int geheim = (int) (Math.random() * 100) + 1;
 ```
 
@@ -39,14 +39,14 @@ Computer können eigentlich gar nicht würfeln. `Math.random()` rechnet mit eine
 
 Zwei Dinge muss sich das Spiel über alle Klicks hinweg merken: die geheime Zahl und die Zahl der Versuche. Wie beim Klickzähler aus Lektion 32 stehen beide in der Klasse:
 
-```
+```java
 static int geheim = (int) (Math.random() * 100) + 1;
 static int versuche = 0;
 ```
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 

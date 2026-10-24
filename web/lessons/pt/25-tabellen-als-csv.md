@@ -35,7 +35,7 @@ Isto é um **ficheiro CSV**. CSV quer dizer "Comma-Separated Values", ou seja, "
 
 Já conheces o `split(";")` da lição 17. Divide um texto em cada ponto e vírgula e devolve um array:
 
-```
+```java
 String linha = "Zora;1;2;2";
 String[] partes = linha.split(";");
 // partes[0] é "Zora", partes[1] é "1", partes[2] é "2", partes[3] é "2"
@@ -43,7 +43,7 @@ String[] partes = linha.split(";");
 
 Depois disto, as notas ainda são **texto**. Só podes fazer contas com elas depois de as transformares num número com `Integer.parseInt`:
 
-```
+```java
 int matematica = Integer.parseInt(partes[1]);
 ```
 
@@ -55,7 +55,7 @@ Dividir uma linha CSV e ler a nota de Matemática como número.
 
 Para o ficheiro inteiro, combinas o BufferedReader da lição 24 com `split`. O cabeçalho não tem notas, por isso lês essa linha antes do ciclo e saltas por cima dela:
 
-```
+```java
 BufferedReader leitor = new BufferedReader(new FileReader("turma.csv"));
 String linha = leitor.readLine();   // cabeçalho
 linha = leitor.readLine();          // primeiro registo

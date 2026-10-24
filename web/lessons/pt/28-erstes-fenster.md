@@ -26,7 +26,7 @@ O Swing existe desde 1998. Antes disso, o Java só tinha o AWT, mais antigo, com
 
 Este é o programa mais pequeno que abre uma janela. Escreve-o na área Programação e clica em [▶︎ Executar](#zeige-ausfuehren):
 
-```
+```java
 import javax.swing.*;
 
 public class MinhaJanela {

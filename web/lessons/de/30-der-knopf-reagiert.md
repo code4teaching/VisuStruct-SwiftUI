@@ -18,7 +18,7 @@ Bisher lief dein Programm von oben nach unten durch, wie im Struktogramm. Der Co
 
 So meldest du den Zuhörer an:
 
-```
+```java
 knopf.addActionListener(e -> knopf.setText("Ich wurde geklickt"));
 ```
 
@@ -33,7 +33,7 @@ Die Zeile steht nach `new JButton(…)`, denn den Knopf muss es schon geben. Und
 
 ## Das ganze Programm
 
-```
+```java
 import javax.swing.*;
 import java.awt.*;
 
@@ -61,7 +61,7 @@ Führe es aus und klicke auf den Knopf. Jetzt steht darauf „Ich wurde geklickt
 
 Soll beim Klick mehr als eine Sache passieren, setzt du hinter den Pfeil geschweifte Klammern. Darin steht jede Anweisung mit Semikolon, wie in einem Schleifenrumpf:
 
-```
+```java
 knopf.addActionListener(e -> {
     knopf.setText("Ich wurde geklickt");
     fenster.setTitle("Danke!");
@@ -168,13 +168,13 @@ Das steht nicht im Lehrplan. Wenn du wissen willst, was hinter dem Pfeil steckt,
 
 Die Zeile mit dem Pfeil kennst du schon aus Schritt 2:
 
-```
+```java
 knopf.addActionListener(e -> knopf.setText("Ich wurde geklickt"));
 ```
 
 Ohne Pfeil schreibt man den Zuhörer als Klasse ohne Namen, die den Vertrag erfüllt (eine anonyme Klasse):
 
-```
+```java
 knopf.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         knopf.setText("Ich wurde geklickt");

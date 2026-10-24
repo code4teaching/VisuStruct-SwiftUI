@@ -94,7 +94,7 @@ lösung: l07-betrag-loesung.visustruct
 
 Esta é a verificação da idade do início desta lição em Java:
 
-```
+```java
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
