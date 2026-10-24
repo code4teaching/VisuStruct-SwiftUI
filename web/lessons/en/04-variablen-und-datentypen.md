@@ -152,6 +152,40 @@ tipp: `String name = "Ludwig";`, `int age = 7;` and `double height = 1.2;`. You 
 lösung: l04-java-steckbrief-loesung.visustruct
 :::
 
+## Fill in the gaps: data types
+
+::: lückentext
+titel: Profile in Java
+auftrag: Fill in the missing words. On the outside is the frame that every Java program in its own file needs. The variables go inside it.
+```java
+[[public]] class Profile {
+    public static [[void]] main(String[] args) {
+        [[int]] age = 14;
+        [[double]] height = 1.62;
+        [[String]] name = "Mia";
+        [[boolean]] hasPet = true;
+        System.out.[[println]](name + " is " + age + " years old.");
+    }
+}
+```
+erklärung: Whole numbers are `int`, decimal numbers `double`, texts `String` (with a capital S) and truth values `boolean`. `public class` and `public static void main` make up the frame. In the Programming area you may leave it out, more on this in the lesson “Java”.
+:::
+
+## Find the bug: seconds
+
+::: übung l04-java-fehler
+titel: Fix the seconds
+code: java
+auftrag: The program should convert 200 seconds into minutes and seconds and output **3 min 20 s**. But it outputs **20 min 3 s**.
+  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+start: l04-java-fehler-start.visustruct
+test: - -> 3 min 20 s
+braucht: anweisung
+tipp: `/` divides without a remainder, `%` gives the remainder. Which one do you need for the minutes, which one for the seconds left over?
+tipp: The two operators are swapped: `int minutes = seconds / 60;` and `int rest = seconds % 60;`
+lösung: l04-java-fehler-loesung.visustruct
+:::
+
 ## Game: Which data type?
 
 ::: spiel frage

@@ -153,6 +153,41 @@ tipp: `int jahre = scanner.nextInt();` liest ein. `int tage = jahre * 365;` rech
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Lückentext: Eingabe
+
+::: lückentext
+titel: Name und Alter einlesen
+auftrag: Ergänze die fehlenden Wörter, damit das Programm einen Namen und ein Alter einliest.
+```java
+import java.util.[[Scanner]];
+Scanner scanner = [[new]] Scanner(System.[[in]]);
+
+System.out.println("Wie heißt du?");
+[[String]] name = scanner.[[next]]();
+System.out.println("Wie alt bist du?");
+int alter = scanner.[[nextInt]]();
+System.out.println("Hallo " + name + ", nächstes Jahr bist du " + [[(alter + 1)]] + ".");
+```
+erklärung: `scanner.next()` liest ein Wort, `scanner.nextInt()` eine ganze Zahl. Die Klammern um `alter + 1` sind wichtig: Ohne sie hängt Java erst `alter` und dann `1` an den Text an, aus 14 würde **141**.
+:::
+
+## Fehler finden: Summe
+
+::: übung l06-java-fehler
+titel: Summe reparieren
+code: java
+auftrag: Das Programm liest zwei Zahlen ein und soll ihre Summe ausgeben. Bei 3 und 4 erscheint aber **Summe: 34** statt **Summe: 7**.
+  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+start: l06-java-fehler-start.visustruct
+test: 3, 4 -> Summe: 7
+test: 10, 5 -> Summe: 15
+test: 0, 9 -> Summe: 9
+braucht: anweisung
+tipp: Lies die Ausgabe von links nach rechts: Was ergibt `"Summe: " + a`? Und was passiert, wenn danach noch `+ b` kommt?
+tipp: Setze Klammern, damit Java zuerst rechnet: `System.out.println("Summe: " + (a + b));`
+lösung: l06-java-fehler-loesung.visustruct
+:::
+
 ## Spiel: Was wird ausgegeben?
 
 ::: spiel frage

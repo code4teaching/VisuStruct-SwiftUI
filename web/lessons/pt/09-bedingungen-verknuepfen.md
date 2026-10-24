@@ -198,6 +198,50 @@ tipp: `if (hora >= 8 && hora <= 15) { … } else { … }`
 lösung: l09-java-schule-loesung.visustruct
 :::
 
+## Preenche os espaços: condições
+
+::: lückentext
+titel: Nota e fim de semana
+auftrag: Preenche os operadores e as palavras que faltam.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Que nota?");
+int nota = scanner.nextInt();
+if (nota >= 1 [[&&]] nota [[<=]] 5) {
+    System.out.println("nota válida");
+} else {
+    System.out.println("nota inválida");
+}
+System.out.println("Que dia (1 a 7)?");
+int dia = scanner.nextInt();
+[[boolean]] fimDeSemana = dia == 6 [[||]] dia == 7;
+if ([[!]]fimDeSemana) {
+    System.out.println("dia de escola");
+}
+```
+erklärung: Uma nota é válida quando **as duas** condições são verdadeiras, por isso `&&`. É fim de semana quando **uma** das duas é verdadeira, por isso `||`. O resultado cabe numa variável `boolean`, e `!` inverte-o.
+:::
+
+## Encontra o erro: sem escola
+
+::: übung l09-java-fehler
+titel: Corrigir o dia sem escola
+code: java
+auftrag: O programa deve mostrar **sem escola** para o dia 6 (sábado) e o dia 7 (domingo), e **escola** nos outros dias. Mas mostra sempre **escola**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l09-java-fehler-start.visustruct
+test: 6 -> sem escola
+test: 7 -> sem escola
+test: 3 -> escola
+test: 1 -> escola
+braucht: verzweigung
+tipp: `dia` pode ser 6 **e** 7 ao mesmo tempo?
+tipp: Basta que uma das duas condições seja verdadeira: `dia == 6 || dia == 7`.
+lösung: l09-java-fehler-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 ::: checkliste

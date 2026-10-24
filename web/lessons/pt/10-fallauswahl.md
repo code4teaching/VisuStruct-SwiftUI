@@ -123,6 +123,54 @@ tipp: `switch (numero) { case 1 -> { System.out.println("um"); } … default -> 
 lösung: l10-java-wuerfel-loesung.visustruct
 :::
 
+## Preenche os espaços: switch
+
+::: lückentext
+titel: Meses por extenso
+auftrag: Preenche as palavras e os sinais que faltam na seleção múltipla.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Que mês (1 a 3)?");
+int mes = scanner.nextInt();
+[[switch]] (mes) {
+    [[case]] 1 -> {
+        System.out.println("janeiro");
+    }
+    case 2 [[->]] {
+        System.out.println("fevereiro");
+    }
+    [[case]] 3 -> {
+        System.out.println("março");
+    }
+    [[default]] -> {
+        System.out.println("Não conheço");
+    }
+}
+```
+erklärung: Depois de `switch` vem a variável entre parênteses. Cada caso começa com `case`, o valor e a seta `->`. `default` é executado quando nenhum caso serve.
+:::
+
+## Encontra o erro: calculadora
+
+::: übung l10-java-fehler
+titel: Corrigir a calculadora
+code: java
+auftrag: A calculadora lê dois números e uma opção: 1 mais, 2 menos, 3 vezes. Com 7, 3 e a opção 2 devia dar **4**, mas dá **-4**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l10-java-fehler-start.visustruct
+test: 7, 3, 2 -> 4
+test: 7, 3, 1 -> 10
+test: 7, 3, 3 -> 21
+test: 7, 3, 5 -> Não existe
+test: 10, 4, 2 -> 6
+braucht: fallauswahl
+tipp: Mais e vezes estão certos. Olha com atenção para o `case 2`.
+tipp: No menos, a ordem conta: `a - b` em vez de `b - a`.
+lösung: l10-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Que caso?
 
 ::: spiel frage

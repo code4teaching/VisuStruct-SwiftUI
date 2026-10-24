@@ -163,6 +163,41 @@ tipp: `int number = 2;` before the loop, then `while (number <= n) { … }`. In 
 lösung: l11-java-gerade-loesung.visustruct
 :::
 
+## Fill in the gaps: while
+
+::: lückentext
+titel: Sum from 1 to 10
+auftrag: The program should add up the numbers from 1 to 10. Fill in the missing words and symbols.
+```java
+int sum = 0;
+int number = 1;
+[[while]] (number [[<=]] 10) [[{]]
+    sum = sum + [[number]];
+    [[number]] = number + 1;
+}
+System.out.println("Sum: " + sum);
+```
+erklärung: The loop runs as long as `number` is at most 10. In each pass `number` is added to the sum, then `number` goes up by 1. Without that line it would be an endless loop. Output: **Sum: 55**
+:::
+
+## Find the bug: saving
+
+::: übung l11-java-fehler
+titel: Fix the savings plan
+code: java
+auftrag: Ludwig saves 5 euros every week. The program asks for the savings goal and should output after how many weeks he has reached it. For 50 euros that is 10 weeks, but the program says **Weeks: 11**.
+  Go through the code with Step and watch `money` and `weeks`. Fix the bug and click Check.
+start: l11-java-fehler-start.visustruct
+test: 50 -> Weeks: 10
+test: 12 -> Weeks: 3
+test: 5 -> Weeks: 1
+test: 1 -> Weeks: 1
+braucht: whileSchleife
+tipp: How much money does Ludwig have when the loop runs for the last time? Does he really need to save for another week?
+tipp: He only saves as long as the goal has **not been reached** yet: `while (money < goal)`.
+lösung: l11-java-fehler-loesung.visustruct
+:::
+
 ## Game: How often?
 
 ::: spiel frage

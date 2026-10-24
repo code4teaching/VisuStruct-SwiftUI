@@ -127,6 +127,44 @@ tipp: A condição é `pontos >= 50`. Num ramo fica `System.out.println("aprovad
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
+## Preenche os espaços: par ou ímpar
+
+::: lückentext
+titel: Par ou ímpar
+auftrag: Preenche as palavras e os sinais que faltam. O programa deve mostrar se um número é par.
+```java
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+System.out.println("Que número?");
+int numero = scanner.nextInt();
+[[if]] (numero [[%]] 2 [[==]] 0) [[{]]
+    System.out.println("par");
+[[}]] [[else]] {
+    System.out.println("ímpar");
+}
+```
+erklärung: `numero % 2` é o resto da divisão por 2. Se for 0, o número é par. Para comparar precisas de `==`, um `=` sozinho é uma atribuição. Os dois ramos ficam entre chavetas.
+:::
+
+## Encontra o erro: entrada
+
+::: übung l08-java-fehler
+titel: Corrigir a entrada
+code: java
+auftrag: No jardim zoológico, as crianças com **menos** de 6 anos entram de graça, todos os outros pagam 4 euros. Mas o programa também deixa entrar de graça as crianças de seis anos.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l08-java-fehler-start.visustruct
+test: 5 -> Entrada gratuita
+test: 6 -> 4 euros
+test: 10 -> 4 euros
+test: 0 -> Entrada gratuita
+braucht: verzweigung
+tipp: Experimenta o programa com 6. Que operador de comparação ainda deixa passar o 6?
+tipp: “Menos de 6” é `idade < 6`. `<=` significa “menor ou igual”.
+lösung: l08-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Que caminho?
 
 ::: spiel frage

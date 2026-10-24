@@ -152,6 +152,40 @@ tipp: `String nome = "Ludwig";`, `int idade = 7;` e `double altura = 1.2;`. Junt
 lösung: l04-java-steckbrief-loesung.visustruct
 :::
 
+## Preenche os espaços: tipos de dados
+
+::: lückentext
+titel: Ficha em Java
+auftrag: Preenche as palavras que faltam. Por fora está a moldura de que qualquer programa Java precisa num ficheiro próprio. As variáveis ficam lá dentro.
+```java
+[[public]] class Ficha {
+    public static [[void]] main(String[] args) {
+        [[int]] idade = 14;
+        [[double]] altura = 1.62;
+        [[String]] nome = "Mia";
+        [[boolean]] temAnimal = true;
+        System.out.[[println]](nome + " tem " + idade + " anos.");
+    }
+}
+```
+erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Programação podes deixá-la de fora, há mais sobre isto na lição “Java”.
+:::
+
+## Encontra o erro: segundos
+
+::: übung l04-java-fehler
+titel: Corrigir os segundos
+code: java
+auftrag: O programa deve converter 200 segundos em minutos e segundos e mostrar **3 min 20 s**. Mas mostra **20 min 3 s**.
+  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+start: l04-java-fehler-start.visustruct
+test: - -> 3 min 20 s
+braucht: anweisung
+tipp: `/` divide sem resto, `%` dá o resto. Qual dos dois precisas para os minutos e qual para os segundos que sobram?
+tipp: Os dois operadores estão trocados: `int minutos = segundos / 60;` e `int resto = segundos % 60;`
+lösung: l04-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Que tipo de dados?
 
 ::: spiel frage

@@ -127,6 +127,37 @@ tipp: Como na matemática, a multiplicação vem antes da soma: `preco + queijo 
 lösung: l07-java-pizza-loesung.visustruct
 :::
 
+## Preenche os espaços: teste de secretária
+
+::: lückentext
+titel: O que está nas variáveis?
+auftrag: Faz um teste de secretária de cabeça. Escreve depois de cada linha o valor que a variável tem a seguir e, na última linha, o que é mostrado.
+```java
+int a = 5;
+int b = 2;
+a = a + b;      // a vale agora [[7]]
+b = a * 2;      // b vale agora [[14]]
+a = b - a;      // a vale agora [[7]]
+System.out.println(a + b);      // saída: [[21]]
+```
+erklärung: Cada linha calcula com os valores que estão nesse momento nas variáveis: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, saída 7 + 14 = 21. Podes confirmar com Passo a passo na área Programação.
+:::
+
+## Encontra o erro: pontuação
+
+::: übung l07-java-fehler
+titel: Corrigir a pontuação
+code: java
+auftrag: Num jogo, o Ludwig ganha primeiro 10 pontos, depois 5 pontos e depois perde 3 pontos. No fim deve aparecer **Pontos: 12**. Mas aparece **Pontos: 3**.
+  Percorre o código com Passo a passo e observa `pontos`. Corrige a linha errada e carrega em Verificar.
+start: l07-java-fehler-start.visustruct
+test: - -> Pontos: 12
+braucht: anweisung
+tipp: Depois de que linha é que `pontos` passa de repente a valer 3? O que devia acontecer nessa linha?
+tipp: O Ludwig perde 3 pontos, por isso tira-se 3 ao valor antigo: `pontos = pontos - 3;`
+lösung: l07-java-fehler-loesung.visustruct
+:::
+
 ## Jogo: Desativar a bomba
 
 ::: spiel bombe
