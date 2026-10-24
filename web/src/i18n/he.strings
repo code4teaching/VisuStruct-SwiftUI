@@ -97,6 +97,8 @@
 "web_editor_hide" = "הסתרת התרשים";
 "web_keywords_title" = "מילות מפתח של קוד";
 "web_keywords_hint" = "if, while, for במקום שמות הרכיבים";
+"web_palette_compact" = "רכיבים תמיד בתצוגה מצומצמת";
+"web_palette_compact_hint" = "סמל עם שם קטן מתחתיו, אחרת רק כשהעמודה צרה";
 "web_about_version_fmt" = "גרסה %@";
 "web_about_software" = "תוכנה בשימוש";
 "web_about_software_text" = "עורך הקוד משתמש ב-CodeMirror וב-Lezer (רישיון MIT). עם תמיכה ב-Swing, VisuStruct טוען את CheerpJ של Leaning Technologies (רישיון Community) ואת javac מ-OpenJDK.";

@@ -97,6 +97,8 @@
 "web_editor_hide" = "Skjul strukturdiagram";
 "web_keywords_title" = "Kode-nøgleord";
 "web_keywords_hint" = "if, while, for i stedet for elementnavne";
+"web_palette_compact" = "Elementer altid kompakte";
+"web_palette_compact_hint" = "Symbol med lille navn nedenunder, ellers kun når kolonnen er smal";
 "web_about_version_fmt" = "Version %@";
 "web_about_software" = "Anvendt software";
 "web_about_software_text" = "Kodeeditoren bruger CodeMirror og Lezer (MIT-licens). Med Swing-understøttelse indlæser VisuStruct CheerpJ fra Leaning Technologies (Community-licens) og javac fra OpenJDK.";

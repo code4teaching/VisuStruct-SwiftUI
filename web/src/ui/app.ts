@@ -204,6 +204,7 @@ const learnWidthKey = 'visustruct.learn.width'
 const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
 const editorHiddenKey = 'visustruct.editor.hidden'
+const compactPaletteKey = 'visustruct.palette.compact'
 const gearIcon =
   '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
 
@@ -403,6 +404,10 @@ export class App {
                   .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
                   .join('')}</select>
               </label>
+              <label class="check">
+                <input type="checkbox" data-action="compact-palette" />
+                <span>${e(t('web_palette_compact'))}<small>${e(t('web_palette_compact_hint'))}</small></span>
+              </label>
             </section>
             <section>
               <h3>${e(t('web_live_title'))}</h3>
@@ -525,10 +530,17 @@ export class App {
 
     // Schmale Struktogramm-Spalte: Elemente kompakt (Symbol, Name klein darunter).
     this.paletteObserver?.disconnect()
-    this.paletteObserver = new ResizeObserver(([entry]) => {
-      this.root.classList.toggle('compact-palette', entry.contentRect.width < compactPaletteBelow)
-    })
+    // In den Einstellungen lässt sie sich auch dauerhaft einschalten.
+    const updatePalette = () =>
+      this.root.classList.toggle('compact-palette', storedValue(compactPaletteKey) === '1' || this.root.getBoundingClientRect().width < compactPaletteBelow)
+    this.paletteObserver = new ResizeObserver(updatePalette)
     this.paletteObserver.observe(this.root)
+    const compactPalette = $<HTMLInputElement>('[data-action=compact-palette]')
+    compactPalette.checked = storedValue(compactPaletteKey) === '1'
+    compactPalette.addEventListener('change', () => {
+      storeValue(compactPaletteKey, compactPalette.checked ? '1' : '0')
+      updatePalette()
+    })
 
     const list = $<HTMLUListElement>('.palette ul')
     for (const { item } of paletteItems) {
