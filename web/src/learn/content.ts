@@ -19,6 +19,15 @@ const taskFiles = import.meta.glob('../../lessons/*/aufgaben/*.md', { query: '?r
   string,
   string
 >
+// VisuBot (mBot2-Modus): eigene Lektionen und Aufgaben in `<Sprache>/visubot/`, die normalen bleiben unberührt.
+const visuBotLessonFiles = import.meta.glob('../../lessons/*/visubot/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+const visuBotTaskFiles = import.meta.glob('../../lessons/*/visubot/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
 const diagramFiles = import.meta.glob('../../lessons/diagramme/**/*.visustruct', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
   string
@@ -48,17 +57,30 @@ export let lessons: Lesson[] = []
 export let tasks: Task[] = []
 export let reference = ''
 export let glossary: GlossaryEntry[] = []
+/** Zeigt der Lernbereich die VisuBot-Lektionen statt der normalen? */
+export let visuBot = false
+
+/** Zwischen normalen und VisuBot-Lektionen umschalten; Nachschlagen und Fachbegriffe bleiben dieselben. */
+export function useVisuBotContent(on: boolean) {
+  if (on === visuBot) return
+  visuBot = on
+  lessons = []
+  useContentLanguage(language)
+}
 
 /** Wählt die Sprache der Lektionen; die Exporte oben zeigen danach die Inhalte dieser Sprache. */
 export function useContentLanguage(lang: ContentLanguage) {
   if (lang === language && lessons.length > 0) return
   language = lang
   const pages = filesFor(lessonFiles, /\/lessons\/([^/]+)\/[^/]+\.md$/, lang)
-  lessons = pages
+  const lessonPages = visuBot ? filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang) : pages
+  lessons = lessonPages
     .filter(([name]) => /^\d+/.test(name))
     .map(([name, source]) => parseLesson(source, `${lang}/${name}`))
     .sort((a, b) => a.number - b.number)
-  tasks = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
+  tasks = (visuBot
+    ? filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang)
+    : filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang))
     .map(([name, source]) => parseTask(source, `${lang}/aufgaben/${name}`))
     .sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
   // Textdateien aus den Lektionen kann die Simulation mit `Files.readString(Path.of("name"))` lesen.

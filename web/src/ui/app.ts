@@ -39,13 +39,16 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
+import { setVisuBotEnabled, visuBotEnabled, visuBotTemplates, VisuBotView } from './visubotView'
+import { useVisuBotContent } from '../learn/content'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
 type DropTarget =
   | { kind: 'before' | 'after' | 'replace'; path: number[]; frame: Rect }
   | { kind: 'rootAppend'; frame: Rect }
 
-type DragSource = { kind: 'palette'; item: PaletteItem } | { kind: 'move'; path: number[] }
+/** Aus der Palette: neues Element (auch die fertigen VisuBot-Kästen) samt Name für das Ziehbild. */
+type DragSource = { kind: 'palette'; make: () => VSElement; label: string } | { kind: 'move'; path: number[] }
 
 interface DragState {
   source: DragSource
@@ -307,9 +310,12 @@ export class App {
   /** Nur in der claude.ai-Vorschau: Dateien über die `downloads`-Fähigkeit anbieten. */
   private downloads: { save(o: { filename: string; data: Blob }): Promise<unknown> } | null = null
   private readonly inViewer = 'claude' in window
+  /** VisuBot-Modus: Welt mit dem mBot2 im Simulationspanel (bleibt beim Neuaufbau erhalten). */
+  private visuBot?: VisuBotView
 
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
+    useVisuBotContent(visuBotEnabled())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
     this.shell = document.createElement('div')
@@ -436,6 +442,13 @@ export class App {
                 <span>${e(t('web_live_swing'))}<small>${e(t('web_live_swing_hint'))}</small></span>
               </label>
             </section>
+            <section>
+              <h3>VisuBot</h3>
+              <label class="check">
+                <input type="checkbox" data-action="visubot" />
+                <span>${e(t('web_visubot_mode'))}<small>${e(t('web_visubot_mode_hint'))}</small></span>
+              </label>
+            </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
               <span class="settings-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</span>
@@ -446,7 +459,9 @@ export class App {
       <aside class="palette">
         <h2>${e(t('palette_header'))}</h2>
         <p class="hint">${e(t('web_palette_hint'))}</p>
-        <ul></ul>
+        <ul class="palette-basic"></ul>
+        <h3 class="palette-visubot-title" hidden>🤖 VisuBot</h3>
+        <ul class="palette-visubot" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
@@ -516,6 +531,13 @@ export class App {
       },
     )
     this.root.append(this.sim.element)
+    if (visuBotEnabled()) {
+      this.visuBot ??= new VisuBotView()
+      this.sim.setRobot(this.visuBot)
+    } else {
+      this.visuBot?.dispose()
+      this.visuBot = undefined
+    }
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
     this.codeButton = $('[data-action=code]')
     this.code = new CodePanel(
@@ -542,20 +564,31 @@ export class App {
       updatePalette()
     })
 
-    const list = $<HTMLUListElement>('.palette ul')
-    for (const { item } of paletteItems) {
-      const label = typeName(paletteElement(item).type)
+    const addPaletteItem = (list: HTMLUListElement, icon: PaletteItem, label: string, make: () => VSElement, data: string) => {
       const li = document.createElement('li')
       li.className = 'palette-item'
-      li.dataset.item = item
-      li.append(this.paletteIcon(item), document.createTextNode(label))
-      li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'palette', item }))
+      li.dataset.item = data
+      li.append(this.paletteIcon(icon), document.createTextNode(label))
+      li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'palette', make, label }))
       // Tastatur/Klick ohne Ziehen: hinter der Auswahl einfügen (bzw. Platzhalter ersetzen).
       li.tabIndex = 0
       li.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') this.insertNearSelection(paletteElement(item))
+        if (e.key === 'Enter' || e.key === ' ') this.insertNearSelection(make())
       })
       list.append(li)
+    }
+    const list = $<HTMLUListElement>('.palette-basic')
+    for (const { item } of paletteItems) addPaletteItem(list, item, typeName(paletteElement(item).type), () => paletteElement(item), item)
+
+    // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
+    const robotOn = visuBotEnabled()
+    this.root.classList.toggle('visubot-mode', robotOn)
+    const robotList = $<HTMLUListElement>('.palette-visubot')
+    robotList.hidden = !robotOn
+    $<HTMLElement>('.palette-visubot-title').hidden = !robotOn
+    if (robotOn) {
+      const icon = { [ElementType.verzweigung]: 'verzweigung', [ElementType.whileSchleife]: 'whileSchleife' } as Partial<Record<ElementType, PaletteItem>>
+      for (const tpl of visuBotTemplates) addPaletteItem(robotList, icon[tpl.type] ?? 'anweisung', t(tpl.key), tpl.make, tpl.key)
     }
 
     this.tabStrip = $('.tabs')
@@ -585,6 +618,14 @@ export class App {
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
     language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
+    const visuBot = $<HTMLInputElement>('[data-action=visubot]')
+    visuBot.checked = visuBotEnabled()
+    visuBot.addEventListener('change', () =>
+      void this.changeLanguage(async () => {
+        setVisuBotEnabled(visuBot.checked)
+        useVisuBotContent(visuBot.checked)
+      }, 'visubot'),
+    )
     const keywords = $<HTMLInputElement>('[data-action=keywords]')
     keywords.checked = codeKeywords()
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
@@ -1862,7 +1903,7 @@ export class App {
     const d = this.drag
     if (!d || e.pointerId !== d.pointerId) return
     if (d.active && d.target) this.applyDrop(d.source, d.target)
-    else if (!d.active && d.source.kind === 'palette') this.insertNearSelection(paletteElement(d.source.item))
+    else if (!d.active && d.source.kind === 'palette') this.insertNearSelection(d.source.make())
     this.endDrag()
   }
 
@@ -1877,7 +1918,7 @@ export class App {
     const g = document.createElement('div')
     g.className = 'drag-ghost'
     if (source.kind === 'palette') {
-      g.textContent = paletteItems.find((p) => p.item === source.item)!.label
+      g.textContent = source.label
     } else {
       const e = elementAt(this.doc, source.path)
       g.textContent = `${typeName(e.type)}: ${canvasTextLines(e)[0]}`
@@ -1935,7 +1976,7 @@ export class App {
     const doc = this.doc
     try {
       if (source.kind === 'palette') {
-        const element = paletteElement(source.item)
+        const element = source.make()
         switch (t.kind) {
           case 'replace':
             return this.commit(replaceAtPath(doc, t.path, element), t.path)

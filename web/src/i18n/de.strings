@@ -260,3 +260,20 @@
 "web_learn_rescue_gate_case" = "Fast! equals unterscheidet Groß- und Kleinbuchstaben. Schreib das Wort genau so wie im Rätsel.";
 "web_learn_rescue_gate_wrong" = "Das Tor bleibt zu. Schau noch einmal auf die gelben Felder.";
 "web_learn_rescue_freed" = "🎉 Das Tor ist offen!";
+
+/* VisuBot (mBot2-Modus), nur de/en/pt */
+"web_visubot_mode" = "VisuBot (mBot2)";
+"web_visubot_mode_hint" = "Eigene Lektionen, Elemente und 3D-Simulator für den Roboter mBot2";
+"web_visubot_world" = "VisuBot-Welt";
+"web_visubot_no_3d" = "Die 3D-Ansicht kann in diesem Browser nicht starten.";
+"web_visubot_distance" = "Abstand";
+"web_visubot_line" = "Linie";
+"web_visubot_bumps" = "an die Wand gestoßen";
+"web_visubot_el_forward" = "fahre vor";
+"web_visubot_el_backward" = "fahre zurück";
+"web_visubot_el_right" = "drehe rechts";
+"web_visubot_el_left" = "drehe links";
+"web_visubot_el_led" = "LEDs an";
+"web_visubot_el_tone" = "Ton spielen";
+"web_visubot_el_wall" = "Wand vorn?";
+"web_visubot_el_until_wall" = "fahre bis zur Wand";

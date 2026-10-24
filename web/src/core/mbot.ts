@@ -17,18 +17,23 @@ export interface MBotAction {
 
 interface CommandSpec {
   args: number
+  /** Werte, wenn die Klammern leer bleiben: `mbot.forward()` fährt einen Schritt (10 cm), `turnRight()` dreht 90°. */
+  defaults?: number[]
   python?: (a: number[]) => string
   label: (a: number[]) => string
 }
+
+/** Ein Schritt von `mbot.forward()` ohne Zahl. */
+export const MBOT_STEP_CM = 10
 
 const n = (v: number) => String(Math.round(v * 100) / 100)
 
 /** Befehle (Anweisungen). Drehen: positiver Winkel bei `mbot2.turn` dreht nach rechts. */
 export const MBOT_COMMANDS: Record<string, CommandSpec> = {
-  forward: { args: 1, python: ([cm]) => `mbot2.straight(${n(cm)})`, label: ([cm]) => `${n(cm)} cm vorwärts` },
-  backward: { args: 1, python: ([cm]) => `mbot2.straight(${n(-cm)})`, label: ([cm]) => `${n(cm)} cm rückwärts` },
-  turnLeft: { args: 1, python: ([deg]) => `mbot2.turn(${n(-deg)})`, label: ([deg]) => `${n(deg)}° nach links drehen` },
-  turnRight: { args: 1, python: ([deg]) => `mbot2.turn(${n(deg)})`, label: ([deg]) => `${n(deg)}° nach rechts drehen` },
+  forward: { args: 1, defaults: [MBOT_STEP_CM], python: ([cm]) => `mbot2.straight(${n(cm)})`, label: ([cm]) => `${n(cm)} cm vorwärts` },
+  backward: { args: 1, defaults: [MBOT_STEP_CM], python: ([cm]) => `mbot2.straight(${n(-cm)})`, label: ([cm]) => `${n(cm)} cm rückwärts` },
+  turnLeft: { args: 1, defaults: [90], python: ([deg]) => `mbot2.turn(${n(-deg)})`, label: ([deg]) => `${n(deg)}° nach links drehen` },
+  turnRight: { args: 1, defaults: [90], python: ([deg]) => `mbot2.turn(${n(deg)})`, label: ([deg]) => `${n(deg)}° nach rechts drehen` },
   stop: { args: 0, python: () => `mbot2.EM_stop("ALL")`, label: () => 'anhalten' },
   setLed: { args: 3, python: ([r, g, b]) => `cyberpi.led.on(${n(r)}, ${n(g)}, ${n(b)})`, label: ([r, g, b]) => `LEDs (${n(r)}, ${n(g)}, ${n(b)})` },
   ledOff: { args: 0, python: () => 'cyberpi.led.off()', label: () => 'LEDs aus' },
@@ -56,6 +61,15 @@ export function parseMBotCommand(text: string): { method: string; args: string[]
   if (!m) return undefined
   const inner = m[2].trim()
   return { method: m[1], args: inner === '' ? [] : splitArgs(inner) }
+}
+
+/** Argumente prüfen und leere Klammern mit den Standardwerten füllen; `undefined` bei falscher Anzahl. */
+export function mbotArguments(method: string, args: number[]): number[] | undefined {
+  const spec = MBOT_COMMANDS[method]
+  if (!spec) return undefined
+  if (args.length === spec.args) return args
+  if (args.length === 0 && spec.defaults) return spec.defaults
+  return undefined
 }
 
 export function makeMBotAction(method: string, args: number[]): MBotAction {

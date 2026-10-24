@@ -1,0 +1,168 @@
+import type { MBotAction } from './mbot'
+
+/**
+ * Die Welt des VisuBot-Simulators von oben: Boden in Zentimetern, x nach rechts, y nach vorn (weg vom Betrachter).
+ * Blickrichtung in Grad, 0 = nach vorn, positiv im Uhrzeigersinn (wie `mbot2.turn`).
+ * Abstand und Liniensensor rechnen hier, damit Programme ohne echten Roboter dieselben Werte sehen.
+ */
+
+export interface Point {
+  x: number
+  y: number
+}
+
+export interface Pose extends Point {
+  heading: number
+}
+
+export interface Wall {
+  from: Point
+  to: Point
+}
+
+export interface RobotWorldSetup {
+  /** Breite und Tiefe des Bodens in cm; die Mitte ist (0, 0). */
+  width: number
+  depth: number
+  start: Pose
+  walls: Wall[]
+  /** Schwarze Klebeband-Linien (je ein Linienzug). */
+  lines: Point[][]
+}
+
+/** Radius um die Mitte, mit dem der mBot2 an Wände stößt (er ist etwa 17 × 13 cm groß). */
+export const ROBOT_RADIUS = 9
+/** Ultraschall sitzt vorn, so weit vor der Mitte. */
+const SONAR_OFFSET = 7
+/** Ultraschall misst höchstens so weit (mbuild ultrasonic2: 300 cm). */
+export const SONAR_MAX = 300
+/** Liniensensor: Abstand vor der Mitte und seitliche Lage der vier Fühler (L2, L1, R1, R2). */
+const LINE_OFFSET = 6
+const LINE_PROBES = [-3.6, -1.2, 1.2, 3.6]
+export const LINE_WIDTH = 2.5
+
+export const emptyWorld: RobotWorldSetup = { width: 200, depth: 200, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [] }
+
+const rad = (deg: number) => (deg * Math.PI) / 180
+const forwardOf = (heading: number): Point => ({ x: Math.sin(rad(heading)), y: Math.cos(rad(heading)) })
+
+export class RobotWorld {
+  pose: Pose
+  /** Gefahrene Strecke (Stift unten), beginnt an der Startposition. */
+  trail: Point[]
+  /** Wie oft der Roboter an eine Wand oder den Rand gestoßen ist. */
+  bumps = 0
+  led: [number, number, number] | undefined
+
+  constructor(readonly setup: RobotWorldSetup = emptyWorld) {
+    this.pose = { ...setup.start }
+    this.trail = [{ x: setup.start.x, y: setup.start.y }]
+  }
+
+  reset() {
+    this.pose = { ...this.setup.start }
+    this.trail = [{ x: this.pose.x, y: this.pose.y }]
+    this.bumps = 0
+    this.led = undefined
+  }
+
+  /** Alle Wände einschließlich Rand des Bodens. */
+  get allWalls(): Wall[] {
+    const w = this.setup.width / 2
+    const d = this.setup.depth / 2
+    const c = [{ x: -w, y: -d }, { x: w, y: -d }, { x: w, y: d }, { x: -w, y: d }]
+    return [...this.setup.walls, ...c.map((from, i) => ({ from, to: c[(i + 1) % 4] }))]
+  }
+
+  apply(action: MBotAction) {
+    switch (action.method) {
+      case 'forward': return this.drive(action.args[0])
+      case 'backward': return this.drive(-action.args[0])
+      case 'turnRight': return this.turn(action.args[0])
+      case 'turnLeft': return this.turn(-action.args[0])
+      case 'setLed': this.led = [action.args[0], action.args[1], action.args[2]]; return
+      case 'ledOff': this.led = undefined; return
+    }
+  }
+
+  turn(degrees: number) {
+    this.pose = { ...this.pose, heading: normalizeHeading(this.pose.heading + degrees) }
+  }
+
+  /** Fährt `cm` weit (negativ = rückwärts) und hält vor einer Wand an. */
+  drive(cm: number) {
+    const dir = forwardOf(this.pose.heading)
+    const sign = Math.sign(cm)
+    const dirMoving = { x: dir.x * sign, y: dir.y * sign }
+    const free = this.freeDistance(this.pose, dirMoving)
+    const distance = Math.min(Math.abs(cm), Math.max(0, free - ROBOT_RADIUS))
+    if (distance < Math.abs(cm) - 1e-9) this.bumps += 1
+    this.pose = { ...this.pose, x: this.pose.x + dirMoving.x * distance, y: this.pose.y + dirMoving.y * distance }
+    this.trail.push({ x: this.pose.x, y: this.pose.y })
+  }
+
+  /** Abstand des Ultraschallsensors bis zur nächsten Wand in cm (wie der echte Sensor ganzzahlig). */
+  distance(): number {
+    const dir = forwardOf(this.pose.heading)
+    const origin = { x: this.pose.x + dir.x * SONAR_OFFSET, y: this.pose.y + dir.y * SONAR_OFFSET }
+    return Math.min(SONAR_MAX, Math.round(this.freeDistance(origin, dir)))
+  }
+
+  /** Liniensensor wie `get_line_sta`: Bit 3 = ganz links … Bit 0 = ganz rechts; 0 = keine Linie, 15 = alle vier. */
+  lineState(): number {
+    const dir = forwardOf(this.pose.heading)
+    const right = { x: dir.y, y: -dir.x }
+    let bits = 0
+    LINE_PROBES.forEach((side, i) => {
+      const p = {
+        x: this.pose.x + dir.x * LINE_OFFSET + right.x * side,
+        y: this.pose.y + dir.y * LINE_OFFSET + right.y * side,
+      }
+      if (this.setup.lines.some((line) => distanceToPolyline(p, line) <= LINE_WIDTH / 2)) bits |= 1 << (3 - i)
+    })
+    return bits
+  }
+
+  sensors(): Record<string, number> {
+    return { getDistance: this.distance(), getLine: this.lineState() }
+  }
+
+  /** Strecke von `origin` in Richtung `dir`, bis ein Strahl eine Wand trifft. */
+  private freeDistance(origin: Point, dir: Point): number {
+    let best = Infinity
+    for (const wall of this.allWalls) {
+      const t = rayHitsSegment(origin, dir, wall.from, wall.to)
+      if (t !== undefined && t < best) best = t
+    }
+    return best
+  }
+}
+
+export function normalizeHeading(deg: number): number {
+  const h = ((deg % 360) + 360) % 360
+  return Math.abs(h - 360) < 1e-9 ? 0 : h
+}
+
+function rayHitsSegment(o: Point, d: Point, a: Point, b: Point): number | undefined {
+  const e = { x: b.x - a.x, y: b.y - a.y }
+  const denom = d.x * e.y - d.y * e.x
+  if (Math.abs(denom) < 1e-12) return undefined
+  const ao = { x: a.x - o.x, y: a.y - o.y }
+  const t = (ao.x * e.y - ao.y * e.x) / denom
+  const u = (ao.x * d.y - ao.y * d.x) / denom
+  return t >= 0 && u >= 0 && u <= 1 ? t : undefined
+}
+
+function distanceToPolyline(p: Point, line: Point[]): number {
+  let best = Infinity
+  for (let i = 0; i + 1 < line.length; i++) best = Math.min(best, distanceToSegment(p, line[i], line[i + 1]))
+  return best
+}
+
+function distanceToSegment(p: Point, a: Point, b: Point): number {
+  const dx = b.x - a.x
+  const dy = b.y - a.y
+  const len2 = dx * dx + dy * dy
+  const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2))
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy))
+}

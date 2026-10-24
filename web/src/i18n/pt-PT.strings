@@ -258,3 +258,20 @@
 "web_learn_rescue_gate_case" = "Quase! O equals distingue maiúsculas de minúsculas. Escreve a palavra exatamente como nas palavras cruzadas.";
 "web_learn_rescue_gate_wrong" = "O portão continua fechado. Olha outra vez para os quadrados amarelos.";
 "web_learn_rescue_freed" = "🎉 O portão está aberto!";
+
+/* VisuBot (mBot2-Modus), nur de/en/pt */
+"web_visubot_mode" = "VisuBot (mBot2)";
+"web_visubot_mode_hint" = "Lições, elementos e simulador 3D próprios para o robô mBot2";
+"web_visubot_world" = "Mundo VisuBot";
+"web_visubot_no_3d" = "A vista 3D não consegue arrancar neste navegador.";
+"web_visubot_distance" = "Distância";
+"web_visubot_line" = "Linha";
+"web_visubot_bumps" = "bateu na parede";
+"web_visubot_el_forward" = "andar para a frente";
+"web_visubot_el_backward" = "andar para trás";
+"web_visubot_el_right" = "rodar à direita";
+"web_visubot_el_left" = "rodar à esquerda";
+"web_visubot_el_led" = "LEDs ligados";
+"web_visubot_el_tone" = "tocar um som";
+"web_visubot_el_wall" = "Parede à frente?";
+"web_visubot_el_until_wall" = "andar até à parede";

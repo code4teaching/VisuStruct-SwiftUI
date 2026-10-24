@@ -3,7 +3,7 @@
  * Verzweigungen und Schleifen ersetzen sich beim Ausführen durch die Schritte ihres Rumpfs.
  */
 import { ElementType, type VSCase, type VSDocument, type VSElement } from './model'
-import { MBOT_COMMANDS, MBOT_SENSORS, makeMBotAction, parseMBotCommand, substituteMBotSensors, type MBotAction } from './mbot'
+import { MBOT_SENSORS, makeMBotAction, mbotArguments, parseMBotCommand, substituteMBotSensors, type MBotAction } from './mbot'
 
 export type SimValue =
   | { kind: 'int'; value: number }
@@ -1365,9 +1365,9 @@ export class SimulationEngine {
 
   /** `mbot.forward(10)`: Befehl merken und in der Konsole zeigen; die Oberfläche fährt damit den echten Roboter. */
   private executeMBotCommand(method: string, args: string[], text: string): void {
-    const spec = MBOT_COMMANDS[method]
-    if (!spec || args.length !== spec.args) throw invalid(text)
-    const action = makeMBotAction(method, args.map((a) => this.evaluateDouble(a)))
+    const values = mbotArguments(method, args.map((a) => this.evaluateDouble(a)))
+    if (!values) throw invalid(text)
+    const action = makeMBotAction(method, values)
     this.state.robotActions.push(action)
     this.state.outputLines.push(`🤖 mBot2: ${action.label}`)
     this.state.lastTrace = `${text} -> ${action.label}`

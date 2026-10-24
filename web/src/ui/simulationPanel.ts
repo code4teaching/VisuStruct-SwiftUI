@@ -2,6 +2,7 @@ import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimNotice, type SimValue, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
 import { writtenFilesView } from './textFileView'
+import type { VisuBotView } from './visubotView'
 
 /** Was eine Konsole zeigen würde: Ausgaben, Eingaben mit Antwort, offene Frage, Ende oder Fehler. */
 export interface ConsoleTranscript {
@@ -80,6 +81,8 @@ export class SimulationPanel {
   private printed = 0
   private notice!: HTMLElement
   private editButton!: HTMLButtonElement
+  /** VisuBot: Roboter-Welt, die bei jedem Schritt mitfährt. */
+  private robot?: VisuBotView
 
   constructor(
     private currentDocument: () => VSDocument,
@@ -100,9 +103,26 @@ export class SimulationPanel {
 
   // MARK: - Modus
 
+  /** VisuBot ein- oder ausschalten: die Welt steht unter der Steuerung. */
+  setRobot(robot: VisuBotView | undefined) {
+    if (this.robot === robot) return
+    this.robot?.element.remove()
+    this.robot = robot
+    if (robot) {
+      this.element.querySelector('section')!.after(robot.element)
+      robot.reset()
+    }
+  }
+
+  /** Beim Öffnen der Simulation sichtbar: erst dann wird die 3D-Ansicht gebaut. */
+  showRobot() {
+    this.robot?.show()
+  }
+
   begin() {
     this.pause()
     this.restartEngine()
+    this.showRobot()
   }
 
   end() {
@@ -118,7 +138,9 @@ export class SimulationPanel {
     }
     const wasPlaying = this.isPlaying
     const lastExecutedPath = this.engine.currentStepPath
+    this.robot?.prepare(this.engine)
     this.engine.step()
+    this.robot?.follow(this.engine.state.robotActions, wasPlaying ? Number(this.delay) * 850 : 450)
     this.collectOutput()
     if (this.highlightMode === 'nextToExecute' && this.engine.canStep) {
       this.onHighlight(this.engine.currentStepPath)
@@ -183,6 +205,7 @@ export class SimulationPanel {
     this.transcript = []
     this.printed = 0
     this.wasPlayingBeforeInput = false
+    this.robot?.reset()
     this.onHighlight(this.engine.currentStepPath)
     this.update()
   }

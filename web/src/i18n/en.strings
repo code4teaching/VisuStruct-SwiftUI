@@ -260,3 +260,20 @@
 "web_learn_rescue_gate_case" = "Almost! equals tells capital and small letters apart. Write the word exactly as in the crossword.";
 "web_learn_rescue_gate_wrong" = "The gate stays shut. Look at the yellow squares again.";
 "web_learn_rescue_freed" = "🎉 The gate is open!";
+
+/* VisuBot (mBot2-Modus), nur de/en/pt */
+"web_visubot_mode" = "VisuBot (mBot2)";
+"web_visubot_mode_hint" = "Own lessons, elements and a 3D simulator for the mBot2 robot";
+"web_visubot_world" = "VisuBot world";
+"web_visubot_no_3d" = "The 3D view cannot start in this browser.";
+"web_visubot_distance" = "Distance";
+"web_visubot_line" = "Line";
+"web_visubot_bumps" = "bumped into the wall";
+"web_visubot_el_forward" = "move forward";
+"web_visubot_el_backward" = "move back";
+"web_visubot_el_right" = "turn right";
+"web_visubot_el_left" = "turn left";
+"web_visubot_el_led" = "LEDs on";
+"web_visubot_el_tone" = "play a tone";
+"web_visubot_el_wall" = "Wall ahead?";
+"web_visubot_el_until_wall" = "drive to the wall";
