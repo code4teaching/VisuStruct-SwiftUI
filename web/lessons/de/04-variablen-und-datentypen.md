@@ -39,14 +39,11 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
 :::
 
-Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 8. Du kannst das Ergebnis einer Bedingung auch in einer Variablen speichern:
+Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 8. Eine Variable vom Typ `boolean` bekommt einfach `true` oder `false`:
 
 ```
-int alter = 15
-boolean volljaehrig = alter >= 18
+boolean volljaehrig = false
 ```
-
-Danach steht in `volljaehrig` der Wert `false`.
 
 ::: angeberwissen
 Am 4. Juni 1996 explodierte die Rakete Ariane 5 schon 37 Sekunden nach dem Start. Schuld war eine einzige Zeile: Eine Kommazahl für die Geschwindigkeit wurde in eine Ganzzahl-Variable gesteckt, die für so große Werte zu klein war. Der Datentyp ist also keine Nebensache, er kann eine halbe Milliarde Euro kosten.

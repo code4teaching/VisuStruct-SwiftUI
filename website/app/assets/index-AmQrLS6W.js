@@ -884,14 +884,11 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
 :::
 
-Wahrheitswerte begegnen dir vor allem in **Bedingungen**: \`alter >= 18\` ist entweder \`true\` oder \`false\`. Darum geht es in Lektion 8. Du kannst das Ergebnis einer Bedingung auch in einer Variablen speichern:
+Wahrheitswerte begegnen dir vor allem in **Bedingungen**: \`alter >= 18\` ist entweder \`true\` oder \`false\`. Darum geht es in Lektion 8. Eine Variable vom Typ \`boolean\` bekommt einfach \`true\` oder \`false\`:
 
 \`\`\`
-int alter = 15
-boolean volljaehrig = alter >= 18
+boolean volljaehrig = false
 \`\`\`
-
-Danach steht in \`volljaehrig\` der Wert \`false\`.
 
 ::: angeberwissen
 Am 4. Juni 1996 explodierte die Rakete Ariane 5 schon 37 Sekunden nach dem Start. Schuld war eine einzige Zeile: Eine Kommazahl für die Geschwindigkeit wurde in eine Ganzzahl-Variable gesteckt, die für so große Werte zu klein war. Der Datentyp ist also keine Nebensache, er kann eine halbe Milliarde Euro kosten.
@@ -11929,14 +11926,11 @@ The data type says what kind of value may be stored in the variable.
 Three variables with different data types. Open the diagram and start the simulation.
 :::
 
-You mostly meet truth values in **conditions**: \`age >= 18\` is either \`true\` or \`false\`. That is what lesson 8 is about. You can also store the result of a condition in a variable:
+You mostly meet truth values in **conditions**: \`age >= 18\` is either \`true\` or \`false\`. That is what lesson 8 is about. A variable of type \`boolean\` simply gets \`true\` or \`false\`:
 
 \`\`\`
-int age = 15
-boolean adult = age >= 18
+boolean adult = false
 \`\`\`
-
-After that, \`adult\` holds the value \`false\`.
 
 ::: angeberwissen
 On 4 June 1996 the Ariane 5 rocket exploded just 37 seconds after launch. The cause was a single line: a decimal number for the speed was put into a whole-number variable that was too small for such large values. So the data type is no small matter, it can cost half a billion euros.
@@ -22970,14 +22964,11 @@ O tipo de dados diz que tipo de valor pode ser guardado na variável.
 Três variáveis com tipos de dados diferentes. Abre o diagrama e inicia a simulação.
 :::
 
-Os valores lógicos aparecem sobretudo em **condições**: \`idade >= 18\` é \`true\` ou \`false\`. É disso que trata a lição 8. Também podes guardar o resultado de uma condição numa variável:
+Os valores lógicos aparecem sobretudo em **condições**: \`idade >= 18\` é \`true\` ou \`false\`. É disso que trata a lição 8. Uma variável do tipo \`boolean\` recebe simplesmente \`true\` ou \`false\`:
 
 \`\`\`
-int idade = 15
-boolean adulto = idade >= 18
+boolean adulto = false
 \`\`\`
-
-Depois disso, \`adulto\` tem o valor \`false\`.
 
 ::: angeberwissen
 A 4 de junho de 1996, o foguetão Ariane 5 explodiu apenas 37 segundos depois da descolagem. A culpa foi de uma única linha: um número decimal para a velocidade foi metido numa variável inteira demasiado pequena para valores tão grandes. O tipo de dados não é um pormenor, pode custar meio milhar de milhões de euros.

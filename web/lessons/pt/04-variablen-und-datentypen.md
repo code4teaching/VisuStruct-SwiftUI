@@ -39,14 +39,11 @@ O tipo de dados diz que tipo de valor pode ser guardado na variável.
 Três variáveis com tipos de dados diferentes. Abre o diagrama e inicia a simulação.
 :::
 
-Os valores lógicos aparecem sobretudo em **condições**: `idade >= 18` é `true` ou `false`. É disso que trata a lição 8. Também podes guardar o resultado de uma condição numa variável:
+Os valores lógicos aparecem sobretudo em **condições**: `idade >= 18` é `true` ou `false`. É disso que trata a lição 8. Uma variável do tipo `boolean` recebe simplesmente `true` ou `false`:
 
 ```
-int idade = 15
-boolean adulto = idade >= 18
+boolean adulto = false
 ```
-
-Depois disso, `adulto` tem o valor `false`.
 
 ::: angeberwissen
 A 4 de junho de 1996, o foguetão Ariane 5 explodiu apenas 37 segundos depois da descolagem. A culpa foi de uma única linha: um número decimal para a velocidade foi metido numa variável inteira demasiado pequena para valores tão grandes. O tipo de dados não é um pormenor, pode custar meio milhar de milhões de euros.

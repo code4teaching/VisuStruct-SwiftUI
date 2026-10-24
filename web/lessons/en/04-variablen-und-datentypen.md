@@ -39,14 +39,11 @@ The data type says what kind of value may be stored in the variable.
 Three variables with different data types. Open the diagram and start the simulation.
 :::
 
-You mostly meet truth values in **conditions**: `age >= 18` is either `true` or `false`. That is what lesson 8 is about. You can also store the result of a condition in a variable:
+You mostly meet truth values in **conditions**: `age >= 18` is either `true` or `false`. That is what lesson 8 is about. A variable of type `boolean` simply gets `true` or `false`:
 
 ```
-int age = 15
-boolean adult = age >= 18
+boolean adult = false
 ```
-
-After that, `adult` holds the value `false`.
 
 ::: angeberwissen
 On 4 June 1996 the Ariane 5 rocket exploded just 37 seconds after launch. The cause was a single line: a decimal number for the speed was put into a whole-number variable that was too small for such large values. So the data type is no small matter, it can cost half a billion euros.
