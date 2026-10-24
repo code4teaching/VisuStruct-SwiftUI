@@ -19,7 +19,3 @@ tipp: In jedem Durchlauf fährt der mBot2 ein Feld vor und schaut sich dann nach
 tipp: Hier passt eine Schleife, die erst fährt und danach prüft. Sie läuft weiter, solange links **oder** rechts mindestens 20 cm frei ist: `links >= 20 || rechts >= 20`.
 lösung: vb-tunnel-loesung.visustruct
 :::
-
-::: angeberwissen
-Auch diese Aufgabe kommt von **Kara** (SwissEduc, ETH Zürich). Kara hat es leichter: Kara kann gleichzeitig nach links und rechts schauen und muss sich dafür nicht drehen.
-:::

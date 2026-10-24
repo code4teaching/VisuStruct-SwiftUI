@@ -17,7 +17,3 @@ tipp: Wie bei „Fahre bis zum Ziel“ läuft außen eine Schleife, bis der Lini
 tipp: Um einen Baum herum: nach links drehen, ein Feld vor, nach rechts drehen, zwei Felder vor, nach rechts drehen, ein Feld vor, nach links drehen.
 lösung: vb-wald-loesung.visustruct
 :::
-
-::: angeberwissen
-Bei **Kara** (SwissEduc, ETH Zürich) heißt diese Aufgabe „Kleeblattsuche im Wald“. Kara ist ein Marienkäfer und sucht ein Kleeblatt, unser mBot2 sucht die grüne Fahne.
-:::

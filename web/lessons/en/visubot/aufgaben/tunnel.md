@@ -19,7 +19,3 @@ tipp: In each pass the mBot2 drives one square forward and then looks left and r
 tipp: A loop that drives first and checks afterwards fits here. It keeps going as long as at least 20 cm are free on the left **or** on the right: `left >= 20 || right >= 20`.
 lösung: vb-tunnel-loesung.visustruct
 :::
-
-::: angeberwissen
-This task also comes from **Kara** (SwissEduc, ETH Zurich). Kara has it easier: Kara can look left and right at the same time and doesn't need to turn.
-:::

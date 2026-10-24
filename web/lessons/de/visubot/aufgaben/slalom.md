@@ -17,7 +17,3 @@ tipp: Überlege zuerst, wie der mBot2 oben um einen einzigen Pylon herumfährt: 
 tipp: Unten herum geht genauso, nur mit links und rechts vertauscht. „Oben herum, dann unten herum“ wiederholt sich zweimal.
 lösung: vb-slalom-loesung.visustruct
 :::
-
-::: angeberwissen
-Diese Aufgabe stammt ursprünglich von **Kara**, dem Marienkäfer aus der Schweiz (SwissEduc, ETH Zürich). Dort fährt Kara Slalom um Bäume, und zwar endlos hin und her.
-:::

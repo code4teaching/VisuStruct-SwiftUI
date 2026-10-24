@@ -17,7 +17,3 @@ tipp: In each pass the mBot2 first turns left and measures. If the way up is fre
 tipp: Through the gap it is two squares into the next corridor. Afterwards it should face right again. If there is a wall above, it turns back and drives one square further.
 lösung: vb-ausgang-loesung.visustruct
 :::
-
-::: angeberwissen
-In **Kara** (SwissEduc, ETH Zurich) this maze is one of the hard tasks. Our mBot2 has it even harder: for every look upwards it has to turn first.
-:::

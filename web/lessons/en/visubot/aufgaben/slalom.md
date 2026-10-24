@@ -17,7 +17,3 @@ tipp: First think about how the mBot2 drives around a single cone on the top sid
 tipp: Around the bottom works the same way, only with left and right swapped. "Top, then bottom" repeats twice.
 lösung: vb-slalom-loesung.visustruct
 :::
-
-::: angeberwissen
-This task originally comes from **Kara**, the ladybird from Switzerland (SwissEduc, ETH Zurich). There Kara drives a slalom around trees, back and forth forever.
-:::

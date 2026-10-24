@@ -17,7 +17,3 @@ tipp: In jedem Durchlauf dreht sich der mBot2 zuerst nach links und misst. Ist o
 tipp: Durch die Lücke sind es zwei Felder bis in den nächsten Gang. Danach soll er wieder nach rechts schauen. Ist oben eine Wand, dreht er sich zurück und fährt ein Feld weiter.
 lösung: vb-ausgang-loesung.visustruct
 :::
-
-::: angeberwissen
-Bei **Kara** (SwissEduc, ETH Zürich) gehört dieses Labyrinth zu den schweren Aufgaben. Unser mBot2 hat es sogar noch schwerer: Für jeden Blick nach oben muss er sich erst drehen.
-:::

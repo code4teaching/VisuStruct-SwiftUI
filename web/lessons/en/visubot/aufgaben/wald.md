@@ -17,7 +17,3 @@ tipp: As in "Drive to the goal", a loop on the outside runs until the line senso
 tipp: Around a tree: turn left, one square forward, turn right, two squares forward, turn right, one square forward, turn left.
 lösung: vb-wald-loesung.visustruct
 :::
-
-::: angeberwissen
-In **Kara** (SwissEduc, ETH Zurich) this task is called "Clover search in the forest". Kara is a ladybird looking for a clover leaf; our mBot2 is looking for the green flag.
-:::
