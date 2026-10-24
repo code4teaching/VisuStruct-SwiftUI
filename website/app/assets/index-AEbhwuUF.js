@@ -988,26 +988,40 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
-Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Dein Einkauf aus der Übung sieht in Java so aus:
+Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
 \`\`\`
 int anzahl = 3;
 double preis = 2.5;
 double gesamtPreis = anzahl * preis;
-String artikel = "Hefte";
-System.out.println(anzahl + " " + artikel + " kosten " + gesamtPreis + " Euro.");
+System.out.println("Gesamt: " + gesamtPreis + " Euro");
 \`\`\`
 
-- Eine Variable legst du in Java genauso an wie im Kasten: erst der Datentyp, dann der Name, dann der Wert.
-- Am Ende jeder Anweisung steht ein **Semikolon** \`;\`.
-- \`String\` schreibst du groß, \`int\`, \`double\` und \`boolean\` klein. Java unterscheidet Groß- und Kleinbuchstaben.
+- Erst der Datentyp, dann der Name, dann der Wert, genau wie im Kasten.
+- Jede Anweisung endet mit einem **Semikolon** \`;\`.
 - Eine Ausgabe heißt in Java \`System.out.println(…)\`.
-
-Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
 
 ::: angeberwissen
 Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James Gosling. Sein Team bei Sun Microsystems wollte ab 1991 kleine Geräte wie Fernseh-Boxen programmieren. Den Namen Oak hatte aber schon eine andere Firma. Also wurde es 1995 **Java**, wie der Kaffee von der Insel Java. Deshalb ist das Logo eine dampfende Tasse.
 :::
+
+## Text in Java
+
+Variablen speichern nicht nur Zahlen. Für Text gibt es den Datentyp \`String\`:
+
+\`\`\`
+String name = "Mia";
+int alter = 14;
+double groesse = 1.62;
+System.out.println(name + " ist " + alter + " Jahre alt.");
+System.out.println("Größe: " + groesse + " m");
+\`\`\`
+
+- Text steht in Anführungszeichen.
+- \`String\` schreibst du groß, \`int\`, \`double\` und \`boolean\` klein. Java unterscheidet das.
+- Mit \`+\` hängst du Text und Zahlen aneinander.
+
+Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst.
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
@@ -12044,26 +12058,40 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Now in Java
 
-A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. Your shopping from the exercise looks like this in Java:
+A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
 
 \`\`\`
 int count = 3;
 double price = 2.5;
 double totalPrice = count * price;
-String item = "exercise books";
-System.out.println(count + " " + item + " cost " + totalPrice + " euros.");
+System.out.println("Total: " + totalPrice + " euros");
 \`\`\`
 
-- You create a variable in Java just like in the box: first the data type, then the name, then the value.
+- First the data type, then the name, then the value, just like in the box.
 - Every statement ends with a **semicolon** \`;\`.
-- \`String\` starts with a capital letter, \`int\`, \`double\` and \`boolean\` are lower case. Java tells upper and lower case apart.
-- An output is called \`System.out.println(…)\` in Java.
-
-You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+- Output in Java is written \`System.out.println(…)\`.
 
 ::: angeberwissen
 Java was first called **Oak**, after the tree outside James Gosling’s office window. From 1991 his team at Sun Microsystems wanted to program small devices such as TV set-top boxes. But another company already had the name Oak. So in 1995 it became **Java**, like the coffee from the island of Java. That is why the logo is a steaming cup.
 :::
+
+## Text in Java
+
+Variables do not only store numbers. For text there is the data type \`String\`:
+
+\`\`\`
+String name = "Mia";
+int age = 14;
+double height = 1.62;
+System.out.println(name + " is " + age + " years old.");
+System.out.println("Height: " + height + " m");
+\`\`\`
+
+- Text goes in quotation marks.
+- You write \`String\` with a capital letter, \`int\`, \`double\` and \`boolean\` in lowercase. Java tells them apart.
+- With \`+\` you join text and numbers together.
+
+You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type.
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java
@@ -22652,7 +22680,7 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 ## O ecrã
 
-O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programar](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
+O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
 
 O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
 
@@ -23096,26 +23124,40 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
-Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As tuas compras do exercício ficam assim em Java:
+Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
 \`\`\`
 int quantidade = 3;
 double preco = 2.5;
 double precoTotal = quantidade * preco;
-String artigo = "cadernos";
-System.out.println(quantidade + " " + artigo + " custam " + precoTotal + " euros.");
+System.out.println("Total: " + precoTotal + " euros");
 \`\`\`
 
-- Em Java crias uma variável tal como no bloco: primeiro o tipo de dados, depois o nome, depois o valor.
-- No fim de cada instrução há um **ponto e vírgula** \`;\`.
-- \`String\` escreve-se com maiúscula, \`int\`, \`double\` e \`boolean\` com minúscula. O Java distingue maiúsculas de minúsculas.
-- Uma saída chama-se \`System.out.println(…)\` em Java.
-
-Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+- Primeiro o tipo de dados, depois o nome, depois o valor, tal como no bloco.
+- Cada instrução termina com um **ponto e vírgula** \`;\`.
+- Em Java, uma saída escreve-se \`System.out.println(…)\`.
 
 ::: angeberwissen
 O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java. É por isso que o logótipo é uma chávena a fumegar.
 :::
+
+## Texto em Java
+
+As variáveis não guardam só números. Para texto existe o tipo de dados \`String\`:
+
+\`\`\`
+String nome = "Inês";
+int idade = 14;
+double altura = 1.62;
+System.out.println(nome + " tem " + idade + " anos.");
+System.out.println("Altura: " + altura + " m");
+\`\`\`
+
+- O texto fica entre aspas.
+- \`String\` escreve-se com maiúscula, \`int\`, \`double\` e \`boolean\` com minúscula. O Java distingue-os.
+- Com \`+\` juntas texto e números.
+
+Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves.
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java

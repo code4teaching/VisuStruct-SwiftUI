@@ -143,26 +143,40 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
-Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Dein Einkauf aus der Übung sieht in Java so aus:
+Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
 ```
 int anzahl = 3;
 double preis = 2.5;
 double gesamtPreis = anzahl * preis;
-String artikel = "Hefte";
-System.out.println(anzahl + " " + artikel + " kosten " + gesamtPreis + " Euro.");
+System.out.println("Gesamt: " + gesamtPreis + " Euro");
 ```
 
-- Eine Variable legst du in Java genauso an wie im Kasten: erst der Datentyp, dann der Name, dann der Wert.
-- Am Ende jeder Anweisung steht ein **Semikolon** `;`.
-- `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet Groß- und Kleinbuchstaben.
+- Erst der Datentyp, dann der Name, dann der Wert, genau wie im Kasten.
+- Jede Anweisung endet mit einem **Semikolon** `;`.
 - Eine Ausgabe heißt in Java `System.out.println(…)`.
-
-Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
 
 ::: angeberwissen
 Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James Gosling. Sein Team bei Sun Microsystems wollte ab 1991 kleine Geräte wie Fernseh-Boxen programmieren. Den Namen Oak hatte aber schon eine andere Firma. Also wurde es 1995 **Java**, wie der Kaffee von der Insel Java. Deshalb ist das Logo eine dampfende Tasse.
 :::
+
+## Text in Java
+
+Variablen speichern nicht nur Zahlen. Für Text gibt es den Datentyp `String`:
+
+```
+String name = "Mia";
+int alter = 14;
+double groesse = 1.62;
+System.out.println(name + " ist " + alter + " Jahre alt.");
+System.out.println("Größe: " + groesse + " m");
+```
+
+- Text steht in Anführungszeichen.
+- `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet das.
+- Mit `+` hängst du Text und Zahlen aneinander.
+
+Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst.
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
