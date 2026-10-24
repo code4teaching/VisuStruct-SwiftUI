@@ -143,14 +143,14 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
-Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Die Variablen von oben sehen in Java so aus:
+Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Dein Einkauf aus der Übung sieht in Java so aus:
 
 ```
-int alter = 14;
-double groesse = 1.62;
-String name = "Mia";
-System.out.println(name + " ist " + alter + " Jahre alt.");
-System.out.println("Größe: " + groesse + " m");
+int anzahl = 3;
+double preis = 2.5;
+double gesamtPreis = anzahl * preis;
+String artikel = "Hefte";
+System.out.println(anzahl + " " + artikel + " kosten " + gesamtPreis + " Euro.");
 ```
 
 - Eine Variable legst du in Java genauso an wie im Kasten: erst der Datentyp, dann der Name, dann der Wert.

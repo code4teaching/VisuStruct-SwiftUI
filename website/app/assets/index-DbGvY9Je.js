@@ -988,14 +988,14 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
-Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Die Variablen von oben sehen in Java so aus:
+Ein Struktogramm ist ein Plan. Damit ein Computer ihn ausführt, schreibst du ihn in einer Programmiersprache auf, zum Beispiel in **Java**. Dein Einkauf aus der Übung sieht in Java so aus:
 
 \`\`\`
-int alter = 14;
-double groesse = 1.62;
-String name = "Mia";
-System.out.println(name + " ist " + alter + " Jahre alt.");
-System.out.println("Größe: " + groesse + " m");
+int anzahl = 3;
+double preis = 2.5;
+double gesamtPreis = anzahl * preis;
+String artikel = "Hefte";
+System.out.println(anzahl + " " + artikel + " kosten " + gesamtPreis + " Euro.");
 \`\`\`
 
 - Eine Variable legst du in Java genauso an wie im Kasten: erst der Datentyp, dann der Name, dann der Wert.
@@ -12044,14 +12044,14 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Now in Java
 
-A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. The variables from above look like this in Java:
+A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. Your shopping from the exercise looks like this in Java:
 
 \`\`\`
-int age = 14;
-double height = 1.62;
-String name = "Mia";
-System.out.println(name + " is " + age + " years old.");
-System.out.println("Height: " + height + " m");
+int count = 3;
+double price = 2.5;
+double totalPrice = count * price;
+String item = "exercise books";
+System.out.println(count + " " + item + " cost " + totalPrice + " euros.");
 \`\`\`
 
 - You create a variable in Java just like in the box: first the data type, then the name, then the value.
@@ -23096,14 +23096,14 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
-Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As variáveis de cima ficam assim em Java:
+Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As tuas compras do exercício ficam assim em Java:
 
 \`\`\`
-int idade = 14;
-double altura = 1.62;
-String nome = "Inês";
-System.out.println(nome + " tem " + idade + " anos.");
-System.out.println("Altura: " + altura + " m");
+int quantidade = 3;
+double preco = 2.5;
+double precoTotal = quantidade * preco;
+String artigo = "cadernos";
+System.out.println(quantidade + " " + artigo + " custam " + precoTotal + " euros.");
 \`\`\`
 
 - Em Java crias uma variável tal como no bloco: primeiro o tipo de dados, depois o nome, depois o valor.

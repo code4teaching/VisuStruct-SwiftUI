@@ -143,14 +143,14 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
-Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As variáveis de cima ficam assim em Java:
+Um estrutograma é um plano. Para um computador o executar, escreves esse plano numa linguagem de programação, por exemplo em **Java**. As tuas compras do exercício ficam assim em Java:
 
 ```
-int idade = 14;
-double altura = 1.62;
-String nome = "Inês";
-System.out.println(nome + " tem " + idade + " anos.");
-System.out.println("Altura: " + altura + " m");
+int quantidade = 3;
+double preco = 2.5;
+double precoTotal = quantidade * preco;
+String artigo = "cadernos";
+System.out.println(quantidade + " " + artigo + " custam " + precoTotal + " euros.");
 ```
 
 - Em Java crias uma variável tal como no bloco: primeiro o tipo de dados, depois o nome, depois o valor.

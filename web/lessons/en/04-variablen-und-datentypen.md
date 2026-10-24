@@ -143,14 +143,14 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Now in Java
 
-A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. The variables from above look like this in Java:
+A structure chart is a plan. For a computer to carry it out, you write it down in a programming language, for example in **Java**. Your shopping from the exercise looks like this in Java:
 
 ```
-int age = 14;
-double height = 1.62;
-String name = "Mia";
-System.out.println(name + " is " + age + " years old.");
-System.out.println("Height: " + height + " m");
+int count = 3;
+double price = 2.5;
+double totalPrice = count * price;
+String item = "exercise books";
+System.out.println(count + " " + item + " cost " + totalPrice + " euros.");
 ```
 
 - You create a variable in Java just like in the box: first the data type, then the name, then the value.
