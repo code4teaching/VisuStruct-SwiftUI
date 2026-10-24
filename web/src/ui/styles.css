@@ -3210,3 +3210,25 @@ button.danger-text:not(:disabled) {
 .learn-mark.gruen {
   background: #dcfce7;
 }
+
+/* Hinweis statt leerer Seite, wenn die App nicht starten konnte (main.ts) */
+.startup-error {
+  max-width: 520px;
+  margin: 15vh auto 0;
+  padding: 0 16px;
+  font: 16px/1.5 system-ui, -apple-system, sans-serif;
+  color: var(--text);
+}
+.startup-error h1 {
+  font-size: 22px;
+}
+.startup-error button {
+  font-size: 16px;
+  padding: 8px 16px;
+}
+.startup-error pre {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: pre-wrap;
+}
