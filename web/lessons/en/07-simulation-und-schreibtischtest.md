@@ -8,7 +8,7 @@ kurz: Run a structure chart step by step, work it out by hand and find mistakes.
 
 Before branches and loops come along, you get to know your most important tool. From now on you can use the simulation to check every exercise yourself.
 
-With the [▶︎ Simulation](#zeige-simulation) button on the right of the tools, VisuStruct runs your structure chart. While the simulation is running, you cannot edit the diagram. With the pencil icon in the same place you go back to editing.
+With the [▶︎ Start simulation](#zeige-simulation) button on the right of the tools, VisuStruct runs your structure chart. While the simulation is running, you cannot edit the diagram. The same button is then called **■ End simulation**; it takes you back to editing.
 
 On the right, the **Controls** appear:
 

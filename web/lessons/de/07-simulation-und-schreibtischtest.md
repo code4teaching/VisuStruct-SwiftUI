@@ -8,7 +8,7 @@ kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und
 
 Bevor es mit Verzweigungen und Schleifen weitergeht, lernst du dein wichtigstes Werkzeug kennen. Mit der Simulation prüfst du ab jetzt jede Übung selbst.
 
-Mit dem Knopf [▶︎ Simulation](#zeige-simulation) rechts bei den Werkzeugen führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Mit dem Stift-Symbol an derselben Stelle kehrst du zum Bearbeiten zurück.
+Mit dem Knopf [▶︎ Simulation starten](#zeige-simulation) rechts bei den Werkzeugen führt VisuStruct dein Struktogramm aus. Solange die Simulation läuft, kannst du das Diagramm nicht bearbeiten. Derselbe Knopf heißt dann **■ Simulation beenden**, damit kehrst du zum Bearbeiten zurück.
 
 Rechts erscheint die **Steuerung**:
 

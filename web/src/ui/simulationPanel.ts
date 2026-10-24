@@ -210,7 +210,7 @@ export class SimulationPanel {
         </label>
       </section>
       <p class="sim-notice" role="status"></p>
-      <button class="sim-edit primary" title="${esc(t('web_simulation_end_title'))}" hidden>✎ ${esc(t('action_diagram'))}</button>
+      <button class="sim-edit primary" title="${esc(t('web_simulation_end_title'))}" hidden>${esc(t('web_simulation_end'))}</button>
       <section class="sim-input"><h2>${esc(t('simulation_input'))}</h2><div></div></section>
       <section><h2>${esc(t('simulation_trace'))}</h2><div class="sim-trace mono" dir="ltr"></div></section>
       <section><h2>${esc(t('simulation_variables'))}</h2><div class="sim-vars" dir="ltr"></div></section>
