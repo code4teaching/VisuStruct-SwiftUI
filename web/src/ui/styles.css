@@ -668,7 +668,8 @@ button.danger {
 button.sim-toggle {
   font-weight: 600;
 }
-button.sim-toggle[aria-pressed='false'] {
+/* Starten und Beenden sehen gleich aus, nur Symbol und Text wechseln. */
+button.sim-toggle {
   background: var(--accent);
   border-color: var(--accent);
   color: white;
