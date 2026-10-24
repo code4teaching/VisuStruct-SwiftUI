@@ -8,7 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
-- **Web, lesson 2 (de/en/pt):** the Programming area is now introduced as used from lesson 4 on (it said lesson 20). Step 2 now explains that a simple click on an element inserts it without dragging, and that the keyboard way is Tab then Enter.
+- **Web, lesson 2 (de/en/pt):** the Programming area is now introduced as used from lesson 4 on (it said lesson 20). Step 2 now explains that a simple click on an element inserts it without dragging, and that the keyboard way is Tab then Enter. Lessons 2 and 3 also name the Mac shortcuts (⌘Z, ⌘⇧Z, ⌘S, ⌘O, ⌘P).
 - **Web, learning area:** a lesson step that explains areas of the structure chart editor (e.g. lesson 2) opens that editor if it was collapsed. Steps that point to Run, the console or single step open the Programming area. Lesson 2 (de/en/pt) now says that there are two editors: the structure chart editor and the Programming area.
 - **Web, lesson 1 (de/en/pt):** the three building blocks have their own colours (statements light blue, branch light orange, loop light green) in the diagrams of steps 3–7, and the words in the text are marked in the same colours. Step 7 now really shows all three forms: the structure chart was missing next to the flowchart and the pseudocode. The links “More Angeberwissen” in lessons 1, 2, 14 and 21 are gone.
 - **Web:** structure charts show the background colour stored in a file (`bgcolor`), as the Java version does. Lesson texts can mark a word with `[word]{.blau}`, `{.orange}` or `{.gruen}`.

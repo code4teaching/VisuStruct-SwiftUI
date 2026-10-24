@@ -59,7 +59,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 - **Mover:** Arrasta um bloco existente com o rato para um novo sítio.
 - **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado.
 - **Eliminar:** Seleciona um bloco e prime Del.
-- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo.
+- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z).
 
 ## Exercício: Olá Mundo
 

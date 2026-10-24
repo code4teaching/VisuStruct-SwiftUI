@@ -14,8 +14,8 @@ When Nassi was a student, there were no files to save. There were punched cards.
 
 ## Save and open
 
-- **[Save](#zeige-speichern)** (Ctrl+S): The diagram is saved as a file. If the **Files** column is set up (see below), it goes there. Otherwise the browser asks where to put it or puts the file in your downloads folder.
-- **[Open](#zeige-oeffnen)** (Ctrl+O): Load a saved file again. You can also simply drag a file into the browser window.
+- **[Save](#zeige-speichern)** (Ctrl+S, on a Mac ⌘S): The diagram is saved as a file. If the **Files** column is set up (see below), it goes there. Otherwise the browser asks where to put it or puts the file in your downloads folder.
+- **[Open](#zeige-oeffnen)** (Ctrl+O, on a Mac ⌘O): Load a saved file again. You can also simply drag a file into the browser window.
 
 > The browser remembers your exercises automatically. But that only works in this browser on this device. So always save important work as a file as well.
 
@@ -46,7 +46,7 @@ With [Export](#zeige-exportieren) in the tools (icon with an arrow pointing up) 
 - **Image (PNG):** to put into a worksheet or a presentation
 - **Vector graphic (SVG):** stays sharp at any size
 - **PDF (A4):** one page to hand in or print
-- **Print** (Ctrl+P): straight to the printer
+- **Print** (Ctrl+P, on a Mac ⌘P): straight to the printer
 
 Under the [gear](#zeige-textgroesse) at the top right, Text size sets the font size. Larger text also shows when you export an image.
 

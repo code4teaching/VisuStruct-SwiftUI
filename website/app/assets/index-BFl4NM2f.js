@@ -597,7 +597,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 - **Verschieben:** Einen vorhandenen Kasten mit der Maus an eine neue Stelle ziehen.
 - **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten.
 - **Löschen:** Kasten auswählen und Entf drücken.
-- **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her.
+- **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z).
 
 ## Übung: Hallo Welt
 
@@ -725,8 +725,8 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 
 ## Speichern und Öffnen
 
-- **[Speichern](#zeige-speichern)** (Strg+S): Das Diagramm wird als Datei gespeichert. Ist die Spalte **Dateien** eingerichtet (siehe unten), landet es dort. Sonst fragt der Browser nach dem Ort oder legt die Datei in den Download-Ordner.
-- **[Öffnen](#zeige-oeffnen)** (Strg+O): Eine gespeicherte Datei wieder laden. Du kannst eine Datei auch einfach ins Browserfenster ziehen.
+- **[Speichern](#zeige-speichern)** (Strg+S, am Mac ⌘S): Das Diagramm wird als Datei gespeichert. Ist die Spalte **Dateien** eingerichtet (siehe unten), landet es dort. Sonst fragt der Browser nach dem Ort oder legt die Datei in den Download-Ordner.
+- **[Öffnen](#zeige-oeffnen)** (Strg+O, am Mac ⌘O): Eine gespeicherte Datei wieder laden. Du kannst eine Datei auch einfach ins Browserfenster ziehen.
 
 > Deine Übungen merkt sich der Browser automatisch. Das klappt aber nur in diesem Browser auf diesem Gerät. Wichtige Arbeiten solltest du deshalb immer zusätzlich als Datei speichern.
 
@@ -757,7 +757,7 @@ Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struk
 - **Bild (PNG):** zum Einfügen in ein Arbeitsblatt oder eine Präsentation
 - **Vektorgrafik (SVG):** bleibt in jeder Größe scharf
 - **PDF (A4):** eine Seite zum Abgeben oder Ausdrucken
-- **Drucken** (Strg+P): direkt auf den Drucker
+- **Drucken** (Strg+P, am Mac ⌘P): direkt auf den Drucker
 
 Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
 
@@ -11621,7 +11621,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 - **Move:** Drag an existing box to a new place with the mouse.
 - **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box.
 - **Delete:** Select a box and press Del.
-- **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back.
+- **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z).
 
 ## Exercise: Hello World
 
@@ -11749,8 +11749,8 @@ When Nassi was a student, there were no files to save. There were punched cards.
 
 ## Save and open
 
-- **[Save](#zeige-speichern)** (Ctrl+S): The diagram is saved as a file. If the **Files** column is set up (see below), it goes there. Otherwise the browser asks where to put it or puts the file in your downloads folder.
-- **[Open](#zeige-oeffnen)** (Ctrl+O): Load a saved file again. You can also simply drag a file into the browser window.
+- **[Save](#zeige-speichern)** (Ctrl+S, on a Mac ⌘S): The diagram is saved as a file. If the **Files** column is set up (see below), it goes there. Otherwise the browser asks where to put it or puts the file in your downloads folder.
+- **[Open](#zeige-oeffnen)** (Ctrl+O, on a Mac ⌘O): Load a saved file again. You can also simply drag a file into the browser window.
 
 > The browser remembers your exercises automatically. But that only works in this browser on this device. So always save important work as a file as well.
 
@@ -11781,7 +11781,7 @@ With [Export](#zeige-exportieren) in the tools (icon with an arrow pointing up) 
 - **Image (PNG):** to put into a worksheet or a presentation
 - **Vector graphic (SVG):** stays sharp at any size
 - **PDF (A4):** one page to hand in or print
-- **Print** (Ctrl+P): straight to the printer
+- **Print** (Ctrl+P, on a Mac ⌘P): straight to the printer
 
 Under the [gear](#zeige-textgroesse) at the top right, Text size sets the font size. Larger text also shows when you export an image.
 
@@ -22641,7 +22641,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 - **Mover:** Arrasta um bloco existente com o rato para um novo sítio.
 - **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado.
 - **Eliminar:** Seleciona um bloco e prime Del.
-- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo.
+- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z).
 
 ## Exercício: Olá Mundo
 
@@ -22769,8 +22769,8 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 
 ## Guardar e abrir
 
-- **[Guardar](#zeige-speichern)** (Ctrl+S): O diagrama é guardado como ficheiro. Se a coluna **Ficheiros** estiver configurada (ver abaixo), fica lá. Caso contrário, o navegador pergunta onde o guardar ou põe o ficheiro na pasta de transferências.
-- **[Abrir](#zeige-oeffnen)** (Ctrl+O): Voltar a carregar um ficheiro guardado. Também podes simplesmente arrastar um ficheiro para a janela do navegador.
+- **[Guardar](#zeige-speichern)** (Ctrl+S, no Mac ⌘S): O diagrama é guardado como ficheiro. Se a coluna **Ficheiros** estiver configurada (ver abaixo), fica lá. Caso contrário, o navegador pergunta onde o guardar ou põe o ficheiro na pasta de transferências.
+- **[Abrir](#zeige-oeffnen)** (Ctrl+O, no Mac ⌘O): Voltar a carregar um ficheiro guardado. Também podes simplesmente arrastar um ficheiro para a janela do navegador.
 
 > O navegador memoriza os teus exercícios automaticamente. Mas isso só funciona neste navegador, neste dispositivo. Por isso, guarda sempre também os trabalhos importantes como ficheiro.
 
@@ -22801,7 +22801,7 @@ Com [Exportar](#zeige-exportieren) nas ferramentas (ícone com uma seta para cim
 - **Imagem (PNG):** para pôr numa ficha de trabalho ou numa apresentação
 - **Gráfico vetorial (SVG):** fica nítido em qualquer tamanho
 - **PDF (A4):** uma página para entregar ou imprimir
-- **Imprimir** (Ctrl+P): diretamente para a impressora
+- **Imprimir** (Ctrl+P, no Mac ⌘P): diretamente para a impressora
 
 Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
 
