@@ -1,4 +1,4 @@
-import type { MBotAction, MBotColor } from './mbot'
+import { MBOT_LED_COLORS, MBOT_LED_COUNT, type MBotAction, type MBotColor } from './mbot'
 
 /**
  * Die Welt des VisuBot-Simulators von oben: Boden in Zentimetern, x nach rechts, y nach vorn (weg vom Betrachter).
@@ -130,13 +130,19 @@ export const emptyWorld: RobotWorldSetup = { width: 200, depth: 200, start: { x:
 const rad = (deg: number) => (deg * Math.PI) / 180
 const forwardOf = (heading: number): Point => ({ x: Math.sin(rad(heading)), y: Math.cos(rad(heading)) })
 
+export type RGB = [number, number, number]
+const ledsOff = (): (RGB | undefined)[] => Array.from({ length: MBOT_LED_COUNT }, () => undefined)
+/** Farbe einer LED; (0, 0, 0) ist aus. */
+const lit = ([r, g, b]: number[]): RGB | undefined => (r > 0 || g > 0 || b > 0 ? [r, g, b] : undefined)
+
 export class RobotWorld {
   pose: Pose
   /** Gefahrene Strecke (Stift unten), beginnt an der Startposition. */
   trail: Point[]
   /** Wie oft der Roboter an eine Wand oder den Rand gestoßen ist. */
   bumps = 0
-  led: [number, number, number] | undefined
+  /** Farben der fünf LEDs (Nummer 1 bis 5); `undefined` = aus. */
+  leds: (RGB | undefined)[] = ledsOff()
   /** Text auf dem Bildschirm des CyberPi (`mbot.showText`). */
   screen: string | undefined
   /** Leistung der Räder in Prozent (`mbot.drive`); der Roboter fährt damit in `tick` weiter. */
@@ -156,7 +162,7 @@ export class RobotWorld {
     this.pose = { ...this.setup.start }
     this.trail = [{ x: this.pose.x, y: this.pose.y }]
     this.bumps = 0
-    this.led = undefined
+    this.leds = ledsOff()
     this.screen = undefined
     this.wheels = [0, 0]
     this.time = 0
@@ -201,8 +207,9 @@ export class RobotWorld {
       case 'drive': this.wheels = [clampPower(action.args[0]), clampPower(action.args[1])]; return
       case 'pause': return this.tick(action.args[0])
       case 'resetTimer': this.timerStart = this.time; return
-      case 'setLed': this.led = [action.args[0], action.args[1], action.args[2]]; return
-      case 'ledOff': this.led = undefined; return
+      case 'setLed': this.leds = ledsOff().map(() => lit(action.args)); return
+      case 'ledOff': this.leds = ledsOff(); return
+      case 'ledColor': this.leds[action.args[0]] = lit(MBOT_LED_COLORS[action.text ?? ''] ?? [0, 0, 0]); return
       case 'showText': this.screen = action.text; return
     }
   }

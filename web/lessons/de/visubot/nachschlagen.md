@@ -38,6 +38,7 @@ mbot.stop()             anhalten
 ```
 mbot.setLed(255, 0, 0)      LEDs rot (Rot, Grün, Blau je 0 bis 255)
 mbot.ledOff()               LEDs aus
+mbot.led(0).setColor("grün")  LED 0 grün (LEDs 0 bis 4; "aus" schaltet aus)
 mbot.playTone(440, 300)     Ton mit 440 Hz, 300 ms lang
 mbot.showText("Hallo")      Text auf dem Bildschirm
 mbot.showText("Abstand: " + mbot.getDistance())

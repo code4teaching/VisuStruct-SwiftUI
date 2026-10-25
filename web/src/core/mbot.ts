@@ -1,3 +1,5 @@
+import { showLabel } from './mbotLink'
+
 /**
  * mBot2 (Makeblock, mit CyberPi) im Struktogramm. Befehle stehen als Anweisung `mbot.forward(10)`,
  * Sensoren als Ausdruck `mbot.getDistance()`. Die Simulation merkt sich jeden Befehl als `MBotAction`;
@@ -23,10 +25,30 @@ interface CommandSpec {
   defaults?: number[]
   python?: (a: number[], text: string) => string
   label: (a: number[], text: string) => string
-  /** Das (einzige) Argument ist ein Text, z. B. `mbot.showText("Hallo")`. */
+  /** Das letzte Argument ist ein Text, z. B. `mbot.showText("Hallo")`; `args` zählt nur die Zahlen davor. */
   text?: boolean
   /** Erlaubte Texte (sonst ist der Befehl ungültig). */
   choices?: readonly string[]
+  /** Sind die Zahlen erlaubt? (z. B. LED-Nummer 1–5) */
+  valid?: (a: number[]) => boolean
+}
+
+/** Der CyberPi hat fünf LEDs; in Java zählen sie wie Arrays ab 0 (`mbot.led(0)` bis `mbot.led(4)`), die Firmware ab 1. */
+export const MBOT_LED_COUNT = 5
+const ledNumber = (nr: number) => Number.isInteger(nr) && nr >= 0 && nr < MBOT_LED_COUNT
+
+/** Farben für `mbot.led(i).setColor("grün")`, deutsch und englisch; „aus“ schaltet die LED aus. */
+export const MBOT_LED_COLORS: Record<string, [number, number, number]> = {
+  rot: [255, 0, 0], red: [255, 0, 0],
+  orange: [255, 100, 0],
+  gelb: [255, 200, 0], yellow: [255, 200, 0],
+  grün: [0, 255, 0], green: [0, 255, 0],
+  türkis: [0, 200, 200], cyan: [0, 200, 200],
+  blau: [0, 0, 255], blue: [0, 0, 255],
+  lila: [160, 0, 255], purple: [160, 0, 255],
+  pink: [255, 0, 120],
+  weiß: [255, 255, 255], white: [255, 255, 255],
+  aus: [0, 0, 0], off: [0, 0, 0],
 }
 
 /**
@@ -54,11 +76,20 @@ export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   drive: { args: 2, python: ([l, r]) => `mbot2.drive_power(${n(l)}, ${n(-r)})`, label: ([l, r]) => `Räder links ${n(l)} %, rechts ${n(r)} %` },
   setLed: { args: 3, python: ([r, g, b]) => `cyberpi.led.on(${n(r)}, ${n(g)}, ${n(b)})`, label: ([r, g, b]) => `LEDs (${n(r)}, ${n(g)}, ${n(b)})` },
   ledOff: { args: 0, python: () => 'cyberpi.led.off()', label: () => 'LEDs aus' },
+  /** `mbot.led(i).setColor("grün")`: eine LED (0–4); aus ist `on(0, 0, 0)`. */
+  ledColor: {
+    args: 1,
+    text: true,
+    choices: Object.keys(MBOT_LED_COLORS),
+    valid: ([nr]) => ledNumber(nr),
+    python: ([nr], color) => `cyberpi.led.on(${MBOT_LED_COLORS[color].join(', ')}, id=${nr + 1})`,
+    label: ([nr], color) => `LED ${nr}: ${color}`,
+  },
   playTone: { args: 2, python: ([hz, ms]) => `cyberpi.audio.play_tone(${n(hz)}, ${n(ms / 1000)})`, label: ([hz, ms]) => `Ton ${n(hz)} Hz, ${n(ms)} ms` },
   pause: { args: 1, label: ([ms]) => `${n(ms)} ms warten` },
   resetTimer: { args: 0, python: () => 'cyberpi.timer.reset()', label: () => 'Stoppuhr auf 0' },
   emotion: { args: 0, text: true, choices: MBOT_EMOTIONS, python: (_, name) => `cyberpi.emotion.${name}()`, label: (_, name) => `Gefühl: ${name}` },
-  showText: { args: 0, text: true, python: (_, text) => `cyberpi.display.show_label(${JSON.stringify(text)}, 24, 'center')`, label: (_, text) => `Bildschirm: ${text}` },
+  showText: { args: 0, text: true, python: (_, text) => showLabel(text), label: (_, text) => `Bildschirm: ${text}` },
 }
 
 interface SensorSpec {
@@ -116,6 +147,9 @@ export function usedMBotSensors(text: string): string[] {
 
 /** `mbot.forward(10)` → Name und Argumenttexte; `undefined`, wenn es kein mBot-Befehl ist. */
 export function parseMBotCommand(text: string): { method: string; args: string[] } | undefined {
+  // `mbot.led(i).setColor("grün")` wird zu `ledColor(i, "grün")`
+  const led = /^mbot\s*\.\s*led\s*\(([^()]*(?:\([^()]*\)[^()]*)*)\)\s*\.\s*setColor\s*\(([\s\S]*)\)\s*;?$/u.exec(text.trim())
+  if (led) return { method: 'ledColor', args: [led[1].trim(), led[2].trim()] }
   const m = /^mbot\s*\.\s*([A-Za-z_]\w*)\s*\(([\s\S]*)\)\s*;?$/u.exec(text.trim())
   if (!m) return undefined
   const inner = m[2].trim()
@@ -126,9 +160,9 @@ export function parseMBotCommand(text: string): { method: string; args: string[]
 export function mbotArguments(method: string, args: number[]): number[] | undefined {
   const spec = MBOT_COMMANDS[method]
   if (!spec) return undefined
-  if (args.length === spec.args) return args
-  if (args.length === 0 && spec.defaults) return spec.defaults
-  return undefined
+  const values = args.length === 0 && spec.defaults ? spec.defaults : args
+  if (values.length !== spec.args) return undefined
+  return !spec.valid || spec.valid(values) ? values : undefined
 }
 
 export function makeMBotAction(method: string, args: number[], text = ''): MBotAction {
@@ -175,7 +209,7 @@ export function parseActionSpec(spec: string): string[] {
       const spec_ = MBOT_COMMANDS[step[1]]
       if (!spec_) throw new Error(`Unbekannter Befehl in „${spec}“: ${step[1]}`)
       const nums = step[2].trim() === '' ? [] : step[2].trim().split(/\s+/).map(Number)
-      const args = spec_.text ? [] : mbotArguments(step[1], nums)
+      const args = mbotArguments(step[1], nums)
       if (!args) throw new Error(`Falsche Anzahl Zahlen in „${spec}“: ${step[1]}`)
       items.push(actionSignature([{ method: step[1], args, text: spec_.text ? JSON.parse(step[3] ?? '""') : undefined }])[0])
     }

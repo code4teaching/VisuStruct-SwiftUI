@@ -179,6 +179,7 @@ const statics: Record<string, Row[]> = {
     ['pause', 'ms', 'void', 'Millisekunden warten', 'Wait milliseconds', 'Esperar milissegundos'],
     ['setLed', 'rot, gruen, blau', 'void', 'LEDs in einer Farbe (je 0–255)', 'LEDs in a colour (0–255 each)', 'LEDs numa cor (0–255 cada)'],
     ['ledOff', '', 'void', 'LEDs aus', 'LEDs off', 'Desligar LEDs'],
+    ['led', 'nr', 'LED', 'Eine LED (0–4), dann .setColor("grün") oder .setColor("aus")', 'One LED (0–4), then .setColor("green") or .setColor("off")', 'Um LED (0–4), depois .setColor("green") ou .setColor("off")'],
     ['showText', '"Hallo"', 'void', 'Text auf dem Bildschirm zeigen', 'Show text on the screen', 'Mostrar texto no ecrã'],
     ['emotion', '"smile"', 'void', 'Gefühl zeigen: LEDs, Ton, Bewegung (smile, hello, sad …)', 'Show a feeling: LEDs, sound, motion (smile, hello, sad …)', 'Mostrar um sentimento: LEDs, som, movimento (smile, hello, sad …)'],
     ['playTone', 'hz, ms', 'void', 'Ton spielen, z. B. playTone(440, 500)', 'Play a tone, e.g. playTone(440, 500)', 'Tocar um som, p. ex. playTone(440, 500)'],

@@ -15,7 +15,7 @@ Now the **sensors** join in. Among the [elements](#zeige-elemente) there is a gr
 | Distance | `mbot.getDistance()` | distance to the next wall in cm, e.g. `38` |
 | Line | `mbot.getLine()` | `0` if everything under the line sensor is bright, otherwise a number greater than 0 |
 
-The mBot2 has even more sensors: colours, buttons and joystick, light, loudness and tilt. You get to know each of them in lessons 5 to 11, the motors in lesson 15 and the stopwatch and battery in lesson 16.
+The mBot2 has even more sensors: colours, buttons and joystick, light, loudness and tilt. You get to know each of them in lessons 5 to 11, the motors in lesson 16 and the stopwatch and battery in lesson 17.
 
 A sensor is **not a box of its own**. It gives you a number, and with that number you build a **condition**:
 

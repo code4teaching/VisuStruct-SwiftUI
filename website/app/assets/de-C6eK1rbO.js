@@ -312,6 +312,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visubot_sensor_distance" = "Abstand";
 "web_visubot_sensor_line" = "Linie";
 "web_visubot_el_led_off" = "LEDs aus";
+"web_visubot_el_led_color" = "LED-Farbe setzen";
 "web_visubot_el_wait" = "kurz warten";
 "web_visubot_el_emotion" = "Gefühl zeigen";
 "web_visubot_el_text" = "Text anzeigen";

@@ -15,7 +15,7 @@ Jetzt kommen die **Sensoren** dazu. Unter den [Elementen](#zeige-elemente) gibt 
 | Abstand | `mbot.getDistance()` | Abstand bis zur nächsten Wand in cm, z. B. `38` |
 | Linie | `mbot.getLine()` | `0`, wenn unter dem Liniensensor alles hell ist, sonst eine Zahl größer als 0 |
 
-Der mBot2 hat noch mehr Sensoren: Farben, Tasten und Joystick, Licht, Lautstärke und Neigung. Jeden lernst du in den Lektionen 5 bis 11 einzeln kennen, die Motoren in Lektion 15 und Stoppuhr und Akku in Lektion 16.
+Der mBot2 hat noch mehr Sensoren: Farben, Tasten und Joystick, Licht, Lautstärke und Neigung. Jeden lernst du in den Lektionen 5 bis 11 einzeln kennen, die Motoren in Lektion 16 und Stoppuhr und Akku in Lektion 17.
 
 Ein Sensor ist **kein eigener Kasten**. Er liefert eine Zahl, und mit der baust du eine **Bedingung**:
 

@@ -65,7 +65,7 @@ describe('mBot2-Sensoren', () => {
   it('zeigt Text mit Zahlen und Sensorwerten auf dem Bildschirm', () => {
     const state = run(main('    int i = 3;\n    mbot.showText("Abstand: " + mbot.getDistance());\n    mbot.showText(i);'), { getDistance: 42 })
     expect(state.robotActions.map((a) => a.text)).toEqual(['Abstand: 42', '3'])
-    expect(state.robotActions[0].python).toBe(`cyberpi.display.show_label("Abstand: 42", 24, 'center')`)
+    expect(state.robotActions[0].python).toBe(`exec("cyberpi.display.clear(); cyberpi.display.show_label(\\"Abstand: 42\\", 24, 'center')")`)
     expect(actionSignature(state.robotActions)).toEqual(['showText "Abstand: 42"', 'showText "3"'])
   })
 
@@ -76,6 +76,25 @@ describe('mBot2-Sensoren', () => {
     const engine = new SimulationEngine(docOf(main('    mbot.emotion("tanzen");')))
     for (let i = 0; i < 10 && engine.canStep; i++) engine.step()
     expect(engine.state.isHalted).toBe(true)
+  })
+
+  it('steuert einzelne LEDs 0–4 mit Farbnamen und lehnt andere ab', () => {
+    const state = run(main('    for (int i = 0; i < 5; i++) {\n      mbot.led(i).setColor("rot");\n    }\n    mbot.led(2).setColor("aus");\n    mbot.led(4).setColor("blue");'))
+    expect(state.robotActions[0].python).toBe('cyberpi.led.on(255, 0, 0, id=1)')
+    expect(state.robotActions[5].python).toBe('cyberpi.led.on(0, 0, 0, id=3)')
+    expect(actionSignature(state.robotActions.slice(5))).toEqual(['ledColor 2 "aus"', 'ledColor 4 "blue"'])
+    const world = new RobotWorld()
+    for (const a of state.robotActions) world.apply(a)
+    expect(world.leds).toEqual([[255, 0, 0], [255, 0, 0], undefined, [255, 0, 0], [0, 0, 255]])
+    world.apply({ method: 'ledOff', args: [], label: '' })
+    expect(world.leds.every((l) => l === undefined)).toBe(true)
+    expect(parseActionSpec('ledColor 1 "grün", pause 100, ledColor 1 "aus"')).toEqual(['ledColor 1 "grün"', 'pause 100', 'ledColor 1 "aus"'])
+    expect(() => parseActionSpec('ledColor 5 "rot"')).toThrow()
+    for (const wrong of ['mbot.led(5).setColor("rot");', 'mbot.led(0).setColor("kariert");']) {
+      const engine = new SimulationEngine(docOf(main(`    ${wrong}`)))
+      for (let i = 0; i < 10 && engine.canStep; i++) engine.step()
+      expect(engine.state.isHalted, wrong).toBe(true)
+    }
   })
 
   it('liest erwartete Befehle mit Wiederholung und Text', () => {

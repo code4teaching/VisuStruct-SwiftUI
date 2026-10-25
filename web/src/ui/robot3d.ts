@@ -314,9 +314,18 @@ export class Robot3D {
 
   private shownScreen?: string
 
-  /** Farbe der LEDs auf dem CyberPi; `undefined` = aus. */
+  /** Alle LEDs auf dem CyberPi in einer Farbe; `undefined` = aus. */
   setLed(rgb: [number, number, number] | undefined) {
-    for (const m of this.model.leds) {
+    this.setLeds(this.model.leds.map(() => rgb))
+  }
+
+  /**
+   * Jede LED einzeln (Nummer 1 bis 5). LED 1 sitzt von hinten gesehen links, auf der Seite des Joysticks
+   * (Modell: kleinstes x).
+   */
+  setLeds(leds: readonly ([number, number, number] | undefined)[]) {
+    for (const [i, m] of this.model.leds.entries()) {
+      const rgb = leds[i]
       if (rgb) {
         m.emissive.setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255)
         m.color.setRGB(rgb[0] / 255, rgb[1] / 255, rgb[2] / 255)

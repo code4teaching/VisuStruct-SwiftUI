@@ -28,6 +28,10 @@
   .row { display: flex; gap: 6px; } .row input { flex: 1; font: 14px ui-monospace, monospace; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
   #log { font: 12.5px/1.4 ui-monospace, monospace; white-space: pre-wrap; word-break: break-all; max-height: 360px; overflow: auto; background: var(--bg); border-radius: 7px; padding: 8px; margin: 0; }
   .out { color: var(--blue); } .in { color: var(--green); } .txt { color: var(--muted); } .err { color: var(--red); }
+  section.jetzt { border: 3px solid #e0a800; background: #fff6d6; color: #1d232b; }
+  section.jetzt h2 { font-size: 17px; }
+  section.jetzt ol { margin: 0; padding-left: 22px; } section.jetzt li { margin-bottom: 6px; }
+  section.jetzt button:not(:disabled) { background: #ffd23f; border-color: #e0a800; color: #000; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -39,6 +43,19 @@
     <button id="connect" class="primary">Verbinden</button>
     <button id="disconnect" disabled>Trennen</button>
     <span id="status">nicht verbunden</span>
+  </section>
+
+  <section class="jetzt">
+    <h2>👉 Jetzt testen (Runde 21: einzelne LEDs)</h2>
+    <ol>
+      <li>Oben „Verbinden“</li>
+      <li><button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button></li>
+      <li><button data-py="vbt(&quot;cyberpi.led.off(); cyberpi.led.on(255, 0, 0, 1)&quot;)" data-mode="1" disabled>Test W: nur LED 1 rot</button> Welche LED leuchtet rot, ganz links oder ganz rechts (von hinten gesehen)?</li>
+      <li><button data-py="vbt(&quot;cyberpi.led.on(0, 255, 0, id=3)&quot;)" data-mode="1" disabled>Test X: LED 3 grün dazu</button> Leuchtet jetzt zusätzlich die mittlere grün?</li>
+      <li><button data-py="vbt(&quot;cyberpi.led.on(0, 0, 255, id=5)&quot;)" data-mode="1" disabled>Test Y: LED 5 blau dazu</button> Leuchtet die am anderen Ende blau?</li>
+      <li><button data-py="vbt(&quot;import time; [(cyberpi.led.off(), cyberpi.led.on(255, 0, 0, id=i), time.sleep(0.15)) for i in (1, 2, 3, 4, 5, 4, 3, 2, 1)]; cyberpi.led.off()&quot;)" data-mode="1" disabled>Test Z: Knight Rider (einmal hin und zurück)</button> Läuft ein rotes Licht hin und her?</li>
+      <li>Berichten (mit Protokoll)</li>
+    </ol>
   </section>
 
   <section>
@@ -101,11 +118,23 @@
     <h3>Runde 3: Zeichnen ausprobieren</h3>
     <p>Erst verbinden, dann „Helfer anlegen“, dann ohne zu trennen die anderen Knöpfe.</p>
     <button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button>
-    <button data-py="str([vbt(c) for c in [&#x27;vb = cyberpi.Sprite()&#x27;, &#x27;vb.draw_rectangle()&#x27;, &#x27;vb.draw_circle()&#x27;, &#x27;vb.draw_pixel()&#x27;]])" data-mode="1" disabled>Fragen 1</button>
-    <button data-py="str([vbt(c) for c in [&#x27;vb.draw_pixels()&#x27;, &#x27;vb.set_pixel()&#x27;, &#x27;vb.draw_text()&#x27;, &#x27;vb.set_size()&#x27;]])" data-mode="1" disabled>Fragen 2</button>
-    <button data-py="str([vbt(c) for c in [&#x27;vb.set_position()&#x27;, &#x27;vb.set_brush()&#x27;, &#x27;vb.draw_qrcode()&#x27;, &#x27;cyberpi.screen.fill()&#x27;, &#x27;cyberpi.screen.set_pixel()&#x27;]])" data-mode="1" disabled>Fragen 3</button>
+    <button data-py="vbt(&#x27;vb = cyberpi.Sprite()&#x27;)" data-mode="1" disabled>Frage: vb = cyberpi.Sprite()</button>
+    <button data-py="vbt(&#x27;vb.draw_rectangle()&#x27;)" data-mode="1" disabled>Frage: vb.draw_rectangle()</button>
+    <button data-py="vbt(&#x27;vb.draw_circle()&#x27;)" data-mode="1" disabled>Frage: vb.draw_circle()</button>
+    <button data-py="vbt(&#x27;vb.draw_pixel()&#x27;)" data-mode="1" disabled>Frage: vb.draw_pixel()</button>
+    <button data-py="vbt(&#x27;vb.draw_text()&#x27;)" data-mode="1" disabled>Frage: vb.draw_text()</button>
+    <button data-py="vbt(&#x27;vb.set_position()&#x27;)" data-mode="1" disabled>Frage: vb.set_position()</button>
+    <button data-py="vbt(&#x27;cyberpi.screen.set_pixel()&#x27;)" data-mode="1" disabled>Frage: cyberpi.screen.set_pixel()</button>
     <button data-py="vbt(&#x27;[cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test: rote Linie</button>
     <button data-py="vbt(&#x27;vb = cyberpi.Sprite(); vb.set_brush(0, 160, 255); vb.draw_rectangle(40, 40, 1); vb.show()&#x27;)" data-mode="1" disabled>Test: blaues Quadrat</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); vb = cyberpi.Sprite(); vb.set_brush(0, 160, 255); vb.draw_rectangle(40, 40, 1); vb.set_position(64, 64); vb.show(); cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test: leeren + blaues Quadrat</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); [cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test A: leeren + rote Linie, einmal zeichnen</button>
+    <button data-py="str(cyberpi.screen._running)" data-mode="1" disabled>Frage B: läuft die Zeichenfläche?</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); cyberpi.screen.start(); [cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test B: Zeichenfläche starten + rote Linie</button>
+    <button data-py="vbt(&#x27;cyberpi.screen.stop()&#x27;)" data-mode="1" disabled>Zeichenfläche stoppen</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); [cyberpi.screen.set_pixel(x, y, 0xFFFF) for x in range(128) for y in (40, 41, 42)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test C: weiße Linie oben (Farbe 0xFFFF)</button>
+    <button data-py="vbt(&#x27;[cyberpi.screen.set_pixel(x, y, 0xF800) for x in range(128) for y in (80, 81, 82)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test D: rote Linie unten (Farbe 0xF800)</button>
+    <button data-py="vbt(&#x27;cyberpi.screen.disable_autorender()&#x27;)" data-mode="1" disabled>Flackern stoppen</button>
     <button data-py="vbt(&#x27;cyberpi.emotion.hello()&#x27;)" data-mode="1" disabled>Test: Gesicht hello</button>
     <button data-py="vbt(&quot;cyberpi.display.clear(); cyberpi.display.show_label(&#x27;Hallo VisuBot!&#x27;, 24, &#x27;center&#x27;)&quot;)" data-mode="1" disabled>Zurück: Hallo VisuBot!</button>
   </section>
@@ -139,6 +168,11 @@ let waiting = null   // { resolve, timer } für die nächste Rahmen-Antwort
 
 const $ = (s) => document.querySelector(s)
 const hex = (bytes) => Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join(' ')
+
+// Welche Runde gerade offen ist, steht im gelben Kasten; sie kommt in Titel und Protokoll (Holger nutzt mehrere Dateien)
+const runde = 'Labor ' + (document.querySelector('section.jetzt h2')?.textContent.match(/Runde \d+/)?.[0] ?? 'ohne Runde')
+document.title = `mBot2-${runde}`
+document.querySelector('h1').textContent = `mBot2-${runde}`
 
 function log(text, cls = '') {
   const line = document.createElement('span')
@@ -240,7 +274,7 @@ $('#connect').onclick = async () => {
     await port.open({ baudRate: BAUD })
     writer = port.writable.getWriter()
     const info = port.getInfo()
-    log(`Port geöffnet (USB ${info.usbVendorId?.toString(16) ?? '?'}:${info.usbProductId?.toString(16) ?? '?'}), warte auf Neustart …`)
+    log(`${runde}: Port geöffnet (USB ${info.usbVendorId?.toString(16) ?? '?'}:${info.usbProductId?.toString(16) ?? '?'}), warte auf Neustart …`)
     setConnected(false, 'startet neu …')
     readLoop()
     await new Promise((r) => setTimeout(r, 3000))

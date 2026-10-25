@@ -86,9 +86,21 @@ const serial = (): SerialLike | undefined => (typeof navigator === 'undefined' ?
 /** Kann dieser Browser einen mBot2 über USB ansprechen? */
 export const canConnectMBot = () => serial() !== undefined
 
-/** Eine Verbindung für die ganze Seite (bleibt beim Neuaufbau der Oberfläche erhalten). */
-/** Begrüßung auf dem Bildschirm nach dem Verbinden (und nach „mBot2 testen“ → Text) */
-export const HELLO = "cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')"
+/** Mehrere Python-Anweisungen als eine Zeile (der CyberPi nimmt nur eine). JSON-Strings sind auch gültige Python-Strings. */
+export const pyLines = (...lines: string[]) => `exec(${JSON.stringify(lines.join('; '))})`
+
+/**
+ * Bildschirm leeren und Text in der Mitte zeigen. Ohne Pinselfarbe: `display.set_brush` wirkt am CyberPi
+ * unzuverlässig (Texte kamen rot, lila, grün oder blau statt in der gewählten Farbe, auch mit Pausen).
+ * Die Schrift hat dann die Farbe, die der CyberPi gerade hat (einfarbig, nicht immer weiß; Holger: in Ordnung).
+ */
+export const showLabel = (text: string, size = 24) => pyLines('cyberpi.display.clear()', `cyberpi.display.show_label(${JSON.stringify(text)}, ${size}, 'center')`)
+
+/**
+ * Logo nach dem Verbinden (und nach „mBot2 testen“ → Text): „VisuBot“ groß, einfarbig.
+ * Grafik (screen.set_pixel, Sprite) zeigt über USB nichts, Farben gehen nicht zuverlässig. Am echten mBot2 getestet (Oktober 2026).
+ */
+export const HELLO = showLabel('VisuBot', 32)
 
 export class MBotLink {
   private port?: SerialPortLike
@@ -152,7 +164,7 @@ export class MBotLink {
       return this.changed()
     }
     if (!error && this.writer && !this.connecting) {
-      for (const code of ["mbot2.EM_stop('ALL')", 'cyberpi.led.off()', "cyberpi.display.show_label('Bis bald!', 24, 'center')"])
+      for (const code of ["mbot2.EM_stop('ALL')", 'cyberpi.led.off()', showLabel('Bis bald!')])
         await this.send(code, RUN, 2000).catch(() => undefined)
     }
     const port = this.port
@@ -244,4 +256,5 @@ export class MBotLink {
   }
 }
 
+/** Eine Verbindung für die ganze Seite (bleibt beim Neuaufbau der Oberfläche erhalten). */
 export const mbotLink = new MBotLink()

@@ -310,6 +310,7 @@
 "web_visubot_sensor_distance" = "Distância";
 "web_visubot_sensor_line" = "Linha";
 "web_visubot_el_led_off" = "LEDs desligados";
+"web_visubot_el_led_color" = "cor do LED";
 "web_visubot_el_wait" = "esperar um pouco";
 "web_visubot_el_emotion" = "mostrar um sentimento";
 "web_visubot_el_text" = "mostrar texto";
