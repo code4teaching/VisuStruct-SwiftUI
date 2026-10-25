@@ -620,6 +620,7 @@ export class App {
     // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
     const robotOn = visuBotEnabled()
     this.root.classList.toggle('visubot-mode', robotOn)
+    document.documentElement.classList.toggle('visubot-theme', robotOn)
     const robotList = $<HTMLUListElement>('.palette-visubot')
     robotList.hidden = !robotOn
     $<HTMLElement>('.palette-visubot-title').hidden = !robotOn
