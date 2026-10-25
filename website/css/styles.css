@@ -475,7 +475,7 @@ h3 {
 /* Lernbereich */
 .visubot-wordmark {
   display: block;
-  width: min(280px, 70%);
+  width: min(360px, 85%);
   height: auto;
   margin: 0 0 1rem;
 }

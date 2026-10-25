@@ -310,6 +310,7 @@ export class DiagramRenderer {
           y: r.y,
           width: r.width,
           height: r.height,
+          class: 'selection-frame',
           fill: 'none',
           stroke: sim ? 'rgba(66, 140, 242, 0.78)' : 'rgba(0, 122, 255, 0.9)',
           'stroke-width': Ink.selectionLineWidth,

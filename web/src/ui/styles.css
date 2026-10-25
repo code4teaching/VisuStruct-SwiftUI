@@ -6,7 +6,24 @@
   --border: #d1d1d6;
   --accent: #007aff;
   --accent-soft: rgba(0, 122, 255, 0.18);
+  --accent-faint: rgba(0, 122, 255, 0.08);
+  --accent-glow: rgba(0, 122, 255, 0.35);
   color-scheme: light;
+}
+
+/* VisuBot-Modus: Farben aus dem VisuBot-Logo (Navy, Orange, Lila) */
+:root.visubot-theme {
+  --bg: #f1f0f8;
+  --text: #2f3454;
+  --muted: #6a6890;
+  --border: #d6d3e8;
+  --accent: #e07000;
+  --accent-soft: rgba(253, 161, 21, 0.24);
+  --accent-faint: rgba(253, 161, 21, 0.1);
+  --accent-glow: rgba(224, 112, 0, 0.35);
+}
+:root.visubot-theme .selection-frame {
+  stroke: rgba(224, 112, 0, 0.9);
 }
 
 * {
@@ -338,11 +355,12 @@ dialog.about h2 {
   gap: 8px;
 }
 .visubot-logo {
-  width: 30px;
-  height: 24px;
+  width: auto;
+  height: 30px;
+  margin: -4px 0;
 }
 .visubot-bot {
-  color: var(--accent);
+  color: #f08a00;
   margin-left: -8px;
 }
 .brand small {
@@ -803,7 +821,7 @@ button.sim-toggle {
   margin-left: -10px;
   margin-right: -10px;
   border-radius: 10px;
-  background: rgba(0, 122, 255, 0.08);
+  background: var(--accent-faint);
   outline: 2px solid var(--accent);
 }
 .sim-prompt {
@@ -2773,12 +2791,12 @@ button.danger-text:not(:disabled) {
 .ui-spot {
   outline: 3px solid var(--accent) !important;
   outline-offset: -3px;
-  box-shadow: inset 0 0 0 9999px rgba(0, 122, 255, 0.08);
+  box-shadow: inset 0 0 0 9999px var(--accent-faint);
   animation: ui-spot-pulse 1.2s ease-in-out infinite;
 }
 @keyframes ui-spot-pulse {
   50% {
-    outline-color: rgba(0, 122, 255, 0.35);
+    outline-color: var(--accent-glow);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3433,8 +3451,8 @@ button.danger-text:not(:disabled) {
   color: var(--muted);
 }
 .palette-visubot .palette-item {
-  border-color: #8fb6ea;
-  background: color-mix(in srgb, #2f7bd8 7%, transparent);
+  border-color: #a7a0d3;
+  background: color-mix(in srgb, #a7a0d3 16%, transparent);
 }
 .visubot-model {
   margin: 12px 0;
