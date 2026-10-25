@@ -284,8 +284,9 @@ Alles, was du im Simulator baust, kann auch der echte mBot2 fahren. So verbindes
 3. Auf dem Bildschirm erscheint ein Menü, in dem **neu starten** markiert ist. Drück den [Joystick]{teil=joystick} wie eine Taste nach unten, um das zu bestätigen.
 4. Nach dem Neustart steht dort „Press B to start“. Drück **Taste B**, das ist die [Taste mit dem Dreieck]{teil=buttons}.
 5. Öffne VisuStruct in **Chrome** oder **Edge**. Safari und das iPad können keine USB-Geräte ansprechen.
-6. Sobald der CyberPi hochgefahren ist, klick oben auf **🔌 mBot2** (oder im Zahnrad auf „Mit mBot2 verbinden“) und wähle im Fenster den Eintrag mit **USB** im Namen.
-7. Der CyberPi startet kurz neu (⏳). Dann steht „Hallo VisuBot!“ auf seinem Bildschirm und der Knopf zeigt 🟢.
+6. Sobald der CyberPi hochgefahren ist, klick oben auf **🔌 mBot2** (oder im Zahnrad auf „Mit mBot2 verbinden“).
+7. Chrome zeigt eine Liste mit Anschlüssen. Wähle den Eintrag **USB Serial** (zum Beispiel „USB Serial (cu.usbserial-110)“). Er steht oft ganz unten, eventuell musst du nach unten scrollen. Dann klick auf **Verbinden**.
+8. Der CyberPi startet kurz neu (⏳). Dann steht „Hallo VisuBot!“ auf seinem Bildschirm und der Knopf zeigt 🟢.
 
 Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den Boden und lass ihm Platz!
 

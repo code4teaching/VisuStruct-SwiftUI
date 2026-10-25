@@ -284,8 +284,9 @@ Everything you build in the simulator can also be driven by the real mBot2. This
 3. A menu appears on the screen with **restart** highlighted (on a German CyberPi: „neu starten“). Press the [joystick]{part=joystick} down like a button to confirm it.
 4. After the restart it says “Press B to start”. Press **button B**, that is the [button with the triangle]{part=buttons}.
 5. Open VisuStruct in **Chrome** or **Edge**. Safari and the iPad cannot talk to USB devices.
-6. As soon as the CyberPi has started up, click **🔌 mBot2** at the top (or “Connect mBot2” in the gear menu) and choose the entry with **USB** in its name.
-7. The CyberPi restarts briefly (⏳). Then “Hallo VisuBot!” appears on its screen and the button shows 🟢.
+6. As soon as the CyberPi has started up, click **🔌 mBot2** at the top (or “Connect mBot2” in the gear menu).
+7. Chrome shows a list of ports. Choose the entry **USB Serial** (for example “USB Serial (cu.usbserial-110)”). It is often at the very bottom, so you may have to scroll down. Then click **Connect**.
+8. The CyberPi restarts briefly (⏳). Then “Hallo VisuBot!” appears on its screen and the button shows 🟢.
 
 Now the mBot2 drives along with every step of the simulation. Put it on the floor and give it room!
 
