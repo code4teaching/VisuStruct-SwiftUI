@@ -1,5 +1,5 @@
-/** Kleines Markdown für Lektionstexte: Absätze, ###, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url),
- * [Wort]{.blau} als farbige Markierung (blau, orange, gruen) passend zu farbigen Kästen. */
+/** Kleines Markdown für Lektionstexte: Absätze, ## bis ####, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url),
+ * [Wort]{.blau} als farbige Markierung (blau, orange, gruen) passend zu farbigen Kästen, [Wort]{teil=cyberpi} zeigt auf ein Teil des mBot2. */
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
@@ -18,6 +18,8 @@ export function inline(text: string): string {
       return `<a href="${safe}"${external}>${label}</a>`
     })
     .replace(/\[([^\]]+)\]\{\.(blau|orange|gruen)\}/g, '<mark class="learn-mark $2">$1</mark>')
+    // VisuBot: [Ultraschallsensor]{teil=ultrasonic} leuchtet im 3D-Modell auf, wenn man darauf zeigt.
+    .replace(/\[([^\]]+)\]\{(?:teil|part)=([\w,]+)\}/g, '<span class="robot-part-link" data-robot-part="$2" tabindex="0">$1</span>')
   return s.replace(/\u0000(\d+)\u0000/g, (_, i: string) => `<code>${codes[Number(i)]}</code>`)
 }
 
@@ -40,7 +42,7 @@ export function markdownToHTML(source: string): string {
       out.push(`<pre class="lesson-code"${java ? ' data-lang="java"' : ''} dir="ltr"><code>${escape(code.join('\n'))}</code></pre>`)
       continue
     }
-    const heading = /^(#{3,4})\s+(.*)$/.exec(line)
+    const heading = /^(#{2,4})\s+(.*)$/.exec(line)
     if (heading) {
       const level = heading[1].length
       out.push(`<h${level}>${inline(heading[2])}</h${level}>`)

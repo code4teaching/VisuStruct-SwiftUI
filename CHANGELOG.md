@@ -6,6 +6,11 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Added
+
+- **Web 0.4.0, VisuBot (mBot2):** a new mode in the settings (Off / In the course / Separate series) for programming the Makeblock mBot2 robot with structure charts or Java. mBot2 commands (drive, turn, LEDs, tone) and sensors (`mbot.getDistance()`, `mbot.getLine()`) in the elements list, a 3D simulator with a model built from photos of a real mBot2, worlds with walls, black fields and a goal flag (Kara-style maps), and exercises checked by the drive or by reaching the goal without bumping. Own lessons (tour of the robot with a parts quiz, the square with nested loops, sensors, until the wall) and tasks (staircase, maze, triangle, spiral, slalom, clover in the forest, tunnel finder, maze with exits). “In the course” adds 🤖 steps to lessons 5 and 13. With 🔌 mBot2 next to the simulation button a real mBot2 is connected over USB (Chrome/Edge) and drives every simulation step along with real sensor values; a second click disconnects cleanly.
+- **Web, reference:** categories that fold open (basics, branches, loops, subprograms, calculating, arrays, glossary); with VisuBot also mBot2 commands and sensors.
+
 ### Changed
 
 - **Web:** the simulation button has a label: “▶ Simulation starten”, while simulating “■ Simulation beenden” (21 languages). The pencil icon is gone, also in the simulation panel after the program has ended. In a narrow toolbar only the symbol stays, so the collapse button stays in the same row. Lesson 7 (de/en/pt) uses the new names.

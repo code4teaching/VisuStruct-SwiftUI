@@ -1,10 +1,11 @@
-import { checkExercise, fileLines, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
+import { checkExercise, fileLines, loopDepth, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
+import { compressDrive } from '../core/mbot'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import { explain, makeRound, usedValues, type BoolGame } from '../learn/boolGame'
-import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage } from '../learn/content'
+import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage, world } from '../learn/content'
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
@@ -13,6 +14,7 @@ import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { currentLanguage, t } from './i18n'
 import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
+import { renderRobotModel, renderRobotQuiz, wireRobotLinks } from './visubotModel'
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
@@ -154,7 +156,37 @@ export class LearnPanel {
       else this.renderTaskList()
     } else {
       const terms = glossary.map((e) => `- **${e.term}:** ${e.text}`).join('\n')
-      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n### ${t('web_learn_terms')}\n\n${terms}`)))
+      const text = html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n## ${t('web_learn_terms')}\n\n${terms}`))
+      this.body.append(text)
+      this.foldReference(text)
+    }
+  }
+
+  /** Nachschlagen: jede Kategorie (## Überschrift) als aufklappbarer Abschnitt; offene Kategorien merkt sich der Browser. */
+  private foldReference(root: HTMLElement) {
+    const key = 'visustruct.reference.open'
+    let open: string[] = []
+    try {
+      open = JSON.parse(localStorage.getItem(key) ?? '[]')
+    } catch {
+      /* ohne Speicher alles zu */
+    }
+    for (const heading of [...root.querySelectorAll('h2')]) {
+      const title = heading.textContent ?? ''
+      const details = h('details', { class: 'reference-group' }) as HTMLDetailsElement
+      details.open = open.includes(title)
+      const summary = h('summary', {}, title)
+      heading.replaceWith(details)
+      details.append(summary)
+      while (details.nextSibling && details.nextSibling.nodeName !== 'H2') details.append(details.nextSibling)
+      details.addEventListener('toggle', () => {
+        open = details.open ? [...new Set([...open, title])] : open.filter((x) => x !== title)
+        try {
+          localStorage.setItem(key, JSON.stringify(open))
+        } catch {
+          /* nur für diese Sitzung */
+        }
+      })
     }
   }
 
@@ -207,7 +239,9 @@ export class LearnPanel {
     bar.append(
       ...lesson.steps.map((s, i) => {
         const where = t('web_learn_step_fmt', i + 1, s.title)
-        const b = h('button', { class: i < index ? 'past' : i === index ? 'current' : '', title: where, 'aria-label': where }, String(i + 1))
+        const state = i < index ? 'past' : i === index ? 'current' : ''
+        // 🤖-Schritte (VisuBot im Kurs) türkis wie der mBot2
+        const b = h('button', { class: s.title.startsWith('🤖') ? `${state} robot-step` : state, title: where, 'aria-label': where }, String(i + 1))
         if (i === index) b.setAttribute('aria-current', 'step')
         b.addEventListener('click', () => this.goToStep(lesson, i))
         return b
@@ -234,6 +268,7 @@ export class LearnPanel {
     if (ret) this.body.append(backToChecklist())
     step.blocks.forEach((block, bi) => this.body.append(this.renderBlock(block, `${index}-${bi}`, lesson)))
     markPointers(this.body)
+    wireRobotLinks(this.body)
     this.openNeededColumns(step.blocks)
     markTerms(this.body, glossary)
 
@@ -397,6 +432,10 @@ export class LearnPanel {
         return renderCloze(block.cloze)
       case 'textFile':
         return textFileView(block.name, block.content)
+      case 'robotModel':
+        return renderRobotModel(block.focus, block.view, block.spin)
+      case 'robotQuiz':
+        return renderRobotQuiz(block.tasks, block.done)
     }
   }
 
@@ -545,13 +584,14 @@ export class LearnPanel {
         return
       }
       this.host.stopSimulation()
-      const outcomes = checkExercise(doc, ex.tests, this.host.subprogramsFor(ex.id))
+      const outcomes = checkExercise(doc, ex.tests, this.host.subprogramsFor(ex.id), world)
       const used = usedElementTypes(doc)
       const missing = ex.requires
         .map((r) => (r === 'forZaehlSchleife' ? 'forSchleife' : r))
         .filter((r) => r in ElementType && !used.has(ElementType[r as keyof typeof ElementType]))
-      const passed = outcomes.every((o) => o.passed) && missing.length === 0
-      this.showResult(result, outcomes, missing, passed)
+      const tooFlat = ex.loopDepth !== undefined && loopDepth(doc.elements) < ex.loopDepth ? ex.loopDepth : undefined
+      const passed = outcomes.every((o) => o.passed) && missing.length === 0 && !tooFlat
+      this.showResult(result, outcomes, missing, passed, tooFlat)
       if (passed) {
         progress.updateExercise(ex.id, { done: true })
         badge.hidden = false
@@ -621,16 +661,33 @@ export class LearnPanel {
     return card
   }
 
-  private showResult(box: HTMLElement, outcomes: TestOutcome[], missing: string[], passed: boolean) {
+  private showResult(box: HTMLElement, outcomes: TestOutcome[], missing: string[], passed: boolean, depth?: number) {
     box.className = 'learn-result ' + (passed ? 'ok' : 'fail')
     box.replaceChildren(h('p', { class: 'learn-result-head' }, passed ? `🎉 ${t('web_learn_passed')}` : t('web_learn_failed')))
     for (const m of missing) box.append(h('p', {}, `✗ ${t('web_learn_missing_fmt', typeName(ElementType[m as keyof typeof ElementType]))}`))
+    if (depth) box.append(h('p', {}, `✗ ${t('web_visubot_depth_fmt', depth)}`))
     const list = h('ul', { class: 'learn-tests', dir: 'auto' })
     for (const o of outcomes) {
-      const input = o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
+      const worldIndex = o.test.world ? outcomes.filter((x) => x.test.world).indexOf(o) + 1 : 0
+      const input = o.test.world
+        ? `🗺 ${t('web_visubot_world_fmt', worldIndex)}`
+        : o.test.drive
+          ? `🤖 ${t('web_visubot_drive')}`
+          : o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
       const lines: (string | Node)[] = [`${o.passed ? '✓' : '✗'} ${input}`]
       const detail = h('div', { class: 'learn-test-detail' })
-      detail.append(
+      if (o.test.drive) {
+        detail.append(
+          h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, compressDrive(o.test.drive) || '–')),
+          h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, compressDrive(o.result.drive ?? []) || '–')),
+        )
+      }
+      if (o.test.world) {
+        if (world(o.test.world)?.goals?.length || world(o.test.world)?.targets?.length)
+          detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
+        if (o.result.bumps) detail.append(h('span', { class: 'learn-error' }, `⚠︎ ${t('web_visubot_bumps')}: ${o.result.bumps}`))
+      }
+      if ((!o.test.drive && !o.test.world) || o.result.outputs.length) detail.append(
         h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, o.test.expected.join(' | ') || '–')),
         h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, o.result.outputs.join(' | ') || '–')),
       )

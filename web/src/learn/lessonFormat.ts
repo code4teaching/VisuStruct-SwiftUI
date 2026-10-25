@@ -1,4 +1,5 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
+import { driveSignature, isMBotPart, MBOT_PARTS, parseDriveSpec, type MBotPart } from '../core/mbot'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
@@ -22,6 +23,11 @@ export type Block =
   | { kind: 'roundGame'; game: RoundGame }
   | { kind: 'rescueGame'; game: RescueGame }
   | { kind: 'caesar'; key: number; text: string }
+  /** VisuBot: drehbares 3D-Modell des mBot2, Teile antippen zeigt ihre Erklärung. */
+  /** VisuBot: der mBot2 in 3D; die Kamera fährt zu den Teilen in `focus` (Tour wie bei JavaPicoGoat). */
+  | { kind: 'robotModel'; focus: MBotPart[]; view?: string; spin?: boolean }
+  /** VisuBot: Teile im Modell anklicken („Wo ist der Ultraschallsensor?“). */
+  | { kind: 'robotQuiz'; tasks: { part: MBotPart; question: string }[]; done?: string }
   /** Fertiger Code mit Lücken für einzelne Wörter. */
   | { kind: 'cloze'; cloze: Cloze }
   /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
@@ -44,6 +50,8 @@ export interface Exercise {
   subprograms: string[]
   /** `code: java`: Die Übung wird in Code live auf Java gelöst; „Übung öffnen“ öffnet die Spalte gleich mit. */
   code?: 'java'
+  /** VisuBot: Schleifen müssen mindestens so tief ineinander stecken (`schleifentiefe: 2`). */
+  loopDepth?: number
 }
 
 export interface ChecklistItem {
@@ -81,6 +89,8 @@ export interface Task {
   title: string
   /** Nummer der Lektion, die man vorher abgeschlossen haben sollte. */
   after?: number
+  /** VisuBot-Aufgaben: Lektion des normalen Kurses, nach der sie im Modus „Im Kurs“ erscheinen (`kurs: 13`). */
+  afterInCourse?: number
   level: number
   blocks: Block[]
 }
@@ -110,7 +120,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|datei|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|datei|fahrt|welt|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -127,6 +137,36 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
           expected.files = [...(expected.files ?? []), { name: m[1], lines: m[2].trim() === '' ? [] : m[2].split(/\s*\|\s*/).map((x) => x.trim()) }]
           break
         }
+        case 'fahrt':
+          // VisuBot: `fahrt: 4 x (forward 50, turnRight 90)` – so soll der Roboter fahren (ohne Ausgabe, ohne Eingabe).
+          try {
+            ex.tests.push({ inputs: [], expected: [], drive: driveSignature(parseDriveSpec(value)) })
+          } catch (err) {
+            throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+          }
+          break
+        case 'welt': {
+          // VisuBot: `welt: wand-nah, wand-weit` – in jeder dieser Welten muss der Roboter ohne Anstoßen ins Ziel.
+          // `welt: wand-nah -> turnRight` – in dieser Welt soll er genau so fahren (für Verzweigungen mit Sensoren).
+          const arrow = /^([\w-]+)\s*(?:->|→)\s*(.+)$/.exec(value.trim())
+          if (arrow) {
+            try {
+              ex.tests.push({ inputs: [], expected: [], world: arrow[1], drive: driveSignature(parseDriveSpec(arrow[2])) })
+            } catch (err) {
+              throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+            }
+            break
+          }
+          for (const name of value.split(/\s*,\s*/).filter(Boolean)) {
+            if (!/^[\w-]+$/.test(name)) throw new FormatError(`${file}: Übung „${id}“: Weltname „${name}“ (nur Buchstaben, Ziffern, -).`)
+            ex.tests.push({ inputs: [], expected: [], world: name })
+          }
+          break
+        }
+        case 'schleifentiefe':
+          ex.loopDepth = Number(value)
+          if (!Number.isInteger(ex.loopDepth) || ex.loopDepth < 1) throw new FormatError(`${file}: Übung „${id}“: „schleifentiefe:“ braucht eine Zahl ab 1.`)
+          break
         case 'braucht': ex.requires.push(...value.split(/\s*,\s*/).filter(Boolean)); break
         case 'tipp': ex.hints.push(value); last = 'hint'; break
         case 'lösung':
@@ -197,7 +237,7 @@ export function parseBlocks(body: string, file: string): Block[] {
     markdown = []
   }
   for (let i = 0; i < lines.length; i++) {
-    const open = /^:::\s*([a-zäöüß]+)\s*(.*)$/i.exec(lines[i].trim())
+    const open = /^:::\s*([a-zäöüß][a-zäöüß0-9]*)\s*(.*)$/i.exec(lines[i].trim())
     if (!open) {
       markdown.push(lines[i])
       continue
@@ -261,6 +301,34 @@ export function parseBlocks(body: string, file: string): Block[] {
         const key = arg ? Number(arg) : 3
         if (!Number.isInteger(key) || key < 0 || key > 25) throw new FormatError(`${file}: „::: caesar“ braucht einen Schlüssel von 0 bis 25.`)
         blocks.push({ kind: 'caesar', key, text: inner.join(' ').trim() })
+        break
+      }
+      case 'mbot2': {
+        // `fokus: cyberpi, screen`, `ansicht: unten`, `drehen: ja`
+        const block: Extract<Block, { kind: 'robotModel' }> = { kind: 'robotModel', focus: [] }
+        for (const line of inner.filter((l) => l.trim())) {
+          const m = /^\s*(fokus|focus|ansicht|view|drehen|spin):\s*(.*)$/i.exec(line)
+          if (!m) throw new FormatError(`${file}: „::: mbot2“ kennt nur Zeilen „fokus:“, „ansicht:“ und „drehen:“.`)
+          const key = m[1].toLowerCase()
+          if (key === 'fokus' || key === 'focus') block.focus = robotParts(m[2], file)
+          else if (key === 'ansicht' || key === 'view') block.view = m[2].trim().toLowerCase()
+          else block.spin = /^(ja|yes|true|sim)$/i.test(m[2].trim())
+        }
+        blocks.push(block)
+        break
+      }
+      case 'mbot2quiz': {
+        // `- ultrasonic: Wo ist der **Ultraschallsensor**?` und `fertig: Super!`
+        const block: Extract<Block, { kind: 'robotQuiz' }> = { kind: 'robotQuiz', tasks: [] }
+        for (const line of inner.filter((l) => l.trim())) {
+          const task = /^\s*-\s*(\w+)\s*:\s*(.+)$/.exec(line)
+          const done = /^\s*(fertig|done):\s*(.+)$/i.exec(line)
+          if (task) block.tasks.push({ part: robotParts(task[1], file)[0], question: task[2].trim() })
+          else if (done) block.done = done[2].trim()
+          else throw new FormatError(`${file}: „::: mbot2quiz“ braucht Zeilen „- teil: Frage“ und optional „fertig: Text“.`)
+        }
+        if (!block.tasks.length) throw new FormatError(`${file}: „::: mbot2quiz“ hat keine Fragen.`)
+        blocks.push(block)
         break
       }
       case 'datei': {
@@ -340,11 +408,20 @@ export function parseTask(source: string, file: string): Task {
   const title = meta.get('titel')
   if (!title) throw new FormatError(`${file}: „titel:“ fehlt.`)
   const after = meta.get('nach')
+  const inCourse = meta.get('kurs')
   return {
     id: file.replace(/^.*\//, '').replace(/\.md$/, ''),
     title,
     after: after ? Number(after) : undefined,
+    afterInCourse: inCourse ? Number(inCourse) : undefined,
     level: Number(meta.get('stufe') ?? '1') || 1,
     blocks: parseBlocks(body, file),
   }
+}
+
+/** `cyberpi, screen` → geprüfte Teilnamen des mBot2-Modells. */
+function robotParts(list: string, file: string): MBotPart[] {
+  const names = list.split(/\s*,\s*/).map((x) => x.trim()).filter(Boolean)
+  for (const n of names) if (!isMBotPart(n)) throw new FormatError(`${file}: Unbekanntes Teil „${n}“. Bekannt: ${MBOT_PARTS.join(', ')}.`)
+  return names as MBotPart[]
 }

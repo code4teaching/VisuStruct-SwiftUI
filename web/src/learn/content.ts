@@ -1,8 +1,9 @@
 import { registerTextFile } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
+import { parseWorldMap, type RobotWorldSetup } from '../core/robotWorld'
 import type { VSDocument } from '../core/model'
 import { parseGlossary, type GlossaryEntry } from './glossary'
-import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
+import { parseLesson, parseTask, type Lesson, type Step, type Task } from './lessonFormat'
 
 /**
  * Lektionen, Aufgaben und Diagramme aus `web/lessons` (werden beim Bauen eingebettet).
@@ -19,10 +20,27 @@ const taskFiles = import.meta.glob('../../lessons/*/aufgaben/*.md', { query: '?r
   string,
   string
 >
+// VisuBot (mBot2-Modus): eigene Lektionen und Aufgaben in `<Sprache>/visubot/`, die normalen bleiben unberührt.
+const visuBotLessonFiles = import.meta.glob('../../lessons/*/visubot/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+// VisuBot im Kurs: zusätzliche Schritte für normale Lektionen, Dateiname beginnt mit deren Nummer (`13-for-schleife.md`).
+const visuBotCourseFiles = import.meta.glob('../../lessons/*/visubot/kurs/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+const visuBotTaskFiles = import.meta.glob('../../lessons/*/visubot/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
 const diagramFiles = import.meta.glob('../../lessons/diagramme/**/*.visustruct', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
   string
 >
+
+// VisuBot: Weltkarten für Übungen (`welt: labyrinth`), Zeichen wie in `parseWorldMap`.
+const worldFiles = import.meta.glob('../../lessons/welten/*.txt', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
 const imageFiles = import.meta.glob('../../lessons/bilder/**/*.{jpg,png,webp,svg}', { query: '?url', import: 'default', eager: true }) as Record<
   string,
@@ -48,24 +66,71 @@ export let lessons: Lesson[] = []
 export let tasks: Task[] = []
 export let reference = ''
 export let glossary: GlossaryEntry[] = []
+/**
+ * VisuBot (mBot2): aus, im Kurs (normale Lektionen mit zusätzlichen 🤖-Schritten und mBot2-Aufgaben)
+ * oder als eigene Reihe (nur die VisuBot-Lektionen und -Aufgaben).
+ */
+export type VisuBotMode = 'off' | 'course' | 'series'
+export let visuBot: VisuBotMode = 'off'
+
+/** VisuBot-Modus für den Lernbereich wählen; Nachschlagen und Fachbegriffe bleiben dieselben. */
+export function useVisuBotContent(mode: VisuBotMode) {
+  if (mode === visuBot) return
+  visuBot = mode
+  lessons = []
+  useContentLanguage(language)
+}
+
+/** Die 🤖-Schritte kommen vor die Checkliste der Lektion (sonst ans Ende). */
+function withRobotSteps(lesson: Lesson, extra: Step[]): Lesson {
+  if (!extra.length) return lesson
+  const robotSteps = extra.map((s) => ({ ...s, title: `🤖 ${s.title}` }))
+  const at = lesson.steps.findIndex((s) => s.blocks.some((b) => b.kind === 'checklist'))
+  const steps = [...lesson.steps]
+  steps.splice(at < 0 ? steps.length : at, 0, ...robotSteps)
+  return { ...lesson, steps }
+}
 
 /** Wählt die Sprache der Lektionen; die Exporte oben zeigen danach die Inhalte dieser Sprache. */
 export function useContentLanguage(lang: ContentLanguage) {
   if (lang === language && lessons.length > 0) return
   language = lang
   const pages = filesFor(lessonFiles, /\/lessons\/([^/]+)\/[^/]+\.md$/, lang)
-  lessons = pages
+  const lessonPages = visuBot === 'series' ? filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang) : pages
+  const robotSteps = new Map<number, Step[]>()
+  if (visuBot === 'course')
+    for (const [name, source] of filesFor(visuBotCourseFiles, /\/lessons\/([^/]+)\/visubot\/kurs\/[^/]+\.md$/, lang)) {
+      const part = parseLesson(source, `${lang}/visubot/kurs/${name}`)
+      robotSteps.set(part.number, [...(robotSteps.get(part.number) ?? []), ...part.steps])
+    }
+  lessons = lessonPages
     .filter(([name]) => /^\d+/.test(name))
     .map(([name, source]) => parseLesson(source, `${lang}/${name}`))
+    .map((l) => withRobotSteps(l, robotSteps.get(l.number) ?? []))
     .sort((a, b) => a.number - b.number)
-  tasks = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
-    .map(([name, source]) => parseTask(source, `${lang}/aufgaben/${name}`))
-    .sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
+  const robotTasks = () =>
+    filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang).map(([name, source]) =>
+      parseTask(source, `${lang}/visubot/aufgaben/${name}`),
+    )
+  const normalTasks = () =>
+    filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang).map(([name, source]) => parseTask(source, `${lang}/aufgaben/${name}`))
+  tasks = (
+    visuBot === 'series'
+      ? robotTasks()
+      : visuBot === 'course'
+        ? [...normalTasks(), ...robotTasks().filter((t) => t.afterInCourse).map((t) => ({ ...t, after: t.afterInCourse }))]
+        : normalTasks()
+  ).sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
   // Textdateien aus den Lektionen kann die Simulation mit `Files.readString(Path.of("name"))` lesen.
   for (const block of [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]) {
     if (block.kind === 'textFile') registerTextFile(block.name, block.content)
   }
   reference = pages.find(([name]) => name === 'nachschlagen.md')?.[1] ?? ''
+  // VisuBot: mBot2-Befehle und -Sensoren als eigene Kategorien
+  if (visuBot !== 'off') {
+    const robotReference = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang).find(([name]) => name === 'nachschlagen.md')?.[1]
+    if (robotReference) reference = `${reference.trimEnd()}\n\n${robotReference}`
+  }
   glossary = parseGlossary(pages.find(([name]) => name === 'begriffe.md')?.[1] ?? '')
 }
 
@@ -92,3 +157,17 @@ const images = new Map(Object.entries(imageFiles).map(([path, url]) => [relative
 export function image(file: string): string | undefined {
   return localized(images, file)
 }
+
+const worldMaps = new Map(Object.entries(worldFiles).map(([path, text]) => [baseName(path).replace(/\.txt$/, ''), text]))
+const parsedWorlds = new Map<string, RobotWorldSetup>()
+
+/** Welt aus `web/lessons/welten/<name>.txt`; `undefined`, wenn es sie nicht gibt. */
+export function world(name: string): RobotWorldSetup | undefined {
+  const text = worldMaps.get(name)
+  if (text === undefined) return undefined
+  let setup = parsedWorlds.get(name)
+  if (!setup) parsedWorlds.set(name, (setup = parseWorldMap(text)))
+  return setup
+}
+
+export const worldNames = () => [...worldMaps.keys()]

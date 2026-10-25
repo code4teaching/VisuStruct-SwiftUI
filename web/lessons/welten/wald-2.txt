@@ -1,0 +1,9 @@
+// Kleeblatt im Wald, nach oben. Ein Zeichen = 30 cm.
+raster: 3
+.Z.
+.#.
+...
+.#.
+...
+...
+.^.

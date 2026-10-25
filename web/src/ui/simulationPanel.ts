@@ -2,6 +2,7 @@ import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimNotice, type SimValue, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
 import { writtenFilesView } from './textFileView'
+import type { VisuBotView } from './visubotView'
 
 /** Was eine Konsole zeigen würde: Ausgaben, Eingaben mit Antwort, offene Frage, Ende oder Fehler. */
 export interface ConsoleTranscript {
@@ -80,6 +81,10 @@ export class SimulationPanel {
   private printed = 0
   private notice!: HTMLElement
   private editButton!: HTMLButtonElement
+  /** VisuBot: Roboter-Welt, die bei jedem Schritt mitfährt. */
+  private robot?: VisuBotView
+  /** Echter mBot2 fährt gerade einen Schritt. */
+  private liveBusy = false
 
   constructor(
     private currentDocument: () => VSDocument,
@@ -100,9 +105,27 @@ export class SimulationPanel {
 
   // MARK: - Modus
 
+  /** VisuBot ein- oder ausschalten: die Welt steht unter der Steuerung. */
+  setRobot(robot: VisuBotView | undefined) {
+    if (this.robot === robot) return
+    this.robot?.element.remove()
+    this.robot = robot
+    if (robot) {
+      this.element.querySelector('section')!.after(robot.element)
+      robot.onWorldChange = () => this.restartEngine()
+      robot.reset()
+    }
+  }
+
+  /** Beim Öffnen der Simulation sichtbar: erst dann wird die 3D-Ansicht gebaut. */
+  showRobot() {
+    this.robot?.show()
+  }
+
   begin() {
     this.pause()
     this.restartEngine()
+    this.showRobot()
   }
 
   end() {
@@ -112,13 +135,48 @@ export class SimulationPanel {
   // MARK: - Steuerung
 
   step() {
+    if (this.robot?.live) {
+      void this.stepLive()
+      return
+    }
     if (!this.engine.canStep) {
       this.pause()
       return
     }
     const wasPlaying = this.isPlaying
     const lastExecutedPath = this.engine.currentStepPath
+    this.robot?.prepare(this.engine)
     this.engine.step()
+    this.robot?.follow(this.engine.state.robotActions, wasPlaying ? Number(this.delay) * 850 : 450)
+    this.afterStep(wasPlaying, lastExecutedPath)
+  }
+
+  /** Echter mBot2: Sensoren lesen, Schritt ausführen, warten bis er fertig gefahren ist. */
+  private async stepLive() {
+    if (this.liveBusy) return
+    if (!this.engine.canStep) {
+      this.pause()
+      return
+    }
+    this.liveBusy = true
+    const robot = this.robot!
+    const wasPlaying = this.isPlaying
+    const lastExecutedPath = this.engine.currentStepPath
+    try {
+      await robot.prepareLive(this.engine)
+      this.engine.step()
+      robot.follow(this.engine.state.robotActions, 450)
+      await robot.drive(this.engine.state.robotActions)
+    } catch (e) {
+      robot.liveFailed(e)
+      this.isPlaying = false
+    } finally {
+      this.liveBusy = false
+    }
+    this.afterStep(wasPlaying, lastExecutedPath)
+  }
+
+  private afterStep(wasPlaying: boolean, lastExecutedPath: number[] | undefined) {
     this.collectOutput()
     if (this.highlightMode === 'nextToExecute' && this.engine.canStep) {
       this.onHighlight(this.engine.currentStepPath)
@@ -140,18 +198,19 @@ export class SimulationPanel {
   play() {
     if (this.isPlaying || !this.engine.canStep) return
     this.isPlaying = true
-    const tick = () => {
+    const tick = async () => {
       this.playTimer = undefined
       if (!this.isPlaying) return
-      this.step()
+      if (this.robot?.live) await this.stepLive()
+      else this.step()
       if (this.isPlaying && this.engine.canStep) {
-        this.playTimer = window.setTimeout(tick, Number(this.delay) * 1000)
+        this.playTimer = window.setTimeout(() => void tick(), Number(this.delay) * 1000)
       } else {
         this.isPlaying = false
         this.update()
       }
     }
-    tick()
+    void tick()
   }
 
   pause() {
@@ -183,6 +242,7 @@ export class SimulationPanel {
     this.transcript = []
     this.printed = 0
     this.wasPlayingBeforeInput = false
+    this.robot?.reset()
     this.onHighlight(this.engine.currentStepPath)
     this.update()
   }

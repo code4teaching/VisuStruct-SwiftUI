@@ -1,3 +1,5 @@
+## Elementos básicos
+
 ### Instrução
 
 Um único passo. Serve para criar variáveis ou para calcular.
@@ -31,6 +33,8 @@ output: "Tens " + idade + " anos."
 
 > Numa saída, `+` junta sempre as partes: com 3 e 4, `output: a + b` mostra 34. Por isso calcula primeiro numa variável, p. ex. `int soma = a + b`, e depois mostra `soma`.
 
+## Decisões
+
 ### Decisão
 
 Verifica uma condição. Se for verdadeira, é executado o ramo da esquerda (true), senão o da direita (false).
@@ -44,6 +48,8 @@ nota < 1 || nota > 5
 ### Seleção
 
 Escolhe um de vários casos, consoante o valor de uma variável. Se nenhum caso servir, aplica-se `default`. Acrescentas casos à direita com **Adicionar caso**.
+
+## Ciclos
 
 ### Ciclo while
 
@@ -72,6 +78,12 @@ i++
 
 Repete o seu interior sem condição. Uma **Interrupção** lá dentro permite sair dele.
 
+### Interrupção
+
+Sai do ciclo que a rodeia (`break`).
+
+## Subprogramas
+
 ### Chamada
 
 Representa um subprograma, p. ex. `calcularSoma()`. Com parâmetros e valor de retorno, o subprograma tem uma linha de cabeçalho como título:
@@ -83,9 +95,7 @@ int q = quadrado(5)       chamada, q fica com 25
 mostrarSoma(3, 4)         chamada de um subprograma void
 ```
 
-### Interrupção
-
-Sai do ciclo que a rodeia (`break`).
+## Cálculos e comparações
 
 ### Operadores e comparações
 
@@ -94,6 +104,8 @@ Sai do ciclo que a rodeia (`break`).
 - `==` igual, `!=` diferente
 - `<` `<=` `>` `>=` menor, menor ou igual, maior, maior ou igual
 - `&&` e, `||` ou
+
+## Arrays
 
 ### Arrays
 

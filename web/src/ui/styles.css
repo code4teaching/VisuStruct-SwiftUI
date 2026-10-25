@@ -239,6 +239,7 @@ button.icon svg {
 .settings-menu label.check input {
   margin: 2px 0 0;
 }
+.settings-menu label small,
 .settings-menu label.check small {
   display: block;
   font-weight: 400;
@@ -682,6 +683,9 @@ button.danger {
 }
 .app.simulating {
   grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) 320px;
+}
+.app.simulating.visubot-mode {
+  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) min(440px, 45%);
 }
 .app.simulating .palette,
 .app.simulating .inspector {
@@ -1471,6 +1475,14 @@ button.danger-text:not(:disabled) {
   color: #fff;
   font-weight: 600;
 }
+.learn-progress button.robot-step:not(.current) {
+  border-color: #0fa3c6;
+  background: rgba(15, 163, 198, 0.12);
+}
+.learn-progress button.robot-step.current {
+  border-color: #0fa3c6;
+  background: #0fa3c6;
+}
 .learn-step-title {
   font-size: 16px;
   margin: 0 0 6px;
@@ -1495,6 +1507,24 @@ button.danger-text:not(:disabled) {
 .learn-text h3 {
   font-size: 15px;
   margin: 18px 0 4px;
+}
+/* Nachschlagen: Kategorien zum Aufklappen */
+.reference-group {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 0 0 8px;
+  padding: 0 12px;
+}
+.reference-group summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 9px 0;
+}
+.reference-group[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+.reference-group > h3:first-of-type {
+  margin-top: 10px;
 }
 .lesson-code {
   background: var(--bg);
@@ -3231,4 +3261,142 @@ button.danger-text:not(:disabled) {
   color: var(--muted);
   font-size: 12px;
   white-space: pre-wrap;
+}
+
+/* VisuBot: Welt mit dem mBot2 im Simulationspanel, zusätzliche Elemente in der Palette */
+.visubot-stage {
+  position: relative;
+  height: 280px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(#dfe9f3, #f6f3ec);
+}
+.visubot-live {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.visubot-live:empty {
+  display: none;
+}
+.visubot-live.connected {
+  color: #0f8a5f;
+  font-weight: 600;
+}
+.visubot-worlds {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 6px;
+}
+.visubot-worlds button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+.visubot-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.visubot-status {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+.palette-visubot-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 14px 0 6px;
+}
+.palette-sensor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  border-style: dashed;
+}
+.palette-sensor code {
+  font-size: 12px;
+  color: var(--muted);
+}
+.palette-visubot .palette-item {
+  border-color: #8fb6ea;
+  background: color-mix(in srgb, #2f7bd8 7%, transparent);
+}
+.visubot-model {
+  margin: 12px 0;
+}
+.visubot-model .visubot-stage {
+  height: 300px;
+}
+.visubot-model-hint {
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+.visubot-part-label {
+  position: absolute;
+  pointer-events: none;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(20, 24, 30, 0.85);
+  color: white;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 1;
+}
+/* Wörter im Text, die auf ein Teil des mBot2 zeigen (wie bei JavaPicoGoat gelb unterstrichen) */
+.robot-part-link {
+  text-decoration: underline 2px #f2b705;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.robot-part-link:hover,
+.robot-part-link:focus-visible {
+  background: color-mix(in srgb, #f2b705 25%, transparent);
+  outline: none;
+}
+.visubot-quiz-question {
+  font-size: 15px;
+  margin: 12px 0 6px;
+}
+.visubot-quiz-question.done {
+  color: var(--success, #2f9e44);
+}
+.visubot-quiz-feedback {
+  min-height: 1.4em;
+  margin: 6px 0;
+}
+.visubot-quiz-feedback.right {
+  color: var(--success, #2f9e44);
+}
+.visubot-quiz-feedback.wrong {
+  color: var(--danger, #c92a2a);
+}
+
+/* Echter mBot2: Knopf neben „Simulation starten“ und in den Einstellungen */
+.diagram-tools .mbot-link {
+  margin-inline-start: auto;
+  height: 30px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.diagram-tools .mbot-link:not([hidden]) + .sim-toggle {
+  margin-inline-start: 6px;
+}
+.settings-mbot-link {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+.settings-mbot-link small {
+  font-size: 12px;
+  color: var(--muted);
 }

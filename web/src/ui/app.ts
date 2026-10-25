@@ -39,13 +39,29 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
+import { mbotLinkText, setVisuBotMode, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
+import { canConnectMBot, mbotLink } from '../core/mbotLink'
+import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
+import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
 type DropTarget =
   | { kind: 'before' | 'after' | 'replace'; path: number[]; frame: Rect }
   | { kind: 'rootAppend'; frame: Rect }
+  /** VisuBot: Sensorwert in die Bedingung (bzw. den Text) eines Elements schreiben */
+  | { kind: 'condition'; path: number[]; frame: Rect }
 
-type DragSource = { kind: 'palette'; item: PaletteItem } | { kind: 'move'; path: number[] }
+/**
+ * Aus der Palette: neues Element (auch die VisuBot-Befehle) samt Name für das Ziehbild,
+ * oder ein VisuBot-Sensor wie `mbot.getDistance()`, der in eine Bedingung wandert.
+ */
+type DragSource =
+  | { kind: 'palette'; make: () => VSElement; label: string }
+  | { kind: 'sensor'; text: string; label: string }
+  | { kind: 'move'; path: number[] }
+
+/** Elemente, in deren Text ein Sensorwert passt: Bedingungen und Anweisungen (`int abstand = mbot.getDistance()`). */
+const takesSensor = [ElementType.verzweigung, ElementType.whileSchleife, ElementType.doUntilSchleife, ElementType.anweisung]
 
 interface DragState {
   source: DragSource
@@ -307,9 +323,13 @@ export class App {
   /** Nur in der claude.ai-Vorschau: Dateien über die `downloads`-Fähigkeit anbieten. */
   private downloads: { save(o: { filename: string; data: Blob }): Promise<unknown> } | null = null
   private readonly inViewer = 'claude' in window
+  /** VisuBot-Modus: Welt mit dem mBot2 im Simulationspanel (bleibt beim Neuaufbau erhalten). */
+  private visuBot?: VisuBotView
+  private stopLinkListener?: () => void
 
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
+    useVisuBotContent(visuBotMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
     this.shell = document.createElement('div')
@@ -372,8 +392,13 @@ export class App {
       if (this.tabs.some((t) => t.dirty && !t.exerciseId)) e.preventDefault()
     })
     this.setupFileDrop()
-    const claude = (window as { claude?: { use(name: string): Promise<unknown> } }).claude
-    claude?.use('downloads').then((d) => (this.downloads = d as App['downloads']))
+    // Nicht jede Vorschau mit `window.claude` kennt `use` (z. B. die Dateiansicht der Claude-App): dann ohne.
+    const claude = (window as { claude?: { use?: (name: string) => Promise<unknown> } }).claude
+    if (typeof claude?.use === 'function')
+      claude
+        .use('downloads')
+        .then((d) => (this.downloads = d as App['downloads']))
+        .catch(() => undefined)
   }
 
   // MARK: - UI
@@ -436,6 +461,19 @@ export class App {
                 <span>${e(t('web_live_swing'))}<small>${e(t('web_live_swing_hint'))}</small></span>
               </label>
             </section>
+            <section>
+              <h3>VisuBot</h3>
+              <label>${e(t('web_visubot_mode'))}
+                <select data-action="visubot">${(['off', 'course', 'series'] as const)
+                  .map((m) => `<option value="${m}">${e(t(`web_visubot_mode_${m}`))}</option>`)
+                  .join('')}</select>
+                <small>${e(t('web_visubot_mode_hint'))}</small>
+              </label>
+              <div class="settings-mbot-link">
+                <button type="button" data-action="mbot-link-settings"></button>
+                <small></small>
+              </div>
+            </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
               <span class="settings-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</span>
@@ -446,7 +484,11 @@ export class App {
       <aside class="palette">
         <h2>${e(t('palette_header'))}</h2>
         <p class="hint">${e(t('web_palette_hint'))}</p>
-        <ul></ul>
+        <ul class="palette-basic"></ul>
+        <h3 class="palette-visubot-title" hidden>🤖 ${e(t('web_visubot_commands'))}</h3>
+        <ul class="palette-visubot" hidden></ul>
+        <h3 class="palette-visubot-title palette-visubot-sensors-title" hidden>📡 ${e(t('web_visubot_sensors'))}</h3>
+        <ul class="palette-visubot palette-visubot-sensors" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
@@ -468,6 +510,7 @@ export class App {
           </div>
         </div>
         ${iconButton('code', t('a11y_generate_code'), icons.code)}
+        <button class="mbot-link" data-action="mbot-link" hidden></button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
       </div>
@@ -516,6 +559,13 @@ export class App {
       },
     )
     this.root.append(this.sim.element)
+    if (visuBotEnabled()) {
+      this.visuBot ??= new VisuBotView()
+      this.sim.setRobot(this.visuBot)
+    } else {
+      this.visuBot?.dispose()
+      this.visuBot = undefined
+    }
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
     this.codeButton = $('[data-action=code]')
     this.code = new CodePanel(
@@ -542,21 +592,53 @@ export class App {
       updatePalette()
     })
 
-    const list = $<HTMLUListElement>('.palette ul')
-    for (const { item } of paletteItems) {
-      const label = typeName(paletteElement(item).type)
+    const addPaletteItem = (list: HTMLUListElement, icon: PaletteItem, label: string, make: () => VSElement, data: string) => {
       const li = document.createElement('li')
       li.className = 'palette-item'
-      li.dataset.item = item
-      li.append(this.paletteIcon(item), document.createTextNode(label))
-      li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'palette', item }))
+      li.dataset.item = data
+      li.append(this.paletteIcon(icon), document.createTextNode(label))
+      li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'palette', make, label }))
       // Tastatur/Klick ohne Ziehen: hinter der Auswahl einfügen (bzw. Platzhalter ersetzen).
       li.tabIndex = 0
       li.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') this.insertNearSelection(paletteElement(item))
+        if (e.key === 'Enter' || e.key === ' ') this.insertNearSelection(make())
       })
       list.append(li)
     }
+    const list = $<HTMLUListElement>('.palette-basic')
+    for (const { item } of paletteItems) addPaletteItem(list, item, typeName(paletteElement(item).type), () => paletteElement(item), item)
+
+    // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
+    const robotOn = visuBotEnabled()
+    this.root.classList.toggle('visubot-mode', robotOn)
+    const robotList = $<HTMLUListElement>('.palette-visubot')
+    robotList.hidden = !robotOn
+    $<HTMLElement>('.palette-visubot-title').hidden = !robotOn
+    if (robotOn) {
+      const icon = { [ElementType.verzweigung]: 'verzweigung', [ElementType.whileSchleife]: 'whileSchleife' } as Partial<Record<ElementType, PaletteItem>>
+      for (const tpl of visuBotTemplates) addPaletteItem(robotList, icon[tpl.type] ?? 'anweisung', t(tpl.key), tpl.make, tpl.key)
+      // Sensoren: Werte zum Einbauen in eine Bedingung, keine eigenen Kästen
+      const sensorList = $<HTMLUListElement>('.palette-visubot-sensors')
+      sensorList.replaceChildren()
+      for (const sensor of visuBotSensors) {
+        const label = t(sensor.key)
+        const li = document.createElement('li')
+        li.className = 'palette-item palette-sensor'
+        li.dataset.item = sensor.key
+        li.title = sensor.text
+        const code = document.createElement('code')
+        code.textContent = sensor.text
+        li.append(document.createTextNode(label), code)
+        li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'sensor', text: sensor.text, label: sensor.text }))
+        li.tabIndex = 0
+        li.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') this.insertSensor(sensor.text)
+        })
+        sensorList.append(li)
+      }
+    }
+    $<HTMLElement>('.palette-visubot-sensors').hidden = !robotOn
+    $<HTMLElement>('.palette-visubot-sensors-title').hidden = !robotOn
 
     this.tabStrip = $('.tabs')
     this.exportButton = $<HTMLButtonElement>('[data-action=export]')
@@ -585,6 +667,34 @@ export class App {
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
     language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
+    // Echter mBot2: Knopf in der Werkzeugleiste (neben der Simulation) und in den Einstellungen
+    const linkButtons = [$<HTMLButtonElement>('[data-action=mbot-link]'), $<HTMLButtonElement>('[data-action=mbot-link-settings]')]
+    const linkInfo = $<HTMLElement>('.settings-mbot-link small')
+    const showLink = () => {
+      const on = mbotLink.connected
+      const label = mbotLink.connecting ? t('web_visubot_connecting') : on ? t('web_visubot_disconnect') : t('web_visubot_connect')
+      linkButtons[0].hidden = !visuBotEnabled() || !canConnectMBot()
+      linkButtons[0].classList.toggle('connected', on)
+      const icon = mbotLink.connecting ? '⏳' : on ? '🟢' : '🔌'
+      linkButtons[0].textContent = `${icon} mBot2`
+      linkButtons[0].title = label
+      linkButtons[1].textContent = `${icon} ${label}`
+      linkButtons[1].disabled = !canConnectMBot()
+      linkButtons[1].parentElement!.hidden = !visuBotEnabled()
+      linkInfo.textContent = canConnectMBot() ? mbotLinkText() : t('web_visubot_no_serial')
+    }
+    for (const b of linkButtons) b.addEventListener('click', () => void toggleMBotLink())
+    this.stopLinkListener?.()
+    this.stopLinkListener = mbotLink.listen(showLink)
+    showLink()
+    const visuBot = $<HTMLSelectElement>('[data-action=visubot]')
+    visuBot.value = visuBotMode()
+    visuBot.addEventListener('change', () =>
+      void this.changeLanguage(async () => {
+        setVisuBotMode(visuBot.value as VisuBotMode)
+        useVisuBotContent(visuBot.value as VisuBotMode)
+      }, 'visubot'),
+    )
     const keywords = $<HTMLInputElement>('[data-action=keywords]')
     keywords.checked = codeKeywords()
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
@@ -1235,6 +1345,8 @@ export class App {
     if (on) {
       this.setCoding(false)
       this.setEditorHidden(false)
+      // VisuBot: Die Simulation zeigt die Welten der Übung in diesem Reiter (sonst die freie Fläche).
+      this.visuBot?.setWorlds(exerciseWorlds(this.tab.exerciseId))
       this.sim.begin()
     } else {
       this.sim.end()
@@ -1535,6 +1647,24 @@ export class App {
   }
 
   /** Einfügen ohne Ziehen: Platzhalter ersetzen bzw. hinter der Auswahl (oder ans Ende) einfügen. */
+  /**
+   * VisuBot: Sensorwert in den Text eines Elements schreiben (ohne Ziel: in das gewählte Element).
+   * Leere Bedingung → nur der Wert; sonst kommt er hinten dazu. Den Vergleich (`< 20`) schreiben die Schüler selbst.
+   */
+  private insertSensor(text: string, path = this.selected) {
+    if (!path || isPlaceholderSlot(this.doc, path)) return
+    const el = elementAt(this.doc, path)
+    if (!takesSensor.includes(el.type)) return
+    const old = (el.textLines ?? []).join(' ').trim()
+    this.commit(setTextLines(this.doc, path, [old ? `${old} ${text}` : text]), path)
+    // Gleich weiterschreiben können, z. B. ` < 20`
+    const ta = this.inspector.querySelector('textarea')
+    if (ta) {
+      ta.focus()
+      ta.setSelectionRange(ta.value.length, ta.value.length)
+    }
+  }
+
   private insertNearSelection(element: VSElement) {
     const path = this.selected
     if (path && isPlaceholderSlot(this.doc, path)) return this.commit(replaceAtPath(this.doc, path, element), path)
@@ -1862,7 +1992,8 @@ export class App {
     const d = this.drag
     if (!d || e.pointerId !== d.pointerId) return
     if (d.active && d.target) this.applyDrop(d.source, d.target)
-    else if (!d.active && d.source.kind === 'palette') this.insertNearSelection(paletteElement(d.source.item))
+    else if (!d.active && d.source.kind === 'palette') this.insertNearSelection(d.source.make())
+    else if (!d.active && d.source.kind === 'sensor') this.insertSensor(d.source.text)
     this.endDrag()
   }
 
@@ -1876,8 +2007,8 @@ export class App {
   private makeGhost(source: DragSource): HTMLElement {
     const g = document.createElement('div')
     g.className = 'drag-ghost'
-    if (source.kind === 'palette') {
-      g.textContent = paletteItems.find((p) => p.item === source.item)!.label
+    if (source.kind === 'palette' || source.kind === 'sensor') {
+      g.textContent = source.label
     } else {
       const e = elementAt(this.doc, source.path)
       g.textContent = `${typeName(e.type)}: ${canvasTextLines(e)[0]}`
@@ -1898,6 +2029,11 @@ export class App {
   private dropTargetAt(x: number, y: number, source: DragSource): DropTarget | undefined {
     const roots = this.layout?.elements ?? []
     const node = this.nodeAt(x, y)
+    if (source.kind === 'sensor') {
+      // Nur auf ein Element mit Bedingung oder eine Anweisung, nicht dazwischen
+      if (!node || isPlaceholderSlot(this.doc, node.idPath)) return undefined
+      return takesSensor.includes(elementAt(this.doc, node.idPath).type) ? { kind: 'condition', path: node.idPath, frame: node.frame } : undefined
+    }
     if (!node) {
       const last = roots[roots.length - 1]
       if (!last) return undefined
@@ -1923,7 +2059,7 @@ export class App {
     this.overlay.replaceChildren()
     if (!t) return
     const f = t.frame
-    if (t.kind === 'replace') {
+    if (t.kind === 'replace' || t.kind === 'condition') {
       this.overlay.append(el('rect', { x: f.x + 2, y: f.y + 2, width: f.width - 4, height: f.height - 4, class: 'drop-replace' }))
       return
     }
@@ -1934,8 +2070,13 @@ export class App {
   private applyDrop(source: DragSource, t: DropTarget) {
     const doc = this.doc
     try {
+      if (source.kind === 'sensor') {
+        if (t.kind === 'condition') this.insertSensor(source.text, t.path)
+        return
+      }
+      if (t.kind === 'condition') return
       if (source.kind === 'palette') {
-        const element = paletteElement(source.item)
+        const element = source.make()
         switch (t.kind) {
           case 'replace':
             return this.commit(replaceAtPath(doc, t.path, element), t.path)
@@ -2021,4 +2162,17 @@ function storeValue(key: string, value: string) {
 
 function escapeHTML(s: string): string {
   return s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
+}
+
+/** Welten einer VisuBot-Übung (`welt:`), in der Reihenfolge der Tests. */
+function exerciseWorlds(id: string | undefined): RobotWorldSetup[] {
+  if (!id) return []
+  for (const block of [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]) {
+    if (block.kind !== 'exercise' || block.exercise.id !== id) continue
+    return block.exercise.tests.flatMap((test) => {
+      const setup = test.world ? world(test.world) : undefined
+      return setup ? [setup] : []
+    })
+  }
+  return []
 }

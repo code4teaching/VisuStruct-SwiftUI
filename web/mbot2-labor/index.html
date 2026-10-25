@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mBot2-Labor</title>
+<!--
+  Verbindungstest VisuStruct ↔ mBot2 (CyberPi) über Web Serial.
+  Nutzt die Makeblock-Firmware so, wie sie ist: Python-Zeilen werden in F3…F4-Rahmen geschickt,
+  der CyberPi führt sie aus und antwortet mit {"ret": …}. Beschreibung des Rahmens nach
+  github.com/dachrisch/mbot2-course-setup (docs/06-usb-upload-protocol.md), Code hier selbst geschrieben.
+  Öffnen: Datei per Doppelklick in Chrome oder Edge (Web Serial gibt es nicht in Safari).
+-->
+<style>
+  :root { --bg: #f6f7f9; --fg: #1d232b; --muted: #5d6875; --card: #fff; --line: #d9dee5; --blue: #2d6cdf; --red: #c63b3b; --green: #2c8a4b; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #15181c; --fg: #e8ebef; --muted: #9aa5b1; --card: #1f242a; --line: #333b44; } }
+  body { margin: 0; font: 15px/1.45 system-ui, sans-serif; background: var(--bg); color: var(--fg); }
+  main { max-width: 820px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 22px; margin: 8px 0 4px; }
+  p.hint { color: var(--muted); margin: 0 0 16px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; }
+  h2 { font-size: 15px; margin: 0 0 8px; }
+  button { font: inherit; padding: 6px 12px; margin: 0 6px 6px 0; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  button:disabled { opacity: .45; cursor: default; }
+  #status { font-weight: 600; margin-left: 6px; }
+  #status.ok { color: var(--green); } #status.err { color: var(--red); }
+  .row { display: flex; gap: 6px; } .row input { flex: 1; font: 14px ui-monospace, monospace; padding: 6px 8px; border-radius: 7px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); }
+  #log { font: 12.5px/1.4 ui-monospace, monospace; white-space: pre-wrap; word-break: break-all; max-height: 360px; overflow: auto; background: var(--bg); border-radius: 7px; padding: 8px; margin: 0; }
+  .out { color: var(--blue); } .in { color: var(--green); } .txt { color: var(--muted); } .err { color: var(--red); }
+</style>
+</head>
+<body>
+<main>
+  <h1>mBot2-Labor</h1>
+  <p class="hint">Verbindungstest: mBot2 per USB-Kabel (USB-C rechts am CyberPi) anschließen und einschalten: Der Schiebeschalter <b>ON/OFF</b> sitzt links am durchsichtigen Shield, von hinten gesehen. Wenn der Bildschirm des CyberPi leuchtet, ist er an. mBlock schließen, dann „Verbinden“. Nach dem Verbinden startet der CyberPi einmal neu (ca. 3 Sekunden).</p>
+
+  <section>
+    <button id="connect" class="primary">Verbinden</button>
+    <button id="disconnect" disabled>Trennen</button>
+    <span id="status">nicht verbunden</span>
+  </section>
+
+  <section>
+    <h2>1. Antwortet der CyberPi?</h2>
+    <button data-ping disabled>Ping</button>
+    <button data-py="cyberpi.led.on(255, 0, 0)" disabled>LEDs rot</button>
+    <button data-py="cyberpi.led.off()" disabled>LEDs aus</button>
+    <button data-py="cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')" disabled>Hallo auf Display (groß)</button>
+    <button data-py="cyberpi.console.println('VisuStruct')" disabled>Text auf Display (Konsole)</button>
+    <button data-py="cyberpi.audio.play_tone(440, 0.3)" disabled>Ton</button>
+  </section>
+
+  <section>
+    <h2>2. Fahren (mBot2 hochheben oder Platz lassen!)</h2>
+    <button data-py="mbot2.straight(10)" disabled>10 cm vorwärts</button>
+    <button data-py="mbot2.straight(-10)" disabled>10 cm rückwärts</button>
+    <button data-py="mbot2.turn(90)" disabled>90° drehen</button>
+    <button data-py="mbot2.EM_stop('ALL')" disabled>Stopp</button>
+  </section>
+
+  <section>
+    <h2>3. Sensoren lesen</h2>
+    <button data-py="mbuild.ultrasonic2.get(1)" data-mode="1" disabled>Abstand (cm)</button>
+    <button data-py="mbuild.quad_rgb_sensor.get_line_sta('all', 1)" data-mode="1" disabled>Linie</button>
+    <button data-py="cyberpi.get_bri()" data-mode="1" disabled>Helligkeit</button>
+    <button data-py="cyberpi.controller.is_press('a')" data-mode="1" disabled>Taste A gedrückt?</button>
+  </section>
+
+  <section>
+    <h2>4. Eigene Python-Zeile</h2>
+    <div class="row">
+      <input id="py" value="cyberpi.get_battery()" spellcheck="false">
+      <select id="mode" title="Modus"><option value="1">Modus 1 (mit Wert)</option><option value="3">Modus 3</option><option value="4">Modus 4 (nur ausführen)</option><option value="0">Modus 0</option></select>
+      <button id="send" disabled>Senden</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Protokoll <button id="copy" style="float:right;margin:0">Kopieren</button></h2>
+    <pre id="log"></pre>
+  </section>
+</main>
+<script>
+'use strict'
+
+const BAUD = 115200
+const enc = new TextEncoder()
+const dec = new TextDecoder()
+
+let port = null
+let reader = null
+let writer = null
+let rx = []          // empfangene, noch nicht ausgewertete Bytes
+let waiting = null   // { resolve, timer } für die nächste Rahmen-Antwort
+
+const $ = (s) => document.querySelector(s)
+const hex = (bytes) => Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join(' ')
+
+function log(text, cls = '') {
+  const line = document.createElement('span')
+  line.className = cls
+  line.textContent = `${new Date().toLocaleTimeString()}  ${text}\n`
+  $('#log').append(line)
+  $('#log').scrollTop = $('#log').scrollHeight
+}
+
+function setConnected(on, text) {
+  $('#status').textContent = text
+  $('#status').className = on ? 'ok' : ''
+  $('#connect').disabled = on
+  $('#disconnect').disabled = !on
+  document.querySelectorAll('[data-py],[data-ping],#send').forEach((b) => { b.disabled = !on })
+}
+
+/** Rahmen: F3, Kopf-Prüfsumme, Länge (LE16), Inhalt, Summe des Inhalts, F4. */
+function frame(body) {
+  const len = body.length
+  const head = (0xf3 + (len & 0xff) + (len >> 8)) & 0xff
+  const sum = body.reduce((a, b) => a + b, 0) & 0xff
+  return Uint8Array.from([0xf3, head, len & 0xff, len >> 8, ...body, sum, 0xf4])
+}
+
+// Typ 0x28 = Python, dann Modus, Nummer (2 Byte), Länge (2 Byte), Text.
+// Modus 4 führt nur aus ({"ret":None}); Modus 1 liefert den Wert eines Ausdrucks zurück ({"ret":123}).
+let nextIdx = 1
+function pythonFrame(code, mode = 4) {
+  const text = Array.from(enc.encode(code))
+  const idx = nextIdx++ & 0xffff
+  return frame([0x28, mode, idx & 0xff, idx >> 8, text.length & 0xff, text.length >> 8, ...text])
+}
+
+/** Sucht vollständige Rahmen in rx; alles außerhalb von Rahmen ist Textausgabe des CyberPi. */
+function parse() {
+  for (;;) {
+    const start = rx.indexOf(0xf3)
+    if (start < 0) { flushText(rx); rx = []; return }
+    if (start > 0) { flushText(rx.slice(0, start)); rx = rx.slice(start) }
+    if (rx.length < 4) return
+    const len = rx[2] | (rx[3] << 8)
+    if (((0xf3 + rx[2] + rx[3]) & 0xff) !== rx[1] || len > 4096) { flushText(rx.slice(0, 1)); rx = rx.slice(1); continue }
+    if (rx.length < len + 6) return
+    const body = rx.slice(4, 4 + len)
+    const ok = rx[4 + len] === (body.reduce((a, b) => a + b, 0) & 0xff) && rx[5 + len] === 0xf4
+    if (!ok) { flushText(rx.slice(0, 1)); rx = rx.slice(1); continue }
+    rx = rx.slice(len + 6)
+    onFrame(body)
+  }
+}
+
+function flushText(bytes) {
+  const text = dec.decode(Uint8Array.from(bytes)).replace(/\r/g, '').trim()
+  if (text) log(`CyberPi: ${text}`, 'txt')
+}
+
+function onFrame(body) {
+  const text = dec.decode(Uint8Array.from(body))
+  const json = text.match(/\{.*\}/s)
+  log(`← ${hex(body)}${json ? `   ${json[0]}` : ''}`, 'in')
+  if (waiting) { clearTimeout(waiting.timer); const w = waiting; waiting = null; w.resolve(json ? json[0] : hex(body)) }
+}
+
+async function send(bytes, label) {
+  if (!writer) return
+  log(`→ ${label}   [${hex(bytes)}]`, 'out')
+  const answer = new Promise((resolve) => {
+    waiting = { resolve, timer: setTimeout(() => { waiting = null; log('keine Antwort nach 3 s', 'err'); resolve(null) }, 3000) }
+  })
+  await writer.write(bytes)
+  return answer
+}
+
+async function readLoop() {
+  while (port && port.readable) {
+    reader = port.readable.getReader()
+    try {
+      for (;;) {
+        const { value, done } = await reader.read()
+        if (done) break
+        rx.push(...value)
+        parse()
+      }
+    } catch (e) {
+      log(`Lesefehler: ${e.message}`, 'err')
+    } finally {
+      reader.releaseLock()
+      reader = null
+    }
+    if (!writer) break
+  }
+}
+
+$('#connect').onclick = async () => {
+  if (!('serial' in navigator)) { log('Dieser Browser kann kein Web Serial. Bitte Chrome oder Edge nehmen.', 'err'); return }
+  try {
+    port = await navigator.serial.requestPort()
+    await port.open({ baudRate: BAUD })
+    writer = port.writable.getWriter()
+    const info = port.getInfo()
+    log(`Port geöffnet (USB ${info.usbVendorId?.toString(16) ?? '?'}:${info.usbProductId?.toString(16) ?? '?'}), warte auf Neustart …`)
+    setConnected(false, 'startet neu …')
+    readLoop()
+    await new Promise((r) => setTimeout(r, 3000))
+    setConnected(true, 'verbunden')
+    await send(frame([0x0d, 0x00, 0x00]), 'Ping')
+    // Begrüßung auf dem Bildschirm: so sieht man am Roboter, dass VisuBot verbunden ist
+    const hello = "cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')"
+    await send(pythonFrame(hello), hello)
+  } catch (e) {
+    log(`Verbinden fehlgeschlagen: ${e.message}`, 'err')
+    setConnected(false, 'nicht verbunden')
+    $('#status').className = 'err'
+  }
+}
+
+$('#disconnect').onclick = async () => {
+  const p = port
+  port = null
+  try { writer?.releaseLock(); writer = null; await reader?.cancel(); await p?.close() } catch (e) { log(e.message, 'err') }
+  setConnected(false, 'nicht verbunden')
+  log('getrennt')
+}
+
+document.querySelectorAll('[data-py]').forEach((b) => {
+  const mode = Number(b.dataset.mode ?? 4)
+  b.onclick = () => send(pythonFrame(b.dataset.py, mode), `${b.dataset.py}   (Modus ${mode})`)
+})
+document.querySelector('[data-ping]').onclick = () => send(frame([0x0d, 0x00, 0x00]), 'Ping')
+$('#send').onclick = () => send(pythonFrame($('#py').value, Number($('#mode').value)), `${$('#py').value}   (Modus ${$('#mode').value})`)
+$('#py').onkeydown = (e) => { if (e.key === 'Enter' && !$('#send').disabled) $('#send').click() }
+$('#copy').onclick = () => navigator.clipboard.writeText($('#log').textContent)
+</script>
+</body>
+</html>

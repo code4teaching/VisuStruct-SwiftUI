@@ -1,0 +1,5 @@
+// Tunnelsucher (nach Kara): Halt im ersten Feld mit Wand links UND rechts (hellgrün). Ein Zeichen = 30 cm.
+raster: 3
+..#..###.
+>....o...
+....#####
