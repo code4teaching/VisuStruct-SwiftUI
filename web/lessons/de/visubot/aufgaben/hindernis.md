@@ -13,7 +13,7 @@ auftrag: Der mBot2 fährt, solange er nicht auf Rot steht. Ist ein Klotz näher 
 welt: hindernis-1 -> tone
 welt: hindernis-2 -> tone
 braucht: whileSchleife, verzweigung
-tipp: Außen eine While-Schleife mit `!mbot.isRed()`, darin eine Verzweigung mit `mbot.getDistance() < 20`.
+tipp: Außen eine While-Schleife mit `!mbot.getColor().equals("rot")`, darin eine Verzweigung mit `mbot.getDistance() < 20`.
 tipp: Im Ja-Zweig: `mbot.setLed(255, 128, 0)`, `mbot.playTone(880, 200)`, `mbot.turnRight()`, `mbot.forward(30)`, `mbot.turnLeft()`, `mbot.ledOff()`. Im Nein-Zweig: `mbot.forward()`.
 lösung: vb-hindernis-loesung.visustruct
 :::

@@ -8,6 +8,8 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web, Programming:** a book button in the Programming header opens the reference (commands and terms) in the learning area, also when only Programming is open.
+- **Web, VisuBot colour sensor:** `mbot.getColor()` gives the colour under the mBot2 as text (“rot”/“red”, “grün”/“green”, “blau”, “gelb”, “schwarz”, “weiß”, in the language of the lessons) and replaces `isRed()`, `isGreen()`, `isBlue()` and `isYellow()`. Conditions are written as `mbot.getColor().equals("rot")`; lesson 7 explains why texts are compared with `.equals` and not `==`. Course steps, tasks, model solutions and the reference were updated.
 - **Web 0.4.5, VisuBot in the course:** with VisuBot “In the course”, the VisuBot tour comes first as lesson 0 (same learning progress as in the separate series). The robot steps are now called “🤖 Now with VisuBot: …”. New LED steps: a running light in lesson 13 (for loop) and a rainbow colour array in lesson 15 (arrays).
 - **Web 0.4.4, VisuBot single LEDs:** new command `mbot.led(i).setColor("green")` (box “set LED colour”): LEDs 0 to 4 like an array, colours by name in German or English, `"off"` switches off; the 3D simulator lights each LED on its own. New VisuBot lesson 13 “Single LEDs” (de/en) with three lights and a running light (lessons 13–16 become 14–17) and new tasks Morse SOS, Knight Rider and counting in binary.
 - **Web 0.4.4, VisuBot screen:** after connecting, the real mBot2 shows “VisuBot” in large letters; every text clears the screen first, so nothing is left over. Colours are not set because the CyberPi changes the text colour on its own. The mBot2 lab page highlights the current tests and shows its round in the title and log.

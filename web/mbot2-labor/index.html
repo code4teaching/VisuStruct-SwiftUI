@@ -46,7 +46,7 @@
   </section>
 
   <section class="jetzt">
-    <h2>👉 Jetzt testen (Runde 21: einzelne LEDs)</h2>
+    <h2>👉 Jetzt testen (Runde 22: einzelne LEDs und Farbsensor)</h2>
     <ol>
       <li>Oben „Verbinden“</li>
       <li><button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button></li>
@@ -54,6 +54,11 @@
       <li><button data-py="vbt(&quot;cyberpi.led.on(0, 255, 0, id=3)&quot;)" data-mode="1" disabled>Test X: LED 3 grün dazu</button> Leuchtet jetzt zusätzlich die mittlere grün?</li>
       <li><button data-py="vbt(&quot;cyberpi.led.on(0, 0, 255, id=5)&quot;)" data-mode="1" disabled>Test Y: LED 5 blau dazu</button> Leuchtet die am anderen Ende blau?</li>
       <li><button data-py="vbt(&quot;import time; [(cyberpi.led.off(), cyberpi.led.on(255, 0, 0, id=i), time.sleep(0.15)) for i in (1, 2, 3, 4, 5, 4, 3, 2, 1)]; cyberpi.led.off()&quot;)" data-mode="1" disabled>Test Z: Knight Rider (einmal hin und zurück)</button> Läuft ein rotes Licht hin und her?</li>
+      <li>mBot2 mit dem Farbsensor (unten vorn) auf ein <b>rotes</b> Blatt oder Klebeband stellen</li>
+      <li><button data-py="mbuild.quad_rgb_sensor.get_color_sta(&#x27;L1&#x27;, 1)" data-mode="1" disabled>Test F1: Farbe (Fühler L1)</button> Was steht im Protokoll?</li>
+      <li><button data-py="mbuild.quad_rgb_sensor.get_color_sta(&#x27;R1&#x27;, 1)" data-mode="1" disabled>Test F2: Farbe (Fühler R1)</button></li>
+      <li><button data-py="mbuild.quad_rgb_sensor.get_color_sta(&#x27;any&#x27;, 1)" data-mode="1" disabled>Test F3: Farbe (alle Fühler)</button></li>
+      <li>Dann auf <b>weißen</b> Boden und auf <b>schwarz</b> stellen und F1 jeweils noch einmal drücken</li>
       <li>Berichten (mit Protokoll)</li>
     </ol>
   </section>

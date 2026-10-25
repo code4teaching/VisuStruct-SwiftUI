@@ -3,7 +3,7 @@ import type { LiveLabels } from '../src/core/codeGenerator'
 import { checkExercise } from '../src/core/exerciseCheck'
 import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava } from '../src/core/liveSource'
-import { actionSignature, parseActionSpec, usedMBotSensors } from '../src/core/mbot'
+import { actionSignature, mbotColorName, parseActionSpec, setMBotColorLanguage, usedMBotSensors } from '../src/core/mbot'
 import { parseWorldMap, RobotWorld } from '../src/core/robotWorld'
 import { SimulationEngine } from '../src/core/simulation'
 import { parseSensorTest } from '../src/learn/lessonFormat'
@@ -16,7 +16,7 @@ const docOf = (java: string) => {
   return documentFromJava({ caption: '', elements: [] }, parsed)
 }
 
-function run(java: string, sensors: Record<string, number | boolean> = {}) {
+function run(java: string, sensors: Record<string, number | boolean | string> = {}) {
   const engine = new SimulationEngine(docOf(java))
   engine.robotSensors = sensors
   for (let i = 0; i < 1000 && engine.canStep; i++) engine.step()
@@ -35,20 +35,37 @@ describe('mBot2-Sensoren', () => {
   })
 
   it('speichert einen Sensorwert in einer boolean-Variable', () => {
-    const state = run(main('    boolean laut = mbot.getLoudness() > 50;\n    boolean rot = mbot.isRed();\n    System.out.println(laut);\n    System.out.println(rot);'), { getLoudness: 80, isRed: true })
+    const state = run(main('    boolean laut = mbot.getLoudness() > 50;\n    boolean rot = mbot.getColor().equals("red");\n    System.out.println(laut);\n    System.out.println(rot);'), { getLoudness: 80, getColor: 'red' })
     expect(state.outputLines).toEqual(['true', 'true'])
   })
 
+  it('liefert die Farbe als Text in der Sprache der Lektionen', () => {
+    const code = main('    String farbe = mbot.getColor();\n    System.out.println(farbe);\n    if (!mbot.getColor().equals("rot")) {\n      mbot.forward();\n    }')
+    setMBotColorLanguage('de')
+    try {
+      expect(run(code, { getColor: 'red' }).outputLines).toEqual(['rot'])
+      expect(run(code, { getColor: 'red' }).robotActions).toEqual([])
+      // Messwerte in Lektionen dürfen deutsch oder englisch sein, der echte Sensor antwortet englisch
+      expect(run(code, { getColor: 'weiß' }).robotActions.map((a) => a.method)).toEqual(['forward'])
+      expect(mbotColorName('green')).toBe('grün')
+    } finally {
+      setMBotColorLanguage('en')
+    }
+    expect(run(code, { getColor: 'rot' }).outputLines).toEqual(['red'])
+    expect(parseSensorTest('getColor=rot/weiß -> none').sensors).toEqual({ getColor: ['rot', 'weiß'] })
+  })
+
   it('findet die benutzten Sensoren', () => {
-    expect(usedMBotSensors('if (mbot.isRed() || mbot.getPitch() > 20) mbot.forward(); mbot.isRed()').sort()).toEqual(['getPitch', 'isRed'])
+    expect(usedMBotSensors('if (mbot.getColor().equals("rot") || mbot.getPitch() > 20) mbot.forward(); mbot.getColor()').sort()).toEqual(['getColor', 'getPitch'])
   })
 
   it('erkennt farbige Felder unter dem Sensor', () => {
     const world = new RobotWorld(parseWorldMap('...\n.r.\n...\n.^.'))
-    expect(world.sensors().isRed).toBe(false)
+    expect(world.sensors().getColor).toBe('white')
     world.drive(10)
     expect(world.colorUnder()).toBe('red')
-    expect(world.sensors()).toMatchObject({ isRed: true, isGreen: false, getLine: 0 })
+    expect(world.sensors()).toMatchObject({ getColor: 'red', getLine: 0 })
+    expect(new RobotWorld(parseWorldMap('...\n.x.\n...\n.^.')).sensors().getColor).toBe('white')
   })
 
   it('prüft Übungen mit Messwerten, auch nacheinander', () => {

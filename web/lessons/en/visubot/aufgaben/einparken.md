@@ -15,7 +15,7 @@ auftrag: The mBot2 drives forward in steps of 10 cm until it is on blue. Then it
 welt: parken-1 -> ledOn, screen "Parked!"
 welt: parken-2 -> ledOn, screen "Parked!"
 braucht: whileSchleife
-tipp: Two while loops one after the other: first `!mbot.isBlue()` with `mbot.forward()` inside, then `mbot.getDistance() < 45` with `mbot.backward()` inside. In between is `mbot.turnLeft()`.
+tipp: Two while loops one after the other: first `!mbot.getColor().equals("blue")` with `mbot.forward()` inside, then `mbot.getDistance() < 45` with `mbot.backward()` inside. In between is `mbot.turnLeft()`.
 tipp: At the end: `mbot.setLed(0, 255, 0)` and `mbot.showText("Parked!")`.
 lösung: vb-einparken-loesung.visustruct
 :::

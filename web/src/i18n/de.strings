@@ -316,10 +316,7 @@
 "web_visubot_el_wait" = "kurz warten";
 "web_visubot_el_emotion" = "Gefühl zeigen";
 "web_visubot_el_text" = "Text anzeigen";
-"web_visubot_sensor_red" = "Farbe rot?";
-"web_visubot_sensor_green" = "Farbe grün?";
-"web_visubot_sensor_blue" = "Farbe blau?";
-"web_visubot_sensor_yellow" = "Farbe gelb?";
+"web_visubot_sensor_color" = "Farbe ist rot?";
 "web_visubot_sensor_button_a" = "Taste A gedrückt?";
 "web_visubot_sensor_button_b" = "Taste B gedrückt?";
 "web_visubot_sensor_joy_up" = "Joystick oben?";

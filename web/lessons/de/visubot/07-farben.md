@@ -1,7 +1,7 @@
 ---
 titel: Farben erkennen
 bereich: VisuBot
-kurz: Der Quad-RGB-Sensor sieht rote, grüne, blaue und gelbe Felder.
+kurz: Der Quad-RGB-Sensor sagt, auf welcher Farbe der mBot2 steht.
 ---
 
 ## Ein Sensor, der Farben sieht
@@ -13,16 +13,22 @@ ansicht: unten
 
 Der [Liniensensor]{teil=lineSensor} heißt eigentlich **Quad-RGB-Sensor**. „Quad“ heißt vier (vier Fühler), „RGB“ steht für Rot, Grün und Blau. Er leuchtet den Boden in diesen drei Farben an und misst, welche Farbe zurückkommt. So erkennt er farbige Felder.
 
-| Sensor | Text | Wert |
-|---|---|---|
-| Rot? | `mbot.isRed()` | `true` oder `false` |
-| Grün? | `mbot.isGreen()` | `true` oder `false` |
-| Blau? | `mbot.isBlue()` | `true` oder `false` |
-| Gelb? | `mbot.isYellow()` | `true` oder `false` |
+`mbot.getColor()` liefert den Namen der Farbe unter dem mBot2, und zwar als **Text**:
 
-Diese Sensoren liefern keine Zahl, sondern gleich **wahr** oder **falsch**. Darum brauchst du keinen Vergleich: `mbot.isRed()` ist schon eine fertige Bedingung.
+| Boden | `mbot.getColor()` |
+|---|---|
+| rotes Feld | `"rot"` |
+| grünes Feld | `"grün"` |
+| blaues Feld | `"blau"` |
+| gelbes Feld | `"gelb"` |
+| schwarzes Feld oder Linie | `"schwarz"` |
+| heller Boden | `"weiß"` |
 
-> Mit dem `!` davor drehst du eine Bedingung um: `!mbot.isRed()` heißt „**nicht** rot“.
+Ob es eine bestimmte Farbe ist, fragst du mit `.equals(…)`: `mbot.getColor().equals("rot")` ist **wahr**, wenn der mBot2 auf Rot steht, sonst **falsch**. Das ist also schon eine fertige Bedingung.
+
+> Texte vergleichst du in Java immer mit `.equals(…)`, **nicht** mit `==`. Das `==` sieht richtig aus, klappt bei Texten aber oft nicht.
+
+> Mit dem `!` davor drehst du eine Bedingung um: `!mbot.getColor().equals("rot")` heißt „**nicht** rot“.
 
 ## Fahre bis Rot im Struktogramm
 
@@ -32,8 +38,8 @@ auftrag: Der mBot2 fährt vor, solange er **nicht** auf einem roten Feld steht. 
 welt: farbe-1 -> forward 20
 welt: farbe-2 -> forward 50
 braucht: whileSchleife
-tipp: Zieh eine While-Schleife ins Struktogramm und den Sensor **Farbe rot?** darauf. Schreib ein `!` vor `mbot.isRed()`.
-tipp: Die Bedingung heißt `!mbot.isRed()`, in der Schleife steht **fahre vor**.
+tipp: Zieh eine While-Schleife ins Struktogramm und den Sensor **Farbe ist rot?** darauf. Schreib ein `!` vor `mbot.getColor().equals("rot")`.
+tipp: Die Bedingung heißt `!mbot.getColor().equals("rot")`, in der Schleife steht **fahre vor**.
 lösung: vb-bis-rot-loesung.visustruct
 :::
 
@@ -48,25 +54,25 @@ auftrag: Schreibe in Java: Der mBot2 fährt vor, solange er nicht auf Blau steht
 welt: farbe-3 -> forward 30, tone
 welt: farbe-4 -> forward 30, noTone
 braucht: whileSchleife, verzweigung
-tipp: Außen steht `while (!mbot.isBlue()) { … }`. Darin zuerst `mbot.forward();`.
-tipp: Danach, noch in der Schleife: `if (mbot.isGreen()) { mbot.playTone(880, 200); }`.
+tipp: Außen steht `while (!mbot.getColor().equals("blau")) { … }`. Darin zuerst `mbot.forward();`.
+tipp: Danach, noch in der Schleife: `if (mbot.getColor().equals("grün")) { mbot.playTone(880, 200); }`.
 lösung: vb-java-blau-gruen-loesung.visustruct
 :::
 
 ::: quiz
-? Der mBot2 steht auf einem roten Feld. Was ist `!mbot.isRed()`?
+? Der mBot2 steht auf einem roten Feld. Was ist `!mbot.getColor().equals("rot")`?
 - [ ] wahr
 - [x] falsch
-> `mbot.isRed()` ist wahr, das `!` macht daraus falsch. Die Schleife hört also auf.
-? Warum schreibst du bei `mbot.isGreen()` kein `== true` dahinter?
-- [x] Der Sensor liefert schon wahr oder falsch, das ist bereits eine Bedingung.
-- [ ] Weil Java `true` nicht kennt.
-- [ ] Weil Farben keine Zahlen sind.
-> `if (mbot.isGreen() == true)` geht auch, ist aber doppelt gemoppelt.
+> `mbot.getColor().equals("rot")` ist wahr, das `!` macht daraus falsch. Die Schleife hört also auf.
+? Womit vergleichst du die Farbe mit `"grün"`?
+- [x] `mbot.getColor().equals("grün")`
+- [ ] `mbot.getColor() == "grün"`
+- [ ] `mbot.getColor() = "grün"`
+> `mbot.getColor()` liefert einen Text, und Texte vergleicht man mit `.equals(…)`. Ein einzelnes `=` ist eine Zuweisung, gar kein Vergleich.
 :::
 
 ::: checkliste
-- Ich kenne die vier Farbsensoren. → Ein Sensor, der Farben sieht
+- Ich kann mit `mbot.getColor().equals(…)` eine Farbe abfragen. → Ein Sensor, der Farben sieht
 - Ich kann mit `!` eine Bedingung umdrehen. → Fahre bis Rot im Struktogramm
 - Ich kann eine Verzweigung in eine Schleife schreiben. → Jetzt in Java: bei Grün piepen
 :::

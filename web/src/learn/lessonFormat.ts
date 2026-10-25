@@ -1,5 +1,5 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
-import { driveSignature, isMBotPart, MBOT_PARTS, MBOT_SENSORS, parseActionSpec, parseDriveSpec, type MBotPart } from '../core/mbot'
+import { driveSignature, isMBotPart, MBOT_PARTS, MBOT_SENSORS, parseActionSpec, parseDriveSpec, type MBotPart, type MBotSensorValue } from '../core/mbot'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
@@ -120,15 +120,17 @@ export function parseTest(spec: string, file: string): ExerciseTest {
 export function parseSensorTest(value: string): ExerciseTest {
   const arrow = /^(.*?)\s*(?:->|→)\s*(.*)$/.exec(value.trim())
   if (!arrow) throw new Error(`„messwerte: ${value}“ braucht ein „->“.`)
-  const sensors: Record<string, (number | boolean)[]> = {}
+  const sensors: Record<string, MBotSensorValue[]> = {}
   for (const part of arrow[1].split(/\s*,\s*/).filter(Boolean)) {
     const m = /^(\w+)\s*=\s*(.+)$/.exec(part)
     if (!m || !(m[1] in MBOT_SENSORS)) throw new Error(`Unbekannter Sensor in „${part}“.`)
     sensors[m[1]] = m[2].split('/').map((v) => {
       const t = v.trim()
       if (t === 'true' || t === 'false') return t === 'true'
-      if (!/^-?\d+(\.\d+)?$/.test(t)) throw new Error(`Messwert „${t}“ ist keine Zahl und nicht true/false.`)
-      return Number(t)
+      if (/^-?\d+(\.\d+)?$/.test(t)) return Number(t)
+      // Text, z. B. eine Farbe: getColor=rot
+      if (typeof MBOT_SENSORS[m[1]].simulated === 'string') return t
+      throw new Error(`Messwert „${t}“ ist keine Zahl und nicht true/false.`)
     })
   }
   return robotExpectation({ inputs: [], expected: [], sensors }, arrow[2])

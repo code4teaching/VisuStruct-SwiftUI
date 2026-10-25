@@ -1,6 +1,7 @@
 import { registerTextFile } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import { parseWorldMap, type RobotWorldSetup } from '../core/robotWorld'
+import { setMBotColorLanguage } from '../core/mbot'
 import type { VSDocument } from '../core/model'
 import { parseGlossary, type GlossaryEntry } from './glossary'
 import { parseLesson, parseTask, type Lesson, type Step, type Task } from './lessonFormat'
@@ -96,6 +97,7 @@ function withRobotSteps(lesson: Lesson, extra: Step[]): Lesson {
 
 /** Wählt die Sprache der Lektionen; die Exporte oben zeigen danach die Inhalte dieser Sprache. */
 export function useContentLanguage(lang: ContentLanguage) {
+  setMBotColorLanguage(lang)
   if (lang === language && lessons.length > 0) return
   language = lang
   const pages = filesFor(lessonFiles, /\/lessons\/([^/]+)\/[^/]+\.md$/, lang)
