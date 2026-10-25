@@ -1,5 +1,5 @@
 import { MBOT_SENSORS, type MBotAction, type MBotSensorValues } from '../core/mbot'
-import { mbotLink } from '../core/mbotLink'
+import { HELLO, mbotLink } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
@@ -168,10 +168,11 @@ export class VisuBotView {
   private setupCheck() {
     for (const button of this.check.querySelectorAll<HTMLButtonElement>('button[data-py]')) {
       button.addEventListener('click', () => {
-        const stop = button.dataset.stop
+        // `data-after`: nach `data-wait` Millisekunden zurück (Räder anhalten, wieder „Hallo VisuBot!“ zeigen)
+        const { after, wait } = button.dataset
         void mbotLink
           .run(button.dataset.py!)
-          .then(() => (stop ? new Promise((r) => setTimeout(r, Number(stop))).then(() => mbotLink.run("mbot2.EM_stop('ALL')")) : undefined))
+          .then(() => (after ? new Promise((r) => setTimeout(r, Number(wait))).then(() => mbotLink.run(after)) : undefined))
           .catch((e: Error) => this.liveFailed(e))
       })
     }
@@ -326,8 +327,10 @@ function controlsHTML(): string {
 
 /** „mBot2 testen“: jeden Aktor einmal auslösen, jeden Sensor live ablesen (wie die Labor-Seite). */
 function checkHTML(): string {
-  const act = (py: string, key: string, stop?: number) =>
-    `<button type="button" data-py="${py.replace(/"/g, '&quot;')}"${stop ? ` data-stop="${stop}"` : ''}>${t(key)}</button>`
+  const attr = (py: string) => py.replace(/"/g, '&quot;')
+  const act = (py: string, key: string, after?: string, wait = 1000) =>
+    `<button type="button" data-py="${attr(py)}"${after ? ` data-after="${attr(after)}" data-wait="${wait}"` : ''}>${t(key)}</button>`
+  const stop = "mbot2.EM_stop('ALL')"
   const sensors = visuBotSensors
     .map((s) => `<tr><th>${t(s.key)}</th><td data-sensor="${s.text.replace(/^mbot\.|\(\)$/g, '')}">…</td></tr>`)
     .join('')
@@ -336,8 +339,8 @@ function checkHTML(): string {
     <div class="visubot-presses">
       ${act('cyberpi.led.on(255, 0, 0)', 'web_visubot_el_led')}${act('cyberpi.led.off()', 'web_visubot_el_led_off')}
       ${act('cyberpi.audio.play_tone(440, 0.3)', 'web_visubot_el_tone')}
-      ${act("cyberpi.display.show_label('Test', 24, 'center')", 'web_visubot_el_text')}
-      ${act('mbot2.drive_power(30, -30)', 'web_visubot_check_forward', 1000)}${act('mbot2.drive_power(30, 30)', 'web_visubot_check_spin', 1000)}
+      ${act("cyberpi.display.show_label('Test', 24, 'center')", 'web_visubot_el_text', HELLO, 2000)}
+      ${act('mbot2.drive_power(30, -30)', 'web_visubot_check_forward', stop)}${act('mbot2.drive_power(30, 30)', 'web_visubot_check_spin', stop)}
     </div>
     <table class="visubot-check-sensors">${sensors}</table>
   </details>`

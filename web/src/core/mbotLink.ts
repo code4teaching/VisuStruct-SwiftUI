@@ -87,6 +87,9 @@ const serial = (): SerialLike | undefined => (typeof navigator === 'undefined' ?
 export const canConnectMBot = () => serial() !== undefined
 
 /** Eine Verbindung für die ganze Seite (bleibt beim Neuaufbau der Oberfläche erhalten). */
+/** Begrüßung auf dem Bildschirm nach dem Verbinden (und nach „mBot2 testen“ → Text) */
+export const HELLO = "cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')"
+
 export class MBotLink {
   private port?: SerialPortLike
   private writer?: WritableStreamDefaultWriter<Uint8Array>
@@ -136,7 +139,7 @@ export class MBotLink {
     this.rx.length = 0
     this.connecting = false
     this.changed()
-    await this.run("cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')")
+    await this.run(HELLO)
   }
 
   /**
