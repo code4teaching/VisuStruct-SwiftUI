@@ -46,14 +46,12 @@
   </section>
 
   <section class="jetzt">
-    <h2>👉 Jetzt testen (Runde 19: Schlusstest ohne Farben)</h2>
+    <h2>👉 Jetzt testen (Runde 20: ohne „leeren“)</h2>
     <ol>
       <li>Oben „Verbinden“</li>
-      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;VisuBot\&quot;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Logo „VisuBot“</button></li>
-      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;Abstand: 42\&quot;, 24, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Text „Abstand: 42“</button></li>
-      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;Bis bald!\&quot;, 24, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>„Bis bald!“</button></li>
-      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;VisuBot\&quot;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Logo nochmal</button></li>
-      <li>Berichten: Ist alles weiß, sauber und ohne Reste?</li>
+      <li><button data-py="exec(&quot;cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label(&#x27;VisuBot&#x27;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Test U: weißer Pinsel + VisuBot, ohne leeren</button> Bitte 5-mal klicken. Wechselt die Farbe?</li>
+      <li><button data-py="exec(&quot;cyberpi.display.show_label(&#x27;VisuBot&#x27;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Test V: nur VisuBot, ohne Pinsel, ohne leeren</button> Bitte 5-mal klicken. Wechselt die Farbe?</li>
+      <li>Berichten</li>
     </ol>
   </section>
 

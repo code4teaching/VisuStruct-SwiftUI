@@ -92,12 +92,12 @@ export const pyLines = (...lines: string[]) => `exec(${JSON.stringify(lines.join
 /**
  * Bildschirm leeren und Text in der Mitte zeigen. Ohne Pinselfarbe: `display.set_brush` wirkt am CyberPi
  * unzuverlässig (Texte kamen rot, lila, grün oder blau statt in der gewählten Farbe, auch mit Pausen).
- * Beim Verbinden startet der CyberPi neu, dann ist die Schrift weiß.
+ * Die Schrift hat dann die Farbe, die der CyberPi gerade hat (einfarbig, nicht immer weiß; Holger: in Ordnung).
  */
 export const showLabel = (text: string, size = 24) => pyLines('cyberpi.display.clear()', `cyberpi.display.show_label(${JSON.stringify(text)}, ${size}, 'center')`)
 
 /**
- * Logo nach dem Verbinden (und nach „mBot2 testen“ → Text): „VisuBot“ groß.
+ * Logo nach dem Verbinden (und nach „mBot2 testen“ → Text): „VisuBot“ groß, einfarbig.
  * Grafik (screen.set_pixel, Sprite) zeigt über USB nichts, Farben gehen nicht zuverlässig. Am echten mBot2 getestet (Oktober 2026).
  */
 export const HELLO = showLabel('VisuBot', 32)
