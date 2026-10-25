@@ -182,11 +182,51 @@ export class FilesPanel {
       else this.pending = folder?.handle
     }
     await this.render()
+    if (!this.workspace) void this.startDialog()
   }
 
-  private async connectFolder() {
+  /**
+   * Beim Start ohne Workspace: fragen, wo Lernstand und Programme liegen. Der Browser merkt sich nur den Ordner,
+   * ohne Ordner ist der Lernstand nach dem Schließen weg.
+   */
+  private async startDialog() {
+    const folderName = t('web_learn_start_folder')
+    const button = (start: string, label: string, primary = false, hint?: string) =>
+      `<button type="button" class="files-start${primary ? ' primary' : ''}" data-start="${start}">${label}</button>${hint ? `<p class="hint">${esc(hint)}</p>` : ''}`
+    const options = canPickFolder()
+      ? [
+          this.pending ? button('reconnect', `${icons.open} ${esc(t('web_learn_start_continue_fmt', this.pending.name))}`, true) : '',
+          button('pick', `${icons.open} ${esc(t('web_learn_start_open'))}`, !this.pending),
+          button('create', `${icons.newFolder} ${esc(t('web_learn_start_create_fmt', folderName))}`, false, t('web_learn_start_create_hint')),
+        ]
+      : [button('browser', esc(t('web_files_browser')), true, t('web_files_browser_hint'))]
+    const box = document.createElement('div')
+    box.className = 'confirm'
+    box.innerHTML = `<div class="confirm-card files-ask start-ask" role="dialog" aria-label="${esc(t('web_learn_start_title'))}">
+      <p><strong>${esc(t('web_learn_start_title'))}</strong></p>
+      <p class="hint">${esc(t('web_learn_start_hint'))}</p>
+      ${options.join('')}
+      <button type="button" class="start-without" data-start="without">${esc(t('web_learn_start_without'))}</button>
+      <p class="hint">${esc(t('web_learn_start_without_hint'))}</p>
+    </div>`
+    const close = () => box.remove()
+    box.addEventListener('click', (e) => {
+      const start = (e.target as HTMLElement).closest<HTMLElement>('[data-start]')?.dataset.start
+      if (!start) return
+      close()
+      if (start === 'reconnect') void this.reconnect()
+      else if (start === 'pick') void this.connectFolder()
+      else if (start === 'create') void this.connectFolder(folderName)
+      else if (start === 'browser') void this.useBrowser()
+    })
+    box.addEventListener('keydown', (e) => e.key === 'Escape' && close())
+    document.body.append(box)
+    box.querySelector<HTMLButtonElement>('.files-start')?.focus()
+  }
+
+  private async connectFolder(create?: string) {
     try {
-      this.workspace = await pickFolder()
+      this.workspace = await pickFolder(create)
       this.pending = undefined
       store(modeKey, 'folder')
     } catch {

@@ -1160,6 +1160,24 @@ button.danger-text:not(:disabled) {
   font-size: 13px;
   color: var(--muted);
 }
+.start-ask .files-start {
+  margin-bottom: 2px;
+}
+.start-ask .hint {
+  font-size: 13px;
+  color: var(--muted);
+}
+.start-without {
+  display: block;
+  margin: 12px auto 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+}
+.start-without + .hint {
+  text-align: center;
+}
 .files-start {
   display: flex;
   align-items: center;

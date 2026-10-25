@@ -348,4 +348,15 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visubot_check_hint" = "Experimenta cada atuador uma vez. Os valores dos sensores atualizam-se em direto: põe a mão à frente do sensor ultrassónico, carrega nos botões, inclina ou abana o mBot2. Levanta-o para testar as rodas.";
 "web_visubot_check_forward" = "Rodas 1 s para a frente";
 "web_visubot_check_spin" = "Rodar no lugar 1 s";
+
+/* Start: Ordner für Lernstand und Programme */
+"web_learn_start_title" = "Onde guardas o teu trabalho?";
+"web_learn_start_hint" = "O teu progresso e os teus programas ficam numa pasta no teu dispositivo. O progresso fica no ficheiro learnProgress.json.";
+"web_learn_start_continue_fmt" = "Continuar com “%@”";
+"web_learn_start_open" = "Abrir pasta existente";
+"web_learn_start_create_fmt" = "Criar nova pasta “%@”";
+"web_learn_start_create_hint" = "Depois escolhes onde fica, por exemplo em “Documentos”.";
+"web_learn_start_folder" = "VisuStruct-Ficheiros";
+"web_learn_start_without" = "Continuar sem pasta";
+"web_learn_start_without_hint" = "Assim o teu progresso perde-se ao fechar a página.";
 `;export{e as default};

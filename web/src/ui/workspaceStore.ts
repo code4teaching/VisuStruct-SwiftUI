@@ -175,9 +175,13 @@ export interface Workspace {
   root: WsDir
 }
 
-/** Ordner wählen (nur Chrome/Edge). Der Ordner wird gemerkt, damit er nach dem Neuladen wieder da ist. */
-export async function pickFolder(): Promise<Workspace> {
-  const handle = await (window as DirectoryPickerWindow).showDirectoryPicker!({ id: 'visustruct-workspace', mode: 'readwrite' })
+/**
+ * Ordner wählen (nur Chrome/Edge). Der Ordner wird gemerkt, damit er nach dem Neuladen wieder da ist.
+ * Mit `create` wird darin ein Ordner dieses Namens angelegt (oder der vorhandene genommen) und benutzt.
+ */
+export async function pickFolder(create?: string): Promise<Workspace> {
+  const picked = await (window as DirectoryPickerWindow).showDirectoryPicker!({ id: 'visustruct-workspace', mode: 'readwrite' })
+  const handle = create && picked.name !== create ? await picked.getDirectoryHandle(create, { create: true }) : picked
   await run('meta', 'readwrite', (s) => s.put(handle, 'folder'))
   return { kind: 'folder', root: new NativeDir(handle) }
 }
