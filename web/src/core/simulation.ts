@@ -1367,9 +1367,12 @@ export class SimulationEngine {
   private executeMBotCommand(method: string, args: string[], text: string): void {
     // `mbot.showText("Abstand: " + mbot.getDistance())`: Text wie bei System.out.println
     if (MBOT_COMMANDS[method]?.text) {
-      if (args.length !== 1) throw invalid(text)
-      const action = makeMBotAction(method, [], this.evaluateOutputExpression(args[0]))
-      const choices = MBOT_COMMANDS[method].choices
+      const spec = MBOT_COMMANDS[method]
+      if (args.length !== spec.args + 1) throw invalid(text)
+      const numbers = mbotArguments(method, args.slice(0, -1).map((a) => this.evaluateDouble(a)))
+      if (!numbers) throw invalid(text)
+      const action = makeMBotAction(method, numbers, this.evaluateOutputExpression(args[args.length - 1]))
+      const choices = spec.choices
       if (choices && !choices.includes(action.text ?? '')) throw invalid(`${text} (${choices.join(', ')})`)
       this.state.robotActions.push(action)
       this.state.lastTrace = `${text} -> ${action.label}`

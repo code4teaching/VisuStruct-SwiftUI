@@ -98,7 +98,7 @@ export class VisuBotView {
       this.view = new Robot3D(this.stage)
       this.view.setWorld(this.world.setup)
       this.view.place(this.world.pose, this.world.trail)
-      this.view.setLed(this.world.led)
+      this.view.setLeds(this.world.leds)
     }).catch(() => {
       this.stage.textContent = t('web_visubot_no_3d')
     })
@@ -266,7 +266,7 @@ export class VisuBotView {
       // Ton im Browser hören (der echte mBot2 spielt ihn selbst)
       if (action.method === 'playTone' && !this.live) playTone(action.args[0], action.args[1])
       this.view?.moveTo(this.world.pose, this.world.trail, ms)
-      this.view?.setLed(this.world.led)
+      this.view?.setLeds(this.world.leds)
       this.view?.setScreen(this.world.screen)
     }
     // Mit `mbot.drive` fährt er auch ohne neuen Befehl weiter
@@ -397,6 +397,7 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_stop', type: ElementType.anweisung, make: statement('mbot.stop()') },
   { key: 'web_visubot_el_led', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
   { key: 'web_visubot_el_led_off', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
+  { key: 'web_visubot_el_led_color', type: ElementType.anweisung, make: statement('mbot.led(0).setColor("grün")') },
   { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
   { key: 'web_visubot_el_wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
   { key: 'web_visubot_el_text', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },

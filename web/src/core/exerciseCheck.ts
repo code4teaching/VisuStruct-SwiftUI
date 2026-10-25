@@ -87,7 +87,7 @@ export function runWithInputs(
       files: new Map(state.files),
       drive: state.robotActions.length ? driveSignature(state.robotActions) : undefined,
       ...(world ? { atGoal: robot.atGoal(), bumps: robot.bumps } : {}),
-      led: robot.led !== undefined && robot.led.some((c) => c > 0),
+      led: robot.leds.some((c) => c !== undefined),
       tone: state.robotActions.some((a) => a.method === 'playTone'),
       screen: robot.screen,
       actions: actionSignature(state.robotActions.filter((a) => !DRIVING.has(a.method))),
