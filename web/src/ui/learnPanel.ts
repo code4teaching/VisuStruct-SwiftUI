@@ -108,6 +108,11 @@ export class LearnPanel {
     this.tips = attachTermTips(this.element)
     this.pointers = attachPointers(this.element)
     useContentLanguage(contentLanguageFor(currentLanguage()))
+    this.restore()
+  }
+
+  /** Zuletzt geöffnete Ansicht aus dem Lernstand übernehmen und neu zeichnen, z. B. nach dem Einlesen der Datei. */
+  restore() {
     const view = progress.view()
     if (view) {
       this.tab = (['lessons', 'tasks', 'reference'] as const).find((x) => x === view.tab) ?? 'lessons'

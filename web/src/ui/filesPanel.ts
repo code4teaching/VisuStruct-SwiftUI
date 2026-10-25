@@ -131,6 +131,8 @@ export class FilesPanel {
   private rendering = 0
   /** Workspace, mit dem der Lernstand gerade abgeglichen wird. */
   private progressWorkspace?: Workspace
+  /** Schon ein Workspace in dieser Sitzung: dann zählt beim Wechsel nur noch die Datei. */
+  private hadWorkspace = false
   private progressTimer?: number
 
   constructor(private host: FilesHost) {
@@ -217,23 +219,28 @@ export class FilesPanel {
 
   // MARK: - Lernstand
 
-  /** Neuer Workspace: `learnProgress.json` (oder die alte `lernstand.json`) einlesen, zusammenführen und gleich zurückschreiben. */
+  /**
+   * Neuer Workspace: der Lernstand kommt allein aus `learnProgress.json` (oder der alten `lernstand.json`).
+   * Nur beim ersten Workspace der Sitzung bleibt dazu, was schon vorher gelernt wurde; danach wird die Datei geschrieben.
+   */
   private async syncProgress(ws: Workspace | undefined) {
     this.progressWorkspace = ws
     if (!ws) return
+    const first = !this.hadWorkspace
+    this.hadWorkspace = true
     try {
-      let loaded = false
-      for (const name of [progressFile, legacyProgressFile]) {
-        if (await ws.root.has(name)) loaded = progress.mergeFile(await ws.root.read(name)) || loaded
+      const name = (await ws.root.has(progressFile)) ? progressFile : (await ws.root.has(legacyProgressFile)) ? legacyProgressFile : undefined
+      if (!name || !progress.loadFile(await ws.root.read(name), first)) {
+        if (!first) progress.clear()
       }
-      if (loaded) this.host.progressLoaded()
+      this.host.progressLoaded()
       await this.writeProgress(ws)
       if (await ws.root.has(legacyProgressFile)) {
         await ws.root.remove(legacyProgressFile)
         await this.render()
       }
     } catch {
-      /* Ordner nicht lesbar: Lernstand bleibt im Browser */
+      /* Ordner nicht lesbar: Lernstand nur bis zum Neuladen */
     }
   }
 

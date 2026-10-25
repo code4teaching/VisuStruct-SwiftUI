@@ -351,7 +351,7 @@ export class App {
       open: (xml, file, java) => this.openFromWorkspace(xml, file, java),
       hide: () => this.setFilesOpen(false),
       message: (text) => this.showMessage(text),
-      progressLoaded: () => this.learn.render(),
+      progressLoaded: () => this.learn.restore(),
     })
     // Oben die Werkzeugleiste, darunter vier Spalten: Dateien | Lernen | Struktogramm | Code live, jede einklappbar.
     const columns = h('div', { class: 'columns' })
