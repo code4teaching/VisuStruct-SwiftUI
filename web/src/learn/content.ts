@@ -82,9 +82,12 @@ export function useVisuBotContent(mode: VisuBotMode) {
 }
 
 /** Die 🤖-Schritte kommen vor die Checkliste der Lektion (sonst ans Ende). */
+/** Wie „Jetzt in Java: …“ heißen die angehängten mBot2-Schritte „Jetzt mit VisuBot: …“ (Holger, 25.10.). */
+const withVisuBot: Record<ContentLanguage, string> = { de: 'Jetzt mit VisuBot', en: 'Now with VisuBot', pt: 'Agora com o VisuBot' }
+
 function withRobotSteps(lesson: Lesson, extra: Step[]): Lesson {
   if (!extra.length) return lesson
-  const robotSteps = extra.map((s) => ({ ...s, title: `🤖 ${s.title}` }))
+  const robotSteps = extra.map((s) => ({ ...s, title: `🤖 ${withVisuBot[language]}: ${s.title}` }))
   const at = lesson.steps.findIndex((s) => s.blocks.some((b) => b.kind === 'checklist'))
   const steps = [...lesson.steps]
   steps.splice(at < 0 ? steps.length : at, 0, ...robotSteps)
@@ -107,7 +110,13 @@ export function useContentLanguage(lang: ContentLanguage) {
     .filter(([name]) => /^\d+/.test(name))
     .map(([name, source]) => parseLesson(source, `${lang}/${name}`))
     .map((l) => withRobotSteps(l, robotSteps.get(l.number) ?? []))
-    .sort((a, b) => a.number - b.number)
+  // Im Kurs steht die Tour durch den mBot2 (VisuBot-Lektion 1) als Lektion 0 vorn, damit man den Roboter zuerst kennenlernt.
+  // Gleiche Kennung wie in der eigenen Reihe, damit der Lernstand geteilt wird.
+  if (visuBot === 'course') {
+    const tour = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang).find(([name]) => name.startsWith('01-'))
+    if (tour) lessons.push({ ...parseLesson(tour[1], `${lang}/${tour[0]}`), number: 0 })
+  }
+  lessons.sort((a, b) => a.number - b.number)
   const robotTasks = () =>
     filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang).map(([name, source]) =>
       parseTask(source, `${lang}/visubot/aufgaben/${name}`),
