@@ -46,13 +46,13 @@
   </section>
 
   <section class="jetzt">
-    <h2>👉 Jetzt testen (Runde 13)</h2>
+    <h2>👉 Jetzt testen (Runde 14)</h2>
     <ol>
       <li>Oben „Verbinden“</li>
       <li><button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button></li>
-      <li><button data-py="vbt(&quot;cyberpi.display.clear(); cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label(&#x27;Visu&#x27;, 32, 8, 44); cyberpi.display.set_brush(52, 120, 229); cyberpi.display.show_label(&#x27;Bot&#x27;, 32, 72, 44)&quot;)" data-mode="1" disabled>Test G: „Visu“ weiß + „Bot“ blau nebeneinander</button> Stehen beide Wörter nebeneinander, in zwei Farben?</li>
-      <li><button data-py="vbt(&quot;cyberpi.display.clear(); cyberpi.display.set_brush(52, 120, 229); cyberpi.display.show_label(&#x27;VisuBot&#x27;, 32, &#x27;center&#x27;)&quot;)" data-mode="1" disabled>Test H: „VisuBot“ groß in Blau</button> Steht „VisuBot“ groß und blau in der Mitte?</li>
-      <li>Berichten, was du gesehen hast (am besten ein Foto)</li>
+      <li><button data-py="vbt(&quot;cyberpi.display.clear(); cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label(&#x27;Visu&#x27;, 32, 8, 44, index=0); cyberpi.display.set_brush(52, 120, 229); cyberpi.display.show_label(&#x27;Bot&#x27;, 32, 72, 44, index=1)&quot;)" data-mode="1" disabled>Test I: „Visu“ + „Bot“ als zwei getrennte Schriftfelder</button> Stehen jetzt beide Wörter da? Schick mir auch die Antwortzeile aus dem Protokoll.</li>
+      <li>Nur falls im Protokoll ein Fehler mit „index“ steht: <button data-py="vbt(&quot;cyberpi.display.show_label(&#x27;x&#x27;, 16, 0, 0, 1)&quot;)" data-mode="1" disabled>Frage I: geht die Feldnummer ohne Namen?</button></li>
+      <li>Berichten (am besten ein Foto)</li>
     </ol>
   </section>
 
