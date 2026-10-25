@@ -170,6 +170,9 @@ export class LiveCodePanel {
   private consoleForm!: HTMLFormElement
   private consoleNotice!: HTMLElement
 
+  /** Ausführen mit Roboter übernehmen; `true` = erledigt (setzt die App im VisuBot-Modus). */
+  onRobotRun?: (stepping: boolean) => boolean
+
   constructor(
     private onHide: () => void,
     /** Klick auf eine Zeile wählt das Element im Struktogramm aus. */
@@ -425,6 +428,8 @@ export class LiveCodePanel {
    * Es hält an Haltepunkten an; `stepping`: gleich vor der ersten Zeile anhalten (Einzelschritt).
    */
   private startRun(stepping: boolean) {
+    // VisuBot: Programme mit mBot2-Befehlen laufen in der Simulation (3D-Welt, echter mBot2, Markierung)
+    if (this.onRobotRun?.(stepping)) return
     // Wie javac: Ohne Import startet das Programm nicht.
     const missing = this.target === 'java' ? this.problems.find((p) => p.key === 'web_parse_missing_import') : undefined
     if (missing) {
@@ -823,12 +828,14 @@ export class LiveCodePanel {
   private drawMarks(highlight: number[] | undefined) {
     const span = highlight && this.spans.find((s) => samePath(s.path, highlight))
     const key = span ? `${span.from}-${span.to}` : undefined
+    // Während der Simulation ist die Markierung der aktuelle Befehl: gelb wie beim Debuggen
+    const simulated = this.last?.context.editable === false && span ? span.from : undefined
     this.code.setMarks(
       {
         placeholders: this.placeholders,
         problems: this.showProblems ? this.problems : [],
-        lines: span ? { from: span.from, to: span.to } : undefined,
-        current: this.debugLine,
+        lines: span && simulated === undefined ? { from: span.from, to: span.to } : undefined,
+        current: this.debugLine ?? simulated,
       },
       key !== undefined && key !== this.highlighted && !this.code.hasFocus,
     )

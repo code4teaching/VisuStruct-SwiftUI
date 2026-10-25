@@ -344,6 +344,7 @@ export class App {
       (doc, path) => this.commitFromCode(doc, path),
       (redo) => (redo ? this.redo() : this.undo()),
     )
+    this.live.onRobotRun = (stepping) => this.runRobot(stepping)
     this.files = new FilesPanel({
       open: (xml, file, java) => this.openFromWorkspace(xml, file, java),
       hide: () => this.setFilesOpen(false),
@@ -1354,6 +1355,19 @@ export class App {
       if (!this.selected && this.doc.elements.length > 0) this.selected = [0]
     }
     this.render()
+  }
+
+  /**
+   * ▶ in Programmieren mit mBot2-Befehlen: Simulation öffnen und dort ausführen, damit die 3D-Welt
+   * (und der verbundene mBot2) mitfährt und der aktuelle Befehl in Struktogramm und Code markiert ist.
+   */
+  private runRobot(stepping: boolean): boolean {
+    if (!this.visuBot || !/\bmbot\s*\./u.test(JSON.stringify(this.tabs.map((tab) => tab.doc)))) return false
+    if (this.simulating) this.sim.reset()
+    else this.setSimulating(true)
+    if (stepping) this.sim.step()
+    else this.sim.play()
+    return true
   }
 
   // MARK: - Code
