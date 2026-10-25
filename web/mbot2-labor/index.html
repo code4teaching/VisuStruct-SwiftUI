@@ -100,12 +100,14 @@
     <button data-py="str(dir(cyberpi.emotion))" data-mode="1" disabled>Was kann emotion?</button>
     <h3>Runde 3: Zeichnen ausprobieren</h3>
     <p>Erst verbinden, dann „Helfer anlegen“, dann ohne zu trennen die anderen Knöpfe.</p>
-    <button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button>
-    <button data-py="str([vbt(c) for c in [&#x27;vb = cyberpi.Sprite()&#x27;, &#x27;vb.draw_rectangle()&#x27;, &#x27;vb.draw_circle()&#x27;, &#x27;vb.draw_pixel()&#x27;]])" data-mode="1" disabled>Fragen 1</button>
-    <button data-py="str([vbt(c) for c in [&#x27;vb.draw_pixels()&#x27;, &#x27;vb.set_pixel()&#x27;, &#x27;vb.draw_text()&#x27;, &#x27;vb.set_size()&#x27;]])" data-mode="1" disabled>Fragen 2</button>
-    <button data-py="str([vbt(c) for c in [&#x27;vb.set_position()&#x27;, &#x27;vb.set_brush()&#x27;, &#x27;vb.draw_qrcode()&#x27;, &#x27;cyberpi.screen.fill()&#x27;, &#x27;cyberpi.screen.set_pixel()&#x27;]])" data-mode="1" disabled>Fragen 3</button>
+    <button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)\ndef vbl(cs):\n return str([vbt(c) for c in cs])&quot;)" data-mode="4" disabled>Helfer anlegen</button>
+    <button data-py="vbl([&#x27;vb = cyberpi.Sprite()&#x27;, &#x27;vb.draw_rectangle()&#x27;, &#x27;vb.draw_circle()&#x27;, &#x27;vb.draw_pixel()&#x27;])" data-mode="1" disabled>Fragen 1</button>
+    <button data-py="vbl([&#x27;vb.draw_pixels()&#x27;, &#x27;vb.set_pixel()&#x27;, &#x27;vb.draw_text()&#x27;, &#x27;vb.set_size()&#x27;])" data-mode="1" disabled>Fragen 2</button>
+    <button data-py="vbl([&#x27;vb.set_position()&#x27;, &#x27;vb.set_brush()&#x27;, &#x27;vb.draw_qrcode()&#x27;, &#x27;cyberpi.screen.fill()&#x27;, &#x27;cyberpi.screen.set_pixel()&#x27;])" data-mode="1" disabled>Fragen 3</button>
     <button data-py="vbt(&#x27;[cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test: rote Linie</button>
     <button data-py="vbt(&#x27;vb = cyberpi.Sprite(); vb.set_brush(0, 160, 255); vb.draw_rectangle(40, 40, 1); vb.show()&#x27;)" data-mode="1" disabled>Test: blaues Quadrat</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); cyberpi.screen.enable_autorender(); [cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test: leeren + rote Linie</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); vb = cyberpi.Sprite(); vb.set_brush(0, 160, 255); vb.draw_rectangle(40, 40, 1); vb.set_position(64, 64); vb.show(); cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test: leeren + blaues Quadrat</button>
     <button data-py="vbt(&#x27;cyberpi.emotion.hello()&#x27;)" data-mode="1" disabled>Test: Gesicht hello</button>
     <button data-py="vbt(&quot;cyberpi.display.clear(); cyberpi.display.show_label(&#x27;Hallo VisuBot!&#x27;, 24, &#x27;center&#x27;)&quot;)" data-mode="1" disabled>Zurück: Hallo VisuBot!</button>
   </section>
