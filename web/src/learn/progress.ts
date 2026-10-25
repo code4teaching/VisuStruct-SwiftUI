@@ -1,4 +1,7 @@
-/** Fortschritt im Lernbereich: im Browser und, wenn eingerichtet, als `learnProgress.json` im Workspace. */
+/**
+ * Fortschritt im Lernbereich. Er steht nur in `learnProgress.json` im Workspace; der Browser merkt sich
+ * ihn nicht (nur den Ordner). Ohne Workspace gilt er bis zum Neuladen.
+ */
 
 export interface LessonProgress {
   step: number
@@ -21,7 +24,8 @@ interface Store {
   view?: { tab: string; lesson?: string; task?: string }
 }
 
-const key = 'visustruct.learn.progress'
+/** Früher lag der Lernstand zusätzlich im Browser; dieser Rest wird beim Start gelöscht. */
+const legacyKey = 'visustruct.learn.progress'
 
 /** Umbenannte Lektionen (alte Kennung → neue), damit der Fortschritt erhalten bleibt. */
 const renamedLessons: Record<string, string> = {
@@ -59,6 +63,11 @@ const renamedLessons: Record<string, string> = {
   '29-notenrechner': '34-notenrechner',
   '30-taschenrechner': '35-taschenrechner',
   '31-zahlenraten': '36-zahlenraten',
+  // VisuBot ab 0.4.4 (neue Lektion 13 Einzelne LEDs)
+  '13-lautsprecher': '14-lautsprecher',
+  '14-bildschirm': '15-bildschirm',
+  '15-motoren': '16-motoren',
+  '16-stoppuhr-akku': '17-stoppuhr-akku',
 }
 
 function migrate(s: Store): Store {
@@ -71,28 +80,21 @@ function migrate(s: Store): Store {
   return { ...s, lessons, view }
 }
 
-function load(): Store {
+function forgetLegacy() {
   try {
-    const raw = localStorage.getItem(key)
-    if (raw) {
-      const s = JSON.parse(raw) as Partial<Store>
-      return migrate({ lessons: s.lessons ?? {}, exercises: s.exercises ?? {}, view: s.view })
-    }
+    localStorage.removeItem(legacyKey)
   } catch {
-    /* ohne Speicher oder kaputte Daten: neu anfangen */
+    /* ohne Speicher: nichts zu löschen */
   }
-  return { lessons: {}, exercises: {} }
 }
 
-let store = load()
+const empty = (): Store => ({ lessons: {}, exercises: {} })
+
+forgetLegacy()
+let store = empty()
 const listeners = new Set<() => void>()
 
 function save() {
-  try {
-    localStorage.setItem(key, JSON.stringify(store))
-  } catch {
-    /* nur für diese Sitzung */
-  }
   for (const f of listeners) f()
 }
 
@@ -129,7 +131,7 @@ export function mergeProgress(mine: Pick<Store, 'lessons' | 'exercises'>, theirs
 
 export const progress = {
   lesson(id: string): LessonProgress {
-    return (store.lessons[id] ??= { step: 0 })
+    return store.lessons[id] ?? { step: 0 }
   },
   updateLesson(id: string, change: Partial<LessonProgress>) {
     store.lessons[id] = { ...progress.lesson(id), ...change }
@@ -149,6 +151,10 @@ export const progress = {
   view() {
     return store.view
   },
+  /** Schon etwas gelernt oder geübt (z. B. für die Warnung beim Schließen ohne Ordner)? */
+  hasContent(): boolean {
+    return Object.values(store.lessons).some((l) => l.step > 0 || l.done || l.checks || l.quiz) || Object.keys(store.exercises).length > 0
+  },
   setView(view: Store['view']) {
     store.view = view
     save()
@@ -160,10 +166,13 @@ export const progress = {
   },
   /** Inhalt von `learnProgress.json`. */
   toFile(): string {
-    return JSON.stringify({ format: progressFormat, version: 1, saved: new Date().toISOString(), lessons: store.lessons, exercises: store.exercises }, null, 2)
+    return JSON.stringify({ format: progressFormat, version: 1, saved: new Date().toISOString(), lessons: store.lessons, exercises: store.exercises, view: store.view }, null, 2)
   },
-  /** `learnProgress.json` einlesen und mit dem Stand im Browser zusammenführen. Falsche Dateien bleiben unbeachtet. */
-  mergeFile(text: string): boolean {
+  /**
+   * `learnProgress.json` übernehmen: Die Datei ersetzt den Stand, nur mit `keepSession` kommt hinzu, was in dieser
+   * Sitzung vor dem Öffnen des Workspace gelernt wurde. Falsche Dateien bleiben unbeachtet.
+   */
+  loadFile(text: string, keepSession = false): boolean {
     let data: Partial<Store> & { format?: string }
     try {
       data = JSON.parse(text) as typeof data
@@ -171,15 +180,12 @@ export const progress = {
       return false
     }
     if (data?.format !== progressFormat) return false
-    const theirs = migrate({ lessons: data.lessons ?? {}, exercises: data.exercises ?? {} })
-    const merged = mergeProgress(store, theirs)
-    const changed = JSON.stringify(merged) !== JSON.stringify({ lessons: store.lessons, exercises: store.exercises })
-    store = { ...store, ...merged }
-    if (changed) save()
-    return changed
+    const file = migrate({ lessons: data.lessons ?? {}, exercises: data.exercises ?? {}, view: data.view })
+    store = keepSession ? { ...mergeProgress(store, file), view: file.view ?? store.view } : file
+    return true
   },
-  /** Für Tests. */
-  reload() {
-    store = load()
+  /** Neuer Workspace ohne Datei: mit leerem Lernstand beginnen (bzw. den dieser Sitzung behalten). */
+  clear() {
+    store = empty()
   },
 }

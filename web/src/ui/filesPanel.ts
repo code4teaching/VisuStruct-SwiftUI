@@ -131,6 +131,8 @@ export class FilesPanel {
   private rendering = 0
   /** Workspace, mit dem der Lernstand gerade abgeglichen wird. */
   private progressWorkspace?: Workspace
+  /** Schon ein Workspace in dieser Sitzung: dann zählt beim Wechsel nur noch die Datei. */
+  private hadWorkspace = false
   private progressTimer?: number
 
   constructor(private host: FilesHost) {
@@ -180,11 +182,51 @@ export class FilesPanel {
       else this.pending = folder?.handle
     }
     await this.render()
+    if (!this.workspace) void this.startDialog()
   }
 
-  private async connectFolder() {
+  /**
+   * Beim Start ohne Workspace: fragen, wo Lernstand und Programme liegen. Der Browser merkt sich nur den Ordner,
+   * ohne Ordner ist der Lernstand nach dem Schließen weg.
+   */
+  private async startDialog() {
+    const folderName = t('web_learn_start_folder')
+    const button = (start: string, label: string, primary = false, hint?: string) =>
+      `<button type="button" class="files-start${primary ? ' primary' : ''}" data-start="${start}">${label}</button>${hint ? `<p class="hint">${esc(hint)}</p>` : ''}`
+    const options = canPickFolder()
+      ? [
+          this.pending ? button('reconnect', `${icons.open} ${esc(t('web_learn_start_continue_fmt', this.pending.name))}`, true) : '',
+          button('pick', `${icons.open} ${esc(t('web_learn_start_open'))}`, !this.pending),
+          button('create', `${icons.newFolder} ${esc(t('web_learn_start_create_fmt', folderName))}`, false, t('web_learn_start_create_hint')),
+        ]
+      : [button('browser', esc(t('web_files_browser')), true, t('web_files_browser_hint'))]
+    const box = document.createElement('div')
+    box.className = 'confirm'
+    box.innerHTML = `<div class="confirm-card files-ask start-ask" role="dialog" aria-label="${esc(t('web_learn_start_title'))}">
+      <p><strong>${esc(t('web_learn_start_title'))}</strong></p>
+      <p class="hint">${esc(t('web_learn_start_hint'))}</p>
+      ${options.join('')}
+      <button type="button" class="start-without" data-start="without">${esc(t('web_learn_start_without'))}</button>
+      <p class="hint">${esc(t('web_learn_start_without_hint'))}</p>
+    </div>`
+    const close = () => box.remove()
+    box.addEventListener('click', (e) => {
+      const start = (e.target as HTMLElement).closest<HTMLElement>('[data-start]')?.dataset.start
+      if (!start) return
+      close()
+      if (start === 'reconnect') void this.reconnect()
+      else if (start === 'pick') void this.connectFolder()
+      else if (start === 'create') void this.connectFolder(folderName)
+      else if (start === 'browser') void this.useBrowser()
+    })
+    box.addEventListener('keydown', (e) => e.key === 'Escape' && close())
+    document.body.append(box)
+    box.querySelector<HTMLButtonElement>('.files-start')?.focus()
+  }
+
+  private async connectFolder(create?: string) {
     try {
-      this.workspace = await pickFolder()
+      this.workspace = await pickFolder(create)
       this.pending = undefined
       store(modeKey, 'folder')
     } catch {
@@ -217,23 +259,28 @@ export class FilesPanel {
 
   // MARK: - Lernstand
 
-  /** Neuer Workspace: `learnProgress.json` (oder die alte `lernstand.json`) einlesen, zusammenführen und gleich zurückschreiben. */
+  /**
+   * Neuer Workspace: der Lernstand kommt allein aus `learnProgress.json` (oder der alten `lernstand.json`).
+   * Nur beim ersten Workspace der Sitzung bleibt dazu, was schon vorher gelernt wurde; danach wird die Datei geschrieben.
+   */
   private async syncProgress(ws: Workspace | undefined) {
     this.progressWorkspace = ws
     if (!ws) return
+    const first = !this.hadWorkspace
+    this.hadWorkspace = true
     try {
-      let loaded = false
-      for (const name of [progressFile, legacyProgressFile]) {
-        if (await ws.root.has(name)) loaded = progress.mergeFile(await ws.root.read(name)) || loaded
+      const name = (await ws.root.has(progressFile)) ? progressFile : (await ws.root.has(legacyProgressFile)) ? legacyProgressFile : undefined
+      if (!name || !progress.loadFile(await ws.root.read(name), first)) {
+        if (!first) progress.clear()
       }
-      if (loaded) this.host.progressLoaded()
+      this.host.progressLoaded()
       await this.writeProgress(ws)
       if (await ws.root.has(legacyProgressFile)) {
         await ws.root.remove(legacyProgressFile)
         await this.render()
       }
     } catch {
-      /* Ordner nicht lesbar: Lernstand bleibt im Browser */
+      /* Ordner nicht lesbar: Lernstand nur bis zum Neuladen */
     }
   }
 

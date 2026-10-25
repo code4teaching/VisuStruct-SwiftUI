@@ -350,4 +350,15 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visubot_check_hint" = "Probiere jeden Aktor einmal aus. Die Sensorwerte laufen live mit: Halte die Hand vor den Ultraschall, drück die Tasten, neige oder schüttle den mBot2. Heb ihn für die Räder hoch.";
 "web_visubot_check_forward" = "Räder 1 s vorwärts";
 "web_visubot_check_spin" = "1 s auf der Stelle drehen";
+
+/* Start: Ordner für Lernstand und Programme */
+"web_learn_start_title" = "Wo speicherst du deine Arbeit?";
+"web_learn_start_hint" = "Lernstand und Programme liegen in einem Ordner auf deinem Gerät. Der Lernstand steht dort in der Datei learnProgress.json.";
+"web_learn_start_continue_fmt" = "Weiter mit „%@“";
+"web_learn_start_open" = "Vorhandenen Ordner öffnen";
+"web_learn_start_create_fmt" = "Neuen Ordner „%@“ anlegen";
+"web_learn_start_create_hint" = "Danach wählst du, wo er liegen soll, z. B. in „Dokumente“.";
+"web_learn_start_folder" = "VisuStruct-Dateien";
+"web_learn_start_without" = "Ohne Ordner weiter";
+"web_learn_start_without_hint" = "Dann ist dein Lernstand nach dem Schließen weg.";
 `;export{e as default};

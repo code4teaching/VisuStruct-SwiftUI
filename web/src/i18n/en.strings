@@ -350,3 +350,14 @@
 "web_visubot_check_hint" = "Try each actuator once. The sensor values update live: hold your hand in front of the ultrasonic sensor, press the buttons, tilt or shake the mBot2. Lift it up for the wheels.";
 "web_visubot_check_forward" = "Wheels 1 s forward";
 "web_visubot_check_spin" = "Turn on the spot for 1 s";
+
+/* Start: Ordner für Lernstand und Programme */
+"web_learn_start_title" = "Where do you keep your work?";
+"web_learn_start_hint" = "Your learning progress and programs live in a folder on your device. The progress is stored there in the file learnProgress.json.";
+"web_learn_start_continue_fmt" = "Continue with “%@”";
+"web_learn_start_open" = "Open existing folder";
+"web_learn_start_create_fmt" = "Create new folder “%@”";
+"web_learn_start_create_hint" = "Next, choose where it should go, e.g. in “Documents”.";
+"web_learn_start_folder" = "VisuStruct-Files";
+"web_learn_start_without" = "Continue without a folder";
+"web_learn_start_without_hint" = "Your learning progress is then lost when you close the page.";
