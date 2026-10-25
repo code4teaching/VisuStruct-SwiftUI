@@ -347,6 +347,10 @@ export class App {
       (redo) => (redo ? this.redo() : this.undo()),
     )
     this.live.onRobotRun = (stepping) => this.runRobot(stepping)
+    this.live.onReference = () => {
+      this.learn.showReference()
+      this.setLearning(true)
+    }
     this.files = new FilesPanel({
       open: (xml, file, java) => this.openFromWorkspace(xml, file, java),
       hide: () => this.setFilesOpen(false),
