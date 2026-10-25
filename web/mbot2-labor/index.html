@@ -46,13 +46,13 @@
   </section>
 
   <section class="jetzt">
-    <h2>👉 Jetzt testen (Runde 12)</h2>
+    <h2>👉 Jetzt testen (Runde 13)</h2>
     <ol>
       <li>Oben „Verbinden“</li>
       <li><button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button></li>
-      <li><button data-py="vbt(&#x27;import time; cyberpi.display.clear(); [cyberpi.screen.set_pixel(x, y, 0xFFFF) for x in range(128) for y in (40, 41, 42)]; [(cyberpi.screen.render(), time.sleep(0.1)) for i in range(30)]&#x27;)" data-mode="1" disabled>Test E: weiße Linie, 3 Sekunden immer wieder zeichnen</button> Schau 3 Sekunden auf den Bildschirm: Siehst du oben eine weiße Linie?</li>
-      <li><button data-py="vbt(&#x27;import time; [cyberpi.screen.set_pixel(x, y, 0xF800) for x in range(128) for y in (80, 81, 82)]; cyberpi.screen.enable_autorender(); time.sleep(3); cyberpi.screen.disable_autorender()&#x27;)" data-mode="1" disabled>Test F: rote Linie, 3 Sekunden Dauerzeichnen, dann aus</button> Siehst du unten eine rote Linie? Flackert es danach weiter?</li>
-      <li>Berichten, was du gesehen hast</li>
+      <li><button data-py="vbt("cyberpi.display.clear(); cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label(&#x27;Visu&#x27;, 32, 8, 44); cyberpi.display.set_brush(52, 120, 229); cyberpi.display.show_label(&#x27;Bot&#x27;, 32, 72, 44)")" data-mode="1" disabled>Test G: „Visu“ weiß + „Bot“ blau nebeneinander</button> Stehen beide Wörter nebeneinander, in zwei Farben?</li>
+      <li><button data-py="vbt("cyberpi.display.clear(); cyberpi.display.set_brush(52, 120, 229); cyberpi.display.show_label(&#x27;VisuBot&#x27;, 32, &#x27;center&#x27;)")" data-mode="1" disabled>Test H: „VisuBot“ groß in Blau</button> Steht „VisuBot“ groß und blau in der Mitte?</li>
+      <li>Berichten, was du gesehen hast (am besten ein Foto)</li>
     </ol>
   </section>
 
