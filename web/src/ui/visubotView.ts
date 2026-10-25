@@ -353,6 +353,7 @@ function checkHTML(): string {
       ${act('cyberpi.led.on(255, 0, 0)', 'web_visubot_el_led')}${act('cyberpi.led.off()', 'web_visubot_el_led_off')}
       ${act('cyberpi.audio.play_tone(440, 0.3)', 'web_visubot_el_tone')}
       ${act("cyberpi.display.show_label('Test', 24, 'center')", 'web_visubot_el_text', HELLO, 2000)}
+      ${act('cyberpi.emotion.smile()', 'web_visubot_el_emotion')}
       ${act('mbot2.drive_power(30, -30)', 'web_visubot_check_forward', stop)}${act('mbot2.drive_power(30, 30)', 'web_visubot_check_spin', stop)}
     </div>
     <table class="visubot-check-sensors">${sensors}</table>
@@ -399,6 +400,7 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
   { key: 'web_visubot_el_wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
   { key: 'web_visubot_el_text', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
+  { key: 'web_visubot_el_emotion', type: ElementType.anweisung, make: statement('mbot.emotion("smile")') },
   { key: 'web_visubot_el_timer', type: ElementType.anweisung, make: statement('mbot.resetTimer()') },
 ]
 

@@ -180,6 +180,7 @@ const statics: Record<string, Row[]> = {
     ['setLed', 'rot, gruen, blau', 'void', 'LEDs in einer Farbe (je 0–255)', 'LEDs in a colour (0–255 each)', 'LEDs numa cor (0–255 cada)'],
     ['ledOff', '', 'void', 'LEDs aus', 'LEDs off', 'Desligar LEDs'],
     ['showText', '"Hallo"', 'void', 'Text auf dem Bildschirm zeigen', 'Show text on the screen', 'Mostrar texto no ecrã'],
+    ['emotion', '"smile"', 'void', 'Gefühl zeigen: LEDs, Ton, Bewegung (smile, hello, sad …)', 'Show a feeling: LEDs, sound, motion (smile, hello, sad …)', 'Mostrar um sentimento: LEDs, som, movimento (smile, hello, sad …)'],
     ['playTone', 'hz, ms', 'void', 'Ton spielen, z. B. playTone(440, 500)', 'Play a tone, e.g. playTone(440, 500)', 'Tocar um som, p. ex. playTone(440, 500)'],
     ['getDistance', '', 'int', 'Abstand vorn in cm (Ultraschall)', 'Distance ahead in cm (ultrasonic)', 'Distância à frente em cm (ultrassom)'],
     ['getLine', '', 'int', 'Liniensensor: 0 = keine Linie, 15 = alle vier auf der Linie', 'Line sensor: 0 = no line, 15 = all four on the line', 'Sensor de linha: 0 = sem linha, 15 = os quatro na linha'],

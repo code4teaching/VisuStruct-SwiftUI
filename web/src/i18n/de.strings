@@ -313,6 +313,7 @@
 "web_visubot_sensor_line" = "Linie";
 "web_visubot_el_led_off" = "LEDs aus";
 "web_visubot_el_wait" = "kurz warten";
+"web_visubot_el_emotion" = "Gefühl zeigen";
 "web_visubot_el_text" = "Text anzeigen";
 "web_visubot_sensor_red" = "Farbe rot?";
 "web_visubot_sensor_green" = "Farbe grün?";

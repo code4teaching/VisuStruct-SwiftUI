@@ -25,7 +25,15 @@ interface CommandSpec {
   label: (a: number[], text: string) => string
   /** Das (einzige) Argument ist ein Text, z. B. `mbot.showText("Hallo")`. */
   text?: boolean
+  /** Erlaubte Texte (sonst ist der Befehl ungültig). */
+  choices?: readonly string[]
 }
+
+/**
+ * Vorführungen der Firmware (`cyberpi.emotion.*`): LEDs, Ton und kleine Bewegungen, am echten mBot2 getestet mit `smile`.
+ * `sprint` fehlt absichtlich, weil der Roboter dabei losfährt.
+ */
+export const MBOT_EMOTIONS = ['smile', 'hello', 'yeah', 'proud', 'wow', 'yummy', 'naughty', 'uh_oh', 'hurt', 'sad', 'angry', 'startle', 'shiver', 'dizzy', 'sleepy', 'zzz', 'wake_up', 'blink', 'yes', 'no', 'look_up', 'look_down', 'look_left', 'look_right', 'look_around'] as const
 
 /** Ein Schritt von `mbot.forward()` ohne Zahl. */
 export const MBOT_STEP_CM = 10
@@ -49,6 +57,7 @@ export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   playTone: { args: 2, python: ([hz, ms]) => `cyberpi.audio.play_tone(${n(hz)}, ${n(ms / 1000)})`, label: ([hz, ms]) => `Ton ${n(hz)} Hz, ${n(ms)} ms` },
   pause: { args: 1, label: ([ms]) => `${n(ms)} ms warten` },
   resetTimer: { args: 0, python: () => 'cyberpi.timer.reset()', label: () => 'Stoppuhr auf 0' },
+  emotion: { args: 0, text: true, choices: MBOT_EMOTIONS, python: (_, name) => `cyberpi.emotion.${name}()`, label: (_, name) => `Gefühl: ${name}` },
   showText: { args: 0, text: true, python: (_, text) => `cyberpi.display.show_label(${JSON.stringify(text)}, 24, 'center')`, label: (_, text) => `Bildschirm: ${text}` },
 }
 

@@ -69,6 +69,15 @@ describe('mBot2-Sensoren', () => {
     expect(actionSignature(state.robotActions)).toEqual(['showText "Abstand: 42"', 'showText "3"'])
   })
 
+  it('zeigt Gefühle und lehnt unbekannte ab', () => {
+    const state = run(main('    mbot.emotion("smile");'))
+    expect(state.robotActions[0].python).toBe('cyberpi.emotion.smile()')
+    expect(actionSignature(state.robotActions)).toEqual(['emotion "smile"'])
+    const engine = new SimulationEngine(docOf(main('    mbot.emotion("tanzen");')))
+    for (let i = 0; i < 10 && engine.canStep; i++) engine.step()
+    expect(engine.state.isHalted).toBe(true)
+  })
+
   it('liest erwartete Befehle mit Wiederholung und Text', () => {
     expect(parseActionSpec('2 x (setLed 0 0 255, pause 500), showText "Los, los!"')).toEqual(['setLed 0 0 255', 'pause 500', 'setLed 0 0 255', 'pause 500', 'showText "Los, los!"'])
     expect(() => parseActionSpec('setLed 1 2')).toThrow()

@@ -56,6 +56,21 @@ tipp: The loop only contains `mbot.playTone(i * 200, 200);`.
 lösung: vb-java-hoeher-loesung.visustruct
 :::
 
+## Showing feelings
+
+The mBot2 can also be happy, sad or sleepy. With **show a feeling** (`mbot.emotion("smile")`) it plays a little show: the LEDs light up, it makes a sound and wiggles a bit.
+
+| Text | Feeling |
+|---|---|
+| `mbot.emotion("smile")` | laughs |
+| `mbot.emotion("hello")` | says hello |
+| `mbot.emotion("sad")` | is sad |
+| `mbot.emotion("angry")` | is angry |
+| `mbot.emotion("dizzy")` | is dizzy |
+| `mbot.emotion("zzz")` | sleeps |
+
+> Try it with the real mBot2. The simulator only shows the command. More feelings are listed under **Reference**.
+
 ::: quiz
 ? Which tone is higher?
 - [x] `mbot.playTone(880, 300)`
@@ -72,4 +87,5 @@ lösung: vb-java-hoeher-loesung.visustruct
 - I know what the two numbers in `playTone` mean. → How high, how long?
 - I can build a sequence of tones. → Scale in the structure chart
 - I can calculate with the counting variable in Java. → Now in Java: higher and higher
+- I can make the mBot2 show a feeling. → Showing feelings
 :::

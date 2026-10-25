@@ -43,6 +43,17 @@ mbot.showText("Hello")      text on the screen
 mbot.showText("Distance: " + mbot.getDistance())
 ```
 
+### Feelings
+
+A little show with LEDs, sound and wiggling (only visible on the real mBot2):
+
+```
+mbot.emotion("smile")   laughs
+mbot.emotion("sad")     is sad
+```
+
+All feelings: smile, hello, yeah, proud, wow, yummy, naughty, uh_oh, hurt, sad, angry, startle, shiver, dizzy, sleepy, zzz, wake_up, blink, yes, no, look_up, look_down, look_left, look_right, look_around
+
 ### Waiting
 
 ```

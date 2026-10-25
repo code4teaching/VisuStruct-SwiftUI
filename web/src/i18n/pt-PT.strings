@@ -311,6 +311,7 @@
 "web_visubot_sensor_line" = "Linha";
 "web_visubot_el_led_off" = "LEDs desligados";
 "web_visubot_el_wait" = "esperar um pouco";
+"web_visubot_el_emotion" = "mostrar um sentimento";
 "web_visubot_el_text" = "mostrar texto";
 "web_visubot_sensor_red" = "Cor vermelha?";
 "web_visubot_sensor_green" = "Cor verde?";
