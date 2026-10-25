@@ -3309,6 +3309,44 @@ button.danger-text:not(:disabled) {
   color: var(--muted);
   margin: 6px 0 0;
 }
+.visubot-controls {
+  margin-top: 8px;
+  font-size: 13px;
+}
+.visubot-controls summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+.visubot-controls .hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 4px 0 6px;
+}
+.visubot-controls label {
+  display: grid;
+  grid-template-columns: 9.5em 1fr 2.5em;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0;
+}
+.visubot-controls output {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.visubot-presses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.visubot-presses button {
+  min-width: 2.2em;
+}
+.visubot-presses button.pressed {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
 .palette-visubot-title {
   font-size: 13px;
   text-transform: uppercase;

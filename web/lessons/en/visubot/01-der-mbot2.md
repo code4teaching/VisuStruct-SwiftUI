@@ -45,7 +45,7 @@ There is also a speaker and a motion sensor that you cannot see from outside. Th
 
 > The model was built from photos. Look at your own mBot2 and compare.
 
-## Screen and LEDs
+## Screen, LEDs and speaker
 
 ::: mbot2
 focus: screen, leds
@@ -56,6 +56,8 @@ With the [screen]{part=screen} and the five [LEDs]{part=leds} the mBot2 shows yo
 
 Later you make the LEDs glow red with `mbot.setLed(255, 0, 0)`. The three numbers are red, green and blue, each from 0 to 255.
 
+The [CyberPi]{part=cyberpi} also has a small **speaker**. With `mbot.playTone(440, 300)` it plays a tone: 440 vibrations per second (hertz), 300 milliseconds long.
+
 ## Measuring light and sound
 
 ::: mbot2
@@ -64,6 +66,24 @@ view: top
 :::
 
 The [light sensor]{part=lightSensor} measures how bright it is. The [microphone]{part=microphone} measures how loud it is. For example, the mBot2 can start driving when you clap your hands.
+
+## Buttons and joystick
+
+::: mbot2
+focus: joystick, buttons
+view: top
+:::
+
+The [buttons]{part=buttons} A and B and the [joystick]{part=joystick} are sensors too: they notice when you press them. Your program can, for example, wait until you press A and only then start driving. With the joystick you steer the mBot2 like with a remote control.
+
+## The motion sensor
+
+::: mbot2
+focus: cyberpi
+spin: yes
+:::
+
+Inside the [CyberPi]{part=cyberpi} there is a sensor you cannot see: the **motion sensor** (a gyroscope with an accelerometer). It notices whether the mBot2 is tilted forward, backward or to the side, how far it has turned and whether someone shakes it. Your phone has such a sensor too: that is why the picture turns when you hold it sideways.
 
 ## Power: the shield with battery
 
@@ -114,6 +134,8 @@ view: bottom
 
 Now you look from below. Right at the front the black board of the [line sensor]{part=lineSensor} sticks out. It has **four** small probes side by side. Each one shines light on the floor and measures how much comes back. A black line reflects little, a bright floor a lot. That is how the mBot2 knows whether it is on a line.
 
+The sensor is called a **quad RGB sensor** because it can do even more: it also recognises **colours**, for example a red or green field on the floor.
+
 The [ball caster]{part=caster} behind it is the third leg. It has no motor and simply rolls along in any direction.
 
 ## The chassis
@@ -128,8 +150,10 @@ The [chassis]{part=chassis} is the turquoise aluminium frame. It holds all the p
 
 A robot has two kinds of parts:
 
-- **Sensors** measure something: the distance, a line, the brightness or the loudness.
-- **Actuators** do something: motors move, LEDs light up, the speaker beeps.
+- **Sensors** measure something: the distance, a line, a colour, the brightness, the loudness, the tilt or whether a button is pressed.
+- **Actuators** do something: the motors turn the wheels, the LEDs light up, the screen shows something, the speaker beeps.
+
+The word comes from the Latin *agere*, “to act”: actuators act, sensors (from *sentire*, “to feel”) feel.
 
 Your program reads the sensors and controls the actuators. You already know this as input, processing and output.
 
@@ -145,6 +169,62 @@ Your program reads the sensors and controls the actuators. You already know this
 - [x] LEDs
 - [ ] Line sensor
 > Actuators do something, sensors measure something.
+:::
+
+::: spiel frage
+titel: Game: sensor or actuator?
+intro: Does the part measure something, or does it do something? Ten rounds.
+antworten: Sensor | Actuator
+
+runde:
+frage: The ultrasonic sensor measures how far away the wall is.
+richtig: Sensor
+> It measures something: the distance.
+
+runde:
+frage: The motors turn the wheels.
+richtig: Actuator
+> They do something: they move the mBot2.
+
+runde:
+frage: The LEDs glow red.
+richtig: Actuator
+> Glowing is doing something, not measuring.
+
+runde:
+frage: The line sensor recognises the black tape.
+richtig: Sensor
+> It measures how much light comes back from the floor.
+
+runde:
+frage: The speaker beeps.
+richtig: Actuator
+> It outputs a sound.
+
+runde:
+frage: The microphone hears you clap.
+richtig: Sensor
+> It measures the loudness.
+
+runde:
+frage: The screen shows “Hello VisuBot!”.
+richtig: Actuator
+> Showing something is an output.
+
+runde:
+frage: Button A notices that you press it.
+richtig: Sensor
+> Buttons are sensors: they report whether they are pressed.
+
+runde:
+frage: The motion sensor notices that the mBot2 is tilted.
+richtig: Sensor
+> It measures the tilt.
+
+runde:
+frage: The rings on the ultrasonic sensor glow blue.
+richtig: Actuator
+> Tricky! The part is a sensor, but the glowing rings are an output.
 :::
 
 ## Find the parts
@@ -190,6 +270,28 @@ tipp: Five boxes `mbot.forward()` one below the other. Each drives 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
 
+## Connecting the real mBot2
+
+::: mbot2
+focus: cyberpi, powerSwitch, joystick, buttons
+view: side
+:::
+
+Everything you build in the simulator can also be driven by the real mBot2. This is how you connect it:
+
+1. Plug a **USB-C cable** into your computer (for example a MacBook) and the other end into the USB-C port on the right of the [CyberPi]{part=cyberpi}, next to the Home button.
+2. Push the [ON/OFF slide switch]{part=powerSwitch} on the left of the shield to ON. The CyberPi's screen lights up.
+3. A menu appears on the screen with **restart** highlighted (on a German CyberPi: „neu starten“). Press the [joystick]{part=joystick} down like a button to confirm it.
+4. After the restart it says “Press B to start”. Press **button B**, that is the [button with the triangle]{part=buttons}.
+5. Open VisuStruct in **Chrome** or **Edge**. Safari and the iPad cannot talk to USB devices.
+6. As soon as the CyberPi has started up, click **🔌 mBot2** at the top (or “Connect mBot2” in the gear menu).
+7. Chrome shows a list of ports. Choose the entry **USB Serial** (for example “USB Serial (cu.usbserial-110)”). It is often at the very bottom, so you may have to scroll down. Then click **Connect**.
+8. The CyberPi restarts briefly (⏳). Then “Hallo VisuBot!” appears on its screen and the button shows 🟢.
+
+Now the mBot2 drives along with every step of the simulation. Put it on the floor and give it room!
+
+> Finished? Click **🟢 mBot2** once more. It stops, shows “Bis bald!” and releases the port. Only then pull out the cable.
+
 ::: checkliste
 - I know the parts of the mBot2. → Hello mBot2
 - I know how the mBot2 measures distances. → The ultrasonic sensor
@@ -197,4 +299,5 @@ lösung: vb-gerade-loesung.visustruct
 - I know what sensors and actuators are. → Sensors and actuators
 - I can control the mBot2 with elements from the group mBot2 commands. → Commands for the mBot2
 - I can let the mBot2 drive in the simulator. → First drive
+- I can connect the real mBot2 with USB-C and disconnect it again. → Connecting the real mBot2
 :::

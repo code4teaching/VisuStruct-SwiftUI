@@ -45,7 +45,7 @@ Dazu kommen ein Lautsprecher und ein Lagesensor, die du von außen nicht siehst.
 
 > Das Modell ist nach Fotos nachgebaut. Schau dir deinen eigenen mBot2 an und vergleiche.
 
-## Bildschirm und LEDs
+## Bildschirm, LEDs und Lautsprecher
 
 ::: mbot2
 fokus: screen, leds
@@ -56,6 +56,8 @@ Mit dem [Bildschirm]{teil=screen} und den fünf [LEDs]{teil=leds} zeigt dir der 
 
 Später lässt du die LEDs mit `mbot.setLed(255, 0, 0)` rot leuchten. Die drei Zahlen sind Rot, Grün und Blau, jeweils von 0 bis 255.
 
+Im [CyberPi]{teil=cyberpi} steckt außerdem ein kleiner **Lautsprecher**. Mit `mbot.playTone(440, 300)` spielt er einen Ton: 440 Schwingungen pro Sekunde (Hertz), 300 Millisekunden lang.
+
 ## Licht und Geräusche messen
 
 ::: mbot2
@@ -64,6 +66,24 @@ ansicht: oben
 :::
 
 Der [Lichtsensor]{teil=lightSensor} misst, wie hell es ist. Das [Mikrofon]{teil=microphone} misst, wie laut es ist. So kann der mBot2 zum Beispiel losfahren, wenn du in die Hände klatschst.
+
+## Tasten und Joystick
+
+::: mbot2
+fokus: joystick, buttons
+ansicht: oben
+:::
+
+Die [Tasten]{teil=buttons} A und B und der [Joystick]{teil=joystick} sind auch Sensoren: Sie merken, ob du sie drückst. Dein Programm kann zum Beispiel warten, bis du A drückst, und erst dann losfahren. Mit dem Joystick lenkst du den mBot2 wie mit einer Fernbedienung.
+
+## Der Lagesensor
+
+::: mbot2
+fokus: cyberpi
+drehen: ja
+:::
+
+Im [CyberPi]{teil=cyberpi} steckt ein Sensor, den du nicht siehst: der **Lagesensor** (ein Gyroskop mit Beschleunigungssensor). Er merkt, ob der mBot2 nach vorn, nach hinten oder zur Seite geneigt ist, wie weit er sich gedreht hat und ob ihn jemand schüttelt. Dein Handy hat so einen Sensor auch: Darum dreht sich das Bild, wenn du es quer hältst.
 
 ## Strom: das Shield mit Akku
 
@@ -114,6 +134,8 @@ ansicht: unten
 
 Jetzt schaust du von unten. Ganz vorn schaut die schwarze Platine des [Liniensensors]{teil=lineSensor} heraus. Er hat **vier** kleine Fühler nebeneinander. Jeder leuchtet den Boden an und misst, wie viel Licht zurückkommt. Auf einer schwarzen Linie kommt wenig zurück, auf hellem Boden viel. So erkennt der mBot2, ob er auf einer Linie fährt.
 
+Der Sensor heißt **Quad-RGB-Sensor**, weil er noch mehr kann: Er erkennt auch **Farben**, zum Beispiel ein rotes oder grünes Feld auf dem Boden.
+
 Die [Kugelrolle]{teil=caster} dahinter ist das dritte Bein. Sie hat keinen Motor und rollt einfach in jede Richtung mit.
 
 ## Das Chassis
@@ -128,8 +150,10 @@ Das [Chassis]{teil=chassis} ist der türkise Rahmen aus Aluminium. Er hält alle
 
 Ein Roboter hat zwei Arten von Teilen:
 
-- **Sensoren** messen etwas: den Abstand, eine Linie, die Helligkeit oder die Lautstärke.
-- **Aktoren** tun etwas: Motoren bewegen, LEDs leuchten, der Lautsprecher piept.
+- **Sensoren** messen etwas: den Abstand, eine Linie, eine Farbe, die Helligkeit, die Lautstärke, die Neigung oder ob eine Taste gedrückt ist.
+- **Aktoren** tun etwas: Die Motoren bewegen die Räder, die LEDs leuchten, der Bildschirm zeigt etwas an, der Lautsprecher piept.
+
+Das Wort kommt vom lateinischen *agere*, „handeln“: Aktoren handeln, Sensoren (von *sentire*, „fühlen“) fühlen.
 
 Dein Programm liest die Sensoren und steuert die Aktoren. Das kennst du schon als Eingabe, Verarbeitung und Ausgabe.
 
@@ -145,6 +169,62 @@ Dein Programm liest die Sensoren und steuert die Aktoren. Das kennst du schon al
 - [x] LEDs
 - [ ] Liniensensor
 > Aktoren tun etwas, Sensoren messen etwas.
+:::
+
+::: spiel frage
+titel: Spiel: Sensor oder Aktor?
+intro: Misst das Bauteil etwas, oder tut es etwas? Zehn Runden.
+antworten: Sensor | Aktor
+
+runde:
+frage: Der Ultraschallsensor misst, wie weit die Wand weg ist.
+richtig: Sensor
+> Er misst etwas: den Abstand.
+
+runde:
+frage: Die Motoren drehen die Räder.
+richtig: Aktor
+> Sie tun etwas: Sie bewegen den mBot2.
+
+runde:
+frage: Die LEDs leuchten rot.
+richtig: Aktor
+> Leuchten ist etwas tun, nicht messen.
+
+runde:
+frage: Der Liniensensor erkennt das schwarze Klebeband.
+richtig: Sensor
+> Er misst, wie viel Licht vom Boden zurückkommt.
+
+runde:
+frage: Der Lautsprecher piept.
+richtig: Aktor
+> Er gibt einen Ton aus.
+
+runde:
+frage: Das Mikrofon hört dein Klatschen.
+richtig: Sensor
+> Es misst die Lautstärke.
+
+runde:
+frage: Der Bildschirm zeigt „Hallo VisuBot!“.
+richtig: Aktor
+> Anzeigen ist eine Ausgabe.
+
+runde:
+frage: Taste A merkt, dass du drückst.
+richtig: Sensor
+> Tasten sind Sensoren: Sie melden, ob sie gedrückt sind.
+
+runde:
+frage: Der Lagesensor merkt, dass der mBot2 schief steht.
+richtig: Sensor
+> Er misst die Neigung.
+
+runde:
+frage: Die Ringe am Ultraschallsensor leuchten blau.
+richtig: Aktor
+> Gemein! Das Bauteil ist ein Sensor, aber das Leuchten der Ringe ist eine Ausgabe.
 :::
 
 ## Finde die Bauteile
@@ -190,6 +270,28 @@ tipp: Fünf Kästen `mbot.forward()` untereinander. Jeder fährt 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
 
+## Den echten mBot2 verbinden
+
+::: mbot2
+fokus: cyberpi, powerSwitch, joystick, buttons
+ansicht: seite
+:::
+
+Alles, was du im Simulator baust, kann auch der echte mBot2 fahren. So verbindest du ihn:
+
+1. Steck ein **USB-C-Kabel** in deinen Computer (zum Beispiel ein MacBook) und das andere Ende in den USB-C-Anschluss rechts am [CyberPi]{teil=cyberpi}, neben der Home-Taste.
+2. Schieb den [Schiebeschalter ON/OFF]{teil=powerSwitch} links am Shield auf ON. Der Bildschirm des CyberPi leuchtet.
+3. Auf dem Bildschirm erscheint ein Menü, in dem **neu starten** markiert ist. Drück den [Joystick]{teil=joystick} wie eine Taste nach unten, um das zu bestätigen.
+4. Nach dem Neustart steht dort „Press B to start“. Drück **Taste B**, das ist die [Taste mit dem Dreieck]{teil=buttons}.
+5. Öffne VisuStruct in **Chrome** oder **Edge**. Safari und das iPad können keine USB-Geräte ansprechen.
+6. Sobald der CyberPi hochgefahren ist, klick oben auf **🔌 mBot2** (oder im Zahnrad auf „Mit mBot2 verbinden“).
+7. Chrome zeigt eine Liste mit Anschlüssen. Wähle den Eintrag **USB Serial** (zum Beispiel „USB Serial (cu.usbserial-110)“). Er steht oft ganz unten, eventuell musst du nach unten scrollen. Dann klick auf **Verbinden**.
+8. Der CyberPi startet kurz neu (⏳). Dann steht „Hallo VisuBot!“ auf seinem Bildschirm und der Knopf zeigt 🟢.
+
+Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den Boden und lass ihm Platz!
+
+> Fertig? Klick noch einmal auf **🟢 mBot2**. Dann hält er an, zeigt „Bis bald!“ und gibt den Anschluss frei. Erst danach das Kabel ziehen.
+
 ::: checkliste
 - Ich kenne die Teile des mBot2. → Hallo mBot2
 - Ich weiß, wie der mBot2 Abstände misst. → Der Ultraschallsensor
@@ -197,4 +299,5 @@ lösung: vb-gerade-loesung.visustruct
 - Ich weiß, was Sensoren und Aktoren sind. → Sensoren und Aktoren
 - Ich kann den mBot2 mit Elementen aus der Gruppe mBot2-Befehle steuern. → Befehle für den mBot2
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
+- Ich kann den echten mBot2 per USB-C verbinden und wieder trennen. → Den echten mBot2 verbinden
 :::

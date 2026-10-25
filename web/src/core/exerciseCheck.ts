@@ -1,5 +1,5 @@
 import { ElementType, type VSDocument, type VSElement } from './model'
-import { driveSignature } from './mbot'
+import { actionSignature, driveSignature } from './mbot'
 import { RobotWorld, type RobotWorldSetup } from './robotWorld'
 import { SimulationEngine, type SimNotice, type SubprogramResolver } from './simulation'
 
@@ -14,7 +14,21 @@ export interface ExerciseTest {
   drive?: string[]
   /** VisuBot: Welt (Name einer Weltkarte in `lessons/welten`); der Roboter darf nicht anstoßen und muss ins Ziel, falls sie eins hat. */
   world?: string
+  /**
+   * VisuBot: Messwerte der Sensoren, z. B. `{ getLoudness: [0, 80] }`. Mehrere Werte kommen nacheinander,
+   * jeder für `SENSOR_PHASE_STEPS` Schritte, der letzte bleibt (so lässt sich „warte, bis es laut ist“ prüfen).
+   */
+  sensors?: Record<string, (number | boolean)[]>
+  /** VisuBot: Sollen die LEDs am Ende leuchten (`true`) oder aus sein (`false`)? */
+  led?: boolean
+  /** VisuBot: Soll ein Ton erklingen? */
+  tone?: boolean
+  /** VisuBot: genau diese Befehle für LEDs, Ton, Pausen und Bildschirm (`actionSignature`, ohne Fahren). */
+  actions?: string[]
 }
+
+/** So viele Schritte gilt ein Messwert aus `ExerciseTest.sensors`, bevor der nächste kommt. */
+export const SENSOR_PHASE_STEPS = 40
 
 export interface RunResult {
   outputs: string[]
@@ -25,6 +39,11 @@ export interface RunResult {
   /** VisuBot: Steht der Roboter am Ende im Ziel, wie oft ist er angestoßen? */
   atGoal?: boolean
   bumps?: number
+  /** VisuBot: Leuchten die LEDs am Ende, kam ein Ton? */
+  led?: boolean
+  tone?: boolean
+  /** VisuBot: Befehle ohne Fahren (`actionSignature`). */
+  actions?: string[]
   /** Fehler der Simulation (z. B. unbekannte Variable). */
   error?: SimNotice
   /** Das Diagramm wollte mehr Eingaben, als der Test hat. */
@@ -37,7 +56,16 @@ export interface RunResult {
 
 export const maxCheckSteps = 100_000
 
-export function runWithInputs(doc: VSDocument, inputs: string[], subprograms?: SubprogramResolver, world?: RobotWorldSetup): RunResult {
+/** Fahrbefehle; alle anderen (LEDs, Ton, Pause, Bildschirm) prüft `ExerciseTest.actions`. */
+const DRIVING = new Set(['forward', 'backward', 'turnLeft', 'turnRight', 'stop'])
+
+export function runWithInputs(
+  doc: VSDocument,
+  inputs: string[],
+  subprograms?: SubprogramResolver,
+  world?: RobotWorldSetup,
+  sensors?: ExerciseTest['sensors'],
+): RunResult {
   const engine = new SimulationEngine(doc, subprograms)
   const queue = [...inputs]
   // Sensoren wie im Simulator: die Welt fährt mit, damit `mbot.getDistance()` passende Werte liefert.
@@ -46,12 +74,15 @@ export function runWithInputs(doc: VSDocument, inputs: string[], subprograms?: S
   for (let i = 0; i < maxCheckSteps; i++) {
     const { state } = engine
     for (; applied < state.robotActions.length; applied++) robot.apply(state.robotActions[applied])
-    engine.robotSensors = robot.sensors()
+    engine.robotSensors = { ...robot.sensors(), ...sensorsAt(sensors, i) }
     const done = () => ({
       outputs: [...state.outputLines],
       files: new Map(state.files),
       drive: state.robotActions.length ? driveSignature(state.robotActions) : undefined,
       ...(world ? { atGoal: robot.atGoal(), bumps: robot.bumps } : {}),
+      led: robot.led !== undefined && robot.led.some((c) => c > 0),
+      tone: state.robotActions.some((a) => a.method === 'playTone'),
+      actions: actionSignature(state.robotActions.filter((a) => !DRIVING.has(a.method))),
     })
     if (state.inputRequest) {
       const next = queue.shift()
@@ -67,6 +98,12 @@ export function runWithInputs(doc: VSDocument, inputs: string[], subprograms?: S
     engine.step()
   }
   return { outputs: [...engine.state.outputLines], files: new Map(engine.state.files), drive: driveSignature(engine.state.robotActions), tooManySteps: true }
+}
+
+/** Messwerte im Schritt `step`: je Sensor der Wert seiner Phase, ab der letzten Phase bleibt er. */
+function sensorsAt(sensors: ExerciseTest['sensors'], step: number): Record<string, number | boolean> {
+  const phase = Math.floor(step / SENSOR_PHASE_STEPS)
+  return Object.fromEntries(Object.entries(sensors ?? {}).map(([name, values]) => [name, values[Math.min(phase, values.length - 1)]]))
 }
 
 /** Zeilen einer gespeicherten Datei; der Zeilenumbruch am Ende beginnt keine neue Zeile. Fehlt die Datei: keine Zeilen. */
@@ -101,13 +138,24 @@ export function checkExercise(
   return tests.map((test) => {
     const world = test.world ? worlds?.(test.world) : undefined
     if (test.world && !world) throw new Error(`Weltkarte „${test.world}“ fehlt.`)
-    const result = runWithInputs(doc, test.inputs, subprograms, world)
+    const result = runWithInputs(doc, test.inputs, subprograms, world, test.sensors)
     const filesRight = (test.files ?? []).every((f) => sameOutput(fileLines(result.files?.get(f.name)), f.lines))
     const driveRight = !test.drive || sameOutput(result.drive ?? [], test.drive)
     // Hat die Welt ein Ziel, muss der Roboter hin; anstoßen darf er nie.
     const worldRight = !test.world || (result.bumps === 0 && (!(world?.goals?.length || world?.targets?.length) || result.atGoal === true))
+    const robotRight =
+      (test.led === undefined || result.led === test.led) &&
+      (test.tone === undefined || result.tone === test.tone) &&
+      (!test.actions || sameOutput(result.actions ?? [], test.actions))
     const passed =
-      !result.error && !result.missingInput && !result.tooManySteps && sameOutput(result.outputs, test.expected) && filesRight && driveRight && worldRight
+      !result.error &&
+      !result.missingInput &&
+      !result.tooManySteps &&
+      sameOutput(result.outputs, test.expected) &&
+      filesRight &&
+      driveRight &&
+      worldRight &&
+      robotRight
     return { test, result, passed }
   })
 }

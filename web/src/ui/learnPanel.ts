@@ -671,7 +671,11 @@ export class LearnPanel {
       const worldIndex = o.test.world ? outcomes.filter((x) => x.test.world).indexOf(o) + 1 : 0
       const input = o.test.world
         ? `🗺 ${t('web_visubot_world_fmt', worldIndex)}`
-        : o.test.drive
+        : o.test.actions
+          ? `🤖 ${t('web_visubot_actions')}`
+          : o.test.sensors
+          ? `🎛 ${Object.entries(o.test.sensors).map(([name, values]) => `mbot.${name}() = ${values.join(' → ')}`).join(', ')}`
+          : o.test.drive
           ? `🤖 ${t('web_visubot_drive')}`
           : o.test.inputs.length ? t('web_learn_input_fmt', o.test.inputs.join(', ')) : t('web_learn_no_input')
       const lines: (string | Node)[] = [`${o.passed ? '✓' : '✗'} ${input}`]
@@ -682,12 +686,26 @@ export class LearnPanel {
           h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, compressDrive(o.result.drive ?? []) || '–')),
         )
       }
+      if (o.test.actions) {
+        detail.append(
+          h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, compressDrive(o.test.actions) || '–')),
+          h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, compressDrive(o.result.actions ?? []) || '–')),
+        )
+      }
+      if (o.test.led !== undefined) {
+        const led = (on: boolean | undefined) => t(on ? 'web_visubot_led_on' : 'web_visubot_led_off')
+        detail.append(h('span', {}, `💡 ${t('web_learn_expected')}: ${led(o.test.led)} · ${t('web_learn_actual')}: ${led(o.result.led)}`))
+      }
+      if (o.test.tone !== undefined) {
+        const tone = (on: boolean | undefined) => t(on ? 'web_visubot_tone_yes' : 'web_visubot_tone_no')
+        detail.append(h('span', {}, `🔊 ${t('web_learn_expected')}: ${tone(o.test.tone)} · ${t('web_learn_actual')}: ${tone(o.result.tone)}`))
+      }
       if (o.test.world) {
         if (world(o.test.world)?.goals?.length || world(o.test.world)?.targets?.length)
           detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
         if (o.result.bumps) detail.append(h('span', { class: 'learn-error' }, `⚠︎ ${t('web_visubot_bumps')}: ${o.result.bumps}`))
       }
-      if ((!o.test.drive && !o.test.world) || o.result.outputs.length) detail.append(
+      if ((!o.test.drive && !o.test.world && !o.test.sensors && !o.test.actions) || o.result.outputs.length) detail.append(
         h('span', {}, `${t('web_learn_expected')}: `, h('code', {}, o.test.expected.join(' | ') || '–')),
         h('span', {}, `${t('web_learn_actual')}: `, h('code', {}, o.result.outputs.join(' | ') || '–')),
       )
