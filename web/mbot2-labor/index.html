@@ -46,7 +46,8 @@
     <button data-ping disabled>Ping</button>
     <button data-py="cyberpi.led.on(255, 0, 0)" disabled>LEDs rot</button>
     <button data-py="cyberpi.led.off()" disabled>LEDs aus</button>
-    <button data-py="cyberpi.console.println('VisuStruct')" disabled>Text auf Display</button>
+    <button data-py="cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')" disabled>Hallo auf Display (groß)</button>
+    <button data-py="cyberpi.console.println('VisuStruct')" disabled>Text auf Display (Konsole)</button>
     <button data-py="cyberpi.audio.play_tone(440, 0.3)" disabled>Ton</button>
   </section>
 
@@ -197,6 +198,9 @@ $('#connect').onclick = async () => {
     await new Promise((r) => setTimeout(r, 3000))
     setConnected(true, 'verbunden')
     await send(frame([0x0d, 0x00, 0x00]), 'Ping')
+    // Begrüßung auf dem Bildschirm: so sieht man am Roboter, dass VisuBot verbunden ist
+    const hello = "cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')"
+    await send(pythonFrame(hello), hello)
   } catch (e) {
     log(`Verbinden fehlgeschlagen: ${e.message}`, 'err')
     setConnected(false, 'nicht verbunden')
