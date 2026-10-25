@@ -31,3 +31,17 @@ lösung: vb-k-sechseck-loesung.visustruct
 :::
 
 Under **Exercises** more shapes are waiting for the mBot2: staircase, triangle, spiral and slalom.
+
+## A running light
+
+Each of the five LEDs has a number from 0 to 4: `mbot.led(2).setColor("blue")` switches LED 2 blue, `mbot.led(2).setColor("off")` switches it off again. The number can also be the loop's counter. That way a light moves from LED to LED.
+
+::: übung vb-k-lauflicht
+titel: Running light
+auftrag: A for loop counts `i` from 0 to 4. Inside, LED `i` turns blue, the mBot2 waits 200 milliseconds, and LED `i` goes off again.
+befehle: ledColor 0 "blue", pause 200, ledColor 0 "off", ledColor 1 "blue", pause 200, ledColor 1 "off", ledColor 2 "blue", pause 200, ledColor 2 "off", ledColor 3 "blue", pause 200, ledColor 3 "off", ledColor 4 "blue", pause 200, ledColor 4 "off"
+braucht: forSchleife
+tipp: The loop runs from `i = 0` while `i < 5`. Inside there are three boxes: **set LED colour**, **wait a moment**, **set LED colour**.
+tipp: `mbot.led(i).setColor("blue")`, `mbot.pause(200)`, `mbot.led(i).setColor("off")`.
+lösung: vb-java-lauflicht-loesung.visustruct
+:::

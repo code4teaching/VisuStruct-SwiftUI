@@ -21,3 +21,17 @@ lösung: vb-k-melodie-loesung.visustruct
 :::
 
 > If you want to change the melody, you only change the array. The loop stays the same.
+
+## Colours as an array
+
+The five LEDs have the numbers 0 to 4, exactly like the slots of an array with five values. If you store five colours in an array, LED `i` gets the colour from slot `i`: `mbot.led(i).setColor(colours[i])`.
+
+::: übung vb-k-farben
+titel: Rainbow
+auftrag: Create an array `colours` with the texts `"red"`, `"yellow"`, `"green"`, `"blue"` and `"purple"`. A for loop gives every LED `i` the colour from `colours[i]`.
+befehle: ledColor 0 "red", ledColor 1 "yellow", ledColor 2 "green", ledColor 3 "blue", ledColor 4 "purple"
+braucht: forSchleife
+tipp: `String[] colours = {"red", "yellow", "green", "blue", "purple"}` creates the array.
+tipp: The loop runs from `i = 0` while `i < colours.length`. Inside: `mbot.led(i).setColor(colours[i])`.
+lösung: vb-k-farben-loesung.visustruct
+:::

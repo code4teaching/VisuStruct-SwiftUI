@@ -21,3 +21,17 @@ lösung: vb-k-melodie-loesung.visustruct
 :::
 
 > Wenn du die Melodie ändern willst, änderst du nur das Array. Die Schleife bleibt gleich.
+
+## Farben als Array
+
+Die fünf LEDs haben die Nummern 0 bis 4, genau wie die Fächer eines Arrays mit fünf Werten. Speicherst du fünf Farben in einem Array, bekommt LED `i` die Farbe aus Fach `i`: `mbot.led(i).setColor(farben[i])`.
+
+::: übung vb-k-farben
+titel: Regenbogen
+auftrag: Lege ein Array `farben` mit den Texten `"rot"`, `"gelb"`, `"grün"`, `"blau"` und `"lila"` an. Eine For-Schleife gibt jeder LED `i` die Farbe aus `farben[i]`.
+befehle: ledColor 0 "rot", ledColor 1 "gelb", ledColor 2 "grün", ledColor 3 "blau", ledColor 4 "lila"
+braucht: forSchleife
+tipp: `String[] farben = {"rot", "gelb", "grün", "blau", "lila"}` legt das Array an.
+tipp: Die Schleife läuft von `i = 0` bis `i < farben.length`. Darin steht `mbot.led(i).setColor(farben[i])`.
+lösung: vb-k-farben-loesung.visustruct
+:::
