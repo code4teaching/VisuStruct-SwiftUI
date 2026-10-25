@@ -344,4 +344,8 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visubot_controls" = "Sensoren ausprobieren";
 "web_visubot_controls_hint" = "Ohne echten mBot2: Hier stellst du ein, was die Sensoren messen. Tasten, Joystick und Schütteln gelten eine Sekunde lang.";
 "web_visubot_shake" = "schütteln";
+"web_visubot_check" = "mBot2 testen";
+"web_visubot_check_hint" = "Probiere jeden Aktor einmal aus. Die Sensorwerte laufen live mit: Halte die Hand vor den Ultraschall, drück die Tasten, neige oder schüttle den mBot2. Heb ihn für die Räder hoch.";
+"web_visubot_check_forward" = "Räder 1 s vorwärts";
+"web_visubot_check_spin" = "1 s auf der Stelle drehen";
 `;export{e as default};

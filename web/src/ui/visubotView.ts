@@ -56,6 +56,9 @@ export class VisuBotView {
   /** Regler und Knöpfe „Sensoren ausprobieren“: Werte, die keine Welt liefert. */
   private controls: MBotSensorValues = { getBrightness: 50, getLoudness: 0, getPitch: 0, getRoll: 0 }
   private pressTimers = new Map<string, number>()
+  /** „mBot2 testen“: alle Sensoren live und Knöpfe für die Aktoren (nur mit echtem mBot2) */
+  private check: HTMLDetailsElement
+  private checking = false
   /** Nach dem Umschalten der Welt: Simulation von vorn (setzt das Simulationspanel). */
   onWorldChange?: () => void
 
@@ -63,13 +66,15 @@ export class VisuBotView {
     this.world = new RobotWorld(setup)
     this.element = document.createElement('section')
     this.element.className = 'visubot'
-    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>${controlsHTML()}`
+    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>${controlsHTML()}${checkHTML()}`
     this.stage = this.element.querySelector('.visubot-stage')!
     this.picker = this.element.querySelector('.visubot-worlds')!
     this.status = this.element.querySelector('.visubot-status')!
     this.liveStatus = this.element.querySelector('.visubot-live')!
     this.stopListening = mbotLink.listen(() => this.updateLive())
     this.setupControls()
+    this.check = this.element.querySelector('.visubot-check')!
+    this.setupCheck()
     this.updateLive()
     this.updateStatus()
   }
@@ -160,6 +165,42 @@ export class VisuBotView {
     }
   }
 
+  private setupCheck() {
+    for (const button of this.check.querySelectorAll<HTMLButtonElement>('button[data-py]')) {
+      button.addEventListener('click', () => {
+        const stop = button.dataset.stop
+        void mbotLink
+          .run(button.dataset.py!)
+          .then(() => (stop ? new Promise((r) => setTimeout(r, Number(stop))).then(() => mbotLink.run("mbot2.EM_stop('ALL')")) : undefined))
+          .catch((e: Error) => this.liveFailed(e))
+      })
+    }
+    this.check.addEventListener('toggle', () => void this.readCheck())
+  }
+
+  /** Solange „mBot2 testen“ offen ist: alle Sensoren reihum lesen und zeigen. */
+  private async readCheck() {
+    if (this.checking) return
+    this.checking = true
+    try {
+      while (this.check.open && mbotLink.connected) {
+        for (const cell of this.check.querySelectorAll<HTMLElement>('[data-sensor]')) {
+          if (!this.check.open || !mbotLink.connected) break
+          const name = cell.dataset.sensor!
+          const value = await mbotLink.ask(MBOT_SENSORS[name].python).catch(() => undefined)
+          if (value === undefined) continue
+          cell.textContent =
+            typeof MBOT_SENSORS[name].simulated === 'boolean'
+              ? value === true || (typeof value === 'number' && value !== 0) ? '✓' : '–'
+              : String(typeof value === 'number' ? Math.round(value * 10) / 10 : value)
+        }
+        await new Promise((r) => setTimeout(r, 200))
+      }
+    } finally {
+      this.checking = false
+    }
+  }
+
   /** Fährt der echte mBot2 mit? */
   get live(): boolean {
     return mbotLink.connected
@@ -198,6 +239,8 @@ export class VisuBotView {
   private updateLive() {
     this.liveStatus.textContent = mbotLinkText()
     this.liveStatus.classList.toggle('connected', mbotLink.connected)
+    this.check.hidden = !mbotLink.connected
+    if (!mbotLink.connected) this.check.open = false
     this.updateStatus()
   }
 
@@ -278,6 +321,25 @@ function controlsHTML(): string {
       ${press('isJoystickLeft', '←', 'web_visubot_sensor_joy_left')}${press('isJoystickRight', '→', 'web_visubot_sensor_joy_right')}
       ${press('isShaken', `〰 ${t('web_visubot_shake')}`, 'web_visubot_sensor_shake')}
     </div>
+  </details>`
+}
+
+/** „mBot2 testen“: jeden Aktor einmal auslösen, jeden Sensor live ablesen (wie die Labor-Seite). */
+function checkHTML(): string {
+  const act = (py: string, key: string, stop?: number) =>
+    `<button type="button" data-py="${py.replace(/"/g, '&quot;')}"${stop ? ` data-stop="${stop}"` : ''}>${t(key)}</button>`
+  const sensors = visuBotSensors
+    .map((s) => `<tr><th>${t(s.key)}</th><td data-sensor="${s.text.replace(/^mbot\.|\(\)$/g, '')}">…</td></tr>`)
+    .join('')
+  return `<details class="visubot-check" hidden><summary>🔧 ${t('web_visubot_check')}</summary>
+    <p class="hint">${t('web_visubot_check_hint')}</p>
+    <div class="visubot-presses">
+      ${act('cyberpi.led.on(255, 0, 0)', 'web_visubot_el_led')}${act('cyberpi.led.off()', 'web_visubot_el_led_off')}
+      ${act('cyberpi.audio.play_tone(440, 0.3)', 'web_visubot_el_tone')}
+      ${act("cyberpi.display.show_label('Test', 24, 'center')", 'web_visubot_el_text')}
+      ${act('mbot2.drive_power(30, -30)', 'web_visubot_check_forward', 1000)}${act('mbot2.drive_power(30, 30)', 'web_visubot_check_spin', 1000)}
+    </div>
+    <table class="visubot-check-sensors">${sensors}</table>
   </details>`
 }
 

@@ -344,4 +344,8 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_visubot_controls" = "Try the sensors";
 "web_visubot_controls_hint" = "Without a real mBot2: set here what the sensors measure. Buttons, joystick and shaking last for one second.";
 "web_visubot_shake" = "shake";
+"web_visubot_check" = "Test the mBot2";
+"web_visubot_check_hint" = "Try each actuator once. The sensor values update live: hold your hand in front of the ultrasonic sensor, press the buttons, tilt or shake the mBot2. Lift it up for the wheels.";
+"web_visubot_check_forward" = "Wheels 1 s forward";
+"web_visubot_check_spin" = "Turn on the spot for 1 s";
 `;export{e as default};

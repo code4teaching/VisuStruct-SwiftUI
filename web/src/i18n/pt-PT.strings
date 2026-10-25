@@ -342,3 +342,7 @@
 "web_visubot_controls" = "Experimentar os sensores";
 "web_visubot_controls_hint" = "Sem um mBot2 real: define aqui o que os sensores medem. Botões, joystick e abanar duram um segundo.";
 "web_visubot_shake" = "abanar";
+"web_visubot_check" = "Testar o mBot2";
+"web_visubot_check_hint" = "Experimenta cada atuador uma vez. Os valores dos sensores atualizam-se em direto: põe a mão à frente do sensor ultrassónico, carrega nos botões, inclina ou abana o mBot2. Levanta-o para testar as rodas.";
+"web_visubot_check_forward" = "Rodas 1 s para a frente";
+"web_visubot_check_spin" = "Rodar no lugar 1 s";
