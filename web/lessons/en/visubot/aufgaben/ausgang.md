@@ -1,6 +1,7 @@
 ---
 titel: Maze with exits
 nach: 4
+kurs: 11
 stufe: 3
 ---
 
