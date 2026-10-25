@@ -13,14 +13,18 @@ export interface MBotAction {
   waitMs?: number
   /** Kurz für die Konsole, z. B. „10 cm vorwärts“. */
   label: string
+  /** Text für den Bildschirm (`showText`). */
+  text?: string
 }
 
 interface CommandSpec {
   args: number
   /** Werte, wenn die Klammern leer bleiben: `mbot.forward()` fährt einen Schritt (10 cm), `turnRight()` dreht 90°. */
   defaults?: number[]
-  python?: (a: number[]) => string
-  label: (a: number[]) => string
+  python?: (a: number[], text: string) => string
+  label: (a: number[], text: string) => string
+  /** Das (einzige) Argument ist ein Text, z. B. `mbot.showText("Hallo")`. */
+  text?: boolean
 }
 
 /** Ein Schritt von `mbot.forward()` ohne Zahl. */
@@ -39,20 +43,54 @@ export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   ledOff: { args: 0, python: () => 'cyberpi.led.off()', label: () => 'LEDs aus' },
   playTone: { args: 2, python: ([hz, ms]) => `cyberpi.audio.play_tone(${n(hz)}, ${n(ms / 1000)})`, label: ([hz, ms]) => `Ton ${n(hz)} Hz, ${n(ms)} ms` },
   pause: { args: 1, label: ([ms]) => `${n(ms)} ms warten` },
+  showText: { args: 0, text: true, python: (_, text) => `cyberpi.display.show_label(${JSON.stringify(text)}, 24, 'center')`, label: (_, text) => `Bildschirm: ${text}` },
 }
 
 interface SensorSpec {
   python: string
-  /** Wert in der Simulation ohne Roboter */
-  simulated: number
+  /** Wert in der Simulation, wenn weder Welt noch Regler ihn liefern */
+  simulated: number | boolean
 }
 
-/** Sensoren (Ausdrücke ohne Argumente). */
+/** Farben, die der Quad-RGB-Sensor im Simulator erkennt (Felder `r g b y` in einer Weltkarte). */
+export const MBOT_COLORS = ['red', 'green', 'blue', 'yellow'] as const
+export type MBotColor = (typeof MBOT_COLORS)[number]
+
+const colorSensor = (c: MBotColor): SensorSpec => ({ python: `mbuild.quad_rgb_sensor.is_color('${c}', 'any', 1)`, simulated: false })
+const press = (key: string): SensorSpec => ({ python: `cyberpi.controller.is_press('${key}')`, simulated: false })
+
+/**
+ * Sensoren (Ausdrücke ohne Argumente): Zahlen oder Wahrheitswerte.
+ * Der Python-Text liest den Wert am echten mBot2 (Modus 1, Antwort `{"ret":…}`).
+ */
 export const MBOT_SENSORS: Record<string, SensorSpec> = {
   getDistance: { python: 'mbuild.ultrasonic2.get(1)', simulated: 100 },
   getLine: { python: "mbuild.quad_rgb_sensor.get_line_sta('all', 1)", simulated: 0 },
+  isRed: colorSensor('red'),
+  isGreen: colorSensor('green'),
+  isBlue: colorSensor('blue'),
+  isYellow: colorSensor('yellow'),
+  isButtonA: press('a'),
+  isButtonB: press('b'),
+  isJoystickUp: press('up'),
+  isJoystickDown: press('down'),
+  isJoystickLeft: press('left'),
+  isJoystickRight: press('right'),
   getBrightness: { python: 'cyberpi.get_bri()', simulated: 50 },
-  getLoudness: { python: 'cyberpi.get_loudness()', simulated: 0 },
+  getLoudness: { python: "cyberpi.get_loudness('maximum')", simulated: 0 },
+  getPitch: { python: 'cyberpi.get_pitch()', simulated: 0 },
+  getRoll: { python: 'cyberpi.get_roll()', simulated: 0 },
+  isShaken: { python: 'cyberpi.is_shake()', simulated: false },
+}
+
+/** Messwerte des Roboters nach Namen (`getDistance` → 38, `isButtonA` → true). */
+export type MBotSensorValues = Partial<Record<string, number | boolean>>
+
+/** Welche Sensoren kommen in diesem Text vor (z. B. im ganzen Diagramm)? */
+export function usedMBotSensors(text: string): string[] {
+  const found = new Set<string>()
+  for (const m of text.matchAll(/\bmbot\s*\.\s*([A-Za-z_]\w*)\s*\(\s*\)/gu)) if (m[1] in MBOT_SENSORS) found.add(m[1])
+  return [...found]
 }
 
 /** `mbot.forward(10)` → Name und Argumenttexte; `undefined`, wenn es kein mBot-Befehl ist. */
@@ -72,19 +110,62 @@ export function mbotArguments(method: string, args: number[]): number[] | undefi
   return undefined
 }
 
-export function makeMBotAction(method: string, args: number[]): MBotAction {
+export function makeMBotAction(method: string, args: number[], text = ''): MBotAction {
   const spec = MBOT_COMMANDS[method]
   return {
     method,
     args,
-    python: spec.python?.(args),
+    python: spec.python?.(args, text),
     waitMs: method === 'pause' ? Math.max(0, args[0]) : undefined,
-    label: spec.label(args),
+    label: spec.label(args, text),
+    ...(spec.text ? { text } : {}),
   }
 }
 
+/**
+ * Alle Befehle als Liste wie `setLed 255 0 0`, `pause 500`, `showText "Hallo"` (zum Prüfen von LEDs, Tönen und Bildschirm).
+ * Anders als `driveSignature` wird nichts zusammengefasst.
+ */
+export function actionSignature(actions: { method: string; args: number[]; text?: string }[]): string[] {
+  return actions.map((a) => [a.method, ...a.args.map(n), ...(a.text !== undefined ? [JSON.stringify(a.text)] : [])].join(' '))
+}
+
+/** Erwartete Befehle einer Übung, z. B. `befehle: 3 x (setLed 255 0 0, pause 500, ledOff, pause 500)`; Texte in Anführungszeichen. */
+export function parseActionSpec(spec: string): string[] {
+  let i = 0
+  const src = spec.trim()
+  const list = (): string[] => {
+    const items: string[] = []
+    for (;;) {
+      while (src[i] === ' ' || src[i] === ',') i++
+      if (i >= src.length || src[i] === ')') return items
+      const rep = /^(\d+)\s*[x×]\s*\(/u.exec(src.slice(i))
+      if (rep) {
+        i += rep[0].length
+        const inner = list()
+        if (src[i] !== ')') throw new Error(`„)“ fehlt in „${spec}“`)
+        i++
+        for (let k = 0; k < Number(rep[1]); k++) items.push(...inner)
+        continue
+      }
+      const step = /^([A-Za-z]+)((?:\s+-?\d+(?:\.\d+)?)*)(?:\s+("(?:[^"\\]|\\.)*"))?/u.exec(src.slice(i))
+      if (!step) throw new Error(`Unbekannt in „${spec}“: ${src.slice(i)}`)
+      i += step[0].length
+      const spec_ = MBOT_COMMANDS[step[1]]
+      if (!spec_) throw new Error(`Unbekannter Befehl in „${spec}“: ${step[1]}`)
+      const nums = step[2].trim() === '' ? [] : step[2].trim().split(/\s+/).map(Number)
+      const args = spec_.text ? [] : mbotArguments(step[1], nums)
+      if (!args) throw new Error(`Falsche Anzahl Zahlen in „${spec}“: ${step[1]}`)
+      items.push(actionSignature([{ method: step[1], args, text: spec_.text ? JSON.parse(step[3] ?? '""') : undefined }])[0])
+    }
+  }
+  const items = list()
+  if (i < src.length) throw new Error(`Zu viele „)“ in „${spec}“`)
+  return items
+}
+
 /** Ersetzt `mbot.getDistance()` usw. durch Zahlen, damit der Rechner sie wie Literale liest. */
-export function substituteMBotSensors(expression: string, read: (name: string) => number): string {
+export function substituteMBotSensors(expression: string, read: (name: string) => number | boolean): string {
   if (!expression.includes('mbot')) return expression
   return expression.replace(/\bmbot\s*\.\s*([A-Za-z_]\w*)\s*\(\s*\)/gu, (all, name: string) => {
     return name in MBOT_SENSORS ? String(read(name)) : all

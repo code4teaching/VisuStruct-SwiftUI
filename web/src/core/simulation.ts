@@ -3,7 +3,7 @@
  * Verzweigungen und Schleifen ersetzen sich beim Ausführen durch die Schritte ihres Rumpfs.
  */
 import { ElementType, type VSCase, type VSDocument, type VSElement } from './model'
-import { MBOT_SENSORS, makeMBotAction, mbotArguments, parseMBotCommand, substituteMBotSensors, type MBotAction } from './mbot'
+import { MBOT_COMMANDS, MBOT_SENSORS, makeMBotAction, mbotArguments, parseMBotCommand, substituteMBotSensors, type MBotAction, type MBotSensorValues } from './mbot'
 
 export type SimValue =
   | { kind: 'int'; value: number }
@@ -950,7 +950,7 @@ export class SimulationEngine {
   /** Beim Aufbereiten der Anzeige (`lastTrace`) lesen `nextLine()`/`readLine()` nur nach, ohne weiterzugehen. */
   private peeking = false
   /** Messwerte des echten mBot2; fehlt ein Wert, gilt der simulierte aus `MBOT_SENSORS`. */
-  robotSensors: Partial<Record<string, number>> = {}
+  robotSensors: MBotSensorValues = {}
 
   constructor(
     document: VSDocument,
@@ -1365,6 +1365,14 @@ export class SimulationEngine {
 
   /** `mbot.forward(10)`: Befehl merken; die VisuBot-Welt (und später der echte Roboter) fährt damit. */
   private executeMBotCommand(method: string, args: string[], text: string): void {
+    // `mbot.showText("Abstand: " + mbot.getDistance())`: Text wie bei System.out.println
+    if (MBOT_COMMANDS[method]?.text) {
+      if (args.length !== 1) throw invalid(text)
+      const action = makeMBotAction(method, [], this.evaluateOutputExpression(args[0]))
+      this.state.robotActions.push(action)
+      this.state.lastTrace = `${text} -> ${action.label}`
+      return
+    }
     const values = mbotArguments(method, args.map((a) => this.evaluateDouble(a)))
     if (!values) throw invalid(text)
     const action = makeMBotAction(method, values)
@@ -2027,8 +2035,13 @@ export class SimulationEngine {
   }
 
   private parser(expression: string): NumericParser {
-    const sensors = substituteMBotSensors(expression, (name) => this.robotSensors[name] ?? MBOT_SENSORS[name].simulated)
+    const sensors = this.withSensors(expression)
     return new NumericParser(tokenize(normalizeNumericExpression(this.substituteStringCalls(sensors))), this.state.variables)
+  }
+
+  /** mBot2-Sensoren durch ihre Werte ersetzen (echter Roboter, Welt oder Regler, sonst der Standardwert). */
+  private withSensors(expression: string): string {
+    return substituteMBotSensors(expression, (name) => this.robotSensors[name] ?? MBOT_SENSORS[name].simulated)
   }
 
   private evaluateInt(expression: string): number {
@@ -2041,7 +2054,8 @@ export class SimulationEngine {
 
   /** Bedingungen wie in Java: `||` vor `&&` vor `!`, Klammern, Vergleiche von Zahlen und Strings, `a.equals(b)`. */
   private evaluateBool(expression: string): boolean {
-    const trimmed = expression.trim()
+    // `mbot.isButtonA()` wird zu `true`/`false`, `mbot.getDistance()` zu einer Zahl
+    const trimmed = this.withSensors(expression).trim()
     if (trimmed === 'true') return true
     if (trimmed === 'false') return false
     const ref = this.evaluateReference(trimmed)

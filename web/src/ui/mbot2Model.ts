@@ -28,7 +28,8 @@ function material(color: number, extra: THREE.MeshStandardMaterialParameters = {
   return new THREE.MeshStandardMaterial({ color, roughness: 0.5, ...extra })
 }
 
-function drawScreen(canvas: HTMLCanvasElement) {
+/** Bildschirm des CyberPi: ohne Text das Startgesicht, sonst der Text von `mbot.showText` (umgebrochen). */
+export function drawScreen(canvas: HTMLCanvasElement, text?: string) {
   const g = canvas.getContext('2d')
   if (!g) return
   const s = canvas.width
@@ -37,6 +38,24 @@ function drawScreen(canvas: HTMLCanvasElement) {
   bg.addColorStop(1, '#09182e')
   g.fillStyle = bg
   g.fillRect(0, 0, s, s)
+  if (text !== undefined) {
+    g.fillStyle = '#ffffff'
+    g.textAlign = 'center'
+    g.textBaseline = 'middle'
+    const size = text.length <= 8 ? 0.16 : 0.11
+    g.font = `bold ${Math.round(s * size)}px system-ui, sans-serif`
+    // Wortweise umbrechen, höchstens vier Zeilen
+    const lines: string[] = []
+    for (const word of text.split(/\s+/)) {
+      const last = lines[lines.length - 1]
+      if (last !== undefined && g.measureText(`${last} ${word}`).width < s * 0.9) lines[lines.length - 1] = `${last} ${word}`
+      else lines.push(word)
+    }
+    const shown = lines.slice(0, 4)
+    const step = s * size * 1.2
+    shown.forEach((line, i) => g.fillText(line, s / 2, s / 2 + (i - (shown.length - 1) / 2) * step, s * 0.94))
+    return
+  }
   // Freundliches Gesicht wie beim Start des CyberPi
   g.fillStyle = '#5ee7ff'
   for (const x of [0.33, 0.67]) {

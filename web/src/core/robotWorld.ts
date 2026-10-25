@@ -1,4 +1,4 @@
-import type { MBotAction } from './mbot'
+import type { MBotAction, MBotColor } from './mbot'
 
 /**
  * Die Welt des VisuBot-Simulators von oben: Boden in Zentimetern, x nach rechts, y nach vorn (weg vom Betrachter).
@@ -36,6 +36,8 @@ export interface RobotWorldSetup {
   goals?: Point[]
   /** Haltefelder von 10 × 10 cm (Mitte): Ziel, das der Liniensensor nicht sieht; die Radachse muss darauf stehen. */
   targets?: Point[]
+  /** Farbige Felder von 10 × 10 cm (Mitte); der Farbsensor erkennt sie, der Liniensensor nicht. */
+  colors?: { at: Point; color: MBotColor }[]
 }
 
 /** Größe eines Feldes in einer Weltkarte (cm). */
@@ -44,6 +46,7 @@ export const CELL = 10
 /**
  * Weltkarte als Text, ein Zeichen = 10 cm, oben ist hinten (weg vom Betrachter):
  * `#` Wand, `=` schwarzes Feld, `Z` Ziel (auch schwarz), `o` Haltefeld (unsichtbares Ziel),
+ * `r g b y` rotes, grünes, blaues, gelbes Feld,
  * `^ > v <` Start mit Blickrichtung, sonst freier Boden.
  * Zeilen mit `//` am Anfang sind Kommentare. Um die Karte kommt automatisch der Rahmen.
  * Eine Zeile `raster: 3` vorweg macht aus jedem Zeichen 3 × 3 Felder (30 cm wie ein Kara-Feld, so breit wie der mBot2);
@@ -69,7 +72,7 @@ export function parseWorldMap(text: string): RobotWorldSetup {
   const width = cols * CELL
   const depth = rows.length * CELL
   const center = (c: number, r: number): Point => ({ x: -width / 2 + (c + 0.5) * CELL, y: depth / 2 - (r + 0.5) * CELL })
-  const setup: RobotWorldSetup = { width, depth, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [], blocks: [], marks: [], goals: [], targets: [] }
+  const setup: RobotWorldSetup = { width, depth, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [], blocks: [], marks: [], goals: [], targets: [], colors: [] }
   let starts = 0
   rows.forEach((row, r) => {
     Array.from(row).forEach((ch, c) => {
@@ -78,6 +81,7 @@ export function parseWorldMap(text: string): RobotWorldSetup {
       else if (ch === '=') setup.marks!.push(p)
       else if (ch === 'Z') setup.goals!.push(p)
       else if (ch === 'o') setup.targets!.push(p)
+      else if (ch in FIELD_COLORS) setup.colors!.push({ at: p, color: FIELD_COLORS[ch] })
       else if ('^>v<'.includes(ch)) {
         starts++
         setup.start = { ...p, heading: { '^': 0, '>': 90, v: 180, '<': 270 }[ch]! }
@@ -87,6 +91,8 @@ export function parseWorldMap(text: string): RobotWorldSetup {
   if (starts !== 1) throw new Error(`Die Weltkarte braucht genau einen Start (^ > v <), gefunden: ${starts}`)
   return setup
 }
+
+const FIELD_COLORS: Record<string, MBotColor> = { r: 'red', g: 'green', b: 'blue', y: 'yellow' }
 
 const inCell = (p: Point, cell: Point) => Math.abs(p.x - cell.x) <= CELL / 2 && Math.abs(p.y - cell.y) <= CELL / 2
 
@@ -113,6 +119,8 @@ export class RobotWorld {
   /** Wie oft der Roboter an eine Wand oder den Rand gestoßen ist. */
   bumps = 0
   led: [number, number, number] | undefined
+  /** Text auf dem Bildschirm des CyberPi (`mbot.showText`). */
+  screen: string | undefined
 
   constructor(readonly setup: RobotWorldSetup = emptyWorld) {
     this.pose = { ...setup.start }
@@ -124,6 +132,7 @@ export class RobotWorld {
     this.trail = [{ x: this.pose.x, y: this.pose.y }]
     this.bumps = 0
     this.led = undefined
+    this.screen = undefined
   }
 
   /** Alle Wände einschließlich Rand des Bodens. */
@@ -161,6 +170,7 @@ export class RobotWorld {
       case 'turnLeft': return this.turn(-action.args[0])
       case 'setLed': this.led = [action.args[0], action.args[1], action.args[2]]; return
       case 'ledOff': this.led = undefined; return
+      case 'showText': this.screen = action.text; return
     }
   }
 
@@ -203,8 +213,23 @@ export class RobotWorld {
     return bits
   }
 
-  sensors(): Record<string, number> {
-    return { getDistance: this.distance(), getLine: this.lineState() }
+  /** Farbe unter dem Liniensensor (Mitte vorn); `undefined` auf hellem oder schwarzem Boden. */
+  colorUnder(): MBotColor | undefined {
+    const dir = forwardOf(this.pose.heading)
+    const probe = { x: this.pose.x + dir.x * LINE_OFFSET, y: this.pose.y + dir.y * LINE_OFFSET }
+    return (this.setup.colors ?? []).find((c) => inCell(probe, c.at))?.color
+  }
+
+  sensors(): Record<string, number | boolean> {
+    const color = this.colorUnder()
+    return {
+      getDistance: this.distance(),
+      getLine: this.lineState(),
+      isRed: color === 'red',
+      isGreen: color === 'green',
+      isBlue: color === 'blue',
+      isYellow: color === 'yellow',
+    }
   }
 
   /** Strecke von `origin` in Richtung `dir`, bis ein Strahl eine Wand trifft. */

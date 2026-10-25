@@ -1,4 +1,4 @@
-import { MBOT_COMMANDS, MBOT_SENSORS, type MBotAction } from '../core/mbot'
+import { MBOT_SENSORS, type MBotAction, type MBotSensorValues } from '../core/mbot'
 import { mbotLink } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
@@ -52,7 +52,10 @@ export class VisuBotView {
   private sent = 0
   private liveStatus: HTMLElement
   private stopListening: () => void
-  private realSensors?: { getDistance: number; getLine: number }
+  private realSensors?: MBotSensorValues
+  /** Regler und Knöpfe „Sensoren ausprobieren“: Werte, die keine Welt liefert. */
+  private controls: MBotSensorValues = { getBrightness: 50, getLoudness: 0, getPitch: 0, getRoll: 0 }
+  private pressTimers = new Map<string, number>()
   /** Nach dem Umschalten der Welt: Simulation von vorn (setzt das Simulationspanel). */
   onWorldChange?: () => void
 
@@ -60,12 +63,13 @@ export class VisuBotView {
     this.world = new RobotWorld(setup)
     this.element = document.createElement('section')
     this.element.className = 'visubot'
-    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>`
+    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>${controlsHTML()}`
     this.stage = this.element.querySelector('.visubot-stage')!
     this.picker = this.element.querySelector('.visubot-worlds')!
     this.status = this.element.querySelector('.visubot-status')!
     this.liveStatus = this.element.querySelector('.visubot-live')!
     this.stopListening = mbotLink.listen(() => this.updateLive())
+    this.setupControls()
     this.updateLive()
     this.updateStatus()
   }
@@ -107,6 +111,7 @@ export class VisuBotView {
     this.view?.setWorld(setup)
     this.view?.place(this.world.pose, this.world.trail)
     this.view?.setLed(undefined)
+    this.view?.setScreen(undefined)
     this.updateStatus()
     this.onWorldChange?.()
   }
@@ -118,12 +123,41 @@ export class VisuBotView {
     this.realSensors = undefined
     this.view?.place(this.world.pose, this.world.trail)
     this.view?.setLed(undefined)
+    this.view?.setScreen(undefined)
     this.updateStatus()
   }
 
-  /** Vor einem Schritt: Sensorwerte der Welt an die Simulation geben. */
+  /** Vor einem Schritt: Sensorwerte der Welt und der Regler an die Simulation geben. */
   prepare(engine: SimulationEngine) {
-    engine.robotSensors = this.world.sensors()
+    engine.robotSensors = { ...this.controls, ...this.world.sensors() }
+  }
+
+  private setupControls() {
+    for (const range of this.element.querySelectorAll<HTMLInputElement>('.visubot-controls input[type=range]')) {
+      const out = range.parentElement!.querySelector('output')!
+      const update = () => {
+        this.controls[range.name] = Number(range.value)
+        out.textContent = range.value
+      }
+      range.addEventListener('input', update)
+      update()
+    }
+    // Tasten, Joystick, Schütteln: eine Sekunde lang „gedrückt“, damit die Simulation es im nächsten Schritt sieht
+    for (const button of this.element.querySelectorAll<HTMLButtonElement>('.visubot-controls button[name]')) {
+      button.addEventListener('click', () => {
+        const name = button.name
+        this.controls[name] = true
+        button.classList.add('pressed')
+        window.clearTimeout(this.pressTimers.get(name))
+        this.pressTimers.set(
+          name,
+          window.setTimeout(() => {
+            this.controls[name] = false
+            button.classList.remove('pressed')
+          }, 1000),
+        )
+      })
+    }
   }
 
   /** Fährt der echte mBot2 mit? */
@@ -131,20 +165,25 @@ export class VisuBotView {
     return mbotLink.connected
   }
 
-  /** Vor einem Schritt mit dem echten mBot2: seine Sensoren lesen (statt der Welt). */
-  async prepareLive(engine: SimulationEngine) {
-    const distance = Number(await mbotLink.ask(MBOT_SENSORS.getDistance.python))
-    const line = Number(await mbotLink.ask(MBOT_SENSORS.getLine.python))
-    this.realSensors = { getDistance: Math.round(distance), getLine: line }
-    engine.robotSensors = { ...this.world.sensors(), ...this.realSensors }
+  /**
+   * Vor einem Schritt mit dem echten mBot2: seine Sensoren lesen (statt Welt und Reglern).
+   * Abstand und Linie immer, die übrigen nur, wenn das Programm sie benutzt (`used`), damit ein Schritt schnell bleibt.
+   */
+  async prepareLive(engine: SimulationEngine, used: string[] = []) {
+    const values: MBotSensorValues = {}
+    for (const name of new Set(['getDistance', 'getLine', ...used])) {
+      const value = await mbotLink.ask(MBOT_SENSORS[name].python)
+      values[name] = typeof value === 'number' ? (name === 'getDistance' ? Math.round(value) : value) : value === true
+    }
+    this.realSensors = values
+    engine.robotSensors = { ...this.controls, ...this.world.sensors(), ...values }
   }
 
   /** Nach einem Schritt: neue Befehle an den echten mBot2; kehrt zurück, wenn er fertig gefahren ist. */
   async drive(actions: MBotAction[]) {
     for (; this.sent < actions.length; this.sent++) {
       const action = actions[this.sent]
-      const python = MBOT_COMMANDS[action.method]?.python
-      if (python) await mbotLink.run(python(action.args))
+      if (action.python) await mbotLink.run(action.python)
       else if (action.method === 'pause') await new Promise((r) => setTimeout(r, action.args[0]))
     }
   }
@@ -165,14 +204,18 @@ export class VisuBotView {
     for (; this.applied < actions.length; this.applied++) {
       const action = actions[this.applied]
       this.world.apply(action)
+      // Ton im Browser hören (der echte mBot2 spielt ihn selbst)
+      if (action.method === 'playTone' && !this.live) playTone(action.args[0], action.args[1])
       this.view?.moveTo(this.world.pose, this.world.trail, ms)
       this.view?.setLed(this.world.led)
+      this.view?.setScreen(this.world.screen)
     }
     this.updateStatus()
   }
 
   dispose() {
     this.stopListening()
+    for (const timer of this.pressTimers.values()) window.clearTimeout(timer)
     this.view?.dispose()
     this.view = undefined
     this.loading = undefined
@@ -185,10 +228,51 @@ export class VisuBotView {
       `${t('web_visubot_line')}: ${line}`,
     ]
     if (this.world.bumps > 0) parts.push(`⚠︎ ${t('web_visubot_bumps')}: ${this.world.bumps}`)
+    if (this.world.screen !== undefined) parts.push(`📺 ${this.world.screen}`)
     if (this.realSensors && mbotLink.connected)
-      parts.push(`🤖 ${t('web_visubot_distance')}: ${this.realSensors.getDistance} cm · ${t('web_visubot_line')}: ${this.realSensors.getLine.toString(2).padStart(4, '0')}`)
+      parts.push(`🤖 ${t('web_visubot_distance')}: ${this.realSensors.getDistance} cm · ${t('web_visubot_line')}: ${Number(this.realSensors.getLine).toString(2).padStart(4, '0')}`)
     this.status.textContent = parts.join(' · ')
   }
+}
+
+let audio: AudioContext | undefined
+
+/** Kurzer Ton über die Lautsprecher des Computers, wie der Lautsprecher des CyberPi. */
+function playTone(hz: number, ms: number) {
+  try {
+    audio ??= new AudioContext()
+    const osc = audio.createOscillator()
+    const gain = audio.createGain()
+    osc.type = 'square'
+    osc.frequency.value = Math.max(20, Math.min(20000, hz))
+    gain.gain.value = 0.05
+    osc.connect(gain).connect(audio.destination)
+    const end = audio.currentTime + Math.min(Math.max(ms, 0), 5000) / 1000
+    osc.start()
+    osc.stop(end)
+  } catch {
+    /* ohne Ton weiter */
+  }
+}
+
+/** Regler und Knöpfe für Sensoren, die keine Welt liefert (Licht, Lautstärke, Neigung, Tasten, Joystick, Schütteln). */
+function controlsHTML(): string {
+  const range = (name: string, key: string, min: number, max: number, value: number) =>
+    `<label><span>${t(key)}</span><input type="range" name="${name}" min="${min}" max="${max}" value="${value}"><output></output></label>`
+  const press = (name: string, text: string, key: string) => `<button type="button" name="${name}" title="${t(key)}" aria-label="${t(key)}">${text}</button>`
+  return `<details class="visubot-controls"><summary>🎛 ${t('web_visubot_controls')}</summary>
+    <p class="hint">${t('web_visubot_controls_hint')}</p>
+    ${range('getBrightness', 'web_visubot_sensor_brightness', 0, 100, 50)}
+    ${range('getLoudness', 'web_visubot_sensor_loudness', 0, 100, 0)}
+    ${range('getPitch', 'web_visubot_sensor_pitch', -90, 90, 0)}
+    ${range('getRoll', 'web_visubot_sensor_roll', -90, 90, 0)}
+    <div class="visubot-presses">
+      ${press('isButtonA', 'A', 'web_visubot_sensor_button_a')}${press('isButtonB', 'B', 'web_visubot_sensor_button_b')}
+      ${press('isJoystickUp', '↑', 'web_visubot_sensor_joy_up')}${press('isJoystickDown', '↓', 'web_visubot_sensor_joy_down')}
+      ${press('isJoystickLeft', '←', 'web_visubot_sensor_joy_left')}${press('isJoystickRight', '→', 'web_visubot_sensor_joy_right')}
+      ${press('isShaken', `〰 ${t('web_visubot_shake')}`, 'web_visubot_sensor_shake')}
+    </div>
+  </details>`
 }
 
 /** Kurzer Zustand der Verbindung zum echten mBot2 (leer, wenn nicht verbunden und kein Fehler). */
@@ -225,11 +309,29 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_right', type: ElementType.anweisung, make: statement('mbot.turnRight()') },
   { key: 'web_visubot_el_left', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
   { key: 'web_visubot_el_led', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
+  { key: 'web_visubot_el_led_off', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
   { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
+  { key: 'web_visubot_el_wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
+  { key: 'web_visubot_el_text', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
 ]
 
 /** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
 export const visuBotSensors: { key: string; text: string }[] = [
   { key: 'web_visubot_sensor_distance', text: 'mbot.getDistance()' },
   { key: 'web_visubot_sensor_line', text: 'mbot.getLine()' },
+  { key: 'web_visubot_sensor_red', text: 'mbot.isRed()' },
+  { key: 'web_visubot_sensor_green', text: 'mbot.isGreen()' },
+  { key: 'web_visubot_sensor_blue', text: 'mbot.isBlue()' },
+  { key: 'web_visubot_sensor_yellow', text: 'mbot.isYellow()' },
+  { key: 'web_visubot_sensor_button_a', text: 'mbot.isButtonA()' },
+  { key: 'web_visubot_sensor_button_b', text: 'mbot.isButtonB()' },
+  { key: 'web_visubot_sensor_joy_up', text: 'mbot.isJoystickUp()' },
+  { key: 'web_visubot_sensor_joy_down', text: 'mbot.isJoystickDown()' },
+  { key: 'web_visubot_sensor_joy_left', text: 'mbot.isJoystickLeft()' },
+  { key: 'web_visubot_sensor_joy_right', text: 'mbot.isJoystickRight()' },
+  { key: 'web_visubot_sensor_brightness', text: 'mbot.getBrightness()' },
+  { key: 'web_visubot_sensor_loudness', text: 'mbot.getLoudness()' },
+  { key: 'web_visubot_sensor_pitch', text: 'mbot.getPitch()' },
+  { key: 'web_visubot_sensor_roll', text: 'mbot.getRoll()' },
+  { key: 'web_visubot_sensor_shake', text: 'mbot.isShaken()' },
 ]

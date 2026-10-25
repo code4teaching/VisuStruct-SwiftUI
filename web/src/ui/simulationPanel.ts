@@ -1,3 +1,4 @@
+import { usedMBotSensors } from '../core/mbot'
 import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimNotice, type SimValue, type SubprogramResolver } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
@@ -163,7 +164,7 @@ export class SimulationPanel {
     const wasPlaying = this.isPlaying
     const lastExecutedPath = this.engine.currentStepPath
     try {
-      await robot.prepareLive(this.engine)
+      await robot.prepareLive(this.engine, usedMBotSensors(JSON.stringify(this.currentDocument())))
       this.engine.step()
       robot.follow(this.engine.state.robotActions, 450)
       await robot.drive(this.engine.state.robotActions)

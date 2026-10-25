@@ -22,12 +22,20 @@ mbot.turnRight(180)     turn all the way around
 
 > For a polygon the mBot2 turns all the way around once in total: triangle 3 × 120°, square 4 × 90°, hexagon 6 × 60°.
 
-### Light and sound
+### Light, sound and screen
 
 ```
 mbot.setLed(255, 0, 0)      LEDs red (red, green, blue each 0 to 255)
 mbot.ledOff()               LEDs off
 mbot.playTone(440, 300)     tone of 440 Hz, 300 ms long
+mbot.showText("Hello")      text on the screen
+mbot.showText("Distance: " + mbot.getDistance())
+```
+
+### Waiting
+
+```
+mbot.pause(100)         wait 100 milliseconds
 ```
 
 ## 📡 mBot2 sensors
@@ -49,6 +57,43 @@ distance = mbot.getDistance()   remember the value in a variable
 mbot.getLine() == 0     no black, keep driving
 mbot.getLine() != 0     on the line or at the goal
 ```
+
+### Colours
+
+The quad RGB sensor at the front underneath recognises coloured fields. The answer is straight away true or false.
+
+```
+mbot.isRed()            red?
+mbot.isGreen()          green?
+mbot.isBlue()           blue?
+mbot.isYellow()         yellow?
+!mbot.isRed()           not red
+```
+
+### Buttons and joystick
+
+```
+mbot.isButtonA()        button A pressed?
+mbot.isButtonB()        button B pressed?
+mbot.isJoystickUp()     joystick up? (also Down, Left, Right)
+```
+
+### Light and loudness
+
+```
+mbot.getBrightness()    brightness 0 (dark) to 100 (bright)
+mbot.getLoudness()      loudness 0 (silent) to 100 (loud)
+```
+
+### Tilt and shaking
+
+```
+mbot.getPitch()         tilt forward/back in degrees
+mbot.getRoll()          tilt sideways in degrees
+mbot.isShaken()         being shaken?
+```
+
+> Without a real mBot2 you set these values in the simulation under **🎛 Try the sensors**.
 
 ### Real mBot2
 

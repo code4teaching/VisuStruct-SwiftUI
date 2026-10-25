@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
-import { buildMBot2, type MBot2Model, type RobotPart } from './mbot2Model'
+import { buildMBot2, drawScreen, type MBot2Model, type RobotPart } from './mbot2Model'
 import { CELL, LINE_WIDTH, type Point, type Pose, type RobotWorldSetup } from '../core/robotWorld'
 
 /**
@@ -180,6 +180,13 @@ export class Robot3D {
       flag.position.copy(toScene({ x: g.x + CELL / 2 - 3, y: g.y + CELL / 2 - 1 }, 7.6))
       this.worldGroup.add(pole, flag)
     }
+    // Farbige Felder für den Farbsensor
+    const fieldColors = { red: 0xe03131, green: 0x2fb344, blue: 0x1c7ed6, yellow: 0xfab005 }
+    for (const c of setup.colors ?? []) {
+      const cell = new THREE.Mesh(cellGeometry, new THREE.MeshStandardMaterial({ color: fieldColors[c.color] }))
+      cell.position.copy(toScene(c.at, 0.1))
+      this.worldGroup.add(cell)
+    }
     // Haltefelder: hellgrün, der Liniensensor sieht sie nicht
     const targetMaterial = new THREE.MeshStandardMaterial({ color: 0x2fb344, transparent: true, opacity: 0.3, depthWrite: false })
     for (const t of setup.targets ?? []) {
@@ -296,6 +303,16 @@ export class Robot3D {
     this.controls.autoRotate = spin
     this.controls.autoRotateSpeed = 1.2
   }
+
+  /** Text auf dem Bildschirm des CyberPi; `undefined` = Startgesicht. */
+  setScreen(text: string | undefined) {
+    if (text === this.shownScreen) return
+    this.shownScreen = text
+    drawScreen(this.model.screen.canvas, text)
+    this.model.screen.texture.needsUpdate = true
+  }
+
+  private shownScreen?: string
 
   /** Farbe der LEDs auf dem CyberPi; `undefined` = aus. */
   setLed(rgb: [number, number, number] | undefined) {

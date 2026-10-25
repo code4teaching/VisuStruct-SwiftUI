@@ -1,5 +1,5 @@
 import type { ExerciseTest } from '../core/exerciseCheck'
-import { driveSignature, isMBotPart, MBOT_PARTS, parseDriveSpec, type MBotPart } from '../core/mbot'
+import { driveSignature, isMBotPart, MBOT_PARTS, MBOT_SENSORS, parseActionSpec, parseDriveSpec, type MBotPart } from '../core/mbot'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
@@ -116,11 +116,42 @@ export function parseTest(spec: string, file: string): ExerciseTest {
   return { inputs: list(parts[0], /\s*,\s*/), expected: list(parts[1], /\s*\|\s*/) }
 }
 
+/** `getLoudness=0/80, isButtonA=true -> forward 30, ledOn` (siehe `messwerte:`). */
+export function parseSensorTest(value: string): ExerciseTest {
+  const arrow = /^(.*?)\s*(?:->|→)\s*(.*)$/.exec(value.trim())
+  if (!arrow) throw new Error(`„messwerte: ${value}“ braucht ein „->“.`)
+  const sensors: Record<string, (number | boolean)[]> = {}
+  for (const part of arrow[1].split(/\s*,\s*/).filter(Boolean)) {
+    const m = /^(\w+)\s*=\s*(.+)$/.exec(part)
+    if (!m || !(m[1] in MBOT_SENSORS)) throw new Error(`Unbekannter Sensor in „${part}“.`)
+    sensors[m[1]] = m[2].split('/').map((v) => {
+      const t = v.trim()
+      if (t === 'true' || t === 'false') return t === 'true'
+      if (!/^-?\d+(\.\d+)?$/.test(t)) throw new Error(`Messwert „${t}“ ist keine Zahl und nicht true/false.`)
+      return Number(t)
+    })
+  }
+  return robotExpectation({ inputs: [], expected: [], sensors }, arrow[2])
+}
+
+/** Rechte Seite von `welt: … ->` und `messwerte: … ->`: Fahrt sowie `ledOn`, `ledOff`, `tone`, `noTone`, `none` (fährt nicht). */
+function robotExpectation(test: ExerciseTest, spec: string): ExerciseTest {
+  const drive: string[] = []
+  for (const token of spec.split(/\s*,\s*/).filter(Boolean)) {
+    if (token === 'ledOn' || token === 'ledOff') test.led = token === 'ledOn'
+    else if (token === 'tone' || token === 'noTone') test.tone = token === 'tone'
+    else if (token === 'none') test.drive = []
+    else drive.push(token)
+  }
+  if (drive.length) test.drive = driveSignature(parseDriveSpec(drive.join(', ')))
+  return test
+}
+
 function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|datei|fahrt|welt|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|datei|fahrt|befehle|welt|messwerte|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -151,7 +182,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
           const arrow = /^([\w-]+)\s*(?:->|→)\s*(.+)$/.exec(value.trim())
           if (arrow) {
             try {
-              ex.tests.push({ inputs: [], expected: [], world: arrow[1], drive: driveSignature(parseDriveSpec(arrow[2])) })
+              ex.tests.push(robotExpectation({ inputs: [], expected: [], world: arrow[1] }, arrow[2]))
             } catch (err) {
               throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
             }
@@ -163,6 +194,23 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
           }
           break
         }
+        case 'befehle':
+          // VisuBot: `befehle: 3 x (setLed 255 0 0, pause 500, ledOff, pause 500)` – genau diese Befehle für LEDs, Ton und Bildschirm.
+          try {
+            ex.tests.push({ inputs: [], expected: [], actions: parseActionSpec(value) })
+          } catch (err) {
+            throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+          }
+          break
+        case 'messwerte':
+          // VisuBot: `messwerte: getLoudness=0/80, isButtonA=false -> forward, ledOn` – mit diesen Sensorwerten
+          // (nacheinander, durch / getrennt) soll der Roboter so fahren bzw. leuchten (`ledOn`, `ledOff`, `tone`, `noTone`, `none`).
+          try {
+            ex.tests.push(parseSensorTest(value))
+          } catch (err) {
+            throw new FormatError(`${file}: Übung „${id}“: ${(err as Error).message}`)
+          }
+          break
         case 'schleifentiefe':
           ex.loopDepth = Number(value)
           if (!Number.isInteger(ex.loopDepth) || ex.loopDepth < 1) throw new FormatError(`${file}: Übung „${id}“: „schleifentiefe:“ braucht eine Zahl ab 1.`)

@@ -32,7 +32,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       if (block.kind !== 'exercise') continue
       const ex = block.exercise
       expect(ex.id.startsWith('vb-'), `${where}: Kennung beginnt mit vb-`).toBe(true)
-      expect(ex.tests.some((t) => t.drive || t.world), `${where}: fahrt: oder welt:`).toBe(true)
+      expect(ex.tests.some((t) => t.drive || t.world || t.sensors || t.actions), `${where}: fahrt:, befehle:, welt: oder messwerte:`).toBe(true)
       expect(ex.hints.length).toBeGreaterThanOrEqual(2)
       const doc = diagram(ex.solution!)!
       expect(doc, `${where}: ${ex.solution}`).toBeDefined()
