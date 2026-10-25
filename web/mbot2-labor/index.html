@@ -169,6 +169,11 @@ let waiting = null   // { resolve, timer } für die nächste Rahmen-Antwort
 const $ = (s) => document.querySelector(s)
 const hex = (bytes) => Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join(' ')
 
+// Welche Runde gerade offen ist, steht im gelben Kasten; sie kommt in Titel und Protokoll (Holger nutzt mehrere Dateien)
+const runde = 'Labor ' + (document.querySelector('section.jetzt h2')?.textContent.match(/Runde \d+/)?.[0] ?? 'ohne Runde')
+document.title = `mBot2-${runde}`
+document.querySelector('h1').textContent = `mBot2-${runde}`
+
 function log(text, cls = '') {
   const line = document.createElement('span')
   line.className = cls
@@ -269,7 +274,7 @@ $('#connect').onclick = async () => {
     await port.open({ baudRate: BAUD })
     writer = port.writable.getWriter()
     const info = port.getInfo()
-    log(`Port geöffnet (USB ${info.usbVendorId?.toString(16) ?? '?'}:${info.usbProductId?.toString(16) ?? '?'}), warte auf Neustart …`)
+    log(`${runde}: Port geöffnet (USB ${info.usbVendorId?.toString(16) ?? '?'}:${info.usbProductId?.toString(16) ?? '?'}), warte auf Neustart …`)
     setConnected(false, 'startet neu …')
     readLoop()
     await new Promise((r) => setTimeout(r, 3000))
