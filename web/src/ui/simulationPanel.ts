@@ -83,6 +83,8 @@ export class SimulationPanel {
   private editButton!: HTMLButtonElement
   /** VisuBot: Roboter-Welt, die bei jedem Schritt mitfährt. */
   private robot?: VisuBotView
+  /** Echter mBot2 fährt gerade einen Schritt. */
+  private liveBusy = false
 
   constructor(
     private currentDocument: () => VSDocument,
@@ -133,6 +135,10 @@ export class SimulationPanel {
   // MARK: - Steuerung
 
   step() {
+    if (this.robot?.live) {
+      void this.stepLive()
+      return
+    }
     if (!this.engine.canStep) {
       this.pause()
       return
@@ -142,6 +148,35 @@ export class SimulationPanel {
     this.robot?.prepare(this.engine)
     this.engine.step()
     this.robot?.follow(this.engine.state.robotActions, wasPlaying ? Number(this.delay) * 850 : 450)
+    this.afterStep(wasPlaying, lastExecutedPath)
+  }
+
+  /** Echter mBot2: Sensoren lesen, Schritt ausführen, warten bis er fertig gefahren ist. */
+  private async stepLive() {
+    if (this.liveBusy) return
+    if (!this.engine.canStep) {
+      this.pause()
+      return
+    }
+    this.liveBusy = true
+    const robot = this.robot!
+    const wasPlaying = this.isPlaying
+    const lastExecutedPath = this.engine.currentStepPath
+    try {
+      await robot.prepareLive(this.engine)
+      this.engine.step()
+      robot.follow(this.engine.state.robotActions, 450)
+      await robot.drive(this.engine.state.robotActions)
+    } catch (e) {
+      robot.liveFailed(e)
+      this.isPlaying = false
+    } finally {
+      this.liveBusy = false
+    }
+    this.afterStep(wasPlaying, lastExecutedPath)
+  }
+
+  private afterStep(wasPlaying: boolean, lastExecutedPath: number[] | undefined) {
     this.collectOutput()
     if (this.highlightMode === 'nextToExecute' && this.engine.canStep) {
       this.onHighlight(this.engine.currentStepPath)
@@ -163,18 +198,19 @@ export class SimulationPanel {
   play() {
     if (this.isPlaying || !this.engine.canStep) return
     this.isPlaying = true
-    const tick = () => {
+    const tick = async () => {
       this.playTimer = undefined
       if (!this.isPlaying) return
-      this.step()
+      if (this.robot?.live) await this.stepLive()
+      else this.step()
       if (this.isPlaying && this.engine.canStep) {
-        this.playTimer = window.setTimeout(tick, Number(this.delay) * 1000)
+        this.playTimer = window.setTimeout(() => void tick(), Number(this.delay) * 1000)
       } else {
         this.isPlaying = false
         this.update()
       }
     }
-    tick()
+    void tick()
   }
 
   pause() {

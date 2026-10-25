@@ -267,6 +267,12 @@
 "web_visubot_mode_off" = "Off";
 "web_visubot_mode_course" = "In the course";
 "web_visubot_mode_series" = "Separate series";
+"web_visubot_connect" = "Connect real mBot2";
+"web_visubot_disconnect" = "Disconnect";
+"web_visubot_connecting" = "Connecting … (the CyberPi restarts briefly)";
+"web_visubot_connected" = "Real mBot2 drives along";
+"web_visubot_no_serial" = "Real mBot2: only in Chrome or Edge on a computer.";
+"web_visubot_link_error" = "Connection lost";
 "web_visubot_world" = "VisuBot world";
 "web_visubot_no_3d" = "The 3D view cannot start in this browser.";
 "web_visubot_distance" = "Distance";

@@ -3254,6 +3254,19 @@ button.danger-text:not(:disabled) {
   overflow: hidden;
   background: linear-gradient(#dfe9f3, #f6f3ec);
 }
+.visubot-live {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.visubot-live.connected span {
+  color: #0f8a5f;
+  font-weight: 600;
+}
 .visubot-worlds {
   display: flex;
   gap: 6px;
