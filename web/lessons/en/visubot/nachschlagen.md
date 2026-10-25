@@ -38,6 +38,7 @@ mbot.stop()             stop
 ```
 mbot.setLed(255, 0, 0)      LEDs red (red, green, blue each 0 to 255)
 mbot.ledOff()               LEDs off
+mbot.led(0).setColor("green") LED 0 green (LEDs 0 to 4; "off" switches off)
 mbot.playTone(440, 300)     tone of 440 Hz, 300 ms long
 mbot.showText("Hello")      text on the screen
 mbot.showText("Distance: " + mbot.getDistance())
