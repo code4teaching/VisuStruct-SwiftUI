@@ -1,6 +1,7 @@
 ---
 titel: Das Dreieck
 nach: 2
+kurs: 13
 stufe: 1
 ---
 

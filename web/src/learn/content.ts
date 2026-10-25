@@ -3,7 +3,7 @@ import { decodeDocument } from '../core/xmlCodec'
 import { parseWorldMap, type RobotWorldSetup } from '../core/robotWorld'
 import type { VSDocument } from '../core/model'
 import { parseGlossary, type GlossaryEntry } from './glossary'
-import { parseLesson, parseTask, type Lesson, type Task } from './lessonFormat'
+import { parseLesson, parseTask, type Lesson, type Step, type Task } from './lessonFormat'
 
 /**
  * Lektionen, Aufgaben und Diagramme aus `web/lessons` (werden beim Bauen eingebettet).
@@ -22,6 +22,11 @@ const taskFiles = import.meta.glob('../../lessons/*/aufgaben/*.md', { query: '?r
 >
 // VisuBot (mBot2-Modus): eigene Lektionen und Aufgaben in `<Sprache>/visubot/`, die normalen bleiben unberührt.
 const visuBotLessonFiles = import.meta.glob('../../lessons/*/visubot/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+// VisuBot im Kurs: zusätzliche Schritte für normale Lektionen, Dateiname beginnt mit deren Nummer (`13-for-schleife.md`).
+const visuBotCourseFiles = import.meta.glob('../../lessons/*/visubot/kurs/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
   string
 >
@@ -61,15 +66,29 @@ export let lessons: Lesson[] = []
 export let tasks: Task[] = []
 export let reference = ''
 export let glossary: GlossaryEntry[] = []
-/** Zeigt der Lernbereich die VisuBot-Lektionen statt der normalen? */
-export let visuBot = false
+/**
+ * VisuBot (mBot2): aus, im Kurs (normale Lektionen mit zusätzlichen 🤖-Schritten und mBot2-Aufgaben)
+ * oder als eigene Reihe (nur die VisuBot-Lektionen und -Aufgaben).
+ */
+export type VisuBotMode = 'off' | 'course' | 'series'
+export let visuBot: VisuBotMode = 'off'
 
-/** Zwischen normalen und VisuBot-Lektionen umschalten; Nachschlagen und Fachbegriffe bleiben dieselben. */
-export function useVisuBotContent(on: boolean) {
-  if (on === visuBot) return
-  visuBot = on
+/** VisuBot-Modus für den Lernbereich wählen; Nachschlagen und Fachbegriffe bleiben dieselben. */
+export function useVisuBotContent(mode: VisuBotMode) {
+  if (mode === visuBot) return
+  visuBot = mode
   lessons = []
   useContentLanguage(language)
+}
+
+/** Die 🤖-Schritte kommen vor die Checkliste der Lektion (sonst ans Ende). */
+function withRobotSteps(lesson: Lesson, extra: Step[]): Lesson {
+  if (!extra.length) return lesson
+  const robotSteps = extra.map((s) => ({ ...s, title: `🤖 ${s.title}` }))
+  const at = lesson.steps.findIndex((s) => s.blocks.some((b) => b.kind === 'checklist'))
+  const steps = [...lesson.steps]
+  steps.splice(at < 0 ? steps.length : at, 0, ...robotSteps)
+  return { ...lesson, steps }
 }
 
 /** Wählt die Sprache der Lektionen; die Exporte oben zeigen danach die Inhalte dieser Sprache. */
@@ -77,16 +96,31 @@ export function useContentLanguage(lang: ContentLanguage) {
   if (lang === language && lessons.length > 0) return
   language = lang
   const pages = filesFor(lessonFiles, /\/lessons\/([^/]+)\/[^/]+\.md$/, lang)
-  const lessonPages = visuBot ? filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang) : pages
+  const lessonPages = visuBot === 'series' ? filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang) : pages
+  const robotSteps = new Map<number, Step[]>()
+  if (visuBot === 'course')
+    for (const [name, source] of filesFor(visuBotCourseFiles, /\/lessons\/([^/]+)\/visubot\/kurs\/[^/]+\.md$/, lang)) {
+      const part = parseLesson(source, `${lang}/visubot/kurs/${name}`)
+      robotSteps.set(part.number, [...(robotSteps.get(part.number) ?? []), ...part.steps])
+    }
   lessons = lessonPages
     .filter(([name]) => /^\d+/.test(name))
     .map(([name, source]) => parseLesson(source, `${lang}/${name}`))
+    .map((l) => withRobotSteps(l, robotSteps.get(l.number) ?? []))
     .sort((a, b) => a.number - b.number)
-  tasks = (visuBot
-    ? filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang)
-    : filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang))
-    .map(([name, source]) => parseTask(source, `${lang}/aufgaben/${name}`))
-    .sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
+  const robotTasks = () =>
+    filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang).map(([name, source]) =>
+      parseTask(source, `${lang}/visubot/aufgaben/${name}`),
+    )
+  const normalTasks = () =>
+    filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang).map(([name, source]) => parseTask(source, `${lang}/aufgaben/${name}`))
+  tasks = (
+    visuBot === 'series'
+      ? robotTasks()
+      : visuBot === 'course'
+        ? [...normalTasks(), ...robotTasks().filter((t) => t.afterInCourse).map((t) => ({ ...t, after: t.afterInCourse }))]
+        : normalTasks()
+  ).sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
   // Textdateien aus den Lektionen kann die Simulation mit `Files.readString(Path.of("name"))` lesen.
   for (const block of [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]) {
     if (block.kind === 'textFile') registerTextFile(block.name, block.content)

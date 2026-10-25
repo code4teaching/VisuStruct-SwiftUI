@@ -263,7 +263,10 @@
 
 /* VisuBot (mBot2-Modus), nur de/en/pt */
 "web_visubot_mode" = "VisuBot (mBot2)";
-"web_visubot_mode_hint" = "Eigene Lektionen, Elemente und 3D-Simulator für den Roboter mBot2";
+"web_visubot_mode_hint" = "Im Kurs: Die normalen Lektionen bekommen zusätzliche 🤖-Schritte mit dem mBot2. Eigene Reihe: nur Roboter-Lektionen, für Klassen, die den Kurs schon kennen. Alles geht auch ohne Roboter im 3D-Simulator.";
+"web_visubot_mode_off" = "Aus";
+"web_visubot_mode_course" = "Im Kurs";
+"web_visubot_mode_series" = "Eigene Reihe";
 "web_visubot_world" = "VisuBot-Welt";
 "web_visubot_no_3d" = "Die 3D-Ansicht kann in diesem Browser nicht starten.";
 "web_visubot_distance" = "Abstand";

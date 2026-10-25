@@ -39,8 +39,8 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { setVisuBotEnabled, visuBotEnabled, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
-import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
+import { setVisuBotMode, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
+import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
@@ -327,7 +327,7 @@ export class App {
 
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
-    useVisuBotContent(visuBotEnabled())
+    useVisuBotContent(visuBotMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
     this.shell = document.createElement('div')
@@ -461,9 +461,11 @@ export class App {
             </section>
             <section>
               <h3>VisuBot</h3>
-              <label class="check">
-                <input type="checkbox" data-action="visubot" />
-                <span>${e(t('web_visubot_mode'))}<small>${e(t('web_visubot_mode_hint'))}</small></span>
+              <label>${e(t('web_visubot_mode'))}
+                <select data-action="visubot">${(['off', 'course', 'series'] as const)
+                  .map((m) => `<option value="${m}">${e(t(`web_visubot_mode_${m}`))}</option>`)
+                  .join('')}</select>
+                <small>${e(t('web_visubot_mode_hint'))}</small>
               </label>
             </section>
             <footer>
@@ -658,12 +660,12 @@ export class App {
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
     language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
-    const visuBot = $<HTMLInputElement>('[data-action=visubot]')
-    visuBot.checked = visuBotEnabled()
+    const visuBot = $<HTMLSelectElement>('[data-action=visubot]')
+    visuBot.value = visuBotMode()
     visuBot.addEventListener('change', () =>
       void this.changeLanguage(async () => {
-        setVisuBotEnabled(visuBot.checked)
-        useVisuBotContent(visuBot.checked)
+        setVisuBotMode(visuBot.value as VisuBotMode)
+        useVisuBotContent(visuBot.value as VisuBotMode)
       }, 'visubot'),
     )
     const keywords = $<HTMLInputElement>('[data-action=keywords]')

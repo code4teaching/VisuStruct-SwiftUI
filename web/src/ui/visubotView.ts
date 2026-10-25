@@ -3,26 +3,36 @@ import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
 import { t } from './i18n'
+import type { VisuBotMode } from '../learn/content'
 import type { Robot3D } from './robot3d'
 
-/** Ist VisuBot (mBot2-Modus) eingeschaltet? Gespeichert im Browser. */
+/**
+ * VisuBot (mBot2-Modus), gespeichert im Browser: aus, im Kurs (normale Lektionen mit zusätzlichen mBot2-Schritten)
+ * oder als eigene Reihe (nur die VisuBot-Lektionen, für Klassen, die den Kurs schon kennen).
+ */
 const modeKey = 'visustruct.visubot'
+// '1' war früher der einzige Modus (eigene Reihe)
+const stored: Record<VisuBotMode, string> = { off: '0', course: 'kurs', series: '1' }
 
-export function visuBotEnabled(): boolean {
+export function visuBotMode(): VisuBotMode {
   try {
-    return localStorage.getItem(modeKey) === '1'
+    const value = localStorage.getItem(modeKey)
+    return (Object.keys(stored) as VisuBotMode[]).find((m) => stored[m] === value) ?? 'off'
   } catch {
-    return false
+    return 'off'
   }
 }
 
-export function setVisuBotEnabled(on: boolean) {
+export function setVisuBotMode(mode: VisuBotMode) {
   try {
-    localStorage.setItem(modeKey, on ? '1' : '0')
+    localStorage.setItem(modeKey, stored[mode])
   } catch {
     /* ohne Speicher nur für diese Sitzung */
   }
 }
+
+/** Gibt es mBot2-Kästen und den 3D-Simulator? (Im Kurs und in der eigenen Reihe.) */
+export const visuBotEnabled = () => visuBotMode() !== 'off'
 
 /**
  * Simulator-Bereich im Simulationspanel: Welt von oben/schräg in 3D, darunter Sensorwerte.

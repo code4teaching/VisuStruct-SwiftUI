@@ -209,7 +209,9 @@ export class LearnPanel {
     bar.append(
       ...lesson.steps.map((s, i) => {
         const where = t('web_learn_step_fmt', i + 1, s.title)
-        const b = h('button', { class: i < index ? 'past' : i === index ? 'current' : '', title: where, 'aria-label': where }, String(i + 1))
+        const state = i < index ? 'past' : i === index ? 'current' : ''
+        // 🤖-Schritte (VisuBot im Kurs) türkis wie der mBot2
+        const b = h('button', { class: s.title.startsWith('🤖') ? `${state} robot-step` : state, title: where, 'aria-label': where }, String(i + 1))
         if (i === index) b.setAttribute('aria-current', 'step')
         b.addEventListener('click', () => this.goToStep(lesson, i))
         return b

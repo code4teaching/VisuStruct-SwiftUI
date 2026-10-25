@@ -12,10 +12,10 @@ const allBlocks = (): { where: string; block: Block }[] => [
 
 describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   beforeAll(() => {
-    useVisuBotContent(true)
+    useVisuBotContent('series')
     useContentLanguage(lang)
   })
-  afterAll(() => useVisuBotContent(false))
+  afterAll(() => useVisuBotContent('off'))
 
   it('zeigt nur die VisuBot-Lektionen, lückenlos nummeriert', () => {
     expect(lessons.length).toBeGreaterThanOrEqual(2)
@@ -63,5 +63,42 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       for (const b of step.blocks) if (b.kind === 'robotModel') for (const p of b.focus) expect(linked, `${step.title}: ${p}`).toContain(p)
       for (const p of linked) expect(isMBotPart(p), `${step.title}: ${p}`).toBe(true)
     }
+  })
+})
+
+describe.each(['de', 'en'] as const)('VisuBot im Kurs (%s)', (lang) => {
+  beforeAll(() => {
+    useVisuBotContent('course')
+    useContentLanguage(lang)
+  })
+  afterAll(() => useVisuBotContent('off'))
+
+  it('hängt 🤖-Schritte vor die Checkliste normaler Lektionen, deren mBot2-Übungen bestehen', () => {
+    expect(lessons.length).toBeGreaterThanOrEqual(40)
+    const withRobot = lessons.filter((l) => l.steps.some((s) => s.title.startsWith('🤖')))
+    expect(withRobot.map((l) => l.number)).toEqual(expect.arrayContaining([5, 13]))
+    for (const l of withRobot) {
+      const robot = l.steps.findIndex((s) => s.title.startsWith('🤖'))
+      const checklist = l.steps.findIndex((s) => s.blocks.some((b) => b.kind === 'checklist'))
+      if (checklist >= 0) expect(robot, l.id).toBeLessThan(checklist)
+    }
+    let checked = 0
+    for (const l of withRobot)
+      for (const s of l.steps.filter((s) => s.title.startsWith('🤖')))
+        for (const b of s.blocks) {
+          if (b.kind !== 'exercise') continue
+          expect(b.exercise.id.startsWith('vb-')).toBe(true)
+          const doc = diagram(b.exercise.solution!)!
+          expect(doc, b.exercise.solution).toBeDefined()
+          for (const o of checkExercise(doc, b.exercise.tests, undefined, world)) expect(o.passed, `${l.id}: ${JSON.stringify(o.result)}`).toBe(true)
+          checked++
+        }
+    expect(checked).toBeGreaterThanOrEqual(4)
+  })
+
+  it('zeigt normale Aufgaben und mBot2-Aufgaben mit kurs:', () => {
+    expect(tasks.some((t) => t.id === 'treppe' && t.after === 13)).toBe(true)
+    expect(tasks.some((t) => t.id === 'tunnel')).toBe(false)
+    expect(tasks.length).toBeGreaterThan(20)
   })
 })

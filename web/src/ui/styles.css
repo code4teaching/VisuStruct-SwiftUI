@@ -239,6 +239,7 @@ button.icon svg {
 .settings-menu label.check input {
   margin: 2px 0 0;
 }
+.settings-menu label small,
 .settings-menu label.check small {
   display: block;
   font-weight: 400;
@@ -1473,6 +1474,14 @@ button.danger-text:not(:disabled) {
   background: var(--accent);
   color: #fff;
   font-weight: 600;
+}
+.learn-progress button.robot-step:not(.current) {
+  border-color: #0fa3c6;
+  background: rgba(15, 163, 198, 0.12);
+}
+.learn-progress button.robot-step.current {
+  border-color: #0fa3c6;
+  background: #0fa3c6;
 }
 .learn-step-title {
   font-size: 16px;
