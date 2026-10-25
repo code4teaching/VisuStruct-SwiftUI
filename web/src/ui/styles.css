@@ -3364,10 +3364,16 @@ button.danger-text:not(:disabled) {
 }
 
 /* Echter mBot2: Knopf neben „Simulation starten“ und in den Einstellungen */
-.mbot-link {
+.diagram-tools .mbot-link {
+  margin-inline-start: auto;
+  height: 30px;
+  padding: 0 10px;
   white-space: nowrap;
 }
-.mbot-link.connected {
+.diagram-tools .mbot-link:not([hidden]) + .sim-toggle {
+  margin-inline-start: 6px;
+}
+.diagram-tools .mbot-link.connected {
   border-color: #0f8a5f;
   color: #0f8a5f;
   font-weight: 600;
