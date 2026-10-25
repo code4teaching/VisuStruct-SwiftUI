@@ -61,16 +61,17 @@
 
   <section>
     <h2>3. Sensoren lesen</h2>
-    <button data-py="mbuild.ultrasonic2.get(1)" disabled>Abstand (cm)</button>
-    <button data-py="mbuild.quad_rgb_sensor.get_line_sta('all', 1)" disabled>Linie</button>
-    <button data-py="cyberpi.get_bri()" disabled>Helligkeit</button>
-    <button data-py="cyberpi.controller.is_press('a')" disabled>Taste A gedrückt?</button>
+    <button data-py="mbuild.ultrasonic2.get(1)" data-mode="1" disabled>Abstand (cm)</button>
+    <button data-py="mbuild.quad_rgb_sensor.get_line_sta('all', 1)" data-mode="1" disabled>Linie</button>
+    <button data-py="cyberpi.get_bri()" data-mode="1" disabled>Helligkeit</button>
+    <button data-py="cyberpi.controller.is_press('a')" data-mode="1" disabled>Taste A gedrückt?</button>
   </section>
 
   <section>
     <h2>4. Eigene Python-Zeile</h2>
     <div class="row">
       <input id="py" value="cyberpi.get_battery()" spellcheck="false">
+      <select id="mode" title="Modus"><option value="1">Modus 1 (mit Wert)</option><option value="3">Modus 3</option><option value="4">Modus 4 (nur ausführen)</option><option value="0">Modus 0</option></select>
       <button id="send" disabled>Senden</button>
     </div>
   </section>
@@ -120,9 +121,13 @@ function frame(body) {
   return Uint8Array.from([0xf3, head, len & 0xff, len >> 8, ...body, sum, 0xf4])
 }
 
-function pythonFrame(code) {
+// Typ 0x28 = Python, dann Modus, Nummer (2 Byte), Länge (2 Byte), Text.
+// Modus 4 führt nur aus ({"ret":None}); Modus 1 liefert den Wert eines Ausdrucks zurück ({"ret":123}).
+let nextIdx = 1
+function pythonFrame(code, mode = 4) {
   const text = Array.from(enc.encode(code))
-  return frame([0x28, 0x04, 0x00, 0x00, text.length & 0xff, text.length >> 8, ...text])
+  const idx = nextIdx++ & 0xffff
+  return frame([0x28, mode, idx & 0xff, idx >> 8, text.length & 0xff, text.length >> 8, ...text])
 }
 
 /** Sucht vollständige Rahmen in rx; alles außerhalb von Rahmen ist Textausgabe des CyberPi. */
@@ -216,9 +221,12 @@ $('#disconnect').onclick = async () => {
   log('getrennt')
 }
 
-document.querySelectorAll('[data-py]').forEach((b) => { b.onclick = () => send(pythonFrame(b.dataset.py), b.dataset.py) })
+document.querySelectorAll('[data-py]').forEach((b) => {
+  const mode = Number(b.dataset.mode ?? 4)
+  b.onclick = () => send(pythonFrame(b.dataset.py, mode), `${b.dataset.py}   (Modus ${mode})`)
+})
 document.querySelector('[data-ping]').onclick = () => send(frame([0x0d, 0x00, 0x00]), 'Ping')
-$('#send').onclick = () => send(pythonFrame($('#py').value), $('#py').value)
+$('#send').onclick = () => send(pythonFrame($('#py').value, Number($('#mode').value)), `${$('#py').value}   (Modus ${$('#mode').value})`)
 $('#py').onkeydown = (e) => { if (e.key === 'Enter' && !$('#send').disabled) $('#send').click() }
 $('#copy').onclick = () => navigator.clipboard.writeText($('#log').textContent)
 </script>
