@@ -337,6 +337,14 @@ dialog.about h2 {
   align-items: center;
   gap: 8px;
 }
+.visubot-logo {
+  width: 30px;
+  height: 24px;
+}
+.visubot-bot {
+  color: var(--accent);
+  margin-left: -8px;
+}
 .brand small {
   font-weight: 500;
   color: var(--muted);

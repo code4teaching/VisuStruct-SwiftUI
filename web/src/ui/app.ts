@@ -39,7 +39,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
+import { mbotLinkText, setVisuBotMode, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
@@ -329,6 +329,8 @@ export class App {
 
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
+    // Link „VisuBot ausprobieren“ der Webseite: …/app/?visubot schaltet den Kurs mit mBot2-Schritten ein.
+    if (new URLSearchParams(location.search).has('visubot') && visuBotMode() === 'off') setVisuBotMode('course')
     useVisuBotContent(visuBotMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
@@ -372,8 +374,9 @@ export class App {
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
     const params = new URLSearchParams(location.search)
     const fromSite = params.has('learn')
-    if (fromSite) {
+    if (fromSite || params.has('visubot')) {
       params.delete('learn')
+      params.delete('visubot')
       const query = params.toString()
       history.replaceState(history.state, '', `${location.pathname}${query ? `?${query}` : ''}${location.hash}`)
     }
@@ -408,7 +411,7 @@ export class App {
     this.root.className = 'app'
     this.root.innerHTML = `
       <header class="toolbar">
-        <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}"><span class="logo"></span>VisuStruct <small>${e(t('web_brand_suffix'))}</small></a>
+        <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}">${visuBotEnabled() ? visuBotBrand : '<span class="logo"></span>VisuStruct'} <small>${e(t('web_brand_suffix'))}</small></a>
         <div class="group">
           ${iconButton('new', t('toolbar_new'), icons.newFile)}
           ${iconButton('open', t('menu_open'), icons.open, shortcut('O'))}

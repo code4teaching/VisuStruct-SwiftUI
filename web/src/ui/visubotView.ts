@@ -32,6 +32,19 @@ export function setVisuBotMode(mode: VisuBotMode) {
   }
 }
 
+/** Kopfzeile im VisuBot-Modus: der kleine Roboter aus dem VisuBot-Logo und „Visu“ + blaues „Bot“. */
+export const visuBotBrand = `<svg class="visubot-logo" viewBox="52 94 132 106" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="57" y="140" width="21" height="48" rx="10.5" fill="currentColor"/>
+  <rect x="157" y="140" width="21" height="48" rx="10.5" fill="currentColor"/>
+  <path d="M87 122h60a11 11 0 0 1 11 11v36a11 11 0 0 1-11 11H87a11 11 0 0 1-11-11v-36a11 11 0 0 1 11-11z" fill="var(--panel)" stroke="currentColor" stroke-width="6"/>
+  <path d="M80 133h76" stroke="var(--accent)" stroke-width="8"/>
+  <circle cx="102" cy="150" r="6" fill="currentColor"/>
+  <circle cx="132" cy="150" r="6" fill="currentColor"/>
+  <path d="M104 162c4 4 8 6 13 6s9-2 13-6" fill="none" stroke="var(--accent)" stroke-width="5"/>
+  <path d="M117 122V106" stroke="currentColor" stroke-width="6"/>
+  <circle cx="117" cy="101" r="7" fill="var(--accent)"/>
+</svg>Visu<span class="visubot-bot">Bot</span>`
+
 /** Gibt es mBot2-Kästen und den 3D-Simulator? (Im Kurs und in der eigenen Reihe.) */
 export const visuBotEnabled = () => visuBotMode() !== 'off'
 
