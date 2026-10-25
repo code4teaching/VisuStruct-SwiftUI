@@ -25,18 +25,18 @@ Look closely at your structure chart: five times **move forward** appears four t
 
 Drag a for loop into the structure chart and give it these three parts:
 
-- Start: `int k = 0`
-- Condition: `k < 5`
-- Step: `k++`
+- Start: `int i = 0`
+- Condition: `i < 5`
+- Step: `i++`
 
-The body of the loop gets a single **move forward**. The loop counts `k` from 0 to 4, that is five runs.
+The body of the loop gets a single **move forward**. The loop counts `i` from 0 to 4, that is five runs.
 
 ::: übung vb-quadrat-schleife
 titel: Sides with a loop
 auftrag: In your square, replace each row of five **move forward** with a for loop that drives five times. The mBot2 then drives exactly the same square.
 fahrt: 4 x (5 x (forward), turnRight)
 braucht: forSchleife
-tipp: Start `int k = 0`, condition `k < 5`, step `k++`. The body only contains `mbot.forward()`.
+tipp: Start `int i = 0`, condition `i < 5`, step `i++`. The body only contains `mbot.forward()`.
 tipp: Four times one below the other: the for loop and then `mbot.turnRight()`.
 lösung: vb-quadrat-schleife-loesung.visustruct
 :::
@@ -45,14 +45,14 @@ lösung: vb-quadrat-schleife-loesung.visustruct
 
 Now the same pair appears four times: a for loop and **turn right**. That is a repetition too! Put both into a second for loop that runs four times. A loop inside a loop is called a **nested loop**.
 
-Give the outer loop its own counter variable, for example `side`. Otherwise the two loops get in each other's way.
+Each loop needs its own counter variable, otherwise the two get in each other's way. The usual way: the outer loop counts with `i`, the inner one with `j`. So rename your inner loop to `j`.
 
 ::: übung vb-quadrat-verschachtelt
 titel: Nested square
 auftrag: Build the square with two nested for loops. The outer one runs four times, once for each side. The inner one runs five times, once for each step.
 fahrt: 4 x (5 x (forward), turnRight)
 schleifentiefe: 2
-tipp: Outside: start `int side = 0`, condition `side < 4`, step `side++`.
+tipp: Outside: start `int i = 0`, condition `i < 4`, step `i++`. Inside: `int j = 0`, `j < 5`, `j++`.
 tipp: The outer loop contains the inner loop with `mbot.forward()` and below it `mbot.turnRight()`.
 lösung: vb-quadrat-verschachtelt-loesung.visustruct
 :::
@@ -83,7 +83,7 @@ auftrag: Let the mBot2 drive four squares. After each square it turns right once
 fahrt: 4 x (4 x (5 x (forward), turnRight), turnRight)
 schleifentiefe: 3
 tipp: Put a third for loop that runs four times around your nested square.
-tipp: Outside `int square = 0`, `square < 4`, `square++`. Inside your square and then `mbot.turnRight()`.
+tipp: Now `i` counts on the very outside (`int i = 0`, `i < 4`, `i++`). The loops inside are then called `j` and `k`. Inside the outer loop goes your square and then `mbot.turnRight()`.
 lösung: vb-vier-quadrate-loesung.visustruct
 :::
 

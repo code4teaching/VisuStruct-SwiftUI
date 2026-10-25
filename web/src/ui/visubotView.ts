@@ -1,5 +1,5 @@
 import { MBOT_COMMANDS, MBOT_SENSORS, type MBotAction } from '../core/mbot'
-import { canConnectMBot, mbotLink } from '../core/mbotLink'
+import { mbotLink } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
@@ -50,8 +50,8 @@ export class VisuBotView {
   private applied = 0
   /** Befehle, die der echte mBot2 schon gefahren ist. */
   private sent = 0
-  private liveButton: HTMLButtonElement
   private liveStatus: HTMLElement
+  private stopListening: () => void
   private realSensors?: { getDistance: number; getLine: number }
   /** Nach dem Umschalten der Welt: Simulation von vorn (setzt das Simulationspanel). */
   onWorldChange?: () => void
@@ -60,14 +60,12 @@ export class VisuBotView {
     this.world = new RobotWorld(setup)
     this.element = document.createElement('section')
     this.element.className = 'visubot'
-    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><div class="visubot-live"><button type="button"></button><span></span></div><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>`
+    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>`
     this.stage = this.element.querySelector('.visubot-stage')!
     this.picker = this.element.querySelector('.visubot-worlds')!
     this.status = this.element.querySelector('.visubot-status')!
-    this.liveButton = this.element.querySelector('.visubot-live button')!
-    this.liveStatus = this.element.querySelector('.visubot-live span')!
-    this.liveButton.addEventListener('click', () => void this.toggleLive())
-    mbotLink.onChange = () => this.updateLive()
+    this.liveStatus = this.element.querySelector('.visubot-live')!
+    this.stopListening = mbotLink.listen(() => this.updateLive())
     this.updateLive()
     this.updateStatus()
   }
@@ -156,35 +154,9 @@ export class VisuBotView {
     void mbotLink.disconnect(error instanceof Error ? error.message : String(error))
   }
 
-  private async toggleLive() {
-    if (mbotLink.connected) return mbotLink.disconnect()
-    this.liveButton.disabled = true
-    this.liveStatus.textContent = t('web_visubot_connecting')
-    try {
-      await mbotLink.connect()
-    } catch (e) {
-      // Abbrechen der Auswahl ist kein Fehler
-      if ((e as Error).name !== 'NotFoundError') mbotLink.error = (e as Error).message
-      await mbotLink.disconnect(mbotLink.error)
-    }
-    this.liveButton.disabled = false
-    this.updateLive()
-  }
-
   private updateLive() {
-    const box = this.liveButton.parentElement!
-    if (!canConnectMBot()) {
-      this.liveButton.hidden = true
-      this.liveStatus.textContent = t('web_visubot_no_serial')
-      return
-    }
-    box.classList.toggle('connected', mbotLink.connected)
-    this.liveButton.textContent = mbotLink.connected ? t('web_visubot_disconnect') : `🔌 ${t('web_visubot_connect')}`
-    this.liveStatus.textContent = mbotLink.connected
-      ? `✓ ${t('web_visubot_connected')}`
-      : mbotLink.error
-        ? `⚠︎ ${t('web_visubot_link_error')}: ${mbotLink.error}`
-        : ''
+    this.liveStatus.textContent = mbotLinkText()
+    this.liveStatus.classList.toggle('connected', mbotLink.connected)
     this.updateStatus()
   }
 
@@ -200,6 +172,7 @@ export class VisuBotView {
   }
 
   dispose() {
+    this.stopListening()
     this.view?.dispose()
     this.view = undefined
     this.loading = undefined
@@ -215,6 +188,24 @@ export class VisuBotView {
     if (this.realSensors && mbotLink.connected)
       parts.push(`🤖 ${t('web_visubot_distance')}: ${this.realSensors.getDistance} cm · ${t('web_visubot_line')}: ${this.realSensors.getLine.toString(2).padStart(4, '0')}`)
     this.status.textContent = parts.join(' · ')
+  }
+}
+
+/** Kurzer Zustand der Verbindung zum echten mBot2 (leer, wenn nicht verbunden und kein Fehler). */
+export function mbotLinkText(): string {
+  if (mbotLink.connecting) return t('web_visubot_connecting')
+  if (mbotLink.connected) return `✓ ${t('web_visubot_connected')}`
+  return mbotLink.error ? `⚠︎ ${t('web_visubot_link_error')}: ${mbotLink.error}` : ''
+}
+
+/** Mit dem echten mBot2 verbinden bzw. trennen (Knopf in der Werkzeugleiste und in den Einstellungen). */
+export async function toggleMBotLink() {
+  if (mbotLink.connected || mbotLink.connecting) return mbotLink.disconnect()
+  try {
+    await mbotLink.connect()
+  } catch (e) {
+    // Abbrechen der Auswahl ist kein Fehler
+    await mbotLink.disconnect((e as Error).name === 'NotFoundError' ? undefined : (e as Error).message)
   }
 }
 

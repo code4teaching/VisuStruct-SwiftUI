@@ -12,7 +12,7 @@ auftrag: Lass den mBot2 wieder ein Quadrat mit 50 cm Seitenlänge fahren. Diesma
 fahrt: 4 x (forward 50, turnRight)
 braucht: forSchleife
 tipp: Die Schleife läuft viermal, einmal für jede Seite.
-tipp: Start `int seite = 0`, Bedingung `seite < 4`, Schritt `seite++`. Im Inhalt stehen `mbot.forward(50)` und `mbot.turnRight()`.
+tipp: Start `int i = 0`, Bedingung `i < 4`, Schritt `i++`. Im Inhalt stehen `mbot.forward(50)` und `mbot.turnRight()`.
 lösung: vb-k-quadrat-schleife-loesung.visustruct
 :::
 

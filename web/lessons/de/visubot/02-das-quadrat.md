@@ -25,18 +25,18 @@ Schau dein Struktogramm genau an: Fünfmal **fahre vor** steht viermal da. Wenn 
 
 Ziehe eine For-Schleife ins Struktogramm und gib ihr diese drei Teile:
 
-- Start: `int k = 0`
-- Bedingung: `k < 5`
-- Schritt: `k++`
+- Start: `int i = 0`
+- Bedingung: `i < 5`
+- Schritt: `i++`
 
-In den Inhalt der Schleife kommt ein einziges **fahre vor**. Die Schleife zählt `k` von 0 bis 4, das sind fünf Durchläufe.
+In den Inhalt der Schleife kommt ein einziges **fahre vor**. Die Schleife zählt `i` von 0 bis 4, das sind fünf Durchläufe.
 
 ::: übung vb-quadrat-schleife
 titel: Seiten mit Schleife
 auftrag: Ersetze in deinem Quadrat jede Reihe aus fünf **fahre vor** durch eine For-Schleife, die fünfmal fährt. Der mBot2 fährt danach genau dasselbe Quadrat.
 fahrt: 4 x (5 x (forward), turnRight)
 braucht: forSchleife
-tipp: Start `int k = 0`, Bedingung `k < 5`, Schritt `k++`. Im Inhalt steht nur `mbot.forward()`.
+tipp: Start `int i = 0`, Bedingung `i < 5`, Schritt `i++`. Im Inhalt steht nur `mbot.forward()`.
 tipp: Viermal untereinander: die For-Schleife und danach `mbot.turnRight()`.
 lösung: vb-quadrat-schleife-loesung.visustruct
 :::
@@ -45,19 +45,19 @@ lösung: vb-quadrat-schleife-loesung.visustruct
 
 Jetzt steht viermal dasselbe Paar da: eine For-Schleife und **drehe rechts**. Auch das ist eine Wiederholung! Packe beides in eine zweite For-Schleife, die viermal läuft. Eine Schleife in einer Schleife heißt **verschachtelte Schleife**.
 
-Gib der äußeren Schleife eine eigene Zählvariable, zum Beispiel `seite`. Sonst kommen sich die beiden Schleifen in die Quere.
+Jede Schleife braucht ihre eigene Zählvariable, sonst kommen sich die beiden in die Quere. Üblich ist: Die äußere Schleife zählt mit `i`, die innere mit `j`. Benenne deine innere Schleife also in `j` um.
 
 ::: übung vb-quadrat-verschachtelt
 titel: Quadrat verschachtelt
 auftrag: Baue das Quadrat mit zwei ineinander geschachtelten For-Schleifen. Die äußere läuft viermal, einmal für jede Seite. Die innere läuft fünfmal, einmal für jeden Schritt.
 fahrt: 4 x (5 x (forward), turnRight)
 schleifentiefe: 2
-tipp: Außen: Start `int seite = 0`, Bedingung `seite < 4`, Schritt `seite++`.
+tipp: Außen: Start `int i = 0`, Bedingung `i < 4`, Schritt `i++`. Innen: `int j = 0`, `j < 5`, `j++`.
 tipp: In die äußere Schleife kommen die innere Schleife mit `mbot.forward()` und darunter `mbot.turnRight()`.
 lösung: vb-quadrat-verschachtelt-loesung.visustruct
 :::
 
-Aus 24 Kästen sind vier geworden. Gehe das Programm in der Simulation mit **Schritt** durch und beobachte die Variablen `seite` und `k`.
+Aus 24 Kästen sind vier geworden. Gehe das Programm in der Simulation mit **Schritt** durch und beobachte die Variablen `i` und `j`.
 
 ::: quiz
 ? Wie oft führt der mBot2 im verschachtelten Quadrat `mbot.forward()` aus?
@@ -83,7 +83,7 @@ auftrag: Lass den mBot2 vier Quadrate fahren. Nach jedem Quadrat dreht er sich e
 fahrt: 4 x (4 x (5 x (forward), turnRight), turnRight)
 schleifentiefe: 3
 tipp: Lege um dein verschachteltes Quadrat noch eine dritte For-Schleife, die viermal läuft.
-tipp: Außen `int quadrat = 0`, `quadrat < 4`, `quadrat++`. Darin dein Quadrat und danach `mbot.turnRight()`.
+tipp: Ganz außen zählt jetzt `i` (`int i = 0`, `i < 4`, `i++`). Die Schleifen darin heißen dann `j` und `k`. In die äußere Schleife kommen dein Quadrat und danach `mbot.turnRight()`.
 lösung: vb-vier-quadrate-loesung.visustruct
 :::
 

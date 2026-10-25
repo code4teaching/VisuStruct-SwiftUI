@@ -3263,7 +3263,10 @@ button.danger-text:not(:disabled) {
   font-size: 12px;
   color: var(--muted);
 }
-.visubot-live.connected span {
+.visubot-live:empty {
+  display: none;
+}
+.visubot-live.connected {
   color: #0f8a5f;
   font-weight: 600;
 }
@@ -3358,4 +3361,23 @@ button.danger-text:not(:disabled) {
 }
 .visubot-quiz-feedback.wrong {
   color: var(--danger, #c92a2a);
+}
+
+/* Echter mBot2: Knopf neben „Simulation starten“ und in den Einstellungen */
+.mbot-link {
+  white-space: nowrap;
+}
+.mbot-link.connected {
+  border-color: #0f8a5f;
+  color: #0f8a5f;
+  font-weight: 600;
+}
+.settings-mbot-link {
+  display: grid;
+  gap: 4px;
+  margin-top: 8px;
+}
+.settings-mbot-link small {
+  font-size: 12px;
+  color: var(--muted);
 }

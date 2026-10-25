@@ -94,12 +94,23 @@ export class MBotLink {
   private idx = 1
   private waiting = new Map<number, { resolve: (v: number | boolean | null) => void; reject: (e: Error) => void }>()
   private queue: Promise<unknown> = Promise.resolve()
-  /** Wird bei Verbinden, Trennen und Fehlern gerufen. */
-  onChange?: () => void
+  private listeners = new Set<() => void>()
   error?: string
+  /** Port ist offen, der CyberPi startet noch neu. */
+  connecting = false
+
+  /** `fn` bei Verbinden, Trennen und Fehlern rufen; gibt eine Abmeldung zurück. */
+  listen(fn: () => void): () => void {
+    this.listeners.add(fn)
+    return () => this.listeners.delete(fn)
+  }
+
+  private changed() {
+    for (const fn of this.listeners) fn()
+  }
 
   get connected() {
-    return this.writer !== undefined
+    return this.writer !== undefined && !this.connecting
   }
 
   /** Fragt nach dem USB-Anschluss, öffnet ihn und wartet den Neustart des CyberPi ab. */
@@ -111,10 +122,14 @@ export class MBotLink {
     this.port = port
     this.writer = port.writable!.getWriter()
     this.error = undefined
+    this.connecting = true
+    this.changed()
     void this.readLoop()
     // Das Öffnen setzt den CyberPi zurück
     await new Promise((r) => setTimeout(r, 3000))
-    this.onChange?.()
+    if (!this.writer) return
+    this.connecting = false
+    this.changed()
     await this.run("cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')")
   }
 
@@ -124,6 +139,7 @@ export class MBotLink {
     const reader = this.reader
     this.port = this.writer = this.reader = undefined
     this.error = error
+    this.connecting = false
     for (const w of this.waiting.values()) w.reject(new Error(error ?? 'getrennt'))
     this.waiting.clear()
     try {
@@ -133,7 +149,7 @@ export class MBotLink {
     } catch {
       /* schon weg */
     }
-    this.onChange?.()
+    this.changed()
   }
 
   /** Python-Zeile ausführen; kehrt zurück, wenn der Roboter fertig ist (Fahren dauert). */

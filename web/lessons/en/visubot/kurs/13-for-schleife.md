@@ -12,7 +12,7 @@ auftrag: Let the mBot2 drive a square with 50 cm sides again. This time only two
 fahrt: 4 x (forward 50, turnRight)
 braucht: forSchleife
 tipp: The loop runs four times, once for each side.
-tipp: Start `int side = 0`, condition `side < 4`, step `side++`. The body contains `mbot.forward(50)` and `mbot.turnRight()`.
+tipp: Start `int i = 0`, condition `i < 4`, step `i++`. The body contains `mbot.forward(50)` and `mbot.turnRight()`.
 lösung: vb-k-quadrat-schleife-loesung.visustruct
 :::
 

@@ -39,7 +39,8 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { setVisuBotMode, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
+import { mbotLinkText, setVisuBotMode, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
+import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -324,6 +325,7 @@ export class App {
   private readonly inViewer = 'claude' in window
   /** VisuBot-Modus: Welt mit dem mBot2 im Simulationspanel (bleibt beim Neuaufbau erhalten). */
   private visuBot?: VisuBotView
+  private stopLinkListener?: () => void
 
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
@@ -467,6 +469,10 @@ export class App {
                   .join('')}</select>
                 <small>${e(t('web_visubot_mode_hint'))}</small>
               </label>
+              <div class="settings-mbot-link">
+                <button type="button" data-action="mbot-link-settings"></button>
+                <small></small>
+              </div>
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
@@ -504,6 +510,7 @@ export class App {
           </div>
         </div>
         ${iconButton('code', t('a11y_generate_code'), icons.code)}
+        <button class="mbot-link" data-action="mbot-link" hidden></button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
       </div>
@@ -660,6 +667,25 @@ export class App {
     const language = $<HTMLSelectElement>('[data-action=language]')
     language.value = currentLanguage()
     language.addEventListener('change', () => void this.changeLanguage(() => setLanguage(language.value as LanguageCode), 'language'))
+    // Echter mBot2: Knopf in der Werkzeugleiste (neben der Simulation) und in den Einstellungen
+    const linkButtons = [$<HTMLButtonElement>('[data-action=mbot-link]'), $<HTMLButtonElement>('[data-action=mbot-link-settings]')]
+    const linkInfo = $<HTMLElement>('.settings-mbot-link small')
+    const showLink = () => {
+      const on = mbotLink.connected
+      const label = mbotLink.connecting ? t('web_visubot_connecting') : on ? t('web_visubot_disconnect') : t('web_visubot_connect')
+      linkButtons[0].hidden = !visuBotEnabled() || !canConnectMBot()
+      linkButtons[0].classList.toggle('connected', on)
+      linkButtons[0].textContent = `${on ? '🟢' : '🔌'} mBot2`
+      linkButtons[0].title = label
+      linkButtons[1].textContent = `${on ? '🟢' : '🔌'} ${label}`
+      linkButtons[1].disabled = !canConnectMBot()
+      linkButtons[1].parentElement!.hidden = !visuBotEnabled()
+      linkInfo.textContent = canConnectMBot() ? mbotLinkText() : t('web_visubot_no_serial')
+    }
+    for (const b of linkButtons) b.addEventListener('click', () => void toggleMBotLink())
+    this.stopLinkListener?.()
+    this.stopLinkListener = mbotLink.listen(showLink)
+    showLink()
     const visuBot = $<HTMLSelectElement>('[data-action=visubot]')
     visuBot.value = visuBotMode()
     visuBot.addEventListener('change', () =>
