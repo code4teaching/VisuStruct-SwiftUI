@@ -46,14 +46,14 @@
   </section>
 
   <section class="jetzt">
-    <h2>👉 Jetzt testen (Runde 18: mit kurzen Pausen)</h2>
+    <h2>👉 Jetzt testen (Runde 19: Schlusstest ohne Farben)</h2>
     <ol>
-      <li>Roboter neu starten, oben „Verbinden“</li>
-      <li><button data-py="exec(&quot;from time import sleep as s; d = cyberpi.display; d.clear(); d.set_brush(255, 255, 255); s(0.3); d.show_label(&#x27;Visu&#x27;, 32, 8, 44, index=0); s(0.3); d.set_brush(52, 120, 229); s(0.3); d.show_label(&#x27;Bot&#x27;, 32, 72, 44, index=1); s(0.3)&quot;)" data-mode="4" disabled>Test S: Logo mit Pausen</button> Farben?</li>
-      <li><button data-py="exec(&quot;from time import sleep as s; d = cyberpi.display; d.clear(); d.set_brush(255, 255, 255); s(0.3); d.show_label(&#x27;Visu&#x27;, 32, 8, 44, index=0); s(0.3); d.set_brush(52, 120, 229); s(0.3); d.show_label(&#x27;Bot&#x27;, 32, 72, 44, index=1); s(0.3)&quot;)" data-mode="4" disabled>Test S nochmal</button> Farben?</li>
-      <li><button data-py="exec(&quot;from time import sleep as s; d = cyberpi.display; d.clear(); d.set_brush(255, 255, 255); s(0.3); d.show_label(\&quot;Bis bald!\&quot;, 24, &#x27;center&#x27;); s(0.3)&quot;)" data-mode="4" disabled>Test T: „Bis bald!“ mit Pausen</button> Farbe?</li>
-      <li><button data-py="exec(&quot;from time import sleep as s; d = cyberpi.display; d.clear(); d.set_brush(255, 255, 255); s(0.3); d.show_label(&#x27;Visu&#x27;, 32, 8, 44, index=0); s(0.3); d.set_brush(52, 120, 229); s(0.3); d.show_label(&#x27;Bot&#x27;, 32, 72, 44, index=1); s(0.3)&quot;)" data-mode="4" disabled>Test S ein drittes Mal</button> Farben?</li>
-      <li>Berichten, z. B. „S1: Visu weiß, Bot blau; S2: …“</li>
+      <li>Oben „Verbinden“</li>
+      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;VisuBot\&quot;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Logo „VisuBot“</button></li>
+      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;Abstand: 42\&quot;, 24, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Text „Abstand: 42“</button></li>
+      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;Bis bald!\&quot;, 24, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>„Bis bald!“</button></li>
+      <li><button data-py="exec(&quot;cyberpi.display.clear(); cyberpi.display.show_label(\&quot;VisuBot\&quot;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Logo nochmal</button></li>
+      <li>Berichten: Ist alles weiß, sauber und ohne Reste?</li>
     </ol>
   </section>
 
