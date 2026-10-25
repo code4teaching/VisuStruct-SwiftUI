@@ -126,6 +126,11 @@ export function useContentLanguage(lang: ContentLanguage) {
     if (block.kind === 'textFile') registerTextFile(block.name, block.content)
   }
   reference = pages.find(([name]) => name === 'nachschlagen.md')?.[1] ?? ''
+  // VisuBot: mBot2-Befehle und -Sensoren als eigene Kategorien
+  if (visuBot !== 'off') {
+    const robotReference = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang).find(([name]) => name === 'nachschlagen.md')?.[1]
+    if (robotReference) reference = `${reference.trimEnd()}\n\n${robotReference}`
+  }
   glossary = parseGlossary(pages.find(([name]) => name === 'begriffe.md')?.[1] ?? '')
 }
 

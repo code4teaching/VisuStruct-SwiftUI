@@ -1,3 +1,5 @@
+## Grundbausteine
+
 ### Anweisung
 
 Ein einzelner Schritt. Damit legst du Variablen an oder rechnest.
@@ -31,6 +33,8 @@ output: "Du bist " + alter + " Jahre alt."
 
 > In der Ausgabe hängt `+` die Teile immer aneinander: `output: a + b` zeigt bei 3 und 4 also 34. Rechne deshalb vorher in einer Variablen, z. B. `int summe = a + b`, und gib dann `summe` aus.
 
+## Verzweigungen
+
 ### Verzweigung
 
 Prüft eine Bedingung. Ist sie wahr, wird der linke Zweig (true) ausgeführt, sonst der rechte (false).
@@ -44,6 +48,8 @@ note < 1 || note > 6
 ### Fallauswahl
 
 Wählt je nach Wert einer Variablen einen von mehreren Fällen. Passt kein Fall, gilt `default`. Fälle fügst du rechts mit **Weiteren Fall hinzufügen** hinzu.
+
+## Schleifen
 
 ### While-Schleife
 
@@ -72,6 +78,12 @@ i++
 
 Wiederholt den Inhalt ohne Bedingung. Mit einem **Aussprung** im Inneren verlässt du sie.
 
+### Aussprung
+
+Verlässt die umgebende Schleife (`break`).
+
+## Unterprogramme
+
 ### Aufruf
 
 Steht für ein Unterprogramm, z. B. `berechneSumme()`. Mit Parametern und Rückgabewert hat das Unterprogramm eine Kopfzeile als Titel:
@@ -83,9 +95,7 @@ int q = quadrat(5)      Aufruf, q bekommt 25
 zeigeSumme(3, 4)        Aufruf eines void-Unterprogramms
 ```
 
-### Aussprung
-
-Verlässt die umgebende Schleife (`break`).
+## Rechnen und Vergleichen
 
 ### Rechenzeichen und Vergleiche
 
@@ -94,6 +104,8 @@ Verlässt die umgebende Schleife (`break`).
 - `==` gleich, `!=` ungleich
 - `<` `<=` `>` `>=` kleiner, kleiner gleich, größer, größer gleich
 - `&&` und, `||` oder
+
+## Arrays
 
 ### Arrays
 

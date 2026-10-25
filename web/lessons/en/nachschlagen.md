@@ -1,3 +1,5 @@
+## Basics
+
 ### Statement
 
 A single step. You use it to create variables or to calculate.
@@ -31,6 +33,8 @@ output: "You are " + age + " years old."
 
 > In an output, `+` always joins the parts together: with 3 and 4, `output: a + b` shows 34. So calculate in a variable first, e.g. `int sum = a + b`, and then output `sum`.
 
+## Branches
+
 ### Branch
 
 Checks a condition. If it is true, the left path (true) runs, otherwise the right one (false).
@@ -44,6 +48,8 @@ grade < 1 || grade > 6
 ### Switch
 
 Picks one of several cases, depending on the value of a variable. If no case fits, `default` applies. You add cases on the right with **Add Case**.
+
+## Loops
 
 ### While loop
 
@@ -72,6 +78,12 @@ i++
 
 Repeats its inside without a condition. A **Break** inside it lets you leave it.
 
+### Break
+
+Leaves the loop around it (`break`).
+
+## Subprograms
+
 ### Call
 
 Stands for a subprogram, e.g. `calculateSum()`. With parameters and a return value, the subprogram has a header line as its title:
@@ -83,9 +95,7 @@ int q = square(5)       call, q gets 25
 showSum(3, 4)           call of a void subprogram
 ```
 
-### Break
-
-Leaves the loop around it (`break`).
+## Calculating and comparing
 
 ### Operators and comparisons
 
@@ -94,6 +104,8 @@ Leaves the loop around it (`break`).
 - `==` equal, `!=` not equal
 - `<` `<=` `>` `>=` less than, less than or equal, greater than, greater than or equal
 - `&&` and, `||` or
+
+## Arrays
 
 ### Arrays
 

@@ -1508,6 +1508,24 @@ button.danger-text:not(:disabled) {
   font-size: 15px;
   margin: 18px 0 4px;
 }
+/* Nachschlagen: Kategorien zum Aufklappen */
+.reference-group {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 0 0 8px;
+  padding: 0 12px;
+}
+.reference-group summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 9px 0;
+}
+.reference-group[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+.reference-group > h3:first-of-type {
+  margin-top: 10px;
+}
 .lesson-code {
   background: var(--bg);
   border-radius: 8px;

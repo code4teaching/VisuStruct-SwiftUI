@@ -156,7 +156,37 @@ export class LearnPanel {
       else this.renderTaskList()
     } else {
       const terms = glossary.map((e) => `- **${e.term}:** ${e.text}`).join('\n')
-      this.body.append(html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n### ${t('web_learn_terms')}\n\n${terms}`)))
+      const text = html('div', { class: 'learn-text learn-reference' }, markdownToHTML(`${reference}\n\n## ${t('web_learn_terms')}\n\n${terms}`))
+      this.body.append(text)
+      this.foldReference(text)
+    }
+  }
+
+  /** Nachschlagen: jede Kategorie (## Überschrift) als aufklappbarer Abschnitt; offene Kategorien merkt sich der Browser. */
+  private foldReference(root: HTMLElement) {
+    const key = 'visustruct.reference.open'
+    let open: string[] = []
+    try {
+      open = JSON.parse(localStorage.getItem(key) ?? '[]')
+    } catch {
+      /* ohne Speicher alles zu */
+    }
+    for (const heading of [...root.querySelectorAll('h2')]) {
+      const title = heading.textContent ?? ''
+      const details = h('details', { class: 'reference-group' }) as HTMLDetailsElement
+      details.open = open.includes(title)
+      const summary = h('summary', {}, title)
+      heading.replaceWith(details)
+      details.append(summary)
+      while (details.nextSibling && details.nextSibling.nodeName !== 'H2') details.append(details.nextSibling)
+      details.addEventListener('toggle', () => {
+        open = details.open ? [...new Set([...open, title])] : open.filter((x) => x !== title)
+        try {
+          localStorage.setItem(key, JSON.stringify(open))
+        } catch {
+          /* nur für diese Sitzung */
+        }
+      })
     }
   }
 

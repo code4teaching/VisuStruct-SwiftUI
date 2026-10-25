@@ -1,4 +1,4 @@
-/** Kleines Markdown für Lektionstexte: Absätze, ###, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url),
+/** Kleines Markdown für Lektionstexte: Absätze, ## bis ####, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url),
  * [Wort]{.blau} als farbige Markierung (blau, orange, gruen) passend zu farbigen Kästen, [Wort]{teil=cyberpi} zeigt auf ein Teil des mBot2. */
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -42,7 +42,7 @@ export function markdownToHTML(source: string): string {
       out.push(`<pre class="lesson-code"${java ? ' data-lang="java"' : ''} dir="ltr"><code>${escape(code.join('\n'))}</code></pre>`)
       continue
     }
-    const heading = /^(#{3,4})\s+(.*)$/.exec(line)
+    const heading = /^(#{2,4})\s+(.*)$/.exec(line)
     if (heading) {
       const level = heading[1].length
       out.push(`<h${level}>${inline(heading[2])}</h${level}>`)

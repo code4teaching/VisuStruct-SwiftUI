@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { checkExercise, loopDepth, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType } from '../src/core/model'
-import { diagram, lessons, tasks, useContentLanguage, useVisuBotContent, world } from '../src/learn/content'
+import { diagram, lessons, reference, tasks, useContentLanguage, useVisuBotContent, world } from '../src/learn/content'
 import type { Block } from '../src/learn/lessonFormat'
 import { isMBotPart, MBOT_PARTS } from '../src/core/mbot'
 
@@ -94,6 +94,15 @@ describe.each(['de', 'en'] as const)('VisuBot im Kurs (%s)', (lang) => {
           checked++
         }
     expect(checked).toBeGreaterThanOrEqual(4)
+  })
+
+  it('Nachschlagen hat die mBot2-Kategorien, ohne VisuBot nicht', () => {
+    expect(reference).toContain('## 🤖 mBot2')
+    expect(reference).toContain('## 📡 mBot2')
+    expect(reference).toContain('### ' + { de: 'Verzweigung', en: 'Branch' }[lang])
+    useVisuBotContent('off')
+    expect(reference).not.toContain('mBot2')
+    useVisuBotContent('course')
   })
 
   it('zeigt normale Aufgaben und mBot2-Aufgaben mit kurs:', () => {
