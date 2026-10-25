@@ -47,7 +47,8 @@ export function readAnswers(rx: number[]): ScriptAnswer[] {
     rx.splice(0, start)
     if (rx.length < 4) break
     const len = rx[2] | (rx[3] << 8)
-    if (rx[1] !== ((HEAD + rx[2] + rx[3]) & 0xff)) {
+    // Kein Rahmen, nur ein zufälliges F3 im Text: weitersuchen
+    if (rx[1] !== ((HEAD + rx[2] + rx[3]) & 0xff) || len > 4096) {
       rx.splice(0, 1)
       continue
     }
@@ -128,6 +129,8 @@ export class MBotLink {
     // Das Öffnen setzt den CyberPi zurück
     await new Promise((r) => setTimeout(r, 3000))
     if (!this.writer) return
+    // Textausgaben vom Neustart verwerfen
+    this.rx.length = 0
     this.connecting = false
     this.changed()
     await this.run("cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')")
@@ -204,7 +207,10 @@ export class MBotLink {
           }
         }
       } catch (e) {
-        if (this.port) void this.disconnect((e as Error).message)
+        // Störungen auf der Leitung (z. B. beim Neustart des CyberPi) sind harmlos: mit neuem Leser weiter
+        const harmless = ['BufferOverrunError', 'FramingError', 'BreakError', 'ParityError'].includes((e as Error).name)
+        console.warn('[mBot2] Lesefehler', (e as Error).name, (e as Error).message)
+        if (!harmless && this.port) void this.disconnect((e as Error).message)
       } finally {
         reader.releaseLock()
       }

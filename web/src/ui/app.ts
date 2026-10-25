@@ -675,9 +675,10 @@ export class App {
       const label = mbotLink.connecting ? t('web_visubot_connecting') : on ? t('web_visubot_disconnect') : t('web_visubot_connect')
       linkButtons[0].hidden = !visuBotEnabled() || !canConnectMBot()
       linkButtons[0].classList.toggle('connected', on)
-      linkButtons[0].textContent = `${on ? '🟢' : '🔌'} mBot2`
+      const icon = mbotLink.connecting ? '⏳' : on ? '🟢' : '🔌'
+      linkButtons[0].textContent = `${icon} mBot2`
       linkButtons[0].title = label
-      linkButtons[1].textContent = `${on ? '🟢' : '🔌'} ${label}`
+      linkButtons[1].textContent = `${icon} ${label}`
       linkButtons[1].disabled = !canConnectMBot()
       linkButtons[1].parentElement!.hidden = !visuBotEnabled()
       linkInfo.textContent = canConnectMBot() ? mbotLinkText() : t('web_visubot_no_serial')
