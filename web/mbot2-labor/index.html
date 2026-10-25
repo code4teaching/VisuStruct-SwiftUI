@@ -112,6 +112,9 @@
     <button data-py="vbt(&#x27;vb = cyberpi.Sprite(); vb.set_brush(0, 160, 255); vb.draw_rectangle(40, 40, 1); vb.show()&#x27;)" data-mode="1" disabled>Test: blaues Quadrat</button>
     <button data-py="vbt(&#x27;cyberpi.display.clear(); vb = cyberpi.Sprite(); vb.set_brush(0, 160, 255); vb.draw_rectangle(40, 40, 1); vb.set_position(64, 64); vb.show(); cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test: leeren + blaues Quadrat</button>
     <button data-py="vbt(&#x27;cyberpi.display.clear(); [cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test A: leeren + rote Linie, einmal zeichnen</button>
+    <button data-py="str(cyberpi.screen._running)" data-mode="1" disabled>Frage B: läuft die Zeichenfläche?</button>
+    <button data-py="vbt(&#x27;cyberpi.display.clear(); cyberpi.screen.start(); [cyberpi.screen.set_pixel(x, 64, 0xFF0000) for x in range(128)]; cyberpi.screen.render()&#x27;)" data-mode="1" disabled>Test B: Zeichenfläche starten + rote Linie</button>
+    <button data-py="vbt(&#x27;cyberpi.screen.stop()&#x27;)" data-mode="1" disabled>Zeichenfläche stoppen</button>
     <button data-py="vbt(&#x27;cyberpi.screen.disable_autorender()&#x27;)" data-mode="1" disabled>Flackern stoppen</button>
     <button data-py="vbt(&#x27;cyberpi.emotion.hello()&#x27;)" data-mode="1" disabled>Test: Gesicht hello</button>
     <button data-py="vbt(&quot;cyberpi.display.clear(); cyberpi.display.show_label(&#x27;Hallo VisuBot!&#x27;, 24, &#x27;center&#x27;)&quot;)" data-mode="1" disabled>Zurück: Hallo VisuBot!</button>
