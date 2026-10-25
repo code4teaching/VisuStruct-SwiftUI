@@ -91,6 +91,7 @@ export class MBotLink {
   private port?: SerialPortLike
   private writer?: WritableStreamDefaultWriter<Uint8Array>
   private reader?: ReadableStreamDefaultReader<Uint8Array>
+  private loop?: Promise<void>
   private rx: number[] = []
   private idx = 1
   private waiting = new Map<number, { resolve: (v: number | boolean | null) => void; reject: (e: Error) => void }>()
@@ -125,7 +126,9 @@ export class MBotLink {
     this.error = undefined
     this.connecting = true
     this.changed()
-    void this.readLoop()
+    this.loop = this.readLoop()
+    // Seite schließen oder neu laden: Anschluss freigeben
+    window.addEventListener('pagehide', () => void this.disconnect(), { once: true })
     // Das Öffnen setzt den CyberPi zurück
     await new Promise((r) => setTimeout(r, 3000))
     if (!this.writer) return
@@ -136,21 +139,40 @@ export class MBotLink {
     await this.run("cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')")
   }
 
+  /**
+   * Sauber trennen wie beim Auswerfen: Motoren anhalten, LEDs aus, Abschied auf dem Bildschirm,
+   * dann Leser und Schreiber freigeben und den Anschluss schließen. So lässt er sich ohne Neustart wieder verbinden.
+   */
   async disconnect(error?: string) {
+    if (!this.port) {
+      this.error = error
+      return this.changed()
+    }
+    if (!error && this.writer && !this.connecting) {
+      for (const code of ["mbot2.EM_stop('ALL')", 'cyberpi.led.off()', "cyberpi.display.show_label('Bis bald!', 24, 'center')"])
+        await this.send(code, RUN, 2000).catch(() => undefined)
+    }
     const port = this.port
     const writer = this.writer
     const reader = this.reader
-    this.port = this.writer = this.reader = undefined
+    const loop = this.loop
+    this.port = this.writer = this.reader = this.loop = undefined
     this.error = error
     this.connecting = false
     for (const w of this.waiting.values()) w.reject(new Error(error ?? 'getrennt'))
     this.waiting.clear()
     try {
-      writer?.releaseLock()
       await reader?.cancel()
-      await port?.close()
+      await loop
+      await writer?.close()
     } catch {
-      /* schon weg */
+      /* Leitung schon weg */
+    }
+    try {
+      writer?.releaseLock()
+      await port.close()
+    } catch (e) {
+      console.warn('[mBot2] Schließen', (e as Error).message)
     }
     this.changed()
   }
