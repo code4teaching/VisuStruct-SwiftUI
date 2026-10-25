@@ -103,6 +103,16 @@ describe.each(['de', 'en'] as const)('VisuBot im Kurs (%s)', (lang) => {
     expect(checked).toBeGreaterThanOrEqual(4)
   })
 
+  it('zeigt die mBot2-Tour als Lektion 0 vorn, mit derselben Kennung wie in der eigenen Reihe', () => {
+    expect(lessons[0].number).toBe(0)
+    expect(lessons[0].section).toBe('VisuBot')
+    const tourId = lessons[0].id
+    useVisuBotContent('series')
+    expect(lessons[0].id).toBe(tourId)
+    useVisuBotContent('course')
+    expect(lessons[1].number).toBe(1)
+  })
+
   it('Nachschlagen hat die mBot2-Kategorien, ohne VisuBot nicht', () => {
     expect(reference).toContain('## 🤖 mBot2')
     expect(reference).toContain('## 📡 mBot2')

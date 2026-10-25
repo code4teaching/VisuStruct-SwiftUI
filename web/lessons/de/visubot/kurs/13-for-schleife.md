@@ -30,4 +30,18 @@ tipp: Die Schleife läuft sechsmal. Im Inhalt: `mbot.forward(30)` und `mbot.turn
 lösung: vb-k-sechseck-loesung.visustruct
 :::
 
+## Ein Lauflicht
+
+Jede der fünf LEDs hat eine Nummer von 0 bis 4: `mbot.led(2).setColor("blau")` schaltet LED 2 blau, `mbot.led(2).setColor("aus")` wieder aus. Die Nummer darf auch die Zählvariable der Schleife sein. So wandert ein Licht von LED zu LED.
+
+::: übung vb-k-lauflicht
+titel: Lauflicht
+auftrag: Eine For-Schleife zählt `i` von 0 bis 4. Darin geht LED `i` blau an, der mBot2 wartet 200 Millisekunden, und LED `i` geht wieder aus.
+befehle: ledColor 0 "blau", pause 200, ledColor 0 "aus", ledColor 1 "blau", pause 200, ledColor 1 "aus", ledColor 2 "blau", pause 200, ledColor 2 "aus", ledColor 3 "blau", pause 200, ledColor 3 "aus", ledColor 4 "blau", pause 200, ledColor 4 "aus"
+braucht: forSchleife
+tipp: Die Schleife läuft von `i = 0` bis `i < 5`. Im Inhalt stehen drei Kästen: **LED-Farbe setzen**, **kurz warten**, **LED-Farbe setzen**.
+tipp: `mbot.led(i).setColor("blau")`, `mbot.pause(200)`, `mbot.led(i).setColor("aus")`.
+lösung: vb-java-lauflicht-loesung.visustruct
+:::
+
 Unter **Aufgaben** warten noch mehr Figuren auf den mBot2: Treppe, Dreieck, Spirale und Slalom.
