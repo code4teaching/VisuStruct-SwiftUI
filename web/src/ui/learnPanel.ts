@@ -195,6 +195,13 @@ export class LearnPanel {
     }
   }
 
+  /** Reiter „Nachschlagen“ zeigen, z. B. vom Knopf in „Programmieren“ aus. */
+  showReference() {
+    this.tab = 'reference'
+    this.persist()
+    this.render()
+  }
+
   private persist() {
     progress.setView({ tab: this.tab, lesson: this.lessonId, task: this.taskId })
   }

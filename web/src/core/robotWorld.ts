@@ -1,4 +1,4 @@
-import { MBOT_LED_COLORS, MBOT_LED_COUNT, type MBotAction, type MBotColor } from './mbot'
+import { MBOT_LED_COLORS, MBOT_LED_COUNT, type MBotAction, type MBotColor, type MBotSensorValue } from './mbot'
 
 /**
  * Die Welt des VisuBot-Simulators von oben: Boden in Zentimetern, x nach rechts, y nach vorn (weg vom Betrachter).
@@ -296,16 +296,13 @@ export class RobotWorld {
     return (this.setup.colors ?? []).find((c) => inCell(probe, c.at))?.color
   }
 
-  sensors(): Record<string, number | boolean> {
-    const color = this.colorUnder()
+  sensors(): Record<string, MBotSensorValue> {
     const line = this.lineState()
     return {
       getDistance: this.distance(),
       getLine: line,
-      isRed: color === 'red',
-      isGreen: color === 'green',
-      isBlue: color === 'blue',
-      isYellow: color === 'yellow',
+      // auf schwarzem Feld oder Klebeband schwarz, sonst heller Boden
+      getColor: this.colorUnder() ?? (line & 0b0110 ? 'black' : 'white'),
       isLineLeft: (line & 0b0100) !== 0,
       isLineRight: (line & 0b0010) !== 0,
       getTimer: this.timer,

@@ -16,7 +16,7 @@ titel: Line follower with stop
 auftrag: As long as the mBot2 is not on red, it follows the line. Then it stops. In the second world the line winds about.
 welt: linie-rot-1, linie-rot-2
 braucht: whileSchleife, verzweigung
-tipp: On the outside a while loop with `!mbot.isRed()`, after it **stop**.
+tipp: On the outside a while loop with `!mbot.getColor().equals("red")`, after it **stop**.
 tipp: Inside the loop: if `mbot.isLineLeft() && mbot.isLineRight()`, then `mbot.drive(40, 40)`. Otherwise, if `mbot.isLineLeft()`, then `mbot.drive(10, 40)`. Otherwise, if `mbot.isLineRight()`, then `mbot.drive(40, 10)`.
 lösung: vb-linienfolger-stopp-loesung.visustruct
 :::

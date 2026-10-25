@@ -6,6 +6,8 @@
  * Die Antwort trägt dieselbe Nummer und enthält `{"ret":…}`. Getestet mit Holgers mBot2 (Oktober 2026).
  */
 
+import type { MBotSensorValue } from './mbot'
+
 const HEAD = 0xf3
 const FOOT = 0xf4
 const SCRIPT = 0x28
@@ -28,8 +30,8 @@ export function pythonFrame(code: string, mode: number, idx: number): Uint8Array
 
 export interface ScriptAnswer {
   idx: number
-  /** Wert aus `{"ret":…}`: Zahl, Wahrheitswert oder `null` (Python `None`). */
-  value: number | boolean | null
+  /** Wert aus `{"ret":…}`: Zahl, Wahrheitswert, Text oder `null` (Python `None`). */
+  value: MBotSensorValue | null
 }
 
 /**
@@ -63,9 +65,12 @@ export function readAnswers(rx: number[]): ScriptAnswer[] {
   return answers
 }
 
-function pythonValue(text: string): number | boolean | null {
+function pythonValue(text: string): MBotSensorValue | null {
   if (text === 'True') return true
   if (text === 'False') return false
+  // Text, z. B. ein Farbname: "red" oder 'red'
+  const quoted = /^["'](.*)["']$/.exec(text)
+  if (quoted) return quoted[1]
   const n = Number(text)
   return text !== '' && Number.isFinite(n) ? n : null
 }
@@ -109,7 +114,7 @@ export class MBotLink {
   private loop?: Promise<void>
   private rx: number[] = []
   private idx = 1
-  private waiting = new Map<number, { resolve: (v: number | boolean | null) => void; reject: (e: Error) => void }>()
+  private waiting = new Map<number, { resolve: (v: MBotSensorValue | null) => void; reject: (e: Error) => void }>()
   private queue: Promise<unknown> = Promise.resolve()
   private listeners = new Set<() => void>()
   error?: string
@@ -198,15 +203,15 @@ export class MBotLink {
   }
 
   /** Wert eines Python-Ausdrucks, z. B. eines Sensors. */
-  ask(code: string): Promise<number | boolean | null> {
+  ask(code: string): Promise<MBotSensorValue | null> {
     return this.send(code, ASK, 3000)
   }
 
-  private send(code: string, mode: number, timeoutMs: number): Promise<number | boolean | null> {
+  private send(code: string, mode: number, timeoutMs: number): Promise<MBotSensorValue | null> {
     // Immer nur eine Zeile unterwegs: der CyberPi arbeitet sie nacheinander ab.
     const next = this.queue.then(
       () =>
-        new Promise<number | boolean | null>((resolve, reject) => {
+        new Promise<MBotSensorValue | null>((resolve, reject) => {
           if (!this.writer) return reject(new Error('nicht verbunden'))
           const idx = this.idx
           this.idx = (this.idx % 0xffff) + 1

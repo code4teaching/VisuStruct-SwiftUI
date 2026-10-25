@@ -320,7 +320,7 @@ export class Robot3D {
   }
 
   /**
-   * Jede LED einzeln (Nummer 1 bis 5). LED 1 sitzt von hinten gesehen links, auf der Seite des Joysticks
+   * Jede LED einzeln (Nummer 1 bis 5). LED 1 sitzt von hinten gesehen links, auf der Seite des Joysticks (am echten mBot2 bestätigt)
    * (Modell: kleinstes x).
    */
   setLeds(leds: readonly ([number, number, number] | undefined)[]) {

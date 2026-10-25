@@ -85,14 +85,13 @@ mbot.isLineRight()      right middle probe sees black
 
 ### Colours
 
-The quad RGB sensor at the front underneath recognises coloured fields. The answer is straight away true or false.
+The quad RGB sensor at the front underneath recognises coloured fields. `mbot.getColor()` gives the colour name as text. You compare texts with `.equals(…)`, not with `==`.
 
 ```
-mbot.isRed()            red?
-mbot.isGreen()          green?
-mbot.isBlue()           blue?
-mbot.isYellow()         yellow?
-!mbot.isRed()           not red
+mbot.getColor()                       "red", "green", "blue", "yellow",
+                                      "white" or "black"
+mbot.getColor().equals("red")         red?
+!mbot.getColor().equals("red")        not red
 ```
 
 ### Buttons and joystick

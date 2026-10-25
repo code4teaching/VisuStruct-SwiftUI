@@ -1,4 +1,4 @@
-import { MBOT_SENSORS, type MBotAction, type MBotSensorValues } from '../core/mbot'
+import { MBOT_SENSORS, mbotColorName, type MBotAction, type MBotSensorValues } from '../core/mbot'
 import { HELLO, mbotLink, showLabel } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
@@ -230,6 +230,7 @@ export class VisuBotView {
       const value = await mbotLink.ask(MBOT_SENSORS[name].python)
       // Ja/Nein-Sensoren antworten mit 0 oder 1 statt False/True (getestet am echten mBot2).
       if (typeof MBOT_SENSORS[name].simulated === 'boolean') values[name] = value === true || (typeof value === 'number' && value !== 0)
+      else if (typeof MBOT_SENSORS[name].simulated === 'string') values[name] = typeof value === 'string' ? value : String(MBOT_SENSORS[name].simulated)
       else values[name] = typeof value === 'number' ? (name === 'getDistance' ? Math.round(value) : value) : 0
     }
     this.realSensors = values
@@ -411,10 +412,8 @@ export const visuBotSensors: { key: string; text: string }[] = [
   { key: 'web_visubot_sensor_line', text: 'mbot.getLine()' },
   { key: 'web_visubot_sensor_line_left', text: 'mbot.isLineLeft()' },
   { key: 'web_visubot_sensor_line_right', text: 'mbot.isLineRight()' },
-  { key: 'web_visubot_sensor_red', text: 'mbot.isRed()' },
-  { key: 'web_visubot_sensor_green', text: 'mbot.isGreen()' },
-  { key: 'web_visubot_sensor_blue', text: 'mbot.isBlue()' },
-  { key: 'web_visubot_sensor_yellow', text: 'mbot.isYellow()' },
+  // Farbname in der Sprache der Lektionen ("rot" oder "red")
+  { key: 'web_visubot_sensor_color', get text() { return `mbot.getColor().equals("${mbotColorName('red')}")` } },
   { key: 'web_visubot_sensor_button_a', text: 'mbot.isButtonA()' },
   { key: 'web_visubot_sensor_button_b', text: 'mbot.isButtonB()' },
   { key: 'web_visubot_sensor_joy_up', text: 'mbot.isJoystickUp()' },

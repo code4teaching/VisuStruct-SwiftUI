@@ -316,10 +316,7 @@
 "web_visubot_el_wait" = "wait a moment";
 "web_visubot_el_emotion" = "show a feeling";
 "web_visubot_el_text" = "show text";
-"web_visubot_sensor_red" = "Colour red?";
-"web_visubot_sensor_green" = "Colour green?";
-"web_visubot_sensor_blue" = "Colour blue?";
-"web_visubot_sensor_yellow" = "Colour yellow?";
+"web_visubot_sensor_color" = "Colour is red?";
 "web_visubot_sensor_button_a" = "Button A pressed?";
 "web_visubot_sensor_button_b" = "Button B pressed?";
 "web_visubot_sensor_joy_up" = "Joystick up?";

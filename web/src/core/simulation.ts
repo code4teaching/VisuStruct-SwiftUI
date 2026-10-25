@@ -1981,7 +1981,8 @@ export class SimulationEngine {
   private evaluateOutputExpression(expression: string): string {
     let sum: SimValue | undefined
     let text: string | undefined
-    for (const part of splitByPlusOutsideQuotes(expression)) {
+    // `mbot.getColor()` wird zu einem Text wie "rot"
+    for (const part of splitByPlusOutsideQuotes(this.withSensors(expression))) {
       const trimmed = part.trim()
       const literal = unquotedString(trimmed)
       const value: SimValue = literal !== undefined ? { kind: 'string', value: literal } : (this.evaluateReference(trimmed) ?? this.evaluateNumeric(trimmed))
@@ -2142,7 +2143,7 @@ export class SimulationEngine {
   }
 
   private evaluateSwitchSelector(selector: string): SwitchSelector {
-    const trimmed = selector.trim()
+    const trimmed = this.withSensors(selector).trim()
     const literal = unquotedString(trimmed)
     if (literal !== undefined) return { kind: 'text', value: literal }
     const variable = this.state.variables.get(trimmed)

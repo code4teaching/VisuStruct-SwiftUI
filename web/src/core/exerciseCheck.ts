@@ -1,5 +1,5 @@
 import { ElementType, type VSDocument, type VSElement } from './model'
-import { actionSignature, driveSignature } from './mbot'
+import { actionSignature, driveSignature, type MBotSensorValue } from './mbot'
 import { ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from './robotWorld'
 import { SimulationEngine, type SimNotice, type SubprogramResolver } from './simulation'
 
@@ -18,7 +18,7 @@ export interface ExerciseTest {
    * VisuBot: Messwerte der Sensoren, z. B. `{ getLoudness: [0, 80] }`. Mehrere Werte kommen nacheinander,
    * jeder für `SENSOR_PHASE_STEPS` Schritte, der letzte bleibt (so lässt sich „warte, bis es laut ist“ prüfen).
    */
-  sensors?: Record<string, (number | boolean)[]>
+  sensors?: Record<string, MBotSensorValue[]>
   /** VisuBot: Sollen die LEDs am Ende leuchten (`true`) oder aus sein (`false`)? */
   led?: boolean
   /** VisuBot: Soll ein Ton erklingen? */
@@ -109,7 +109,7 @@ export function runWithInputs(
 }
 
 /** Messwerte im Schritt `step`: je Sensor der Wert seiner Phase, ab der letzten Phase bleibt er. */
-function sensorsAt(sensors: ExerciseTest['sensors'], step: number): Record<string, number | boolean> {
+function sensorsAt(sensors: ExerciseTest['sensors'], step: number): Record<string, MBotSensorValue> {
   const phase = Math.floor(step / SENSOR_PHASE_STEPS)
   return Object.fromEntries(Object.entries(sensors ?? {}).map(([name, values]) => [name, values[Math.min(phase, values.length - 1)]]))
 }

@@ -85,14 +85,13 @@ mbot.isLineRight()      rechter mittlerer Fühler sieht Schwarz
 
 ### Farben
 
-Der Quad-RGB-Sensor unten vorn erkennt farbige Felder. Die Antwort ist gleich wahr oder falsch.
+Der Quad-RGB-Sensor unten vorn erkennt farbige Felder. `mbot.getColor()` liefert den Farbnamen als Text. Texte vergleichst du mit `.equals(…)`, nicht mit `==`.
 
 ```
-mbot.isRed()            rot?
-mbot.isGreen()          grün?
-mbot.isBlue()           blau?
-mbot.isYellow()         gelb?
-!mbot.isRed()           nicht rot
+mbot.getColor()                       "rot", "grün", "blau", "gelb",
+                                      "weiß" oder "schwarz"
+mbot.getColor().equals("rot")         rot?
+!mbot.getColor().equals("rot")        nicht rot
 ```
 
 ### Tasten und Joystick

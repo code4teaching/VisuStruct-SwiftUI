@@ -16,7 +16,7 @@ titel: Linienfolger mit Stopp
 auftrag: Solange der mBot2 nicht auf Rot steht, folgt er der Linie. Danach hält er an. In der zweiten Welt schlängelt sich die Linie.
 welt: linie-rot-1, linie-rot-2
 braucht: whileSchleife, verzweigung
-tipp: Außen eine While-Schleife mit `!mbot.isRed()`, danach **anhalten**.
+tipp: Außen eine While-Schleife mit `!mbot.getColor().equals("rot")`, danach **anhalten**.
 tipp: In der Schleife: Sind `mbot.isLineLeft() && mbot.isLineRight()`, dann `mbot.drive(40, 40)`. Sonst, wenn `mbot.isLineLeft()`, dann `mbot.drive(10, 40)`. Sonst, wenn `mbot.isLineRight()`, dann `mbot.drive(40, 10)`.
 lösung: vb-linienfolger-stopp-loesung.visustruct
 :::

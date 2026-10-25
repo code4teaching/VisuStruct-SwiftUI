@@ -1,7 +1,7 @@
 ---
 titel: Recognising colours
 bereich: VisuBot
-kurz: The quad RGB sensor sees red, green, blue and yellow fields.
+kurz: The quad RGB sensor tells you which colour the mBot2 is standing on.
 ---
 
 ## A sensor that sees colours
@@ -13,16 +13,22 @@ view: bottom
 
 The [line sensor]{part=lineSensor} is really called a **quad RGB sensor**. “Quad” means four (four probes), “RGB” stands for red, green and blue. It shines these three colours on the floor and measures which colour comes back. That is how it recognises coloured fields.
 
-| Sensor | Text | Value |
-|---|---|---|
-| Red? | `mbot.isRed()` | `true` or `false` |
-| Green? | `mbot.isGreen()` | `true` or `false` |
-| Blue? | `mbot.isBlue()` | `true` or `false` |
-| Yellow? | `mbot.isYellow()` | `true` or `false` |
+`mbot.getColor()` gives the name of the colour under the mBot2, as **text**:
 
-These sensors don't give a number but straight away **true** or **false**. So you don't need a comparison: `mbot.isRed()` is already a complete condition.
+| Floor | `mbot.getColor()` |
+|---|---|
+| red field | `"red"` |
+| green field | `"green"` |
+| blue field | `"blue"` |
+| yellow field | `"yellow"` |
+| black field or line | `"black"` |
+| light floor | `"white"` |
 
-> With a `!` in front you turn a condition round: `!mbot.isRed()` means “**not** red”.
+You ask whether it is a certain colour with `.equals(…)`: `mbot.getColor().equals("red")` is **true** when the mBot2 stands on red, otherwise **false**. So it is already a complete condition.
+
+> In Java you always compare texts with `.equals(…)`, **not** with `==`. The `==` looks right but often doesn't work with texts.
+
+> With a `!` in front you turn a condition round: `!mbot.getColor().equals("red")` means “**not** red”.
 
 ## Drive to red in the structure chart
 
@@ -32,8 +38,8 @@ auftrag: The mBot2 drives forward as long as it is **not** on a red field. In th
 welt: farbe-1 -> forward 20
 welt: farbe-2 -> forward 50
 braucht: whileSchleife
-tipp: Drag a while loop into the structure chart and the sensor **Colour red?** onto it. Write a `!` in front of `mbot.isRed()`.
-tipp: The condition is `!mbot.isRed()`, inside the loop is **move forward**.
+tipp: Drag a while loop into the structure chart and the sensor **Colour is red?** onto it. Write a `!` in front of `mbot.getColor().equals("red")`.
+tipp: The condition is `!mbot.getColor().equals("red")`, inside the loop is **move forward**.
 lösung: vb-bis-rot-loesung.visustruct
 :::
 
@@ -48,25 +54,25 @@ auftrag: Write in Java: the mBot2 drives forward as long as it is not on blue. A
 welt: farbe-3 -> forward 30, tone
 welt: farbe-4 -> forward 30, noTone
 braucht: whileSchleife, verzweigung
-tipp: Outside is `while (!mbot.isBlue()) { … }`. Inside, first `mbot.forward();`.
-tipp: After that, still inside the loop: `if (mbot.isGreen()) { mbot.playTone(880, 200); }`.
+tipp: Outside is `while (!mbot.getColor().equals("blue")) { … }`. Inside, first `mbot.forward();`.
+tipp: After that, still inside the loop: `if (mbot.getColor().equals("green")) { mbot.playTone(880, 200); }`.
 lösung: vb-java-blau-gruen-loesung.visustruct
 :::
 
 ::: quiz
-? The mBot2 is on a red field. What is `!mbot.isRed()`?
+? The mBot2 is on a red field. What is `!mbot.getColor().equals("red")`?
 - [ ] true
 - [x] false
-> `mbot.isRed()` is true, the `!` turns it into false. So the loop stops.
-? Why don't you write `== true` after `mbot.isGreen()`?
-- [x] The sensor already gives true or false, that is already a condition.
-- [ ] Because Java doesn't know `true`.
-- [ ] Because colours are not numbers.
-> `if (mbot.isGreen() == true)` works too, but says the same thing twice.
+> `mbot.getColor().equals("red")` is true, the `!` turns it into false. So the loop stops.
+? How do you compare the colour with `"green"`?
+- [x] `mbot.getColor().equals("green")`
+- [ ] `mbot.getColor() == "green"`
+- [ ] `mbot.getColor() = "green"`
+> `mbot.getColor()` gives a text, and texts are compared with `.equals(…)`. A single `=` is an assignment, not a comparison at all.
 :::
 
 ::: checkliste
-- I know the four colour sensors. → A sensor that sees colours
+- I can ask for a colour with `mbot.getColor().equals(…)`. → A sensor that sees colours
 - I can turn a condition round with `!`. → Drive to red in the structure chart
 - I can put a branch inside a loop. → Now in Java: beep on green
 :::

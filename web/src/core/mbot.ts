@@ -92,17 +92,43 @@ export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   showText: { args: 0, text: true, python: (_, text) => showLabel(text), label: (_, text) => `Bildschirm: ${text}` },
 }
 
+/** Messwert eines Sensors: Zahl, wahr/falsch oder Text (Farbname bei `getColor()`). */
+export type MBotSensorValue = number | boolean | string
+
 interface SensorSpec {
   python: string
   /** Wert in der Simulation, wenn weder Welt noch Regler ihn liefern */
-  simulated: number | boolean
+  simulated: MBotSensorValue
 }
 
 /** Farben, die der Quad-RGB-Sensor im Simulator erkennt (Felder `r g b y` in einer Weltkarte). */
 export const MBOT_COLORS = ['red', 'green', 'blue', 'yellow'] as const
 export type MBotColor = (typeof MBOT_COLORS)[number]
 
-const colorSensor = (c: MBotColor): SensorSpec => ({ python: `mbuild.quad_rgb_sensor.is_color('${c}', 'any', 1)`, simulated: false })
+/** Farbnamen von `mbot.getColor()`: wie bei `setColor`, Deutsch oder Englisch je nach Sprache der Lektionen. */
+const COLOR_NAMES: Record<string, { de: string; en: string }> = {
+  red: { de: 'rot', en: 'red' },
+  green: { de: 'grün', en: 'green' },
+  blue: { de: 'blau', en: 'blue' },
+  yellow: { de: 'gelb', en: 'yellow' },
+  cyan: { de: 'türkis', en: 'cyan' },
+  purple: { de: 'lila', en: 'purple' },
+  white: { de: 'weiß', en: 'white' },
+  black: { de: 'schwarz', en: 'black' },
+}
+let colorLanguage: 'de' | 'en' = 'en'
+
+/** Sprache der Farbnamen, die `mbot.getColor()` liefert (Deutsch nur bei deutschen Lektionen). */
+export function setMBotColorLanguage(language: string) {
+  colorLanguage = language === 'de' ? 'de' : 'en'
+}
+
+/** `red`, `rot` oder eine Antwort des echten Sensors → Farbname in der aktuellen Sprache. */
+export function mbotColorName(color: string): string {
+  const key = color.trim().toLowerCase()
+  const entry = COLOR_NAMES[key] ?? Object.values(COLOR_NAMES).find((e) => e.de === key)
+  return entry ? entry[colorLanguage] : key
+}
 const press = (key: string): SensorSpec => ({ python: `cyberpi.controller.is_press('${key}')`, simulated: false })
 
 /**
@@ -115,10 +141,8 @@ export const MBOT_SENSORS: Record<string, SensorSpec> = {
   // die beiden mittleren Fühler (L1, R1) des Liniensensors
   isLineLeft: { python: "mbuild.quad_rgb_sensor.is_line('L1', 1)", simulated: false },
   isLineRight: { python: "mbuild.quad_rgb_sensor.is_line('R1', 1)", simulated: false },
-  isRed: colorSensor('red'),
-  isGreen: colorSensor('green'),
-  isBlue: colorSensor('blue'),
-  isYellow: colorSensor('yellow'),
+  /** Farbe unter dem mBot2 als Text: `mbot.getColor().equals("rot")` */
+  getColor: { python: "mbuild.quad_rgb_sensor.get_color_sta('L1', 1)", simulated: 'white' },
   isButtonA: press('a'),
   isButtonB: press('b'),
   isJoystickUp: press('up'),
@@ -136,7 +160,7 @@ export const MBOT_SENSORS: Record<string, SensorSpec> = {
 }
 
 /** Messwerte des Roboters nach Namen (`getDistance` → 38, `isButtonA` → true). */
-export type MBotSensorValues = Partial<Record<string, number | boolean>>
+export type MBotSensorValues = Partial<Record<string, MBotSensorValue>>
 
 /** Welche Sensoren kommen in diesem Text vor (z. B. im ganzen Diagramm)? */
 export function usedMBotSensors(text: string): string[] {
@@ -220,10 +244,12 @@ export function parseActionSpec(spec: string): string[] {
 }
 
 /** Ersetzt `mbot.getDistance()` usw. durch Zahlen, damit der Rechner sie wie Literale liest. */
-export function substituteMBotSensors(expression: string, read: (name: string) => number | boolean): string {
+export function substituteMBotSensors(expression: string, read: (name: string) => MBotSensorValue): string {
   if (!expression.includes('mbot')) return expression
   return expression.replace(/\bmbot\s*\.\s*([A-Za-z_]\w*)\s*\(\s*\)/gu, (all, name: string) => {
-    return name in MBOT_SENSORS ? String(read(name)) : all
+    if (!(name in MBOT_SENSORS)) return all
+    const value = read(name)
+    return typeof value === 'string' ? JSON.stringify(name === 'getColor' ? mbotColorName(value) : value) : String(value)
   })
 }
 
