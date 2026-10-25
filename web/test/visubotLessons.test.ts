@@ -2,8 +2,15 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { checkExercise, loopDepth, usedElementTypes } from '../src/core/exerciseCheck'
 import { ElementType } from '../src/core/model'
 import { diagram, lessons, reference, tasks, useContentLanguage, useVisuBotContent, world } from '../src/learn/content'
-import type { Block } from '../src/learn/lessonFormat'
+import type { Block, Exercise } from '../src/learn/lessonFormat'
+import { subprogramName } from '../src/core/simulation'
 import { isMBotPart, MBOT_PARTS } from '../src/core/mbot'
+
+/** Unterprogramme einer Übung (`unterprogramm:`) für Aufrufe in der Musterlösung */
+const resolver = (ex: Exercise) => {
+  const subs = ex.subprograms.map((f) => diagram(f)!)
+  return (name: string) => subs.find((s) => subprogramName(s.caption).toLowerCase() === subprogramName(name).toLowerCase())
+}
 
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
@@ -36,7 +43,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       expect(ex.hints.length).toBeGreaterThanOrEqual(2)
       const doc = diagram(ex.solution!)!
       expect(doc, `${where}: ${ex.solution}`).toBeDefined()
-      for (const o of checkExercise(doc, ex.tests, undefined, world)) expect(o.passed, `${where}: ${JSON.stringify(o.result)}`).toBe(true)
+      for (const o of checkExercise(doc, ex.tests, resolver(ex), world)) expect(o.passed, `${where}: ${JSON.stringify(o.result)}`).toBe(true)
       for (const r of ex.requires) expect(usedElementTypes(doc).has(ElementType[r as keyof typeof ElementType])).toBe(true)
       if (ex.loopDepth) expect(loopDepth(doc.elements)).toBeGreaterThanOrEqual(ex.loopDepth)
       expect(checkExercise({ caption: '', elements: [] }, ex.tests, undefined, world).every((o) => o.passed)).toBe(false)
@@ -90,7 +97,7 @@ describe.each(['de', 'en'] as const)('VisuBot im Kurs (%s)', (lang) => {
           expect(b.exercise.id.startsWith('vb-')).toBe(true)
           const doc = diagram(b.exercise.solution!)!
           expect(doc, b.exercise.solution).toBeDefined()
-          for (const o of checkExercise(doc, b.exercise.tests, undefined, world)) expect(o.passed, `${l.id}: ${JSON.stringify(o.result)}`).toBe(true)
+          for (const o of checkExercise(doc, b.exercise.tests, resolver(b.exercise), world)) expect(o.passed, `${l.id}: ${b.exercise.id} ${JSON.stringify(o.result)}`).toBe(true)
           checked++
         }
     expect(checked).toBeGreaterThanOrEqual(4)

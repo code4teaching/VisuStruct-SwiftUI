@@ -39,10 +39,16 @@ export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   turnLeft: { args: 1, defaults: [90], python: ([deg]) => `mbot2.turn(${n(-deg)})`, label: ([deg]) => `${n(deg)}° nach links drehen` },
   turnRight: { args: 1, defaults: [90], python: ([deg]) => `mbot2.turn(${n(deg)})`, label: ([deg]) => `${n(deg)}° nach rechts drehen` },
   stop: { args: 0, python: () => `mbot2.EM_stop("ALL")`, label: () => 'anhalten' },
+  /**
+   * Räder einzeln, Leistung in Prozent (−100 … 100); er fährt weiter, bis ein anderer Fahrbefehl oder `stop()` kommt.
+   * Der rechte Motor ist am mBot2 gespiegelt eingebaut, deshalb das Minus.
+   */
+  drive: { args: 2, python: ([l, r]) => `mbot2.drive_power(${n(l)}, ${n(-r)})`, label: ([l, r]) => `Räder links ${n(l)} %, rechts ${n(r)} %` },
   setLed: { args: 3, python: ([r, g, b]) => `cyberpi.led.on(${n(r)}, ${n(g)}, ${n(b)})`, label: ([r, g, b]) => `LEDs (${n(r)}, ${n(g)}, ${n(b)})` },
   ledOff: { args: 0, python: () => 'cyberpi.led.off()', label: () => 'LEDs aus' },
   playTone: { args: 2, python: ([hz, ms]) => `cyberpi.audio.play_tone(${n(hz)}, ${n(ms / 1000)})`, label: ([hz, ms]) => `Ton ${n(hz)} Hz, ${n(ms)} ms` },
   pause: { args: 1, label: ([ms]) => `${n(ms)} ms warten` },
+  resetTimer: { args: 0, python: () => 'cyberpi.timer.reset()', label: () => 'Stoppuhr auf 0' },
   showText: { args: 0, text: true, python: (_, text) => `cyberpi.display.show_label(${JSON.stringify(text)}, 24, 'center')`, label: (_, text) => `Bildschirm: ${text}` },
 }
 
@@ -66,6 +72,9 @@ const press = (key: string): SensorSpec => ({ python: `cyberpi.controller.is_pre
 export const MBOT_SENSORS: Record<string, SensorSpec> = {
   getDistance: { python: 'mbuild.ultrasonic2.get(1)', simulated: 100 },
   getLine: { python: "mbuild.quad_rgb_sensor.get_line_sta('all', 1)", simulated: 0 },
+  // die beiden mittleren Fühler (L1, R1) des Liniensensors
+  isLineLeft: { python: "mbuild.quad_rgb_sensor.is_line('L1', 1)", simulated: false },
+  isLineRight: { python: "mbuild.quad_rgb_sensor.is_line('R1', 1)", simulated: false },
   isRed: colorSensor('red'),
   isGreen: colorSensor('green'),
   isBlue: colorSensor('blue'),
@@ -81,6 +90,9 @@ export const MBOT_SENSORS: Record<string, SensorSpec> = {
   getPitch: { python: 'cyberpi.get_pitch()', simulated: 0 },
   getRoll: { python: 'cyberpi.get_roll()', simulated: 0 },
   isShaken: { python: 'cyberpi.is_shake()', simulated: false },
+  getBattery: { python: 'cyberpi.get_battery()', simulated: 100 },
+  /** Sekunden seit dem Start bzw. seit `resetTimer()` */
+  getTimer: { python: 'cyberpi.timer.get()', simulated: 0 },
 }
 
 /** Messwerte des Roboters nach Namen (`getDistance` → 38, `isButtonA` → true). */

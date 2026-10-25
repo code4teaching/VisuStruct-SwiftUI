@@ -22,6 +22,17 @@ mbot.turnRight(180)     ganz umdrehen
 
 > Bei einem Vieleck dreht sich der mBot2 insgesamt einmal ganz herum: Dreieck 3 × 120°, Quadrat 4 × 90°, Sechseck 6 × 60°.
 
+### Räder einzeln
+
+Gibt Gas, links und rechts in Prozent (−100 bis 100). Der mBot2 fährt weiter, bis ein anderer Fahrbefehl oder `mbot.stop()` kommt.
+
+```
+mbot.drive(40, 40)      geradeaus
+mbot.drive(10, 40)      Linkskurve
+mbot.drive(40, -40)     auf der Stelle rechts drehen
+mbot.stop()             anhalten
+```
+
 ### Licht, Ton und Bildschirm
 
 ```
@@ -56,6 +67,8 @@ abstand = mbot.getDistance()    Wert in einer Variable merken
 ```
 mbot.getLine() == 0     kein Schwarz, weiterfahren
 mbot.getLine() != 0     auf der Linie oder im Ziel
+mbot.isLineLeft()       linker mittlerer Fühler sieht Schwarz
+mbot.isLineRight()      rechter mittlerer Fühler sieht Schwarz
 ```
 
 ### Farben
@@ -94,6 +107,14 @@ mbot.isShaken()         wird geschüttelt?
 ```
 
 > Ohne echten mBot2 stellst du diese Werte in der Simulation unter **🎛 Sensoren ausprobieren** ein.
+
+### Stoppuhr und Akku
+
+```
+mbot.resetTimer()       Stoppuhr auf 0
+mbot.getTimer()         Sekunden seit dem Start oder resetTimer()
+mbot.getBattery()       Akku in Prozent
+```
 
 ### Echter mBot2
 

@@ -134,13 +134,19 @@ export function parseSensorTest(value: string): ExerciseTest {
   return robotExpectation({ inputs: [], expected: [], sensors }, arrow[2])
 }
 
-/** Rechte Seite von `welt: … ->` und `messwerte: … ->`: Fahrt sowie `ledOn`, `ledOff`, `tone`, `noTone`, `none` (fährt nicht). */
+/** Rechte Seite von `welt: … ->` und `messwerte: … ->`: Fahrt sowie `ledOn`, `ledOff`, `tone`, `noTone`, `none` (fährt nicht), `drives` (fährt irgendwie), `screen "Text"`. */
 function robotExpectation(test: ExerciseTest, spec: string): ExerciseTest {
   const drive: string[] = []
+  // `screen "Abstand: 42 cm"`: dieser Text steht am Ende auf dem Bildschirm (darf Kommas enthalten)
+  spec = spec.replace(/\bscreen\s+("(?:[^"\\]|\\.)*")/u, (_, text: string) => {
+    test.screen = JSON.parse(text) as string
+    return ''
+  })
   for (const token of spec.split(/\s*,\s*/).filter(Boolean)) {
     if (token === 'ledOn' || token === 'ledOff') test.led = token === 'ledOn'
     else if (token === 'tone' || token === 'noTone') test.tone = token === 'tone'
     else if (token === 'none') test.drive = []
+    else if (token === 'drives') test.drives = true
     else drive.push(token)
   }
   if (drive.length) test.drive = driveSignature(parseDriveSpec(drive.join(', ')))

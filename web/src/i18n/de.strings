@@ -329,6 +329,13 @@
 "web_visubot_sensor_pitch" = "Neigung vorn/hinten";
 "web_visubot_sensor_roll" = "Neigung seitlich";
 "web_visubot_sensor_shake" = "geschüttelt?";
+"web_visubot_el_drive" = "Räder einzeln";
+"web_visubot_el_stop" = "anhalten";
+"web_visubot_el_timer" = "Stoppuhr auf 0";
+"web_visubot_sensor_line_left" = "Linie links?";
+"web_visubot_sensor_line_right" = "Linie rechts?";
+"web_visubot_sensor_timer" = "Stoppuhr (s)";
+"web_visubot_sensor_battery" = "Akku (%)";
 "web_visubot_actions" = "Befehle";
 "web_visubot_led_on" = "LEDs an";
 "web_visubot_led_off" = "LEDs aus";

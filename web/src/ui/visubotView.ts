@@ -1,7 +1,7 @@
 import { MBOT_SENSORS, type MBotAction, type MBotSensorValues } from '../core/mbot'
 import { mbotLink } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
-import { emptyWorld, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
+import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
 import { t } from './i18n'
 import type { VisuBotMode } from '../learn/content'
@@ -212,6 +212,10 @@ export class VisuBotView {
       this.view?.setLed(this.world.led)
       this.view?.setScreen(this.world.screen)
     }
+    // Mit `mbot.drive` fährt er auch ohne neuen Befehl weiter
+    const moving = this.world.wheels.some((p) => p !== 0)
+    this.world.tick(ROBOT_STEP_MS)
+    if (moving) this.view?.moveTo(this.world.pose, this.world.trail, ms)
     this.updateStatus()
   }
 
@@ -310,17 +314,22 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_backward', type: ElementType.anweisung, make: statement('mbot.backward()') },
   { key: 'web_visubot_el_right', type: ElementType.anweisung, make: statement('mbot.turnRight()') },
   { key: 'web_visubot_el_left', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
+  { key: 'web_visubot_el_drive', type: ElementType.anweisung, make: statement('mbot.drive(30, 30)') },
+  { key: 'web_visubot_el_stop', type: ElementType.anweisung, make: statement('mbot.stop()') },
   { key: 'web_visubot_el_led', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
   { key: 'web_visubot_el_led_off', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
   { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
   { key: 'web_visubot_el_wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
   { key: 'web_visubot_el_text', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
+  { key: 'web_visubot_el_timer', type: ElementType.anweisung, make: statement('mbot.resetTimer()') },
 ]
 
 /** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
 export const visuBotSensors: { key: string; text: string }[] = [
   { key: 'web_visubot_sensor_distance', text: 'mbot.getDistance()' },
   { key: 'web_visubot_sensor_line', text: 'mbot.getLine()' },
+  { key: 'web_visubot_sensor_line_left', text: 'mbot.isLineLeft()' },
+  { key: 'web_visubot_sensor_line_right', text: 'mbot.isLineRight()' },
   { key: 'web_visubot_sensor_red', text: 'mbot.isRed()' },
   { key: 'web_visubot_sensor_green', text: 'mbot.isGreen()' },
   { key: 'web_visubot_sensor_blue', text: 'mbot.isBlue()' },
@@ -336,4 +345,6 @@ export const visuBotSensors: { key: string; text: string }[] = [
   { key: 'web_visubot_sensor_pitch', text: 'mbot.getPitch()' },
   { key: 'web_visubot_sensor_roll', text: 'mbot.getRoll()' },
   { key: 'web_visubot_sensor_shake', text: 'mbot.isShaken()' },
+  { key: 'web_visubot_sensor_timer', text: 'mbot.getTimer()' },
+  { key: 'web_visubot_sensor_battery', text: 'mbot.getBattery()' },
 ]

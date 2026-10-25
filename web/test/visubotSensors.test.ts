@@ -74,3 +74,46 @@ describe('mBot2-Sensoren', () => {
     expect(() => parseActionSpec('setLed 1 2')).toThrow()
   })
 })
+
+describe('mBot2-Motoren mit Geschwindigkeit', () => {
+  it('fährt mit drive weiter, bis stop kommt, und lenkt mit verschiedenen Rädern', () => {
+    const world = new RobotWorld()
+    world.apply({ method: 'drive', args: [50, 50], label: '' })
+    world.tick(1000)
+    expect(world.pose.y).toBeCloseTo(10)
+    world.apply({ method: 'stop', args: [], label: '' })
+    world.tick(1000)
+    expect(world.pose.y).toBeCloseTo(10)
+    world.apply({ method: 'drive', args: [10, 40], label: '' })
+    world.tick(500)
+    expect(world.pose.heading).toBeGreaterThan(180) // nach links gedreht
+    expect(world.timer).toBe(2.5)
+    world.apply({ method: 'resetTimer', args: [], label: '' })
+    expect(world.timer).toBe(0)
+  })
+
+  it('bleibt vor einer Wand stehen und zählt das Anstoßen einmal', () => {
+    const world = new RobotWorld(parseWorldMap('###\n...\n.^.'))
+    world.apply({ method: 'drive', args: [100, 100], label: '' })
+    world.tick(3000)
+    expect(world.bumps).toBe(1)
+    expect(world.distance()).toBeLessThan(2)
+  })
+
+  it('liest Linien aus der Weltkarte und meldet die mittleren Fühler', () => {
+    const setup = parseWorldMap('.....\n.....\n..^..\nlinie: 2,2 2,0')
+    expect(setup.lines).toHaveLength(1)
+    const sensors = new RobotWorld(setup).sensors()
+    expect(sensors.isLineLeft).toBe(true)
+    expect(sensors.isLineRight).toBe(true)
+  })
+
+  it('prüft Bildschirmtext und ob er überhaupt fährt', () => {
+    const test = parseSensorTest('getBattery=15 -> drives, screen "Akku: 15 %, leer"')
+    expect(test.screen).toBe('Akku: 15 %, leer')
+    expect(test.drives).toBe(true)
+    const doc = docOf(main('    mbot.showText("Akku: " + mbot.getBattery() + " %, leer");\n    mbot.forward();'))
+    expect(checkExercise(doc, [test])[0].passed).toBe(true)
+    expect(checkExercise(docOf(main('    mbot.showText("Akku");')), [test])[0].passed).toBe(false)
+  })
+})

@@ -57,6 +57,9 @@
     <button data-py="mbot2.straight(-10)" disabled>10 cm rückwärts</button>
     <button data-py="mbot2.turn(90)" disabled>90° drehen</button>
     <button data-py="mbot2.EM_stop('ALL')" disabled>Stopp</button>
+    <button data-py="mbot2.drive_power(30, -30)" disabled>Räder einzeln: geradeaus 30 %</button>
+    <button data-py="mbot2.drive_power(10, -40)" disabled>Räder einzeln: Linkskurve</button>
+    <button data-py="mbot2.drive_power(30, 30)" disabled>Räder einzeln: auf der Stelle</button>
   </section>
 
   <section>
@@ -72,6 +75,11 @@
     <button data-py="cyberpi.is_shake()" data-mode="1" disabled>Geschüttelt?</button>
     <button data-py="mbuild.quad_rgb_sensor.is_color('red', 'any', 1)" data-mode="1" disabled>Rot?</button>
     <button data-py="mbuild.quad_rgb_sensor.is_color('green', 'any', 1)" data-mode="1" disabled>Grün?</button>
+    <button data-py="mbuild.quad_rgb_sensor.is_line('L1', 1)" data-mode="1" disabled>Linie links (L1)?</button>
+    <button data-py="mbuild.quad_rgb_sensor.is_line('R1', 1)" data-mode="1" disabled>Linie rechts (R1)?</button>
+    <button data-py="cyberpi.timer.reset()" disabled>Stoppuhr auf 0</button>
+    <button data-py="cyberpi.timer.get()" data-mode="1" disabled>Stoppuhr (s)</button>
+    <button data-py="cyberpi.get_battery()" data-mode="1" disabled>Akku (%)</button>
   </section>
 
   <section>

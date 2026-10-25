@@ -700,6 +700,8 @@ export class LearnPanel {
         const tone = (on: boolean | undefined) => t(on ? 'web_visubot_tone_yes' : 'web_visubot_tone_no')
         detail.append(h('span', {}, `🔊 ${t('web_learn_expected')}: ${tone(o.test.tone)} · ${t('web_learn_actual')}: ${tone(o.result.tone)}`))
       }
+      if (o.test.screen !== undefined)
+        detail.append(h('span', {}, `📺 ${t('web_learn_expected')}: `, h('code', {}, o.test.screen), ` · ${t('web_learn_actual')}: `, h('code', {}, o.result.screen ?? '–')))
       if (o.test.world) {
         if (world(o.test.world)?.goals?.length || world(o.test.world)?.targets?.length)
           detail.append(h('span', {}, o.result.atGoal ? `✓ ${t('web_visubot_goal_reached')}` : `✗ ${t('web_visubot_goal_missed')}`))
