@@ -1,3 +1,5 @@
+import { showLabel } from './mbotLink'
+
 /**
  * mBot2 (Makeblock, mit CyberPi) im Struktogramm. Befehle stehen als Anweisung `mbot.forward(10)`,
  * Sensoren als Ausdruck `mbot.getDistance()`. Die Simulation merkt sich jeden Befehl als `MBotAction`;
@@ -58,7 +60,7 @@ export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   pause: { args: 1, label: ([ms]) => `${n(ms)} ms warten` },
   resetTimer: { args: 0, python: () => 'cyberpi.timer.reset()', label: () => 'Stoppuhr auf 0' },
   emotion: { args: 0, text: true, choices: MBOT_EMOTIONS, python: (_, name) => `cyberpi.emotion.${name}()`, label: (_, name) => `Gefühl: ${name}` },
-  showText: { args: 0, text: true, python: (_, text) => `cyberpi.display.show_label(${JSON.stringify(text)}, 24, 'center')`, label: (_, text) => `Bildschirm: ${text}` },
+  showText: { args: 0, text: true, python: (_, text) => showLabel(text), label: (_, text) => `Bildschirm: ${text}` },
 }
 
 interface SensorSpec {

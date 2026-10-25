@@ -1,5 +1,5 @@
 import { MBOT_SENSORS, type MBotAction, type MBotSensorValues } from '../core/mbot'
-import { HELLO, mbotLink } from '../core/mbotLink'
+import { HELLO, mbotLink, showLabel } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
@@ -352,7 +352,7 @@ function checkHTML(): string {
     <div class="visubot-presses">
       ${act('cyberpi.led.on(255, 0, 0)', 'web_visubot_el_led')}${act('cyberpi.led.off()', 'web_visubot_el_led_off')}
       ${act('cyberpi.audio.play_tone(440, 0.3)', 'web_visubot_el_tone')}
-      ${act("cyberpi.display.show_label('Test', 24, 'center')", 'web_visubot_el_text', HELLO, 2000)}
+      ${act(showLabel('Test'), 'web_visubot_el_text', HELLO, 2000)}
       ${act('cyberpi.emotion.smile()', 'web_visubot_el_emotion')}
       ${act('mbot2.drive_power(30, -30)', 'web_visubot_check_forward', stop)}${act('mbot2.drive_power(30, 30)', 'web_visubot_check_spin', stop)}
     </div>

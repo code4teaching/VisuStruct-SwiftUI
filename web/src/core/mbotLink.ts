@@ -86,9 +86,17 @@ const serial = (): SerialLike | undefined => (typeof navigator === 'undefined' ?
 /** Kann dieser Browser einen mBot2 über USB ansprechen? */
 export const canConnectMBot = () => serial() !== undefined
 
-/** Eine Verbindung für die ganze Seite (bleibt beim Neuaufbau der Oberfläche erhalten). */
-/** Begrüßung auf dem Bildschirm nach dem Verbinden (und nach „mBot2 testen“ → Text) */
-export const HELLO = "cyberpi.display.show_label('Hallo VisuBot!', 24, 'center')"
+/** Bildschirm leeren und Text in der Mitte zeigen. Als Tupel ist es eine Zeile (der CyberPi nimmt nur eine). */
+export const showLabel = (text: string, size = 24) => `(cyberpi.display.clear(), cyberpi.display.show_label(${JSON.stringify(text)}, ${size}, 'center'))`
+
+/**
+ * Logo nach dem Verbinden (und nach „mBot2 testen“ → Text): „Visu“ weiß, „Bot“ im Logo-Blau.
+ * Zwei Schriftfelder (index 0 und 1), sonst ersetzt das zweite das erste. Am echten mBot2 getestet (Oktober 2026).
+ * Grafik (screen.set_pixel, Sprite) zeigt über USB nichts oder lässt den CyberPi neu starten.
+ */
+export const HELLO =
+  "(cyberpi.display.clear(), cyberpi.display.set_brush(255, 255, 255), cyberpi.display.show_label('Visu', 32, 8, 44, index=0), " +
+  "cyberpi.display.set_brush(52, 120, 229), cyberpi.display.show_label('Bot', 32, 72, 44, index=1))"
 
 export class MBotLink {
   private port?: SerialPortLike
@@ -152,7 +160,7 @@ export class MBotLink {
       return this.changed()
     }
     if (!error && this.writer && !this.connecting) {
-      for (const code of ["mbot2.EM_stop('ALL')", 'cyberpi.led.off()', "cyberpi.display.show_label('Bis bald!', 24, 'center')"])
+      for (const code of ["mbot2.EM_stop('ALL')", 'cyberpi.led.off()', showLabel('Bis bald!')])
         await this.send(code, RUN, 2000).catch(() => undefined)
     }
     const port = this.port
@@ -244,4 +252,5 @@ export class MBotLink {
   }
 }
 
+/** Eine Verbindung für die ganze Seite (bleibt beim Neuaufbau der Oberfläche erhalten). */
 export const mbotLink = new MBotLink()
