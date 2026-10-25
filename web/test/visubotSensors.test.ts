@@ -65,7 +65,7 @@ describe('mBot2-Sensoren', () => {
   it('zeigt Text mit Zahlen und Sensorwerten auf dem Bildschirm', () => {
     const state = run(main('    int i = 3;\n    mbot.showText("Abstand: " + mbot.getDistance());\n    mbot.showText(i);'), { getDistance: 42 })
     expect(state.robotActions.map((a) => a.text)).toEqual(['Abstand: 42', '3'])
-    expect(state.robotActions[0].python).toBe(`(cyberpi.display.clear(), cyberpi.display.show_label("Abstand: 42", 24, 'center'))`)
+    expect(state.robotActions[0].python).toBe(`exec("cyberpi.display.clear(); cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label(\\"Abstand: 42\\", 24, 'center')")`)
     expect(actionSignature(state.robotActions)).toEqual(['showText "Abstand: 42"', 'showText "3"'])
   })
 

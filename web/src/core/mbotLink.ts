@@ -86,18 +86,28 @@ const serial = (): SerialLike | undefined => (typeof navigator === 'undefined' ?
 /** Kann dieser Browser einen mBot2 über USB ansprechen? */
 export const canConnectMBot = () => serial() !== undefined
 
-/** Bildschirm leeren und Text in der Mitte zeigen. Als Tupel ist es eine Zeile (der CyberPi nimmt nur eine). */
-export const showLabel = (text: string, size = 24) => `(cyberpi.display.clear(), cyberpi.display.show_label(${JSON.stringify(text)}, ${size}, 'center'))`
+/** Mehrere Python-Anweisungen als eine Zeile (der CyberPi nimmt nur eine). JSON-Strings sind auch gültige Python-Strings. */
+export const pyLines = (...lines: string[]) => `exec(${JSON.stringify(lines.join('; '))})`
+
+/**
+ * Bildschirm leeren und Text weiß in der Mitte zeigen. Die Pinselfarbe bleibt sonst vom letzten Text stehen
+ * (nach dem Logo wurde „Bis bald!“ rot). Als Tupel statt exec kamen die Farben durcheinander.
+ */
+export const showLabel = (text: string, size = 24) =>
+  pyLines('cyberpi.display.clear()', 'cyberpi.display.set_brush(255, 255, 255)', `cyberpi.display.show_label(${JSON.stringify(text)}, ${size}, 'center')`)
 
 /**
  * Logo nach dem Verbinden (und nach „mBot2 testen“ → Text): „Visu“ weiß, „Bot“ im Logo-Blau.
- * Zwei Schriftfelder (index 0 und 1), sonst ersetzt das zweite das erste. Als Tupel wurde „Visu“ rosa statt weiß,
- * deshalb nacheinander mit exec. Am echten mBot2 getestet (Oktober 2026).
+ * Zwei Schriftfelder (index 0 und 1), sonst ersetzt das zweite das erste. Am echten mBot2 getestet (Oktober 2026).
  * Grafik (screen.set_pixel, Sprite) zeigt über USB nichts oder lässt den CyberPi neu starten.
  */
-export const HELLO =
-  `exec("cyberpi.display.clear(); cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label('Visu', 32, 8, 44, index=0); ` +
-  `cyberpi.display.set_brush(52, 120, 229); cyberpi.display.show_label('Bot', 32, 72, 44, index=1)")`
+export const HELLO = pyLines(
+  'cyberpi.display.clear()',
+  'cyberpi.display.set_brush(255, 255, 255)',
+  "cyberpi.display.show_label('Visu', 32, 8, 44, index=0)",
+  'cyberpi.display.set_brush(52, 120, 229)',
+  "cyberpi.display.show_label('Bot', 32, 72, 44, index=1)",
+)
 
 export class MBotLink {
   private port?: SerialPortLike
