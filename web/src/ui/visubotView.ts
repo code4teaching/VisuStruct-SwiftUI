@@ -173,7 +173,9 @@ export class VisuBotView {
     const values: MBotSensorValues = {}
     for (const name of new Set(['getDistance', 'getLine', ...used])) {
       const value = await mbotLink.ask(MBOT_SENSORS[name].python)
-      values[name] = typeof value === 'number' ? (name === 'getDistance' ? Math.round(value) : value) : value === true
+      // Ja/Nein-Sensoren antworten mit 0 oder 1 statt False/True (getestet am echten mBot2).
+      if (typeof MBOT_SENSORS[name].simulated === 'boolean') values[name] = value === true || (typeof value === 'number' && value !== 0)
+      else values[name] = typeof value === 'number' ? (name === 'getDistance' ? Math.round(value) : value) : 0
     }
     this.realSensors = values
     engine.robotSensors = { ...this.controls, ...this.world.sensors(), ...values }
