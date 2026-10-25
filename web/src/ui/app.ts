@@ -393,7 +393,8 @@ export class App {
     window.addEventListener('pointercancel', () => this.endDrag())
     window.addEventListener('keydown', (e) => this.onKeyDown(e))
     window.addEventListener('beforeunload', (e) => {
-      if (this.tabs.some((t) => t.dirty && !t.exerciseId)) e.preventDefault()
+      // Ohne geöffneten Ordner geht der Lernstand beim Schließen verloren: der Browser merkt ihn sich nicht.
+      if (this.tabs.some((t) => t.dirty && !t.exerciseId) || (!this.files.ready && progress.hasContent())) e.preventDefault()
     })
     this.setupFileDrop()
     // Nicht jede Vorschau mit `window.claude` kennt `use` (z. B. die Dateiansicht der Claude-App): dann ohne.
@@ -1614,19 +1615,24 @@ export class App {
       item.setAttribute('aria-selected', String(i === this.tabIndex))
       const label = document.createElement('button')
       label.className = 'tab-label'
-      label.textContent = (tab.dirty ? '• ' : '') + tabTitle(tab)
+      label.textContent = tabTitle(tab)
       label.title = tab.fileName ?? tabTitle(tab)
       label.addEventListener('click', () => this.switchTab(i))
       item.append(label)
+      // Wie bei VS Code: ungespeichert zeigt rechts einen Punkt, beim Darüberfahren wird er zum ✕.
+      const unsaved = tab.dirty && !tab.exerciseId
       if (this.tabs.length > 1) {
         const close = document.createElement('button')
-        close.className = 'tab-close'
-        close.textContent = '✕'
+        close.className = 'tab-close' + (unsaved ? ' unsaved' : '')
+        close.innerHTML = '<span class="tab-x">✕</span><span class="tab-dot" aria-hidden="true">●</span>'
         close.title = t('a11y_close_tab')
         close.setAttribute('aria-label', `${t('a11y_close_tab')}: ${tabTitle(tab)}`)
         close.addEventListener('click', () => this.closeTab(i))
         item.append(close)
+      } else if (unsaved) {
+        item.append(Object.assign(document.createElement('span'), { className: 'tab-close unsaved', innerHTML: '<span class="tab-dot">●</span>' }))
       }
+      if (unsaved) label.setAttribute('aria-label', `${tabTitle(tab)} (${t('web_status_modified')})`)
       strip.append(item)
     })
     const add = document.createElement('button')

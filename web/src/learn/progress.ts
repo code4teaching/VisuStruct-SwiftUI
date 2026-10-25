@@ -151,6 +151,10 @@ export const progress = {
   view() {
     return store.view
   },
+  /** Schon etwas gelernt oder geübt (z. B. für die Warnung beim Schließen ohne Ordner)? */
+  hasContent(): boolean {
+    return Object.values(store.lessons).some((l) => l.step > 0 || l.done || l.checks || l.quiz) || Object.keys(store.exercises).length > 0
+  },
   setView(view: Store['view']) {
     store.view = view
     save()

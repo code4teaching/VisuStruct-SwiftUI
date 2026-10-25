@@ -1018,6 +1018,24 @@ button.primary {
 .tab-close:hover {
   color: var(--text);
 }
+.tab-dot,
+.tab-close.unsaved .tab-x {
+  display: none;
+}
+.tab-close.unsaved .tab-dot {
+  display: inline;
+  color: var(--text);
+  font-size: 10px;
+}
+.tab-close.unsaved:hover .tab-dot {
+  display: none;
+}
+button.tab-close.unsaved:hover .tab-x {
+  display: inline;
+}
+span.tab-close {
+  padding: 2px 10px 2px 4px;
+}
 .tab-add {
   min-height: 28px;
   padding: 2px 10px;
