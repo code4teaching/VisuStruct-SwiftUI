@@ -1,6 +1,6 @@
 import { ElementType, type VSDocument, type VSElement } from './model'
 import { actionSignature, driveSignature } from './mbot'
-import { RobotWorld, type RobotWorldSetup } from './robotWorld'
+import { ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from './robotWorld'
 import { SimulationEngine, type SimNotice, type SubprogramResolver } from './simulation'
 
 /** Automatische Prüfung einer Übung: Diagramm mit festen Eingaben simulieren und die Ausgabe vergleichen. */
@@ -23,6 +23,10 @@ export interface ExerciseTest {
   led?: boolean
   /** VisuBot: Soll ein Ton erklingen? */
   tone?: boolean
+  /** VisuBot: Fährt er überhaupt (egal wie weit)? */
+  drives?: boolean
+  /** VisuBot: Text, der am Ende auf dem Bildschirm steht (`mbot.showText`). */
+  screen?: string
   /** VisuBot: genau diese Befehle für LEDs, Ton, Pausen und Bildschirm (`actionSignature`, ohne Fahren). */
   actions?: string[]
 }
@@ -42,6 +46,7 @@ export interface RunResult {
   /** VisuBot: Leuchten die LEDs am Ende, kam ein Ton? */
   led?: boolean
   tone?: boolean
+  screen?: string
   /** VisuBot: Befehle ohne Fahren (`actionSignature`). */
   actions?: string[]
   /** Fehler der Simulation (z. B. unbekannte Variable). */
@@ -57,7 +62,7 @@ export interface RunResult {
 export const maxCheckSteps = 100_000
 
 /** Fahrbefehle; alle anderen (LEDs, Ton, Pause, Bildschirm) prüft `ExerciseTest.actions`. */
-const DRIVING = new Set(['forward', 'backward', 'turnLeft', 'turnRight', 'stop'])
+const DRIVING = new Set(['forward', 'backward', 'turnLeft', 'turnRight', 'stop', 'drive'])
 
 export function runWithInputs(
   doc: VSDocument,
@@ -74,6 +79,8 @@ export function runWithInputs(
   for (let i = 0; i < maxCheckSteps; i++) {
     const { state } = engine
     for (; applied < state.robotActions.length; applied++) robot.apply(state.robotActions[applied])
+    // jeder Schritt dauert etwas; mit `mbot.drive` fährt der Roboter dabei weiter
+    if (i > 0) robot.tick(ROBOT_STEP_MS)
     engine.robotSensors = { ...robot.sensors(), ...sensorsAt(sensors, i) }
     const done = () => ({
       outputs: [...state.outputLines],
@@ -82,6 +89,7 @@ export function runWithInputs(
       ...(world ? { atGoal: robot.atGoal(), bumps: robot.bumps } : {}),
       led: robot.led !== undefined && robot.led.some((c) => c > 0),
       tone: state.robotActions.some((a) => a.method === 'playTone'),
+      screen: robot.screen,
       actions: actionSignature(state.robotActions.filter((a) => !DRIVING.has(a.method))),
     })
     if (state.inputRequest) {
@@ -146,6 +154,8 @@ export function checkExercise(
     const robotRight =
       (test.led === undefined || result.led === test.led) &&
       (test.tone === undefined || result.tone === test.tone) &&
+      (test.screen === undefined || result.screen === test.screen) &&
+      (test.drives === undefined || (result.drive?.length ?? 0) > 0 === test.drives) &&
       (!test.actions || sameOutput(result.actions ?? [], test.actions))
     const passed =
       !result.error &&

@@ -49,11 +49,14 @@ export const CELL = 10
  * `r g b y` rotes, grünes, blaues, gelbes Feld,
  * `^ > v <` Start mit Blickrichtung, sonst freier Boden.
  * Zeilen mit `//` am Anfang sind Kommentare. Um die Karte kommt automatisch der Rahmen.
+ * Eine Zeile `linie: 2,8 2,2 7,2` legt eine schwarze Klebeband-Linie durch die Mitten dieser Felder (Spalte,Zeile ab 0, Kommazahlen erlaubt).
  * Eine Zeile `raster: 3` vorweg macht aus jedem Zeichen 3 × 3 Felder (30 cm wie ein Kara-Feld, so breit wie der mBot2);
  * der Start liegt dann in der Mitte seines großen Feldes.
  */
 export function parseWorldMap(text: string): RobotWorldSetup {
   let rows = text.replace(/\r/g, '').split('\n').filter((l) => !l.startsWith('//'))
+  const lineSpecs = rows.filter((l) => /^linie:/.test(l)).map((l) => l.slice(6).trim())
+  rows = rows.filter((l) => !/^linie:/.test(l))
   const rasterLine = rows.findIndex((l) => /^raster:\s*\d+\s*$/.test(l))
   if (rasterLine >= 0) {
     const n = Number(rows[rasterLine].split(':')[1])
@@ -88,6 +91,15 @@ export function parseWorldMap(text: string): RobotWorldSetup {
       }
     })
   })
+  for (const spec of lineSpecs) {
+    setup.lines.push(
+      spec.split(/\s+/).map((pair) => {
+        const [c, r] = pair.split(',').map(Number)
+        if (!Number.isFinite(c) || !Number.isFinite(r)) throw new Error(`Linie: „${pair}“ ist kein Feld (Spalte,Zeile).`)
+        return center(c, r)
+      }),
+    )
+  }
   if (starts !== 1) throw new Error(`Die Weltkarte braucht genau einen Start (^ > v <), gefunden: ${starts}`)
   return setup
 }
@@ -106,6 +118,12 @@ export const SONAR_MAX = 300
 const LINE_OFFSET = 8
 const LINE_PROBES = [-3.6, -1.2, 1.2, 3.6]
 export const LINE_WIDTH = 2.5
+/** `mbot.drive(100, 100)` fährt so viele cm pro Sekunde (im Simulator). */
+export const MAX_SPEED = 20
+/** Abstand der beiden Räder in cm (zum Drehen mit `mbot.drive`). */
+const WHEEL_BASE = 12
+/** So viel Zeit vergeht im Simulator bei jedem Schritt des Programms (ms). */
+export const ROBOT_STEP_MS = 100
 
 export const emptyWorld: RobotWorldSetup = { width: 200, depth: 200, start: { x: 0, y: 0, heading: 0 }, walls: [], lines: [] }
 
@@ -121,6 +139,13 @@ export class RobotWorld {
   led: [number, number, number] | undefined
   /** Text auf dem Bildschirm des CyberPi (`mbot.showText`). */
   screen: string | undefined
+  /** Leistung der Räder in Prozent (`mbot.drive`); der Roboter fährt damit in `tick` weiter. */
+  wheels: [number, number] = [0, 0]
+  /** Zeit seit dem Start in ms und Stand beim letzten `resetTimer()` */
+  time = 0
+  private timerStart = 0
+  /** Steht er gerade an einer Wand an (zählt `bumps` nur einmal pro Anstoßen)? */
+  private blocked = false
 
   constructor(readonly setup: RobotWorldSetup = emptyWorld) {
     this.pose = { ...setup.start }
@@ -133,6 +158,10 @@ export class RobotWorld {
     this.bumps = 0
     this.led = undefined
     this.screen = undefined
+    this.wheels = [0, 0]
+    this.time = 0
+    this.timerStart = 0
+    this.blocked = false
   }
 
   /** Alle Wände einschließlich Rand des Bodens. */
@@ -164,14 +193,54 @@ export class RobotWorld {
 
   apply(action: MBotAction) {
     switch (action.method) {
-      case 'forward': return this.drive(action.args[0])
-      case 'backward': return this.drive(-action.args[0])
-      case 'turnRight': return this.turn(action.args[0])
-      case 'turnLeft': return this.turn(-action.args[0])
+      case 'forward': this.wheels = [0, 0]; return this.drive(action.args[0])
+      case 'backward': this.wheels = [0, 0]; return this.drive(-action.args[0])
+      case 'turnRight': this.wheels = [0, 0]; return this.turn(action.args[0])
+      case 'turnLeft': this.wheels = [0, 0]; return this.turn(-action.args[0])
+      case 'stop': this.wheels = [0, 0]; return
+      case 'drive': this.wheels = [clampPower(action.args[0]), clampPower(action.args[1])]; return
+      case 'pause': return this.tick(action.args[0])
+      case 'resetTimer': this.timerStart = this.time; return
       case 'setLed': this.led = [action.args[0], action.args[1], action.args[2]]; return
       case 'ledOff': this.led = undefined; return
       case 'showText': this.screen = action.text; return
     }
+  }
+
+  /**
+   * Zeit vergeht: Mit `mbot.drive` gestartete Räder bewegen den Roboter weiter (Kurve, wenn sie verschieden schnell sind).
+   * Vor einer Wand bleibt er stehen und zählt einmal als angestoßen.
+   */
+  tick(ms: number) {
+    if (ms <= 0) return
+    this.time += ms
+    const [l, r] = this.wheels.map((p) => (p / 100) * MAX_SPEED)
+    if (l === 0 && r === 0) return
+    const parts = Math.ceil(ms / 10)
+    const dt = ms / 1000 / parts
+    let moved = false
+    for (let i = 0; i < parts; i++) {
+      const v = ((l + r) / 2) * dt
+      // rechts schneller → Linkskurve, also kleinerer Kurs
+      this.pose = { ...this.pose, heading: normalizeHeading(this.pose.heading - (((r - l) / WHEEL_BASE) * dt * 180) / Math.PI) }
+      if (Math.abs(v) < 1e-9) continue
+      const dir = forwardOf(this.pose.heading)
+      const sign = Math.sign(v)
+      const free = this.freeDistance(this.pose, { x: dir.x * sign, y: dir.y * sign }) - ROBOT_RADIUS
+      const step = Math.min(Math.abs(v), Math.max(0, free))
+      if (step < Math.abs(v) - 1e-9) {
+        if (!this.blocked) this.bumps += 1
+        this.blocked = true
+      } else this.blocked = false
+      this.pose = { ...this.pose, x: this.pose.x + dir.x * sign * step, y: this.pose.y + dir.y * sign * step }
+      moved = true
+    }
+    if (moved) this.trail.push({ x: this.pose.x, y: this.pose.y })
+  }
+
+  /** Stoppuhr in Sekunden (eine Nachkommastelle), wie `cyberpi.timer.get()` */
+  get timer(): number {
+    return Math.round((this.time - this.timerStart) / 100) / 10
   }
 
   turn(degrees: number) {
@@ -222,13 +291,17 @@ export class RobotWorld {
 
   sensors(): Record<string, number | boolean> {
     const color = this.colorUnder()
+    const line = this.lineState()
     return {
       getDistance: this.distance(),
-      getLine: this.lineState(),
+      getLine: line,
       isRed: color === 'red',
       isGreen: color === 'green',
       isBlue: color === 'blue',
       isYellow: color === 'yellow',
+      isLineLeft: (line & 0b0100) !== 0,
+      isLineRight: (line & 0b0010) !== 0,
+      getTimer: this.timer,
     }
   }
 
@@ -242,6 +315,8 @@ export class RobotWorld {
     return best
   }
 }
+
+const clampPower = (p: number) => Math.max(-100, Math.min(100, p))
 
 export function normalizeHeading(deg: number): number {
   const h = ((deg % 360) + 360) % 360

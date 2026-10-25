@@ -1,6 +1,7 @@
 ---
 titel: Das Labyrinth
 nach: 4
+kurs: 11
 stufe: 2
 ---
 

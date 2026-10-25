@@ -1,7 +1,7 @@
 import { MBOT_SENSORS, type MBotAction, type MBotSensorValues } from '../core/mbot'
-import { mbotLink } from '../core/mbotLink'
+import { HELLO, mbotLink } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
-import { emptyWorld, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
+import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
 import { t } from './i18n'
 import type { VisuBotMode } from '../learn/content'
@@ -32,6 +32,19 @@ export function setVisuBotMode(mode: VisuBotMode) {
   }
 }
 
+/** Kopfzeile im VisuBot-Modus: der kleine Roboter aus dem VisuBot-Logo und „Visu“ + blaues „Bot“. */
+export const visuBotBrand = `<svg class="visubot-logo" viewBox="52 94 132 106" aria-hidden="true" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="57" y="140" width="21" height="48" rx="10.5" fill="currentColor"/>
+  <rect x="157" y="140" width="21" height="48" rx="10.5" fill="currentColor"/>
+  <path d="M87 122h60a11 11 0 0 1 11 11v36a11 11 0 0 1-11 11H87a11 11 0 0 1-11-11v-36a11 11 0 0 1 11-11z" fill="var(--panel)" stroke="currentColor" stroke-width="6"/>
+  <path d="M80 133h76" stroke="var(--accent)" stroke-width="8"/>
+  <circle cx="102" cy="150" r="6" fill="currentColor"/>
+  <circle cx="132" cy="150" r="6" fill="currentColor"/>
+  <path d="M104 162c4 4 8 6 13 6s9-2 13-6" fill="none" stroke="var(--accent)" stroke-width="5"/>
+  <path d="M117 122V106" stroke="currentColor" stroke-width="6"/>
+  <circle cx="117" cy="101" r="7" fill="var(--accent)"/>
+</svg>Visu<span class="visubot-bot">Bot</span>`
+
 /** Gibt es mBot2-Kästen und den 3D-Simulator? (Im Kurs und in der eigenen Reihe.) */
 export const visuBotEnabled = () => visuBotMode() !== 'off'
 
@@ -56,6 +69,9 @@ export class VisuBotView {
   /** Regler und Knöpfe „Sensoren ausprobieren“: Werte, die keine Welt liefert. */
   private controls: MBotSensorValues = { getBrightness: 50, getLoudness: 0, getPitch: 0, getRoll: 0 }
   private pressTimers = new Map<string, number>()
+  /** „mBot2 testen“: alle Sensoren live und Knöpfe für die Aktoren (nur mit echtem mBot2) */
+  private check: HTMLDetailsElement
+  private checking = false
   /** Nach dem Umschalten der Welt: Simulation von vorn (setzt das Simulationspanel). */
   onWorldChange?: () => void
 
@@ -63,13 +79,15 @@ export class VisuBotView {
     this.world = new RobotWorld(setup)
     this.element = document.createElement('section')
     this.element.className = 'visubot'
-    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>${controlsHTML()}`
+    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>${controlsHTML()}${checkHTML()}`
     this.stage = this.element.querySelector('.visubot-stage')!
     this.picker = this.element.querySelector('.visubot-worlds')!
     this.status = this.element.querySelector('.visubot-status')!
     this.liveStatus = this.element.querySelector('.visubot-live')!
     this.stopListening = mbotLink.listen(() => this.updateLive())
     this.setupControls()
+    this.check = this.element.querySelector('.visubot-check')!
+    this.setupCheck()
     this.updateLive()
     this.updateStatus()
   }
@@ -160,6 +178,43 @@ export class VisuBotView {
     }
   }
 
+  private setupCheck() {
+    for (const button of this.check.querySelectorAll<HTMLButtonElement>('button[data-py]')) {
+      button.addEventListener('click', () => {
+        // `data-after`: nach `data-wait` Millisekunden zurück (Räder anhalten, wieder „Hallo VisuBot!“ zeigen)
+        const { after, wait } = button.dataset
+        void mbotLink
+          .run(button.dataset.py!)
+          .then(() => (after ? new Promise((r) => setTimeout(r, Number(wait))).then(() => mbotLink.run(after)) : undefined))
+          .catch((e: Error) => this.liveFailed(e))
+      })
+    }
+    this.check.addEventListener('toggle', () => void this.readCheck())
+  }
+
+  /** Solange „mBot2 testen“ offen ist: alle Sensoren reihum lesen und zeigen. */
+  private async readCheck() {
+    if (this.checking) return
+    this.checking = true
+    try {
+      while (this.check.open && mbotLink.connected) {
+        for (const cell of this.check.querySelectorAll<HTMLElement>('[data-sensor]')) {
+          if (!this.check.open || !mbotLink.connected) break
+          const name = cell.dataset.sensor!
+          const value = await mbotLink.ask(MBOT_SENSORS[name].python).catch(() => undefined)
+          if (value === undefined) continue
+          cell.textContent =
+            typeof MBOT_SENSORS[name].simulated === 'boolean'
+              ? value === true || (typeof value === 'number' && value !== 0) ? '✓' : '–'
+              : String(typeof value === 'number' ? Math.round(value * 10) / 10 : value)
+        }
+        await new Promise((r) => setTimeout(r, 200))
+      }
+    } finally {
+      this.checking = false
+    }
+  }
+
   /** Fährt der echte mBot2 mit? */
   get live(): boolean {
     return mbotLink.connected
@@ -198,6 +253,8 @@ export class VisuBotView {
   private updateLive() {
     this.liveStatus.textContent = mbotLinkText()
     this.liveStatus.classList.toggle('connected', mbotLink.connected)
+    this.check.hidden = !mbotLink.connected
+    if (!mbotLink.connected) this.check.open = false
     this.updateStatus()
   }
 
@@ -212,6 +269,10 @@ export class VisuBotView {
       this.view?.setLed(this.world.led)
       this.view?.setScreen(this.world.screen)
     }
+    // Mit `mbot.drive` fährt er auch ohne neuen Befehl weiter
+    const moving = this.world.wheels.some((p) => p !== 0)
+    this.world.tick(ROBOT_STEP_MS)
+    if (moving) this.view?.moveTo(this.world.pose, this.world.trail, ms)
     this.updateStatus()
   }
 
@@ -277,6 +338,28 @@ function controlsHTML(): string {
   </details>`
 }
 
+/** „mBot2 testen“: jeden Aktor einmal auslösen, jeden Sensor live ablesen (wie die Labor-Seite). */
+function checkHTML(): string {
+  const attr = (py: string) => py.replace(/"/g, '&quot;')
+  const act = (py: string, key: string, after?: string, wait = 1000) =>
+    `<button type="button" data-py="${attr(py)}"${after ? ` data-after="${attr(after)}" data-wait="${wait}"` : ''}>${t(key)}</button>`
+  const stop = "mbot2.EM_stop('ALL')"
+  const sensors = visuBotSensors
+    .map((s) => `<tr><th>${t(s.key)}</th><td data-sensor="${s.text.replace(/^mbot\.|\(\)$/g, '')}">…</td></tr>`)
+    .join('')
+  return `<details class="visubot-check" hidden><summary>🔧 ${t('web_visubot_check')}</summary>
+    <p class="hint">${t('web_visubot_check_hint')}</p>
+    <div class="visubot-presses">
+      ${act('cyberpi.led.on(255, 0, 0)', 'web_visubot_el_led')}${act('cyberpi.led.off()', 'web_visubot_el_led_off')}
+      ${act('cyberpi.audio.play_tone(440, 0.3)', 'web_visubot_el_tone')}
+      ${act("cyberpi.display.show_label('Test', 24, 'center')", 'web_visubot_el_text', HELLO, 2000)}
+      ${act('cyberpi.emotion.smile()', 'web_visubot_el_emotion')}
+      ${act('mbot2.drive_power(30, -30)', 'web_visubot_check_forward', stop)}${act('mbot2.drive_power(30, 30)', 'web_visubot_check_spin', stop)}
+    </div>
+    <table class="visubot-check-sensors">${sensors}</table>
+  </details>`
+}
+
 /** Kurzer Zustand der Verbindung zum echten mBot2 (leer, wenn nicht verbunden und kein Fehler). */
 export function mbotLinkText(): string {
   if (mbotLink.connecting) return t('web_visubot_connecting')
@@ -310,17 +393,23 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_backward', type: ElementType.anweisung, make: statement('mbot.backward()') },
   { key: 'web_visubot_el_right', type: ElementType.anweisung, make: statement('mbot.turnRight()') },
   { key: 'web_visubot_el_left', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
+  { key: 'web_visubot_el_drive', type: ElementType.anweisung, make: statement('mbot.drive(30, 30)') },
+  { key: 'web_visubot_el_stop', type: ElementType.anweisung, make: statement('mbot.stop()') },
   { key: 'web_visubot_el_led', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
   { key: 'web_visubot_el_led_off', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
   { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
   { key: 'web_visubot_el_wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
   { key: 'web_visubot_el_text', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
+  { key: 'web_visubot_el_emotion', type: ElementType.anweisung, make: statement('mbot.emotion("smile")') },
+  { key: 'web_visubot_el_timer', type: ElementType.anweisung, make: statement('mbot.resetTimer()') },
 ]
 
 /** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
 export const visuBotSensors: { key: string; text: string }[] = [
   { key: 'web_visubot_sensor_distance', text: 'mbot.getDistance()' },
   { key: 'web_visubot_sensor_line', text: 'mbot.getLine()' },
+  { key: 'web_visubot_sensor_line_left', text: 'mbot.isLineLeft()' },
+  { key: 'web_visubot_sensor_line_right', text: 'mbot.isLineRight()' },
   { key: 'web_visubot_sensor_red', text: 'mbot.isRed()' },
   { key: 'web_visubot_sensor_green', text: 'mbot.isGreen()' },
   { key: 'web_visubot_sensor_blue', text: 'mbot.isBlue()' },
@@ -336,4 +425,6 @@ export const visuBotSensors: { key: string; text: string }[] = [
   { key: 'web_visubot_sensor_pitch', text: 'mbot.getPitch()' },
   { key: 'web_visubot_sensor_roll', text: 'mbot.getRoll()' },
   { key: 'web_visubot_sensor_shake', text: 'mbot.isShaken()' },
+  { key: 'web_visubot_sensor_timer', text: 'mbot.getTimer()' },
+  { key: 'web_visubot_sensor_battery', text: 'mbot.getBattery()' },
 ]

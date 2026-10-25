@@ -1369,6 +1369,8 @@ export class SimulationEngine {
     if (MBOT_COMMANDS[method]?.text) {
       if (args.length !== 1) throw invalid(text)
       const action = makeMBotAction(method, [], this.evaluateOutputExpression(args[0]))
+      const choices = MBOT_COMMANDS[method].choices
+      if (choices && !choices.includes(action.text ?? '')) throw invalid(`${text} (${choices.join(', ')})`)
       this.state.robotActions.push(action)
       this.state.lastTrace = `${text} -> ${action.label}`
       return

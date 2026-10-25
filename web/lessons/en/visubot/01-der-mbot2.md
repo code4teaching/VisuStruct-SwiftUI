@@ -292,6 +292,15 @@ Now the mBot2 drives along with every step of the simulation. Put it on the floo
 
 > Finished? Click **🟢 mBot2** once more. It stops, shows “Bis bald!” and releases the port. Only then pull out the cable.
 
+## Testing the mBot2
+
+When the mBot2 is connected, **🔧 Test the mBot2** appears below the world. Open it:
+
+- With the buttons you try each actuator once: LEDs, tone, text on the screen and the wheels. Lift the mBot2 up for this so it does not drive off the table.
+- Below are all sensors with their values, and they update live. Hold your hand in front of the ultrasonic sensor, press button A, tilt it, clap your hands or put it on a red sheet of paper.
+
+If a value does not change although you do something, something is wrong. Then tell your teacher before you start programming.
+
 ::: checkliste
 - I know the parts of the mBot2. → Hello mBot2
 - I know how the mBot2 measures distances. → The ultrasonic sensor
@@ -300,4 +309,5 @@ Now the mBot2 drives along with every step of the simulation. Put it on the floo
 - I can control the mBot2 with elements from the group mBot2 commands. → Commands for the mBot2
 - I can let the mBot2 drive in the simulator. → First drive
 - I can connect the real mBot2 with USB-C and disconnect it again. → Connecting the real mBot2
+- I can check that all sensors and actuators work. → Testing the mBot2
 :::

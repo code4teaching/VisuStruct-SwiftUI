@@ -311,6 +311,7 @@
 "web_visubot_sensor_line" = "Linha";
 "web_visubot_el_led_off" = "LEDs desligados";
 "web_visubot_el_wait" = "esperar um pouco";
+"web_visubot_el_emotion" = "mostrar um sentimento";
 "web_visubot_el_text" = "mostrar texto";
 "web_visubot_sensor_red" = "Cor vermelha?";
 "web_visubot_sensor_green" = "Cor verde?";
@@ -327,6 +328,13 @@
 "web_visubot_sensor_pitch" = "Inclinação frente/trás";
 "web_visubot_sensor_roll" = "Inclinação lateral";
 "web_visubot_sensor_shake" = "Abanado?";
+"web_visubot_el_drive" = "rodas separadas";
+"web_visubot_el_stop" = "parar";
+"web_visubot_el_timer" = "cronómetro a 0";
+"web_visubot_sensor_line_left" = "Linha à esquerda?";
+"web_visubot_sensor_line_right" = "Linha à direita?";
+"web_visubot_sensor_timer" = "Cronómetro (s)";
+"web_visubot_sensor_battery" = "Bateria (%)";
 "web_visubot_actions" = "Comandos";
 "web_visubot_led_on" = "LEDs ligados";
 "web_visubot_led_off" = "LEDs desligados";
@@ -335,3 +343,7 @@
 "web_visubot_controls" = "Experimentar os sensores";
 "web_visubot_controls_hint" = "Sem um mBot2 real: define aqui o que os sensores medem. Botões, joystick e abanar duram um segundo.";
 "web_visubot_shake" = "abanar";
+"web_visubot_check" = "Testar o mBot2";
+"web_visubot_check_hint" = "Experimenta cada atuador uma vez. Os valores dos sensores atualizam-se em direto: põe a mão à frente do sensor ultrassónico, carrega nos botões, inclina ou abana o mBot2. Levanta-o para testar as rodas.";
+"web_visubot_check_forward" = "Rodas 1 s para a frente";
+"web_visubot_check_spin" = "Rodar no lugar 1 s";

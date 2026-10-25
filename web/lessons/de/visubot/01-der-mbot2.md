@@ -292,6 +292,15 @@ Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den B
 
 > Fertig? Klick noch einmal auf **🟢 mBot2**. Dann hält er an, zeigt „Bis bald!“ und gibt den Anschluss frei. Erst danach das Kabel ziehen.
 
+## Den mBot2 testen
+
+Ist der mBot2 verbunden, erscheint unter der Welt **🔧 mBot2 testen**. Klapp es auf:
+
+- Mit den Knöpfen probierst du jeden Aktor einmal aus: LEDs, Ton, Text auf dem Bildschirm und die Räder. Heb den mBot2 dafür hoch, damit er nicht vom Tisch fährt.
+- Darunter stehen alle Sensoren mit ihren Werten, und die laufen live mit. Halte die Hand vor den Ultraschallsensor, drück Taste A, neige ihn, klatsch in die Hände oder stell ihn auf ein rotes Blatt.
+
+Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt etwas nicht. Dann sag deiner Lehrkraft Bescheid, bevor du programmierst.
+
 ::: checkliste
 - Ich kenne die Teile des mBot2. → Hallo mBot2
 - Ich weiß, wie der mBot2 Abstände misst. → Der Ultraschallsensor
@@ -300,4 +309,5 @@ Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den B
 - Ich kann den mBot2 mit Elementen aus der Gruppe mBot2-Befehle steuern. → Befehle für den mBot2
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
 - Ich kann den echten mBot2 per USB-C verbinden und wieder trennen. → Den echten mBot2 verbinden
+- Ich kann prüfen, ob alle Sensoren und Aktoren funktionieren. → Den mBot2 testen
 :::

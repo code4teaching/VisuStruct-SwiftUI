@@ -22,6 +22,17 @@ mbot.turnRight(180)     turn all the way around
 
 > For a polygon the mBot2 turns all the way around once in total: triangle 3 × 120°, square 4 × 90°, hexagon 6 × 60°.
 
+### Wheels separately
+
+Steps on the gas, left and right in percent (−100 to 100). The mBot2 keeps going until another driving command or `mbot.stop()` comes.
+
+```
+mbot.drive(40, 40)      straight ahead
+mbot.drive(10, 40)      left curve
+mbot.drive(40, -40)     turn right on the spot
+mbot.stop()             stop
+```
+
 ### Light, sound and screen
 
 ```
@@ -31,6 +42,17 @@ mbot.playTone(440, 300)     tone of 440 Hz, 300 ms long
 mbot.showText("Hello")      text on the screen
 mbot.showText("Distance: " + mbot.getDistance())
 ```
+
+### Feelings
+
+A little show with LEDs, sound and wiggling (only visible on the real mBot2):
+
+```
+mbot.emotion("smile")   laughs
+mbot.emotion("sad")     is sad
+```
+
+All feelings: smile, hello, yeah, proud, wow, yummy, naughty, uh_oh, hurt, sad, angry, startle, shiver, dizzy, sleepy, zzz, wake_up, blink, yes, no, look_up, look_down, look_left, look_right, look_around
 
 ### Waiting
 
@@ -56,6 +78,8 @@ distance = mbot.getDistance()   remember the value in a variable
 ```
 mbot.getLine() == 0     no black, keep driving
 mbot.getLine() != 0     on the line or at the goal
+mbot.isLineLeft()       left middle probe sees black
+mbot.isLineRight()      right middle probe sees black
 ```
 
 ### Colours
@@ -94,6 +118,14 @@ mbot.isShaken()         being shaken?
 ```
 
 > Without a real mBot2 you set these values in the simulation under **🎛 Try the sensors**.
+
+### Stopwatch and battery
+
+```
+mbot.resetTimer()       stopwatch to 0
+mbot.getTimer()         seconds since the start or resetTimer()
+mbot.getBattery()       battery in percent
+```
 
 ### Real mBot2
 

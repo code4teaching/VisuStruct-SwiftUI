@@ -1,0 +1,13 @@
+// Einparken: rechts parken Autos (Klötze), die blaue Markierung zeigt die Lücke.
+#....####
+#....####
+#....####
+#..b....#
+#.....o.#
+#.......#
+#....####
+#....####
+#....####
+#....####
+#....####
+#..^.####

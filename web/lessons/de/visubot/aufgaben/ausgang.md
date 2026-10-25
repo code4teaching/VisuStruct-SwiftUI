@@ -1,6 +1,7 @@
 ---
 titel: Labyrinth mit Ausgängen
 nach: 4
+kurs: 11
 stufe: 3
 ---
 
