@@ -3374,9 +3374,17 @@ button.danger-text:not(:disabled) {
   margin-inline-start: 6px;
 }
 .diagram-tools .mbot-link.connected {
-  border-color: #0f8a5f;
-  color: #0f8a5f;
+  background: #d6f5e3;
+  border-color: #8fd9b0;
+  color: #0b6b48;
   font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  .diagram-tools .mbot-link.connected {
+    background: #1f4a35;
+    border-color: #2f7a55;
+    color: #bdf0d4;
+  }
 }
 .settings-mbot-link {
   display: grid;
