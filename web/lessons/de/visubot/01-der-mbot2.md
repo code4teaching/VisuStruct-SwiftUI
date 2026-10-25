@@ -270,6 +270,25 @@ tipp: Fünf Kästen `mbot.forward()` untereinander. Jeder fährt 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
 
+## Den echten mBot2 verbinden
+
+::: mbot2
+fokus: cyberpi, powerSwitch
+ansicht: seite
+:::
+
+Alles, was du im Simulator baust, kann auch der echte mBot2 fahren. So verbindest du ihn:
+
+1. Steck ein **USB-C-Kabel** in deinen Computer (zum Beispiel ein MacBook) und das andere Ende in den USB-C-Anschluss rechts am [CyberPi]{teil=cyberpi}, neben der Home-Taste.
+2. Schieb den [Schiebeschalter ON/OFF]{teil=powerSwitch} links am Shield auf ON. Der Bildschirm des CyberPi leuchtet.
+3. Öffne VisuStruct in **Chrome** oder **Edge**. Safari und das iPad können keine USB-Geräte ansprechen.
+4. Klick oben auf **🔌 mBot2** (oder im Zahnrad auf „Mit mBot2 verbinden“) und wähle im Fenster den Eintrag mit **USB** im Namen.
+5. Der CyberPi startet kurz neu (⏳). Dann steht „Hallo VisuBot!“ auf seinem Bildschirm und der Knopf zeigt 🟢.
+
+Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den Boden und lass ihm Platz!
+
+> Fertig? Klick noch einmal auf **🟢 mBot2**. Dann hält er an, zeigt „Bis bald!“ und gibt den Anschluss frei. Erst danach das Kabel ziehen.
+
 ::: checkliste
 - Ich kenne die Teile des mBot2. → Hallo mBot2
 - Ich weiß, wie der mBot2 Abstände misst. → Der Ultraschallsensor
@@ -277,4 +296,5 @@ lösung: vb-gerade-loesung.visustruct
 - Ich weiß, was Sensoren und Aktoren sind. → Sensoren und Aktoren
 - Ich kann den mBot2 mit Elementen aus der Gruppe mBot2-Befehle steuern. → Befehle für den mBot2
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
+- Ich kann den echten mBot2 per USB-C verbinden und wieder trennen. → Den echten mBot2 verbinden
 :::

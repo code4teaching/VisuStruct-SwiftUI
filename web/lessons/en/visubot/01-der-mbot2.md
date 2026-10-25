@@ -270,6 +270,25 @@ tipp: Five boxes `mbot.forward()` one below the other. Each drives 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
 
+## Connecting the real mBot2
+
+::: mbot2
+focus: cyberpi, powerSwitch
+view: side
+:::
+
+Everything you build in the simulator can also be driven by the real mBot2. This is how you connect it:
+
+1. Plug a **USB-C cable** into your computer (for example a MacBook) and the other end into the USB-C port on the right of the [CyberPi]{part=cyberpi}, next to the Home button.
+2. Push the [ON/OFF slide switch]{part=powerSwitch} on the left of the shield to ON. The CyberPi's screen lights up.
+3. Open VisuStruct in **Chrome** or **Edge**. Safari and the iPad cannot talk to USB devices.
+4. Click **🔌 mBot2** at the top (or “Connect mBot2” in the gear menu) and choose the entry with **USB** in its name.
+5. The CyberPi restarts briefly (⏳). Then “Hallo VisuBot!” appears on its screen and the button shows 🟢.
+
+Now the mBot2 drives along with every step of the simulation. Put it on the floor and give it room!
+
+> Finished? Click **🟢 mBot2** once more. It stops, shows “Bis bald!” and releases the port. Only then pull out the cable.
+
 ::: checkliste
 - I know the parts of the mBot2. → Hello mBot2
 - I know how the mBot2 measures distances. → The ultrasonic sensor
@@ -277,4 +296,5 @@ lösung: vb-gerade-loesung.visustruct
 - I know what sensors and actuators are. → Sensors and actuators
 - I can control the mBot2 with elements from the group mBot2 commands. → Commands for the mBot2
 - I can let the mBot2 drive in the simulator. → First drive
+- I can connect the real mBot2 with USB-C and disconnect it again. → Connecting the real mBot2
 :::
