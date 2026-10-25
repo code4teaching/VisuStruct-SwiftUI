@@ -46,12 +46,15 @@
   </section>
 
   <section class="jetzt">
-    <h2>👉 Jetzt testen (Runde 20: ohne „leeren“)</h2>
+    <h2>👉 Jetzt testen (Runde 21: einzelne LEDs)</h2>
     <ol>
       <li>Oben „Verbinden“</li>
-      <li><button data-py="exec(&quot;cyberpi.display.set_brush(255, 255, 255); cyberpi.display.show_label(&#x27;VisuBot&#x27;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Test U: weißer Pinsel + VisuBot, ohne leeren</button> Bitte 5-mal klicken. Wechselt die Farbe?</li>
-      <li><button data-py="exec(&quot;cyberpi.display.show_label(&#x27;VisuBot&#x27;, 32, &#x27;center&#x27;)&quot;)" data-mode="4" disabled>Test V: nur VisuBot, ohne Pinsel, ohne leeren</button> Bitte 5-mal klicken. Wechselt die Farbe?</li>
-      <li>Berichten</li>
+      <li><button data-py="exec(&quot;def vbt(c):\n try:\n  exec(c, globals())\n  return &#x27;ok&#x27;\n except Exception as e:\n  return c + &#x27; -&gt; &#x27; + repr(e)&quot;)" data-mode="4" disabled>Helfer anlegen</button></li>
+      <li><button data-py="vbt(&quot;cyberpi.led.off(); cyberpi.led.on(255, 0, 0, 1)&quot;)" data-mode="1" disabled>Test W: nur LED 1 rot</button> Welche LED leuchtet rot, ganz links oder ganz rechts (von hinten gesehen)?</li>
+      <li><button data-py="vbt(&quot;cyberpi.led.on(0, 255, 0, id=3)&quot;)" data-mode="1" disabled>Test X: LED 3 grün dazu</button> Leuchtet jetzt zusätzlich die mittlere grün?</li>
+      <li><button data-py="vbt(&quot;cyberpi.led.on(0, 0, 255, id=5)&quot;)" data-mode="1" disabled>Test Y: LED 5 blau dazu</button> Leuchtet die am anderen Ende blau?</li>
+      <li><button data-py="vbt(&quot;import time; [(cyberpi.led.off(), cyberpi.led.on(255, 0, 0, id=i), time.sleep(0.15)) for i in (1, 2, 3, 4, 5, 4, 3, 2, 1)]; cyberpi.led.off()&quot;)" data-mode="1" disabled>Test Z: Knight Rider (einmal hin und zurück)</button> Läuft ein rotes Licht hin und her?</li>
+      <li>Berichten (mit Protokoll)</li>
     </ol>
   </section>
 
