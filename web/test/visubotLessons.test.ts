@@ -114,7 +114,8 @@ describe.each(['de', 'en'] as const)('VisuBot im Kurs (%s)', (lang) => {
 
   it('zeigt normale Aufgaben und mBot2-Aufgaben mit kurs:', () => {
     expect(tasks.some((t) => t.id === 'treppe' && t.after === 13)).toBe(true)
-    expect(tasks.some((t) => t.id === 'tunnel')).toBe(false)
+    expect(tasks.some((t) => t.id === 'tunnel' && t.after === 12)).toBe(true)
+    expect(tasks.some((t) => t.id === 'labyrinth' && t.after === 11)).toBe(true)
     expect(tasks.length).toBeGreaterThan(20)
   })
 })
