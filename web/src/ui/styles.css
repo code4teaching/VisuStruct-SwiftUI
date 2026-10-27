@@ -3521,6 +3521,12 @@ button.danger-text:not(:disabled) {
   padding: 0 10px;
   white-space: nowrap;
 }
+/* Ohne USB im Browser (Safari, iPad): ausgegraut, ein Klick zeigt den Hinweis */
+.diagram-tools .mbot-link.unavailable,
+.diagram-tools .mbot-upload.unavailable {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
 /* Übertragen auf den mBot2 */
 .mbot-upload-steps {
   margin: 0 0 12px;
@@ -3531,9 +3537,24 @@ button.danger-text:not(:disabled) {
   width: 100%;
   height: 10px;
 }
-.mbot-upload-status.done {
+.mbot-upload-ready {
+  margin: 0 0 14px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--success, #2f9e44) 14%, transparent);
+  border: 2px solid var(--success, #2f9e44);
+}
+.mbot-upload-ready-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
   color: var(--success, #2f9e44);
-  font-weight: 600;
+}
+.mbot-upload-ready ol {
+  margin: 0;
+  padding-inline-start: 22px;
+  font-size: 17px;
+  line-height: 1.6;
 }
 .settings-mbot-link {
   display: grid;

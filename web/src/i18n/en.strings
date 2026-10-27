@@ -273,7 +273,11 @@
 "web_visubot_upload_step3" = "Unplug the cable and put the mBot2 at the start. When you press button A, your program starts. It stays saved, even after switching off.";
 "web_visubot_upload_start" = "Upload now";
 "web_visubot_upload_busy" = "Uploading … do not unplug the cable.";
-"web_visubot_upload_done" = "Done! Unplug the cable, put the mBot2 at the start, press button A.";
+"web_visubot_upload_ready_title" = "Uploaded!";
+"web_visubot_upload_ready_unplug" = "Unplug the USB cable.";
+"web_visubot_upload_ready_place" = "Put the mBot2 at the start.";
+"web_visubot_upload_ready_press" = "Press button A (the button with the square) to start.";
+"web_visubot_upload_again" = "Upload again";
 "web_visubot_upload_failed" = "The upload did not work. Restart the mBot2 and try again.";
 "web_visubot_upload_label" = "A = Start";
 "web_visubot_upload_error_input" = "Your program asks for an input. The mBot2 has no keyboard, so this does not work.";
@@ -282,7 +286,9 @@
 "web_visubot_disconnect" = "Disconnect";
 "web_visubot_connecting" = "Connecting … (the CyberPi restarts briefly)";
 "web_visubot_connected" = "Real mBot2 drives along";
-"web_visubot_no_serial" = "Real mBot2: only in Chrome or Edge on a computer.";
+"web_visubot_no_serial" = "Real mBot2: only in Chrome, Edge or Chromium on a computer.";
+"web_visubot_no_serial_title" = "Chrome, Edge or Chromium needed";
+"web_visubot_no_serial_hint" = "For the real mBot2 you need Chrome, Edge or Chromium on a computer. Safari, Firefox and the iPad cannot talk to USB devices. Open VisuStruct in one of these browsers, then you can connect the mBot2 and upload your program.";
 "web_visubot_link_error" = "Connection lost";
 "web_visubot_world" = "VisuBot world";
 "web_visubot_no_3d" = "The 3D view cannot start in this browser.";
