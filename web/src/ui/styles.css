@@ -3523,3 +3523,16 @@ button.danger-text:not(:disabled) {
   font-size: 12px;
   color: var(--muted);
 }
+/* VisuStruct oder VisuBot (Zahnrad und Start-Dialog) */
+.world-chooser {
+  margin-bottom: 4px;
+}
+.world-hint {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.start-world {
+  margin-bottom: 14px;
+}

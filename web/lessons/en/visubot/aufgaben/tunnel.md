@@ -1,7 +1,6 @@
 ---
 titel: The tunnel finder
 nach: 4
-kurs: 12
 stufe: 3
 ---
 

@@ -1,7 +1,6 @@
 ---
 titel: Morsen
 nach: 13
-kurs: 13
 stufe: 2
 ---
 

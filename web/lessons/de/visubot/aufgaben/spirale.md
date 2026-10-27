@@ -1,7 +1,6 @@
 ---
 titel: Die Spirale
 nach: 2
-kurs: 13
 stufe: 2
 ---
 

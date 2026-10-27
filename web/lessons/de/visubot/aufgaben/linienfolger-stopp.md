@@ -1,7 +1,6 @@
 ---
 titel: Linienfolger mit Stopp
 nach: 16
-kurs: 14
 stufe: 3
 ---
 

@@ -9,25 +9,30 @@ import type { Robot3D } from './robot3d'
 import visuBotLogoURL from './visubot.webp'
 
 /**
- * VisuBot (mBot2-Modus), gespeichert im Browser: aus, im Kurs (normale Lektionen mit zusätzlichen mBot2-Schritten)
- * oder als eigene Reihe (nur die VisuBot-Lektionen, für Klassen, die den Kurs schon kennen).
+ * Welt, gespeichert im Browser: VisuStruct (`0`) oder VisuBot (`1`).
+ * Der frühere Modus „Im Kurs“ (`kurs`) gilt jetzt als VisuBot.
  */
 const modeKey = 'visustruct.visubot'
-// '1' war früher der einzige Modus (eigene Reihe)
-const stored: Record<VisuBotMode, string> = { off: '0', course: 'kurs', series: '1' }
 
-export function visuBotMode(): VisuBotMode {
+function storedMode(): string | null {
   try {
-    const value = localStorage.getItem(modeKey)
-    return (Object.keys(stored) as VisuBotMode[]).find((m) => stored[m] === value) ?? 'off'
+    return localStorage.getItem(modeKey)
   } catch {
-    return 'off'
+    return null
   }
 }
 
+export function visuBotMode(): VisuBotMode {
+  const value = storedMode()
+  return value === '1' || value === 'kurs' ? 'on' : 'off'
+}
+
+/** Hat man schon einmal zwischen VisuStruct und VisuBot gewählt? Sonst fragt der Start-Dialog. */
+export const worldChosen = () => storedMode() !== null
+
 export function setVisuBotMode(mode: VisuBotMode) {
   try {
-    localStorage.setItem(modeKey, stored[mode])
+    localStorage.setItem(modeKey, mode === 'on' ? '1' : '0')
   } catch {
     /* ohne Speicher nur für diese Sitzung */
   }
@@ -36,8 +41,21 @@ export function setVisuBotMode(mode: VisuBotMode) {
 /** Kopfzeile im VisuBot-Modus: der Roboter aus dem VisuBot-Logo und „Visu“ + orangefarbenes „Bot“. */
 export const visuBotBrand = `<img class="visubot-logo" src="${visuBotLogoURL}" width="55" height="32" alt="">Visu<span class="visubot-bot">Bot</span>`
 
-/** Gibt es mBot2-Kästen und den 3D-Simulator? (Im Kurs und in der eigenen Reihe.) */
+/** Gibt es mBot2-Kästen und den 3D-Simulator? (Nur in der Welt VisuBot.) */
 export const visuBotEnabled = () => visuBotMode() !== 'off'
+
+const escapeHTML = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
+
+/** Auswahl „VisuStruct | VisuBot“ für Zahnrad und Start-Dialog; die Knöpfe tragen `data-world`. */
+export function worldChooserHTML(): string {
+  const on = visuBotMode() === 'on'
+  const button = (mode: VisuBotMode, label: string, pressed: boolean) =>
+    `<button type="button" data-world="${mode}" aria-pressed="${pressed}">${label}</button>`
+  return `<div class="segmented world-chooser" role="group" aria-label="${escapeHTML(t('web_visubot_world_title'))}">
+      ${button('off', 'VisuStruct', !on)}${button('on', '🤖 VisuBot', on)}
+    </div>
+    <small class="world-hint">${escapeHTML(t(on ? 'web_visubot_world_visubot_hint' : 'web_visubot_world_visustruct_hint'))}</small>`
+}
 
 /**
  * Simulator-Bereich im Simulationspanel: Welt von oben/schräg in 3D, darunter Sensorwerte.

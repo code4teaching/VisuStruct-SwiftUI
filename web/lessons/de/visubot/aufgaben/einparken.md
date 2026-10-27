@@ -1,7 +1,6 @@
 ---
 titel: Rückwärts einparken
 nach: 14
-kurs: 11
 stufe: 2
 ---
 

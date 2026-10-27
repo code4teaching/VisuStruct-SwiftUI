@@ -1,7 +1,6 @@
 ---
 titel: Line follower with stop
 nach: 16
-kurs: 14
 stufe: 3
 ---
 

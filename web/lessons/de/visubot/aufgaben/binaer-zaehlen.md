@@ -1,7 +1,6 @@
 ---
 titel: Binär zählen
 nach: 13
-kurs: 13
 stufe: 3
 ---
 

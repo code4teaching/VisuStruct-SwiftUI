@@ -89,8 +89,6 @@ export interface Task {
   title: string
   /** Nummer der Lektion, die man vorher abgeschlossen haben sollte. */
   after?: number
-  /** VisuBot-Aufgaben: Lektion des normalen Kurses, nach der sie im Modus „Im Kurs“ erscheinen (`kurs: 13`). */
-  afterInCourse?: number
   level: number
   blocks: Block[]
 }
@@ -464,12 +462,10 @@ export function parseTask(source: string, file: string): Task {
   const title = meta.get('titel')
   if (!title) throw new FormatError(`${file}: „titel:“ fehlt.`)
   const after = meta.get('nach')
-  const inCourse = meta.get('kurs')
   return {
     id: file.replace(/^.*\//, '').replace(/\.md$/, ''),
     title,
     after: after ? Number(after) : undefined,
-    afterInCourse: inCourse ? Number(inCourse) : undefined,
     level: Number(meta.get('stufe') ?? '1') || 1,
     blocks: parseBlocks(body, file),
   }

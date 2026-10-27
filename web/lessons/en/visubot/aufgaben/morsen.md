@@ -1,7 +1,6 @@
 ---
 titel: Morse code
 nach: 13
-kurs: 13
 stufe: 2
 ---
 

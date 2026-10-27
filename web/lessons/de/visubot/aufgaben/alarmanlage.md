@@ -1,7 +1,6 @@
 ---
 titel: Die Alarmanlage
 nach: 14
-kurs: 11
 stufe: 2
 ---
 

@@ -1,7 +1,6 @@
 ---
 titel: Hindernis ausweichen
 nach: 14
-kurs: 14
 stufe: 2
 ---
 

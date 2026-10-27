@@ -1,7 +1,6 @@
 ---
 titel: Slalom
 nach: 2
-kurs: 13
 stufe: 2
 ---
 

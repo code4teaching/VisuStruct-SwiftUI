@@ -1,7 +1,6 @@
 ---
 titel: Kleeblatt im Wald
 nach: 4
-kurs: 11
 stufe: 2
 ---
 

@@ -1,7 +1,6 @@
 ---
 titel: The maze
 nach: 4
-kurs: 11
 stufe: 2
 ---
 

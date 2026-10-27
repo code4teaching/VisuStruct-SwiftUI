@@ -3,6 +3,8 @@ import { compareEntries, programBaseName, todayFolder, uniqueBaseName, validFold
 import { t } from './i18n'
 import { icons } from './icons'
 import { sidebarIcon } from './learnPanel'
+import { worldChooserHTML } from './visubotView'
+import type { VisuBotMode } from '../learn/content'
 import {
   browserWorkspace,
   canPickFolder,
@@ -39,6 +41,8 @@ export interface FilesHost {
   message(text: string): void
   /** Lernstand aus dem Workspace übernommen: Lernbereich neu zeichnen. */
   progressLoaded(): void
+  /** Start-Dialog: VisuStruct oder VisuBot gewählt. */
+  chooseWorld(mode: VisuBotMode): Promise<void>
 }
 
 const modeKey = 'visustruct.files.mode'
@@ -203,6 +207,8 @@ export class FilesPanel {
     const box = document.createElement('div')
     box.className = 'confirm'
     box.innerHTML = `<div class="confirm-card files-ask start-ask" role="dialog" aria-label="${esc(t('web_learn_start_title'))}">
+      <p><strong>${esc(t('web_visubot_world_title'))}</strong></p>
+      <div class="start-world">${worldChooserHTML()}</div>
       <p><strong>${esc(t('web_learn_start_title'))}</strong></p>
       <p class="hint">${esc(t('web_learn_start_hint'))}</p>
       ${options.join('')}
@@ -211,6 +217,11 @@ export class FilesPanel {
     </div>`
     const close = () => box.remove()
     box.addEventListener('click', (e) => {
+      const world = (e.target as HTMLElement).closest<HTMLElement>('[data-world]')?.dataset.world as VisuBotMode | undefined
+      if (world) {
+        void this.host.chooseWorld(world).then(() => (box.querySelector('.start-world')!.innerHTML = worldChooserHTML()))
+        return
+      }
       const start = (e.target as HTMLElement).closest<HTMLElement>('[data-start]')?.dataset.start
       if (!start) return
       close()

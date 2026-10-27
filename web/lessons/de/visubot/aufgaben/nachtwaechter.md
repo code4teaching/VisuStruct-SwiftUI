@@ -1,7 +1,6 @@
 ---
 titel: Der Nachtwächter
 nach: 15
-kurs: 11
 stufe: 1
 ---
 
