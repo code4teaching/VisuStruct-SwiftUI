@@ -166,4 +166,7 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_debug_continue" = "متابعة حتى نقطة التوقف التالية";
 "web_debug_paused_fmt" = "متوقف قبل السطر %d.";
 "web_debug_gutter_title" = "انقر على رقم السطر لوضع نقطة توقف أو إزالتها";
+"web_swap_to_code" = "البرمجة كبيرة";
+"web_swap_to_editor" = "المخطط كبير";
+"web_editor_resize" = "تغيير عرض المخطط";
 `;export{e as default};

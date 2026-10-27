@@ -166,3 +166,6 @@
 "web_debug_continue" = "次のブレークポイントまで続行";
 "web_debug_paused_fmt" = "%d 行目の前で一時停止中。";
 "web_debug_gutter_title" = "行番号をクリックするとブレークポイントを設定・解除できます";
+"web_swap_to_code" = "プログラミングを大きく";
+"web_swap_to_editor" = "構造図を大きく";
+"web_editor_resize" = "構造図の幅を変更";

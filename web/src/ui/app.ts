@@ -222,6 +222,9 @@ const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
 /** VisuBot: Fenster „mBot2 live“ offen, unter dem Code statt als eigene Spalte, Breite bzw. Höhe. */
 const previewKey = 'visustruct.robotPreview.open'
+/** „Programmieren groß“: Code ist die Hauptfläche, das Struktogramm schmal (Breite merken). */
+const codeMainKey = 'visustruct.codeMain'
+const editorWidthKey = 'visustruct.editor.width'
 /** Zugeklappte Gruppen der mBot2-Elemente. */
 const collapsedGroupsKey = 'visustruct.visubot.collapsedGroups'
 const previewStackedKey = 'visustruct.robotPreview.stacked'
@@ -312,6 +315,7 @@ export class App {
   private live: LiveCodePanel
   private preview = new RobotPreviewPanel()
   private previewOpen = false
+  private codeMain = false
   private previewStacked = false
   private previewResizer!: HTMLElement
 
@@ -362,6 +366,7 @@ export class App {
       (redo) => (redo ? this.redo() : this.undo()),
     )
     this.live.onRobotRun = (stepping) => this.runRobot(stepping)
+    this.live.onSwap = () => this.setCodeMain(!this.codeMain)
     this.live.onReference = () => {
       this.learn.showReference()
       this.setLearning(true)
@@ -384,6 +389,7 @@ export class App {
       this.learnResizer(),
       this.editorRail(),
       root,
+      this.panelResizer(root, 'editor-resizer', editorWidthKey, t('web_editor_resize'), 1),
       this.liveResizer(),
       this.live.element,
       this.liveRail(),
@@ -405,6 +411,7 @@ export class App {
     this.setLiveCoding(storedValue(liveKey) === '1')
     this.setEditorHidden(storedValue(editorHiddenKey) === '1')
     this.buildUI()
+    this.setCodeMain(storedValue(codeMainKey) === '1')
     this.render()
     window.addEventListener('pointermove', (e) => this.onPointerMove(e))
     window.addEventListener('pointerup', (e) => this.onPointerUp(e))
@@ -530,6 +537,7 @@ export class App {
         ${iconButton('code', t('a11y_generate_code'), icons.code)}
         <button class="mbot-link" data-action="mbot-link" hidden></button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
+        <button class="icon editor-swap" data-action="swap-main" aria-pressed="false">⇄</button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
       </div>
       <main class="workspace">
@@ -563,6 +571,8 @@ export class App {
     this.statusLine = $('.status')
     this.simButton = $('[data-action=simulate]')
     $('[data-action=hide-editor]').addEventListener('click', () => this.setEditorHidden(true))
+    $('[data-action=swap-main]').addEventListener('click', () => this.setCodeMain(!this.codeMain))
+    this.labelSwap()
     this.sim = new SimulationPanel(
       () => this.doc,
       (path) => {
@@ -1474,6 +1484,28 @@ export class App {
       } else this.live.setTarget('java')
     }
     if (!this.liveCoding) this.setLiveCoding(true)
+  }
+
+  // MARK: - Programmieren groß
+
+  /** ⇄: Programmieren wird die große Fläche, das Struktogramm schmal (beide Breiten ziehbar); noch ein Klick tauscht zurück. */
+  private setCodeMain(on: boolean) {
+    this.codeMain = on
+    storeValue(codeMainKey, on ? '1' : '0')
+    if (on && !this.liveCoding) this.setLiveCoding(true)
+    if (on && this.editorHidden) this.setEditorHidden(false)
+    this.shell.classList.toggle('code-main', on)
+    this.labelSwap()
+    if (this.canvasHost) this.render()
+  }
+
+  private labelSwap() {
+    const tip = t(this.codeMain ? 'web_swap_to_editor' : 'web_swap_to_code')
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-action=swap-main]')) {
+      b.dataset.tip = tip
+      b.setAttribute('aria-label', tip)
+      b.setAttribute('aria-pressed', String(this.codeMain))
+    }
   }
 
   // MARK: - mBot2 live

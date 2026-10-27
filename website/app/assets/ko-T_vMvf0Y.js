@@ -166,4 +166,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_debug_continue" = "다음 중단점까지 계속";
 "web_debug_paused_fmt" = "%d번째 줄 앞에서 멈춤.";
 "web_debug_gutter_title" = "줄 번호를 클릭하면 중단점을 설정하거나 지웁니다";
+"web_swap_to_code" = "프로그래밍 크게";
+"web_swap_to_editor" = "구조도 크게";
+"web_editor_resize" = "구조도 너비 변경";
 `;export{e as default};

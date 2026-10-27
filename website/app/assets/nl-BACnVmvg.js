@@ -166,4 +166,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_debug_continue" = "Doorgaan tot het volgende breekpunt";
 "web_debug_paused_fmt" = "Gepauzeerd vóór regel %d.";
 "web_debug_gutter_title" = "Klik op een regelnummer om een breekpunt te plaatsen of te verwijderen";
+"web_swap_to_code" = "Programmeren groot";
+"web_swap_to_editor" = "Structogram groot";
+"web_editor_resize" = "Breedte van het structogram wijzigen";
 `;export{e as default};

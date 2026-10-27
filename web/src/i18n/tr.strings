@@ -166,3 +166,6 @@
 "web_debug_continue" = "Bir sonraki kesme noktasına kadar devam et";
 "web_debug_paused_fmt" = "%d. satırdan önce duraklatıldı.";
 "web_debug_gutter_title" = "Kesme noktası koymak veya kaldırmak için satır numarasına tıkla";
+"web_swap_to_code" = "Programlama büyük";
+"web_swap_to_editor" = "Yapı diyagramı büyük";
+"web_editor_resize" = "Diyagram genişliğini değiştir";

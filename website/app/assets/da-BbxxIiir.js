@@ -166,4 +166,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_debug_continue" = "Fortsæt til næste breakpoint";
 "web_debug_paused_fmt" = "Sat på pause før linje %d.";
 "web_debug_gutter_title" = "Klik på et linjenummer for at sætte eller fjerne et breakpoint";
+"web_swap_to_code" = "Programmering stor";
+"web_swap_to_editor" = "Struktogram stort";
+"web_editor_resize" = "Skift bredde på struktogrammet";
 `;export{e as default};

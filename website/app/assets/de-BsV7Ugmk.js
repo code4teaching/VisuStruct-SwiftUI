@@ -380,4 +380,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visubot_group_light" = "Licht und Lautstärke";
 "web_visubot_group_tilt" = "Neigung und Schütteln";
 "web_visubot_group_timer" = "Stoppuhr und Akku";
+"web_swap_to_code" = "Programmieren groß, Struktogramm schmal";
+"web_swap_to_editor" = "Struktogramm groß, Programmieren schmal";
+"web_editor_resize" = "Breite des Struktogramms ändern";
 `;export{e as default};

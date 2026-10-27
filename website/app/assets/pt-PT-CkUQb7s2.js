@@ -378,4 +378,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visubot_group_light" = "Luz e volume";
 "web_visubot_group_tilt" = "Inclinação e abanar";
 "web_visubot_group_timer" = "Cronómetro e bateria";
+"web_swap_to_code" = "Programação grande, diagrama estreito";
+"web_swap_to_editor" = "Diagrama grande, programação estreita";
+"web_editor_resize" = "Alterar a largura do diagrama";
 `;export{e as default};
