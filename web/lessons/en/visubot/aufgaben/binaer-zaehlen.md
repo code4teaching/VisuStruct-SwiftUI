@@ -1,6 +1,6 @@
 ---
 titel: Counting in binary
-nach: 13
+nach: 15
 stufe: 3
 ---
 

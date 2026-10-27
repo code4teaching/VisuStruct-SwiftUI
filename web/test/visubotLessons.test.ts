@@ -33,16 +33,24 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     expect(tasks.length).toBeGreaterThanOrEqual(1)
   })
 
-  it('jede Übung prüft eine Fahrt, und die Musterlösung besteht sie', () => {
+  it('jede Übung prüft eine Fahrt (ohne Roboter: eine Ausgabe), und die Musterlösung besteht sie', () => {
     let checked = 0
+    let withoutRobot = 0
     for (const { where, block } of allBlocks()) {
       if (block.kind !== 'exercise') continue
       const ex = block.exercise
       expect(ex.id.startsWith('vb-'), `${where}: Kennung beginnt mit vb-`).toBe(true)
-      expect(ex.tests.some((t) => t.drive || t.world || t.sensors || t.actions), `${where}: fahrt:, befehle:, welt: oder messwerte:`).toBe(true)
-      expect(ex.hints.length).toBeGreaterThanOrEqual(2)
+      const robot = ex.tests.some((t) => t.drive || t.world || t.sensors || t.actions)
       const doc = diagram(ex.solution!)!
       expect(doc, `${where}: ${ex.solution}`).toBeDefined()
+      if (ex.id.startsWith('vb-ohne-')) {
+        // „Jetzt ohne Roboter“: reines Java, geprüft wird die Ausgabe
+        expect(robot, `${where}: ohne Roboter`).toBe(false)
+        expect(ex.tests.every((t) => t.expected.length > 0), where).toBe(true)
+        expect(JSON.stringify([doc, ex.subprograms.map((f) => diagram(f))]), where).not.toContain('mbot.')
+        withoutRobot++
+      } else expect(robot, `${where}: fahrt:, befehle:, welt: oder messwerte:`).toBe(true)
+      expect(ex.hints.length).toBeGreaterThanOrEqual(2)
       for (const o of checkExercise(doc, ex.tests, resolver(ex), world)) expect(o.passed, `${where}: ${JSON.stringify(o.result)}`).toBe(true)
       for (const r of ex.requires) expect(usedElementTypes(doc).has(ElementType[r as keyof typeof ElementType])).toBe(true)
       if (ex.loopDepth) expect(loopDepth(doc.elements)).toBeGreaterThanOrEqual(ex.loopDepth)
@@ -50,6 +58,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       checked++
     }
     expect(checked).toBeGreaterThanOrEqual(5)
+    expect(withoutRobot).toBeGreaterThanOrEqual(5)
   })
 
   it('Checklisten verweisen auf Schritte', () => {

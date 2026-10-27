@@ -27,7 +27,7 @@ With **wheels separately** (`mbot.drive(left, right)`) you step on the gas inste
 
 ## Full speed to the wall in the structure chart
 
-In lesson 4 the mBot2 drove to the wall in steps of 10 cm. With **wheels separately** it works without jerking: step on the gas once, wait until the wall is close, then stop.
+In lesson 5 the mBot2 drove to the wall in steps of 10 cm. With **wheels separately** it works without jerking: step on the gas once, wait until the wall is close, then stop.
 
 ::: übung vb-gas-bis-wand
 titel: Full speed to the wall

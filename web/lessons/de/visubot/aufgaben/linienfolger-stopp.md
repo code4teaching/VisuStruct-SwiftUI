@@ -1,6 +1,6 @@
 ---
 titel: Linienfolger mit Stopp
-nach: 16
+nach: 20
 stufe: 3
 ---
 

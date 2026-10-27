@@ -1,6 +1,6 @@
 ---
 titel: Binär zählen
-nach: 13
+nach: 15
 stufe: 3
 ---
 

@@ -27,7 +27,7 @@ Mit **Räder einzeln** (`mbot.drive(links, rechts)`) gibst du stattdessen Gas: D
 
 ## Gas geben bis zur Wand im Struktogramm
 
-In Lektion 4 ist der mBot2 in 10-cm-Schritten bis zur Wand gefahren. Mit **Räder einzeln** geht das ohne Ruckeln: einmal Gas geben, dann warten, bis die Wand nah ist, dann anhalten.
+In Lektion 5 ist der mBot2 in 10-cm-Schritten bis zur Wand gefahren. Mit **Räder einzeln** geht das ohne Ruckeln: einmal Gas geben, dann warten, bis die Wand nah ist, dann anhalten.
 
 ::: übung vb-gas-bis-wand
 titel: Gas geben bis zur Wand

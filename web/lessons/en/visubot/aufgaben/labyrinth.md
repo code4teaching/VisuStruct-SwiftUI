@@ -1,6 +1,6 @@
 ---
 titel: The maze
-nach: 4
+nach: 5
 stufe: 2
 ---
 
