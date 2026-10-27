@@ -783,6 +783,90 @@ h3 {
   color: var(--brand);
 }
 
+/* Umschalter VisuStruct | VisuBot in der Kopfzeile */
+.worlds {
+  display: none;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  font-size: 0.85rem;
+  font-weight: 650;
+}
+.worlds a {
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  color: var(--muted);
+}
+.worlds a:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+.worlds a[aria-current="page"] {
+  color: #fff;
+  background: var(--brand);
+}
+
+/* VisuBot-Startseite: Farben aus dem VisuBot-Logo (Navy, Orange, Lila), Aufbau wie VisuStruct */
+.visubot {
+  --bg-soft: #f4f3fa;
+  --ink: #232846;
+  --ink-2: #3a3f5e;
+  --muted: #6a6890;
+  --line: #e3e0f0;
+  --brand: #d96a00;
+  --brand-strong: #b35700;
+  --brand-light: #fda115;
+  --brand-tint: #fff1df;
+}
+.visubot :focus-visible {
+  outline-color: rgba(217, 106, 0, 0.45);
+}
+.visubot .btn-primary {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1), 0 6px 18px -6px rgba(217, 106, 0, 0.6);
+}
+.visubot .btn-ghost:hover {
+  border-color: #cfcae6;
+}
+.visubot .hero {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(253, 161, 21, 0.2), transparent 70%),
+    radial-gradient(40% 40% at 90% 30%, rgba(139, 124, 214, 0.16), transparent 70%),
+    var(--bg);
+}
+.visubot .feature-icon {
+  box-shadow: 0 6px 16px -6px rgba(217, 106, 0, 0.6);
+}
+.visubot .band {
+  color: #e9e7f7;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgba(253, 161, 21, 0.45), transparent 60%),
+    linear-gradient(135deg, #2f3454, #4a4f80);
+  box-shadow: 0 30px 60px -25px rgba(47, 52, 84, 0.6);
+}
+.visubot .btn-light {
+  color: var(--ink);
+}
+.brand-bot {
+  color: var(--brand);
+}
+.visubot .brand img {
+  width: 55px;
+  height: 32px;
+  border-radius: 0;
+}
+.hero-wordmark {
+  width: min(320px, 80%);
+  margin: 0 auto 1.25rem;
+}
+.world-mark {
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 0 1rem;
+  border-radius: 22%;
+}
+
 /* Größere Bildschirme */
 @media (min-width: 640px) {
   .steps {
@@ -830,6 +914,12 @@ h3 {
   }
   .ft-grid {
     grid-template-columns: 1.1fr 1.6fr 0.9fr 0.8fr;
+  }
+}
+
+@media (min-width: 1100px) {
+  .worlds {
+    display: inline-flex;
   }
 }
 
