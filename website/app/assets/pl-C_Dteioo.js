@@ -169,4 +169,5 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_swap_to_code" = "Programowanie duże";
 "web_swap_to_editor" = "Diagram duży";
 "web_editor_resize" = "Zmień szerokość diagramu";
+"web_palette_resize" = "Zmień szerokość elementów";
 `;export{e as default};

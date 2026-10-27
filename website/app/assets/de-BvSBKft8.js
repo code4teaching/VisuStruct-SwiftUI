@@ -383,4 +383,5 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_swap_to_code" = "Programmieren groß, Struktogramm schmal";
 "web_swap_to_editor" = "Struktogramm groß, Programmieren schmal";
 "web_editor_resize" = "Breite des Struktogramms ändern";
+"web_palette_resize" = "Breite der Elemente ändern (Doppelklick: zurücksetzen)";
 `;export{e as default};

@@ -3731,3 +3731,35 @@ button.danger-text:not(:disabled) {
 [data-action='swap-main'][aria-pressed='true'] {
   color: var(--accent);
 }
+
+/* Trennlinie zwischen Elementen und Struktogramm (liegt über dem rechten Rand der Elemente) */
+.palette-resizer {
+  grid-area: pal;
+  justify-self: end;
+  width: 10px;
+  margin-inline-end: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.palette-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.palette-resizer:hover::after,
+.palette-resizer:focus-visible::after,
+.shell.resizing .palette-resizer::after {
+  background: var(--accent);
+}
+.palette-resizer:focus-visible {
+  outline: none;
+}
+.app.simulating .palette-resizer {
+  display: none;
+}

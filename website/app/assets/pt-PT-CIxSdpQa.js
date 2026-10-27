@@ -381,4 +381,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_swap_to_code" = "Programação grande, diagrama estreito";
 "web_swap_to_editor" = "Diagrama grande, programação estreita";
 "web_editor_resize" = "Alterar a largura do diagrama";
+"web_palette_resize" = "Alterar a largura dos elementos (duplo clique: repor)";
 `;export{e as default};

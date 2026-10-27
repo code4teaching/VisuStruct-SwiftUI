@@ -169,4 +169,5 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_swap_to_code" = "Программирование крупно";
 "web_swap_to_editor" = "Структограмма крупно";
 "web_editor_resize" = "Изменить ширину структограммы";
+"web_palette_resize" = "Изменить ширину элементов";
 `;export{e as default};

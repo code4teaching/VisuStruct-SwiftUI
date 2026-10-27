@@ -169,4 +169,5 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_swap_to_code" = "תכנות גדול";
 "web_swap_to_editor" = "תרשים גדול";
 "web_editor_resize" = "שינוי רוחב התרשים";
+"web_palette_resize" = "שינוי רוחב הרכיבים";
 `;export{e as default};

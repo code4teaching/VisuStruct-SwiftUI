@@ -169,4 +169,5 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_swap_to_code" = "프로그래밍 크게";
 "web_swap_to_editor" = "구조도 크게";
 "web_editor_resize" = "구조도 너비 변경";
+"web_palette_resize" = "요소 너비 변경";
 `;export{e as default};

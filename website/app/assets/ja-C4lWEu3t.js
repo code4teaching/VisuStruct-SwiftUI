@@ -169,4 +169,5 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_swap_to_code" = "プログラミングを大きく";
 "web_swap_to_editor" = "構造図を大きく";
 "web_editor_resize" = "構造図の幅を変更";
+"web_palette_resize" = "要素の幅を変更";
 `;export{e as default};

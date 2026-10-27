@@ -169,3 +169,4 @@
 "web_swap_to_code" = "编程放大";
 "web_swap_to_editor" = "结构图放大";
 "web_editor_resize" = "调整结构图宽度";
+"web_palette_resize" = "调整元素宽度";

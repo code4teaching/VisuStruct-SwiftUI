@@ -169,4 +169,5 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_swap_to_code" = "Програмування великим";
 "web_swap_to_editor" = "Структурограма великою";
 "web_editor_resize" = "Змінити ширину структурограми";
+"web_palette_resize" = "Змінити ширину елементів";
 `;export{e as default};

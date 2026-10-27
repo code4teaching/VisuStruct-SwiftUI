@@ -169,4 +169,5 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_swap_to_code" = "البرمجة كبيرة";
 "web_swap_to_editor" = "المخطط كبير";
 "web_editor_resize" = "تغيير عرض المخطط";
+"web_palette_resize" = "تغيير عرض العناصر";
 `;export{e as default};

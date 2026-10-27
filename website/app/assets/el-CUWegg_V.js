@@ -169,4 +169,5 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_swap_to_code" = "Μεγάλος προγραμματισμός";
 "web_swap_to_editor" = "Μεγάλο διάγραμμα";
 "web_editor_resize" = "Αλλαγή πλάτους διαγράμματος";
+"web_palette_resize" = "Αλλαγή πλάτους στοιχείων";
 `;export{e as default};
