@@ -273,7 +273,11 @@
 "web_visubot_upload_step3" = "Zieh das Kabel ab und setze den mBot2 an den Start. Drückst du Taste A, fährt dein Programm los. Es bleibt gespeichert, auch nach dem Ausschalten.";
 "web_visubot_upload_start" = "Jetzt übertragen";
 "web_visubot_upload_busy" = "Wird übertragen … Kabel nicht abziehen.";
-"web_visubot_upload_done" = "Fertig! Kabel ab, mBot2 an den Start, Taste A drücken.";
+"web_visubot_upload_ready_title" = "Übertragen!";
+"web_visubot_upload_ready_unplug" = "Zieh das USB-Kabel ab.";
+"web_visubot_upload_ready_place" = "Setz den mBot2 an den Start.";
+"web_visubot_upload_ready_press" = "Drück Taste A (die Taste mit dem Quadrat), um zu starten.";
+"web_visubot_upload_again" = "Noch einmal übertragen";
 "web_visubot_upload_failed" = "Das Übertragen hat nicht geklappt. Starte den mBot2 neu und versuche es noch einmal.";
 "web_visubot_upload_label" = "A = Start";
 "web_visubot_upload_error_input" = "Dein Programm fragt nach einer Eingabe. Am mBot2 gibt es keine Tastatur, deshalb geht das nicht.";

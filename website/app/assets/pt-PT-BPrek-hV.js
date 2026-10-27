@@ -271,7 +271,11 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visubot_upload_step3" = "Desliga o cabo e põe o mBot2 na partida. Quando carregas no botão A, o programa arranca. Fica guardado, mesmo depois de desligar.";
 "web_visubot_upload_start" = "Transferir agora";
 "web_visubot_upload_busy" = "A transferir … não desligues o cabo.";
-"web_visubot_upload_done" = "Pronto! Desliga o cabo, põe o mBot2 na partida e carrega no botão A.";
+"web_visubot_upload_ready_title" = "Transferido!";
+"web_visubot_upload_ready_unplug" = "Desliga o cabo USB.";
+"web_visubot_upload_ready_place" = "Põe o mBot2 na partida.";
+"web_visubot_upload_ready_press" = "Carrega no botão A (o botão com o quadrado) para começar.";
+"web_visubot_upload_again" = "Transferir outra vez";
 "web_visubot_upload_failed" = "A transferência não funcionou. Reinicia o mBot2 e tenta outra vez.";
 "web_visubot_upload_label" = "A = Início";
 "web_visubot_upload_error_input" = "O teu programa pede uma entrada. O mBot2 não tem teclado, por isso não funciona.";

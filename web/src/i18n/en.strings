@@ -273,7 +273,11 @@
 "web_visubot_upload_step3" = "Unplug the cable and put the mBot2 at the start. When you press button A, your program starts. It stays saved, even after switching off.";
 "web_visubot_upload_start" = "Upload now";
 "web_visubot_upload_busy" = "Uploading … do not unplug the cable.";
-"web_visubot_upload_done" = "Done! Unplug the cable, put the mBot2 at the start, press button A.";
+"web_visubot_upload_ready_title" = "Uploaded!";
+"web_visubot_upload_ready_unplug" = "Unplug the USB cable.";
+"web_visubot_upload_ready_place" = "Put the mBot2 at the start.";
+"web_visubot_upload_ready_press" = "Press button A (the button with the square) to start.";
+"web_visubot_upload_again" = "Upload again";
 "web_visubot_upload_failed" = "The upload did not work. Restart the mBot2 and try again.";
 "web_visubot_upload_label" = "A = Start";
 "web_visubot_upload_error_input" = "Your program asks for an input. The mBot2 has no keyboard, so this does not work.";

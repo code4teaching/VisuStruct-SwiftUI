@@ -27,6 +27,14 @@ export function uploadToMBot(doc: VSDocument, subprograms: VSDocument[]) {
       </ol>
       <progress max="1" value="0" hidden></progress>
       <p class="mbot-upload-status" role="status"></p>
+      <div class="mbot-upload-ready" hidden>
+        <p class="mbot-upload-ready-title">✓ ${esc(t('web_visubot_upload_ready_title'))}</p>
+        <ol>
+          <li>${esc(t('web_visubot_upload_ready_unplug'))}</li>
+          <li>${esc(t('web_visubot_upload_ready_place'))}</li>
+          <li><strong>${esc(t('web_visubot_upload_ready_press'))}</strong></li>
+        </ol>
+      </div>
       <button type="button" class="primary" data-action="upload-start">⬆ ${esc(t('web_visubot_upload_start'))}</button>
     </div>`
   const status = dialog.querySelector<HTMLElement>('.mbot-upload-status')!
@@ -49,14 +57,18 @@ export function uploadToMBot(doc: VSDocument, subprograms: VSDocument[]) {
     if (!('source' in program)) return
     busy = true
     start.disabled = true
+    dialog.querySelector<HTMLElement>('.mbot-upload-ready')!.hidden = true
     bar.hidden = false
     bar.value = 0
     status.textContent = t('web_visubot_upload_busy')
     try {
       await mbotLink.upload(program.source, (done, total) => (bar.value = done / total))
-      bar.value = 1
-      status.textContent = `✓ ${t('web_visubot_upload_done')}`
-      status.classList.add('done')
+      // Groß und deutlich: was jetzt am mBot2 zu tun ist (Holger 27.10.)
+      bar.hidden = true
+      status.textContent = ''
+      dialog.querySelector<HTMLElement>('.mbot-upload-steps')!.hidden = true
+      dialog.querySelector<HTMLElement>('.mbot-upload-ready')!.hidden = false
+      start.textContent = `⬆ ${t('web_visubot_upload_again')}`
     } catch (e) {
       const error = e as Error
       // Auswahl des Anschlusses abgebrochen: nichts melden
