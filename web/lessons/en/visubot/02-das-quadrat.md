@@ -95,9 +95,30 @@ lösung: vb-vier-quadrate-loesung.visustruct
 > 4 squares · 4 sides · 5 steps = 80. Without loops that would be 80 boxes.
 :::
 
+## Driving without a cable
+
+::: mbot2
+fokus: cyberpi, buttons
+ansicht: oben
+:::
+
+So far the mBot2 hangs on the cable while it drives. But you can also **upload your program to the mBot2**. Then it remembers it and drives all by itself, for example through a maze on the floor.
+
+1. Connect the mBot2 with the USB cable and switch it on, as in lesson 1. This only works in **Chrome** or **Edge**.
+2. Open your program, for example the four squares.
+3. Click **⬆ Upload** at the top and then **Upload now**. Choose **USB Serial** again.
+4. Wait until it says “Done!”. The mBot2 restarts and shows **A = Start**.
+5. Unplug the cable and put the mBot2 at the start.
+6. Press **button A**, that is the [button with the square]{teil=buttons}. Now your program starts.
+
+The program stays saved, even when you switch the mBot2 off and on again. Only the next upload replaces it.
+
+> Afraid it drives off before you are ready? Don't worry: it always waits for button A. If you press A again while it drives, nothing happens. When it has finished, A starts the program again from the beginning.
+
 ::: checkliste
 - I can build a sequence without a loop first. → Driving a square
 - I spot repetitions and replace them with a for loop. → Always the same
 - I can nest two loops. → A loop in a loop
 - I can nest three loops. → Four squares
+- I can upload my program to the mBot2 and start it with button A without a cable. → Driving without a cable
 :::

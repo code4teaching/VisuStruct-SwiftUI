@@ -1,0 +1,73 @@
+import { mbotColorLanguage } from '../core/mbot'
+import { mbotLink } from '../core/mbotLink'
+import { mbotProgram } from '../core/mbotProgram'
+import type { VSDocument } from '../core/model'
+import { t } from './i18n'
+
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+/**
+ * VisuBot: „Auf mBot2 übertragen“. Übersetzt das Programm für den CyberPi, speichert es dort fest und erklärt,
+ * wie es weitergeht: Kabel ab, mBot2 an den Start, Taste A.
+ */
+export function uploadToMBot(doc: VSDocument, subprograms: VSDocument[]) {
+  const dialog = document.createElement('dialog')
+  dialog.className = 'about mbot-upload'
+  dialog.setAttribute('aria-labelledby', 'mbot-upload-title')
+  dialog.innerHTML = `
+    <header>
+      <h2 id="mbot-upload-title">⬆ ${esc(t('web_visubot_upload_title'))}</h2>
+      <button type="button" data-action="upload-close">${esc(t('about_done'))}</button>
+    </header>
+    <div class="about-body">
+      <ol class="mbot-upload-steps">
+        <li>${esc(t('web_visubot_upload_step1'))}</li>
+        <li>${esc(t('web_visubot_upload_step2'))}</li>
+        <li>${esc(t('web_visubot_upload_step3'))}</li>
+      </ol>
+      <progress max="1" value="0" hidden></progress>
+      <p class="mbot-upload-status" role="status"></p>
+      <button type="button" class="primary" data-action="upload-start">⬆ ${esc(t('web_visubot_upload_start'))}</button>
+    </div>`
+  const status = dialog.querySelector<HTMLElement>('.mbot-upload-status')!
+  const bar = dialog.querySelector('progress')!
+  const start = dialog.querySelector<HTMLButtonElement>('[data-action=upload-start]')!
+  let busy = false
+  const close = () => !busy && dialog.close()
+  dialog.querySelector('[data-action=upload-close]')!.addEventListener('click', close)
+  dialog.addEventListener('cancel', (ev) => busy && ev.preventDefault())
+  dialog.addEventListener('click', (ev) => ev.target === dialog && close())
+  dialog.addEventListener('close', () => dialog.remove())
+
+  const program = mbotProgram(doc, subprograms, mbotColorLanguage(), t('web_visubot_upload_label'))
+  if ('error' in program) {
+    status.textContent = `⚠︎ ${t(`web_visubot_upload_error_${program.error}`)}`
+    start.hidden = true
+  }
+
+  start.addEventListener('click', async () => {
+    if (!('source' in program)) return
+    busy = true
+    start.disabled = true
+    bar.hidden = false
+    bar.value = 0
+    status.textContent = t('web_visubot_upload_busy')
+    try {
+      await mbotLink.upload(program.source, (done, total) => (bar.value = done / total))
+      bar.value = 1
+      status.textContent = `✓ ${t('web_visubot_upload_done')}`
+      status.classList.add('done')
+    } catch (e) {
+      const error = e as Error
+      // Auswahl des Anschlusses abgebrochen: nichts melden
+      status.textContent = error.name === 'NotFoundError' ? '' : `⚠︎ ${t('web_visubot_upload_failed')} (${error.message})`
+      bar.hidden = true
+      await mbotLink.disconnect(error.name === 'NotFoundError' ? undefined : error.message).catch(() => undefined)
+    } finally {
+      busy = false
+      start.disabled = false
+    }
+  })
+  document.body.append(dialog)
+  dialog.showModal()
+}

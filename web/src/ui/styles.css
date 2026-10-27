@@ -3511,8 +3511,29 @@ button.danger-text:not(:disabled) {
   padding: 0 10px;
   white-space: nowrap;
 }
-.diagram-tools .mbot-link:not([hidden]) + .sim-toggle {
+.diagram-tools .mbot-link:not([hidden]) + .sim-toggle,
+.diagram-tools .mbot-upload:not([hidden]) + .sim-toggle {
   margin-inline-start: 6px;
+}
+.diagram-tools .mbot-upload {
+  margin-inline-start: 6px;
+  height: 30px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+/* Übertragen auf den mBot2 */
+.mbot-upload-steps {
+  margin: 0 0 12px;
+  padding-inline-start: 22px;
+  line-height: 1.5;
+}
+.mbot-upload progress {
+  width: 100%;
+  height: 10px;
+}
+.mbot-upload-status.done {
+  color: var(--success, #2f9e44);
+  font-weight: 600;
 }
 .settings-mbot-link {
   display: grid;

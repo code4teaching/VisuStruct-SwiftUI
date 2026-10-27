@@ -95,9 +95,30 @@ lösung: vb-vier-quadrate-loesung.visustruct
 > 4 Quadrate · 4 Seiten · 5 Schritte = 80. Ohne Schleifen wären das 80 Kästen.
 :::
 
+## Ohne Kabel fahren
+
+::: mbot2
+fokus: cyberpi, buttons
+ansicht: oben
+:::
+
+Bisher hängt der mBot2 am Kabel, solange er fährt. Du kannst dein Programm aber auch **auf den mBot2 übertragen**. Dann merkt er es sich und fährt ganz allein, zum Beispiel durch ein Labyrinth auf dem Boden.
+
+1. Schließ den mBot2 mit dem USB-Kabel an und schalte ihn ein, wie in Lektion 1. Das geht nur in **Chrome** oder **Edge**.
+2. Öffne dein Programm, zum Beispiel die vier Quadrate.
+3. Klick oben auf **⬆ Übertragen** und dann auf **Jetzt übertragen**. Wähle wieder **USB Serial**.
+4. Warte, bis „Fertig!“ dasteht. Der mBot2 startet neu und zeigt **A = Start**.
+5. Zieh das Kabel ab und setz den mBot2 an den Start.
+6. Drück **Taste A**, das ist die [Taste mit dem Quadrat]{teil=buttons}. Jetzt fährt dein Programm los.
+
+Das Programm bleibt gespeichert, auch wenn du den mBot2 aus- und wieder einschaltest. Erst das nächste Übertragen ersetzt es.
+
+> Fährt er los, bevor du bereit bist? Keine Sorge: Er wartet immer auf Taste A. Drückst du A noch einmal, während er fährt, passiert nichts. Ist er fertig, startet A das Programm von vorn.
+
 ::: checkliste
 - Ich kann einen Ablauf erst ohne Schleife bauen. → Ein Quadrat fahren
 - Ich erkenne Wiederholungen und ersetze sie durch eine For-Schleife. → Immer das Gleiche
 - Ich kann zwei Schleifen ineinander schachteln. → Schleife in der Schleife
 - Ich kann drei Schleifen ineinander schachteln. → Vier Quadrate
+- Ich kann mein Programm auf den mBot2 übertragen und ohne Kabel mit Taste A starten. → Ohne Kabel fahren
 :::

@@ -42,6 +42,7 @@ import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 import { mbotLinkText, setVisuBotMode, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
+import { uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -540,6 +541,7 @@ export class App {
         </div>
         ${iconButton('code', t('a11y_generate_code'), icons.code)}
         <button class="mbot-link" data-action="mbot-link" hidden></button>
+        <button class="mbot-upload" data-action="mbot-upload" hidden data-tip="${e(t('web_visubot_upload_title'))}" aria-label="${e(t('web_visubot_upload_title'))}">⬆ ${e(t('web_visubot_upload_button'))}</button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
         <button class="icon editor-swap" data-action="swap-main" aria-pressed="false">⇄</button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
@@ -787,6 +789,7 @@ export class App {
       const on = mbotLink.connected
       const label = mbotLink.connecting ? t('web_visubot_connecting') : on ? t('web_visubot_disconnect') : t('web_visubot_connect')
       linkButtons[0].hidden = !visuBotEnabled() || !canConnectMBot()
+      uploadButton.hidden = linkButtons[0].hidden
       linkButtons[0].classList.toggle('connected', on)
       const icon = mbotLink.connecting ? '⏳' : on ? '🟢' : '🔌'
       linkButtons[0].textContent = `${icon} mBot2`
@@ -797,6 +800,13 @@ export class App {
       linkInfo.textContent = canConnectMBot() ? mbotLinkText() : t('web_visubot_no_serial')
     }
     for (const b of linkButtons) b.addEventListener('click', () => void toggleMBotLink())
+    const uploadButton = $<HTMLButtonElement>('[data-action=mbot-upload]')
+    uploadButton.addEventListener('click', () =>
+      uploadToMBot(
+        this.doc,
+        this.tabs.filter((tab) => tab !== this.tab).map((tab) => tab.doc),
+      ),
+    )
     this.stopLinkListener?.()
     this.stopLinkListener = mbotLink.listen(showLink)
     showLink()
