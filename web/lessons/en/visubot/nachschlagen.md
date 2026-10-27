@@ -1,132 +1,148 @@
 ## 🤖 mBot2 commands
 
-### Driving
+A command tells the mBot2 what to **do**. Every command starts with `mbot.` and ends with brackets. Often you write a number in the brackets.
 
-Drives straight. Without a number it is one step of 10 cm.
+### Driving and turning
 
-```
-mbot.forward()          10 cm forward
-mbot.forward(30)        30 cm forward
-mbot.backward(20)       20 cm backward
-```
-
-### Turning
-
-Turns on the spot. Without a number it is 90°.
+The mBot2 drives straight or turns on the spot.
 
 ```
-mbot.turnRight()        90° to the right
-mbot.turnLeft(45)       45° to the left
-mbot.turnRight(180)     turn all the way around
+mbot.forward()          drives 10 cm forward
+mbot.forward(30)        drives 30 cm forward
+mbot.backward(20)       drives 20 cm back
+mbot.turnRight()        turns to the right (90°)
+mbot.turnLeft()         turns to the left (90°)
+mbot.turnLeft(45)       turns just a little to the left (45°)
+mbot.turnRight(180)     turns all the way round
 ```
 
-> For a polygon the mBot2 turns all the way around once in total: triangle 3 × 120°, square 4 × 90°, hexagon 6 × 60°.
+> Without a number it drives 10 cm or turns 90°. 90° is a right angle, like the corner of a sheet of paper.
+
+> For a polygon it turns all the way round once in total: triangle 3 × 120°, square 4 × 90°, hexagon 6 × 60°.
 
 ### Wheels separately
 
-Steps on the gas, left and right in percent (−100 to 100). The mBot2 keeps going until another driving command or `mbot.stop()` comes.
+Here you give each wheel gas yourself. The numbers are percent: 100 is full gas, 0 is standing still, a number with a minus drives backwards. The mBot2 keeps going until another driving command comes.
 
 ```
-mbot.drive(40, 40)      straight ahead
-mbot.drive(10, 40)      left curve
-mbot.drive(40, -40)     turn right on the spot
-mbot.stop()             stop
+mbot.drive(40, 40)      both wheels the same: straight ahead
+mbot.drive(10, 40)      left slower: curve to the left
+mbot.drive(40, -40)     one wheel forward, one back: it turns
+mbot.stop()             stops
 ```
 
 ### Light, sound and screen
 
+The mBot2 can light up, beep and show text.
+
 ```
-mbot.setLed(255, 0, 0)      LEDs red (red, green, blue each 0 to 255)
-mbot.ledOff()               LEDs off
-mbot.led(0).setColor("green") LED 0 green (LEDs 0 to 4; "off" switches off)
-mbot.playTone(440, 300)     tone of 440 Hz, 300 ms long
-mbot.showText("Hello")      text on the screen
-mbot.showText("Distance: " + mbot.getDistance())
+mbot.setLed(255, 0, 0)          all LEDs light up red
+mbot.ledOff()                   all LEDs off
+mbot.led(0).setColor("green")   only LED 0 lights up green
+mbot.led(0).setColor("off")     only LED 0 off
+mbot.playTone(440, 300)         plays a tone
+mbot.showText("Hello")          shows Hello on the screen
 ```
 
-### Feelings
+- **LEDs:** There are five LEDs with the numbers 0 to 4. With `setLed` you mix red, green and blue, each from 0 (off) to 255 (very bright).
+- **Tone:** The first number is the pitch. The bigger, the higher. The second number is the length in milliseconds (1000 milliseconds are 1 second).
+- **Screen:** With `+` you join text and numbers: `mbot.showText("Distance: " + mbot.getDistance())`.
 
-A little show with LEDs, sound and wiggling (only visible on the real mBot2):
+### Emotions
+
+The mBot2 shows a feeling with light, sound and wiggling. You only see it on the real mBot2.
 
 ```
 mbot.emotion("smile")   laughs
 mbot.emotion("sad")     is sad
+mbot.emotion("wow")     is amazed
 ```
 
-All feelings: smile, hello, yeah, proud, wow, yummy, naughty, uh_oh, hurt, sad, angry, startle, shiver, dizzy, sleepy, zzz, wake_up, blink, yes, no, look_up, look_down, look_left, look_right, look_around
+More feelings: hello, yeah, proud, yummy, naughty, uh_oh, hurt, angry, startle, shiver, dizzy, sleepy, zzz, wake_up, blink, yes, no, look_up, look_down, look_left, look_right, look_around
 
-### Waiting
+### Waiting and stopwatch
 
 ```
-mbot.pause(100)         wait 100 milliseconds
+mbot.pause(1000)        waits 1 second
+mbot.resetTimer()       sets the stopwatch to 0
 ```
+
+You read the stopwatch time with the sensor `mbot.getTimer()` (below under **Stopwatch and battery**).
 
 ## 📡 mBot2 sensors
 
+A sensor **measures** something and gives you a value back. You use the value in a condition, for example in a loop or a branch. Some sensors give a **number**, some **true or false**, one gives a **text**.
+
 ### Distance
 
-`mbot.getDistance()` measures the distance to the next wall in centimetres with the ultrasonic sensor. You use it like a number, usually in a condition:
+The ultrasonic sensor at the front measures how far away the next wall is, in centimetres.
 
 ```
-mbot.getDistance() > 15         more than 15 cm free ahead
-distance = mbot.getDistance()   remember the value in a variable
+mbot.getDistance()              distance in cm, e.g. 25
+mbot.getDistance() > 15         is there more than 15 cm free ahead?
+int distance = mbot.getDistance()   remember the distance in a variable
 ```
 
 ### Line
 
-`mbot.getLine()` tells whether the line sensor underneath sees something black. `0` means: nothing black.
+Under the mBot2 there are four probes. They see whether the floor is black.
 
 ```
+mbot.getLine()          number: 0 means no probe sees black
 mbot.getLine() == 0     no black, keep driving
-mbot.getLine() != 0     on the line or at the goal
-mbot.isLineLeft()       left middle probe sees black
-mbot.isLineRight()      right middle probe sees black
+mbot.getLine() != 0     a probe sees black
+mbot.isLineLeft()       does the left middle probe see black?
+mbot.isLineRight()      does the right middle probe see black?
 ```
 
 ### Colours
 
-The quad RGB sensor at the front underneath recognises coloured fields. `mbot.getColor()` gives the colour name as text. You compare texts with `.equals(…)`, not with `==`.
+The same sensor underneath also recognises colours. `mbot.getColor()` gives you the name of the colour as text: `"red"`, `"green"`, `"blue"`, `"yellow"`, `"white"` or `"black"`.
 
 ```
-mbot.getColor()                       "red", "green", "blue", "yellow",
-                                      "white" or "black"
-mbot.getColor().equals("red")         red?
-!mbot.getColor().equals("red")        not red
+mbot.getColor().equals("red")     is it standing on red?
+!mbot.getColor().equals("red")    is it not standing on red?
 ```
+
+> You compare texts with `.equals(…)`, not with `==`. The `!` in front means **not**.
 
 ### Buttons and joystick
 
+On the CyberPi there are the buttons A and B and a small joystick. Each sensor says **true** while it is being pressed.
+
 ```
-mbot.isButtonA()        button A pressed?
-mbot.isButtonB()        button B pressed?
-mbot.isJoystickUp()     joystick up? (also Down, Left, Right)
+mbot.isButtonA()        is button A pressed?
+mbot.isButtonB()        is button B pressed?
+mbot.isJoystickUp()     joystick pushed up?
+mbot.isJoystickDown()   joystick pushed down?
+mbot.isJoystickLeft()   joystick pushed left?
+mbot.isJoystickRight()  joystick pushed right?
 ```
 
 ### Light and loudness
 
 ```
-mbot.getBrightness()    brightness 0 (dark) to 100 (bright)
-mbot.getLoudness()      loudness 0 (silent) to 100 (loud)
+mbot.getBrightness()    how bright? 0 is dark, 100 is bright
+mbot.getLoudness()      how loud? 0 is silent, 100 is loud
 ```
 
 ### Tilt and shaking
 
 ```
-mbot.getPitch()         tilt forward/back in degrees
-mbot.getRoll()          tilt sideways in degrees
-mbot.isShaken()         being shaken?
+mbot.getPitch()         tipped forward or back? (in degrees)
+mbot.getRoll()          tipped to the side? (in degrees)
+mbot.isShaken()         is it being shaken?
 ```
 
-> Without a real mBot2 you set these values in the simulation under **🎛 Try the sensors**.
+> When the mBot2 lies flat, both tilts are 0. In the simulation you set these values under **🎛 Try the sensors**.
 
 ### Stopwatch and battery
 
 ```
-mbot.resetTimer()       stopwatch to 0
-mbot.getTimer()         seconds since the start or resetTimer()
-mbot.getBattery()       battery in percent
+mbot.getTimer()         seconds since the start or since resetTimer()
+mbot.getBattery()       how full is the battery? (in percent)
 ```
 
 ### Real mBot2
 
-With **🔌 mBot2** next to "Start simulation" you connect the real robot with a USB cable (only in Chrome or Edge). It then drives every step of the simulation along, and the sensors deliver real values. A second click disconnects it cleanly again.
+With **🔌 mBot2** next to "Start simulation" you connect the real robot with the USB cable. This only works in Chrome or Edge. Then it drives every step of the simulation along, and the sensors measure real values. A second click disconnects it again.
