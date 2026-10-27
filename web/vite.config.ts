@@ -10,6 +10,28 @@ import pkg from './package.json'
  * aus package-lock.json), dazu Hinweise auf das, was erst zur Laufzeit von fremden Servern geladen wird.
  * Die MIT-Lizenz von CodeMirror und Lezer verlangt, dass ihr Text mit ausgeliefert wird.
  */
+const CYBERPI_UPLOADER_LICENSE = `MIT License
+
+Copyright (c) 2026 TWO PLUS THREE LIMITED
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.`
+
 function thirdPartyLicenses(): Plugin {
   return {
     name: 'third-party-licenses',
@@ -23,6 +45,9 @@ function thirdPartyLicenses(): Plugin {
         'Nur mit „Swing-Unterstützung“ wird zur Laufzeit geladen / Loaded at run time only with “Swing support”:',
         '- CheerpJ by Leaning Technologies, https://cheerpj.com (CheerpJ Community License, from the CheerpJ CDN)',
         '- javac from OpenJDK 8 (tools.jar from https://github.com/leaningtech/javafiddle, Apache License 2.0; OpenJDK: GPLv2 with Classpath Exception)',
+        '',
+        'Übertragen auf den mBot2 / Upload to the mBot2: Ablauf nach / protocol after cyberpi-uploader, https://github.com/weare2plus3/cyberpi-uploader',
+        ...CYBERPI_UPLOADER_LICENSE.split('\n'),
         '',
         'Mitgelieferte Pakete / Bundled packages:',
       ]

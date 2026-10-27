@@ -146,3 +146,7 @@ mbot.getBattery()       how full is the battery? (in percent)
 ### Real mBot2
 
 With **🔌 mBot2** next to "Start simulation" you connect the real robot with the USB cable. This only works in Chrome or Edge. Then it drives every step of the simulation along, and the sensors measure real values. A second click disconnects it again.
+
+### Driving without a cable
+
+With **⬆ Upload** you save your program on the mBot2. Then unplug the cable, put the mBot2 at the start and press **button A**: it drives your program on its own. It stays saved until you upload a new one. Keyboard inputs do not work on the mBot2.

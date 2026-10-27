@@ -146,3 +146,7 @@ mbot.getBattery()       wie voll ist der Akku? (in Prozent)
 ### Echter mBot2
 
 Mit **🔌 mBot2** neben „Simulation starten“ verbindest du den echten Roboter mit dem USB-Kabel. Das geht nur in Chrome oder Edge. Dann fährt er jeden Schritt der Simulation mit, und die Sensoren messen echte Werte. Ein zweiter Klick trennt ihn wieder.
+
+### Ohne Kabel fahren
+
+Mit **⬆ Übertragen** speicherst du dein Programm fest auf dem mBot2. Danach Kabel ab, mBot2 an den Start und **Taste A** drücken: Er fährt dein Programm allein. Es bleibt gespeichert, bis du ein neues überträgst. Eingaben mit der Tastatur gehen am mBot2 nicht.

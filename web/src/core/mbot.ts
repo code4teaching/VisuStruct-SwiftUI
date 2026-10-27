@@ -123,6 +123,8 @@ export function setMBotColorLanguage(language: string) {
   colorLanguage = language === 'de' ? 'de' : 'en'
 }
 
+export const mbotColorLanguage = () => colorLanguage
+
 /** `red`, `rot` oder eine Antwort des echten Sensors → Farbname in der aktuellen Sprache. */
 export function mbotColorName(color: string): string {
   const key = color.trim().toLowerCase()
