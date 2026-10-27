@@ -169,4 +169,5 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_swap_to_code" = "Programmeren groot";
 "web_swap_to_editor" = "Structogram groot";
 "web_editor_resize" = "Breedte van het structogram wijzigen";
+"web_palette_resize" = "Breedte van de elementen wijzigen";
 `;export{e as default};

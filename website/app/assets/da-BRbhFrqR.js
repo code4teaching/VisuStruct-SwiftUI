@@ -169,4 +169,5 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_swap_to_code" = "Programmering stor";
 "web_swap_to_editor" = "Struktogram stort";
 "web_editor_resize" = "Skift bredde på struktogrammet";
+"web_palette_resize" = "Skift bredde på elementerne";
 `;export{e as default};

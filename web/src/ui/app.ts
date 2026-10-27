@@ -224,6 +224,8 @@ const liveWidthKey = 'visustruct.live.width'
 const previewKey = 'visustruct.robotPreview.open'
 /** „Programmieren groß“: Code ist die Hauptfläche, das Struktogramm schmal (Breite merken). */
 const codeMainKey = 'visustruct.codeMain'
+/** Selbst gezogene Breite der Elemente (leer = automatisch). */
+const paletteWidthKey = 'visustruct.palette.width'
 const editorWidthKey = 'visustruct.editor.width'
 /** Zugeklappte Gruppen der mBot2-Elemente. */
 const collapsedGroupsKey = 'visustruct.visubot.collapsedGroups'
@@ -506,6 +508,7 @@ export class App {
           </div>
         </div>
       </header>
+      <div class="palette-resizer" role="separator" aria-orientation="vertical" tabindex="0" title="${e(t('web_palette_resize'))}"></div>
       <aside class="palette">
         <h2>${e(t('palette_header'))}</h2>
         <p class="hint">${e(t('web_palette_hint'))}</p>
@@ -609,8 +612,52 @@ export class App {
     // Schmale Struktogramm-Spalte: Elemente kompakt (Symbol, Name klein darunter).
     this.paletteObserver?.disconnect()
     // In den Einstellungen lässt sie sich auch dauerhaft einschalten.
+    // Selbst gezogene Breite der Elemente: schmal heißt kompakt, breit heißt mit Namen daneben.
+    const paletteWidth = () => Number(storedValue(paletteWidthKey)) || 0
     const updatePalette = () =>
-      this.root.classList.toggle('compact-palette', storedValue(compactPaletteKey) === '1' || this.root.getBoundingClientRect().width < compactPaletteBelow)
+      this.root.classList.toggle(
+        'compact-palette',
+        storedValue(compactPaletteKey) === '1' || (paletteWidth() > 0 ? paletteWidth() < 150 : this.root.getBoundingClientRect().width < compactPaletteBelow),
+      )
+    const setPaletteWidth = (width: number | undefined, remember: boolean) => {
+      const w = width === undefined ? undefined : Math.round(Math.max(80, Math.min(360, width)))
+      if (w === undefined) this.root.style.removeProperty('--palette-width')
+      else this.root.style.setProperty('--palette-width', `${w}px`)
+      if (remember) storeValue(paletteWidthKey, w === undefined ? '' : String(w))
+      updatePalette()
+    }
+    if (paletteWidth() > 0) setPaletteWidth(paletteWidth(), false)
+    // Trennlinie zwischen Elementen und Struktogramm: ziehen, Pfeiltasten, Doppelklick setzt zurück.
+    const paletteBar = $<HTMLElement>('.palette-resizer')
+    const paletteEl = $<HTMLElement>('.palette')
+    const dir = () => (getComputedStyle(this.shell).direction === 'rtl' ? -1 : 1)
+    paletteBar.addEventListener('pointerdown', (ev) => {
+      if (ev.button !== 0) return
+      ev.preventDefault()
+      paletteBar.setPointerCapture(ev.pointerId)
+      const startX = ev.clientX
+      const start = paletteEl.getBoundingClientRect().width
+      const s = dir()
+      this.shell.classList.add('resizing')
+      const move = (m: PointerEvent) => setPaletteWidth(start + s * (m.clientX - startX), false)
+      const up = (u: PointerEvent) => {
+        paletteBar.removeEventListener('pointermove', move)
+        paletteBar.removeEventListener('pointerup', up)
+        paletteBar.removeEventListener('pointercancel', up)
+        this.shell.classList.remove('resizing')
+        setPaletteWidth(start + s * (u.clientX - startX), true)
+      }
+      paletteBar.addEventListener('pointermove', move)
+      paletteBar.addEventListener('pointerup', up)
+      paletteBar.addEventListener('pointercancel', up)
+    })
+    paletteBar.addEventListener('dblclick', () => setPaletteWidth(undefined, true))
+    paletteBar.addEventListener('keydown', (k) => {
+      const step = k.key === 'ArrowRight' ? 20 : k.key === 'ArrowLeft' ? -20 : 0
+      if (!step) return
+      k.preventDefault()
+      setPaletteWidth(paletteEl.getBoundingClientRect().width + dir() * step, true)
+    })
     this.paletteObserver = new ResizeObserver(updatePalette)
     this.paletteObserver.observe(this.root)
     const compactPalette = $<HTMLInputElement>('[data-action=compact-palette]')

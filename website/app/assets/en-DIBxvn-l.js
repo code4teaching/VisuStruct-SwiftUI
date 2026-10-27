@@ -383,4 +383,5 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_swap_to_code" = "Programming large, structogram narrow";
 "web_swap_to_editor" = "Structogram large, programming narrow";
 "web_editor_resize" = "Resize the structogram";
+"web_palette_resize" = "Resize the elements (double-click: reset)";
 `;export{e as default};

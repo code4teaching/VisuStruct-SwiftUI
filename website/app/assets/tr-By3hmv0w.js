@@ -169,4 +169,5 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_swap_to_code" = "Programlama büyük";
 "web_swap_to_editor" = "Yapı diyagramı büyük";
 "web_editor_resize" = "Diyagram genişliğini değiştir";
+"web_palette_resize" = "Öğelerin genişliğini değiştir";
 `;export{e as default};

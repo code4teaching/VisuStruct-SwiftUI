@@ -169,4 +169,5 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_swap_to_code" = "Programmation en grand";
 "web_swap_to_editor" = "Structogramme en grand";
 "web_editor_resize" = "Modifier la largeur du structogramme";
+"web_palette_resize" = "Modifier la largeur des éléments";
 `;export{e as default};

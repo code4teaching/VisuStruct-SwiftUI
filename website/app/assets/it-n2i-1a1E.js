@@ -169,4 +169,5 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_swap_to_code" = "Programmazione grande";
 "web_swap_to_editor" = "Diagramma grande";
 "web_editor_resize" = "Modifica la larghezza del diagramma";
+"web_palette_resize" = "Modifica la larghezza degli elementi";
 `;export{e as default};
