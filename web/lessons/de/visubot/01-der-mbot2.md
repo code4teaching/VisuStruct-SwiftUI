@@ -292,6 +292,8 @@ Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den B
 
 > Fertig? Klick noch einmal auf **🟢 mBot2**. Dann hält er an, zeigt „Bis bald!“ und gibt den Anschluss frei. Erst danach das Kabel ziehen.
 
+> Ganz ohne Kabel fahren? Das lernst du in Lektion 2 bei **Ohne Kabel fahren**.
+
 ## Den mBot2 testen
 
 Ist der mBot2 verbunden, erscheint unter der Welt **🔧 mBot2 testen**. Klapp es auf:

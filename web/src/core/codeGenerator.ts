@@ -22,6 +22,8 @@ export interface CodeOptions {
   arrayElementTypes?: Map<string, string>
   /** Text-Variablen: In Python ohne `str(…)` verketten. */
   stringVariables?: Set<string>
+  /** Python ohne `match` (MicroPython auf dem mBot2 kennt es nicht): Fallauswahl als `if`/`elif`/`else`. */
+  pythonWithoutMatch?: boolean
   /** Nur für die Ansicht „Code live“: graue Platzhalter statt `true`/„empty element“, Zeilen je Element. */
   live?: LiveContext
 }
@@ -1294,6 +1296,18 @@ function emitElement(element: VSElement, target: CodeTarget, options: CodeOption
     case ElementType.fallauswahl: {
       const cases = element.cases
       if (!cases || cases.length === 0) return
+      if (py && options.pythonWithoutMatch) {
+        const choice = `wahl${indent / step + 1}`
+        emitConditionHeader(choice + ' = ', '\n', element.textLines, target, options, indent, sink)
+        cases.forEach((c, i) => {
+          const isLast = i === cases.length - 1
+          if (isLast && i === 0) sink.out += sp(indent) + 'if True:' + forcedCaseComment(c.name, target) + '\n'
+          else if (isLast) sink.out += sp(indent) + 'else:' + forcedCaseComment(c.name, target) + '\n'
+          else sink.out += sp(indent) + (i === 0 ? 'if ' : 'elif ') + choice + ' == ' + caseLabelToken(c.name, target) + ':\n'
+          body(c.elements, indent + step)
+        })
+        return
+      }
       emitConditionHeader(
         py ? 'match ' : 'switch (',
         py ? ':\n' : ') {\n',

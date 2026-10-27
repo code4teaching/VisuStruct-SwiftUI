@@ -292,6 +292,8 @@ Now the mBot2 drives along with every step of the simulation. Put it on the floo
 
 > Finished? Click **🟢 mBot2** once more. It stops, shows “Bis bald!” and releases the port. Only then pull out the cable.
 
+> Want to drive with no cable at all? You learn that in lesson 2 under **Driving without a cable**.
+
 ## Testing the mBot2
 
 When the mBot2 is connected, **🔧 Test the mBot2** appears below the world. Open it:
