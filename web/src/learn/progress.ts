@@ -63,11 +63,26 @@ const renamedLessons: Record<string, string> = {
   '29-notenrechner': '34-notenrechner',
   '30-taschenrechner': '35-taschenrechner',
   '31-zahlenraten': '36-zahlenraten',
-  // VisuBot ab 0.4.4 (neue Lektion 13 Einzelne LEDs)
-  '13-lautsprecher': '14-lautsprecher',
-  '14-bildschirm': '15-bildschirm',
-  '15-motoren': '16-motoren',
-  '16-stoppuhr-akku': '17-stoppuhr-akku',
+  // VisuBot ab 0.4.4 (neue Lektion 13 Einzelne LEDs) und ab 0.5 (Grundlagen-Lektionen 3, 9, 17, 19, 22)
+  '13-lautsprecher': '16-lautsprecher',
+  '14-bildschirm': '18-bildschirm',
+  '15-motoren': '20-motoren',
+  '16-stoppuhr-akku': '21-stoppuhr-akku',
+  '03-sensoren': '04-sensoren',
+  '04-bis-zur-wand': '05-bis-zur-wand',
+  '05-abstand': '06-abstand',
+  '06-linie': '07-linie',
+  '07-farben': '08-farben',
+  '08-tasten-joystick': '10-tasten-joystick',
+  '09-licht': '11-licht',
+  '10-lautstaerke': '12-lautstaerke',
+  '11-neigung': '13-neigung',
+  '12-leds': '14-leds',
+  '13-einzelne-leds': '15-einzelne-leds',
+  '14-lautsprecher': '16-lautsprecher',
+  '15-bildschirm': '18-bildschirm',
+  '16-motoren': '20-motoren',
+  '17-stoppuhr-akku': '21-stoppuhr-akku',
 }
 
 function migrate(s: Store): Store {

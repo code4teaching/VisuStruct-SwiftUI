@@ -1,7 +1,6 @@
 ---
 titel: The spiral
 nach: 2
-kurs: 13
 stufe: 2
 ---
 

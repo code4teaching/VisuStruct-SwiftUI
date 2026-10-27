@@ -1,7 +1,6 @@
 ---
 titel: Avoid obstacles
-nach: 14
-kurs: 14
+nach: 16
 stufe: 2
 ---
 

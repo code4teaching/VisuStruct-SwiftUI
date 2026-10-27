@@ -40,8 +40,11 @@ describe('Lernstand aus der Datei', () => {
   })
 
   it('übernimmt umbenannte VisuBot-Lektionen und ignoriert fremde Dateien', () => {
-    progress.loadFile(file({ '13-lautsprecher': { step: 5 } }))
-    expect(progress.lesson('14-lautsprecher').step).toBe(5)
+    progress.loadFile(file({ '13-lautsprecher': { step: 5 }, '03-sensoren': { step: 2 }, '17-stoppuhr-akku': { step: 1, done: true } }))
+    expect(progress.lesson('16-lautsprecher').step).toBe(5)
+    expect(progress.lesson('04-sensoren').step).toBe(2)
+    expect(progress.lesson('21-stoppuhr-akku').done).toBe(true)
+    expect(progress.lesson('03-sensoren').step).toBe(0)
     expect(progress.loadFile('{"lessons":{}}')).toBe(false)
   })
 

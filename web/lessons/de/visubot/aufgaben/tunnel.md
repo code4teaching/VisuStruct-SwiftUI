@@ -1,7 +1,6 @@
 ---
 titel: Der Tunnelsucher
-nach: 4
-kurs: 12
+nach: 5
 stufe: 3
 ---
 

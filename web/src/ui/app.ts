@@ -39,7 +39,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView } from './visubotView'
+import { mbotLinkText, setVisuBotMode, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
@@ -330,7 +330,10 @@ export class App {
   constructor(private root: HTMLElement) {
     this.tabs.push(this.makeTab())
     // Link „VisuBot ausprobieren“ der Webseite: …/app/?visubot schaltet den Kurs mit mBot2-Schritten ein.
-    if (new URLSearchParams(location.search).has('visubot') && visuBotMode() === 'off') setVisuBotMode('course')
+    // Links der Webseite: …/app/?visubot öffnet die Welt VisuBot, …/app/?visustruct die Welt VisuStruct.
+    const query = new URLSearchParams(location.search)
+    if (query.has('visubot')) setVisuBotMode('on')
+    else if (query.has('visustruct')) setVisuBotMode('off')
     useVisuBotContent(visuBotMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
@@ -356,6 +359,7 @@ export class App {
       hide: () => this.setFilesOpen(false),
       message: (text) => this.showMessage(text),
       progressLoaded: () => this.learn.restore(),
+      chooseWorld: (mode) => this.chooseWorld(mode, false),
     })
     // Oben die Werkzeugleiste, darunter vier Spalten: Dateien | Lernen | Struktogramm | Code live, jede einklappbar.
     const columns = h('div', { class: 'columns' })
@@ -376,14 +380,8 @@ export class App {
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
-    const params = new URLSearchParams(location.search)
-    const fromSite = params.has('learn')
-    if (fromSite || params.has('visubot')) {
-      params.delete('learn')
-      params.delete('visubot')
-      const query = params.toString()
-      history.replaceState(history.state, '', `${location.pathname}${query ? `?${query}` : ''}${location.hash}`)
-    }
+    const fromSite = new URLSearchParams(location.search).has('learn')
+    this.showWorldInURL()
     this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), fromSite)
     this.setFilesOpen(storedValue(filesKey) === '1')
     const z = Number(storedValue(zoomKey))
@@ -425,6 +423,14 @@ export class App {
         <div class="group settings">
           <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
+            <section data-action="visubot">
+              <h3>${e(t('web_visubot_world_title'))}</h3>
+              ${worldChooserHTML()}
+              <div class="settings-mbot-link">
+                <button type="button" data-action="mbot-link-settings"></button>
+                <small></small>
+              </div>
+            </section>
             <section>
               <h3>${e(t('web_settings_display'))}</h3>
               <label>${e(t('web_scale_canvas'))}
@@ -469,19 +475,6 @@ export class App {
                 <input type="checkbox" data-action="java-swing" />
                 <span>${e(t('web_live_swing'))}<small>${e(t('web_live_swing_hint'))}</small></span>
               </label>
-            </section>
-            <section>
-              <h3>VisuBot</h3>
-              <label>${e(t('web_visubot_mode'))}
-                <select data-action="visubot">${(['off', 'course', 'series'] as const)
-                  .map((m) => `<option value="${m}">${e(t(`web_visubot_mode_${m}`))}</option>`)
-                  .join('')}</select>
-                <small>${e(t('web_visubot_mode_hint'))}</small>
-              </label>
-              <div class="settings-mbot-link">
-                <button type="button" data-action="mbot-link-settings"></button>
-                <small></small>
-              </div>
             </section>
             <footer>
               <button type="button" class="about-button" data-action="about">ⓘ ${e(t('about_nav_title'))}</button>
@@ -697,14 +690,8 @@ export class App {
     this.stopLinkListener?.()
     this.stopLinkListener = mbotLink.listen(showLink)
     showLink()
-    const visuBot = $<HTMLSelectElement>('[data-action=visubot]')
-    visuBot.value = visuBotMode()
-    visuBot.addEventListener('change', () =>
-      void this.changeLanguage(async () => {
-        setVisuBotMode(visuBot.value as VisuBotMode)
-        useVisuBotContent(visuBot.value as VisuBotMode)
-      }, 'visubot'),
-    )
+    for (const b of this.topbar.querySelectorAll<HTMLButtonElement>('[data-action=visubot] [data-world]'))
+      b.addEventListener('click', () => void this.chooseWorld(b.dataset.world as VisuBotMode, true))
     const keywords = $<HTMLInputElement>('[data-action=keywords]')
     keywords.checked = codeKeywords()
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
@@ -794,7 +781,29 @@ export class App {
 
   /** Sprache wechseln wie in den App-Einstellungen: Oberfläche neu aufbauen, Reiter und Verlauf bleiben. */
   /** Sprache oder Code-Keywords umstellen und alle Texte neu aufbauen; das Einstellungsmenü bleibt offen. */
-  private async changeLanguage(change: () => Promise<void>, control: string) {
+  /** `?visubot` oder `?visustruct` in der Adresse, damit man den Link mit der richtigen Welt weitergeben kann. */
+  private showWorldInURL() {
+    const params = new URLSearchParams(location.search)
+    for (const key of ['learn', 'visubot', 'visustruct']) params.delete(key)
+    const rest = params.toString()
+    const world = visuBotMode() === 'on' ? 'visubot' : 'visustruct'
+    history.replaceState(history.state, '', `${location.pathname}?${world}${rest ? `&${rest}` : ''}${location.hash}`)
+  }
+
+  /** VisuStruct oder VisuBot: Lernbereich, Elemente und Simulator neu aufbauen. */
+  private async chooseWorld(mode: VisuBotMode, fromSettings: boolean) {
+    if (mode === visuBotMode() && worldChosen()) return
+    await this.changeLanguage(
+      async () => {
+        setVisuBotMode(mode)
+        useVisuBotContent(mode)
+        this.showWorldInURL()
+      },
+      fromSettings ? `visubot] [data-world=${mode}` : undefined,
+    )
+  }
+
+  private async changeLanguage(change: () => Promise<void>, control?: string) {
     this.setSimulating(false)
     this.setCoding(false)
     await change()
@@ -809,6 +818,7 @@ export class App {
     this.labelLiveRail()
     this.labelEditorRail()
     this.labelFilesRail()
+    if (control === undefined) return
     this.topbar.querySelector<HTMLButtonElement>('[data-action=settings]')?.click()
     this.topbar.querySelector<HTMLElement>(`[data-action=${control}]`)?.focus()
   }

@@ -262,11 +262,9 @@
 "web_learn_rescue_freed" = "🎉 Das Tor ist offen!";
 
 /* VisuBot (mBot2-Modus), nur de/en/pt */
-"web_visubot_mode" = "VisuBot (mBot2)";
-"web_visubot_mode_hint" = "Im Kurs: Die normalen Lektionen bekommen zusätzliche 🤖-Schritte mit dem mBot2. Eigene Reihe: nur Roboter-Lektionen, für Klassen, die den Kurs schon kennen. Alles geht auch ohne Roboter im 3D-Simulator.";
-"web_visubot_mode_off" = "Aus";
-"web_visubot_mode_course" = "Im Kurs";
-"web_visubot_mode_series" = "Eigene Reihe";
+"web_visubot_world_title" = "Womit möchtest du arbeiten?";
+"web_visubot_world_visustruct_hint" = "VisuStruct: Struktogramme und Java mit dem ganzen Kurs. Wechseln geht jederzeit im Zahnrad.";
+"web_visubot_world_visubot_hint" = "VisuBot: den Roboter mBot2 programmieren, mit eigenen Lektionen und Aufgaben. Wechseln geht jederzeit im Zahnrad.";
 "web_visubot_connect" = "Mit echtem mBot2 verbinden";
 "web_visubot_disconnect" = "Trennen";
 "web_visubot_connecting" = "Verbinde … (der CyberPi startet kurz neu)";
