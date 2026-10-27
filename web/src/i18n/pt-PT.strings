@@ -280,7 +280,9 @@
 "web_visubot_disconnect" = "Desligar";
 "web_visubot_connecting" = "A ligar … (o CyberPi reinicia brevemente)";
 "web_visubot_connected" = "O mBot2 real conduz também";
-"web_visubot_no_serial" = "mBot2 real: só no Chrome ou Edge num computador.";
+"web_visubot_no_serial" = "mBot2 real: só no Chrome, Edge ou Chromium num computador.";
+"web_visubot_no_serial_title" = "É preciso o Chrome, o Edge ou o Chromium";
+"web_visubot_no_serial_hint" = "Para o mBot2 real precisas do Chrome, do Edge ou do Chromium num computador. O Safari, o Firefox e o iPad não conseguem comunicar com dispositivos USB. Abre o VisuStruct num destes browsers e depois podes ligar o mBot2 e transferir o teu programa.";
 "web_visubot_link_error" = "Ligação perdida";
 "web_visubot_world" = "Mundo VisuBot";
 "web_visubot_no_3d" = "A vista 3D não consegue arrancar neste navegador.";

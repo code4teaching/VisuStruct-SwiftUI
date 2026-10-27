@@ -42,7 +42,7 @@ import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
 import { mbotLinkText, setVisuBotMode, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
-import { uploadToMBot } from './mbotUpload'
+import { showNoSerialHint, uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
@@ -788,8 +788,12 @@ export class App {
     const showLink = () => {
       const on = mbotLink.connected
       const label = mbotLink.connecting ? t('web_visubot_connecting') : on ? t('web_visubot_disconnect') : t('web_visubot_connect')
-      linkButtons[0].hidden = !visuBotEnabled() || !canConnectMBot()
-      uploadButton.hidden = linkButtons[0].hidden
+      // Ohne Web Serial (Safari, iPad): sichtbar, aber ausgegraut; ein Klick erklärt, was fehlt (Holger 27.10.)
+      for (const b of [linkButtons[0], uploadButton]) {
+        b.hidden = !visuBotEnabled()
+        b.classList.toggle('unavailable', !canConnectMBot())
+        b.setAttribute('aria-disabled', String(!canConnectMBot()))
+      }
       linkButtons[0].classList.toggle('connected', on)
       const icon = mbotLink.connecting ? '⏳' : on ? '🟢' : '🔌'
       linkButtons[0].textContent = `${icon} mBot2`
@@ -799,10 +803,10 @@ export class App {
       linkButtons[1].parentElement!.hidden = !visuBotEnabled()
       linkInfo.textContent = canConnectMBot() ? mbotLinkText() : t('web_visubot_no_serial')
     }
-    for (const b of linkButtons) b.addEventListener('click', () => void toggleMBotLink())
     const uploadButton = $<HTMLButtonElement>('[data-action=mbot-upload]')
+    for (const b of linkButtons) b.addEventListener('click', () => (canConnectMBot() ? void toggleMBotLink() : showNoSerialHint()))
     uploadButton.addEventListener('click', () =>
-      uploadToMBot(
+      !canConnectMBot() ? showNoSerialHint() : uploadToMBot(
         this.doc,
         this.tabs.filter((tab) => tab !== this.tab).map((tab) => tab.doc),
       ),

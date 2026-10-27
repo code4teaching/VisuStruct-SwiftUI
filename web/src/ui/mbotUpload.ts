@@ -71,3 +71,21 @@ export function uploadToMBot(doc: VSDocument, subprograms: VSDocument[]) {
   document.body.append(dialog)
   dialog.showModal()
 }
+
+/** Safari und iPad können kein USB (Web Serial): kurzer Hinweis statt Verbinden oder Übertragen. */
+export function showNoSerialHint() {
+  const dialog = document.createElement('dialog')
+  dialog.className = 'about mbot-upload'
+  dialog.setAttribute('aria-labelledby', 'mbot-hint-title')
+  dialog.innerHTML = `
+    <header>
+      <h2 id="mbot-hint-title">🔌 ${esc(t('web_visubot_no_serial_title'))}</h2>
+      <button type="button" data-action="hint-close">${esc(t('about_done'))}</button>
+    </header>
+    <div class="about-body"><p>${esc(t('web_visubot_no_serial_hint'))}</p></div>`
+  dialog.querySelector('[data-action=hint-close]')!.addEventListener('click', () => dialog.close())
+  dialog.addEventListener('click', (ev) => ev.target === dialog && dialog.close())
+  dialog.addEventListener('close', () => dialog.remove())
+  document.body.append(dialog)
+  dialog.showModal()
+}

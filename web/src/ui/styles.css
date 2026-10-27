@@ -3521,6 +3521,12 @@ button.danger-text:not(:disabled) {
   padding: 0 10px;
   white-space: nowrap;
 }
+/* Ohne USB im Browser (Safari, iPad): ausgegraut, ein Klick zeigt den Hinweis */
+.diagram-tools .mbot-link.unavailable,
+.diagram-tools .mbot-upload.unavailable {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
 /* Übertragen auf den mBot2 */
 .mbot-upload-steps {
   margin: 0 0 12px;
