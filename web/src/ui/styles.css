@@ -1386,7 +1386,7 @@ button.danger-text:not(:disabled) {
   writing-mode: vertical-rl;
   white-space: nowrap;
 }
-.shell.learning .learn-rail:not(.live-rail):not(.editor-rail):not(.files-rail) {
+.shell.learning .learn-rail:not(.live-rail):not(.editor-rail):not(.files-rail):not(.robotpreview-rail) {
   display: none;
 }
 /* Code live eingeklappt: dieselbe Leiste, nur am rechten Rand. */
@@ -3535,4 +3535,147 @@ button.danger-text:not(:disabled) {
 }
 .start-world {
   margin-bottom: 14px;
+}
+
+/* VisuBot: „mBot2 live“ als eigene Spalte ganz rechts oder unten in „Programmieren“. */
+.robotpreview,
+.robotpreview-rail,
+.preview-resizer {
+  display: none;
+}
+.shell.robot-world.preview .robotpreview {
+  display: flex;
+}
+.shell.robot-world:not(.preview) .robotpreview-rail {
+  display: flex;
+  border-inline-end: none;
+  border-inline-start: 1px solid var(--border);
+}
+.robotpreview-rail svg {
+  transform: scaleX(-1);
+}
+.shell.robot-world.preview:not(.preview-stacked) .preview-resizer {
+  display: block;
+}
+.robotpreview {
+  flex: 0 1 auto;
+  width: 360px;
+  min-width: 220px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px 12px;
+  background: var(--panel);
+  border-inline-start: 1px solid var(--border);
+  min-height: 0;
+  overflow-y: auto;
+}
+.robotpreview .hint {
+  margin: 0;
+  font-size: 0.85em;
+  color: var(--muted, inherit);
+}
+.robotpreview .robotpreview-stage {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 160px;
+}
+.robotpreview .robotpreview-status {
+  margin: 0;
+  min-height: 1.3em;
+}
+.robotpreview-height {
+  display: none;
+}
+/* Unter dem Code: volle Breite der Spalte, Höhe an der Linie darüber verschieben. */
+.shell.preview-stacked .robotpreview {
+  flex: 0 0 auto;
+  width: auto !important;
+  height: 320px;
+  min-width: 0;
+  margin: 4px -12px -12px;
+  padding-top: 0;
+  border-inline-start: none;
+  border-top: 1px solid var(--border);
+  overflow: visible;
+}
+.shell.preview-stacked .robotpreview-height {
+  display: block;
+  height: 10px;
+  margin: -5px 0 0;
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.robotpreview-height::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 4px;
+  height: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.robotpreview-height:hover::after,
+.robotpreview-height:focus-visible::after,
+.shell.resizing .robotpreview-height::after {
+  background: var(--accent);
+}
+.robotpreview-height:focus-visible {
+  outline: none;
+}
+.preview-resizer {
+  flex: none;
+  width: 10px;
+  margin-inline: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.preview-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.preview-resizer:hover::after,
+.preview-resizer:focus-visible::after,
+.shell.resizing .preview-resizer::after {
+  background: var(--accent);
+}
+.preview-resizer:focus-visible {
+  outline: none;
+}
+
+/* mBot2-Elemente: Gruppen wie im Nachschlagen, auf- und zuklappbar */
+.palette-group {
+  grid-column: 1 / -1;
+}
+.palette-group button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+.palette-group button::before {
+  content: '▾';
+  transition: transform 0.15s;
+}
+.palette-group button[aria-expanded='false']::before {
+  transform: rotate(-90deg);
+}
+.palette-item[hidden] {
+  display: none;
 }

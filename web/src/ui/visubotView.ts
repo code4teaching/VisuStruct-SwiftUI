@@ -311,7 +311,7 @@ export class VisuBotView {
 let audio: AudioContext | undefined
 
 /** Kurzer Ton über die Lautsprecher des Computers, wie der Lautsprecher des CyberPi. */
-function playTone(hz: number, ms: number) {
+export function playTone(hz: number, ms: number) {
   try {
     audio ??= new AudioContext()
     const osc = audio.createOscillator()
@@ -392,6 +392,8 @@ export async function toggleMBotLink() {
 export interface VisuBotTemplate {
   /** Schlüssel des Namens in der Palette */
   key: string
+  /** Gruppe in der Palette wie im Nachschlagen (`web_visubot_group_…`) */
+  group: string
   type: ElementType
   make: () => VSElement
 }
@@ -399,41 +401,41 @@ export interface VisuBotTemplate {
 const statement = (text: string) => () => makeElement(ElementType.anweisung, { textLines: [text] })
 
 export const visuBotTemplates: VisuBotTemplate[] = [
-  { key: 'web_visubot_el_forward', type: ElementType.anweisung, make: statement('mbot.forward()') },
-  { key: 'web_visubot_el_backward', type: ElementType.anweisung, make: statement('mbot.backward()') },
-  { key: 'web_visubot_el_right', type: ElementType.anweisung, make: statement('mbot.turnRight()') },
-  { key: 'web_visubot_el_left', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
-  { key: 'web_visubot_el_drive', type: ElementType.anweisung, make: statement('mbot.drive(30, 30)') },
-  { key: 'web_visubot_el_stop', type: ElementType.anweisung, make: statement('mbot.stop()') },
-  { key: 'web_visubot_el_led', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
-  { key: 'web_visubot_el_led_off', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
-  { key: 'web_visubot_el_led_color', type: ElementType.anweisung, make: statement('mbot.led(0).setColor("grün")') },
-  { key: 'web_visubot_el_tone', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
-  { key: 'web_visubot_el_wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
-  { key: 'web_visubot_el_text', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
-  { key: 'web_visubot_el_emotion', type: ElementType.anweisung, make: statement('mbot.emotion("smile")') },
-  { key: 'web_visubot_el_timer', type: ElementType.anweisung, make: statement('mbot.resetTimer()') },
+  { key: 'web_visubot_el_forward', group: 'drive', type: ElementType.anweisung, make: statement('mbot.forward()') },
+  { key: 'web_visubot_el_backward', group: 'drive', type: ElementType.anweisung, make: statement('mbot.backward()') },
+  { key: 'web_visubot_el_right', group: 'drive', type: ElementType.anweisung, make: statement('mbot.turnRight()') },
+  { key: 'web_visubot_el_left', group: 'drive', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
+  { key: 'web_visubot_el_drive', group: 'wheels', type: ElementType.anweisung, make: statement('mbot.drive(30, 30)') },
+  { key: 'web_visubot_el_stop', group: 'wheels', type: ElementType.anweisung, make: statement('mbot.stop()') },
+  { key: 'web_visubot_el_led', group: 'output', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
+  { key: 'web_visubot_el_led_off', group: 'output', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
+  { key: 'web_visubot_el_led_color', group: 'output', type: ElementType.anweisung, make: statement('mbot.led(0).setColor("grün")') },
+  { key: 'web_visubot_el_tone', group: 'output', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
+  { key: 'web_visubot_el_text', group: 'output', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
+  { key: 'web_visubot_el_wait', group: 'wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
+  { key: 'web_visubot_el_emotion', group: 'emotion', type: ElementType.anweisung, make: statement('mbot.emotion("smile")') },
+  { key: 'web_visubot_el_timer', group: 'wait', type: ElementType.anweisung, make: statement('mbot.resetTimer()') },
 ]
 
 /** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
-export const visuBotSensors: { key: string; text: string }[] = [
-  { key: 'web_visubot_sensor_distance', text: 'mbot.getDistance()' },
-  { key: 'web_visubot_sensor_line', text: 'mbot.getLine()' },
-  { key: 'web_visubot_sensor_line_left', text: 'mbot.isLineLeft()' },
-  { key: 'web_visubot_sensor_line_right', text: 'mbot.isLineRight()' },
+export const visuBotSensors: { key: string; group: string; text: string }[] = [
+  { key: 'web_visubot_sensor_distance', group: 'distance', text: 'mbot.getDistance()' },
+  { key: 'web_visubot_sensor_line', group: 'line', text: 'mbot.getLine()' },
+  { key: 'web_visubot_sensor_line_left', group: 'line', text: 'mbot.isLineLeft()' },
+  { key: 'web_visubot_sensor_line_right', group: 'line', text: 'mbot.isLineRight()' },
   // Farbname in der Sprache der Lektionen ("rot" oder "red")
-  { key: 'web_visubot_sensor_color', get text() { return `mbot.getColor().equals("${mbotColorName('red')}")` } },
-  { key: 'web_visubot_sensor_button_a', text: 'mbot.isButtonA()' },
-  { key: 'web_visubot_sensor_button_b', text: 'mbot.isButtonB()' },
-  { key: 'web_visubot_sensor_joy_up', text: 'mbot.isJoystickUp()' },
-  { key: 'web_visubot_sensor_joy_down', text: 'mbot.isJoystickDown()' },
-  { key: 'web_visubot_sensor_joy_left', text: 'mbot.isJoystickLeft()' },
-  { key: 'web_visubot_sensor_joy_right', text: 'mbot.isJoystickRight()' },
-  { key: 'web_visubot_sensor_brightness', text: 'mbot.getBrightness()' },
-  { key: 'web_visubot_sensor_loudness', text: 'mbot.getLoudness()' },
-  { key: 'web_visubot_sensor_pitch', text: 'mbot.getPitch()' },
-  { key: 'web_visubot_sensor_roll', text: 'mbot.getRoll()' },
-  { key: 'web_visubot_sensor_shake', text: 'mbot.isShaken()' },
-  { key: 'web_visubot_sensor_timer', text: 'mbot.getTimer()' },
-  { key: 'web_visubot_sensor_battery', text: 'mbot.getBattery()' },
+  { key: 'web_visubot_sensor_color', group: 'color', get text() { return `mbot.getColor().equals("${mbotColorName('red')}")` } },
+  { key: 'web_visubot_sensor_button_a', group: 'buttons', text: 'mbot.isButtonA()' },
+  { key: 'web_visubot_sensor_button_b', group: 'buttons', text: 'mbot.isButtonB()' },
+  { key: 'web_visubot_sensor_joy_up', group: 'buttons', text: 'mbot.isJoystickUp()' },
+  { key: 'web_visubot_sensor_joy_down', group: 'buttons', text: 'mbot.isJoystickDown()' },
+  { key: 'web_visubot_sensor_joy_left', group: 'buttons', text: 'mbot.isJoystickLeft()' },
+  { key: 'web_visubot_sensor_joy_right', group: 'buttons', text: 'mbot.isJoystickRight()' },
+  { key: 'web_visubot_sensor_brightness', group: 'light', text: 'mbot.getBrightness()' },
+  { key: 'web_visubot_sensor_loudness', group: 'light', text: 'mbot.getLoudness()' },
+  { key: 'web_visubot_sensor_pitch', group: 'tilt', text: 'mbot.getPitch()' },
+  { key: 'web_visubot_sensor_roll', group: 'tilt', text: 'mbot.getRoll()' },
+  { key: 'web_visubot_sensor_shake', group: 'tilt', text: 'mbot.isShaken()' },
+  { key: 'web_visubot_sensor_timer', group: 'timer', text: 'mbot.getTimer()' },
+  { key: 'web_visubot_sensor_battery', group: 'timer', text: 'mbot.getBattery()' },
 ]
