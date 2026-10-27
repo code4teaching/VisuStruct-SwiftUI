@@ -166,4 +166,7 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_debug_continue" = "继续运行到下一个断点";
 "web_debug_paused_fmt" = "在第 %d 行之前暂停。";
 "web_debug_gutter_title" = "点击行号可设置或删除断点";
+"web_swap_to_code" = "编程放大";
+"web_swap_to_editor" = "结构图放大";
+"web_editor_resize" = "调整结构图宽度";
 `;export{e as default};

@@ -166,4 +166,7 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_debug_continue" = "Fortsätt till nästa brytpunkt";
 "web_debug_paused_fmt" = "Pausad före rad %d.";
 "web_debug_gutter_title" = "Klicka på ett radnummer för att sätta eller ta bort en brytpunkt";
+"web_swap_to_code" = "Programmering stor";
+"web_swap_to_editor" = "Struktogram stort";
+"web_editor_resize" = "Ändra bredd på struktogrammet";
 `;export{e as default};

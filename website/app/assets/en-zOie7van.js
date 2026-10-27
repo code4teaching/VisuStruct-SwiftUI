@@ -380,4 +380,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_visubot_group_light" = "Light and loudness";
 "web_visubot_group_tilt" = "Tilt and shaking";
 "web_visubot_group_timer" = "Stopwatch and battery";
+"web_swap_to_code" = "Programming large, structogram narrow";
+"web_swap_to_editor" = "Structogram large, programming narrow";
+"web_editor_resize" = "Resize the structogram";
 `;export{e as default};

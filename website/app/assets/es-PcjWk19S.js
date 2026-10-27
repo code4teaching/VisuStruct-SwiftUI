@@ -166,4 +166,7 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_debug_continue" = "Continuar hasta el siguiente punto de interrupción";
 "web_debug_paused_fmt" = "Detenido antes de la línea %d.";
 "web_debug_gutter_title" = "Haz clic en un número de línea para poner o quitar un punto de interrupción";
+"web_swap_to_code" = "Programación grande";
+"web_swap_to_editor" = "Diagrama grande";
+"web_editor_resize" = "Cambiar el ancho del diagrama";
 `;export{e as default};

@@ -166,4 +166,7 @@ const e=`/* Tekster som bare finnes i nettversjonen. Alt annet kommer fra appens
 "web_debug_continue" = "Fortsett til neste stoppunkt";
 "web_debug_paused_fmt" = "Stoppet før linje %d.";
 "web_debug_gutter_title" = "Klikk på et linjenummer for å sette eller fjerne et stoppunkt";
+"web_swap_to_code" = "Programmering stor";
+"web_swap_to_editor" = "Struktogram stort";
+"web_editor_resize" = "Endre bredden på struktogrammet";
 `;export{e as default};

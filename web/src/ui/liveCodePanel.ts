@@ -174,6 +174,8 @@ export class LiveCodePanel {
   onRobotRun?: (stepping: boolean) => boolean
   /** Knopf „Nachschlagen“: zeigt die Befehle im Lernbereich. */
   onReference?: () => void
+  /** ⇄: Programmieren groß und Struktogramm schmal bzw. zurück */
+  onSwap?: () => void
 
   constructor(
     private onHide: () => void,
@@ -220,6 +222,7 @@ export class LiveCodePanel {
         <button class="icon livecode-run primary" data-run="play" data-tip="${esc(t('web_live_run_title'))}" aria-label="${esc(t('web_live_run'))}">${icons.play}</button>
         <button class="icon livecode-run" data-run="step" data-tip="${esc(t('web_debug_step_title'))}" aria-label="${esc(t('web_debug_step'))}">${icons.step}</button>
         <button class="icon livecode-run" data-run="stop" data-tip="${esc(t('simulation_stop'))}" aria-label="${esc(t('simulation_stop'))}" disabled>${icons.stop}</button>
+        <button class="icon livecode-run livecode-swap" data-action="swap-main" aria-pressed="false">⇄</button>
         <button class="icon livecode-run livecode-reference" data-tip="${esc(t('web_learn_reference'))}" aria-label="${esc(t('web_learn_reference'))}">${icons.book}</button>
         <button class="learn-hide" title="${esc(t('web_live_hide'))}" aria-label="${esc(t('web_live_hide'))}">${sidebarIcon}</button>
       </div>
@@ -251,6 +254,7 @@ export class LiveCodePanel {
     this.hint = this.element.querySelector('.hint')!
     this.element.querySelector('.learn-hide')!.addEventListener('click', () => this.onHide())
     this.element.querySelector('.livecode-reference')!.addEventListener('click', () => this.onReference?.())
+    this.element.querySelector('.livecode-swap')!.addEventListener('click', () => this.onSwap?.())
     this.runButton = this.element.querySelector('[data-run=play]')!
     this.stepButton = this.element.querySelector('[data-run=step]')!
     this.stopButton = this.element.querySelector('[data-run=stop]')!

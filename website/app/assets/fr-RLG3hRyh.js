@@ -166,4 +166,7 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_debug_continue" = "Continuer jusqu’au prochain point d’arrêt";
 "web_debug_paused_fmt" = "Arrêté avant la ligne %d.";
 "web_debug_gutter_title" = "Clique sur un numéro de ligne pour poser ou retirer un point d’arrêt";
+"web_swap_to_code" = "Programmation en grand";
+"web_swap_to_editor" = "Structogramme en grand";
+"web_editor_resize" = "Modifier la largeur du structogramme";
 `;export{e as default};

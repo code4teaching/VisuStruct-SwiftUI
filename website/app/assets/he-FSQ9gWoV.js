@@ -166,4 +166,7 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_debug_continue" = "להמשיך עד נקודת העצירה הבאה";
 "web_debug_paused_fmt" = "נעצר לפני שורה %d.";
 "web_debug_gutter_title" = "לחיצה על מספר שורה מוסיפה או מסירה נקודת עצירה";
+"web_swap_to_code" = "תכנות גדול";
+"web_swap_to_editor" = "תרשים גדול";
+"web_editor_resize" = "שינוי רוחב התרשים";
 `;export{e as default};

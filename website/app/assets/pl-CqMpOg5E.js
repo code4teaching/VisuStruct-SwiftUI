@@ -166,4 +166,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_debug_continue" = "Dalej do następnego punktu przerwania";
 "web_debug_paused_fmt" = "Zatrzymano przed wierszem %d.";
 "web_debug_gutter_title" = "Kliknij numer wiersza, aby ustawić lub usunąć punkt przerwania";
+"web_swap_to_code" = "Programowanie duże";
+"web_swap_to_editor" = "Diagram duży";
+"web_editor_resize" = "Zmień szerokość diagramu";
 `;export{e as default};

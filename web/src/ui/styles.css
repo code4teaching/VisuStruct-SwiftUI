@@ -3679,3 +3679,55 @@ button.danger-text:not(:disabled) {
 .palette-item[hidden] {
   display: none;
 }
+
+/* ⇄ „Programmieren groß“: Code füllt den Platz, das Struktogramm wird schmal (an der Linie dazwischen ziehbar). */
+.editor-resizer {
+  display: none;
+  flex: none;
+  width: 10px;
+  margin-inline: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.editor-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.editor-resizer:hover::after,
+.editor-resizer:focus-visible::after,
+.shell.resizing .editor-resizer::after {
+  background: var(--accent);
+}
+.editor-resizer:focus-visible {
+  outline: none;
+}
+.shell.code-main.live:not(.editor-hidden) .editor-resizer {
+  display: block;
+}
+.shell.code-main.live:not(.editor-hidden) .live-resizer {
+  display: none;
+}
+.shell.code-main.live:not(.editor-hidden) .app {
+  flex: 0 1 auto;
+  width: 460px;
+  min-width: 300px;
+}
+.shell.code-main.live:not(.editor-hidden) .livecode {
+  flex: 1 1 0;
+  width: auto !important;
+  min-width: 0;
+}
+[data-action='swap-main'] {
+  font-size: 16px;
+  line-height: 1;
+}
+[data-action='swap-main'][aria-pressed='true'] {
+  color: var(--accent);
+}

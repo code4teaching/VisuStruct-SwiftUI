@@ -166,4 +166,7 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_debug_continue" = "Continua fino al prossimo punto di interruzione";
 "web_debug_paused_fmt" = "Fermo prima della riga %d.";
 "web_debug_gutter_title" = "Clicca sul numero di riga per mettere o togliere un punto di interruzione";
+"web_swap_to_code" = "Programmazione grande";
+"web_swap_to_editor" = "Diagramma grande";
+"web_editor_resize" = "Modifica la larghezza del diagramma";
 `;export{e as default};
