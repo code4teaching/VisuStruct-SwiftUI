@@ -192,13 +192,14 @@ function applyCodeSize(px: number) {
 
 const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 /** Tastenkürzel im Tooltip, z. B. „Strg+S“ bzw. „⌘S“. */
-/** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite. */
+/** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite; im VisuBot-Modus die VisuBot-Startseite. */
 function siteURL(section?: 'contact' | 'privacy'): string {
   const code = currentLanguage()
   const lang = code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'
   // Auf visustruct.org liegt die Web-App unter /app/, sonst (Vorschau, Einzeldatei) zur echten Seite
   const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
-  return `${base}${lang}/index.html${section ? `#${section}` : ''}`
+  const page = visuBotEnabled() ? 'visubot' : 'index'
+  return `${base}${lang}/${page}.html${section ? `#${section}` : ''}`
 }
 
 /** Symbolknopf; der Name (mit Tastenkürzel) erscheint als Tooltip. */
