@@ -33,6 +33,7 @@ import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
+import { RobotPreviewPanel } from './robotPreview'
 import type { LiveTarget } from '../core/codeGenerator'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
@@ -219,6 +220,13 @@ const filesWidthKey = 'visustruct.files.width'
 const learnWidthKey = 'visustruct.learn.width'
 const liveKey = 'visustruct.live.open'
 const liveWidthKey = 'visustruct.live.width'
+/** VisuBot: Fenster „mBot2 live“ offen, unter dem Code statt als eigene Spalte, Breite bzw. Höhe. */
+const previewKey = 'visustruct.robotPreview.open'
+/** Zugeklappte Gruppen der mBot2-Elemente. */
+const collapsedGroupsKey = 'visustruct.visubot.collapsedGroups'
+const previewStackedKey = 'visustruct.robotPreview.stacked'
+const previewWidthKey = 'visustruct.robotPreview.width'
+const previewHeightKey = 'visustruct.robotPreview.height'
 const editorHiddenKey = 'visustruct.editor.hidden'
 const compactPaletteKey = 'visustruct.palette.compact'
 const gearIcon =
@@ -302,6 +310,10 @@ export class App {
   /** Laufende Eingabe in „Code live“: fasst Tastendrücke zu Rückgängig-Schritten zusammen. */
   private codeTyping?: { tab: Tab; start: number; last: number }
   private live: LiveCodePanel
+  private preview = new RobotPreviewPanel()
+  private previewOpen = false
+  private previewStacked = false
+  private previewResizer!: HTMLElement
 
   private measure = createCanvasMeasure()
   private metrics = diagramDisplayMetrics(true)
@@ -375,7 +387,11 @@ export class App {
       this.liveResizer(),
       this.live.element,
       this.liveRail(),
+      (this.previewResizer = this.panelResizer(this.preview.element, 'preview-resizer', previewWidthKey, t('web_visubot_preview_resize'), -1)),
+      this.preview.element,
+      this.preview.rail,
     )
+    this.setupPreview()
     this.shell.append(this.topbar, columns, this.bottombar)
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
@@ -613,17 +629,52 @@ export class App {
     // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
     const robotOn = visuBotEnabled()
     this.root.classList.toggle('visubot-mode', robotOn)
+    this.shell.classList.toggle('robot-world', robotOn)
+    if (!robotOn) this.preview.pause()
     document.documentElement.classList.toggle('visubot-theme', robotOn)
     const robotList = $<HTMLUListElement>('.palette-visubot')
     robotList.hidden = !robotOn
     $<HTMLElement>('.palette-visubot-title').hidden = !robotOn
     if (robotOn) {
       const icon = { [ElementType.verzweigung]: 'verzweigung', [ElementType.whileSchleife]: 'whileSchleife' } as Partial<Record<ElementType, PaletteItem>>
-      for (const tpl of visuBotTemplates) addPaletteItem(robotList, icon[tpl.type] ?? 'anweisung', t(tpl.key), tpl.make, tpl.key)
+      // Gruppen wie im Nachschlagen (Fahren und Drehen, Abstand, Linie …), jede auf- und zuklappbar
+      const collapsed = new Set((storedValue(collapsedGroupsKey) ?? '').split(',').filter(Boolean))
+      const groupTitle = (list: HTMLUListElement, group: string) => {
+        const li = document.createElement('li')
+        li.className = 'palette-group'
+        const button = document.createElement('button')
+        button.type = 'button'
+        button.textContent = t(`web_visubot_group_${group}`)
+        const show = (open: boolean) => {
+          button.setAttribute('aria-expanded', String(open))
+          for (const item of list.querySelectorAll<HTMLElement>(`[data-group="${group}"]`)) item.hidden = !open
+        }
+        button.addEventListener('click', () => {
+          const open = button.getAttribute('aria-expanded') !== 'true'
+          if (open) collapsed.delete(group)
+          else collapsed.add(group)
+          storeValue(collapsedGroupsKey, [...collapsed].join(','))
+          show(open)
+        })
+        li.append(button)
+        list.append(li)
+        return () => show(!collapsed.has(group))
+      }
+      const grouped = <T extends { group: string }>(list: HTMLUListElement, items: T[], add: (item: T) => HTMLElement) => {
+        for (const group of new Set(items.map((i) => i.group))) {
+          const apply = groupTitle(list, group)
+          for (const item of items.filter((i) => i.group === group)) add(item).dataset.group = group
+          apply()
+        }
+      }
+      grouped(robotList, visuBotTemplates, (tpl) => {
+        addPaletteItem(robotList, icon[tpl.type] ?? 'anweisung', t(tpl.key), tpl.make, tpl.key)
+        return robotList.lastElementChild as HTMLElement
+      })
       // Sensoren: Werte zum Einbauen in eine Bedingung, keine eigenen Kästen
       const sensorList = $<HTMLUListElement>('.palette-visubot-sensors')
       sensorList.replaceChildren()
-      for (const sensor of visuBotSensors) {
+      grouped(sensorList, visuBotSensors, (sensor) => {
         const label = t(sensor.key)
         const li = document.createElement('li')
         li.className = 'palette-item palette-sensor'
@@ -638,7 +689,8 @@ export class App {
           if (e.key === 'Enter' || e.key === ' ') this.insertSensor(sensor.text)
         })
         sensorList.append(li)
-      }
+        return li
+      })
     }
     $<HTMLElement>('.palette-visubot-sensors').hidden = !robotOn
     $<HTMLElement>('.palette-visubot-sensors-title').hidden = !robotOn
@@ -810,6 +862,8 @@ export class App {
     applyCanvasStubTexts()
     this.sim.end()
     this.live.build()
+    this.preview.relabel()
+    this.placePreview()
     this.files.build()
     this.buildUI()
     this.render()
@@ -1180,6 +1234,7 @@ export class App {
     this.exportButton.disabled = this.simulating
     if (this.coding) this.code.refresh()
     this.refreshLive()
+    this.refreshPreview()
     this.renderTabs()
     this.renderInspector()
     this.updateStatus()
@@ -1421,10 +1476,97 @@ export class App {
     if (!this.liveCoding) this.setLiveCoding(true)
   }
 
+  // MARK: - mBot2 live
+
+  private setupPreview() {
+    this.preview.onHide = () => this.setPreviewOpen(false)
+    this.preview.rail.addEventListener('click', () => this.setPreviewOpen(true))
+    this.preview.onToggleStacked = () => {
+      this.previewStacked = !this.previewStacked
+      storeValue(previewStackedKey, this.previewStacked ? '1' : '0')
+      // Unter dem Code geht nur mit offener Spalte „Programmieren“.
+      if (this.previewStacked && !this.liveCoding) this.setLiveCoding(true)
+      this.placePreview()
+    }
+    this.previewStacked = storedValue(previewStackedKey) === '1'
+    const saved = storedValue(previewKey)
+    this.previewOpen = saved === null || saved === '1'
+    // Höhe unter dem Code: an der Linie darüber ziehen (nach oben = größer), Doppelklick setzt zurück.
+    const bar = this.preview.heightBar
+    const panel = this.preview.element
+    const apply = (height: number | undefined, remember: boolean) => {
+      const max = Math.max(160, (panel.parentElement?.getBoundingClientRect().height ?? 600) - 120)
+      const value = height === undefined ? undefined : Math.round(Math.max(160, Math.min(height, max)))
+      panel.style.height = value === undefined ? '' : `${value}px`
+      if (remember) storeValue(previewHeightKey, value === undefined ? '' : String(value))
+    }
+    const savedHeight = Number(storedValue(previewHeightKey))
+    if (savedHeight > 0) panel.style.height = `${savedHeight}px`
+    bar.addEventListener('pointerdown', (ev) => {
+      if (ev.button !== 0) return
+      ev.preventDefault()
+      bar.setPointerCapture(ev.pointerId)
+      const startY = ev.clientY
+      const startHeight = panel.getBoundingClientRect().height
+      this.shell.classList.add('resizing')
+      const move = (m: PointerEvent) => apply(startHeight - (m.clientY - startY), false)
+      const up = (u: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        this.shell.classList.remove('resizing')
+        apply(startHeight - (u.clientY - startY), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (k) => {
+      const step = k.key === 'ArrowUp' ? 20 : k.key === 'ArrowDown' ? -20 : 0
+      if (!step) return
+      k.preventDefault()
+      apply(panel.getBoundingClientRect().height + step, true)
+    })
+    this.placePreview()
+  }
+
+  private setPreviewOpen(on: boolean) {
+    this.previewOpen = on
+    storeValue(previewKey, on ? '1' : '0')
+    if (!on) this.preview.pause()
+    this.placePreview()
+    if (this.canvasHost) this.render()
+  }
+
+  /** Eigene Spalte ganz rechts oder unten in „Programmieren“ (nur wenn diese Spalte offen ist). */
+  private placePreview() {
+    const stacked = this.previewStacked && this.liveCoding
+    this.preview.setStacked(this.previewStacked)
+    this.shell.classList.toggle('preview', this.previewOpen)
+    this.shell.classList.toggle('preview-stacked', stacked)
+    if (stacked) {
+      if (this.preview.element.parentElement !== this.live.element) this.live.element.append(this.preview.element)
+    } else if (this.preview.element.previousElementSibling !== this.previewResizer) this.previewResizer.after(this.preview.element)
+  }
+
+  /** Nach jeder Änderung: „mBot2 live“ rechnet das Programm neu durch (nur in VisuBot und wenn es offen ist). */
+  private refreshPreview() {
+    if (!this.previewOpen || !visuBotEnabled()) return
+    this.preview.update(
+      this.doc,
+      (name) => this.findSubprogram(name),
+      exerciseWorlds(this.tab.exerciseId),
+      this.tab.exerciseId ?? '',
+      this.tabs.map((tab) => tab.doc),
+    )
+  }
+
   private setLiveCoding(on: boolean) {
     if (on && this.coding) this.setCoding(false)
     this.liveCoding = on
     this.shell.classList.toggle('live', on)
+    this.placePreview()
     if (!on) this.live.hideConsole()
     storeValue(liveKey, on ? '1' : '0')
     this.keepAColumnOpen()
@@ -1450,7 +1592,7 @@ export class App {
     const clamp = (width: number) => {
       const total = panel.parentElement?.getBoundingClientRect().width ?? 0
       if (total === 0) return clampPanelWidth(width)
-      const others = [this.files.element, this.learn.element, this.live.element]
+      const others = [this.files.element, this.learn.element, this.live.element, this.preview.element]
         .filter((p) => p !== panel && p.offsetParent !== null && getComputedStyle(p).flexGrow === '0')
         .reduce((sum, p) => sum + p.getBoundingClientRect().width, 0)
       const min = parseFloat(getComputedStyle(panel).minWidth) || 200
