@@ -1095,27 +1095,31 @@ function documentContainsJavaInput(doc: VSDocument): boolean {
   return found
 }
 
+const arraysImport = 'import java.util.Arrays;'
+
 /**
  * Imports für Dateien: `Files`/`Path` aus `java.nio.file`, `File`, `PrintWriter`, `FileReader` und `BufferedReader` aus
- * `java.io`, dazu `java.util.Scanner` für einen Scanner auf einer Datei.
+ * `java.io`, dazu `java.util.Scanner` für einen Scanner auf einer Datei und `java.util.Arrays` für `Arrays.toString(…)`.
  */
 export function fileImports(doc: VSDocument): string[] {
   let nio = false
   let io = false
   let scanner = false
+  let arrays = false
   walkElements(doc.elements, (e) => {
     for (const l of e.textLines) {
+      if (/\bArrays\s*\./.test(l)) arrays = true
       if (/\bFiles\s*\./.test(l)) nio = true
       if (/\bnew\s+(?:File|PrintWriter|FileReader|FileWriter|BufferedReader)\s*\(/.test(l)) io = true
       if (/\bnew\s+Scanner\s*\(\s*new\s+File\b/.test(l)) scanner = true
     }
   })
-  return [...(io ? ['import java.io.*;'] : []), ...(nio ? ['import java.nio.file.*;'] : []), ...(scanner ? ['import java.util.Scanner;'] : [])]
+  return [...(io ? ['import java.io.*;'] : []), ...(nio ? ['import java.nio.file.*;'] : []), ...(scanner ? ['import java.util.Scanner;'] : []), ...(arrays ? [arraysImport] : [])]
 }
 
 /** Arbeitet das Programm mit Dateien? Dann kann eine IOException kommen, und Java verlangt `throws` an der Methode. */
 export function documentReadsFiles(doc: VSDocument): boolean {
-  return fileImports(doc).length > 0
+  return fileImports(doc).some((i) => i !== arraysImport)
 }
 
 function documentContainsJavaMathRandom(doc: VSDocument): boolean {
@@ -1804,7 +1808,7 @@ export function generateJavaClassFile(
   const scannerField = methods.length > 0 && (hasInput || methodInput)
   // `Files.readString` kann eine IOException werfen; Java verlangt dann `throws` an der Methode.
   const imports = [...new Set([document, ...methodDocs.map((m) => m.d)].flatMap(fileImports))]
-  const files = imports.length > 0
+  const files = imports.some((i) => i !== arraysImport)
   if ((hasInput || methodInput) && !imports.includes('import java.util.Scanner;')) imports.push('import java.util.Scanner;')
   for (const line of imports) out += line + '\n'
   if (imports.length) out += '\n'

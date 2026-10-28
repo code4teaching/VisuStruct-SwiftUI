@@ -166,6 +166,8 @@ for (int i = 0; i < numbers.length; i++) {
 - You create an empty array with 5 slots with `new int[5]`.
 - `numbers[i]` is the slot with index `i`, `numbers.length` is the length.
 
+If you output the whole array, that is `System.out.println(numbers);`, Java does not show the numbers. You only see a text like `[I@1b6d3586`. This is the **reference**, the place where the array is stored in memory. `Arrays.toString(numbers)` shows the content: `[2, 4, 6, 8, 10]`. For this you write `import java.util.Arrays;` at the very top.
+
 ::: übung l15-java-noten
 titel: Sum of grades in Java
 code: java

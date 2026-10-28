@@ -214,6 +214,13 @@ describe('Java tippen → Struktogramm', () => {
     expect(ask(fach + 'note[i] = scanner.nextInt();').request?.prompt).toBe('note[i]:')
   })
 
+  it('Arrays ohne import ist ein Fehler, wie bei javac', () => {
+    const keys = (src: string) => parse(src).problems.map((p) => p.key)
+    expect(keys('int[] a = {1, 2};\nSystem.out.println(Arrays.toString(a));')).toEqual(['web_parse_missing_import'])
+    expect(keys('import java.util.Arrays;\nint[] a = {1, 2};\nSystem.out.println(Arrays.toString(a));')).toEqual([])
+    expect(keys('int[] a = {1, 2};\nSystem.out.println(a);')).toEqual([])
+  })
+
   it('Aufruf eines Unterprogramms aus einem anderen Reiter', () => {
     expect(parse('int y = quadrat(4);', new Set(['quadrat'])).elements[0].type).toBe(ElementType.aufruf)
     expect(parse('int y = quadrat(4);').elements[0].type).toBe(ElementType.anweisung)
