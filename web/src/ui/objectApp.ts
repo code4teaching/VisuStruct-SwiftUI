@@ -18,12 +18,18 @@ import {
 import {
   addFile,
   addPackage,
+  addSourceFolder,
+  barePackage,
   classFileText,
+  defaultRoot,
+  diskPath,
   exampleProject,
   fileNameOf,
   filesIn,
+  isFolderName,
   isPackageName,
   moveFile,
+  packageKey,
   packageOf,
   packagesOf,
   pathFor,
@@ -33,7 +39,11 @@ import {
   projectToJSON,
   removeFile,
   removePackage,
+  removeSourceFolder,
   renamePackage,
+  renameSourceFolder,
+  rootOf,
+  sourceFoldersOf,
   updateFile,
   type JavaProject,
   type ProjectClass,
@@ -61,6 +71,7 @@ import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
 import { ObjectLayout } from './objectLayout'
 import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
+import { classSource, newWizard, type NewKind } from './objectNew'
 import { freeProjectName, listProjects, readProject, safeFolderName, workspaceFolderName, writeProject, type Positions } from './objectWorkspace'
 import { canPickFolder, pickFolder, reopenFolder, storedFolder, type WsDir } from './workspaceStore'
 
@@ -80,6 +91,8 @@ const treeKey = 'visuobject.tree'
 const tabsKey = 'visuobject.tabs'
 /** Zuletzt geöffnetes Projekt im Workspace. */
 const wsProjectKey = 'visuobject.wsProject'
+/** `0`: Objektinspektor eingeklappt. */
+const inspectorKey = 'visuobject.inspector'
 /** `1`: ohne Workspace-Ordner arbeiten, nicht mehr fragen. */
 const noWorkspaceKey = 'visuobject.noWorkspace'
 /** Gemerkter Workspace-Ordner, getrennt vom Ordner „VisuStruct-Dateien“. */
@@ -254,8 +267,12 @@ export class ObjectApp {
           </header>
           <div class="vo-ws" hidden></div>
           <div class="vo-tree-tools">
-            <button class="text-button" data-action="add-package" data-tip="${e(t('web_visuobject_add_package_tip'))}">+ ${e(t('web_visuobject_add_package'))}</button>
-            <button class="text-button" data-action="tree-add-class" data-tip="${e(t('web_visuobject_add_class_tip'))}">+ ${e(t('web_visuobject_add_class'))}</button>
+            <div class="vo-new">
+              <button class="text-button" data-action="new-menu" aria-haspopup="menu" aria-expanded="false" data-tip="${e(t('web_visuobject_new_menu_tip'))}">+ ${e(t('web_visuobject_new_menu'))} ▾</button>
+              <div class="vo-new-menu" role="menu" hidden>
+                ${(['project', 'folder', 'package', 'class', 'interface'] as const).map((k) => `<button role="menuitem" data-new="${k}"><span class="vo-badge ${{ project: 'project', folder: 'folder source', package: 'package', class: 'type class', interface: 'type interface' }[k]}" aria-hidden="true">${k === 'class' ? 'C' : k === 'interface' ? 'I' : ''}</span>${e(t(`web_visuobject_new_${k}`))}</button>`).join('')}
+              </div>
+            </div>
           </div>
           <div class="vo-tree" role="tree" aria-label="${e(t('web_visuobject_explorer'))}"></div>
         </section>
@@ -283,8 +300,14 @@ export class ObjectApp {
           </div>
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
-            <aside class="vo-inspector" aria-label="${e(t('web_visuobject_inspector'))}" hidden></aside>
           </div>
+          <section class="vo-dock" aria-label="${e(t('web_visuobject_inspector'))}">
+            <header class="vo-bar vo-dock-bar">
+              <h3 class="vo-bar-title">${e(t('web_visuobject_inspector'))}</h3>
+              <button class="vo-collapse" data-inspector="toggle" aria-expanded="true" aria-label="${e(t('web_visuobject_inspector_hide'))}" data-tip="${e(t('web_visuobject_inspector_hide'))}">–</button>
+            </header>
+            <div class="vo-inspector"></div>
+          </section>
           <footer class="vo-foot"><p class="vo-status" role="status"></p><small class="vo-hint">${e(t('web_visuobject_edit_hint'))}</small></footer>
         </section>
       </main>`
@@ -293,6 +316,22 @@ export class ObjectApp {
     this.frames = this.canvas.querySelector('.vo-frames')!
     this.status = this.shell.querySelector('.vo-status')!
     this.inspector = this.shell.querySelector('.vo-inspector')!
+    // Der Objektinspektor hat einen festen Platz unter dem Diagramm und klappt mit „–“ ein.
+    const dock = this.shell.querySelector<HTMLElement>('.vo-dock')!
+    const dockToggle = dock.querySelector<HTMLButtonElement>('[data-inspector=toggle]')!
+    const setDock = (open: boolean, redraw = true) => {
+      dock.classList.toggle('collapsed', !open)
+      dockToggle.textContent = open ? '–' : '+'
+      dockToggle.setAttribute('aria-expanded', String(open))
+      const label = t(open ? 'web_visuobject_inspector_hide' : 'web_visuobject_inspector_show')
+      dockToggle.setAttribute('aria-label', label)
+      dockToggle.dataset.tip = label
+      store(inspectorKey, open ? '1' : '0')
+      if (redraw) this.drawLines()
+    }
+    dockToggle.addEventListener('click', () => setDock(dock.classList.contains('collapsed')))
+    dock.querySelector('.vo-dock-bar')!.addEventListener('dblclick', () => setDock(dock.classList.contains('collapsed')))
+    setDock(stored(inspectorKey) !== '0', false)
     this.tree = this.shell.querySelector('.vo-tree')!
     this.tabs = this.shell.querySelector('.vo-tabs')!
     this.wsBox = this.shell.querySelector('.vo-ws')!
@@ -330,8 +369,34 @@ export class ObjectApp {
     on('save', () => void this.save())
     on('undo', () => this.undo(false))
     on('redo', () => this.undo(true))
-    on('tree-add-class', () => this.newClass('class'))
-    on('add-package', () => this.newPackage())
+    const newButton = this.shell.querySelector<HTMLButtonElement>('[data-action=new-menu]')!
+    const newMenu = this.shell.querySelector<HTMLElement>('.vo-new-menu')!
+    const showNewMenu = (show: boolean) => {
+      newMenu.hidden = !show
+      newButton.setAttribute('aria-expanded', String(show))
+      if (show) newMenu.querySelector<HTMLElement>('button')?.focus()
+    }
+    newButton.addEventListener('click', () => showNewMenu(newMenu.hidden))
+    newMenu.addEventListener('click', (ev) => {
+      const kind = (ev.target as HTMLElement).closest<HTMLElement>('[data-new]')?.dataset.new as NewKind | undefined
+      if (!kind) return
+      showNewMenu(false)
+      void this.newFromWizard(kind)
+    })
+    newMenu.addEventListener('keydown', (ev) => {
+      const items = [...newMenu.querySelectorAll<HTMLElement>('button')]
+      const i = items.indexOf(document.activeElement as HTMLElement)
+      if (ev.key === 'Escape') {
+        showNewMenu(false)
+        newButton.focus()
+      } else if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') {
+        ev.preventDefault()
+        items[(i + (ev.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length]?.focus()
+      }
+    })
+    document.addEventListener('pointerdown', (ev) => {
+      if (!newMenu.hidden && !(ev.target as HTMLElement).closest('.vo-new')) showNewMenu(false)
+    })
     on('layout', () => {
       this.positions.clear()
       this.savePositions()
@@ -349,6 +414,13 @@ export class ObjectApp {
     for (const b of menu.querySelectorAll<HTMLButtonElement>('[data-world]')) b.addEventListener('click', () => this.chooseWorld(b.dataset.world as WorldChoice))
     this.canvas.addEventListener('pointerdown', (ev) => this.onPointerDown(ev))
     this.canvas.addEventListener('click', (ev) => this.onClick(ev))
+    this.canvas.addEventListener('contextmenu', (ev) => {
+      const el = (ev.target as Element).closest<SVGElement>('[data-end]')
+      if (!el) return
+      ev.preventDefault()
+      if (this.relSelection !== el.dataset.rel) this.selectRelation(el.dataset.rel!)
+      this.openEnd(el.dataset.rel!, el.dataset.end as 'a' | 'b', ev)
+    })
     this.tree.addEventListener('click', (ev) => this.onTreeClick(ev))
     this.tabs.addEventListener('click', (ev) => this.onTabClick(ev))
     for (const b of this.shell.querySelectorAll<HTMLButtonElement>('.vo-tool')) b.addEventListener('pointerdown', (ev) => this.onToolDown(ev, b.dataset.tool as Tool))
@@ -391,7 +463,7 @@ export class ObjectApp {
         // Wie in VS Code: ● statt ×, solange die Datei nicht gespeichert ist.
         const dirty = this.isDirty(path)
         return `<div class="vo-tab${on ? ' active' : ''}" data-tab="${e(path)}">
-          <button role="tab" aria-selected="${on}" tabindex="${on ? 0 : -1}" data-tip="src/${e(path)}">${e(fileNameOf(path))}</button>
+          <button role="tab" aria-selected="${on}" tabindex="${on ? 0 : -1}" data-tip="${e(diskPath(path))}">${e(fileNameOf(path))}</button>
           <button class="vo-tab-close${dirty ? ' unsaved' : ''}" data-close aria-label="${e(t('web_visuobject_close_tab', fileNameOf(path)) + (dirty ? `, ${t('web_visuobject_unsaved')}` : ''))}" tabindex="-1"><span class="vo-x">×</span><span class="vo-dot" aria-hidden="true">●</span></button>
         </div>`
       })
@@ -458,6 +530,37 @@ export class ObjectApp {
     if (now - this.lastTyping > 1500) this.remember()
     this.lastTyping = now
     this.project = updateFile(this.project, file.path, this.editor.text)
+    this.refresh()
+    // Klasse im Code umbenannt: kurz nach dem Tippen heißen Reiter und Datei mit (wie in Eclipse beim Speichern).
+    clearTimeout(this.renameTimer)
+    this.renameTimer = window.setTimeout(() => this.syncFileName(), 700)
+  }
+
+  private renameTimer?: number
+
+  /** Heißt die Datei wie keine ihrer Klassen mehr, bekommt sie den Namen der (ersten öffentlichen) Klasse. */
+  private syncFileName() {
+    const file = this.activeFile
+    if (!file || this.editing) return
+    const old = fileNameOf(file.path).replace(/\.java$/i, '')
+    const inFile = this.classes.filter((c) => c.path === file.path)
+    if (inFile.length === 0 || inFile.some((c) => c.name === old)) return
+    const name = (/\bpublic\s+(?:abstract\s+|final\s+)*(?:class|interface|enum)\s+(\w+)/.exec(file.text)?.[1] ?? inFile[0].name)
+    if (!identifier.test(name) || inFile.filter((c) => c.name === name).length !== 1) return
+    const to = pathFor(packageOf(file.path), `${name}.java`)
+    if (this.project.files.some((f) => f.path === to)) return
+    let next = moveFile(this.project, file.path, to)
+    // Platz im Diagramm und UML-Zusätze gehören jetzt zum neuen Namen.
+    const p = this.positions.get(old)
+    if (p && !this.positions.has(name)) this.positions.set(name, p)
+    for (const key of Object.keys(next.uml ?? {})) if (key.startsWith(`${old}.`)) next = { ...next, uml: renameInfo(next.uml!, key, name + key.slice(old.length)) }
+    this.openTabs = this.openTabs.map((t) => (t === file.path ? to : t))
+    if (this.treeSelection === `file:${file.path}`) this.treeSelection = `file:${to}`
+    if (this.isOpen(`file:${file.path}`)) this.open.set(`file:${to}`, true)
+    this.project = next
+    this.active = to
+    store(activeKey, to)
+    this.savePositions()
     this.refresh()
   }
 
@@ -702,8 +805,12 @@ export class ObjectApp {
   }
 
   /** Neu, Beispiel, ZIP öffnen: im Workspace ein eigenes Projekt, sonst ersetzt es das alte (mit Rückgängig). */
-  private async newProject(project: JavaProject, active?: string) {
-    if (!this.workspace) return this.setProject(project, active ?? project.files[0]?.path)
+  private async newProject(project: JavaProject, active?: string, named = false) {
+    if (!this.workspace) {
+      this.setProject(project, active ?? project.files[0]?.path)
+      if (project.files.length === 0 && !named) this.editProjectName()
+      return
+    }
     if (this.isDirty() && !(await this.writeCurrent(false))) return
     const name = freeProjectName(safeFolderName(project.name), this.projects)
     this.project = { ...project, name }
@@ -718,12 +825,83 @@ export class ObjectApp {
     this.refresh()
     if (!(await this.writeCurrent(false))) return
     this.message(t('web_visuobject_ws_created', name), true)
-    // Wie bei „+ Package“: Der Name ist gleich zum Überschreiben markiert.
-    if (project.files.length === 0) {
-      this.treeSelection = 'project'
-      this.renderTree()
-      this.startEditing(this.tree.querySelector<HTMLElement>('[data-node="project"] > .vo-row .vo-label'))
+    if (project.files.length === 0 && !named) this.editProjectName()
+  }
+
+  // MARK: - Neu (wie in Eclipse)
+
+  /** Source Folder und Package, in die etwas Neues kommt: das markierte, sonst das der offenen Datei. */
+  private get currentPlace(): { root: string; pkg: string } {
+    const key = this.currentPackage ?? (this.active ? packageOf(this.active) : (packagesOf(this.project)[0] ?? ''))
+    return { root: rootOf(key), pkg: barePackage(key) }
+  }
+
+  private async newFromWizard(kind: NewKind) {
+    const here = this.currentPlace
+    const freeName = (base: string, taken: (n: string) => boolean) => {
+      let name = base
+      for (let n = 2; taken(name); n++) name = base + n
+      return name
     }
+    const result = await newWizard(kind, {
+      roots: sourceFoldersOf(this.project),
+      packagesIn: (root) => packagesOf(this.project, root).map(barePackage),
+      classes: this.classes,
+      root: here.root,
+      pkg: here.pkg,
+      suggest: (k) =>
+        k === 'project'
+          ? freeProjectName(t('web_visuobject_project_name'), this.workspace ? [...this.projects, this.folder ?? ''] : [])
+          : k === 'folder'
+            ? freeName('test', (n) => sourceFoldersOf(this.project).includes(n))
+            : k === 'package'
+              ? freeName(t('web_visuobject_new_package_name'), (n) => packagesOf(this.project).includes(packageKey(here.root, n)))
+              : this.uniqueClassName(t(k === 'class' ? 'web_visuobject_new_class_name' : 'web_visuobject_new_interface_name')),
+      check: (k, name, root, pkg) => {
+        if (!name) return t('web_visuobject_new_name_missing')
+        if (k === 'project') return this.workspace && this.projects.some((p) => p !== this.folder && p.toLowerCase() === safeFolderName(name).toLowerCase()) ? t('web_visuobject_ws_taken', name) : undefined
+        if (k === 'folder') return !isFolderName(name) || sourceFoldersOf(this.project).includes(name) ? t('web_visuobject_bad_folder', name) : undefined
+        if (k === 'package') return !isPackageName(name) || packagesOf(this.project).includes(packageKey(root, name)) ? t('web_visuobject_bad_package', name) : undefined
+        if (!identifier.test(name)) return t('web_visuobject_bad_name', name)
+        if (this.findClass(name) || this.project.files.some((f) => f.path === pathFor(packageKey(root, pkg), `${name}.java`))) return t('web_visuobject_new_exists', name)
+        if (name.charAt(0) !== name.charAt(0).toUpperCase()) return t('web_visuobject_new_upper')
+        return undefined
+      },
+    })
+    if (!result) return
+    const { name, root, pkg } = result
+    if (kind === 'project') return this.newProject({ name, files: [], packages: [] }, undefined, true)
+    this.message('')
+    if (kind === 'folder') {
+      this.currentPackage = packageKey(name, '')
+      this.treeSelection = `root:${name}`
+      this.open.set(`root:${name}`, true)
+      return this.setProject(addSourceFolder(this.project, name))
+    }
+    if (kind === 'package') {
+      const key = packageKey(root, name)
+      this.currentPackage = key
+      this.treeSelection = `pkg:${key}`
+      this.open.set(`root:${root}`, true)
+      return this.setProject(addPackage(this.project, key))
+    }
+    const key = packageKey(root, pkg)
+    const path = pathFor(key, `${name}.java`)
+    this.currentPackage = key
+    this.selection = { cls: name }
+    this.open.set(`root:${root}`, true)
+    this.open.set(`pkg:${key}`, true)
+    this.setProject(addFile(this.project, path, classSource(result.options!)), path)
+    const cls = this.findClass(name)
+    if (cls) this.showInCode(cls)
+    this.canvas.querySelector<HTMLElement>(`.uml-class[data-class="${CSS.escape(name)}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+  }
+
+  /** Wie bei „+ Package“: Der Name des neuen Projekts ist gleich zum Überschreiben markiert. */
+  private editProjectName() {
+    this.treeSelection = 'project'
+    this.renderTree()
+    this.startEditing(this.tree.querySelector<HTMLElement>('[data-node="project"] > .vo-row .vo-label'))
   }
 
   private renderWorkspace() {
@@ -814,16 +992,6 @@ export class ObjectApp {
     this.startEditing(box?.querySelector<HTMLElement>('.uml-name') ?? null)
   }
 
-  private newPackage() {
-    const base = t('web_visuobject_new_package_name')
-    let name = base
-    for (let n = 2; packagesOf(this.project).includes(name); n++) name = base + n
-    this.currentPackage = name
-    this.treeSelection = `pkg:${name}`
-    this.setProject(addPackage(this.project, name))
-    this.startEditing(this.tree.querySelector<HTMLElement>(`[data-node="pkg:${CSS.escape(name)}"] .vo-label`))
-  }
-
   /** Klasse umbenennen; heißt die Datei wie die Klasse, heißt sie danach wie der neue Name. */
   private renameClassTo(cls: ProjectClass, name: string) {
     if (name === cls.name) return
@@ -832,7 +1000,7 @@ export class ObjectApp {
     let next = updateFile(this.project, cls.path, renameClass(file.text, cls, name))
     let path = cls.path
     if (fileNameOf(cls.path) === `${cls.name}.java`) {
-      path = pathFor(cls.pkg, `${name}.java`)
+      path = pathFor(packageOf(cls.path), `${name}.java`)
       if (!next.files.some((f) => f.path === path)) next = moveFile(next, cls.path, path)
       else path = cls.path
     }
@@ -900,13 +1068,22 @@ export class ObjectApp {
       const taken = this.projects.some((p) => p !== this.folder && p.toLowerCase() === safeFolderName(text).toLowerCase())
       if (taken) return this.message(t('web_visuobject_ws_taken', text))
       this.setProject({ ...this.project, name: text })
+    } else if (kind === 'root') {
+      if (!text || text === id || id === defaultRoot) return
+      if (!isFolderName(text) || sourceFoldersOf(this.project).includes(text)) return this.message(t('web_visuobject_bad_folder', text))
+      if (this.currentPackage && rootOf(this.currentPackage) === id) this.currentPackage = packageKey(text, barePackage(this.currentPackage))
+      this.treeSelection = `root:${text}`
+      const moved = (p?: string) => (p && rootOf(p) === id ? `${text}:${p.slice(id.length + 1)}` : p)
+      this.openTabs = this.openTabs.map((p) => moved(p)!)
+      this.setProject(renameSourceFolder(this.project, id, text), moved(this.active))
     } else if (kind === 'pkg') {
-      if (!text || text === id) return
-      if (!isPackageName(text) || packagesOf(this.project).includes(text)) return this.message(t('web_visuobject_bad_package', text))
-      if (this.currentPackage === id) this.currentPackage = text
-      this.treeSelection = `pkg:${text}`
-      this.open.set(`pkg:${text}`, true)
-      this.setProject(renamePackage(this.project, id, text), this.active && packageOf(this.active) === id ? pathFor(text, fileNameOf(this.active)) : this.active)
+      const to = packageKey(rootOf(id), text)
+      if (!text || to === id) return
+      if (!isPackageName(text) || packagesOf(this.project).includes(to)) return this.message(t('web_visuobject_bad_package', text))
+      if (this.currentPackage === id) this.currentPackage = to
+      this.treeSelection = `pkg:${to}`
+      this.open.set(`pkg:${to}`, true)
+      this.setProject(renamePackage(this.project, id, to), this.active && packageOf(this.active) === id ? pathFor(to, fileNameOf(this.active)) : this.active)
     } else if (kind === 'file') {
       const name = text.replace(/\.java$/i, '')
       const cls = this.classes.find((c) => c.path === id && `${c.name}.java` === fileNameOf(id))
@@ -959,6 +1136,10 @@ export class ObjectApp {
     if ((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 's') {
       ev.preventDefault()
       void this.save()
+      return
+    }
+    if (ev.key === 'Escape' && this.endPop) {
+      this.closeEnd()
       return
     }
     if (ev.key === 'Escape' && this.tool !== 'select') {
@@ -1044,14 +1225,24 @@ export class ObjectApp {
       const inFile = this.classes.filter((c) => c.path === path)
       return row(`file:${path}`, depth, '<span class="vo-badge file" aria-hidden="true">J</span>', fileNameOf(path), { children: inFile.map((c) => classRow(c, depth + 1)).join(''), action: true })
     }
-    const packages = packagesOf(this.project)
-      .map((pkg) => {
-        const files = filesIn(this.project, pkg).map((f) => fileRow(f.path, 3)).join('')
-        const label = pkg || t('web_visuobject_default_package')
-        return row(`pkg:${pkg}`, 2, `<span class="vo-badge package${files ? '' : ' empty'}" aria-hidden="true"></span>`, label, { children: files, value: pkg, action: true })
-      })
+    const packagesIn = (root: string) =>
+      packagesOf(this.project, root)
+        .map((pkg) => {
+          const files = filesIn(this.project, pkg).map((f) => fileRow(f.path, 3)).join('')
+          const bare = barePackage(pkg)
+          const label = bare || t('web_visuobject_default_package')
+          return row(`pkg:${pkg}`, 2, `<span class="vo-badge package${files ? '' : ' empty'}" aria-hidden="true"></span>`, label, { children: files, value: bare, action: true })
+        })
+        .join('')
+    // Source Folders wie in Eclipse: `src`, dazu z. B. `test`.
+    const src = sourceFoldersOf(this.project)
+      .map((root) =>
+        row(`root:${root}`, 1, '<span class="vo-badge folder source" aria-hidden="true"></span>', root, {
+          children: packagesIn(root) || `<li class="vo-tree-empty">${e(t('web_visuobject_tree_empty'))}</li>`,
+          action: root !== defaultRoot,
+        }),
+      )
       .join('')
-    const src = row('src', 1, '<span class="vo-badge folder" aria-hidden="true"></span>', 'src', { children: packages || `<li class="vo-tree-empty">${e(t('web_visuobject_tree_empty'))}</li>` })
     const current = row('project', 0, '<span class="vo-badge project" aria-hidden="true"></span>', this.project.name, { children: src, extra: this.isDirty() ? `<span class="vo-dirty" aria-label="${e(t('web_visuobject_unsaved'))}"> ●</span>` : '' })
     // Im Workspace stehen alle Projekte untereinander wie in Eclipse; nur das geöffnete klappt auf.
     const others = this.workspace ? this.projects.filter((p) => p !== this.folder) : []
@@ -1076,7 +1267,7 @@ export class ObjectApp {
     const now = Date.now()
     const twice = this.treeClick.node === id && now - this.treeClick.time < 450
     this.treeClick = { node: id, time: twice ? 0 : now }
-    if (twice && !id.startsWith('member:') && !id.startsWith('wsproject:') && id !== 'src') {
+    if (twice && !id.startsWith('member:') && !id.startsWith('wsproject:') && id !== `root:${defaultRoot}`) {
       this.startEditing(this.tree.querySelector<HTMLElement>(`[data-node="${CSS.escape(id)}"] > .vo-row .vo-label`))
       return
     }
@@ -1101,7 +1292,7 @@ export class ObjectApp {
       if (!cls) return
       const member = index !== undefined ? cls.members[Number(index)] : undefined
       this.selection = { cls: cls.name, member: index !== undefined ? Number(index) : undefined }
-      this.currentPackage = cls.pkg
+      this.currentPackage = packageOf(cls.path)
       this.showInCode(cls, member)
       if (index !== undefined) this.treeSelection = id
     } else {
@@ -1116,6 +1307,10 @@ export class ObjectApp {
     const value = rest.join(':')
     this.treeSelection = undefined
     if (kind === 'file') this.setProject(removeFile(this.project, value))
+    else if (kind === 'root') {
+      if (this.currentPackage && rootOf(this.currentPackage) === value) this.currentPackage = undefined
+      this.setProject(removeSourceFolder(this.project, value))
+    }
     else if (kind === 'pkg') {
       if (this.currentPackage === value) this.currentPackage = undefined
       this.setProject(removePackage(this.project, value))
@@ -1151,8 +1346,9 @@ export class ObjectApp {
   private drag?: { name: string; box: HTMLElement; start: Point; origin: Point; moved: boolean }
 
   private onPointerDown(ev: PointerEvent) {
+    this.closeEnd()
     const target = ev.target as HTMLElement
-    if (this.tool !== 'select' && ev.button === 0 && !target.closest('.vo-inspector, .vo-relmenu, input, select, button:not(.uml-connect)')) {
+    if (this.tool !== 'select' && ev.button === 0 && !target.closest('.vo-dock, .vo-relmenu, input, select, button:not(.uml-connect)')) {
       this.suppressClick = true
       return this.useTool(ev)
     }
@@ -1210,6 +1406,11 @@ export class ObjectApp {
       return
     }
     const rel = target.closest<SVGElement>('[data-rel]')?.dataset.rel
+    const endEl = target.closest<SVGElement>('[data-end]')
+    if (rel && !cls && endEl && this.relSelection === rel) {
+      this.openEnd(rel, endEl.dataset.end as 'a' | 'b', ev, endEl.dataset.part as 'role' | 'mult' | undefined)
+      return
+    }
     if (rel && !cls) {
       this.selectRelation(rel)
       return
@@ -1236,7 +1437,7 @@ export class ObjectApp {
     this.selection = { cls: cls.name, member: index }
     this.relSelection = undefined
     this.treeSelection = undefined
-    this.currentPackage = cls.pkg
+    this.currentPackage = packageOf(cls.path)
     this.showInCode(cls, index !== undefined ? cls.members[index] : undefined)
     this.render()
     this.renderTree()
@@ -1357,7 +1558,7 @@ export class ObjectApp {
       const y = Math.min(...rs.map((r) => r.y)) - 40
       return { x, y, w: Math.max(...rs.map((r) => r.x + r.w)) + 16 - x, h: Math.max(...rs.map((r) => r.y + r.h)) + 16 - y }
     }
-    const packages = packagesOf(this.project).filter((pkg) => this.classes.some((c) => c.pkg === pkg && boxes.has(c.name)))
+    const packages = this.diagramPackages().filter((pkg) => this.classes.some((c) => c.pkg === pkg && boxes.has(c.name)))
     for (const pkg of packages) {
       const fresh = this.classes.filter((c) => c.pkg === pkg && boxes.has(c.name) && !this.positions.has(c.name))
       if (fresh.length === 0) continue
@@ -1463,10 +1664,15 @@ export class ObjectApp {
     this.renderInspector()
   }
 
+  /** Java-Packages fürs Diagramm: Gleich benannte Packages in `src` und `test` sind dasselbe Package. */
+  private diagramPackages(): string[] {
+    return [...new Set(packagesOf(this.project).map(barePackage))]
+  }
+
   /** UML-Package: Rahmen um seine Klassen mit Reiter oben links. */
   private packageFrames(boxes: Map<string, HTMLElement>): string {
     const out: string[] = []
-    for (const pkg of packagesOf(this.project)) {
+    for (const pkg of this.diagramPackages()) {
       if (!pkg) continue
       const els = this.classes.filter((c) => c.pkg === pkg).map((c) => boxes.get(c.name)).filter((b): b is HTMLElement => !!b)
       if (els.length === 0) continue
@@ -1475,7 +1681,7 @@ export class ObjectApp {
       const right = Math.max(...els.map((b) => b.offsetLeft + b.offsetWidth)) + 16
       const bottom = Math.max(...els.map((b) => b.offsetTop + b.offsetHeight)) + 16
       const tab = Math.max(70, pkg.length * 7.6 + 20)
-      const current = this.currentPackage === pkg ? ' current' : ''
+      const current = this.currentPackage !== undefined && barePackage(this.currentPackage) === pkg ? ' current' : ''
       out.push(`<g class="vo-package${current}">
         <path d="M${x} ${y - 24} h${tab} v24 h${right - x - tab} v${bottom - y} h${-(right - x)} z" class="vo-package-frame"/>
         <line x1="${x}" y1="${y}" x2="${x + tab}" y2="${y}" class="vo-package-frame"/>
@@ -1545,23 +1751,29 @@ export class ObjectApp {
       svg += `<polygon class="vo-diamond${r.kind === 'composition' ? ' filled' : ''}" points="${p(0, 0)} ${p(10, 6)} ${p(20, 0)} ${p(10, -6)}"/>`
     }
     // Beschriftung an einem Ende: Multiplizität auf der einen, Rolle auf der anderen Seite, gleich weit weg.
-    const end = (at: Point, dir: Point, along: number, multiplicity?: string, role?: string) => {
+    // Ist die Linie markiert, stehen leere Felder hellgrau da; ein Klick darauf bearbeitet das Ende (wie in Astah).
+    const end = (at: Point, dir: Point, along: number, endId: 'a' | 'b', multiplicity?: string, role?: string) => {
       // Waagerechte Linie: Text beginnt dicht an der Klasse und wächst von ihr weg.
       const flat = Math.abs(n.x) < 0.35
       const base = flat ? { x: at.x + dir.x * 8, y: at.y + dir.y * 8 } : { x: at.x + dir.x * along, y: at.y + dir.y * along }
-      const text = (side: number, value: string | undefined, cls: string) => {
-        if (!value) return ''
+      const text = (side: number, value: string | undefined, cls: 'mult' | 'role') => {
+        const empty = !value
+        if (empty && !selected) return ''
         const x = base.x + n.x * side
         const y = base.y + n.y * side
         const anchor = flat ? (dir.x > 0 ? 'start' : 'end') : n.x * side > 0 ? 'start' : 'end'
-        return `<text class="vo-label-svg ${cls}" x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="middle">${e(value)}</text>`
+        const shown = empty ? t(cls === 'role' ? 'web_visuobject_rel_role' : 'web_visuobject_end_mult_ph') : value
+        return `<text class="vo-label-svg ${cls}${empty ? ' placeholder' : ''}${selected ? ' editable' : ''}" data-rel="${e(id)}" data-end="${endId}" data-part="${cls}" x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="middle">${e(shown!)}</text>`
       }
-      return text(12, multiplicity, 'mult') + text(-12, role, 'role')
+      // Unsichtbarer Kreis am Ende: Rechtsklick dort öffnet das Ende auch ohne Markierung.
+      const c = { x: at.x + dir.x * 16, y: at.y + dir.y * 16 }
+      const hit = `<circle class="vo-end-hit" data-rel="${e(id)}" data-end="${endId}" cx="${c.x}" cy="${c.y}" r="16"><title>${e(t('web_visuobject_end_tip'))}</title></circle>`
+      return hit + text(12, multiplicity, 'mult') + text(-12, role, 'role')
     }
     const room = Math.min(30, length / 3)
     // Rolle mit Sichtbarkeit, denn das Attribut steht nicht mehr im Kasten.
-    svg += end(to, { x: -u.x, y: -u.y }, room, r.multiplicity, `${r.field.visibility}${r.role}`)
-    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, r.sourceMultiplicity, r.back ? `${r.back.field.visibility}${r.back.field.name}` : r.sourceRole)
+    svg += end(to, { x: -u.x, y: -u.y }, room, 'b', r.multiplicity, `${r.field.visibility}${r.role}`)
+    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, 'a', r.sourceMultiplicity, r.back ? `${r.back.field.visibility}${r.back.field.name}` : r.sourceRole)
     if (r.name) {
       // Leserichtung als Dreieck, das in Richtung der gelesenen Klasse zeigt.
       const dir = r.reading === 'backward' ? { x: -u.x, y: -u.y } : u
@@ -1682,7 +1894,8 @@ export class ObjectApp {
       id = `gen:${a.kind === 'interface' ? 'extends' : 'implements'}:${from}:${to}`
     } else {
       const added = this.addAssociationField(next, from, to, false)
-      next = kind === 'association' ? added.project : this.setUml(added.project, relationKey(from, added.field), { kind })
+      const key = relationKey(from, added.field)
+      next = kind === 'association' ? added.project : kind === 'link' ? this.setUml(added.project, key, { targetEnd: 'unspecified' }) : this.setUml(added.project, key, { kind })
       id = `assoc:${relationKey(from, added.field)}`
     }
     this.relSelection = id
@@ -1821,22 +2034,93 @@ export class ObjectApp {
   }
 
   /** Objektinspektor rechts im Diagramm: zeigt die gewählte Beziehung. */
+  /**
+   * Kleines Feld an einem Ende der Linie wie in Astah: Rolle, Multiplizität als Knöpfe, Navigierbarkeit.
+   * Ende A ist die Klasse, bei der die Linie beginnt, Ende B die, bei der sie endet.
+   */
+  private openEnd(id: string, which: 'a' | 'b', ev: MouseEvent, part?: 'role' | 'mult') {
+    this.closeEnd()
+    const rel = this.findRelation(id)
+    if (!rel || !('key' in rel)) return
+    const isA = which === 'a'
+    const keys = isA ? { role: 'sourceRole', mult: 'sourceMultiplicity', nav: 'sourceEnd' } : { role: 'role', mult: 'multiplicity', nav: 'targetEnd' }
+    const role = (isA ? rel.sourceRole : rel.role) ?? ''
+    const mult = (isA ? rel.sourceMultiplicity : rel.multiplicity) ?? ''
+    const nav = isA ? rel.navFrom : rel.navTo
+    const cls = isA ? rel.from : rel.to
+    const pop = document.createElement('div')
+    pop.className = 'vo-endpop'
+    pop.setAttribute('role', 'dialog')
+    pop.setAttribute('aria-label', t(isA ? 'web_visuobject_rel_end_a' : 'web_visuobject_rel_end_b', cls))
+    pop.innerHTML = `<p><b>${e(t(isA ? 'web_visuobject_rel_end_a' : 'web_visuobject_rel_end_b', cls))}</b></p>
+      <label>${e(t('web_visuobject_rel_role'))}<input data-end-field="role" value="${e(role)}" spellcheck="false" autocomplete="off" placeholder="${e(t('web_visuobject_end_role_ph'))}"></label>
+      <div class="vo-endpop-row" role="group" aria-label="${e(t('web_visuobject_rel_multiplicity'))}"><span>${e(t('web_visuobject_rel_multiplicity'))}</span>${multiplicities.map((m) => `<button type="button" data-mult="${m}" aria-pressed="${m === mult}">${m}</button>`).join('')}<input data-end-field="mult" value="${e(mult)}" size="4" spellcheck="false" autocomplete="off" aria-label="${e(t('web_visuobject_rel_multiplicity'))}"></div>
+      <div class="vo-endpop-row" role="group" aria-label="${e(t('web_visuobject_rel_navigable'))}"><span>${e(t('web_visuobject_rel_navigable'))}</span>${(['navigable', 'non-navigable', 'unspecified'] as const).map((v) => `<button type="button" data-nav="${v}" aria-pressed="${v === nav}">${e(t(`web_visuobject_rel_nav_${v}`))}</button>`).join('')}</div>`
+    const stage = this.shell.querySelector<HTMLElement>('.vo-stage')!
+    const r = stage.getBoundingClientRect()
+    stage.append(pop)
+    const x = Math.min(Math.max(8, ev.clientX - r.left + 8), r.width - pop.offsetWidth - 8)
+    const y = Math.min(Math.max(8, ev.clientY - r.top + 8), r.height - pop.offsetHeight - 8)
+    pop.style.left = `${Math.max(8, x)}px`
+    pop.style.top = `${Math.max(8, y)}px`
+    const apply = (field: string, value: string) => {
+      const current = this.findRelation(id)
+      if (current && 'key' in current) this.changeAssoc(current, field, value)
+      // Nach dem Neuzeichnen bleibt das Feld offen, mit dem neuen Stand.
+      const focusPart = (document.activeElement as HTMLElement | null)?.dataset?.endField as 'role' | 'mult' | undefined
+      if (this.relSelection) this.reopenEnd(this.relSelection, which, pop, focusPart)
+    }
+    for (const input of pop.querySelectorAll<HTMLInputElement>('[data-end-field]')) {
+      input.addEventListener('change', () => apply(input.dataset.endField === 'role' ? keys.role : keys.mult, input.value.trim()))
+      input.addEventListener('keydown', (k) => {
+        k.stopPropagation()
+        if (k.key === 'Enter') input.blur()
+        if (k.key === 'Escape') this.closeEnd()
+      })
+    }
+    for (const b of pop.querySelectorAll<HTMLButtonElement>('[data-mult]')) b.addEventListener('click', () => apply(keys.mult, b.dataset.mult!))
+    for (const b of pop.querySelectorAll<HTMLButtonElement>('[data-nav]')) b.addEventListener('click', () => apply(keys.nav, b.dataset.nav!))
+    pop.addEventListener('pointerdown', (p) => p.stopPropagation())
+    pop.addEventListener('click', (c) => c.stopPropagation())
+    this.endPop = pop
+    const first = pop.querySelector<HTMLInputElement>(`[data-end-field="${part === 'mult' ? 'mult' : 'role'}"]`)
+    first?.focus()
+    first?.select()
+  }
+
+  /** Feld am Ende nach einer Änderung an derselben Stelle neu öffnen. */
+  private reopenEnd(id: string, which: 'a' | 'b', old: HTMLElement, part?: 'role' | 'mult') {
+    const r = this.shell.querySelector<HTMLElement>('.vo-stage')!.getBoundingClientRect()
+    const fake = { clientX: r.left + parseFloat(old.style.left) - 8, clientY: r.top + parseFloat(old.style.top) - 8 } as MouseEvent
+    this.openEnd(id, which, fake, part)
+  }
+
+  private endPop?: HTMLElement
+
+  private closeEnd() {
+    this.endPop?.remove()
+    this.endPop = undefined
+  }
+
+  /**
+   * Objektinspektor unter dem Diagramm. Ende A ist die Klasse, bei der die Linie beginnt (dort steht das Attribut),
+   * Ende B die Klasse, bei der sie endet.
+   */
   private renderInspector() {
     const rel = this.relSelection ? this.findRelation(this.relSelection) : undefined
+    if (this.endPop && (!rel || !this.endPop.isConnected)) this.closeEnd()
     if (!rel) {
-      this.inspector.hidden = true
-      this.inspector.innerHTML = ''
+      delete this.inspector.dataset.rel
+      this.inspector.innerHTML = `<p class="vo-inspector-empty">${e(t('web_visuobject_inspector_empty'))}</p>`
       return
     }
     // Fokus nach dem Neuzeichnen wieder auf dasselbe Feld (z. B. nach Tab ins nächste).
     const focused = this.inspector.contains(document.activeElement) ? ((document.activeElement as HTMLElement).dataset.field ?? (document.activeElement as HTMLElement).dataset.inspector) : undefined
     this.inspector.dataset.rel = this.relSelection
-    this.inspector.hidden = false
-    const head = `<header class="vo-inspector-head"><h3>${e(t('web_visuobject_inspector'))}</h3><button class="vo-collapse" data-inspector="close" aria-label="${e(t('web_visuobject_inspector_close'))}">×</button></header>`
     const remove = `<button class="text-button vo-danger" data-inspector="delete">${icons.trash} ${e(t('web_visuobject_rel_delete'))}</button>`
     if (!('key' in rel)) {
       const text = t(rel.kind === 'implements' ? 'web_visuobject_rel_implements_text' : 'web_visuobject_rel_extends_text', rel.from, rel.to)
-      this.inspector.innerHTML = `${head}<p class="vo-inspector-kind">${e(t(rel.kind === 'implements' ? 'web_visuobject_rel_implements' : 'web_visuobject_rel_extends'))}</p><p>${e(text)}</p>${remove}`
+      this.inspector.innerHTML = `<div class="vo-inspector-row"><p class="vo-inspector-kind">${e(t(rel.kind === 'implements' ? 'web_visuobject_rel_implements' : 'web_visuobject_rel_extends'))}</p><p>${e(text)}</p>${remove}</div>`
     } else {
       const option = (value: string, label: string, current: string) => `<option value="${e(value)}"${value === current ? ' selected' : ''}>${e(label)}</option>`
       const kinds = (['association', 'aggregation', 'composition'] as const).map((k) => option(k, t(`web_visuobject_rel_${k}`).replace(/\s*\(.*\)$/, ''), rel.kind)).join('')
@@ -1849,18 +2133,23 @@ export class ObjectApp {
       const endFields = (title: string, roleKey: string, role: string | undefined, multKey: string, mult: string | undefined, roleHint: string, navKey: string, nav: EndNav) => `
         <fieldset>
           <legend>${e(title)}</legend>
-          <label class="vo-wide">${e(t('web_visuobject_rel_navigable'))}<select data-field="${navKey}">${navs(nav)}</select></label>
-          <label>${e(t('web_visuobject_rel_role'))}<input data-field="${roleKey}" value="${e(role ?? '')}" spellcheck="false" autocomplete="off"><small>${e(roleHint)}</small></label>
+          <label>${e(t('web_visuobject_rel_role'))}<input data-field="${roleKey}" value="${e(role ?? '')}" spellcheck="false" autocomplete="off"></label>
           <label>${e(t('web_visuobject_rel_multiplicity'))}<input data-field="${multKey}" list="vo-multiplicities" value="${e(mult ?? '')}" spellcheck="false" autocomplete="off" placeholder="1"></label>
+          <label class="vo-wide">${e(t('web_visuobject_rel_navigable'))}<select data-field="${navKey}">${navs(nav)}</select></label>
+          <small class="vo-wide">${e(roleHint)}</small>
         </fieldset>`
-      this.inspector.innerHTML = `${head}
-        <label>${e(t('web_visuobject_rel_kind'))}<select data-field="kind">${kinds}</select></label>
-        <label>${e(t('web_visuobject_rel_name'))}<input data-field="name" value="${e(rel.name ?? '')}" placeholder="${e(t('web_visuobject_rel_name_ph'))}" autocomplete="off"></label>
-        ${reading}
-        ${endFields(t('web_visuobject_rel_end', rel.to), 'role', rel.role, 'multiplicity', rel.multiplicity, t('web_visuobject_rel_role_field', rel.from, rel.role), 'targetEnd', rel.navTo)}
-        ${endFields(t('web_visuobject_rel_end', rel.from), 'sourceRole', rel.sourceRole, 'sourceMultiplicity', rel.sourceMultiplicity, rel.back ? t('web_visuobject_rel_role_field', rel.to, rel.back.field.name) : t('web_visuobject_rel_role_only_uml'), 'sourceEnd', rel.navFrom)}
-        ${list}
-        ${remove}`
+      this.inspector.innerHTML = `
+        <div class="vo-inspector-row">
+          <label>${e(t('web_visuobject_rel_kind'))}<select data-field="kind">${kinds}</select></label>
+          <label>${e(t('web_visuobject_rel_name'))}<input data-field="name" value="${e(rel.name ?? '')}" placeholder="${e(t('web_visuobject_rel_name_ph'))}" autocomplete="off"></label>
+          ${reading}
+          ${remove}
+        </div>
+        <div class="vo-inspector-ends">
+          ${endFields(t('web_visuobject_rel_end_a', rel.from), 'sourceRole', rel.sourceRole, 'sourceMultiplicity', rel.sourceMultiplicity, rel.back ? t('web_visuobject_rel_role_field', rel.to, rel.back.field.name) : t('web_visuobject_rel_role_only_uml'), 'sourceEnd', rel.navFrom)}
+          ${endFields(t('web_visuobject_rel_end_b', rel.to), 'role', rel.role, 'multiplicity', rel.multiplicity, t('web_visuobject_rel_role_field', rel.from, rel.role), 'targetEnd', rel.navTo)}
+        </div>
+        ${list}`
     }
     for (const el of this.inspector.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-field]')) {
       el.addEventListener('change', () => {
@@ -1874,10 +2163,6 @@ export class ObjectApp {
     this.inspector.querySelector('[data-inspector=flip]')?.addEventListener('click', () => {
       const current = this.relSelection && this.findRelation(this.relSelection)
       if (current && 'key' in current) this.changeAssoc(current, 'reading', '')
-    })
-    this.inspector.querySelector('[data-inspector=close]')!.addEventListener('click', () => {
-      this.relSelection = undefined
-      this.render()
     })
   }
 
@@ -2010,7 +2295,7 @@ export class ObjectApp {
     const a = this.findClass(from)
     const b = this.findClass(to)
     if (!a || !b) return
-    const choices = relationChoices(a, b).map((kind): [RelationTool, string] => [kind, `web_visuobject_rel_${kind}`])
+    const choices = relationChoices(a, b).map((kind): [RelationTool, string] => [kind, kind === 'association' ? 'web_visuobject_rel_directed' : `web_visuobject_rel_${kind}`])
     if (choices.length === 0) return this.message(t('web_visuobject_rel_impossible', from, to))
     const menu = document.createElement('div')
     menu.className = 'vo-relmenu'
@@ -2045,14 +2330,15 @@ export class ObjectApp {
   }
 }
 
-type RelationTool = AssocKind | 'extends' | 'implements'
+/** `link`: Assoziation ohne Navigation (einfache Linie), `association`: gerichtet mit Pfeil. */
+type RelationTool = AssocKind | 'link' | 'extends' | 'implements'
 type Tool = 'select' | 'class' | 'interface' | RelationTool
-const paletteTools: Tool[] = ['select', 'class', 'interface', 'association', 'aggregation', 'composition', 'extends', 'implements']
+const paletteTools: Tool[] = ['select', 'class', 'interface', 'link', 'association', 'aggregation', 'composition', 'extends', 'implements']
 
 /** Welche Beziehungen von `a` nach `b` gehen: Attribute nur in Klassen, erben nur Klasse von Klasse bzw. Interface von Interface. */
 function relationChoices(a: UmlClass, b: UmlClass): RelationTool[] {
   const out: RelationTool[] = []
-  if (a.kind === 'class') out.push('association', 'aggregation', 'composition')
+  if (a.kind === 'class') out.push('link', 'association', 'aggregation', 'composition')
   if (a.kind === b.kind && (a.kind === 'class' ? a.superclass !== b.name : !a.interfaces.includes(b.name))) out.push('extends')
   if (a.kind === 'class' && b.kind === 'interface' && !a.interfaces.includes(b.name)) out.push('implements')
   return out
@@ -2071,7 +2357,9 @@ function toolIcon(tool: Tool): string {
 function relationIcon(kind: string): string {
   const line = (x1: number, x2: number, dashed = false) => `<line x1="${x1}" y1="7" x2="${x2}" y2="7"${dashed ? ' stroke-dasharray="3 2"' : ''}/>`
   const shape =
-    kind === 'association'
+    kind === 'link'
+      ? line(1, 27)
+      : kind === 'association'
       ? `${line(1, 27)}<path d="M21 2 L27 7 L21 12" fill="none"/>`
       : kind === 'aggregation' || kind === 'composition'
         ? `${line(13, 27)}<path d="M1 7 L7 3 L13 7 L7 11 z" fill="${kind === 'composition' ? 'currentColor' : 'none'}"/>`

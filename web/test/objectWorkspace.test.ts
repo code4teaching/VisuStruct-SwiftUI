@@ -73,6 +73,21 @@ describe('objectWorkspace', () => {
     expect(files.has('Zoo/bin/tiere/Hund.class')).toBe(true)
   })
 
+  it('liest und schreibt mehrere Source Folders über .classpath', async () => {
+    const files = new Map<string, string>()
+    const root = new MemDir('ws', files)
+    const zoo = { ...exampleProject(), sourceFolders: ['test'], files: [...exampleProject().files, { path: 'test:tiere/HundTest.java', text: 'package tiere;\n\npublic class HundTest {\n}\n' }] }
+    await writeProject(root, 'Zoo', zoo, {})
+    expect(files.has('Zoo/test/tiere/HundTest.java')).toBe(true)
+    expect(files.get('Zoo/.classpath')).toContain('<classpathentry kind="src" path="test"/>')
+    const back = await readProject(root, 'Zoo')
+    expect(back.project.files.map((f) => f.path)).toContain('test:tiere/HundTest.java')
+    expect(back.project.sourceFolders).toEqual(['test'])
+    await writeProject(root, 'Zoo', { ...back.project, sourceFolders: [], files: back.project.files.filter((f) => !f.path.startsWith('test:')) }, {})
+    expect([...files.keys()].some((k) => k.startsWith('Zoo/test'))).toBe(false)
+    expect(files.get('Zoo/.classpath')).not.toContain('path="test"')
+  })
+
   it('findet freie Namen', () => {
     expect(freeProjectName('MeinProjekt', ['meinprojekt', 'MeinProjekt2'])).toBe('MeinProjekt3')
   })

@@ -4236,8 +4236,8 @@ button.danger-text:not(:disabled) {
   display: grid;
   justify-items: center;
   gap: 1px;
-  min-width: 62px;
-  padding: 3px 6px 2px;
+  min-width: 52px;
+  padding: 3px 3px 2px;
   border: 1px solid transparent;
   border-radius: 7px;
   background: none;
@@ -4300,41 +4300,44 @@ button.danger-text:not(:disabled) {
 .vo-stage .vo-canvas {
   flex: 1;
 }
-.vo-inspector {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 8;
-  display: grid;
-  gap: 8px;
-  width: min(290px, calc(100% - 20px));
-  max-height: calc(100% - 20px);
-  overflow: auto;
-  padding: 0 12px 12px;
+.vo-dock {
+  border-top: 1px solid var(--border);
   background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
-  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
-.vo-inspector[hidden] {
+.vo-dock-bar {
+  min-height: 30px;
+}
+.vo-dock-bar .vo-bar-title {
+  font-size: 13px;
+}
+.vo-dock.collapsed .vo-inspector {
   display: none;
 }
-.vo-inspector-head {
-  position: sticky;
-  top: 0;
-  display: flex;
-  align-items: center;
-  margin: 0 -12px;
-  padding: 0 0 0 12px;
-  min-height: 36px;
-  background: var(--vo-bar);
-  border-bottom: 1px solid var(--border);
+.vo-inspector {
+  display: grid;
+  gap: 8px;
+  max-height: 40vh;
+  overflow: auto;
+  padding: 8px 12px 10px;
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
-.vo-inspector-head h3 {
-  flex: 1;
-  margin: 0;
-  font-size: 14px;
+.vo-inspector-empty {
+  color: var(--muted);
+}
+.vo-inspector-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px 12px;
+}
+.vo-inspector-row > label {
+  flex: 1 1 160px;
+  max-width: 260px;
+}
+.vo-inspector-ends {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 8px;
 }
 .vo-inspector label {
   display: grid;
@@ -4361,7 +4364,7 @@ button.danger-text:not(:disabled) {
 }
 .vo-inspector fieldset {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 72px;
+  grid-template-columns: minmax(0, 1fr) 84px;
   align-items: start;
   gap: 6px;
   min-width: 0;
@@ -4369,9 +4372,6 @@ button.danger-text:not(:disabled) {
   padding: 6px 8px 8px;
   border: 1px solid var(--border);
   border-radius: 8px;
-}
-.vo-inspector fieldset label:first-of-type small {
-  grid-column: 1 / -1;
 }
 .vo-inspector fieldset .vo-wide {
   grid-column: 1 / -1;
@@ -4541,6 +4541,214 @@ button.danger-text:not(:disabled) {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+.vo-lines .vo-end-hit {
+  fill: transparent;
+  pointer-events: all;
+  cursor: context-menu;
+}
+.vo-lines .vo-label-svg.editable {
+  pointer-events: all;
+  cursor: pointer;
+}
+.vo-lines .vo-label-svg.editable:hover {
+  fill: var(--accent);
+  text-decoration: underline;
+}
+.vo-lines .vo-label-svg.placeholder {
+  fill: var(--muted);
+  opacity: 0.6;
+  font-style: italic;
+}
+.vo-endpop {
+  position: absolute;
+  z-index: 12;
+  display: grid;
+  gap: 8px;
+  width: min(330px, calc(100% - 16px));
+  box-sizing: border-box;
+  padding: 10px 12px;
+  background: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-endpop p {
+  margin: 0;
+}
+.vo-endpop label {
+  display: grid;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.vo-endpop input {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-endpop-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.vo-endpop-row > span {
+  flex-basis: 100%;
+  color: var(--muted);
+  font-size: 12px;
+}
+.vo-endpop-row button {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 12px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+}
+.vo-endpop-row button[aria-pressed='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.vo-endpop-row input {
+  width: 64px;
+}
+.vo-new {
+  position: relative;
+}
+.vo-new-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  min-width: 190px;
+  padding: 4px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+.vo-new-menu[hidden] {
+  display: none;
+}
+.vo-new-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  text-align: left;
+  cursor: pointer;
+}
+.vo-new-menu button:hover,
+.vo-new-menu button:focus-visible {
+  background: var(--accent-soft);
+  outline: none;
+}
+.vo-badge.folder.source {
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.35), inset -5px -4px 0 #8a6d2b;
+}
+.confirm-card.vo-wizard {
+  display: grid;
+  gap: 10px;
+  width: min(520px, 100%);
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  box-sizing: border-box;
+  font: 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-wizard h2 {
+  margin: 0;
+  font-size: 17px;
+}
+.vo-wizard .hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.vo-wizard > label {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.vo-wizard input[type='text'],
+.vo-wizard select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 5px 7px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+.vo-wizard fieldset {
+  margin: 0;
+  padding: 6px 10px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.vo-wizard legend {
+  padding: 0 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.vo-wizard-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.vo-wizard-row select,
+.vo-wizard-row input[type='text'] {
+  width: auto;
+  flex: 1 1 160px;
+}
+.vo-wizard-list {
+  display: grid;
+  gap: 4px;
+}
+.vo-wizard .check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.vo-wizard code {
+  font-size: 12px;
+}
+.vo-wizard-error {
+  min-height: 1em;
+  margin: 0;
+  color: #b3261e;
+  font-size: 13px;
+}
+.vo-wizard .group button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+@media (max-width: 560px) {
+  .vo-wizard > label {
+    grid-template-columns: 1fr;
+  }
 }
 .vo-dirty {
   color: var(--accent);
