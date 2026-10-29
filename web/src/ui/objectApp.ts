@@ -61,6 +61,8 @@ import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
 import { ObjectLayout } from './objectLayout'
 import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
+import { freeProjectName, listProjects, readProject, safeFolderName, workspaceFolderName, writeProject, type Positions } from './objectWorkspace'
+import { canPickFolder, pickFolder, reopenFolder, storedFolder, type WsDir } from './workspaceStore'
 
 /**
  * Welt VisuObject: links der Package Explorer (Projekt › src › Packages › Dateien › Klassen › Mitglieder),
@@ -76,6 +78,12 @@ const activeKey = 'visuobject.active'
 const positionsKey = 'visuobject.positions'
 const treeKey = 'visuobject.tree'
 const tabsKey = 'visuobject.tabs'
+/** Zuletzt geöffnetes Projekt im Workspace. */
+const wsProjectKey = 'visuobject.wsProject'
+/** `1`: ohne Workspace-Ordner arbeiten, nicht mehr fragen. */
+const noWorkspaceKey = 'visuobject.noWorkspace'
+/** Gemerkter Workspace-Ordner, getrennt vom Ordner „VisuStruct-Dateien“. */
+const workspaceSlot = 'visuobject-workspace'
 const maxUndoSteps = 80
 
 type Point = { x: number; y: number }
@@ -163,6 +171,17 @@ export class ObjectApp {
   private lastTyping = 0
   /** Gerade bearbeitetes Eingabefeld im Diagramm oder Explorer: dann nicht neu zeichnen. */
   private editing = false
+  /** Workspace-Ordner wie in Eclipse (nur Chrome/Edge); ohne ihn bleibt das Projekt im Browser. */
+  private workspace?: WsDir
+  /** Gemerkter Ordner, für den der Browser erst wieder fragen muss. */
+  private pendingFolder?: FileSystemDirectoryHandle
+  private projects: string[] = []
+  /** Ordner des geöffneten Projekts im Workspace; nach dem Umbenennen bis zum Speichern noch der alte. */
+  private folder?: string
+  /** Stand beim letzten Speichern bzw. Laden: Projekt als JSON und Text je Datei. */
+  private saved?: string
+  private savedFiles = new Map<string, string>()
+  private wsBox!: HTMLElement
 
   constructor(root: HTMLElement) {
     document.documentElement.classList.add('visuobject-theme')
@@ -194,6 +213,10 @@ export class ObjectApp {
     this.refresh()
     window.addEventListener('keydown', (ev) => this.onKey(ev))
     window.addEventListener('resize', () => this.drawLines())
+    window.addEventListener('beforeunload', (ev) => {
+      if (this.isDirty()) ev.preventDefault()
+    })
+    void this.restoreWorkspace()
   }
 
   // MARK: - Aufbau
@@ -229,6 +252,7 @@ export class ObjectApp {
             <h2 class="vo-bar-title">${e(t('web_visuobject_explorer'))}</h2>
             <button class="vo-collapse" data-collapse="explorer" aria-label="${e(t('web_visuobject_explorer_hide'))}" data-tip="${e(t('web_visuobject_explorer_hide'))}">–</button>
           </header>
+          <div class="vo-ws" hidden></div>
           <div class="vo-tree-tools">
             <button class="text-button" data-action="add-package" data-tip="${e(t('web_visuobject_add_package_tip'))}">+ ${e(t('web_visuobject_add_package'))}</button>
             <button class="text-button" data-action="tree-add-class" data-tip="${e(t('web_visuobject_add_class_tip'))}">+ ${e(t('web_visuobject_add_class'))}</button>
@@ -271,6 +295,8 @@ export class ObjectApp {
     this.inspector = this.shell.querySelector('.vo-inspector')!
     this.tree = this.shell.querySelector('.vo-tree')!
     this.tabs = this.shell.querySelector('.vo-tabs')!
+    this.wsBox = this.shell.querySelector('.vo-ws')!
+    this.wsBox.addEventListener('click', (ev) => void this.onWorkspaceClick(ev))
     this.editor = new JavaEditor(
       this.shell.querySelector('.vo-editor')!,
       {
@@ -298,8 +324,8 @@ export class ObjectApp {
       t('web_visuobject_code'),
     )
     const on = (action: string, run: () => void) => this.shell.querySelector(`[data-action=${action}]`)!.addEventListener('click', run)
-    on('new', () => this.setProject({ name: t('web_visuobject_project_name'), files: [], packages: [] }, undefined))
-    on('example', () => this.setProject(exampleProject(), 'tiere/Tier.java'))
+    on('new', () => void this.newProject({ name: t('web_visuobject_project_name'), files: [], packages: [] }))
+    on('example', () => void this.newProject(exampleProject(), 'tiere/Tier.java'))
     on('open', () => this.openFiles())
     on('save', () => void this.save())
     on('undo', () => this.undo(false))
@@ -362,9 +388,11 @@ export class ObjectApp {
     this.tabs.innerHTML = this.openTabs
       .map((path) => {
         const on = path === this.active
+        // Wie in VS Code: ● statt ×, solange die Datei nicht gespeichert ist.
+        const dirty = this.isDirty(path)
         return `<div class="vo-tab${on ? ' active' : ''}" data-tab="${e(path)}">
           <button role="tab" aria-selected="${on}" tabindex="${on ? 0 : -1}" data-tip="src/${e(path)}">${e(fileNameOf(path))}</button>
-          <button class="vo-tab-close" data-close aria-label="${e(t('web_visuobject_close_tab', fileNameOf(path)))}" tabindex="-1">×</button>
+          <button class="vo-tab-close${dirty ? ' unsaved' : ''}" data-close aria-label="${e(t('web_visuobject_close_tab', fileNameOf(path)) + (dirty ? `, ${t('web_visuobject_unsaved')}` : ''))}" tabindex="-1"><span class="vo-x">×</span><span class="vo-dot" aria-hidden="true">●</span></button>
         </div>`
       })
       .join('')
@@ -449,6 +477,7 @@ export class ObjectApp {
 
   private refresh() {
     store(projectKey, projectToJSON(this.project))
+    this.renderTabs()
     this.classes = projectClasses(this.project)
     if (this.selection && !this.findClass(this.selection.cls)) this.selection = undefined
     if (this.relSelection && !this.findRelation(this.relSelection)) this.relSelection = undefined
@@ -513,14 +542,14 @@ export class ObjectApp {
       if (zip) {
         const { projectFromZip } = await import('./projectZip')
         const project = projectFromZip(new Uint8Array(await zip.arrayBuffer()), zip.name.replace(/\.zip$/i, ''))
-        this.setProject(project, project.files[0]?.path)
+        await this.newProject(project)
         return
       }
       const saved = files.find((f) => /\.visuobject$/i.test(f.name))
       if (saved) {
         const project = projectFromJSON(await saved.text())
         if (!project) throw new Error('format')
-        this.setProject(project, project.files[0]?.path)
+        await this.newProject(project)
         return
       }
       // Einzelne .java-Dateien kommen ins aktuelle Projekt (Package aus der `package`-Zeile).
@@ -533,11 +562,221 @@ export class ObjectApp {
     }
   }
 
-  /** Als ZIP wie in Eclipse oder BlueJ: `Projekt/src/paket/Klasse.java`. */
+  /** In den Workspace, ohne ihn als ZIP. */
   private async save() {
+    if (this.workspace) await this.writeCurrent()
+    else await this.downloadZip()
+  }
+
+  /** Als ZIP wie in Eclipse oder BlueJ: `Projekt/src/paket/Klasse.java`. */
+  private async downloadZip() {
     const { projectToZip } = await import('./projectZip')
     const data = projectToZip(this.project)
     download(`${this.project.name || 'Projekt'}.zip`, data.slice().buffer, 'application/zip')
+  }
+
+  // MARK: - Workspace
+
+  /** Ungespeichert: das ganze Projekt oder eine Datei (nur mit Workspace). */
+  private isDirty(path?: string): boolean {
+    if (!this.workspace || this.saved === undefined) return false
+    if (path === undefined) return this.saved !== projectToJSON(this.project)
+    return this.savedFiles.get(path) !== this.project.files.find((f) => f.path === path)?.text
+  }
+
+  private markSaved() {
+    this.saved = projectToJSON(this.project)
+    this.savedFiles = new Map(this.project.files.map((f) => [f.path, f.text]))
+  }
+
+  /** Beim Start: gemerkten Workspace wieder öffnen; braucht der Browser einen Klick, wartet ein Knopf. */
+  private async restoreWorkspace() {
+    if (!canPickFolder()) return
+    const folder = await storedFolder(workspaceSlot)
+    if (folder?.ready) {
+      const ws = await reopenFolder(folder.handle)
+      if (ws) return this.useWorkspace(ws.root, true)
+    }
+    this.pendingFolder = folder?.handle
+    this.renderWorkspace()
+  }
+
+  /** `restoring`: nach dem Neuladen; ungespeicherte Änderungen aus dem Browser bleiben dann erhalten. */
+  private async useWorkspace(root: WsDir, restoring = false) {
+    this.workspace = root
+    this.pendingFolder = undefined
+    store(noWorkspaceKey, '0')
+    try {
+      this.projects = await listProjects(root)
+      const last = stored(wsProjectKey)
+      const local = this.project
+      if (restoring && last && this.projects.includes(last)) {
+        const view = { active: this.active, tabs: [...this.openTabs], positions: new Map(this.positions) }
+        await this.loadProject(last)
+        // Nach dem Neuladen wie vorher: dieselben Reiter und Kästen.
+        this.positions = view.positions
+        this.savePositions()
+        // Was seit dem letzten Speichern getippt wurde, steht noch im Browser (mit Workspace immer dessen Projekt).
+        if (projectToJSON(local) !== this.saved) {
+          this.project = local
+        }
+        this.openTabs = view.tabs.filter((p) => this.project.files.some((f) => f.path === p))
+        this.active = this.project.files.some((f) => f.path === view.active) ? view.active : this.project.files[0]?.path
+        this.showActive()
+        this.refresh()
+      } else if (!this.projects.some((p) => p.toLowerCase() === safeFolderName(local.name).toLowerCase()) && local.files.length) {
+        // Das Projekt aus dem Browser kommt mit in den neuen Workspace.
+        this.folder = safeFolderName(local.name)
+        await this.writeCurrent(false)
+      } else if (this.projects.length) await this.loadProject(this.projects.includes(last ?? '') ? last! : this.projects[0])
+      else {
+        this.folder = safeFolderName(local.name)
+        await this.writeCurrent(false)
+      }
+    } catch (err) {
+      this.message(t('web_visuobject_ws_failed', String((err as Error)?.message ?? err)))
+    }
+    this.renderWorkspace()
+    this.refresh()
+  }
+
+  private async loadProject(name: string) {
+    const { project, positions } = await readProject(this.workspace!, name)
+    this.folder = name
+    this.project = project
+    this.markSaved()
+    this.message('')
+    this.history = []
+    this.future = []
+    this.lastTyping = 0
+    this.selection = undefined
+    this.relSelection = undefined
+    this.treeSelection = undefined
+    this.currentPackage = undefined
+    this.positions = new Map(Object.entries(positions))
+    this.savePositions()
+    this.openTabs = []
+    this.active = project.files[0]?.path
+    store(wsProjectKey, name)
+    this.showActive()
+    this.refresh()
+  }
+
+  /** Geöffnetes Projekt in seinen Ordner schreiben; nach dem Umbenennen zieht es in den neuen Ordner. */
+  private async writeCurrent(report = true): Promise<boolean> {
+    const root = this.workspace
+    if (!root) return false
+    const target = safeFolderName(this.project.name)
+    const old = this.folder
+    const names = new Set(this.classes.map((c) => c.name))
+    const positions: Positions = Object.fromEntries([...this.positions].filter(([n]) => names.has(n)))
+    if (target !== old && this.projects.some((p) => p !== old && p.toLowerCase() === target.toLowerCase())) {
+      this.message(t('web_visuobject_ws_taken', this.project.name))
+      return false
+    }
+    try {
+      await writeProject(root, target, this.project, positions)
+      if (old && old !== target && this.projects.includes(old)) await root.remove(old)
+      this.folder = target
+      this.projects = await listProjects(root)
+      store(wsProjectKey, target)
+      this.markSaved()
+      if (report) this.message(t('web_visuobject_ws_saved', root.name, target), true)
+      this.refresh()
+      return true
+    } catch (err) {
+      this.message(t('web_visuobject_ws_failed', String((err as Error)?.message ?? err)))
+      return false
+    }
+  }
+
+  /** Anderes Projekt öffnen; das geöffnete wird vorher gespeichert (wie „Save all“ in Eclipse). */
+  private async switchProject(name: string) {
+    if (!this.workspace || name === this.folder) return
+    if (this.isDirty() && !(await this.writeCurrent(false))) return
+    try {
+      await this.loadProject(name)
+    } catch (err) {
+      this.message(t('web_visuobject_ws_failed', String((err as Error)?.message ?? err)))
+    }
+  }
+
+  /** Neu, Beispiel, ZIP öffnen: im Workspace ein eigenes Projekt, sonst ersetzt es das alte (mit Rückgängig). */
+  private async newProject(project: JavaProject, active?: string) {
+    if (!this.workspace) return this.setProject(project, active ?? project.files[0]?.path)
+    if (this.isDirty() && !(await this.writeCurrent(false))) return
+    const name = freeProjectName(safeFolderName(project.name), this.projects)
+    this.project = { ...project, name }
+    this.folder = name
+    this.history = []
+    this.future = []
+    this.openTabs = []
+    this.positions.clear()
+    this.savePositions()
+    this.active = project.files.some((f) => f.path === active) ? active : project.files[0]?.path
+    this.showActive()
+    this.refresh()
+    if (!(await this.writeCurrent(false))) return
+    this.message(t('web_visuobject_ws_created', name), true)
+    // Wie bei „+ Package“: Der Name ist gleich zum Überschreiben markiert.
+    if (project.files.length === 0) {
+      this.treeSelection = 'project'
+      this.renderTree()
+      this.startEditing(this.tree.querySelector<HTMLElement>('[data-node="project"] > .vo-row .vo-label'))
+    }
+  }
+
+  private renderWorkspace() {
+    const box = this.wsBox
+    box.hidden = !canPickFolder()
+    const save = this.shell.querySelector<HTMLElement>('[data-action=save]')!
+    save.dataset.tip = t(this.workspace ? 'web_visuobject_save_ws_tip' : 'web_visuobject_save_tip')
+    if (box.hidden) return
+    const btn = (action: string, label: string, cls = 'text-button', tip?: string) =>
+      `<button class="${cls}" data-ws="${action}"${tip ? ` data-tip="${e(tip)}"` : ''}>${e(label)}</button>`
+    if (this.workspace) {
+      box.className = 'vo-ws'
+      box.innerHTML = `<span class="vo-ws-name" data-tip="${e(t('web_visuobject_ws_title'))}"><span class="vo-badge folder" aria-hidden="true"></span>${e(this.workspace.name)}</span>
+        ${btn('zip', t('web_visuobject_ws_zip'), 'text-button', t('web_visuobject_ws_zip_tip'))}
+        ${btn('switch', t('web_visuobject_ws_switch'), 'text-button')}`
+    } else if (this.pendingFolder) {
+      box.className = 'vo-ws'
+      box.innerHTML = `${btn('reopen', t('web_visuobject_ws_reopen', this.pendingFolder.name), 'text-button primary')}${btn('switch', t('web_visuobject_ws_switch'), 'text-button')}`
+    } else if (stored(noWorkspaceKey) === '1') {
+      box.className = 'vo-ws'
+      box.innerHTML = btn('open', t('web_visuobject_ws_choose'), 'text-button', t('web_visuobject_ws_hint'))
+    } else {
+      box.className = 'vo-ws ask'
+      box.innerHTML = `<p><strong>${e(t('web_visuobject_ws_question'))}</strong></p>
+        <p class="hint">${e(t('web_visuobject_ws_hint'))}</p>
+        ${btn('create', t('web_visuobject_ws_create', workspaceFolderName), 'text-button primary')}
+        ${btn('open', t('web_visuobject_ws_open'))}
+        ${btn('skip', t('web_visuobject_ws_skip'))}`
+    }
+  }
+
+  private async onWorkspaceClick(ev: MouseEvent) {
+    const action = (ev.target as HTMLElement).closest<HTMLElement>('[data-ws]')?.dataset.ws
+    if (!action) return
+    if (action === 'zip') return this.downloadZip()
+    if (action === 'skip') {
+      store(noWorkspaceKey, '1')
+      return this.renderWorkspace()
+    }
+    try {
+      if (action === 'reopen' && this.pendingFolder) {
+        const ws = await reopenFolder(this.pendingFolder)
+        if (ws) await this.useWorkspace(ws.root, true)
+        return
+      }
+      if (this.isDirty() && !(await this.writeCurrent(false))) return
+      const ws = await pickFolder(action === 'create' ? workspaceFolderName : undefined, workspaceSlot)
+      store(wsProjectKey, '')
+      await this.useWorkspace(ws.root)
+    } catch (err) {
+      // Abbrechen im Ordner-Dialog ist kein Fehler.
+      if ((err as DOMException)?.name !== 'AbortError') this.message(t('web_visuobject_ws_failed', String((err as Error)?.message ?? err)))
+    }
   }
 
   // MARK: - Diagramm → Code
@@ -657,7 +896,10 @@ export class ObjectApp {
     const [kind, ...rest] = node.split(':')
     const id = rest.join(':')
     if (kind === 'project') {
-      if (text && text !== this.project.name) this.setProject({ ...this.project, name: text })
+      if (!text || text === this.project.name) return
+      const taken = this.projects.some((p) => p !== this.folder && p.toLowerCase() === safeFolderName(text).toLowerCase())
+      if (taken) return this.message(t('web_visuobject_ws_taken', text))
+      this.setProject({ ...this.project, name: text })
     } else if (kind === 'pkg') {
       if (!text || text === id) return
       if (!isPackageName(text) || packagesOf(this.project).includes(text)) return this.message(t('web_visuobject_bad_package', text))
@@ -714,6 +956,11 @@ export class ObjectApp {
   }
 
   private onKey(ev: KeyboardEvent) {
+    if ((ev.metaKey || ev.ctrlKey) && ev.key.toLowerCase() === 's') {
+      ev.preventDefault()
+      void this.save()
+      return
+    }
     if (ev.key === 'Escape' && this.tool !== 'select') {
       this.setTool('select')
       return
@@ -751,7 +998,8 @@ export class ObjectApp {
   // MARK: - Package Explorer
 
   private isOpen(id: NodeId): boolean {
-    // Projekt, src, Packages und Klassen offen; Dateien zu, außer der geöffneten.
+    // Projekt, src, Packages und Klassen offen; Dateien zu, außer der geöffneten. Andere Projekte öffnet erst ein Klick.
+    if (id.startsWith('wsproject:')) return false
     const value = this.open.get(id)
     if (value !== undefined) return value
     if (id.startsWith('file:')) return id === `file:${this.active}`
@@ -804,7 +1052,12 @@ export class ObjectApp {
       })
       .join('')
     const src = row('src', 1, '<span class="vo-badge folder" aria-hidden="true"></span>', 'src', { children: packages || `<li class="vo-tree-empty">${e(t('web_visuobject_tree_empty'))}</li>` })
-    this.tree.innerHTML = `<ul role="group">${row('project', 0, '<span class="vo-badge project" aria-hidden="true"></span>', this.project.name, { children: src })}</ul>`
+    const current = row('project', 0, '<span class="vo-badge project" aria-hidden="true"></span>', this.project.name, { children: src, extra: this.isDirty() ? `<span class="vo-dirty" aria-label="${e(t('web_visuobject_unsaved'))}"> ●</span>` : '' })
+    // Im Workspace stehen alle Projekte untereinander wie in Eclipse; nur das geöffnete klappt auf.
+    const others = this.workspace ? this.projects.filter((p) => p !== this.folder) : []
+    const all = [...others.map((name) => ({ name, html: row(`wsproject:${name}`, 0, '<span class="vo-badge project closed" aria-hidden="true"></span>', name, { children: '', title: t('web_visuobject_ws_open_project', name) }) })), { name: this.folder ?? this.project.name, html: current }]
+    all.sort((a, b) => a.name.localeCompare(b.name))
+    this.tree.innerHTML = `<ul role="group">${all.map((x) => x.html).join('')}</ul>`
     if (!this.tree.querySelector('[tabindex="0"]')) this.tree.querySelector<HTMLElement>('.vo-row')?.setAttribute('tabindex', '0')
     if (focused) this.tree.querySelector<HTMLElement>(`[data-node="${CSS.escape(focused)}"] > .vo-row`)?.focus({ preventScroll: true })
   }
@@ -817,13 +1070,13 @@ export class ObjectApp {
     const item = target.closest<HTMLElement>('[data-node]')
     const id = item?.dataset.node
     if (!item || !id) return
-    if (target.closest('[data-toggle]')) return this.toggle(id)
+    if (target.closest('[data-toggle]')) return id.startsWith('wsproject:') ? void this.switchProject(id.slice(10)) : this.toggle(id)
     if (target.closest('[data-delete]')) return this.deleteNode(id)
     // Doppelklick selbst erkennen (der erste Klick zeichnet neu): Name ändern.
     const now = Date.now()
     const twice = this.treeClick.node === id && now - this.treeClick.time < 450
     this.treeClick = { node: id, time: twice ? 0 : now }
-    if (twice && !id.startsWith('member:') && id !== 'src') {
+    if (twice && !id.startsWith('member:') && !id.startsWith('wsproject:') && id !== 'src') {
       this.startEditing(this.tree.querySelector<HTMLElement>(`[data-node="${CSS.escape(id)}"] > .vo-row .vo-label`))
       return
     }
@@ -834,6 +1087,7 @@ export class ObjectApp {
     const [kind, ...rest] = id.split(':')
     const value = rest.join(':')
     this.treeSelection = undefined
+    if (kind === 'wsproject') return void this.switchProject(value)
     if (kind === 'pkg') {
       this.currentPackage = value
       this.treeSelection = id

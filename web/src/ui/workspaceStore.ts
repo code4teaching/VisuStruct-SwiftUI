@@ -179,10 +179,10 @@ export interface Workspace {
  * Ordner wählen (nur Chrome/Edge). Der Ordner wird gemerkt, damit er nach dem Neuladen wieder da ist.
  * Mit `create` wird darin ein Ordner dieses Namens angelegt (oder der vorhandene genommen) und benutzt.
  */
-export async function pickFolder(create?: string): Promise<Workspace> {
-  const picked = await (window as DirectoryPickerWindow).showDirectoryPicker!({ id: 'visustruct-workspace', mode: 'readwrite' })
+export async function pickFolder(create?: string, slot = 'folder'): Promise<Workspace> {
+  const picked = await (window as DirectoryPickerWindow).showDirectoryPicker!({ id: slot === 'folder' ? 'visustruct-workspace' : slot, mode: 'readwrite' })
   const handle = create && picked.name !== create ? await picked.getDirectoryHandle(create, { create: true }) : picked
-  await run('meta', 'readwrite', (s) => s.put(handle, 'folder'))
+  await run('meta', 'readwrite', (s) => s.put(handle, slot))
   return { kind: 'folder', root: new NativeDir(handle) }
 }
 
@@ -190,10 +190,13 @@ export function browserWorkspace(): Workspace {
   return { kind: 'browser', root: new BrowserDir('VisuStruct', '') }
 }
 
-/** Gemerkter Ordner: `ready` = sofort nutzbar; sonst muss der Browser erst (mit einem Klick) fragen dürfen. */
-export async function storedFolder(): Promise<{ handle: FileSystemDirectoryHandle; ready: boolean } | undefined> {
+/**
+ * Gemerkter Ordner: `ready` = sofort nutzbar; sonst muss der Browser erst (mit einem Klick) fragen dürfen.
+ * `slot` trennt die Ordner der Welten (VisuStruct: `folder`, VisuObject: eigener Workspace).
+ */
+export async function storedFolder(slot = 'folder'): Promise<{ handle: FileSystemDirectoryHandle; ready: boolean } | undefined> {
   try {
-    const handle = (await run('meta', 'readonly', (s) => s.get('folder'))) as PermissionHandle | undefined
+    const handle = (await run('meta', 'readonly', (s) => s.get(slot))) as PermissionHandle | undefined
     if (!handle) return undefined
     const state = (await handle.queryPermission?.({ mode: 'readwrite' })) ?? 'granted'
     return { handle, ready: state === 'granted' }
@@ -208,9 +211,9 @@ export async function reopenFolder(handle: FileSystemDirectoryHandle): Promise<W
   return state === 'granted' ? { kind: 'folder', root: new NativeDir(handle) } : undefined
 }
 
-export async function forgetFolder(): Promise<void> {
+export async function forgetFolder(slot = 'folder'): Promise<void> {
   try {
-    await run('meta', 'readwrite', (s) => s.delete('folder'))
+    await run('meta', 'readwrite', (s) => s.delete(slot))
   } catch {
     /* nichts gemerkt */
   }

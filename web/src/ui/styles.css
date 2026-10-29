@@ -3980,6 +3980,24 @@ button.danger-text:not(:disabled) {
 .vo-tab-close:hover {
   color: var(--accent);
 }
+.vo-tab-close .vo-dot,
+.vo-tab-close.unsaved .vo-x {
+  display: none;
+}
+.vo-tab-close.unsaved {
+  visibility: visible;
+  color: var(--text);
+}
+.vo-tab-close.unsaved .vo-dot {
+  display: inline;
+  font-size: 11px;
+}
+.vo-tab-close.unsaved:hover .vo-dot {
+  display: none;
+}
+.vo-tab-close.unsaved:hover .vo-x {
+  display: inline;
+}
 .vo-no-file {
   display: flex;
   align-items: center;
@@ -4477,6 +4495,56 @@ button.danger-text:not(:disabled) {
   height: 16px;
 }
 /* Package Explorer: Projekt › src › Packages › Dateien › Klassen › Attribute/Methoden */
+.vo-ws {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px 4px;
+  font-size: 13px;
+}
+.vo-ws[hidden] {
+  display: none;
+}
+.vo-ws.ask {
+  margin: 8px 10px 4px;
+  padding: 10px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg, #fff);
+}
+.vo-ws.ask p {
+  flex-basis: 100%;
+  margin: 0;
+}
+.vo-ws.ask .hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.vo-ws-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shell.visuobject .vo-ws button.text-button {
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.shell.visuobject .vo-ws button.text-button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.vo-dirty {
+  color: var(--accent);
+}
 .vo-tree-tools {
   display: flex;
   flex-wrap: wrap;
@@ -4601,6 +4669,9 @@ button.danger-text:not(:disabled) {
   background: var(--accent);
   border-radius: 5px;
   box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.18);
+}
+.vo-badge.project.closed {
+  opacity: 0.55;
 }
 .vo-badge.folder {
   width: 17px;
