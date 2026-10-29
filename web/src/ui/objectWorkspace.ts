@@ -2,10 +2,11 @@
  * VisuObject-Workspace wie in Eclipse: ein Ordner, darin ein Ordner je Projekt mit
  * `src/paket/Klasse.java`, daneben `visuobject.json` (UML-Zusatz und Lage der Kästen)
  * sowie `.project` und `.classpath`, damit Eclipse das Projekt direkt importieren kann.
- * Beim Lesen zählt der Ordner unter `src/` als Package, wie in Eclipse.
+ * Beim Lesen zählt der Ordner unter dem Source Folder als Package, wie in Eclipse.
+ * Welche Ordner Source Folders sind (`src`, `test` …), steht in `.classpath`.
  */
 
-import { packageOf, packagesOf, pathFor, umlFromJSON, type JavaProject } from '../core/javaProject'
+import { defaultRoot, isFolderName, packageKey, packageOf, packagesOf, pathFor, rootOf, sourceFoldersOf, umlFromJSON, type JavaProject } from '../core/javaProject'
 import type { WsDir } from './workspaceStore'
 
 export const workspaceFolderName = 'VisuObject-Workspace'
@@ -34,19 +35,43 @@ export async function listProjects(root: WsDir): Promise<string[]> {
   return out.sort((a, b) => a.localeCompare(b))
 }
 
+/** Source Folders aus `.classpath` (`<classpathentry kind="src" path="test"/>`); ohne Datei nur `src`. */
+export function classpathRoots(xml: string): string[] {
+  const roots = [...xml.matchAll(/<classpathentry\b[^>]*>/g)]
+    .map((m) => m[0])
+    .filter((tag) => /\bkind\s*=\s*"src"/.test(tag) && !/\bcombineaccessrules\b/.test(tag))
+    .map((tag) => /\bpath\s*=\s*"([^"]+)"/.exec(tag)?.[1] ?? '')
+    .filter((p) => p && !p.startsWith('/') && !p.includes(':') && p.split('/').every(isFolderName))
+  return roots.length ? [...new Set(roots)] : [defaultRoot]
+}
+
+/** Source-Einträge in `.classpath` ersetzen, alles andere (z. B. Bibliotheken aus Eclipse) bleibt. */
+export function withClasspathRoots(xml: string, roots: string[]): string {
+  const entries = roots.map((r) => `\t<classpathentry kind="src" path="${r}"/>\n`).join('')
+  const rest = xml.replace(/[ \t]*<classpathentry\b[^>]*\bkind\s*=\s*"src"[^>]*\/>[ \t]*\n?/g, (tag) => (/\bcombineaccessrules\b/.test(tag) ? tag : ''))
+  return rest.replace(/(<classpath\b[^>]*>[ \t]*\n?)/, `$1${entries}`)
+}
+
 export async function readProject(root: WsDir, name: string): Promise<{ project: JavaProject; positions: Positions }> {
   const dir = await root.dir(name)
   const project: JavaProject = { name, files: [], packages: [] }
-  const src = await tryDir(dir, 'src')
-  const walk = async (d: WsDir, pkg: string) => {
+  const roots = (await dir.has('.classpath')) ? classpathRoots(await dir.read('.classpath')) : [defaultRoot]
+  const walk = async (d: WsDir, sourceFolder: string, pkg: string) => {
     const entries = await d.list()
-    if (pkg && !entries.some((x) => x.kind === 'file' && /\.java$/i.test(x.name))) project.packages.push(pkg)
+    const key = packageKey(sourceFolder, pkg)
+    if (pkg && !entries.some((x) => x.kind === 'file' && /\.java$/i.test(x.name))) project.packages.push(key)
     for (const entry of entries) {
-      if (entry.kind === 'directory') await walk(await d.dir(entry.name), pkg ? `${pkg}.${entry.name}` : entry.name)
-      else if (/\.java$/i.test(entry.name)) project.files.push({ path: pathFor(pkg, entry.name), text: await d.read(entry.name) })
+      if (entry.kind === 'directory') await walk(await d.dir(entry.name), sourceFolder, pkg ? `${pkg}.${entry.name}` : entry.name)
+      else if (/\.java$/i.test(entry.name)) project.files.push({ path: pathFor(key, entry.name), text: await d.read(entry.name) })
     }
   }
-  if (src) await walk(src, '')
+  for (const r of roots) {
+    let d: WsDir | undefined = dir
+    for (const part of r.split('/')) d = d && (await tryDir(d, part))
+    if (d) await walk(d, r, '')
+  }
+  const extra = roots.filter((r) => r !== defaultRoot)
+  if (extra.length) project.sourceFolders = extra
   // Ein Ordner mit nur Unterordnern (z. B. `de` über `de.tiere`) ist kein eigenes Package.
   project.packages = project.packages.filter((p) => !project.packages.some((q) => q.startsWith(p + '.')) && !project.files.some((f) => packageOf(f.path).startsWith(p + '.')))
   project.files.sort((a, b) => a.path.localeCompare(b.path))
@@ -88,7 +113,6 @@ const eclipseProject = (name: string) => `<?xml version="1.0" encoding="UTF-8"?>
 
 const eclipseClasspath = `<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
@@ -100,35 +124,48 @@ const eclipseClasspath = `<?xml version="1.0" encoding="UTF-8"?>
  */
 export async function writeProject(root: WsDir, folder: string, project: JavaProject, positions: Positions): Promise<void> {
   const dir = await root.dir(folder, true)
-  const src = await dir.dir('src', true)
-  const wanted = new Map(project.files.map((f) => [f.path, f.text]))
-  const keepDirs = new Set<string>()
-  for (const pkg of packagesOf(project).filter(Boolean)) {
-    const parts = pkg.split('.')
-    for (let i = 1; i <= parts.length; i++) keepDirs.add(parts.slice(0, i).join('/'))
-  }
-  // Erst aufräumen, dann schreiben: So bleibt keine alte Fassung einer verschobenen Datei liegen.
-  const clean = async (d: WsDir, path: string) => {
-    for (const entry of await d.list()) {
-      const full = path ? `${path}/${entry.name}` : entry.name
-      if (entry.kind === 'directory') {
-        if (keepDirs.has(full)) await clean(await d.dir(entry.name), full)
-        else await d.remove(entry.name)
-      } else if (/\.java$/i.test(entry.name) && !wanted.has(full)) await d.remove(entry.name)
+  const roots = sourceFoldersOf(project)
+  const oldClasspath = (await dir.has('.classpath')) ? await dir.read('.classpath') : undefined
+  // Source Folders, die es nicht mehr gibt, verschwinden samt Inhalt (nur solche, die `.classpath` kannte).
+  for (const old of oldClasspath ? classpathRoots(oldClasspath) : [])
+    if (!roots.includes(old) && !old.includes('/') && (await dir.has(old))) await dir.remove(old)
+  for (const sourceFolder of roots) {
+    let src = dir
+    for (const part of sourceFolder.split('/')) src = await src.dir(part, true)
+    const files = project.files.filter((f) => rootOf(f.path) === sourceFolder)
+    const wanted = new Set(files.map((f) => f.path.slice(f.path.indexOf(':') + 1)))
+    const keepDirs = new Set<string>()
+    for (const key of packagesOf(project, sourceFolder)) {
+      const pkg = key.slice(key.indexOf(':') + 1)
+      if (!pkg) continue
+      const parts = pkg.split('.')
+      for (let i = 1; i <= parts.length; i++) keepDirs.add(parts.slice(0, i).join('/'))
     }
-  }
-  await clean(src, '')
-  for (const pkg of packagesOf(project)) {
-    let d = src
-    for (const part of pkg ? pkg.split('.') : []) d = await d.dir(part, true)
-    for (const f of project.files.filter((x) => packageOf(x.path) === pkg)) {
-      const name = f.path.slice(f.path.lastIndexOf('/') + 1)
-      if (!(await d.has(name)) || (await d.read(name)) !== f.text) await d.write(name, f.text)
+    // Erst aufräumen, dann schreiben: So bleibt keine alte Fassung einer verschobenen Datei liegen.
+    const clean = async (d: WsDir, path: string) => {
+      for (const entry of await d.list()) {
+        const full = path ? `${path}/${entry.name}` : entry.name
+        if (entry.kind === 'directory') {
+          if (keepDirs.has(full)) await clean(await d.dir(entry.name), full)
+          else if (!roots.some((r) => `${sourceFolder}/${full}` === r || r.startsWith(`${sourceFolder}/${full}/`))) await d.remove(entry.name)
+        } else if (/\.java$/i.test(entry.name) && !wanted.has(full)) await d.remove(entry.name)
+      }
+    }
+    await clean(src, '')
+    for (const key of packagesOf(project, sourceFolder)) {
+      const pkg = key.slice(key.indexOf(':') + 1)
+      let d = src
+      for (const part of pkg ? pkg.split('.') : []) d = await d.dir(part, true)
+      for (const f of files.filter((x) => packageOf(x.path) === key)) {
+        const name = f.path.slice(f.path.lastIndexOf('/') + 1).slice(f.path.includes('/') ? 0 : f.path.indexOf(':') + 1)
+        if (!(await d.has(name)) || (await d.read(name)) !== f.text) await d.write(name, f.text)
+      }
     }
   }
   await dir.write(umlFile, JSON.stringify({ format: 'visuobject', version: 1, uml: project.uml ?? {}, positions }, null, 2) + '\n')
   if (!(await dir.has('.project'))) await dir.write('.project', eclipseProject(project.name))
-  if (!(await dir.has('.classpath'))) await dir.write('.classpath', eclipseClasspath)
+  const classpath = withClasspathRoots(oldClasspath ?? eclipseClasspath, roots)
+  if (classpath !== oldClasspath) await dir.write('.classpath', classpath)
 }
 
 /** Freier Projektname im Workspace: `MeinProjekt`, `MeinProjekt2` … */
