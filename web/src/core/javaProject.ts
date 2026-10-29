@@ -5,6 +5,7 @@
  */
 
 import { parseClasses, type UmlClass } from './classModel'
+import type { UmlInfo } from './umlRelations'
 
 export interface ProjectFile {
   /** Pfad unter `src/`, z. B. `tiere/Hund.java`; ohne Ordner im Standard-Package. */
@@ -17,6 +18,8 @@ export interface JavaProject {
   files: ProjectFile[]
   /** Auch leere Packages, z. B. gleich nach „+ Package“. */
   packages: string[]
+  /** Was nur UML kennt (Aggregation, Name der Beziehung …), siehe `umlRelations.ts`. */
+  uml?: UmlInfo
 }
 
 /** Klasse mit Datei und Package, für Diagramm und Explorer. */
@@ -95,7 +98,7 @@ export function addPackage(project: JavaProject, pkg: string): JavaProject {
 export function renamePackage(project: JavaProject, from: string, to: string): JavaProject {
   const rename = (p: string) => (p === from ? to : p.startsWith(from + '.') ? to + p.slice(from.length) : p)
   return {
-    name: project.name,
+    ...project,
     packages: [...new Set(project.packages.map(rename))],
     files: project.files.map((f) => {
       const pkg = packageOf(f.path)
@@ -138,10 +141,21 @@ export function projectFromJSON(json: string): JavaProject | undefined {
     const data = JSON.parse(json) as Partial<JavaProject>
     if (!Array.isArray(data.files)) return undefined
     const files = data.files.filter((f): f is ProjectFile => typeof f?.path === 'string' && typeof f?.text === 'string')
-    return { name: typeof data.name === 'string' && data.name ? data.name : 'Projekt', files, packages: Array.isArray(data.packages) ? data.packages.filter((p) => typeof p === 'string') : [] }
+    const project: JavaProject = { name: typeof data.name === 'string' && data.name ? data.name : 'Projekt', files, packages: Array.isArray(data.packages) ? data.packages.filter((p) => typeof p === 'string') : [] }
+    const uml = umlFromJSON(data.uml)
+    if (uml) project.uml = uml
+    return project
   } catch {
     return undefined
   }
+}
+
+/** Nur Einträge mit Objekt als Wert übernehmen (Datei kann von außen kommen). */
+export function umlFromJSON(data: unknown): UmlInfo | undefined {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return undefined
+  const out: UmlInfo = {}
+  for (const [key, value] of Object.entries(data as Record<string, unknown>)) if (value && typeof value === 'object' && !Array.isArray(value)) out[key] = value as UmlInfo[string]
+  return Object.keys(out).length ? out : undefined
 }
 
 // MARK: - Beispiel
@@ -151,6 +165,7 @@ export function exampleProject(): JavaProject {
   return {
     name: 'Zoo',
     packages: [],
+    uml: { 'Besitzer.hunde': { kind: 'aggregation', name: 'führt aus', reading: 'forward', sourceMultiplicity: '1' } },
     files: [
       {
         path: 'tiere/Tier.java',

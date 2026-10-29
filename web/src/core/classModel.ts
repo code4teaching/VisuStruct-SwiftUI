@@ -343,7 +343,7 @@ export function parseClasses(source: string): UmlClass[] {
 }
 
 /** Elementtyp von Behältern: `Hund[]`, `ArrayList<Hund>`, `List<Hund>` → `Hund` mit `0..*`. */
-function associationTarget(type: string): { name: string; many: boolean } {
+export function associationTarget(type: string): { name: string; many: boolean } {
   const array = /^([\p{L}_$][\p{L}\p{N}_$]*)(\[\])+$/u.exec(type)
   if (array) return { name: array[1], many: true }
   const generic = /^(?:ArrayList|LinkedList|List|Set|HashSet|TreeSet|Collection|Queue|Deque|ArrayDeque|Stack|Vector)<([\p{L}_$][\p{L}\p{N}_$]*)>$/u.exec(type)
@@ -518,6 +518,39 @@ export function setSuperclass(source: string, cls: UmlClass, superclass: string 
   let after = head.slice(nameEnd).replace(/\s*\bextends\s+[\p{L}_$][\p{L}\p{N}_$<>,\s]*?(?=\s*\bimplements\b|\s*$)/u, '')
   if (superclass) after = ` extends ${superclass}` + after
   return splice(source, cls.headerFrom, cls.headerTo, before + after)
+}
+
+/** Interface hinzufügen: `implements` bei Klassen, `extends` bei Interfaces. */
+export function addInterface(source: string, cls: UmlClass, name: string): string {
+  if (cls.interfaces.includes(name)) return source
+  const head = source.slice(cls.headerFrom, cls.headerTo)
+  const word = cls.kind === 'interface' ? 'extends' : 'implements'
+  const list = new RegExp(`\\b${word}\\s+[\\p{L}_$][\\p{L}\\p{N}_$<>,\\s]*?(?=\\s*$)`, 'u')
+  const changed = list.test(head) ? head.replace(list, (m) => `${m.replace(/\s+$/, '')}, ${name}`) : `${head.replace(/\s+$/, '')} ${word} ${name}${/\s$/.test(head) ? ' ' : ''}`
+  return splice(source, cls.headerFrom, cls.headerTo, changed)
+}
+
+/** Interface aus `implements` (bzw. `extends` beim Interface) streichen; leere Liste fällt weg. */
+export function removeInterface(source: string, cls: UmlClass, name: string): string {
+  if (!cls.interfaces.includes(name)) return source
+  const head = source.slice(cls.headerFrom, cls.headerTo)
+  const word = cls.kind === 'interface' ? 'extends' : 'implements'
+  const list = new RegExp(`\\s*\\b${word}\\s+([\\p{L}_$][\\p{L}\\p{N}_$<>,\\s]*?)(?=\\s*$)`, 'u')
+  const changed = head.replace(list, (_m, names: string) => {
+    const rest = names.split(',').map((n) => n.trim()).filter((n) => n && n !== name)
+    return rest.length ? ` ${word} ${rest.join(', ')}` : ''
+  })
+  return splice(source, cls.headerFrom, cls.headerTo, changed)
+}
+
+/** Typ eines Attributs ändern, mit neuem Startwert (oder keinem). Modifizierer und Name bleiben. */
+export function setFieldType(source: string, member: UmlMember, type: string, init?: string): string {
+  if (member.kind !== 'field' || member.shared) return source
+  const head = source.slice(member.headerFrom, member.headerTo)
+  const typeAt = head.lastIndexOf(member.type, member.nameFrom - member.headerFrom)
+  if (typeAt < 0) return source
+  const newHead = head.slice(0, typeAt) + type + head.slice(typeAt + member.type.length)
+  return splice(source, member.headerFrom, member.to, `${newHead}${init ? ` = ${init}` : ''};`)
 }
 
 /** Abstrakt an- oder ausschalten (nur bei Klassen). */

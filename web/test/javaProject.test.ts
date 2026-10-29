@@ -69,6 +69,7 @@ describe('javaProject', () => {
     expect(projectFromJSON('kaputt')).toBeUndefined()
     const back = projectFromZip(projectToZip(p), 'X')
     expect(back.name).toBe('Zoo')
+    expect(back.uml).toEqual(p.uml)
     expect(back.files.map((f) => f.path).sort()).toEqual(p.files.map((f) => f.path).sort())
     expect(back.files.find((f) => f.path === 'tiere/Hund.java')?.text).toBe(p.files[1].text)
   })

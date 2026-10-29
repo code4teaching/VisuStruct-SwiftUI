@@ -1,17 +1,19 @@
 import {
+  addInterface,
   addMember,
   deleteClass,
   deleteMember,
   parseClasses,
   parseUmlLine,
-  relations,
+  removeInterface,
   renameClass,
   replaceMember,
   setAbstract,
+  setFieldType,
   setSuperclass,
   umlText,
+  type UmlClass,
   type UmlMember,
-  type UmlRelation,
 } from '../core/classModel'
 import {
   addFile,
@@ -36,10 +38,27 @@ import {
   type JavaProject,
   type ProjectClass,
 } from '../core/javaProject'
+import {
+  associations,
+  ensureImport,
+  fieldNameFor,
+  fieldTypeFor,
+  generalizations,
+  isMany,
+  multiplicities,
+  relationKey,
+  renameInfo,
+  withInfo,
+  type Assoc,
+  type AssocInfo,
+  type AssocKind,
+  type Generalization,
+} from '../core/umlRelations'
 import { gearIcon } from './app'
 import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
+import { ObjectLayout } from './objectLayout'
 import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
 
 /**
@@ -55,7 +74,7 @@ const oldCodeKey = 'visuobject.code'
 const activeKey = 'visuobject.active'
 const positionsKey = 'visuobject.positions'
 const treeKey = 'visuobject.tree'
-const explorerKey = 'visuobject.explorer'
+const tabsKey = 'visuobject.tabs'
 const maxUndoSteps = 80
 
 type Point = { x: number; y: number }
@@ -105,7 +124,6 @@ interface Selection {
 type NodeId = string
 
 const chevron = '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-const sidebarIcon = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>'
 
 export class ObjectApp {
   private shell: HTMLElement
@@ -115,7 +133,9 @@ export class ObjectApp {
   private frames!: SVGSVGElement
   private status!: HTMLElement
   private tree!: HTMLElement
-  private fileLabel!: HTMLElement
+  private tabs!: HTMLElement
+  /** Offene Dateien als Reiter über dem Code. */
+  private openTabs: string[] = []
   private project: JavaProject
   /** Geöffnete Datei (Pfad unter `src/`). */
   private active?: string
@@ -124,6 +144,9 @@ export class ObjectApp {
   private classes: ProjectClass[] = []
   private positions = new Map<string, Point>()
   private selection?: Selection
+  /** Gewählte Beziehung: `assoc:Klasse.attribut` oder `gen:extends:Hund:Tier`. */
+  private relSelection?: string
+  private inspector!: HTMLElement
   private treeSelection?: NodeId
   private open = new Map<NodeId, boolean>()
   private history: string[] = []
@@ -147,11 +170,17 @@ export class ObjectApp {
     this.project = projectFromJSON(stored(projectKey) ?? '') ?? (old !== null ? projectFromFiles('Projekt', [{ name: '', text: old }]) : exampleProject())
     const active = stored(activeKey)
     this.active = this.project.files.some((f) => f.path === active) ? active! : this.project.files[0]?.path
+    try {
+      const tabs = JSON.parse(stored(tabsKey) ?? '[]') as unknown
+      if (Array.isArray(tabs)) this.openTabs = tabs.filter((p): p is string => typeof p === 'string' && this.project.files.some((f) => f.path === p))
+    } catch {
+      /* ohne Reiter */
+    }
     this.shell = document.createElement('div')
     this.shell.className = 'shell visuobject'
-    this.shell.classList.toggle('vo-explorer-hidden', stored(explorerKey) === '0')
     root.replaceWith(this.shell)
     this.build()
+    new ObjectLayout(this.shell.querySelector('.vo-columns')!, () => this.drawLines())
     this.showActive()
     this.refresh()
     window.addEventListener('keydown', (ev) => this.onKey(ev))
@@ -185,11 +214,11 @@ export class ObjectApp {
         </div>
       </header>
       <main class="vo-columns">
-        <button class="vo-explorer-rail" data-action="show-explorer" aria-label="${e(t('web_visuobject_explorer_show'))}" data-tip="${e(t('web_visuobject_explorer_show'))}">${sidebarIcon}<span>${e(t('web_visuobject_explorer'))}</span></button>
-        <section class="vo-explorer">
-          <header class="vo-head">
-            <h2>${e(t('web_visuobject_explorer'))}</h2>
-            <button class="icon" data-action="hide-explorer" aria-label="${e(t('web_visuobject_explorer_hide'))}" data-tip="${e(t('web_visuobject_explorer_hide'))}">${sidebarIcon}</button>
+        <section class="vo-pane vo-explorer" data-pane="explorer">
+          <button class="vo-strip" data-expand="explorer" aria-label="${e(t('web_visuobject_explorer_show'))}">${e(t('web_visuobject_explorer'))}</button>
+          <header class="vo-bar">
+            <h2 class="vo-bar-title">${e(t('web_visuobject_explorer'))}</h2>
+            <button class="vo-collapse" data-collapse="explorer" aria-label="${e(t('web_visuobject_explorer_hide'))}" data-tip="${e(t('web_visuobject_explorer_hide'))}">–</button>
           </header>
           <div class="vo-tree-tools">
             <button class="text-button" data-action="add-package" data-tip="${e(t('web_visuobject_add_package_tip'))}">+ ${e(t('web_visuobject_add_package'))}</button>
@@ -197,28 +226,41 @@ export class ObjectApp {
           </div>
           <div class="vo-tree" role="tree" aria-label="${e(t('web_visuobject_explorer'))}"></div>
         </section>
-        <section class="vo-code">
-          <header class="vo-head"><h2>${e(t('web_visuobject_code'))}</h2><span class="vo-file mono"></span></header>
+        <div class="vo-splitter" data-split="explorer" role="separator" aria-orientation="vertical" aria-label="${e(t('web_visuobject_resize'))}" data-tip="${e(t('web_visuobject_resize'))}" tabindex="0"></div>
+        <section class="vo-pane vo-code" data-pane="code">
+          <button class="vo-strip" data-expand="code" aria-label="${e(t('web_visuobject_pane_show'))}">${e(t('web_visuobject_code'))}</button>
+          <header class="vo-bar">
+            <div class="vo-tabs" role="tablist" aria-label="${e(t('web_visuobject_code'))}"></div>
+            <button class="vo-collapse" data-collapse="code" aria-label="${e(t('web_visuobject_pane_hide'))}" data-tip="${e(t('web_visuobject_pane_hide'))}">–</button>
+          </header>
           <div class="livecode-editor vo-editor"></div>
         </section>
-        <section class="vo-diagram">
-          <h2>${e(t('web_visuobject_diagram'))}</h2>
-          <div class="vo-tools">
-            <button class="text-button" data-action="add-class" data-tip="${e(t('web_visuobject_add_class_tip'))}">+ ${e(t('web_visuobject_add_class'))}</button>
-            <button class="text-button" data-action="add-interface" data-tip="${e(t('web_visuobject_add_interface_tip'))}">+ ${e(t('web_visuobject_add_interface'))}</button>
-            <button class="text-button" data-action="layout" data-tip="${e(t('web_visuobject_layout_tip'))}">${e(t('web_visuobject_layout'))}</button>
-            <small class="vo-hint">${e(t('web_visuobject_edit_hint'))}</small>
+        <div class="vo-splitter" data-split="code" role="separator" aria-orientation="vertical" aria-label="${e(t('web_visuobject_resize'))}" data-tip="${e(t('web_visuobject_resize'))}" tabindex="0"></div>
+        <section class="vo-pane vo-diagram" data-pane="diagram">
+          <button class="vo-strip" data-expand="diagram" aria-label="${e(t('web_visuobject_pane_show'))}">${e(t('web_visuobject_diagram'))}</button>
+          <header class="vo-bar">
+            <h2 class="vo-bar-title">${e(t('web_visuobject_diagram'))}</h2>
+            <div class="vo-bar-actions">
+              <button class="text-button" data-action="add-class" data-tip="${e(t('web_visuobject_add_class_tip'))}">+ ${e(t('web_visuobject_add_class'))}</button>
+              <button class="text-button" data-action="add-interface" data-tip="${e(t('web_visuobject_add_interface_tip'))}">+ ${e(t('web_visuobject_add_interface'))}</button>
+              <button class="text-button" data-action="layout" data-tip="${e(t('web_visuobject_layout_tip'))}">${e(t('web_visuobject_layout'))}</button>
+            </div>
+            <button class="vo-collapse" data-collapse="diagram" aria-label="${e(t('web_visuobject_pane_hide'))}" data-tip="${e(t('web_visuobject_pane_hide'))}">–</button>
+          </header>
+          <div class="vo-stage">
+            <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
+            <aside class="vo-inspector" aria-label="${e(t('web_visuobject_inspector'))}" hidden></aside>
           </div>
-          <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines" aria-hidden="true"></svg></div>
-          <p class="vo-status" role="status"></p>
+          <footer class="vo-foot"><p class="vo-status" role="status"></p><small class="vo-hint">${e(t('web_visuobject_edit_hint'))}</small></footer>
         </section>
       </main>`
     this.canvas = this.shell.querySelector('.vo-canvas')!
     this.lines = this.canvas.querySelector('.vo-lines')!
     this.frames = this.canvas.querySelector('.vo-frames')!
     this.status = this.shell.querySelector('.vo-status')!
+    this.inspector = this.shell.querySelector('.vo-inspector')!
     this.tree = this.shell.querySelector('.vo-tree')!
-    this.fileLabel = this.shell.querySelector('.vo-file')!
+    this.tabs = this.shell.querySelector('.vo-tabs')!
     this.editor = new JavaEditor(
       this.shell.querySelector('.vo-editor')!,
       {
@@ -256,8 +298,6 @@ export class ObjectApp {
     on('tree-add-class', () => this.newClass('class'))
     on('add-interface', () => this.newClass('interface'))
     on('add-package', () => this.newPackage())
-    on('hide-explorer', () => this.setExplorer(false))
-    on('show-explorer', () => this.setExplorer(true))
     on('layout', () => {
       this.positions.clear()
       this.savePositions()
@@ -276,6 +316,7 @@ export class ObjectApp {
     this.canvas.addEventListener('pointerdown', (ev) => this.onPointerDown(ev))
     this.canvas.addEventListener('click', (ev) => this.onClick(ev))
     this.tree.addEventListener('click', (ev) => this.onTreeClick(ev))
+    this.tabs.addEventListener('click', (ev) => this.onTabClick(ev))
     this.tree.addEventListener('keydown', (ev) => this.onTreeKey(ev))
   }
 
@@ -283,14 +324,6 @@ export class ObjectApp {
     if (world === 'object') return
     setVisuBotMode(world)
     location.href = `${location.pathname}?${world === 'on' ? 'visubot' : 'visustruct'}${location.hash}`
-  }
-
-  private setExplorer(on: boolean) {
-    this.shell.classList.toggle('vo-explorer-hidden', !on)
-    store(explorerKey, on ? '1' : '0')
-    this.drawLines()
-    if (on) this.tree.querySelector<HTMLElement>('[tabindex="0"]')?.focus()
-    else this.shell.querySelector<HTMLElement>('[data-action=show-explorer]')!.focus()
   }
 
   // MARK: - Projekt und Code
@@ -304,8 +337,49 @@ export class ObjectApp {
     const file = this.activeFile
     this.editor.setText(file?.text ?? '')
     this.editor.setReadOnly(!file)
-    this.fileLabel.textContent = file ? `src/${file.path}` : t('web_visuobject_no_file')
+    if (file && !this.openTabs.includes(file.path)) this.openTabs.push(file.path)
+    this.renderTabs()
     store(activeKey, this.active ?? '')
+  }
+
+  /** Reiter wie in WebGoatCode: eine pro offener Datei, × schließt sie. */
+  private renderTabs() {
+    this.openTabs = this.openTabs.filter((p) => this.project.files.some((f) => f.path === p))
+    store(tabsKey, JSON.stringify(this.openTabs))
+    if (this.openTabs.length === 0) {
+      this.tabs.innerHTML = `<span class="vo-no-file">${e(t('web_visuobject_no_file'))}</span>`
+      return
+    }
+    this.tabs.innerHTML = this.openTabs
+      .map((path) => {
+        const on = path === this.active
+        return `<div class="vo-tab${on ? ' active' : ''}" data-tab="${e(path)}">
+          <button role="tab" aria-selected="${on}" tabindex="${on ? 0 : -1}" data-tip="src/${e(path)}">${e(fileNameOf(path))}</button>
+          <button class="vo-tab-close" data-close aria-label="${e(t('web_visuobject_close_tab', fileNameOf(path)))}" tabindex="-1">×</button>
+        </div>`
+      })
+      .join('')
+  }
+
+  private onTabClick(ev: MouseEvent) {
+    const target = ev.target as HTMLElement
+    const path = target.closest<HTMLElement>('[data-tab]')?.dataset.tab
+    if (!path) return
+    if (target.closest('[data-close]')) return this.closeTab(path)
+    this.treeSelection = `file:${path}`
+    this.openFile(path)
+  }
+
+  private closeTab(path: string) {
+    const i = this.openTabs.indexOf(path)
+    if (i < 0) return
+    this.openTabs.splice(i, 1)
+    if (path === this.active) {
+      this.active = this.openTabs[Math.min(i, this.openTabs.length - 1)]
+      this.lastTyping = 0
+      this.showActive()
+      this.refresh()
+    } else this.renderTabs()
   }
 
   private snapshot(): string {
@@ -368,6 +442,7 @@ export class ObjectApp {
     store(projectKey, projectToJSON(this.project))
     this.classes = projectClasses(this.project)
     if (this.selection && !this.findClass(this.selection.cls)) this.selection = undefined
+    if (this.relSelection && !this.findRelation(this.relSelection)) this.relSelection = undefined
     if (!this.editing) {
       this.render()
       this.renderTree()
@@ -509,6 +584,7 @@ export class ObjectApp {
     }
     const p = this.positions.get(cls.name)
     if (p) this.positions.set(name, p)
+    for (const key of Object.keys(next.uml ?? {})) if (key.startsWith(`${cls.name}.`)) next = { ...next, uml: renameInfo(next.uml!, key, name + key.slice(cls.name.length)) }
     this.selection = { cls: name }
     this.message('')
     this.setProject(next, path)
@@ -551,7 +627,14 @@ export class ObjectApp {
       return
     }
     if (text === umlText(member)) return
-    if (!parseUmlLine(text)) return this.message(t('web_visuobject_bad_line', text))
+    const line = parseUmlLine(text)
+    if (!line) return this.message(t('web_visuobject_bad_line', text))
+    if (member.kind === 'field' && line.kind === 'field' && line.name !== member.name && this.project.uml?.[relationKey(cls.name, member.name)]) {
+      const file = this.project.files.find((f) => f.path === cls.path)!
+      this.selection = { cls: cls.name, member: index }
+      this.setProject({ ...updateFile(this.project, cls.path, replaceMember(file.text, cls, member, text)), uml: renameInfo(this.project.uml!, relationKey(cls.name, member.name), relationKey(cls.name, line.name)) }, cls.path)
+      return
+    }
     this.changeFile(cls.path, (s) => replaceMember(s, cls, member, text), { cls: cls.name, member: index })
   }
 
@@ -626,6 +709,11 @@ export class ObjectApp {
       return
     }
     if (!this.canvas.contains(document.activeElement) && document.activeElement !== document.body) return
+    if (this.relSelection && (ev.key === 'Delete' || ev.key === 'Backspace')) {
+      ev.preventDefault()
+      this.deleteRelation(this.relSelection)
+      return
+    }
     const sel = this.selection
     const cls = sel && this.findClass(sel.cls)
     if (!cls) return
@@ -791,6 +879,8 @@ export class ObjectApp {
 
   private onPointerDown(ev: PointerEvent) {
     const target = ev.target as HTMLElement
+    const handle = target.closest<HTMLElement>('[data-connect]')
+    if (handle && ev.button === 0) return this.startConnect(ev, handle.closest<HTMLElement>('.uml-class')!.dataset.class!)
     if (target.closest('input, select, button, label')) return
     const box = target.closest<HTMLElement>('.uml-class')
     if (!box || ev.button !== 0) return
@@ -838,7 +928,13 @@ export class ObjectApp {
       this.startEditing(add)
       return
     }
+    const rel = target.closest<SVGElement>('[data-rel]')?.dataset.rel
+    if (rel && !cls) {
+      this.selectRelation(rel)
+      return
+    }
     if (!cls) {
+      this.relSelection = undefined
       this.selection = undefined
       this.render()
       this.renderTree()
@@ -857,6 +953,7 @@ export class ObjectApp {
       return
     }
     this.selection = { cls: cls.name, member: index }
+    this.relSelection = undefined
     this.treeSelection = undefined
     this.currentPackage = cls.pkg
     this.showInCode(cls, index !== undefined ? cls.members[index] : undefined)
@@ -931,6 +1028,7 @@ export class ObjectApp {
     const add = (kind: 'field' | 'method') =>
       sel ? `<li class="uml-add" data-add="${kind}">+ ${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
     box.innerHTML = `
+      ${sel && sel.member === undefined ? `<button class="uml-connect" data-connect aria-label="${e(t('web_visuobject_connect'))}" data-tip="${e(t('web_visuobject_connect'))}" tabindex="-1"></button>` : ''}
       <header class="uml-head">${cls.kind === 'interface' ? '<small>«interface»</small>' : cls.isAbstract ? '<small>{abstract}</small>' : ''}<span class="uml-name" data-value="${e(cls.name)}">${e(cls.name)}</span></header>
       ${cls.kind === 'interface' && !fields ? '' : `<ul class="uml-fields">${fields}${add('field')}</ul>`}
       <ul class="uml-methods">${methods}${add('method')}</ul>
@@ -1069,19 +1167,28 @@ export class ObjectApp {
         <marker id="vo-arrow" viewBox="0 0 12 12" refX="12" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12" class="vo-open"/></marker>
       </defs>`,
     ]
-    const rels = relations(this.classes)
-    // Mehrere Assoziationen zwischen denselben Klassen leicht versetzen.
+    const assocs = associations(this.classes, this.project.uml)
+    const gens = generalizations(this.classes)
+    // Mehrere Linien zwischen denselben Klassen leicht versetzen.
     const pairCount = new Map<string, number>()
-    for (const r of rels) {
-      const a = boxes.get(r.from)
-      const b = boxes.get(r.to)
-      if (!a || !b || a === b) continue
-      const key = [r.from, r.to].sort().join('|')
+    const offset = (a: string, b: string) => {
+      const key = [a, b].sort().join('|')
       const n = pairCount.get(key) ?? 0
       pairCount.set(key, n + 1)
-      parts.push(this.relationSVG(r, a, b, n * 14))
+      return n * 16
+    }
+    for (const g of gens) {
+      const a = boxes.get(g.from)
+      const b = boxes.get(g.to)
+      if (a && b && a !== b) parts.push(this.generalizationSVG(g, a, b, offset(g.from, g.to)))
+    }
+    for (const r of assocs) {
+      const a = boxes.get(r.from)
+      const b = boxes.get(r.to)
+      if (a && b && a !== b) parts.push(this.associationSVG(r, a, b, offset(r.from, r.to)))
     }
     this.lines.innerHTML = parts.join('')
+    this.renderInspector()
   }
 
   /** UML-Package: Rahmen um seine Klassen mit Reiter oben links. */
@@ -1106,33 +1213,454 @@ export class ObjectApp {
     return out.join('')
   }
 
-  private relationSVG(r: UmlRelation, a: HTMLElement, b: HTMLElement, offset: number): string {
+  /** Linie zwischen den Rändern zweier Kästen, senkrecht um `offset` versetzt. */
+  private segment(a: HTMLElement, b: HTMLElement, offset: number) {
     const rect = (el: HTMLElement) => ({ x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight })
     const ra = rect(a)
     const rb = rect(b)
     const ca = { x: ra.x + ra.w / 2, y: ra.y + ra.h / 2 }
     const cb = { x: rb.x + rb.w / 2, y: rb.y + rb.h / 2 }
-    // Senkrecht zur Linie versetzen, damit zwei Linien nicht übereinander liegen.
     const len = Math.hypot(cb.x - ca.x, cb.y - ca.y) || 1
     const nx = (-(cb.y - ca.y) / len) * offset
     const ny = ((cb.x - ca.x) / len) * offset
     const from = edgePoint(ra, { x: ca.x + nx, y: ca.y + ny }, { x: cb.x + nx, y: cb.y + ny })
     const to = edgePoint(rb, { x: cb.x + nx, y: cb.y + ny }, { x: ca.x + nx, y: ca.y + ny })
-    const cls = r.kind === 'implements' ? 'vo-rel dashed' : 'vo-rel'
-    const marker = r.kind === 'association' ? 'vo-arrow' : 'vo-triangle'
-    let svg = `<line class="${cls}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" marker-end="url(#${marker})"/>`
-    if (r.kind === 'association') {
-      // Rolle und Multiplizität am Ziel, etwas neben der Linie.
-      const ux = (from.x - to.x) / len
-      const uy = (from.y - to.y) / len
-      const px = to.x + ux * 26 - uy * 16
-      const py = to.y + uy * 26 + ux * 16
-      const qx = to.x + ux * 26 + uy * 16
-      const qy = to.y + uy * 26 - ux * 16
-      svg += `<text class="vo-label-svg" x="${px}" y="${py}" text-anchor="middle" dominant-baseline="middle">${e(r.multiplicity ?? '')}</text>`
-      svg += `<text class="vo-label-svg role" x="${qx}" y="${qy}" text-anchor="middle" dominant-baseline="middle">${e(r.role ?? '')}</text>`
+    const l = Math.hypot(to.x - from.x, to.y - from.y) || 1
+    // u: Einheitsvektor von `from` nach `to`, n: senkrecht dazu
+    return { from, to, length: l, u: { x: (to.x - from.x) / l, y: (to.y - from.y) / l }, n: { x: -(to.y - from.y) / l, y: (to.x - from.x) / l } }
+  }
+
+  private hitLine(id: string, from: Point, to: Point, label: string): string {
+    return `<line class="vo-hit" data-rel="${e(id)}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}"><title>${e(label)}</title></line>`
+  }
+
+  private generalizationSVG(g: Generalization, a: HTMLElement, b: HTMLElement, offset: number): string {
+    const { from, to } = this.segment(a, b, offset)
+    const id = `gen:${g.kind}:${g.from}:${g.to}`
+    const selected = this.relSelection === id ? ' selected' : ''
+    const label = t(g.kind === 'implements' ? 'web_visuobject_rel_implements_text' : 'web_visuobject_rel_extends_text', g.from, g.to)
+    return `<g class="vo-relation${selected}">
+      <line class="vo-rel${g.kind === 'implements' ? ' dashed' : ''}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" marker-end="url(#vo-triangle)"/>
+      ${this.hitLine(id, from, to, label)}
+    </g>`
+  }
+
+  /**
+   * Assoziation: Raute am Ganzen (Aggregation hohl, Komposition gefüllt), Pfeilspitzen je nach Navigierbarkeit,
+   * an jedem Ende Multiplizität und Rolle gleich weit von der Klasse auf beiden Seiten der Linie,
+   * in der Mitte der Name mit Leserichtung.
+   */
+  private associationSVG(r: Assoc, a: HTMLElement, b: HTMLElement, offset: number): string {
+    const { from, to, length, u, n } = this.segment(a, b, offset)
+    const id = `assoc:${r.key}`
+    const selected = this.relSelection === id ? ' selected' : ''
+    const diamond = r.kind !== 'association'
+    const start = diamond ? { x: from.x + u.x * 20, y: from.y + u.y * 20 } : from
+    let svg = `<line class="vo-rel" x1="${start.x}" y1="${start.y}" x2="${to.x}" y2="${to.y}"${r.navigable ? ' marker-end="url(#vo-arrow)"' : ''}${r.backNavigable ? ' marker-start="url(#vo-arrow)"' : ''}/>`
+    if (diamond) {
+      const p = (along: number, side: number) => `${from.x + u.x * along + n.x * side},${from.y + u.y * along + n.y * side}`
+      svg += `<polygon class="vo-diamond${r.kind === 'composition' ? ' filled' : ''}" points="${p(0, 0)} ${p(10, 6)} ${p(20, 0)} ${p(10, -6)}"/>`
     }
-    return svg
+    // Beschriftung an einem Ende: Multiplizität auf der einen, Rolle auf der anderen Seite, gleich weit weg.
+    const end = (at: Point, dir: Point, along: number, multiplicity?: string, role?: string) => {
+      const base = { x: at.x + dir.x * along, y: at.y + dir.y * along }
+      const text = (side: number, value: string | undefined, cls: string) => {
+        if (!value) return ''
+        const x = base.x + n.x * side
+        const y = base.y + n.y * side
+        const anchor = Math.abs(n.x) < 0.35 ? 'middle' : n.x * side > 0 ? 'start' : 'end'
+        return `<text class="vo-label-svg ${cls}" x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="middle">${e(value)}</text>`
+      }
+      return text(12, multiplicity, 'mult') + text(-12, role, 'role')
+    }
+    const room = Math.min(30, length / 3)
+    svg += end(to, { x: -u.x, y: -u.y }, room, r.multiplicity, r.role)
+    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, r.sourceMultiplicity, r.sourceRole)
+    if (r.name) {
+      // Leserichtung als Dreieck, das in Richtung der gelesenen Klasse zeigt.
+      const dir = r.reading === 'backward' ? { x: -u.x, y: -u.y } : u
+      const arrow = !r.reading ? '' : Math.abs(dir.x) >= Math.abs(dir.y) ? (dir.x > 0 ? ' ▶' : '◀ ') : dir.y > 0 ? ' ▼' : ' ▲'
+      const text = arrow === '◀ ' ? `◀ ${r.name}` : `${r.name}${arrow}`
+      const free = this.freeMiddle(from, to, [r.from, r.to])
+      const mid = { x: free.x + n.x * 14, y: free.y + n.y * 14 }
+      const anchor = Math.abs(n.x) < 0.35 ? 'middle' : n.x > 0 ? 'start' : 'end'
+      svg += `<text class="vo-label-svg name" x="${mid.x}" y="${mid.y}" text-anchor="${anchor}" dominant-baseline="middle">${e(text)}</text>`
+    }
+    const label = t(`web_visuobject_rel_${r.kind}`) + `: ${r.from} – ${r.to}`
+    return `<g class="vo-relation${selected}">${svg}${this.hitLine(id, from, to, label)}</g>`
+  }
+
+  /** Mitte des längsten Stücks der Linie, das durch keinen anderen Kasten läuft (für den Namen). */
+  private freeMiddle(from: Point, to: Point, ends: string[]): Point {
+    const others = [...this.canvas.querySelectorAll<HTMLElement>('.uml-class')]
+      .filter((b) => !ends.includes(b.dataset.class!))
+      .map((b) => ({ x: b.offsetLeft - 8, y: b.offsetTop - 8, w: b.offsetWidth + 16, h: b.offsetHeight + 16 }))
+    // Die Enden gehören Multiplizität und Rolle.
+    const len = Math.hypot(to.x - from.x, to.y - from.y)
+    if (len > 120) {
+      const k = 48 / len
+      ;[from, to] = [
+        { x: from.x + (to.x - from.x) * k, y: from.y + (to.y - from.y) * k },
+        { x: to.x - (to.x - from.x) * k, y: to.y - (to.y - from.y) * k },
+      ]
+    }
+    const steps = 40
+    let best = { start: 0, length: 0 }
+    let run = -1
+    for (let i = 0; i <= steps; i++) {
+      const x = from.x + ((to.x - from.x) * i) / steps
+      const y = from.y + ((to.y - from.y) * i) / steps
+      const blocked = others.some((r) => x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h)
+      if (!blocked && run < 0) run = i
+      if ((blocked || i === steps) && run >= 0) {
+        const end = blocked ? i - 1 : i
+        if (end - run > best.length) best = { start: run, length: end - run }
+        run = -1
+      }
+    }
+    const at = (best.start + best.length / 2) / steps
+    return { x: from.x + (to.x - from.x) * at, y: from.y + (to.y - from.y) * at }
+  }
+
+  // MARK: - Beziehungen bearbeiten
+
+  private findRelation(id: string): Assoc | Generalization | undefined {
+    if (id.startsWith('assoc:')) return associations(this.classes, this.project.uml).find((r) => `assoc:${r.key}` === id || `assoc:${r.back?.key}` === id)
+    return generalizations(this.classes).find((g) => `gen:${g.kind}:${g.from}:${g.to}` === id)
+  }
+
+  private selectRelation(id: string) {
+    this.relSelection = id
+    this.selection = undefined
+    this.treeSelection = undefined
+    this.message('')
+    this.render()
+    this.renderTree()
+    this.canvas.focus({ preventScroll: true })
+  }
+
+  /** Datei mit der Klasse `name` frisch lesen und ändern; so passen die Stellen auch nach einer vorigen Änderung. */
+  private editClass(project: JavaProject, name: string, run: (text: string, cls: UmlClass) => string): JavaProject {
+    for (const f of project.files) {
+      const cls = parseClasses(f.text).find((c) => c.name === name)
+      if (cls) return updateFile(project, f.path, run(f.text, cls))
+    }
+    return project
+  }
+
+  private fieldOf(cls: UmlClass, name: string) {
+    return cls.members.find((m) => m.kind === 'field' && m.name === name)
+  }
+
+  /** Import ergänzen, wenn `user` die Klasse `used` aus einem anderen Package braucht. */
+  private importFor(project: JavaProject, user: string, used: string): JavaProject {
+    const a = this.findClass(user)
+    const b = this.findClass(used)
+    if (!a || !b || a.pkg === b.pkg || !b.pkg) return project
+    return this.editClass(project, user, (text) => ensureImport(text, `${b.pkg}.${b.name}`))
+  }
+
+  /** Attribut für eine Assoziation anlegen (Typ der Klasse oder Liste davon). */
+  private addAssociationField(project: JavaProject, from: string, to: string, many: boolean): { project: JavaProject; field: string } {
+    const cls = projectClasses(project).find((c) => c.name === from)!
+    const field = fieldNameFor(cls, to, many)
+    const { type, init } = fieldTypeFor(to, many)
+    let next = this.editClass(project, from, (text, c) => addMember(text, c, `- ${field}: ${type}`))
+    if (init) {
+      next = this.editClass(next, from, (text, c) => {
+        const m = this.fieldOf(c, field)
+        return m ? setFieldType(text, m, type, init) : text
+      })
+      next = this.editClass(next, from, (text) => ensureImport(text, 'java.util.ArrayList'))
+    }
+    return { project: this.importFor(next, from, to), field }
+  }
+
+  private setUml(project: JavaProject, key: string, change: Partial<AssocInfo>): JavaProject {
+    return { ...project, uml: withInfo(project.uml ?? {}, key, change) }
+  }
+
+  /** Neue Beziehung aus dem Ziehen von Klasse zu Klasse. */
+  private createRelation(from: string, to: string, kind: AssocKind | 'extends' | 'implements') {
+    const a = this.findClass(from)
+    const b = this.findClass(to)
+    if (!a || !b) return
+    let next = this.project
+    let id: string
+    if (kind === 'extends' && a.kind === 'class') {
+      next = this.importFor(this.editClass(next, from, (text, c) => setSuperclass(text, c, to)), from, to)
+      id = `gen:extends:${from}:${to}`
+    } else if (kind === 'extends' || kind === 'implements') {
+      next = this.importFor(this.editClass(next, from, (text, c) => addInterface(text, c, to)), from, to)
+      id = `gen:${a.kind === 'interface' ? 'extends' : 'implements'}:${from}:${to}`
+    } else {
+      const added = this.addAssociationField(next, from, to, false)
+      next = kind === 'association' ? added.project : this.setUml(added.project, relationKey(from, added.field), { kind })
+      id = `assoc:${relationKey(from, added.field)}`
+    }
+    this.relSelection = id
+    this.selection = undefined
+    this.message('')
+    this.setProject(next, a.path)
+    this.canvas.focus({ preventScroll: true })
+  }
+
+  private deleteRelation(id: string) {
+    const rel = this.findRelation(id)
+    if (!rel) return
+    let next = this.project
+    if ('key' in rel) {
+      const drop = (p: JavaProject, cls: string, field: string) =>
+        this.editClass(p, cls, (text, c) => {
+          const m = this.fieldOf(c, field)
+          return m ? deleteMember(text, m) : text
+        })
+      next = drop(next, rel.from, rel.role)
+      if (rel.back) next = drop(next, rel.to, rel.back.field.name)
+      const uml = { ...(next.uml ?? {}) }
+      delete uml[rel.key]
+      if (rel.back) delete uml[rel.back.key]
+      next = { ...next, uml }
+    } else if (rel.kind === 'extends' && this.findClass(rel.from)?.kind === 'class') {
+      next = this.editClass(next, rel.from, (text, c) => setSuperclass(text, c, undefined))
+    } else {
+      next = this.editClass(next, rel.from, (text, c) => removeInterface(text, c, rel.to))
+    }
+    this.relSelection = undefined
+    this.setProject(next)
+  }
+
+  /** Eine Einstellung im Objektinspektor ändern. */
+  private changeAssoc(r: Assoc, what: string, value: string) {
+    let next = this.project
+    let key = r.key
+    const rename = (cls: string, oldName: string, name: string): boolean => {
+      if (!identifier.test(name)) {
+        this.message(t('web_visuobject_bad_name', name))
+        return false
+      }
+      const c = this.findClass(cls)
+      if (c && c.members.some((m) => m.name === name)) {
+        this.message(t('web_visuobject_bad_name', name))
+        return false
+      }
+      next = this.editClass(next, cls, (text, fresh) => {
+        const m = this.fieldOf(fresh, oldName)
+        return m ? replaceMember(text, fresh, m, `${m.visibility} ${name}: ${m.type}`) : text
+      })
+      next = { ...next, uml: renameInfo(next.uml ?? {}, relationKey(cls, oldName), relationKey(cls, name)) }
+      return true
+    }
+    /** Multiplizität am Attribut `field` von `cls` (Typ `target`): bei Wechsel einzeln ↔ viele den Typ ändern. */
+    const multiplicity = (cls: string, field: string, target: string, value: string, metaKey: string) => {
+      const many = isMany(value)
+      next = this.editClass(next, cls, (text, fresh) => {
+        const m = this.fieldOf(fresh, field)
+        if (!m) return text
+        const current = isMany(r.key === metaKey ? r.multiplicity : (r.sourceMultiplicity ?? '1'))
+        if (current === many) return text
+        const { type, init } = fieldTypeFor(target, many)
+        return setFieldType(text, m, type, init)
+      })
+      if (many) next = this.editClass(next, cls, (text) => ensureImport(text, 'java.util.ArrayList'))
+      const derived = many ? '0..*' : '1'
+      next = this.setUml(next, metaKey, { multiplicity: value === derived ? undefined : value })
+    }
+    switch (what) {
+      case 'kind':
+        next = this.setUml(next, key, { kind: value as AssocKind })
+        break
+      case 'name':
+        next = this.setUml(next, key, { name: value.trim() || undefined })
+        break
+      case 'reading':
+        next = this.setUml(next, key, { reading: value === 'forward' || value === 'backward' ? value : undefined })
+        break
+      case 'navigable': {
+        if (value === 'both' && !r.back) {
+          const added = this.addAssociationField(next, r.to, r.from, isMany(r.sourceMultiplicity ?? '1'))
+          next = this.setUml(added.project, key, { navigable: undefined, sourceRole: undefined, sourceMultiplicity: undefined })
+          if (r.sourceMultiplicity && r.sourceMultiplicity !== (isMany(r.sourceMultiplicity) ? '0..*' : '1')) next = this.setUml(next, relationKey(r.to, added.field), { multiplicity: r.sourceMultiplicity })
+        } else if (value !== 'both') {
+          if (r.back) {
+            const back = r.back
+            next = this.editClass(next, r.to, (text, c) => {
+              const m = this.fieldOf(c, back.field.name)
+              return m ? deleteMember(text, m) : text
+            })
+            const uml = { ...(next.uml ?? {}) }
+            delete uml[back.key]
+            next = { ...next, uml }
+            next = this.setUml(next, key, { sourceRole: r.sourceRole, sourceMultiplicity: r.sourceMultiplicity })
+          }
+          next = this.setUml(next, key, { navigable: value === 'none' ? false : undefined })
+        }
+        break
+      }
+      case 'role':
+        if (value === r.role) return
+        if (!rename(r.from, r.role, value)) return
+        key = relationKey(r.from, value)
+        break
+      case 'multiplicity':
+        if (!value.trim()) return
+        multiplicity(r.from, r.role, r.to, value.trim(), key)
+        break
+      case 'sourceRole':
+        if (r.back) {
+          if (value === r.back.field.name) return
+          if (!rename(r.to, r.back.field.name, value)) return
+        } else next = this.setUml(next, key, { sourceRole: value.trim() || undefined })
+        break
+      case 'sourceMultiplicity':
+        if (!value.trim()) return
+        if (r.back) multiplicity(r.to, r.back.field.name, r.from, value.trim(), r.back.key)
+        else next = this.setUml(next, key, { sourceMultiplicity: value.trim() })
+        break
+    }
+    this.relSelection = `assoc:${key}`
+    this.message('')
+    this.setProject(next)
+    const now = this.findRelation(this.relSelection)
+    if (now && 'key' in now && `assoc:${now.key}` !== this.relSelection) {
+      this.relSelection = `assoc:${now.key}`
+      this.render()
+    }
+  }
+
+  /** Objektinspektor rechts im Diagramm: zeigt die gewählte Beziehung. */
+  private renderInspector() {
+    const rel = this.relSelection ? this.findRelation(this.relSelection) : undefined
+    if (!rel) {
+      this.inspector.hidden = true
+      this.inspector.innerHTML = ''
+      return
+    }
+    if (this.inspector.contains(document.activeElement) && !this.inspector.hidden && this.inspector.dataset.rel === this.relSelection) return
+    this.inspector.dataset.rel = this.relSelection
+    this.inspector.hidden = false
+    const head = `<header class="vo-inspector-head"><h3>${e(t('web_visuobject_inspector'))}</h3><button class="vo-collapse" data-inspector="close" aria-label="${e(t('web_visuobject_inspector_close'))}">×</button></header>`
+    const remove = `<button class="text-button vo-danger" data-inspector="delete">${icons.trash} ${e(t('web_visuobject_rel_delete'))}</button>`
+    if (!('key' in rel)) {
+      const text = t(rel.kind === 'implements' ? 'web_visuobject_rel_implements_text' : 'web_visuobject_rel_extends_text', rel.from, rel.to)
+      this.inspector.innerHTML = `${head}<p class="vo-inspector-kind">${e(t(rel.kind === 'implements' ? 'web_visuobject_rel_implements' : 'web_visuobject_rel_extends'))}</p><p>${e(text)}</p>${remove}`
+    } else {
+      const option = (value: string, label: string, current: string) => `<option value="${e(value)}"${value === current ? ' selected' : ''}>${e(label)}</option>`
+      const kinds = (['association', 'aggregation', 'composition'] as const).map((k) => option(k, t(`web_visuobject_rel_${k}`).replace(/\s*\(.*\)$/, ''), rel.kind)).join('')
+      const nav = rel.back ? 'both' : rel.navigable ? 'to' : 'none'
+      const navs = [option('to', `${rel.from} → ${rel.to}`, nav), option('both', `${rel.from} ↔ ${rel.to}`, nav), option('none', t('web_visuobject_rel_undirected', rel.from, rel.to), nav)].join('')
+      const reading = rel.reading ?? ''
+      const readings = [option('', t('web_visuobject_rel_reading_none'), reading), option('forward', `${rel.from} ▶ ${rel.to}`, reading), option('backward', `${rel.to} ▶ ${rel.from}`, reading)].join('')
+      const list = `<datalist id="vo-multiplicities">${multiplicities.map((m) => `<option value="${m}">`).join('')}</datalist>`
+      const endFields = (title: string, roleKey: string, role: string | undefined, multKey: string, mult: string | undefined, roleHint: string) => `
+        <fieldset>
+          <legend>${e(title)}</legend>
+          <label>${e(t('web_visuobject_rel_role'))}<input data-field="${roleKey}" value="${e(role ?? '')}" spellcheck="false" autocomplete="off"><small>${e(roleHint)}</small></label>
+          <label>${e(t('web_visuobject_rel_multiplicity'))}<input data-field="${multKey}" list="vo-multiplicities" value="${e(mult ?? '')}" spellcheck="false" autocomplete="off" placeholder="1"></label>
+        </fieldset>`
+      this.inspector.innerHTML = `${head}
+        <label>${e(t('web_visuobject_rel_kind'))}<select data-field="kind">${kinds}</select></label>
+        <label>${e(t('web_visuobject_rel_name'))}<input data-field="name" value="${e(rel.name ?? '')}" placeholder="${e(t('web_visuobject_rel_name_ph'))}" autocomplete="off"></label>
+        <label>${e(t('web_visuobject_rel_reading'))}<select data-field="reading">${readings}</select></label>
+        <label>${e(t('web_visuobject_rel_navigable'))}<select data-field="navigable">${navs}</select></label>
+        ${endFields(t('web_visuobject_rel_end', rel.to), 'role', rel.role, 'multiplicity', rel.multiplicity, t('web_visuobject_rel_role_field', rel.from, rel.role))}
+        ${endFields(t('web_visuobject_rel_end', rel.from), 'sourceRole', rel.sourceRole, 'sourceMultiplicity', rel.sourceMultiplicity, rel.back ? t('web_visuobject_rel_role_field', rel.to, rel.back.field.name) : t('web_visuobject_rel_role_only_uml'))}
+        ${list}
+        ${remove}`
+    }
+    for (const el of this.inspector.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-field]')) {
+      el.addEventListener('change', () => {
+        const current = this.relSelection && this.findRelation(this.relSelection)
+        if (current && 'key' in current) this.changeAssoc(current, el.dataset.field!, el.value)
+      })
+      if (el instanceof HTMLInputElement) el.addEventListener('keydown', (ev) => ev.key === 'Enter' && el.blur())
+    }
+    this.inspector.querySelector('[data-inspector=delete]')!.addEventListener('click', () => this.deleteRelation(this.relSelection!))
+    this.inspector.querySelector('[data-inspector=close]')!.addEventListener('click', () => {
+      this.relSelection = undefined
+      this.render()
+    })
+  }
+
+  // MARK: - Beziehung ziehen
+
+  /** Vom Griff am gewählten Kasten zu einer anderen Klasse ziehen, dann die Art wählen. */
+  private startConnect(ev: PointerEvent, from: string) {
+    ev.preventDefault()
+    const ghost = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+    ghost.setAttribute('class', 'vo-rel ghost')
+    this.lines.append(ghost)
+    const box = this.canvas.querySelector<HTMLElement>(`.uml-class[data-class="${CSS.escape(from)}"]`)!
+    const local = (m: PointerEvent) => {
+      const r = this.canvas.getBoundingClientRect()
+      return { x: m.clientX - r.left + this.canvas.scrollLeft, y: m.clientY - r.top + this.canvas.scrollTop }
+    }
+    const start = { x: box.offsetLeft + box.offsetWidth, y: box.offsetTop + box.offsetHeight / 2 }
+    const targetAt = (m: PointerEvent) => {
+      const el = document.elementFromPoint(m.clientX, m.clientY)?.closest<HTMLElement>('.uml-class')
+      return el && el.dataset.class !== from ? el : undefined
+    }
+    const move = (m: PointerEvent) => {
+      const p = local(m)
+      ghost.setAttribute('x1', String(start.x))
+      ghost.setAttribute('y1', String(start.y))
+      ghost.setAttribute('x2', String(p.x))
+      ghost.setAttribute('y2', String(p.y))
+      for (const el of this.canvas.querySelectorAll('.uml-class.drop')) el.classList.remove('drop')
+      targetAt(m)?.classList.add('drop')
+    }
+    const up = (m: PointerEvent) => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      ghost.remove()
+      const target = targetAt(m)
+      target?.classList.remove('drop')
+      if (target) this.showRelationMenu(from, target.dataset.class!, local(m))
+    }
+    move(ev)
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+  }
+
+  private showRelationMenu(from: string, to: string, at: Point) {
+    const a = this.findClass(from)
+    const b = this.findClass(to)
+    if (!a || !b) return
+    const choices: [AssocKind | 'extends' | 'implements', string][] = []
+    if (a.kind === 'class') choices.push(['association', 'web_visuobject_rel_association'], ['aggregation', 'web_visuobject_rel_aggregation'], ['composition', 'web_visuobject_rel_composition'])
+    if (a.kind === 'class' && b.kind === 'class' && a.superclass !== to) choices.push(['extends', 'web_visuobject_rel_extends'])
+    if (b.kind === 'interface' && !a.interfaces.includes(to)) choices.push([a.kind === 'interface' ? 'extends' : 'implements', a.kind === 'interface' ? 'web_visuobject_rel_extends' : 'web_visuobject_rel_implements'])
+    if (choices.length === 0) return this.message(t('web_visuobject_rel_impossible', from, to))
+    const menu = document.createElement('div')
+    menu.className = 'vo-relmenu'
+    menu.setAttribute('role', 'menu')
+    menu.style.left = `${at.x}px`
+    menu.style.top = `${at.y}px`
+    menu.innerHTML = `<p>${e(t('web_visuobject_rel_menu', from, to))}</p>` + choices.map(([kind, label]) => `<button role="menuitem" data-kind="${kind}"><span class="vo-relicon ${kind}" aria-hidden="true"></span>${e(t(label))}</button>`).join('')
+    this.canvas.append(menu)
+    const close = () => {
+      menu.remove()
+      document.removeEventListener('pointerdown', outside, true)
+      document.removeEventListener('keydown', escape, true)
+    }
+    const outside = (ev: Event) => {
+      if (!menu.contains(ev.target as Node)) close()
+    }
+    const escape = (ev: KeyboardEvent) => {
+      if (ev.key === 'Escape') {
+        ev.stopPropagation()
+        close()
+      }
+    }
+    menu.addEventListener('click', (ev) => {
+      const kind = (ev.target as HTMLElement).closest<HTMLElement>('[data-kind]')?.dataset.kind
+      if (!kind) return
+      close()
+      this.createRelation(from, to, kind as AssocKind | 'extends' | 'implements')
+    })
+    document.addEventListener('pointerdown', outside, true)
+    document.addEventListener('keydown', escape, true)
+    menu.querySelector<HTMLElement>('button')?.focus()
   }
 }
 

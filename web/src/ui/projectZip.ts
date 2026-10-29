@@ -1,10 +1,13 @@
 import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate'
-import { projectFromFiles, type JavaProject } from '../core/javaProject'
+import { projectFromFiles, umlFromJSON, type JavaProject } from '../core/javaProject'
 
 /**
  * VisuObject-Projekt als ZIP wie in Eclipse oder BlueJ: `Name/src/paket/Klasse.java`.
  * Beim Öffnen zählt die Zeile `package …;` in jeder Datei, nicht der Ordner im ZIP.
+ * Was nur UML kennt (Aggregation, Name der Beziehung …) liegt daneben in `Name/visuobject.json`.
  */
+
+const umlFile = 'visuobject.json'
 
 export function projectToZip(project: JavaProject): Uint8Array {
   const folder = project.name.replace(/[\\/:*?"<>|]/g, '_') || 'Projekt'
@@ -15,6 +18,7 @@ export function projectToZip(project: JavaProject): Uint8Array {
     const dir = `${folder}/src/${p.replace(/\./g, '/')}/`
     if (!Object.keys(entries).some((k) => k.startsWith(dir))) entries[dir] = new Uint8Array()
   }
+  if (project.uml && Object.keys(project.uml).length) entries[`${folder}/${umlFile}`] = new Uint8Array(strToU8(JSON.stringify({ format: 'visuobject', version: 1, uml: project.uml }, null, 2)))
   return zipSync(entries, { level: 6 })
 }
 
@@ -26,5 +30,15 @@ export function projectFromZip(data: Uint8Array, fallbackName: string): JavaProj
   const top = new Set(Object.keys(entries).map((n) => n.split('/')[0]))
   const name = top.size === 1 && Object.keys(entries).some((n) => n.includes('/')) ? [...top][0] : fallbackName
   // Nur Dateinamen weitergeben: Das Package kommt aus dem Code.
-  return projectFromFiles(name, javaFiles.map((f) => ({ name: f.name.slice(f.name.lastIndexOf('/') + 1), text: f.text })))
+  const project = projectFromFiles(name, javaFiles.map((f) => ({ name: f.name.slice(f.name.lastIndexOf('/') + 1), text: f.text })))
+  const extra = Object.entries(entries).find(([n]) => n === umlFile || n.endsWith(`/${umlFile}`))
+  if (extra) {
+    try {
+      const uml = umlFromJSON((JSON.parse(strFromU8(extra[1])) as { uml?: unknown }).uml)
+      if (uml) project.uml = uml
+    } catch {
+      /* ohne UML-Zusatz geht es auch */
+    }
+  }
+  return project
 }
