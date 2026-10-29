@@ -1,0 +1,180 @@
+/* VisuCode-Startseite: Ergänzungen zu styles.css (Aufbau wie visustruct.org) */
+
+.visucode {
+  --code: #7c3aed;
+  --bot: #d96a00;
+  --bot-tint: #fff1df;
+  --soon: #94a3b8;
+}
+
+.brand-code {
+  background: linear-gradient(135deg, var(--brand), var(--code));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  background: linear-gradient(135deg, var(--brand), var(--code));
+}
+
+/* Lernweg als Matrix: strukturiert/objektorientiert × Bildschirm/Roboter */
+.matrix {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.7fr) 1fr 1fr;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+.matrix-head {
+  align-self: end;
+  padding: 0 0.25rem 0.25rem;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.matrix-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--ink);
+}
+.matrix-row small {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+}
+.tile {
+  display: block;
+  padding: 1.1rem 1.2rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  color: inherit;
+  text-decoration: none;
+}
+a.tile:hover {
+  border-color: var(--brand);
+}
+.tile strong {
+  display: block;
+  font-size: 1.15rem;
+}
+.tile span {
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+.tile-bot {
+  background: var(--bot-tint);
+  border-color: #f5d3a8;
+}
+.tile-soon {
+  border-style: dashed;
+  box-shadow: none;
+  background: var(--bg-soft);
+}
+.matrix-note {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Werkzeug-Karten */
+.tools {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 720px) {
+  .tools { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1040px) {
+  .tools { grid-template-columns: repeat(3, 1fr); }
+}
+.tool {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+}
+.tool h3 {
+  margin: 0.25rem 0 0;
+  font-size: 1.25rem;
+}
+.tool p {
+  margin: 0.5rem 0 1rem;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+.tool-shot {
+  margin: -0.25rem 0 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  width: 100%;
+  height: auto;
+}
+.tool .btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.badge-ok {
+  color: #0f6b33;
+  background: #dcfce7;
+}
+.badge-soon {
+  color: #475569;
+  background: #e2e8f0;
+}
+.tool-soon {
+  background: var(--bg-soft);
+  box-shadow: none;
+}
+
+/* Ludwig */
+.ludwig {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+@media (min-width: 720px) {
+  .ludwig { grid-template-columns: 200px 1fr; }
+}
+.ludwig img {
+  width: 200px;
+  height: 200px;
+  justify-self: center;
+}
+.ludwig blockquote {
+  margin: 0;
+  padding: 1.1rem 1.3rem;
+  border-left: 4px solid var(--bot);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--bot-tint);
+  font-size: 1.05rem;
+}
+
+@media (max-width: 560px) {
+  .matrix { grid-template-columns: 1fr 1fr; }
+  .matrix-corner { display: none; }
+  .matrix-row { grid-column: 1 / -1; margin-top: 0.5rem; }
+}
