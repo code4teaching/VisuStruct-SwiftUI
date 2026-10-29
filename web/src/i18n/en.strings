@@ -411,8 +411,6 @@
 "web_visuobject_layout_tip" = "Arrange all classes automatically: superclasses at the top";
 "web_visuobject_add_field" = "Attribute";
 "web_visuobject_add_method" = "Method";
-"web_visuobject_superclass" = "extends";
-"web_visuobject_no_superclass" = "no class";
 "web_visuobject_abstract" = "abstract";
 "web_visuobject_delete_class" = "Delete class";
 "web_visuobject_new_class_name" = "NewClass";
@@ -494,9 +492,9 @@
 "web_visuobject_project_name" = "MyProject";
 "web_visuobject_add_package_tip" = "Create a new package (folder) in the project";
 "web_visuobject_add_package" = "Package";
-"web_visuobject_explorer_show" = "Show project view";
-"web_visuobject_explorer_hide" = "Collapse project view";
-"web_visuobject_explorer" = "Project";
+"web_visuobject_explorer_show" = "Show Package Explorer";
+"web_visuobject_explorer_hide" = "Collapse Package Explorer";
+"web_visuobject_explorer" = "Package Explorer";
 "web_visuobject_save_tip" = "Save the project as .zip: ProjectName/src/package/Class.java";
 "web_visuobject_open_tip" = "Open a project (.zip as from Eclipse or BlueJ) or add .java files to the project";
 "web_visuobject_method_ph" = "+ bark(): void";

@@ -1036,18 +1036,10 @@ export class ObjectApp {
     // Attribute, die auf eine andere Klasse zeigen, sind in UML die Rolle an der Linie, nicht im Kasten.
     const fields = cls.members.map((m, i) => (m.kind === 'field' && !this.roleFields.has(relationKey(cls.name, m.name)) ? row(m, i) : '')).join('')
     const methods = cls.members.map((m, i) => (m.kind !== 'field' ? row(m, i) : '')).join('')
-    const others = this.classes.filter((c) => c.kind === 'class' && c.name !== cls.name)
     const deleteButton = `<button class="icon" data-class-action="delete" data-tip="${e(t('web_visuobject_delete_class'))}" aria-label="${e(t('web_visuobject_delete_class'))}">${icons.trash}</button>`
     const tools =
       sel && cls.kind === 'class'
         ? `<div class="uml-tools">
-            <label>${e(t('web_visuobject_superclass'))}
-              <select data-tool="superclass">
-                <option value="">${e(t('web_visuobject_no_superclass'))}</option>
-                ${others.map((c) => `<option${c.name === cls.superclass ? ' selected' : ''}>${e(c.name)}</option>`).join('')}
-                ${cls.superclass && !others.some((c) => c.name === cls.superclass) ? `<option selected>${e(cls.superclass)}</option>` : ''}
-              </select>
-            </label>
             <label><input type="checkbox" data-tool="abstract"${cls.isAbstract ? ' checked' : ''}> ${e(t('web_visuobject_abstract'))}</label>
             ${deleteButton}
           </div>`
@@ -1062,10 +1054,6 @@ export class ObjectApp {
       ${cls.kind === 'interface' && !fields ? '' : `<ul class="uml-fields">${fields}${add('field')}</ul>`}
       <ul class="uml-methods">${methods}${add('method')}</ul>
       ${tools}`
-    box.querySelector<HTMLSelectElement>('[data-tool=superclass]')?.addEventListener('change', (ev) => {
-      const value = (ev.target as HTMLSelectElement).value || undefined
-      this.changeFile(cls.path, (s) => setSuperclass(s, cls, value), { cls: cls.name })
-    })
     box.querySelector<HTMLInputElement>('[data-tool=abstract]')?.addEventListener('change', (ev) => {
       const on = (ev.target as HTMLInputElement).checked
       this.changeFile(cls.path, (s) => setAbstract(s, cls, on), { cls: cls.name })

@@ -409,8 +409,6 @@
 "web_visuobject_layout_tip" = "Organizar todas as classes automaticamente: superclasses em cima";
 "web_visuobject_add_field" = "Atributo";
 "web_visuobject_add_method" = "Método";
-"web_visuobject_superclass" = "herda de";
-"web_visuobject_no_superclass" = "nenhuma classe";
 "web_visuobject_abstract" = "abstrata";
 "web_visuobject_delete_class" = "Apagar classe";
 "web_visuobject_new_class_name" = "NovaClasse";
@@ -492,9 +490,9 @@
 "web_visuobject_project_name" = "MeuProjeto";
 "web_visuobject_add_package_tip" = "Criar um novo package (pasta) no projeto";
 "web_visuobject_add_package" = "Package";
-"web_visuobject_explorer_show" = "Mostrar a vista do projeto";
-"web_visuobject_explorer_hide" = "Recolher a vista do projeto";
-"web_visuobject_explorer" = "Projeto";
+"web_visuobject_explorer_show" = "Mostrar o Package Explorer";
+"web_visuobject_explorer_hide" = "Recolher o Package Explorer";
+"web_visuobject_explorer" = "Package Explorer";
 "web_visuobject_save_tip" = "Guardar o projeto como .zip: NomeDoProjeto/src/package/Classe.java";
 "web_visuobject_open_tip" = "Abrir um projeto (.zip como do Eclipse ou BlueJ) ou juntar ficheiros .java ao projeto";
 "web_visuobject_method_ph" = "+ ladrar(): void";
