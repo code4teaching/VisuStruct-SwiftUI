@@ -79,6 +79,16 @@ Objektdiagramm sind Pflicht. Das Sequenzdiagramm rückt deshalb ans Ende.
 - ▶ führt alle Testfälle aus und färbt sie grün oder rot; ein roter Fall öffnet den Ablauf im Objektdiagramm.
 - Später als Export nach JUnit, damit der Schritt zum echten Werkzeug klein bleibt.
 
+### 8. mBot2 objektorientiert (Zukunft)
+
+- Wunsch von Holger (29.10.2026): In VisuObject auch den mBot2 programmieren, aber objektorientiert.
+- Idee: Die mBot-Befehle aus VisuBot stecken in Klassen, die man im Klassendiagramm sieht und nutzt,
+  z. B. `MBot` mit `Motor links`, `Motor rechts`, `Ultraschallsensor`, `Farbsensor`, `LEDs` als Attribute (Assoziationen).
+- Eigene Klassen darauf aufbauen: `Linienfolger`, `Hindernisvermeider` oder eine Klasse `Fahrt` mit Methoden wie `quadratFahren()`.
+  Vererbung und Interfaces passen gut dazu, etwa ein Interface `Sensor` mit `messen()`.
+- Läuft im Simulator und auf dem echten mBot2 wie in VisuBot. Das Objektdiagramm zeigt dabei die Sensorwerte als Attribute.
+- Kommt nach Stufe 5 (Objekte in der Simulation) und baut auf `web/src/core/mbot.ts` und dem Übertragen aus VisuBot auf.
+
 ### 7. Welt `?visuobject`
 
 - Weltenumschalter wie bei `?visustruct` / `?visubot` (`web/src/ui/visubotView.ts`, `worldChooserHTML`).
@@ -100,6 +110,7 @@ Jede Stufe wird gebaut, im Unterricht getestet und erst dann die nächste begonn
 | 7 | Vererbung und Polymorphie in der Simulation (fakultativ im Lehrplan). | 5 |
 | 8 | Sequenzdiagramm aus dem Mitschnitt, mit `loop` und `alt` (fakultativ im Lehrplan). | 5 |
 | 9 | Startseite `website/<lang>/visuobject.html` und Lektionen für Klasse 12. | wächst mit jeder Stufe |
+| 10 | mBot2 objektorientiert: mBot-Klassen im Klassendiagramm, eigene Klassen darauf, Simulator und echter mBot2. | 5, VisuBot |
 
 Hinweise:
 
