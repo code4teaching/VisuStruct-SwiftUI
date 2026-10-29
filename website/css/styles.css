@@ -798,7 +798,7 @@ h3 {
   overflow-x: auto;
 }
 .worlds a,
-.worlds .w-mic {
+.worlds .w-soon {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -821,8 +821,9 @@ h3 {
 .w-struct { --w-color: #1f7ae0; }
 .w-bot { --w-color: #d96a00; }
 .w-object { --w-color: #0e7c86; }
+.w-botpp { --w-color: #6d4fc2; }
 .w-mic { --w-color: #2f9e44; }
-.worlds .w-mic {
+.worlds .w-soon {
   color: var(--muted);
   opacity: 0.75;
   cursor: default;
@@ -957,10 +958,13 @@ h3 {
     gap: 0;
     font-size: 0.8rem;
   }
-  .worlds a,
-  .worlds .w-mic {
+  .worlds a {
     padding: 0.25rem 0.55rem;
     gap: 0.35rem;
+  }
+  /* Auf dem Handy nur die Welten, die es schon gibt */
+  .worlds .w-soon {
+    display: none;
   }
   .worlds .w-new {
     display: none;
