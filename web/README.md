@@ -93,3 +93,8 @@ Dritte Welt neben VisuStruct und VisuBot, für Objektorientierung ab Klasse 12 (
 `src/ui/objectApp.ts` zeigt links den Java-Code (CodeMirror wie in „Programmieren“) und rechts das Klassendiagramm.
 `src/core/classModel.ts` liest Klassen, Attribute, Methoden-Köpfe, `extends` und `implements` aus dem Code und schreibt
 Änderungen im Diagramm an genau diese Stelle zurück (Rümpfe, Startwerte und Kommentare bleiben). Tests: `test/classModel.test.ts`.
+Ein Projekt hat mehrere Dateien in Packages (`src/core/javaProject.ts`, eine Datei pro Klasse, die Zeile `package …;` folgt
+dem Ordner). Links zeigt der Package Explorer Projekt › src › Packages › Dateien › Klassen › Attribute/Methoden; jede Ebene
+und die ganze Spalte lassen sich einklappen. Das Klassendiagramm zeigt alle Klassen, jedes Package als UML-Rahmen.
+Öffnen und Speichern als ZIP wie aus Eclipse oder BlueJ (`Name/src/package/Klasse.java`, `src/ui/projectZip.ts`, fflate).
+Tests: `test/javaProject.test.ts`.

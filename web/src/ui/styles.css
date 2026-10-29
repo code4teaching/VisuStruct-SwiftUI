@@ -3815,33 +3815,175 @@ button.danger-text:not(:disabled) {
   border-color: var(--accent);
   color: var(--accent);
 }
+/* Aufteilung wie in WebGoatCode: flache Bereiche, 1 px Linie dazwischen (objectLayout.ts setzt --vo-cols) */
+:root.visuobject-theme {
+  --vo-bar: #e3edf0;
+}
 .vo-columns {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-  gap: 12px;
+  grid-template-columns: var(--vo-cols, 260px 1px minmax(0, 45fr) 1px minmax(0, 55fr));
   flex: 1;
   min-height: 0;
-  padding: 12px;
+  border-top: 1px solid var(--border);
 }
-.vo-code,
-.vo-diagram {
+.vo-columns.vo-resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+.vo-pane {
   display: flex;
   flex-direction: column;
   min-width: 0;
   min-height: 0;
   background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 12px 12px;
-  gap: 8px;
 }
-.vo-code h2,
-.vo-diagram h2 {
+.vo-pane.collapsed > :not(.vo-strip) {
+  display: none;
+}
+.vo-strip {
+  display: none;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+  border: 0;
+  background: var(--vo-bar);
+  color: var(--muted);
+  font: 600 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  writing-mode: vertical-rl;
+  cursor: pointer;
+}
+.vo-pane.collapsed > .vo-strip {
+  display: flex;
+}
+.vo-strip:hover,
+.vo-strip:focus-visible {
+  color: var(--accent);
+  background: var(--accent-faint);
+  outline: none;
+}
+.vo-splitter {
+  position: relative;
+  z-index: 4;
+  background: var(--border);
+  cursor: col-resize;
+  touch-action: none;
+  outline: none;
+}
+.vo-splitter::after {
+  content: '';
+  position: absolute;
+  inset: 0 -4px;
+}
+.vo-splitter:hover,
+.vo-splitter:focus-visible,
+.vo-resizing .vo-splitter {
+  background: var(--accent);
+}
+.vo-splitter.fixed {
+  cursor: default;
+  background: var(--border);
+}
+/* Kopfleiste jedes Bereichs: links Titel oder Reiter, rechts Knöpfe, ganz rechts – zum Einklappen */
+.vo-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 40px;
+  background: var(--vo-bar);
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.vo-bar-title {
+  display: flex;
+  flex: 1;
+  align-items: center;
   margin: 0;
-  font-size: 13px;
+  text-transform: none;
+  letter-spacing: normal;
+  padding: 0 12px;
+  font-size: 14px;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  color: var(--text);
+}
+.vo-bar-actions {
+  display: flex;
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 4px 4px 4px 0;
+}
+.shell.visuobject .vo-bar button.text-button {
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.vo-collapse {
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.vo-collapse:hover,
+.vo-collapse:focus-visible {
+  color: var(--accent);
+}
+/* Datei-Reiter wie index.html | style.css */
+.vo-tabs {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+.vo-tab {
+  display: flex;
+  align-items: stretch;
+  border-right: 1px solid var(--border);
+  border-bottom: 3px solid transparent;
+}
+.vo-tab.active {
+  background: var(--panel);
+  border-bottom-color: var(--accent);
+}
+.vo-tab [role='tab'] {
+  padding: 0 4px 0 14px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.vo-tab.active [role='tab'] {
+  font-weight: 700;
+}
+.vo-tab [role='tab']:hover {
+  color: var(--accent);
+}
+.vo-tab-close {
+  padding: 0 10px 0 6px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 15px;
+  cursor: pointer;
+  visibility: hidden;
+}
+.vo-tab.active .vo-tab-close,
+.vo-tab:hover .vo-tab-close {
+  visibility: visible;
+}
+.vo-tab-close:hover {
+  color: var(--accent);
+}
+.vo-no-file {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
   color: var(--muted);
 }
 .vo-editor {
@@ -3850,24 +3992,49 @@ button.danger-text:not(:disabled) {
   overflow: auto;
   font-size: 14px;
 }
-.vo-tools {
+.vo-foot {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 6px 12px;
+  border-top: 1px solid var(--border);
+  background: var(--vo-bar);
 }
 .vo-hint {
   color: var(--muted);
-  flex: 1 1 220px;
+  flex: 1 1 260px;
 }
 .vo-canvas {
   position: relative;
   flex: 1;
   min-height: 0;
   overflow: auto;
-  border-radius: 8px;
   background: radial-gradient(circle, var(--border) 1px, transparent 1px) 0 0 / 20px 20px;
   outline: none;
+}
+.vo-frames {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+.vo-package-frame {
+  fill: rgba(14, 124, 134, 0.035);
+  stroke: var(--muted);
+  stroke-width: 1.2;
+}
+.vo-package.current .vo-package-frame {
+  stroke: var(--accent);
+  fill: var(--accent-faint);
+}
+.vo-package-name {
+  font: 600 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  fill: var(--muted);
+}
+.vo-package.current .vo-package-name {
+  fill: var(--accent);
 }
 .vo-lines {
   position: absolute;
@@ -3880,6 +4047,44 @@ button.danger-text:not(:disabled) {
   stroke: var(--text);
   stroke-width: 1.4;
   fill: none;
+}
+.vo-rel.ghost {
+  stroke: var(--accent);
+  stroke-dasharray: 4 4;
+}
+.vo-hit {
+  stroke: transparent;
+  stroke-width: 12;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+.vo-relation:hover .vo-rel,
+.vo-relation:hover .vo-diamond {
+  stroke: var(--accent);
+}
+.vo-relation.selected .vo-rel,
+.vo-relation.selected .vo-diamond {
+  stroke: var(--accent);
+  stroke-width: 2.4;
+}
+.vo-relation.selected .vo-label-svg {
+  fill: var(--accent);
+}
+.vo-diamond {
+  fill: var(--panel);
+  stroke: var(--text);
+  stroke-width: 1.4;
+}
+.vo-diamond.filled {
+  fill: var(--text);
+}
+.vo-relation.selected .vo-diamond.filled {
+  fill: var(--accent);
+}
+.vo-label-svg.name {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-style: italic;
+  fill: var(--text);
 }
 .vo-rel.dashed {
   stroke-dasharray: 6 4;
@@ -3894,7 +4099,7 @@ button.danger-text:not(:disabled) {
   stroke: var(--text);
   stroke-width: 1.4;
 }
-.vo-label {
+.vo-label-svg {
   font: 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   fill: var(--muted);
   paint-order: stroke;
@@ -3908,8 +4113,10 @@ button.danger-text:not(:disabled) {
 }
 .vo-status {
   margin: 0;
-  min-height: 1.4em;
   color: #b3261e;
+}
+.vo-status:empty {
+  display: none;
 }
 .uml-class {
   position: absolute;
@@ -3922,6 +4129,229 @@ button.danger-text:not(:disabled) {
   cursor: grab;
   user-select: none;
   touch-action: none;
+}
+/* Griff am gewählten Kasten: von hier eine Beziehung ziehen */
+.uml-connect {
+  position: absolute;
+  right: -11px;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  padding: 0;
+  border: 2px solid var(--panel);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  cursor: crosshair;
+  touch-action: none;
+}
+.uml-connect::after {
+  content: '';
+  position: absolute;
+  inset: 5px 4px 5px 5px;
+  background: #fff;
+  clip-path: polygon(0 35%, 55% 35%, 55% 0, 100% 50%, 55% 100%, 55% 65%, 0 65%);
+}
+.uml-class.drop {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.vo-relmenu {
+  position: absolute;
+  z-index: 10;
+  display: grid;
+  min-width: 220px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  font: 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-relmenu p {
+  margin: 2px 8px 6px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.vo-relmenu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.vo-relmenu button:hover,
+.vo-relmenu button:focus-visible {
+  background: var(--accent-faint);
+  color: var(--accent);
+  outline: none;
+}
+/* kleine Symbole: Linie mit Pfeil, Raute oder Dreieck */
+.vo-relicon {
+  position: relative;
+  flex: none;
+  width: 28px;
+  height: 12px;
+}
+.vo-relicon::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 5.5px;
+  border-top: 1.5px solid currentColor;
+}
+.vo-relicon.implements::before {
+  border-top-style: dashed;
+}
+.vo-relicon::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  width: 10px;
+  height: 10px;
+}
+.vo-relicon.association::after {
+  right: 0;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  width: 6px;
+  height: 6px;
+  top: 2.5px;
+  transform: rotate(45deg);
+}
+.vo-relicon.aggregation::after,
+.vo-relicon.composition::after {
+  left: 0;
+  border: 1.5px solid currentColor;
+  background: var(--panel);
+  transform: scale(0.8, 0.6) rotate(45deg);
+}
+.vo-relicon.composition::after {
+  background: currentColor;
+}
+.vo-relicon.extends::after,
+.vo-relicon.implements::after {
+  right: 0;
+  background: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+/* Objektinspektor rechts im Diagramm */
+.vo-stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.vo-stage .vo-canvas {
+  flex: 1;
+}
+.vo-inspector {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 8;
+  display: grid;
+  gap: 8px;
+  width: min(290px, calc(100% - 20px));
+  max-height: calc(100% - 20px);
+  overflow: auto;
+  padding: 0 12px 12px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-inspector[hidden] {
+  display: none;
+}
+.vo-inspector-head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  margin: 0 -12px;
+  padding: 0 0 0 12px;
+  min-height: 36px;
+  background: var(--vo-bar);
+  border-bottom: 1px solid var(--border);
+}
+.vo-inspector-head h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 14px;
+}
+.vo-inspector label {
+  display: grid;
+  gap: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.vo-inspector input,
+.vo-inspector select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-inspector input:focus,
+.vo-inspector select:focus {
+  border-color: var(--accent);
+  outline: 2px solid var(--accent-soft);
+}
+.vo-inspector fieldset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px;
+  align-items: start;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 6px 8px 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.vo-inspector fieldset label:first-of-type small {
+  grid-column: 1 / -1;
+}
+.vo-inspector legend {
+  padding: 0 4px;
+  color: var(--text);
+  font-weight: 600;
+}
+.vo-inspector small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.vo-inspector p {
+  margin: 0;
+}
+.vo-inspector-kind {
+  font-weight: 600;
+  padding-top: 4px;
+}
+.shell.visuobject .vo-inspector button.vo-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 6px;
+  color: #b3261e;
+}
+.vo-inspector .vo-danger svg {
+  width: 15px;
+  height: 15px;
 }
 .uml-class.selected {
   border-color: var(--accent);
@@ -4000,10 +4430,222 @@ button.danger-text:not(:disabled) {
   width: 16px;
   height: 16px;
 }
+/* Package Explorer: Projekt › src › Packages › Dateien › Klassen › Attribute/Methoden */
+.vo-tree-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px 4px;
+}
+.shell.visuobject .vo-tree-tools button.text-button {
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.vo-tree {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 6px;
+  font: 13px/1.3 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.vo-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 6px 0 calc(4px + var(--depth, 0) * 14px);
+  border-radius: 7px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+}
+.vo-row:hover {
+  background: var(--accent-faint);
+}
+.vo-row:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--accent-soft);
+}
+.vo-row.active .vo-label {
+  font-weight: 600;
+}
+.vo-row.selected {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+.vo-twisty,
+.vo-twisty-space {
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+.vo-twisty {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.vo-twisty svg {
+  transition: transform 0.15s ease;
+}
+[aria-expanded='true'] > .vo-row .vo-twisty svg {
+  transform: rotate(90deg);
+}
+.vo-twisty:hover {
+  color: var(--accent);
+}
+.vo-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vo-type {
+  color: var(--muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.vo-row .uml-input {
+  margin: 0;
+  font: inherit;
+}
+.vo-row-delete {
+  margin-left: auto;
+  visibility: hidden;
+}
+.vo-tree button.vo-row-delete {
+  width: 24px;
+  height: 24px;
+}
+.vo-tree button.vo-row-delete svg {
+  width: 14px;
+  height: 14px;
+}
+.vo-row:hover .vo-row-delete,
+.vo-row.selected .vo-row-delete {
+  visibility: visible;
+}
+.vo-tree-empty {
+  padding: 6px 10px 6px 52px;
+  color: var(--muted);
+  font-size: 12px;
+  white-space: normal;
+}
+/* Symbole im Baum: modern statt Eclipse-Pixelgrafik */
+.vo-badge {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  font: 700 10px/1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #fff;
+}
+.vo-badge.project {
+  background: var(--accent);
+  border-radius: 5px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.18);
+}
+.vo-badge.folder {
+  width: 17px;
+  height: 13px;
+  border-radius: 2px 4px 3px 3px;
+  background: #e0a63b;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, 0.35);
+}
+.vo-badge.package {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: #b07a2a;
+  transform: rotate(45deg) scale(0.82);
+}
+.vo-badge.package.empty {
+  background: none;
+  border: 1.5px solid #b07a2a;
+}
+.vo-badge.file {
+  background: #e66a2c;
+  border-radius: 3px 6px 3px 3px;
+}
+.vo-badge.type.class {
+  background: #2f7d32;
+  border-radius: 50%;
+}
+.vo-badge.type.class.abstract {
+  background: #6a9c3a;
+  font-style: italic;
+}
+.vo-badge.type.interface {
+  background: #7b4fb0;
+  border-radius: 50%;
+}
+.vo-badge.field,
+.vo-badge.method {
+  width: 9px;
+  height: 9px;
+  margin: 0 3px;
+}
+.vo-badge.field {
+  border-radius: 2px;
+}
+.vo-badge.method {
+  border-radius: 50%;
+}
+.vo-badge.public {
+  background: #2f9e44;
+}
+.vo-badge.private {
+  background: #d6453d;
+}
+.vo-badge.protected {
+  background: #e0a63b;
+}
+.vo-badge.package.field,
+.vo-badge.package.method {
+  background: #3b82c4;
+  transform: none;
+  border: 0;
+}
+.vo-badge.static {
+  box-shadow: 0 0 0 2px var(--panel), 0 0 0 3px currentColor;
+  color: var(--muted);
+}
 @media (max-width: 760px) {
+  /* Am Handy untereinander; eingeklappt bleibt ein waagerechter Streifen */
   .vo-columns {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(220px, 40%) 1fr;
+    grid-auto-rows: auto;
     overflow: auto;
   }
+  .vo-splitter {
+    display: none;
+  }
+  .vo-explorer:not(.collapsed) {
+    height: 260px;
+  }
+  .vo-code:not(.collapsed) {
+    height: 320px;
+  }
+  .vo-diagram:not(.collapsed) {
+    min-height: 420px;
+  }
+  .vo-pane {
+    border-bottom: 1px solid var(--border);
+  }
+  .vo-strip {
+    writing-mode: horizontal-tb;
+    padding: 10px;
+  }
 }
+
