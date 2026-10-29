@@ -147,6 +147,8 @@ export class ObjectApp {
   /** Gewählte Beziehung: `assoc:Klasse.attribut` oder `gen:extends:Hund:Tier`. */
   private relSelection?: string
   private inspector!: HTMLElement
+  /** `Klasse.attribut` aller Attribute, die als Rolle an einer Linie stehen. */
+  private roleFields = new Set<string>()
   private treeSelection?: NodeId
   private open = new Map<NodeId, boolean>()
   private history: string[] = []
@@ -979,6 +981,7 @@ export class ObjectApp {
       this.drawLines()
       return
     }
+    this.roleFields = new Set(associations(this.classes, this.project.uml).flatMap((r) => [r.key, ...(r.back ? [r.back.key] : [])]))
     const boxes = new Map<string, HTMLElement>()
     for (const cls of this.classes) {
       if (boxes.has(cls.name)) continue
@@ -1005,7 +1008,8 @@ export class ObjectApp {
       const cls2 = `uml-member${m.isStatic ? ' static' : ''}${m.isAbstract ? ' abstract' : ''}${sel?.member === i ? ' selected' : ''}`
       return `<li class="${cls2}" data-member="${i}" data-value="${e(text)}">${e(text)}</li>`
     }
-    const fields = cls.members.map((m, i) => (m.kind === 'field' ? row(m, i) : '')).join('')
+    // Attribute, die auf eine andere Klasse zeigen, sind in UML die Rolle an der Linie, nicht im Kasten.
+    const fields = cls.members.map((m, i) => (m.kind === 'field' && !this.roleFields.has(relationKey(cls.name, m.name)) ? row(m, i) : '')).join('')
     const methods = cls.members.map((m, i) => (m.kind !== 'field' ? row(m, i) : '')).join('')
     const others = this.classes.filter((c) => c.kind === 'class' && c.name !== cls.name)
     const deleteButton = `<button class="icon" data-class-action="delete" data-tip="${e(t('web_visuobject_delete_class'))}" aria-label="${e(t('web_visuobject_delete_class'))}">${icons.trash}</button>`
@@ -1125,10 +1129,11 @@ export class ObjectApp {
         for (const c of row) {
           const { w, h } = size(c)
           local.set(c.name, { x, y })
-          x += w + gap
+          // Breiter Abstand nebeneinander: Platz für Rolle und Multiplizität an der Linie.
+          x += w + gap * 3
           rowH = Math.max(rowH, h)
         }
-        blockW = Math.max(blockW, x - gap)
+        blockW = Math.max(blockW, x - gap * 3)
         y += rowH + gap * 1.5
       }
       const blockH = y - gap * 1.5
@@ -1265,19 +1270,22 @@ export class ObjectApp {
     }
     // Beschriftung an einem Ende: Multiplizität auf der einen, Rolle auf der anderen Seite, gleich weit weg.
     const end = (at: Point, dir: Point, along: number, multiplicity?: string, role?: string) => {
-      const base = { x: at.x + dir.x * along, y: at.y + dir.y * along }
+      // Waagerechte Linie: Text beginnt dicht an der Klasse und wächst von ihr weg.
+      const flat = Math.abs(n.x) < 0.35
+      const base = flat ? { x: at.x + dir.x * 8, y: at.y + dir.y * 8 } : { x: at.x + dir.x * along, y: at.y + dir.y * along }
       const text = (side: number, value: string | undefined, cls: string) => {
         if (!value) return ''
         const x = base.x + n.x * side
         const y = base.y + n.y * side
-        const anchor = Math.abs(n.x) < 0.35 ? 'middle' : n.x * side > 0 ? 'start' : 'end'
+        const anchor = flat ? (dir.x > 0 ? 'start' : 'end') : n.x * side > 0 ? 'start' : 'end'
         return `<text class="vo-label-svg ${cls}" x="${x}" y="${y}" text-anchor="${anchor}" dominant-baseline="middle">${e(value)}</text>`
       }
       return text(12, multiplicity, 'mult') + text(-12, role, 'role')
     }
     const room = Math.min(30, length / 3)
-    svg += end(to, { x: -u.x, y: -u.y }, room, r.multiplicity, r.role)
-    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, r.sourceMultiplicity, r.sourceRole)
+    // Rolle mit Sichtbarkeit, denn das Attribut steht nicht mehr im Kasten.
+    svg += end(to, { x: -u.x, y: -u.y }, room, r.multiplicity, `${r.field.visibility}${r.role}`)
+    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, r.sourceMultiplicity, r.back ? `${r.back.field.visibility}${r.back.field.name}` : r.sourceRole)
     if (r.name) {
       // Leserichtung als Dreieck, das in Richtung der gelesenen Klasse zeigt.
       const dir = r.reading === 'backward' ? { x: -u.x, y: -u.y } : u
