@@ -40,10 +40,10 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
-import { lessons, tasks, useVisuBotContent, world, type VisuBotMode } from '../learn/content'
+import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
@@ -236,7 +236,7 @@ const previewWidthKey = 'visustruct.robotPreview.width'
 const previewHeightKey = 'visustruct.robotPreview.height'
 const editorHiddenKey = 'visustruct.editor.hidden'
 const compactPaletteKey = 'visustruct.palette.compact'
-const gearIcon =
+export const gearIcon =
   '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
 
 /** Wie `VisuStructEditHistory.defaultMaxSteps`. */
@@ -811,7 +811,7 @@ export class App {
     this.stopLinkListener = mbotLink.listen(showLink)
     showLink()
     for (const b of this.topbar.querySelectorAll<HTMLButtonElement>('[data-action=visubot] [data-world]'))
-      b.addEventListener('click', () => void this.chooseWorld(b.dataset.world as VisuBotMode, true))
+      b.addEventListener('click', () => void this.chooseWorld(b.dataset.world as WorldChoice, true))
     const keywords = $<HTMLInputElement>('[data-action=keywords]')
     keywords.checked = codeKeywords()
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
@@ -904,14 +904,20 @@ export class App {
   /** `?visubot` oder `?visustruct` in der Adresse, damit man den Link mit der richtigen Welt weitergeben kann. */
   private showWorldInURL() {
     const params = new URLSearchParams(location.search)
-    for (const key of ['learn', 'visubot', 'visustruct']) params.delete(key)
+    for (const key of ['learn', 'visubot', 'visustruct', 'visuobject']) params.delete(key)
     const rest = params.toString()
     const world = visuBotMode() === 'on' ? 'visubot' : 'visustruct'
     history.replaceState(history.state, '', `${location.pathname}?${world}${rest ? `&${rest}` : ''}${location.hash}`)
   }
 
   /** VisuStruct oder VisuBot: Lernbereich, Elemente und Simulator neu aufbauen. */
-  private async chooseWorld(mode: VisuBotMode, fromSettings: boolean) {
+  private async chooseWorld(mode: WorldChoice, fromSettings: boolean) {
+    if (mode === 'object') {
+      // VisuObject hat eine eigene Oberfläche: neu laden. Ungespeichertes fragt der Browser vorher ab.
+      setVisuObjectWorld()
+      location.href = `${location.pathname}?visuobject${location.hash}`
+      return
+    }
     if (mode === visuBotMode() && worldChosen()) return
     await this.changeLanguage(
       async () => {

@@ -3,8 +3,7 @@ import { compareEntries, programBaseName, todayFolder, uniqueBaseName, validFold
 import { t } from './i18n'
 import { icons } from './icons'
 import { sidebarIcon } from './learnPanel'
-import { worldChooserHTML } from './visubotView'
-import type { VisuBotMode } from '../learn/content'
+import { worldChooserHTML, type WorldChoice } from './visubotView'
 import {
   browserWorkspace,
   canPickFolder,
@@ -42,7 +41,7 @@ export interface FilesHost {
   /** Lernstand aus dem Workspace übernommen: Lernbereich neu zeichnen. */
   progressLoaded(): void
   /** Start-Dialog: VisuStruct oder VisuBot gewählt. */
-  chooseWorld(mode: VisuBotMode): Promise<void>
+  chooseWorld(mode: WorldChoice): Promise<void>
 }
 
 const modeKey = 'visustruct.files.mode'
@@ -217,7 +216,7 @@ export class FilesPanel {
     </div>`
     const close = () => box.remove()
     box.addEventListener('click', (e) => {
-      const world = (e.target as HTMLElement).closest<HTMLElement>('[data-world]')?.dataset.world as VisuBotMode | undefined
+      const world = (e.target as HTMLElement).closest<HTMLElement>('[data-world]')?.dataset.world as WorldChoice | undefined
       if (world) {
         void this.host.chooseWorld(world).then(() => (box.querySelector('.start-world')!.innerHTML = worldChooserHTML()))
         return

@@ -397,4 +397,36 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_swap_to_editor" = "Structogram large, programming narrow";
 "web_editor_resize" = "Resize the structogram";
 "web_palette_resize" = "Resize the elements (double-click: reset)";
+
+/* VisuObject */
+"web_visuobject_world_hint" = "VisuObject: write classes in Java and see or draw them as a class diagram (from year 12). You can switch any time in the gear menu.";
+"web_visuobject_subtitle" = "Class diagram";
+"web_visuobject_code" = "Java code";
+"web_visuobject_diagram" = "Class diagram";
+"web_visuobject_add_class" = "Class";
+"web_visuobject_add_interface" = "Interface";
+"web_visuobject_add_class_tip" = "Add a new class to the diagram and the code";
+"web_visuobject_add_interface_tip" = "Add a new interface to the diagram and the code";
+"web_visuobject_layout" = "Arrange again";
+"web_visuobject_layout_tip" = "Arrange all classes automatically: superclasses at the top";
+"web_visuobject_add_field" = "Attribute";
+"web_visuobject_add_method" = "Method";
+"web_visuobject_superclass" = "extends";
+"web_visuobject_no_superclass" = "no class";
+"web_visuobject_abstract" = "abstract";
+"web_visuobject_delete_class" = "Delete class";
+"web_visuobject_new_class_name" = "NewClass";
+"web_visuobject_new_interface_name" = "NewInterface";
+"web_visuobject_example" = "Example";
+"web_visuobject_example_tip" = "Load the example Tier, Hund, Besitzer";
+"web_visuobject_new_tip" = "New: empty code (Undo brings it back)";
+"web_visuobject_empty" = "No class yet. Type for example “public class Hund { }” on the left or click “+ Class” above.";
+"web_visuobject_edit_hint" = "Double-click to change. Write it as in UML: “- name: String” or “+ bark(): void”. Leave it empty to delete.";
+"web_visuobject_member_label" = "Attribute or method in UML notation";
+"web_visuobject_name_label" = "Class name";
+"web_visuobject_bad_name" = "“%@” is not a valid name or already exists.";
+"web_visuobject_bad_line" = "I don’t understand “%@”. Example: - name: String or + bark(): void";
+"web_visuobject_open_failed" = "The file could not be read.";
+"web_visuobject_field_ph" = "- name: String";
+"web_visuobject_method_ph" = "+ bark(): void";
 `;export{e as default};

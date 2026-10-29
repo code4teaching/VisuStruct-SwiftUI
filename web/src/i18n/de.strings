@@ -397,3 +397,35 @@
 "web_swap_to_editor" = "Struktogramm groß, Programmieren schmal";
 "web_editor_resize" = "Breite des Struktogramms ändern";
 "web_palette_resize" = "Breite der Elemente ändern (Doppelklick: zurücksetzen)";
+
+/* VisuObject */
+"web_visuobject_world_hint" = "VisuObject: Klassen in Java programmieren und als Klassendiagramm sehen oder zeichnen (ab Klasse 12). Wechseln geht jederzeit im Zahnrad.";
+"web_visuobject_subtitle" = "Klassendiagramm";
+"web_visuobject_code" = "Java-Code";
+"web_visuobject_diagram" = "Klassendiagramm";
+"web_visuobject_add_class" = "Klasse";
+"web_visuobject_add_interface" = "Interface";
+"web_visuobject_add_class_tip" = "Neue Klasse ins Diagramm und in den Code";
+"web_visuobject_add_interface_tip" = "Neues Interface ins Diagramm und in den Code";
+"web_visuobject_layout" = "Neu anordnen";
+"web_visuobject_layout_tip" = "Alle Klassen automatisch anordnen: Oberklassen oben";
+"web_visuobject_add_field" = "Attribut";
+"web_visuobject_add_method" = "Methode";
+"web_visuobject_superclass" = "erbt von";
+"web_visuobject_no_superclass" = "keiner Klasse";
+"web_visuobject_abstract" = "abstrakt";
+"web_visuobject_delete_class" = "Klasse löschen";
+"web_visuobject_new_class_name" = "NeueKlasse";
+"web_visuobject_new_interface_name" = "NeuesInterface";
+"web_visuobject_example" = "Beispiel";
+"web_visuobject_example_tip" = "Beispiel Tier, Hund, Besitzer laden";
+"web_visuobject_new_tip" = "Neu: leerer Code (Rückgängig holt ihn zurück)";
+"web_visuobject_empty" = "Noch keine Klasse. Tippe links zum Beispiel „public class Hund { }“ oder klicke oben auf „+ Klasse“.";
+"web_visuobject_edit_hint" = "Doppelklick ändert. Schreibweise wie in UML: „- name: String“ oder „+ bellen(): void“. Leer lassen löscht.";
+"web_visuobject_member_label" = "Attribut oder Methode in UML-Schreibweise";
+"web_visuobject_name_label" = "Name der Klasse";
+"web_visuobject_bad_name" = "„%@“ ist kein gültiger Name oder gibt es schon.";
+"web_visuobject_bad_line" = "„%@“ verstehe ich nicht. Beispiel: - name: String oder + bellen(): void";
+"web_visuobject_open_failed" = "Die Datei konnte nicht gelesen werden.";
+"web_visuobject_field_ph" = "- name: String";
+"web_visuobject_method_ph" = "+ bellen(): void";
