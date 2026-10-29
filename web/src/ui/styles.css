@@ -4355,6 +4355,23 @@ button.danger-text:not(:disabled) {
 .vo-inspector fieldset label:first-of-type small {
   grid-column: 1 / -1;
 }
+.vo-inspector fieldset .vo-wide {
+  grid-column: 1 / -1;
+}
+.vo-reading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  color: var(--muted);
+}
+.vo-reading b {
+  color: var(--text);
+}
+.shell.visuobject .vo-reading button.text-button {
+  padding: 1px 8px;
+  font-size: 12px;
+}
 .vo-inspector legend {
   padding: 0 4px;
   color: var(--text);

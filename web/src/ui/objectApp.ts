@@ -52,6 +52,7 @@ import {
   type Assoc,
   type AssocInfo,
   type AssocKind,
+  type EndNav,
   type Generalization,
 } from '../core/umlRelations'
 import { gearIcon } from './app'
@@ -1287,7 +1288,16 @@ export class ObjectApp {
     const selected = this.relSelection === id ? ' selected' : ''
     const diamond = r.kind !== 'association'
     const start = diamond ? { x: from.x + u.x * 20, y: from.y + u.y * 20 } : from
-    let svg = `<line class="vo-rel" x1="${start.x}" y1="${start.y}" x2="${to.x}" y2="${to.y}"${r.navigable ? ' marker-end="url(#vo-arrow)"' : ''}${r.backNavigable ? ' marker-start="url(#vo-arrow)"' : ''}/>`
+    let svg = `<line class="vo-rel" x1="${start.x}" y1="${start.y}" x2="${to.x}" y2="${to.y}"${r.navTo === 'navigable' ? ' marker-end="url(#vo-arrow)"' : ''}${r.navFrom === 'navigable' ? ' marker-start="url(#vo-arrow)"' : ''}/>`
+    // Nicht navigierbar: kleines Kreuz × kurz vor der Klasse.
+    const cross = (at: Point, dir: Point) => {
+      const c = { x: at.x + dir.x * 12, y: at.y + dir.y * 12 }
+      const a = { x: (dir.x + n.x) * 5, y: (dir.y + n.y) * 5 }
+      const b = { x: (dir.x - n.x) * 5, y: (dir.y - n.y) * 5 }
+      return `<path class="vo-rel" d="M${c.x - a.x} ${c.y - a.y} L${c.x + a.x} ${c.y + a.y} M${c.x - b.x} ${c.y - b.y} L${c.x + b.x} ${c.y + b.y}"/>`
+    }
+    if (r.navTo === 'non-navigable') svg += cross(to, { x: -u.x, y: -u.y })
+    if (r.navFrom === 'non-navigable') svg += cross(start, u)
     if (diamond) {
       const p = (along: number, side: number) => `${from.x + u.x * along + n.x * side},${from.y + u.y * along + n.y * side}`
       svg += `<polygon class="vo-diamond${r.kind === 'composition' ? ' filled' : ''}" points="${p(0, 0)} ${p(10, 6)} ${p(20, 0)} ${p(10, -6)}"/>`
@@ -1395,9 +1405,10 @@ export class ObjectApp {
   }
 
   /** Attribut für eine Assoziation anlegen (Typ der Klasse oder Liste davon). */
-  private addAssociationField(project: JavaProject, from: string, to: string, many: boolean): { project: JavaProject; field: string } {
+  private addAssociationField(project: JavaProject, from: string, to: string, many: boolean, wanted?: string): { project: JavaProject; field: string } {
     const cls = projectClasses(project).find((c) => c.name === from)!
-    const field = fieldNameFor(cls, to, many)
+    // Eine schon eingetragene Rolle wird der Name des Attributs.
+    const field = wanted && identifier.test(wanted) && !cls.members.some((m) => m.name === wanted) ? wanted : fieldNameFor(cls, to, many)
     const { type, init } = fieldTypeFor(to, many)
     let next = this.editClass(project, from, (text, c) => addMember(text, c, `- ${field}: ${type}`))
     if (init) {
@@ -1508,14 +1519,19 @@ export class ObjectApp {
         next = this.setUml(next, key, { name: value.trim() || undefined })
         break
       case 'reading':
-        next = this.setUml(next, key, { reading: value === 'forward' || value === 'backward' ? value : undefined })
+        // Umdrehen: gegen die Zugrichtung lesen und zurück.
+        next = this.setUml(next, key, { reading: r.reading === 'backward' ? undefined : 'backward' })
         break
-      case 'navigable': {
-        if (value === 'both' && !r.back) {
-          const added = this.addAssociationField(next, r.to, r.from, isMany(r.sourceMultiplicity ?? '1'))
-          next = this.setUml(added.project, key, { navigable: undefined, sourceRole: undefined, sourceMultiplicity: undefined })
+      case 'targetEnd':
+        next = this.setUml(next, key, { targetEnd: value as EndNav, navigable: undefined })
+        break
+      case 'sourceEnd': {
+        if (value === 'navigable' && !r.back) {
+          // Navigierbar zurück heißt im Code: die andere Klasse bekommt ein Attribut.
+          const added = this.addAssociationField(next, r.to, r.from, isMany(r.sourceMultiplicity ?? '1'), r.sourceRole)
+          next = this.setUml(added.project, key, { sourceEnd: undefined, sourceRole: undefined, sourceMultiplicity: undefined })
           if (r.sourceMultiplicity && r.sourceMultiplicity !== (isMany(r.sourceMultiplicity) ? '0..*' : '1')) next = this.setUml(next, relationKey(r.to, added.field), { multiplicity: r.sourceMultiplicity })
-        } else if (value !== 'both') {
+        } else if (value !== 'navigable') {
           if (r.back) {
             const back = r.back
             next = this.editClass(next, r.to, (text, c) => {
@@ -1527,7 +1543,7 @@ export class ObjectApp {
             next = { ...next, uml }
             next = this.setUml(next, key, { sourceRole: r.sourceRole, sourceMultiplicity: r.sourceMultiplicity })
           }
-          next = this.setUml(next, key, { navigable: value === 'none' ? false : undefined })
+          next = this.setUml(next, key, { sourceEnd: value as EndNav })
         }
         break
       }
@@ -1570,7 +1586,8 @@ export class ObjectApp {
       this.inspector.innerHTML = ''
       return
     }
-    if (this.inspector.contains(document.activeElement) && !this.inspector.hidden && this.inspector.dataset.rel === this.relSelection) return
+    // Fokus nach dem Neuzeichnen wieder auf dasselbe Feld (z. B. nach Tab ins nächste).
+    const focused = this.inspector.contains(document.activeElement) ? ((document.activeElement as HTMLElement).dataset.field ?? (document.activeElement as HTMLElement).dataset.inspector) : undefined
     this.inspector.dataset.rel = this.relSelection
     this.inspector.hidden = false
     const head = `<header class="vo-inspector-head"><h3>${e(t('web_visuobject_inspector'))}</h3><button class="vo-collapse" data-inspector="close" aria-label="${e(t('web_visuobject_inspector_close'))}">×</button></header>`
@@ -1581,24 +1598,25 @@ export class ObjectApp {
     } else {
       const option = (value: string, label: string, current: string) => `<option value="${e(value)}"${value === current ? ' selected' : ''}>${e(label)}</option>`
       const kinds = (['association', 'aggregation', 'composition'] as const).map((k) => option(k, t(`web_visuobject_rel_${k}`).replace(/\s*\(.*\)$/, ''), rel.kind)).join('')
-      const nav = rel.back ? 'both' : rel.navigable ? 'to' : 'none'
-      const navs = [option('to', `${rel.from} → ${rel.to}`, nav), option('both', `${rel.from} ↔ ${rel.to}`, nav), option('none', t('web_visuobject_rel_undirected', rel.from, rel.to), nav)].join('')
-      const reading = rel.reading ?? ''
-      const readings = [option('', t('web_visuobject_rel_reading_none'), reading), option('forward', `${rel.from} ▶ ${rel.to}`, reading), option('backward', `${rel.to} ▶ ${rel.from}`, reading)].join('')
+      const navs = (current: EndNav) => (['navigable', 'non-navigable', 'unspecified'] as const).map((v) => option(v, t(`web_visuobject_rel_nav_${v}`), current)).join('')
+      const [first, second] = rel.reading === 'backward' ? [rel.to, rel.from] : [rel.from, rel.to]
+      const reading = rel.name
+        ? `<p class="vo-reading">${e(t('web_visuobject_rel_reading'))}: <b>${e(first)} ▶ ${e(second)}</b> <button class="text-button" data-inspector="flip">${e(t('web_visuobject_rel_reading_flip'))}</button></p>`
+        : `<p class="vo-reading"><small>${e(t('web_visuobject_rel_reading_auto'))}</small></p>`
       const list = `<datalist id="vo-multiplicities">${multiplicities.map((m) => `<option value="${m}">`).join('')}</datalist>`
-      const endFields = (title: string, roleKey: string, role: string | undefined, multKey: string, mult: string | undefined, roleHint: string) => `
+      const endFields = (title: string, roleKey: string, role: string | undefined, multKey: string, mult: string | undefined, roleHint: string, navKey: string, nav: EndNav) => `
         <fieldset>
           <legend>${e(title)}</legend>
+          <label class="vo-wide">${e(t('web_visuobject_rel_navigable'))}<select data-field="${navKey}">${navs(nav)}</select></label>
           <label>${e(t('web_visuobject_rel_role'))}<input data-field="${roleKey}" value="${e(role ?? '')}" spellcheck="false" autocomplete="off"><small>${e(roleHint)}</small></label>
           <label>${e(t('web_visuobject_rel_multiplicity'))}<input data-field="${multKey}" list="vo-multiplicities" value="${e(mult ?? '')}" spellcheck="false" autocomplete="off" placeholder="1"></label>
         </fieldset>`
       this.inspector.innerHTML = `${head}
         <label>${e(t('web_visuobject_rel_kind'))}<select data-field="kind">${kinds}</select></label>
         <label>${e(t('web_visuobject_rel_name'))}<input data-field="name" value="${e(rel.name ?? '')}" placeholder="${e(t('web_visuobject_rel_name_ph'))}" autocomplete="off"></label>
-        <label>${e(t('web_visuobject_rel_reading'))}<select data-field="reading">${readings}</select></label>
-        <label>${e(t('web_visuobject_rel_navigable'))}<select data-field="navigable">${navs}</select></label>
-        ${endFields(t('web_visuobject_rel_end', rel.to), 'role', rel.role, 'multiplicity', rel.multiplicity, t('web_visuobject_rel_role_field', rel.from, rel.role))}
-        ${endFields(t('web_visuobject_rel_end', rel.from), 'sourceRole', rel.sourceRole, 'sourceMultiplicity', rel.sourceMultiplicity, rel.back ? t('web_visuobject_rel_role_field', rel.to, rel.back.field.name) : t('web_visuobject_rel_role_only_uml'))}
+        ${reading}
+        ${endFields(t('web_visuobject_rel_end', rel.to), 'role', rel.role, 'multiplicity', rel.multiplicity, t('web_visuobject_rel_role_field', rel.from, rel.role), 'targetEnd', rel.navTo)}
+        ${endFields(t('web_visuobject_rel_end', rel.from), 'sourceRole', rel.sourceRole, 'sourceMultiplicity', rel.sourceMultiplicity, rel.back ? t('web_visuobject_rel_role_field', rel.to, rel.back.field.name) : t('web_visuobject_rel_role_only_uml'), 'sourceEnd', rel.navFrom)}
         ${list}
         ${remove}`
     }
@@ -1610,6 +1628,11 @@ export class ObjectApp {
       if (el instanceof HTMLInputElement) el.addEventListener('keydown', (ev) => ev.key === 'Enter' && el.blur())
     }
     this.inspector.querySelector('[data-inspector=delete]')!.addEventListener('click', () => this.deleteRelation(this.relSelection!))
+    if (focused) this.inspector.querySelector<HTMLElement>(`[data-field="${focused}"], [data-inspector="${focused}"]`)?.focus({ preventScroll: true })
+    this.inspector.querySelector('[data-inspector=flip]')?.addEventListener('click', () => {
+      const current = this.relSelection && this.findRelation(this.relSelection)
+      if (current && 'key' in current) this.changeAssoc(current, 'reading', '')
+    })
     this.inspector.querySelector('[data-inspector=close]')!.addEventListener('click', () => {
       this.relSelection = undefined
       this.render()

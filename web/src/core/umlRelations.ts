@@ -9,14 +9,20 @@
 import { associationTarget, relations, type UmlClass, type UmlMember } from './classModel'
 
 export type AssocKind = 'association' | 'aggregation' | 'composition'
+/** Navigierbarkeit eines Endes: Pfeilspitze, Kreuz × oder ohne Kennzeichnung (offen). */
+export type EndNav = 'navigable' | 'non-navigable' | 'unspecified'
 
 /** Zusatz aus UML zu einem Attribut. */
 export interface AssocInfo {
   kind?: AssocKind
   name?: string
-  /** Leserichtung des Namens: von der Klasse mit dem Attribut zum Typ oder zurück. */
+  /** Leserichtung des Namens: von der Klasse mit dem Attribut zum Typ (Zugrichtung) oder zurück. */
   reading?: 'forward' | 'backward'
-  /** `false`: Linie ohne Pfeilspitze (Richtung offen). */
+  /** Ende beim Typ des Attributs; ohne Angabe navigierbar. */
+  targetEnd?: EndNav
+  /** Ende bei der Klasse mit dem Attribut, wenn es dort kein Gegen-Attribut gibt; ohne Angabe offen. */
+  sourceEnd?: EndNav
+  /** Alte Fassung: `false` hieß „ohne Pfeil“. */
   navigable?: boolean
   multiplicity?: string
   sourceMultiplicity?: string
@@ -34,10 +40,10 @@ export interface Assoc {
   kind: AssocKind
   name?: string
   reading?: 'forward' | 'backward'
-  /** Pfeil an `to`. */
-  navigable: boolean
-  /** Pfeil an `from`: `to` hat ein Attribut vom Typ `from`. */
-  backNavigable: boolean
+  /** Ende an `to`. */
+  navTo: EndNav
+  /** Ende an `from`: navigierbar, wenn `to` ein Attribut vom Typ `from` hat. */
+  navFrom: EndNav
   role: string
   multiplicity: string
   sourceRole?: string
@@ -82,7 +88,7 @@ export function associations(classes: UmlClass[], uml: UmlInfo = {}): Assoc[] {
   // Was die ganze Beziehung betrifft (nicht nur ein Ende), entscheidet, welches Attribut vorne steht.
   const hasInfo = (x: (typeof raw)[number]) => {
     const i = uml[relationKey(x.cls.name, x.field.name)]
-    return !!i && (i.kind !== undefined || i.name !== undefined || i.reading !== undefined || i.navigable !== undefined)
+    return !!i && (i.kind !== undefined || i.name !== undefined || i.reading !== undefined || i.navigable !== undefined || i.targetEnd !== undefined || i.sourceEnd !== undefined)
   }
   for (const first of raw) {
     if (used.has(first)) continue
@@ -103,9 +109,10 @@ export function associations(classes: UmlClass[], uml: UmlInfo = {}): Assoc[] {
       to: r.target,
       kind: info.kind ?? 'association',
       name: info.name,
-      reading: info.reading,
-      navigable: info.navigable !== false,
-      backNavigable: !!back,
+      // Ein Name liest sich in Zugrichtung, solange niemand umdreht.
+      reading: info.reading ?? (info.name ? 'forward' : undefined),
+      navTo: info.targetEnd ?? (info.navigable === false ? 'unspecified' : 'navigable'),
+      navFrom: back ? 'navigable' : (info.sourceEnd ?? 'unspecified'),
       role: r.field.name,
       multiplicity: multiplicity(info.multiplicity, r.many),
       sourceRole: back ? back.field.name : info.sourceRole,
@@ -152,7 +159,9 @@ export function withInfo(uml: UmlInfo, key: string, change: Partial<AssocInfo>):
   const next: AssocInfo = { ...uml[key], ...change }
   for (const k of Object.keys(next) as (keyof AssocInfo)[]) if (next[k] === undefined || next[k] === '') delete next[k]
   if (next.kind === 'association') delete next.kind
-  if (next.navigable === true) delete next.navigable
+  delete next.navigable
+  if (next.targetEnd === 'navigable') delete next.targetEnd
+  if (next.sourceEnd === 'unspecified') delete next.sourceEnd
   const out = { ...uml }
   if (Object.keys(next).length) out[key] = next
   else delete out[key]

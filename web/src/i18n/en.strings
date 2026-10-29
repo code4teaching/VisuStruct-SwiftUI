@@ -428,6 +428,11 @@
 "web_visuobject_bad_line" = "I don’t understand “%@”. Example: - name: String or + bark(): void";
 "web_visuobject_open_failed" = "The file could not be read.";
 "web_visuobject_field_ph" = "- name: String";
+"web_visuobject_rel_nav_navigable" = "navigable (arrow)";
+"web_visuobject_rel_nav_non-navigable" = "non-navigable (cross ×)";
+"web_visuobject_rel_nav_unspecified" = "unspecified (open)";
+"web_visuobject_rel_reading_flip" = "reverse";
+"web_visuobject_rel_reading_auto" = "With a name, the relationship reads in the direction you dragged.";
 "web_visuobject_tools" = "Tools";
 "web_visuobject_tool_select" = "Select";
 "web_visuobject_tool_select_tip" = "Select and move";
@@ -461,8 +466,6 @@
 "web_visuobject_rel_implements" = "Realization (implements)";
 "web_visuobject_rel_extends_text" = "%@ inherits from %@ (extends in the code).";
 "web_visuobject_rel_implements_text" = "%@ implements the interface %@ (implements in the code).";
-"web_visuobject_rel_undirected" = "%@ – %@ (no arrow)";
-"web_visuobject_rel_reading_none" = "none";
 "web_visuobject_rel_kind" = "Kind";
 "web_visuobject_rel_name" = "Name of the relationship";
 "web_visuobject_rel_name_ph" = "e.g. owns";
