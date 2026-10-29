@@ -147,6 +147,12 @@ export class ObjectApp {
   /** Gewählte Beziehung: `assoc:Klasse.attribut` oder `gen:extends:Hund:Tier`. */
   private relSelection?: string
   private inspector!: HTMLElement
+  /** Gewähltes Werkzeug der Leiste über dem Diagramm. */
+  private tool: Tool = 'select'
+  /** Beziehungswerkzeug: erste Klasse ist angeklickt, die zweite fehlt noch. */
+  private pendingFrom?: string
+  /** Der Klick nach einem Werkzeug-Einsatz wählt nichts aus. */
+  private suppressClick = false
   /** `Klasse.attribut` aller Attribute, die als Rolle an einer Linie stehen. */
   private roleFields = new Set<string>()
   private treeSelection?: NodeId
@@ -243,12 +249,13 @@ export class ObjectApp {
           <header class="vo-bar">
             <h2 class="vo-bar-title">${e(t('web_visuobject_diagram'))}</h2>
             <div class="vo-bar-actions">
-              <button class="text-button" data-action="add-class" data-tip="${e(t('web_visuobject_add_class_tip'))}">+ ${e(t('web_visuobject_add_class'))}</button>
-              <button class="text-button" data-action="add-interface" data-tip="${e(t('web_visuobject_add_interface_tip'))}">+ ${e(t('web_visuobject_add_interface'))}</button>
               <button class="text-button" data-action="layout" data-tip="${e(t('web_visuobject_layout_tip'))}">${e(t('web_visuobject_layout'))}</button>
             </div>
             <button class="vo-collapse" data-collapse="diagram" aria-label="${e(t('web_visuobject_pane_hide'))}" data-tip="${e(t('web_visuobject_pane_hide'))}">–</button>
           </header>
+          <div class="vo-palette" role="toolbar" aria-label="${e(t('web_visuobject_tools'))}">
+            ${paletteTools.map((tool, i) => `${i === 3 ? '<span class="vo-palette-sep" aria-hidden="true"></span>' : ''}<button class="vo-tool" data-tool="${tool}" aria-pressed="${tool === 'select'}" data-tip="${e(t(`web_visuobject_tool_${tool}_tip`))}">${toolIcon(tool)}<span>${e(t(`web_visuobject_tool_${tool}`))}</span></button>`).join('')}
+          </div>
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
             <aside class="vo-inspector" aria-label="${e(t('web_visuobject_inspector'))}" hidden></aside>
@@ -296,9 +303,7 @@ export class ObjectApp {
     on('save', () => void this.save())
     on('undo', () => this.undo(false))
     on('redo', () => this.undo(true))
-    on('add-class', () => this.newClass('class'))
     on('tree-add-class', () => this.newClass('class'))
-    on('add-interface', () => this.newClass('interface'))
     on('add-package', () => this.newPackage())
     on('layout', () => {
       this.positions.clear()
@@ -319,6 +324,7 @@ export class ObjectApp {
     this.canvas.addEventListener('click', (ev) => this.onClick(ev))
     this.tree.addEventListener('click', (ev) => this.onTreeClick(ev))
     this.tabs.addEventListener('click', (ev) => this.onTabClick(ev))
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('.vo-tool')) b.addEventListener('pointerdown', (ev) => this.onToolDown(ev, b.dataset.tool as Tool))
     this.tree.addEventListener('keydown', (ev) => this.onTreeKey(ev))
   }
 
@@ -482,8 +488,10 @@ export class ObjectApp {
     view.dispatch({ selection: { anchor: Math.min(from, end), head: end }, scrollIntoView: true })
   }
 
-  private message(text: string) {
+  /** Meldung unter dem Diagramm: rot bei Fehlern, grau bei Hinweisen. */
+  private message(text: string, hint = false) {
     this.status.textContent = text
+    this.status.classList.toggle('hint', hint)
   }
 
   // MARK: - Datei
@@ -548,13 +556,17 @@ export class ObjectApp {
     return name
   }
 
-  private newClass(kind: 'class' | 'interface') {
+  private newClass(kind: 'class' | 'interface', at?: Point) {
     const name = this.uniqueClassName(t(kind === 'class' ? 'web_visuobject_new_class_name' : 'web_visuobject_new_interface_name'))
+    if (at) {
+      this.positions.set(name, { x: Math.max(0, Math.round(at.x)), y: Math.max(0, Math.round(at.y)) })
+    }
     const pkg = this.currentPackage ?? (this.active ? packageOf(this.active) : (packagesOf(this.project)[0] ?? ''))
     const path = pathFor(pkg, `${name}.java`)
     this.selection = { cls: name }
     this.open.set(`pkg:${pkg}`, true)
     this.setProject(addFile(this.project, path, classFileText(pkg, name, kind)), path)
+    this.savePositions()
     const cls = this.findClass(name)
     if (cls) this.showInCode(cls)
     const box = this.canvas.querySelector<HTMLElement>(`.uml-class[data-class="${CSS.escape(name)}"]`)
@@ -701,6 +713,10 @@ export class ObjectApp {
   }
 
   private onKey(ev: KeyboardEvent) {
+    if (ev.key === 'Escape' && this.tool !== 'select') {
+      this.setTool('select')
+      return
+    }
     if (this.editing || this.editor.hasFocus) return
     const target = ev.target as HTMLElement
     if (target.closest('input, select, textarea, .vo-tree')) return
@@ -881,6 +897,10 @@ export class ObjectApp {
 
   private onPointerDown(ev: PointerEvent) {
     const target = ev.target as HTMLElement
+    if (this.tool !== 'select' && ev.button === 0 && !target.closest('.vo-inspector, .vo-relmenu, input, select, button:not(.uml-connect)')) {
+      this.suppressClick = true
+      return this.useTool(ev)
+    }
     const handle = target.closest<HTMLElement>('[data-connect]')
     if (handle && ev.button === 0) return this.startConnect(ev, handle.closest<HTMLElement>('.uml-class')!.dataset.class!)
     if (target.closest('input, select, button, label')) return
@@ -915,6 +935,10 @@ export class ObjectApp {
   private lastClick = { spot: '', time: 0 }
 
   private onClick(ev: MouseEvent) {
+    if (this.suppressClick) {
+      this.suppressClick = false
+      return
+    }
     if (this.drag?.moved || this.editing) return
     const target = ev.target as HTMLElement
     if (target.closest('input, select, label')) return
@@ -1391,7 +1415,7 @@ export class ObjectApp {
   }
 
   /** Neue Beziehung aus dem Ziehen von Klasse zu Klasse. */
-  private createRelation(from: string, to: string, kind: AssocKind | 'extends' | 'implements') {
+  private createRelation(from: string, to: string, kind: RelationTool) {
     const a = this.findClass(from)
     const b = this.findClass(to)
     if (!a || !b) return
@@ -1592,10 +1616,88 @@ export class ObjectApp {
     })
   }
 
+  // MARK: - Werkzeugleiste
+
+  private setTool(tool: Tool) {
+    this.tool = tool
+    this.pendingFrom = undefined
+    for (const el of this.canvas.querySelectorAll('.uml-class.source')) el.classList.remove('source')
+    for (const b of this.shell.querySelectorAll<HTMLElement>('.vo-tool')) b.setAttribute('aria-pressed', String(b.dataset.tool === tool))
+    this.canvas.dataset.tool = tool
+    this.message(tool === 'select' ? '' : t(`web_visuobject_tool_${tool}_tip`), true)
+  }
+
+  /** Werkzeug anklicken wählt es; Klasse oder Interface lässt sich auch direkt auf die Fläche ziehen. */
+  private onToolDown(ev: PointerEvent, tool: Tool) {
+    if (ev.button !== 0) return
+    if (tool !== 'class' && tool !== 'interface') return this.setTool(this.tool === tool ? 'select' : tool)
+    ev.preventDefault()
+    const start = { x: ev.clientX, y: ev.clientY }
+    let ghost: HTMLElement | undefined
+    const move = (m: PointerEvent) => {
+      if (!ghost && Math.hypot(m.clientX - start.x, m.clientY - start.y) < 6) return
+      if (!ghost) {
+        ghost = document.createElement('div')
+        ghost.className = `vo-tool-ghost${tool === 'interface' ? ' interface' : ''}`
+        ghost.innerHTML = `${tool === 'interface' ? '<small>«interface»</small>' : ''}<b>${e(t(tool === 'class' ? 'web_visuobject_new_class_name' : 'web_visuobject_new_interface_name'))}</b>`
+        document.body.append(ghost)
+      }
+      ghost.style.left = `${m.clientX}px`
+      ghost.style.top = `${m.clientY}px`
+    }
+    const up = (m: PointerEvent) => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      if (!ghost) return this.setTool(this.tool === tool ? 'select' : tool)
+      ghost.remove()
+      const r = this.canvas.getBoundingClientRect()
+      if (m.clientX < r.left || m.clientX > r.right || m.clientY < r.top || m.clientY > r.bottom) return
+      this.setTool('select')
+      this.newClass(tool, { x: m.clientX - r.left + this.canvas.scrollLeft - 60, y: m.clientY - r.top + this.canvas.scrollTop - 14 })
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+  }
+
+  /** Mit gewähltem Werkzeug auf die Fläche: Klasse anlegen oder Beziehung beginnen bzw. beenden. */
+  private useTool(ev: PointerEvent) {
+    ev.preventDefault()
+    const tool = this.tool
+    const r = this.canvas.getBoundingClientRect()
+    const at = { x: ev.clientX - r.left + this.canvas.scrollLeft, y: ev.clientY - r.top + this.canvas.scrollTop }
+    if (tool === 'class' || tool === 'interface') {
+      this.setTool('select')
+      this.newClass(tool, { x: at.x - 60, y: at.y - 14 })
+      return
+    }
+    const box = (ev.target as HTMLElement).closest<HTMLElement>('.uml-class')
+    if (!box) {
+      if (this.pendingFrom) this.setTool(tool)
+      return
+    }
+    const name = box.dataset.class!
+    if (this.pendingFrom && this.pendingFrom !== name) {
+      const from = this.pendingFrom
+      this.connectWith(from, name, tool as RelationTool)
+      return
+    }
+    this.startConnect(ev, name, tool as RelationTool)
+  }
+
+  /** Beziehung mit dem Werkzeug anlegen, wenn sie zwischen diesen Klassen geht. */
+  private connectWith(from: string, to: string, kind: RelationTool) {
+    const a = this.findClass(from)
+    const b = this.findClass(to)
+    this.setTool('select')
+    if (!a || !b) return
+    if (!relationChoices(a, b).includes(kind)) return this.message(t(`web_visuobject_tool_not_${kind}`, from, to))
+    this.createRelation(from, to, kind)
+  }
+
   // MARK: - Beziehung ziehen
 
   /** Vom Griff am gewählten Kasten zu einer anderen Klasse ziehen, dann die Art wählen. */
-  private startConnect(ev: PointerEvent, from: string) {
+  private startConnect(ev: PointerEvent, from: string, kind?: RelationTool) {
     ev.preventDefault()
     const ghost = document.createElementNS('http://www.w3.org/2000/svg', 'line')
     ghost.setAttribute('class', 'vo-rel ghost')
@@ -1625,7 +1727,14 @@ export class ObjectApp {
       ghost.remove()
       const target = targetAt(m)
       target?.classList.remove('drop')
-      if (target) this.showRelationMenu(from, target.dataset.class!, local(m))
+      if (target && kind) this.connectWith(from, target.dataset.class!, kind)
+      else if (target) this.showRelationMenu(from, target.dataset.class!, local(m))
+      else if (kind) {
+        // Nicht gezogen: jetzt die zweite Klasse anklicken.
+        this.pendingFrom = from
+        this.canvas.querySelector(`.uml-class[data-class="${CSS.escape(from)}"]`)?.classList.add('source')
+        this.message(t('web_visuobject_tool_pick_second', from), true)
+      }
     }
     move(ev)
     window.addEventListener('pointermove', move)
@@ -1636,10 +1745,7 @@ export class ObjectApp {
     const a = this.findClass(from)
     const b = this.findClass(to)
     if (!a || !b) return
-    const choices: [AssocKind | 'extends' | 'implements', string][] = []
-    if (a.kind === 'class') choices.push(['association', 'web_visuobject_rel_association'], ['aggregation', 'web_visuobject_rel_aggregation'], ['composition', 'web_visuobject_rel_composition'])
-    if (a.kind === 'class' && b.kind === 'class' && a.superclass !== to) choices.push(['extends', 'web_visuobject_rel_extends'])
-    if (b.kind === 'interface' && !a.interfaces.includes(to)) choices.push([a.kind === 'interface' ? 'extends' : 'implements', a.kind === 'interface' ? 'web_visuobject_rel_extends' : 'web_visuobject_rel_implements'])
+    const choices = relationChoices(a, b).map((kind): [RelationTool, string] => [kind, `web_visuobject_rel_${kind}`])
     if (choices.length === 0) return this.message(t('web_visuobject_rel_impossible', from, to))
     const menu = document.createElement('div')
     menu.className = 'vo-relmenu'
@@ -1666,12 +1772,34 @@ export class ObjectApp {
       const kind = (ev.target as HTMLElement).closest<HTMLElement>('[data-kind]')?.dataset.kind
       if (!kind) return
       close()
-      this.createRelation(from, to, kind as AssocKind | 'extends' | 'implements')
+      this.createRelation(from, to, kind as RelationTool)
     })
     document.addEventListener('pointerdown', outside, true)
     document.addEventListener('keydown', escape, true)
     menu.querySelector<HTMLElement>('button')?.focus()
   }
+}
+
+type RelationTool = AssocKind | 'extends' | 'implements'
+type Tool = 'select' | 'class' | 'interface' | RelationTool
+const paletteTools: Tool[] = ['select', 'class', 'interface', 'association', 'aggregation', 'composition', 'extends', 'implements']
+
+/** Welche Beziehungen von `a` nach `b` gehen: Attribute nur in Klassen, erben nur Klasse von Klasse bzw. Interface von Interface. */
+function relationChoices(a: UmlClass, b: UmlClass): RelationTool[] {
+  const out: RelationTool[] = []
+  if (a.kind === 'class') out.push('association', 'aggregation', 'composition')
+  if (a.kind === b.kind && (a.kind === 'class' ? a.superclass !== b.name : !a.interfaces.includes(b.name))) out.push('extends')
+  if (a.kind === 'class' && b.kind === 'interface' && !a.interfaces.includes(b.name)) out.push('implements')
+  return out
+}
+
+/** Symbol in der Werkzeugleiste. */
+function toolIcon(tool: Tool): string {
+  if (tool === 'select')
+    return '<svg class="vo-relicon" viewBox="0 0 28 18" width="28" height="18" aria-hidden="true"><path d="M10 2 L10 15 L13.2 11.8 L15.6 16.5 L17.6 15.5 L15.2 10.9 L19.5 10.9 z" fill="currentColor"/></svg>'
+  if (tool === 'class' || tool === 'interface')
+    return `<svg class="vo-relicon" viewBox="0 0 28 18" width="28" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="1.5" width="20" height="15" rx="1"/><line x1="4" y1="7" x2="24" y2="7"/><line x1="4" y1="11.5" x2="24" y2="11.5"/>${tool === 'interface' ? '<text x="14" y="5.6" font-size="4.5" text-anchor="middle" fill="currentColor" stroke="none">«I»</text>' : ''}</svg>`
+  return relationIcon(tool)
 }
 
 /** Kleines Symbol im Menü: Linie mit offener Pfeilspitze, hohler oder gefüllter Raute, hohlem Dreieck. */

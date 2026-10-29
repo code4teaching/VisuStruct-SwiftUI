@@ -4118,6 +4118,9 @@ button.danger-text:not(:disabled) {
 .vo-status:empty {
   display: none;
 }
+.vo-status.hint {
+  color: var(--accent);
+}
 .uml-class {
   position: absolute;
   left: 16px;
@@ -4195,6 +4198,79 @@ button.danger-text:not(:disabled) {
 }
 .vo-relicon {
   flex: none;
+}
+/* Werkzeugleiste über dem Diagramm (wie in Astah): Auswahl, Klasse, Interface, Beziehungen */
+.vo-palette {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 2px;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.vo-palette-sep {
+  width: 1px;
+  margin: 4px 4px;
+  background: var(--border);
+}
+.vo-tool {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  min-width: 62px;
+  padding: 3px 6px 2px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: none;
+  color: var(--text);
+  font: 11px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+.vo-tool:hover {
+  background: var(--accent-faint);
+  color: var(--accent);
+}
+.vo-tool[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.vo-tool[data-tool='class'],
+.vo-tool[data-tool='interface'] {
+  cursor: grab;
+}
+.vo-tool-ghost {
+  position: fixed;
+  z-index: 1000;
+  display: grid;
+  justify-items: center;
+  min-width: 120px;
+  padding: 4px 10px 14px;
+  margin: -14px 0 0 -60px;
+  border: 1.5px dashed var(--accent);
+  background: rgba(255, 255, 255, 0.9);
+  font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  pointer-events: none;
+}
+.vo-tool-ghost small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.vo-canvas:not([data-tool='select'])[data-tool] {
+  cursor: crosshair;
+}
+.vo-canvas:not([data-tool='select'])[data-tool] .uml-class {
+  cursor: crosshair;
+}
+.vo-canvas:not([data-tool='select'])[data-tool] .uml-class:hover,
+.uml-class.source {
+  border-color: var(--accent);
+}
+.uml-class.source {
+  box-shadow: 0 0 0 4px var(--accent-soft);
 }
 /* Objektinspektor rechts im Diagramm */
 .vo-stage {
