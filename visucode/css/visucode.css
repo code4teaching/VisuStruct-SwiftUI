@@ -124,6 +124,11 @@ a.tile:hover {
   width: 100%;
   height: auto;
 }
+.tool-logo {
+  width: min(220px, 70%);
+  height: auto;
+  margin: 0.5rem auto 0.25rem;
+}
 .tool .btn {
   margin-top: auto;
   align-self: flex-start;
