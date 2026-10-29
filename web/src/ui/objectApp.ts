@@ -1163,7 +1163,7 @@ export class ObjectApp {
     this.frames.innerHTML = this.packageFrames(boxes)
     const parts: string[] = [
       `<defs>
-        <marker id="vo-triangle" viewBox="0 0 12 12" refX="12" refY="6" markerWidth="14" markerHeight="14" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12 z" class="vo-hollow"/></marker>
+        <marker id="vo-triangle" viewBox="0 0 12 12" refX="0" refY="6" markerWidth="12" markerHeight="12" overflow="visible" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 -1 L12 6 L0 13 z" class="vo-hollow"/></marker>
         <marker id="vo-arrow" viewBox="0 0 12 12" refX="12" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0 L12 6 L0 12" class="vo-open"/></marker>
       </defs>`,
     ]
@@ -1235,12 +1235,14 @@ export class ObjectApp {
   }
 
   private generalizationSVG(g: Generalization, a: HTMLElement, b: HTMLElement, offset: number): string {
-    const { from, to } = this.segment(a, b, offset)
+    const { from, to, u } = this.segment(a, b, offset)
+    // Linie endet an der Grundseite des hohlen Dreiecks, die Spitze berührt die Oberklasse.
+    const base = { x: to.x - u.x * 12, y: to.y - u.y * 12 }
     const id = `gen:${g.kind}:${g.from}:${g.to}`
     const selected = this.relSelection === id ? ' selected' : ''
     const label = t(g.kind === 'implements' ? 'web_visuobject_rel_implements_text' : 'web_visuobject_rel_extends_text', g.from, g.to)
     return `<g class="vo-relation${selected}">
-      <line class="vo-rel${g.kind === 'implements' ? ' dashed' : ''}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" marker-end="url(#vo-triangle)"/>
+      <line class="vo-rel${g.kind === 'implements' ? ' dashed' : ''}" x1="${from.x}" y1="${from.y}" x2="${base.x}" y2="${base.y}" marker-end="url(#vo-triangle)"/>
       ${this.hitLine(id, from, to, label)}
     </g>`
   }
@@ -1636,7 +1638,7 @@ export class ObjectApp {
     menu.setAttribute('role', 'menu')
     menu.style.left = `${at.x}px`
     menu.style.top = `${at.y}px`
-    menu.innerHTML = `<p>${e(t('web_visuobject_rel_menu', from, to))}</p>` + choices.map(([kind, label]) => `<button role="menuitem" data-kind="${kind}"><span class="vo-relicon ${kind}" aria-hidden="true"></span>${e(t(label))}</button>`).join('')
+    menu.innerHTML = `<p>${e(t('web_visuobject_rel_menu', from, to))}</p>` + choices.map(([kind, label]) => `<button role="menuitem" data-kind="${kind}">${relationIcon(kind)}${e(t(label))}</button>`).join('')
     this.canvas.append(menu)
     const close = () => {
       menu.remove()
@@ -1662,6 +1664,18 @@ export class ObjectApp {
     document.addEventListener('keydown', escape, true)
     menu.querySelector<HTMLElement>('button')?.focus()
   }
+}
+
+/** Kleines Symbol im Menü: Linie mit offener Pfeilspitze, hohler oder gefüllter Raute, hohlem Dreieck. */
+function relationIcon(kind: string): string {
+  const line = (x1: number, x2: number, dashed = false) => `<line x1="${x1}" y1="7" x2="${x2}" y2="7"${dashed ? ' stroke-dasharray="3 2"' : ''}/>`
+  const shape =
+    kind === 'association'
+      ? `${line(1, 27)}<path d="M21 2 L27 7 L21 12" fill="none"/>`
+      : kind === 'aggregation' || kind === 'composition'
+        ? `${line(13, 27)}<path d="M1 7 L7 3 L13 7 L7 11 z" fill="${kind === 'composition' ? 'currentColor' : 'none'}"/>`
+        : `${line(1, 18, kind === 'implements')}<path d="M18 1.5 L27 7 L18 12.5 z" fill="none"/>`
+  return `<svg class="vo-relicon" viewBox="0 0 28 14" width="28" height="14" aria-hidden="true" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">${shape}</svg>`
 }
 
 /** Schnittpunkt der Strecke von der Mitte `inside` Richtung `toward` mit dem Rand des Rechtecks. */
