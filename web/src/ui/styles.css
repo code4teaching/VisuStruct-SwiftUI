@@ -4090,7 +4090,7 @@ button.danger-text:not(:disabled) {
   stroke-dasharray: 6 4;
 }
 .vo-hollow {
-  fill: var(--panel);
+  fill: none;
   stroke: var(--text);
   stroke-width: 1.4;
 }
@@ -4193,55 +4193,8 @@ button.danger-text:not(:disabled) {
   color: var(--accent);
   outline: none;
 }
-/* kleine Symbole: Linie mit Pfeil, Raute oder Dreieck */
 .vo-relicon {
-  position: relative;
   flex: none;
-  width: 28px;
-  height: 12px;
-}
-.vo-relicon::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 5.5px;
-  border-top: 1.5px solid currentColor;
-}
-.vo-relicon.implements::before {
-  border-top-style: dashed;
-}
-.vo-relicon::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  width: 10px;
-  height: 10px;
-}
-.vo-relicon.association::after {
-  right: 0;
-  border-top: 1.5px solid currentColor;
-  border-right: 1.5px solid currentColor;
-  width: 6px;
-  height: 6px;
-  top: 2.5px;
-  transform: rotate(45deg);
-}
-.vo-relicon.aggregation::after,
-.vo-relicon.composition::after {
-  left: 0;
-  border: 1.5px solid currentColor;
-  background: var(--panel);
-  transform: scale(0.8, 0.6) rotate(45deg);
-}
-.vo-relicon.composition::after {
-  background: currentColor;
-}
-.vo-relicon.extends::after,
-.vo-relicon.implements::after {
-  right: 0;
-  background: currentColor;
-  clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 /* Objektinspektor rechts im Diagramm */
 .vo-stage {
