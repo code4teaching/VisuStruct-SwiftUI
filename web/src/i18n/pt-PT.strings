@@ -395,3 +395,35 @@
 "web_swap_to_editor" = "Diagrama grande, programação estreita";
 "web_editor_resize" = "Alterar a largura do diagrama";
 "web_palette_resize" = "Alterar a largura dos elementos (duplo clique: repor)";
+
+/* VisuObject */
+"web_visuobject_world_hint" = "VisuObject: programar classes em Java e vê-las ou desenhá-las como diagrama de classes (a partir do 12.º ano). Podes mudar a qualquer momento na roda dentada.";
+"web_visuobject_subtitle" = "Diagrama de classes";
+"web_visuobject_code" = "Código Java";
+"web_visuobject_diagram" = "Diagrama de classes";
+"web_visuobject_add_class" = "Classe";
+"web_visuobject_add_interface" = "Interface";
+"web_visuobject_add_class_tip" = "Nova classe no diagrama e no código";
+"web_visuobject_add_interface_tip" = "Nova interface no diagrama e no código";
+"web_visuobject_layout" = "Reorganizar";
+"web_visuobject_layout_tip" = "Organizar todas as classes automaticamente: superclasses em cima";
+"web_visuobject_add_field" = "Atributo";
+"web_visuobject_add_method" = "Método";
+"web_visuobject_superclass" = "herda de";
+"web_visuobject_no_superclass" = "nenhuma classe";
+"web_visuobject_abstract" = "abstrata";
+"web_visuobject_delete_class" = "Apagar classe";
+"web_visuobject_new_class_name" = "NovaClasse";
+"web_visuobject_new_interface_name" = "NovaInterface";
+"web_visuobject_example" = "Exemplo";
+"web_visuobject_example_tip" = "Carregar o exemplo Tier, Hund, Besitzer";
+"web_visuobject_new_tip" = "Novo: código vazio (Anular recupera-o)";
+"web_visuobject_empty" = "Ainda não há nenhuma classe. Escreve à esquerda, por exemplo, «public class Hund { }» ou clica em «+ Classe» acima.";
+"web_visuobject_edit_hint" = "Duplo clique para alterar. Escreve como em UML: «- nome: String» ou «+ ladrar(): void». Deixar vazio apaga.";
+"web_visuobject_member_label" = "Atributo ou método em notação UML";
+"web_visuobject_name_label" = "Nome da classe";
+"web_visuobject_bad_name" = "«%@» não é um nome válido ou já existe.";
+"web_visuobject_bad_line" = "Não percebo «%@». Exemplo: - nome: String ou + ladrar(): void";
+"web_visuobject_open_failed" = "Não foi possível ler o ficheiro.";
+"web_visuobject_field_ph" = "- nome: String";
+"web_visuobject_method_ph" = "+ ladrar(): void";

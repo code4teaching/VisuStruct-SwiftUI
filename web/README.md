@@ -86,3 +86,10 @@ Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift
 ## Noch nicht enthalten
 
 Verschieben vorhandener Elemente mit dem Finger.
+
+## VisuObject (Welt `?visuobject`)
+
+Dritte Welt neben VisuStruct und VisuBot, für Objektorientierung ab Klasse 12 (Plan: `docs/visuobject/PLAN.md`).
+`src/ui/objectApp.ts` zeigt links den Java-Code (CodeMirror wie in „Programmieren“) und rechts das Klassendiagramm.
+`src/core/classModel.ts` liest Klassen, Attribute, Methoden-Köpfe, `extends` und `implements` aus dem Code und schreibt
+Änderungen im Diagramm an genau diese Stelle zurück (Rümpfe, Startwerte und Kommentare bleiben). Tests: `test/classModel.test.ts`.

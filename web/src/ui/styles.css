@@ -3784,3 +3784,226 @@ button.danger-text:not(:disabled) {
 .app.simulating .palette-resizer {
   display: none;
 }
+
+/* Welt VisuObject in Petrol: Java-Code links, Klassendiagramm rechts (objectApp.ts) */
+:root.visuobject-theme {
+  --bg: #edf4f6;
+  --text: #17292e;
+  --muted: #566a70;
+  --border: #cddde1;
+  --accent: #0e7c86;
+  --accent-soft: rgba(14, 124, 134, 0.2);
+  --accent-faint: rgba(14, 124, 134, 0.08);
+  --accent-glow: rgba(14, 124, 134, 0.35);
+}
+.visuobject-obj {
+  color: var(--accent);
+}
+.visuobject .brand .logo {
+  color: var(--accent);
+}
+.shell.visuobject button.text-button {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+.shell.visuobject button.text-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.vo-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  padding: 12px;
+}
+.vo-code,
+.vo-diagram {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px 12px;
+  gap: 8px;
+}
+.vo-code h2,
+.vo-diagram h2 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.vo-editor {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  font-size: 14px;
+}
+.vo-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.vo-hint {
+  color: var(--muted);
+  flex: 1 1 220px;
+}
+.vo-canvas {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border-radius: 8px;
+  background: radial-gradient(circle, var(--border) 1px, transparent 1px) 0 0 / 20px 20px;
+  outline: none;
+}
+.vo-lines {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+.vo-rel {
+  stroke: var(--text);
+  stroke-width: 1.4;
+  fill: none;
+}
+.vo-rel.dashed {
+  stroke-dasharray: 6 4;
+}
+.vo-hollow {
+  fill: var(--panel);
+  stroke: var(--text);
+  stroke-width: 1.4;
+}
+.vo-open {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 1.4;
+}
+.vo-label {
+  font: 12px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  fill: var(--muted);
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 4px;
+}
+.vo-empty {
+  margin: 24px;
+  max-width: 40ch;
+  color: var(--muted);
+}
+.vo-status {
+  margin: 0;
+  min-height: 1.4em;
+  color: #b3261e;
+}
+.uml-class {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  min-width: 150px;
+  background: var(--panel);
+  border: 1.5px solid var(--text);
+  font: 13px/1.5 ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+.uml-class.selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  z-index: 2;
+}
+.uml-head {
+  display: grid;
+  justify-items: center;
+  padding: 4px 10px;
+  font-weight: 700;
+}
+.uml-head small {
+  font-weight: 400;
+  font-size: 11px;
+  color: var(--muted);
+}
+.uml-class.abstract .uml-name,
+.uml-member.abstract {
+  font-style: italic;
+}
+.uml-member.static {
+  text-decoration: underline;
+}
+.uml-class ul {
+  list-style: none;
+  margin: 0;
+  padding: 3px 0;
+  border-top: 1.5px solid var(--text);
+  min-height: 12px;
+}
+.uml-class.selected ul {
+  border-top-color: var(--accent);
+}
+.uml-class li {
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.uml-member.selected {
+  background: var(--accent-soft);
+}
+.uml-add {
+  color: var(--accent);
+  cursor: pointer;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+}
+.uml-add:hover {
+  text-decoration: underline;
+}
+.uml-input {
+  font: inherit;
+  padding: 0 4px;
+  margin: 0 -5px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  outline: none;
+  max-width: 340px;
+}
+.uml-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  padding: 6px 10px;
+  border-top: 1px dashed var(--border);
+  font: 12px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: default;
+}
+.uml-tools label {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.uml-tools button.icon svg {
+  width: 16px;
+  height: 16px;
+}
+@media (max-width: 760px) {
+  .vo-columns {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(220px, 40%) 1fr;
+    overflow: auto;
+  }
+}
