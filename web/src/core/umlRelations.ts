@@ -58,6 +58,50 @@ export interface Generalization {
   to: string
 }
 
+/** Abhängigkeit: Eine Methode erzeugt (`new X()`) oder benutzt eine Klasse, ohne sie in einem Attribut zu merken. */
+export interface Dependency {
+  from: string
+  to: string
+  kind: 'create' | 'use'
+  /** Methoden bzw. Konstruktoren, in denen das vorkommt. */
+  methods: string[]
+}
+
+/** Kommentare und Texte in Anführungszeichen ausblenden, damit `new Hund` im Kommentar nicht zählt. */
+const codeOnly = (text: string) => text.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'/g, (m) => ' '.repeat(m.length))
+
+/**
+ * Abhängigkeiten aus den Methoden: gestrichelter Pfeil «create» bei `new X(…)`, sonst «use», wenn der Typ vorkommt.
+ * Keine, wo schon eine Assoziation (Attribut) oder Vererbung von `from` zu `to` besteht.
+ */
+export function dependencies(classes: UmlClass[], textOf: (cls: UmlClass) => string | undefined): Dependency[] {
+  const names = classes.map((c) => c.name)
+  const out = new Map<string, Dependency>()
+  for (const cls of classes) {
+    const text = textOf(cls)
+    if (!text) continue
+    const code = codeOnly(text)
+    const known = new Set([cls.superclass, ...cls.interfaces, ...cls.members.filter((m) => m.kind === 'field' && !m.isStatic).map((m) => associationTarget(m.type).name)])
+    for (const m of cls.members) {
+      if (m.kind === 'field') continue
+      const body = code.slice(m.from, m.to)
+      for (const other of names) {
+        if (other === cls.name || known.has(other)) continue
+        const word = new RegExp(`\\b${other}\\b`)
+        if (!word.test(body)) continue
+        const kind = new RegExp(`\\bnew\\s+${other}\\s*[(<\\[{]`).test(body) ? 'create' : 'use'
+        const key = `${cls.name}>${other}`
+        const dep = out.get(key) ?? { from: cls.name, to: other, kind, methods: [] }
+        if (kind === 'create') dep.kind = 'create'
+        const label = m.kind === 'constructor' ? `${m.name}()` : `${m.name}()`
+        if (!dep.methods.includes(label)) dep.methods.push(label)
+        out.set(key, dep)
+      }
+    }
+  }
+  return [...out.values()]
+}
+
 export const multiplicities = ['1', '0..1', '0..*', '1..*', '*']
 
 /** Obergrenze größer als 1: Dann gehört eine Liste in den Code. */

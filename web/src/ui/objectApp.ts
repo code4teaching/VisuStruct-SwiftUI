@@ -50,6 +50,7 @@ import {
 } from '../core/javaProject'
 import {
   associations,
+  dependencies,
   ensureImport,
   fieldNameFor,
   fieldTypeFor,
@@ -62,6 +63,7 @@ import {
   type Assoc,
   type AssocInfo,
   type AssocKind,
+  type Dependency,
   type EndNav,
   type Generalization,
 } from '../core/umlRelations'
@@ -583,7 +585,7 @@ export class ObjectApp {
     this.renderTabs()
     this.classes = projectClasses(this.project)
     if (this.selection && !this.findClass(this.selection.cls)) this.selection = undefined
-    if (this.relSelection && !this.findRelation(this.relSelection)) this.relSelection = undefined
+    if (this.relSelection && !this.findRelation(this.relSelection) && !this.findDependency(this.relSelection)) this.relSelection = undefined
     if (!this.editing) {
       this.render()
       this.renderTree()
@@ -1660,6 +1662,11 @@ export class ObjectApp {
       const b = boxes.get(r.to)
       if (a && b && a !== b) parts.push(this.associationSVG(r, a, b, offset(r.from, r.to)))
     }
+    for (const d of this.dependencies()) {
+      const a = boxes.get(d.from)
+      const b = boxes.get(d.to)
+      if (a && b && a !== b) parts.push(this.dependencySVG(d, a, b, offset(d.from, d.to)))
+    }
     this.lines.innerHTML = parts.join('')
     this.renderInspector()
   }
@@ -1710,6 +1717,29 @@ export class ObjectApp {
 
   private hitLine(id: string, from: Point, to: Point, label: string): string {
     return `<line class="vo-hit" data-rel="${e(id)}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}"><title>${e(label)}</title></line>`
+  }
+
+  private dependencies(): Dependency[] {
+    return dependencies(this.classes, (c) => this.project.files.find((f) => f.path === (c as ProjectClass).path)?.text)
+  }
+
+  private findDependency(id: string): Dependency | undefined {
+    return this.dependencies().find((d) => `dep:${d.from}:${d.to}` === id)
+  }
+
+  /** Abhängigkeit: gestrichelte Linie mit offener Pfeilspitze und «create» bzw. «use» in der Mitte. */
+  private dependencySVG(d: Dependency, a: HTMLElement, b: HTMLElement, offset: number): string {
+    const { from, to, n } = this.segment(a, b, offset)
+    const id = `dep:${d.from}:${d.to}`
+    const selected = this.relSelection === id ? ' selected' : ''
+    const mid = { x: (from.x + to.x) / 2 + n.x * 12, y: (from.y + to.y) / 2 + n.y * 12 }
+    const anchor = Math.abs(n.x) < 0.35 ? 'middle' : n.x > 0 ? 'start' : 'end'
+    const label = t(`web_visuobject_dep_${d.kind}_text`, d.from, d.to, d.methods.join(', '))
+    return `<g class="vo-relation vo-dependency${selected}">
+      <line class="vo-rel dashed" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" marker-end="url(#vo-arrow)"/>
+      <text class="vo-label-svg name" x="${mid.x}" y="${mid.y}" text-anchor="${anchor}" dominant-baseline="middle">«${d.kind}»</text>
+      ${this.hitLine(id, from, to, label)}
+    </g>`
   }
 
   private generalizationSVG(g: Generalization, a: HTMLElement, b: HTMLElement, offset: number): string {
@@ -2107,6 +2137,8 @@ export class ObjectApp {
    * Ende B die Klasse, bei der sie endet.
    */
   private renderInspector() {
+    const dep = this.relSelection?.startsWith('dep:') ? this.findDependency(this.relSelection) : undefined
+    if (dep) return this.renderDependency(dep)
     const rel = this.relSelection ? this.findRelation(this.relSelection) : undefined
     if (this.endPop && (!rel || !this.endPop.isConnected)) this.closeEnd()
     if (!rel) {
@@ -2163,6 +2195,23 @@ export class ObjectApp {
     this.inspector.querySelector('[data-inspector=flip]')?.addEventListener('click', () => {
       const current = this.relSelection && this.findRelation(this.relSelection)
       if (current && 'key' in current) this.changeAssoc(current, 'reading', '')
+    })
+  }
+
+  /** Abhängigkeit im Inspektor: erklären, warum es keine Assoziation ist, und sie auf Wunsch zu einer machen. */
+  private renderDependency(d: Dependency) {
+    this.closeEnd()
+    this.inspector.dataset.rel = this.relSelection
+    this.inspector.innerHTML = `<div class="vo-inspector-row">
+        <p class="vo-inspector-kind">${e(t('web_visuobject_dep_title', d.kind))}</p>
+        <p>${e(t(`web_visuobject_dep_${d.kind}_text`, d.from, d.to, d.methods.join(', ')))}</p>
+      </div>
+      <p class="vo-inspector-empty">${e(t('web_visuobject_dep_hint', d.from, d.to))}</p>
+      <div class="vo-inspector-row"><button class="text-button" data-inspector="to-assoc">${e(t('web_visuobject_dep_to_assoc', d.to))}</button></div>`
+    this.inspector.querySelector('[data-inspector=to-assoc]')!.addEventListener('click', () => {
+      const added = this.addAssociationField(this.project, d.from, d.to, false)
+      this.relSelection = `assoc:${relationKey(d.from, added.field)}`
+      this.setProject(added.project, this.findClass(d.from)?.path)
     })
   }
 

@@ -73,3 +73,22 @@ describe('umlRelations', () => {
     expect(setFieldType(code, besitzer.members[0], 'Hund')).toContain('    private Hund hunde;\n')
   })
 })
+
+describe('dependencies', () => {
+  it('new in einer Methode ist «create», ein Parameter «use», ein Attribut keine Abhängigkeit', async () => {
+    const { parseClasses } = await import('../src/core/classModel')
+    const { dependencies } = await import('../src/core/umlRelations')
+    const texts: Record<string, string> = {
+      Spielstarter: 'public class Spielstarter {\n    public static void main(String[] args) {\n        Ratespiel spiel = new Ratespiel();\n        // new Punkte() zählt nicht\n    }\n}\n',
+      Ratespiel: 'public class Ratespiel {\n    private Punkte punkte;\n    public void zeige(Anzeige a) {\n    }\n}\n',
+      Punkte: 'public class Punkte {\n}\n',
+      Anzeige: 'public class Anzeige {\n}\n',
+    }
+    const classes = Object.values(texts).flatMap((x) => parseClasses(x))
+    const deps = dependencies(classes, (c) => texts[c.name])
+    expect(deps).toEqual([
+      { from: 'Spielstarter', to: 'Ratespiel', kind: 'create', methods: ['main()'] },
+      { from: 'Ratespiel', to: 'Anzeige', kind: 'use', methods: ['zeige()'] },
+    ])
+  })
+})
