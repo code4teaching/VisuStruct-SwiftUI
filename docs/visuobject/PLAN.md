@@ -79,6 +79,12 @@ Objektdiagramm sind Pflicht. Das Sequenzdiagramm rückt deshalb ans Ende.
 - ▶ führt alle Testfälle aus und färbt sie grün oder rot; ein roter Fall öffnet den Ablauf im Objektdiagramm.
 - Später als Export nach JUnit, damit der Schritt zum echten Werkzeug klein bleibt.
 
+### 7. Welt `?visuobject`
+
+- Weltenumschalter wie bei `?visustruct` / `?visubot` (`web/src/ui/visubotView.ts`, `worldChooserHTML`).
+- Eigene Startseite `website/<lang>/visuobject.html`, eigene Farben, eigenes Logo.
+- Lektionen: Klasse und Objekt, Konstruktor, Getter/Setter, Vererbung, Interface, Assoziation, UML-Diagramme lesen und zeichnen.
+
 ### 8. mBot2 objektorientiert (Zukunft)
 
 - Wunsch von Holger (29.10.2026): In VisuObject auch den mBot2 programmieren, aber objektorientiert.
@@ -88,12 +94,6 @@ Objektdiagramm sind Pflicht. Das Sequenzdiagramm rückt deshalb ans Ende.
   Vererbung und Interfaces passen gut dazu, etwa ein Interface `Sensor` mit `messen()`.
 - Läuft im Simulator und auf dem echten mBot2 wie in VisuBot. Das Objektdiagramm zeigt dabei die Sensorwerte als Attribute.
 - Kommt nach Stufe 5 (Objekte in der Simulation) und baut auf `web/src/core/mbot.ts` und dem Übertragen aus VisuBot auf.
-
-### 7. Welt `?visuobject`
-
-- Weltenumschalter wie bei `?visustruct` / `?visubot` (`web/src/ui/visubotView.ts`, `worldChooserHTML`).
-- Eigene Startseite `website/<lang>/visuobject.html`, eigene Farben, eigenes Logo.
-- Lektionen: Klasse und Objekt, Konstruktor, Getter/Setter, Vererbung, Interface, Assoziation, UML-Diagramme lesen und zeichnen.
 
 ## Was es technisch braucht (Reihenfolge nach Lehrplan)
 
