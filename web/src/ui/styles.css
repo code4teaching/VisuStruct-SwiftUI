@@ -3980,6 +3980,24 @@ button.danger-text:not(:disabled) {
 .vo-tab-close:hover {
   color: var(--accent);
 }
+.vo-tab-close .vo-dot,
+.vo-tab-close.unsaved .vo-x {
+  display: none;
+}
+.vo-tab-close.unsaved {
+  visibility: visible;
+  color: var(--text);
+}
+.vo-tab-close.unsaved .vo-dot {
+  display: inline;
+  font-size: 11px;
+}
+.vo-tab-close.unsaved:hover .vo-dot {
+  display: none;
+}
+.vo-tab-close.unsaved:hover .vo-x {
+  display: inline;
+}
 .vo-no-file {
   display: flex;
   align-items: center;
@@ -4118,6 +4136,9 @@ button.danger-text:not(:disabled) {
 .vo-status:empty {
   display: none;
 }
+.vo-status.hint {
+  color: var(--accent);
+}
 .uml-class {
   position: absolute;
   left: 16px;
@@ -4195,6 +4216,79 @@ button.danger-text:not(:disabled) {
 }
 .vo-relicon {
   flex: none;
+}
+/* Werkzeugleiste über dem Diagramm (wie in Astah): Auswahl, Klasse, Interface, Beziehungen */
+.vo-palette {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 2px;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.vo-palette-sep {
+  width: 1px;
+  margin: 4px 4px;
+  background: var(--border);
+}
+.vo-tool {
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  min-width: 62px;
+  padding: 3px 6px 2px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: none;
+  color: var(--text);
+  font: 11px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+.vo-tool:hover {
+  background: var(--accent-faint);
+  color: var(--accent);
+}
+.vo-tool[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.vo-tool[data-tool='class'],
+.vo-tool[data-tool='interface'] {
+  cursor: grab;
+}
+.vo-tool-ghost {
+  position: fixed;
+  z-index: 1000;
+  display: grid;
+  justify-items: center;
+  min-width: 120px;
+  padding: 4px 10px 14px;
+  margin: -14px 0 0 -60px;
+  border: 1.5px dashed var(--accent);
+  background: rgba(255, 255, 255, 0.9);
+  font: 13px ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  pointer-events: none;
+}
+.vo-tool-ghost small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.vo-canvas:not([data-tool='select'])[data-tool] {
+  cursor: crosshair;
+}
+.vo-canvas:not([data-tool='select'])[data-tool] .uml-class {
+  cursor: crosshair;
+}
+.vo-canvas:not([data-tool='select'])[data-tool] .uml-class:hover,
+.uml-class.source {
+  border-color: var(--accent);
+}
+.uml-class.source {
+  box-shadow: 0 0 0 4px var(--accent-soft);
 }
 /* Objektinspektor rechts im Diagramm */
 .vo-stage {
@@ -4278,6 +4372,23 @@ button.danger-text:not(:disabled) {
 }
 .vo-inspector fieldset label:first-of-type small {
   grid-column: 1 / -1;
+}
+.vo-inspector fieldset .vo-wide {
+  grid-column: 1 / -1;
+}
+.vo-reading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  color: var(--muted);
+}
+.vo-reading b {
+  color: var(--text);
+}
+.shell.visuobject .vo-reading button.text-button {
+  padding: 1px 8px;
+  font-size: 12px;
 }
 .vo-inspector legend {
   padding: 0 4px;
@@ -4384,6 +4495,56 @@ button.danger-text:not(:disabled) {
   height: 16px;
 }
 /* Package Explorer: Projekt › src › Packages › Dateien › Klassen › Attribute/Methoden */
+.vo-ws {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px 4px;
+  font-size: 13px;
+}
+.vo-ws[hidden] {
+  display: none;
+}
+.vo-ws.ask {
+  margin: 8px 10px 4px;
+  padding: 10px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg, #fff);
+}
+.vo-ws.ask p {
+  flex-basis: 100%;
+  margin: 0;
+}
+.vo-ws.ask .hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.vo-ws-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: auto;
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.shell.visuobject .vo-ws button.text-button {
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+.shell.visuobject .vo-ws button.text-button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.vo-dirty {
+  color: var(--accent);
+}
 .vo-tree-tools {
   display: flex;
   flex-wrap: wrap;
@@ -4508,6 +4669,9 @@ button.danger-text:not(:disabled) {
   background: var(--accent);
   border-radius: 5px;
   box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.18);
+}
+.vo-badge.project.closed {
+  opacity: 0.55;
 }
 .vo-badge.folder {
   width: 17px;

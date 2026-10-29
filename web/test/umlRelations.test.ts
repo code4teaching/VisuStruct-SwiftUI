@@ -22,7 +22,7 @@ describe('umlRelations', () => {
   it('macht aus zwei Attributen, die aufeinander zeigen, eine Linie mit zwei Pfeilen', () => {
     const [r, ...rest] = associations(parseClasses(code))
     expect(rest).toEqual([])
-    expect(r).toMatchObject({ from: 'Besitzer', to: 'Hund', role: 'hunde', multiplicity: '0..*', backNavigable: true, sourceRole: 'besitzer', sourceMultiplicity: '1' })
+    expect(r).toMatchObject({ from: 'Besitzer', to: 'Hund', role: 'hunde', multiplicity: '0..*', navFrom: 'navigable', navTo: 'navigable', sourceRole: 'besitzer', sourceMultiplicity: '1' })
   })
 
   it('nimmt das Attribut mit UML-Zusatz nach vorne (Raute am Ganzen)', () => {
