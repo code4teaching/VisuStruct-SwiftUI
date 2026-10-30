@@ -625,13 +625,15 @@ export class LiveCodePanel {
   }
 
   /** `typed`: Eingabezeile mit Frage und der getippten Antwort (farbig). */
-  private printNewLines(typed?: { prompt: string; value: string }) {
+  private printNewLines(typed?: { prompt: string; value: string; continuesLine?: boolean }) {
     const run = this.run
     if (!run) return
     const lines = run.engine.state.outputLines
     for (; run.printed < lines.length; run.printed++) this.consoleLine(lines[run.printed])
     if (typed) {
-      const div = this.consoleLine(typed.prompt ? `${typed.prompt} ` : '')
+      // Nach `System.out.print("Note: ")` steht die Eingabe in derselben Zeile.
+      const last = this.consoleLines.lastElementChild
+      const div = typed.continuesLine && last instanceof HTMLElement ? last : this.consoleLine(typed.prompt ? `${typed.prompt} ` : '')
       const value = document.createElement('span')
       value.className = 'typed'
       value.textContent = typed.value
@@ -671,10 +673,10 @@ export class LiveCodePanel {
     const run = this.run
     if (!run?.engine.state.inputRequest) return
     const field = this.consoleForm.querySelector('input')!
-    const prompt = run.engine.state.inputRequest.prompt
+    const { prompt, continuesLine } = run.engine.state.inputRequest
     run.engine.provideInput(field.value)
     if (run.engine.state.inputRequest) return this.askInput()
-    this.printNewLines({ prompt, value: field.value })
+    this.printNewLines({ prompt, value: field.value, continuesLine })
     field.value = ''
     this.consoleForm.hidden = true
     if (!run.stepping) return this.continueRun(false)

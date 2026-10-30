@@ -7,6 +7,8 @@ import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava, mergeLiveJava, plainLiveJava, type JavaForm } from '../src/core/liveSource'
 import { ElementType, makeElement, type VSDocument } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
+import { SimulationEngine } from '../src/core/simulation'
+import { generateCode } from '../src/core/codeGenerator'
 import { indentJava } from '../src/core/javaIndent'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
@@ -150,6 +152,47 @@ describe('Java tippen → Struktogramm', () => {
     // Nur im Kommentar oder in einem Text zählt nicht.
     expect(keys('// import java.util.Scanner;\nScanner s = new Scanner(System.in);')).toEqual(['web_parse_missing_import'])
     expect(keys('System.out.println("Scanner");')).toEqual([])
+  })
+
+  it('System.out.print schreibt ohne neue Zeile, auch mit Array-Fach', () => {
+    const d = doc(
+      'int[] intAllgemeinFach = {3, 5};\n' +
+        'for (int i = 0; i < intAllgemeinFach.length; i++) {\n' +
+        '    System.out.print(intAllgemeinFach[i] + ": ");\n' +
+        '    System.out.println("ok");\n' +
+        '}\n' +
+        'System.out.print("A");\n' +
+        'System.out.print("B");\n' +
+        'System.out.println();',
+    )
+    const engine = new SimulationEngine(d)
+    let steps = 0
+    while (engine.canStep && steps++ < 1000) engine.step()
+    expect(engine.message).not.toMatch(/Nicht unterstützte|Unsupported/u)
+    expect(engine.state.outputLines).toEqual(['3: ok', '5: ok', 'AB'])
+    const java = generateCode(d, 'java')
+    expect(java).toContain('System.out.print(intAllgemeinFach[i] + ": ");')
+    expect(generateCode(d, 'javascript')).toContain('process.stdout.write(String(intAllgemeinFach[i] + ": "));')
+    expect(generateCode(d, 'python')).toContain('print(str(intAllgemeinFach[i]) + ": ", end="")')
+  })
+
+  it('Eingabe nach einer Ausgabe fragt nicht noch einmal nach dem Variablennamen', () => {
+    const ask = (src: string) => {
+      const engine = new SimulationEngine(doc(src))
+      while (engine.canStep && !engine.state.inputRequest) engine.step()
+      return { request: engine.state.inputRequest, lines: engine.state.outputLines }
+    }
+    const fach = 'String[] fach = {"Mathe"};\nint[] note = new int[1];\nint i = 0;\n'
+    expect(ask(fach + 'System.out.println("Note für Fach " + fach[i]);\nnote[i] = scanner.nextInt();')).toEqual({
+      request: { variableName: 'note[i]', valueType: 'int', prompt: '' },
+      lines: ['Note für Fach Mathe'],
+    })
+    expect(ask(fach + 'System.out.print(fach[i] + ": ");\nnote[i] = scanner.nextInt();')).toEqual({
+      request: { variableName: 'note[i]', valueType: 'int', prompt: '', continuesLine: true },
+      lines: ['Mathe: '],
+    })
+    // Ohne Ausgabe davor bleibt die Frage `name:`.
+    expect(ask(fach + 'note[i] = scanner.nextInt();').request?.prompt).toBe('note[i]:')
   })
 
   it('Aufruf eines Unterprogramms aus einem anderen Reiter', () => {

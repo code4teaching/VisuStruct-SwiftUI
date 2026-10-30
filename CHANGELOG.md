@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web 0.12.3, `System.out.print` in VisuStruct:** `System.out.print(…)` (without a new line) works in the simulation, in Programmieren and in the code export (JavaScript `process.stdout.write`, Python `print(…, end="")`); an input right after an output no longer shows the extra question `name:`, after `System.out.print` it stays on the same line (#187).
 - **Web 0.12.2, code colours like Eclipse:** string literals are blue instead of red (red only marks errors), keywords purple bold including `int`, `boolean`, `true`, `false`, `null`, comments green, numbers ochre, class names black. Applies to Programmieren and VisuObject.
 - **Web 0.12.1, missing Scanner/import is an error:** in Programmieren, `eingabe.next()` without `Scanner eingabe = new Scanner(System.in);` is marked red and ▶ does not start (like javac); the VisuObject debugger now reports a missing `import java.util.…` for Scanner, ArrayList, HashMap, Arrays etc. (#188)
 - **Web 0.12.0, VisuObject sequence diagram:** a third tab next to class and object diagram draws a sequence diagram live from the debugger run: a lifeline per object (`s1 : Spieler`) or class (static), call arrows with arguments, dashed return arrows with the value, «create» arrows to boxes that start where the object is created, activation bars, the latest arrow in yellow while paused; clicking an arrow shows the line in the code.

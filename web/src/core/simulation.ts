@@ -63,6 +63,8 @@ export interface InputRequest {
   variableName: string
   valueType: SimValueType
   prompt: string
+  /** Wie in Java hinter `System.out.print("Note: ")`: Die Eingabe steht in derselben Zeile wie diese Ausgabe. */
+  continuesLine?: boolean
 }
 
 /** Meldungen der Simulation, unabhängig von der Sprache. */
@@ -94,6 +96,8 @@ export interface SimState {
   stepIndex: number
   variables: Map<string, SimValue>
   outputLines: string[]
+  /** Die letzte Ausgabe war `System.out.print(…)`: Die nächste Ausgabe schreibt in derselben Zeile weiter. */
+  outputLineOpen?: boolean
   inputRequest?: InputRequest
   /** Fehler zur letzten Eingabe (z. B. keine Zahl). */
   inputErrorNotice?: SimNotice
@@ -977,6 +981,7 @@ export class SimulationEngine {
   reset(document?: VSDocument): void {
     if (document) this.steps = buildSteps(document.elements)
     this.state = freshState()
+    this.afterOutput = false
     this.nextFrame = 1
     this.callDepth = 0
     this.frames.clear()
@@ -1300,21 +1305,34 @@ export class SimulationEngine {
 
   // MARK: Anweisungen
 
+  /** Die letzte Anweisung war eine Ausgabe (für die Frage einer folgenden Eingabe). */
+  private afterOutput = false
+
   private executeStatement(rawText: string): void {
     const state = this.state
     const text = rawText.trim()
     const lower = text.toLowerCase()
+    const afterOutput = this.afterOutput
+    this.afterOutput = false
     if (lower.startsWith('input:')) {
-      state.inputRequest = this.parseInputRequest(text)
+      state.inputRequest = this.parseInputRequest(text, afterOutput)
+      // Mit Enter endet die Zeile.
+      state.outputLineOpen = false
       state.inputErrorNotice = undefined
       return
     }
 
-    if (lower.startsWith('output:') || lower.startsWith('print:')) {
-      const expression = text.slice(lower.startsWith('output:') ? 'output:'.length : 'print:'.length)
+    // `System.out.print(…)` schreibt ohne neue Zeile, `System.out.println(…)` wie `output:`.
+    const javaOut = /^System\s*\.\s*out\s*\.\s*(println|print)\s*\(([\s\S]*)\)\s*;?$/u.exec(text)
+    if (lower.startsWith('output:') || lower.startsWith('print:') || javaOut) {
+      const expression = javaOut ? javaOut[2] : text.slice(lower.startsWith('output:') ? 'output:'.length : 'print:'.length)
       const rendered = this.peek(() => this.renderOutputExpression(expression))
-      const output = this.evaluateOutputExpression(expression)
-      state.outputLines.push(output)
+      // `println()` ohne Text: nur eine neue Zeile.
+      const output = expression.trim() === '' ? '' : this.evaluateOutputExpression(expression)
+      if (state.outputLineOpen && state.outputLines.length) state.outputLines[state.outputLines.length - 1] += output
+      else state.outputLines.push(output)
+      state.outputLineOpen = javaOut?.[1] === 'print'
+      this.afterOutput = true
       state.lastTrace = `${rendered} -> ${output}`
       return
     }
@@ -1554,7 +1572,12 @@ export class SimulationEngine {
     return { variableName: name, valueType }
   }
 
-  private parseInputRequest(text: string): InputRequest {
+  /**
+   * Ohne eigene Frage steht `name:` vor der Eingabe. Kommt direkt davor eine Ausgabe, fragt diese schon (wie in Java,
+   * z. B. `System.out.println("Note für Fach " + fach[i])`): Dann steht nichts davor, nach `System.out.print(…)` steht
+   * die Eingabe in derselben Zeile.
+   */
+  private parseInputRequest(text: string, afterOutput = false): InputRequest {
     const afterColon = text.slice('input:'.length).trim()
     // Wie Swift `split(maxSplits: 2)`: zwei Wörter, dann der Rest.
     const match = /^(\S+)(?:\s+(\S+))?(?:\s+([\s\S]*))?$/u.exec(afterColon)
@@ -1575,6 +1598,9 @@ export class SimulationEngine {
     }
     if (!isAssignableTarget(target)) throw unsupported(text)
     const prompt = unquotedString(promptRaw) ?? promptRaw
+    if (prompt === '' && afterOutput) {
+      return this.state.outputLineOpen ? { variableName: target, valueType, prompt: '', continuesLine: true } : { variableName: target, valueType, prompt: '' }
+    }
     return { variableName: target, valueType, prompt: prompt === '' ? `${target}:` : prompt }
   }
 

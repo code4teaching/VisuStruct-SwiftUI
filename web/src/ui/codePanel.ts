@@ -50,20 +50,33 @@ export function javaScriptRunnerCode(js: string): string {
 const workerSource = `
 let answer
 let lines = []
-const flush = () => {
+// Text von \`process.stdout.write\` ohne neue Zeile (wie \`System.out.print\`).
+let partial = ''
+const flush = (all) => {
+  if (all && partial) {
+    lines.push(partial)
+    partial = ''
+  }
   if (lines.length) postMessage({ type: 'log', lines })
   lines = []
 }
 const send = (type, text) => {
-  flush()
+  flush(true)
   postMessage({ type, text })
 }
 const fmt = (a) => (typeof a === 'string' ? a : JSON.stringify(a))
 // Ausgaben gesammelt senden, sonst bremsen viele kleine Nachrichten (z. B. in Endlosschleifen) die Seite aus.
 console.log = (...args) => {
-  lines.push(args.map(fmt).join(' '))
+  lines.push(partial + args.map(fmt).join(' '))
+  partial = ''
   if (lines.length >= 500) flush()
 }
+const process = { stdout: { write: (text) => {
+  const parts = (partial + String(text)).split('\\n')
+  partial = parts.pop()
+  lines.push(...parts)
+  if (lines.length >= 500) flush()
+} } }
 setInterval(flush, 50)
 const __visuStructPrompt = (label) => new Promise((resolve, reject) => {
   answer = (value) => (value === null ? reject(new Error(${JSON.stringify(cancelMessage())})) : resolve(value))
