@@ -216,6 +216,12 @@ FIM ENQUANTO
 Beber o chá
 ```
 
+O pseudocódigo **não tem uma forma fixa**. Há quem escreva CASO em vez de SE, quem use uma seta para a atribuição (`numero ← 5`) ou quem não escreva as linhas FIM. Tudo isso é permitido. O importante é que qualquer pessoa o perceba sem explicação. Por isso, o pseudocódigo não é mais uma linguagem de programação que tens de aprender.
+
+::: angeberwissen
+O pseudocódigo parece-te familiar? A linguagem de programação Python é muito parecida, e isso é de propósito: o seu criador, Guido van Rossum, queria que os programas se lessem quase como texto normal. O Python também usa a indentação para mostrar o que pertence junto. Mas atenção: o Python é uma linguagem de programação a sério, com regras fixas. Um espaço a mais e o computador reclama. O pseudocódigo é mais descontraído, tal como eu ao pequeno-almoço.
+:::
+
 ### Comparação
 
 - **Estrutograma:** blocos dentro de blocos, o ciclo é um L invertido. Vês a estrutura num relance, e saltos malucos são impossíveis.
