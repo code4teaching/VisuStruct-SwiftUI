@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web 0.12.9, ⇄ swaps the places:** the ⇄ button now also swaps the positions of Struktogramm and Programmieren: Programmieren becomes the large area on the left, the diagram (with Elemente) narrow on the right, and the divider between them drags in the right direction; another click restores the old layout (#196).
 - **Web 0.12.8, Elemente einklappbar:** a button next to the heading „Elemente“ collapses the element column to a narrow rail (like Lernen, Struktogramm and Programmieren), so code and diagram get more room; clicking the rail opens it again, dragging the divider to the edge collapses it too, and the state is remembered.
 - **Web 0.12.7, switch for coloured code blocks and modern colours:** new setting „Codeblöcke farbig“ (on by default) in Programmieren and VisuObject; when off only the frame of the selected element stays. The block boxes now have a soft fill, a thin border and a strong coloured stripe on the left (#193).
 - **Web 0.12.5, code blocks coloured like BlueJ:** in the Java editor (Programmieren and VisuObject) every block gets its own rounded pastel box that starts at its indentation, nested inside each other: class green, method yellow, loops pink, if/switch blue, try lilac; the selected element is a blue frame instead of a full-width band (#192).

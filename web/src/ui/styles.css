@@ -3775,6 +3775,23 @@ button.danger-text:not(:disabled) {
   width: auto !important;
   min-width: 0;
 }
+/* ⇄ tauscht auch die Plätze: Programmieren links, Struktogramm rechts daneben, danach mBot2 live. */
+.shell.code-main.live:not(.editor-hidden) .livecode {
+  order: 1;
+}
+.shell.code-main.live:not(.editor-hidden) .editor-resizer {
+  order: 2;
+}
+.shell.code-main.live:not(.editor-hidden) .app {
+  order: 3;
+  border-inline-start: 1px solid var(--border);
+}
+.shell.code-main.live:not(.editor-hidden) .live-rail,
+.shell.code-main.live:not(.editor-hidden) .preview-resizer,
+.shell.code-main.live:not(.editor-hidden) .robotpreview,
+.shell.code-main.live:not(.editor-hidden) .robotpreview-rail {
+  order: 4;
+}
 [data-action='swap-main'] {
   font-size: 16px;
   line-height: 1;
