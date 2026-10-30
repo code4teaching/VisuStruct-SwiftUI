@@ -193,5 +193,9 @@ Eine Variable, die direkt in der Klasse steht und nicht in einer Methode. Mit `s
 ### Scanner
 Ein fertiger Baustein von Java, der Eingaben über die Tastatur liest, z. B. mit `scanner.nextInt()` eine Zahl. Er braucht ganz oben `import java.util.Scanner;`.
 
+### Kommentar
+auch: Kommentare, Kommentaren, Kommentars
+Eine Notiz im Code für Menschen. Java überspringt sie beim Ausführen. `//` gilt bis zum Ende der Zeile, `/* … */` kann über mehrere Zeilen gehen.
+
 ### import
 Eine Zeile ganz oben im Java-Code, die einen fertigen Baustein aus einem Paket holt, z. B. `import java.util.Scanner;`. Ohne sie kennt Java den Namen nicht.

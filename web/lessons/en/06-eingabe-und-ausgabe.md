@@ -13,6 +13,7 @@ kurz: Ask for values, show results and use the IPO model.
 - work out a result first and store it in a variable, then output that variable, e.g. `int sum = a + b`, then `output: sum`
 - pick out input, process and output from a task
 - read numbers in Java with the scanner
+- write comments with `//` and `/* */` and use them to structure and explain my code
 :::
 
 ## The IPO model
@@ -168,6 +169,75 @@ tipp: `int years = scanner.nextInt();` reads. `int days = years * 365;` calculat
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Comments in code
+
+You may write notes in your code. They are called **comments**. Java skips them when it runs, so the program and the structure chart stay the same. There are two kinds:
+
+- `//` turns the rest of the line into a comment. This is a **single-line comment**.
+- `/*` starts a **multi-line comment** and `*/` ends it. Everything in between belongs to the comment, however many lines. Java does not need the stars at the start of the lines in between, they just look tidy.
+
+In finished programs you sometimes also see `/** … */` with two stars at the start. That is a **Javadoc comment**, from which Java can create a description of the program. For you, `//` and `/* */` are enough.
+
+This is the IPO example with comments:
+
+```java editor
+/*
+ * Task: The program asks for two numbers
+ * and outputs their sum.
+ */
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+// Input
+System.out.println("First number?");
+int a = scanner.nextInt();
+System.out.println("Second number?");
+int b = scanner.nextInt();
+
+// Process
+int sum = a + b;      // add the two numbers
+
+// Output
+System.out.println("Sum: " + sum);      // for 3 and 4 I expect: Sum: 7
+
+// Next time: allow decimal numbers too
+```
+
+What comments are good for:
+
+- **The task:** the multi-line comment at the top says what the program should do.
+- **Structure:** `// Input`, `// Process` and `// Output` divide the code by the IPO model.
+- **Explanation:** a comment after a line says what your algorithm does there.
+- **Expectation:** write down which output you expect. When you test, you compare.
+- **Matching brackets:** later you will meet blocks in curly brackets `{ }`. Then, for example, `} // end for` shows which bracket closes what.
+- **Keeping your thoughts:** what do you need to remember when you carry on next time?
+
+Click **Open in editor**, change a comment or add a new one. The structure chart stays the same, and VisuStruct keeps your comments.
+
+> Don't put a comment after every line. Explain what your algorithm does and why, not every single character.
+
+::: angeberwissen
+Both kinds are much older than Java: `/* … */` comes from the language PL/I from 1964, `//` from BCPL from 1967. Java inherited them via C and C++.
+:::
+
+## Fill in the gaps: comments
+
+::: lückentext
+titel: Add the comments
+auftrag: Add the characters so that a multi-line comment with the task is at the top and the other two notes are single-line comments.
+```java
+[[/*]]
+ * Task: The program converts euros to cents.
+ [[*/]]
+int euros = 3;
+[[//]] Process
+int cents = euros * 100;
+[[//]] Output, expected: 300
+System.out.println(cents);
+```
+erklärung: `/*` opens the multi-line comment and `*/` closes it. `//` only lasts until the end of the line, so every note needs its own `//`.
+:::
+
 ## Fill in the gaps: input
 
 ::: lückentext
@@ -283,6 +353,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can work out a result first and store it in a variable, then output that variable, e.g. `int sum = a + b`, then `output: sum`. → Careful with + in an output
 - I can pick out input, process and output from a task. → From the task to the structure chart
 - I can read numbers in Java with the scanner. → Now in Java
+- I can write comments with `//` and `/* */` and use them to structure and explain my code. → Comments in code
 :::
 
 ## Quiz
@@ -328,4 +399,18 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] A decimal number
 - [ ] A whole sentence
 > For decimal numbers there is `scanner.nextDouble()`, for a word `scanner.next()`.
+
+? What does Java do with a comment?
+→ Comments in code
+- [ ] It outputs it as text.
+- [x] It skips it.
+- [ ] It reports an error.
+> Comments are notes for people. The program runs exactly the same with or without them.
+
+? Where does a comment that starts with `/*` end?
+→ Comments in code
+- [x] At `*/`
+- [ ] At the end of the line
+- [ ] At the next empty line
+> That is why a comment with `/*` can span several lines. A comment with `//`, on the other hand, ends at the end of the line.
 :::

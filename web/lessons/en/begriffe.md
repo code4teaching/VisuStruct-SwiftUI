@@ -198,5 +198,9 @@ An error that only happens while the program runs, for example an index outside 
 ### Scanner
 A ready-made Java building block that reads input from the keyboard, for example a number with `scanner.nextInt()`. It needs `import java.util.Scanner;` at the very top.
 
+### comment
+auch: comments, Comment, Comments
+A note in the code for people. Java skips it when it runs. `//` lasts until the end of the line, `/* … */` can span several lines.
+
 ### import
 A line at the very top of Java code that fetches a ready-made building block from a package, for example `import java.util.Scanner;`. Without it, Java doesn't know the name.

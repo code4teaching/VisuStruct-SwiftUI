@@ -98,9 +98,11 @@ public class Einmaleins {
         System.out.println("Welche Reihe?");
         int zahl = scanner.nextInt();
         ...
-    }
-}
+    } // Ende main
+} // Ende Klasse
 ```
+
+Die Kommentare `// Ende main` und `// Ende Klasse` hinter den letzten beiden Klammern sind nicht nötig, aber sehr hilfreich: So siehst du sofort, welche Klammer was schließt, und vergisst keine.
 
 Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genauso heißen, hier also `Einmaleins.java`. Das erledigt **Java speichern …** für dich.
 

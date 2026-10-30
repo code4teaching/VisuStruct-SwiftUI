@@ -138,3 +138,23 @@ boolean[][] lugares = new boolean[3][5]
 lugares[1][4] = true
 output: lugares.length + " filas, " + lugares[0].length + " lugares"
 ```
+
+## Java
+
+### Comentários
+
+Notas no código. O Java salta-as, o estrutograma fica igual.
+
+```java
+/*
+ * Tarefa: somar os números de 1 a 10
+ * (comentário de várias linhas)
+ */
+// Processamento (comentário de uma linha)
+int soma = 0;
+for (int i = 1; i <= 10; i++) {
+    soma = soma + i;      // comentário depois do código
+} // fim do for
+```
+
+Serve para: a tarefa, dividir o código em entrada, processamento e saída, uma explicação, o fim de um bloco depois de `}`, a saída esperada e notas para a próxima vez.
