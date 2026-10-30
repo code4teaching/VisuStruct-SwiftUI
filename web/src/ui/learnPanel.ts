@@ -450,7 +450,7 @@ export class LearnPanel {
       case 'images':
         return this.renderImages(block.files, block.caption)
       case 'graphic':
-        return this.renderGraphic(block.file, block.caption)
+        return this.renderGraphic(block.file, block.caption, block.labeled)
       case 'game':
         return this.renderGame(block.game)
       case 'roundGame':
@@ -557,10 +557,21 @@ export class LearnPanel {
   }
 
   /** Erklärgrafik in voller Breite (meist SVG aus `lessons/bilder`). */
-  private renderGraphic(file: string, caption: string): HTMLElement {
+  private renderGraphic(file: string, caption: string, labeled?: string): HTMLElement {
     const figure = h('figure', { class: 'learn-figure' })
     const src = image(file)
-    if (src) figure.append(h('img', { class: 'learn-graphic', src, alt: '', loading: 'lazy' }))
+    const labeledSrc = labeled ? image(labeled) : undefined
+    if (src && labeledSrc) {
+      // Ein Klick blendet die Beschriftung ein und wieder aus.
+      const img = h('img', { class: 'learn-graphic', src, alt: '', loading: 'lazy' }) as HTMLImageElement
+      const toggle = h('button', { class: 'learn-graphic-toggle', type: 'button', title: t('web_learn_graphic_labels'), 'aria-pressed': 'false' }, img)
+      toggle.addEventListener('click', () => {
+        const on = toggle.getAttribute('aria-pressed') !== 'true'
+        toggle.setAttribute('aria-pressed', String(on))
+        img.src = on ? labeledSrc : src
+      })
+      figure.append(toggle, h('p', { class: 'learn-graphic-hint' }, t('web_learn_graphic_labels')))
+    } else if (src) figure.append(h('img', { class: 'learn-graphic', src, alt: '', loading: 'lazy' }))
     if (caption) figure.append(html('figcaption', {}, inline(caption)))
     return figure
   }

@@ -23,6 +23,10 @@ Os estrutogramas são guardados como ficheiros **.visustruct**. Todas as versõe
 Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões perfurados. Nassi conta que um encontro ao sábado à noite era assim: a futura mulher dele sentava-se com ele no centro de computação e perfurava-lhe os cartões. Romance à moda da informática!
 :::
 
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
+Era assim um cartão perfurado. Cada cartão tinha uma linha de programa, aqui `PRINT *, 'OLA MUNDO'` na linguagem Fortran. Cada coluna é um carácter, e os furos são o seu código. Um programa inteiro era uma pilha destes cartões. Se caísse ao chão, era preciso voltar a ordenar tudo.
+:::
+
 ## Guardar e abrir
 
 - **[Guardar](#zeige-speichern)** (Ctrl+S, no Mac ⌘S): O diagrama é guardado como ficheiro. Se a coluna **Ficheiros** estiver configurada (ver abaixo), fica lá. Caso contrário, o navegador pergunta onde o guardar ou põe o ficheiro na pasta de transferências.
