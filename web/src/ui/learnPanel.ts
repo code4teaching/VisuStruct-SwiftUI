@@ -607,7 +607,13 @@ export class LearnPanel {
     const state = () => progress.exercise(ex.id)
     const badge = h('span', { class: 'learn-badge' }, `✓ ${t('web_learn_solved')}`)
     badge.hidden = !state().done
-    card.append(h('h4', {}, `${t('web_learn_exercise')}: ${ex.title}`, badge), html('div', { class: 'learn-text' }, markdownToHTML(ex.task)))
+    // Jede Übung sagt, in welchem Bereich man sie löst, mit dem Namen, der dort als Überschrift steht.
+    const where = ex.code === 'java' ? t('web_learn_solve_in_code', t('web_live_title')) : t('web_learn_solve_in_editor', t('web_editor_title'))
+    card.append(
+      h('h4', {}, `${t('web_learn_exercise')}: ${ex.title}`, badge),
+      h('p', { class: 'learn-where' }, where),
+      html('div', { class: 'learn-text' }, markdownToHTML(ex.task)),
+    )
 
     const result = h('div', { class: 'learn-result', role: 'status' })
     // Tipps nacheinander aufdecken, vom allgemeinen zum genauen. Die Lösung gibt es nur im Lehrermodus.

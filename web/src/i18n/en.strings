@@ -68,6 +68,8 @@
 "web_learn_brag" = "Fun facts with Ludwig";
 "web_learn_solved" = "solved";
 "web_learn_open_exercise" = "Open in editor";
+"web_learn_solve_in_editor" = "Solve this exercise in the %@ area.";
+"web_learn_solve_in_code" = "Solve this exercise in the %@ area.";
 "web_learn_open_in_editor" = "Open in editor";
 "web_learn_graphic_labels" = "👆 Click the picture to show or hide the labels";
 "web_learn_check" = "Check";

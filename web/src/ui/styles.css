@@ -2163,6 +2163,16 @@ button.danger-text:not(:disabled) {
   border-radius: 10px;
   padding: 1px 8px;
 }
+.learn-where {
+  margin: 0;
+  justify-self: start;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
 .learn-exercise .learn-text p:last-child {
   margin-bottom: 0;
 }
