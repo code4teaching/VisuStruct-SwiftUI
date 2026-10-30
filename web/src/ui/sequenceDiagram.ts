@@ -65,7 +65,7 @@ export function sequenceSVG(data: SequenceData, current?: number): { svg: string
     const self = ev.from === ev.to
     // Neuer Kasten braucht Platz: Pfeil in seine Mitte, darüber Luft für die Beschriftung.
     if (ev.k === 'create') {
-      y += headH / 2
+      y += headH / 2 + 8
       created.set(ev.to, y)
     }
     const toLevel = level(ev.to) + 1
@@ -85,7 +85,7 @@ export function sequenceSVG(data: SequenceData, current?: number): { svg: string
     const cls = ev.k === 'create' ? ' create' : ''
     const label = ev.k === 'create' ? `«create» ${ev.label}` : ev.label
     parts.push(
-      `<g class="vo-seq-msg${cls}${on}" data-ev="${i}"><line x1="${fx}" y1="${y}" x2="${tx}" y2="${y}"/>${ev.k === 'create' ? arrowOpen(tx, y, right ? 1 : -1) : arrowFilled(tx, y, right ? 1 : -1)}${ev.k === 'create' ? `<text x="${right ? fx + 8 : fx - 8}" y="${y - 6}" text-anchor="${right ? 'start' : 'end'}">${e(label)}</text>` : `<text x="${(fx + tx) / 2}" y="${y - 6}" text-anchor="middle">${e(label)}</text>`}</g>`,
+      `<g class="vo-seq-msg${cls}${on}" data-ev="${i}"><line x1="${fx}" y1="${y}" x2="${tx}" y2="${y}"/>${ev.k === 'create' ? arrowOpen(tx, y, right ? 1 : -1) : arrowFilled(tx, y, right ? 1 : -1)}${ev.k === 'create' ? `<text x="${right ? fx + 8 : fx - 8}" y="${y - headH / 2 - 2}" text-anchor="${right ? 'start' : 'end'}">${e(label)}</text>` : `<text x="${(fx + tx) / 2}" y="${y - 6}" text-anchor="middle">${e(label)}</text>`}</g>`,
     )
     open.push({ key: ev.to, caller: ev.from, y: ev.k === 'create' ? y + headH / 2 : y, level: toLevel })
     y += ev.k === 'create' ? rowH + headH / 2 : rowH
