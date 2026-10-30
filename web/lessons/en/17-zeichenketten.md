@@ -4,6 +4,21 @@ bereich: Basics
 kurz: Work with text: read single characters, cut out parts, search, compare and split.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain that the characters of a String are also counted from 0
+- work with `length()` and `charAt(i)`
+- cut a part out of a text with `substring`
+- use `indexOf`, `contains`, `toUpperCase` and `equals`
+- go through a text character by character with a loop
+- split a text into a String array with `split`
+- read a text in Java and compare it with `equals`
+- use more methods such as `lastIndexOf`, `replace`, `compareTo` and `Integer.parseInt`
+- split a text from a file into lines with `split("\n")`
+- look up a method in the Java API and read its description
+:::
+
 ## Text is a row of characters
 
 You already know `String`: `String name = "Ludwig"`. In computer science such a text is called a **string**, because the characters hang one after another like beads on a string. Every character has a place with an index, just like in an array. Here, too, **counting starts at 0**: the first character is 0 steps away from the start.
@@ -410,15 +425,17 @@ ende: Zora is free, and the fox has run off. The secret word was `BREAK`: with `
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know that the characters of a String are also counted from 0. → Text is a row of characters
+- I can explain that the characters of a String are also counted from 0. → Text is a row of characters
 - I can work with `length()` and `charAt(i)`. → Text is a row of characters
 - I can cut a part out of a text with `substring`. → Cut out parts
-- I know `indexOf`, `contains`, `toUpperCase` and `equals`. → Search and compare
+- I can use `indexOf`, `contains`, `toUpperCase` and `equals`. → Search and compare
 - I can go through a text character by character with a loop. → Character by character
 - I can split a text into a String array with `split`. → Split with split
 - I can read a text in Java and compare it with `equals`. → Now in Java
-- I know more methods such as `lastIndexOf`, `replace`, `compareTo` and `Integer.parseInt`. → Even more methods
+- I can use more methods such as `lastIndexOf`, `replace`, `compareTo` and `Integer.parseInt`. → Even more methods
 - I can split a text from a file into lines with `split("\n")`. → Text from a file
 - I can look up a method in the Java API and read its description. → The Java API
 :::
@@ -427,41 +444,48 @@ ende: Zora is free, and the fox has run off. The secret word was `BREAK`: with `
 
 ::: quiz
 ? What does `"Ludwig".charAt(1)` give?
+→ Text is a row of characters
 - [ ] L
 - [x] u
 - [ ] d
 > Counting starts at 0: L has the index 0, u the index 1.
 
 ? What does `"Structure".substring(0, 6)` give?
+→ Cut out parts
 - [x] Struct
 - [ ] Structu
 - [ ] tructu
 > The characters with the indices 0 to 5. The end 6 is not included.
 
 ? A word has 7 characters. Which index does the last character have?
+→ Text is a row of characters
 - [ ] 7
 - [x] 6
 - [ ] 8
 > Just like with an array: always one less than the length.
 
 ? How do you compare two Strings for the same content in Java?
+→ Search and compare
 - [ ] a == b
 - [x] a.equals(b)
 - [ ] a = b
 
 ? Match each method to what it gives for `"Billygoat"`.
+→ Search and compare
 = length() -> 9
 = charAt(0) -> B
 = indexOf("goat") -> 5
 = substring(5) -> goat
 
 ? Which condition checks in Java whether `input` contains the text Ludwig?
+→ Now in Java
 - [ ] input = "Ludwig"
 - [ ] input == 'Ludwig'
 - [x] input.equals("Ludwig")
 > You compare texts with equals. Single quotes are only for a single character.
 
 ? What does `Integer.parseInt("12") + 1` return?
+→ Even more methods
 - [ ] "121"
 - [x] 13
 - [ ] an error message

@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Store many values under one name, reach them with the index and go through them with a loop.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create an array with values or with `new int[5]`
+- explain that the index starts at 0 and that the last index is `length - 1`
+- go through and fill an array with a for loop
+- calculate the sum and the maximum of an array
+- create an array in Java and go through it with a loop
+:::
+
 ## Many values under one name
 
 Imagine you want to store the points from five tests. With five variables `points1` to `points5` that quickly gets confusing. An **array** is a row of slots that all have the same name and the same data type.
@@ -262,9 +272,11 @@ besser: for (int i = numbers.length - 1; i >= 0; i--) {
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can create an array with values or with `new int[5]`. → Many values under one name
-- I know that the index starts at 0 and that the last index is `length - 1`. → The index starts at 0
+- I can explain that the index starts at 0 and that the last index is `length - 1`. → The index starts at 0
 - I can go through and fill an array with a for loop. → Go through an array with a loop
 - I can calculate the sum and the maximum of an array. → Sum and maximum
 - I can create an array in Java and go through it with a loop. → Now in Java
@@ -274,36 +286,42 @@ besser: for (int i = numbers.length - 1; i >= 0; i--) {
 
 ::: quiz
 ? What does `output: numbers[2]` output with `int[] numbers = {5, 10, 15, 20}`?
+→ The index starts at 0
 - [ ] 10
 - [x] 15
 - [ ] 20
 > Counting starts at 0: numbers[0] is 5, numbers[1] is 10, numbers[2] is 15.
 
 ? An array has 8 slots. Which index is the last one?
+→ The index starts at 0
 - [ ] 8
 - [x] 7
 - [ ] 9
 > The last index is always length - 1.
 
 ? Which condition fits a for loop that goes through all values of `numbers` and starts at `int i = 0`?
+→ Go through an array with a loop
 - [x] i < numbers.length
 - [ ] i <= numbers.length
 - [ ] i > numbers.length
 > With <= the loop would also read numbers[length], and that slot does not exist.
 
 ? What should the maximum start with before the loop begins?
+→ Sum and maximum
 - [ ] Always with 0
 - [x] With the first value of the array
 - [ ] With the length of the array
 > If it starts with 0, then with only negative numbers the result would be 0, although 0 is not in the array at all.
 
 ? What does `output: numbers.length` output with `int[] numbers = {5, 10, 15, 20}`?
+→ Many values under one name
 - [ ] 3
 - [x] 4
 - [ ] 20
 > length is the number of slots, not the last index and not the last value.
 
 ? Which line creates an array with three numbers in Java?
+→ Now in Java
 - [x] int[] numbers = {1, 2, 3};
 - [ ] int numbers = [1, 2, 3];
 - [ ] array numbers = (1, 2, 3);
