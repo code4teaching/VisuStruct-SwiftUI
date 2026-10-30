@@ -10,7 +10,7 @@ kurz: Pedir valores, mostrar resultados e usar o modelo EPS.
 - explicar o modelo EPS
 - escrever uma entrada com tipo de dados, nome e pergunta
 - juntar texto e variáveis numa saída com +
-- calcular numa variável antes da saída
+- calcular primeiro um resultado e guardá-lo numa variável, depois mostrar essa variável, p. ex. `int soma = a + b`, depois `output: soma`
 - identificar a entrada, o processamento e a saída numa tarefa
 - ler números em Java com o scanner
 :::
@@ -280,7 +280,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - Consigo explicar o modelo EPS. → O modelo EPS
 - Consigo escrever uma entrada com tipo de dados, nome e pergunta. → Entrada com input:
 - Consigo juntar texto e variáveis numa saída com +. → Cuidado com o + numa saída
-- Consigo calcular numa variável antes da saída. → Cuidado com o + numa saída
+- Consigo calcular primeiro um resultado e guardá-lo numa variável, depois mostrar essa variável, p. ex. `int soma = a + b`, depois `output: soma`. → Cuidado com o + numa saída
 - Consigo identificar a entrada, o processamento e a saída numa tarefa. → Da tarefa ao estrutograma
 - Consigo ler números em Java com o scanner. → Agora em Java
 :::

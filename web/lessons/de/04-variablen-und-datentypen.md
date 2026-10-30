@@ -40,6 +40,10 @@ Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst j
 CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines Kamels aus dem Wort ragen: `preisMitSteuer` hat zwei Höcker. Ich als Geißbock habe übrigens null Höcker, dafür zwei Hörner. Leider hat noch niemand die GeißbockSchreibweise erfunden.
 :::
 
+::: grafik l04-camelcase.svg
+Die Großbuchstaben M und S ragen heraus wie die zwei Höcker des Kamels.
+:::
+
 ## Die vier Datentypen
 
 Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
@@ -155,6 +159,10 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
+::: grafik l04-kaffee.svg
+Kein offizielles Logo, sondern unsere Zeichnung: „Java“ ist im amerikanischen Englisch ein Wort für Kaffee. Die Sprache wurde nach dem Kaffee von der Insel Java benannt, den ihre Erfinder gern tranken.
+:::
+
 Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
 ```java
@@ -176,7 +184,7 @@ Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James 
 
 Variablen speichern nicht nur Zahlen. Für Text gibt es den Datentyp `String`:
 
-```java
+```java editor
 String name = "Mia";
 int alter = 14;
 double groesse = 1.62;
@@ -188,7 +196,7 @@ System.out.println("Größe: " + groesse + " m");
 - `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet das.
 - Mit `+` hängst du Text und Zahlen aneinander.
 
-Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst.
+Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst. „Im Editor öffnen“ holt das Beispiel in den Bereich Programmieren. Klicke dort auf „Ausführen“, ändere dann Name, Alter oder Größe und probiere es noch einmal.
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java

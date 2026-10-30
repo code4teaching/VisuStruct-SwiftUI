@@ -40,6 +40,10 @@ Se um nome tiver várias palavras, escreves-as juntas e começas cada palavra se
 O camelCase tem este nome porque as maiúsculas no meio saem da palavra como as bossas de um camelo: `precoComIva` tem duas bossas. Eu, como bode, tenho zero bossas, mas dois chifres. Infelizmente ainda ninguém inventou a escrita BodeCase.
 :::
 
+::: grafik l04-camelcase.svg
+As maiúsculas C e I sobressaem como as duas bossas do camelo.
+:::
+
 ## Os quatro tipos de dados
 
 O tipo de dados diz que tipo de valor pode ser guardado na variável.
@@ -155,6 +159,10 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
+::: grafik l04-kaffee.svg
+Não é o logótipo oficial, é um desenho nosso: em inglês americano, «java» é uma palavra para café. A linguagem recebeu o nome do café da ilha de Java, que os seus criadores gostavam de beber.
+:::
+
 Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
 ```java
@@ -176,7 +184,7 @@ O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à
 
 As variáveis não guardam só números. Para texto existe o tipo de dados `String`:
 
-```java
+```java editor
 String nome = "Inês";
 int idade = 14;
 double altura = 1.62;
@@ -188,7 +196,7 @@ System.out.println("Altura: " + altura + " m");
 - `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue-os.
 - Com `+` juntas texto e números.
 
-Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves.
+Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves. “Abrir no editor” leva o exemplo para a área Programação. Clica aí em “Executar”, depois muda o nome, a idade ou a altura e experimenta outra vez.
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java
