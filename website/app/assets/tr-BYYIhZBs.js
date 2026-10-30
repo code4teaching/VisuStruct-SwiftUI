@@ -171,4 +171,6 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_swap_to_editor" = "Yapı diyagramı büyük";
 "web_editor_resize" = "Diyagram genişliğini değiştir";
 "web_palette_resize" = "Öğelerin genişliğini değiştir";
+"web_code_scopes" = "Renkli kod blokları";
+"web_code_scopes_hint" = "Sınıf, metot, döngü, dallanma kendi kutularında";
 `;export{e as default};

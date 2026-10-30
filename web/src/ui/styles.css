@@ -2394,34 +2394,36 @@ button.danger-text:not(:disabled) {
   padding: 0 12px;
   border-inline-start: 3px solid transparent;
 }
-/* Farbige Blöcke wie in BlueJ: Klasse grün, Methode gelb, Schleife rosa, Verzweigung blau */
+/* Farbige Blöcke wie in BlueJ: Klasse grün, Methode gelb, Schleife rosa, Verzweigung blau, try lila.
+   Zarte Fläche, feiner Rand und links ein kräftiger Streifen in der Farbe des Blocks. */
 .livecode-editor .cm-scopeLayer .cm-scope {
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 7px;
+  border: 1px solid color-mix(in srgb, var(--scope) 28%, transparent);
+  border-left: 3px solid var(--scope);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--scope) 9%, #fff);
 }
-.livecode-editor .cm-scope-class {
-  background: #eef6e4;
-  border-color: #c3dcaa;
+.livecode-editor .cm-scopeLayer .cm-scope-class {
+  --scope: #34c47c;
 }
-.livecode-editor .cm-scope-method {
-  background: #fffbe3;
-  border-color: #e6d98f;
+.livecode-editor .cm-scopeLayer .cm-scope-method {
+  --scope: #f2b100;
 }
-.livecode-editor .cm-scope-loop {
-  background: #fbebf4;
-  border-color: #e7bcd5;
+.livecode-editor .cm-scopeLayer .cm-scope-loop {
+  --scope: #ec5fa6;
 }
-.livecode-editor .cm-scope-if {
-  background: #e8f0fd;
-  border-color: #b7cbef;
+.livecode-editor .cm-scopeLayer .cm-scope-if {
+  --scope: #3b9cf0;
 }
-.livecode-editor .cm-scope-try {
-  background: #f1edf9;
-  border-color: #cdc2e6;
+.livecode-editor .cm-scopeLayer .cm-scope-try {
+  --scope: #9a7cf0;
+}
+/* Einstellung „Codeblöcke farbig“ ausgeschaltet: nur der Rahmen der Auswahl bleibt */
+:root.no-code-scopes .livecode-editor .cm-scopeLayer .cm-scope:not(.cm-scope-sel) {
+  display: none;
 }
 /* Ausgewähltes Element: Rahmen in der Akzentfarbe über den Blöcken */
 .livecode-editor .cm-scopeLayer .cm-scope-sel {
+  background: transparent;
   border: 2px solid var(--accent);
   box-shadow: 0 0 0 3px var(--accent-faint);
 }

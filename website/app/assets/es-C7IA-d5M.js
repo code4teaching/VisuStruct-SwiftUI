@@ -171,4 +171,6 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_swap_to_editor" = "Diagrama grande";
 "web_editor_resize" = "Cambiar el ancho del diagrama";
 "web_palette_resize" = "Cambiar el ancho de los elementos";
+"web_code_scopes" = "Bloques de código en color";
+"web_code_scopes_hint" = "Clase, método, bucle, condición en sus propias cajas";
 `;export{e as default};
