@@ -854,6 +854,50 @@ h3 {
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1), 0 6px 18px -6px rgba(14, 124, 134, 0.6);
 }
 
+/* VisuObject-Startseite: Petrol wie die Welt VisuObject, Aufbau wie VisuStruct */
+.visuobject {
+  --bg-soft: #edf4f6;
+  --ink: #17292e;
+  --ink-2: #2c4247;
+  --muted: #566a70;
+  --line: #cddde1;
+  --brand: #0e7c86;
+  --brand-strong: #0a5f67;
+  --brand-light: #3fb3bd;
+  --brand-tint: #e3f1f3;
+}
+.visuobject :focus-visible {
+  outline-color: rgba(14, 124, 134, 0.45);
+}
+.visuobject .btn-primary {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1), 0 6px 18px -6px rgba(14, 124, 134, 0.6);
+}
+.visuobject .btn-ghost:hover {
+  border-color: #b5ccd1;
+}
+.visuobject .hero {
+  background:
+    radial-gradient(60% 50% at 50% 0%, rgba(63, 179, 189, 0.2), transparent 70%),
+    radial-gradient(40% 40% at 90% 30%, rgba(14, 124, 134, 0.12), transparent 70%),
+    var(--bg);
+}
+.visuobject .feature-icon {
+  box-shadow: 0 6px 16px -6px rgba(14, 124, 134, 0.6);
+}
+.visuobject .band {
+  color: #e3f1f3;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgba(63, 179, 189, 0.45), transparent 60%),
+    linear-gradient(135deg, #17292e, #0e5b63);
+  box-shadow: 0 30px 60px -25px rgba(23, 41, 46, 0.6);
+}
+.visuobject .btn-light {
+  color: var(--ink);
+}
+.brand-obj {
+  color: var(--brand);
+}
+
 /* VisuBot-Startseite: Farben aus dem VisuBot-Logo (Navy, Orange, Lila), Aufbau wie VisuStruct */
 .visubot {
   --bg-soft: #f4f3fa;
