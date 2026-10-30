@@ -302,7 +302,7 @@ richtig: decisão
 
 ## Lista de verificação
 
-Avalia-te com honestidade em cada ponto: ☀️ consigo com segurança, ⛅ em parte, ☂️ ainda não. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
 
 ::: checkliste
 - Consigo explicar o que é um algoritmo. → Um algoritmo é uma instrução exata

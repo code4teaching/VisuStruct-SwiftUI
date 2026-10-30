@@ -302,7 +302,7 @@ richtig: Verzweigung
 
 ## Checkliste
 
-Schätze dich bei jedem Punkt ehrlich ein: ☀️ kann ich sicher, ⛅ teilweise, ☂️ noch nicht. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann erklären, was ein Algorithmus ist. → Ein Algorithmus ist eine genaue Anleitung

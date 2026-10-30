@@ -302,7 +302,7 @@ richtig: branch
 
 ## Checklist
 
-Rate yourself honestly for each point: ☀️ I can do this confidently, ⛅ partly, ☂️ not yet. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can explain what an algorithm is. → An algorithm is an exact set of instructions

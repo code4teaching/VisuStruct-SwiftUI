@@ -767,12 +767,12 @@ export class LearnPanel {
     return box
   }
 
-  /** „Ich kann …“ mit Selbsteinschätzung: ☀️ kann ich sicher, ⛅ teilweise, ☂️ noch nicht. */
+  /** „Ich kann …“ mit Selbsteinschätzung rechts daneben: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. */
   private renderChecklist(items: ChecklistItem[], key: string, lesson?: Lesson): HTMLElement {
     const ratings: { value: Rating; icon: string; label: string }[] = [
-      { value: 'sun', icon: '☀️', label: t('web_learn_rating_sun') },
-      { value: 'cloud', icon: '⛅', label: t('web_learn_rating_cloud') },
       { value: 'umbrella', icon: '☂️', label: t('web_learn_rating_umbrella') },
+      { value: 'cloud', icon: '⛅', label: t('web_learn_rating_cloud') },
+      { value: 'sun', icon: '☀️', label: t('web_learn_rating_sun') },
     ]
     const wrap = h('div', { class: 'learn-checklist-wrap' })
     const legend = h('p', { class: 'learn-rating-legend' })
@@ -803,7 +803,7 @@ export class LearnPanel {
         li.dataset.rating = current ?? ''
       }
       group.append(...buttons)
-      const li = h('li', {}, group, text)
+      const li = h('li', {}, text, group)
       if (lesson && item.step !== undefined) {
         const step = item.step
         const where = t('web_learn_step_fmt', step + 1, lesson.steps[step].title)
@@ -894,11 +894,11 @@ export class LearnPanel {
           if (rating === 'sun' && wrong.length) note = t('web_learn_review_overrated_fmt', wrong.map((qi) => qi + 1).join(', '))
           else if (rating && rating !== 'sun' && linked.length && !wrong.length) note = t('web_learn_review_underrated')
           if (note) deviations++
-          const li = h('li', { class: note ? 'learn-review-deviation' : '' }, h('span', { class: 'learn-review-icon', 'aria-label': rating ? t(`web_learn_rating_${rating}`) : t('web_learn_review_unrated') }, rating ? icons[rating] : '·'))
+          const li = h('li', { class: note ? 'learn-review-deviation' : '' })
           const text = html('span', { class: 'learn-check-text' }, inline(item.text))
           if (note) text.append(h('br', {}), h('em', {}, note))
-          li.append(text)
-          if (note && item.step !== undefined) {
+          li.append(text, h('span', { class: 'learn-review-icon', 'aria-label': rating ? t(`web_learn_rating_${rating}`) : t('web_learn_review_unrated') }, rating ? icons[rating] : '–'))
+          if (note && rating === 'sun' && item.step !== undefined) {
             const target = item.step
             const link = h('button', { class: 'link-button learn-check-link' }, t('web_learn_review'))
             link.addEventListener('click', () => {
