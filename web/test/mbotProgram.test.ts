@@ -72,7 +72,7 @@ describe('Übertragen auf den mBot2', () => {
     afterAll(() => useVisuBotContent('off'))
 
     it('jede VisuBot-Musterlösung wird ein Programm (außer mit Eingabe)', () => {
-      const blocks = [...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.flatMap((t) => t.blocks)]
+      const blocks = [...lessons.filter((l) => l.robot).flatMap((l) => l.steps.flatMap((s) => s.blocks)), ...tasks.filter((t) => t.robot).flatMap((t) => t.blocks)]
       let count = 0
       for (const b of blocks) {
         if (b.kind !== 'exercise' || !b.exercise.solution) continue

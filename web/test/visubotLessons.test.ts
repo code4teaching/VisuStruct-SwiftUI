@@ -12,9 +12,11 @@ const resolver = (ex: Exercise) => {
   return (name: string) => subs.find((s) => subprogramName(s.caption).toLowerCase() === subprogramName(name).toLowerCase())
 }
 
+const robotLessons = () => lessons.filter((l) => l.robot)
+
 const allBlocks = (): { where: string; block: Block }[] => [
-  ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
-  ...tasks.flatMap((t) => t.blocks.map((block) => ({ where: t.id, block }))),
+  ...robotLessons().flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
+  ...tasks.filter((t) => t.robot).flatMap((t) => t.blocks.map((block) => ({ where: t.id, block }))),
 ]
 
 describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
@@ -24,13 +26,30 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   })
   afterAll(() => useVisuBotContent('off'))
 
-  it('zeigt nur die VisuBot-Lektionen, lückenlos nummeriert', () => {
-    expect(lessons.length).toBeGreaterThanOrEqual(2)
+  it('zeigt eine durchgehende Reihe: VisuStruct-Lektionen mit den VisuBot-Lektionen dazwischen, lückenlos nummeriert', () => {
+    expect(robotLessons().length).toBeGreaterThanOrEqual(22)
+    expect(lessons.length - robotLessons().length).toBeGreaterThanOrEqual(40)
     lessons.forEach((l, i) => {
       expect(l.number, l.id).toBe(i + 1)
-      expect(l.section, l.id).toBe('VisuBot')
+      expect(l.section, l.id).not.toBe('VisuBot')
     })
-    expect(tasks.length).toBeGreaterThanOrEqual(1)
+    // Erst der Editor, dann der Roboter; jede VisuBot-Lektion nach ihrem Thema
+    const at = (id: string) => lessons.findIndex((l) => l.id === id)
+    expect(at('01-der-mbot2')).toBe(at('03-speichern-oeffnen-exportieren') + 1)
+    expect(at('02-das-quadrat')).toBeGreaterThan(at('05-sequenz'))
+    expect(at('05-bis-zur-wand')).toBeGreaterThan(at('11-while-schleife'))
+    expect(at('22-eigene-methoden')).toBeGreaterThan(at('18-aufruf-und-aussprung'))
+    expect(at('22-eigene-methoden')).toBeLessThan(at('20-java'))
+    expect(tasks.some((t) => t.robot)).toBe(true)
+    expect(tasks.some((t) => !t.robot)).toBe(true)
+    for (const t of tasks) if (t.after !== undefined) expect(lessons.some((l) => l.number === t.after), t.id).toBe(true)
+  })
+
+  it('Verweise auf Lektionen zeigen auf die neue Nummer', () => {
+    const quadrat = lessons.find((l) => l.id === '02-das-quadrat')!
+    const tour = lessons.find((l) => l.id === '01-der-mbot2')!
+    const word = { de: 'Lektion', en: 'Lesson' }[lang]
+    expect(JSON.stringify(tour.steps).toLowerCase()).toContain(`${word} ${quadrat.number}`.toLowerCase())
   })
 
   it('jede Übung prüft eine Fahrt (ohne Roboter: eine Ausgabe), und die Musterlösung besteht sie', () => {
@@ -62,13 +81,13 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   })
 
   it('Checklisten verweisen auf Schritte', () => {
-    for (const l of lessons)
+    for (const l of robotLessons())
       for (const s of l.steps)
         for (const b of s.blocks) if (b.kind === 'checklist') for (const item of b.items) expect(item.step, `${l.id}: ${item.text}`).toBeDefined()
   })
 
   it('Lektion 1 ist eine Tour durch alle Teile, jedes gezeigte Teil ist im Text verlinkt', () => {
-    const tour = lessons[0]
+    const tour = robotLessons()[0]
     const blocks = tour.steps.flatMap((s) => s.blocks)
     const shown = new Set(blocks.flatMap((b) => (b.kind === 'robotModel' ? b.focus : b.kind === 'robotQuiz' ? b.tasks.map((t) => t.part) : [])))
     expect([...shown].sort()).toEqual([...MBOT_PARTS].sort())
@@ -82,7 +101,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   })
 })
 
-describe.each(['de', 'en'] as const)('VisuStruct und VisuBot getrennt (%s)', (lang) => {
+describe.each(['de', 'en'] as const)('VisuStruct ohne Roboter, VisuBot mit der ganzen Reihe (%s)', (lang) => {
   const robotTasks = ['treppe', 'labyrinth', 'knight-rider', 'morsen']
   beforeAll(() => useContentLanguage(lang))
   afterAll(() => useVisuBotContent('off'))
@@ -95,11 +114,12 @@ describe.each(['de', 'en'] as const)('VisuStruct und VisuBot getrennt (%s)', (la
     expect(reference).not.toContain('mBot2')
   })
 
-  it('VisuBot zeigt nur Roboter-Lektionen und -Aufgaben, Nachschlagen mit den mBot2-Kategorien', () => {
+  it('VisuBot zeigt alle Lektionen und Aufgaben, Nachschlagen mit den mBot2-Kategorien', () => {
     useVisuBotContent('on')
-    expect(lessons.every((l) => l.section === 'VisuBot')).toBe(true)
+    expect(lessons.filter((l) => l.robot).length).toBeGreaterThanOrEqual(22)
+    expect(lessons.filter((l) => !l.robot).length).toBeGreaterThanOrEqual(40)
     expect(tasks.map((t) => t.id)).toEqual(expect.arrayContaining(robotTasks))
-    expect(tasks.length).toBeLessThan(20)
+    expect(tasks.filter((t) => !t.robot).length).toBeGreaterThanOrEqual(10)
     expect(reference).toContain('## 🤖 mBot2')
     expect(reference).toContain('## 📡 mBot2')
     expect(reference).toContain('### ' + { de: 'Verzweigung', en: 'Branch' }[lang])
