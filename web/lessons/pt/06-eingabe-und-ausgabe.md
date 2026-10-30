@@ -4,6 +4,17 @@ bereich: Fundamentos
 kurz: Pedir valores, mostrar resultados e usar o modelo EPS.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar o modelo EPS
+- escrever uma entrada com tipo de dados, nome e pergunta
+- juntar texto e variáveis numa saída com +
+- calcular numa variável antes da saída
+- identificar a entrada, o processamento e a saída numa tarefa
+- ler números em Java com o scanner
+:::
+
 ## O modelo EPS
 
 Muitos programas funcionam em três partes:
@@ -263,48 +274,56 @@ frage: A que parte do modelo EPS pertence este bloco?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei explicar o modelo EPS. → O modelo EPS
-- Sei escrever uma entrada com tipo de dados, nome e pergunta. → Entrada com input:
-- Sei juntar texto e variáveis numa saída com +. → Cuidado com o + numa saída
-- Calculo numa variável antes da saída. → Cuidado com o + numa saída
-- Sei identificar a entrada, o processamento e a saída numa tarefa. → Da tarefa ao estrutograma
-- Sei ler números em Java com o scanner. → Agora em Java
+- Consigo explicar o modelo EPS. → O modelo EPS
+- Consigo escrever uma entrada com tipo de dados, nome e pergunta. → Entrada com input:
+- Consigo juntar texto e variáveis numa saída com +. → Cuidado com o + numa saída
+- Consigo calcular numa variável antes da saída. → Cuidado com o + numa saída
+- Consigo identificar a entrada, o processamento e a saída numa tarefa. → Da tarefa ao estrutograma
+- Consigo ler números em Java com o scanner. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que quer dizer EPS?
+→ O modelo EPS
 - [x] Entrada, processamento, saída
 - [ ] Entrada, programa, sequência
 - [ ] Editar, partilhar, sair
 > Muitos programas pedem primeiro valores, processam-nos e depois mostram o resultado.
 
 ? As variáveis a e b têm os valores 3 e 4. O que mostra `output: a + b`?
+→ Cuidado com o + numa saída
 - [ ] 7
 - [x] 34
 - [ ] a + b
 > Numa saída, o + junta as partes. Calcula primeiro a soma numa variável.
 
 ? Que entrada serve se for introduzido um preço como 4.99?
+→ Entrada com input:
 - [ ] input: int preco "Preço?"
 - [x] input: double preco "Preço?"
 - [ ] input: String "Preço?"
 > 4.99 é um número decimal, portanto double. Além disso, cada entrada precisa de um nome de variável.
 
 ? O que mostra `output: "Idade: " + idade` se idade tiver o valor 12?
+→ Cuidado com o + numa saída
 - [x] Idade: 12
 - [ ] "Idade: " + 12
 - [ ] Idade: idade
 
 ? Tarefa: *O programa pede o raio de um círculo e mostra o seu perímetro.* Associa cada parte do texto ao seu lugar no modelo EPS.
+→ Da tarefa ao estrutograma
 = pede o raio -> Entrada
 = perímetro = 2 * 3.14 * raio -> Processamento
 = mostra o seu perímetro -> Saída
 > O raio é dado, o perímetro é o que procuras. A fórmula liga os dois.
 
 ? O que lê `scanner.nextInt()`?
+→ Agora em Java
 - [x] Um número inteiro
 - [ ] Um número decimal
 - [ ] Uma frase inteira

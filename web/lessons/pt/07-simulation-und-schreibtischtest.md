@@ -4,6 +4,16 @@ bereich: Fundamentos
 kurz: Executar um estrutograma passo a passo, segui-lo à mão e encontrar erros.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- iniciar a simulação, fazer pausa, executar passos individuais e pará-la
+- ler as variáveis, a saída e o último passo durante a simulação
+- fazer um teste de secretária à mão, em forma de tabela
+- encontrar um erro comparando os valores com o que espero
+- acompanhar código Java com Passo a passo e pontos de paragem
+:::
+
 ## Iniciar a simulação
 
 Antes de chegarem as decisões e os ciclos, vais conhecer a tua ferramenta mais importante. A partir de agora podes usar a simulação para verificar sozinho cada exercício.
@@ -230,46 +240,54 @@ besser: preco = preco + preco * 0.1;
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei iniciar a simulação, fazer pausa, executar passos individuais e pará-la. → Iniciar a simulação
-- Durante a simulação sei ler as variáveis, a saída e o último passo. → O que a simulação mostra
-- Sei fazer um teste de secretária à mão, em forma de tabela. → O teste de secretária
-- Sei encontrar um erro comparando os valores com o que espero. → Encontrar erros
-- Sei acompanhar código Java com Passo a passo. → Agora em Java
+- Consigo iniciar a simulação, fazer pausa, executar passos individuais e pará-la. → Iniciar a simulação
+- Consigo ler as variáveis, a saída e o último passo durante a simulação. → O que a simulação mostra
+- Consigo fazer um teste de secretária à mão, em forma de tabela. → O teste de secretária
+- Consigo encontrar um erro comparando os valores com o que espero. → Encontrar erros
+- Consigo acompanhar código Java com Passo a passo e pontos de paragem. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que botão executa exatamente um passo?
+→ Iniciar a simulação
 - [ ] Reproduzir
 - [x] Passo
 - [ ] Parar
 > Reproduzir continua automaticamente, Passo executa só um passo.
 
 ? O que anotas depois de cada passo num teste de secretária?
+→ O teste de secretária
 - [ ] Só a saída no fim
 - [x] Os valores atuais de todas as variáveis
 - [ ] O código Java gerado
 > Assim vês exatamente onde um valor é diferente do que esperavas.
 
 ? Primeiro `int a = 3`, depois `int b = 5`, depois `a = b`. Que valores têm a e b a seguir?
+→ O teste de secretária
 - [ ] a = 5 e b = 3
 - [x] a = 5 e b = 5
 - [ ] a = 3 e b = 5
 > O valor antigo de a foi escrito por cima. É por isso que precisas de uma variável auxiliar para trocar valores.
 
 ? O campo Último passo mostra `preco = 4 * 2.5 -> 10.0`. O que quer isso dizer?
+→ O que a simulação mostra
 - [ ] A variável preco tem agora o valor 4.
 - [x] Foi calculado 4 * 2.5 e o resultado 10.0 foi guardado em preco.
 - [ ] A simulação encontrou um erro.
 
 ? A simulação indica **Variável desconhecida: soma**. Qual é uma razão provável?
+→ Encontrar erros
 - [x] soma é usada antes de lhe ter sido dado um valor.
 - [ ] soma é demasiado grande.
 - [ ] O estrutograma tem demasiados blocos.
 
 ? O que faz um ponto vermelho antes de um número de linha na área Programação?
+→ Agora em Java
 - [ ] Marca um erro.
 - [x] O programa para antes dessa linha.
 - [ ] A linha é saltada.

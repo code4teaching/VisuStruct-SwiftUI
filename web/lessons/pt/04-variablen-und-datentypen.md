@@ -4,6 +4,16 @@ bereich: Fundamentos
 kurz: Guardar valores, conhecer os tipos de dados int, double, String e boolean, e fazer contas.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- criar uma variável com tipo de dados, nome e valor
+- distinguir os tipos de dados int, double, String e boolean
+- explicar que = é uma atribuição e não uma comparação
+- fazer contas com + - * / % e usar a divisão inteira
+- criar e mostrar variáveis em Java
+:::
+
 ## O que é uma variável?
 
 Uma **variável** é como uma caixa com etiqueta. Tem um **nome**, um **tipo de dados** e um **valor**.
@@ -275,18 +285,21 @@ richtig: String
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei criar uma variável com tipo de dados, nome e valor. → O que é uma variável?
-- Conheço os tipos de dados int, double, String e boolean. → Os quatro tipos de dados
-- Sei que = é uma atribuição e não uma comparação. → Atribuição com =
-- Sei fazer contas com + - * / % e conheço a divisão inteira. → Fazer contas
-- Sei criar e mostrar variáveis em Java. → Agora em Java
+- Consigo criar uma variável com tipo de dados, nome e valor. → O que é uma variável?
+- Consigo distinguir os tipos de dados int, double, String e boolean. → Os quatro tipos de dados
+- Consigo explicar que = é uma atribuição e não uma comparação. → Atribuição com =
+- Consigo fazer contas com + - * / % e usar a divisão inteira. → Fazer contas
+- Consigo criar e mostrar variáveis em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que tipo de dados serve para o valor 3.75?
+→ Os quatro tipos de dados
 - [ ] int
 - [x] double
 - [ ] String
@@ -294,24 +307,28 @@ richtig: String
 > Os números decimais são do tipo double. No VisuStruct escrevem-se com ponto.
 
 ? Que valor tem x depois de `int x = 17 / 5`?
+→ Fazer contas
 - [ ] 3.4
 - [x] 3
 - [ ] 4
 > Com números inteiros, tudo o que vem depois da vírgula desaparece. Não é arredondado.
 
 ? Quanto dá `17 % 5`?
+→ Fazer contas
 - [x] 2
 - [ ] 3
 - [ ] 3.4
 > 17 a dividir por 5 dá 3, resto 2. O operador % dá o resto.
 
 ? No início, `int pontos = 10`. O que fica em pontos depois de `pontos = pontos * 2`?
+→ Atribuição com =
 - [ ] 10
 - [ ] 12
 - [x] 20
 > O lado direito é calculado com o valor antigo 10, e o resultado 20 é guardado em pontos.
 
 ? Que linha cria corretamente um número decimal em Java?
+→ Agora em Java
 - [ ] double preco = 2,5;
 - [x] double preco = 2.5;
 - [ ] Double preco = 2.5
