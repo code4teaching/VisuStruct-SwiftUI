@@ -2417,9 +2417,30 @@ button.danger-text:not(:disabled) {
 .livecode-editor .cm-scopeLayer .cm-scope-try {
   --scope: #9a7cf0;
 }
-/* Einstellung „Codeblöcke farbig“ ausgeschaltet: nur der Rahmen der Auswahl bleibt */
+/* Einstellung „Blöcke farbig“ ausgeschaltet: nur der Rahmen der Auswahl bleibt */
 :root.no-code-scopes .livecode-editor .cm-scopeLayer .cm-scope:not(.cm-scope-sel) {
   display: none;
+}
+/* Struktogramm in denselben Farben: Anweisungen gelb wie die Methode, Schleife rosa, Verzweigung/Fallauswahl blau.
+   Etwas kräftiger als im Code, weil der farbige Streifen links fehlt. */
+:root:not(.no-code-scopes) .ns-scope-method {
+  fill: color-mix(in srgb, #f2b100 14%, #fff);
+}
+:root:not(.no-code-scopes) .ns-scope-loop {
+  fill: color-mix(in srgb, #ec5fa6 14%, #fff);
+}
+:root:not(.no-code-scopes) .ns-scope-if {
+  fill: color-mix(in srgb, #3b9cf0 14%, #fff);
+}
+/* Elemente-Spalte in denselben Farben */
+:root:not(.no-code-scopes) .palette-item[data-scope='method'] {
+  background: color-mix(in srgb, #f2b100 14%, #fff);
+}
+:root:not(.no-code-scopes) .palette-item[data-scope='loop'] {
+  background: color-mix(in srgb, #ec5fa6 14%, #fff);
+}
+:root:not(.no-code-scopes) .palette-item[data-scope='if'] {
+  background: color-mix(in srgb, #3b9cf0 14%, #fff);
 }
 /* Ausgewähltes Element: Rahmen in der Akzentfarbe über den Blöcken */
 .livecode-editor .cm-scopeLayer .cm-scope-sel {
@@ -3317,20 +3338,26 @@ button.danger-text:not(:disabled) {
 .learn-cloze-status.wrong {
   background: #fee2e2;
 }
-/* Farbige Markierung im Text, passend zu farbigen Kästen in Lektion 1 */
+/* Farbige Markierung im Text, passend zu farbigen Kästen in Lektion 1 (gelb, blau, rosa wie „Blöcke farbig“) */
 .learn-mark {
   color: inherit;
   padding: 0 3px;
   border-radius: 3px;
 }
 .learn-mark.blau {
-  background: #dbeafe;
+  background: #e4f1fd;
 }
 .learn-mark.orange {
   background: #ffedd5;
 }
 .learn-mark.gruen {
   background: #dcfce7;
+}
+.learn-mark.gelb {
+  background: #fdf4db;
+}
+.learn-mark.rosa {
+  background: #fce9f2;
 }
 
 /* Hinweis statt leerer Seite, wenn die App nicht starten konnte (main.ts) */

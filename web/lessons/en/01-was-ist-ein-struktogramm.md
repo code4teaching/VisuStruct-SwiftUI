@@ -32,7 +32,7 @@ Baaah, listen up! In 1972 Nassi and Shneiderman were still PhD students at Stony
 
 ## Building block 1: the sequence
 
-Every algorithm can be built from just **three basic building blocks**: [**sequence**]{.blau}, [**branch**]{.orange} and [**loop**]{.gruen}. The colours help you match them at the start; in your own diagrams the boxes are white. In this step and the next two you get to know them one by one.
+Every algorithm can be built from just **three basic building blocks**: **sequence**, [**branch**]{.blau} and [**loop**]{.rosa}. The colours help you match them: [statements]{.gelb} are yellow, branches blue, loops pink. The sequence has no colour of its own, it is simply the row of statements one below the other. You see the same colours in the editor and later in the code. You can switch them off in the settings under “Colored blocks”. In this step and the next two you get to know them one by one.
 
 The **sequence** is the simplest building block: several statements run **one after another**, each exactly once.
 
@@ -90,7 +90,7 @@ As long as the plate is not empty, you take a bite. After that, the plate is cle
 
 ## All three together
 
-The building blocks become really useful when you combine them. This diagram contains all three: a [sequence]{.blau} from top to bottom, a [branch]{.orange} and a [loop]{.gruen}. The blue boxes are simple statements. Strictly speaking, the whole diagram is a sequence, because the branch and the loop also stand in the row from top to bottom.
+The building blocks become really useful when you combine them. This diagram contains all three: a sequence from top to bottom, a [branch]{.blau} and a [loop]{.rosa}. The yellow boxes are simple [statements]{.gelb}. Whatever stands inside a branch or a loop takes its colour. Strictly speaking, the whole diagram is a sequence, because the branch and the loop also stand in the row from top to bottom.
 
 ::: diagramm l1-grundbausteine.visustruct
 You recognise the branch by its triangle and the loop by the bracket on the left. Everything together sits in a sequence.

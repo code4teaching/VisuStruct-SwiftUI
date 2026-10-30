@@ -17,7 +17,7 @@ export function inline(text: string): string {
       const external = /^https?:/.test(safe) ? ' target="_blank" rel="noopener noreferrer"' : ''
       return `<a href="${safe}"${external}>${label}</a>`
     })
-    .replace(/\[([^\]]+)\]\{\.(blau|orange|gruen)\}/g, '<mark class="learn-mark $2">$1</mark>')
+    .replace(/\[([^\]]+)\]\{\.(blau|orange|gruen|gelb|rosa)\}/g, '<mark class="learn-mark $2">$1</mark>')
     // VisuBot: [Ultraschallsensor]{teil=ultrasonic} leuchtet im 3D-Modell auf, wenn man darauf zeigt.
     .replace(/\[([^\]]+)\]\{(?:teil|part)=([\w,]+)\}/g, '<span class="robot-part-link" data-robot-part="$2" tabindex="0">$1</span>')
   return s.replace(/\u0000(\d+)\u0000/g, (_, i: string) => `<code>${codes[Number(i)]}</code>`)

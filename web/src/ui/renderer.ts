@@ -25,6 +25,22 @@ const Ink = {
 
 type Omission = { top?: boolean; left?: boolean; bottom?: boolean; right?: boolean }
 
+/** Farbe wie bei den Codeblöcken (`cm-scope-…`): Schleife rosa, Verzweigung blau, alles andere erbt die Farbe des Blocks, in dem es steht; ganz außen gelb wie die Methode `main` im Code. */
+export function scopeKind(type: ElementType): string | undefined {
+  switch (type) {
+    case ElementType.forSchleife:
+    case ElementType.whileSchleife:
+    case ElementType.doUntilSchleife:
+    case ElementType.endlosschleife:
+      return 'loop'
+    case ElementType.verzweigung:
+    case ElementType.fallauswahl:
+      return 'if'
+    default:
+      return undefined
+  }
+}
+
 export function el<K extends keyof SVGElementTagNameMap>(
   tag: K,
   attrs: Record<string, string | number> = {},
@@ -81,7 +97,7 @@ export class DiagramRenderer {
       }),
     )
     const g = el('g')
-    for (const n of layout.elements) this.drawNode(n, g, selectedPath, {}, undefined)
+    for (const n of layout.elements) this.drawNode(n, g, selectedPath, {}, undefined, 'method')
     svg.append(g)
     return svg
   }
@@ -173,7 +189,14 @@ export class DiagramRenderer {
     return { apex, maxTextBottom: apex.y - apexPadding, roofBottom }
   }
 
-  private drawNode(node: LayoutNode, g: SVGElement, selectedPath: number[] | undefined, omission: Omission, parentType?: ElementType) {
+  private drawNode(
+    node: LayoutNode,
+    g: SVGElement,
+    selectedPath: number[] | undefined,
+    omission: Omission,
+    parentType?: ElementType,
+    parentScope?: string,
+  ) {
     const r = node.frame
     const e = node.element
     const maxX = r.x + r.width
@@ -190,7 +213,11 @@ export class DiagramRenderer {
     const bg = e.backgroundColor
     const own = bg && bg.a > 0 ? `rgba(${bg.r}, ${bg.g}, ${bg.b}, ${bg.a / 255})` : 'white'
     const fill = isSelected && (sim || this.fillsSelection) ? 'rgba(199, 230, 255, 0.55)' : own
-    cell.append(el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill }))
+    const scope = scopeKind(e.type) ?? parentScope
+    // Fläche in der Farbe des Blocks per CSS (Einstellung „Blöcke farbig“); im Export bleibt sie weiß.
+    const area = el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill })
+    if (fill === 'white' && scope) area.setAttribute('class', `ns-scope ns-scope-${scope}`)
+    cell.append(area)
     this.strokeCellBorder(cell, r, omission)
 
     const bar = Ink.callSideBarInset
@@ -253,7 +280,7 @@ export class DiagramRenderer {
 
     node.children.forEach((c, idx) => {
       const childOmission: Omission = e.type === ElementType.doUntilSchleife && idx === 0 ? { top: true, left: true } : {}
-      this.drawNode(c, g, selectedPath, childOmission, e.type)
+      this.drawNode(c, g, selectedPath, childOmission, e.type, scope)
     })
 
     // Ab hier über den Kindern zeichnen.

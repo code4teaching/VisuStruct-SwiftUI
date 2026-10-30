@@ -663,6 +663,6 @@
 "web_visuobject_save_tip" = "Projekt als .zip speichern: Projektname/src/package/Klasse.java";
 "web_visuobject_open_tip" = "Projekt öffnen (.zip wie aus Eclipse oder BlueJ) oder .java-Dateien ins Projekt holen";
 "web_visuobject_method_ph" = "+ bellen(): void";
-"web_code_scopes" = "Codeblöcke farbig";
-"web_code_scopes_hint" = "Klasse, Methode, Schleife, Verzweigung in eigenen Kästen";
+"web_code_scopes" = "Blöcke farbig";
+"web_code_scopes_hint" = "Code und Struktogramm: Schleife rosa, Verzweigung blau, Methode gelb, Klasse grün";
 "web_pseudocode" = "Pseudocode";

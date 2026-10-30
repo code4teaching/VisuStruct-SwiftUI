@@ -27,7 +27,7 @@ import { ElementType, type VSDocument, type VSElement } from '../core/model'
 import { paletteElement, paletteItems, type PaletteItem } from '../core/palette'
 import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
-import { DiagramRenderer, displayElement, el, flattenNodes, samePath } from './renderer'
+import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { CodePanel } from './codePanel'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
@@ -706,6 +706,8 @@ export class App {
       const li = document.createElement('li')
       li.className = 'palette-item'
       li.dataset.item = data
+      // Gleiche Farbe wie der Kasten im Struktogramm und der Block im Code (Einstellung „Blöcke farbig“)
+      li.dataset.scope = scopeKind(make().type) ?? 'method'
       li.append(this.paletteIcon(icon), document.createTextNode(label))
       li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'palette', make, label }))
       // Tastatur/Klick ohne Ziehen: hinter der Auswahl einfügen (bzw. Platzhalter ersetzen).
