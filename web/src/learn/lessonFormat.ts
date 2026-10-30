@@ -4,6 +4,7 @@ import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
 import { parseRescueGame, type RescueGame } from './rescueGame'
 import { parseCloze, type Cloze } from './cloze'
+import { parsePap, type Pap } from './pap'
 
 /**
  * Lektionen und Aufgaben als Markdown mit Kopfzeilen und `:::`-Blöcken (siehe `lessons/README.md`).
@@ -30,6 +31,8 @@ export type Block =
   | { kind: 'robotQuiz'; tasks: { part: MBotPart; question: string }[]; done?: string }
   /** Fertiger Code mit Lücken für einzelne Wörter. */
   | { kind: 'cloze'; cloze: Cloze }
+  /** Programmablaufplan mit leeren Plätzen, die fertigen Elemente legt man hinein. */
+  | { kind: 'pap'; pap: Pap }
   /** Eine Textdatei zum Einlesen: `Files.readString(Path.of("name"))` liefert ihren Inhalt. */
   | { kind: 'textFile'; name: string; content: string }
 
@@ -348,6 +351,13 @@ export function parseBlocks(body: string, file: string): Block[] {
       case 'lueckentext':
         try {
           blocks.push({ kind: 'cloze', cloze: parseCloze(inner, file) })
+        } catch (err) {
+          throw new FormatError((err as Error).message)
+        }
+        break
+      case 'pap':
+        try {
+          blocks.push({ kind: 'pap', pap: parsePap(inner, file) })
         } catch (err) {
           throw new FormatError((err as Error).message)
         }

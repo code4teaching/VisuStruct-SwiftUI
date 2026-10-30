@@ -3370,6 +3370,114 @@ button.danger-text:not(:disabled) {
 .learn-cloze-status.wrong {
   background: #fee2e2;
 }
+/* PAP bauen: Plan mit leeren Plätzen, darunter die fertigen Elemente */
+.learn-pap {
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 0 0 14px;
+}
+.learn-pap-title {
+  display: block;
+  font-size: 1.05em;
+  margin-bottom: 4px;
+}
+.learn-pap p {
+  margin: 0 0 8px;
+}
+.learn-pap-hint {
+  color: var(--muted);
+  font-size: 0.9em;
+}
+.learn-pap-plan {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 10px;
+  background: #fff;
+  border-radius: 8px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  fill: #1c1c1e;
+}
+.learn-pap-slot {
+  cursor: pointer;
+  outline: none;
+}
+.learn-pap-slot .learn-pap-shape {
+  stroke: #8e8e93;
+  stroke-width: 2;
+}
+.learn-pap-slot:focus-visible .learn-pap-shape,
+.learn-pap-slot.over .learn-pap-shape {
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.learn-pap-slot.right .learn-pap-shape {
+  stroke: #34c759;
+  stroke-width: 3;
+}
+.learn-pap-slot.wrong .learn-pap-shape {
+  stroke: #ff3b30;
+  stroke-width: 3;
+}
+.learn-pap-slot.shown .learn-pap-shape {
+  stroke: #d97706;
+}
+.learn-pap-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.learn-pap-card {
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: none;
+  line-height: 0;
+  touch-action: none;
+  cursor: grab;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  fill: #1c1c1e;
+}
+.learn-pap-card.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.learn-pap-card.dragging {
+  opacity: 0.3;
+}
+.learn-pap-ghost {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  opacity: 0.9;
+}
+.learn-pap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.learn-pap-check {
+  font-weight: 600;
+}
+.learn-pap-status:empty {
+  display: none;
+}
+.learn-pap-status {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.learn-pap-status.right {
+  background: #dcfce7;
+}
+.learn-pap-status.wrong {
+  background: #fee2e2;
+}
 /* Farbige Markierung im Text, passend zu farbigen Kästen in Lektion 1 (gelb, blau, rosa wie „Blöcke farbig“) */
 .learn-mark {
   color: inherit;
