@@ -229,3 +229,11 @@ Java Development Kit: the JRE plus the compiler `javac` and other tools. You nee
 
 ### platform independent
 A program runs without changes on different operating systems. In Java the JVM makes this possible: “Write once, run anywhere”.
+
+### machine code
+auch: Machine code
+Instructions as numbers that the processor runs directly. Every kind of processor has its own machine code.
+
+### JIT compiler
+auch: JIT
+A part of the JVM that translates often-used bytecode into machine code while the program runs (“just in time”). This makes Java faster.

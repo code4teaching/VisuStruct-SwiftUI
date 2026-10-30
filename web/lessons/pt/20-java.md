@@ -12,6 +12,7 @@ kurz: Todos os elementos em Java num relance, gerar código, escrever Java na á
 - explicar a diferença entre Excerto e Classe
 - explicar como o código Java corre em qualquer sistema operativo com o compilador, o bytecode e a JVM
 - distinguir o JDK do JRE
+- explicar porque é que um programa em C++ tem de ser compilado de novo para cada sistema operativo e um programa Java não
 - reconstruir um programa Java curto como estrutograma
 - escrever Java na área Programação e ler o estrutograma que é construído
 - executar um programa com ▶︎ e usar entradas e saídas na consola
@@ -115,11 +116,23 @@ O nome da classe vem do **título** do diagrama. O ficheiro tem de ter exatament
 O teu ficheiro `Tabuada.java` é **código-fonte**: texto para pessoas. O processador do teu computador não o entende diretamente. Por isso, o Java corre em dois passos:
 
 1. O **compilador** `javac` traduz o código-fonte em **bytecode**. O resultado é o ficheiro `Tabuada.class`.
-2. A **JVM** (Java Virtual Machine, máquina virtual Java) lê o bytecode e executa-o instrução a instrução.
+2. A **JVM** (Java Virtual Machine, máquina virtual Java) lê o bytecode e, ao executá-lo, traduz-o em **código máquina**: instruções para o processador do teu computador.
 
 ::: grafik l20-jvm.svg
 
 O bytecode existe só uma vez. Já a JVM existe para Windows, macOS, Linux e muitos outros sistemas. Por isso, o mesmo ficheiro `.class` corre em qualquer computador que tenha uma JVM instalada. A isto chama-se **independente da plataforma**. O lema é **“Write once, run anywhere”**: escrever uma vez, executar em qualquer lado.
+
+Compara com o **C++**: aí o compilador traduz o código-fonte diretamente em código máquina para um só processador e um só sistema operativo. O programa pronto só corre aí. Para Windows, macOS e Linux tens de o compilar de novo de cada vez.
+
+::: grafik l20-cpp.svg
+
+| | C++ | Java |
+|---|---|---|
+| O compilador gera | código máquina | bytecode |
+| Quantas vezes compilar? | de novo para cada sistema | uma vez |
+| De que precisa o computador para o executar? | de mais nada | de uma JVM |
+
+Isto torna o Java mais lento? Quase nada. As partes do programa que correm muitas vezes, por exemplo ciclos, são traduzidas de uma vez para código máquina pelo **compilador JIT** da JVM (“just in time”, mesmo a tempo). Depois correm quase tão depressa como em C++.
 
 > Imagina a JVM como um pequeno computador feito de software, quase como um sistema operativo só para programas Java. Mas, rigorosamente, não é um sistema operativo, é uma **máquina virtual**: um programa que corre ele próprio no Windows, no macOS ou no Linux e que, lá dentro, faz de conta que é um computador.
 
@@ -352,6 +365,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - Consigo explicar a diferença entre Excerto e Classe. → Excerto ou Classe
 - Consigo explicar como o código Java corre em qualquer sistema operativo com o compilador, o bytecode e a JVM. → Como o Java corre em qualquer computador
 - Consigo distinguir o JDK do JRE. → Como o Java corre em qualquer computador
+- Consigo explicar porque é que um programa em C++ tem de ser compilado de novo para cada sistema operativo e um programa Java não. → Como o Java corre em qualquer computador
 - Consigo reconstruir um programa Java curto como estrutograma. → Exercício: Java como estrutograma
 - Consigo escrever Java na área Programação e ler o estrutograma que é construído. → Escrever Java diretamente
 - Consigo executar um programa com ▶︎ e usar entradas e saídas na consola. → Executar o programa
@@ -408,4 +422,11 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [x] do JDK
 - [ ] só da JVM
 > O JRE chega para executar. O compilador `javac` só vem com o JDK.
+
+? Queres usar o teu programa no Windows e no Mac. O que é verdade?
+→ Como o Java corre em qualquer computador
+- [ ] O Java tem de ser compilado de novo para cada sistema, o C++ não.
+- [x] O C++ tem de ser compilado de novo para cada sistema, o Java não.
+- [ ] Os dois só se compilam uma vez.
+> O C++ passa diretamente a código máquina para um sistema. O Java passa a bytecode, e é a JVM que o executa em cada sistema.
 :::

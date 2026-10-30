@@ -233,3 +233,11 @@ Java Development Kit: o JRE e ainda o compilador `javac` e outras ferramentas. �
 
 ### independente da plataforma
 Um programa corre sem alterações em sistemas operativos diferentes. Em Java é a JVM que o permite: “Write once, run anywhere”.
+
+### código máquina
+auch: Código máquina
+Instruções em forma de números que o processador executa diretamente. Cada tipo de processador tem o seu próprio código máquina.
+
+### compilador JIT
+auch: JIT
+Uma parte da JVM que, durante a execução (“just in time”), traduz o bytecode muito usado em código máquina. Assim o Java fica mais rápido.

@@ -143,7 +143,7 @@ output: seats.length + " rows, " + seats[0].length + " seats"
 
 ### From code to program
 
-The compiler `javac` translates `File.java` into bytecode (`File.class`). The JVM runs the bytecode, the same way on Windows, macOS and Linux.
+The compiler `javac` translates `File.java` into bytecode (`File.class`). The JVM translates the bytecode into machine code while it runs, the same way on Windows, macOS and Linux. C++, on the other hand, becomes machine code directly and has to be compiled again for every system.
 
 | | contains | for |
 |---|---|---|

@@ -12,6 +12,7 @@ kurz: All elements in Java at a glance, generate code, write Java in the Program
 - explain the difference between Snippet and Class
 - explain how Java code runs on every operating system with the compiler, bytecode and the JVM
 - tell the JDK and the JRE apart
+- explain why a C++ program has to be compiled again for every operating system but a Java program does not
 - rebuild a short Java program as a structure chart
 - type Java in the Programming area and read the structure chart that is built
 - run a program with ▶︎ and use input and output in the console
@@ -115,11 +116,23 @@ The name of the class comes from the **title** of the diagram. The file must hav
 Your file `TimesTable.java` is **source code**: text for people. The processor in your computer cannot understand it directly. That is why Java runs in two steps:
 
 1. The **compiler** `javac` translates the source code into **bytecode**. The result is the file `TimesTable.class`.
-2. The **JVM** (Java Virtual Machine) reads the bytecode and runs it instruction by instruction.
+2. The **JVM** (Java Virtual Machine) reads the bytecode and, while running it, translates it into **machine code**: instructions for the processor in your computer.
 
 ::: grafik l20-jvm.svg
 
 There is only one bytecode. But there is a JVM for Windows, macOS, Linux and many other systems. That is why the same `.class` file runs on every computer that has a JVM installed. This is called **platform independent**. The slogan for it is **“Write once, run anywhere”**.
+
+Compare this with **C++**: there the compiler translates the source code directly into machine code for exactly one processor and one operating system. The finished program only runs there. For Windows, macOS and Linux you have to compile it again each time.
+
+::: grafik l20-cpp.svg
+
+| | C++ | Java |
+|---|---|---|
+| The compiler creates | machine code | bytecode |
+| How often do you compile? | again for every system | once |
+| What does the computer need to run it? | nothing else | a JVM |
+
+Does that make Java slower? Hardly. Parts of a program that run often, loops for example, are translated completely into machine code once by the JVM’s **JIT compiler** (“just in time”). After that they run almost as fast as C++.
 
 > Think of the JVM as a small computer made of software, almost like an operating system of its own just for Java programs. Strictly speaking it is not an operating system, though, but a **virtual machine**: a program that itself runs on Windows, macOS or Linux and pretends to be a computer inside it.
 
@@ -352,6 +365,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can explain the difference between Snippet and Class. → Snippet or Class
 - I can explain how Java code runs on every operating system with the compiler, bytecode and the JVM. → How Java runs on every computer
 - I can tell the JDK and the JRE apart. → How Java runs on every computer
+- I can explain why a C++ program has to be compiled again for every operating system but a Java program does not. → How Java runs on every computer
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
 - I can type Java in the Programming area and read the structure chart that is built. → Write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
@@ -408,4 +422,11 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [x] the JDK
 - [ ] only the JVM
 > The JRE is enough to run programs. The compiler `javac` only comes with the JDK.
+
+? You want to use your program on Windows and on a Mac. What is true?
+→ How Java runs on every computer
+- [ ] You have to compile Java again for every system, but not C++.
+- [x] You have to compile C++ again for every system, but not Java.
+- [ ] You only compile both once.
+> C++ becomes machine code for one system directly. Java becomes bytecode, and the JVM runs it on every system.
 :::

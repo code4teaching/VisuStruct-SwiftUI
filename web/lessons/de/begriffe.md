@@ -222,3 +222,10 @@ Java Development Kit: die JRE und dazu den Compiler `javac` und weitere Werkzeug
 
 ### plattformunabhängig
 Ein Programm läuft ohne Änderung auf verschiedenen Betriebssystemen. Bei Java sorgt die JVM dafür: „Write once, run anywhere“.
+
+### Maschinencode
+Befehle als Zahlen, die der Prozessor direkt ausführt. Jede Prozessorart hat ihren eigenen Maschinencode.
+
+### JIT-Compiler
+auch: JIT
+Ein Teil der JVM, der oft benutzten Bytecode während des Ausführens („just in time“) in Maschinencode übersetzt. Dadurch wird Java schneller.
