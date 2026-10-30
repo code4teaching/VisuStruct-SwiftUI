@@ -259,13 +259,18 @@ export class LearnPanel {
         return b
       }),
     )
+    // Kopf mit Zurück/Weiter bleibt oben stehen, nur der Inhalt darunter scrollt.
     this.body.append(
-      back,
-      h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}${lesson.robot ? ' · 🤖 VisuBot' : ''}`),
-      // Dieselbe Nummer wie in der Liste, gut sichtbar neben dem Titel.
-      h('h2', { class: 'learn-title' }, h('span', { class: 'learn-num', 'aria-hidden': 'true' }, String(lesson.number)), lesson.title),
-      bar,
-      h('h3', { class: 'learn-step-title' }, `${index + 1}. ${step.title}`),
+      h(
+        'div',
+        { class: 'learn-lesson-head' },
+        h('div', { class: 'learn-head-row' }, back, this.stepNav(lesson, index, p.done, 'learn-nav learn-nav-top')),
+        h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}${lesson.robot ? ' · 🤖 VisuBot' : ''}`),
+        // Dieselbe Nummer wie in der Liste, gut sichtbar neben dem Titel.
+        h('h2', { class: 'learn-title' }, h('span', { class: 'learn-num', 'aria-hidden': 'true' }, String(lesson.number)), lesson.title),
+        bar,
+        h('h3', { class: 'learn-step-title' }, `${index + 1}. ${step.title}`),
+      ),
     )
     const ret = this.returnTo?.lesson === lesson.id && this.returnTo.step !== index ? this.returnTo : undefined
     const backToChecklist = () => {
@@ -284,7 +289,13 @@ export class LearnPanel {
     this.openNeededColumns(step.blocks)
     markTerms(this.body, glossary)
 
-    const nav = h('div', { class: 'learn-nav' })
+    this.body.append(this.stepNav(lesson, index, p.done, 'learn-nav'))
+    if (ret) this.body.append(backToChecklist())
+  }
+
+  /** Zurück/Weiter (im letzten Schritt „Fertig“): oben im Kopf und unten nach dem Text. */
+  private stepNav(lesson: Lesson, index: number, done: boolean | undefined, class_: string) {
+    const nav = h('div', { class: class_ })
     const prev = h('button', {}, `← ${t('web_learn_back')}`) as HTMLButtonElement
     prev.disabled = index === 0
     prev.addEventListener('click', () => this.goToStep(lesson, index - 1))
@@ -294,7 +305,7 @@ export class LearnPanel {
       next.addEventListener('click', () => this.goToStep(lesson, index + 1))
       nav.append(next)
     } else {
-      const finish = h('button', { class: 'primary' }, p.done ? `✓ ${t('web_learn_done')}` : t('web_learn_finish'))
+      const finish = h('button', { class: 'primary' }, done ? `✓ ${t('web_learn_done')}` : t('web_learn_finish'))
       finish.addEventListener('click', () => {
         progress.updateLesson(lesson.id, { done: true })
         const following = lessons.find((l) => l.number === lesson.number + 1)
@@ -302,8 +313,7 @@ export class LearnPanel {
       })
       nav.append(finish)
     }
-    this.body.append(nav)
-    if (ret) this.body.append(backToChecklist())
+    return nav
   }
 
   private goToStep(lesson: Lesson, step: number) {
