@@ -196,14 +196,14 @@ System.out.println("Altura: " + altura + " m");
 - `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue-os.
 - Com `+` juntas texto e números.
 
-Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves. “Abrir no editor” leva o exemplo para a área Programação. Clica aí em “Executar”, depois muda o nome, a idade ou a altura e experimenta outra vez.
+Escreves Java na área [Código](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves. “Abrir no editor” leva o exemplo para a área Código. Clica aí em “Executar”, depois muda o nome, a idade ou a altura e experimenta outra vez.
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java
 code: java
 auftrag: Escreve a ficha do Ludwig, o bode. Cria três variáveis: o nome **Ludwig**, a idade **7** e a altura **1.2**. Depois mostra estas duas linhas:
   **Ludwig tem 7 anos.** e **Altura: 1.2 m**
-  “Abrir no editor” abre também a área Programação à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
+  “Abrir no editor” abre também a área Código à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
 test: - -> Ludwig tem 7 anos. | Altura: 1.2 m
 braucht: anweisung
 tipp: Precisas de uma `String`, um `int` e um `double`. Cada linha termina com ponto e vírgula.
@@ -227,7 +227,7 @@ auftrag: Preenche as palavras que faltam. Por fora está a moldura de que qualqu
     }
 }
 ```
-erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Programação podes deixá-la de fora, há mais sobre isto na lição “Java”.
+erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Código podes deixá-la de fora, há mais sobre isto na lição “Java”.
 :::
 
 ## Encontra o erro: segundos
@@ -236,7 +236,7 @@ erklärung: Números inteiros são `int`, números decimais `double`, textos `St
 titel: Corrigir os segundos
 code: java
 auftrag: O programa deve converter 200 segundos em minutos e segundos e mostrar **3 min 20 s**. Mas mostra **20 min 3 s**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l04-java-fehler-start.visustruct
 test: - -> 3 min 20 s
 braucht: anweisung

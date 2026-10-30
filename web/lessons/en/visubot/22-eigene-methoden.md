@@ -53,7 +53,7 @@ public class Squares {
 }
 ```
 
-In [Programming](#zeige-codelive) you see each method in its own tab, just like in the structogram.
+In [Code](#zeige-codelive) you see each method in its own tab, just like in the structogram.
 
 ::: quiz
 ? What does `void` mean in `void square(int side)`?

@@ -41,7 +41,7 @@ Os valores de a e b são trocados. A variável aux guarda um dos valores entreta
 - **Variáveis:** Todas as variáveis com os seus valores atuais.
 - **Saída:** Tudo o que foi mostrado com `output:`.
 
-Se a área [Programação](#zeige-codelive) estiver aberta à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
+Se a área [Código](#zeige-codelive) estiver aberta à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
 
 No fim aparece **Simulação terminada.** Se algo correr mal, a simulação para no bloco com erro e mostra uma mensagem, p. ex. **Variável desconhecida: total**.
 
@@ -122,7 +122,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Agora em Java
 
-Também podes executar código Java passo a passo. Na área [Programação](#zeige-codelive), a ferramenta para isso chama-se **depurador** (debugger):
+Também podes executar código Java passo a passo. Na área [Código](#zeige-codelive), a ferramenta para isso chama-se **depurador** (debugger):
 
 - Clica num número de linha à esquerda. Aparece um ponto vermelho: é um **ponto de paragem**. [▶︎ Executar](#zeige-ausfuehren) para antes dessa linha.
 - O botão [Passo a passo](#zeige-einzelschritt) executa exatamente uma linha, como **Passo** na simulação.
@@ -154,7 +154,7 @@ b = a * 2;      // b vale agora [[14]]
 a = b - a;      // a vale agora [[7]]
 System.out.println(a + b);      // saída: [[21]]
 ```
-erklärung: Cada linha calcula com os valores que estão nesse momento nas variáveis: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, saída 7 + 14 = 21. Podes confirmar com Passo a passo na área Programação.
+erklärung: Cada linha calcula com os valores que estão nesse momento nas variáveis: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, saída 7 + 14 = 21. Podes confirmar com Passo a passo na área Código.
 :::
 
 ## Encontra o erro: pontuação
@@ -286,7 +286,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [ ] soma é demasiado grande.
 - [ ] O estrutograma tem demasiados blocos.
 
-? O que faz um ponto vermelho antes de um número de linha na área Programação?
+? O que faz um ponto vermelho antes de um número de linha na área Código?
 → Agora em Java
 - [ ] Marca um erro.
 - [x] O programa para antes dessa linha.

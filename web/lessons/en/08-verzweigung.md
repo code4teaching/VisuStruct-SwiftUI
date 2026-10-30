@@ -130,7 +130,7 @@ Java has a mascot too: **Duke**, a little black-and-white fellow with a big red 
 titel: Passed in Java
 code: java
 auftrag: Write a Java program that asks for the number of points. From 50 points on it outputs **passed**, otherwise **not passed**.
-  Type the code in the Programming area and then click Check.
+  Type the code in the Code area and then click Check.
 test: 50 -> passed
 test: 49 -> not passed
 test: 100 -> passed
@@ -167,7 +167,7 @@ erklärung: `number % 2` is the remainder when dividing by 2. If it is 0, the nu
 titel: Fix the admission
 code: java
 auftrag: At the zoo, children **under** 6 get in for free, everyone else pays 4 euros. But the program also lets six-year-olds in for free.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l08-java-fehler-start.visustruct
 test: 5 -> Free entry
 test: 6 -> 4 euros

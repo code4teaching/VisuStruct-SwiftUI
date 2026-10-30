@@ -222,7 +222,7 @@ erklärung: `length()` conta os carateres, `toUpperCase()` põe tudo em maiúscu
 titel: Corrigir as iniciais
 code: java
 auftrag: O programa lê o nome próprio e o apelido e deve mostrar as iniciais. Para Ludwig Geißbock é **L. G.** Mas mostra **u. e.**
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l17-java-fehler-start.visustruct
 test: Ludwig, Geißbock -> L. G.
 test: Mia, Meyer -> M. M.

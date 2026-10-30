@@ -192,7 +192,7 @@ erklärung: `scanner.next()` lê uma palavra, `scanner.nextInt()` um número int
 titel: Corrigir a soma
 code: java
 auftrag: O programa lê dois números e deve mostrar a soma. Mas com 3 e 4 aparece **Soma: 34** em vez de **Soma: 7**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l06-java-fehler-start.visustruct
 test: 3, 4 -> Soma: 7
 test: 10, 5 -> Soma: 15

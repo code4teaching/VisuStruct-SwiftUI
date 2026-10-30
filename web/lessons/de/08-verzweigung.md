@@ -130,7 +130,7 @@ Java hat auch ein Maskottchen: **Duke**, ein kleiner schwarz-weißer Kerl mit gr
 titel: Bestanden in Java
 code: java
 auftrag: Schreibe ein Java-Programm, das nach der Punktzahl fragt. Ab 50 Punkten gibt es **bestanden** aus, sonst **nicht bestanden**.
-  Tippe den Code im Bereich Programmieren und klicke dann auf Prüfen.
+  Tippe den Code im Bereich Code und klicke dann auf Prüfen.
 test: 50 -> bestanden
 test: 49 -> nicht bestanden
 test: 100 -> bestanden
@@ -167,7 +167,7 @@ erklärung: `zahl % 2` ist der Rest beim Teilen durch 2. Ist er 0, ist die Zahl 
 titel: Eintritt reparieren
 code: java
 auftrag: Im Zoo haben Kinder **unter** 6 Jahren freien Eintritt, alle anderen zahlen 4 Euro. Das Programm lässt aber auch Sechsjährige umsonst hinein.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l08-java-fehler-start.visustruct
 test: 5 -> Eintritt frei
 test: 6 -> 4 Euro

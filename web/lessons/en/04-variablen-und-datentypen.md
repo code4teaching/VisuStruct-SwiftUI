@@ -196,14 +196,14 @@ System.out.println("Height: " + height + " m");
 - You write `String` with a capital letter, `int`, `double` and `boolean` in lowercase. Java tells them apart.
 - With `+` you join text and numbers together.
 
-You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type. “Open in editor” brings the example into the Programming area. Click “Run” there, then change the name, age or height and try again.
+You type Java in the [Code](#zeige-codelive) area. The structure chart builds itself as you type. “Open in editor” brings the example into the Code area. Click “Run” there, then change the name, age or height and try again.
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java
 code: java
 auftrag: Write a profile of Ludwig the billy goat. Create three variables: the name **Ludwig**, the age **7** and the height **1.2**. Then output these two lines:
   **Ludwig is 7 years old.** and **Height: 1.2 m**
-  “Open in editor” also opens the Programming area on the right. Type your code there; the structure chart builds itself. Then click Check.
+  “Open in editor” also opens the Code area on the right. Type your code there; the structure chart builds itself. Then click Check.
 test: - -> Ludwig is 7 years old. | Height: 1.2 m
 braucht: anweisung
 tipp: You need a `String`, an `int` and a `double`. Every line ends with a semicolon.
@@ -227,7 +227,7 @@ auftrag: Fill in the missing words. On the outside is the frame that every Java 
     }
 }
 ```
-erklärung: Whole numbers are `int`, decimal numbers `double`, texts `String` (with a capital S) and truth values `boolean`. `public class` and `public static void main` make up the frame. In the Programming area you may leave it out, more on this in the lesson “Java”.
+erklärung: Whole numbers are `int`, decimal numbers `double`, texts `String` (with a capital S) and truth values `boolean`. `public class` and `public static void main` make up the frame. In the Code area you may leave it out, more on this in the lesson “Java”.
 :::
 
 ## Find the bug: seconds
@@ -236,7 +236,7 @@ erklärung: Whole numbers are `int`, decimal numbers `double`, texts `String` (w
 titel: Fix the seconds
 code: java
 auftrag: The program should convert 200 seconds into minutes and seconds and output **3 min 20 s**. But it outputs **20 min 3 s**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l04-java-fehler-start.visustruct
 test: - -> 3 min 20 s
 braucht: anweisung

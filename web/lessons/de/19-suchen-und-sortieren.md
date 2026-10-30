@@ -189,7 +189,7 @@ erklärung: Ist eine Karte größer als ihre rechte Nachbarin, werden die beiden
 titel: Lineare Suche reparieren
 code: java
 auftrag: Die Karten {8, 4, 11, 4, 6} liegen in einem Array. Das Programm soll die **erste** Position der gesuchten Karte ausgeben, bei 4 also **Position: 1**. Es gibt aber **Position: 3** aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l19-java-fehler-start.visustruct
 test: 4 -> Position: 1
 test: 6 -> Position: 4

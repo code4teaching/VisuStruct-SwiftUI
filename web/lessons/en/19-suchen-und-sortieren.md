@@ -189,7 +189,7 @@ erklärung: If a card is larger than its right neighbour, the two are swapped, w
 titel: Fix the linear search
 code: java
 auftrag: The cards {8, 4, 11, 4, 6} are in an array. The program should output the **first** position of the card you are looking for, so for 4 **Position: 1**. But it outputs **Position: 3**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l19-java-fehler-start.visustruct
 test: 4 -> Position: 1
 test: 6 -> Position: 4

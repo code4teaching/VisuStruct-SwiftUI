@@ -189,7 +189,7 @@ erklärung: Se uma carta for maior do que a vizinha da direita, as duas trocam d
 titel: Corrigir a pesquisa linear
 code: java
 auftrag: As cartas {8, 4, 11, 4, 6} estão num array. O programa deve mostrar a **primeira** posição da carta procurada, para o 4 é **Posição: 1**. Mas mostra **Posição: 3**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l19-java-fehler-start.visustruct
 test: 4 -> Posição: 1
 test: 6 -> Posição: 4

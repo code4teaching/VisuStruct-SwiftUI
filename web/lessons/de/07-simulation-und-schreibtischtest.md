@@ -41,7 +41,7 @@ Die Werte von a und b werden vertauscht. Die Variable hilf merkt sich dabei eine
 - **Variablen:** Alle Variablen mit ihren aktuellen Werten.
 - **Ausgabe:** Alles, was mit `output:` ausgegeben wurde.
 
-Ist rechts der Bereich [Programmieren](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
+Ist rechts der Bereich [Code](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
 
 Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulation auf dem fehlerhaften Kasten stehen und zeigt eine Meldung, z. B. **Unbekannte Variable: gesamt**.
 
@@ -122,7 +122,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Jetzt in Java
 
-Auch Java-Code kannst du Schritt für Schritt ausführen. Im Bereich [Programmieren](#zeige-codelive) heißt das Werkzeug dafür **Debugger**:
+Auch Java-Code kannst du Schritt für Schritt ausführen. Im Bereich [Code](#zeige-codelive) heißt das Werkzeug dafür **Debugger**:
 
 - Klicke links auf eine Zeilennummer. Ein roter Punkt erscheint, das ist ein **Haltepunkt**. [▶︎ Ausführen](#zeige-ausfuehren) hält vor dieser Zeile an.
 - Der Knopf [Einzelschritt](#zeige-einzelschritt) führt genau eine Zeile aus, wie **Schritt** in der Simulation.
@@ -154,7 +154,7 @@ b = a * 2;      // b ist jetzt [[14]]
 a = b - a;      // a ist jetzt [[7]]
 System.out.println(a + b);      // Ausgabe: [[21]]
 ```
-erklärung: Jede Zeile rechnet mit den Werten, die gerade in den Variablen stehen: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, Ausgabe 7 + 14 = 21. Mit dem Einzelschritt im Bereich Programmieren kannst du es nachprüfen.
+erklärung: Jede Zeile rechnet mit den Werten, die gerade in den Variablen stehen: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, Ausgabe 7 + 14 = 21. Mit dem Einzelschritt im Bereich Code kannst du es nachprüfen.
 :::
 
 ## Fehler finden: Spielstand
@@ -286,7 +286,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] summe ist zu groß.
 - [ ] Das Struktogramm hat zu viele Kästen.
 
-? Was macht ein roter Punkt vor einer Zeilennummer im Bereich Programmieren?
+? Was macht ein roter Punkt vor einer Zeilennummer im Bereich Code?
 → Jetzt in Java
 - [ ] Er markiert einen Fehler.
 - [x] Das Programm hält vor dieser Zeile an.

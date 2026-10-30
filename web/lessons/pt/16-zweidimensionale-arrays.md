@@ -169,7 +169,7 @@ erklärung: `int[][]` é uma tabela. `campo.length` é o número de linhas (2), 
 titel: Corrigir o jogador 2
 code: java
 auftrag: Na tabela `pontos`, cada linha corresponde a um jogador. O programa deve somar os pontos do jogador 2 (linha 1), ou seja, **Jogador 2: 11**. Em vez disso, dá um erro.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l16-java-fehler-start.visustruct
 test: - -> Jogador 2: 11
 braucht: forSchleife

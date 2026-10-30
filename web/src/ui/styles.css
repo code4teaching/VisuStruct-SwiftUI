@@ -8,6 +8,9 @@
   --accent-soft: rgba(0, 122, 255, 0.18);
   --accent-faint: rgba(0, 122, 255, 0.08);
   --accent-glow: rgba(0, 122, 255, 0.35);
+  /* Farben der Bereiche (auch in VisuBot gleich): Überschrift, Leiste und Schild „Löse diese Übung im …“ */
+  --area-editor: #007aff;
+  --area-code: #7c3aed;
   color-scheme: light;
 }
 
@@ -2165,13 +2168,39 @@ button.danger-text:not(:disabled) {
 }
 .learn-where {
   margin: 0;
-  justify-self: start;
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent);
-  border: 1px solid var(--accent);
+  color: var(--muted);
+}
+.area-name {
+  display: inline-block;
+  color: #fff;
   border-radius: 10px;
-  padding: 1px 8px;
+  padding: 0 8px;
+}
+.area-name.area-editor {
+  background: var(--area-editor);
+}
+.area-name.area-code {
+  background: var(--area-code);
+}
+/* Jeder Bereich zeigt seine Farbe: oben ein farbiger Rand, eingeklappt die Leiste. */
+.columns > .app {
+  border-top: 3px solid var(--area-editor);
+}
+.livecode {
+  border-top: 3px solid var(--area-code);
+}
+.livecode-head h2,
+.live-rail span {
+  color: var(--area-code);
+}
+.editor-rail span {
+  color: var(--area-editor);
+}
+.live-rail,
+.editor-rail {
+  font-weight: 600;
 }
 .learn-exercise .learn-text p:last-child {
   margin-bottom: 0;

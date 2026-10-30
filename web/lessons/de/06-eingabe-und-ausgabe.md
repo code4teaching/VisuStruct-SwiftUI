@@ -192,7 +192,7 @@ erklärung: `scanner.next()` liest ein Wort, `scanner.nextInt()` eine ganze Zahl
 titel: Summe reparieren
 code: java
 auftrag: Das Programm liest zwei Zahlen ein und soll ihre Summe ausgeben. Bei 3 und 4 erscheint aber **Summe: 34** statt **Summe: 7**.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l06-java-fehler-start.visustruct
 test: 3, 4 -> Summe: 7
 test: 10, 5 -> Summe: 15

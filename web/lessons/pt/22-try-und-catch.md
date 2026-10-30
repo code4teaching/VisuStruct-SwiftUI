@@ -7,7 +7,7 @@ kurz: Ler mensagens de erro com Java verdadeiro e apanhar falhas com try e catch
 ## Competências que vou adquirir agora
 
 ::: kompetenzen
-- ligar o Java verdadeiro na área Programação
+- ligar o Java verdadeiro na área Código
 - ler numa mensagem de erro a exceção e a linha
 - apanhar uma exceção com try e catch
 - transformar texto num número com Integer.parseInt e apanhar a NumberFormatException
@@ -16,7 +16,7 @@ kurz: Ler mensagens de erro com Java verdadeiro e apanhar falhas com try e catch
 
 ## Falhou!
 
-Este programa deve escrever três notas. Escreve-o na área [Programação](#zeige-codelive) e clica em [▶︎ Executar](#zeige-ausfuehren):
+Este programa deve escrever três notas. Escreve-o na área [Código](#zeige-codelive) e clica em [▶︎ Executar](#zeige-ausfuehren):
 
 ```java
 int[] notas = {2, 3, 1};
@@ -37,7 +37,7 @@ Em 1947, a equipa de Grace Hopper encontrou no computador Mark II da Universidad
 
 ## Ligar o Java verdadeiro
 
-Normalmente a área Programação calcula com a mesma simulação que o estrutograma. Quando há um erro, ela simplesmente para. Para veres o que faz o Java verdadeiro, liga o Java verdadeiro:
+Normalmente a área Código calcula com a mesma simulação que o estrutograma. Quando há um erro, ela simplesmente para. Para veres o que faz o Java verdadeiro, liga o Java verdadeiro:
 
 1. Clica na [roda dentada](#zeige-einstellungen) em cima à direita e escolhe Java como **Linguagem de programação**.
 2. Na secção Java, marca **Java verdadeiro (com Swing)**.
@@ -80,7 +80,7 @@ Uma mensagem destas assusta à primeira vista. Mas diz-te exatamente o que se pa
 O Java chama a um erro destes, durante a execução, uma **exceção** (em inglês *exception*). Diz-se: o Java *lança* uma exceção. Se ninguém a apanhar, o programa para. É por isso que “Pronto!” não aparece.
 
 ::: ludwig
-Lê as mensagens de erro sempre de cima: primeiro o nome da exceção, depois o número da linha. Na área Programação, os números das linhas estão à esquerda do código.
+Lê as mensagens de erro sempre de cima: primeiro o nome da exceção, depois o número da linha. Na área Código, os números das linhas estão à esquerda do código.
 :::
 
 ## try e catch
@@ -245,7 +245,7 @@ A exceção chama-se `ArithmeticException`. Põe no bloco `try` só a linha que 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
 
 ::: checkliste
-- Consigo ligar o Java verdadeiro na área Programação. → Ligar o Java verdadeiro
+- Consigo ligar o Java verdadeiro na área Código. → Ligar o Java verdadeiro
 - Consigo ler numa mensagem de erro a exceção e a linha. → Ler a mensagem de erro
 - Consigo apanhar uma exceção com try e catch. → try e catch
 - Consigo transformar texto num número com Integer.parseInt e apanhar a NumberFormatException. → Transformar texto num número
