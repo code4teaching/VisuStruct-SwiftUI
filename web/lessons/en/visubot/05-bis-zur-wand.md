@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: The mBot2 measures the distance and stops in time.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- ask for the distance with `mbot.getDistance()`
+- decide when to use a while loop instead of a for loop
+- find a goal with the line sensor
+:::
+
 ## How far away is the wall?
 
 So far you told the mBot2 exactly how far to drive. Now it should notice by itself when to stop.
@@ -56,20 +64,24 @@ lösung: vb-bis-ziel-loesung.visustruct
 
 ::: quiz
 ? The mBot2 is 40 cm in front of the wall. How often does it drive forward with `while (mbot.getDistance() > 15) mbot.forward();` if each move is 10 cm?
+→ How far away is the wall?
 - [ ] not at all
 - [ ] once
 - [x] until the wall is at most 15 cm away
 - [ ] always exactly five times
 > The while loop checks the condition before every move. When the wall is close enough, it stops.
 ? Why is a for loop with a fixed count not enough here?
+→ Three worlds, one program
 - [x] Because the wall is at a different distance in every world.
 - [ ] Because a for loop must not contain statements.
 - [ ] Because the mBot2 does not understand for loops.
 > The for loop knows beforehand how often it runs. The while loop decides on the way.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can ask for the distance with `mbot.getDistance()`. → How far away is the wall?
-- I know when to use a while loop instead of a for loop. → Three worlds, one program
+- I can decide when to use a while loop instead of a for loop. → Three worlds, one program
 - I can find a goal with the line sensor. → To the goal
 :::

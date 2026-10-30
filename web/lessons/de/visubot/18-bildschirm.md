@@ -4,6 +4,15 @@ bereich: VisuBot
 kurz: Text, Zahlen und Messwerte auf dem CyberPi anzeigen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- Text auf dem Bildschirm anzeigen
+- mehrere Texte nacheinander zeigen
+- Zahlen und Messwerte anzeigen
+- einen Countdown in Java schreiben
+:::
+
 ## Text anzeigen
 
 ::: mbot2
@@ -58,14 +67,18 @@ lösung: vb-java-countdown-loesung.visustruct
 
 ::: quiz
 ? Was zeigt `mbot.showText("Abstand: " + 25)`?
+→ Zahlen und Messwerte
 - [x] Abstand: 25
 - [ ] "Abstand: " + 25
 - [ ] 25
 > Das `+` hängt die Zahl an den Text.
 ? Was passiert mit dem alten Text, wenn du einen neuen anzeigst?
+→ Text anzeigen
 - [x] Er wird ersetzt.
 - [ ] Der neue kommt darunter.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann Text auf dem Bildschirm anzeigen. → Text anzeigen

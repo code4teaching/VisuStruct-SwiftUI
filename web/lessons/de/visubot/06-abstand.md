@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Abstand messen, Abstand halten und das Ganze in Java.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, was `mbot.getDistance()` misst
+- zwei Verzweigungen ineinander bauen
+- eine While-Schleife mit dem Abstand in Java schreiben
+:::
+
 ## Wie misst der mBot2 den Abstand?
 
 ::: mbot2
@@ -68,19 +76,23 @@ lösung: vb-java-wand-piep-loesung.visustruct
 
 ::: quiz
 ? `mbot.getDistance()` liefert `8`. Was tut das Programm aus „Abstand halten“?
+→ Abstand halten im Struktogramm
 - [x] Es fährt zurück.
 - [ ] Es fährt vor.
 - [ ] Es bleibt stehen.
 > 8 ist kleiner als 10, also ist schon die erste Bedingung wahr.
 ? Wie heißt der Nein-Zweig einer Verzweigung in Java?
+→ Jetzt in Java
 - [ ] `then`
 - [x] `else`
 - [ ] `otherwise`
 > `if` ist der Anfang, `else` der Nein-Zweig.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, was `mbot.getDistance()` misst. → Wie misst der mBot2 den Abstand?
+- Ich kann erklären, was `mbot.getDistance()` misst. → Wie misst der mBot2 den Abstand?
 - Ich kann zwei Verzweigungen ineinander bauen. → Abstand halten im Struktogramm
 - Ich kann eine While-Schleife mit dem Abstand in Java schreiben. → Jetzt in Java
 :::

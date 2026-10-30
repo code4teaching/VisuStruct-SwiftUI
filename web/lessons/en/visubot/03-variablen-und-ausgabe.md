@@ -4,6 +4,15 @@ bereich: VisuBot
 kurz: Store values in variables, drive the mBot2 with them and print results.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create and use a variable
+- tell the data types `int`, `double`, `String` and `boolean` apart
+- drive a rectangle in Java with two variables
+- print something with `System.out.println`
+:::
+
 ## A variable for the side
 
 With `mbot.forward(30)` the mBot2 drives 30 cm in one go. If you drive a square with it and no loop, the 30 appears four times in your program. To make the square bigger, you have to change it in four places. It is better to store the side length **once** and then use it everywhere.
@@ -86,25 +95,30 @@ lösung: vb-ohne-strecke-loesung.visustruct
 
 ::: quiz
 ? What does `mbot.forward(side)` drive if `int side = 40;` comes first?
+→ A variable for the side
 - [ ] 4 cm
 - [x] 40 cm
 - [ ] nothing, `side` is not a command
 > Wherever `side` appears, Java uses the value 40.
 ? Which data type fits `"Visu"`?
+→ Which data types are there?
 - [ ] `int`
 - [ ] `double`
 - [x] `String`
 > Text in quotation marks is a `String`.
 ? What does `System.out.println("Side: " + 30);` print?
+→ Now without the robot: output
 - [x] Side: 30
 - [ ] "Side: " + 30
 - [ ] 30
 > The `+` joins the text and the number.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can create and use a variable. → A variable for the side
-- I know the data types `int`, `double`, `String` and `boolean`. → Which data types are there?
+- I can tell the data types `int`, `double`, `String` and `boolean` apart. → Which data types are there?
 - I can drive a rectangle in Java with two variables. → Now in Java: rectangle
 - I can print something with `System.out.println`. → Now without the robot: output
 :::

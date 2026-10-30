@@ -4,6 +4,15 @@ bereich: VisuBot
 kurz: Tones, a scale and a siren.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain what the two numbers in `playTone` mean
+- build a sequence of tones
+- calculate with the counting variable in Java
+- make the mBot2 show a feeling
+:::
+
 ## How high, how long?
 
 ::: mbot2
@@ -73,18 +82,22 @@ The mBot2 can also be happy, sad or sleepy. With **show a feeling** (`mbot.emoti
 
 ::: quiz
 ? Which tone is higher?
+→ How high, how long?
 - [x] `mbot.playTone(880, 300)`
 - [ ] `mbot.playTone(440, 300)`
 > More hertz means higher.
 ? How long does `mbot.playTone(440, 1000)` sound?
+→ How high, how long?
 - [ ] 440 seconds
 - [x] 1 second
 - [ ] 1000 seconds
 > 1000 milliseconds are one second.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know what the two numbers in `playTone` mean. → How high, how long?
+- I can explain what the two numbers in `playTone` mean. → How high, how long?
 - I can build a sequence of tones. → Scale in the structure chart
 - I can calculate with the counting variable in Java. → Now in Java: higher and higher
 - I can make the mBot2 show a feeling. → Showing feelings

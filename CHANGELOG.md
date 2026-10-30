@@ -12,6 +12,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web 0.13.26, competences and „Ich kann“ checklists in the VisuBot lessons:** all 22 VisuBot lessons follow the pattern of the VisuStruct lessons: first step „Diese Kompetenzen erwerbe ich jetzt“, „Ich kann …“ checklist with ☂️ ⛅ ☀️, quiz questions linked to their steps (de/en).
 - **Web 0.13.25, competences and „Ich kann“ checklists in lessons 21–40:** same pattern as lessons 1–20 (first step „Diese Kompetenzen erwerbe ich jetzt“, „Ich kann …“ checklist with ☂️ ⛅ ☀️, quiz questions linked to their steps); task lines like „Meine Ampel hat vier Phasen“ now read „Ich kann eine Ampel mit vier Phasen programmieren“. Lesson 30 now points to step 3 instead of step 2 (de/en/pt).
 - **Web 0.13.24, competences and „Ich kann“ checklists in lessons 11–20:** same pattern as lessons 1–10: first step „Diese Kompetenzen erwerbe ich jetzt“, every checklist line an „Ich kann …“ sentence rated with ☂️ ⛅ ☀️, every question of the final quiz names the step it tests (de/en/pt).
 - **Web 0.13.23, competences and „Ich kann“ checklists in lessons 2–10:** like lesson 1, lessons 2–10 start with the step „Diese Kompetenzen erwerbe ich jetzt“ (the lesson itself starts with step 2), every checklist line is an „Ich kann …“ sentence rated with ☂️ ⛅ ☀️, and every quiz question names the step it tests, so after the quiz the checklist shows where self-assessment and quiz differ. Lesson 3 („Ausprobieren“) and lesson 9 (game) now use „Ich kann“ instead of „Ich habe“ (de/en/pt).

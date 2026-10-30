@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Work with texts, pick out letters and show them on the screen.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- work with `length()` and `substring(…)`
+- join texts and numbers with `+`
+- get single characters with `charAt(…)`
+:::
+
 ## Letter by letter
 
 In Java a text is called a **string** or `String`. It consists of single characters, numbered from **0** just like an array:
@@ -64,16 +72,20 @@ lösung: vb-ohne-rueckwaerts-loesung.visustruct
 
 ::: quiz
 ? What does `"VisuBot".substring(0, 4)` give?
+→ Letter by letter
 - [ ] `"VisuB"`
 - [x] `"Visu"`
 - [ ] `"uBot"`
 > `substring(0, 4)` takes the characters 0, 1, 2 and 3, so four of them.
 ? What does `"Ludwig".charAt(0)` give?
+→ Now without the robot: read it backwards
 - [x] `L`
 - [ ] `u`
 - [ ] `g`
 > Characters are counted from 0. Character 0 is the first one.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can work with `length()` and `substring(…)`. → Letter by letter

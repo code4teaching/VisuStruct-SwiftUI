@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Dunkle Linien auf dem Boden erkennen und nicht vom Tisch fallen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, was die Zahl von `mbot.getLine()` bedeutet
+- bis zu einer Linie fahren
+- in Java mit einer Variable Schritte zählen
+:::
+
 ## Vier Fühler unter der Nase
 
 ::: mbot2
@@ -64,19 +72,23 @@ lösung: vb-java-rand-loesung.visustruct
 
 ::: quiz
 ? Der mBot2 steht auf weißem Papier. Was liefert `mbot.getLine()`?
+→ Vier Fühler unter der Nase
 - [x] 0
 - [ ] 15
 - [ ] 1
 > Kein Fühler sieht Schwarz, also 0.
 ? Welche Bedingung heißt „Linie gefunden“?
+→ Am Rand umkehren im Struktogramm
 - [ ] `mbot.getLine() == 0`
 - [x] `mbot.getLine() != 0`
 - [ ] `mbot.getLine() < 0`
 > `!=` heißt „ungleich“.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, was die Zahl von `mbot.getLine()` bedeutet. → Vier Fühler unter der Nase
+- Ich kann erklären, was die Zahl von `mbot.getLine()` bedeutet. → Vier Fühler unter der Nase
 - Ich kann bis zu einer Linie fahren. → Am Rand umkehren im Struktogramm
 - Ich kann in Java mit einer Variable Schritte zählen. → Jetzt in Java: hin und zurück
 :::

@@ -4,6 +4,15 @@ bereich: VisuBot
 kurz: Werte in Variablen speichern, den mBot2 damit fahren lassen und Ergebnisse ausgeben.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Variable anlegen und benutzen
+- die Datentypen `int`, `double`, `String` und `boolean` unterscheiden
+- mit zwei Variablen ein Rechteck in Java fahren
+- mit `System.out.println` etwas ausgeben
+:::
+
 ## Eine Variable für die Seite
 
 Mit `mbot.forward(30)` fährt der mBot2 30 cm am Stück. Fährst du damit ein Quadrat ohne Schleife, steht die 30 aber viermal im Programm. Soll das Quadrat größer werden, musst du sie an vier Stellen ändern. Besser ist es, die Seitenlänge **einmal** zu speichern und dann überall zu benutzen.
@@ -86,25 +95,30 @@ lösung: vb-ohne-strecke-loesung.visustruct
 
 ::: quiz
 ? Was fährt `mbot.forward(seite)`, wenn vorher `int seite = 40;` steht?
+→ Eine Variable für die Seite
 - [ ] 4 cm
 - [x] 40 cm
 - [ ] gar nichts, `seite` ist kein Befehl
 > Wo `seite` steht, setzt Java den Wert 40 ein.
 ? Welcher Datentyp passt zu `"Visu"`?
+→ Welche Datentypen gibt es?
 - [ ] `int`
 - [ ] `double`
 - [x] `String`
 > Text in Anführungszeichen ist ein `String`.
 ? Was gibt `System.out.println("Seite: " + 30);` aus?
+→ Jetzt ohne Roboter: Ausgabe
 - [x] Seite: 30
 - [ ] "Seite: " + 30
 - [ ] 30
 > Das `+` hängt den Text und die Zahl aneinander.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann eine Variable anlegen und benutzen. → Eine Variable für die Seite
-- Ich kenne die Datentypen `int`, `double`, `String` und `boolean`. → Welche Datentypen gibt es?
+- Ich kann die Datentypen `int`, `double`, `String` und `boolean` unterscheiden. → Welche Datentypen gibt es?
 - Ich kann mit zwei Variablen ein Rechteck in Java fahren. → Jetzt in Java: Rechteck
 - Ich kann mit `System.out.println` etwas ausgeben. → Jetzt ohne Roboter: Ausgabe
 :::

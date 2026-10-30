@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Eigene Befehle mit Parametern und Rückgabewert schreiben und aufrufen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein Unterprogramm mit Parameter bauen und aufrufen
+- Methoden in Java erkennen
+- eine Methode mit Rückgabewert schreiben
+:::
+
 ## Ein Unterprogramm für das Quadrat
 
 Ein Quadrat fahren kann der mBot2 schon. Jetzt soll er zwei verschieden große Quadrate fahren. Statt die Schleife zweimal zu bauen, schreibst du ein **Unterprogramm**. In Java heißt es **Methode**. Es ist ein eigener Befehl, den du so oft aufrufen kannst, wie du willst.
@@ -49,11 +57,13 @@ Im Bereich [Programmieren](#zeige-codelive) siehst du jede Methode in ihrem eige
 
 ::: quiz
 ? Was bedeutet `void` in `void quadrat(int seite)`?
+→ Methoden in Java
 - [ ] Die Methode hat keinen Parameter.
 - [x] Die Methode liefert kein Ergebnis zurück.
 - [ ] Die Methode darf nur einmal aufgerufen werden.
 > `void` heißt „leer“: Es kommt kein Wert zurück. Der Parameter steht in den Klammern.
 ? Mit welchem Wert für `seite` läuft `quadrat(50)`?
+→ Ein Unterprogramm für das Quadrat
 - [ ] 30
 - [x] 50
 - [ ] mit keinem
@@ -83,8 +93,10 @@ lösung: vb-ohne-quadratzahl-loesung.visustruct
 unterprogramm: vb-ohne-quadratzahl-unterprogramm-loesung.visustruct
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann ein Unterprogramm mit Parameter bauen und aufrufen. → Ein Unterprogramm für das Quadrat
-- Ich weiß, wie Methoden in Java aussehen. → Methoden in Java
+- Ich kann Methoden in Java erkennen. → Methoden in Java
 - Ich kann eine Methode mit Rückgabewert schreiben. → Jetzt ohne Roboter: Methode mit Rückgabe
 :::

@@ -4,6 +4,13 @@ bereich: VisuBot
 kurz: The mBot2 measures something, and your program decides.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain the difference between a command and a sensor
+- build a sensor into a condition
+:::
+
 ## Commands and sensors
 
 So far you have only given the mBot2 **commands**: move forward, turn right. It carried them out without paying attention to its surroundings.
@@ -48,22 +55,27 @@ lösung: vb-wand-vorn-loesung.visustruct
 
 ::: quiz
 ? The wall is 12 cm away. Is `mbot.getDistance() < 20` true or false?
+→ Wall ahead?
 - [x] true
 - [ ] false
 > 12 is less than 20, so the condition is true.
 ? The mBot2 is standing on a bright floor. What does `mbot.getLine()` give you?
+→ Commands and sensors
 - [x] 0
 - [ ] 15
 - [ ] the distance in cm
 > 0 means: none of the four probes sees anything dark.
 ? Why is the sensor not a box of its own in the structure chart?
+→ Wall ahead?
 - [x] It does nothing, it only gives a value. You need that value in a condition.
 - [ ] Because the mBot2 would get too slow otherwise.
 - [ ] Because sensors only work in Java.
 > Commands are statements. Sensors are values, just like a variable.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know the difference between a command and a sensor. → Commands and sensors
+- I can explain the difference between a command and a sensor. → Commands and sensors
 - I can build a sensor into a condition. → Wall ahead?
 :::

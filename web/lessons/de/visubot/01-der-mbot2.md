@@ -4,6 +4,19 @@ bereich: VisuBot
 kurz: Lerne den Roboter kennen, den du gleich programmierst.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Teile des mBot2 benennen
+- erklären, wie der mBot2 Abstände misst
+- erklären, wie der mBot2 eine Linie erkennt
+- erklären, was Sensoren und Aktoren sind
+- den mBot2 mit Elementen aus der Gruppe mBot2-Befehle steuern
+- den mBot2 im Simulator fahren lassen
+- den echten mBot2 per USB-C verbinden und wieder trennen
+- prüfen, ob alle Sensoren und Aktoren funktionieren
+:::
+
 ## Hallo mBot2
 
 ::: mbot2
@@ -159,11 +172,13 @@ Dein Programm liest die Sensoren und steuert die Aktoren. Das kennst du schon al
 
 ::: quiz
 ? Ordne jedes Teil seiner Aufgabe zu.
+→ Hallo mBot2
 = Ultraschallsensor -> misst den Abstand
 = Motoren -> bewegen die Räder
 = CyberPi -> führt das Programm aus
 = Liniensensor -> erkennt eine dunkle Linie
 ? Welche Teile sind Aktoren?
+→ Sensoren und Aktoren
 - [x] Motoren
 - [ ] Ultraschallsensor
 - [x] LEDs
@@ -303,11 +318,13 @@ Ist der mBot2 verbunden, erscheint unter der Welt **🔧 mBot2 testen**. Klapp e
 
 Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt etwas nicht. Dann sag deiner Lehrkraft Bescheid, bevor du programmierst.
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich kenne die Teile des mBot2. → Hallo mBot2
-- Ich weiß, wie der mBot2 Abstände misst. → Der Ultraschallsensor
-- Ich weiß, wie der mBot2 eine Linie erkennt. → Unter dem Roboter
-- Ich weiß, was Sensoren und Aktoren sind. → Sensoren und Aktoren
+- Ich kann die Teile des mBot2 benennen. → Hallo mBot2
+- Ich kann erklären, wie der mBot2 Abstände misst. → Der Ultraschallsensor
+- Ich kann erklären, wie der mBot2 eine Linie erkennt. → Unter dem Roboter
+- Ich kann erklären, was Sensoren und Aktoren sind. → Sensoren und Aktoren
 - Ich kann den mBot2 mit Elementen aus der Gruppe mBot2-Befehle steuern. → Befehle für den mBot2
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
 - Ich kann den echten mBot2 per USB-C verbinden und wieder trennen. → Den echten mBot2 verbinden
