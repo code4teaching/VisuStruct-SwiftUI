@@ -19,6 +19,10 @@ Eine **Sequenz** ist eine Folge von Schritten, die genau einmal und genau in die
 
 Jeder Kasten wird erst begonnen, wenn der Kasten darüber fertig ist. Es wird nichts übersprungen und nichts wiederholt.
 
+::: diagramm l05-sequenz.visustruct
+Eine Sequenz aus vier Kästen: Zuerst bekommen `laenge` und `breite` ihre Werte, dann wird die Fläche berechnet, und zum Schluss wird sie ausgegeben. Jeder Kasten läuft genau einmal, von oben nach unten. Ausgabe: 15.
+:::
+
 > Die Sequenz ist der einfachste der drei Grundbausteine. Fast jedes Struktogramm besteht zum größten Teil aus Sequenzen.
 
 ## Die Reihenfolge zählt
