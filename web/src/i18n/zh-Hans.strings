@@ -93,6 +93,7 @@
 "web_parse_more_methods" = "目前这里只计入一个方法。请在单独的标签页中创建其他子程序。";
 "web_parse_missing_import" = "最上面缺少 %@ 没有这一行，Java 不认识 Scanner。";
 "web_parse_missing_scanner" = "前面缺少 %@ 没有这一行就没有 Scanner。";
+"web_parse_unknown_type" = "Java 不认识这个数据类型。你是想写 %@ 吗？";
 "web_editor_title" = "结构图";
 "web_editor_show" = "显示结构图";
 "web_editor_hide" = "隐藏结构图";

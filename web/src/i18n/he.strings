@@ -93,6 +93,7 @@
 "web_parse_more_methods" = "כרגע נחשבת כאן רק מתודה אחת. צור תוכניות משנה נוספות בכרטיסיות נפרדות.";
 "web_parse_missing_import" = "חסר בראש הקוד %@ בלי השורה הזו Java לא מכירה את Scanner.";
 "web_parse_missing_scanner" = "חסר קודם %@ בלי השורה הזו אין Scanner.";
+"web_parse_unknown_type" = "Java לא מכירה את סוג הנתונים הזה. האם התכוונת ל-%@?";
 "web_editor_title" = "תרשים";
 "web_editor_show" = "הצגת התרשים";
 "web_editor_hide" = "הסתרת התרשים";

@@ -441,8 +441,9 @@ export class LiveCodePanel {
   private startRun(stepping: boolean) {
     // VisuBot: Programme mit mBot2-Befehlen laufen in der Simulation (3D-Welt, echter mBot2, Markierung)
     if (this.onRobotRun?.(stepping)) return
-    // Wie javac: Ohne Import oder ohne angelegten Scanner startet das Programm nicht.
-    const missing = this.target === 'java' ? this.problems.find((p) => p.key === 'web_parse_missing_import' || p.key === 'web_parse_missing_scanner') : undefined
+    // Wie javac: Ohne Import, ohne angelegten Scanner oder mit vertipptem Datentyp startet das Programm nicht.
+    const blocking = ['web_parse_missing_import', 'web_parse_missing_scanner', 'web_parse_unknown_type']
+    const missing = this.target === 'java' ? this.problems.find((p) => blocking.includes(p.key)) : undefined
     if (missing) {
       this.stopRun(false)
       this.setConsoleVisible(true)

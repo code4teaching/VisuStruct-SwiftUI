@@ -756,6 +756,12 @@ class NumericParser {
 
 // MARK: - Schritte
 
+/** Vergleich oder Verknüpfung außerhalb von Texten (`a < b`, `!fertig`, `x == 3 && y`): ergibt true oder false. */
+function looksBoolean(expression: string): boolean {
+  const code = expression.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/gu, '""')
+  return /==|!=|<|>|&&|\|\||^\s*!/u.test(code)
+}
+
 function stripTrailingSemicolon(text: string): string {
   let result = text.trim()
   while (result.endsWith(';')) result = result.slice(0, -1).trim()
@@ -1347,6 +1353,16 @@ export class SimulationEngine {
 
     if (text.endsWith('++') || text.endsWith('--') || text.includes('+=') || text.includes('-=')) {
       this.executeIncrement(text)
+      return
+    }
+
+    // `boolean fertig;` oder `int a, b;`: Variable ohne Startwert, sie bekommt den Standardwert wie ein Java-Attribut.
+    const declared = /^(?:final\s+)?([A-Za-z]+)\s+([A-Za-z_]\w*(?:\s*,\s*[A-Za-z_]\w*)*)$/u.exec(stripTrailingSemicolon(text).trim())
+    const declaredType = declared ? valueTypeKeyword(declared[1]) : undefined
+    if (declared && declaredType) {
+      const names = declared[2].split(',').map((n) => n.trim())
+      for (const name of names) state.variables.set(name, elementValue(declaredType, elementDefault(declaredType)))
+      state.lastTrace = names.map((n) => `${n} = ${describeValue(state.variables.get(n)!)}`).join(', ')
       return
     }
 
@@ -2005,13 +2021,20 @@ export class SimulationEngine {
 
   /** Wie Java von links nach rechts: Zahlen werden addiert, bis ein Text kommt; ab dann wird alles angehängt. */
   private evaluateOutputExpression(expression: string): string {
+    // `System.out.println(x + 1 > 3)`: ohne Text ist die ganze Klammer eine Bedingung und ergibt true oder false.
+    const whole = this.withSensors(expression).trim()
+    if (looksBoolean(whole) && splitByPlusOutsideQuotes(whole).every((p) => unquotedString(p.trim()) === undefined) && !this.evaluateReference(whole)) {
+      return String(this.evaluateBool(whole))
+    }
     let sum: SimValue | undefined
     let text: string | undefined
     // `mbot.getColor()` wird zu einem Text wie "rot"
     for (const part of splitByPlusOutsideQuotes(this.withSensors(expression))) {
       const trimmed = part.trim()
       const literal = unquotedString(trimmed)
-      const value: SimValue = literal !== undefined ? { kind: 'string', value: literal } : (this.evaluateReference(trimmed) ?? this.evaluateNumeric(trimmed))
+      const value: SimValue =
+        literal !== undefined ? { kind: 'string', value: literal }
+        : (this.evaluateReference(trimmed) ?? (looksBoolean(trimmed) ? { kind: 'boolean', value: this.evaluateBool(trimmed) } : this.evaluateNumeric(trimmed)))
       const isNumber = value.kind === 'int' || value.kind === 'double'
       if (text === undefined && isNumber) {
         if (!sum) sum = value
