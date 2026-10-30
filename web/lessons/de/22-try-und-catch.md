@@ -77,7 +77,7 @@ So eine Meldung sieht erst einmal erschreckend aus. Sie verrät dir aber genau, 
 | `3` | Der falsche Index. |
 | `Noten.java:5` | Die Zeile, in der es passiert ist: Zeile 5. |
 
-So einen Fehler zur Laufzeit nennt Java eine **Exception** (englisch für Ausnahme). Man sagt: Java *wirft* eine Exception. Fängt sie niemand auf, bricht das Programm ab. Deshalb erscheint „Fertig!“ nicht.
+So einen Laufzeitfehler nennt Java eine **Exception** (englisch für Ausnahme). Man sagt: Java *wirft* eine Exception. Fängt sie niemand auf, bricht das Programm ab. Deshalb erscheint „Fertig!“ nicht.
 
 ::: ludwig
 Lies Fehlermeldungen immer von oben: Erst der Name der Exception, dann die Zeilennummer. Die Zeilennummern stehen im Bereich Programmieren links neben dem Code.

@@ -2586,6 +2586,13 @@ button.danger-text:not(:disabled) {
   width: 14px;
   padding-inline-start: 4px;
 }
+/* Fehler: rote Zeilennummer (der Haltepunkt bleibt der runde Punkt) */
+.livecode-editor .cm-lineNumbers .cm-gutterElement.cm-error-line {
+  color: #fff;
+  background: #d33;
+  border-radius: 4px;
+  font-weight: 600;
+}
 .livecode-editor .cm-breakpoint {
   display: inline-block;
   width: 10px;

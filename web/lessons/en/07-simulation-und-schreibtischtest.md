@@ -10,6 +10,7 @@ kurz: Run a structure chart step by step, work it out by hand and find mistakes.
 - start the simulation, pause it, run single steps and stop it
 - read the variables, the output and the last step during the simulation
 - do a desk check by hand as a table
+- tell syntax errors, runtime errors and logic errors apart
 - find a mistake by comparing the values with what I expect
 - follow Java code with Step and breakpoints
 :::
@@ -65,9 +66,25 @@ Then compare your table with the simulation. Do the values under **Variables** m
 
 > A desk check is especially useful in tests. There you have no computer, but you can still show what your structure chart does.
 
+## Three kinds of errors
+
+Errors are part of programming, even for professionals. There are three kinds, and you find each of them in a different way:
+
+- **Syntax error**: The text breaks the rules of the language, e.g. a `;` is missing at the end. The program does not start at all.
+- **Runtime error**: The program starts but stops at one point, e.g. when it divides by 0.
+- **Logic error**: The program runs to the end, but the result is wrong, e.g. because brackets are missing: `a + b / 2` instead of `(a + b) / 2`.
+
+This is how VisuStruct shows you the errors:
+
+- **Syntax error:** They happen less often in a structure chart, because the boxes give you the shape. In the [Programming](#zeige-codelive) area the spot is underlined in red, the line number turns red, and you read e.g. **Line 2: Still missing here: ;**.
+- **Runtime error:** The simulation stops on the box and reports e.g. **Division by zero.** In the Programming area the line number turns red, and the [console](#zeige-konsole) names the line: **Line 3: Division by zero.**
+- **Logic error:** Nobody reports anything here. The computer does not know what you actually wanted. Only you know the right result, so the desk check helps here.
+
+> A red line number shows an error. The round red dot in front of the line number is something else: a breakpoint. You will meet it below in “Now in Java”.
+
 ## Find mistakes
 
-If a structure chart outputs something wrong, do this:
+If a structure chart outputs something wrong, that is a logic error. Then do this:
 
 1. **Write down what you expect:** What should come out for a particular input?
 2. **Run it step by step:** Start the simulation with **Step** and watch the variables.
@@ -246,6 +263,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can start the simulation, pause it, run single steps and stop it. → Start the simulation
 - I can read the variables, the output and the last step during the simulation. → What the simulation shows
 - I can do a desk check by hand as a table. → The desk check
+- I can tell syntax errors, runtime errors and logic errors apart. → Three kinds of errors
 - I can find a mistake by comparing the values with what I expect. → Find mistakes
 - I can follow Java code with Step and breakpoints. → Now in Java
 :::
@@ -292,4 +310,16 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [x] The program pauses before this line.
 - [ ] The line is skipped.
 > That is a breakpoint. ▶︎ or Step carries on.
+? Match each error to its kind.
+→ Three kinds of errors
+= The semicolon at the end of the line is missing. -> Syntax error
+= The program divides by 0 and stops. -> Runtime error
+= The average is too big because brackets are missing. -> Logic error
+
+? The program runs to the end without any message but prints 12 instead of 21. What kind of error is that?
+→ Three kinds of errors
+- [ ] Syntax error
+- [ ] Runtime error
+- [x] Logic error
+> There is no message, but the result is still wrong. You only find an error like this with your expectation and a desk check.
 :::

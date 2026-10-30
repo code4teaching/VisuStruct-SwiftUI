@@ -159,6 +159,18 @@ Das Ergebnis, das ein Unterprogramm mit return an den Aufruf zurückgibt.
 ### Aussprung
 Verlässt sofort die Schleife, in der er steht. Danach geht es unter der Schleife weiter.
 
+### Syntaxfehler
+auch: Syntaxfehlern, Syntaxfehlers
+Ein Fehler in der Schreibweise, zum Beispiel ein fehlendes `;`. Das Programm startet gar nicht. Englisch: syntax error.
+
+### Laufzeitfehler
+auch: Laufzeitfehlern, Laufzeitfehlers
+Ein Fehler, der erst beim Ausführen auftritt, zum Beispiel Teilen durch 0. Das Programm bricht an dieser Stelle ab. Englisch: runtime error.
+
+### Logikfehler
+auch: Logikfehlern, Logikfehlers
+Das Programm läuft ohne Meldung, liefert aber ein falsches Ergebnis. Du findest ihn mit dem Schreibtischtest. Englisch: logic error.
+
 ### Schreibtischtest
 auch: Schreibtischtests
 Du führst ein Struktogramm auf Papier aus und notierst nach jedem Schritt die Werte der Variablen.

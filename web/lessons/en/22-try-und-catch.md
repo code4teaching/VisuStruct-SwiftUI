@@ -77,7 +77,7 @@ A message like this looks scary at first. But it tells you exactly what is going
 | `3` | The wrong index. |
 | `Grades.java:5` | The line where it happened: line 5. |
 
-Java calls an error like this, at run time, an **exception**. We say: Java *throws* an exception. If nobody catches it, the program stops. That is why “Done!” does not appear.
+Java calls a runtime error like this an **exception**. We say: Java *throws* an exception. If nobody catches it, the program stops. That is why “Done!” does not appear.
 
 ::: ludwig
 Always read error messages from the top: first the name of the exception, then the line number. In the Programming area the line numbers are on the left next to the code.

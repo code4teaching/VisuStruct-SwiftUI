@@ -3,7 +3,7 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting, syntaxTree } from '@codemirror/language'
 import { Annotation, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension, type Text } from '@codemirror/state'
-import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
+import { Decoration, EditorView, gutter, GutterMarker, gutterLineClass, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { indentJava } from '../core/javaIndent'
 import { memberCompletionsAt, type JavaMember, type MemberLanguage, type OwnTypes } from '../core/javaMembers'
@@ -23,6 +23,8 @@ export interface EditorMarks {
   lines?: { from: number; to: number }
   /** Debugger: Zeile, die als Nächstes ausgeführt wird (ab 0, gelb). */
   current?: number
+  /** Rote Zeilennummer: In dieser Zeile steckt ein Fehler (ab 0). */
+  errorLines?: number[]
 }
 
 /** Wörter der Vorlagen in der Sprache der Oberfläche. */
@@ -99,10 +101,20 @@ const marksField = StateField.define<MarkState>({
     if (!tr.docChanged) return value
     // Bis zur nächsten Auswertung mit dem Text mitwandern.
     const map = (r: { from: number; to: number }) => ({ from: tr.changes.mapPos(r.from, 1), to: tr.changes.mapPos(r.to, -1) })
-    const marks = { ...value.marks, placeholders: value.marks.placeholders.map(map).filter((r) => r.from < r.to), problems: [] }
+    const marks = { ...value.marks, placeholders: value.marks.placeholders.map(map).filter((r) => r.from < r.to), problems: [], errorLines: [] }
     return { marks, decorations: buildDecorations(tr.state, marks) }
   },
   provide: (f) => EditorView.decorations.from(f, (v) => v.decorations),
+})
+
+/** Rote Zeilennummer bei einem Fehler, wie in Xcode; anders als der runde Haltepunkt. */
+class ErrorLineMarker extends GutterMarker {
+  elementClass = 'cm-error-line'
+}
+const errorLineMarker = new ErrorLineMarker()
+const errorLineGutter = gutterLineClass.compute([marksField], (state) => {
+  const lines = [...new Set(state.field(marksField).marks.errorLines ?? [])].filter((l) => l < state.doc.lines).sort((a, b) => a - b)
+  return RangeSet.of(lines.map((l) => errorLineMarker.range(state.doc.line(l + 1).from)))
 })
 
 // MARK: - Farbige Blöcke wie in BlueJ
@@ -492,6 +504,7 @@ export class JavaEditor {
       bracketMatching(),
       closeBrackets(),
       marksField,
+      errorLineGutter,
       scopeLayer,
       placeholderTyping,
       placeholderPaste,

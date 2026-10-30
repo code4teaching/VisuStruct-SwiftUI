@@ -167,6 +167,18 @@ O resultado que um subprograma devolve à chamada com return.
 ### Interrupção
 Um bloco que sai imediatamente do ciclo em que está. Depois o programa continua por baixo do ciclo.
 
+### Erro de sintaxe
+auch: erro de sintaxe, erros de sintaxe, Erros de sintaxe
+Um erro na forma como o código está escrito, por exemplo um `;` em falta. O programa nem sequer arranca. Em inglês: syntax error.
+
+### Erro de execução
+auch: erro de execução, erros de execução, Erros de execução
+Um erro que só acontece enquanto o programa corre, por exemplo dividir por 0. O programa para nesse ponto. Em inglês: runtime error.
+
+### Erro de lógica
+auch: erro de lógica, erros de lógica, Erros de lógica
+O programa corre sem nenhuma mensagem, mas dá um resultado errado. Encontra-se com o teste de secretária. Em inglês: logic error.
+
 ### Teste de secretária
 auch: teste de secretária, testes de secretária, Testes de secretária, teste de mesa
 Executas um estrutograma no papel e anotas os valores das variáveis depois de cada passo.

@@ -132,6 +132,8 @@ export class LiveCodePanel {
   private problems: JavaProblem[] = []
   private problemTimer?: number
   private showProblems = true
+  /** Zeile (ab 0), in der die Simulation mit einem Fehler stehen geblieben ist: rote Zeilennummer. */
+  private runErrorLine: number | undefined
   /**
    * Laufendes Programm. `paused`: Debugger hält vor einer Zeile an (Haltepunkt oder Einzelschritt).
    * `stepping`: nach einer Eingabe wieder anhalten statt weiterlaufen.
@@ -441,6 +443,7 @@ export class LiveCodePanel {
   private startRun(stepping: boolean) {
     // VisuBot: Programme mit mBot2-Befehlen laufen in der Simulation (3D-Welt, echter mBot2, Markierung)
     if (this.onRobotRun?.(stepping)) return
+    this.runErrorLine = undefined
     // Wie javac: Ohne Import, ohne angelegten Scanner oder mit vertipptem Datentyp startet das Programm nicht.
     const blocking = ['web_parse_missing_import', 'web_parse_missing_scanner', 'web_parse_unknown_type']
     const missing = this.target === 'java' ? this.javaProblems.find((p) => blocking.includes(p.key)) : undefined
@@ -534,8 +537,11 @@ export class LiveCodePanel {
       return true
     }
     if (state.isHalted || !run.engine.canStep) {
+      if (state.isHalted) this.runErrorLine = this.lineOf(run.engine.currentStepPath)
       this.showWrittenFiles(state.files)
-      this.finishRun(state.isHalted && state.notice ? noticeText(state.notice) : t('web_live_run_finished'), state.isHalted)
+      const notice = state.isHalted && state.notice ? noticeText(state.notice) : undefined
+      const where = this.runErrorLine
+      this.finishRun(notice ? (where !== undefined ? t('web_parse_line_fmt', where + 1, notice) : notice) : t('web_live_run_finished'), state.isHalted)
       return true
     }
     return false
@@ -865,12 +871,20 @@ export class LiveCodePanel {
         problems: this.showProblems ? this.javaProblems : [],
         lines: span && simulated === undefined ? { from: span.from, to: span.to } : undefined,
         current: this.debugLine ?? simulated,
+        errorLines: this.errorLines(),
       },
       key !== undefined && key !== this.highlighted && !this.code.hasFocus,
     )
     const first = this.showProblems ? this.javaProblems[0] : undefined
     this.problemLine.textContent = first ? t('web_parse_line_fmt', this.code.lineAt(first.from) + 1, t(first.key, first.arg ?? '')) : ''
     this.highlighted = key
+  }
+
+  /** Rote Zeilennummern: Zeilen mit Syntaxfehlern und die Zeile, an der das Programm abgebrochen ist. */
+  private errorLines(): number[] {
+    const lines = this.showProblems ? this.javaProblems.map((p) => this.code.lineAt(p.from)) : []
+    if (this.runErrorLine !== undefined) lines.push(this.runErrorLine)
+    return lines
   }
 
   /** Nach jeder Eingabe: Code lesen, Struktogramm neu, Element unter dem Cursor markieren. */
@@ -887,6 +901,7 @@ export class LiveCodePanel {
     this.textFor.set(result, text)
     this.shown.set(context.owner, { doc: result, text })
     this.showProblems = false
+    this.runErrorLine = undefined
     window.clearTimeout(this.problemTimer)
     this.problemTimer = window.setTimeout(() => {
       this.showProblems = true
