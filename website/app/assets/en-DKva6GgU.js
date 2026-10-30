@@ -69,6 +69,7 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_learn_solved" = "solved";
 "web_learn_open_exercise" = "Open in editor";
 "web_learn_open_in_editor" = "Open in editor";
+"web_learn_graphic_labels" = "👆 Click the picture to show or hide the labels";
 "web_learn_check" = "Check";
 "web_learn_hint" = "Hint";
 "web_learn_reset" = "Start over";

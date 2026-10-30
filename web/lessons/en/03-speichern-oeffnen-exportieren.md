@@ -12,7 +12,7 @@ Structure charts are saved as **.visustruct** files. All versions of VisuStruct 
 When Nassi was a student, there were no files to save. There were punched cards. Nassi says a Saturday night date looked like this: his future wife sat with him in the computer centre and punched his cards. Romance, computer science style!
 :::
 
-::: grafik l03-lochkarte.svg
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
 This is what a punched card looked like. One card held one line of a program, here `PRINT *, 'HELLO WORLD'` in the Fortran language. Each column is one character, and the holes in it are its code. A whole program was a stack of these cards. If you dropped it, you had to sort everything again.
 :::
 

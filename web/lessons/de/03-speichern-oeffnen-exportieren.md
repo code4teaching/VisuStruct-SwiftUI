@@ -12,7 +12,7 @@ Struktogramme werden als **.visustruct**-Datei gespeichert. Dasselbe Format nutz
 Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Nassi erzählt, dass ein Date am Samstagabend so aussah: seine spätere Frau saß mit ihm im Rechenzentrum und stanzte seine Lochkarten. Romantik, Informatik-Style!
 :::
 
-::: grafik l03-lochkarte.svg
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
 So sah eine Lochkarte aus. Eine Karte war eine Zeile Programm, hier `PRINT *, 'HALLO WELT'` in der Sprache Fortran. Jede Spalte ist ein Zeichen, die Löcher darin sind sein Code. Ein ganzes Programm war ein Stapel solcher Karten. Fiel er herunter, musste man alles wieder sortieren.
 :::
 
