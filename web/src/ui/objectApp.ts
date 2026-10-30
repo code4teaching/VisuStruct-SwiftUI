@@ -75,6 +75,7 @@ import { gearIcon } from './app'
 import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
+import { closeWindows, compileAndRunProject, prepareJava } from './javaRuntime'
 import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
 import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
@@ -261,6 +262,10 @@ export class ObjectApp {
           ${button('redo', t('toolbar_redo'), icons.redo)}
           <button class="text-button" data-action="example" data-tip="${e(t('web_visuobject_example_tip'))}">${e(t('web_visuobject_example'))}</button>
         </div>
+        <div class="group vo-run-group">
+          <button class="text-button vo-run" data-action="run" data-tip="${e(t('web_visuobject_run_tip'))}">▶ ${e(t('web_visuobject_run'))}</button>
+          <button class="text-button vo-stop" data-action="stop" data-tip="${e(t('web_visuobject_stop_tip'))}" disabled>■ ${e(t('web_visuobject_stop'))}</button>
+        </div>
         <div class="group settings">
           <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
@@ -300,6 +305,16 @@ export class ObjectApp {
             <button class="vo-collapse" data-collapse="code" aria-label="${e(t('web_visuobject_pane_hide'))}" data-tip="${e(t('web_visuobject_pane_hide'))}">–</button>
           </header>
           <div class="livecode-editor vo-editor"></div>
+          <section class="vo-console" aria-label="${e(t('web_console'))}" hidden>
+            <header class="vo-bar vo-dock-bar">
+              <h2 class="vo-bar-title">${e(t('web_console'))}</h2>
+              <span class="vo-console-status" role="status"></span>
+              <button class="text-button" data-console="clear">${e(t('web_visuobject_console_clear'))}</button>
+              <button class="vo-collapse" data-console="hide" aria-label="${e(t('web_console_hide'))}" data-tip="${e(t('web_console_hide'))}">–</button>
+            </header>
+            <div class="vo-swing" hidden><div class="livecode-swing-display"></div></div>
+            <div class="vo-console-lines mono" dir="ltr" aria-live="polite"></div>
+          </section>
         </section>
         <div class="vo-splitter" data-split="code" role="separator" aria-orientation="vertical" aria-label="${e(t('web_visuobject_resize'))}" data-tip="${e(t('web_visuobject_resize'))}" tabindex="0"></div>
         <section class="vo-pane vo-diagram" data-pane="diagram">
@@ -475,6 +490,11 @@ export class ObjectApp {
       if (!menu.hidden && !(ev.target as HTMLElement).closest('.settings')) menu.hidden = true
     })
     for (const b of menu.querySelectorAll<HTMLButtonElement>('[data-world]')) b.addEventListener('click', () => this.chooseWorld(b.dataset.world as WorldChoice))
+    this.shell.querySelector('[data-action=run]')!.addEventListener('click', () => void this.runProgram())
+    this.shell.querySelector('[data-action=stop]')!.addEventListener('click', () => void this.stopProgram())
+    const consolePane = this.shell.querySelector<HTMLElement>('.vo-console')!
+    consolePane.querySelector('[data-console=clear]')!.addEventListener('click', () => consolePane.querySelector('.vo-console-lines')!.replaceChildren())
+    consolePane.querySelector('[data-console=hide]')!.addEventListener('click', () => (consolePane.hidden = true))
     this.canvas.addEventListener('pointerdown', (ev) => this.onPointerDown(ev))
     this.canvas.addEventListener('click', (ev) => this.onClick(ev))
     this.canvas.addEventListener('contextmenu', (ev) => {
@@ -488,6 +508,69 @@ export class ObjectApp {
     this.tabs.addEventListener('click', (ev) => this.onTabClick(ev))
     for (const b of this.shell.querySelectorAll<HTMLButtonElement>('.vo-tool')) b.addEventListener('pointerdown', (ev) => this.onToolDown(ev, b.dataset.tool as Tool))
     this.tree.addEventListener('keydown', (ev) => this.onTreeKey(ev))
+  }
+
+  // MARK: - Ausführen (echtes Java über CheerpJ)
+
+  /** Klasse mit `public static void main`: bevorzugt in der offenen Datei. Voller Name mit Package. */
+  private mainClass(): string | undefined {
+    const withMain = this.classes.filter((c) => c.members.some((m) => m.kind === 'method' && m.name === 'main' && m.isStatic))
+    const cls = withMain.find((c) => c.path === this.active) ?? withMain[0]
+    return cls && (cls.pkg ? `${cls.pkg}.${cls.name}` : cls.name)
+  }
+
+  private async runProgram() {
+    const pane = this.shell.querySelector<HTMLElement>('.vo-console')!
+    const lines = pane.querySelector<HTMLElement>('.vo-console-lines')!
+    const status = pane.querySelector<HTMLElement>('.vo-console-status')!
+    const swing = pane.querySelector<HTMLElement>('.vo-swing')!
+    const run = this.shell.querySelector<HTMLButtonElement>('[data-action=run]')!
+    const stop = this.shell.querySelector<HTMLButtonElement>('[data-action=stop]')!
+    pane.hidden = false
+    const say = (key: string, error = false, ...args: string[]) => {
+      status.textContent = t(key, ...args)
+      status.classList.toggle('error', error)
+    }
+    const main = this.mainClass()
+    if (!main) return say('web_visuobject_no_main', true)
+    // Erst speichern, was im Editor steht, dann wie in Eclipse alle Dateien übersetzen.
+    if (this.workspace) await this.writeCurrent()
+    await closeWindows().catch(() => undefined)
+    lines.replaceChildren()
+    // CheerpJ schreibt System.out und System.err in das Element mit dieser id.
+    for (const el of document.querySelectorAll('#console')) el.removeAttribute('id')
+    lines.id = 'console'
+    swing.hidden = true
+    run.disabled = true
+    stop.disabled = false
+    try {
+      say('web_live_swing_loading')
+      await prepareJava(swing.querySelector<HTMLElement>('.livecode-swing-display')!)
+      say('web_live_swing_compiling')
+      const files = this.project.files.map((f) => ({ pkg: barePackage(packageOf(f.path)), name: fileNameOf(f.path).replace(/\.java$/i, ''), text: f.text }))
+      const { result } = await compileAndRunProject(files, main, () => {
+        swing.hidden = false
+        say('web_visuobject_running_fmt', false, main)
+      })
+      say({ 'compile-error': 'web_live_swing_compile_failed', windows: 'web_live_swing_running', finished: 'web_live_run_finished' }[result], result === 'compile-error')
+      swing.hidden = result !== 'windows'
+      stop.disabled = result !== 'windows'
+    } catch {
+      say('web_live_swing_failed', true)
+      stop.disabled = true
+    }
+    run.disabled = false
+  }
+
+  /** Stop: Fenster des Programms schließen (eine Endlosschleife in main hält CheerpJ nicht an). */
+  private async stopProgram() {
+    await closeWindows().catch(() => undefined)
+    const pane = this.shell.querySelector<HTMLElement>('.vo-console')!
+    pane.querySelector<HTMLElement>('.vo-swing')!.hidden = true
+    const status = pane.querySelector<HTMLElement>('.vo-console-status')!
+    status.textContent = t('web_visuobject_stopped')
+    status.classList.remove('error')
+    this.shell.querySelector<HTMLButtonElement>('[data-action=stop]')!.disabled = true
   }
 
   private chooseWorld(world: WorldChoice) {

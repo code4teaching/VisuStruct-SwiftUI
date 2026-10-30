@@ -5115,3 +5115,45 @@ button.danger-text:not(:disabled) {
   }
 }
 
+
+/* VisuObject: Start/Stop und Konsole unter dem Code (echtes Java über CheerpJ). */
+.shell.visuobject .vo-run-group button.vo-run {
+  color: var(--accent);
+  font-weight: 600;
+}
+.vo-console {
+  display: flex;
+  flex-direction: column;
+  height: 32vh;
+  min-height: 120px;
+  border-top: 1px solid var(--border);
+}
+.vo-console[hidden],
+.vo-swing[hidden] {
+  display: none;
+}
+.vo-console .vo-dock-bar {
+  gap: 10px;
+}
+.vo-console-status {
+  flex: 1;
+  color: var(--muted);
+  font-size: 12px;
+}
+.vo-console-status.error {
+  color: #b3261e;
+}
+.vo-swing {
+  display: flex;
+  height: 60%;
+  padding: 6px;
+}
+.vo-console-lines {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
