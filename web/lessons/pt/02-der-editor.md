@@ -58,7 +58,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 
 - **Mover:** Arrasta um bloco existente com o rato para um novo sítio.
 - **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado.
-- **Eliminar:** Seleciona um bloco e prime Del.
+- **Eliminar:** Seleciona um bloco e prime Del, ou clica no [caixote do lixo](#zeige-loeschen) „Eliminar seleção“ nas ferramentas.
 - **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z).
 
 ## Exercício: Olá Mundo
@@ -66,7 +66,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 ::: übung l2-hallo
 titel: Olá Mundo
 auftrag: Constrói um estrutograma que mostre **Olá Mundo**.
-Arrasta uma Instrução para o marcador, muda-a para **Saída** no Inspetor de objetos e escreve `"Olá Mundo"`.
+Arrasta uma **Instrução** dos Elementos para o marcador **ø** e clica no bloco. No Inspetor de objetos, por baixo do estrutograma, há três botões em cima: Instrução, Entrada e Saída. Clica em **Saída**. Depois escreve `"Olá Mundo"` no campo de texto por baixo, com aspas.
 test: - -> Olá Mundo
 braucht: anweisung
 tipp: Só precisas de um único bloco. O texto que deve aparecer vai para o campo de texto do Inspetor de objetos.

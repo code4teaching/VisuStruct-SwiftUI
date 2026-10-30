@@ -58,7 +58,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 
 - **Verschieben:** Einen vorhandenen Kasten mit der Maus an eine neue Stelle ziehen.
 - **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten.
-- **Löschen:** Kasten auswählen und Entf drücken.
+- **Löschen:** Kasten auswählen und Entf drücken oder in den Werkzeugen auf den [Mülleimer](#zeige-loeschen) „Auswahl löschen“ klicken.
 - **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z).
 
 ## Übung: Hallo Welt
@@ -66,7 +66,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 ::: übung l2-hallo
 titel: Hallo Welt
 auftrag: Baue ein Struktogramm, das **Hallo Welt** ausgibt.
-Ziehe eine Anweisung auf den Platzhalter, stelle sie im Objektinspektor auf **Ausgabe** und schreibe `"Hallo Welt"`.
+Ziehe eine **Anweisung** aus den Elementen auf den Platzhalter **ø** und klicke den Kasten an. Im Objektinspektor unter dem Struktogramm stehen oben drei Knöpfe: Anweisung, Eingabe und Ausgabe. Klicke auf **Ausgabe**. Schreibe dann in das Textfeld darunter `"Hallo Welt"`, mit Anführungszeichen.
 test: - -> Hallo Welt
 braucht: anweisung
 tipp: Du brauchst nur einen einzigen Kasten. Der Text, der erscheinen soll, steht im Objektinspektor im Eingabefeld.

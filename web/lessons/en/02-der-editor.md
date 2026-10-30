@@ -58,7 +58,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 
 - **Move:** Drag an existing box to a new place with the mouse.
 - **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box.
-- **Delete:** Select a box and press Del.
+- **Delete:** Select a box and press Del, or click the [trash can](#zeige-loeschen) „Delete Selection“ in the tools.
 - **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z).
 
 ## Exercise: Hello World
@@ -66,7 +66,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 ::: übung l2-hallo
 titel: Hello World
 auftrag: Build a structure chart that outputs **Hello World**.
-Drag a Statement onto the placeholder, set it to **Output** in the Object Inspector and type `"Hello World"`.
+Drag a **Statement** from the Elements onto the placeholder **ø** and click the box. In the Object Inspector below the structure chart there are three buttons at the top: Statement, Input and Output. Click **Output**. Then type `"Hello World"` in the text field below, with quotation marks.
 test: - -> Hello World
 braucht: anweisung
 tipp: You only need one single box. The text that should appear goes into the text field in the Object Inspector.
