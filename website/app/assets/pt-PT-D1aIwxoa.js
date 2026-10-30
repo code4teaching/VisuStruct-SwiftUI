@@ -407,7 +407,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visuobject_layout_tip" = "Organizar todas as classes automaticamente: superclasses em cima";
 "web_visuobject_add_field" = "Atributo";
 "web_visuobject_add_method" = "Método";
-"web_visuobject_abstract" = "abstrata";
 "web_visuobject_delete_class" = "Apagar classe";
 "web_visuobject_new_class_name" = "NovaClasse";
 "web_visuobject_new_interface_name" = "NovaInterface";
@@ -422,6 +421,8 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visuobject_bad_line" = "Não percebo «%@». Exemplo: - nome: String ou + ladrar(): void";
 "web_visuobject_open_failed" = "Não foi possível ler o ficheiro.";
 "web_visuobject_field_ph" = "- nome: String";
+"web_visuobject_inspector_resize" = "Redimensionar: arrasta a fronteira entre o diagrama de classes e o inspetor para cima ou para baixo (duplo clique = padrão)";
+"web_visuobject_class_inspector_hint" = "As alterações aqui são escritas logo em %@. Edita atributos e métodos com duplo clique na caixa.";
 "web_visuobject_dep_title" = "Dependência «%@»";
 "web_visuobject_dep_create_text" = "%1$@ cria um objeto da classe %2$@ em %3$@ (new).";
 "web_visuobject_dep_use_text" = "%1$@ usa a classe %2$@ em %3$@.";

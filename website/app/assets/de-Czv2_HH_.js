@@ -409,7 +409,6 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visuobject_layout_tip" = "Alle Klassen automatisch anordnen: Oberklassen oben";
 "web_visuobject_add_field" = "Attribut";
 "web_visuobject_add_method" = "Methode";
-"web_visuobject_abstract" = "abstrakt";
 "web_visuobject_delete_class" = "Klasse löschen";
 "web_visuobject_new_class_name" = "NeueKlasse";
 "web_visuobject_new_interface_name" = "NeuesInterface";
@@ -424,6 +423,8 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visuobject_bad_line" = "„%@“ verstehe ich nicht. Beispiel: - name: String oder + bellen(): void";
 "web_visuobject_open_failed" = "Die Datei konnte nicht gelesen werden.";
 "web_visuobject_field_ph" = "- name: String";
+"web_visuobject_inspector_resize" = "Größe ändern: Grenze zwischen Klassendiagramm und Objektinspektor nach oben oder unten ziehen (Doppelklick = Standard)";
+"web_visuobject_class_inspector_hint" = "Änderungen hier schreiben sofort in %@. Attribute und Methoden bearbeitest du mit Doppelklick im Kasten.";
 "web_visuobject_dep_title" = "Abhängigkeit «%@»";
 "web_visuobject_dep_create_text" = "%1$@ erzeugt in %3$@ ein Objekt der Klasse %2$@ (new).";
 "web_visuobject_dep_use_text" = "%1$@ benutzt die Klasse %2$@ in %3$@.";

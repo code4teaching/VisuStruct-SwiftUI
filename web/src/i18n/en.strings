@@ -409,7 +409,6 @@
 "web_visuobject_layout_tip" = "Arrange all classes automatically: superclasses at the top";
 "web_visuobject_add_field" = "Attribute";
 "web_visuobject_add_method" = "Method";
-"web_visuobject_abstract" = "abstract";
 "web_visuobject_delete_class" = "Delete class";
 "web_visuobject_new_class_name" = "NewClass";
 "web_visuobject_new_interface_name" = "NewInterface";
@@ -424,6 +423,8 @@
 "web_visuobject_bad_line" = "I don’t understand “%@”. Example: - name: String or + bark(): void";
 "web_visuobject_open_failed" = "The file could not be read.";
 "web_visuobject_field_ph" = "- name: String";
+"web_visuobject_inspector_resize" = "Resize: drag the border between class diagram and object inspector up or down (double-click = default)";
+"web_visuobject_class_inspector_hint" = "Changes here are written straight into %@. Edit attributes and methods by double-clicking in the box.";
 "web_visuobject_dep_title" = "Dependency «%@»";
 "web_visuobject_dep_create_text" = "%1$@ creates an object of class %2$@ in %3$@ (new).";
 "web_visuobject_dep_use_text" = "%1$@ uses the class %2$@ in %3$@.";
