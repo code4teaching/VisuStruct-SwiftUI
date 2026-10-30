@@ -25,7 +25,7 @@ const Ink = {
 
 type Omission = { top?: boolean; left?: boolean; bottom?: boolean; right?: boolean }
 
-/** Farbe wie bei den Codeblöcken (`cm-scope-…`): Schleife rosa, Verzweigung blau, alles andere erbt die Farbe des Blocks, in dem es steht; ganz außen gelb wie die Methode `main` im Code. */
+/** Farbe wie bei den Codeblöcken (`cm-scope-…`): Schleife rosa, Verzweigung blau, Anweisungen gelb wie die Methode im Code. */
 export function scopeKind(type: ElementType): string | undefined {
   switch (type) {
     case ElementType.forSchleife:
@@ -213,7 +213,8 @@ export class DiagramRenderer {
     const bg = e.backgroundColor
     const own = bg && bg.a > 0 ? `rgba(${bg.r}, ${bg.g}, ${bg.b}, ${bg.a / 255})` : 'white'
     const fill = isSelected && (sim || this.fillsSelection) ? 'rgba(199, 230, 255, 0.55)' : own
-    const scope = scopeKind(e.type) ?? parentScope
+    // Anweisung, Aufruf, Aussprung immer gelb; nur der leere Platzhalter ø nimmt die Farbe des Blocks.
+    const scope = scopeKind(e.type) ?? (e.type === ElementType.leerElement ? parentScope : 'method')
     // Fläche in der Farbe des Blocks per CSS (Einstellung „Blöcke farbig“); im Export bleibt sie weiß.
     const area = el('rect', { x: r.x, y: r.y, width: r.width, height: r.height, fill })
     if (fill === 'white' && scope) area.setAttribute('class', `ns-scope ns-scope-${scope}`)

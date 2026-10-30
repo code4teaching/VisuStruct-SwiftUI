@@ -90,7 +90,7 @@ As long as the plate is not empty, you take a bite. After that, the plate is cle
 
 ## All three together
 
-The building blocks become really useful when you combine them. This diagram contains all three: a sequence from top to bottom, a [branch]{.blau} and a [loop]{.rosa}. The yellow boxes are simple [statements]{.gelb}. Whatever stands inside a branch or a loop takes its colour. Strictly speaking, the whole diagram is a sequence, because the branch and the loop also stand in the row from top to bottom.
+The building blocks become really useful when you combine them. This diagram contains all three: a sequence from top to bottom, a [branch]{.blau} and a [loop]{.rosa}. The yellow boxes are simple [statements]{.gelb}. The statements inside a branch or a loop are yellow too. Strictly speaking, the whole diagram is a sequence, because the branch and the loop also stand in the row from top to bottom.
 
 ::: diagramm l1-grundbausteine.visustruct
 You recognise the branch by its triangle and the loop by the bracket on the left. Everything together sits in a sequence.

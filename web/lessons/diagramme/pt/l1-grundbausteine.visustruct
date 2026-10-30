@@ -6,7 +6,7 @@
   <strelem typ="1" zx="0" zy="0" bgcolor="-1773059">
     <text>81;117;101;114;32;97;231;250;99;97;114;63;</text>
     <fall fallname="116;114;117;101;">
-      <strelem typ="0" zx="0" zy="0" bgcolor="-1773059">
+      <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
         <text>74;117;110;116;97;114;32;97;231;250;99;97;114;</text>
       </strelem>
     </fall>
@@ -19,7 +19,7 @@
   <strelem typ="4" zx="0" zy="0" bgcolor="-202254">
     <text>67;104;225;32;97;105;110;100;97;32;100;101;109;97;115;105;97;100;111;32;113;117;101;110;116;101;</text>
     <schleifeninhalt>
-      <strelem typ="0" zx="0" zy="0" bgcolor="-202254">
+      <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
         <text>69;115;112;101;114;97;114;32;49;32;109;105;110;117;116;111;</text>
       </strelem>
     </schleifeninhalt>
