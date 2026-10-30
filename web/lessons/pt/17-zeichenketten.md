@@ -9,6 +9,7 @@ kurz: Trabalhar com texto: ler caracteres, recortar partes, pesquisar, comparar 
 ::: kompetenzen
 - explicar que os caracteres de uma String também se contam a partir de 0
 - trabalhar com `length()` e `charAt(i)`
+- distinguir um `char` de uma String e usar o código de caractere com `(int)` e `(char)`
 - recortar uma parte de um texto com `substring`
 - usar `indexOf`, `contains`, `toUpperCase` e `equals`
 - percorrer um texto caractere a caractere com um ciclo
@@ -432,6 +433,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 ::: checkliste
 - Consigo explicar que os caracteres de uma String também se contam a partir de 0. → Um texto é uma fila de caracteres
 - Consigo trabalhar com `length()` e `charAt(i)`. → Um texto é uma fila de caracteres
+- Consigo distinguir um `char` de uma String e usar o código de caractere com `(int)` e `(char)`. → Um único caractere: char
 - Consigo recortar uma parte de um texto com `substring`. → Recortar partes
 - Consigo usar `indexOf`, `contains`, `toUpperCase` e `equals`. → Pesquisar e comparar
 - Consigo percorrer um texto caractere a caractere com um ciclo. → Caractere a caractere
@@ -451,6 +453,20 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [x] u
 - [ ] d
 > Começa-se a contar em 0: L tem o índice 0, u o índice 1.
+
+? O que é `'C'`?
+→ Um único caractere: char
+- [x] um `char`, ou seja, exatamente um caractere
+- [ ] uma String
+- [ ] uma variável chamada C
+> Aspas simples indicam um único caractere, um `char`. `"C"` entre aspas duplas seria uma String.
+
+? `'A'` tem o código de caractere 65. Quanto dá `(char) 67`?
+→ Um único caractere: char
+- [ ] 'B'
+- [x] 'C'
+- [ ] 67
+> 65 é A, 66 é B, 67 é C. Com `(char)` o código volta a ser um caractere.
 
 ? Quanto dá `"Estrutura".substring(0, 6)`?
 → Recortar partes

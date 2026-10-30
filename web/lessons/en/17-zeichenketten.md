@@ -9,6 +9,7 @@ kurz: Work with text: read single characters, cut out parts, search, compare and
 ::: kompetenzen
 - explain that the characters of a String are also counted from 0
 - work with `length()` and `charAt(i)`
+- tell a `char` from a String and use the character code with `(int)` and `(char)`
 - cut a part out of a text with `substring`
 - use `indexOf`, `contains`, `toUpperCase` and `equals`
 - go through a text character by character with a loop
@@ -430,6 +431,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 ::: checkliste
 - I can explain that the characters of a String are also counted from 0. → Text is a row of characters
 - I can work with `length()` and `charAt(i)`. → Text is a row of characters
+- I can tell a `char` from a String and use the character code with `(int)` and `(char)`. → A single character: char
 - I can cut a part out of a text with `substring`. → Cut out parts
 - I can use `indexOf`, `contains`, `toUpperCase` and `equals`. → Search and compare
 - I can go through a text character by character with a loop. → Character by character
@@ -449,6 +451,20 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [x] u
 - [ ] d
 > Counting starts at 0: L has the index 0, u the index 1.
+
+? What is `'C'`?
+→ A single character: char
+- [x] a `char`, that is, exactly one character
+- [ ] a String
+- [ ] a variable called C
+> Single quotation marks stand for a single character, a `char`. `"C"` in double ones would be a String.
+
+? `'A'` has the character code 65. What does `(char) 67` give?
+→ A single character: char
+- [ ] 'B'
+- [x] 'C'
+- [ ] 67
+> 65 is A, 66 is B, 67 is C. With `(char)` the code turns back into a character.
 
 ? What does `"Structure".substring(0, 6)` give?
 → Cut out parts

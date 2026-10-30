@@ -9,6 +9,7 @@ kurz: Mit Texten arbeiten, also einzelne Zeichen lesen, Teile herausschneiden, s
 ::: kompetenzen
 - erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden
 - mit `length()` und `charAt(i)` arbeiten
+- einen `char` von einem String unterscheiden und mit `(int)` und `(char)` den Zeichencode nutzen
 - mit `substring` einen Teil aus einem Text schneiden
 - `indexOf`, `contains`, `toUpperCase` und `equals` anwenden
 - einen Text mit einer Schleife Zeichen für Zeichen durchgehen
@@ -432,6 +433,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 ::: checkliste
 - Ich kann erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden. → Text ist eine Reihe von Zeichen
 - Ich kann mit `length()` und `charAt(i)` arbeiten. → Text ist eine Reihe von Zeichen
+- Ich kann einen `char` von einem String unterscheiden und mit `(int)` und `(char)` den Zeichencode nutzen. → Ein einzelnes Zeichen: char
 - Ich kann mit `substring` einen Teil aus einem Text schneiden. → Teile herausschneiden
 - Ich kann `indexOf`, `contains`, `toUpperCase` und `equals` anwenden. → Suchen und vergleichen
 - Ich kann einen Text mit einer Schleife Zeichen für Zeichen durchgehen. → Zeichen für Zeichen
@@ -451,6 +453,20 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [x] u
 - [ ] d
 > Gezählt wird ab 0: L hat den Index 0, u den Index 1.
+
+? Was ist `'C'`?
+→ Ein einzelnes Zeichen: char
+- [x] ein `char`, also genau ein Zeichen
+- [ ] ein String
+- [ ] eine Variable mit dem Namen C
+> Einfache Anführungszeichen stehen für ein einzelnes Zeichen, also einen `char`. `"C"` in doppelten wäre ein String.
+
+? `'A'` hat den Zeichencode 65. Was ergibt `(char) 67`?
+→ Ein einzelnes Zeichen: char
+- [ ] 'B'
+- [x] 'C'
+- [ ] 67
+> 65 ist A, 66 ist B, 67 ist C. Mit `(char)` wird aus dem Code wieder ein Zeichen.
 
 ? Was liefert `"Struktogramm".substring(0, 6)`?
 → Teile herausschneiden
