@@ -8,11 +8,8 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
-<<<<<<< HEAD
 - **Web 0.13.34, camel for camelCase and coffee cup for Java in lesson 4:** below the Angeberwissen on CamelCase a drawing of a two-humped camel whose humps sit under the capitals of `preisMitSteuer` (en `priceWithTax`, pt `precoComIva`), with a caption (de/en/pt). Step „Jetzt in Java“ shows a steaming coffee cup with `{ }` on it (own drawing, deliberately not the Java logo, which is an Oracle trademark), caption: „Java“ is American slang for coffee (de/en/pt). Own SVG drawings, no third-party licence.
-=======
 - **Web 0.13.33, clearer competence in lesson 6:** „vor der Ausgabe in einer Variablen rechnen“ now reads „ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`“, in the competences step and the „Ich kann“ checklist (de/en/pt).
->>>>>>> origin/main
 - **Web 0.13.22, clearer hint on where to save:** in lesson 3 step „Die Spalte Dateien“ the tip about browser storage vs. a real folder now says what the folder is for: your learning progress and programs are files in it, so you can take it along (USB stick, OneDrive) and carry on at home on another computer; saving only in the browser keeps everything in that one browser, and deleting the browser data deletes your progress too (de/en/pt).
 
 ### Added
