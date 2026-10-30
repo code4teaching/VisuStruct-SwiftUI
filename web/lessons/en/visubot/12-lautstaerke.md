@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Clap to start, and a noise light for the classroom.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- ask for the loudness
+- wait until something happens
+- write a noise light in Java
+:::
+
 ## How loud is it?
 
 ::: mbot2
@@ -54,10 +62,13 @@ Loudness is really measured in **decibels** (dB). Whispering is about 30 dB, a c
 
 ::: quiz
 ? The clap loop is `while (mbot.getLoudness() < 50)`. The loudness is 30. What happens?
+→ Clap to start in the structure chart
 - [x] The mBot2 keeps waiting.
 - [ ] The mBot2 drives off.
 > 30 is less than 50, the condition is true, the loop keeps running.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can ask for the loudness. → How loud is it?

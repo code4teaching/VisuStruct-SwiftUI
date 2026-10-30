@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Jede der fünf LEDs bekommt ihre eigene Farbe, bis zum Lauflicht.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die LEDs über ihre Nummern 0 bis 4 ansprechen
+- einzelne LEDs in verschiedenen Farben leuchten lassen
+- mit einer Schleife ein Lauflicht bauen
+:::
+
 ## Jede LED hat eine Nummer
 
 ::: mbot2
@@ -58,18 +66,22 @@ lösung: vb-java-lauflicht-loesung.visustruct
 
 ::: quiz
 ? Welche Nummer hat die erste LED?
+→ Jede LED hat eine Nummer
 - [x] 0
 - [ ] 1
 - [ ] 5
 > Wie bei Arrays zählt man ab 0. Die fünf LEDs haben die Nummern 0 bis 4.
 ? Was macht `mbot.led(4).setColor("aus")`?
+→ Drei Lichter im Struktogramm
 - [ ] Alle LEDs gehen aus.
 - [x] Nur LED 4 geht aus.
 - [ ] Vier LEDs gehen aus.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass die LEDs von 0 bis 4 nummeriert sind. → Jede LED hat eine Nummer
+- Ich kann die LEDs über ihre Nummern 0 bis 4 ansprechen. → Jede LED hat eine Nummer
 - Ich kann einzelne LEDs in verschiedenen Farben leuchten lassen. → Drei Lichter im Struktogramm
 - Ich kann mit einer Schleife ein Lauflicht bauen. → Jetzt in Java: Lauflicht
 :::

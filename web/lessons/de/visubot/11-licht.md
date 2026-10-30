@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Hell oder dunkel? Der mBot2 wird zum Nachtlicht.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Helligkeit abfragen
+- mit einer Verzweigung die LEDs schalten
+- mehrere Befehle in einen Zweig schreiben
+:::
+
 ## Wie hell ist es?
 
 ::: mbot2
@@ -52,14 +60,18 @@ lösung: vb-java-nachtlicht-ton-loesung.visustruct
 
 ::: quiz
 ? `mbot.getBrightness()` liefert 45. Was tut das Nachtlicht?
+→ Nachtlicht im Struktogramm
 - [ ] Die LEDs leuchten.
 - [x] Die LEDs gehen aus.
 > 45 ist nicht kleiner als 30.
 ? In welchem Bereich liegen die Werte des Lichtsensors?
+→ Wie hell ist es?
 - [ ] 0 bis 255
 - [x] 0 bis 100
 - [ ] -100 bis 100
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann die Helligkeit abfragen. → Wie hell ist es?

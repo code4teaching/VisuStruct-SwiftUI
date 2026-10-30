@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Measure time and keep an eye on the battery.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- reset the stopwatch and read it
+- drive for a certain time
+- show the battery level
+:::
+
 ## The stopwatch
 
 ::: mbot2
@@ -61,16 +69,20 @@ lösung: vb-java-akku-loesung.visustruct
 
 ::: quiz
 ? What does `mbot.getTimer()` give right after `mbot.resetTimer()`?
+→ The stopwatch
 - [x] 0
 - [ ] 100
 - [ ] The time of day
 > The stopwatch starts again at 0.
 ? Why does the mBot2 only wait **a moment** in the loop instead of stopping?
+→ Driving two seconds in the structure chart
 - [ ] Because otherwise the loop does not start.
 - [x] Because it should keep driving until the time is up.
 - [ ] Because otherwise the stopwatch stops.
 > Stepping on the gas still applies while it waits.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can reset the stopwatch and read it. → The stopwatch

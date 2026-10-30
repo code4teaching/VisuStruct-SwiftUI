@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Bright or dark? The mBot2 becomes a night light.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- ask for the brightness
+- switch the LEDs with a branch
+- write several commands in one branch
+:::
+
 ## How bright is it?
 
 ::: mbot2
@@ -52,14 +60,18 @@ lösung: vb-java-nachtlicht-ton-loesung.visustruct
 
 ::: quiz
 ? `mbot.getBrightness()` gives 45. What does the night light do?
+→ Night light in the structure chart
 - [ ] The LEDs glow.
 - [x] The LEDs go off.
 > 45 is not less than 30.
 ? What range do the light sensor's values have?
+→ How bright is it?
 - [ ] 0 to 255
 - [x] 0 to 100
 - [ ] -100 to 100
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can ask for the brightness. → How bright is it?

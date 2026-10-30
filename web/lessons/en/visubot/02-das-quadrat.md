@@ -4,6 +4,16 @@ bereich: VisuBot
 kurz: From a long structure chart to a triple nested loop.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- build a sequence without a loop first
+- spot repetitions and replace them with a for loop
+- nest two loops
+- nest three loops
+- upload my program to the mBot2 and start it with button A without a cable
+:::
+
 ## Driving a square
 
 The mBot2 should drive a square with sides of 50 cm. You already know one side: **move forward** five times. Then it turns right, and the next side begins.
@@ -89,6 +99,7 @@ lösung: vb-vier-quadrate-loesung.visustruct
 
 ::: quiz
 ? How often does the mBot2 drive 10 cm forward for the four squares?
+→ Four squares
 - [ ] 20 times
 - [ ] 60 times
 - [x] 80 times
@@ -115,9 +126,11 @@ The program stays saved, even when you switch the mBot2 off and on again. Only t
 
 > Afraid it drives off before you are ready? Don't worry: it always waits for button A. If you press A again while it drives, nothing happens. When it has finished, A starts the program again from the beginning.
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can build a sequence without a loop first. → Driving a square
-- I spot repetitions and replace them with a for loop. → Always the same
+- I can spot repetitions and replace them with a for loop. → Always the same
 - I can nest two loops. → A loop in a loop
 - I can nest three loops. → Four squares
 - I can upload my program to the mBot2 and start it with button A without a cable. → Driving without a cable

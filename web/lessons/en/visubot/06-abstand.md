@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Measure the distance, keep your distance, and do it all in Java.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain what `mbot.getDistance()` measures
+- put one branch inside another
+- write a while loop with the distance in Java
+:::
+
 ## How does the mBot2 measure distance?
 
 ::: mbot2
@@ -68,19 +76,23 @@ lösung: vb-java-wand-piep-loesung.visustruct
 
 ::: quiz
 ? `mbot.getDistance()` gives `8`. What does the program from “Keep your distance” do?
+→ Keep your distance in the structure chart
 - [x] It drives back.
 - [ ] It drives forward.
 - [ ] It stays where it is.
 > 8 is less than 10, so the first condition is already true.
 ? What is the No branch of a branch called in Java?
+→ Now in Java
 - [ ] `then`
 - [x] `else`
 - [ ] `otherwise`
 > `if` is the start, `else` the No branch.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know what `mbot.getDistance()` measures. → How does the mBot2 measure distance?
+- I can explain what `mbot.getDistance()` measures. → How does the mBot2 measure distance?
 - I can put one branch inside another. → Keep your distance in the structure chart
 - I can write a while loop with the distance in Java. → Now in Java
 :::

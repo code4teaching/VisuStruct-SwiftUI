@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: The quad RGB sensor tells you which colour the mBot2 is standing on.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- ask for a colour with `mbot.getColor().equals(…)`
+- turn a condition round with `!`
+- put a branch inside a loop
+:::
+
 ## A sensor that sees colours
 
 ::: mbot2
@@ -61,15 +69,19 @@ lösung: vb-java-blau-gruen-loesung.visustruct
 
 ::: quiz
 ? The mBot2 is on a red field. What is `!mbot.getColor().equals("red")`?
+→ Drive to red in the structure chart
 - [ ] true
 - [x] false
 > `mbot.getColor().equals("red")` is true, the `!` turns it into false. So the loop stops.
 ? How do you compare the colour with `"green"`?
+→ A sensor that sees colours
 - [x] `mbot.getColor().equals("green")`
 - [ ] `mbot.getColor() == "green"`
 - [ ] `mbot.getColor() = "green"`
 > `mbot.getColor()` gives a text, and texts are compared with `.equals(…)`. A single `=` is an assignment, not a comparison at all.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can ask for a colour with `mbot.getColor().equals(…)`. → A sensor that sees colours

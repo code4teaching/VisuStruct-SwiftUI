@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: The mBot2 waits for you and can be remote controlled.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- ask the sensors for buttons and joystick
+- wait for a button
+- steer the mBot2 with the joystick
+:::
+
 ## Pressing as a sensor
 
 ::: mbot2
@@ -59,19 +67,23 @@ lösung: vb-java-joystick-loesung.visustruct
 
 ::: quiz
 ? What does `mbot.isButtonB()` give when nobody presses it?
+→ Pressing as a sensor
 - [ ] 0
 - [x] false
 - [ ] B
 > Buttons give true or false.
 ? Why is there **wait a moment** in the waiting loop?
+→ Waiting for button A in the structure chart
 - [x] So the loop is not empty and the CyberPi doesn't race round in circles for nothing.
 - [ ] So the button glows longer.
 - [ ] Without a pause the mBot2 drives backwards.
 > The loop checks every 100 milliseconds, that is plenty.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know the sensors for buttons and joystick. → Pressing as a sensor
+- I can ask the sensors for buttons and joystick. → Pressing as a sensor
 - I can wait for a button. → Waiting for button A in the structure chart
 - I can steer the mBot2 with the joystick. → Now in Java: remote control
 :::

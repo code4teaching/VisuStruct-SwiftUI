@@ -4,6 +4,19 @@ bereich: VisuBot
 kurz: Get to know the robot you are about to program.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- name the parts of the mBot2
+- explain how the mBot2 measures distances
+- explain how the mBot2 detects a line
+- explain what sensors and actuators are
+- control the mBot2 with elements from the group mBot2 commands
+- let the mBot2 drive in the simulator
+- connect the real mBot2 with USB-C and disconnect it again
+- check that all sensors and actuators work
+:::
+
 ## Hello mBot2
 
 ::: mbot2
@@ -159,11 +172,13 @@ Your program reads the sensors and controls the actuators. You already know this
 
 ::: quiz
 ? Match each part to its job.
+→ Hello mBot2
 = Ultrasonic sensor -> measures the distance
 = Motors -> move the wheels
 = CyberPi -> runs the program
 = Line sensor -> detects a dark line
 ? Which parts are actuators?
+→ Sensors and actuators
 - [x] Motors
 - [ ] Ultrasonic sensor
 - [x] LEDs
@@ -303,11 +318,13 @@ When the mBot2 is connected, **🔧 Test the mBot2** appears below the world. Op
 
 If a value does not change although you do something, something is wrong. Then tell your teacher before you start programming.
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know the parts of the mBot2. → Hello mBot2
-- I know how the mBot2 measures distances. → The ultrasonic sensor
-- I know how the mBot2 detects a line. → Under the robot
-- I know what sensors and actuators are. → Sensors and actuators
+- I can name the parts of the mBot2. → Hello mBot2
+- I can explain how the mBot2 measures distances. → The ultrasonic sensor
+- I can explain how the mBot2 detects a line. → Under the robot
+- I can explain what sensors and actuators are. → Sensors and actuators
 - I can control the mBot2 with elements from the group mBot2 commands. → Commands for the mBot2
 - I can let the mBot2 drive in the simulator. → First drive
 - I can connect the real mBot2 with USB-C and disconnect it again. → Connecting the real mBot2

@@ -4,6 +4,15 @@ bereich: VisuBot
 kurz: Töne, eine Tonleiter und eine Sirene.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, was die beiden Zahlen bei `playTone` bedeuten
+- eine Tonfolge bauen
+- in Java mit der Zählvariable rechnen
+- den mBot2 ein Gefühl zeigen lassen
+:::
+
 ## Wie hoch, wie lang?
 
 ::: mbot2
@@ -73,18 +82,22 @@ Der mBot2 kann auch fröhlich, traurig oder müde sein. Mit **Gefühl zeigen** (
 
 ::: quiz
 ? Welcher Ton ist höher?
+→ Wie hoch, wie lang?
 - [x] `mbot.playTone(880, 300)`
 - [ ] `mbot.playTone(440, 300)`
 > Mehr Hertz heißt höher.
 ? Wie lange klingt `mbot.playTone(440, 1000)`?
+→ Wie hoch, wie lang?
 - [ ] 440 Sekunden
 - [x] 1 Sekunde
 - [ ] 1000 Sekunden
 > 1000 Millisekunden sind eine Sekunde.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, was die beiden Zahlen bei `playTone` bedeuten. → Wie hoch, wie lang?
+- Ich kann erklären, was die beiden Zahlen bei `playTone` bedeuten. → Wie hoch, wie lang?
 - Ich kann eine Tonfolge bauen. → Tonleiter im Struktogramm
 - Ich kann in Java mit der Zählvariable rechnen. → Jetzt in Java: immer höher
 - Ich kann den mBot2 ein Gefühl zeigen lassen. → Gefühle zeigen

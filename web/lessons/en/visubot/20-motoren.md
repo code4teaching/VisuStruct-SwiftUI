@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Step on the gas, steer and follow a line.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- step on the gas with wheels separately and stop
+- drive until a sensor reports something
+- write a line follower in Java
+:::
+
 ## Two motors, two wheels
 
 ::: mbot2
@@ -72,16 +80,20 @@ lösung: vb-java-linienfolger-loesung.visustruct
 
 ::: quiz
 ? What does `mbot.drive(30, 30)` do?
+→ Two motors, two wheels
 - [ ] It drives 30 cm and stops.
 - [x] It drives straight ahead and does not stop until another driving command comes.
 - [ ] It turns by 30°.
 > **wheels separately** only steps on the gas. You have to stop it yourself.
 ? The mBot2 should steer to the right. Which command fits?
+→ Two motors, two wheels
 - [ ] `mbot.drive(10, 40)`
 - [x] `mbot.drive(40, 10)`
 - [ ] `mbot.drive(-40, -40)`
 > If the left wheel turns faster, it drives a right curve.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can step on the gas with wheels separately and stop. → Two motors, two wheels

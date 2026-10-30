@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Der mBot2 misst den Abstand und hält rechtzeitig an.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit `mbot.getDistance()` den Abstand abfragen
+- entscheiden, wann ich eine While-Schleife statt einer For-Schleife nehme
+- mit dem Liniensensor ein Ziel finden
+:::
+
 ## Wie weit ist die Wand?
 
 Bisher hast du genau gesagt, wie weit der mBot2 fahren soll. Jetzt soll er selbst merken, wann er anhalten muss.
@@ -56,20 +64,24 @@ lösung: vb-bis-ziel-loesung.visustruct
 
 ::: quiz
 ? Der mBot2 steht 40 cm vor der Wand. Wie oft fährt er mit `while (mbot.getDistance() > 15) mbot.forward();` vor, wenn jede Fahrt 10 cm ist?
+→ Wie weit ist die Wand?
 - [ ] gar nicht
 - [ ] einmal
 - [x] so oft, bis die Wand höchstens 15 cm weg ist
 - [ ] immer genau fünfmal
 > Die While-Schleife prüft vor jeder Fahrt die Bedingung. Ist die Wand nah genug, hört sie auf.
 ? Warum reicht hier keine For-Schleife mit fester Anzahl?
+→ Drei Welten, ein Programm
 - [x] Weil die Wand in jeder Welt anders weit weg ist.
 - [ ] Weil eine For-Schleife keine Anweisungen enthalten darf.
 - [ ] Weil der mBot2 For-Schleifen nicht versteht.
 > Die For-Schleife weiß vorher, wie oft sie läuft. Die While-Schleife entscheidet unterwegs.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann mit `mbot.getDistance()` den Abstand abfragen. → Wie weit ist die Wand?
-- Ich weiß, wann ich eine While-Schleife statt einer For-Schleife nehme. → Drei Welten, ein Programm
+- Ich kann entscheiden, wann ich eine While-Schleife statt einer For-Schleife nehme. → Drei Welten, ein Programm
 - Ich kann mit dem Liniensensor ein Ziel finden. → Bis zum Ziel
 :::
