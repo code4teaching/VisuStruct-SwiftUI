@@ -8,6 +8,7 @@ import { documentFromJava, mergeLiveJava, plainLiveJava, type JavaForm } from '.
 import { ElementType, makeElement, type VSDocument } from '../src/core/model'
 import { decodeDocument } from '../src/core/xmlCodec'
 import { SimulationEngine } from '../src/core/simulation'
+import { onlyLineBreaksMissing, sameOutput } from '../src/core/exerciseCheck'
 import { generateCode } from '../src/core/codeGenerator'
 import { indentJava } from '../src/core/javaIndent'
 
@@ -152,6 +153,23 @@ describe('Java tippen → Struktogramm', () => {
     // Nur im Kommentar oder in einem Text zählt nicht.
     expect(keys('// import java.util.Scanner;\nScanner s = new Scanner(System.in);')).toEqual(['web_parse_missing_import'])
     expect(keys('System.out.println("Scanner");')).toEqual([])
+  })
+
+  it('\\n in einer Ausgabe beginnt eine neue Zeile; fehlende Zeilenumbrüche werden erkannt', () => {
+    const run = (src: string) => {
+      const engine = new SimulationEngine(doc(src))
+      let steps = 0
+      while (engine.canStep && steps++ < 1000) engine.step()
+      return engine.state.outputLines
+    }
+    const expected = ['Ludwig ist 7 Jahre alt.', 'Größe: 1.2 m']
+    expect(run('System.out.print("Ludwig ist 7 Jahre alt.\\n");\nSystem.out.print("Größe: 1.2 m");')).toEqual(expected)
+    expect(run('System.out.println("A\\nB");\nSystem.out.print("C");')).toEqual(['A', 'B', 'C'])
+    const joined = run('System.out.print("Ludwig ist 7 Jahre alt.");\nSystem.out.print("Größe: 1.2 m");')
+    expect(sameOutput(joined, expected)).toBe(false)
+    expect(onlyLineBreaksMissing(joined, expected)).toBe(true)
+    expect(onlyLineBreaksMissing(['Ludwig ist 7 Jahre alt. Größe: 1.3 m'], expected)).toBe(false)
+    expect(onlyLineBreaksMissing(expected, expected)).toBe(false)
   })
 
   it('System.out.print schreibt ohne neue Zeile, auch mit Array-Fach', () => {

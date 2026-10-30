@@ -1406,9 +1406,14 @@ export class SimulationEngine {
       const rendered = this.peek(() => this.renderOutputExpression(expression))
       // `println()` ohne Text: nur eine neue Zeile.
       const output = expression.trim() === '' ? '' : this.evaluateOutputExpression(expression)
-      if (state.outputLineOpen && state.outputLines.length) state.outputLines[state.outputLines.length - 1] += output
-      else state.outputLines.push(output)
-      state.outputLineOpen = javaOut?.[1] === 'print'
+      // `\n` im Text beginnt eine neue Zeile; `print("…\n")` endet wie `println("…")`.
+      const print = javaOut?.[1] === 'print'
+      const endsLine = print && output.endsWith('\n')
+      const [first, ...rest] = (endsLine ? output.slice(0, -1) : output).split('\n')
+      if (state.outputLineOpen && state.outputLines.length) state.outputLines[state.outputLines.length - 1] += first
+      else state.outputLines.push(first)
+      state.outputLines.push(...rest)
+      state.outputLineOpen = print && !endsLine
       this.afterOutput = true
       state.lastTrace = `${rendered} -> ${output}`
       return
