@@ -90,7 +90,7 @@ Enquanto o prato não estiver vazio, dás uma garfada. Depois, o prato é levant
 
 ## Os três juntos
 
-Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma sequência de cima para baixo, uma [decisão]{.blau} e um [ciclo]{.rosa}. As caixas amarelas são [instruções]{.gelb} simples. O que está dentro de uma decisão ou de um ciclo fica com a cor dela. Em rigor, o diagrama todo é uma sequência, porque a decisão e o ciclo também estão na fila de cima para baixo.
+Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma sequência de cima para baixo, uma [decisão]{.blau} e um [ciclo]{.rosa}. As caixas amarelas são [instruções]{.gelb} simples. As instruções dentro de uma decisão ou de um ciclo também são amarelas. Em rigor, o diagrama todo é uma sequência, porque a decisão e o ciclo também estão na fila de cima para baixo.
 
 ::: diagramm l1-grundbausteine.visustruct
 Reconheces a decisão pelo triângulo e o ciclo pelo parêntese à esquerda. Tudo junto forma uma sequência.

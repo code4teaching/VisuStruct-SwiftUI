@@ -182,6 +182,7 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
   }
   if (loose.length) markers.push(box('cm-scope cm-scope-method', doc.lineAt(loose[0].from).number, doc.lineAt(loose[loose.length - 1].to).number, 1))
   // Äußere Blöcke zuerst: Die inneren liegen darüber.
+  const blocks: { kind: string; from: number; to: number }[] = []
   syntaxTree(state).iterate({
     from: view.viewport.from,
     to: view.viewport.to,
@@ -191,9 +192,20 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
       // `else if` gehört zum Kasten des ersten `if`.
       if (node.name === 'IfStatement' && node.node.parent?.name === 'IfStatement') return
       const from = doc.lineAt(node.from).number
-      markers.push(box(`cm-scope cm-scope-${kind}`, from, Math.max(doc.lineAt(node.to).number, closingLine(doc, node.from)), 1))
+      const to = Math.max(doc.lineAt(node.to).number, closingLine(doc, node.from))
+      blocks.push({ kind, from, to })
+      markers.push(box(`cm-scope cm-scope-${kind}`, from, to, 1))
     },
   })
+  // Anweisungen in Schleifen und Verzweigungen bekommen wie im Struktogramm einen eigenen gelben Streifen.
+  for (let n = 1; n <= doc.lines; n++) {
+    let inner: { kind: string; from: number; to: number } | undefined
+    for (const b of blocks) if (b.from <= n && n <= b.to && (!inner || b.from >= inner.from)) inner = b
+    if (!inner || (inner.kind !== 'loop' && inner.kind !== 'if') || n === inner.from) continue
+    const text = doc.line(n).text.trim()
+    if (!text || text.startsWith('}') || text.endsWith('{') || text.startsWith('//') || text.startsWith('case ') || text.startsWith('default')) continue
+    markers.push(box('cm-scope cm-scope-method cm-scope-stmt', n, n, 2))
+  }
   const sel = state.field(marksField).marks.lines
   if (sel && sel.from < doc.lines) markers.push(box('cm-scope cm-scope-sel', sel.from + 1, Math.min(sel.to + 1, doc.lines), 0))
   return markers
