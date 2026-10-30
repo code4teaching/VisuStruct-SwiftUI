@@ -40,6 +40,10 @@ If a name is made of several words, you write them together and start every furt
 camelCase got its name because the capital letters in the middle stick out of the word like the humps of a camel: `priceWithTax` has two humps. Me, I'm a billy goat with zero humps but two horns. Sadly, nobody has invented GoatCase yet.
 :::
 
+::: grafik l04-camelcase.svg
+The capitals W and T stick out like the camel's two humps.
+:::
+
 ## The four data types
 
 The data type says what kind of value may be stored in the variable.
@@ -154,6 +158,10 @@ lösung: l05-einkauf-loesung.visustruct
 :::
 
 ## Now in Java
+
+::: grafik l04-kaffee.svg
+Not the official logo, just our drawing: in American English, "java" is a word for coffee. The language was named after the coffee from the island of Java that its inventors liked to drink.
+:::
 
 A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
 
