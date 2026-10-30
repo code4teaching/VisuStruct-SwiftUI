@@ -51,6 +51,12 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
     }
   })
 
+  it('jede Grafik-Unterschrift ist kurz (sonst fehlt das schließende „:::“)', () => {
+    for (const { where, block } of allBlocks()) {
+      if (block.kind === 'graphic' || block.kind === 'images') expect(block.caption.length, `${where}: ${block.caption.slice(0, 60)}`).toBeLessThan(400)
+    }
+  })
+
   it('keine Schleife in einem Diagramm ist leer (Inhalt gehört in <schleifeninhalt>)', () => {
     const loops = [ElementType.forSchleife, ElementType.whileSchleife, ElementType.doUntilSchleife, ElementType.endlosschleife]
     const check = (els: VSElement[], where: string) => {
