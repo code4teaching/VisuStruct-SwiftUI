@@ -294,6 +294,23 @@ describe('Lückentexte', () => {
   })
 })
 
+describe('Java-Beispiele mit „Im Editor öffnen“', () => {
+  it.each(contentLanguages)('```java editor lässt sich ohne Fehler parsen (%s)', (lang) => {
+    useContentLanguage(lang)
+    const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
+    let checked = 0
+    for (const block of lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks))) {
+      if (block.kind !== 'markdown') continue
+      for (const m of block.text.matchAll(/^```java editor\n([\s\S]*?)^```/gm)) {
+        expect(parseLiveJava(m[1], labels).problems, m[1]).toEqual([])
+        expect(markdownToHTML(m[0])).toContain('data-open="editor"')
+        checked++
+      }
+    }
+    expect(checked).toBeGreaterThanOrEqual(1)
+  })
+})
+
 describe('Bombe entschärfen', () => {
   it.each(contentLanguages)('mit der verbesserten Zeile meldet Java keinen Fehler mehr (%s)', (lang) => {
     useContentLanguage(lang)

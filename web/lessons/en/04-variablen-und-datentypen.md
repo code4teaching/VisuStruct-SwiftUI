@@ -180,7 +180,7 @@ Java was first called **Oak**, after the tree outside James Gosling’s office w
 
 Variables do not only store numbers. For text there is the data type `String`:
 
-```java
+```java editor
 String name = "Mia";
 int age = 14;
 double height = 1.62;
@@ -192,7 +192,7 @@ System.out.println("Height: " + height + " m");
 - You write `String` with a capital letter, `int`, `double` and `boolean` in lowercase. Java tells them apart.
 - With `+` you join text and numbers together.
 
-You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type.
+You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type. “Open in editor” brings the example into the Programming area. Click “Run” there, then change the name, age or height and try again.
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java

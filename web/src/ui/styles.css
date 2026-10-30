@@ -1629,6 +1629,10 @@ button.danger-text:not(:disabled) {
   overflow-y: hidden;
   font-size: 12.5px;
 }
+.learn-open-code {
+  display: block;
+  margin: -4px 0 12px;
+}
 .lesson-code code {
   background: none;
   padding: 0;
