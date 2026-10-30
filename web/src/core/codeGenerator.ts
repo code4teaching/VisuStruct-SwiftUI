@@ -558,6 +558,16 @@ function emitPrintLineIfNeeded(
   intVariables: Set<string>,
   stringVariables: Set<string>,
 ): string | undefined {
+  // `System.out.print(…)`: Ausgabe ohne neue Zeile.
+  const print = /^System\s*\.\s*out\s*\.\s*print\s*\(([\s\S]*)\)$/.exec(stripTrailingSemicolon(raw).trim())
+  if (print) {
+    const value = print[1].trim()
+    switch (target) {
+      case 'java': return sp(indent) + 'System.out.print(' + value + ');\n'
+      case 'javascript': return sp(indent) + 'process.stdout.write(String(' + value + '));\n'
+      case 'python': return sp(indent) + 'print(' + (value === '' ? '' : pythonConcatenation(value, intVariables, stringVariables) + ', ') + 'end="")\n'
+    }
+  }
   const expr = expressionAfterOutputDiagramPrefix(raw)
   if (expr === undefined) {
     // Leere Ausgabe (`output:` ohne Text): eine Leerzeile.

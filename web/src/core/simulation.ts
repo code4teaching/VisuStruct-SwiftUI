@@ -94,6 +94,8 @@ export interface SimState {
   stepIndex: number
   variables: Map<string, SimValue>
   outputLines: string[]
+  /** Die letzte Ausgabe war `System.out.print(…)`: Die nächste Ausgabe schreibt in derselben Zeile weiter. */
+  outputLineOpen?: boolean
   inputRequest?: InputRequest
   /** Fehler zur letzten Eingabe (z. B. keine Zahl). */
   inputErrorNotice?: SimNotice
@@ -1310,11 +1312,16 @@ export class SimulationEngine {
       return
     }
 
-    if (lower.startsWith('output:') || lower.startsWith('print:')) {
-      const expression = text.slice(lower.startsWith('output:') ? 'output:'.length : 'print:'.length)
+    // `System.out.print(…)` schreibt ohne neue Zeile, `System.out.println(…)` wie `output:`.
+    const javaOut = /^System\s*\.\s*out\s*\.\s*(println|print)\s*\(([\s\S]*)\)\s*;?$/u.exec(text)
+    if (lower.startsWith('output:') || lower.startsWith('print:') || javaOut) {
+      const expression = javaOut ? javaOut[2] : text.slice(lower.startsWith('output:') ? 'output:'.length : 'print:'.length)
       const rendered = this.peek(() => this.renderOutputExpression(expression))
-      const output = this.evaluateOutputExpression(expression)
-      state.outputLines.push(output)
+      // `println()` ohne Text: nur eine neue Zeile.
+      const output = expression.trim() === '' ? '' : this.evaluateOutputExpression(expression)
+      if (state.outputLineOpen && state.outputLines.length) state.outputLines[state.outputLines.length - 1] += output
+      else state.outputLines.push(output)
+      state.outputLineOpen = javaOut?.[1] === 'print'
       state.lastTrace = `${rendered} -> ${output}`
       return
     }
