@@ -4,6 +4,17 @@ bereich: Dateien
 kurz: JSON-Dateien verstehen, Werte mit indexOf und substring herausholen und selbst JSON schreiben.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- Objekte, Schlüssel, Werte und Listen in JSON erkennen
+- mit indexOf und substring einen Wert aus einer JSON-Zeile holen
+- alle Werte zu einem Schlüssel aus einer JSON-Datei ausgeben
+- mit + und \" einen JSON-Eintrag bauen und speichern
+- Daten als JSON-Datei speichern
+- eine Stärke und eine Schwäche von JSON nennen
+:::
+
 ## Daten mit Namen
 
 Der Burgzoo speichert seine Tiere in einer Datei `zoo.json`:
@@ -172,36 +183,42 @@ frage: Welcher Schlüssel hat einen Wahrheitswert?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich kenne Objekte, Schlüssel, Werte und Listen in JSON. → Daten mit Namen
+- Ich kann Objekte, Schlüssel, Werte und Listen in JSON erkennen. → Daten mit Namen
 - Ich kann mit indexOf und substring einen Wert aus einer JSON-Zeile holen. → Einen Wert herausholen
-- Ich habe alle Namen aus dem Zoo ausgegeben. → Übung: Alle Namen aus dem Zoo
+- Ich kann alle Werte zu einem Schlüssel aus einer JSON-Datei ausgeben. → Übung: Alle Namen aus dem Zoo
 - Ich kann mit + und \" einen JSON-Eintrag bauen und speichern. → JSON schreiben
-- Ich habe die Punkte als JSON gespeichert. → Übung: Punkte als JSON speichern
-- Ich kenne eine Stärke und eine Schwäche von JSON. → Stärken und Schwächen von JSON
+- Ich kann Daten als JSON-Datei speichern. → Übung: Punkte als JSON speichern
+- Ich kann eine Stärke und eine Schwäche von JSON nennen. → Stärken und Schwächen von JSON
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was steht in JSON vor jedem Wert?
+→ Daten mit Namen
 - [ ] seine Zeilennummer
 - [x] sein Schlüssel, zum Beispiel "name"
 - [ ] ein Semikolon
 > Schlüssel und Wert werden durch einen Doppelpunkt getrennt.
 
 ? Wie schreibst du ein Anführungszeichen in einem Java-Text?
+→ JSON schreiben
 - [ ] ""
 - [x] \"
 - [ ] '"'
 
 ? Was ist bei {"tiere": [{"name": "Ludwig"}, {"name": "Zora"}]} der Wert von tiere[0].name?
+→ Daten mit Namen
 - [x] Ludwig
 - [ ] Zora
 - [ ] tiere
 > Die Liste zählt ab 0.
 
 ? Ordne zu.
+→ Stärken und Schwächen von JSON
 = { } -> ein Objekt mit Schlüsseln und Werten
 = [ ] -> eine Liste
 = : -> trennt Schlüssel und Wert

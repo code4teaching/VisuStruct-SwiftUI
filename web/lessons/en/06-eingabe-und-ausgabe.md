@@ -4,6 +4,17 @@ bereich: Basics
 kurz: Ask for values, show results and use the IPO model.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain the IPO model
+- write an input with a data type, a name and a question
+- join text and variables in an output with +
+- calculate in a variable before the output
+- pick out input, process and output from a task
+- read numbers in Java with the scanner
+:::
+
 ## The IPO model
 
 Many programs work in three parts:
@@ -263,11 +274,13 @@ frage: Which part of IPO does this box belong to?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can explain the IPO model. → The IPO model
 - I can write an input with a data type, a name and a question. → Input with input:
 - I can join text and variables in an output with +. → Careful with + in an output
-- I calculate in a variable before the output. → Careful with + in an output
+- I can calculate in a variable before the output. → Careful with + in an output
 - I can pick out input, process and output from a task. → From the task to the structure chart
 - I can read numbers in Java with the scanner. → Now in Java
 :::
@@ -276,35 +289,41 @@ frage: Which part of IPO does this box belong to?
 
 ::: quiz
 ? What does IPO stand for?
+→ The IPO model
 - [x] Input, process, output
 - [ ] Input, program, order
 - [ ] Insert, paste, open
 > Many programs first ask for values, process them and then show the result.
 
 ? The variables a and b have the values 3 and 4. What does `output: a + b` show?
+→ Careful with + in an output
 - [ ] 7
 - [x] 34
 - [ ] a + b
 > In an output, + joins the parts together. Calculate the sum in a variable first.
 
 ? Which input fits if a price such as 4.99 should be typed in?
+→ Input with input:
 - [ ] input: int price "Price?"
 - [x] input: double price "Price?"
 - [ ] input: String "Price?"
 > 4.99 is a decimal number, so double. Also, every input needs a variable name.
 
 ? What does `output: "Age: " + age` show if age has the value 12?
+→ Careful with + in an output
 - [x] Age: 12
 - [ ] "Age: " + 12
 - [ ] Age: age
 
 ? Task: *The program asks for the radius of a circle and shows its circumference.* Match each part of the text to where it belongs in the IPO model.
+→ From the task to the structure chart
 = asks for the radius -> Input
 = circumference = 2 * 3.14 * radius -> Process
 = shows its circumference -> Output
 > The radius is given, the circumference is what you are looking for. The formula connects the two.
 
 ? What does `scanner.nextInt()` read?
+→ Now in Java
 - [x] A whole number
 - [ ] A decimal number
 - [ ] A whole sentence

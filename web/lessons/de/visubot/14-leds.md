@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Farben mischen, eine Ampel bauen und blinken lassen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Farbe aus Rot, Grün und Blau mischen
+- Farben mit Pausen nacheinander zeigen
+- die LEDs in Java blinken lassen
+:::
+
 ## Rot, Grün und Blau mischen
 
 ::: mbot2
@@ -58,15 +66,19 @@ lösung: vb-java-blinken-loesung.visustruct
 
 ::: quiz
 ? Welche Farbe ergibt `mbot.setLed(0, 255, 0)`?
+→ Rot, Grün und Blau mischen
 - [ ] Rot
 - [x] Grün
 - [ ] Blau
 > Die Zahlen sind Rot, Grün, Blau. Nur Grün ist an.
 ? Warum braucht das Blaulicht **kurz warten**?
+→ Jetzt in Java: Blaulicht
 - [x] Sonst wechselt es so schnell, dass man kein Blinken sieht.
 - [ ] Sonst gehen die LEDs kaputt.
 - [ ] Weil `ledOff()` sonst nicht geht.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann eine Farbe aus Rot, Grün und Blau mischen. → Rot, Grün und Blau mischen

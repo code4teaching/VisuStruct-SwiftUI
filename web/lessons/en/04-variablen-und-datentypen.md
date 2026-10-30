@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Store values, get to know the data types int, double, String and boolean, and calculate.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create a variable with a data type, a name and a value
+- tell the data types int, double, String and boolean apart
+- explain that = is an assignment and not a comparison
+- calculate with + - * / % and use whole-number division
+- create and output variables in Java
+:::
+
 ## What is a variable?
 
 A **variable** is like a labelled box. It has a **name**, a **data type** and a **value**.
@@ -42,6 +52,8 @@ The data type says what kind of value may be stored in the variable.
 - **double:** decimal numbers, e.g. `double price = 2.5`. You write a **point**, never a comma.
 - **String:** text, e.g. `String name = "Mia"`. Text goes in quotation marks.
 - **boolean:** truth values, only `true` or `false`
+
+There are more data types. You will soon need one of them: `char` for a **single character**, e.g. `char grade = 'C'`. A `char` goes in **single** quotation marks. You will get to know it better in lesson 17.
 
 ::: diagramm l05-datentypen.visustruct
 Three variables with different data types. Open the diagram and start the simulation.
@@ -146,6 +158,10 @@ lösung: l05-einkauf-loesung.visustruct
 :::
 
 ## Now in Java
+
+::: grafik l04-kaffee.svg
+Not the official logo, just our drawing: in American English, „java“ is a word for coffee. The language was named after the coffee from the island of Java that its inventors liked to drink.
+:::
 
 A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
 
@@ -279,11 +295,13 @@ richtig: String
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can create a variable with a data type, a name and a value. → What is a variable?
-- I know the data types int, double, String and boolean. → The four data types
-- I know that = is an assignment and not a comparison. → Assignment with =
-- I can calculate with + - * / % and know whole-number division. → Calculating
+- I can tell the data types int, double, String and boolean apart. → The four data types
+- I can explain that = is an assignment and not a comparison. → Assignment with =
+- I can calculate with + - * / % and use whole-number division. → Calculating
 - I can create and output variables in Java. → Now in Java
 :::
 
@@ -291,6 +309,7 @@ richtig: String
 
 ::: quiz
 ? Which data type fits the value 3.75?
+→ The four data types
 - [ ] int
 - [x] double
 - [ ] String
@@ -298,24 +317,28 @@ richtig: String
 > Decimal numbers have the type double. In VisuStruct you write them with a point.
 
 ? What value does x have after `int x = 17 / 5`?
+→ Calculating
 - [ ] 3.4
 - [x] 3
 - [ ] 4
 > With whole numbers, everything after the decimal point is dropped. It is not rounded.
 
 ? What does `17 % 5` give?
+→ Calculating
 - [x] 2
 - [ ] 3
 - [ ] 3.4
 > 17 divided by 5 is 3, remainder 2. The operator % gives the remainder.
 
 ? At the start, `int points = 10`. What is in points after `points = points * 2`?
+→ Assignment with =
 - [ ] 10
 - [ ] 12
 - [x] 20
 > The right-hand side is calculated with the old value 10, and the result 20 is stored in points.
 
 ? Which line correctly creates a decimal number in Java?
+→ Now in Java
 - [ ] double price = 2,5;
 - [x] double price = 2.5;
 - [ ] Double price = 2.5

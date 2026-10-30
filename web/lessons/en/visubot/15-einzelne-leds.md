@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Each of the five LEDs gets its own colour, all the way to a running light.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- address the LEDs by their numbers 0 to 4
+- make single LEDs light up in different colours
+- build a running light with a loop
+:::
+
 ## Every LED has a number
 
 ::: mbot2
@@ -58,18 +66,22 @@ lösung: vb-java-lauflicht-loesung.visustruct
 
 ::: quiz
 ? Which number does the first LED have?
+→ Every LED has a number
 - [x] 0
 - [ ] 1
 - [ ] 5
 > As with arrays, you count from 0. The five LEDs have the numbers 0 to 4.
 ? What does `mbot.led(4).setColor("off")` do?
+→ Three lights in the structogram
 - [ ] All LEDs go off.
 - [x] Only LED 4 goes off.
 - [ ] Four LEDs go off.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know that the LEDs are numbered from 0 to 4. → Every LED has a number
+- I can address the LEDs by their numbers 0 to 4. → Every LED has a number
 - I can make single LEDs light up in different colours. → Three lights in the structogram
 - I can build a running light with a loop. → Now in Java: running light
 :::

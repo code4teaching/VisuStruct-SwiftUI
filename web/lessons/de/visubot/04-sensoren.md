@@ -4,6 +4,13 @@ bereich: VisuBot
 kurz: Der mBot2 misst etwas, und dein Programm entscheidet.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- den Unterschied zwischen Befehl und Sensor erklären
+- einen Sensor in eine Bedingung einbauen
+:::
+
 ## Befehle und Sensoren
 
 Bisher hast du dem mBot2 nur **Befehle** gegeben: fahre vor, drehe rechts. Er hat sie ausgeführt, ohne auf seine Umgebung zu achten.
@@ -48,22 +55,27 @@ lösung: vb-wand-vorn-loesung.visustruct
 
 ::: quiz
 ? Die Wand ist 12 cm entfernt. Ist `mbot.getDistance() < 20` wahr oder falsch?
+→ Wand vorn?
 - [x] wahr
 - [ ] falsch
 > 12 ist kleiner als 20, also ist die Bedingung wahr.
 ? Der mBot2 steht auf hellem Boden. Was liefert `mbot.getLine()`?
+→ Befehle und Sensoren
 - [x] 0
 - [ ] 15
 - [ ] den Abstand in cm
 > 0 heißt: Keiner der vier Fühler sieht etwas Dunkles.
 ? Warum ist der Sensor kein eigener Kasten im Struktogramm?
+→ Wand vorn?
 - [x] Er tut nichts, er liefert nur einen Wert. Den braucht man in einer Bedingung.
 - [ ] Weil der mBot2 sonst zu langsam wird.
 - [ ] Weil Sensoren nur in Java gehen.
 > Befehle sind Anweisungen. Sensoren sind Werte, so wie eine Variable.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich kenne den Unterschied zwischen Befehl und Sensor. → Befehle und Sensoren
+- Ich kann den Unterschied zwischen Befehl und Sensor erklären. → Befehle und Sensoren
 - Ich kann einen Sensor in eine Bedingung einbauen. → Wand vorn?
 :::

@@ -4,6 +4,14 @@ bereich: Primeiros passos
 kurz: Inserir elementos, escrever texto, mover e eliminar.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- inserir um elemento da área Elementos e substituir um marcador
+- alterar o texto de um bloco e mudar entre Instrução, Entrada e Saída
+- mover, copiar e eliminar blocos e anular passos
+:::
+
 ## O ecrã
 
 O VisuStruct tem dois editores: o [editor de estrutogramas](#zeige-editor), de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha. As palavras azuis mostram-te as áreas, mesmo que estejam recolhidas: passa o rato por cima de uma, e a área abre-se ao lado da área de aprendizagem e acende-se. Se clicares nela (ou tocares nela), fica aberta.
@@ -145,27 +153,32 @@ frage: Clicas num elemento da área Elementos, sem arrastar. Onde fica?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei inserir um elemento da área Elementos e substituir um marcador. → Inserir um elemento
-- Sei alterar o texto de um bloco e mudar entre Instrução, Entrada e Saída. → Escrever texto
-- Sei mover, copiar e eliminar blocos e anular passos. → Mover, copiar, eliminar
+- Consigo inserir um elemento da área Elementos e substituir um marcador. → Inserir um elemento
+- Consigo alterar o texto de um bloco e mudar entre Instrução, Entrada e Saída. → Escrever texto
+- Consigo mover, copiar e eliminar blocos e anular passos. → Mover, copiar, eliminar
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que significa o sinal ø num bloco?
+→ Inserir um elemento
 - [ ] O bloco contém um erro.
 - [x] Aqui ainda há um marcador vazio.
 - [ ] O programa termina aqui.
 > Um marcador é substituído quando arrastas um elemento para cima dele.
 
 ? Arrastas uma Instrução para a metade de baixo de um bloco. Onde é que ela fica?
+→ Inserir um elemento
 - [ ] Antes dele
 - [x] Depois dele
 - [ ] O bloco é substituído.
 
 ? Como mostras o texto Bom dia exatamente como está?
+→ Escrever texto
 - [ ] output: Bom dia
 - [x] output: "Bom dia"
 - [ ] input: "Bom dia"

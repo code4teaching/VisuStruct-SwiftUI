@@ -4,6 +4,22 @@ bereich: Grundlagen
 kurz: Mit Texten arbeiten, also einzelne Zeichen lesen, Teile herausschneiden, suchen, vergleichen und zerlegen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden
+- mit `length()` und `charAt(i)` arbeiten
+- einen `char` von einem String unterscheiden und mit `(int)` und `(char)` den Zeichencode nutzen
+- mit `substring` einen Teil aus einem Text schneiden
+- `indexOf`, `contains`, `toUpperCase` und `equals` anwenden
+- einen Text mit einer Schleife Zeichen für Zeichen durchgehen
+- einen Text mit `split` in ein String-Array zerlegen
+- in Java einen Text einlesen und mit `equals` vergleichen
+- weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt` anwenden
+- einen Text aus einer Datei mit `split("\n")` in Zeilen zerlegen
+- eine Methode in der Java-API nachschlagen und ihre Beschreibung lesen
+:::
+
 ## Text ist eine Reihe von Zeichen
 
 Einen `String` kennst du schon: `String name = "Ludwig"`. In der Informatik heißt so ein Text auch **Zeichenkette**, weil die Zeichen wie Perlen an einer Kette hintereinander hängen. Jedes Zeichen hat einen Platz mit einem Index, genau wie bei einem Array. Auch hier wird **ab 0 gezählt**: Das erste Zeichen ist 0 Schritte vom Anfang entfernt.
@@ -19,14 +35,34 @@ Ein String bringt **Methoden** mit. Du schreibst den Namen der Variablen, einen 
 
 > Bei Strings schreibst du `length()` **mit** Klammern, bei Arrays `length` **ohne**. Das ist in Java leider so.
 
-Ein einzelnes Zeichen hat in Java den Datentyp `char`. Ein `char` steht in **einfachen** Anführungszeichen: `'G'`. Ein String steht in doppelten: `"G"`.
+Das letzte Zeichen hat wie beim Array den Index `length() - 1`.
+
+## Ein einzelnes Zeichen: char
+
+Für ein einzelnes Zeichen hat Java einen eigenen Datentyp: **char**, kurz für englisch *character* (Zeichen). Ein `char` steht in **einfachen** Anführungszeichen, ein String in doppelten:
+
+- `'C'` ist ein `char`: genau ein Zeichen.
+- `"C"` ist ein String: ein Text, der nur ein Zeichen lang ist.
+- Ein `char` hat immer genau ein Zeichen. Einen leeren `char` wie `''` gibt es nicht, einen leeren String `""` schon.
+
+`charAt` liefert dir so ein Zeichen aus einem Text:
 
 ```
 char erster = wort.charAt(0)
 char letzter = wort.charAt(wort.length() - 1)
 ```
 
-Das letzte Zeichen hat wie beim Array den Index `length() - 1`.
+Zwei `char` vergleichst du mit `==`: `wort.charAt(0) == 'G'` ist `true`.
+
+Hinter jedem Zeichen steckt eine Zahl, sein **Zeichencode**. Welche Zahl zu welchem Zeichen gehört, steht in der ASCII-Tabelle: `'A'` hat den Code 65, `'B'` 66, `'C'` 67 und so weiter bis `'Z'` mit 90. Mit `(int)` bekommst du den Code eines Zeichens, mit `(char)` wird aus einem Code wieder ein Zeichen:
+
+```
+int code = (int) 'C'
+code = code + 1
+char naechstes = (char) code
+```
+
+Danach ist `code` 68 und `naechstes` ist `'D'`. So verschiebst du einen Buchstaben im Alphabet, und genau das brauchst du später bei der Caesar-Verschlüsselung.
 
 ## Teile herausschneiden
 
@@ -392,15 +428,18 @@ ende: Zora ist frei, und der Fuchs ist schnell davongelaufen. Das geheime Wort w
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass auch die Zeichen eines Strings ab 0 gezählt werden. → Text ist eine Reihe von Zeichen
+- Ich kann erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden. → Text ist eine Reihe von Zeichen
 - Ich kann mit `length()` und `charAt(i)` arbeiten. → Text ist eine Reihe von Zeichen
+- Ich kann einen `char` von einem String unterscheiden und mit `(int)` und `(char)` den Zeichencode nutzen. → Ein einzelnes Zeichen: char
 - Ich kann mit `substring` einen Teil aus einem Text schneiden. → Teile herausschneiden
-- Ich kenne `indexOf`, `contains`, `toUpperCase` und `equals`. → Suchen und vergleichen
+- Ich kann `indexOf`, `contains`, `toUpperCase` und `equals` anwenden. → Suchen und vergleichen
 - Ich kann einen Text mit einer Schleife Zeichen für Zeichen durchgehen. → Zeichen für Zeichen
 - Ich kann einen Text mit `split` in ein String-Array zerlegen. → Zerlegen mit split
 - Ich kann in Java einen Text einlesen und mit `equals` vergleichen. → Jetzt in Java
-- Ich kenne weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt`. → Noch mehr Methoden
+- Ich kann weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt` anwenden. → Noch mehr Methoden
 - Ich kann einen Text aus einer Datei mit `split("\n")` in Zeilen zerlegen. → Text aus einer Datei
 - Ich kann eine Methode in der Java-API nachschlagen und ihre Beschreibung lesen. → Die Java-API
 :::
@@ -409,41 +448,62 @@ ende: Zora ist frei, und der Fuchs ist schnell davongelaufen. Das geheime Wort w
 
 ::: quiz
 ? Was liefert `"Ludwig".charAt(1)`?
+→ Text ist eine Reihe von Zeichen
 - [ ] L
 - [x] u
 - [ ] d
 > Gezählt wird ab 0: L hat den Index 0, u den Index 1.
 
+? Was ist `'C'`?
+→ Ein einzelnes Zeichen: char
+- [x] ein `char`, also genau ein Zeichen
+- [ ] ein String
+- [ ] eine Variable mit dem Namen C
+> Einfache Anführungszeichen stehen für ein einzelnes Zeichen, also einen `char`. `"C"` in doppelten wäre ein String.
+
+? `'A'` hat den Zeichencode 65. Was ergibt `(char) 67`?
+→ Ein einzelnes Zeichen: char
+- [ ] 'B'
+- [x] 'C'
+- [ ] 67
+> 65 ist A, 66 ist B, 67 ist C. Mit `(char)` wird aus dem Code wieder ein Zeichen.
+
 ? Was liefert `"Struktogramm".substring(0, 6)`?
+→ Teile herausschneiden
 - [x] Strukt
 - [ ] Struktog
 - [ ] truktog
 > Die Zeichen mit den Indizes 0 bis 5. Das Ende 6 gehört nicht mehr dazu.
 
 ? Ein Wort hat 7 Zeichen. Welchen Index hat das letzte Zeichen?
+→ Text ist eine Reihe von Zeichen
 - [ ] 7
 - [x] 6
 - [ ] 8
 > Wie beim Array: immer eins weniger als die Länge.
 
 ? Wie vergleichst du in Java zwei Strings auf gleichen Inhalt?
+→ Suchen und vergleichen
 - [ ] a == b
 - [x] a.equals(b)
 - [ ] a = b
 
 ? Ordne jeder Methode zu, was sie bei `"Geißbock"` liefert.
+→ Suchen und vergleichen
 = length() -> 8
 = charAt(0) -> G
 = indexOf("bock") -> 4
 = substring(4) -> bock
 
 ? Welche Bedingung prüft in Java, ob in `eingabe` der Text Ludwig steht?
+→ Jetzt in Java
 - [ ] eingabe = "Ludwig"
 - [ ] eingabe == 'Ludwig'
 - [x] eingabe.equals("Ludwig")
 > Texte vergleichst du mit equals. Einfache Anführungszeichen sind nur für ein einzelnes Zeichen.
 
 ? Was liefert `Integer.parseInt("12") + 1`?
+→ Noch mehr Methoden
 - [ ] "121"
 - [x] 13
 - [ ] eine Fehlermeldung

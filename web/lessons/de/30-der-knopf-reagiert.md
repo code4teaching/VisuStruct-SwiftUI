@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Mit einem ActionListener festlegen, was beim Klick passiert.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, was ein Ereignis ist
+- mit addActionListener festlegen, was beim Klick passiert
+- beim Klick mehrere Anweisungen ausführen
+- einen Knopf bauen, der nach dem Klick seinen Text ändert
+:::
+
 ## Ein Klick ist ein Ereignis
 
 In der letzten Lektion ließ sich der Knopf drücken, aber nichts geschah. Bei einem Fensterprogramm bestimmt nämlich der Mensch, wann etwas passiert: Er klickt, tippt oder schließt ein Fenster. Jede solche Aktion heißt **Ereignis**.
@@ -166,7 +175,7 @@ Das steht nicht im Lehrplan. Wenn du wissen willst, was hinter dem Pfeil steckt,
 `ActionListener` ist ein **Interface**, eine Art Vertrag. Darin steht: Wer ein ActionListener sein will, muss eine Methode `actionPerformed(ActionEvent e)` haben. Der Knopf ruft bei jedem Klick genau diese Methode auf.
 :::
 
-Die Zeile mit dem Pfeil kennst du schon aus Schritt 2:
+Die Zeile mit dem Pfeil kennst du schon aus Schritt 3:
 
 ```java
 knopf.addActionListener(e -> knopf.setText("Ich wurde geklickt"));
@@ -291,35 +300,41 @@ Jeder Knopf bekommt seinen eigenen Zuhörer mit eigenem `addActionListener`. Den
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, was ein Ereignis ist. → Ein Klick ist ein Ereignis
+- Ich kann erklären, was ein Ereignis ist. → Ein Klick ist ein Ereignis
 - Ich kann mit addActionListener festlegen, was beim Klick passiert. → Die Zeile mit dem Pfeil
 - Ich kann beim Klick mehrere Anweisungen ausführen. → Mehrere Anweisungen beim Klick
-- Mein Knopf zeigt nach dem Klick „Ich wurde geklickt“. → Aufgabe: Ich wurde geklickt
+- Ich kann einen Knopf bauen, der nach dem Klick seinen Text ändert. → Aufgabe: Ich wurde geklickt
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was ist ein ActionListener?
+→ Ein Klick ist ein Ereignis
 - [ ] Ein Knopf mit Text
 - [x] Ein Zuhörer, der bei jedem Klick deinen Code ausführt
 - [ ] Ein Layout für Fenster
 > Du meldest ihn mit addActionListener beim Knopf an.
 
 ? Wann läuft knopf.setText("Ich wurde geklickt") im Zuhörer?
+→ Die Zeile mit dem Pfeil
 - [ ] Sofort beim Start des Programms
 - [x] Jedes Mal, wenn jemand auf den Knopf klickt
 - [ ] Nur beim ersten Klick
 > Der Code im Zuhörer läuft erst, wenn das Ereignis eintritt.
 
 ? Wie endet ein Zuhörer mit geschweiften Klammern?
+→ Die Zeile mit dem Pfeil
 - [ ] };)
 - [x] });
 - [ ] );}
 > Erst schließt der Block, dann die Klammer von addActionListener, dann das Semikolon.
 
 ? Ordne jedem Teil seine Aufgabe zu.
+→ Die Zeile mit dem Pfeil
 = JButton -> ein Knopf
 = addActionListener -> Zuhörer anmelden
 = setText -> Beschriftung ändern

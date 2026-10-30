@@ -4,6 +4,17 @@ bereich: Ficheiros
 kurz: Ler uma tabela num ficheiro CSV, dividir cada linha com split e fazer contas com os números.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar como é feito um ficheiro CSV: cabeçalho, registos, separador
+- dividir uma linha com split e fazer dela um número com Integer.parseInt
+- saltar o cabeçalho antes de fazer contas
+- calcular uma média a partir de uma coluna de um ficheiro CSV
+- encontrar o melhor valor numa coluna de um ficheiro CSV
+- nomear um ponto forte e um ponto fraco do CSV
+:::
+
 ## Uma tabela num ficheiro de texto
 
 A professora Cabra, da escola do castelo, guardou as notas da turma numa tabela. Como na Alemanha, 1 é a melhor nota e 6 a pior:
@@ -172,35 +183,41 @@ besser: Ludwig;2;3;1
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei como é feito um ficheiro CSV: cabeçalho, registos, separador. → Uma tabela num ficheiro de texto
-- Sei dividir uma linha com split e fazer dela um número com Integer.parseInt. → Dividir uma linha com split
-- Salto o cabeçalho antes de fazer contas. → Ler o ficheiro inteiro
-- Calculei a média de Matemática. → Exercício: Média de Matemática
-- Encontrei a melhor nota a Inglês. → Exercício: Melhor nota a Inglês
-- Conheço um ponto forte e um ponto fraco do CSV. → Pontos fortes e fracos do CSV
+- Consigo explicar como é feito um ficheiro CSV: cabeçalho, registos, separador. → Uma tabela num ficheiro de texto
+- Consigo dividir uma linha com split e fazer dela um número com Integer.parseInt. → Dividir uma linha com split
+- Consigo saltar o cabeçalho antes de fazer contas. → Ler o ficheiro inteiro
+- Consigo calcular uma média a partir de uma coluna de um ficheiro CSV. → Exercício: Média de Matemática
+- Consigo encontrar o melhor valor numa coluna de um ficheiro CSV. → Exercício: Melhor nota a Inglês
+- Consigo nomear um ponto forte e um ponto fraco do CSV. → Pontos fortes e fracos do CSV
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que devolve "Lebre;2;1;3".split(";")[2]?
+→ Dividir uma linha com split
 - [ ] "2"
 - [x] "1"
 - [ ] 1
 > A contagem começa em 0. E o resultado é um texto, não um número.
 
 ? Porque é que o programa chama readLine() duas vezes antes do ciclo?
+→ Ler o ficheiro inteiro
 - [ ] Para ler o ficheiro mais depressa.
 - [x] A primeira linha é o cabeçalho, sem notas. É saltada.
 - [ ] Porque readLine precisa sempre de duas linhas.
 
 ? O que acontece com Integer.parseInt("Matemática")?
+→ Dividir uma linha com split
 - [ ] Devolve 0.
 - [x] O Java lança uma NumberFormatException.
 - [ ] Devolve o comprimento da palavra.
 
 ? Liga.
+→ Pontos fortes e fracos do CSV
 = cabeçalho -> diz o que está nas colunas
 = registo -> uma linha com valores
 = separador -> separa as colunas, muitas vezes ;

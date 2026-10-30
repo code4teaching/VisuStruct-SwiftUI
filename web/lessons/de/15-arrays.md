@@ -4,6 +4,16 @@ bereich: Grundlagen
 kurz: Viele Werte unter einem Namen speichern, mit dem Index darauf zugreifen und sie mit einer Schleife durchlaufen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein Array mit Werten oder mit `new int[5]` anlegen
+- erklären, dass der Index bei 0 beginnt und der letzte Index `length - 1` ist
+- ein Array mit einer For-Schleife durchlaufen und füllen
+- die Summe und das Maximum eines Arrays berechnen
+- in Java ein Array anlegen und mit einer Schleife durchlaufen
+:::
+
 ## Viele Werte unter einem Namen
 
 Stell dir vor, du willst die Punkte von fünf Tests speichern. Mit fünf Variablen `punkte1` bis `punkte5` wird das schnell unübersichtlich. Ein **Array** ist eine Reihe von Fächern, die alle denselben Namen und denselben Datentyp haben.
@@ -262,9 +272,11 @@ besser: for (int i = zahlen.length - 1; i >= 0; i--) {
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann ein Array mit Werten oder mit `new int[5]` anlegen. → Viele Werte unter einem Namen
-- Ich weiß, dass der Index bei 0 beginnt und der letzte Index `length - 1` ist. → Der Index beginnt bei 0
+- Ich kann erklären, dass der Index bei 0 beginnt und der letzte Index `length - 1` ist. → Der Index beginnt bei 0
 - Ich kann ein Array mit einer For-Schleife durchlaufen und füllen. → Ein Array mit der Schleife durchlaufen
 - Ich kann die Summe und das Maximum eines Arrays berechnen. → Summe und Maximum
 - Ich kann in Java ein Array anlegen und mit einer Schleife durchlaufen. → Jetzt in Java
@@ -274,36 +286,42 @@ besser: for (int i = zahlen.length - 1; i >= 0; i--) {
 
 ::: quiz
 ? Was gibt `output: zahlen[2]` bei `int[] zahlen = {5, 10, 15, 20}` aus?
+→ Der Index beginnt bei 0
 - [ ] 10
 - [x] 15
 - [ ] 20
 > Gezählt wird ab 0: zahlen[0] ist 5, zahlen[1] ist 10, zahlen[2] ist 15.
 
 ? Ein Array hat 8 Fächer. Welcher Index ist der letzte?
+→ Der Index beginnt bei 0
 - [ ] 8
 - [x] 7
 - [ ] 9
 > Der letzte Index ist immer length - 1.
 
 ? Welche Bedingung passt in eine For-Schleife, die alle Werte von `zahlen` durchläuft und bei `int i = 0` beginnt?
+→ Ein Array mit der Schleife durchlaufen
 - [x] i < zahlen.length
 - [ ] i <= zahlen.length
 - [ ] i > zahlen.length
 > Mit <= würde die Schleife auch zahlen[length] lesen, und dieses Fach gibt es nicht.
 
 ? Womit sollte das Maximum beginnen, bevor die Schleife startet?
+→ Summe und Maximum
 - [ ] Immer mit 0
 - [x] Mit dem ersten Wert des Arrays
 - [ ] Mit der Länge des Arrays
 > Beginnt es mit 0, wäre bei lauter negativen Zahlen 0 das Ergebnis, obwohl 0 gar nicht im Array steht.
 
 ? Welches deutsche Wort wird oft für Array benutzt?
+→ Viele Werte unter einem Namen
 - [ ] Zweig
 - [x] Feld
 - [ ] Fall
 > Ein Array heißt auf Deutsch oft Feld. Gemeint ist dasselbe: viele Fächer unter einem Namen.
 
 ? Welche Zeile legt in Java ein Array mit drei Zahlen an?
+→ Jetzt in Java
 - [x] int[] zahlen = {1, 2, 3};
 - [ ] int zahlen = [1, 2, 3];
 - [ ] array zahlen = (1, 2, 3);

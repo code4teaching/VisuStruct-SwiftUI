@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Zwei Knöpfe ändern dieselbe Zahl: eine Variable für die ganze Klasse anlegen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, warum ein Zuhörer eine Variable aus main nicht ändern darf
+- eine static-Variable in der Klasse anlegen
+- zwei Knöpfe dieselbe Zahl ändern lassen
+- einen Zähler mit −1 bauen, der nie unter 0 fällt
+:::
+
 ## Das Ziel
 
 Ein Fenster zählt Klicks: Oben steht die Zahl, darunter zwei Knöpfe. **+1** zählt eins hoch, **Reset** setzt die Zahl wieder auf 0.
@@ -191,27 +200,32 @@ Für „nie unter 0“ brauchst du im Zuhörer von −1 ein `if`: Nur wenn `anza
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, warum ein Zuhörer eine Variable aus main nicht ändern darf. → Der erste Versuch
+- Ich kann erklären, warum ein Zuhörer eine Variable aus main nicht ändern darf. → Der erste Versuch
 - Ich kann eine static-Variable in der Klasse anlegen. → Eine Variable für die ganze Klasse
-- Zwei Knöpfe ändern bei mir dieselbe Zahl. → Das ganze Programm
-- Mein Zähler hat −1 und fällt nie unter 0. → Aufgabe: Klickzähler
+- Ich kann zwei Knöpfe dieselbe Zahl ändern lassen. → Das ganze Programm
+- Ich kann einen Zähler mit −1 bauen, der nie unter 0 fällt. → Aufgabe: Klickzähler
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Warum darf der Zuhörer die Variable anzahl aus main nicht verändern?
+→ Der erste Versuch
 - [ ] Weil Zahlen in Swing nicht erlaubt sind
 - [x] Weil der Zuhörer erst später läuft und Java Variablen aus main im Pfeil nicht verändern lässt
 - [ ] Weil anzahl zu groß wird
 
 ? Wo steht static int anzahl = 0;?
+→ Eine Variable für die ganze Klasse
 - [ ] In main, ganz oben
 - [x] In der Klasse, außerhalb von main
 - [ ] Im Zuhörer
 
 ? Was macht SwingConstants.CENTER bei new JLabel("0", SwingConstants.CENTER)?
+→ Das ganze Programm
 - [x] Es setzt den Text in die Mitte der Beschriftung.
 - [ ] Es setzt das Fenster in die Mitte des Bildschirms.
 - [ ] Es macht die Schrift größer.

@@ -11,6 +11,20 @@ String name = "Ada"
 zahl = zahl + 1
 ```
 
+### Datentypen
+
+Der Datentyp steht vor dem Namen der Variablen.
+
+| Datentyp | Bedeutung | Beispiel |
+|---|---|---|
+| `int` | ganze Zahl | `int anzahl = 3` |
+| `double` | Kommazahl (mit Punkt) | `double preis = 2.5` |
+| `String` | Text in doppelten Anführungszeichen | `String name = "Ada"` |
+| `boolean` | Wahrheitswert | `boolean fertig = false` |
+| `char` | ein einzelnes Zeichen in einfachen Anführungszeichen | `char note = 'C'` |
+
+`'C'` ist ein `char`, `"C"` ein String. Ein Zeichen aus einem Text holst du mit `charAt`: `char erster = name.charAt(0)`. Jedes Zeichen hat einen Zeichencode: `(int) 'A'` ist 65, `(char) 66` ist `'B'`.
+
 ### Eingabe
 
 Fragt beim Ausführen einen Wert ab und speichert ihn in einer Variablen. Der Text in Anführungszeichen ist die Frage.

@@ -4,6 +4,15 @@ bereich: Basics
 kurz: Run one of many cases, depending on the value of a variable.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- insert a switch, add cases and change case names
+- explain when the case default runs
+- decide whether a switch or a branch fits better
+- write a case selection in Java with switch
+:::
+
 ## Many possibilities, one variable
 
 A drinks machine has three buttons: 1 for water, 2 for juice, 3 for cocoa. With branches you need three boxes nested inside each other. That quickly gets wide and confusing.
@@ -250,9 +259,11 @@ frage: A dice shows 1 to 6, and for every number a different word should appear.
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can insert a switch, add cases and change case names. → How a switch is built
-- I know when the case default runs. → How a switch is built
+- I can explain when the case default runs. → How a switch is built
 - I can decide whether a switch or a branch fits better. → Switch or branch?
 - I can write a case selection in Java with switch. → Now in Java
 :::
@@ -261,36 +272,42 @@ frage: A dice shows 1 to 6, and for every number a different word should appear.
 
 ::: quiz
 ? The variable day has the value 5. There are the cases 1, 2, 3 and default. What runs?
+→ How a switch is built
 - [ ] Nothing at all
 - [ ] The case 3
 - [x] The case default
 > No case name matches 5, so default applies.
 
 ? How many cases run each time the switch runs?
+→ How a switch is built
 - [x] Exactly one
 - [ ] All cases from the matching one on
 - [ ] All cases
 > After the matching case, the program continues straight below the switch.
 
 ? What is a switch NOT suitable for?
+→ Switch or branch?
 - [ ] Choosing menu item 1, 2 or 3
 - [x] Checking whether a temperature is above 30 degrees
 - [ ] Handling a colour such as red, yellow or green
 > “Above 30” is a range. For that you need a branch with a comparison.
 
 ? At the traffic light you type `Red`, and the case is called `red`. What happens?
+→ How a switch is built
 - [ ] The case red runs.
 - [x] The case default runs.
 - [ ] The simulation reports an error.
 > Upper and lower case matter. Red and red are different texts.
 
 ? Under which name do you also find the switch in textbooks?
+→ How a switch is built
 - [ ] Conditional statement
 - [ ] Sequence
 - [x] Multiple selection
 > One of many cases is selected. That is why it is also called multiple selection.
 
 ? What is the otherwise case of a switch called in Java?
+→ Now in Java
 - [ ] else
 - [x] default
 - [ ] case 0

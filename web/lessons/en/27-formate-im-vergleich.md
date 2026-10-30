@@ -4,6 +4,15 @@ bereich: Files
 kurz: Compare the same data as txt, CSV and JSON, choose the right format and convert a file into another format.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- recognise the same data as txt, CSV and JSON
+- compare strengths and weaknesses of txt, CSV and JSON
+- convert a CSV file into sentences
+- convert a CSV file into JSON
+:::
+
 ## The same animals three times
 
 Ludwig has saved the castle's animals in three files. They all contain the same, just written down differently.
@@ -127,33 +136,39 @@ richtig: txt
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I recognise the same data as txt, CSV and JSON. → The same animals three times
-- I know strengths and weaknesses of txt, CSV and JSON. → What can each format do?
-- I converted a CSV file into sentences. → Exercise: From CSV to sentences
-- I converted a CSV file into JSON. → Exercise: From CSV to JSON
+- I can recognise the same data as txt, CSV and JSON. → The same animals three times
+- I can compare strengths and weaknesses of txt, CSV and JSON. → What can each format do?
+- I can convert a CSV file into sentences. → Exercise: From CSV to sentences
+- I can convert a CSV file into JSON. → Exercise: From CSV to JSON
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which format does Excel open directly as a table?
+→ What can each format do?
 - [ ] txt
 - [x] CSV
 - [ ] JSON
 
 ? Why is a JSON file usually larger than a CSV file with the same data?
+→ What can each format do?
 - [ ] Because JSON stores more numbers.
 - [x] Because the keys are repeated in every entry.
 - [ ] Because JSON uses no commas.
 
 ? In which format does every value say what it means?
+→ What can each format do?
 - [ ] txt
 - [ ] CSV
 - [x] JSON
 > In JSON the key comes right before the value, for example "age": 7.
 
 ? Match each purpose with a format.
+→ What can each format do?
 = a letter to Zora -> txt
 = the class grade list -> CSV
 = a game save with lists -> JSON

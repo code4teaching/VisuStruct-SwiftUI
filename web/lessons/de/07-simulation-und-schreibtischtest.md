@@ -4,6 +4,16 @@ bereich: Grundlagen
 kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und Fehler finden.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen
+- während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen
+- einen Schreibtischtest als Tabelle von Hand durchführen
+- einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche
+- Java-Code mit dem Einzelschritt und Haltepunkten verfolgen
+:::
+
 ## Die Simulation starten
 
 Bevor es mit Verzweigungen und Schleifen weitergeht, lernst du dein wichtigstes Werkzeug kennen. Mit der Simulation prüfst du ab jetzt jede Übung selbst.
@@ -230,46 +240,54 @@ besser: preis = preis + preis * 0.1;
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen. → Die Simulation starten
 - Ich kann während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen. → Was die Simulation anzeigt
 - Ich kann einen Schreibtischtest als Tabelle von Hand durchführen. → Der Schreibtischtest
 - Ich kann einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche. → Fehler finden
-- Ich kann Java-Code mit dem Einzelschritt verfolgen. → Jetzt in Java
+- Ich kann Java-Code mit dem Einzelschritt und Haltepunkten verfolgen. → Jetzt in Java
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Mit welchem Knopf führst du genau einen Schritt aus?
+→ Die Simulation starten
 - [ ] Start
 - [x] Schritt
 - [ ] Stopp
 > Start läuft automatisch weiter, Schritt führt nur einen Schritt aus.
 
 ? Was schreibst du beim Schreibtischtest nach jedem Schritt auf?
+→ Der Schreibtischtest
 - [ ] Nur die Ausgabe am Ende
 - [x] Die aktuellen Werte aller Variablen
 - [ ] Den erzeugten Java-Code
 > So siehst du genau, an welcher Stelle ein Wert anders ist als erwartet.
 
 ? Erst `int a = 3`, dann `int b = 5`, dann `a = b`. Welche Werte haben a und b danach?
+→ Der Schreibtischtest
 - [ ] a = 5 und b = 3
 - [x] a = 5 und b = 5
 - [ ] a = 3 und b = 5
 > Der alte Wert von a ist überschrieben. Darum braucht man beim Tauschen eine Hilfsvariable.
 
 ? Im Feld Letzter Schritt steht `preis = 4 * 2.5 -> 10.0`. Was bedeutet das?
+→ Was die Simulation anzeigt
 - [ ] Die Variable preis hat jetzt den Wert 4.
 - [x] 4 * 2.5 wurde ausgerechnet und das Ergebnis 10.0 in preis gespeichert.
 - [ ] Die Simulation hat einen Fehler gefunden.
 
 ? Die Simulation meldet **Unbekannte Variable: summe**. Was ist ein wahrscheinlicher Grund?
+→ Fehler finden
 - [x] summe wird benutzt, bevor sie einen Wert bekommen hat.
 - [ ] summe ist zu groß.
 - [ ] Das Struktogramm hat zu viele Kästen.
 
 ? Was macht ein roter Punkt vor einer Zeilennummer im Bereich Programmieren?
+→ Jetzt in Java
 - [ ] Er markiert einen Fehler.
 - [x] Das Programm hält vor dieser Zeile an.
 - [ ] Die Zeile wird übersprungen.

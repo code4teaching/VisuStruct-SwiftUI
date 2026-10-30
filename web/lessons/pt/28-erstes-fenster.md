@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Abrir uma janela tua com Java e Swing, explicado linha a linha.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- ligar o “Java verdadeiro” na área Programação
+- abrir uma janela com título e tamanho
+- explicar o que faz cada linha do programa com janela
+- explicar porque é que setVisible(true) fica no fim
+:::
+
 ## Programas com janelas
 
 Até agora os teus programas escreviam texto na consola. Mas a maioria dos programas que conheces tem **janelas** com botões e campos de texto. A isto chama-se uma interface gráfica.
@@ -173,34 +182,40 @@ Não te apetece escrever tanto? Com o “Java verdadeiro” podes escrever na á
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei ligar o “Java verdadeiro” na área Programação. → Programas com janelas
-- Sei abrir uma janela com título e tamanho. → O programa completo
-- Sei o que faz cada linha do programa com janela. → Linha a linha
-- Sei porque é que setVisible(true) fica no fim. → Porque é que setVisible fica no fim
+- Consigo ligar o “Java verdadeiro” na área Programação. → Programas com janelas
+- Consigo abrir uma janela com título e tamanho. → O programa completo
+- Consigo explicar o que faz cada linha do programa com janela. → Linha a linha
+- Consigo explicar porque é que setVisible(true) fica no fim. → Porque é que setVisible fica no fim
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que linha torna a janela visível?
+→ Porque é que setVisible fica no fim
 - [ ] janela.setSize(300, 200);
 - [x] janela.setVisible(true);
 - [ ] new JFrame("Olá");
 > Sem setVisible(true) a janela fica invisível.
 
 ? Onde fica melhor janela.setVisible(true)?
+→ Porque é que setVisible fica no fim
 - [ ] Mesmo no início de main
 - [x] No fim, quando a janela já está preparada
 - [ ] Tanto faz.
 > O que vem depois de setVisible(true) muitas vezes não aparece.
 
 ? O que faz setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)?
+→ Linha a linha
 - [ ] A janela fecha-se logo.
 - [x] Quando se fecha a janela, o programa termina.
 - [ ] A janela já não se pode fechar.
 
 ? Como reconheces os blocos do Swing?
+→ Linha a linha
 - [x] O nome começa por J, p. ex. JFrame.
 - [ ] Estão entre chavetas.
 - [ ] Terminam em Window.

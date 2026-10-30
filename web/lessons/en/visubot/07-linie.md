@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Detect dark lines on the floor and don't fall off the table.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain what the number from `mbot.getLine()` means
+- drive up to a line
+- count steps with a variable in Java
+:::
+
 ## Four probes under the nose
 
 ::: mbot2
@@ -64,19 +72,23 @@ lösung: vb-java-rand-loesung.visustruct
 
 ::: quiz
 ? The mBot2 is on white paper. What does `mbot.getLine()` give?
+→ Four probes under the nose
 - [x] 0
 - [ ] 15
 - [ ] 1
 > No probe sees black, so 0.
 ? Which condition means “line found”?
+→ Turn round at the edge in the structure chart
 - [ ] `mbot.getLine() == 0`
 - [x] `mbot.getLine() != 0`
 - [ ] `mbot.getLine() < 0`
 > `!=` means “not equal”.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know what the number from `mbot.getLine()` means. → Four probes under the nose
+- I can explain what the number from `mbot.getLine()` means. → Four probes under the nose
 - I can drive up to a line. → Turn round at the edge in the structure chart
 - I can count steps with a variable in Java. → Now in Java: there and back
 :::

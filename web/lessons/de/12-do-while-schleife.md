@@ -4,6 +4,15 @@ bereich: Grundlagen
 kurz: Erst ausführen, dann prüfen: Schleifen mit mindestens einem Durchlauf.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft
+- erklären, warum der Inhalt mindestens einmal ausgeführt wird
+- eine Eingabe so lange wiederholen lassen, bis sie gültig ist
+- eine Do-while-Schleife in Java schreiben
+:::
+
 ## Erst machen, dann prüfen
 
 Die **Do-while-Schleife** ist **fußgesteuert**. Die Bedingung steht unten im Fuß des Kastens. Der Ablauf ist:
@@ -206,9 +215,11 @@ frage: Wofür nimmt man typischerweise eine Do-while-Schleife?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst machen, dann prüfen
-- Ich weiß, dass der Inhalt mindestens einmal ausgeführt wird. → Mindestens ein Durchlauf
+- Ich kann erklären, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst machen, dann prüfen
+- Ich kann erklären, warum der Inhalt mindestens einmal ausgeführt wird. → Mindestens ein Durchlauf
 - Ich kann eine Eingabe so lange wiederholen lassen, bis sie gültig ist. → Typisch: Eingabe wiederholen
 - Ich kann eine Do-while-Schleife in Java schreiben. → Jetzt in Java
 :::
@@ -217,29 +228,34 @@ frage: Wofür nimmt man typischerweise eine Do-while-Schleife?
 
 ::: quiz
 ? Was bedeutet fußgesteuert?
+→ Erst machen, dann prüfen
 - [ ] Die Bedingung wird vor jedem Durchlauf geprüft.
 - [x] Die Bedingung wird nach jedem Durchlauf geprüft.
 - [ ] Die Schleife hat keine Bedingung.
 > Die Bedingung steht im Fuß, also unten, und wird nach dem Inhalt ausgewertet.
 
 ? Die Bedingung einer Do-while-Schleife ist von Anfang an falsch. Wie oft läuft der Inhalt?
+→ Mindestens ein Durchlauf
 - [ ] Keinmal
 - [x] Genau einmal
 - [ ] Endlos
 > Der Inhalt läuft zuerst. Erst danach merkt die Schleife, dass sie aufhören soll.
 
 ? Du willst eine Zahl von 1 bis 10 abfragen. Welche Bedingung gehört in den Fuß?
+→ Typisch: Eingabe wiederholen
 - [ ] `zahl >= 1 && zahl <= 10`
 - [x] `zahl < 1 || zahl > 10`
 - [ ] `zahl == 10`
 > Wiederholt wird, solange die Eingabe ungültig ist, also kleiner als 1 oder größer als 10.
 
 ? Wann ist eine Do-while-Schleife besser als eine While-Schleife?
+→ Mindestens ein Durchlauf
 - [x] Wenn der Inhalt auf jeden Fall einmal laufen muss, z. B. bei einer Eingabe
 - [ ] Wenn die Schleife vielleicht gar nicht laufen soll
 - [ ] Wenn man genau bis 10 zählen will
 
 ? Was steht in Java am Ende einer Do-while-Schleife?
+→ Jetzt in Java
 - [ ] } while (bedingung) {
 - [x] } while (bedingung);
 - [ ] } until (bedingung);

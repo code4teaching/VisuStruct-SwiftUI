@@ -4,6 +4,15 @@ bereich: From structure chart to code
 kurz: Generate Python and JavaScript code from the structure chart and run JavaScript straight in the browser.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- choose and compare Python and JavaScript in the code view
+- explain that Python forms blocks by indentation and needs no data types
+- explain what VisuStruct adjusts when translating to Python
+- run JavaScript with Test in browser
+:::
+
 ## The same diagram, three languages
 
 In the code view ([Code](#zeige-code) in the tools) you choose the language at the top. The structure chart stays the same; only the way it is written changes. That way you can compare the languages easily.
@@ -189,10 +198,12 @@ richtig: JavaScript
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can choose and compare Python and JavaScript in the code view. → The same diagram, three languages
-- I know that Python forms blocks by indentation and needs no data types. → Python
-- I know what VisuStruct adjusts when translating to Python. → What to watch out for in Python
+- I can explain that Python forms blocks by indentation and needs no data types. → Python
+- I can explain what VisuStruct adjusts when translating to Python. → What to watch out for in Python
 - I can run JavaScript with Test in browser. → Run JavaScript in the browser
 :::
 
@@ -200,22 +211,26 @@ richtig: JavaScript
 
 ::: quiz
 ? How does Python recognise which lines belong to a loop?
+→ Python
 - [ ] By the curly brackets
 - [x] By the indentation
 - [ ] By the semicolon at the end of the line
 
 ? What is `output: sum` in JavaScript?
+→ The same diagram, three languages
 - [ ] print(sum)
 - [ ] System.out.println(sum);
 - [x] console.log(sum);
 
 ? Which language can VisuStruct run straight in the browser?
+→ Run JavaScript in the browser
 - [ ] Java
 - [ ] Python
 - [x] JavaScript
 > Every browser can run JavaScript. For Java and Python you need a program of its own.
 
 ? What happens in Python with `print("Sum: " + sum)` if sum is the number 7?
+→ What to watch out for in Python
 - [ ] Sum: 7 is output.
 - [x] Python reports an error, because text and a number cannot be joined with +.
 - [ ] Sum: is output.

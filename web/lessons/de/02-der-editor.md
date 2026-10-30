@@ -4,6 +4,14 @@ bereich: Erste Schritte
 kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein Element aus dem Bereich Elemente einfügen und einen Platzhalter ersetzen
+- den Text eines Kastens ändern und zwischen Anweisung, Eingabe und Ausgabe umschalten
+- Kästen verschieben, kopieren, löschen und Schritte rückgängig machen
+:::
+
 ## Die Oberfläche
 
 VisuStruct hat zwei Editoren: den [Struktogramm-Editor](#zeige-editor), um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst. Die blauen Wörter zeigen dir die Bereiche, auch wenn sie gerade eingeklappt sind: Fährst du mit der Maus darüber, öffnet sich der Bereich neben dem Lernbereich und leuchtet auf. Klickst du darauf (oder tippst es an), bleibt er offen.
@@ -145,6 +153,8 @@ frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann ein Element aus dem Bereich Elemente einfügen und einen Platzhalter ersetzen. → Ein Element einfügen
 - Ich kann den Text eines Kastens ändern und zwischen Anweisung, Eingabe und Ausgabe umschalten. → Text eingeben
@@ -155,17 +165,20 @@ frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet
 
 ::: quiz
 ? Was bedeutet das Zeichen ø in einem Kasten?
+→ Ein Element einfügen
 - [ ] Der Kasten enthält einen Fehler.
 - [x] Hier ist noch ein leerer Platzhalter.
 - [ ] Das Programm endet hier.
 > Ein Platzhalter wird ersetzt, wenn du ein Element darauf ziehst.
 
 ? Du ziehst eine Anweisung auf die untere Hälfte eines Kastens. Wo landet sie?
+→ Ein Element einfügen
 - [ ] Davor
 - [x] Dahinter
 - [ ] Der Kasten wird ersetzt.
 
 ? Wie gibst du den Text Guten Tag genau so aus?
+→ Text eingeben
 - [ ] output: Guten Tag
 - [x] output: "Guten Tag"
 - [ ] input: "Guten Tag"

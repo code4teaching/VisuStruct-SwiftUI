@@ -4,6 +4,16 @@ bereich: Fenster mit Swing
 kurz: Beschriftung, Textfeld und Knopf mit einem GridLayout anordnen und mit dem Text im Textfeld rechnen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- JLabel und JTextField ins Fenster legen
+- erklären, warum ohne Layout nur der letzte Baustein zu sehen ist
+- mit GridLayout(0, 1) alles untereinander anordnen
+- mit getText, Integer.parseInt und setText rechnen
+- ein Programm schreiben, das bei „abc“ nicht abstürzt
+:::
+
 ## Das Ziel
 
 Wir bauen ein kleines Rechenprogramm mit Fenster: Oben steht eine Beschriftung, darunter ein Textfeld und ein Knopf **Berechne**. Gibst du 2 ein und klickst, steht im Textfeld 4. Klickst du noch einmal, wird daraus 8, dann 16 und so weiter.
@@ -230,34 +240,40 @@ Der Knopf „Halbieren“ kommt als vierte Zeile ins GridLayout und bekommt sein
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann JLabel und JTextField ins Fenster legen. → Drei Bausteine ins Fenster
-- Ich weiß, warum ohne Layout nur der letzte Baustein zu sehen ist. → Warum nur der Knopf zu sehen ist
+- Ich kann erklären, warum ohne Layout nur der letzte Baustein zu sehen ist. → Warum nur der Knopf zu sehen ist
 - Ich kann mit GridLayout(0, 1) alles untereinander anordnen. → Das Fenster mit GridLayout
 - Ich kann mit getText, Integer.parseInt und setText rechnen. → Mit dem Text im Textfeld rechnen
-- Mein Programm stürzt bei „abc“ nicht ab. → Keine Zahl? Kein Absturz!
+- Ich kann ein Programm schreiben, das bei „abc“ nicht abstürzt. → Keine Zahl? Kein Absturz!
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Warum ist ohne Layout nur der Knopf zu sehen?
+→ Warum nur der Knopf zu sehen ist
 - [ ] Weil Beschriftung und Textfeld fehlen
 - [x] Weil alle Bausteine in der Mitte übereinander liegen und der letzte die anderen verdeckt
 - [ ] Weil das Fenster zu klein ist
 
 ? Was bedeutet new GridLayout(0, 1)?
+→ Das Fenster mit GridLayout
 - [ ] Keine Zeile und eine Spalte, also ist das Fenster leer
 - [x] So viele Zeilen wie nötig in einer Spalte, also alles untereinander
 - [ ] Eine Zeile, alles nebeneinander
 
 ? Was liefert feld.getText()?
+→ Mit dem Text im Textfeld rechnen
 - [ ] Immer eine Zahl
 - [x] Den Text im Textfeld
 - [ ] Den Titel des Fensters
 > Für eine Zahl brauchst du noch Integer.parseInt.
 
 ? Ordne jedem Baustein seine Aufgabe zu.
+→ Drei Bausteine ins Fenster
 = JLabel -> Beschriftung
 = JTextField -> Textfeld zum Tippen
 = JButton -> Knopf

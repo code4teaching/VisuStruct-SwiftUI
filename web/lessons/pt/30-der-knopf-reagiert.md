@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Com um ActionListener decides o que acontece com um clique.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar o que é um evento
+- usar addActionListener para decidir o que acontece com um clique
+- executar várias instruções com um clique
+- construir um botão que muda o seu texto depois do clique
+:::
+
 ## Um clique é um evento
 
 Na lição anterior podias carregar no botão, mas nada acontecia. Num programa com janelas é a pessoa que decide quando acontece alguma coisa: clica, escreve ou fecha uma janela. Cada ação destas chama-se **evento**.
@@ -166,7 +175,7 @@ Isto não está no programa da disciplina. Se quiseres saber o que está por tr�
 `ActionListener` é uma **interface**, uma espécie de contrato. Diz: quem quiser ser um ActionListener tem de ter um método `actionPerformed(ActionEvent e)`. A cada clique o botão chama exatamente esse método.
 :::
 
-A linha com a seta já conheces do passo 2:
+A linha com a seta já conheces do passo 3:
 
 ```java
 botao.addActionListener(e -> botao.setText("Fui clicado"));
@@ -291,35 +300,41 @@ Cada botão recebe o seu próprio ouvinte, com o seu próprio `addActionListener
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei o que é um evento. → Um clique é um evento
-- Sei usar addActionListener para decidir o que acontece com um clique. → A linha com a seta
-- Sei executar várias instruções com um clique. → Várias instruções com um clique
-- Depois do clique, o meu botão diz “Fui clicado”. → Tarefa: fui clicado
+- Consigo explicar o que é um evento. → Um clique é um evento
+- Consigo usar addActionListener para decidir o que acontece com um clique. → A linha com a seta
+- Consigo executar várias instruções com um clique. → Várias instruções com um clique
+- Consigo construir um botão que muda o seu texto depois do clique. → Tarefa: fui clicado
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que é um ActionListener?
+→ Um clique é um evento
 - [ ] Um botão com texto
 - [x] Um ouvinte que executa o teu código a cada clique
 - [ ] Um layout para janelas
 > Registas o ouvinte no botão com addActionListener.
 
 ? Quando corre botao.setText("Fui clicado") dentro do ouvinte?
+→ A linha com a seta
 - [ ] Logo no início do programa
 - [x] Sempre que alguém clica no botão
 - [ ] Só no primeiro clique
 > O código do ouvinte só corre quando o evento acontece.
 
 ? Como termina um ouvinte com chavetas?
+→ A linha com a seta
 - [ ] };)
 - [x] });
 - [ ] );}
 > Primeiro fecha o bloco, depois o parêntese de addActionListener, depois o ponto e vírgula.
 
 ? Associa cada parte à sua função.
+→ A linha com a seta
 = JButton -> um botão
 = addActionListener -> registar um ouvinte
 = setText -> mudar o texto

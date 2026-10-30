@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: Put a button into the window and arrange it neatly with a layout.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- build a button and put it into the window with add
+- explain why the button goes in before setVisible
+- use FlowLayout so that the button has its normal size
+- build a window with a button you can press
+:::
+
 ## Building a button
 
 An empty window is boring. Now a button goes in. In Swing a button is called **JButton**.
@@ -166,34 +175,40 @@ Every button needs its own variable, for example `button` and `button2`, and its
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can build a button and put it into the window with add. → Building a button
-- I know why the button goes in before setVisible(true). → The whole program
+- I can explain why the button goes in before setVisible(true). → The whole program
 - I can use FlowLayout so that the button has its normal size. → The giant button
-- I have built a window with a button you can press. → Task: click me
+- I can build a window with a button you can press. → Task: click me
 :::
 
 ## Quiz
 
 ::: quiz
 ? What does window.add(button) do?
+→ Building a button
 - [ ] It builds a new button.
 - [x] It puts the button into the window.
 - [ ] It makes the button clickable.
 > The button is built with new JButton(…).
 
 ? Why does the button fill the whole window without FlowLayout?
+→ The giant button
 - [ ] Because the text is too long
 - [x] Because without its own layout the window makes everything as big as the window
 - [ ] Because setSize is missing
 
 ? Which import line do you need for FlowLayout?
+→ The giant button
 - [ ] import javax.swing.*;
 - [x] import java.awt.*;
 - [ ] import java.util.*;
 > FlowLayout comes from the older AWT.
 
 ? What happens when you click the button in this lesson?
+→ Task: click me
 - [ ] The program ends.
 - [x] The button turns darker for a moment, nothing else happens.
 - [ ] The button says “I was clicked”.

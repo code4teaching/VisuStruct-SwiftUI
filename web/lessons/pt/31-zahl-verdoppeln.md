@@ -4,6 +4,16 @@ bereich: Janelas com Swing
 kurz: Arrumar uma etiqueta, um campo de texto e um botão com um GridLayout e calcular com o texto do campo de texto.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- pôr um JLabel e um JTextField na janela
+- explicar porque é que sem layout só se vê a última peça
+- arrumar tudo umas por baixo das outras com GridLayout
+- calcular com getText, Integer.parseInt e setText
+- escrever um programa que não falha com “abc”
+:::
+
 ## O objetivo
 
 Vamos construir uma pequena calculadora com janela: em cima está uma etiqueta, por baixo um campo de texto e um botão **Calcular**. Se escreveres 2 e clicares, o campo de texto mostra 4. Clicas outra vez e passa a 8, depois 16 e assim por diante.
@@ -230,34 +240,40 @@ O botão “Dividir por 2” entra no GridLayout como quarta linha e recebe o se
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
 - Consigo pôr um JLabel e um JTextField na janela. → Três peças na janela
-- Sei porque sem layout só se vê a última peça. → Porque só se vê o botão
+- Consigo explicar porque é que sem layout só se vê a última peça. → Porque só se vê o botão
 - Consigo arrumar tudo umas por baixo das outras com GridLayout(0, 1). → A janela com GridLayout
 - Consigo calcular com getText, Integer.parseInt e setText. → Calcular com o texto do campo de texto
-- O meu programa não falha com “abc”. → Não é um número? Sem falhas!
+- Consigo escrever um programa que não falha com “abc”. → Não é um número? Sem falhas!
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Porque é que sem layout só se vê o botão?
+→ Porque só se vê o botão
 - [ ] Porque faltam a etiqueta e o campo de texto
 - [x] Porque todas as peças estão no meio umas por cima das outras e a última tapa as outras
 - [ ] Porque a janela é demasiado pequena
 
 ? O que significa new GridLayout(0, 1)?
+→ A janela com GridLayout
 - [ ] Nenhuma linha e uma coluna, por isso a janela fica vazia
 - [x] Tantas linhas quantas forem precisas numa coluna, ou seja, tudo umas por baixo das outras
 - [ ] Uma linha, tudo lado a lado
 
 ? O que te dá campo.getText()?
+→ Calcular com o texto do campo de texto
 - [ ] Sempre um número
 - [x] O texto do campo de texto
 - [ ] O título da janela
 > Para um número precisas ainda de Integer.parseInt.
 
 ? Associa cada peça à sua função.
+→ Três peças na janela
 = JLabel -> etiqueta
 = JTextField -> campo de texto para escrever
 = JButton -> botão

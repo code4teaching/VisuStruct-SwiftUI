@@ -4,6 +4,17 @@ bereich: Dateien
 kurz: Eine Tabelle als CSV-Datei lesen, jede Zeile mit split zerlegen und mit den Zahlen rechnen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- den Aufbau einer CSV-Datei erklären: Kopfzeile, Datensätze, Trennzeichen
+- eine Zeile mit split zerlegen und mit Integer.parseInt eine Zahl daraus machen
+- die Kopfzeile überspringen, bevor ich rechne
+- einen Durchschnitt aus einer Spalte einer CSV-Datei berechnen
+- den besten Wert in einer Spalte einer CSV-Datei finden
+- eine Stärke und eine Schwäche von CSV nennen
+:::
+
 ## Eine Tabelle in einer Textdatei
 
 Frau Ziege, die Lehrerin der Burgschule, hat die Noten ihrer Klasse als Tabelle gespeichert:
@@ -172,35 +183,41 @@ besser: Ludwig;2;3;1
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, wie eine CSV-Datei aufgebaut ist: Kopfzeile, Datensätze, Trennzeichen. → Eine Tabelle in einer Textdatei
+- Ich kann den Aufbau einer CSV-Datei erklären: Kopfzeile, Datensätze, Trennzeichen. → Eine Tabelle in einer Textdatei
 - Ich kann eine Zeile mit split zerlegen und mit Integer.parseInt eine Zahl daraus machen. → Eine Zeile zerlegen mit split
-- Ich überspringe die Kopfzeile, bevor ich rechne. → Die ganze Datei lesen
-- Ich habe den Notenschnitt in Mathe berechnet. → Übung: Notenschnitt in Mathe
-- Ich habe die beste Englischnote gefunden. → Übung: Beste Note in Englisch
-- Ich kenne eine Stärke und eine Schwäche von CSV. → Stärken und Schwächen von CSV
+- Ich kann die Kopfzeile überspringen, bevor ich rechne. → Die ganze Datei lesen
+- Ich kann einen Durchschnitt aus einer Spalte einer CSV-Datei berechnen. → Übung: Notenschnitt in Mathe
+- Ich kann den besten Wert in einer Spalte einer CSV-Datei finden. → Übung: Beste Note in Englisch
+- Ich kann eine Stärke und eine Schwäche von CSV nennen. → Stärken und Schwächen von CSV
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was liefert "Hase;2;1;3".split(";")[2]?
+→ Eine Zeile zerlegen mit split
 - [ ] "2"
 - [x] "1"
 - [ ] 1
 > Die Zählung beginnt bei 0. Und das Ergebnis ist ein Text, keine Zahl.
 
 ? Warum liest das Programm vor der Schleife zweimal readLine()?
+→ Die ganze Datei lesen
 - [ ] Damit die Datei schneller gelesen wird.
 - [x] Die erste Zeile ist die Kopfzeile ohne Noten. Sie wird übersprungen.
 - [ ] Weil readLine immer zwei Zeilen braucht.
 
 ? Was passiert bei Integer.parseInt("Mathe")?
+→ Eine Zeile zerlegen mit split
 - [ ] Es liefert 0.
 - [x] Java wirft eine NumberFormatException.
 - [ ] Es liefert die Länge des Wortes.
 
 ? Ordne zu.
+→ Stärken und Schwächen von CSV
 = Kopfzeile -> sagt, was in den Spalten steht
 = Datensatz -> eine Zeile mit Werten
 = Trennzeichen -> trennt die Spalten, meist ;
