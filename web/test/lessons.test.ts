@@ -414,3 +414,31 @@ describe('PAP bauen', () => {
     }
   })
 })
+
+describe('Kompetenzen und Selbsteinschätzung', () => {
+  const lesson = (quizRef: string) =>
+    parseLesson(
+      `---\ntitel: T\n---\n\n## Erster\n\n::: kompetenzen\n- etwas Neues\n:::\n\n## Checkliste\n\n::: checkliste\n- Ich kann etwas. → Erster\n:::\n\n## Test\n\n::: quiz\n? Frage\n→ ${quizRef}\n- [x] ja\n- [ ] nein\n:::\n`,
+      '01-t.md',
+    )
+
+  it('liest Kompetenzen und verbindet Quizfragen mit dem Checklistenpunkt', () => {
+    const l = lesson('Erster')
+    expect(l.steps[0].blocks[0]).toEqual({ kind: 'competences', items: ['etwas Neues'] })
+    const quiz = l.steps[2].blocks[0]
+    expect(quiz.kind === 'quiz' && quiz.questions[0].step).toBe(0)
+  })
+
+  it('meldet Quizfragen ohne passenden Schritt oder Checklistenpunkt', () => {
+    expect(() => lesson('Gibt es nicht')).toThrow(/unbekannten Schritt/)
+    expect(() => lesson('Test')).toThrow(/keinen Checklistenpunkt/)
+  })
+
+  it('Lektion 1 hat Kompetenzen und Ich-kann-Sätze in allen Sprachen', () => {
+    for (const lang of contentLanguages) {
+      useContentLanguage(lang)
+      const l1 = lessons.find((l) => l.number === 1)!
+      expect(l1.steps[0].blocks[0].kind, lang).toBe('competences')
+    }
+  })
+})

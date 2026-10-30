@@ -6,6 +6,15 @@ kurz: Show and read algorithms as a series of clear steps.
 
 ## An algorithm is an exact set of instructions
 
+::: kompetenzen
+- explain what an algorithm is
+- read a structure chart
+- recognise the three basic building blocks: sequence, branch and loop
+- read a flowchart and build one myself
+- explain why jumps in a flowchart lead to mistakes
+- read a simple algorithm as pseudocode
+:::
+
 An **algorithm** describes step by step how to solve a task. Every step must be so clear that someone can carry it out without asking, a person just as well as a computer.
 
 You know algorithms from everyday life: a recipe, directions to a place or the instructions for building a wardrobe.
@@ -293,27 +302,31 @@ richtig: branch
 
 ## Checklist
 
+Rate yourself honestly for each point: ☀️ I can do this confidently, ⛅ partly, ☂️ not yet. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can explain what an algorithm is. → An algorithm is an exact set of instructions
-- I know that a structure chart is read from top to bottom. → How to read a structure chart
-- I know the three basic building blocks: sequence, branch and loop. → Building block 1: the sequence
+- I can read a structure chart from top to bottom. → How to read a structure chart
+- I can name the three basic building blocks: sequence, branch and loop. → Building block 1: the sequence
 - I can recognise every building block in a structure chart by its shape. → All three together
-- I know the symbols of a flowchart and can read a simple flowchart. → Other ways to draw it: the flowchart
+- I can name the symbols of a flowchart and read a simple flowchart. → Other ways to draw it: the flowchart
 - I can build a simple algorithm as a flowchart myself. → Exercise: Baking a cake as a flowchart
 - I can explain why jumps with GOTO lead to mistakes and spaghetti code. → Drawbacks of the flowchart: jumps
-- I can also read a simple algorithm as pseudocode. → Pseudocode and comparison
+- I can read a simple algorithm as pseudocode. → Pseudocode and comparison
 :::
 
 ## Quiz
 
 ::: quiz
 ? In which direction do you read a structure chart?
+→ How to read a structure chart
 - [ ] From left to right
 - [x] From top to bottom
 - [ ] From bottom to top
 > Every box is one step, and the steps follow each other from top to bottom.
 
 ? Which building block is NOT one of the three basic building blocks?
+→ Building block 1: the sequence
 - [ ] Sequence
 - [ ] Branch
 - [x] Jump
@@ -321,30 +334,35 @@ richtig: branch
 > There are no jumps in a structure chart. Sequence, branch and loop are enough for every algorithm.
 
 ? How do you recognise a branch in a structure chart?
+→ All three together
 - [ ] By an upside-down L
 - [x] By a triangle with the condition and two columns below it
 - [ ] By several rectangles on top of each other
 > The upside-down L belongs to the loop, and rectangles on top of each other are a sequence.
 
 ? When does the inside of a loop run once more?
+→ All three together
 - [x] As long as the condition is true
 - [ ] Only if the condition is false
 - [ ] Always exactly twice
 > The condition is checked before every pass. If it is false, the program continues below the loop.
 
 ? What is an algorithm?
+→ An algorithm is an exact set of instructions
 - [x] Clear step-by-step instructions for solving a task
 - [ ] A particular program in Java
 - [ ] A picture that explains a program
 > An algorithm does not depend on a programming language. A structure chart is one way to write it down.
 
 ? How do you recognise a loop in a flowchart?
+→ Other ways to draw it: the flowchart
 - [ ] By an upside-down L
 - [x] By an arrow that leads back up
 - [ ] By the word WHILE
 > The upside-down L belongs to the structure chart, and WHILE to pseudocode.
 
 ? Match each flowchart symbol to its meaning.
+→ Other ways to draw it: the flowchart
 = Oval -> Start or end
 = Rectangle -> Statement
 = Diamond -> Decision
@@ -352,12 +370,14 @@ richtig: branch
 > The diamond has two exits: yes and no.
 
 ? You insert a new line into a program with GOTO. What can happen?
+→ Drawbacks of the flowchart: jumps
 - [x] The jumps point to the wrong lines because the numbers have moved
 - [ ] Nothing, the jumps adjust by themselves
 - [ ] The program automatically gets faster
 > Every GOTO points to a fixed line number. If the lines move down, the program jumps to the wrong place.
 
 ? In pseudocode, what shows which lines belong to a loop?
+→ Pseudocode and comparison
 - [ ] The colour
 - [x] The indentation and the END WHILE
 - [ ] An arrow

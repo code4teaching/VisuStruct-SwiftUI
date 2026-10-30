@@ -3,10 +3,14 @@
  * ihn nicht (nur den Ordner). Ohne Workspace gilt er bis zum Neuladen.
  */
 
+/** Selbsteinschätzung: Sonne = kann ich sicher, Wolke = teilweise, Regenschirm = noch nicht. */
+export type Rating = 'sun' | 'cloud' | 'umbrella'
+
 export interface LessonProgress {
   step: number
   done?: boolean
-  checks?: Record<string, boolean>
+  /** Selbsteinschätzung je Checklistenpunkt; `true` stammt aus der Zeit der Häkchen und gilt als Sonne. */
+  checks?: Record<string, boolean | Rating>
   /** Gewählte Antwort je Frage („Block-Frage“ → Antwortindex). */
   quiz?: Record<string, number>
 }
@@ -123,7 +127,7 @@ function or(a?: boolean, b?: boolean): boolean | undefined {
 function mergeLesson(mine: LessonProgress | undefined, theirs: LessonProgress): LessonProgress {
   if (!mine) return theirs
   const checks = { ...theirs.checks }
-  for (const [k, v] of Object.entries(mine.checks ?? {})) checks[k] = v || !!checks[k]
+  for (const [k, v] of Object.entries(mine.checks ?? {})) checks[k] = v || checks[k] || false
   return {
     step: Math.max(mine.step ?? 0, theirs.step ?? 0),
     done: or(mine.done, theirs.done),

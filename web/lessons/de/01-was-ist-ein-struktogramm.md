@@ -6,6 +6,15 @@ kurz: Algorithmen als Folge klarer Schritte darstellen und lesen.
 
 ## Ein Algorithmus ist eine genaue Anleitung
 
+::: kompetenzen
+- erklären, was ein Algorithmus ist
+- ein Struktogramm lesen
+- die drei Grundbausteine Sequenz, Verzweigung und Wiederholung erkennen
+- einen PAP (englisch *flowchart*) lesen und selbst zusammenbauen
+- erklären, warum Sprünge im PAP zu Fehlern führen
+- einen einfachen Algorithmus als Pseudocode lesen
+:::
+
 Ein **Algorithmus** beschreibt Schritt für Schritt, wie man eine Aufgabe löst. Jeder Schritt muss so eindeutig sein, dass ihn jemand ohne Nachfragen ausführen kann, ein Mensch genauso wie ein Computer.
 
 Du kennst Algorithmen aus dem Alltag: ein Kochrezept, eine Wegbeschreibung oder die Anleitung für einen Schrank.
@@ -293,27 +302,31 @@ richtig: Verzweigung
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☀️ kann ich sicher, ⛅ teilweise, ☂️ noch nicht. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann erklären, was ein Algorithmus ist. → Ein Algorithmus ist eine genaue Anleitung
-- Ich weiß, dass ein Struktogramm von oben nach unten gelesen wird. → So liest du ein Struktogramm
-- Ich kenne die drei Grundbausteine Sequenz, Verzweigung und Wiederholung. → Baustein 1: Die Sequenz
-- Ich erkenne jeden Baustein im Struktogramm an seiner Form. → Alle drei zusammen
-- Ich kenne die Elemente eines PAP und kann einen einfachen PAP lesen. → Andere Darstellungen: Der PAP
+- Ich kann ein Struktogramm von oben nach unten lesen. → So liest du ein Struktogramm
+- Ich kann die drei Grundbausteine Sequenz, Verzweigung und Wiederholung nennen. → Baustein 1: Die Sequenz
+- Ich kann jeden Baustein im Struktogramm an seiner Form erkennen. → Alle drei zusammen
+- Ich kann die Elemente eines PAP benennen und einen einfachen PAP lesen. → Andere Darstellungen: Der PAP
 - Ich kann einen einfachen Algorithmus selbst als PAP zusammenbauen. → Übung: Kuchen backen als PAP
 - Ich kann erklären, warum Sprünge mit GOTO zu Fehlern und Spaghetticode führen. → Nachteile des PAP: Sprünge
-- Ich kann einen einfachen Algorithmus auch als Pseudocode lesen. → Pseudocode und Vergleich
+- Ich kann einen einfachen Algorithmus als Pseudocode lesen. → Pseudocode und Vergleich
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? In welcher Richtung wird ein Struktogramm gelesen?
+→ So liest du ein Struktogramm
 - [ ] Von links nach rechts
 - [x] Von oben nach unten
 - [ ] Von unten nach oben
 > Jeder Kasten ist ein Schritt, und die Schritte folgen von oben nach unten aufeinander.
 
 ? Welcher Baustein gehört NICHT zu den drei Grundbausteinen?
+→ Baustein 1: Die Sequenz
 - [ ] Sequenz
 - [ ] Verzweigung
 - [x] Sprung
@@ -321,30 +334,35 @@ richtig: Verzweigung
 > Sprünge gibt es im Struktogramm nicht. Sequenz, Verzweigung und Wiederholung reichen für jeden Algorithmus.
 
 ? Woran erkennst du im Struktogramm eine Verzweigung?
+→ Alle drei zusammen
 - [ ] An einem gekippten L
 - [x] An einem Dreieck mit der Bedingung und zwei Spalten darunter
 - [ ] An mehreren Rechtecken untereinander
 > Das gekippte L gehört zur Schleife, Rechtecke untereinander sind eine Sequenz.
 
 ? Wann wird der Inhalt einer Schleife noch einmal ausgeführt?
+→ Alle drei zusammen
 - [x] Solange die Bedingung true ist
 - [ ] Nur, wenn die Bedingung false ist
 - [ ] Immer genau zweimal
 > Vor jedem Durchlauf wird die Bedingung geprüft. Ist sie false, geht es unter der Schleife weiter.
 
 ? Was ist ein Algorithmus?
+→ Ein Algorithmus ist eine genaue Anleitung
 - [x] Eine eindeutige Schritt-für-Schritt-Anleitung zum Lösen einer Aufgabe
 - [ ] Ein bestimmtes Programm in Java
 - [ ] Ein Bild, das ein Programm erklärt
 > Ein Algorithmus ist unabhängig von der Programmiersprache. Ein Struktogramm ist eine Möglichkeit, ihn aufzuschreiben.
 
 ? Woran erkennst du in einem Programmablaufplan (PAP) eine Schleife?
+→ Andere Darstellungen: Der PAP
 - [ ] An einem gekippten L
 - [x] An einem Pfeil, der zurück nach oben führt
 - [ ] Am Wort SOLANGE
 > Das gekippte L gehört zum Struktogramm, SOLANGE zum Pseudocode.
 
 ? Ordne jedem Symbol im PAP seine Bedeutung zu.
+→ Andere Darstellungen: Der PAP
 = Oval -> Start oder Ende
 = Rechteck -> Anweisung
 = Raute -> Verzweigung
@@ -352,18 +370,21 @@ richtig: Verzweigung
 > Die Raute hat zwei Ausgänge: ja und nein.
 
 ? Wie heißt der Programmablaufplan auf Englisch?
+→ Andere Darstellungen: Der PAP
 - [x] Flowchart
 - [ ] Structure chart
 - [ ] Pseudocode
 > Auf Deutsch sagt man auch Flussdiagramm. Structure chart ist das Struktogramm.
 
 ? Du fügst in ein Programm mit GOTO eine neue Zeile ein. Was kann passieren?
+→ Nachteile des PAP: Sprünge
 - [x] Die Sprünge zeigen auf die falschen Zeilen, weil sich die Nummern verschoben haben
 - [ ] Nichts, die Sprünge passen sich von selbst an
 - [ ] Das Programm wird automatisch schneller
 > Jedes GEHE ZU zeigt auf eine feste Zeilennummer. Rutschen die Zeilen weiter, springt das Programm an die falsche Stelle.
 
 ? Was zeigt im Pseudocode, welche Zeilen zu einer Schleife gehören?
+→ Pseudocode und Vergleich
 - [ ] Die Farbe
 - [x] Die Einrückung und das ENDE SOLANGE
 - [ ] Ein Pfeil
