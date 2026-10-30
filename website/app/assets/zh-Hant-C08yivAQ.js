@@ -93,6 +93,7 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_parse_more_methods" = "目前這裡只計入一個方法。請在單獨的分頁中建立其他子程式。";
 "web_parse_missing_import" = "最上面缺少 %@ 沒有這一行，Java 不認識 Scanner。";
 "web_parse_missing_scanner" = "前面缺少 %@ 沒有這一行就沒有 Scanner。";
+"web_parse_unknown_type" = "Java 不認識這個資料型別。你是想寫 %@ 嗎？";
 "web_editor_title" = "結構圖";
 "web_editor_show" = "顯示結構圖";
 "web_editor_hide" = "隱藏結構圖";

@@ -93,6 +93,7 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_parse_more_methods" = "För tillfället räknas bara en metod här. Skapa andra underprogram i egna flikar.";
 "web_parse_missing_import" = "Högst upp saknas %@ Utan den raden känner Java inte till Scanner.";
 "web_parse_missing_scanner" = "Innan saknas %@ Utan den raden finns ingen Scanner.";
+"web_parse_unknown_type" = "Java känner inte till den här datatypen. Menade du %@?";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Visa strukturdiagram";
 "web_editor_hide" = "Dölj strukturdiagram";

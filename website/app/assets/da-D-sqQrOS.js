@@ -93,6 +93,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_parse_more_methods" = "Indtil videre tæller kun én metode her. Opret andre underprogrammer i egne faner.";
 "web_parse_missing_import" = "Øverst mangler %@ Uden denne linje kender Java ikke Scanner.";
 "web_parse_missing_scanner" = "Før mangler %@ Uden den linje findes Scanneren ikke.";
+"web_parse_unknown_type" = "Java kender ikke denne datatype. Mente du %@?";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";
