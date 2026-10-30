@@ -155,6 +155,7 @@ anweisung: Take the cake out
 ausgabe: “The cake is ready!”
 ende: End
 erklärung: Two loops, two arrows back up: when stirring, the arrow leads back to “Stir the batter”; when baking, it leads from “Bake 5 more minutes” back to the question. The output sits in the parallelogram.
+legende: ja
 :::
 
 ## Drawbacks of the flowchart: jumps

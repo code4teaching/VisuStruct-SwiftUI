@@ -285,7 +285,8 @@ Für „Fehler finden“ eignet sich eine normale Übung mit `code: java`, deren
 Element und dann seinen Platz an oder zieht es hin. `start:`/`ende:` sind Ovale, `anweisung:` Rechtecke, `eingabe:`/
 `ausgabe:` Parallelogramme, `frage:` Rauten. Die Zeilen stehen von oben nach unten. Eine Frage braucht nach ` | ` ihren
 zweiten Ausgang: `nein -> Text` ist ein Pfeil zurück nach oben zum Element mit diesem Text, `nein: Text` eine Anweisung
-rechts daneben, von der ein Pfeil zurück zur Raute führt. Statt `nein` geht auch `ja`. Die Schlüsselwörter bleiben auch in
+rechts daneben, von der ein Pfeil zurück zur Raute führt. Statt `nein` geht auch `ja`. `legende: ja` zeigt unter dem Plan die vier Symbole mit
+ihrer Bedeutung. Die Schlüsselwörter bleiben auch in
 en/pt deutsch, die Beschriftung ja/nein kommt aus der Oberflächensprache.
 
 ```

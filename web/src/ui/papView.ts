@@ -1,5 +1,5 @@
 import { inline } from '../learn/markdown'
-import { PAP_WIDTH, papFits, papLayout, papLines, type Pap, type PapBox, type PapShape } from '../learn/pap'
+import { papFits, papLayout, papLines, type Pap, type PapBox, type PapShape } from '../learn/pap'
 import { t } from './i18n'
 
 /**
@@ -58,7 +58,7 @@ function label(text: string, x: number, y: number, yes: boolean): SVGElement {
 
 /** Element als kleines Bild für die Ablage unten. */
 function cardSVG(shape: PapShape, text: string): SVGElement {
-  const lines = papLines(text, 150)
+  const lines = papLines(text, 110)
   const long = Math.max(...lines.map((l) => l.length))
   const w = Math.max(70, long * 6.6 + (shape === 'raute' ? 56 : 26))
   const hgt = shape === 'raute' ? 48 : lines.length > 1 ? 40 : 30
@@ -68,7 +68,7 @@ function cardSVG(shape: PapShape, text: string): SVGElement {
   shapeE.setAttribute('fill', FILL[shape])
   shapeE.setAttribute('stroke', '#1c1c1e')
   shapeE.setAttribute('stroke-width', '1.5')
-  svg.append(shapeE, textEl(text, { ...b, w: lines.length > 1 ? 164 : w }, shape))
+  svg.append(shapeE, textEl(text, { ...b, w: lines.length > 1 ? 124 : w }, shape))
   return svg
 }
 
@@ -83,6 +83,28 @@ function shuffled(n: number): number[] {
   return order
 }
 
+/** Legende: Symbol und Bedeutung für alle vier Formen. */
+function legend(): HTMLElement {
+  const list = h('dl', { class: 'learn-pap-legend' })
+  const items: [PapShape, string][] = [
+    ['oval', 'web_learn_pap_legend_oval'],
+    ['rechteck', 'web_learn_pap_legend_rect'],
+    ['raute', 'web_learn_pap_legend_diamond'],
+    ['parallelogramm', 'web_learn_pap_legend_para'],
+  ]
+  for (const [shape, key] of items) {
+    const w = shape === 'raute' ? 44 : 40
+    const svg = s('svg', { viewBox: `0 0 ${w + 4} 28`, width: w + 4, height: 28, 'aria-hidden': 'true' })
+    const el = shapeEl(shape, { x: (w + 4) / 2, y: 14, w, h: shape === 'raute' ? 24 : 18 })
+    el.setAttribute('fill', FILL[shape])
+    el.setAttribute('stroke', '#1c1c1e')
+    el.setAttribute('stroke-width', '1.5')
+    svg.append(el)
+    list.append(h('dt', {}, svg), h('dd', {}, t(key)))
+  }
+  return list
+}
+
 export function renderPap(pap: Pap): HTMLElement {
   const box = h('section', { class: 'learn-pap' })
   box.append(h('strong', { class: 'learn-pap-title' }, pap.title))
@@ -94,7 +116,12 @@ export function renderPap(pap: Pap): HTMLElement {
   box.append(h('p', { class: 'learn-pap-hint' }, t('web_learn_pap_hint')))
 
   const { boxes, height } = papLayout(pap)
-  const svg = s('svg', { viewBox: `0 0 ${PAP_WIDTH} ${height}`, class: 'learn-pap-plan', role: 'group', 'aria-label': pap.title })
+  // Nur so breit wie der Inhalt, damit der Plan in der schmalen Lernspalte möglichst groß wird.
+  const shown = boxes.filter(Boolean)
+  const minX = Math.min(...shown.map((b) => b.x - b.w / 2)) - 4
+  const hasRaute = pap.nodes.some((n) => n.shape === 'raute')
+  const maxX = Math.max(...shown.map((b) => b.x + b.w / 2), hasRaute ? Math.max(...shown.map((b) => b.x)) + 85 + 40 : 0) + 4
+  const svg = s('svg', { viewBox: `${minX} 0 ${maxX - minX} ${height}`, class: 'learn-pap-plan', role: 'group', 'aria-label': pap.title })
   const arrowId = `pap-arrow-${++papCount}`
   svg.innerHTML =
     `<defs><marker id="${arrowId}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1c1c1e"/></marker></defs>`
@@ -275,6 +302,7 @@ export function renderPap(pap: Pap): HTMLElement {
     solution.hidden = true
     again.hidden = false
     tray.hidden = true
+    work.classList.add('done')
     if (explanation) explanation.hidden = false
   }
 
@@ -315,11 +343,17 @@ export function renderPap(pap: Pap): HTMLElement {
     check.hidden = false
     again.hidden = true
     tray.hidden = false
+    work.classList.remove('done')
     if (explanation) explanation.hidden = true
   })
 
   refresh()
-  box.append(svg, tray, h('div', { class: 'learn-pap-actions' }, check, solution, again), status)
+  // Plan links, Bausteine rechts daneben: so sieht man am Laptop beides zugleich.
+  const plan = h('div', { class: 'learn-pap-left' })
+  plan.append(svg)
+  if (pap.legend) plan.append(legend())
+  const work = h('div', { class: 'learn-pap-work' }, plan, tray)
+  box.append(work, h('div', { class: 'learn-pap-actions' }, check, solution, again), status)
   if (explanation) box.append(explanation)
   return box
 }
