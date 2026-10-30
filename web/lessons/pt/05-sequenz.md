@@ -19,6 +19,10 @@ Uma **sequência** é uma série de passos que são executados exatamente uma ve
 
 Cada bloco só começa quando o bloco de cima terminou. Nada é saltado e nada é repetido.
 
+::: diagramm l05-sequenz.visustruct
+Uma sequência de quatro blocos: primeiro `comprimento` e `largura` recebem os seus valores, depois a área é calculada e, no fim, é apresentada. Cada bloco é executado exatamente uma vez, de cima para baixo. Saída: 15.
+:::
+
 > A sequência é o mais simples dos três blocos básicos. Quase todos os estrutogramas são feitos sobretudo de sequências.
 
 ## A ordem conta

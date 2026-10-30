@@ -19,6 +19,10 @@ A **sequence** is a series of steps that run exactly once and in exactly this or
 
 Each box only starts when the box above it is finished. Nothing is skipped and nothing is repeated.
 
+::: diagramm l05-sequenz.visustruct
+A sequence of four boxes: first `length` and `width` get their values, then the area is calculated, and finally it is output. Each box runs exactly once, from top to bottom. Output: 15.
+:::
+
 > The sequence is the simplest of the three basic building blocks. Almost every structure chart is mostly made of sequences.
 
 ## Order matters
