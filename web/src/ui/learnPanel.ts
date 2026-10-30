@@ -20,7 +20,7 @@ import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
 import { renderPap } from './papView'
 import { textFileView } from './textFileView'
-import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoFiles, pointsIntoLiveCode } from './termTips'
+import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoFiles, pointsIntoLiveCode, pointsIntoPalette, type UiArea } from './termTips'
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -44,6 +44,8 @@ export interface LearnHost {
   showJava(): void
   /** Spalte Dateien öffnen (die anderen Spalten bleiben, wie sie sind). */
   showFiles(): void
+  /** Eingeklappte Bereiche für einen Zeiger im Text öffnen; zurück kommt, wie man genau diese wieder einklappt. */
+  reveal(areas: UiArea[]): () => void
   /** Simulation beenden, damit man nach dem Prüfen gleich korrigieren kann. */
   stopSimulation(): void
   /** Reiter einer Übung auf den Startzustand setzen (falls offen). */
@@ -107,7 +109,7 @@ export class LearnPanel {
   constructor(private host: LearnHost) {
     this.element = h('aside', { class: 'learn', 'aria-label': t('web_learn_title') })
     this.tips = attachTermTips(this.element)
-    this.pointers = attachPointers(this.element)
+    this.pointers = attachPointers(this.element, (areas) => this.host.reveal(areas))
     useContentLanguage(contentLanguageFor(currentLanguage()))
     this.restore()
   }
@@ -329,7 +331,11 @@ export class LearnPanel {
   private openNeededColumns(blocks: Block[]) {
     const exercises = blocks.flatMap((b) => (b.kind === 'exercise' ? [b.exercise] : []))
     // Erklärt der Text Bereiche des Editors (z. B. Lektion 2), muss der Editor zu sehen sein.
-    if (pointsIntoEditor(this.body)) this.host.showEditor()
+    if (pointsIntoEditor(this.body)) {
+      this.host.showEditor()
+      // Zeigt der Text auf die Elemente, dürfen sie nicht eingeklappt sein.
+      if (pointsIntoPalette(this.body)) this.host.reveal(['palette'])
+    }
     // Geht es um die Spalte Dateien (Lektion 3), öffnet sie sich.
     else if (pointsIntoFiles(this.body)) this.host.showFiles()
     // Eine Struktogramm-Übung braucht den Struktogramm-Editor.

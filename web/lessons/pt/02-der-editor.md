@@ -6,9 +6,9 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 ## O ecrã
 
-O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
+O VisuStruct tem dois editores: o [editor de estrutogramas](#zeige-editor), de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha. As palavras azuis mostram-te as áreas, mesmo que estejam recolhidas: passa o rato por cima de uma, e a área abre-se ao lado da área de aprendizagem e acende-se. Se clicares nela (ou tocares nela), fica aberta.
 
-O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
+O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor; as áreas recolhidas, como os Elementos, abrem-se.
 
 - **Mesmo em cima, a [barra de ferramentas](#zeige-leiste):** Novo, Abrir e Guardar. À direita, a roda dentada das [Definições](#zeige-einstellungen): tamanho do texto e idioma.
 - **Por baixo, as [ferramentas](#zeige-werkzeuge)** por cima dos elementos e do estrutograma: Anular, Cortar, Copiar, Colar, Eliminar, Exportar, Código e Simulação. Os botões só mostram ícones. Se puseres o rato por cima de um, aparece o nome.

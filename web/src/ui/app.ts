@@ -32,6 +32,7 @@ import { CodePanel } from './codePanel'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
+import type { UiArea } from './termTips'
 import { LiveCodePanel } from './liveCodePanel'
 import { RobotPreviewPanel } from './robotPreview'
 import { codeScopes, setCodeScopes } from './javaEditor'
@@ -300,6 +301,8 @@ export class App {
   /** Fußzeile unter allen Spalten. */
   private bottombar = h('div', { class: 'bottombar' })
   private editorHidden = false
+  /** Elemente ein- oder aufklappen (gesetzt, sobald die Elemente gebaut sind). */
+  private setPaletteHidden?: (hidden: boolean) => void
   private files!: FilesPanel
   private filesRailButton?: HTMLButtonElement
   private closeSettings?: (ev: PointerEvent) => void
@@ -657,6 +660,7 @@ export class App {
       setPaletteWidth(paletteWidth() > 0 ? paletteWidth() : undefined, false)
     }
     setPaletteHidden(paletteHidden())
+    this.setPaletteHidden = setPaletteHidden
     $<HTMLButtonElement>('[data-action=hide-palette]').addEventListener('click', () => setPaletteHidden(true))
     $<HTMLButtonElement>('[data-action=show-palette]').addEventListener('click', () => setPaletteHidden(false))
     // Trennlinie zwischen Elementen und Struktogramm: ziehen, Pfeiltasten, Doppelklick setzt zurück.
@@ -988,6 +992,27 @@ export class App {
     this.topbar.querySelector<HTMLElement>(`[data-action=${control}]`)?.focus()
   }
 
+  /** Eingeklappte Bereiche öffnen (Zeiger im Lektionstext); zurück kommt, wie man genau diese wieder einklappt. */
+  private revealAreas(areas: UiArea[]): () => void {
+    const undo: (() => void)[] = []
+    for (const area of areas) {
+      if (area === 'editor' && this.editorHidden) {
+        this.setEditorHidden(false)
+        undo.push(() => this.setEditorHidden(true))
+      } else if (area === 'palette' && this.root.classList.contains('palette-hidden')) {
+        this.setPaletteHidden?.(false)
+        undo.push(() => this.setPaletteHidden?.(true))
+      } else if (area === 'livecode' && !this.liveCoding) {
+        this.setLiveCoding(true)
+        undo.push(() => this.setLiveCoding(false))
+      } else if (area === 'files' && !this.shell.classList.contains('files-open')) {
+        this.setFilesOpen(true)
+        undo.push(() => this.setFilesOpen(false))
+      }
+    }
+    return () => undo.reverse().forEach((f) => f())
+  }
+
   // MARK: - Dateien
 
   private setFilesOpen(on: boolean) {
@@ -1198,6 +1223,7 @@ export class App {
       showFiles: () => {
         if (!this.shell.classList.contains('files-open')) this.setFilesOpen(true)
       },
+      reveal: (areas) => this.revealAreas(areas),
       openExercise: (ex: Exercise, doc: VSDocument) => {
         // Java-Übungen tippt man in „Programmieren“. Geschlossen wird nichts, so wächst das Struktogramm sichtbar mit.
         if (ex.code === 'java') this.openJavaColumn()
