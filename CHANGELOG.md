@@ -8,7 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
-- **Web 0.12.5, Scanner line suggested:** typing `Scanner` in Programmieren and VisuObject suggests the whole line `Scanner scanner = new Scanner(System.in);` (Tab/Enter, variable name selected to change it); if `import java.util.Scanner;` (or `java.util.*`) is missing, it is added at the top.
+- **Web 0.12.6, Scanner line suggested:** typing `Scanner` in Programmieren and VisuObject suggests the whole line `Scanner scanner = new Scanner(System.in);` (Tab/Enter, variable name selected to change it); if `import java.util.Scanner;` (or `java.util.*`) is missing, it is added at the top.
 - **Web 0.12.4, console prompt visible again:** in Programmieren the text of `System.out.print("Note für Mathe: ")` stands right before the input field, and the console is at least high enough to show two lines of output above the input (0.12.3 showed only an empty input field in a small console).
 - **Web 0.12.3, `System.out.print` in VisuStruct:** `System.out.print(…)` (without a new line) works in the simulation, in Programmieren and in the code export (JavaScript `process.stdout.write`, Python `print(…, end="")`); an input right after an output no longer shows the extra question `name:`, after `System.out.print` it stays on the same line (#187).
 - **Web 0.12.2, code colours like Eclipse:** string literals are blue instead of red (red only marks errors), keywords purple bold including `int`, `boolean`, `true`, `false`, `null`, comments green, numbers ochre, class names black. Applies to Programmieren and VisuObject.
