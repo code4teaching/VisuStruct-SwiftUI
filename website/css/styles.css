@@ -783,28 +783,75 @@ h3 {
   color: var(--brand);
 }
 
-/* Umschalter VisuStruct | VisuBot in der Kopfzeile */
-.worlds {
-  display: none;
-  padding: 3px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
+/* Erste Zeile: die drei Welten VisuStruct, VisuBot, VisuObject nebeneinander */
+.worlds-bar {
+  border-bottom: 1px solid var(--line);
   background: var(--bg-soft);
+}
+.worlds {
+  display: flex;
+  justify-content: safe center;
+  gap: 0.25rem;
+  padding-block: 0.3rem;
   font-size: 0.85rem;
   font-weight: 650;
+  overflow-x: auto;
 }
-.worlds a {
-  padding: 0.3rem 0.8rem;
+.worlds a,
+.worlds .w-soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.25rem 0.85rem;
   border-radius: 999px;
   color: var(--muted);
+  white-space: nowrap;
 }
 .worlds a:hover {
   color: var(--ink);
+  background: rgba(15, 23, 42, 0.05);
   text-decoration: none;
+}
+.worlds .w-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--w-color);
+}
+.w-struct { --w-color: #1f7ae0; }
+.w-bot { --w-color: #d96a00; }
+.w-object { --w-color: #0e7c86; }
+.w-botpp { --w-color: #6d4fc2; }
+.w-mic { --w-color: #2f9e44; }
+.worlds .w-soon {
+  color: var(--muted);
+  opacity: 0.75;
+  cursor: default;
 }
 .worlds a[aria-current="page"] {
   color: #fff;
-  background: var(--brand);
+  background: var(--w-color);
+}
+.worlds a[aria-current="page"] .w-dot {
+  background: #fff;
+}
+.w-new {
+  padding: 0 0.4rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  color: #fff;
+  background: var(--w-color);
+}
+
+/* Abschnitt VisuObject auf der VisuStruct-Startseite: Petrol wie die Welt VisuObject */
+.sec-visuobject {
+  --brand: #0e7c86;
+  --brand-strong: #0a5f67;
+  --brand-tint: #e3f1f3;
+  background: #edf4f6;
+}
+.sec-visuobject .btn-primary {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1), 0 6px 18px -6px rgba(14, 124, 134, 0.6);
 }
 
 /* VisuBot-Startseite: Farben aus dem VisuBot-Logo (Navy, Orange, Lila), Aufbau wie VisuStruct */
@@ -917,13 +964,22 @@ h3 {
   }
 }
 
-@media (min-width: 1100px) {
-  .worlds {
-    display: inline-flex;
-  }
-}
-
 @media (max-width: 520px) {
+  .worlds {
+    gap: 0;
+    font-size: 0.8rem;
+  }
+  .worlds a {
+    padding: 0.25rem 0.55rem;
+    gap: 0.35rem;
+  }
+  /* Auf dem Handy nur die Welten, die es schon gibt */
+  .worlds .w-soon {
+    display: none;
+  }
+  .worlds .w-new {
+    display: none;
+  }
   .hero .btn-lg {
     width: 100%;
   }
