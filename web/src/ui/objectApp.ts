@@ -2320,7 +2320,7 @@ export class ObjectApp {
         ${ifaces.length ? `<fieldset class="vo-inspector-ifaces"><legend>${e(t(isClass ? 'web_visuobject_new_interfaces' : 'web_visuobject_new_extends_interfaces'))}</legend>${ifaces.map((c) => `<label class="check"><input type="checkbox" data-field="iface" value="${e(c.name)}"${cls.interfaces.includes(c.name) ? ' checked' : ''}> ${e(c.name)}</label>`).join('')}</fieldset>` : ''}
       </div>
       <label class="vo-doc">${e(t('web_visuobject_insp_doc'))}<textarea data-field="doc" rows="2" spellcheck="true" placeholder="${e(t('web_visuobject_insp_doc_ph'))}">${e(classDoc(text, cls))}</textarea></label>
-      <div class="vo-inspector-row">${isClass && !hasSections(text, cls) ? `<button class="text-button" data-inspector="sections" data-tip="${e(t('web_visuobject_insp_sections_tip'))}">${e(t('web_visuobject_insp_sections'))}</button>` : ''}<button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button></div>`
+      <div class="vo-inspector-row">${isClass ? `<button class="text-button" data-inspector="sections" data-tip="${e(t('web_visuobject_insp_sections_tip'))}">${e(t(hasSections(text, cls) ? 'web_visuobject_insp_sort' : 'web_visuobject_insp_sections'))}</button>` : ''}<button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button></div>`
     } else if (this.classTab === 'fields') {
       const rows = fields
         .map(({ m, i }) => {

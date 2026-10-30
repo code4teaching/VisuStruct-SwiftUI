@@ -428,6 +428,7 @@
 "web_visuobject_section_ctors" = "Constructor";
 "web_visuobject_section_methods" = "Methods";
 "web_visuobject_insp_sections" = "Insert section comments";
+"web_visuobject_insp_sort" = "Sort into sections";
 "web_visuobject_insp_sections_tip" = "Writes // Attributes, // Reference attributes, // Constructor and // Methods into the class and sorts everything below them. New members from the class diagram then go straight to the right place.";
 "web_visuobject_insp_doc" = "Description (Javadoc)";
 "web_visuobject_insp_doc_ph" = "What is the class for? Written in the code as a Javadoc comment above the class.";

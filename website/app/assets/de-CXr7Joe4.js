@@ -428,6 +428,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visuobject_section_ctors" = "Konstruktor";
 "web_visuobject_section_methods" = "Methoden";
 "web_visuobject_insp_sections" = "Abschnitts-Kommentare einfügen";
+"web_visuobject_insp_sort" = "Einsortieren";
 "web_visuobject_insp_sections_tip" = "Schreibt // Attribute, // Referenzattribute, // Konstruktor und // Methoden in die Klasse und sortiert alles darunter. Neues aus dem Klassendiagramm kommt dann gleich an die richtige Stelle.";
 "web_visuobject_insp_doc" = "Beschreibung (Javadoc)";
 "web_visuobject_insp_doc_ph" = "Wofür ist die Klasse da? Steht im Code als Javadoc-Kommentar über der Klasse.";
