@@ -32,7 +32,7 @@ Méééé, ouve bem! Em 1972, Nassi e Shneiderman ainda eram doutorandos na Univ
 
 ## Bloco básico 1: a sequência
 
-Qualquer algoritmo pode ser construído com apenas **três blocos básicos**: [**sequência**]{.gelb}, [**decisão**]{.blau} e [**ciclo**]{.rosa}. As cores ajudam-te a associá-los. Vês as mesmas cores no editor e mais tarde no código. Podes desligá-las nas definições em “Blocos coloridos”. Neste passo e nos dois seguintes vais conhecê-los um a um.
+Qualquer algoritmo pode ser construído com apenas **três blocos básicos**: **sequência**, [**decisão**]{.blau} e [**ciclo**]{.rosa}. As cores ajudam-te a associá-los: as [instruções]{.gelb} são amarelas, as decisões azuis, os ciclos cor-de-rosa. A sequência não tem cor própria, é simplesmente a fila de instruções umas por baixo das outras. Vês as mesmas cores no editor e mais tarde no código. Podes desligá-las nas definições em “Blocos coloridos”. Neste passo e nos dois seguintes vais conhecê-los um a um.
 
 A **sequência** é o bloco mais simples: várias instruções são executadas **uma a seguir à outra**, cada uma exatamente uma vez.
 
@@ -90,7 +90,7 @@ Enquanto o prato não estiver vazio, dás uma garfada. Depois, o prato é levant
 
 ## Os três juntos
 
-Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma [sequência]{.gelb} de cima para baixo, uma [decisão]{.blau} e um [ciclo]{.rosa}. As caixas amarelas são instruções simples. O que está dentro de uma decisão ou de um ciclo fica com a cor dela. Em rigor, o diagrama todo é uma sequência, porque a decisão e o ciclo também estão na fila de cima para baixo.
+Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma sequência de cima para baixo, uma [decisão]{.blau} e um [ciclo]{.rosa}. As caixas amarelas são [instruções]{.gelb} simples. O que está dentro de uma decisão ou de um ciclo fica com a cor dela. Em rigor, o diagrama todo é uma sequência, porque a decisão e o ciclo também estão na fila de cima para baixo.
 
 ::: diagramm l1-grundbausteine.visustruct
 Reconheces a decisão pelo triângulo e o ciclo pelo parêntese à esquerda. Tudo junto forma uma sequência.
