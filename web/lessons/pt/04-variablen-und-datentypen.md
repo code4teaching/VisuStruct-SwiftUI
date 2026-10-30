@@ -184,7 +184,7 @@ O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à
 
 As variáveis não guardam só números. Para texto existe o tipo de dados `String`:
 
-```java
+```java editor
 String nome = "Inês";
 int idade = 14;
 double altura = 1.62;
@@ -196,7 +196,7 @@ System.out.println("Altura: " + altura + " m");
 - `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue-os.
 - Com `+` juntas texto e números.
 
-Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves.
+Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves. “Abrir no editor” leva o exemplo para a área Programação. Clica aí em “Executar”, depois muda o nome, a idade ou a altura e experimenta outra vez.
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java

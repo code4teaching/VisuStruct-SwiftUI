@@ -1245,6 +1245,19 @@ export class App {
         this.setSimulating(false)
         this.render()
       },
+      openJavaCode: (java: string) => {
+        this.openJavaColumn()
+        const tab = this.makeTab()
+        tab.doc = this.live.documentFromJavaText(java)
+        // Ein unberührter leerer Reiter wird ersetzt statt einen weiteren zu öffnen.
+        if (this.isPristine(this.tab)) this.tabs[this.tabIndex] = tab
+        else this.tabs.push(tab)
+        this.tabIndex = this.tabs.indexOf(tab)
+        this.setSimulating(false)
+        // Der Code bleibt so stehen, wie er in der Lektion steht.
+        this.live.adoptJava(tab.doc, java)
+        this.render()
+      },
       openDiagram: (doc: VSDocument, fileName: string) => {
         this.setEditorHidden(false)
         // Tab nach der Diagrammüberschrift benennen, nicht nach der Datei (l1-tee)
