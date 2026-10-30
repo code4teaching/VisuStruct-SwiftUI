@@ -760,7 +760,8 @@ export class LearnPanel {
   }
 
   private renderCompetences(items: string[]): HTMLElement {
-    const box = h('aside', { class: 'learn-competences' }, h('p', { class: 'learn-competences-title' }, `🎯 ${t('web_learn_competences')}`))
+    // Steht als eigener erster Schritt „Diese Kompetenzen erwerbe ich jetzt“; der Kasten braucht keine eigene Überschrift.
+    const box = h('aside', { class: 'learn-competences' }, h('p', { class: 'learn-competences-title' }, t('web_learn_competences_intro')))
     const list = h('ul', {})
     for (const item of items) list.append(html('li', {}, inline(item)))
     box.append(list)

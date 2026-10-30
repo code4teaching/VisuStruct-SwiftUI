@@ -90,10 +90,13 @@ Steht hinter einem Punkt `→` und der Titel eines Schritts dieser Lektion, zeig
 Die Punkte sind kompetenzorientiert formuliert („Ich kann …“). Rechts neben jedem Punkt schätzt man sich ein: ☂️ noch nicht,
 ⛅ teilweise, ☀️ kann ich sicher; danach folgt **Nachlesen**. Die Wahl steht wie der übrige Lernstand in `learnProgress.json` (ältere Häkchen gelten als ☀️).
 
-Am Anfang einer Lektion stehen die Kompetenzen, die man erwirbt, als Kasten „Diese Kompetenzen erwerbe ich jetzt“ oben im
-ersten Schritt (Punkte so formulieren, dass „Ich kann …“ davor passt):
+Am Anfang einer Lektion stehen die Kompetenzen, die man erwirbt, als eigener erster Schritt „Diese Kompetenzen erwerbe
+ich jetzt“; die Lektion selbst beginnt mit Schritt 2. Der Kasten beginnt mit „Am Ende dieser Lektion kann ich …“, die Punkte
+also so formulieren, dass sie daran anschließen:
 
 ```
+## Diese Kompetenzen erwerbe ich jetzt
+
 ::: kompetenzen
 - erklären, was ein Algorithmus ist
 - ein Struktogramm lesen

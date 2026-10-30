@@ -4,7 +4,7 @@ bereich: Erste Schritte
 kurz: Algorithmen als Folge klarer Schritte darstellen und lesen.
 ---
 
-## Ein Algorithmus ist eine genaue Anleitung
+## Diese Kompetenzen erwerbe ich jetzt
 
 ::: kompetenzen
 - erklären, was ein Algorithmus ist
@@ -14,6 +14,8 @@ kurz: Algorithmen als Folge klarer Schritte darstellen und lesen.
 - erklären, warum Sprünge im PAP zu Fehlern führen
 - einen einfachen Algorithmus als Pseudocode lesen
 :::
+
+## Ein Algorithmus ist eine genaue Anleitung
 
 Ein **Algorithmus** beschreibt Schritt für Schritt, wie man eine Aufgabe löst. Jeder Schritt muss so eindeutig sein, dass ihn jemand ohne Nachfragen ausführen kann, ein Mensch genauso wie ein Computer.
 
@@ -33,7 +35,7 @@ Die Darstellung stammt von **Isaac Nassi und Ben Shneiderman** (1973). Deshalb h
 Links Isaac „Ike“ Nassi (Foto: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/deed.de), zugeschnitten), rechts Ben Shneiderman (Foto: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer. Programme, die kreuz und quer springen, nennt man **Spaghetticode**, weil sich ihr Ablauf verheddert wie Nudeln auf dem Teller. Mehr dazu in Schritt 9.
+> Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer. Programme, die kreuz und quer springen, nennt man **Spaghetticode**, weil sich ihr Ablauf verheddert wie Nudeln auf dem Teller. Mehr dazu in Schritt 10.
 
 ::: angeberwissen
 Määäh, aufgepasst! 1972 waren Nassi und Shneiderman noch Doktoranden an der Stony Brook University bei New York, Shneiderman etwa 25 und Nassi etwa 23. Also quasi zwei Studis, die nebenbei Informatikgeschichte geschrieben haben.

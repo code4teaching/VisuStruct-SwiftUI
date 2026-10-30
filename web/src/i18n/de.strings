@@ -115,7 +115,7 @@
 "web_learn_review" = "Nachlesen";
 "web_learn_terms" = "Fachbegriffe";
 "web_learn_resize" = "Breite des Lernbereichs ändern (Doppelklick: zurücksetzen)";
-"web_learn_competences" = "Diese Kompetenzen erwerbe ich jetzt";
+"web_learn_competences_intro" = "Am Ende dieser Lektion kann ich …";
 "web_learn_rating_sun" = "kann ich sicher";
 "web_learn_rating_cloud" = "teilweise";
 "web_learn_rating_umbrella" = "noch nicht";

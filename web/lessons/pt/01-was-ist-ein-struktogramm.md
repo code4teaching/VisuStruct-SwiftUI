@@ -4,7 +4,7 @@ bereich: Primeiros passos
 kurz: Mostrar e ler algoritmos como uma série de passos claros.
 ---
 
-## Um algoritmo é uma instrução exata
+## Competências que vou adquirir agora
 
 ::: kompetenzen
 - explicar o que é um algoritmo
@@ -14,6 +14,8 @@ kurz: Mostrar e ler algoritmos como uma série de passos claros.
 - explicar porque é que os saltos num fluxograma levam a erros
 - ler um algoritmo simples em pseudocódigo
 :::
+
+## Um algoritmo é uma instrução exata
 
 Um **algoritmo** descreve passo a passo como resolver uma tarefa. Cada passo tem de ser tão claro que qualquer um o consiga executar sem perguntar, tanto uma pessoa como um computador.
 
@@ -33,7 +35,7 @@ Esta forma de desenhar foi inventada por **Isaac Nassi e Ben Shneiderman** (1973
 À esquerda: Isaac “Ike” Nassi (foto: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), recortada), à direita: Ben Shneiderman (foto: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> Um estrutograma tem sempre exatamente um início (em cima) e um fim (em baixo). Não há setas nem saltos para todo o lado. Programas que saltam para todo o lado chamam-se **código esparguete**, porque o seu fluxo se enrola como massa no prato. Mais sobre isto no passo 9.
+> Um estrutograma tem sempre exatamente um início (em cima) e um fim (em baixo). Não há setas nem saltos para todo o lado. Programas que saltam para todo o lado chamam-se **código esparguete**, porque o seu fluxo se enrola como massa no prato. Mais sobre isto no passo 10.
 
 ::: angeberwissen
 Méééé, ouve bem! Em 1972, Nassi e Shneiderman ainda eram doutorandos na Universidade de Stony Brook, perto de Nova Iorque. Shneiderman tinha uns 25 anos e Nassi uns 23. Ou seja, dois estudantes que escreveram história da informática nas horas vagas.

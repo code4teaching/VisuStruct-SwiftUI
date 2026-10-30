@@ -113,7 +113,7 @@
 "web_learn_review" = "Rever";
 "web_learn_terms" = "Termos técnicos";
 "web_learn_resize" = "Alterar a largura da área de aprendizagem (duplo clique: repor)";
-"web_learn_competences" = "Competências que vou adquirir agora";
+"web_learn_competences_intro" = "No fim desta lição consigo …";
 "web_learn_rating_sun" = "consigo com segurança";
 "web_learn_rating_cloud" = "em parte";
 "web_learn_rating_umbrella" = "ainda não";
