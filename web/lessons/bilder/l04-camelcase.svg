@@ -1,16 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 270" font-family="ui-monospace, Menlo, Consolas, monospace">
-<rect width="460" height="270" fill="#ffffff"/>
-<text x="62" y="44" font-size="40" fill="#6e6e73" textLength="336" lengthAdjust="spacingAndGlyphs">preis<tspan fill="#007aff" font-weight="700">M</tspan>it<tspan fill="#007aff" font-weight="700">S</tspan>teuer</text>
-<line x1="194" y1="54" x2="194" y2="84" stroke="#007aff" stroke-width="2.5" stroke-dasharray="5 4"/>
-<line x1="266" y1="54" x2="266" y2="84" stroke="#007aff" stroke-width="2.5" stroke-dasharray="5 4"/>
-<path d="M146 185 L142 214 L146 240" fill="none" stroke="#c9995b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M166 185 L170 214 L166 240" fill="none" stroke="#8a6233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M295 185 L291 214 L295 240" fill="none" stroke="#c9995b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M315 185 L319 214 L315 240" fill="none" stroke="#8a6233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M126 150 C110 160 110 185 118 198" fill="none" stroke="#8a6233" stroke-width="4" stroke-linecap="round"/>
-<path d="M134 192 C118 178 118 146 140 140 C158 138 164 86 194 86 C224 86 224 136 230 134 C236 136 236 86 266 86 C296 86 294 136 311 140 C331 142 339 118 345 100 C349 86 359 80 373 80 C387 80 395 86 397 94 C399 102 387 106 371 106 C363 130 353 168 329 186 C260 206 200 206 134 192 Z" fill="#c9995b" stroke="#8a6233" stroke-width="2.5" stroke-linejoin="round"/>
-<path d="M361 84 L357 72 L368 81 Z" fill="#c9995b" stroke="#8a6233" stroke-width="2" stroke-linejoin="round"/>
-<circle cx="379" cy="90" r="3.2" fill="#1c1c1e"/>
-<path d="M389 100 Q393 102 396 99" fill="none" stroke="#8a6233" stroke-width="2" stroke-linecap="round"/>
-<path d="M30 242 H430" stroke="#d1d1d6" stroke-width="3" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 290" font-family="ui-monospace, Menlo, Consolas, monospace">
+<rect width="460" height="290" fill="#ffffff"/>
+<text x="50" y="44" font-size="40" fill="#6e6e73" textLength="336" lengthAdjust="spacingAndGlyphs">preis<tspan fill="#007aff" font-weight="700">M</tspan>it<tspan fill="#007aff" font-weight="700">S</tspan>teuer</text>
+<line x1="182" y1="54" x2="182" y2="82" stroke="#007aff" stroke-width="2.5" stroke-dasharray="5 4"/>
+<line x1="254" y1="54" x2="254" y2="82" stroke="#007aff" stroke-width="2.5" stroke-dasharray="5 4"/>
+<path d="M20 272 H440" stroke="#e5d3b0" stroke-width="4" stroke-linecap="round"/>
+<path d="M156 172 L150 226" stroke="#b88a52" stroke-width="13" stroke-linecap="round"/>
+<path d="M150 226 L156 262" stroke="#b88a52" stroke-width="8" stroke-linecap="round"/>
+<circle cx="150" cy="226" r="6" fill="#7a5530" opacity="0.55"/>
+<ellipse cx="161" cy="267" rx="11" ry="5" fill="#7a5530"/>
+<path d="M304 172 L308 226" stroke="#b88a52" stroke-width="13" stroke-linecap="round"/>
+<path d="M308 226 L304 262" stroke="#b88a52" stroke-width="8" stroke-linecap="round"/>
+<circle cx="308" cy="226" r="6" fill="#7a5530" opacity="0.55"/>
+<ellipse cx="309" cy="267" rx="11" ry="5" fill="#7a5530"/>
+<path d="M120 140 C104 150 104 176 110 196" fill="none" stroke="#b88a52" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="110" cy="200" rx="5" ry="9" fill="#7a5530"/>
+<path d="M120 172 C108 152 114 128 134 122 C148 120 154 84 182 84 C210 84 208 126 218 124 C228 126 226 84 254 84 C282 84 284 122 294 128 C316 132 324 158 340 158 C352 158 354 124 358 110 C362 98 376 96 388 99 C400 102 406 108 404 116 C402 123 390 124 380 122 C372 122 370 128 370 136 C370 162 364 184 342 186 C326 188 316 182 306 178 C248 188 188 188 140 182 C130 180 124 177 120 172 Z" fill="#d2a56a" stroke="#7a5530" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M134 172 L128 226" stroke="#d2a56a" stroke-width="13" stroke-linecap="round"/>
+<path d="M128 226 L134 262" stroke="#d2a56a" stroke-width="8" stroke-linecap="round"/>
+<circle cx="128" cy="226" r="6" fill="#7a5530" opacity="0.55"/>
+<ellipse cx="139" cy="267" rx="11" ry="5" fill="#7a5530"/>
+<path d="M284 172 L288 226" stroke="#d2a56a" stroke-width="13" stroke-linecap="round"/>
+<path d="M288 226 L284 262" stroke="#d2a56a" stroke-width="8" stroke-linecap="round"/>
+<circle cx="288" cy="226" r="6" fill="#7a5530" opacity="0.55"/>
+<ellipse cx="289" cy="267" rx="11" ry="5" fill="#7a5530"/>
+<path d="M366 103 L362 92 L374 100 Z" fill="#d2a56a" stroke="#7a5530" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="382" cy="107" r="3.2" fill="#1c1c1e"/>
+<path d="M377 104 Q382 101 387 104" fill="none" stroke="#7a5530" stroke-width="2" stroke-linecap="round"/>
+<path d="M398 107 q4 1 5 4" fill="none" stroke="#7a5530" stroke-width="2" stroke-linecap="round"/>
+<path d="M392 119 Q398 118 403 117" fill="none" stroke="#7a5530" stroke-width="2" stroke-linecap="round"/>
 </svg>
