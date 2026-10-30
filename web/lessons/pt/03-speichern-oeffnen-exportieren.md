@@ -55,7 +55,7 @@ Um clique num programa da coluna volta a abri-lo. Assim encontras depressa cada 
 
 Também o teu **progresso** fica no espaço de trabalho: o ficheiro `learnProgress.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
 
-> O armazenamento do navegador só fica neste navegador, neste dispositivo. Uma pasta real no computador é mais segura, porque também a podes copiar e partilhar.
+> Porquê uma pasta real? O teu progresso e os teus programas ficam lá guardados como ficheiros. Podes levar a pasta contigo, por exemplo numa pen USB ou na tua pasta na nuvem, como o OneDrive. Assim continuas em casa, noutro computador, exatamente onde paraste. Se guardares só no navegador, tudo fica apenas neste navegador, neste dispositivo. Se alguém apagar os dados do navegador, o teu progresso também desaparece.
 
 ## Vários diagramas em separadores
 
