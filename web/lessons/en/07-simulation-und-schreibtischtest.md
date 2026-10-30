@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Run a structure chart step by step, work it out by hand and find mistakes.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- start the simulation, pause it, run single steps and stop it
+- read the variables, the output and the last step during the simulation
+- do a desk check by hand as a table
+- find a mistake by comparing the values with what I expect
+- follow Java code with Step and breakpoints
+:::
+
 ## Start the simulation
 
 Before branches and loops come along, you get to know your most important tool. From now on you can use the simulation to check every exercise yourself.
@@ -230,46 +240,54 @@ besser: price = price + price * 0.1;
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can start the simulation, pause it, run single steps and stop it. → Start the simulation
-- During the simulation I can read the variables, the output and the last step. → What the simulation shows
+- I can read the variables, the output and the last step during the simulation. → What the simulation shows
 - I can do a desk check by hand as a table. → The desk check
 - I can find a mistake by comparing the values with what I expect. → Find mistakes
-- I can follow Java code with Step. → Now in Java
+- I can follow Java code with Step and breakpoints. → Now in Java
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which button runs exactly one step?
+→ Start the simulation
 - [ ] Play
 - [x] Step
 - [ ] Stop
 > Play keeps going automatically, Step runs only one step.
 
 ? What do you write down after every step in a desk check?
+→ The desk check
 - [ ] Only the output at the end
 - [x] The current values of all variables
 - [ ] The generated Java code
 > That way you see exactly where a value is different from what you expected.
 
 ? First `int a = 3`, then `int b = 5`, then `a = b`. What values do a and b have afterwards?
+→ The desk check
 - [ ] a = 5 and b = 3
 - [x] a = 5 and b = 5
 - [ ] a = 3 and b = 5
 > The old value of a has been overwritten. That is why you need a temporary variable when swapping.
 
 ? The Last Step field shows `price = 4 * 2.5 -> 10.0`. What does that mean?
+→ What the simulation shows
 - [ ] The variable price now has the value 4.
 - [x] 4 * 2.5 was worked out and the result 10.0 was stored in price.
 - [ ] The simulation has found a mistake.
 
 ? The simulation reports **Unknown variable: sum**. What is a likely reason?
+→ Find mistakes
 - [x] sum is used before it has been given a value.
 - [ ] sum is too big.
 - [ ] The structure chart has too many boxes.
 
 ? What does a red dot in front of a line number in the Programming area do?
+→ Now in Java
 - [ ] It marks an error.
 - [x] The program pauses before this line.
 - [ ] The line is skipped.

@@ -4,6 +4,14 @@ bereich: First steps
 kurz: Insert elements, type text, move and delete.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- insert an element from the Elements area and replace a placeholder
+- change the text of a box and switch between Statement, Input and Output
+- move, copy and delete boxes and undo steps
+:::
+
 ## The screen
 
 VisuStruct has two editors: the [structure chart editor](#zeige-editor), which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you. The blue words show you the areas, even when they are collapsed: move the mouse over one, and the area opens next to the learning area and lights up. Click it (or tap it), and it stays open.
@@ -145,6 +153,8 @@ frage: You click an element in the Elements area without dragging. Where does it
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can insert an element from the Elements area and replace a placeholder. → Insert an element
 - I can change the text of a box and switch between Statement, Input and Output. → Type text
@@ -155,17 +165,20 @@ frage: You click an element in the Elements area without dragging. Where does it
 
 ::: quiz
 ? What does the sign ø in a box mean?
+→ Insert an element
 - [ ] The box contains a mistake.
 - [x] There is still an empty placeholder here.
 - [ ] The program ends here.
 > A placeholder is replaced when you drag an element onto it.
 
 ? You drag a Statement onto the bottom half of a box. Where does it land?
+→ Insert an element
 - [ ] In front of it
 - [x] After it
 - [ ] The box is replaced.
 
 ? How do you output the text Good morning exactly as it is?
+→ Type text
 - [ ] output: Good morning
 - [x] output: "Good morning"
 - [ ] input: "Good morning"

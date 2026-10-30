@@ -4,6 +4,15 @@ bereich: Fundamentos
 kurz: Executar passos um a seguir ao outro, prestar atenção à ordem e trocar valores.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar que uma sequência é executada de cima para baixo
+- explicar porque é que a ordem dos passos conta
+- trocar dois valores com uma variável auxiliar
+- escrever uma sequência em Java
+:::
+
 ## Passo a passo
 
 Uma **sequência** é uma série de passos que são executados exatamente uma vez e exatamente por esta ordem. No estrutograma, os blocos ficam simplesmente uns por cima dos outros.
@@ -176,40 +185,47 @@ frage: O Ludwig faz chá.
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei que uma sequência é executada de cima para baixo. → Passo a passo
-- Sei explicar porque é que a ordem dos passos conta. → A ordem conta
-- Sei trocar dois valores com uma variável auxiliar. → Trocar dois valores
-- Sei escrever uma sequência em Java. → Agora em Java
+- Consigo explicar que uma sequência é executada de cima para baixo. → Passo a passo
+- Consigo explicar porque é que a ordem dos passos conta. → A ordem conta
+- Consigo trocar dois valores com uma variável auxiliar. → Trocar dois valores
+- Consigo escrever uma sequência em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Quantas vezes é executado cada bloco de uma sequência?
+→ Passo a passo
 - [ ] Até uma condição ser falsa
 - [x] Exatamente uma vez
 - [ ] Nenhuma, se estiver vazio
 > Numa sequência nada é repetido e nada é saltado. Para repetir existem os ciclos.
 
 ? No início a = 5 e b = 9. Depois é executado `a = b` e a seguir `b = a`. O que está nas variáveis no fim?
+→ Trocar dois valores
 - [ ] a = 9 e b = 5
 - [x] a = 9 e b = 9
 - [ ] a = 5 e b = 5
 > Depois de `a = b`, o valor antigo 5 perdeu-se. `b = a` só copia o 9 de volta.
 
 ? Porque precisas de uma variável auxiliar para trocar valores?
+→ Trocar dois valores
 - [x] Para um valor não ser escrito por cima antes de ser preciso
 - [ ] Para o estrutograma ficar mais comprido
 - [ ] Porque senão não se podem mostrar variáveis
 
 ? O que mostra a sequência `int x = 4`, `x = x + 1`, `x = x * 3`, `output: x`?
+→ A ordem conta
 - [ ] 13
 - [x] 15
 - [ ] 4
 > Primeiro x passa a 5, depois a 15.
 
 ? Com que termina cada instrução em Java?
+→ Agora em Java
 - [ ] Com um ponto .
 - [x] Com um ponto e vírgula ;
 - [ ] Com dois pontos :

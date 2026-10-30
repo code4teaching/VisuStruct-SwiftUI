@@ -4,6 +4,18 @@ bereich: From structure chart to code
 kurz: All elements in Java at a glance, generate code, write Java in the Programming area, run it and find mistakes.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- open the code view and choose Java as the language
+- recognise output, input, branches and loops in Java
+- explain the difference between Snippet and Class
+- rebuild a short Java program as a structure chart
+- type Java in the Programming area and read the structure chart that is built
+- run a program with ▶︎ and use input and output in the console
+- set breakpoints and follow a program step by step
+:::
+
 ## The code view
 
 In lessons 4 to 19 you have already written every element in Java. Here you see everything at a glance and learn how VisuStruct turns a whole structure chart into a Java program.
@@ -306,10 +318,12 @@ frage: In the debugger, a line is yellow. What does that mean?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can open the code view and choose Java as the language. → The code view
-- I know what output, input, branches and loops look like in Java. → The elements in Java
-- I know the difference between Snippet and Class. → Snippet or Class
+- I can recognise output, input, branches and loops in Java. → The elements in Java
+- I can explain the difference between Snippet and Class. → Snippet or Class
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
 - I can type Java in the Programming area and read the structure chart that is built. → Write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
@@ -320,29 +334,34 @@ frage: In the debugger, a line is yellow. What does that mean?
 
 ::: quiz
 ? What does `output: "Hello"` look like in Java?
+→ The elements in Java
 - [ ] print("Hello")
 - [x] System.out.println("Hello");
 - [ ] console.log("Hello");
 > print is Python, console.log is JavaScript.
 
 ? Where does the class name come from with Class?
+→ Snippet or Class
 - [ ] It is always called Main.
 - [x] From the title of the diagram
 - [ ] From the first box
 > Without a title, the class is called Main.
 
 ? Which Java code belongs to a do-while loop?
+→ The elements in Java
 - [ ] while (condition) { … }
 - [x] do { … } while (condition);
 - [ ] for (;;) { … }
 > With do-while the condition is at the end, so the body runs at least once.
 
 ? What does a Break become in Java code?
+→ The elements in Java
 - [x] break;
 - [ ] return;
 - [ ] exit();
 
 ? What happens at a red dot before the line number?
+→ Find mistakes with the debugger
 - [ ] The line is skipped.
 - [x] The program pauses before this line.
 - [ ] The line contains a mistake.

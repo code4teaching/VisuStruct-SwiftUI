@@ -4,6 +4,15 @@ bereich: Fundamentos
 kurz: Primeiro executar, depois verificar: ciclos com pelo menos uma iteração.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar que o ciclo do-while só verifica a sua condição depois do interior
+- explicar porque é que o interior é executado pelo menos uma vez
+- repetir uma entrada até ela ser válida
+- escrever um ciclo do-while em Java
+:::
+
 ## Primeiro fazer, depois verificar
 
 O **ciclo do-while** é um **ciclo pós-teste**. A condição fica em baixo, no pé do bloco. É executado assim:
@@ -206,40 +215,47 @@ frage: Para que se usa tipicamente um ciclo do-while?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei que o ciclo do-while só verifica a sua condição depois do interior. → Primeiro fazer, depois verificar
-- Sei que o interior é executado pelo menos uma vez. → Pelo menos uma iteração
-- Sei repetir uma entrada até ela ser válida. → Uso típico: repetir uma entrada
-- Sei escrever um ciclo do-while em Java. → Agora em Java
+- Consigo explicar que o ciclo do-while só verifica a sua condição depois do interior. → Primeiro fazer, depois verificar
+- Consigo explicar porque é que o interior é executado pelo menos uma vez. → Pelo menos uma iteração
+- Consigo repetir uma entrada até ela ser válida. → Uso típico: repetir uma entrada
+- Consigo escrever um ciclo do-while em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que quer dizer ciclo pós-teste?
+→ Primeiro fazer, depois verificar
 - [ ] A condição é verificada antes de cada iteração.
 - [x] A condição é verificada depois de cada iteração.
 - [ ] O ciclo não tem condição.
 > A condição fica no pé, em baixo, e é avaliada depois do interior.
 
 ? A condição de um ciclo do-while é falsa desde o início. Quantas vezes é executado o interior?
+→ Pelo menos uma iteração
 - [ ] Nenhuma
 - [x] Exatamente uma vez
 - [ ] Para sempre
 > O interior é executado primeiro. Só depois o ciclo nota que deve parar.
 
 ? Queres pedir um número de 1 a 10. Que condição fica no pé?
+→ Uso típico: repetir uma entrada
 - [ ] `numero >= 1 && numero <= 10`
 - [x] `numero < 1 || numero > 10`
 - [ ] `numero == 10`
 > O ciclo repete-se enquanto a entrada for inválida, ou seja, menor do que 1 ou maior do que 10.
 
 ? Quando é que um ciclo do-while é melhor do que um ciclo while?
+→ Pelo menos uma iteração
 - [x] Quando o interior tem de ser executado pelo menos uma vez, p. ex. numa entrada
 - [ ] Quando o ciclo talvez nem precise de ser executado
 - [ ] Quando queres contar exatamente até 10
 
 ? O que fica no fim de um ciclo do-while em Java?
+→ Agora em Java
 - [ ] } while (condicao) {
 - [x] } while (condicao);
 - [ ] } until (condicao);

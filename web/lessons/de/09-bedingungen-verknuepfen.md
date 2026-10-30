@@ -4,6 +4,19 @@ bereich: Grundlagen
 kurz: Mehrere Bedingungen mit und, oder und nicht verbinden und Wertebereiche prüfen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, wann eine Verknüpfung mit && wahr ist
+- erklären, wann eine Verknüpfung mit || wahr ist
+- eine Bedingung mit ! umdrehen
+- prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt
+- die Wahrheitstabelle für &&, || und ! lesen
+- das Ergebnis einer Bedingung in einer boolean-Variablen speichern
+- zusammengesetzte Bedingungen sicher auswerten
+- Bedingungen in Java mit && und || verknüpfen
+:::
+
 ## Und: &&
 
 Manchmal reicht ein einzelner Vergleich nicht. Ein Jugendticket gibt es zum Beispiel nur, wenn jemand **mindestens 12 und jünger als 18** ist.
@@ -248,14 +261,16 @@ lösung: l09-java-fehler-loesung.visustruct
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, wann eine Verknüpfung mit && wahr ist. → Und: &&
-- Ich weiß, wann eine Verknüpfung mit || wahr ist. → Oder: ||
+- Ich kann erklären, wann eine Verknüpfung mit && wahr ist. → Und: &&
+- Ich kann erklären, wann eine Verknüpfung mit || wahr ist. → Oder: ||
 - Ich kann eine Bedingung mit ! umdrehen. → Nicht und Klammern
 - Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt. → Wertebereiche prüfen
 - Ich kann die Wahrheitstabelle für &&, || und ! lesen. → Die Wahrheitstabelle
 - Ich kann das Ergebnis einer Bedingung in einer boolean-Variablen speichern. → Wahrheitswerte in Variablen
-- Ich habe im Spiel mindestens 8 von 10 Bedingungen richtig ausgewertet. → Spiel: Wahr oder falsch?
+- Ich kann zusammengesetzte Bedingungen sicher auswerten (im Spiel mindestens 8 von 10 richtig). → Spiel: Wahr oder falsch?
 - Ich kann Bedingungen in Java mit && und || verknüpfen. → Jetzt in Java
 :::
 
@@ -263,28 +278,33 @@ lösung: l09-java-fehler-loesung.visustruct
 
 ::: quiz
 ? Wann ist `a && b` wahr?
+→ Und: &&
 - [ ] Wenn a oder b wahr ist
 - [x] Nur wenn a und b beide wahr sind
 - [ ] Wenn genau eins von beiden wahr ist
 > Bei && müssen beide Teile stimmen. Ist einer falsch, ist das Ganze falsch.
 
 ? Die Variable tag hat den Wert 6. Was ergibt `tag == 6 || tag == 7`?
+→ Oder: ||
 - [x] true
 - [ ] false
 > Bei || reicht es, wenn eine Seite wahr ist.
 
 ? Mit welcher Bedingung prüfst du, ob zahl zwischen 10 und 20 liegt (beide eingeschlossen)?
+→ Wertebereiche prüfen
 - [ ] 10 <= zahl <= 20
 - [ ] zahl >= 10 || zahl <= 20
 - [x] zahl >= 10 && zahl <= 20
 > Mit || wäre jede Zahl erlaubt, denn jede Zahl ist größer als 10 oder kleiner als 20.
 
 ? Was ergibt `!(5 > 3)`?
+→ Nicht und Klammern
 - [ ] true
 - [x] false
 > 5 > 3 ist wahr, und ! dreht das um.
 
 ? Wie schreibst du in Java „alter ist mindestens 12 und kleiner als 18“?
+→ Jetzt in Java
 - [ ] if (12 <= alter < 18)
 - [x] if (alter >= 12 && alter < 18)
 - [ ] if (alter >= 12 || alter < 18)

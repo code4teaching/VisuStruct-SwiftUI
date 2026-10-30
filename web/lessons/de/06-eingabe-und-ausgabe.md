@@ -4,6 +4,17 @@ bereich: Grundlagen
 kurz: Werte abfragen, Ergebnisse anzeigen und das EVA-Prinzip anwenden.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- das EVA-Prinzip erklären
+- eine Eingabe mit Datentyp, Namen und Frage schreiben
+- Text und Variablen in einer Ausgabe mit + verbinden
+- vor der Ausgabe in einer Variablen rechnen
+- aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen
+- in Java mit dem Scanner Zahlen einlesen
+:::
+
 ## Das EVA-Prinzip
 
 Viele Programme arbeiten in drei Teilen:
@@ -263,11 +274,13 @@ frage: Zu welchem Teil von EVA gehört dieser Kasten?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann das EVA-Prinzip erklären. → Das EVA-Prinzip
 - Ich kann eine Eingabe mit Datentyp, Namen und Frage schreiben. → Eingabe mit input:
 - Ich kann Text und Variablen in einer Ausgabe mit + verbinden. → Vorsicht mit + in der Ausgabe
-- Ich rechne vor der Ausgabe in einer Variablen. → Vorsicht mit + in der Ausgabe
+- Ich kann vor der Ausgabe in einer Variablen rechnen. → Vorsicht mit + in der Ausgabe
 - Ich kann aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen. → Vom Aufgabentext zum Struktogramm
 - Ich kann in Java mit dem Scanner Zahlen einlesen. → Jetzt in Java
 :::
@@ -276,35 +289,41 @@ frage: Zu welchem Teil von EVA gehört dieser Kasten?
 
 ::: quiz
 ? Wofür steht EVA?
+→ Das EVA-Prinzip
 - [x] Eingabe, Verarbeitung, Ausgabe
 - [ ] Eingabe, Variable, Anweisung
 - [ ] Erst Variablen anlegen
 > Viele Programme fragen erst Werte ab, verarbeiten sie und zeigen dann das Ergebnis.
 
 ? Die Variablen a und b haben die Werte 3 und 4. Was zeigt `output: a + b`?
+→ Vorsicht mit + in der Ausgabe
 - [ ] 7
 - [x] 34
 - [ ] a + b
 > In der Ausgabe hängt + die Teile aneinander. Rechne die Summe vorher in einer Variablen aus.
 
 ? Welche Eingabe passt, wenn ein Preis wie 4.99 eingegeben werden soll?
+→ Eingabe mit input:
 - [ ] input: int preis "Preis?"
 - [x] input: double preis "Preis?"
 - [ ] input: String "Preis?"
 > 4.99 ist eine Kommazahl, also double. Außerdem braucht jede Eingabe einen Variablennamen.
 
 ? Was zeigt `output: "Alter: " + alter`, wenn alter den Wert 12 hat?
+→ Vorsicht mit + in der Ausgabe
 - [x] Alter: 12
 - [ ] "Alter: " + 12
 - [ ] Alter: alter
 
 ? Aufgabe: *Das Programm fragt nach dem Radius eines Kreises und zeigt seinen Umfang an.* Ordne jedem Teil des Textes zu, wohin er im EVA-Prinzip gehört.
+→ Vom Aufgabentext zum Struktogramm
 = fragt nach dem Radius -> Eingabe
 = Umfang = 2 * 3.14 * Radius -> Verarbeitung
 = zeigt seinen Umfang an -> Ausgabe
 > Gegeben ist der Radius, gesucht der Umfang. Die Formel verbindet beides.
 
 ? Was liest `scanner.nextInt()` ein?
+→ Jetzt in Java
 - [x] Eine ganze Zahl
 - [ ] Eine Kommazahl
 - [ ] Einen ganzen Satz

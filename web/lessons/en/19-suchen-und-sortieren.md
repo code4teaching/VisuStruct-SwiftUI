@@ -4,6 +4,17 @@ bereich: Basics
 kurz: Use playing cards to understand how linear search, binary search and bubble sort work, and why some methods are much faster.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain how linear search goes through an array
+- build a linear search as a structure chart
+- explain why binary search only works with sorted values
+- explain why binary search is much faster with many values
+- show one round of bubble sort with playing cards
+- search an array in Java and count matches
+:::
+
 ## Look for a card
 
 A pile of playing cards lies face down in a row in front of you. You are looking for the 9. What do you do? You turn over one card after another until you find the 9 or have turned over all the cards.
@@ -262,10 +273,12 @@ frage: Bubble sort swaps `cards[i]` and `cards[i + 1]`. What does it need for th
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can explain how linear search goes through an array. → Look for a card
 - I can build a linear search as a structure chart. → Exercise: Find a card
-- I know why binary search only works with sorted values. → Binary search: sorted is faster
+- I can explain why binary search only works with sorted values. → Binary search: sorted is faster
 - I can explain why binary search is much faster with many values. → How fast is it?
 - I can show one round of bubble sort with playing cards. → Sorting with bubble sort
 - I can search an array in Java and count matches. → Now in Java
@@ -275,40 +288,47 @@ frage: Bubble sort swaps `cards[i]` and `cards[i + 1]`. What does it need for th
 
 ::: quiz
 ? What does binary search need?
+→ Binary search: sorted is faster
 - [ ] The array must have exactly 100 slots.
 - [x] The values must be sorted.
 - [ ] The value you are looking for must be there.
 > Only with sorted values do you know, after looking at the middle, which half to keep searching in.
 
 ? A sorted array has 1,000 values. How many comparisons does binary search need at most?
+→ How fast is it?
 - [ ] 500
 - [ ] 100
 - [x] 10
 > 1,000 → 500 → 250 → 125 → 63 → 32 → 16 → 8 → 4 → 2 → 1: after about 10 halvings, one value is left.
 
 ? What does bubble sort compare in every step?
+→ Sorting with bubble sort
 - [ ] The first and the last card
 - [x] Two neighbouring cards
 - [ ] Every card with the middle
 > If the larger card is on the left, the neighbours are swapped.
 
 ? Where is the largest card after the first round of bubble sort?
+→ Sorting with bubble sort
 - [ ] On the far left
 - [ ] In the middle
 - [x] On the far right
 > It is swapped on with every comparison and rises to the right like a bubble.
 
 ? What does `position = -1` mean in linear search?
+→ Look for a card
 - [x] The card has not been found (yet).
 - [ ] The card is right at the back.
 - [ ] The array is empty.
 
 ? Match each method to the right description.
+→ Look for a card
 = Linear search -> look at one card after another
 = Binary search -> look at the middle and drop one half
 = Bubble sort -> compare neighbours and swap them
 
 ? Why do you use a for loop for counting and not a search that stops at the first match?
+→ Now in Java
 - [ ] A for loop is always faster.
 - [x] You have to look at every card, otherwise later matches are missing.
 - [ ] A while loop cannot go through arrays.

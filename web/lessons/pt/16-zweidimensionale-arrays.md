@@ -4,6 +4,16 @@ bereich: Fundamentos
 kurz: Guardar valores em linhas e colunas, como os lugares de um cinema, e percorrê-los com dois ciclos encaixados.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- criar um array 2D e explicar o que significam os dois números
+- ler e escrever uma posição com fila e lugar
+- distinguir `lugares.length` de `lugares[0].length`
+- explicar por que ordem dois ciclos encaixados visitam as posições
+- criar e percorrer um array bidimensional em Java
+:::
+
 ## Um cinema como tabela
 
 Um cinema tem várias **filas**, e cada fila tem vários **lugares**. Para cada lugar queremos saber se o bilhete já foi vendido. É uma pergunta de sim ou não, por isso serve o tipo de dados `boolean`: `true` quer dizer vendido, `false` quer dizer livre.
@@ -243,42 +253,49 @@ frage: Dois ciclos percorrem a sala `new boolean[3][5]`. Que posição vem logo 
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei criar um array 2D e sei o que significam os dois números. → Um cinema como tabela
-- Sei ler e escrever uma posição com fila e lugar. → Chegar a uma posição
-- Sei a diferença entre `lugares.length` e `lugares[0].length`. → Chegar a uma posição
-- Sei explicar por que ordem dois ciclos encaixados visitam as posições. → Dois ciclos um dentro do outro
-- Sei criar e percorrer um array bidimensional em Java. → Agora em Java
+- Consigo criar um array 2D e explicar o que significam os dois números. → Um cinema como tabela
+- Consigo ler e escrever uma posição com fila e lugar. → Chegar a uma posição
+- Consigo distinguir `lugares.length` de `lugares[0].length`. → Chegar a uma posição
+- Consigo explicar por que ordem dois ciclos encaixados visitam as posições. → Dois ciclos um dentro do outro
+- Consigo criar e percorrer um array bidimensional em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Quantas posições tem `boolean[][] lugares = new boolean[4][6]`?
+→ Um cinema como tabela
 - [ ] 10
 - [x] 24
 - [ ] 46
 > 4 filas com 6 lugares cada: 4 · 6 = 24.
 
 ? O que está em todas as posições depois de `new boolean[3][5]`?
+→ Um cinema como tabela
 - [ ] true
 - [x] false
 - [ ] Nada, as posições estão vazias
 > Um array boolean novo é enchido com false. No cinema isso quer dizer: todos os lugares estão livres.
 
 ? Dois ciclos encaixados percorrem 3 filas com 5 lugares. Quantas vezes é executado o interior do ciclo **interior**?
+→ Dois ciclos um dentro do outro
 - [ ] 3 vezes
 - [ ] 8 vezes
 - [x] 15 vezes
 > Para cada uma das 3 filas, o ciclo interior é executado 5 vezes: 3 · 5 = 15.
 
 ? Associa o que cada expressão significa no cinema.
+→ Chegar a uma posição
 = lugares.length -> Número de filas
 = lugares[0].length -> Número de lugares da fila 0
 = lugares[2][4] -> Fila 2, lugar 4
 = lugares[1][0] = true -> O lugar 0 da fila 1 está vendido
 
 ? O que dá `lugares.length` para `new boolean[3][5]`?
+→ Chegar a uma posição
 - [x] 3, o número de filas
 - [ ] 5, o número de lugares
 - [ ] 15, todos os lugares juntos

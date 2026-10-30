@@ -4,6 +4,15 @@ bereich: Basics
 kurz: Run first, check afterwards: loops with at least one pass.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain that the do-while loop only checks its condition after the inside
+- explain why the inside runs at least once
+- repeat an input until it is valid
+- write a do-while loop in Java
+:::
+
 ## Do first, check afterwards
 
 The **do-while loop** is a **post-test loop**. The condition is at the bottom, in the foot of the box. This is how it runs:
@@ -206,9 +215,11 @@ frage: What is a do-while loop typically used for?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know that the do-while loop only checks its condition after the inside. → Do first, check afterwards
-- I know that the inside runs at least once. → At least one pass
+- I can explain that the do-while loop only checks its condition after the inside. → Do first, check afterwards
+- I can explain why the inside runs at least once. → At least one pass
 - I can repeat an input until it is valid. → Typical use: repeat an input
 - I can write a do-while loop in Java. → Now in Java
 :::
@@ -217,29 +228,34 @@ frage: What is a do-while loop typically used for?
 
 ::: quiz
 ? What does post-test loop mean?
+→ Do first, check afterwards
 - [ ] The condition is checked before every pass.
 - [x] The condition is checked after every pass.
 - [ ] The loop has no condition.
 > The condition is in the foot, at the bottom, and is worked out after the inside.
 
 ? The condition of a do-while loop is false from the start. How often does the inside run?
+→ At least one pass
 - [ ] Not at all
 - [x] Exactly once
 - [ ] Forever
 > The inside runs first. Only then does the loop notice that it should stop.
 
 ? You want to ask for a number from 1 to 10. Which condition goes in the foot?
+→ Typical use: repeat an input
 - [ ] `number >= 1 && number <= 10`
 - [x] `number < 1 || number > 10`
 - [ ] `number == 10`
 > The loop repeats as long as the input is invalid, that is, less than 1 or greater than 10.
 
 ? When is a do-while loop better than a while loop?
+→ At least one pass
 - [x] When the inside has to run at least once, e.g. for an input
 - [ ] When the loop might not need to run at all
 - [ ] When you want to count exactly to 10
 
 ? What comes at the end of a do-while loop in Java?
+→ Now in Java
 - [ ] } while (condition) {
 - [x] } while (condition);
 - [ ] } until (condition);

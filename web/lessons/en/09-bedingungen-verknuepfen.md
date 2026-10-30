@@ -4,6 +4,19 @@ bereich: Basics
 kurz: Join several conditions with and, or and not, and check ranges of values.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain when a combination with && is true
+- explain when a combination with || is true
+- turn a condition round with !
+- check whether a value is in a range such as 1 to 6
+- read the truth table for &&, || and !
+- store the result of a condition in a boolean variable
+- evaluate combined conditions confidently
+- combine conditions in Java with && and ||
+:::
+
 ## And: &&
 
 Sometimes a single comparison is not enough. For example, you only get a youth ticket if you are **at least 12 and younger than 18**.
@@ -248,14 +261,16 @@ lösung: l09-java-fehler-loesung.visustruct
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know when a combination with && is true. → And: &&
-- I know when a combination with || is true. → Or: ||
+- I can explain when a combination with && is true. → And: &&
+- I can explain when a combination with || is true. → Or: ||
 - I can turn a condition round with !. → Not and brackets
 - I can check whether a value is in a range such as 1 to 6. → Check ranges of values
 - I can read the truth table for &&, || and !. → The truth table
 - I can store the result of a condition in a boolean variable. → Truth values in variables
-- I got at least 8 of 10 conditions right in the game. → Game: True or false?
+- I can evaluate combined conditions confidently (at least 8 of 10 right in the game). → Game: True or false?
 - I can combine conditions in Java with && and ||. → Now in Java
 :::
 
@@ -263,28 +278,33 @@ lösung: l09-java-fehler-loesung.visustruct
 
 ::: quiz
 ? When is `a && b` true?
+→ And: &&
 - [ ] If a or b is true
 - [x] Only if a and b are both true
 - [ ] If exactly one of them is true
 > With && both parts must be right. If one is false, the whole thing is false.
 
 ? The variable day has the value 6. What does `day == 6 || day == 7` give?
+→ Or: ||
 - [x] true
 - [ ] false
 > With || it is enough if one side is true.
 
 ? Which condition checks whether number is between 10 and 20 (both included)?
+→ Check ranges of values
 - [ ] 10 <= number <= 20
 - [ ] number >= 10 || number <= 20
 - [x] number >= 10 && number <= 20
 > With || every number would be allowed, because every number is greater than 10 or less than 20.
 
 ? What does `!(5 > 3)` give?
+→ Not and brackets
 - [ ] true
 - [x] false
 > 5 > 3 is true, and ! turns that round.
 
 ? How do you write “age is at least 12 and less than 18” in Java?
+→ Now in Java
 - [ ] if (12 <= age < 18)
 - [x] if (age >= 12 && age < 18)
 - [ ] if (age >= 12 || age < 18)
