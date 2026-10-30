@@ -2,7 +2,7 @@ import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap, s
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting, syntaxTree } from '@codemirror/language'
-import { Annotation, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
+import { Annotation, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension, type Text } from '@codemirror/state'
 import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { indentJava } from '../core/javaIndent'
@@ -124,6 +124,24 @@ const scopeKinds: Record<string, string> = {
 }
 
 /**
+ * Zeile der `}`, die den Block schließt, der in der Zeile von `pos` mit `{` beginnt. Bei Pseudocode
+ * (`while (Tee noch zu heiß) {`) bricht der Java-Parser den Block nach der ersten Zeile ab; so reicht der Kasten
+ * trotzdem bis zur schließenden Klammer wie im Struktogramm.
+ */
+function closingLine(doc: Text, pos: number): number {
+  const first = doc.lineAt(pos)
+  if (!first.text.trimEnd().endsWith('{')) return first.number
+  let depth = 0
+  for (let n = first.number; n <= doc.lines; n++) {
+    for (const ch of doc.line(n).text.replace(/"(?:[^"\\]|\\.)*"|\/\/.*$/g, '')) {
+      if (ch === '{') depth++
+      else if (ch === '}' && --depth === 0) return n
+    }
+  }
+  return first.number
+}
+
+/**
  * Jeder Block (Klasse, Methode, Schleife, Verzweigung …) bekommt einen eigenen Kasten, der bei seiner
  * Einrückung beginnt; die Kästen liegen ineinander. Das ausgewählte Element bekommt einen Rahmen darüber.
  */
@@ -151,6 +169,18 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
     return new RectangleMarker(className, left, top, Math.max(right - left, 20), Math.max(bottom - top, 4))
   }
   const markers: RectangleMarker[] = []
+  // Anweisungen ohne Klasse und Methode (Einstellung ohne `class`/`main`): ein gelber Kasten wie die Methode,
+  // damit sie wie die Anweisungen im Struktogramm aussehen.
+  const top = syntaxTree(state).topNode
+  const loose: { from: number; to: number }[] = []
+  for (let c = top.firstChild; c; c = c.nextSibling) {
+    if (scopeKinds[c.name] === 'class' || c.name === 'MethodDeclaration') {
+      loose.length = 0
+      break
+    }
+    if (c.name !== 'ImportDeclaration' && c.name !== 'PackageDeclaration' && !c.name.includes('Comment')) loose.push(c)
+  }
+  if (loose.length) markers.push(box('cm-scope cm-scope-method', doc.lineAt(loose[0].from).number, doc.lineAt(loose[loose.length - 1].to).number, 1))
   // Äußere Blöcke zuerst: Die inneren liegen darüber.
   syntaxTree(state).iterate({
     from: view.viewport.from,
@@ -160,7 +190,8 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
       if (!kind) return
       // `else if` gehört zum Kasten des ersten `if`.
       if (node.name === 'IfStatement' && node.node.parent?.name === 'IfStatement') return
-      markers.push(box(`cm-scope cm-scope-${kind}`, doc.lineAt(node.from).number, doc.lineAt(node.to).number, 1))
+      const from = doc.lineAt(node.from).number
+      markers.push(box(`cm-scope cm-scope-${kind}`, from, Math.max(doc.lineAt(node.to).number, closingLine(doc, node.from)), 1))
     },
   })
   const sel = state.field(marksField).marks.lines
