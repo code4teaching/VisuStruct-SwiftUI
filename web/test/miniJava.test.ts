@@ -221,6 +221,38 @@ class Spieler { String name; Spieler(String n) { name = n; } public String toStr
     expect([1, 0.5, 100, 1e-4, 12345678.9, -2].map(formatDouble)).toEqual(['1.0', '0.5', '100.0', '1.0E-4', '1.23456789E7', '-2.0'])
   })
 
+  it('schneidet Aufrufe für das Sequenzdiagramm mit', () => {
+    const src = `public class Main {
+  public static void main(String[] args) {
+    Team t = new Team();
+    Spieler s1 = new Spieler("Anna");
+    t.aufnehmen(s1);
+    System.out.println(t.anzahl());
+  }
+}
+class Team { int n; void aufnehmen(Spieler s) { n++; s.begruessen(); } int anzahl() { return n; } }
+class Spieler { String name; Spieler(String n) { name = n; } void begruessen() { } }`
+    const vm = new MiniJava([{ path: 'Main.java', source: src }], { out: () => {} })
+    vm.start()
+    vm.go('run')
+    expect(vm.run(new Set()).k).toBe('done')
+    const { participants, events } = vm.sequence()
+    expect(participants.map((p) => p.label)).toEqual(['Main', 't : Team', 's1 : Spieler'])
+    const key = Object.fromEntries(participants.map((p) => [p.key, p.label]))
+    expect(events.map((e) => (e.k === 'return' ? `return ${e.label}${e.hidden ? ' (hidden)' : ''}` : `${key[e.from]} -> ${key[e.to]}: ${e.label}`))).toEqual([
+      'Main -> t : Team: new Team()',
+      'return  (hidden)',
+      'Main -> s1 : Spieler: new Spieler("Anna")',
+      'return  (hidden)',
+      'Main -> t : Team: aufnehmen(s1)',
+      't : Team -> s1 : Spieler: begruessen()',
+      'return ',
+      'return ',
+      'Main -> t : Team: anzahl()',
+      'return 1',
+    ])
+  })
+
   it('Scanner ohne Import ist wie bei javac ein Fehler', () => {
     const body = 'Scanner eingabe = new Scanner(System.in); System.out.println(eingabe.next());'
     let err: unknown
