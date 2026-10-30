@@ -79,8 +79,8 @@ Soll etwas **mehrmals** passieren, schreibt man es nicht mehrmals hin. Stattdess
 So sieht sie aus:
 
 - Oben steht die Bedingung, zum Beispiel *Teller nicht leer*.
-- Die Schritte, die wiederholt werden, stehen **eingerückt** darunter. Links bildet der Kasten eine **Klammer** um sie.
-- Vor jedem Durchlauf wird die Bedingung geprüft. Solange sie **true** ist, werden die Schritte in der Klammer noch einmal ausgeführt. Ist sie **false**, geht es unter der Schleife weiter.
+- Die Schritte, die wiederholt werden, stehen **eingerückt** darunter. Oben und links bildet der Kasten ein **gekipptes L** um sie.
+- Vor jedem Durchlauf wird die Bedingung geprüft. Solange sie **true** ist, werden die Schritte im gekippten L noch einmal ausgeführt. Ist sie **false**, geht es unter der Schleife weiter.
 
 ::: diagramm l1-wiederholung.visustruct
 Solange der Teller nicht leer ist, wird ein Bissen gegessen. Danach wird der Teller abgeräumt.
@@ -93,7 +93,7 @@ Solange der Teller nicht leer ist, wird ein Bissen gegessen. Danach wird der Tel
 Richtig nützlich werden die Bausteine, wenn man sie kombiniert. Das Diagramm enthält alle drei: eine Sequenz von oben nach unten, eine [Verzweigung]{.blau} und eine [Schleife]{.rosa}. Gelb sind die einfachen [Anweisungen]{.gelb}. Auch die Anweisungen in einer Verzweigung oder Schleife sind gelb. Genau genommen ist das ganze Diagramm eine Sequenz, denn auch Verzweigung und Schleife stehen in der Reihe von oben nach unten.
 
 ::: diagramm l1-grundbausteine.visustruct
-Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles zusammen steht in einer Sequenz.
+Die Verzweigung erkennst du am Dreieck, die Schleife am gekippten L. Alles zusammen steht in einer Sequenz.
 :::
 
 Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife oder einem Zweig können wieder Sequenzen, Verzweigungen und Schleifen stehen.
@@ -137,7 +137,7 @@ Tee trinken
 
 ### Im Vergleich
 
-- **Struktogramm:** Kästen ineinander, die Schleife ist eine Klammer links. Die Struktur siehst du auf einen Blick, wilde Sprünge sind unmöglich.
+- **Struktogramm:** Kästen ineinander, die Schleife ist ein gekipptes L. Die Struktur siehst du auf einen Blick, wilde Sprünge sind unmöglich.
 - **PAP:** Symbole mit Pfeilen, die Schleife ist ein Pfeil zurück nach oben. Sehr anschaulich, aber bei großen Plänen schnell unübersichtlich.
 - **Pseudocode:** Text mit Einrückung, die Schleife steht zwischen SOLANGE und ENDE SOLANGE. Schnell geschrieben und schon nah am Programmcode.
 
@@ -235,10 +235,10 @@ richtig: Verzweigung
 > Sprünge gibt es im Struktogramm nicht. Sequenz, Verzweigung und Wiederholung reichen für jeden Algorithmus.
 
 ? Woran erkennst du im Struktogramm eine Verzweigung?
-- [ ] An einer Klammer auf der linken Seite
+- [ ] An einem gekippten L
 - [x] An einem Dreieck mit der Bedingung und zwei Spalten darunter
 - [ ] An mehreren Rechtecken untereinander
-> Die Klammer gehört zur Schleife, Rechtecke untereinander sind eine Sequenz.
+> Das gekippte L gehört zur Schleife, Rechtecke untereinander sind eine Sequenz.
 
 ? Wann wird der Inhalt einer Schleife noch einmal ausgeführt?
 - [x] Solange die Bedingung true ist
@@ -253,10 +253,10 @@ richtig: Verzweigung
 > Ein Algorithmus ist unabhängig von der Programmiersprache. Ein Struktogramm ist eine Möglichkeit, ihn aufzuschreiben.
 
 ? Woran erkennst du in einem Programmablaufplan (PAP) eine Schleife?
-- [ ] An einer Klammer auf der linken Seite
+- [ ] An einem gekippten L
 - [x] An einem Pfeil, der zurück nach oben führt
 - [ ] Am Wort SOLANGE
-> Die Klammer gehört zum Struktogramm, SOLANGE zum Pseudocode.
+> Das gekippte L gehört zum Struktogramm, SOLANGE zum Pseudocode.
 
 ? Ordne jedem Symbol im PAP seine Bedeutung zu.
 = Oval -> Start oder Ende

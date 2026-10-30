@@ -79,8 +79,8 @@ If something should happen **several times**, you do not write it down several t
 This is what it looks like:
 
 - At the top is the condition, for example *Plate not empty*.
-- The steps that are repeated are **indented** below it. On the left, the box forms a **bracket** around them.
-- Before every pass the condition is checked. As long as it is **true**, the steps inside the bracket run once more. If it is **false**, the program continues below the loop.
+- The steps that are repeated are **indented** below it. At the top and on the left, the box forms an **upside-down L** around them.
+- Before every pass the condition is checked. As long as it is **true**, the steps inside the upside-down L run once more. If it is **false**, the program continues below the loop.
 
 ::: diagramm l1-wiederholung.visustruct
 As long as the plate is not empty, you take a bite. After that, the plate is cleared.
@@ -93,7 +93,7 @@ As long as the plate is not empty, you take a bite. After that, the plate is cle
 The building blocks become really useful when you combine them. This diagram contains all three: a sequence from top to bottom, a [branch]{.blau} and a [loop]{.rosa}. The yellow boxes are simple [statements]{.gelb}. The statements inside a branch or a loop are yellow too. Strictly speaking, the whole diagram is a sequence, because the branch and the loop also stand in the row from top to bottom.
 
 ::: diagramm l1-grundbausteine.visustruct
-You recognise the branch by its triangle and the loop by the bracket on the left. Everything together sits in a sequence.
+You recognise the branch by its triangle and the loop by its upside-down L. Everything together sits in a sequence.
 :::
 
 The boxes can also be **nested** inside each other: a loop or a path can contain sequences, branches and loops again.
@@ -137,7 +137,7 @@ Drink the tea
 
 ### Compared
 
-- **Structure chart:** boxes inside boxes, the loop is a bracket on the left. You see the structure at a glance, and wild jumps are impossible.
+- **Structure chart:** boxes inside boxes, the loop is an upside-down L. You see the structure at a glance, and wild jumps are impossible.
 - **Flowchart:** symbols with arrows, the loop is an arrow back up. Very easy to picture, but big charts quickly get confusing.
 - **Pseudocode:** text with indentation, the loop sits between WHILE and END WHILE. Quick to write and already close to program code.
 
@@ -235,10 +235,10 @@ richtig: branch
 > There are no jumps in a structure chart. Sequence, branch and loop are enough for every algorithm.
 
 ? How do you recognise a branch in a structure chart?
-- [ ] By a bracket on the left side
+- [ ] By an upside-down L
 - [x] By a triangle with the condition and two columns below it
 - [ ] By several rectangles on top of each other
-> The bracket belongs to the loop, and rectangles on top of each other are a sequence.
+> The upside-down L belongs to the loop, and rectangles on top of each other are a sequence.
 
 ? When does the inside of a loop run once more?
 - [x] As long as the condition is true
@@ -253,10 +253,10 @@ richtig: branch
 > An algorithm does not depend on a programming language. A structure chart is one way to write it down.
 
 ? How do you recognise a loop in a flowchart?
-- [ ] By a bracket on the left side
+- [ ] By an upside-down L
 - [x] By an arrow that leads back up
 - [ ] By the word WHILE
-> The bracket belongs to the structure chart, and WHILE to pseudocode.
+> The upside-down L belongs to the structure chart, and WHILE to pseudocode.
 
 ? Match each flowchart symbol to its meaning.
 = Oval -> Start or end
