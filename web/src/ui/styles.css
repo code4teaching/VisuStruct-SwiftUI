@@ -5212,3 +5212,75 @@ button.danger-text:not(:disabled) {
 .vo-note-link {
   stroke-dasharray: 5 4;
 }
+
+/* VisuObject: Umschalter Klassendiagramm ⇄ Objektdiagramm und Objekte wie in Astah. */
+.vo-canvas[hidden],
+.vo-palette[hidden] {
+  display: none;
+}
+.vo-diagram-switch {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.shell.visuobject .vo-diagram-switch button {
+  padding: 3px 10px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font: 600 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+}
+.shell.visuobject .vo-diagram-switch button[aria-selected='true'] {
+  background: var(--accent);
+  color: #fff;
+}
+.vo-obj-palette {
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+}
+.vo-obj-new {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.vo-obj-new select {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.uml-object .uml-objname {
+  text-decoration: underline;
+  font-weight: 600;
+}
+.uml-object.unknown {
+  border-style: dashed;
+}
+.uml-object .uml-member.changed,
+.vo-objlink.changed {
+  animation: vo-changed 1.2s ease-out;
+}
+.uml-object .uml-member.changed {
+  background: #fff3b0;
+}
+@keyframes vo-changed {
+  from {
+    background: #ffe066;
+  }
+}
+.vo-obj-values td:first-child {
+  width: auto;
+  white-space: nowrap;
+}
+.vo-obj-values td:last-child {
+  width: 50%;
+}

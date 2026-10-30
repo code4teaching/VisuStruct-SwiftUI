@@ -77,6 +77,7 @@ import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
 import { closeWindows, compileAndRunProject, prepareJava } from './javaRuntime'
+import { ObjectDiagram } from './objectDiagram'
 import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
 import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
@@ -111,6 +112,7 @@ const inspectorKey = 'visuobject.inspector'
 const inspectorHeightKey = 'visuobject.inspectorHeight'
 /** `1`: ohne Workspace-Ordner arbeiten, nicht mehr fragen. */
 const noWorkspaceKey = 'visuobject.noWorkspace'
+const diagramModeKey = 'visuobject.diagram'
 /** Gemerkter Workspace-Ordner, getrennt vom Ordner „VisuStruct-Dateien“. */
 const workspaceSlot = 'visuobject-workspace'
 const maxUndoSteps = 80
@@ -199,6 +201,9 @@ export class ObjectApp {
   private lastTyping = 0
   /** Gerade bearbeitetes Eingabefeld im Diagramm oder Explorer: dann nicht neu zeichnen. */
   private editing = false
+  private objectDiagram!: ObjectDiagram
+  /** Im Diagramm-Bereich: Klassendiagramm oder Objektdiagramm. */
+  private diagramMode: 'class' | 'object' = stored(diagramModeKey) === 'object' ? 'object' : 'class'
   /** Gewählte Notiz im Diagramm. */
   private noteSelection?: string
   /** Workspace-Ordner wie in Eclipse (nur Chrome/Edge); ohne ihn bleibt das Projekt im Browser. */
@@ -323,7 +328,10 @@ export class ObjectApp {
         <section class="vo-pane vo-diagram" data-pane="diagram">
           <button class="vo-strip" data-expand="diagram" aria-label="${e(t('web_visuobject_pane_show'))}">${e(t('web_visuobject_diagram'))}</button>
           <header class="vo-bar">
-            <h2 class="vo-bar-title">${e(t('web_visuobject_diagram'))}</h2>
+            <div class="vo-diagram-switch" role="tablist" aria-label="${e(t('web_visuobject_diagram'))}">
+              <button role="tab" data-diagram="class">${e(t('web_visuobject_diagram'))}</button>
+              <button role="tab" data-diagram="object">${e(t('web_visuobject_obj_diagram'))}</button>
+            </div>
             <div class="vo-bar-actions">
               <button class="text-button" data-action="layout" data-tip="${e(t('web_visuobject_layout_tip'))}">${e(t('web_visuobject_layout'))}</button>
             </div>
@@ -332,8 +340,13 @@ export class ObjectApp {
           <div class="vo-palette" role="toolbar" aria-label="${e(t('web_visuobject_tools'))}">
             ${paletteTools.map((tool) => `${tool === 'link' ? '<span class="vo-palette-sep" aria-hidden="true"></span>' : ''}<button class="vo-tool" data-tool="${tool}" aria-pressed="${tool === 'select'}" data-tip="${e(t(`web_visuobject_tool_${tool}_tip`))}">${toolIcon(tool)}<span>${e(t(`web_visuobject_tool_${tool}`))}</span></button>`).join('')}
           </div>
+          <div class="vo-palette vo-obj-palette" role="toolbar" aria-label="${e(t('web_visuobject_tools'))}" hidden>
+            <label class="vo-obj-new">${e(t('web_visuobject_obj_new'))}<select data-obj-class></select></label>
+            <button class="text-button" data-obj-add>+ ${e(t('web_visuobject_obj_add'))}</button>
+          </div>
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
+            <div class="vo-canvas vo-objcanvas" tabindex="-1" hidden><svg class="vo-lines vo-objlines"></svg></div>
           </div>
           <div class="vo-hsplit" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="${e(t('web_visuobject_inspector_resize'))}" data-tip="${e(t('web_visuobject_inspector_resize'))}"></div>
           <section class="vo-dock" aria-label="${e(t('web_visuobject_inspector'))}">
@@ -346,7 +359,22 @@ export class ObjectApp {
           <footer class="vo-foot"><p class="vo-status" role="status"></p><small class="vo-hint">${e(t('web_visuobject_edit_hint'))}</small></footer>
         </section>
       </main>`
-    this.canvas = this.shell.querySelector('.vo-canvas')!
+    this.canvas = this.shell.querySelector('.vo-canvas:not(.vo-objcanvas)')!
+    const objCanvas = this.shell.querySelector<HTMLElement>('.vo-objcanvas')!
+    this.objectDiagram = new ObjectDiagram({
+      canvas: objCanvas,
+      lines: objCanvas.querySelector<SVGSVGElement>('.vo-objlines')!,
+      inspector: this.shell.querySelector('.vo-inspector')!,
+      classes: () => this.classes,
+      objects: () => this.project.objects ?? [],
+      setObjects: (objects) => this.setProject({ ...this.project, objects: objects.length ? objects : undefined }),
+      message: (text) => this.message(text),
+    })
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-diagram]')) b.addEventListener('click', () => this.setDiagramMode(b.dataset.diagram as 'class' | 'object'))
+    this.shell.querySelector('[data-obj-add]')!.addEventListener('click', () => {
+      const cls = this.shell.querySelector<HTMLSelectElement>('[data-obj-class]')!.value
+      if (cls) this.objectDiagram.add(cls)
+    })
     this.lines = this.canvas.querySelector('.vo-lines')!
     this.frames = this.canvas.querySelector('.vo-frames')!
     this.status = this.shell.querySelector('.vo-status')!
@@ -1310,6 +1338,7 @@ export class ObjectApp {
     }
     if (this.editing || this.editor.hasFocus) return
     const target = ev.target as HTMLElement
+    if (this.diagramMode === 'object' && !target.closest('input, select, textarea') && !(ev.metaKey || ev.ctrlKey) && this.objectDiagram.onKey(ev)) return
     if (target.closest('input, select, textarea, .vo-tree')) return
     const mod = ev.metaKey || ev.ctrlKey
     if (mod && ev.key.toLowerCase() === 'z') {
@@ -1632,12 +1661,39 @@ export class ObjectApp {
 
   // MARK: - Zeichnen
 
+  private setDiagramMode(mode: 'class' | 'object') {
+    this.diagramMode = mode
+    store(diagramModeKey, mode)
+    this.setTool('select')
+    this.render()
+  }
+
+  /** Umschalter, Werkzeuge und Fläche passend zum Diagramm zeigen. */
+  private showDiagramMode() {
+    const object = this.diagramMode === 'object'
+    for (const b of this.shell.querySelectorAll<HTMLElement>('[data-diagram]')) b.setAttribute('aria-selected', String(b.dataset.diagram === this.diagramMode))
+    this.shell.querySelector<HTMLElement>('.vo-palette:not(.vo-obj-palette)')!.hidden = object
+    this.shell.querySelector<HTMLElement>('.vo-obj-palette')!.hidden = !object
+    this.canvas.hidden = object
+    this.shell.querySelector<HTMLElement>('.vo-objcanvas')!.hidden = !object
+    this.shell.querySelector<HTMLElement>('[data-action=layout]')!.hidden = object
+    if (object) {
+      const select = this.shell.querySelector<HTMLSelectElement>('[data-obj-class]')!
+      const names = [...new Set(this.classes.filter((c) => c.kind === 'class' && !c.isAbstract).map((c) => c.name))]
+      const keep = names.includes(select.value) ? select.value : names[0]
+      select.innerHTML = names.map((n) => `<option${n === keep ? ' selected' : ''}>${e(n)}</option>`).join('')
+      this.shell.querySelector<HTMLButtonElement>('[data-obj-add]')!.disabled = names.length === 0
+    }
+  }
+
   private savePositions() {
     const names = new Set(this.classes.map((c) => c.name))
     store(positionsKey, JSON.stringify(Object.fromEntries([...this.positions].filter(([n]) => names.has(n)))))
   }
 
   private render() {
+    this.showDiagramMode()
+    if (this.diagramMode === 'object') return this.objectDiagram.render()
     for (const old of this.canvas.querySelectorAll('.uml-class, .uml-note, .vo-empty')) old.remove()
     for (const note of this.project.notes ?? []) this.canvas.append(this.noteBox(note))
     if (this.classes.length === 0) {
@@ -2523,6 +2579,7 @@ export class ObjectApp {
    * Ende B die Klasse, bei der sie endet.
    */
   private renderInspector() {
+    if (this.diagramMode === 'object') return this.objectDiagram.renderInspector()
     const note = this.findNote(this.noteSelection)
     if (note) return this.renderNoteInspector(note)
     const dep = this.relSelection?.startsWith('dep:') ? this.findDependency(this.relSelection) : undefined
