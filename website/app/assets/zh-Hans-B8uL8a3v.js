@@ -92,6 +92,7 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_parse_missing_do_while" = "“do { … }”之后还缺少“while (条件);”。";
 "web_parse_more_methods" = "目前这里只计入一个方法。请在单独的标签页中创建其他子程序。";
 "web_parse_missing_import" = "最上面缺少 %@ 没有这一行，Java 不认识 Scanner。";
+"web_parse_missing_scanner" = "前面缺少 %@ 没有这一行就没有 Scanner。";
 "web_editor_title" = "结构图";
 "web_editor_show" = "显示结构图";
 "web_editor_hide" = "隐藏结构图";

@@ -92,6 +92,7 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_parse_missing_do_while" = "Na “do { … }” ontbreekt nog “while (voorwaarde);”.";
 "web_parse_more_methods" = "Voorlopig telt hier maar één methode. Maak andere subprogramma’s in aparte tabbladen.";
 "web_parse_missing_import" = "Bovenaan ontbreekt %@ Zonder deze regel kent Java Scanner niet.";
+"web_parse_missing_scanner" = "Eerst ontbreekt %@ Zonder deze regel bestaat de Scanner niet.";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Diagram tonen";
 "web_editor_hide" = "Diagram verbergen";

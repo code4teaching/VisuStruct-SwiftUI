@@ -271,3 +271,18 @@ describe('Struktogramm ändern → getippter Code bleibt', () => {
     expect(next.elements[1].textLines).toEqual(['x < 20'])
   })
 })
+
+describe('Scanner ohne Variable', () => {
+  const L = { code: 'Dein Code' } as Parameters<typeof parseLiveJava>[1]
+  const main = (body: string) => `import java.util.Scanner;\n\npublic class Main {\n  public static void main(String[] args) {\n${body}\n  }\n}`
+  const keys = (src: string) => parseLiveJava(src, L).problems.filter((p) => p.key === 'web_parse_missing_scanner').map((p) => [p.key, p.arg])
+
+  it('meldet eingabe.next() ohne angelegten Scanner', () => {
+    expect(keys(main('    String s = eingabe.next();'))).toEqual([['web_parse_missing_scanner', 'Scanner eingabe = new Scanner(System.in);']])
+  })
+
+  it('nimmt angelegte Scanner, Attribute und Parameter an', () => {
+    expect(keys(main('    Scanner eingabe = new Scanner(System.in);\n    String s = eingabe.next();\n    while (eingabe.hasNextInt()) eingabe.nextInt();'))).toEqual([])
+    expect(keys(`import java.util.Scanner;\n\npublic class Main {\n  static Scanner sc = new Scanner(System.in);\n\n  static int lies(Scanner in) {\n    return in.nextInt();\n  }\n\n  public static void main(String[] args) {\n    String s = sc.nextLine();\n  }\n}`)).toEqual([])
+  })
+})

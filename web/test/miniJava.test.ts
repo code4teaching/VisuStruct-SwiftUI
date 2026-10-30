@@ -29,7 +29,7 @@ describe('miniJava', () => {
   })
 
   it('Schleifen, switch, Arrays', () => {
-    const src = main(`
+    const src = 'import java.util.Arrays;\n' + main(`
       int summe = 0;
       for (int i = 1; i <= 10; i++) { if (i % 2 == 0) continue; summe += i; }
       System.out.println(summe);
@@ -251,5 +251,20 @@ class Spieler { String name; Spieler(String n) { name = n; } void begruessen() {
       'Main -> t : Team: anzahl()',
       'return 1',
     ])
+  })
+
+  it('Scanner ohne Import ist wie bei javac ein Fehler', () => {
+    const body = 'Scanner eingabe = new Scanner(System.in); System.out.println(eingabe.next());'
+    let err: unknown
+    try {
+      run(main(body), ['Hallo'])
+    } catch (e) {
+      err = e
+    }
+    expect(err).toBeInstanceOf(MiniJavaError)
+    expect((err as MiniJavaError).code).toBe('import')
+    expect((err as MiniJavaError).detail).toBe('import java.util.Scanner;')
+    expect(run('import java.util.Scanner;\n' + main(body), ['Hallo'])).toBe('Hallo\n')
+    expect(run('import java.util.*;\n' + main(body), ['Hallo'])).toBe('Hallo\n')
   })
 })

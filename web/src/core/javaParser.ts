@@ -29,6 +29,7 @@ export type JavaProblemKey =
   | 'web_parse_missing_do_while'
   | 'web_parse_more_methods'
   | 'web_parse_missing_import'
+  | 'web_parse_missing_scanner'
 
 export interface ParsedJava {
   /** Kopfzeile eines Unterprogramms, z. B. `int quadrat(int x)`; `undefined` = Hauptprogramm. */
@@ -235,6 +236,26 @@ class Parser {
         this.problem('web_parse_missing_import', use, pkg === 'java.util' ? `import ${pkg}.${name};` : `import ${pkg}.*;`)
         return
       }
+    }
+  }
+
+  /**
+   * Wie javac: `eingabe.next()` ohne angelegte Variable `eingabe` ist ein Fehler. Angelegt heißt: vor dem Namen steht ein Typ
+   * (`Scanner eingabe`, `Iterator<String> it`, `Scanner[] s`), auch als Parameter oder Attribut.
+   */
+  checkScanners() {
+    const reads = new Set(['next', 'nextInt', 'nextDouble', 'nextLine', 'nextBoolean', 'nextLong', 'nextFloat', 'hasNext', 'hasNextInt', 'hasNextLine', 'hasNextDouble'])
+    const declared = (name: string) =>
+      this.toks.some((t, k) => {
+        const before = this.toks[k - 1]
+        return t.kind === 'id' && t.text === name && !!before && ((before.kind === 'id' && !statementKeywords.has(before.text) && before.text !== 'new') || before.text === '>' || before.text === ']')
+      })
+    for (let k = 0; k < this.toks.length - 3; k++) {
+      const [v, dot, m, open] = this.toks.slice(k, k + 4)
+      if (v.kind !== 'id' || dot.text !== '.' || !reads.has(m.text) || open.text !== '(' || this.toks[k - 1]?.text === '.') continue
+      if (declared(v.text)) continue
+      this.problem('web_parse_missing_scanner', v, `Scanner ${v.text} = new Scanner(System.in);`)
+      return
     }
   }
 
@@ -810,6 +831,7 @@ export function parseLiveJava(source: string, labels: LiveLabels, opts: JavaPars
   const { caption, elements } = p.parseProgram()
   p.markPlaceholderComments()
   p.checkImports()
+  p.checkScanners()
   const spans = p.spansFor(elements)
   const problems = p.problems.sort((a, b) => a.from - b.from)
   return { caption, className: p.className, elements, spans, placeholders: p.placeholders.sort((a, b) => a.from - b.from), problems }
