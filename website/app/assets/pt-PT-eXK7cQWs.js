@@ -67,6 +67,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_learn_solved" = "resolvido";
 "web_learn_open_exercise" = "Abrir no editor";
 "web_learn_open_in_editor" = "Abrir no editor";
+"web_learn_graphic_labels" = "👆 Clica na imagem para mostrar ou esconder as legendas";
 "web_learn_check" = "Verificar";
 "web_learn_hint" = "Dica";
 "web_learn_reset" = "Recomeçar";
