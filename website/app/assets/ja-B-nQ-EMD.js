@@ -171,6 +171,8 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_swap_to_editor" = "構造図を大きく";
 "web_editor_resize" = "構造図の幅を変更";
 "web_palette_resize" = "要素の幅を変更";
+"web_palette_hide" = "要素を隠す";
+"web_palette_show" = "要素を表示";
 "web_code_scopes" = "コードブロックを色分け";
 "web_code_scopes_hint" = "クラス、メソッド、ループ、分岐をそれぞれの枠で表示";
 `;export{e as default};

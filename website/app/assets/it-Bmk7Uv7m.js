@@ -171,6 +171,8 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_swap_to_editor" = "Diagramma grande";
 "web_editor_resize" = "Modifica la larghezza del diagramma";
 "web_palette_resize" = "Modifica la larghezza degli elementi";
+"web_palette_hide" = "Nascondi elementi";
+"web_palette_show" = "Mostra elementi";
 "web_code_scopes" = "Blocchi di codice colorati";
 "web_code_scopes_hint" = "Classe, metodo, ciclo, selezione in riquadri propri";
 `;export{e as default};

@@ -82,6 +82,8 @@ export interface Lesson {
   section: string
   summary: string
   steps: Step[]
+  /** VisuBot-Lektion in der durchgehenden Reihe der VisuBot-Welt (bekommt ein 🤖 in der Liste). */
+  robot?: boolean
 }
 
 export interface Task {
@@ -91,6 +93,8 @@ export interface Task {
   after?: number
   level: number
   blocks: Block[]
+  /** VisuBot-Aufgabe in der durchgehenden Reihe der VisuBot-Welt. */
+  robot?: boolean
 }
 
 export class FormatError extends Error {}

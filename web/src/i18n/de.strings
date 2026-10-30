@@ -398,6 +398,8 @@
 "web_swap_to_editor" = "Struktogramm groß, Programmieren schmal";
 "web_editor_resize" = "Breite des Struktogramms ändern";
 "web_palette_resize" = "Breite der Elemente ändern (Doppelklick: zurücksetzen)";
+"web_palette_hide" = "Elemente einklappen";
+"web_palette_show" = "Elemente aufklappen";
 
 /* VisuObject */
 "web_visuobject_world_hint" = "VisuObject: Klassen in Java programmieren und als Klassendiagramm sehen oder zeichnen (ab Klasse 12). Wechseln geht jederzeit im Zahnrad.";

@@ -171,6 +171,8 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_swap_to_editor" = "Μεγάλο διάγραμμα";
 "web_editor_resize" = "Αλλαγή πλάτους διαγράμματος";
 "web_palette_resize" = "Αλλαγή πλάτους στοιχείων";
+"web_palette_hide" = "Απόκρυψη στοιχείων";
+"web_palette_show" = "Εμφάνιση στοιχείων";
 "web_code_scopes" = "Χρωματιστά μπλοκ κώδικα";
 "web_code_scopes_hint" = "Κλάση, μέθοδος, βρόχος, διακλάδωση σε δικά τους πλαίσια";
 `;export{e as default};

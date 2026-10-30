@@ -398,6 +398,8 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_swap_to_editor" = "Structogram large, programming narrow";
 "web_editor_resize" = "Resize the structogram";
 "web_palette_resize" = "Resize the elements (double-click: reset)";
+"web_palette_hide" = "Hide elements";
+"web_palette_show" = "Show elements";
 
 /* VisuObject */
 "web_visuobject_world_hint" = "VisuObject: write classes in Java and see or draw them as a class diagram (from year 12). You can switch any time in the gear menu.";
