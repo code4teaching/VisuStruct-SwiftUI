@@ -19,14 +19,34 @@ Uma String traz consigo **métodos**. Escreves o nome da variável, um ponto e o
 
 > Nas Strings escreves `length()` **com** parênteses, nos arrays `length` **sem**. Infelizmente, o Java é mesmo assim.
 
-Em Java, um único caractere tem o tipo de dados `char`. Um `char` fica entre aspas **simples**: `'P'`. Uma String fica entre aspas duplas: `"P"`.
+Tal como num array, o último caractere tem o índice `length() - 1`.
+
+## Um único caractere: char
+
+Para um único caractere, o Java tem um tipo de dados próprio: **char**, abreviatura do inglês *character* (caractere). Um `char` fica entre aspas **simples**, uma String entre aspas duplas:
+
+- `'C'` é um `char`: exatamente um caractere.
+- `"C"` é uma String: um texto que só tem um caractere.
+- Um `char` tem sempre exatamente um caractere. Não existe um `char` vazio como `''`, mas uma String vazia `""` existe.
+
+`charAt` dá-te um caractere destes a partir de um texto:
 
 ```
 char primeiro = palavra.charAt(0)
 char ultimo = palavra.charAt(palavra.length() - 1)
 ```
 
-Tal como num array, o último caractere tem o índice `length() - 1`.
+Dois `char` comparas com `==`: `palavra.charAt(0) == 'P'` é `true`.
+
+Por trás de cada caractere há um número, o seu **código de caractere**. Que número pertence a que caractere está na tabela ASCII: `'A'` tem o código 65, `'B'` 66, `'C'` 67 e assim por diante até `'Z'` com 90. Com `(int)` obténs o código de um caractere, com `(char)` um código volta a ser um caractere:
+
+```
+int codigo = (int) 'C'
+codigo = codigo + 1
+char seguinte = (char) codigo
+```
+
+Depois disto, `codigo` vale 68 e `seguinte` é `'D'`. Assim deslocas uma letra no alfabeto, e é exatamente isso que vais precisar mais tarde na cifra de César.
 
 ## Recortar partes
 

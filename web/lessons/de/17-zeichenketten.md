@@ -19,14 +19,34 @@ Ein String bringt **Methoden** mit. Du schreibst den Namen der Variablen, einen 
 
 > Bei Strings schreibst du `length()` **mit** Klammern, bei Arrays `length` **ohne**. Das ist in Java leider so.
 
-Ein einzelnes Zeichen hat in Java den Datentyp `char`. Ein `char` steht in **einfachen** Anführungszeichen: `'G'`. Ein String steht in doppelten: `"G"`.
+Das letzte Zeichen hat wie beim Array den Index `length() - 1`.
+
+## Ein einzelnes Zeichen: char
+
+Für ein einzelnes Zeichen hat Java einen eigenen Datentyp: **char**, kurz für englisch *character* (Zeichen). Ein `char` steht in **einfachen** Anführungszeichen, ein String in doppelten:
+
+- `'C'` ist ein `char`: genau ein Zeichen.
+- `"C"` ist ein String: ein Text, der nur ein Zeichen lang ist.
+- Ein `char` hat immer genau ein Zeichen. Einen leeren `char` wie `''` gibt es nicht, einen leeren String `""` schon.
+
+`charAt` liefert dir so ein Zeichen aus einem Text:
 
 ```
 char erster = wort.charAt(0)
 char letzter = wort.charAt(wort.length() - 1)
 ```
 
-Das letzte Zeichen hat wie beim Array den Index `length() - 1`.
+Zwei `char` vergleichst du mit `==`: `wort.charAt(0) == 'G'` ist `true`.
+
+Hinter jedem Zeichen steckt eine Zahl, sein **Zeichencode**. Welche Zahl zu welchem Zeichen gehört, steht in der ASCII-Tabelle: `'A'` hat den Code 65, `'B'` 66, `'C'` 67 und so weiter bis `'Z'` mit 90. Mit `(int)` bekommst du den Code eines Zeichens, mit `(char)` wird aus einem Code wieder ein Zeichen:
+
+```
+int code = (int) 'C'
+code = code + 1
+char naechstes = (char) code
+```
+
+Danach ist `code` 68 und `naechstes` ist `'D'`. So verschiebst du einen Buchstaben im Alphabet, und genau das brauchst du später bei der Caesar-Verschlüsselung.
 
 ## Teile herausschneiden
 

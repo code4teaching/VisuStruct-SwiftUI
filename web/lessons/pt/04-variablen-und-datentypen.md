@@ -49,6 +49,8 @@ O tipo de dados diz que tipo de valor pode ser guardado na variável.
 - **String:** texto, p. ex. `String nome = "Inês"`. O texto fica entre aspas.
 - **boolean:** valores lógicos, só `true` ou `false`
 
+Há mais tipos de dados. Um deles vais precisar em breve: `char` para um **único caractere**, p. ex. `char nota = 'C'`. Um `char` fica entre aspas **simples**. Vais conhecê-lo melhor na lição 17.
+
 ::: diagramm l05-datentypen.visustruct
 Três variáveis com tipos de dados diferentes. Abre o diagrama e inicia a simulação.
 :::

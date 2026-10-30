@@ -19,14 +19,34 @@ A String comes with **methods**. You write the name of the variable, a dot and t
 
 > With Strings you write `length()` **with** brackets, with arrays `length` **without**. Sadly, that is just how Java is.
 
-In Java a single character has the data type `char`. A `char` goes in **single** quotation marks: `'B'`. A String goes in double ones: `"B"`.
+Just like in an array, the last character has the index `length() - 1`.
+
+## A single character: char
+
+Java has its own data type for a single character: **char**, short for *character*. A `char` goes in **single** quotation marks, a String in double ones:
+
+- `'C'` is a `char`: exactly one character.
+- `"C"` is a String: a text that is only one character long.
+- A `char` always holds exactly one character. There is no empty `char` like `''`, but there is an empty String `""`.
+
+`charAt` gives you such a character from a text:
 
 ```
 char first = word.charAt(0)
 char last = word.charAt(word.length() - 1)
 ```
 
-Just like in an array, the last character has the index `length() - 1`.
+You compare two `char` values with `==`: `word.charAt(0) == 'B'` is `true`.
+
+Behind every character there is a number, its **character code**. Which number belongs to which character is listed in the ASCII table: `'A'` has the code 65, `'B'` 66, `'C'` 67 and so on up to `'Z'` with 90. With `(int)` you get the code of a character, with `(char)` a code turns back into a character:
+
+```
+int code = (int) 'C'
+code = code + 1
+char next = (char) code
+```
+
+After that `code` is 68 and `next` is `'D'`. This is how you shift a letter in the alphabet, and that is exactly what you will need later for the Caesar cipher.
 
 ## Cut out parts
 

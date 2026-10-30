@@ -11,6 +11,20 @@ String nome = "Ada"
 numero = numero + 1
 ```
 
+### Tipos de dados
+
+O tipo de dados vem antes do nome da variável.
+
+| Tipo de dados | Significado | Exemplo |
+|---|---|---|
+| `int` | número inteiro | `int quantidade = 3` |
+| `double` | número decimal (com ponto) | `double preco = 2.5` |
+| `String` | texto entre aspas duplas | `String nome = "Ada"` |
+| `boolean` | valor lógico | `boolean pronto = false` |
+| `char` | um único caractere entre aspas simples | `char nota = 'C'` |
+
+`'C'` é um `char`, `"C"` é uma String. Um caractere de um texto obténs com `charAt`: `char primeiro = nome.charAt(0)`. Cada caractere tem um código de caractere: `(int) 'A'` é 65, `(char) 66` é `'B'`.
+
 ### Entrada
 
 Pede um valor enquanto o estrutograma é executado e guarda-o numa variável. O texto entre aspas é a pergunta.

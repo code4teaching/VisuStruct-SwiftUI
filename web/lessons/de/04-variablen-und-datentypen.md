@@ -49,6 +49,8 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 - **String:** Text, z. B. `String name = "Mia"`. Text steht in Anführungszeichen.
 - **boolean:** Wahrheitswerte, nur `true` (wahr) oder `false` (falsch)
 
+Es gibt noch mehr Datentypen. Einen wirst du bald brauchen: `char` für ein **einzelnes Zeichen**, z. B. `char note = 'C'`. Ein `char` steht in **einfachen** Anführungszeichen. Genauer lernst du ihn in Lektion 17 kennen.
+
 ::: diagramm l05-datentypen.visustruct
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
 :::
