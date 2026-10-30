@@ -58,7 +58,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 
 - **Verschieben:** Einen vorhandenen Kasten mit der Maus an eine neue Stelle ziehen.
 - **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten.
-- **Löschen:** Kasten auswählen und Entf drücken.
+- **Löschen:** Kasten auswählen und Entf drücken oder in den Werkzeugen auf den [Mülleimer](#zeige-loeschen) „Auswahl löschen“ klicken.
 - **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z).
 
 ## Übung: Hallo Welt

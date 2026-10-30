@@ -147,6 +147,7 @@ export const uiTargets: Record<string, string> = {
   speichern: '[data-action=save]',
   exportieren: '[data-action=export]',
   rueckgaengig: '[data-action=undo]',
+  loeschen: '[data-action=delete]',
   // Textgröße und Sprache liegen im Menü hinter dem Zahnrad.
   textgroesse: '[data-action=settings]',
   einstellungen: '[data-action=settings]',
@@ -156,7 +157,7 @@ export const uiTargets: Record<string, string> = {
 }
 
 /** Zeiger auf diese Bereiche brauchen die Struktogramm-Spalte. */
-const editorTargets = new Set(['editor', 'werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'exportieren', 'code', 'simulation'])
+const editorTargets = new Set(['editor', 'werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'loeschen', 'exportieren', 'code', 'simulation'])
 
 /** Zeiger auf diese Bereiche brauchen die offene Spalte „Programmieren“ (die schmale Leiste allein reicht nicht). */
 const liveCodeTargets = new Set(['ausfuehren', 'konsole', 'einzelschritt'])

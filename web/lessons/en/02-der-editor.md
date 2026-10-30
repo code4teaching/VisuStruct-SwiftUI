@@ -58,7 +58,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 
 - **Move:** Drag an existing box to a new place with the mouse.
 - **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box.
-- **Delete:** Select a box and press Del.
+- **Delete:** Select a box and press Del, or click the [trash can](#zeige-loeschen) „Delete Selection“ in the tools.
 - **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z).
 
 ## Exercise: Hello World
