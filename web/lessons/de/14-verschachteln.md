@@ -97,12 +97,14 @@ int anzahl = 0;
 for (int i = 1; i <= n; i++) {
     if (i % 2 == 0) {
         anzahl++;
-    }
-}
+    } // Ende if
+} // Ende for
 System.out.println(anzahl);
 ```
 
 Was im Struktogramm ineinander steckt, steht in Java in geschweiften Klammern ineinander. Jede Ebene ist vier Leerzeichen weiter eingerückt. Ist dein Code durcheinander, hilft der Knopf **Einrücken** oben im Bereich Programmieren.
+
+Bei vielen schließenden Klammern `}` verliert man leicht den Überblick: Welche Klammer gehört zu welchem Block? Ein Kommentar dahinter sagt es dir, z. B. `} // Ende if` und `} // Ende for`. Das hilft dir auch, wenn du später weiterarbeitest.
 
 `anzahl++` ist die Kurzform von `anzahl = anzahl + 1`.
 

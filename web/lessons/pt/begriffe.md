@@ -202,5 +202,9 @@ Uma variável que está diretamente na classe e não dentro de um método. Com `
 ### Scanner
 Um bloco pronto do Java que lê entradas do teclado, por exemplo um número com `scanner.nextInt()`. Precisa de `import java.util.Scanner;` mesmo no início.
 
+### Comentário
+auch: Comentários, comentário, comentários
+Uma nota no código para pessoas. O Java salta-a ao executar. `//` vale até ao fim da linha, `/* … */` pode ocupar várias linhas.
+
 ### import
 Uma linha mesmo no início do código Java que vai buscar um bloco pronto a um pacote, por exemplo `import java.util.Scanner;`. Sem ela, o Java não conhece o nome.

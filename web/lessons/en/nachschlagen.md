@@ -138,3 +138,23 @@ boolean[][] seats = new boolean[3][5]
 seats[1][4] = true
 output: seats.length + " rows, " + seats[0].length + " seats"
 ```
+
+## Java
+
+### Comments
+
+Notes in the code. Java skips them, the structure chart stays the same.
+
+```java
+/*
+ * Task: add the numbers from 1 to 10
+ * (multi-line comment)
+ */
+// Process (single-line comment)
+int sum = 0;
+for (int i = 1; i <= 10; i++) {
+    sum = sum + i;      // comment after the code
+} // end for
+```
+
+Good for: the task, dividing the code into input, process and output, an explanation, the end of a block after `}`, the expected output and notes for next time.
