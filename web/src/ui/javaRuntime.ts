@@ -31,6 +31,13 @@ const runnerSource = `public class VisuStructRunner {
         return names == null ? "" : String.join("\\n", names);
     }
 
+    /** Quelltext für javac schreiben (Ordner werden angelegt), z. B. ein Projekt mit Packages. */
+    public static void write(String path, String text) throws Exception {
+        java.io.File f = new java.io.File(path);
+        f.getParentFile().mkdirs();
+        java.nio.file.Files.write(f.toPath(), text.getBytes("UTF-8"));
+    }
+
     public static String read(String path) throws Exception {
         return new String(java.nio.file.Files.readAllBytes(java.nio.file.Paths.get(path)), "UTF-8");
     }
@@ -71,6 +78,7 @@ interface Runner {
   copy(from: string, to: string): Promise<void>
   list(dir: string): Promise<string>
   read(path: string): Promise<string>
+  write(path: string, text: string): Promise<void>
   closeAll(): Promise<void>
   openWindows(): Promise<number>
   run(dir: string, name: string): Promise<void>
@@ -254,4 +262,37 @@ export async function compileAndRun(source: string, onCompiled: () => void): Pro
   if ((await runner.openWindows()) > 0) return { result: 'windows', files: written }
   await new Promise((resolve) => setTimeout(resolve, 500))
   return { result: (await runner.openWindows()) > 0 ? 'windows' : 'finished', files: written }
+}
+
+/** Eine Java-Datei eines Projekts (VisuObject): `pkg` wie in `package …;`, leer = Standard-Package. */
+export interface JavaSource {
+  pkg: string
+  name: string
+  text: string
+}
+
+/**
+ * Projekt mit mehreren Klassen und Packages übersetzen und `main` der Klasse `mainClass`
+ * (voller Name, z. B. `spiel.Spielstarter`) starten. Rückgabe wie bei `compileAndRun`.
+ */
+export async function compileAndRunProject(files: JavaSource[], mainClass: string, onCompiled: () => void): Promise<RunResult> {
+  const runner = await ready!
+  const dir = `/files/run${++run}/`
+  const src = `${dir}src/`
+  const paths: string[] = []
+  for (const f of files) {
+    const path = `${src}${f.pkg ? f.pkg.replace(/\./g, '/') + '/' : ''}${f.name}.java`
+    await runner.write(path, java8Files(f.text))
+    paths.push(path)
+  }
+  const out = `${dir}classes/`
+  await runner.mkdirs(out)
+  if ((await cheerpjRunMain('com.sun.tools.javac.Main', toolsJar, ...paths, '-d', out, '-encoding', 'UTF-8')) !== 0) {
+    return { result: 'compile-error', files: new Map() }
+  }
+  onCompiled()
+  await runner.run(out, mainClass)
+  if ((await runner.openWindows()) > 0) return { result: 'windows', files: new Map() }
+  await new Promise((resolve) => setTimeout(resolve, 500))
+  return { result: (await runner.openWindows()) > 0 ? 'windows' : 'finished', files: new Map() }
 }

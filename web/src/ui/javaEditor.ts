@@ -6,7 +6,7 @@ import { Annotation, type ChangeSpec, Compartment, EditorSelection, EditorState,
 import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { indentJava } from '../core/javaIndent'
-import { memberCompletionsAt, type JavaMember, type MemberLanguage } from '../core/javaMembers'
+import { memberCompletionsAt, type JavaMember, type MemberLanguage, type OwnTypes } from '../core/javaMembers'
 import { currentLanguage } from './i18n'
 
 /**
@@ -55,6 +55,8 @@ export interface JavaEditorHooks {
   breakpointLine(line: number): number | undefined
   /** Haltepunkte geändert. */
   onBreakpoints(): void
+  /** Eigene Klassen für Vorschläge nach dem Punkt (VisuObject); `pos` = Cursor. */
+  ownTypes?(pos: number): OwnTypes | undefined
 }
 
 /** Eigene Textänderungen (z. B. nach einer Änderung im Struktogramm) lösen kein `onChange` aus. */
@@ -263,7 +265,7 @@ export function memberCompletion(member: JavaMember): Completion {
   const label = member.kind === 'field' ? member.name : `${member.name}(${member.params ? '…' : ''})`
   const completion: Completion = {
     label,
-    detail: member.returns === 'void' ? member.description : `${member.returns} · ${member.description}`,
+    detail: member.returns === 'void' || !member.returns ? member.description : member.description ? `${member.returns} · ${member.description}` : member.returns,
     type: member.kind === 'field' ? 'property' : 'method',
   }
   if (member.kind === 'field') return { ...completion, apply: member.name }
@@ -296,7 +298,7 @@ export class JavaEditor {
       if (/\/\//.test(before) || (before.match(/"/g)?.length ?? 0) % 2 === 1) return null
       // Hinter `variable.` die Methoden ihres Typs (aus der Deklaration im Code), z. B. `eingabe.` → nextInt().
       // Reihenfolge wie in der Liste (das Häufigste zuerst) statt alphabetisch.
-      const members = memberCompletionsAt(context.state.doc.toString(), context.pos, memberLanguage())
+      const members = memberCompletionsAt(context.state.doc.toString(), context.pos, memberLanguage(), hooks.ownTypes?.(context.pos))
       if (members) return { from: members.from, options: members.members.map((m, i) => ({ ...memberCompletion(m), boost: 50 - i })), validFor: /^\w*$/ }
       // Hinter `void` tippt man den Namen der Methode selbst: keine main-Vorlage anbieten.
       const afterVoid = /\bvoid\s+[\w.]*$/.test(before)
