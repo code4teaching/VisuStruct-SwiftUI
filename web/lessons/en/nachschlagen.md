@@ -141,6 +141,15 @@ output: seats.length + " rows, " + seats[0].length + " seats"
 
 ## Java
 
+### From code to program
+
+The compiler `javac` translates `File.java` into bytecode (`File.class`). The JVM runs the bytecode, the same way on Windows, macOS and Linux.
+
+| | contains | for |
+|---|---|---|
+| JRE | JVM and libraries | running |
+| JDK | JRE, compiler `javac`, tools | programming |
+
 ### Comments
 
 Notes in the code. Java skips them, the structure chart stays the same.

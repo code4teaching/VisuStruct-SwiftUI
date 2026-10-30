@@ -10,6 +10,8 @@ kurz: All elements in Java at a glance, generate code, write Java in the Program
 - open the code view and choose Java as the language
 - recognise output, input, branches and loops in Java
 - explain the difference between Snippet and Class
+- explain how Java code runs on every operating system with the compiler, bytecode and the JVM
+- tell the JDK and the JRE apart
 - rebuild a short Java program as a structure chart
 - type Java in the Programming area and read the structure chart that is built
 - run a program with ▶︎ and use input and output in the console
@@ -107,6 +109,28 @@ The comments `// end main` and `// end class` after the last two brackets are no
 The name of the class comes from the **title** of the diagram. The file must have exactly the same name, so here `TimesTable.java`. **Save Java…** takes care of that for you.
 
 > The generated code is a good start, but check it. If you first create a variable and later read it in again with an input, VisuStruct still writes `int pin = scanner.nextInt();`. Java then reports that `pin` already exists. Simply delete the `int` in that line.
+
+## How Java runs on every computer
+
+Your file `TimesTable.java` is **source code**: text for people. The processor in your computer cannot understand it directly. That is why Java runs in two steps:
+
+1. The **compiler** `javac` translates the source code into **bytecode**. The result is the file `TimesTable.class`.
+2. The **JVM** (Java Virtual Machine) reads the bytecode and runs it instruction by instruction.
+
+::: grafik l20-jvm.svg
+
+There is only one bytecode. But there is a JVM for Windows, macOS, Linux and many other systems. That is why the same `.class` file runs on every computer that has a JVM installed. This is called **platform independent**. The slogan for it is **“Write once, run anywhere”**.
+
+> Think of the JVM as a small computer made of software, almost like an operating system of its own just for Java programs. Strictly speaking it is not an operating system, though, but a **virtual machine**: a program that itself runs on Windows, macOS or Linux and pretends to be a computer inside it.
+
+When you install Java you meet two abbreviations:
+
+| Abbreviation | What is inside? | What for? |
+|---|---|---|
+| **JRE** (Java Runtime Environment) | the JVM and ready-made building blocks such as `Scanner` | running Java programs |
+| **JDK** (Java Development Kit) | the JRE plus the compiler `javac` and other tools | writing and compiling Java programs |
+
+So to program you need the JDK. Today you usually only download the JDK, the JRE is inside it. For VisuStruct in the browser you don't need to install any of this.
 
 ::: angeberwissen
 Every compiled Java file (`.class`) starts with the same four bytes, written in hexadecimal: `CA FE BA BE`. That is how the computer recognises it as Java. James Gosling came up with this “cafe babe”, to go with the coffee in the name.
@@ -326,6 +350,8 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can open the code view and choose Java as the language. → The code view
 - I can recognise output, input, branches and loops in Java. → The elements in Java
 - I can explain the difference between Snippet and Class. → Snippet or Class
+- I can explain how Java code runs on every operating system with the compiler, bytecode and the JVM. → How Java runs on every computer
+- I can tell the JDK and the JRE apart. → How Java runs on every computer
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
 - I can type Java in the Programming area and read the structure chart that is built. → Write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
@@ -368,4 +394,18 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [x] The program pauses before this line.
 - [ ] The line contains a mistake.
 > That is a breakpoint. Continue with ▶︎ or Step.
+
+? Why does the same `.class` file run on Windows, macOS and Linux?
+→ How Java runs on every computer
+- [ ] The compiler creates a separate file for every operating system.
+- [x] On every operating system a JVM runs the same bytecode.
+- [ ] Java programs don't need an operating system.
+> The bytecode stays the same. Only the JVM exists separately for each system.
+
+? What do you need to write and compile Java programs?
+→ How Java runs on every computer
+- [ ] only the JRE
+- [x] the JDK
+- [ ] only the JVM
+> The JRE is enough to run programs. The compiler `javac` only comes with the JDK.
 :::

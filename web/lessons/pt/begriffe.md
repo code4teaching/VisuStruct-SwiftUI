@@ -208,3 +208,28 @@ Uma nota no código para pessoas. O Java salta-a ao executar. `//` vale até ao 
 
 ### import
 Uma linha mesmo no início do código Java que vai buscar um bloco pronto a um pacote, por exemplo `import java.util.Scanner;`. Sem ela, o Java não conhece o nome.
+
+### código-fonte
+auch: Código-fonte
+O texto do programa que as pessoas escrevem e leem, por exemplo num ficheiro `Tabuada.java`.
+
+### compilador
+auch: Compilador, compiladores
+Um programa que traduz código-fonte. Em Java chama-se `javac` e transforma um ficheiro `.java` em bytecode num ficheiro `.class`.
+
+### bytecode
+auch: Bytecode
+A forma traduzida de um programa Java num ficheiro `.class`. Quem o lê é a JVM, não as pessoas.
+
+### JVM
+auch: Java Virtual Machine, máquina virtual
+A Java Virtual Machine executa bytecode. É um programa que funciona como um pequeno computador feito de software no Windows, no macOS ou no Linux. Por isso o Java é independente da plataforma.
+
+### JRE
+Java Runtime Environment: a JVM e blocos prontos. Com ele podes executar programas Java, mas não compilá-los.
+
+### JDK
+Java Development Kit: o JRE e ainda o compilador `javac` e outras ferramentas. É preciso para programar.
+
+### independente da plataforma
+Um programa corre sem alterações em sistemas operativos diferentes. Em Java é a JVM que o permite: “Write once, run anywhere”.

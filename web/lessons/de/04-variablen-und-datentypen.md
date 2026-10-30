@@ -172,6 +172,8 @@ System.out.println("Gesamt: " + gesamtPreis + " Euro");
 - Jede Anweisung endet mit einem **Semikolon** `;`.
 - Eine Ausgabe heißt in Java `System.out.println(…)`.
 
+Wie der Computer deinen Java-Code versteht und warum er auf Windows, macOS und Linux gleich läuft, erfährst du in der Lektion „Struktogramm und Code“.
+
 ::: angeberwissen
 Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James Gosling. Sein Team bei Sun Microsystems wollte ab 1991 kleine Geräte wie Fernseh-Boxen programmieren. Den Namen Oak hatte aber schon eine andere Firma. Also wurde es 1995 **Java**, wie der Kaffee von der Insel Java. Deshalb ist das Logo eine dampfende Tasse.
 :::

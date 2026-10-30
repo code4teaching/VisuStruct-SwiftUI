@@ -141,6 +141,15 @@ output: sitze.length + " Reihen, " + sitze[0].length + " Plätze"
 
 ## Java
 
+### Vom Code zum Programm
+
+Der Compiler `javac` übersetzt `Datei.java` in Bytecode (`Datei.class`). Die JVM führt den Bytecode aus, auf Windows, macOS und Linux gleich.
+
+| | enthält | wofür |
+|---|---|---|
+| JRE | JVM und Bibliotheken | ausführen |
+| JDK | JRE, Compiler `javac`, Werkzeuge | programmieren |
+
 ### Kommentare
 
 Notizen im Code. Java überspringt sie, das Struktogramm bleibt gleich.

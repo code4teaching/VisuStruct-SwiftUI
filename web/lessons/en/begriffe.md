@@ -204,3 +204,28 @@ A note in the code for people. Java skips it when it runs. `//` lasts until the 
 
 ### import
 A line at the very top of Java code that fetches a ready-made building block from a package, for example `import java.util.Scanner;`. Without it, Java doesn't know the name.
+
+### source code
+auch: Source code
+The program text that people write and read, for example in a file `TimesTable.java`.
+
+### compiler
+auch: compilers, Compiler
+A program that translates source code. In Java it is called `javac` and turns a `.java` file into bytecode in a `.class` file.
+
+### bytecode
+auch: Bytecode
+The translated form of a Java program in a `.class` file. It is read by the JVM, not by people.
+
+### JVM
+auch: Java Virtual Machine, virtual machine
+The Java Virtual Machine runs bytecode. It is a program that works like a small computer made of software on Windows, macOS or Linux. That is why Java is platform independent.
+
+### JRE
+Java Runtime Environment: the JVM and ready-made building blocks. You can run Java programs with it, but not compile them.
+
+### JDK
+Java Development Kit: the JRE plus the compiler `javac` and other tools. You need it to program.
+
+### platform independent
+A program runs without changes on different operating systems. In Java the JVM makes this possible: “Write once, run anywhere”.

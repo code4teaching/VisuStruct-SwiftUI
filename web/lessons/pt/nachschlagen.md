@@ -141,6 +141,15 @@ output: lugares.length + " filas, " + lugares[0].length + " lugares"
 
 ## Java
 
+### Do código ao programa
+
+O compilador `javac` traduz `Ficheiro.java` em bytecode (`Ficheiro.class`). A JVM executa o bytecode, da mesma forma no Windows, no macOS e no Linux.
+
+| | contém | para |
+|---|---|---|
+| JRE | JVM e bibliotecas | executar |
+| JDK | JRE, compilador `javac`, ferramentas | programar |
+
 ### Comentários
 
 Notas no código. O Java salta-as, o estrutograma fica igual.

@@ -199,3 +199,26 @@ Eine Notiz im Code für Menschen. Java überspringt sie beim Ausführen. `//` gi
 
 ### import
 Eine Zeile ganz oben im Java-Code, die einen fertigen Baustein aus einem Paket holt, z. B. `import java.util.Scanner;`. Ohne sie kennt Java den Namen nicht.
+
+### Quellcode
+Der Programmtext, den Menschen schreiben und lesen, zum Beispiel in einer Datei `Einmaleins.java`.
+
+### Compiler
+auch: Compilers
+Ein Programm, das Quellcode übersetzt. In Java heißt er `javac` und macht aus einer `.java`-Datei Bytecode in einer `.class`-Datei.
+
+### Bytecode
+Die übersetzte Form eines Java-Programms in einer `.class`-Datei. Ihn liest nicht der Mensch, sondern die JVM.
+
+### JVM
+auch: Java Virtual Machine, virtuelle Maschine
+Die Java Virtual Machine führt Bytecode aus. Sie ist ein Programm, das wie ein kleiner Computer aus Software auf Windows, macOS oder Linux läuft. Deshalb ist Java plattformunabhängig.
+
+### JRE
+Java Runtime Environment: die JVM und fertige Bausteine. Damit kann man Java-Programme ausführen, aber nicht übersetzen.
+
+### JDK
+Java Development Kit: die JRE und dazu den Compiler `javac` und weitere Werkzeuge. Das braucht man zum Programmieren.
+
+### plattformunabhängig
+Ein Programm läuft ohne Änderung auf verschiedenen Betriebssystemen. Bei Java sorgt die JVM dafür: „Write once, run anywhere“.
