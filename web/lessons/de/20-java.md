@@ -138,6 +138,8 @@ Die Grenze zwischen Code und Konsole kannst du mit der Maus nach oben oder unten
 
 Geht etwas schief, wird die Zeilennummer rot. Bei einem Syntaxfehler ist die Stelle zusätzlich rot unterstrichen, und es steht z. B. **Zeile 2: Hier fehlt noch: ;** darunter. Dann startet ▶︎ das Programm gar nicht erst. Bricht das Programm beim Ausführen ab, ist es ein Laufzeitfehler, und die Konsole nennt die Zeile, z. B. **Zeile 3: Division durch null.** Die drei Fehlerarten kennst du aus der Lektion „Simulation und Schreibtischtest“.
 
+Weiß VisuStruct genau, was fehlt, steht am Ende der Zeile eine 💡. Fährst du mit der Maus darauf, siehst du den Vorschlag, z. B. **Vorschlag: import java.util.Scanner; einfügen**. Ein Klick übernimmt ihn. Lies trotzdem nach, was eingefügt wurde, damit du es beim nächsten Mal selbst weißt.
+
 > Der Bereich Programmieren versteht die Java-Befehle, die es auch als Kasten im Struktogramm gibt. Eigene Klassen und Objekte kennt es noch nicht. Fenster mit Swing gehen trotzdem: Schalte dafür im Zahnrad **Echtes Java (mit Swing)** ein (Lektion „Dein erstes Fenster“).
 
 ::: angeberwissen

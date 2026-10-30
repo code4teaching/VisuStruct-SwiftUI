@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "ينقص في الأعلى %@ بدون هذا السطر لا تعرف Java الصنف Scanner.";
 "web_parse_missing_scanner" = "ينقص قبل ذلك %@ بدون هذا السطر لا يوجد Scanner.";
 "web_parse_unknown_type" = "لا تعرف Java نوع البيانات هذا. هل تقصد %@؟";
+"web_quickfix_insert_fmt" = "اقتراح: إدراج %@";
+"web_quickfix_replace_fmt" = "اقتراح: %1$@ بدلاً من %2$@";
 "web_editor_title" = "المخطط";
 "web_editor_show" = "إظهار المخطط";
 "web_editor_hide" = "إخفاء المخطط";

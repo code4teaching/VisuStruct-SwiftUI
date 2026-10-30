@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "В самом начале не хватает %@ Без этой строки Java не знает Scanner.";
 "web_parse_missing_scanner" = "Сначала не хватает %@ Без этой строки Scanner не существует.";
 "web_parse_unknown_type" = "Java не знает такого типа данных. Может быть, %@?";
+"web_quickfix_insert_fmt" = "Предложение: вставить %@";
+"web_quickfix_replace_fmt" = "Предложение: %1$@ вместо %2$@";
 "web_editor_title" = "Диаграмма";
 "web_editor_show" = "Показать диаграмму";
 "web_editor_hide" = "Скрыть диаграмму";

@@ -180,6 +180,8 @@
 "web_parse_missing_import" = "%@ is missing at the very top. Without this line Java doesn’t know Scanner.";
 "web_parse_missing_scanner" = "%@ is missing before this line. Without it the Scanner doesn’t exist.";
 "web_parse_unknown_type" = "Java doesn’t know this data type. Did you mean %@?";
+"web_quickfix_insert_fmt" = "Suggestion: insert %@";
+"web_quickfix_replace_fmt" = "Suggestion: %1$@ instead of %2$@";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Show diagram";
 "web_editor_hide" = "Hide diagram";

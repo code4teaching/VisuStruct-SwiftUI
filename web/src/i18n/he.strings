@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "חסר בראש הקוד %@ בלי השורה הזו Java לא מכירה את Scanner.";
 "web_parse_missing_scanner" = "חסר קודם %@ בלי השורה הזו אין Scanner.";
 "web_parse_unknown_type" = "Java לא מכירה את סוג הנתונים הזה. האם התכוונת ל-%@?";
+"web_quickfix_insert_fmt" = "הצעה: להוסיף %@";
+"web_quickfix_replace_fmt" = "הצעה: %1$@ במקום %2$@";
 "web_editor_title" = "תרשים";
 "web_editor_show" = "הצגת התרשים";
 "web_editor_hide" = "הסתרת התרשים";

@@ -2640,6 +2640,19 @@ button.danger-text:not(:disabled) {
   font-style: italic;
   font-weight: normal !important;
 }
+.livecode-editor .cm-quickfix {
+  margin-inline-start: 8px;
+  padding: 0 3px;
+  border: 1px solid #e0a800;
+  border-radius: 4px;
+  background: rgba(255, 214, 10, 0.25);
+  font-size: 12px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.livecode-editor .cm-quickfix:hover {
+  background: rgba(255, 214, 10, 0.55);
+}
 .livecode-editor .cm-err {
   text-decoration: underline wavy #d33;
   text-decoration-skip-ink: none;

@@ -138,6 +138,8 @@ Podes arrastar com o rato a fronteira entre o código e a consola para cima ou p
 
 Se algo correr mal, o número da linha fica vermelho. Num erro de sintaxe, o sítio também fica sublinhado a vermelho e por baixo lês, por exemplo, **Linha 2: Ainda falta aqui: ;**. Aí o ▶︎ nem sequer arranca o programa. Se o programa parar enquanto corre, é um erro de execução e a consola diz a linha, por exemplo **Linha 3: Divisão por zero.** Os três tipos de erros já os conheces da lição “Simulação e teste de secretária”.
 
+Se o VisuStruct souber exatamente o que falta, aparece um 💡 no fim da linha. Passa o rato por cima para veres a sugestão, por exemplo **Sugestão: inserir import java.util.Scanner;**. Um clique aplica-a. Mesmo assim, lê o que foi inserido, para saberes fazê-lo sozinho da próxima vez.
+
 > A área Programação entende os comandos Java que também existem como blocos no estrutograma. Ainda não conhece classes próprias nem objetos. Janelas com Swing funcionam na mesma: liga o **Java verdadeiro (com Swing)** na roda dentada (lição “A tua primeira janela”).
 
 ::: angeberwissen

@@ -12,7 +12,7 @@ import { documentFromJava, liveJava, mergeLiveJava, plainLiveJava, type JavaForm
 import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimStep, type SubprogramResolver } from '../core/simulation'
 import { gridTable, noticeText, type ConsoleTranscript } from './simulationPanel'
-import { JavaEditor, type SnippetWords } from './javaEditor'
+import { JavaEditor, type QuickFix, type SnippetWords } from './javaEditor'
 import { icons } from './icons'
 import { indentJava } from '../core/javaIndent'
 import { sidebarIcon } from './learnPanel'
@@ -872,6 +872,7 @@ export class LiveCodePanel {
         lines: span && simulated === undefined ? { from: span.from, to: span.to } : undefined,
         current: this.debugLine ?? simulated,
         errorLines: this.errorLines(),
+        fixes: this.showProblems ? this.quickFixes() : [],
       },
       key !== undefined && key !== this.highlighted && !this.code.hasFocus,
     )
@@ -885,6 +886,34 @@ export class LiveCodePanel {
     const lines = this.showProblems ? this.javaProblems.map((p) => this.code.lineAt(p.from)) : []
     if (this.runErrorLine !== undefined) lines.push(this.runErrorLine)
     return lines
+  }
+
+  /** Glühbirnen: Für diese Fehler weiß VisuStruct genau, was fehlt. Pro Zeile höchstens ein Vorschlag. */
+  private quickFixes(): QuickFix[] {
+    const text = this.code.text
+    const fixes: QuickFix[] = []
+    for (const p of this.javaProblems) {
+      const lineStart = text.lastIndexOf('\n', p.from - 1) + 1
+      const lineEnd = text.indexOf('\n', p.from) < 0 ? text.length : text.indexOf('\n', p.from)
+      if (fixes.some((f) => f.at === lineEnd)) continue
+      const insert = (from: number, what: string, shown = what.trim()) =>
+        fixes.push({ at: lineEnd, title: t('web_quickfix_insert_fmt', shown), from, to: from, insert: what })
+      const arg = p.arg ?? ''
+      if (p.key === 'web_parse_missing_import') {
+        // Hinter den vorhandenen Importen, sonst ganz oben
+        const imports = [...text.matchAll(/^import\s[^\n]*\n/gm)]
+        const last = imports[imports.length - 1]
+        insert(last ? last.index! + last[0].length : 0, `${arg}\n`)
+      } else if (p.key === 'web_parse_missing_scanner') {
+        const indent = /^[ \t]*/.exec(text.slice(lineStart))![0]
+        insert(lineStart, `${indent}${arg}\n`)
+      } else if (p.key === 'web_parse_unknown_type' && arg) {
+        fixes.push({ at: lineEnd, title: t('web_quickfix_replace_fmt', arg, text.slice(p.from, p.to)), from: p.from, to: p.to, insert: arg })
+      } else if (p.key === 'web_parse_missing' && (arg === ';' || arg === ')')) {
+        insert(p.to, arg)
+      }
+    }
+    return fixes
   }
 
   /** Nach jeder Eingabe: Code lesen, Struktogramm neu, Element unter dem Cursor markieren. */

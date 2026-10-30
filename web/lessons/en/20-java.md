@@ -138,6 +138,8 @@ You can drag the border between code and console up or down with the mouse.
 
 If something goes wrong, the line number turns red. With a syntax error the spot is also underlined in red, and below it you read e.g. **Line 2: Still missing here: ;**. Then ▶︎ does not even start the program. If the program stops while it runs, it is a runtime error, and the console names the line, e.g. **Line 3: Division by zero.** You know the three kinds of errors from the lesson “Simulation and desk check”.
 
+If VisuStruct knows exactly what is missing, there is a 💡 at the end of the line. Move the mouse onto it to see the suggestion, e.g. **Suggestion: insert import java.util.Scanner;**. A click applies it. Still read what was inserted, so that you know it yourself next time.
+
 > The Programming area understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Real Java (with Swing)** under the gear (lesson “Your first window”).
 
 ::: angeberwissen

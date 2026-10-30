@@ -3,7 +3,7 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting, syntaxTree } from '@codemirror/language'
 import { Annotation, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension, type Text } from '@codemirror/state'
-import { Decoration, EditorView, gutter, GutterMarker, gutterLineClass, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
+import { Decoration, EditorView, gutter, GutterMarker, gutterLineClass, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, WidgetType, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { indentJava } from '../core/javaIndent'
 import { memberCompletionsAt, type JavaMember, type MemberLanguage, type OwnTypes } from '../core/javaMembers'
@@ -25,6 +25,17 @@ export interface EditorMarks {
   current?: number
   /** Rote Zeilennummer: In dieser Zeile steckt ein Fehler (ab 0). */
   errorLines?: number[]
+  /** Glühbirne am Zeilenende: Ein Klick übernimmt den Vorschlag. */
+  fixes?: QuickFix[]
+}
+
+/** Vorschlag für einen Fehler: an `at` erscheint 💡, ein Klick ersetzt `from`–`to` durch `insert`. */
+export interface QuickFix {
+  at: number
+  title: string
+  from: number
+  to: number
+  insert: string
 }
 
 /** Wörter der Vorlagen in der Sprache der Oberfläche. */
@@ -69,6 +80,35 @@ const phMark = Decoration.mark({ class: 'cm-ph' })
 const errMark = Decoration.mark({ class: 'cm-err' })
 const currentLine = Decoration.line({ class: 'cm-debug-line' })
 
+/** 💡 hinter der Zeile mit dem Fehler, wie die Glühbirne in Eclipse. */
+class QuickFixWidget extends WidgetType {
+  constructor(readonly fix: QuickFix) {
+    super()
+  }
+  eq(other: QuickFixWidget) {
+    return JSON.stringify(other.fix) === JSON.stringify(this.fix)
+  }
+  toDOM(view: EditorView) {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'cm-quickfix'
+    button.textContent = '💡'
+    button.dataset.tip = this.fix.title
+    button.setAttribute('aria-label', this.fix.title)
+    button.addEventListener('mousedown', (e) => e.preventDefault())
+    button.addEventListener('click', () => {
+      const { from, to, insert } = this.fix
+      if (to > view.state.doc.length) return
+      view.dispatch({ changes: { from, to, insert }, selection: { anchor: from + insert.length }, userEvent: 'input' })
+      view.focus()
+    })
+    return button
+  }
+  ignoreEvent() {
+    return true
+  }
+}
+
 interface MarkState {
   marks: EditorMarks
   decorations: DecorationSet
@@ -86,6 +126,9 @@ function buildDecorations(state: EditorState, marks: EditorMarks): DecorationSet
     const to = Math.min(Math.max(p.to, from), len)
     if (from < to) ranges.push({ from, to, deco: errMark })
   }
+  for (const f of marks.fixes ?? []) {
+    if (f.at <= len) ranges.push({ from: f.at, to: f.at, deco: Decoration.widget({ widget: new QuickFixWidget(f), side: 1 }) })
+  }
   // Zeilen-Dekorationen vor Markierungen an derselben Stelle.
   const isLine = (d: Decoration) => d === currentLine
   ranges.sort((a, b) => a.from - b.from || Number(isLine(b.deco)) - Number(isLine(a.deco)) || a.to - b.to)
@@ -101,7 +144,7 @@ const marksField = StateField.define<MarkState>({
     if (!tr.docChanged) return value
     // Bis zur nächsten Auswertung mit dem Text mitwandern.
     const map = (r: { from: number; to: number }) => ({ from: tr.changes.mapPos(r.from, 1), to: tr.changes.mapPos(r.to, -1) })
-    const marks = { ...value.marks, placeholders: value.marks.placeholders.map(map).filter((r) => r.from < r.to), problems: [], errorLines: [] }
+    const marks = { ...value.marks, placeholders: value.marks.placeholders.map(map).filter((r) => r.from < r.to), problems: [], errorLines: [], fixes: [] }
     return { marks, decorations: buildDecorations(tr.state, marks) }
   },
   provide: (f) => EditorView.decorations.from(f, (v) => v.decorations),
