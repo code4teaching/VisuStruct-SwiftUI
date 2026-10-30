@@ -665,4 +665,5 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visuobject_method_ph" = "+ bellen(): void";
 "web_code_scopes" = "Codeblöcke farbig";
 "web_code_scopes_hint" = "Klasse, Methode, Schleife, Verzweigung in eigenen Kästen";
+"web_pseudocode" = "Pseudocode";
 `;export{e as default};

@@ -5556,3 +5556,10 @@ button.danger-text:not(:disabled) {
     display: none !important;
   }
 }
+/* Haken „Pseudocode“ links vom ⇄ in der Werkzeugzeile. */
+.diagram-tools .pseudocode-toggle {
+  gap: 4px;
+  margin: 0 4px;
+  white-space: nowrap;
+  cursor: pointer;
+}

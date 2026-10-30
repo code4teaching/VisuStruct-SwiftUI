@@ -663,3 +663,4 @@
 "web_visuobject_method_ph" = "+ ladrar(): void";
 "web_code_scopes" = "Blocos de código coloridos";
 "web_code_scopes_hint" = "Classe, método, ciclo, decisão em caixas próprias";
+"web_pseudocode" = "Pseudocódigo";

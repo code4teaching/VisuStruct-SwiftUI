@@ -176,4 +176,5 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_palette_show" = "요소 표시";
 "web_code_scopes" = "코드 블록 색상 표시";
 "web_code_scopes_hint" = "클래스, 메서드, 반복, 분기를 각각의 상자로 표시";
+"web_pseudocode" = "의사 코드";
 `;export{e as default};

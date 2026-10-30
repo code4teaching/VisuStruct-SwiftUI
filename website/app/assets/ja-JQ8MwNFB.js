@@ -176,4 +176,5 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_palette_show" = "要素を表示";
 "web_code_scopes" = "コードブロックを色分け";
 "web_code_scopes_hint" = "クラス、メソッド、ループ、分岐をそれぞれの枠で表示";
+"web_pseudocode" = "疑似コード";
 `;export{e as default};

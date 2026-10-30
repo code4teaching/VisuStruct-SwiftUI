@@ -665,4 +665,5 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_visuobject_method_ph" = "+ bark(): void";
 "web_code_scopes" = "Colored code blocks";
 "web_code_scopes_hint" = "Class, method, loop, branch in their own boxes";
+"web_pseudocode" = "Pseudocode";
 `;export{e as default};

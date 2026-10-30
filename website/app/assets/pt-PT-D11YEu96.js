@@ -663,4 +663,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visuobject_method_ph" = "+ ladrar(): void";
 "web_code_scopes" = "Blocos de código coloridos";
 "web_code_scopes_hint" = "Classe, método, ciclo, decisão em caixas próprias";
+"web_pseudocode" = "Pseudocódigo";
 `;export{e as default};

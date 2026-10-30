@@ -176,4 +176,5 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_palette_show" = "Öğeleri göster";
 "web_code_scopes" = "Renkli kod blokları";
 "web_code_scopes_hint" = "Sınıf, metot, döngü, dallanma kendi kutularında";
+"web_pseudocode" = "Sözde kod";
 `;export{e as default};

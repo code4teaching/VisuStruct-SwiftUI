@@ -176,4 +176,5 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_palette_show" = "Pokaż elementy";
 "web_code_scopes" = "Kolorowe bloki kodu";
 "web_code_scopes_hint" = "Klasa, metoda, pętla, rozgałęzienie we własnych ramkach";
+"web_pseudocode" = "Pseudokod";
 `;export{e as default};
