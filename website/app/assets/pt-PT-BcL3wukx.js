@@ -661,6 +661,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visuobject_save_tip" = "Guardar o projeto como .zip: NomeDoProjeto/src/package/Classe.java";
 "web_visuobject_open_tip" = "Abrir um projeto (.zip como do Eclipse ou BlueJ) ou juntar ficheiros .java ao projeto";
 "web_visuobject_method_ph" = "+ ladrar(): void";
-"web_code_scopes" = "Blocos de código coloridos";
-"web_code_scopes_hint" = "Classe, método, ciclo, decisão em caixas próprias";
+"web_code_scopes" = "Blocos coloridos";
+"web_code_scopes_hint" = "Código e diagrama: ciclo rosa, decisão azul, método amarelo, classe verde";
 `;export{e as default};

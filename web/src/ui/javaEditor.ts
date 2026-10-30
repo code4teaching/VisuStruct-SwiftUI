@@ -170,7 +170,7 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
 
 const codeScopesKey = 'visustruct.code.scopes'
 
-/** Einstellung „Codeblöcke farbig“: ohne Speicher eingeschaltet. */
+/** Einstellung „Blöcke farbig“: ohne Speicher eingeschaltet. */
 export function codeScopes(): boolean {
   try {
     return localStorage.getItem(codeScopesKey) !== '0'

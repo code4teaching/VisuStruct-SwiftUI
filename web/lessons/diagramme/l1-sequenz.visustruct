@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="77;111;114;103;101;110;115;" pseudocode="true">
-  <strelem typ="0" zx="0" zy="0" bgcolor="-2364674">
+  <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
     <text>65;117;102;115;116;101;104;101;110;</text>
   </strelem>
-  <strelem typ="0" zx="0" zy="0" bgcolor="-2364674">
+  <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
     <text>90;228;104;110;101;32;112;117;116;122;101;110;</text>
   </strelem>
-  <strelem typ="0" zx="0" zy="0" bgcolor="-2364674">
+  <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
     <text>65;110;122;105;101;104;101;110;</text>
   </strelem>
-  <strelem typ="0" zx="0" zy="0" bgcolor="-2364674">
+  <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
     <text>70;114;252;104;115;116;252;99;107;101;110;</text>
   </strelem>
 </struktogramm>

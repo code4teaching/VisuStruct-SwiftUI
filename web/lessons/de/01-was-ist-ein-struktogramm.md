@@ -32,7 +32,7 @@ Määäh, aufgepasst! 1972 waren Nassi und Shneiderman noch Doktoranden an der S
 
 ## Baustein 1: Die Sequenz
 
-Jeder Algorithmus lässt sich aus nur **drei Grundbausteinen** zusammensetzen: [**Sequenz**]{.blau}, [**Verzweigung**]{.orange} und [**Wiederholung**]{.gruen}. Die Farben helfen dir am Anfang beim Zuordnen, in deinen eigenen Diagrammen sind die Kästen weiß. In diesem und den nächsten beiden Schritten lernst du sie einzeln kennen.
+Jeder Algorithmus lässt sich aus nur **drei Grundbausteinen** zusammensetzen: **Sequenz**, [**Verzweigung**]{.blau} und [**Wiederholung**]{.rosa}. Die Farben helfen dir beim Zuordnen: [Anweisungen]{.gelb} sind gelb, Verzweigungen blau, Schleifen rosa. Die Sequenz hat keine eigene Farbe, sie ist einfach die Reihe von Anweisungen untereinander. Dieselben Farben siehst du im Editor und später im Code. Du kannst sie in den Einstellungen unter „Blöcke farbig“ ausschalten. In diesem und den nächsten beiden Schritten lernst du sie einzeln kennen.
 
 Die **Sequenz** ist der einfachste Baustein: Mehrere Anweisungen werden **nacheinander** ausgeführt, jede genau einmal.
 
@@ -90,7 +90,7 @@ Solange der Teller nicht leer ist, wird ein Bissen gegessen. Danach wird der Tel
 
 ## Alle drei zusammen
 
-Richtig nützlich werden die Bausteine, wenn man sie kombiniert. Das Diagramm enthält alle drei: eine [Sequenz]{.blau} von oben nach unten, eine [Verzweigung]{.orange} und eine [Schleife]{.gruen}. Blau sind die einfachen Anweisungen. Genau genommen ist das ganze Diagramm eine Sequenz, denn auch Verzweigung und Schleife stehen in der Reihe von oben nach unten.
+Richtig nützlich werden die Bausteine, wenn man sie kombiniert. Das Diagramm enthält alle drei: eine Sequenz von oben nach unten, eine [Verzweigung]{.blau} und eine [Schleife]{.rosa}. Gelb sind die einfachen [Anweisungen]{.gelb}. Was in einer Verzweigung oder Schleife steht, bekommt deren Farbe. Genau genommen ist das ganze Diagramm eine Sequenz, denn auch Verzweigung und Schleife stehen in der Reihe von oben nach unten.
 
 ::: diagramm l1-grundbausteine.visustruct
 Die Verzweigung erkennst du am Dreieck, die Schleife an der Klammer links. Alles zusammen steht in einer Sequenz.
