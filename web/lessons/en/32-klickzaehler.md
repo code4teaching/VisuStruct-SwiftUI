@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: Two buttons change the same number: create a variable for the whole class.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain why a listener may not change a variable from main
+- create a static variable in the class
+- let two buttons change the same number
+- build a counter with −1 that never goes below 0
+:::
+
 ## The goal
 
 A window counts clicks: the number is at the top, two buttons below it. **+1** counts up by one, **Reset** sets the number back to 0.
@@ -191,27 +200,32 @@ For “never below 0” the listener of −1 needs an `if`: only if `count > 0` 
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know why a listener may not change a variable from main. → The first attempt
+- I can explain why a listener may not change a variable from main. → The first attempt
 - I can create a static variable in the class. → A variable for the whole class
-- Two of my buttons change the same number. → The whole program
-- My counter has −1 and never goes below 0. → Task: click counter
+- I can let two buttons change the same number. → The whole program
+- I can build a counter with −1 that never goes below 0. → Task: click counter
 :::
 
 ## Quiz
 
 ::: quiz
 ? Why may the listener not change the variable count from main?
+→ The first attempt
 - [ ] Because numbers are not allowed in Swing
 - [x] Because the listener runs later and Java doesn't let the arrow change variables from main
 - [ ] Because count gets too big
 
 ? Where does static int count = 0; go?
+→ A variable for the whole class
 - [ ] In main, at the very top
 - [x] In the class, outside main
 - [ ] In the listener
 
 ? What does SwingConstants.CENTER do in new JLabel("0", SwingConstants.CENTER)?
+→ The whole program
 - [x] It puts the text in the middle of the label.
 - [ ] It puts the window in the middle of the screen.
 - [ ] It makes the font bigger.

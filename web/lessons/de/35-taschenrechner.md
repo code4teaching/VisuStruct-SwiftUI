@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Zwei Spalten mit GridLayout, vier Rechenknöpfe und die Division durch 0 abfangen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit GridLayout(0, 2) zwei Spalten bauen
+- erklären, warum "" + (a + b) Klammern braucht
+- alle vier Rechenknöpfe programmieren
+- einen Rechner bauen, der bei 0 und bei „abc“ nicht abstürzt
+:::
+
 ## Das Ziel
 
 Wir bauen einen kleinen Taschenrechner: zwei Textfelder für die Zahlen, vier Knöpfe **+**, **-**, **\*** und **/** und eine Zeile für das Ergebnis.
@@ -229,28 +238,33 @@ Für „abc“ brauchst du in jedem Zuhörer ein try/catch mit `NumberFormatExce
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann mit GridLayout(0, 2) zwei Spalten bauen. → Zwei Spalten
-- Ich weiß, warum "" + (a + b) Klammern braucht. → Das Fenster mit dem ersten Knopf
-- Alle vier Rechenknöpfe funktionieren. → Die anderen drei Knöpfe
-- Mein Rechner stürzt bei 0 und bei „abc“ nicht ab. → Aufgabe: Taschenrechner
+- Ich kann erklären, warum "" + (a + b) Klammern braucht. → Das Fenster mit dem ersten Knopf
+- Ich kann alle vier Rechenknöpfe programmieren. → Die anderen drei Knöpfe
+- Ich kann einen Rechner bauen, der bei 0 und bei „abc“ nicht abstürzt. → Aufgabe: Taschenrechner
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? a ist 3 und b ist 4. Was ergibt "" + a + b?
+→ Das Fenster mit dem ersten Knopf
 - [ ] 7
 - [x] 34
 - [ ] Einen Fehler
 > Java rechnet von links nach rechts: Erst entsteht der Text "3", dann wird die 4 angehängt.
 
 ? Was ergibt 7 / 2 mit int?
+→ Die anderen drei Knöpfe
 - [ ] 3.5
 - [x] 3
 - [ ] 4
 
 ? In welcher Reihenfolge füllt GridLayout(0, 2) die Zellen?
+→ Zwei Spalten
 - [x] Zeile für Zeile, jeweils erst links, dann rechts
 - [ ] Spalte für Spalte, erst ganz links von oben nach unten
 - [ ] Zufällig

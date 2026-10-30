@@ -4,6 +4,17 @@ bereich: Janelas com Swing
 kurz: Dividir o contador de cliques em model, view e controller e perceber quem fala com quem.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- dizer o que fazem o model, a view e o controller
+- escrever um model sem Swing e testá-lo sem janela
+- explicar o que constrói new Contador() e porque é que ali não há static
+- nomear as quatro mensagens depois de um clique
+- acrescentar uma segunda view sem mudar o model
+- construir um contador com −1, Reset e limites no model
+:::
+
 ## O objetivo
 
 Os programas grandes com janelas têm quase sempre a mesma estrutura. Chama-se **Model View Controller**, ou **MVC**, em português modelo, vista e controlador:
@@ -357,40 +368,47 @@ Depois melhora-o:
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei dizer o que fazem o model, a view e o controller. → O objetivo
-- Sei escrever um model sem Swing e testá-lo sem janela. → O model
-- Sei o que constrói new Contador() e porque é que ali não há static. → O model
-- Conheço as quatro mensagens depois de um clique. → Quem fala com quem?
-- Sei acrescentar uma segunda view sem mudar o model. → A vantagem: uma segunda view
-- O meu contador tem −1, Reset e limites no model. → Tarefa: Um contador com limites
+- Consigo dizer o que fazem o model, a view e o controller. → O objetivo
+- Consigo escrever um model sem Swing e testá-lo sem janela. → O model
+- Consigo explicar o que constrói new Contador() e porque é que ali não há static. → O model
+- Consigo nomear as quatro mensagens depois de um clique. → Quem fala com quem?
+- Consigo acrescentar uma segunda view sem mudar o model. → A vantagem: uma segunda view
+- Consigo construir um contador com −1, Reset e limites no model. → Tarefa: Um contador com limites
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Onde fica a regra "O contador nunca passa de 10"?
+→ O model
 - [x] no model
 - [ ] na view
 - [ ] no controller
 > As regras sobre os dados pertencem ao model. Assim valem seja qual for o botão.
 
 ? O que faz a view?
+→ O objetivo
 - [ ] Calcula o novo valor.
 - [x] Mostra o valor que recebe.
 - [ ] Ouve os cliques.
 
 ? Porque é que o lambda pode usar model, se model é uma variável do main?
+→ Quem fala com quem?
 - [ ] Porque Contador é public.
 - [x] Porque model aponta sempre para o mesmo contador; só o valor lá dentro muda.
 - [ ] Porque os lambdas podem mudar qualquer variável.
 
 ? O que tens de mudar no model quando se junta uma segunda view?
+→ A vantagem: uma segunda view
 - [x] nada
 - [ ] um segundo método aumentar
 - [ ] um segundo JLabel
 
 ? Liga.
+→ O objetivo
 = Contador com valor e aumentar() -> model
 = VistaNumero com atualizar(int valor) -> view
 = o ouvinte do botão -> controller

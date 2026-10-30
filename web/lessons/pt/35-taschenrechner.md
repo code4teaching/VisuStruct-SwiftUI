@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Duas colunas com GridLayout, quatro botões de cálculo e apanhar a divisão por 0.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- construir duas colunas com GridLayout
+- explicar porque é que "" + (a + b) precisa de parênteses
+- programar os quatro botões de cálculo
+- construir uma calculadora que não falha com 0 nem com “abc”
+:::
+
 ## O objetivo
 
 Vamos construir uma pequena calculadora: dois campos de texto para os números, quatro botões **+**, **-**, **\*** e **/** e uma linha para o resultado.
@@ -229,28 +238,33 @@ Para o “abc” cada ouvinte precisa de um try/catch com `NumberFormatException
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
 - Consigo construir duas colunas com GridLayout(0, 2). → Duas colunas
-- Sei porque é que "" + (a + b) precisa de parênteses. → A janela com o primeiro botão
-- Os quatro botões de cálculo funcionam. → Os outros três botões
-- A minha calculadora não falha com 0 nem com “abc”. → Tarefa: calculadora
+- Consigo explicar porque é que "" + (a + b) precisa de parênteses. → A janela com o primeiro botão
+- Consigo programar os quatro botões de cálculo. → Os outros três botões
+- Consigo construir uma calculadora que não falha com 0 nem com “abc”. → Tarefa: calculadora
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? a é 3 e b é 4. Quanto dá "" + a + b?
+→ A janela com o primeiro botão
 - [ ] 7
 - [x] 34
 - [ ] Um erro
 > O Java calcula da esquerda para a direita: primeiro surge o texto "3", depois junta-se o 4.
 
 ? Quanto dá 7 / 2 com int?
+→ Os outros três botões
 - [ ] 3.5
 - [x] 3
 - [ ] 4
 
 ? Por que ordem preenche o GridLayout(0, 2) as células?
+→ Duas colunas
 - [x] Linha a linha, primeiro à esquerda e depois à direita
 - [ ] Coluna a coluna, começando de cima para baixo na coluna da esquerda
 - [ ] Ao acaso

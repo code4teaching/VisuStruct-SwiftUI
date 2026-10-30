@@ -4,6 +4,16 @@ bereich: Files
 kurz: Read with BufferedReader and readLine until null comes, and read a whole file at once with Files.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- read a file with BufferedReader and readLine
+- spot the end of a file, because readLine returns null there
+- count how often a word appears in a file
+- read a whole file with Files.readString and split it into lines with split
+- find the longest entry in a file
+:::
+
 ## The cake is gone!
 
 The morning after the party, Ludwig's cake has disappeared. Luckily the castle keeps a logbook. Every line starts with the day and the time:
@@ -206,34 +216,40 @@ runde:
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can read a file with BufferedReader and readLine. → Reading with BufferedReader
-- I know that readLine returns null at the end, and I check line != null. → Reading with BufferedReader
-- I counted how often the fox appears in the logbook. → Exercise: How often does the fox appear?
+- I can spot the end of a file, because readLine returns null there (line != null). → Reading with BufferedReader
+- I can count how often a word appears in a file. → Exercise: How often does the fox appear?
 - I can read a whole file with Files.readString and split it into lines with split. → The shortcut: Files
-- I found the longest entry. → Exercise: The longest entry
+- I can find the longest entry in a file. → Exercise: The longest entry
 :::
 
 ## Quiz
 
 ::: quiz
 ? What does readLine() return when the file has ended?
+→ Reading with BufferedReader
 - [ ] ""
 - [x] null
 - [ ] -1
 > null means: there is no more text.
 
 ? Why is there another line = reader.readLine() at the end of the loop?
+→ Reading with BufferedReader
 - [ ] So that the file is closed.
 - [x] Otherwise line never changes and the loop never stops.
 - [ ] So that the first line is printed twice.
 
 ? What does try-with-resources do?
+→ Reading with BufferedReader
 - [ ] It reads the file faster.
 - [x] It closes the file on its own at the end.
 - [ ] It prevents every exception.
 
 ? Match each way to what it is good for.
+→ The shortcut: Files
 = BufferedReader -> large files, line by line
 = Files.readString -> small files all at once
 = Scanner -> reading numbers and words
