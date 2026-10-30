@@ -656,4 +656,6 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_visuobject_save_tip" = "Save the project as .zip: ProjectName/src/package/Class.java";
 "web_visuobject_open_tip" = "Open a project (.zip as from Eclipse or BlueJ) or add .java files to the project";
 "web_visuobject_method_ph" = "+ bark(): void";
+"web_code_scopes" = "Colored code blocks";
+"web_code_scopes_hint" = "Class, method, loop, branch in their own boxes";
 `;export{e as default};

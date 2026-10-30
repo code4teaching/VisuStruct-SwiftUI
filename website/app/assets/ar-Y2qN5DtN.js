@@ -171,4 +171,6 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_swap_to_editor" = "المخطط كبير";
 "web_editor_resize" = "تغيير عرض المخطط";
 "web_palette_resize" = "تغيير عرض العناصر";
+"web_code_scopes" = "كتل الشيفرة ملوّنة";
+"web_code_scopes_hint" = "الصنف والدالة والحلقة والتفرّع في مربعات خاصة";
 `;export{e as default};
