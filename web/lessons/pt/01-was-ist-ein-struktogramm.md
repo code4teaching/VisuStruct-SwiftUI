@@ -79,8 +79,8 @@ Se uma coisa deve acontecer **várias vezes**, não a escreves várias vezes. Em
 É assim que se parece:
 
 - Em cima está a condição, por exemplo *Prato não vazio*.
-- Os passos que se repetem ficam **recuados** por baixo dela. À esquerda, o bloco forma um **parêntese** à volta deles.
-- Antes de cada iteração, a condição é verificada. Enquanto for **true**, os passos dentro do parêntese são executados mais uma vez. Se for **false**, o programa continua por baixo do ciclo.
+- Os passos que se repetem ficam **recuados** por baixo dela. Em cima e à esquerda, o bloco forma um **L invertido** à volta deles.
+- Antes de cada iteração, a condição é verificada. Enquanto for **true**, os passos dentro do L invertido são executados mais uma vez. Se for **false**, o programa continua por baixo do ciclo.
 
 ::: diagramm l1-wiederholung.visustruct
 Enquanto o prato não estiver vazio, dás uma garfada. Depois, o prato é levantado.
@@ -93,7 +93,7 @@ Enquanto o prato não estiver vazio, dás uma garfada. Depois, o prato é levant
 Os blocos básicos tornam-se realmente úteis quando os combinas. Este diagrama contém os três: uma sequência de cima para baixo, uma [decisão]{.blau} e um [ciclo]{.rosa}. As caixas amarelas são [instruções]{.gelb} simples. As instruções dentro de uma decisão ou de um ciclo também são amarelas. Em rigor, o diagrama todo é uma sequência, porque a decisão e o ciclo também estão na fila de cima para baixo.
 
 ::: diagramm l1-grundbausteine.visustruct
-Reconheces a decisão pelo triângulo e o ciclo pelo parêntese à esquerda. Tudo junto forma uma sequência.
+Reconheces a decisão pelo triângulo e o ciclo pelo L invertido. Tudo junto forma uma sequência.
 :::
 
 Os blocos também podem ser **encaixados** uns dentro dos outros: um ciclo ou um ramo pode voltar a conter sequências, decisões e ciclos.
@@ -137,7 +137,7 @@ Beber o chá
 
 ### Comparação
 
-- **Estrutograma:** blocos dentro de blocos, o ciclo é um parêntese à esquerda. Vês a estrutura num relance, e saltos malucos são impossíveis.
+- **Estrutograma:** blocos dentro de blocos, o ciclo é um L invertido. Vês a estrutura num relance, e saltos malucos são impossíveis.
 - **Fluxograma:** símbolos com setas, o ciclo é uma seta que volta para cima. Muito fácil de imaginar, mas os fluxogramas grandes ficam depressa confusos.
 - **Pseudocódigo:** texto com indentação, o ciclo fica entre ENQUANTO e FIM ENQUANTO. Rápido de escrever e já perto do código de um programa.
 
@@ -235,10 +235,10 @@ richtig: decisão
 > Num estrutograma não há saltos. Sequência, decisão e ciclo chegam para qualquer algoritmo.
 
 ? Como reconheces uma decisão num estrutograma?
-- [ ] Por um parêntese do lado esquerdo
+- [ ] Por um L invertido
 - [x] Por um triângulo com a condição e duas colunas por baixo
 - [ ] Por vários retângulos uns por cima dos outros
-> O parêntese pertence ao ciclo, e retângulos uns por cima dos outros são uma sequência.
+> O L invertido pertence ao ciclo, e retângulos uns por cima dos outros são uma sequência.
 
 ? Quando é que o interior de um ciclo é executado mais uma vez?
 - [x] Enquanto a condição for verdadeira
@@ -253,10 +253,10 @@ richtig: decisão
 > Um algoritmo não depende de nenhuma linguagem de programação. Um estrutograma é uma forma de o escrever.
 
 ? Como reconheces um ciclo num fluxograma?
-- [ ] Por um parêntese do lado esquerdo
+- [ ] Por um L invertido
 - [x] Por uma seta que volta para cima
 - [ ] Pela palavra ENQUANTO
-> O parêntese pertence ao estrutograma, e ENQUANTO ao pseudocódigo.
+> O L invertido pertence ao estrutograma, e ENQUANTO ao pseudocódigo.
 
 ? Associa cada símbolo do fluxograma ao seu significado.
 = Oval -> Início ou fim
