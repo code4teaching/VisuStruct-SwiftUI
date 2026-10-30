@@ -141,6 +141,15 @@ output: lugares.length + " filas, " + lugares[0].length + " lugares"
 
 ## Java
 
+### Do código ao programa
+
+O compilador `javac` traduz `Ficheiro.java` em bytecode (`Ficheiro.class`). A JVM traduz o bytecode em código máquina ao executá-lo, da mesma forma no Windows, no macOS e no Linux. Já o C++ passa diretamente a código máquina e tem de ser compilado de novo para cada sistema.
+
+| | contém | para |
+|---|---|---|
+| JRE | JVM e bibliotecas | executar |
+| JDK | JRE, compilador `javac`, ferramentas | programar |
+
 ### Comentários
 
 Notas no código. O Java salta-as, o estrutograma fica igual.

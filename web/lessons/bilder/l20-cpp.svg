@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 290" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#1c1c1e"/></marker></defs>
+  <rect width="440" height="290" fill="#ffffff"/>
+  <rect x="110" y="12" width="220" height="48" rx="6" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="220" y="32" text-anchor="middle" font-family="ui-monospace, Menlo, Consolas, monospace" font-weight="600">rechner.cpp</text>
+  <text x="220" y="51" text-anchor="middle" font-size="13" fill="#3a3a3c">Quellcode in C++</text>
+  <g fill="none" stroke="#1c1c1e" stroke-width="1.8" marker-end="url(#a)">
+    <line x1="220" y1="60" x2="80" y2="94"/>
+    <line x1="80" y1="126" x2="80" y2="156"/>
+    <line x1="220" y1="60" x2="220" y2="94"/>
+    <line x1="220" y1="126" x2="220" y2="156"/>
+    <line x1="220" y1="60" x2="360" y2="94"/>
+    <line x1="360" y1="126" x2="360" y2="156"/>
+  </g>
+  <rect x="18" y="96" width="124" height="30" rx="15" fill="#ffffff" stroke="#6e6e73" stroke-width="1.5"/>
+  <text x="80" y="116" text-anchor="middle" font-size="13">Compiler</text>
+  <rect x="18" y="158" width="124" height="36" rx="6" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="80" y="181" text-anchor="middle" font-weight="600">Maschinencode</text>
+  <rect x="18" y="194" width="124" height="36" rx="6" fill="#f2f2f7" stroke="#6e6e73" stroke-width="2"/>
+  <text x="80" y="217" text-anchor="middle">Windows</text>
+  <rect x="158" y="96" width="124" height="30" rx="15" fill="#ffffff" stroke="#6e6e73" stroke-width="1.5"/>
+  <text x="220" y="116" text-anchor="middle" font-size="13">Compiler</text>
+  <rect x="158" y="158" width="124" height="36" rx="6" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="220" y="181" text-anchor="middle" font-weight="600">Maschinencode</text>
+  <rect x="158" y="194" width="124" height="36" rx="6" fill="#f2f2f7" stroke="#6e6e73" stroke-width="2"/>
+  <text x="220" y="217" text-anchor="middle">macOS</text>
+  <rect x="298" y="96" width="124" height="30" rx="15" fill="#ffffff" stroke="#6e6e73" stroke-width="1.5"/>
+  <text x="360" y="116" text-anchor="middle" font-size="13">Compiler</text>
+  <rect x="298" y="158" width="124" height="36" rx="6" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/>
+  <text x="360" y="181" text-anchor="middle" font-weight="600">Maschinencode</text>
+  <rect x="298" y="194" width="124" height="36" rx="6" fill="#f2f2f7" stroke="#6e6e73" stroke-width="2"/>
+  <text x="360" y="217" text-anchor="middle">Linux</text>
+  <text x="220" y="258" text-anchor="middle" font-style="italic">Für jedes System</text>
+  <text x="220" y="278" text-anchor="middle" font-style="italic">neu übersetzen</text>
+</svg>
