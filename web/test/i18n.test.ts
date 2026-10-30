@@ -27,8 +27,8 @@ describe('Sprachen (AppLanguage.swift)', () => {
     for (const { code } of languages) {
       if (code === 'java') continue
       const web = read(join(webDir, `${code}.strings`))
-      // Lernbereich, VisuBot und VisuObject gibt es auf Deutsch, Englisch und Portugiesisch; sonst Englisch.
-      const required = [...webEnglish.keys()].filter((k) => !k.startsWith('web_learn_') && !k.startsWith('web_visubot_') && !k.startsWith('web_visuobject_'))
+      // Lernbereich, VisuBot, VisuObject und VisuFlow gibt es auf Deutsch, Englisch und Portugiesisch; sonst Englisch.
+      const required = [...webEnglish.keys()].filter((k) => !k.startsWith('web_learn_') && !k.startsWith('web_visubot_') && !k.startsWith('web_visuobject_') && !k.startsWith('web_visuflow_'))
       expect(required.filter((k) => !web.has(k)), code).toEqual([])
       for (const [k, v] of web) expect(placeholders(v), `${code} ${k}`).toBe(placeholders(webEnglish.get(k)!))
     }
