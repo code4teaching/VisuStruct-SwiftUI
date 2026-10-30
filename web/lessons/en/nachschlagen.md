@@ -141,6 +141,15 @@ output: seats.length + " rows, " + seats[0].length + " seats"
 
 ## Java
 
+### From code to program
+
+The compiler `javac` translates `File.java` into bytecode (`File.class`). The JVM translates the bytecode into machine code while it runs, the same way on Windows, macOS and Linux. C++, on the other hand, becomes machine code directly and has to be compiled again for every system.
+
+| | contains | for |
+|---|---|---|
+| JRE | JVM and libraries | running |
+| JDK | JRE, compiler `javac`, tools | programming |
+
 ### Comments
 
 Notes in the code. Java skips them, the structure chart stays the same.
