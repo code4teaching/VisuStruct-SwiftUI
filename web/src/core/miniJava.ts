@@ -222,6 +222,24 @@ export type RunState =
   | { k: 'exception'; text: string; pos?: Pos }
   | { k: 'error'; error: MiniJavaError }
 
+export interface SeqEvent {
+  k: 'call' | 'create' | 'return'
+  /** Teilnehmer: `o12` (Objekt) oder `cMain` (Klasse, statisch); bei `return` leer. */
+  from: string
+  to: string
+  label: string
+  /** Zeile des Aufrufs. */
+  pos: Pos
+  /** Rückkehr aus einem Konstruktor: nicht als Pfeil zeichnen. */
+  hidden?: boolean
+}
+export interface SeqParticipant {
+  key: string
+  cls: string
+  label: string
+  isStatic: boolean
+}
+
 export type StepMode = 'run' | 'into' | 'over' | 'out'
 
 export interface MiniJavaIO {
@@ -243,6 +261,11 @@ export class MiniJava {
   private pauseRequested = false
   /** Objekt-Nummer → Name im Objektdiagramm (bleibt beim Weiterschalten gleich). */
   private names = new Map<number, string>()
+  private tempNames = new Map<number, string>()
+  /** Mitschnitt für das Sequenzdiagramm: Aufrufe eigener Methoden, `new`, Rückgaben. */
+  private seq: SeqEvent[] = []
+  private seqParticipants = new Map<string, { key: string; cls: string; id?: number }>()
+  private seqLimit = 3000
   private stdin = new JNative('in', 0)
   finished = false
 
@@ -359,7 +382,7 @@ export class MiniJava {
   heap(): HeapObject[] {
     return this.nameObjects().map((o) => ({
       id: o.id,
-      name: this.names.get(o.id)!,
+      name: (this.names.get(o.id) ?? this.tempNames.get(o.id))!,
       cls: o.cls.name,
       fields: [...o.fields].map(([name, v]) => ({ name, type: typeText(this.fieldType(o.cls, name) ?? T('Object')), value: this.show(v) })),
     }))
@@ -378,23 +401,26 @@ export class MiniJava {
     const found: JObject[] = []
     const seen = new Set<number>()
     const taken = new Set(this.names.values())
-    const give = (o: JObject, base: string) => {
+    this.tempNames.clear()
+    // Name nach einer Variablen bleibt; nach einem Attribut oder der Klasse (in einer Liste, `this` im Konstruktor) nur vorläufig.
+    const give = (o: JObject, base: string, keep: boolean) => {
       if (this.names.has(o.id)) return
-      let name = /^[\p{L}_$][\p{L}\p{N}_$]*$/u.test(base) ? base : o.cls.name.charAt(0).toLowerCase() + o.cls.name.slice(1)
+      const real = /^[\p{L}_$][\p{L}\p{N}_$]*$/u.test(base)
+      let name = real ? base : o.cls.name.charAt(0).toLowerCase() + o.cls.name.slice(1)
       if (taken.has(name)) {
         let n = 2
         while (taken.has(`${name}${n}`)) n++
         name = `${name}${n}`
       }
       taken.add(name)
-      this.names.set(o.id, name)
+      ;(real && keep ? this.names : this.tempNames).set(o.id, name)
     }
-    const queue: [Val, string][] = []
-    const visit = (v: Val, base: string) => {
+    const queue: [Val, string, boolean?][] = []
+    const visit = (v: Val, base: string, keep: boolean) => {
       if (v instanceof JObject) {
         if (v.cls.builtin || v.native.enumName !== undefined || seen.has(v.id)) return
         seen.add(v.id)
-        give(v, base)
+        give(v, base, keep)
         found.push(v)
         for (const [f, x] of v.fields) queue.push([x, f])
       } else if (v instanceof JArray || v instanceof JList) {
@@ -403,13 +429,15 @@ export class MiniJava {
     }
     for (const f of this.frames) {
       if (f.self) queue.push([f.self, ''])
-      for (const scope of f.scopes) for (const [name, v] of scope) queue.push([v.v, name])
+      for (const scope of f.scopes) for (const [name, v] of scope) queue.push([v.v, name, true])
     }
-    for (const c of this.classes.values()) for (const [name, v] of c.statics) queue.push([v, name])
+    for (const c of this.classes.values()) for (const [name, v] of c.statics) queue.push([v, name, true])
     // Erst die direkt benannten Objekte (Variablen), dann was an Attributen hängt.
     for (let i = 0; i < queue.length; i++) {
-      const [v, base] = queue[i]
-      visit(v, base)
+      const [v, base, keep] = queue[i]
+      // Ohne Namen erst später besuchen: Vielleicht zeigt noch eine Variable darauf.
+      if (base === '' && v instanceof JObject && !this.names.has(v.id) && queue.slice(i + 1).some(([x, b]) => x === v && b !== '')) continue
+      visit(v, base, !!keep)
     }
     return found.sort((a, b) => a.id - b.id)
   }
@@ -425,7 +453,7 @@ export class MiniJava {
     if (v instanceof JObject) {
       if (v.native.enumName !== undefined) return v.native.enumName
       if (v.cls.builtin) return v.cls.name
-      return this.names.get(v.id) ?? `${v.cls.name}@${javaHash(v.id)}`
+      return this.names.get(v.id) ?? this.tempNames.get(v.id) ?? `${v.cls.name}@${javaHash(v.id)}`
     }
     if (v instanceof JArray || v instanceof JList) {
       const items = v.items.slice(0, 30).map((x) => this.show(x))
@@ -434,6 +462,40 @@ export class MiniJava {
     if (v instanceof JMap) return `{${[...v.entries.values()].map(([k, x]) => `${this.show(k)}=${this.show(x)}`).join(', ')}}`
     if (v instanceof JNative) return v.kind === 'StringBuilder' ? JSON.stringify(v.buf) : v.kind
     return v.name
+  }
+
+  // MARK: Sequenzdiagramm
+
+  private seqKey(of: JObject | RtClass) {
+    return of instanceof JObject ? `o${of.id}` : `c${of.name}`
+  }
+
+  private record(k: 'call' | 'create', to: JObject | RtClass, label: () => string): boolean {
+    if (this.quiet || this.seq.length >= this.seqLimit) return false
+    const caller = this.frames.at(-1)
+    const from = caller ? this.seqKey(caller.self ?? caller.cls) : ''
+    const key = this.seqKey(to)
+    if (!this.seqParticipants.has(key)) this.seqParticipants.set(key, to instanceof JObject ? { key, cls: to.cls.name, id: to.id } : { key, cls: to.name })
+    this.nameObjects()
+    this.seq.push({ k, from, to: key, label: label(), pos: caller?.pos ?? { file: '', line: 0 } })
+    return true
+  }
+
+  private recordReturn(label: string, exception: boolean, hidden = false) {
+    if (this.seq.length >= this.seqLimit + 1000) return
+    this.seq.push({ k: 'return', from: '', to: '', label: exception ? '⚡' : label, pos: this.frames.at(-1)?.pos ?? { file: '', line: 0 }, ...(hidden && !exception ? { hidden } : {}) })
+  }
+
+  /** Mitschnitt mit Namen wie im Objektdiagramm: `s1 : Spieler`, ohne Namen `:Spieler`, statisch der Klassenname. */
+  sequence(): { participants: SeqParticipant[]; events: SeqEvent[]; truncated: boolean } {
+    this.nameObjects()
+    const participants = [...this.seqParticipants.values()].map((p) => ({
+      key: p.key,
+      cls: p.cls,
+      label: p.id === undefined ? p.cls : `${this.names.get(p.id) ?? this.tempNames.get(p.id) ?? ''} : ${p.cls}`,
+      isStatic: p.id === undefined,
+    }))
+    return { participants, events: [...this.seq], truncated: this.seq.length >= this.seqLimit }
   }
 
   // MARK: Ablauf
@@ -456,6 +518,7 @@ export class MiniJava {
       this.quiet--
     }
     const main = cls.decl!.methods.find(isMain)!
+    this.seqParticipants.set(`c${cls.name}`, { key: `c${cls.name}`, cls: cls.name })
     yield* this.invoke(main, cls, undefined, [new JArray(T('String'), [], this.id())])
   }
 
@@ -506,14 +569,23 @@ export class MiniJava {
     const scope = new Map<string, Variable>()
     m.params.forEach((p, i) => scope.set(p.name, { v: castTo(args[i], p.type), type: p.type }))
     const title = m.isConstructor ? `new ${owner.name}()` : `${owner.name}.${m.name}()`
+    const recorded = this.frames.length > 0 && this.record('call', self ? self : owner, () => `${m.name}(${args.map((a) => this.show(a)).join(', ')})`)
     this.frames.push({ cls: owner, method: m, self, scopes: [scope], pos: m, title })
+    let done = false
     try {
       const r = yield* this.execBody(m.body.body)
-      if (r?.k === 'return') return castTo(r.v, m.returns)
-      yield* this.step({ file: m.file, line: m.endLine })
-      return undefined
-    } finally {
+      let v: Val = undefined
+      if (r?.k === 'return') v = castTo(r.v, m.returns)
+      else yield* this.step({ file: m.file, line: m.endLine })
+      done = true
       this.frames.pop()
+      if (recorded) this.recordReturn(m.returns && m.returns.name !== 'void' ? this.show(v) : '', false)
+      return v
+    } finally {
+      if (!done) {
+        this.frames.pop()
+        if (recorded) this.recordReturn('', true)
+      }
     }
   }
 
@@ -531,7 +603,14 @@ export class MiniJava {
     const chain: RtClass[] = []
     for (let c: RtClass | undefined = cls; c; c = c.sup) chain.unshift(c)
     for (const c of chain) for (const f of c.decl?.fields ?? []) if (!f.isStatic) obj.fields.set(f.name, defaultValue(f.type))
-    yield* this.runCtor(cls, obj, args, pos)
+    const recorded = this.record('create', obj, () => `new ${cls.name}(${args.map((a) => this.show(a)).join(', ')})`)
+    let done = false
+    try {
+      yield* this.runCtor(cls, obj, args, pos)
+      done = true
+    } finally {
+      if (recorded) this.recordReturn('', !done, true)
+    }
     return obj
   }
 

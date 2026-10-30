@@ -421,6 +421,11 @@
 "web_visuobject_bad_line" = "Não percebo «%@». Exemplo: - nome: String ou + ladrar(): void";
 "web_visuobject_open_failed" = "Não foi possível ler o ficheiro.";
 "web_visuobject_field_ph" = "- nome: String";
+"web_visuobject_seq_diagram" = "Diagrama de sequência";
+"web_visuobject_seq_empty" = "O diagrama de sequência surge ao depurar: clica em “Depurar” em cima e percorre o programa passo a passo.";
+"web_visuobject_seq_no_calls" = "Ainda não há chamadas dos teus métodos.";
+"web_visuobject_seq_truncated" = "… encurtado: a partir daqui há chamadas demais.";
+"web_visuobject_seq_hint" = "Cada seta é uma chamada de um dos teus métodos; a seta tracejada traz o valor de retorno. Clica numa seta para ver a linha no código.";
 "web_visuobject_dbg" = "Depurar";
 "web_visuobject_dbg_tip" = "Executar o programa passo a passo. Ponto de paragem: clica no número da linha. O diagrama de objetos mostra os objetos na memória.";
 "web_visuobject_dbg_continue" = "Continuar";
