@@ -16,6 +16,8 @@ export type Block =
   | { kind: 'diagram'; file: string; caption: string }
   | { kind: 'exercise'; exercise: Exercise }
   | { kind: 'checklist'; items: ChecklistItem[] }
+  /** Kompetenzen am Anfang der Lektion („Diese Kompetenzen erwerbe ich jetzt“). */
+  | { kind: 'competences'; items: string[] }
   | { kind: 'quiz'; questions: QuizQuestion[] }
   | { kind: 'brag'; text: string; tip?: boolean }
   | { kind: 'images'; files: string[]; caption: string }
@@ -71,6 +73,9 @@ export interface QuizQuestion {
   /** Zuordnung: Zu jedem linken Begriff wird der passende rechte gewählt. */
   pairs?: { left: string; right: string }[]
   explanation?: string
+  /** Schritt, den die Frage prüft (`→ Titel`); verbindet sie mit dem Checklistenpunkt zu diesem Schritt. */
+  ref?: string
+  step?: number
 }
 
 export interface Step {
@@ -267,6 +272,10 @@ function parseQuiz(lines: string[], file: string): QuizQuestion[] {
       const m = /^=\s+(.+?)\s+->\s+(.+)$/.exec(line)
       if (!q || !m) throw new FormatError(`${file}: Zuordnung „${line}“ braucht die Form „= links -> rechts“ nach einer Frage.`)
       ;(q.pairs ??= []).push({ left: m[1].trim(), right: m[2].trim() })
+    } else if (line.startsWith('→')) {
+      const q = questions.at(-1)
+      if (!q) throw new FormatError(`${file}: „→ Schritt“ ohne Frage im Quiz.`)
+      q.ref = line.slice(1).trim()
     } else if (line.startsWith('>')) {
       const q = questions.at(-1)
       if (q) q.explanation = ((q.explanation ? q.explanation + ' ' : '') + line.slice(1).trim()).trim()
@@ -322,6 +331,9 @@ export function parseBlocks(body: string, file: string): Block[] {
         break
       case 'checkliste':
         blocks.push({ kind: 'checklist', items: inner.map((l) => l.trim()).filter((l) => l.startsWith('- ')).map((l) => checklistItem(l.slice(2).trim())) })
+        break
+      case 'kompetenzen':
+        blocks.push({ kind: 'competences', items: inner.map((l) => l.trim()).filter((l) => l.startsWith('- ')).map((l) => l.slice(2).trim()) })
         break
       case 'quiz':
         blocks.push({ kind: 'quiz', questions: parseQuiz(inner, file) })
@@ -430,6 +442,16 @@ function resolveChecklistRefs(steps: Step[], file: string) {
       if (item.ref === undefined) continue
       item.step = index.get(item.ref.toLowerCase())
       if (item.step === undefined) throw new FormatError(`${file}: Checkliste verweist auf unbekannten Schritt „${item.ref}“.`)
+    }
+  }
+  const checked = new Set(steps.flatMap((s) => s.blocks).flatMap((b) => (b.kind === 'checklist' ? b.items.map((i) => i.step) : [])))
+  for (const block of steps.flatMap((s) => s.blocks)) {
+    if (block.kind !== 'quiz') continue
+    for (const q of block.questions) {
+      if (q.ref === undefined) continue
+      q.step = index.get(q.ref.toLowerCase())
+      if (q.step === undefined) throw new FormatError(`${file}: Quizfrage „${q.question}“ verweist auf unbekannten Schritt „${q.ref}“.`)
+      if (!checked.has(q.step)) throw new FormatError(`${file}: Zu „${q.ref}“ (Quizfrage „${q.question}“) gibt es keinen Checklistenpunkt.`)
     }
   }
 }

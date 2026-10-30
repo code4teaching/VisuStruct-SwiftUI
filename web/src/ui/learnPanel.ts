@@ -9,7 +9,7 @@ import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks
 import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
-import { progress } from '../learn/progress'
+import { progress, type Rating } from '../learn/progress'
 import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { currentLanguage, t } from './i18n'
 import { noticeText } from './simulationPanel'
@@ -439,6 +439,8 @@ export class LearnPanel {
         return this.renderDiagram(block.file, block.caption)
       case 'exercise':
         return this.renderExercise(block.exercise)
+      case 'competences':
+        return this.renderCompetences(block.items)
       case 'checklist':
         return this.renderChecklist(block.items, key, lesson)
       case 'quiz':
@@ -757,20 +759,52 @@ export class LearnPanel {
     box.append(list)
   }
 
+  private renderCompetences(items: string[]): HTMLElement {
+    // Steht als eigener erster Schritt „Diese Kompetenzen erwerbe ich jetzt“; der Kasten braucht keine eigene Überschrift.
+    const box = h('aside', { class: 'learn-competences' }, h('p', { class: 'learn-competences-title' }, t('web_learn_competences_intro')))
+    const list = h('ul', {})
+    for (const item of items) list.append(html('li', {}, inline(item)))
+    box.append(list)
+    return box
+  }
+
+  /** „Ich kann …“ mit Selbsteinschätzung rechts daneben: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. */
   private renderChecklist(items: ChecklistItem[], key: string, lesson?: Lesson): HTMLElement {
+    const ratings: { value: Rating; icon: string; label: string }[] = [
+      { value: 'umbrella', icon: '☂️', label: t('web_learn_rating_umbrella') },
+      { value: 'cloud', icon: '⛅', label: t('web_learn_rating_cloud') },
+      { value: 'sun', icon: '☀️', label: t('web_learn_rating_sun') },
+    ]
+    const wrap = h('div', { class: 'learn-checklist-wrap' })
+    const legend = h('p', { class: 'learn-rating-legend' })
+    for (const r of ratings) legend.append(h('span', {}, `${r.icon} ${r.label}`))
     const box = h('ul', { class: 'learn-checklist' })
+    wrap.append(legend, box)
     items.forEach((item, i) => {
       const id = `${key}-${i}`
-      const input = h('input', { type: 'checkbox' }) as HTMLInputElement
-      input.checked = !!(lesson && progress.lesson(lesson.id).checks?.[id])
-      input.addEventListener('change', () => {
-        if (!lesson) return
-        const checks = { ...(progress.lesson(lesson.id).checks ?? {}), [id]: input.checked }
-        progress.updateLesson(lesson.id, { checks })
+      const stored = lesson ? progress.lesson(lesson.id).checks?.[id] : undefined
+      let current: Rating | undefined = stored === true ? 'sun' : stored || undefined
+      const text = html('span', { class: 'learn-check-text' }, inline(item.text))
+      const group = h('span', { class: 'learn-rating', role: 'group', 'aria-label': text.textContent ?? '' })
+      const buttons = ratings.map((r) => {
+        const b = h('button', { class: 'learn-rating-button', title: r.label, 'aria-label': r.label }, r.icon)
+        b.addEventListener('click', () => {
+          current = current === r.value ? undefined : r.value
+          show()
+          if (!lesson) return
+          const checks = { ...(progress.lesson(lesson.id).checks ?? {}) }
+          if (current) checks[id] = current
+          else delete checks[id]
+          progress.updateLesson(lesson.id, { checks: Object.keys(checks).length ? checks : undefined })
+        })
+        return b
       })
-      const label = h('label', {}, input)
-      label.insertAdjacentHTML('beforeend', ' ' + inline(item.text))
-      const li = h('li', {}, label)
+      const show = () => {
+        buttons.forEach((b, bi) => b.setAttribute('aria-pressed', String(ratings[bi].value === current)))
+        li.dataset.rating = current ?? ''
+      }
+      group.append(...buttons)
+      const li = h('li', {}, text, group)
       if (lesson && item.step !== undefined) {
         const step = item.step
         const where = t('web_learn_step_fmt', step + 1, lesson.steps[step].title)
@@ -781,24 +815,29 @@ export class LearnPanel {
         })
         li.append(link)
       }
+      show()
       box.append(li)
     })
-    return box
+    return wrap
   }
 
   private renderQuiz(questions: QuizQuestion[], key: string, lesson?: Lesson): HTMLElement {
     const box = h('div', { class: 'learn-quiz' })
     const score = h('p', { class: 'learn-score', role: 'status' })
     const answers = () => (lesson ? progress.lesson(lesson.id).quiz ?? {} : {})
+    const review = h('div', { class: 'learn-review' })
     const updateScore = () => {
       const a = answers()
       const chosen = (q: QuizQuestion, qi: number) =>
         q.pairs ? q.pairs.every((_, pi) => a[`${key}-${qi}-${pi}`] !== undefined) : a[`${key}-${qi}`] !== undefined
       const correct = (q: QuizQuestion, qi: number) =>
-        q.pairs ? q.pairs.every((_, pi) => matchOrder(q)[a[`${key}-${qi}-${pi}`]] === q.pairs![pi].right) : q.options[a[`${key}-${qi}`]]?.correct
+        !!(q.pairs ? q.pairs.every((_, pi) => matchOrder(q)[a[`${key}-${qi}-${pi}`]] === q.pairs![pi].right) : q.options[a[`${key}-${qi}`]]?.correct)
       const answered = questions.filter(chosen).length
       const right = questions.filter(correct).length
-      score.textContent = answered === questions.length ? t('web_learn_score_fmt', right, questions.length) : ''
+      const complete = answered === questions.length
+      score.textContent = complete ? t('web_learn_score_fmt', right, questions.length) : ''
+      review.replaceChildren()
+      if (complete && lesson) this.fillChecklistReview(review, lesson, questions, (qi) => correct(questions[qi], qi))
     }
     questions.forEach((q, qi) => {
       const id = `${key}-${qi}`
@@ -830,9 +869,55 @@ export class LearnPanel {
       showAnswer(answers()[id])
       box.append(fieldset)
     })
-    box.append(score)
+    box.append(score, review)
     updateScore()
     return box
+  }
+
+  /**
+   * Nach dem Wissenstest die Checkliste noch einmal zeigen, mit Abweichungen: ☀️ gewählt, aber eine Frage zu diesem
+   * Schritt falsch, oder ⛅/☂️ gewählt und alle Fragen dazu richtig. Fragen verweisen mit `→ Schritt` auf den Schritt.
+   */
+  private fillChecklistReview(box: HTMLElement, lesson: Lesson, questions: QuizQuestion[], correct: (qi: number) => boolean) {
+    const icons: Record<Rating, string> = { sun: '☀️', cloud: '⛅', umbrella: '☂️' }
+    const checks = progress.lesson(lesson.id).checks ?? {}
+    const rows: HTMLElement[] = []
+    let deviations = 0
+    lesson.steps.forEach((step, si) =>
+      step.blocks.forEach((block, bi) => {
+        if (block.kind !== 'checklist') return
+        block.items.forEach((item, i) => {
+          const stored = checks[`${si}-${bi}-${i}`]
+          const rating: Rating | undefined = stored === true ? 'sun' : stored || undefined
+          const linked = item.step === undefined ? [] : questions.map((q, qi) => (q.step === item.step ? qi : -1)).filter((qi) => qi >= 0)
+          const wrong = linked.filter((qi) => !correct(qi))
+          let note = ''
+          if (rating === 'sun' && wrong.length) note = t('web_learn_review_overrated_fmt', wrong.map((qi) => qi + 1).join(', '))
+          else if (rating && rating !== 'sun' && linked.length && !wrong.length) note = t('web_learn_review_underrated')
+          if (note) deviations++
+          const li = h('li', { class: note ? 'learn-review-deviation' : '' })
+          const text = html('span', { class: 'learn-check-text' }, inline(item.text))
+          if (note) text.append(h('br', {}), h('em', {}, note))
+          li.append(text, h('span', { class: 'learn-review-icon', 'aria-label': rating ? t(`web_learn_rating_${rating}`) : t('web_learn_review_unrated') }, rating ? icons[rating] : '–'))
+          if (note && rating === 'sun' && item.step !== undefined) {
+            const target = item.step
+            const link = h('button', { class: 'link-button learn-check-link' }, t('web_learn_review'))
+            link.addEventListener('click', () => {
+              this.returnTo = { lesson: lesson.id, step: progress.lesson(lesson.id).step, scroll: this.body.scrollTop }
+              this.goToStep(lesson, target)
+            })
+            li.append(link)
+          }
+          rows.push(li)
+        })
+      }),
+    )
+    if (!rows.length) return
+    box.append(
+      h('p', { class: 'learn-review-title' }, `📋 ${t('web_learn_review_title')}`),
+      h('p', {}, deviations ? t('web_learn_review_hint') : t('web_learn_review_match')),
+      h('ul', { class: 'learn-checklist' }, ...rows),
+    )
   }
 
   /** Zuordnung: neben jedem linken Begriff eine Auswahl mit allen rechten Begriffen. */

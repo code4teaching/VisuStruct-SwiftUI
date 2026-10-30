@@ -115,6 +115,16 @@
 "web_learn_review" = "Nachlesen";
 "web_learn_terms" = "Fachbegriffe";
 "web_learn_resize" = "Breite des Lernbereichs ändern (Doppelklick: zurücksetzen)";
+"web_learn_competences_intro" = "Am Ende dieser Lektion kann ich …";
+"web_learn_rating_sun" = "kann ich sicher";
+"web_learn_rating_cloud" = "teilweise";
+"web_learn_rating_umbrella" = "noch nicht";
+"web_learn_review_title" = "Deine Checkliste im Vergleich";
+"web_learn_review_hint" = "Hier weichen deine Einschätzung und der Test voneinander ab. Lies den Schritt noch einmal nach und schätze dich in der Checkliste neu ein.";
+"web_learn_review_match" = "Deine Einschätzung passt zu deinem Test. Gut gemacht!";
+"web_learn_review_overrated_fmt" = "Du hast ☀️ gewählt, aber Frage %@ war falsch.";
+"web_learn_review_underrated" = "Alle Fragen dazu waren richtig. Du kannst mehr, als du denkst!";
+"web_learn_review_unrated" = "noch nicht eingeschätzt";
 "web_learn_back_to_checklist" = "Zurück zur Checkliste";
 "web_learn_step_fmt" = "Schritt %d: %@";
 "web_sim_call_arguments_fmt" = "Der Aufruf passt nicht zur Kopfzeile von %@. Prüfe die Werte in den Klammern.";

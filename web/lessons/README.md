@@ -87,6 +87,35 @@ Eine Checkliste zum Abhaken:
 
 Steht hinter einem Punkt `→` und der Titel eines Schritts dieser Lektion, zeigt die Checkliste daneben **Nachlesen**. Ein Klick springt zu diesem Schritt. Ein falscher Titel fällt beim Bauen und in den Tests auf.
 
+Die Punkte sind kompetenzorientiert formuliert („Ich kann …“). Rechts neben jedem Punkt schätzt man sich ein: ☂️ noch nicht,
+⛅ teilweise, ☀️ kann ich sicher; danach folgt **Nachlesen**. Die Wahl steht wie der übrige Lernstand in `learnProgress.json` (ältere Häkchen gelten als ☀️).
+
+Am Anfang einer Lektion stehen die Kompetenzen, die man erwirbt, als eigener erster Schritt „Diese Kompetenzen erwerbe
+ich jetzt“; die Lektion selbst beginnt mit Schritt 2. Der Kasten beginnt mit „Am Ende dieser Lektion kann ich …“, die Punkte
+also so formulieren, dass sie daran anschließen:
+
+```
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, was ein Algorithmus ist
+- ein Struktogramm lesen
+:::
+```
+
+Eine Quizfrage kann mit `→ Titel eines Schritts` sagen, was sie prüft. Ist der Wissenstest fertig, zeigt er darunter die
+Checkliste noch einmal mit den Abweichungen: ☀️ gewählt, aber eine Frage zu diesem Schritt falsch (mit **Nachlesen**),
+oder ⛅/☂️ gewählt und alle Fragen dazu richtig. Zu jedem Schritt aus `→` muss es einen Checklistenpunkt geben.
+
+```
+::: quiz
+? In welcher Richtung wird ein Struktogramm gelesen?
+→ So liest du ein Struktogramm
+- [x] Von oben nach unten
+- [ ] Von links nach rechts
+:::
+```
+
 Ein oder mehrere Bilder aus `lessons/bilder/` nebeneinander, die Zeilen bis `:::` sind die Bildunterschrift (dort auch den
 Bildnachweis angeben):
 

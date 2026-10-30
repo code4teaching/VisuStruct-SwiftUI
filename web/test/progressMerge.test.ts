@@ -12,6 +12,11 @@ describe('Lernstand zusammenführen', () => {
     expect(m.exercises.f).toEqual({ done: true })
   })
 
+  it('die eigene Selbsteinschätzung geht vor', () => {
+    const m = mergeProgress({ lessons: { a: { step: 1, checks: { x: 'cloud' as const } } }, exercises: {} }, { lessons: { a: { step: 1, checks: { x: 'sun' as const, y: 'umbrella' as const } } }, exercises: {} })
+    expect(m.lessons.a.checks).toEqual({ x: 'cloud', y: 'umbrella' })
+  })
+
   it('übernimmt die Datei, wenn im Browser nichts ist', () => {
     const theirs = { lessons: { a: { step: 3, done: true } }, exercises: { e: { done: true, xml: '<x/>' } } }
     expect(mergeProgress({ lessons: {}, exercises: {} }, theirs)).toEqual(theirs)

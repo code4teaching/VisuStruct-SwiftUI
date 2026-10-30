@@ -115,6 +115,16 @@
 "web_learn_review" = "Review";
 "web_learn_terms" = "Technical terms";
 "web_learn_resize" = "Change the width of the learning area (double-click: reset)";
+"web_learn_competences_intro" = "At the end of this lesson I can …";
+"web_learn_rating_sun" = "I can do this confidently";
+"web_learn_rating_cloud" = "partly";
+"web_learn_rating_umbrella" = "not yet";
+"web_learn_review_title" = "Your checklist compared";
+"web_learn_review_hint" = "Here your self-assessment and the quiz do not match. Read the step again and rate yourself again in the checklist.";
+"web_learn_review_match" = "Your self-assessment matches your quiz. Well done!";
+"web_learn_review_overrated_fmt" = "You chose ☀️, but question %@ was wrong.";
+"web_learn_review_underrated" = "All questions on this were right. You can do more than you think!";
+"web_learn_review_unrated" = "not rated yet";
 "web_learn_back_to_checklist" = "Back to checklist";
 "web_learn_step_fmt" = "Step %d: %@";
 "web_sim_call_arguments_fmt" = "The call does not match the header of %@. Check the values in the parentheses.";
