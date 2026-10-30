@@ -24,7 +24,7 @@ This way of drawing was invented by **Isaac Nassi and Ben Shneiderman** (1973). 
 Left: Isaac “Ike” Nassi (photo: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), cropped), right: Ben Shneiderman (photo: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> A structure chart always has exactly one start (at the top) and one end (at the bottom). There are no arrows and no jumps all over the place. Programs that jump all over the place are called **spaghetti code**, because their flow gets tangled like noodles on a plate. More on this in step 8.
+> A structure chart always has exactly one start (at the top) and one end (at the bottom). There are no arrows and no jumps all over the place. Programs that jump all over the place are called **spaghetti code**, because their flow gets tangled like noodles on a plate. More on this in step 9.
 
 ::: angeberwissen
 Baaah, listen up! In 1972 Nassi and Shneiderman were still PhD students at Stony Brook University near New York. Shneiderman was about 25 and Nassi about 23. So basically two students who wrote computer science history on the side.
@@ -134,6 +134,28 @@ A loop has no symbol of its own in a flowchart. You recognise it by an arrow tha
 
 - **Very easy to read**, even for people who have never seen a flowchart. You simply follow the arrows with your finger.
 - Flowcharts are not only used in programming but wherever a process is explained: in user manuals, for troubleshooting (“Is the lamp on? No: is it plugged in?”) or in companies for work processes.
+
+## Exercise: Baking a cake as a flowchart
+
+Now you build a flowchart yourself. Ludwig bakes a cake like this:
+
+He puts the ingredients in the bowl and stirs the batter. If the batter is not smooth yet, he keeps stirring. Once it is smooth, he pours the batter into the tin and bakes the cake for 30 minutes. Then he checks with a wooden skewer: if batter still sticks to it, he bakes for 5 more minutes and checks again. Once the skewer comes out clean, he takes the cake out and calls: “The cake is ready!”
+
+::: pap
+titel: Exercise: Baking a cake as a flowchart
+auftrag: The places in the chart are empty. Put each element in its place. The shape of the place helps you.
+start: Start
+anweisung: Put ingredients in the bowl
+anweisung: Stir the batter
+frage: Batter smooth? | nein -> Stir the batter
+anweisung: Pour batter into the tin
+anweisung: Bake for 30 minutes
+frage: Skewer clean? | nein: Bake 5 more minutes
+anweisung: Take the cake out
+ausgabe: “The cake is ready!”
+ende: End
+erklärung: Two loops, two arrows back up: when stirring, the arrow leads back to “Stir the batter”; when baking, it leads from “Bake 5 more minutes” back to the question. The output sits in the parallelogram.
+:::
 
 ## Drawbacks of the flowchart: jumps
 
@@ -270,6 +292,7 @@ richtig: branch
 - I know the three basic building blocks: sequence, branch and loop. → Building block 1: the sequence
 - I can recognise every building block in a structure chart by its shape. → All three together
 - I know the symbols of a flowchart and can read a simple flowchart. → Other ways to draw it: the flowchart
+- I can build a simple algorithm as a flowchart myself. → Exercise: Baking a cake as a flowchart
 - I can explain why jumps with GOTO lead to mistakes and spaghetti code. → Drawbacks of the flowchart: jumps
 - I can also read a simple algorithm as pseudocode. → Pseudocode and comparison
 :::

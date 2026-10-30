@@ -18,6 +18,7 @@ import { renderRobotModel, renderRobotQuiz, wireRobotLinks } from './visubotMode
 import { renderRoundGame } from './roundGameView'
 import { renderRescueGame } from './rescueGameView'
 import { renderCloze } from './clozeView'
+import { renderPap } from './papView'
 import { textFileView } from './textFileView'
 import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoFiles, pointsIntoLiveCode } from './termTips'
 
@@ -452,6 +453,8 @@ export class LearnPanel {
         return renderCaesarDisc(block.key, block.text)
       case 'cloze':
         return renderCloze(block.cloze)
+      case 'pap':
+        return renderPap(block.pap)
       case 'textFile':
         return textFileView(block.name, block.content)
       case 'robotModel':

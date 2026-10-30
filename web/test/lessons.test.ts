@@ -9,6 +9,7 @@ import { contentLanguages, diagram, image, lessons, reference, tasks, useContent
 import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
+import { papFits, papLayout, parsePap } from '../src/learn/pap'
 import { parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
 const allBlocks = (): { where: string; block: Block }[] => [
@@ -366,5 +367,49 @@ describe('Rundenspiele (Swing)', () => {
       }
     }
     expect(checked).toBeGreaterThan(5)
+  })
+})
+
+describe('PAP bauen', () => {
+  const lines = (text: string) => text.trim().split('\n').map((l) => l.trim())
+
+  it('liest Rücksprung und Seitenkasten', () => {
+    const pap = parsePap(
+      lines(`
+        titel: Test
+        start: Start
+        anweisung: Rühren
+        frage: Glatt? | nein -> Rühren
+        frage: Fertig? | nein: Warten
+        ende: Ende
+      `),
+      't.md',
+    )
+    expect(pap.nodes.map((n) => n.shape)).toEqual(['oval', 'rechteck', 'raute', 'raute', 'rechteck', 'oval'])
+    expect(pap.nodes[2].backTo).toBe(1)
+    expect(pap.nodes[3].side).toBe(4)
+    expect(pap.nodes[4].isSide).toBe(true)
+    const { boxes } = papLayout(pap)
+    expect(boxes).toHaveLength(6)
+    expect(boxes[4].y).toBe(boxes[3].y)
+  })
+
+  it('meldet Rücksprung ohne Ziel und Fragen ohne zweiten Ausgang', () => {
+    expect(() => parsePap(['titel: x', 'start: S', 'frage: F? | nein -> Gibt es nicht', 'ende: E'], 't.md')).toThrow(/Rücksprung/)
+    expect(() => parsePap(['titel: x', 'start: S', 'frage: F?', 'ende: E'], 't.md')).toThrow(/zweiten Ausgang|braucht/)
+  })
+
+  it('gleiche Elemente sind austauschbar', () => {
+    const pap = parsePap(['titel: x', 'start: S', 'anweisung: A', 'anweisung: A', 'ende: E'], 't.md')
+    expect(papFits(pap, 1, 2)).toBe(true)
+    expect(papFits(pap, 0, 3)).toBe(false)
+  })
+
+  it('jede Sprache hat in Lektion 1 einen PAP zum Bauen', () => {
+    for (const lang of contentLanguages) {
+      useContentLanguage(lang)
+      const paps = allBlocks().filter(({ block }) => block.kind === 'pap')
+      expect(paps.length, lang).toBe(1)
+    }
   })
 })

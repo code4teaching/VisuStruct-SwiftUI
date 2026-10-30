@@ -24,7 +24,7 @@ Esta forma de desenhar foi inventada por **Isaac Nassi e Ben Shneiderman** (1973
 À esquerda: Isaac “Ike” Nassi (foto: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), recortada), à direita: Ben Shneiderman (foto: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> Um estrutograma tem sempre exatamente um início (em cima) e um fim (em baixo). Não há setas nem saltos para todo o lado. Programas que saltam para todo o lado chamam-se **código esparguete**, porque o seu fluxo se enrola como massa no prato. Mais sobre isto no passo 8.
+> Um estrutograma tem sempre exatamente um início (em cima) e um fim (em baixo). Não há setas nem saltos para todo o lado. Programas que saltam para todo o lado chamam-se **código esparguete**, porque o seu fluxo se enrola como massa no prato. Mais sobre isto no passo 9.
 
 ::: angeberwissen
 Méééé, ouve bem! Em 1972, Nassi e Shneiderman ainda eram doutorandos na Universidade de Stony Brook, perto de Nova Iorque. Shneiderman tinha uns 25 anos e Nassi uns 23. Ou seja, dois estudantes que escreveram história da informática nas horas vagas.
@@ -104,7 +104,7 @@ Consolo para quem correu mal um teste: a famosa revista *Communications of the A
 
 ## Outras formas de desenhar: o fluxograma
 
-Há mais duas formas de representar um algoritmo: o **fluxograma** e o **pseudocódigo**. Vais conhecer as duas nas aulas.
+Há mais duas formas de representar um algoritmo: o **fluxograma** e o **pseudocódigo**. Vais conhecer as duas nas aulas. Em inglês, o fluxograma chama-se **flowchart**. Esta palavra aparece muitas vezes, por exemplo em programas e na internet.
 
 Aqui vês outra vez o nosso estrutograma para beber chá de “Os três juntos”. A seguir vamos ver o fluxograma, com o mesmo exemplo.
 
@@ -133,7 +133,29 @@ Um ciclo não tem símbolo próprio no fluxograma. Reconheces um ciclo por uma s
 ### As vantagens
 
 - **Muito fácil de ler**, mesmo para quem nunca viu um fluxograma. Basta seguir as setas com o dedo.
-- Os fluxogramas (em inglês *flowchart*) não se usam só na programação, mas em todo o lado onde se explica um processo: em manuais de instruções, na procura de avarias (“A lâmpada acende? Não: a ficha está ligada?”) ou nas empresas para os processos de trabalho.
+- Os fluxogramas não se usam só na programação, mas em todo o lado onde se explica um processo: em manuais de instruções, na procura de avarias (“A lâmpada acende? Não: a ficha está ligada?”) ou nas empresas para os processos de trabalho.
+
+## Exercício: Fazer um bolo como fluxograma
+
+Agora és tu que constróis um fluxograma. O Ludwig faz um bolo assim:
+
+Põe os ingredientes na tigela e mexe a massa. Se a massa ainda não estiver lisa, continua a mexer. Quando está lisa, deita a massa na forma e coze o bolo durante 30 minutos. Depois testa com um palito: se ainda tiver massa agarrada, coze mais 5 minutos e testa outra vez. Quando o palito sai limpo, tira o bolo e diz: “O bolo está pronto!”
+
+::: pap
+titel: Exercício: Fazer um bolo como fluxograma
+auftrag: Os lugares no fluxograma estão vazios. Põe cada elemento no seu lugar. A forma do lugar ajuda-te.
+start: Início
+anweisung: Pôr os ingredientes na tigela
+anweisung: Mexer a massa
+frage: Massa lisa? | nein -> Mexer a massa
+anweisung: Deitar a massa na forma
+anweisung: Cozer 30 minutos
+frage: Palito limpo? | nein: Cozer mais 5 minutos
+anweisung: Tirar o bolo do forno
+ausgabe: “O bolo está pronto!”
+ende: Fim
+erklärung: Dois ciclos, duas setas para cima: ao mexer, a seta volta a “Mexer a massa”; ao cozer, vai de “Cozer mais 5 minutos” de volta à pergunta. A saída fica no paralelogramo.
+:::
 
 ## Desvantagens do fluxograma: saltos
 
@@ -270,6 +292,7 @@ richtig: decisão
 - Conheço os três blocos básicos: sequência, decisão e ciclo. → Bloco básico 1: a sequência
 - Reconheço cada bloco básico num estrutograma pela sua forma. → Os três juntos
 - Conheço os símbolos de um fluxograma e sei ler um fluxograma simples. → Outras formas de desenhar: o fluxograma
+- Sei construir sozinho um algoritmo simples como fluxograma. → Exercício: Fazer um bolo como fluxograma
 - Sei explicar porque é que os saltos com GOTO levam a erros e a código esparguete. → Desvantagens do fluxograma: saltos
 - Também consigo ler um algoritmo simples em pseudocódigo. → Pseudocódigo e comparação
 :::
@@ -320,6 +343,12 @@ richtig: decisão
 = Losango -> Decisão
 = Paralelogramo -> Entrada ou saída
 > O losango tem duas saídas: sim e não.
+
+? Como se diz fluxograma em inglês?
+- [x] Flowchart
+- [ ] Structure chart
+- [ ] Pseudocode
+> Structure chart é o estrutograma.
 
 ? Acrescentas uma nova linha a um programa com GOTO. O que pode acontecer?
 - [x] Os saltos apontam para as linhas erradas, porque os números mudaram

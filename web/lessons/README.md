@@ -281,6 +281,27 @@ für sich geprüft.
 
 Für „Fehler finden“ eignet sich eine normale Übung mit `code: java`, deren `start:`-Diagramm einen Fehler enthält.
 
+„PAP bauen“: Ein Programmablaufplan mit leeren Plätzen, darunter liegen die fertigen Elemente gemischt. Man tippt ein
+Element und dann seinen Platz an oder zieht es hin. `start:`/`ende:` sind Ovale, `anweisung:` Rechtecke, `eingabe:`/
+`ausgabe:` Parallelogramme, `frage:` Rauten. Die Zeilen stehen von oben nach unten. Eine Frage braucht nach ` | ` ihren
+zweiten Ausgang: `nein -> Text` ist ein Pfeil zurück nach oben zum Element mit diesem Text, `nein: Text` eine Anweisung
+rechts daneben, von der ein Pfeil zurück zur Raute führt. Statt `nein` geht auch `ja`. Die Schlüsselwörter bleiben auch in
+en/pt deutsch, die Beschriftung ja/nein kommt aus der Oberflächensprache.
+
+```
+::: pap
+titel: Übung: Kuchen backen als PAP
+auftrag: Lege jedes Element an seinen Platz.
+start: Start
+anweisung: Teig rühren
+frage: Teig glatt? | nein -> Teig rühren
+frage: Stäbchen sauber? | nein: 5 Minuten weiterbacken
+ausgabe: „Der Kuchen ist fertig!“
+ende: Ende
+erklärung: Wird gezeigt, wenn alles stimmt.
+:::
+```
+
 Ein Quiz, `[x]` markiert richtige Antworten, `>` ist die Erklärung nach dem Antworten:
 
 ```

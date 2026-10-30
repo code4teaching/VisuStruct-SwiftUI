@@ -24,7 +24,7 @@ Die Darstellung stammt von **Isaac Nassi und Ben Shneiderman** (1973). Deshalb h
 Links Isaac „Ike“ Nassi (Foto: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/deed.de), zugeschnitten), rechts Ben Shneiderman (Foto: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer. Programme, die kreuz und quer springen, nennt man **Spaghetticode**, weil sich ihr Ablauf verheddert wie Nudeln auf dem Teller. Mehr dazu in Schritt 8.
+> Ein Struktogramm hat immer genau einen Anfang (oben) und ein Ende (unten). Es gibt keine Pfeile und keine Sprünge kreuz und quer. Programme, die kreuz und quer springen, nennt man **Spaghetticode**, weil sich ihr Ablauf verheddert wie Nudeln auf dem Teller. Mehr dazu in Schritt 9.
 
 ::: angeberwissen
 Määäh, aufgepasst! 1972 waren Nassi und Shneiderman noch Doktoranden an der Stony Brook University bei New York, Shneiderman etwa 25 und Nassi etwa 23. Also quasi zwei Studis, die nebenbei Informatikgeschichte geschrieben haben.
@@ -104,7 +104,7 @@ Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschri
 
 ## Andere Darstellungen: Der PAP
 
-Es gibt noch zwei weitere Arten, Algorithmen darzustellen: den **Programmablaufplan**, kurz **PAP**, und den **Pseudocode**. Beide wirst du im Unterricht treffen.
+Es gibt noch zwei weitere Arten, Algorithmen darzustellen: den **Programmablaufplan**, kurz **PAP**, und den **Pseudocode**. Beide wirst du im Unterricht treffen. Auf Englisch heißt der PAP **flowchart**, auf Deutsch auch Flussdiagramm. Das englische Wort begegnet dir oft, zum Beispiel in Programmen und im Internet.
 
 Hier siehst du noch einmal unser Struktogramm zum Teetrinken aus „Alle drei zusammen“. Als Nächstes schauen wir uns den PAP an, und zwar mit demselben Beispiel.
 
@@ -133,7 +133,29 @@ Eine Schleife hat im PAP kein eigenes Symbol. Du erkennst sie daran, dass ein Pf
 ### Die Vorteile
 
 - **Sehr gut lesbar**, auch für Leute, die noch nie einen PAP gesehen haben. Man folgt einfach den Pfeilen mit dem Finger.
-- Solche Pläne heißen allgemein **Flussdiagramm**, auf Englisch *flowchart*. Man benutzt sie nicht nur beim Programmieren, sondern überall, wo ein Ablauf erklärt wird: in Bedienungsanleitungen, bei der Fehlersuche („Leuchtet die Lampe? Nein: Steckt der Stecker?“) oder in Firmen für Arbeitsabläufe.
+- Flussdiagramme benutzt man nicht nur beim Programmieren, sondern überall, wo ein Ablauf erklärt wird: in Bedienungsanleitungen, bei der Fehlersuche („Leuchtet die Lampe? Nein: Steckt der Stecker?“) oder in Firmen für Arbeitsabläufe.
+
+## Übung: Kuchen backen als PAP
+
+Jetzt baust du selbst einen PAP. Ludwig backt einen Kuchen und geht so vor:
+
+Er gibt die Zutaten in die Schüssel und rührt den Teig. Ist der Teig noch nicht glatt, rührt er weiter. Ist er glatt, füllt er den Teig in die Form und backt den Kuchen 30 Minuten. Dann prüft er mit einem Holzstäbchen: Klebt noch Teig daran, backt er 5 Minuten weiter und prüft noch einmal. Ist das Stäbchen sauber, nimmt er den Kuchen heraus und ruft: „Der Kuchen ist fertig!“
+
+::: pap
+titel: Übung: Kuchen backen als PAP
+auftrag: Die Plätze im Plan sind leer. Lege jedes Element an seinen Platz. Die Form des Platzes hilft dir.
+start: Start
+anweisung: Zutaten in die Schüssel geben
+anweisung: Teig rühren
+frage: Teig glatt? | nein -> Teig rühren
+anweisung: Teig in die Form füllen
+anweisung: Kuchen 30 Minuten backen
+frage: Stäbchen sauber? | nein: 5 Minuten weiterbacken
+anweisung: Kuchen herausnehmen
+ausgabe: „Der Kuchen ist fertig!“
+ende: Ende
+erklärung: Zwei Schleifen, zwei Pfeile zurück nach oben: Beim Rühren führt der Pfeil zurück zu „Teig rühren“, beim Backen von „5 Minuten weiterbacken“ zurück zur Frage. Die Ausgabe steht im Parallelogramm.
+:::
 
 ## Nachteile des PAP: Sprünge
 
@@ -270,6 +292,7 @@ richtig: Verzweigung
 - Ich kenne die drei Grundbausteine Sequenz, Verzweigung und Wiederholung. → Baustein 1: Die Sequenz
 - Ich erkenne jeden Baustein im Struktogramm an seiner Form. → Alle drei zusammen
 - Ich kenne die Elemente eines PAP und kann einen einfachen PAP lesen. → Andere Darstellungen: Der PAP
+- Ich kann einen einfachen Algorithmus selbst als PAP zusammenbauen. → Übung: Kuchen backen als PAP
 - Ich kann erklären, warum Sprünge mit GOTO zu Fehlern und Spaghetticode führen. → Nachteile des PAP: Sprünge
 - Ich kann einen einfachen Algorithmus auch als Pseudocode lesen. → Pseudocode und Vergleich
 :::
@@ -320,6 +343,12 @@ richtig: Verzweigung
 = Raute -> Verzweigung
 = Parallelogramm -> Ein- oder Ausgabe
 > Die Raute hat zwei Ausgänge: ja und nein.
+
+? Wie heißt der Programmablaufplan auf Englisch?
+- [x] Flowchart
+- [ ] Structure chart
+- [ ] Pseudocode
+> Auf Deutsch sagt man auch Flussdiagramm. Structure chart ist das Struktogramm.
 
 ? Du fügst in ein Programm mit GOTO eine neue Zeile ein. Was kann passieren?
 - [x] Die Sprünge zeigen auf die falschen Zeilen, weil sich die Nummern verschoben haben
