@@ -4300,6 +4300,35 @@ button.danger-text:not(:disabled) {
 .vo-stage .vo-canvas {
   flex: 1;
 }
+.vo-hsplit {
+  flex: 0 0 6px;
+  margin: -3px 0;
+  position: relative;
+  z-index: 5;
+  cursor: row-resize;
+  touch-action: none;
+}
+.vo-hsplit::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 2px;
+  height: 2px;
+  background: transparent;
+}
+.vo-hsplit:hover::after,
+.vo-hsplit:focus-visible::after {
+  background: var(--accent);
+}
+.vo-hsplit:focus-visible {
+  outline: none;
+}
+.vo-dock.collapsed + .vo-hsplit,
+.vo-hsplit:has(+ .vo-dock.collapsed) {
+  cursor: default;
+  pointer-events: none;
+}
 .vo-dock {
   border-top: 1px solid var(--border);
   background: var(--panel);
@@ -4315,11 +4344,32 @@ button.danger-text:not(:disabled) {
 }
 .vo-inspector {
   display: grid;
+  align-content: start;
   gap: 8px;
   max-height: 40vh;
   overflow: auto;
   padding: 8px 12px 10px;
   font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.vo-inspector-row > label.check,
+.vo-inspector label.check {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  color: var(--text);
+  font-size: 13px;
+}
+.vo-inspector input[type='checkbox'] {
+  width: auto;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.vo-inspector fieldset.vo-inspector-ifaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
 }
 .vo-inspector-empty {
   color: var(--muted);
@@ -4459,6 +4509,7 @@ button.danger-text:not(:disabled) {
 }
 .uml-add {
   color: var(--accent);
+  font-style: italic;
   cursor: pointer;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 12px;

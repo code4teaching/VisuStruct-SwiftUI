@@ -124,3 +124,29 @@ describe('Java aus dem Klassendiagramm', () => {
     expect(src).toBe('public interface Haustier {\n    void streicheln();\n}\n')
   })
 })
+
+describe('Modifier der Klasse', () => {
+  it('public und final setzen und lesen', async () => {
+    const { classModifiers, setFinal, setPublic, setAbstract } = await import('../src/core/classModel')
+    let src = 'public abstract class Tier {\n}\n'
+    const c = () => parseClasses(src)[0]
+    src = setFinal(src, c(), true)
+    expect(src).toBe('public final class Tier {\n}\n')
+    expect(classModifiers(src, c())).toEqual({ isPublic: true, isFinal: true })
+    src = setPublic(src, c(), false)
+    expect(src).toBe('final class Tier {\n}\n')
+    src = setPublic(setFinal(src, c(), false), parseClasses(setFinal(src, c(), false))[0], true)
+    expect(src).toBe('public class Tier {\n}\n')
+    expect(setAbstract(src, c(), true)).toBe('public abstract class Tier {\n}\n')
+  })
+})
+
+describe('Neue Attribute', () => {
+  it('ohne Sichtbarkeit private, Methoden public', () => {
+    let src = 'public class Hund {\n}\n'
+    src = addMember(src, parseClasses(src)[0], 'name: String')
+    src = addMember(src, parseClasses(src)[0], 'bellen(): void')
+    expect(src).toContain('private String name;')
+    expect(src).toContain('public void bellen()')
+  })
+})

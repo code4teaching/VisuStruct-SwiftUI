@@ -560,6 +560,27 @@ export function setAbstract(source: string, cls: UmlClass, abstract: boolean): s
   return splice(source, cls.headerFrom, cls.headerTo, changed)
 }
 
+/** Modifier im Kopf der Klasse lesen (das Modell kennt nur `abstract`). */
+export function classModifiers(source: string, cls: UmlClass): { isPublic: boolean; isFinal: boolean } {
+  const head = source.slice(cls.headerFrom, cls.nameFrom)
+  return { isPublic: /\bpublic\b/.test(head), isFinal: /\bfinal\b/.test(head) }
+}
+
+/** `public` setzen oder weglassen (dann nur im Package sichtbar). */
+export function setPublic(source: string, cls: UmlClass, on: boolean): string {
+  const head = source.slice(cls.headerFrom, cls.headerTo)
+  const has = /\bpublic\s+/.test(head.slice(0, cls.nameFrom - cls.headerFrom))
+  const changed = on ? (has ? head : `public ${head}`) : head.replace(/\bpublic\s+/, '')
+  return splice(source, cls.headerFrom, cls.headerTo, changed)
+}
+
+/** `final` setzen (nimmt `abstract` weg, beides zusammen geht in Java nicht) oder entfernen. */
+export function setFinal(source: string, cls: UmlClass, on: boolean): string {
+  const head = source.slice(cls.headerFrom, cls.headerTo)
+  const changed = on ? (/\bfinal\b/.test(head) ? head : head.replace(/\babstract\s+/, '').replace(/\bclass\b/, 'final class')) : head.replace(/\bfinal\s+/, '')
+  return splice(source, cls.headerFrom, cls.headerTo, changed)
+}
+
 /** Neues Attribut (hinter dem letzten Attribut) oder neue Methode (vor der schließenden Klammer). */
 export function addMember(source: string, cls: UmlClass, text: string): string {
   const line = parseUmlLine(text)

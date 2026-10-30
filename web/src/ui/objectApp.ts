@@ -1,6 +1,7 @@
 import {
   addInterface,
   addMember,
+  classModifiers,
   deleteClass,
   deleteMember,
   parseClasses,
@@ -10,6 +11,8 @@ import {
   replaceMember,
   setAbstract,
   setFieldType,
+  setFinal,
+  setPublic,
   setSuperclass,
   umlText,
   type UmlClass,
@@ -50,6 +53,7 @@ import {
 } from '../core/javaProject'
 import {
   associations,
+  dependencies,
   ensureImport,
   fieldNameFor,
   fieldTypeFor,
@@ -62,6 +66,7 @@ import {
   type Assoc,
   type AssocInfo,
   type AssocKind,
+  type Dependency,
   type EndNav,
   type Generalization,
 } from '../core/umlRelations'
@@ -93,6 +98,8 @@ const tabsKey = 'visuobject.tabs'
 const wsProjectKey = 'visuobject.wsProject'
 /** `0`: Objektinspektor eingeklappt. */
 const inspectorKey = 'visuobject.inspector'
+/** Höhe des Objektinspektors in px, leer = so hoch wie sein Inhalt. */
+const inspectorHeightKey = 'visuobject.inspectorHeight'
 /** `1`: ohne Workspace-Ordner arbeiten, nicht mehr fragen. */
 const noWorkspaceKey = 'visuobject.noWorkspace'
 /** Gemerkter Workspace-Ordner, getrennt vom Ordner „VisuStruct-Dateien“. */
@@ -301,6 +308,7 @@ export class ObjectApp {
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
           </div>
+          <div class="vo-hsplit" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="${e(t('web_visuobject_inspector_resize'))}" data-tip="${e(t('web_visuobject_inspector_resize'))}"></div>
           <section class="vo-dock" aria-label="${e(t('web_visuobject_inspector'))}">
             <header class="vo-bar vo-dock-bar">
               <h3 class="vo-bar-title">${e(t('web_visuobject_inspector'))}</h3>
@@ -332,6 +340,51 @@ export class ObjectApp {
     dockToggle.addEventListener('click', () => setDock(dock.classList.contains('collapsed')))
     dock.querySelector('.vo-dock-bar')!.addEventListener('dblclick', () => setDock(dock.classList.contains('collapsed')))
     setDock(stored(inspectorKey) !== '0', false)
+    // Grenze zwischen Diagramm und Objektinspektor nach oben oder unten schieben (Doppelklick = Standard).
+    const split = this.shell.querySelector<HTMLElement>('.vo-hsplit')!
+    const pane = this.shell.querySelector<HTMLElement>('[data-pane=diagram]')!
+    const setHeight = (h: number | undefined) => {
+      if (h === undefined) {
+        this.inspector.style.removeProperty('height')
+        this.inspector.style.removeProperty('max-height')
+        store(inspectorHeightKey, '')
+      } else {
+        const max = Math.max(120, pane.clientHeight - 200)
+        const value = Math.round(Math.min(max, Math.max(60, h)))
+        this.inspector.style.height = `${value}px`
+        this.inspector.style.maxHeight = 'none'
+        store(inspectorHeightKey, String(value))
+      }
+      this.drawLines()
+    }
+    const savedHeight = Number(stored(inspectorHeightKey))
+    if (savedHeight > 0) {
+      this.inspector.style.height = `${savedHeight}px`
+      this.inspector.style.maxHeight = 'none'
+    }
+    split.addEventListener('pointerdown', (ev) => {
+      if (dock.classList.contains('collapsed')) return
+      ev.preventDefault()
+      split.setPointerCapture(ev.pointerId)
+      const startY = ev.clientY
+      const startH = this.inspector.offsetHeight
+      const move = (m: PointerEvent) => setHeight(startH - (m.clientY - startY))
+      const up = () => {
+        split.removeEventListener('pointermove', move)
+        split.removeEventListener('pointerup', up)
+        split.removeEventListener('pointercancel', up)
+      }
+      split.addEventListener('pointermove', move)
+      split.addEventListener('pointerup', up)
+      split.addEventListener('pointercancel', up)
+    })
+    split.addEventListener('dblclick', () => setHeight(undefined))
+    split.addEventListener('keydown', (ev) => {
+      const d = ev.key === 'ArrowUp' ? 20 : ev.key === 'ArrowDown' ? -20 : 0
+      if (!d) return
+      ev.preventDefault()
+      setHeight(this.inspector.offsetHeight + d)
+    })
     this.tree = this.shell.querySelector('.vo-tree')!
     this.tabs = this.shell.querySelector('.vo-tabs')!
     this.wsBox = this.shell.querySelector('.vo-ws')!
@@ -583,7 +636,7 @@ export class ObjectApp {
     this.renderTabs()
     this.classes = projectClasses(this.project)
     if (this.selection && !this.findClass(this.selection.cls)) this.selection = undefined
-    if (this.relSelection && !this.findRelation(this.relSelection)) this.relSelection = undefined
+    if (this.relSelection && !this.findRelation(this.relSelection) && !this.findDependency(this.relSelection)) this.relSelection = undefined
     if (!this.editing) {
       this.render()
       this.renderTree()
@@ -1491,28 +1544,13 @@ export class ObjectApp {
     // Attribute, die auf eine andere Klasse zeigen, sind in UML die Rolle an der Linie, nicht im Kasten.
     const fields = cls.members.map((m, i) => (m.kind === 'field' && !this.roleFields.has(relationKey(cls.name, m.name)) ? row(m, i) : '')).join('')
     const methods = cls.members.map((m, i) => (m.kind !== 'field' ? row(m, i) : '')).join('')
-    const deleteButton = `<button class="icon" data-class-action="delete" data-tip="${e(t('web_visuobject_delete_class'))}" aria-label="${e(t('web_visuobject_delete_class'))}">${icons.trash}</button>`
-    const tools =
-      sel && cls.kind === 'class'
-        ? `<div class="uml-tools">
-            <label><input type="checkbox" data-tool="abstract"${cls.isAbstract ? ' checked' : ''}> ${e(t('web_visuobject_abstract'))}</label>
-            ${deleteButton}
-          </div>`
-        : sel
-          ? `<div class="uml-tools">${deleteButton}</div>`
-          : ''
     const add = (kind: 'field' | 'method') =>
-      sel ? `<li class="uml-add" data-add="${kind}">+ ${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
+      sel ? `<li class="uml-add" data-add="${kind}">${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
     box.innerHTML = `
       ${sel && sel.member === undefined ? `<button class="uml-connect" data-connect aria-label="${e(t('web_visuobject_connect'))}" data-tip="${e(t('web_visuobject_connect'))}" tabindex="-1"></button>` : ''}
       <header class="uml-head">${cls.kind === 'interface' ? '<small>«interface»</small>' : cls.isAbstract ? '<small>{abstract}</small>' : ''}<span class="uml-name" data-value="${e(cls.name)}">${e(cls.name)}</span></header>
       ${cls.kind === 'interface' && !fields ? '' : `<ul class="uml-fields">${fields}${add('field')}</ul>`}
-      <ul class="uml-methods">${methods}${add('method')}</ul>
-      ${tools}`
-    box.querySelector<HTMLInputElement>('[data-tool=abstract]')?.addEventListener('change', (ev) => {
-      const on = (ev.target as HTMLInputElement).checked
-      this.changeFile(cls.path, (s) => setAbstract(s, cls, on), { cls: cls.name })
-    })
+      <ul class="uml-methods">${methods}${add('method')}</ul>`
     return box
   }
 
@@ -1660,6 +1698,11 @@ export class ObjectApp {
       const b = boxes.get(r.to)
       if (a && b && a !== b) parts.push(this.associationSVG(r, a, b, offset(r.from, r.to)))
     }
+    for (const d of this.dependencies()) {
+      const a = boxes.get(d.from)
+      const b = boxes.get(d.to)
+      if (a && b && a !== b) parts.push(this.dependencySVG(d, a, b, offset(d.from, d.to)))
+    }
     this.lines.innerHTML = parts.join('')
     this.renderInspector()
   }
@@ -1710,6 +1753,29 @@ export class ObjectApp {
 
   private hitLine(id: string, from: Point, to: Point, label: string): string {
     return `<line class="vo-hit" data-rel="${e(id)}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}"><title>${e(label)}</title></line>`
+  }
+
+  private dependencies(): Dependency[] {
+    return dependencies(this.classes, (c) => this.project.files.find((f) => f.path === (c as ProjectClass).path)?.text)
+  }
+
+  private findDependency(id: string): Dependency | undefined {
+    return this.dependencies().find((d) => `dep:${d.from}:${d.to}` === id)
+  }
+
+  /** Abhängigkeit: gestrichelte Linie mit offener Pfeilspitze und «create» bzw. «use» in der Mitte. */
+  private dependencySVG(d: Dependency, a: HTMLElement, b: HTMLElement, offset: number): string {
+    const { from, to, n } = this.segment(a, b, offset)
+    const id = `dep:${d.from}:${d.to}`
+    const selected = this.relSelection === id ? ' selected' : ''
+    const mid = { x: (from.x + to.x) / 2 + n.x * 12, y: (from.y + to.y) / 2 + n.y * 12 }
+    const anchor = Math.abs(n.x) < 0.35 ? 'middle' : n.x > 0 ? 'start' : 'end'
+    const label = t(`web_visuobject_dep_${d.kind}_text`, d.from, d.to, d.methods.join(', '))
+    return `<g class="vo-relation vo-dependency${selected}">
+      <line class="vo-rel dashed" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}" marker-end="url(#vo-arrow)"/>
+      <text class="vo-label-svg name" x="${mid.x}" y="${mid.y}" text-anchor="${anchor}" dominant-baseline="middle">«${d.kind}»</text>
+      ${this.hitLine(id, from, to, label)}
+    </g>`
   }
 
   private generalizationSVG(g: Generalization, a: HTMLElement, b: HTMLElement, offset: number): string {
@@ -2107,8 +2173,12 @@ export class ObjectApp {
    * Ende B die Klasse, bei der sie endet.
    */
   private renderInspector() {
+    const dep = this.relSelection?.startsWith('dep:') ? this.findDependency(this.relSelection) : undefined
+    if (dep) return this.renderDependency(dep)
     const rel = this.relSelection ? this.findRelation(this.relSelection) : undefined
     if (this.endPop && (!rel || !this.endPop.isConnected)) this.closeEnd()
+    const selectedClass = !rel && this.selection ? this.findClass(this.selection.cls) : undefined
+    if (selectedClass) return this.renderClassInspector(selectedClass)
     if (!rel) {
       delete this.inspector.dataset.rel
       this.inspector.innerHTML = `<p class="vo-inspector-empty">${e(t('web_visuobject_inspector_empty'))}</p>`
@@ -2163,6 +2233,80 @@ export class ObjectApp {
     this.inspector.querySelector('[data-inspector=flip]')?.addEventListener('click', () => {
       const current = this.relSelection && this.findRelation(this.relSelection)
       if (current && 'key' in current) this.changeAssoc(current, 'reading', '')
+    })
+  }
+
+  /** Klasse im Inspektor: Name, Modifier, abstract/final, Oberklasse, Interfaces – geschrieben wird in den Code. */
+  private renderClassInspector(cls: ProjectClass) {
+    const focused = this.inspector.contains(document.activeElement) ? (document.activeElement as HTMLElement).dataset.field : undefined
+    const text = this.project.files.find((f) => f.path === cls.path)?.text ?? ''
+    const mods = classModifiers(text, cls)
+    const isClass = cls.kind === 'class'
+    const option = (value: string, label: string, on: boolean) => `<option value="${e(value)}"${on ? ' selected' : ''}>${e(label)}</option>`
+    const supers = this.classes.filter((c) => c.kind === 'class' && c.name !== cls.name)
+    const ifaces = this.classes.filter((c) => c.kind === 'interface' && c.name !== cls.name)
+    this.inspector.dataset.rel = `class:${cls.name}`
+    this.inspector.innerHTML = `
+      <div class="vo-inspector-row">
+        <p class="vo-inspector-kind">${e(t(isClass ? 'web_visuobject_new_class' : 'web_visuobject_new_interface'))}</p>
+        <label>${e(t('web_visuobject_new_name'))}<input data-field="name" value="${e(cls.name)}" spellcheck="false" autocomplete="off"></label>
+        <label>${e(t('web_visuobject_new_modifiers'))}<select data-field="visibility">${option('public', 'public', mods.isPublic)}${option('package', t('web_visuobject_new_package_private'), !mods.isPublic)}</select></label>
+        ${isClass ? `<label class="check"><input type="checkbox" data-field="abstract"${cls.isAbstract ? ' checked' : ''}> abstract</label><label class="check"><input type="checkbox" data-field="final"${mods.isFinal ? ' checked' : ''}> final</label>` : ''}
+        <button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button>
+      </div>
+      <div class="vo-inspector-row">
+        ${isClass ? `<label>${e(t('web_visuobject_new_superclass'))}<select data-field="superclass">${option('', 'java.lang.Object', !cls.superclass)}${supers.map((c) => option(c.name, c.pkg ? `${c.name} (${c.pkg})` : c.name, c.name === cls.superclass)).join('')}</select></label>` : ''}
+        ${
+          ifaces.length
+            ? `<fieldset class="vo-inspector-ifaces"><legend>${e(t(isClass ? 'web_visuobject_new_interfaces' : 'web_visuobject_new_extends_interfaces'))}</legend>${ifaces.map((c) => `<label class="check"><input type="checkbox" data-field="iface" value="${e(c.name)}"${cls.interfaces.includes(c.name) ? ' checked' : ''}> ${e(c.name)}</label>`).join('')}</fieldset>`
+            : ''
+        }
+      </div>
+      <p class="vo-inspector-empty">${e(t('web_visuobject_class_inspector_hint', diskPath(cls.path)))}</p>`
+    const edit = (run: (source: string, c: UmlClass) => string, extra?: (p: JavaProject) => JavaProject) => {
+      this.message('')
+      let next = this.editClass(this.project, cls.name, run)
+      if (extra) next = extra(next)
+      this.setProject(next, cls.path)
+    }
+    for (const el of this.inspector.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-field]')) {
+      el.addEventListener('change', () => {
+        const field = el.dataset.field!
+        const on = el instanceof HTMLInputElement && el.checked
+        if (field === 'name') {
+          const name = el.value.trim()
+          if (name && name !== cls.name) this.renameClassTo(cls, name)
+        } else if (field === 'visibility') edit((src, c) => setPublic(src, c, el.value === 'public'))
+        else if (field === 'abstract') edit((src, c) => setAbstract(on ? setFinal(src, c, false) : src, parseClasses(on ? setFinal(src, c, false) : src).find((x) => x.name === c.name) ?? c, on))
+        else if (field === 'final') edit((src, c) => setFinal(src, c, on))
+        else if (field === 'superclass') {
+          const value = el.value || undefined
+          edit((src, c) => setSuperclass(src, c, value), (p) => (value ? this.importFor(p, cls.name, value) : p))
+        } else if (field === 'iface') {
+          const name = el.value
+          edit((src, c) => (on ? addInterface(src, c, name) : removeInterface(src, c, name)), (p) => (on ? this.importFor(p, cls.name, name) : p))
+        }
+      })
+      if (el instanceof HTMLInputElement && el.type === 'text') el.addEventListener('keydown', (ev) => ev.key === 'Enter' && el.blur())
+    }
+    this.inspector.querySelector('[data-inspector=delete-class]')!.addEventListener('click', () => this.deleteClassFromProject(cls))
+    if (focused) this.inspector.querySelector<HTMLElement>(`[data-field="${focused}"]`)?.focus({ preventScroll: true })
+  }
+
+  /** Abhängigkeit im Inspektor: erklären, warum es keine Assoziation ist, und sie auf Wunsch zu einer machen. */
+  private renderDependency(d: Dependency) {
+    this.closeEnd()
+    this.inspector.dataset.rel = this.relSelection
+    this.inspector.innerHTML = `<div class="vo-inspector-row">
+        <p class="vo-inspector-kind">${e(t('web_visuobject_dep_title', d.kind))}</p>
+        <p>${e(t(`web_visuobject_dep_${d.kind}_text`, d.from, d.to, d.methods.join(', ')))}</p>
+      </div>
+      <p class="vo-inspector-empty">${e(t('web_visuobject_dep_hint', d.from, d.to))}</p>
+      <div class="vo-inspector-row"><button class="text-button" data-inspector="to-assoc">${e(t('web_visuobject_dep_to_assoc', d.to))}</button></div>`
+    this.inspector.querySelector('[data-inspector=to-assoc]')!.addEventListener('click', () => {
+      const added = this.addAssociationField(this.project, d.from, d.to, false)
+      this.relSelection = `assoc:${relationKey(d.from, added.field)}`
+      this.setProject(added.project, this.findClass(d.from)?.path)
     })
   }
 
