@@ -267,4 +267,17 @@ class Spieler { String name; Spieler(String n) { name = n; } void begruessen() {
     expect(run('import java.util.Scanner;\n' + main(body), ['Hallo'])).toBe('Hallo\n')
     expect(run('import java.util.*;\n' + main(body), ['Hallo'])).toBe('Hallo\n')
   })
+
+  it('boolean ohne Startwert und vertippte Datentypen wie bei javac', () => {
+    expect(run(main('boolean b; b = 3 > 2; System.out.println(b == true); boolean c = !b || false; if (!c) System.out.println(c);'))).toBe('true\nfalse\n')
+    let err: unknown
+    try {
+      run(main('booelan wpfAlleUeber5 = true;'))
+    } catch (e) {
+      err = e
+    }
+    expect((err as MiniJavaError).code).toBe('typename')
+    expect((err as MiniJavaError).detail).toBe('boolean')
+    expect(run({ 'Main.java': main('Kind k = new Kind(); System.out.println(k.name);'), 'Kind.java': 'public class Kind { String name = "Mia"; }' })).toBe('Mia\n')
+  })
 })

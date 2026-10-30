@@ -329,3 +329,25 @@ describe('Scanner ohne Variable', () => {
     expect(keys(`import java.util.Scanner;\n\npublic class Main {\n  static Scanner sc = new Scanner(System.in);\n\n  static int lies(Scanner in) {\n    return in.nextInt();\n  }\n\n  public static void main(String[] args) {\n    String s = sc.nextLine();\n  }\n}`)).toEqual([])
   })
 })
+
+describe('boolean und vertippte Datentypen', () => {
+  const typo = (src: string) => parse(src).problems.find((p) => p.key === 'web_parse_unknown_type')?.arg
+  it('meldet vertippte Grundtypen mit Vorschlag', () => {
+    expect(typo('booelan wpfAlleUeber5;')).toBe('boolean')
+    expect(typo('Int x = 3;')).toBe('int')
+    expect(typo('string s = "a";')).toBe('String')
+    expect(typo('dobule d = 2;')).toBe('double')
+    expect(typo('for (Int i = 0; i < 3; i++) {\n}')).toBe('int')
+  })
+  it('lässt gültige Typen und eigene Klassen in Ruhe', () => {
+    for (const src of ['boolean b = true;', 'Boolean b = true;', 'Integer i = 3;', 'Kind k = new Kind();', 'Auto a;', 'String s;', 'return x;'])
+      expect(typo(src)).toBeUndefined()
+  })
+  it('simuliert boolean ohne Startwert, Vergleiche und Ausgaben von Bedingungen', () => {
+    const src = 'boolean fertig;\nint x = 3;\nSystem.out.println(fertig);\nfertig = x < 5;\nif (fertig == true) {\n  System.out.println("ja " + fertig);\n}\nSystem.out.println(!fertig);\nSystem.out.println(x + 1 > 3);\nSystem.out.println("klein: " + (x < 3));\nint a, b;\nSystem.out.println(a + b);'
+    const engine = new SimulationEngine(doc(src))
+    let steps = 0
+    while (engine.canStep && steps++ < 1000) engine.step()
+    expect(engine.state.outputLines).toEqual(['false', 'ja true', 'false', 'true', 'klein: false', '0'])
+  })
+})

@@ -93,6 +93,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_parse_more_methods" = "Na razie liczy się tu tylko jedna metoda. Utwórz kolejne podprogramy w osobnych kartach.";
 "web_parse_missing_import" = "Na samej górze brakuje %@ Bez tej linii Java nie zna klasy Scanner.";
 "web_parse_missing_scanner" = "Wcześniej brakuje %@ Bez tej linii Scanner nie istnieje.";
+"web_parse_unknown_type" = "Java nie zna tego typu danych. Czy chodziło ci o %@?";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Pokaż diagram";
 "web_editor_hide" = "Ukryj diagram";

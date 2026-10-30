@@ -5,7 +5,7 @@
  * weiter über ▶ Start (CheerpJ); hier zählt, dass Schülerprogramme der FOS 12 gleich ablaufen.
  */
 
-import { JavaSyntaxError, missingImport, parseJava, type ClassDecl, type Expr, type MethodDecl, type Pos, type Stmt, type TypeRef } from './miniJavaParser'
+import { JavaSyntaxError, misspelledType, missingImport, parseJava, type ClassDecl, type Expr, type MethodDecl, type Pos, type Stmt, type TypeRef } from './miniJavaParser'
 
 // MARK: - Werte
 
@@ -89,7 +89,7 @@ type G<T> = Generator<Ev, T, string | null | undefined>
 /** Fehler, die echtes Java schon beim Übersetzen meldet oder die der Debugger nicht kann. */
 export class MiniJavaError extends Error {
   constructor(
-    readonly code: 'syntax' | 'symbol' | 'unsupported' | 'nomain' | 'type' | 'import',
+    readonly code: 'syntax' | 'symbol' | 'unsupported' | 'nomain' | 'type' | 'import' | 'typename',
     readonly detail: string,
     readonly pos?: Pos,
   ) {
@@ -291,6 +291,8 @@ export class MiniJava {
     for (const f of files) {
       const missing = missingImport(f.source, f.path, own)
       if (missing) throw new MiniJavaError('import', missing.line, missing.pos)
+      const typo = misspelledType(f.source, f.path, own)
+      if (typo) throw new MiniJavaError('typename', typo.type, typo.pos)
     }
     for (const d of decls) {
       const c = this.classes.get(d.name)!

@@ -5,6 +5,8 @@
  * Jeder Knoten kennt seine Datei und Zeile (ab 0), damit der Debugger die Zeile gelb markieren kann.
  */
 
+import { similarType } from './typeTypos'
+
 export interface Pos {
   file: string
   line: number
@@ -769,6 +771,23 @@ export function missingImport(source: string, file: string, own: Set<string>): {
     if (t.t !== 'id' || !javaUtil.includes(t.v) || own.has(t.v) || toks[k - 1]?.v === '.' || toks[k - 1]?.v === 'import') continue
     if (imports.includes(`java.util.${t.v}`) || imports.includes('java.util.*')) continue
     return { line: `import java.util.${t.v};`, pos: { file, line: t.line } }
+  }
+  return undefined
+}
+
+/**
+ * Wie javac: `booelan fertig;` oder `Int x = 3;` ist kein Datentyp. Nur ein Wort am Anfang einer Anweisung, auf das ein Name
+ * und `=`, `;` oder `,` folgen, und nur wenn es einem Grundtyp sehr ähnlich ist. Ergebnis: die richtige Schreibweise und die Stelle.
+ */
+export function misspelledType(source: string, file: string, own: Set<string>): { type: string; pos: Pos } | undefined {
+  const toks = tokenize(source, file)
+  const starts = new Set([';', '{', '}', '(', ',', 'public', 'private', 'protected', 'static', 'final'])
+  for (let k = 0; k < toks.length - 2; k++) {
+    const [type, name, after] = toks.slice(k, k + 3)
+    if (type.t !== 'id' || name.t !== 'id' || !['=', ';', ','].includes(after.v) || own.has(type.v)) continue
+    if (k > 0 && !starts.has(toks[k - 1].v)) continue
+    const suggestion = similarType(type.v)
+    if (suggestion) return { type: suggestion, pos: { file, line: type.line } }
   }
   return undefined
 }

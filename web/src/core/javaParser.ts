@@ -2,6 +2,7 @@ import type { LiveLabels, LiveSpan } from './codeGenerator'
 import { placeholderElement } from './editing'
 import { ElementType, makeElement, type VSCase, type VSElement } from './model'
 import { parseSubprogramHeader } from './simulation'
+import { similarType } from './typeTypos'
 
 /**
  * Gegenrichtung zu „Code live“: Java-Code, den man tippt, wird zum Struktogramm.
@@ -30,6 +31,7 @@ export type JavaProblemKey =
   | 'web_parse_more_methods'
   | 'web_parse_missing_import'
   | 'web_parse_missing_scanner'
+  | 'web_parse_unknown_type'
 
 export interface ParsedJava {
   /** Kopfzeile eines Unterprogramms, z. B. `int quadrat(int x)`; `undefined` = Hauptprogramm. */
@@ -255,6 +257,27 @@ class Parser {
       if (v.kind !== 'id' || dot.text !== '.' || !reads.has(m.text) || open.text !== '(' || this.toks[k - 1]?.text === '.') continue
       if (declared(v.text)) continue
       this.problem('web_parse_missing_scanner', v, `Scanner ${v.text} = new Scanner(System.in);`)
+      return
+    }
+  }
+
+  /**
+   * Wie javac: `booelan fertig;` oder `Int x = 3;` ist kein Datentyp. Gemeldet wird nur ein Wort am Anfang einer Anweisung,
+   * auf das ein Name und `=`, `;` oder `,` folgen, und nur wenn es einem Grundtyp sehr ähnlich ist; eigene Klassen
+   * (`Auto meinAuto;`) bleiben so unberührt.
+   */
+  checkTypes() {
+    const starts = new Set([';', '{', '}', '(', ','])
+    const classes = new Set(this.toks.filter((_, k) => this.toks[k - 1]?.text === 'class').map((t) => t.text))
+    for (let k = 0; k < this.toks.length - 2; k++) {
+      const [type, name, after] = this.toks.slice(k, k + 3)
+      const before = this.toks[k - 1]
+      if (type.kind !== 'id' || name.kind !== 'id' || !['=', ';', ','].includes(after.text)) continue
+      if (before && !starts.has(before.text) && !modifiers.has(before.text)) continue
+      if (classes.has(type.text)) continue
+      const suggestion = similarType(type.text)
+      if (!suggestion) continue
+      this.problem('web_parse_unknown_type', type, suggestion)
       return
     }
   }
@@ -832,6 +855,7 @@ export function parseLiveJava(source: string, labels: LiveLabels, opts: JavaPars
   p.markPlaceholderComments()
   p.checkImports()
   p.checkScanners()
+  p.checkTypes()
   const spans = p.spansFor(elements)
   const problems = p.problems.sort((a, b) => a.from - b.from)
   return { caption, className: p.className, elements, spans, placeholders: p.placeholders.sort((a, b) => a.from - b.from), problems }

@@ -93,6 +93,7 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_parse_more_methods" = "حاليًا تُحتسب طريقة واحدة فقط هنا. أنشئ البرامج الفرعية الأخرى في علامات تبويب منفصلة.";
 "web_parse_missing_import" = "ينقص في الأعلى %@ بدون هذا السطر لا تعرف Java الصنف Scanner.";
 "web_parse_missing_scanner" = "ينقص قبل ذلك %@ بدون هذا السطر لا يوجد Scanner.";
+"web_parse_unknown_type" = "لا تعرف Java نوع البيانات هذا. هل تقصد %@؟";
 "web_editor_title" = "المخطط";
 "web_editor_show" = "إظهار المخطط";
 "web_editor_hide" = "إخفاء المخطط";
