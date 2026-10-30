@@ -171,5 +171,7 @@
 "web_swap_to_editor" = "結構圖放大";
 "web_editor_resize" = "調整結構圖寬度";
 "web_palette_resize" = "調整元素寬度";
+"web_palette_hide" = "隱藏元素";
+"web_palette_show" = "顯示元素";
 "web_code_scopes" = "程式碼區塊彩色顯示";
 "web_code_scopes_hint" = "類別、方法、迴圈、分支各有自己的框";

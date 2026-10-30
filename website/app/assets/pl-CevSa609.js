@@ -171,6 +171,8 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_swap_to_editor" = "Diagram duży";
 "web_editor_resize" = "Zmień szerokość diagramu";
 "web_palette_resize" = "Zmień szerokość elementów";
+"web_palette_hide" = "Ukryj elementy";
+"web_palette_show" = "Pokaż elementy";
 "web_code_scopes" = "Kolorowe bloki kodu";
 "web_code_scopes_hint" = "Klasa, metoda, pętla, rozgałęzienie we własnych ramkach";
 `;export{e as default};
