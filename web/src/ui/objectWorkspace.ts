@@ -6,7 +6,7 @@
  * Welche Ordner Source Folders sind (`src`, `test` …), steht in `.classpath`.
  */
 
-import { defaultRoot, isFolderName, packageKey, packageOf, packagesOf, pathFor, rootOf, sourceFoldersOf, umlFromJSON, type JavaProject } from '../core/javaProject'
+import { defaultRoot, isFolderName, notesFromJSON, packageKey, packageOf, packagesOf, pathFor, rootOf, sourceFoldersOf, umlFromJSON, type JavaProject } from '../core/javaProject'
 import type { WsDir } from './workspaceStore'
 
 export const workspaceFolderName = 'VisuObject-Workspace'
@@ -78,9 +78,11 @@ export async function readProject(root: WsDir, name: string): Promise<{ project:
   let positions: Positions = {}
   if (await dir.has(umlFile)) {
     try {
-      const data = JSON.parse(await dir.read(umlFile)) as { uml?: unknown; positions?: unknown }
+      const data = JSON.parse(await dir.read(umlFile)) as { uml?: unknown; positions?: unknown; notes?: unknown }
       const uml = umlFromJSON(data.uml)
       if (uml) project.uml = uml
+      const notes = notesFromJSON(data.notes)
+      if (notes) project.notes = notes
       if (data.positions && typeof data.positions === 'object') {
         for (const [cls, p] of Object.entries(data.positions as Record<string, { x?: unknown; y?: unknown }>))
           if (typeof p?.x === 'number' && typeof p?.y === 'number') positions[cls] = { x: p.x, y: p.y }
@@ -162,7 +164,7 @@ export async function writeProject(root: WsDir, folder: string, project: JavaPro
       }
     }
   }
-  await dir.write(umlFile, JSON.stringify({ format: 'visuobject', version: 1, uml: project.uml ?? {}, positions }, null, 2) + '\n')
+  await dir.write(umlFile, JSON.stringify({ format: 'visuobject', version: 1, uml: project.uml ?? {}, ...(project.notes?.length ? { notes: project.notes } : {}), positions }, null, 2) + '\n')
   if (!(await dir.has('.project'))) await dir.write('.project', eclipseProject(project.name))
   const classpath = withClasspathRoots(oldClasspath ?? eclipseClasspath, roots)
   if (classpath !== oldClasspath) await dir.write('.classpath', classpath)

@@ -4236,7 +4236,7 @@ button.danger-text:not(:disabled) {
   display: grid;
   justify-items: center;
   gap: 1px;
-  min-width: 52px;
+  min-width: 44px;
   padding: 3px 3px 2px;
   border: 1px solid transparent;
   border-radius: 7px;
@@ -5156,4 +5156,59 @@ button.danger-text:not(:disabled) {
   padding: 6px 12px;
   font-size: 13px;
   white-space: pre-wrap;
+}
+
+/* UML-Notiz: Kasten mit Eselsohr oben rechts, gestrichelt an Klassen geheftet. */
+.uml-note {
+  position: absolute;
+  min-width: 120px;
+  max-width: 260px;
+  padding: 8px 22px 8px 10px;
+  background: #fffbe6;
+  border: 1.2px solid var(--text);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  font: 13px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #17292e;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  z-index: 1;
+}
+.uml-note::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  background: linear-gradient(to bottom left, transparent 50%, #e9dfae 50%);
+  border-left: 1.2px solid var(--text);
+  border-bottom: 1.2px solid var(--text);
+}
+.uml-note.selected {
+  outline: 3px solid var(--accent-soft);
+  border-color: var(--accent);
+  clip-path: none;
+}
+.uml-note .uml-connect {
+  z-index: 2;
+}
+.uml-note-text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.uml-note-text.placeholder {
+  color: #8a8a8a;
+  font-style: italic;
+}
+.uml-note-edit {
+  box-sizing: border-box;
+  width: 220px;
+  border: 1px solid var(--accent);
+  background: #fffef5;
+  font: inherit;
+  resize: both;
+}
+.vo-note-link {
+  stroke-dasharray: 5 4;
 }

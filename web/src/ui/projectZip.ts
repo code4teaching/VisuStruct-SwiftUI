@@ -1,5 +1,5 @@
 import { strFromU8, strToU8, unzipSync, zipSync } from 'fflate'
-import { barePackage, declaredPackage, defaultRoot, diskPath, isFolderName, packageKey, pathFor, projectFromFiles, rootOf, sourceFoldersOf, umlFromJSON, type JavaProject } from '../core/javaProject'
+import { barePackage, declaredPackage, defaultRoot, diskPath, isFolderName, packageKey, pathFor, notesFromJSON, projectFromFiles, rootOf, sourceFoldersOf, umlFromJSON, type JavaProject } from '../core/javaProject'
 
 /**
  * VisuObject-Projekt als ZIP wie in Eclipse oder BlueJ: `Name/src/paket/Klasse.java`.
@@ -16,7 +16,8 @@ export function projectToZip(project: JavaProject): Uint8Array {
   // Leere Packages und Source Folders als Ordner behalten.
   const dirs = [...project.packages.map((p) => `${folder}/${rootOf(p)}/${barePackage(p).replace(/\./g, '/')}/`), ...sourceFoldersOf(project).map((r) => `${folder}/${r}/`)]
   for (const dir of dirs) if (!Object.keys(entries).some((k) => k.startsWith(dir))) entries[dir.replace(/\/\/$/, '/')] = new Uint8Array()
-  if (project.uml && Object.keys(project.uml).length) entries[`${folder}/${umlFile}`] = new Uint8Array(strToU8(JSON.stringify({ format: 'visuobject', version: 1, uml: project.uml }, null, 2)))
+  if ((project.uml && Object.keys(project.uml).length) || project.notes?.length)
+    entries[`${folder}/${umlFile}`] = new Uint8Array(strToU8(JSON.stringify({ format: 'visuobject', version: 1, uml: project.uml ?? {}, ...(project.notes?.length ? { notes: project.notes } : {}) }, null, 2)))
   return zipSync(entries, { level: 6 })
 }
 
@@ -44,8 +45,11 @@ export function projectFromZip(data: Uint8Array, fallbackName: string): JavaProj
   const extra = Object.entries(entries).find(([n]) => n === umlFile || n.endsWith(`/${umlFile}`))
   if (extra) {
     try {
-      const uml = umlFromJSON((JSON.parse(strFromU8(extra[1])) as { uml?: unknown }).uml)
+      const data = JSON.parse(strFromU8(extra[1])) as { uml?: unknown; notes?: unknown }
+      const uml = umlFromJSON(data.uml)
       if (uml) project.uml = uml
+      const notes = notesFromJSON(data.notes)
+      if (notes) project.notes = notes
     } catch {
       /* ohne UML-Zusatz geht es auch */
     }
