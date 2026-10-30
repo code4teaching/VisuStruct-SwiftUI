@@ -5212,3 +5212,151 @@ button.danger-text:not(:disabled) {
 .vo-note-link {
   stroke-dasharray: 5 4;
 }
+
+/* VisuObject: Umschalter Klassendiagramm ⇄ Objektdiagramm und Objekte wie in Astah. */
+.vo-canvas[hidden],
+.vo-palette[hidden] {
+  display: none;
+}
+.vo-diagram-switch {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.shell.visuobject .vo-diagram-switch button {
+  padding: 3px 10px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font: 600 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+}
+.shell.visuobject .vo-diagram-switch button[aria-selected='true'] {
+  background: var(--accent);
+  color: #fff;
+}
+.vo-obj-palette {
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+}
+.vo-obj-new {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.vo-obj-new select {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+.uml-object .uml-objname {
+  text-decoration: underline;
+  font-weight: 600;
+}
+.uml-object.unknown {
+  border-style: dashed;
+}
+.uml-object .uml-member.changed,
+.vo-objlink.changed {
+  animation: vo-changed 1.2s ease-out;
+}
+.uml-object .uml-member.changed {
+  background: #fff3b0;
+}
+@keyframes vo-changed {
+  from {
+    background: #ffe066;
+  }
+}
+.vo-obj-values td:first-child {
+  width: auto;
+  white-space: nowrap;
+}
+.vo-obj-values td:last-child {
+  width: 50%;
+}
+
+/* VisuObject-Debugger: Knöpfe, Eingabe in der Konsole, Aufrufstapel und Variablen im Inspektor. */
+.vo-dbg-controls {
+  display: inline-flex;
+  gap: 2px;
+}
+.vo-dbg-controls[hidden] {
+  display: none;
+}
+.vo-console-lines .vo-out-err {
+  color: #b3261e;
+}
+.vo-console-lines .vo-out-in {
+  color: var(--accent);
+  font-weight: 600;
+}
+.vo-console-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 8px;
+  color: var(--accent);
+}
+.vo-console-input[hidden] {
+  display: none;
+}
+.vo-console-input input {
+  flex: 1;
+  font-size: 13px;
+  padding: 4px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+}
+.vo-dbg {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(220px, 2fr);
+  gap: 12px;
+  padding: 8px 12px;
+}
+.vo-dbg h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.vo-dbg ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.vo-dbg-frame {
+  display: block;
+  width: 100%;
+  text-align: start;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.vo-dbg-frame.on {
+  background: var(--accent-soft);
+}
+.vo-dbg-frame small {
+  color: var(--muted);
+}
+.vo-dbg-vars tr.changed td {
+  background: rgba(255, 214, 10, 0.35);
+}
+@media (max-width: 760px) {
+  .vo-dbg {
+    grid-template-columns: 1fr;
+  }
+}
