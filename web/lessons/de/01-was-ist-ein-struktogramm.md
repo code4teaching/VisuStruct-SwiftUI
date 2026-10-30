@@ -102,27 +102,85 @@ Die Kästen können auch **ineinander geschachtelt** werden: In einer Schleife o
 Trostpflaster für alle mit einer verpatzten Arbeit: Die berühmte Fachzeitschrift *Communications of the ACM* hat den Struktogramm-Artikel abgelehnt. Laut Nassi meinte der Gutachter sogar, sie sollten alle Exemplare einsammeln und verbrennen. Autsch! Er erschien 1973 dann in einem kleineren Heft und wird heute tausendfach zitiert. Ätsch!
 :::
 
-## Andere Darstellungen: PAP und Pseudocode
+## Andere Darstellungen: Der PAP
 
-Ein Struktogramm ist nicht die einzige Art, einen Algorithmus aufzuschreiben. Zwei weitere wirst du im Unterricht treffen. Hier siehst du das Tee-Beispiel aus „Alle drei zusammen“ in allen drei Formen.
+Es gibt noch zwei weitere Arten, Algorithmen darzustellen: den **Programmablaufplan**, kurz **PAP**, und den **Pseudocode**. Beide wirst du im Unterricht treffen.
 
-### Struktogramm
+Hier siehst du noch einmal unser Struktogramm zum Teetrinken aus „Alle drei zusammen“. Als Nächstes schauen wir uns den PAP an, und zwar mit demselben Beispiel.
 
 ::: diagramm l1-grundbausteine.visustruct
 Das Tee-Beispiel als Struktogramm: erst die Tasse, dann die Verzweigung für den Zucker, dann die Schleife.
 :::
 
-### Programmablaufplan (PAP)
-
-Der **Programmablaufplan**, kurz **PAP**, besteht aus Symbolen, die mit **Pfeilen** verbunden sind. Er ist nach DIN 66001 genormt. Eine Raute ist eine Verzweigung mit den Ausgängen ja und nein. Eine Schleife erkennst du daran, dass ein Pfeil **zurück nach oben** führt.
+### Derselbe Algorithmus als PAP
 
 ::: grafik l01-pap.svg
 Das Tee-Beispiel als Programmablaufplan. Der Pfeil von „1 Minute warten“ zurück nach oben bildet die Schleife.
 :::
 
-### Pseudocode
+### Die Elemente
 
-**Pseudocode** ist Text, der wie ein Programm aussieht, aber in normaler Sprache geschrieben ist. Feste Wörter wie WENN und SOLANGE zeigen die Bausteine, die **Einrückung** zeigt, was dazugehört.
+Ein PAP besteht aus wenigen Symbolen, die mit **Pfeilen** verbunden sind. Er ist nach DIN 66001 genormt.
+
+- **Oval:** Start oder Ende. Jeder PAP hat genau einen Start und ein Ende.
+- **Rechteck:** eine Anweisung, zum Beispiel *Tasse auf den Tisch stellen*.
+- **Raute:** eine Verzweigung. In der Raute steht eine Frage, heraus führen zwei Pfeile: **ja** und **nein**.
+- **Parallelogramm:** eine Ein- oder Ausgabe. Im Tee-Beispiel kommt sie nicht vor.
+- **Pfeil:** zeigt, welcher Schritt als Nächstes kommt.
+
+Eine Schleife hat im PAP kein eigenes Symbol. Du erkennst sie daran, dass ein Pfeil **zurück nach oben** führt.
+
+### Die Vorteile
+
+- **Sehr gut lesbar**, auch für Leute, die noch nie einen PAP gesehen haben. Man folgt einfach den Pfeilen mit dem Finger.
+- Solche Pläne heißen allgemein **Flussdiagramm**, auf Englisch *flowchart*. Man benutzt sie nicht nur beim Programmieren, sondern überall, wo ein Ablauf erklärt wird: in Bedienungsanleitungen, bei der Fehlersuche („Leuchtet die Lampe? Nein: Steckt der Stecker?“) oder in Firmen für Arbeitsabläufe.
+
+## Nachteile des PAP: Sprünge
+
+Ein Pfeil im PAP darf von jedem Symbol zu jedem anderen führen. Das klingt praktisch, ist aber gefährlich.
+
+Früher hat man Programme genau so geschrieben. Jede Zeile hatte eine **Nummer**, und der Befehl **GOTO**, auf Deutsch „gehe zu“, sprang zu einer Zeilennummer. Jedes GEHE ZU ist ein Pfeil aus dem PAP. Unser Tee-Beispiel sähe so aus:
+
+```
+10 Tasse auf den Tisch stellen
+20 WENN kein Zucker gewünscht, GEHE ZU 40
+30 Zucker hineingeben
+40 WENN Tee nicht zu heiß, GEHE ZU 70
+50 1 Minute warten
+60 GEHE ZU 40
+70 Tee trinken
+```
+
+### Eine Zeile mehr, und schon springt es falsch
+
+Jetzt verbesserst du den Algorithmus: Nach dem Zucker soll der Teebeutel heraus. Du fügst die neue Zeile 40 ein, und alle Zeilen darunter rutschen eine Nummer weiter. Die Sprünge zeigen aber noch auf die alten Nummern:
+
+```
+10 Tasse auf den Tisch stellen
+20 WENN kein Zucker gewünscht, GEHE ZU 40
+30 Zucker hineingeben
+40 Teebeutel herausnehmen
+50 WENN Tee nicht zu heiß, GEHE ZU 70
+60 1 Minute warten
+70 GEHE ZU 40
+80 Tee trinken
+```
+
+Spiel es durch: Zeile 70 schickt dich nicht mehr zur Prüfung in Zeile 50, sondern zum Teebeutel. Und wenn der Tee kühl genug ist, springt Zeile 50 zu Zeile 70 und nicht mehr zu *Tee trinken*. Du nimmst also immer wieder den Teebeutel heraus und trinkst nie. Bei jeder Änderung musst du jedes GEHE ZU prüfen. In einem großen Programm mit Hunderten Sprüngen geht dabei leicht etwas schief.
+
+### Kreuz und quer: Spaghetticode
+
+Mit Pfeilen kann man auch mitten aus einer Schleife herausspringen oder von außen mitten in eine Schleife hinein. Solche **Aussprünge** und Einsprünge machen den Plan schnell unübersichtlich. Bei vielen Sprüngen kreuzen sich die Pfeile, bis der Plan aussieht wie ein Teller Spaghetti. Deshalb nennt man das **Spaghetticode**. Den Ablauf kann man kaum noch verfolgen, und Fehler verstecken sich gut.
+
+Im Struktogramm gibt es keine Pfeile. Fügst du einen Kasten ein, rutscht alles darunter einfach mit, und kein Sprung kann auf die falsche Stelle zeigen. Für das vorzeitige Verlassen einer Schleife gibt es dort einen eigenen, ordentlichen Kasten, den Aussprung. Den lernst du in Lektion 18 kennen.
+
+::: angeberwissen
+1968 schrieb der Informatiker Edsger Dijkstra einen berühmten Brief: „Go To Statement Considered Harmful“, auf Deutsch „GOTO gilt als schädlich“. Seitdem baut man Programme nur noch aus Sequenz, Verzweigung und Wiederholung. In Java ist `goto` bis heute ein reserviertes Wort, benutzen darf man es aber nicht. Mäh, Spaghetti esse ich lieber, als sie zu programmieren.
+:::
+
+## Pseudocode und Vergleich
+
+**Pseudocode** ist Text, der wie ein Programm aussieht, aber in normaler Sprache geschrieben ist. Feste Wörter wie WENN und SOLANGE zeigen die Bausteine, die **Einrückung** zeigt, was dazugehört. Sprünge gibt es auch hier nicht. Das ist unser Tee-Beispiel:
 
 ```
 Tasse auf den Tisch stellen
@@ -138,7 +196,7 @@ Tee trinken
 ### Im Vergleich
 
 - **Struktogramm:** Kästen ineinander, die Schleife ist ein gekipptes L. Die Struktur siehst du auf einen Blick, wilde Sprünge sind unmöglich.
-- **PAP:** Symbole mit Pfeilen, die Schleife ist ein Pfeil zurück nach oben. Sehr anschaulich, aber bei großen Plänen schnell unübersichtlich.
+- **PAP:** Symbole mit Pfeilen, die Schleife ist ein Pfeil zurück nach oben. Sehr anschaulich, aber bei großen Plänen schnell unübersichtlich, und Sprünge kreuz und quer sind möglich.
 - **Pseudocode:** Text mit Einrückung, die Schleife steht zwischen SOLANGE und ENDE SOLANGE. Schnell geschrieben und schon nah am Programmcode.
 
 > Alle drei beschreiben denselben Algorithmus. Wenn du eine Form lesen kannst, lernst du die anderen schnell.
@@ -155,10 +213,6 @@ Beim Programmieren passieren zwei Dinge gleichzeitig: Du musst dir den Ablauf ü
 2. Danach übersetzt du die fertige Struktur in **Java, Python oder JavaScript**. VisuStruct kann dir den Code sogar erzeugen.
 
 Mit der **Simulation** kannst du dein Struktogramm außerdem Schritt für Schritt ausführen und prüfen, ob es wirklich tut, was es soll.
-
-::: angeberwissen
-Programme, die kreuz und quer springen, heißen **Spaghetticode**: Wer einem Faden folgen will, verheddert sich wie in einem Teller Spaghetti. Schuld war früher der Befehl GOTO, also „springe zu Zeile …“. 1968 schrieb der Informatiker Edsger Dijkstra deshalb einen berühmten Brief: „Go To Statement Considered Harmful“, auf Deutsch „GOTO gilt als schädlich“. Seitdem baut man Programme nur noch aus Sequenz, Verzweigung und Wiederholung. In Java ist `goto` bis heute ein reserviertes Wort, benutzen darf man es aber nicht. Mäh, Spaghetti esse ich lieber, als sie zu programmieren.
-:::
 
 ## Spiel: Welcher Baustein?
 
@@ -215,7 +269,9 @@ richtig: Verzweigung
 - Ich weiß, dass ein Struktogramm von oben nach unten gelesen wird. → So liest du ein Struktogramm
 - Ich kenne die drei Grundbausteine Sequenz, Verzweigung und Wiederholung. → Baustein 1: Die Sequenz
 - Ich erkenne jeden Baustein im Struktogramm an seiner Form. → Alle drei zusammen
-- Ich kann einen einfachen Algorithmus auch als PAP und als Pseudocode lesen. → Andere Darstellungen: PAP und Pseudocode
+- Ich kenne die Elemente eines PAP und kann einen einfachen PAP lesen. → Andere Darstellungen: Der PAP
+- Ich kann erklären, warum Sprünge mit GOTO zu Fehlern und Spaghetticode führen. → Nachteile des PAP: Sprünge
+- Ich kann einen einfachen Algorithmus auch als Pseudocode lesen. → Pseudocode und Vergleich
 :::
 
 ## Wissenstest
@@ -264,6 +320,12 @@ richtig: Verzweigung
 = Raute -> Verzweigung
 = Parallelogramm -> Ein- oder Ausgabe
 > Die Raute hat zwei Ausgänge: ja und nein.
+
+? Du fügst in ein Programm mit GOTO eine neue Zeile ein. Was kann passieren?
+- [x] Die Sprünge zeigen auf die falschen Zeilen, weil sich die Nummern verschoben haben
+- [ ] Nichts, die Sprünge passen sich von selbst an
+- [ ] Das Programm wird automatisch schneller
+> Jedes GEHE ZU zeigt auf eine feste Zeilennummer. Rutschen die Zeilen weiter, springt das Programm an die falsche Stelle.
 
 ? Was zeigt im Pseudocode, welche Zeilen zu einer Schleife gehören?
 - [ ] Die Farbe
