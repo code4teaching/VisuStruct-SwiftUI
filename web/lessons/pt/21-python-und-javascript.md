@@ -4,6 +4,15 @@ bereich: Do estrutograma ao código
 kurz: Gerar código Python e JavaScript a partir do estrutograma e executar JavaScript diretamente no navegador.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- escolher e comparar Python e JavaScript na vista de código
+- explicar que o Python forma blocos pela indentação e não precisa de tipos de dados
+- explicar o que o VisuStruct ajusta ao traduzir para Python
+- executar JavaScript com Testar no navegador
+:::
+
 ## O mesmo diagrama, três linguagens
 
 Na vista de código ([Código](#zeige-code) nas ferramentas) escolhes a linguagem em cima. O estrutograma fica igual; só muda a forma de escrever. Assim podes comparar as linguagens facilmente.
@@ -189,33 +198,39 @@ richtig: JavaScript
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei escolher e comparar Python e JavaScript na vista de código. → O mesmo diagrama, três linguagens
-- Sei que o Python forma blocos pela indentação e não precisa de tipos de dados. → Python
-- Sei o que o VisuStruct ajusta ao traduzir para Python. → Cuidados com o Python
-- Sei executar JavaScript com Testar no navegador. → Executar JavaScript no navegador
+- Consigo escolher e comparar Python e JavaScript na vista de código. → O mesmo diagrama, três linguagens
+- Consigo explicar que o Python forma blocos pela indentação e não precisa de tipos de dados. → Python
+- Consigo explicar o que o VisuStruct ajusta ao traduzir para Python. → Cuidados com o Python
+- Consigo executar JavaScript com Testar no navegador. → Executar JavaScript no navegador
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Como reconhece o Python que linhas pertencem a um ciclo?
+→ Python
 - [ ] Pelas chavetas
 - [x] Pela indentação
 - [ ] Pelo ponto e vírgula no fim da linha
 
 ? Como fica `output: soma` em JavaScript?
+→ O mesmo diagrama, três linguagens
 - [ ] print(soma)
 - [ ] System.out.println(soma);
 - [x] console.log(soma);
 
 ? Que linguagem consegue o VisuStruct executar diretamente no navegador?
+→ Executar JavaScript no navegador
 - [ ] Java
 - [ ] Python
 - [x] JavaScript
 > Qualquer navegador consegue executar JavaScript. Para Java e Python precisas de um programa próprio.
 
 ? O que acontece em Python com `print("Soma: " + soma)` se soma for o número 7?
+→ Cuidados com o Python
 - [ ] É mostrado Soma: 7.
 - [x] O Python indica um erro, porque texto e número não se podem juntar com +.
 - [ ] É mostrado Soma:.

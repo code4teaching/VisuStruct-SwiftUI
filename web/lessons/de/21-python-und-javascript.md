@@ -4,6 +4,15 @@ bereich: Vom Struktogramm zum Code
 kurz: Python- und JavaScript-Code aus dem Struktogramm erzeugen und JavaScript direkt im Browser ausführen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- Python und JavaScript in der Code-Ansicht auswählen und vergleichen
+- erklären, dass Python Blöcke durch Einrückung bildet und keine Datentypen braucht
+- erklären, was VisuStruct beim Übersetzen nach Python anpasst
+- JavaScript mit Im Browser testen ausführen
+:::
+
 ## Dasselbe Diagramm, drei Sprachen
 
 In der Code-Ansicht ([Code](#zeige-code) bei den Werkzeugen) wählst du oben die Sprache. Das Struktogramm bleibt gleich, nur die Schreibweise ändert sich. So kannst du die Sprachen gut vergleichen.
@@ -189,10 +198,12 @@ richtig: JavaScript
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann Python und JavaScript in der Code-Ansicht auswählen und vergleichen. → Dasselbe Diagramm, drei Sprachen
-- Ich weiß, dass Python Blöcke durch Einrückung bildet und keine Datentypen braucht. → Python
-- Ich weiß, was VisuStruct beim Übersetzen nach Python anpasst. → Worauf du bei Python achten musst
+- Ich kann erklären, dass Python Blöcke durch Einrückung bildet und keine Datentypen braucht. → Python
+- Ich kann erklären, was VisuStruct beim Übersetzen nach Python anpasst. → Worauf du bei Python achten musst
 - Ich kann JavaScript mit Im Browser testen ausführen. → JavaScript im Browser ausführen
 :::
 
@@ -200,22 +211,26 @@ richtig: JavaScript
 
 ::: quiz
 ? Woran erkennt Python, welche Zeilen zu einer Schleife gehören?
+→ Python
 - [ ] An den geschweiften Klammern
 - [x] An der Einrückung
 - [ ] Am Semikolon am Zeilenende
 
 ? Wie heißt `output: summe` in JavaScript?
+→ Dasselbe Diagramm, drei Sprachen
 - [ ] print(summe)
 - [ ] System.out.println(summe);
 - [x] console.log(summe);
 
 ? Welche Sprache kann VisuStruct direkt im Browser ausführen?
+→ JavaScript im Browser ausführen
 - [ ] Java
 - [ ] Python
 - [x] JavaScript
 > Jeder Browser kann JavaScript ausführen. Für Java und Python brauchst du ein eigenes Programm.
 
 ? Was passiert in Python bei `print("Summe: " + summe)`, wenn summe die Zahl 7 ist?
+→ Worauf du bei Python achten musst
 - [ ] Es wird Summe: 7 ausgegeben.
 - [x] Python meldet einen Fehler, weil Text und Zahl nicht mit + verbunden werden können.
 - [ ] Es wird Summe: ausgegeben.

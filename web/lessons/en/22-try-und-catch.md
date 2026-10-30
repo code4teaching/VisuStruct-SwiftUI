@@ -4,6 +4,16 @@ bereich: Catching errors
 kurz: Use real Java to read error messages and catch crashes with try and catch.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- switch on real Java in the Programming area
+- read the exception and the line from an error message
+- catch an exception with try and catch
+- turn text into a number with Integer.parseInt and catch the NumberFormatException
+- write a program that divides safely, even by 0
+:::
+
 ## Crashed!
 
 This program should print three grades. Type it into the [Programming](#zeige-codelive) area and click [▶︎ Run](#zeige-ausfuehren):
@@ -232,35 +242,41 @@ The exception is called `ArithmeticException`. Only put the line that can crash 
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can switch on real Java in the Programming area. → Switching on real Java
 - I can read the exception and the line from an error message. → Reading the error message
 - I can catch an exception with try and catch. → try and catch
 - I can turn text into a number with Integer.parseInt and catch the NumberFormatException. → Turning text into a number
-- My program divides safely, even by 0. → Task: dividing safely
+- I can write a program that divides safely, even by 0. → Task: dividing safely
 :::
 
 ## Quiz
 
 ::: quiz
 ? What happens if an exception is not caught?
+→ Reading the error message
 - [ ] Java skips the line and carries on.
 - [x] The program stops.
 - [ ] The computer restarts.
 > That is why “Done!” does not appear in the first example.
 
 ? What happens in the try block after the line that throws an exception?
+→ try and catch
 - [ ] The remaining lines run anyway.
 - [x] The rest is skipped and Java jumps into the catch block.
 - [ ] Java starts the try block again.
 
 ? Which exception does Integer.parseInt("twelve") throw?
+→ Turning text into a number
 - [ ] ArithmeticException
 - [ ] ArrayIndexOutOfBoundsException
 - [x] NumberFormatException
 > “twelve” is not in a number format that Java understands.
 
 ? Match each exception to its cause.
+→ Reading the error message
 = ArrayIndexOutOfBoundsException -> index outside the array
 = ArithmeticException -> dividing by 0
 = NumberFormatException -> text is not a number

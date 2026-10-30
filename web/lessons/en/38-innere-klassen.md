@@ -4,6 +4,16 @@ bereich: Windows with Swing
 kurz: Write a listener as a named inner class, as an anonymous class and as a lambda, and know who can see what.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- write a listener as a named inner class
+- write a listener as an anonymous class
+- explain what is left out in a lambda
+- explain which way of writing sees which variables
+- build a counter with three buttons written in three ways
+:::
+
 ## The goal
 
 You already know the click counter from lesson 32. Today you write its listener in **three ways**, all of which do exactly the same:
@@ -183,33 +193,39 @@ Check that all three buttons count as expected. Then remove the `static` from th
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can write a listener as a named inner class. → 1. The named inner class
 - I can write a listener as an anonymous class. → 2. The anonymous class
-- I know what is left out in a lambda. → 3. The lambda
-- I know which way of writing sees which variables. → The three compared
-- My counter has three buttons written in three ways. → Task: One counter, three ways
+- I can explain what is left out in a lambda. → 3. The lambda
+- I can explain which way of writing sees which variables. → The three compared
+- I can build a counter with three buttons written in three ways. → Task: One counter, three ways
 :::
 
 ## Quiz
 
 ::: quiz
 ? Why does the short form with the arrow work for ActionListener?
+→ 3. The lambda
 - [ ] Because ActionListener is a class.
 - [x] Because the contract has exactly one method.
 - [ ] Because the button demands it.
 
 ? Which way of writing can you use with new Plus() for several buttons without storing it in a variable?
+→ 1. The named inner class
 - [x] the named inner class
 - [ ] the anonymous class
 - [ ] the lambda
 
 ? Why is there static in front of class Plus?
+→ 1. The named inner class
 - [ ] So that the class is faster.
 - [x] Because main is static and couldn't create an object of Plus otherwise.
 - [ ] Because every class has to be static.
 
 ? Match.
+→ The three compared
 = class Plus implements ActionListener -> named inner class
 = new ActionListener() { … } -> anonymous class
 = the arrow after e -> lambda

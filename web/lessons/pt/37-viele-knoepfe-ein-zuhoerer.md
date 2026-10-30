@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Um ouvinte para muitos botões e descobrir com getActionCommand e getSource qual foi o botão clicado.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- guardar um ouvinte numa variável do tipo ActionListener e registá-lo em vários botões
+- explicar o que devolvem getActionCommand e getSource
+- pôr botões num JPanel com um ciclo
+- construir um cadeado que só abre com o código certo
+:::
+
 ## O objetivo
 
 Desde a história do bolo, o Ludwig quer trancar o seu estábulo. Ele constrói um **cadeado de código**: nove teclas com algarismos, um zero, **C** para apagar e **OK** para verificar. Só quem escrever 1234 recebe "Portão aberto!".
@@ -256,33 +265,39 @@ Também na calculadora da lição 35 chega um ouvinte para +, -, \* e /. Verific
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei guardar um ouvinte numa variável do tipo ActionListener e registá-lo em vários botões. → Um ouvinte numa variável
-- Sei o que devolvem getActionCommand e getSource. → Quem clicou?
-- Sei pôr botões num JPanel com um ciclo. → Botões num ciclo
-- O meu cadeado só abre com o código certo. → Tarefa: Cadeado de código
+- Consigo guardar um ouvinte numa variável do tipo ActionListener e registá-lo em vários botões. → Um ouvinte numa variável
+- Consigo explicar o que devolvem getActionCommand e getSource. → Quem clicou?
+- Consigo pôr botões num JPanel com um ciclo. → Botões num ciclo
+- Consigo construir um cadeado que só abre com o código certo. → Tarefa: Cadeado de código
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que devolve e.getActionCommand() num clique no botão new JButton("7")?
+→ Quem clicou?
 - [ ] o número 7
 - [x] o texto "7"
 - [ ] o próprio botão
 
 ? Como verificas se foi clicado o botão ok?
+→ Quem clicou?
 - [x] e.getSource() == ok
 - [ ] e.getSource().equals("ok")
 - [ ] ok.getActionCommand()
 > getSource devolve o próprio botão, e esse comparas com ==.
 
 ? Porque é que um ouvinte fica numa variável?
+→ Um ouvinte numa variável
 - [ ] Para correr mais depressa.
 - [x] Para o poder registar em vários botões e escrever o código só uma vez.
 - [ ] Porque senão os lambdas não são permitidos.
 
 ? Liga.
+→ Quem clicou?
 = ActionListener -> tipo de dados de um ouvinte
 = ActionEvent -> o evento e com a informação sobre o clique
 = JPanel -> uma área com o seu próprio layout

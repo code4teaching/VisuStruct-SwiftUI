@@ -4,6 +4,16 @@ bereich: Fenster mit Swing
 kurz: Ein Fenster mit zwei Reitern bauen, Daten von einem Reiter zum anderen bringen und die Liste als Textdatei speichern.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein Fenster mit zwei Reitern bauen
+- mit append Zeilen an eine JTextArea anhängen
+- erklären, warum ein Zuhörer Bausteine auf beiden Reitern benutzen kann
+- im Zuhörer mit try und catch eine Datei speichern
+- eine Einkaufsliste bauen, die mitzählt, wie viele Dinge darauf stehen
+:::
+
 ## Das Ziel
 
 Ludwigs Einkaufsliste aus Lektion 23 bekommt ein Fenster. Es hat zwei **Reiter**, wie die Tabs im Browser:
@@ -232,33 +242,39 @@ Dann mach es besser:
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann ein Fenster mit zwei Reitern bauen. → Reiter mit JTabbedPane
 - Ich kann mit append Zeilen an eine JTextArea anhängen. → Ein Textbereich mit mehreren Zeilen
-- Ich weiß, warum ein Zuhörer Bausteine auf beiden Reitern benutzen kann. → Von einem Reiter zum anderen
+- Ich kann erklären, warum ein Zuhörer Bausteine auf beiden Reitern benutzen kann. → Von einem Reiter zum anderen
 - Ich kann im Zuhörer mit try und catch eine Datei speichern. → Speichern im Zuhörer
-- Meine Einkaufsliste zählt mit, wie viele Dinge darauf stehen. → Aufgabe: Einkaufsliste mit Reitern
+- Ich kann eine Einkaufsliste bauen, die mitzählt, wie viele Dinge darauf stehen. → Aufgabe: Einkaufsliste mit Reitern
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Welcher Reiter ist nach reiter.setSelectedIndex(0) offen?
+→ Reiter mit JTabbedPane
 - [x] der erste
 - [ ] der zweite
 - [ ] keiner
 
 ? Warum steht das Speichern im Zuhörer in try und catch?
+→ Speichern im Zuhörer
 - [ ] Weil PrintWriter nur in try funktioniert.
 - [x] Weil actionPerformed keine FileNotFoundException weiterwerfen darf.
 - [ ] Weil main kein throws hat.
 
 ? Was ist der Unterschied zwischen JTextField und JTextArea?
+→ Ein Textbereich mit mehreren Zeilen
 - [ ] Es gibt keinen.
 - [x] JTextArea kann mehrere Zeilen zeigen.
 - [ ] JTextField kann man nicht beschreiben.
 
 ? Ordne zu.
+→ Reiter mit JTabbedPane
 = JTabbedPane -> eine Fläche mit Reitern
 = JPanel -> die Fläche eines Reiters
 = JTextArea -> ein Textbereich mit mehreren Zeilen

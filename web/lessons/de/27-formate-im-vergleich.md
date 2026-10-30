@@ -4,6 +4,15 @@ bereich: Dateien
 kurz: Dieselben Daten als txt, CSV und JSON vergleichen, das passende Format wählen und eine Datei in ein anderes Format umwandeln.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- dieselben Daten als txt, CSV und JSON erkennen
+- Stärken und Schwächen von txt, CSV und JSON vergleichen
+- eine CSV-Datei in Sätze umwandeln
+- eine CSV-Datei in JSON umwandeln
+:::
+
 ## Dreimal dieselben Tiere
 
 Ludwig hat die Tiere der Burg in drei Dateien gespeichert. In allen steht dasselbe, nur anders aufgeschrieben.
@@ -127,33 +136,39 @@ richtig: txt
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich erkenne dieselben Daten als txt, CSV und JSON. → Dreimal dieselben Tiere
-- Ich kenne Stärken und Schwächen von txt, CSV und JSON. → Was kann welches Format?
-- Ich habe eine CSV-Datei in Sätze umgewandelt. → Übung: Aus CSV werden Sätze
-- Ich habe eine CSV-Datei in JSON umgewandelt. → Übung: Aus CSV wird JSON
+- Ich kann dieselben Daten als txt, CSV und JSON erkennen. → Dreimal dieselben Tiere
+- Ich kann Stärken und Schwächen von txt, CSV und JSON vergleichen. → Was kann welches Format?
+- Ich kann eine CSV-Datei in Sätze umwandeln. → Übung: Aus CSV werden Sätze
+- Ich kann eine CSV-Datei in JSON umwandeln. → Übung: Aus CSV wird JSON
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Welches Format öffnet Excel direkt als Tabelle?
+→ Was kann welches Format?
 - [ ] txt
 - [x] CSV
 - [ ] JSON
 
 ? Warum ist eine JSON-Datei meist größer als eine CSV-Datei mit denselben Daten?
+→ Was kann welches Format?
 - [ ] Weil JSON mehr Zahlen speichert.
 - [x] Weil die Schlüssel in jedem Eintrag wiederholt werden.
 - [ ] Weil JSON keine Kommas benutzt.
 
 ? In welchem Format sagt jeder Wert selbst, was er bedeutet?
+→ Was kann welches Format?
 - [ ] txt
 - [ ] CSV
 - [x] JSON
 > In JSON steht der Schlüssel direkt vor dem Wert, zum Beispiel "alter": 7.
 
 ? Ordne jedem Zweck ein Format zu.
+→ Was kann welches Format?
 = ein Brief an Zora -> txt
 = die Notenliste der Klasse -> CSV
 = ein Spielstand mit Listen -> JSON

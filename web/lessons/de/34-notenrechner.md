@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Punkte eingeben, mit else if die Note bestimmen und falsche Eingaben abfangen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit else if Punkte in eine Note umrechnen
+- die Note im Fenster anzeigen
+- „abc“ und Punkte außerhalb von 0 bis 100 abfangen und melden
+- ein Programm an den Grenzen testen, zum Beispiel mit 92 und 91
+:::
+
 ## Das Ziel
 
 Ein Fenster rechnet Punkte in eine Note um: Du tippst die Punkte einer Klassenarbeit ein (0 bis 100), klickst auf **Note berechnen**, und unten steht die Note.
@@ -233,28 +242,33 @@ Teste immer die Grenzen: 92 muss eine 1 sein, 91 eine 2. An den Grenzen stecken 
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann mit else if Punkte in eine Note umrechnen. → Der Notenschlüssel
 - Ich kann die Note im Fenster anzeigen. → Das Fenster
-- Mein Programm meldet „abc“ und Punkte außerhalb von 0 bis 100. → Falsche Eingaben abfangen
-- Ich habe die Grenzen 92 und 91 getestet. → Aufgabe: Notenrechner
+- Ich kann „abc“ und Punkte außerhalb von 0 bis 100 abfangen und melden. → Falsche Eingaben abfangen
+- Ich kann ein Programm an den Grenzen testen, zum Beispiel mit 92 und 91. → Aufgabe: Notenrechner
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Welche Note ergibt der Schlüssel bei 67 Punkten?
+→ Der Notenschlüssel
 - [ ] 2
 - [x] 3
 - [ ] 4
 > 67 ist die untere Grenze für die 3.
 
 ? Warum reicht in jeder Bedingung die untere Grenze?
+→ Der Notenschlüssel
 - [x] Weil else if die oberen Fälle schon vorher aussortiert hat
 - [ ] Weil Java obere Grenzen nicht kennt
 - [ ] Weil die Punkte immer 100 sind
 
 ? Welche Bedingung erkennt ungültige Punkte?
+→ Falsche Eingaben abfangen
 - [ ] punkte < 0 && punkte > 100
 - [x] punkte < 0 || punkte > 100
 - [ ] punkte >= 0 || punkte <= 100

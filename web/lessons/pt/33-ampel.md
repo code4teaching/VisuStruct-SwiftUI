@@ -4,6 +4,16 @@ bereich: Janelas com Swing
 kurz: Definir cores de fundo e mudar um semáforo com uma variável de estado.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- pintar uma etiqueta com setOpaque e setBackground
+- guardar um estado numa variável static
+- usar o BorderLayout para pôr algo grande no meio e algo estreito em baixo
+- explicar para que servem o FlowLayout, o GridLayout e o BorderLayout
+- programar um semáforo com quatro fases
+:::
+
 ## O objetivo
 
 Vamos construir um semáforo: uma área grande acende a vermelho. A cada clique em **Seguinte** muda: vermelho, verde, amarelo e outra vez vermelho.
@@ -232,28 +242,33 @@ Com quatro fases, depois do 3 vem o 0. Ajusta por isso o número em `if (fase > 
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
 - Consigo pintar uma etiqueta com setOpaque e setBackground. → Cores no Swing
 - Consigo guardar um estado numa variável static. → Lembrar a cor
-- Com o BorderLayout consigo pôr algo grande no meio e algo estreito em baixo. → O programa completo
-- Sei para que servem o FlowLayout, o GridLayout e o BorderLayout. → Que layout para quê?
-- O meu semáforo tem quatro fases. → Tarefa: semáforo
+- Consigo usar o BorderLayout para pôr algo grande no meio e algo estreito em baixo. → O programa completo
+- Consigo explicar para que servem o FlowLayout, o GridLayout e o BorderLayout. → Que layout para quê?
+- Consigo programar um semáforo com quatro fases. → Tarefa: semáforo
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Porque é que a cor fica invisível sem setOpaque(true)?
+→ Cores no Swing
 - [ ] Porque Color.RED não existe
 - [x] Porque, sem isso, uma etiqueta é transparente
 - [ ] Porque a janela é demasiado pequena
 
 ? Que lugar do BorderLayout fica com o espaço que sobra?
+→ O programa completo
 - [ ] NORTH
 - [ ] SOUTH
 - [x] CENTER
 
 ? fase é 2 e o ouvinte executa fase++ e depois if (fase > 2) { fase = 0; }. Que valor tem fase a seguir?
+→ Lembrar a cor
 - [x] 0
 - [ ] 2
 - [ ] 3

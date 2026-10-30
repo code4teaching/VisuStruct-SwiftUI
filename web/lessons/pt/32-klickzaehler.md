@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Dois botões alteram o mesmo número: criar uma variável para a classe toda.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar porque é que um ouvinte não pode alterar uma variável do main
+- criar uma variável static na classe
+- fazer com que dois botões alterem o mesmo número
+- construir um contador com −1 que nunca fica abaixo de 0
+:::
+
 ## O objetivo
 
 Uma janela conta cliques: em cima está o número, por baixo dois botões. **+1** soma um, **Reset** volta a pôr o número a 0.
@@ -191,27 +200,32 @@ Para “nunca abaixo de 0”, o ouvinte do −1 precisa de um `if`: só se `cont
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei porque é que um ouvinte não pode alterar uma variável do main. → A primeira tentativa
+- Consigo explicar porque é que um ouvinte não pode alterar uma variável do main. → A primeira tentativa
 - Consigo criar uma variável static na classe. → Uma variável para a classe toda
-- Dois botões alteram o mesmo número. → O programa completo
-- O meu contador tem −1 e nunca fica abaixo de 0. → Tarefa: contador de cliques
+- Consigo fazer com que dois botões alterem o mesmo número. → O programa completo
+- Consigo construir um contador com −1 que nunca fica abaixo de 0. → Tarefa: contador de cliques
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Porque é que o ouvinte não pode alterar a variável contagem do main?
+→ A primeira tentativa
 - [ ] Porque no Swing não são permitidos números
 - [x] Porque o ouvinte só corre mais tarde e o Java não deixa a seta alterar variáveis do main
 - [ ] Porque a contagem fica demasiado grande
 
 ? Onde fica static int contagem = 0;?
+→ Uma variável para a classe toda
 - [ ] No main, bem em cima
 - [x] Na classe, fora do main
 - [ ] No ouvinte
 
 ? O que faz SwingConstants.CENTER em new JLabel("0", SwingConstants.CENTER)?
+→ O programa completo
 - [x] Põe o texto no meio da etiqueta.
 - [ ] Põe a janela no meio do ecrã.
 - [ ] Aumenta a letra.

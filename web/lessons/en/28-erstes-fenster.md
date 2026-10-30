@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: Open your own window with Java and Swing, explained line by line.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- switch on “Real Java” in the Programming area
+- open a window with a title and a size
+- explain what each line of the window program does
+- explain why setVisible(true) comes last
+:::
+
 ## Programs with windows
 
 So far your programs have written text to the console. Most programs you know, however, have **windows** with buttons and text fields. This is called a graphical user interface.
@@ -173,34 +182,40 @@ Don't feel like typing so much? With “Real Java” you may type just the four 
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can switch on “Real Java” in the Programming area. → Programs with windows
 - I can open a window with a title and a size. → The whole program
-- I know what each line of the window program does. → Line by line
-- I know why setVisible(true) comes last. → Why setVisible comes last
+- I can explain what each line of the window program does. → Line by line
+- I can explain why setVisible(true) comes last. → Why setVisible comes last
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which line makes the window visible?
+→ Why setVisible comes last
 - [ ] window.setSize(300, 200);
 - [x] window.setVisible(true);
 - [ ] new JFrame("Hello");
 > Without setVisible(true) the window stays invisible.
 
 ? Where is the best place for window.setVisible(true)?
+→ Why setVisible comes last
 - [ ] At the very start of main
 - [x] At the end, once the window is set up
 - [ ] It does not matter.
 > Things added after setVisible(true) often do not appear.
 
 ? What does setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE) do?
+→ Line by line
 - [ ] The window closes immediately.
 - [x] When you close the window, the program ends.
 - [ ] The window can no longer be closed.
 
 ? How do you recognise building blocks from Swing?
+→ Line by line
 - [x] Their name starts with J, e.g. JFrame.
 - [ ] They are in curly brackets.
 - [ ] They end in Window.
