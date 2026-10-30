@@ -2348,10 +2348,11 @@ button.danger-text:not(:disabled) {
   font-size: var(--code-size, 14px);
   white-space: normal;
   overflow: hidden;
-  --syn-keyword: #9b2393;
-  --syn-type: #0b4f79;
-  --syn-string: #c41a16;
-  --syn-number: #1c00cf;
+  /* Farben wie in Eclipse: Text blau, Schlüsselwörter lila, Kommentare grün (Rot bleibt für Fehler) */
+  --syn-keyword: #7f0055;
+  --syn-string: #2a00ff;
+  --syn-number: #986801;
+  --syn-comment: #3f7f5f;
 }
 .livecode-editor[hidden],
 .livecode-view[hidden],

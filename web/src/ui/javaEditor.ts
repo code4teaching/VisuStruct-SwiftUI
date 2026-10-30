@@ -212,11 +212,11 @@ const placeholderClick = EditorView.updateListener.of((u) => {
 })
 
 const highlight = HighlightStyle.define([
-  { tag: [tags.keyword, tags.controlKeyword, tags.definitionKeyword, tags.modifier, tags.operatorKeyword], color: 'var(--syn-keyword)', fontWeight: '600' },
-  { tag: [tags.typeName, tags.standard(tags.typeName)], color: 'var(--syn-type)' },
+  // Wie in Eclipse: int, boolean … sowie true, false und null sind Schlüsselwörter; Klassennamen bleiben schwarz.
+  { tag: [tags.keyword, tags.controlKeyword, tags.definitionKeyword, tags.modifier, tags.operatorKeyword, tags.standard(tags.typeName), tags.bool, tags.null], color: 'var(--syn-keyword)', fontWeight: '600' },
   { tag: [tags.string, tags.character], color: 'var(--syn-string)' },
-  { tag: [tags.number, tags.bool, tags.null], color: 'var(--syn-number)' },
-  { tag: [tags.lineComment, tags.blockComment], color: 'var(--muted)', fontStyle: 'italic' },
+  { tag: tags.number, color: 'var(--syn-number)' },
+  { tag: [tags.lineComment, tags.blockComment], color: 'var(--syn-comment)', fontStyle: 'italic' },
 ])
 
 /** Vorlagen und Wörter für die Vorschläge. */
