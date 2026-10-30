@@ -159,7 +159,7 @@ java Tabuada
 ```
 
 - `java -version` mostra que versão do Java está instalada. Se aparecer uma mensagem de erro, ainda falta o Java.
-- `javac Tabuada.java` inicia o compilador. Depois, o `Tabuada.class` fica na mesma pasta.
+- `javac Tabuada.java` inicia o compilador. Depois tens dois ficheiros na pasta: o `Tabuada.java` com o teu código-fonte e o novo `Tabuada.class` com o bytecode.
 - `java Tabuada` inicia a JVM com o teu bytecode. Aqui escreves o nome da classe sem `.class`.
 
 Se `java -version` funcionar mas `javac -version` não, só tens um JRE instalado. Nesse caso falta-te o JDK.

@@ -159,7 +159,7 @@ java Einmaleins
 ```
 
 - `java -version` zeigt, welche Java-Version installiert ist. Kommt eine Fehlermeldung, fehlt Java noch.
-- `javac Einmaleins.java` startet den Compiler. Danach liegt `Einmaleins.class` im selben Ordner.
+- `javac Einmaleins.java` startet den Compiler. Danach hast du zwei Dateien im Ordner: `Einmaleins.java` mit deinem Quellcode und neu `Einmaleins.class` mit dem Bytecode.
 - `java Einmaleins` startet die JVM mit deinem Bytecode. Den Klassennamen schreibst du hier ohne `.class`.
 
 Klappt `java -version`, aber `javac -version` nicht, ist nur eine JRE installiert. Dann fehlt dir das JDK.

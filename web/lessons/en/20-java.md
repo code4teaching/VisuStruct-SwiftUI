@@ -159,7 +159,7 @@ java TimesTable
 ```
 
 - `java -version` shows which Java version is installed. If you get an error message, Java is still missing.
-- `javac TimesTable.java` starts the compiler. Afterwards `TimesTable.class` is in the same folder.
+- `javac TimesTable.java` starts the compiler. Afterwards there are two files in the folder: `TimesTable.java` with your source code and the new `TimesTable.class` with the bytecode.
 - `java TimesTable` starts the JVM with your bytecode. Here you write the class name without `.class`.
 
 If `java -version` works but `javac -version` doesn't, only a JRE is installed. Then you are missing the JDK.
