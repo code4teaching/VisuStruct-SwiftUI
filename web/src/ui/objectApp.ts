@@ -2314,7 +2314,7 @@ export class ObjectApp {
           return `<tr data-member-row="${i}">
             <td><select data-row="${i}" data-field="m-vis" aria-label="${e(t('web_visuobject_insp_visibility'))}"${isClass ? '' : ' disabled'}>${visOptions(m.visibility)}</select></td>
             <td><input data-row="${i}" data-field="m-name" value="${e(m.name)}" spellcheck="false" autocomplete="off" aria-label="${e(t('web_visuobject_new_name'))}"${ctor ? ' disabled' : ''}></td>
-            <td><input data-row="${i}" data-field="m-params" value="${e(paramsText(m.params))}" spellcheck="false" autocomplete="off" placeholder="name: String" aria-label="${e(t('web_visuobject_insp_params'))}"></td>
+            <td><input data-row="${i}" data-field="m-params" value="${e(paramsText(m.params))}" spellcheck="false" autocomplete="off" placeholder="—" aria-label="${e(t('web_visuobject_insp_params'))}"></td>
             <td><input data-row="${i}" data-field="m-type" value="${e(ctor ? '' : m.type)}" list="vo-types" spellcheck="false" autocomplete="off" placeholder="${ctor ? e(t('web_visuobject_insp_constructor')) : 'void'}" aria-label="${e(t('web_visuobject_insp_return'))}"${ctor ? ' disabled' : ''}></td>
             <td class="c"><input type="checkbox" data-row="${i}" data-field="m-static"${m.isStatic ? ' checked' : ''} aria-label="static"${ctor ? ' disabled' : ''}></td>
             <td class="c"><input type="checkbox" data-row="${i}" data-field="m-abstract"${m.isAbstract ? ' checked' : ''} aria-label="abstract"${ctor || !canAbstract ? ' disabled' : ''}></td>
