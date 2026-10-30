@@ -77,6 +77,7 @@ import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
 import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
+import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
 import { ObjectLayout } from './objectLayout'
 import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
 import { classSource, newWizard, type NewKind } from './objectNew'
@@ -967,7 +968,7 @@ export class ObjectApp {
     this.selection = { cls: name }
     this.open.set(`root:${root}`, true)
     this.open.set(`pkg:${key}`, true)
-    this.setProject(addFile(this.project, path, classSource(result.options!)), path)
+    this.setProject(addFile(this.project, path, this.sectioned(classSource(result.options!), name)), path)
     const cls = this.findClass(name)
     if (cls) this.showInCode(cls)
     this.canvas.querySelector<HTMLElement>(`.uml-class[data-class="${CSS.escape(name)}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
@@ -1059,7 +1060,7 @@ export class ObjectApp {
     const path = pathFor(pkg, `${name}.java`)
     this.selection = { cls: name }
     this.open.set(`pkg:${pkg}`, true)
-    this.setProject(addFile(this.project, path, classFileText(pkg, name, kind)), path)
+    this.setProject(addFile(this.project, path, this.sectioned(classFileText(pkg, name, kind), name)), path)
     this.savePositions()
     const cls = this.findClass(name)
     if (cls) this.showInCode(cls)
@@ -1114,7 +1115,7 @@ export class ObjectApp {
       if (!line) return this.message(t('web_visuobject_bad_line', text))
       // „+ Attribut“ ohne Klammern bleibt ein Attribut, „+ Methode“ ohne Klammern wird eine Methode.
       const typed = add === 'method' && line.kind === 'field' ? `${text}()` : text
-      this.changeFile(cls.path, (s) => addMember(s, cls, typed), { cls: cls.name })
+      this.changeFile(cls.path, (s) => this.sorted(addMember(s, cls, typed), cls.name), { cls: cls.name })
       return
     }
     const index = Number(target.dataset.member)
@@ -1930,9 +1931,24 @@ export class ObjectApp {
   private editClass(project: JavaProject, name: string, run: (text: string, cls: UmlClass) => string): JavaProject {
     for (const f of project.files) {
       const cls = parseClasses(f.text).find((c) => c.name === name)
-      if (cls) return updateFile(project, f.path, run(f.text, cls))
+      if (cls) return updateFile(project, f.path, this.sorted(run(f.text, cls), name))
     }
     return project
+  }
+
+  private sectionLabels(): SectionLabels {
+    return { fields: t('web_visuobject_section_fields'), refs: t('web_visuobject_section_refs'), ctors: t('web_visuobject_section_ctors'), methods: t('web_visuobject_section_methods') }
+  }
+
+  /** Neue Mitglieder unter den passenden Abschnitts-Kommentar (nur wenn die Klasse welche hat). */
+  private sorted(text: string, name: string): string {
+    return keepSections(text, name, new Set(this.classes.map((c) => c.name)), this.sectionLabels())
+  }
+
+  /** Neue Klasse gleich mit `// Attribute`, `// Referenzattribute`, `// Konstruktor`, `// Methoden`. */
+  private sectioned(text: string, name: string): string {
+    const cls = parseClasses(text).find((c) => c.name === name)
+    return cls ? withSections(text, cls, new Set([...this.classes.map((c) => c.name), name]), this.sectionLabels()) : text
   }
 
   private fieldOf(cls: UmlClass, name: string) {
@@ -2304,7 +2320,7 @@ export class ObjectApp {
         ${ifaces.length ? `<fieldset class="vo-inspector-ifaces"><legend>${e(t(isClass ? 'web_visuobject_new_interfaces' : 'web_visuobject_new_extends_interfaces'))}</legend>${ifaces.map((c) => `<label class="check"><input type="checkbox" data-field="iface" value="${e(c.name)}"${cls.interfaces.includes(c.name) ? ' checked' : ''}> ${e(c.name)}</label>`).join('')}</fieldset>` : ''}
       </div>
       <label class="vo-doc">${e(t('web_visuobject_insp_doc'))}<textarea data-field="doc" rows="2" spellcheck="true" placeholder="${e(t('web_visuobject_insp_doc_ph'))}">${e(classDoc(text, cls))}</textarea></label>
-      <div class="vo-inspector-row"><button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button></div>`
+      <div class="vo-inspector-row">${isClass && !hasSections(text, cls) ? `<button class="text-button" data-inspector="sections" data-tip="${e(t('web_visuobject_insp_sections_tip'))}">${e(t('web_visuobject_insp_sections'))}</button>` : ''}<button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button></div>`
     } else if (this.classTab === 'fields') {
       const rows = fields
         .map(({ m, i }) => {
@@ -2430,6 +2446,7 @@ export class ObjectApp {
       for (const b of this.inspector.querySelectorAll<HTMLElement>(`[data-inspector="${action}"]`)) b.addEventListener('click', () => run(b))
     }
     on('delete-class', () => this.deleteClassFromProject(cls))
+    on('sections', () => edit((src, c) => withSections(src, c, new Set(this.classes.map((x) => x.name)), this.sectionLabels())))
     on('delete-member', (b) => edit((src, c) => deleteMember(src, member(c, b))))
     on('add-field', () => edit((src, c) => addMember(src, c, `- ${this.freeMember(cls, 'attribut')}: int`)))
     on('add-method', () => edit((src, c) => addMember(src, c, `+ ${this.freeMember(cls, 'methode')}(): void`)))
