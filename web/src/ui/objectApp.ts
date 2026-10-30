@@ -190,7 +190,6 @@ export class ObjectApp {
   /** Der Klick nach einem Werkzeug-Einsatz wählt nichts aus. */
   private suppressClick = false
   /** `Klasse.attribut` aller Attribute, die als Rolle an einer Linie stehen. */
-  private roleFields = new Set<string>()
   private treeSelection?: NodeId
   private open = new Map<NodeId, boolean>()
   private history: string[] = []
@@ -1538,7 +1537,6 @@ export class ObjectApp {
       this.drawLines()
       return
     }
-    this.roleFields = new Set(associations(this.classes, this.project.uml).flatMap((r) => [r.key, ...(r.back ? [r.back.key] : [])]))
     const boxes = new Map<string, HTMLElement>()
     for (const cls of this.classes) {
       if (boxes.has(cls.name)) continue
@@ -1565,8 +1563,8 @@ export class ObjectApp {
       const cls2 = `uml-member${m.isStatic ? ' static' : ''}${m.isAbstract ? ' abstract' : ''}${sel?.member === i ? ' selected' : ''}`
       return `<li class="${cls2}" data-member="${i}" data-value="${e(text)}">${e(text)}</li>`
     }
-    // Attribute, die auf eine andere Klasse zeigen, sind in UML die Rolle an der Linie, nicht im Kasten.
-    const fields = cls.members.map((m, i) => (m.kind === 'field' && !this.roleFields.has(relationKey(cls.name, m.name)) ? row(m, i) : '')).join('')
+    // Referenzattribute bleiben im Kasten, wie in Astah; die Linie trägt keine Rolle.
+    const fields = cls.members.map((m, i) => (m.kind === 'field' ? row(m, i) : '')).join('')
     const methods = cls.members.map((m, i) => (m.kind !== 'field' ? row(m, i) : '')).join('')
     const add = (kind: 'field' | 'method') =>
       sel ? `<li class="uml-add" data-add="${kind}">${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
@@ -1717,7 +1715,7 @@ export class ObjectApp {
       const b = boxes.get(g.to)
       if (a && b && a !== b) parts.push(this.generalizationSVG(g, a, b, offset(g.from, g.to)))
     }
-    for (const r of assocs) {
+    for (const r of this.shownAssociations(assocs)) {
       const a = boxes.get(r.from)
       const b = boxes.get(r.to)
       if (a && b && a !== b) parts.push(this.associationSVG(r, a, b, offset(r.from, r.to)))
@@ -1820,7 +1818,29 @@ export class ObjectApp {
    * an jedem Ende Multiplizität und Rolle gleich weit von der Klasse auf beiden Seiten der Linie,
    * in der Mitte der Name mit Leserichtung.
    */
-  private associationSVG(r: Assoc, a: HTMLElement, b: HTMLElement, offset: number): string {
+  /**
+   * Wie Astah: Stehen die Referenzattribute im Kasten, gibt es je Klassenpaar nur eine Linie,
+   * ohne Rollen (das Attribut steht ja im Kasten). Vorne steht die Linie mit Name oder anderem UML-Zusatz.
+   * Bei mehreren Attributen (p1, p2, p3) entfallen auch die Multiplizitäten.
+   */
+  private shownAssociations(assocs: Assoc[]): (Assoc & { several?: boolean })[] {
+    const pairs = new Map<string, Assoc[]>()
+    for (const r of assocs) {
+      const key = [r.from, r.to].sort().join('|')
+      pairs.set(key, [...(pairs.get(key) ?? []), r])
+    }
+    return [...pairs.values()].map((group) => {
+      const info = (r: Assoc) => (r.name ? 2 : 0) + (r.kind !== 'association' || r.navTo !== 'navigable' || r.navFrom !== (r.back ? 'navigable' : 'unspecified') ? 1 : 0)
+      const main = [...group].sort((x, y) => info(y) - info(x))[0]
+      const toward = (from: string) => group.filter((r) => r.from === from).length + group.filter((r) => r.back && r.to === from).length
+      const several = toward(main.from) > 1 || toward(main.to) > 1
+      // Gibt es auch Attribute in der Gegenrichtung, ist auch dieses Ende navigierbar.
+      const backward = group.some((r) => r.from === main.to)
+      return { ...main, navFrom: backward && main.navFrom === 'unspecified' ? 'navigable' : main.navFrom, several }
+    })
+  }
+
+  private associationSVG(r: Assoc & { several?: boolean }, a: HTMLElement, b: HTMLElement, offset: number): string {
     const { from, to, length, u, n } = this.segment(a, b, offset)
     const id = `assoc:${r.key}`
     const selected = this.relSelection === id ? ' selected' : ''
@@ -1848,7 +1868,7 @@ export class ObjectApp {
       const base = flat ? { x: at.x + dir.x * 8, y: at.y + dir.y * 8 } : { x: at.x + dir.x * along, y: at.y + dir.y * along }
       const text = (side: number, value: string | undefined, cls: 'mult' | 'role') => {
         const empty = !value
-        if (empty && !selected) return ''
+        if (empty && (!selected || cls === 'role')) return ''
         const x = base.x + n.x * side
         const y = base.y + n.y * side
         const anchor = flat ? (dir.x > 0 ? 'start' : 'end') : n.x * side > 0 ? 'start' : 'end'
@@ -1862,8 +1882,9 @@ export class ObjectApp {
     }
     const room = Math.min(30, length / 3)
     // Rolle mit Sichtbarkeit, denn das Attribut steht nicht mehr im Kasten.
-    svg += end(to, { x: -u.x, y: -u.y }, room, 'b', r.multiplicity, `${r.field.visibility}${r.role}`)
-    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, 'a', r.sourceMultiplicity, r.back ? `${r.back.field.visibility}${r.back.field.name}` : r.sourceRole)
+    // Attribute stehen im Kasten: an der Linie nur die Multiplizität (bei p1, p2, p3 keine).
+    svg += end(to, { x: -u.x, y: -u.y }, room, 'b', r.several ? undefined : r.multiplicity)
+    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, 'a', r.several ? undefined : r.sourceMultiplicity)
     if (r.name) {
       // Leserichtung als Dreieck, das in Richtung der gelesenen Klasse zeigt.
       const dir = r.reading === 'backward' ? { x: -u.x, y: -u.y } : u
