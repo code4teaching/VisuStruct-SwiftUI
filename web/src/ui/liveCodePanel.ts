@@ -29,6 +29,7 @@ const javaClassKey = 'visustruct.live.javaClass'
 const javaMainKey = 'visustruct.live.javaMain'
 const swingKey = 'visustruct.live.swing'
 const consoleHeightKey = 'visustruct.console.height'
+const minConsoleHeight = 150
 
 function storedFlag(key: string): boolean {
   try {
@@ -146,6 +147,8 @@ export class LiveCodePanel {
     debugged: boolean
     /** Werte beim letzten Anhalten, um Änderungen hervorzuheben. */
     values?: Map<string, string>
+    /** Text von `System.out.print("Note: ")`: steht während der Eingabe direkt vor dem Eingabefeld. */
+    heldLine?: string
   }
   /** Zeile, die als Nächstes ausgeführt wird (gelb), solange der Debugger anhält. */
   private debugLine?: number
@@ -625,15 +628,14 @@ export class LiveCodePanel {
   }
 
   /** `typed`: Eingabezeile mit Frage und der getippten Antwort (farbig). */
-  private printNewLines(typed?: { prompt: string; value: string; continuesLine?: boolean }) {
+  private printNewLines(typed?: { prompt: string; value: string; heldLine?: string }) {
     const run = this.run
     if (!run) return
     const lines = run.engine.state.outputLines
     for (; run.printed < lines.length; run.printed++) this.consoleLine(lines[run.printed])
     if (typed) {
       // Nach `System.out.print("Note: ")` steht die Eingabe in derselben Zeile.
-      const last = this.consoleLines.lastElementChild
-      const div = typed.continuesLine && last instanceof HTMLElement ? last : this.consoleLine(typed.prompt ? `${typed.prompt} ` : '')
+      const div = this.consoleLine(typed.heldLine ?? (typed.prompt ? `${typed.prompt} ` : ''))
       const value = document.createElement('span')
       value.className = 'typed'
       value.textContent = typed.value
@@ -657,10 +659,17 @@ export class LiveCodePanel {
   }
 
   private askInput() {
-    const request = this.run!.engine.state.inputRequest!
-    const error = this.run!.engine.state.inputErrorNotice
+    const run = this.run!
+    const request = run.engine.state.inputRequest!
+    const error = run.engine.state.inputErrorNotice
+    // Die angefangene Zeile wandert vor das Eingabefeld, damit die Frage auch in einer kleinen Konsole zu sehen ist.
+    const last = this.consoleLines.lastElementChild
+    if (request.continuesLine && run.heldLine === undefined && last) {
+      run.heldLine = last.textContent ?? ''
+      last.remove()
+    }
     this.consoleForm.hidden = false
-    this.consoleForm.querySelector('span')!.textContent = request.prompt
+    this.consoleForm.querySelector('span')!.textContent = run.heldLine ?? request.prompt
     const field = this.consoleForm.querySelector('input')!
     field.inputMode = request.valueType === 'string' || request.valueType === 'boolean' ? 'text' : 'decimal'
     const errorLine = this.consoleForm.querySelector<HTMLElement>('.livecode-console-error')!
@@ -673,10 +682,12 @@ export class LiveCodePanel {
     const run = this.run
     if (!run?.engine.state.inputRequest) return
     const field = this.consoleForm.querySelector('input')!
-    const { prompt, continuesLine } = run.engine.state.inputRequest
+    const { prompt } = run.engine.state.inputRequest
     run.engine.provideInput(field.value)
     if (run.engine.state.inputRequest) return this.askInput()
-    this.printNewLines({ prompt, value: field.value, continuesLine })
+    const heldLine = run.heldLine
+    run.heldLine = undefined
+    this.printNewLines({ prompt, value: field.value, heldLine })
     field.value = ''
     this.consoleForm.hidden = true
     if (!run.stepping) return this.continueRun(false)
@@ -686,6 +697,7 @@ export class LiveCodePanel {
   private stopRun(byUser: boolean) {
     if (!this.run) return
     window.clearTimeout(this.run.timer)
+    if (this.run.heldLine !== undefined) this.consoleLine(this.run.heldLine)
     if (byUser) this.finishRun(t('web_live_run_stopped'), false)
     this.run = undefined
     this.debugLine = undefined
@@ -750,13 +762,14 @@ export class LiveCodePanel {
     bar.setAttribute('role', 'separator')
     bar.setAttribute('aria-orientation', 'horizontal')
     const panel = this.consoleElement
-    const clamp = (height: number) => Math.round(Math.max(80, Math.min(height, this.element.getBoundingClientRect().height - 160)))
+    // Mindestens so hoch, dass über dem Eingabefeld noch zwei Zeilen Ausgabe zu sehen sind.
+    const clamp = (height: number) => Math.round(Math.max(minConsoleHeight, Math.min(height, this.element.getBoundingClientRect().height - 160)))
     const apply = (height: number | undefined, remember: boolean) => {
       panel.style.height = height === undefined ? '' : `${clamp(height)}px`
       if (remember) storeValue(consoleHeightKey, height === undefined ? '' : String(clamp(height)))
     }
     const saved = Number(storedValue(consoleHeightKey))
-    if (saved > 0) panel.style.height = `${saved}px`
+    if (saved > 0) panel.style.height = `${Math.max(minConsoleHeight, saved)}px`
     bar.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return
       e.preventDefault()
