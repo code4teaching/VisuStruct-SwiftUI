@@ -5360,3 +5360,80 @@ button.danger-text:not(:disabled) {
     grid-template-columns: 1fr;
   }
 }
+
+/* VisuObject: Sequenzdiagramm aus dem Debugger. */
+.vo-seqcanvas {
+  overflow: auto;
+}
+.vo-seqcanvas .vo-empty[hidden] {
+  display: none;
+}
+.vo-seq {
+  display: block;
+  font: 12px ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.vo-seq-head rect {
+  fill: var(--panel);
+  stroke: var(--text);
+  stroke-width: 1.2;
+}
+.vo-seq-head text {
+  fill: var(--text);
+  text-decoration: underline;
+}
+.vo-seq-head.static text {
+  text-decoration: none;
+  font-weight: 600;
+}
+.vo-seq-life {
+  stroke: var(--muted);
+  stroke-dasharray: 5 4;
+}
+.vo-seq-bar {
+  fill: var(--panel);
+  stroke: var(--text);
+  stroke-width: 1;
+}
+.vo-seq-bar.running {
+  fill: var(--accent-soft);
+}
+.vo-seq-msg {
+  cursor: pointer;
+}
+.vo-seq-msg line,
+.vo-seq-msg path {
+  stroke: var(--text);
+  stroke-width: 1.2;
+}
+.vo-seq-msg .head.filled {
+  fill: var(--text);
+}
+.vo-seq-msg text {
+  fill: var(--text);
+}
+.vo-seq-msg.return line,
+.vo-seq-msg.create line {
+  stroke-dasharray: 6 4;
+}
+.vo-seq-msg.exception line,
+.vo-seq-msg.exception text {
+  stroke: #b3261e;
+  fill: #b3261e;
+}
+.vo-seq-msg.current line,
+.vo-seq-msg.current path {
+  stroke: #e0a800;
+  stroke-width: 2.4;
+}
+.vo-seq-msg.current .head.filled {
+  fill: #e0a800;
+}
+.vo-seq-msg.current text {
+  font-weight: 700;
+}
+.vo-seq-msg:hover text {
+  fill: var(--accent);
+}
+.vo-seq-more {
+  fill: var(--muted);
+}
