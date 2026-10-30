@@ -6,6 +6,10 @@ The format is loosely inspired by Keep a Changelog.
 
 ## [Unreleased]
 
+### Changed
+
+- **Web 0.13.22, clearer hint on where to save:** in lesson 3 step „Die Spalte Dateien“ the tip about browser storage vs. a real folder now says what the folder is for: your learning progress and programs are files in it, so you can take it along (USB stick, OneDrive) and carry on at home on another computer; saving only in the browser keeps everything in that one browser, and deleting the browser data deletes your progress too (de/en/pt).
+
 ### Added
 
 - **Web 0.13.17, punched card in lesson 3:** lesson 3 step 1 „Die Datei .visustruct“ now shows a drawing of an 80-column punched card (IBM 029 code) below the Angeberwissen about Nassi's punched cards, punched with `PRINT *, 'HALLO WELT'` in Fortran (en `HELLO WORLD`, pt `OLA MUNDO`); the caption explains one card = one line, one column = one character (de/en/pt). Clicking the picture shows a labelled version (cut corner, printed text, rows 12 and 11, one column = one character, punched hole, 80 columns) and clicking again hides the labels; a hint below says so. New for all lessons: `::: grafik bild.svg bild-beschriftet.svg` takes a second, labelled file that a click toggles. The drawings are our own SVGs, so no third-party licence applies.

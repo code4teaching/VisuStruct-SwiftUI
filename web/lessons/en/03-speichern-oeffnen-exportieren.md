@@ -44,7 +44,7 @@ Clicking a program in the column opens it again. That way you quickly find every
 
 Your **learning progress** goes into the workspace too: the file `learnProgress.json` lists the lessons and exercises you have finished. If you open the workspace in another browser, your progress is back.
 
-> Browser storage only stays in this browser on this device. A real folder on your computer is safer, because you can also back it up and pass it on.
+> Why a real folder? Your learning progress and your programs are stored in it as files. You can take the folder with you, for example on a USB stick or in your cloud folder such as OneDrive. That way you carry on at home on another computer exactly where you stopped. If you only save in the browser, everything stays in this one browser on this device. If someone deletes the browser data, your learning progress is gone too.
 
 ## Several diagrams in tabs
 
