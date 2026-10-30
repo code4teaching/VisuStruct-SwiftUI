@@ -44,7 +44,7 @@ Ein Klick auf ein Programm in der Spalte öffnet es wieder. So findest du späte
 
 Auch dein **Lernstand** landet im Workspace: in der Datei `learnProgress.json` stehen deine erledigten Lektionen und Übungen. Öffnest du den Workspace in einem anderen Browser, ist dein Lernstand wieder da.
 
-> Der Speicher im Browser bleibt nur in diesem Browser auf diesem Gerät. Ein echter Ordner auf dem Rechner ist sicherer, weil du ihn auch sichern und weitergeben kannst.
+> Warum ein echter Ordner? Dein Lernstand und deine Programme liegen dann als Dateien darin. Den Ordner kannst du mitnehmen, zum Beispiel auf einem USB-Stick oder in deinem Cloud-Ordner wie OneDrive. So machst du zu Hause an einem anderen Rechner genau da weiter, wo du aufgehört hast. Speicherst du nur im Browser, bleibt alles in diesem einen Browser auf diesem Gerät. Löscht jemand die Browserdaten, ist auch dein Lernstand weg.
 
 ## Mehrere Diagramme in Reitern
 
