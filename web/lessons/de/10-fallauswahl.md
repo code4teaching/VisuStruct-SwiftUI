@@ -4,6 +4,15 @@ bereich: Grundlagen
 kurz: Je nach Wert einer Variablen einen von vielen Fällen ausführen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern
+- erklären, wann der Fall default ausgeführt wird
+- entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt
+- eine Fallauswahl in Java mit switch schreiben
+:::
+
 ## Viele Möglichkeiten, eine Variable
 
 Ein Getränkeautomat hat drei Tasten: 1 für Wasser, 2 für Saft, 3 für Kakao. Mit Verzweigungen brauchst du dafür drei ineinander geschachtelte Kästen. Das wird schnell breit und unübersichtlich.
@@ -250,9 +259,11 @@ frage: Ein Würfel zeigt 1 bis 6, und für jede Zahl soll ein anderes Wort ersch
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann eine Fallauswahl einfügen, Fälle hinzufügen und Fallnamen ändern. → So ist die Fallauswahl aufgebaut
-- Ich weiß, wann der Fall default ausgeführt wird. → So ist die Fallauswahl aufgebaut
+- Ich kann erklären, wann der Fall default ausgeführt wird. → So ist die Fallauswahl aufgebaut
 - Ich kann entscheiden, ob eine Fallauswahl oder eine Verzweigung besser passt. → Fallauswahl oder Verzweigung?
 - Ich kann eine Fallauswahl in Java mit switch schreiben. → Jetzt in Java
 :::
@@ -261,36 +272,42 @@ frage: Ein Würfel zeigt 1 bis 6, und für jede Zahl soll ein anderes Wort ersch
 
 ::: quiz
 ? Die Variable tag hat den Wert 5. Es gibt die Fälle 1, 2, 3 und default. Was wird ausgeführt?
+→ So ist die Fallauswahl aufgebaut
 - [ ] Gar nichts
 - [ ] Der Fall 3
 - [x] Der Fall default
 > Kein Fallname passt zu 5, deshalb greift default.
 
 ? Wie viele Fälle werden bei einem Durchlauf der Fallauswahl ausgeführt?
+→ So ist die Fallauswahl aufgebaut
 - [x] Genau einer
 - [ ] Alle Fälle ab dem passenden
 - [ ] Alle Fälle
 > Nach dem passenden Fall geht es direkt unter der Fallauswahl weiter.
 
 ? Wofür ist eine Fallauswahl NICHT geeignet?
+→ Fallauswahl oder Verzweigung?
 - [ ] Menüpunkt 1, 2 oder 3 auswählen
 - [x] Prüfen, ob eine Temperatur über 30 Grad liegt
 - [ ] Eine Farbe wie rot, gelb oder grün auswerten
 > „Über 30“ ist ein Bereich. Dafür brauchst du eine Verzweigung mit einem Vergleich.
 
 ? Du gibst bei der Ampel `Rot` ein, der Fall heißt `rot`. Was passiert?
+→ So ist die Fallauswahl aufgebaut
 - [ ] Der Fall rot wird ausgeführt.
 - [x] Der Fall default wird ausgeführt.
 - [ ] Die Simulation meldet einen Fehler.
 > Groß- und Kleinschreibung zählt. Rot und rot sind verschiedene Texte.
 
 ? Unter welchem Namen findest du die Fallauswahl auch in Schulbüchern?
+→ So ist die Fallauswahl aufgebaut
 - [ ] Bedingte Anweisung
 - [ ] Sequenz
 - [x] Mehrfachauswahl
 > Aus vielen Fällen wird einer ausgewählt. Darum heißt sie auch Mehrfachauswahl.
 
 ? Wie heißt in Java der Sonst-Fall einer Fallauswahl?
+→ Jetzt in Java
 - [ ] else
 - [x] default
 - [ ] case 0
