@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VisuObject — programação orientada a objetos com diagrama de classes e Java</title>
+  <meta name="description" content="VisuObject: escreve classes Java e o diagrama de classes UML cresce ao lado. Diagrama de objetos, inspetor de objetos, Java real e depurador, grátis no navegador. Para o secundário.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://visustruct.org/pt/visuobject.html">
+  <link rel="alternate" hreflang="en" href="https://visustruct.org/en/visuobject.html">
+  <link rel="alternate" hreflang="de" href="https://visustruct.org/de/visuobject.html">
+  <link rel="alternate" hreflang="pt-PT" href="https://visustruct.org/pt/visuobject.html">
+  <meta property="og:title" content="VisuObject — programação orientada a objetos com diagrama de classes e Java">
+  <meta property="og:description" content="VisuObject: escreve classes Java e o diagrama de classes UML cresce ao lado. Diagrama de objetos, inspetor de objetos, Java real e depurador, grátis no navegador. Para o secundário.">
+  <meta property="og:image" content="https://visustruct.org/assets/visuobject/visuobject-en.png">
+  <link rel="icon" href="../assets/visuobject/visuobject-mark.svg?v=0.11.1" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/VisuStruct-icon.png">
+  <link rel="stylesheet" href="../css/styles.css?v=0.11.1">
+</head>
+<body class="visuobject">
+  <header class="hd">
+    <div class="worlds-bar">
+      <nav class="wrap worlds" aria-label="Escolher mundo">
+        <a class="w-struct" href="index.html"><span class="w-dot" aria-hidden="true"></span>VisuStruct</a>
+        <a class="w-bot" href="visubot.html"><span class="w-dot" aria-hidden="true"></span>VisuBot</a>
+        <a class="w-object" href="visuobject.html" aria-current="page"><span class="w-dot" aria-hidden="true"></span>VisuObject <span class="w-new">novo</span></a>
+        <span class="w-botpp w-soon" aria-disabled="true"><span class="w-dot" aria-hidden="true"></span>VisuBot++ <span class="w-new">em breve</span></span>
+        <span class="w-mic w-soon" aria-disabled="true"><span class="w-dot" aria-hidden="true"></span>VisuMic <span class="w-new">em breve</span></span>
+      </nav>
+    </div>
+    <div class="wrap hd-inner">
+      <a class="brand" href="visuobject.html">
+        <img src="../assets/visuobject/visuobject-mark.svg?v=0.11.1" width="36" height="36" alt="">
+        <span>Visu<span class="brand-obj">Object</span></span>
+      </a>
+      <nav class="hd-nav" aria-label="Menu">
+        <a href="#steps">Como funciona</a>
+        <a href="#features">Funcionalidades</a>
+        <a href="#inspector">Inspetor</a>
+        <a href="#visustruct">VisuStruct</a>
+        <a href="#contact">Contacto</a>
+      </nav>
+      <div class="hd-end">
+        <nav class="langs" aria-label="Idioma">
+          <a href="../en/visuobject.html" hreflang="en" lang="en">EN</a>
+          <a href="../de/visuobject.html" hreflang="de" lang="de">DE</a>
+          <a href="../pt/visuobject.html" hreflang="pt-PT" lang="pt-PT" aria-current="page">PT</a>
+        </nav>
+        <a class="btn btn-primary btn-sm hd-cta" href="../app/index.html?lang=pt&amp;visuobject">Abrir o VisuObject</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-text">
+        <p class="pill"><span class="pill-dot" aria-hidden="true"></span>Grátis · sem registo · para o secundário</p>
+        <h1>Programação orientada a objetos. <span class="grad">Com diagrama de classes e Java.</span></h1>
+        <p class="lead">Com o VisuObject escreves classes Java num projeto como no Eclipse, e o diagrama de classes UML desenha-se ao lado. Se mudares o diagrama, o código muda. Depois crias objetos, executas o programa e acompanhas tudo no depurador.</p>
+        <div class="actions">
+          <a class="btn btn-primary btn-lg" href="../app/index.html?lang=pt&amp;visuobject">Iniciar o VisuObject no navegador <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost btn-lg" href="index.html">Primeiro o básico no VisuStruct</a>
+        </div>
+        <p class="note">Funciona no navegador em computadores e tablets. Os teus projetos ficam na tua pasta de workspace.</p>
+      </div>
+      <div class="wrap hero-shot">
+        <a class="window" href="../app/index.html?lang=pt&amp;visuobject" tabindex="-1" aria-hidden="true">
+          <span class="window-bar"><i></i><i></i><i></i><span class="window-url">visustruct.org/app/?visuobject</span></span>
+          <img src="../assets/visuobject/visuobject-en.png?v=0.11.1" width="1600" height="960" alt="">
+        </a>
+      </div>
+    </section>
+
+    <section id="steps" class="sec" aria-labelledby="steps-heading">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">Como funciona</p>
+          <h2 id="steps-heading">Três passos da classe ao programa a correr</h2>
+        </div>
+        <ol class="steps">
+        <li class="step">
+          <img class="step-img" src="../assets/visuobject/step-draw.png?v=0.11.1" width="1000" height="560" alt="Código Java à esquerda, o diagrama de classes correspondente à direita" loading="lazy">
+          <span class="step-num" aria-hidden="true">1</span>
+          <h3>Desenhar</h3>
+          <p>Escreve classes em Java ou desenha-as no diagrama de classes. Os dois ficam sempre iguais.</p>
+        </li>
+        <li class="step">
+          <img class="step-img" src="../assets/visuobject/step-objects.png?v=0.11.1" width="1000" height="560" alt="Diagrama de objetos com um dono e dois cães" loading="lazy">
+          <span class="step-num" aria-hidden="true">2</span>
+          <h3>Criar objetos</h3>
+          <p>No diagrama de objetos crias objetos, dás-lhes valores e ligas uns aos outros.</p>
+        </li>
+        <li class="step">
+          <img class="step-img" src="../assets/visuobject/step-debug.png?v=0.11.1" width="1000" height="560" alt="O depurador para na linha 11, o diagrama de objetos mostra a equipa e os jogadores" loading="lazy">
+          <span class="step-num" aria-hidden="true">3</span>
+          <h3>Executar e depurar</h3>
+          <p>Run executa o teu projeto com Java real. No depurador avanças passo a passo e vês os objetos ao vivo.</p>
+        </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="features" class="sec sec-soft" aria-labelledby="features-heading">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="kicker">Funcionalidades</p>
+          <h2 id="features-heading">Tudo para ensinar POO</h2>
+          <p>Diagrama de classes, objetos e Java num só lugar, próximo do Eclipse e do Astah.</p>
+        </div>
+        <div class="features">
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="8" height="9" rx="1"/><path d="M3 6.5h8"/><rect x="13" y="12" width="8" height="9" rx="1"/><path d="M13 15.5h8M11 7.5h4v4.5"/></svg></span>
+          <h3>Diagrama de classes como no Astah</h3>
+          <p>Desenha classes, interfaces, associação, agregação, composição, herança e realização, e ainda notas.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span>
+          <h3>Projetos como no Eclipse</h3>
+          <p>Package Explorer com projeto, pasta src e pacotes, menu Novo para classes e interfaces.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 13h8M8 16.5h5"/></svg></span>
+          <h3>Inspetor de objetos</h3>
+          <p>Edita classe, atributos e métodos em tabelas. Gera construtor, getters, setters e toString().</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="7" r="3"/><circle cx="18" cy="7" r="3"/><circle cx="12" cy="18" r="3"/><path d="M9 7h6M7.5 9.5l3 6M16.5 9.5l-3 6"/></svg></span>
+          <h3>Diagrama de objetos</h3>
+          <p>Cria objetos com nomes e valores e vê que objeto aponta para qual.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5.5 3.5-5.5 3.5z"/></svg></span>
+          <h3>Java real</h3>
+          <p>Run compila todas as classes com Java real. O resultado aparece na consola, também janelas Swing.</p>
+        </article>
+        <article class="feature">
+          <span class="feature-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8M9 4v3l-4 4v3a7 7 0 0 0 14 0v-3l-4-4V4"/><path d="M5 14h14"/></svg></span>
+          <h3>Depurador</h3>
+          <p>Pontos de paragem, passo, entrar e sair. Pilha de chamadas e variáveis sempre à vista.</p>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="inspector" class="sec" aria-labelledby="inspector-heading">
+      <div class="wrap split">
+        <div class="split-text">
+          <p class="kicker">Inspetor de objetos</p>
+          <h2 id="inspector-heading">Editar classes sem escrever cada linha</h2>
+          <p>Clica numa classe no diagrama. No inspetor de objetos mudas o nome, a superclasse e as interfaces, acrescentas atributos e métodos e geras construtor, getters e setters. O VisuObject escreve o código Java exatamente no sítio certo.</p>
+          <ul class="checks">
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Visibilidade, tipo, static, final e valor inicial para cada atributo</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Métodos com parâmetros, tipo de retorno e abstract</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Sugestões depois do ponto para as tuas próprias classes</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>O VisuObject reconhece sozinho as dependências «create» e «use»</span></li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-primary" href="../app/index.html?lang=pt&amp;visuobject">Abrir o VisuObject <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+        <figure class="shot">
+          <img src="../assets/visuobject/inspektor-de.png?v=0.11.1" width="1400" height="900" alt="Inspetor de objetos com os atributos da classe Tier" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <section id="visustruct" class="sec sec-soft" aria-labelledby="visustruct-heading">
+      <div class="wrap split">
+        <div class="split-text">
+          <img class="world-mark" src="../assets/VisuStruct-icon.png" width="64" height="64" alt="VisuStruct">
+          <p class="kicker">Antes</p>
+          <h2 id="visustruct-heading">VisuStruct: primeiro o básico</h2>
+          <p>Antes de começares com classes, aprendes no VisuStruct variáveis, decisões, ciclos e métodos com estruturogramas. O VisuObject continua a partir daí. Podes mudar a qualquer momento na roda dentada.</p>
+          <ul class="checks">
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Lições e exercícios sobre estruturogramas</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Simulação com variáveis e resultado</span></li>
+          <li><svg class="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Java, Python e JavaScript a partir do estruturograma</span></li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-ghost" href="index.html">Ir para a página do VisuStruct <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+        <figure class="shot">
+          <img src="../assets/webApp/web-learn-de.png" width="1920" height="1170" alt="A área de aprendizagem do VisuStruct ao lado do editor" loading="lazy">
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="why-heading">
+      <div class="wrap">
+        <div class="band">
+          <h2 id="why-heading">Primeiro modelar, depois programar</h2>
+          <p>Planeia as tuas classes no diagrama, escreve o código e vê no diagrama de objetos o que acontece ao executar.</p>
+          <a class="btn btn-light btn-lg" href="../app/index.html?lang=pt&amp;visuobject">Experimentar agora <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ft">
+    <div class="wrap ft-grid">
+      <div class="ft-brand">
+        <a class="brand" href="visuobject.html"><img src="../assets/visuobject/visuobject-mark.svg?v=0.11.1" width="36" height="36" alt=""><span>Visu<span class="brand-obj">Object</span></span></a>
+        <p>Programação orientada a objetos com diagrama de classes e Java.</p>
+      </div>
+      <section id="privacy" class="ft-col ft-privacy" aria-labelledby="privacy-heading">
+        <h2 id="privacy-heading">Política de privacidade – utilização do VisuStruct</h2>
+        <p><strong>Compatível com o RGPD</strong>: o VisuStruct <strong>não recolhe nem guarda dados pessoais</strong>. Os seus estrutogramas e ficheiros <strong>.visustruct</strong> ficam sob o seu controlo — decide se os mantém apenas no dispositivo ou se faz uma cópia de segurança (por exemplo) na sua própria nuvem.</p>
+        <p>Se utilizar serviços ligados à aplicação (p. ex. App Store, GitHub), aplicam-se as políticas de privacidade desses fornecedores; eles podem aí processar dados. Este sítio é disponibilizado a partir de um servidor; geram-se, como é habitual, dados técnicos de registo do servidor.</p>
+      </section>
+      <section id="contact" class="ft-col" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Contacto</h2>
+        <address>Holger Sebastiao<br>Engelhardstr. 38 B<br>63450 Hanau</address>
+      </section>
+      <nav class="ft-col" aria-labelledby="links-heading">
+        <h2 id="links-heading">Ligações</h2>
+        <ul>
+          <li><a href="../app/index.html?lang=pt&amp;visuobject">Abrir o VisuObject no navegador</a></li>
+          <li><a href="index.html">Página do VisuStruct</a></li>
+          <li><a href="visubot.html">Página do VisuBot</a></li>
+          <li><a href="https://github.com/code4teaching/VisuStruct" rel="noopener noreferrer">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="wrap ft-bottom"><p>© 2026 Holger Sebastiao · <a href="https://www.sebastiao.org/" rel="noopener noreferrer">sebastiao.org</a> · VisuStruct · VisuBot · VisuObject</p></div>
+  </footer>
+</body>
+</html>
