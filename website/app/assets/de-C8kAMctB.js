@@ -69,6 +69,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_learn_solved" = "geschafft";
 "web_learn_open_exercise" = "Im Editor öffnen";
 "web_learn_open_in_editor" = "Im Editor öffnen";
+"web_learn_graphic_labels" = "👆 Klick aufs Bild: Beschriftung ein oder aus";
 "web_learn_check" = "Prüfen";
 "web_learn_hint" = "Tipp";
 "web_learn_reset" = "Von vorn";

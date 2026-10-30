@@ -4,12 +4,27 @@ bereich: First steps
 kurz: Keep your files safe, use your workspace, open several diagrams and share them as an image or PDF.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- give a diagram a title
+- save a diagram as a .visustruct file and open it again
+- export a diagram as an image (PNG) or PDF
+- open a second diagram in a new tab
+- create my workspace `VisuStruct-Files`
+- save a program in my workspace
+:::
+
 ## The .visustruct file
 
 Structure charts are saved as **.visustruct** files. All versions of VisuStruct use the same format: in the browser, on Mac, iPad and iPhone, and the Java app on the computer. So you can start in the browser at school and carry on in the app at home.
 
 ::: angeberwissen
 When Nassi was a student, there were no files to save. There were punched cards. Nassi says a Saturday night date looked like this: his future wife sat with him in the computer centre and punched his cards. Romance, computer science style!
+:::
+
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
+This is what a punched card looked like. One card held one line of a program, here `PRINT *, 'HELLO WORLD'` in the Fortran language. Each column is one character, and the holes in it are its code. A whole program was a stack of these cards. If you dropped it, you had to sort everything again.
 :::
 
 ## Save and open
@@ -40,7 +55,7 @@ Clicking a program in the column opens it again. That way you quickly find every
 
 Your **learning progress** goes into the workspace too: the file `learnProgress.json` lists the lessons and exercises you have finished. If you open the workspace in another browser, your progress is back.
 
-> Browser storage only stays in this browser on this device. A real folder on your computer is safer, because you can also back it up and pass it on.
+> Why a real folder? Your learning progress and your programs are stored in it as files. You can take the folder with you, for example on a USB stick or in your cloud folder such as OneDrive. That way you carry on at home on another computer exactly where you stopped. If you only save in the browser, everything stays in this one browser on this device. If someone deletes the browser data, your learning progress is gone too.
 
 ## Several diagrams in tabs
 
@@ -103,30 +118,35 @@ richtig: PNG
 
 Open one of your exercises from lesson 2 and try the following:
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I have given the diagram a title. → Try it out
-- I have saved the diagram as a .visustruct file and opened it again. → Save and open
-- I have exported the diagram as an image (PNG) or PDF. → Share: image, PDF or file
-- I have opened a second diagram in a new tab. → Several diagrams in tabs
-- I have created my workspace `VisuStruct-Files`. → The Files column
-- I have saved a program in my workspace. → The Files column
+- I can give a diagram a title. → Try it out
+- I can save a diagram as a .visustruct file and open it again. → Save and open
+- I can export a diagram as an image (PNG) or PDF. → Share: image, PDF or file
+- I can open a second diagram in a new tab. → Several diagrams in tabs
+- I can create my workspace `VisuStruct-Files`. → The Files column
+- I can save a program in my workspace. → The Files column
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which file can you open again in the Mac app and in the Java app?
+→ Save and open
 - [x] The .visustruct file
 - [ ] The exported PNG image
 - [ ] The exported PDF
 > Images and PDFs are only for looking at. You can only keep editing the .visustruct file.
 
 ? The browser remembers your exercises. Why should you still save?
+→ Save and open
 - [ ] Because otherwise the exercises are not checked
 - [x] Because the browser only keeps the data on this device and it can get lost
 - [ ] Because you cannot export without saving
 
 ? Today you save a program in your workspace. Where does it end up?
+→ The Files column
 - [ ] In the downloads folder
 - [x] In the workspace, inside a folder with today's date
 - [ ] Directly in the workspace without a subfolder

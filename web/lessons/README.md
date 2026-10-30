@@ -134,6 +134,15 @@ Fünf Fächer mit den Indizes 0 bis 4.
 :::
 ```
 
+Steht hinter der Grafik eine zweite Datei, ist das eine beschriftete Fassung. Ein Klick auf die Grafik blendet sie ein und
+wieder aus, darunter steht ein Hinweis darauf:
+
+```
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
+So sah eine Lochkarte aus.
+:::
+```
+
 Tabellen schreibst du mit senkrechten Strichen, die zweite Zeile trennt die Überschrift ab:
 
 ```
