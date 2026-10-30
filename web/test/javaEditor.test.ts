@@ -53,3 +53,36 @@ describe('Code-Editor: Einrücken', () => {
     editor.view.destroy()
   })
 })
+
+describe('Code-Editor: Scanner-Zeile', () => {
+  const words = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: '', step: '', branch: '', branchElse: '', switchCase: '', forLoop: '', whileLoop: '', doLoop: '', output: 'Ausgabe', input: 'Eingabe' }
+  const scannerLine = () => completions(words).find((c) => c.label === 'Scanner scanner = new Scanner(System.in);')!
+  const accept = (text: string) => {
+    const editor = editorWith(text)
+    const from = editor.text.indexOf('Scanner')
+    const apply = scannerLine().apply as (view: unknown, c: unknown, from: number, to: number) => void
+    apply(editor.view, scannerLine(), from, from + 'Scanner'.length)
+    const result = editor.text
+    editor.view.destroy()
+    return result
+  }
+
+  it('ergänzt die Zeile und den fehlenden Import', () => {
+    expect(accept('public class Main {\n    public static void main(String[] args) {\n        Scanner\n    }\n}')).toBe(
+      'import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n    }\n}',
+    )
+  })
+
+  it('lässt einen vorhandenen Import stehen', () => {
+    expect(accept('import java.util.*;\n\nScanner')).toBe('import java.util.*;\n\nScanner scanner = new Scanner(System.in);')
+  })
+
+  it('setzt den Import zu den anderen Imports', () => {
+    expect(accept('import javax.swing.*;\n\nScanner')).toBe('import java.util.Scanner;\nimport javax.swing.*;\n\nScanner scanner = new Scanner(System.in);')
+  })
+
+  it('der erzeugte Code hat keinen Fehler', () => {
+    const code = accept('public class Main {\n    public static void main(String[] args) {\n        Scanner\n        int zahl = scanner.nextInt();\n    }\n}')
+    expect(parseLiveJava(code, labels).problems).toEqual([])
+  })
+})

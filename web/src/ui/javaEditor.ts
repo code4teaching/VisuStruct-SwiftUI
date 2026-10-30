@@ -237,6 +237,7 @@ export function completions(words: SnippetWords): Completion[] {
     // Kürzel wie in Eclipse (`syso`, `sysout`) und IntelliJ/NetBeans (`sout`, `psvm`).
     ...['syso', 'sysout', 'sout'].map((label) => snippet(label, 'System.out.println(${});', `System.out.println · ${w.output}`, 2)),
     ...['main', 'psvm'].map((label) => snippet(label, `public static void main(String[] args) {\n\t${body}\n}`, 'public static void main(String[] args)', 2)),
+    scannerCompletion(w.input),
     snippet('scanner.nextInt', 'int ${zahl} = scanner.nextInt();', w.input, 1),
     snippet('scanner.next', 'String ${text} = scanner.next();', w.input),
     snippet('scanner.nextDouble', 'double ${wert} = scanner.nextDouble();', w.input),
@@ -253,13 +254,48 @@ export function completions(words: SnippetWords): Completion[] {
       type: 'keyword',
       boost: -1,
     })),
-    ...['Scanner', 'Math', 'JFrame', 'JButton', 'JLabel', 'JTextField', 'ActionListener', 'ActionEvent', 'Color', 'FlowLayout', 'GridLayout', 'BorderLayout'].map((label) => ({
+    // `Scanner` allein nicht: dort steht die ganze Zeile (scannerCompletion) oben.
+    ...['Math', 'JFrame', 'JButton', 'JLabel', 'JTextField', 'ActionListener', 'ActionEvent', 'Color', 'FlowLayout', 'GridLayout', 'BorderLayout'].map((label) => ({
       label,
       type: 'type',
       boost: -2,
     })),
     ...['Math.random()', 'Math.abs(', 'Math.sqrt(', 'Math.max(', 'Math.min(', '.length()', '.equals('].map((label) => ({ label, type: 'function', boost: -2 })),
   ]
+}
+
+/** Fehlt `import java.util.Scanner;` (oder `java.util.*`), die Zeile dafür; sonst nichts. */
+export function scannerImport(text: string): ChangeSpec | undefined {
+  if (/^\s*import\s+java\.util\.(?:Scanner|\*)\s*;/m.test(text)) return undefined
+  // Hinter `package …;`, sonst ganz oben; vor anderen Imports ohne Leerzeile, vor dem Programm mit einer.
+  const pkg = /^\s*package\s+[\w.]+\s*;[^\n]*\n?/.exec(text)
+  const at = pkg ? pkg[0].length : 0
+  const rest = text.slice(at).replace(/^\s*\n/, '')
+  return { from: at, insert: `import java.util.Scanner;\n${/^\s*import\b/.test(rest) ? '' : '\n'}` }
+}
+
+/**
+ * `Scanner` → die ganze Zeile `Scanner scanner = new Scanner(System.in);` (Name wie in den Lektionen und im erzeugten Code,
+ * als Feld zum Überschreiben). Fehlt der Import, kommt er oben dazu.
+ */
+function scannerCompletion(input: string): Completion {
+  const line = snippetCompletion('Scanner ${scanner} = new Scanner(System.in);', {
+    label: 'Scanner scanner = new Scanner(System.in);',
+    detail: input,
+    type: 'keyword',
+    boost: 3,
+  })
+  const insertLine = line.apply as (view: EditorView, completion: Completion, from: number, to: number) => void
+  return {
+    ...line,
+    apply(view, completion, from, to) {
+      const add = scannerImport(view.state.doc.toString())
+      if (!add) return insertLine(view, completion, from, to)
+      const changes = view.state.changes(add)
+      view.dispatch({ changes, userEvent: 'input.complete' })
+      insertLine(view, completion, changes.mapPos(from), changes.mapPos(to, 1))
+    },
+  }
 }
 
 /** Vorschlag hinter dem Punkt: Methoden mit Klammern (Cursor dazwischen, wenn Werte nötig sind), Felder wie `length` ohne. */
