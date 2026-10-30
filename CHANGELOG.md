@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Added
 
+- **Web 0.12.11, Scanner line suggested:** typing `Scanner` in Programmieren and VisuObject suggests the whole line `Scanner scanner = new Scanner(System.in);` (Tab/Enter, variable name selected to change it); if `import java.util.Scanner;` (or `java.util.*`) is missing, it is added at the top.
 - **Web 0.12.10, VisuBot shows the whole series:** in the VisuBot world the lessons are one continuous series again: all VisuStruct lessons with the 22 robot lessons (🤖) in between, each right after the lesson on the same topic (62 lessons, numbers and references like „Lektion 2“ renumbered, both task sets, progress kept); VisuStruct stays without robot (#197).
 - **Web 0.12.9, ⇄ swaps the places:** the ⇄ button now also swaps the positions of Struktogramm and Programmieren: Programmieren becomes the large area on the left, the diagram (with Elemente) narrow on the right, and the divider between them drags in the right direction; another click restores the old layout (#196).
 - **Web 0.12.8, Elemente einklappbar:** a button next to the heading „Elemente“ collapses the element column to a narrow rail (like Lernen, Struktogramm and Programmieren), so code and diagram get more room; clicking the rail opens it again, dragging the divider to the edge collapses it too, and the state is remembered.
