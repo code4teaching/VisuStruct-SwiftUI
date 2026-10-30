@@ -171,4 +171,6 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_swap_to_editor" = "Diagrama grande";
 "web_editor_resize" = "Cambiar el ancho del diagrama";
 "web_palette_resize" = "Cambiar el ancho de los elementos";
+"web_palette_hide" = "Ocultar elementos";
+"web_palette_show" = "Mostrar elementos";
 `;export{e as default};

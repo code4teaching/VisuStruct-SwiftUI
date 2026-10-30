@@ -171,4 +171,6 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_swap_to_editor" = "Struktogram stort";
 "web_editor_resize" = "Ändra bredd på struktogrammet";
 "web_palette_resize" = "Ändra bredd på elementen";
+"web_palette_hide" = "Dölj elementen";
+"web_palette_show" = "Visa elementen";
 `;export{e as default};

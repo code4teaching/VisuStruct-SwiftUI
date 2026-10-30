@@ -171,4 +171,6 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_swap_to_editor" = "Structogramme en grand";
 "web_editor_resize" = "Modifier la largeur du structogramme";
 "web_palette_resize" = "Modifier la largeur des éléments";
+"web_palette_hide" = "Masquer les éléments";
+"web_palette_show" = "Afficher les éléments";
 `;export{e as default};

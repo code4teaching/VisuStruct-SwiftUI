@@ -171,4 +171,6 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_swap_to_editor" = "Структограмма крупно";
 "web_editor_resize" = "Изменить ширину структограммы";
 "web_palette_resize" = "Изменить ширину элементов";
+"web_palette_hide" = "Скрыть элементы";
+"web_palette_show" = "Показать элементы";
 `;export{e as default};

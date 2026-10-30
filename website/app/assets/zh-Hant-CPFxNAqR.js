@@ -171,4 +171,6 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_swap_to_editor" = "結構圖放大";
 "web_editor_resize" = "調整結構圖寬度";
 "web_palette_resize" = "調整元素寬度";
+"web_palette_hide" = "隱藏元素";
+"web_palette_show" = "顯示元素";
 `;export{e as default};

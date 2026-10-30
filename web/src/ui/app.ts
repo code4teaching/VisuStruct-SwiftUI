@@ -236,6 +236,8 @@ const previewWidthKey = 'visustruct.robotPreview.width'
 const previewHeightKey = 'visustruct.robotPreview.height'
 const editorHiddenKey = 'visustruct.editor.hidden'
 const compactPaletteKey = 'visustruct.palette.compact'
+/** Elemente eingeklappt (schmale Leiste), z. B. wenn Code und Struktogramm nebeneinander Platz brauchen. */
+const paletteHiddenKey = 'visustruct.palette.hidden'
 export const gearIcon =
   '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'
 
@@ -511,8 +513,12 @@ export class App {
         </div>
       </header>
       <div class="palette-resizer" role="separator" aria-orientation="vertical" tabindex="0" title="${e(t('web_palette_resize'))}"></div>
+      <button class="learn-rail palette-rail" data-action="show-palette" title="${e(t('web_palette_show'))}">${sidebarIcon}<span>${e(t('palette_header'))}</span></button>
       <aside class="palette">
-        <h2>${e(t('palette_header'))}</h2>
+        <div class="palette-head">
+          <h2>${e(t('palette_header'))}</h2>
+          <button class="icon learn-hide palette-hide" data-action="hide-palette" title="${e(t('web_palette_hide'))}" aria-label="${e(t('web_palette_hide'))}">${sidebarIcon}</button>
+        </div>
         <p class="hint">${e(t('web_palette_hint'))}</p>
         <ul class="palette-basic"></ul>
         <h3 class="palette-visubot-title" hidden>🤖 ${e(t('web_visubot_commands'))}</h3>
@@ -622,14 +628,24 @@ export class App {
         'compact-palette',
         storedValue(compactPaletteKey) === '1' || (paletteWidth() > 0 ? paletteWidth() < 150 : this.root.getBoundingClientRect().width < compactPaletteBelow),
       )
+    const paletteHidden = () => storedValue(paletteHiddenKey) === '1'
     const setPaletteWidth = (width: number | undefined, remember: boolean) => {
       const w = width === undefined ? undefined : Math.round(Math.max(80, Math.min(360, width)))
-      if (w === undefined) this.root.style.removeProperty('--palette-width')
+      // Eingeklappt bleibt nur die schmale Leiste; die gezogene Breite gilt wieder beim Aufklappen.
+      if (paletteHidden()) this.root.style.setProperty('--palette-width', '36px')
+      else if (w === undefined) this.root.style.removeProperty('--palette-width')
       else this.root.style.setProperty('--palette-width', `${w}px`)
       if (remember) storeValue(paletteWidthKey, w === undefined ? '' : String(w))
       updatePalette()
     }
-    if (paletteWidth() > 0) setPaletteWidth(paletteWidth(), false)
+    const setPaletteHidden = (hidden: boolean) => {
+      storeValue(paletteHiddenKey, hidden ? '1' : '0')
+      this.root.classList.toggle('palette-hidden', hidden)
+      setPaletteWidth(paletteWidth() > 0 ? paletteWidth() : undefined, false)
+    }
+    setPaletteHidden(paletteHidden())
+    $<HTMLButtonElement>('[data-action=hide-palette]').addEventListener('click', () => setPaletteHidden(true))
+    $<HTMLButtonElement>('[data-action=show-palette]').addEventListener('click', () => setPaletteHidden(false))
     // Trennlinie zwischen Elementen und Struktogramm: ziehen, Pfeiltasten, Doppelklick setzt zurück.
     const paletteBar = $<HTMLElement>('.palette-resizer')
     const paletteEl = $<HTMLElement>('.palette')
@@ -648,7 +664,10 @@ export class App {
         paletteBar.removeEventListener('pointerup', up)
         paletteBar.removeEventListener('pointercancel', up)
         this.shell.classList.remove('resizing')
-        setPaletteWidth(start + s * (u.clientX - startX), true)
+        const end = start + s * (u.clientX - startX)
+        // Ganz an den Rand gezogen: Elemente einklappen, die bisherige Breite bleibt gemerkt.
+        if (end < 50) setPaletteHidden(true)
+        else setPaletteWidth(end, true)
       }
       paletteBar.addEventListener('pointermove', move)
       paletteBar.addEventListener('pointerup', up)
