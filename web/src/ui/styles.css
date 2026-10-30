@@ -1386,7 +1386,7 @@ button.danger-text:not(:disabled) {
   writing-mode: vertical-rl;
   white-space: nowrap;
 }
-.shell.learning .learn-rail:not(.live-rail):not(.editor-rail):not(.files-rail):not(.robotpreview-rail) {
+.shell.learning .learn-rail:not(.live-rail):not(.editor-rail):not(.files-rail):not(.robotpreview-rail):not(.palette-rail) {
   display: none;
 }
 /* Code live eingeklappt: dieselbe Leiste, nur am rechten Rand. */
@@ -3775,6 +3775,23 @@ button.danger-text:not(:disabled) {
   width: auto !important;
   min-width: 0;
 }
+/* ⇄ tauscht auch die Plätze: Programmieren links, Struktogramm rechts daneben, danach mBot2 live. */
+.shell.code-main.live:not(.editor-hidden) .livecode {
+  order: 1;
+}
+.shell.code-main.live:not(.editor-hidden) .editor-resizer {
+  order: 2;
+}
+.shell.code-main.live:not(.editor-hidden) .app {
+  order: 3;
+  border-inline-start: 1px solid var(--border);
+}
+.shell.code-main.live:not(.editor-hidden) .live-rail,
+.shell.code-main.live:not(.editor-hidden) .preview-resizer,
+.shell.code-main.live:not(.editor-hidden) .robotpreview,
+.shell.code-main.live:not(.editor-hidden) .robotpreview-rail {
+  order: 4;
+}
 [data-action='swap-main'] {
   font-size: 16px;
   line-height: 1;
@@ -5466,4 +5483,49 @@ button.danger-text:not(:disabled) {
 }
 .vo-seq-more {
   fill: var(--muted);
+}
+
+/* Elemente einklappen: Knopf neben der Überschrift, eingeklappt bleibt eine schmale Leiste. */
+.palette-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 0 4px;
+}
+.palette-head h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.palette-hide {
+  min-height: 26px;
+  padding: 2px 5px;
+}
+.app.compact-palette .palette-head {
+  flex-direction: column;
+  gap: 2px;
+}
+.palette-rail {
+  display: none;
+  grid-area: pal;
+  width: auto;
+}
+.app.palette-hidden .palette,
+.app.palette-hidden .palette-resizer {
+  display: none;
+}
+.app.palette-hidden:not(.simulating) .palette-rail {
+  display: flex;
+}
+/* Schmale Fenster: Elemente stehen als Zeile oben, dort gibt es kein Einklappen. */
+@media (max-width: 820px) {
+  .palette-head {
+    display: none;
+  }
+  .app.palette-hidden .palette {
+    display: block;
+  }
+  .app.palette-hidden .palette-rail {
+    display: none !important;
+  }
 }

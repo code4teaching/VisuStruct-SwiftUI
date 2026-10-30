@@ -172,6 +172,8 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_swap_to_editor" = "Struktogram stort";
 "web_editor_resize" = "Skift bredde på struktogrammet";
 "web_palette_resize" = "Skift bredde på elementerne";
+"web_palette_hide" = "Skjul elementerne";
+"web_palette_show" = "Vis elementerne";
 "web_code_scopes" = "Farvede kodeblokke";
 "web_code_scopes_hint" = "Klasse, metode, løkke, forgrening i egne felter";
 `;export{e as default};

@@ -172,5 +172,7 @@
 "web_swap_to_editor" = "Diagrama grande";
 "web_editor_resize" = "Cambiar el ancho del diagrama";
 "web_palette_resize" = "Cambiar el ancho de los elementos";
+"web_palette_hide" = "Ocultar elementos";
+"web_palette_show" = "Mostrar elementos";
 "web_code_scopes" = "Bloques de código en color";
 "web_code_scopes_hint" = "Clase, método, bucle, condición en sus propias cajas";

@@ -397,6 +397,8 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_swap_to_editor" = "Diagrama grande, programação estreita";
 "web_editor_resize" = "Alterar a largura do diagrama";
 "web_palette_resize" = "Alterar a largura dos elementos (duplo clique: repor)";
+"web_palette_hide" = "Ocultar elementos";
+"web_palette_show" = "Mostrar elementos";
 
 /* VisuObject */
 "web_visuobject_world_hint" = "VisuObject: programar classes em Java e vê-las ou desenhá-las como diagrama de classes (a partir do 12.º ano). Podes mudar a qualquer momento na roda dentada.";

@@ -172,6 +172,8 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_swap_to_editor" = "Структурограма великою";
 "web_editor_resize" = "Змінити ширину структурограми";
 "web_palette_resize" = "Змінити ширину елементів";
+"web_palette_hide" = "Сховати елементи";
+"web_palette_show" = "Показати елементи";
 "web_code_scopes" = "Кольорові блоки коду";
 "web_code_scopes_hint" = "Клас, метод, цикл, розгалуження в окремих рамках";
 `;export{e as default};
