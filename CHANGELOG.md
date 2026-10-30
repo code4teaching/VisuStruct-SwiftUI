@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web 0.13.33, clearer competence in lesson 6:** „vor der Ausgabe in einer Variablen rechnen“ now reads „ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`“, in the competences step and the „Ich kann“ checklist (de/en/pt).
 - **Web 0.13.22, clearer hint on where to save:** in lesson 3 step „Die Spalte Dateien“ the tip about browser storage vs. a real folder now says what the folder is for: your learning progress and programs are files in it, so you can take it along (USB stick, OneDrive) and carry on at home on another computer; saving only in the browser keeps everything in that one browser, and deleting the browser data deletes your progress too (de/en/pt).
 
 ### Added
