@@ -27,6 +27,19 @@ export interface JavaProject {
   uml?: UmlInfo
   /** Notizen im Klassendiagramm (Kasten mit Eselsohr), evtl. gestrichelt an Klassen geheftet. */
   notes?: UmlNote[]
+  /** Selbst gezeichnetes Objektdiagramm: Objekte mit Werten; Referenzen sind Werte mit dem Namen eines Objekts. */
+  objects?: UmlObject[]
+}
+
+/** Objekt im Objektdiagramm, z. B. `s1 : Spieler` mit `punkte = 3` und `team = t1`. */
+export interface UmlObject {
+  id: string
+  name: string
+  cls: string
+  x: number
+  y: number
+  /** Attributname → Wert wie getippt; bei Listen `[s1, s2]`. */
+  values: Record<string, string>
 }
 
 export interface UmlNote {
@@ -247,6 +260,8 @@ export function projectFromJSON(json: string): JavaProject | undefined {
     if (uml) project.uml = uml
     const notes = notesFromJSON(data.notes)
     if (notes) project.notes = notes
+    const objects = objectsFromJSON(data.objects)
+    if (objects) project.objects = objects
     return project
   } catch {
     return undefined
@@ -261,6 +276,19 @@ export function notesFromJSON(data: unknown): UmlNote[] | undefined {
     if (!n || typeof n.id !== 'string' || typeof n.text !== 'string' || typeof n.x !== 'number' || typeof n.y !== 'number') continue
     const attach = Array.isArray(n.attach) ? n.attach.filter((a): a is string => typeof a === 'string') : []
     out.push({ id: n.id, text: n.text, x: n.x, y: n.y, ...(attach.length ? { attach } : {}) })
+  }
+  return out.length ? out : undefined
+}
+
+/** Objekte aus einer Datei prüfen. */
+export function objectsFromJSON(data: unknown): UmlObject[] | undefined {
+  if (!Array.isArray(data)) return undefined
+  const out: UmlObject[] = []
+  for (const o of data as Partial<UmlObject>[]) {
+    if (!o || typeof o.id !== 'string' || typeof o.name !== 'string' || typeof o.cls !== 'string' || typeof o.x !== 'number' || typeof o.y !== 'number') continue
+    const values: Record<string, string> = {}
+    if (o.values && typeof o.values === 'object') for (const [k, v] of Object.entries(o.values)) if (typeof v === 'string') values[k] = v
+    out.push({ id: o.id, name: o.name, cls: o.cls, x: o.x, y: o.y, values })
   }
   return out.length ? out : undefined
 }

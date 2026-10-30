@@ -52,6 +52,7 @@ import {
   type JavaProject,
   type UmlNote,
   type ProjectClass,
+  type UmlObject,
 } from '../core/javaProject'
 import {
   associations,
@@ -77,6 +78,8 @@ import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
 import { closeWindows, compileAndRunProject, prepareJava } from './javaRuntime'
+import { ObjectDiagram, type LiveState } from './objectDiagram'
+import { MiniJava, MiniJavaError, type FrameView, type HeapObject, type StepMode } from '../core/miniJava'
 import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
 import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
@@ -111,6 +114,9 @@ const inspectorKey = 'visuobject.inspector'
 const inspectorHeightKey = 'visuobject.inspectorHeight'
 /** `1`: ohne Workspace-Ordner arbeiten, nicht mehr fragen. */
 const noWorkspaceKey = 'visuobject.noWorkspace'
+const diagramModeKey = 'visuobject.diagram'
+/** Haltepunkte je Datei: Pfad → Zeilen (ab 0). */
+const breakpointsKey = 'visuobject.breakpoints'
 /** Gemerkter Workspace-Ordner, getrennt vom Ordner „VisuStruct-Dateien“. */
 const workspaceSlot = 'visuobject-workspace'
 const maxUndoSteps = 80
@@ -199,6 +205,9 @@ export class ObjectApp {
   private lastTyping = 0
   /** Gerade bearbeitetes Eingabefeld im Diagramm oder Explorer: dann nicht neu zeichnen. */
   private editing = false
+  private objectDiagram!: ObjectDiagram
+  /** Im Diagramm-Bereich: Klassendiagramm oder Objektdiagramm. */
+  private diagramMode: 'class' | 'object' = stored(diagramModeKey) === 'object' ? 'object' : 'class'
   /** Gewählte Notiz im Diagramm. */
   private noteSelection?: string
   /** Workspace-Ordner wie in Eclipse (nur Chrome/Edge); ohne ihn bleibt das Projekt im Browser. */
@@ -212,6 +221,18 @@ export class ObjectApp {
   private saved?: string
   private savedFiles = new Map<string, string>()
   private wsBox!: HTMLElement
+  private breakpoints = new Map<string, Set<number>>()
+  /** Laufender Debugger: Programm, Takt, Stand fürs Objektdiagramm. */
+  private dbg?: {
+    vm: MiniJava
+    timer?: number
+    state: 'running' | 'paused' | 'input'
+    frames: FrameView[]
+    frame: number
+    places: Map<string, Point>
+    values: Map<string, string>
+    vars: Map<string, string>
+  }
 
   constructor(root: HTMLElement) {
     document.documentElement.classList.add('visuobject-theme')
@@ -221,6 +242,8 @@ export class ObjectApp {
       for (const [name, p] of Object.entries(saved)) if (Number.isFinite(p?.x) && Number.isFinite(p?.y)) this.positions.set(name, p)
       const tree = JSON.parse(stored(treeKey) ?? '{}') as Record<string, boolean>
       for (const [id, on] of Object.entries(tree)) this.open.set(id, !!on)
+      const bps = JSON.parse(stored(breakpointsKey) ?? '{}') as Record<string, number[]>
+      for (const [path, lines] of Object.entries(bps)) if (Array.isArray(lines)) this.breakpoints.set(path, new Set(lines.filter(Number.isInteger)))
     } catch {
       /* alte oder kaputte Einstellungen: Standard */
     }
@@ -267,6 +290,14 @@ export class ObjectApp {
         </div>
         <div class="group vo-run-group">
           <button class="text-button vo-run" data-action="run" data-tip="${e(t('web_visuobject_run_tip'))}">▶ ${e(t('web_visuobject_run'))}</button>
+          <button class="text-button vo-debug" data-action="debug" data-tip="${e(t('web_visuobject_dbg_tip'))}">${e(t('web_visuobject_dbg'))}</button>
+          <span class="vo-dbg-controls" hidden>
+            <button class="text-button" data-dbg="continue" data-tip="${e(t('web_visuobject_dbg_continue_tip'))}" aria-keyshortcuts="F8">⏵ ${e(t('web_visuobject_dbg_continue'))}</button>
+            <button class="text-button" data-dbg="pause" data-tip="${e(t('web_visuobject_dbg_pause_tip'))}">⏸ ${e(t('web_visuobject_dbg_pause'))}</button>
+            <button class="text-button" data-dbg="over" data-tip="${e(t('web_visuobject_dbg_over_tip'))}" aria-keyshortcuts="F6">↷ ${e(t('web_visuobject_dbg_over'))}</button>
+            <button class="text-button" data-dbg="into" data-tip="${e(t('web_visuobject_dbg_into_tip'))}" aria-keyshortcuts="F5">↘ ${e(t('web_visuobject_dbg_into'))}</button>
+            <button class="text-button" data-dbg="out" data-tip="${e(t('web_visuobject_dbg_out_tip'))}" aria-keyshortcuts="F7">↖ ${e(t('web_visuobject_dbg_out'))}</button>
+          </span>
           <button class="text-button vo-stop" data-action="stop" data-tip="${e(t('web_visuobject_stop_tip'))}" disabled>■ ${e(t('web_visuobject_stop'))}</button>
         </div>
         <div class="group settings">
@@ -317,13 +348,17 @@ export class ObjectApp {
             </header>
             <div class="vo-swing" hidden><div class="livecode-swing-display"></div></div>
             <div class="vo-console-lines mono" dir="ltr" aria-live="polite"></div>
+            <form class="vo-console-input" hidden><span aria-hidden="true">›</span><input class="mono" autocomplete="off" spellcheck="false" aria-label="${e(t('web_visuobject_dbg_input'))}" placeholder="${e(t('web_visuobject_dbg_input'))}"></form>
           </section>
         </section>
         <div class="vo-splitter" data-split="code" role="separator" aria-orientation="vertical" aria-label="${e(t('web_visuobject_resize'))}" data-tip="${e(t('web_visuobject_resize'))}" tabindex="0"></div>
         <section class="vo-pane vo-diagram" data-pane="diagram">
           <button class="vo-strip" data-expand="diagram" aria-label="${e(t('web_visuobject_pane_show'))}">${e(t('web_visuobject_diagram'))}</button>
           <header class="vo-bar">
-            <h2 class="vo-bar-title">${e(t('web_visuobject_diagram'))}</h2>
+            <div class="vo-diagram-switch" role="tablist" aria-label="${e(t('web_visuobject_diagram'))}">
+              <button role="tab" data-diagram="class">${e(t('web_visuobject_diagram'))}</button>
+              <button role="tab" data-diagram="object">${e(t('web_visuobject_obj_diagram'))}</button>
+            </div>
             <div class="vo-bar-actions">
               <button class="text-button" data-action="layout" data-tip="${e(t('web_visuobject_layout_tip'))}">${e(t('web_visuobject_layout'))}</button>
             </div>
@@ -332,8 +367,13 @@ export class ObjectApp {
           <div class="vo-palette" role="toolbar" aria-label="${e(t('web_visuobject_tools'))}">
             ${paletteTools.map((tool) => `${tool === 'link' ? '<span class="vo-palette-sep" aria-hidden="true"></span>' : ''}<button class="vo-tool" data-tool="${tool}" aria-pressed="${tool === 'select'}" data-tip="${e(t(`web_visuobject_tool_${tool}_tip`))}">${toolIcon(tool)}<span>${e(t(`web_visuobject_tool_${tool}`))}</span></button>`).join('')}
           </div>
+          <div class="vo-palette vo-obj-palette" role="toolbar" aria-label="${e(t('web_visuobject_tools'))}" hidden>
+            <label class="vo-obj-new">${e(t('web_visuobject_obj_new'))}<select data-obj-class></select></label>
+            <button class="text-button" data-obj-add>+ ${e(t('web_visuobject_obj_add'))}</button>
+          </div>
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
+            <div class="vo-canvas vo-objcanvas" tabindex="-1" hidden><svg class="vo-lines vo-objlines"></svg></div>
           </div>
           <div class="vo-hsplit" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="${e(t('web_visuobject_inspector_resize'))}" data-tip="${e(t('web_visuobject_inspector_resize'))}"></div>
           <section class="vo-dock" aria-label="${e(t('web_visuobject_inspector'))}">
@@ -346,7 +386,22 @@ export class ObjectApp {
           <footer class="vo-foot"><p class="vo-status" role="status"></p><small class="vo-hint">${e(t('web_visuobject_edit_hint'))}</small></footer>
         </section>
       </main>`
-    this.canvas = this.shell.querySelector('.vo-canvas')!
+    this.canvas = this.shell.querySelector('.vo-canvas:not(.vo-objcanvas)')!
+    const objCanvas = this.shell.querySelector<HTMLElement>('.vo-objcanvas')!
+    this.objectDiagram = new ObjectDiagram({
+      canvas: objCanvas,
+      lines: objCanvas.querySelector<SVGSVGElement>('.vo-objlines')!,
+      inspector: this.shell.querySelector('.vo-inspector')!,
+      classes: () => this.classes,
+      objects: () => this.project.objects ?? [],
+      setObjects: (objects) => this.setProject({ ...this.project, objects: objects.length ? objects : undefined }),
+      message: (text) => this.message(text),
+    })
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-diagram]')) b.addEventListener('click', () => this.setDiagramMode(b.dataset.diagram as 'class' | 'object'))
+    this.shell.querySelector('[data-obj-add]')!.addEventListener('click', () => {
+      const cls = this.shell.querySelector<HTMLSelectElement>('[data-obj-class]')!.value
+      if (cls) this.objectDiagram.add(cls)
+    })
     this.lines = this.canvas.querySelector('.vo-lines')!
     this.frames = this.canvas.querySelector('.vo-frames')!
     this.status = this.shell.querySelector('.vo-status')!
@@ -437,8 +492,8 @@ export class ObjectApp {
           output: t('inspector_io_mode_output'),
           input: t('inspector_io_mode_input'),
         }),
-        breakpointLine: () => undefined,
-        onBreakpoints: () => undefined,
+        breakpointLine: (line) => line,
+        onBreakpoints: () => this.saveBreakpoints(),
         ownTypes: (pos) => this.ownTypesAt(pos),
       },
       t('web_visuobject_code'),
@@ -494,7 +549,22 @@ export class ObjectApp {
     })
     for (const b of menu.querySelectorAll<HTMLButtonElement>('[data-world]')) b.addEventListener('click', () => this.chooseWorld(b.dataset.world as WorldChoice))
     this.shell.querySelector('[data-action=run]')!.addEventListener('click', () => void this.runProgram())
-    this.shell.querySelector('[data-action=stop]')!.addEventListener('click', () => void this.stopProgram())
+    this.shell.querySelector('[data-action=stop]')!.addEventListener('click', () => (this.dbg ? this.stopDebug('web_visuobject_stopped') : void this.stopProgram()))
+    this.shell.querySelector('[data-action=debug]')!.addEventListener('click', () => void this.startDebug())
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-dbg]')) b.addEventListener('click', () => this.debugCommand(b.dataset.dbg as StepMode | 'continue' | 'pause'))
+    const consoleInput = this.shell.querySelector<HTMLFormElement>('.vo-console-input')!
+    consoleInput.addEventListener('submit', (ev) => {
+      ev.preventDefault()
+      const field = consoleInput.querySelector('input')!
+      this.debugInput(field.value)
+      field.value = ''
+    })
+    window.addEventListener('keydown', (ev) => {
+      const command = ({ F5: 'into', F6: 'over', F7: 'out', F8: 'continue' } as const)[ev.key as 'F5']
+      if (!command || !this.dbg) return
+      ev.preventDefault()
+      this.debugCommand(command)
+    })
     const consolePane = this.shell.querySelector<HTMLElement>('.vo-console')!
     consolePane.querySelector('[data-console=clear]')!.addEventListener('click', () => consolePane.querySelector('.vo-console-lines')!.replaceChildren())
     consolePane.querySelector('[data-console=hide]')!.addEventListener('click', () => (consolePane.hidden = true))
@@ -576,6 +646,278 @@ export class ObjectApp {
     this.shell.querySelector<HTMLButtonElement>('[data-action=stop]')!.disabled = true
   }
 
+  // MARK: - Debugger (eigener Interpreter, Schritt für Schritt)
+
+  private saveBreakpoints() {
+    if (!this.active) return
+    const lines = this.editor.breakpoints
+    if (lines.size) this.breakpoints.set(this.active, lines)
+    else this.breakpoints.delete(this.active)
+    const known = new Set(this.project.files.map((f) => f.path))
+    store(breakpointsKey, JSON.stringify(Object.fromEntries([...this.breakpoints].filter(([p]) => known.has(p)).map(([p, l]) => [p, [...l]]))))
+  }
+
+  private consolePane() {
+    const pane = this.shell.querySelector<HTMLElement>('.vo-console')!
+    return {
+      pane,
+      lines: pane.querySelector<HTMLElement>('.vo-console-lines')!,
+      status: pane.querySelector<HTMLElement>('.vo-console-status')!,
+      input: pane.querySelector<HTMLFormElement>('.vo-console-input')!,
+    }
+  }
+
+  private debugStatus(text: string, error = false) {
+    const { status } = this.consolePane()
+    status.textContent = text
+    status.classList.toggle('error', error)
+  }
+
+  private consoleWrite(text: string, kind: 'out' | 'err' | 'in' = 'out') {
+    const { lines } = this.consolePane()
+    const last = lines.lastElementChild as HTMLElement | null
+    if (last?.dataset.kind === kind) last.textContent += text
+    else {
+      const span = document.createElement('span')
+      span.dataset.kind = kind
+      span.className = `vo-out-${kind}`
+      span.textContent = text
+      lines.append(span)
+    }
+    lines.scrollTop = lines.scrollHeight
+  }
+
+  private async startDebug() {
+    if (this.dbg) this.stopDebug()
+    const { pane, lines, input } = this.consolePane()
+    pane.hidden = false
+    pane.querySelector<HTMLElement>('.vo-swing')!.hidden = true
+    await closeWindows().catch(() => undefined)
+    if (this.workspace) await this.writeCurrent()
+    lines.replaceChildren()
+    lines.removeAttribute('id')
+    input.hidden = true
+    const main = this.mainClass()
+    if (!main) return this.debugStatus(t('web_visuobject_no_main'), true)
+    let vm: MiniJava
+    try {
+      vm = new MiniJava(
+        this.project.files.map((f) => ({ path: f.path, source: f.text })),
+        { out: (text, err) => this.consoleWrite(text, err ? 'err' : 'out') },
+      )
+      vm.start(main.split('.').pop())
+    } catch (err) {
+      if (err instanceof MiniJavaError) return this.debugError(err)
+      throw err
+    }
+    this.dbg = { vm, state: 'running', frames: [], frame: 0, places: new Map(), values: new Map(), vars: new Map() }
+    this.shell.querySelector<HTMLElement>('.vo-dbg-controls')!.hidden = false
+    this.shell.querySelector<HTMLButtonElement>('[data-action=stop]')!.disabled = false
+    this.shell.querySelector<HTMLButtonElement>('[data-action=run]')!.disabled = true
+    if (this.diagramMode !== 'object') this.setDiagramMode('object')
+    vm.go(this.allBreakpoints().size ? 'run' : 'into')
+    this.debugRun()
+  }
+
+  private allBreakpoints(): Set<string> {
+    const out = new Set<string>()
+    for (const [path, lines] of this.breakpoints) for (const l of lines) out.add(`${path}:${l}`)
+    return out
+  }
+
+  private debugCommand(command: StepMode | 'continue' | 'pause') {
+    const dbg = this.dbg
+    if (!dbg) return
+    if (command === 'pause') {
+      if (dbg.state !== 'running') return
+      dbg.vm.pause()
+      clearTimeout(dbg.timer)
+      return this.debugRun()
+    }
+    if (dbg.state !== 'paused') return
+    dbg.vm.go(command === 'continue' ? 'run' : command)
+    this.debugRun()
+  }
+
+  /** Programm in kleinen Portionen laufen lassen, damit die Seite bedienbar bleibt (Pause, Stop). */
+  private debugRun() {
+    const dbg = this.dbg
+    if (!dbg) return
+    dbg.state = 'running'
+    this.showDebugButtons()
+    this.debugStatus(t('web_visuobject_dbg_running'))
+    const bps = this.allBreakpoints()
+    const start = performance.now()
+    for (;;) {
+      const s = dbg.vm.run(bps, 2000)
+      if (s.k === 'running') {
+        if (performance.now() - start < 15) continue
+        dbg.timer = window.setTimeout(() => this.debugRun(), 0)
+        return
+      }
+      if (s.k === 'sleep') {
+        dbg.timer = window.setTimeout(() => this.debugRun(), Math.min(s.ms, 10000))
+        return
+      }
+      if (s.k === 'input') {
+        dbg.state = 'input'
+        this.showDebugButtons()
+        this.showDebugState()
+        this.debugStatus(t('web_visuobject_dbg_waiting'))
+        const { input } = this.consolePane()
+        input.hidden = false
+        input.querySelector('input')!.focus()
+        return
+      }
+      if (s.k === 'paused') {
+        dbg.state = 'paused'
+        dbg.frame = 0
+        this.showDebugButtons()
+        this.showDebugState()
+        this.debugStatus(t('web_visuobject_dbg_paused_fmt', s.pos.file.split('/').pop() ?? '', String(s.pos.line + 1)))
+        return
+      }
+      if (s.k === 'done') return this.stopDebug('web_live_run_finished')
+      if (s.k === 'exception') {
+        this.consoleWrite(`${s.text}
+`, 'err')
+        if (s.pos) this.showLine(s.pos.file, s.pos.line)
+        return this.stopDebug('web_visuobject_dbg_exception', true)
+      }
+      return this.debugError(s.error)
+    }
+  }
+
+  private debugInput(line: string) {
+    const dbg = this.dbg
+    if (!dbg || dbg.state !== 'input') return
+    this.consoleWrite(`${line}
+`, 'in')
+    this.consolePane().input.hidden = true
+    dbg.vm.input(line)
+    this.debugRun()
+  }
+
+  private debugError(err: MiniJavaError) {
+    const line = err.pos ? String(err.pos.line + 1) : ''
+    const file = err.pos?.file.split('/').pop() ?? ''
+    const what = err.detail.replace(/^expected:/, '')
+    const key = { syntax: 'web_visuobject_dbg_err_syntax', symbol: 'web_visuobject_dbg_err_symbol', unsupported: 'web_visuobject_dbg_err_unsupported', nomain: 'web_visuobject_no_main', type: 'web_visuobject_dbg_err_type' }[err.code]
+    if (err.pos) this.showLine(err.pos.file, err.pos.line)
+    this.stopDebug()
+    this.debugStatus(t(key, file, line, what), true)
+  }
+
+  private showDebugButtons() {
+    const dbg = this.dbg
+    const paused = dbg?.state === 'paused'
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-dbg]')) b.disabled = !dbg || (b.dataset.dbg === 'pause' ? dbg.state !== 'running' : !paused)
+  }
+
+  /** Zeile im Editor zeigen (Datei wechseln, gelb markieren). */
+  private showLine(path: string, line: number | undefined) {
+    if (this.project.files.some((f) => f.path === path) && path !== this.active) this.openFile(path)
+    this.editor.setMarks({ placeholders: [], problems: [], current: line }, true)
+  }
+
+  /** Halt: gelbe Zeile, Objektdiagramm mit den Objekten im Speicher, Variablen und Aufrufstapel. */
+  private showDebugState() {
+    const dbg = this.dbg
+    if (!dbg) return
+    dbg.frames = dbg.vm.stack()
+    const heap = dbg.vm.heap()
+    const frame = dbg.frames[dbg.frame]
+    if (frame) this.showLine(frame.pos.file, frame.pos.line)
+    const first = dbg.values.size === 0 && dbg.vars.size === 0
+    const changed = new Set<string>()
+    const values = new Map<string, string>()
+    for (const o of heap)
+      for (const f of o.fields) {
+        const key = `dbg${o.id}.${f.name}`
+        values.set(key, f.value)
+        if (!first && dbg.values.get(key) !== f.value) changed.add(key)
+      }
+    dbg.values = values
+    const changedVars = new Set<string>()
+    const vars = new Map<string, string>()
+    dbg.frames.forEach((f, i) => {
+      for (const v of f.vars) {
+        const key = `${dbg.frames.length - i}|${f.title}|${v.name}`
+        vars.set(key, v.value)
+        if (!first && dbg.vars.get(key) !== v.value) changedVars.add(`${f.title}|${v.name}`)
+      }
+    })
+    dbg.vars = vars
+    const live: LiveState = {
+      objects: this.liveObjects(heap),
+      changed,
+      frames: dbg.frames,
+      frame: dbg.frame,
+      changedVars,
+      onFrame: (i) => {
+        dbg.frame = i
+        live.frame = i
+        const f = dbg.frames[i]
+        if (f) this.showLine(f.pos.file, f.pos.line)
+        this.objectDiagram.renderInspector()
+      },
+      move: (id, p) => dbg.places.set(id, p),
+    }
+    this.objectDiagram.live = live
+    if (this.diagramMode === 'object') this.objectDiagram.render()
+  }
+
+  /** Objekte aus dem Speicher als Objektdiagramm; Lage wie selbst gezeichnet (gleicher Name) oder frei daneben. */
+  private liveObjects(heap: HeapObject[]): UmlObject[] {
+    const dbg = this.dbg!
+    const drawn = this.project.objects ?? []
+    const rows = (o: HeapObject) => 40 + o.fields.length * 20
+    const used: { x: number; y: number; w: number; h: number }[] = []
+    const out: UmlObject[] = []
+    const pending: HeapObject[] = []
+    for (const o of heap) {
+      const id = `dbg${o.id}`
+      const p = dbg.places.get(id) ?? drawn.find((d) => d.name === o.name && d.cls === o.cls)
+      if (!p) {
+        pending.push(o)
+        continue
+      }
+      dbg.places.set(id, { x: p.x, y: p.y })
+      used.push({ x: p.x, y: p.y, w: 260, h: rows(o) })
+    }
+    for (const o of pending) {
+      const h = rows(o)
+      let spot = { x: 24, y: 24 }
+      search: for (let y = 24; y < 6000; y += 30)
+        for (let x = 24; x <= 24 + 3 * 320; x += 320)
+          if (used.every((r) => x + 260 + 30 <= r.x || r.x + r.w + 30 <= x || y + h + 30 <= r.y || r.y + r.h + 30 <= y)) {
+            spot = { x, y }
+            break search
+          }
+      dbg.places.set(`dbg${o.id}`, spot)
+      used.push({ ...spot, w: 260, h })
+    }
+    for (const o of heap) {
+      const id = `dbg${o.id}`
+      out.push({ id, name: o.name, cls: o.cls, ...dbg.places.get(id)!, values: Object.fromEntries(o.fields.map((f) => [f.name, f.value])) })
+    }
+    return out
+  }
+
+  private stopDebug(statusKey?: string, error = false) {
+    const dbg = this.dbg
+    if (dbg) clearTimeout(dbg.timer)
+    this.dbg = undefined
+    this.objectDiagram.live = undefined
+    this.consolePane().input.hidden = true
+    this.shell.querySelector<HTMLElement>('.vo-dbg-controls')!.hidden = true
+    this.shell.querySelector<HTMLButtonElement>('[data-action=stop]')!.disabled = true
+    this.shell.querySelector<HTMLButtonElement>('[data-action=run]')!.disabled = false
+    if (!error) this.editor.setMarks({ placeholders: [], problems: [] }, false)
+    if (statusKey) this.debugStatus(t(statusKey), error)
+    if (this.diagramMode === 'object') this.objectDiagram.render()
+  }
+
   private chooseWorld(world: WorldChoice) {
     if (world === 'object') return
     setVisuBotMode(world)
@@ -592,6 +934,7 @@ export class ObjectApp {
   private showActive() {
     const file = this.activeFile
     this.editor.setText(file?.text ?? '')
+    this.editor.setBreakpoints(file ? (this.breakpoints.get(file.path) ?? []) : [])
     this.editor.setReadOnly(!file)
     if (file && !this.openTabs.includes(file.path)) this.openTabs.push(file.path)
     this.renderTabs()
@@ -679,6 +1022,8 @@ export class ObjectApp {
     if (now - this.lastTyping > 1500) this.remember()
     this.lastTyping = now
     this.project = updateFile(this.project, file.path, this.editor.text)
+    this.saveBreakpoints()
+    if (this.dbg) this.stopDebug('web_visuobject_dbg_code_changed')
     this.refresh()
     // Klasse im Code umbenannt: kurz nach dem Tippen heißen Reiter und Datei mit (wie in Eclipse beim Speichern).
     clearTimeout(this.renameTimer)
@@ -1310,6 +1655,7 @@ export class ObjectApp {
     }
     if (this.editing || this.editor.hasFocus) return
     const target = ev.target as HTMLElement
+    if (this.diagramMode === 'object' && !target.closest('input, select, textarea') && !(ev.metaKey || ev.ctrlKey) && this.objectDiagram.onKey(ev)) return
     if (target.closest('input, select, textarea, .vo-tree')) return
     const mod = ev.metaKey || ev.ctrlKey
     if (mod && ev.key.toLowerCase() === 'z') {
@@ -1632,12 +1978,39 @@ export class ObjectApp {
 
   // MARK: - Zeichnen
 
+  private setDiagramMode(mode: 'class' | 'object') {
+    this.diagramMode = mode
+    store(diagramModeKey, mode)
+    this.setTool('select')
+    this.render()
+  }
+
+  /** Umschalter, Werkzeuge und Fläche passend zum Diagramm zeigen. */
+  private showDiagramMode() {
+    const object = this.diagramMode === 'object'
+    for (const b of this.shell.querySelectorAll<HTMLElement>('[data-diagram]')) b.setAttribute('aria-selected', String(b.dataset.diagram === this.diagramMode))
+    this.shell.querySelector<HTMLElement>('.vo-palette:not(.vo-obj-palette)')!.hidden = object
+    this.shell.querySelector<HTMLElement>('.vo-obj-palette')!.hidden = !object
+    this.canvas.hidden = object
+    this.shell.querySelector<HTMLElement>('.vo-objcanvas')!.hidden = !object
+    this.shell.querySelector<HTMLElement>('[data-action=layout]')!.hidden = object
+    if (object) {
+      const select = this.shell.querySelector<HTMLSelectElement>('[data-obj-class]')!
+      const names = [...new Set(this.classes.filter((c) => c.kind === 'class' && !c.isAbstract).map((c) => c.name))]
+      const keep = names.includes(select.value) ? select.value : names[0]
+      select.innerHTML = names.map((n) => `<option${n === keep ? ' selected' : ''}>${e(n)}</option>`).join('')
+      this.shell.querySelector<HTMLButtonElement>('[data-obj-add]')!.disabled = names.length === 0
+    }
+  }
+
   private savePositions() {
     const names = new Set(this.classes.map((c) => c.name))
     store(positionsKey, JSON.stringify(Object.fromEntries([...this.positions].filter(([n]) => names.has(n)))))
   }
 
   private render() {
+    this.showDiagramMode()
+    if (this.diagramMode === 'object') return this.objectDiagram.render()
     for (const old of this.canvas.querySelectorAll('.uml-class, .uml-note, .vo-empty')) old.remove()
     for (const note of this.project.notes ?? []) this.canvas.append(this.noteBox(note))
     if (this.classes.length === 0) {
@@ -2523,6 +2896,7 @@ export class ObjectApp {
    * Ende B die Klasse, bei der sie endet.
    */
   private renderInspector() {
+    if (this.diagramMode === 'object') return this.objectDiagram.renderInspector()
     const note = this.findNote(this.noteSelection)
     if (note) return this.renderNoteInspector(note)
     const dep = this.relSelection?.startsWith('dep:') ? this.findDependency(this.relSelection) : undefined

@@ -125,6 +125,7 @@ class BreakpointMarker extends GutterMarker {
 }
 const breakpointMarker = new BreakpointMarker()
 const toggleBreakpoint = StateEffect.define<number>()
+const resetBreakpoints = StateEffect.define<number[]>()
 
 /** Haltepunkte als Positionen am Zeilenanfang: Sie wandern beim Tippen mit ihrer Zeile mit. */
 const breakpointsField = StateField.define<RangeSet<GutterMarker>>({
@@ -132,6 +133,7 @@ const breakpointsField = StateField.define<RangeSet<GutterMarker>>({
   update(set, tr) {
     set = set.map(tr.changes)
     for (const e of tr.effects) {
+      if (e.is(resetBreakpoints)) set = RangeSet.of(e.value.map((from) => breakpointMarker.range(from)), true)
       if (!e.is(toggleBreakpoint)) continue
       let has = false
       set.between(e.value, e.value, () => {
@@ -366,6 +368,13 @@ export class JavaEditor {
       lines.add(doc.lineAt(from).number - 1)
     })
     return lines
+  }
+
+  /** Haltepunkte einer anderen Datei zeigen (Zeilen ab 0). */
+  setBreakpoints(lines: Iterable<number>) {
+    const doc = this.view.state.doc
+    const from = [...new Set(lines)].filter((l) => l >= 0 && l < doc.lines).map((l) => doc.line(l + 1).from)
+    this.view.dispatch({ effects: resetBreakpoints.of(from) })
   }
 
   lineAt(offset: number): number {
