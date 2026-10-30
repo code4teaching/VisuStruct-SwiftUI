@@ -802,7 +802,7 @@ export class ObjectApp {
     const line = err.pos ? String(err.pos.line + 1) : ''
     const file = err.pos?.file.split('/').pop() ?? ''
     const what = err.detail.replace(/^expected:/, '')
-    const key = { syntax: 'web_visuobject_dbg_err_syntax', symbol: 'web_visuobject_dbg_err_symbol', unsupported: 'web_visuobject_dbg_err_unsupported', nomain: 'web_visuobject_no_main', type: 'web_visuobject_dbg_err_type' }[err.code]
+    const key = { syntax: 'web_visuobject_dbg_err_syntax', symbol: 'web_visuobject_dbg_err_symbol', unsupported: 'web_visuobject_dbg_err_unsupported', nomain: 'web_visuobject_no_main', type: 'web_visuobject_dbg_err_type', import: 'web_visuobject_dbg_err_import' }[err.code]
     if (err.pos) this.showLine(err.pos.file, err.pos.line)
     this.stopDebug()
     this.debugStatus(t(key, file, line, what), true)

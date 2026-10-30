@@ -748,6 +748,31 @@ class Parser {
   }
 }
 
+const javaUtil = ['Scanner', 'Random', 'ArrayList', 'List', 'LinkedList', 'HashMap', 'Map', 'TreeMap', 'LinkedHashMap', 'Collection', 'Collections', 'Arrays', 'Iterator', 'Objects']
+
+/**
+ * Wie javac: `Scanner`, `ArrayList` usw. ohne `import java.util.Scanner;` (oder `java.util.*`) sind unbekannt.
+ * `own`: Klassen aus dem Projekt, die so heißen dürfen. Ergebnis: die fehlende Zeile und wo die Klasse zuerst vorkommt.
+ */
+export function missingImport(source: string, file: string, own: Set<string>): { line: string; pos: Pos } | undefined {
+  const toks = tokenize(source, file)
+  const imports: string[] = []
+  for (let k = 0; k < toks.length; k++) {
+    if (toks[k].v !== 'import' || toks[k].t !== 'id') continue
+    let end = k + 1
+    while (end < toks.length && toks[end].v !== ';' && toks[end].t !== 'eof') end++
+    imports.push(toks.slice(k + 1, end).map((t) => t.v).join(''))
+    k = end
+  }
+  for (let k = 0; k < toks.length; k++) {
+    const t = toks[k]
+    if (t.t !== 'id' || !javaUtil.includes(t.v) || own.has(t.v) || toks[k - 1]?.v === '.' || toks[k - 1]?.v === 'import') continue
+    if (imports.includes(`java.util.${t.v}`) || imports.includes('java.util.*')) continue
+    return { line: `import java.util.${t.v};`, pos: { file, line: t.line } }
+  }
+  return undefined
+}
+
 /** Eine Datei lesen; Fehler als `JavaSyntaxError` mit Zeile. */
 export function parseJava(source: string, file: string): ClassDecl[] {
   return new Parser(tokenize(source, file), file).unit()
