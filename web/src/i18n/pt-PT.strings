@@ -405,8 +405,8 @@
 "web_visuobject_add_interface_tip" = "Nova interface no diagrama e no código";
 "web_visuobject_layout" = "Reorganizar";
 "web_visuobject_layout_tip" = "Organizar todas as classes automaticamente: superclasses em cima";
-"web_visuobject_add_field" = "Atributo";
-"web_visuobject_add_method" = "Método";
+"web_visuobject_add_field" = "novo atributo …";
+"web_visuobject_add_method" = "novo método …";
 "web_visuobject_delete_class" = "Apagar classe";
 "web_visuobject_new_class_name" = "NovaClasse";
 "web_visuobject_new_interface_name" = "NovaInterface";

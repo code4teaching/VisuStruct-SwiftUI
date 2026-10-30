@@ -140,3 +140,13 @@ describe('Modifier der Klasse', () => {
     expect(setAbstract(src, c(), true)).toBe('public abstract class Tier {\n}\n')
   })
 })
+
+describe('Neue Attribute', () => {
+  it('ohne Sichtbarkeit private, Methoden public', () => {
+    let src = 'public class Hund {\n}\n'
+    src = addMember(src, parseClasses(src)[0], 'name: String')
+    src = addMember(src, parseClasses(src)[0], 'bellen(): void')
+    expect(src).toContain('private String name;')
+    expect(src).toContain('public void bellen()')
+  })
+})

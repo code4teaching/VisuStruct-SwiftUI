@@ -407,8 +407,8 @@
 "web_visuobject_add_interface_tip" = "Neues Interface ins Diagramm und in den Code";
 "web_visuobject_layout" = "Neu anordnen";
 "web_visuobject_layout_tip" = "Alle Klassen automatisch anordnen: Oberklassen oben";
-"web_visuobject_add_field" = "Attribut";
-"web_visuobject_add_method" = "Methode";
+"web_visuobject_add_field" = "neues Attribut …";
+"web_visuobject_add_method" = "neue Methode …";
 "web_visuobject_delete_class" = "Klasse löschen";
 "web_visuobject_new_class_name" = "NeueKlasse";
 "web_visuobject_new_interface_name" = "NeuesInterface";

@@ -4509,6 +4509,7 @@ button.danger-text:not(:disabled) {
 }
 .uml-add {
   color: var(--accent);
+  font-style: italic;
   cursor: pointer;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-size: 12px;

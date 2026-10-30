@@ -1545,7 +1545,7 @@ export class ObjectApp {
     const fields = cls.members.map((m, i) => (m.kind === 'field' && !this.roleFields.has(relationKey(cls.name, m.name)) ? row(m, i) : '')).join('')
     const methods = cls.members.map((m, i) => (m.kind !== 'field' ? row(m, i) : '')).join('')
     const add = (kind: 'field' | 'method') =>
-      sel ? `<li class="uml-add" data-add="${kind}">+ ${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
+      sel ? `<li class="uml-add" data-add="${kind}">${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
     box.innerHTML = `
       ${sel && sel.member === undefined ? `<button class="uml-connect" data-connect aria-label="${e(t('web_visuobject_connect'))}" data-tip="${e(t('web_visuobject_connect'))}" tabindex="-1"></button>` : ''}
       <header class="uml-head">${cls.kind === 'interface' ? '<small>«interface»</small>' : cls.isAbstract ? '<small>{abstract}</small>' : ''}<span class="uml-name" data-value="${e(cls.name)}">${e(cls.name)}</span></header>
