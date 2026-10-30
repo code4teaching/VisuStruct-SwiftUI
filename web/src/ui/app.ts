@@ -396,7 +396,7 @@ export class App {
       this.learnResizer(),
       this.editorRail(),
       root,
-      this.panelResizer(root, 'editor-resizer', editorWidthKey, t('web_editor_resize'), 1),
+      this.panelResizer(root, 'editor-resizer', editorWidthKey, t('web_editor_resize'), () => (this.codeMain ? -1 : 1)),
       this.liveResizer(),
       this.live.element,
       this.liveRail(),
@@ -1579,7 +1579,7 @@ export class App {
 
   // MARK: - Programmieren groß
 
-  /** ⇄: Programmieren wird die große Fläche, das Struktogramm schmal (beide Breiten ziehbar); noch ein Klick tauscht zurück. */
+  /** ⇄: Programmieren wird die große Fläche links, das Struktogramm schmal rechts daneben (Breite ziehbar); noch ein Klick tauscht zurück. */
   private setCodeMain(on: boolean) {
     this.codeMain = on
     storeValue(codeMainKey, on ? '1' : '0')
@@ -1708,8 +1708,8 @@ export class App {
     return this.panelResizer(this.live.element, 'live-resizer', liveWidthKey, t('web_live_resize'), -1)
   }
 
-  /** `side`: 1 = Bereich liegt am Anfang der Zeile (links), -1 = am Ende (rechts). */
-  private panelResizer(panel: HTMLElement, className: string, widthKey: string, title: string, side: 1 | -1): HTMLElement {
+  /** `side`: 1 = Bereich liegt am Anfang der Zeile (links), -1 = am Ende (rechts); als Funktion, wenn ⇄ die Seite wechselt. */
+  private panelResizer(panel: HTMLElement, className: string, widthKey: string, title: string, side: 1 | -1 | (() => 1 | -1)): HTMLElement {
     const bar = h('div', { class: className, role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title })
     // Höchstens so breit, dass die Spalte daneben noch 240 px behält; feste Breiten anderer Bereiche zählen mit.
     const clamp = (width: number) => {
@@ -1728,7 +1728,10 @@ export class App {
     const saved = Number(storedValue(widthKey))
     if (saved > 0) apply(saved, false)
     // Im Rechts-nach-links-Layout sind die Seiten vertauscht.
-    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? -side : side)
+    const sign = () => {
+      const s = typeof side === 'function' ? side() : side
+      return getComputedStyle(this.shell).direction === 'rtl' ? -s : s
+    }
     bar.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return
       e.preventDefault()
