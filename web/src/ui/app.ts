@@ -398,7 +398,7 @@ export class App {
       this.learnResizer(),
       this.editorRail(),
       root,
-      this.panelResizer(root, 'editor-resizer', editorWidthKey, t('web_editor_resize'), () => (this.codeMain ? -1 : 1)),
+      this.panelResizer(root, 'editor-resizer', editorWidthKey, t('web_editor_resize'), () => (this.codeMain ? -1 : 1), () => this.live.element),
       this.liveResizer(),
       this.live.element,
       this.liveRail(),
@@ -1730,11 +1730,32 @@ export class App {
 
   /** Wie beim Lernbereich, nur am anderen Rand: Ziehen nach links macht den Code breiter. */
   private liveResizer(): HTMLElement {
-    return this.panelResizer(this.live.element, 'live-resizer', liveWidthKey, t('web_live_resize'), -1)
+    return this.panelResizer(this.live.element, 'live-resizer', liveWidthKey, t('web_live_resize'), -1, () => this.root)
+  }
+
+  /**
+   * Struktogramm und Programmieren teilen sich den Platz, den die anderen Spalten übrig lassen. Ist der zu knapp,
+   * geben beim Ziehen an der Linie dazwischen erst „mBot2 live“, dann Lernbereich und Dateien Breite ab (bis zu ihrer
+   * Mindestbreite), sonst ließe sich die Aufteilung bei vier offenen Spalten kaum verändern.
+   */
+  private yieldingPanels(): { panel: HTMLElement; key: string }[] {
+    return [
+      { panel: this.preview.element, key: previewWidthKey },
+      { panel: this.learn.element, key: learnWidthKey },
+      { panel: this.files.element, key: filesWidthKey },
+    ].filter(({ panel }) => panel.offsetParent !== null && panel.parentElement === this.live.element.parentElement)
   }
 
   /** `side`: 1 = Bereich liegt am Anfang der Zeile (links), -1 = am Ende (rechts); als Funktion, wenn ⇄ die Seite wechselt. */
-  private panelResizer(panel: HTMLElement, className: string, widthKey: string, title: string, side: 1 | -1 | (() => 1 | -1)): HTMLElement {
+  /** `partner`: die breitenvariable Spalte auf der anderen Seite der Linie; dann geben beim Ziehen auch weitere Spalten Platz ab. */
+  private panelResizer(
+    panel: HTMLElement,
+    className: string,
+    widthKey: string,
+    title: string,
+    side: 1 | -1 | (() => 1 | -1),
+    partner?: () => HTMLElement,
+  ): HTMLElement {
     const bar = h('div', { class: className, role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title })
     // Höchstens so breit, dass die Spalte daneben noch 240 px behält; feste Breiten anderer Bereiche zählen mit.
     const clamp = (width: number) => {
@@ -1765,13 +1786,15 @@ export class App {
       const startWidth = panel.getBoundingClientRect().width
       const s = sign()
       this.shell.classList.add('resizing')
-      const move = (ev: PointerEvent) => apply(startWidth + s * (ev.clientX - startX), false)
+      const resize = partner ? this.pushResize(panel, widthKey, partner(), startWidth) : undefined
+      const drag = (ev: PointerEvent, remember: boolean) => (resize ?? apply)(startWidth + s * (ev.clientX - startX), remember)
+      const move = (ev: PointerEvent) => drag(ev, false)
       const up = (ev: PointerEvent) => {
         bar.removeEventListener('pointermove', move)
         bar.removeEventListener('pointerup', up)
         bar.removeEventListener('pointercancel', up)
         this.shell.classList.remove('resizing')
-        apply(startWidth + s * (ev.clientX - startX), true)
+        drag(ev, true)
       }
       bar.addEventListener('pointermove', move)
       bar.addEventListener('pointerup', up)
@@ -1785,6 +1808,33 @@ export class App {
       apply(panel.getBoundingClientRect().width + sign() * step, true)
     })
     return bar
+  }
+
+  /**
+   * Ziehen an der Linie zwischen Struktogramm und Programmieren: `panel` hat eine feste Breite, `partner` füllt den Rest.
+   * Reicht der Platz des Partners (oder von `panel`) nicht, schrumpfen die anderen Spalten; ihre Breite wird gemerkt.
+   */
+  private pushResize(panel: HTMLElement, widthKey: string, partner: HTMLElement, startWidth: number): (width: number, remember: boolean) => void {
+    const minOf = (p: HTMLElement, fallback: number) => Math.max(parseFloat(getComputedStyle(p).minWidth) || 0, fallback)
+    const panelMin = minOf(panel, 200)
+    const slack = Math.max(0, partner.getBoundingClientRect().width - minOf(partner, 240))
+    const yielders = this.yieldingPanels().map((y) => ({ ...y, start: y.panel.getBoundingClientRect().width, min: minOf(y.panel, 200), changed: false }))
+    const spare = yielders.reduce((sum, y) => sum + Math.max(0, y.start - y.min), 0)
+    return (wanted, remember) => {
+      const width = Math.round(Math.max(panelMin, Math.min(wanted, startWidth + slack + spare)))
+      // Was weder `panel` noch der Partner aufnehmen kann, geben die anderen Spalten ab, die nächste zuerst.
+      let need = Math.max(0, width - startWidth - slack, panelMin - wanted)
+      for (const y of yielders) {
+        const give = Math.min(need, Math.max(0, y.start - y.min))
+        need -= give
+        y.changed ||= give > 0
+        if (!y.changed) continue
+        y.panel.style.width = `${Math.round(y.start - give)}px`
+        if (remember) storeValue(y.key, String(Math.round(y.start - give)))
+      }
+      panel.style.width = `${width}px`
+      if (remember) storeValue(widthKey, String(width))
+    }
   }
 
   private findSubprogram(name: string, current: Tab | undefined = this.tab): VSDocument | undefined {
