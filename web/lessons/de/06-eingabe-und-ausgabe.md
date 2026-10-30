@@ -13,6 +13,7 @@ kurz: Werte abfragen, Ergebnisse anzeigen und das EVA-Prinzip anwenden.
 - ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`
 - aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen
 - in Java mit dem Scanner Zahlen einlesen
+- Kommentare mit `//` und `/* */` schreiben und damit meinen Code einteilen und erklären
 :::
 
 ## Das EVA-Prinzip
@@ -168,6 +169,75 @@ tipp: `int jahre = scanner.nextInt();` liest ein. `int tage = jahre * 365;` rech
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Kommentare im Code
+
+Im Code darfst du dir Notizen machen. Sie heißen **Kommentare** (englisch *comments*). Java überspringt sie beim Ausführen, das Programm und das Struktogramm bleiben also gleich. Es gibt zwei Arten:
+
+- `//` macht den Rest der Zeile zum Kommentar. Das ist ein **einzeiliger Kommentar**.
+- `/*` beginnt einen **mehrzeiligen Kommentar**, `*/` beendet ihn. Alles dazwischen gehört zum Kommentar, egal wie viele Zeilen. Die Sternchen am Anfang der Zeilen dazwischen braucht Java nicht, sie sehen nur ordentlich aus.
+
+In fertigen Programmen siehst du manchmal auch `/** … */` mit zwei Sternchen am Anfang. Das ist ein **Javadoc-Kommentar**, aus dem Java eine Beschreibung des Programms erzeugen kann. Für dich reichen `//` und `/* */`.
+
+So sieht das EVA-Beispiel mit Kommentaren aus:
+
+```java editor
+/*
+ * Aufgabe: Das Programm fragt nach zwei Zahlen
+ * und gibt ihre Summe aus.
+ */
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+// Eingabe
+System.out.println("Erste Zahl?");
+int a = scanner.nextInt();
+System.out.println("Zweite Zahl?");
+int b = scanner.nextInt();
+
+// Verarbeitung
+int summe = a + b;      // die beiden Zahlen addieren
+
+// Ausgabe
+System.out.println("Summe: " + summe);      // bei 3 und 4 erwarte ich: Summe: 7
+
+// Nächstes Mal: auch Kommazahlen erlauben
+```
+
+Wofür Kommentare gut sind:
+
+- **Aufgabenstellung:** Oben im mehrzeiligen Kommentar steht, was das Programm können soll.
+- **Einteilung:** `// Eingabe`, `// Verarbeitung` und `// Ausgabe` teilen den Code nach dem EVA-Prinzip ein.
+- **Erklärung:** Ein Kommentar hinter einer Zeile sagt, was dein Algorithmus dort macht.
+- **Erwartung:** Schreib auf, welche Ausgabe du erwartest. Beim Testen vergleichst du dann.
+- **Klammern zuordnen:** Später kommen Blöcke in geschweiften Klammern `{ }` dazu. Dann zeigt z. B. `} // Ende for`, welche Klammer was schließt.
+- **Gedanken festhalten:** Woran musst du denken, wenn du nächstes Mal weiterarbeitest?
+
+Klicke auf **Im Editor öffnen**, ändere einen Kommentar oder schreib einen neuen dazu. Das Struktogramm bleibt gleich, und VisuStruct behält deine Kommentare.
+
+> Schreib nicht hinter jede Zeile einen Kommentar. Erkläre, was dein Algorithmus macht und warum, nicht jedes einzelne Zeichen.
+
+::: angeberwissen
+Beide Arten sind viel älter als Java: `/* … */` stammt aus der Sprache PL/I von 1964, `//` aus BCPL von 1967. Java hat sie über C und C++ geerbt.
+:::
+
+## Lückentext: Kommentare
+
+::: lückentext
+titel: Kommentare ergänzen
+auftrag: Ergänze die Zeichen, damit oben ein mehrzeiliger Kommentar mit der Aufgabe steht und die anderen beiden Notizen einzeilige Kommentare sind.
+```java
+[[/*]]
+ * Aufgabe: Das Programm rechnet Euro in Cent um.
+ [[*/]]
+int euro = 3;
+[[//]] Verarbeitung
+int cent = euro * 100;
+[[//]] Ausgabe, erwartet: 300
+System.out.println(cent);
+```
+erklärung: `/*` öffnet den mehrzeiligen Kommentar und `*/` schließt ihn. `//` gilt nur bis zum Ende der Zeile, darum braucht jede Notiz ihr eigenes `//`.
+:::
+
 ## Lückentext: Eingabe
 
 ::: lückentext
@@ -283,6 +353,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`. → Vorsicht mit + in der Ausgabe
 - Ich kann aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen. → Vom Aufgabentext zum Struktogramm
 - Ich kann in Java mit dem Scanner Zahlen einlesen. → Jetzt in Java
+- Ich kann Kommentare mit `//` und `/* */` schreiben und damit meinen Code einteilen und erklären. → Kommentare im Code
 :::
 
 ## Wissenstest
@@ -328,4 +399,18 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] Eine Kommazahl
 - [ ] Einen ganzen Satz
 > Für Kommazahlen gibt es `scanner.nextDouble()`, für ein Wort `scanner.next()`.
+
+? Was macht Java mit einem Kommentar?
+→ Kommentare im Code
+- [ ] Es gibt ihn als Text aus.
+- [x] Es überspringt ihn.
+- [ ] Es meldet einen Fehler.
+> Kommentare sind Notizen für Menschen. Das Programm läuft mit und ohne sie genau gleich.
+
+? Wo endet ein Kommentar, der mit `/*` beginnt?
+→ Kommentare im Code
+- [x] Bei `*/`
+- [ ] Am Ende der Zeile
+- [ ] Bei der nächsten Leerzeile
+> Darum kann ein Kommentar mit `/*` über mehrere Zeilen gehen. Ein Kommentar mit `//` endet dagegen am Zeilenende.
 :::

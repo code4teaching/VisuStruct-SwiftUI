@@ -13,6 +13,7 @@ kurz: Pedir valores, mostrar resultados e usar o modelo EPS.
 - calcular primeiro um resultado e guardá-lo numa variável, depois mostrar essa variável, p. ex. `int soma = a + b`, depois `output: soma`
 - identificar a entrada, o processamento e a saída numa tarefa
 - ler números em Java com o scanner
+- escrever comentários com `//` e `/* */` e usá-los para organizar e explicar o meu código
 :::
 
 ## O modelo EPS
@@ -168,6 +169,75 @@ tipp: `int anos = scanner.nextInt();` lê. `int dias = anos * 365;` calcula, e `
 lösung: l06-java-tage-loesung.visustruct
 :::
 
+## Comentários no código
+
+Podes escrever notas no teu código. Chamam-se **comentários** (em inglês *comments*). O Java salta-os ao executar, por isso o programa e o estrutograma ficam iguais. Há dois tipos:
+
+- `//` transforma o resto da linha num comentário. É um **comentário de uma linha**.
+- `/*` começa um **comentário de várias linhas** e `*/` termina-o. Tudo o que está entre os dois faz parte do comentário, seja quantas linhas forem. O Java não precisa dos asteriscos no início das linhas do meio, só ficam arrumados.
+
+Em programas acabados às vezes também vês `/** … */` com dois asteriscos no início. É um **comentário Javadoc**, a partir do qual o Java consegue criar uma descrição do programa. Para ti, chegam `//` e `/* */`.
+
+O exemplo EPS com comentários fica assim:
+
+```java editor
+/*
+ * Tarefa: O programa pede dois números
+ * e mostra a sua soma.
+ */
+import java.util.Scanner;
+Scanner scanner = new Scanner(System.in);
+
+// Entrada
+System.out.println("Primeiro número?");
+int a = scanner.nextInt();
+System.out.println("Segundo número?");
+int b = scanner.nextInt();
+
+// Processamento
+int soma = a + b;      // somar os dois números
+
+// Saída
+System.out.println("Soma: " + soma);      // com 3 e 4 espero: Soma: 7
+
+// Da próxima vez: permitir também números decimais
+```
+
+Para que servem os comentários:
+
+- **A tarefa:** o comentário de várias linhas lá em cima diz o que o programa deve fazer.
+- **Organização:** `// Entrada`, `// Processamento` e `// Saída` dividem o código segundo o modelo EPS.
+- **Explicação:** um comentário depois de uma linha diz o que o teu algoritmo faz ali.
+- **Expectativa:** escreve que saída esperas. Ao testar, comparas.
+- **Associar chavetas:** mais tarde vais ter blocos entre chavetas `{ }`. Aí, p. ex. `} // fim do for` mostra que chaveta fecha o quê.
+- **Guardar ideias:** de que te tens de lembrar quando continuares da próxima vez?
+
+Clica em **Abrir no editor**, muda um comentário ou acrescenta um novo. O estrutograma fica igual e o VisuStruct guarda os teus comentários.
+
+> Não escrevas um comentário depois de cada linha. Explica o que o teu algoritmo faz e porquê, não cada carácter.
+
+::: angeberwissen
+Os dois tipos são muito mais antigos do que o Java: `/* … */` vem da linguagem PL/I, de 1964, e `//` da BCPL, de 1967. O Java herdou-os através do C e do C++.
+:::
+
+## Preenche os espaços: comentários
+
+::: lückentext
+titel: Completar os comentários
+auftrag: Completa os caracteres para que lá em cima fique um comentário de várias linhas com a tarefa e as outras duas notas sejam comentários de uma linha.
+```java
+[[/*]]
+ * Tarefa: O programa converte euros em cêntimos.
+ [[*/]]
+int euros = 3;
+[[//]] Processamento
+int centimos = euros * 100;
+[[//]] Saída, esperado: 300
+System.out.println(centimos);
+```
+erklärung: `/*` abre o comentário de várias linhas e `*/` fecha-o. `//` só vale até ao fim da linha, por isso cada nota precisa do seu próprio `//`.
+:::
+
 ## Preenche os espaços: entrada
 
 ::: lückentext
@@ -283,6 +353,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - Consigo calcular primeiro um resultado e guardá-lo numa variável, depois mostrar essa variável, p. ex. `int soma = a + b`, depois `output: soma`. → Cuidado com o + numa saída
 - Consigo identificar a entrada, o processamento e a saída numa tarefa. → Da tarefa ao estrutograma
 - Consigo ler números em Java com o scanner. → Agora em Java
+- Consigo escrever comentários com `//` e `/* */` e usá-los para organizar e explicar o meu código. → Comentários no código
 :::
 
 ## Teste de conhecimentos
@@ -328,4 +399,18 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [ ] Um número decimal
 - [ ] Uma frase inteira
 > Para números decimais há `scanner.nextDouble()`, para uma palavra `scanner.next()`.
+
+? O que faz o Java com um comentário?
+→ Comentários no código
+- [ ] Mostra-o como texto.
+- [x] Salta-o.
+- [ ] Indica um erro.
+> Os comentários são notas para pessoas. O programa corre exatamente igual com ou sem eles.
+
+? Onde termina um comentário que começa com `/*`?
+→ Comentários no código
+- [x] Em `*/`
+- [ ] No fim da linha
+- [ ] Na próxima linha vazia
+> Por isso um comentário com `/*` pode ocupar várias linhas. Já um comentário com `//` termina no fim da linha.
 :::

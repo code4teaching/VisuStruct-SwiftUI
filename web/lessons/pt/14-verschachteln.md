@@ -97,12 +97,14 @@ int quantidade = 0;
 for (int i = 1; i <= n; i++) {
     if (i % 2 == 0) {
         quantidade++;
-    }
-}
+    } // fim do if
+} // fim do for
 System.out.println(quantidade);
 ```
 
 O que no estrutograma está encaixado, em Java está encaixado entre chavetas. Cada nível fica quatro espaços mais para dentro. Se o teu código ficar desarrumado, ajuda o botão **Indentar** em cima na área Código.
+
+Com muitas chavetas de fecho `}` é fácil perder a noção: que chaveta pertence a que bloco? Um comentário a seguir diz-te, p. ex. `} // fim do if` e `} // fim do for`. Isto também ajuda quando continuares mais tarde.
 
 `quantidade++` é a forma curta de `quantidade = quantidade + 1`.
 

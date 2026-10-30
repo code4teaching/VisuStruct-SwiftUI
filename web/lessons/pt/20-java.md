@@ -98,9 +98,11 @@ public class Tabuada {
         System.out.println("Que tabuada?");
         int numero = scanner.nextInt();
         ...
-    }
-}
+    } // fim do main
+} // fim da classe
 ```
+
+Os comentários `// fim do main` e `// fim da classe` depois das duas últimas chavetas não são necessários, mas ajudam muito: vês logo que chaveta fecha o quê e não te esqueces de nenhuma.
 
 O nome da classe vem do **título** do diagrama. O ficheiro tem de ter exatamente o mesmo nome, aqui `Tabuada.java`. O **Guardar Java…** trata disso por ti.
 

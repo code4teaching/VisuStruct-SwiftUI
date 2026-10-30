@@ -98,9 +98,11 @@ public class TimesTable {
         System.out.println("Which times table?");
         int number = scanner.nextInt();
         ...
-    }
-}
+    } // end main
+} // end class
 ```
+
+The comments `// end main` and `// end class` after the last two brackets are not needed, but very helpful: you see at once which bracket closes what, and you don't forget one.
 
 The name of the class comes from the **title** of the diagram. The file must have exactly the same name, so here `TimesTable.java`. **Save Java…** takes care of that for you.
 

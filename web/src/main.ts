@@ -2,7 +2,7 @@ import './ui/styles.css'
 import { App, applyCanvasStubTexts } from './ui/app'
 import { installTooltips } from './ui/tooltip'
 import { preferredLanguage, setCodeKeywords, setLanguage, storedCodeKeywords } from './ui/i18n'
-import { setVisuObjectWorld, visuObjectWorld } from './ui/visubotView'
+import { setVisuFlowWorld, setVisuObjectWorld, visuFlowWorld, visuObjectWorld } from './ui/visubotView'
 
 // Nach einem Update kann eine noch offene oder zwischengespeicherte Seite Dateien der alten Version
 // nachladen wollen, die es nicht mehr gibt. Dann einmal neu laden statt leer zu bleiben.
@@ -51,11 +51,14 @@ Promise.all([setLanguage(language, false), setCodeKeywords(storedCodeKeywords(),
   .then(() => {
     applyCanvasStubTexts()
     installTooltips()
-    // Welt VisuObject (…/app/?visuobject) hat eine eigene Oberfläche; ?visustruct und ?visubot wählt die App selbst.
+    // Welten VisuObject (…/app/?visuobject) und VisuFlow (?visuflow) haben eine eigene Oberfläche; ?visustruct und ?visubot wählt die App selbst.
     const query = new URLSearchParams(location.search)
     if (query.has('visuobject')) setVisuObjectWorld()
+    if (query.has('visuflow')) setVisuFlowWorld()
     const root = document.getElementById('app')!
-    if (visuObjectWorld() && !query.has('visustruct') && !query.has('visubot')) return import('./ui/objectApp').then(({ ObjectApp }) => new ObjectApp(root))
+    const own = !query.has('visustruct') && !query.has('visubot')
+    if (visuObjectWorld() && own) return import('./ui/objectApp').then(({ ObjectApp }) => void new ObjectApp(root))
+    if (visuFlowWorld() && own) return import('./ui/flowApp').then(({ FlowApp }) => void new FlowApp(root))
     new App(root)
   })
   .then(() => {

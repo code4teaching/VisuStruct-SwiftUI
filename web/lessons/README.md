@@ -47,7 +47,7 @@ Eine Ausgabe mit Text in Anführungszeichen.
 ```
 
 Ein Java-Beispiel im Text mit Knopf „Im Editor öffnen“: Statt ```` ```java ```` schreibt man ```` ```java editor ````. Der Knopf
-öffnet das Beispiel in einem neuen Reiter, die Spalte Programmieren auf Java; dort kann man es ausführen und verändern.
+öffnet das Beispiel in einem neuen Reiter, die Spalte Code auf Java; dort kann man es ausführen und verändern.
 Der Test prüft, dass jedes solche Beispiel ohne Fehler geparst wird.
 
 Eine Übung, die VisuStruct beim Klick auf „Prüfen“ automatisch kontrolliert:

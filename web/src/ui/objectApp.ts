@@ -85,7 +85,7 @@ import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
 import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
 import { ObjectLayout } from './objectLayout'
-import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
+import { setVisuBotMode, setVisuFlowWorld, worldChooserHTML, type WorldChoice } from './visubotView'
 import { classSource, newWizard, type NewKind } from './objectNew'
 import { addFieldConstructor, addGettersSetters, addToString, classDoc, fieldInfo, paramsText, parseParams, setClassDoc, setField, setMethod, type FieldInfo, type MethodInfo } from '../core/memberEdit'
 import { freeProjectName, listProjects, readProject, safeFolderName, workspaceFolderName, writeProject, type Positions } from './objectWorkspace'
@@ -974,6 +974,11 @@ export class ObjectApp {
 
   private chooseWorld(world: WorldChoice) {
     if (world === 'object') return
+    if (world === 'flow') {
+      setVisuFlowWorld()
+      location.href = `${location.pathname}?visuflow${location.hash}`
+      return
+    }
     setVisuBotMode(world)
     location.href = `${location.pathname}?${world === 'on' ? 'visubot' : 'visustruct'}${location.hash}`
   }
