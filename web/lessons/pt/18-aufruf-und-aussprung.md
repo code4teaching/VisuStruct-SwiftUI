@@ -4,6 +4,19 @@ bereich: Fundamentos
 kurz: Dividir tarefas grandes em subprogramas e sair mais cedo dos ciclos.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- dividir uma tarefa grande em problemas mais pequenos
+- inserir uma chamada e construir um subprograma num separador próprio
+- passar valores a um subprograma com parâmetros
+- devolver um valor de retorno com return e guardá-lo ao chamar
+- explicar porque é que um subprograma não consegue alterar um número, mas consegue alterar um array
+- explicar o que faz uma Interrupção e porque está numa decisão
+- terminar um ciclo com uma Interrupção ou através da sua condição
+- reconhecer um método em Java e sair de um ciclo com `break`
+:::
+
 ## Dividir tarefas grandes
 
 Os estrutogramas compridos ficam depressa confusos. Por isso divides uma tarefa grande em **problemas mais pequenos**. Cada problema mais pequeno tem um nome próprio e um estrutograma próprio, um **subprograma**.
@@ -374,74 +387,86 @@ frage: O que aparece?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei dividir uma tarefa grande em problemas mais pequenos. → Dividir tarefas grandes
-- Sei inserir uma chamada e construir um subprograma num separador próprio. → A chamada
-- Sei passar valores a um subprograma com parâmetros. → Passar valores: parâmetros
-- Sei devolver um valor de retorno com return e guardá-lo ao chamar. → Devolver um resultado: return
-- Sei explicar porque é que um subprograma não consegue alterar um número, mas consegue alterar um array. → Cópia ou original: passagem por valor e passagem por referência
-- Sei o que faz uma Interrupção e porque está numa decisão. → A interrupção
-- Sei terminar um ciclo com uma Interrupção ou através da sua condição. → Interrupção na simulação
-- Reconheço um método em Java e sei sair de um ciclo com `break`. → Agora em Java
+- Consigo dividir uma tarefa grande em problemas mais pequenos. → Dividir tarefas grandes
+- Consigo inserir uma chamada e construir um subprograma num separador próprio. → A chamada
+- Consigo passar valores a um subprograma com parâmetros. → Passar valores: parâmetros
+- Consigo devolver um valor de retorno com return e guardá-lo ao chamar. → Devolver um resultado: return
+- Consigo explicar porque é que um subprograma não consegue alterar um número, mas consegue alterar um array. → Cópia ou original: passagem por valor e passagem por referência
+- Consigo explicar o que faz uma Interrupção e porque está numa decisão. → A interrupção
+- Consigo terminar um ciclo com uma Interrupção ou através da sua condição. → Interrupção na simulação
+- Consigo reconhecer um método em Java e sair de um ciclo com `break`. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que significa um bloco de chamada com o texto `mostrarResultado()`?
+→ A chamada
 - [ ] O programa termina aqui.
 - [x] O subprograma mostrarResultado() é executado aqui, e depois o programa continua.
 - [ ] A palavra mostrarResultado() é mostrada aqui.
 
 ? Onde continua o programa depois de uma Interrupção?
+→ A interrupção
 - [ ] No início do ciclo
 - [x] No primeiro bloco depois do ciclo
 - [ ] Logo no início do programa
 > A Interrupção sai do ciclo em que está. Em Java, Python e JavaScript chama-se break.
 
 ? Porque é que uma Interrupção costuma estar numa decisão?
+→ A interrupção
 - [x] Para só se sair do ciclo se uma condição se verificar
 - [ ] Porque senão uma Interrupção não pode ser guardada
 - [ ] Porque uma decisão é ela própria um ciclo
 > Sem decisão, sair-se-ia do ciclo logo na primeira iteração.
 
 ? Onde encontra a simulação o subprograma de uma chamada `mostrarResultado()`?
+→ A chamada
 - [ ] Tem de estar no mesmo estrutograma.
 - [x] Num separador aberto com o título mostrarResultado()
 - [ ] A simulação não consegue executar subprogramas.
 > Constrói cada subprograma num separador próprio e dá-lhe como título o nome da chamada.
 
 ? O subprograma tem a linha de cabeçalho `void mostrarSoma(int a, int b)`. Que chamada serve?
+→ Passar valores: parâmetros
 - [ ] mostrarSoma()
 - [x] mostrarSoma(3, 4)
 - [ ] int s = mostrarSoma(3, 4)
 > Dois parâmetros precisam de dois valores. E `void` quer dizer que não volta nada que pudesses guardar.
 
 ? Depois de `int q = quadrado(5)`, q tem 25. O que está no fim do subprograma quadrado?
+→ Devolver um resultado: return
 - [ ] output: x * x
 - [x] return x * x
 - [ ] q = x * x
 > Com return, o subprograma devolve o valor à chamada. Uma saída só o mostraria.
 
 ? `void duplicar(int x)` calcula `x = x * 2`. O programa principal tem `int numero = 5` e depois a chamada `duplicar(numero)`. Que valor tem numero a seguir?
+→ Cópia ou original: passagem por valor e passagem por referência
 - [x] 5
 - [ ] 10
 - [ ] 0
 > Passagem por valor: duplicar só alterou uma cópia de numero.
 
 ? `void limpar(boolean[] lugares)` põe todas as posições a false. O que é verdade para o array fila no programa principal depois de `limpar(fila)`?
+→ Cópia ou original: passagem por valor e passagem por referência
 - [ ] Não mudou, porque o subprograma recebe uma cópia.
 - [x] Todas as posições são false, porque lugares e fila são o mesmo array.
 - [ ] O array é apagado.
 > Passagem por referência: um array é passado como referência. Quem chamou também vê as alterações nas posições.
 
 ? Como se chama um subprograma em Java?
+→ Agora em Java
 - [ ] Classe
 - [x] Método
 - [ ] Ciclo
 > Em Java, um subprograma é um método, por exemplo o método `main`. Consoante o tipo, também se chama procedimento ou função.
 
 ? Muitos blocos têm um segundo nome nos manuais. Associa cada termo do VisuStruct ao seu outro nome.
+→ Agora em Java
 = Decisão -> Instrução condicional
 = Seleção -> Seleção múltipla
 = Ciclo -> Iteração
@@ -449,6 +474,7 @@ frage: O que aparece?
 > Os dois nomes querem dizer o mesmo. Se conheces um deles, também percebes o outro.
 
 ? O que fica no cabeçalho de um método Java que não devolve nada?
+→ Devolver um resultado: return
 - [ ] int
 - [x] void
 - [ ] return

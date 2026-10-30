@@ -4,6 +4,21 @@ bereich: Grundlagen
 kurz: Mit Texten arbeiten, also einzelne Zeichen lesen, Teile herausschneiden, suchen, vergleichen und zerlegen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden
+- mit `length()` und `charAt(i)` arbeiten
+- mit `substring` einen Teil aus einem Text schneiden
+- `indexOf`, `contains`, `toUpperCase` und `equals` anwenden
+- einen Text mit einer Schleife Zeichen für Zeichen durchgehen
+- einen Text mit `split` in ein String-Array zerlegen
+- in Java einen Text einlesen und mit `equals` vergleichen
+- weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt` anwenden
+- einen Text aus einer Datei mit `split("\n")` in Zeilen zerlegen
+- eine Methode in der Java-API nachschlagen und ihre Beschreibung lesen
+:::
+
 ## Text ist eine Reihe von Zeichen
 
 Einen `String` kennst du schon: `String name = "Ludwig"`. In der Informatik heißt so ein Text auch **Zeichenkette**, weil die Zeichen wie Perlen an einer Kette hintereinander hängen. Jedes Zeichen hat einen Platz mit einem Index, genau wie bei einem Array. Auch hier wird **ab 0 gezählt**: Das erste Zeichen ist 0 Schritte vom Anfang entfernt.
@@ -392,15 +407,17 @@ ende: Zora ist frei, und der Fuchs ist schnell davongelaufen. Das geheime Wort w
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass auch die Zeichen eines Strings ab 0 gezählt werden. → Text ist eine Reihe von Zeichen
+- Ich kann erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden. → Text ist eine Reihe von Zeichen
 - Ich kann mit `length()` und `charAt(i)` arbeiten. → Text ist eine Reihe von Zeichen
 - Ich kann mit `substring` einen Teil aus einem Text schneiden. → Teile herausschneiden
-- Ich kenne `indexOf`, `contains`, `toUpperCase` und `equals`. → Suchen und vergleichen
+- Ich kann `indexOf`, `contains`, `toUpperCase` und `equals` anwenden. → Suchen und vergleichen
 - Ich kann einen Text mit einer Schleife Zeichen für Zeichen durchgehen. → Zeichen für Zeichen
 - Ich kann einen Text mit `split` in ein String-Array zerlegen. → Zerlegen mit split
 - Ich kann in Java einen Text einlesen und mit `equals` vergleichen. → Jetzt in Java
-- Ich kenne weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt`. → Noch mehr Methoden
+- Ich kann weitere Methoden wie `lastIndexOf`, `replace`, `compareTo` und `Integer.parseInt` anwenden. → Noch mehr Methoden
 - Ich kann einen Text aus einer Datei mit `split("\n")` in Zeilen zerlegen. → Text aus einer Datei
 - Ich kann eine Methode in der Java-API nachschlagen und ihre Beschreibung lesen. → Die Java-API
 :::
@@ -409,41 +426,48 @@ ende: Zora ist frei, und der Fuchs ist schnell davongelaufen. Das geheime Wort w
 
 ::: quiz
 ? Was liefert `"Ludwig".charAt(1)`?
+→ Text ist eine Reihe von Zeichen
 - [ ] L
 - [x] u
 - [ ] d
 > Gezählt wird ab 0: L hat den Index 0, u den Index 1.
 
 ? Was liefert `"Struktogramm".substring(0, 6)`?
+→ Teile herausschneiden
 - [x] Strukt
 - [ ] Struktog
 - [ ] truktog
 > Die Zeichen mit den Indizes 0 bis 5. Das Ende 6 gehört nicht mehr dazu.
 
 ? Ein Wort hat 7 Zeichen. Welchen Index hat das letzte Zeichen?
+→ Text ist eine Reihe von Zeichen
 - [ ] 7
 - [x] 6
 - [ ] 8
 > Wie beim Array: immer eins weniger als die Länge.
 
 ? Wie vergleichst du in Java zwei Strings auf gleichen Inhalt?
+→ Suchen und vergleichen
 - [ ] a == b
 - [x] a.equals(b)
 - [ ] a = b
 
 ? Ordne jeder Methode zu, was sie bei `"Geißbock"` liefert.
+→ Suchen und vergleichen
 = length() -> 8
 = charAt(0) -> G
 = indexOf("bock") -> 4
 = substring(4) -> bock
 
 ? Welche Bedingung prüft in Java, ob in `eingabe` der Text Ludwig steht?
+→ Jetzt in Java
 - [ ] eingabe = "Ludwig"
 - [ ] eingabe == 'Ludwig'
 - [x] eingabe.equals("Ludwig")
 > Texte vergleichst du mit equals. Einfache Anführungszeichen sind nur für ein einzelnes Zeichen.
 
 ? Was liefert `Integer.parseInt("12") + 1`?
+→ Noch mehr Methoden
 - [ ] "121"
 - [x] 13
 - [ ] eine Fehlermeldung

@@ -4,6 +4,16 @@ bereich: Grundlagen
 kurz: Schritte wiederholen, solange eine Bedingung wahr ist.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, dass die While-Schleife ihre Bedingung vor jedem Durchlauf prüft
+- eine Zählvariable mit Startwert, Bedingung und Veränderung verwenden
+- erkennen, wenn eine Schleife nie endet, und den Fehler beheben
+- eine Schleife im Schreibtischtest Durchlauf für Durchlauf verfolgen
+- eine While-Schleife in Java schreiben
+:::
+
 ## Wiederholen, solange etwas gilt
 
 Oft soll ein Programm etwas mehrmals tun. Statt denselben Kasten fünfmal hinzuschreiben, nimmst du eine **Schleife**.
@@ -278,10 +288,12 @@ frage: Wie oft läuft der Rumpf?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass die While-Schleife ihre Bedingung vor jedem Durchlauf prüft. → Die Bedingung kommt zuerst
+- Ich kann erklären, dass die While-Schleife ihre Bedingung vor jedem Durchlauf prüft. → Die Bedingung kommt zuerst
 - Ich kann eine Zählvariable mit Startwert, Bedingung und Veränderung verwenden. → Eine Zählvariable
-- Ich erkenne, wenn eine Schleife nie endet, und kann den Fehler beheben. → Vorsicht, Endlosschleife
+- Ich kann erkennen, wenn eine Schleife nie endet, und den Fehler beheben. → Vorsicht, Endlosschleife
 - Ich kann eine Schleife im Schreibtischtest Durchlauf für Durchlauf verfolgen. → Schleifen im Schreibtischtest
 - Ich kann eine While-Schleife in Java schreiben. → Jetzt in Java
 :::
@@ -290,35 +302,41 @@ frage: Wie oft läuft der Rumpf?
 
 ::: quiz
 ? Was bedeutet kopfgesteuert?
+→ Die Bedingung kommt zuerst
 - [x] Die Bedingung wird vor jedem Durchlauf geprüft.
 - [ ] Die Bedingung wird nach jedem Durchlauf geprüft.
 - [ ] Die Schleife läuft immer genau einmal.
 > Der Kopf mit der Bedingung steht oben und wird zuerst ausgewertet.
 
 ? `int i = 5`, danach eine While-Schleife mit der Bedingung `i < 3`. Wie oft läuft der Inhalt?
+→ Die Bedingung kommt zuerst
 - [x] Keinmal
 - [ ] Einmal
 - [ ] Dreimal
 > Schon beim ersten Prüfen ist 5 < 3 falsch.
 
 ? Warum endet eine Schleife mit der Bedingung `zahl > 0` nie, wenn im Inhalt nur `output: zahl` steht?
+→ Vorsicht, Endlosschleife
 - [ ] Weil output die Zahl vergrößert
 - [x] Weil sich zahl nie ändert und die Bedingung wahr bleibt
 - [ ] Weil die Bedingung falsch geschrieben ist
 > Im Inhalt muss etwas passieren, das die Bedingung irgendwann falsch macht.
 
 ? Wie nennt man Schleifen in Schulbüchern auch?
+→ Die Bedingung kommt zuerst
 - [x] Wiederholungsstrukturen
 - [ ] Verzweigungen
 - [ ] Unterprogramme
 > Eine Schleife wiederholt Anweisungen. Darum heißt sie auch Wiederholungsstruktur.
 
 ? Eine Schleife soll von 1 bis 5 zählen, läuft aber nur bis 4. Was ist der wahrscheinliche Fehler?
+→ Eine Zählvariable
 - [x] In der Bedingung steht i < 5 statt i <= 5.
 - [ ] Die Schleife ist eine While-Schleife.
 - [ ] Die Variable i heißt falsch.
 
 ? Welche Zeile startet in Java eine While-Schleife richtig?
+→ Jetzt in Java
 - [ ] while zahl > 0 {
 - [x] while (zahl > 0) {
 - [ ] while (zahl > 0);

@@ -4,6 +4,17 @@ bereich: Fundamentos
 kurz: Perceber com cartas de jogar como funcionam a pesquisa linear, a pesquisa binária e o bubble sort, e porque é que alguns métodos são muito mais rápidos.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar como a pesquisa linear percorre um array
+- construir uma pesquisa linear como estrutograma
+- explicar porque é que a pesquisa binária só funciona com valores ordenados
+- explicar porque é que a pesquisa binária é muito mais rápida com muitos valores
+- mostrar uma ronda de bubble sort com cartas de jogar
+- percorrer um array em Java e contar resultados
+:::
+
 ## Procurar uma carta
 
 À tua frente está uma fila de cartas de jogar viradas para baixo. Procuras o 9. O que fazes? Viras uma carta a seguir à outra até encontrares o 9 ou teres virado todas as cartas.
@@ -262,53 +273,62 @@ frage: O bubble sort troca `cartas[i]` e `cartas[i + 1]`. De que precisa para is
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei explicar como a pesquisa linear percorre um array. → Procurar uma carta
-- Sei construir uma pesquisa linear como estrutograma. → Exercício: Encontrar uma carta
-- Sei porque é que a pesquisa binária só funciona com valores ordenados. → Pesquisa binária: ordenado é mais rápido
-- Sei explicar porque é que a pesquisa binária é muito mais rápida com muitos valores. → Quão rápido é?
-- Sei mostrar uma ronda de bubble sort com cartas de jogar. → Ordenar com bubble sort
-- Sei percorrer um array em Java e contar resultados. → Agora em Java
+- Consigo explicar como a pesquisa linear percorre um array. → Procurar uma carta
+- Consigo construir uma pesquisa linear como estrutograma. → Exercício: Encontrar uma carta
+- Consigo explicar porque é que a pesquisa binária só funciona com valores ordenados. → Pesquisa binária: ordenado é mais rápido
+- Consigo explicar porque é que a pesquisa binária é muito mais rápida com muitos valores. → Quão rápido é?
+- Consigo mostrar uma ronda de bubble sort com cartas de jogar. → Ordenar com bubble sort
+- Consigo percorrer um array em Java e contar resultados. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? De que precisa a pesquisa binária?
+→ Pesquisa binária: ordenado é mais rápido
 - [ ] O array tem de ter exatamente 100 posições.
 - [x] Os valores têm de estar ordenados.
 - [ ] O valor procurado tem de existir.
 > Só com valores ordenados é que sabes, depois de olhares para o meio, em que metade continuar a procurar.
 
 ? Um array ordenado tem 1000 valores. De quantas comparações precisa a pesquisa binária no máximo?
+→ Quão rápido é?
 - [ ] 500
 - [ ] 100
 - [x] 10
 > 1000 → 500 → 250 → 125 → 63 → 32 → 16 → 8 → 4 → 2 → 1: depois de cerca de 10 divisões a meio, resta um valor.
 
 ? O que compara o bubble sort em cada passo?
+→ Ordenar com bubble sort
 - [ ] A primeira e a última carta
 - [x] Duas cartas vizinhas
 - [ ] Cada carta com a do meio
 > Se a carta maior estiver à esquerda, os vizinhos são trocados.
 
 ? Onde está a carta maior depois da primeira ronda do bubble sort?
+→ Ordenar com bubble sort
 - [ ] Na ponta da esquerda
 - [ ] No meio
 - [x] Na ponta da direita
 > Vai sendo trocada em cada comparação e sobe para a direita como uma bolha.
 
 ? O que quer dizer `posicao = -1` na pesquisa linear?
+→ Procurar uma carta
 - [x] A carta (ainda) não foi encontrada.
 - [ ] A carta está mesmo lá atrás.
 - [ ] O array está vazio.
 
 ? Associa cada método à descrição certa.
+→ Procurar uma carta
 = Pesquisa linear -> olhar para uma carta a seguir à outra
 = Pesquisa binária -> olhar para o meio e pôr de lado uma metade
 = Bubble sort -> comparar vizinhos e trocá-los
 
 ? Porque usas um ciclo for para contar e não uma pesquisa que para no primeiro resultado?
+→ Agora em Java
 - [ ] Um ciclo for é sempre mais rápido.
 - [x] Tens de ver todas as cartas, senão faltam resultados mais à frente.
 - [ ] Um ciclo while não consegue percorrer arrays.

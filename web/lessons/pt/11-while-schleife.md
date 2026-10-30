@@ -4,6 +4,16 @@ bereich: Fundamentos
 kurz: Repetir passos enquanto uma condição for verdadeira.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar que o ciclo while verifica a sua condição antes de cada iteração
+- usar uma variável contadora com valor inicial, condição e alteração
+- notar quando um ciclo nunca acaba e corrigir o erro
+- seguir um ciclo iteração a iteração num teste de secretária
+- escrever um ciclo while em Java
+:::
+
 ## Repetir enquanto algo se verificar
 
 Muitas vezes um programa deve fazer uma coisa várias vezes. Em vez de escreveres o mesmo bloco cinco vezes, usas um **ciclo**.
@@ -278,47 +288,55 @@ frage: Quantas vezes corre o corpo?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei que o ciclo while verifica a sua condição antes de cada iteração. → Primeiro a condição
-- Sei usar uma variável contadora com valor inicial, condição e alteração. → Uma variável contadora
-- Noto quando um ciclo nunca acaba e sei corrigir o erro. → Atenção: ciclo infinito
-- Sei seguir um ciclo iteração a iteração num teste de secretária. → Ciclos num teste de secretária
-- Sei escrever um ciclo while em Java. → Agora em Java
+- Consigo explicar que o ciclo while verifica a sua condição antes de cada iteração. → Primeiro a condição
+- Consigo usar uma variável contadora com valor inicial, condição e alteração. → Uma variável contadora
+- Consigo notar quando um ciclo nunca acaba e corrigir o erro. → Atenção: ciclo infinito
+- Consigo seguir um ciclo iteração a iteração num teste de secretária. → Ciclos num teste de secretária
+- Consigo escrever um ciclo while em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que quer dizer ciclo pré-teste?
+→ Primeiro a condição
 - [x] A condição é verificada antes de cada iteração.
 - [ ] A condição é verificada depois de cada iteração.
 - [ ] O ciclo é sempre executado exatamente uma vez.
 > A cabeça com a condição está em cima e é avaliada primeiro.
 
 ? `int i = 5`, depois um ciclo while com a condição `i < 3`. Quantas vezes é executado o interior?
+→ Primeiro a condição
 - [x] Nenhuma
 - [ ] Uma vez
 - [ ] Três vezes
 > Logo da primeira vez que é verificado, 5 < 3 é falso.
 
 ? Porque é que um ciclo com a condição `numero > 0` nunca acaba se o interior só tiver `output: numero`?
+→ Atenção: ciclo infinito
 - [ ] Porque a saída aumenta o número
 - [x] Porque numero nunca muda e a condição fica sempre verdadeira
 - [ ] Porque a condição está mal escrita
 > No interior tem de acontecer algo que acabe por tornar a condição falsa.
 
 ? Que outros nomes têm os ciclos nos manuais?
+→ Primeiro a condição
 - [x] Iteração ou repetição
 - [ ] Decisões
 - [ ] Subprogramas
 > Um ciclo repete instruções. Por isso também se chama iteração ou estrutura de repetição.
 
 ? Um ciclo deve contar de 1 a 5, mas só vai até 4. Qual é o erro provável?
+→ Uma variável contadora
 - [x] A condição diz i < 5 em vez de i <= 5.
 - [ ] O ciclo é um ciclo while.
 - [ ] A variável i tem o nome errado.
 
 ? Que linha começa corretamente um ciclo while em Java?
+→ Agora em Java
 - [ ] while numero > 0 {
 - [x] while (numero > 0) {
 - [ ] while (numero > 0);
