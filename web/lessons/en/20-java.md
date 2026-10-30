@@ -119,12 +119,16 @@ Your file `TimesTable.java` is **source code**: text for people. The processor i
 2. The **JVM** (Java Virtual Machine) reads the bytecode and, while running it, translates it into **machine code**: instructions for the processor in your computer.
 
 ::: grafik l20-jvm.svg
+Compile once: the same bytecode runs on every JVM.
+:::
 
 There is only one bytecode. But there is a JVM for Windows, macOS, Linux and many other systems. That is why the same `.class` file runs on every computer that has a JVM installed. This is called **platform independent**. The slogan for it is **“Write once, run anywhere”**.
 
 Compare this with **C++**: there the compiler translates the source code directly into machine code for exactly one processor and one operating system. The finished program only runs there. For Windows, macOS and Linux you have to compile it again each time.
 
 ::: grafik l20-cpp.svg
+C++ is compiled to machine code separately for every system.
+:::
 
 | | C++ | Java |
 |---|---|---|
@@ -144,6 +148,22 @@ When you install Java you meet two abbreviations:
 | **JDK** (Java Development Kit) | the JRE plus the compiler `javac` and other tools | writing and compiling Java programs |
 
 So to program you need the JDK. Today you usually only download the JDK, the JRE is inside it. For VisuStruct in the browser you don't need to install any of this.
+
+::: profiwissen
+With a JDK you can do all of this yourself in the console, that is in the terminal or the command prompt:
+
+```
+java -version
+javac TimesTable.java
+java TimesTable
+```
+
+- `java -version` shows which Java version is installed. If you get an error message, Java is still missing.
+- `javac TimesTable.java` starts the compiler. Afterwards `TimesTable.class` is in the same folder.
+- `java TimesTable` starts the JVM with your bytecode. Here you write the class name without `.class`.
+
+If `java -version` works but `javac -version` doesn't, only a JRE is installed. Then you are missing the JDK.
+:::
 
 ::: angeberwissen
 Every compiled Java file (`.class`) starts with the same four bytes, written in hexadecimal: `CA FE BA BE`. That is how the computer recognises it as Java. James Gosling came up with this “cafe babe”, to go with the coffee in the name.

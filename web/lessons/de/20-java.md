@@ -119,12 +119,16 @@ Deine Datei `Einmaleins.java` ist **Quellcode**: Text für Menschen. Der Prozess
 2. Die **JVM** (Java Virtual Machine) liest den Bytecode und übersetzt ihn beim Ausführen in **Maschinencode**, also in Befehle für den Prozessor deines Computers.
 
 ::: grafik l20-jvm.svg
+Einmal kompilieren: Derselbe Bytecode läuft auf jeder JVM.
+:::
 
 Den Bytecode gibt es nur einmal. Die JVM gibt es dagegen für Windows, macOS, Linux und viele andere Systeme. Deshalb läuft dieselbe `.class`-Datei auf jedem Computer, auf dem eine JVM installiert ist. Das nennt man **plattformunabhängig**. Der Werbespruch dazu heißt **„Write once, run anywhere“**: einmal schreiben, überall ausführen.
 
 Zum Vergleich **C++**: Dort übersetzt der Compiler den Quellcode direkt in Maschinencode für genau einen Prozessor und ein Betriebssystem. Das fertige Programm läuft nur dort. Für Windows, macOS und Linux musst du es jeweils neu kompilieren.
 
 ::: grafik l20-cpp.svg
+C++ wird für jedes System einzeln zu Maschinencode kompiliert.
+:::
 
 | | C++ | Java |
 |---|---|---|
@@ -144,6 +148,22 @@ Beim Installieren begegnen dir zwei Abkürzungen:
 | **JDK** (Java Development Kit) | die JRE und dazu den Compiler `javac` und weitere Werkzeuge | Java-Programme schreiben und übersetzen |
 
 Zum Programmieren brauchst du also das JDK. Heute lädt man meist nur noch das JDK herunter, die JRE steckt darin. Für VisuStruct im Browser musst du nichts davon installieren.
+
+::: profiwissen
+Mit einem JDK kannst du alles auch selbst in der Konsole machen, also im Terminal oder in der Eingabeaufforderung:
+
+```
+java -version
+javac Einmaleins.java
+java Einmaleins
+```
+
+- `java -version` zeigt, welche Java-Version installiert ist. Kommt eine Fehlermeldung, fehlt Java noch.
+- `javac Einmaleins.java` startet den Compiler. Danach liegt `Einmaleins.class` im selben Ordner.
+- `java Einmaleins` startet die JVM mit deinem Bytecode. Den Klassennamen schreibst du hier ohne `.class`.
+
+Klappt `java -version`, aber `javac -version` nicht, ist nur eine JRE installiert. Dann fehlt dir das JDK.
+:::
 
 ::: angeberwissen
 Jede übersetzte Java-Datei (`.class`) beginnt mit denselben vier Bytes, in Hexadezimal geschrieben: `CA FE BA BE`. Daran erkennt der Computer, dass es Java ist. Das „Kaffee-Baby“ hat sich James Gosling ausgedacht, passend zum Kaffee im Namen.

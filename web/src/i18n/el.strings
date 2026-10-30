@@ -135,6 +135,7 @@
 "web_files_saved_fmt" = "Αποθηκεύτηκε: %@";
 "web_files_create" = "Δημιουργία";
 "web_learn_ludwig_tip" = "Η συμβουλή του Ludwig";
+"web_learn_pro" = "Γνώσεις για επαγγελματίες με τον Ludwig";
 "web_game_title" = "Παιχνίδι: Αληθές ή ψευδές;";
 "web_game_intro" = "Ο Ludwig σου δείχνει τιμές και μια συνθήκη. Είναι αληθής (true) ή ψευδής (false); Δέκα γύροι, όλο και δυσκολότεροι.";
 "web_game_start" = "Έναρξη παιχνιδιού";

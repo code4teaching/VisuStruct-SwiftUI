@@ -135,6 +135,7 @@
 "web_files_saved_fmt" = "נשמר: %@";
 "web_files_create" = "יצירה";
 "web_learn_ludwig_tip" = "הטיפ של לודוויג";
+"web_learn_pro" = "ידע של מקצוענים עם לודוויג";
 "web_game_title" = "משחק: אמת או שקר?";
 "web_game_intro" = "לודוויג מראה ערכים ותנאי. האם התנאי אמת (true) או שקר (false)? עשרה סבבים, כל פעם קשה יותר.";
 "web_game_start" = "התחלת המשחק";

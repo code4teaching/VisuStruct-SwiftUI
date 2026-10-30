@@ -168,6 +168,15 @@ Ben Shneiderman hatte die Idee 1972. [Mehr dazu](https://visustruct.org/de/angeb
 :::
 ```
 
+Ein Kasten „Profiwissen mit Ludwig“ sieht genauso aus, ist aber für Profi-Tipps über den Unterricht hinaus, zum Beispiel
+Befehle in der Konsole:
+
+```
+::: profiwissen
+`java -version` zeigt, welche Java-Version installiert ist.
+:::
+```
+
 Ein Spiel „Wahr oder falsch?“: oben die Variablen (`name: von..bis` für ganze Zahlen, `name: boolean`), darunter mit `?` die
 Bedingungen vom leichten zum schweren. Zehn Runden; Werte knapp an den Grenzen der Vergleiche kommen öfter vor:
 

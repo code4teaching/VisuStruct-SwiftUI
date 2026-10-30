@@ -135,6 +135,7 @@
 "web_files_saved_fmt" = "Guardado: %@";
 "web_files_create" = "Crear";
 "web_learn_ludwig_tip" = "El consejo de Ludwig";
+"web_learn_pro" = "Saber de profesional con Ludwig";
 "web_game_title" = "Juego: ¿Verdadero o falso?";
 "web_game_intro" = "Ludwig te muestra valores y una condición. ¿Es verdadera (true) o falsa (false)? Diez rondas, cada vez más difíciles.";
 "web_game_start" = "Empezar el juego";

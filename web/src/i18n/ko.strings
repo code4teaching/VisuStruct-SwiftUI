@@ -135,6 +135,7 @@
 "web_files_saved_fmt" = "저장됨: %@";
 "web_files_create" = "만들기";
 "web_learn_ludwig_tip" = "루트비히의 팁";
+"web_learn_pro" = "루트비히의 전문가 지식";
 "web_game_title" = "게임: 참일까 거짓일까?";
 "web_game_intro" = "루트비히가 값과 조건을 보여 줍니다. 조건이 참(true)일까요, 거짓(false)일까요? 10라운드, 점점 어려워집니다.";
 "web_game_start" = "게임 시작";
