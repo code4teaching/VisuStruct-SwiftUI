@@ -693,3 +693,43 @@ describe('Zeichenketten', () => {
     expect(state.notice?.kind).toBe('invalidExpression')
   })
 })
+
+describe('Pseudocode', () => {
+  const lesson = (name: string) => decodeDocument(readFileSync(join(__dirname, '..', 'lessons', 'diagramme', name), 'utf8'))
+
+  it('geht die Kästen von Lektion 1 ohne Fehler durch', () => {
+    for (const name of ['l1-tee.visustruct', 'l1-sequenz.visustruct', 'l1-grundbausteine.visustruct']) {
+      const state = runSimulation(lesson(name), ['true', 'false', 'false', 'false'])
+      expect(state.notice?.kind, name).toBe('finished')
+    }
+    expect(runSimulation(lesson('l1-tee.visustruct')).lastTrace).toBe('Teebeutel herausnehmen')
+  })
+
+  it('fragt bei einer Bedingung nach dem Weg', () => {
+    const branch = makeElement(ElementType.verzweigung, {
+      textLines: ['Regnet es?'],
+      cases: [
+        { name: 'true', elements: [stmt('Schirm mitnehmen')] },
+        { name: 'false', elements: [stmt('Sonnenbrille aufsetzen')] },
+      ],
+    })
+    const engine = new SimulationEngine({ caption: '', elements: [branch, stmt('Losgehen')], pseudocode: true })
+    engine.step()
+    expect(engine.state.inputRequest?.prompt).toBe('Regnet es? (true/false)')
+    engine.provideInput('vielleicht')
+    expect(engine.state.inputErrorNotice?.kind).toBe('booleanExpected')
+    engine.provideInput('nein')
+    engine.step()
+    expect(engine.state.lastTrace).toBe('Sonnenbrille aufsetzen')
+    engine.step()
+    expect(engine.message).toBe('Simulation finished.')
+  })
+
+  it('wiederholt, solange man true antwortet', () => {
+    const loop = makeElement(ElementType.whileSchleife, { textLines: ['Teller nicht leer?'] })
+    loop.loopBody = [stmt('Einen Bissen essen')]
+    const state = runSimulation({ caption: '', elements: [loop], pseudocode: true }, ['ja', 'ja', 'nein'])
+    expect(state.notice?.kind).toBe('finished')
+    expect(state.lastTrace).toBe('Teller nicht leer? -> false')
+  })
+})

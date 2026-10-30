@@ -176,4 +176,5 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_palette_show" = "显示元素";
 "web_code_scopes" = "代码块彩色显示";
 "web_code_scopes_hint" = "类、方法、循环、分支各有自己的框";
+"web_pseudocode" = "伪代码";
 `;export{e as default};

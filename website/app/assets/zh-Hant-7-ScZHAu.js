@@ -176,4 +176,5 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_palette_show" = "顯示元素";
 "web_code_scopes" = "程式碼區塊彩色顯示";
 "web_code_scopes_hint" = "類別、方法、迴圈、分支各有自己的框";
+"web_pseudocode" = "虛擬碼";
 `;export{e as default};

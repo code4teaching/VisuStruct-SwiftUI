@@ -65,6 +65,8 @@ export interface InputRequest {
   prompt: string
   /** Wie in Java hinter `System.out.print("Note: ")`: Die Eingabe steht in derselben Zeile wie diese Ausgabe. */
   continuesLine?: boolean
+  /** Pseudocode: Die Frage gehört zu einer Bedingung, die Antwort (true/false) entscheidet den Weg. */
+  decision?: boolean
 }
 
 /** Meldungen der Simulation, unabhängig von der Sprache. */
@@ -961,12 +963,17 @@ export class SimulationEngine {
   private peeking = false
   /** Messwerte des echten mBot2; fehlt ein Wert, gilt der simulierte aus `MBOT_SENSORS`. */
   robotSensors: MBotSensorValues = {}
+  /** Pseudocode: Kästen werden nur der Reihe nach gezeigt, Bedingungen beantwortet man selbst. */
+  private pseudocode: boolean
+  /** Pseudocode: Antwort auf die gerade gestellte Frage (Bedingung: true/false, Fallauswahl: Name des Falls). */
+  private decided?: boolean | string
 
   constructor(
     document: VSDocument,
     private resolveSubprogram: SubprogramResolver = () => undefined,
   ) {
     this.steps = buildSteps(document.elements)
+    this.pseudocode = !!document.pseudocode
   }
 
   /** Im Unterprogramm bleibt der Aufruf-Kasten im Hauptprogramm markiert. */
@@ -985,7 +992,11 @@ export class SimulationEngine {
   }
 
   reset(document?: VSDocument): void {
-    if (document) this.steps = buildSteps(document.elements)
+    if (document) {
+      this.steps = buildSteps(document.elements)
+      this.pseudocode = !!document.pseudocode
+    }
+    this.decided = undefined
     this.state = freshState()
     this.afterOutput = false
     this.nextFrame = 1
@@ -1003,6 +1014,11 @@ export class SimulationEngine {
     try {
       switch (step.kind) {
         case 'statement':
+          // Pseudocode ist kein Programm: Der Kasten wird nur gezeigt, nicht ausgeführt.
+          if (this.pseudocode) {
+            state.lastTrace = step.text
+            break
+          }
           if (/^return\b/u.test(step.text)) return this.executeReturn(step)
           this.executeStatement(step.text)
           break
@@ -1034,6 +1050,7 @@ export class SimulationEngine {
   provideInput(rawValue: string): void {
     const request = this.state.inputRequest
     if (!request) return
+    if (request.decision) return this.provideDecision(rawValue)
     try {
       const value = parseInputValue(rawValue, request.valueType)
       this.assignValue(value, request.variableName)
@@ -1046,6 +1063,42 @@ export class SimulationEngine {
     this.state.inputErrorNotice = undefined
     this.state.stepIndex += 1
     this.state.notice = this.finishedIfAtEnd()
+  }
+
+  /** Pseudocode: Antwort auf die Frage zur Bedingung, dann gleich den Weg nehmen (die Bedingung ist der Schritt). */
+  private provideDecision(rawValue: string): void {
+    if (this.state.inputRequest?.valueType === 'string') {
+      this.state.inputRequest = undefined
+      this.decided = rawValue.trim()
+      return this.step()
+    }
+    const answer = rawValue.trim().toLowerCase()
+    const yes = ['true', 'wahr', 'ja', 'yes', 'sim', 'verdadeiro'].includes(answer)
+    const no = ['false', 'falsch', 'nein', 'no', 'não', 'nao', 'falso'].includes(answer)
+    if (!yes && !no) {
+      this.state.inputErrorNotice = { kind: 'booleanExpected' }
+      return
+    }
+    this.state.inputRequest = undefined
+    this.state.inputErrorNotice = undefined
+    this.decided = yes
+    this.step()
+  }
+
+  /**
+   * Wert einer Bedingung. Bei Pseudocode (z. B. „Regnet es?“) fragt die Simulation: `undefined`, bis die Antwort da ist.
+   */
+  private condition(condition: string): boolean | undefined {
+    if (!this.pseudocode) return this.evaluateBool(condition)
+    const answer = this.decided
+    if (typeof answer === 'boolean') {
+      this.decided = undefined
+      return answer
+    }
+    this.state.inputRequest = { variableName: '', valueType: 'boolean', prompt: `${condition} (true/false)`, decision: true }
+    this.state.inputErrorNotice = undefined
+    this.state.notice = undefined
+    return undefined
   }
 
   private finishedIfAtEnd(): SimNotice | undefined {
@@ -1065,7 +1118,8 @@ export class SimulationEngine {
     const cases = step.cases
     if (!cases || cases.length < 2) throw unsupported(step.text)
     const condition = stripConditionKeyword(step.text)
-    const result = this.evaluateBool(condition)
+    const result = this.condition(condition)
+    if (result === undefined) return
     const selected = result ? 0 : 1
     const branchSteps = buildSteps(cases[selected].elements, [...step.path, selected], contextOf(step))
     this.splice(branchSteps)
@@ -1077,8 +1131,20 @@ export class SimulationEngine {
     const cases = step.cases
     if (!cases || cases.length === 0) throw unsupported(step.text)
     const selector = stripConditionKeyword(step.text)
-    const value = this.evaluateSwitchSelector(selector)
-    const selected = matchingCaseIndex(value, cases) ?? cases.length - 1
+    let selected: number
+    if (this.pseudocode) {
+      // Pseudocode: Man wählt den Fall selbst; unbekannte Antwort = letzter Fall (sonst).
+      const answer = this.decided
+      if (typeof answer !== 'string') {
+        const names = cases.map((c) => c.name).join(' / ')
+        this.state.inputRequest = { variableName: '', valueType: 'string', prompt: `${selector} (${names})`, decision: true }
+        this.state.notice = undefined
+        return
+      }
+      this.decided = undefined
+      const index = cases.findIndex((c) => c.name.trim().toLowerCase() === answer.toLowerCase())
+      selected = index >= 0 ? index : cases.length - 1
+    } else selected = matchingCaseIndex(this.evaluateSwitchSelector(selector), cases) ?? cases.length - 1
     const caseSteps = buildSteps(cases[selected].elements, [...step.path, selected], contextOf(step))
     this.splice(caseSteps)
     this.state.lastTrace = `${selector} -> ${cases[selected].name}`
@@ -1086,6 +1152,8 @@ export class SimulationEngine {
   }
 
   private executeForLoopStart(step: SimStep): void {
+    // Pseudocode wie „für jeden Gast“: eine Frage wie bei der kopfgesteuerten Schleife.
+    if (this.pseudocode) return this.splice([{ ...step, kind: 'whileLoop' }])
     const parts = normalizedForParts(step.forParts ?? [step.text])
     if (parts[0] !== '') this.executeStatement(parts[0])
     this.splice([{ ...contextOf(step), path: step.path, text: parts[1], kind: 'forLoopCondition', loopBody: step.loopBody, forParts: parts }])
@@ -1094,7 +1162,8 @@ export class SimulationEngine {
   private executeForLoopCondition(step: SimStep): void {
     const parts = normalizedForParts(step.forParts ?? [step.text])
     const condition = parts[1] === '' ? 'true' : parts[1]
-    const shouldEnter = this.evaluateBool(condition)
+    const shouldEnter = this.condition(condition)
+    if (shouldEnter === undefined) return
     this.state.lastTrace = `${condition} -> ${shouldEnter}`
     if (shouldEnter) {
       const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
@@ -1117,7 +1186,8 @@ export class SimulationEngine {
 
   private executeWhileLoop(step: SimStep): void {
     const condition = stripConditionKeyword(step.text)
-    const shouldEnter = this.evaluateBool(condition)
+    const shouldEnter = this.condition(condition)
+    if (shouldEnter === undefined) return
     this.state.lastTrace = `${condition} -> ${shouldEnter}`
     if (shouldEnter) {
       const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))
@@ -1137,7 +1207,8 @@ export class SimulationEngine {
 
   private executeDoUntilCondition(step: SimStep): void {
     const condition = stripConditionKeyword(step.text)
-    const shouldRepeat = this.evaluateBool(condition)
+    const shouldRepeat = this.condition(condition)
+    if (shouldRepeat === undefined) return
     this.state.lastTrace = `${condition} -> ${shouldRepeat}`
     if (shouldRepeat) {
       const bodySteps = buildSteps(step.loopBody ?? [], [...step.path, 0], contextOf(step))

@@ -312,6 +312,7 @@ export class App {
   private simPath?: number[]
   private sim!: SimulationPanel
   private simButton!: HTMLButtonElement
+  private pseudocodeBox!: HTMLInputElement
   private coding = false
   private code!: CodePanel
   private codeButton!: HTMLButtonElement
@@ -556,6 +557,7 @@ export class App {
         <button class="mbot-link" data-action="mbot-link" hidden></button>
         <button class="mbot-upload" data-action="mbot-upload" hidden data-tip="${e(t('web_visubot_upload_title'))}" aria-label="${e(t('web_visubot_upload_title'))}">⬆ ${e(t('web_visubot_upload_button'))}</button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
+        <label class="check pseudocode-toggle" data-tip="${e(t('codegen_pseudocode_toggle'))}"><input type="checkbox" data-action="pseudocode" /><span>${e(t('web_pseudocode'))}</span></label>
         <button class="icon editor-swap" data-action="swap-main" aria-pressed="false">⇄</button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
       </div>
@@ -589,6 +591,9 @@ export class App {
     this.deleteButton = $('[data-action=delete]')
     this.statusLine = $('.status')
     this.simButton = $('[data-action=simulate]')
+    // Pseudocode (z. B. „Wasserkocher einschalten“): kein Java, die Simulation fragt die Bedingungen.
+    this.pseudocodeBox = $<HTMLInputElement>('[data-action=pseudocode]')
+    this.pseudocodeBox.addEventListener('change', () => this.commit({ ...this.doc, pseudocode: this.pseudocodeBox.checked || undefined }))
     $('[data-action=hide-editor]').addEventListener('click', () => this.setEditorHidden(true))
     $('[data-action=swap-main]').addEventListener('click', () => this.setCodeMain(!this.codeMain))
     this.labelSwap()
@@ -1321,6 +1326,7 @@ export class App {
       width: Math.max(320, this.layout.canvasSize.width, Math.floor(host.clientWidth / z)),
       height: Math.max(240, this.layout.canvasSize.height + 60, Math.floor(host.clientHeight / z)),
     }
+    this.pseudocodeBox.checked = !!this.doc.pseudocode
     this.renderer.usesSimulationHighlight = this.simulating
     this.renderer.fillsSelection = this.liveCoding
     this.svg = this.renderer.render(this.layout, size, this.simulating ? this.simPath : this.selected)

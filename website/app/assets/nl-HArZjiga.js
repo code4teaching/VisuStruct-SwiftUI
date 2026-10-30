@@ -176,4 +176,5 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_palette_show" = "Elementen tonen";
 "web_code_scopes" = "Gekleurde codeblokken";
 "web_code_scopes_hint" = "Klasse, methode, lus, keuze in eigen kaders";
+"web_pseudocode" = "Pseudocode";
 `;export{e as default};

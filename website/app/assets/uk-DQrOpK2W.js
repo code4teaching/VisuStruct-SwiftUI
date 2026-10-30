@@ -176,4 +176,5 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_palette_show" = "Показати елементи";
 "web_code_scopes" = "Кольорові блоки коду";
 "web_code_scopes_hint" = "Клас, метод, цикл, розгалуження в окремих рамках";
+"web_pseudocode" = "Псевдокод";
 `;export{e as default};

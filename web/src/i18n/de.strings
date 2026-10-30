@@ -665,3 +665,4 @@
 "web_visuobject_method_ph" = "+ bellen(): void";
 "web_code_scopes" = "Blöcke farbig";
 "web_code_scopes_hint" = "Code und Struktogramm: Schleife rosa, Verzweigung blau, Methode gelb, Klasse grün";
+"web_pseudocode" = "Pseudocode";

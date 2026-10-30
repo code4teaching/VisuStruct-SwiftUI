@@ -176,3 +176,4 @@
 "web_palette_show" = "הצגת הרכיבים";
 "web_code_scopes" = "בלוקי קוד צבעוניים";
 "web_code_scopes_hint" = "מחלקה, מתודה, לולאה, הסתעפות בתיבות משלהן";
+"web_pseudocode" = "פסאודו-קוד";

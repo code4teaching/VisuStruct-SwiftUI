@@ -176,4 +176,5 @@ const e=`/* Testi presenti solo nella versione web. Tutto il resto proviene dai 
 "web_palette_show" = "Mostra elementi";
 "web_code_scopes" = "Blocchi di codice colorati";
 "web_code_scopes_hint" = "Classe, metodo, ciclo, selezione in riquadri propri";
+"web_pseudocode" = "Pseudocodice";
 `;export{e as default};
