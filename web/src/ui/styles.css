@@ -5284,3 +5284,79 @@ button.danger-text:not(:disabled) {
 .vo-obj-values td:last-child {
   width: 50%;
 }
+
+/* VisuObject-Debugger: Knöpfe, Eingabe in der Konsole, Aufrufstapel und Variablen im Inspektor. */
+.vo-dbg-controls {
+  display: inline-flex;
+  gap: 2px;
+}
+.vo-dbg-controls[hidden] {
+  display: none;
+}
+.vo-console-lines .vo-out-err {
+  color: #b3261e;
+}
+.vo-console-lines .vo-out-in {
+  color: var(--accent);
+  font-weight: 600;
+}
+.vo-console-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px 8px;
+  color: var(--accent);
+}
+.vo-console-input[hidden] {
+  display: none;
+}
+.vo-console-input input {
+  flex: 1;
+  font-size: 13px;
+  padding: 4px 6px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+}
+.vo-dbg {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(220px, 2fr);
+  gap: 12px;
+  padding: 8px 12px;
+}
+.vo-dbg h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.vo-dbg ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.vo-dbg-frame {
+  display: block;
+  width: 100%;
+  text-align: start;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.vo-dbg-frame.on {
+  background: var(--accent-soft);
+}
+.vo-dbg-frame small {
+  color: var(--muted);
+}
+.vo-dbg-vars tr.changed td {
+  background: rgba(255, 214, 10, 0.35);
+}
+@media (max-width: 760px) {
+  .vo-dbg {
+    grid-template-columns: 1fr;
+  }
+}
