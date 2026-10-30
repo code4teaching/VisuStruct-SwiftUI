@@ -4346,7 +4346,7 @@ button.danger-text:not(:disabled) {
   display: grid;
   align-content: start;
   gap: 8px;
-  max-height: 40vh;
+  height: 32vh;
   overflow: auto;
   padding: 8px 12px 10px;
   font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -4466,6 +4466,96 @@ button.danger-text:not(:disabled) {
 .vo-inspector .vo-danger svg {
   width: 15px;
   height: 15px;
+}
+.vo-insp-head {
+  position: sticky;
+  top: -8px;
+  z-index: 1;
+  margin-top: -8px;
+  padding-top: 8px;
+  background: var(--panel);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.vo-insp-head .vo-inspector-kind {
+  padding: 0;
+}
+.vo-insp-tabs {
+  display: flex;
+  gap: 2px;
+}
+.shell.visuobject .vo-insp-tabs button {
+  margin-bottom: -1px;
+  padding: 5px 12px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: none;
+  color: var(--muted);
+  font: 13px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+}
+.shell.visuobject .vo-insp-tabs button[aria-selected='true'] {
+  border-color: var(--border);
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 600;
+}
+.vo-members {
+  width: 100%;
+  border-collapse: collapse;
+}
+.vo-members th {
+  padding: 0 4px 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+}
+.vo-members td {
+  padding: 2px 4px;
+  vertical-align: middle;
+}
+.vo-members td.c {
+  width: 52px;
+  text-align: center;
+}
+.vo-members td:first-child {
+  width: 112px;
+}
+.vo-members td:last-child {
+  width: 32px;
+}
+.vo-members .icon svg {
+  width: 15px;
+  height: 15px;
+}
+.vo-doc textarea {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 780px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: 14px system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  resize: vertical;
+}
+.vo-insp-sep {
+  align-self: stretch;
+  width: 1px;
+  margin: 0 4px;
+  background: var(--border);
+}
+.vo-insp-label {
+  align-self: center;
+  color: var(--muted);
+  font-size: 12px;
 }
 .uml-class.selected {
   border-color: var(--accent);

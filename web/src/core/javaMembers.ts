@@ -135,6 +135,19 @@ const jtextfield: Row[] = [
 
 const array: Row[] = [['length', null, 'int', 'Anzahl der Elemente (ohne Klammern)', 'Number of elements (no brackets)', 'Número de elementos (sem parênteses)']]
 
+/** `E` = Typ der Elemente, z. B. `Spieler` bei `ArrayList<Spieler>`. */
+const arrayList: Row[] = [
+  ['add', 'wert', 'boolean', 'Element hinten anhängen', 'Append an element at the end', 'Acrescentar um elemento no fim'],
+  ['get', 'index', 'E', 'Element an Stelle index holen (ab 0)', 'Get the element at index (from 0)', 'Obter o elemento na posição index (a partir de 0)'],
+  ['size', '', 'int', 'Anzahl der Elemente', 'Number of elements', 'Número de elementos'],
+  ['set', 'index, wert', 'E', 'Element an Stelle index ersetzen', 'Replace the element at index', 'Substituir o elemento na posição index'],
+  ['remove', 'index', 'E', 'Element an Stelle index entfernen', 'Remove the element at index', 'Remover o elemento na posição index'],
+  ['contains', 'wert', 'boolean', 'Ist das Element in der Liste?', 'Is the element in the list?', 'O elemento está na lista?'],
+  ['indexOf', 'wert', 'int', 'Stelle des Elements (-1 = nicht da)', 'Position of the element (-1 = not found)', 'Posição do elemento (-1 = não existe)'],
+  ['isEmpty', '', 'boolean', 'Ist die Liste leer?', 'Is the list empty?', 'A lista está vazia?'],
+  ['clear', '', 'void', 'Alle Elemente entfernen', 'Remove all elements', 'Remover todos os elementos'],
+]
+
 /** Methoden an Objekten; Basisklassen über `extendsOf`. */
 const instance: Record<string, Row[]> = {
   Scanner: scanner,
@@ -154,6 +167,9 @@ const instance: Record<string, Row[]> = {
   JLabel: jlabel,
   JTextField: jtextfield,
   TextHolder: textHolder,
+  ArrayList: arrayList,
+  List: arrayList,
+  LinkedList: arrayList,
 }
 
 const extendsOf: Record<string, string[]> = {
@@ -284,8 +300,14 @@ function toMember(row: Row, lang: MemberLanguage): JavaMember {
   return { name, kind: params === null ? 'field' : 'method', params: !!params, returns, description: lang === 'de' ? de : lang === 'pt' ? pt : en }
 }
 
+/** `ArrayList<Spieler>` → `ArrayList`. */
+const baseType = (type: string) => type.replace(/<.*>$/, '')
+/** `ArrayList<Spieler>` → `Spieler`. */
+const elementType = (type: string) => /<\s*([^<>,]+?)\s*>$/.exec(type)?.[1]
+
 function rowsOf(type: string): Row[] | undefined {
   if (/\[\]$/.test(type)) return array
+  type = baseType(type)
   if (/Exception$|^Throwable$/.test(type)) return instance.Exception
   const own = instance[type]
   if (!own) return undefined
@@ -310,18 +332,19 @@ const declarationTypes = '[A-Z]\\w*|int|long|double|float|boolean|char|byte|shor
 
 /** Typ einer Variablen aus ihrer Deklaration: `Scanner eingabe`, `String[] namen`, `for (String s : namen)`, `catch (Exception e)`. */
 export function declaredType(code: string, name: string): string | undefined {
-  const re = new RegExp(`(?:^|[^\\w.])(${declarationTypes})\\s*(?:<[^<>;]*>)?((?:\\s*\\[\\s*\\])*)\\s+${name}\\s*(?:\\[\\s*\\])*\\s*(=\\s*([^;]*))?(?=[=;,):]|$)`, 'gm')
+  const re = new RegExp(`(?:^|[^\\w.])(${declarationTypes})\\s*(?:<([^<>;]*)>)?((?:\\s*\\[\\s*\\])*)\\s+${name}\\s*(?:\\[\\s*\\])*\\s*(=\\s*([^;]*))?(?=[=;,):]|$)`, 'gm')
   let type: string | undefined
   for (const m of code.matchAll(re)) {
     let t = m[1]
     if (t === 'var') {
-      const init = m[4] ?? ''
+      const init = m[5] ?? ''
       t = /^new\s+([A-Z]\w*)/.exec(init)?.[1] ?? (/^"/.test(init) ? 'String' : '')
       if (!t) continue
     }
     // Schlüsselwörter, die wie ein Typ aussehen könnten, nicht mitnehmen.
     if (/^(return|new|else|case|throw)$/.test(t)) continue
-    type = t + m[2].replace(/\s+/g, '')
+    const generic = m[2]?.replace(/\s+/g, '')
+    type = t + (generic ? `<${generic}>` : '') + (m[3] ?? '').replace(/\s+/g, '')
   }
   return type
 }
@@ -408,22 +431,42 @@ function chainStart(line: string, end: number): number {
 
 const withoutIndex = (type: string, n: number) => type.slice(0, Math.max(0, type.length - 2 * n))
 
-function memberType(type: string, name: string, isStatic: boolean): string | undefined {
+/**
+ * Eigene Klassen aus dem Projekt (VisuObject): `s1.` → Methoden und Attribute von `Spieler`,
+ * `Spieler.` → seine static-Mitglieder, `this.` → die Klasse, in der man schreibt.
+ * Was von der Stelle aus nicht sichtbar ist (private, Package), lässt der Aufrufer schon weg.
+ */
+export interface OwnTypes {
+  members(type: string): JavaMember[] | undefined
+  statics(type: string): JavaMember[] | undefined
+  /** Klasse, in der der Cursor steht (für `this.`). */
+  thisType?: string
+}
+
+function lookup(type: string, isStatic: boolean, own: OwnTypes | undefined, lang: MemberLanguage): JavaMember[] | undefined {
+  const mine = isStatic ? own?.statics(baseType(type)) : own?.members(baseType(type))
+  if (mine) return mine
   const rows = isStatic ? statics[type] : rowsOf(type)
-  return rows?.find((r) => r[0] === name)?.[2]
+  return rows?.map((r) => toMember(r, lang))
+}
+
+function memberType(type: string, name: string, isStatic: boolean, own: OwnTypes | undefined): string | undefined {
+  const returns = lookup(type, isStatic, own, 'en')?.find((m) => m.name === name)?.returns
+  return returns === 'E' ? (elementType(type) ?? 'Object') : returns
 }
 
 /** Typ des Ausdrucks vor dem Punkt, z. B. `eingabe` → Scanner, `eingabe.nextLine()` → String. */
-export function receiverType(code: string, receiver: string): { type: string; isStatic: boolean } | undefined {
+export function receiverType(code: string, receiver: string, own?: OwnTypes): { type: string; isStatic: boolean } | undefined {
   const chain = parseChain(receiver)
   if (!chain) return undefined
   const [first, ...rest] = chain.links
   let type: string | undefined
   let isStatic = false
   if (chain.head === '"') type = 'String'
+  else if (first.name === 'this' && own?.thisType && !first.call && !first.indices) type = own.thisType
   else {
     type = declaredType(code, first.name)
-    if (!type && statics[first.name] && !first.call) {
+    if (!type && (statics[first.name] || own?.statics(first.name)) && !first.call) {
       type = first.name
       isStatic = true
     }
@@ -431,7 +474,7 @@ export function receiverType(code: string, receiver: string): { type: string; is
     if (first.indices) type = withoutIndex(type, first.indices)
   }
   for (const link of rest) {
-    const next = memberType(type, link.name, isStatic)
+    const next = memberType(type, link.name, isStatic, own)
     if (!next) return undefined
     type = withoutIndex(next, link.indices)
     isStatic = false
@@ -443,7 +486,7 @@ export function receiverType(code: string, receiver: string): { type: string; is
  * Vorschläge an der Stelle `pos`, wenn direkt davor `ausdruck.` (plus angefangener Name) steht.
  * `from` ist der Anfang des angefangenen Namens hinter dem Punkt.
  */
-export function memberCompletionsAt(code: string, pos: number, lang: MemberLanguage = 'de'): { from: number; members: JavaMember[] } | undefined {
+export function memberCompletionsAt(code: string, pos: number, lang: MemberLanguage = 'de', own?: OwnTypes): { from: number; members: JavaMember[] } | undefined {
   const lineStart = code.lastIndexOf('\n', pos - 1) + 1
   const before = code.slice(lineStart, pos)
   const m = /\.\s*(\w*)$/.exec(before)
@@ -451,9 +494,10 @@ export function memberCompletionsAt(code: string, pos: number, lang: MemberLangu
   const dot = m.index
   const receiver = before.slice(chainStart(before, dot), dot)
   if (!receiver || /^\d/.test(receiver)) return undefined
-  const found = receiverType(code, receiver)
+  const found = receiverType(code, receiver, own)
   if (!found) return undefined
-  const rows = found.isStatic ? statics[found.type] : rowsOf(found.type)
-  if (!rows) return undefined
-  return { from: pos - m[1].length, members: rows.map((r) => toMember(r, lang)) }
+  const members = lookup(found.type, found.isStatic, own, lang)
+  if (!members) return undefined
+  const element = elementType(found.type) ?? 'Object'
+  return { from: pos - m[1].length, members: members.map((x) => (x.returns === 'E' ? { ...x, returns: element } : x)) }
 }

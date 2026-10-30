@@ -17,6 +17,7 @@ import {
   umlText,
   type UmlClass,
   type UmlMember,
+  type Visibility,
 } from '../core/classModel'
 import {
   addFile,
@@ -74,9 +75,13 @@ import { gearIcon } from './app'
 import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
+import type { OwnTypes } from '../core/javaMembers'
+import { ownTypes } from '../core/ownTypes'
+import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
 import { ObjectLayout } from './objectLayout'
 import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
 import { classSource, newWizard, type NewKind } from './objectNew'
+import { addFieldConstructor, addGettersSetters, addToString, classDoc, fieldInfo, paramsText, parseParams, setClassDoc, setField, setMethod, type FieldInfo, type MethodInfo } from '../core/memberEdit'
 import { freeProjectName, listProjects, readProject, safeFolderName, workspaceFolderName, writeProject, type Positions } from './objectWorkspace'
 import { canPickFolder, pickFolder, reopenFolder, storedFolder, type WsDir } from './workspaceStore'
 
@@ -86,6 +91,8 @@ import { canPickFolder, pickFolder, reopenFolder, storedFolder, type WsDir } fro
  * Tippen baut das Diagramm neu, eine Änderung im Diagramm schreibt nur die betroffene Stelle im Code neu.
  * Siehe docs/visuobject/PLAN.md.
  */
+
+declare const __APP_VERSION__: string
 
 const projectKey = 'visuobject.project'
 /** Stufe 1 hatte nur eine Datei. */
@@ -183,7 +190,6 @@ export class ObjectApp {
   /** Der Klick nach einem Werkzeug-Einsatz wählt nichts aus. */
   private suppressClick = false
   /** `Klasse.attribut` aller Attribute, die als Rolle an einer Linie stehen. */
-  private roleFields = new Set<string>()
   private treeSelection?: NodeId
   private open = new Map<NodeId, boolean>()
   private history: string[] = []
@@ -262,6 +268,9 @@ export class ObjectApp {
               <h3>${e(t('web_visubot_world_title'))}</h3>
               ${worldChooserHTML()}
             </section>
+            <footer>
+              <span class="settings-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</span>
+            </footer>
           </div>
         </div>
       </header>
@@ -412,6 +421,7 @@ export class ObjectApp {
         }),
         breakpointLine: () => undefined,
         onBreakpoints: () => undefined,
+        ownTypes: (pos) => this.ownTypesAt(pos),
       },
       t('web_visuobject_code'),
     )
@@ -641,6 +651,19 @@ export class ObjectApp {
       this.render()
       this.renderTree()
     }
+  }
+
+  /** Eigene Klassen für Vorschläge nach dem Punkt; die offene Datei frisch aus dem Editor gelesen. */
+  private ownTypesAt(pos: number): OwnTypes | undefined {
+    const file = this.activeFile
+    if (!file) return undefined
+    const text = this.editor.view.state.doc.toString()
+    const pkg = barePackage(packageOf(file.path))
+    const mine = parseClasses(text).map((c) => ({ ...c, pkg }))
+    const names = new Set(mine.map((c) => c.name))
+    const here = mine.find((c) => c.headerFrom <= pos && pos <= c.bodyEnd)
+    const lang = currentLanguage() === 'de' ? 'de' : currentLanguage() === 'pt-PT' ? 'pt' : 'en'
+    return ownTypes([...mine, ...this.classes.filter((c) => c.path !== file.path && !names.has(c.name))], { cls: here?.name, pkg }, lang)
   }
 
   private findClass(name: string): ProjectClass | undefined {
@@ -944,7 +967,7 @@ export class ObjectApp {
     this.selection = { cls: name }
     this.open.set(`root:${root}`, true)
     this.open.set(`pkg:${key}`, true)
-    this.setProject(addFile(this.project, path, classSource(result.options!)), path)
+    this.setProject(addFile(this.project, path, this.sectioned(classSource(result.options!), name)), path)
     const cls = this.findClass(name)
     if (cls) this.showInCode(cls)
     this.canvas.querySelector<HTMLElement>(`.uml-class[data-class="${CSS.escape(name)}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
@@ -1036,7 +1059,7 @@ export class ObjectApp {
     const path = pathFor(pkg, `${name}.java`)
     this.selection = { cls: name }
     this.open.set(`pkg:${pkg}`, true)
-    this.setProject(addFile(this.project, path, classFileText(pkg, name, kind)), path)
+    this.setProject(addFile(this.project, path, this.sectioned(classFileText(pkg, name, kind), name)), path)
     this.savePositions()
     const cls = this.findClass(name)
     if (cls) this.showInCode(cls)
@@ -1091,7 +1114,7 @@ export class ObjectApp {
       if (!line) return this.message(t('web_visuobject_bad_line', text))
       // „+ Attribut“ ohne Klammern bleibt ein Attribut, „+ Methode“ ohne Klammern wird eine Methode.
       const typed = add === 'method' && line.kind === 'field' ? `${text}()` : text
-      this.changeFile(cls.path, (s) => addMember(s, cls, typed), { cls: cls.name })
+      this.changeFile(cls.path, (s) => this.sorted(addMember(s, cls, typed), cls.name), { cls: cls.name })
       return
     }
     const index = Number(target.dataset.member)
@@ -1514,7 +1537,6 @@ export class ObjectApp {
       this.drawLines()
       return
     }
-    this.roleFields = new Set(associations(this.classes, this.project.uml).flatMap((r) => [r.key, ...(r.back ? [r.back.key] : [])]))
     const boxes = new Map<string, HTMLElement>()
     for (const cls of this.classes) {
       if (boxes.has(cls.name)) continue
@@ -1541,8 +1563,8 @@ export class ObjectApp {
       const cls2 = `uml-member${m.isStatic ? ' static' : ''}${m.isAbstract ? ' abstract' : ''}${sel?.member === i ? ' selected' : ''}`
       return `<li class="${cls2}" data-member="${i}" data-value="${e(text)}">${e(text)}</li>`
     }
-    // Attribute, die auf eine andere Klasse zeigen, sind in UML die Rolle an der Linie, nicht im Kasten.
-    const fields = cls.members.map((m, i) => (m.kind === 'field' && !this.roleFields.has(relationKey(cls.name, m.name)) ? row(m, i) : '')).join('')
+    // Referenzattribute bleiben im Kasten, wie in Astah; die Linie trägt keine Rolle.
+    const fields = cls.members.map((m, i) => (m.kind === 'field' ? row(m, i) : '')).join('')
     const methods = cls.members.map((m, i) => (m.kind !== 'field' ? row(m, i) : '')).join('')
     const add = (kind: 'field' | 'method') =>
       sel ? `<li class="uml-add" data-add="${kind}">${e(t(kind === 'field' ? 'web_visuobject_add_field' : 'web_visuobject_add_method'))}</li>` : ''
@@ -1693,7 +1715,7 @@ export class ObjectApp {
       const b = boxes.get(g.to)
       if (a && b && a !== b) parts.push(this.generalizationSVG(g, a, b, offset(g.from, g.to)))
     }
-    for (const r of assocs) {
+    for (const r of this.shownAssociations(assocs)) {
       const a = boxes.get(r.from)
       const b = boxes.get(r.to)
       if (a && b && a !== b) parts.push(this.associationSVG(r, a, b, offset(r.from, r.to)))
@@ -1796,7 +1818,29 @@ export class ObjectApp {
    * an jedem Ende Multiplizität und Rolle gleich weit von der Klasse auf beiden Seiten der Linie,
    * in der Mitte der Name mit Leserichtung.
    */
-  private associationSVG(r: Assoc, a: HTMLElement, b: HTMLElement, offset: number): string {
+  /**
+   * Wie Astah: Stehen die Referenzattribute im Kasten, gibt es je Klassenpaar nur eine Linie,
+   * ohne Rollen (das Attribut steht ja im Kasten). Vorne steht die Linie mit Name oder anderem UML-Zusatz.
+   * Bei mehreren Attributen (p1, p2, p3) entfallen auch die Multiplizitäten.
+   */
+  private shownAssociations(assocs: Assoc[]): (Assoc & { several?: boolean })[] {
+    const pairs = new Map<string, Assoc[]>()
+    for (const r of assocs) {
+      const key = [r.from, r.to].sort().join('|')
+      pairs.set(key, [...(pairs.get(key) ?? []), r])
+    }
+    return [...pairs.values()].map((group) => {
+      const info = (r: Assoc) => (r.name ? 2 : 0) + (r.kind !== 'association' || r.navTo !== 'navigable' || r.navFrom !== (r.back ? 'navigable' : 'unspecified') ? 1 : 0)
+      const main = [...group].sort((x, y) => info(y) - info(x))[0]
+      const toward = (from: string) => group.filter((r) => r.from === from).length + group.filter((r) => r.back && r.to === from).length
+      const several = toward(main.from) > 1 || toward(main.to) > 1
+      // Gibt es auch Attribute in der Gegenrichtung, ist auch dieses Ende navigierbar.
+      const backward = group.some((r) => r.from === main.to)
+      return { ...main, navFrom: backward && main.navFrom === 'unspecified' ? 'navigable' : main.navFrom, several }
+    })
+  }
+
+  private associationSVG(r: Assoc & { several?: boolean }, a: HTMLElement, b: HTMLElement, offset: number): string {
     const { from, to, length, u, n } = this.segment(a, b, offset)
     const id = `assoc:${r.key}`
     const selected = this.relSelection === id ? ' selected' : ''
@@ -1824,7 +1868,7 @@ export class ObjectApp {
       const base = flat ? { x: at.x + dir.x * 8, y: at.y + dir.y * 8 } : { x: at.x + dir.x * along, y: at.y + dir.y * along }
       const text = (side: number, value: string | undefined, cls: 'mult' | 'role') => {
         const empty = !value
-        if (empty && !selected) return ''
+        if (empty && (!selected || cls === 'role')) return ''
         const x = base.x + n.x * side
         const y = base.y + n.y * side
         const anchor = flat ? (dir.x > 0 ? 'start' : 'end') : n.x * side > 0 ? 'start' : 'end'
@@ -1838,8 +1882,9 @@ export class ObjectApp {
     }
     const room = Math.min(30, length / 3)
     // Rolle mit Sichtbarkeit, denn das Attribut steht nicht mehr im Kasten.
-    svg += end(to, { x: -u.x, y: -u.y }, room, 'b', r.multiplicity, `${r.field.visibility}${r.role}`)
-    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, 'a', r.sourceMultiplicity, r.back ? `${r.back.field.visibility}${r.back.field.name}` : r.sourceRole)
+    // Attribute stehen im Kasten: an der Linie nur die Multiplizität (bei p1, p2, p3 keine).
+    svg += end(to, { x: -u.x, y: -u.y }, room, 'b', r.several ? undefined : r.multiplicity)
+    svg += end(from, u, diamond ? Math.min(42, length / 3) : room, 'a', r.several ? undefined : r.sourceMultiplicity)
     if (r.name) {
       // Leserichtung als Dreieck, das in Richtung der gelesenen Klasse zeigt.
       const dir = r.reading === 'backward' ? { x: -u.x, y: -u.y } : u
@@ -1907,9 +1952,24 @@ export class ObjectApp {
   private editClass(project: JavaProject, name: string, run: (text: string, cls: UmlClass) => string): JavaProject {
     for (const f of project.files) {
       const cls = parseClasses(f.text).find((c) => c.name === name)
-      if (cls) return updateFile(project, f.path, run(f.text, cls))
+      if (cls) return updateFile(project, f.path, this.sorted(run(f.text, cls), name))
     }
     return project
+  }
+
+  private sectionLabels(): SectionLabels {
+    return { fields: t('web_visuobject_section_fields'), refs: t('web_visuobject_section_refs'), ctors: t('web_visuobject_section_ctors'), methods: t('web_visuobject_section_methods') }
+  }
+
+  /** Neue Mitglieder unter den passenden Abschnitts-Kommentar (nur wenn die Klasse welche hat). */
+  private sorted(text: string, name: string): string {
+    return keepSections(text, name, new Set(this.classes.map((c) => c.name)), this.sectionLabels())
+  }
+
+  /** Neue Klasse gleich mit `// Attribute`, `// Referenzattribute`, `// Konstruktor`, `// Methoden`. */
+  private sectioned(text: string, name: string): string {
+    const cls = parseClasses(text).find((c) => c.name === name)
+    return cls ? withSections(text, cls, new Set([...this.classes.map((c) => c.name), name]), this.sectionLabels()) : text
   }
 
   private fieldOf(cls: UmlClass, name: string) {
@@ -2236,61 +2296,195 @@ export class ObjectApp {
     })
   }
 
-  /** Klasse im Inspektor: Name, Modifier, abstract/final, Oberklasse, Interfaces – geschrieben wird in den Code. */
+  /** Gewählter Reiter im Klassen-Inspektor. */
+  private classTab: 'class' | 'fields' | 'methods' = 'class'
+
+  /**
+   * Klassen-Inspektor wie in Eclipse/Astah mit drei Reitern: Klasse (Name, Package, Modifier, Oberklasse,
+   * Interfaces, Javadoc), Attribute und Methoden als Tabellen, dazu die Erzeuger aus „Source“.
+   * Jede Änderung schreibt sofort an die passende Stelle im Code.
+   */
   private renderClassInspector(cls: ProjectClass) {
-    const focused = this.inspector.contains(document.activeElement) ? (document.activeElement as HTMLElement).dataset.field : undefined
+    const active = document.activeElement as HTMLElement | null
+    const focused = this.inspector.contains(active) ? (active?.dataset.field ? `${active.dataset.row ?? ''}|${active.dataset.field}` : undefined) : undefined
     const text = this.project.files.find((f) => f.path === cls.path)?.text ?? ''
     const mods = classModifiers(text, cls)
     const isClass = cls.kind === 'class'
     const option = (value: string, label: string, on: boolean) => `<option value="${e(value)}"${on ? ' selected' : ''}>${e(label)}</option>`
-    const supers = this.classes.filter((c) => c.kind === 'class' && c.name !== cls.name)
-    const ifaces = this.classes.filter((c) => c.kind === 'interface' && c.name !== cls.name)
-    this.inspector.dataset.rel = `class:${cls.name}`
-    this.inspector.innerHTML = `
+    const visOptions = (v: Visibility, withPackage = true) =>
+      (['+', '-', '#', '~'] as const)
+        .filter((x) => withPackage || x !== '~')
+        .map((x) => option(x, `${x} ${{ '+': 'public', '-': 'private', '#': 'protected', '~': 'package' }[x]}`, x === v))
+        .join('')
+    const fields = cls.members.map((m, i) => ({ m, i })).filter((x) => x.m.kind === 'field')
+    const methods = cls.members.map((m, i) => ({ m, i })).filter((x) => x.m.kind !== 'field')
+    const tab = (id: typeof this.classTab, label: string) => `<button role="tab" data-class-tab="${id}" aria-selected="${this.classTab === id}">${e(label)}</button>`
+    const types = `<datalist id="vo-types">${['int', 'double', 'boolean', 'char', 'long', 'String', ...this.classes.map((c) => c.name), ...this.classes.map((c) => `ArrayList<${c.name}>`)].map((x) => `<option value="${e(x)}">`).join('')}</datalist>`
+    let body = ''
+    if (this.classTab === 'class') {
+      const supers = this.classes.filter((c) => c.kind === 'class' && c.name !== cls.name)
+      const ifaces = this.classes.filter((c) => c.kind === 'interface' && c.name !== cls.name)
+      const here = packageOf(cls.path)
+      const places = sourceFoldersOf(this.project).flatMap((root) => {
+        const list = packagesOf(this.project, root)
+        return list.includes(packageKey(root, '')) ? list : [...list, packageKey(root, '')]
+      })
+      body = `
       <div class="vo-inspector-row">
-        <p class="vo-inspector-kind">${e(t(isClass ? 'web_visuobject_new_class' : 'web_visuobject_new_interface'))}</p>
         <label>${e(t('web_visuobject_new_name'))}<input data-field="name" value="${e(cls.name)}" spellcheck="false" autocomplete="off"></label>
+        <label>${e(t('web_visuobject_new_package'))}<select data-field="package">${places.map((k) => option(k, `${rootOf(k)} › ${barePackage(k) || t('web_visuobject_default_package')}`, k === here)).join('')}</select></label>
         <label>${e(t('web_visuobject_new_modifiers'))}<select data-field="visibility">${option('public', 'public', mods.isPublic)}${option('package', t('web_visuobject_new_package_private'), !mods.isPublic)}</select></label>
         ${isClass ? `<label class="check"><input type="checkbox" data-field="abstract"${cls.isAbstract ? ' checked' : ''}> abstract</label><label class="check"><input type="checkbox" data-field="final"${mods.isFinal ? ' checked' : ''}> final</label>` : ''}
-        <button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button>
       </div>
       <div class="vo-inspector-row">
         ${isClass ? `<label>${e(t('web_visuobject_new_superclass'))}<select data-field="superclass">${option('', 'java.lang.Object', !cls.superclass)}${supers.map((c) => option(c.name, c.pkg ? `${c.name} (${c.pkg})` : c.name, c.name === cls.superclass)).join('')}</select></label>` : ''}
-        ${
-          ifaces.length
-            ? `<fieldset class="vo-inspector-ifaces"><legend>${e(t(isClass ? 'web_visuobject_new_interfaces' : 'web_visuobject_new_extends_interfaces'))}</legend>${ifaces.map((c) => `<label class="check"><input type="checkbox" data-field="iface" value="${e(c.name)}"${cls.interfaces.includes(c.name) ? ' checked' : ''}> ${e(c.name)}</label>`).join('')}</fieldset>`
-            : ''
-        }
+        ${ifaces.length ? `<fieldset class="vo-inspector-ifaces"><legend>${e(t(isClass ? 'web_visuobject_new_interfaces' : 'web_visuobject_new_extends_interfaces'))}</legend>${ifaces.map((c) => `<label class="check"><input type="checkbox" data-field="iface" value="${e(c.name)}"${cls.interfaces.includes(c.name) ? ' checked' : ''}> ${e(c.name)}</label>`).join('')}</fieldset>` : ''}
       </div>
-      <p class="vo-inspector-empty">${e(t('web_visuobject_class_inspector_hint', diskPath(cls.path)))}</p>`
+      <label class="vo-doc">${e(t('web_visuobject_insp_doc'))}<textarea data-field="doc" rows="2" spellcheck="true" placeholder="${e(t('web_visuobject_insp_doc_ph'))}">${e(classDoc(text, cls))}</textarea></label>
+      <div class="vo-inspector-row">${isClass ? `<button class="text-button" data-inspector="sections" data-tip="${e(t('web_visuobject_insp_sections_tip'))}">${e(t(hasSections(text, cls) ? 'web_visuobject_insp_sort' : 'web_visuobject_insp_sections'))}</button>` : ''}<button class="text-button vo-danger" data-inspector="delete-class">${icons.trash} ${e(t('web_visuobject_delete_class'))}</button></div>`
+    } else if (this.classTab === 'fields') {
+      const rows = fields
+        .map(({ m, i }) => {
+          const f = fieldInfo(text, m)
+          return `<tr data-member-row="${i}">
+            <td><select data-row="${i}" data-field="f-vis" aria-label="${e(t('web_visuobject_insp_visibility'))}">${visOptions(f.visibility)}</select></td>
+            <td><input data-row="${i}" data-field="f-name" value="${e(f.name)}" spellcheck="false" autocomplete="off" aria-label="${e(t('web_visuobject_new_name'))}"></td>
+            <td><input data-row="${i}" data-field="f-type" value="${e(f.type)}" list="vo-types" spellcheck="false" autocomplete="off" aria-label="${e(t('web_visuobject_insp_type'))}"></td>
+            <td class="c"><input type="checkbox" data-row="${i}" data-field="f-static"${f.isStatic ? ' checked' : ''} aria-label="static"></td>
+            <td class="c"><input type="checkbox" data-row="${i}" data-field="f-final"${f.isFinal ? ' checked' : ''} aria-label="final"${m.shared ? ' disabled' : ''}></td>
+            <td><input data-row="${i}" data-field="f-init" value="${e(f.init)}" spellcheck="false" autocomplete="off" placeholder="—" aria-label="${e(t('web_visuobject_insp_init'))}"${m.shared ? ' disabled' : ''}></td>
+            <td><button class="icon" data-row="${i}" data-inspector="delete-member" aria-label="${e(t('web_visuobject_delete'))}" data-tip="${e(t('web_visuobject_delete'))}">${icons.trash}</button></td>
+          </tr>`
+        })
+        .join('')
+      body = `<table class="vo-members"><thead><tr><th>${e(t('web_visuobject_insp_visibility'))}</th><th>${e(t('web_visuobject_new_name'))}</th><th>${e(t('web_visuobject_insp_type'))}</th><th>static</th><th>final</th><th>${e(t('web_visuobject_insp_init'))}</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="7" class="vo-inspector-empty">${e(t('web_visuobject_insp_no_fields'))}</td></tr>`}</tbody></table>
+        <div class="vo-inspector-row"><button class="text-button" data-inspector="add-field">+ ${e(t('web_visuobject_insp_add_field'))}</button></div>`
+    } else {
+      const canAbstract = isClass
+      const rows = methods
+        .map(({ m, i }) => {
+          const ctor = m.kind === 'constructor'
+          return `<tr data-member-row="${i}">
+            <td><select data-row="${i}" data-field="m-vis" aria-label="${e(t('web_visuobject_insp_visibility'))}"${isClass ? '' : ' disabled'}>${visOptions(m.visibility)}</select></td>
+            <td><input data-row="${i}" data-field="m-name" value="${e(m.name)}" spellcheck="false" autocomplete="off" aria-label="${e(t('web_visuobject_new_name'))}"${ctor ? ' disabled' : ''}></td>
+            <td><input data-row="${i}" data-field="m-params" value="${e(paramsText(m.params))}" spellcheck="false" autocomplete="off" placeholder="—" aria-label="${e(t('web_visuobject_insp_params'))}"></td>
+            <td><input data-row="${i}" data-field="m-type" value="${e(ctor ? '' : m.type)}" list="vo-types" spellcheck="false" autocomplete="off" placeholder="${ctor ? e(t('web_visuobject_insp_constructor')) : 'void'}" aria-label="${e(t('web_visuobject_insp_return'))}"${ctor ? ' disabled' : ''}></td>
+            <td class="c"><input type="checkbox" data-row="${i}" data-field="m-static"${m.isStatic ? ' checked' : ''} aria-label="static"${ctor ? ' disabled' : ''}></td>
+            <td class="c"><input type="checkbox" data-row="${i}" data-field="m-abstract"${m.isAbstract ? ' checked' : ''} aria-label="abstract"${ctor || !canAbstract ? ' disabled' : ''}></td>
+            <td><button class="icon" data-row="${i}" data-inspector="delete-member" aria-label="${e(t('web_visuobject_delete'))}" data-tip="${e(t('web_visuobject_delete'))}">${icons.trash}</button></td>
+          </tr>`
+        })
+        .join('')
+      body = `<table class="vo-members"><thead><tr><th>${e(t('web_visuobject_insp_visibility'))}</th><th>${e(t('web_visuobject_new_name'))}</th><th>${e(t('web_visuobject_insp_params'))}</th><th>${e(t('web_visuobject_insp_return'))}</th><th>static</th><th>abstract</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="7" class="vo-inspector-empty">${e(t('web_visuobject_insp_no_methods'))}</td></tr>`}</tbody></table>
+        <div class="vo-inspector-row">
+          <button class="text-button" data-inspector="add-method">+ ${e(t('web_visuobject_insp_add_method'))}</button>
+          ${isClass ? `<span class="vo-insp-sep" aria-hidden="true"></span><span class="vo-insp-label">${e(t('web_visuobject_insp_generate'))}</span>
+          <button class="text-button" data-inspector="gen-constructor" data-tip="${e(t('web_visuobject_insp_gen_constructor_tip'))}">${e(t('web_visuobject_insp_gen_constructor'))}</button>
+          <button class="text-button" data-inspector="gen-accessors" data-tip="${e(t('web_visuobject_insp_gen_accessors_tip'))}">${e(t('web_visuobject_insp_gen_accessors'))}</button>
+          <button class="text-button" data-inspector="gen-tostring">toString()</button>` : ''}
+        </div>`
+    }
+    this.inspector.dataset.rel = `class:${cls.name}`
+    this.inspector.innerHTML = `
+      <div class="vo-insp-head">
+        <p class="vo-inspector-kind">${e(t(isClass ? 'web_visuobject_new_class' : 'web_visuobject_new_interface'))} <b>${e(cls.name)}</b></p>
+        <div class="vo-insp-tabs" role="tablist">${tab('class', t(isClass ? 'web_visuobject_new_class' : 'web_visuobject_new_interface'))}${tab('fields', `${t('web_visuobject_insp_fields')} (${fields.length})`)}${tab('methods', `${t('web_visuobject_insp_methods')} (${methods.length})`)}</div>
+      </div>
+      ${body}${types}`
     const edit = (run: (source: string, c: UmlClass) => string, extra?: (p: JavaProject) => JavaProject) => {
       this.message('')
       let next = this.editClass(this.project, cls.name, run)
       if (extra) next = extra(next)
       this.setProject(next, cls.path)
     }
-    for (const el of this.inspector.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[data-field]')) {
+    const member = (c: UmlClass, el: HTMLElement) => c.members[Number(el.dataset.row)]
+    for (const b of this.inspector.querySelectorAll<HTMLElement>('[data-class-tab]'))
+      b.addEventListener('click', () => {
+        this.classTab = b.dataset.classTab as typeof this.classTab
+        this.renderInspector()
+      })
+    for (const el of this.inspector.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('[data-field]')) {
       el.addEventListener('change', () => {
         const field = el.dataset.field!
         const on = el instanceof HTMLInputElement && el.checked
+        const value = el.value.trim()
         if (field === 'name') {
-          const name = el.value.trim()
-          if (name && name !== cls.name) this.renameClassTo(cls, name)
+          if (value && value !== cls.name) this.renameClassTo(cls, value)
+        } else if (field === 'package') {
+          const to = pathFor(el.value, fileNameOf(cls.path))
+          if (to === cls.path) return
+          if (this.project.files.some((f) => f.path === to)) return this.message(t('web_visuobject_new_exists', fileNameOf(to)))
+          this.openTabs = this.openTabs.map((p) => (p === cls.path ? to : p))
+          this.currentPackage = el.value
+          this.setProject(moveFile(this.project, cls.path, to), to)
         } else if (field === 'visibility') edit((src, c) => setPublic(src, c, el.value === 'public'))
-        else if (field === 'abstract') edit((src, c) => setAbstract(on ? setFinal(src, c, false) : src, parseClasses(on ? setFinal(src, c, false) : src).find((x) => x.name === c.name) ?? c, on))
+        else if (field === 'abstract')
+          edit((src, c) => {
+            const base = on ? setFinal(src, c, false) : src
+            return setAbstract(base, parseClasses(base).find((x) => x.name === c.name) ?? c, on)
+          })
         else if (field === 'final') edit((src, c) => setFinal(src, c, on))
         else if (field === 'superclass') {
-          const value = el.value || undefined
-          edit((src, c) => setSuperclass(src, c, value), (p) => (value ? this.importFor(p, cls.name, value) : p))
+          const sup = el.value || undefined
+          edit((src, c) => setSuperclass(src, c, sup), (p) => (sup ? this.importFor(p, cls.name, sup) : p))
         } else if (field === 'iface') {
           const name = el.value
           edit((src, c) => (on ? addInterface(src, c, name) : removeInterface(src, c, name)), (p) => (on ? this.importFor(p, cls.name, name) : p))
+        } else if (field === 'doc') edit((src, c) => setClassDoc(src, c, el.value))
+        else if (field.startsWith('f-')) {
+          if ((field === 'f-name' && !identifier.test(value)) || (field === 'f-type' && !value)) return this.message(t('web_visuobject_bad_name', value))
+          const change: Partial<FieldInfo> =
+            field === 'f-vis' ? { visibility: el.value as Visibility } : field === 'f-name' ? { name: value } : field === 'f-type' ? { type: value } : field === 'f-static' ? { isStatic: on } : field === 'f-final' ? { isFinal: on } : { init: el.value }
+          const old = cls.members[Number(el.dataset.row)]?.name
+          edit(
+            (src, c) => setField(src, member(c, el), change),
+            (p) => (field === 'f-name' && old && p.uml?.[relationKey(cls.name, old)] ? { ...p, uml: renameInfo(p.uml, relationKey(cls.name, old), relationKey(cls.name, value)) } : p),
+          )
+        } else if (field.startsWith('m-')) {
+          let change: Partial<MethodInfo>
+          if (field === 'm-params') {
+            const params = parseParams(el.value)
+            if (!params) return this.message(t('web_visuobject_insp_bad_params', el.value))
+            change = { params }
+          } else if (field === 'm-name') {
+            if (!identifier.test(value)) return this.message(t('web_visuobject_bad_name', value))
+            change = { name: value }
+          } else change = field === 'm-vis' ? { visibility: el.value as Visibility } : field === 'm-type' ? { type: value || 'void' } : field === 'm-static' ? { isStatic: on } : { isAbstract: on }
+          edit((src, c) => {
+            const out = setMethod(src, c, member(c, el), change)
+            // Abstrakte Methode in einer normalen Klasse: Die Klasse muss dann auch abstract sein.
+            if (field === 'm-abstract' && on && !c.isAbstract) {
+              const again = parseClasses(out).find((x) => x.name === c.name)
+              return again ? setAbstract(setFinal(out, again, false), parseClasses(setFinal(out, again, false)).find((x) => x.name === c.name)!, true) : out
+            }
+            return out
+          })
         }
       })
       if (el instanceof HTMLInputElement && el.type === 'text') el.addEventListener('keydown', (ev) => ev.key === 'Enter' && el.blur())
     }
-    this.inspector.querySelector('[data-inspector=delete-class]')!.addEventListener('click', () => this.deleteClassFromProject(cls))
-    if (focused) this.inspector.querySelector<HTMLElement>(`[data-field="${focused}"]`)?.focus({ preventScroll: true })
+    const on = (action: string, run: (b: HTMLElement) => void) => {
+      for (const b of this.inspector.querySelectorAll<HTMLElement>(`[data-inspector="${action}"]`)) b.addEventListener('click', () => run(b))
+    }
+    on('delete-class', () => this.deleteClassFromProject(cls))
+    on('sections', () => edit((src, c) => withSections(src, c, new Set(this.classes.map((x) => x.name)), this.sectionLabels())))
+    on('delete-member', (b) => edit((src, c) => deleteMember(src, member(c, b))))
+    on('add-field', () => edit((src, c) => addMember(src, c, `- ${this.freeMember(cls, 'attribut')}: int`)))
+    on('add-method', () => edit((src, c) => addMember(src, c, `+ ${this.freeMember(cls, 'methode')}(): void`)))
+    on('gen-constructor', () => edit((src, c) => addFieldConstructor(src, c)))
+    on('gen-accessors', () => edit((src, c) => addGettersSetters(src, c)))
+    on('gen-tostring', () => edit((src, c) => addToString(src, c)))
+    if (focused) {
+      const [row, field] = focused.split('|')
+      this.inspector.querySelector<HTMLElement>(row ? `[data-row="${row}"][data-field="${field}"]` : `[data-field="${field}"]`)?.focus({ preventScroll: true })
+    }
+  }
+
+  /** Freier Name für ein neues Mitglied: `attribut`, `attribut2` … */
+  private freeMember(cls: ProjectClass, base: string): string {
+    let name = base
+    for (let n = 2; cls.members.some((m) => m.name === name); n++) name = base + n
+    return name
   }
 
   /** Abhängigkeit im Inspektor: erklären, warum es keine Assoziation ist, und sie auf Wunsch zu einer machen. */
