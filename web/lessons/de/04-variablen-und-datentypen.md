@@ -159,10 +159,6 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
-::: grafik l04-kaffee.svg
-Kein offizielles Logo, sondern unsere Zeichnung: „Java“ ist im amerikanischen Englisch ein Wort für Kaffee. Die Sprache wurde nach dem Kaffee von der Insel Java benannt, den ihre Erfinder gern tranken.
-:::
-
 Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
 ```java
