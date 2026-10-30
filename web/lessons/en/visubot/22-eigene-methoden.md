@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Write and call your own commands with parameters and return values.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- build and call a subprogram with a parameter
+- recognise methods in Java
+- write a method with a return value
+:::
+
 ## A subprogram for the square
 
 The mBot2 can already drive a square. Now it should drive two squares of different sizes. Instead of building the loop twice, you write a **subprogram**. In Java it is called a **method**. It is a command of your own that you can call as often as you like.
@@ -49,11 +57,13 @@ In [Programming](#zeige-codelive) you see each method in its own tab, just like 
 
 ::: quiz
 ? What does `void` mean in `void square(int side)`?
+→ Methods in Java
 - [ ] The method has no parameter.
 - [x] The method gives no result back.
 - [ ] The method may only be called once.
 > `void` means "empty": no value comes back. The parameter is in the brackets.
 ? With which value for `side` does `square(50)` run?
+→ A subprogram for the square
 - [ ] 30
 - [x] 50
 - [ ] with none
@@ -83,8 +93,10 @@ lösung: vb-ohne-quadratzahl-loesung.visustruct
 unterprogramm: vb-ohne-quadratzahl-unterprogramm-loesung.visustruct
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can build and call a subprogram with a parameter. → A subprogram for the square
-- I know what methods look like in Java. → Methods in Java
+- I can recognise methods in Java. → Methods in Java
 - I can write a method with a return value. → Now without the robot: a method with a return value
 :::

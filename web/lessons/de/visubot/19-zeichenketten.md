@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Mit Texten rechnen, Buchstaben herausholen und auf dem Bildschirm zeigen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit `length()` und `substring(…)` arbeiten
+- Texte und Zahlen mit `+` verbinden
+- mit `charAt(…)` einzelne Zeichen holen
+:::
+
 ## Buchstabe für Buchstabe
 
 Ein Text heißt in Java **Zeichenkette** oder `String`. Er besteht aus einzelnen Zeichen, die wie bei einem Array ab **0** nummeriert sind:
@@ -64,16 +72,20 @@ lösung: vb-ohne-rueckwaerts-loesung.visustruct
 
 ::: quiz
 ? Was liefert `"VisuBot".substring(0, 4)`?
+→ Buchstabe für Buchstabe
 - [ ] `"VisuB"`
 - [x] `"Visu"`
 - [ ] `"uBot"`
 > `substring(0, 4)` nimmt die Zeichen 0, 1, 2 und 3, also vier Stück.
 ? Was liefert `"Ludwig".charAt(0)`?
+→ Jetzt ohne Roboter: rückwärts lesen
 - [x] `L`
 - [ ] `u`
 - [ ] `g`
 > Die Zeichen werden ab 0 gezählt. Zeichen 0 ist das erste.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann mit `length()` und `substring(…)` arbeiten. → Buchstabe für Buchstabe

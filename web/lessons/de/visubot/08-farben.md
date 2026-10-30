@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Der Quad-RGB-Sensor sagt, auf welcher Farbe der mBot2 steht.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit `mbot.getColor().equals(…)` eine Farbe abfragen
+- mit `!` eine Bedingung umdrehen
+- eine Verzweigung in eine Schleife schreiben
+:::
+
 ## Ein Sensor, der Farben sieht
 
 ::: mbot2
@@ -61,15 +69,19 @@ lösung: vb-java-blau-gruen-loesung.visustruct
 
 ::: quiz
 ? Der mBot2 steht auf einem roten Feld. Was ist `!mbot.getColor().equals("rot")`?
+→ Fahre bis Rot im Struktogramm
 - [ ] wahr
 - [x] falsch
 > `mbot.getColor().equals("rot")` ist wahr, das `!` macht daraus falsch. Die Schleife hört also auf.
 ? Womit vergleichst du die Farbe mit `"grün"`?
+→ Ein Sensor, der Farben sieht
 - [x] `mbot.getColor().equals("grün")`
 - [ ] `mbot.getColor() == "grün"`
 - [ ] `mbot.getColor() = "grün"`
 > `mbot.getColor()` liefert einen Text, und Texte vergleicht man mit `.equals(…)`. Ein einzelnes `=` ist eine Zuweisung, gar kein Vergleich.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann mit `mbot.getColor().equals(…)` eine Farbe abfragen. → Ein Sensor, der Farben sieht

@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Do something different for each colour or line, with one case selection instead of many branches.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- build a case selection with texts
+- write a case selection with numbers in Java
+- read a number and print something depending on its value
+:::
+
 ## Many colours, many cases
 
 The mBot2 should react differently to each colour: turn right on red, drive forward a bit on green, beep on blue. With branches you would need three inside each other. A **case selection** is clearer, in Java `switch`:
@@ -92,16 +100,20 @@ lösung: vb-ohne-noten-loesung.visustruct
 
 ::: quiz
 ? The mBot2 is on yellow. Which case of the colour switch runs?
+→ Many colours, many cases
 - [ ] the case `"red"`
 - [ ] none at all
 - [x] `default`
 > There is no case of its own for yellow. So the case for everything else runs.
 ? How do you write the case for the number 6?
+→ Now in Java: line patterns
 - [x] `case 6 -> { … }`
 - [ ] `case "6" -> { … }`
 - [ ] `if 6 -> { … }`
 > Numbers have no quotation marks, texts like `"red"` do.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can build a case selection with texts. → Many colours, many cases

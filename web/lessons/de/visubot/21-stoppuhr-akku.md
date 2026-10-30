@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Zeit messen und den Akku im Blick behalten.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Stoppuhr auf 0 setzen und ablesen
+- eine bestimmte Zeit lang fahren
+- den Akkustand anzeigen
+:::
+
 ## Die Stoppuhr
 
 ::: mbot2
@@ -61,16 +69,20 @@ lösung: vb-java-akku-loesung.visustruct
 
 ::: quiz
 ? Was liefert `mbot.getTimer()` direkt nach `mbot.resetTimer()`?
+→ Die Stoppuhr
 - [x] 0
 - [ ] 100
 - [ ] Die Uhrzeit
 > Die Stoppuhr fängt wieder bei 0 an.
 ? Warum wartet der mBot2 in der Schleife nur **kurz** und hält nicht an?
+→ Zwei Sekunden fahren im Struktogramm
 - [ ] Weil die Schleife sonst nicht startet.
 - [x] Weil er weiterfahren soll, bis die Zeit um ist.
 - [ ] Weil die Stoppuhr sonst stehen bleibt.
 > Gas geben gilt weiter, auch während er wartet.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann die Stoppuhr auf 0 setzen und ablesen. → Die Stoppuhr

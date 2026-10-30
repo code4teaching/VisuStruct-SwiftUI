@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Store many values in one array and work through them with a loop.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create an array and play it with a loop
+- use an array of texts in Java
+- add up all values of an array
+:::
+
 ## A melody as an array
 
 A melody is a row of tones. Instead of five variables `tone1`, `tone2`, … you use an **array**. An array is a row of slots under **one** name:
@@ -69,16 +77,20 @@ lösung: vb-ohne-summe-loesung.visustruct
 
 ::: quiz
 ? What is `tones[1]` if `int[] tones = {262, 294, 330};`?
+→ A melody as an array
 - [ ] 262
 - [x] 294
 - [ ] 1
 > The slots count from 0. So slot 1 is the second one.
 ? How many slots does `{262, 294, 330}` have, so what is `tones.length`?
+→ A melody as an array
 - [ ] 2
 - [x] 3
 - [ ] 330
 > `length` counts the slots, here three. That is why the last slot has the number 2.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can create an array and play it with a loop. → A melody as an array

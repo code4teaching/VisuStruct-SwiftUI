@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Je nach Farbe oder Linie etwas anderes tun, mit einer Fallauswahl statt vieler Verzweigungen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Fallauswahl mit Texten bauen
+- eine Fallauswahl mit Zahlen in Java schreiben
+- eine Zahl einlesen und je nach Wert etwas ausgeben
+:::
+
 ## Viele Farben, viele Fälle
 
 Der mBot2 soll auf jede Farbe anders reagieren: bei Rot rechts abbiegen, bei Grün ein Stück vorfahren, bei Blau piepen. Mit Verzweigungen bräuchtest du drei ineinander. Übersichtlicher ist die **Fallauswahl**, in Java `switch`:
@@ -92,16 +100,20 @@ lösung: vb-ohne-noten-loesung.visustruct
 
 ::: quiz
 ? Der mBot2 steht auf Gelb. Welcher Fall der Farbweiche läuft?
+→ Viele Farben, viele Fälle
 - [ ] der Fall `"rot"`
 - [ ] gar keiner
 - [x] `default`
 > Für Gelb gibt es keinen eigenen Fall. Dann läuft der Fall für alles andere.
 ? Wie schreibst du den Fall für die Zahl 6?
+→ Jetzt in Java: Linienmuster
 - [x] `case 6 -> { … }`
 - [ ] `case "6" -> { … }`
 - [ ] `if 6 -> { … }`
 > Zahlen stehen ohne Anführungszeichen, Texte wie `"rot"` mit.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann eine Fallauswahl mit Texten bauen. → Viele Farben, viele Fälle

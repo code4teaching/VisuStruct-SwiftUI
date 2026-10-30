@@ -4,6 +4,16 @@ bereich: VisuBot
 kurz: Vom langen Struktogramm zur dreifach verschachtelten Schleife.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- einen Ablauf erst ohne Schleife bauen
+- Wiederholungen erkennen und durch eine For-Schleife ersetzen
+- zwei Schleifen ineinander schachteln
+- drei Schleifen ineinander schachteln
+- mein Programm auf den mBot2 übertragen und ohne Kabel mit Taste A starten
+:::
+
 ## Ein Quadrat fahren
 
 Der mBot2 soll ein Quadrat mit 50 cm Seitenlänge fahren. Eine Seite kennst du schon: fünfmal **fahre vor**. Danach dreht er sich nach rechts, und die nächste Seite beginnt.
@@ -89,6 +99,7 @@ lösung: vb-vier-quadrate-loesung.visustruct
 
 ::: quiz
 ? Wie oft fährt der mBot2 bei den vier Quadraten 10 cm vor?
+→ Vier Quadrate
 - [ ] 20-mal
 - [ ] 60-mal
 - [x] 80-mal
@@ -115,9 +126,11 @@ Das Programm bleibt gespeichert, auch wenn du den mBot2 aus- und wieder einschal
 
 > Fährt er los, bevor du bereit bist? Keine Sorge: Er wartet immer auf Taste A. Drückst du A noch einmal, während er fährt, passiert nichts. Ist er fertig, startet A das Programm von vorn.
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann einen Ablauf erst ohne Schleife bauen. → Ein Quadrat fahren
-- Ich erkenne Wiederholungen und ersetze sie durch eine For-Schleife. → Immer das Gleiche
+- Ich kann Wiederholungen erkennen und durch eine For-Schleife ersetzen. → Immer das Gleiche
 - Ich kann zwei Schleifen ineinander schachteln. → Schleife in der Schleife
 - Ich kann drei Schleifen ineinander schachteln. → Vier Quadrate
 - Ich kann mein Programm auf den mBot2 übertragen und ohne Kabel mit Taste A starten. → Ohne Kabel fahren

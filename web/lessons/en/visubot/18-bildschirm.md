@@ -4,6 +4,15 @@ bereich: VisuBot
 kurz: Show text, numbers and sensor values on the CyberPi.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- show text on the screen
+- show several texts one after the other
+- show numbers and sensor values
+- write a countdown in Java
+:::
+
 ## Showing text
 
 ::: mbot2
@@ -58,14 +67,18 @@ lösung: vb-java-countdown-loesung.visustruct
 
 ::: quiz
 ? What does `mbot.showText("Distance: " + 25)` show?
+→ Numbers and sensor values
 - [x] Distance: 25
 - [ ] "Distance: " + 25
 - [ ] 25
 > The `+` adds the number to the text.
 ? What happens to the old text when you show a new one?
+→ Showing text
 - [x] It is replaced.
 - [ ] The new one appears below it.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can show text on the screen. → Showing text

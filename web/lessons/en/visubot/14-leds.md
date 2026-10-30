@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Mix colours, build a traffic light and make it blink.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- mix a colour from red, green and blue
+- show colours one after the other with pauses
+- make the LEDs blink in Java
+:::
+
 ## Mixing red, green and blue
 
 ::: mbot2
@@ -58,15 +66,19 @@ lösung: vb-java-blinken-loesung.visustruct
 
 ::: quiz
 ? Which colour does `mbot.setLed(0, 255, 0)` give?
+→ Mixing red, green and blue
 - [ ] Red
 - [x] Green
 - [ ] Blue
 > The numbers are red, green, blue. Only green is on.
 ? Why does the blue light need **wait a moment**?
+→ Now in Java: blue light
 - [x] Otherwise it changes so fast that you can't see any blinking.
 - [ ] Otherwise the LEDs break.
 - [ ] Because `ledOff()` doesn't work otherwise.
 :::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
 - I can mix a colour from red, green and blue. → Mixing red, green and blue
