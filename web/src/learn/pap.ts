@@ -11,6 +11,7 @@
  *     ausgabe: „Fertig!“
  *     ende: Ende
  *     erklärung: Wird gezeigt, wenn alles stimmt.
+ *     legende: ja
  *     :::
  *
  * Die Zeilen stehen von oben nach unten in der Hauptspalte. Eine Frage (Raute) hat zwei Ausgänge: Einer geht nach unten
@@ -38,6 +39,8 @@ export interface Pap {
   task: string
   nodes: PapNode[]
   explanation?: string
+  /** `legende: ja` zeigt unter dem Plan, was die Symbole bedeuten. */
+  legend?: boolean
 }
 
 const shapeOf: Record<string, PapShape> = {
@@ -62,6 +65,7 @@ export function parsePap(inner: string[], file: string): Pap {
     if (key === 'titel') pap.title = value
     else if (key === 'auftrag') pap.task = value
     else if (key === 'erklärung' || key === 'erklaerung') pap.explanation = value
+    else if (key === 'legende') pap.legend = /^(ja|yes|true|sim)$/i.test(value)
     else if (key in shapeOf) {
       const [text, exit] = value.split(/\s+\|\s+/)
       if (!text) throw new Error(`${file}: Leeres Element im PAP: „${line}“.`)
@@ -112,7 +116,7 @@ const MAIN_X = 140
 const MAIN_W = 180
 const SIDE_X = 327
 const SIDE_W = 130
-const GAP = 24
+const GAP = 20
 
 export function papHeight(shape: PapShape): number {
   return shape === 'raute' ? 56 : shape === 'oval' ? 30 : 36

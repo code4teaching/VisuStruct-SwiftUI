@@ -410,6 +410,7 @@ describe('PAP bauen', () => {
       useContentLanguage(lang)
       const paps = allBlocks().filter(({ block }) => block.kind === 'pap')
       expect(paps.length, lang).toBe(1)
+      expect(paps[0].block.kind === 'pap' && paps[0].block.pap.legend, lang).toBe(true)
     }
   })
 })

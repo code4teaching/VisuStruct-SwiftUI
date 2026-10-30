@@ -155,6 +155,7 @@ anweisung: Kuchen herausnehmen
 ausgabe: „Der Kuchen ist fertig!“
 ende: Ende
 erklärung: Zwei Schleifen, zwei Pfeile zurück nach oben: Beim Rühren führt der Pfeil zurück zu „Teig rühren“, beim Backen von „5 Minuten weiterbacken“ zurück zur Frage. Die Ausgabe steht im Parallelogramm.
+legende: ja
 :::
 
 ## Nachteile des PAP: Sprünge

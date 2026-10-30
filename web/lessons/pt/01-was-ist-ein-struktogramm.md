@@ -155,6 +155,7 @@ anweisung: Tirar o bolo do forno
 ausgabe: “O bolo está pronto!”
 ende: Fim
 erklärung: Dois ciclos, duas setas para cima: ao mexer, a seta volta a “Mexer a massa”; ao cozer, vai de “Cozer mais 5 minutos” de volta à pergunta. A saída fica no paralelogramo.
+legende: ja
 :::
 
 ## Desvantagens do fluxograma: saltos
