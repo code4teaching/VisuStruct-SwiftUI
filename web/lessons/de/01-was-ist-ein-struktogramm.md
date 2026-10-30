@@ -216,6 +216,12 @@ ENDE SOLANGE
 Tee trinken
 ```
 
+Pseudocode hat **keine feste Schreibweise**. Manche schreiben FALLS statt WENN, andere setzen einen Pfeil für die Zuweisung (`zahl ← 5`) oder schreiben ganz ohne ENDE-Zeilen. Das ist alles erlaubt. Wichtig ist nur, dass jeder Mensch ihn ohne Erklärung versteht. Pseudocode ist also keine weitere Programmiersprache, die man lernen muss.
+
+::: angeberwissen
+Kommt dir Pseudocode bekannt vor? Die Programmiersprache Python sieht ihm sehr ähnlich, und das ist Absicht: Ihr Erfinder Guido van Rossum wollte, dass sich Programme fast wie normaler Text lesen. Auch Python zeigt mit der Einrückung, was zusammengehört. Aber Vorsicht: Python ist eine echte Programmiersprache mit festen Regeln. Ein Leerzeichen zu viel, und der Computer meckert. Pseudocode ist da großzügiger, so wie ich beim Frühstück.
+:::
+
 ### Im Vergleich
 
 - **Struktogramm:** Kästen ineinander, die Schleife ist ein gekipptes L. Die Struktur siehst du auf einen Blick, wilde Sprünge sind unmöglich.

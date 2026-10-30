@@ -216,6 +216,12 @@ END WHILE
 Drink the tea
 ```
 
+Pseudocode has **no fixed notation**. Some people write WHEN instead of IF, others use an arrow for assignment (`number ← 5`) or leave out the END lines. All of that is fine. What matters is that anyone can understand it without an explanation. So pseudocode is not another programming language you have to learn.
+
+::: angeberwissen
+Does pseudocode look familiar? The programming language Python looks very similar, and that is on purpose: its inventor Guido van Rossum wanted programs to read almost like plain text. Python also uses indentation to show what belongs together. But careful: Python is a real programming language with strict rules. One space too many and the computer complains. Pseudocode is more relaxed, just like me at breakfast.
+:::
+
 ### Compared
 
 - **Structure chart:** boxes inside boxes, the loop is an upside-down L. You see the structure at a glance, and wild jumps are impossible.
