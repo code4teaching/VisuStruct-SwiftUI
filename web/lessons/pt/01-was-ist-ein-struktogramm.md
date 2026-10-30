@@ -102,27 +102,85 @@ Os blocos também podem ser **encaixados** uns dentro dos outros: um ciclo ou um
 Consolo para quem correu mal um teste: a famosa revista *Communications of the ACM* rejeitou o artigo sobre estrutogramas. Segundo Nassi, o revisor até disse que deviam juntar todas as cópias e queimá-las. Ai! O artigo saiu em 1973 numa revista mais pequena e hoje é citado milhares de vezes. Ha!
 :::
 
-## Outras formas de desenhar: fluxograma e pseudocódigo
+## Outras formas de desenhar: o fluxograma
 
-Um estrutograma não é a única forma de escrever um algoritmo. Nas aulas vais conhecer mais duas. Aqui vês o exemplo do chá de “Os três juntos” nas três formas.
+Há mais duas formas de representar um algoritmo: o **fluxograma** e o **pseudocódigo**. Vais conhecer as duas nas aulas.
 
-### Estrutograma
+Aqui vês outra vez o nosso estrutograma para beber chá de “Os três juntos”. A seguir vamos ver o fluxograma, com o mesmo exemplo.
 
 ::: diagramm l1-grundbausteine.visustruct
 O exemplo do chá como estrutograma: primeiro a chávena, depois a decisão para o açúcar e depois o ciclo.
 :::
 
-### Fluxograma
-
-Um **fluxograma** é feito de símbolos ligados por **setas**. Está normalizado como DIN 66001 (ISO 5807). Um losango é uma decisão com as saídas sim e não. Reconheces um ciclo por uma seta que volta **para cima**.
+### O mesmo algoritmo como fluxograma
 
 ::: grafik l01-pap.svg
 O exemplo do chá como fluxograma. A seta de “Esperar 1 minuto” para cima forma o ciclo.
 :::
 
-### Pseudocódigo
+### Os símbolos
 
-**Pseudocódigo** é texto que parece um programa, mas está escrito em linguagem corrente. Palavras fixas como SE e ENQUANTO mostram os blocos, e a **indentação** mostra o que pertence a eles.
+Um fluxograma é feito de poucos símbolos ligados por **setas**. Está normalizado como DIN 66001 (ISO 5807).
+
+- **Oval:** início ou fim. Cada fluxograma tem exatamente um início e um fim.
+- **Retângulo:** uma instrução, por exemplo *Pôr uma chávena na mesa*.
+- **Losango:** uma decisão. No losango está uma pergunta, e dele saem duas setas: **sim** e **não**.
+- **Paralelogramo:** uma entrada ou saída. No exemplo do chá não aparece.
+- **Seta:** mostra qual é o passo seguinte.
+
+Um ciclo não tem símbolo próprio no fluxograma. Reconheces um ciclo por uma seta que volta **para cima**.
+
+### As vantagens
+
+- **Muito fácil de ler**, mesmo para quem nunca viu um fluxograma. Basta seguir as setas com o dedo.
+- Os fluxogramas (em inglês *flowchart*) não se usam só na programação, mas em todo o lado onde se explica um processo: em manuais de instruções, na procura de avarias (“A lâmpada acende? Não: a ficha está ligada?”) ou nas empresas para os processos de trabalho.
+
+## Desvantagens do fluxograma: saltos
+
+Uma seta num fluxograma pode ir de qualquer símbolo para qualquer outro. Parece prático, mas é perigoso.
+
+Antigamente, os programas escreviam-se exatamente assim. Cada linha tinha um **número**, e o comando **GOTO**, em português “ir para”, saltava para um número de linha. Cada IR PARA é uma seta do fluxograma. O nosso exemplo do chá ficava assim:
+
+```
+10 Pôr uma chávena na mesa
+20 SE não quer açúcar, IR PARA 40
+30 Juntar açúcar
+40 SE chá não demasiado quente, IR PARA 70
+50 Esperar 1 minuto
+60 IR PARA 40
+70 Beber o chá
+```
+
+### Mais uma linha, e os saltos ficam errados
+
+Agora melhoras o algoritmo: depois do açúcar, o saquinho de chá deve sair. Acrescentas a nova linha 40, e todas as linhas abaixo avançam um número. Mas os saltos continuam a apontar para os números antigos:
+
+```
+10 Pôr uma chávena na mesa
+20 SE não quer açúcar, IR PARA 40
+30 Juntar açúcar
+40 Tirar o saquinho de chá
+50 SE chá não demasiado quente, IR PARA 70
+60 Esperar 1 minuto
+70 IR PARA 40
+80 Beber o chá
+```
+
+Experimenta: a linha 70 já não te manda para a verificação da linha 50, mas para o saquinho. E quando o chá já está frio o suficiente, a linha 50 salta para a linha 70 em vez de *Beber o chá*. Ou seja, tiras o saquinho vezes sem conta e nunca bebes. A cada alteração tens de verificar todos os IR PARA. Num programa grande, com centenas de saltos, é fácil algo correr mal.
+
+### Para todo o lado: código esparguete
+
+Com setas também se pode saltar do meio de um ciclo para fora, ou de fora para o meio de um ciclo. Estes saltos tornam o fluxograma confuso muito depressa. Com muitos saltos, as setas cruzam-se até o fluxograma parecer um prato de esparguete. Por isso chama-se **código esparguete**. Mal se consegue seguir o fluxo, e os erros escondem-se bem.
+
+Um estrutograma não tem setas. Se acrescentares um bloco, tudo o que está abaixo desce com ele, e nenhum salto pode apontar para o sítio errado. Para sair de um ciclo mais cedo existe lá um bloco próprio e arrumado, a interrupção. Vais conhecê-la na lição 18.
+
+::: angeberwissen
+Em 1968, o informático Edsger Dijkstra escreveu uma carta famosa: “Go To Statement Considered Harmful”, ou seja, “o GOTO é considerado prejudicial”. Desde então, os programas são construídos só com sequência, decisão e ciclo. Em Java, `goto` ainda hoje é uma palavra reservada, mas não a podes usar. Mééé, prefiro comer esparguete a programá-lo.
+:::
+
+## Pseudocódigo e comparação
+
+**Pseudocódigo** é texto que parece um programa, mas está escrito em linguagem corrente. Palavras fixas como SE e ENQUANTO mostram os blocos, e a **indentação** mostra o que pertence a eles. Aqui também não há saltos. Este é o nosso exemplo do chá:
 
 ```
 Pôr uma chávena na mesa
@@ -138,7 +196,7 @@ Beber o chá
 ### Comparação
 
 - **Estrutograma:** blocos dentro de blocos, o ciclo é um L invertido. Vês a estrutura num relance, e saltos malucos são impossíveis.
-- **Fluxograma:** símbolos com setas, o ciclo é uma seta que volta para cima. Muito fácil de imaginar, mas os fluxogramas grandes ficam depressa confusos.
+- **Fluxograma:** símbolos com setas, o ciclo é uma seta que volta para cima. Muito fácil de imaginar, mas os fluxogramas grandes ficam depressa confusos, e são possíveis saltos para todo o lado.
 - **Pseudocódigo:** texto com indentação, o ciclo fica entre ENQUANTO e FIM ENQUANTO. Rápido de escrever e já perto do código de um programa.
 
 > Os três descrevem o mesmo algoritmo. Quando sabes ler uma das formas, aprendes as outras depressa.
@@ -155,10 +213,6 @@ Quando programas, acontecem duas coisas ao mesmo tempo: tens de pensar nos passo
 2. Depois traduzes a estrutura pronta para **Java, Python ou JavaScript**. O VisuStruct até consegue gerar o código por ti.
 
 Com a **simulação** também podes executar o teu estrutograma passo a passo e verificar se ele faz mesmo o que deve.
-
-::: angeberwissen
-Programas que saltam para todo o lado chamam-se **código esparguete**: se tentares seguir um fio, ficas todo enrolado, como num prato de esparguete. Antigamente, o culpado era o comando GOTO, que quer dizer “salta para a linha …”. Por isso, em 1968, o informático Edsger Dijkstra escreveu uma carta famosa: “Go To Statement Considered Harmful”. Desde então, os programas são construídos só com sequência, decisão e ciclo. Em Java, `goto` ainda hoje é uma palavra reservada, mas não a podes usar. Mééé, prefiro comer esparguete a programá-lo.
-:::
 
 ## Jogo: Que bloco básico?
 
@@ -215,7 +269,9 @@ richtig: decisão
 - Sei que um estrutograma se lê de cima para baixo. → Como se lê um estrutograma
 - Conheço os três blocos básicos: sequência, decisão e ciclo. → Bloco básico 1: a sequência
 - Reconheço cada bloco básico num estrutograma pela sua forma. → Os três juntos
-- Também consigo ler um algoritmo simples como fluxograma e como pseudocódigo. → Outras formas de desenhar: fluxograma e pseudocódigo
+- Conheço os símbolos de um fluxograma e sei ler um fluxograma simples. → Outras formas de desenhar: o fluxograma
+- Sei explicar porque é que os saltos com GOTO levam a erros e a código esparguete. → Desvantagens do fluxograma: saltos
+- Também consigo ler um algoritmo simples em pseudocódigo. → Pseudocódigo e comparação
 :::
 
 ## Teste de conhecimentos
@@ -264,6 +320,12 @@ richtig: decisão
 = Losango -> Decisão
 = Paralelogramo -> Entrada ou saída
 > O losango tem duas saídas: sim e não.
+
+? Acrescentas uma nova linha a um programa com GOTO. O que pode acontecer?
+- [x] Os saltos apontam para as linhas erradas, porque os números mudaram
+- [ ] Nada, os saltos ajustam-se sozinhos
+- [ ] O programa fica automaticamente mais rápido
+> Cada IR PARA aponta para um número de linha fixo. Se as linhas descem, o programa salta para o sítio errado.
 
 ? No pseudocódigo, o que mostra que linhas pertencem a um ciclo?
 - [ ] A cor
