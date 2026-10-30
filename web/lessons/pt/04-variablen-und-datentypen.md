@@ -159,10 +159,6 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
-::: grafik l04-kaffee.svg
-Não é o logótipo oficial, é um desenho nosso: em inglês americano, «java» é uma palavra para café. A linguagem recebeu o nome do café da ilha de Java, que os seus criadores gostavam de beber.
-:::
-
 Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
 ```java
