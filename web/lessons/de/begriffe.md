@@ -71,7 +71,7 @@ Eine Variable, deren Wert nach dem Festlegen gleich bleibt. Man schreibt `const`
 
 ### Datentyp
 auch: Datentypen, Datentyps
-Legt fest, welche Art von Wert in eine Variable passt: int (ganze Zahl), double (Kommazahl), String (Text) oder boolean (true oder false).
+Legt fest, welche Art von Wert in eine Variable passt: int (ganze Zahl), double (Kommazahl), String (Text), boolean (true oder false) oder char (ein einzelnes Zeichen).
 
 ### Zuweisung
 auch: Zuweisungen
@@ -117,6 +117,13 @@ Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp. Im L
 
 ### Index
 Die Nummer eines Fachs in einem Array. Gezählt wird ab 0.
+
+### char
+Der Datentyp für ein einzelnes Zeichen. Er steht in einfachen Anführungszeichen, z. B. 'C'. "C" mit doppelten Anführungszeichen ist dagegen ein String.
+
+### Zeichencode
+auch: Zeichencodes, ASCII-Code, ASCII-Tabelle
+Die Zahl, die hinter einem Zeichen steckt. In der ASCII-Tabelle hat A den Code 65, B 66 und so weiter. In Java wird mit (int) aus einem Zeichen sein Code und mit (char) aus einem Code das Zeichen.
 
 ### Zeichenkette
 auch: Zeichenketten

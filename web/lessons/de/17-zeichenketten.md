@@ -9,6 +9,7 @@ kurz: Mit Texten arbeiten, also einzelne Zeichen lesen, Teile herausschneiden, s
 ::: kompetenzen
 - erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden
 - mit `length()` und `charAt(i)` arbeiten
+- einen `char` von einem String unterscheiden und mit `(int)` und `(char)` den Zeichencode nutzen
 - mit `substring` einen Teil aus einem Text schneiden
 - `indexOf`, `contains`, `toUpperCase` und `equals` anwenden
 - einen Text mit einer Schleife Zeichen für Zeichen durchgehen
@@ -34,14 +35,34 @@ Ein String bringt **Methoden** mit. Du schreibst den Namen der Variablen, einen 
 
 > Bei Strings schreibst du `length()` **mit** Klammern, bei Arrays `length` **ohne**. Das ist in Java leider so.
 
-Ein einzelnes Zeichen hat in Java den Datentyp `char`. Ein `char` steht in **einfachen** Anführungszeichen: `'G'`. Ein String steht in doppelten: `"G"`.
+Das letzte Zeichen hat wie beim Array den Index `length() - 1`.
+
+## Ein einzelnes Zeichen: char
+
+Für ein einzelnes Zeichen hat Java einen eigenen Datentyp: **char**, kurz für englisch *character* (Zeichen). Ein `char` steht in **einfachen** Anführungszeichen, ein String in doppelten:
+
+- `'C'` ist ein `char`: genau ein Zeichen.
+- `"C"` ist ein String: ein Text, der nur ein Zeichen lang ist.
+- Ein `char` hat immer genau ein Zeichen. Einen leeren `char` wie `''` gibt es nicht, einen leeren String `""` schon.
+
+`charAt` liefert dir so ein Zeichen aus einem Text:
 
 ```
 char erster = wort.charAt(0)
 char letzter = wort.charAt(wort.length() - 1)
 ```
 
-Das letzte Zeichen hat wie beim Array den Index `length() - 1`.
+Zwei `char` vergleichst du mit `==`: `wort.charAt(0) == 'G'` ist `true`.
+
+Hinter jedem Zeichen steckt eine Zahl, sein **Zeichencode**. Welche Zahl zu welchem Zeichen gehört, steht in der ASCII-Tabelle: `'A'` hat den Code 65, `'B'` 66, `'C'` 67 und so weiter bis `'Z'` mit 90. Mit `(int)` bekommst du den Code eines Zeichens, mit `(char)` wird aus einem Code wieder ein Zeichen:
+
+```
+int code = (int) 'C'
+code = code + 1
+char naechstes = (char) code
+```
+
+Danach ist `code` 68 und `naechstes` ist `'D'`. So verschiebst du einen Buchstaben im Alphabet, und genau das brauchst du später bei der Caesar-Verschlüsselung.
 
 ## Teile herausschneiden
 
@@ -412,6 +433,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 ::: checkliste
 - Ich kann erklären, dass auch die Zeichen eines Strings ab 0 gezählt werden. → Text ist eine Reihe von Zeichen
 - Ich kann mit `length()` und `charAt(i)` arbeiten. → Text ist eine Reihe von Zeichen
+- Ich kann einen `char` von einem String unterscheiden und mit `(int)` und `(char)` den Zeichencode nutzen. → Ein einzelnes Zeichen: char
 - Ich kann mit `substring` einen Teil aus einem Text schneiden. → Teile herausschneiden
 - Ich kann `indexOf`, `contains`, `toUpperCase` und `equals` anwenden. → Suchen und vergleichen
 - Ich kann einen Text mit einer Schleife Zeichen für Zeichen durchgehen. → Zeichen für Zeichen
@@ -431,6 +453,20 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [x] u
 - [ ] d
 > Gezählt wird ab 0: L hat den Index 0, u den Index 1.
+
+? Was ist `'C'`?
+→ Ein einzelnes Zeichen: char
+- [x] ein `char`, also genau ein Zeichen
+- [ ] ein String
+- [ ] eine Variable mit dem Namen C
+> Einfache Anführungszeichen stehen für ein einzelnes Zeichen, also einen `char`. `"C"` in doppelten wäre ein String.
+
+? `'A'` hat den Zeichencode 65. Was ergibt `(char) 67`?
+→ Ein einzelnes Zeichen: char
+- [ ] 'B'
+- [x] 'C'
+- [ ] 67
+> 65 ist A, 66 ist B, 67 ist C. Mit `(char)` wird aus dem Code wieder ein Zeichen.
 
 ? Was liefert `"Struktogramm".substring(0, 6)`?
 → Teile herausschneiden

@@ -49,6 +49,8 @@ The data type says what kind of value may be stored in the variable.
 - **String:** text, e.g. `String name = "Mia"`. Text goes in quotation marks.
 - **boolean:** truth values, only `true` or `false`
 
+There are more data types. You will soon need one of them: `char` for a **single character**, e.g. `char grade = 'C'`. A `char` goes in **single** quotation marks. You will get to know it better in lesson 17.
+
 ::: diagramm l05-datentypen.visustruct
 Three variables with different data types. Open the diagram and start the simulation.
 :::

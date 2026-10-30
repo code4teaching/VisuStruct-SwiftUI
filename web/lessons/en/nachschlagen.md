@@ -11,6 +11,20 @@ String name = "Ada"
 number = number + 1
 ```
 
+### Data types
+
+The data type comes before the name of the variable.
+
+| Data type | Meaning | Example |
+|---|---|---|
+| `int` | whole number | `int count = 3` |
+| `double` | decimal number (with a point) | `double price = 2.5` |
+| `String` | text in double quotation marks | `String name = "Ada"` |
+| `boolean` | truth value | `boolean done = false` |
+| `char` | a single character in single quotation marks | `char grade = 'C'` |
+
+`'C'` is a `char`, `"C"` is a String. You get a character from a text with `charAt`: `char first = name.charAt(0)`. Every character has a character code: `(int) 'A'` is 65, `(char) 66` is `'B'`.
+
 ### Input
 
 Asks for a value while the chart runs and stores it in a variable. The text in quotation marks is the question.
