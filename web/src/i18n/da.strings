@@ -92,6 +92,7 @@
 "web_parse_missing_do_while" = "Efter “do { … }” mangler “while (betingelse);”.";
 "web_parse_more_methods" = "Indtil videre tæller kun én metode her. Opret andre underprogrammer i egne faner.";
 "web_parse_missing_import" = "Øverst mangler %@ Uden denne linje kender Java ikke Scanner.";
+"web_parse_missing_scanner" = "Før mangler %@ Uden den linje findes Scanneren ikke.";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";

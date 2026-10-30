@@ -92,6 +92,7 @@
 "web_parse_missing_do_while" = "Після «do { … }» бракує «while (умова);».";
 "web_parse_more_methods" = "Поки що тут враховується лише один метод. Інші підпрограми створи в окремих вкладках.";
 "web_parse_missing_import" = "На самому початку бракує %@ Без цього рядка Java не знає Scanner.";
+"web_parse_missing_scanner" = "Спочатку бракує %@ Без цього рядка Scanner не існує.";
 "web_editor_title" = "Діаграма";
 "web_editor_show" = "Показати діаграму";
 "web_editor_hide" = "Сховати діаграму";

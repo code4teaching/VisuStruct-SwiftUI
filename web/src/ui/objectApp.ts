@@ -79,6 +79,7 @@ import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
 import { closeWindows, compileAndRunProject, prepareJava } from './javaRuntime'
 import { ObjectDiagram, type LiveState } from './objectDiagram'
+import { sequenceSVG, type SequenceData } from './sequenceDiagram'
 import { MiniJava, MiniJavaError, type FrameView, type HeapObject, type StepMode } from '../core/miniJava'
 import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
@@ -146,7 +147,7 @@ function siteURL(): string {
   const code = currentLanguage()
   const lang = code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'
   const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
-  return `${base}${lang}/index.html`
+  return `${base}${lang}/visuobject.html`
 }
 
 function download(name: string, data: BlobPart, type: string) {
@@ -166,6 +167,8 @@ interface Selection {
 
 /** Knoten im Package Explorer: `project`, `src`, `pkg:tiere`, `file:tiere/Hund.java`, `class:Hund`. */
 type NodeId = string
+
+type DiagramMode = 'class' | 'object' | 'sequence'
 
 const chevron = '<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
@@ -207,7 +210,9 @@ export class ObjectApp {
   private editing = false
   private objectDiagram!: ObjectDiagram
   /** Im Diagramm-Bereich: Klassendiagramm oder Objektdiagramm. */
-  private diagramMode: 'class' | 'object' = stored(diagramModeKey) === 'object' ? 'object' : 'class'
+  private diagramMode: DiagramMode = (['object', 'sequence'] as const).find((m) => m === stored(diagramModeKey)) ?? 'class'
+  /** Letzter Mitschnitt fürs Sequenzdiagramm (bleibt nach dem Programmende stehen). */
+  private sequence?: SequenceData
   /** Gewählte Notiz im Diagramm. */
   private noteSelection?: string
   /** Workspace-Ordner wie in Eclipse (nur Chrome/Edge); ohne ihn bleibt das Projekt im Browser. */
@@ -358,6 +363,7 @@ export class ObjectApp {
             <div class="vo-diagram-switch" role="tablist" aria-label="${e(t('web_visuobject_diagram'))}">
               <button role="tab" data-diagram="class">${e(t('web_visuobject_diagram'))}</button>
               <button role="tab" data-diagram="object">${e(t('web_visuobject_obj_diagram'))}</button>
+              <button role="tab" data-diagram="sequence">${e(t('web_visuobject_seq_diagram'))}</button>
             </div>
             <div class="vo-bar-actions">
               <button class="text-button" data-action="layout" data-tip="${e(t('web_visuobject_layout_tip'))}">${e(t('web_visuobject_layout'))}</button>
@@ -374,6 +380,7 @@ export class ObjectApp {
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
             <div class="vo-canvas vo-objcanvas" tabindex="-1" hidden><svg class="vo-lines vo-objlines"></svg></div>
+            <div class="vo-canvas vo-seqcanvas" tabindex="-1" hidden><p class="vo-empty"></p><svg class="vo-seq"></svg></div>
           </div>
           <div class="vo-hsplit" role="separator" aria-orientation="horizontal" tabindex="0" aria-label="${e(t('web_visuobject_inspector_resize'))}" data-tip="${e(t('web_visuobject_inspector_resize'))}"></div>
           <section class="vo-dock" aria-label="${e(t('web_visuobject_inspector'))}">
@@ -386,7 +393,12 @@ export class ObjectApp {
           <footer class="vo-foot"><p class="vo-status" role="status"></p><small class="vo-hint">${e(t('web_visuobject_edit_hint'))}</small></footer>
         </section>
       </main>`
-    this.canvas = this.shell.querySelector('.vo-canvas:not(.vo-objcanvas)')!
+    this.canvas = this.shell.querySelector('.vo-canvas:not(.vo-objcanvas):not(.vo-seqcanvas)')!
+    this.shell.querySelector('.vo-seqcanvas')!.addEventListener('click', (ev) => {
+      const i = (ev.target as Element).closest<SVGElement>('[data-ev]')?.dataset.ev
+      const pos = i !== undefined ? this.sequence?.events[Number(i)]?.pos : undefined
+      if (pos?.file) this.showLine(pos.file, pos.line)
+    })
     const objCanvas = this.shell.querySelector<HTMLElement>('.vo-objcanvas')!
     this.objectDiagram = new ObjectDiagram({
       canvas: objCanvas,
@@ -397,7 +409,7 @@ export class ObjectApp {
       setObjects: (objects) => this.setProject({ ...this.project, objects: objects.length ? objects : undefined }),
       message: (text) => this.message(text),
     })
-    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-diagram]')) b.addEventListener('click', () => this.setDiagramMode(b.dataset.diagram as 'class' | 'object'))
+    for (const b of this.shell.querySelectorAll<HTMLButtonElement>('[data-diagram]')) b.addEventListener('click', () => this.setDiagramMode(b.dataset.diagram as DiagramMode))
     this.shell.querySelector('[data-obj-add]')!.addEventListener('click', () => {
       const cls = this.shell.querySelector<HTMLSelectElement>('[data-obj-class]')!.value
       if (cls) this.objectDiagram.add(cls)
@@ -714,7 +726,8 @@ export class ObjectApp {
     this.shell.querySelector<HTMLElement>('.vo-dbg-controls')!.hidden = false
     this.shell.querySelector<HTMLButtonElement>('[data-action=stop]')!.disabled = false
     this.shell.querySelector<HTMLButtonElement>('[data-action=run]')!.disabled = true
-    if (this.diagramMode !== 'object') this.setDiagramMode('object')
+    this.sequence = undefined
+    if (this.diagramMode === 'class') this.setDiagramMode('object')
     vm.go(this.allBreakpoints().size ? 'run' : 'into')
     this.debugRun()
   }
@@ -802,7 +815,7 @@ export class ObjectApp {
     const line = err.pos ? String(err.pos.line + 1) : ''
     const file = err.pos?.file.split('/').pop() ?? ''
     const what = err.detail.replace(/^expected:/, '')
-    const key = { syntax: 'web_visuobject_dbg_err_syntax', symbol: 'web_visuobject_dbg_err_symbol', unsupported: 'web_visuobject_dbg_err_unsupported', nomain: 'web_visuobject_no_main', type: 'web_visuobject_dbg_err_type' }[err.code]
+    const key = { syntax: 'web_visuobject_dbg_err_syntax', symbol: 'web_visuobject_dbg_err_symbol', unsupported: 'web_visuobject_dbg_err_unsupported', nomain: 'web_visuobject_no_main', type: 'web_visuobject_dbg_err_type', import: 'web_visuobject_dbg_err_import' }[err.code]
     if (err.pos) this.showLine(err.pos.file, err.pos.line)
     this.stopDebug()
     this.debugStatus(t(key, file, line, what), true)
@@ -864,7 +877,36 @@ export class ObjectApp {
       move: (id, p) => dbg.places.set(id, p),
     }
     this.objectDiagram.live = live
+    this.sequence = dbg.vm.sequence()
     if (this.diagramMode === 'object') this.objectDiagram.render()
+    if (this.diagramMode === 'sequence') this.renderSequence()
+  }
+
+  /** Sequenzdiagramm aus dem letzten Debugger-Lauf; beim Anhalten ist der letzte Pfeil gelb. */
+  private renderSequence() {
+    const box = this.shell.querySelector<HTMLElement>('.vo-seqcanvas')!
+    const svg = box.querySelector<SVGSVGElement>('.vo-seq')!
+    const empty = box.querySelector<HTMLElement>('.vo-empty')!
+    const data = this.sequence
+    empty.hidden = !!data && data.events.length > 0
+    empty.textContent = t(data ? 'web_visuobject_seq_no_calls' : 'web_visuobject_seq_empty')
+    if (!data || !data.events.length) {
+      svg.innerHTML = ''
+      svg.setAttribute('width', '0')
+    } else {
+      const live = this.dbg?.state === 'paused' || this.dbg?.state === 'input'
+      const { svg: inner, width, height } = sequenceSVG(data, live ? data.events.length - 1 : undefined)
+      svg.innerHTML = inner + (data.truncated ? `<text class="vo-seq-more" x="30" y="${height - 6}">${e(t('web_visuobject_seq_truncated'))}</text>` : '')
+      svg.setAttribute('width', String(width))
+      svg.setAttribute('height', String(height))
+      if (live) svg.querySelector('.vo-seq-msg.current')?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    }
+    this.renderSequenceInspector()
+  }
+
+  private renderSequenceInspector() {
+    if (this.objectDiagram.live) return this.objectDiagram.renderInspector()
+    this.inspector.innerHTML = `<p class="vo-inspector-empty">${e(t('web_visuobject_seq_hint'))}</p>`
   }
 
   /** Objekte aus dem Speicher als Objektdiagramm; Lage wie selbst gezeichnet (gleicher Name) oder frei daneben. */
@@ -908,6 +950,7 @@ export class ObjectApp {
     const dbg = this.dbg
     if (dbg) clearTimeout(dbg.timer)
     this.dbg = undefined
+    if (dbg) this.sequence = dbg.vm.sequence()
     this.objectDiagram.live = undefined
     this.consolePane().input.hidden = true
     this.shell.querySelector<HTMLElement>('.vo-dbg-controls')!.hidden = true
@@ -916,6 +959,7 @@ export class ObjectApp {
     if (!error) this.editor.setMarks({ placeholders: [], problems: [] }, false)
     if (statusKey) this.debugStatus(t(statusKey), error)
     if (this.diagramMode === 'object') this.objectDiagram.render()
+    if (this.diagramMode === 'sequence') this.renderSequence()
   }
 
   private chooseWorld(world: WorldChoice) {
@@ -1978,7 +2022,7 @@ export class ObjectApp {
 
   // MARK: - Zeichnen
 
-  private setDiagramMode(mode: 'class' | 'object') {
+  private setDiagramMode(mode: DiagramMode) {
     this.diagramMode = mode
     store(diagramModeKey, mode)
     this.setTool('select')
@@ -1988,12 +2032,14 @@ export class ObjectApp {
   /** Umschalter, Werkzeuge und Fläche passend zum Diagramm zeigen. */
   private showDiagramMode() {
     const object = this.diagramMode === 'object'
+    const cls = this.diagramMode === 'class'
     for (const b of this.shell.querySelectorAll<HTMLElement>('[data-diagram]')) b.setAttribute('aria-selected', String(b.dataset.diagram === this.diagramMode))
-    this.shell.querySelector<HTMLElement>('.vo-palette:not(.vo-obj-palette)')!.hidden = object
+    this.shell.querySelector<HTMLElement>('.vo-palette:not(.vo-obj-palette)')!.hidden = !cls
     this.shell.querySelector<HTMLElement>('.vo-obj-palette')!.hidden = !object
-    this.canvas.hidden = object
+    this.canvas.hidden = !cls
     this.shell.querySelector<HTMLElement>('.vo-objcanvas')!.hidden = !object
-    this.shell.querySelector<HTMLElement>('[data-action=layout]')!.hidden = object
+    this.shell.querySelector<HTMLElement>('.vo-seqcanvas')!.hidden = this.diagramMode !== 'sequence'
+    this.shell.querySelector<HTMLElement>('[data-action=layout]')!.hidden = !cls
     if (object) {
       const select = this.shell.querySelector<HTMLSelectElement>('[data-obj-class]')!
       const names = [...new Set(this.classes.filter((c) => c.kind === 'class' && !c.isAbstract).map((c) => c.name))]
@@ -2011,6 +2057,7 @@ export class ObjectApp {
   private render() {
     this.showDiagramMode()
     if (this.diagramMode === 'object') return this.objectDiagram.render()
+    if (this.diagramMode === 'sequence') return this.renderSequence()
     for (const old of this.canvas.querySelectorAll('.uml-class, .uml-note, .vo-empty')) old.remove()
     for (const note of this.project.notes ?? []) this.canvas.append(this.noteBox(note))
     if (this.classes.length === 0) {
@@ -2897,6 +2944,7 @@ export class ObjectApp {
    */
   private renderInspector() {
     if (this.diagramMode === 'object') return this.objectDiagram.renderInspector()
+    if (this.diagramMode === 'sequence') return this.renderSequenceInspector()
     const note = this.findNote(this.noteSelection)
     if (note) return this.renderNoteInspector(note)
     const dep = this.relSelection?.startsWith('dep:') ? this.findDependency(this.relSelection) : undefined

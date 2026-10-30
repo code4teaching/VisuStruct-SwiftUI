@@ -152,6 +152,7 @@
 "web_parse_missing_do_while" = "Depois de “do { … }” ainda falta “while (condição);”.";
 "web_parse_more_methods" = "Por agora só conta um método aqui. Cria outros subprogramas em separadores próprios.";
 "web_parse_missing_import" = "Falta %@ mesmo no início. Sem esta linha, o Java não conhece o Scanner.";
+"web_parse_missing_scanner" = "Falta antes %@ Sem esta linha, o Scanner não existe.";
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";
@@ -421,6 +422,11 @@
 "web_visuobject_bad_line" = "Não percebo «%@». Exemplo: - nome: String ou + ladrar(): void";
 "web_visuobject_open_failed" = "Não foi possível ler o ficheiro.";
 "web_visuobject_field_ph" = "- nome: String";
+"web_visuobject_seq_diagram" = "Diagrama de sequência";
+"web_visuobject_seq_empty" = "O diagrama de sequência surge ao depurar: clica em “Depurar” em cima e percorre o programa passo a passo.";
+"web_visuobject_seq_no_calls" = "Ainda não há chamadas dos teus métodos.";
+"web_visuobject_seq_truncated" = "… encurtado: a partir daqui há chamadas demais.";
+"web_visuobject_seq_hint" = "Cada seta é uma chamada de um dos teus métodos; a seta tracejada traz o valor de retorno. Clica numa seta para ver a linha no código.";
 "web_visuobject_dbg" = "Depurar";
 "web_visuobject_dbg_tip" = "Executar o programa passo a passo. Ponto de paragem: clica no número da linha. O diagrama de objetos mostra os objetos na memória.";
 "web_visuobject_dbg_continue" = "Continuar";
@@ -447,6 +453,7 @@
 "web_visuobject_dbg_no_vars" = "Sem variáveis";
 "web_visuobject_dbg_err_syntax" = "%1$@, linha %2$@: o depurador não entende isto (%3$@). ▶ Executar mostra a mensagem do Java.";
 "web_visuobject_dbg_err_symbol" = "%1$@, linha %2$@: %3$@ é desconhecido.";
+"web_visuobject_dbg_err_import" = "%1$@, linha %2$@: falta %3$@ mesmo no início. Sem esta linha, o Java não conhece a classe.";
 "web_visuobject_dbg_err_unsupported" = "%1$@, linha %2$@: o depurador ainda não consegue %3$@. ▶ Executar corre o programa em Java real.";
 "web_visuobject_dbg_err_type" = "%1$@, linha %2$@: algo não encaixa aqui (%3$@).";
 "web_visuobject_obj_diagram" = "Diagrama de objetos";
