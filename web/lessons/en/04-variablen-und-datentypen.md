@@ -160,7 +160,7 @@ lösung: l05-einkauf-loesung.visustruct
 ## Now in Java
 
 ::: grafik l04-kaffee.svg
-Not the official logo, just our drawing: in American English, „java“ is a word for coffee. The language was named after the coffee from the island of Java that its inventors liked to drink.
+Not the official logo, just our drawing: in American English, "java" is a word for coffee. The language was named after the coffee from the island of Java that its inventors liked to drink.
 :::
 
 A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
