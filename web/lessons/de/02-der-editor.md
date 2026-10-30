@@ -66,7 +66,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 ::: übung l2-hallo
 titel: Hallo Welt
 auftrag: Baue ein Struktogramm, das **Hallo Welt** ausgibt.
-Ziehe eine Anweisung auf den Platzhalter, stelle sie im Objektinspektor auf **Ausgabe** und schreibe `"Hallo Welt"`.
+Ziehe eine **Anweisung** aus den Elementen auf den Platzhalter **ø** und klicke den Kasten an. Im Objektinspektor unter dem Struktogramm stehen oben drei Knöpfe: Anweisung, Eingabe und Ausgabe. Klicke auf **Ausgabe**. Schreibe dann in das Textfeld darunter `"Hallo Welt"`, mit Anführungszeichen.
 test: - -> Hallo Welt
 braucht: anweisung
 tipp: Du brauchst nur einen einzigen Kasten. Der Text, der erscheinen soll, steht im Objektinspektor im Eingabefeld.

@@ -66,7 +66,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 ::: übung l2-hallo
 titel: Olá Mundo
 auftrag: Constrói um estrutograma que mostre **Olá Mundo**.
-Arrasta uma Instrução para o marcador, muda-a para **Saída** no Inspetor de objetos e escreve `"Olá Mundo"`.
+Arrasta uma **Instrução** dos Elementos para o marcador **ø** e clica no bloco. No Inspetor de objetos, por baixo do estrutograma, há três botões em cima: Instrução, Entrada e Saída. Clica em **Saída**. Depois escreve `"Olá Mundo"` no campo de texto por baixo, com aspas.
 test: - -> Olá Mundo
 braucht: anweisung
 tipp: Só precisas de um único bloco. O texto que deve aparecer vai para o campo de texto do Inspetor de objetos.
