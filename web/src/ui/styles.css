@@ -669,6 +669,54 @@ a.brand {
   justify-content: flex-end;
   margin-top: 12px;
 }
+/* „Variable umbenennen“ */
+.rename-card {
+  width: min(380px, 100%);
+}
+.rename-card label {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+}
+.rename-card input,
+.rename-card select {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  font-size: 15px;
+}
+.rename-card .rename-info {
+  min-height: 1.3em;
+  margin-top: 8px;
+}
+.rename-card .rename-warning {
+  color: #c93400;
+}
+.rename-menu {
+  position: fixed;
+  z-index: 30;
+  padding: 4px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.rename-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.rename-menu button:hover,
+.rename-menu button:focus-visible {
+  background: var(--accent-soft);
+}
+.inspector-rename {
+  margin-top: 8px;
+}
 .files-ask {
   width: min(360px, 100%);
 }

@@ -18,6 +18,8 @@ import { indentJava } from '../core/javaIndent'
 import { sidebarIcon } from './learnPanel'
 import { closeWindows, compileAndRun, prepareJava, watchWrittenFiles } from './javaRuntime'
 import { writtenFilesView } from './textFileView'
+import { codeWords, nameAt, nameRanges } from '../core/rename'
+import { askRename, showRenameMenu } from './renameDialog'
 
 /**
  * Ansicht „Code live“: rechts neben dem Struktogramm der Java-, JavaScript- oder Python-Code, der bei jeder Änderung mitwächst.
@@ -179,6 +181,8 @@ export class LiveCodePanel {
   onReference?: () => void
   /** ⇄: Programmieren groß und Struktogramm schmal bzw. zurück */
   onSwap?: () => void
+  /** Vor dem Umbenennen: eigener Rückgängig-Schritt statt Teil des Tippens davor. */
+  onRename?: () => void
 
   constructor(
     private onHide: () => void,
@@ -306,6 +310,7 @@ export class LiveCodePanel {
         words: () => this.snippetWords,
         breakpointLine: (line) => spanAtLine(this.spans, line)?.from,
         onBreakpoints: () => (this.breakpoints = this.code.breakpoints),
+        onRename: (pos, menu) => this.renameAt(pos, menu),
       },
       t('web_live_edit_label'),
     )
@@ -899,6 +904,36 @@ export class LiveCodePanel {
       this.drawMarks(this.last?.highlight)
       if (path) this.onSelect(path)
     } else this.onCode(result, path)
+  }
+
+  /** Getippter Java-Code, solange man ihn bearbeiten kann (sonst gilt das Struktogramm). */
+  get editableCode(): string | undefined {
+    return this.target === 'java' && this.last?.context.editable ? this.code.text : undefined
+  }
+
+  /** Variable im Code umbenennen; das Struktogramm folgt wie beim Tippen. */
+  renameInCode(from: string, to: string) {
+    this.onRename?.()
+    this.code.replaceRanges(nameRanges(this.code.text, from), to)
+  }
+
+  /** F2 oder Rechtsklick im Code: Fenster „Variable umbenennen“ für das Wort an `pos`. */
+  private renameAt(pos: number, menu?: { x: number; y: number }): boolean {
+    const text = this.editableCode
+    const word = text !== undefined ? nameAt(text, pos) : undefined
+    if (text === undefined || !word) return false
+    const ask = () =>
+      void askRename({
+        names: [word.name],
+        existing: codeWords(this.code.text).map((w) => w.name),
+        count: (name) => nameRanges(this.code.text, name).length,
+      }).then((r) => {
+        if (r) this.renameInCode(r.from, r.to)
+        this.code.view.focus()
+      })
+    if (menu) showRenameMenu(menu.x, menu.y, t('web_rename_menu'), ask)
+    else ask()
+    return true
   }
 
   /** Cursor in einer Zeile: passendes Element im Struktogramm markieren. */

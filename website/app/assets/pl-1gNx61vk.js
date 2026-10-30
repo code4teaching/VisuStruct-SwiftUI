@@ -177,4 +177,17 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_code_scopes" = "Kolorowe bloki kodu";
 "web_code_scopes_hint" = "Klasa, metoda, pętla, rozgałęzienie we własnych ramkach";
 "web_pseudocode" = "Pseudokod";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Zmień nazwę zmiennej …";
+"web_rename_title" = "Zmień nazwę zmiennej";
+"web_rename_old" = "Nazwa";
+"web_rename_new" = "Nowa nazwa";
+"web_rename_hint" = "Zmienia każde miejsce o dokładnie tej pisowni (liczba to nie Liczba), w kodzie i w strukturogramie. Tekst w \\"…\\" i komentarze zostają.";
+"web_rename_count_fmt" = "Występuje %d razy.";
+"web_rename_exists_fmt" = "„%@” już istnieje: potem obie byłyby jedną zmienną.";
+"web_rename_invalid" = "Nazwa zaczyna się od litery i zawiera tylko litery, cyfry i _.";
+"web_rename_keyword_fmt" = "„%@” to słowo kluczowe Javy.";
+"web_rename_apply" = "Zmień nazwę";
+"web_rename_cancel" = "Anuluj";
 `;export{e as default};

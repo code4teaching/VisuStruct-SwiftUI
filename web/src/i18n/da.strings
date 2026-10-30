@@ -177,3 +177,16 @@
 "web_code_scopes" = "Farvede kodeblokke";
 "web_code_scopes_hint" = "Klasse, metode, løkke, forgrening i egne felter";
 "web_pseudocode" = "Pseudokode";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Omdøb variabel …";
+"web_rename_title" = "Omdøb variabel";
+"web_rename_old" = "Navn";
+"web_rename_new" = "Nyt navn";
+"web_rename_hint" = "Ændrer hvert sted med præcis denne stavemåde (tal er ikke Tal), i koden og i strukturdiagrammet. Tekst i \"…\" og kommentarer bliver.";
+"web_rename_count_fmt" = "Forekommer %d gange.";
+"web_rename_exists_fmt" = "“%@” findes allerede: bagefter ville begge være én variabel.";
+"web_rename_invalid" = "Et navn begynder med et bogstav og indeholder kun bogstaver, cifre og _.";
+"web_rename_keyword_fmt" = "“%@” er et Java-nøgleord.";
+"web_rename_apply" = "Omdøb";
+"web_rename_cancel" = "Annuller";

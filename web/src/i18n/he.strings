@@ -177,3 +177,16 @@
 "web_code_scopes" = "בלוקי קוד צבעוניים";
 "web_code_scopes_hint" = "מחלקה, מתודה, לולאה, הסתעפות בתיבות משלהן";
 "web_pseudocode" = "פסאודו-קוד";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "שינוי שם המשתנה …";
+"web_rename_title" = "שינוי שם המשתנה";
+"web_rename_old" = "שם";
+"web_rename_new" = "שם חדש";
+"web_rename_hint" = "משנה כל מקום עם בדיוק הכתיב הזה (number אינו Number), בקוד ובתרשים המבנה. טקסט בתוך \"…\" והערות נשארים.";
+"web_rename_count_fmt" = "מופיע %d פעמים.";
+"web_rename_exists_fmt" = "„%@” כבר קיים: אחר כך שניהם יהיו משתנה אחד.";
+"web_rename_invalid" = "שם מתחיל באות ומכיל רק אותיות, ספרות ו־_.";
+"web_rename_keyword_fmt" = "„%@” היא מילת מפתח של Java.";
+"web_rename_apply" = "שינוי שם";
+"web_rename_cancel" = "ביטול";

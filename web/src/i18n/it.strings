@@ -177,3 +177,16 @@
 "web_code_scopes" = "Blocchi di codice colorati";
 "web_code_scopes_hint" = "Classe, metodo, ciclo, selezione in riquadri propri";
 "web_pseudocode" = "Pseudocodice";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Rinomina variabile …";
+"web_rename_title" = "Rinomina variabile";
+"web_rename_old" = "Nome";
+"web_rename_new" = "Nuovo nome";
+"web_rename_hint" = "Cambia ogni punto con esattamente questa scrittura (numero non è Numero), nel codice e nello strutturogramma. Il testo tra \"…\" e i commenti restano.";
+"web_rename_count_fmt" = "Compare %d volte.";
+"web_rename_exists_fmt" = "«%@» esiste già: dopo le due sarebbero una sola variabile.";
+"web_rename_invalid" = "Un nome inizia con una lettera e contiene solo lettere, cifre e _.";
+"web_rename_keyword_fmt" = "«%@» è una parola chiave di Java.";
+"web_rename_apply" = "Rinomina";
+"web_rename_cancel" = "Annulla";

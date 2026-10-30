@@ -177,4 +177,17 @@ const e=`/* Κείμενα που υπάρχουν μόνο στην έκδοσ�
 "web_code_scopes" = "Χρωματιστά μπλοκ κώδικα";
 "web_code_scopes_hint" = "Κλάση, μέθοδος, βρόχος, διακλάδωση σε δικά τους πλαίσια";
 "web_pseudocode" = "Ψευδοκώδικας";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Μετονομασία μεταβλητής …";
+"web_rename_title" = "Μετονομασία μεταβλητής";
+"web_rename_old" = "Όνομα";
+"web_rename_new" = "Νέο όνομα";
+"web_rename_hint" = "Αλλάζει κάθε σημείο με ακριβώς αυτή τη γραφή (number δεν είναι Number), στον κώδικα και στο δομόγραμμα. Το κείμενο σε \\"…\\" και τα σχόλια μένουν.";
+"web_rename_count_fmt" = "Εμφανίζεται %d φορές.";
+"web_rename_exists_fmt" = "Το «%@» υπάρχει ήδη: μετά θα ήταν και τα δύο μία μεταβλητή.";
+"web_rename_invalid" = "Ένα όνομα αρχίζει με γράμμα και περιέχει μόνο γράμματα, ψηφία και _.";
+"web_rename_keyword_fmt" = "Το «%@» είναι λέξη-κλειδί της Java.";
+"web_rename_apply" = "Μετονομασία";
+"web_rename_cancel" = "Άκυρο";
 `;export{e as default};
