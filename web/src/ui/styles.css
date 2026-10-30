@@ -2394,9 +2394,36 @@ button.danger-text:not(:disabled) {
   padding: 0 12px;
   border-inline-start: 3px solid transparent;
 }
-.livecode-editor .cm-line.cm-sel {
-  background: var(--accent-soft);
-  border-inline-start-color: var(--accent);
+/* Farbige Blöcke wie in BlueJ: Klasse grün, Methode gelb, Schleife rosa, Verzweigung blau */
+.livecode-editor .cm-scopeLayer .cm-scope {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 7px;
+}
+.livecode-editor .cm-scope-class {
+  background: #eef6e4;
+  border-color: #c3dcaa;
+}
+.livecode-editor .cm-scope-method {
+  background: #fffbe3;
+  border-color: #e6d98f;
+}
+.livecode-editor .cm-scope-loop {
+  background: #fbebf4;
+  border-color: #e7bcd5;
+}
+.livecode-editor .cm-scope-if {
+  background: #e8f0fd;
+  border-color: #b7cbef;
+}
+.livecode-editor .cm-scope-try {
+  background: #f1edf9;
+  border-color: #cdc2e6;
+}
+/* Ausgewähltes Element: Rahmen in der Akzentfarbe über den Blöcken */
+.livecode-editor .cm-scopeLayer .cm-scope-sel {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-faint);
 }
 /* Debugger: nächste Zeile gelb, Haltepunkte als rote Punkte vor der Zeilennummer */
 .livecode-editor .cm-line.cm-debug-line {
