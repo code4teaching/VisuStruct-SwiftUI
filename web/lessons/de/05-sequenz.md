@@ -4,11 +4,24 @@ bereich: Grundlagen
 kurz: Schritte nacheinander ausführen, auf die Reihenfolge achten und Werte tauschen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, dass eine Sequenz von oben nach unten ausgeführt wird
+- erklären, warum die Reihenfolge der Schritte wichtig ist
+- zwei Werte mit einer Hilfsvariablen tauschen
+- eine Sequenz in Java schreiben
+:::
+
 ## Schritt für Schritt
 
 Eine **Sequenz** ist eine Folge von Schritten, die genau einmal und genau in dieser Reihenfolge ausgeführt werden. Im Struktogramm stehen die Kästen einfach untereinander.
 
 Jeder Kasten wird erst begonnen, wenn der Kasten darüber fertig ist. Es wird nichts übersprungen und nichts wiederholt.
+
+::: diagramm l05-sequenz.visustruct
+Eine Sequenz aus vier Kästen: Zuerst bekommen `laenge` und `breite` ihre Werte, dann wird die Fläche berechnet, und zum Schluss wird sie ausgegeben. Jeder Kasten läuft genau einmal, von oben nach unten. Ausgabe: 15.
+:::
 
 > Die Sequenz ist der einfachste der drei Grundbausteine. Fast jedes Struktogramm besteht zum größten Teil aus Sequenzen.
 
@@ -176,8 +189,10 @@ frage: Ludwig kocht Tee.
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass eine Sequenz von oben nach unten ausgeführt wird. → Schritt für Schritt
+- Ich kann erklären, dass eine Sequenz von oben nach unten ausgeführt wird. → Schritt für Schritt
 - Ich kann erklären, warum die Reihenfolge der Schritte wichtig ist. → Die Reihenfolge zählt
 - Ich kann zwei Werte mit einer Hilfsvariablen tauschen. → Zwei Werte tauschen
 - Ich kann eine Sequenz in Java schreiben. → Jetzt in Java
@@ -187,29 +202,34 @@ frage: Ludwig kocht Tee.
 
 ::: quiz
 ? Wie oft wird jeder Kasten einer Sequenz ausgeführt?
+→ Schritt für Schritt
 - [ ] So oft, bis eine Bedingung falsch ist
 - [x] Genau einmal
 - [ ] Gar nicht, wenn er leer ist
 > In einer Sequenz wird nichts wiederholt und nichts übersprungen. Für Wiederholungen gibt es Schleifen.
 
 ? Am Anfang ist a = 5 und b = 9. Danach wird `a = b` und dann `b = a` ausgeführt. Was steht am Ende in den Variablen?
+→ Zwei Werte tauschen
 - [ ] a = 9 und b = 5
 - [x] a = 9 und b = 9
 - [ ] a = 5 und b = 5
 > Nach `a = b` ist der alte Wert 5 verloren. `b = a` kopiert dann nur die 9 zurück.
 
 ? Wozu brauchst du beim Tauschen eine Hilfsvariable?
+→ Zwei Werte tauschen
 - [x] Damit ein Wert nicht überschrieben wird, bevor er gebraucht wird
 - [ ] Damit das Struktogramm länger wird
 - [ ] Weil man Variablen sonst nicht ausgeben kann
 
 ? Was gibt die Sequenz `int x = 4`, `x = x + 1`, `x = x * 3`, `output: x` aus?
+→ Die Reihenfolge zählt
 - [ ] 13
 - [x] 15
 - [ ] 4
 > Erst wird x zu 5, dann zu 15.
 
 ? Womit endet in Java jede Anweisung?
+→ Jetzt in Java
 - [ ] Mit einem Punkt .
 - [x] Mit einem Semikolon ;
 - [ ] Mit einem Doppelpunkt :

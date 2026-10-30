@@ -4,6 +4,15 @@ bereich: Fundamentos
 kurz: Contar um número fixo de iterações com Início, Condição e Passo.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- nomear as três partes Início, Condição e Passo do ciclo for
+- explicar por que ordem são executadas as três partes
+- contar para a frente, para trás e em passos maiores com um ciclo for
+- escrever um ciclo for em Java e explicar os seus três campos
+:::
+
 ## Contar com um plano fixo
 
 No ciclo while já foste contando: um valor inicial antes do ciclo, uma condição na cabeça, uma alteração no interior. O **ciclo for** junta estas três partes na cabeça. Assim vês num relance como ele conta.
@@ -255,40 +264,47 @@ besser: for (int i = 2; i <= 10; i = i + 2) {
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Conheço as três partes Início, Condição e Passo do ciclo for. → Contar com um plano fixo
-- Sei por que ordem são executadas as três partes. → Por que ordem?
-- Sei contar para a frente, para trás e em passos maiores com um ciclo for. → Outros passos
-- Sei escrever um ciclo for em Java e explicar os seus três campos. → Agora em Java
+- Consigo nomear as três partes Início, Condição e Passo do ciclo for. → Contar com um plano fixo
+- Consigo explicar por que ordem são executadas as três partes. → Por que ordem?
+- Consigo contar para a frente, para trás e em passos maiores com um ciclo for. → Outros passos
+- Consigo escrever um ciclo for em Java e explicar os seus três campos. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Quantas vezes é executado o Início de um ciclo for?
+→ Por que ordem?
 - [x] Exatamente uma vez
 - [ ] Antes de cada iteração
 - [ ] Depois de cada iteração
 > O Início cria a variável contadora uma vez, no começo.
 
 ? Início `int i = 0`, Condição `i < 3`, Passo `i++`. Que valores tem i dentro do ciclo?
+→ Contar com um plano fixo
 - [ ] 1, 2, 3
 - [x] 0, 1, 2
 - [ ] 0, 1, 2, 3
 > Com i = 3 a condição é falsa, por isso o interior já não é executado.
 
 ? Início `int i = 2`, Condição `i <= 10`, Passo `i = i + 2`. Quantas vezes é executado o interior?
+→ Outros passos
 - [ ] 4 vezes
 - [x] 5 vezes
 - [ ] 10 vezes
 > i toma os valores 2, 4, 6, 8 e 10.
 
 ? Quando é que um ciclo for serve melhor?
+→ Contar com um plano fixo
 - [x] Quando sabes de antemão quantas vezes repetir
 - [ ] Quando perguntas até uma entrada ser válida
 - [ ] Quando só é verificado um único valor
 
 ? O que significa `i++` num ciclo for?
+→ Contar com um plano fixo
 - [ ] i é duplicado.
 - [x] i aumenta 1.
 - [ ] i é mostrado.

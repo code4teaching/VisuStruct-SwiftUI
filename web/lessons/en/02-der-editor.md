@@ -4,11 +4,19 @@ bereich: First steps
 kurz: Insert elements, type text, move and delete.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- insert an element from the Elements area and replace a placeholder
+- change the text of a box and switch between Statement, Input and Output
+- move, copy and delete boxes and undo steps
+:::
+
 ## The screen
 
-VisuStruct has two editors: the **structure chart editor**, which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you.
+VisuStruct has two editors: the [structure chart editor](#zeige-editor), which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you. The blue words show you the areas, even when they are collapsed: move the mouse over one, and the area opens next to the learning area and lights up. Click it (or tap it), and it stays open.
 
-The structure chart editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor.
+The structure chart editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor; collapsed areas such as Elements open.
 
 - **At the very top, the [toolbar](#zeige-leiste):** New, Open and Save. On the far right, the gear for [Settings](#zeige-einstellungen): text size and language.
 - **Below it, the [tools](#zeige-werkzeuge)** above the elements and the structure chart: Undo, Cut, Copy, Paste, Delete, Export, Code and Simulation. The buttons only show icons. Hold the mouse over one and its name appears.
@@ -58,7 +66,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 
 - **Move:** Drag an existing box to a new place with the mouse.
 - **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box.
-- **Delete:** Select a box and press Del.
+- **Delete:** Select a box and press Del, or click the [trash can](#zeige-loeschen) „Delete Selection“ in the tools.
 - **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z).
 
 ## Exercise: Hello World
@@ -66,7 +74,7 @@ Two outputs one after the other. Open the diagram in the editor and start the si
 ::: übung l2-hallo
 titel: Hello World
 auftrag: Build a structure chart that outputs **Hello World**.
-Drag a Statement onto the placeholder, set it to **Output** in the Object Inspector and type `"Hello World"`.
+Drag a **Statement** from the Elements onto the placeholder **ø** and click the box. In the Object Inspector below the structure chart there are three buttons at the top: Statement, Input and Output. Click **Output**. Then type `"Hello World"` in the text field below, with quotation marks.
 test: - -> Hello World
 braucht: anweisung
 tipp: You only need one single box. The text that should appear goes into the text field in the Object Inspector.
@@ -145,6 +153,8 @@ frage: You click an element in the Elements area without dragging. Where does it
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can insert an element from the Elements area and replace a placeholder. → Insert an element
 - I can change the text of a box and switch between Statement, Input and Output. → Type text
@@ -155,17 +165,20 @@ frage: You click an element in the Elements area without dragging. Where does it
 
 ::: quiz
 ? What does the sign ø in a box mean?
+→ Insert an element
 - [ ] The box contains a mistake.
 - [x] There is still an empty placeholder here.
 - [ ] The program ends here.
 > A placeholder is replaced when you drag an element onto it.
 
 ? You drag a Statement onto the bottom half of a box. Where does it land?
+→ Insert an element
 - [ ] In front of it
 - [x] After it
 - [ ] The box is replaced.
 
 ? How do you output the text Good morning exactly as it is?
+→ Type text
 - [ ] output: Good morning
 - [x] output: "Good morning"
 - [ ] input: "Good morning"

@@ -122,11 +122,14 @@ export function attachTermTips(container: HTMLElement) {
 }
 
 /**
- * Zeiger auf den Editor: Ein Link `[Elemente](#zeige-elemente)` im Lektionstext hebt beim Hovern oder Antippen
- * den echten Bereich im Editor neben dem Lernbereich hervor.
+ * Zeiger auf den Editor: Ein Link `[Elemente](#zeige-elemente)` im Lektionstext hebt beim Hovern den echten Bereich
+ * im Editor neben dem Lernbereich hervor. Ein Klick (oder Antippen) öffnet außerdem die Spalte, in der der Bereich
+ * liegt, auch wenn sie eingeklappt ist.
  */
 export const uiTargets: Record<string, string> = {
   leiste: '.topbar > .toolbar',
+  // Die ganze Spalte Struktogramm-Editor; eingeklappt leuchtet ihre schmale Leiste.
+  editor: '.editor-rail, .columns > .app',
   werkzeuge: '.diagram-tools',
   // Eingeklappt leuchtet die schmale Leiste, sonst die Spalte.
   dateien: '.files-rail, .files',
@@ -144,6 +147,7 @@ export const uiTargets: Record<string, string> = {
   speichern: '[data-action=save]',
   exportieren: '[data-action=export]',
   rueckgaengig: '[data-action=undo]',
+  loeschen: '[data-action=delete]',
   // Textgröße und Sprache liegen im Menü hinter dem Zahnrad.
   textgroesse: '[data-action=settings]',
   einstellungen: '[data-action=settings]',
@@ -153,13 +157,30 @@ export const uiTargets: Record<string, string> = {
 }
 
 /** Zeiger auf diese Bereiche brauchen die Struktogramm-Spalte. */
-const editorTargets = new Set(['werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'exportieren', 'code', 'simulation'])
+const editorTargets = new Set(['editor', 'werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'loeschen', 'exportieren', 'code', 'simulation'])
 
 /** Zeiger auf diese Bereiche brauchen die offene Spalte „Programmieren“ (die schmale Leiste allein reicht nicht). */
 const liveCodeTargets = new Set(['ausfuehren', 'konsole', 'einzelschritt'])
 
 function pointsInto(root: HTMLElement, targets: Set<string>): boolean {
   return [...root.querySelectorAll<HTMLElement>('.ui-pointer')].some((p) => targets.has(p.dataset.target ?? ''))
+}
+
+/** Eingeklappte Bereiche, die ein Zeiger öffnen kann: Struktogramm-Editor, Elemente, „Programmieren“, Dateien. */
+export type UiArea = 'editor' | 'palette' | 'livecode' | 'files'
+
+/** Was offen sein muss, damit man den Bereich des Zeigers sieht (die Elemente liegen im Struktogramm-Editor). */
+export function areasOf(key: string): UiArea[] {
+  if (key === 'elemente') return ['editor', 'palette']
+  if (editorTargets.has(key)) return ['editor']
+  if (key === 'codelive' || liveCodeTargets.has(key)) return ['livecode']
+  if (key === 'dateien') return ['files']
+  return []
+}
+
+/** Zeigt der Text auf die Elemente? */
+export function pointsIntoPalette(root: HTMLElement): boolean {
+  return pointsInto(root, new Set(['elemente']))
 }
 
 /** Zeigt der Text auf die Spalte Dateien? */
@@ -191,9 +212,17 @@ export function markPointers(root: HTMLElement) {
   }
 }
 
-export function attachPointers(container: HTMLElement) {
+/**
+ * `reveal`: eingeklappte Bereiche öffnen; zurück kommt, wie man sie wieder einklappt. Hovern öffnet nur so lange,
+ * wie die Maus auf dem Wort bleibt; Klicken, Antippen oder Enter lässt den Bereich offen.
+ */
+export function attachPointers(container: HTMLElement, reveal: (areas: UiArea[]) => () => void = () => () => {}) {
   let lit: Element | undefined
   let timer: number | undefined
+  /** Nur vom Hovern geöffnet: so wieder einklappen. */
+  let undoHover: (() => void) | undefined
+  let hoverTimer: number | undefined
+  let leaveTimer: number | undefined
   const off = () => {
     lit?.classList.remove('ui-spot')
     lit = undefined
@@ -208,17 +237,54 @@ export function attachPointers(container: HTMLElement) {
     target.classList.add('ui-spot')
     if (forAWhile) timer = window.setTimeout(off, 2500)
   }
+  /** Nach dem Öffnen hat der Bereich erst im nächsten Bild seinen Platz. */
+  const showSoon = (pointer: HTMLElement, forAWhile: boolean) =>
+    requestAnimationFrame(() => {
+      on(pointer, forAWhile)
+      lit?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    })
+  const closeHovered = () => {
+    window.clearTimeout(hoverTimer)
+    window.clearTimeout(leaveTimer)
+    undoHover?.()
+    undoHover = undefined
+  }
+  const openAndShow = (pointer: HTMLElement) => {
+    window.clearTimeout(hoverTimer)
+    window.clearTimeout(leaveTimer)
+    // Was das Hovern schon geöffnet hat, bleibt jetzt offen.
+    undoHover = undefined
+    reveal(areasOf(pointer.dataset.target ?? ''))
+    on(pointer, true)
+    showSoon(pointer, true)
+  }
   const pointerOf = (e: Event) => (e.target as Element | null)?.closest?.<HTMLElement>('.ui-pointer') ?? undefined
   container.addEventListener('pointerover', (e) => {
     const p = pointerOf(e)
-    if (p && e.pointerType === 'mouse') on(p, false)
+    if (!p || e.pointerType !== 'mouse') return
+    window.clearTimeout(leaveTimer)
+    on(p, false)
+    // Kurz warten: Wer mit der Maus nur über den Text fährt, soll keine Spalten auf- und zuklappen.
+    window.clearTimeout(hoverTimer)
+    hoverTimer = window.setTimeout(() => {
+      if (undoHover) return
+      const areas = areasOf(p.dataset.target ?? '')
+      if (areas.length === 0) return
+      undoHover = reveal(areas)
+      showSoon(p, false)
+    }, 250)
   })
   container.addEventListener('pointerout', (e) => {
-    if (pointerOf(e) && e.pointerType === 'mouse') off()
+    if (!pointerOf(e) || e.pointerType !== 'mouse') return
+    off()
+    window.clearTimeout(hoverTimer)
+    // Etwas Spielraum, falls sich der Text beim Öffnen unter der Maus verschiebt.
+    window.clearTimeout(leaveTimer)
+    leaveTimer = window.setTimeout(closeHovered, 400)
   })
   container.addEventListener('click', (e) => {
     const p = pointerOf(e)
-    if (p) on(p, true)
+    if (p) openAndShow(p)
   })
   container.addEventListener('focusin', (e) => {
     const p = pointerOf(e)
@@ -231,8 +297,13 @@ export function attachPointers(container: HTMLElement) {
     const p = pointerOf(e)
     if (p && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault()
-      on(p, true)
+      openAndShow(p)
     }
   })
-  return { off }
+  return {
+    off: () => {
+      closeHovered()
+      off()
+    },
+  }
 }

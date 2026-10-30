@@ -4,6 +4,16 @@ bereich: Dateien
 kurz: Mit BufferedReader und readLine lesen, bis null kommt, und mit Files eine ganze Datei auf einmal lesen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Datei mit BufferedReader und readLine lesen
+- das Dateiende erkennen, weil readLine dort null liefert
+- zählen, wie oft ein Wort in einer Datei vorkommt
+- eine ganze Datei mit Files.readString lesen und mit split in Zeilen zerlegen
+- den längsten Eintrag einer Datei finden
+:::
+
 ## Der Kuchen ist weg!
 
 Am Morgen nach dem Fest ist Ludwigs Kuchen verschwunden. Zum Glück führt die Burg ein Logbuch. Jede Zeile beginnt mit dem Tag und der Uhrzeit:
@@ -206,34 +216,40 @@ runde:
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann eine Datei mit BufferedReader und readLine lesen. → Lesen mit BufferedReader
-- Ich weiß, dass readLine am Ende null liefert, und prüfe zeile != null. → Lesen mit BufferedReader
-- Ich habe gezählt, wie oft der Fuchs im Logbuch vorkommt. → Übung: Wie oft kommt der Fuchs vor?
+- Ich kann das Dateiende erkennen, weil readLine dort null liefert (zeile != null). → Lesen mit BufferedReader
+- Ich kann zählen, wie oft ein Wort in einer Datei vorkommt. → Übung: Wie oft kommt der Fuchs vor?
 - Ich kann eine ganze Datei mit Files.readString lesen und mit split in Zeilen zerlegen. → Die Abkürzung: Files
-- Ich habe den längsten Eintrag gefunden. → Übung: Der längste Eintrag
+- Ich kann den längsten Eintrag einer Datei finden. → Übung: Der längste Eintrag
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was liefert readLine(), wenn die Datei zu Ende ist?
+→ Lesen mit BufferedReader
 - [ ] ""
 - [x] null
 - [ ] -1
 > null heißt: Es gibt keinen Text mehr.
 
 ? Warum steht in der Schleife am Ende noch einmal zeile = leser.readLine()?
+→ Lesen mit BufferedReader
 - [ ] Damit die Datei geschlossen wird.
 - [x] Sonst bleibt zeile immer gleich, und die Schleife hört nie auf.
 - [ ] Damit die erste Zeile doppelt ausgegeben wird.
 
 ? Was macht try-with-resources?
+→ Lesen mit BufferedReader
 - [ ] Es liest die Datei schneller.
 - [x] Es schließt die Datei am Ende von selbst.
 - [ ] Es verhindert jede Exception.
 
 ? Ordne jedem Weg zu, wofür er gut ist.
+→ Die Abkürzung: Files
 = BufferedReader -> große Dateien, Zeile für Zeile
 = Files.readString -> kleine Dateien auf einmal
 = Scanner -> Zahlen und Wörter lesen

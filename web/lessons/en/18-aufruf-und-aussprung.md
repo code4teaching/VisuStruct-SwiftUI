@@ -4,6 +4,19 @@ bereich: Basics
 kurz: Split big tasks into subprograms and leave loops early.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- split a big task into smaller problems
+- insert a call and build a subprogram in a tab of its own
+- pass values to a subprogram with parameters
+- hand back a return value with return and store it when calling
+- explain why a subprogram cannot change a number but can change an array
+- explain what a Break does and why it sits in a branch
+- end a loop with a Break or through its condition
+- recognise a method in Java and leave a loop with `break`
+:::
+
 ## Split big tasks
 
 Long structure charts quickly get confusing. That is why you split a big task into **smaller problems**. Every smaller problem gets a name of its own and a structure chart of its own, a **subprogram**.
@@ -374,74 +387,86 @@ frage: What is output?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can split a big task into smaller problems. → Split big tasks
 - I can insert a call and build a subprogram in a tab of its own. → The call
 - I can pass values to a subprogram with parameters. → Pass values: parameters
 - I can hand back a return value with return and store it when calling. → Hand back a result: return
 - I can explain why a subprogram cannot change a number but can change an array. → Copy or original: call by value and call by reference
-- I know what a Break does and why it sits in a branch. → The break
+- I can explain what a Break does and why it sits in a branch. → The break
 - I can end a loop with a Break or through its condition. → Break in the simulation
-- I recognise a method in Java and can leave a loop with `break`. → Now in Java
+- I can recognise a method in Java and leave a loop with `break`. → Now in Java
 :::
 
 ## Quiz
 
 ::: quiz
 ? What does a call box with the text `showResult()` mean?
+→ The call
 - [ ] The program ends here.
 - [x] The subprogram showResult() runs here, and then the program carries on.
 - [ ] The word showResult() is output here.
 
 ? Where does the program carry on after a Break?
+→ The break
 - [ ] At the start of the loop
 - [x] At the first box after the loop
 - [ ] Right at the start of the program
 > The Break leaves the loop it is in. In Java, Python and JavaScript it is called break.
 
 ? Why does a Break usually sit in a branch?
+→ The break
 - [x] So that the loop is only left if a condition is met
 - [ ] Because otherwise a Break cannot be saved
 - [ ] Because a branch is a loop itself
 > Without a branch, the loop would be left in the very first pass.
 
 ? Where does the simulation find the subprogram for a call `showResult()`?
+→ The call
 - [ ] It has to be in the same structure chart.
 - [x] In an open tab with the title showResult()
 - [ ] The simulation cannot run subprograms.
 > Build every subprogram in a tab of its own and give it the name from the call as its title.
 
 ? The subprogram has the header line `void showSum(int a, int b)`. Which call fits?
+→ Pass values: parameters
 - [ ] showSum()
 - [x] showSum(3, 4)
 - [ ] int s = showSum(3, 4)
 > Two parameters need two values. And `void` means nothing comes back that you could store.
 
 ? After `int q = square(5)`, q holds 25. What is at the end of the subprogram square?
+→ Hand back a result: return
 - [ ] output: x * x
 - [x] return x * x
 - [ ] q = x * x
 > With return the subprogram hands the value back to the call. An output would only show it.
 
 ? `void doubleIt(int x)` calculates `x = x * 2`. The main program has `int number = 5` and then the call `doubleIt(number)`. What value does number have afterwards?
+→ Copy or original: call by value and call by reference
 - [x] 5
 - [ ] 10
 - [ ] 0
 > Call by value: doubleIt only changed a copy of number.
 
 ? `void clear(boolean[] seats)` sets all slots to false. What is true for the array row in the main program after `clear(row)`?
+→ Copy or original: call by value and call by reference
 - [ ] It is unchanged, because the subprogram gets a copy.
 - [x] All slots are false, because seats and row are the same array.
 - [ ] The array is deleted.
 > Call by reference: an array is passed as a reference. The caller sees changes to the slots too.
 
 ? What is a subprogram called in Java?
+→ Now in Java
 - [ ] Class
 - [x] Method
 - [ ] Loop
 > In Java a subprogram is a method, for example the `main` method. Depending on its kind, it is also called a procedure or a function.
 
 ? Many building blocks have a second name in textbooks. Match each term from VisuStruct to its other name.
+→ Now in Java
 = Branch -> Conditional statement
 = Switch -> Multiple selection
 = Loop -> Iteration
@@ -449,6 +474,7 @@ frage: What is output?
 > Both names mean the same thing. If you know one of them, you understand the other as well.
 
 ? What is written in the header of a Java method that returns nothing?
+→ Hand back a result: return
 - [ ] int
 - [x] void
 - [ ] return

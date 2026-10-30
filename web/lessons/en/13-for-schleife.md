@@ -4,6 +4,15 @@ bereich: Basics
 kurz: Count a fixed number of passes with Init, Condition and Step.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- name the three parts Init, Condition and Step of the for loop
+- explain in which order the three parts run
+- count forwards, backwards and in bigger steps with a for loop
+- write a for loop in Java and explain its three fields
+:::
+
 ## Counting with a fixed plan
 
 In the while loop you already counted along: a start value before the loop, a condition in the head, a change inside. The **for loop** puts these three parts together in the head. That way you see at a glance how it counts.
@@ -255,9 +264,11 @@ besser: for (int i = 2; i <= 10; i = i + 2) {
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know the three parts Init, Condition and Step of the for loop. → Counting with a fixed plan
-- I know in which order the three parts run. → In which order?
+- I can name the three parts Init, Condition and Step of the for loop. → Counting with a fixed plan
+- I can explain in which order the three parts run. → In which order?
 - I can count forwards, backwards and in bigger steps with a for loop. → Other steps
 - I can write a for loop in Java and explain its three fields. → Now in Java
 :::
@@ -266,29 +277,34 @@ besser: for (int i = 2; i <= 10; i = i + 2) {
 
 ::: quiz
 ? How often does the Init of a for loop run?
+→ In which order?
 - [x] Exactly once
 - [ ] Before every pass
 - [ ] After every pass
 > Init creates the counter variable once at the start.
 
 ? Init `int i = 0`, Condition `i < 3`, Step `i++`. Which values does i have inside the loop?
+→ Counting with a fixed plan
 - [ ] 1, 2, 3
 - [x] 0, 1, 2
 - [ ] 0, 1, 2, 3
 > With i = 3 the condition is false, so the inside does not run any more.
 
 ? Init `int i = 2`, Condition `i <= 10`, Step `i = i + 2`. How often does the inside run?
+→ Other steps
 - [ ] 4 times
 - [x] 5 times
 - [ ] 10 times
 > i takes the values 2, 4, 6, 8 and 10.
 
 ? When does a for loop fit best?
+→ Counting with a fixed plan
 - [x] When you know beforehand how often to repeat
 - [ ] When you keep asking until an input is valid
 - [ ] When only a single value is checked
 
 ? What does `i++` mean in a for loop?
+→ Counting with a fixed plan
 - [ ] i is doubled.
 - [x] i gets 1 bigger.
 - [ ] i is output.

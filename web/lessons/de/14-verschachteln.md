@@ -4,6 +4,15 @@ bereich: Grundlagen
 kurz: Verzweigungen in Schleifen und Schleifen in Schleifen kombinieren.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Verzweigung in eine Schleife setzen
+- eine Schleife in eine andere Schleife setzen
+- erklären, dass die innere Schleife bei jedem Durchlauf der äußeren komplett durchläuft
+- verschachtelte Schleifen und Verzweigungen in Java schreiben
+:::
+
 ## Bausteine ineinander
 
 Du kennst jetzt alle wichtigen Bausteine: Sequenz, Verzweigung, Fallauswahl und drei Arten von Schleifen. Richtig stark werden sie erst zusammen.
@@ -88,12 +97,14 @@ int anzahl = 0;
 for (int i = 1; i <= n; i++) {
     if (i % 2 == 0) {
         anzahl++;
-    }
-}
+    } // Ende if
+} // Ende for
 System.out.println(anzahl);
 ```
 
 Was im Struktogramm ineinander steckt, steht in Java in geschweiften Klammern ineinander. Jede Ebene ist vier Leerzeichen weiter eingerückt. Ist dein Code durcheinander, hilft der Knopf **Einrücken** oben im Bereich Programmieren.
+
+Bei vielen schließenden Klammern `}` verliert man leicht den Überblick: Welche Klammer gehört zu welchem Block? Ein Kommentar dahinter sagt es dir, z. B. `} // Ende if` und `} // Ende for`. Das hilft dir auch, wenn du später weiterarbeitest.
 
 `anzahl++` ist die Kurzform von `anzahl = anzahl + 1`.
 
@@ -231,10 +242,12 @@ frage: Was passiert?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann eine Verzweigung in eine Schleife setzen. → Verzweigung in der Schleife
 - Ich kann eine Schleife in eine andere Schleife setzen. → Schleife in der Schleife
-- Ich weiß, dass die innere Schleife bei jedem Durchlauf der äußeren komplett durchläuft. → Schleife in der Schleife
+- Ich kann erklären, dass die innere Schleife bei jedem Durchlauf der äußeren komplett durchläuft. → Schleife in der Schleife
 - Ich kann verschachtelte Schleifen und Verzweigungen in Java schreiben. → Jetzt in Java
 :::
 
@@ -242,24 +255,28 @@ frage: Was passiert?
 
 ::: quiz
 ? Die äußere Schleife läuft 3-mal, die innere 4-mal. Wie oft wird der Inhalt der inneren Schleife insgesamt ausgeführt?
+→ Schleife in der Schleife
 - [ ] 7-mal
 - [x] 12-mal
 - [ ] 4-mal
 > Bei jedem der 3 äußeren Durchläufe läuft die innere Schleife 4-mal, also 3 · 4 = 12.
 
 ? Woran erkennst du, ob eine Zahl gerade ist?
+→ Verzweigung in der Schleife
 - [ ] `zahl / 2 == 0`
 - [x] `zahl % 2 == 0`
 - [ ] `zahl == 2`
 > % liefert den Rest beim Teilen. Bei geraden Zahlen ist der Rest beim Teilen durch 2 null.
 
 ? In einer For-Schleife steht eine Verzweigung. Wie oft wird die Bedingung der Verzweigung geprüft?
+→ Verzweigung in der Schleife
 - [ ] Einmal
 - [x] Einmal pro Durchlauf der Schleife
 - [ ] Nur wenn sie wahr ist
 > Die Verzweigung gehört zum Inhalt und kommt bei jedem Durchlauf dran.
 
 ? Woran erkennst du in Java, was zu einer Schleife gehört?
+→ Jetzt in Java
 - [ ] An der Farbe
 - [x] An den geschweiften Klammern und der Einrückung
 - [ ] An den Semikolons

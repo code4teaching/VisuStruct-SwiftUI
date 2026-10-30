@@ -4,6 +4,17 @@ bereich: Fenster mit Swing
 kurz: Den Klickzähler in Model, View und Controller zerlegen und verstehen, wer mit wem redet.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- sagen, was Model, View und Controller jeweils tun
+- ein Model ohne Swing schreiben und ohne Fenster testen
+- erklären, was new Zaehler() baut und warum dort kein static steht
+- die vier Nachrichten nach einem Klick nennen
+- eine zweite View dazubauen, ohne das Model zu ändern
+- einen Zähler mit −1, Reset und Grenzen im Model bauen
+:::
+
 ## Das Ziel
 
 Große Programme mit Fenstern haben fast immer denselben Aufbau. Er heißt **Model View Controller**, kurz **MVC**:
@@ -357,40 +368,47 @@ Dann mach es besser:
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann sagen, was Model, View und Controller jeweils tun. → Das Ziel
 - Ich kann ein Model ohne Swing schreiben und ohne Fenster testen. → Das Model
-- Ich weiß, was new Zaehler() baut und warum dort kein static steht. → Das Model
-- Ich kenne die vier Nachrichten nach einem Klick. → Wer redet mit wem?
+- Ich kann erklären, was new Zaehler() baut und warum dort kein static steht. → Das Model
+- Ich kann die vier Nachrichten nach einem Klick nennen. → Wer redet mit wem?
 - Ich kann eine zweite View dazubauen, ohne das Model zu ändern. → Der Gewinn: eine zweite View
-- Mein Zähler hat −1, Reset und Grenzen im Model. → Aufgabe: Ein Zähler mit Grenzen
+- Ich kann einen Zähler mit −1, Reset und Grenzen im Model bauen. → Aufgabe: Ein Zähler mit Grenzen
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Wo steht die Regel „Der Zähler geht nie über 10“?
+→ Das Model
 - [x] im Model
 - [ ] in der View
 - [ ] im Controller
 > Regeln über die Daten gehören ins Model. Dann gelten sie, egal welcher Knopf drückt.
 
 ? Was macht die View?
+→ Das Ziel
 - [ ] Sie rechnet den neuen Wert aus.
 - [x] Sie zeigt den Wert an, den sie bekommt.
 - [ ] Sie hört auf Klicks.
 
 ? Warum darf das Lambda model benutzen, obwohl model eine Variable von main ist?
+→ Wer redet mit wem?
 - [ ] Weil Zaehler public ist.
 - [x] Weil model immer auf denselben Zähler zeigt; nur der wert darin ändert sich.
 - [ ] Weil Lambdas alle Variablen ändern dürfen.
 
 ? Was musst du am Model ändern, wenn eine zweite View dazukommt?
+→ Der Gewinn: eine zweite View
 - [x] nichts
 - [ ] eine zweite Methode erhoehen
 - [ ] ein zweites JLabel
 
 ? Ordne zu.
+→ Das Ziel
 = Zaehler mit wert und erhoehen() -> Model
 = ZahlAnzeige mit aktualisieren(int wert) -> View
 = der Zuhörer am Knopf -> Controller

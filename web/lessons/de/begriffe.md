@@ -71,7 +71,7 @@ Eine Variable, deren Wert nach dem Festlegen gleich bleibt. Man schreibt `const`
 
 ### Datentyp
 auch: Datentypen, Datentyps
-Legt fest, welche Art von Wert in eine Variable passt: int (ganze Zahl), double (Kommazahl), String (Text) oder boolean (true oder false).
+Legt fest, welche Art von Wert in eine Variable passt: int (ganze Zahl), double (Kommazahl), String (Text), boolean (true oder false) oder char (ein einzelnes Zeichen).
 
 ### Zuweisung
 auch: Zuweisungen
@@ -117,6 +117,13 @@ Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp. Im L
 
 ### Index
 Die Nummer eines Fachs in einem Array. Gezählt wird ab 0.
+
+### char
+Der Datentyp für ein einzelnes Zeichen. Er steht in einfachen Anführungszeichen, z. B. 'C'. "C" mit doppelten Anführungszeichen ist dagegen ein String.
+
+### Zeichencode
+auch: Zeichencodes, ASCII-Code, ASCII-Tabelle
+Die Zahl, die hinter einem Zeichen steckt. In der ASCII-Tabelle hat A den Code 65, B 66 und so weiter. In Java wird mit (int) aus einem Zeichen sein Code und mit (char) aus einem Code das Zeichen.
 
 ### Zeichenkette
 auch: Zeichenketten
@@ -185,6 +192,10 @@ Eine Variable, die direkt in der Klasse steht und nicht in einer Methode. Mit `s
 
 ### Scanner
 Ein fertiger Baustein von Java, der Eingaben über die Tastatur liest, z. B. mit `scanner.nextInt()` eine Zahl. Er braucht ganz oben `import java.util.Scanner;`.
+
+### Kommentar
+auch: Kommentare, Kommentaren, Kommentars
+Eine Notiz im Code für Menschen. Java überspringt sie beim Ausführen. `//` gilt bis zum Ende der Zeile, `/* … */` kann über mehrere Zeilen gehen.
 
 ### import
 Eine Zeile ganz oben im Java-Code, die einen fertigen Baustein aus einem Paket holt, z. B. `import java.util.Scanner;`. Ohne sie kennt Java den Namen nicht.

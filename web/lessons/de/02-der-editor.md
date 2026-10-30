@@ -4,11 +4,19 @@ bereich: Erste Schritte
 kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein Element aus dem Bereich Elemente einfügen und einen Platzhalter ersetzen
+- den Text eines Kastens ändern und zwischen Anweisung, Eingabe und Ausgabe umschalten
+- Kästen verschieben, kopieren, löschen und Schritte rückgängig machen
+:::
+
 ## Die Oberfläche
 
-VisuStruct hat zwei Editoren: den **Struktogramm-Editor**, um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst.
+VisuStruct hat zwei Editoren: den [Struktogramm-Editor](#zeige-editor), um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst. Die blauen Wörter zeigen dir die Bereiche, auch wenn sie gerade eingeklappt sind: Fährst du mit der Maus darüber, öffnet sich der Bereich neben dem Lernbereich und leuchtet auf. Klickst du darauf (oder tippst es an), bleibt er offen.
 
-Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf.
+Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf, eingeklappte Bereiche wie die Elemente öffnen sich dabei.
 
 - **Ganz oben die [Leiste](#zeige-leiste):** Neu, Öffnen und Speichern. Ganz rechts das Zahnrad für die [Einstellungen](#zeige-einstellungen): Textgröße und Sprache.
 - **Darunter die [Werkzeuge](#zeige-werkzeuge)** über den Elementen und dem Struktogramm: Rückgängig, Ausschneiden, Kopieren, Einfügen, Löschen, Exportieren, Code und Simulation. Die Knöpfe zeigen nur Symbole. Hältst du die Maus darüber, erscheint ihr Name.
@@ -58,7 +66,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 
 - **Verschieben:** Einen vorhandenen Kasten mit der Maus an eine neue Stelle ziehen.
 - **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten.
-- **Löschen:** Kasten auswählen und Entf drücken.
+- **Löschen:** Kasten auswählen und Entf drücken oder in den Werkzeugen auf den [Mülleimer](#zeige-loeschen) „Auswahl löschen“ klicken.
 - **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z).
 
 ## Übung: Hallo Welt
@@ -66,7 +74,7 @@ Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulat
 ::: übung l2-hallo
 titel: Hallo Welt
 auftrag: Baue ein Struktogramm, das **Hallo Welt** ausgibt.
-Ziehe eine Anweisung auf den Platzhalter, stelle sie im Objektinspektor auf **Ausgabe** und schreibe `"Hallo Welt"`.
+Ziehe eine **Anweisung** aus den Elementen auf den Platzhalter **ø** und klicke den Kasten an. Im Objektinspektor unter dem Struktogramm stehen oben drei Knöpfe: Anweisung, Eingabe und Ausgabe. Klicke auf **Ausgabe**. Schreibe dann in das Textfeld darunter `"Hallo Welt"`, mit Anführungszeichen.
 test: - -> Hallo Welt
 braucht: anweisung
 tipp: Du brauchst nur einen einzigen Kasten. Der Text, der erscheinen soll, steht im Objektinspektor im Eingabefeld.
@@ -145,6 +153,8 @@ frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann ein Element aus dem Bereich Elemente einfügen und einen Platzhalter ersetzen. → Ein Element einfügen
 - Ich kann den Text eines Kastens ändern und zwischen Anweisung, Eingabe und Ausgabe umschalten. → Text eingeben
@@ -155,17 +165,20 @@ frage: Du klickst im Bereich Elemente auf ein Element, ohne zu ziehen. Wo landet
 
 ::: quiz
 ? Was bedeutet das Zeichen ø in einem Kasten?
+→ Ein Element einfügen
 - [ ] Der Kasten enthält einen Fehler.
 - [x] Hier ist noch ein leerer Platzhalter.
 - [ ] Das Programm endet hier.
 > Ein Platzhalter wird ersetzt, wenn du ein Element darauf ziehst.
 
 ? Du ziehst eine Anweisung auf die untere Hälfte eines Kastens. Wo landet sie?
+→ Ein Element einfügen
 - [ ] Davor
 - [x] Dahinter
 - [ ] Der Kasten wird ersetzt.
 
 ? Wie gibst du den Text Guten Tag genau so aus?
+→ Text eingeben
 - [ ] output: Guten Tag
 - [x] output: "Guten Tag"
 - [ ] input: "Guten Tag"

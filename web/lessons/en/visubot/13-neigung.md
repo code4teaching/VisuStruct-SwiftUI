@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Measure tilt and detect shaking.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain what the motion sensor measures
+- join two conditions with “or”
+- join several conditions with “and”
+:::
+
 ## Tilted or level?
 
 ::: mbot2
@@ -58,17 +66,21 @@ lösung: vb-java-wasserwaage-loesung.visustruct
 
 ::: quiz
 ? The mBot2 is lying flat on the table. What does `mbot.getPitch()` give, roughly?
+→ Tilted or level?
 - [x] 0
 - [ ] 90
 - [ ] 100
 ? What does `mbot.isShaken()` do?
+→ Tilted or level?
 - [ ] It shakes the mBot2.
 - [x] It reports whether someone is shaking the mBot2.
 > Sensors don't do anything, they only measure.
 :::
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know what the motion sensor measures. → Tilted or level?
+- I can explain what the motion sensor measures. → Tilted or level?
 - I can join two conditions with “or”. → Tilt warning in the structure chart
 - I can join several conditions with “and”. → Now in Java: spirit level
 :::

@@ -4,6 +4,18 @@ bereich: Do estrutograma ao código
 kurz: Todos os elementos em Java num relance, gerar código, escrever Java na área Programação, executá-lo e procurar erros.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- abrir a vista de código e escolher Java como linguagem
+- reconhecer em Java a saída, a entrada, as decisões e os ciclos
+- explicar a diferença entre Excerto e Classe
+- reconstruir um programa Java curto como estrutograma
+- escrever Java na área Programação e ler o estrutograma que é construído
+- executar um programa com ▶︎ e usar entradas e saídas na consola
+- pôr pontos de paragem e seguir um programa passo a passo
+:::
+
 ## A vista de código
 
 Nas lições 4 a 19 já escreveste cada elemento em Java. Aqui vês tudo num relance e aprendes como o VisuStruct transforma um estrutograma inteiro num programa Java.
@@ -86,9 +98,11 @@ public class Tabuada {
         System.out.println("Que tabuada?");
         int numero = scanner.nextInt();
         ...
-    }
-}
+    } // fim do main
+} // fim da classe
 ```
+
+Os comentários `// fim do main` e `// fim da classe` depois das duas últimas chavetas não são necessários, mas ajudam muito: vês logo que chaveta fecha o quê e não te esqueces de nenhuma.
 
 O nome da classe vem do **título** do diagrama. O ficheiro tem de ter exatamente o mesmo nome, aqui `Tabuada.java`. O **Guardar Java…** trata disso por ti.
 
@@ -306,13 +320,15 @@ frage: No depurador, uma linha está amarela. O que quer dizer?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei abrir a vista de código e escolher Java como linguagem. → A vista de código
-- Sei como ficam em Java a saída, a entrada, as decisões e os ciclos. → Os elementos em Java
-- Sei a diferença entre Excerto e Classe. → Excerto ou Classe
-- Sei reconstruir um programa Java curto como estrutograma. → Exercício: Java como estrutograma
-- Sei escrever Java na área Programação e ler o estrutograma que é construído. → Escrever Java diretamente
-- Sei executar um programa com ▶︎ e usar entradas e saídas na consola. → Executar o programa
+- Consigo abrir a vista de código e escolher Java como linguagem. → A vista de código
+- Consigo reconhecer em Java a saída, a entrada, as decisões e os ciclos. → Os elementos em Java
+- Consigo explicar a diferença entre Excerto e Classe. → Excerto ou Classe
+- Consigo reconstruir um programa Java curto como estrutograma. → Exercício: Java como estrutograma
+- Consigo escrever Java na área Programação e ler o estrutograma que é construído. → Escrever Java diretamente
+- Consigo executar um programa com ▶︎ e usar entradas e saídas na consola. → Executar o programa
 - Consigo pôr pontos de paragem e seguir um programa passo a passo. → Encontrar erros com o depurador
 :::
 
@@ -320,29 +336,34 @@ frage: No depurador, uma linha está amarela. O que quer dizer?
 
 ::: quiz
 ? Como fica `output: "Olá"` em Java?
+→ Os elementos em Java
 - [ ] print("Olá")
 - [x] System.out.println("Olá");
 - [ ] console.log("Olá");
 > print é Python, console.log é JavaScript.
 
 ? De onde vem o nome da classe em Classe?
+→ Excerto ou Classe
 - [ ] Chama-se sempre Main.
 - [x] Do título do diagrama
 - [ ] Do primeiro bloco
 > Sem título, a classe chama-se Main.
 
 ? Que código Java pertence a um ciclo do-while?
+→ Os elementos em Java
 - [ ] while (condição) { … }
 - [x] do { … } while (condição);
 - [ ] for (;;) { … }
 > No do-while a condição está no fim, por isso o corpo é executado pelo menos uma vez.
 
 ? Em que se transforma uma Interrupção no código Java?
+→ Os elementos em Java
 - [x] break;
 - [ ] return;
 - [ ] exit();
 
 ? O que acontece num ponto vermelho antes do número da linha?
+→ Encontrar erros com o depurador
 - [ ] A linha é ignorada.
 - [x] O programa para antes dessa linha.
 - [ ] A linha tem um erro.

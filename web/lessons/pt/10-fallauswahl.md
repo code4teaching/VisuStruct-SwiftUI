@@ -4,6 +4,15 @@ bereich: Fundamentos
 kurz: Executar um de vários casos, consoante o valor de uma variável.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- inserir uma seleção, acrescentar casos e alterar os nomes dos casos
+- explicar quando é executado o caso default
+- decidir se serve melhor uma seleção ou uma decisão
+- escrever uma seleção múltipla em Java com switch
+:::
+
 ## Muitas possibilidades, uma variável
 
 Uma máquina de bebidas tem três botões: 1 para água, 2 para sumo, 3 para chocolate quente. Com decisões precisas de três blocos encaixados uns nos outros. Isso fica depressa largo e confuso.
@@ -250,47 +259,55 @@ frage: Um dado mostra de 1 a 6, e para cada número deve aparecer uma palavra di
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei inserir uma seleção, acrescentar casos e alterar os nomes dos casos. → Como se constrói uma seleção
-- Sei quando é executado o caso default. → Como se constrói uma seleção
-- Sei decidir se serve melhor uma seleção ou uma decisão. → Seleção ou decisão?
-- Sei escrever uma seleção múltipla em Java com switch. → Agora em Java
+- Consigo inserir uma seleção, acrescentar casos e alterar os nomes dos casos. → Como se constrói uma seleção
+- Consigo explicar quando é executado o caso default. → Como se constrói uma seleção
+- Consigo decidir se serve melhor uma seleção ou uma decisão. → Seleção ou decisão?
+- Consigo escrever uma seleção múltipla em Java com switch. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? A variável dia tem o valor 5. Existem os casos 1, 2, 3 e default. O que é executado?
+→ Como se constrói uma seleção
 - [ ] Nada
 - [ ] O caso 3
 - [x] O caso default
 > Nenhum nome de caso corresponde a 5, por isso aplica-se o default.
 
 ? Quantos casos são executados de cada vez que a seleção é executada?
+→ Como se constrói uma seleção
 - [x] Exatamente um
 - [ ] Todos os casos a partir do que corresponde
 - [ ] Todos os casos
 > Depois do caso que corresponde, o programa continua logo por baixo da seleção.
 
 ? Para que é que uma seleção NÃO serve?
+→ Seleção ou decisão?
 - [ ] Escolher a opção 1, 2 ou 3 de um menu
 - [x] Verificar se uma temperatura está acima dos 30 graus
 - [ ] Tratar uma cor como vermelho, amarelo ou verde
 > “Acima dos 30” é um intervalo. Para isso precisas de uma decisão com uma comparação.
 
 ? No semáforo escreves `Vermelho`, e o caso chama-se `vermelho`. O que acontece?
+→ Como se constrói uma seleção
 - [ ] É executado o caso vermelho.
 - [x] É executado o caso default.
 - [ ] A simulação indica um erro.
 > Maiúsculas e minúsculas contam. Vermelho e vermelho são textos diferentes.
 
 ? Com que nome também encontras a seleção nos manuais?
+→ Como se constrói uma seleção
 - [ ] Instrução condicional
 - [ ] Sequência
 - [x] Seleção múltipla
 > É escolhido um de muitos casos. Por isso também se chama seleção múltipla.
 
 ? Como se chama em Java o caso “senão” de um switch?
+→ Agora em Java
 - [ ] else
 - [x] default
 - [ ] case 0

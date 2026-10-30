@@ -1629,6 +1629,10 @@ button.danger-text:not(:disabled) {
   overflow-y: hidden;
   font-size: 12.5px;
 }
+.learn-open-code {
+  display: block;
+  margin: -4px 0 12px;
+}
 .lesson-code code {
   background: none;
   padding: 0;
@@ -2159,6 +2163,16 @@ button.danger-text:not(:disabled) {
   border-radius: 10px;
   padding: 1px 8px;
 }
+.learn-where {
+  margin: 0;
+  justify-self: start;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 1px 8px;
+}
 .learn-exercise .learn-text p:last-child {
   margin-bottom: 0;
 }
@@ -2219,10 +2233,86 @@ button.danger-text:not(:disabled) {
   align-items: baseline;
   justify-content: space-between;
 }
-.learn-checklist label {
+.learn-checklist li {
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4px 6px;
+  border-radius: 8px;
+}
+.learn-check-text {
+  flex: 1;
+}
+.learn-checklist li[data-rating='sun'] {
+  background: color-mix(in srgb, #f5b800 14%, transparent);
+}
+.learn-checklist li[data-rating='cloud'] {
+  background: color-mix(in srgb, #8a97a8 14%, transparent);
+}
+.learn-checklist li[data-rating='umbrella'] {
+  background: color-mix(in srgb, #3b82f6 12%, transparent);
+}
+.learn-rating {
+  display: inline-flex;
+  gap: 2px;
+  flex: none;
+}
+.learn-rating-button {
+  min-width: 34px;
+  min-height: 34px;
+  padding: 2px;
+  font-size: 1.15em;
+  line-height: 1;
+  border-radius: 8px;
+  opacity: 0.45;
+  filter: grayscale(0.7);
+}
+.learn-rating-button[aria-pressed='true'] {
+  opacity: 1;
+  filter: none;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.learn-rating-legend {
   display: flex;
-  gap: 8px;
-  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin: 0 0 8px;
+  font-size: 0.9em;
+  color: var(--muted, inherit);
+}
+.learn-review {
+  margin: 12px 0 0;
+}
+.learn-review:empty {
+  display: none;
+}
+.learn-review-title {
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+.learn-review-icon {
+  flex: none;
+  width: 1.6em;
+  text-align: center;
+}
+.learn-checklist li.learn-review-deviation {
+  border: 1px solid var(--accent);
+  background: var(--accent-soft);
+}
+.learn-competences {
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 0 0 14px;
+  background: var(--accent-soft);
+}
+.learn-competences-title {
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+.learn-competences ul {
+  margin: 0;
+  padding-left: 1.3em;
 }
 .learn-return {
   width: 100%;
@@ -2896,6 +2986,23 @@ button.danger-text:not(:disabled) {
   margin: 0 auto;
   border-radius: 8px;
   border: 1px solid var(--border);
+}
+.learn-graphic-toggle {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.learn-graphic-toggle[aria-pressed='true'] {
+  cursor: zoom-out;
+}
+.learn-graphic-hint {
+  margin: 4px 0 0;
+  text-align: center;
+  font-size: 0.85em;
+  color: var(--muted);
 }
 .lesson-table {
   overflow-x: auto;

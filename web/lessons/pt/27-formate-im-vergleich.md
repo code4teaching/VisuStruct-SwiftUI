@@ -4,6 +4,15 @@ bereich: Ficheiros
 kurz: Comparar os mesmos dados em txt, CSV e JSON, escolher o formato certo e converter um ficheiro noutro formato.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- reconhecer os mesmos dados em txt, CSV e JSON
+- comparar pontos fortes e fracos de txt, CSV e JSON
+- converter um ficheiro CSV em frases
+- converter um ficheiro CSV em JSON
+:::
+
 ## Os mesmos animais três vezes
 
 O Ludwig guardou os animais do castelo em três ficheiros. Todos dizem o mesmo, só que escrito de outra maneira.
@@ -127,33 +136,39 @@ richtig: txt
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Reconheço os mesmos dados em txt, CSV e JSON. → Os mesmos animais três vezes
-- Conheço pontos fortes e fracos de txt, CSV e JSON. → O que sabe fazer cada formato?
-- Converti um ficheiro CSV em frases. → Exercício: De CSV para frases
-- Converti um ficheiro CSV em JSON. → Exercício: De CSV para JSON
+- Consigo reconhecer os mesmos dados em txt, CSV e JSON. → Os mesmos animais três vezes
+- Consigo comparar pontos fortes e fracos de txt, CSV e JSON. → O que sabe fazer cada formato?
+- Consigo converter um ficheiro CSV em frases. → Exercício: De CSV para frases
+- Consigo converter um ficheiro CSV em JSON. → Exercício: De CSV para JSON
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que formato o Excel abre diretamente como tabela?
+→ O que sabe fazer cada formato?
 - [ ] txt
 - [x] CSV
 - [ ] JSON
 
 ? Porque é que um ficheiro JSON é normalmente maior do que um CSV com os mesmos dados?
+→ O que sabe fazer cada formato?
 - [ ] Porque o JSON guarda mais números.
 - [x] Porque as chaves se repetem em cada entrada.
 - [ ] Porque o JSON não usa vírgulas.
 
 ? Em que formato cada valor diz o que significa?
+→ O que sabe fazer cada formato?
 - [ ] txt
 - [ ] CSV
 - [x] JSON
 > Em JSON a chave está mesmo antes do valor, por exemplo "idade": 7.
 
 ? Liga cada objetivo a um formato.
+→ O que sabe fazer cada formato?
 = uma carta à Zora -> txt
 = a pauta de notas da turma -> CSV
 = um jogo guardado com listas -> JSON

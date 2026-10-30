@@ -11,6 +11,20 @@ String name = "Ada"
 zahl = zahl + 1
 ```
 
+### Datentypen
+
+Der Datentyp steht vor dem Namen der Variablen.
+
+| Datentyp | Bedeutung | Beispiel |
+|---|---|---|
+| `int` | ganze Zahl | `int anzahl = 3` |
+| `double` | Kommazahl (mit Punkt) | `double preis = 2.5` |
+| `String` | Text in doppelten Anführungszeichen | `String name = "Ada"` |
+| `boolean` | Wahrheitswert | `boolean fertig = false` |
+| `char` | ein einzelnes Zeichen in einfachen Anführungszeichen | `char note = 'C'` |
+
+`'C'` ist ein `char`, `"C"` ein String. Ein Zeichen aus einem Text holst du mit `charAt`: `char erster = name.charAt(0)`. Jedes Zeichen hat einen Zeichencode: `(int) 'A'` ist 65, `(char) 66` ist `'B'`.
+
 ### Eingabe
 
 Fragt beim Ausführen einen Wert ab und speichert ihn in einer Variablen. Der Text in Anführungszeichen ist die Frage.
@@ -124,3 +138,23 @@ boolean[][] sitze = new boolean[3][5]
 sitze[1][4] = true
 output: sitze.length + " Reihen, " + sitze[0].length + " Plätze"
 ```
+
+## Java
+
+### Kommentare
+
+Notizen im Code. Java überspringt sie, das Struktogramm bleibt gleich.
+
+```java
+/*
+ * Aufgabe: die Zahlen von 1 bis 10 addieren
+ * (mehrzeiliger Kommentar)
+ */
+// Verarbeitung (einzeiliger Kommentar)
+int summe = 0;
+for (int i = 1; i <= 10; i++) {
+    summe = summe + i;      // Kommentar hinter dem Code
+} // Ende for
+```
+
+Gut für: die Aufgabenstellung, die Einteilung in Eingabe, Verarbeitung und Ausgabe, eine Erklärung, das Ende eines Blocks hinter `}`, die erwartete Ausgabe und Notizen fürs nächste Mal.

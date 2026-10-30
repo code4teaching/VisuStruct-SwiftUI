@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Klatschen zum Losfahren und eine Lärmampel für das Klassenzimmer.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Lautstärke abfragen
+- warten, bis etwas passiert
+- eine Lärmampel in Java schreiben
+:::
+
 ## Wie laut ist es?
 
 ::: mbot2
@@ -54,10 +62,13 @@ Lautstärke misst man eigentlich in **Dezibel** (dB). Flüstern hat etwa 30 dB, 
 
 ::: quiz
 ? Die Klatsch-Schleife lautet `while (mbot.getLoudness() < 50)`. Es ist 30 laut. Was passiert?
+→ Klatschen zum Losfahren im Struktogramm
 - [x] Der mBot2 wartet weiter.
 - [ ] Der mBot2 fährt los.
 > 30 ist kleiner als 50, die Bedingung ist wahr, die Schleife läuft weiter.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann die Lautstärke abfragen. → Wie laut ist es?

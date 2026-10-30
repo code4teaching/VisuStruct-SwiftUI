@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Use a condition to decide which of two paths runs.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain that exactly one path of a branch runs
+- use the comparison operators == != < <= > >=
+- tell == and = apart
+- build a branch with an empty path
+- write a branch with if and else in Java
+:::
+
 ## If, then, else
 
 So far every box always ran. But often a program should **decide**: if a condition is met, do one thing, otherwise do the other.
@@ -268,9 +278,11 @@ frage: What is output?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know that exactly one path of a branch runs. → If, then, else
-- I know the comparison operators == != < <= > >=. → Comparison operators
+- I can explain that exactly one path of a branch runs. → If, then, else
+- I can use the comparison operators == != < <= > >=. → Comparison operators
 - I can tell == and = apart. → Comparison operators
 - I can build a branch with an empty path. → An empty path
 - I can write a branch with if and else in Java. → Now in Java
@@ -280,6 +292,7 @@ frage: What is output?
 
 ::: quiz
 ? Which path runs if the condition is false?
+→ If, then, else
 - [ ] The true path
 - [x] The false path
 - [ ] Both paths
@@ -287,29 +300,34 @@ frage: What is output?
 > With false, the right path runs. After that, the program continues below the branch.
 
 ? Which condition checks whether age is exactly 18?
+→ Comparison operators
 - [ ] age = 18
 - [x] age == 18
 - [ ] age >= 18
 > A single = is an assignment. To compare, you need ==.
 
 ? What does ø in a path mean?
+→ An empty path
 - [x] Nothing happens in this case.
 - [ ] The program ends here.
 - [ ] The condition is false.
 
 ? The condition is `points >= 50`. For which value is it true?
+→ Comparison operators
 - [ ] 49
 - [x] 50
 - [ ] 0
 > >= means greater than or equal. So 50 is included.
 
 ? In textbooks the branch often has another name. Which one?
+→ If, then, else
 - [ ] Multiple selection
 - [x] Conditional statement
 - [ ] Iteration
 > The statements in a path only run under a condition. That is why it is also called a conditional statement.
 
 ? Where does the condition of a branch go in Java?
+→ Now in Java
 - [x] In round brackets right after if
 - [ ] In curly brackets after else
 - [ ] After a semicolon

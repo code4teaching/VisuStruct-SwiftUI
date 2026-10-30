@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Neigung messen und Schütteln erkennen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, was der Lagesensor misst
+- zwei Bedingungen mit „oder“ verbinden
+- mehrere Bedingungen mit „und“ verbinden
+:::
+
 ## Schief oder gerade?
 
 ::: mbot2
@@ -58,17 +66,21 @@ lösung: vb-java-wasserwaage-loesung.visustruct
 
 ::: quiz
 ? Der mBot2 steht flach auf dem Tisch. Was liefert `mbot.getPitch()` ungefähr?
+→ Schief oder gerade?
 - [x] 0
 - [ ] 90
 - [ ] 100
 ? Was macht `mbot.isShaken()`?
+→ Schief oder gerade?
 - [ ] Es schüttelt den mBot2.
 - [x] Es meldet, ob jemand den mBot2 schüttelt.
 > Sensoren tun nichts, sie messen nur.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, was der Lagesensor misst. → Schief oder gerade?
+- Ich kann erklären, was der Lagesensor misst. → Schief oder gerade?
 - Ich kann zwei Bedingungen mit „oder“ verbinden. → Schräglage-Warnung im Struktogramm
 - Ich kann mehrere Bedingungen mit „und“ verbinden. → Jetzt in Java: Wasserwaage
 :::

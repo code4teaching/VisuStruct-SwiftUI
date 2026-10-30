@@ -4,6 +4,17 @@ bereich: Grundlagen
 kurz: Mit Spielkarten verstehen, wie lineare und binäre Suche und Bubblesort arbeiten und warum manche Verfahren viel schneller sind.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, wie die lineare Suche ein Array durchsucht
+- eine lineare Suche als Struktogramm bauen
+- erklären, warum die binäre Suche nur bei sortierten Werten funktioniert
+- begründen, warum die binäre Suche bei vielen Werten viel schneller ist
+- einen Durchgang von Bubblesort mit Spielkarten vormachen
+- in Java ein Array durchsuchen und Treffer zählen
+:::
+
 ## Eine Karte suchen
 
 Du hast einen Stapel Spielkarten verdeckt in einer Reihe vor dir liegen. Gesucht ist die 9. Was machst du? Du drehst eine Karte nach der anderen um, bis du die 9 findest oder alle Karten umgedreht hast.
@@ -262,10 +273,12 @@ frage: Bubblesort tauscht `karten[i]` und `karten[i + 1]`. Was braucht es dafür
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann erklären, wie die lineare Suche ein Array durchsucht. → Eine Karte suchen
 - Ich kann eine lineare Suche als Struktogramm bauen. → Übung: Karte suchen
-- Ich weiß, warum die binäre Suche nur bei sortierten Werten funktioniert. → Binäre Suche: sortiert geht es schneller
+- Ich kann erklären, warum die binäre Suche nur bei sortierten Werten funktioniert. → Binäre Suche: sortiert geht es schneller
 - Ich kann begründen, warum die binäre Suche bei vielen Werten viel schneller ist. → Wie schnell ist das?
 - Ich kann einen Durchgang von Bubblesort mit Spielkarten vormachen. → Sortieren mit Bubblesort
 - Ich kann in Java ein Array durchsuchen und Treffer zählen. → Jetzt in Java
@@ -275,40 +288,47 @@ frage: Bubblesort tauscht `karten[i]` und `karten[i + 1]`. Was braucht es dafür
 
 ::: quiz
 ? Welche Voraussetzung braucht die binäre Suche?
+→ Binäre Suche: sortiert geht es schneller
 - [ ] Das Array muss genau 100 Fächer haben.
 - [x] Die Werte müssen sortiert sein.
 - [ ] Der gesuchte Wert muss vorkommen.
 > Nur bei sortierten Werten weißt du nach dem Blick auf die Mitte, in welcher Hälfte du weitersuchst.
 
 ? Ein sortiertes Array hat 1 000 Werte. Wie viele Vergleiche braucht die binäre Suche höchstens?
+→ Wie schnell ist das?
 - [ ] 500
 - [ ] 100
 - [x] 10
 > 1 000 → 500 → 250 → 125 → 63 → 32 → 16 → 8 → 4 → 2 → 1: Nach etwa 10 Halbierungen bleibt ein Wert übrig.
 
 ? Was vergleicht Bubblesort in jedem Schritt?
+→ Sortieren mit Bubblesort
 - [ ] Die erste und die letzte Karte
 - [x] Zwei benachbarte Karten
 - [ ] Jede Karte mit der Mitte
 > Steht die größere Karte links, werden die Nachbarn getauscht.
 
 ? Wo steht nach dem ersten Durchgang von Bubblesort die größte Karte?
+→ Sortieren mit Bubblesort
 - [ ] Ganz links
 - [ ] In der Mitte
 - [x] Ganz rechts
 > Sie wird bei jedem Vergleich weitergetauscht und steigt wie eine Blase nach rechts.
 
 ? Was bedeutet `position = -1` in der linearen Suche?
+→ Eine Karte suchen
 - [x] Die Karte wurde (noch) nicht gefunden.
 - [ ] Die Karte liegt ganz hinten.
 - [ ] Das Array ist leer.
 
 ? Ordne jedem Verfahren die passende Beschreibung zu.
+→ Eine Karte suchen
 = Lineare Suche -> eine Karte nach der anderen ansehen
 = Binäre Suche -> die Mitte ansehen und eine Hälfte weglassen
 = Bubblesort -> Nachbarn vergleichen und tauschen
 
 ? Warum nimmst du zum Zählen eine For-Schleife und keine Suche, die beim ersten Treffer aufhört?
+→ Jetzt in Java
 - [ ] Eine For-Schleife ist immer schneller.
 - [x] Du musst jede Karte ansehen, sonst fehlen spätere Treffer.
 - [ ] Eine While-Schleife kann keine Arrays durchlaufen.

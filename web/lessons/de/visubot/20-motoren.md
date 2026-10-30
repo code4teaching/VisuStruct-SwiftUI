@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Gas geben, lenken und einer Linie folgen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit Räder einzeln Gas geben und anhalten
+- fahren, bis ein Sensor etwas meldet
+- einen Linienfolger in Java schreiben
+:::
+
 ## Zwei Motoren, zwei Räder
 
 ::: mbot2
@@ -72,16 +80,20 @@ lösung: vb-java-linienfolger-loesung.visustruct
 
 ::: quiz
 ? Was macht `mbot.drive(30, 30)`?
+→ Zwei Motoren, zwei Räder
 - [ ] Er fährt 30 cm und hält an.
 - [x] Er fährt geradeaus und hört nicht auf, bis ein anderer Fahrbefehl kommt.
 - [ ] Er dreht sich um 30°.
 > **Räder einzeln** gibt nur Gas. Anhalten musst du selbst.
 ? Der mBot2 soll nach rechts lenken. Welcher Befehl passt?
+→ Zwei Motoren, zwei Räder
 - [ ] `mbot.drive(10, 40)`
 - [x] `mbot.drive(40, 10)`
 - [ ] `mbot.drive(-40, -40)`
 > Dreht sich das linke Rad schneller, fährt er eine Rechtskurve.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann mit Räder einzeln Gas geben und anhalten. → Zwei Motoren, zwei Räder

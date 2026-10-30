@@ -11,6 +11,20 @@ String nome = "Ada"
 numero = numero + 1
 ```
 
+### Tipos de dados
+
+O tipo de dados vem antes do nome da variável.
+
+| Tipo de dados | Significado | Exemplo |
+|---|---|---|
+| `int` | número inteiro | `int quantidade = 3` |
+| `double` | número decimal (com ponto) | `double preco = 2.5` |
+| `String` | texto entre aspas duplas | `String nome = "Ada"` |
+| `boolean` | valor lógico | `boolean pronto = false` |
+| `char` | um único caractere entre aspas simples | `char nota = 'C'` |
+
+`'C'` é um `char`, `"C"` é uma String. Um caractere de um texto obténs com `charAt`: `char primeiro = nome.charAt(0)`. Cada caractere tem um código de caractere: `(int) 'A'` é 65, `(char) 66` é `'B'`.
+
 ### Entrada
 
 Pede um valor enquanto o estrutograma é executado e guarda-o numa variável. O texto entre aspas é a pergunta.
@@ -124,3 +138,23 @@ boolean[][] lugares = new boolean[3][5]
 lugares[1][4] = true
 output: lugares.length + " filas, " + lugares[0].length + " lugares"
 ```
+
+## Java
+
+### Comentários
+
+Notas no código. O Java salta-as, o estrutograma fica igual.
+
+```java
+/*
+ * Tarefa: somar os números de 1 a 10
+ * (comentário de várias linhas)
+ */
+// Processamento (comentário de uma linha)
+int soma = 0;
+for (int i = 1; i <= 10; i++) {
+    soma = soma + i;      // comentário depois do código
+} // fim do for
+```
+
+Serve para: a tarefa, dividir o código em entrada, processamento e saída, uma explicação, o fim de um bloco depois de `}`, a saída esperada e notas para a próxima vez.

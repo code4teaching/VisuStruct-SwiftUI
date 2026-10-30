@@ -75,7 +75,7 @@ Uma variável cujo valor não muda depois de definido. Escreve-se `const` à fre
 
 ### Tipo de dados
 auch: tipo de dados, tipos de dados, Tipos de dados
-Diz que tipo de valor cabe numa variável: int (número inteiro), double (número decimal), String (texto) ou boolean (verdadeiro ou falso).
+Diz que tipo de valor cabe numa variável: int (número inteiro), double (número decimal), String (texto), boolean (verdadeiro ou falso) ou char (um único caractere).
 
 ### Atribuição
 auch: atribuição, atribuições, Atribuições
@@ -124,6 +124,13 @@ Uma fila de posições com um nome comum e o mesmo tipo de dados.
 ### Índice
 auch: índice, índices
 O número de uma posição num array. Começa-se a contar em 0.
+
+### char
+O tipo de dados para um único caractere. Fica entre aspas simples, p. ex. 'C'. Já "C" com aspas duplas é uma String.
+
+### Código de caractere
+auch: código de caractere, códigos de caractere, código ASCII, tabela ASCII
+O número que está por trás de um caractere. Na tabela ASCII, o A tem o código 65, o B 66 e assim por diante. Em Java, (int) transforma um caractere no seu código e (char) transforma um código no caractere.
 
 ### String
 auch: strings, Strings, cadeia de caracteres, cadeias de caracteres
@@ -194,6 +201,10 @@ Uma variável que está diretamente na classe e não dentro de um método. Com `
 
 ### Scanner
 Um bloco pronto do Java que lê entradas do teclado, por exemplo um número com `scanner.nextInt()`. Precisa de `import java.util.Scanner;` mesmo no início.
+
+### Comentário
+auch: Comentários, comentário, comentários
+Uma nota no código para pessoas. O Java salta-a ao executar. `//` vale até ao fim da linha, `/* … */` pode ocupar várias linhas.
 
 ### import
 Uma linha mesmo no início do código Java que vai buscar um bloco pronto a um pacote, por exemplo `import java.util.Scanner;`. Sem ela, o Java não conhece o nome.

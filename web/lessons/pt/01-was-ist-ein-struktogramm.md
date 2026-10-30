@@ -4,6 +4,17 @@ bereich: Primeiros passos
 kurz: Mostrar e ler algoritmos como uma série de passos claros.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar o que é um algoritmo
+- ler um estrutograma
+- reconhecer os três blocos básicos: sequência, decisão e ciclo
+- ler um fluxograma (em inglês *flowchart*) e construir um sozinho
+- explicar porque é que os saltos num fluxograma levam a erros
+- ler um algoritmo simples em pseudocódigo
+:::
+
 ## Um algoritmo é uma instrução exata
 
 Um **algoritmo** descreve passo a passo como resolver uma tarefa. Cada passo tem de ser tão claro que qualquer um o consiga executar sem perguntar, tanto uma pessoa como um computador.
@@ -24,7 +35,7 @@ Esta forma de desenhar foi inventada por **Isaac Nassi e Ben Shneiderman** (1973
 À esquerda: Isaac “Ike” Nassi (foto: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), recortada), à direita: Ben Shneiderman (foto: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> Um estrutograma tem sempre exatamente um início (em cima) e um fim (em baixo). Não há setas nem saltos para todo o lado. Programas que saltam para todo o lado chamam-se **código esparguete**, porque o seu fluxo se enrola como massa no prato. Mais sobre isto no passo 9.
+> Um estrutograma tem sempre exatamente um início (em cima) e um fim (em baixo). Não há setas nem saltos para todo o lado. Programas que saltam para todo o lado chamam-se **código esparguete**, porque o seu fluxo se enrola como massa no prato. Mais sobre isto no passo 10.
 
 ::: angeberwissen
 Méééé, ouve bem! Em 1972, Nassi e Shneiderman ainda eram doutorandos na Universidade de Stony Brook, perto de Nova Iorque. Shneiderman tinha uns 25 anos e Nassi uns 23. Ou seja, dois estudantes que escreveram história da informática nas horas vagas.
@@ -293,27 +304,31 @@ richtig: decisão
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei explicar o que é um algoritmo. → Um algoritmo é uma instrução exata
-- Sei que um estrutograma se lê de cima para baixo. → Como se lê um estrutograma
-- Conheço os três blocos básicos: sequência, decisão e ciclo. → Bloco básico 1: a sequência
-- Reconheço cada bloco básico num estrutograma pela sua forma. → Os três juntos
-- Conheço os símbolos de um fluxograma e sei ler um fluxograma simples. → Outras formas de desenhar: o fluxograma
-- Sei construir sozinho um algoritmo simples como fluxograma. → Exercício: Fazer um bolo como fluxograma
-- Sei explicar porque é que os saltos com GOTO levam a erros e a código esparguete. → Desvantagens do fluxograma: saltos
-- Também consigo ler um algoritmo simples em pseudocódigo. → Pseudocódigo e comparação
+- Consigo explicar o que é um algoritmo. → Um algoritmo é uma instrução exata
+- Consigo ler um estrutograma de cima para baixo. → Como se lê um estrutograma
+- Consigo nomear os três blocos básicos: sequência, decisão e ciclo. → Bloco básico 1: a sequência
+- Consigo reconhecer cada bloco básico num estrutograma pela sua forma. → Os três juntos
+- Consigo nomear os símbolos de um fluxograma e ler um fluxograma simples. → Outras formas de desenhar: o fluxograma
+- Consigo construir sozinho um algoritmo simples como fluxograma. → Exercício: Fazer um bolo como fluxograma
+- Consigo explicar porque é que os saltos com GOTO levam a erros e a código esparguete. → Desvantagens do fluxograma: saltos
+- Consigo ler um algoritmo simples em pseudocódigo. → Pseudocódigo e comparação
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Em que direção se lê um estrutograma?
+→ Como se lê um estrutograma
 - [ ] Da esquerda para a direita
 - [x] De cima para baixo
 - [ ] De baixo para cima
 > Cada bloco é um passo, e os passos seguem-se de cima para baixo.
 
 ? Qual destes NÃO é um dos três blocos básicos?
+→ Bloco básico 1: a sequência
 - [ ] Sequência
 - [ ] Decisão
 - [x] Salto
@@ -321,30 +336,35 @@ richtig: decisão
 > Num estrutograma não há saltos. Sequência, decisão e ciclo chegam para qualquer algoritmo.
 
 ? Como reconheces uma decisão num estrutograma?
+→ Os três juntos
 - [ ] Por um L invertido
 - [x] Por um triângulo com a condição e duas colunas por baixo
 - [ ] Por vários retângulos uns por cima dos outros
 > O L invertido pertence ao ciclo, e retângulos uns por cima dos outros são uma sequência.
 
 ? Quando é que o interior de um ciclo é executado mais uma vez?
+→ Os três juntos
 - [x] Enquanto a condição for verdadeira
 - [ ] Só se a condição for falsa
 - [ ] Sempre exatamente duas vezes
 > A condição é verificada antes de cada iteração. Se for falsa, o programa continua por baixo do ciclo.
 
 ? O que é um algoritmo?
+→ Um algoritmo é uma instrução exata
 - [x] Instruções claras, passo a passo, para resolver uma tarefa
 - [ ] Um determinado programa em Java
 - [ ] Uma imagem que explica um programa
 > Um algoritmo não depende de nenhuma linguagem de programação. Um estrutograma é uma forma de o escrever.
 
 ? Como reconheces um ciclo num fluxograma?
+→ Outras formas de desenhar: o fluxograma
 - [ ] Por um L invertido
 - [x] Por uma seta que volta para cima
 - [ ] Pela palavra ENQUANTO
 > O L invertido pertence ao estrutograma, e ENQUANTO ao pseudocódigo.
 
 ? Associa cada símbolo do fluxograma ao seu significado.
+→ Outras formas de desenhar: o fluxograma
 = Oval -> Início ou fim
 = Retângulo -> Instrução
 = Losango -> Decisão
@@ -352,18 +372,21 @@ richtig: decisão
 > O losango tem duas saídas: sim e não.
 
 ? Como se diz fluxograma em inglês?
+→ Outras formas de desenhar: o fluxograma
 - [x] Flowchart
 - [ ] Structure chart
 - [ ] Pseudocode
 > Structure chart é o estrutograma.
 
 ? Acrescentas uma nova linha a um programa com GOTO. O que pode acontecer?
+→ Desvantagens do fluxograma: saltos
 - [x] Os saltos apontam para as linhas erradas, porque os números mudaram
 - [ ] Nada, os saltos ajustam-se sozinhos
 - [ ] O programa fica automaticamente mais rápido
 > Cada IR PARA aponta para um número de linha fixo. Se as linhas descem, o programa salta para o sítio errado.
 
 ? No pseudocódigo, o que mostra que linhas pertencem a um ciclo?
+→ Pseudocódigo e comparação
 - [ ] A cor
 - [x] A indentação e o FIM ENQUANTO
 - [ ] Uma seta

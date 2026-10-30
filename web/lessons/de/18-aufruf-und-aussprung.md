@@ -4,6 +4,19 @@ bereich: Grundlagen
 kurz: Große Aufgaben in Unterprogramme zerlegen und Schleifen vorzeitig verlassen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine große Aufgabe in Teilprobleme zerlegen
+- einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen
+- einem Unterprogramm mit Parametern Werte übergeben
+- mit return einen Rückgabewert liefern und ihn beim Aufruf speichern
+- erklären, warum ein Unterprogramm eine Zahl nicht verändern kann, ein Array aber schon
+- erklären, was ein Aussprung macht und warum er in einer Verzweigung steht
+- eine Schleife mit einem Aussprung oder über ihre Bedingung beenden
+- in Java eine Methode erkennen und eine Schleife mit `break` verlassen
+:::
+
 ## Große Aufgaben zerlegen
 
 Lange Struktogramme werden schnell unübersichtlich. Deshalb zerlegst du eine große Aufgabe in **Teilprobleme**. Jedes Teilproblem bekommt einen eigenen Namen und ein eigenes Struktogramm, ein **Unterprogramm**.
@@ -374,74 +387,86 @@ frage: Was wird ausgegeben?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann eine große Aufgabe in Teilprobleme zerlegen. → Große Aufgaben zerlegen
 - Ich kann einen Aufruf einfügen und ein Unterprogramm in einem eigenen Reiter bauen. → Der Aufruf
 - Ich kann einem Unterprogramm mit Parametern Werte übergeben. → Werte übergeben: Parameter
 - Ich kann mit return einen Rückgabewert liefern und ihn beim Aufruf speichern. → Ergebnis zurückgeben: return
 - Ich kann erklären, warum ein Unterprogramm eine Zahl nicht verändern kann, ein Array aber schon. → Kopie oder Original: call by value und call by reference
-- Ich weiß, was ein Aussprung macht und warum er in einer Verzweigung steht. → Der Aussprung
+- Ich kann erklären, was ein Aussprung macht und warum er in einer Verzweigung steht. → Der Aussprung
 - Ich kann eine Schleife mit einem Aussprung oder über ihre Bedingung beenden. → Aussprung in der Simulation
-- Ich erkenne in Java eine Methode und kann eine Schleife mit `break` verlassen. → Jetzt in Java
+- Ich kann in Java eine Methode erkennen und eine Schleife mit `break` verlassen. → Jetzt in Java
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was bedeutet ein Aufruf-Kasten mit dem Text `zeigeErgebnis()`?
+→ Der Aufruf
 - [ ] Das Programm endet hier.
 - [x] Hier wird das Unterprogramm zeigeErgebnis() ausgeführt, danach geht es weiter.
 - [ ] Hier wird das Wort zeigeErgebnis() ausgegeben.
 
 ? Wo geht es nach einem Aussprung weiter?
+→ Der Aussprung
 - [ ] Am Anfang der Schleife
 - [x] Beim ersten Kasten nach der Schleife
 - [ ] Ganz am Anfang des Programms
 > Der Aussprung verlässt die Schleife, in der er steht. In Java, Python und JavaScript heißt er break.
 
 ? Warum steht ein Aussprung meistens in einer Verzweigung?
+→ Der Aussprung
 - [x] Damit die Schleife nur verlassen wird, wenn eine Bedingung zutrifft
 - [ ] Weil ein Aussprung sonst nicht gespeichert werden kann
 - [ ] Weil eine Verzweigung selbst eine Schleife ist
 > Ohne Verzweigung würde die Schleife schon im ersten Durchlauf verlassen.
 
 ? Wo findet die Simulation das Unterprogramm zu einem Aufruf `zeigeErgebnis()`?
+→ Der Aufruf
 - [ ] Es muss im selben Struktogramm stehen.
 - [x] In einem offenen Reiter mit dem Titel zeigeErgebnis()
 - [ ] Die Simulation kann keine Unterprogramme ausführen.
 > Baue jedes Unterprogramm in einem eigenen Reiter und gib ihm als Titel den Namen aus dem Aufruf.
 
 ? Das Unterprogramm hat die Kopfzeile `void zeigeSumme(int a, int b)`. Welcher Aufruf passt?
+→ Werte übergeben: Parameter
 - [ ] zeigeSumme()
 - [x] zeigeSumme(3, 4)
 - [ ] int s = zeigeSumme(3, 4)
 > Zwei Parameter brauchen zwei Werte. Und `void` heißt: Es kommt nichts zurück, das man speichern könnte.
 
 ? Nach `int q = quadrat(5)` steht in q die 25. Was steht im Unterprogramm quadrat am Ende?
+→ Ergebnis zurückgeben: return
 - [ ] output: x * x
 - [x] return x * x
 - [ ] q = x * x
 > Mit return gibt das Unterprogramm den Wert an den Aufruf zurück. Eine Ausgabe würde ihn nur anzeigen.
 
 ? `void verdopple(int x)` rechnet `x = x * 2`. Im Hauptprogramm steht `int zahl = 5` und dann der Aufruf `verdopple(zahl)`. Welchen Wert hat zahl danach?
+→ Kopie oder Original: call by value und call by reference
 - [x] 5
 - [ ] 10
 - [ ] 0
 > Wertübergabe (call by value): verdopple hat nur eine Kopie von zahl verändert.
 
 ? `void leeren(boolean[] plaetze)` setzt alle Fächer auf false. Was gilt nach `leeren(reihe)` für das Array reihe im Hauptprogramm?
+→ Kopie oder Original: call by value und call by reference
 - [ ] Es ist unverändert, weil das Unterprogramm eine Kopie bekommt.
 - [x] Alle Fächer sind false, weil plaetze und reihe dasselbe Array sind.
 - [ ] Das Array ist gelöscht.
 > Referenzübergabe (call by reference): Ein Array wird als Referenz übergeben. Änderungen an den Fächern sieht auch der Aufrufer.
 
 ? Wie heißt ein Unterprogramm in Java?
+→ Jetzt in Java
 - [ ] Klasse
 - [x] Methode
 - [ ] Schleife
 > In Java ist ein Unterprogramm eine Methode, zum Beispiel die `main`-Methode. Je nach Art sagt man auch Prozedur oder Funktion.
 
 ? Viele Bausteine haben in Schulbüchern einen zweiten Namen. Ordne jedem Begriff aus VisuStruct den anderen Namen zu.
+→ Jetzt in Java
 = Verzweigung -> Bedingte Anweisung
 = Fallauswahl -> Mehrfachauswahl
 = Schleife -> Wiederholungsstruktur
@@ -450,6 +475,7 @@ frage: Was wird ausgegeben?
 > Beide Namen meinen dasselbe. Wenn du einen davon kennst, verstehst du auch den anderen.
 
 ? Was steht in Java in der Kopfzeile einer Methode, die nichts zurückgibt?
+→ Ergebnis zurückgeben: return
 - [ ] int
 - [x] void
 - [ ] return

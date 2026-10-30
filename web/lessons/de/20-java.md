@@ -4,6 +4,18 @@ bereich: Vom Struktogramm zum Code
 kurz: Alle Elemente in Java auf einen Blick, Code erzeugen, im Bereich Programmieren Java schreiben, ausführen und Fehler suchen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Code-Ansicht öffnen und Java als Sprache wählen
+- Ausgabe, Eingabe, Verzweigung und Schleifen in Java erkennen
+- den Unterschied zwischen Snippet und Class erklären
+- ein kurzes Java-Programm als Struktogramm nachbauen
+- im Bereich Programmieren Java tippen und das entstehende Struktogramm lesen
+- ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen
+- Haltepunkte setzen und ein Programm im Einzelschritt verfolgen
+:::
+
 ## Die Code-Ansicht
 
 In den Lektionen 4 bis 19 hast du jedes Element schon einmal in Java geschrieben. Hier siehst du alles auf einen Blick und lernst, wie VisuStruct aus einem ganzen Struktogramm ein Java-Programm macht.
@@ -86,9 +98,11 @@ public class Einmaleins {
         System.out.println("Welche Reihe?");
         int zahl = scanner.nextInt();
         ...
-    }
-}
+    } // Ende main
+} // Ende Klasse
 ```
+
+Die Kommentare `// Ende main` und `// Ende Klasse` hinter den letzten beiden Klammern sind nicht nötig, aber sehr hilfreich: So siehst du sofort, welche Klammer was schließt, und vergisst keine.
 
 Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genauso heißen, hier also `Einmaleins.java`. Das erledigt **Java speichern …** für dich.
 
@@ -306,10 +320,12 @@ frage: Im Debugger ist eine Zeile gelb. Was bedeutet das?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann die Code-Ansicht öffnen und Java als Sprache wählen. → Die Code-Ansicht
-- Ich weiß, wie Ausgabe, Eingabe, Verzweigung und Schleifen in Java aussehen. → Die Elemente in Java
-- Ich kenne den Unterschied zwischen Snippet und Class. → Snippet oder Class
+- Ich kann Ausgabe, Eingabe, Verzweigung und Schleifen in Java erkennen. → Die Elemente in Java
+- Ich kann den Unterschied zwischen Snippet und Class erklären. → Snippet oder Class
 - Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
 - Ich kann im Bereich Programmieren Java tippen und das entstehende Struktogramm lesen. → Java direkt schreiben
 - Ich kann ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen. → Das Programm ausführen
@@ -320,29 +336,34 @@ frage: Im Debugger ist eine Zeile gelb. Was bedeutet das?
 
 ::: quiz
 ? Wie sieht `output: "Hallo"` in Java aus?
+→ Die Elemente in Java
 - [ ] print("Hallo")
 - [x] System.out.println("Hallo");
 - [ ] console.log("Hallo");
 > print ist Python, console.log ist JavaScript.
 
 ? Woher kommt der Klassenname bei Class?
+→ Snippet oder Class
 - [ ] Er heißt immer Main.
 - [x] Aus dem Titel des Diagramms
 - [ ] Aus dem ersten Kasten
 > Ohne Titel heißt die Klasse Main.
 
 ? Welcher Java-Code gehört zu einer Do-while-Schleife?
+→ Die Elemente in Java
 - [ ] while (bedingung) { … }
 - [x] do { … } while (bedingung);
 - [ ] for (;;) { … }
 > Bei do-while steht die Bedingung am Ende, deshalb läuft der Rumpf mindestens einmal.
 
 ? Was wird aus einem Aussprung im Java-Code?
+→ Die Elemente in Java
 - [x] break;
 - [ ] return;
 - [ ] exit();
 
 ? Was passiert an einem roten Punkt vor der Zeilennummer?
+→ Fehler suchen mit dem Debugger
 - [ ] Die Zeile wird übersprungen.
 - [x] Das Programm hält vor dieser Zeile an.
 - [ ] Die Zeile enthält einen Fehler.

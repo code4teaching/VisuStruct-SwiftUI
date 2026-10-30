@@ -4,6 +4,16 @@ bereich: Grundlagen
 kurz: Werte speichern, die Datentypen int, double, String und boolean kennen und rechnen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- eine Variable mit Datentyp, Namen und Wert anlegen
+- die Datentypen int, double, String und boolean unterscheiden
+- erklären, dass = eine Zuweisung ist und kein Vergleich
+- mit + - * / % rechnen und die ganzzahlige Division anwenden
+- Variablen in Java anlegen und ausgeben
+:::
+
 ## Was ist eine Variable?
 
 Eine **Variable** ist wie eine beschriftete Kiste. Sie hat einen **Namen**, einen **Datentyp** und einen **Wert**.
@@ -30,6 +40,10 @@ Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst j
 CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines Kamels aus dem Wort ragen: `preisMitSteuer` hat zwei Höcker. Ich als Geißbock habe übrigens null Höcker, dafür zwei Hörner. Leider hat noch niemand die GeißbockSchreibweise erfunden.
 :::
 
+::: grafik l04-camelcase.svg
+Die Großbuchstaben M und S ragen heraus wie die zwei Höcker des Kamels.
+:::
+
 ## Die vier Datentypen
 
 Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
@@ -38,6 +52,8 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 - **double:** Kommazahlen, z. B. `double preis = 2.5`. Statt Komma schreibst du einen **Punkt**.
 - **String:** Text, z. B. `String name = "Mia"`. Text steht in Anführungszeichen.
 - **boolean:** Wahrheitswerte, nur `true` (wahr) oder `false` (falsch)
+
+Es gibt noch mehr Datentypen. Einen wirst du bald brauchen: `char` für ein **einzelnes Zeichen**, z. B. `char note = 'C'`. Ein `char` steht in **einfachen** Anführungszeichen. Genauer lernst du ihn in Lektion 17 kennen.
 
 ::: diagramm l05-datentypen.visustruct
 Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
@@ -164,7 +180,7 @@ Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James 
 
 Variablen speichern nicht nur Zahlen. Für Text gibt es den Datentyp `String`:
 
-```java
+```java editor
 String name = "Mia";
 int alter = 14;
 double groesse = 1.62;
@@ -176,7 +192,7 @@ System.out.println("Größe: " + groesse + " m");
 - `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet das.
 - Mit `+` hängst du Text und Zahlen aneinander.
 
-Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst.
+Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst. „Im Editor öffnen“ holt das Beispiel in den Bereich Programmieren. Klicke dort auf „Ausführen“, ändere dann Name, Alter oder Größe und probiere es noch einmal.
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
@@ -275,11 +291,13 @@ richtig: String
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann eine Variable mit Datentyp, Namen und Wert anlegen. → Was ist eine Variable?
-- Ich kenne die Datentypen int, double, String und boolean. → Die vier Datentypen
-- Ich weiß, dass = eine Zuweisung ist und kein Vergleich. → Zuweisung mit =
-- Ich kann mit + - * / % rechnen und kenne die ganzzahlige Division. → Rechnen
+- Ich kann die Datentypen int, double, String und boolean unterscheiden. → Die vier Datentypen
+- Ich kann erklären, dass = eine Zuweisung ist und kein Vergleich. → Zuweisung mit =
+- Ich kann mit + - * / % rechnen und die ganzzahlige Division anwenden. → Rechnen
 - Ich kann Variablen in Java anlegen und ausgeben. → Jetzt in Java
 :::
 
@@ -287,6 +305,7 @@ richtig: String
 
 ::: quiz
 ? Welcher Datentyp passt zu dem Wert 3.75?
+→ Die vier Datentypen
 - [ ] int
 - [x] double
 - [ ] String
@@ -294,24 +313,28 @@ richtig: String
 > Kommazahlen haben den Typ double. In VisuStruct schreibst du sie mit Punkt.
 
 ? Welchen Wert hat x nach `int x = 17 / 5`?
+→ Rechnen
 - [ ] 3.4
 - [x] 3
 - [ ] 4
 > Bei ganzen Zahlen fällt alles nach dem Komma weg. Es wird nicht gerundet.
 
 ? Was ergibt `17 % 5`?
+→ Rechnen
 - [x] 2
 - [ ] 3
 - [ ] 3.4
 > 17 geteilt durch 5 ist 3, Rest 2. Der Operator % liefert den Rest.
 
 ? Am Anfang ist `int punkte = 10`. Was steht nach `punkte = punkte * 2` in punkte?
+→ Zuweisung mit =
 - [ ] 10
 - [ ] 12
 - [x] 20
 > Rechts wird mit dem alten Wert 10 gerechnet, das Ergebnis 20 wird in punkte gespeichert.
 
 ? Welche Zeile legt in Java richtig eine Kommazahl an?
+→ Jetzt in Java
 - [ ] double preis = 2,5;
 - [x] double preis = 2.5;
 - [ ] Double preis = 2.5

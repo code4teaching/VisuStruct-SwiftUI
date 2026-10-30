@@ -4,6 +4,16 @@ bereich: Janelas com Swing
 kurz: Escrever um ouvinte como classe interna com nome, como classe anónima e como lambda, e saber quem vê o quê.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- escrever um ouvinte como classe interna com nome
+- escrever um ouvinte como classe anónima
+- explicar o que fica de fora no lambda
+- explicar que maneira de escrever vê que variáveis
+- construir um contador com três botões escritos de três maneiras
+:::
+
 ## O objetivo
 
 O contador de cliques da lição 32 já conheces. Hoje escreves o seu ouvinte de **três maneiras**, que fazem todas exatamente o mesmo:
@@ -183,33 +193,39 @@ Experimenta se os três botões contam como esperado. Depois tira o `static` da 
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei escrever um ouvinte como classe interna com nome. → 1. A classe interna com nome
-- Sei escrever um ouvinte como classe anónima. → 2. A classe anónima
-- Sei o que fica de fora no lambda. → 3. O lambda
-- Sei que maneira de escrever vê que variáveis. → As três comparadas
-- O meu contador tem três botões escritos de três maneiras. → Tarefa: Um contador, três maneiras
+- Consigo escrever um ouvinte como classe interna com nome. → 1. A classe interna com nome
+- Consigo escrever um ouvinte como classe anónima. → 2. A classe anónima
+- Consigo explicar o que fica de fora no lambda. → 3. O lambda
+- Consigo explicar que maneira de escrever vê que variáveis. → As três comparadas
+- Consigo construir um contador com três botões escritos de três maneiras. → Tarefa: Um contador, três maneiras
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Porque é que a forma curta com a seta funciona com ActionListener?
+→ 3. O lambda
 - [ ] Porque ActionListener é uma classe.
 - [x] Porque o contrato tem exatamente um método.
 - [ ] Porque o botão o exige.
 
 ? Que maneira de escrever podes usar com new Mais() em vários botões sem a guardar numa variável?
+→ 1. A classe interna com nome
 - [x] a classe interna com nome
 - [ ] a classe anónima
 - [ ] o lambda
 
 ? Porque é que está static antes de class Mais?
+→ 1. A classe interna com nome
 - [ ] Para a classe ser mais rápida.
 - [x] Porque main é static e senão não consegue criar um objeto de Mais.
 - [ ] Porque todas as classes têm de ser static.
 
 ? Liga.
+→ As três comparadas
 = class Mais implements ActionListener -> classe interna com nome
 = new ActionListener() { … } -> classe anónima
 = a seta depois de e -> lambda

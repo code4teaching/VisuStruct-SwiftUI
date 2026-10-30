@@ -47,6 +47,7 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
     for (const { where, block } of allBlocks()) {
       if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
       if (block.kind === 'graphic') expect(image(block.file), `${where}: ${block.file}`).toBeDefined()
+      if (block.kind === 'graphic' && block.labeled) expect(image(block.labeled), `${where}: ${block.labeled}`).toBeDefined()
     }
   })
 
@@ -293,6 +294,23 @@ describe('Lückentexte', () => {
   })
 })
 
+describe('Java-Beispiele mit „Im Editor öffnen“', () => {
+  it.each(contentLanguages)('```java editor lässt sich ohne Fehler parsen (%s)', (lang) => {
+    useContentLanguage(lang)
+    const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
+    let checked = 0
+    for (const block of lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks))) {
+      if (block.kind !== 'markdown') continue
+      for (const m of block.text.matchAll(/^```java editor\n([\s\S]*?)^```/gm)) {
+        expect(parseLiveJava(m[1], labels).problems, m[1]).toEqual([])
+        expect(markdownToHTML(m[0])).toContain('data-open="editor"')
+        checked++
+      }
+    }
+    expect(checked).toBeGreaterThanOrEqual(1)
+  })
+})
+
 describe('Bombe entschärfen', () => {
   it.each(contentLanguages)('mit der verbesserten Zeile meldet Java keinen Fehler mehr (%s)', (lang) => {
     useContentLanguage(lang)
@@ -411,6 +429,34 @@ describe('PAP bauen', () => {
       const paps = allBlocks().filter(({ block }) => block.kind === 'pap')
       expect(paps.length, lang).toBe(1)
       expect(paps[0].block.kind === 'pap' && paps[0].block.pap.legend, lang).toBe(true)
+    }
+  })
+})
+
+describe('Kompetenzen und Selbsteinschätzung', () => {
+  const lesson = (quizRef: string) =>
+    parseLesson(
+      `---\ntitel: T\n---\n\n## Erster\n\n::: kompetenzen\n- etwas Neues\n:::\n\n## Checkliste\n\n::: checkliste\n- Ich kann etwas. → Erster\n:::\n\n## Test\n\n::: quiz\n? Frage\n→ ${quizRef}\n- [x] ja\n- [ ] nein\n:::\n`,
+      '01-t.md',
+    )
+
+  it('liest Kompetenzen und verbindet Quizfragen mit dem Checklistenpunkt', () => {
+    const l = lesson('Erster')
+    expect(l.steps[0].blocks[0]).toEqual({ kind: 'competences', items: ['etwas Neues'] })
+    const quiz = l.steps[2].blocks[0]
+    expect(quiz.kind === 'quiz' && quiz.questions[0].step).toBe(0)
+  })
+
+  it('meldet Quizfragen ohne passenden Schritt oder Checklistenpunkt', () => {
+    expect(() => lesson('Gibt es nicht')).toThrow(/unbekannten Schritt/)
+    expect(() => lesson('Test')).toThrow(/keinen Checklistenpunkt/)
+  })
+
+  it('Lektion 1 hat Kompetenzen und Ich-kann-Sätze in allen Sprachen', () => {
+    for (const lang of contentLanguages) {
+      useContentLanguage(lang)
+      const l1 = lessons.find((l) => l.number === 1)!
+      expect(l1.steps[0].blocks[0].kind, lang).toBe('competences')
     }
   })
 })

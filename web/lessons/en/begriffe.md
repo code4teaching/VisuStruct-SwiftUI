@@ -75,7 +75,7 @@ A variable whose value stays the same once it is set. You write `const` in front
 
 ### Data type
 also: data type, data types, Data types
-Says what kind of value fits into a variable: int (whole number), double (decimal number), String (text) or boolean (true or false).
+Says what kind of value fits into a variable: int (whole number), double (decimal number), String (text), boolean (true or false) or char (a single character).
 
 ### Assignment
 also: assignment, assignments, Assignments
@@ -124,6 +124,13 @@ A row of slots with one shared name and the same data type.
 ### Index
 also: index, indices, indexes
 The number of a slot in an array. Counting starts at 0.
+
+### char
+The data type for a single character. It goes in single quotation marks, e.g. 'C'. "C" with double quotation marks, on the other hand, is a String.
+
+### Character code
+also: character code, character codes, ASCII code, ASCII table
+The number behind a character. In the ASCII table A has the code 65, B 66 and so on. In Java (int) turns a character into its code and (char) turns a code into the character.
 
 ### String
 also: strings, Strings
@@ -190,6 +197,10 @@ An error that only happens while the program runs, for example an index outside 
 
 ### Scanner
 A ready-made Java building block that reads input from the keyboard, for example a number with `scanner.nextInt()`. It needs `import java.util.Scanner;` at the very top.
+
+### comment
+auch: comments, Comment, Comments
+A note in the code for people. Java skips it when it runs. `//` lasts until the end of the line, `/* … */` can span several lines.
 
 ### import
 A line at the very top of Java code that fetches a ready-made building block from a package, for example `import java.util.Scanner;`. Without it, Java doesn't know the name.

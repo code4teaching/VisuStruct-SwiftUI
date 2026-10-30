@@ -4,6 +4,16 @@ bereich: Fehler abfangen
 kurz: Mit echtem Java Fehlermeldungen lesen und Abstürze mit try und catch abfangen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- echtes Java im Bereich Programmieren einschalten
+- aus einer Fehlermeldung die Exception und die Zeile ablesen
+- eine Exception mit try und catch auffangen
+- Text mit Integer.parseInt in eine Zahl umwandeln und die NumberFormatException abfangen
+- ein Programm schreiben, das sicher teilt, auch durch 0
+:::
+
 ## Abgestürzt!
 
 Dieses Programm soll drei Noten ausgeben. Tippe es im Bereich [Programmieren](#zeige-codelive) ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
@@ -232,35 +242,41 @@ Die Exception heißt `ArithmeticException`. Schreib in den `try`-Block nur die Z
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann echtes Java im Bereich Programmieren einschalten. → Echtes Java einschalten
 - Ich kann aus einer Fehlermeldung die Exception und die Zeile ablesen. → Die Fehlermeldung lesen
 - Ich kann eine Exception mit try und catch auffangen. → try und catch
 - Ich kann Text mit Integer.parseInt in eine Zahl umwandeln und die NumberFormatException abfangen. → Text in eine Zahl umwandeln
-- Mein Programm teilt sicher, auch durch 0. → Aufgabe: Sicher teilen
+- Ich kann ein Programm schreiben, das sicher teilt, auch durch 0. → Aufgabe: Sicher teilen
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was passiert, wenn eine Exception nicht aufgefangen wird?
+→ Die Fehlermeldung lesen
 - [ ] Java überspringt die Zeile und macht weiter.
 - [x] Das Programm bricht ab.
 - [ ] Der Computer startet neu.
 > Deshalb erscheint im ersten Beispiel „Fertig!“ nicht.
 
 ? Was passiert im try-Block nach der Zeile, die eine Exception wirft?
+→ try und catch
 - [ ] Die restlichen Zeilen laufen trotzdem.
 - [x] Der Rest wird übersprungen, Java springt in den catch-Block.
 - [ ] Java beginnt den try-Block von vorne.
 
 ? Welche Exception wirft Integer.parseInt("zwölf")?
+→ Text in eine Zahl umwandeln
 - [ ] ArithmeticException
 - [ ] ArrayIndexOutOfBoundsException
 - [x] NumberFormatException
 > „zwölf“ hat kein Zahlenformat, das Java versteht.
 
 ? Ordne jeder Exception ihre Ursache zu.
+→ Die Fehlermeldung lesen
 = ArrayIndexOutOfBoundsException -> Index außerhalb des Arrays
 = ArithmeticException -> Teilen durch 0
 = NumberFormatException -> Text ist keine Zahl

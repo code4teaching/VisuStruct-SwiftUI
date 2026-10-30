@@ -4,11 +4,24 @@ bereich: Basics
 kurz: Run steps one after another, watch the order and swap values.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain that a sequence runs from top to bottom
+- explain why the order of the steps matters
+- swap two values with a temporary variable
+- write a sequence in Java
+:::
+
 ## Step by step
 
 A **sequence** is a series of steps that run exactly once and in exactly this order. In the structure chart the boxes simply sit on top of each other.
 
 Each box only starts when the box above it is finished. Nothing is skipped and nothing is repeated.
+
+::: diagramm l05-sequenz.visustruct
+A sequence of four boxes: first `length` and `width` get their values, then the area is calculated, and finally it is output. Each box runs exactly once, from top to bottom. Output: 15.
+:::
 
 > The sequence is the simplest of the three basic building blocks. Almost every structure chart is mostly made of sequences.
 
@@ -176,8 +189,10 @@ frage: Ludwig makes tea.
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know that a sequence runs from top to bottom. → Step by step
+- I can explain that a sequence runs from top to bottom. → Step by step
 - I can explain why the order of the steps matters. → Order matters
 - I can swap two values with a temporary variable. → Swap two values
 - I can write a sequence in Java. → Now in Java
@@ -187,29 +202,34 @@ frage: Ludwig makes tea.
 
 ::: quiz
 ? How often does each box of a sequence run?
+→ Step by step
 - [ ] Until a condition is false
 - [x] Exactly once
 - [ ] Not at all if it is empty
 > In a sequence nothing is repeated and nothing is skipped. Loops are there for repetition.
 
 ? At the start a = 5 and b = 9. Then `a = b` runs and after that `b = a`. What is in the variables at the end?
+→ Swap two values
 - [ ] a = 9 and b = 5
 - [x] a = 9 and b = 9
 - [ ] a = 5 and b = 5
 > After `a = b` the old value 5 is lost. `b = a` then only copies the 9 back.
 
 ? Why do you need a temporary variable when swapping?
+→ Swap two values
 - [x] So that a value is not overwritten before it is needed
 - [ ] So that the structure chart gets longer
 - [ ] Because otherwise you cannot output variables
 
 ? What does the sequence `int x = 4`, `x = x + 1`, `x = x * 3`, `output: x` output?
+→ Order matters
 - [ ] 13
 - [x] 15
 - [ ] 4
 > First x becomes 5, then 15.
 
 ? What does every statement end with in Java?
+→ Now in Java
 - [ ] With a full stop .
 - [x] With a semicolon ;
 - [ ] With a colon :

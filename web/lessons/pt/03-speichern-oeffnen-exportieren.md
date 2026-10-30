@@ -4,12 +4,27 @@ bereich: Primeiros passos
 kurz: Guardar os teus ficheiros em segurança, usar o teu espaço de trabalho, abrir vários diagramas e partilhá-los como imagem ou PDF.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- dar um título a um diagrama
+- guardar um diagrama como ficheiro .visustruct e voltar a abri-lo
+- exportar um diagrama como imagem (PNG) ou PDF
+- abrir um segundo diagrama num novo separador
+- criar o meu espaço de trabalho `VisuStruct-Ficheiros`
+- guardar um programa no meu espaço de trabalho
+:::
+
 ## O ficheiro .visustruct
 
 Os estrutogramas são guardados como ficheiros **.visustruct**. Todas as versões do VisuStruct usam o mesmo formato: no navegador, no Mac, iPad e iPhone, e a app Java no computador. Assim podes começar no navegador na escola e continuar na app em casa.
 
 ::: angeberwissen
 Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões perfurados. Nassi conta que um encontro ao sábado à noite era assim: a futura mulher dele sentava-se com ele no centro de computação e perfurava-lhe os cartões. Romance à moda da informática!
+:::
+
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
+Era assim um cartão perfurado. Cada cartão tinha uma linha de programa, aqui `PRINT *, 'OLA MUNDO'` na linguagem Fortran. Cada coluna é um carácter, e os furos são o seu código. Um programa inteiro era uma pilha destes cartões. Se caísse ao chão, era preciso voltar a ordenar tudo.
 :::
 
 ## Guardar e abrir
@@ -40,7 +55,7 @@ Um clique num programa da coluna volta a abri-lo. Assim encontras depressa cada 
 
 Também o teu **progresso** fica no espaço de trabalho: o ficheiro `learnProgress.json` guarda as lições e os exercícios que já concluíste. Se abrires o espaço de trabalho noutro navegador, o teu progresso volta a estar lá.
 
-> O armazenamento do navegador só fica neste navegador, neste dispositivo. Uma pasta real no computador é mais segura, porque também a podes copiar e partilhar.
+> Porquê uma pasta real? O teu progresso e os teus programas ficam lá guardados como ficheiros. Podes levar a pasta contigo, por exemplo numa pen USB ou na tua pasta na nuvem, como o OneDrive. Assim continuas em casa, noutro computador, exatamente onde paraste. Se guardares só no navegador, tudo fica apenas neste navegador, neste dispositivo. Se alguém apagar os dados do navegador, o teu progresso também desaparece.
 
 ## Vários diagramas em separadores
 
@@ -103,30 +118,35 @@ richtig: PNG
 
 Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Dei um título ao diagrama. → Experimenta
-- Guardei o diagrama como ficheiro .visustruct e voltei a abri-lo. → Guardar e abrir
-- Exportei o diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
-- Abri um segundo diagrama num novo separador. → Vários diagramas em separadores
-- Criei o meu espaço de trabalho `VisuStruct-Ficheiros`. → A coluna Ficheiros
-- Guardei um programa no meu espaço de trabalho. → A coluna Ficheiros
+- Consigo dar um título a um diagrama. → Experimenta
+- Consigo guardar um diagrama como ficheiro .visustruct e voltar a abri-lo. → Guardar e abrir
+- Consigo exportar um diagrama como imagem (PNG) ou PDF. → Partilhar: imagem, PDF ou ficheiro
+- Consigo abrir um segundo diagrama num novo separador. → Vários diagramas em separadores
+- Consigo criar o meu espaço de trabalho `VisuStruct-Ficheiros`. → A coluna Ficheiros
+- Consigo guardar um programa no meu espaço de trabalho. → A coluna Ficheiros
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que ficheiro podes voltar a abrir na app para Mac e na app Java?
+→ Guardar e abrir
 - [x] O ficheiro .visustruct
 - [ ] A imagem PNG exportada
 - [ ] O PDF exportado
 > As imagens e os PDF servem só para ver. Só o ficheiro .visustruct pode continuar a ser editado.
 
 ? O navegador memoriza os teus exercícios. Porque deves guardar mesmo assim?
+→ Guardar e abrir
 - [ ] Porque senão os exercícios não são verificados
 - [x] Porque o navegador só guarda os dados neste dispositivo e eles podem perder-se
 - [ ] Porque não se pode exportar sem guardar
 
 ? Hoje guardas um programa no teu espaço de trabalho. Onde fica?
+→ A coluna Ficheiros
 - [ ] Na pasta de transferências
 - [x] No espaço de trabalho, dentro de uma pasta com a data de hoje
 - [ ] Diretamente no espaço de trabalho, sem subpasta

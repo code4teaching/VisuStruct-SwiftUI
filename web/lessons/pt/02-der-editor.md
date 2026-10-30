@@ -4,11 +4,19 @@ bereich: Primeiros passos
 kurz: Inserir elementos, escrever texto, mover e eliminar.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- inserir um elemento da área Elementos e substituir um marcador
+- alterar o texto de um bloco e mudar entre Instrução, Entrada e Saída
+- mover, copiar e eliminar blocos e anular passos
+:::
+
 ## O ecrã
 
-O VisuStruct tem dois editores: o **editor de estrutogramas**, de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha.
+O VisuStruct tem dois editores: o [editor de estrutogramas](#zeige-editor), de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha. As palavras azuis mostram-te as áreas, mesmo que estejam recolhidas: passa o rato por cima de uma, e a área abre-se ao lado da área de aprendizagem e acende-se. Se clicares nela (ou tocares nela), fica aberta.
 
-O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor.
+O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor; as áreas recolhidas, como os Elementos, abrem-se.
 
 - **Mesmo em cima, a [barra de ferramentas](#zeige-leiste):** Novo, Abrir e Guardar. À direita, a roda dentada das [Definições](#zeige-einstellungen): tamanho do texto e idioma.
 - **Por baixo, as [ferramentas](#zeige-werkzeuge)** por cima dos elementos e do estrutograma: Anular, Cortar, Copiar, Colar, Eliminar, Exportar, Código e Simulação. Os botões só mostram ícones. Se puseres o rato por cima de um, aparece o nome.
@@ -58,7 +66,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 
 - **Mover:** Arrasta um bloco existente com o rato para um novo sítio.
 - **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado.
-- **Eliminar:** Seleciona um bloco e prime Del.
+- **Eliminar:** Seleciona um bloco e prime Del, ou clica no [caixote do lixo](#zeige-loeschen) „Eliminar seleção“ nas ferramentas.
 - **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z).
 
 ## Exercício: Olá Mundo
@@ -66,7 +74,7 @@ Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simula
 ::: übung l2-hallo
 titel: Olá Mundo
 auftrag: Constrói um estrutograma que mostre **Olá Mundo**.
-Arrasta uma Instrução para o marcador, muda-a para **Saída** no Inspetor de objetos e escreve `"Olá Mundo"`.
+Arrasta uma **Instrução** dos Elementos para o marcador **ø** e clica no bloco. No Inspetor de objetos, por baixo do estrutograma, há três botões em cima: Instrução, Entrada e Saída. Clica em **Saída**. Depois escreve `"Olá Mundo"` no campo de texto por baixo, com aspas.
 test: - -> Olá Mundo
 braucht: anweisung
 tipp: Só precisas de um único bloco. O texto que deve aparecer vai para o campo de texto do Inspetor de objetos.
@@ -145,27 +153,32 @@ frage: Clicas num elemento da área Elementos, sem arrastar. Onde fica?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei inserir um elemento da área Elementos e substituir um marcador. → Inserir um elemento
-- Sei alterar o texto de um bloco e mudar entre Instrução, Entrada e Saída. → Escrever texto
-- Sei mover, copiar e eliminar blocos e anular passos. → Mover, copiar, eliminar
+- Consigo inserir um elemento da área Elementos e substituir um marcador. → Inserir um elemento
+- Consigo alterar o texto de um bloco e mudar entre Instrução, Entrada e Saída. → Escrever texto
+- Consigo mover, copiar e eliminar blocos e anular passos. → Mover, copiar, eliminar
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que significa o sinal ø num bloco?
+→ Inserir um elemento
 - [ ] O bloco contém um erro.
 - [x] Aqui ainda há um marcador vazio.
 - [ ] O programa termina aqui.
 > Um marcador é substituído quando arrastas um elemento para cima dele.
 
 ? Arrastas uma Instrução para a metade de baixo de um bloco. Onde é que ela fica?
+→ Inserir um elemento
 - [ ] Antes dele
 - [x] Depois dele
 - [ ] O bloco é substituído.
 
 ? Como mostras o texto Bom dia exatamente como está?
+→ Escrever texto
 - [ ] output: Bom dia
 - [x] output: "Bom dia"
 - [ ] input: "Bom dia"

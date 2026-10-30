@@ -4,6 +4,22 @@ bereich: Fundamentos
 kurz: Trabalhar com texto: ler caracteres, recortar partes, pesquisar, comparar e dividir.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar que os caracteres de uma String também se contam a partir de 0
+- trabalhar com `length()` e `charAt(i)`
+- distinguir um `char` de uma String e usar o código de caractere com `(int)` e `(char)`
+- recortar uma parte de um texto com `substring`
+- usar `indexOf`, `contains`, `toUpperCase` e `equals`
+- percorrer um texto caractere a caractere com um ciclo
+- dividir um texto num array de Strings com `split`
+- ler um texto em Java e compará-lo com `equals`
+- usar mais métodos, como `lastIndexOf`, `replace`, `compareTo` e `Integer.parseInt`
+- dividir o texto de um ficheiro em linhas com `split("\n")`
+- consultar um método na API do Java e ler a sua descrição
+:::
+
 ## Um texto é uma fila de caracteres
 
 Já conheces `String`: `String nome = "Ludwig"`. Na informática, um texto destes chama-se **string** (em inglês, “fio”), porque os caracteres ficam pendurados uns a seguir aos outros como contas num fio. Também se diz **cadeia de caracteres**. Cada caractere tem um lugar com um índice, tal como num array. Também aqui **se começa a contar em 0**: o primeiro caractere está a 0 passos do início.
@@ -19,14 +35,34 @@ Uma String traz consigo **métodos**. Escreves o nome da variável, um ponto e o
 
 > Nas Strings escreves `length()` **com** parênteses, nos arrays `length` **sem**. Infelizmente, o Java é mesmo assim.
 
-Em Java, um único caractere tem o tipo de dados `char`. Um `char` fica entre aspas **simples**: `'P'`. Uma String fica entre aspas duplas: `"P"`.
+Tal como num array, o último caractere tem o índice `length() - 1`.
+
+## Um único caractere: char
+
+Para um único caractere, o Java tem um tipo de dados próprio: **char**, abreviatura do inglês *character* (caractere). Um `char` fica entre aspas **simples**, uma String entre aspas duplas:
+
+- `'C'` é um `char`: exatamente um caractere.
+- `"C"` é uma String: um texto que só tem um caractere.
+- Um `char` tem sempre exatamente um caractere. Não existe um `char` vazio como `''`, mas uma String vazia `""` existe.
+
+`charAt` dá-te um caractere destes a partir de um texto:
 
 ```
 char primeiro = palavra.charAt(0)
 char ultimo = palavra.charAt(palavra.length() - 1)
 ```
 
-Tal como num array, o último caractere tem o índice `length() - 1`.
+Dois `char` comparas com `==`: `palavra.charAt(0) == 'P'` é `true`.
+
+Por trás de cada caractere há um número, o seu **código de caractere**. Que número pertence a que caractere está na tabela ASCII: `'A'` tem o código 65, `'B'` 66, `'C'` 67 e assim por diante até `'Z'` com 90. Com `(int)` obténs o código de um caractere, com `(char)` um código volta a ser um caractere:
+
+```
+int codigo = (int) 'C'
+codigo = codigo + 1
+char seguinte = (char) codigo
+```
+
+Depois disto, `codigo` vale 68 e `seguinte` é `'D'`. Assim deslocas uma letra no alfabeto, e é exatamente isso que vais precisar mais tarde na cifra de César.
 
 ## Recortar partes
 
@@ -392,58 +428,82 @@ ende: A Zora está livre, e a raposa fugiu a correr. A palavra secreta era `BREA
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei que os caracteres de uma String também se contam a partir de 0. → Um texto é uma fila de caracteres
-- Sei trabalhar com `length()` e `charAt(i)`. → Um texto é uma fila de caracteres
-- Sei recortar uma parte de um texto com `substring`. → Recortar partes
-- Conheço `indexOf`, `contains`, `toUpperCase` e `equals`. → Pesquisar e comparar
-- Sei percorrer um texto caractere a caractere com um ciclo. → Caractere a caractere
-- Sei dividir um texto num array de Strings com `split`. → Dividir com split
-- Sei ler um texto em Java e compará-lo com `equals`. → Agora em Java
-- Conheço mais métodos, como `lastIndexOf`, `replace`, `compareTo` e `Integer.parseInt`. → Ainda mais métodos
-- Sei dividir o texto de um ficheiro em linhas com `split("\n")`. → Texto de um ficheiro
-- Sei consultar um método na API do Java e ler a sua descrição. → A API do Java
+- Consigo explicar que os caracteres de uma String também se contam a partir de 0. → Um texto é uma fila de caracteres
+- Consigo trabalhar com `length()` e `charAt(i)`. → Um texto é uma fila de caracteres
+- Consigo distinguir um `char` de uma String e usar o código de caractere com `(int)` e `(char)`. → Um único caractere: char
+- Consigo recortar uma parte de um texto com `substring`. → Recortar partes
+- Consigo usar `indexOf`, `contains`, `toUpperCase` e `equals`. → Pesquisar e comparar
+- Consigo percorrer um texto caractere a caractere com um ciclo. → Caractere a caractere
+- Consigo dividir um texto num array de Strings com `split`. → Dividir com split
+- Consigo ler um texto em Java e compará-lo com `equals`. → Agora em Java
+- Consigo usar mais métodos, como `lastIndexOf`, `replace`, `compareTo` e `Integer.parseInt`. → Ainda mais métodos
+- Consigo dividir o texto de um ficheiro em linhas com `split("\n")`. → Texto de um ficheiro
+- Consigo consultar um método na API do Java e ler a sua descrição. → A API do Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Quanto dá `"Ludwig".charAt(1)`?
+→ Um texto é uma fila de caracteres
 - [ ] L
 - [x] u
 - [ ] d
 > Começa-se a contar em 0: L tem o índice 0, u o índice 1.
 
+? O que é `'C'`?
+→ Um único caractere: char
+- [x] um `char`, ou seja, exatamente um caractere
+- [ ] uma String
+- [ ] uma variável chamada C
+> Aspas simples indicam um único caractere, um `char`. `"C"` entre aspas duplas seria uma String.
+
+? `'A'` tem o código de caractere 65. Quanto dá `(char) 67`?
+→ Um único caractere: char
+- [ ] 'B'
+- [x] 'C'
+- [ ] 67
+> 65 é A, 66 é B, 67 é C. Com `(char)` o código volta a ser um caractere.
+
 ? Quanto dá `"Estrutura".substring(0, 6)`?
+→ Recortar partes
 - [x] Estrut
 - [ ] Estrutu
 - [ ] strutu
 > Os caracteres com os índices 0 a 5. O fim 6 não está incluído.
 
 ? Uma palavra tem 7 caracteres. Que índice tem o último caractere?
+→ Um texto é uma fila de caracteres
 - [ ] 7
 - [x] 6
 - [ ] 8
 > Tal como num array: sempre um a menos do que o comprimento.
 
 ? Como comparas duas Strings quanto ao conteúdo em Java?
+→ Pesquisar e comparar
 - [ ] a == b
 - [x] a.equals(b)
 - [ ] a = b
 
 ? Associa cada método ao que dá para `"Passatempo"`.
+→ Pesquisar e comparar
 = length() -> 10
 = charAt(0) -> P
 = indexOf("tempo") -> 5
 = substring(5) -> tempo
 
 ? Que condição verifica em Java se `entrada` contém o texto Ludwig?
+→ Agora em Java
 - [ ] entrada = "Ludwig"
 - [ ] entrada == 'Ludwig'
 - [x] entrada.equals("Ludwig")
 > Comparas textos com equals. As aspas simples são só para um único carácter.
 
 ? O que devolve `Integer.parseInt("12") + 1`?
+→ Ainda mais métodos
 - [ ] "121"
 - [x] 13
 - [ ] uma mensagem de erro

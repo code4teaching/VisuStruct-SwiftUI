@@ -4,6 +4,19 @@ bereich: Fundamentos
 kurz: Juntar várias condições com e, ou e não, e verificar intervalos de valores.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar quando é que uma combinação com && é verdadeira
+- explicar quando é que uma combinação com || é verdadeira
+- inverter uma condição com !
+- verificar se um valor está num intervalo como de 1 a 5
+- ler a tabela de verdade de &&, || e !
+- guardar o resultado de uma condição numa variável boolean
+- avaliar condições compostas com segurança
+- ligar condições em Java com && e ||
+:::
+
 ## E: &&
 
 Às vezes uma só comparação não chega. Por exemplo, só tens direito a um bilhete jovem se tiveres **pelo menos 12 anos e menos de 18**.
@@ -248,43 +261,50 @@ lösung: l09-java-fehler-loesung.visustruct
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei quando uma combinação com && é verdadeira. → E: &&
-- Sei quando uma combinação com || é verdadeira. → Ou: ||
-- Sei inverter uma condição com !. → Não e parênteses
-- Sei verificar se um valor está num intervalo como de 1 a 5. → Verificar intervalos de valores
-- Sei ler a tabela de verdade de &&, || e !. → A tabela de verdade
-- Sei guardar o resultado de uma condição numa variável boolean. → Valores lógicos em variáveis
-- Acertei pelo menos 8 de 10 condições no jogo. → Jogo: Verdadeiro ou falso?
-- Sei ligar condições em Java com && e ||. → Agora em Java
+- Consigo explicar quando é que uma combinação com && é verdadeira. → E: &&
+- Consigo explicar quando é que uma combinação com || é verdadeira. → Ou: ||
+- Consigo inverter uma condição com !. → Não e parênteses
+- Consigo verificar se um valor está num intervalo como de 1 a 5. → Verificar intervalos de valores
+- Consigo ler a tabela de verdade de &&, || e !. → A tabela de verdade
+- Consigo guardar o resultado de uma condição numa variável boolean. → Valores lógicos em variáveis
+- Consigo avaliar condições compostas com segurança (pelo menos 8 de 10 certas no jogo). → Jogo: Verdadeiro ou falso?
+- Consigo ligar condições em Java com && e ||. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Quando é que `a && b` é verdadeiro?
+→ E: &&
 - [ ] Se a ou b for verdadeiro
 - [x] Só se a e b forem ambos verdadeiros
 - [ ] Se exatamente um deles for verdadeiro
 > Com && as duas partes têm de estar certas. Se uma for falsa, o todo é falso.
 
 ? A variável dia tem o valor 6. Quanto dá `dia == 6 || dia == 7`?
+→ Ou: ||
 - [x] true
 - [ ] false
 > Com || basta que um dos lados seja verdadeiro.
 
 ? Que condição verifica se numero está entre 10 e 20 (ambos incluídos)?
+→ Verificar intervalos de valores
 - [ ] 10 <= numero <= 20
 - [ ] numero >= 10 || numero <= 20
 - [x] numero >= 10 && numero <= 20
 > Com || todos os números seriam permitidos, porque qualquer número é maior do que 10 ou menor do que 20.
 
 ? Quanto dá `!(5 > 3)`?
+→ Não e parênteses
 - [ ] true
 - [x] false
 > 5 > 3 é verdadeiro, e o ! inverte isso.
 
 ? Como escreves em Java “idade é pelo menos 12 e menor do que 18”?
+→ Agora em Java
 - [ ] if (12 <= idade < 18)
 - [x] if (idade >= 12 && idade < 18)
 - [ ] if (idade >= 12 || idade < 18)

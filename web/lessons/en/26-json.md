@@ -4,6 +4,17 @@ bereich: Files
 kurz: Understand JSON files, get values out with indexOf and substring, and write JSON yourself.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- recognise objects, keys, values and lists in JSON
+- get a value out of a JSON line with indexOf and substring
+- output all values of one key from a JSON file
+- build and save a JSON entry with + and \"
+- save data as a JSON file
+- name one strength and one weakness of JSON
+:::
+
 ## Data with names
 
 The castle zoo stores its animals in a file `zoo.json`:
@@ -172,36 +183,42 @@ frage: Which key has a truth value?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know objects, keys, values and lists in JSON. → Data with names
+- I can recognise objects, keys, values and lists in JSON. → Data with names
 - I can get a value out of a JSON line with indexOf and substring. → Getting a value out
-- I printed all the names in the zoo. → Exercise: All the names in the zoo
+- I can output all values of one key from a JSON file. → Exercise: All the names in the zoo
 - I can build and save a JSON entry with + and \". → Writing JSON
-- I saved the points as JSON. → Exercise: Saving points as JSON
-- I know one strength and one weakness of JSON. → Strengths and weaknesses of JSON
+- I can save data as a JSON file. → Exercise: Saving points as JSON
+- I can name one strength and one weakness of JSON. → Strengths and weaknesses of JSON
 :::
 
 ## Quiz
 
 ::: quiz
 ? What comes before each value in JSON?
+→ Data with names
 - [ ] its line number
 - [x] its key, for example "name"
 - [ ] a semicolon
 > Key and value are separated by a colon.
 
 ? How do you write a quotation mark inside a Java text?
+→ Writing JSON
 - [ ] ""
 - [x] \"
 - [ ] '"'
 
 ? In {"animals": [{"name": "Ludwig"}, {"name": "Zora"}]}, what is the value of animals[0].name?
+→ Data with names
 - [x] Ludwig
 - [ ] Zora
 - [ ] animals
 > The list counts from 0.
 
 ? Match.
+→ Strengths and weaknesses of JSON
 = { } -> an object with keys and values
 = [ ] -> a list
 = : -> separates key and value

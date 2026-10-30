@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Viele Werte in einem Array speichern und mit einer Schleife abarbeiten.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein Array anlegen und mit einer Schleife abspielen
+- ein Array mit Texten in Java benutzen
+- alle Werte eines Arrays zusammenzählen
+:::
+
 ## Eine Melodie als Array
 
 Eine Melodie ist eine Reihe von Tönen. Statt fünf Variablen `ton1`, `ton2`, … nimmst du ein **Array**. Ein Array ist eine Reihe von Fächern unter **einem** Namen:
@@ -69,16 +77,20 @@ lösung: vb-ohne-summe-loesung.visustruct
 
 ::: quiz
 ? Was ist `toene[1]`, wenn `int[] toene = {262, 294, 330};`?
+→ Eine Melodie als Array
 - [ ] 262
 - [x] 294
 - [ ] 1
 > Die Fächer zählen ab 0. Fach 1 ist also das zweite.
 ? Wie viele Fächer hat `{262, 294, 330}`, also was ist `toene.length`?
+→ Eine Melodie als Array
 - [ ] 2
 - [x] 3
 - [ ] 330
 > `length` zählt die Fächer, hier drei. Das letzte Fach hat deshalb die Nummer 2.
 :::
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
 - Ich kann ein Array anlegen und mit einer Schleife abspielen. → Eine Melodie als Array

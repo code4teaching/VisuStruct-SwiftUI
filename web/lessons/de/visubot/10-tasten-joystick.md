@@ -4,6 +4,14 @@ bereich: VisuBot
 kurz: Der mBot2 wartet auf dich und lässt sich fernsteuern.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die Sensoren für Tasten und Joystick abfragen
+- auf eine Taste warten
+- den mBot2 mit dem Joystick steuern
+:::
+
 ## Drücken als Sensor
 
 ::: mbot2
@@ -59,19 +67,23 @@ lösung: vb-java-joystick-loesung.visustruct
 
 ::: quiz
 ? Was liefert `mbot.isButtonB()`, wenn niemand drückt?
+→ Drücken als Sensor
 - [ ] 0
 - [x] false
 - [ ] B
 > Tasten liefern wahr oder falsch.
 ? Warum steht in der Warteschleife **kurz warten**?
+→ Warten auf Taste A im Struktogramm
 - [x] Damit die Schleife nicht leer ist und der CyberPi nicht unnötig schnell im Kreis rennt.
 - [ ] Damit die Taste länger leuchtet.
 - [ ] Ohne Pause fährt der mBot2 rückwärts.
 > Die Schleife fragt alle 100 Millisekunden nach, das reicht völlig.
 :::
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich kenne die Sensoren für Tasten und Joystick. → Drücken als Sensor
+- Ich kann die Sensoren für Tasten und Joystick abfragen. → Drücken als Sensor
 - Ich kann auf eine Taste warten. → Warten auf Taste A im Struktogramm
 - Ich kann den mBot2 mit dem Joystick steuern. → Jetzt in Java: Fernsteuerung
 :::

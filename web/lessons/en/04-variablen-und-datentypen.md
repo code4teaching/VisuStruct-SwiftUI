@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Store values, get to know the data types int, double, String and boolean, and calculate.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create a variable with a data type, a name and a value
+- tell the data types int, double, String and boolean apart
+- explain that = is an assignment and not a comparison
+- calculate with + - * / % and use whole-number division
+- create and output variables in Java
+:::
+
 ## What is a variable?
 
 A **variable** is like a labelled box. It has a **name**, a **data type** and a **value**.
@@ -30,6 +40,10 @@ If a name is made of several words, you write them together and start every furt
 camelCase got its name because the capital letters in the middle stick out of the word like the humps of a camel: `priceWithTax` has two humps. Me, I'm a billy goat with zero humps but two horns. Sadly, nobody has invented GoatCase yet.
 :::
 
+::: grafik l04-camelcase.svg
+The capitals W and T stick out like the camel's two humps.
+:::
+
 ## The four data types
 
 The data type says what kind of value may be stored in the variable.
@@ -38,6 +52,8 @@ The data type says what kind of value may be stored in the variable.
 - **double:** decimal numbers, e.g. `double price = 2.5`. You write a **point**, never a comma.
 - **String:** text, e.g. `String name = "Mia"`. Text goes in quotation marks.
 - **boolean:** truth values, only `true` or `false`
+
+There are more data types. You will soon need one of them: `char` for a **single character**, e.g. `char grade = 'C'`. A `char` goes in **single** quotation marks. You will get to know it better in lesson 17.
 
 ::: diagramm l05-datentypen.visustruct
 Three variables with different data types. Open the diagram and start the simulation.
@@ -164,7 +180,7 @@ Java was first called **Oak**, after the tree outside James Gosling’s office w
 
 Variables do not only store numbers. For text there is the data type `String`:
 
-```java
+```java editor
 String name = "Mia";
 int age = 14;
 double height = 1.62;
@@ -176,7 +192,7 @@ System.out.println("Height: " + height + " m");
 - You write `String` with a capital letter, `int`, `double` and `boolean` in lowercase. Java tells them apart.
 - With `+` you join text and numbers together.
 
-You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type.
+You type Java in the [Programming](#zeige-codelive) area. The structure chart builds itself as you type. “Open in editor” brings the example into the Programming area. Click “Run” there, then change the name, age or height and try again.
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java
@@ -275,11 +291,13 @@ richtig: String
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can create a variable with a data type, a name and a value. → What is a variable?
-- I know the data types int, double, String and boolean. → The four data types
-- I know that = is an assignment and not a comparison. → Assignment with =
-- I can calculate with + - * / % and know whole-number division. → Calculating
+- I can tell the data types int, double, String and boolean apart. → The four data types
+- I can explain that = is an assignment and not a comparison. → Assignment with =
+- I can calculate with + - * / % and use whole-number division. → Calculating
 - I can create and output variables in Java. → Now in Java
 :::
 
@@ -287,6 +305,7 @@ richtig: String
 
 ::: quiz
 ? Which data type fits the value 3.75?
+→ The four data types
 - [ ] int
 - [x] double
 - [ ] String
@@ -294,24 +313,28 @@ richtig: String
 > Decimal numbers have the type double. In VisuStruct you write them with a point.
 
 ? What value does x have after `int x = 17 / 5`?
+→ Calculating
 - [ ] 3.4
 - [x] 3
 - [ ] 4
 > With whole numbers, everything after the decimal point is dropped. It is not rounded.
 
 ? What does `17 % 5` give?
+→ Calculating
 - [x] 2
 - [ ] 3
 - [ ] 3.4
 > 17 divided by 5 is 3, remainder 2. The operator % gives the remainder.
 
 ? At the start, `int points = 10`. What is in points after `points = points * 2`?
+→ Assignment with =
 - [ ] 10
 - [ ] 12
 - [x] 20
 > The right-hand side is calculated with the old value 10, and the result 20 is stored in points.
 
 ? Which line correctly creates a decimal number in Java?
+→ Now in Java
 - [ ] double price = 2,5;
 - [x] double price = 2.5;
 - [ ] Double price = 2.5
