@@ -10,6 +10,9 @@ kurz: Alle Elemente in Java auf einen Blick, Code erzeugen, im Bereich Programmi
 - die Code-Ansicht öffnen und Java als Sprache wählen
 - Ausgabe, Eingabe, Verzweigung und Schleifen in Java erkennen
 - den Unterschied zwischen Snippet und Class erklären
+- erklären, wie Java-Code mit Compiler, Bytecode und JVM auf jedem Betriebssystem läuft
+- JDK und JRE unterscheiden
+- erklären, warum man ein C++-Programm für jedes Betriebssystem neu kompilieren muss, ein Java-Programm aber nicht
 - ein kurzes Java-Programm als Struktogramm nachbauen
 - im Bereich Programmieren Java tippen und das entstehende Struktogramm lesen
 - ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen
@@ -107,6 +110,40 @@ Die Kommentare `// Ende main` und `// Ende Klasse` hinter den letzten beiden Kla
 Der Name der Klasse kommt aus dem **Titel** des Diagramms. Die Datei muss genauso heißen, hier also `Einmaleins.java`. Das erledigt **Java speichern …** für dich.
 
 > Der erzeugte Code ist ein guter Anfang, aber prüfe ihn. Legst du eine Variable zuerst an und liest sie später mit einer Eingabe neu ein, schreibt VisuStruct trotzdem `int pin = scanner.nextInt();`. Java meldet dann, dass es `pin` schon gibt. Lösche in dieser Zeile einfach das `int`.
+
+## Wie Java auf jedem Computer läuft
+
+Deine Datei `Einmaleins.java` ist **Quellcode**: Text für Menschen. Der Prozessor deines Computers versteht ihn nicht direkt. Deshalb läuft Java in zwei Schritten:
+
+1. Der **Compiler** `javac` übersetzt den Quellcode in **Bytecode**. Heraus kommt die Datei `Einmaleins.class`.
+2. Die **JVM** (Java Virtual Machine) liest den Bytecode und übersetzt ihn beim Ausführen in **Maschinencode**, also in Befehle für den Prozessor deines Computers.
+
+::: grafik l20-jvm.svg
+
+Den Bytecode gibt es nur einmal. Die JVM gibt es dagegen für Windows, macOS, Linux und viele andere Systeme. Deshalb läuft dieselbe `.class`-Datei auf jedem Computer, auf dem eine JVM installiert ist. Das nennt man **plattformunabhängig**. Der Werbespruch dazu heißt **„Write once, run anywhere“**: einmal schreiben, überall ausführen.
+
+Zum Vergleich **C++**: Dort übersetzt der Compiler den Quellcode direkt in Maschinencode für genau einen Prozessor und ein Betriebssystem. Das fertige Programm läuft nur dort. Für Windows, macOS und Linux musst du es jeweils neu kompilieren.
+
+::: grafik l20-cpp.svg
+
+| | C++ | Java |
+|---|---|---|
+| Der Compiler erzeugt | Maschinencode | Bytecode |
+| Wie oft kompilieren? | für jedes System neu | einmal |
+| Was braucht der Computer zum Ausführen? | nichts weiter | eine JVM |
+
+Ist Java dadurch langsamer? Kaum. Programmteile, die oft laufen, zum Beispiel Schleifen, übersetzt der **JIT-Compiler** der JVM („just in time“, gerade rechtzeitig) einmal komplett in Maschinencode. Danach laufen sie fast so schnell wie C++.
+
+> Stell dir die JVM wie einen kleinen Computer aus Software vor, fast wie ein eigenes Betriebssystem nur für Java-Programme. Genau genommen ist sie aber kein Betriebssystem, sondern eine **virtuelle Maschine**: ein Programm, das selbst auf Windows, macOS oder Linux läuft und darin einen gedachten Computer nachspielt.
+
+Beim Installieren begegnen dir zwei Abkürzungen:
+
+| Abkürzung | Was steckt drin? | Wofür? |
+|---|---|---|
+| **JRE** (Java Runtime Environment) | die JVM und fertige Bausteine wie `Scanner` | Java-Programme ausführen |
+| **JDK** (Java Development Kit) | die JRE und dazu den Compiler `javac` und weitere Werkzeuge | Java-Programme schreiben und übersetzen |
+
+Zum Programmieren brauchst du also das JDK. Heute lädt man meist nur noch das JDK herunter, die JRE steckt darin. Für VisuStruct im Browser musst du nichts davon installieren.
 
 ::: angeberwissen
 Jede übersetzte Java-Datei (`.class`) beginnt mit denselben vier Bytes, in Hexadezimal geschrieben: `CA FE BA BE`. Daran erkennt der Computer, dass es Java ist. Das „Kaffee-Baby“ hat sich James Gosling ausgedacht, passend zum Kaffee im Namen.
@@ -326,6 +363,9 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann die Code-Ansicht öffnen und Java als Sprache wählen. → Die Code-Ansicht
 - Ich kann Ausgabe, Eingabe, Verzweigung und Schleifen in Java erkennen. → Die Elemente in Java
 - Ich kann den Unterschied zwischen Snippet und Class erklären. → Snippet oder Class
+- Ich kann erklären, wie Java-Code mit Compiler, Bytecode und JVM auf jedem Betriebssystem läuft. → Wie Java auf jedem Computer läuft
+- Ich kann JDK und JRE unterscheiden. → Wie Java auf jedem Computer läuft
+- Ich kann erklären, warum man ein C++-Programm für jedes Betriebssystem neu kompilieren muss, ein Java-Programm aber nicht. → Wie Java auf jedem Computer läuft
 - Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
 - Ich kann im Bereich Programmieren Java tippen und das entstehende Struktogramm lesen. → Java direkt schreiben
 - Ich kann ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen. → Das Programm ausführen
@@ -368,4 +408,25 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [x] Das Programm hält vor dieser Zeile an.
 - [ ] Die Zeile enthält einen Fehler.
 > Das ist ein Haltepunkt. Danach geht es mit ▶︎ oder dem Einzelschritt weiter.
+
+? Warum läuft dieselbe `.class`-Datei auf Windows, macOS und Linux?
+→ Wie Java auf jedem Computer läuft
+- [ ] Der Compiler erzeugt für jedes Betriebssystem eine eigene Datei.
+- [x] Auf jedem Betriebssystem führt eine JVM denselben Bytecode aus.
+- [ ] Java-Programme brauchen kein Betriebssystem.
+> Der Bytecode bleibt gleich. Nur die JVM gibt es für jedes System extra.
+
+? Was brauchst du, um Java-Programme zu schreiben und zu übersetzen?
+→ Wie Java auf jedem Computer läuft
+- [ ] nur die JRE
+- [x] das JDK
+- [ ] nur die JVM
+> Die JRE reicht zum Ausführen. Den Compiler `javac` gibt es nur im JDK.
+
+? Du willst dein Programm auf Windows und auf dem Mac nutzen. Was stimmt?
+→ Wie Java auf jedem Computer läuft
+- [ ] Java musst du für jedes System neu kompilieren, C++ nicht.
+- [x] C++ musst du für jedes System neu kompilieren, Java nicht.
+- [ ] Beide musst du nur einmal kompilieren.
+> C++ wird direkt zu Maschinencode für ein System. Java wird zu Bytecode, und den führt auf jedem System die JVM aus.
 :::
