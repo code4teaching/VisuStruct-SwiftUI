@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Repeat steps as long as a condition is true.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain that the while loop checks its condition before every pass
+- use a counter variable with a start value, a condition and a change
+- notice when a loop never ends and fix the mistake
+- follow a loop pass by pass in a desk check
+- write a while loop in Java
+:::
+
 ## Repeat as long as something holds
 
 Often a program should do something several times. Instead of writing the same box five times, you use a **loop**.
@@ -278,10 +288,12 @@ frage: How often does the body run?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know that the while loop checks its condition before every pass. → The condition comes first
+- I can explain that the while loop checks its condition before every pass. → The condition comes first
 - I can use a counter variable with a start value, a condition and a change. → A counter variable
-- I notice when a loop never ends and can fix the mistake. → Watch out: endless loop
+- I can notice when a loop never ends and fix the mistake. → Watch out: endless loop
 - I can follow a loop pass by pass in a desk check. → Loops in a desk check
 - I can write a while loop in Java. → Now in Java
 :::
@@ -290,35 +302,41 @@ frage: How often does the body run?
 
 ::: quiz
 ? What does pre-test loop mean?
+→ The condition comes first
 - [x] The condition is checked before every pass.
 - [ ] The condition is checked after every pass.
 - [ ] The loop always runs exactly once.
 > The head with the condition is at the top and is worked out first.
 
 ? `int i = 5`, then a while loop with the condition `i < 3`. How often does the inside run?
+→ The condition comes first
 - [x] Not at all
 - [ ] Once
 - [ ] Three times
 > The very first time it is checked, 5 < 3 is false.
 
 ? Why does a loop with the condition `number > 0` never end if the inside only contains `output: number`?
+→ Watch out: endless loop
 - [ ] Because output makes the number bigger
 - [x] Because number never changes and the condition stays true
 - [ ] Because the condition is written wrongly
 > Something has to happen inside that makes the condition false at some point.
 
 ? What else are loops called in textbooks?
+→ The condition comes first
 - [x] Iteration or repetition
 - [ ] Branches
 - [ ] Subprograms
 > A loop repeats statements. That is why it is also called iteration or repetition.
 
 ? A loop should count from 1 to 5, but it only goes up to 4. What is the likely mistake?
+→ A counter variable
 - [x] The condition says i < 5 instead of i <= 5.
 - [ ] The loop is a while loop.
 - [ ] The variable i has the wrong name.
 
 ? Which line starts a while loop correctly in Java?
+→ Now in Java
 - [ ] while number > 0 {
 - [x] while (number > 0) {
 - [ ] while (number > 0);

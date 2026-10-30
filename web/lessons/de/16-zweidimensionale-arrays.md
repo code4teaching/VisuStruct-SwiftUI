@@ -4,6 +4,16 @@ bereich: Grundlagen
 kurz: Werte in Zeilen und Spalten speichern, wie die Sitze in einem Kinosaal, und mit zwei verschachtelten Schleifen durchlaufen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- ein 2D-Array anlegen und erklären, was die beiden Zahlen bedeuten
+- ein Fach mit Reihe und Platz lesen und schreiben
+- `sitze.length` und `sitze[0].length` unterscheiden
+- erklären, in welcher Reihenfolge zwei verschachtelte Schleifen die Fächer besuchen
+- in Java ein zweidimensionales Array anlegen und durchlaufen
+:::
+
 ## Ein Kinosaal als Tabelle
 
 Ein Kinosaal hat mehrere **Reihen**, und jede Reihe hat mehrere **Plätze**. Für jeden Sitz wollen wir uns merken, ob die Karte schon verkauft ist. Das ist eine Ja-oder-nein-Frage, also passt der Datentyp `boolean`: `true` heißt verkauft, `false` heißt frei.
@@ -243,10 +253,12 @@ frage: Zwei Schleifen gehen den Saal `new boolean[3][5]` durch. Welches Fach kom
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich kann ein 2D-Array anlegen und weiß, was die beiden Zahlen bedeuten. → Ein Kinosaal als Tabelle
+- Ich kann ein 2D-Array anlegen und erklären, was die beiden Zahlen bedeuten. → Ein Kinosaal als Tabelle
 - Ich kann ein Fach mit Reihe und Platz lesen und schreiben. → Ein Fach ansprechen
-- Ich kenne den Unterschied zwischen `sitze.length` und `sitze[0].length`. → Ein Fach ansprechen
+- Ich kann `sitze.length` und `sitze[0].length` unterscheiden. → Ein Fach ansprechen
 - Ich kann erklären, in welcher Reihenfolge zwei verschachtelte Schleifen die Fächer besuchen. → Zwei Schleifen ineinander
 - Ich kann in Java ein zweidimensionales Array anlegen und durchlaufen. → Jetzt in Java
 :::
@@ -255,30 +267,35 @@ frage: Zwei Schleifen gehen den Saal `new boolean[3][5]` durch. Welches Fach kom
 
 ::: quiz
 ? Wie viele Fächer hat `boolean[][] sitze = new boolean[4][6]`?
+→ Ein Kinosaal als Tabelle
 - [ ] 10
 - [x] 24
 - [ ] 46
 > 4 Reihen mit je 6 Plätzen: 4 · 6 = 24.
 
 ? Was steht nach `new boolean[3][5]` in allen Fächern?
+→ Ein Kinosaal als Tabelle
 - [ ] true
 - [x] false
 - [ ] Nichts, die Fächer sind leer
 > Ein neues boolean-Array ist mit false gefüllt. Im Kino heißt das: alle Plätze frei.
 
 ? Zwei verschachtelte Schleifen laufen über 3 Reihen mit 5 Plätzen. Wie oft wird der Inhalt der **inneren** Schleife ausgeführt?
+→ Zwei Schleifen ineinander
 - [ ] 3-mal
 - [ ] 8-mal
 - [x] 15-mal
 > Für jede der 3 Reihen läuft die innere Schleife 5-mal: 3 · 5 = 15.
 
 ? Ordne zu, was der Ausdruck im Kinosaal bedeutet.
+→ Ein Fach ansprechen
 = sitze.length -> Anzahl der Reihen
 = sitze[0].length -> Anzahl der Plätze in Reihe 0
 = sitze[2][4] -> Reihe 2, Platz 4
 = sitze[1][0] = true -> In Reihe 1 ist Platz 0 verkauft
 
 ? Was gibt `sitze.length` bei `new boolean[3][5]` an?
+→ Ein Fach ansprechen
 - [x] 3, die Zahl der Reihen
 - [ ] 5, die Zahl der Plätze
 - [ ] 15, alle Plätze zusammen

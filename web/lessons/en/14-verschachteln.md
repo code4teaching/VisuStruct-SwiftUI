@@ -4,6 +4,15 @@ bereich: Basics
 kurz: Combine branches inside loops and loops inside loops.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- put a branch inside a loop
+- put a loop inside another loop
+- explain that the inner loop runs all the way through in every pass of the outer one
+- write nested loops and branches in Java
+:::
+
 ## Building blocks inside each other
 
 You now know all the important building blocks: sequence, branch, switch and three kinds of loops. They only get really powerful together.
@@ -231,10 +240,12 @@ frage: What happens?
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can put a branch inside a loop. → A branch inside a loop
 - I can put a loop inside another loop. → A loop inside a loop
-- I know that the inner loop runs all the way through in every pass of the outer one. → A loop inside a loop
+- I can explain that the inner loop runs all the way through in every pass of the outer one. → A loop inside a loop
 - I can write nested loops and branches in Java. → Now in Java
 :::
 
@@ -242,24 +253,28 @@ frage: What happens?
 
 ::: quiz
 ? The outer loop runs 3 times, the inner one 4 times. How often does the inside of the inner loop run in total?
+→ A loop inside a loop
 - [ ] 7 times
 - [x] 12 times
 - [ ] 4 times
 > In each of the 3 outer passes, the inner loop runs 4 times, so 3 · 4 = 12.
 
 ? How can you tell whether a number is even?
+→ A branch inside a loop
 - [ ] `number / 2 == 0`
 - [x] `number % 2 == 0`
 - [ ] `number == 2`
 > % gives the remainder of a division. For even numbers, the remainder when dividing by 2 is zero.
 
 ? There is a branch inside a for loop. How often is the condition of the branch checked?
+→ A branch inside a loop
 - [ ] Once
 - [x] Once per pass of the loop
 - [ ] Only if it is true
 > The branch is part of the inside and runs in every pass.
 
 ? How can you tell in Java what belongs to a loop?
+→ Now in Java
 - [ ] By the colour
 - [x] By the curly brackets and the indentation
 - [ ] By the semicolons

@@ -4,6 +4,15 @@ bereich: Fundamentos
 kurz: Combinar decisões dentro de ciclos e ciclos dentro de ciclos.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- pôr uma decisão dentro de um ciclo
+- pôr um ciclo dentro de outro ciclo
+- explicar que o ciclo interior é executado do princípio ao fim em cada iteração do exterior
+- escrever ciclos e decisões encaixados em Java
+:::
+
 ## Blocos uns dentro dos outros
 
 Já conheces todos os blocos importantes: sequência, decisão, seleção e três tipos de ciclos. Só juntos é que eles se tornam realmente poderosos.
@@ -231,35 +240,41 @@ frage: O que acontece?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei pôr uma decisão dentro de um ciclo. → Uma decisão dentro de um ciclo
-- Sei pôr um ciclo dentro de outro ciclo. → Um ciclo dentro de um ciclo
-- Sei que o ciclo interior é executado do princípio ao fim em cada iteração do exterior. → Um ciclo dentro de um ciclo
-- Sei escrever ciclos e decisões encaixados em Java. → Agora em Java
+- Consigo pôr uma decisão dentro de um ciclo. → Uma decisão dentro de um ciclo
+- Consigo pôr um ciclo dentro de outro ciclo. → Um ciclo dentro de um ciclo
+- Consigo explicar que o ciclo interior é executado do princípio ao fim em cada iteração do exterior. → Um ciclo dentro de um ciclo
+- Consigo escrever ciclos e decisões encaixados em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O ciclo exterior é executado 3 vezes, o interior 4 vezes. Quantas vezes é executado ao todo o interior do ciclo interior?
+→ Um ciclo dentro de um ciclo
 - [ ] 7 vezes
 - [x] 12 vezes
 - [ ] 4 vezes
 > Em cada uma das 3 iterações exteriores, o ciclo interior é executado 4 vezes, portanto 3 · 4 = 12.
 
 ? Como sabes se um número é par?
+→ Uma decisão dentro de um ciclo
 - [ ] `numero / 2 == 0`
 - [x] `numero % 2 == 0`
 - [ ] `numero == 2`
 > O % dá o resto de uma divisão. Nos números pares, o resto da divisão por 2 é zero.
 
 ? Há uma decisão dentro de um ciclo for. Quantas vezes é verificada a condição da decisão?
+→ Uma decisão dentro de um ciclo
 - [ ] Uma vez
 - [x] Uma vez por iteração do ciclo
 - [ ] Só se for verdadeira
 > A decisão faz parte do interior e é executada em cada iteração.
 
 ? Como reconheces em Java o que pertence a um ciclo?
+→ Agora em Java
 - [ ] Pela cor
 - [x] Pelas chavetas e pela indentação
 - [ ] Pelos pontos e vírgulas

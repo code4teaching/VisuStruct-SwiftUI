@@ -4,6 +4,16 @@ bereich: Fundamentos
 kurz: Guardar muitos valores com um só nome, chegar a eles com o índice e percorrê-los com um ciclo.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- criar um array com valores ou com `new int[5]`
+- explicar que o índice começa em 0 e que o último índice é `length - 1`
+- percorrer e encher um array com um ciclo for
+- calcular a soma e o máximo de um array
+- criar um array em Java e percorrê-lo com um ciclo
+:::
+
 ## Muitos valores com um só nome
 
 Imagina que queres guardar os pontos de cinco testes. Com cinco variáveis `pontos1` a `pontos5` isso fica depressa confuso. Um **array** é uma fila de posições que têm todas o mesmo nome e o mesmo tipo de dados.
@@ -262,48 +272,56 @@ besser: for (int i = numeros.length - 1; i >= 0; i--) {
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei criar um array com valores ou com `new int[5]`. → Muitos valores com um só nome
-- Sei que o índice começa em 0 e que o último índice é `length - 1`. → O índice começa em 0
-- Sei percorrer e encher um array com um ciclo for. → Percorrer um array com um ciclo
-- Sei calcular a soma e o máximo de um array. → Soma e máximo
-- Sei criar um array em Java e percorrê-lo com um ciclo. → Agora em Java
+- Consigo criar um array com valores ou com `new int[5]`. → Muitos valores com um só nome
+- Consigo explicar que o índice começa em 0 e que o último índice é `length - 1`. → O índice começa em 0
+- Consigo percorrer e encher um array com um ciclo for. → Percorrer um array com um ciclo
+- Consigo calcular a soma e o máximo de um array. → Soma e máximo
+- Consigo criar um array em Java e percorrê-lo com um ciclo. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que mostra `output: numeros[2]` com `int[] numeros = {5, 10, 15, 20}`?
+→ O índice começa em 0
 - [ ] 10
 - [x] 15
 - [ ] 20
 > Começa-se a contar em 0: numeros[0] é 5, numeros[1] é 10, numeros[2] é 15.
 
 ? Um array tem 8 posições. Qual é o último índice?
+→ O índice começa em 0
 - [ ] 8
 - [x] 7
 - [ ] 9
 > O último índice é sempre length - 1.
 
 ? Que condição serve para um ciclo for que percorre todos os valores de `numeros` e começa em `int i = 0`?
+→ Percorrer um array com um ciclo
 - [x] i < numeros.length
 - [ ] i <= numeros.length
 - [ ] i > numeros.length
 > Com <= o ciclo também leria numeros[length], e essa posição não existe.
 
 ? Com que valor deve começar o máximo antes de o ciclo começar?
+→ Soma e máximo
 - [ ] Sempre com 0
 - [x] Com o primeiro valor do array
 - [ ] Com o comprimento do array
 > Se começar com 0, então só com números negativos o resultado seria 0, embora o 0 nem esteja no array.
 
 ? O que mostra `output: numeros.length` com `int[] numeros = {5, 10, 15, 20}`?
+→ Muitos valores com um só nome
 - [ ] 3
 - [x] 4
 - [ ] 20
 > length é o número de posições, não o último índice nem o último valor.
 
 ? Que linha cria em Java um array com três números?
+→ Agora em Java
 - [x] int[] numeros = {1, 2, 3};
 - [ ] int numeros = [1, 2, 3];
 - [ ] array numeros = (1, 2, 3);

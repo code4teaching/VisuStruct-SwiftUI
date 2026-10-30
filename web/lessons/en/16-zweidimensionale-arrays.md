@@ -4,6 +4,16 @@ bereich: Basics
 kurz: Store values in rows and columns, like the seats in a cinema, and go through them with two nested loops.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create a 2D array and explain what the two numbers mean
+- read and write a slot with a row and a seat
+- tell `seats.length` and `seats[0].length` apart
+- explain in which order two nested loops visit the slots
+- create and go through a two-dimensional array in Java
+:::
+
 ## A cinema as a table
 
 A cinema has several **rows**, and every row has several **seats**. For every seat we want to remember whether its ticket has already been sold. That is a yes-or-no question, so the data type `boolean` fits: `true` means sold, `false` means free.
@@ -243,10 +253,12 @@ frage: Two loops go through the cinema `new boolean[3][5]`. Which slot comes rig
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I can create a 2D array and know what the two numbers mean. → A cinema as a table
+- I can create a 2D array and explain what the two numbers mean. → A cinema as a table
 - I can read and write a slot with a row and a seat. → Reach a slot
-- I know the difference between `seats.length` and `seats[0].length`. → Reach a slot
+- I can tell `seats.length` and `seats[0].length` apart. → Reach a slot
 - I can explain in which order two nested loops visit the slots. → Two loops inside each other
 - I can create and go through a two-dimensional array in Java. → Now in Java
 :::
@@ -255,30 +267,35 @@ frage: Two loops go through the cinema `new boolean[3][5]`. Which slot comes rig
 
 ::: quiz
 ? How many slots does `boolean[][] seats = new boolean[4][6]` have?
+→ A cinema as a table
 - [ ] 10
 - [x] 24
 - [ ] 46
 > 4 rows with 6 seats each: 4 · 6 = 24.
 
 ? What is in all slots after `new boolean[3][5]`?
+→ A cinema as a table
 - [ ] true
 - [x] false
 - [ ] Nothing, the slots are empty
 > A new boolean array is filled with false. In the cinema that means: all seats are free.
 
 ? Two nested loops run over 3 rows with 5 seats. How often does the inside of the **inner** loop run?
+→ Two loops inside each other
 - [ ] 3 times
 - [ ] 8 times
 - [x] 15 times
 > For each of the 3 rows the inner loop runs 5 times: 3 · 5 = 15.
 
 ? Match what each expression means in the cinema.
+→ Reach a slot
 = seats.length -> Number of rows
 = seats[0].length -> Number of seats in row 0
 = seats[2][4] -> Row 2, seat 4
 = seats[1][0] = true -> Seat 0 in row 1 is sold
 
 ? What does `seats.length` give for `new boolean[3][5]`?
+→ Reach a slot
 - [x] 3, the number of rows
 - [ ] 5, the number of seats
 - [ ] 15, all seats together
