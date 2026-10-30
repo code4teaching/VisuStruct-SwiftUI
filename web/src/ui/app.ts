@@ -1455,14 +1455,14 @@ export class App {
       const prefix = fixedPrefix(element)
       const ta = h('textarea', { rows: '3', spellcheck: 'false' }) as HTMLTextAreaElement
       const text = element.textLines.join('\n')
-      ta.value = prefix ? LineEditor.strippingPrefixForEditing(prefix, text) : text
+      // Leere Anweisung: im Struktogramm „ø“, im Textfeld leer (nichts erst löschen müssen).
+      const isStatement = element.type === ElementType.anweisung
+      const shown = prefix ? LineEditor.strippingPrefixForEditing(prefix, text) : text
+      ta.value = isStatement && shown.trim() === 'ø' ? '' : shown
       ta.placeholder = placeholderFor(element)
-      // Platzhalter „ø“ markieren, damit Tippen ihn ersetzt.
-      ta.addEventListener('focus', () => {
-        if (ta.value.trim() === 'ø') ta.select()
-      })
       this.liveEdit(ta, (value) => {
         const p = fixedPrefix(tryElementAt(this.doc, path) ?? element)
+        if (isStatement && !p && value.trim() === '') return setTextLines(this.doc, path, ['ø'])
         const stored = p ? LineEditor.prefixingForEditing(p, LineEditor.strippingPrefixForEditing(p, value)) : value
         return setTextLines(this.doc, path, stored.split('\n'))
       })
