@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: Use an ActionListener to decide what happens on a click.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain what an event is
+- use addActionListener to decide what happens on a click
+- run several statements on a click
+- build a button that changes its text after the click
+:::
+
 ## A click is an event
 
 In the last lesson you could press the button, but nothing happened. In a window program it is the person who decides when something happens: they click, type or close a window. Each such action is called an **event**.
@@ -166,7 +175,7 @@ This is not in the curriculum. If you want to know what is behind the arrow, rea
 `ActionListener` is an **interface**, a kind of contract. It says: whoever wants to be an ActionListener must have a method `actionPerformed(ActionEvent e)`. On every click the button calls exactly this method.
 :::
 
-You already know the line with the arrow from step 2:
+You already know the line with the arrow from step 3:
 
 ```java
 button.addActionListener(e -> button.setText("I was clicked"));
@@ -291,35 +300,41 @@ Every button gets its own listener with its own `addActionListener`. You change 
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know what an event is. → A click is an event
+- I can explain what an event is. → A click is an event
 - I can use addActionListener to decide what happens on a click. → The line with the arrow
 - I can run several statements on a click. → Several statements on a click
-- After the click my button says “I was clicked”. → Task: I was clicked
+- I can build a button that changes its text after the click. → Task: I was clicked
 :::
 
 ## Quiz
 
 ::: quiz
 ? What is an ActionListener?
+→ A click is an event
 - [ ] A button with text
 - [x] A listener that runs your code on every click
 - [ ] A layout for windows
 > You register it with the button using addActionListener.
 
 ? When does button.setText("I was clicked") in the listener run?
+→ The line with the arrow
 - [ ] Right when the program starts
 - [x] Every time someone clicks the button
 - [ ] Only on the first click
 > The code in the listener only runs when the event happens.
 
 ? How does a listener with curly brackets end?
+→ The line with the arrow
 - [ ] };)
 - [x] });
 - [ ] );}
 > First the block closes, then the bracket of addActionListener, then the semicolon.
 
 ? Match each part to its job.
+→ The line with the arrow
 = JButton -> a button
 = addActionListener -> register a listener
 = setText -> change the label

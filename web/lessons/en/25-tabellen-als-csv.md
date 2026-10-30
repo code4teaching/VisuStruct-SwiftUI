@@ -4,6 +4,17 @@ bereich: Files
 kurz: Read a table as a CSV file, split each line with split and calculate with the numbers.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain how a CSV file is built: header, records, separator
+- split a line with split and make a number out of it with Integer.parseInt
+- skip the header before calculating
+- calculate an average from a column of a CSV file
+- find the best value in a column of a CSV file
+- name one strength and one weakness of CSV
+:::
+
 ## A table in a text file
 
 Mrs Goat, the teacher at the castle school, has saved her class's grades as a table. As in Germany, 1 is the best grade and 6 the worst:
@@ -172,35 +183,41 @@ besser: Ludwig;2;3;1
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know how a CSV file is built: header, records, separator. → A table in a text file
+- I can explain how a CSV file is built: header, records, separator. → A table in a text file
 - I can split a line with split and make a number out of it with Integer.parseInt. → Splitting a line with split
-- I skip the header before calculating. → Reading the whole file
-- I calculated the maths average. → Exercise: Maths average
-- I found the best English grade. → Exercise: Best grade in English
-- I know one strength and one weakness of CSV. → Strengths and weaknesses of CSV
+- I can skip the header before calculating. → Reading the whole file
+- I can calculate an average from a column of a CSV file. → Exercise: Maths average
+- I can find the best value in a column of a CSV file. → Exercise: Best grade in English
+- I can name one strength and one weakness of CSV. → Strengths and weaknesses of CSV
 :::
 
 ## Quiz
 
 ::: quiz
 ? What does "Hare;2;1;3".split(";")[2] return?
+→ Splitting a line with split
 - [ ] "2"
 - [x] "1"
 - [ ] 1
 > Counting starts at 0. And the result is a text, not a number.
 
 ? Why does the program call readLine() twice before the loop?
+→ Reading the whole file
 - [ ] So that the file is read faster.
 - [x] The first line is the header without grades. It is skipped.
 - [ ] Because readLine always needs two lines.
 
 ? What happens with Integer.parseInt("Maths")?
+→ Splitting a line with split
 - [ ] It returns 0.
 - [x] Java throws a NumberFormatException.
 - [ ] It returns the length of the word.
 
 ? Match.
+→ Strengths and weaknesses of CSV
 = header -> says what is in the columns
 = record -> a line with values
 = separator -> separates the columns, often ;

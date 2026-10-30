@@ -4,6 +4,16 @@ bereich: Ficheiros
 kurz: Ler um ficheiro de texto linha a linha com Scanner e guardar um ficheiro com PrintWriter.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar porque é que os programas guardam dados em ficheiros
+- ler um ficheiro de texto linha a linha com Scanner, hasNextLine e nextLine
+- explicar porque é que o Java exige try e catch ou throws com ficheiros
+- escrever um ficheiro com PrintWriter e terminá-lo com close
+- ler um ficheiro, completá-lo e voltar a guardá-lo numerado
+:::
+
 ## Porquê ficheiros?
 
 Tudo o que está em variáveis desaparece assim que o programa termina. Se um programa deve lembrar-se de alguma coisa, por exemplo uma pontuação, uma lista ou notas, guarda os dados num **ficheiro**. Na próxima vez que arranca, volta a ler o ficheiro.
@@ -203,35 +213,41 @@ runde:
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei porque é que os programas guardam dados em ficheiros. → Porquê ficheiros?
-- Sei ler um ficheiro de texto linha a linha com Scanner, hasNextLine e nextLine. → Ler um ficheiro com Scanner
-- Sei porque é que o Java exige try e catch ou throws com ficheiros. → E se o ficheiro não existir?
-- Sei escrever um ficheiro com PrintWriter e não me esqueço do close(). → Escrever num ficheiro com PrintWriter
-- A minha lista de compras está numerada e completa. → Exercício: Completar a lista de compras
+- Consigo explicar porque é que os programas guardam dados em ficheiros. → Porquê ficheiros?
+- Consigo ler um ficheiro de texto linha a linha com Scanner, hasNextLine e nextLine. → Ler um ficheiro com Scanner
+- Consigo explicar porque é que o Java exige try e catch ou throws com ficheiros. → E se o ficheiro não existir?
+- Consigo escrever um ficheiro com PrintWriter e terminá-lo com close(). → Escrever num ficheiro com PrintWriter
+- Consigo ler um ficheiro, completá-lo e voltar a guardá-lo numerado. → Exercício: Completar a lista de compras
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que devolve hasNextLine()?
+→ Ler um ficheiro com Scanner
 - [ ] a linha seguinte
 - [x] true se ainda houver uma linha, senão false
 - [ ] o número de linhas
 > Com hasNextLine() o ciclo verifica se continua.
 
 ? O que acontece se chamares new PrintWriter("lista.txt") para um ficheiro que já existe?
+→ Escrever num ficheiro com PrintWriter
 - [ ] O texto novo é acrescentado no fim.
 - [x] O ficheiro é substituído.
 - [ ] O Java indica um erro.
 
 ? Porque é que um ficheiro fica vazio, apesar de println ter sido chamado?
+→ Escrever num ficheiro com PrintWriter
 - [ ] Porque println só escreve na consola.
 - [x] Porque falta o close().
 - [ ] Porque o nome do ficheiro termina em .txt.
 > Só o close() escreve a memória intermédia no ficheiro.
 
 ? Liga cada método à sua tarefa.
+→ Ler um ficheiro com Scanner
 = nextLine() -> lê a linha seguinte
 = println(texto) -> escreve uma linha
 = close() -> fecha o ficheiro

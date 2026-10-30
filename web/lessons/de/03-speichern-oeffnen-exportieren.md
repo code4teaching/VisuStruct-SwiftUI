@@ -4,12 +4,27 @@ bereich: Erste Schritte
 kurz: Dateien sichern, deinen Workspace nutzen, mehrere Diagramme öffnen und als Bild oder PDF weitergeben.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- einem Diagramm einen Titel geben
+- ein Diagramm als .visustruct-Datei speichern und wieder öffnen
+- ein Diagramm als Bild (PNG) oder PDF exportieren
+- ein zweites Diagramm in einem neuen Reiter öffnen
+- meinen Workspace `VisuStruct-Dateien` anlegen
+- ein Programm in meinem Workspace speichern
+:::
+
 ## Die Datei .visustruct
 
 Struktogramme werden als **.visustruct**-Datei gespeichert. Dasselbe Format nutzen alle VisuStruct-Versionen: im Browser, auf Mac, iPad und iPhone und die Java-App am Rechner. Du kannst also in der Schule im Browser anfangen und zu Hause in der App weitermachen.
 
 ::: angeberwissen
 Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Nassi erzählt, dass ein Date am Samstagabend so aussah: seine spätere Frau saß mit ihm im Rechenzentrum und stanzte seine Lochkarten. Romantik, Informatik-Style!
+:::
+
+::: grafik l03-lochkarte.svg l03-lochkarte-beschriftet.svg
+So sah eine Lochkarte aus. Eine Karte war eine Zeile Programm, hier `PRINT *, 'HALLO WELT'` in der Sprache Fortran. Jede Spalte ist ein Zeichen, die Löcher darin sind sein Code. Ein ganzes Programm war ein Stapel solcher Karten. Fiel er herunter, musste man alles wieder sortieren.
 :::
 
 ## Speichern und Öffnen
@@ -40,7 +55,7 @@ Ein Klick auf ein Programm in der Spalte öffnet es wieder. So findest du späte
 
 Auch dein **Lernstand** landet im Workspace: in der Datei `learnProgress.json` stehen deine erledigten Lektionen und Übungen. Öffnest du den Workspace in einem anderen Browser, ist dein Lernstand wieder da.
 
-> Der Speicher im Browser bleibt nur in diesem Browser auf diesem Gerät. Ein echter Ordner auf dem Rechner ist sicherer, weil du ihn auch sichern und weitergeben kannst.
+> Warum ein echter Ordner? Dein Lernstand und deine Programme liegen dann als Dateien darin. Den Ordner kannst du mitnehmen, zum Beispiel auf einem USB-Stick oder in deinem Cloud-Ordner wie OneDrive. So machst du zu Hause an einem anderen Rechner genau da weiter, wo du aufgehört hast. Speicherst du nur im Browser, bleibt alles in diesem einen Browser auf diesem Gerät. Löscht jemand die Browserdaten, ist auch dein Lernstand weg.
 
 ## Mehrere Diagramme in Reitern
 
@@ -103,30 +118,35 @@ richtig: PNG
 
 Öffne eine deiner Übungen aus Lektion 2 und probiere Folgendes aus:
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich habe dem Diagramm einen Titel gegeben. → Ausprobieren
-- Ich habe das Diagramm als .visustruct-Datei gespeichert und wieder geöffnet. → Speichern und Öffnen
-- Ich habe das Diagramm als Bild (PNG) oder PDF exportiert. → Weitergeben: Bild, PDF oder Datei
-- Ich habe ein zweites Diagramm in einem neuen Reiter geöffnet. → Mehrere Diagramme in Reitern
-- Ich habe meinen Workspace `VisuStruct-Dateien` angelegt. → Die Spalte Dateien
-- Ich habe ein Programm in meinem Workspace gespeichert. → Die Spalte Dateien
+- Ich kann einem Diagramm einen Titel geben. → Ausprobieren
+- Ich kann ein Diagramm als .visustruct-Datei speichern und wieder öffnen. → Speichern und Öffnen
+- Ich kann ein Diagramm als Bild (PNG) oder PDF exportieren. → Weitergeben: Bild, PDF oder Datei
+- Ich kann ein zweites Diagramm in einem neuen Reiter öffnen. → Mehrere Diagramme in Reitern
+- Ich kann meinen Workspace `VisuStruct-Dateien` anlegen. → Die Spalte Dateien
+- Ich kann ein Programm in meinem Workspace speichern. → Die Spalte Dateien
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Welche Datei kannst du in der Mac-App und in der Java-App wieder öffnen?
+→ Speichern und Öffnen
 - [x] Die .visustruct-Datei
 - [ ] Das exportierte PNG-Bild
 - [ ] Das exportierte PDF
 > Bilder und PDFs sind nur zum Ansehen. Weiterbearbeiten kannst du nur die .visustruct-Datei.
 
 ? Deine Übungen werden im Browser gemerkt. Warum solltest du trotzdem speichern?
+→ Speichern und Öffnen
 - [ ] Weil die Übungen sonst nicht geprüft werden
 - [x] Weil der Browser die Daten nur auf diesem Gerät behält und sie verloren gehen können
 - [ ] Weil man ohne Speichern nicht exportieren kann
 
 ? Du speicherst heute ein Programm in deinem Workspace. Wo landet es?
+→ Die Spalte Dateien
 - [ ] Im Download-Ordner
 - [x] Im Workspace in einem Ordner mit dem heutigen Datum
 - [ ] Direkt im Workspace ohne Unterordner

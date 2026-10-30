@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: A game with a random number, a counter for the guesses and a button that switches itself off at the end.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- create a random whole number from 1 to 100 with Math.random
+- decide which variables belong in the class
+- switch a button off with setEnabled
+- build a guessing game with a “New game” button
+:::
+
 ## The goal
 
 Time for a game: the computer thinks of a number from 1 to 100. You guess, and the window tells you “too small” or “too big”. Once you have found it, it tells you how many guesses you needed.
@@ -114,27 +123,32 @@ For “doesn't count as a guess”, `guesses++` must come **after** `Integer.par
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can create a random whole number from 1 to 100 with Math.random. → A random number
-- I know which variables belong in the class. → What the game remembers
+- I can decide which variables belong in the class. → What the game remembers
 - I can switch a button off with setEnabled. → The whole program
-- My game has a “New game” button. → Task: guess the number
+- I can build a guessing game with a “New game” button. → Task: guess the number
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which numbers does (int) (Math.random() * 100) + 1 give?
+→ A random number
 - [ ] 0 to 100
 - [x] 1 to 100
 - [ ] 1 to 101
 
 ? What does button.setEnabled(false) do?
+→ The whole program
 - [ ] It removes the button from the window.
 - [x] The button turns grey and can't be clicked any more.
 - [ ] It changes the text on the button.
 
 ? With binary search, how many guesses do you need at most for 1 to 100?
+→ Task: guess the number
 - [ ] 50
 - [ ] 10
 - [x] 7

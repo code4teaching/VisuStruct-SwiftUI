@@ -4,6 +4,16 @@ bereich: Grundlagen
 kurz: Mit einer Bedingung entscheiden, welcher von zwei Wegen ausgeführt wird.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, dass bei einer Verzweigung genau ein Zweig ausgeführt wird
+- die Vergleichsoperatoren == != < <= > >= anwenden
+- == und = unterscheiden
+- eine Verzweigung mit einem leeren Zweig bauen
+- eine Verzweigung mit if und else in Java schreiben
+:::
+
 ## Wenn, dann, sonst
 
 Bisher wurden alle Kästen immer ausgeführt. Oft soll ein Programm aber **entscheiden**: Wenn eine Bedingung erfüllt ist, tue das eine, sonst das andere.
@@ -268,9 +278,11 @@ frage: Was wird ausgegeben?
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, dass bei einer Verzweigung genau ein Zweig ausgeführt wird. → Wenn, dann, sonst
-- Ich kenne die Vergleichsoperatoren == != < <= > >=. → Vergleichsoperatoren
+- Ich kann erklären, dass bei einer Verzweigung genau ein Zweig ausgeführt wird. → Wenn, dann, sonst
+- Ich kann die Vergleichsoperatoren == != < <= > >= anwenden. → Vergleichsoperatoren
 - Ich kann == und = unterscheiden. → Vergleichsoperatoren
 - Ich kann eine Verzweigung mit einem leeren Zweig bauen. → Ein leerer Zweig
 - Ich kann eine Verzweigung mit if und else in Java schreiben. → Jetzt in Java
@@ -280,6 +292,7 @@ frage: Was wird ausgegeben?
 
 ::: quiz
 ? Welcher Zweig wird ausgeführt, wenn die Bedingung falsch ist?
+→ Wenn, dann, sonst
 - [ ] Der true-Zweig
 - [x] Der false-Zweig
 - [ ] Beide Zweige
@@ -287,29 +300,34 @@ frage: Was wird ausgegeben?
 > Bei false wird der rechte Zweig ausgeführt. Danach geht es unter der Verzweigung weiter.
 
 ? Mit welcher Bedingung prüfst du, ob alter genau 18 ist?
+→ Vergleichsoperatoren
 - [ ] alter = 18
 - [x] alter == 18
 - [ ] alter >= 18
 > Ein einzelnes = ist eine Zuweisung. Zum Vergleichen brauchst du ==.
 
 ? Was bedeutet ø in einem Zweig?
+→ Ein leerer Zweig
 - [x] In diesem Fall passiert nichts.
 - [ ] Das Programm endet hier.
 - [ ] Die Bedingung ist falsch.
 
 ? Die Bedingung lautet `punkte >= 50`. Bei welchem Wert ist sie wahr?
+→ Vergleichsoperatoren
 - [ ] 49
 - [x] 50
 - [ ] 0
 > >= heißt größer oder gleich. 50 gehört also dazu.
 
 ? In Schulbüchern hat die Verzweigung oft noch einen anderen Namen. Welchen?
+→ Wenn, dann, sonst
 - [ ] Mehrfachauswahl
 - [x] Bedingte Anweisung
 - [ ] Wiederholungsstruktur
 > Die Anweisungen in einem Zweig werden nur unter einer Bedingung ausgeführt. Darum heißt sie auch bedingte Anweisung.
 
 ? Wo steht in Java die Bedingung einer Verzweigung?
+→ Jetzt in Java
 - [x] In runden Klammern direkt nach if
 - [ ] In geschweiften Klammern nach else
 - [ ] Hinter einem Semikolon

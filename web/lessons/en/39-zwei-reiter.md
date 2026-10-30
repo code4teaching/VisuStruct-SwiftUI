@@ -4,6 +4,16 @@ bereich: Windows with Swing
 kurz: Build a window with two tabs, bring data from one tab to the other and save the list as a text file.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- build a window with two tabs
+- add lines to a JTextArea with append
+- explain why a listener can use building blocks on both tabs
+- save a file inside a listener with try and catch
+- build a shopping list that counts how many things are on it
+:::
+
 ## The goal
 
 Ludwig's shopping list from lesson 23 gets a window. It has two **tabs**, like the tabs in a browser:
@@ -232,33 +242,39 @@ Then make it better:
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can build a window with two tabs. → Tabs with JTabbedPane
 - I can add lines to a JTextArea with append. → A text area with several lines
-- I know why a listener can use building blocks on both tabs. → From one tab to the other
+- I can explain why a listener can use building blocks on both tabs. → From one tab to the other
 - I can save a file inside a listener with try and catch. → Saving inside the listener
-- My shopping list counts how many things are on it. → Task: Shopping list with tabs
+- I can build a shopping list that counts how many things are on it. → Task: Shopping list with tabs
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which tab is open after tabs.setSelectedIndex(0)?
+→ Tabs with JTabbedPane
 - [x] the first one
 - [ ] the second one
 - [ ] none
 
 ? Why is saving inside the listener in try and catch?
+→ Saving inside the listener
 - [ ] Because PrintWriter only works inside try.
 - [x] Because actionPerformed must not pass on a FileNotFoundException.
 - [ ] Because main has no throws.
 
 ? What is the difference between JTextField and JTextArea?
+→ A text area with several lines
 - [ ] There is none.
 - [x] JTextArea can show several lines.
 - [ ] You can't write into a JTextField.
 
 ? Match.
+→ Tabs with JTabbedPane
 = JTabbedPane -> an area with tabs
 = JPanel -> the area of a tab
 = JTextArea -> a text area with several lines

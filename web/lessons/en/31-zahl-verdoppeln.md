@@ -4,6 +4,16 @@ bereich: Windows with Swing
 kurz: Arrange a label, a text field and a button with a GridLayout and calculate with the text in the text field.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- put a JLabel and a JTextField into the window
+- explain why only the last building block shows without a layout
+- arrange everything below each other with GridLayout
+- calculate with getText, Integer.parseInt and setText
+- write a program that doesn't crash with “abc”
+:::
+
 ## The goal
 
 We build a small calculator with a window: at the top there is a label, below it a text field and a button **Calculate**. If you type 2 and click, the text field shows 4. Click again and it becomes 8, then 16 and so on.
@@ -230,34 +240,40 @@ The “Halve” button goes into the GridLayout as the fourth row and gets its o
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can put a JLabel and a JTextField into the window. → Three building blocks in the window
-- I know why only the last building block shows without a layout. → Why only the button shows
+- I can explain why only the last building block shows without a layout. → Why only the button shows
 - I can arrange everything below each other with GridLayout(0, 1). → The window with GridLayout
 - I can calculate with getText, Integer.parseInt and setText. → Calculating with the text in the text field
-- My program doesn't crash with “abc”. → Not a number? No crash!
+- I can write a program that doesn't crash with “abc”. → Not a number? No crash!
 :::
 
 ## Quiz
 
 ::: quiz
 ? Why does only the button show without a layout?
+→ Why only the button shows
 - [ ] Because the label and the text field are missing
 - [x] Because all building blocks lie on top of each other in the middle and the last one hides the others
 - [ ] Because the window is too small
 
 ? What does new GridLayout(0, 1) mean?
+→ The window with GridLayout
 - [ ] No row and one column, so the window is empty
 - [x] As many rows as needed in one column, so everything below each other
 - [ ] One row, everything side by side
 
 ? What does field.getText() give you?
+→ Calculating with the text in the text field
 - [ ] Always a number
 - [x] The text in the text field
 - [ ] The title of the window
 > For a number you still need Integer.parseInt.
 
 ? Match each building block to its job.
+→ Three building blocks in the window
 = JLabel -> label
 = JTextField -> text field for typing
 = JButton -> button

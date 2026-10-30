@@ -4,6 +4,16 @@ bereich: Fenster mit Swing
 kurz: Hintergrundfarben setzen und mit einer Zustandsvariable eine Ampel weiterschalten.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit setOpaque und setBackground eine Beschriftung färben
+- mir mit einer static-Variable einen Zustand merken
+- mit BorderLayout etwas groß in die Mitte und etwas schmal nach unten setzen
+- erklären, wofür FlowLayout, GridLayout und BorderLayout gut sind
+- eine Ampel mit vier Phasen programmieren
+:::
+
 ## Das Ziel
 
 Wir bauen eine Ampel: Eine große Fläche leuchtet rot. Bei jedem Klick auf **Weiter** schaltet sie um: Rot, Grün, Gelb und wieder Rot.
@@ -232,28 +242,33 @@ Mit vier Phasen kommt nach 3 wieder 0. Pass also die Zahl in `if (phase > 2)` an
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann mit setOpaque und setBackground eine Beschriftung färben. → Farben in Swing
 - Ich kann mir mit einer static-Variable einen Zustand merken. → Sich die Farbe merken
 - Ich kann mit BorderLayout etwas groß in die Mitte und etwas schmal nach unten setzen. → Das ganze Programm
-- Ich weiß, wofür FlowLayout, GridLayout und BorderLayout gut sind. → Welches Layout wofür?
-- Meine Ampel hat vier Phasen. → Aufgabe: Ampel
+- Ich kann erklären, wofür FlowLayout, GridLayout und BorderLayout gut sind. → Welches Layout wofür?
+- Ich kann eine Ampel mit vier Phasen programmieren. → Aufgabe: Ampel
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Warum bleibt die Farbe ohne setOpaque(true) unsichtbar?
+→ Farben in Swing
 - [ ] Weil Color.RED nicht existiert
 - [x] Weil eine Beschriftung sonst durchsichtig ist
 - [ ] Weil das Fenster zu klein ist
 
 ? Welcher Platz im BorderLayout bekommt den übrigen Platz?
+→ Das ganze Programm
 - [ ] NORTH
 - [ ] SOUTH
 - [x] CENTER
 
 ? phase ist 2 und der Zuhörer führt phase++ und dann if (phase > 2) { phase = 0; } aus. Welchen Wert hat phase danach?
+→ Sich die Farbe merken
 - [x] 0
 - [ ] 2
 - [ ] 3

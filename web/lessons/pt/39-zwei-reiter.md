@@ -4,6 +4,16 @@ bereich: Janelas com Swing
 kurz: Construir uma janela com dois separadores, levar dados de um separador para o outro e guardar a lista num ficheiro de texto.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- construir uma janela com dois separadores
+- acrescentar linhas a uma JTextArea com append
+- explicar porque é que um ouvinte pode usar peças dos dois separadores
+- guardar um ficheiro dentro de um ouvinte com try e catch
+- construir uma lista de compras que conta quantas coisas tem
+:::
+
 ## O objetivo
 
 A lista de compras do Ludwig da lição 23 ganha uma janela. Tem dois **separadores**, como os do browser:
@@ -232,33 +242,39 @@ Depois melhora-o:
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei construir uma janela com dois separadores. → Separadores com JTabbedPane
-- Sei acrescentar linhas a uma JTextArea com append. → Uma área de texto com várias linhas
-- Sei porque é que um ouvinte pode usar peças dos dois separadores. → De um separador para o outro
-- Sei guardar um ficheiro dentro de um ouvinte com try e catch. → Guardar dentro do ouvinte
-- A minha lista de compras conta quantas coisas tem. → Tarefa: Lista de compras com separadores
+- Consigo construir uma janela com dois separadores. → Separadores com JTabbedPane
+- Consigo acrescentar linhas a uma JTextArea com append. → Uma área de texto com várias linhas
+- Consigo explicar porque é que um ouvinte pode usar peças dos dois separadores. → De um separador para o outro
+- Consigo guardar um ficheiro dentro de um ouvinte com try e catch. → Guardar dentro do ouvinte
+- Consigo construir uma lista de compras que conta quantas coisas tem. → Tarefa: Lista de compras com separadores
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que separador está aberto depois de separadores.setSelectedIndex(0)?
+→ Separadores com JTabbedPane
 - [x] o primeiro
 - [ ] o segundo
 - [ ] nenhum
 
 ? Porque é que guardar dentro do ouvinte fica em try e catch?
+→ Guardar dentro do ouvinte
 - [ ] Porque o PrintWriter só funciona dentro de try.
 - [x] Porque actionPerformed não pode passar adiante uma FileNotFoundException.
 - [ ] Porque o main não tem throws.
 
 ? Qual é a diferença entre JTextField e JTextArea?
+→ Uma área de texto com várias linhas
 - [ ] Não há nenhuma.
 - [x] A JTextArea pode mostrar várias linhas.
 - [ ] Num JTextField não se pode escrever.
 
 ? Liga.
+→ Separadores com JTabbedPane
 = JTabbedPane -> uma área com separadores
 = JPanel -> a área de um separador
 = JTextArea -> uma área de texto com várias linhas

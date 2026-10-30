@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: One listener for many buttons, and finding out with getActionCommand and getSource which button was clicked.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- store a listener in a variable of type ActionListener and sign it up at several buttons
+- explain what getActionCommand and getSource return
+- put buttons onto a JPanel in a loop
+- build a code lock that only opens with the right code
+:::
+
 ## The goal
 
 Since the business with the cake, Ludwig wants to lock his stable. He builds a **code lock**: nine digit keys, a zero, **C** to clear and **OK** to check. Only someone who types 1234 gets "Gate open!".
@@ -256,33 +265,39 @@ For the calculator from lesson 35, one listener is enough for +, -, \* and / too
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can store a listener in a variable of type ActionListener and sign it up at several buttons. → A listener as a variable
-- I know what getActionCommand and getSource return. → Who clicked?
+- I can explain what getActionCommand and getSource return. → Who clicked?
 - I can put buttons onto a JPanel in a loop. → Buttons in a loop
-- My code lock only opens with the right code. → Task: Code lock
+- I can build a code lock that only opens with the right code. → Task: Code lock
 :::
 
 ## Quiz
 
 ::: quiz
 ? What does e.getActionCommand() return for a click on the button new JButton("7")?
+→ Who clicked?
 - [ ] the number 7
 - [x] the text "7"
 - [ ] the button itself
 
 ? How do you check whether the button ok was clicked?
+→ Who clicked?
 - [x] e.getSource() == ok
 - [ ] e.getSource().equals("ok")
 - [ ] ok.getActionCommand()
 > getSource returns the button itself, and you compare it with ==.
 
 ? Why is a listener stored in a variable?
+→ A listener as a variable
 - [ ] So that it runs faster.
 - [x] So that you can sign it up at several buttons and write the code only once.
 - [ ] Because lambdas aren't allowed otherwise.
 
 ? Match.
+→ Who clicked?
 = ActionListener -> data type of a listener
 = ActionEvent -> the event e with the information about the click
 = JPanel -> an area with its own layout

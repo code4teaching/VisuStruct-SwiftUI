@@ -4,6 +4,17 @@ bereich: Ficheiros
 kurz: Perceber ficheiros JSON, tirar valores com indexOf e substring e escrever JSON tu mesmo.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- reconhecer objetos, chaves, valores e listas em JSON
+- tirar um valor de uma linha JSON com indexOf e substring
+- mostrar todos os valores de uma chave de um ficheiro JSON
+- construir e guardar uma entrada JSON com + e \"
+- guardar dados num ficheiro JSON
+- nomear um ponto forte e um ponto fraco do JSON
+:::
+
 ## Dados com nomes
 
 O zoo do castelo guarda os seus animais num ficheiro `zoo.json`:
@@ -172,36 +183,42 @@ frage: Que chave tem um valor lógico?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Conheço objetos, chaves, valores e listas em JSON. → Dados com nomes
-- Sei tirar um valor de uma linha JSON com indexOf e substring. → Tirar um valor
-- Mostrei todos os nomes do zoo. → Exercício: Todos os nomes do zoo
-- Sei construir e guardar uma entrada JSON com + e \". → Escrever JSON
-- Guardei os pontos em JSON. → Exercício: Guardar pontos em JSON
-- Conheço um ponto forte e um ponto fraco do JSON. → Pontos fortes e fracos do JSON
+- Consigo reconhecer objetos, chaves, valores e listas em JSON. → Dados com nomes
+- Consigo tirar um valor de uma linha JSON com indexOf e substring. → Tirar um valor
+- Consigo mostrar todos os valores de uma chave de um ficheiro JSON. → Exercício: Todos os nomes do zoo
+- Consigo construir e guardar uma entrada JSON com + e \". → Escrever JSON
+- Consigo guardar dados num ficheiro JSON. → Exercício: Guardar pontos em JSON
+- Consigo nomear um ponto forte e um ponto fraco do JSON. → Pontos fortes e fracos do JSON
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que está em JSON antes de cada valor?
+→ Dados com nomes
 - [ ] o número da linha
 - [x] a sua chave, por exemplo "nome"
 - [ ] um ponto e vírgula
 > A chave e o valor estão separados por dois pontos.
 
 ? Como escreves umas aspas dentro de um texto Java?
+→ Escrever JSON
 - [ ] ""
 - [x] \"
 - [ ] '"'
 
 ? Em {"animais": [{"nome": "Ludwig"}, {"nome": "Zora"}]}, qual é o valor de animais[0].nome?
+→ Dados com nomes
 - [x] Ludwig
 - [ ] Zora
 - [ ] animais
 > A lista conta a partir de 0.
 
 ? Liga.
+→ Pontos fortes e fracos do JSON
 = { } -> um objeto com chaves e valores
 = [ ] -> uma lista
 = : -> separa a chave do valor

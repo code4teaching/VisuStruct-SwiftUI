@@ -4,6 +4,15 @@ bereich: Grundlagen
 kurz: Mit Start, Bedingung und Schritt eine feste Anzahl von Durchläufen zählen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- die drei Teile Start, Bedingung und Schritt der For-Schleife benennen
+- erklären, in welcher Reihenfolge die drei Teile ausgeführt werden
+- mit einer For-Schleife vorwärts, rückwärts und in größeren Schritten zählen
+- eine For-Schleife in Java schreiben und ihre drei Felder erklären
+:::
+
 ## Zählen mit festem Plan
 
 In der While-Schleife hast du schon mitgezählt: Startwert vor der Schleife, Bedingung im Kopf, Veränderung im Inhalt. Die **For-Schleife** schreibt diese drei Teile zusammen in den Kopf. So siehst du auf einen Blick, wie gezählt wird.
@@ -255,9 +264,11 @@ besser: for (int i = 2; i <= 10; i = i + 2) {
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich kenne die drei Teile Start, Bedingung und Schritt der For-Schleife. → Zählen mit festem Plan
-- Ich weiß, in welcher Reihenfolge die drei Teile ausgeführt werden. → In welcher Reihenfolge?
+- Ich kann die drei Teile Start, Bedingung und Schritt der For-Schleife benennen. → Zählen mit festem Plan
+- Ich kann erklären, in welcher Reihenfolge die drei Teile ausgeführt werden. → In welcher Reihenfolge?
 - Ich kann mit einer For-Schleife vorwärts, rückwärts und in größeren Schritten zählen. → Andere Schritte
 - Ich kann eine For-Schleife in Java schreiben und ihre drei Felder erklären. → Jetzt in Java
 :::
@@ -266,29 +277,34 @@ besser: for (int i = 2; i <= 10; i = i + 2) {
 
 ::: quiz
 ? Wie oft wird der Start einer For-Schleife ausgeführt?
+→ In welcher Reihenfolge?
 - [x] Genau einmal
 - [ ] Vor jedem Durchlauf
 - [ ] Nach jedem Durchlauf
 > Der Start legt die Zählvariable einmal am Anfang an.
 
 ? Start `int i = 0`, Bedingung `i < 3`, Schritt `i++`. Welche Werte hat i im Inhalt?
+→ Zählen mit festem Plan
 - [ ] 1, 2, 3
 - [x] 0, 1, 2
 - [ ] 0, 1, 2, 3
 > Bei i = 3 ist die Bedingung falsch, deshalb läuft der Inhalt dann nicht mehr.
 
 ? Start `int i = 2`, Bedingung `i <= 10`, Schritt `i = i + 2`. Wie oft läuft der Inhalt?
+→ Andere Schritte
 - [ ] 4-mal
 - [x] 5-mal
 - [ ] 10-mal
 > i nimmt die Werte 2, 4, 6, 8 und 10 an.
 
 ? Wann passt eine For-Schleife am besten?
+→ Zählen mit festem Plan
 - [x] Wenn vorher feststeht, wie oft wiederholt wird
 - [ ] Wenn so lange gefragt wird, bis eine Eingabe gültig ist
 - [ ] Wenn nur ein einziger Wert geprüft wird
 
 ? Was bedeutet `i++` in einer For-Schleife?
+→ Zählen mit festem Plan
 - [ ] i wird verdoppelt.
 - [x] i wird um 1 größer.
 - [ ] i wird ausgegeben.

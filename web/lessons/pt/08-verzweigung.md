@@ -4,6 +4,16 @@ bereich: Fundamentos
 kurz: Usar uma condição para decidir qual de dois ramos é executado.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- explicar que é executado exatamente um ramo de uma decisão
+- usar os operadores de comparação == != < <= > >=
+- distinguir == de =
+- construir uma decisão com um ramo vazio
+- escrever uma decisão com if e else em Java
+:::
+
 ## Se, então, senão
 
 Até agora, todos os blocos eram sempre executados. Mas muitas vezes um programa deve **decidir**: se uma condição se verificar, faz uma coisa, senão faz a outra.
@@ -268,18 +278,21 @@ frage: O que aparece?
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei que é executado exatamente um ramo de uma decisão. → Se, então, senão
-- Conheço os operadores de comparação == != < <= > >=. → Operadores de comparação
-- Sei distinguir == de =. → Operadores de comparação
-- Sei construir uma decisão com um ramo vazio. → Um ramo vazio
-- Sei escrever uma decisão com if e else em Java. → Agora em Java
+- Consigo explicar que é executado exatamente um ramo de uma decisão. → Se, então, senão
+- Consigo usar os operadores de comparação == != < <= > >=. → Operadores de comparação
+- Consigo distinguir == de =. → Operadores de comparação
+- Consigo construir uma decisão com um ramo vazio. → Um ramo vazio
+- Consigo escrever uma decisão com if e else em Java. → Agora em Java
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que ramo é executado se a condição for falsa?
+→ Se, então, senão
 - [ ] O ramo true
 - [x] O ramo false
 - [ ] Os dois ramos
@@ -287,29 +300,34 @@ frage: O que aparece?
 > Com false, é executado o ramo da direita. Depois, o programa continua por baixo da decisão.
 
 ? Que condição verifica se idade é exatamente 18?
+→ Operadores de comparação
 - [ ] idade = 18
 - [x] idade == 18
 - [ ] idade >= 18
 > Um só = é uma atribuição. Para comparar precisas de ==.
 
 ? O que significa ø num ramo?
+→ Um ramo vazio
 - [x] Neste caso não acontece nada.
 - [ ] O programa termina aqui.
 - [ ] A condição é falsa.
 
 ? A condição é `pontos >= 50`. Para que valor é verdadeira?
+→ Operadores de comparação
 - [ ] 49
 - [x] 50
 - [ ] 0
 > >= quer dizer maior ou igual. Portanto o 50 está incluído.
 
 ? Nos manuais, a decisão tem muitas vezes outro nome. Qual?
+→ Se, então, senão
 - [ ] Seleção múltipla
 - [x] Instrução condicional
 - [ ] Iteração
 > As instruções de um ramo só são executadas sob uma condição. Por isso também se chama instrução condicional.
 
 ? Onde fica em Java a condição de uma decisão?
+→ Agora em Java
 - [x] Entre parênteses curvos logo a seguir a if
 - [ ] Entre chavetas depois de else
 - [ ] Depois de um ponto e vírgula
