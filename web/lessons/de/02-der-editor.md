@@ -6,9 +6,9 @@ kurz: Elemente einfügen, Text eingeben, verschieben und löschen.
 
 ## Die Oberfläche
 
-VisuStruct hat zwei Editoren: den **Struktogramm-Editor**, um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst.
+VisuStruct hat zwei Editoren: den [Struktogramm-Editor](#zeige-editor), um den es in dieser Lektion geht, und rechts den Bereich [Programmieren](#zeige-codelive) für Java-Code (ab Lektion 4). Ist der Struktogramm-Editor eingeklappt, öffnet ihn diese Lektion von selbst. Die blauen Wörter zeigen dir die Bereiche, auch wenn sie gerade eingeklappt sind: Fährst du mit der Maus darüber, öffnet sich der Bereich neben dem Lernbereich und leuchtet auf. Klickst du darauf (oder tippst es an), bleibt er offen.
 
-Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf.
+Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über ein blaues Wort oder tippe es an, dann leuchtet der Bereich im Editor auf, eingeklappte Bereiche wie die Elemente öffnen sich dabei.
 
 - **Ganz oben die [Leiste](#zeige-leiste):** Neu, Öffnen und Speichern. Ganz rechts das Zahnrad für die [Einstellungen](#zeige-einstellungen): Textgröße und Sprache.
 - **Darunter die [Werkzeuge](#zeige-werkzeuge)** über den Elementen und dem Struktogramm: Rückgängig, Ausschneiden, Kopieren, Einfügen, Löschen, Exportieren, Code und Simulation. Die Knöpfe zeigen nur Symbole. Hältst du die Maus darüber, erscheint ihr Name.
