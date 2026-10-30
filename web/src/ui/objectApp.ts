@@ -147,7 +147,7 @@ function siteURL(): string {
   const code = currentLanguage()
   const lang = code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'
   const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
-  return `${base}${lang}/index.html`
+  return `${base}${lang}/visuobject.html`
 }
 
 function download(name: string, data: BlobPart, type: string) {
