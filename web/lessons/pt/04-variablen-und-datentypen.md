@@ -30,6 +30,10 @@ Se um nome tiver várias palavras, escreves-as juntas e começas cada palavra se
 O camelCase tem este nome porque as maiúsculas no meio saem da palavra como as bossas de um camelo: `precoComIva` tem duas bossas. Eu, como bode, tenho zero bossas, mas dois chifres. Infelizmente ainda ninguém inventou a escrita BodeCase.
 :::
 
+::: grafik l04-camelcase.svg
+As maiúsculas C e I sobressaem como as duas bossas do camelo.
+:::
+
 ## Os quatro tipos de dados
 
 O tipo de dados diz que tipo de valor pode ser guardado na variável.

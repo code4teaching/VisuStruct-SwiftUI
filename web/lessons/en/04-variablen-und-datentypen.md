@@ -30,6 +30,10 @@ If a name is made of several words, you write them together and start every furt
 camelCase got its name because the capital letters in the middle stick out of the word like the humps of a camel: `priceWithTax` has two humps. Me, I'm a billy goat with zero humps but two horns. Sadly, nobody has invented GoatCase yet.
 :::
 
+::: grafik l04-camelcase.svg
+The capitals W and T stick out like the camel's two humps.
+:::
+
 ## The four data types
 
 The data type says what kind of value may be stored in the variable.

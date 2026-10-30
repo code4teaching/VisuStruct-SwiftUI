@@ -30,6 +30,10 @@ Besteht ein Name aus mehreren Wörtern, schreibst du sie zusammen und beginnst j
 CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines Kamels aus dem Wort ragen: `preisMitSteuer` hat zwei Höcker. Ich als Geißbock habe übrigens null Höcker, dafür zwei Hörner. Leider hat noch niemand die GeißbockSchreibweise erfunden.
 :::
 
+::: grafik l04-camelcase.svg
+Die Großbuchstaben M und S ragen heraus wie die zwei Höcker des Kamels.
+:::
+
 ## Die vier Datentypen
 
 Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
