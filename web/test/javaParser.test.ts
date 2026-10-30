@@ -176,6 +176,25 @@ describe('Java tippen → Struktogramm', () => {
     expect(generateCode(d, 'python')).toContain('print(str(intAllgemeinFach[i]) + ": ", end="")')
   })
 
+  it('Eingabe nach einer Ausgabe fragt nicht noch einmal nach dem Variablennamen', () => {
+    const ask = (src: string) => {
+      const engine = new SimulationEngine(doc(src))
+      while (engine.canStep && !engine.state.inputRequest) engine.step()
+      return { request: engine.state.inputRequest, lines: engine.state.outputLines }
+    }
+    const fach = 'String[] fach = {"Mathe"};\nint[] note = new int[1];\nint i = 0;\n'
+    expect(ask(fach + 'System.out.println("Note für Fach " + fach[i]);\nnote[i] = scanner.nextInt();')).toEqual({
+      request: { variableName: 'note[i]', valueType: 'int', prompt: '' },
+      lines: ['Note für Fach Mathe'],
+    })
+    expect(ask(fach + 'System.out.print(fach[i] + ": ");\nnote[i] = scanner.nextInt();')).toEqual({
+      request: { variableName: 'note[i]', valueType: 'int', prompt: '', continuesLine: true },
+      lines: ['Mathe: '],
+    })
+    // Ohne Ausgabe davor bleibt die Frage `name:`.
+    expect(ask(fach + 'note[i] = scanner.nextInt();').request?.prompt).toBe('note[i]:')
+  })
+
   it('Aufruf eines Unterprogramms aus einem anderen Reiter', () => {
     expect(parse('int y = quadrat(4);', new Set(['quadrat'])).elements[0].type).toBe(ElementType.aufruf)
     expect(parse('int y = quadrat(4);').elements[0].type).toBe(ElementType.anweisung)

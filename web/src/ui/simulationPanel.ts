@@ -225,9 +225,12 @@ export class SimulationPanel {
     const shouldResume = this.isPlaying || this.wasPlayingBeforeInput
     this.pause()
     const prompt = this.engine.state.inputRequest?.prompt ?? ''
+    const continuesLine = this.engine.state.inputRequest?.continuesLine
     this.engine.provideInput(field.value)
     if (!this.engine.state.inputRequest) {
-      this.transcript.push({ text: prompt ? `${prompt} ` : '', typed: field.value })
+      const last = this.transcript[this.transcript.length - 1]
+      if (continuesLine && last && last.typed === undefined) last.typed = field.value
+      else this.transcript.push({ text: prompt ? `${prompt} ` : '', typed: field.value })
       field.value = ''
     }
     this.onHighlight(this.engine.currentStepPath)
@@ -321,7 +324,7 @@ export class SimulationPanel {
     const { state, canStep } = this.engine
     this.onTranscript({
       lines: this.transcript,
-      pending: state.inputRequest?.prompt,
+      pending: state.inputRequest?.continuesLine ? undefined : state.inputRequest?.prompt,
       notice: state.notice ? noticeText(state.notice) : undefined,
       error: state.isHalted,
     })
