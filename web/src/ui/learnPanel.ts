@@ -229,7 +229,7 @@ export class LearnPanel {
           'button',
           { class: 'learn-item' + (p.done ? ' done' : ''), 'data-lesson': l.id },
           h('span', { class: 'learn-num' }, String(l.number)),
-          h('span', { class: 'learn-item-text' }, h('strong', {}, l.title), h('small', {}, l.summary)),
+          h('span', { class: 'learn-item-text' }, h('strong', {}, l.robot ? `🤖 ${l.title}` : l.title), h('small', {}, l.summary)),
           h('span', { class: 'learn-status' }, status),
         )
         item.addEventListener('click', () => this.openLesson(l.id))
@@ -261,7 +261,7 @@ export class LearnPanel {
     )
     this.body.append(
       back,
-      h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}`),
+      h('p', { class: 'learn-kicker' }, `${t('web_learn_lesson_fmt', lesson.number)} · ${lesson.section}${lesson.robot ? ' · 🤖 VisuBot' : ''}`),
       // Dieselbe Nummer wie in der Liste, gut sichtbar neben dem Titel.
       h('h2', { class: 'learn-title' }, h('span', { class: 'learn-num', 'aria-hidden': 'true' }, String(lesson.number)), lesson.title),
       bar,
