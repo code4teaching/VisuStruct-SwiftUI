@@ -76,7 +76,7 @@ import {
 import { gearIcon } from './app'
 import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
-import { JavaEditor } from './javaEditor'
+import { codeScopes, JavaEditor, setCodeScopes } from './javaEditor'
 import { closeWindows, compileAndRunProject, prepareJava } from './javaRuntime'
 import { ObjectDiagram, type LiveState } from './objectDiagram'
 import { sequenceSVG, type SequenceData } from './sequenceDiagram'
@@ -311,6 +311,13 @@ export class ObjectApp {
             <section data-action="world">
               <h3>${e(t('web_visubot_world_title'))}</h3>
               ${worldChooserHTML()}
+            </section>
+            <section>
+              <h3>Java</h3>
+              <label class="check">
+                <input type="checkbox" data-action="code-scopes" />
+                <span>${e(t('web_code_scopes'))}<small>${e(t('web_code_scopes_hint'))}</small></span>
+              </label>
             </section>
             <footer>
               <span class="settings-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</span>
@@ -560,6 +567,9 @@ export class ObjectApp {
       if (!menu.hidden && !(ev.target as HTMLElement).closest('.settings')) menu.hidden = true
     })
     for (const b of menu.querySelectorAll<HTMLButtonElement>('[data-world]')) b.addEventListener('click', () => this.chooseWorld(b.dataset.world as WorldChoice))
+    const scopes = menu.querySelector<HTMLInputElement>('[data-action=code-scopes]')!
+    scopes.checked = codeScopes()
+    scopes.addEventListener('change', () => setCodeScopes(scopes.checked))
     this.shell.querySelector('[data-action=run]')!.addEventListener('click', () => void this.runProgram())
     this.shell.querySelector('[data-action=stop]')!.addEventListener('click', () => (this.dbg ? this.stopDebug('web_visuobject_stopped') : void this.stopProgram()))
     this.shell.querySelector('[data-action=debug]')!.addEventListener('click', () => void this.startDebug())

@@ -656,4 +656,6 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visuobject_save_tip" = "Projekt als .zip speichern: Projektname/src/package/Klasse.java";
 "web_visuobject_open_tip" = "Projekt öffnen (.zip wie aus Eclipse oder BlueJ) oder .java-Dateien ins Projekt holen";
 "web_visuobject_method_ph" = "+ bellen(): void";
+"web_code_scopes" = "Codeblöcke farbig";
+"web_code_scopes_hint" = "Klasse, Methode, Schleife, Verzweigung in eigenen Kästen";
 `;export{e as default};

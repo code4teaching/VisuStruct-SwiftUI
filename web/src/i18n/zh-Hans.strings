@@ -171,3 +171,5 @@
 "web_swap_to_editor" = "结构图放大";
 "web_editor_resize" = "调整结构图宽度";
 "web_palette_resize" = "调整元素宽度";
+"web_code_scopes" = "代码块彩色显示";
+"web_code_scopes_hint" = "类、方法、循环、分支各有自己的框";

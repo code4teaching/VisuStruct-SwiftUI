@@ -145,7 +145,7 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
   const box = (className: string, fromLine: number, toLine: number, inset: number) => {
     const first = doc.line(fromLine)
     const col = countColumn(/^\s*/.exec(first.text)![0], tabSize)
-    const left = textLeft + col * charWidth - 5
+    const left = textLeft + col * charWidth - 7
     const top = view.lineBlockAt(first.from).top + top0 + inset
     const bottom = view.lineBlockAt(doc.line(toLine).from).bottom + top0 - inset
     return new RectangleMarker(className, left, top, Math.max(right - left, 20), Math.max(bottom - top, 4))
@@ -167,6 +167,29 @@ function scopeMarkers(view: EditorView): RectangleMarker[] {
   if (sel && sel.from < doc.lines) markers.push(box('cm-scope cm-scope-sel', sel.from + 1, Math.min(sel.to + 1, doc.lines), 0))
   return markers
 }
+
+const codeScopesKey = 'visustruct.code.scopes'
+
+/** Einstellung „Codeblöcke farbig“: ohne Speicher eingeschaltet. */
+export function codeScopes(): boolean {
+  try {
+    return localStorage.getItem(codeScopesKey) !== '0'
+  } catch {
+    return true
+  }
+}
+
+/** Schaltet die farbigen Kästen in allen Code-Editoren um (der Rahmen der Auswahl bleibt). */
+export function setCodeScopes(on: boolean) {
+  try {
+    localStorage.setItem(codeScopesKey, on ? '1' : '0')
+  } catch {
+    /* ohne Speicher: nur für diese Sitzung */
+  }
+  document.documentElement.classList.toggle('no-code-scopes', !on)
+}
+
+if (typeof document !== 'undefined') document.documentElement.classList.toggle('no-code-scopes', !codeScopes())
 
 const scopeLayer = layer({
   above: false,

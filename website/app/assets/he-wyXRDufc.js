@@ -171,4 +171,6 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_swap_to_editor" = "תרשים גדול";
 "web_editor_resize" = "שינוי רוחב התרשים";
 "web_palette_resize" = "שינוי רוחב הרכיבים";
+"web_code_scopes" = "בלוקי קוד צבעוניים";
+"web_code_scopes_hint" = "מחלקה, מתודה, לולאה, הסתעפות בתיבות משלהן";
 `;export{e as default};
