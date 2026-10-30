@@ -10,7 +10,7 @@ kurz: Ask for values, show results and use the IPO model.
 - explain the IPO model
 - write an input with a data type, a name and a question
 - join text and variables in an output with +
-- calculate in a variable before the output
+- work out a result first and store it in a variable, then output that variable, e.g. `int sum = a + b`, then `output: sum`
 - pick out input, process and output from a task
 - read numbers in Java with the scanner
 :::
@@ -280,7 +280,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can explain the IPO model. → The IPO model
 - I can write an input with a data type, a name and a question. → Input with input:
 - I can join text and variables in an output with +. → Careful with + in an output
-- I can calculate in a variable before the output. → Careful with + in an output
+- I can work out a result first and store it in a variable, then output that variable, e.g. `int sum = a + b`, then `output: sum`. → Careful with + in an output
 - I can pick out input, process and output from a task. → From the task to the structure chart
 - I can read numbers in Java with the scanner. → Now in Java
 :::
