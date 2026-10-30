@@ -34,6 +34,7 @@ import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import { LiveCodePanel } from './liveCodePanel'
 import { RobotPreviewPanel } from './robotPreview'
+import { codeScopes, setCodeScopes } from './javaEditor'
 import type { LiveTarget } from '../core/codeGenerator'
 import type { Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
@@ -489,6 +490,10 @@ export class App {
                 <input type="checkbox" data-action="keywords" />
                 <span>${e(t('web_keywords_title'))}<small>${e(t('web_keywords_hint'))}</small></span>
               </label>
+              <label class="check">
+                <input type="checkbox" data-action="code-scopes" />
+                <span>${e(t('web_code_scopes'))}<small>${e(t('web_code_scopes_hint'))}</small></span>
+              </label>
             </section>
             <section class="java-only">
               <h3>Java</h3>
@@ -834,6 +839,9 @@ export class App {
     const keywords = $<HTMLInputElement>('[data-action=keywords]')
     keywords.checked = codeKeywords()
     keywords.addEventListener('change', () => void this.changeLanguage(() => setCodeKeywords(keywords.checked), 'keywords'))
+    const scopes = $<HTMLInputElement>('[data-action=code-scopes]')
+    scopes.checked = codeScopes()
+    scopes.addEventListener('change', () => setCodeScopes(scopes.checked))
     const liveLanguage = $<HTMLSelectElement>('[data-action=live-language]')
     liveLanguage.value = this.live.language
     const javaClass = $<HTMLInputElement>('[data-action=java-class]')

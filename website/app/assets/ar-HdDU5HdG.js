@@ -173,4 +173,6 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_palette_resize" = "تغيير عرض العناصر";
 "web_palette_hide" = "إخفاء العناصر";
 "web_palette_show" = "إظهار العناصر";
+"web_code_scopes" = "كتل الشيفرة ملوّنة";
+"web_code_scopes_hint" = "الصنف والدالة والحلقة والتفرّع في مربعات خاصة";
 `;export{e as default};

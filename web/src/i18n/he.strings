@@ -173,3 +173,5 @@
 "web_palette_resize" = "שינוי רוחב הרכיבים";
 "web_palette_hide" = "הסתרת הרכיבים";
 "web_palette_show" = "הצגת הרכיבים";
+"web_code_scopes" = "בלוקי קוד צבעוניים";
+"web_code_scopes_hint" = "מחלקה, מתודה, לולאה, הסתעפות בתיבות משלהן";

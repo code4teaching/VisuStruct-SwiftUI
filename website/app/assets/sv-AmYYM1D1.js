@@ -173,4 +173,6 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_palette_resize" = "Ändra bredd på elementen";
 "web_palette_hide" = "Dölj elementen";
 "web_palette_show" = "Visa elementen";
+"web_code_scopes" = "Färgade kodblock";
+"web_code_scopes_hint" = "Klass, metod, loop, förgrening i egna rutor";
 `;export{e as default};

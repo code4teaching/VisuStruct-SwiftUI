@@ -656,3 +656,5 @@
 "web_visuobject_save_tip" = "Guardar o projeto como .zip: NomeDoProjeto/src/package/Classe.java";
 "web_visuobject_open_tip" = "Abrir um projeto (.zip como do Eclipse ou BlueJ) ou juntar ficheiros .java ao projeto";
 "web_visuobject_method_ph" = "+ ladrar(): void";
+"web_code_scopes" = "Blocos de código coloridos";
+"web_code_scopes_hint" = "Classe, método, ciclo, decisão em caixas próprias";

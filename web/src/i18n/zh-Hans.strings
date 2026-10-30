@@ -173,3 +173,5 @@
 "web_palette_resize" = "调整元素宽度";
 "web_palette_hide" = "隐藏元素";
 "web_palette_show" = "显示元素";
+"web_code_scopes" = "代码块彩色显示";
+"web_code_scopes_hint" = "类、方法、循环、分支各有自己的框";
