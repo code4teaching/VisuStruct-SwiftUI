@@ -3637,6 +3637,33 @@ button.danger-text:not(:disabled) {
 .robotpreview-height {
   display: none;
 }
+/* Während der Simulation fährt hier deren mBot2 (Welten, 3D-Ansicht und Messwerte aus dem Simulationspanel). */
+.robotpreview.simulation > .visubot-worlds,
+.robotpreview.simulation > .robotpreview-stage,
+.robotpreview.simulation > .robotpreview-status,
+.robotpreview.simulation .robotpreview-play {
+  display: none;
+}
+.robotpreview .visubot-viewport {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+.robotpreview .visubot-viewport .visubot-stage {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 160px;
+}
+.visubot-elsewhere {
+  display: none;
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.visubot:not(:has(> .visubot-viewport)) .visubot-elsewhere {
+  display: block;
+}
 /* Unter dem Code: volle Breite der Spalte, Höhe an der Linie darüber verschieben. */
 .shell.preview-stacked .robotpreview {
   flex: 0 0 auto;

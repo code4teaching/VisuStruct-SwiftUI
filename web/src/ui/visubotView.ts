@@ -88,6 +88,8 @@ export class VisuBotView {
   /** Befehle, die der echte mBot2 schon gefahren ist. */
   private sent = 0
   private liveStatus: HTMLElement
+  /** Welten-Knöpfe, 3D-Ansicht und Messwerte: stehen während der Simulation im Fenster „mBot2 live“. */
+  readonly viewport: HTMLElement
   private stopListening: () => void
   private realSensors?: MBotSensorValues
   /** Regler und Knöpfe „Sensoren ausprobieren“: Werte, die keine Welt liefert. */
@@ -103,11 +105,12 @@ export class VisuBotView {
     this.world = new RobotWorld(setup)
     this.element = document.createElement('section')
     this.element.className = 'visubot'
-    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p>${controlsHTML()}${checkHTML()}`
+    this.element.innerHTML = `<h2>${t('web_visubot_world')}</h2><p class="visubot-live"></p><p class="visubot-elsewhere hint">${t('web_visubot_world_in_preview')}</p><div class="visubot-viewport"><div class="visubot-worlds" hidden></div><div class="visubot-stage"></div><p class="visubot-status mono" dir="ltr"></p></div>${controlsHTML()}${checkHTML()}`
     this.stage = this.element.querySelector('.visubot-stage')!
     this.picker = this.element.querySelector('.visubot-worlds')!
     this.status = this.element.querySelector('.visubot-status')!
     this.liveStatus = this.element.querySelector('.visubot-live')!
+    this.viewport = this.element.querySelector('.visubot-viewport')!
     this.stopListening = mbotLink.listen(() => this.updateLive())
     this.setupControls()
     this.check = this.element.querySelector('.visubot-check')!
@@ -126,6 +129,11 @@ export class VisuBotView {
     }).catch(() => {
       this.stage.textContent = t('web_visubot_no_3d')
     })
+  }
+
+  /** 3D-Ansicht zurück ins Simulationspanel (wenn „mBot2 live“ zu ist oder die Simulation endet). */
+  restoreViewport() {
+    if (this.viewport.parentElement !== this.element) this.liveStatus.after(this.viewport)
   }
 
   /**
