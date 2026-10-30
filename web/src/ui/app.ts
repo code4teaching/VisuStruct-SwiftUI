@@ -41,7 +41,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
@@ -941,7 +941,7 @@ export class App {
   /** `?visubot` oder `?visustruct` in der Adresse, damit man den Link mit der richtigen Welt weitergeben kann. */
   private showWorldInURL() {
     const params = new URLSearchParams(location.search)
-    for (const key of ['learn', 'visubot', 'visustruct', 'visuobject']) params.delete(key)
+    for (const key of ['learn', 'visubot', 'visustruct', 'visuobject', 'visuflow']) params.delete(key)
     const rest = params.toString()
     const world = visuBotMode() === 'on' ? 'visubot' : 'visustruct'
     history.replaceState(history.state, '', `${location.pathname}?${world}${rest ? `&${rest}` : ''}${location.hash}`)
@@ -953,6 +953,12 @@ export class App {
       // VisuObject hat eine eigene Oberfläche: neu laden. Ungespeichertes fragt der Browser vorher ab.
       setVisuObjectWorld()
       location.href = `${location.pathname}?visuobject${location.hash}`
+      return
+    }
+    if (mode === 'flow') {
+      // VisuFlow (PAP zeichnen) hat ebenfalls eine eigene Oberfläche.
+      setVisuFlowWorld()
+      location.href = `${location.pathname}?visuflow${location.hash}`
       return
     }
     if (mode === visuBotMode() && worldChosen()) return
