@@ -25,6 +25,17 @@ export interface JavaProject {
   sourceFolders?: string[]
   /** Was nur UML kennt (Aggregation, Name der Beziehung …), siehe `umlRelations.ts`. */
   uml?: UmlInfo
+  /** Notizen im Klassendiagramm (Kasten mit Eselsohr), evtl. gestrichelt an Klassen geheftet. */
+  notes?: UmlNote[]
+}
+
+export interface UmlNote {
+  id: string
+  text: string
+  x: number
+  y: number
+  /** Klassen, an die die Notiz mit gestrichelter Linie geheftet ist. */
+  attach?: string[]
 }
 
 /** Klasse mit Datei und Package, für Diagramm und Explorer. */
@@ -234,10 +245,24 @@ export function projectFromJSON(json: string): JavaProject | undefined {
     if (roots.length) project.sourceFolders = roots
     const uml = umlFromJSON(data.uml)
     if (uml) project.uml = uml
+    const notes = notesFromJSON(data.notes)
+    if (notes) project.notes = notes
     return project
   } catch {
     return undefined
   }
+}
+
+/** Notizen aus einer Datei prüfen: nur Einträge mit Text und Lage. */
+export function notesFromJSON(data: unknown): UmlNote[] | undefined {
+  if (!Array.isArray(data)) return undefined
+  const out: UmlNote[] = []
+  for (const n of data as Partial<UmlNote>[]) {
+    if (!n || typeof n.id !== 'string' || typeof n.text !== 'string' || typeof n.x !== 'number' || typeof n.y !== 'number') continue
+    const attach = Array.isArray(n.attach) ? n.attach.filter((a): a is string => typeof a === 'string') : []
+    out.push({ id: n.id, text: n.text, x: n.x, y: n.y, ...(attach.length ? { attach } : {}) })
+  }
+  return out.length ? out : undefined
 }
 
 /** Nur Einträge mit Objekt als Wert übernehmen (Datei kann von außen kommen). */

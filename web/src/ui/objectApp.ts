@@ -50,6 +50,7 @@ import {
   sourceFoldersOf,
   updateFile,
   type JavaProject,
+  type UmlNote,
   type ProjectClass,
 } from '../core/javaProject'
 import {
@@ -198,6 +199,8 @@ export class ObjectApp {
   private lastTyping = 0
   /** Gerade bearbeitetes Eingabefeld im Diagramm oder Explorer: dann nicht neu zeichnen. */
   private editing = false
+  /** Gewählte Notiz im Diagramm. */
+  private noteSelection?: string
   /** Workspace-Ordner wie in Eclipse (nur Chrome/Edge); ohne ihn bleibt das Projekt im Browser. */
   private workspace?: WsDir
   /** Gemerkter Ordner, für den der Browser erst wieder fragen muss. */
@@ -327,7 +330,7 @@ export class ObjectApp {
             <button class="vo-collapse" data-collapse="diagram" aria-label="${e(t('web_visuobject_pane_hide'))}" data-tip="${e(t('web_visuobject_pane_hide'))}">–</button>
           </header>
           <div class="vo-palette" role="toolbar" aria-label="${e(t('web_visuobject_tools'))}">
-            ${paletteTools.map((tool, i) => `${i === 3 ? '<span class="vo-palette-sep" aria-hidden="true"></span>' : ''}<button class="vo-tool" data-tool="${tool}" aria-pressed="${tool === 'select'}" data-tip="${e(t(`web_visuobject_tool_${tool}_tip`))}">${toolIcon(tool)}<span>${e(t(`web_visuobject_tool_${tool}`))}</span></button>`).join('')}
+            ${paletteTools.map((tool) => `${tool === 'link' ? '<span class="vo-palette-sep" aria-hidden="true"></span>' : ''}<button class="vo-tool" data-tool="${tool}" aria-pressed="${tool === 'select'}" data-tip="${e(t(`web_visuobject_tool_${tool}_tip`))}">${toolIcon(tool)}<span>${e(t(`web_visuobject_tool_${tool}`))}</span></button>`).join('')}
           </div>
           <div class="vo-stage">
             <div class="vo-canvas" tabindex="-1"><svg class="vo-frames" aria-hidden="true"></svg><svg class="vo-lines"></svg></div>
@@ -1315,6 +1318,16 @@ export class ObjectApp {
       return
     }
     if (!this.canvas.contains(document.activeElement) && document.activeElement !== document.body) return
+    if (this.noteSelection && this.findNote(this.noteSelection)) {
+      if (ev.key === 'Delete' || ev.key === 'Backspace') {
+        ev.preventDefault()
+        this.deleteNote(this.noteSelection)
+      } else if (ev.key === 'Enter' || ev.key === 'F2') {
+        ev.preventDefault()
+        this.editNote(this.noteSelection)
+      }
+      return
+    }
     if (this.relSelection && (ev.key === 'Delete' || ev.key === 'Backspace')) {
       ev.preventDefault()
       this.deleteRelation(this.relSelection)
@@ -1511,6 +1524,10 @@ export class ObjectApp {
       this.suppressClick = true
       return this.useTool(ev)
     }
+    const noteHandle = target.closest<HTMLElement>('[data-note-connect]')
+    if (noteHandle && ev.button === 0) return this.startNoteConnect(ev, noteHandle.closest<HTMLElement>('.uml-note')!.dataset.note!)
+    const noteBox = target.closest<HTMLElement>('.uml-note')
+    if (noteBox && ev.button === 0 && !target.closest('textarea')) return this.dragNote(ev, noteBox)
     const handle = target.closest<HTMLElement>('[data-connect]')
     if (handle && ev.button === 0) return this.startConnect(ev, handle.closest<HTMLElement>('.uml-class')!.dataset.class!)
     if (target.closest('input, select, button, label')) return
@@ -1551,7 +1568,17 @@ export class ObjectApp {
     }
     if (this.drag?.moved || this.editing) return
     const target = ev.target as HTMLElement
-    if (target.closest('input, select, label')) return
+    if (target.closest('input, select, label, textarea')) return
+    const noteEl = target.closest<HTMLElement>('.uml-note')
+    if (noteEl) {
+      const id = noteEl.dataset.note!
+      const now = Date.now()
+      const twice = this.lastClick.spot === `note|${id}` && now - this.lastClick.time < 450
+      this.lastClick = { spot: `note|${id}`, time: twice ? 0 : now }
+      if (twice) return this.editNote(id)
+      return this.selectNote(id)
+    }
+    this.noteSelection = undefined
     const action = target.closest<HTMLElement>('[data-class-action]')
     const box = target.closest<HTMLElement>('.uml-class')
     const cls = box && this.findClass(box.dataset.class!)
@@ -1611,12 +1638,13 @@ export class ObjectApp {
   }
 
   private render() {
-    for (const old of this.canvas.querySelectorAll('.uml-class, .vo-empty')) old.remove()
+    for (const old of this.canvas.querySelectorAll('.uml-class, .uml-note, .vo-empty')) old.remove()
+    for (const note of this.project.notes ?? []) this.canvas.append(this.noteBox(note))
     if (this.classes.length === 0) {
       const empty = document.createElement('p')
       empty.className = 'vo-empty'
       empty.textContent = t('web_visuobject_empty')
-      this.canvas.append(empty)
+      if (!this.project.notes?.length) this.canvas.append(empty)
       this.drawLines()
       return
     }
@@ -1629,6 +1657,183 @@ export class ObjectApp {
     }
     this.placeNew(boxes)
     this.drawLines()
+  }
+
+  // MARK: - Notizen
+
+  /** UML-Notiz: Kasten mit Eselsohr, Text wie getippt (Zeilenumbrüche bleiben). */
+  private noteBox(note: UmlNote): HTMLElement {
+    const box = document.createElement('div')
+    const selected = this.noteSelection === note.id
+    box.className = `uml-note${selected ? ' selected' : ''}`
+    box.dataset.note = note.id
+    box.style.left = `${note.x}px`
+    box.style.top = `${note.y}px`
+    box.innerHTML = `${selected ? `<button class="uml-connect" data-note-connect aria-label="${e(t('web_visuobject_note_attach'))}" data-tip="${e(t('web_visuobject_note_attach'))}" tabindex="-1"></button>` : ''}<div class="uml-note-text${note.text ? '' : ' placeholder'}">${e(note.text || t('web_visuobject_note_ph'))}</div>`
+    return box
+  }
+
+  private findNote(id: string | undefined): UmlNote | undefined {
+    return id ? this.project.notes?.find((n) => n.id === id) : undefined
+  }
+
+  private setNotes(notes: UmlNote[]) {
+    this.setProject({ ...this.project, notes: notes.length ? notes : undefined })
+  }
+
+  private changeNote(id: string, change: Partial<UmlNote>) {
+    this.setNotes((this.project.notes ?? []).map((n) => (n.id === id ? { ...n, ...change } : n)))
+  }
+
+  private addNote(at: Point) {
+    const id = `n${Date.now().toString(36)}`
+    this.noteSelection = id
+    this.selection = undefined
+    this.relSelection = undefined
+    this.setNotes([...(this.project.notes ?? []), { id, text: '', x: Math.max(0, Math.round(at.x)), y: Math.max(0, Math.round(at.y)) }])
+    this.editNote(id)
+  }
+
+  private deleteNote(id: string) {
+    this.noteSelection = undefined
+    this.setNotes((this.project.notes ?? []).filter((n) => n.id !== id))
+  }
+
+  private selectNote(id: string) {
+    this.noteSelection = id
+    this.selection = undefined
+    this.relSelection = undefined
+    this.treeSelection = undefined
+    this.render()
+    this.renderTree()
+    this.canvas.focus({ preventScroll: true })
+  }
+
+  /** Text direkt im Kasten ändern; Strg+Enter oder Klick daneben übernimmt, Esc bricht ab. */
+  private editNote(id: string) {
+    const note = this.findNote(id)
+    const box = this.canvas.querySelector<HTMLElement>(`.uml-note[data-note="${CSS.escape(id)}"]`)
+    if (!note || !box) return
+    const area = document.createElement('textarea')
+    area.className = 'uml-note-edit'
+    area.value = note.text
+    area.placeholder = t('web_visuobject_note_ph')
+    area.rows = Math.max(3, note.text.split('\n').length + 1)
+    box.querySelector('.uml-note-text')!.replaceWith(area)
+    this.editing = true
+    let done = false
+    const finish = (keep: boolean) => {
+      if (done) return
+      done = true
+      this.editing = false
+      if (keep && area.value !== note.text) this.changeNote(id, { text: area.value })
+      else this.render()
+    }
+    area.addEventListener('keydown', (ev) => {
+      ev.stopPropagation()
+      if (ev.key === 'Escape') finish(false)
+      else if (ev.key === 'Enter' && (ev.metaKey || ev.ctrlKey)) finish(true)
+    })
+    area.addEventListener('blur', () => finish(true))
+    area.focus()
+  }
+
+  /** Vom Griff an der Notiz zu einer Klasse ziehen: gestrichelte Linie, wie in Astah. */
+  private startNoteConnect(ev: PointerEvent, id: string) {
+    ev.preventDefault()
+    const box = this.canvas.querySelector<HTMLElement>(`.uml-note[data-note="${CSS.escape(id)}"]`)!
+    const ghost = document.createElementNS('http://www.w3.org/2000/svg', 'line')
+    ghost.setAttribute('class', 'vo-rel vo-note-link ghost')
+    this.lines.append(ghost)
+    const start = { x: box.offsetLeft + box.offsetWidth, y: box.offsetTop + box.offsetHeight / 2 }
+    const targetAt = (m: PointerEvent) => document.elementFromPoint(m.clientX, m.clientY)?.closest<HTMLElement>('.uml-class') ?? undefined
+    const move = (m: PointerEvent) => {
+      const r = this.canvas.getBoundingClientRect()
+      ghost.setAttribute('x1', String(start.x))
+      ghost.setAttribute('y1', String(start.y))
+      ghost.setAttribute('x2', String(m.clientX - r.left + this.canvas.scrollLeft))
+      ghost.setAttribute('y2', String(m.clientY - r.top + this.canvas.scrollTop))
+      for (const el of this.canvas.querySelectorAll('.uml-class.drop')) el.classList.remove('drop')
+      targetAt(m)?.classList.add('drop')
+    }
+    const up = (m: PointerEvent) => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      ghost.remove()
+      const target = targetAt(m)
+      target?.classList.remove('drop')
+      this.suppressClick = true
+      const note = this.findNote(id)
+      const cls = target?.dataset.class
+      if (note && cls && !note.attach?.includes(cls)) this.changeNote(id, { attach: [...(note.attach ?? []), cls] })
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+  }
+
+  private dragNote(ev: PointerEvent, box: HTMLElement) {
+    const note = this.findNote(box.dataset.note)
+    if (!note) return
+    const start = { x: ev.clientX, y: ev.clientY }
+    let moved = false
+    let p = { x: note.x, y: note.y }
+    const move = (m: PointerEvent) => {
+      const dx = m.clientX - start.x
+      const dy = m.clientY - start.y
+      if (!moved && Math.hypot(dx, dy) < 4) return
+      moved = true
+      p = { x: Math.max(0, Math.round(note.x + dx)), y: Math.max(0, Math.round(note.y + dy)) }
+      box.style.left = `${p.x}px`
+      box.style.top = `${p.y}px`
+      this.drawLines()
+    }
+    const up = () => {
+      window.removeEventListener('pointermove', move)
+      window.removeEventListener('pointerup', up)
+      if (!moved) return
+      this.suppressClick = true
+      this.changeNote(note.id, p)
+    }
+    window.addEventListener('pointermove', move)
+    window.addEventListener('pointerup', up)
+  }
+
+  /** Gestrichelte Linien von Notizen zu ihren Klassen. */
+  private noteLinksSVG(boxes: Map<string, HTMLElement>): string {
+    const out: string[] = []
+    for (const note of this.project.notes ?? []) {
+      const nb = this.canvas.querySelector<HTMLElement>(`.uml-note[data-note="${CSS.escape(note.id)}"]`)
+      if (!nb) continue
+      for (const cls of note.attach ?? []) {
+        const cb = boxes.get(cls)
+        if (!cb) continue
+        const ra = { x: nb.offsetLeft, y: nb.offsetTop, w: nb.offsetWidth, h: nb.offsetHeight }
+        const rb = { x: cb.offsetLeft, y: cb.offsetTop, w: cb.offsetWidth, h: cb.offsetHeight }
+        const ca = { x: ra.x + ra.w / 2, y: ra.y + ra.h / 2 }
+        const cc = { x: rb.x + rb.w / 2, y: rb.y + rb.h / 2 }
+        const a = edgePoint(ra, ca, cc)
+        const b = edgePoint(rb, cc, ca)
+        out.push(`<line class="vo-rel vo-note-link" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`)
+      }
+    }
+    return out.join('')
+  }
+
+  private renderNoteInspector(note: UmlNote) {
+    this.inspector.dataset.rel = `note:${note.id}`
+    const classes = [...new Set(this.classes.map((c) => c.name))]
+    this.inspector.innerHTML = `
+      <p class="vo-inspector-kind">${e(t('web_visuobject_tool_note'))}</p>
+      <label class="vo-doc">${e(t('web_visuobject_note_text'))}<textarea data-field="note-text" rows="3" placeholder="${e(t('web_visuobject_note_ph'))}">${e(note.text)}</textarea></label>
+      ${classes.length ? `<fieldset class="vo-inspector-ifaces"><legend>${e(t('web_visuobject_note_attached'))}</legend>${classes.map((c) => `<label class="check"><input type="checkbox" data-field="note-attach" value="${e(c)}"${note.attach?.includes(c) ? ' checked' : ''}> ${e(c)}</label>`).join('')}</fieldset>` : ''}
+      <div class="vo-inspector-row"><button class="text-button vo-danger" data-inspector="delete-note">${icons.trash} ${e(t('web_visuobject_note_delete'))}</button></div>`
+    this.inspector.querySelector<HTMLTextAreaElement>('[data-field=note-text]')!.addEventListener('change', (ev) => this.changeNote(note.id, { text: (ev.target as HTMLTextAreaElement).value }))
+    for (const box of this.inspector.querySelectorAll<HTMLInputElement>('[data-field=note-attach]'))
+      box.addEventListener('change', () => {
+        const attach = [...this.inspector.querySelectorAll<HTMLInputElement>('[data-field=note-attach]')].filter((b) => b.checked).map((b) => b.value)
+        this.changeNote(note.id, { attach: attach.length ? attach : undefined })
+      })
+    this.inspector.querySelector('[data-inspector=delete-note]')!.addEventListener('click', () => this.deleteNote(note.id))
   }
 
   private classBox(cls: ProjectClass): HTMLElement {
@@ -1808,6 +2013,7 @@ export class ObjectApp {
       const b = boxes.get(d.to)
       if (a && b && a !== b) parts.push(this.dependencySVG(d, a, b, offset(d.from, d.to)))
     }
+    parts.push(this.noteLinksSVG(boxes))
     this.lines.innerHTML = parts.join('')
     this.renderInspector()
   }
@@ -2022,6 +2228,7 @@ export class ObjectApp {
   }
 
   private selectRelation(id: string) {
+    this.noteSelection = undefined
     this.relSelection = id
     this.selection = undefined
     this.treeSelection = undefined
@@ -2316,6 +2523,8 @@ export class ObjectApp {
    * Ende B die Klasse, bei der sie endet.
    */
   private renderInspector() {
+    const note = this.findNote(this.noteSelection)
+    if (note) return this.renderNoteInspector(note)
     const dep = this.relSelection?.startsWith('dep:') ? this.findDependency(this.relSelection) : undefined
     if (dep) return this.renderDependency(dep)
     const rel = this.relSelection ? this.findRelation(this.relSelection) : undefined
@@ -2641,6 +2850,11 @@ export class ObjectApp {
       this.newClass(tool, { x: at.x - 60, y: at.y - 14 })
       return
     }
+    if (tool === 'note') {
+      this.setTool('select')
+      this.addNote({ x: at.x - 20, y: at.y - 14 })
+      return
+    }
     const box = (ev.target as HTMLElement).closest<HTMLElement>('.uml-class')
     if (!box) {
       if (this.pendingFrom) this.setTool(tool)
@@ -2753,8 +2967,8 @@ export class ObjectApp {
 
 /** `link`: Assoziation ohne Navigation (einfache Linie), `association`: gerichtet mit Pfeil. */
 type RelationTool = AssocKind | 'link' | 'extends' | 'implements'
-type Tool = 'select' | 'class' | 'interface' | RelationTool
-const paletteTools: Tool[] = ['select', 'class', 'interface', 'link', 'association', 'aggregation', 'composition', 'extends', 'implements']
+type Tool = 'select' | 'class' | 'interface' | 'note' | RelationTool
+const paletteTools: Tool[] = ['select', 'class', 'interface', 'note', 'link', 'association', 'aggregation', 'composition', 'extends', 'implements']
 
 /** Welche Beziehungen von `a` nach `b` gehen: Attribute nur in Klassen, erben nur Klasse von Klasse bzw. Interface von Interface. */
 function relationChoices(a: UmlClass, b: UmlClass): RelationTool[] {
@@ -2771,6 +2985,8 @@ function toolIcon(tool: Tool): string {
     return '<svg class="vo-relicon" viewBox="0 0 28 18" width="28" height="18" aria-hidden="true"><path d="M10 2 L10 15 L13.2 11.8 L15.6 16.5 L17.6 15.5 L15.2 10.9 L19.5 10.9 z" fill="currentColor"/></svg>'
   if (tool === 'class' || tool === 'interface')
     return `<svg class="vo-relicon" viewBox="0 0 28 18" width="28" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="1.5" width="20" height="15" rx="1"/><line x1="4" y1="7" x2="24" y2="7"/><line x1="4" y1="11.5" x2="24" y2="11.5"/>${tool === 'interface' ? '<text x="14" y="5.6" font-size="4.5" text-anchor="middle" fill="currentColor" stroke="none">«I»</text>' : ''}</svg>`
+  if (tool === 'note')
+    return '<svg class="vo-relicon" viewBox="0 0 28 18" width="28" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M6 1.5 H18 L23 6.5 V16.5 H6 z M18 1.5 V6.5 H23"/></svg>'
   return relationIcon(tool)
 }
 
