@@ -30,6 +30,8 @@ import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEdit
 export interface LearnHost {
   /** Übung im Editor öffnen (vorhandenen Reiter wählen oder neuen anlegen). */
   openExercise(exercise: Exercise, doc: VSDocument): void
+  /** Java-Beispiel aus dem Text in einem neuen Reiter öffnen, Spalte „Programmieren“ auf Java. */
+  openJavaCode(java: string): void
   /** Beispieldiagramm in einem neuen Reiter öffnen. */
   openDiagram(doc: VSDocument, fileName: string): void
   /** Diagramm des Reiters, in dem die Übung offen ist. */
@@ -434,7 +436,7 @@ export class LearnPanel {
   private renderBlock(block: Block, key: string, lesson?: Lesson): HTMLElement {
     switch (block.kind) {
       case 'markdown':
-        return html('div', { class: 'learn-text' }, markdownToHTML(block.text))
+        return this.withOpenButtons(html('div', { class: 'learn-text' }, markdownToHTML(block.text)))
       case 'diagram':
         return this.renderDiagram(block.file, block.caption)
       case 'exercise':
@@ -574,6 +576,17 @@ export class LearnPanel {
     } else if (src) figure.append(h('img', { class: 'learn-graphic', src, alt: '', loading: 'lazy' }))
     if (caption) figure.append(html('figcaption', {}, inline(caption)))
     return figure
+  }
+
+  /** Unter jedes Java-Beispiel mit ```java editor kommt „Im Editor öffnen“. */
+  private withOpenButtons(text: HTMLElement): HTMLElement {
+    for (const pre of text.querySelectorAll<HTMLElement>('pre.lesson-code[data-open=editor]')) {
+      const code = pre.textContent ?? ''
+      const open = h('button', { class: 'learn-open-code' }, t('web_learn_open_in_editor'))
+      open.addEventListener('click', () => this.host.openJavaCode(code))
+      pre.after(open)
+    }
+    return text
   }
 
   private renderDiagram(file: string, caption: string): HTMLElement {
