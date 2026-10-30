@@ -1,9 +1,9 @@
 import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap, snippetCompletion, type Completion, type CompletionContext } from '@codemirror/autocomplete'
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
-import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting } from '@codemirror/language'
-import { Annotation, type ChangeSpec, Compartment, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
-import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, lineNumbers, type BlockInfo, type DecorationSet } from '@codemirror/view'
+import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting, syntaxTree } from '@codemirror/language'
+import { Annotation, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension } from '@codemirror/state'
+import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { indentJava } from '../core/javaIndent'
 import { memberCompletionsAt, type JavaMember, type MemberLanguage, type OwnTypes } from '../core/javaMembers'
@@ -65,7 +65,6 @@ const setMarks = StateEffect.define<EditorMarks>()
 
 const phMark = Decoration.mark({ class: 'cm-ph' })
 const errMark = Decoration.mark({ class: 'cm-err' })
-const selLine = Decoration.line({ class: 'cm-sel' })
 const currentLine = Decoration.line({ class: 'cm-debug-line' })
 
 interface MarkState {
@@ -76,13 +75,6 @@ interface MarkState {
 function buildDecorations(state: EditorState, marks: EditorMarks): DecorationSet {
   const len = state.doc.length
   const ranges: { from: number; to: number; deco: Decoration }[] = []
-  if (marks.lines) {
-    const last = Math.min(marks.lines.to + 1, state.doc.lines)
-    for (let n = marks.lines.from + 1; n <= last; n++) {
-      const line = state.doc.line(n)
-      ranges.push({ from: line.from, to: line.from, deco: selLine })
-    }
-  }
   if (marks.current !== undefined && marks.current < state.doc.lines) {
     ranges.push({ from: state.doc.line(marks.current + 1).from, to: state.doc.line(marks.current + 1).from, deco: currentLine })
   }
@@ -93,7 +85,7 @@ function buildDecorations(state: EditorState, marks: EditorMarks): DecorationSet
     if (from < to) ranges.push({ from, to, deco: errMark })
   }
   // Zeilen-Dekorationen vor Markierungen an derselben Stelle.
-  const isLine = (d: Decoration) => d === selLine || d === currentLine
+  const isLine = (d: Decoration) => d === currentLine
   ranges.sort((a, b) => a.from - b.from || Number(isLine(b.deco)) - Number(isLine(a.deco)) || a.to - b.to)
   const builder = new RangeSetBuilder<Decoration>()
   for (const r of ranges) builder.add(r.from, r.to, r.deco)
@@ -111,6 +103,81 @@ const marksField = StateField.define<MarkState>({
     return { marks, decorations: buildDecorations(tr.state, marks) }
   },
   provide: (f) => EditorView.decorations.from(f, (v) => v.decorations),
+})
+
+// MARK: - Farbige Blöcke wie in BlueJ
+
+/** Art des Blocks → Farbe (`cm-scope-…` in styles.css). */
+const scopeKinds: Record<string, string> = {
+  ClassDeclaration: 'class',
+  InterfaceDeclaration: 'class',
+  EnumDeclaration: 'class',
+  MethodDeclaration: 'method',
+  ConstructorDeclaration: 'method',
+  ForStatement: 'loop',
+  EnhancedForStatement: 'loop',
+  WhileStatement: 'loop',
+  DoStatement: 'loop',
+  IfStatement: 'if',
+  SwitchStatement: 'if',
+  TryStatement: 'try',
+}
+
+/**
+ * Jeder Block (Klasse, Methode, Schleife, Verzweigung …) bekommt einen eigenen Kasten, der bei seiner
+ * Einrückung beginnt; die Kästen liegen ineinander. Das ausgewählte Element bekommt einen Rahmen darüber.
+ */
+function scopeMarkers(view: EditorView): RectangleMarker[] {
+  const { state } = view
+  const doc = state.doc
+  const lineElt = view.contentDOM.querySelector('.cm-line')
+  if (!lineElt) return []
+  const style = getComputedStyle(lineElt)
+  const scroller = view.scrollDOM.getBoundingClientRect()
+  const content = view.contentDOM.getBoundingClientRect()
+  const baseLeft = scroller.left - view.scrollDOM.scrollLeft
+  const baseTop = scroller.top - view.scrollDOM.scrollTop
+  const textLeft = content.left - baseLeft + parseFloat(style.paddingLeft) + parseFloat(style.borderLeftWidth)
+  const right = content.right - baseLeft - 6
+  const top0 = view.documentTop - baseTop
+  const tabSize = state.tabSize
+  const charWidth = view.defaultCharacterWidth
+  const box = (className: string, fromLine: number, toLine: number, inset: number) => {
+    const first = doc.line(fromLine)
+    const col = countColumn(/^\s*/.exec(first.text)![0], tabSize)
+    const left = textLeft + col * charWidth - 5
+    const top = view.lineBlockAt(first.from).top + top0 + inset
+    const bottom = view.lineBlockAt(doc.line(toLine).from).bottom + top0 - inset
+    return new RectangleMarker(className, left, top, Math.max(right - left, 20), Math.max(bottom - top, 4))
+  }
+  const markers: RectangleMarker[] = []
+  // Äußere Blöcke zuerst: Die inneren liegen darüber.
+  syntaxTree(state).iterate({
+    from: view.viewport.from,
+    to: view.viewport.to,
+    enter: (node) => {
+      const kind = scopeKinds[node.name]
+      if (!kind) return
+      // `else if` gehört zum Kasten des ersten `if`.
+      if (node.name === 'IfStatement' && node.node.parent?.name === 'IfStatement') return
+      markers.push(box(`cm-scope cm-scope-${kind}`, doc.lineAt(node.from).number, doc.lineAt(node.to).number, 1))
+    },
+  })
+  const sel = state.field(marksField).marks.lines
+  if (sel && sel.from < doc.lines) markers.push(box('cm-scope cm-scope-sel', sel.from + 1, Math.min(sel.to + 1, doc.lines), 0))
+  return markers
+}
+
+const scopeLayer = layer({
+  above: false,
+  class: 'cm-scopeLayer',
+  markers: scopeMarkers,
+  update: (u) =>
+    u.docChanged ||
+    u.viewportChanged ||
+    u.geometryChanged ||
+    syntaxTree(u.state) !== syntaxTree(u.startState) ||
+    u.transactions.some((t) => t.effects.some((e) => e.is(setMarks))),
 })
 
 // MARK: - Haltepunkte
@@ -359,6 +426,7 @@ export class JavaEditor {
       bracketMatching(),
       closeBrackets(),
       marksField,
+      scopeLayer,
       placeholderTyping,
       placeholderPaste,
       placeholderClick,
