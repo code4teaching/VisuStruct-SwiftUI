@@ -135,7 +135,6 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_files_saved_fmt" = "Gemt: %@";
 "web_files_create" = "Opret";
 "web_learn_ludwig_tip" = "Ludwigs tip";
-"web_learn_pro" = "Profividen med Ludwig";
 "web_game_title" = "Spil: Sandt eller falsk?";
 "web_game_intro" = "Ludwig viser dig værdier og en betingelse. Er betingelsen sand (true) eller falsk (false)? Ti runder, sværere og sværere.";
 "web_game_start" = "Start spillet";

@@ -221,7 +221,6 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_files_saved_fmt" = "Gespeichert: %@";
 "web_files_create" = "Anlegen";
 "web_learn_ludwig_tip" = "Ludwigs Tipp";
-"web_learn_pro" = "Profiwissen mit Ludwig";
 "web_game_title" = "Spiel: Wahr oder falsch?";
 "web_game_intro" = "Ludwig zeigt dir Werte und eine Bedingung. Ist die Bedingung wahr (true) oder falsch (false)? Zehn Runden, es wird von Runde zu Runde kniffliger.";
 "web_game_start" = "Spiel starten";

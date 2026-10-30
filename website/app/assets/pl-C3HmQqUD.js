@@ -135,7 +135,6 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_files_saved_fmt" = "Zapisano: %@";
 "web_files_create" = "Utwórz";
 "web_learn_ludwig_tip" = "Wskazówka Ludwiga";
-"web_learn_pro" = "Wiedza dla profesjonalistów z Ludwigiem";
 "web_game_title" = "Gra: Prawda czy fałsz?";
 "web_game_intro" = "Ludwig pokazuje wartości i warunek. Czy warunek jest prawdziwy (true), czy fałszywy (false)? Dziesięć rund, coraz trudniejszych.";
 "web_game_start" = "Zacznij grę";

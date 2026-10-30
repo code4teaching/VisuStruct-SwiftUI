@@ -19,7 +19,7 @@ export type Block =
   /** Kompetenzen am Anfang der Lektion („Diese Kompetenzen erwerbe ich jetzt“). */
   | { kind: 'competences'; items: string[] }
   | { kind: 'quiz'; questions: QuizQuestion[] }
-  | { kind: 'brag'; text: string; tip?: boolean; pro?: boolean }
+  | { kind: 'brag'; text: string; tip?: boolean }
   | { kind: 'images'; files: string[]; caption: string }
   /** `labeled`: beschriftete Fassung, die ein Klick auf die Grafik ein- und ausblendet. */
   | { kind: 'graphic'; file: string; labeled?: string; caption: string }
@@ -377,9 +377,6 @@ export function parseBlocks(body: string, file: string): Block[] {
         } catch (err) {
           throw new FormatError((err as Error).message)
         }
-        break
-      case 'profiwissen':
-        blocks.push({ kind: 'brag', text: inner.join('\n').trim(), pro: true })
         break
       case 'ludwig':
         blocks.push({ kind: 'brag', text: inner.join('\n').trim(), tip: true })

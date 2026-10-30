@@ -135,7 +135,6 @@
 "web_files_saved_fmt" = "Lagret: %@";
 "web_files_create" = "Lag";
 "web_learn_ludwig_tip" = "Ludwigs tips";
-"web_learn_pro" = "Proffkunnskap med Ludwig";
 "web_game_title" = "Spill: Sant eller usant?";
 "web_game_intro" = "Ludwig viser deg verdier og en betingelse. Er betingelsen sann (true) eller usann (false)? Ti runder, stadig vanskeligere.";
 "web_game_start" = "Start spillet";

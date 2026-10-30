@@ -221,7 +221,6 @@
 "web_files_saved_fmt" = "Saved: %@";
 "web_files_create" = "Create";
 "web_learn_ludwig_tip" = "Ludwig’s tip";
-"web_learn_pro" = "Pro knowledge with Ludwig";
 "web_game_title" = "Game: True or false?";
 "web_game_intro" = "Ludwig shows you values and a condition. Is the condition true or false? Ten rounds, getting trickier each time.";
 "web_game_start" = "Start game";

@@ -135,7 +135,6 @@ const e=`/* نصوص موجودة في نسخة الويب فقط. أما بقي
 "web_files_saved_fmt" = "تم الحفظ: %@";
 "web_files_create" = "إنشاء";
 "web_learn_ludwig_tip" = "نصيحة لودفيغ";
-"web_learn_pro" = "معرفة المحترفين مع لودفيغ";
 "web_game_title" = "لعبة: صحيح أم خطأ؟";
 "web_game_intro" = "يعرض لك لودفيغ قيماً وشرطاً. هل الشرط صحيح (true) أم خطأ (false)؟ عشر جولات تزداد صعوبة.";
 "web_game_start" = "ابدأ اللعبة";

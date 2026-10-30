@@ -135,7 +135,6 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_files_saved_fmt" = "保存しました：%@";
 "web_files_create" = "作成";
 "web_learn_ludwig_tip" = "ルートヴィヒのヒント";
-"web_learn_pro" = "ルートヴィヒのプロ知識";
 "web_game_title" = "ゲーム：真か偽か？";
 "web_game_intro" = "ルートヴィヒが値と条件を見せます。条件は真（true）？それとも偽（false）？10ラウンド、だんだん難しくなります。";
 "web_game_start" = "ゲームを始める";

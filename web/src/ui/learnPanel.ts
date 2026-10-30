@@ -448,7 +448,7 @@ export class LearnPanel {
       case 'quiz':
         return this.renderQuiz(block.questions, key, lesson)
       case 'brag':
-        return this.renderBrag(block.text, block.tip, block.pro)
+        return this.renderBrag(block.text, block.tip)
       case 'images':
         return this.renderImages(block.files, block.caption)
       case 'graphic':
@@ -474,11 +474,11 @@ export class LearnPanel {
     }
   }
 
-  /** Ludwig der Geißbock erzählt etwas zum Angeben, gibt einen Tipp oder Profiwissen. */
-  private renderBrag(text: string, tip = false, pro = false): HTMLElement {
+  /** Ludwig der Geißbock erzählt etwas zum Angeben oder gibt einen Tipp. */
+  private renderBrag(text: string, tip = false): HTMLElement {
     const box = h('aside', { class: 'learn-brag' })
     box.append(h('img', { src: ludwigURL, alt: '', width: '48', height: '48' }))
-    const body = h('div', {}, h('p', { class: 'learn-brag-title' }, t(pro ? 'web_learn_pro' : tip ? 'web_learn_ludwig_tip' : 'web_learn_brag')))
+    const body = h('div', {}, h('p', { class: 'learn-brag-title' }, t(tip ? 'web_learn_ludwig_tip' : 'web_learn_brag')))
     body.append(html('div', { class: 'learn-text' }, markdownToHTML(text)))
     box.append(body)
     return box

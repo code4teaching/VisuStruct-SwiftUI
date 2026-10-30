@@ -135,7 +135,6 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_files_saved_fmt" = "Kaydedildi: %@";
 "web_files_create" = "Oluştur";
 "web_learn_ludwig_tip" = "Ludwig’in ipucu";
-"web_learn_pro" = "Ludwig ile profesyonel bilgi";
 "web_game_title" = "Oyun: Doğru mu yanlış mı?";
 "web_game_intro" = "Ludwig sana değerler ve bir koşul gösterir. Koşul doğru (true) mu yanlış (false) mı? On tur, giderek zorlaşır.";
 "web_game_start" = "Oyunu başlat";

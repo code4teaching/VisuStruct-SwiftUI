@@ -135,7 +135,6 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_files_saved_fmt" = "Opgeslagen: %@";
 "web_files_create" = "Maken";
 "web_learn_ludwig_tip" = "Ludwigs tip";
-"web_learn_pro" = "Profkennis met Ludwig";
 "web_game_title" = "Spel: Waar of onwaar?";
 "web_game_intro" = "Ludwig laat je waarden en een voorwaarde zien. Is de voorwaarde waar (true) of onwaar (false)? Tien rondes, steeds lastiger.";
 "web_game_start" = "Spel starten";

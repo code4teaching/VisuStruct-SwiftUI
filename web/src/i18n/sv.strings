@@ -135,7 +135,6 @@
 "web_files_saved_fmt" = "Sparat: %@";
 "web_files_create" = "Skapa";
 "web_learn_ludwig_tip" = "Ludwigs tips";
-"web_learn_pro" = "Proffskunskap med Ludwig";
 "web_game_title" = "Spel: Sant eller falskt?";
 "web_game_intro" = "Ludwig visar värden och ett villkor. Är villkoret sant (true) eller falskt (false)? Tio rundor, allt svårare.";
 "web_game_start" = "Starta spelet";

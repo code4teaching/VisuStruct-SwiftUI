@@ -135,7 +135,6 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_files_saved_fmt" = "Enregistré : %@";
 "web_files_create" = "Créer";
 "web_learn_ludwig_tip" = "Le conseil de Ludwig";
-"web_learn_pro" = "Savoir de pro avec Ludwig";
 "web_game_title" = "Jeu : Vrai ou faux ?";
 "web_game_intro" = "Ludwig te montre des valeurs et une condition. Est-elle vraie (true) ou fausse (false) ? Dix manches, de plus en plus difficiles.";
 "web_game_start" = "Commencer le jeu";

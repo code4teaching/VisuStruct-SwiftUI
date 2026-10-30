@@ -219,7 +219,6 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_files_saved_fmt" = "Guardado: %@";
 "web_files_create" = "Criar";
 "web_learn_ludwig_tip" = "Dica do Ludwig";
-"web_learn_pro" = "Saber de profissional com o Ludwig";
 "web_game_title" = "Jogo: Verdadeiro ou falso?";
 "web_game_intro" = "O Ludwig mostra-te valores e uma condição. A condição é verdadeira (true) ou falsa (false)? Dez rondas, cada vez mais difíceis.";
 "web_game_start" = "Começar o jogo";

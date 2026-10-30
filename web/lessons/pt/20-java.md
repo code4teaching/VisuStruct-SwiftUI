@@ -149,7 +149,7 @@ Ao instalar o Java, encontras duas siglas:
 
 Para programar precisas, portanto, do JDK. Hoje em dia normalmente só se descarrega o JDK, o JRE vem lá dentro. Para usar o VisuStruct no browser não precisas de instalar nada disto.
 
-::: profiwissen
+::: angeberwissen
 Com um JDK podes fazer tudo isto tu próprio na consola, ou seja, no terminal ou na linha de comandos:
 
 ```

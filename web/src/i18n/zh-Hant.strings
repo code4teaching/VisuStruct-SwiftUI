@@ -135,7 +135,6 @@
 "web_files_saved_fmt" = "已儲存：%@";
 "web_files_create" = "新增";
 "web_learn_ludwig_tip" = "路德維希的提示";
-"web_learn_pro" = "路德維希的專業知識";
 "web_game_title" = "遊戲：真還是假？";
 "web_game_intro" = "路德維希給你看一些值和一個條件。這個條件是真（true）還是假（false）？共十輪，越來越難。";
 "web_game_start" = "開始遊戲";

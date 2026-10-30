@@ -135,7 +135,6 @@
 "web_files_saved_fmt" = "已保存：%@";
 "web_files_create" = "新建";
 "web_learn_ludwig_tip" = "路德维希的提示";
-"web_learn_pro" = "路德维希的专业知识";
 "web_game_title" = "游戏：真还是假？";
 "web_game_intro" = "路德维希给你看一些值和一个条件。这个条件是真（true）还是假（false）？共十轮，越来越难。";
 "web_game_start" = "开始游戏";

@@ -135,7 +135,6 @@
 "web_files_saved_fmt" = "Збережено: %@";
 "web_files_create" = "Створити";
 "web_learn_ludwig_tip" = "Порада Людвіга";
-"web_learn_pro" = "Знання профі з Людвігом";
 "web_game_title" = "Гра: Істина чи хиба?";
 "web_game_intro" = "Людвіг показує значення й умову. Умова істинна (true) чи хибна (false)? Десять раундів, щоразу складніше.";
 "web_game_start" = "Почати гру";
