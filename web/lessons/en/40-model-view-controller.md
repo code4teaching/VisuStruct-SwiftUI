@@ -4,6 +4,17 @@ bereich: Windows with Swing
 kurz: Split the click counter into model, view and controller and understand who talks to whom.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- say what model, view and controller each do
+- write a model without Swing and test it without a window
+- explain what new Counter() builds and why there is no static
+- name the four messages after a click
+- add a second view without changing the model
+- build a counter with −1, Reset and limits in the model
+:::
+
 ## The goal
 
 Big programs with windows almost always share the same structure. It is called **Model View Controller**, **MVC** for short:
@@ -357,40 +368,47 @@ Then make it better:
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can say what model, view and controller each do. → The goal
 - I can write a model without Swing and test it without a window. → The model
-- I know what new Counter() builds and why there is no static. → The model
-- I know the four messages after a click. → Who talks to whom?
+- I can explain what new Counter() builds and why there is no static. → The model
+- I can name the four messages after a click. → Who talks to whom?
 - I can add a second view without changing the model. → The pay-off: a second view
-- My counter has −1, Reset and limits in the model. → Task: A counter with limits
+- I can build a counter with −1, Reset and limits in the model. → Task: A counter with limits
 :::
 
 ## Quiz
 
 ::: quiz
 ? Where does the rule "The counter never goes above 10" belong?
+→ The model
 - [x] in the model
 - [ ] in the view
 - [ ] in the controller
 > Rules about the data belong in the model. Then they hold no matter which button is pressed.
 
 ? What does the view do?
+→ The goal
 - [ ] It calculates the new value.
 - [x] It shows the value it is given.
 - [ ] It listens for clicks.
 
 ? Why may the lambda use model, even though model is a variable of main?
+→ Who talks to whom?
 - [ ] Because Counter is public.
 - [x] Because model always points to the same counter; only the value inside it changes.
 - [ ] Because lambdas may change any variable.
 
 ? What do you have to change in the model when a second view joins in?
+→ The pay-off: a second view
 - [x] nothing
 - [ ] a second method increase
 - [ ] a second JLabel
 
 ? Match.
+→ The goal
 = Counter with value and increase() -> model
 = NumberView with update(int value) -> view
 = the listener at the button -> controller

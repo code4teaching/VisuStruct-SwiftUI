@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Pôr um botão na janela e arrumá-lo bem com um layout.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- construir um botão e pô-lo na janela com add
+- explicar porque é que o botão entra antes de setVisible
+- usar o FlowLayout para o botão ter o tamanho normal
+- construir uma janela com um botão em que se pode carregar
+:::
+
 ## Construir um botão
 
 Uma janela vazia é aborrecida. Agora vai lá para dentro um botão. No Swing, um botão chama-se **JButton** (button é inglês para botão).
@@ -166,34 +175,40 @@ Cada botão precisa da sua própria variável, por exemplo `botao` e `botao2`, e
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei construir um botão e pô-lo na janela com add. → Construir um botão
-- Sei porque é que o botão entra antes de setVisible(true). → O programa completo
-- Sei usar o FlowLayout para o botão ter o tamanho normal. → O botão gigante
-- Construí uma janela com um botão em que se pode carregar. → Tarefa: clica-me
+- Consigo construir um botão e pô-lo na janela com add. → Construir um botão
+- Consigo explicar porque é que o botão entra antes de setVisible(true). → O programa completo
+- Consigo usar o FlowLayout para o botão ter o tamanho normal. → O botão gigante
+- Consigo construir uma janela com um botão em que se pode carregar. → Tarefa: clica-me
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que faz janela.add(botao)?
+→ Construir um botão
 - [ ] Constrói um botão novo.
 - [x] Põe o botão na janela.
 - [ ] Torna o botão clicável.
 > O botão é construído com new JButton(…).
 
 ? Porque é que, sem FlowLayout, o botão enche a janela toda?
+→ O botão gigante
 - [ ] Porque o texto é demasiado comprido
 - [x] Porque sem layout próprio a janela torna tudo tão grande como ela
 - [ ] Porque falta o setSize
 
 ? Que linha import precisas para o FlowLayout?
+→ O botão gigante
 - [ ] import javax.swing.*;
 - [x] import java.awt.*;
 - [ ] import java.util.*;
 > O FlowLayout vem do AWT, mais antigo.
 
 ? O que acontece nesta lição quando clicas no botão?
+→ Tarefa: clica-me
 - [ ] O programa termina.
 - [x] O botão fica mais escuro por um momento, e mais nada.
 - [ ] No botão aparece “Fui clicado”.

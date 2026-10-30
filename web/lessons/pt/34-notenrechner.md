@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Escrever a percentagem, determinar o nível com else if e apanhar entradas erradas.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- transformar uma percentagem num nível com else if
+- mostrar o nível na janela
+- apanhar e avisar “abc” e valores fora de 0 a 100
+- testar um programa nos limites, por exemplo com 90 e 89
+:::
+
 ## O objetivo
 
 Uma janela transforma a percentagem de um teste num nível: escreves a percentagem (0 a 100), clicas em **Calcular nível** e em baixo aparece o nível.
@@ -228,28 +237,33 @@ Testa sempre os limites: 90 tem de dar 5, 89 tem de dar 4. É nos limites que se
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
 - Consigo transformar uma percentagem num nível com else if. → A escala de níveis
 - Consigo mostrar o nível na janela. → A janela
-- O meu programa avisa com “abc” e com valores fora de 0 a 100. → Apanhar entradas erradas
-- Testei os limites 90 e 89. → Tarefa: calculadora de níveis
+- Consigo apanhar e avisar “abc” e valores fora de 0 a 100. → Apanhar entradas erradas
+- Consigo testar um programa nos limites, por exemplo com 90 e 89. → Tarefa: calculadora de níveis
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que nível dá a escala com 70 %?
+→ A escala de níveis
 - [ ] 3
 - [x] 4
 - [ ] 5
 > 70 é o limite de baixo do nível 4.
 
 ? Porque é que em cada condição basta o limite de baixo?
+→ A escala de níveis
 - [x] Porque o else if já separou antes os casos mais altos
 - [ ] Porque o Java não conhece limites de cima
 - [ ] Porque a percentagem é sempre 100
 
 ? Que condição deteta percentagens inválidas?
+→ Apanhar entradas erradas
 - [ ] percentagem < 0 && percentagem > 100
 - [x] percentagem < 0 || percentagem > 100
 - [ ] percentagem >= 0 || percentagem <= 100

@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Einen Knopf ins Fenster legen und mit einem Layout ordentlich anordnen.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- einen Knopf bauen und mit add ins Fenster legen
+- erklären, warum der Knopf vor setVisible(true) hineinkommt
+- mit FlowLayout dafür sorgen, dass der Knopf normal groß ist
+- ein Fenster mit einem Knopf bauen, den man drücken kann
+:::
+
 ## Einen Knopf bauen
 
 Ein leeres Fenster ist langweilig. Jetzt kommt ein Knopf hinein. In Swing heißt ein Knopf **JButton** (button ist englisch für Knopf).
@@ -166,34 +175,40 @@ Jeder Knopf braucht eine eigene Variable, zum Beispiel `knopf` und `knopf2`, und
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann einen Knopf bauen und mit add ins Fenster legen. → Einen Knopf bauen
-- Ich weiß, warum der Knopf vor setVisible(true) hineinkommt. → Das ganze Programm
+- Ich kann erklären, warum der Knopf vor setVisible(true) hineinkommt. → Das ganze Programm
 - Ich kann mit FlowLayout dafür sorgen, dass der Knopf normal groß ist. → Der Riesenknopf
-- Ich habe ein Fenster mit einem Knopf gebaut, den man drücken kann. → Aufgabe: Klick mich
+- Ich kann ein Fenster mit einem Knopf bauen, den man drücken kann. → Aufgabe: Klick mich
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was macht fenster.add(knopf)?
+→ Einen Knopf bauen
 - [ ] Es baut einen neuen Knopf.
 - [x] Es legt den Knopf ins Fenster.
 - [ ] Es macht den Knopf klickbar.
 > Gebaut wird der Knopf mit new JButton(…).
 
 ? Warum füllt der Knopf ohne FlowLayout das ganze Fenster?
+→ Der Riesenknopf
 - [ ] Weil der Text zu lang ist
 - [x] Weil das Fenster ohne eigenes Layout alles so groß wie das Fenster macht
 - [ ] Weil setSize fehlt
 
 ? Welche import-Zeile brauchst du für FlowLayout?
+→ Der Riesenknopf
 - [ ] import javax.swing.*;
 - [x] import java.awt.*;
 - [ ] import java.util.*;
 > FlowLayout stammt aus dem älteren AWT.
 
 ? Was passiert beim Klick auf den Knopf in dieser Lektion?
+→ Aufgabe: Klick mich
 - [ ] Das Programm endet.
 - [x] Der Knopf wird kurz dunkler, sonst passiert nichts.
 - [ ] Auf dem Knopf steht „Ich wurde geklickt“.

@@ -4,6 +4,16 @@ bereich: Apanhar erros
 kurz: Ler mensagens de erro com Java verdadeiro e apanhar falhas com try e catch.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- ligar o Java verdadeiro na área Programação
+- ler numa mensagem de erro a exceção e a linha
+- apanhar uma exceção com try e catch
+- transformar texto num número com Integer.parseInt e apanhar a NumberFormatException
+- escrever um programa que divide em segurança, mesmo por 0
+:::
+
 ## Falhou!
 
 Este programa deve escrever três notas. Escreve-o na área [Programação](#zeige-codelive) e clica em [▶︎ Executar](#zeige-ausfuehren):
@@ -232,35 +242,41 @@ A exceção chama-se `ArithmeticException`. Põe no bloco `try` só a linha que 
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
 - Consigo ligar o Java verdadeiro na área Programação. → Ligar o Java verdadeiro
 - Consigo ler numa mensagem de erro a exceção e a linha. → Ler a mensagem de erro
 - Consigo apanhar uma exceção com try e catch. → try e catch
 - Consigo transformar texto num número com Integer.parseInt e apanhar a NumberFormatException. → Transformar texto num número
-- O meu programa divide em segurança, mesmo por 0. → Tarefa: dividir em segurança
+- Consigo escrever um programa que divide em segurança, mesmo por 0. → Tarefa: dividir em segurança
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que acontece quando uma exceção não é apanhada?
+→ Ler a mensagem de erro
 - [ ] O Java salta a linha e continua.
 - [x] O programa para.
 - [ ] O computador reinicia.
 > É por isso que no primeiro exemplo “Pronto!” não aparece.
 
 ? O que acontece no bloco try depois da linha que lança uma exceção?
+→ try e catch
 - [ ] As restantes linhas correm na mesma.
 - [x] O resto é saltado e o Java salta para o bloco catch.
 - [ ] O Java recomeça o bloco try.
 
 ? Que exceção lança Integer.parseInt("doze")?
+→ Transformar texto num número
 - [ ] ArithmeticException
 - [ ] ArrayIndexOutOfBoundsException
 - [x] NumberFormatException
 > “doze” não tem um formato de número que o Java entenda.
 
 ? Associa cada exceção à sua causa.
+→ Ler a mensagem de erro
 = ArrayIndexOutOfBoundsException -> índice fora do array
 = ArithmeticException -> divisão por 0
 = NumberFormatException -> o texto não é um número

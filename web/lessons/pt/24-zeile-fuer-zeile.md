@@ -4,6 +4,16 @@ bereich: Ficheiros
 kurz: Ler com BufferedReader e readLine até chegar null, e ler um ficheiro inteiro de uma vez com Files.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- ler um ficheiro com BufferedReader e readLine
+- reconhecer o fim de um ficheiro, porque readLine aí devolve null
+- contar quantas vezes uma palavra aparece num ficheiro
+- ler um ficheiro inteiro com Files.readString e dividi-lo em linhas com split
+- encontrar a entrada mais longa de um ficheiro
+:::
+
 ## O bolo desapareceu!
 
 Na manhã a seguir à festa, o bolo do Ludwig desapareceu. Felizmente, o castelo tem um diário. Cada linha começa com o dia e a hora:
@@ -206,34 +216,40 @@ runde:
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
-- Sei ler um ficheiro com BufferedReader e readLine. → Ler com BufferedReader
-- Sei que readLine devolve null no fim, e verifico linha != null. → Ler com BufferedReader
-- Contei quantas vezes a Raposa aparece no diário. → Exercício: Quantas vezes aparece a Raposa?
-- Sei ler um ficheiro inteiro com Files.readString e dividi-lo em linhas com split. → O atalho: Files
-- Encontrei a entrada mais longa. → Exercício: A entrada mais longa
+- Consigo ler um ficheiro com BufferedReader e readLine. → Ler com BufferedReader
+- Consigo reconhecer o fim de um ficheiro, porque readLine aí devolve null (linha != null). → Ler com BufferedReader
+- Consigo contar quantas vezes uma palavra aparece num ficheiro. → Exercício: Quantas vezes aparece a Raposa?
+- Consigo ler um ficheiro inteiro com Files.readString e dividi-lo em linhas com split. → O atalho: Files
+- Consigo encontrar a entrada mais longa de um ficheiro. → Exercício: A entrada mais longa
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? O que devolve readLine() quando o ficheiro chegou ao fim?
+→ Ler com BufferedReader
 - [ ] ""
 - [x] null
 - [ ] -1
 > null quer dizer: já não há mais texto.
 
 ? Porque é que no fim do ciclo há outra vez linha = leitor.readLine()?
+→ Ler com BufferedReader
 - [ ] Para fechar o ficheiro.
 - [x] Senão linha fica sempre igual e o ciclo nunca para.
 - [ ] Para mostrar a primeira linha duas vezes.
 
 ? O que faz o try-with-resources?
+→ Ler com BufferedReader
 - [ ] Lê o ficheiro mais depressa.
 - [x] Fecha o ficheiro sozinho no fim.
 - [ ] Impede qualquer exceção.
 
 ? Liga cada forma àquilo para que é boa.
+→ O atalho: Files
 = BufferedReader -> ficheiros grandes, linha a linha
 = Files.readString -> ficheiros pequenos de uma vez
 = Scanner -> ler números e palavras

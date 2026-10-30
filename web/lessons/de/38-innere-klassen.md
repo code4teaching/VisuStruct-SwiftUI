@@ -4,6 +4,16 @@ bereich: Fenster mit Swing
 kurz: Einen Zuhörer als benannte innere Klasse, als anonyme Klasse und als Lambda schreiben und wissen, wer was sehen darf.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- einen Zuhörer als benannte innere Klasse schreiben
+- einen Zuhörer als anonyme Klasse schreiben
+- erklären, was beim Lambda weggelassen wird
+- erklären, welche Schreibweise welche Variablen sieht
+- einen Zähler mit drei Knöpfen in drei Schreibweisen bauen
+:::
+
 ## Das Ziel
 
 Den Klickzähler aus Lektion 32 kennst du schon. Heute schreibst du seinen Zuhörer auf **drei Arten**, die alle genau dasselbe tun:
@@ -183,33 +193,39 @@ Probiere aus, ob alle drei Knöpfe wie erwartet zählen. Lass dann bei der Klass
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann einen Zuhörer als benannte innere Klasse schreiben. → 1. Die benannte innere Klasse
 - Ich kann einen Zuhörer als anonyme Klasse schreiben. → 2. Die anonyme Klasse
-- Ich weiß, was beim Lambda weggelassen wird. → 3. Das Lambda
-- Ich weiß, welche Schreibweise welche Variablen sieht. → Die drei im Vergleich
-- Mein Zähler hat drei Knöpfe mit drei Schreibweisen. → Aufgabe: Ein Zähler, drei Schreibweisen
+- Ich kann erklären, was beim Lambda weggelassen wird. → 3. Das Lambda
+- Ich kann erklären, welche Schreibweise welche Variablen sieht. → Die drei im Vergleich
+- Ich kann einen Zähler mit drei Knöpfen in drei Schreibweisen bauen. → Aufgabe: Ein Zähler, drei Schreibweisen
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Warum geht die Kurzform mit dem Pfeil bei ActionListener?
+→ 3. Das Lambda
 - [ ] Weil ActionListener eine Klasse ist.
 - [x] Weil der Vertrag genau eine Methode hat.
 - [ ] Weil der Knopf es so verlangt.
 
 ? Welche Schreibweise kannst du mit new Plus() bei mehreren Knöpfen benutzen, ohne sie in eine Variable zu speichern?
+→ 1. Die benannte innere Klasse
 - [x] die benannte innere Klasse
 - [ ] die anonyme Klasse
 - [ ] das Lambda
 
 ? Warum steht static vor class Plus?
+→ 1. Die benannte innere Klasse
 - [ ] Damit die Klasse schneller ist.
 - [x] Weil main static ist und sonst kein Objekt von Plus erzeugen kann.
 - [ ] Weil jede Klasse static sein muss.
 
 ? Ordne zu.
+→ Die drei im Vergleich
 = class Plus implements ActionListener -> benannte innere Klasse
 = new ActionListener() { … } -> anonyme Klasse
 = der Pfeil hinter e -> Lambda

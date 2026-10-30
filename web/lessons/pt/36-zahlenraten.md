@@ -4,6 +4,15 @@ bereich: Janelas com Swing
 kurz: Um jogo com número aleatório, contagem de tentativas e um botão que se desliga no fim.
 ---
 
+## Competências que vou adquirir agora
+
+::: kompetenzen
+- criar com Math.random um número inteiro aleatório de 1 a 100
+- decidir que variáveis pertencem à classe
+- desligar um botão com setEnabled
+- construir um jogo de adivinhar com um botão “Novo jogo”
+:::
+
 ## O objetivo
 
 Agora um jogo: o computador pensa num número de 1 a 100. Tu adivinhas, e a janela diz-te “demasiado pequeno” ou “demasiado grande”. Quando o encontrares, diz-te quantas tentativas precisaste.
@@ -114,27 +123,32 @@ Para “não conta como tentativa”, o `tentativas++` tem de vir **depois** de 
 
 ## Lista de verificação
 
+Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
+
 ::: checkliste
 - Consigo criar com Math.random um número inteiro aleatório de 1 a 100. → Um número aleatório
-- Sei que variáveis pertencem à classe. → O que o jogo guarda
+- Consigo decidir que variáveis pertencem à classe. → O que o jogo guarda
 - Consigo desligar um botão com setEnabled. → O programa completo
-- O meu jogo tem um botão “Novo jogo”. → Tarefa: adivinha o número
+- Consigo construir um jogo de adivinhar com um botão “Novo jogo”. → Tarefa: adivinha o número
 :::
 
 ## Teste de conhecimentos
 
 ::: quiz
 ? Que números dá (int) (Math.random() * 100) + 1?
+→ Um número aleatório
 - [ ] 0 a 100
 - [x] 1 a 100
 - [ ] 1 a 101
 
 ? O que faz botao.setEnabled(false)?
+→ O programa completo
 - [ ] Tira o botão da janela.
 - [x] O botão fica cinzento e já não se pode clicar.
 - [ ] Muda o texto do botão.
 
 ? Com a pesquisa binária, quantas tentativas precisas no máximo para 1 a 100?
+→ Tarefa: adivinha o número
 - [ ] 50
 - [ ] 10
 - [x] 7

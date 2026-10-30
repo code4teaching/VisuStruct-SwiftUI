@@ -4,6 +4,16 @@ bereich: Dateien
 kurz: Mit Scanner eine Textdatei Zeile für Zeile lesen und mit PrintWriter eine Datei speichern.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- erklären, warum Programme Daten in Dateien speichern
+- eine Textdatei mit Scanner, hasNextLine und nextLine Zeile für Zeile lesen
+- erklären, warum Java bei Dateien try und catch oder throws verlangt
+- mit PrintWriter eine Datei schreiben und sie mit close() abschließen
+- eine Datei lesen, ergänzen und nummeriert wieder speichern
+:::
+
 ## Warum Dateien?
 
 Alles, was in Variablen steht, ist weg, sobald das Programm endet. Soll sich ein Programm etwas merken, zum Beispiel einen Spielstand, eine Liste oder Noten, speichert es die Daten in einer **Datei**. Beim nächsten Start liest es die Datei wieder ein.
@@ -203,35 +213,41 @@ runde:
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
-- Ich weiß, warum Programme Daten in Dateien speichern. → Warum Dateien?
+- Ich kann erklären, warum Programme Daten in Dateien speichern. → Warum Dateien?
 - Ich kann eine Textdatei mit Scanner, hasNextLine und nextLine Zeile für Zeile lesen. → Eine Datei lesen mit Scanner
-- Ich weiß, warum Java bei Dateien try und catch oder throws verlangt. → Was, wenn die Datei fehlt?
-- Ich kann mit PrintWriter eine Datei schreiben und vergesse close() nicht. → In eine Datei schreiben mit PrintWriter
-- Meine Einkaufsliste ist nummeriert und ergänzt. → Übung: Einkaufsliste ergänzen
+- Ich kann erklären, warum Java bei Dateien try und catch oder throws verlangt. → Was, wenn die Datei fehlt?
+- Ich kann mit PrintWriter eine Datei schreiben und sie mit close() abschließen. → In eine Datei schreiben mit PrintWriter
+- Ich kann eine Datei lesen, ergänzen und nummeriert wieder speichern. → Übung: Einkaufsliste ergänzen
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Was liefert hasNextLine()?
+→ Eine Datei lesen mit Scanner
 - [ ] die nächste Zeile
 - [x] true, wenn es noch eine Zeile gibt, sonst false
 - [ ] die Anzahl der Zeilen
 > Mit hasNextLine() prüft die Schleife, ob es weitergeht.
 
 ? Was passiert, wenn du new PrintWriter("liste.txt") für eine Datei aufrufst, die es schon gibt?
+→ In eine Datei schreiben mit PrintWriter
 - [ ] Der neue Text wird hinten angehängt.
 - [x] Die Datei wird überschrieben.
 - [ ] Java meldet einen Fehler.
 
 ? Warum bleibt eine Datei leer, obwohl println aufgerufen wurde?
+→ In eine Datei schreiben mit PrintWriter
 - [ ] Weil println nur in die Konsole schreibt.
 - [x] Weil close() fehlt.
 - [ ] Weil der Dateiname auf .txt endet.
 > Erst close() schreibt den Zwischenspeicher in die Datei.
 
 ? Ordne jeder Methode ihre Aufgabe zu.
+→ Eine Datei lesen mit Scanner
 = nextLine() -> liest die nächste Zeile
 = println(text) -> schreibt eine Zeile
 = close() -> schließt die Datei

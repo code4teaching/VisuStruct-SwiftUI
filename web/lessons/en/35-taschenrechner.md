@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: Two columns with GridLayout, four arithmetic buttons and catching division by 0.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- build two columns with GridLayout
+- explain why "" + (a + b) needs brackets
+- program all four arithmetic buttons
+- build a calculator that doesn't crash with 0 or “abc”
+:::
+
 ## The goal
 
 We build a small calculator: two text fields for the numbers, four buttons **+**, **-**, **\*** and **/** and a line for the result.
@@ -229,28 +238,33 @@ For “abc” every listener needs a try/catch with `NumberFormatException`. A `
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can build two columns with GridLayout(0, 2). → Two columns
-- I know why "" + (a + b) needs brackets. → The window with the first button
-- All four arithmetic buttons work. → The other three buttons
-- My calculator doesn't crash with 0 or “abc”. → Task: calculator
+- I can explain why "" + (a + b) needs brackets. → The window with the first button
+- I can program all four arithmetic buttons. → The other three buttons
+- I can build a calculator that doesn't crash with 0 or “abc”. → Task: calculator
 :::
 
 ## Quiz
 
 ::: quiz
 ? a is 3 and b is 4. What does "" + a + b give?
+→ The window with the first button
 - [ ] 7
 - [x] 34
 - [ ] An error
 > Java works from left to right: first the text "3" is created, then the 4 is appended.
 
 ? What does 7 / 2 give with int?
+→ The other three buttons
 - [ ] 3.5
 - [x] 3
 - [ ] 4
 
 ? In which order does GridLayout(0, 2) fill the cells?
+→ Two columns
 - [x] Row by row, left first, then right
 - [ ] Column by column, starting top to bottom on the far left
 - [ ] Randomly

@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Mit Java und Swing ein eigenes Fenster öffnen, Zeile für Zeile erklärt.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- im Bereich Programmieren „Echtes Java“ einschalten
+- ein Fenster mit Titel und Größe öffnen
+- erklären, was jede Zeile des Fensterprogramms macht
+- erklären, warum setVisible(true) am Ende steht
+:::
+
 ## Programme mit Fenstern
 
 Bisher haben deine Programme Text in die Konsole geschrieben. Die meisten Programme, die du kennst, haben aber **Fenster** mit Knöpfen und Textfeldern. Das nennt man eine grafische Oberfläche.
@@ -173,34 +182,40 @@ Du willst nicht so viel tippen? Mit „Echtes Java“ darfst du im Bereich Progr
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann im Bereich Programmieren „Echtes Java“ einschalten. → Programme mit Fenstern
 - Ich kann ein Fenster mit Titel und Größe öffnen. → Das ganze Programm
-- Ich weiß, was jede Zeile des Fensterprogramms macht. → Zeile für Zeile
-- Ich weiß, warum setVisible(true) am Ende steht. → Warum setVisible am Ende steht
+- Ich kann erklären, was jede Zeile des Fensterprogramms macht. → Zeile für Zeile
+- Ich kann erklären, warum setVisible(true) am Ende steht. → Warum setVisible am Ende steht
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Welche Zeile macht das Fenster sichtbar?
+→ Warum setVisible am Ende steht
 - [ ] fenster.setSize(300, 200);
 - [x] fenster.setVisible(true);
 - [ ] new JFrame("Hallo");
 > Ohne setVisible(true) bleibt das Fenster unsichtbar.
 
 ? Wo steht fenster.setVisible(true) am besten?
+→ Warum setVisible am Ende steht
 - [ ] Ganz am Anfang von main
 - [x] Am Ende, wenn das Fenster fertig eingerichtet ist
 - [ ] Das ist egal.
 > Was nach setVisible(true) dazukommt, erscheint oft nicht.
 
 ? Was bewirkt setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)?
+→ Zeile für Zeile
 - [ ] Das Fenster schließt sich sofort.
 - [x] Schließt man das Fenster, endet das Programm.
 - [ ] Das Fenster lässt sich nicht mehr schließen.
 
 ? Woran erkennst du Bausteine aus Swing?
+→ Zeile für Zeile
 - [x] Ihr Name beginnt mit J, z. B. JFrame.
 - [ ] Sie stehen in geschweiften Klammern.
 - [ ] Sie enden mit Window.

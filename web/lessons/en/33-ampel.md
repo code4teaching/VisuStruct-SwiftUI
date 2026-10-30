@@ -4,6 +4,16 @@ bereich: Windows with Swing
 kurz: Set background colours and switch a traffic light on with a state variable.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- colour a label with setOpaque and setBackground
+- remember a state with a static variable
+- use BorderLayout to put something big in the middle and something narrow at the bottom
+- explain what FlowLayout, GridLayout and BorderLayout are good for
+- program a traffic light with four phases
+:::
+
 ## The goal
 
 We build a traffic light: a large area lights up red. Each click on **Next** switches it on: red, green, yellow and red again.
@@ -232,28 +242,33 @@ With four phases, 0 comes after 3. So change the number in `if (phase > 2)`.
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can colour a label with setOpaque and setBackground. → Colours in Swing
 - I can remember a state with a static variable. → Remembering the colour
-- With BorderLayout I can put something big in the middle and something narrow at the bottom. → The whole program
-- I know what FlowLayout, GridLayout and BorderLayout are good for. → Which layout for what?
-- My traffic light has four phases. → Task: traffic light
+- I can use BorderLayout to put something big in the middle and something narrow at the bottom. → The whole program
+- I can explain what FlowLayout, GridLayout and BorderLayout are good for. → Which layout for what?
+- I can program a traffic light with four phases. → Task: traffic light
 :::
 
 ## Quiz
 
 ::: quiz
 ? Why does the colour stay invisible without setOpaque(true)?
+→ Colours in Swing
 - [ ] Because Color.RED doesn't exist
 - [x] Because a label is transparent otherwise
 - [ ] Because the window is too small
 
 ? Which place in the BorderLayout gets the space that is left?
+→ The whole program
 - [ ] NORTH
 - [ ] SOUTH
 - [x] CENTER
 
 ? phase is 2 and the listener runs phase++ and then if (phase > 2) { phase = 0; }. What is phase afterwards?
+→ Remembering the colour
 - [x] 0
 - [ ] 2
 - [ ] 3

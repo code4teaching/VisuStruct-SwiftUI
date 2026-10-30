@@ -4,6 +4,15 @@ bereich: Fenster mit Swing
 kurz: Ein Spiel mit Zufallszahl, Versuchszähler und einem Knopf, der sich am Ende abschaltet.
 ---
 
+## Diese Kompetenzen erwerbe ich jetzt
+
+::: kompetenzen
+- mit Math.random eine ganze Zufallszahl von 1 bis 100 erzeugen
+- entscheiden, welche Variablen in die Klasse gehören
+- einen Knopf mit setEnabled abschalten
+- ein Ratespiel mit einem Knopf „Neues Spiel“ bauen
+:::
+
 ## Das Ziel
 
 Jetzt wird gespielt: Der Computer denkt sich eine Zahl von 1 bis 100 aus. Du rätst, und das Fenster sagt dir „zu klein“ oder „zu groß“. Hast du sie gefunden, verrät es dir, wie viele Versuche du gebraucht hast.
@@ -114,27 +123,32 @@ Für „zählt nicht als Versuch“ muss `versuche++` **hinter** `Integer.parseI
 
 ## Checkliste
 
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
 ::: checkliste
 - Ich kann mit Math.random eine ganze Zufallszahl von 1 bis 100 erzeugen. → Eine Zufallszahl
-- Ich weiß, welche Variablen in die Klasse gehören. → Was sich das Spiel merkt
+- Ich kann entscheiden, welche Variablen in die Klasse gehören. → Was sich das Spiel merkt
 - Ich kann einen Knopf mit setEnabled abschalten. → Das ganze Programm
-- Mein Spiel hat einen Knopf „Neues Spiel“. → Aufgabe: Zahlenraten
+- Ich kann ein Ratespiel mit einem Knopf „Neues Spiel“ bauen. → Aufgabe: Zahlenraten
 :::
 
 ## Wissenstest
 
 ::: quiz
 ? Welche Zahlen liefert (int) (Math.random() * 100) + 1?
+→ Eine Zufallszahl
 - [ ] 0 bis 100
 - [x] 1 bis 100
 - [ ] 1 bis 101
 
 ? Was macht knopf.setEnabled(false)?
+→ Das ganze Programm
 - [ ] Es löscht den Knopf aus dem Fenster.
 - [x] Der Knopf wird grau und lässt sich nicht mehr klicken.
 - [ ] Es ändert die Beschriftung des Knopfs.
 
 ? Wie viele Versuche braucht man mit der binären Suche höchstens bei 1 bis 100?
+→ Aufgabe: Zahlenraten
 - [ ] 50
 - [ ] 10
 - [x] 7

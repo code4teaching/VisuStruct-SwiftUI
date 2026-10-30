@@ -4,6 +4,16 @@ bereich: Files
 kurz: Read a text file line by line with Scanner and save a file with PrintWriter.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- explain why programs save data in files
+- read a text file line by line with Scanner, hasNextLine and nextLine
+- explain why Java requires try and catch or throws for files
+- write a file with PrintWriter and finish it with close
+- read a file, add to it and save it again with numbers
+:::
+
 ## Why files?
 
 Everything stored in variables is gone as soon as the program ends. If a program should remember something, for example a game score, a list or grades, it saves the data in a **file**. The next time it starts, it reads the file again.
@@ -203,35 +213,41 @@ runde:
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
-- I know why programs save data in files. → Why files?
+- I can explain why programs save data in files. → Why files?
 - I can read a text file line by line with Scanner, hasNextLine and nextLine. → Reading a file with Scanner
-- I know why Java requires try and catch or throws for files. → What if the file is missing?
-- I can write a file with PrintWriter and don't forget close(). → Writing to a file with PrintWriter
-- My shopping list is numbered and complete. → Exercise: Adding to the shopping list
+- I can explain why Java requires try and catch or throws for files. → What if the file is missing?
+- I can write a file with PrintWriter and finish it with close(). → Writing to a file with PrintWriter
+- I can read a file, add to it and save it again with numbers. → Exercise: Adding to the shopping list
 :::
 
 ## Quiz
 
 ::: quiz
 ? What does hasNextLine() return?
+→ Reading a file with Scanner
 - [ ] the next line
 - [x] true if there is another line, otherwise false
 - [ ] the number of lines
 > With hasNextLine() the loop checks whether to carry on.
 
 ? What happens if you call new PrintWriter("list.txt") for a file that already exists?
+→ Writing to a file with PrintWriter
 - [ ] The new text is added at the end.
 - [x] The file is overwritten.
 - [ ] Java reports an error.
 
 ? Why does a file stay empty even though println was called?
+→ Writing to a file with PrintWriter
 - [ ] Because println only writes to the console.
 - [x] Because close() is missing.
 - [ ] Because the file name ends in .txt.
 > Only close() writes the buffer into the file.
 
 ? Match each method to its job.
+→ Reading a file with Scanner
 = nextLine() -> reads the next line
 = println(text) -> writes a line
 = close() -> closes the file

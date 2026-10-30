@@ -4,6 +4,15 @@ bereich: Windows with Swing
 kurz: Enter points, work out the grade with else if and catch wrong input.
 ---
 
+## Skills I will gain now
+
+::: kompetenzen
+- turn points into a grade with else if
+- show the grade in the window
+- catch and report “abc” and points outside 0 to 100
+- test a program at the limits, for example with 90 and 89
+:::
+
 ## The goal
 
 A window turns points into a grade: you type the points of a test (0 to 100), click **Calculate grade**, and the grade appears at the bottom.
@@ -228,28 +237,33 @@ Always test the limits: 90 must be an A, 89 a B. Most mistakes hide at the limit
 
 ## Checklist
 
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
 ::: checkliste
 - I can turn points into a grade with else if. → The grading scale
 - I can show the grade in the window. → The window
-- My program reports “abc” and points outside 0 to 100. → Catching wrong input
-- I have tested the limits 90 and 89. → Task: grade calculator
+- I can catch and report “abc” and points outside 0 to 100. → Catching wrong input
+- I can test a program at the limits, for example with 90 and 89. → Task: grade calculator
 :::
 
 ## Quiz
 
 ::: quiz
 ? Which grade does the scale give for 70 points?
+→ The grading scale
 - [ ] B
 - [x] C
 - [ ] D
 > 70 is the lower limit for a C.
 
 ? Why is the lower limit enough in each condition?
+→ The grading scale
 - [x] Because else if has already sorted out the higher cases
 - [ ] Because Java doesn't know upper limits
 - [ ] Because the points are always 100
 
 ? Which condition detects invalid points?
+→ Catching wrong input
 - [ ] points < 0 && points > 100
 - [x] points < 0 || points > 100
 - [ ] points >= 0 || points <= 100
