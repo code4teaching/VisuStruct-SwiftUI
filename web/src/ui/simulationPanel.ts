@@ -399,7 +399,9 @@ export class SimulationPanel {
       host.replaceChildren(form)
       requestAnimationFrame(() => field.focus())
     }
-    form.querySelector('.sim-prompt')!.textContent = request.prompt
+    // Ohne eigene Frage fragt die Ausgabe direkt davor (z. B. `System.out.print("Note für Mathe: ")`).
+    const lines = this.engine.state.outputLines
+    form.querySelector('.sim-prompt')!.textContent = request.prompt || (lines[lines.length - 1] ?? '')
     const field = form.querySelector('input')!
     field.inputMode = request.valueType === 'string' || request.valueType === 'boolean' ? 'text' : 'decimal'
     const error = this.engine.state.inputErrorNotice
