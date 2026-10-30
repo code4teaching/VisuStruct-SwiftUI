@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <struktogramm caption="69;115;115;101;110;" pseudocode="true">
-  <strelem typ="4" zx="0" zy="0" bgcolor="-2294553">
+  <strelem typ="4" zx="0" zy="0" bgcolor="-202254">
     <text>84;101;108;108;101;114;32;110;105;99;104;116;32;108;101;101;114;</text>
     <schleifeninhalt>
-      <strelem typ="0" zx="0" zy="0" bgcolor="-2364674">
+      <strelem typ="0" zx="0" zy="0" bgcolor="-202254">
         <text>69;105;110;101;110;32;66;105;115;115;101;110;32;101;115;115;101;110;</text>
       </strelem>
     </schleifeninhalt>
   </strelem>
-  <strelem typ="0" zx="0" zy="0" bgcolor="-2364674">
+  <strelem typ="0" zx="0" zy="0" bgcolor="-133925">
     <text>84;101;108;108;101;114;32;97;98;114;228;117;109;101;110;</text>
   </strelem>
 </struktogramm>
