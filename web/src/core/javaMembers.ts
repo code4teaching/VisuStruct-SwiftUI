@@ -408,22 +408,41 @@ function chainStart(line: string, end: number): number {
 
 const withoutIndex = (type: string, n: number) => type.slice(0, Math.max(0, type.length - 2 * n))
 
-function memberType(type: string, name: string, isStatic: boolean): string | undefined {
+/**
+ * Eigene Klassen aus dem Projekt (VisuObject): `s1.` → Methoden und Attribute von `Spieler`,
+ * `Spieler.` → seine static-Mitglieder, `this.` → die Klasse, in der man schreibt.
+ * Was von der Stelle aus nicht sichtbar ist (private, Package), lässt der Aufrufer schon weg.
+ */
+export interface OwnTypes {
+  members(type: string): JavaMember[] | undefined
+  statics(type: string): JavaMember[] | undefined
+  /** Klasse, in der der Cursor steht (für `this.`). */
+  thisType?: string
+}
+
+function lookup(type: string, isStatic: boolean, own: OwnTypes | undefined, lang: MemberLanguage): JavaMember[] | undefined {
+  const mine = isStatic ? own?.statics(type) : own?.members(type)
+  if (mine) return mine
   const rows = isStatic ? statics[type] : rowsOf(type)
-  return rows?.find((r) => r[0] === name)?.[2]
+  return rows?.map((r) => toMember(r, lang))
+}
+
+function memberType(type: string, name: string, isStatic: boolean, own: OwnTypes | undefined): string | undefined {
+  return lookup(type, isStatic, own, 'en')?.find((m) => m.name === name)?.returns
 }
 
 /** Typ des Ausdrucks vor dem Punkt, z. B. `eingabe` → Scanner, `eingabe.nextLine()` → String. */
-export function receiverType(code: string, receiver: string): { type: string; isStatic: boolean } | undefined {
+export function receiverType(code: string, receiver: string, own?: OwnTypes): { type: string; isStatic: boolean } | undefined {
   const chain = parseChain(receiver)
   if (!chain) return undefined
   const [first, ...rest] = chain.links
   let type: string | undefined
   let isStatic = false
   if (chain.head === '"') type = 'String'
+  else if (first.name === 'this' && own?.thisType && !first.call && !first.indices) type = own.thisType
   else {
     type = declaredType(code, first.name)
-    if (!type && statics[first.name] && !first.call) {
+    if (!type && (statics[first.name] || own?.statics(first.name)) && !first.call) {
       type = first.name
       isStatic = true
     }
@@ -431,7 +450,7 @@ export function receiverType(code: string, receiver: string): { type: string; is
     if (first.indices) type = withoutIndex(type, first.indices)
   }
   for (const link of rest) {
-    const next = memberType(type, link.name, isStatic)
+    const next = memberType(type, link.name, isStatic, own)
     if (!next) return undefined
     type = withoutIndex(next, link.indices)
     isStatic = false
@@ -443,7 +462,7 @@ export function receiverType(code: string, receiver: string): { type: string; is
  * Vorschläge an der Stelle `pos`, wenn direkt davor `ausdruck.` (plus angefangener Name) steht.
  * `from` ist der Anfang des angefangenen Namens hinter dem Punkt.
  */
-export function memberCompletionsAt(code: string, pos: number, lang: MemberLanguage = 'de'): { from: number; members: JavaMember[] } | undefined {
+export function memberCompletionsAt(code: string, pos: number, lang: MemberLanguage = 'de', own?: OwnTypes): { from: number; members: JavaMember[] } | undefined {
   const lineStart = code.lastIndexOf('\n', pos - 1) + 1
   const before = code.slice(lineStart, pos)
   const m = /\.\s*(\w*)$/.exec(before)
@@ -451,9 +470,9 @@ export function memberCompletionsAt(code: string, pos: number, lang: MemberLangu
   const dot = m.index
   const receiver = before.slice(chainStart(before, dot), dot)
   if (!receiver || /^\d/.test(receiver)) return undefined
-  const found = receiverType(code, receiver)
+  const found = receiverType(code, receiver, own)
   if (!found) return undefined
-  const rows = found.isStatic ? statics[found.type] : rowsOf(found.type)
-  if (!rows) return undefined
-  return { from: pos - m[1].length, members: rows.map((r) => toMember(r, lang)) }
+  const members = lookup(found.type, found.isStatic, own, lang)
+  if (!members) return undefined
+  return { from: pos - m[1].length, members }
 }

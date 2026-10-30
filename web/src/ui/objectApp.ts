@@ -75,6 +75,8 @@ import { gearIcon } from './app'
 import { currentLanguage, t } from './i18n'
 import { icons } from './icons'
 import { JavaEditor } from './javaEditor'
+import type { OwnTypes } from '../core/javaMembers'
+import { ownTypes } from '../core/ownTypes'
 import { ObjectLayout } from './objectLayout'
 import { setVisuBotMode, worldChooserHTML, type WorldChoice } from './visubotView'
 import { classSource, newWizard, type NewKind } from './objectNew'
@@ -419,6 +421,7 @@ export class ObjectApp {
         }),
         breakpointLine: () => undefined,
         onBreakpoints: () => undefined,
+        ownTypes: (pos) => this.ownTypesAt(pos),
       },
       t('web_visuobject_code'),
     )
@@ -648,6 +651,19 @@ export class ObjectApp {
       this.render()
       this.renderTree()
     }
+  }
+
+  /** Eigene Klassen für Vorschläge nach dem Punkt; die offene Datei frisch aus dem Editor gelesen. */
+  private ownTypesAt(pos: number): OwnTypes | undefined {
+    const file = this.activeFile
+    if (!file) return undefined
+    const text = this.editor.view.state.doc.toString()
+    const pkg = barePackage(packageOf(file.path))
+    const mine = parseClasses(text).map((c) => ({ ...c, pkg }))
+    const names = new Set(mine.map((c) => c.name))
+    const here = mine.find((c) => c.headerFrom <= pos && pos <= c.bodyEnd)
+    const lang = currentLanguage() === 'de' ? 'de' : currentLanguage() === 'pt-PT' ? 'pt' : 'en'
+    return ownTypes([...mine, ...this.classes.filter((c) => c.path !== file.path && !names.has(c.name))], { cls: here?.name, pkg }, lang)
   }
 
   private findClass(name: string): ProjectClass | undefined {
