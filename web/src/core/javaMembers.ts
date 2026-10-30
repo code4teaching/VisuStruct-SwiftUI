@@ -135,6 +135,19 @@ const jtextfield: Row[] = [
 
 const array: Row[] = [['length', null, 'int', 'Anzahl der Elemente (ohne Klammern)', 'Number of elements (no brackets)', 'Número de elementos (sem parênteses)']]
 
+/** `E` = Typ der Elemente, z. B. `Spieler` bei `ArrayList<Spieler>`. */
+const arrayList: Row[] = [
+  ['add', 'wert', 'boolean', 'Element hinten anhängen', 'Append an element at the end', 'Acrescentar um elemento no fim'],
+  ['get', 'index', 'E', 'Element an Stelle index holen (ab 0)', 'Get the element at index (from 0)', 'Obter o elemento na posição index (a partir de 0)'],
+  ['size', '', 'int', 'Anzahl der Elemente', 'Number of elements', 'Número de elementos'],
+  ['set', 'index, wert', 'E', 'Element an Stelle index ersetzen', 'Replace the element at index', 'Substituir o elemento na posição index'],
+  ['remove', 'index', 'E', 'Element an Stelle index entfernen', 'Remove the element at index', 'Remover o elemento na posição index'],
+  ['contains', 'wert', 'boolean', 'Ist das Element in der Liste?', 'Is the element in the list?', 'O elemento está na lista?'],
+  ['indexOf', 'wert', 'int', 'Stelle des Elements (-1 = nicht da)', 'Position of the element (-1 = not found)', 'Posição do elemento (-1 = não existe)'],
+  ['isEmpty', '', 'boolean', 'Ist die Liste leer?', 'Is the list empty?', 'A lista está vazia?'],
+  ['clear', '', 'void', 'Alle Elemente entfernen', 'Remove all elements', 'Remover todos os elementos'],
+]
+
 /** Methoden an Objekten; Basisklassen über `extendsOf`. */
 const instance: Record<string, Row[]> = {
   Scanner: scanner,
@@ -154,6 +167,9 @@ const instance: Record<string, Row[]> = {
   JLabel: jlabel,
   JTextField: jtextfield,
   TextHolder: textHolder,
+  ArrayList: arrayList,
+  List: arrayList,
+  LinkedList: arrayList,
 }
 
 const extendsOf: Record<string, string[]> = {
@@ -284,8 +300,14 @@ function toMember(row: Row, lang: MemberLanguage): JavaMember {
   return { name, kind: params === null ? 'field' : 'method', params: !!params, returns, description: lang === 'de' ? de : lang === 'pt' ? pt : en }
 }
 
+/** `ArrayList<Spieler>` → `ArrayList`. */
+const baseType = (type: string) => type.replace(/<.*>$/, '')
+/** `ArrayList<Spieler>` → `Spieler`. */
+const elementType = (type: string) => /<\s*([^<>,]+?)\s*>$/.exec(type)?.[1]
+
 function rowsOf(type: string): Row[] | undefined {
   if (/\[\]$/.test(type)) return array
+  type = baseType(type)
   if (/Exception$|^Throwable$/.test(type)) return instance.Exception
   const own = instance[type]
   if (!own) return undefined
@@ -310,18 +332,19 @@ const declarationTypes = '[A-Z]\\w*|int|long|double|float|boolean|char|byte|shor
 
 /** Typ einer Variablen aus ihrer Deklaration: `Scanner eingabe`, `String[] namen`, `for (String s : namen)`, `catch (Exception e)`. */
 export function declaredType(code: string, name: string): string | undefined {
-  const re = new RegExp(`(?:^|[^\\w.])(${declarationTypes})\\s*(?:<[^<>;]*>)?((?:\\s*\\[\\s*\\])*)\\s+${name}\\s*(?:\\[\\s*\\])*\\s*(=\\s*([^;]*))?(?=[=;,):]|$)`, 'gm')
+  const re = new RegExp(`(?:^|[^\\w.])(${declarationTypes})\\s*(?:<([^<>;]*)>)?((?:\\s*\\[\\s*\\])*)\\s+${name}\\s*(?:\\[\\s*\\])*\\s*(=\\s*([^;]*))?(?=[=;,):]|$)`, 'gm')
   let type: string | undefined
   for (const m of code.matchAll(re)) {
     let t = m[1]
     if (t === 'var') {
-      const init = m[4] ?? ''
+      const init = m[5] ?? ''
       t = /^new\s+([A-Z]\w*)/.exec(init)?.[1] ?? (/^"/.test(init) ? 'String' : '')
       if (!t) continue
     }
     // Schlüsselwörter, die wie ein Typ aussehen könnten, nicht mitnehmen.
     if (/^(return|new|else|case|throw)$/.test(t)) continue
-    type = t + m[2].replace(/\s+/g, '')
+    const generic = m[2]?.replace(/\s+/g, '')
+    type = t + (generic ? `<${generic}>` : '') + (m[3] ?? '').replace(/\s+/g, '')
   }
   return type
 }
@@ -421,14 +444,15 @@ export interface OwnTypes {
 }
 
 function lookup(type: string, isStatic: boolean, own: OwnTypes | undefined, lang: MemberLanguage): JavaMember[] | undefined {
-  const mine = isStatic ? own?.statics(type) : own?.members(type)
+  const mine = isStatic ? own?.statics(baseType(type)) : own?.members(baseType(type))
   if (mine) return mine
   const rows = isStatic ? statics[type] : rowsOf(type)
   return rows?.map((r) => toMember(r, lang))
 }
 
 function memberType(type: string, name: string, isStatic: boolean, own: OwnTypes | undefined): string | undefined {
-  return lookup(type, isStatic, own, 'en')?.find((m) => m.name === name)?.returns
+  const returns = lookup(type, isStatic, own, 'en')?.find((m) => m.name === name)?.returns
+  return returns === 'E' ? (elementType(type) ?? 'Object') : returns
 }
 
 /** Typ des Ausdrucks vor dem Punkt, z. B. `eingabe` → Scanner, `eingabe.nextLine()` → String. */
@@ -474,5 +498,6 @@ export function memberCompletionsAt(code: string, pos: number, lang: MemberLangu
   if (!found) return undefined
   const members = lookup(found.type, found.isStatic, own, lang)
   if (!members) return undefined
-  return { from: pos - m[1].length, members }
+  const element = elementType(found.type) ?? 'Object'
+  return { from: pos - m[1].length, members: members.map((x) => (x.returns === 'E' ? { ...x, returns: element } : x)) }
 }

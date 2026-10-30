@@ -44,4 +44,10 @@ describe('Vorschläge nach dem Punkt für eigene Klassen', () => {
     expect(names('Spieler s = null;\ns.name.', { pkg: 'app' })).toContain('length')
     expect(names('Fenster f = new Fenster();\nf.', { pkg: 'app' })).toContain('setVisible')
   })
+  it('kennt ArrayList mit dem Typ der Elemente', () => {
+    const code = 'private ArrayList<Spieler> spieler = new ArrayList<>();\n'
+    expect(names(code + 'spieler.', { pkg: 'app' })).toEqual(['add', 'get', 'size', 'set', 'remove', 'contains', 'indexOf', 'isEmpty', 'clear'])
+    expect(names(code + 'spieler.get(0).', { pkg: 'app' })).toContain('getPunkte')
+    expect(memberCompletionsAt(code + 'spieler.', code.length + 9, 'de')?.members.find((m) => m.name === 'get')?.returns).toBe('Spieler')
+  })
 })
