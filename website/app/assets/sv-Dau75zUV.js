@@ -176,4 +176,5 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_palette_show" = "Visa elementen";
 "web_code_scopes" = "Färgade kodblock";
 "web_code_scopes_hint" = "Klass, metod, loop, förgrening i egna rutor";
+"web_pseudocode" = "Pseudokod";
 `;export{e as default};

@@ -176,4 +176,5 @@ const e=`/* טקסטים שקיימים רק בגרסת הרשת. כל השאר 
 "web_palette_show" = "הצגת הרכיבים";
 "web_code_scopes" = "בלוקי קוד צבעוניים";
 "web_code_scopes_hint" = "מחלקה, מתודה, לולאה, הסתעפות בתיבות משלהן";
+"web_pseudocode" = "פסאודו-קוד";
 `;export{e as default};

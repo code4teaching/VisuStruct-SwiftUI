@@ -24,7 +24,7 @@ This way of drawing was invented by **Isaac Nassi and Ben Shneiderman** (1973). 
 Left: Isaac “Ike” Nassi (photo: [Ed Schipul](https://commons.wikimedia.org/wiki/File:Me_with_Ike_Nassi!!!!!_%286893328729%29.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), cropped), right: Ben Shneiderman (photo: [Robert Kosara](https://commons.wikimedia.org/wiki/File:Ben_Shneiderman_at_UNCC_%283x4_cropped%29.jpg), CC0).
 :::
 
-> A structure chart always has exactly one start (at the top) and one end (at the bottom). There are no arrows and no jumps all over the place.
+> A structure chart always has exactly one start (at the top) and one end (at the bottom). There are no arrows and no jumps all over the place. Programs that jump all over the place are called **spaghetti code**, because their flow gets tangled like noodles on a plate. More on this in step 8.
 
 ::: angeberwissen
 Baaah, listen up! In 1972 Nassi and Shneiderman were still PhD students at Stony Brook University near New York. Shneiderman was about 25 and Nassi about 23. So basically two students who wrote computer science history on the side.

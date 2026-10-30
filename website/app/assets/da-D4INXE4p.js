@@ -176,4 +176,5 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_palette_show" = "Vis elementerne";
 "web_code_scopes" = "Farvede kodeblokke";
 "web_code_scopes_hint" = "Klasse, metode, løkke, forgrening i egne felter";
+"web_pseudocode" = "Pseudokode";
 `;export{e as default};

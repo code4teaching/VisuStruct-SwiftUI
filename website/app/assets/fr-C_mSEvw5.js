@@ -176,4 +176,5 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_palette_show" = "Afficher les éléments";
 "web_code_scopes" = "Blocs de code en couleur";
 "web_code_scopes_hint" = "Classe, méthode, boucle, condition dans leurs propres cadres";
+"web_pseudocode" = "Pseudo-code";
 `;export{e as default};

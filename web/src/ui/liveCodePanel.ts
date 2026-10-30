@@ -443,7 +443,7 @@ export class LiveCodePanel {
     if (this.onRobotRun?.(stepping)) return
     // Wie javac: Ohne Import, ohne angelegten Scanner oder mit vertipptem Datentyp startet das Programm nicht.
     const blocking = ['web_parse_missing_import', 'web_parse_missing_scanner', 'web_parse_unknown_type']
-    const missing = this.target === 'java' ? this.problems.find((p) => blocking.includes(p.key)) : undefined
+    const missing = this.target === 'java' ? this.javaProblems.find((p) => blocking.includes(p.key)) : undefined
     if (missing) {
       this.stopRun(false)
       this.setConsoleVisible(true)
@@ -849,6 +849,11 @@ export class LiveCodePanel {
     this.problems = this.parsed.problems
   }
 
+  /** Pseudocode ist kein Java: keine Fehler anzeigen und den Start nicht verhindern. */
+  private get javaProblems(): JavaProblem[] {
+    return this.last?.doc.pseudocode ? [] : this.problems
+  }
+
   private drawMarks(highlight: number[] | undefined) {
     const span = highlight && this.spans.find((s) => samePath(s.path, highlight))
     const key = span ? `${span.from}-${span.to}` : undefined
@@ -857,13 +862,13 @@ export class LiveCodePanel {
     this.code.setMarks(
       {
         placeholders: this.placeholders,
-        problems: this.showProblems ? this.problems : [],
+        problems: this.showProblems ? this.javaProblems : [],
         lines: span && simulated === undefined ? { from: span.from, to: span.to } : undefined,
         current: this.debugLine ?? simulated,
       },
       key !== undefined && key !== this.highlighted && !this.code.hasFocus,
     )
-    const first = this.showProblems ? this.problems[0] : undefined
+    const first = this.showProblems ? this.javaProblems[0] : undefined
     this.problemLine.textContent = first ? t('web_parse_line_fmt', this.code.lineAt(first.from) + 1, t(first.key, first.arg ?? '')) : ''
     this.highlighted = key
   }

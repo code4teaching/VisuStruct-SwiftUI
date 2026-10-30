@@ -176,4 +176,5 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_palette_show" = "Показать элементы";
 "web_code_scopes" = "Цветные блоки кода";
 "web_code_scopes_hint" = "Класс, метод, цикл, ветвление в отдельных рамках";
+"web_pseudocode" = "Псевдокод";
 `;export{e as default};

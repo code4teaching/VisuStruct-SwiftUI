@@ -1509,6 +1509,38 @@ button.danger-text:not(:disabled) {
   padding: 0;
   text-align: start;
 }
+/* Lektionskopf bleibt oben stehen, nur der Schritt darunter scrollt. */
+.learn-lesson-head {
+  position: sticky;
+  top: -4px;
+  z-index: 3;
+  margin: -4px -16px 10px;
+  padding: 4px 16px 8px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.learn-lesson-head .learn-progress {
+  margin-bottom: 8px;
+}
+.learn-lesson-head .learn-step-title {
+  margin: 0;
+}
+.learn-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.learn-nav.learn-nav-top {
+  margin-top: 0;
+  gap: 6px;
+}
+.learn-nav-top button {
+  padding: 3px 10px;
+  min-height: 0;
+  font-size: 13px;
+}
 .learn-kicker {
   margin: 4px 0 0;
   color: var(--muted);
@@ -5582,4 +5614,11 @@ button.danger-text:not(:disabled) {
   .app.palette-hidden .palette-rail {
     display: none !important;
   }
+}
+/* Haken „Pseudocode“ links vom ⇄ in der Werkzeugzeile. */
+.diagram-tools .pseudocode-toggle {
+  gap: 4px;
+  margin: 0 4px;
+  white-space: nowrap;
+  cursor: pointer;
 }

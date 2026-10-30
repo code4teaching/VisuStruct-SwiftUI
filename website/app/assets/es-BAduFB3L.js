@@ -176,4 +176,5 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_palette_show" = "Mostrar elementos";
 "web_code_scopes" = "Bloques de código en color";
 "web_code_scopes_hint" = "Clase, método, bucle, condición en sus propias cajas";
+"web_pseudocode" = "Pseudocódigo";
 `;export{e as default};

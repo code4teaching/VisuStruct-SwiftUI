@@ -176,3 +176,4 @@
 "web_palette_show" = "顯示元素";
 "web_code_scopes" = "程式碼區塊彩色顯示";
 "web_code_scopes_hint" = "類別、方法、迴圈、分支各有自己的框";
+"web_pseudocode" = "虛擬碼";
