@@ -10,7 +10,7 @@ kurz: Werte abfragen, Ergebnisse anzeigen und das EVA-Prinzip anwenden.
 - das EVA-Prinzip erklären
 - eine Eingabe mit Datentyp, Namen und Frage schreiben
 - Text und Variablen in einer Ausgabe mit + verbinden
-- vor der Ausgabe in einer Variablen rechnen
+- ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`
 - aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen
 - in Java mit dem Scanner Zahlen einlesen
 :::
@@ -280,7 +280,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann das EVA-Prinzip erklären. → Das EVA-Prinzip
 - Ich kann eine Eingabe mit Datentyp, Namen und Frage schreiben. → Eingabe mit input:
 - Ich kann Text und Variablen in einer Ausgabe mit + verbinden. → Vorsicht mit + in der Ausgabe
-- Ich kann vor der Ausgabe in einer Variablen rechnen. → Vorsicht mit + in der Ausgabe
+- Ich kann ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`. → Vorsicht mit + in der Ausgabe
 - Ich kann aus einem Aufgabentext Eingabe, Verarbeitung und Ausgabe herauslesen. → Vom Aufgabentext zum Struktogramm
 - Ich kann in Java mit dem Scanner Zahlen einlesen. → Jetzt in Java
 :::

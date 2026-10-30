@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 270" font-family="ui-monospace, Menlo, Consolas, monospace">
+<rect width="460" height="270" fill="#ffffff"/>
+<text x="62" y="44" font-size="40" fill="#6e6e73" textLength="288" lengthAdjust="spacingAndGlyphs">price<tspan fill="#007aff" font-weight="700">W</tspan>ith<tspan fill="#007aff" font-weight="700">T</tspan>ax</text>
+<line x1="194" y1="54" x2="194" y2="84" stroke="#007aff" stroke-width="2.5" stroke-dasharray="5 4"/>
+<line x1="290" y1="54" x2="290" y2="84" stroke="#007aff" stroke-width="2.5" stroke-dasharray="5 4"/>
+<path d="M146 185 L142 214 L146 240" fill="none" stroke="#c9995b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M166 185 L170 214 L166 240" fill="none" stroke="#8a6233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M319 185 L315 214 L319 240" fill="none" stroke="#c9995b" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M339 185 L343 214 L339 240" fill="none" stroke="#8a6233" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M126 150 C110 160 110 185 118 198" fill="none" stroke="#8a6233" stroke-width="4" stroke-linecap="round"/>
+<path d="M134 192 C118 178 118 146 140 140 C158 138 164 86 194 86 C224 86 224 136 242 134 C260 136 260 86 290 86 C320 86 318 136 335 140 C355 142 363 118 369 100 C373 86 383 80 397 80 C411 80 419 86 421 94 C423 102 411 106 395 106 C387 130 377 168 353 186 C272 206 212 206 134 192 Z" fill="#c9995b" stroke="#8a6233" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M385 84 L381 72 L392 81 Z" fill="#c9995b" stroke="#8a6233" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="403" cy="90" r="3.2" fill="#1c1c1e"/>
+<path d="M413 100 Q417 102 420 99" fill="none" stroke="#8a6233" stroke-width="2" stroke-linecap="round"/>
+<path d="M30 242 H430" stroke="#d1d1d6" stroke-width="3" stroke-linecap="round"/>
+</svg>
