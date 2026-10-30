@@ -322,6 +322,8 @@ export class App {
   private live: LiveCodePanel
   private preview = new RobotPreviewPanel()
   private previewOpen = false
+  /** „mBot2 live“ war zu und wurde nur für die Simulation geöffnet: danach wieder schließen. */
+  private previewOpenedForSim = false
   private codeMain = false
   private previewStacked = false
   private previewResizer!: HTMLElement
@@ -608,6 +610,7 @@ export class App {
       this.visuBot ??= new VisuBotView()
       this.sim.setRobot(this.visuBot)
     } else {
+      this.preview.hostSimulation(undefined)
       this.visuBot?.dispose()
       this.visuBot = undefined
     }
@@ -1523,9 +1526,17 @@ export class App {
       this.setEditorHidden(false)
       // VisuBot: Die Simulation zeigt die Welten der Übung in diesem Reiter (sonst die freie Fläche).
       this.visuBot?.setWorlds(exerciseWorlds(this.tab.exerciseId))
+      // VisuBot: Der mBot2 der Simulation fährt im Fenster „mBot2 live“ (das dafür aufgeht).
+      if (this.visuBot && !this.previewOpen) {
+        this.setPreviewOpen(true)
+        this.previewOpenedForSim = true
+      }
+      this.placeSimulationRobot()
       this.sim.begin()
     } else {
       this.sim.end()
+      this.placeSimulationRobot()
+      if (this.previewOpenedForSim) this.setPreviewOpen(false)
       this.simPath = undefined
       if (!this.selected && this.doc.elements.length > 0) this.selected = [0]
     }
@@ -1602,8 +1613,13 @@ export class App {
   // MARK: - mBot2 live
 
   private setupPreview() {
-    this.preview.onHide = () => this.setPreviewOpen(false)
-    this.preview.rail.addEventListener('click', () => this.setPreviewOpen(true))
+    // Selbst auf- oder zugeklappt: bleibt so, auch nach der Simulation.
+    const open = (on: boolean) => {
+      this.previewOpenedForSim = false
+      this.setPreviewOpen(on)
+    }
+    this.preview.onHide = () => open(false)
+    this.preview.rail.addEventListener('click', () => open(true))
     this.preview.onToggleStacked = () => {
       this.previewStacked = !this.previewStacked
       storeValue(previewStackedKey, this.previewStacked ? '1' : '0')
@@ -1659,7 +1675,16 @@ export class App {
     storeValue(previewKey, on ? '1' : '0')
     if (!on) this.preview.pause()
     this.placePreview()
+    this.placeSimulationRobot()
     if (this.canvasHost) this.render()
+  }
+
+  /** Simulation in VisuBot: ihre 3D-Ansicht im offenen Fenster „mBot2 live“, sonst im Simulationspanel. */
+  private placeSimulationRobot() {
+    const robot = this.visuBot
+    const inPreview = !!robot && this.simulating && this.previewOpen
+    this.preview.hostSimulation(inPreview ? robot.viewport : undefined)
+    if (!inPreview) robot?.restoreViewport()
   }
 
   /** Eigene Spalte ganz rechts oder unten in „Programmieren“ (nur wenn diese Spalte offen ist). */

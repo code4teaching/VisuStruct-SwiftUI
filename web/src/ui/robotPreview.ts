@@ -42,6 +42,8 @@ export class RobotPreviewPanel {
   private pending?: number
   private playTimer?: number
   private input?: { doc: VSDocument; resolve?: SubprogramResolver }
+  /** Während der Simulation: deren 3D-Ansicht mit Welten und Messwerten statt der eigenen. */
+  private simulation?: HTMLElement
 
   constructor() {
     this.element = document.createElement('aside')
@@ -74,11 +76,28 @@ export class RobotPreviewPanel {
     this.relabel()
   }
 
+  /**
+   * Simulation läuft: ihre 3D-Ansicht (`viewport` aus dem Simulationspanel) hier zeigen, die eigene Vorschau ruht.
+   * `undefined`: wieder die Vorschau (die Ansicht der Simulation hängt der Aufrufer zurück).
+   */
+  hostSimulation(viewport: HTMLElement | undefined) {
+    if (viewport === this.simulation) return
+    this.simulation?.remove()
+    this.simulation = viewport
+    this.element.classList.toggle('simulation', !!viewport)
+    if (viewport) {
+      this.pause()
+      this.status.after(viewport)
+    }
+    this.relabel()
+  }
+
   /** Nach einem Sprachwechsel: Beschriftungen neu. */
   relabel() {
     const q = <T extends Element>(s: string) => this.element.querySelector(s) as T
-    q('h2').textContent = `🤖 ${t('web_visubot_preview_title')}`
-    q('.hint').textContent = t('web_visubot_preview_hint')
+    const sim = !!this.simulation
+    q('h2').textContent = `🤖 ${t(sim ? 'web_visubot_preview_sim_title' : 'web_visubot_preview_title')}`
+    q('.hint').textContent = t(sim ? 'web_visubot_preview_sim_hint' : 'web_visubot_preview_hint')
     this.heightBar.title = t('web_visubot_preview_resize')
     const hide = q<HTMLButtonElement>('.learn-hide')
     hide.title = t('web_visubot_preview_hide')
@@ -118,6 +137,7 @@ export class RobotPreviewPanel {
    * damit schnelles Tippen nicht bremst. `worlds`: Welten der geöffneten Übung (leer = freie Fläche).
    */
   update(doc: VSDocument, resolve: SubprogramResolver | undefined, worlds: RobotWorldSetup[], worldsKey: string, allDocs: VSDocument[]) {
+    if (this.simulation) return
     this.show()
     if (worldsKey !== this.worldsKey) {
       this.worldsKey = worldsKey

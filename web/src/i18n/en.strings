@@ -373,6 +373,9 @@
 "web_learn_start_without_hint" = "Your learning progress is then lost when you close the page.";
 "web_visubot_preview_title" = "mBot2 live";
 "web_visubot_preview_hint" = "Shows right away where your program drives the mBot2.";
+"web_visubot_preview_sim_title" = "Simulation";
+"web_visubot_preview_sim_hint" = "The mBot2 drives here while the simulation runs.";
+"web_visubot_world_in_preview" = "The mBot2 drives in the “Simulation” window.";
 "web_visubot_preview_play" = "Play the drive";
 "web_visubot_preview_stop" = "Stop";
 "web_visubot_preview_hide" = "Collapse mBot2 live";

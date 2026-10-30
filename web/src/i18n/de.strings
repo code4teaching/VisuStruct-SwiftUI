@@ -373,6 +373,9 @@
 "web_learn_start_without_hint" = "Dann ist dein Lernstand nach dem Schließen weg.";
 "web_visubot_preview_title" = "mBot2 live";
 "web_visubot_preview_hint" = "Zeigt sofort, wohin dein Programm den mBot2 fährt.";
+"web_visubot_preview_sim_title" = "Simulation";
+"web_visubot_preview_sim_hint" = "Hier fährt der mBot2 mit, während die Simulation läuft.";
+"web_visubot_world_in_preview" = "Der mBot2 fährt im Fenster „Simulation“.";
 "web_visubot_preview_play" = "Fahrt abspielen";
 "web_visubot_preview_stop" = "Anhalten";
 "web_visubot_preview_hide" = "mBot2 live einklappen";
