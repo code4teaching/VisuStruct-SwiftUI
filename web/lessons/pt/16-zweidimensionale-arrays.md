@@ -178,6 +178,21 @@ tipp: Os índices estão trocados: `pontos[1][j]` em vez de `pontos[j][1]`.
 lösung: l16-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l16-java-laeuft-nicht
+titel: Ler a pontuação
+code: java
+auftrag: Na tabela `pontos` cada linha é um jogador e cada coluna uma ronda. O programa deve mostrar os pontos do jogador 2 na ronda 1, ou seja, **Jogador 2, ronda 1: 4**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l16-java-laeuft-nicht-start.visustruct
+test: - -> Jogador 2, ronda 1: 4
+braucht: anweisung
+tipp: As posições `[1][0]` estão certas. Olha para o nome da tabela.
+tipp: A tabela chama-se `pontos` com p minúsculo: `pontos[1][0]`
+lösung: l16-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Que lugar?
 
 ::: spiel frage

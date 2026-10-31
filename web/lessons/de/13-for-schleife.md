@@ -179,6 +179,21 @@ tipp: `i` soll auch den Wert 10 annehmen: `i <= 10` statt `i < 10`.
 lösung: l13-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l13-java-laeuft-nicht
+titel: Treppe reparieren
+code: java
+auftrag: Ludwig klettert 5 Stufen hoch, jede ist 20 cm hoch. Das Programm soll **Höhe: 100 cm** ausgeben. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l13-java-laeuft-nicht-start.visustruct
+test: - -> Höhe: 100 cm
+braucht: forSchleife
+tipp: Mit `hoehe` wird gerechnet, aber wo wird die Variable angelegt? Und mit welchem Wert startet Ludwig?
+tipp: Lege `hoehe` vor der Schleife an: `int hoehe = 0;`
+lösung: l13-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Bombe entschärfen
 
 ::: spiel bombe

@@ -134,6 +134,7 @@
 "web_sim_file_not_found_fmt" = "Não existe nenhum ficheiro chamado %@.";
 "web_sim_end_of_file_fmt" = "O ficheiro %@ não tem mais linhas.";
 "web_sim_null_value_fmt" = "%@ é null.";
+"web_sim_unknown_variable_case_fmt" = "Variável desconhecida: %1$@. O Java distingue maiúsculas de minúsculas: querias dizer %2$@?";
 "web_sim_written_file_fmt" = "%@ (guardado)";
 "web_site_home" = "Página inicial";
 "web_site_imprint" = "Contacto";
@@ -181,6 +182,7 @@
 "web_parse_unknown_type" = "O Java não conhece este tipo de dados. Querias dizer %@?";
 "web_quickfix_insert_fmt" = "Sugestão: inserir %@";
 "web_quickfix_replace_fmt" = "Sugestão: %1$@ em vez de %2$@";
+"web_parse_wrong_case" = "O Java distingue maiúsculas de minúsculas. O correto é %@.";
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";

@@ -155,6 +155,21 @@ tipp: Passa a linha `System.out.println("Quantidade: " + quantidade);` para depo
 lösung: l14-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l14-java-laeuft-nicht
+titel: Corrigir os números pares
+code: java
+auftrag: O programa deve mostrar os números pares de 1 a 10: **2**, **4**, **6**, **8**, **10**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l14-java-laeuft-nicht-start.visustruct
+test: - -> 2 | 4 | 6 | 8 | 10
+braucht: forSchleife, verzweigung
+tipp: O erro está lá dentro, na saída. Como se chama a variável contadora do ciclo?
+tipp: A variável contadora é `i` com i minúsculo: `System.out.println(i);`
+lösung: l14-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Dentro e fora
 
 ::: spiel frage

@@ -273,6 +273,22 @@ tipp: Setze Klammern, damit Java zuerst rechnet: `System.out.println("Summe: " +
 lösung: l06-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l06-java-laeuft-nicht
+titel: Alter im nächsten Jahr
+code: java
+auftrag: Das Programm fragt nach deinem Alter und soll sagen, wie alt du nächstes Jahr bist. Bei 14 also **Nächstes Jahr bist du 15**. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l06-java-laeuft-nicht-start.visustruct
+test: 14 -> Nächstes Jahr bist du 15
+test: 9 -> Nächstes Jahr bist du 10
+braucht: anweisung
+tipp: Die Eingabe landet in einer Variablen. Wie genau heißt sie, und wie heißt sie in der Ausgabe?
+tipp: Die Variable heißt `alter` mit kleinem a: `System.out.println("Nächstes Jahr bist du " + (alter + 1));`
+lösung: l06-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Was wird ausgegeben?
 
 ::: spiel frage

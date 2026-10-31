@@ -184,6 +184,21 @@ tipp: No menos, a ordem conta: `a - b` em vez de `b - a`.
 lösung: l10-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l10-java-laeuft-nicht
+titel: Corrigir a nota
+code: java
+auftrag: O Ludwig teve nota 2. O programa deve mostrar **bom**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l10-java-laeuft-nicht-start.visustruct
+test: - -> bom
+braucht: fallauswahl
+tipp: Que variável verifica a seleção múltipla? Está escrita da mesma forma em cima?
+tipp: Entre parênteses depois de `switch` tem de estar `nota` com n minúsculo: `switch (nota) {`
+lösung: l10-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Que caso?
 
 ::: spiel frage

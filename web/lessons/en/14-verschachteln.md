@@ -155,6 +155,21 @@ tipp: Move the line `System.out.println("Count: " + count);` after the closing b
 lösung: l14-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l14-java-laeuft-nicht
+titel: Fix the even numbers
+code: java
+auftrag: The program should output the even numbers from 1 to 10: **2**, **4**, **6**, **8**, **10**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l14-java-laeuft-nicht-start.visustruct
+test: - -> 2 | 4 | 6 | 8 | 10
+braucht: forSchleife, verzweigung
+tipp: The bug is right inside, in the output. What is the loop’s counter variable called?
+tipp: The counter variable is `i` with a small i: `System.out.println(i);`
+lösung: l14-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Inside and outside
 
 ::: spiel frage

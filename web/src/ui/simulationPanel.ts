@@ -21,7 +21,7 @@ export function noticeText(n: SimNotice): string {
     case 'infiniteLoopWithoutBody': return t('sim_notice_infinite_loop_empty')
     case 'unsupportedStatement': return t('sim_notice_unsupported_statement_fmt', n.text)
     case 'invalidExpression': return t('sim_notice_invalid_expression_fmt', n.text)
-    case 'unknownVariable': return t('sim_notice_unknown_variable_fmt', n.text)
+    case 'unknownVariable': return n.similar ? t('web_sim_unknown_variable_case_fmt', n.text, n.similar) : t('sim_notice_unknown_variable_fmt', n.text)
     case 'divisionByZero': return t('sim_notice_division_by_zero')
     case 'wholeNumberExpected': return t('sim_notice_whole_number_expected')
     case 'numberExpected': return t('sim_notice_number_expected')

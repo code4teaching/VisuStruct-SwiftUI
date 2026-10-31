@@ -144,6 +144,21 @@ tipp: The loop should keep going as long as the number is greater than 0: `while
 lösung: l12-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l12-java-laeuft-nicht
+titel: Fix the doubling
+code: java
+auftrag: Starting at 1, the program should keep doubling as long as the number is less than 20: **1**, **2**, **4**, **8**, **16**. It outputs only the 1 and then stops.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l12-java-laeuft-nicht-start.visustruct
+test: - -> 1 | 2 | 4 | 8 | 16
+braucht: doUntilSchleife
+tipp: The first round still runs. The bug appears when the condition at the bottom is checked for the first time.
+tipp: The condition needs `limit` with a small l: `} while (number < limit);`
+lösung: l12-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: At least once?
 
 ::: spiel frage

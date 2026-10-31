@@ -259,6 +259,21 @@ tipp: Basta que uma das duas condições seja verdadeira: `dia == 6 || dia == 7`
 lösung: l09-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l09-java-laeuft-nicht
+titel: Corrigir o fim de semana
+code: java
+auftrag: O dia 6 é sábado, o dia 7 é domingo. Hoje é o dia 7, por isso deve aparecer **sem escola**. Mas o programa não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l09-java-laeuft-nicht-start.visustruct
+test: - -> sem escola
+braucht: verzweigung
+tipp: A condição tem duas partes. Compara o nome da variável nas duas partes.
+tipp: Também na segunda parte a variável chama-se `dia` com d minúsculo: `if (dia == 6 || dia == 7) {`
+lösung: l09-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Lista de verificação
 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.

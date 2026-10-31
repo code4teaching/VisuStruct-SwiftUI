@@ -208,6 +208,21 @@ tipp: He only saves as long as the goal has **not been reached** yet: `while (mo
 lösung: l11-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l11-java-laeuft-nicht
+titel: Fix the countdown
+code: java
+auftrag: The countdown should output **3**, **2**, **1** and then **Go!** But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l11-java-laeuft-nicht-start.visustruct
+test: - -> 3 | 2 | 1 | Go!
+braucht: whileSchleife
+tipp: The bug is inside the loop. Which variable should be output, and what is it really called?
+tipp: Output `number` with a small n: `System.out.println(number);`
+lösung: l11-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: How often?
 
 ::: spiel frage

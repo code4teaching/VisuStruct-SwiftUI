@@ -209,6 +209,21 @@ tipp: Ludwig loses 3 points, so 3 is subtracted from the old value: `points = po
 lösung: l07-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l07-java-laeuft-nicht
+titel: Fix the bonus
+code: java
+auftrag: Ludwig has 10 points and gets 5 bonus points. At the end **Points: 15** should appear. But the code doesn’t run. Also step through it with Single step: in which line does it stop?
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l07-java-laeuft-nicht-start.visustruct
+test: - -> Points: 15
+braucht: anweisung
+tipp: Java runs the code from top to bottom. Does `bonus` already exist when it is used in the calculation?
+tipp: Create `bonus` before the calculation: first `int bonus = 5;`, then `points = points + bonus;`
+lösung: l07-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Defuse the bomb
 
 ::: spiel bombe

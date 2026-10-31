@@ -210,6 +210,21 @@ tipp: `max` has to start with a value from the array: `int max = temperatures[0]
 lösung: l15-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l15-java-laeuft-nicht
+titel: Add up the points
+code: java
+auftrag: The array `points` holds 4, 7, 2 and 5. The program should add them all up and output **Sum: 18**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l15-java-laeuft-nicht-start.visustruct
+test: - -> Sum: 18
+braucht: forSchleife
+tipp: The Code area underlines the wrong word in red. How do you write the length of an array?
+tipp: `length` is written all in small letters: `i < points.length`
+lösung: l15-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Defuse the bomb
 
 ::: spiel bombe

@@ -178,6 +178,21 @@ tipp: Die Indizes sind vertauscht: `punkte[1][j]` statt `punkte[j][1]`.
 lösung: l16-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l16-java-laeuft-nicht
+titel: Spielstand ablesen
+code: java
+auftrag: In der Tabelle `punkte` steht jede Reihe für einen Spieler, jede Spalte für eine Runde. Das Programm soll die Punkte von Spieler 2 in Runde 1 ausgeben, also **Spieler 2, Runde 1: 4**. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l16-java-laeuft-nicht-start.visustruct
+test: - -> Spieler 2, Runde 1: 4
+braucht: anweisung
+tipp: Die Fächer `[1][0]` stimmen. Schau dir den Namen der Tabelle an.
+tipp: Die Tabelle heißt `punkte` mit kleinem p: `punkte[1][0]`
+lösung: l16-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Welcher Platz?
 
 ::: spiel frage

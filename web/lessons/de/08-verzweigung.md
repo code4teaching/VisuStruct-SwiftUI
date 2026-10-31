@@ -197,6 +197,21 @@ tipp: „Unter 6“ heißt `alter < 6`. `<=` bedeutet „kleiner oder gleich“.
 lösung: l08-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l08-java-laeuft-nicht
+titel: Film ab 16
+code: java
+auftrag: Der Film ist ab 16. Ludwig ist 15, also soll das Programm **Kein Einlass** ausgeben. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l08-java-laeuft-nicht-start.visustruct
+test: - -> Kein Einlass
+braucht: verzweigung
+tipp: Schau dir die Bedingung in der Klammer nach `if` genau an. Gibt es diese Variable?
+tipp: Die Variable heißt `alter` mit kleinem a: `if (alter >= 16) {`
+lösung: l08-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Welcher Weg?
 
 ::: spiel frage

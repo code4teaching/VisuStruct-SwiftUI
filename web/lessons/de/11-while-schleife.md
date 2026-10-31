@@ -208,6 +208,21 @@ tipp: Gespart wird nur, solange das Ziel noch **nicht erreicht** ist: `while (ge
 lösung: l11-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l11-java-laeuft-nicht
+titel: Countdown reparieren
+code: java
+auftrag: Der Countdown soll **3**, **2**, **1** und dann **Start!** ausgeben. Er läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l11-java-laeuft-nicht-start.visustruct
+test: - -> 3 | 2 | 1 | Start!
+braucht: whileSchleife
+tipp: Der Fehler steckt in der Schleife. Welche Variable soll ausgegeben werden, und wie heißt sie wirklich?
+tipp: Gib `zahl` mit kleinem z aus: `System.out.println(zahl);`
+lösung: l11-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Wie oft?
 
 ::: spiel frage

@@ -259,6 +259,21 @@ tipp: It is enough if one of the two conditions is true: `day == 6 || day == 7`.
 lösung: l09-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l09-java-laeuft-nicht
+titel: Fix the weekend
+code: java
+auftrag: Day 6 is Saturday, day 7 is Sunday. Today is day 7, so **no school** should appear. But the program doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l09-java-laeuft-nicht-start.visustruct
+test: - -> no school
+braucht: verzweigung
+tipp: The condition has two parts. Compare the variable name in both parts.
+tipp: In the second part the variable is also called `day` with a small d: `if (day == 6 || day == 7) {`
+lösung: l09-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

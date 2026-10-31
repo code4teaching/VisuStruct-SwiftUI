@@ -201,6 +201,21 @@ tipp: The loop should stop as soon as something has been found: `while (position
 lösung: l19-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l19-java-laeuft-nicht
+titel: Find a card
+code: java
+auftrag: The cards {8, 4, 11, 4, 6} are in an array. The program searches for the 11 and should output **Position: 2**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l19-java-laeuft-nicht-start.visustruct
+test: - -> Position: 2
+braucht: forSchleife, verzweigung
+tipp: Compare the names in the condition with the names created above.
+tipp: The card you are looking for is in `wanted` with a small w: `if (cards[i] == wanted) {`
+lösung: l19-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Search pro
 
 ::: spiel frage

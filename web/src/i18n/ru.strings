@@ -49,6 +49,7 @@
 "web_sim_file_not_found_fmt" = "Файла с именем %@ нет.";
 "web_sim_end_of_file_fmt" = "В файле %@ больше нет строк.";
 "web_sim_null_value_fmt" = "%@ равно null.";
+"web_sim_unknown_variable_case_fmt" = "Неизвестная переменная: %1$@. Java различает заглавные и строчные буквы: может быть, %2$@?";
 "web_sim_written_file_fmt" = "%@ (сохранён)";
 "web_site_home" = "Главная страница";
 "web_site_imprint" = "Выходные данные";
@@ -96,6 +97,7 @@
 "web_parse_unknown_type" = "Java не знает такого типа данных. Может быть, %@?";
 "web_quickfix_insert_fmt" = "Предложение: вставить %@";
 "web_quickfix_replace_fmt" = "Предложение: %1$@ вместо %2$@";
+"web_parse_wrong_case" = "Java различает заглавные и строчные буквы. Правильно: %@.";
 "web_editor_title" = "Диаграмма";
 "web_editor_show" = "Показать диаграмму";
 "web_editor_hide" = "Скрыть диаграмму";

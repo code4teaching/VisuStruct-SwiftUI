@@ -8,6 +8,7 @@ kurz: Werte speichern, die Datentypen int, double, String und boolean kennen und
 
 ::: kompetenzen
 - eine Variable mit Datentyp, Namen und Wert anlegen
+- erklären, dass Java Groß- und Kleinschreibung unterscheidet (`zahl` ist nicht `Zahl`)
 - die Datentypen int, double, String und boolean unterscheiden
 - erklären, dass = eine Zuweisung ist und kein Vergleich
 - mit + - * / % rechnen und die ganzzahlige Division anwenden
@@ -42,6 +43,33 @@ CamelCase heißt so, weil die Großbuchstaben in der Mitte wie die Höcker eines
 
 ::: grafik l04-camelcase.svg
 Die Großbuchstaben M und S ragen heraus wie die zwei Höcker des Kamels.
+:::
+
+## Groß- und Kleinschreibung
+
+Java unterscheidet **Groß- und Kleinschreibung**. Auf Englisch heißt das **case-sensitive**. Für Java sind `zahl`, `Zahl` und `ZAHL` drei verschiedene Namen, also drei verschiedene Kisten:
+
+```
+int zahl = 4
+int Zahl = 6
+```
+
+Hier gibt es zwei Variablen. Schreibst du später `ZAHL`, findet Java keine Variable mit diesem Namen. Das Programm läuft nicht, und du bekommst eine Fehlermeldung.
+
+> Das gilt auch für Java-Wörter: `String` und `System` schreibt man groß, `int` und `double` klein. Lege in deinen eigenen Programmen nie zwei Variablen an, die sich nur in der Groß- und Kleinschreibung unterscheiden. Das verwirrt dich und alle, die deinen Code lesen.
+
+## Übung: Drei Namen
+
+::: übung l04-gross-klein
+titel: Drei Namen
+auftrag: Ludwig hat zwei Variablen angelegt: `zahl` mit dem Wert 4 und `Zahl` mit dem Wert 6. Das Struktogramm soll beide malnehmen und **Ergebnis: 24** ausgeben. Es läuft aber nicht.
+  Öffne die Übung, klicke auf Prüfen und lies die Fehlermeldung. Repariere die Anweisung und klicke noch einmal auf Prüfen.
+start: l04-gross-klein-start.visustruct
+test: - -> Ergebnis: 24
+braucht: anweisung
+tipp: Wie viele verschiedene Namen stehen im Struktogramm? `zahl`, `Zahl` und `ZAHL` sind für den Computer drei verschiedene Namen.
+tipp: `ZAHL` gibt es nicht. Für 24 brauchst du 4 mal 6, also `zahl` mal `Zahl`: `int ergebnis = zahl * Zahl`. Mit `zahl * zahl` kommt 16 heraus.
+lösung: l04-gross-klein-loesung.visustruct
 :::
 
 ## Die vier Datentypen
@@ -243,6 +271,21 @@ tipp: Die beiden Zeichen sind vertauscht: `int minuten = sekunden / 60;` und `in
 lösung: l04-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l04-java-laeuft-nicht
+titel: Steckbrief reparieren
+code: java
+auftrag: Das Programm soll **Ludwig ist 7 Jahre alt.** ausgeben. Es läuft aber nicht, denn zwei Wörter sind falsch geschrieben.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l04-java-laeuft-nicht-start.visustruct
+test: - -> Ludwig ist 7 Jahre alt.
+braucht: anweisung
+tipp: Java unterscheidet Groß- und Kleinschreibung. Vergleiche jedes Wort in der Ausgabe genau mit dem, was oben angelegt ist.
+tipp: `System` schreibt man mit großem S. Die Variable heißt `alter` mit kleinem a: `System.out.println(name + " ist " + alter + " Jahre alt.");`
+lösung: l04-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Welcher Datentyp?
 
 ::: spiel frage
@@ -297,6 +340,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 
 ::: checkliste
 - Ich kann eine Variable mit Datentyp, Namen und Wert anlegen. → Was ist eine Variable?
+- Ich kann erklären, dass Java Groß- und Kleinschreibung unterscheidet (`zahl` ist nicht `Zahl`). → Groß- und Kleinschreibung
 - Ich kann die Datentypen int, double, String und boolean unterscheiden. → Die vier Datentypen
 - Ich kann erklären, dass = eine Zuweisung ist und kein Vergleich. → Zuweisung mit =
 - Ich kann mit + - * / % rechnen und die ganzzahlige Division anwenden. → Rechnen
@@ -313,6 +357,13 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] String
 - [ ] boolean
 > Kommazahlen haben den Typ double. In VisuStruct schreibst du sie mit Punkt.
+
+? Wie viele Variablen legen `int zahl = 1`, `int Zahl = 2` und `int ZAHL = 3` an?
+→ Groß- und Kleinschreibung
+- [ ] eine
+- [ ] zwei
+- [x] drei
+> Java unterscheidet Groß- und Kleinschreibung. Die drei Namen sind verschieden, also gibt es drei Variablen.
 
 ? Welchen Wert hat x nach `int x = 17 / 5`?
 → Rechnen

@@ -145,6 +145,21 @@ tipp: Swap the last two lines: first `credit = credit - price;`, then the output
 lösung: l05-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l05-java-laeuft-nicht
+titel: Share a pizza
+code: java
+auftrag: A pizza has 8 slices and 4 friends share it. The program should output **Everyone gets 2 slices.** But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l05-java-laeuft-nicht-start.visustruct
+test: - -> Everyone gets 2 slices.
+braucht: anweisung
+tipp: Compare the name in the output letter by letter with the name created in the third line.
+tipp: The variable is called `perPerson` with a capital P (camelCase). Write it exactly like that in the output.
+lösung: l05-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Sort the boxes
 
 ::: spiel reihenfolge

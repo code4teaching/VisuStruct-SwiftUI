@@ -201,6 +201,21 @@ tipp: O ciclo deve parar assim que encontrar algo: `while (posicao == -1 && i < 
 lösung: l19-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l19-java-laeuft-nicht
+titel: Procurar uma carta
+code: java
+auftrag: As cartas {8, 4, 11, 4, 6} estão num array. O programa procura o 11 e deve mostrar **Posição: 2**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l19-java-laeuft-nicht-start.visustruct
+test: - -> Posição: 2
+braucht: forSchleife, verzweigung
+tipp: Compara os nomes na condição com os nomes criados em cima.
+tipp: A carta procurada está em `procurada` com p minúsculo: `if (cartas[i] == procurada) {`
+lösung: l19-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Profissional da pesquisa
 
 ::: spiel frage

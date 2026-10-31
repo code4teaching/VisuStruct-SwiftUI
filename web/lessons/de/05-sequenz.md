@@ -145,6 +145,21 @@ tipp: Tausche die letzten beiden Zeilen: erst `guthaben = guthaben - preis;`, da
 lösung: l05-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l05-java-laeuft-nicht
+titel: Pizza teilen
+code: java
+auftrag: Eine Pizza hat 8 Stücke, 4 Freunde teilen sie. Das Programm soll **Jeder bekommt 2 Stücke.** ausgeben. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l05-java-laeuft-nicht-start.visustruct
+test: - -> Jeder bekommt 2 Stücke.
+braucht: anweisung
+tipp: Vergleiche den Namen in der Ausgabe Buchstabe für Buchstabe mit dem Namen, der in der dritten Zeile angelegt wird.
+tipp: Die Variable heißt `proPerson` mit großem P (CamelCase). Schreibe sie in der Ausgabe genauso.
+lösung: l05-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Kästen sortieren
 
 ::: spiel reihenfolge

@@ -49,6 +49,7 @@
 "web_sim_file_not_found_fmt" = "Der findes ingen fil med navnet %@.";
 "web_sim_end_of_file_fmt" = "Filen %@ har ikke flere linjer.";
 "web_sim_null_value_fmt" = "%@ er null.";
+"web_sim_unknown_variable_case_fmt" = "Ukendt variabel: %1$@. Java skelner mellem store og små bogstaver: mente du %2$@?";
 "web_sim_written_file_fmt" = "%@ (gemt)";
 "web_site_home" = "Forside";
 "web_site_imprint" = "Kolofon";
@@ -96,6 +97,7 @@
 "web_parse_unknown_type" = "Java kender ikke denne datatype. Mente du %@?";
 "web_quickfix_insert_fmt" = "Forslag: indsæt %@";
 "web_quickfix_replace_fmt" = "Forslag: %1$@ i stedet for %2$@";
+"web_parse_wrong_case" = "Java skelner mellem store og små bogstaver. Det rigtige er %@.";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";

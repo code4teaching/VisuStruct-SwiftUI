@@ -184,6 +184,21 @@ tipp: With minus the order matters: `a - b` instead of `b - a`.
 lösung: l10-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l10-java-laeuft-nicht
+titel: Fix the grade
+code: java
+auftrag: Ludwig got grade 2. The program should output **good**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l10-java-laeuft-nicht-start.visustruct
+test: - -> good
+braucht: fallauswahl
+tipp: Which variable does the case selection check? Is it written the same way above?
+tipp: The brackets after `switch` need `grade` with a small g: `switch (grade) {`
+lösung: l10-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Which case?
 
 ::: spiel frage

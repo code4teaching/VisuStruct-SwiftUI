@@ -58,7 +58,8 @@ describe('Java tippen → Struktogramm', () => {
       const code = plainLiveJava(original, labels)
       const parsed = parse(code)
       // Fehlendes `;` erzeugt der Generator selbst bei Pseudocode wie „Switch on the kettle“.
-      expect(parsed.problems.filter((p) => p.arg !== ';'), file).toEqual([])
+      // Übungen „Warum läuft das nicht?“ starten absichtlich mit falscher Schreibweise (`system.out`, `.Length`).
+      if (!file.endsWith('-laeuft-nicht-start.visustruct')) expect(parsed.problems.filter((p) => p.arg !== ';'), file).toEqual([])
     }
   })
 
@@ -349,5 +350,27 @@ describe('boolean und vertippte Datentypen', () => {
     let steps = 0
     while (engine.canStep && steps++ < 1000) engine.step()
     expect(engine.state.outputLines).toEqual(['false', 'ja true', 'false', 'true', 'klein: false', '0'])
+  })
+})
+
+describe('Groß- und Kleinschreibung', () => {
+  const wrongCase = (src: string) => parse(src).problems.find((p) => p.key === 'web_parse_wrong_case')?.arg
+  it('meldet falsch geschriebene Java-Wörter mit der richtigen Schreibweise', () => {
+    expect(wrongCase('system.out.println(1);')).toBe('System')
+    expect(wrongCase('System.Out.println(1);')).toBe('out')
+    expect(wrongCase('System.out.Println(1);')).toBe('println')
+    expect(wrongCase('double w = math.sqrt(4);')).toBe('Math')
+    expect(wrongCase('int[] a = {1};\nint n = a.Length;')).toBe('length')
+    expect(wrongCase('String s = "a";\nchar c = s.charat(0);')).toBe('charAt')
+  })
+  it('lässt richtige Schreibweise und eigene Variablen in Ruhe', () => {
+    for (const src of ['System.out.println(1);', 'String string = "a";\nint n = string.length();', 'int zahl = 1;\nint Zahl = 2;\nSystem.out.println(zahl + Zahl);'])
+      expect(wrongCase(src)).toBeUndefined()
+  })
+  it('die Simulation nennt bei einer unbekannten Variable den Namen in anderer Schreibweise', () => {
+    const engine = new SimulationEngine(doc('int zahl = 4;\nSystem.out.println(Zahl);'))
+    let steps = 0
+    while (engine.canStep && steps++ < 100) engine.step()
+    expect(engine.state.notice).toEqual({ kind: 'unknownVariable', text: 'Zahl', similar: 'zahl' })
   })
 })

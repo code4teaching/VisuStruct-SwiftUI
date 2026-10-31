@@ -210,6 +210,21 @@ tipp: `max` tem de começar com um valor do array: `int max = temperaturas[0];`
 lösung: l15-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l15-java-laeuft-nicht
+titel: Somar os pontos
+code: java
+auftrag: O array `pontos` contém 4, 7, 2 e 5. O programa deve somá-los todos e mostrar **Soma: 18**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l15-java-laeuft-nicht-start.visustruct
+test: - -> Soma: 18
+braucht: forSchleife
+tipp: A área Código sublinha a palavra errada a vermelho. Como se escreve o comprimento de um array?
+tipp: `length` escreve-se todo em minúsculas: `i < pontos.length`
+lösung: l15-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Desativar a bomba
 
 ::: spiel bombe

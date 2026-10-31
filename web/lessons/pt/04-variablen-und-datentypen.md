@@ -8,6 +8,7 @@ kurz: Guardar valores, conhecer os tipos de dados int, double, String e boolean,
 
 ::: kompetenzen
 - criar uma variável com tipo de dados, nome e valor
+- explicar que o Java distingue maiúsculas de minúsculas (`numero` não é `Numero`)
 - distinguir os tipos de dados int, double, String e boolean
 - explicar que = é uma atribuição e não uma comparação
 - fazer contas com + - * / % e usar a divisão inteira
@@ -42,6 +43,33 @@ O camelCase tem este nome porque as maiúsculas no meio saem da palavra como as 
 
 ::: grafik l04-camelcase.svg
 As maiúsculas C e I sobressaem como as duas bossas do camelo.
+:::
+
+## Maiúsculas e minúsculas
+
+O Java distingue **maiúsculas de minúsculas**. Em inglês diz-se **case-sensitive**. Para o Java, `numero`, `Numero` e `NUMERO` são três nomes diferentes, ou seja, três caixas diferentes:
+
+```
+int numero = 4
+int Numero = 6
+```
+
+Aqui há duas variáveis. Se mais tarde escreveres `NUMERO`, o Java não encontra nenhuma variável com esse nome. O programa não corre e aparece uma mensagem de erro.
+
+> Isto também vale para as palavras do Java: `String` e `System` escrevem-se com maiúscula, `int` e `double` com minúscula. Nos teus programas, nunca cries duas variáveis que só se distinguem por maiúsculas e minúsculas. Isso confunde-te a ti e a quem lê o teu código.
+
+## Exercício: Três nomes
+
+::: übung l04-gross-klein
+titel: Três nomes
+auftrag: O Ludwig criou duas variáveis: `numero` com o valor 4 e `Numero` com o valor 6. O estrutograma deve multiplicá-las e mostrar **Resultado: 24**. Mas não corre.
+  Abre o exercício, carrega em Verificar e lê a mensagem de erro. Corrige a instrução e carrega outra vez em Verificar.
+start: l04-gross-klein-start.visustruct
+test: - -> Resultado: 24
+braucht: anweisung
+tipp: Quantos nomes diferentes há no estrutograma? `numero`, `Numero` e `NUMERO` são três nomes diferentes para o computador.
+tipp: `NUMERO` não existe. Para 24 precisas de 4 vezes 6, ou seja, `numero` vezes `Numero`: `int resultado = numero * Numero`. Com `numero * numero` dá 16.
+lösung: l04-gross-klein-loesung.visustruct
 :::
 
 ## Os quatro tipos de dados
@@ -243,6 +271,21 @@ tipp: Os dois operadores estão trocados: `int minutos = segundos / 60;` e `int 
 lösung: l04-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l04-java-laeuft-nicht
+titel: Corrigir a ficha
+code: java
+auftrag: O programa deve mostrar **Ludwig tem 7 anos.** Mas não corre, porque há duas palavras mal escritas.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l04-java-laeuft-nicht-start.visustruct
+test: - -> Ludwig tem 7 anos.
+braucht: anweisung
+tipp: O Java distingue maiúsculas de minúsculas. Compara cada palavra da saída com o que foi criado em cima.
+tipp: `System` escreve-se com S maiúsculo. A variável chama-se `idade` com i minúsculo: `System.out.println(nome + " tem " + idade + " anos.");`
+lösung: l04-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Que tipo de dados?
 
 ::: spiel frage
@@ -297,6 +340,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 
 ::: checkliste
 - Consigo criar uma variável com tipo de dados, nome e valor. → O que é uma variável?
+- Consigo explicar que o Java distingue maiúsculas de minúsculas (`numero` não é `Numero`). → Maiúsculas e minúsculas
 - Consigo distinguir os tipos de dados int, double, String e boolean. → Os quatro tipos de dados
 - Consigo explicar que = é uma atribuição e não uma comparação. → Atribuição com =
 - Consigo fazer contas com + - * / % e usar a divisão inteira. → Fazer contas
@@ -313,6 +357,13 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [ ] String
 - [ ] boolean
 > Os números decimais são do tipo double. No VisuStruct escrevem-se com ponto.
+
+? Quantas variáveis criam `int numero = 1`, `int Numero = 2` e `int NUMERO = 3`?
+→ Maiúsculas e minúsculas
+- [ ] uma
+- [ ] duas
+- [x] três
+> O Java distingue maiúsculas de minúsculas. Os três nomes são diferentes, por isso há três variáveis.
 
 ? Que valor tem x depois de `int x = 17 / 5`?
 → Fazer contas
