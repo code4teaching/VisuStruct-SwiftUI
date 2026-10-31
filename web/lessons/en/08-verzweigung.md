@@ -145,20 +145,6 @@ tipp: The condition is `points >= 50`. One branch has `System.out.println("passe
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
-::: angeberwissen
-If a branch holds only a single statement, Java even lets you leave out the curly brackets. We never do that, and here is why:
-
-```java
-if (age >= 18)
-    System.out.println("You are an adult.");
-    System.out.println("You may watch the film.");
-```
-
-Without brackets only the first line belongs to the if. The second one always runs, even for twelve-year-olds. The indentation is misleading, because Java ignores spaces.
-
-Exactly this kind of mistake was hidden in iPhones and Macs in 2014, known as **“goto fail”**. In the language C, the line `goto fail;` accidentally appeared twice under an if without brackets. The second one always ran and skipped the check of the security certificates. On an open Wi-Fi network, an attacker could have pretended to be your bank, for example. Baah, brackets cost two characters, a security hole costs much more.
-:::
-
 ## Fill in the gaps: even or odd
 
 ::: lückentext
@@ -177,6 +163,20 @@ int number = scanner.nextInt();
 }
 ```
 erklärung: `number % 2` is the remainder when dividing by 2. If it is 0, the number is even. To compare you need `==`, a single `=` is an assignment. Both branches are in curly brackets.
+:::
+
+::: angeberwissen
+If a branch holds only a single statement, Java even lets you leave out the curly brackets. We never do that, and here is why:
+
+```java
+if (age >= 18)
+    System.out.println("You are an adult.");
+    System.out.println("You may watch the film.");
+```
+
+Without brackets only the first line belongs to the if. The second one always runs, even for twelve-year-olds. The indentation is misleading, because Java ignores spaces.
+
+Exactly this kind of mistake was hidden in iPhones and Macs in 2014, known as **“goto fail”**. In the language C, the line `goto fail;` accidentally appeared twice under an if without brackets. The second one always ran and skipped the check of the security certificates. On an open Wi-Fi network, an attacker could have pretended to be your bank, for example. Baah, brackets cost two characters, a security hole costs much more.
 :::
 
 ## Find the bug: admission

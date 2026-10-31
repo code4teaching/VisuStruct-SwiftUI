@@ -145,20 +145,6 @@ tipp: Die Bedingung lautet `punkte >= 50`. In den Zweigen steht `System.out.prin
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
-::: angeberwissen
-Steht im Zweig nur eine einzige Anweisung, darf man in Java die geschweiften Klammern sogar weglassen. Wir machen das trotzdem nie, und zwar aus diesem Grund:
-
-```java
-if (alter >= 18)
-    System.out.println("Du bist volljährig.");
-    System.out.println("Du darfst den Film sehen.");
-```
-
-Ohne Klammern gehört nur die erste Zeile zum if. Die zweite läuft immer, auch für Zwölfjährige. Die Einrückung täuscht, denn Java achtet nicht auf Leerzeichen.
-
-Genau so ein Fehler steckte 2014 in iPhones und Macs, bekannt als **„goto fail“**. In der Sprache C stand unter einem if ohne Klammern die Zeile `goto fail;` aus Versehen zweimal. Die zweite lief immer und übersprang die Prüfung der Sicherheitszertifikate. In einem offenen WLAN hätte sich ein Angreifer so zum Beispiel als deine Bank ausgeben können. Mäh, Klammern kosten zwei Zeichen, eine Sicherheitslücke kostet viel mehr.
-:::
-
 ## Lückentext: Gerade oder ungerade
 
 ::: lückentext
@@ -177,6 +163,20 @@ int zahl = scanner.nextInt();
 }
 ```
 erklärung: `zahl % 2` ist der Rest beim Teilen durch 2. Ist er 0, ist die Zahl gerade. Zum Vergleichen brauchst du `==`, ein einzelnes `=` ist eine Zuweisung. Beide Zweige stehen in geschweiften Klammern.
+:::
+
+::: angeberwissen
+Steht im Zweig nur eine einzige Anweisung, darf man in Java die geschweiften Klammern sogar weglassen. Wir machen das trotzdem nie, und zwar aus diesem Grund:
+
+```java
+if (alter >= 18)
+    System.out.println("Du bist volljährig.");
+    System.out.println("Du darfst den Film sehen.");
+```
+
+Ohne Klammern gehört nur die erste Zeile zum if. Die zweite läuft immer, auch für Zwölfjährige. Die Einrückung täuscht, denn Java achtet nicht auf Leerzeichen.
+
+Genau so ein Fehler steckte 2014 in iPhones und Macs, bekannt als **„goto fail“**. In der Sprache C stand unter einem if ohne Klammern die Zeile `goto fail;` aus Versehen zweimal. Die zweite lief immer und übersprang die Prüfung der Sicherheitszertifikate. In einem offenen WLAN hätte sich ein Angreifer so zum Beispiel als deine Bank ausgeben können. Mäh, Klammern kosten zwei Zeichen, eine Sicherheitslücke kostet viel mehr.
 :::
 
 ## Fehler finden: Eintritt
