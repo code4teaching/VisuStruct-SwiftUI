@@ -9,7 +9,7 @@
   --accent-faint: rgba(0, 122, 255, 0.08);
   --accent-glow: rgba(0, 122, 255, 0.35);
   /* Farben der Bereiche (auch in VisuBot gleich): Überschrift, Leiste und Schild „Löse diese Übung im …“ */
-  --area-editor: #007aff;
+  --area-editor: #2b8a3e;
   --area-code: #7c3aed;
   color-scheme: light;
 }
@@ -2190,6 +2190,11 @@ button.danger-text:not(:disabled) {
 }
 .livecode {
   border-top: 3px solid var(--area-code);
+}
+.diagram-title {
+  margin: 0;
+  font-size: 16px;
+  color: var(--area-editor);
 }
 .livecode-head h2,
 .live-rail span {

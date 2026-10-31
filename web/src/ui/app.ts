@@ -538,6 +538,7 @@ export class App {
         <ul class="palette-visubot palette-visubot-sensors" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
+        <h2 class="diagram-title">${e(t('web_editor_title'))}</h2>
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
         ${iconButton('redo', t('toolbar_redo'), icons.redo, shortcut('Z', true))}
         <span class="sep"></span>
