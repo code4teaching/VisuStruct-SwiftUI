@@ -18,16 +18,16 @@ kurz: Mit einer Bedingung entscheiden, welcher von zwei Wegen ausgeführt wird.
 
 Bisher wurden alle Kästen immer ausgeführt. Oft soll ein Programm aber **entscheiden**: Wenn eine Bedingung erfüllt ist, tue das eine, sonst das andere.
 
+::: diagramm l07-alter-pruefen.visustruct
+Je nach eingegebenem Alter erscheint die eine oder die andere Meldung. Probiere in der Simulation 17 und 18 aus.
+:::
+
 Dafür gibt es die **Verzweigung**. Oben im Dreieck steht die Bedingung. Darunter teilt sich das Struktogramm in zwei Zweige:
 
 - **true** (links): wird ausgeführt, wenn die Bedingung wahr ist
 - **false** (rechts): wird ausgeführt, wenn die Bedingung falsch ist
 
 Es wird immer **genau einer** der beiden Zweige ausgeführt. Danach geht es unter der Verzweigung weiter.
-
-::: diagramm l07-alter-pruefen.visustruct
-Je nach eingegebenem Alter erscheint die eine oder die andere Meldung. Probiere in der Simulation 17 und 18 aus.
-:::
 
 ## Eine Verzweigung einfügen
 

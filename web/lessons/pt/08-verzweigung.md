@@ -18,16 +18,16 @@ kurz: Usar uma condição para decidir qual de dois ramos é executado.
 
 Até agora, todos os blocos eram sempre executados. Mas muitas vezes um programa deve **decidir**: se uma condição se verificar, faz uma coisa, senão faz a outra.
 
+::: diagramm l07-alter-pruefen.visustruct
+Consoante a idade introduzida, aparece uma mensagem ou a outra. Experimenta 17 e 18 na simulação.
+:::
+
 É para isso que serve a **decisão**. A condição fica no triângulo em cima. Por baixo, o estrutograma divide-se em dois ramos:
 
 - **true** (esquerda): é executado se a condição for verdadeira
 - **false** (direita): é executado se a condição for falsa
 
 É sempre executado **exatamente um** dos dois ramos. Depois, o programa continua por baixo da decisão.
-
-::: diagramm l07-alter-pruefen.visustruct
-Consoante a idade introduzida, aparece uma mensagem ou a outra. Experimenta 17 e 18 na simulação.
-:::
 
 ## Inserir uma decisão
 

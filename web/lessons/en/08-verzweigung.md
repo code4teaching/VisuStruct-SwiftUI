@@ -18,16 +18,16 @@ kurz: Use a condition to decide which of two paths runs.
 
 So far every box always ran. But often a program should **decide**: if a condition is met, do one thing, otherwise do the other.
 
+::: diagramm l07-alter-pruefen.visustruct
+Depending on the age typed in, one message or the other appears. Try 17 and 18 in the simulation.
+:::
+
 That is what the **branch** is for. The condition sits in the triangle at the top. Below it, the structure chart splits into two paths:
 
 - **true** (left): runs if the condition is true
 - **false** (right): runs if the condition is false
 
 Always **exactly one** of the two paths runs. After that, the program continues below the branch.
-
-::: diagramm l07-alter-pruefen.visustruct
-Depending on the age typed in, one message or the other appears. Try 17 and 18 in the simulation.
-:::
 
 ## Insert a branch
 
