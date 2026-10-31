@@ -305,6 +305,7 @@ There is no `else if` in a structure chart. There, a second branch sits in the f
 
 ::: übung l17-ticket
 titel: Ticket price
+bereich: beide
 auftrag: Ask for the age as a whole number and rebuild the Java code above as a structure chart.
 test: 5 -> Free entry
 test: 6 -> Child ticket: 4 euros

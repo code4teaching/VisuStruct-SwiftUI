@@ -226,6 +226,7 @@ Java tippst du im Bereich [Code](#zeige-codelive). Das Struktogramm entsteht dab
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
+bereich: beide
 code: java
 auftrag: Schreibe einen Steckbrief für Ludwig den Geißbock. Lege drei Variablen an: den Namen **Ludwig**, das Alter **7** und die Größe **1.2**. Gib dann diese zwei Zeilen aus:
   **Ludwig ist 7 Jahre alt.** und **Größe: 1.2 m**

@@ -104,6 +104,7 @@ Escreves Java na área [Código](#zeige-codelive), à direita do estrutograma. E
 
 ::: übung l05-java-kino
 titel: Bilhetes de cinema em Java
+bereich: beide
 code: java
 auftrag: Um bilhete de cinema custa 9 euros. Escreve um programa em Java que calcula o preço de 3 bilhetes e mostra **Total: 27**.
   “Abrir no editor” abre também a área Código à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.

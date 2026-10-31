@@ -104,6 +104,7 @@ Java tippst du im Bereich [Code](#zeige-codelive) rechts neben dem Struktogramm.
 
 ::: übung l05-java-kino
 titel: Kinokarten in Java
+bereich: beide
 code: java
 auftrag: Eine Kinokarte kostet 9 Euro. Schreibe ein Java-Programm, das den Preis für 3 Karten ausrechnet und **Gesamt: 27** ausgibt.
   „Im Editor öffnen“ öffnet rechts auch den Bereich Code. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.

@@ -104,6 +104,7 @@ You type Java in the [Code](#zeige-codelive) area to the right of the structure 
 
 ::: übung l05-java-kino
 titel: Cinema tickets in Java
+bereich: beide
 code: java
 auftrag: A cinema ticket costs 9 euros. Write a Java program that calculates the price of 3 tickets and outputs **Total: 27**.
   “Open in editor” also opens the Code area on the right. Type your code there; the structure chart builds itself. Then click Check.

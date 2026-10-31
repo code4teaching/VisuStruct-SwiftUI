@@ -305,6 +305,7 @@ Num estrutograma não existe `else if`. Aí, uma segunda decisão fica no ramo f
 
 ::: übung l17-ticket
 titel: Preço do bilhete
+bereich: beide
 auftrag: Pede a idade como número inteiro e reconstrói o código Java de cima como estrutograma.
 test: 5 -> Entrada gratuita
 test: 6 -> Bilhete de criança: 4 euros

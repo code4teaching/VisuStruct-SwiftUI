@@ -112,6 +112,7 @@ for i in range(0, grenze + 1, 2):
 
 ::: übung l18-python
 titel: Gerade Zahlen
+bereich: beide
 auftrag: Baue das Python-Programm oben als Struktogramm mit einer For-Schleife nach. Bei der Grenze 7 gibt es 0, 2, 4 und 6 aus.
 test: 7 -> 0 | 2 | 4 | 6
 test: 4 -> 0 | 2 | 4
@@ -136,6 +137,7 @@ if (alter >= 16) {
 
 ::: übung l18-js
 titel: Wählen ab 16
+bereich: beide
 auftrag: Baue den JavaScript-Code oben als Struktogramm nach. Teste danach in der Code-Ansicht mit **JavaScript** und **Im Browser testen**, ob dein Code dasselbe ausgibt wie die Simulation.
 test: 12 -> Noch 4 Jahre warten.
 test: 16 -> Du darfst wählen.

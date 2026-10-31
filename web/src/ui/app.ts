@@ -1240,7 +1240,11 @@ export class App {
         // dieser Bereich zu sehen (bei `beide` Struktogramm und Code); Dateien, mBot2 live usw. gehen zu.
         const area = exerciseArea(ex)
         if (area !== 'code') this.setEditorHidden(false)
-        if (area !== 'struktogramm') this.openJavaColumn()
+        // Java-Übungen stellen Code auf Java; sonst bleibt die Sprache (z. B. Python oder JavaScript in Lektion 21).
+        if (area !== 'struktogramm') {
+          if (ex.code === 'java') this.openJavaColumn()
+          else if (!this.liveCoding) this.setLiveCoding(true)
+        }
         if (this.coding) this.setCoding(false)
         if (this.shell.classList.contains('files-open')) this.setFilesOpen(false)
         if (this.previewOpen) this.setPreviewOpen(false)
