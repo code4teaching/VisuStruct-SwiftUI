@@ -3,7 +3,7 @@ import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting, syntaxTree } from '@codemirror/language'
 import { Annotation, ChangeSet, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension, type Text } from '@codemirror/state'
-import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
+import { Decoration, EditorView, gutter, GutterMarker, gutterLineClass, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, WidgetType, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
 import { formatJavaEdits } from '../core/javaFormat'
 import { indentJava } from '../core/javaIndent'
@@ -24,6 +24,19 @@ export interface EditorMarks {
   lines?: { from: number; to: number }
   /** Debugger: Zeile, die als Nächstes ausgeführt wird (ab 0, gelb). */
   current?: number
+  /** Rote Zeilennummer: In dieser Zeile steckt ein Fehler (ab 0). */
+  errorLines?: number[]
+  /** Glühbirne am Zeilenende: Ein Klick übernimmt den Vorschlag. */
+  fixes?: QuickFix[]
+}
+
+/** Vorschlag für einen Fehler: an `at` erscheint 💡, ein Klick ersetzt `from`–`to` durch `insert`. */
+export interface QuickFix {
+  at: number
+  title: string
+  from: number
+  to: number
+  insert: string
 }
 
 /** Wörter der Vorlagen in der Sprache der Oberfläche. */
@@ -58,6 +71,8 @@ export interface JavaEditorHooks {
   onBreakpoints(): void
   /** Eigene Klassen für Vorschläge nach dem Punkt (VisuObject); `pos` = Cursor. */
   ownTypes?(pos: number): OwnTypes | undefined
+  /** F2 bzw. Rechtsklick: Variable an `pos` umbenennen; `menu` = Stelle des Rechtsklicks. `true` = übernommen. */
+  onRename?(pos: number, menu?: { x: number; y: number }): boolean
 }
 
 /** Eigene Textänderungen (z. B. nach einer Änderung im Struktogramm) lösen kein `onChange` aus. */
@@ -67,6 +82,35 @@ const setMarks = StateEffect.define<EditorMarks>()
 const phMark = Decoration.mark({ class: 'cm-ph' })
 const errMark = Decoration.mark({ class: 'cm-err' })
 const currentLine = Decoration.line({ class: 'cm-debug-line' })
+
+/** 💡 hinter der Zeile mit dem Fehler, wie die Glühbirne in Eclipse. */
+class QuickFixWidget extends WidgetType {
+  constructor(readonly fix: QuickFix) {
+    super()
+  }
+  eq(other: QuickFixWidget) {
+    return JSON.stringify(other.fix) === JSON.stringify(this.fix)
+  }
+  toDOM(view: EditorView) {
+    const button = document.createElement('button')
+    button.type = 'button'
+    button.className = 'cm-quickfix'
+    button.textContent = '💡'
+    button.dataset.tip = this.fix.title
+    button.setAttribute('aria-label', this.fix.title)
+    button.addEventListener('mousedown', (e) => e.preventDefault())
+    button.addEventListener('click', () => {
+      const { from, to, insert } = this.fix
+      if (to > view.state.doc.length) return
+      view.dispatch({ changes: { from, to, insert }, selection: { anchor: from + insert.length }, userEvent: 'input' })
+      view.focus()
+    })
+    return button
+  }
+  ignoreEvent() {
+    return true
+  }
+}
 
 interface MarkState {
   marks: EditorMarks
@@ -85,6 +129,9 @@ function buildDecorations(state: EditorState, marks: EditorMarks): DecorationSet
     const to = Math.min(Math.max(p.to, from), len)
     if (from < to) ranges.push({ from, to, deco: errMark })
   }
+  for (const f of marks.fixes ?? []) {
+    if (f.at <= len) ranges.push({ from: f.at, to: f.at, deco: Decoration.widget({ widget: new QuickFixWidget(f), side: 1 }) })
+  }
   // Zeilen-Dekorationen vor Markierungen an derselben Stelle.
   const isLine = (d: Decoration) => d === currentLine
   ranges.sort((a, b) => a.from - b.from || Number(isLine(b.deco)) - Number(isLine(a.deco)) || a.to - b.to)
@@ -100,10 +147,20 @@ const marksField = StateField.define<MarkState>({
     if (!tr.docChanged) return value
     // Bis zur nächsten Auswertung mit dem Text mitwandern.
     const map = (r: { from: number; to: number }) => ({ from: tr.changes.mapPos(r.from, 1), to: tr.changes.mapPos(r.to, -1) })
-    const marks = { ...value.marks, placeholders: value.marks.placeholders.map(map).filter((r) => r.from < r.to), problems: [] }
+    const marks = { ...value.marks, placeholders: value.marks.placeholders.map(map).filter((r) => r.from < r.to), problems: [], errorLines: [], fixes: [] }
     return { marks, decorations: buildDecorations(tr.state, marks) }
   },
   provide: (f) => EditorView.decorations.from(f, (v) => v.decorations),
+})
+
+/** Rote Zeilennummer bei einem Fehler, wie in Xcode; anders als der runde Haltepunkt. */
+class ErrorLineMarker extends GutterMarker {
+  elementClass = 'cm-error-line'
+}
+const errorLineMarker = new ErrorLineMarker()
+const errorLineGutter = gutterLineClass.compute([marksField], (state) => {
+  const lines = [...new Set(state.field(marksField).marks.errorLines ?? [])].filter((l) => l < state.doc.lines).sort((a, b) => a - b)
+  return RangeSet.of(lines.map((l) => errorLineMarker.range(state.doc.line(l + 1).from)))
 })
 
 // MARK: - Farbige Blöcke wie in BlueJ
@@ -493,6 +550,7 @@ export class JavaEditor {
       bracketMatching(),
       closeBrackets(),
       marksField,
+      errorLineGutter,
       scopeLayer,
       placeholderTyping,
       placeholderPaste,
@@ -506,9 +564,18 @@ export class JavaEditor {
           { key: 'Mod-y', run: () => (hooks.onUndo(true), true), preventDefault: true },
           { key: 'Backspace', run: deletePlaceholder(false) },
           { key: 'Delete', run: deletePlaceholder(true) },
+          { key: 'F2', run: (view) => hooks.onRename?.(view.state.selection.main.head) ?? false, preventDefault: true },
         ]),
       ),
       keymap.of([...closeBracketsKeymap, ...completionKeymap, indentWithTab, ...defaultKeymap]),
+      EditorView.domEventHandlers({
+        contextmenu: (e, view) => {
+          const pos = view.posAtCoords({ x: e.clientX, y: e.clientY })
+          if (pos === null || !hooks.onRename?.(pos, { x: e.clientX, y: e.clientY })) return false
+          e.preventDefault()
+          return true
+        },
+      }),
       EditorView.contentAttributes.of({ 'aria-label': label, autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false' }),
       EditorView.updateListener.of((u) => {
         // Danach, denn die Rückmeldung zeichnet den Editor neu (Markierungen).
@@ -566,6 +633,12 @@ export class JavaEditor {
       selection: { anchor: caret },
       annotations: fromOutside.of(true),
     })
+  }
+
+  /** Umbenennen: alle Stellen in einem Schritt ersetzen (wie Tippen, das Struktogramm folgt). */
+  replaceRanges(ranges: { from: number; to: number }[], insert: string) {
+    if (ranges.length === 0) return
+    this.view.dispatch({ changes: ranges.map((r) => ({ from: r.from, to: r.to, insert })), userEvent: 'input.rename' })
   }
 
   /** Knopf „Einrücken“: die markierten Zeilen, ohne Markierung den ganzen Code, erst formatieren, dann einrücken. */

@@ -34,6 +34,8 @@ import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import type { UiArea } from './termTips'
 import { LiveCodePanel } from './liveCodePanel'
+import { codeWords, countInDocument, documentVariableNames, documentWords, elementVariableNames, nameRanges, renameInDocument, variableNames } from '../core/rename'
+import { askRename, showRenameMenu } from './renameDialog'
 import { RobotPreviewPanel } from './robotPreview'
 import { codeScopes, setCodeScopes } from './javaEditor'
 import type { LiveTarget } from '../core/codeGenerator'
@@ -380,6 +382,7 @@ export class App {
     )
     this.live.onRobotRun = (stepping) => this.runRobot(stepping)
     this.live.onSwap = () => this.setCodeMain(!this.codeMain)
+    this.live.onRename = () => (this.codeTyping = undefined)
     this.live.onReference = () => {
       this.learn.showReference()
       this.setLearning(true)
@@ -931,6 +934,7 @@ export class App {
     })
 
     this.canvasHost.addEventListener('pointerdown', (e) => this.onCanvasPointerDown(e))
+    this.canvasHost.addEventListener('contextmenu', (e) => this.onCanvasContextMenu(e))
     this.resizeObserver?.disconnect()
     // Nur bei echter Größenänderung neu zeichnen, sonst schaukeln sich Scrollbalken (Windows) gegenseitig auf
     this.resizeObserver = new ResizeObserver(() => {
@@ -1499,7 +1503,54 @@ export class App {
       box.append(row)
     }
 
+    if (elementVariableNames(element).length > 0) {
+      const rename = h('button', { class: 'inspector-rename' }, t('web_rename_menu'))
+      rename.addEventListener('click', () => this.renameVariable(path))
+      box.append(rename)
+    }
     this.renderCaseControls(path)
+  }
+
+  // MARK: - Umbenennen
+
+  /**
+   * Fenster „Variable umbenennen“ für das Element an `path`: Mit getipptem Code wird dort umbenannt
+   * (Kommentare bleiben, das Struktogramm folgt), sonst im Struktogramm.
+   */
+  private renameVariable(path: number[]) {
+    const element = tryElementAt(this.doc, path)
+    if (!element || this.simulating) return
+    const code = this.liveCoding ? this.live.editableCode : undefined
+    const own = elementVariableNames(element)
+    const all = code !== undefined ? variableNames([code]) : documentVariableNames(this.doc)
+    const names = [...own, ...all.filter((n) => !own.includes(n))]
+    if (names.length === 0) return
+    const existing = code !== undefined ? codeWords(code).map((w) => w.name) : documentWords(this.doc)
+    void askRename({
+      names,
+      existing,
+      count: (name) => (code !== undefined ? nameRanges(code, name).length : countInDocument(this.doc, name)),
+    }).then((r) => {
+      if (!r) return
+      if (code !== undefined) this.live.renameInCode(r.from, r.to)
+      else {
+        const next = renameInDocument(this.doc, r.from, r.to)
+        if (next.count > 0) this.commit(next.doc)
+      }
+    })
+  }
+
+  /** Rechtsklick auf ein Element: auswählen und „Variable umbenennen …“ anbieten. */
+  private onCanvasContextMenu(e: MouseEvent) {
+    if (this.simulating) return
+    const p = this.svgPoint(e.clientX, e.clientY)
+    const node = p && this.nodeAt(p.x, p.y)
+    const element = node && tryElementAt(this.doc, node.idPath)
+    if (!node || !element || elementVariableNames(element).length === 0) return
+    e.preventDefault()
+    this.selected = node.idPath
+    this.render()
+    showRenameMenu(e.clientX, e.clientY, t('web_rename_menu'), () => this.renameVariable(node.idPath))
   }
 
   /** Fallname und „Fall hinzufügen/entfernen“, wenn die Auswahl in einer Fallauswahl liegt. */
@@ -2359,6 +2410,9 @@ export class App {
     } else if (mod && e.key.toLowerCase() === 'y') {
       e.preventDefault()
       this.redo()
+    } else if (e.key === 'F2' && this.selected) {
+      e.preventDefault()
+      this.renameVariable(this.selected)
     } else if (e.key === 'Delete' || e.key === 'Backspace') {
       e.preventDefault()
       this.deleteSelection()

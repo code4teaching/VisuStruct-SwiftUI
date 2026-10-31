@@ -94,6 +94,8 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_parse_missing_import" = "Na samej górze brakuje %@ Bez tej linii Java nie zna klasy Scanner.";
 "web_parse_missing_scanner" = "Wcześniej brakuje %@ Bez tej linii Scanner nie istnieje.";
 "web_parse_unknown_type" = "Java nie zna tego typu danych. Czy chodziło ci o %@?";
+"web_quickfix_insert_fmt" = "Propozycja: wstaw %@";
+"web_quickfix_replace_fmt" = "Propozycja: %1$@ zamiast %2$@";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Pokaż diagram";
 "web_editor_hide" = "Ukryj diagram";
@@ -177,4 +179,17 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_code_scopes" = "Kolorowe bloki kodu";
 "web_code_scopes_hint" = "Klasa, metoda, pętla, rozgałęzienie we własnych ramkach";
 "web_pseudocode" = "Pseudokod";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Zmień nazwę zmiennej …";
+"web_rename_title" = "Zmień nazwę zmiennej";
+"web_rename_old" = "Nazwa";
+"web_rename_new" = "Nowa nazwa";
+"web_rename_hint" = "Zmienia każde miejsce o dokładnie tej pisowni (liczba to nie Liczba), w kodzie i w strukturogramie. Tekst w \\"…\\" i komentarze zostają.";
+"web_rename_count_fmt" = "Występuje %d razy.";
+"web_rename_exists_fmt" = "„%@” już istnieje: potem obie byłyby jedną zmienną.";
+"web_rename_invalid" = "Nazwa zaczyna się od litery i zawiera tylko litery, cyfry i _.";
+"web_rename_keyword_fmt" = "„%@” to słowo kluczowe Javy.";
+"web_rename_apply" = "Zmień nazwę";
+"web_rename_cancel" = "Anuluj";
 `;export{e as default};

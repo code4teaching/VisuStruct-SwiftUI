@@ -94,6 +94,8 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_parse_missing_import" = "Bovenaan ontbreekt %@ Zonder deze regel kent Java Scanner niet.";
 "web_parse_missing_scanner" = "Eerst ontbreekt %@ Zonder deze regel bestaat de Scanner niet.";
 "web_parse_unknown_type" = "Java kent dit gegevenstype niet. Bedoelde je %@?";
+"web_quickfix_insert_fmt" = "Suggestie: %@ invoegen";
+"web_quickfix_replace_fmt" = "Suggestie: %1$@ in plaats van %2$@";
 "web_editor_title" = "Diagram";
 "web_editor_show" = "Diagram tonen";
 "web_editor_hide" = "Diagram verbergen";
@@ -177,4 +179,17 @@ const e=`/* Teksten die alleen in de webversie bestaan. Al het andere komt uit d
 "web_code_scopes" = "Gekleurde codeblokken";
 "web_code_scopes_hint" = "Klasse, methode, lus, keuze in eigen kaders";
 "web_pseudocode" = "Pseudocode";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Variabele hernoemen …";
+"web_rename_title" = "Variabele hernoemen";
+"web_rename_old" = "Naam";
+"web_rename_new" = "Nieuwe naam";
+"web_rename_hint" = "Wijzigt elke plek met precies deze schrijfwijze (getal is niet Getal), in de code en in het structogram. Tekst tussen \\"…\\" en commentaar blijven.";
+"web_rename_count_fmt" = "Komt %d keer voor.";
+"web_rename_exists_fmt" = "‘%@’ bestaat al: daarna zouden beide één variabele zijn.";
+"web_rename_invalid" = "Een naam begint met een letter en bevat alleen letters, cijfers en _.";
+"web_rename_keyword_fmt" = "‘%@’ is een Java-sleutelwoord.";
+"web_rename_apply" = "Hernoemen";
+"web_rename_cancel" = "Annuleren";
 `;export{e as default};

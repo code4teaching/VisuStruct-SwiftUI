@@ -94,6 +94,8 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_parse_missing_import" = "맨 위에 %@ 이(가) 없습니다. 이 줄이 없으면 Java는 Scanner를 모릅니다.";
 "web_parse_missing_scanner" = "먼저 %@ 이(가) 없습니다. 이 줄이 없으면 Scanner가 없습니다.";
 "web_parse_unknown_type" = "Java는 이 데이터 형식을 알지 못합니다. %@을(를) 의미했나요?";
+"web_quickfix_insert_fmt" = "제안: %@ 삽입";
+"web_quickfix_replace_fmt" = "제안: %2$@ 대신 %1$@";
 "web_editor_title" = "구조도";
 "web_editor_show" = "구조도 표시";
 "web_editor_hide" = "구조도 숨기기";
@@ -177,4 +179,17 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_code_scopes" = "코드 블록 색상 표시";
 "web_code_scopes_hint" = "클래스, 메서드, 반복, 분기를 각각의 상자로 표시";
 "web_pseudocode" = "의사 코드";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "변수 이름 바꾸기 …";
+"web_rename_title" = "변수 이름 바꾸기";
+"web_rename_old" = "이름";
+"web_rename_new" = "새 이름";
+"web_rename_hint" = "철자가 정확히 같은 모든 곳을 코드와 구조도에서 바꿉니다(number와 Number는 다릅니다). \\"…\\" 안의 텍스트와 주석은 그대로입니다.";
+"web_rename_count_fmt" = "%d번 사용됨.";
+"web_rename_exists_fmt" = "“%@”이(가) 이미 있습니다: 바꾸면 두 변수가 하나가 됩니다.";
+"web_rename_invalid" = "이름은 문자로 시작하고 문자, 숫자, _만 포함합니다.";
+"web_rename_keyword_fmt" = "“%@”은(는) Java 키워드입니다.";
+"web_rename_apply" = "이름 바꾸기";
+"web_rename_cancel" = "취소";
 `;export{e as default};

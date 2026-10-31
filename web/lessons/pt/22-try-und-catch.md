@@ -77,7 +77,7 @@ Uma mensagem destas assusta à primeira vista. Mas diz-te exatamente o que se pa
 | `3` | O índice errado. |
 | `Notas.java:5` | A linha onde aconteceu: a linha 5. |
 
-O Java chama a um erro destes, durante a execução, uma **exceção** (em inglês *exception*). Diz-se: o Java *lança* uma exceção. Se ninguém a apanhar, o programa para. É por isso que “Pronto!” não aparece.
+O Java chama a um erro de execução destes uma **exceção** (em inglês *exception*). Diz-se: o Java *lança* uma exceção. Se ninguém a apanhar, o programa para. É por isso que “Pronto!” não aparece.
 
 ::: ludwig
 Lê as mensagens de erro sempre de cima: primeiro o nome da exceção, depois o número da linha. Na área Código, os números das linhas estão à esquerda do código.

@@ -94,6 +94,8 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_parse_missing_import" = "Högst upp saknas %@ Utan den raden känner Java inte till Scanner.";
 "web_parse_missing_scanner" = "Innan saknas %@ Utan den raden finns ingen Scanner.";
 "web_parse_unknown_type" = "Java känner inte till den här datatypen. Menade du %@?";
+"web_quickfix_insert_fmt" = "Förslag: infoga %@";
+"web_quickfix_replace_fmt" = "Förslag: %1$@ i stället för %2$@";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Visa strukturdiagram";
 "web_editor_hide" = "Dölj strukturdiagram";
@@ -177,4 +179,17 @@ const e=`/* Texter som bara finns i webbversionen. Allt annat kommer från appen
 "web_code_scopes" = "Färgade kodblock";
 "web_code_scopes_hint" = "Klass, metod, loop, förgrening i egna rutor";
 "web_pseudocode" = "Pseudokod";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Byt namn på variabel …";
+"web_rename_title" = "Byt namn på variabel";
+"web_rename_old" = "Namn";
+"web_rename_new" = "Nytt namn";
+"web_rename_hint" = "Ändrar varje ställe med exakt denna stavning (tal är inte Tal), i koden och i strukturdiagrammet. Text inom \\"…\\" och kommentarer blir kvar.";
+"web_rename_count_fmt" = "Förekommer %d gånger.";
+"web_rename_exists_fmt" = "”%@” finns redan: efteråt skulle båda vara en variabel.";
+"web_rename_invalid" = "Ett namn börjar med en bokstav och innehåller bara bokstäver, siffror och _.";
+"web_rename_keyword_fmt" = "”%@” är ett nyckelord i Java.";
+"web_rename_apply" = "Byt namn";
+"web_rename_cancel" = "Avbryt";
 `;export{e as default};

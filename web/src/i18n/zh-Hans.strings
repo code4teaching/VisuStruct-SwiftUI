@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "最上面缺少 %@ 没有这一行，Java 不认识 Scanner。";
 "web_parse_missing_scanner" = "前面缺少 %@ 没有这一行就没有 Scanner。";
 "web_parse_unknown_type" = "Java 不认识这个数据类型。你是想写 %@ 吗？";
+"web_quickfix_insert_fmt" = "建议：插入 %@";
+"web_quickfix_replace_fmt" = "建议：用 %1$@ 代替 %2$@";
 "web_editor_title" = "结构图";
 "web_editor_show" = "显示结构图";
 "web_editor_hide" = "隐藏结构图";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "代码块彩色显示";
 "web_code_scopes_hint" = "类、方法、循环、分支各有自己的框";
 "web_pseudocode" = "伪代码";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "重命名变量 …";
+"web_rename_title" = "重命名变量";
+"web_rename_old" = "名称";
+"web_rename_new" = "新名称";
+"web_rename_hint" = "在代码和结构图中更改所有拼写完全相同的地方（number 不是 Number）。\"…\" 中的文本和注释保持不变。";
+"web_rename_count_fmt" = "出现 %d 次。";
+"web_rename_exists_fmt" = "“%@”已存在：之后两者会成为同一个变量。";
+"web_rename_invalid" = "名称以字母开头，只包含字母、数字和 _。";
+"web_rename_keyword_fmt" = "“%@”是 Java 关键字。";
+"web_rename_apply" = "重命名";
+"web_rename_cancel" = "取消";

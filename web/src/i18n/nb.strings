@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "Øverst mangler %@ Uten denne linjen kjenner ikke Java Scanner.";
 "web_parse_missing_scanner" = "Før mangler %@ Uten den linjen finnes ikke Scanneren.";
 "web_parse_unknown_type" = "Java kjenner ikke denne datatypen. Mente du %@?";
+"web_quickfix_insert_fmt" = "Forslag: sett inn %@";
+"web_quickfix_replace_fmt" = "Forslag: %1$@ i stedet for %2$@";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Vis strukturdiagram";
 "web_editor_hide" = "Skjul strukturdiagram";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "Fargede kodeblokker";
 "web_code_scopes_hint" = "Klasse, metode, løkke, forgrening i egne bokser";
 "web_pseudocode" = "Pseudokode";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Gi variabelen nytt navn …";
+"web_rename_title" = "Gi variabelen nytt navn";
+"web_rename_old" = "Navn";
+"web_rename_new" = "Nytt navn";
+"web_rename_hint" = "Endrer hvert sted med nøyaktig denne skrivemåten (tall er ikke Tall), i koden og i strukturdiagrammet. Tekst i \"…\" og kommentarer blir værende.";
+"web_rename_count_fmt" = "Forekommer %d ganger.";
+"web_rename_exists_fmt" = "«%@» finnes allerede: etterpå ville begge være én variabel.";
+"web_rename_invalid" = "Et navn begynner med en bokstav og inneholder bare bokstaver, sifre og _.";
+"web_rename_keyword_fmt" = "«%@» er et nøkkelord i Java.";
+"web_rename_apply" = "Gi nytt navn";
+"web_rename_cancel" = "Avbryt";

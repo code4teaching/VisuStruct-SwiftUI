@@ -179,6 +179,8 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_parse_missing_import" = "Falta %@ mesmo no início. Sem esta linha, o Java não conhece o Scanner.";
 "web_parse_missing_scanner" = "Falta antes %@ Sem esta linha, o Scanner não existe.";
 "web_parse_unknown_type" = "O Java não conhece este tipo de dados. Querias dizer %@?";
+"web_quickfix_insert_fmt" = "Sugestão: inserir %@";
+"web_quickfix_replace_fmt" = "Sugestão: %1$@ em vez de %2$@";
 "web_editor_title" = "Diagrama";
 "web_editor_show" = "Mostrar diagrama";
 "web_editor_hide" = "Ocultar diagrama";
@@ -739,4 +741,16 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_visuflow_status_edge" = "Seta selecionada. Apagar remove-a.";
 "web_visuflow_status_connect" = "Larga sobre o símbolo para onde a seta vai.";
 "web_visuflow_edit_label" = "Texto no símbolo";
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Mudar o nome da variável …";
+"web_rename_title" = "Mudar o nome da variável";
+"web_rename_old" = "Nome";
+"web_rename_new" = "Novo nome";
+"web_rename_hint" = "Altera todos os sítios com exatamente esta escrita (numero não é Numero), no código e no estruturograma. Texto entre \\"…\\" e comentários ficam iguais.";
+"web_rename_count_fmt" = "Aparece %d vezes.";
+"web_rename_exists_fmt" = "“%@” já existe: depois as duas seriam uma só variável.";
+"web_rename_invalid" = "Um nome começa com uma letra e só contém letras, algarismos e _.";
+"web_rename_keyword_fmt" = "“%@” é uma palavra-chave de Java.";
+"web_rename_apply" = "Mudar o nome";
+"web_rename_cancel" = "Cancelar";
 `;export{e as default};

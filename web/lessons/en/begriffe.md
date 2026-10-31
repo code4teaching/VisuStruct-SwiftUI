@@ -167,6 +167,18 @@ The result that a subprogram hands back to the call with return.
 ### Break
 A block that leaves the loop it is in straight away. Then the program continues below the loop.
 
+### Syntax error
+also: syntax error, syntax errors, Syntax errors
+A mistake in how the code is written, for example a missing `;`. The program does not start at all.
+
+### Runtime error
+also: runtime error, runtime errors, Runtime errors
+An error that only happens while the program runs, for example dividing by 0. The program stops at that point.
+
+### Logic error
+also: logic error, logic errors, Logic errors
+The program runs without any message but gives a wrong result. You find it with a desk check.
+
 ### Desk check
 also: desk check, desk checks, Desk checks
 You run a structure chart on paper and write down the values of the variables after every step.

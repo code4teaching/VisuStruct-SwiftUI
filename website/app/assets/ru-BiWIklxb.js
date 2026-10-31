@@ -94,6 +94,8 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_parse_missing_import" = "В самом начале не хватает %@ Без этой строки Java не знает Scanner.";
 "web_parse_missing_scanner" = "Сначала не хватает %@ Без этой строки Scanner не существует.";
 "web_parse_unknown_type" = "Java не знает такого типа данных. Может быть, %@?";
+"web_quickfix_insert_fmt" = "Предложение: вставить %@";
+"web_quickfix_replace_fmt" = "Предложение: %1$@ вместо %2$@";
 "web_editor_title" = "Диаграмма";
 "web_editor_show" = "Показать диаграмму";
 "web_editor_hide" = "Скрыть диаграмму";
@@ -177,4 +179,17 @@ const e=`/* Тексты, которые есть только в веб-вер�
 "web_code_scopes" = "Цветные блоки кода";
 "web_code_scopes_hint" = "Класс, метод, цикл, ветвление в отдельных рамках";
 "web_pseudocode" = "Псевдокод";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Переименовать переменную …";
+"web_rename_title" = "Переименовать переменную";
+"web_rename_old" = "Имя";
+"web_rename_new" = "Новое имя";
+"web_rename_hint" = "Меняет каждое место с точно таким написанием (number — не Number), в коде и на структурограмме. Текст в \\"…\\" и комментарии остаются.";
+"web_rename_count_fmt" = "Встречается %d раз(а).";
+"web_rename_exists_fmt" = "«%@» уже есть: после этого обе станут одной переменной.";
+"web_rename_invalid" = "Имя начинается с буквы и содержит только буквы, цифры и _.";
+"web_rename_keyword_fmt" = "«%@» — ключевое слово Java.";
+"web_rename_apply" = "Переименовать";
+"web_rename_cancel" = "Отмена";
 `;export{e as default};

@@ -181,6 +181,8 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_parse_missing_import" = "Ganz oben fehlt %@ Ohne diese Zeile kennt Java den Scanner nicht.";
 "web_parse_missing_scanner" = "Vorher fehlt %@ Ohne diese Zeile gibt es den Scanner nicht.";
 "web_parse_unknown_type" = "Diesen Datentyp kennt Java nicht. Meintest du %@?";
+"web_quickfix_insert_fmt" = "Vorschlag: %@ einfügen";
+"web_quickfix_replace_fmt" = "Vorschlag: %1$@ statt %2$@";
 "web_editor_title" = "Struktogramm";
 "web_editor_show" = "Struktogramm aufklappen";
 "web_editor_hide" = "Struktogramm einklappen";
@@ -741,4 +743,16 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_visuflow_status_edge" = "Pfeil gewählt. Löschen entfernt ihn.";
 "web_visuflow_status_connect" = "Loslassen über dem Symbol, zu dem der Pfeil führt.";
 "web_visuflow_edit_label" = "Text im Symbol";
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Variable umbenennen …";
+"web_rename_title" = "Variable umbenennen";
+"web_rename_old" = "Name";
+"web_rename_new" = "Neuer Name";
+"web_rename_hint" = "Ändert jede Stelle mit genau dieser Schreibweise (zahl ist nicht Zahl), im Code und im Struktogramm. Text in \\"…\\" und Kommentare bleiben.";
+"web_rename_count_fmt" = "Kommt %d-mal vor.";
+"web_rename_exists_fmt" = "„%@“ gibt es schon: Danach wären beide eine Variable.";
+"web_rename_invalid" = "Ein Name beginnt mit einem Buchstaben und enthält nur Buchstaben, Ziffern und _.";
+"web_rename_keyword_fmt" = "„%@“ ist ein Java-Schlüsselwort.";
+"web_rename_apply" = "Umbenennen";
+"web_rename_cancel" = "Abbrechen";
 `;export{e as default};

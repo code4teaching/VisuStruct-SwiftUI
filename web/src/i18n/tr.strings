@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "En üstte %@ eksik. Bu satır olmadan Java Scanner’ı tanımaz.";
 "web_parse_missing_scanner" = "Önce %@ eksik. Bu satır olmadan Scanner yoktur.";
 "web_parse_unknown_type" = "Java bu veri türünü tanımıyor. %@ mı demek istedin?";
+"web_quickfix_insert_fmt" = "Öneri: %@ ekle";
+"web_quickfix_replace_fmt" = "Öneri: %2$@ yerine %1$@";
 "web_editor_title" = "Diyagram";
 "web_editor_show" = "Diyagramı göster";
 "web_editor_hide" = "Diyagramı gizle";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "Renkli kod blokları";
 "web_code_scopes_hint" = "Sınıf, metot, döngü, dallanma kendi kutularında";
 "web_pseudocode" = "Sözde kod";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Değişkeni yeniden adlandır …";
+"web_rename_title" = "Değişkeni yeniden adlandır";
+"web_rename_old" = "Ad";
+"web_rename_new" = "Yeni ad";
+"web_rename_hint" = "Tam olarak bu yazılışa sahip her yeri değiştirir (sayi, Sayi değildir), kodda ve yapı diyagramında. \"…\" içindeki metin ve yorumlar kalır.";
+"web_rename_count_fmt" = "%d kez geçiyor.";
+"web_rename_exists_fmt" = "“%@” zaten var: sonra ikisi tek bir değişken olur.";
+"web_rename_invalid" = "Bir ad harfle başlar ve yalnızca harf, rakam ve _ içerir.";
+"web_rename_keyword_fmt" = "“%@” bir Java anahtar sözcüğüdür.";
+"web_rename_apply" = "Yeniden adlandır";
+"web_rename_cancel" = "İptal";

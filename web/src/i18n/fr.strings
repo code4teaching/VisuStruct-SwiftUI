@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "Il manque %@ tout en haut. Sans cette ligne, Java ne connaît pas Scanner.";
 "web_parse_missing_scanner" = "Il manque avant %@ Sans cette ligne, le Scanner n’existe pas.";
 "web_parse_unknown_type" = "Java ne connaît pas ce type de données. Vouliez-vous dire %@ ?";
+"web_quickfix_insert_fmt" = "Suggestion : insérer %@";
+"web_quickfix_replace_fmt" = "Suggestion : %1$@ au lieu de %2$@";
 "web_editor_title" = "Diagramme";
 "web_editor_show" = "Afficher le diagramme";
 "web_editor_hide" = "Masquer le diagramme";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "Blocs de code en couleur";
 "web_code_scopes_hint" = "Classe, méthode, boucle, condition dans leurs propres cadres";
 "web_pseudocode" = "Pseudo-code";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Renommer la variable …";
+"web_rename_title" = "Renommer la variable";
+"web_rename_old" = "Nom";
+"web_rename_new" = "Nouveau nom";
+"web_rename_hint" = "Modifie chaque endroit avec exactement cette écriture (nombre n’est pas Nombre), dans le code et dans le structogramme. Le texte entre \"…\" et les commentaires restent.";
+"web_rename_count_fmt" = "Apparaît %d fois.";
+"web_rename_exists_fmt" = "« %@ » existe déjà : ensuite les deux seraient une seule variable.";
+"web_rename_invalid" = "Un nom commence par une lettre et ne contient que des lettres, des chiffres et _.";
+"web_rename_keyword_fmt" = "« %@ » est un mot-clé Java.";
+"web_rename_apply" = "Renommer";
+"web_rename_cancel" = "Annuler";

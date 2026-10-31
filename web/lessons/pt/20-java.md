@@ -16,6 +16,7 @@ kurz: Todos os elementos em Java num relance, gerar código, escrever Java na á
 - reconstruir um programa Java curto como estrutograma
 - escrever Java na área Código e ler o estrutograma que é construído
 - executar um programa com ▶︎ e usar entradas e saídas na consola
+- encontrar um erro de sintaxe ou de execução pelo número de linha vermelho
 - pôr pontos de paragem e seguir um programa passo a passo
 :::
 
@@ -196,6 +197,10 @@ Em cima, na área Código, [▶︎ Executar](#zeige-ausfuehren) inicia o teu pro
 
 Podes arrastar com o rato a fronteira entre o código e a consola para cima ou para baixo.
 
+Se algo correr mal, o número da linha fica vermelho. Num erro de sintaxe, o sítio também fica sublinhado a vermelho e por baixo lês, por exemplo, **Linha 2: Ainda falta aqui: ;**. Aí o ▶︎ nem sequer arranca o programa. Se o programa parar enquanto corre, é um erro de execução e a consola diz a linha, por exemplo **Linha 3: Divisão por zero.** Os três tipos de erros já os conheces da lição “Simulação e teste de secretária”.
+
+Se o VisuStruct souber exatamente o que falta, aparece um 💡 no fim da linha. Passa o rato por cima para veres a sugestão, por exemplo **Sugestão: inserir import java.util.Scanner;**. Um clique aplica-a. Mesmo assim, lê o que foi inserido, para saberes fazê-lo sozinho da próxima vez.
+
 > A área Código entende os comandos Java que também existem como blocos no estrutograma. Ainda não conhece classes próprias nem objetos. Janelas com Swing funcionam na mesma: liga o **Java verdadeiro (com Swing)** na roda dentada (lição “A tua primeira janela”).
 
 ::: angeberwissen
@@ -204,7 +209,7 @@ Os profissionais chamam **IDE** (Integrated Development Environment) a um progra
 
 ## Encontrar erros com o depurador
 
-Às vezes um programa corre, mas calcula mal. Aí ajuda o **depurador** (debugger): executa o teu programa devagar e tu vês o que acontece.
+Às vezes um programa corre, mas calcula mal. É um erro de lógica. Aí ajuda o **depurador** (debugger): executa o teu programa devagar e tu vês o que acontece.
 
 - **Ponto de paragem:** Clica num número de linha à esquerda. Aparece um ponto vermelho. [▶︎ Executar](#zeige-ausfuehren) para antes dessa linha. Outro clique tira o ponto.
 - **Linha amarela:** É a próxima a ser executada. No estrutograma, o bloco correspondente fica selecionado.
@@ -395,6 +400,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - Consigo reconstruir um programa Java curto como estrutograma. → Exercício: Java como estrutograma
 - Consigo escrever Java na área Código e ler o estrutograma que é construído. → Escrever Java diretamente
 - Consigo executar um programa com ▶︎ e usar entradas e saídas na consola. → Executar o programa
+- Consigo encontrar um erro de sintaxe ou de execução pelo número de linha vermelho. → Executar o programa
 - Consigo pôr pontos de paragem e seguir um programa passo a passo. → Encontrar erros com o depurador
 :::
 
@@ -455,4 +461,11 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [x] O C++ tem de ser compilado de novo para cada sistema, o Java não.
 - [ ] Os dois só se compilam uma vez.
 > O C++ passa diretamente a código máquina para um sistema. O Java passa a bytecode, e é a JVM que o executa em cada sistema.
+
+? O número de linha 3 na área Código está vermelho. O que quer isso dizer?
+→ Executar o programa
+- [ ] Há um ponto de paragem na linha 3.
+- [x] Há um erro na linha 3.
+- [ ] A linha 3 é a próxima a ser executada.
+> Um ponto de paragem é um ponto vermelho redondo, e a próxima linha está a amarelo. Um número de linha vermelho mostra um erro de sintaxe ou de execução.
 :::

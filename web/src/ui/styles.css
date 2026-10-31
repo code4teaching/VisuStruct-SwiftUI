@@ -672,6 +672,54 @@ a.brand {
   justify-content: flex-end;
   margin-top: 12px;
 }
+/* „Variable umbenennen“ */
+.rename-card {
+  width: min(380px, 100%);
+}
+.rename-card label {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+}
+.rename-card input,
+.rename-card select {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  font-size: 15px;
+}
+.rename-card .rename-info {
+  min-height: 1.3em;
+  margin-top: 8px;
+}
+.rename-card .rename-warning {
+  color: #c93400;
+}
+.rename-menu {
+  position: fixed;
+  z-index: 30;
+  padding: 4px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.rename-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.rename-menu button:hover,
+.rename-menu button:focus-visible {
+  background: var(--accent-soft);
+}
+.inspector-rename {
+  margin-top: 8px;
+}
 .files-ask {
   width: min(360px, 100%);
 }
@@ -2620,6 +2668,13 @@ button.danger-text:not(:disabled) {
   width: 14px;
   padding-inline-start: 4px;
 }
+/* Fehler: rote Zeilennummer (der Haltepunkt bleibt der runde Punkt) */
+.livecode-editor .cm-lineNumbers .cm-gutterElement.cm-error-line {
+  color: #fff;
+  background: #d33;
+  border-radius: 4px;
+  font-weight: 600;
+}
 .livecode-editor .cm-breakpoint {
   display: inline-block;
   width: 10px;
@@ -2666,6 +2721,19 @@ button.danger-text:not(:disabled) {
   color: var(--muted) !important;
   font-style: italic;
   font-weight: normal !important;
+}
+.livecode-editor .cm-quickfix {
+  margin-inline-start: 8px;
+  padding: 0 3px;
+  border: 1px solid #e0a800;
+  border-radius: 4px;
+  background: rgba(255, 214, 10, 0.25);
+  font-size: 12px;
+  line-height: 1.3;
+  cursor: pointer;
+}
+.livecode-editor .cm-quickfix:hover {
+  background: rgba(255, 214, 10, 0.55);
 }
 .livecode-editor .cm-err {
   text-decoration: underline wavy #d33;
