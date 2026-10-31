@@ -18,16 +18,16 @@ kurz: Usar uma condição para decidir qual de dois ramos é executado.
 
 Até agora, todos os blocos eram sempre executados. Mas muitas vezes um programa deve **decidir**: se uma condição se verificar, faz uma coisa, senão faz a outra.
 
+::: diagramm l07-alter-pruefen.visustruct
+Consoante a idade introduzida, aparece uma mensagem ou a outra. Experimenta 17 e 18 na simulação.
+:::
+
 É para isso que serve a **decisão**. A condição fica no triângulo em cima. Por baixo, o estrutograma divide-se em dois ramos:
 
 - **true** (esquerda): é executado se a condição for verdadeira
 - **false** (direita): é executado se a condição for falsa
 
 É sempre executado **exatamente um** dos dois ramos. Depois, o programa continua por baixo da decisão.
-
-::: diagramm l07-alter-pruefen.visustruct
-Consoante a idade introduzida, aparece uma mensagem ou a outra. Experimenta 17 e 18 na simulação.
-:::
 
 ## Inserir uma decisão
 
@@ -82,6 +82,10 @@ lösung: l07-maximum-loesung.visustruct
 
 ::: diagramm l07-rabatt.visustruct
 A partir de 50 euros tens 5 euros de desconto. Caso contrário não acontece nada; o ramo false está vazio. A saída em baixo é executada nos dois casos.
+:::
+
+::: angeberwissen
+Uma única decisão esquecida deixou meia Internet em alvoroço em 2014: a falha de segurança **Heartbleed** no OpenSSL, um programa que muitos sites usam para a encriptação. Um computador podia dizer ao servidor: “Devolve-me a palavra *pão*, tem 500 letras.” O servidor não verificava se 500 correspondia ao comprimento real de 3 e devolvia simplesmente 500 caracteres da sua memória. Às vezes lá dentro estavam palavras-passe de outras pessoas. Só faltava um if: se o comprimento indicado for maior do que o real, então não devolver nada. Já agora, isto não tinha nada a ver com chavetas. Mééé, verifica as tuas entradas antes de acreditares nelas.
 :::
 
 ## Exercício: Valor absoluto
@@ -139,6 +143,20 @@ braucht: verzweigung
 tipp: Começa pelas duas linhas do scanner. Depois perguntas pelos pontos, lês o valor e comparas com `if`.
 tipp: A condição é `pontos >= 50`. Num ramo fica `System.out.println("aprovado");` e depois de `else` vem `System.out.println("reprovado");`.
 lösung: l08-java-bestanden-loesung.visustruct
+:::
+
+::: angeberwissen
+Se um ramo tiver só uma instrução, o Java até deixa tirar as chavetas. Nós nunca fazemos isso, e é por esta razão:
+
+```java
+if (idade >= 18)
+    System.out.println("És maior de idade.");
+    System.out.println("Podes ver o filme.");
+```
+
+Sem chavetas, só a primeira linha pertence ao if. A segunda é sempre executada, até para quem tem doze anos. A indentação engana, porque o Java não liga aos espaços.
+
+Foi exatamente um erro destes que estava escondido em iPhones e Macs em 2014, conhecido como **“goto fail”**. Na linguagem C, a linha `goto fail;` aparecia por engano duas vezes debaixo de um if sem chavetas. A segunda era sempre executada e saltava a verificação dos certificados de segurança. Numa rede Wi-Fi aberta, um atacante podia, por exemplo, fazer-se passar pelo teu banco. Mééé, as chavetas custam dois caracteres, uma falha de segurança custa muito mais.
 :::
 
 ## Preenche os espaços: par ou ímpar
