@@ -109,6 +109,16 @@ try und catch sind wie das Netz unter dem Trapez im Zirkus: Solange alles klappt
 
 > Im Struktogramm gibt es keinen Kasten für try und catch. VisuStruct zeigt den ganzen Block deshalb als eine Anweisung. Ausführen kannst du ihn nur mit echtem Java.
 
+::: angeberwissen
+Im Juli 1969 landete Apollo 11 auf dem Mond. Kurz vor der Landung meldete der Bordcomputer plötzlich die Fehler **1202** und **1201**: Er hatte mehr zu tun, als er schaffen konnte. Abgestürzt ist er trotzdem nicht. Das Team von **Margaret Hamilton** hatte die Software so gebaut, dass sie solche Fehler erkennt, Unwichtiges liegen lässt und nur das Wichtigste weiterrechnet. Die Landung klappte.
+
+Margaret Hamilton leitete am MIT die Gruppe, die die Software für die Apollo-Raumschiffe schrieb. Sie plante immer ein, dass etwas schiefgehen kann, so wie du mit `try` und `catch`. Damit Software genauso ernst genommen wird wie Hardware, nannte sie ihre Arbeit **Software Engineering**. Heute heißt so ein ganzes Fach der Informatik.
+:::
+
+::: bild margaret-hamilton.jpg
+Margaret Hamilton (geb. 1936) im Jahr 1969 neben den ausgedruckten Programmen, die ihr Team für Apollo geschrieben hat (Foto: [Draper Laboratory](https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg), gemeinfrei).
+:::
+
 ## Text in eine Zahl umwandeln
 
 Oft steht eine Zahl zuerst als Text da, zum Beispiel später in einem Textfeld im Fenster. `Integer.parseInt` wandelt Text in eine ganze Zahl um:
