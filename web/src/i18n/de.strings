@@ -98,6 +98,7 @@
 "web_learn_actual" = "Deine Ausgabe";
 "web_learn_missing_input" = "Dein Struktogramm fragt nach mehr Eingaben als vorgesehen.";
 "web_learn_unused_input" = "Dein Struktogramm fragt nicht alle Eingaben ab.";
+"web_learn_missing_line_break" = "Fast! Es fehlt nur ein Zeilenumbruch. System.out.print schreibt weiter in derselben Zeile, System.out.println beginnt danach eine neue.";
 "web_learn_too_many_steps" = "Abbruch nach 100 000 Schritten. Läuft eine Schleife endlos?";
 "web_learn_score_fmt" = "%d von %d richtig";
 "web_learn_cloze_hint" = "Tippe die fehlenden Wörter in die Lücken und drücke „Prüfen“.";

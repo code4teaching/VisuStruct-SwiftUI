@@ -1,4 +1,4 @@
-import { checkExercise, fileLines, loopDepth, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
+import { checkExercise, fileLines, loopDepth, onlyLineBreaksMissing, usedElementTypes, type TestOutcome } from '../core/exerciseCheck'
 import { compressDrive } from '../core/mbot'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, makeElement, type VSDocument } from '../core/model'
@@ -778,6 +778,8 @@ export class LearnPanel {
           h('span', {}, `📄 ${f.name}, ${t('web_learn_actual')}: `, h('code', {}, fileLines(o.result.files?.get(f.name)).join(' | ') || '–')),
         )
       }
+      if (!o.passed && !o.result.error && onlyLineBreaksMissing(o.result.outputs, o.test.expected))
+        detail.append(h('span', { class: 'learn-error' }, t('web_learn_missing_line_break')))
       if (o.result.error) detail.append(h('span', { class: 'learn-error' }, noticeText(o.result.error)))
       if (o.result.missingInput) detail.append(h('span', { class: 'learn-error' }, t('web_learn_missing_input')))
       if (o.result.tooManySteps) detail.append(h('span', { class: 'learn-error' }, t('web_learn_too_many_steps')))
