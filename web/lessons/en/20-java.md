@@ -16,6 +16,7 @@ kurz: All elements in Java at a glance, generate code, write Java in the Code ar
 - rebuild a short Java program as a structure chart
 - type Java in the Code area and read the structure chart that is built
 - run a program with ▶︎ and use input and output in the console
+- find a syntax error or a runtime error by its red line number
 - set breakpoints and follow a program step by step
 :::
 
@@ -196,6 +197,10 @@ At the top of the Code area, [▶︎ Run](#zeige-ausfuehren) starts your program
 
 You can drag the border between code and console up or down with the mouse.
 
+If something goes wrong, the line number turns red. With a syntax error the spot is also underlined in red, and below it you read e.g. **Line 2: Still missing here: ;**. Then ▶︎ does not even start the program. If the program stops while it runs, it is a runtime error, and the console names the line, e.g. **Line 3: Division by zero.** You know the three kinds of errors from the lesson “Simulation and desk check”.
+
+If VisuStruct knows exactly what is missing, there is a 💡 at the end of the line. Move the mouse onto it to see the suggestion, e.g. **Suggestion: insert import java.util.Scanner;**. A click applies it. Still read what was inserted, so that you know it yourself next time.
+
 > The Code area understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Real Java (with Swing)** under the gear (lesson “Your first window”).
 
 ::: angeberwissen
@@ -204,7 +209,7 @@ Professionals call a program where you write code, run it and look for mistakes 
 
 ## Find mistakes with the debugger
 
-Sometimes a program runs but calculates something wrong. Then the **debugger** helps: it runs your program slowly while you watch.
+Sometimes a program runs but calculates something wrong. That is a logic error. Then the **debugger** helps: it runs your program slowly while you watch.
 
 - **Breakpoint:** Click a line number on the left. A red dot appears. [▶︎ Run](#zeige-ausfuehren) pauses before this line. Click again to remove the dot.
 - **Yellow line:** This line runs next. The matching box is selected in the structure chart.
@@ -395,6 +400,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
 - I can type Java in the Code area and read the structure chart that is built. → Write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
+- I can find a syntax error or a runtime error by its red line number. → Run the program
 - I can set breakpoints and follow a program step by step. → Find mistakes with the debugger
 :::
 
@@ -455,4 +461,11 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [x] You have to compile C++ again for every system, but not Java.
 - [ ] You only compile both once.
 > C++ becomes machine code for one system directly. Java becomes bytecode, and the JVM runs it on every system.
+
+? Line number 3 in the Code area is red. What does that mean?
+→ Run the program
+- [ ] There is a breakpoint in line 3.
+- [x] There is an error in line 3.
+- [ ] Line 3 runs next.
+> A breakpoint is a round red dot, and the next line is yellow. A red line number shows a syntax error or a runtime error.
 :::

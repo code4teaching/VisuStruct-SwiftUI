@@ -10,6 +10,7 @@ kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und
 - die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen
 - während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen
 - einen Schreibtischtest als Tabelle von Hand durchführen
+- Syntaxfehler, Laufzeitfehler und Logikfehler unterscheiden
 - einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche
 - Java-Code mit dem Einzelschritt und Haltepunkten verfolgen
 :::
@@ -79,9 +80,25 @@ Ihre Kollegin Dorothy Vaughan merkte früh, dass die IBM-Computer die Rechenarbe
 Katherine Johnson (1918–2020), Mathematikerin bei der NASA (Foto: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), gemeinfrei).
 :::
 
+## Drei Arten von Fehlern
+
+Fehler gehören zum Programmieren dazu, auch bei Profis. Man unterscheidet drei Arten, denn jede findest du auf einem anderen Weg:
+
+- **Syntaxfehler** (syntax error): Der Text hält sich nicht an die Regeln der Sprache, z. B. fehlt am Ende ein `;`. Das Programm startet gar nicht.
+- **Laufzeitfehler** (runtime error): Das Programm startet, bricht aber an einer Stelle ab, z. B. beim Teilen durch 0.
+- **Logikfehler** (logic error): Das Programm läuft bis zum Ende, aber das Ergebnis ist falsch, z. B. weil Klammern fehlen: `a + b / 2` statt `(a + b) / 2`.
+
+So zeigt dir VisuStruct die Fehler:
+
+- **Syntaxfehler:** Im Struktogramm passieren sie seltener, weil die Kästen die Form vorgeben. Im Bereich [Code](#zeige-codelive) wird die Stelle rot unterstrichen, die Zeilennummer wird rot, und dazu steht z. B. **Zeile 2: Hier fehlt noch: ;**.
+- **Laufzeitfehler:** Die Simulation bleibt auf dem Kasten stehen und meldet z. B. **Division durch null.** Im Bereich Code wird die Zeilennummer rot, und die [Konsole](#zeige-konsole) nennt die Zeile: **Zeile 3: Division durch null.**
+- **Logikfehler:** Hier meldet niemand etwas. Der Computer weiß nicht, was du eigentlich wolltest. Nur du kennst das richtige Ergebnis, darum hilft hier der Schreibtischtest.
+
+> Eine rote Zeilennummer zeigt einen Fehler. Der runde rote Punkt vor der Zeilennummer ist etwas anderes: ein Haltepunkt. Den lernst du unten bei „Jetzt in Java“ kennen.
+
 ## Fehler finden
 
-Gibt ein Struktogramm etwas Falsches aus, gehst du so vor:
+Gibt ein Struktogramm etwas Falsches aus, ist das ein Logikfehler. Dann gehst du so vor:
 
 1. **Erwartung aufschreiben:** Was soll bei einer bestimmten Eingabe herauskommen?
 2. **Schritt für Schritt ausführen:** Starte die Simulation mit **Schritt** und beobachte die Variablen.
@@ -266,6 +283,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen. → Die Simulation starten
 - Ich kann während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen. → Was die Simulation anzeigt
 - Ich kann einen Schreibtischtest als Tabelle von Hand durchführen. → Der Schreibtischtest
+- Ich kann Syntaxfehler, Laufzeitfehler und Logikfehler unterscheiden. → Drei Arten von Fehlern
 - Ich kann einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche. → Fehler finden
 - Ich kann Java-Code mit dem Einzelschritt und Haltepunkten verfolgen. → Jetzt in Java
 :::
@@ -312,4 +330,16 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [x] Das Programm hält vor dieser Zeile an.
 - [ ] Die Zeile wird übersprungen.
 > Das ist ein Haltepunkt. Mit ▶︎ oder dem Einzelschritt geht es weiter.
+? Ordne jedem Fehler seine Fehlerart zu.
+→ Drei Arten von Fehlern
+= Am Zeilenende fehlt das Semikolon. -> Syntaxfehler
+= Das Programm teilt durch 0 und bricht ab. -> Laufzeitfehler
+= Der Durchschnitt ist zu groß, weil Klammern fehlen. -> Logikfehler
+
+? Das Programm läuft ohne Meldung bis zum Ende, gibt aber 12 statt 21 aus. Welche Fehlerart ist das?
+→ Drei Arten von Fehlern
+- [ ] Syntaxfehler
+- [ ] Laufzeitfehler
+- [x] Logikfehler
+> Es gibt keine Meldung, das Ergebnis ist trotzdem falsch. So einen Fehler findest du nur mit deiner Erwartung und dem Schreibtischtest.
 :::
