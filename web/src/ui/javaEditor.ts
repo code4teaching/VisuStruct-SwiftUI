@@ -2,9 +2,10 @@ import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap, s
 import { defaultKeymap, indentWithTab } from '@codemirror/commands'
 import { java } from '@codemirror/lang-java'
 import { bracketMatching, HighlightStyle, indentOnInput, indentUnit, syntaxHighlighting, syntaxTree } from '@codemirror/language'
-import { Annotation, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension, type Text } from '@codemirror/state'
+import { Annotation, ChangeSet, type ChangeSpec, Compartment, countColumn, EditorSelection, EditorState, Prec, RangeSet, RangeSetBuilder, StateEffect, StateField, type Extension, type Text } from '@codemirror/state'
 import { Decoration, EditorView, gutter, GutterMarker, highlightActiveLineGutter, keymap, layer, lineNumbers, RectangleMarker, type BlockInfo, type DecorationSet } from '@codemirror/view'
 import { tags } from '@lezer/highlight'
+import { formatJavaEdits } from '../core/javaFormat'
 import { indentJava } from '../core/javaIndent'
 import { memberCompletionsAt, type JavaMember, type MemberLanguage, type OwnTypes } from '../core/javaMembers'
 import { currentLanguage } from './i18n'
@@ -567,23 +568,29 @@ export class JavaEditor {
     })
   }
 
-  /** Knopf „Einrücken“: die markierten Zeilen, ohne Markierung den ganzen Code. */
+  /** Knopf „Einrücken“: die markierten Zeilen, ohne Markierung den ganzen Code, erst formatieren, dann einrücken. */
   indent() {
     const doc = this.view.state.doc
     const sel = this.view.state.selection.main
     const from = sel.empty ? 1 : doc.lineAt(sel.from).number
     const to = sel.empty ? doc.lines : doc.lineAt(sel.to).number
-    // Nur die Leerzeichen am Zeilenanfang ändern: Haltepunkte und Cursor bleiben in ihrer Zeile.
+    // `}` auf eine eigene Zeile, Leerzeichen um Operatoren: nur Leerraum zwischen den Zeichen ändert sich.
+    const format = ChangeSet.of(formatJavaEdits(doc.toString(), from, to), doc.length)
+    const formatted = format.apply(doc)
+    const fromLine = formatted.lineAt(format.mapPos(doc.line(from).from, -1)).number
+    const toLine = formatted.lineAt(format.mapPos(doc.line(to).to, 1)).number
+    // Einrücken ändert nur die Leerzeichen am Zeilenanfang: Haltepunkte und Cursor bleiben in ihrer Zeile.
     const changes: ChangeSpec[] = []
-    indentJava(doc.toString(), from, to)
+    indentJava(formatted.toString(), fromLine, toLine)
       .split('\n')
       .forEach((text, i) => {
-        const line = doc.line(i + 1)
+        const line = formatted.line(i + 1)
         const old = /^\s*/.exec(line.text)![0]
         const now = /^\s*/.exec(text)![0]
         if (old !== now) changes.push({ from: line.from, to: line.from + old.length, insert: now })
       })
-    if (changes.length > 0) this.view.dispatch({ changes, userEvent: 'input.indent' })
+    const all = format.compose(ChangeSet.of(changes, formatted.length))
+    if (!all.empty) this.view.dispatch({ changes: all, userEvent: 'input.indent' })
     this.view.focus()
   }
 

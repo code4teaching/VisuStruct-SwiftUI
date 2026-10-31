@@ -52,6 +52,13 @@ describe('Code-Editor: Einrücken', () => {
     expect(editor.text).toBe('if (x > 0) {\n    x--;\n}')
     editor.view.destroy()
   })
+
+  it('formatiert dabei: } auf eigener Zeile, Leerzeichen um >=', () => {
+    const editor = editorWith('if (punkte>=50) {\n    a();} else {\n    b();}')
+    editor.indent()
+    expect(editor.text).toBe('if (punkte >= 50) {\n    a();\n} else {\n    b();\n}')
+    editor.view.destroy()
+  })
 })
 
 describe('Code-Editor: Scanner-Zeile', () => {
