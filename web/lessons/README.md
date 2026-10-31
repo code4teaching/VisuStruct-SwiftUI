@@ -78,7 +78,7 @@ lösung: l2-hallo-loesung.visustruct
 - `datei:` (optional, nach einem `test:`) Diese Datei soll das Programm in diesem Test speichern, zum Beispiel
   `datei: einkauf-neu.txt -> Heu | Äpfel | Kuchen`. Verglichen wird Zeile für Zeile wie bei den Ausgaben.
 - `code: java` (optional) Die Übung wird im Bereich Code in Java gelöst. „Im Editor öffnen“ öffnet die Spalte gleich mit und stellt sie auf Java. Geprüft wird wie sonst das Struktogramm, das beim Tippen entsteht. Eine Musterlösung ist Pflicht, der Test tippt sie als Java und prüft sie.
-- `bereich: struktogramm | code | beide` (optional) Wo man die Übung löst. Die Karte zeigt es farbig an (Struktogramm blau, Code violett), und „Im Editor öffnen“ zeigt genau diese Bereiche: Lektionen bleiben offen, alles andere (Dateien, mBot2 live, bei `struktogramm` der Code, bei `code` das Struktogramm) wird geschlossen. Ohne Angabe gilt `code` bei `code: java`, sonst `struktogramm`. Für Übungen, bei denen man Code tippt und das Struktogramm liest (oder umgekehrt), `beide` nehmen.
+- `bereich: struktogramm | code | beide` (optional) Wo man die Übung löst. Die Karte zeigt es farbig an (Struktogramm grün, Code violett), und „Im Editor öffnen“ zeigt genau diese Bereiche: Lektionen bleiben offen, alles andere (Dateien, mBot2 live, bei `struktogramm` der Code, bei `code` das Struktogramm) wird geschlossen. Ohne Angabe gilt `code` bei `code: java`, sonst `struktogramm`. Für Übungen, bei denen man Code tippt und das Struktogramm liest (oder umgekehrt), `beide` nehmen.
 - Die Kennung (`l2-hallo`) muss überall eindeutig sein, denn unter ihr wird der Fortschritt gespeichert.
 
 Eine Checkliste zum Abhaken:

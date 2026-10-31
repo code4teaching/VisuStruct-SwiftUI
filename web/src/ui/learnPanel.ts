@@ -1006,7 +1006,7 @@ function matchOrder(q: QuizQuestion): string[] {
 
 /**
  * Schild „Löse diese Übung im Struktogramm/im Code“. Die Bereichsnamen sind die Überschriften auf dem Bildschirm
- * und stehen in der Farbe ihres Bereichs (Struktogramm blau, Code violett).
+ * und stehen in der Farbe ihres Bereichs (Struktogramm grün, Code violett).
  */
 function solveWhere(ex: Exercise): HTMLElement {
   const area = exerciseArea(ex)
