@@ -69,6 +69,9 @@ Uma caixa com etiqueta para um valor. Tem um nome, um tipo de dados e um valor.
 auch: CamelCase
 Forma de escrever nomes com várias palavras: escritas juntas, cada palavra seguinte começa com maiúscula, p. ex. `precoComIva`.
 
+### case-sensitive
+O Java distingue maiúsculas de minúsculas: `numero`, `Numero` e `NUMERO` são três nomes diferentes. `system` em vez de `System` é um erro.
+
 ### Constante
 auch: constante, constantes, Constantes
 Uma variável cujo valor não muda depois de definido. Escreve-se `const` à frente, p. ex. `const double IVA = 0.23`.

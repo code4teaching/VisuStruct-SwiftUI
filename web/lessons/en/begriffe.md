@@ -69,6 +69,9 @@ A labelled box for a value. It has a name, a data type and a value.
 also: CamelCase
 A way of writing names made of several words: written together, every further word starts with a capital, e.g. `priceWithTax`.
 
+### case-sensitive
+Java tells upper and lower case apart: `number`, `Number` and `NUMBER` are three different names. `system` instead of `System` is an error.
+
 ### Constant
 also: constant, constants, Constants
 A variable whose value stays the same once it is set. You write `const` in front of it, e.g. `const double VAT = 0.19`.

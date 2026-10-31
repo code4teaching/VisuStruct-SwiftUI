@@ -65,6 +65,10 @@ Eine beschriftete Kiste für einen Wert. Sie hat einen Namen, einen Datentyp und
 auch: camelCase
 Schreibweise für Namen aus mehreren Wörtern: zusammengeschrieben, jedes weitere Wort beginnt groß, z. B. `preisMitSteuer`.
 
+### case-sensitive
+auch: Groß- und Kleinschreibung
+Java unterscheidet Groß- und Kleinbuchstaben: `zahl`, `Zahl` und `ZAHL` sind drei verschiedene Namen. `system` statt `System` ist ein Fehler.
+
 ### Konstante
 auch: Konstanten
 Eine Variable, deren Wert nach dem Festlegen gleich bleibt. Man schreibt `const` davor, z. B. `const double MWST = 0.19`.

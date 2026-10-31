@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:website/app/assets/robot3d-DVT67rC6.js
 var gl=Object.defineProperty;var _l=(i,t,e)=>t in i?gl(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e;var le=(i,t,e)=>_l(i,typeof t!="symbol"?t+"":t,e);import{C as rn,L as oo}from"./index-BzOyQMjP.js";/**
+========
+var gl=Object.defineProperty;var _l=(i,t,e)=>t in i?gl(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e;var le=(i,t,e)=>_l(i,typeof t!="symbol"?t+"":t,e);import{C as rn,L as oo}from"./index-D-WVwkMk.js";/**
+>>>>>>>> 0a47d98 (Web 0.14.16: Groß- und Kleinschreibung, Übungen „Warum läuft das nicht?“, Glühbirne für Schreibweise):website/app/assets/robot3d-DurEjQ1B.js
  * @license
  * Copyright 2010-2025 Three.js Authors
  * SPDX-License-Identifier: MIT
