@@ -10,7 +10,7 @@ kurz: Join several conditions with and, or and not, and check ranges of values.
 - explain when a combination with && is true
 - explain when a combination with || is true
 - turn a condition round with !
-- check whether a value is in a range such as 1 to 6
+- join two comparisons into one condition with &&, for example `grade >= 1 && grade <= 6`
 - read the truth table for &&, || and !
 - store the result of a condition in a boolean variable
 - evaluate combined conditions confidently
@@ -282,7 +282,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can explain when a combination with && is true. → And: &&
 - I can explain when a combination with || is true. → Or: ||
 - I can turn a condition round with !. → Not and brackets
-- I can check whether a value is in a range such as 1 to 6. → Check ranges of values
+- I can join two comparisons into one condition with &&, for example `grade >= 1 && grade <= 6`. → Check ranges of values
 - I can read the truth table for &&, || and !. → The truth table
 - I can store the result of a condition in a boolean variable. → Truth values in variables
 - I can evaluate combined conditions confidently (at least 8 of 10 right in the game). → Game: True or false?

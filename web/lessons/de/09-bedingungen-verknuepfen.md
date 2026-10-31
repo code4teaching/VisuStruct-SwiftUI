@@ -10,7 +10,7 @@ kurz: Mehrere Bedingungen mit und, oder und nicht verbinden und Wertebereiche pr
 - erklären, wann eine Verknüpfung mit && wahr ist
 - erklären, wann eine Verknüpfung mit || wahr ist
 - eine Bedingung mit ! umdrehen
-- prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt
+- zwei Vergleiche mit && zu einer Bedingung verbinden, zum Beispiel `note >= 1 && note <= 6`
 - die Wahrheitstabelle für &&, || und ! lesen
 - das Ergebnis einer Bedingung in einer boolean-Variablen speichern
 - zusammengesetzte Bedingungen sicher auswerten
@@ -282,7 +282,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann erklären, wann eine Verknüpfung mit && wahr ist. → Und: &&
 - Ich kann erklären, wann eine Verknüpfung mit || wahr ist. → Oder: ||
 - Ich kann eine Bedingung mit ! umdrehen. → Nicht und Klammern
-- Ich kann prüfen, ob ein Wert in einem Bereich wie 1 bis 6 liegt. → Wertebereiche prüfen
+- Ich kann zwei Vergleiche mit && zu einer Bedingung verbinden, zum Beispiel `note >= 1 && note <= 6`. → Wertebereiche prüfen
 - Ich kann die Wahrheitstabelle für &&, || und ! lesen. → Die Wahrheitstabelle
 - Ich kann das Ergebnis einer Bedingung in einer boolean-Variablen speichern. → Wahrheitswerte in Variablen
 - Ich kann zusammengesetzte Bedingungen sicher auswerten (im Spiel mindestens 8 von 10 richtig). → Spiel: Wahr oder falsch?

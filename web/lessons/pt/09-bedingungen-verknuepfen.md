@@ -10,7 +10,7 @@ kurz: Juntar várias condições com e, ou e não, e verificar intervalos de val
 - explicar quando é que uma combinação com && é verdadeira
 - explicar quando é que uma combinação com || é verdadeira
 - inverter uma condição com !
-- verificar se um valor está num intervalo como de 1 a 5
+- juntar duas comparações numa só condição com &&, por exemplo `nota >= 1 && nota <= 5`
 - ler a tabela de verdade de &&, || e !
 - guardar o resultado de uma condição numa variável boolean
 - avaliar condições compostas com segurança
@@ -282,7 +282,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - Consigo explicar quando é que uma combinação com && é verdadeira. → E: &&
 - Consigo explicar quando é que uma combinação com || é verdadeira. → Ou: ||
 - Consigo inverter uma condição com !. → Não e parênteses
-- Consigo verificar se um valor está num intervalo como de 1 a 5. → Verificar intervalos de valores
+- Consigo juntar duas comparações numa só condição com &&, por exemplo `nota >= 1 && nota <= 5`. → Verificar intervalos de valores
 - Consigo ler a tabela de verdade de &&, || e !. → A tabela de verdade
 - Consigo guardar o resultado de uma condição numa variável boolean. → Valores lógicos em variáveis
 - Consigo avaliar condições compostas com segurança (pelo menos 8 de 10 certas no jogo). → Jogo: Verdadeiro ou falso?
