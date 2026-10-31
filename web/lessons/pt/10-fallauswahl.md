@@ -171,7 +171,7 @@ erklärung: Depois de `switch` vem a variável entre parênteses. Cada caso come
 titel: Corrigir a calculadora
 code: java
 auftrag: A calculadora lê dois números e uma opção: 1 mais, 2 menos, 3 vezes. Com 7, 3 e a opção 2 devia dar **4**, mas dá **-4**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l10-java-fehler-start.visustruct
 test: 7, 3, 2 -> 4
 test: 7, 3, 1 -> 10

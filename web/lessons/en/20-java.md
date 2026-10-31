@@ -1,7 +1,7 @@
 ---
 titel: Structure chart and code
 bereich: From structure chart to code
-kurz: All elements in Java at a glance, generate code, write Java in the Programming area, run it and find mistakes.
+kurz: All elements in Java at a glance, generate code, write Java in the Code area, run it and find mistakes.
 ---
 
 ## Skills I will gain now
@@ -14,7 +14,7 @@ kurz: All elements in Java at a glance, generate code, write Java in the Program
 - tell the JDK and the JRE apart
 - explain why a C++ program has to be compiled again for every operating system but a Java program does not
 - rebuild a short Java program as a structure chart
-- type Java in the Programming area and read the structure chart that is built
+- type Java in the Code area and read the structure chart that is built
 - run a program with ▶︎ and use input and output in the console
 - set breakpoints and follow a program step by step
 :::
@@ -181,25 +181,25 @@ This helps you match the boxes to the Java commands. Your diagram itself stays u
 
 ## Write Java directly
 
-So far you drew the structure chart first and then looked at the code. In the [Programming](#zeige-codelive) area it also works the other way round. Click the slim **Programming** strip on the right. Next to the structure chart a column appears where you type Java yourself.
+So far you drew the structure chart first and then looked at the code. In the [Code](#zeige-codelive) area it also works the other way round. Click the slim **Code** strip on the right. Next to the structure chart a column appears where you type Java yourself.
 
 - **Structure chart to code:** When you change something in the structure chart, the Java code changes right away.
 - **Code to structure chart:** When you type Java, VisuStruct builds the structure chart as you type. If something is still missing, for example a closing bracket `}`, a hint appears below the code.
 - **Suggestions:** While you type, VisuStruct suggests templates, for example for `if`, `for` or `while`. Press Enter to accept a template. Simply replace the grey placeholders with your own text.
-- **Indent:** If your code has got messy, click the **Indent** button at the top of the Programming area. Every level then sits four spaces deeper, as in Eclipse or IntelliJ. If you have selected lines, VisuStruct only indents those.
+- **Indent:** If your code has got messy, click the **Indent** button at the top of the Code area. Every level then sits four spaces deeper, as in Eclipse or IntelliJ. If you have selected lines, VisuStruct only indents those.
 
 So you can try both ways. Drawing the structure chart first is good for planning a process. Writing code directly is faster when you already know what you want. The structure chart then helps you check your code.
 
 ## Run the program
 
-At the top of the Programming area, [▶︎ Run](#zeige-ausfuehren) starts your program and **■ Stop** ends it, for example in an endless loop. What your program outputs appears below in the [console](#zeige-konsole). If it asks for input, type it there and press Enter.
+At the top of the Code area, [▶︎ Run](#zeige-ausfuehren) starts your program and **■ Stop** ends it, for example in an endless loop. What your program outputs appears below in the [console](#zeige-konsole). If it asks for input, type it there and press Enter.
 
 You can drag the border between code and console up or down with the mouse.
 
-> The Programming area understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Real Java (with Swing)** under the gear (lesson “Your first window”).
+> The Code area understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Real Java (with Swing)** under the gear (lesson “Your first window”).
 
 ::: angeberwissen
-Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With the Programming area, VisuStruct is a small IDE with a built-in structure chart.
+Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With the Code area, VisuStruct is a small IDE with a built-in structure chart.
 :::
 
 ## Find mistakes with the debugger
@@ -228,7 +228,7 @@ This is a desk check, except the computer takes the notes for you. Before each s
 
 ## Exercise: Code first, then the structure chart
 
-This time you don't draw. Open the Programming area and type in this Java code:
+This time you don't draw. Open the Code area and type in this Java code:
 
 ```
 System.out.println("Start number?");
@@ -242,13 +242,14 @@ System.out.println("Start!");
 
 ::: übung l20-countdown
 titel: Countdown
-auftrag: Type the Java code above into the Programming area. Run it with ▶︎ and enter a start number in the console.
+bereich: beide
+auftrag: Type the Java code above into the Code area. Run it with ▶︎ and enter a start number in the console.
   Then look at the structure chart that was built and click Check.
 test: 3 -> 3 | 2 | 1 | Start!
 test: 1 -> 1 | Start!
 test: 0 -> Start!
 braucht: whileSchleife
-tipp: Open the Programming area with the slim strip on the far right and just start typing.
+tipp: Open the Code area with the slim strip on the far right and just start typing.
 tipp: Watch out for the semicolon at the end of every statement and the curly brackets of the while loop. A hint below the code tells you when something is still missing.
 lösung: l20-countdown-loesung.visustruct
 :::
@@ -269,6 +270,7 @@ System.out.println(factorial);
 
 ::: übung l17-fakultaet
 titel: Factorial from Java
+bereich: beide
 auftrag: Rebuild the Java code above as a structure chart. The program reads in a number n and outputs the product 1 · 2 · … · n.
   At the end, check in the code view whether your Java code looks the same.
 test: 3 -> 6
@@ -391,7 +393,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can tell the JDK and the JRE apart. → How Java runs on every computer
 - I can explain why a C++ program has to be compiled again for every operating system but a Java program does not. → How Java runs on every computer
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
-- I can type Java in the Programming area and read the structure chart that is built. → Write Java directly
+- I can type Java in the Code area and read the structure chart that is built. → Write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
 - I can set breakpoints and follow a program step by step. → Find mistakes with the debugger
 :::

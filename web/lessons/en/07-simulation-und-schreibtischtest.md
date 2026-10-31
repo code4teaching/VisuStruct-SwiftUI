@@ -41,7 +41,7 @@ The values of a and b are swapped. The variable temp keeps one value meanwhile.
 - **Variables:** All variables with their current values.
 - **Output:** Everything that was output with `output:`.
 
-If the [Programming](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
+If the [Code](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
 
 At the end, **Simulation finished.** appears. If something goes wrong, the simulation stops on the faulty box and shows a message, e.g. **Unknown variable: total**.
 
@@ -142,7 +142,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Now in Java
 
-You can run Java code step by step too. In the [Programming](#zeige-codelive) area the tool for this is called the **debugger**:
+You can run Java code step by step too. In the [Code](#zeige-codelive) area the tool for this is called the **debugger**:
 
 - Click a line number on the left. A red dot appears: that is a **breakpoint**. [▶︎ Run](#zeige-ausfuehren) pauses before this line.
 - The [Step](#zeige-einzelschritt) button runs exactly one line, like **Step** in the simulation.
@@ -174,7 +174,7 @@ b = a * 2;      // b is now [[14]]
 a = b - a;      // a is now [[7]]
 System.out.println(a + b);      // output: [[21]]
 ```
-erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Programming area.
+erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Code area.
 :::
 
 ## Find the bug: score
@@ -306,7 +306,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] sum is too big.
 - [ ] The structure chart has too many boxes.
 
-? What does a red dot in front of a line number in the Programming area do?
+? What does a red dot in front of a line number in the Code area do?
 → Now in Java
 - [ ] It marks an error.
 - [x] The program pauses before this line.

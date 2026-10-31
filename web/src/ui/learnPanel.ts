@@ -6,7 +6,7 @@ import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import { explain, makeRound, usedValues, type BoolGame } from '../learn/boolGame'
 import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage, world } from '../learn/content'
-import type { Block, ChecklistItem, Exercise, Lesson, QuizQuestion, Task } from '../learn/lessonFormat'
+import { exerciseArea, type Block, type ChecklistItem, type Exercise, type Lesson, type QuizQuestion, type Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
 import { progress, type Rating } from '../learn/progress'
@@ -30,7 +30,7 @@ import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEdit
 export interface LearnHost {
   /** Übung im Editor öffnen (vorhandenen Reiter wählen oder neuen anlegen). */
   openExercise(exercise: Exercise, doc: VSDocument): void
-  /** Java-Beispiel aus dem Text in einem neuen Reiter öffnen, Spalte „Programmieren“ auf Java. */
+  /** Java-Beispiel aus dem Text in einem neuen Reiter öffnen, Spalte „Code“ auf Java. */
   openJavaCode(java: string): void
   /** Beispieldiagramm in einem neuen Reiter öffnen. */
   openDiagram(doc: VSDocument, fileName: string): void
@@ -40,9 +40,9 @@ export interface LearnHost {
   subprogramsFor(id: string): SubprogramResolver
   /** Eingeklappte Struktogramm-Spalte wieder zeigen. */
   showEditor(): void
-  /** Spalte „Programmieren“ öffnen. */
+  /** Spalte „Code“ öffnen. */
   showLiveCode(): void
-  /** Spalte „Programmieren“ auf Java öffnen (der Struktogramm-Editor bleibt, wie er ist). */
+  /** Spalte „Code“ auf Java öffnen (der Struktogramm-Editor bleibt, wie er ist). */
   showJava(): void
   /** Spalte Dateien öffnen (die anderen Spalten bleiben, wie sie sind). */
   showFiles(): void
@@ -200,7 +200,7 @@ export class LearnPanel {
     }
   }
 
-  /** Reiter „Nachschlagen“ zeigen, z. B. vom Knopf in „Programmieren“ aus. */
+  /** Reiter „Nachschlagen“ zeigen, z. B. vom Knopf in „Code“ aus. */
   showReference() {
     this.tab = 'reference'
     this.persist()
@@ -342,9 +342,9 @@ export class LearnPanel {
     else if (pointsIntoFiles(this.body)) this.host.showFiles()
     // Eine Struktogramm-Übung braucht den Struktogramm-Editor.
     else if (exercises.some((ex) => ex.code !== 'java')) this.host.showEditor()
-    // Java (Beispiel als ```java oder Übung mit `code: java`) braucht die Spalte „Programmieren“.
+    // Java (Beispiel als ```java oder Übung mit `code: java`) braucht die Spalte „Code“.
     else if (exercises.length > 0 || this.body.querySelector('.lesson-code[data-lang=java]')) this.host.showJava()
-    // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Programmieren“.
+    // Dasselbe für Ausführen, Konsole und Einzelschritt in der Spalte „Code“.
     if (pointsIntoLiveCode(this.body)) this.host.showLiveCode()
   }
 
@@ -607,11 +607,9 @@ export class LearnPanel {
     const state = () => progress.exercise(ex.id)
     const badge = h('span', { class: 'learn-badge' }, `✓ ${t('web_learn_solved')}`)
     badge.hidden = !state().done
-    // Jede Übung sagt, in welchem Bereich man sie löst, mit dem Namen, der dort als Überschrift steht.
-    const where = ex.code === 'java' ? t('web_learn_solve_in_code', t('web_live_title')) : t('web_learn_solve_in_editor', t('web_editor_title'))
     card.append(
       h('h4', {}, `${t('web_learn_exercise')}: ${ex.title}`, badge),
-      h('p', { class: 'learn-where' }, where),
+      solveWhere(ex),
       html('div', { class: 'learn-text' }, markdownToHTML(ex.task)),
     )
 
@@ -1005,3 +1003,23 @@ export class LearnPanel {
 function matchOrder(q: QuizQuestion): string[] {
   return (q.pairs ?? []).map((p) => p.right).sort((a, b) => a.localeCompare(b, 'de'))
 }
+
+/**
+ * Schild „Löse diese Übung im Struktogramm/im Code“. Die Bereichsnamen sind die Überschriften auf dem Bildschirm
+ * und stehen in der Farbe ihres Bereichs (Struktogramm blau, Code violett).
+ */
+function solveWhere(ex: Exercise): HTMLElement {
+  const area = exerciseArea(ex)
+  const key = area === 'beide' ? 'web_learn_solve_in_both' : area === 'code' ? 'web_learn_solve_in_code' : 'web_learn_solve_in_editor'
+  const names = { editor: t('web_editor_title'), code: t('web_live_title') }
+  const args = area === 'beide' ? ['\u0001editor', '\u0001code'] : [area === 'code' ? '\u0001code' : '\u0001editor']
+  const p = h('p', { class: `learn-where learn-where-${area}` })
+  for (const part of t(key, ...args).split(/(\u0001(?:editor|code))/)) {
+    if (part === '\u0001editor' || part === '\u0001code') {
+      const which = part.slice(1) as 'editor' | 'code'
+      p.append(h('span', { class: `area-name area-${which}` }, names[which]))
+    } else if (part) p.append(part)
+  }
+  return p
+}
+

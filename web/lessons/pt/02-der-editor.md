@@ -14,7 +14,7 @@ kurz: Inserir elementos, escrever texto, mover e eliminar.
 
 ## O ecrã
 
-O VisuStruct tem dois editores: o [editor de estrutogramas](#zeige-editor), de que trata esta lição, e à direita a área [Programação](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha. As palavras azuis mostram-te as áreas, mesmo que estejam recolhidas: passa o rato por cima de uma, e a área abre-se ao lado da área de aprendizagem e acende-se. Se clicares nela (ou tocares nela), fica aberta.
+O VisuStruct tem dois editores: o [editor de estrutogramas](#zeige-editor), de que trata esta lição, e à direita a área [Código](#zeige-codelive) para código Java (a partir da lição 4). Se o editor de estrutogramas estiver recolhido, esta lição abre-o sozinha. As palavras azuis mostram-te as áreas, mesmo que estejam recolhidas: passa o rato por cima de uma, e a área abre-se ao lado da área de aprendizagem e acende-se. Se clicares nela (ou tocares nela), fica aberta.
 
 O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palavra azul ou toca nela, e essa área acende-se no editor; as áreas recolhidas, como os Elementos, abrem-se.
 
@@ -24,7 +24,7 @@ O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palav
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
 - **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.
 
-> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Programação](#zeige-codelive) para Java (a partir da lição 4).
+> Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Código](#zeige-codelive) para Java (a partir da lição 4).
 
 ## Inserir um elemento
 

@@ -49,7 +49,7 @@ lösung: vb-abstand-halten-loesung.visustruct
 
 ## Now in Java
 
-In the [Programming](#zeige-codelive) area you already see your structure chart as Java code. A branch is called `if` there, the No branch is `else`:
+In the [Code](#zeige-codelive) area you already see your structure chart as Java code. A branch is called `if` there, the No branch is `else`:
 
 ```java
 if (mbot.getDistance() < 10) {

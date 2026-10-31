@@ -132,7 +132,7 @@ erklärung: Der Rumpf steht zwischen `do {` und `}`, die Bedingung erst danach. 
 titel: Halbieren reparieren
 code: java
 auftrag: Das Programm liest eine Startzahl ein und teilt sie mit einer Do-while-Schleife immer wieder ganzzahlig durch 2. Jedes Ergebnis wird ausgegeben, bis **0** erreicht ist. Bei 10 also 5, 2, 1 und 0. Die 0 fehlt aber.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l12-java-fehler-start.visustruct
 test: 10 -> 5 | 2 | 1 | 0
 test: 1 -> 0

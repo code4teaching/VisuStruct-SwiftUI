@@ -228,7 +228,7 @@ System.out.println("Das Quadrat ist " + q);
 
 - In der Kopfzeile steht vor dem Namen, was die Methode zurückgibt (`int`). Gibt sie nichts zurück, steht dort `void`.
 - Die Parameter stehen mit Datentyp in den runden Klammern: `(int x)`. Mehrere trennst du mit Komma.
-- Im Bereich Programmieren schreibst du jede Methode in einen eigenen Reiter, so wie jedes Unterprogramm ein eigenes Struktogramm hat.
+- Im Bereich Code schreibst du jede Methode in einen eigenen Reiter, so wie jedes Unterprogramm ein eigenes Struktogramm hat.
 - Der Aussprung heißt in Java `break`. Mit `while (true)` baust du eine Schleife, die nur durch `break` endet.
 
 ::: übung l18-java-kasse
@@ -249,7 +249,7 @@ lösung: l18-java-kasse-loesung.visustruct
 
 ::: lückentext
 titel: Methode und Aussprung
-auftrag: Ergänze die fehlenden Wörter. Oben steht die Methode, die ein Quadrat ausrechnet. Darunter steht das Hauptprogramm, das sie aufruft. Im Bereich Programmieren stehen beide in eigenen Reitern.
+auftrag: Ergänze die fehlenden Wörter. Oben steht die Methode, die ein Quadrat ausrechnet. Darunter steht das Hauptprogramm, das sie aufruft. Im Bereich Code stehen beide in eigenen Reitern.
 ```java
 public static [[int]] quadrat(int x) {
     [[return]] x * x;
@@ -275,7 +275,7 @@ erklärung: `int` vor dem Methodennamen heißt: Die Methode gibt eine ganze Zahl
 titel: Versuche zählen reparieren
 code: java
 auftrag: Beim Zahlenraten ist die gesuchte Zahl 7. Das Programm fragt so lange nach einem Tipp, bis die 7 kommt, und gibt dann die Zahl der Versuche aus. Bei 3, 5 und 7 waren es 3 Versuche, das Programm sagt aber **Versuche: 2**.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l18-java-fehler-start.visustruct
 test: 3, 5, 7 -> Versuche: 3
 test: 7 -> Versuche: 1

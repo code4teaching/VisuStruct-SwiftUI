@@ -69,7 +69,8 @@
 "web_learn_solved" = "geschafft";
 "web_learn_open_exercise" = "Im Editor öffnen";
 "web_learn_solve_in_editor" = "Löse diese Übung im %@.";
-"web_learn_solve_in_code" = "Löse diese Übung in %@.";
+"web_learn_solve_in_code" = "Löse diese Übung im %@.";
+"web_learn_solve_in_both" = "Löse diese Übung im %1$@ und im %2$@.";
 "web_learn_open_in_editor" = "Im Editor öffnen";
 "web_learn_graphic_labels" = "👆 Klick aufs Bild: Beschriftung ein oder aus";
 "web_learn_check" = "Prüfen";
@@ -140,14 +141,14 @@
 "web_site_imprint" = "Impressum";
 "web_site_privacy" = "Datenschutz";
 
-/* Programmieren (früher „Code live“) */
-"web_live_title" = "Programmieren";
-"web_live_hide" = "Programmieren ausblenden";
+/* Code (früher „Code live“, dann „Programmieren“) */
+"web_live_title" = "Code";
+"web_live_hide" = "Code ausblenden";
 "web_scale_canvas" = "Textgröße Struktogramm";
-"web_scale_code" = "Textgröße Programmieren";
+"web_scale_code" = "Textgröße Code";
 "web_live_indent" = "Einrücken";
 "web_live_indent_title" = "Code einrücken: jede Ebene vier Leerzeichen tiefer (markierte Zeilen, sonst alles)";
-"web_live_show" = "Programmieren aufklappen";
+"web_live_show" = "Code aufklappen";
 "web_live_resize" = "Breite des Codebereichs ändern (Doppelklick: zurücksetzen)";
 "web_live_hint" = "Der Code wächst mit deinem Struktogramm. Grau = Platzhalter: Schreib im Objektinspektor, dann steht dort dein Text. Klick auf eine Zeile markiert das Element.";
 "web_live_ph_selector" = "Variable";
@@ -405,7 +406,7 @@
 "web_visubot_preview_hide" = "mBot2 live einklappen";
 "web_visubot_preview_show" = "mBot2 live zeigen";
 "web_visubot_preview_resize" = "Größe von mBot2 live ändern";
-"web_visubot_preview_stack" = "Unter den Code in Programmieren";
+"web_visubot_preview_stack" = "Unter den Code im Bereich Code";
 "web_visubot_preview_side" = "Als eigene Spalte";
 "web_visubot_preview_distance_fmt" = "Strecke: %d cm";
 "web_visubot_preview_input" = "braucht eine Eingabe, dafür die Simulation starten";
@@ -422,8 +423,8 @@
 "web_visubot_group_light" = "Licht und Lautstärke";
 "web_visubot_group_tilt" = "Neigung und Schütteln";
 "web_visubot_group_timer" = "Stoppuhr und Akku";
-"web_swap_to_code" = "Programmieren groß, Struktogramm schmal";
-"web_swap_to_editor" = "Struktogramm groß, Programmieren schmal";
+"web_swap_to_code" = "Code groß, Struktogramm schmal";
+"web_swap_to_editor" = "Struktogramm groß, Code schmal";
 "web_editor_resize" = "Breite des Struktogramms ändern";
 "web_palette_resize" = "Breite der Elemente ändern (Doppelklick: zurücksetzen)";
 "web_palette_hide" = "Elemente einklappen";

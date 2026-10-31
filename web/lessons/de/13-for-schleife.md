@@ -169,7 +169,7 @@ erklärung: In den runden Klammern stehen Startwert, Bedingung und Schritt, getr
 titel: Einmaleins reparieren
 code: java
 auftrag: Das Programm fragt nach einer Reihe und soll sie vom 1-fachen bis zum 10-fachen ausgeben, bei 7 also 7, 14, … bis 70. Die 70 fehlt aber.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l13-java-fehler-start.visustruct
 test: 7 -> 7 | 14 | 21 | 28 | 35 | 42 | 49 | 56 | 63 | 70
 test: 3 -> 3 | 6 | 9 | 12 | 15 | 18 | 21 | 24 | 27 | 30

@@ -169,7 +169,7 @@ erklärung: `int[][]` ist eine Tabelle. `feld.length` ist die Zahl der Reihen (2
 titel: Spieler 2 reparieren
 code: java
 auftrag: In der Tabelle `punkte` steht jede Reihe für einen Spieler. Das Programm soll die Punkte von Spieler 2 (Reihe 1) zusammenzählen, also **Spieler 2: 11**. Stattdessen meldet es einen Fehler.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l16-java-fehler-start.visustruct
 test: - -> Spieler 2: 11
 braucht: forSchleife

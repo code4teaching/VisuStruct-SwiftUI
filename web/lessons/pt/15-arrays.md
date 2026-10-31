@@ -191,7 +191,7 @@ erklärung: `int[]` é um array de números inteiros, `valores.length` é o seu 
 titel: Corrigir a temperatura mais alta
 code: java
 auftrag: Em janeiro mediram-se as temperaturas -5, -2, -8 e -3 graus. O programa deve mostrar a mais alta, ou seja, **Temperatura mais alta: -2**. Mas diz 0 graus, embora nunca tenha estado tão quente.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l15-java-fehler-start.visustruct
 test: - -> Temperatura mais alta: -2
 braucht: forSchleife, verzweigung

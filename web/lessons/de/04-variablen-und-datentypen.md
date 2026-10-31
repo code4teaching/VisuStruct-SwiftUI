@@ -194,14 +194,14 @@ System.out.println("Größe: " + groesse + " m");
 - `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet das.
 - Mit `+` hängst du Text und Zahlen aneinander.
 
-Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst. „Im Editor öffnen“ holt das Beispiel in den Bereich Programmieren. Klicke dort auf „Ausführen“, ändere dann Name, Alter oder Größe und probiere es noch einmal.
+Java tippst du im Bereich [Code](#zeige-codelive). Das Struktogramm entsteht dabei von selbst. „Im Editor öffnen“ holt das Beispiel in den Bereich Code. Klicke dort auf „Ausführen“, ändere dann Name, Alter oder Größe und probiere es noch einmal.
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
 code: java
 auftrag: Schreibe einen Steckbrief für Ludwig den Geißbock. Lege drei Variablen an: den Namen **Ludwig**, das Alter **7** und die Größe **1.2**. Gib dann diese zwei Zeilen aus:
   **Ludwig ist 7 Jahre alt.** und **Größe: 1.2 m**
-  „Im Editor öffnen“ öffnet rechts auch den Bereich Programmieren. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
+  „Im Editor öffnen“ öffnet rechts auch den Bereich Code. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
 test: - -> Ludwig ist 7 Jahre alt. | Größe: 1.2 m
 braucht: anweisung
 tipp: Du brauchst einen `String`, einen `int` und einen `double`. Jede Zeile endet mit einem Semikolon.
@@ -225,7 +225,7 @@ auftrag: Ergänze die fehlenden Wörter. Ganz außen steht der Rahmen, den jedes
     }
 }
 ```
-erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Programmieren darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
+erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Code darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
 :::
 
 ## Fehler finden: Sekunden
@@ -234,7 +234,7 @@ erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß
 titel: Sekunden reparieren
 code: java
 auftrag: Das Programm soll 200 Sekunden in Minuten und Sekunden umrechnen und **3 min 20 s** ausgeben. Es gibt aber **20 min 3 s** aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l04-java-fehler-start.visustruct
 test: - -> 3 min 20 s
 braucht: anweisung
