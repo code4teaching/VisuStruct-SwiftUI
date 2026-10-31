@@ -65,6 +65,20 @@ Then compare your table with the simulation. Do the values under **Variables** m
 
 > A desk check is especially useful in tests. There you have no computer, but you can still show what your structure chart does.
 
+::: angeberwissen
+“Computer” used to be a job: people who did calculations with pencil, paper and a calculating machine. One of the best was the mathematician Katherine Johnson at NASA. She calculated flight paths for space capsules, and later also for the Apollo 11 flight to the Moon.
+
+In 1962 John Glenn was to become the first American to orbit the Earth. A new IBM computer had calculated the flight path. Glenn did not fully trust the machine and said: “Get the girl to check the numbers. If she says they’re good, I’m ready to go.” Katherine Johnson checked everything by hand, a real desk check. Her numbers were right, and Glenn flew.
+
+Katherine Johnson was Black, and at that time laws in the US state of Virginia separated Black and white people. In the film “Hidden Figures” (2016) she has to run across the whole site every time she needs the toilet. The film exaggerates this: separate toilets really existed, but Katherine Johnson said she simply ignored the sign.
+
+Her colleague Dorothy Vaughan saw early on that the IBM computers would take over the calculating work. She taught herself and her whole team the programming language FORTRAN. That is how human computers became programmers.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), mathematician at NASA (photo: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), public domain).
+:::
+
 ## Find mistakes
 
 If a structure chart outputs something wrong, do this:

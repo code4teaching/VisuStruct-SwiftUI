@@ -65,6 +65,20 @@ Vergleiche danach deine Tabelle mit der Simulation. Stimmen die Werte unter **Va
 
 > Der Schreibtischtest lohnt sich besonders in Prüfungen. Dort hast du keinen Computer, aber du kannst trotzdem zeigen, was dein Struktogramm tut.
 
+::: angeberwissen
+Früher war „Computer“ ein Beruf: Menschen, die mit Stift, Papier und Rechenmaschine rechneten. Eine der besten war die Mathematikerin Katherine Johnson bei der NASA. Sie berechnete Flugbahnen für Raumkapseln, später auch für den Flug von Apollo 11 zum Mond.
+
+1962 sollte John Glenn als erster Amerikaner die Erde umkreisen. Die Flugbahn hatte ein neuer IBM-Computer berechnet. Glenn traute der Maschine nicht ganz und sagte: „Holt das Mädchen, sie soll die Zahlen prüfen. Wenn sie sagt, sie stimmen, fliege ich.“ Katherine Johnson rechnete alles von Hand nach, also ein echter Schreibtischtest. Ihre Zahlen stimmten, und Glenn flog.
+
+Katherine Johnson war Schwarz, und im US-Bundesstaat Virginia trennten damals Gesetze Schwarze und Weiße. Im Film „Hidden Figures“ (2016) muss sie für jeden Toilettengang quer über das Gelände laufen. Das ist für den Film zugespitzt: Getrennte Toiletten gab es wirklich, aber Katherine Johnson hat das Schild nach eigener Aussage einfach ignoriert.
+
+Ihre Kollegin Dorothy Vaughan merkte früh, dass die IBM-Computer die Rechenarbeit übernehmen würden. Sie brachte sich und ihrem ganzen Team die Programmiersprache FORTRAN bei. So wurden aus menschlichen Computern Programmiererinnen.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), Mathematikerin bei der NASA (Foto: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), gemeinfrei).
+:::
+
 ## Fehler finden
 
 Gibt ein Struktogramm etwas Falsches aus, gehst du so vor:
