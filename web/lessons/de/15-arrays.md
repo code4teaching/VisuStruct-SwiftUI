@@ -118,6 +118,16 @@ tipp: Mit `int[] zahlen = new int[4]` legst du das Array an. Die Eingabe lautet 
 lösung: l14-rueckwaerts-loesung.visustruct
 :::
 
+::: angeberwissen
+**Hedy Lamarr** aus Wien war in den 1940er-Jahren ein berühmter Hollywood-Filmstar. In ihrer Freizeit erfand sie gern. 1942 bekam sie zusammen mit dem Komponisten George Antheil ein Patent auf eine Funkverbindung, die der Feind nicht stören sollte: Sender und Empfänger springen gemeinsam durch eine Liste von **88 Frequenzen**, so viele, wie ein Klavier Tasten hat. Die Liste stand auf einem Lochstreifen wie bei einem selbstspielenden Klavier. Beide gehen dieselbe Liste in derselben Reihenfolge durch, so wie deine Schleife mit `i` durch ein Array. Wer nur eine Frequenz abhört oder stört, bekommt fast nichts mit.
+
+Dieses **Frequenzsprungverfahren** (englisch *frequency hopping*) steckt heute zum Beispiel in Bluetooth. Ganz allein erfunden hat sie es nicht, es gab schon frühere Ideen. Ihr Patent gilt aber als wichtiger Vorläufer, und 1997 wurde sie dafür ausgezeichnet.
+:::
+
+::: bild hedy-lamarr.jpg
+Hedy Lamarr (1914–2000), Schauspielerin und Erfinderin, 1944 (Pressefoto: [unbekannt](https://commons.wikimedia.org/wiki/File:Hedy_Lamarr_Publicity_Photo_for_The_Heavenly_Body_1944.jpg), gemeinfrei).
+:::
+
 ## Summe und Maximum
 
 Zwei Aufgaben kommen bei Arrays immer wieder vor:
@@ -145,7 +155,7 @@ lösung: l14-summe-max-loesung.visustruct
 
 Das Durchlaufen eines Arrays sieht in Java so aus:
 
-```java
+```java editor
 int[] zahlen = {2, 4, 6, 8, 10};
 for (int i = 0; i < zahlen.length; i++) {
     System.out.println(zahlen[i]);
@@ -191,7 +201,7 @@ erklärung: `int[]` ist ein Array aus ganzen Zahlen, `werte.length` seine Länge
 titel: Höchste Temperatur reparieren
 code: java
 auftrag: Im Januar wurden die Temperaturen -5, -2, -8 und -3 Grad gemessen. Das Programm soll die höchste ausgeben, also **Höchste Temperatur: -2**. Es behauptet aber 0 Grad, obwohl es so warm nie war.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l15-java-fehler-start.visustruct
 test: - -> Höchste Temperatur: -2
 braucht: forSchleife, verzweigung

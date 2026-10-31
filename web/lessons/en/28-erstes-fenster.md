@@ -7,7 +7,7 @@ kurz: Open your own window with Java and Swing, explained line by line.
 ## Skills I will gain now
 
 ::: kompetenzen
-- switch on “Real Java” in the Programming area
+- switch on “Real Java” in the Code area
 - open a window with a title and a size
 - explain what each line of the window program does
 - explain why setVisible(true) comes last
@@ -19,11 +19,11 @@ So far your programs have written text to the console. Most programs you know, h
 
 Java comes with a toolbox for this: **Swing**. In VisuStruct you switch it on like this:
 
-1. Open the [Programming](#zeige-codelive) area on the right.
+1. Open the [Code](#zeige-codelive) area on the right.
 2. Click the [gear](#zeige-einstellungen) at the top right and choose Java as the **Programming language**.
 3. Below that, in the Java section, tick **Real Java (with Swing)**.
 
-The first time you click [▶︎ Run](#zeige-ausfuehren), VisuStruct downloads about 40 MB once, which takes a moment. After that your code runs as real Java, and your windows appear in the Programming area in the **Java windows** box above the console.
+The first time you click [▶︎ Run](#zeige-ausfuehren), VisuStruct downloads about 40 MB once, which takes a moment. After that your code runs as real Java, and your windows appear in the Code area in the **Java windows** box above the console.
 
 > With “Real Java”, input from the console (`Scanner`) does not work yet. For programs with input, untick the box again.
 
@@ -33,7 +33,7 @@ Swing has been around since 1998. Before that, Java only had the older AWT with 
 
 ## The whole program
 
-This is the smallest program that opens a window. Type it into the Programming area and click [▶︎ Run](#zeige-ausfuehren):
+This is the smallest program that opens a window. Type it into the Code area and click [▶︎ Run](#zeige-ausfuehren):
 
 ```java
 import javax.swing.*;
@@ -177,7 +177,7 @@ Change the program so that
 Run it and check all three points.
 
 ::: ludwig
-Don't feel like typing so much? With “Real Java” you may type just the four lines from `main` into the Programming area. VisuStruct then wraps them in a class itself and adds the `import` lines. In a real Java development environment, though, you need the whole program.
+Don't feel like typing so much? With “Real Java” you may type just the four lines from `main` into the Code area. VisuStruct then wraps them in a class itself and adds the `import` lines. In a real Java development environment, though, you need the whole program.
 :::
 
 ## Checklist
@@ -185,7 +185,7 @@ Don't feel like typing so much? With “Real Java” you may type just the four 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
-- I can switch on “Real Java” in the Programming area. → Programs with windows
+- I can switch on “Real Java” in the Code area. → Programs with windows
 - I can open a window with a title and a size. → The whole program
 - I can explain what each line of the window program does. → Line by line
 - I can explain why setVisible(true) comes last. → Why setVisible comes last

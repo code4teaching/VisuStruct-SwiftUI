@@ -1,7 +1,7 @@
 ---
 titel: Structure chart and code
 bereich: From structure chart to code
-kurz: All elements in Java at a glance, generate code, write Java in the Programming area, run it and find mistakes.
+kurz: All elements in Java at a glance, generate code, write Java in the Code area, run it and find mistakes.
 ---
 
 ## Skills I will gain now
@@ -10,9 +10,13 @@ kurz: All elements in Java at a glance, generate code, write Java in the Program
 - open the code view and choose Java as the language
 - recognise output, input, branches and loops in Java
 - explain the difference between Snippet and Class
+- explain how Java code runs on every operating system with the compiler, bytecode and the JVM
+- tell the JDK and the JRE apart
+- explain why a C++ program has to be compiled again for every operating system but a Java program does not
 - rebuild a short Java program as a structure chart
-- type Java in the Programming area and read the structure chart that is built
+- type Java in the Code area and read the structure chart that is built
 - run a program with ▶︎ and use input and output in the console
+- find a syntax error or a runtime error by its red line number
 - set breakpoints and follow a program step by step
 :::
 
@@ -98,13 +102,73 @@ public class TimesTable {
         System.out.println("Which times table?");
         int number = scanner.nextInt();
         ...
-    }
-}
+    } // end main
+} // end class
 ```
+
+The comments `// end main` and `// end class` after the last two brackets are not needed, but very helpful: you see at once which bracket closes what, and you don't forget one.
 
 The name of the class comes from the **title** of the diagram. The file must have exactly the same name, so here `TimesTable.java`. **Save Java…** takes care of that for you.
 
 > The generated code is a good start, but check it. If you first create a variable and later read it in again with an input, VisuStruct still writes `int pin = scanner.nextInt();`. Java then reports that `pin` already exists. Simply delete the `int` in that line.
+
+## How Java runs on every computer
+
+Your file `TimesTable.java` is **source code**: text for people. The processor in your computer cannot understand it directly. That is why Java runs in two steps:
+
+1. The **compiler** `javac` translates the source code into **bytecode**. The result is the file `TimesTable.class`.
+2. The **JVM** (Java Virtual Machine) reads the bytecode and, while running it, translates it into **machine code**: instructions for the processor in your computer.
+
+::: grafik l20-jvm.svg
+Compile once: the same bytecode runs on every JVM.
+:::
+
+There is only one bytecode. But there is a JVM for Windows, macOS, Linux and many other systems. That is why the same `.class` file runs on every computer that has a JVM installed. This is called **platform independent**. The slogan for it is **“Write once, run anywhere”**.
+
+::: angeberwissen
+One of the first compilers was built in 1952 by **Grace Hopper**, whom you already know from lesson 7. Back then many people told her that computers could only do arithmetic and could not translate programs. She did it anyway.
+:::
+
+Compare this with **C++**: there the compiler translates the source code directly into machine code for exactly one processor and one operating system. The finished program only runs there. For Windows, macOS and Linux you have to compile it again each time.
+
+::: grafik l20-cpp.svg
+C++ is compiled to machine code separately for every system.
+:::
+
+| | C++ | Java |
+|---|---|---|
+| The compiler creates | machine code | bytecode |
+| How often do you compile? | again for every system | once |
+| What does the computer need to run it? | nothing else | a JVM |
+
+Does that make Java slower? Hardly. Parts of a program that run often, loops for example, are translated completely into machine code once by the JVM’s **JIT compiler** (“just in time”). After that they run almost as fast as C++.
+
+> Think of the JVM as a small computer made of software, almost like an operating system of its own just for Java programs. Strictly speaking it is not an operating system, though, but a **virtual machine**: a program that itself runs on Windows, macOS or Linux and pretends to be a computer inside it.
+
+When you install Java you meet two abbreviations:
+
+| Abbreviation | What is inside? | What for? |
+|---|---|---|
+| **JRE** (Java Runtime Environment) | the JVM and ready-made building blocks such as `Scanner` | running Java programs |
+| **JDK** (Java Development Kit) | the JRE plus the compiler `javac` and other tools | writing and compiling Java programs |
+
+So to program you need the JDK. Today you usually only download the JDK, the JRE is inside it. For VisuStruct in the browser you don't need to install any of this.
+
+::: angeberwissen
+With a JDK you can do all of this yourself in the console, that is in the terminal or the command prompt:
+
+```
+java -version
+javac TimesTable.java
+java TimesTable
+```
+
+- `java -version` shows which Java version is installed. If you get an error message, Java is still missing.
+- `javac TimesTable.java` starts the compiler. Afterwards there are two files in the folder: `TimesTable.java` with your source code and the new `TimesTable.class` with the bytecode.
+- `java TimesTable` starts the JVM with your bytecode. Here you write the class name without `.class`.
+
+If `java -version` works but `javac -version` doesn't, only a JRE is installed. Then you are missing the JDK.
+:::
 
 ::: angeberwissen
 Every compiled Java file (`.class`) starts with the same four bytes, written in hexadecimal: `CA FE BA BE`. That is how the computer recognises it as Java. James Gosling came up with this “cafe babe”, to go with the coffee in the name.
@@ -118,30 +182,34 @@ This helps you match the boxes to the Java commands. Your diagram itself stays u
 
 ## Write Java directly
 
-So far you drew the structure chart first and then looked at the code. In the [Programming](#zeige-codelive) area it also works the other way round. Click the slim **Programming** strip on the right. Next to the structure chart a column appears where you type Java yourself.
+So far you drew the structure chart first and then looked at the code. In the [Code](#zeige-codelive) area it also works the other way round. Click the slim **Code** strip on the right. Next to the structure chart a column appears where you type Java yourself.
 
 - **Structure chart to code:** When you change something in the structure chart, the Java code changes right away.
 - **Code to structure chart:** When you type Java, VisuStruct builds the structure chart as you type. If something is still missing, for example a closing bracket `}`, a hint appears below the code.
 - **Suggestions:** While you type, VisuStruct suggests templates, for example for `if`, `for` or `while`. Press Enter to accept a template. Simply replace the grey placeholders with your own text.
-- **Indent:** If your code has got messy, click the **Indent** button at the top of the Programming area. Every level then sits four spaces deeper, as in Eclipse or IntelliJ. If you have selected lines, VisuStruct only indents those.
+- **Indent:** If your code has got messy, click the **Indent** button at the top of the Code area. Every level then sits four spaces deeper, as in Eclipse or IntelliJ. If you have selected lines, VisuStruct only indents those.
 
 So you can try both ways. Drawing the structure chart first is good for planning a process. Writing code directly is faster when you already know what you want. The structure chart then helps you check your code.
 
 ## Run the program
 
-At the top of the Programming area, [▶︎ Run](#zeige-ausfuehren) starts your program and **■ Stop** ends it, for example in an endless loop. What your program outputs appears below in the [console](#zeige-konsole). If it asks for input, type it there and press Enter.
+At the top of the Code area, [▶︎ Run](#zeige-ausfuehren) starts your program and **■ Stop** ends it, for example in an endless loop. What your program outputs appears below in the [console](#zeige-konsole). If it asks for input, type it there and press Enter.
 
 You can drag the border between code and console up or down with the mouse.
 
-> The Programming area understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Real Java (with Swing)** under the gear (lesson “Your first window”).
+If something goes wrong, the line number turns red. With a syntax error the spot is also underlined in red, and below it you read e.g. **Line 2: Still missing here: ;**. Then ▶︎ does not even start the program. If the program stops while it runs, it is a runtime error, and the console names the line, e.g. **Line 3: Division by zero.** You know the three kinds of errors from the lesson “Simulation and desk check”.
+
+If VisuStruct knows exactly what is missing, there is a 💡 at the end of the line. Move the mouse onto it to see the suggestion, e.g. **Suggestion: insert import java.util.Scanner;**. A click applies it. Still read what was inserted, so that you know it yourself next time.
+
+> The Code area understands the Java commands that also exist as boxes in the structure chart. It does not know your own classes and objects yet. Windows with Swing work anyway: turn on **Real Java (with Swing)** under the gear (lesson “Your first window”).
 
 ::: angeberwissen
-Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With the Programming area, VisuStruct is a small IDE with a built-in structure chart.
+Professionals call a program where you write code, run it and look for mistakes an **IDE** (Integrated Development Environment). With the Code area, VisuStruct is a small IDE with a built-in structure chart.
 :::
 
 ## Find mistakes with the debugger
 
-Sometimes a program runs but calculates something wrong. Then the **debugger** helps: it runs your program slowly while you watch.
+Sometimes a program runs but calculates something wrong. That is a logic error. Then the **debugger** helps: it runs your program slowly while you watch.
 
 - **Breakpoint:** Click a line number on the left. A red dot appears. [▶︎ Run](#zeige-ausfuehren) pauses before this line. Click again to remove the dot.
 - **Yellow line:** This line runs next. The matching box is selected in the structure chart.
@@ -165,7 +233,7 @@ This is a desk check, except the computer takes the notes for you. Before each s
 
 ## Exercise: Code first, then the structure chart
 
-This time you don't draw. Open the Programming area and type in this Java code:
+This time you don't draw. Open the Code area and type in this Java code:
 
 ```
 System.out.println("Start number?");
@@ -179,13 +247,14 @@ System.out.println("Start!");
 
 ::: übung l20-countdown
 titel: Countdown
-auftrag: Type the Java code above into the Programming area. Run it with ▶︎ and enter a start number in the console.
+bereich: beide
+auftrag: Type the Java code above into the Code area. Run it with ▶︎ and enter a start number in the console.
   Then look at the structure chart that was built and click Check.
 test: 3 -> 3 | 2 | 1 | Start!
 test: 1 -> 1 | Start!
 test: 0 -> Start!
 braucht: whileSchleife
-tipp: Open the Programming area with the slim strip on the far right and just start typing.
+tipp: Open the Code area with the slim strip on the far right and just start typing.
 tipp: Watch out for the semicolon at the end of every statement and the curly brackets of the while loop. A hint below the code tells you when something is still missing.
 lösung: l20-countdown-loesung.visustruct
 :::
@@ -206,6 +275,7 @@ System.out.println(factorial);
 
 ::: übung l17-fakultaet
 titel: Factorial from Java
+bereich: beide
 auftrag: Rebuild the Java code above as a structure chart. The program reads in a number n and outputs the product 1 · 2 · … · n.
   At the end, check in the code view whether your Java code looks the same.
 test: 3 -> 6
@@ -324,9 +394,13 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can open the code view and choose Java as the language. → The code view
 - I can recognise output, input, branches and loops in Java. → The elements in Java
 - I can explain the difference between Snippet and Class. → Snippet or Class
+- I can explain how Java code runs on every operating system with the compiler, bytecode and the JVM. → How Java runs on every computer
+- I can tell the JDK and the JRE apart. → How Java runs on every computer
+- I can explain why a C++ program has to be compiled again for every operating system but a Java program does not. → How Java runs on every computer
 - I can rebuild a short Java program as a structure chart. → Exercise: Java as a structure chart
-- I can type Java in the Programming area and read the structure chart that is built. → Write Java directly
+- I can type Java in the Code area and read the structure chart that is built. → Write Java directly
 - I can run a program with ▶︎ and use input and output in the console. → Run the program
+- I can find a syntax error or a runtime error by its red line number. → Run the program
 - I can set breakpoints and follow a program step by step. → Find mistakes with the debugger
 :::
 
@@ -366,4 +440,32 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [x] The program pauses before this line.
 - [ ] The line contains a mistake.
 > That is a breakpoint. Continue with ▶︎ or Step.
+
+? Why does the same `.class` file run on Windows, macOS and Linux?
+→ How Java runs on every computer
+- [ ] The compiler creates a separate file for every operating system.
+- [x] On every operating system a JVM runs the same bytecode.
+- [ ] Java programs don't need an operating system.
+> The bytecode stays the same. Only the JVM exists separately for each system.
+
+? What do you need to write and compile Java programs?
+→ How Java runs on every computer
+- [ ] only the JRE
+- [x] the JDK
+- [ ] only the JVM
+> The JRE is enough to run programs. The compiler `javac` only comes with the JDK.
+
+? You want to use your program on Windows and on a Mac. What is true?
+→ How Java runs on every computer
+- [ ] You have to compile Java again for every system, but not C++.
+- [x] You have to compile C++ again for every system, but not Java.
+- [ ] You only compile both once.
+> C++ becomes machine code for one system directly. Java becomes bytecode, and the JVM runs it on every system.
+
+? Line number 3 in the Code area is red. What does that mean?
+→ Run the program
+- [ ] There is a breakpoint in line 3.
+- [x] There is an error in line 3.
+- [ ] Line 3 runs next.
+> A breakpoint is a round red dot, and the next line is yellow. A red line number shows a syntax error or a runtime error.
 :::

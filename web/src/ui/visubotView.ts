@@ -9,7 +9,7 @@ import type { Robot3D } from './robot3d'
 import visuBotLogoURL from './visubot.webp'
 
 /**
- * Welt, gespeichert im Browser: VisuStruct (`0`), VisuBot (`1`) oder VisuObject (`2`).
+ * Welt, gespeichert im Browser: VisuStruct (`0`), VisuBot (`1`), VisuObject (`2`) oder VisuFlow (`3`).
  * Der frühere Modus „Im Kurs“ (`kurs`) gilt jetzt als VisuBot.
  */
 const modeKey = 'visustruct.visubot'
@@ -38,8 +38,19 @@ export function setVisuObjectWorld() {
   }
 }
 
-/** Welt aus der Auswahl: `off` VisuStruct, `on` VisuBot, `object` VisuObject. */
-export type WorldChoice = VisuBotMode | 'object'
+/** Welt VisuFlow: PAP (flowchart) zeichnen, eigene Oberfläche (`flowApp.ts`). */
+export const visuFlowWorld = () => storedMode() === '3'
+
+export function setVisuFlowWorld() {
+  try {
+    localStorage.setItem(modeKey, '3')
+  } catch {
+    /* ohne Speicher nur für diese Sitzung */
+  }
+}
+
+/** Welt aus der Auswahl: `off` VisuStruct, `on` VisuBot, `object` VisuObject, `flow` VisuFlow. */
+export type WorldChoice = VisuBotMode | 'object' | 'flow'
 
 /** Hat man schon einmal zwischen VisuStruct und VisuBot gewählt? Sonst fragt der Start-Dialog. */
 export const worldChosen = () => storedMode() !== null
@@ -62,12 +73,12 @@ const escapeHTML = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '
 
 /** Auswahl „VisuStruct | VisuBot“ für Zahnrad und Start-Dialog; die Knöpfe tragen `data-world`. */
 export function worldChooserHTML(): string {
-  const current: WorldChoice = visuObjectWorld() ? 'object' : visuBotMode()
+  const current: WorldChoice = visuObjectWorld() ? 'object' : visuFlowWorld() ? 'flow' : visuBotMode()
   const button = (mode: WorldChoice, label: string) =>
     `<button type="button" data-world="${mode}" aria-pressed="${mode === current}">${label}</button>`
-  const hint = { off: 'web_visubot_world_visustruct_hint', on: 'web_visubot_world_visubot_hint', object: 'web_visuobject_world_hint' }[current]
+  const hint = { off: 'web_visubot_world_visustruct_hint', on: 'web_visubot_world_visubot_hint', object: 'web_visuobject_world_hint', flow: 'web_visuflow_world_hint' }[current]
   return `<div class="segmented world-chooser" role="group" aria-label="${escapeHTML(t('web_visubot_world_title'))}">
-      ${button('off', 'VisuStruct')}${button('on', '🤖 VisuBot')}${button('object', 'VisuObject')}
+      ${button('off', 'VisuStruct')}${button('on', 'VisuBot')}${button('object', 'VisuObject')}${button('flow', 'VisuFlow')}
     </div>
     <small class="world-hint">${escapeHTML(t(hint))}</small>`
 }

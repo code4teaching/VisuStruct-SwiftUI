@@ -147,7 +147,7 @@ lösung: l16-countdown-loesung.visustruct
 
 A contagem decrescente do início desta lição fica assim em Java:
 
-```java
+```java editor
 int numero = 3;
 while (numero > 0) {
     System.out.println(numero);

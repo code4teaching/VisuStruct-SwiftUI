@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "ينقص في الأعلى %@ بدون هذا السطر لا تعرف Java الصنف Scanner.";
 "web_parse_missing_scanner" = "ينقص قبل ذلك %@ بدون هذا السطر لا يوجد Scanner.";
 "web_parse_unknown_type" = "لا تعرف Java نوع البيانات هذا. هل تقصد %@؟";
+"web_quickfix_insert_fmt" = "اقتراح: إدراج %@";
+"web_quickfix_replace_fmt" = "اقتراح: %1$@ بدلاً من %2$@";
 "web_editor_title" = "المخطط";
 "web_editor_show" = "إظهار المخطط";
 "web_editor_hide" = "إخفاء المخطط";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "كتل الشيفرة ملوّنة";
 "web_code_scopes_hint" = "الصنف والدالة والحلقة والتفرّع في مربعات خاصة";
 "web_pseudocode" = "شبه كود";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "إعادة تسمية المتغير …";
+"web_rename_title" = "إعادة تسمية المتغير";
+"web_rename_old" = "الاسم";
+"web_rename_new" = "الاسم الجديد";
+"web_rename_hint" = "يغيّر كل موضع بهذه الكتابة تمامًا (number ليس Number)، في الشيفرة وفي المخطط الهيكلي. يبقى النص بين \"…\" والتعليقات كما هي.";
+"web_rename_count_fmt" = "يظهر %d مرة.";
+"web_rename_exists_fmt" = "«%@» موجود بالفعل: بعدها يصبح المتغيران متغيرًا واحدًا.";
+"web_rename_invalid" = "يبدأ الاسم بحرف ويحتوي على حروف وأرقام و _ فقط.";
+"web_rename_keyword_fmt" = "«%@» كلمة مفتاحية في Java.";
+"web_rename_apply" = "إعادة تسمية";
+"web_rename_cancel" = "إلغاء";

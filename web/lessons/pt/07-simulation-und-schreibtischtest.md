@@ -10,6 +10,7 @@ kurz: Executar um estrutograma passo a passo, segui-lo à mão e encontrar erros
 - iniciar a simulação, fazer pausa, executar passos individuais e pará-la
 - ler as variáveis, a saída e o último passo durante a simulação
 - fazer um teste de secretária à mão, em forma de tabela
+- distinguir erros de sintaxe, erros de execução e erros de lógica
 - encontrar um erro comparando os valores com o que espero
 - acompanhar código Java com Passo a passo e pontos de paragem
 :::
@@ -41,7 +42,7 @@ Os valores de a e b são trocados. A variável aux guarda um dos valores entreta
 - **Variáveis:** Todas as variáveis com os seus valores atuais.
 - **Saída:** Tudo o que foi mostrado com `output:`.
 
-Se a área [Programação](#zeige-codelive) estiver aberta à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
+Se a área [Código](#zeige-codelive) estiver aberta à direita, a [consola](#zeige-konsole) também acompanha lá. É limpa no início e depois mostra as saídas e entradas tal como apareceriam no programa real.
 
 No fim aparece **Simulação terminada.** Se algo correr mal, a simulação para no bloco com erro e mostra uma mensagem, p. ex. **Variável desconhecida: total**.
 
@@ -65,9 +66,39 @@ Depois compara a tua tabela com a simulação. Os valores em **Variáveis** coin
 
 > Um teste de secretária é especialmente útil nos testes escritos. Aí não tens computador, mas mesmo assim podes mostrar o que o teu estrutograma faz.
 
+::: angeberwissen
+Antigamente, “computador” era uma profissão: pessoas que faziam contas com lápis, papel e máquina de calcular. Uma das melhores foi a matemática Katherine Johnson, na NASA. Ela calculava trajetórias de cápsulas espaciais e, mais tarde, também do voo da Apollo 11 até à Lua.
+
+Em 1962, John Glenn ia ser o primeiro americano a dar a volta à Terra em órbita. A trajetória tinha sido calculada por um novo computador da IBM. Glenn não confiava totalmente na máquina e disse: “Chamem a rapariga para verificar os números. Se ela disser que estão certos, eu vou.” Katherine Johnson refez todas as contas à mão, um verdadeiro teste de secretária. Os números estavam certos, e Glenn voou.
+
+Katherine Johnson era negra e, nessa altura, no estado norte-americano da Virgínia, havia leis que separavam pessoas negras e brancas. No filme “Elementos Secretos” (2016), ela tem de atravessar o recinto todo a correr sempre que precisa de ir à casa de banho. O filme exagera: as casas de banho separadas existiam mesmo, mas Katherine Johnson contou que simplesmente ignorava a placa.
+
+A sua colega Dorothy Vaughan percebeu cedo que os computadores da IBM iam ficar com o trabalho de cálculo. Aprendeu sozinha a linguagem de programação FORTRAN e ensinou-a a toda a sua equipa. Foi assim que os computadores humanos passaram a ser programadoras.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), matemática na NASA (foto: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), domínio público).
+:::
+
+## Três tipos de erros
+
+Os erros fazem parte da programação, até para profissionais. Há três tipos, e cada um encontra-se de outra maneira:
+
+- **Erro de sintaxe** (syntax error): O texto não cumpre as regras da linguagem, p. ex. falta um `;` no fim. O programa nem sequer arranca.
+- **Erro de execução** (runtime error): O programa arranca, mas para num certo ponto, p. ex. ao dividir por 0.
+- **Erro de lógica** (logic error): O programa corre até ao fim, mas o resultado está errado, p. ex. porque faltam parênteses: `a + b / 2` em vez de `(a + b) / 2`.
+
+É assim que o VisuStruct te mostra os erros:
+
+- **Erro de sintaxe:** No estrutograma acontecem menos, porque os blocos dão a forma. Na área [Código](#zeige-codelive) o sítio fica sublinhado a vermelho, o número da linha fica vermelho e lês, por exemplo, **Linha 2: Ainda falta aqui: ;**.
+- **Erro de execução:** A simulação para no bloco e indica, por exemplo, **Divisão por zero.** Na área Código o número da linha fica vermelho e a [consola](#zeige-konsole) diz a linha: **Linha 3: Divisão por zero.**
+- **Erro de lógica:** Aqui ninguém avisa nada. O computador não sabe o que querias. Só tu conheces o resultado certo, por isso aqui ajuda o teste de secretária.
+
+> Um número de linha vermelho mostra um erro. O ponto vermelho redondo antes do número da linha é outra coisa: um ponto de paragem. Vais conhecê-lo mais abaixo em “Agora em Java”.
+
 ## Encontrar erros
 
-Se um estrutograma mostrar algo errado, faz assim:
+Se um estrutograma mostrar algo errado, é um erro de lógica. Então faz assim:
 
 1. **Escreve o que esperas:** O que deve sair para uma determinada entrada?
 2. **Executa passo a passo:** Inicia a simulação com **Passo** e observa as variáveis.
@@ -84,6 +115,12 @@ Erros frequentes numa sequência são:
 
 ::: angeberwissen
 A 9 de setembro de 1947, a equipa de Grace Hopper encontrou uma traça verdadeira presa entre dois contactos do computador Harvard Mark II. Colaram-na no diário de bordo e escreveram: “Primeiro caso real de um bug encontrado.” Hoje a traça está num museu em Washington.
+
+Grace Hopper foi uma das primeiras programadoras do mundo. Em 1952 construiu um dos primeiros **compiladores**: um programa que traduz código para código máquina. Achava que devia ser possível dar ordens aos computadores em inglês quase normal. Daí nasceu a linguagem de programação COBOL, que muitos bancos ainda hoje usam. Na Marinha dos EUA chegou mesmo a almirante.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), informática e almirante (foto: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), domínio público).
 :::
 
 ## Exercício: Corrigir a troca
@@ -122,7 +159,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Agora em Java
 
-Também podes executar código Java passo a passo. Na área [Programação](#zeige-codelive), a ferramenta para isso chama-se **depurador** (debugger):
+Também podes executar código Java passo a passo. Na área [Código](#zeige-codelive), a ferramenta para isso chama-se **depurador** (debugger):
 
 - Clica num número de linha à esquerda. Aparece um ponto vermelho: é um **ponto de paragem**. [▶︎ Executar](#zeige-ausfuehren) para antes dessa linha.
 - O botão [Passo a passo](#zeige-einzelschritt) executa exatamente uma linha, como **Passo** na simulação.
@@ -154,7 +191,7 @@ b = a * 2;      // b vale agora [[14]]
 a = b - a;      // a vale agora [[7]]
 System.out.println(a + b);      // saída: [[21]]
 ```
-erklärung: Cada linha calcula com os valores que estão nesse momento nas variáveis: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, saída 7 + 14 = 21. Podes confirmar com Passo a passo na área Programação.
+erklärung: Cada linha calcula com os valores que estão nesse momento nas variáveis: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, saída 7 + 14 = 21. Podes confirmar com Passo a passo na área Código.
 :::
 
 ## Encontra o erro: pontuação
@@ -246,6 +283,7 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - Consigo iniciar a simulação, fazer pausa, executar passos individuais e pará-la. → Iniciar a simulação
 - Consigo ler as variáveis, a saída e o último passo durante a simulação. → O que a simulação mostra
 - Consigo fazer um teste de secretária à mão, em forma de tabela. → O teste de secretária
+- Consigo distinguir erros de sintaxe, erros de execução e erros de lógica. → Três tipos de erros
 - Consigo encontrar um erro comparando os valores com o que espero. → Encontrar erros
 - Consigo acompanhar código Java com Passo a passo e pontos de paragem. → Agora em Java
 :::
@@ -286,10 +324,22 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [ ] soma é demasiado grande.
 - [ ] O estrutograma tem demasiados blocos.
 
-? O que faz um ponto vermelho antes de um número de linha na área Programação?
+? O que faz um ponto vermelho antes de um número de linha na área Código?
 → Agora em Java
 - [ ] Marca um erro.
 - [x] O programa para antes dessa linha.
 - [ ] A linha é saltada.
 > É um ponto de paragem. Continuas com ▶︎ ou com Passo a passo.
+? Associa cada erro ao seu tipo.
+→ Três tipos de erros
+= Falta o ponto e vírgula no fim da linha. -> Erro de sintaxe
+= O programa divide por 0 e para. -> Erro de execução
+= A média dá demasiado alta porque faltam parênteses. -> Erro de lógica
+
+? O programa corre até ao fim sem nenhuma mensagem, mas mostra 12 em vez de 21. Que tipo de erro é?
+→ Três tipos de erros
+- [ ] Erro de sintaxe
+- [ ] Erro de execução
+- [x] Erro de lógica
+> Não há mensagem, mas o resultado está errado. Um erro destes só se encontra com o que esperas e com o teste de secretária.
 :::

@@ -34,15 +34,17 @@ import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
 import type { UiArea } from './termTips'
 import { LiveCodePanel } from './liveCodePanel'
+import { codeWords, countInDocument, documentVariableNames, documentWords, elementVariableNames, nameRanges, renameInDocument, variableNames } from '../core/rename'
+import { askRename, showRenameMenu } from './renameDialog'
 import { RobotPreviewPanel } from './robotPreview'
 import { codeScopes, setCodeScopes } from './javaEditor'
 import type { LiveTarget } from '../core/codeGenerator'
-import type { Exercise } from '../learn/lessonFormat'
+import { exerciseArea, type Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
@@ -380,6 +382,7 @@ export class App {
     )
     this.live.onRobotRun = (stepping) => this.runRobot(stepping)
     this.live.onSwap = () => this.setCodeMain(!this.codeMain)
+    this.live.onRename = () => (this.codeTyping = undefined)
     this.live.onReference = () => {
       this.learn.showReference()
       this.setLearning(true)
@@ -538,6 +541,7 @@ export class App {
         <ul class="palette-visubot palette-visubot-sensors" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
+        <h2 class="diagram-title">${e(t('web_editor_title'))}</h2>
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
         ${iconButton('redo', t('toolbar_redo'), icons.redo, shortcut('Z', true))}
         <span class="sep"></span>
@@ -930,6 +934,7 @@ export class App {
     })
 
     this.canvasHost.addEventListener('pointerdown', (e) => this.onCanvasPointerDown(e))
+    this.canvasHost.addEventListener('contextmenu', (e) => this.onCanvasContextMenu(e))
     this.resizeObserver?.disconnect()
     // Nur bei echter Größenänderung neu zeichnen, sonst schaukeln sich Scrollbalken (Windows) gegenseitig auf
     this.resizeObserver = new ResizeObserver(() => {
@@ -945,7 +950,7 @@ export class App {
   /** `?visubot` oder `?visustruct` in der Adresse, damit man den Link mit der richtigen Welt weitergeben kann. */
   private showWorldInURL() {
     const params = new URLSearchParams(location.search)
-    for (const key of ['learn', 'visubot', 'visustruct', 'visuobject']) params.delete(key)
+    for (const key of ['learn', 'visubot', 'visustruct', 'visuobject', 'visuflow']) params.delete(key)
     const rest = params.toString()
     const world = visuBotMode() === 'on' ? 'visubot' : 'visustruct'
     history.replaceState(history.state, '', `${location.pathname}?${world}${rest ? `&${rest}` : ''}${location.hash}`)
@@ -957,6 +962,12 @@ export class App {
       // VisuObject hat eine eigene Oberfläche: neu laden. Ungespeichertes fragt der Browser vorher ab.
       setVisuObjectWorld()
       location.href = `${location.pathname}?visuobject${location.hash}`
+      return
+    }
+    if (mode === 'flow') {
+      // VisuFlow (PAP zeichnen) hat ebenfalls eine eigene Oberfläche.
+      setVisuFlowWorld()
+      location.href = `${location.pathname}?visuflow${location.hash}`
       return
     }
     if (mode === visuBotMode() && worldChosen()) return
@@ -1225,9 +1236,16 @@ export class App {
       },
       reveal: (areas) => this.revealAreas(areas),
       openExercise: (ex: Exercise, doc: VSDocument) => {
-        // Java-Übungen tippt man in „Programmieren“. Geschlossen wird nichts, so wächst das Struktogramm sichtbar mit.
-        if (ex.code === 'java') this.openJavaColumn()
-        else this.setEditorHidden(false)
+        // Die Übung sagt, wo man sie löst (`bereich:`). Holger 2026-10-31: Lektionen bleiben offen, sonst ist nur
+        // dieser Bereich zu sehen (bei `beide` Struktogramm und Code); Dateien, mBot2 live usw. gehen zu.
+        const area = exerciseArea(ex)
+        if (area !== 'code') this.setEditorHidden(false)
+        if (area !== 'struktogramm') this.openJavaColumn()
+        if (this.coding) this.setCoding(false)
+        if (this.shell.classList.contains('files-open')) this.setFilesOpen(false)
+        if (this.previewOpen) this.setPreviewOpen(false)
+        if (area === 'struktogramm' && this.liveCoding) this.setLiveCoding(false)
+        if (area === 'code' && !this.editorHidden) this.setEditorHidden(true)
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
@@ -1243,6 +1261,19 @@ export class App {
         else this.tabs.push(tab)
         this.tabIndex = this.tabs.indexOf(tab)
         this.setSimulating(false)
+        this.render()
+      },
+      openJavaCode: (java: string) => {
+        this.openJavaColumn()
+        const tab = this.makeTab()
+        tab.doc = this.live.documentFromJavaText(java)
+        // Ein unberührter leerer Reiter wird ersetzt statt einen weiteren zu öffnen.
+        if (this.isPristine(this.tab)) this.tabs[this.tabIndex] = tab
+        else this.tabs.push(tab)
+        this.tabIndex = this.tabs.indexOf(tab)
+        this.setSimulating(false)
+        // Der Code bleibt so stehen, wie er in der Lektion steht.
+        this.live.adoptJava(tab.doc, java)
         this.render()
       },
       openDiagram: (doc: VSDocument, fileName: string) => {
@@ -1472,7 +1503,54 @@ export class App {
       box.append(row)
     }
 
+    if (elementVariableNames(element).length > 0) {
+      const rename = h('button', { class: 'inspector-rename' }, t('web_rename_menu'))
+      rename.addEventListener('click', () => this.renameVariable(path))
+      box.append(rename)
+    }
     this.renderCaseControls(path)
+  }
+
+  // MARK: - Umbenennen
+
+  /**
+   * Fenster „Variable umbenennen“ für das Element an `path`: Mit getipptem Code wird dort umbenannt
+   * (Kommentare bleiben, das Struktogramm folgt), sonst im Struktogramm.
+   */
+  private renameVariable(path: number[]) {
+    const element = tryElementAt(this.doc, path)
+    if (!element || this.simulating) return
+    const code = this.liveCoding ? this.live.editableCode : undefined
+    const own = elementVariableNames(element)
+    const all = code !== undefined ? variableNames([code]) : documentVariableNames(this.doc)
+    const names = [...own, ...all.filter((n) => !own.includes(n))]
+    if (names.length === 0) return
+    const existing = code !== undefined ? codeWords(code).map((w) => w.name) : documentWords(this.doc)
+    void askRename({
+      names,
+      existing,
+      count: (name) => (code !== undefined ? nameRanges(code, name).length : countInDocument(this.doc, name)),
+    }).then((r) => {
+      if (!r) return
+      if (code !== undefined) this.live.renameInCode(r.from, r.to)
+      else {
+        const next = renameInDocument(this.doc, r.from, r.to)
+        if (next.count > 0) this.commit(next.doc)
+      }
+    })
+  }
+
+  /** Rechtsklick auf ein Element: auswählen und „Variable umbenennen …“ anbieten. */
+  private onCanvasContextMenu(e: MouseEvent) {
+    if (this.simulating) return
+    const p = this.svgPoint(e.clientX, e.clientY)
+    const node = p && this.nodeAt(p.x, p.y)
+    const element = node && tryElementAt(this.doc, node.idPath)
+    if (!node || !element || elementVariableNames(element).length === 0) return
+    e.preventDefault()
+    this.selected = node.idPath
+    this.render()
+    showRenameMenu(e.clientX, e.clientY, t('web_rename_menu'), () => this.renameVariable(node.idPath))
   }
 
   /** Fallname und „Fall hinzufügen/entfernen“, wenn die Auswahl in einer Fallauswahl liegt. */
@@ -1609,7 +1687,7 @@ export class App {
 
   // MARK: - Code live
 
-  /** Übungen mit `code: java`: Spalte Programmieren öffnen und auf Java stellen, wie über das Zahnrad. */
+  /** Übungen mit `code: java`: Spalte Code öffnen und auf Java stellen, wie über das Zahnrad. */
   private openJavaColumn() {
     if (this.live.language !== 'java') {
       const sel = '[data-action=live-language]'
@@ -1657,7 +1735,7 @@ export class App {
     this.preview.onToggleStacked = () => {
       this.previewStacked = !this.previewStacked
       storeValue(previewStackedKey, this.previewStacked ? '1' : '0')
-      // Unter dem Code geht nur mit offener Spalte „Programmieren“.
+      // Unter dem Code geht nur mit offener Spalte „Code“.
       if (this.previewStacked && !this.liveCoding) this.setLiveCoding(true)
       this.placePreview()
     }
@@ -1721,7 +1799,7 @@ export class App {
     if (!inPreview) robot?.restoreViewport()
   }
 
-  /** Eigene Spalte ganz rechts oder unten in „Programmieren“ (nur wenn diese Spalte offen ist). */
+  /** Eigene Spalte ganz rechts oder unten in „Code“ (nur wenn diese Spalte offen ist). */
   private placePreview() {
     const stacked = this.previewStacked && this.liveCoding
     this.preview.setStacked(this.previewStacked)
@@ -2332,6 +2410,9 @@ export class App {
     } else if (mod && e.key.toLowerCase() === 'y') {
       e.preventDefault()
       this.redo()
+    } else if (e.key === 'F2' && this.selected) {
+      e.preventDefault()
+      this.renameVariable(this.selected)
     } else if (e.key === 'Delete' || e.key === 'Backspace') {
       e.preventDefault()
       this.deleteSelection()

@@ -159,13 +159,9 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Agora em Java
 
-::: grafik l04-kaffee.svg
-Não é o logótipo oficial, é um desenho nosso: em inglês americano, «java» é uma palavra para café. A linguagem recebeu o nome do café da ilha de Java, que os seus criadores gostavam de beber.
-:::
-
 Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
-```java
+```java editor
 int quantidade = 3;
 double preco = 2.5;
 double precoTotal = quantidade * preco;
@@ -176,6 +172,8 @@ System.out.println("Total: " + precoTotal + " euros");
 - Cada instrução termina com um **ponto e vírgula** `;`.
 - Em Java, uma saída escreve-se `System.out.println(…)`.
 
+Como é que o computador entende o teu código Java e porque é que ele corre igual no Windows, no macOS e no Linux, vais ver na lição “Estrutograma e código”.
+
 ::: angeberwissen
 O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java. É por isso que o logótipo é uma chávena a fumegar.
 :::
@@ -184,7 +182,7 @@ O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à
 
 As variáveis não guardam só números. Para texto existe o tipo de dados `String`:
 
-```java
+```java editor
 String nome = "Inês";
 int idade = 14;
 double altura = 1.62;
@@ -196,14 +194,14 @@ System.out.println("Altura: " + altura + " m");
 - `String` escreve-se com maiúscula, `int`, `double` e `boolean` com minúscula. O Java distingue-os.
 - Com `+` juntas texto e números.
 
-Escreves Java na área [Programação](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves.
+Escreves Java na área [Código](#zeige-codelive). O estrutograma constrói-se sozinho enquanto escreves. “Abrir no editor” leva o exemplo para a área Código. Clica aí em “Executar”, depois muda o nome, a idade ou a altura e experimenta outra vez.
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java
 code: java
 auftrag: Escreve a ficha do Ludwig, o bode. Cria três variáveis: o nome **Ludwig**, a idade **7** e a altura **1.2**. Depois mostra estas duas linhas:
   **Ludwig tem 7 anos.** e **Altura: 1.2 m**
-  “Abrir no editor” abre também a área Programação à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
+  “Abrir no editor” abre também a área Código à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
 test: - -> Ludwig tem 7 anos. | Altura: 1.2 m
 braucht: anweisung
 tipp: Precisas de uma `String`, um `int` e um `double`. Cada linha termina com ponto e vírgula.
@@ -227,7 +225,7 @@ auftrag: Preenche as palavras que faltam. Por fora está a moldura de que qualqu
     }
 }
 ```
-erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Programação podes deixá-la de fora, há mais sobre isto na lição “Java”.
+erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Código podes deixá-la de fora, há mais sobre isto na lição “Java”.
 :::
 
 ## Encontra o erro: segundos
@@ -236,7 +234,7 @@ erklärung: Números inteiros são `int`, números decimais `double`, textos `St
 titel: Corrigir os segundos
 code: java
 auftrag: O programa deve converter 200 segundos em minutos e segundos e mostrar **3 min 20 s**. Mas mostra **20 min 3 s**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l04-java-fehler-start.visustruct
 test: - -> 3 min 20 s
 braucht: anweisung

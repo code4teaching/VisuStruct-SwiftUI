@@ -159,13 +159,9 @@ lösung: l05-einkauf-loesung.visustruct
 
 ## Jetzt in Java
 
-::: grafik l04-kaffee.svg
-Kein offizielles Logo, sondern unsere Zeichnung: „Java“ ist im amerikanischen Englisch ein Wort für Kaffee. Die Sprache wurde nach dem Kaffee von der Insel Java benannt, den ihre Erfinder gern tranken.
-:::
-
 Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
-```java
+```java editor
 int anzahl = 3;
 double preis = 2.5;
 double gesamtPreis = anzahl * preis;
@@ -176,6 +172,8 @@ System.out.println("Gesamt: " + gesamtPreis + " Euro");
 - Jede Anweisung endet mit einem **Semikolon** `;`.
 - Eine Ausgabe heißt in Java `System.out.println(…)`.
 
+Wie der Computer deinen Java-Code versteht und warum er auf Windows, macOS und Linux gleich läuft, erfährst du in der Lektion „Struktogramm und Code“.
+
 ::: angeberwissen
 Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James Gosling. Sein Team bei Sun Microsystems wollte ab 1991 kleine Geräte wie Fernseh-Boxen programmieren. Den Namen Oak hatte aber schon eine andere Firma. Also wurde es 1995 **Java**, wie der Kaffee von der Insel Java. Deshalb ist das Logo eine dampfende Tasse.
 :::
@@ -184,7 +182,7 @@ Java hieß zuerst **Oak** (Eiche), nach dem Baum vor dem Bürofenster von James 
 
 Variablen speichern nicht nur Zahlen. Für Text gibt es den Datentyp `String`:
 
-```java
+```java editor
 String name = "Mia";
 int alter = 14;
 double groesse = 1.62;
@@ -196,14 +194,14 @@ System.out.println("Größe: " + groesse + " m");
 - `String` schreibst du groß, `int`, `double` und `boolean` klein. Java unterscheidet das.
 - Mit `+` hängst du Text und Zahlen aneinander.
 
-Java tippst du im Bereich [Programmieren](#zeige-codelive). Das Struktogramm entsteht dabei von selbst.
+Java tippst du im Bereich [Code](#zeige-codelive). Das Struktogramm entsteht dabei von selbst. „Im Editor öffnen“ holt das Beispiel in den Bereich Code. Klicke dort auf „Ausführen“, ändere dann Name, Alter oder Größe und probiere es noch einmal.
 
 ::: übung l04-java-steckbrief
 titel: Steckbrief in Java
 code: java
 auftrag: Schreibe einen Steckbrief für Ludwig den Geißbock. Lege drei Variablen an: den Namen **Ludwig**, das Alter **7** und die Größe **1.2**. Gib dann diese zwei Zeilen aus:
   **Ludwig ist 7 Jahre alt.** und **Größe: 1.2 m**
-  „Im Editor öffnen“ öffnet rechts auch den Bereich Programmieren. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
+  „Im Editor öffnen“ öffnet rechts auch den Bereich Code. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
 test: - -> Ludwig ist 7 Jahre alt. | Größe: 1.2 m
 braucht: anweisung
 tipp: Du brauchst einen `String`, einen `int` und einen `double`. Jede Zeile endet mit einem Semikolon.
@@ -227,7 +225,7 @@ auftrag: Ergänze die fehlenden Wörter. Ganz außen steht der Rahmen, den jedes
     }
 }
 ```
-erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Programmieren darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
+erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Code darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
 :::
 
 ## Fehler finden: Sekunden
@@ -236,7 +234,7 @@ erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß
 titel: Sekunden reparieren
 code: java
 auftrag: Das Programm soll 200 Sekunden in Minuten und Sekunden umrechnen und **3 min 20 s** ausgeben. Es gibt aber **20 min 3 s** aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l04-java-fehler-start.visustruct
 test: - -> 3 min 20 s
 braucht: anweisung

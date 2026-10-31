@@ -19,6 +19,10 @@ Eine **Sequenz** ist eine Folge von Schritten, die genau einmal und genau in die
 
 Jeder Kasten wird erst begonnen, wenn der Kasten darüber fertig ist. Es wird nichts übersprungen und nichts wiederholt.
 
+::: diagramm l05-sequenz.visustruct
+Eine Sequenz aus vier Kästen: Zuerst bekommen `laenge` und `breite` ihre Werte, dann wird die Fläche berechnet, und zum Schluss wird sie ausgegeben. Jeder Kasten läuft genau einmal, von oben nach unten. Ausgabe: 15.
+:::
+
 > Die Sequenz ist der einfachste der drei Grundbausteine. Fast jedes Struktogramm besteht zum größten Teil aus Sequenzen.
 
 ## Die Reihenfolge zählt
@@ -82,7 +86,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 Wie in Lektion 4 kannst du auch eine Sequenz direkt in Java schreiben. Das Tauschen von oben sieht so aus:
 
-```java
+```java editor
 int a = 5;
 int b = 9;
 int hilf = a;
@@ -96,13 +100,13 @@ System.out.println("b = " + b);
 - Am Ende jeder Anweisung steht ein **Semikolon** `;`.
 - Eine Ausgabe heißt in Java `System.out.println(…)`. Achte auf das große S bei `System`, Java unterscheidet Groß- und Kleinbuchstaben.
 
-Java tippst du im Bereich [Programmieren](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
+Java tippst du im Bereich [Code](#zeige-codelive) rechts neben dem Struktogramm. Während du tippst, baut VisuStruct das Struktogramm mit. So siehst du sofort, welcher Kasten zu welcher Zeile gehört.
 
 ::: übung l05-java-kino
 titel: Kinokarten in Java
 code: java
 auftrag: Eine Kinokarte kostet 9 Euro. Schreibe ein Java-Programm, das den Preis für 3 Karten ausrechnet und **Gesamt: 27** ausgibt.
-  „Im Editor öffnen“ öffnet rechts auch den Bereich Programmieren. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
+  „Im Editor öffnen“ öffnet rechts auch den Bereich Code. Tippe dort deinen Code, das Struktogramm entsteht dabei von selbst. Klicke dann auf Prüfen.
 test: - -> Gesamt: 27
 braucht: anweisung
 tipp: Du brauchst drei Variablen: den Preis, die Anzahl und das Ergebnis. Jede Zeile endet mit einem Semikolon.
@@ -132,7 +136,7 @@ erklärung: Erst rettest du `a` in die Hilfsvariable, dann bekommt `a` den Wert 
 titel: Guthaben reparieren
 code: java
 auftrag: Auf der Mensakarte sind 20 Euro. Ein Essen kostet 7 Euro. Das Programm soll das Guthaben **nach** dem Bezahlen ausgeben, also **Übrig: 13**. Es gibt aber **Übrig: 20** aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l05-java-fehler-start.visustruct
 test: - -> Übrig: 13
 braucht: anweisung

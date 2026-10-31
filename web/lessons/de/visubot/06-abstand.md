@@ -49,7 +49,7 @@ lösung: vb-abstand-halten-loesung.visustruct
 
 ## Jetzt in Java
 
-Im Bereich [Programmieren](#zeige-codelive) siehst du dein Struktogramm schon als Java-Code. Eine Verzweigung heißt dort `if`, der Nein-Zweig `else`:
+Im Bereich [Code](#zeige-codelive) siehst du dein Struktogramm schon als Java-Code. Eine Verzweigung heißt dort `if`, der Nein-Zweig `else`:
 
 ```java
 if (mbot.getDistance() < 10) {

@@ -159,6 +159,18 @@ Das Ergebnis, das ein Unterprogramm mit return an den Aufruf zurückgibt.
 ### Aussprung
 Verlässt sofort die Schleife, in der er steht. Danach geht es unter der Schleife weiter.
 
+### Syntaxfehler
+auch: Syntaxfehlern, Syntaxfehlers
+Ein Fehler in der Schreibweise, zum Beispiel ein fehlendes `;`. Das Programm startet gar nicht. Englisch: syntax error.
+
+### Laufzeitfehler
+auch: Laufzeitfehlern, Laufzeitfehlers
+Ein Fehler, der erst beim Ausführen auftritt, zum Beispiel Teilen durch 0. Das Programm bricht an dieser Stelle ab. Englisch: runtime error.
+
+### Logikfehler
+auch: Logikfehlern, Logikfehlers
+Das Programm läuft ohne Meldung, liefert aber ein falsches Ergebnis. Du findest ihn mit dem Schreibtischtest. Englisch: logic error.
+
 ### Schreibtischtest
 auch: Schreibtischtests
 Du führst ein Struktogramm auf Papier aus und notierst nach jedem Schritt die Werte der Variablen.
@@ -193,5 +205,39 @@ Eine Variable, die direkt in der Klasse steht und nicht in einer Methode. Mit `s
 ### Scanner
 Ein fertiger Baustein von Java, der Eingaben über die Tastatur liest, z. B. mit `scanner.nextInt()` eine Zahl. Er braucht ganz oben `import java.util.Scanner;`.
 
+### Kommentar
+auch: Kommentare, Kommentaren, Kommentars
+Eine Notiz im Code für Menschen. Java überspringt sie beim Ausführen. `//` gilt bis zum Ende der Zeile, `/* … */` kann über mehrere Zeilen gehen.
+
 ### import
 Eine Zeile ganz oben im Java-Code, die einen fertigen Baustein aus einem Paket holt, z. B. `import java.util.Scanner;`. Ohne sie kennt Java den Namen nicht.
+
+### Quellcode
+Der Programmtext, den Menschen schreiben und lesen, zum Beispiel in einer Datei `Einmaleins.java`.
+
+### Compiler
+auch: Compilers
+Ein Programm, das Quellcode übersetzt. In Java heißt er `javac` und macht aus einer `.java`-Datei Bytecode in einer `.class`-Datei.
+
+### Bytecode
+Die übersetzte Form eines Java-Programms in einer `.class`-Datei. Ihn liest nicht der Mensch, sondern die JVM.
+
+### JVM
+auch: Java Virtual Machine, virtuelle Maschine
+Die Java Virtual Machine führt Bytecode aus. Sie ist ein Programm, das wie ein kleiner Computer aus Software auf Windows, macOS oder Linux läuft. Deshalb ist Java plattformunabhängig.
+
+### JRE
+Java Runtime Environment: die JVM und fertige Bausteine. Damit kann man Java-Programme ausführen, aber nicht übersetzen.
+
+### JDK
+Java Development Kit: die JRE und dazu den Compiler `javac` und weitere Werkzeuge. Das braucht man zum Programmieren.
+
+### plattformunabhängig
+Ein Programm läuft ohne Änderung auf verschiedenen Betriebssystemen. Bei Java sorgt die JVM dafür: „Write once, run anywhere“.
+
+### Maschinencode
+Befehle als Zahlen, die der Prozessor direkt ausführt. Jede Prozessorart hat ihren eigenen Maschinencode.
+
+### JIT-Compiler
+auch: JIT
+Ein Teil der JVM, der oft benutzten Bytecode während des Ausführens („just in time“) in Maschinencode übersetzt. Dadurch wird Java schneller.

@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "Λείπει στην αρχή το %@ Χωρίς αυτή τη γραμμή η Java δεν γνωρίζει το Scanner.";
 "web_parse_missing_scanner" = "Λείπει πρώτα %@ Χωρίς αυτή τη γραμμή ο Scanner δεν υπάρχει.";
 "web_parse_unknown_type" = "Η Java δεν γνωρίζει αυτόν τον τύπο δεδομένων. Μήπως εννοείς %@;";
+"web_quickfix_insert_fmt" = "Πρόταση: εισαγωγή %@";
+"web_quickfix_replace_fmt" = "Πρόταση: %1$@ αντί για %2$@";
 "web_editor_title" = "Διάγραμμα";
 "web_editor_show" = "Εμφάνιση διαγράμματος";
 "web_editor_hide" = "Απόκρυψη διαγράμματος";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "Χρωματιστά μπλοκ κώδικα";
 "web_code_scopes_hint" = "Κλάση, μέθοδος, βρόχος, διακλάδωση σε δικά τους πλαίσια";
 "web_pseudocode" = "Ψευδοκώδικας";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Μετονομασία μεταβλητής …";
+"web_rename_title" = "Μετονομασία μεταβλητής";
+"web_rename_old" = "Όνομα";
+"web_rename_new" = "Νέο όνομα";
+"web_rename_hint" = "Αλλάζει κάθε σημείο με ακριβώς αυτή τη γραφή (number δεν είναι Number), στον κώδικα και στο δομόγραμμα. Το κείμενο σε \"…\" και τα σχόλια μένουν.";
+"web_rename_count_fmt" = "Εμφανίζεται %d φορές.";
+"web_rename_exists_fmt" = "Το «%@» υπάρχει ήδη: μετά θα ήταν και τα δύο μία μεταβλητή.";
+"web_rename_invalid" = "Ένα όνομα αρχίζει με γράμμα και περιέχει μόνο γράμματα, ψηφία και _.";
+"web_rename_keyword_fmt" = "Το «%@» είναι λέξη-κλειδί της Java.";
+"web_rename_apply" = "Μετονομασία";
+"web_rename_cancel" = "Άκυρο";

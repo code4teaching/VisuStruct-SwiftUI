@@ -166,7 +166,7 @@ lösung: zk-woerter-loesung.visustruct
 
 Die Methoden in dieser Lektion sind schon Java. Ein ganzes Programm mit einem Text sieht so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -222,7 +222,7 @@ erklärung: `length()` zählt die Zeichen, `toUpperCase()` macht alles groß, `c
 titel: Initialen reparieren
 code: java
 auftrag: Das Programm liest Vor- und Nachnamen ein und soll die Initialen ausgeben. Bei Ludwig Geißbock also **L. G.** Es gibt aber **u. e.** aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l17-java-fehler-start.visustruct
 test: Ludwig, Geißbock -> L. G.
 test: Mia, Meyer -> M. M.

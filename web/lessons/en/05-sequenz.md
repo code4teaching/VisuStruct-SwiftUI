@@ -19,6 +19,10 @@ A **sequence** is a series of steps that run exactly once and in exactly this or
 
 Each box only starts when the box above it is finished. Nothing is skipped and nothing is repeated.
 
+::: diagramm l05-sequenz.visustruct
+A sequence of four boxes: first `length` and `width` get their values, then the area is calculated, and finally it is output. Each box runs exactly once, from top to bottom. Output: 15.
+:::
+
 > The sequence is the simplest of the three basic building blocks. Almost every structure chart is mostly made of sequences.
 
 ## Order matters
@@ -82,7 +86,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 As in lesson 4, you can also write a sequence directly in Java. The swap from above looks like this:
 
-```java
+```java editor
 int a = 5;
 int b = 9;
 int temp = a;
@@ -96,13 +100,13 @@ System.out.println("b = " + b);
 - Every statement ends with a **semicolon** `;`.
 - An output is called `System.out.println(…)` in Java. Mind the capital S in `System`: Java tells upper and lower case apart.
 
-You type Java in the [Programming](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
+You type Java in the [Code](#zeige-codelive) area to the right of the structure chart. While you type, VisuStruct builds the structure chart along with it. So you see straight away which box belongs to which line.
 
 ::: übung l05-java-kino
 titel: Cinema tickets in Java
 code: java
 auftrag: A cinema ticket costs 9 euros. Write a Java program that calculates the price of 3 tickets and outputs **Total: 27**.
-  “Open in editor” also opens the Programming area on the right. Type your code there; the structure chart builds itself. Then click Check.
+  “Open in editor” also opens the Code area on the right. Type your code there; the structure chart builds itself. Then click Check.
 test: - -> Total: 27
 braucht: anweisung
 tipp: You need three variables: the price, the number of tickets and the result. Every line ends with a semicolon.
@@ -132,7 +136,7 @@ erklärung: First you save `a` in the helper variable, then `a` gets the value o
 titel: Fix the credit
 code: java
 auftrag: The canteen card holds 20 euros. A meal costs 7 euros. The program should output the credit **after** paying, so **Left: 13**. But it outputs **Left: 20**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l05-java-fehler-start.visustruct
 test: - -> Left: 13
 braucht: anweisung

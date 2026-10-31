@@ -69,7 +69,8 @@
 "web_learn_solved" = "geschafft";
 "web_learn_open_exercise" = "Im Editor öffnen";
 "web_learn_solve_in_editor" = "Löse diese Übung im %@.";
-"web_learn_solve_in_code" = "Löse diese Übung in %@.";
+"web_learn_solve_in_code" = "Löse diese Übung im %@.";
+"web_learn_solve_in_both" = "Löse diese Übung im %1$@ und im %2$@.";
 "web_learn_open_in_editor" = "Im Editor öffnen";
 "web_learn_graphic_labels" = "👆 Klick aufs Bild: Beschriftung ein oder aus";
 "web_learn_check" = "Prüfen";
@@ -141,14 +142,14 @@
 "web_site_imprint" = "Impressum";
 "web_site_privacy" = "Datenschutz";
 
-/* Programmieren (früher „Code live“) */
-"web_live_title" = "Programmieren";
-"web_live_hide" = "Programmieren ausblenden";
+/* Code (früher „Code live“, dann „Programmieren“) */
+"web_live_title" = "Code";
+"web_live_hide" = "Code ausblenden";
 "web_scale_canvas" = "Textgröße Struktogramm";
-"web_scale_code" = "Textgröße Programmieren";
+"web_scale_code" = "Textgröße Code";
 "web_live_indent" = "Einrücken";
-"web_live_indent_title" = "Code einrücken: jede Ebene vier Leerzeichen tiefer (markierte Zeilen, sonst alles)";
-"web_live_show" = "Programmieren aufklappen";
+"web_live_indent_title" = "Code einrücken und formatieren: jede } auf eigener Zeile, Leerzeichen um Operatoren, jede Ebene vier Leerzeichen tiefer (markierte Zeilen, sonst alles)";
+"web_live_show" = "Code aufklappen";
 "web_live_resize" = "Breite des Codebereichs ändern (Doppelklick: zurücksetzen)";
 "web_live_hint" = "Der Code wächst mit deinem Struktogramm. Grau = Platzhalter: Schreib im Objektinspektor, dann steht dort dein Text. Klick auf eine Zeile markiert das Element.";
 "web_live_ph_selector" = "Variable";
@@ -181,6 +182,8 @@
 "web_parse_missing_import" = "Ganz oben fehlt %@ Ohne diese Zeile kennt Java den Scanner nicht.";
 "web_parse_missing_scanner" = "Vorher fehlt %@ Ohne diese Zeile gibt es den Scanner nicht.";
 "web_parse_unknown_type" = "Diesen Datentyp kennt Java nicht. Meintest du %@?";
+"web_quickfix_insert_fmt" = "Vorschlag: %@ einfügen";
+"web_quickfix_replace_fmt" = "Vorschlag: %1$@ statt %2$@";
 "web_editor_title" = "Struktogramm";
 "web_editor_show" = "Struktogramm aufklappen";
 "web_editor_hide" = "Struktogramm einklappen";
@@ -406,7 +409,7 @@
 "web_visubot_preview_hide" = "mBot2 live einklappen";
 "web_visubot_preview_show" = "mBot2 live zeigen";
 "web_visubot_preview_resize" = "Größe von mBot2 live ändern";
-"web_visubot_preview_stack" = "Unter den Code in Programmieren";
+"web_visubot_preview_stack" = "Unter den Code im Bereich Code";
 "web_visubot_preview_side" = "Als eigene Spalte";
 "web_visubot_preview_distance_fmt" = "Strecke: %d cm";
 "web_visubot_preview_input" = "braucht eine Eingabe, dafür die Simulation starten";
@@ -423,8 +426,8 @@
 "web_visubot_group_light" = "Licht und Lautstärke";
 "web_visubot_group_tilt" = "Neigung und Schütteln";
 "web_visubot_group_timer" = "Stoppuhr und Akku";
-"web_swap_to_code" = "Programmieren groß, Struktogramm schmal";
-"web_swap_to_editor" = "Struktogramm groß, Programmieren schmal";
+"web_swap_to_code" = "Code groß, Struktogramm schmal";
+"web_swap_to_editor" = "Struktogramm groß, Code schmal";
 "web_editor_resize" = "Breite des Struktogramms ändern";
 "web_palette_resize" = "Breite der Elemente ändern (Doppelklick: zurücksetzen)";
 "web_palette_hide" = "Elemente einklappen";
@@ -691,3 +694,65 @@
 "web_code_scopes" = "Blöcke farbig";
 "web_code_scopes_hint" = "Code und Struktogramm: Schleife rosa, Verzweigung blau, Methode gelb, Klasse grün";
 "web_pseudocode" = "Pseudocode";
+
+/* VisuFlow (PAP zeichnen) */
+"web_visuflow_subtitle" = "PAP zeichnen";
+"web_visuflow_world_hint" = "VisuFlow: einen Programmablaufplan (PAP, englisch flowchart) frei zeichnen und als Bild oder PDF exportieren. Wechseln geht jederzeit im Zahnrad.";
+"web_visuflow_palette" = "Symbole";
+"web_visuflow_palette_hint" = "Antippen hängt das Symbol unter das gewählte an und verbindet es mit einem Pfeil. Du kannst es auch auf die Fläche ziehen.";
+"web_visuflow_shape_start" = "Start";
+"web_visuflow_shape_ende" = "Ende";
+"web_visuflow_shape_anweisung" = "Anweisung";
+"web_visuflow_shape_ein" = "Ein-/Ausgabe";
+"web_visuflow_shape_verzweigung" = "Verzweigung";
+"web_visuflow_shape_unterprogramm" = "Unterprogramm";
+"web_visuflow_shape_start_tip" = "Oval: Hier beginnt der Ablauf";
+"web_visuflow_shape_ende_tip" = "Oval: Hier endet der Ablauf";
+"web_visuflow_shape_anweisung_tip" = "Rechteck: eine Anweisung, zum Beispiel „Wasser kochen“";
+"web_visuflow_shape_ein_tip" = "Parallelogramm: Eingabe oder Ausgabe, zum Beispiel „Eingabe: Zahl“";
+"web_visuflow_shape_verzweigung_tip" = "Raute: eine Frage mit den Ausgängen ja und nein";
+"web_visuflow_shape_unterprogramm_tip" = "Rechteck mit zwei Strichen: ruft ein Unterprogramm auf";
+"web_visuflow_text_start" = "Start";
+"web_visuflow_text_ende" = "Ende";
+"web_visuflow_text_anweisung" = "Anweisung";
+"web_visuflow_text_ein" = "Eingabe: Zahl";
+"web_visuflow_text_verzweigung" = "Bedingung?";
+"web_visuflow_text_unterprogramm" = "Unterprogramm";
+"web_visuflow_new_tip" = "Neu: leerer PAP mit Start (Rückgängig holt den alten zurück)";
+"web_visuflow_open_tip" = "PAP-Datei (.visuflow) öffnen";
+"web_visuflow_save_tip" = "PAP als Datei (.visuflow) speichern";
+"web_visuflow_delete" = "Löschen";
+"web_visuflow_delete_tip" = "Gewähltes Symbol oder gewählten Pfeil löschen (Entf)";
+"web_visuflow_swap" = "ja/nein tauschen";
+"web_visuflow_swap_tip" = "Raute: „ja“ und „nein“ tauschen die Seiten";
+"web_visuflow_example" = "Beispiel";
+"web_visuflow_example_tip" = "Beispiel „Tee kochen“ aus Lektion 1 laden (Rückgängig holt den alten PAP zurück)";
+"web_visuflow_example_title" = "Tee kochen";
+"web_visuflow_example_water" = "Wasser kochen";
+"web_visuflow_example_bag" = "Teebeutel in die Tasse";
+"web_visuflow_example_hot" = "Tee noch zu heiß?";
+"web_visuflow_example_wait" = "Warten";
+"web_visuflow_example_drink" = "Tee trinken";
+"web_visuflow_title_label" = "Titel des PAP";
+"web_visuflow_title_ph" = "Titel des PAP";
+"web_visuflow_canvas_label" = "Zeichenfläche des PAP";
+"web_visuflow_open_error" = "Die Datei ist kein VisuFlow-PAP.";
+"web_visuflow_saved" = "Gespeichert als %@";
+"web_visuflow_status_empty" = "Zieh ein Symbol aus der Leiste auf die Fläche oder tippe es an.";
+"web_visuflow_status_idle" = "Symbol antippen wählt es aus. Vom Punkt am Ausgang ziehst du einen Pfeil zum nächsten Symbol.";
+"web_visuflow_status_node" = "Ziehen verschiebt das Symbol, nochmal antippen ändert den Text. Vom Punkt am Ausgang einen Pfeil ziehen.";
+"web_visuflow_status_edge" = "Pfeil gewählt. Löschen entfernt ihn.";
+"web_visuflow_status_connect" = "Loslassen über dem Symbol, zu dem der Pfeil führt.";
+"web_visuflow_edit_label" = "Text im Symbol";
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Variable umbenennen …";
+"web_rename_title" = "Variable umbenennen";
+"web_rename_old" = "Name";
+"web_rename_new" = "Neuer Name";
+"web_rename_hint" = "Ändert jede Stelle mit genau dieser Schreibweise (zahl ist nicht Zahl), im Code und im Struktogramm. Text in \"…\" und Kommentare bleiben.";
+"web_rename_count_fmt" = "Kommt %d-mal vor.";
+"web_rename_exists_fmt" = "„%@“ gibt es schon: Danach wären beide eine Variable.";
+"web_rename_invalid" = "Ein Name beginnt mit einem Buchstaben und enthält nur Buchstaben, Ziffern und _.";
+"web_rename_keyword_fmt" = "„%@“ ist ein Java-Schlüsselwort.";
+"web_rename_apply" = "Umbenennen";
+"web_rename_cancel" = "Abbrechen";

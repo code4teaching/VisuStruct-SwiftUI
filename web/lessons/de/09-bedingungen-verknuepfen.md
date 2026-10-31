@@ -186,7 +186,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 
 Das Jugendticket vom Anfang sieht in Java so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -247,7 +247,7 @@ erklärung: Eine Note ist gültig, wenn **beide** Bedingungen stimmen, also `&&`
 titel: Schulfrei reparieren
 code: java
 auftrag: Das Programm soll bei Tag 6 (Samstag) und Tag 7 (Sonntag) **schulfrei** ausgeben, sonst **Schule**. Es gibt aber immer **Schule** aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l09-java-fehler-start.visustruct
 test: 6 -> schulfrei
 test: 7 -> schulfrei

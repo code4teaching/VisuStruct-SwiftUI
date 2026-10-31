@@ -118,6 +118,16 @@ tipp: Crias o array com `int[] numeros = new int[4]`. A entrada é `input: numer
 lösung: l14-rueckwaerts-loesung.visustruct
 :::
 
+::: angeberwissen
+**Hedy Lamarr**, nascida em Viena, era uma estrela de cinema famosa de Hollywood nos anos 40. Nos tempos livres gostava de inventar. Em 1942, juntamente com o compositor George Antheil, recebeu uma patente para uma ligação de rádio que o inimigo não conseguisse perturbar: o emissor e o recetor saltam juntos por uma lista de **88 frequências**, tantas como as teclas de um piano. A lista estava perfurada numa fita de papel, como o rolo de um piano automático. Os dois percorrem a mesma lista pela mesma ordem, tal como o teu ciclo percorre um array com `i`. Quem escuta ou perturba só uma frequência quase não apanha nada.
+
+Este método, o **salto de frequência** (em inglês *frequency hopping*), é usado hoje, por exemplo, no Bluetooth. Ela não o inventou sozinha, já havia ideias anteriores. Mas a sua patente é vista como uma precursora importante, e em 1997 recebeu um prémio por isso.
+:::
+
+::: bild hedy-lamarr.jpg
+Hedy Lamarr (1914–2000), atriz e inventora, 1944 (foto promocional: [desconhecido](https://commons.wikimedia.org/wiki/File:Hedy_Lamarr_Publicity_Photo_for_The_Heavenly_Body_1944.jpg), domínio público).
+:::
+
 ## Soma e máximo
 
 Há duas tarefas que aparecem sempre com arrays:
@@ -145,7 +155,7 @@ lösung: l14-summe-max-loesung.visustruct
 
 Percorrer um array fica assim em Java:
 
-```java
+```java editor
 int[] numeros = {2, 4, 6, 8, 10};
 for (int i = 0; i < numeros.length; i++) {
     System.out.println(numeros[i]);
@@ -191,7 +201,7 @@ erklärung: `int[]` é um array de números inteiros, `valores.length` é o seu 
 titel: Corrigir a temperatura mais alta
 code: java
 auftrag: Em janeiro mediram-se as temperaturas -5, -2, -8 e -3 graus. O programa deve mostrar a mais alta, ou seja, **Temperatura mais alta: -2**. Mas diz 0 graus, embora nunca tenha estado tão quente.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l15-java-fehler-start.visustruct
 test: - -> Temperatura mais alta: -2
 braucht: forSchleife, verzweigung

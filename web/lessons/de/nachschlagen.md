@@ -138,3 +138,32 @@ boolean[][] sitze = new boolean[3][5]
 sitze[1][4] = true
 output: sitze.length + " Reihen, " + sitze[0].length + " Plätze"
 ```
+
+## Java
+
+### Vom Code zum Programm
+
+Der Compiler `javac` übersetzt `Datei.java` in Bytecode (`Datei.class`). Die JVM übersetzt den Bytecode beim Ausführen in Maschinencode, auf Windows, macOS und Linux gleich. C++ wird dagegen direkt zu Maschinencode und muss für jedes System neu kompiliert werden.
+
+| | enthält | wofür |
+|---|---|---|
+| JRE | JVM und Bibliotheken | ausführen |
+| JDK | JRE, Compiler `javac`, Werkzeuge | programmieren |
+
+### Kommentare
+
+Notizen im Code. Java überspringt sie, das Struktogramm bleibt gleich.
+
+```java
+/*
+ * Aufgabe: die Zahlen von 1 bis 10 addieren
+ * (mehrzeiliger Kommentar)
+ */
+// Verarbeitung (einzeiliger Kommentar)
+int summe = 0;
+for (int i = 1; i <= 10; i++) {
+    summe = summe + i;      // Kommentar hinter dem Code
+} // Ende for
+```
+
+Gut für: die Aufgabenstellung, die Einteilung in Eingabe, Verarbeitung und Ausgabe, eine Erklärung, das Ende eines Blocks hinter `}`, die erwartete Ausgabe und Notizen fürs nächste Mal.

@@ -12,12 +12,14 @@ import { documentFromJava, liveJava, mergeLiveJava, plainLiveJava, type JavaForm
 import type { VSDocument } from '../core/model'
 import { describeValue, SimulationEngine, type SimStep, type SubprogramResolver } from '../core/simulation'
 import { gridTable, noticeText, type ConsoleTranscript } from './simulationPanel'
-import { JavaEditor, type SnippetWords } from './javaEditor'
+import { JavaEditor, type QuickFix, type SnippetWords } from './javaEditor'
 import { icons } from './icons'
 import { indentJava } from '../core/javaIndent'
 import { sidebarIcon } from './learnPanel'
 import { closeWindows, compileAndRun, prepareJava, watchWrittenFiles } from './javaRuntime'
 import { writtenFilesView } from './textFileView'
+import { codeWords, nameAt, nameRanges } from '../core/rename'
+import { askRename, showRenameMenu } from './renameDialog'
 
 /**
  * Ansicht „Code live“: rechts neben dem Struktogramm der Java-, JavaScript- oder Python-Code, der bei jeder Änderung mitwächst.
@@ -132,6 +134,8 @@ export class LiveCodePanel {
   private problems: JavaProblem[] = []
   private problemTimer?: number
   private showProblems = true
+  /** Zeile (ab 0), in der die Simulation mit einem Fehler stehen geblieben ist: rote Zeilennummer. */
+  private runErrorLine: number | undefined
   /**
    * Laufendes Programm. `paused`: Debugger hält vor einer Zeile an (Haltepunkt oder Einzelschritt).
    * `stepping`: nach einer Eingabe wieder anhalten statt weiterlaufen.
@@ -179,6 +183,8 @@ export class LiveCodePanel {
   onReference?: () => void
   /** ⇄: Programmieren groß und Struktogramm schmal bzw. zurück */
   onSwap?: () => void
+  /** Vor dem Umbenennen: eigener Rückgängig-Schritt statt Teil des Tippens davor. */
+  onRename?: () => void
 
   constructor(
     private onHide: () => void,
@@ -306,6 +312,7 @@ export class LiveCodePanel {
         words: () => this.snippetWords,
         breakpointLine: (line) => spanAtLine(this.spans, line)?.from,
         onBreakpoints: () => (this.breakpoints = this.code.breakpoints),
+        onRename: (pos, menu) => this.renameAt(pos, menu),
       },
       t('web_live_edit_label'),
     )
@@ -441,6 +448,7 @@ export class LiveCodePanel {
   private startRun(stepping: boolean) {
     // VisuBot: Programme mit mBot2-Befehlen laufen in der Simulation (3D-Welt, echter mBot2, Markierung)
     if (this.onRobotRun?.(stepping)) return
+    this.runErrorLine = undefined
     // Wie javac: Ohne Import, ohne angelegten Scanner oder mit vertipptem Datentyp startet das Programm nicht.
     const blocking = ['web_parse_missing_import', 'web_parse_missing_scanner', 'web_parse_unknown_type']
     const missing = this.target === 'java' ? this.javaProblems.find((p) => blocking.includes(p.key)) : undefined
@@ -534,8 +542,11 @@ export class LiveCodePanel {
       return true
     }
     if (state.isHalted || !run.engine.canStep) {
+      if (state.isHalted) this.runErrorLine = this.lineOf(run.engine.currentStepPath)
       this.showWrittenFiles(state.files)
-      this.finishRun(state.isHalted && state.notice ? noticeText(state.notice) : t('web_live_run_finished'), state.isHalted)
+      const notice = state.isHalted && state.notice ? noticeText(state.notice) : undefined
+      const where = this.runErrorLine
+      this.finishRun(notice ? (where !== undefined ? t('web_parse_line_fmt', where + 1, notice) : notice) : t('web_live_run_finished'), state.isHalted)
       return true
     }
     return false
@@ -865,12 +876,49 @@ export class LiveCodePanel {
         problems: this.showProblems ? this.javaProblems : [],
         lines: span && simulated === undefined ? { from: span.from, to: span.to } : undefined,
         current: this.debugLine ?? simulated,
+        errorLines: this.errorLines(),
+        fixes: this.showProblems ? this.quickFixes() : [],
       },
       key !== undefined && key !== this.highlighted && !this.code.hasFocus,
     )
     const first = this.showProblems ? this.javaProblems[0] : undefined
     this.problemLine.textContent = first ? t('web_parse_line_fmt', this.code.lineAt(first.from) + 1, t(first.key, first.arg ?? '')) : ''
     this.highlighted = key
+  }
+
+  /** Rote Zeilennummern: Zeilen mit Syntaxfehlern und die Zeile, an der das Programm abgebrochen ist. */
+  private errorLines(): number[] {
+    const lines = this.showProblems ? this.javaProblems.map((p) => this.code.lineAt(p.from)) : []
+    if (this.runErrorLine !== undefined) lines.push(this.runErrorLine)
+    return lines
+  }
+
+  /** Glühbirnen: Für diese Fehler weiß VisuStruct genau, was fehlt. Pro Zeile höchstens ein Vorschlag. */
+  private quickFixes(): QuickFix[] {
+    const text = this.code.text
+    const fixes: QuickFix[] = []
+    for (const p of this.javaProblems) {
+      const lineStart = text.lastIndexOf('\n', p.from - 1) + 1
+      const lineEnd = text.indexOf('\n', p.from) < 0 ? text.length : text.indexOf('\n', p.from)
+      if (fixes.some((f) => f.at === lineEnd)) continue
+      const insert = (from: number, what: string, shown = what.trim()) =>
+        fixes.push({ at: lineEnd, title: t('web_quickfix_insert_fmt', shown), from, to: from, insert: what })
+      const arg = p.arg ?? ''
+      if (p.key === 'web_parse_missing_import') {
+        // Hinter den vorhandenen Importen, sonst ganz oben
+        const imports = [...text.matchAll(/^import\s[^\n]*\n/gm)]
+        const last = imports[imports.length - 1]
+        insert(last ? last.index! + last[0].length : 0, `${arg}\n`)
+      } else if (p.key === 'web_parse_missing_scanner') {
+        const indent = /^[ \t]*/.exec(text.slice(lineStart))![0]
+        insert(lineStart, `${indent}${arg}\n`)
+      } else if (p.key === 'web_parse_unknown_type' && arg) {
+        fixes.push({ at: lineEnd, title: t('web_quickfix_replace_fmt', arg, text.slice(p.from, p.to)), from: p.from, to: p.to, insert: arg })
+      } else if (p.key === 'web_parse_missing' && (arg === ';' || arg === ')')) {
+        insert(p.to, arg)
+      }
+    }
+    return fixes
   }
 
   /** Nach jeder Eingabe: Code lesen, Struktogramm neu, Element unter dem Cursor markieren. */
@@ -887,6 +935,7 @@ export class LiveCodePanel {
     this.textFor.set(result, text)
     this.shown.set(context.owner, { doc: result, text })
     this.showProblems = false
+    this.runErrorLine = undefined
     window.clearTimeout(this.problemTimer)
     this.problemTimer = window.setTimeout(() => {
       this.showProblems = true
@@ -899,6 +948,36 @@ export class LiveCodePanel {
       this.drawMarks(this.last?.highlight)
       if (path) this.onSelect(path)
     } else this.onCode(result, path)
+  }
+
+  /** Getippter Java-Code, solange man ihn bearbeiten kann (sonst gilt das Struktogramm). */
+  get editableCode(): string | undefined {
+    return this.target === 'java' && this.last?.context.editable ? this.code.text : undefined
+  }
+
+  /** Variable im Code umbenennen; das Struktogramm folgt wie beim Tippen. */
+  renameInCode(from: string, to: string) {
+    this.onRename?.()
+    this.code.replaceRanges(nameRanges(this.code.text, from), to)
+  }
+
+  /** F2 oder Rechtsklick im Code: Fenster „Variable umbenennen“ für das Wort an `pos`. */
+  private renameAt(pos: number, menu?: { x: number; y: number }): boolean {
+    const text = this.editableCode
+    const word = text !== undefined ? nameAt(text, pos) : undefined
+    if (text === undefined || !word) return false
+    const ask = () =>
+      void askRename({
+        names: [word.name],
+        existing: codeWords(this.code.text).map((w) => w.name),
+        count: (name) => nameRanges(this.code.text, name).length,
+      }).then((r) => {
+        if (r) this.renameInCode(r.from, r.to)
+        this.code.view.focus()
+      })
+    if (menu) showRenameMenu(menu.x, menu.y, t('web_rename_menu'), ask)
+    else ask()
+    return true
   }
 
   /** Cursor in einer Zeile: passendes Element im Struktogramm markieren. */

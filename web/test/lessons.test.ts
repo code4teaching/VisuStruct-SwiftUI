@@ -6,7 +6,7 @@ import { documentFromJava, plainLiveJava } from '../src/core/liveSource'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
-import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
+import { exerciseArea, parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
 import { papFits, papLayout, parsePap } from '../src/learn/pap'
@@ -48,6 +48,12 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
       if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
       if (block.kind === 'graphic') expect(image(block.file), `${where}: ${block.file}`).toBeDefined()
       if (block.kind === 'graphic' && block.labeled) expect(image(block.labeled), `${where}: ${block.labeled}`).toBeDefined()
+    }
+  })
+
+  it('jede Grafik-Unterschrift ist kurz (sonst fehlt das schließende „:::“)', () => {
+    for (const { where, block } of allBlocks()) {
+      if (block.kind === 'graphic' || block.kind === 'images') expect(block.caption.length, `${where}: ${block.caption.slice(0, 60)}`).toBeLessThan(400)
     }
   })
 
@@ -194,6 +200,19 @@ describe('Lernbereich: Format', () => {
     expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a b\n:::', 'x.md')).toThrow(/links -> rechts/)
   })
 
+  it('liest bereich: und leitet den Bereich sonst aus code: ab', () => {
+    const ex = (extra: string) => {
+      const block = parseBlocks(`::: übung x\ntitel: T\nauftrag: A\ntest: - -> 1\n${extra}:::`, 'x.md')[0]
+      if (block.kind !== 'exercise') throw new Error('keine Übung')
+      return exerciseArea(block.exercise)
+    }
+    expect(ex('')).toBe('struktogramm')
+    expect(ex('code: java\n')).toBe('code')
+    expect(ex('bereich: beide\n')).toBe('beide')
+    expect(ex('code: java\nbereich: Beide\n')).toBe('beide')
+    expect(() => ex('bereich: links\n')).toThrow(/bereich:/)
+  })
+
   it('löst Checklisten-Verweise auf und meldet unbekannte Schritte', () => {
     const source = (ref: string) => `---\ntitel: T\n---\n## Erster Schritt\nText\n## Checkliste\n::: checkliste\n- Ich kann es. → ${ref}\n- Ohne Verweis\n:::\n`
     const block = parseLesson(source('erster schritt'), '01-t.md').steps[1].blocks[0]
@@ -291,6 +310,23 @@ describe('Lückentexte', () => {
     }
     expect(checked).toBeGreaterThanOrEqual(8)
     useContentLanguage('de')
+  })
+})
+
+describe('Java-Beispiele mit „Im Editor öffnen“', () => {
+  it.each(contentLanguages)('```java editor lässt sich ohne Fehler parsen (%s)', (lang) => {
+    useContentLanguage(lang)
+    const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
+    let checked = 0
+    for (const block of lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks))) {
+      if (block.kind !== 'markdown') continue
+      for (const m of block.text.matchAll(/^```java editor\n([\s\S]*?)^```/gm)) {
+        expect(parseLiveJava(m[1], labels).problems, m[1]).toEqual([])
+        expect(markdownToHTML(m[0])).toContain('data-open="editor"')
+        checked++
+      }
+    }
+    expect(checked).toBeGreaterThanOrEqual(1)
   })
 })
 

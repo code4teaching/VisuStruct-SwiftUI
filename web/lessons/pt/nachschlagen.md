@@ -138,3 +138,32 @@ boolean[][] lugares = new boolean[3][5]
 lugares[1][4] = true
 output: lugares.length + " filas, " + lugares[0].length + " lugares"
 ```
+
+## Java
+
+### Do código ao programa
+
+O compilador `javac` traduz `Ficheiro.java` em bytecode (`Ficheiro.class`). A JVM traduz o bytecode em código máquina ao executá-lo, da mesma forma no Windows, no macOS e no Linux. Já o C++ passa diretamente a código máquina e tem de ser compilado de novo para cada sistema.
+
+| | contém | para |
+|---|---|---|
+| JRE | JVM e bibliotecas | executar |
+| JDK | JRE, compilador `javac`, ferramentas | programar |
+
+### Comentários
+
+Notas no código. O Java salta-as, o estrutograma fica igual.
+
+```java
+/*
+ * Tarefa: somar os números de 1 a 10
+ * (comentário de várias linhas)
+ */
+// Processamento (comentário de uma linha)
+int soma = 0;
+for (int i = 1; i <= 10; i++) {
+    soma = soma + i;      // comentário depois do código
+} // fim do for
+```
+
+Serve para: a tarefa, dividir o código em entrada, processamento e saída, uma explicação, o fim de um bloco depois de `}`, a saída esperada e notas para a próxima vez.

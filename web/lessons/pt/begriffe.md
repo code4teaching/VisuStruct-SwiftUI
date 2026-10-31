@@ -167,6 +167,18 @@ O resultado que um subprograma devolve à chamada com return.
 ### Interrupção
 Um bloco que sai imediatamente do ciclo em que está. Depois o programa continua por baixo do ciclo.
 
+### Erro de sintaxe
+auch: erro de sintaxe, erros de sintaxe, Erros de sintaxe
+Um erro na forma como o código está escrito, por exemplo um `;` em falta. O programa nem sequer arranca. Em inglês: syntax error.
+
+### Erro de execução
+auch: erro de execução, erros de execução, Erros de execução
+Um erro que só acontece enquanto o programa corre, por exemplo dividir por 0. O programa para nesse ponto. Em inglês: runtime error.
+
+### Erro de lógica
+auch: erro de lógica, erros de lógica, Erros de lógica
+O programa corre sem nenhuma mensagem, mas dá um resultado errado. Encontra-se com o teste de secretária. Em inglês: logic error.
+
 ### Teste de secretária
 auch: teste de secretária, testes de secretária, Testes de secretária, teste de mesa
 Executas um estrutograma no papel e anotas os valores das variáveis depois de cada passo.
@@ -202,5 +214,42 @@ Uma variável que está diretamente na classe e não dentro de um método. Com `
 ### Scanner
 Um bloco pronto do Java que lê entradas do teclado, por exemplo um número com `scanner.nextInt()`. Precisa de `import java.util.Scanner;` mesmo no início.
 
+### Comentário
+auch: Comentários, comentário, comentários
+Uma nota no código para pessoas. O Java salta-a ao executar. `//` vale até ao fim da linha, `/* … */` pode ocupar várias linhas.
+
 ### import
 Uma linha mesmo no início do código Java que vai buscar um bloco pronto a um pacote, por exemplo `import java.util.Scanner;`. Sem ela, o Java não conhece o nome.
+
+### código-fonte
+auch: Código-fonte
+O texto do programa que as pessoas escrevem e leem, por exemplo num ficheiro `Tabuada.java`.
+
+### compilador
+auch: Compilador, compiladores
+Um programa que traduz código-fonte. Em Java chama-se `javac` e transforma um ficheiro `.java` em bytecode num ficheiro `.class`.
+
+### bytecode
+auch: Bytecode
+A forma traduzida de um programa Java num ficheiro `.class`. Quem o lê é a JVM, não as pessoas.
+
+### JVM
+auch: Java Virtual Machine, máquina virtual
+A Java Virtual Machine executa bytecode. É um programa que funciona como um pequeno computador feito de software no Windows, no macOS ou no Linux. Por isso o Java é independente da plataforma.
+
+### JRE
+Java Runtime Environment: a JVM e blocos prontos. Com ele podes executar programas Java, mas não compilá-los.
+
+### JDK
+Java Development Kit: o JRE e ainda o compilador `javac` e outras ferramentas. É preciso para programar.
+
+### independente da plataforma
+Um programa corre sem alterações em sistemas operativos diferentes. Em Java é a JVM que o permite: “Write once, run anywhere”.
+
+### código máquina
+auch: Código máquina
+Instruções em forma de números que o processador executa diretamente. Cada tipo de processador tem o seu próprio código máquina.
+
+### compilador JIT
+auch: JIT
+Uma parte da JVM que, durante a execução (“just in time”), traduz o bytecode muito usado em código máquina. Assim o Java fica mais rápido.

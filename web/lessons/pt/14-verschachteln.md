@@ -87,7 +87,7 @@ Foi exatamente para isto que o estrutograma foi inventado. Shneiderman perguntou
 
 Contar os números pares fica assim em Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -97,12 +97,14 @@ int quantidade = 0;
 for (int i = 1; i <= n; i++) {
     if (i % 2 == 0) {
         quantidade++;
-    }
-}
+    } // fim do if
+} // fim do for
 System.out.println(quantidade);
 ```
 
-O que no estrutograma está encaixado, em Java está encaixado entre chavetas. Cada nível fica quatro espaços mais para dentro. Se o teu código ficar desarrumado, ajuda o botão **Indentar** em cima na área Programação.
+O que no estrutograma está encaixado, em Java está encaixado entre chavetas. Cada nível fica quatro espaços mais para dentro. Se o teu código ficar desarrumado, ajuda o botão **Indentar** em cima na área Código.
+
+Com muitas chavetas de fecho `}` é fácil perder a noção: que chaveta pertence a que bloco? Um comentário a seguir diz-te, p. ex. `} // fim do if` e `} // fim do for`. Isto também ajuda quando continuares mais tarde.
 
 `quantidade++` é a forma curta de `quantidade = quantidade + 1`.
 
@@ -142,7 +144,7 @@ erklärung: O ciclo de dentro constrói uma linha de 4 estrelas, o de fora repet
 titel: Corrigir a contagem
 code: java
 auftrag: O programa deve contar quantos números de 1 a `n` são divisíveis por 3 e mostrar o resultado **uma vez**. Para 10 é só **Quantidade: 3**. Mas mostra linhas a mais.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l14-java-fehler-start.visustruct
 test: 10 -> Quantidade: 3
 test: 3 -> Quantidade: 1

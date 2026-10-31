@@ -87,7 +87,7 @@ Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man 
 
 Das Zählen der geraden Zahlen sieht in Java so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -97,12 +97,14 @@ int anzahl = 0;
 for (int i = 1; i <= n; i++) {
     if (i % 2 == 0) {
         anzahl++;
-    }
-}
+    } // Ende if
+} // Ende for
 System.out.println(anzahl);
 ```
 
-Was im Struktogramm ineinander steckt, steht in Java in geschweiften Klammern ineinander. Jede Ebene ist vier Leerzeichen weiter eingerückt. Ist dein Code durcheinander, hilft der Knopf **Einrücken** oben im Bereich Programmieren.
+Was im Struktogramm ineinander steckt, steht in Java in geschweiften Klammern ineinander. Jede Ebene ist vier Leerzeichen weiter eingerückt. Ist dein Code durcheinander, hilft der Knopf **Einrücken** oben im Bereich Code.
+
+Bei vielen schließenden Klammern `}` verliert man leicht den Überblick: Welche Klammer gehört zu welchem Block? Ein Kommentar dahinter sagt es dir, z. B. `} // Ende if` und `} // Ende for`. Das hilft dir auch, wenn du später weiterarbeitest.
 
 `anzahl++` ist die Kurzform von `anzahl = anzahl + 1`.
 
@@ -142,7 +144,7 @@ erklärung: Die innere Schleife baut eine Zeile aus 4 Sternchen, die äußere wi
 titel: Zählen reparieren
 code: java
 auftrag: Das Programm soll zählen, wie viele Zahlen von 1 bis `n` durch 3 teilbar sind, und **einmal** das Ergebnis ausgeben. Bei 10 also nur **Anzahl: 3**. Es gibt aber viel zu viele Zeilen aus.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l14-java-fehler-start.visustruct
 test: 10 -> Anzahl: 3
 test: 3 -> Anzahl: 1

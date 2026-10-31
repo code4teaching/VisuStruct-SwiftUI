@@ -186,7 +186,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 
 The youth ticket from the start looks like this in Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -247,7 +247,7 @@ erklärung: A grade is valid when **both** conditions are true, so `&&`. It is t
 titel: Fix the day off
 code: java
 auftrag: The program should output **no school** for day 6 (Saturday) and day 7 (Sunday), otherwise **school**. But it always outputs **school**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l09-java-fehler-start.visustruct
 test: 6 -> no school
 test: 7 -> no school

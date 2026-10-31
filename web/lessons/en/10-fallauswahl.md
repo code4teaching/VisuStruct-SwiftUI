@@ -92,7 +92,7 @@ So for “age 18 or older” you still need the branch. You cannot create a case
 
 The drinks machine looks like this in Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -171,7 +171,7 @@ erklärung: After `switch` the variable is in round brackets. Each case starts w
 titel: Fix the calculator
 code: java
 auftrag: The calculator reads two numbers and a choice: 1 plus, 2 minus, 3 times. For 7, 3 and choice 2 the result should be **4**, but it calculates **-4**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l10-java-fehler-start.visustruct
 test: 7, 3, 2 -> 4
 test: 7, 3, 1 -> 10

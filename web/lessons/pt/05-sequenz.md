@@ -19,6 +19,10 @@ Uma **sequência** é uma série de passos que são executados exatamente uma ve
 
 Cada bloco só começa quando o bloco de cima terminou. Nada é saltado e nada é repetido.
 
+::: diagramm l05-sequenz.visustruct
+Uma sequência de quatro blocos: primeiro `comprimento` e `largura` recebem os seus valores, depois a área é calculada e, no fim, é apresentada. Cada bloco é executado exatamente uma vez, de cima para baixo. Saída: 15.
+:::
+
 > A sequência é o mais simples dos três blocos básicos. Quase todos os estrutogramas são feitos sobretudo de sequências.
 
 ## A ordem conta
@@ -82,7 +86,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 Tal como na lição 4, também podes escrever uma sequência diretamente em Java. A troca de cima fica assim:
 
-```java
+```java editor
 int a = 5;
 int b = 9;
 int aux = a;
@@ -96,13 +100,13 @@ System.out.println("b = " + b);
 - No fim de cada instrução há um **ponto e vírgula** `;`.
 - Uma saída chama-se `System.out.println(…)` em Java. Atenção ao S maiúsculo de `System`: o Java distingue maiúsculas de minúsculas.
 
-Escreves Java na área [Programação](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
+Escreves Java na área [Código](#zeige-codelive), à direita do estrutograma. Enquanto escreves, o VisuStruct constrói o estrutograma ao mesmo tempo. Assim vês logo que bloco pertence a que linha.
 
 ::: übung l05-java-kino
 titel: Bilhetes de cinema em Java
 code: java
 auftrag: Um bilhete de cinema custa 9 euros. Escreve um programa em Java que calcula o preço de 3 bilhetes e mostra **Total: 27**.
-  “Abrir no editor” abre também a área Programação à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
+  “Abrir no editor” abre também a área Código à direita. Escreve lá o teu código; o estrutograma constrói-se sozinho. Depois clica em Verificar.
 test: - -> Total: 27
 braucht: anweisung
 tipp: Precisas de três variáveis: o preço, a quantidade e o resultado. Cada linha termina com ponto e vírgula.
@@ -132,7 +136,7 @@ erklärung: Primeiro guardas `a` na variável auxiliar, depois `a` recebe o valo
 titel: Corrigir o saldo
 code: java
 auftrag: O cartão da cantina tem 20 euros. Uma refeição custa 7 euros. O programa deve mostrar o saldo **depois** de pagar, ou seja, **Resta: 13**. Mas mostra **Resta: 20**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l05-java-fehler-start.visustruct
 test: - -> Resta: 13
 braucht: anweisung

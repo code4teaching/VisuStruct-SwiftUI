@@ -109,7 +109,7 @@ lösung: l16-summe-loesung.visustruct
 
 A soma de 1 até n fica assim em Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -169,7 +169,7 @@ erklärung: Entre os parênteses ficam o valor inicial, a condição e o passo, 
 titel: Corrigir a tabuada
 code: java
 auftrag: O programa pergunta que tabuada queres e deve mostrá-la de 1 vez até 10 vezes, para o 7 são 7, 14, … até 70. Mas falta o 70.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l13-java-fehler-start.visustruct
 test: 7 -> 7 | 14 | 21 | 28 | 35 | 42 | 49 | 56 | 63 | 70
 test: 3 -> 3 | 6 | 9 | 12 | 15 | 18 | 21 | 24 | 27 | 30

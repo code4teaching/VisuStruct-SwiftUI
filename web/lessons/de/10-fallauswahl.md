@@ -92,7 +92,7 @@ Für „Alter ab 18“ brauchst du also weiter die Verzweigung. Du kannst nicht 
 
 Der Getränkeautomat sieht in Java so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -171,7 +171,7 @@ erklärung: Nach `switch` steht die Variable in runden Klammern. Jeder Fall begi
 titel: Rechner reparieren
 code: java
 auftrag: Der Rechner liest zwei Zahlen und eine Wahl ein: 1 plus, 2 minus, 3 mal. Bei 7, 3 und Wahl 2 soll **4** herauskommen, er rechnet aber **-4**.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l10-java-fehler-start.visustruct
 test: 7, 3, 2 -> 4
 test: 7, 3, 1 -> 10

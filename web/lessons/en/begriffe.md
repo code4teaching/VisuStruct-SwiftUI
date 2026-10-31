@@ -167,6 +167,18 @@ The result that a subprogram hands back to the call with return.
 ### Break
 A block that leaves the loop it is in straight away. Then the program continues below the loop.
 
+### Syntax error
+also: syntax error, syntax errors, Syntax errors
+A mistake in how the code is written, for example a missing `;`. The program does not start at all.
+
+### Runtime error
+also: runtime error, runtime errors, Runtime errors
+An error that only happens while the program runs, for example dividing by 0. The program stops at that point.
+
+### Logic error
+also: logic error, logic errors, Logic errors
+The program runs without any message but gives a wrong result. You find it with a desk check.
+
 ### Desk check
 also: desk check, desk checks, Desk checks
 You run a structure chart on paper and write down the values of the variables after every step.
@@ -198,5 +210,42 @@ An error that only happens while the program runs, for example an index outside 
 ### Scanner
 A ready-made Java building block that reads input from the keyboard, for example a number with `scanner.nextInt()`. It needs `import java.util.Scanner;` at the very top.
 
+### comment
+auch: comments, Comment, Comments
+A note in the code for people. Java skips it when it runs. `//` lasts until the end of the line, `/* … */` can span several lines.
+
 ### import
 A line at the very top of Java code that fetches a ready-made building block from a package, for example `import java.util.Scanner;`. Without it, Java doesn't know the name.
+
+### source code
+auch: Source code
+The program text that people write and read, for example in a file `TimesTable.java`.
+
+### compiler
+auch: compilers, Compiler
+A program that translates source code. In Java it is called `javac` and turns a `.java` file into bytecode in a `.class` file.
+
+### bytecode
+auch: Bytecode
+The translated form of a Java program in a `.class` file. It is read by the JVM, not by people.
+
+### JVM
+auch: Java Virtual Machine, virtual machine
+The Java Virtual Machine runs bytecode. It is a program that works like a small computer made of software on Windows, macOS or Linux. That is why Java is platform independent.
+
+### JRE
+Java Runtime Environment: the JVM and ready-made building blocks. You can run Java programs with it, but not compile them.
+
+### JDK
+Java Development Kit: the JRE plus the compiler `javac` and other tools. You need it to program.
+
+### platform independent
+A program runs without changes on different operating systems. In Java the JVM makes this possible: “Write once, run anywhere”.
+
+### machine code
+auch: Machine code
+Instructions as numbers that the processor runs directly. Every kind of processor has its own machine code.
+
+### JIT compiler
+auch: JIT
+A part of the JVM that translates often-used bytecode into machine code while the program runs (“just in time”). This makes Java faster.

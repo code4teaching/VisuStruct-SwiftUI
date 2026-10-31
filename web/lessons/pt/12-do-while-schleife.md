@@ -87,7 +87,7 @@ lösung: l11-summe-loesung.visustruct
 
 O ciclo que corre mesmo assim uma vez fica assim em Java:
 
-```java
+```java editor
 int i = 10;
 do {
     System.out.println(i);
@@ -132,7 +132,7 @@ erklärung: O corpo fica entre `do {` e `}`, a condição só vem depois. No cic
 titel: Corrigir a divisão ao meio
 code: java
 auftrag: O programa lê um número inicial e, com um ciclo do-while, divide-o repetidamente por 2 (divisão inteira). Cada resultado é mostrado até chegar a **0**. Para 10 são 5, 2, 1 e 0. Mas falta o 0.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l12-java-fehler-start.visustruct
 test: 10 -> 5 | 2 | 1 | 0
 test: 1 -> 0

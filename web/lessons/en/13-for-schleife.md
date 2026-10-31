@@ -109,7 +109,7 @@ lösung: l16-summe-loesung.visustruct
 
 The sum from 1 to n looks like this in Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -169,7 +169,7 @@ erklärung: The round brackets hold the start value, the condition and the step,
 titel: Fix the times table
 code: java
 auftrag: The program asks for a times table and should output it from 1 times to 10 times, for 7 that is 7, 14, … up to 70. But the 70 is missing.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l13-java-fehler-start.visustruct
 test: 7 -> 7 | 14 | 21 | 28 | 35 | 42 | 49 | 56 | 63 | 70
 test: 3 -> 3 | 6 | 9 | 12 | 15 | 18 | 21 | 24 | 27 | 30

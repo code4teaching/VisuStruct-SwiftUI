@@ -10,6 +10,7 @@ kurz: Run a structure chart step by step, work it out by hand and find mistakes.
 - start the simulation, pause it, run single steps and stop it
 - read the variables, the output and the last step during the simulation
 - do a desk check by hand as a table
+- tell syntax errors, runtime errors and logic errors apart
 - find a mistake by comparing the values with what I expect
 - follow Java code with Step and breakpoints
 :::
@@ -41,7 +42,7 @@ The values of a and b are swapped. The variable temp keeps one value meanwhile.
 - **Variables:** All variables with their current values.
 - **Output:** Everything that was output with `output:`.
 
-If the [Programming](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
+If the [Code](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
 
 At the end, **Simulation finished.** appears. If something goes wrong, the simulation stops on the faulty box and shows a message, e.g. **Unknown variable: total**.
 
@@ -65,9 +66,39 @@ Then compare your table with the simulation. Do the values under **Variables** m
 
 > A desk check is especially useful in tests. There you have no computer, but you can still show what your structure chart does.
 
+::: angeberwissen
+“Computer” used to be a job: people who did calculations with pencil, paper and a calculating machine. One of the best was the mathematician Katherine Johnson at NASA. She calculated flight paths for space capsules, and later also for the Apollo 11 flight to the Moon.
+
+In 1962 John Glenn was to become the first American to orbit the Earth. A new IBM computer had calculated the flight path. Glenn did not fully trust the machine and said: “Get the girl to check the numbers. If she says they’re good, I’m ready to go.” Katherine Johnson checked everything by hand, a real desk check. Her numbers were right, and Glenn flew.
+
+Katherine Johnson was Black, and at that time laws in the US state of Virginia separated Black and white people. In the film “Hidden Figures” (2016) she has to run across the whole site every time she needs the toilet. The film exaggerates this: separate toilets really existed, but Katherine Johnson said she simply ignored the sign.
+
+Her colleague Dorothy Vaughan saw early on that the IBM computers would take over the calculating work. She taught herself and her whole team the programming language FORTRAN. That is how human computers became programmers.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), mathematician at NASA (photo: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), public domain).
+:::
+
+## Three kinds of errors
+
+Errors are part of programming, even for professionals. There are three kinds, and you find each of them in a different way:
+
+- **Syntax error**: The text breaks the rules of the language, e.g. a `;` is missing at the end. The program does not start at all.
+- **Runtime error**: The program starts but stops at one point, e.g. when it divides by 0.
+- **Logic error**: The program runs to the end, but the result is wrong, e.g. because brackets are missing: `a + b / 2` instead of `(a + b) / 2`.
+
+This is how VisuStruct shows you the errors:
+
+- **Syntax error:** They happen less often in a structure chart, because the boxes give you the shape. In the [Code](#zeige-codelive) area the spot is underlined in red, the line number turns red, and you read e.g. **Line 2: Still missing here: ;**.
+- **Runtime error:** The simulation stops on the box and reports e.g. **Division by zero.** In the Code area the line number turns red, and the [console](#zeige-konsole) names the line: **Line 3: Division by zero.**
+- **Logic error:** Nobody reports anything here. The computer does not know what you actually wanted. Only you know the right result, so the desk check helps here.
+
+> A red line number shows an error. The round red dot in front of the line number is something else: a breakpoint. You will meet it below in “Now in Java”.
+
 ## Find mistakes
 
-If a structure chart outputs something wrong, do this:
+If a structure chart outputs something wrong, that is a logic error. Then do this:
 
 1. **Write down what you expect:** What should come out for a particular input?
 2. **Run it step by step:** Start the simulation with **Step** and watch the variables.
@@ -84,6 +115,12 @@ Common mistakes in a sequence are:
 
 ::: angeberwissen
 On 9 September 1947 Grace Hopper’s team found a real moth stuck between two contacts in the Harvard Mark II computer. They taped it into the logbook and wrote: “First actual case of bug being found.” Today the moth is in a museum in Washington.
+
+Grace Hopper was one of the first programmers in the world. In 1952 she built one of the first **compilers**: a program that translates code into machine code. She believed people should be able to give computers instructions in almost normal English. This led to the programming language COBOL, which many banks still use today. She even became an admiral in the US Navy.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), computer scientist and admiral (photo: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), public domain).
 :::
 
 ## Exercise: Fix the swap
@@ -122,7 +159,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Now in Java
 
-You can run Java code step by step too. In the [Programming](#zeige-codelive) area the tool for this is called the **debugger**:
+You can run Java code step by step too. In the [Code](#zeige-codelive) area the tool for this is called the **debugger**:
 
 - Click a line number on the left. A red dot appears: that is a **breakpoint**. [▶︎ Run](#zeige-ausfuehren) pauses before this line.
 - The [Step](#zeige-einzelschritt) button runs exactly one line, like **Step** in the simulation.
@@ -154,7 +191,7 @@ b = a * 2;      // b is now [[14]]
 a = b - a;      // a is now [[7]]
 System.out.println(a + b);      // output: [[21]]
 ```
-erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Programming area.
+erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Code area.
 :::
 
 ## Find the bug: score
@@ -246,6 +283,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can start the simulation, pause it, run single steps and stop it. → Start the simulation
 - I can read the variables, the output and the last step during the simulation. → What the simulation shows
 - I can do a desk check by hand as a table. → The desk check
+- I can tell syntax errors, runtime errors and logic errors apart. → Three kinds of errors
 - I can find a mistake by comparing the values with what I expect. → Find mistakes
 - I can follow Java code with Step and breakpoints. → Now in Java
 :::
@@ -286,10 +324,22 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] sum is too big.
 - [ ] The structure chart has too many boxes.
 
-? What does a red dot in front of a line number in the Programming area do?
+? What does a red dot in front of a line number in the Code area do?
 → Now in Java
 - [ ] It marks an error.
 - [x] The program pauses before this line.
 - [ ] The line is skipped.
 > That is a breakpoint. ▶︎ or Step carries on.
+? Match each error to its kind.
+→ Three kinds of errors
+= The semicolon at the end of the line is missing. -> Syntax error
+= The program divides by 0 and stops. -> Runtime error
+= The average is too big because brackets are missing. -> Logic error
+
+? The program runs to the end without any message but prints 12 instead of 21. What kind of error is that?
+→ Three kinds of errors
+- [ ] Syntax error
+- [ ] Runtime error
+- [x] Logic error
+> There is no message, but the result is still wrong. You only find an error like this with your expectation and a desk check.
 :::

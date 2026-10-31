@@ -166,7 +166,7 @@ lösung: zk-woerter-loesung.visustruct
 
 The methods in this lesson already are Java. A whole program with a text looks like this:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
@@ -222,7 +222,7 @@ erklärung: `length()` counts the characters, `toUpperCase()` makes everything u
 titel: Fix the initials
 code: java
 auftrag: The program reads a first name and a last name and should output the initials. For Ludwig Geißbock that is **L. G.** But it outputs **u. e.**
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l17-java-fehler-start.visustruct
 test: Ludwig, Geißbock -> L. G.
 test: Mia, Meyer -> M. M.

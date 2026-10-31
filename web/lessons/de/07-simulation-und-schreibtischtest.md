@@ -10,6 +10,7 @@ kurz: Ein Struktogramm Schritt für Schritt ausführen, von Hand nachrechnen und
 - die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen
 - während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen
 - einen Schreibtischtest als Tabelle von Hand durchführen
+- Syntaxfehler, Laufzeitfehler und Logikfehler unterscheiden
 - einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche
 - Java-Code mit dem Einzelschritt und Haltepunkten verfolgen
 :::
@@ -41,7 +42,7 @@ Die Werte von a und b werden vertauscht. Die Variable hilf merkt sich dabei eine
 - **Variablen:** Alle Variablen mit ihren aktuellen Werten.
 - **Ausgabe:** Alles, was mit `output:` ausgegeben wurde.
 
-Ist rechts der Bereich [Programmieren](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
+Ist rechts der Bereich [Code](#zeige-codelive) geöffnet, läuft dort zusätzlich die [Konsole](#zeige-konsole) mit. Sie wird beim Start geleert und zeigt dann die Ausgaben und Eingaben so, wie sie auch beim echten Programm erscheinen würden.
 
 Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulation auf dem fehlerhaften Kasten stehen und zeigt eine Meldung, z. B. **Unbekannte Variable: gesamt**.
 
@@ -65,9 +66,39 @@ Vergleiche danach deine Tabelle mit der Simulation. Stimmen die Werte unter **Va
 
 > Der Schreibtischtest lohnt sich besonders in Prüfungen. Dort hast du keinen Computer, aber du kannst trotzdem zeigen, was dein Struktogramm tut.
 
+::: angeberwissen
+Früher war „Computer“ ein Beruf: Menschen, die mit Stift, Papier und Rechenmaschine rechneten. Eine der besten war die Mathematikerin Katherine Johnson bei der NASA. Sie berechnete Flugbahnen für Raumkapseln, später auch für den Flug von Apollo 11 zum Mond.
+
+1962 sollte John Glenn als erster Amerikaner die Erde umkreisen. Die Flugbahn hatte ein neuer IBM-Computer berechnet. Glenn traute der Maschine nicht ganz und sagte: „Holt das Mädchen, sie soll die Zahlen prüfen. Wenn sie sagt, sie stimmen, fliege ich.“ Katherine Johnson rechnete alles von Hand nach, also ein echter Schreibtischtest. Ihre Zahlen stimmten, und Glenn flog.
+
+Katherine Johnson war Schwarz, und im US-Bundesstaat Virginia trennten damals Gesetze Schwarze und Weiße. Im Film „Hidden Figures“ (2016) muss sie für jeden Toilettengang quer über das Gelände laufen. Das ist für den Film zugespitzt: Getrennte Toiletten gab es wirklich, aber Katherine Johnson hat das Schild nach eigener Aussage einfach ignoriert.
+
+Ihre Kollegin Dorothy Vaughan merkte früh, dass die IBM-Computer die Rechenarbeit übernehmen würden. Sie brachte sich und ihrem ganzen Team die Programmiersprache FORTRAN bei. So wurden aus menschlichen Computern Programmiererinnen.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), Mathematikerin bei der NASA (Foto: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), gemeinfrei).
+:::
+
+## Drei Arten von Fehlern
+
+Fehler gehören zum Programmieren dazu, auch bei Profis. Man unterscheidet drei Arten, denn jede findest du auf einem anderen Weg:
+
+- **Syntaxfehler** (syntax error): Der Text hält sich nicht an die Regeln der Sprache, z. B. fehlt am Ende ein `;`. Das Programm startet gar nicht.
+- **Laufzeitfehler** (runtime error): Das Programm startet, bricht aber an einer Stelle ab, z. B. beim Teilen durch 0.
+- **Logikfehler** (logic error): Das Programm läuft bis zum Ende, aber das Ergebnis ist falsch, z. B. weil Klammern fehlen: `a + b / 2` statt `(a + b) / 2`.
+
+So zeigt dir VisuStruct die Fehler:
+
+- **Syntaxfehler:** Im Struktogramm passieren sie seltener, weil die Kästen die Form vorgeben. Im Bereich [Code](#zeige-codelive) wird die Stelle rot unterstrichen, die Zeilennummer wird rot, und dazu steht z. B. **Zeile 2: Hier fehlt noch: ;**.
+- **Laufzeitfehler:** Die Simulation bleibt auf dem Kasten stehen und meldet z. B. **Division durch null.** Im Bereich Code wird die Zeilennummer rot, und die [Konsole](#zeige-konsole) nennt die Zeile: **Zeile 3: Division durch null.**
+- **Logikfehler:** Hier meldet niemand etwas. Der Computer weiß nicht, was du eigentlich wolltest. Nur du kennst das richtige Ergebnis, darum hilft hier der Schreibtischtest.
+
+> Eine rote Zeilennummer zeigt einen Fehler. Der runde rote Punkt vor der Zeilennummer ist etwas anderes: ein Haltepunkt. Den lernst du unten bei „Jetzt in Java“ kennen.
+
 ## Fehler finden
 
-Gibt ein Struktogramm etwas Falsches aus, gehst du so vor:
+Gibt ein Struktogramm etwas Falsches aus, ist das ein Logikfehler. Dann gehst du so vor:
 
 1. **Erwartung aufschreiben:** Was soll bei einer bestimmten Eingabe herauskommen?
 2. **Schritt für Schritt ausführen:** Starte die Simulation mit **Schritt** und beobachte die Variablen.
@@ -84,6 +115,12 @@ Häufige Fehler in einer Sequenz sind:
 
 ::: angeberwissen
 Am 9. September 1947 fand das Team von Grace Hopper im Rechner Harvard Mark II eine echte Motte, die zwischen zwei Kontakten klemmte. Sie klebten sie ins Logbuch und schrieben dazu: „Erster echter Fall, dass ein Bug gefunden wurde.“ Die Motte liegt heute in einem Museum in Washington.
+
+Grace Hopper war eine der ersten Programmiererinnen der Welt. 1952 baute sie einen der ersten **Compiler**: ein Programm, das Code in Maschinencode übersetzt. Sie fand, dass man Computern Befehle in fast normalem Englisch geben sollte. Daraus entstand die Programmiersprache COBOL, mit der viele Banken bis heute rechnen. Bei der US-Marine wurde sie sogar Admiralin.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), Informatikerin und Admiralin (Foto: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), gemeinfrei).
 :::
 
 ## Übung: Tauschen reparieren
@@ -122,7 +159,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Jetzt in Java
 
-Auch Java-Code kannst du Schritt für Schritt ausführen. Im Bereich [Programmieren](#zeige-codelive) heißt das Werkzeug dafür **Debugger**:
+Auch Java-Code kannst du Schritt für Schritt ausführen. Im Bereich [Code](#zeige-codelive) heißt das Werkzeug dafür **Debugger**:
 
 - Klicke links auf eine Zeilennummer. Ein roter Punkt erscheint, das ist ein **Haltepunkt**. [▶︎ Ausführen](#zeige-ausfuehren) hält vor dieser Zeile an.
 - Der Knopf [Einzelschritt](#zeige-einzelschritt) führt genau eine Zeile aus, wie **Schritt** in der Simulation.
@@ -154,7 +191,7 @@ b = a * 2;      // b ist jetzt [[14]]
 a = b - a;      // a ist jetzt [[7]]
 System.out.println(a + b);      // Ausgabe: [[21]]
 ```
-erklärung: Jede Zeile rechnet mit den Werten, die gerade in den Variablen stehen: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, Ausgabe 7 + 14 = 21. Mit dem Einzelschritt im Bereich Programmieren kannst du es nachprüfen.
+erklärung: Jede Zeile rechnet mit den Werten, die gerade in den Variablen stehen: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, Ausgabe 7 + 14 = 21. Mit dem Einzelschritt im Bereich Code kannst du es nachprüfen.
 :::
 
 ## Fehler finden: Spielstand
@@ -246,6 +283,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann die Simulation starten, anhalten, einzelne Schritte ausführen und stoppen. → Die Simulation starten
 - Ich kann während der Simulation Variablen, Ausgabe und den letzten Schritt ablesen. → Was die Simulation anzeigt
 - Ich kann einen Schreibtischtest als Tabelle von Hand durchführen. → Der Schreibtischtest
+- Ich kann Syntaxfehler, Laufzeitfehler und Logikfehler unterscheiden. → Drei Arten von Fehlern
 - Ich kann einen Fehler finden, indem ich die Werte mit meiner Erwartung vergleiche. → Fehler finden
 - Ich kann Java-Code mit dem Einzelschritt und Haltepunkten verfolgen. → Jetzt in Java
 :::
@@ -286,10 +324,22 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] summe ist zu groß.
 - [ ] Das Struktogramm hat zu viele Kästen.
 
-? Was macht ein roter Punkt vor einer Zeilennummer im Bereich Programmieren?
+? Was macht ein roter Punkt vor einer Zeilennummer im Bereich Code?
 → Jetzt in Java
 - [ ] Er markiert einen Fehler.
 - [x] Das Programm hält vor dieser Zeile an.
 - [ ] Die Zeile wird übersprungen.
 > Das ist ein Haltepunkt. Mit ▶︎ oder dem Einzelschritt geht es weiter.
+? Ordne jedem Fehler seine Fehlerart zu.
+→ Drei Arten von Fehlern
+= Am Zeilenende fehlt das Semikolon. -> Syntaxfehler
+= Das Programm teilt durch 0 und bricht ab. -> Laufzeitfehler
+= Der Durchschnitt ist zu groß, weil Klammern fehlen. -> Logikfehler
+
+? Das Programm läuft ohne Meldung bis zum Ende, gibt aber 12 statt 21 aus. Welche Fehlerart ist das?
+→ Drei Arten von Fehlern
+- [ ] Syntaxfehler
+- [ ] Laufzeitfehler
+- [x] Logikfehler
+> Es gibt keine Meldung, das Ergebnis ist trotzdem falsch. So einen Fehler findest du nur mit deiner Erwartung und dem Schreibtischtest.
 :::

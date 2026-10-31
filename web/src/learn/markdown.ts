@@ -34,12 +34,15 @@ export function markdownToHTML(source: string): string {
       continue
     }
     if (line.startsWith('```')) {
-      const java = line.slice(3).trim() === 'java'
+      // ```java editor: Unter dem Beispiel steht „Im Editor öffnen“, dann kann man es in Programmieren ausprobieren.
+      const [lang, extra] = line.slice(3).trim().split(/\s+/)
+      const java = lang === 'java'
+      const open = java && extra === 'editor'
       const code: string[] = []
       i++
       while (i < lines.length && !lines[i].startsWith('```')) code.push(lines[i++])
       i++
-      out.push(`<pre class="lesson-code"${java ? ' data-lang="java"' : ''} dir="ltr"><code>${escape(code.join('\n'))}</code></pre>`)
+      out.push(`<pre class="lesson-code"${java ? ' data-lang="java"' : ''}${open ? ' data-open="editor"' : ''} dir="ltr"><code>${escape(code.join('\n'))}</code></pre>`)
       continue
     }
     const heading = /^(#{2,4})\s+(.*)$/.exec(line)

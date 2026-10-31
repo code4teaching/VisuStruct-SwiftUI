@@ -94,6 +94,8 @@
 "web_parse_missing_import" = "先頭に %@ がありません。この行がないと Java は Scanner を知りません。";
 "web_parse_missing_scanner" = "先に %@ がありません。この行がないと Scanner はありません。";
 "web_parse_unknown_type" = "Java はこのデータ型を知りません。%@ のことですか？";
+"web_quickfix_insert_fmt" = "提案: %@ を挿入";
+"web_quickfix_replace_fmt" = "提案: %2$@ の代わりに %1$@";
 "web_editor_title" = "構造図";
 "web_editor_show" = "構造図を表示";
 "web_editor_hide" = "構造図を隠す";
@@ -177,3 +179,16 @@
 "web_code_scopes" = "コードブロックを色分け";
 "web_code_scopes_hint" = "クラス、メソッド、ループ、分岐をそれぞれの枠で表示";
 "web_pseudocode" = "疑似コード";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "変数の名前を変更 …";
+"web_rename_title" = "変数の名前を変更";
+"web_rename_old" = "名前";
+"web_rename_new" = "新しい名前";
+"web_rename_hint" = "つづりが完全に同じ箇所をすべて、コードと構造図で変更します（number と Number は別です）。\"…\" 内の文字列とコメントは変わりません。";
+"web_rename_count_fmt" = "%d 回使われています。";
+"web_rename_exists_fmt" = "「%@」はすでにあります：変更すると 2 つの変数が 1 つになります。";
+"web_rename_invalid" = "名前は文字で始まり、文字・数字・_ だけを含みます。";
+"web_rename_keyword_fmt" = "「%@」は Java のキーワードです。";
+"web_rename_apply" = "名前を変更";
+"web_rename_cancel" = "キャンセル";
