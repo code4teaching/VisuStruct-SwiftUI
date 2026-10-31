@@ -177,4 +177,17 @@ const e=`/* Тексти, які є лише у веб-версії. Усі ін
 "web_code_scopes" = "Кольорові блоки коду";
 "web_code_scopes_hint" = "Клас, метод, цикл, розгалуження в окремих рамках";
 "web_pseudocode" = "Псевдокод";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Перейменувати змінну …";
+"web_rename_title" = "Перейменувати змінну";
+"web_rename_old" = "Назва";
+"web_rename_new" = "Нова назва";
+"web_rename_hint" = "Змінює кожне місце з точно таким написанням (number — це не Number), у коді та на структурограмі. Текст у \\"…\\" і коментарі лишаються.";
+"web_rename_count_fmt" = "Трапляється %d раз(и).";
+"web_rename_exists_fmt" = "«%@» уже існує: після цього обидві стануть однією змінною.";
+"web_rename_invalid" = "Назва починається з літери й містить лише літери, цифри та _.";
+"web_rename_keyword_fmt" = "«%@» — ключове слово Java.";
+"web_rename_apply" = "Перейменувати";
+"web_rename_cancel" = "Скасувати";
 `;export{e as default};

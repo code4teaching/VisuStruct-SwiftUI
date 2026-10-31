@@ -58,6 +58,8 @@ export interface JavaEditorHooks {
   onBreakpoints(): void
   /** Eigene Klassen für Vorschläge nach dem Punkt (VisuObject); `pos` = Cursor. */
   ownTypes?(pos: number): OwnTypes | undefined
+  /** F2 bzw. Rechtsklick: Variable an `pos` umbenennen; `menu` = Stelle des Rechtsklicks. `true` = übernommen. */
+  onRename?(pos: number, menu?: { x: number; y: number }): boolean
 }
 
 /** Eigene Textänderungen (z. B. nach einer Änderung im Struktogramm) lösen kein `onChange` aus. */
@@ -506,9 +508,18 @@ export class JavaEditor {
           { key: 'Mod-y', run: () => (hooks.onUndo(true), true), preventDefault: true },
           { key: 'Backspace', run: deletePlaceholder(false) },
           { key: 'Delete', run: deletePlaceholder(true) },
+          { key: 'F2', run: (view) => hooks.onRename?.(view.state.selection.main.head) ?? false, preventDefault: true },
         ]),
       ),
       keymap.of([...closeBracketsKeymap, ...completionKeymap, indentWithTab, ...defaultKeymap]),
+      EditorView.domEventHandlers({
+        contextmenu: (e, view) => {
+          const pos = view.posAtCoords({ x: e.clientX, y: e.clientY })
+          if (pos === null || !hooks.onRename?.(pos, { x: e.clientX, y: e.clientY })) return false
+          e.preventDefault()
+          return true
+        },
+      }),
       EditorView.contentAttributes.of({ 'aria-label': label, autocapitalize: 'off', autocorrect: 'off', spellcheck: 'false' }),
       EditorView.updateListener.of((u) => {
         // Danach, denn die Rückmeldung zeichnet den Editor neu (Markierungen).
@@ -566,6 +577,12 @@ export class JavaEditor {
       selection: { anchor: caret },
       annotations: fromOutside.of(true),
     })
+  }
+
+  /** Umbenennen: alle Stellen in einem Schritt ersetzen (wie Tippen, das Struktogramm folgt). */
+  replaceRanges(ranges: { from: number; to: number }[], insert: string) {
+    if (ranges.length === 0) return
+    this.view.dispatch({ changes: ranges.map((r) => ({ from: r.from, to: r.to, insert })), userEvent: 'input.rename' })
   }
 
   /** Knopf „Einrücken“: die markierten Zeilen, ohne Markierung den ganzen Code, erst formatieren, dann einrücken. */

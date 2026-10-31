@@ -177,4 +177,17 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_code_scopes" = "Renkli kod blokları";
 "web_code_scopes_hint" = "Sınıf, metot, döngü, dallanma kendi kutularında";
 "web_pseudocode" = "Sözde kod";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Değişkeni yeniden adlandır …";
+"web_rename_title" = "Değişkeni yeniden adlandır";
+"web_rename_old" = "Ad";
+"web_rename_new" = "Yeni ad";
+"web_rename_hint" = "Tam olarak bu yazılışa sahip her yeri değiştirir (sayi, Sayi değildir), kodda ve yapı diyagramında. \\"…\\" içindeki metin ve yorumlar kalır.";
+"web_rename_count_fmt" = "%d kez geçiyor.";
+"web_rename_exists_fmt" = "“%@” zaten var: sonra ikisi tek bir değişken olur.";
+"web_rename_invalid" = "Bir ad harfle başlar ve yalnızca harf, rakam ve _ içerir.";
+"web_rename_keyword_fmt" = "“%@” bir Java anahtar sözcüğüdür.";
+"web_rename_apply" = "Yeniden adlandır";
+"web_rename_cancel" = "İptal";
 `;export{e as default};

@@ -741,3 +741,15 @@
 "web_visuflow_status_edge" = "Arrow selected. Delete removes it.";
 "web_visuflow_status_connect" = "Let go over the symbol the arrow leads to.";
 "web_visuflow_edit_label" = "Text in the symbol";
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Rename variable …";
+"web_rename_title" = "Rename variable";
+"web_rename_old" = "Name";
+"web_rename_new" = "New name";
+"web_rename_hint" = "Changes every place with exactly this spelling (number is not Number), in the code and in the structogram. Text in \"…\" and comments stay.";
+"web_rename_count_fmt" = "Used %d times.";
+"web_rename_exists_fmt" = "“%@” already exists: afterwards both would be one variable.";
+"web_rename_invalid" = "A name starts with a letter and contains only letters, digits and _.";
+"web_rename_keyword_fmt" = "“%@” is a Java keyword.";
+"web_rename_apply" = "Rename";
+"web_rename_cancel" = "Cancel";

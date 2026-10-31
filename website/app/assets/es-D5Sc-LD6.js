@@ -177,4 +177,17 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_code_scopes" = "Bloques de código en color";
 "web_code_scopes_hint" = "Clase, método, bucle, condición en sus propias cajas";
 "web_pseudocode" = "Pseudocódigo";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "Renombrar variable …";
+"web_rename_title" = "Renombrar variable";
+"web_rename_old" = "Nombre";
+"web_rename_new" = "Nombre nuevo";
+"web_rename_hint" = "Cambia cada lugar con exactamente esta escritura (numero no es Numero), en el código y en el estructograma. El texto entre \\"…\\" y los comentarios no cambian.";
+"web_rename_count_fmt" = "Aparece %d veces.";
+"web_rename_exists_fmt" = "«%@» ya existe: después ambas serían una sola variable.";
+"web_rename_invalid" = "Un nombre empieza con una letra y solo contiene letras, cifras y _.";
+"web_rename_keyword_fmt" = "«%@» es una palabra clave de Java.";
+"web_rename_apply" = "Renombrar";
+"web_rename_cancel" = "Cancelar";
 `;export{e as default};

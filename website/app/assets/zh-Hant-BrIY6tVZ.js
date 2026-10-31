@@ -177,4 +177,17 @@ const e=`/* 僅存在於網頁版的文字。其他所有文字皆來自 App 的
 "web_code_scopes" = "程式碼區塊彩色顯示";
 "web_code_scopes_hint" = "類別、方法、迴圈、分支各有自己的框";
 "web_pseudocode" = "虛擬碼";
+
+/* Variable umbenennen (Refactoring) */
+"web_rename_menu" = "重新命名變數 …";
+"web_rename_title" = "重新命名變數";
+"web_rename_old" = "名稱";
+"web_rename_new" = "新名稱";
+"web_rename_hint" = "在程式碼和結構圖中更改所有拼寫完全相同的地方（number 不是 Number）。\\"…\\" 中的文字和註解保持不變。";
+"web_rename_count_fmt" = "出現 %d 次。";
+"web_rename_exists_fmt" = "「%@」已存在：之後兩者會成為同一個變數。";
+"web_rename_invalid" = "名稱以字母開頭，只包含字母、數字和 _。";
+"web_rename_keyword_fmt" = "「%@」是 Java 關鍵字。";
+"web_rename_apply" = "重新命名";
+"web_rename_cancel" = "取消";
 `;export{e as default};
