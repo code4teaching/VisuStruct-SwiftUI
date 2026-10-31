@@ -84,6 +84,10 @@ Manchmal soll nur dann etwas passieren, wenn die Bedingung wahr ist, und sonst g
 Ab 50 Euro gibt es 5 Euro Rabatt. Sonst passiert nichts, der false-Zweig ist leer. Die Ausgabe darunter wird in beiden Fällen ausgeführt.
 :::
 
+::: angeberwissen
+Eine einzige vergessene Verzweigung hat 2014 halb das Internet in Aufregung versetzt: die Sicherheitslücke **Heartbleed** in OpenSSL, einem Programm, das viele Webseiten für die Verschlüsselung benutzen. Ein Computer konnte dem Server sagen: „Schick mir das Wort *Hut* zurück, es hat 500 Buchstaben.“ Der Server hat nicht geprüft, ob die 500 zur echten Länge 3 passen, und einfach 500 Zeichen aus seinem Speicher zurückgeschickt. Darin standen manchmal Passwörter anderer Leute. Gefehlt hat nur ein if: Wenn die angegebene Länge größer ist als die echte, dann nichts zurückschicken. Mit Klammern hatte das übrigens nichts zu tun. Mäh, prüf deine Eingaben, bevor du ihnen glaubst.
+:::
+
 ## Übung: Betrag
 
 ::: übung l07-betrag
@@ -139,6 +143,20 @@ braucht: verzweigung
 tipp: Fang mit den beiden Zeilen für den Scanner an. Dann fragst du nach den Punkten, liest sie ein und vergleichst sie mit `if`.
 tipp: Die Bedingung lautet `punkte >= 50`. In den Zweigen steht `System.out.println("bestanden");` und nach `else` `System.out.println("nicht bestanden");`.
 lösung: l08-java-bestanden-loesung.visustruct
+:::
+
+::: angeberwissen
+Steht im Zweig nur eine einzige Anweisung, darf man in Java die geschweiften Klammern sogar weglassen. Wir machen das trotzdem nie, und zwar aus diesem Grund:
+
+```java
+if (alter >= 18)
+    System.out.println("Du bist volljährig.");
+    System.out.println("Du darfst den Film sehen.");
+```
+
+Ohne Klammern gehört nur die erste Zeile zum if. Die zweite läuft immer, auch für Zwölfjährige. Die Einrückung täuscht, denn Java achtet nicht auf Leerzeichen.
+
+Genau so ein Fehler steckte 2014 in iPhones und Macs, bekannt als **„goto fail“**. In der Sprache C stand unter einem if ohne Klammern die Zeile `goto fail;` aus Versehen zweimal. Die zweite lief immer und übersprang die Prüfung der Sicherheitszertifikate. In einem offenen WLAN hätte sich ein Angreifer so zum Beispiel als deine Bank ausgeben können. Mäh, Klammern kosten zwei Zeichen, eine Sicherheitslücke kostet viel mehr.
 :::
 
 ## Lückentext: Gerade oder ungerade

@@ -84,6 +84,10 @@ Sometimes something should only happen if the condition is true, and otherwise n
 From 50 euros on, you get 5 euros off. Otherwise nothing happens; the false path is empty. The output below runs in both cases.
 :::
 
+::: angeberwissen
+A single forgotten branch caused a stir across half the internet in 2014: the security hole **Heartbleed** in OpenSSL, a program that many websites use for encryption. A computer could tell the server: “Send me back the word *hat*, it has 500 letters.” The server did not check whether 500 matched the real length of 3 and simply sent back 500 characters from its memory. Sometimes they contained other people's passwords. All that was missing was one if: if the stated length is greater than the real one, then send nothing back. By the way, this had nothing to do with brackets. Baah, check your inputs before you believe them.
+:::
+
 ## Exercise: Absolute value
 
 ::: übung l07-betrag
@@ -139,6 +143,20 @@ braucht: verzweigung
 tipp: Start with the two lines for the scanner. Then ask for the points, read them and compare them with `if`.
 tipp: The condition is `points >= 50`. One branch has `System.out.println("passed");`, and after `else` comes `System.out.println("not passed");`.
 lösung: l08-java-bestanden-loesung.visustruct
+:::
+
+::: angeberwissen
+If a branch holds only a single statement, Java even lets you leave out the curly brackets. We never do that, and here is why:
+
+```java
+if (age >= 18)
+    System.out.println("You are an adult.");
+    System.out.println("You may watch the film.");
+```
+
+Without brackets only the first line belongs to the if. The second one always runs, even for twelve-year-olds. The indentation is misleading, because Java ignores spaces.
+
+Exactly this kind of mistake was hidden in iPhones and Macs in 2014, known as **“goto fail”**. In the language C, the line `goto fail;` accidentally appeared twice under an if without brackets. The second one always ran and skipped the check of the security certificates. On an open Wi-Fi network, an attacker could have pretended to be your bank, for example. Baah, brackets cost two characters, a security hole costs much more.
 :::
 
 ## Fill in the gaps: even or odd
