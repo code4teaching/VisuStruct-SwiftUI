@@ -109,6 +109,16 @@ try and catch are like the net under the trapeze at the circus: as long as every
 
 > The structure chart has no box for try and catch. So VisuStruct shows the whole block as one statement. You can only run it with real Java.
 
+::: angeberwissen
+In July 1969, Apollo 11 landed on the Moon. Shortly before touchdown, the onboard computer suddenly reported the errors **1202** and **1201**: it had more work than it could handle. Still, it did not crash. **Margaret Hamilton**'s team had built the software so that it recognised such errors, put aside the unimportant jobs and kept only the most important ones running. The landing succeeded.
+
+Margaret Hamilton led the group at MIT that wrote the software for the Apollo spacecraft. She always planned for things going wrong, just like you do with `try` and `catch`. So that software would be taken as seriously as hardware, she called her work **software engineering**. Today a whole field of computer science has that name.
+:::
+
+::: bild margaret-hamilton.jpg
+Margaret Hamilton (born 1936) in 1969, next to the printed programs her team wrote for Apollo (photo: [Draper Laboratory](https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg), public domain).
+:::
+
 ## Turning text into a number
 
 Often a number is text at first, for example later in a text field in a window. `Integer.parseInt` turns text into a whole number:

@@ -118,6 +118,16 @@ tipp: You create the array with `int[] numbers = new int[4]`. The input is `inpu
 lösung: l14-rueckwaerts-loesung.visustruct
 :::
 
+::: angeberwissen
+**Hedy Lamarr** from Vienna was a famous Hollywood film star in the 1940s. In her spare time she liked to invent things. In 1942, together with the composer George Antheil, she received a patent for a radio link that an enemy should not be able to jam: sender and receiver jump together through a list of **88 frequencies**, as many as a piano has keys. The list was punched into a paper strip like the roll of a self-playing piano. Both go through the same list in the same order, just like your loop goes through an array with `i`. Anyone who listens to or jams only one frequency gets almost nothing.
+
+This method, **frequency hopping**, is used today in Bluetooth, for example. She did not invent it all by herself; there were earlier ideas. But her patent is seen as an important forerunner, and in 1997 she received an award for it.
+:::
+
+::: bild hedy-lamarr.jpg
+Hedy Lamarr (1914–2000), actress and inventor, 1944 (publicity photo: [unknown](https://commons.wikimedia.org/wiki/File:Hedy_Lamarr_Publicity_Photo_for_The_Heavenly_Body_1944.jpg), public domain).
+:::
+
 ## Sum and maximum
 
 Two tasks come up with arrays again and again:
