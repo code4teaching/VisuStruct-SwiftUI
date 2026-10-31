@@ -191,7 +191,7 @@ erklärung: `int[]` is an array of whole numbers, `values.length` is its length.
 titel: Fix the highest temperature
 code: java
 auftrag: In January the temperatures -5, -2, -8 and -3 degrees were measured. The program should output the highest, so **Highest temperature: -2**. But it claims 0 degrees, although it was never that warm.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l15-java-fehler-start.visustruct
 test: - -> Highest temperature: -2
 braucht: forSchleife, verzweigung

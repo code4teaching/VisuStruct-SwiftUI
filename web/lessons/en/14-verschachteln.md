@@ -102,7 +102,7 @@ for (int i = 1; i <= n; i++) {
 System.out.println(count);
 ```
 
-What is nested in the structure chart is nested in curly brackets in Java. Every level is indented four spaces further. If your code gets messy, the **Indent** button at the top of the Programming area helps.
+What is nested in the structure chart is nested in curly brackets in Java. Every level is indented four spaces further. If your code gets messy, the **Indent** button at the top of the Code area helps.
 
 With many closing brackets `}` it is easy to lose track: which bracket belongs to which block? A comment after it tells you, for example `} // end if` and `} // end for`. This also helps when you carry on later.
 
@@ -144,7 +144,7 @@ erklärung: The inner loop builds one line of 4 stars, the outer loop repeats th
 titel: Fix the counting
 code: java
 auftrag: The program should count how many numbers from 1 to `n` are divisible by 3 and output the result **once**. For 10 that is just **Count: 3**. But it outputs far too many lines.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l14-java-fehler-start.visustruct
 test: 10 -> Count: 3
 test: 3 -> Count: 1

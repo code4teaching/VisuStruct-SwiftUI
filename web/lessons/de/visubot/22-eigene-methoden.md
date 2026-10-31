@@ -53,7 +53,7 @@ public class Quadrate {
 }
 ```
 
-Im Bereich [Programmieren](#zeige-codelive) siehst du jede Methode in ihrem eigenen Reiter, so wie im Struktogramm.
+Im Bereich [Code](#zeige-codelive) siehst du jede Methode in ihrem eigenen Reiter, so wie im Struktogramm.
 
 ::: quiz
 ? Was bedeutet `void` in `void quadrat(int seite)`?

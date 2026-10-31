@@ -134,7 +134,7 @@ O Java também tem uma mascote: o **Duke**, um bonequinho preto e branco com um 
 titel: Aprovado em Java
 code: java
 auftrag: Escreve um programa em Java que pergunta pela pontuação. A partir de 50 pontos mostra **aprovado**, senão **reprovado**.
-  Escreve o código na área Programação e depois clica em Verificar.
+  Escreve o código na área Código e depois clica em Verificar.
 test: 50 -> aprovado
 test: 49 -> reprovado
 test: 100 -> aprovado
@@ -185,7 +185,7 @@ erklärung: `numero % 2` é o resto da divisão por 2. Se for 0, o número é pa
 titel: Corrigir a entrada
 code: java
 auftrag: No jardim zoológico, as crianças com **menos** de 6 anos entram de graça, todos os outros pagam 4 euros. Mas o programa também deixa entrar de graça as crianças de seis anos.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l08-java-fehler-start.visustruct
 test: 5 -> Entrada gratuita
 test: 6 -> 4 euros

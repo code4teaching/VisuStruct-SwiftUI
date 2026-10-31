@@ -228,7 +228,7 @@ System.out.println("The square is " + q);
 
 - In the header, what the method returns (`int`) comes before the name. If it returns nothing, it says `void`.
 - The parameters go in the round brackets with their data type: `(int x)`. You separate several with commas.
-- In the Programming area you write every method in its own tab, just as every subprogram has its own structure chart.
+- In the Code area you write every method in its own tab, just as every subprogram has its own structure chart.
 - In Java the exit is called `break`. With `while (true)` you build a loop that only ends through `break`.
 
 ::: übung l18-java-kasse
@@ -249,7 +249,7 @@ lösung: l18-java-kasse-loesung.visustruct
 
 ::: lückentext
 titel: Method and exit
-auftrag: Fill in the missing words. At the top is the method that calculates a square. Below is the main program that calls it. In the Programming area both are in tabs of their own.
+auftrag: Fill in the missing words. At the top is the method that calculates a square. Below is the main program that calls it. In the Code area both are in tabs of their own.
 ```java
 public static [[int]] square(int x) {
     [[return]] x * x;
@@ -275,7 +275,7 @@ erklärung: `int` before the method name means: the method returns a whole numbe
 titel: Fix the try counter
 code: java
 auftrag: In this guessing game the secret number is 7. The program keeps asking for a guess until 7 comes, then it outputs the number of tries. For 3, 5 and 7 that was 3 tries, but the program says **Tries: 2**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l18-java-fehler-start.visustruct
 test: 3, 5, 7 -> Tries: 3
 test: 7 -> Tries: 1

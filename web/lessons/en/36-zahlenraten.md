@@ -38,7 +38,7 @@ int secret = (int) (Math.random() * 100) + 1;
 
 Without `+ 1` you would get 0 to 99.
 
-Try it in the [Programming](#zeige-codelive) area: `int secret = (int) (Math.random() * 100) + 1;` and `System.out.println(secret);`. Every run gives a different number.
+Try it in the [Code](#zeige-codelive) area: `int secret = (int) (Math.random() * 100) + 1;` and `System.out.println(secret);`. Every run gives a different number.
 
 ::: angeberwissen
 Computers can't actually roll dice. `Math.random()` uses a formula to calculate a long sequence of numbers that only **look** random. They are called pseudo-random numbers. For games that is perfectly fine.
