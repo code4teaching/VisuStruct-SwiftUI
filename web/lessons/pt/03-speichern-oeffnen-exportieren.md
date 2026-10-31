@@ -27,6 +27,14 @@ Quando Nassi era estudante, não havia ficheiros para guardar. Havia cartões pe
 Era assim um cartão perfurado. Cada cartão tinha uma linha de programa, aqui `PRINT *, 'OLA MUNDO'` na linguagem Fortran. Cada coluna é um carácter, e os furos são o seu código. Um programa inteiro era uma pilha destes cartões. Se caísse ao chão, era preciso voltar a ordenar tudo.
 :::
 
+::: angeberwissen
+Um pioneiro da informática da minha região na Alemanha: **Konrad Zuse**. A 12 de maio de 1941 apresentou em Berlim o **Z3**, o primeiro computador digital programável a funcionar no mundo. Já calculava no **sistema binário**, só com 0 e 1, com cerca de 2000 relés (interruptores elétricos). O programa não estava em cartões perfurados, mas sim em furos numa película de cinema usada. Depois, Zuse inventou o **Plankalkül**, uma das primeiras linguagens de programação. Mais tarde viveu em **Hünfeld**, perto de Fulda, até morrer em 1995. O Museu Konrad Zuse de lá mostra réplicas do Z3. A minha dica para uma visita de estudo! O horário está no site da cidade de Hünfeld.
+:::
+
+::: grafik l03-zuse-lochstreifen.svg
+Mais ou menos assim era a fita de programa de Zuse: uma película de cinema velha com furos. Cada coluna é uma instrução com 8 posições. Um furo significa 1, sem furo significa 0. A máquina lia a fita instrução a instrução.
+:::
+
 ## Guardar e abrir
 
 - **[Guardar](#zeige-speichern)** (Ctrl+S, no Mac ⌘S): O diagrama é guardado como ficheiro. Se a coluna **Ficheiros** estiver configurada (ver abaixo), fica lá. Caso contrário, o navegador pergunta onde o guardar ou põe o ficheiro na pasta de transferências.

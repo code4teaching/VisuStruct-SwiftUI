@@ -27,6 +27,14 @@ When Nassi was a student, there were no files to save. There were punched cards.
 This is what a punched card looked like. One card held one line of a program, here `PRINT *, 'HELLO WORLD'` in the Fortran language. Each column is one character, and the holes in it are its code. A whole program was a stack of these cards. If you dropped it, you had to sort everything again.
 :::
 
+::: angeberwissen
+A computer pioneer from my home region in Germany: **Konrad Zuse**. On 12 May 1941 he presented the **Z3** in Berlin, the world's first working program-controlled digital computer. It already calculated in the **binary system**, using only 0 and 1, with about 2,000 relays (electric switches). Its program was not on punched cards but punched as holes into used cinema film. Zuse then invented **Plankalkül**, one of the very first programming languages. Later he lived in **Hünfeld** near Fulda until his death in 1995. The Konrad Zuse Museum there shows replicas of the Z3. My tip for a school trip! The town of Hünfeld's website tells you when it is open.
+:::
+
+::: grafik l03-zuse-lochstreifen.svg
+Roughly what Zuse's program strip looked like: old cinema film with punched holes. Each column is one instruction with 8 positions. A hole means 1, no hole means 0. The machine read the strip one instruction after another.
+:::
+
 ## Save and open
 
 - **[Save](#zeige-speichern)** (Ctrl+S, on a Mac ⌘S): The diagram is saved as a file. If the **Files** column is set up (see below), it goes there. Otherwise the browser asks where to put it or puts the file in your downloads folder.
