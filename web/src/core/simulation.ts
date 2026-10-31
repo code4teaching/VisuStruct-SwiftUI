@@ -245,6 +245,38 @@ function elementDefault(type: SimValueType): number | string | boolean {
   return type === 'string' ? '' : type === 'boolean' ? false : 0
 }
 
+/**
+ * Was `System.out.println(zahlen)` in Java ausgibt: nicht den Inhalt, sondern Typ und Kennung der Referenz,
+ * z. B. `[I@1b6d3586`. Den Inhalt zeigt erst `Arrays.toString(zahlen)`. Die Kennung bleibt für dasselbe Array gleich.
+ */
+const arrayIds = new WeakMap<object, string>()
+let nextArrayId = 0
+
+export function javaReference(v: SimValue): string {
+  const code = (t: SimValueType) => ({ int: 'I', double: 'D', boolean: 'Z', string: 'Ljava.lang.String;' })[t]
+  const prefix =
+    v.kind === 'grid' ? '[[' + code(v.elementType)
+    : v.kind === 'intArray' ? '[I'
+    : v.kind === 'doubleArray' ? '[D'
+    : v.kind === 'booleanArray' ? '[Z'
+    : v.kind === 'stringArray' ? '[Ljava.lang.String;'
+    : undefined
+  if (!prefix || !('value' in v)) return describeValue(v)
+  const key = v.value as object
+  let id = arrayIds.get(key)
+  if (!id) {
+    id = ((Math.imul(++nextArrayId, 0x9e3779b1) >>> 0) & 0x7fffffff).toString(16)
+    arrayIds.set(key, id)
+  }
+  return prefix + '@' + id
+}
+
+/** Ein Fach wurde geändert und das Array dabei kopiert: Es ist in Java aber dasselbe Array, also dieselbe Kennung. */
+function keepArrayId(from: object, to: object): void {
+  const id = arrayIds.get(from)
+  if (id) arrayIds.set(to, id)
+}
+
 function isArrayValue(v: SimValue): boolean {
   return v.kind === 'intArray' || v.kind === 'doubleArray' || v.kind === 'stringArray' || v.kind === 'booleanArray' || v.kind === 'grid'
 }
@@ -1938,7 +1970,10 @@ export class SimulationEngine {
     }
   }
 
-  /** `Integer.parseInt(…)`, `Double.parseDouble(…)`, `String.valueOf(…)`, `Files.readString(Path.of(…))`. */
+  /**
+   * `Integer.parseInt(…)`, `Double.parseDouble(…)`, `String.valueOf(…)`, `Files.readString(Path.of(…))`,
+   * `Arrays.toString(…)` und `Arrays.deepToString(…)`.
+   */
   private evaluateStaticCall(text: string, call: { target: string; method: string; args: string[] }): SimValue | undefined {
     const one = () => {
       if (call.args.length !== 1) throw invalid(text)
@@ -1964,6 +1999,17 @@ export class SimulationEngine {
       }
       case 'String.valueOf':
         return { kind: 'string', value: this.evaluateOutputExpression(one()) }
+      case 'Arrays.toString':
+      case 'Arrays.deepToString': {
+        const array = this.state.variables.get(one().trim())
+        if (!array || !isArrayValue(array)) throw invalid(text)
+        // `Arrays.toString` zeigt bei einem 2D-Array nur die Referenzen der Zeilen, `deepToString` alles.
+        if (array.kind === 'grid' && call.method === 'toString') {
+          const rows = array.value.map((row) => javaReference({ kind: `${array.elementType}Array`, value: row } as SimValue))
+          return { kind: 'string', value: '[' + rows.join(', ') + ']' }
+        }
+        return { kind: 'string', value: describeValue(array) }
+      }
       case 'Files.readString': {
         const path = /^(?:Path\s*\.\s*of|Paths\s*\.\s*get)\s*\(\s*("(?:[^"\\]|\\.)*")\s*\)$/u.exec(one().trim())
         if (!path) throw invalid(text)
@@ -2076,6 +2122,7 @@ export class SimulationEngine {
       if (raw === undefined || isArrayValue(value)) throw invalid(trimmed)
       const rows = old.value.map((row) => [...row])
       rows[indices[0]][indices[1]] = raw as number | string | boolean
+      keepArrayId(old.value, rows)
       this.state.variables.set(access.arrayName, { ...old, value: rows })
       return
     }
@@ -2095,6 +2142,7 @@ export class SimulationEngine {
     }
     if (index >= (updated.value as unknown[]).length) throw invalid(trimmed)
     ;(updated.value as unknown[])[index] = value.value
+    keepArrayId(old.value, updated.value)
     this.state.variables.set(access.arrayName, updated)
   }
 
@@ -2122,7 +2170,8 @@ export class SimulationEngine {
         else sum = sum.kind === 'int' && value.kind === 'int' ? int(sum.value + value.value) : dbl((sum as { value: number }).value + (value as { value: number }).value)
         continue
       }
-      text = (text ?? (sum ? describeValue(sum) : '')) + describeValue(value)
+      // Ein ganzes Array gibt Java nur als Referenz aus, z. B. `[I@1b6d3586`.
+      text = (text ?? (sum ? describeValue(sum) : '')) + javaReference(value)
       sum = undefined
     }
     return text ?? (sum ? describeValue(sum) : '')

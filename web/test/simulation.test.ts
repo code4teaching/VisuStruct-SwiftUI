@@ -173,6 +173,34 @@ describe('Simulation', () => {
     expect(engine.message).toBe('Simulation finished.')
   })
 
+  it('gibt ein ganzes Array wie Java als Referenz aus, den Inhalt erst mit Arrays.toString', () => {
+    const state = runSimulation(
+      doc([
+        stmt('int[] zahlenreihe = {1, 2, 3}'),
+        stmt('String[] namen = {"Ada", "Bob"}'),
+        stmt('double[][] t = new double[2][2]'),
+        stmt('output: zahlenreihe'),
+        stmt('zahlenreihe[0] = 9'),
+        stmt('output: "Reihe: " + zahlenreihe'),
+        stmt('output: namen'),
+        stmt('output: t'),
+        stmt('output: Arrays.toString(zahlenreihe)'),
+        stmt('output: Arrays.toString(namen)'),
+        stmt('output: Arrays.deepToString(t)'),
+        stmt('output: Arrays.toString(t)'),
+      ]),
+    )
+    const [ref, refAgain, names, grid, ...rest] = state.outputLines
+    expect(ref).toMatch(/^\[I@[0-9a-f]+$/u)
+    expect(refAgain).toBe('Reihe: ' + ref)
+    expect(names).toMatch(/^\[Ljava\.lang\.String;@[0-9a-f]+$/u)
+    expect(grid).toMatch(/^\[\[D@[0-9a-f]+$/u)
+    expect(rest.slice(0, 3)).toEqual(['[9, 2, 3]', '[Ada, Bob]', '[[0.0, 0.0], [0.0, 0.0]]'])
+    expect(rest[3]).toMatch(/^\[\[D@[0-9a-f]+, \[D@[0-9a-f]+\]$/u)
+    // Die Variablentabelle zeigt weiter den Inhalt.
+    expect(state.variables.get('zahlenreihe')).toEqual({ kind: 'intArray', value: [9, 2, 3] })
+  })
+
   it('Werte und Arrays', () => {
     const state = runSimulation(
       doc([
@@ -180,7 +208,7 @@ describe('Simulation', () => {
         stmt('int[] a = {3, 4, 5}'),
         stmt('a[1] = a[0] * 10'),
         stmt('String s = "x"'),
-        stmt('print: "len=" + a.length + " a=" + a + " d=" + d'),
+        stmt('print: "len=" + a.length + " a=" + Arrays.toString(a) + " d=" + d'),
         stmt('d += 1'),
       ]),
     )

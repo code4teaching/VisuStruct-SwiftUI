@@ -166,6 +166,8 @@ for (int i = 0; i < zahlen.length; i++) {
 - Ein leeres Array mit 5 Fächern legst du mit `new int[5]` an.
 - `zahlen[i]` ist das Fach mit dem Index `i`, `zahlen.length` die Länge.
 
+Gibst du das ganze Array aus, also `System.out.println(zahlen);`, zeigt Java nicht die Zahlen. Du siehst nur einen Text wie `[I@1b6d3586`. Das ist die **Referenz**, also die Stelle, an der das Array im Speicher liegt. Den Inhalt zeigt erst `Arrays.toString(zahlen)`, das ergibt `[2, 4, 6, 8, 10]`. Dafür schreibst du ganz oben `import java.util.Arrays;`.
+
 ::: übung l15-java-noten
 titel: Notensumme in Java
 code: java

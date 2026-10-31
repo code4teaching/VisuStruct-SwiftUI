@@ -166,6 +166,8 @@ for (int i = 0; i < numeros.length; i++) {
 - Um array vazio com 5 posições cria-se com `new int[5]`.
 - `numeros[i]` é a posição com o índice `i`, `numeros.length` é o comprimento.
 
+Se mostrares o array inteiro, ou seja `System.out.println(numeros);`, o Java não mostra os números. Só vês um texto como `[I@1b6d3586`. É a **referência**, o sítio onde o array está guardado na memória. O conteúdo só aparece com `Arrays.toString(numeros)`, que dá `[2, 4, 6, 8, 10]`. Para isso escreves `import java.util.Arrays;` logo no início.
+
 ::: übung l15-java-noten
 titel: Soma das notas em Java
 code: java
