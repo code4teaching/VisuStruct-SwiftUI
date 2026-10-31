@@ -233,6 +233,21 @@ tipp: O primeiro caráter tem o índice 0: `nome.charAt(0)` e `apelido.charAt(0)
 lösung: l17-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l17-java-laeuft-nicht
+titel: Contar as letras
+code: java
+auftrag: O programa deve mostrar a primeira letra e o comprimento de **Ludwig**, ou seja, **L tem 6 letras**. Mas não corre, porque há dois métodos mal escritos.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l17-java-laeuft-nicht-start.visustruct
+test: - -> L tem 6 letras
+braucht: anweisung
+tipp: Os nomes dos métodos também são camelCase: começam com minúscula e cada palavra seguinte começa com maiúscula.
+tipp: O correto é `nome.charAt(0)` com A maiúsculo e `nome.length()` todo em minúsculas.
+lösung: l17-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Ainda mais métodos
 
 Uma String sabe fazer muito mais. Também vais precisar muitas vezes destes métodos:

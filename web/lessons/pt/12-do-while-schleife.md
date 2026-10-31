@@ -144,6 +144,21 @@ tipp: O ciclo deve continuar enquanto o número for maior do que 0: `while (nume
 lösung: l12-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l12-java-laeuft-nicht
+titel: Corrigir a duplicação
+code: java
+auftrag: A partir de 1, o programa deve duplicar enquanto o número for menor do que 20: **1**, **2**, **4**, **8**, **16**. Só mostra o 1 e depois para.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l12-java-laeuft-nicht-start.visustruct
+test: - -> 1 | 2 | 4 | 8 | 16
+braucht: doUntilSchleife
+tipp: A primeira volta ainda corre. O erro aparece quando a condição em baixo é verificada pela primeira vez.
+tipp: Na condição tem de estar `limite` com l minúsculo: `} while (numero < limite);`
+lösung: l12-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Pelo menos uma vez?
 
 ::: spiel frage

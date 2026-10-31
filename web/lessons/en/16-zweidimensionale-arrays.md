@@ -178,6 +178,21 @@ tipp: The indices are swapped: `points[1][j]` instead of `points[j][1]`.
 lösung: l16-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l16-java-laeuft-nicht
+titel: Read the score
+code: java
+auftrag: In the table `points` each row is a player and each column a round. The program should output player 2’s points in round 1, so **Player 2, round 1: 4**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l16-java-laeuft-nicht-start.visustruct
+test: - -> Player 2, round 1: 4
+braucht: anweisung
+tipp: The cells `[1][0]` are right. Look at the name of the table.
+tipp: The table is called `points` with a small p: `points[1][0]`
+lösung: l16-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Which seat?
 
 ::: spiel frage

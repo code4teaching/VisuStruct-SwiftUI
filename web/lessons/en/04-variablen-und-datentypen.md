@@ -8,6 +8,7 @@ kurz: Store values, get to know the data types int, double, String and boolean, 
 
 ::: kompetenzen
 - create a variable with a data type, a name and a value
+- explain that Java is case-sensitive (`number` is not `Number`)
 - tell the data types int, double, String and boolean apart
 - explain that = is an assignment and not a comparison
 - calculate with + - * / % and use whole-number division
@@ -42,6 +43,33 @@ camelCase got its name because the capital letters in the middle stick out of th
 
 ::: grafik l04-camelcase.svg
 The capitals W and T stick out like the camel's two humps.
+:::
+
+## Upper and lower case
+
+Java tells **upper and lower case** apart. The English word for this is **case-sensitive**. For Java, `number`, `Number` and `NUMBER` are three different names, so three different boxes:
+
+```
+int number = 4
+int Number = 6
+```
+
+There are two variables here. If you later write `NUMBER`, Java finds no variable with that name. The program doesn’t run and you get an error message.
+
+> This also applies to Java words: `String` and `System` start with a capital, `int` and `double` are small. In your own programs, never create two variables that differ only in upper and lower case. It confuses you and everyone who reads your code.
+
+## Exercise: Three names
+
+::: übung l04-gross-klein
+titel: Three names
+auftrag: Ludwig created two variables: `number` with the value 4 and `Number` with the value 6. The structure chart should multiply them and output **Result: 24**. But it doesn’t run.
+  Click “Open in editor”, then Check, and read the error message. Fix the statement and click Check again.
+start: l04-gross-klein-start.visustruct
+test: - -> Result: 24
+braucht: anweisung
+tipp: How many different names are in the structure chart? `number`, `Number` and `NUMBER` are three different names for the computer.
+tipp: `NUMBER` doesn’t exist. For 24 you need 4 times 6, so `number` times `Number`: `int result = number * Number`. `number * number` gives 16.
+lösung: l04-gross-klein-loesung.visustruct
 :::
 
 ## The four data types
@@ -243,6 +271,21 @@ tipp: The two operators are swapped: `int minutes = seconds / 60;` and `int rest
 lösung: l04-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l04-java-laeuft-nicht
+titel: Fix the profile
+code: java
+auftrag: The program should output **Ludwig is 7 years old.** But it doesn’t run, because two words are spelled wrong.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l04-java-laeuft-nicht-start.visustruct
+test: - -> Ludwig is 7 years old.
+braucht: anweisung
+tipp: Java is case-sensitive. Compare every word in the output carefully with what was created above.
+tipp: `System` is written with a capital S. The variable is called `age` with a small a: `System.out.println(name + " is " + age + " years old.");`
+lösung: l04-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Which data type?
 
 ::: spiel frage
@@ -297,6 +340,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 
 ::: checkliste
 - I can create a variable with a data type, a name and a value. → What is a variable?
+- I can explain that Java is case-sensitive (`number` is not `Number`). → Upper and lower case
 - I can tell the data types int, double, String and boolean apart. → The four data types
 - I can explain that = is an assignment and not a comparison. → Assignment with =
 - I can calculate with + - * / % and use whole-number division. → Calculating
@@ -313,6 +357,13 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] String
 - [ ] boolean
 > Decimal numbers have the type double. In VisuStruct you write them with a point.
+
+? How many variables do `int number = 1`, `int Number = 2` and `int NUMBER = 3` create?
+→ Upper and lower case
+- [ ] one
+- [ ] two
+- [x] three
+> Java is case-sensitive. The three names are different, so there are three variables.
 
 ? What value does x have after `int x = 17 / 5`?
 → Calculating

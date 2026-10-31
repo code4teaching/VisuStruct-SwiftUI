@@ -75,7 +75,8 @@ export type SimNotice =
   | { kind: 'infiniteLoopWithoutBody' }
   | { kind: 'unsupportedStatement'; text: string }
   | { kind: 'invalidExpression'; text: string }
-  | { kind: 'unknownVariable'; text: string }
+  /** `similar`: gleicher Name in anderer Groß- und Kleinschreibung (`Zahl` statt `zahl`). */
+  | { kind: 'unknownVariable'; text: string; similar?: string }
   | { kind: 'divisionByZero' }
   | { kind: 'wholeNumberExpected' }
   | { kind: 'numberExpected' }
@@ -120,7 +121,7 @@ export function noticeEnglish(n: SimNotice): string {
     case 'infiniteLoopWithoutBody': return 'Infinite loop has no body.'
     case 'unsupportedStatement': return `Unsupported statement: ${n.text}`
     case 'invalidExpression': return `Invalid expression: ${n.text}`
-    case 'unknownVariable': return `Unknown variable: ${n.text}`
+    case 'unknownVariable': return n.similar ? `Unknown variable: ${n.text}. Java is case-sensitive: did you mean ${n.similar}?` : `Unknown variable: ${n.text}`
     case 'divisionByZero': return 'Division by zero.'
     case 'wholeNumberExpected': return 'Please enter a whole number.'
     case 'numberExpected': return 'Please enter a number.'
@@ -142,7 +143,7 @@ export function noticeGerman(n: SimNotice): string {
     case 'infiniteLoopWithoutBody': return 'Die Endlosschleife hat keinen Rumpf.'
     case 'unsupportedStatement': return `Nicht unterstützte Anweisung: ${n.text}`
     case 'invalidExpression': return `Ungültiger Ausdruck: ${n.text}`
-    case 'unknownVariable': return `Unbekannte Variable: ${n.text}`
+    case 'unknownVariable': return n.similar ? `Unbekannte Variable: ${n.text}. Java unterscheidet Groß- und Kleinschreibung: Meintest du ${n.similar}?` : `Unbekannte Variable: ${n.text}`
     case 'divisionByZero': return 'Division durch null.'
     case 'wholeNumberExpected': return 'Bitte eine ganze Zahl eingeben.'
     case 'numberExpected': return 'Bitte eine Zahl eingeben.'
@@ -166,7 +167,11 @@ class SimulationError extends Error {
 
 const unsupported = (text: string) => new SimulationError({ kind: 'unsupportedStatement', text })
 const invalid = (text: string) => new SimulationError({ kind: 'invalidExpression', text })
-const unknownVar = (text: string) => new SimulationError({ kind: 'unknownVariable', text })
+/** Unbekannte Variable; gibt es sie in anderer Groß- und Kleinschreibung, nennt der Hinweis sie. */
+const unknownVar = (text: string, variables?: Map<string, SimValue>) => {
+  const similar = variables && [...variables.keys()].find((k) => k !== text && k.toLowerCase() === text.toLowerCase())
+  return new SimulationError(similar ? { kind: 'unknownVariable', text, similar } : { kind: 'unknownVariable', text })
+}
 const divByZero = () => new SimulationError({ kind: 'divisionByZero' })
 
 /** Textdateien, die Java mit `Files.readString(Path.of("name"))` liest, z. B. aus einer Lektion. */
@@ -680,7 +685,7 @@ class NumericParser {
           return { v: Math.random(), int: false }
         }
         const value = this.variables.get(name)
-        if (!value) throw unknownVar(name)
+        if (!value) throw unknownVar(name, this.variables)
         if (this.kind() === '.') {
           this.index += 1
           if (!this.isIdent('length')) throw invalid(name)
@@ -1291,7 +1296,7 @@ export class SimulationEngine {
       }
       const value = this.state.variables.get(arg)
       if (!value) {
-        if (/^[A-Za-z_]\w*$/u.test(arg)) throw new SimulationError({ kind: 'unknownVariable', text: arg })
+        if (/^[A-Za-z_]\w*$/u.test(arg)) throw unknownVar(arg, this.state.variables)
         throw invalid(arg)
       }
       const matches =
@@ -2016,7 +2021,7 @@ export class SimulationEngine {
 
   private valueInArray(name: string, indices: number[]): SimValue {
     const value = this.state.variables.get(name)
-    if (!value) throw unknownVar(name)
+    if (!value) throw unknownVar(name, this.state.variables)
     const at = `${name}[${indices.join('][')}]`
     if (value.kind === 'grid') {
       if (indices.length !== 2) throw invalid(at)
@@ -2044,7 +2049,7 @@ export class SimulationEngine {
     const access = parseArrayElementAccess(trimmed)
     if (access) {
       const value = this.state.variables.get(access.arrayName)
-      if (!value) throw unknownVar(access.arrayName)
+      if (!value) throw unknownVar(access.arrayName, this.state.variables)
       if (value.kind === 'intArray') return 'int'
       if (value.kind === 'doubleArray') return 'double'
       if (value.kind === 'stringArray') return 'string'
@@ -2064,7 +2069,7 @@ export class SimulationEngine {
     }
     const indices = access.indexExpressions.map((e) => this.arrayIndex(e))
     const old = this.state.variables.get(access.arrayName)
-    if (!old) throw unknownVar(access.arrayName)
+    if (!old) throw unknownVar(access.arrayName, this.state.variables)
     if (old.kind === 'grid') {
       if (indices.length !== 2 || indices[0] >= old.value.length || indices[1] >= old.value[indices[0]].length) throw invalid(trimmed)
       const raw = old.elementType === 'double' && value.kind === 'int' ? value.value : value.kind === old.elementType ? value.value : undefined
@@ -2290,7 +2295,7 @@ export class SimulationEngine {
         if (token.t === 'number') return token.literal
         if (token.t === 'identifier') {
           const value = this.state.variables.get(token.name)
-          if (!value) throw unknownVar(token.name)
+          if (!value) throw unknownVar(token.name, this.state.variables)
           return describeValue(value)
         }
         return token.t

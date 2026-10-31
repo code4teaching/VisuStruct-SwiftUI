@@ -209,6 +209,21 @@ tipp: O Ludwig perde 3 pontos, por isso tira-se 3 ao valor antigo: `pontos = pon
 lösung: l07-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l07-java-laeuft-nicht
+titel: Corrigir o bónus
+code: java
+auftrag: O Ludwig tem 10 pontos e recebe 5 pontos de bónus. No fim deve aparecer **Pontos: 15**. Mas o código não corre. Percorre-o também com o passo a passo: em que linha para?
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l07-java-laeuft-nicht-start.visustruct
+test: - -> Pontos: 15
+braucht: anweisung
+tipp: O Java executa o código de cima para baixo. A variável `bonus` já existe quando é usada no cálculo?
+tipp: Cria `bonus` antes do cálculo: primeiro `int bonus = 5;`, depois `pontos = pontos + bonus;`
+lösung: l07-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Desativar a bomba
 
 ::: spiel bombe

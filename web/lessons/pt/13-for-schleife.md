@@ -179,6 +179,21 @@ tipp: `i` também deve tomar o valor 10: `i <= 10` em vez de `i < 10`.
 lösung: l13-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l13-java-laeuft-nicht
+titel: Corrigir a escada
+code: java
+auftrag: O Ludwig sobe 5 degraus, cada um com 20 cm. O programa deve mostrar **Altura: 100 cm**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l13-java-laeuft-nicht-start.visustruct
+test: - -> Altura: 100 cm
+braucht: forSchleife
+tipp: A variável `altura` é usada num cálculo, mas onde é criada? E com que altura começa o Ludwig?
+tipp: Cria `altura` antes do ciclo: `int altura = 0;`
+lösung: l13-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Desativar a bomba
 
 ::: spiel bombe

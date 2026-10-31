@@ -233,6 +233,21 @@ tipp: Das erste Zeichen hat den Index 0: `vorname.charAt(0)` und `nachname.charA
 lösung: l17-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l17-java-laeuft-nicht
+titel: Buchstaben zählen
+code: java
+auftrag: Das Programm soll den ersten Buchstaben und die Länge von **Ludwig** ausgeben, also **L hat 6 Buchstaben**. Es läuft aber nicht, denn zwei Methoden sind falsch geschrieben.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l17-java-laeuft-nicht-start.visustruct
+test: - -> L hat 6 Buchstaben
+braucht: anweisung
+tipp: Methodennamen sind auch CamelCase: Sie beginnen klein, jedes weitere Wort beginnt groß.
+tipp: Richtig sind `name.charAt(0)` mit großem A und `name.length()` ganz klein.
+lösung: l17-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Noch mehr Methoden
 
 Ein String kann noch viel mehr. Diese Methoden brauchst du auch oft:

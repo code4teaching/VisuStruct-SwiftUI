@@ -259,6 +259,21 @@ tipp: Es reicht, wenn eine der beiden Bedingungen stimmt: `tag == 6 || tag == 7`
 lösung: l09-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l09-java-laeuft-nicht
+titel: Wochenende reparieren
+code: java
+auftrag: Tag 6 ist Samstag, Tag 7 ist Sonntag. Heute ist Tag 7, also soll **schulfrei** erscheinen. Das Programm läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l09-java-laeuft-nicht-start.visustruct
+test: - -> schulfrei
+braucht: verzweigung
+tipp: Die Bedingung besteht aus zwei Teilen. Vergleiche in beiden Teilen den Namen der Variablen.
+tipp: Auch im zweiten Teil heißt die Variable `tag` mit kleinem t: `if (tag == 6 || tag == 7) {`
+lösung: l09-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

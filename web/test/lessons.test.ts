@@ -1,4 +1,7 @@
+import { readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { beforeAll, describe, expect, it } from 'vitest'
+import { decodeDocument } from '../src/core/xmlCodec'
 import { checkExercise, runWithInputs, usedElementTypes } from '../src/core/exerciseCheck'
 import type { LiveLabels } from '../src/core/codeGenerator'
 import { parseLiveJava } from '../src/core/javaParser'
@@ -476,6 +479,18 @@ describe('Kompetenzen und Selbsteinschätzung', () => {
       useContentLanguage(lang)
       const l1 = lessons.find((l) => l.number === 1)!
       expect(l1.steps[0].blocks[0].kind, lang).toBe('competences')
+    }
+  })
+})
+
+describe('Übungen „Warum läuft das nicht?“', () => {
+  it('der Start läuft wirklich nicht', () => {
+    const dir = join(__dirname, '..', 'lessons', 'diagramme')
+    const files = [dir, join(dir, 'en'), join(dir, 'pt')].flatMap((d) => readdirSync(d).filter((f) => f.endsWith('-laeuft-nicht-start.visustruct') || f === 'l04-gross-klein-start.visustruct').map((f) => join(d, f)))
+    expect(files.length).toBe(48)
+    for (const file of files) {
+      const doc = decodeDocument(readFileSync(file, 'utf8'))
+      expect(runWithInputs(doc, ['14']).error, file).toBeDefined()
     }
   })
 })

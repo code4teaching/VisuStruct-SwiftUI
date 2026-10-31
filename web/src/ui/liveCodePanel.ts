@@ -449,8 +449,9 @@ export class LiveCodePanel {
     // VisuBot: Programme mit mBot2-Befehlen laufen in der Simulation (3D-Welt, echter mBot2, Markierung)
     if (this.onRobotRun?.(stepping)) return
     this.runErrorLine = undefined
-    // Wie javac: Ohne Import, ohne angelegten Scanner oder mit vertipptem Datentyp startet das Programm nicht.
-    const blocking = ['web_parse_missing_import', 'web_parse_missing_scanner', 'web_parse_unknown_type']
+    // Wie javac: Ohne Import, ohne angelegten Scanner, mit vertipptem Datentyp oder falscher Groß- und Kleinschreibung
+    // (`system.out`) startet das Programm nicht.
+    const blocking = ['web_parse_missing_import', 'web_parse_missing_scanner', 'web_parse_unknown_type', 'web_parse_wrong_case']
     const missing = this.target === 'java' ? this.javaProblems.find((p) => blocking.includes(p.key)) : undefined
     if (missing) {
       this.stopRun(false)
@@ -912,7 +913,7 @@ export class LiveCodePanel {
       } else if (p.key === 'web_parse_missing_scanner') {
         const indent = /^[ \t]*/.exec(text.slice(lineStart))![0]
         insert(lineStart, `${indent}${arg}\n`)
-      } else if (p.key === 'web_parse_unknown_type' && arg) {
+      } else if ((p.key === 'web_parse_unknown_type' || p.key === 'web_parse_wrong_case') && arg) {
         fixes.push({ at: lineEnd, title: t('web_quickfix_replace_fmt', arg, text.slice(p.from, p.to)), from: p.from, to: p.to, insert: arg })
       } else if (p.key === 'web_parse_missing' && (arg === ';' || arg === ')')) {
         insert(p.to, arg)

@@ -137,6 +137,7 @@
 "web_sim_file_not_found_fmt" = "Es gibt keine Datei %@.";
 "web_sim_end_of_file_fmt" = "Die Datei %@ hat keine Zeile mehr.";
 "web_sim_null_value_fmt" = "%@ ist null.";
+"web_sim_unknown_variable_case_fmt" = "Unbekannte Variable: %1$@. Java unterscheidet Groß- und Kleinschreibung: Meintest du %2$@?";
 "web_sim_written_file_fmt" = "%@ (gespeichert)";
 "web_site_home" = "Startseite";
 "web_site_imprint" = "Impressum";
@@ -184,6 +185,7 @@
 "web_parse_unknown_type" = "Diesen Datentyp kennt Java nicht. Meintest du %@?";
 "web_quickfix_insert_fmt" = "Vorschlag: %@ einfügen";
 "web_quickfix_replace_fmt" = "Vorschlag: %1$@ statt %2$@";
+"web_parse_wrong_case" = "Java unterscheidet Groß- und Kleinschreibung. Richtig ist %@.";
 "web_editor_title" = "Struktogramm";
 "web_editor_show" = "Struktogramm aufklappen";
 "web_editor_hide" = "Struktogramm einklappen";

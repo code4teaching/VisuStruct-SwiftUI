@@ -184,6 +184,21 @@ tipp: Beim Minus zählt die Reihenfolge: `a - b` statt `b - a`.
 lösung: l10-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l10-java-laeuft-nicht
+titel: Note reparieren
+code: java
+auftrag: Ludwig hat die Note 2 geschrieben. Das Programm soll **gut** ausgeben. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l10-java-laeuft-nicht-start.visustruct
+test: - -> gut
+braucht: fallauswahl
+tipp: Welche Variable prüft die Fallauswahl? Steht sie genauso oben?
+tipp: In der Klammer nach `switch` muss `note` mit kleinem n stehen: `switch (note) {`
+lösung: l10-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Welcher Fall?
 
 ::: spiel frage

@@ -145,6 +145,21 @@ tipp: Troca as duas últimas linhas: primeiro `saldo = saldo - preco;`, depois a
 lösung: l05-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l05-java-laeuft-nicht
+titel: Dividir uma piza
+code: java
+auftrag: Uma piza tem 8 fatias e 4 amigos dividem-na. O programa deve mostrar **Cada um recebe 2 fatias.** Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l05-java-laeuft-nicht-start.visustruct
+test: - -> Cada um recebe 2 fatias.
+braucht: anweisung
+tipp: Compara o nome na saída, letra a letra, com o nome criado na terceira linha.
+tipp: A variável chama-se `porPessoa` com P maiúsculo (camelCase). Escreve-a exatamente assim na saída.
+lösung: l05-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Ordenar os blocos
 
 ::: spiel reihenfolge

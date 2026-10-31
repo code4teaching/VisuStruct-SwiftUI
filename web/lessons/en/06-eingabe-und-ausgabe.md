@@ -273,6 +273,22 @@ tipp: Add brackets so that Java calculates first: `System.out.println("Sum: " + 
 lösung: l06-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l06-java-laeuft-nicht
+titel: Age next year
+code: java
+auftrag: The program asks for your age and should say how old you will be next year. For 14 that is **Next year you will be 15**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l06-java-laeuft-nicht-start.visustruct
+test: 14 -> Next year you will be 15
+test: 9 -> Next year you will be 10
+braucht: anweisung
+tipp: The input ends up in a variable. What exactly is it called, and what is it called in the output?
+tipp: The variable is called `age` with a small a: `System.out.println("Next year you will be " + (age + 1));`
+lösung: l06-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: What is output?
 
 ::: spiel frage

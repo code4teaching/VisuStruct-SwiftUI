@@ -144,6 +144,21 @@ tipp: Die Schleife soll weiterlaufen, solange die Zahl größer als 0 ist: `whil
 lösung: l12-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l12-java-laeuft-nicht
+titel: Verdoppeln reparieren
+code: java
+auftrag: Das Programm soll ab 1 immer verdoppeln, solange die Zahl kleiner als 20 ist: **1**, **2**, **4**, **8**, **16**. Es gibt nur die 1 aus und bleibt dann stehen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l12-java-laeuft-nicht-start.visustruct
+test: - -> 1 | 2 | 4 | 8 | 16
+braucht: doUntilSchleife
+tipp: Die erste Runde läuft noch. Der Fehler kommt erst, wenn die Bedingung unten zum ersten Mal geprüft wird.
+tipp: In der Bedingung muss `grenze` mit kleinem g stehen: `} while (zahl < grenze);`
+lösung: l12-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Mindestens einmal?
 
 ::: spiel frage

@@ -155,6 +155,21 @@ tipp: Verschiebe die Zeile `System.out.println("Anzahl: " + anzahl);` hinter die
 lösung: l14-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l14-java-laeuft-nicht
+titel: Gerade Zahlen reparieren
+code: java
+auftrag: Das Programm soll die geraden Zahlen von 1 bis 10 ausgeben: **2**, **4**, **6**, **8**, **10**. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l14-java-laeuft-nicht-start.visustruct
+test: - -> 2 | 4 | 6 | 8 | 10
+braucht: forSchleife, verzweigung
+tipp: Der Fehler steckt ganz innen, in der Ausgabe. Wie heißt die Zählvariable der Schleife?
+tipp: Die Zählvariable heißt `i` mit kleinem i: `System.out.println(i);`
+lösung: l14-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Innen und außen
 
 ::: spiel frage

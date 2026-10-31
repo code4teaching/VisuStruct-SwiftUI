@@ -197,6 +197,21 @@ tipp: “Under 6” means `age < 6`. `<=` means “less than or equal to”.
 lösung: l08-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l08-java-laeuft-nicht
+titel: Rated 16
+code: java
+auftrag: The film is rated 16. Ludwig is 15, so the program should output **No entry**. But it doesn’t run.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l08-java-laeuft-nicht-start.visustruct
+test: - -> No entry
+braucht: verzweigung
+tipp: Look closely at the condition in the brackets after `if`. Does this variable exist?
+tipp: The variable is called `age` with a small a: `if (age >= 16) {`
+lösung: l08-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Game: Which way?
 
 ::: spiel frage

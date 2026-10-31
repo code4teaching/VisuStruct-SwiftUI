@@ -49,6 +49,7 @@
 "web_sim_file_not_found_fmt" = "Det finns ingen fil som heter %@.";
 "web_sim_end_of_file_fmt" = "Filen %@ har inga fler rader.";
 "web_sim_null_value_fmt" = "%@ är null.";
+"web_sim_unknown_variable_case_fmt" = "Okänd variabel: %1$@. Java skiljer på stora och små bokstäver: menade du %2$@?";
 "web_sim_written_file_fmt" = "%@ (sparad)";
 "web_site_home" = "Startsida";
 "web_site_imprint" = "Kontaktuppgifter";
@@ -96,6 +97,7 @@
 "web_parse_unknown_type" = "Java känner inte till den här datatypen. Menade du %@?";
 "web_quickfix_insert_fmt" = "Förslag: infoga %@";
 "web_quickfix_replace_fmt" = "Förslag: %1$@ i stället för %2$@";
+"web_parse_wrong_case" = "Java skiljer på stora och små bokstäver. Rätt är %@.";
 "web_editor_title" = "Strukturdiagram";
 "web_editor_show" = "Visa strukturdiagram";
 "web_editor_hide" = "Dölj strukturdiagram";

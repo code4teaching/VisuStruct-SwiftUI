@@ -197,6 +197,21 @@ tipp: “Menos de 6” é `idade < 6`. `<=` significa “menor ou igual”.
 lösung: l08-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l08-java-laeuft-nicht
+titel: Filme para maiores de 16
+code: java
+auftrag: O filme é para maiores de 16. O Ludwig tem 15, por isso o programa deve mostrar **Não pode entrar**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l08-java-laeuft-nicht-start.visustruct
+test: - -> Não pode entrar
+braucht: verzweigung
+tipp: Olha com atenção para a condição entre parênteses depois de `if`. Esta variável existe?
+tipp: A variável chama-se `idade` com i minúsculo: `if (idade >= 16) {`
+lösung: l08-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Que caminho?
 
 ::: spiel frage

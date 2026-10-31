@@ -233,6 +233,21 @@ tipp: The first character has the index 0: `first.charAt(0)` and `last.charAt(0)
 lösung: l17-java-fehler-loesung.visustruct
 :::
 
+## Why doesn’t it run?
+
+::: übung l17-java-laeuft-nicht
+titel: Count the letters
+code: java
+auftrag: The program should output the first letter and the length of **Ludwig**, so **L has 6 letters**. But it doesn’t run, because two methods are spelled wrong.
+  “Open in editor” shows the code in the Code area. Click “Run” and read the error message. Fix the bug and click Check.
+start: l17-java-laeuft-nicht-start.visustruct
+test: - -> L has 6 letters
+braucht: anweisung
+tipp: Method names are camelCase too: they start small, and every further word starts with a capital.
+tipp: Correct are `name.charAt(0)` with a capital A and `name.length()` all small.
+lösung: l17-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Even more methods
 
 A String can do much more. You will often need these methods too:

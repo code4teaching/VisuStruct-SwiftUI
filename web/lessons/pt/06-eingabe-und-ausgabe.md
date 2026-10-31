@@ -273,6 +273,22 @@ tipp: Põe parênteses para o Java calcular primeiro: `System.out.println("Soma:
 lösung: l06-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l06-java-laeuft-nicht
+titel: Idade no próximo ano
+code: java
+auftrag: O programa pergunta a tua idade e deve dizer quantos anos terás no próximo ano. Com 14, **No próximo ano tens 15**. Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l06-java-laeuft-nicht-start.visustruct
+test: 14 -> No próximo ano tens 15
+test: 9 -> No próximo ano tens 10
+braucht: anweisung
+tipp: A entrada fica guardada numa variável. Como se chama exatamente, e como se chama na saída?
+tipp: A variável chama-se `idade` com i minúsculo: `System.out.println("No próximo ano tens " + (idade + 1));`
+lösung: l06-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: O que aparece?
 
 ::: spiel frage

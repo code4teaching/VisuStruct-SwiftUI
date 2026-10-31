@@ -32,6 +32,7 @@ export type JavaProblemKey =
   | 'web_parse_missing_import'
   | 'web_parse_missing_scanner'
   | 'web_parse_unknown_type'
+  | 'web_parse_wrong_case'
 
 export interface ParsedJava {
   /** Kopfzeile eines Unterprogramms, z. B. `int quadrat(int x)`; `undefined` = Hauptprogramm. */
@@ -278,6 +279,36 @@ class Parser {
       const suggestion = similarType(type.text)
       if (!suggestion) continue
       this.problem('web_parse_unknown_type', type, suggestion)
+      return
+    }
+  }
+
+  /**
+   * Wie javac: Java unterscheidet Groß- und Kleinschreibung. `system.out.println`, `System.Out.println`, `math.sqrt` oder
+   * `System.out.Println` sind Fehler, ebenso `text.Length()` oder `name.charat(0)`; gemeldet wird das erste falsch
+   * geschriebene Wort mit der richtigen Schreibweise.
+   */
+  checkCase() {
+    const classes = ['System', 'Math', 'Integer', 'Double', 'String']
+    // Eine eigene Variable `string` oder `math` ist erlaubt: angelegt heißt, vor dem Namen steht ein Typ.
+    const declared = (name: string) => this.toks.some((t, k) => t.text === name && this.toks[k - 1]?.kind === 'id' && !statementKeywords.has(this.toks[k - 1].text))
+    const prints = ['println', 'print', 'printf']
+    const members = ['length', 'charAt', 'substring', 'indexOf', 'equals', 'equalsIgnoreCase', 'compareTo', 'contains', 'startsWith', 'endsWith',
+      'toUpperCase', 'toLowerCase', 'trim', 'isEmpty', 'split', 'replace', 'sqrt', 'pow', 'abs', 'max', 'min', 'random', 'round',
+      'parseInt', 'parseDouble', 'nextInt', 'nextDouble', 'nextLine', 'next', 'hasNext', 'hasNextInt', 'hasNextLine']
+    const fix = (word: string, list: string[]) => list.find((w) => w !== word && w.toLowerCase() === word.toLowerCase())
+    for (let k = 0; k < this.toks.length; k++) {
+      const t = this.toks[k]
+      if (t.kind !== 'id') continue
+      const before = this.toks[k - 1]?.text
+      const after = this.toks[k + 1]?.text
+      let right: string | undefined
+      if (after === '.' && before !== '.' && !declared(t.text)) right = fix(t.text, classes)
+      else if (before === '.' && after === '.' && this.toks[k - 2]?.text.toLowerCase() === 'system') right = fix(t.text, ['out', 'err'])
+      else if (before === '.' && after === '(' && ['out', 'err'].includes(this.toks[k - 2]?.text.toLowerCase() ?? '')) right = fix(t.text, prints)
+      else if (before === '.') right = fix(t.text, members)
+      if (!right) continue
+      this.problem('web_parse_wrong_case', t, right)
       return
     }
   }
@@ -856,6 +887,7 @@ export function parseLiveJava(source: string, labels: LiveLabels, opts: JavaPars
   p.checkImports()
   p.checkScanners()
   p.checkTypes()
+  p.checkCase()
   const spans = p.spansFor(elements)
   const problems = p.problems.sort((a, b) => a.from - b.from)
   return { caption, className: p.className, elements, spans, placeholders: p.placeholders.sort((a, b) => a.from - b.from), problems }

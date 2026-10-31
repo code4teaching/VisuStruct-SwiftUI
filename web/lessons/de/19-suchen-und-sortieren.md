@@ -201,6 +201,21 @@ tipp: Die Schleife soll aufhören, sobald etwas gefunden ist: `while (position =
 lösung: l19-java-fehler-loesung.visustruct
 :::
 
+## Warum läuft das nicht?
+
+::: übung l19-java-laeuft-nicht
+titel: Karte suchen
+code: java
+auftrag: Die Karten {8, 4, 11, 4, 6} liegen in einem Array. Das Programm sucht die 11 und soll **Position: 2** ausgeben. Es läuft aber nicht.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: l19-java-laeuft-nicht-start.visustruct
+test: - -> Position: 2
+braucht: forSchleife, verzweigung
+tipp: Vergleiche die Namen in der Bedingung mit den Namen, die oben angelegt werden.
+tipp: Die gesuchte Karte steht in `gesucht` mit kleinem g: `if (karten[i] == gesucht) {`
+lösung: l19-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Spiel: Suchprofi
 
 ::: spiel frage

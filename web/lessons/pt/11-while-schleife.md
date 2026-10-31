@@ -208,6 +208,21 @@ tipp: Só se poupa enquanto o objetivo **ainda não foi atingido**: `while (dinh
 lösung: l11-java-fehler-loesung.visustruct
 :::
 
+## Porque é que não corre?
+
+::: übung l11-java-laeuft-nicht
+titel: Corrigir a contagem
+code: java
+auftrag: A contagem decrescente deve mostrar **3**, **2**, **1** e depois **Partida!** Mas não corre.
+  “Abrir no editor” mostra o código na área Código. Clica em “Executar” e lê a mensagem de erro. Corrige o erro e carrega em Verificar.
+start: l11-java-laeuft-nicht-start.visustruct
+test: - -> 3 | 2 | 1 | Partida!
+braucht: whileSchleife
+tipp: O erro está dentro do ciclo. Que variável deve ser mostrada e como se chama de facto?
+tipp: Mostra `numero` com n minúsculo: `System.out.println(numero);`
+lösung: l11-java-laeuft-nicht-loesung.visustruct
+:::
+
 ## Jogo: Quantas vezes?
 
 ::: spiel frage
