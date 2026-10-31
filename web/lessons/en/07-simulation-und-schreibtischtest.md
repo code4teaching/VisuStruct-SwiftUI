@@ -84,6 +84,12 @@ Common mistakes in a sequence are:
 
 ::: angeberwissen
 On 9 September 1947 Grace Hopper’s team found a real moth stuck between two contacts in the Harvard Mark II computer. They taped it into the logbook and wrote: “First actual case of bug being found.” Today the moth is in a museum in Washington.
+
+Grace Hopper was one of the first programmers in the world. In 1952 she built one of the first **compilers**: a program that translates code into machine code. She believed people should be able to give computers instructions in almost normal English. This led to the programming language COBOL, which many banks still use today. She even became an admiral in the US Navy.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), computer scientist and admiral (photo: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), public domain).
 :::
 
 ## Exercise: Fix the swap
