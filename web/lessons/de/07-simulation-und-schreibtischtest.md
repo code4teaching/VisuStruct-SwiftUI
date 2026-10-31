@@ -84,6 +84,12 @@ Häufige Fehler in einer Sequenz sind:
 
 ::: angeberwissen
 Am 9. September 1947 fand das Team von Grace Hopper im Rechner Harvard Mark II eine echte Motte, die zwischen zwei Kontakten klemmte. Sie klebten sie ins Logbuch und schrieben dazu: „Erster echter Fall, dass ein Bug gefunden wurde.“ Die Motte liegt heute in einem Museum in Washington.
+
+Grace Hopper war eine der ersten Programmiererinnen der Welt. 1952 baute sie einen der ersten **Compiler**: ein Programm, das Code in Maschinencode übersetzt. Sie fand, dass man Computern Befehle in fast normalem Englisch geben sollte. Daraus entstand die Programmiersprache COBOL, mit der viele Banken bis heute rechnen. Bei der US-Marine wurde sie sogar Admiralin.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), Informatikerin und Admiralin (Foto: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), gemeinfrei).
 :::
 
 ## Übung: Tauschen reparieren

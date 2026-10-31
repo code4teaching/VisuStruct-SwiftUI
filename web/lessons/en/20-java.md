@@ -124,6 +124,10 @@ Compile once: the same bytecode runs on every JVM.
 
 There is only one bytecode. But there is a JVM for Windows, macOS, Linux and many other systems. That is why the same `.class` file runs on every computer that has a JVM installed. This is called **platform independent**. The slogan for it is **“Write once, run anywhere”**.
 
+::: angeberwissen
+One of the first compilers was built in 1952 by **Grace Hopper**, whom you already know from lesson 7. Back then many people told her that computers could only do arithmetic and could not translate programs. She did it anyway.
+:::
+
 Compare this with **C++**: there the compiler translates the source code directly into machine code for exactly one processor and one operating system. The finished program only runs there. For Windows, macOS and Linux you have to compile it again each time.
 
 ::: grafik l20-cpp.svg

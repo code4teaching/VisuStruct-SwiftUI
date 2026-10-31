@@ -124,6 +124,10 @@ Compilar uma vez: o mesmo bytecode corre em qualquer JVM.
 
 O bytecode existe só uma vez. Já a JVM existe para Windows, macOS, Linux e muitos outros sistemas. Por isso, o mesmo ficheiro `.class` corre em qualquer computador que tenha uma JVM instalada. A isto chama-se **independente da plataforma**. O lema é **“Write once, run anywhere”**: escrever uma vez, executar em qualquer lado.
 
+::: angeberwissen
+Um dos primeiros compiladores foi construído em 1952 por **Grace Hopper**, que já conheces da lição 7. Na altura, muitos diziam-lhe que os computadores só sabiam fazer contas e não traduzir programas. Ela fê-lo na mesma.
+:::
+
 Compara com o **C++**: aí o compilador traduz o código-fonte diretamente em código máquina para um só processador e um só sistema operativo. O programa pronto só corre aí. Para Windows, macOS e Linux tens de o compilar de novo de cada vez.
 
 ::: grafik l20-cpp.svg

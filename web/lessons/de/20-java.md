@@ -124,6 +124,10 @@ Einmal kompilieren: Derselbe Bytecode läuft auf jeder JVM.
 
 Den Bytecode gibt es nur einmal. Die JVM gibt es dagegen für Windows, macOS, Linux und viele andere Systeme. Deshalb läuft dieselbe `.class`-Datei auf jedem Computer, auf dem eine JVM installiert ist. Das nennt man **plattformunabhängig**. Der Werbespruch dazu heißt **„Write once, run anywhere“**: einmal schreiben, überall ausführen.
 
+::: angeberwissen
+Einen der ersten Compiler hat 1952 **Grace Hopper** gebaut, die du schon aus Lektion 7 kennst. Viele sagten ihr damals, Computer könnten nur rechnen und keine Programme übersetzen. Sie hat es trotzdem gemacht.
+:::
+
 Zum Vergleich **C++**: Dort übersetzt der Compiler den Quellcode direkt in Maschinencode für genau einen Prozessor und ein Betriebssystem. Das fertige Programm läuft nur dort. Für Windows, macOS und Linux musst du es jeweils neu kompilieren.
 
 ::: grafik l20-cpp.svg

@@ -84,6 +84,12 @@ Erros frequentes numa sequência são:
 
 ::: angeberwissen
 A 9 de setembro de 1947, a equipa de Grace Hopper encontrou uma traça verdadeira presa entre dois contactos do computador Harvard Mark II. Colaram-na no diário de bordo e escreveram: “Primeiro caso real de um bug encontrado.” Hoje a traça está num museu em Washington.
+
+Grace Hopper foi uma das primeiras programadoras do mundo. Em 1952 construiu um dos primeiros **compiladores**: um programa que traduz código para código máquina. Achava que devia ser possível dar ordens aos computadores em inglês quase normal. Daí nasceu a linguagem de programação COBOL, que muitos bancos ainda hoje usam. Na Marinha dos EUA chegou mesmo a almirante.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), informática e almirante (foto: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), domínio público).
 :::
 
 ## Exercício: Corrigir a troca
