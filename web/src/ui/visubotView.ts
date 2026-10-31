@@ -78,7 +78,7 @@ export function worldChooserHTML(): string {
     `<button type="button" data-world="${mode}" aria-pressed="${mode === current}">${label}</button>`
   const hint = { off: 'web_visubot_world_visustruct_hint', on: 'web_visubot_world_visubot_hint', object: 'web_visuobject_world_hint', flow: 'web_visuflow_world_hint' }[current]
   return `<div class="segmented world-chooser" role="group" aria-label="${escapeHTML(t('web_visubot_world_title'))}">
-      ${button('off', 'VisuStruct')}${button('on', '🤖 VisuBot')}${button('object', 'VisuObject')}${button('flow', 'VisuFlow')}
+      ${button('off', 'VisuStruct')}${button('on', 'VisuBot')}${button('object', 'VisuObject')}${button('flow', 'VisuFlow')}
     </div>
     <small class="world-hint">${escapeHTML(t(hint))}</small>`
 }
