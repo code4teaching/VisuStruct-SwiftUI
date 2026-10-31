@@ -25,6 +25,16 @@ Conheces algoritmos do dia a dia: uma receita, o caminho para um sítio ou as in
 Fazer chá como estrutograma: cada bloco é um passo.
 :::
 
+::: angeberwissen
+Méééé, quem escreveu o primeiro programa? Uma mulher, já em 1843, muito antes do primeiro computador! **Ada Lovelace** descreveu passo a passo como a *Analytical Engine* (Máquina Analítica) de Charles Babbage devia calcular os chamados números de Bernoulli. Era um verdadeiro algoritmo para uma máquina. As instruções deviam ficar guardadas em cartões perfurados (mais sobre isto na lição 3). Mas a máquina nunca chegou a ser construída.
+
+A Ada teve ainda outra ideia genial: uma máquina destas consegue fazer mais do que contas. Também podia trabalhar com letras, símbolos ou até música. É exatamente isso que os computadores fazem hoje. Em sua honra, há uma linguagem de programação chamada **Ada**.
+:::
+
+::: bild ada-lovelace.jpg
+Ada Lovelace (1815–1852), matemática (imagem: aguarela de Alfred Edward Chalon, por volta de 1840, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ada_Lovelace_portrait.jpg), domínio público).
+:::
+
 ## Como se lê um estrutograma
 
 Um estrutograma lê-se **de cima para baixo**. Cada bloco é um passo. Só quando um passo termina é que começa o seguinte.
