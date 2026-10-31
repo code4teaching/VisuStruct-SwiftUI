@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 300">
+<rect width="440" height="300" fill="#ffffff"/>
+<g transform="rotate(-3 200 150)">
+<rect x="44" y="24" width="290" height="256" fill="#000" opacity="0.10" transform="translate(5 6)"/>
+<rect x="44" y="24" width="290" height="256" fill="#fffdf6" stroke="#c9c2ad" stroke-width="1.2"/>
+<line x1="44" y1="58" x2="334" y2="58" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="80" x2="334" y2="80" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="102" x2="334" y2="102" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="124" x2="334" y2="124" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="146" x2="334" y2="146" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="168" x2="334" y2="168" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="190" x2="334" y2="190" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="212" x2="334" y2="212" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="234" x2="334" y2="234" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="44" y1="256" x2="334" y2="256" stroke="#bcd4ee" stroke-width="1"/>
+<line x1="78" y1="24" x2="78" y2="280" stroke="#e8a0a0" stroke-width="1.2"/>
+<g font-family="'Segoe Print', 'Bradley Hand', 'Chalkboard SE', 'Comic Sans MS', cursive" fill="#1f3a8a" text-anchor="middle">
+<text x="130" y="75" font-size="19" font-weight="bold">a</text>
+<text x="195" y="75" font-size="19" font-weight="bold">b</text>
+<text x="262" y="75" font-size="19" font-weight="bold">temp</text>
+<text x="130" y="97" font-size="18">3</text>
+<text x="195" y="97" font-size="18">–</text>
+<text x="262" y="97" font-size="18">–</text>
+<text x="130" y="119" font-size="18">3</text>
+<text x="195" y="119" font-size="18">5</text>
+<text x="262" y="119" font-size="18">–</text>
+<text x="130" y="141" font-size="18">3</text>
+<text x="195" y="141" font-size="18">5</text>
+<text x="262" y="141" font-size="18">3</text>
+<text x="130" y="163" font-size="18">5</text>
+<text x="195" y="163" font-size="18">5</text>
+<text x="262" y="163" font-size="18">3</text>
+<text x="130" y="185" font-size="18">5</text>
+<text x="195" y="185" font-size="18">3</text>
+<text x="262" y="185" font-size="18">3</text>
+</g>
+<g stroke="#1f3a8a" stroke-width="1.6" fill="none" stroke-linecap="round">
+<path d="M100 83 Q190 81 300 84"/>
+<path d="M162 56 Q160 150 163 194"/>
+<path d="M228 56 Q230 150 227 194"/>
+</g>
+</g>
+<g transform="translate(300 232) rotate(-38)">
+<rect x="0" y="-9" width="120" height="18" fill="#f5c000" stroke="#8a6d00" stroke-width="1.2"/>
+<line x1="0" y1="-3" x2="120" y2="-3" stroke="#d9a800" stroke-width="1"/>
+<line x1="0" y1="3" x2="120" y2="3" stroke="#d9a800" stroke-width="1"/>
+<rect x="120" y="-9" width="12" height="18" fill="#b8b8b8" stroke="#777" stroke-width="1.2"/>
+<rect x="132" y="-9" width="16" height="18" rx="5" fill="#f08a9a" stroke="#a24a58" stroke-width="1.2"/>
+<path d="M0 -9 L-26 0 L0 9 Z" fill="#e9c9a0" stroke="#8a6d4a" stroke-width="1.2"/>
+<path d="M-17 -3 L-26 0 L-17 3 Z" fill="#333"/>
+</g>
+</svg>

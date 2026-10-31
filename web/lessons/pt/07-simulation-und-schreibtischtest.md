@@ -50,6 +50,10 @@ No fim aparece **Simulação terminada.** Se algo correr mal, a simulação para
 
 Num **teste de secretária** és tu o computador. Percorres o estrutograma com papel e caneta e anotas os valores das variáveis depois de cada passo. O melhor é fazer uma tabela: uma coluna para o passo, uma para cada variável e uma para a saída.
 
+::: grafik l07-schreibtischtest-pt.svg
+Basta uma folha de papel e uma caneta: depois de cada passo escreves os novos valores numa nova linha.
+:::
+
 Para o diagrama de cima, a tabela fica assim:
 
 | Passo | a | b | aux | Saída |

@@ -50,6 +50,10 @@ At the end, **Simulation finished.** appears. If something goes wrong, the simul
 
 In a **desk check** you play the computer yourself. You go through the structure chart with pen and paper and write down the values of the variables after every step. It is best to make a table: one column for the step, one for each variable and one for the output.
 
+::: grafik l07-schreibtischtest-en.svg
+A sheet of paper and a pen are all you need: after each step you write the new values in a new row.
+:::
+
 For the diagram above, the table looks like this:
 
 | Step | a | b | temp | Output |
