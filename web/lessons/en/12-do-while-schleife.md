@@ -132,7 +132,7 @@ erklärung: The body is between `do {` and `}`, the condition only comes afterwa
 titel: Fix the halving
 code: java
 auftrag: The program reads a start number and keeps dividing it by 2 (whole-number division) with a do-while loop. Every result is output until **0** is reached. For 10 that is 5, 2, 1 and 0. But the 0 is missing.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l12-java-fehler-start.visustruct
 test: 10 -> 5 | 2 | 1 | 0
 test: 1 -> 0

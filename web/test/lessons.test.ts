@@ -6,7 +6,7 @@ import { documentFromJava, plainLiveJava } from '../src/core/liveSource'
 import { ElementType, makeElement, type VSElement } from '../src/core/model'
 import { subprogramName } from '../src/core/simulation'
 import { contentLanguages, diagram, image, lessons, reference, tasks, useContentLanguage } from '../src/learn/content'
-import { parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
+import { exerciseArea, parseBlocks, parseLesson, parseTest, type Block } from '../src/learn/lessonFormat'
 import { markdownToHTML } from '../src/learn/markdown'
 import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
 import { papFits, papLayout, parsePap } from '../src/learn/pap'
@@ -48,6 +48,12 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
       if (block.kind === 'images') for (const f of block.files) expect(image(f), `${where}: ${f}`).toBeDefined()
       if (block.kind === 'graphic') expect(image(block.file), `${where}: ${block.file}`).toBeDefined()
       if (block.kind === 'graphic' && block.labeled) expect(image(block.labeled), `${where}: ${block.labeled}`).toBeDefined()
+    }
+  })
+
+  it('jede Grafik-Unterschrift ist kurz (sonst fehlt das schließende „:::“)', () => {
+    for (const { where, block } of allBlocks()) {
+      if (block.kind === 'graphic' || block.kind === 'images') expect(block.caption.length, `${where}: ${block.caption.slice(0, 60)}`).toBeLessThan(400)
     }
   })
 
@@ -192,6 +198,19 @@ describe('Lernbereich: Format', () => {
     expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a -> b\n:::', 'x.md')).toThrow(/mindestens zwei Paare/)
     expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a -> b\n= c -> b\n:::', 'x.md')).toThrow(/verschiedenen rechten/)
     expect(() => parseBlocks('::: quiz\n? Ordne zu.\n= a b\n:::', 'x.md')).toThrow(/links -> rechts/)
+  })
+
+  it('liest bereich: und leitet den Bereich sonst aus code: ab', () => {
+    const ex = (extra: string) => {
+      const block = parseBlocks(`::: übung x\ntitel: T\nauftrag: A\ntest: - -> 1\n${extra}:::`, 'x.md')[0]
+      if (block.kind !== 'exercise') throw new Error('keine Übung')
+      return exerciseArea(block.exercise)
+    }
+    expect(ex('')).toBe('struktogramm')
+    expect(ex('code: java\n')).toBe('code')
+    expect(ex('bereich: beide\n')).toBe('beide')
+    expect(ex('code: java\nbereich: Beide\n')).toBe('beide')
+    expect(() => ex('bereich: links\n')).toThrow(/bereich:/)
   })
 
   it('löst Checklisten-Verweise auf und meldet unbekannte Schritte', () => {

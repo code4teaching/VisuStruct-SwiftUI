@@ -41,7 +41,7 @@ The values of a and b are swapped. The variable temp keeps one value meanwhile.
 - **Variables:** All variables with their current values.
 - **Output:** Everything that was output with `output:`.
 
-If the [Programming](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
+If the [Code](#zeige-codelive) area is open on the right, the [console](#zeige-konsole) runs along there as well. It is cleared at the start and then shows output and input just as they would appear in the real program.
 
 At the end, **Simulation finished.** appears. If something goes wrong, the simulation stops on the faulty box and shows a message, e.g. **Unknown variable: total**.
 
@@ -65,6 +65,20 @@ Then compare your table with the simulation. Do the values under **Variables** m
 
 > A desk check is especially useful in tests. There you have no computer, but you can still show what your structure chart does.
 
+::: angeberwissen
+“Computer” used to be a job: people who did calculations with pencil, paper and a calculating machine. One of the best was the mathematician Katherine Johnson at NASA. She calculated flight paths for space capsules, and later also for the Apollo 11 flight to the Moon.
+
+In 1962 John Glenn was to become the first American to orbit the Earth. A new IBM computer had calculated the flight path. Glenn did not fully trust the machine and said: “Get the girl to check the numbers. If she says they’re good, I’m ready to go.” Katherine Johnson checked everything by hand, a real desk check. Her numbers were right, and Glenn flew.
+
+Katherine Johnson was Black, and at that time laws in the US state of Virginia separated Black and white people. In the film “Hidden Figures” (2016) she has to run across the whole site every time she needs the toilet. The film exaggerates this: separate toilets really existed, but Katherine Johnson said she simply ignored the sign.
+
+Her colleague Dorothy Vaughan saw early on that the IBM computers would take over the calculating work. She taught herself and her whole team the programming language FORTRAN. That is how human computers became programmers.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), mathematician at NASA (photo: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), public domain).
+:::
+
 ## Find mistakes
 
 If a structure chart outputs something wrong, do this:
@@ -84,6 +98,12 @@ Common mistakes in a sequence are:
 
 ::: angeberwissen
 On 9 September 1947 Grace Hopper’s team found a real moth stuck between two contacts in the Harvard Mark II computer. They taped it into the logbook and wrote: “First actual case of bug being found.” Today the moth is in a museum in Washington.
+
+Grace Hopper was one of the first programmers in the world. In 1952 she built one of the first **compilers**: a program that translates code into machine code. She believed people should be able to give computers instructions in almost normal English. This led to the programming language COBOL, which many banks still use today. She even became an admiral in the US Navy.
+:::
+
+::: bild grace-hopper.jpg
+Grace Hopper (1906–1992), computer scientist and admiral (photo: [U.S. Navy](https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper,_USN_(covered).jpg), public domain).
 :::
 
 ## Exercise: Fix the swap
@@ -122,7 +142,7 @@ lösung: sim-kino-loesung.visustruct
 
 ## Now in Java
 
-You can run Java code step by step too. In the [Programming](#zeige-codelive) area the tool for this is called the **debugger**:
+You can run Java code step by step too. In the [Code](#zeige-codelive) area the tool for this is called the **debugger**:
 
 - Click a line number on the left. A red dot appears: that is a **breakpoint**. [▶︎ Run](#zeige-ausfuehren) pauses before this line.
 - The [Step](#zeige-einzelschritt) button runs exactly one line, like **Step** in the simulation.
@@ -154,7 +174,7 @@ b = a * 2;      // b is now [[14]]
 a = b - a;      // a is now [[7]]
 System.out.println(a + b);      // output: [[21]]
 ```
-erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Programming area.
+erklärung: Each line calculates with the values that are in the variables right now: a = 5 + 2 = 7, b = 7 · 2 = 14, a = 14 − 7 = 7, output 7 + 14 = 21. You can check it with Step in the Code area.
 :::
 
 ## Find the bug: score
@@ -286,7 +306,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] sum is too big.
 - [ ] The structure chart has too many boxes.
 
-? What does a red dot in front of a line number in the Programming area do?
+? What does a red dot in front of a line number in the Code area do?
 → Now in Java
 - [ ] It marks an error.
 - [x] The program pauses before this line.

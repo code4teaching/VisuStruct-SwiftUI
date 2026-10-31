@@ -7,7 +7,7 @@ kurz: Mit echtem Java Fehlermeldungen lesen und Abstürze mit try und catch abfa
 ## Diese Kompetenzen erwerbe ich jetzt
 
 ::: kompetenzen
-- echtes Java im Bereich Programmieren einschalten
+- echtes Java im Bereich Code einschalten
 - aus einer Fehlermeldung die Exception und die Zeile ablesen
 - eine Exception mit try und catch auffangen
 - Text mit Integer.parseInt in eine Zahl umwandeln und die NumberFormatException abfangen
@@ -16,7 +16,7 @@ kurz: Mit echtem Java Fehlermeldungen lesen und Abstürze mit try und catch abfa
 
 ## Abgestürzt!
 
-Dieses Programm soll drei Noten ausgeben. Tippe es im Bereich [Programmieren](#zeige-codelive) ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
+Dieses Programm soll drei Noten ausgeben. Tippe es im Bereich [Code](#zeige-codelive) ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
 
 ```java
 int[] noten = {2, 3, 1};
@@ -37,7 +37,7 @@ Ist dir das auch schon passiert? Ein kleiner Fehler, und das ganze Programm ist 
 
 ## Echtes Java einschalten
 
-Der Bereich Programmieren rechnet normalerweise mit derselben Simulation wie das Struktogramm. Die hält bei einem Fehler einfach an. Um zu sehen, was echtes Java macht, schaltest du echtes Java ein:
+Der Bereich Code rechnet normalerweise mit derselben Simulation wie das Struktogramm. Die hält bei einem Fehler einfach an. Um zu sehen, was echtes Java macht, schaltest du echtes Java ein:
 
 1. Klicke oben rechts auf das [Zahnrad](#zeige-einstellungen) und wähle als **Programmiersprache** Java.
 2. Setze im Abschnitt Java den Haken bei **Echtes Java (mit Swing)**.
@@ -80,7 +80,7 @@ So eine Meldung sieht erst einmal erschreckend aus. Sie verrät dir aber genau, 
 So einen Fehler zur Laufzeit nennt Java eine **Exception** (englisch für Ausnahme). Man sagt: Java *wirft* eine Exception. Fängt sie niemand auf, bricht das Programm ab. Deshalb erscheint „Fertig!“ nicht.
 
 ::: ludwig
-Lies Fehlermeldungen immer von oben: Erst der Name der Exception, dann die Zeilennummer. Die Zeilennummern stehen im Bereich Programmieren links neben dem Code.
+Lies Fehlermeldungen immer von oben: Erst der Name der Exception, dann die Zeilennummer. Die Zeilennummern stehen im Bereich Code links neben dem Code.
 :::
 
 ## try und catch
@@ -108,6 +108,16 @@ try und catch sind wie das Netz unter dem Trapez im Zirkus: Solange alles klappt
 :::
 
 > Im Struktogramm gibt es keinen Kasten für try und catch. VisuStruct zeigt den ganzen Block deshalb als eine Anweisung. Ausführen kannst du ihn nur mit echtem Java.
+
+::: angeberwissen
+Im Juli 1969 landete Apollo 11 auf dem Mond. Kurz vor der Landung meldete der Bordcomputer plötzlich die Fehler **1202** und **1201**: Er hatte mehr zu tun, als er schaffen konnte. Abgestürzt ist er trotzdem nicht. Das Team von **Margaret Hamilton** hatte die Software so gebaut, dass sie solche Fehler erkennt, Unwichtiges liegen lässt und nur das Wichtigste weiterrechnet. Die Landung klappte.
+
+Margaret Hamilton leitete am MIT die Gruppe, die die Software für die Apollo-Raumschiffe schrieb. Sie plante immer ein, dass etwas schiefgehen kann, so wie du mit `try` und `catch`. Damit Software genauso ernst genommen wird wie Hardware, nannte sie ihre Arbeit **Software Engineering**. Heute heißt so ein ganzes Fach der Informatik.
+:::
+
+::: bild margaret-hamilton.jpg
+Margaret Hamilton (geb. 1936) im Jahr 1969 neben den ausgedruckten Programmen, die ihr Team für Apollo geschrieben hat (Foto: [Draper Laboratory](https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg), gemeinfrei).
+:::
 
 ## Text in eine Zahl umwandeln
 
@@ -245,7 +255,7 @@ Die Exception heißt `ArithmeticException`. Schreib in den `try`-Block nur die Z
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
-- Ich kann echtes Java im Bereich Programmieren einschalten. → Echtes Java einschalten
+- Ich kann echtes Java im Bereich Code einschalten. → Echtes Java einschalten
 - Ich kann aus einer Fehlermeldung die Exception und die Zeile ablesen. → Die Fehlermeldung lesen
 - Ich kann eine Exception mit try und catch auffangen. → try und catch
 - Ich kann Text mit Integer.parseInt in eine Zahl umwandeln und die NumberFormatException abfangen. → Text in eine Zahl umwandeln

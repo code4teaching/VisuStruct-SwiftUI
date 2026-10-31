@@ -228,7 +228,7 @@ System.out.println("O quadrado é " + q);
 
 - No cabeçalho, antes do nome, fica o que o método devolve (`int`). Se não devolver nada, fica `void`.
 - Os parâmetros ficam entre parênteses curvos, com o tipo de dados: `(int x)`. Separas vários com vírgulas.
-- Na área Programação escreves cada método no seu próprio separador, tal como cada subprograma tem o seu próprio estrutograma.
+- Na área Código escreves cada método no seu próprio separador, tal como cada subprograma tem o seu próprio estrutograma.
 - Em Java, a saída chama-se `break`. Com `while (true)` constróis um ciclo que só termina com `break`.
 
 ::: übung l18-java-kasse
@@ -249,7 +249,7 @@ lösung: l18-java-kasse-loesung.visustruct
 
 ::: lückentext
 titel: Método e saída
-auftrag: Preenche as palavras que faltam. Em cima está o método que calcula um quadrado. Por baixo está o programa principal, que o chama. Na área Programação, cada um fica no seu separador.
+auftrag: Preenche as palavras que faltam. Em cima está o método que calcula um quadrado. Por baixo está o programa principal, que o chama. Na área Código, cada um fica no seu separador.
 ```java
 public static [[int]] quadrado(int x) {
     [[return]] x * x;
@@ -275,7 +275,7 @@ erklärung: `int` antes do nome do método quer dizer que o método devolve um n
 titel: Corrigir a contagem de tentativas
 code: java
 auftrag: Neste jogo de adivinhar, o número secreto é 7. O programa pede um palpite até aparecer o 7 e depois mostra o número de tentativas. Com 3, 5 e 7 foram 3 tentativas, mas o programa diz **Tentativas: 2**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l18-java-fehler-start.visustruct
 test: 3, 5, 7 -> Tentativas: 3
 test: 7 -> Tentativas: 1

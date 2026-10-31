@@ -56,8 +56,17 @@ export interface Exercise {
   subprograms: string[]
   /** `code: java`: Die Übung wird in Code live auf Java gelöst; „Übung öffnen“ öffnet die Spalte gleich mit. */
   code?: 'java'
+  /** `bereich: struktogramm | code | beide`: wo man die Übung löst; „Im Editor öffnen“ öffnet genau diese Bereiche. Ohne Angabe: `code` bei `code: java`, sonst `struktogramm`. */
+  area?: ExerciseArea
   /** VisuBot: Schleifen müssen mindestens so tief ineinander stecken (`schleifentiefe: 2`). */
   loopDepth?: number
+}
+
+export type ExerciseArea = 'struktogramm' | 'code' | 'beide'
+
+/** Bereich, in dem man die Übung löst (siehe `bereich:`). */
+export function exerciseArea(ex: Pick<Exercise, 'area' | 'code'>): ExerciseArea {
+  return ex.area ?? (ex.code === 'java' ? 'code' : 'struktogramm')
 }
 
 export interface ChecklistItem {
@@ -170,7 +179,7 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
   const ex: Exercise = { id, title: '', task: '', tests: [], requires: [], hints: [], subprograms: [] }
   let last: 'task' | 'hint' | undefined
   for (const raw of lines) {
-    const kv = /^(titel|auftrag|start|test|datei|fahrt|befehle|welt|messwerte|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code):\s*(.*)$/i.exec(raw.trim())
+    const kv = /^(titel|auftrag|start|test|datei|fahrt|befehle|welt|messwerte|schleifentiefe|braucht|tipp|lösung|loesung|unterprogramm|code|bereich):\s*(.*)$/i.exec(raw.trim())
     if (kv) {
       const [, key, value] = kv
       last = undefined
@@ -243,6 +252,12 @@ function parseExercise(id: string, lines: string[], file: string): Exercise {
           if (value.trim().toLowerCase() !== 'java') throw new FormatError(`${file}: Übung „${id}“: „code:“ kennt nur „java“.`)
           ex.code = 'java'
           break
+        case 'bereich': {
+          const area = value.trim().toLowerCase()
+          if (area !== 'struktogramm' && area !== 'code' && area !== 'beide') throw new FormatError(`${file}: Übung „${id}“: „bereich:“ kennt nur „struktogramm“, „code“ oder „beide“.`)
+          ex.area = area
+          break
+        }
       }
     } else if (last && raw.trim() !== '') {
       // Fortsetzungszeilen für Auftrag und Tipp

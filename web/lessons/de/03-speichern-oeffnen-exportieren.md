@@ -27,6 +27,14 @@ Zu Nassis Studienzeit gab es keine Dateien zum Speichern, sondern Lochkarten. Na
 So sah eine Lochkarte aus. Eine Karte war eine Zeile Programm, hier `PRINT *, 'HALLO WELT'` in der Sprache Fortran. Jede Spalte ist ein Zeichen, die Löcher darin sind sein Code. Ein ganzes Programm war ein Stapel solcher Karten. Fiel er herunter, musste man alles wieder sortieren.
 :::
 
+::: angeberwissen
+Ein Computerpionier aus unserer Gegend: **Konrad Zuse**. Am 12. Mai 1941 stellte er in Berlin die **Z3** vor, den ersten funktionsfähigen programmgesteuerten Digitalrechner der Welt. Sie rechnete schon im **Binärsystem**, also nur mit 0 und 1, mit rund 2000 Relais (elektrischen Schaltern). Ihr Programm stand nicht auf Lochkarten, sondern als Löcher in einem gebrauchten Kinofilm. Danach erfand Zuse den **Plankalkül**, eine der ersten Programmiersprachen überhaupt. Später lebte er bis zu seinem Tod 1995 in **Hünfeld** bei Fulda. Im Konrad-Zuse-Museum dort stehen Nachbauten der Z3. Mein Ausflugstipp für eure Klasse! Wann es offen hat, steht auf der Webseite der Stadt Hünfeld.
+:::
+
+::: grafik l03-zuse-lochstreifen.svg
+So ungefähr sah Zuses Programmstreifen aus: ein alter Kinofilm mit gestanzten Löchern. Jede Spalte ist ein Befehl aus 8 Stellen. Ein Loch heißt 1, kein Loch heißt 0. Die Maschine las den Streifen Befehl für Befehl.
+:::
+
 ## Speichern und Öffnen
 
 - **[Speichern](#zeige-speichern)** (Strg+S, am Mac ⌘S): Das Diagramm wird als Datei gespeichert. Ist die Spalte **Dateien** eingerichtet (siehe unten), landet es dort. Sonst fragt der Browser nach dem Ort oder legt die Datei in den Download-Ordner.

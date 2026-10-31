@@ -39,7 +39,7 @@ import { askRename, showRenameMenu } from './renameDialog'
 import { RobotPreviewPanel } from './robotPreview'
 import { codeScopes, setCodeScopes } from './javaEditor'
 import type { LiveTarget } from '../core/codeGenerator'
-import type { Exercise } from '../learn/lessonFormat'
+import { exerciseArea, type Exercise } from '../learn/lessonFormat'
 import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
@@ -541,6 +541,7 @@ export class App {
         <ul class="palette-visubot palette-visubot-sensors" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
+        <h2 class="diagram-title">${e(t('web_editor_title'))}</h2>
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
         ${iconButton('redo', t('toolbar_redo'), icons.redo, shortcut('Z', true))}
         <span class="sep"></span>
@@ -1235,9 +1236,16 @@ export class App {
       },
       reveal: (areas) => this.revealAreas(areas),
       openExercise: (ex: Exercise, doc: VSDocument) => {
-        // Java-Übungen tippt man in „Programmieren“. Geschlossen wird nichts, so wächst das Struktogramm sichtbar mit.
-        if (ex.code === 'java') this.openJavaColumn()
-        else this.setEditorHidden(false)
+        // Die Übung sagt, wo man sie löst (`bereich:`). Holger 2026-10-31: Lektionen bleiben offen, sonst ist nur
+        // dieser Bereich zu sehen (bei `beide` Struktogramm und Code); Dateien, mBot2 live usw. gehen zu.
+        const area = exerciseArea(ex)
+        if (area !== 'code') this.setEditorHidden(false)
+        if (area !== 'struktogramm') this.openJavaColumn()
+        if (this.coding) this.setCoding(false)
+        if (this.shell.classList.contains('files-open')) this.setFilesOpen(false)
+        if (this.previewOpen) this.setPreviewOpen(false)
+        if (area === 'struktogramm' && this.liveCoding) this.setLiveCoding(false)
+        if (area === 'code' && !this.editorHidden) this.setEditorHidden(true)
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
@@ -1679,7 +1687,7 @@ export class App {
 
   // MARK: - Code live
 
-  /** Übungen mit `code: java`: Spalte Programmieren öffnen und auf Java stellen, wie über das Zahnrad. */
+  /** Übungen mit `code: java`: Spalte Code öffnen und auf Java stellen, wie über das Zahnrad. */
   private openJavaColumn() {
     if (this.live.language !== 'java') {
       const sel = '[data-action=live-language]'
@@ -1727,7 +1735,7 @@ export class App {
     this.preview.onToggleStacked = () => {
       this.previewStacked = !this.previewStacked
       storeValue(previewStackedKey, this.previewStacked ? '1' : '0')
-      // Unter dem Code geht nur mit offener Spalte „Programmieren“.
+      // Unter dem Code geht nur mit offener Spalte „Code“.
       if (this.previewStacked && !this.liveCoding) this.setLiveCoding(true)
       this.placePreview()
     }
@@ -1791,7 +1799,7 @@ export class App {
     if (!inPreview) robot?.restoreViewport()
   }
 
-  /** Eigene Spalte ganz rechts oder unten in „Programmieren“ (nur wenn diese Spalte offen ist). */
+  /** Eigene Spalte ganz rechts oder unten in „Code“ (nur wenn diese Spalte offen ist). */
   private placePreview() {
     const stacked = this.previewStacked && this.liveCoding
     this.preview.setStacked(this.previewStacked)

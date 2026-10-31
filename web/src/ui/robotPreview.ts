@@ -17,7 +17,7 @@ const frameMs = 300
 /**
  * VisuBot: „mBot2 live“ neben dem Bearbeiten. Nach jeder Änderung rechnet es das Programm im Hintergrund durch
  * und zeigt, wo der mBot2 am Ende steht und welche Spur er fährt; ▶ spielt die Fahrt ab.
- * Steht als eigene Spalte oder unter dem Code in „Programmieren“ (`stacked`).
+ * Steht als eigene Spalte oder unter dem Code in „Code“ (`stacked`).
  */
 export class RobotPreviewPanel {
   readonly element: HTMLElement

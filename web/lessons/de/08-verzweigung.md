@@ -18,16 +18,16 @@ kurz: Mit einer Bedingung entscheiden, welcher von zwei Wegen ausgeführt wird.
 
 Bisher wurden alle Kästen immer ausgeführt. Oft soll ein Programm aber **entscheiden**: Wenn eine Bedingung erfüllt ist, tue das eine, sonst das andere.
 
+::: diagramm l07-alter-pruefen.visustruct
+Je nach eingegebenem Alter erscheint die eine oder die andere Meldung. Probiere in der Simulation 17 und 18 aus.
+:::
+
 Dafür gibt es die **Verzweigung**. Oben im Dreieck steht die Bedingung. Darunter teilt sich das Struktogramm in zwei Zweige:
 
 - **true** (links): wird ausgeführt, wenn die Bedingung wahr ist
 - **false** (rechts): wird ausgeführt, wenn die Bedingung falsch ist
 
 Es wird immer **genau einer** der beiden Zweige ausgeführt. Danach geht es unter der Verzweigung weiter.
-
-::: diagramm l07-alter-pruefen.visustruct
-Je nach eingegebenem Alter erscheint die eine oder die andere Meldung. Probiere in der Simulation 17 und 18 aus.
-:::
 
 ## Eine Verzweigung einfügen
 
@@ -84,6 +84,10 @@ Manchmal soll nur dann etwas passieren, wenn die Bedingung wahr ist, und sonst g
 Ab 50 Euro gibt es 5 Euro Rabatt. Sonst passiert nichts, der false-Zweig ist leer. Die Ausgabe darunter wird in beiden Fällen ausgeführt.
 :::
 
+::: angeberwissen
+Eine einzige vergessene Verzweigung hat 2014 halb das Internet in Aufregung versetzt: die Sicherheitslücke **Heartbleed** in OpenSSL, einem Programm, das viele Webseiten für die Verschlüsselung benutzen. Ein Computer konnte dem Server sagen: „Schick mir das Wort *Hut* zurück, es hat 500 Buchstaben.“ Der Server hat nicht geprüft, ob die 500 zur echten Länge 3 passen, und einfach 500 Zeichen aus seinem Speicher zurückgeschickt. Darin standen manchmal Passwörter anderer Leute. Gefehlt hat nur ein if: Wenn die angegebene Länge größer ist als die echte, dann nichts zurückschicken. Mit Klammern hatte das übrigens nichts zu tun. Mäh, prüf deine Eingaben, bevor du ihnen glaubst.
+:::
+
 ## Übung: Betrag
 
 ::: übung l07-betrag
@@ -130,7 +134,7 @@ Java hat auch ein Maskottchen: **Duke**, ein kleiner schwarz-weißer Kerl mit gr
 titel: Bestanden in Java
 code: java
 auftrag: Schreibe ein Java-Programm, das nach der Punktzahl fragt. Ab 50 Punkten gibt es **bestanden** aus, sonst **nicht bestanden**.
-  Tippe den Code im Bereich Programmieren und klicke dann auf Prüfen.
+  Tippe den Code im Bereich Code und klicke dann auf Prüfen.
 test: 50 -> bestanden
 test: 49 -> nicht bestanden
 test: 100 -> bestanden
@@ -161,13 +165,27 @@ int zahl = scanner.nextInt();
 erklärung: `zahl % 2` ist der Rest beim Teilen durch 2. Ist er 0, ist die Zahl gerade. Zum Vergleichen brauchst du `==`, ein einzelnes `=` ist eine Zuweisung. Beide Zweige stehen in geschweiften Klammern.
 :::
 
+::: angeberwissen
+Steht im Zweig nur eine einzige Anweisung, darf man in Java die geschweiften Klammern sogar weglassen. Wir machen das trotzdem nie, und zwar aus diesem Grund:
+
+```java
+if (alter >= 18)
+    System.out.println("Du bist volljährig.");
+    System.out.println("Du darfst den Film sehen.");
+```
+
+Ohne Klammern gehört nur die erste Zeile zum if. Die zweite läuft immer, auch für Zwölfjährige. Die Einrückung täuscht, denn Java achtet nicht auf Leerzeichen.
+
+Genau so ein Fehler steckte 2014 in iPhones und Macs, bekannt als **„goto fail“**. In der Sprache C stand unter einem if ohne Klammern die Zeile `goto fail;` aus Versehen zweimal. Die zweite lief immer und übersprang die Prüfung der Sicherheitszertifikate. In einem offenen WLAN hätte sich ein Angreifer so zum Beispiel als deine Bank ausgeben können. Mäh, Klammern kosten zwei Zeichen, eine Sicherheitslücke kostet viel mehr.
+:::
+
 ## Fehler finden: Eintritt
 
 ::: übung l08-java-fehler
 titel: Eintritt reparieren
 code: java
 auftrag: Im Zoo haben Kinder **unter** 6 Jahren freien Eintritt, alle anderen zahlen 4 Euro. Das Programm lässt aber auch Sechsjährige umsonst hinein.
-  „Im Editor öffnen“ zeigt den Code im Bereich Programmieren. Finde den Fehler, repariere ihn und klicke auf Prüfen.
+  „Im Editor öffnen“ zeigt den Code im Bereich Code. Finde den Fehler, repariere ihn und klicke auf Prüfen.
 start: l08-java-fehler-start.visustruct
 test: 5 -> Eintritt frei
 test: 6 -> 4 Euro

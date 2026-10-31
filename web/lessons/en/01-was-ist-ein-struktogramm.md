@@ -25,6 +25,16 @@ You know algorithms from everyday life: a recipe, directions to a place or the i
 Making tea as a structure chart: every box is one step.
 :::
 
+::: angeberwissen
+Baaah, who wrote the first program? A woman, back in 1843, long before the first computer! **Ada Lovelace** described step by step how Charles Babbage's *Analytical Engine* should calculate the so-called Bernoulli numbers. That was a real algorithm for a machine. The instructions were meant to be stored on punched cards (more on this in lesson 3). However, the machine was never built.
+
+Ada had another brilliant idea: a machine like this can do more than calculate. It could also work with letters, symbols or even music. That is exactly what computers do today. A programming language called **Ada** is named after her.
+:::
+
+::: bild ada-lovelace.jpg
+Ada Lovelace (1815–1852), mathematician (picture: watercolour by Alfred Edward Chalon, around 1840, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ada_Lovelace_portrait.jpg), public domain).
+:::
+
 ## How to read a structure chart
 
 You read a structure chart **from top to bottom**. Every box is one step. Only when a step is finished does the next one start.

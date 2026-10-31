@@ -262,7 +262,7 @@ erklärung: `scanner.next()` reads a word, `scanner.nextInt()` a whole number. T
 titel: Fix the sum
 code: java
 auftrag: The program reads two numbers and should output their sum. For 3 and 4, however, it shows **Sum: 34** instead of **Sum: 7**.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l06-java-fehler-start.visustruct
 test: 3, 4 -> Sum: 7
 test: 10, 5 -> Sum: 15

@@ -14,7 +14,7 @@ kurz: Insert elements, type text, move and delete.
 
 ## The screen
 
-VisuStruct has two editors: the [structure chart editor](#zeige-editor), which this lesson is about, and on the right the [Programming](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you. The blue words show you the areas, even when they are collapsed: move the mouse over one, and the area opens next to the learning area and lights up. Click it (or tap it), and it stays open.
+VisuStruct has two editors: the [structure chart editor](#zeige-editor), which this lesson is about, and on the right the [Code](#zeige-codelive) area for Java code (from lesson 4). If the structure chart editor is collapsed, this lesson opens it for you. The blue words show you the areas, even when they are collapsed: move the mouse over one, and the area opens next to the learning area and lights up. Click it (or tap it), and it stays open.
 
 The structure chart editor has several areas. Move the mouse over a blue word or tap it, and that area lights up in the editor; collapsed areas such as Elements open.
 
@@ -24,7 +24,7 @@ The structure chart editor has several areas. Move the mouse over a blue word or
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
 - **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.
 
-> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Programming](#zeige-codelive) area on the right for Java (from lesson 4).
+> You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Code](#zeige-codelive) area on the right for Java (from lesson 4).
 
 ## Insert an element
 

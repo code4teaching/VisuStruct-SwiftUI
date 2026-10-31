@@ -247,7 +247,7 @@ erklärung: Uma nota é válida quando **as duas** condições são verdadeiras,
 titel: Corrigir o dia sem escola
 code: java
 auftrag: O programa deve mostrar **sem escola** para o dia 6 (sábado) e o dia 7 (domingo), e **escola** nos outros dias. Mas mostra sempre **escola**.
-  “Abrir no editor” mostra o código na área Programação. Encontra o erro, corrige-o e carrega em Verificar.
+  “Abrir no editor” mostra o código na área Código. Encontra o erro, corrige-o e carrega em Verificar.
 start: l09-java-fehler-start.visustruct
 test: 6 -> sem escola
 test: 7 -> sem escola

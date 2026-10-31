@@ -7,7 +7,7 @@ kurz: Mit Java und Swing ein eigenes Fenster öffnen, Zeile für Zeile erklärt.
 ## Diese Kompetenzen erwerbe ich jetzt
 
 ::: kompetenzen
-- im Bereich Programmieren „Echtes Java“ einschalten
+- im Bereich Code „Echtes Java“ einschalten
 - ein Fenster mit Titel und Größe öffnen
 - erklären, was jede Zeile des Fensterprogramms macht
 - erklären, warum setVisible(true) am Ende steht
@@ -19,11 +19,11 @@ Bisher haben deine Programme Text in die Konsole geschrieben. Die meisten Progra
 
 Java bringt dafür einen Werkzeugkasten mit: **Swing**. In VisuStruct schaltest du ihn so ein:
 
-1. Öffne rechts den Bereich [Programmieren](#zeige-codelive).
+1. Öffne rechts den Bereich [Code](#zeige-codelive).
 2. Klicke oben rechts auf das [Zahnrad](#zeige-einstellungen) und wähle als **Programmiersprache** Java.
 3. Setze darunter im Abschnitt Java den Haken bei **Echtes Java (mit Swing)**.
 
-Beim ersten [▶︎ Ausführen](#zeige-ausfuehren) lädt VisuStruct einmalig etwa 40 MB, das dauert einen Moment. Danach läuft dein Code als echtes Java, und deine Fenster erscheinen im Bereich Programmieren im Feld **Java-Fenster** über der Konsole.
+Beim ersten [▶︎ Ausführen](#zeige-ausfuehren) lädt VisuStruct einmalig etwa 40 MB, das dauert einen Moment. Danach läuft dein Code als echtes Java, und deine Fenster erscheinen im Bereich Code im Feld **Java-Fenster** über der Konsole.
 
 > Mit „Echtes Java“ funktionieren Eingaben über die Konsole (`Scanner`) noch nicht. Für Programme mit Eingabe schaltest du den Haken wieder aus.
 
@@ -33,7 +33,7 @@ Swing gibt es seit 1998. Davor hatte Java nur das ältere AWT mit einer Klasse `
 
 ## Das ganze Programm
 
-So sieht das kleinste Programm aus, das ein Fenster öffnet. Tippe es im Bereich Programmieren ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
+So sieht das kleinste Programm aus, das ein Fenster öffnet. Tippe es im Bereich Code ab und klicke auf [▶︎ Ausführen](#zeige-ausfuehren):
 
 ```java
 import javax.swing.*;
@@ -177,7 +177,7 @@ frage: Was siehst du?
 Führe es aus und prüfe alle drei Punkte.
 
 ::: ludwig
-Du willst nicht so viel tippen? Mit „Echtes Java“ darfst du im Bereich Programmieren auch nur die vier Zeilen aus `main` schreiben. VisuStruct packt sie dann selbst in eine Klasse und ergänzt die `import`-Zeilen. In einer richtigen Java-Entwicklungsumgebung brauchst du aber das ganze Programm.
+Du willst nicht so viel tippen? Mit „Echtes Java“ darfst du im Bereich Code auch nur die vier Zeilen aus `main` schreiben. VisuStruct packt sie dann selbst in eine Klasse und ergänzt die `import`-Zeilen. In einer richtigen Java-Entwicklungsumgebung brauchst du aber das ganze Programm.
 :::
 
 ## Checkliste
@@ -185,7 +185,7 @@ Du willst nicht so viel tippen? Mit „Echtes Java“ darfst du im Bereich Progr
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
-- Ich kann im Bereich Programmieren „Echtes Java“ einschalten. → Programme mit Fenstern
+- Ich kann im Bereich Code „Echtes Java“ einschalten. → Programme mit Fenstern
 - Ich kann ein Fenster mit Titel und Größe öffnen. → Das ganze Programm
 - Ich kann erklären, was jede Zeile des Fensterprogramms macht. → Zeile für Zeile
 - Ich kann erklären, warum setVisible(true) am Ende steht. → Warum setVisible am Ende steht

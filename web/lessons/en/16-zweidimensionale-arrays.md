@@ -169,7 +169,7 @@ erklärung: `int[][]` is a table. `grid.length` is the number of rows (2), `grid
 titel: Fix player 2
 code: java
 auftrag: In the table `points` each row stands for one player. The program should add up the points of player 2 (row 1), so **Player 2: 11**. Instead it reports an error.
-  “Open in editor” shows the code in the Programming area. Find the bug, fix it and click Check.
+  “Open in editor” shows the code in the Code area. Find the bug, fix it and click Check.
 start: l16-java-fehler-start.visustruct
 test: - -> Player 2: 11
 braucht: forSchleife

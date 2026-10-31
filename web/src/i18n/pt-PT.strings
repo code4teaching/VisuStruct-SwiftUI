@@ -68,6 +68,7 @@
 "web_learn_open_exercise" = "Abrir no editor";
 "web_learn_solve_in_editor" = "Resolve este exercício na área %@.";
 "web_learn_solve_in_code" = "Resolve este exercício na área %@.";
+"web_learn_solve_in_both" = "Resolve este exercício nas áreas %1$@ e %2$@.";
 "web_learn_open_in_editor" = "Abrir no editor";
 "web_learn_graphic_labels" = "👆 Clica na imagem para mostrar ou esconder as legendas";
 "web_learn_check" = "Verificar";
@@ -139,13 +140,13 @@
 "web_site_privacy" = "Privacidade";
 
 /* Programmieren (früher „Code live“) */
-"web_live_title" = "Programação";
-"web_live_hide" = "Ocultar programação";
+"web_live_title" = "Código";
+"web_live_hide" = "Ocultar código";
 "web_scale_canvas" = "Tamanho do texto: estrutograma";
-"web_scale_code" = "Tamanho do texto: Programação";
+"web_scale_code" = "Tamanho do texto: Código";
 "web_live_indent" = "Indentar";
-"web_live_indent_title" = "Indentar o código: quatro espaços por nível (linhas selecionadas, senão tudo)";
-"web_live_show" = "Mostrar programação";
+"web_live_indent_title" = "Indentar e formatar o código: cada } na sua própria linha, espaços à volta dos operadores, quatro espaços por nível (linhas selecionadas, senão tudo)";
+"web_live_show" = "Mostrar código";
 "web_live_resize" = "Alterar a largura da área de código (duplo clique: repor)";
 "web_live_hint" = "O código cresce com o teu diagrama. Cinzento = marcador: escreve no inspetor de objetos e o teu texto aparece aí. Clica numa linha para selecionar o elemento.";
 "web_live_ph_selector" = "variável";
@@ -403,7 +404,7 @@
 "web_visubot_preview_hide" = "Recolher mBot2 ao vivo";
 "web_visubot_preview_show" = "Mostrar mBot2 ao vivo";
 "web_visubot_preview_resize" = "Alterar o tamanho de mBot2 ao vivo";
-"web_visubot_preview_stack" = "Por baixo do código em Programação";
+"web_visubot_preview_stack" = "Por baixo do código na área Código";
 "web_visubot_preview_side" = "Como coluna própria";
 "web_visubot_preview_distance_fmt" = "Percurso: %d cm";
 "web_visubot_preview_input" = "precisa de uma entrada, inicia a simulação para isso";
@@ -420,8 +421,8 @@
 "web_visubot_group_light" = "Luz e volume";
 "web_visubot_group_tilt" = "Inclinação e abanar";
 "web_visubot_group_timer" = "Cronómetro e bateria";
-"web_swap_to_code" = "Programação grande, diagrama estreito";
-"web_swap_to_editor" = "Diagrama grande, programação estreita";
+"web_swap_to_code" = "Código grande, diagrama estreito";
+"web_swap_to_editor" = "Diagrama grande, código estreito";
 "web_editor_resize" = "Alterar a largura do diagrama";
 "web_palette_resize" = "Alterar a largura dos elementos (duplo clique: repor)";
 "web_palette_hide" = "Ocultar elementos";

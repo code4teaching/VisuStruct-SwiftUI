@@ -7,7 +7,7 @@ kurz: Abrir uma janela tua com Java e Swing, explicado linha a linha.
 ## Competências que vou adquirir agora
 
 ::: kompetenzen
-- ligar o “Java verdadeiro” na área Programação
+- ligar o “Java verdadeiro” na área Código
 - abrir uma janela com título e tamanho
 - explicar o que faz cada linha do programa com janela
 - explicar porque é que setVisible(true) fica no fim
@@ -19,11 +19,11 @@ Até agora os teus programas escreviam texto na consola. Mas a maioria dos progr
 
 O Java traz uma caixa de ferramentas para isso: o **Swing**. No VisuStruct ligas o Swing assim:
 
-1. Abre à direita a área [Programação](#zeige-codelive).
+1. Abre à direita a área [Código](#zeige-codelive).
 2. Clica na [roda dentada](#zeige-einstellungen) em cima à direita e escolhe Java como **Linguagem de programação**.
 3. Por baixo, na secção Java, marca **Java verdadeiro (com Swing)**.
 
-Na primeira vez que clicas em [▶︎ Executar](#zeige-ausfuehren), o VisuStruct descarrega uma única vez cerca de 40 MB, o que demora um pouco. Depois disso o teu código corre como Java verdadeiro, e as tuas janelas aparecem na área Programação na área **Janelas Java**, por cima da consola.
+Na primeira vez que clicas em [▶︎ Executar](#zeige-ausfuehren), o VisuStruct descarrega uma única vez cerca de 40 MB, o que demora um pouco. Depois disso o teu código corre como Java verdadeiro, e as tuas janelas aparecem na área Código na área **Janelas Java**, por cima da consola.
 
 > Com o “Java verdadeiro”, as entradas pela consola (`Scanner`) ainda não funcionam. Para programas com entradas, desliga outra vez a opção.
 
@@ -33,7 +33,7 @@ O Swing existe desde 1998. Antes disso, o Java só tinha o AWT, mais antigo, com
 
 ## O programa completo
 
-Este é o programa mais pequeno que abre uma janela. Escreve-o na área Programação e clica em [▶︎ Executar](#zeige-ausfuehren):
+Este é o programa mais pequeno que abre uma janela. Escreve-o na área Código e clica em [▶︎ Executar](#zeige-ausfuehren):
 
 ```java
 import javax.swing.*;
@@ -177,7 +177,7 @@ Altera o programa de forma que
 Executa-o e verifica os três pontos.
 
 ::: ludwig
-Não te apetece escrever tanto? Com o “Java verdadeiro” podes escrever na área Programação só as quatro linhas de `main`. O VisuStruct põe-nas sozinho dentro de uma classe e acrescenta as linhas `import`. Num ambiente de desenvolvimento Java a sério precisas, no entanto, do programa completo.
+Não te apetece escrever tanto? Com o “Java verdadeiro” podes escrever na área Código só as quatro linhas de `main`. O VisuStruct põe-nas sozinho dentro de uma classe e acrescenta as linhas `import`. Num ambiente de desenvolvimento Java a sério precisas, no entanto, do programa completo.
 :::
 
 ## Lista de verificação
@@ -185,7 +185,7 @@ Não te apetece escrever tanto? Com o “Java verdadeiro” podes escrever na á
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
 
 ::: checkliste
-- Consigo ligar o “Java verdadeiro” na área Programação. → Programas com janelas
+- Consigo ligar o “Java verdadeiro” na área Código. → Programas com janelas
 - Consigo abrir uma janela com título e tamanho. → O programa completo
 - Consigo explicar o que faz cada linha do programa com janela. → Linha a linha
 - Consigo explicar porque é que setVisible(true) fica no fim. → Porque é que setVisible fica no fim

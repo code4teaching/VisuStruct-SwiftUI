@@ -7,7 +7,7 @@ kurz: Use real Java to read error messages and catch crashes with try and catch.
 ## Skills I will gain now
 
 ::: kompetenzen
-- switch on real Java in the Programming area
+- switch on real Java in the Code area
 - read the exception and the line from an error message
 - catch an exception with try and catch
 - turn text into a number with Integer.parseInt and catch the NumberFormatException
@@ -16,7 +16,7 @@ kurz: Use real Java to read error messages and catch crashes with try and catch.
 
 ## Crashed!
 
-This program should print three grades. Type it into the [Programming](#zeige-codelive) area and click [▶︎ Run](#zeige-ausfuehren):
+This program should print three grades. Type it into the [Code](#zeige-codelive) area and click [▶︎ Run](#zeige-ausfuehren):
 
 ```java
 int[] grades = {2, 3, 1};
@@ -37,7 +37,7 @@ In 1947 Grace Hopper's team found a moth in the Mark II computer at Harvard Univ
 
 ## Switching on real Java
 
-The Programming area normally calculates with the same simulation as the structure chart. It simply stops when there is an error. To see what real Java does, switch on real Java:
+The Code area normally calculates with the same simulation as the structure chart. It simply stops when there is an error. To see what real Java does, switch on real Java:
 
 1. Click the [gear](#zeige-einstellungen) at the top right and choose Java as the **Programming language**.
 2. In the Java section, tick **Real Java (with Swing)**.
@@ -80,7 +80,7 @@ A message like this looks scary at first. But it tells you exactly what is going
 Java calls an error like this, at run time, an **exception**. We say: Java *throws* an exception. If nobody catches it, the program stops. That is why “Done!” does not appear.
 
 ::: ludwig
-Always read error messages from the top: first the name of the exception, then the line number. In the Programming area the line numbers are on the left next to the code.
+Always read error messages from the top: first the name of the exception, then the line number. In the Code area the line numbers are on the left next to the code.
 :::
 
 ## try and catch
@@ -108,6 +108,16 @@ try and catch are like the net under the trapeze at the circus: as long as every
 :::
 
 > The structure chart has no box for try and catch. So VisuStruct shows the whole block as one statement. You can only run it with real Java.
+
+::: angeberwissen
+In July 1969, Apollo 11 landed on the Moon. Shortly before touchdown, the onboard computer suddenly reported the errors **1202** and **1201**: it had more work than it could handle. Still, it did not crash. **Margaret Hamilton**'s team had built the software so that it recognised such errors, put aside the unimportant jobs and kept only the most important ones running. The landing succeeded.
+
+Margaret Hamilton led the group at MIT that wrote the software for the Apollo spacecraft. She always planned for things going wrong, just like you do with `try` and `catch`. So that software would be taken as seriously as hardware, she called her work **software engineering**. Today a whole field of computer science has that name.
+:::
+
+::: bild margaret-hamilton.jpg
+Margaret Hamilton (born 1936) in 1969, next to the printed programs her team wrote for Apollo (photo: [Draper Laboratory](https://commons.wikimedia.org/wiki/File:Margaret_Hamilton_-_restoration.jpg), public domain).
+:::
 
 ## Turning text into a number
 
@@ -245,7 +255,7 @@ The exception is called `ArithmeticException`. Only put the line that can crash 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
-- I can switch on real Java in the Programming area. → Switching on real Java
+- I can switch on real Java in the Code area. → Switching on real Java
 - I can read the exception and the line from an error message. → Reading the error message
 - I can catch an exception with try and catch. → try and catch
 - I can turn text into a number with Integer.parseInt and catch the NumberFormatException. → Turning text into a number

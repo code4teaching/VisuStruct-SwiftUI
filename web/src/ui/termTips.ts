@@ -159,14 +159,14 @@ export const uiTargets: Record<string, string> = {
 /** Zeiger auf diese Bereiche brauchen die Struktogramm-Spalte. */
 const editorTargets = new Set(['editor', 'werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'loeschen', 'exportieren', 'code', 'simulation'])
 
-/** Zeiger auf diese Bereiche brauchen die offene Spalte „Programmieren“ (die schmale Leiste allein reicht nicht). */
+/** Zeiger auf diese Bereiche brauchen die offene Spalte „Code“ (die schmale Leiste allein reicht nicht). */
 const liveCodeTargets = new Set(['ausfuehren', 'konsole', 'einzelschritt'])
 
 function pointsInto(root: HTMLElement, targets: Set<string>): boolean {
   return [...root.querySelectorAll<HTMLElement>('.ui-pointer')].some((p) => targets.has(p.dataset.target ?? ''))
 }
 
-/** Eingeklappte Bereiche, die ein Zeiger öffnen kann: Struktogramm-Editor, Elemente, „Programmieren“, Dateien. */
+/** Eingeklappte Bereiche, die ein Zeiger öffnen kann: Struktogramm-Editor, Elemente, „Code“, Dateien. */
 export type UiArea = 'editor' | 'palette' | 'livecode' | 'files'
 
 /** Was offen sein muss, damit man den Bereich des Zeigers sieht (die Elemente liegen im Struktogramm-Editor). */
@@ -193,7 +193,7 @@ export function pointsIntoEditor(root: HTMLElement): boolean {
   return pointsInto(root, editorTargets)
 }
 
-/** Zeigt der Text auf einen Bereich der Spalte „Programmieren“? */
+/** Zeigt der Text auf einen Bereich der Spalte „Code“? */
 export function pointsIntoLiveCode(root: HTMLElement): boolean {
   return pointsInto(root, liveCodeTargets)
 }
