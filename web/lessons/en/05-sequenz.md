@@ -86,7 +86,7 @@ lösung: l04-tauschen-loesung.visustruct
 
 As in lesson 4, you can also write a sequence directly in Java. The swap from above looks like this:
 
-```java
+```java editor
 int a = 5;
 int b = 9;
 int temp = a;

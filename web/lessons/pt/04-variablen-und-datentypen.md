@@ -161,7 +161,7 @@ lösung: l05-einkauf-loesung.visustruct
 
 Um estrutograma é um plano. Em **Java** torna-se um programa que o computador executa. As tuas compras do exercício ficam assim:
 
-```java
+```java editor
 int quantidade = 3;
 double preco = 2.5;
 double precoTotal = quantidade * preco;

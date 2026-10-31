@@ -108,7 +108,7 @@ lösung: l07-betrag-loesung.visustruct
 
 So sieht die Altersprüfung vom Anfang dieser Lektion in Java aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

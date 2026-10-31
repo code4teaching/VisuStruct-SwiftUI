@@ -161,7 +161,7 @@ lösung: l05-einkauf-loesung.visustruct
 
 Ein Struktogramm ist ein Plan. In **Java** wird daraus ein Programm, das der Computer ausführt. Dein Einkauf aus der Übung sieht so aus:
 
-```java
+```java editor
 int anzahl = 3;
 double preis = 2.5;
 double gesamtPreis = anzahl * preis;

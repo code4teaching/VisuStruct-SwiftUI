@@ -161,7 +161,7 @@ lösung: l05-einkauf-loesung.visustruct
 
 A structure chart is a plan. In **Java** it becomes a program that the computer runs. Your shopping from the exercise looks like this:
 
-```java
+```java editor
 int count = 3;
 double price = 2.5;
 double totalPrice = count * price;

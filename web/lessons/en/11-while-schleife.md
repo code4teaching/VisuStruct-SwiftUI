@@ -147,7 +147,7 @@ lösung: l16-countdown-loesung.visustruct
 
 The countdown from the start of this lesson looks like this in Java:
 
-```java
+```java editor
 int number = 3;
 while (number > 0) {
     System.out.println(number);

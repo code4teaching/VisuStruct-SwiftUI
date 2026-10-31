@@ -87,7 +87,7 @@ Genau dafür wurde das Struktogramm erfunden. Shneiderman fragte sich: Wenn man 
 
 Das Zählen der geraden Zahlen sieht in Java so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

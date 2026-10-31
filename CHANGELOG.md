@@ -8,6 +8,7 @@ The format is loosely inspired by Keep a Changelog.
 
 ### Changed
 
+- **Web 0.14.15, „Im Editor öffnen“ under the Java examples in lessons 4–19:** every runnable Java example in the lesson text of lessons 4–19 now has the button „Im Editor öffnen“ (like the Mia example in lesson 4), so students can run and change it in Programmieren. Not in lesson 18, whose examples are a method and its call on their own, and not in cloze texts or games (de/en/pt).
 - **Web 0.13.37, no coffee cup and a better camel in lesson 4:** the coffee cup drawing in step „Jetzt in Java“ is removed again (Holger's decision). The camel for camelCase is redrawn to look more like a camel: long legs with knees and broad feet, U-shaped neck, longer snout, tail with tuft.
 - **Web 0.13.34, camel for camelCase and coffee cup for Java in lesson 4:** below the Angeberwissen on CamelCase a drawing of a two-humped camel whose humps sit under the capitals of `preisMitSteuer` (en `priceWithTax`, pt `precoComIva`), with a caption (de/en/pt). Step „Jetzt in Java“ shows a steaming coffee cup with `{ }` on it (own drawing, deliberately not the Java logo, which is an Oracle trademark), caption: „Java“ is American slang for coffee (de/en/pt). Own SVG drawings, no third-party licence.
 - **Web 0.13.33, clearer competence in lesson 6:** „vor der Ausgabe in einer Variablen rechnen“ now reads „ein Ergebnis zuerst ausrechnen und in einer Variablen speichern, dann diese Variable ausgeben, z. B. `int summe = a + b`, danach `output: summe`“, in the competences step and the „Ich kann“ checklist (de/en/pt).

@@ -120,7 +120,7 @@ lösung: kino-einmaleins-loesung.visustruct
 
 A sala de cinema fica assim em Java:
 
-```java
+```java editor
 boolean[][] lugares = new boolean[3][5];
 lugares[0][2] = true;
 lugares[1][1] = true;
