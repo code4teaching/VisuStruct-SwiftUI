@@ -1231,11 +1231,16 @@ export class App {
       },
       reveal: (areas) => this.revealAreas(areas),
       openExercise: (ex: Exercise, doc: VSDocument) => {
-        // Die Übung sagt, wo man sie löst (`bereich:`), und genau diese Bereiche gehen auf.
-        // Geschlossen wird nichts, so wächst das Struktogramm beim Tippen sichtbar mit.
+        // Die Übung sagt, wo man sie löst (`bereich:`). Holger 2026-10-31: Lektionen bleiben offen, sonst ist nur
+        // dieser Bereich zu sehen (bei `beide` Struktogramm und Code); Dateien, mBot2 live usw. gehen zu.
         const area = exerciseArea(ex)
         if (area !== 'code') this.setEditorHidden(false)
         if (area !== 'struktogramm') this.openJavaColumn()
+        if (this.coding) this.setCoding(false)
+        if (this.shell.classList.contains('files-open')) this.setFilesOpen(false)
+        if (this.previewOpen) this.setPreviewOpen(false)
+        if (area === 'struktogramm' && this.liveCoding) this.setLiveCoding(false)
+        if (area === 'code' && !this.editorHidden) this.setEditorHidden(true)
         const existing = this.tabs.findIndex((tab) => tab.exerciseId === ex.id)
         if (existing >= 0) {
           this.switchTab(existing)
