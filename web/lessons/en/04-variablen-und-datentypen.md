@@ -63,7 +63,7 @@ There are two variables here. If you later write `NUMBER`, Java finds no variabl
 ::: übung l04-gross-klein
 titel: Three names
 auftrag: Ludwig created two variables: `number` with the value 4 and `Number` with the value 6. The structure chart should multiply them and output **Result: 24**. But it doesn’t run.
-  Open the exercise, click Check and read the error message. Fix the statement and click Check again.
+  Click “Open in editor”, then Check, and read the error message. Fix the statement and click Check again.
 start: l04-gross-klein-start.visustruct
 test: - -> Result: 24
 braucht: anweisung

@@ -63,7 +63,7 @@ Aqui há duas variáveis. Se mais tarde escreveres `NUMERO`, o Java não encontr
 ::: übung l04-gross-klein
 titel: Três nomes
 auftrag: O Ludwig criou duas variáveis: `numero` com o valor 4 e `Numero` com o valor 6. O estrutograma deve multiplicá-las e mostrar **Resultado: 24**. Mas não corre.
-  Abre o exercício, carrega em Verificar e lê a mensagem de erro. Corrige a instrução e carrega outra vez em Verificar.
+  Carrega em “Abrir no editor”, depois em Verificar, e lê a mensagem de erro. Corrige a instrução e carrega outra vez em Verificar.
 start: l04-gross-klein-start.visustruct
 test: - -> Resultado: 24
 braucht: anweisung

@@ -63,7 +63,7 @@ Hier gibt es zwei Variablen. Schreibst du später `ZAHL`, findet Java keine Vari
 ::: übung l04-gross-klein
 titel: Drei Namen
 auftrag: Ludwig hat zwei Variablen angelegt: `zahl` mit dem Wert 4 und `Zahl` mit dem Wert 6. Das Struktogramm soll beide malnehmen und **Ergebnis: 24** ausgeben. Es läuft aber nicht.
-  Öffne die Übung, klicke auf Prüfen und lies die Fehlermeldung. Repariere die Anweisung und klicke noch einmal auf Prüfen.
+  Klicke auf „Im Editor öffnen“, dann auf Prüfen, und lies die Fehlermeldung. Repariere die Anweisung und klicke noch einmal auf Prüfen.
 start: l04-gross-klein-start.visustruct
 test: - -> Ergebnis: 24
 braucht: anweisung
