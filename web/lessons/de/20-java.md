@@ -305,6 +305,7 @@ Im Struktogramm gibt es kein `else if`. Dort steckt eine zweite Verzweigung im N
 
 ::: übung l17-ticket
 titel: Ticketpreis
+bereich: beide
 auftrag: Frage nach dem Alter als ganze Zahl und baue den Java-Code oben als Struktogramm nach.
 test: 5 -> Eintritt frei
 test: 6 -> Kinderticket: 4 Euro

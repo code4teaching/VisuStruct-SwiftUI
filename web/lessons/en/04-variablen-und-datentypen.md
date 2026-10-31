@@ -226,6 +226,7 @@ You type Java in the [Code](#zeige-codelive) area. The structure chart builds it
 
 ::: übung l04-java-steckbrief
 titel: Profile in Java
+bereich: beide
 code: java
 auftrag: Write a profile of Ludwig the billy goat. Create three variables: the name **Ludwig**, the age **7** and the height **1.2**. Then output these two lines:
   **Ludwig is 7 years old.** and **Height: 1.2 m**

@@ -226,6 +226,7 @@ Escreves Java na área [Código](#zeige-codelive). O estrutograma constrói-se s
 
 ::: übung l04-java-steckbrief
 titel: Ficha em Java
+bereich: beide
 code: java
 auftrag: Escreve a ficha do Ludwig, o bode. Cria três variáveis: o nome **Ludwig**, a idade **7** e a altura **1.2**. Depois mostra estas duas linhas:
   **Ludwig tem 7 anos.** e **Altura: 1.2 m**

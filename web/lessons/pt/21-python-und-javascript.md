@@ -112,6 +112,7 @@ for i in range(0, limite + 1, 2):
 
 ::: übung l18-python
 titel: Números pares
+bereich: beide
 auftrag: Reconstrói o programa Python de cima como estrutograma com um ciclo for. Com o limite 7, mostra 0, 2, 4 e 6.
 test: 7 -> 0 | 2 | 4 | 6
 test: 4 -> 0 | 2 | 4
@@ -136,6 +137,7 @@ if (idade >= 18) {
 
 ::: übung l18-js
 titel: Votar a partir dos 18
+bereich: beide
 auftrag: Reconstrói o código JavaScript de cima como estrutograma. Depois testa na vista de código, com **JavaScript** e **Testar no navegador**, se o teu código mostra o mesmo que a simulação.
 test: 12 -> Espera mais 6 anos.
 test: 18 -> Podes votar.

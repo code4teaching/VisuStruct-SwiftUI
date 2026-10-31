@@ -112,6 +112,7 @@ for i in range(0, limit + 1, 2):
 
 ::: übung l18-python
 titel: Even numbers
+bereich: beide
 auftrag: Rebuild the Python program above as a structure chart with a for loop. With the limit 7 it outputs 0, 2, 4 and 6.
 test: 7 -> 0 | 2 | 4 | 6
 test: 4 -> 0 | 2 | 4
@@ -136,6 +137,7 @@ if (age >= 16) {
 
 ::: übung l18-js
 titel: Voting from 16
+bereich: beide
 auftrag: Rebuild the JavaScript code above as a structure chart. Then test in the code view with **JavaScript** and **Test in browser** whether your code outputs the same as the simulation.
 test: 12 -> Wait 4 more years.
 test: 16 -> You may vote.
