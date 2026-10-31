@@ -25,6 +25,16 @@ Du kennst Algorithmen aus dem Alltag: ein Kochrezept, eine Wegbeschreibung oder 
 Tee kochen als Struktogramm: Jeder Kasten ist ein Schritt.
 :::
 
+::: angeberwissen
+Määäh, wer hat das erste Programm geschrieben? Eine Frau, und zwar schon 1843, lange vor dem ersten Computer! **Ada Lovelace** beschrieb Schritt für Schritt, wie die *Analytical Engine* (Analytische Maschine) von Charles Babbage die sogenannten Bernoulli-Zahlen ausrechnen sollte. Das war ein echter Algorithmus für eine Maschine. Die Befehle sollten auf Lochkarten stehen (mehr dazu in Lektion 3). Gebaut wurde die Maschine allerdings nie.
+
+Ada hatte noch eine geniale Idee: Eine solche Maschine kann mehr als rechnen. Sie könnte auch mit Buchstaben, Zeichen oder sogar Musik arbeiten. Genau das machen Computer heute. Ihr zu Ehren heißt eine Programmiersprache **Ada**.
+:::
+
+::: bild ada-lovelace.jpg
+Ada Lovelace (1815–1852), Mathematikerin (Bild: Aquarell von Alfred Edward Chalon, um 1840, [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ada_Lovelace_portrait.jpg), gemeinfrei).
+:::
+
 ## So liest du ein Struktogramm
 
 Ein Struktogramm wird **von oben nach unten** gelesen. Jeder Kasten ist ein Schritt. Erst wenn ein Schritt fertig ist, kommt der nächste dran.
