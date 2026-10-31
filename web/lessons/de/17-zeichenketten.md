@@ -166,7 +166,7 @@ lösung: zk-woerter-loesung.visustruct
 
 Die Methoden in dieser Lektion sind schon Java. Ein ganzes Programm mit einem Text sieht so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

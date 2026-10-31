@@ -128,7 +128,7 @@ lösung: ss-absteigend-loesung.visustruct
 
 A pesquisa linear do exercício fica assim em Java:
 
-```java
+```java editor
 int[] cartas = {8, 4, 11, 4, 6};
 int procurada = 4;
 int posicao = -1;

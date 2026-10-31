@@ -109,7 +109,7 @@ lösung: l16-summe-loesung.visustruct
 
 The sum from 1 to n looks like this in Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

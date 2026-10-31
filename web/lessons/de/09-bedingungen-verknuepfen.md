@@ -186,7 +186,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 
 Das Jugendticket vom Anfang sieht in Java so aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

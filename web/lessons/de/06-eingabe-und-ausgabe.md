@@ -136,7 +136,7 @@ lösung: l06-mittelwert-loesung.visustruct
 
 So sieht das EVA-Beispiel vom Anfang in Java aus:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

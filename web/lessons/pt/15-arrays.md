@@ -155,7 +155,7 @@ lösung: l14-summe-max-loesung.visustruct
 
 Percorrer um array fica assim em Java:
 
-```java
+```java editor
 int[] numeros = {2, 4, 6, 8, 10};
 for (int i = 0; i < numeros.length; i++) {
     System.out.println(numeros[i]);

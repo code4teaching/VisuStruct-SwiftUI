@@ -92,7 +92,7 @@ Por isso, para “idade 18 ou mais” continuas a precisar da decisão. Não pod
 
 A máquina de bebidas fica assim em Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 

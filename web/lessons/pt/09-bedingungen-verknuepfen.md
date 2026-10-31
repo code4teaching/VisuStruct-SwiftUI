@@ -186,7 +186,7 @@ lösung: l08-schaltjahr-loesung.visustruct
 
 O bilhete jovem do início fica assim em Java:
 
-```java
+```java editor
 import java.util.Scanner;
 Scanner scanner = new Scanner(System.in);
 
