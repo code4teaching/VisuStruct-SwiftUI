@@ -50,6 +50,10 @@ Am Ende erscheint **Simulation beendet**. Geht etwas schief, bleibt die Simulati
 
 Beim **Schreibtischtest** spielst du selbst den Computer. Du gehst das Struktogramm mit Stift und Papier durch und schreibst nach jedem Schritt die Werte der Variablen auf. Am besten machst du eine Tabelle: eine Spalte für den Schritt, eine für jede Variable und eine für die Ausgabe.
 
+::: grafik l07-schreibtischtest-de.svg
+Ein Blatt Papier und ein Stift genügen: Du schreibst nach jedem Schritt die neuen Werte in eine neue Zeile.
+:::
+
 Für das Diagramm oben sieht die Tabelle so aus:
 
 | Schritt | a | b | hilf | Ausgabe |
