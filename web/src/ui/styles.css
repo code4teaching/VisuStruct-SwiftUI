@@ -2191,6 +2191,11 @@ button.danger-text:not(:disabled) {
 .livecode {
   border-top: 3px solid var(--area-code);
 }
+.diagram-title {
+  margin: 0;
+  font-size: 16px;
+  color: var(--area-editor);
+}
 .livecode-head h2,
 .live-rail span {
   color: var(--area-code);
