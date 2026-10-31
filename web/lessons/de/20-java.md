@@ -16,6 +16,7 @@ kurz: Alle Elemente in Java auf einen Blick, Code erzeugen, im Bereich Code Java
 - ein kurzes Java-Programm als Struktogramm nachbauen
 - im Bereich Code Java tippen und das entstehende Struktogramm lesen
 - ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen
+- an der roten Zeilennummer einen Syntaxfehler oder Laufzeitfehler finden
 - Haltepunkte setzen und ein Programm im Einzelschritt verfolgen
 :::
 
@@ -196,6 +197,10 @@ Oben im Bereich Code startet [▶︎ Ausführen](#zeige-ausfuehren) dein Program
 
 Die Grenze zwischen Code und Konsole kannst du mit der Maus nach oben oder unten ziehen.
 
+Geht etwas schief, wird die Zeilennummer rot. Bei einem Syntaxfehler ist die Stelle zusätzlich rot unterstrichen, und es steht z. B. **Zeile 2: Hier fehlt noch: ;** darunter. Dann startet ▶︎ das Programm gar nicht erst. Bricht das Programm beim Ausführen ab, ist es ein Laufzeitfehler, und die Konsole nennt die Zeile, z. B. **Zeile 3: Division durch null.** Die drei Fehlerarten kennst du aus der Lektion „Simulation und Schreibtischtest“.
+
+Weiß VisuStruct genau, was fehlt, steht am Ende der Zeile eine 💡. Fährst du mit der Maus darauf, siehst du den Vorschlag, z. B. **Vorschlag: import java.util.Scanner; einfügen**. Ein Klick übernimmt ihn. Lies trotzdem nach, was eingefügt wurde, damit du es beim nächsten Mal selbst weißt.
+
 > Der Bereich Code versteht die Java-Befehle, die es auch als Kasten im Struktogramm gibt. Eigene Klassen und Objekte kennt es noch nicht. Fenster mit Swing gehen trotzdem: Schalte dafür im Zahnrad **Echtes Java (mit Swing)** ein (Lektion „Dein erstes Fenster“).
 
 ::: angeberwissen
@@ -204,7 +209,7 @@ Profis nennen ein Programm, in dem man Code schreibt, ausführt und Fehler sucht
 
 ## Fehler suchen mit dem Debugger
 
-Manchmal läuft ein Programm, rechnet aber falsch. Dann hilft der **Debugger**: Er führt dein Programm langsam aus, und du schaust ihm dabei zu.
+Manchmal läuft ein Programm, rechnet aber falsch. Das ist ein Logikfehler. Dann hilft der **Debugger**: Er führt dein Programm langsam aus, und du schaust ihm dabei zu.
 
 - **Haltepunkt:** Klicke links auf eine Zeilennummer. Ein roter Punkt erscheint. [▶︎ Ausführen](#zeige-ausfuehren) hält vor dieser Zeile an. Ein zweiter Klick nimmt den Punkt wieder weg.
 - **Gelbe Zeile:** Sie wird als Nächstes ausgeführt. Im Struktogramm ist der passende Kasten markiert.
@@ -395,6 +400,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann ein kurzes Java-Programm als Struktogramm nachbauen. → Übung: Java als Struktogramm
 - Ich kann im Bereich Code Java tippen und das entstehende Struktogramm lesen. → Java direkt schreiben
 - Ich kann ein Programm mit ▶︎ ausführen und Ein- und Ausgaben in der Konsole nutzen. → Das Programm ausführen
+- Ich kann an der roten Zeilennummer einen Syntaxfehler oder Laufzeitfehler finden. → Das Programm ausführen
 - Ich kann Haltepunkte setzen und ein Programm im Einzelschritt verfolgen. → Fehler suchen mit dem Debugger
 :::
 
@@ -455,4 +461,11 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [x] C++ musst du für jedes System neu kompilieren, Java nicht.
 - [ ] Beide musst du nur einmal kompilieren.
 > C++ wird direkt zu Maschinencode für ein System. Java wird zu Bytecode, und den führt auf jedem System die JVM aus.
+
+? Die Zeilennummer 3 im Bereich Code ist rot. Was heißt das?
+→ Das Programm ausführen
+- [ ] In Zeile 3 ist ein Haltepunkt.
+- [x] In Zeile 3 steckt ein Fehler.
+- [ ] Zeile 3 wird als Nächstes ausgeführt.
+> Der Haltepunkt ist ein runder roter Punkt, die nächste Zeile ist gelb. Eine rote Zeilennummer zeigt einen Syntaxfehler oder einen Laufzeitfehler.
 :::
