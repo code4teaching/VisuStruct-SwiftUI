@@ -145,20 +145,6 @@ tipp: A condição é `pontos >= 50`. Num ramo fica `System.out.println("aprovad
 lösung: l08-java-bestanden-loesung.visustruct
 :::
 
-::: angeberwissen
-Se um ramo tiver só uma instrução, o Java até deixa tirar as chavetas. Nós nunca fazemos isso, e é por esta razão:
-
-```java
-if (idade >= 18)
-    System.out.println("És maior de idade.");
-    System.out.println("Podes ver o filme.");
-```
-
-Sem chavetas, só a primeira linha pertence ao if. A segunda é sempre executada, até para quem tem doze anos. A indentação engana, porque o Java não liga aos espaços.
-
-Foi exatamente um erro destes que estava escondido em iPhones e Macs em 2014, conhecido como **“goto fail”**. Na linguagem C, a linha `goto fail;` aparecia por engano duas vezes debaixo de um if sem chavetas. A segunda era sempre executada e saltava a verificação dos certificados de segurança. Numa rede Wi-Fi aberta, um atacante podia, por exemplo, fazer-se passar pelo teu banco. Mééé, as chavetas custam dois caracteres, uma falha de segurança custa muito mais.
-:::
-
 ## Preenche os espaços: par ou ímpar
 
 ::: lückentext
@@ -177,6 +163,20 @@ int numero = scanner.nextInt();
 }
 ```
 erklärung: `numero % 2` é o resto da divisão por 2. Se for 0, o número é par. Para comparar precisas de `==`, um `=` sozinho é uma atribuição. Os dois ramos ficam entre chavetas.
+:::
+
+::: angeberwissen
+Se um ramo tiver só uma instrução, o Java até deixa tirar as chavetas. Nós nunca fazemos isso, e é por esta razão:
+
+```java
+if (idade >= 18)
+    System.out.println("És maior de idade.");
+    System.out.println("Podes ver o filme.");
+```
+
+Sem chavetas, só a primeira linha pertence ao if. A segunda é sempre executada, até para quem tem doze anos. A indentação engana, porque o Java não liga aos espaços.
+
+Foi exatamente um erro destes que estava escondido em iPhones e Macs em 2014, conhecido como **“goto fail”**. Na linguagem C, a linha `goto fail;` aparecia por engano duas vezes debaixo de um if sem chavetas. A segunda era sempre executada e saltava a verificação dos certificados de segurança. Numa rede Wi-Fi aberta, um atacante podia, por exemplo, fazer-se passar pelo teu banco. Mééé, as chavetas custam dois caracteres, uma falha de segurança custa muito mais.
 :::
 
 ## Encontra o erro: entrada
