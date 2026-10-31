@@ -119,12 +119,16 @@ O teu ficheiro `Tabuada.java` é **código-fonte**: texto para pessoas. O proces
 2. A **JVM** (Java Virtual Machine, máquina virtual Java) lê o bytecode e, ao executá-lo, traduz-o em **código máquina**: instruções para o processador do teu computador.
 
 ::: grafik l20-jvm.svg
+Compilar uma vez: o mesmo bytecode corre em qualquer JVM.
+:::
 
 O bytecode existe só uma vez. Já a JVM existe para Windows, macOS, Linux e muitos outros sistemas. Por isso, o mesmo ficheiro `.class` corre em qualquer computador que tenha uma JVM instalada. A isto chama-se **independente da plataforma**. O lema é **“Write once, run anywhere”**: escrever uma vez, executar em qualquer lado.
 
 Compara com o **C++**: aí o compilador traduz o código-fonte diretamente em código máquina para um só processador e um só sistema operativo. O programa pronto só corre aí. Para Windows, macOS e Linux tens de o compilar de novo de cada vez.
 
 ::: grafik l20-cpp.svg
+O C++ é compilado para código máquina em separado para cada sistema.
+:::
 
 | | C++ | Java |
 |---|---|---|
@@ -144,6 +148,22 @@ Ao instalar o Java, encontras duas siglas:
 | **JDK** (Java Development Kit) | o JRE e ainda o compilador `javac` e outras ferramentas | escrever e compilar programas Java |
 
 Para programar precisas, portanto, do JDK. Hoje em dia normalmente só se descarrega o JDK, o JRE vem lá dentro. Para usar o VisuStruct no browser não precisas de instalar nada disto.
+
+::: angeberwissen
+Com um JDK podes fazer tudo isto tu próprio na consola, ou seja, no terminal ou na linha de comandos:
+
+```
+java -version
+javac Tabuada.java
+java Tabuada
+```
+
+- `java -version` mostra que versão do Java está instalada. Se aparecer uma mensagem de erro, ainda falta o Java.
+- `javac Tabuada.java` inicia o compilador. Depois tens dois ficheiros na pasta: o `Tabuada.java` com o teu código-fonte e o novo `Tabuada.class` com o bytecode.
+- `java Tabuada` inicia a JVM com o teu bytecode. Aqui escreves o nome da classe sem `.class`.
+
+Se `java -version` funcionar mas `javac -version` não, só tens um JRE instalado. Nesse caso falta-te o JDK.
+:::
 
 ::: angeberwissen
 Todos os ficheiros Java compilados (`.class`) começam com os mesmos quatro bytes, escritos em hexadecimal: `CA FE BA BE`. É assim que o computador reconhece que é Java. Foi James Gosling que inventou este “cafe babe”, a condizer com o café do nome.
