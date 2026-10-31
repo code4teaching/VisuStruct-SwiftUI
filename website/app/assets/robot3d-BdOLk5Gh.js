@@ -1,12 +1,4 @@
-<<<<<<< HEAD:website/app/assets/robot3d-DurEjQ1B.js
-<<<<<<<< HEAD:website/app/assets/robot3d-DVT67rC6.js
-var gl=Object.defineProperty;var _l=(i,t,e)=>t in i?gl(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e;var le=(i,t,e)=>_l(i,typeof t!="symbol"?t+"":t,e);import{C as rn,L as oo}from"./index-BzOyQMjP.js";/**
-========
-var gl=Object.defineProperty;var _l=(i,t,e)=>t in i?gl(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e;var le=(i,t,e)=>_l(i,typeof t!="symbol"?t+"":t,e);import{C as rn,L as oo}from"./index-D-WVwkMk.js";/**
->>>>>>>> 0a47d98 (Web 0.14.16: Groß- und Kleinschreibung, Übungen „Warum läuft das nicht?“, Glühbirne für Schreibweise):website/app/assets/robot3d-DurEjQ1B.js
-=======
-var gl=Object.defineProperty;var _l=(i,t,e)=>t in i?gl(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e;var le=(i,t,e)=>_l(i,typeof t!="symbol"?t+"":t,e);import{C as rn,L as oo}from"./index-Dqv4jIj-.js";/**
->>>>>>> 7f29cd8 (L4: Übung nennt den Knopf „Im Editor öffnen“):website/app/assets/robot3d-CO7LjswS.js
+var gl=Object.defineProperty;var _l=(i,t,e)=>t in i?gl(i,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):i[t]=e;var le=(i,t,e)=>_l(i,typeof t!="symbol"?t+"":t,e);import{C as rn,L as oo}from"./index-B9xg-vXD.js";/**
  * @license
  * Copyright 2010-2025 Three.js Authors
  * SPDX-License-Identifier: MIT
