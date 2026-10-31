@@ -17,6 +17,8 @@ struct DiagramSheetTab: Identifiable {
     var linkedFileDisplayName: String? = nil
     /// Encodiertes Dokument zuletzt als „sauber“ betrachtet (nach Öffnen/Speichern) — für den Punkt wie in VS Code.
     var savedDocumentBaseline: Data
+    /// Übung aus dem Lernbereich, die in diesem Reiter bearbeitet wird (Prüfen, Fortschritt).
+    var exerciseID: String? = nil
 
     static func makeNew(serial: Int, id: UUID = UUID(), language: AppLanguage) -> DiagramSheetTab {
         let title = String(

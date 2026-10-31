@@ -34,6 +34,10 @@ struct DiagramMainEditorToolbar: ToolbarContent {
     let onExportPDF: () -> Void
     /// Nur solange der Kurs angeboten wird (`CoursePurchaseGate.isOffered`); sonst `nil` und kein Eintrag.
     let onShowCourse: (() -> Void)?
+    /// Lernbereich ein- und ausblenden; `nil` solange der Kurs nicht angeboten wird.
+    let onToggleLearn: (() -> Void)?
+    let learnTitle: String
+    let isLearnShown: Bool
     let onShowAbout: () -> Void
 
     let onKeyboardDismiss: () -> Void
@@ -66,6 +70,13 @@ struct DiagramMainEditorToolbar: ToolbarContent {
                 .keyboardShortcut("z", modifiers: [.command, .shift])
         }
         ToolbarItemGroup(placement: .topBarTrailing) {
+            if let onToggleLearn {
+                Button(action: onToggleLearn) {
+                    Label(learnTitle, systemImage: isLearnShown ? "graduationcap.fill" : "graduationcap")
+                }
+                .help(learnTitle)
+                .accessibilityLabel(learnTitle)
+            }
             Button(action: onSave) {
                 Label(lang.tr("menu_save"), systemImage: "arrow.down.doc")
                     .foregroundStyle(isSimulationMode ? .tertiary : .primary)

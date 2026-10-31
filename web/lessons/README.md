@@ -1,7 +1,8 @@
 # Lektionen und Aufgaben
 
-Alles in diesem Ordner erscheint im Lernbereich der Web-App. Nach einer Änderung `npm test` (prüft alle Dateien) und
-`npm run build:site` ausführen.
+Alles in diesem Ordner erscheint im Lernbereich der Web-App und der App. Nach einer Änderung `npm test` (prüft alle Dateien),
+`npm run build:site` und `npm run build:course` ausführen (Letzteres schreibt den Kurs der App nach
+`VisuStruct-iOS/VisuStructXcodeOpen/VisuStruct/Course/Content`; die CI prüft, dass er aktuell ist).
 
 ```
 lessons/
