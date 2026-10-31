@@ -65,6 +65,20 @@ Depois compara a tua tabela com a simulação. Os valores em **Variáveis** coin
 
 > Um teste de secretária é especialmente útil nos testes escritos. Aí não tens computador, mas mesmo assim podes mostrar o que o teu estrutograma faz.
 
+::: angeberwissen
+Antigamente, “computador” era uma profissão: pessoas que faziam contas com lápis, papel e máquina de calcular. Uma das melhores foi a matemática Katherine Johnson, na NASA. Ela calculava trajetórias de cápsulas espaciais e, mais tarde, também do voo da Apollo 11 até à Lua.
+
+Em 1962, John Glenn ia ser o primeiro americano a dar a volta à Terra em órbita. A trajetória tinha sido calculada por um novo computador da IBM. Glenn não confiava totalmente na máquina e disse: “Chamem a rapariga para verificar os números. Se ela disser que estão certos, eu vou.” Katherine Johnson refez todas as contas à mão, um verdadeiro teste de secretária. Os números estavam certos, e Glenn voou.
+
+Katherine Johnson era negra e, nessa altura, no estado norte-americano da Virgínia, havia leis que separavam pessoas negras e brancas. No filme “Elementos Secretos” (2016), ela tem de atravessar o recinto todo a correr sempre que precisa de ir à casa de banho. O filme exagera: as casas de banho separadas existiam mesmo, mas Katherine Johnson contou que simplesmente ignorava a placa.
+
+A sua colega Dorothy Vaughan percebeu cedo que os computadores da IBM iam ficar com o trabalho de cálculo. Aprendeu sozinha a linguagem de programação FORTRAN e ensinou-a a toda a sua equipa. Foi assim que os computadores humanos passaram a ser programadoras.
+:::
+
+::: bild katherine-johnson.jpg
+Katherine Johnson (1918–2020), matemática na NASA (foto: [NASA](https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg), domínio público).
+:::
+
 ## Encontrar erros
 
 Se um estrutograma mostrar algo errado, faz assim:
