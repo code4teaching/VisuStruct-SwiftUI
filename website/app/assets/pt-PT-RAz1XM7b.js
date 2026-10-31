@@ -96,6 +96,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_learn_actual" = "A tua saída";
 "web_learn_missing_input" = "O teu estrutograma pede mais entradas do que o previsto.";
 "web_learn_unused_input" = "O teu estrutograma não pede todas as entradas.";
+"web_learn_missing_line_break" = "Quase! Só falta uma quebra de linha. System.out.print continua a escrever na mesma linha, System.out.println começa depois uma linha nova.";
 "web_learn_too_many_steps" = "Parado após 100 000 passos. Há um ciclo que nunca termina?";
 "web_learn_score_fmt" = "%d de %d certas";
 "web_learn_cloze_hint" = "Escreve as palavras que faltam nos espaços e carrega em “Verificar”.";

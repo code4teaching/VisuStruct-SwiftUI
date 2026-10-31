@@ -98,6 +98,7 @@
 "web_learn_actual" = "Your output";
 "web_learn_missing_input" = "Your structure chart asks for more input than planned.";
 "web_learn_unused_input" = "Your structure chart does not ask for all inputs.";
+"web_learn_missing_line_break" = "Almost! Only a line break is missing. System.out.print keeps writing on the same line, System.out.println starts a new line afterwards.";
 "web_learn_too_many_steps" = "Stopped after 100,000 steps. Is a loop running forever?";
 "web_learn_score_fmt" = "%d of %d correct";
 "web_learn_cloze_hint" = "Type the missing words into the gaps and press “Check”.";

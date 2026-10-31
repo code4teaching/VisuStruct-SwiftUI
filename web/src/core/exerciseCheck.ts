@@ -125,6 +125,12 @@ export function sameOutput(actual: string[], expected: string[]): boolean {
   return actual.every((line, i) => normalize(line) === normalize(expected[i]))
 }
 
+/** Stimmt die Ausgabe bis auf fehlende Zeilenumbrüche, z. B. zweimal `print` statt `println`? */
+export function onlyLineBreaksMissing(actual: string[], expected: string[]): boolean {
+  const joined = (lines: string[]) => lines.join('').replace(/\s+/g, '')
+  return actual.length > 0 && actual.length < expected.length && joined(actual) === joined(expected)
+}
+
 function normalize(line: string): string {
   const t = line.trim().replace(/\s+/g, ' ')
   return /^-?\d+\.0+$/.test(t) ? t.replace(/\.0+$/, '') : t
