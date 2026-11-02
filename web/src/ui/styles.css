@@ -3089,6 +3089,18 @@ button.danger-text:not(:disabled) {
   border-radius: 8px;
   border: 1px solid var(--border);
 }
+.learn-animation {
+  background: #fff;
+  overflow: hidden;
+}
+.learn-animation > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.learn-replay {
+  justify-self: center;
+}
 .learn-graphic-toggle {
   display: block;
   width: 100%;

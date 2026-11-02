@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="fz-svg" viewBox="28 0 304 216" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <style>
+    .fz-svg text { white-space: pre; }
+    .fz-svg .fz-mono { font-family: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 15px; }
+    @keyframes fz-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fz-out { from { opacity: 1; } to { opacity: 0; } }
+    .fz-svg .fz-pa, .fz-svg .fz-pb, .fz-svg .fz-pc, .fz-svg .fz-for, .fz-svg .fz-semi, .fz-svg .fz-top { opacity: 0; }
+    .fz-play .fz-wkey { animation: fz-out .4s ease 2.9s both; }
+    .fz-play .fz-while { animation: fz-out .6s ease 4.2s both; }
+    .fz-play .fz-for { animation: fz-in .6s ease 4.2s both; }
+    .fz-play .fz-semi { animation: fz-in .3s ease 4.8s both; }
+    .fz-play .fz-top { animation: fz-in .4s ease 5.2s both; }
+    @keyframes fz-ma { from { transform: translate(0,0); } to { transform: translate(36.1px,0.0px); } }
+    @keyframes fz-mb { from { transform: translate(0,0); } to { transform: translate(81.4px,-36.0px); } }
+    @keyframes fz-mc { from { transform: translate(0,0); } to { transform: translate(187.7px,-108.0px); } }
+    @keyframes fz-mo { from { transform: translate(0,0); } to { transform: translate(0.0px,-36.0px); } }
+    .fz-play .fz-mo { animation: fz-mo 1.2s ease-in-out 3s both; }
+    @keyframes fz-ca { from { fill: #1c1c1e; } to { fill: #0a66d6; } }
+    .fz-play .fz-ma { animation: fz-ma 1.2s ease-in-out 3s both, fz-ca .3s ease 0.4s both; }
+    .fz-play .fz-pa { animation: fz-in .3s ease 0.4s both, fz-out .3s ease 2.8s forwards; }
+    @keyframes fz-cb { from { fill: #1c1c1e; } to { fill: #c2410c; } }
+    .fz-play .fz-mb { animation: fz-mb 1.2s ease-in-out 3s both, fz-cb .3s ease 1.2s both; }
+    .fz-play .fz-pb { animation: fz-in .3s ease 1.2s both, fz-out .3s ease 2.8s forwards; }
+    @keyframes fz-cc { from { fill: #1c1c1e; } to { fill: #0f7b6c; } }
+    .fz-play .fz-mc { animation: fz-mc 1.2s ease-in-out 3s both, fz-cc .3s ease 2.0s both; }
+    .fz-play .fz-pc { animation: fz-in .3s ease 2.0s both, fz-out .3s ease 2.8s forwards; }
+    @media (prefers-reduced-motion: reduce) { .fz-play * { animation-duration: 1ms !important; animation-delay: 0s !important; } }
+  </style>
+  <rect x="28" width="304" height="216" fill="#ffffff"/>
+  <g class="fz-while"><rect x="40" y="60" width="280" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/><rect x="40" y="96" width="280" height="108" fill="#fdebf4" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="132" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="168" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/></g>
+  <g class="fz-for"><rect x="40" y="60" width="280" height="72" fill="#fdebf4" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="96" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/></g>
+  <text class="fz-mono fz-wkey" x="56" y="119" font-weight="700">while</text>
+  <text class="fz-mono fz-for" x="56" y="83" font-weight="700">for</text>
+  <text class="fz-mono fz-semi" x="173.4" y="83">;</text>
+  <text class="fz-mono fz-semi" x="245.6" y="83">;</text>
+  <text class="fz-mono fz-ma" x="56" y="83" fill="#1c1c1e">int i = 1</text>
+  <text class="fz-mono fz-mb" x="110" y="119" fill="#1c1c1e">i &lt;= 5</text>
+  <text class="fz-mono fz-mc" x="76" y="191" fill="#1c1c1e">i++</text>
+  <text class="fz-mono fz-mo" x="76" y="155" fill="#1c1c1e"><tspan font-weight="700">output:</tspan> i</text>
+  <g class="fz-pa"><rect x="250" y="68" width="62" height="20" rx="10" fill="#0a66d6"/><text x="281" y="82" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Início</text></g>
+  <g class="fz-pb"><rect x="235" y="104" width="77" height="20" rx="10" fill="#c2410c"/><text x="274" y="118" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Condição</text></g>
+  <g class="fz-pc"><rect x="257" y="176" width="55" height="20" rx="10" fill="#0f7b6c"/><text x="284" y="190" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Passo</text></g>
+  <g class="fz-top"><path d="M133 50V64M219 28V64M277 50V64" stroke="#8e8e93" stroke-width="1.5"/><g class=""><rect x="102" y="32" width="62" height="20" rx="10" fill="#0a66d6"/><text x="133" y="46" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Início</text></g><g class=""><rect x="180" y="10" width="77" height="20" rx="10" fill="#c2410c"/><text x="219" y="24" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Condição</text></g><g class=""><rect x="250" y="32" width="55" height="20" rx="10" fill="#0f7b6c"/><text x="277" y="46" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Passo</text></g></g>
+</svg>

@@ -17,6 +17,10 @@ kurz: Contar um número fixo de iterações com Início, Condição e Passo.
 
 No ciclo while já foste contando: um valor inicial antes do ciclo, uma condição na cabeça, uma alteração no interior. O **ciclo for** junta estas três partes na cabeça. Assim vês num relance como ele conta.
 
+::: grafik l12-while-zu-for.svg animiert
+O ciclo while torna-se um ciclo for: o início, a condição e o passo juntam-se na cabeça.
+:::
+
 Quando clicas num ciclo for, ele tem três campos à direita:
 
 - **Início:** `int i = 1` cria a variável contadora.

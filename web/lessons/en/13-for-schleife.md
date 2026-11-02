@@ -17,6 +17,10 @@ kurz: Count a fixed number of passes with Init, Condition and Step.
 
 In the while loop you already counted along: a start value before the loop, a condition in the head, a change inside. The **for loop** puts these three parts together in the head. That way you see at a glance how it counts.
 
+::: grafik l12-while-zu-for.svg animiert
+The while loop becomes a for loop: init, condition and step move together into the head.
+:::
+
 When you click a for loop, it has three fields on the right:
 
 - **Init:** `int i = 1` creates the counter variable.

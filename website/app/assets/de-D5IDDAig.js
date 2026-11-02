@@ -72,6 +72,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_learn_solve_in_code" = "Löse diese Übung im %@.";
 "web_learn_solve_in_both" = "Löse diese Übung im %1$@ und im %2$@.";
 "web_learn_open_in_editor" = "Im Editor öffnen";
+"web_learn_replay" = "Noch einmal abspielen";
 "web_learn_graphic_labels" = "👆 Klick aufs Bild: Beschriftung ein oder aus";
 "web_learn_check" = "Prüfen";
 "web_learn_hint" = "Tipp";

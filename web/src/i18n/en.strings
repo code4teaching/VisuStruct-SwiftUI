@@ -72,6 +72,7 @@
 "web_learn_solve_in_code" = "Solve this exercise in the %@ area.";
 "web_learn_solve_in_both" = "Solve this exercise in the %1$@ and %2$@ areas.";
 "web_learn_open_in_editor" = "Open in editor";
+"web_learn_replay" = "Play again";
 "web_learn_graphic_labels" = "👆 Click the picture to show or hide the labels";
 "web_learn_check" = "Check";
 "web_learn_hint" = "Hint";
