@@ -413,8 +413,15 @@ export class LayoutEngine {
       totalW += colW
     })
 
-    // Zweiarmige Verzweigung: beide Spalten gleich breit.
-    if (e.type === ElementType.verzweigung && colCount === 2 && columnFrames.length === 2) {
+    // Zweiarmige Verzweigung: beide Spalten gleich breit. Nicht, wenn eine Spalte selbst eine
+    // Verzweigung oder Fallauswahl enthält: Sonst verdoppelt sich die Breite mit jeder Ebene
+    // (verschachtelte else-Ketten werden unlesbar breit).
+    if (
+      e.type === ElementType.verzweigung &&
+      colCount === 2 &&
+      columnFrames.length === 2 &&
+      !cases.some((c) => containsMultiway(c.elements))
+    ) {
       const target = Math.max(columnFrames[0].width, columnFrames[1].width)
       const xLeft = x
       const xRight = x + target
@@ -478,6 +485,16 @@ export class LayoutEngine {
     node.children = columnChildren.flat()
     return node
   }
+}
+
+/** Steckt irgendwo (auch in Schleifen) eine Verzweigung oder Fallauswahl? */
+function containsMultiway(elements: VSElement[]): boolean {
+  return elements.some(
+    (el) =>
+      isMultiType(el.type) ||
+      containsMultiway(el.loopBody ?? []) ||
+      (el.cases ?? []).some((c) => containsMultiway(c.elements)),
+  )
 }
 
 function shiftDescendantsY(node: LayoutNode, delta: number): LayoutNode {

@@ -1314,7 +1314,11 @@ export class App {
         if (!image) return undefined
         // Kleine Diagramme nicht über ihre natürliche Größe hinaus vergrößern.
         const width = image.svg.getAttribute('width')
-        if (width) image.svg.style.maxWidth = `${width}px`
+        if (width) {
+          image.svg.style.maxWidth = `${width}px`
+          // Breite Diagramme nicht bis zur Unlesbarkeit verkleinern: lieber seitlich scrollen.
+          image.svg.style.minWidth = `${Math.round(Number(width) * 0.6)}px`
+        }
         image.svg.removeAttribute('width')
         image.svg.removeAttribute('height')
         return image.svg
