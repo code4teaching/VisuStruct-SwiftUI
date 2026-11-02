@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ 해체 성공! 오류를 찾았어요.";
 "web_game_boom_time" = "💥 펑! 시간이 다 됐어요.";
 "web_game_boom_wrong" = "💥 펑! 틀린 줄이었어요.";
+"web_game_boom_part" = "💥 펑! 줄은 맞지만, 오류는 다른 부분에 있어요.";
+"web_game_boom_wrong_part" = "💥 펑! 오류는 다른 줄에 있어요.";
+"web_game_bomb_parts_hint" = "틀린 부분을 정확히 눌러 보세요.";
 "web_game_fix" = "올바른 줄:";
 "web_game_order_hint" = "올바른 순서대로 단계를 눌러 보세요.";
 "web_debug_step" = "한 단계";

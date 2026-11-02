@@ -202,7 +202,7 @@ lösung: l13-java-laeuft-nicht-loesung.visustruct
 
 ::: spiel bombe
 titel: Game: Defuse the bomb
-intro: Every program hides **exactly one mistake**, and the bomb is ticking. Read what the program should do and tap the wrong line before time runs out. Eight rounds, 25 seconds each.
+intro: Every program hides **exactly one mistake**, and the bomb is ticking. Read what the program should do and tap the wrong line before time runs out. If the parts of a line have a border, tap exactly the wrong part, for example just `i++`. Eight rounds, 25 seconds each.
 zeit: 25
 
 runde:
@@ -229,6 +229,7 @@ runde:
     }
 frage: Should count backwards from 10 to 1.
 fehler: 1
+stelle: i++
 besser: for (int i = 10; i >= 1; i--) {
 > With `i++`, `i` keeps growing and the condition `i >= 1` stays true: an endless loop. To count backwards, use `i--`.
 
@@ -240,6 +241,7 @@ runde:
     System.out.println(sum);
 frage: Should output the sum 1 + 2 + 3 + 4 = 10.
 fehler: 3
+stelle: i
 besser: sum = sum + i;
 > `sum = i` overwrites the sum in every pass. In the end it only holds 4.
 
@@ -249,6 +251,7 @@ runde:
     }
 frage: Should output Baaa exactly five times.
 fehler: 1
+stelle: i <= 5
 besser: for (int i = 0; i < 5; i++) {
 > From 0 up to and including 5 there are six passes. If you start at 0, use `<`.
 
@@ -258,6 +261,7 @@ runde:
     }
 frage: Should output 1, 2 and 3.
 fehler: 2
+stelle: system.out.println
 besser: System.out.println(i);
 > Java tells upper and lower case apart: `System` is written with a capital S.
 
@@ -268,6 +272,7 @@ runde:
     }
 frage: Should output the 7 times table: 7 x 1 = 7, 7 x 2 = 14 and so on.
 fehler: 3
+stelle: number * number
 besser: System.out.println(number + " x " + i + " = " + number * i);
 > `number * number` is always 49. It has to be `number * i`.
 
@@ -277,6 +282,7 @@ runde:
     }
 frage: Should output the even numbers 2, 4, 6, 8 and 10.
 fehler: 1
+stelle: i + 2
 besser: for (int i = 2; i <= 10; i = i + 2) {
 > `i + 2` only calculates and stores nothing. For `i` to really grow, you need `i = i + 2`.
 :::

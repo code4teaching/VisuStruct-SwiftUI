@@ -231,7 +231,7 @@ lösung: l15-java-laeuft-nicht-loesung.visustruct
 
 ::: spiel bombe
 titel: Spiel: Bombe entschärfen
-intro: In jedem Programm steckt **genau ein Fehler** rund um Arrays, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Sechs Runden, je 30 Sekunden.
+intro: In jedem Programm steckt **genau ein Fehler** rund um Arrays, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Sind die Teile einer Zeile umrandet, tippst du genau auf den falschen Teil. Sechs Runden, je 30 Sekunden.
 zeit: 30
 
 runde:
@@ -241,6 +241,7 @@ runde:
     }
 frage: Soll alle fünf Werte ausgeben.
 fehler: 2
+stelle: i <= zahlen.length
 besser: for (int i = 0; i < zahlen.length; i++) {
 > Mit `<=` läuft i bis 5. Das Fach `zahlen[5]` gibt es nicht.
 
@@ -249,6 +250,7 @@ runde:
     System.out.println(namen[1]);
 frage: Soll den ersten Namen ausgeben, also Ada.
 fehler: 2
+stelle: namen[1]
 besser: System.out.println(namen[0]);
 > Gezählt wird ab 0. `namen[1]` ist schon Ben.
 
@@ -257,6 +259,7 @@ runde:
     System.out.println(zahlen[zahlen.length]);
 frage: Soll den letzten Wert ausgeben, also 10.
 fehler: 2
+stelle: zahlen[zahlen.length]
 besser: System.out.println(zahlen[zahlen.length - 1]);
 > Der letzte Index ist immer eins weniger als die Länge.
 
@@ -269,6 +272,7 @@ runde:
     System.out.println(summe);
 frage: Soll die Summe 14 ausgeben.
 fehler: 4
+stelle: punkte[i]
 besser: summe = summe + punkte[i];
 > So überschreibt jeder Wert den vorigen, am Ende steht nur 2 in summe.
 
@@ -283,6 +287,7 @@ runde:
     System.out.println(max);
 frage: Soll das Maximum -2 ausgeben.
 fehler: 2
+stelle: 0
 besser: int max = punkte[0];
 > Keine der Zahlen ist größer als 0, also bliebe max bei 0. Das Maximum beginnt deshalb mit dem ersten Fach.
 
@@ -293,6 +298,7 @@ runde:
     }
 frage: Soll die Werte rückwärts ausgeben, von 10 bis 2.
 fehler: 2
+stelle: int i = zahlen.length
 besser: for (int i = zahlen.length - 1; i >= 0; i--) {
 > Rückwärts beginnt man beim letzten Index, und der ist `zahlen.length - 1`.
 :::

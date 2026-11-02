@@ -13,7 +13,7 @@ import { exerciseArea, parseBlocks, parseLesson, parseTest, type Block } from '.
 import { markdownToHTML } from '../src/learn/markdown'
 import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
 import { papFits, papLayout, parsePap } from '../src/learn/pap'
-import { parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
+import { bombParts, parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
@@ -355,6 +355,23 @@ describe('Bombe entschärfen', () => {
       }
     }
     expect(checked).toBeGreaterThanOrEqual(8)
+  })
+})
+
+describe('Bombe: Teile einer Zeile (stelle:)', () => {
+  const show = (line: string) => bombParts(line).map((s) => (s.part ? `[${s.text}]` : s.text)).join('')
+  it('teilt for-Kopf, Bedingung, Zuweisung und Aufruf', () => {
+    expect(show('    for (int i = 10; i >= 1; i++) {')).toBe('    for ([int i = 10]; [i >= 1]; [i++]) {')
+    expect(show('if (punkte[i] > max) {')).toBe('if ([punkte[i] > max]) {')
+    expect(show('summe = summe + i;')).toBe('[summe] = [summe + i];')
+    expect(show('System.out.println(zahl + " x " + i);')).toBe('[System.out.println]([zahl] + [" x "] + [i]);')
+    expect(show('for (int i = 1, i <= 5, i++) {')).toBe('[for (int i = 1, i <= 5, i++) {]')
+    expect(show('    }')).toBe('    [}]')
+  })
+  it('„stelle:“ muss ein Teil der falschen Zeile sein', () => {
+    const lines = (stelle: string) => ['titel: x', 'zeit: 20', 'runde:', '    for (int i = 0; i <= 5; i++) {', '    }', 'frage: ?', 'fehler: 1', `stelle: ${stelle}`, 'besser: for (int i = 0; i < 5; i++) {']
+    expect(parseRoundGame('bombe', lines('i <= 5'), 't.md').rounds[0].wrongPart).toBe('i <= 5')
+    expect(() => parseRoundGame('bombe', lines('<= 5'), 't.md')).toThrow(/kein Teil der Zeile 1/)
   })
 })
 

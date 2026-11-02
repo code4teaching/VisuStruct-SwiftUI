@@ -202,7 +202,7 @@ lösung: l13-java-laeuft-nicht-loesung.visustruct
 
 ::: spiel bombe
 titel: Spiel: Bombe entschärfen
-intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was das Programm tun soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Acht Runden, je 25 Sekunden.
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was das Programm tun soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Sind die Teile einer Zeile umrandet, tippst du genau auf den falschen Teil, zum Beispiel nur auf `i++`. Acht Runden, je 25 Sekunden.
 zeit: 25
 
 runde:
@@ -229,6 +229,7 @@ runde:
     }
 frage: Soll von 10 bis 1 rückwärts zählen.
 fehler: 1
+stelle: i++
 besser: for (int i = 10; i >= 1; i--) {
 > Mit `i++` wird `i` immer größer, die Bedingung `i >= 1` bleibt wahr: eine Endlosschleife. Rückwärts zählst du mit `i--`.
 
@@ -240,6 +241,7 @@ runde:
     System.out.println(summe);
 frage: Soll die Summe 1 + 2 + 3 + 4 = 10 ausgeben.
 fehler: 3
+stelle: i
 besser: summe = summe + i;
 > `summe = i` überschreibt die Summe in jedem Durchlauf. Am Ende steht dort nur 4.
 
@@ -249,6 +251,7 @@ runde:
     }
 frage: Soll genau fünfmal Määäh ausgeben.
 fehler: 1
+stelle: i <= 5
 besser: for (int i = 0; i < 5; i++) {
 > Von 0 bis einschließlich 5 sind es sechs Durchläufe. Wer bei 0 anfängt, nimmt `<`.
 
@@ -258,6 +261,7 @@ runde:
     }
 frage: Soll 1, 2 und 3 ausgeben.
 fehler: 2
+stelle: system.out.println
 besser: System.out.println(i);
 > Java unterscheidet Groß- und Kleinbuchstaben: `System` schreibt man mit großem S.
 
@@ -268,6 +272,7 @@ runde:
     }
 frage: Soll die Siebenerreihe ausgeben: 7 x 1 = 7, 7 x 2 = 14 und so weiter.
 fehler: 3
+stelle: zahl * zahl
 besser: System.out.println(zahl + " x " + i + " = " + zahl * i);
 > `zahl * zahl` ist immer 49. Gerechnet werden muss `zahl * i`.
 
@@ -277,6 +282,7 @@ runde:
     }
 frage: Soll die geraden Zahlen 2, 4, 6, 8 und 10 ausgeben.
 fehler: 1
+stelle: i + 2
 besser: for (int i = 2; i <= 10; i = i + 2) {
 > `i + 2` rechnet nur, speichert aber nichts. Damit `i` wirklich wächst, braucht es `i = i + 2`.
 :::
