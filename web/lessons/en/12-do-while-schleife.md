@@ -21,6 +21,10 @@ The **do-while loop** is a **post-test loop**. The condition is at the bottom, i
 2. Check the condition.
 3. If it is true, start again at 1. If it is false, the program continues below the loop.
 
+::: grafik l11-while-zu-do-while.svg animiert
+The while loop becomes a do-while loop: the condition moves from the head down into the foot, and the top now says `do`.
+:::
+
 ::: grafik l11-vergleich.svg
 On the left, the while loop checks first; on the right, the do-while loop runs first.
 :::

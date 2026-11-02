@@ -21,6 +21,10 @@ Die **Do-while-Schleife** ist **fußgesteuert**. Die Bedingung steht unten im Fu
 2. Die Bedingung prüfen.
 3. Ist sie wahr, wieder bei 1 anfangen. Ist sie falsch, geht es unter der Schleife weiter.
 
+::: grafik l11-while-zu-do-while.svg animiert
+Aus der While-Schleife wird eine Do-while-Schleife: Die Bedingung wandert vom Kopf nach unten in den Fuß, oben steht jetzt `do`.
+:::
+
 ::: grafik l11-vergleich.svg
 Links prüft die While-Schleife zuerst, rechts führt die Do-while-Schleife zuerst aus.
 :::

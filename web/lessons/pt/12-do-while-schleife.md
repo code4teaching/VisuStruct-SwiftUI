@@ -21,6 +21,10 @@ O **ciclo do-while** é um **ciclo pós-teste**. A condição fica em baixo, no 
 2. Verificar a condição.
 3. Se for verdadeira, recomeçar no 1. Se for falsa, o programa continua por baixo do ciclo.
 
+::: grafik l11-while-zu-do-while.svg animiert
+O ciclo while torna-se um ciclo do-while: a condição desce da cabeça para o pé, e em cima fica `do`.
+:::
+
 ::: grafik l11-vergleich.svg
 À esquerda, o ciclo while verifica primeiro; à direita, o ciclo do-while executa primeiro.
 :::

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="dw-svg" viewBox="28 20 304 180" font-family="system-ui, -apple-system, Segoe UI, Roboto, sans-serif" font-size="14" fill="#1c1c1e">
+  <style>
+    .dw-svg text { white-space: pre; }
+    .dw-svg .dw-mono { font-family: ui-monospace, Menlo, Consolas, "DejaVu Sans Mono", monospace; font-size: 15px; }
+    @keyframes dw-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes dw-out { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes dw-down { from { transform: translate(0,0); } to { transform: translate(0,108px); } }
+    @keyframes dw-col { from { fill: #1c1c1e; } to { fill: #c2410c; } }
+    .dw-svg .dw-pill, .dw-svg .dw-do, .dw-svg .dw-dof, .dw-svg .dw-chip { opacity: 0; }
+    .dw-play .dw-chip { animation: dw-in .3s ease 2.3s both, dw-out .3s ease 4.0s forwards; }
+    .dw-play .dw-pill { animation: dw-in .3s ease .6s both; }
+    .dw-play .dw-cond text.dw-c { animation: dw-col .3s ease .6s both; }
+    .dw-play .dw-cond { animation: dw-down 1.4s ease-in-out 2.5s both; }
+    .dw-play .dw-whf { animation: dw-out .6s ease 1.6s both; }
+    .dw-play .dw-dof { animation: dw-in .6s ease 1.6s both; }
+    .dw-play .dw-do { animation: dw-in .4s ease 4.0s both; }
+    @media (prefers-reduced-motion: reduce) { .dw-play * { animation-duration: 1ms !important; animation-delay: 0s !important; } }
+  </style>
+  <rect x="28" y="20" width="304" height="180" fill="#ffffff"/>
+  <g class="dw-whf"><rect x="40" y="40" width="280" height="108" fill="#fdebf4" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="76" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="112" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/></g>
+  <g class="dw-dof"><rect x="40" y="40" width="280" height="144" fill="#fdebf4" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="76" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/><rect x="60" y="112" width="260" height="36" fill="#fdf6e0" stroke="#1c1c1e" stroke-width="2"/></g>
+  <text class="dw-mono dw-do" x="56" y="63" font-weight="700">do</text>
+  <text class="dw-mono" x="76" y="99"><tspan font-weight="700">output:</tspan> i</text>
+  <text class="dw-mono" x="76" y="135">i++</text>
+  <g class="dw-cond"><rect x="48" y="44" width="264" height="28" rx="6" fill="#fff7fb" stroke="#c2410c" stroke-width="1.5" class="dw-chip"/><text class="dw-mono" x="56" y="63" font-weight="700">while</text><text class="dw-mono dw-c" x="110" y="63">i &lt; 5</text><g class="dw-pill"><rect x="227" y="48" width="85" height="20" rx="10" fill="#c2410c"/><text x="270" y="62" text-anchor="middle" font-size="12.5" font-weight="600" fill="#fff">Bedingung</text></g></g>
+</svg>
