@@ -70,6 +70,7 @@
 "web_learn_solve_in_code" = "Resolve este exercício na área %@.";
 "web_learn_solve_in_both" = "Resolve este exercício nas áreas %1$@ e %2$@.";
 "web_learn_open_in_editor" = "Abrir no editor";
+"web_learn_replay" = "Repetir animação";
 "web_learn_graphic_labels" = "👆 Clica na imagem para mostrar ou esconder as legendas";
 "web_learn_check" = "Verificar";
 "web_learn_hint" = "Dica";

@@ -21,8 +21,9 @@ export type Block =
   | { kind: 'quiz'; questions: QuizQuestion[] }
   | { kind: 'brag'; text: string; tip?: boolean }
   | { kind: 'images'; files: string[]; caption: string }
-  /** `labeled`: beschriftete Fassung, die ein Klick auf die Grafik ein- und ausblendet. */
-  | { kind: 'graphic'; file: string; labeled?: string; caption: string }
+  /** `labeled`: beschriftete Fassung, die ein Klick auf die Grafik ein- und ausblendet.
+   *  `animated` (`::: grafik datei.svg animiert`): SVG mit Animation, die einmal abläuft und sich wiederholen lässt. */
+  | { kind: 'graphic'; file: string; labeled?: string; animated?: boolean; caption: string }
   | { kind: 'game'; game: BoolGame }
   | { kind: 'roundGame'; game: RoundGame }
   | { kind: 'rescueGame'; game: RescueGame }
@@ -361,8 +362,9 @@ export function parseBlocks(body: string, file: string): Block[] {
       case 'grafik':
         if (!arg) throw new FormatError(`${file}: „::: grafik“ braucht einen Dateinamen.`)
         {
-          const [graphic, labeled] = arg.split(/\s+/)
-          blocks.push({ kind: 'graphic', file: graphic, ...(labeled ? { labeled } : {}), caption: inner.join(' ').trim() })
+          const [graphic, second] = arg.split(/\s+/)
+          const extra = second === 'animiert' ? { animated: true } : second ? { labeled: second } : {}
+          blocks.push({ kind: 'graphic', file: graphic, ...extra, caption: inner.join(' ').trim() })
         }
         break
       case 'angeberwissen':

@@ -452,7 +452,7 @@ export class LearnPanel {
       case 'images':
         return this.renderImages(block.files, block.caption)
       case 'graphic':
-        return this.renderGraphic(block.file, block.caption, block.labeled)
+        return block.animated ? this.renderAnimation(block.file, block.caption) : this.renderGraphic(block.file, block.caption, block.labeled)
       case 'game':
         return this.renderGame(block.game)
       case 'roundGame':
@@ -574,6 +574,44 @@ export class LearnPanel {
       })
       figure.append(toggle, h('p', { class: 'learn-graphic-hint' }, t('web_learn_graphic_labels')))
     } else if (src) figure.append(h('img', { class: 'learn-graphic', src, alt: '', loading: 'lazy' }))
+    if (caption) figure.append(html('figcaption', {}, inline(caption)))
+    return figure
+  }
+
+  /** Animierte Erklärgrafik: Das SVG kommt direkt in die Seite, damit sich die CSS-Animation neu starten lässt.
+   *  Sie startet, sobald die Grafik zu sehen ist; „Noch einmal abspielen“ spielt sie von vorn.
+   *  Die SVGs stammen aus `lessons/bilder` und benennen ihre Klassen mit eigenem Präfix (z. B. `fz-`).
+   *  Abspielen heißt: Klasse `<präfix>play` am Wurzelelement, also z. B. `fz-play` bei `class="fz-svg"`. */
+  private renderAnimation(file: string, caption: string): HTMLElement {
+    const figure = h('figure', { class: 'learn-figure' })
+    const src = image(file)
+    if (!src) return figure
+    const stage = h('div', { class: 'learn-graphic learn-animation' })
+    const replay = h('button', { class: 'learn-replay', type: 'button' }, `↻ ${t('web_learn_replay')}`)
+    let play = () => {}
+    fetch(src)
+      .then((r) => r.text())
+      .then((text) => {
+        stage.innerHTML = text
+        const svg = stage.querySelector('svg')
+        const root = svg?.getAttribute('class')?.match(/(\S+-)svg\b/)?.[1]
+        if (!svg || !root) return
+        play = () => {
+          svg.classList.remove(`${root}play`)
+          void svg.getBoundingClientRect()
+          svg.classList.add(`${root}play`)
+        }
+        if (typeof IntersectionObserver === 'undefined') return play()
+        const seen = new IntersectionObserver((entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return
+          seen.disconnect()
+          play()
+        }, { threshold: 0.6 })
+        seen.observe(stage)
+      })
+      .catch(() => stage.append(h('img', { src, alt: '' })))
+    replay.addEventListener('click', () => play())
+    figure.append(stage, replay)
     if (caption) figure.append(html('figcaption', {}, inline(caption)))
     return figure
   }

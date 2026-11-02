@@ -17,6 +17,10 @@ kurz: Mit Start, Bedingung und Schritt eine feste Anzahl von Durchläufen zähle
 
 In der While-Schleife hast du schon mitgezählt: Startwert vor der Schleife, Bedingung im Kopf, Veränderung im Inhalt. Die **For-Schleife** schreibt diese drei Teile zusammen in den Kopf. So siehst du auf einen Blick, wie gezählt wird.
 
+::: grafik l12-while-zu-for.svg animiert
+Aus der While-Schleife wird eine For-Schleife: Start, Bedingung und Schritt wandern zusammen in den Kopf.
+:::
+
 Wenn du eine For-Schleife anklickst, hat sie rechts drei Felder:
 
 - **Start:** `int i = 1` legt die Zählvariable an.
