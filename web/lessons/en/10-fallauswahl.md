@@ -39,13 +39,13 @@ The same machine as a switch. If choice has the value 2, only column 2 runs.
 
 ## Cases with text
 
-The cases do not have to be numbers. You can also choose by the content of a `String` variable. Then you write the text as the case name, for example `red`.
+The cases do not have to be numbers. You can also choose by the content of a `String` variable. Then you write the text in quotation marks as the case name, for example `"red"`. Just like in code, this shows that it is a text.
 
 ::: diagramm l09-ampel.visustruct
 A traffic light: depending on the colour typed in, a different message appears. In the simulation, also try a colour that does not exist.
 :::
 
-Upper and lower case matter: `Red` does not match the case `red`.
+Upper and lower case matter: `Red` does not match the case `"red"`.
 
 ## Exercise: Grade in words
 
@@ -75,7 +75,7 @@ test: 6, *, 7 -> 42
 test: 1, x, 2 -> Unknown operator
 braucht: fallauswahl
 tipp: First read in all three values. After that, a switch on the operator decides what is calculated.
-tipp: Before the switch, create `int result = 0`. In each case you calculate, for example, `result = a + b` and then output `result`. The case names are simply `+`, `-` and `*`.
+tipp: Before the switch, create `int result = 0`. In each case you calculate, for example, `result = a + b` and then output `result`. The case names are `"+"`, `"-"` and `"*"` in quotation marks, because the operator is a `String`.
 lösung: l09-rechner-loesung.visustruct
 :::
 
@@ -307,9 +307,9 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] Handling a colour such as red, yellow or green
 > “Above 30” is a range. For that you need a branch with a comparison.
 
-? At the traffic light you type `Red`, and the case is called `red`. What happens?
+? At the traffic light you type `Red`, and the case is called `"red"`. What happens?
 → How a switch is built
-- [ ] The case red runs.
+- [ ] The case `"red"` runs.
 - [x] The case default runs.
 - [ ] The simulation reports an error.
 > Upper and lower case matter. Red and red are different texts.

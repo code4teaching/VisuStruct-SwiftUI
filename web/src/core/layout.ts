@@ -163,8 +163,11 @@ export class LayoutEngine {
 
   private stretchMultiwayNodeToWidth(node: LayoutNode, newWidth: number): LayoutNode {
     const n = copy(node)
-    const oldW = n.frame.width
-    if (!(oldW > 0) || n.caseColumnFrames.length === 0) return n
+    if (n.caseColumnFrames.length === 0) return n
+    // Alte Breite aus den Spalten, nicht aus `frame.width`: Aufrufer setzen `frame.width` oft schon
+    // vorher auf die neue Breite. Sonst wäre scale = 1 und die Spalten blieben schmaler als der Kopf.
+    const oldW = n.caseColumnFrames.reduce((s, c) => s + c.width, 0)
+    if (!(oldW > 0)) return n
     const scale = newWidth / oldW
     n.frame.width = newWidth
     let xCursor = n.frame.x
