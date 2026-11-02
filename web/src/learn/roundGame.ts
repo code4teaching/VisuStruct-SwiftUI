@@ -8,7 +8,8 @@
  * - `layout` („Wo landet der Knopf?“): Die Antworten sind kleine Fenster (`grid: A B / C D`, …).
  * - `bombe` („Bombe entschärfen“): Code mit genau einer falschen Zeile und ein Countdown (`zeit:` Sekunden je
  *   Runde). Man tippt auf die Zeile; `fehler:` ist ihre Nummer (ab 1), `besser:` die richtige Zeile. Mit `daten: csv`
- *   ist der „Code“ eine CSV-Datei statt Java.
+ *   ist der „Code“ eine CSV-Datei statt Java. Mit `stelle:` (z. B. `stelle: i++`) tippt man in dieser Runde nicht
+ *   ganze Zeilen an, sondern Teile davon (siehe `bombParts`); `stelle:` ist der falsche Teil der Zeile `fehler:`.
  * - `frage`: Code (auch leer) und eine Frage mit Antworten. `\n` in einer Antwort beginnt eine neue Zeile; solche
  *   Antworten erscheinen als kleine Datei.
  * - `reihenfolge` („Wer ist dran?“): Die Antworten stehen in der richtigen Reihenfolge da (ohne `[x]`), das Spiel
@@ -48,6 +49,8 @@ export interface Round {
   /** Nur `bombe`: Nummer der falschen Zeile (ab 1) und die richtige Zeile. */
   wrongLine?: number
   fix?: string
+  /** Nur `bombe`: Der falsche Teil der Zeile (`stelle:`); dann tippt man Teile statt ganzer Zeilen an. */
+  wrongPart?: string
 }
 
 export interface RoundGame {
@@ -88,7 +91,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
     }
     inCode = false
     if (!line) continue
-    const key = /^(titel|intro|antworten|frage|runde|klicks|richtig|zeit|fehler|besser|daten):\s*(.*)$/.exec(line)
+    const key = /^(titel|intro|antworten|frage|runde|klicks|richtig|zeit|fehler|besser|daten|stelle):\s*(.*)$/.exec(line)
     if (key) {
       const [, name, value] = key
       if (name === 'runde') {
@@ -106,6 +109,7 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
       } else if (name === 'frage') current.question = value
       else if (name === 'fehler') current.wrongLine = Number(value)
       else if (name === 'besser') current.fix = value
+      else if (name === 'stelle') current.wrongPart = value.trim()
       else if (name === 'klicks') current.clicks = value.split(',').map((c) => c.trim()).filter(Boolean)
       else if (name === 'richtig') current.rightText = value
       else fail(`„${name}:“ gehört vor die erste Runde.`)
@@ -129,6 +133,12 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
       if (!round.fix) fail(`Runde ${i + 1}: „besser:“ fehlt.`)
       if (round.options.length) fail(`Runde ${i + 1}: Bei „bombe“ gibt es keine Antworten, man tippt auf die Zeile.`)
       if (!round.question) fail(`Runde ${i + 1}: keine Frage.`)
+      if (round.wrongPart !== undefined) {
+        if (data) fail(`Runde ${i + 1}: „stelle:“ geht nur bei Java, nicht bei CSV.`)
+        const parts = bombParts(lines[n! - 1]).filter((s) => s.part).map((s) => s.text)
+        if (parts.filter((p) => p === round.wrongPart).length !== 1)
+          fail(`Runde ${i + 1}: „stelle: ${round.wrongPart}“ ist kein Teil der Zeile ${n}. Teile: ${parts.map((p) => `„${p}“`).join(', ')}`)
+      }
       return
     }
     if (kind === 'reihenfolge') {
@@ -160,6 +170,119 @@ export function parseRoundGame(kind: RoundGameKind, lines: string[], file: strin
   })
   if (kind === 'bombe' && !(seconds && seconds > 0)) fail('„bombe“ braucht „zeit:“ mit den Sekunden je Runde.')
   return { kind, title, intro, ...(kind === 'bombe' ? { seconds, ...(data ? { data } : {}) } : {}), rounds }
+}
+
+// MARK: - Bombe: Teile einer Zeile
+
+/** Ein Stück einer Codezeile; `part` heißt: Man kann es antippen. */
+export interface LineSegment {
+  text: string
+  part: boolean
+}
+
+/** Stellen auf oberster Ebene (nicht in Klammern oder Strings), an denen `test` zutrifft. */
+function topLevel(text: string, test: (text: string, i: number) => boolean): number[] {
+  const hits: number[] = []
+  let depth = 0
+  let quote = ''
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]
+    if (quote) {
+      if (c === '\\') i++
+      else if (c === quote) quote = ''
+      continue
+    }
+    if (c === '"' || c === "'") quote = c
+    else if ('([{'.includes(c)) depth++
+    else if (')]}'.includes(c)) depth--
+    else if (depth === 0 && test(text, i)) hits.push(i)
+  }
+  return hits
+}
+
+/** Die passende schließende Klammer zur öffnenden an `open`, oder -1. */
+function closing(text: string, open: number): number {
+  let depth = 0
+  let quote = ''
+  for (let i = open; i < text.length; i++) {
+    const c = text[i]
+    if (quote) {
+      if (c === '\\') i++
+      else if (c === quote) quote = ''
+    } else if (c === '"' || c === "'") quote = c
+    else if ('([{'.includes(c)) depth++
+    else if (')]}'.includes(c) && --depth === 0) return i
+  }
+  return -1
+}
+
+/** Bereiche [von, bis) zwischen den Trennstellen, ohne Leerzeichen am Rand. */
+function pieces(text: string, offset: number, cuts: number[], width: number): [number, number][] {
+  const out: [number, number][] = []
+  let start = 0
+  for (const end of [...cuts, text.length]) {
+    let a = start
+    let b = end
+    while (a < b && /\s/.test(text[a])) a++
+    while (b > a && /\s/.test(text[b - 1])) b--
+    if (b > a) out.push([offset + a, offset + b])
+    start = end + width
+  }
+  return out
+}
+
+/** Ein `+` zwischen zwei Teilen (nicht `++` oder `+=`). */
+const isPlus = (t: string, i: number) => t[i] === '+' && t[i - 1] !== '+' && t[i + 1] !== '+' && t[i + 1] !== '='
+/** Ein einzelnes `=` (keine Vergleiche wie `==`, `<=`, `!=`). */
+const isAssign = (t: string, i: number) => t[i] === '=' && !'=<>!+-*/%'.includes(t[i - 1] ?? '') && t[i + 1] !== '='
+
+/**
+ * Teilt eine Java-Zeile für „Bombe entschärfen“ in antippbare Teile:
+ * - `for (start; bedingung; schritt) {` → die drei Felder,
+ * - `if (…)`, `while (…)` → die Bedingung,
+ * - `ziel = wert;` → Ziel und Wert,
+ * - `aufruf(a + b, c);` → Aufruf und die Argumente, Argumente zusätzlich an `+` geteilt,
+ * - sonst die ganze Zeile.
+ */
+export function bombParts(line: string): LineSegment[] {
+  const indent = /^\s*/.exec(line)![0]
+  const body = line.slice(indent.length).replace(/\s+$/, '')
+  const ranges = ((): [number, number][] => {
+    const head = /^(?:\}\s*)?(?:else\s+)?(for|if|while)\s*\(/.exec(body)
+    if (head) {
+      const open = head[0].length - 1
+      const close = closing(body, open)
+      if (close < 0) return []
+      const inner = body.slice(open + 1, close)
+      if (head[1] !== 'for') return pieces(inner, open + 1, [], 0)
+      const cuts = topLevel(inner, (t, i) => t[i] === ';')
+      return cuts.length === 2 ? pieces(inner, open + 1, cuts, 1) : []
+    }
+    if (!body.endsWith(';')) return []
+    const stmt = body.slice(0, -1)
+    const assign = topLevel(stmt, isAssign)
+    if (assign.length === 1) return pieces(stmt, 0, assign, 1)
+    if (assign.length) return []
+    const open = stmt.indexOf('(')
+    if (open <= 0 || closing(stmt, open) !== stmt.length - 1 || /^(new|return)\b/.test(stmt)) return []
+    const callee = pieces(stmt.slice(0, open), 0, [], 0)
+    const args = stmt.slice(open + 1, -1)
+    const argRanges = pieces(args, open + 1, topLevel(args, (t, i) => t[i] === ','), 1).flatMap(([a, b]) => {
+      const arg = stmt.slice(a, b)
+      return pieces(arg, a, topLevel(arg, isPlus), 1)
+    })
+    return [...callee, ...argRanges]
+  })()
+  const whole = ranges.length ? ranges : body ? [[0, body.length] as [number, number]] : []
+  const segments: LineSegment[] = indent ? [{ text: indent, part: false }] : []
+  let at = 0
+  for (const [a, b] of whole) {
+    if (a > at) segments.push({ text: body.slice(at, a), part: false })
+    segments.push({ text: body.slice(a, b), part: true })
+    at = b
+  }
+  if (at < body.length) segments.push({ text: body.slice(at), part: false })
+  return segments
 }
 
 // MARK: - Layout-Bilder

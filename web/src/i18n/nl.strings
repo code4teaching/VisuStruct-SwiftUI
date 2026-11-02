@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ Onschadelijk gemaakt! Je hebt de fout gevonden.";
 "web_game_boom_time" = "💥 Boem! De tijd is om.";
 "web_game_boom_wrong" = "💥 Boem! Dat was de verkeerde regel.";
+"web_game_boom_part" = "💥 Boem! Goede regel, maar de fout zit in een ander deel.";
+"web_game_boom_wrong_part" = "💥 Boem! De fout zit in een andere regel.";
+"web_game_bomb_parts_hint" = "Tik precies op het foute deel.";
 "web_game_fix" = "De juiste regel:";
 "web_game_order_hint" = "Tik de stappen in de juiste volgorde aan.";
 "web_debug_step" = "Stap";

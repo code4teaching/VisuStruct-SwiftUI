@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ Обезврежено! Ты нашёл ошибку.";
 "web_game_boom_time" = "💥 Бум! Время вышло.";
 "web_game_boom_wrong" = "💥 Бум! Это была не та строка.";
+"web_game_boom_part" = "💥 Бум! Строка верная, но ошибка в другой её части.";
+"web_game_boom_wrong_part" = "💥 Бум! Ошибка в другой строке.";
+"web_game_bomb_parts_hint" = "Нажми точно на неправильную часть.";
 "web_game_fix" = "Правильная строка:";
 "web_game_order_hint" = "Нажимай на шаги в правильном порядке.";
 "web_debug_step" = "Шаг";

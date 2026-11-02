@@ -211,6 +211,11 @@ besser: System.out.println(i);
 `fehler:` ist die Nummer der falschen Zeile (ab 1), `besser:` die richtige Zeile. Der Test setzt sie ein und prüft, dass
 Java dann keinen Fehler mehr meldet.
 
+Mit `stelle:` (nach `fehler:`) tippt man in dieser Runde nicht ganze Zeilen an, sondern Teile davon: die drei Felder
+einer `for`-Schleife, die Bedingung von `if`/`while`, Ziel und Wert einer Zuweisung, Aufruf und Argumente (an `+`
+geteilt). `stelle:` ist genau der falsche Teil, z. B. `stelle: i++`. Ist es kein Teil der Zeile, nennt die Fehlermeldung
+die möglichen Teile. Fehler wie ein fehlendes `;` bleiben ohne `stelle:`.
+
 Mit `daten: csv` (vor der ersten Runde) ist der Code einer Bombe eine CSV-Datei. Der Test prüft dann, dass jede Zeile mit
 `besser:` so viele Felder hat wie die Kopfzeile und die falsche Zeile nicht.
 

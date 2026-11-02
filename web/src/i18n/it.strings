@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ Disinnescata! Hai trovato l’errore.";
 "web_game_boom_time" = "💥 Bum! Il tempo è scaduto.";
 "web_game_boom_wrong" = "💥 Bum! Era la riga sbagliata.";
+"web_game_boom_part" = "💥 Bum! La riga è giusta, ma l’errore è in un’altra parte.";
+"web_game_boom_wrong_part" = "💥 Bum! L’errore è in un’altra riga.";
+"web_game_bomb_parts_hint" = "Tocca esattamente la parte sbagliata.";
 "web_game_fix" = "La riga corretta:";
 "web_game_order_hint" = "Tocca i passaggi nell’ordine giusto.";
 "web_debug_step" = "Passo singolo";

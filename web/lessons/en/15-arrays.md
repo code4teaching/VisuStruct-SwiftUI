@@ -231,7 +231,7 @@ lösung: l15-java-laeuft-nicht-loesung.visustruct
 
 ::: spiel bombe
 titel: Game: Defuse the bomb
-intro: Every program contains **exactly one mistake** to do with arrays, and the bomb is ticking. Tap the wrong line before time runs out. Six rounds, 30 seconds each.
+intro: Every program contains **exactly one mistake** to do with arrays, and the bomb is ticking. Tap the wrong line before time runs out. If the parts of a line have a border, tap exactly the wrong part. Six rounds, 30 seconds each.
 zeit: 30
 
 runde:
@@ -241,6 +241,7 @@ runde:
     }
 frage: Should output all five values.
 fehler: 2
+stelle: i <= numbers.length
 besser: for (int i = 0; i < numbers.length; i++) {
 > With `<=`, i runs up to 5. There is no slot `numbers[5]`.
 
@@ -249,6 +250,7 @@ runde:
     System.out.println(names[1]);
 frage: Should output the first name, Ada.
 fehler: 2
+stelle: names[1]
 besser: System.out.println(names[0]);
 > Counting starts at 0. `names[1]` is already Ben.
 
@@ -257,6 +259,7 @@ runde:
     System.out.println(numbers[numbers.length]);
 frage: Should output the last value, 10.
 fehler: 2
+stelle: numbers[numbers.length]
 besser: System.out.println(numbers[numbers.length - 1]);
 > The last index is always one less than the length.
 
@@ -269,6 +272,7 @@ runde:
     System.out.println(sum);
 frage: Should output the sum 14.
 fehler: 4
+stelle: points[i]
 besser: sum = sum + points[i];
 > Like this every value overwrites the one before, and at the end sum only holds 2.
 
@@ -283,6 +287,7 @@ runde:
     System.out.println(max);
 frage: Should output the maximum -2.
 fehler: 2
+stelle: 0
 besser: int max = points[0];
 > None of the numbers is greater than 0, so max would stay 0. That's why the maximum starts with the first slot.
 
@@ -293,6 +298,7 @@ runde:
     }
 frage: Should output the values backwards, from 10 to 2.
 fehler: 2
+stelle: int i = numbers.length
 besser: for (int i = numbers.length - 1; i >= 0; i--) {
 > Backwards you start at the last index, and that is `numbers.length - 1`.
 :::

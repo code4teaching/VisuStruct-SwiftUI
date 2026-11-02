@@ -1968,6 +1968,54 @@ button.danger-text:not(:disabled) {
 .learn-bomb-fix code {
   white-space: pre-wrap;
 }
+/* Bombe mit `stelle:`: Teile der Zeilen sind Knöpfe, groß genug zum Antippen */
+.learn-bomb-code.by-parts .ln.parts {
+  cursor: default;
+  padding-block: 3px;
+  line-height: 1.9;
+}
+.learn-bomb-code.by-parts .ln.parts:hover {
+  background: none;
+}
+.learn-bomb-code.by-parts .ln.parts.right {
+  background: #f0fdf4;
+}
+.learn-bomb-code .part {
+  display: inline;
+  margin: 0;
+  padding: 2px 3px;
+  min-height: 0;
+  height: auto;
+  border: 1px dashed #94a3b8;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.learn-bomb-code .part:not(:disabled):hover {
+  background: #fef3c7;
+  border-color: #d97706;
+}
+.learn-bomb-code .part:disabled {
+  cursor: default;
+  opacity: 1;
+}
+.learn-bomb-code .part.right {
+  background: #dcfce7;
+  border: 2px solid #15803d;
+}
+.learn-bomb-code .part.wrong {
+  background: #fee2e2;
+  border: 2px solid #b91c1c;
+}
+.learn-bomb-hint {
+  color: var(--muted, #6b7280);
+  font-size: 0.92em;
+}
 .learn-game-options {
   display: grid;
   gap: 6px;
