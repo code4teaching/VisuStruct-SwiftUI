@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ تم تعطيلها! وجدت الخطأ.";
 "web_game_boom_time" = "💥 بوم! انتهى الوقت.";
 "web_game_boom_wrong" = "💥 بوم! كان ذلك السطر الخطأ.";
+"web_game_boom_part" = "💥 بوم! السطر صحيح، لكن الخطأ في جزء آخر منه.";
+"web_game_boom_wrong_part" = "💥 بوم! الخطأ في سطر آخر.";
+"web_game_bomb_parts_hint" = "اضغط على الجزء الخاطئ بالضبط.";
 "web_game_fix" = "السطر الصحيح:";
 "web_game_order_hint" = "اضغط على الخطوات بالترتيب الصحيح.";
 "web_debug_step" = "خطوة";

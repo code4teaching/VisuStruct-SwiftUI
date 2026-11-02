@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ ¡Desactivada! Has encontrado el error.";
 "web_game_boom_time" = "💥 ¡Bum! Se acabó el tiempo.";
 "web_game_boom_wrong" = "💥 ¡Bum! Esa no era la línea.";
+"web_game_boom_part" = "💥 ¡Bum! La línea es correcta, pero el error está en otra parte.";
+"web_game_boom_wrong_part" = "💥 ¡Bum! El error está en otra línea.";
+"web_game_bomb_parts_hint" = "Toca exactamente la parte incorrecta.";
 "web_game_fix" = "La línea correcta:";
 "web_game_order_hint" = "Toca los pasos en el orden correcto.";
 "web_debug_step" = "Paso a paso";

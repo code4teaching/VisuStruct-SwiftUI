@@ -202,7 +202,7 @@ lösung: l13-java-laeuft-nicht-loesung.visustruct
 
 ::: spiel bombe
 titel: Jogo: Desativar a bomba
-intro: Cada programa esconde **exatamente um erro**, e a bomba está a fazer tiquetaque. Lê o que o programa deve fazer e toca na linha errada antes de o tempo acabar. Oito rondas, 25 segundos cada.
+intro: Cada programa esconde **exatamente um erro**, e a bomba está a fazer tiquetaque. Lê o que o programa deve fazer e toca na linha errada antes de o tempo acabar. Se as partes de uma linha tiverem moldura, toca exatamente na parte errada, por exemplo só em `i++`. Oito rondas, 25 segundos cada.
 zeit: 25
 
 runde:
@@ -229,6 +229,7 @@ runde:
     }
 frage: Deve contar para trás de 10 até 1.
 fehler: 1
+stelle: i++
 besser: for (int i = 10; i >= 1; i--) {
 > Com `i++`, `i` fica sempre maior e a condição `i >= 1` continua verdadeira: um ciclo infinito. Para contar para trás usas `i--`.
 
@@ -240,6 +241,7 @@ runde:
     System.out.println(soma);
 frage: Deve mostrar a soma 1 + 2 + 3 + 4 = 10.
 fehler: 3
+stelle: i
 besser: soma = soma + i;
 > `soma = i` substitui a soma em cada iteração. No fim fica lá só 4.
 
@@ -249,6 +251,7 @@ runde:
     }
 frage: Deve mostrar Mééé exatamente cinco vezes.
 fehler: 1
+stelle: i <= 5
 besser: for (int i = 0; i < 5; i++) {
 > De 0 até 5, inclusive, são seis iterações. Quem começa em 0 usa `<`.
 
@@ -258,6 +261,7 @@ runde:
     }
 frage: Deve mostrar 1, 2 e 3.
 fehler: 2
+stelle: system.out.println
 besser: System.out.println(i);
 > O Java distingue maiúsculas de minúsculas: `System` escreve-se com S maiúsculo.
 
@@ -268,6 +272,7 @@ runde:
     }
 frage: Deve mostrar a tabuada do 7: 7 x 1 = 7, 7 x 2 = 14 e assim por diante.
 fehler: 3
+stelle: numero * numero
 besser: System.out.println(numero + " x " + i + " = " + numero * i);
 > `numero * numero` dá sempre 49. Tem de ser `numero * i`.
 
@@ -277,6 +282,7 @@ runde:
     }
 frage: Deve mostrar os números pares 2, 4, 6, 8 e 10.
 fehler: 1
+stelle: i + 2
 besser: for (int i = 2; i <= 10; i = i + 2) {
 > `i + 2` só calcula e não guarda nada. Para `i` crescer mesmo, é preciso `i = i + 2`.
 :::

@@ -1,5 +1,5 @@
 import { inline } from '../learn/markdown'
-import { click, clickButton, parseLayoutPicture, parseSwingWindow, startState, type ClickStep, type RoundGame, type SwingWindow } from '../learn/roundGame'
+import { bombParts, click, clickButton, parseLayoutPicture, parseSwingWindow, startState, type ClickStep, type RoundGame, type SwingWindow } from '../learn/roundGame'
 import { t } from './i18n'
 
 /** Rundenspiele „Wer hört zu?“, „Vertrag erfüllt?“, „Wo landet der Knopf?“, „Bombe entschärfen“ und „Wer ist dran?“ im Lernbereich. */
@@ -59,13 +59,32 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
     const left = h('span', { class: 'learn-bomb-time' })
     const bomb = h('div', { class: 'learn-bomb', 'aria-live': 'polite' }, h('span', { class: 'learn-bomb-icon', 'aria-hidden': 'true' }, '💣'), left, fuse)
     const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
-    const lines = round.code.split('\n').map((line, i) => {
-      const b = h('button', { class: 'ln', type: 'button' }, line || ' ') as HTMLButtonElement
-      b.disabled = !line.trim()
-      b.addEventListener('click', () => finish(i + 1 === round.wrongLine ? 'right' : 'wrong', b))
-      return b
+    // Mit `stelle:` tippt man Teile der Zeilen an (z. B. nur `i++`), sonst ganze Zeilen.
+    const byParts = round.wrongPart !== undefined
+    const targets: { button: HTMLButtonElement; line: number; right: boolean }[] = []
+    const rows = round.code.split('\n').map((line, i) => {
+      if (!byParts) {
+        const b = h('button', { class: 'ln', type: 'button' }, line || ' ') as HTMLButtonElement
+        b.disabled = !line.trim()
+        targets.push({ button: b, line: i + 1, right: i + 1 === round.wrongLine })
+        return b
+      }
+      const row = h('div', { class: 'ln parts' })
+      if (!line.trim()) row.append(' ')
+      for (const seg of bombParts(line)) {
+        if (!seg.part) {
+          row.append(seg.text)
+          continue
+        }
+        const b = h('button', { class: 'part', type: 'button' }, seg.text) as HTMLButtonElement
+        targets.push({ button: b, line: i + 1, right: i + 1 === round.wrongLine && seg.text === round.wrongPart })
+        row.append(b)
+      }
+      return row
     })
-    const code = h('div', { class: 'learn-game-code learn-bomb-code mono', dir: 'ltr' }, ...lines)
+    for (const target of targets)
+      target.button.addEventListener('click', () => finish(target.right ? 'right' : target.line === round.wrongLine ? 'part' : 'wrong', target.button))
+    const code = h('div', { class: `learn-game-code learn-bomb-code mono${byParts ? ' by-parts' : ''}`, dir: 'ltr' }, ...rows)
     const started = Date.now()
     const tick = () => {
       // Lektion verlassen: Countdown anhalten
@@ -76,13 +95,14 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
       bomb.classList.toggle('hurry', rest <= 5)
       if (rest <= 0) finish('time')
     }
-    const finish = (how: 'right' | 'wrong' | 'time', chosen?: HTMLButtonElement) => {
+    const finish = (how: 'right' | 'wrong' | 'part' | 'time', chosen?: HTMLButtonElement) => {
       clearTimers()
-      lines.forEach((b, i) => {
-        b.disabled = true
-        if (i + 1 === round.wrongLine) b.classList.add('right')
-      })
-      if (chosen && how === 'wrong') chosen.classList.add('wrong')
+      for (const target of targets) {
+        target.button.disabled = true
+        if (target.right) target.button.classList.add('right')
+      }
+      if (byParts) rows[round.wrongLine! - 1].classList.add('right')
+      if (chosen && how !== 'right') chosen.classList.add('wrong')
       const right = how === 'right'
       if (right) score++
       showStatus()
@@ -91,14 +111,16 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
       feedback.className = `learn-game-feedback ${right ? 'right' : 'wrong'}`
       const n = next()
       feedback.replaceChildren(
-        h('p', {}, t(right ? 'web_game_defused' : how === 'time' ? 'web_game_boom_time' : 'web_game_boom_wrong')),
+        h('p', {}, t(right ? 'web_game_defused' : how === 'time' ? 'web_game_boom_time' : how === 'part' ? 'web_game_boom_part' : byParts ? 'web_game_boom_wrong_part' : 'web_game_boom_wrong')),
         rich('div', { class: 'learn-game-explain' }, round.explanation),
         h('p', { class: 'learn-bomb-fix' }, `${t('web_game_fix')} `, h('code', {}, round.fix!.trim())),
         n,
       )
       n.focus({ preventScroll: true })
     }
-    stage.replaceChildren(bomb, rich('p', { class: 'learn-game-question' }, round.question), code, feedback)
+    const question = rich('p', { class: 'learn-game-question' }, round.question)
+    if (byParts) question.append(' ', h('span', { class: 'learn-bomb-hint' }, t('web_game_bomb_parts_hint')))
+    stage.replaceChildren(bomb, question, code, feedback)
     tick()
     const id = window.setInterval(tick, 200)
     timers.push(id)

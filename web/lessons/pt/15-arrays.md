@@ -231,7 +231,7 @@ lösung: l15-java-laeuft-nicht-loesung.visustruct
 
 ::: spiel bombe
 titel: Jogo: Desativar a bomba
-intro: Cada programa tem **exatamente um erro** com arrays, e a bomba está a fazer tique-taque. Toca na linha errada antes de o tempo acabar. Seis rondas, 30 segundos cada.
+intro: Cada programa tem **exatamente um erro** com arrays, e a bomba está a fazer tique-taque. Toca na linha errada antes de o tempo acabar. Se as partes de uma linha tiverem moldura, toca exatamente na parte errada. Seis rondas, 30 segundos cada.
 zeit: 30
 
 runde:
@@ -241,6 +241,7 @@ runde:
     }
 frage: Deve mostrar os cinco valores.
 fehler: 2
+stelle: i <= numeros.length
 besser: for (int i = 0; i < numeros.length; i++) {
 > Com `<=`, i vai até 5. A posição `numeros[5]` não existe.
 
@@ -249,6 +250,7 @@ runde:
     System.out.println(nomes[1]);
 frage: Deve mostrar o primeiro nome, ou seja, Ada.
 fehler: 2
+stelle: nomes[1]
 besser: System.out.println(nomes[0]);
 > Conta-se a partir de 0. `nomes[1]` já é o Ben.
 
@@ -257,6 +259,7 @@ runde:
     System.out.println(numeros[numeros.length]);
 frage: Deve mostrar o último valor, ou seja, 10.
 fehler: 2
+stelle: numeros[numeros.length]
 besser: System.out.println(numeros[numeros.length - 1]);
 > O último índice é sempre um a menos do que o comprimento.
 
@@ -269,6 +272,7 @@ runde:
     System.out.println(soma);
 frage: Deve mostrar a soma 14.
 fehler: 4
+stelle: pontos[i]
 besser: soma = soma + pontos[i];
 > Assim cada valor apaga o anterior, e no fim soma só tem 2.
 
@@ -283,6 +287,7 @@ runde:
     System.out.println(max);
 frage: Deve mostrar o máximo -2.
 fehler: 2
+stelle: 0
 besser: int max = pontos[0];
 > Nenhum dos números é maior do que 0, por isso max ficaria em 0. É por isso que o máximo começa com a primeira posição.
 
@@ -293,6 +298,7 @@ runde:
     }
 frage: Deve mostrar os valores de trás para a frente, de 10 a 2.
 fehler: 2
+stelle: int i = numeros.length
 besser: for (int i = numeros.length - 1; i >= 0; i--) {
 > De trás para a frente começa-se no último índice, que é `numeros.length - 1`.
 :::

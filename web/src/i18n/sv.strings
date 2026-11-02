@@ -165,6 +165,9 @@
 "web_game_defused" = "✂️ Desarmerad! Du hittade felet.";
 "web_game_boom_time" = "💥 Pang! Tiden är ute.";
 "web_game_boom_wrong" = "💥 Pang! Det var fel rad.";
+"web_game_boom_part" = "💥 Pang! Rätt rad, men felet sitter i en annan del.";
+"web_game_boom_wrong_part" = "💥 Pang! Felet sitter på en annan rad.";
+"web_game_bomb_parts_hint" = "Tryck exakt på den felaktiga delen.";
 "web_game_fix" = "Rätt rad:";
 "web_game_order_hint" = "Tryck på stegen i rätt ordning.";
 "web_debug_step" = "Steg";
