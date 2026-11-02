@@ -71,15 +71,16 @@ echo "Verbindung über $PROTOCOL"
 # nur in einen Ordner, in dem schon VisuStruct liegt (index.html nennt
 # VisuStruct oder ein früherer Lauf hat seine Dateiliste hinterlassen).
 looks_like_site() {
-  lftp -c "$(connect_for "$PROTOCOL"); set cmd:fail-exit no; cd \"$1\" || exit 1; cat index.html" 2>/dev/null | grep -q VisuStruct \
-    || lftp -c "$(connect_for "$PROTOCOL"); cd \"$1\"; cls -1 $MANIFEST" >/dev/null 2>&1
+  lftp -c "$(connect_for "$PROTOCOL"); set cmd:fail-exit no; cd \"$1\" || exit 1; cat index.html" 2>> "$work/probe-dir" | grep -q VisuStruct \
+    || lftp -c "$(connect_for "$PROTOCOL"); cd \"$1\"; cls -1 $MANIFEST" >/dev/null 2>> "$work/probe-dir"
 }
 if [ -z "$REMOTE_DIR" ]; then
   for d in visustruct.org .; do
     if looks_like_site "$d"; then REMOTE_DIR="$d"; break; fi
   done
   if [ -z "$REMOTE_DIR" ]; then
-    echo "::error::Kein Zielordner gefunden: weder visustruct.org noch der Startordner des Logins enthalten die VisuStruct-Webseite. Bitte die Variable DEPLOY_DIR setzen."
+    # Meldung von lftp mit ausgeben: so sieht man, ob schon die Anmeldung scheitert (Passwort, Sperre) oder nur der Ordner fehlt
+    echo "::error::Kein Zielordner gefunden: weder visustruct.org noch der Startordner des Logins enthalten die VisuStruct-Webseite. Bitte die Variable DEPLOY_DIR setzen. lftp meldet: $(grep -v '^$' "$work/probe-dir" 2>/dev/null | tail -n 3 | tr '\n' ' ')"
     exit 1
   fi
 elif ! looks_like_site "$REMOTE_DIR"; then
