@@ -56,6 +56,12 @@ O ciclo exterior conta as linhas. O interior acrescenta ao texto tantas estrelas
 
 Com `String texto = ""` cada linha começa vazia. `texto = texto + "*"` acrescenta uma estrela. Só quando a linha está pronta é que é mostrada.
 
+Programadores experientes dão às variáveis contadoras os nomes curtos `i` e `j`: `i` por fora, `j` por dentro. Fica assim, aqui com uma pequena tabuada:
+
+::: grafik l13-verschachtelt-tabelle.svg animiert
+O ciclo exterior conta as linhas com `i`, o interior conta os números de uma linha com `j`. Em cada nova linha, `j` começa outra vez em 1.
+:::
+
 ## Exercício: Retângulo
 
 ::: übung l13-rechteck
