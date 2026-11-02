@@ -39,13 +39,13 @@ Derselbe Automat als Fallauswahl. Hat wahl den Wert 2, wird nur die Spalte 2 aus
 
 ## Fälle mit Texten
 
-Die Fälle müssen keine Zahlen sein. Du kannst auch nach dem Inhalt einer `String`-Variablen auswählen. Als Fallname schreibst du dann den Text, zum Beispiel `rot`.
+Die Fälle müssen keine Zahlen sein. Du kannst auch nach dem Inhalt einer `String`-Variablen auswählen. Als Fallname schreibst du dann den Text in Anführungszeichen, zum Beispiel `"rot"`. So erkennt man wie im Code, dass es ein Text ist.
 
 ::: diagramm l09-ampel.visustruct
 Eine Ampel: Je nach eingegebener Farbe erscheint ein anderer Hinweis. Probiere in der Simulation auch eine Farbe aus, die es nicht gibt.
 :::
 
-Groß- und Kleinschreibung zählt: `Rot` passt nicht zum Fall `rot`.
+Groß- und Kleinschreibung zählt: `Rot` passt nicht zum Fall `"rot"`.
 
 ## Übung: Note in Worten
 
@@ -75,7 +75,7 @@ test: 6, *, 7 -> 42
 test: 1, x, 2 -> Unbekanntes Rechenzeichen
 braucht: fallauswahl
 tipp: Lies erst alle drei Werte ein. Danach entscheidet eine Fallauswahl über das Rechenzeichen, was gerechnet wird.
-tipp: Lege vor der Fallauswahl `int ergebnis = 0` an. In jedem Fall rechnest du zum Beispiel `ergebnis = a + b` und gibst danach `ergebnis` aus. Die Fallnamen sind einfach `+`, `-` und `*`.
+tipp: Lege vor der Fallauswahl `int ergebnis = 0` an. In jedem Fall rechnest du zum Beispiel `ergebnis = a + b` und gibst danach `ergebnis` aus. Die Fallnamen sind `"+"`, `"-"` und `"*"` in Anführungszeichen, weil das Rechenzeichen ein `String` ist.
 lösung: l09-rechner-loesung.visustruct
 :::
 
@@ -307,9 +307,9 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] Eine Farbe wie rot, gelb oder grün auswerten
 > „Über 30“ ist ein Bereich. Dafür brauchst du eine Verzweigung mit einem Vergleich.
 
-? Du gibst bei der Ampel `Rot` ein, der Fall heißt `rot`. Was passiert?
+? Du gibst bei der Ampel `Rot` ein, der Fall heißt `"rot"`. Was passiert?
 → So ist die Fallauswahl aufgebaut
-- [ ] Der Fall rot wird ausgeführt.
+- [ ] Der Fall `"rot"` wird ausgeführt.
 - [x] Der Fall default wird ausgeführt.
 - [ ] Die Simulation meldet einen Fehler.
 > Groß- und Kleinschreibung zählt. Rot und rot sind verschiedene Texte.

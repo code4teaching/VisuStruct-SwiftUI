@@ -39,13 +39,13 @@ A mesma máquina como seleção. Se escolha tiver o valor 2, só é executada a 
 
 ## Casos com texto
 
-Os casos não têm de ser números. Também podes escolher pelo conteúdo de uma variável `String`. Então escreves o texto como nome do caso, por exemplo `vermelho`.
+Os casos não têm de ser números. Também podes escolher pelo conteúdo de uma variável `String`. Então escreves o texto entre aspas como nome do caso, por exemplo `"vermelho"`. Tal como no código, isto mostra que é um texto.
 
 ::: diagramm l09-ampel.visustruct
 Um semáforo: consoante a cor introduzida, aparece uma mensagem diferente. Na simulação, experimenta também uma cor que não existe.
 :::
 
-Maiúsculas e minúsculas contam: `Vermelho` não corresponde ao caso `vermelho`.
+Maiúsculas e minúsculas contam: `Vermelho` não corresponde ao caso `"vermelho"`.
 
 ## Exercício: Nota por extenso
 
@@ -75,7 +75,7 @@ test: 6, *, 7 -> 42
 test: 1, x, 2 -> Operador desconhecido
 braucht: fallauswahl
 tipp: Primeiro lê os três valores. Depois, uma seleção sobre o operador decide o que é calculado.
-tipp: Antes da seleção, cria `int resultado = 0`. Em cada caso calculas, por exemplo, `resultado = a + b` e depois mostras `resultado`. Os nomes dos casos são simplesmente `+`, `-` e `*`.
+tipp: Antes da seleção, cria `int resultado = 0`. Em cada caso calculas, por exemplo, `resultado = a + b` e depois mostras `resultado`. Os nomes dos casos são `"+"`, `"-"` e `"*"` entre aspas, porque o operador é uma `String`.
 lösung: l09-rechner-loesung.visustruct
 :::
 
@@ -307,9 +307,9 @@ Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️
 - [ ] Tratar uma cor como vermelho, amarelo ou verde
 > “Acima dos 30” é um intervalo. Para isso precisas de uma decisão com uma comparação.
 
-? No semáforo escreves `Vermelho`, e o caso chama-se `vermelho`. O que acontece?
+? No semáforo escreves `Vermelho`, e o caso chama-se `"vermelho"`. O que acontece?
 → Como se constrói uma seleção
-- [ ] É executado o caso vermelho.
+- [ ] É executado o caso `"vermelho"`.
 - [x] É executado o caso default.
 - [ ] A simulação indica um erro.
 > Maiúsculas e minúsculas contam. Vermelho e vermelho são textos diferentes.
