@@ -2179,7 +2179,8 @@ button.danger-text:not(:disabled) {
   width: 100%;
   border: 1px solid var(--border);
   border-radius: 8px;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   background: #fafafa;
 }
 .learn-preview > svg {
