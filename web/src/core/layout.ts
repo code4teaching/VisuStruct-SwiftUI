@@ -163,8 +163,11 @@ export class LayoutEngine {
 
   private stretchMultiwayNodeToWidth(node: LayoutNode, newWidth: number): LayoutNode {
     const n = copy(node)
-    const oldW = n.frame.width
-    if (!(oldW > 0) || n.caseColumnFrames.length === 0) return n
+    if (n.caseColumnFrames.length === 0) return n
+    // Alte Breite aus den Spalten, nicht aus `frame.width`: Aufrufer setzen `frame.width` oft schon
+    // vorher auf die neue Breite. Sonst wäre scale = 1 und die Spalten blieben schmaler als der Kopf.
+    const oldW = n.caseColumnFrames.reduce((s, c) => s + c.width, 0)
+    if (!(oldW > 0)) return n
     const scale = newWidth / oldW
     n.frame.width = newWidth
     let xCursor = n.frame.x
@@ -413,8 +416,15 @@ export class LayoutEngine {
       totalW += colW
     })
 
-    // Zweiarmige Verzweigung: beide Spalten gleich breit.
-    if (e.type === ElementType.verzweigung && colCount === 2 && columnFrames.length === 2) {
+    // Zweiarmige Verzweigung: beide Spalten gleich breit. Nicht, wenn eine Spalte selbst eine
+    // Verzweigung oder Fallauswahl enthält: Sonst verdoppelt sich die Breite mit jeder Ebene
+    // (verschachtelte else-Ketten werden unlesbar breit).
+    if (
+      e.type === ElementType.verzweigung &&
+      colCount === 2 &&
+      columnFrames.length === 2 &&
+      !cases.some((c) => containsMultiway(c.elements))
+    ) {
       const target = Math.max(columnFrames[0].width, columnFrames[1].width)
       const xLeft = x
       const xRight = x + target
@@ -478,6 +488,16 @@ export class LayoutEngine {
     node.children = columnChildren.flat()
     return node
   }
+}
+
+/** Steckt irgendwo (auch in Schleifen) eine Verzweigung oder Fallauswahl? */
+function containsMultiway(elements: VSElement[]): boolean {
+  return elements.some(
+    (el) =>
+      isMultiType(el.type) ||
+      containsMultiway(el.loopBody ?? []) ||
+      (el.cases ?? []).some((c) => containsMultiway(c.elements)),
+  )
 }
 
 function shiftDescendantsY(node: LayoutNode, delta: number): LayoutNode {
