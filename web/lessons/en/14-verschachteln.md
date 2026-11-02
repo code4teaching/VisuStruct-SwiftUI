@@ -56,6 +56,12 @@ The outer loop counts the lines. The inner one adds as many stars to the text as
 
 With `String text = ""` every line starts empty. `text = text + "*"` adds a star. Only when the line is finished is it output.
 
+Experienced programmers give the counter variables the short names `i` and `j`: `i` outside, `j` inside. Then it looks like this, here with a small times table:
+
+::: grafik l13-verschachtelt-tabelle.svg animiert
+The outer loop counts the lines with `i`, the inner one counts the numbers in a line with `j`. On every new line, `j` starts again at 1.
+:::
+
 ## Exercise: Rectangle
 
 ::: übung l13-rechteck

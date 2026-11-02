@@ -56,6 +56,12 @@ Die äußere Schleife zählt die Zeilen. Die innere hängt so viele Sterne an de
 
 Mit `String text = ""` beginnt jede Zeile leer. `text = text + "*"` hängt einen Stern an. Erst wenn die Zeile fertig ist, wird sie ausgegeben.
 
+Erfahrene Programmierer nennen die Zählvariablen kurz `i` und `j`: außen `i`, innen `j`. Dann sieht es so aus, hier mit einer kleinen Einmaleins-Tabelle:
+
+::: grafik l13-verschachtelt-tabelle.svg animiert
+Die äußere Schleife zählt mit `i` die Zeilen, die innere mit `j` die Zahlen in einer Zeile. Bei jeder neuen Zeile fängt `j` wieder bei 1 an.
+:::
+
 ## Übung: Rechteck
 
 ::: übung l13-rechteck
