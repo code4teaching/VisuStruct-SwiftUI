@@ -195,6 +195,48 @@ besser: mbot.showText("Schritte: " + schritte);
 > Java unterscheidet Groß- und Kleinschreibung. `Schritte` gibt es nicht.
 :::
 
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Grau ist eine Wand. While oder Do-while: Tippe auf das Feld, auf dem der mBot2 am Ende steht. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    while (mbot.getDistance() > 45) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..^..
+ziel: 2,2
+> Die Wand ist schon nah. Die While-Schleife prüft zuerst und fährt gar nicht los.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 45);
+karte: ##### | ..... | ..^..
+ziel: 2,1
+> Die Do-while-Schleife fährt erst einmal und prüft dann. Ein Feld weiter hört sie auf.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 15);
+    mbot.turnLeft();
+    mbot.forward(30);
+karte: ##### | ..... | ..^..
+ziel: 1,1
+> Ein Feld vor, dann ist die Wand direkt davor. Danach links und ein Feld weiter.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 15);
+karte: ##### | ..... | ..... | ..... | ..^..
+ziel: 2,1
+> Ist die Wand weit weg, fahren While und Do-while gleich weit: bis direkt vor die Wand.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

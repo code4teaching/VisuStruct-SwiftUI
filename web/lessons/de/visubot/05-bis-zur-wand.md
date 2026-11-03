@@ -136,6 +136,48 @@ frage: Der mBot2 soll fahren, bis er die Wand fast berührt. Welche Schleife pas
 > Wie weit die Wand weg ist, weiß man vorher nicht. Die While-Schleife fragt unterwegs nach.
 :::
 
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Grau ist eine Wand. Tippe auf das Feld, auf dem der mBot2 am Ende steht. Jedes Feld ist 30 cm groß, der Sensor sitzt vorn am mBot2. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..... | ..... | ..^..
+ziel: 2,1
+> Er fährt, solange vorn mehr als 15 cm frei sind. Direkt vor der Wand hält er an.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..^..
+ziel: 2,1
+> Egal wie weit die Wand weg ist: Die While-Schleife hält ihn direkt davor an.
+
+runde:
+    while (mbot.getDistance() > 45) {
+        mbot.forward(30);
+    }
+    mbot.turnRight();
+    mbot.forward(60);
+karte: ##### | ..... | ..... | ..... | ^....
+ziel: 2,2
+> Bei mehr als 45 cm hört er schon ein Feld früher auf, dreht sich und fährt zwei Felder nach rechts.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,0
+> Er fährt, bis sein Liniensensor Schwarz sieht. Dann steht er auf dem schwarzen Feld.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

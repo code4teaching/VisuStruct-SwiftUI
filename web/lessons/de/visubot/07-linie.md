@@ -180,6 +180,55 @@ besser: int schritte = 0;
 > In Anführungszeichen ist die 0 ein Text. In ein `int` passt nur eine Zahl.
 :::
 
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Schwarz ist Klebeband. Tippe auf das Feld, auf dem der mBot2 am Ende steht. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ..=.. | ..... | ..... | ..^..
+ziel: 2,1
+> Er fährt, bis er auf dem schwarzen Feld steht.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+    mbot.turnRight(180);
+    mbot.forward(60);
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,2
+> Bis zum Rand, umkehren und zwei Felder zurück.
+
+runde:
+    int schritte = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+        schritte = schritte + 1;
+    }
+    mbot.turnRight(180);
+    for (int i = 0; i < schritte; i++) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..^..
+ziel: 2,3
+> Er zählt drei Schritte bis zur Linie und fährt genau drei zurück: wieder am Start.
+
+runde:
+    mbot.turnRight();
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ^...= | .....
+ziel: 4,1
+> Erst nach rechts drehen, dann bis zum schwarzen Feld ganz rechts.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

@@ -136,6 +136,48 @@ frage: The mBot2 should drive until it almost touches the wall. Which loop fits?
 > You don't know in advance how far away the wall is. The while loop checks on the way.
 :::
 
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Grey is a wall. Tap the field where the mBot2 is at the end. Each field is 30 cm, and the sensor is at the front of the mBot2. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..... | ..... | ..^..
+ziel: 2,1
+> It drives as long as more than 15 cm ahead are free. It stops right in front of the wall.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..^..
+ziel: 2,1
+> However far away the wall is, the while loop stops it right in front of it.
+
+runde:
+    while (mbot.getDistance() > 45) {
+        mbot.forward(30);
+    }
+    mbot.turnRight();
+    mbot.forward(60);
+karte: ##### | ..... | ..... | ..... | ^....
+ziel: 2,2
+> With more than 45 cm it stops one field earlier, turns and drives two fields to the right.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,0
+> It drives until its line sensor sees black. Then it is standing on the black field.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

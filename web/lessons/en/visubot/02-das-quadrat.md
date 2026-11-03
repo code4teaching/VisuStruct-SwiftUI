@@ -257,6 +257,51 @@ besser: mbot.turnLeft();
 > A square needs right angles, so 90°. Without a number it turns 90°.
 :::
 
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Read the program and tap the field where the mBot2 is at the end. Then it drives the route for you. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+    }
+karte: ..... | ..... | ..... | ..^..
+ziel: 2,0
+> One field forward, three times.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 1,2
+> A whole square: it arrives exactly where it started.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 2,2
+> Only three sides: the fourth is missing, so it ends up to the right of the start.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            mbot.forward(30);
+        }
+        mbot.turnRight();
+    }
+karte: .... | .... | .... | ^...
+ziel: 2,1
+> The inner loop drives two fields, then it turns. All that twice: two fields up, two to the right.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

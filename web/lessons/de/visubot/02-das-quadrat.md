@@ -257,6 +257,51 @@ besser: mbot.turnLeft();
 > Ein Quadrat braucht rechte Winkel, also 90°. Ohne Zahl dreht er sich 90°.
 :::
 
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Lies das Programm und tippe auf das Feld, auf dem der mBot2 am Ende steht. Danach fährt er die Strecke vor. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+    }
+karte: ..... | ..... | ..... | ..^..
+ziel: 2,0
+> Dreimal ein Feld nach vorn.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 1,2
+> Ein ganzes Quadrat: Er kommt genau dort an, wo er losgefahren ist.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 2,2
+> Nur drei Seiten: Die vierte fehlt, also steht er rechts neben dem Start.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            mbot.forward(30);
+        }
+        mbot.turnRight();
+    }
+karte: .... | .... | .... | ^...
+ziel: 2,1
+> Die innere Schleife fährt zwei Felder, dann dreht er sich. Das Ganze zweimal: zwei Felder hoch, zwei nach rechts.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

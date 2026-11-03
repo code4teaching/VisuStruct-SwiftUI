@@ -6372,3 +6372,57 @@ button.danger-text:not(:disabled) {
   margin-inline-end: 7px;
   vertical-align: 1px;
 }
+
+/* Spiel „Wo landet der mBot2?“ */
+.learn-drive-map {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 8px auto;
+  touch-action: manipulation;
+}
+.learn-drive-map .cell {
+  stroke: #cbd5e1;
+  stroke-width: 0.6;
+  cursor: pointer;
+}
+.learn-drive-map:not(.done) .cell:hover,
+.learn-drive-map .cell:focus-visible {
+  stroke: var(--accent);
+  stroke-width: 2;
+  outline: none;
+}
+.learn-drive-map.done .cell {
+  cursor: default;
+}
+.learn-drive-map .cell.right {
+  stroke: #16a34a;
+  stroke-width: 3;
+}
+.learn-drive-map .cell.wrong {
+  stroke: #dc2626;
+  stroke-width: 3;
+}
+.learn-drive-map .trail {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 3 2;
+  pointer-events: none;
+}
+.learn-drive-map .robot {
+  transition: transform 0.4s ease-in-out;
+  pointer-events: none;
+}
+.learn-drive-map .robot .body {
+  fill: #0ea5b7;
+  stroke: #0f172a;
+  stroke-width: 1;
+}
+.learn-drive-map .robot .nose {
+  fill: #ffffff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .learn-drive-map .robot {
+    transition: none;
+  }
+}

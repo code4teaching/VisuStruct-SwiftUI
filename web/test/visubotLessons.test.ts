@@ -123,7 +123,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   it('jede Roboter-Lektion hat mindestens ein Spiel, und es steht vor der Checkliste', () => {
     for (const lesson of robotLessons()) {
       const kinds = lesson.steps.flatMap((s) => s.blocks.map((b) => b.kind))
-      const game = kinds.findIndex((k) => k === 'game' || k === 'roundGame' || k === 'rescueGame')
+      const game = kinds.findIndex((k) => k === 'game' || k === 'roundGame' || k === 'rescueGame' || k === 'driveGame')
       expect(game, `${lesson.id}: kein Spiel`).toBeGreaterThanOrEqual(0)
       expect(game, `${lesson.id}: Spiel nach der Checkliste`).toBeLessThan(kinds.indexOf('checklist'))
     }

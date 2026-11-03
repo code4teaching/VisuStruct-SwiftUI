@@ -148,6 +148,49 @@ richtig: double
 > With `5.0`, Java calculates with decimal numbers. The result is 24.0.
 :::
 
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Read the program and tap the field where the mBot2 is at the end. Watch the values in the variables. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    int side = 60;
+    mbot.forward(side);
+    mbot.turnRight();
+    mbot.forward(side);
+karte: ... | ... | ^..
+ziel: 2,0
+> `side` is 60, so two fields up and two to the right.
+
+runde:
+    int a = 30;
+    int b = a * 3;
+    mbot.forward(b);
+karte: ... | ... | ... | ^..
+ziel: 0,0
+> `b` is 3 · 30 = 90 cm, so three fields.
+
+runde:
+    int distance = 30 * 2;
+    mbot.backward(distance);
+karte: ..^.. | ..... | .....
+ziel: 2,2
+> `backward` drives in reverse: it faces up but drives 60 cm down.
+
+runde:
+    int side = 30;
+    for (int i = 0; i < 2; i++) {
+        mbot.forward(side);
+        mbot.turnRight();
+        side = side + 30;
+    }
+karte: .... | .... | .... | ^...
+ziel: 2,2
+> First 30 cm up, then `side` grows to 60: two fields to the right.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

@@ -116,6 +116,48 @@ richtig: Sequenz
 > Zwei Schritte nacheinander, ohne Bedingung und ohne Wiederholung.
 :::
 
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Lies das Programm und tippe auf das Feld, auf dem der mBot2 am Ende steht. Danach fährt er die Strecke vor. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    mbot.forward(60);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..... | ..^..
+ziel: 3,0
+> Zwei Felder nach vorn, nach rechts drehen, ein Feld weiter.
+
+runde:
+    mbot.forward(30);
+    mbot.turnLeft();
+    mbot.forward(60);
+karte: ..... | ..... | ..^..
+ziel: 0,1
+> Ein Feld nach vorn, dann schaut er nach links und fährt zwei Felder.
+
+runde:
+    mbot.turnRight();
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..^.. | .....
+ziel: 2,2
+> Zweimal rechts drehen heißt: Er schaut nach hinten. Dann fährt er ein Feld zurück, nach unten.
+
+runde:
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: .... | .... | .^..
+ziel: 2,2
+> Hoch, nach rechts, und nach der zweiten Drehung schaut er nach unten.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

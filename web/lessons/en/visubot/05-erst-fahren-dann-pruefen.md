@@ -195,6 +195,48 @@ besser: mbot.showText("Steps: " + steps);
 > Java tells capital and small letters apart. There is no `Steps`.
 :::
 
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Grey is a wall. While or do-while: tap the field where the mBot2 is at the end. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    while (mbot.getDistance() > 45) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..^..
+ziel: 2,2
+> The wall is already close. The while loop checks first and doesn't set off at all.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 45);
+karte: ##### | ..... | ..^..
+ziel: 2,1
+> The do-while loop drives once first and checks afterwards. One field further on it stops.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 15);
+    mbot.turnLeft();
+    mbot.forward(30);
+karte: ##### | ..... | ..^..
+ziel: 1,1
+> One field forward, then the wall is right in front. Then left and one more field.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 15);
+karte: ##### | ..... | ..... | ..... | ..^..
+ziel: 2,1
+> If the wall is far away, while and do-while drive the same distance: right up to the wall.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

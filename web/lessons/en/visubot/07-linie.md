@@ -180,6 +180,55 @@ besser: int steps = 0;
 > In quotation marks, the 0 is a text. Only a number fits into an `int`.
 :::
 
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Black is tape. Tap the field where the mBot2 is at the end. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ..=.. | ..... | ..... | ..^..
+ziel: 2,1
+> It drives until it is standing on the black field.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+    mbot.turnRight(180);
+    mbot.forward(60);
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,2
+> To the edge, turn round and two fields back.
+
+runde:
+    int steps = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+        steps = steps + 1;
+    }
+    mbot.turnRight(180);
+    for (int i = 0; i < steps; i++) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..^..
+ziel: 2,3
+> It counts three steps to the line and drives exactly three back: at the start again.
+
+runde:
+    mbot.turnRight();
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ^...= | .....
+ziel: 4,1
+> First turn right, then on to the black field on the far right.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
