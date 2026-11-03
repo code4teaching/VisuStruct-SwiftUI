@@ -64,6 +64,19 @@ tipp: Grün ist `mbot.setLed(0, 255, 0);`, im `else` steht `mbot.ledOff();`.
 lösung: vb-java-wasserwaage-loesung.visustruct
 :::
 
+::: übung vb-fehler-13-neigung
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Wasserwaage“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-13-neigung-start.visustruct
+messwerte: getPitch=0, getRoll=0 -> ledOn
+messwerte: getPitch=0, getRoll=20 -> ledOff
+messwerte: getPitch=-10, getRoll=0 -> ledOff
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.setLed(0, 255, 0)`.
+lösung: vb-java-wasserwaage-loesung.visustruct
+:::
+
 ::: quiz
 ? Der mBot2 steht flach auf dem Tisch. Was liefert `mbot.getPitch()` ungefähr?
 → Schief oder gerade?

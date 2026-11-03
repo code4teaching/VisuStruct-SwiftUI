@@ -80,6 +80,17 @@ The mBot2 can also be happy, sad or sleepy. With **show a feeling** (`mbot.emoti
 
 > Try it with the real mBot2. The simulator only shows the command. More feelings are listed under **Reference**.
 
+::: übung vb-fehler-16-lautsprecher
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Higher and higher", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-16-lautsprecher-start.visustruct
+befehle: playTone 200 200, playTone 400 200, playTone 600 200, playTone 800 200, playTone 1000 200
+tipp: Count the numbers in the brackets. How many does the command need? You can find it under **Reference**.
+tipp: It should be `mbot.playTone(i * 200, 200)`.
+lösung: vb-java-hoeher-loesung.visustruct
+:::
+
 ::: quiz
 ? Which tone is higher?
 → How high, how long?

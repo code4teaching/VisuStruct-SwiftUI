@@ -67,6 +67,18 @@ tipp: Danach, noch in der Schleife: `if (mbot.getColor().equals("grün")) { mbot
 lösung: vb-java-blau-gruen-loesung.visustruct
 :::
 
+::: übung vb-fehler-08-farben
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Bis Blau, bei Grün piepen“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-08-farben-start.visustruct
+welt: farbe-3 -> forward 30, tone
+welt: farbe-4 -> forward 30, noTone
+tipp: Ein Text gehört in Anführungszeichen. Ohne sie sucht Java eine Variable mit diesem Namen.
+tipp: Richtig heißt es `equals("grün")`.
+lösung: vb-java-blau-gruen-loesung.visustruct
+:::
+
 ::: quiz
 ? Der mBot2 steht auf einem roten Feld. Was ist `!mbot.getColor().equals("rot")`?
 → Fahre bis Rot im Struktogramm

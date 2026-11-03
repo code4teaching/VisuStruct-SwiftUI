@@ -102,6 +102,20 @@ lösung: vb-java-sicher-fahren-loesung.visustruct
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Combining conditions"](?visustruct&lektion=09-bedingungen-verknuepfen). It opens in a new window.
 
+::: übung vb-fehler-07-und-oder
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Drive safely", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-07-und-oder-start.visustruct
+welt: wand-kurz -> tone
+welt: wand-mittel -> tone
+welt: rand-1 -> forward 20, tone
+welt: rand-2 -> forward 50, tone
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.playTone(440, 300)`.
+lösung: vb-java-sicher-fahren-loesung.visustruct
+:::
+
 ::: quiz
 ? The distance is 50 and `mbot.getLine()` gives 6. Does the mBot2 drive in "Clear and no line"?
 → Wall and line: and

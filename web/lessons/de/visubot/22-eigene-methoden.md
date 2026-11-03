@@ -110,6 +110,17 @@ tipp: Im Inhalt stehen `mbot.forward(1, "Umdrehungen")` und `mbot.turnRight()`.
 lösung: vb-ueberladung-umdrehung-loesung.visustruct
 :::
 
+::: übung vb-java-rechteck-umdrehungen
+titel: Rechteck mit Umdrehungen
+code: java
+auftrag: Schreibe in Java: Der mBot2 fährt ein Rechteck. Die langen Seiten sind **zwei** Radumdrehungen lang, die kurzen **eine**. Benutze `mbot.forward(2, "Umdrehungen")` und `mbot.forward(1, "Umdrehungen")`.
+fahrt: 2 x (forward 40.84, turnRight, forward 20.42, turnRight)
+braucht: forSchleife
+tipp: Eine For-Schleife, die zweimal läuft: `for (int i = 0; i < 2; i++) { … }`.
+tipp: In der Schleife: `mbot.forward(2, "Umdrehungen");`, `mbot.turnRight();`, `mbot.forward(1, "Umdrehungen");`, `mbot.turnRight();`
+lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
+:::
+
 ::: quiz
 ? Welche Methode ruft `mbot.forward(3, "Umdrehungen")` auf?
 → Gleicher Name, andere Parameter: Überladung
@@ -144,6 +155,17 @@ unterprogramm: vb-zentimeter-unterprogramm-loesung.visustruct
 :::
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Aufruf und Aussprung“](?visustruct&lektion=18-aufruf-und-aussprung). Sie öffnet sich in einem neuen Fenster.
+
+::: übung vb-fehler-22-eigene-methoden
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Rechteck mit Umdrehungen“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-22-eigene-methoden-start.visustruct
+fahrt: 2 x (forward 40.84, turnRight, forward 20.42, turnRight)
+tipp: Ein Text gehört in Anführungszeichen. Ohne sie sucht Java eine Variable mit diesem Namen.
+tipp: Richtig heißt es `mbot.forward(1, "Umdrehungen")`.
+lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
+:::
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 

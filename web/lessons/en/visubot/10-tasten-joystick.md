@@ -65,6 +65,19 @@ tipp: The `else` contains another branch: `if (mbot.isJoystickDown()) { mbot.bac
 lösung: vb-java-joystick-loesung.visustruct
 :::
 
+::: übung vb-fehler-10-tasten-joystick
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Remote control", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-10-tasten-joystick-start.visustruct
+messwerte: isJoystickUp=true -> forward 50
+messwerte: isJoystickDown=true -> backward 50
+messwerte: isJoystickUp=false -> none
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.backward()`.
+lösung: vb-java-joystick-loesung.visustruct
+:::
+
 ::: quiz
 ? What does `mbot.isButtonB()` give when nobody presses it?
 → Pressing as a sensor

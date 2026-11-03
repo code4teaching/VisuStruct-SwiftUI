@@ -74,6 +74,19 @@ tipp: Inside the loop is `mbot.forward();`, after the loop `mbot.playTone(440, 3
 lösung: vb-java-wand-piep-loesung.visustruct
 :::
 
+::: übung vb-fehler-06-abstand
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "To the wall and beep", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-06-abstand-start.visustruct
+welt: wand-kurz -> tone
+welt: wand-mittel -> tone
+welt: wand-lang -> tone
+tipp: Count the numbers in the brackets. How many does the command need? You can find it under **Reference**.
+tipp: It should be `mbot.playTone(440, 300)`.
+lösung: vb-java-wand-piep-loesung.visustruct
+:::
+
 ::: quiz
 ? `mbot.getDistance()` gives `8`. What does the program from “Keep your distance” do?
 → Keep your distance in the structure chart

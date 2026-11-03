@@ -1,0 +1,100 @@
+---
+titel: Emergency brake with break
+bereich: Sensors and decisions
+kurz: An endless loop with a Break: the mBot2 keeps driving until the emergency brake kicks in.
+---
+
+## Skills I will gain now
+
+::: kompetenzen
+- end an endless loop with a Break
+- explain why the Break sits inside a branch
+- write a loop with `while (true)` and `break` in Java
+:::
+
+## Endless loop with a Break
+
+Many robot programs run "forever": the mBot2 drives, measures, drives, measures … That is what the **endless loop** is for. It has no condition and never stops by itself.
+
+So that the mBot2 can still stop, you need an **emergency brake**: the **Break**. It leaves the loop it is in straight away. The program carries on with the first box **after** the loop. You recognise it by the point on its left edge. In the box you write a short comment, for example `leave the loop`.
+
+A Break almost always sits inside a **branch**. Otherwise the loop would end in the very first pass.
+
+::: übung vb-notbremse
+titel: Emergency brake at the wall
+auftrag: Build an endless loop. Inside it a branch checks: if the distance is less than 15 cm, there is a Break. After that (below the branch, still inside the loop) the mBot2 drives forward. After the loop it plays a tone.
+welt: wand-kurz -> tone
+welt: wand-mittel -> tone
+braucht: endlosschleife, aussprung
+tipp: Drag the **endless loop** into the structogram. First a branch with `mbot.getDistance() < 15` goes into the loop, the **Break** into its yes branch, the no branch stays empty.
+tipp: Below the branch (inside the loop) goes **drive forward**, below the loop `mbot.playTone(440, 300)`.
+lösung: vb-notbremse-loesung.visustruct
+:::
+
+## Now in Java: stop with button A
+
+In Java the endless loop is `while (true)`. The Break is called `break`:
+
+```java
+while (true) {
+    if (mbot.isButtonA()) {
+        break;
+    }
+    mbot.forward();
+}
+```
+
+::: übung vb-java-taste-stopp
+titel: Stop with button A
+code: java
+auftrag: Write in Java: the mBot2 keeps driving forward in an endless loop. When button A is pressed, it leaves the loop with `break`. Then the screen shows **Stopped**.
+messwerte: isButtonA=true -> none, screen "Stopped"
+messwerte: isButtonA=false/true -> drives, screen "Stopped"
+braucht: endlosschleife, aussprung
+tipp: `while (true) { … }` with `if (mbot.isButtonA()) { break; }` and then `mbot.forward();`.
+tipp: After the loop `mbot.showText("Stopped");`.
+lösung: vb-java-taste-stopp-loesung.visustruct
+:::
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Call and break"](?visustruct&lektion=18-aufruf-und-aussprung). It opens in a new window.
+
+::: übung vb-fehler-10-unterbrechen-mit-break
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Stop with button A", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-10-unterbrechen-mit-break-start.visustruct
+messwerte: isButtonA=true -> none, screen "Stopped"
+messwerte: isButtonA=false/true -> drives, screen "Stopped"
+tipp: A text belongs in quotation marks. Without them Java looks for a variable with that name.
+tipp: It should be `mbot.showText("Stopped")`.
+lösung: vb-java-taste-stopp-loesung.visustruct
+:::
+
+::: quiz
+? Where does the program carry on after a Break?
+→ Endless loop with a Break
+- [ ] at the start of the loop
+- [x] at the first box after the loop
+- [ ] at the very start of the program
+> The Break leaves the loop straight away.
+? Why does the Break sit inside a branch?
+→ Endless loop with a Break
+- [x] Otherwise the loop ends in the first pass.
+- [ ] Otherwise the mBot2 drives backwards.
+- [ ] It just looks nicer.
+> The emergency brake should only kick in when the condition is true.
+? What is the endless loop called in Java?
+→ Now in Java: stop with button A
+- [ ] `while (false)`
+- [x] `while (true)`
+- [ ] `for (;;) break;`
+> `true` is always true, the loop only stops with `break`.
+:::
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can end an endless loop with a Break. → Endless loop with a Break
+- I can explain why the Break sits inside a branch. → Endless loop with a Break
+- I can write a loop with `while (true)` and `break` in Java. → Now in Java: stop with button A
+:::

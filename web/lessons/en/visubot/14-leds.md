@@ -64,6 +64,17 @@ tipp: Inside the loop: `mbot.setLed(0, 0, 255);`, `mbot.pause(500);`, `mbot.ledO
 lösung: vb-java-blinken-loesung.visustruct
 :::
 
+::: übung vb-fehler-14-leds
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Blue light", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-14-leds-start.visustruct
+befehle: 3 x (setLed 0 0 255, pause 500, ledOff, pause 500)
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.pause(500)`.
+lösung: vb-java-blinken-loesung.visustruct
+:::
+
 ::: quiz
 ? Which colour does `mbot.setLed(0, 255, 0)` give?
 → Mixing red, green and blue

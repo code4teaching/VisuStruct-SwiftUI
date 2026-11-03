@@ -60,6 +60,18 @@ lösung: vb-java-laermampel-loesung.visustruct
 Lautstärke misst man eigentlich in **Dezibel** (dB). Flüstern hat etwa 30 dB, ein Klassenzimmer 60 bis 70 dB, ein Presslufthammer 100 dB. Der CyberPi rechnet das in eine einfache Zahl von 0 bis 100 um.
 :::
 
+::: übung vb-fehler-12-lautstaerke
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Lärmampel“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-12-lautstaerke-start.visustruct
+messwerte: getLoudness=80 -> ledOn
+messwerte: getLoudness=20 -> ledOff
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.ledOff()`.
+lösung: vb-java-laermampel-loesung.visustruct
+:::
+
 ::: quiz
 ? Die Klatsch-Schleife lautet `while (mbot.getLoudness() < 50)`. Es ist 30 laut. Was passiert?
 → Klatschen zum Losfahren im Struktogramm

@@ -64,6 +64,17 @@ tipp: In der Schleife: `mbot.led(i).setColor("blau");`, `mbot.pause(200);`, `mbo
 lösung: vb-java-lauflicht-loesung.visustruct
 :::
 
+::: übung vb-fehler-15-einzelne-leds
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Lauflicht“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-15-einzelne-leds-start.visustruct
+befehle: ledColor 0 "blau", pause 200, ledColor 0 "aus", ledColor 1 "blau", pause 200, ledColor 1 "aus", ledColor 2 "blau", pause 200, ledColor 2 "aus", ledColor 3 "blau", pause 200, ledColor 3 "aus", ledColor 4 "blau", pause 200, ledColor 4 "aus"
+tipp: Die Fehlermeldung nennt eine unbekannte Variable. Wie heißt die Variable dort, wo sie angelegt wird? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.led(i)`.
+lösung: vb-java-lauflicht-loesung.visustruct
+:::
+
 ::: quiz
 ? Welche Nummer hat die erste LED?
 → Jede LED hat eine Nummer

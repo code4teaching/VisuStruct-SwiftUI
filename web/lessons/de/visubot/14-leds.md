@@ -64,6 +64,17 @@ tipp: In der Schleife: `mbot.setLed(0, 0, 255);`, `mbot.pause(500);`, `mbot.ledO
 lösung: vb-java-blinken-loesung.visustruct
 :::
 
+::: übung vb-fehler-14-leds
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Blaulicht“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-14-leds-start.visustruct
+befehle: 3 x (setLed 0 0 255, pause 500, ledOff, pause 500)
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.pause(500)`.
+lösung: vb-java-blinken-loesung.visustruct
+:::
+
 ::: quiz
 ? Welche Farbe ergibt `mbot.setLed(0, 255, 0)`?
 → Rot, Grün und Blau mischen

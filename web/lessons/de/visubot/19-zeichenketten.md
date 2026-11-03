@@ -80,6 +80,17 @@ lösung: vb-laufschrift-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Zeichenketten“](?visustruct&lektion=17-zeichenketten). Sie öffnet sich in einem neuen Fenster.
 
+::: übung vb-fehler-19-zeichenketten
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Wie lang ist der Text?“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-19-zeichenketten-start.visustruct
+befehle: showText "Hallo Klasse (12)"
+tipp: Die Fehlermeldung nennt eine unbekannte Variable. Wie heißt die Variable dort, wo sie angelegt wird? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.showText(text +`.
+lösung: vb-java-textlaenge-loesung.visustruct
+:::
+
 ::: quiz
 ? Was liefert `"VisuBot".substring(0, 4)`?
 → Buchstabe für Buchstabe

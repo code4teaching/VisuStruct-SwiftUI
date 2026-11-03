@@ -55,6 +55,18 @@ lösung: vb-wand-vorn-loesung.visustruct
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Branch"](?visustruct&lektion=08-verzweigung). It opens in a new window.
 
+::: übung vb-fehler-04-sensoren
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Wall ahead?", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-04-sensoren-start.visustruct
+welt: wand-nah -> turnRight
+welt: wand-frei -> forward
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.turnRight()`.
+lösung: vb-wand-vorn-loesung.visustruct
+:::
+
 ::: quiz
 ? The wall is 12 cm away. Is `mbot.getDistance() < 20` true or false?
 → Wall ahead?

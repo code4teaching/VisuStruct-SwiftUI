@@ -58,6 +58,18 @@ tipp: Im `if`-Teil stehen zwei Zeilen: `mbot.setLed(255, 200, 0);` und `mbot.pla
 lösung: vb-java-nachtlicht-ton-loesung.visustruct
 :::
 
+::: übung vb-fehler-11-licht
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Nachtlicht mit Ton“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-11-licht-start.visustruct
+messwerte: getBrightness=10 -> ledOn, tone
+messwerte: getBrightness=80 -> ledOff, noTone
+tipp: Zähle die Zahlen in der Klammer. Wie viele braucht der Befehl? Das steht unter **Nachschlagen**.
+tipp: Richtig heißt es `mbot.setLed(255, 200, 0)`.
+lösung: vb-java-nachtlicht-ton-loesung.visustruct
+:::
+
 ::: quiz
 ? `mbot.getBrightness()` liefert 45. Was tut das Nachtlicht?
 → Nachtlicht im Struktogramm

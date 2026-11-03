@@ -64,6 +64,17 @@ tipp: Inside the loop: `mbot.led(i).setColor("blue");`, `mbot.pause(200);`, `mbo
 lösung: vb-java-lauflicht-loesung.visustruct
 :::
 
+::: übung vb-fehler-15-einzelne-leds
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Running light", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-15-einzelne-leds-start.visustruct
+befehle: ledColor 0 "blue", pause 200, ledColor 0 "off", ledColor 1 "blue", pause 200, ledColor 1 "off", ledColor 2 "blue", pause 200, ledColor 2 "off", ledColor 3 "blue", pause 200, ledColor 3 "off", ledColor 4 "blue", pause 200, ledColor 4 "off"
+tipp: The error message names an unknown variable. What is the variable called where it is created? Java is case-sensitive.
+tipp: It should be `mbot.led(i)`.
+lösung: vb-java-lauflicht-loesung.visustruct
+:::
+
 ::: quiz
 ? Which number does the first LED have?
 → Every LED has a number

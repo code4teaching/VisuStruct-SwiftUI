@@ -110,6 +110,17 @@ tipp: Inside are `mbot.forward(1, "rotations")` and `mbot.turnRight()`.
 lösung: vb-ueberladung-umdrehung-loesung.visustruct
 :::
 
+::: übung vb-java-rechteck-umdrehungen
+titel: Rectangle with rotations
+code: java
+auftrag: Write in Java: the mBot2 drives a rectangle. The long sides are **two** wheel rotations long, the short ones **one**. Use `mbot.forward(2, "rotations")` and `mbot.forward(1, "rotations")`.
+fahrt: 2 x (forward 40.84, turnRight, forward 20.42, turnRight)
+braucht: forSchleife
+tipp: A for loop that runs twice: `for (int i = 0; i < 2; i++) { … }`.
+tipp: Inside the loop: `mbot.forward(2, "rotations");`, `mbot.turnRight();`, `mbot.forward(1, "rotations");`, `mbot.turnRight();`
+lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
+:::
+
 ::: quiz
 ? Which method does `mbot.forward(3, "rotations")` call?
 → Same name, different parameters: overloading
@@ -144,6 +155,17 @@ unterprogramm: vb-zentimeter-unterprogramm-loesung.visustruct
 :::
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Call and break"](?visustruct&lektion=18-aufruf-und-aussprung). It opens in a new window.
+
+::: übung vb-fehler-22-eigene-methoden
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Rectangle with rotations", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-22-eigene-methoden-start.visustruct
+fahrt: 2 x (forward 40.84, turnRight, forward 20.42, turnRight)
+tipp: A text belongs in quotation marks. Without them Java looks for a variable with that name.
+tipp: It should be `mbot.forward(1, "rotations")`.
+lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
+:::
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 

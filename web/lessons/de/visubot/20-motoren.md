@@ -78,6 +78,17 @@ lösung: vb-java-linienfolger-loesung.visustruct
 
 > Am echten mBot2 klebst du die Linie mit schwarzem Isolierband auf einen hellen Boden. Fahr anfangs langsam, sonst schießt er in der Kurve über die Linie hinaus.
 
+::: übung vb-fehler-20-motoren
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Linienfolger“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-20-motoren-start.visustruct
+welt: linie-1, linie-2
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.stop()`.
+lösung: vb-java-linienfolger-loesung.visustruct
+:::
+
 ::: quiz
 ? Was macht `mbot.drive(30, 30)`?
 → Zwei Motoren, zwei Räder

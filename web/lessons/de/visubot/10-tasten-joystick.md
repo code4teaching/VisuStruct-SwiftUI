@@ -65,6 +65,19 @@ tipp: Im `else` steht noch eine Verzweigung: `if (mbot.isJoystickDown()) { mbot.
 lösung: vb-java-joystick-loesung.visustruct
 :::
 
+::: übung vb-fehler-10-tasten-joystick
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Fernsteuerung“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-10-tasten-joystick-start.visustruct
+messwerte: isJoystickUp=true -> forward 50
+messwerte: isJoystickDown=true -> backward 50
+messwerte: isJoystickUp=false -> none
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.backward()`.
+lösung: vb-java-joystick-loesung.visustruct
+:::
+
 ::: quiz
 ? Was liefert `mbot.isButtonB()`, wenn niemand drückt?
 → Drücken als Sensor

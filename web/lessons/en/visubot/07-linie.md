@@ -70,6 +70,18 @@ tipp: The for loop only contains `mbot.forward();`.
 lösung: vb-java-rand-loesung.visustruct
 :::
 
+::: übung vb-fehler-07-linie
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "To the line and back", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-07-linie-start.visustruct
+welt: rand-1 -> forward 20, turnRight 180, forward 20
+welt: rand-2 -> forward 50, turnRight 180, forward 50
+tipp: The error message names an unknown variable. What is the variable called where it is created? Java is case-sensitive.
+tipp: It should be `steps = steps + 1`.
+lösung: vb-java-rand-loesung.visustruct
+:::
+
 ::: quiz
 ? The mBot2 is on white paper. What does `mbot.getLine()` give?
 → Four probes under the nose
