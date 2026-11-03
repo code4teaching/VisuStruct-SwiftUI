@@ -6340,3 +6340,35 @@ button.danger-text:not(:disabled) {
     font-size: 11px;
   }
 }
+
+/* VisuBot-Befehle nach Gruppen: Streifen links in der Palette, Punkt an der Gruppe und im Nachschlagen.
+   Die Kästen bleiben gelb (Anweisung); mit „Blöcke farbig“ aus gehen auch die Streifen aus. */
+[data-bot-color='fahren'], .bot-fahren { --bot: #d96a00; }
+[data-bot-color='licht'], .bot-licht { --bot: #84cc16; }
+[data-bot-color='ton'], .bot-ton { --bot: #c026d3; }
+[data-bot-color='anzeige'], .bot-anzeige { --bot: #4f46e5; }
+[data-bot-color='warten'], .bot-warten { --bot: #6b7280; }
+[data-bot-color='sensor'], .bot-sensor { --bot: #0891b2; }
+:root:not(.no-code-scopes) .palette-item[data-bot-color] {
+  border-left: 4px solid var(--bot);
+}
+:root:not(.no-code-scopes) .palette-group[data-bot-color] button::after,
+:root:not(.no-code-scopes) .learn-text h3[class^='bot-']::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bot);
+}
+:root:not(.no-code-scopes) .palette-group[data-bot-color] button::before {
+  order: -2;
+}
+:root:not(.no-code-scopes) .palette-group[data-bot-color] button::after {
+  order: -1;
+}
+:root:not(.no-code-scopes) .learn-text h3[class^='bot-']::before {
+  margin-inline-end: 7px;
+  vertical-align: 1px;
+}

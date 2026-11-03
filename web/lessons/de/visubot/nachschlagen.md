@@ -2,7 +2,7 @@
 
 Ein Befehl sagt dem mBot2, was er **tun** soll. Jeder Befehl beginnt mit `mbot.` und endet mit Klammern. In die Klammern schreibst du oft eine Zahl.
 
-### Fahren und Drehen
+### 🚗 Fahren und Drehen {.bot-fahren}
 
 Der mBot2 fährt geradeaus oder dreht sich auf der Stelle.
 
@@ -24,7 +24,7 @@ mbot.turnRight(180)     dreht sich ganz um
 
 > Für ein Vieleck dreht er sich insgesamt einmal ganz herum: Dreieck 3 × 120°, Quadrat 4 × 90°, Sechseck 6 × 60°.
 
-### Räder einzeln
+### ⚙️ Räder einzeln {.bot-fahren}
 
 Hier gibst du jedem Rad selbst Gas. Die Zahlen sind Prozent: 100 ist volles Gas, 0 ist Stillstand, eine Zahl mit Minus fährt rückwärts. Der mBot2 fährt so lange weiter, bis ein anderer Fahrbefehl kommt.
 
@@ -35,24 +35,36 @@ mbot.drive(40, -40)     ein Rad vor, eins zurück: dreht sich
 mbot.stop()             hält an
 ```
 
-### Licht, Ton und Bildschirm
+### 💡 Licht {.bot-licht}
 
-Der mBot2 kann leuchten, piepen und Text zeigen.
+Der mBot2 hat fünf LEDs mit den Nummern 0 bis 4.
 
 ```
 mbot.setLed(255, 0, 0)          alle LEDs leuchten rot
 mbot.ledOff()                   alle LEDs aus
 mbot.led(0).setColor("grün")    nur LED 0 leuchtet grün
 mbot.led(0).setColor("aus")     nur LED 0 aus
+```
+
+Bei `setLed` mischst du Rot, Grün und Blau, jedes von 0 (aus) bis 255 (ganz hell).
+
+### 🔊 Ton {.bot-ton}
+
+```
 mbot.playTone(440, 300)         spielt einen Ton
+```
+
+Die erste Zahl ist die Tonhöhe. Je größer, desto höher. Die zweite Zahl ist die Länge in Millisekunden (1000 Millisekunden sind 1 Sekunde).
+
+### 🖥️ Bildschirm {.bot-anzeige}
+
+```
 mbot.showText("Hallo")          zeigt Hallo auf dem Bildschirm
 ```
 
-- **LEDs:** Es gibt fünf LEDs mit den Nummern 0 bis 4. Bei `setLed` mischst du Rot, Grün und Blau, jedes von 0 (aus) bis 255 (ganz hell).
-- **Ton:** Die erste Zahl ist die Tonhöhe. Je größer, desto höher. Die zweite Zahl ist die Länge in Millisekunden (1000 Millisekunden sind 1 Sekunde).
-- **Bildschirm:** Mit `+` hängst du Text und Zahlen aneinander: `mbot.showText("Abstand: " + mbot.getDistance())`.
+Mit `+` hängst du Text und Zahlen aneinander: `mbot.showText("Abstand: " + mbot.getDistance())`.
 
-### Gefühle
+### 😊 Gefühle {.bot-anzeige}
 
 Der mBot2 zeigt ein Gefühl mit Licht, Ton und Wackeln. Das siehst du nur am echten mBot2.
 
@@ -64,7 +76,7 @@ mbot.emotion("wow")     staunt
 
 Weitere Gefühle: hello, yeah, proud, yummy, naughty, uh_oh, hurt, angry, startle, shiver, dizzy, sleepy, zzz, wake_up, blink, yes, no, look_up, look_down, look_left, look_right, look_around
 
-### Warten und Stoppuhr
+### ⏱️ Warten und Stoppuhr {.bot-warten}
 
 ```
 mbot.pause(1000)        wartet 1 Sekunde
@@ -77,7 +89,7 @@ Die Zeit der Stoppuhr liest du mit dem Sensor `mbot.getTimer()` (unten bei **Sto
 
 Ein Sensor **misst** etwas und gibt dir einen Wert zurück. Den Wert benutzt du in einer Bedingung, zum Beispiel in einer Schleife oder Verzweigung. Manche Sensoren liefern eine **Zahl**, manche **wahr oder falsch**, einer einen **Text**.
 
-### Abstand
+### 📏 Abstand {.bot-sensor}
 
 Der Ultraschallsensor vorn misst, wie weit die nächste Wand weg ist, in Zentimetern.
 
@@ -87,7 +99,7 @@ mbot.getDistance() > 15         ist vorn mehr als 15 cm frei?
 int abstand = mbot.getDistance()   Abstand in einer Variablen merken
 ```
 
-### Linie
+### ➖ Linie {.bot-sensor}
 
 Unter dem mBot2 sitzen vier Fühler. Sie sehen, ob der Boden schwarz ist.
 
@@ -99,7 +111,7 @@ mbot.isLineLeft()       sieht der linke mittlere Fühler Schwarz?
 mbot.isLineRight()      sieht der rechte mittlere Fühler Schwarz?
 ```
 
-### Farben
+### 🎨 Farben {.bot-sensor}
 
 Derselbe Sensor unten erkennt auch Farben. `mbot.getColor()` gibt dir den Namen der Farbe als Text: `"rot"`, `"grün"`, `"blau"`, `"gelb"`, `"weiß"` oder `"schwarz"`.
 
@@ -110,7 +122,7 @@ mbot.getColor().equals("rot")     steht er auf Rot?
 
 > Texte vergleichst du mit `.equals(…)`, nicht mit `==`. Das `!` davor heißt **nicht**.
 
-### Tasten und Joystick
+### 🕹️ Tasten und Joystick {.bot-sensor}
 
 Auf dem CyberPi gibt es die Tasten A und B und einen kleinen Joystick. Jeder Sensor sagt **wahr**, solange gedrückt wird.
 
@@ -123,14 +135,14 @@ mbot.isJoystickLeft()   Joystick nach links gedrückt?
 mbot.isJoystickRight()  Joystick nach rechts gedrückt?
 ```
 
-### Licht und Lautstärke
+### 🔆 Licht und Lautstärke {.bot-sensor}
 
 ```
 mbot.getBrightness()    wie hell? 0 ist dunkel, 100 ist hell
 mbot.getLoudness()      wie laut? 0 ist still, 100 ist laut
 ```
 
-### Neigung und Schütteln
+### 📐 Neigung und Schütteln {.bot-sensor}
 
 ```
 mbot.getPitch()         nach vorn oder hinten gekippt? (in Grad)
@@ -140,7 +152,7 @@ mbot.isShaken()         wird er geschüttelt?
 
 > Liegt der mBot2 flach, sind beide Neigungen 0. In der Simulation stellst du diese Werte unter **🎛 Sensoren ausprobieren** ein.
 
-### Stoppuhr und Akku
+### 🔋 Stoppuhr und Akku {.bot-sensor}
 
 ```
 mbot.getTimer()         Sekunden seit dem Start oder seit resetTimer()
