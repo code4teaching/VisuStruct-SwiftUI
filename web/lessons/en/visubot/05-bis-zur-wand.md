@@ -1,6 +1,6 @@
 ---
 titel: Up to the wall
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: The mBot2 measures the distance and stops in time.
 ---
 
@@ -61,6 +61,8 @@ lösung: vb-bis-ziel-loesung.visustruct
 :::
 
 ## What does the loop check?
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["While loop"](?visustruct&lektion=11-while-schleife). It opens in a new window.
 
 ::: quiz
 ? The mBot2 is 40 cm in front of the wall. How often does it drive forward with `while (mbot.getDistance() > 15) mbot.forward();` if each move is 10 cm?

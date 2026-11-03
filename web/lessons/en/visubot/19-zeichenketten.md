@@ -1,6 +1,6 @@
 ---
 titel: Strings
-bereich: VisuBot
+bereich: Light, sound and screen
 kurz: Work with texts, pick out letters and show them on the screen.
 ---
 
@@ -49,26 +49,36 @@ tipp: `mbot.showText(text + " (" + text.length() + ")");`
 lösung: vb-java-textlaenge-loesung.visustruct
 :::
 
-## Now without the robot: read it backwards
+## Now in Java: scrolling text
 
-`word.charAt(i)` gives the character with the number `i`. If you put every character at the **front** of a new text, the word ends up backwards:
+`word.charAt(i)` gives the character with the number `i`. If you show the characters one after the other with a pause, the word runs across the screen letter by letter:
 
-| Round | Character | new text |
+```java
+String word = "Ludwig";
+for (int i = 0; i < word.length(); i++) {
+    mbot.showText(word.charAt(i));
+    mbot.pause(500);
+}
+```
+
+| Pass | `i` | Screen |
 |---|---|---|
-| 1 | L | L |
-| 2 | u | uL |
-| 3 | d | duL |
+| 1 | 0 | L |
+| 2 | 1 | u |
+| 3 | 2 | d |
 
-::: übung vb-ohne-rueckwaerts
+::: übung vb-laufschrift
 titel: Ludwig backwards
 code: java
-auftrag: Create `String word = "Ludwig"` and `String backwards = ""`. A loop puts every character of `word` at the front of `backwards`. Finally you print **giwduL**. No `mbot` at all!
-test: - -> giwduL
+auftrag: Create `String word = "Ludwig"`. Show the word **backwards** letter by letter on the screen, so g, i, w, d, u, L, with a 500 ms pause after each letter.
+befehle: showText "g", pause 500, showText "i", pause 500, showText "w", pause 500, showText "d", pause 500, showText "u", pause 500, showText "L", pause 500
 braucht: forSchleife
-tipp: The loop runs from `i = 0` while `i < word.length()`.
-tipp: Inside the loop: `backwards = word.charAt(i) + backwards;`. After the loop: `System.out.println(backwards);`.
-lösung: vb-ohne-rueckwaerts-loesung.visustruct
+tipp: The last character has the number `word.length() - 1`. The loop counts backwards: `for (int i = word.length() - 1; i >= 0; i--)`.
+tipp: Inside the loop: `mbot.showText(word.charAt(i));` and `mbot.pause(500);`.
+lösung: vb-laufschrift-loesung.visustruct
 :::
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Strings"](?visustruct&lektion=17-zeichenketten). It opens in a new window.
 
 ::: quiz
 ? What does `"VisuBot".substring(0, 4)` give?
@@ -78,7 +88,7 @@ lösung: vb-ohne-rueckwaerts-loesung.visustruct
 - [ ] `"uBot"`
 > `substring(0, 4)` takes the characters 0, 1, 2 and 3, so four of them.
 ? What does `"Ludwig".charAt(0)` give?
-→ Now without the robot: read it backwards
+→ Now in Java: scrolling text
 - [x] `L`
 - [ ] `u`
 - [ ] `g`
@@ -90,5 +100,5 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 ::: checkliste
 - I can work with `length()` and `substring(…)`. → Letter by letter
 - I can join texts and numbers with `+`. → Now in Java: text and length
-- I can get single characters with `charAt(…)`. → Now without the robot: read it backwards
+- I can get single characters with `charAt(…)`. → Now in Java: scrolling text
 :::

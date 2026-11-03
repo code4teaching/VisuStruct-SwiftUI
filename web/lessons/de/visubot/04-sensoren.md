@@ -1,6 +1,6 @@
 ---
 titel: Sensoren abfragen
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Der mBot2 misst etwas, und dein Programm entscheidet.
 ---
 
@@ -52,6 +52,8 @@ lösung: vb-wand-vorn-loesung.visustruct
 :::
 
 ## Was liefert der Sensor?
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Verzweigung“](?visustruct&lektion=08-verzweigung). Sie öffnet sich in einem neuen Fenster.
 
 ::: quiz
 ? Die Wand ist 12 cm entfernt. Ist `mbot.getDistance() < 20` wahr oder falsch?

@@ -1,6 +1,6 @@
 ---
 titel: Tasten und Joystick
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Der mBot2 wartet auf dich und lässt sich fernsteuern.
 ---
 

@@ -1,6 +1,6 @@
 ---
 titel: Stopwatch and battery
-bereich: VisuBot
+bereich: Motors and methods
 kurz: Measure time and keep an eye on the battery.
 ---
 

@@ -1,6 +1,6 @@
 ---
 titel: The mBot2
-bereich: VisuBot
+bereich: Getting started
 kurz: Get to know the robot you are about to program.
 ---
 

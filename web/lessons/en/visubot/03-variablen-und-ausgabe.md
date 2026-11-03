@@ -1,7 +1,7 @@
 ---
 titel: Variables and output
-bereich: VisuBot
-kurz: Store values in variables, drive the mBot2 with them and print results.
+bereich: Getting started
+kurz: Store values in variables, drive the mBot2 with them and show results on the screen.
 ---
 
 ## Skills I will gain now
@@ -10,7 +10,7 @@ kurz: Store values in variables, drive the mBot2 with them and print results.
 - create and use a variable
 - tell the data types `int`, `double`, `String` and `boolean` apart
 - drive a rectangle in Java with two variables
-- print something with `System.out.println`
+- show a result on the screen with `mbot.showText`
 :::
 
 ## A variable for the side
@@ -49,9 +49,11 @@ Every variable has a data type. It decides which values fit inside:
 | Data type | What fits inside? | Example |
 |---|---|---|
 | `int` | whole numbers | `int side = 30;` |
-| `double` | decimal numbers, written with a point | `double speed = 1.5;` |
-| `String` | text in quotation marks | `String name = "Visu";` |
-| `boolean` | true or false | `boolean done = false;` |
+| `double` | decimal numbers, written with a point | `double wheelCircumference = 20.4;` |
+| `String` | text in quotation marks | `String name = "Ludwig";` |
+| `boolean` | true or false | `boolean wallNear = mbot.getDistance() < 20;` |
+
+One wheel rotation takes the mBot2 about 20.4 cm, which is a decimal number. `wallNear` holds `true` if the wall is closer than 20 cm. You will meet the distance sensor in Lesson 4.
 
 You can also calculate with variables: `int distance = 4 * side;` works out the whole distance around the square.
 
@@ -70,28 +72,31 @@ tipp: Inside the loop: `mbot.forward(length);`, `mbot.turnRight();`, `mbot.forwa
 lösung: vb-java-rechteck-loesung.visustruct
 :::
 
-## Now without the robot: output
+## Result on the screen
 
-Not every result has to be driven by the robot. With `System.out.println(…)` a Java program prints text in the [console](#zeige-konsole). With `+` you join text and values:
+The mBot2 can do more than drive, it can also show you something. With `mbot.showText(…)` a text appears on the CyberPi's [screen]{teil=screen}. With `+` you join text and values:
 
 ```java
 int side = 30;
 int distance = 4 * side;
-System.out.println("Distance: " + distance + " cm");
+mbot.showText("Distance: " + distance + " cm");
 ```
 
-The console then shows **Distance: 120 cm**.
+The screen then shows **Distance: 120 cm**. You will learn more about the screen in Lesson 18.
 
-::: übung vb-ohne-strecke
+::: übung vb-strecke-anzeigen
 titel: How far does it drive?
 code: java
-auftrag: A rectangle is 60 cm long and 30 cm wide. Create `length` and `width` as variables. Calculate in a variable `distance` how far the mBot2 drives once all the way round, and print **Distance: 180 cm**. No `mbot` at all!
-test: - -> Distance: 180 cm
-braucht: anweisung
-tipp: Once round is twice the length plus twice the width.
-tipp: `int distance = 2 * length + 2 * width;` and then `System.out.println("Distance: " + distance + " cm");`
-lösung: vb-ohne-strecke-loesung.visustruct
+auftrag: Create `int length = 60` and `int width = 30` and drive the rectangle as before. Then work out in a variable `distance` how far the mBot2 drove all the way round, and show **Distance: 180 cm** on the screen.
+fahrt: 2 x (forward 60, turnRight, forward 30, turnRight)
+befehle: showText "Distance: 180 cm"
+braucht: forSchleife
+tipp: All the way round is twice the length and twice the width: `int distance = 2 * length + 2 * width;`
+tipp: After the loop: `mbot.showText("Distance: " + distance + " cm");`
+lösung: vb-strecke-anzeigen-loesung.visustruct
 :::
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Input and output"](?visustruct&lektion=06-eingabe-und-ausgabe). It opens in a new window. There you print results to the console with `System.out.println`.
 
 ::: quiz
 ? What does `mbot.forward(side)` drive if `int side = 40;` comes first?
@@ -100,14 +105,14 @@ lösung: vb-ohne-strecke-loesung.visustruct
 - [x] 40 cm
 - [ ] nothing, `side` is not a command
 > Wherever `side` appears, Java uses the value 40.
-? Which data type fits `"Visu"`?
+? Which data type fits `"Ludwig"`?
 → Which data types are there?
 - [ ] `int`
 - [ ] `double`
 - [x] `String`
 > Text in quotation marks is a `String`.
-? What does `System.out.println("Side: " + 30);` print?
-→ Now without the robot: output
+? What does `mbot.showText("Side: " + 30);` show on the screen?
+→ Result on the screen
 - [x] Side: 30
 - [ ] "Side: " + 30
 - [ ] 30
@@ -120,5 +125,5 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can create and use a variable. → A variable for the side
 - I can tell the data types `int`, `double`, `String` and `boolean` apart. → Which data types are there?
 - I can drive a rectangle in Java with two variables. → Now in Java: rectangle
-- I can print something with `System.out.println`. → Now without the robot: output
+- I can show a result on the screen with `mbot.showText`. → Result on the screen
 :::

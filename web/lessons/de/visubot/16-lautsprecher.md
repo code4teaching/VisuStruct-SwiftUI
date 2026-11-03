@@ -1,6 +1,6 @@
 ---
 titel: Der Lautsprecher
-bereich: VisuBot
+bereich: Licht, Ton und Bildschirm
 kurz: Töne, eine Tonleiter und eine Sirene.
 ---
 

@@ -1,6 +1,6 @@
 ---
 titel: Stoppuhr und Akku
-bereich: VisuBot
+bereich: Motoren und Methoden
 kurz: Zeit messen und den Akku im Blick behalten.
 ---
 

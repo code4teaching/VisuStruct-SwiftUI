@@ -1,6 +1,6 @@
 ---
 titel: Case selection with colours
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: Do something different for each colour or line, with one case selection instead of many branches.
 ---
 
@@ -9,7 +9,7 @@ kurz: Do something different for each colour or line, with one case selection in
 ::: kompetenzen
 - build a case selection with texts
 - write a case selection with numbers in Java
-- read a number and print something depending on its value
+- show a different text on the screen depending on a number
 :::
 
 ## Many colours, many cases
@@ -75,28 +75,33 @@ tipp: For 6 `mbot.forward(10);`, for 0 `mbot.turnRight();`, for 15 `mbot.showTex
 lösung: vb-linienmuster-loesung.visustruct
 :::
 
-## Now without the robot: grades in words
+## Now in Java: start signal
 
-You don't only need the case selection for robots. This program reads a number that the user types in the [console](#zeige-konsole):
+Before a race the mBot2 shows three texts one after the other and then drives off. A for loop counts the rounds 1, 2 and 3. The case selection finds the right text for each round:
 
 ```java
-Scanner scanner = new Scanner(System.in);
-int grade = scanner.nextInt();
+for (int round = 1; round <= 3; round++) {
+    switch (round) {
+        case 1 -> { mbot.showText("On your marks"); }
+        ...
+    }
+    mbot.pause(1000);
+}
 ```
 
-::: übung vb-ohne-noten
-titel: Grades in words
+::: übung vb-startsignal
+titel: Start signal
 code: java
-auftrag: Read a grade as a number. For 1 print **very good**, for 2 **good**, for 3 **satisfactory** and for all other numbers **other grade**. No `mbot` at all!
-test: 1 -> very good
-test: 2 -> good
-test: 3 -> satisfactory
-test: 5 -> other grade
+auftrag: Write in Java: a loop counts `round` from 1 to 3. In round 1 the screen shows **On your marks**, in round 2 **Get set**, otherwise **Go!**. After each text the mBot2 waits one second. After the loop it drives 50 cm forward.
+befehle: showText "On your marks", pause 1000, showText "Get set", pause 1000, showText "Go!", pause 1000
+fahrt: forward 50
 braucht: fallauswahl
-tipp: First `Scanner scanner = new Scanner(System.in);` and `int grade = scanner.nextInt();`. Then comes `switch (grade) { … }`.
-tipp: `case 1 -> { System.out.println("very good"); }` and so on, finally `default -> { System.out.println("other grade"); }`.
-lösung: vb-ohne-noten-loesung.visustruct
+tipp: The loop is `for (int round = 1; round <= 3; round++) { … }`. Inside it is `switch (round) { … }` and after that `mbot.pause(1000);`.
+tipp: `case 1 -> { mbot.showText("On your marks"); }`, `case 2 -> { … }` and `default -> { mbot.showText("Go!"); }`. After the loop `mbot.forward(50);`.
+lösung: vb-startsignal-loesung.visustruct
 :::
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Switch"](?visustruct&lektion=10-fallauswahl). It opens in a new window.
 
 ::: quiz
 ? The mBot2 is on yellow. Which case of the colour switch runs?
@@ -118,5 +123,5 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 ::: checkliste
 - I can build a case selection with texts. → Many colours, many cases
 - I can write a case selection with numbers in Java. → Now in Java: line patterns
-- I can read a number and print something depending on its value. → Now without the robot: grades in words
+- I can show a different text on the screen depending on a number. → Now in Java: start signal
 :::

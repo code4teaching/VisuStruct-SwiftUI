@@ -1,6 +1,6 @@
 ---
 titel: Das Mikrofon
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Klatschen zum Losfahren und eine Lärmampel für das Klassenzimmer.
 ---
 

@@ -1,6 +1,6 @@
 ---
 titel: Der Bildschirm
-bereich: VisuBot
+bereich: Licht, Ton und Bildschirm
 kurz: Text, Zahlen und Messwerte auf dem CyberPi anzeigen.
 ---
 

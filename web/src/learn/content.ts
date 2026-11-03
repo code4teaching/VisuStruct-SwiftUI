@@ -65,7 +65,7 @@ export let reference = ''
 export let glossary: GlossaryEntry[] = []
 /**
  * Zwei Welten (Holger, 27.10.): VisuStruct (`off`, der Kurs ohne Roboter) oder VisuBot (`on`).
- * VisuBot zeigt seit 30.10. eine durchgehende Reihe: alle VisuStruct-Lektionen mit den VisuBot-Lektionen dazwischen.
+ * VisuBot zeigt seit 3.11. nur die Roboter-Lektionen; für reines Java verweisen sie auf VisuStruct.
  */
 export type VisuBotMode = 'off' | 'on'
 export let visuBot: VisuBotMode = 'off'
@@ -96,19 +96,14 @@ export function useContentLanguage(lang: ContentLanguage) {
     })
   const normalTaskFiles = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
   if (visuBot === 'on') {
+    // Seit 3.11. (Holger): VisuBot zeigt nur die Roboter-Lektionen und -Aufgaben, normales Java steht in VisuStruct.
     const robotLessonFiles = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang)
-    const series = visuBotSeries(lessonNumbers(pages), lessonNumbers(robotLessonFiles))
-    const normal = parseLessons(pages, series.normal)
-    const sectionBefore = (n: number) => [...normal].reverse().find((l) => series.normal.get(l.number)! < n)?.section ?? ''
-    lessons = [
-      ...normal.map((l) => ({ ...l, number: series.normal.get(l.number)! })),
-      ...parseLessons(robotLessonFiles, series.robot).map((l) => {
-        const number = series.robot.get(l.number)!
-        return { ...l, number, section: sectionBefore(number), robot: true }
-      }),
-    ].sort((a, b) => a.number - b.number)
+    const series = visuBotSeries(robotLessonFiles)
+    lessons = parseLessons(robotLessonFiles, series.renumber)
+      .map((l) => ({ ...l, number: series.number.get(l.id)!, robot: true }))
+      .sort((a, b) => a.number - b.number)
     const robotTaskFiles = filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang)
-    tasks = [...parseTasks(normalTaskFiles, 'aufgaben/', series.normal), ...parseTasks(robotTaskFiles, 'visubot/aufgaben/', series.robot).map((t) => ({ ...t, robot: true }))]
+    tasks = parseTasks(robotTaskFiles, 'visubot/aufgaben/', series.renumber).map((t) => ({ ...t, robot: true }))
   } else {
     lessons = parseLessons(pages)
     tasks = parseTasks(normalTaskFiles, 'aufgaben/')
@@ -128,49 +123,24 @@ export function useContentLanguage(lang: ContentLanguage) {
 }
 
 /**
- * Platz der VisuBot-Lektionen in der durchgehenden Reihe (Holger, 30.10.): VisuBot-Lektion → VisuStruct-Lektion,
- * nach der sie kommt (jeweils die zum selben Thema). Fehlt eine Nummer, kommt die Lektion ans Ende der Grundlagen.
+ * Nummern der VisuBot-Reihe: die Roboter-Lektionen in Dateireihenfolge, durchgezählt ab 1. So kann eine neue Lektion
+ * mit gleicher Nummer und späterem Namen (`07-linie.md`, `07-wand-oder-linie.md`) eingeschoben werden, ohne Dateien
+ * umzubenennen (Lernstand hängt am Dateinamen). Verweise „Lektion N“ in den Texten meinen die Dateinummer N und
+ * werden auf die Nummer in der Reihe umgeschrieben (bei gleicher Nummer zählt die erste Datei).
  */
-const visuBotPlaces: Record<number, number> = {
-  1: 3, // Der mBot2 nach Speichern, Öffnen, Exportieren
-  2: 5, // Das Quadrat nach Sequenz
-  3: 5, // Variablen und Ausgabe
-  4: 8, // Sensoren nach Verzweigung
-  5: 11, // Bis zur Wand bis Einzelne LEDs nach der while-Schleife
-  6: 11,
-  7: 11,
-  8: 11,
-  9: 11,
-  10: 11,
-  11: 11,
-  12: 11,
-  13: 11,
-  14: 11,
-  15: 11,
-  16: 14, // Lautsprecher nach Verschachteln
-  17: 15, // Arrays und Melodien, Bildschirm nach Arrays
-  18: 15,
-  19: 17, // Zeichenketten, Motoren, Stoppuhr und Akku nach Zeichenketten
-  20: 17,
-  21: 17,
-  22: 18, // Eigene Methoden nach Aufruf und Aussprung
-}
-
-const lessonNumbers = (files: [string, string][]) =>
-  files.map(([name]) => Number(/^(\d+)/.exec(name)?.[1])).filter(Number.isFinite).sort((a, b) => a - b)
-
-/** Die durchgehende VisuBot-Reihe: für beide Teile die Umrechnung alte Nummer → Nummer in der Reihe. */
-function visuBotSeries(normal: number[], robot: number[]): { normal: Map<number, number>; robot: Map<number, number> } {
-  const lastBasic = [...normal].reverse().find((n) => n <= 19) ?? normal.at(-1) ?? 0
-  const place = (n: number) => (normal.includes(visuBotPlaces[n]) ? visuBotPlaces[n] : lastBasic)
-  const normalMap = new Map<number, number>()
-  const robotMap = new Map<number, number>()
-  let next = 1
-  for (const n of normal) {
-    normalMap.set(n, next++)
-    for (const r of robot.filter((r) => place(r) === n)) robotMap.set(r, next++)
-  }
-  return { normal: normalMap, robot: robotMap }
+export function visuBotSeries(files: [string, string][]): { number: Map<string, number>; renumber: Map<number, number> } {
+  const names = files
+    .map(([name]) => name)
+    .filter((name) => /^\d+/.test(name))
+    .sort((a, b) => Number(/^\d+/.exec(a)![0]) - Number(/^\d+/.exec(b)![0]) || a.localeCompare(b))
+  const number = new Map<string, number>()
+  const renumber = new Map<number, number>()
+  names.forEach((name, i) => {
+    number.set(name.replace(/\.md$/, ''), i + 1)
+    const fileNumber = Number(/^\d+/.exec(name)![0])
+    if (!renumber.has(fileNumber)) renumber.set(fileNumber, i + 1)
+  })
+  return { number, renumber }
 }
 
 /** Verweise wie „Lektion 5“, „Lektionen 6 bis 13“, „Lesson 5“ oder „lição 5“ auf die neue Nummer umschreiben. */

@@ -1,6 +1,6 @@
 ---
 titel: The LEDs
-bereich: VisuBot
+bereich: Light, sound and screen
 kurz: Mix colours, build a traffic light and make it blink.
 ---
 
