@@ -64,6 +64,87 @@ lösung: vb-spirale-falsch-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Simulation und Schreibtischtest“](?visustruct&lektion=07-simulation-und-schreibtischtest). Sie öffnet sich in einem neuen Fenster.
 
+## Spiel: Spiel den Computer
+
+::: spiel frage
+titel: Spiel: Spiel den Computer
+intro: Mach in deinem Kopf den Schreibtischtest. Was tut der mBot2, und welche Werte haben die Variablen? Fünf Runden.
+
+runde:
+    int seite = 20;
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(seite);
+        seite = seite + 10;
+    }
+frage: Welchen Wert hat `seite` nach der Schleife?
+- 40
+- [x] 50
+- 30
+> 20, dann 30, 40 und nach dem dritten Durchgang 50.
+
+runde:
+    int seite = 20;
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(seite);
+        seite = seite + 10;
+    }
+frage: Wie weit fährt der mBot2 beim dritten Mal?
+- [x] 40 cm
+- 50 cm
+- 30 cm
+> Er fährt 20, 30 und 40 cm. Die 50 steht erst danach in `seite`.
+
+runde:
+    int seite = 20;
+    for (int i = 0; i < 3; i++) {
+        seite = seite + 10;
+        mbot.forward(seite);
+    }
+frage: Wie weit fährt der mBot2 beim ersten Mal?
+- 20 cm
+- [x] 30 cm
+- 10 cm
+> `seite` wächst schon vor dem Fahren. Genau das war Ludwigs logischer Fehler.
+
+runde:
+    int strecke = 0;
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(25);
+        strecke = strecke + 25;
+    }
+    mbot.showText("Strecke: " + strecke);
+frage: Was zeigt der Bildschirm am Ende?
+- Strecke: 25
+- [x] Strecke: 100
+- Strecke: 0
+> Viermal kommen 25 dazu: 25, 50, 75, 100.
+
+runde:
+    int seite = 10;
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(seite);
+        seite = seite * 2;
+    }
+frage: Wie weit fährt der mBot2 insgesamt?
+- 60 cm
+- [x] 70 cm
+- 80 cm
+> Er fährt 10, 20 und 40 cm. Zusammen sind das 70 cm.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann die Simulation mit Start, Schritt und Stopp steuern. → Die Simulation steuern
+- Ich kann in der Simulation die Variablen beobachten. → Die Simulation steuern
+- Ich kann einen Schreibtischtest mit einer Tabelle machen. → Der Schreibtischtest
+- Ich kann mit der Simulation einen Fehler finden und reparieren. → Fehler finden mit der Simulation
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Welcher Knopf führt genau einen Kasten aus?
 → Die Simulation steuern
@@ -83,13 +164,4 @@ lösung: vb-spirale-falsch-loesung.visustruct
 - [x] ein logischer Fehler
 - [ ] ein Fehler im Roboter
 > Das Programm tut genau, was dasteht, nur nicht das, was gemeint war.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann die Simulation mit Start, Schritt und Stopp steuern. → Die Simulation steuern
-- Ich kann in der Simulation die Variablen beobachten. → Die Simulation steuern
-- Ich kann einen Schreibtischtest mit einer Tabelle machen. → Der Schreibtischtest
-- Ich kann mit der Simulation einen Fehler finden und reparieren. → Fehler finden mit der Simulation
 :::

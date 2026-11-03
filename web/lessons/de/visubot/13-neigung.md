@@ -77,6 +77,83 @@ tipp: Richtig heißt es `mbot.setLed(0, 255, 0)`.
 lösung: vb-java-wasserwaage-loesung.visustruct
 :::
 
+## Spiel: Zu schief?
+
+::: spiel frage
+titel: Spiel: Zu schief?
+intro: Ludwig kippt den mBot2. Was tut er? Sechs Runden.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: Die Nase zeigt 30° nach unten, `mbot.getPitch()` liefert 30.
+- [x] Er piept.
+- Er piept nicht.
+> 30 ist größer als 20. Ein wahrer Teil reicht bei `||`.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: Die Nase zeigt nach oben, `mbot.getPitch()` liefert −25.
+- [x] Er piept.
+- Er piept nicht.
+> −25 ist kleiner als −20, also ist der zweite Teil wahr.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: Eine flache Rampe, `mbot.getPitch()` liefert 10.
+- Er piept.
+- [x] Er piept nicht.
+> 10 liegt zwischen −20 und 20. Beide Teile sind falsch.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: `mbot.getPitch()` liefert genau 20.
+- Er piept.
+- [x] Er piept nicht.
+> 20 ist nicht größer als 20.
+
+runde:
+    if (mbot.getPitch() > -5 && mbot.getPitch() < 5 && mbot.getRoll() > -5 && mbot.getRoll() < 5) {
+        mbot.setLed(0, 255, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: `mbot.getPitch()` liefert 0, `mbot.getRoll()` liefert 3.
+- [x] Die LEDs leuchten grün.
+- Die LEDs sind aus.
+> Alle vier Teile sind wahr. Der mBot2 liegt fast gerade.
+
+runde:
+    if (mbot.getPitch() > -5 && mbot.getPitch() < 5 && mbot.getRoll() > -5 && mbot.getRoll() < 5) {
+        mbot.setLed(0, 255, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: `mbot.getPitch()` liefert 2, `mbot.getRoll()` liefert −8.
+- Die LEDs leuchten grün.
+- [x] Die LEDs sind aus.
+> −8 ist nicht größer als −5. Bei `&&` macht ein falscher Teil alles falsch.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was der Lagesensor misst. → Schief oder gerade?
+- Ich kann zwei Bedingungen mit „oder“ verbinden. → Schräglage-Warnung im Struktogramm
+- Ich kann mehrere Bedingungen mit „und“ verbinden. → Jetzt in Java: Wasserwaage
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der mBot2 steht flach auf dem Tisch. Was liefert `mbot.getPitch()` ungefähr?
 → Schief oder gerade?
@@ -88,12 +165,4 @@ lösung: vb-java-wasserwaage-loesung.visustruct
 - [ ] Es schüttelt den mBot2.
 - [x] Es meldet, ob jemand den mBot2 schüttelt.
 > Sensoren tun nichts, sie messen nur.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was der Lagesensor misst. → Schief oder gerade?
-- Ich kann zwei Bedingungen mit „oder“ verbinden. → Schräglage-Warnung im Struktogramm
-- Ich kann mehrere Bedingungen mit „und“ verbinden. → Jetzt in Java: Wasserwaage
 :::

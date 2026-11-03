@@ -79,6 +79,75 @@ tipp: It should be `equals("green")`.
 lösung: vb-java-blau-gruen-loesung.visustruct
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Read what the mBot2 should do and tap the wrong line before time runs out. Five rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (mbot.getColor().equals("red")) {
+        mbot.forward();
+    }
+frage: Should drive forward until it is standing on red.
+fehler: 1
+besser: while (!mbot.getColor().equals("red")) {
+> It should drive as long as it is **not** on red. The `!` is missing.
+
+runde:
+    if (mbot.getColor() == "green") {
+        mbot.playTone(440, 300);
+    }
+frage: Should beep when it is standing on green.
+fehler: 1
+besser: if (mbot.getColor().equals("green")) {
+> You compare texts with `.equals(…)`, not with `==`.
+
+runde:
+    while (!mbot.getColor().equals("blue")) {
+        mbot.forward();
+        if (mbot.getColor().equals("green")) {
+            mbot.turnRight();
+        }
+    }
+frage: Should drive to blue and beep on green.
+fehler: 4
+besser: mbot.playTone(440, 300);
+> On green it should beep, not turn.
+
+runde:
+    if (mbot.getColor().equals(red)) {
+        mbot.turnRight();
+    }
+frage: Should turn right on red.
+fehler: 1
+besser: if (mbot.getColor().equals("red")) {
+> Without quotation marks, Java looks for a variable called `red`. The colour name is a text.
+
+runde:
+    while (!mbot.getColor().equals("red")) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300)
+frage: Should drive to red and then beep.
+fehler: 4
+besser: mbot.playTone(440, 300);
+> The semicolon at the end of the statement is missing.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can ask for a colour with `mbot.getColor().equals(…)`. → A sensor that sees colours
+- I can turn a condition round with `!`. → Drive to red in the structure chart
+- I can put a branch inside a loop. → Now in Java: beep on green
+:::
+
+## Quiz
+
 ::: quiz
 ? The mBot2 is on a red field. What is `!mbot.getColor().equals("red")`?
 → Drive to red in the structure chart
@@ -91,12 +160,4 @@ lösung: vb-java-blau-gruen-loesung.visustruct
 - [ ] `mbot.getColor() == "green"`
 - [ ] `mbot.getColor() = "green"`
 > `mbot.getColor()` gives a text, and texts are compared with `.equals(…)`. A single `=` is an assignment, not a comparison at all.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can ask for a colour with `mbot.getColor().equals(…)`. → A sensor that sees colours
-- I can turn a condition round with `!`. → Drive to red in the structure chart
-- I can put a branch inside a loop. → Now in Java: beep on green
 :::

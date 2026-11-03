@@ -78,6 +78,85 @@ tipp: It should be `mbot.showText("Steps: " + steps)`.
 lösung: vb-java-schritte-zaehlen-loesung.visustruct
 :::
 
+## Game: Head or foot?
+
+::: spiel frage
+titel: Game: Head or foot?
+intro: While or do-while: how often does the mBot2 drive forward? Each drive is 10 cm long. Six rounds.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: The wall is 10 cm in front of the mBot2. How often does it drive forward?
+- [x] not at all
+- once
+- 2 times
+> The while loop checks first. 10 is not greater than 15.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: The wall is 10 cm in front of the mBot2. How often does it drive forward?
+- not at all
+- [x] once
+- 2 times
+> The do-while loop drives first and checks afterwards. It always drives once.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: The wall is 40 cm in front of the mBot2. How often does it drive forward?
+- 2 times
+- [x] 3 times
+- 4 times
+> After the first drive it is 30 cm, then 20, then 10. At 10 it stops. Here both loops drive the same number of times.
+
+runde:
+    int steps = 0;
+    do {
+        mbot.forward();
+        steps = steps + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Steps: " + steps);
+frage: The wall is 10 cm in front of the mBot2. What does the screen show?
+- Steps: 0
+- [x] Steps: 1
+- Steps: 2
+> The body runs once, so `steps` counts up once.
+
+runde:
+frage: Which loop is foot-controlled?
+- the while loop
+- [x] the do-while loop
+- the for loop
+> Its condition is at the bottom, in the foot.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15)
+frage: Why doesn't this code run?
+- `do` must be written with a capital letter.
+- [x] The semicolon after `while (…)` is missing.
+- The condition must be at the top.
+> The do-while loop ends with `} while (condition);`.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain that the do-while loop checks its condition only after the body. → Drive first, then check
+- I can compare a while loop and a do-while loop. → Drive first, then check
+- I can write a do-while loop in Java. → Now in Java: counting steps
+:::
+
+## Quiz
+
 ::: quiz
 ? Where is the condition of a do-while loop?
 → Drive first, then check
@@ -97,12 +176,4 @@ lösung: vb-java-schritte-zaehlen-loesung.visustruct
 - [ ] a curly bracket `{`
 - [ ] nothing
 > `} while (condition);` ends with a semicolon.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain that the do-while loop checks its condition only after the body. → Drive first, then check
-- I can compare a while loop and a do-while loop. → Drive first, then check
-- I can write a do-while loop in Java. → Now in Java: counting steps
 :::

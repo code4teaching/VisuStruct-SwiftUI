@@ -75,6 +75,83 @@ tipp: Richtig heißt es `mbot.pause(500)`.
 lösung: vb-java-blinken-loesung.visustruct
 :::
 
+## Spiel: Welche Farbe?
+
+::: spiel frage
+titel: Spiel: Welche Farbe?
+intro: Rot, Grün und Blau gemischt: Welche Farbe zeigen die LEDs? Sieben Runden.
+
+runde:
+    mbot.setLed(255, 0, 0);
+frage: Welche Farbe leuchtet?
+- [x] Rot
+- Grün
+- Blau
+> Nur der erste Wert, Rot, ist an.
+
+runde:
+    mbot.setLed(0, 0, 255);
+frage: Welche Farbe leuchtet?
+- Rot
+- Grün
+- [x] Blau
+> Die Reihenfolge ist immer Rot, Grün, Blau. Nur Blau ist an.
+
+runde:
+    mbot.setLed(255, 255, 255);
+frage: Welche Farbe leuchtet?
+- Gelb
+- [x] Weiß
+- aus
+> Alle drei Farben ganz hell ergeben Weiß.
+
+runde:
+    mbot.setLed(255, 200, 0);
+frage: Welche Farbe leuchtet?
+- [x] Gelb
+- Lila
+- Weiß
+> Rot und Grün zusammen ergeben Gelb.
+
+runde:
+    mbot.setLed(160, 0, 255);
+frage: Welche Farbe leuchtet?
+- Gelb
+- [x] Lila
+- Grün
+> Rot und Blau zusammen ergeben Lila.
+
+runde:
+    mbot.setLed(0, 0, 0);
+frage: Welche Farbe leuchtet?
+- Weiß
+- Schwarz
+- [x] keine, die LEDs sind aus
+> Alle drei Werte sind 0. Eine LED kann nicht schwarz leuchten.
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.setLed(0, 255, 0);
+    mbot.pause(1000);
+frage: Welche Farbe siehst du eine Sekunde lang?
+- Rot
+- [x] Grün
+- erst Rot, dann Grün
+> Ohne **kurz warten** zwischen den Farben ist Rot sofort wieder weg.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Farbe aus Rot, Grün und Blau mischen. → Rot, Grün und Blau mischen
+- Ich kann Farben mit Pausen nacheinander zeigen. → Ampel im Struktogramm
+- Ich kann die LEDs in Java blinken lassen. → Jetzt in Java: Blaulicht
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Welche Farbe ergibt `mbot.setLed(0, 255, 0)`?
 → Rot, Grün und Blau mischen
@@ -87,12 +164,4 @@ lösung: vb-java-blinken-loesung.visustruct
 - [x] Sonst wechselt es so schnell, dass man kein Blinken sieht.
 - [ ] Sonst gehen die LEDs kaputt.
 - [ ] Weil `ledOff()` sonst nicht geht.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Farbe aus Rot, Grün und Blau mischen. → Rot, Grün und Blau mischen
-- Ich kann Farben mit Pausen nacheinander zeigen. → Ampel im Struktogramm
-- Ich kann die LEDs in Java blinken lassen. → Jetzt in Java: Blaulicht
 :::

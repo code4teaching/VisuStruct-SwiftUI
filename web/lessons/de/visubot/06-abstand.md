@@ -87,6 +87,91 @@ tipp: Richtig heißt es `mbot.playTone(440, 300)`.
 lösung: vb-java-wand-piep-loesung.visustruct
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was der mBot2 tun soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Sechs Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    if (mbot.getDistance() < 10) {
+        mbot.forward();
+    } else if (mbot.getDistance() > 20) {
+        mbot.forward();
+    }
+frage: Unter 10 cm soll er zurückfahren, über 20 cm vorfahren.
+fehler: 2
+besser: mbot.backward();
+> Ist die Hand zu nah, muss er zurück, nicht vor.
+
+runde:
+    while (mbot.getDistance() < 15) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Soll vorfahren, solange die Wand mehr als 15 cm weg ist, und dann piepen.
+fehler: 1
+besser: while (mbot.getDistance() > 15) {
+> „Mehr als 15 cm weg“ heißt `> 15`.
+
+runde:
+    while (mbot.getDistance > 15) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Soll bis zur Wand fahren und dann piepen.
+fehler: 1
+besser: while (mbot.getDistance() > 15) {
+> Ein Sensor ist eine Methode. Ohne Klammern findet Java ihn nicht.
+
+runde:
+    if (mbot.getDistance() < 10) {
+        mbot.backward();
+    } els {
+        mbot.forward();
+    }
+frage: Unter 10 cm soll er zurückfahren, sonst vorfahren.
+fehler: 3
+besser: } else {
+> Der Nein-Zweig heißt `else`.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.turnRight();
+    }
+    mbot.playTone(440, 300);
+frage: Soll bis zur Wand fahren und dann piepen.
+fehler: 2
+besser: mbot.forward();
+> Er soll vorfahren, nicht sich drehen.
+
+runde:
+    if (mbot.getDistance() < 10) {
+        mbot.backward();
+    } else {
+        if (mbot.getDistance() < 20) {
+            mbot.forward();
+        }
+    }
+frage: Unter 10 cm zurück, über 20 cm vor, dazwischen stehen bleiben.
+fehler: 4
+besser: if (mbot.getDistance() > 20) {
+> Vorfahren soll er nur, wenn die Hand weiter als 20 cm weg ist.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was `mbot.getDistance()` misst. → Wie misst der mBot2 den Abstand?
+- Ich kann zwei Verzweigungen ineinander bauen. → Abstand halten im Struktogramm
+- Ich kann eine While-Schleife mit dem Abstand in Java schreiben. → Jetzt in Java
+:::
+
+## Wissenstest
+
 ::: quiz
 ? `mbot.getDistance()` liefert `8`. Was tut das Programm aus „Abstand halten“?
 → Abstand halten im Struktogramm
@@ -100,12 +185,4 @@ lösung: vb-java-wand-piep-loesung.visustruct
 - [x] `else`
 - [ ] `otherwise`
 > `if` ist der Anfang, `else` der Nein-Zweig.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was `mbot.getDistance()` misst. → Wie misst der mBot2 den Abstand?
-- Ich kann zwei Verzweigungen ineinander bauen. → Abstand halten im Struktogramm
-- Ich kann eine While-Schleife mit dem Abstand in Java schreiben. → Jetzt in Java
 :::

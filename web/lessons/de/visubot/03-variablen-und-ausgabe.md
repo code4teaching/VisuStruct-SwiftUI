@@ -98,6 +98,69 @@ lösung: vb-strecke-anzeigen-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Eingabe und Ausgabe“](?visustruct&lektion=06-eingabe-und-ausgabe). Sie öffnet sich in einem neuen Fenster. Dort gibst du Ergebnisse mit `System.out.println` in der Konsole aus.
 
+## Spiel: Welcher Datentyp?
+
+::: spiel frage
+titel: Spiel: Welcher Datentyp?
+intro: Ludwig hat die Datentypen weggewischt. Welcher passt in die Lücke? Sieben Runden.
+antworten: int | double | String | boolean
+
+runde:
+    ___ seite = 30;
+frage: Welcher Datentyp passt?
+richtig: int
+> 30 ist eine ganze Zahl.
+
+runde:
+    ___ radumfang = 20.4;
+frage: Welcher Datentyp passt?
+richtig: double
+> 20.4 ist eine Kommazahl, in Java mit Punkt geschrieben.
+
+runde:
+    ___ name = "Ludwig";
+frage: Welcher Datentyp passt?
+richtig: String
+> Text in Anführungszeichen ist ein `String`.
+
+runde:
+    ___ wandNah = mbot.getDistance() < 20;
+frage: Welcher Datentyp passt?
+richtig: boolean
+> Ein Vergleich ist wahr oder falsch, also `boolean`.
+
+runde:
+    ___ abstand = mbot.getDistance();
+frage: Welcher Datentyp passt?
+richtig: int
+> Der Abstandssensor liefert ganze Zentimeter, zum Beispiel 38.
+
+runde:
+    ___ gruss = "Hallo " + "Klasse";
+frage: Welcher Datentyp passt?
+richtig: String
+> Zwei Texte mit `+` ergeben wieder einen Text.
+
+runde:
+    ___ mittelwert = 120 / 5.0;
+frage: Welcher Datentyp passt?
+richtig: double
+> Mit `5.0` rechnet Java mit Kommazahlen. Das Ergebnis ist 24.0.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Variable anlegen und benutzen. → Eine Variable für die Seite
+- Ich kann die Datentypen `int`, `double`, `String` und `boolean` unterscheiden. → Welche Datentypen gibt es?
+- Ich kann mit zwei Variablen ein Rechteck in Java fahren. → Jetzt in Java: Rechteck
+- Ich kann mit `mbot.showText` ein Ergebnis auf dem Bildschirm zeigen. → Ergebnis auf dem Bildschirm
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was fährt `mbot.forward(seite)`, wenn vorher `int seite = 40;` steht?
 → Eine Variable für die Seite
@@ -117,13 +180,4 @@ lösung: vb-strecke-anzeigen-loesung.visustruct
 - [ ] "Seite: " + 30
 - [ ] 30
 > Das `+` hängt den Text und die Zahl aneinander.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Variable anlegen und benutzen. → Eine Variable für die Seite
-- Ich kann die Datentypen `int`, `double`, `String` und `boolean` unterscheiden. → Welche Datentypen gibt es?
-- Ich kann mit zwei Variablen ein Rechteck in Java fahren. → Jetzt in Java: Rechteck
-- Ich kann mit `mbot.showText` ein Ergebnis auf dem Bildschirm zeigen. → Ergebnis auf dem Bildschirm
 :::

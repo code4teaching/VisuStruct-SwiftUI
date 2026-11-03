@@ -78,6 +78,85 @@ tipp: Richtig heißt es `mbot.showText("Schritte: " + schritte)`.
 lösung: vb-java-schritte-zaehlen-loesung.visustruct
 :::
 
+## Spiel: Kopf oder Fuß?
+
+::: spiel frage
+titel: Spiel: Kopf oder Fuß?
+intro: While oder Do-while: Wie oft fährt der mBot2 vor? Jede Fahrt ist 10 cm lang. Sechs Runden.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: Die Wand steht 10 cm vor dem mBot2. Wie oft fährt er vor?
+- [x] gar nicht
+- 1-mal
+- 2-mal
+> Die While-Schleife prüft zuerst. 10 ist nicht größer als 15.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Die Wand steht 10 cm vor dem mBot2. Wie oft fährt er vor?
+- gar nicht
+- [x] 1-mal
+- 2-mal
+> Die Do-while-Schleife fährt erst und prüft dann. Einmal fährt sie immer.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Die Wand steht 40 cm vor dem mBot2. Wie oft fährt er vor?
+- 2-mal
+- [x] 3-mal
+- 4-mal
+> Nach der ersten Fahrt sind es 30 cm, dann 20, dann 10. Bei 10 ist Schluss. Hier fahren beide Schleifen gleich oft.
+
+runde:
+    int schritte = 0;
+    do {
+        mbot.forward();
+        schritte = schritte + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Schritte: " + schritte);
+frage: Die Wand steht 10 cm vor dem mBot2. Was zeigt der Bildschirm?
+- Schritte: 0
+- [x] Schritte: 1
+- Schritte: 2
+> Der Inhalt läuft einmal, also zählt `schritte` einmal hoch.
+
+runde:
+frage: Welche Schleife ist fußgesteuert?
+- die While-Schleife
+- [x] die Do-while-Schleife
+- die For-Schleife
+> Ihre Bedingung steht unten im Fuß.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15)
+frage: Warum läuft dieser Code nicht?
+- `do` muss großgeschrieben werden.
+- [x] Hinter `while (…)` fehlt das Semikolon.
+- Die Bedingung muss oben stehen.
+> Die Do-while-Schleife endet mit `} while (Bedingung);`.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst fahren, dann prüfen
+- Ich kann eine While- und eine Do-while-Schleife vergleichen. → Erst fahren, dann prüfen
+- Ich kann eine Do-while-Schleife in Java schreiben. → Jetzt in Java: Schritte zählen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Wo steht bei der Do-while-Schleife die Bedingung?
 → Erst fahren, dann prüfen
@@ -97,12 +176,4 @@ lösung: vb-java-schritte-zaehlen-loesung.visustruct
 - [ ] eine geschweifte Klammer `{`
 - [ ] nichts
 > `} while (Bedingung);` endet mit einem Semikolon.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst fahren, dann prüfen
-- Ich kann eine While- und eine Do-while-Schleife vergleichen. → Erst fahren, dann prüfen
-- Ich kann eine Do-while-Schleife in Java schreiben. → Jetzt in Java: Schritte zählen
 :::

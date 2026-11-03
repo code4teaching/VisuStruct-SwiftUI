@@ -87,6 +87,91 @@ tipp: It should be `mbot.playTone(440, 300)`.
 lösung: vb-java-wand-piep-loesung.visustruct
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Read what the mBot2 should do and tap the wrong line before time runs out. Six rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    if (mbot.getDistance() < 10) {
+        mbot.forward();
+    } else if (mbot.getDistance() > 20) {
+        mbot.forward();
+    }
+frage: Under 10 cm it should drive back, over 20 cm forward.
+fehler: 2
+besser: mbot.backward();
+> If the hand is too close, it has to go back, not forward.
+
+runde:
+    while (mbot.getDistance() < 15) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Should drive forward as long as the wall is more than 15 cm away, then beep.
+fehler: 1
+besser: while (mbot.getDistance() > 15) {
+> "More than 15 cm away" means `> 15`.
+
+runde:
+    while (mbot.getDistance > 15) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Should drive to the wall and then beep.
+fehler: 1
+besser: while (mbot.getDistance() > 15) {
+> A sensor is a method. Without brackets, Java can't find it.
+
+runde:
+    if (mbot.getDistance() < 10) {
+        mbot.backward();
+    } els {
+        mbot.forward();
+    }
+frage: Under 10 cm it should drive back, otherwise forward.
+fehler: 3
+besser: } else {
+> The no branch is called `else`.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.turnRight();
+    }
+    mbot.playTone(440, 300);
+frage: Should drive to the wall and then beep.
+fehler: 2
+besser: mbot.forward();
+> It should drive forward, not turn.
+
+runde:
+    if (mbot.getDistance() < 10) {
+        mbot.backward();
+    } else {
+        if (mbot.getDistance() < 20) {
+            mbot.forward();
+        }
+    }
+frage: Under 10 cm back, over 20 cm forward, in between stand still.
+fehler: 4
+besser: if (mbot.getDistance() > 20) {
+> It should only drive forward if the hand is more than 20 cm away.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what `mbot.getDistance()` measures. → How does the mBot2 measure distance?
+- I can put one branch inside another. → Keep your distance in the structure chart
+- I can write a while loop with the distance in Java. → Now in Java
+:::
+
+## Quiz
+
 ::: quiz
 ? `mbot.getDistance()` gives `8`. What does the program from “Keep your distance” do?
 → Keep your distance in the structure chart
@@ -100,12 +185,4 @@ lösung: vb-java-wand-piep-loesung.visustruct
 - [x] `else`
 - [ ] `otherwise`
 > `if` is the start, `else` the No branch.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what `mbot.getDistance()` measures. → How does the mBot2 measure distance?
-- I can put one branch inside another. → Keep your distance in the structure chart
-- I can write a while loop with the distance in Java. → Now in Java
 :::

@@ -167,6 +167,67 @@ tipp: It should be `mbot.forward(1, "rotations")`.
 lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
 :::
 
+## Game: Which method?
+
+::: spiel frage
+titel: Game: Which method?
+intro: Same name, different parameters: which method does Java call, and what comes out? Six rounds.
+
+runde:
+    mbot.forward(30, "cm");
+frage: Which `forward` method runs?
+- `forward()`
+- `forward(int cm)`
+- [x] `forward(int value, String unit)`
+> Two parameters, a number and a text: that only fits the third one.
+
+runde:
+    mbot.forward();
+frage: How far does the mBot2 drive?
+- [x] 10 cm
+- not at all, the number is missing
+- one wheel rotation
+> Without a parameter, `forward` drives 10 cm. That is the version with no parameters.
+
+runde:
+    mbot.forward(2, "rotations");
+frage: Roughly how far does the mBot2 drive?
+- 2 cm
+- 20 cm
+- [x] 41 cm
+> One wheel rotation is about 20.4 cm, so two are about 40.8 cm.
+
+runde:
+    static int centimetres(int rotations) {
+        return rotations * 20;
+    }
+frage: What does `centimetres(4)` give?
+- 4
+- 24
+- [x] 80
+> The parameter `rotations` is 4, and `return` gives back 4 · 20.
+
+runde:
+    public static void main(String[] args) {
+        square(30);
+        square(50);
+    }
+frage: How many squares does the mBot2 drive, and how big is the second one?
+- one with 80 cm
+- [x] two, the second with 50 cm sides
+- two, both with 30 cm sides
+> Each call drives one square. The value in the brackets becomes `side`.
+
+runde:
+frage: Which header fits a method that gives back a number?
+- `void centimetres(int rotations)`
+- [x] `int centimetres(int rotations)`
+- `centimetres(int rotations)`
+> The data type of the result comes before the name. `void` means: no result.
+:::
+
+## Checklist
+
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste

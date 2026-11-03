@@ -75,6 +75,81 @@ tipp: It should be `mbot.led(i)`.
 lösung: vb-java-lauflicht-loesung.visustruct
 :::
 
+## Game: Which LED is on?
+
+::: spiel frage
+titel: Game: Which LED is on?
+intro: Five LEDs numbered 0 to 4. Which ones light up? Six rounds.
+
+runde:
+    mbot.led(0).setColor("red");
+frage: Which LED lights up red?
+- [x] the first one
+- the second one
+- all of them
+> The numbers start at 0. LED 0 is the first one.
+
+runde:
+    for (int i = 0; i < 5; i++) {
+        mbot.led(i).setColor("blue");
+    }
+frage: Which LEDs light up blue?
+- LEDs 0 to 3
+- [x] all five
+- only LED 4
+> `i` runs from 0 to 4, that is all five.
+
+runde:
+    for (int i = 0; i < 5; i = i + 2) {
+        mbot.led(i).setColor("green");
+    }
+frage: Which LEDs light up green?
+- LEDs 1 and 3
+- [x] LEDs 0, 2 and 4
+- LEDs 2 and 4
+> `i` jumps in steps of two: 0, 2, 4.
+
+runde:
+    mbot.led(2).setColor("yellow");
+    mbot.led(2).setColor("off");
+frage: Which LED is on at the end?
+- LED 2 yellow
+- [x] none
+- LED 3 yellow
+> LED 2 goes on and straight off again.
+
+runde:
+    for (int i = 4; i >= 0; i--) {
+        mbot.led(i).setColor("red");
+        mbot.pause(200);
+        mbot.led(i).setColor("off");
+    }
+frage: At which LED does this running light start?
+- LED 0
+- [x] LED 4
+- LED 5
+> `i` starts at 4 and counts down. The light runs the other way round.
+
+runde:
+frage: Ludwig writes `mbot.led(5).setColor("red");`. Which LED lights up?
+- the fifth one
+- the sixth one
+- [x] none, there is no LED 5
+> The five LEDs are numbered 0 to 4.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can address the LEDs by their numbers 0 to 4. → Every LED has a number
+- I can make single LEDs light up in different colours. → Three lights in the structogram
+- I can build a running light with a loop. → Now in Java: running light
+:::
+
+## Quiz
+
 ::: quiz
 ? Which number does the first LED have?
 → Every LED has a number
@@ -87,12 +162,4 @@ lösung: vb-java-lauflicht-loesung.visustruct
 - [ ] All LEDs go off.
 - [x] Only LED 4 goes off.
 - [ ] Four LEDs go off.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can address the LEDs by their numbers 0 to 4. → Every LED has a number
-- I can make single LEDs light up in different colours. → Three lights in the structogram
-- I can build a running light with a loop. → Now in Java: running light
 :::

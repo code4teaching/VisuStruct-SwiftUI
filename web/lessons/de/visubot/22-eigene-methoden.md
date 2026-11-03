@@ -167,6 +167,67 @@ tipp: Richtig heißt es `mbot.forward(1, "Umdrehungen")`.
 lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
 :::
 
+## Spiel: Welche Methode?
+
+::: spiel frage
+titel: Spiel: Welche Methode?
+intro: Gleicher Name, andere Parameter: Welche Methode ruft Java auf, und was kommt heraus? Sechs Runden.
+
+runde:
+    mbot.forward(30, "cm");
+frage: Welche `forward`-Methode läuft?
+- `forward()`
+- `forward(int cm)`
+- [x] `forward(int wert, String einheit)`
+> Zwei Parameter, eine Zahl und ein Text: Das passt nur zur dritten.
+
+runde:
+    mbot.forward();
+frage: Wie weit fährt der mBot2?
+- [x] 10 cm
+- gar nicht, die Zahl fehlt
+- eine Radumdrehung
+> Ohne Parameter fährt `forward` 10 cm. Das ist die Variante ohne Parameter.
+
+runde:
+    mbot.forward(2, "Umdrehungen");
+frage: Wie weit fährt der mBot2 ungefähr?
+- 2 cm
+- 20 cm
+- [x] 41 cm
+> Eine Radumdrehung sind etwa 20,4 cm, zwei also etwa 40,8 cm.
+
+runde:
+    static int zentimeter(int umdrehungen) {
+        return umdrehungen * 20;
+    }
+frage: Was liefert `zentimeter(4)`?
+- 4
+- 24
+- [x] 80
+> Der Parameter `umdrehungen` ist 4, und `return` gibt 4 · 20 zurück.
+
+runde:
+    public static void main(String[] args) {
+        quadrat(30);
+        quadrat(50);
+    }
+frage: Wie viele Quadrate fährt der mBot2, und wie groß ist das zweite?
+- eins mit 80 cm
+- [x] zwei, das zweite mit 50 cm Seitenlänge
+- zwei, beide mit 30 cm Seitenlänge
+> Jeder Aufruf fährt ein Quadrat. Der Wert in den Klammern wird zu `seite`.
+
+runde:
+frage: Welche Kopfzeile passt zu einer Methode, die eine Zahl zurückgibt?
+- `void zentimeter(int umdrehungen)`
+- [x] `int zentimeter(int umdrehungen)`
+- `zentimeter(int umdrehungen)`
+> Vor dem Namen steht der Datentyp des Ergebnisses. `void` heißt: kein Ergebnis.
+:::
+
+## Checkliste
+
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste

@@ -82,6 +82,66 @@ tipp: It should be `steps = steps + 1`.
 lösung: vb-java-rand-loesung.visustruct
 :::
 
+## Game: Line or no line?
+
+::: spiel frage
+titel: Game: Line or no line?
+intro: Where is the mBot2 standing, and is the condition true or false? Six rounds.
+antworten: true | false
+
+runde:
+    mbot.getLine() == 0
+frage: The mBot2 is standing on white paper. Is the condition true?
+richtig: true
+> No sensor sees black, so `mbot.getLine()` gives 0.
+
+runde:
+    mbot.getLine() == 0
+frage: The two middle sensors are on the black tape. Is the condition true?
+richtig: false
+> Two sensors see black, so `mbot.getLine()` is greater than 0.
+
+runde:
+    mbot.getLine() != 0
+frage: Only the outer left sensor sees black. Is the condition true?
+richtig: true
+> One sensor is enough, then the value is no longer 0.
+
+runde:
+    mbot.getLine() != 0
+frage: The mBot2 is standing on a white floor. Is the condition true?
+richtig: false
+> On white the value is 0, and `0 != 0` is false.
+
+runde:
+    mbot.getLine() == 15
+frage: A cross line: all four sensors see black. Is the condition true?
+richtig: true
+> All four sensors give the binary number `1111`, which is 15.
+
+runde:
+    int steps = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        steps = steps + 1;
+    }
+frage: The line is 30 cm away, each drive is 10 cm long. Is `steps == 3` afterwards?
+richtig: true
+> After three drives it is on the line, and the loop stops.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what the number from `mbot.getLine()` means. → Four probes under the nose
+- I can drive up to a line. → Turn round at the edge in the structure chart
+- I can count steps with a variable in Java. → Now in Java: there and back
+:::
+
+## Quiz
+
 ::: quiz
 ? The mBot2 is on white paper. What does `mbot.getLine()` give?
 → Four probes under the nose
@@ -95,12 +155,4 @@ lösung: vb-java-rand-loesung.visustruct
 - [x] `mbot.getLine() != 0`
 - [ ] `mbot.getLine() < 0`
 > `!=` means “not equal”.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what the number from `mbot.getLine()` means. → Four probes under the nose
-- I can drive up to a line. → Turn round at the edge in the structure chart
-- I can count steps with a variable in Java. → Now in Java: there and back
 :::

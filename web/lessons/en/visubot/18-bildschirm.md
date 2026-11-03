@@ -76,6 +76,81 @@ tipp: It should be `mbot.showText(i)`.
 lösung: vb-java-countdown-loesung.visustruct
 :::
 
+## Game: What's on the screen?
+
+::: spiel frage
+titel: Game: What's on the screen?
+intro: Read the code and predict what the screen shows at the end. Six rounds.
+
+runde:
+    mbot.showText("Hello!");
+    mbot.pause(1000);
+    mbot.showText("I am VisuBot");
+frage: What is on the screen at the end?
+- Hello! I am VisuBot
+- [x] I am VisuBot
+- Hello!
+> A new text replaces the old one.
+
+runde:
+    mbot.showText("Distance: " + 25);
+frage: What is on the screen?
+- [x] Distance: 25
+- "Distance: " + 25
+- Distance:
+> The `+` attaches the number to the text.
+
+runde:
+    int i = 3;
+    mbot.showText("i");
+frage: What is on the screen?
+- 3
+- [x] i
+- "i"
+> In quotation marks, `i` is a text, not a variable. The quotation marks themselves don't appear.
+
+runde:
+    for (int i = 3; i >= 1; i--) {
+        mbot.showText(i);
+        mbot.pause(1000);
+    }
+    mbot.showText("Start!");
+frage: Which number is shown just before "Start!"?
+- 0
+- [x] 1
+- 3
+> The countdown shows 3, 2, 1. At 0, `i >= 1` is false.
+
+runde:
+    mbot.showText("Sum: " + 2 + 3);
+frage: What is on the screen?
+- Sum: 5
+- [x] Sum: 23
+- Sum: 2 + 3
+> Java works from left to right: first the 2 is attached to the text, then the 3.
+
+runde:
+    mbot.showText("Sum: " + (2 + 3));
+frage: What is on the screen?
+- [x] Sum: 5
+- Sum: 23
+- Sum: (2 + 3)
+> Java works out the brackets first.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can show text on the screen. → Showing text
+- I can show several texts one after the other. → Greeting in the structure chart
+- I can show numbers and sensor values. → Numbers and sensor values
+- I can write a countdown in Java. → Now in Java: countdown
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `mbot.showText("Distance: " + 25)` show?
 → Numbers and sensor values
@@ -87,13 +162,4 @@ lösung: vb-java-countdown-loesung.visustruct
 → Showing text
 - [x] It is replaced.
 - [ ] The new one appears below it.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can show text on the screen. → Showing text
-- I can show several texts one after the other. → Greeting in the structure chart
-- I can show numbers and sensor values. → Numbers and sensor values
-- I can write a countdown in Java. → Now in Java: countdown
 :::

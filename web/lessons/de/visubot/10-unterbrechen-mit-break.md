@@ -70,6 +70,87 @@ tipp: Richtig heißt es `mbot.showText("Gestoppt")`.
 lösung: vb-java-taste-stopp-loesung.visustruct
 :::
 
+## Spiel: Notbremse
+
+::: spiel frage
+titel: Spiel: Notbremse
+intro: Wann greift der Aussprung, und was passiert danach? Jede Fahrt ist 10 cm lang. Fünf Runden.
+
+runde:
+    while (true) {
+        if (mbot.getDistance() < 15) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Die Wand ist am Anfang 40 cm entfernt. Wie oft fährt er vor?
+- 2-mal
+- [x] 3-mal
+- immer weiter
+> Bei 40, 30 und 20 fährt er. Bei 10 greift die Notbremse.
+
+runde:
+    while (true) {
+        if (mbot.getDistance() < 15) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Was passiert direkt nach `break`?
+- Die Schleife beginnt von vorn.
+- Er fährt noch einmal vor.
+- [x] Er piept.
+> `break` verlässt die Schleife. Weiter geht es mit dem ersten Befehl danach.
+
+runde:
+    while (true) {
+        mbot.forward();
+        break;
+    }
+frage: Wie oft fährt der mBot2 vor?
+- [x] 1-mal
+- gar nicht
+- immer weiter
+> Der Aussprung steht nicht in einer Verzweigung. Die Schleife endet schon im ersten Durchgang.
+
+runde:
+    while (true) {
+        mbot.forward();
+    }
+frage: Wann hört diese Schleife auf?
+- nach 10 Fahrten
+- an der Wand
+- [x] nie
+> Ohne `break` ist `while (true)` wirklich endlos.
+
+runde:
+    while (true) {
+        if (mbot.isButtonA()) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Du drückst Taste A, nachdem er zweimal vorgefahren ist. Wie oft ist er vorgefahren?
+- [x] 2-mal
+- 3-mal
+- gar nicht
+> Beim nächsten Durchgang merkt er die Taste und springt aus der Schleife.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Endlosschleife mit einem Aussprung beenden. → Endlosschleife mit Aussprung
+- Ich kann erklären, warum der Aussprung in einer Verzweigung steht. → Endlosschleife mit Aussprung
+- Ich kann in Java eine Schleife mit `while (true)` und `break` schreiben. → Jetzt in Java: Stopp mit Taste A
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Wo macht das Programm nach einem Aussprung weiter?
 → Endlosschleife mit Aussprung
@@ -89,12 +170,4 @@ lösung: vb-java-taste-stopp-loesung.visustruct
 - [x] `while (true)`
 - [ ] `for (;;) break;`
 > `true` ist immer wahr, die Schleife hört nur mit `break` auf.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Endlosschleife mit einem Aussprung beenden. → Endlosschleife mit Aussprung
-- Ich kann erklären, warum der Aussprung in einer Verzweigung steht. → Endlosschleife mit Aussprung
-- Ich kann in Java eine Schleife mit `while (true)` und `break` schreiben. → Jetzt in Java: Stopp mit Taste A
 :::

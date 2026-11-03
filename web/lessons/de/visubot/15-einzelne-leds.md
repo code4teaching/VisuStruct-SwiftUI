@@ -75,6 +75,81 @@ tipp: Richtig heißt es `mbot.led(i)`.
 lösung: vb-java-lauflicht-loesung.visustruct
 :::
 
+## Spiel: Welche LED leuchtet?
+
+::: spiel frage
+titel: Spiel: Welche LED leuchtet?
+intro: Fünf LEDs mit den Nummern 0 bis 4. Welche leuchten? Sechs Runden.
+
+runde:
+    mbot.led(0).setColor("rot");
+frage: Welche LED leuchtet rot?
+- [x] die erste
+- die zweite
+- alle
+> Die Nummern fangen bei 0 an. LED 0 ist die erste.
+
+runde:
+    for (int i = 0; i < 5; i++) {
+        mbot.led(i).setColor("blau");
+    }
+frage: Welche LEDs leuchten blau?
+- LED 0 bis 3
+- [x] alle fünf
+- nur LED 4
+> `i` läuft von 0 bis 4, das sind alle fünf.
+
+runde:
+    for (int i = 0; i < 5; i = i + 2) {
+        mbot.led(i).setColor("grün");
+    }
+frage: Welche LEDs leuchten grün?
+- LED 1 und 3
+- [x] LED 0, 2 und 4
+- LED 2 und 4
+> `i` springt in Zweierschritten: 0, 2, 4.
+
+runde:
+    mbot.led(2).setColor("gelb");
+    mbot.led(2).setColor("aus");
+frage: Welche LED leuchtet am Ende?
+- LED 2 gelb
+- [x] keine
+- LED 3 gelb
+> LED 2 geht an und gleich wieder aus.
+
+runde:
+    for (int i = 4; i >= 0; i--) {
+        mbot.led(i).setColor("rot");
+        mbot.pause(200);
+        mbot.led(i).setColor("aus");
+    }
+frage: Bei welcher LED beginnt dieses Lauflicht?
+- LED 0
+- [x] LED 4
+- LED 5
+> `i` beginnt bei 4 und zählt rückwärts. Das Licht läuft andersherum.
+
+runde:
+frage: Ludwig schreibt `mbot.led(5).setColor("rot");`. Welche LED leuchtet?
+- die fünfte
+- die sechste
+- [x] keine, eine LED 5 gibt es nicht
+> Die fünf LEDs haben die Nummern 0 bis 4.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann die LEDs über ihre Nummern 0 bis 4 ansprechen. → Jede LED hat eine Nummer
+- Ich kann einzelne LEDs in verschiedenen Farben leuchten lassen. → Drei Lichter im Struktogramm
+- Ich kann mit einer Schleife ein Lauflicht bauen. → Jetzt in Java: Lauflicht
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Welche Nummer hat die erste LED?
 → Jede LED hat eine Nummer
@@ -87,12 +162,4 @@ lösung: vb-java-lauflicht-loesung.visustruct
 - [ ] Alle LEDs gehen aus.
 - [x] Nur LED 4 geht aus.
 - [ ] Vier LEDs gehen aus.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann die LEDs über ihre Nummern 0 bis 4 ansprechen. → Jede LED hat eine Nummer
-- Ich kann einzelne LEDs in verschiedenen Farben leuchten lassen. → Drei Lichter im Struktogramm
-- Ich kann mit einer Schleife ein Lauflicht bauen. → Jetzt in Java: Lauflicht
 :::

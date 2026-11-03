@@ -82,6 +82,66 @@ tipp: Richtig heißt es `schritte = schritte + 1`.
 lösung: vb-java-rand-loesung.visustruct
 :::
 
+## Spiel: Linie oder nicht?
+
+::: spiel frage
+titel: Spiel: Linie oder nicht?
+intro: Wo steht der mBot2, und ist die Bedingung wahr oder falsch? Sechs Runden.
+antworten: wahr | falsch
+
+runde:
+    mbot.getLine() == 0
+frage: Der mBot2 steht auf weißem Papier. Ist die Bedingung wahr?
+richtig: wahr
+> Kein Fühler sieht Schwarz, also liefert `mbot.getLine()` 0.
+
+runde:
+    mbot.getLine() == 0
+frage: Die beiden mittleren Fühler stehen auf dem schwarzen Klebeband. Ist die Bedingung wahr?
+richtig: falsch
+> Zwei Fühler sehen Schwarz, also ist `mbot.getLine()` größer als 0.
+
+runde:
+    mbot.getLine() != 0
+frage: Nur der äußere linke Fühler sieht Schwarz. Ist die Bedingung wahr?
+richtig: wahr
+> Ein Fühler reicht schon, dann ist der Wert nicht mehr 0.
+
+runde:
+    mbot.getLine() != 0
+frage: Der mBot2 steht auf weißem Boden. Ist die Bedingung wahr?
+richtig: falsch
+> Auf Weiß ist der Wert 0, und `0 != 0` ist falsch.
+
+runde:
+    mbot.getLine() == 15
+frage: Eine Querlinie: Alle vier Fühler sehen Schwarz. Ist die Bedingung wahr?
+richtig: wahr
+> Alle vier Fühler ergeben die Binärzahl `1111`, also 15.
+
+runde:
+    int schritte = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        schritte = schritte + 1;
+    }
+frage: Die Linie ist 30 cm entfernt, jede Fahrt ist 10 cm lang. Ist danach `schritte == 3`?
+richtig: wahr
+> Nach drei Fahrten steht er auf der Linie, und die Schleife hört auf.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was die Zahl von `mbot.getLine()` bedeutet. → Vier Fühler unter der Nase
+- Ich kann bis zu einer Linie fahren. → Am Rand umkehren im Struktogramm
+- Ich kann in Java mit einer Variable Schritte zählen. → Jetzt in Java: hin und zurück
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der mBot2 steht auf weißem Papier. Was liefert `mbot.getLine()`?
 → Vier Fühler unter der Nase
@@ -95,12 +155,4 @@ lösung: vb-java-rand-loesung.visustruct
 - [x] `mbot.getLine() != 0`
 - [ ] `mbot.getLine() < 0`
 > `!=` heißt „ungleich“.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was die Zahl von `mbot.getLine()` bedeutet. → Vier Fühler unter der Nase
-- Ich kann bis zu einer Linie fahren. → Am Rand umkehren im Struktogramm
-- Ich kann in Java mit einer Variable Schritte zählen. → Jetzt in Java: hin und zurück
 :::

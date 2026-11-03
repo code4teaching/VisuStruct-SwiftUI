@@ -64,6 +64,87 @@ lösung: vb-spirale-falsch-loesung.visustruct
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Simulation and desk check"](?visustruct&lektion=07-simulation-und-schreibtischtest). It opens in a new window.
 
+## Game: Be the computer
+
+::: spiel frage
+titel: Game: Be the computer
+intro: Do the desk check in your head. What does the mBot2 do, and what values do the variables have? Five rounds.
+
+runde:
+    int side = 20;
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(side);
+        side = side + 10;
+    }
+frage: What value does `side` have after the loop?
+- 40
+- [x] 50
+- 30
+> 20, then 30, 40 and after the third run 50.
+
+runde:
+    int side = 20;
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(side);
+        side = side + 10;
+    }
+frage: How far does the mBot2 drive the third time?
+- [x] 40 cm
+- 50 cm
+- 30 cm
+> It drives 20, 30 and 40 cm. The 50 only ends up in `side` afterwards.
+
+runde:
+    int side = 20;
+    for (int i = 0; i < 3; i++) {
+        side = side + 10;
+        mbot.forward(side);
+    }
+frage: How far does the mBot2 drive the first time?
+- 20 cm
+- [x] 30 cm
+- 10 cm
+> `side` grows before driving. That was exactly Ludwig's logic error.
+
+runde:
+    int distance = 0;
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(25);
+        distance = distance + 25;
+    }
+    mbot.showText("Distance: " + distance);
+frage: What does the screen show at the end?
+- Distance: 25
+- [x] Distance: 100
+- Distance: 0
+> 25 is added four times: 25, 50, 75, 100.
+
+runde:
+    int side = 10;
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(side);
+        side = side * 2;
+    }
+frage: How far does the mBot2 drive in total?
+- 60 cm
+- [x] 70 cm
+- 80 cm
+> It drives 10, 20 and 40 cm. Together that is 70 cm.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can control the simulation with Play, Step and Stop. → Controlling the simulation
+- I can watch the variables in the simulation. → Controlling the simulation
+- I can do a desk check with a table. → The desk check
+- I can find and fix a mistake with the simulation. → Finding mistakes with the simulation
+:::
+
+## Quiz
+
 ::: quiz
 ? Which button runs exactly one box?
 → Controlling the simulation
@@ -83,13 +164,4 @@ lösung: vb-spirale-falsch-loesung.visustruct
 - [x] a logic error
 - [ ] a fault in the robot
 > The program does exactly what it says, just not what was meant.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can control the simulation with Play, Step and Stop. → Controlling the simulation
-- I can watch the variables in the simulation. → Controlling the simulation
-- I can do a desk check with a table. → The desk check
-- I can find and fix a mistake with the simulation. → Finding mistakes with the simulation
 :::

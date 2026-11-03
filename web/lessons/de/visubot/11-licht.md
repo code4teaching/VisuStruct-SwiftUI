@@ -70,6 +70,86 @@ tipp: Richtig heißt es `mbot.setLed(255, 200, 0)`.
 lösung: vb-java-nachtlicht-ton-loesung.visustruct
 :::
 
+## Spiel: Licht an oder aus?
+
+::: spiel frage
+titel: Spiel: Licht an oder aus?
+intro: Wie hell ist es, und was tun die LEDs? Sechs Runden.
+antworten: LEDs an | LEDs aus
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: Es ist fast dunkel, die Helligkeit ist 10.
+richtig: LEDs an
+> 10 ist kleiner als 30.
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: Die Helligkeit ist 45.
+richtig: LEDs aus
+> 45 ist nicht kleiner als 30.
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: Die Helligkeit ist genau 30.
+richtig: LEDs aus
+> 30 ist nicht kleiner als 30. Für „bis einschließlich 30“ bräuchtest du `<=`.
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: Die Helligkeit ist 29.
+richtig: LEDs an
+> 29 ist gerade noch kleiner als 30.
+
+runde:
+    if (mbot.getBrightness() > 70) {
+        mbot.ledOff();
+    } else {
+        mbot.setLed(255, 200, 0);
+    }
+frage: Die Helligkeit ist 50.
+richtig: LEDs an
+> Achtung, hier ist es umgekehrt: 50 ist nicht größer als 70, also läuft der Nein-Zweig. Die LEDs leuchten gelb.
+
+runde:
+    if (mbot.getBrightness() > 70) {
+        mbot.ledOff();
+    } else {
+        mbot.setLed(255, 200, 0);
+    }
+frage: Die Sonne scheint, die Helligkeit ist 100.
+richtig: LEDs aus
+> 100 ist größer als 70, also läuft der Ja-Zweig.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann die Helligkeit abfragen. → Wie hell ist es?
+- Ich kann mit einer Verzweigung die LEDs schalten. → Nachtlicht im Struktogramm
+- Ich kann mehrere Befehle in einen Zweig schreiben. → Jetzt in Java: Nachtlicht mit Ton
+:::
+
+## Wissenstest
+
 ::: quiz
 ? `mbot.getBrightness()` liefert 45. Was tut das Nachtlicht?
 → Nachtlicht im Struktogramm
@@ -81,12 +161,4 @@ lösung: vb-java-nachtlicht-ton-loesung.visustruct
 - [ ] 0 bis 255
 - [x] 0 bis 100
 - [ ] -100 bis 100
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann die Helligkeit abfragen. → Wie hell ist es?
-- Ich kann mit einer Verzweigung die LEDs schalten. → Nachtlicht im Struktogramm
-- Ich kann mehrere Befehle in einen Zweig schreiben. → Jetzt in Java: Nachtlicht mit Ton
 :::

@@ -121,6 +121,78 @@ Extra: depois de 7 tentativas falhadas o jogo está perdido. A janela revela ent
 Para “não conta como tentativa”, o `tentativas++` tem de vir **depois** de `Integer.parseInt`, os dois dentro do bloco `try`. Se o `parseInt` lançar uma exceção, a linha com `tentativas++` é saltada.
 :::
 
+## Jogo: Demasiado pequeno ou demasiado grande?
+
+::: spiel frage
+titel: Jogo: Demasiado pequeno ou demasiado grande?
+intro: O Ludwig está a jogar ao adivinha o número. Lê o código e prevê o que acontece. Sete rondas.
+
+runde:
+    // secreto é 42
+    if (palpite < secreto) {
+        dica.setText(palpite + " é demasiado pequeno.");
+    } else if (palpite > secreto) {
+        dica.setText(palpite + " é demasiado grande.");
+    } else {
+        dica.setText("Certo!");
+    }
+frage: O Ludwig escreve 50. O que diz a dica?
+- 50 é demasiado pequeno.
+- [x] 50 é demasiado grande.
+- Certo!
+> 50 é maior do que 42.
+
+runde:
+frage: O número está entre 1 e 100. 50 era demasiado grande, 25 era demasiado pequeno. Que número é que o Ludwig, esperto, tenta a seguir?
+- 26
+- [x] 37
+- 49
+> Sobram 26 a 49. O meio é 37 (ou 38). Assim, cada palpite corta o intervalo a meio.
+
+runde:
+    int dado = (int) (Math.random() * 6) + 1;
+frage: Que números pode ter `dado`?
+- 0 a 6
+- [x] 1 a 6
+- 1 a 7
+> `Math.random() * 6` vai de 0 até um pouco menos de 6. `(int)` faz disso 0 a 5, e `+ 1` faz 1 a 6. Um dado!
+
+runde:
+    int numero = (int) (Math.random() * 10);
+frage: Que números pode ter `numero`?
+- [x] 0 a 9
+- 1 a 10
+- 0 a 10
+> Sem `+ 1` começa em 0, e o 10 nunca é alcançado.
+
+runde:
+    // secreto é 42
+    tentativas++;
+    if (palpite == secreto) {
+        dica.setText("Certo! Precisaste de " + tentativas + " tentativas.");
+    }
+frage: O Ludwig escreve 50, depois 25, depois 42. O que diz a dica no fim?
+- Certo! Precisaste de 2 tentativas.
+- [x] Certo! Precisaste de 3 tentativas.
+- Certo! Precisaste de 42 tentativas.
+> `tentativas++` conta a cada clique, também no acerto.
+
+runde:
+    botao.setEnabled(false);
+frage: O Ludwig encontrou o número e clica mais uma vez em **Adivinhar**. O que acontece?
+- O jogo recomeça.
+- Conta mais uma tentativa.
+- [x] Nada, o botão fica cinzento e não se pode clicar.
+> `setEnabled(false)` desliga o botão.
+
+runde:
+frage: Agora o número está entre 1 e 1000. Quantos palpites são precisos, no máximo, com a pesquisa binária?
+- 7
+- [x] 10
+- 500
+> 2 elevado a 10 = 1024 é maior do que 1000. Dez divisões a meio chegam.
+:::
+
 ## Lista de verificação
 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.

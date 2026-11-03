@@ -116,6 +116,75 @@ tipp: Richtig heißt es `mbot.playTone(440, 300)`.
 lösung: vb-java-sicher-fahren-loesung.visustruct
 :::
 
+## Spiel: Wahr oder falsch?
+
+::: spiel frage
+titel: Spiel: Wahr oder falsch?
+intro: Ludwig stellt den mBot2 in eine Lage. Ist die Bedingung wahr oder falsch? Acht Runden.
+antworten: wahr | falsch
+
+runde:
+    mbot.getDistance() > 15 && mbot.getLine() == 0
+frage: Die Wand ist 50 cm weg, unter ihm ist keine Linie.
+richtig: wahr
+> Beide Teile sind wahr, also ist auch das Ganze wahr.
+
+runde:
+    mbot.getDistance() > 15 && mbot.getLine() == 0
+frage: Die Wand ist 10 cm weg, unter ihm ist keine Linie.
+richtig: falsch
+> Bei `&&` müssen beide Teile wahr sein. Der Abstand stimmt nicht.
+
+runde:
+    mbot.isButtonA() || mbot.isButtonB()
+frage: Nur Taste B ist gedrückt.
+richtig: wahr
+> Bei `||` reicht ein wahrer Teil.
+
+runde:
+    mbot.isButtonA() || mbot.isButtonB()
+frage: Keine Taste ist gedrückt.
+richtig: falsch
+> Beide Teile sind falsch, dann ist auch `||` falsch.
+
+runde:
+    !mbot.isButtonA()
+frage: Taste A ist gedrückt.
+richtig: falsch
+> `mbot.isButtonA()` ist wahr, das `!` macht daraus falsch.
+
+runde:
+    mbot.getDistance() > 15 || mbot.getLine() == 0
+frage: Die Wand ist 10 cm weg, und er steht auf einer Linie.
+richtig: falsch
+> Kein Teil ist wahr, also ist auch `||` falsch.
+
+runde:
+    mbot.getDistance() > 15 || mbot.getLine() == 0
+frage: Die Wand ist 50 cm weg, und er steht auf einer Linie.
+richtig: wahr
+> Der erste Teil ist wahr, das reicht bei `||`.
+
+runde:
+    !mbot.isButtonA() && mbot.getDistance() > 15
+frage: Niemand drückt eine Taste, die Wand ist 30 cm weg.
+richtig: wahr
+> A ist nicht gedrückt, also ist `!mbot.isButtonA()` wahr. Der Abstand stimmt auch.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann zwei Bedingungen mit `&&` (und) verknüpfen. → Wand und Linie: und
+- Ich kann zwei Bedingungen mit `||` (oder) verknüpfen. → Taste A oder Taste B: oder
+- Ich kann eine Bedingung mit `!` (nicht) umdrehen. → Nicht: das Gegenteil
+- Ich kann eine verknüpfte Bedingung in einer Java-Schleife schreiben. → Jetzt in Java: Sicher fahren
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der Abstand ist 50 und `mbot.getLine()` liefert 6. Fährt der mBot2 bei „Frei und keine Linie“?
 → Wand und Linie: und
@@ -139,13 +208,4 @@ lösung: vb-java-sicher-fahren-loesung.visustruct
 - [ ] `while (mbot.getDistance() > 15 || mbot.getLine() == 0)`
 - [ ] `while (mbot.getDistance() > 15)`
 > Mit `||` würde er weiterfahren, solange nur einer der Teile stimmt, also zum Beispiel über den Rand hinaus.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann zwei Bedingungen mit `&&` (und) verknüpfen. → Wand und Linie: und
-- Ich kann zwei Bedingungen mit `||` (oder) verknüpfen. → Taste A oder Taste B: oder
-- Ich kann eine Bedingung mit `!` (nicht) umdrehen. → Nicht: das Gegenteil
-- Ich kann eine verknüpfte Bedingung in einer Java-Schleife schreiben. → Jetzt in Java: Sicher fahren
 :::

@@ -75,6 +75,79 @@ tipp: Richtig heißt es `mbot.forward()`.
 lösung: vb-bis-wand-loesung.visustruct
 :::
 
+## Spiel: Wie oft fährt er?
+
+::: spiel frage
+titel: Spiel: Wie oft fährt er?
+intro: Jede Fahrt ist 10 cm lang. Rechne aus, wie oft der mBot2 vorfährt, bevor die Schleife aufhört. Sechs Runden.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: Die Wand ist am Anfang 40 cm entfernt. Wie oft fährt er vor?
+- 2-mal
+- [x] 3-mal
+- 4-mal
+> 40, 30 und 20 sind größer als 15: drei Fahrten. Bei 10 hört die Schleife auf.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: Die Wand ist am Anfang 15 cm entfernt. Wie oft fährt er vor?
+- [x] gar nicht
+- 1-mal
+- 2-mal
+> 15 ist nicht größer als 15. Die Bedingung ist gleich am Anfang falsch.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: Die Wand ist am Anfang 50 cm entfernt. Wo hält er an?
+- 15 cm vor der Wand
+- [x] 10 cm vor der Wand
+- 0 cm, er stößt an
+> 50, 40, 30, 20: viermal vor. Dann ist die Wand 10 cm weg, und die Schleife hört auf.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+    }
+frage: Der mBot2 steht schon auf dem schwarzen Ziel. Wie oft fährt er vor?
+- [x] gar nicht
+- 1-mal
+- immer weiter
+> Auf Schwarz ist `mbot.getLine()` nicht 0. Die Bedingung ist sofort falsch.
+
+runde:
+frage: Der mBot2 soll genau fünfmal vorfahren. Welche Schleife passt am besten?
+- [x] eine For-Schleife
+- eine While-Schleife mit `mbot.getDistance()`
+- gar keine Schleife
+> Die Anzahl steht vorher fest. Dafür ist die For-Schleife da.
+
+runde:
+frage: Der mBot2 soll fahren, bis er die Wand fast berührt. Welche Schleife passt?
+- eine For-Schleife, die zehnmal läuft
+- [x] eine While-Schleife mit `mbot.getDistance()`
+- gar keine Schleife
+> Wie weit die Wand weg ist, weiß man vorher nicht. Die While-Schleife fragt unterwegs nach.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann mit `mbot.getDistance()` den Abstand abfragen. → Wie weit ist die Wand?
+- Ich kann entscheiden, wann ich eine While-Schleife statt einer For-Schleife nehme. → Drei Welten, ein Programm
+- Ich kann mit dem Liniensensor ein Ziel finden. → Bis zum Ziel
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der mBot2 steht 40 cm vor der Wand. Wie oft fährt er mit `while (mbot.getDistance() > 15) mbot.forward();` vor, wenn jede Fahrt 10 cm ist?
 → Wie weit ist die Wand?
@@ -89,12 +162,4 @@ lösung: vb-bis-wand-loesung.visustruct
 - [ ] Weil eine For-Schleife keine Anweisungen enthalten darf.
 - [ ] Weil der mBot2 For-Schleifen nicht versteht.
 > Die For-Schleife weiß vorher, wie oft sie läuft. Die While-Schleife entscheidet unterwegs.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann mit `mbot.getDistance()` den Abstand abfragen. → Wie weit ist die Wand?
-- Ich kann entscheiden, wann ich eine While-Schleife statt einer For-Schleife nehme. → Drei Welten, ein Programm
-- Ich kann mit dem Liniensensor ein Ziel finden. → Bis zum Ziel
 :::

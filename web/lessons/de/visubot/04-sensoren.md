@@ -67,6 +67,73 @@ tipp: Richtig heißt es `mbot.turnRight()`.
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 
+## Spiel: Befehl oder Sensor?
+
+::: spiel frage
+titel: Spiel: Befehl oder Sensor?
+intro: Tut die Zeile etwas, oder liefert sie einen Wert? Acht Runden.
+antworten: Befehl | Sensor
+
+runde:
+    mbot.forward(30)
+frage: Befehl oder Sensor?
+richtig: Befehl
+> Er fährt 30 cm. Das ist etwas tun.
+
+runde:
+    mbot.getDistance()
+frage: Befehl oder Sensor?
+richtig: Sensor
+> Er liefert den Abstand in cm, zum Beispiel 38.
+
+runde:
+    mbot.turnRight()
+frage: Befehl oder Sensor?
+richtig: Befehl
+> Drehen ist etwas tun.
+
+runde:
+    mbot.getLine()
+frage: Befehl oder Sensor?
+richtig: Sensor
+> Er liefert 0 oder eine Zahl größer als 0.
+
+runde:
+    mbot.playTone(440, 300)
+frage: Befehl oder Sensor?
+richtig: Befehl
+> Ein Ton ist eine Ausgabe.
+
+runde:
+    mbot.isButtonA()
+frage: Befehl oder Sensor?
+richtig: Sensor
+> Er liefert wahr oder falsch: Wird Taste A gedrückt?
+
+runde:
+    mbot.showText("Hallo")
+frage: Befehl oder Sensor?
+richtig: Befehl
+> Etwas anzeigen ist etwas tun.
+
+runde:
+    mbot.getBrightness()
+frage: Befehl oder Sensor?
+richtig: Sensor
+> Er misst, wie hell es ist, von 0 bis 100.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann den Unterschied zwischen Befehl und Sensor erklären. → Befehle und Sensoren
+- Ich kann einen Sensor in eine Bedingung einbauen. → Wand vorn?
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Die Wand ist 12 cm entfernt. Ist `mbot.getDistance() < 20` wahr oder falsch?
 → Wand vorn?
@@ -85,11 +152,4 @@ lösung: vb-wand-vorn-loesung.visustruct
 - [ ] Weil der mBot2 sonst zu langsam wird.
 - [ ] Weil Sensoren nur in Java gehen.
 > Befehle sind Anweisungen. Sensoren sind Werte, so wie eine Variable.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann den Unterschied zwischen Befehl und Sensor erklären. → Befehle und Sensoren
-- Ich kann einen Sensor in eine Bedingung einbauen. → Wand vorn?
 :::

@@ -104,6 +104,81 @@ tipp: Richtig heißt es `summe = summe + werte[i]`.
 lösung: vb-messreihe-loesung.visustruct
 :::
 
+## Spiel: Welches Fach?
+
+::: spiel frage
+titel: Spiel: Welches Fach?
+intro: Fächer zählen ab 0. Was steht wo im Array? Sechs Runden.
+
+runde:
+    int[] toene = {262, 294, 330, 349, 392};
+frage: Was ist `toene[2]`?
+- 294
+- [x] 330
+- 349
+> Fach 0 ist 262, Fach 1 ist 294, Fach 2 ist 330.
+
+runde:
+    int[] toene = {262, 294, 330, 349, 392};
+frage: Was ist `toene.length`?
+- 4
+- [x] 5
+- 392
+> `length` zählt die Fächer.
+
+runde:
+    int[] toene = {262, 294, 330, 349, 392};
+frage: Was ist `toene[toene.length - 1]`?
+- 349
+- [x] 392
+- Fehler
+> `toene.length - 1` ist 4, das letzte Fach.
+
+runde:
+    int[] toene = {262, 294, 330, 349, 392};
+frage: Was passiert bei `mbot.playTone(toene[5], 300)`?
+- Er spielt 392 Hertz.
+- Er spielt gar nichts und macht weiter.
+- [x] Fehler: Fach 5 gibt es nicht.
+> Die Fächer haben die Nummern 0 bis 4. Java meldet `ArrayIndexOutOfBoundsException`.
+
+runde:
+    String[] farben = {"rot", "gelb", "grün", "blau", "lila"};
+    for (int i = 0; i < farben.length; i++) {
+        mbot.led(i).setColor(farben[i]);
+    }
+frage: Welche Farbe hat LED 3?
+- grün
+- [x] blau
+- lila
+> LED 3 bekommt `farben[3]`, das vierte Wort.
+
+runde:
+    int[] werte = {20, 22, 18, 20, 20};
+    int summe = 0;
+    for (int i = 0; i < werte.length; i++) {
+        summe = summe + werte[i];
+    }
+    double mittelwert = summe / 5.0;
+frage: Welchen Wert hat `mittelwert`?
+- 18.0
+- [x] 20.0
+- 100.0
+> Die Summe ist 100, und 100 / 5.0 ist 20.0.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann ein Array anlegen und mit einer Schleife abspielen. → Eine Melodie als Array
+- Ich kann ein Array mit Texten in Java benutzen. → Jetzt in Java: Regenbogen
+- Ich kann Messwerte in einem Array sammeln und den Mittelwert ausrechnen. → Jetzt in Java: Messreihe
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was ist `toene[1]`, wenn `int[] toene = {262, 294, 330};`?
 → Eine Melodie als Array
@@ -117,12 +192,4 @@ lösung: vb-messreihe-loesung.visustruct
 - [x] 3
 - [ ] 330
 > `length` zählt die Fächer, hier drei. Das letzte Fach hat deshalb die Nummer 2.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann ein Array anlegen und mit einer Schleife abspielen. → Eine Melodie als Array
-- Ich kann ein Array mit Texten in Java benutzen. → Jetzt in Java: Regenbogen
-- Ich kann Messwerte in einem Array sammeln und den Mittelwert ausrechnen. → Jetzt in Java: Messreihe
 :::

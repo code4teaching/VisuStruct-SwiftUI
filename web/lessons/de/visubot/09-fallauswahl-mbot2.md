@@ -117,6 +117,104 @@ tipp: Richtig heißt es `mbot.turnRight()`.
 lösung: vb-linienmuster-loesung.visustruct
 :::
 
+## Spiel: Welcher Fall läuft?
+
+::: spiel frage
+titel: Spiel: Welcher Fall läuft?
+intro: Lies die Fallauswahl und sag vorher, was der mBot2 tut. Sechs Runden.
+
+runde:
+    switch (mbot.getColor()) {
+        case "rot" -> { mbot.turnRight(); }
+        case "grün" -> { mbot.forward(20); }
+        case "blau" -> { mbot.playTone(880, 300); }
+        default -> { mbot.forward(10); }
+    }
+frage: Der mBot2 steht auf Grün. Was tut er?
+- Er dreht sich nach rechts.
+- [x] Er fährt 20 cm vor.
+- Er fährt 10 cm vor.
+> Der Fall `"grün"` passt, also läuft genau dieser.
+
+runde:
+    switch (mbot.getColor()) {
+        case "rot" -> { mbot.turnRight(); }
+        case "grün" -> { mbot.forward(20); }
+        case "blau" -> { mbot.playTone(880, 300); }
+        default -> { mbot.forward(10); }
+    }
+frage: Der mBot2 steht auf Gelb. Was tut er?
+- Gar nichts.
+- Er piept.
+- [x] Er fährt 10 cm vor.
+> Für Gelb gibt es keinen Fall, also läuft `default`.
+
+runde:
+    switch (mbot.getColor()) {
+        case "rot" -> { mbot.turnRight(); }
+        case "grün" -> { mbot.forward(20); }
+        case "blau" -> { mbot.playTone(880, 300); }
+        default -> { mbot.forward(10); }
+    }
+frage: Der mBot2 steht auf Blau. Was tut er?
+- [x] Er piept.
+- Er piept und fährt dann 10 cm vor.
+- Er dreht sich nach rechts.
+> Es läuft nur der passende Fall. `default` kommt nur dran, wenn kein anderer Fall passt.
+
+runde:
+    switch (mbot.getLine()) {
+        case 6 -> { mbot.forward(10); }
+        case 0 -> { mbot.turnRight(); }
+        case 15 -> { mbot.showText("Querlinie!"); }
+        default -> { mbot.stop(); }
+    }
+frage: Alle vier Fühler sehen Schwarz. Was tut der mBot2?
+- Er fährt 10 cm vor.
+- [x] Er zeigt **Querlinie!**
+- Er hält an.
+> Vier Fühler auf Schwarz ergeben 15.
+
+runde:
+    switch (mbot.getLine()) {
+        case 6 -> { mbot.forward(10); }
+        case 0 -> { mbot.turnRight(); }
+        case 15 -> { mbot.showText("Querlinie!"); }
+        default -> { mbot.stop(); }
+    }
+frage: Unter dem mBot2 ist alles weiß. Was tut er?
+- Er fährt 10 cm vor.
+- [x] Er dreht sich nach rechts.
+- Er hält an.
+> Kein Fühler sieht Schwarz, also liefert `mbot.getLine()` 0.
+
+runde:
+    for (int runde = 1; runde <= 3; runde++) {
+        switch (runde) {
+            case 1 -> { mbot.showText("Auf die Plätze"); }
+            case 2 -> { mbot.showText("Fertig"); }
+            default -> { mbot.showText("Los!"); }
+        }
+    }
+frage: Was zeigt der Bildschirm in Runde 3?
+- Fertig
+- [x] Los!
+- Auf die Plätze
+> Für 3 gibt es keinen eigenen Fall, also läuft `default`.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Fallauswahl mit Texten bauen. → Viele Farben, viele Fälle
+- Ich kann eine Fallauswahl mit Zahlen in Java schreiben. → Jetzt in Java: Linienmuster
+- Ich kann je nach Zahl einen anderen Text auf dem Bildschirm zeigen. → Jetzt in Java: Startsignal
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der mBot2 steht auf Gelb. Welcher Fall der Farbweiche läuft?
 → Viele Farben, viele Fälle
@@ -130,12 +228,4 @@ lösung: vb-linienmuster-loesung.visustruct
 - [ ] `case "6" -> { … }`
 - [ ] `if 6 -> { … }`
 > Zahlen stehen ohne Anführungszeichen, Texte wie `"rot"` mit.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Fallauswahl mit Texten bauen. → Viele Farben, viele Fälle
-- Ich kann eine Fallauswahl mit Zahlen in Java schreiben. → Jetzt in Java: Linienmuster
-- Ich kann je nach Zahl einen anderen Text auf dem Bildschirm zeigen. → Jetzt in Java: Startsignal
 :::

@@ -79,6 +79,75 @@ tipp: Richtig heißt es `equals("grün")`.
 lösung: vb-java-blau-gruen-loesung.visustruct
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was der mBot2 tun soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Fünf Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    while (mbot.getColor().equals("rot")) {
+        mbot.forward();
+    }
+frage: Soll vorfahren, bis er auf Rot steht.
+fehler: 1
+besser: while (!mbot.getColor().equals("rot")) {
+> Er soll fahren, solange er **nicht** auf Rot steht. Dafür fehlt das `!`.
+
+runde:
+    if (mbot.getColor() == "grün") {
+        mbot.playTone(440, 300);
+    }
+frage: Soll piepen, wenn er auf Grün steht.
+fehler: 1
+besser: if (mbot.getColor().equals("grün")) {
+> Texte vergleichst du mit `.equals(…)`, nicht mit `==`.
+
+runde:
+    while (!mbot.getColor().equals("blau")) {
+        mbot.forward();
+        if (mbot.getColor().equals("grün")) {
+            mbot.turnRight();
+        }
+    }
+frage: Soll bis Blau fahren und bei Grün piepen.
+fehler: 4
+besser: mbot.playTone(440, 300);
+> Bei Grün soll er piepen, nicht abbiegen.
+
+runde:
+    if (mbot.getColor().equals(rot)) {
+        mbot.turnRight();
+    }
+frage: Soll sich auf Rot nach rechts drehen.
+fehler: 1
+besser: if (mbot.getColor().equals("rot")) {
+> Ohne Anführungszeichen sucht Java eine Variable `rot`. Der Farbname ist ein Text.
+
+runde:
+    while (!mbot.getColor().equals("rot")) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300)
+frage: Soll bis Rot fahren und dann piepen.
+fehler: 4
+besser: mbot.playTone(440, 300);
+> Am Ende der Anweisung fehlt das Semikolon.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann mit `mbot.getColor().equals(…)` eine Farbe abfragen. → Ein Sensor, der Farben sieht
+- Ich kann mit `!` eine Bedingung umdrehen. → Fahre bis Rot im Struktogramm
+- Ich kann eine Verzweigung in eine Schleife schreiben. → Jetzt in Java: bei Grün piepen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der mBot2 steht auf einem roten Feld. Was ist `!mbot.getColor().equals("rot")`?
 → Fahre bis Rot im Struktogramm
@@ -91,12 +160,4 @@ lösung: vb-java-blau-gruen-loesung.visustruct
 - [ ] `mbot.getColor() == "grün"`
 - [ ] `mbot.getColor() = "grün"`
 > `mbot.getColor()` liefert einen Text, und Texte vergleicht man mit `.equals(…)`. Ein einzelnes `=` ist eine Zuweisung, gar kein Vergleich.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann mit `mbot.getColor().equals(…)` eine Farbe abfragen. → Ein Sensor, der Farben sieht
-- Ich kann mit `!` eine Bedingung umdrehen. → Fahre bis Rot im Struktogramm
-- Ich kann eine Verzweigung in eine Schleife schreiben. → Jetzt in Java: bei Grün piepen
 :::

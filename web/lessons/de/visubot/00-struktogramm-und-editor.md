@@ -78,6 +78,57 @@ In der Spalte [📁 Dateien](#zeige-dateien) richtest du einmal einen Ordner ein
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektionen [„Was ist ein Struktogramm?“](?visustruct&lektion=01-was-ist-ein-struktogramm), [„Der Editor“](?visustruct&lektion=02-der-editor) und [„Speichern, Öffnen, Exportieren“](?visustruct&lektion=03-speichern-oeffnen-exportieren). Sie öffnen sich in einem neuen Fenster.
 
+## Spiel: Welcher Baustein?
+
+::: spiel frage
+titel: Spiel: Welcher Baustein?
+intro: Ludwig beschreibt, was sein mBot2 tun soll. Ist das eine Sequenz, eine Verzweigung oder eine Wiederholung? Sechs Runden.
+antworten: Sequenz | Verzweigung | Wiederholung
+
+runde:
+frage: Der mBot2 fährt vor, dreht sich nach rechts und fährt wieder vor.
+richtig: Sequenz
+> Drei Schritte nacheinander, jeder genau einmal.
+
+runde:
+frage: Ist die Wand nah, dreht er sich. Sonst fährt er vor.
+richtig: Verzweigung
+> Je nach Bedingung passiert das eine oder das andere.
+
+runde:
+frage: Er fährt viermal 10 cm vor.
+richtig: Wiederholung
+> Derselbe Schritt kommt mehrmals dran.
+
+runde:
+frage: Solange keine Linie kommt, fährt er weiter.
+richtig: Wiederholung
+> „Solange“ heißt: immer wieder, bis die Bedingung nicht mehr stimmt.
+
+runde:
+frage: Steht er auf Rot, piept er.
+richtig: Verzweigung
+> Nur wenn die Bedingung stimmt, piept er.
+
+runde:
+frage: Er zeigt „Hallo“ auf dem Bildschirm und spielt danach einen Ton.
+richtig: Sequenz
+> Zwei Schritte nacheinander, ohne Bedingung und ohne Wiederholung.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was ein Algorithmus und ein Struktogramm ist. → Ein Plan für den Roboter
+- Ich kann die drei Grundbausteine Sequenz, Verzweigung und Wiederholung erkennen. → Drei Bausteine
+- Ich kann im Editor Elemente einfügen, verschieben und löschen. → Der Editor
+- Ich kann ein Struktogramm speichern und wieder öffnen. → Speichern und Öffnen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was ist ein Algorithmus?
 → Ein Plan für den Roboter
@@ -103,13 +154,4 @@ In der Spalte [📁 Dateien](#zeige-dateien) richtest du einmal einen Ordner ein
 - [x] `.visustruct`
 - [ ] `.png`
 > `.png` ist ein Bild zum Weitergeben. Weiterbearbeiten kannst du nur die `.visustruct`-Datei.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was ein Algorithmus und ein Struktogramm ist. → Ein Plan für den Roboter
-- Ich kann die drei Grundbausteine Sequenz, Verzweigung und Wiederholung erkennen. → Drei Bausteine
-- Ich kann im Editor Elemente einfügen, verschieben und löschen. → Der Editor
-- Ich kann ein Struktogramm speichern und wieder öffnen. → Speichern und Öffnen
 :::

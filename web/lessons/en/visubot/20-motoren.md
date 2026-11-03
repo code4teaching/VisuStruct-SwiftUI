@@ -89,6 +89,72 @@ tipp: It should be `mbot.stop()`.
 lösung: vb-java-linienfolger-loesung.visustruct
 :::
 
+## Game: Where does it go?
+
+::: spiel frage
+titel: Game: Where does it go?
+intro: Power for left and right in percent: where does the mBot2 go? Seven rounds.
+antworten: straight ahead | backwards | curve to the left | curve to the right | turns on the spot
+
+runde:
+    mbot.drive(40, 40);
+frage: Where does it go?
+richtig: straight ahead
+> Both wheels turn at the same speed.
+
+runde:
+    mbot.drive(-40, -40);
+frage: Where does it go?
+richtig: backwards
+> Minus means backwards, and both wheels are the same.
+
+runde:
+    mbot.drive(10, 40);
+frage: Where does it go?
+richtig: curve to the left
+> The right wheel is faster, so it steers to the left.
+
+runde:
+    mbot.drive(40, 10);
+frage: Where does it go?
+richtig: curve to the right
+> The left wheel is faster, so it steers to the right.
+
+runde:
+    mbot.drive(40, -40);
+frage: Where does it go?
+richtig: turns on the spot
+> One wheel forward, one back: it turns right without moving from the spot.
+
+runde:
+    mbot.drive(-40, 40);
+frage: Where does it go?
+richtig: turns on the spot
+> This time it turns to the left.
+
+runde:
+    if (mbot.isLineLeft() && !mbot.isLineRight()) {
+        ...
+    }
+frage: Line follower: only the left sensor sees the line. What goes in the gap?
+- `mbot.drive(40, 10);`
+- [x] `mbot.drive(10, 40);`
+- `mbot.stop();`
+> The line has moved to the left. It steers to the left, so the right wheel turns faster.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can step on the gas with wheels separately and stop. → Two motors, two wheels
+- I can drive until a sensor reports something. → Full speed to the wall in the structure chart
+- I can write a line follower in Java. → Now in Java: line follower
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `mbot.drive(30, 30)` do?
 → Two motors, two wheels
@@ -102,12 +168,4 @@ lösung: vb-java-linienfolger-loesung.visustruct
 - [x] `mbot.drive(40, 10)`
 - [ ] `mbot.drive(-40, -40)`
 > If the left wheel turns faster, it drives a right curve.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can step on the gas with wheels separately and stop. → Two motors, two wheels
-- I can drive until a sensor reports something. → Full speed to the wall in the structure chart
-- I can write a line follower in Java. → Now in Java: line follower
 :::

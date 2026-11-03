@@ -128,6 +128,87 @@ The program stays saved, even when you switch the mBot2 off and on again. Only t
 
 > Afraid it drives off before you are ready? Don't worry: it always waits for button A. If you press A again while it drives, nothing happens. When it has finished, A starts the program again from the beginning.
 
+## Game: How often does it drive?
+
+::: spiel frage
+titel: Game: How often does it drive?
+intro: Count along without starting the simulation. How often does the mBot2 drive or turn? Six rounds.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward();
+        mbot.turnRight();
+    }
+frage: How often does the mBot2 drive forward?
+- 3 times
+- [x] 4 times
+- 5 times
+> `i` counts 0, 1, 2 and 3. That is four runs.
+
+runde:
+    for (int i = 1; i <= 4; i++) {
+        mbot.forward();
+    }
+frage: How often does the mBot2 drive forward?
+- 3 times
+- [x] 4 times
+- 5 times
+> This time `i` counts from 1 to 4 because of `<=`. That is four runs too.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: How often does the mBot2 drive forward?
+- 8 times
+- [x] 15 times
+- 5 times
+> The inner loop runs five times in each of the three outer runs: 3 · 5 = 15.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: How often does the mBot2 turn right?
+- [x] 3 times
+- 15 times
+- 5 times
+> `mbot.turnRight()` is in the outer loop, not in the inner one.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+    }
+    mbot.turnRight();
+frage: Does the mBot2 drive a square?
+- Yes, with 50 cm sides.
+- [x] No, it drives 200 cm straight ahead and only turns at the end.
+- Yes, but only half of one.
+> `mbot.turnRight()` is below the loop. It only runs when the loop has finished.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 4; j++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+        mbot.turnRight();
+    }
+frage: How many squares does the mBot2 drive?
+- [x] 2
+- 4
+- 8
+> The inner loop drives one square. The outer loop repeats that twice.
+:::
+
+## Checklist
+
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste

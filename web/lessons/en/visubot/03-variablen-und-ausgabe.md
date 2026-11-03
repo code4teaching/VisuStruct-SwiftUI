@@ -98,6 +98,69 @@ lösung: vb-strecke-anzeigen-loesung.visustruct
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Input and output"](?visustruct&lektion=06-eingabe-und-ausgabe). It opens in a new window. There you print results to the console with `System.out.println`.
 
+## Game: Which data type?
+
+::: spiel frage
+titel: Game: Which data type?
+intro: Ludwig has wiped out the data types. Which one fits the gap? Seven rounds.
+antworten: int | double | String | boolean
+
+runde:
+    ___ side = 30;
+frage: Which data type fits?
+richtig: int
+> 30 is a whole number.
+
+runde:
+    ___ wheelCircumference = 20.4;
+frage: Which data type fits?
+richtig: double
+> 20.4 is a decimal number, written with a point in Java.
+
+runde:
+    ___ name = "Ludwig";
+frage: Which data type fits?
+richtig: String
+> Text in quotation marks is a `String`.
+
+runde:
+    ___ wallNear = mbot.getDistance() < 20;
+frage: Which data type fits?
+richtig: boolean
+> A comparison is true or false, so `boolean`.
+
+runde:
+    ___ distance = mbot.getDistance();
+frage: Which data type fits?
+richtig: int
+> The distance sensor gives whole centimetres, for example 38.
+
+runde:
+    ___ greeting = "Hello " + "class";
+frage: Which data type fits?
+richtig: String
+> Two texts joined with `+` give a text again.
+
+runde:
+    ___ average = 120 / 5.0;
+frage: Which data type fits?
+richtig: double
+> With `5.0`, Java calculates with decimal numbers. The result is 24.0.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can create and use a variable. → A variable for the side
+- I can tell the data types `int`, `double`, `String` and `boolean` apart. → Which data types are there?
+- I can drive a rectangle in Java with two variables. → Now in Java: rectangle
+- I can show a result on the screen with `mbot.showText`. → Result on the screen
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `mbot.forward(side)` drive if `int side = 40;` comes first?
 → A variable for the side
@@ -117,13 +180,4 @@ lösung: vb-strecke-anzeigen-loesung.visustruct
 - [ ] "Side: " + 30
 - [ ] 30
 > The `+` joins the text and the number.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can create and use a variable. → A variable for the side
-- I can tell the data types `int`, `double`, `String` and `boolean` apart. → Which data types are there?
-- I can drive a rectangle in Java with two variables. → Now in Java: rectangle
-- I can show a result on the screen with `mbot.showText`. → Result on the screen
 :::
