@@ -441,15 +441,22 @@ export const visuBotTemplates: VisuBotTemplate[] = [
   { key: 'web_visubot_el_left', group: 'drive', type: ElementType.anweisung, make: statement('mbot.turnLeft()') },
   { key: 'web_visubot_el_drive', group: 'wheels', type: ElementType.anweisung, make: statement('mbot.drive(30, 30)') },
   { key: 'web_visubot_el_stop', group: 'wheels', type: ElementType.anweisung, make: statement('mbot.stop()') },
-  { key: 'web_visubot_el_led', group: 'output', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
-  { key: 'web_visubot_el_led_off', group: 'output', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
-  { key: 'web_visubot_el_led_color', group: 'output', type: ElementType.anweisung, make: statement('mbot.led(0).setColor("grün")') },
-  { key: 'web_visubot_el_tone', group: 'output', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
-  { key: 'web_visubot_el_text', group: 'output', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
-  { key: 'web_visubot_el_wait', group: 'wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
+  { key: 'web_visubot_el_led', group: 'leds', type: ElementType.anweisung, make: statement('mbot.setLed(255, 0, 0)') },
+  { key: 'web_visubot_el_led_off', group: 'leds', type: ElementType.anweisung, make: statement('mbot.ledOff()') },
+  { key: 'web_visubot_el_led_color', group: 'leds', type: ElementType.anweisung, make: statement('mbot.led(0).setColor("grün")') },
+  { key: 'web_visubot_el_tone', group: 'sound', type: ElementType.anweisung, make: statement('mbot.playTone(440, 300)') },
+  { key: 'web_visubot_el_text', group: 'screen', type: ElementType.anweisung, make: statement('mbot.showText("Hallo")') },
   { key: 'web_visubot_el_emotion', group: 'emotion', type: ElementType.anweisung, make: statement('mbot.emotion("smile")') },
+  { key: 'web_visubot_el_wait', group: 'wait', type: ElementType.anweisung, make: statement('mbot.pause(100)') },
   { key: 'web_visubot_el_timer', group: 'wait', type: ElementType.anweisung, make: statement('mbot.resetTimer()') },
 ]
+
+/** Farbe der Gruppe (Streifen in der Palette, Punkt im Nachschlagen `{.bot-…}`): Fahren orange, Licht gelbgrün,
+ * Ton magenta, Bildschirm/Gefühle indigo, Warten grau, alle Sensoren türkis. Der Kasten selbst bleibt gelb. */
+export function visuBotGroupColor(group: string): string {
+  const colors: Record<string, string> = { drive: 'fahren', wheels: 'fahren', leds: 'licht', sound: 'ton', screen: 'anzeige', emotion: 'anzeige', wait: 'warten' }
+  return colors[group] ?? 'sensor'
+}
 
 /** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
 export const visuBotSensors: { key: string; group: string; text: string }[] = [

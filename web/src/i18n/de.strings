@@ -422,7 +422,9 @@
 "web_visubot_preview_limit" = "läuft sehr lange (Endlosschleife?), gezeigt ist der Anfang";
 "web_visubot_group_drive" = "Fahren und Drehen";
 "web_visubot_group_wheels" = "Räder einzeln";
-"web_visubot_group_output" = "Licht, Ton und Bildschirm";
+"web_visubot_group_leds" = "Licht";
+"web_visubot_group_sound" = "Ton";
+"web_visubot_group_screen" = "Bildschirm";
 "web_visubot_group_emotion" = "Gefühle";
 "web_visubot_group_wait" = "Warten und Stoppuhr";
 "web_visubot_group_distance" = "Abstand";

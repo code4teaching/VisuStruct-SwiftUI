@@ -44,7 +44,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
@@ -744,6 +744,7 @@ export class App {
       const groupTitle = (list: HTMLUListElement, group: string) => {
         const li = document.createElement('li')
         li.className = 'palette-group'
+        li.dataset.botColor = visuBotGroupColor(group)
         const button = document.createElement('button')
         button.type = 'button'
         button.textContent = t(`web_visubot_group_${group}`)
@@ -765,7 +766,11 @@ export class App {
       const grouped = <T extends { group: string }>(list: HTMLUListElement, items: T[], add: (item: T) => HTMLElement) => {
         for (const group of new Set(items.map((i) => i.group))) {
           const apply = groupTitle(list, group)
-          for (const item of items.filter((i) => i.group === group)) add(item).dataset.group = group
+          for (const item of items.filter((i) => i.group === group)) {
+            const el = add(item)
+            el.dataset.group = group
+            el.dataset.botColor = visuBotGroupColor(group)
+          }
           apply()
         }
       }

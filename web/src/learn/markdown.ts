@@ -48,7 +48,10 @@ export function markdownToHTML(source: string): string {
     const heading = /^(#{2,4})\s+(.*)$/.exec(line)
     if (heading) {
       const level = heading[1].length
-      out.push(`<h${level}>${inline(heading[2])}</h${level}>`)
+      // `### Licht {.bot-licht}`: Klasse an der Überschrift (Farbpunkt der VisuBot-Gruppe im Nachschlagen)
+      const cls = /\s*\{\.([a-z][a-z-]*)\}$/.exec(heading[2])
+      const text = cls ? heading[2].slice(0, cls.index) : heading[2]
+      out.push(`<h${level}${cls ? ` class="${cls[1]}"` : ''}>${inline(text)}</h${level}>`)
       i++
       continue
     }
