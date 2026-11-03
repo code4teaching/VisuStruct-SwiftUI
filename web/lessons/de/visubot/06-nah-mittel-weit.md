@@ -155,6 +155,18 @@ richtig: Stopp
 > 9 ist kleiner als 10.
 :::
 
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Verzweigung mit drei Fällen bauen. → Drei Fälle statt zwei
+- Ich kann `else if` in Java lesen und schreiben. → Jetzt in Java: else if
+- Ich kann die Bedingungen in der richtigen Reihenfolge prüfen. → Auf die Reihenfolge kommt es an
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Wie viele Verzweigungen brauchst du im Struktogramm für drei Fälle?
 → Drei Fälle statt zwei
@@ -174,12 +186,4 @@ richtig: Stopp
 - [x] Es erscheint Langsam.
 - [ ] Es erscheint gar nichts.
 > 5 ist auch kleiner als 30. Die zweite Bedingung wird nicht mehr geprüft.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Verzweigung mit drei Fällen bauen. → Drei Fälle statt zwei
-- Ich kann `else if` in Java lesen und schreiben. → Jetzt in Java: else if
-- Ich kann die Bedingungen in der richtigen Reihenfolge prüfen. → Auf die Reihenfolge kommt es an
 :::

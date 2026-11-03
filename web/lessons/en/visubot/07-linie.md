@@ -82,6 +82,165 @@ tipp: It should be `steps = steps + 1`.
 lösung: vb-java-rand-loesung.visustruct
 :::
 
+## Game: Line or no line?
+
+::: spiel frage
+titel: Game: Line or no line?
+intro: Where is the mBot2 standing, and is the condition true or false? Six rounds.
+antworten: true | false
+
+runde:
+    mbot.getLine() == 0
+frage: The mBot2 is standing on white paper. Is the condition true?
+richtig: true
+> No sensor sees black, so `mbot.getLine()` gives 0.
+
+runde:
+    mbot.getLine() == 0
+frage: The two middle sensors are on the black tape. Is the condition true?
+richtig: false
+> Two sensors see black, so `mbot.getLine()` is greater than 0.
+
+runde:
+    mbot.getLine() != 0
+frage: Only the outer left sensor sees black. Is the condition true?
+richtig: true
+> One sensor is enough, then the value is no longer 0.
+
+runde:
+    mbot.getLine() != 0
+frage: The mBot2 is standing on a white floor. Is the condition true?
+richtig: false
+> On white the value is 0, and `0 != 0` is false.
+
+runde:
+    mbot.getLine() == 15
+frage: A cross line: all four sensors see black. Is the condition true?
+richtig: true
+> All four sensors give the binary number `1111`, which is 15.
+
+runde:
+    int steps = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        steps = steps + 1;
+    }
+frage: The line is 30 cm away, each drive is 10 cm long. Is `steps == 3` afterwards?
+richtig: true
+> After three drives it is on the line, and the loop stops.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (mbot.getLine() != 0) {
+        mbot.forward();
+    }
+    mbot.turnRight(180);
+frage: Should drive to the black edge and then turn round.
+fehler: 1
+besser: while (mbot.getLine() == 0) {
+> It should drive as long as there is **no** line, so `== 0`.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+    }
+    mbot.turnRight();
+frage: Should drive to the black edge and then turn round.
+fehler: 4
+besser: mbot.turnRight(180);
+> Turning round means 180°. Without a number it only turns 90°.
+
+runde:
+    int steps = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        steps = steps - 1;
+    }
+frage: Should drive to the line and count the steps.
+fehler: 4
+besser: steps = steps + 1;
+> Counting means adding one, not taking one away.
+
+runde:
+    int steps = "0";
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        steps = steps + 1;
+    }
+frage: Should drive to the line and count the steps.
+fehler: 1
+besser: int steps = 0;
+> In quotation marks, the 0 is a text. Only a number fits into an `int`.
+:::
+
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Black is tape. Tap the field where the mBot2 is at the end. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ..=.. | ..... | ..... | ..^..
+ziel: 2,1
+> It drives until it is standing on the black field.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+    mbot.turnRight(180);
+    mbot.forward(60);
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,2
+> To the edge, turn round and two fields back.
+
+runde:
+    int steps = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+        steps = steps + 1;
+    }
+    mbot.turnRight(180);
+    for (int i = 0; i < steps; i++) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..^..
+ziel: 2,3
+> It counts three steps to the line and drives exactly three back: at the start again.
+
+runde:
+    mbot.turnRight();
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ^...= | .....
+ziel: 4,1
+> First turn right, then on to the black field on the far right.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what the number from `mbot.getLine()` means. → Four probes under the nose
+- I can drive up to a line. → Turn round at the edge in the structure chart
+- I can count steps with a variable in Java. → Now in Java: there and back
+:::
+
+## Quiz
+
 ::: quiz
 ? The mBot2 is on white paper. What does `mbot.getLine()` give?
 → Four probes under the nose
@@ -95,12 +254,4 @@ lösung: vb-java-rand-loesung.visustruct
 - [x] `mbot.getLine() != 0`
 - [ ] `mbot.getLine() < 0`
 > `!=` means “not equal”.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what the number from `mbot.getLine()` means. → Four probes under the nose
-- I can drive up to a line. → Turn round at the edge in the structure chart
-- I can count steps with a variable in Java. → Now in Java: there and back
 :::

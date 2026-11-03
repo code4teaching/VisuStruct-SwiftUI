@@ -122,6 +122,18 @@ richtig: true
 > Taste A ist nicht gedrückt, also `false`. Das `!` dreht es um: `true`.
 :::
 
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Variable vom Typ `boolean` anlegen. → Wahr oder falsch
+- Ich kann mit einem Merker festhalten, ob etwas passiert ist. → Der Merker
+- Ich kann einen Merker nach der Schleife in einer Bedingung abfragen. → Jetzt in Java: Wurde geklatscht?
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Welche Werte kann eine Variable vom Typ `boolean` haben?
 → Wahr oder falsch
@@ -140,12 +152,4 @@ richtig: true
 - [ ] `if (laut = true)`
 - [ ] `if laut`
 > `laut` ist selbst schon wahr oder falsch. Ein einzelnes `=` wäre eine Zuweisung.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Variable vom Typ `boolean` anlegen. → Wahr oder falsch
-- Ich kann mit einem Merker festhalten, ob etwas passiert ist. → Der Merker
-- Ich kann einen Merker nach der Schleife in einer Bedingung abfragen. → Jetzt in Java: Wurde geklatscht?
 :::

@@ -118,6 +118,18 @@ richtig: Variable
 > Der Akku wird beim Fahren langsam leer.
 :::
 
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was eine Konstante ist. → Eine Konstante anlegen
+- Ich kann eine Konstante im Struktogramm und in Java anlegen. → Eine Konstante anlegen
+- Ich kann eine Konstante in einer Bedingung und in einem Befehl benutzen. → Jetzt in Java: Quadrat mit Konstante
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was ist eine Konstante?
 → Eine Konstante anlegen
@@ -136,12 +148,4 @@ richtig: Variable
 - [ ] Weil das Programm dann schneller fährt
 - [x] Weil du den Wert nur an einer Stelle ändern musst
 - [ ] Weil der Sensor dann genauer misst
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was eine Konstante ist. → Eine Konstante anlegen
-- Ich kann eine Konstante im Struktogramm und in Java anlegen. → Eine Konstante anlegen
-- Ich kann eine Konstante in einer Bedingung und in einem Befehl benutzen. → Jetzt in Java: Quadrat mit Konstante
 :::

@@ -76,6 +76,122 @@ tipp: Richtig heißt es `mbot.showText(i)`.
 lösung: vb-java-countdown-loesung.visustruct
 :::
 
+## Spiel: Was steht auf dem Bildschirm?
+
+::: spiel frage
+titel: Spiel: Was steht auf dem Bildschirm?
+intro: Lies den Code und sag vorher, was der Bildschirm am Ende zeigt. Sechs Runden.
+
+runde:
+    mbot.showText("Hallo!");
+    mbot.pause(1000);
+    mbot.showText("Ich bin VisuBot");
+frage: Was steht am Ende auf dem Bildschirm?
+- Hallo! Ich bin VisuBot
+- [x] Ich bin VisuBot
+- Hallo!
+> Ein neuer Text ersetzt den alten.
+
+runde:
+    mbot.showText("Abstand: " + 25);
+frage: Was steht auf dem Bildschirm?
+- [x] Abstand: 25
+- "Abstand: " + 25
+- Abstand:
+> Das `+` hängt die Zahl an den Text.
+
+runde:
+    int i = 3;
+    mbot.showText("i");
+frage: Was steht auf dem Bildschirm?
+- 3
+- [x] i
+- "i"
+> In Anführungszeichen ist `i` ein Text, keine Variable. Die Anführungszeichen selbst erscheinen nicht.
+
+runde:
+    for (int i = 3; i >= 1; i--) {
+        mbot.showText(i);
+        mbot.pause(1000);
+    }
+    mbot.showText("Start!");
+frage: Welche Zahl steht direkt vor „Start!“ da?
+- 0
+- [x] 1
+- 3
+> Der Countdown zeigt 3, 2, 1. Bei 0 ist `i >= 1` falsch.
+
+runde:
+    mbot.showText("Summe: " + 2 + 3);
+frage: Was steht auf dem Bildschirm?
+- Summe: 5
+- [x] Summe: 23
+- Summe: 2 + 3
+> Java rechnet von links nach rechts: Erst kommt die 2 an den Text, dann die 3.
+
+runde:
+    mbot.showText("Summe: " + (2 + 3));
+frage: Was steht auf dem Bildschirm?
+- [x] Summe: 5
+- Summe: 23
+- Summe: (2 + 3)
+> Die Klammern rechnet Java zuerst aus.
+:::
+
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    mbot.showText("Hallo!");
+    mbot.pause(1);
+    mbot.showText("Ich bin VisuBot");
+frage: Soll „Hallo!“ zeigen, eine Sekunde warten und dann „Ich bin VisuBot“ zeigen.
+fehler: 2
+besser: mbot.pause(1000);
+> `pause` zählt in Millisekunden. Eine Sekunde sind 1000.
+
+runde:
+    for (int i = 3; i >= 1; i++) {
+        mbot.showText(i);
+        mbot.pause(1000);
+    }
+frage: Countdown: soll 3, 2, 1 zeigen.
+fehler: 1
+besser: for (int i = 3; i >= 1; i--) {
+> Rückwärts zählen heißt `i--`. Mit `i++` hört die Schleife nie auf.
+
+runde:
+    mbot.showText(Hallo!);
+frage: Soll „Hallo!“ zeigen.
+fehler: 1
+besser: mbot.showText("Hallo!");
+> Text steht in Anführungszeichen.
+
+runde:
+    mbot.showText("Abstand: " - mbot.getDistance());
+frage: Soll zum Beispiel „Abstand: 25“ zeigen.
+fehler: 1
+besser: mbot.showText("Abstand: " + mbot.getDistance());
+> Text und Zahl hängst du mit `+` aneinander.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann Text auf dem Bildschirm anzeigen. → Text anzeigen
+- Ich kann mehrere Texte nacheinander zeigen. → Begrüßung im Struktogramm
+- Ich kann Zahlen und Messwerte anzeigen. → Zahlen und Messwerte
+- Ich kann einen Countdown in Java schreiben. → Jetzt in Java: Countdown
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was zeigt `mbot.showText("Abstand: " + 25)`?
 → Zahlen und Messwerte
@@ -87,13 +203,4 @@ lösung: vb-java-countdown-loesung.visustruct
 → Text anzeigen
 - [x] Er wird ersetzt.
 - [ ] Der neue kommt darunter.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann Text auf dem Bildschirm anzeigen. → Text anzeigen
-- Ich kann mehrere Texte nacheinander zeigen. → Begrüßung im Struktogramm
-- Ich kann Zahlen und Messwerte anzeigen. → Zahlen und Messwerte
-- Ich kann einen Countdown in Java schreiben. → Jetzt in Java: Countdown
 :::

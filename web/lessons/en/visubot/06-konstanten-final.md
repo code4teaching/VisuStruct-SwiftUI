@@ -118,6 +118,18 @@ richtig: Variable
 > The battery slowly runs down while driving.
 :::
 
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what a constant is. → Creating a constant
+- I can create a constant in the structure chart and in Java. → Creating a constant
+- I can use a constant in a condition and in a command. → Now in Java: square with a constant
+:::
+
+## Quiz
+
 ::: quiz
 ? What is a constant?
 → Creating a constant
@@ -136,12 +148,4 @@ richtig: Variable
 - [ ] Because the program drives faster
 - [x] Because you only have to change the value in one place
 - [ ] Because the sensor measures more precisely
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what a constant is. → Creating a constant
-- I can create a constant in the structure chart and in Java. → Creating a constant
-- I can use a constant in a condition and in a command. → Now in Java: square with a constant
 :::

@@ -104,6 +104,130 @@ tipp: It should be `sum = sum + values[i]`.
 lösung: vb-messreihe-loesung.visustruct
 :::
 
+## Game: Which slot?
+
+::: spiel frage
+titel: Game: Which slot?
+intro: Slots are counted from 0. What is where in the array? Six rounds.
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+frage: What is `tones[2]`?
+- 294
+- [x] 330
+- 349
+> Slot 0 is 262, slot 1 is 294, slot 2 is 330.
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+frage: What is `tones.length`?
+- 4
+- [x] 5
+- 392
+> `length` counts the slots.
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+frage: What is `tones[tones.length - 1]`?
+- 349
+- [x] 392
+- an error
+> `tones.length - 1` is 4, the last slot.
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+frage: What happens with `mbot.playTone(tones[5], 300)`?
+- It plays 392 hertz.
+- It plays nothing and carries on.
+- [x] An error: there is no slot 5.
+> The slots are numbered 0 to 4. Java reports an `ArrayIndexOutOfBoundsException`.
+
+runde:
+    String[] colours = {"red", "yellow", "green", "blue", "purple"};
+    for (int i = 0; i < colours.length; i++) {
+        mbot.led(i).setColor(colours[i]);
+    }
+frage: Which colour does LED 3 have?
+- green
+- [x] blue
+- purple
+> LED 3 gets `colours[3]`, the fourth word.
+
+runde:
+    int[] values = {20, 22, 18, 20, 20};
+    int sum = 0;
+    for (int i = 0; i < values.length; i++) {
+        sum = sum + values[i];
+    }
+    double average = sum / 5.0;
+frage: What value does `average` have?
+- 18.0
+- [x] 20.0
+- 100.0
+> The sum is 100, and 100 / 5.0 is 20.0.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+    for (int i = 0; i <= tones.length; i++) {
+        mbot.playTone(tones[i], 300);
+    }
+frage: Should play all five tones.
+fehler: 2
+besser: for (int i = 0; i < tones.length; i++) {
+> With `<=` the loop also tries to play `tones[5]`. That slot doesn't exist.
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+    for (int i = 0; i < tones.length; i++) {
+        mbot.playTone(tones, 300);
+    }
+frage: Should play all five tones.
+fehler: 3
+besser: mbot.playTone(tones[i], 300);
+> One slot is played, `tones[i]`, not the whole array.
+
+runde:
+    String[] colours = {"red", "yellow", "green", "blue", "purple"};
+    for (int i = 0; i < colours.length(); i++) {
+        mbot.led(i).setColor(colours[i]);
+    }
+frage: Should give each LED a colour from the array.
+fehler: 2
+besser: for (int i = 0; i < colours.length; i++) {
+> Arrays have `length` without brackets. Only `length()` for Strings needs brackets.
+
+runde:
+    int[] values = new int[5];
+    int sum = 0;
+    for (int i = 0; i < values.length; i++) {
+        sum = values[i];
+    }
+frage: Should add up all the measurements.
+fehler: 4
+besser: sum = sum + values[i];
+> Like this, only the last value ends up in `sum`. The new value has to be added on.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can create an array and play it with a loop. → A melody as an array
+- I can use an array of texts in Java. → Now in Java: rainbow
+- I can collect measurements in an array and work out the average. → Now in Java: measurement series
+:::
+
+## Quiz
+
 ::: quiz
 ? What is `tones[1]` if `int[] tones = {262, 294, 330};`?
 → A melody as an array
@@ -117,12 +241,4 @@ lösung: vb-messreihe-loesung.visustruct
 - [x] 3
 - [ ] 330
 > `length` counts the slots, here three. That is why the last slot has the number 2.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can create an array and play it with a loop. → A melody as an array
-- I can use an array of texts in Java. → Now in Java: rainbow
-- I can collect measurements in an array and work out the average. → Now in Java: measurement series
 :::

@@ -79,6 +79,84 @@ tipp: It should be `mbot.setLed(255, 0, 0)`.
 lösung: vb-java-akku-loesung.visustruct
 :::
 
+## Game: Stopwatch and battery
+
+::: spiel frage
+titel: Game: Stopwatch and battery
+intro: Read the code and predict what happens. Five rounds.
+
+runde:
+    mbot.resetTimer();
+    mbot.drive(50, 50);
+    while (mbot.getTimer() < 2) {
+        mbot.pause(100);
+    }
+    mbot.stop();
+frage: How long does the mBot2 drive?
+- 0.1 seconds
+- [x] 2 seconds
+- until it reaches the wall
+> It waits until the stopwatch shows 2 seconds, then it stops.
+
+runde:
+    mbot.resetTimer();
+    mbot.drive(50, 50);
+    while (mbot.getTimer() < 2) {
+        mbot.pause(100);
+    }
+    mbot.stop();
+frage: At 50 % it manages 10 cm per second. How far does it drive?
+- 10 cm
+- [x] 20 cm
+- 50 cm
+> 2 seconds times 10 cm per second is 20 cm.
+
+runde:
+    mbot.pause(3000);
+    mbot.resetTimer();
+    mbot.pause(1000);
+    mbot.showText(mbot.getTimer());
+frage: Roughly which number does the screen show?
+- 0
+- [x] 1
+- 4
+> After `mbot.resetTimer()` the stopwatch starts again at 0. After that only 1 second passes.
+
+runde:
+    if (mbot.getBattery() < 20) {
+        mbot.setLed(255, 0, 0);
+    }
+    mbot.showText("Battery: " + mbot.getBattery() + " %");
+frage: The battery has 15 % left. What happens?
+- Only the screen shows **Battery: 15 %**.
+- Only the LEDs light up red.
+- [x] The screen shows **Battery: 15 %**, and the LEDs light up red.
+> 15 is less than 20. The display is below the branch and always comes.
+
+runde:
+    if (mbot.getBattery() < 20) {
+        mbot.setLed(255, 0, 0);
+    }
+    mbot.showText("Battery: " + mbot.getBattery() + " %");
+frage: The battery has 80 %. What happens?
+- [x] Only the screen shows **Battery: 80 %**.
+- Only the LEDs light up red.
+- Nothing at all.
+> 80 is not less than 20, so the LEDs stay off.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can reset the stopwatch and read it. → The stopwatch
+- I can drive for a certain time. → Driving two seconds in the structure chart
+- I can show the battery level. → Now in Java: battery display
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `mbot.getTimer()` give right after `mbot.resetTimer()`?
 → The stopwatch
@@ -92,12 +170,4 @@ lösung: vb-java-akku-loesung.visustruct
 - [x] Because it should keep driving until the time is up.
 - [ ] Because otherwise the stopwatch stops.
 > Stepping on the gas still applies while it waits.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can reset the stopwatch and read it. → The stopwatch
-- I can drive for a certain time. → Driving two seconds in the structure chart
-- I can show the battery level. → Now in Java: battery display
 :::

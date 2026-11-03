@@ -70,6 +70,144 @@ tipp: It should be `mbot.showText("Stopped")`.
 lösung: vb-java-taste-stopp-loesung.visustruct
 :::
 
+## Game: Emergency brake
+
+::: spiel frage
+titel: Game: Emergency brake
+intro: When does the break kick in, and what happens afterwards? Each drive is 10 cm long. Five rounds.
+
+runde:
+    while (true) {
+        if (mbot.getDistance() < 15) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: The wall starts 40 cm away. How often does it drive forward?
+- 2 times
+- [x] 3 times
+- forever
+> At 40, 30 and 20 it drives. At 10 the emergency brake kicks in.
+
+runde:
+    while (true) {
+        if (mbot.getDistance() < 15) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: What happens straight after `break`?
+- The loop starts again.
+- It drives forward once more.
+- [x] It beeps.
+> `break` leaves the loop. The program carries on with the first command after it.
+
+runde:
+    while (true) {
+        mbot.forward();
+        break;
+    }
+frage: How often does the mBot2 drive forward?
+- [x] once
+- not at all
+- forever
+> The break isn't inside a branch. The loop ends in its first run.
+
+runde:
+    while (true) {
+        mbot.forward();
+    }
+frage: When does this loop stop?
+- after 10 drives
+- at the wall
+- [x] never
+> Without `break`, `while (true)` really is endless.
+
+runde:
+    while (true) {
+        if (mbot.isButtonA()) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: You press button A after it has driven forward twice. How often has it driven forward?
+- [x] 2 times
+- 3 times
+- not at all
+> In the next run it notices the button and jumps out of the loop.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (true) {
+        if (mbot.getDistance() > 15) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Should drive forward and stop at the wall with the emergency brake.
+fehler: 2
+besser: if (mbot.getDistance() < 15) {
+> The emergency brake should kick in when the wall is **close**.
+
+runde:
+    while (true) {
+        if (mbot.isButtonB()) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.showText("Stopped");
+frage: Should drive forward until button A is pressed, then show "Stopped".
+fehler: 2
+besser: if (mbot.isButtonA()) {
+> The brake should be button A, not B.
+
+runde:
+    while (true) {
+        if (mbot.isButtonA()) {
+            brake;
+        }
+        mbot.forward();
+    }
+frage: Should drive forward until button A is pressed.
+fehler: 3
+besser: break;
+> The exit is called `break`, not `brake`.
+
+runde:
+    while (false) {
+        if (mbot.isButtonA()) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Should drive in an endless loop until button A is pressed.
+fehler: 1
+besser: while (true) {
+> The endless loop is `while (true)`. With `false` it doesn't run even once.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can end an endless loop with a Break. → Endless loop with a Break
+- I can explain why the Break sits inside a branch. → Endless loop with a Break
+- I can write a loop with `while (true)` and `break` in Java. → Now in Java: stop with button A
+:::
+
+## Quiz
+
 ::: quiz
 ? Where does the program carry on after a Break?
 → Endless loop with a Break
@@ -89,12 +227,4 @@ lösung: vb-java-taste-stopp-loesung.visustruct
 - [x] `while (true)`
 - [ ] `for (;;) break;`
 > `true` is always true, the loop only stops with `break`.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can end an endless loop with a Break. → Endless loop with a Break
-- I can explain why the Break sits inside a branch. → Endless loop with a Break
-- I can write a loop with `while (true)` and `break` in Java. → Now in Java: stop with button A
 :::

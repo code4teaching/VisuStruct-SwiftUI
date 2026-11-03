@@ -91,6 +91,67 @@ tipp: It should be `mbot.playTone(i * 200, 200)`.
 lösung: vb-java-hoeher-loesung.visustruct
 :::
 
+## Game: From low to high
+
+::: spiel reihenfolge
+titel: Game: From low to high
+intro: Tap the answers in the right order. One wrong tap ends the round. Five rounds.
+
+runde:
+frage: Tap the tones from low to high.
+- `mbot.playTone(262, 300)`
+- `mbot.playTone(330, 300)`
+- `mbot.playTone(440, 300)`
+- `mbot.playTone(880, 300)`
+> The more hertz, the higher the tone.
+
+runde:
+frage: Tap the tones from short to long.
+- `mbot.playTone(440, 100)`
+- `mbot.playTone(440, 300)`
+- `mbot.playTone(440, 1000)`
+- `mbot.playTone(440, 2000)`
+> The second number is the length in milliseconds.
+
+runde:
+    for (int i = 3; i >= 1; i--) {
+        mbot.playTone(i * 200, 200);
+    }
+frage: Tap the tones in the order in which they sound.
+- 600 hertz
+- 400 hertz
+- 200 hertz
+> `i` counts down: 3, 2, 1. The tones get lower and lower.
+
+runde:
+frage: Tap the tones from low to high.
+- C at 262 hertz
+- concert pitch A
+- A one octave higher
+> Concert pitch A has 440 hertz; one octave higher has twice as many: 880 hertz.
+
+runde:
+frage: Tap the times from short to long.
+- 300 milliseconds
+- 1 second
+- 1500 milliseconds
+- 2 seconds
+> 1 second is 1000 milliseconds, 2 seconds are 2000.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what the two numbers in `playTone` mean. → How high, how long?
+- I can build a sequence of tones. → Scale in the structure chart
+- I can calculate with the counting variable in Java. → Now in Java: higher and higher
+- I can make the mBot2 show a feeling. → Showing feelings
+:::
+
+## Quiz
+
 ::: quiz
 ? Which tone is higher?
 → How high, how long?
@@ -103,13 +164,4 @@ lösung: vb-java-hoeher-loesung.visustruct
 - [x] 1 second
 - [ ] 1000 seconds
 > 1000 milliseconds are one second.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what the two numbers in `playTone` mean. → How high, how long?
-- I can build a sequence of tones. → Scale in the structure chart
-- I can calculate with the counting variable in Java. → Now in Java: higher and higher
-- I can make the mBot2 show a feeling. → Showing feelings
 :::

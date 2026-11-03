@@ -78,6 +78,89 @@ tipp: Richtig heißt es `mbot.backward()`.
 lösung: vb-java-joystick-loesung.visustruct
 :::
 
+## Spiel: Was tut der mBot2?
+
+::: spiel frage
+titel: Spiel: Was tut der mBot2?
+intro: Du drückst eine Taste oder den Joystick. Was tut der mBot2? Sechs Runden.
+
+runde:
+    while (!mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Niemand drückt eine Taste. Was tut der mBot2?
+- Er fährt 30 cm vor.
+- [x] Er wartet weiter.
+- Er piept.
+> Solange A nicht gedrückt ist, bleibt er in der Warteschleife.
+
+runde:
+    while (!mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Du drückst Taste B. Was tut der mBot2?
+- Er fährt 30 cm vor.
+- [x] Er wartet weiter.
+- Er fährt 30 cm zurück.
+> Die Schleife fragt nur nach Taste A.
+
+runde:
+    while (!mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Du drückst Taste A. Was tut der mBot2?
+- [x] Er fährt 30 cm vor.
+- Er wartet weiter.
+- Er wartet 100 ms und hört dann auf.
+> Jetzt ist `!mbot.isButtonA()` falsch, die Schleife endet, und er fährt los.
+
+runde:
+    if (mbot.isJoystickUp()) {
+        mbot.forward();
+    } else if (mbot.isJoystickDown()) {
+        mbot.backward();
+    }
+frage: Du drückst den Joystick nach unten. Was tut der mBot2?
+- Er fährt vor.
+- [x] Er fährt zurück.
+- Gar nichts.
+> Die erste Bedingung ist falsch, die zweite wahr.
+
+runde:
+    if (mbot.isJoystickUp()) {
+        mbot.forward();
+    } else if (mbot.isJoystickDown()) {
+        mbot.backward();
+    }
+frage: Du drückst den Joystick nach links. Was tut der mBot2?
+- Er dreht sich nach links.
+- Er fährt zurück.
+- [x] Gar nichts.
+> Für links gibt es keinen Zweig. Beide Bedingungen sind falsch.
+
+runde:
+frage: Du hältst Taste A gedrückt. Was liefert `mbot.isButtonA()`?
+- [x] true
+- false
+- 1
+> Tasten liefern wahr oder falsch, und gedrückt heißt wahr.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann die Sensoren für Tasten und Joystick abfragen. → Drücken als Sensor
+- Ich kann auf eine Taste warten. → Warten auf Taste A im Struktogramm
+- Ich kann den mBot2 mit dem Joystick steuern. → Jetzt in Java: Fernsteuerung
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was liefert `mbot.isButtonB()`, wenn niemand drückt?
 → Drücken als Sensor
@@ -91,12 +174,4 @@ lösung: vb-java-joystick-loesung.visustruct
 - [ ] Damit die Taste länger leuchtet.
 - [ ] Ohne Pause fährt der mBot2 rückwärts.
 > Die Schleife fragt alle 100 Millisekunden nach, das reicht völlig.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann die Sensoren für Tasten und Joystick abfragen. → Drücken als Sensor
-- Ich kann auf eine Taste warten. → Warten auf Taste A im Struktogramm
-- Ich kann den mBot2 mit dem Joystick steuern. → Jetzt in Java: Fernsteuerung
 :::

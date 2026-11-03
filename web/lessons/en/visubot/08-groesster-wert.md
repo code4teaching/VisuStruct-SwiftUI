@@ -130,6 +130,18 @@ frage: Measured: 25, 60, 60, 5. In which direction (`i`) is the record?
 > At `i = 1` the 60 comes. The second 60 is not **bigger**, so `direction` stays at 1.
 :::
 
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can remember the biggest value so far in a variable. → Remembering the record
+- I can compare every new reading with the biggest so far in a loop. → Where is the most space?
+- I can find out with the mBot2 in which direction there is the most space. → Now in Java: remembering the direction
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `max` start with before the loop?
 → Remembering the record
@@ -147,12 +159,4 @@ frage: Measured: 25, 60, 60, 5. In which direction (`i`) is the record?
 - [ ] In every pass
 - [x] Only when there is a new record
 - [ ] Only in the last round
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can remember the biggest value so far in a variable. → Remembering the record
-- I can compare every new reading with the biggest so far in a loop. → Where is the most space?
-- I can find out with the mBot2 in which direction there is the most space. → Now in Java: remembering the direction
 :::

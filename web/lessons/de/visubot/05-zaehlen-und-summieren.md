@@ -122,6 +122,18 @@ frage: `int schritte = 10`, dann zweimal `schritte = schritte + 1`. Was ist `sch
 > Der Zähler fängt hier bei 10 an, nicht bei 0.
 :::
 
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Zählvariable anlegen und in einer Schleife hochzählen. → Mitzählen
+- Ich kann in einer Schleife eine Summe bilden. → Zusammenzählen
+- Ich kann das Ergebnis nach der Schleife auf dem Bildschirm zeigen. → Jetzt in Java: Spirale mit Strecke
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Wo legst du die Zählvariable `int schritte = 0` an?
 → Mitzählen
@@ -139,12 +151,4 @@ frage: `int schritte = 10`, dann zweimal `schritte = schritte + 1`. Was ist `sch
 - [ ] `gesamt = seite`
 - [ ] `seite = gesamt + seite`
 - [x] `gesamt = gesamt + seite`
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Zählvariable anlegen und in einer Schleife hochzählen. → Mitzählen
-- Ich kann in einer Schleife eine Summe bilden. → Zusammenzählen
-- Ich kann das Ergebnis nach der Schleife auf dem Bildschirm zeigen. → Jetzt in Java: Spirale mit Strecke
 :::

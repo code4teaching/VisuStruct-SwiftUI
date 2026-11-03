@@ -130,6 +130,18 @@ frage: Gemessen: 25, 60, 60, 5. In welcher Richtung (`i`) ist der Rekord?
 > Bei `i = 1` kommt die 60. Die zweite 60 ist nicht **größer**, also bleibt `richtung` bei 1.
 :::
 
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann mit einer Variablen den bisher größten Wert merken. → Den Rekord merken
+- Ich kann in einer Schleife jeden neuen Messwert mit dem bisher größten vergleichen. → Wo ist am meisten Platz?
+- Ich kann mit dem mBot2 herausfinden, in welcher Richtung am meisten Platz ist. → Jetzt in Java: Die Richtung merken
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Womit fängt `max` vor der Schleife an?
 → Den Rekord merken
@@ -147,12 +159,4 @@ frage: Gemessen: 25, 60, 60, 5. In welcher Richtung (`i`) ist der Rekord?
 - [ ] In jedem Durchgang
 - [x] Nur wenn es einen neuen Rekord gibt
 - [ ] Nur in der letzten Runde
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann mit einer Variablen den bisher größten Wert merken. → Den Rekord merken
-- Ich kann in einer Schleife jeden neuen Messwert mit dem bisher größten vergleichen. → Wo ist am meisten Platz?
-- Ich kann mit dem mBot2 herausfinden, in welcher Richtung am meisten Platz ist. → Jetzt in Java: Die Richtung merken
 :::

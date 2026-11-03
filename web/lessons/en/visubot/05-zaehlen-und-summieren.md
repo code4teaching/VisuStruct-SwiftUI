@@ -122,6 +122,18 @@ frage: `int steps = 10`, then twice `steps = steps + 1`. What is `steps`?
 > Here the counter starts at 10, not at 0.
 :::
 
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can create a counter variable and count it up in a loop. → Counting along
+- I can build a sum in a loop. → Adding up
+- I can show the result on the screen after the loop. → Now in Java: spiral with distance
+:::
+
+## Quiz
+
 ::: quiz
 ? Where do you create the counter variable `int steps = 0`?
 → Counting along
@@ -139,12 +151,4 @@ frage: `int steps = 10`, then twice `steps = steps + 1`. What is `steps`?
 - [ ] `total = side`
 - [ ] `side = total + side`
 - [x] `total = total + side`
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can create a counter variable and count it up in a loop. → Counting along
-- I can build a sum in a loop. → Adding up
-- I can show the result on the screen after the loop. → Now in Java: spiral with distance
 :::

@@ -75,6 +75,132 @@ tipp: Richtig heißt es `mbot.pause(500)`.
 lösung: vb-java-blinken-loesung.visustruct
 :::
 
+## Spiel: Welche Farbe?
+
+::: spiel frage
+titel: Spiel: Welche Farbe?
+intro: Rot, Grün und Blau gemischt: Welche Farbe zeigen die LEDs? Sieben Runden.
+
+runde:
+    mbot.setLed(255, 0, 0);
+frage: Welche Farbe leuchtet?
+- [x] Rot
+- Grün
+- Blau
+> Nur der erste Wert, Rot, ist an.
+
+runde:
+    mbot.setLed(0, 0, 255);
+frage: Welche Farbe leuchtet?
+- Rot
+- Grün
+- [x] Blau
+> Die Reihenfolge ist immer Rot, Grün, Blau. Nur Blau ist an.
+
+runde:
+    mbot.setLed(255, 255, 255);
+frage: Welche Farbe leuchtet?
+- Gelb
+- [x] Weiß
+- aus
+> Alle drei Farben ganz hell ergeben Weiß.
+
+runde:
+    mbot.setLed(255, 200, 0);
+frage: Welche Farbe leuchtet?
+- [x] Gelb
+- Lila
+- Weiß
+> Rot und Grün zusammen ergeben Gelb.
+
+runde:
+    mbot.setLed(160, 0, 255);
+frage: Welche Farbe leuchtet?
+- Gelb
+- [x] Lila
+- Grün
+> Rot und Blau zusammen ergeben Lila.
+
+runde:
+    mbot.setLed(0, 0, 0);
+frage: Welche Farbe leuchtet?
+- Weiß
+- Schwarz
+- [x] keine, die LEDs sind aus
+> Alle drei Werte sind 0. Eine LED kann nicht schwarz leuchten.
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.setLed(0, 255, 0);
+    mbot.pause(1000);
+frage: Welche Farbe siehst du eine Sekunde lang?
+- Rot
+- [x] Grün
+- erst Rot, dann Grün
+> Ohne **kurz warten** zwischen den Farben ist Rot sofort wieder weg.
+:::
+
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.pause(1000);
+    mbot.setLed(255, 200, 0);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 255);
+frage: Soll wie eine Ampel Rot, Gelb und Grün zeigen.
+fehler: 5
+besser: mbot.setLed(0, 255, 0);
+> Grün ist `0, 255, 0`. `0, 0, 255` ist Blau.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.setLed(0, 0, 255);
+        mbot.pause(500);
+        mbot.ledOff;
+        mbot.pause(500);
+    }
+frage: Soll dreimal blau blinken.
+fehler: 4
+besser: mbot.ledOff();
+> Auch ein Befehl ohne Zahl braucht seine Klammern.
+
+runde:
+    mbot.setLed(0, 0, 300);
+    mbot.pause(1000);
+    mbot.ledOff();
+frage: Soll eine Sekunde ganz hell blau leuchten.
+fehler: 1
+besser: mbot.setLed(0, 0, 255);
+> Jede Farbe geht nur von 0 bis 255.
+
+runde:
+    mbot.setLed(255, 255, 255);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 0, 0);
+frage: Soll eine Sekunde weiß leuchten und dann ausgehen.
+fehler: 3
+besser: mbot.ledOff();
+> `setLed` hat genau drei Zahlen: Rot, Grün, Blau. Zum Ausschalten gibt es `mbot.ledOff()`.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann eine Farbe aus Rot, Grün und Blau mischen. → Rot, Grün und Blau mischen
+- Ich kann Farben mit Pausen nacheinander zeigen. → Ampel im Struktogramm
+- Ich kann die LEDs in Java blinken lassen. → Jetzt in Java: Blaulicht
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Welche Farbe ergibt `mbot.setLed(0, 255, 0)`?
 → Rot, Grün und Blau mischen
@@ -87,12 +213,4 @@ lösung: vb-java-blinken-loesung.visustruct
 - [x] Sonst wechselt es so schnell, dass man kein Blinken sieht.
 - [ ] Sonst gehen die LEDs kaputt.
 - [ ] Weil `ledOff()` sonst nicht geht.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann eine Farbe aus Rot, Grün und Blau mischen. → Rot, Grün und Blau mischen
-- Ich kann Farben mit Pausen nacheinander zeigen. → Ampel im Struktogramm
-- Ich kann die LEDs in Java blinken lassen. → Jetzt in Java: Blaulicht
 :::

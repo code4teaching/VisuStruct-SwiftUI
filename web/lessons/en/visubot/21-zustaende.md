@@ -128,6 +128,18 @@ richtig: 0
 > 0 → 1 → 2 → 0. After three steps it is back at the start.
 :::
 
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what a state is. → What is a state?
+- I can act depending on the state with a switch and change to the next state. → The robo traffic light in the structure chart
+- I can tell states apart in Java with names and `.equals`. → Now in Java: states with names
+:::
+
+## Quiz
+
 ::: quiz
 ? What does a state variable store?
 → What is a state?
@@ -145,12 +157,4 @@ richtig: 0
 - [x] `state.equals("red")`
 - [ ] `state = "red"`
 > You compare texts with `.equals`. A single `=` would assign `"red"`.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what a state is. → What is a state?
-- I can act depending on the state with a switch and change to the next state. → The robo traffic light in the structure chart
-- I can tell states apart in Java with names and `.equals`. → Now in Java: states with names
 :::

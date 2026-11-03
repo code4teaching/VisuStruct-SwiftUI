@@ -122,6 +122,18 @@ richtig: true
 > Button A is not pressed, so `false`. The `!` turns it around: `true`.
 :::
 
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can create a variable of type `boolean`. → True or false
+- I can use a flag to remember whether something happened. → The flag
+- I can check a flag in a condition after the loop. → Now in Java: was there a clap?
+:::
+
+## Quiz
+
 ::: quiz
 ? Which values can a variable of type `boolean` have?
 → True or false
@@ -140,12 +152,4 @@ richtig: true
 - [ ] `if (loud = true)`
 - [ ] `if loud`
 > `loud` itself is already true or false. A single `=` would be an assignment.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can create a variable of type `boolean`. → True or false
-- I can use a flag to remember whether something happened. → The flag
-- I can check a flag in a condition after the loop. → Now in Java: was there a clap?
 :::

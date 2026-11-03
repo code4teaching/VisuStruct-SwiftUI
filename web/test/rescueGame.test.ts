@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { contentLanguages, lessons, useContentLanguage } from '../src/learn/content'
-import { crosswordGrid, parseRescueGame, RescueGameError } from '../src/learn/rescueGame'
+import { crosswordGrid, parseCrosswordGame, parseRescueGame, RescueGameError } from '../src/learn/rescueGame'
 
 const game = (extra = '', station = 'zahl: 1\nfeld: 1 2') =>
   `titel: Spiel
@@ -49,5 +49,17 @@ describe('Spiel „Prinzessin retten“', () => {
     if (block?.kind !== 'rescueGame') return
     expect(block.game.keyword).toBe('BREAK')
     expect(block.game.stations).toHaveLength(6)
+  })
+})
+
+describe('Begriffe-Rätsel (::: spiel kreuzwort)', () => {
+  it('legt die Wörter ins Gitter und liest das Lösungswort', () => {
+    const game = parseCrosswordGame(['titel: t', 'intro: i', '- → 1 1 SENSOR: misst', '- ↓ 1 1 STOP: hält an', 'lösung: 1 2, 2 1, 1 1'], 't.md')
+    expect(game.rows).toBe(4)
+    expect(game.cols).toBe(6)
+    expect(game.keyword).toBe('ETS')
+    expect(game.words.map((w) => w.number)).toEqual([1, 1])
+    expect(() => parseCrosswordGame(['titel: t', '- → 1 1 SENSOR: misst', '- ↓ 1 1 AKTOR: tut', 'lösung: 1 1'], 't.md')).toThrow(/passt/)
+    expect(() => parseCrosswordGame(['titel: t', '- → 1 1 SENSOR: misst', '- ↓ 1 1 STOP: hält an'], 't.md')).toThrow(/lösung/)
   })
 })

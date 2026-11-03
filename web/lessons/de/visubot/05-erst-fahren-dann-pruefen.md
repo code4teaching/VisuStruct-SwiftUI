@@ -78,6 +78,177 @@ tipp: Richtig heißt es `mbot.showText("Schritte: " + schritte)`.
 lösung: vb-java-schritte-zaehlen-loesung.visustruct
 :::
 
+## Spiel: Kopf oder Fuß?
+
+::: spiel frage
+titel: Spiel: Kopf oder Fuß?
+intro: While oder Do-while: Wie oft fährt der mBot2 vor? Jede Fahrt ist 10 cm lang. Sechs Runden.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: Die Wand steht 10 cm vor dem mBot2. Wie oft fährt er vor?
+- [x] gar nicht
+- 1-mal
+- 2-mal
+> Die While-Schleife prüft zuerst. 10 ist nicht größer als 15.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Die Wand steht 10 cm vor dem mBot2. Wie oft fährt er vor?
+- gar nicht
+- [x] 1-mal
+- 2-mal
+> Die Do-while-Schleife fährt erst und prüft dann. Einmal fährt sie immer.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Die Wand steht 40 cm vor dem mBot2. Wie oft fährt er vor?
+- 2-mal
+- [x] 3-mal
+- 4-mal
+> Nach der ersten Fahrt sind es 30 cm, dann 20, dann 10. Bei 10 ist Schluss. Hier fahren beide Schleifen gleich oft.
+
+runde:
+    int schritte = 0;
+    do {
+        mbot.forward();
+        schritte = schritte + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Schritte: " + schritte);
+frage: Die Wand steht 10 cm vor dem mBot2. Was zeigt der Bildschirm?
+- Schritte: 0
+- [x] Schritte: 1
+- Schritte: 2
+> Der Inhalt läuft einmal, also zählt `schritte` einmal hoch.
+
+runde:
+frage: Welche Schleife ist fußgesteuert?
+- die While-Schleife
+- [x] die Do-while-Schleife
+- die For-Schleife
+> Ihre Bedingung steht unten im Fuß.
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() > 15)
+frage: Warum läuft dieser Code nicht?
+- `do` muss großgeschrieben werden.
+- [x] Hinter `while (…)` fehlt das Semikolon.
+- Die Bedingung muss oben stehen.
+> Die Do-while-Schleife endet mit `} while (Bedingung);`.
+:::
+
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() < 15);
+frage: Soll mindestens einmal vorfahren und weiter, solange die Wand mehr als 15 cm weg ist.
+fehler: 3
+besser: } while (mbot.getDistance() > 15);
+> „Mehr als 15 cm“ heißt `> 15`.
+
+runde:
+    do
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Soll mindestens einmal vorfahren und weiter, solange die Wand mehr als 15 cm weg ist.
+fehler: 1
+besser: do {
+> Hinter `do` fehlt die öffnende geschweifte Klammer.
+
+runde:
+    int schritte = 0;
+    do {
+        mbot.forward();
+        schritte + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Schritte: " + schritte);
+frage: Soll die Schritte zählen und am Ende anzeigen.
+fehler: 4
+besser: schritte = schritte + 1;
+> `schritte + 1` rechnet nur, speichert aber nichts. Das Ergebnis muss mit `=` zurück in `schritte`.
+
+runde:
+    int schritte = 0;
+    do {
+        mbot.forward();
+        schritte = schritte + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Schritte: " + Schritte);
+frage: Soll die Schritte zählen und am Ende anzeigen.
+fehler: 6
+besser: mbot.showText("Schritte: " + schritte);
+> Java unterscheidet Groß- und Kleinschreibung. `Schritte` gibt es nicht.
+:::
+
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Grau ist eine Wand. While oder Do-while: Tippe auf das Feld, auf dem der mBot2 am Ende steht. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    while (mbot.getDistance() > 45) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..^..
+ziel: 2,2
+> Die Wand ist schon nah. Die While-Schleife prüft zuerst und fährt gar nicht los.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 45);
+karte: ##### | ..... | ..^..
+ziel: 2,1
+> Die Do-while-Schleife fährt erst einmal und prüft dann. Ein Feld weiter hört sie auf.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 15);
+    mbot.turnLeft();
+    mbot.forward(30);
+karte: ##### | ..... | ..^..
+ziel: 1,1
+> Ein Feld vor, dann ist die Wand direkt davor. Danach links und ein Feld weiter.
+
+runde:
+    do {
+        mbot.forward(30);
+    } while (mbot.getDistance() > 15);
+karte: ##### | ..... | ..... | ..... | ..^..
+ziel: 2,1
+> Ist die Wand weit weg, fahren While und Do-while gleich weit: bis direkt vor die Wand.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst fahren, dann prüfen
+- Ich kann eine While- und eine Do-while-Schleife vergleichen. → Erst fahren, dann prüfen
+- Ich kann eine Do-while-Schleife in Java schreiben. → Jetzt in Java: Schritte zählen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Wo steht bei der Do-while-Schleife die Bedingung?
 → Erst fahren, dann prüfen
@@ -97,12 +268,4 @@ lösung: vb-java-schritte-zaehlen-loesung.visustruct
 - [ ] eine geschweifte Klammer `{`
 - [ ] nichts
 > `} while (Bedingung);` endet mit einem Semikolon.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, dass die Do-while-Schleife ihre Bedingung erst nach dem Inhalt prüft. → Erst fahren, dann prüfen
-- Ich kann eine While- und eine Do-while-Schleife vergleichen. → Erst fahren, dann prüfen
-- Ich kann eine Do-while-Schleife in Java schreiben. → Jetzt in Java: Schritte zählen
 :::

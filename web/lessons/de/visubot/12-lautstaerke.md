@@ -72,13 +72,77 @@ tipp: Richtig heißt es `mbot.ledOff()`.
 lösung: vb-java-laermampel-loesung.visustruct
 :::
 
-::: quiz
-? Die Klatsch-Schleife lautet `while (mbot.getLoudness() < 50)`. Es ist 30 laut. Was passiert?
-→ Klatschen zum Losfahren im Struktogramm
-- [x] Der mBot2 wartet weiter.
-- [ ] Der mBot2 fährt los.
-> 30 ist kleiner als 50, die Bedingung ist wahr, die Schleife läuft weiter.
+## Spiel: Laut oder leise?
+
+::: spiel frage
+titel: Spiel: Laut oder leise?
+intro: Wie laut ist es, und was tut der mBot2? Sechs Runden.
+
+runde:
+    while (mbot.getLoudness() < 50) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: In der Klasse ist es ruhig, die Lautstärke ist 30.
+- [x] Er wartet weiter.
+- Er fährt 30 cm vor.
+> 30 ist kleiner als 50, die Warteschleife läuft weiter.
+
+runde:
+    while (mbot.getLoudness() < 50) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Du klatschst, die Lautstärke ist 70.
+- Er wartet weiter.
+- [x] Er fährt 30 cm vor.
+> 70 ist nicht kleiner als 50. Die Schleife endet, und er fährt los.
+
+runde:
+    while (mbot.getLoudness() < 50) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Die Lautstärke ist genau 50.
+- Er wartet weiter.
+- [x] Er fährt 30 cm vor.
+> 50 ist nicht kleiner als 50.
+
+runde:
+    if (mbot.getLoudness() > 60) {
+        mbot.setLed(255, 0, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: Die Lautstärke ist 65.
+- [x] Die LEDs leuchten rot.
+- Die LEDs sind aus.
+> 65 ist größer als 60: zu laut.
+
+runde:
+    if (mbot.getLoudness() > 60) {
+        mbot.setLed(255, 0, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: Die Lautstärke ist genau 60.
+- Die LEDs leuchten rot.
+- [x] Die LEDs sind aus.
+> 60 ist nicht größer als 60.
+
+runde:
+    if (mbot.getLoudness() > 60) {
+        mbot.setLed(255, 0, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: Jemand flüstert, die Lautstärke ist 10.
+- Die LEDs leuchten rot.
+- [x] Die LEDs sind aus.
+> Flüstern ist leise. Die Lärmampel bleibt aus.
 :::
+
+## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
@@ -86,4 +150,14 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann die Lautstärke abfragen. → Wie laut ist es?
 - Ich kann warten, bis etwas passiert. → Klatschen zum Losfahren im Struktogramm
 - Ich kann eine Lärmampel in Java schreiben. → Jetzt in Java: Lärmampel
+:::
+
+## Wissenstest
+
+::: quiz
+? Die Klatsch-Schleife lautet `while (mbot.getLoudness() < 50)`. Es ist 30 laut. Was passiert?
+→ Klatschen zum Losfahren im Struktogramm
+- [x] Der mBot2 wartet weiter.
+- [ ] Der mBot2 fährt los.
+> 30 ist kleiner als 50, die Bedingung ist wahr, die Schleife läuft weiter.
 :::

@@ -167,6 +167,128 @@ tipp: It should be `mbot.forward(1, "rotations")`.
 lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
 :::
 
+## Game: Which method?
+
+::: spiel frage
+titel: Game: Which method?
+intro: Same name, different parameters: which method does Java call, and what comes out? Six rounds.
+
+runde:
+    mbot.forward(30, "cm");
+frage: Which `forward` method runs?
+- `forward()`
+- `forward(int cm)`
+- [x] `forward(int value, String unit)`
+> Two parameters, a number and a text: that only fits the third one.
+
+runde:
+    mbot.forward();
+frage: How far does the mBot2 drive?
+- [x] 10 cm
+- not at all, the number is missing
+- one wheel rotation
+> Without a parameter, `forward` drives 10 cm. That is the version with no parameters.
+
+runde:
+    mbot.forward(2, "rotations");
+frage: Roughly how far does the mBot2 drive?
+- 2 cm
+- 20 cm
+- [x] 41 cm
+> One wheel rotation is about 20.4 cm, so two are about 40.8 cm.
+
+runde:
+    static int centimetres(int rotations) {
+        return rotations * 20;
+    }
+frage: What does `centimetres(4)` give?
+- 4
+- 24
+- [x] 80
+> The parameter `rotations` is 4, and `return` gives back 4 · 20.
+
+runde:
+    public static void main(String[] args) {
+        square(30);
+        square(50);
+    }
+frage: How many squares does the mBot2 drive, and how big is the second one?
+- one with 80 cm
+- [x] two, the second with 50 cm sides
+- two, both with 30 cm sides
+> Each call drives one square. The value in the brackets becomes `side`.
+
+runde:
+frage: Which header fits a method that gives back a number?
+- `void centimetres(int rotations)`
+- [x] `int centimetres(int rotations)`
+- `centimetres(int rotations)`
+> The data type of the result comes before the name. `void` means: no result.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    static void square(int side) {
+        for (int i = 0; i < 4; i++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+    }
+frage: Should drive a square with sides of length `side`.
+fehler: 3
+besser: mbot.forward(side);
+> With `30` every square is the same size, whatever you pass in.
+
+runde:
+    static void centimetres(int rotations) {
+        return rotations * 20;
+    }
+frage: Should give back the distance in cm.
+fehler: 1
+besser: static int centimetres(int rotations) {
+> A method that gives something back needs the data type of the result instead of `void`.
+
+runde:
+    static int centimetres(int rotations) {
+        int cm = rotations * 20;
+    }
+frage: Should give back the distance in cm.
+fehler: 2
+besser: return rotations * 20;
+> The method calculates but gives nothing back. `return` is missing.
+
+runde:
+    mbot.forward(2, rotations);
+frage: Should drive two wheel rotations.
+fehler: 1
+besser: mbot.forward(2, "rotations");
+> The unit is a text and needs quotation marks.
+:::
+
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 7 1 PARAMETER: value you write in the brackets when you call a method
+- ↓ 5 7 METHOD: your own command with a name, e.g. square(30)
+- ↓ 1 4 OVERLOADING: same method name, different parameters
+- ↓ 2 9 BATTERY: mbot.getBattery() tells you how full it is
+- → 2 4 VOID: in the header: the method gives nothing back
+- ↓ 2 2 STOPWATCH: mbot.getTimer() reads it
+- → 5 7 MOTOR: each wheel has its own
+- ↓ 1 11 RETURN: gives a result back from a method
+lösung: 7 5, 6 9, 5 9, 10 2, 5 8, 8 4
+:::
+
+## Checklist
+
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste

@@ -91,6 +91,91 @@ tipp: Richtig heißt es `mbot.showText(text +`.
 lösung: vb-java-textlaenge-loesung.visustruct
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was der mBot2 zeigen soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Fünf Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    String wort = "VisuBot";
+    for (int i = 1; i <= wort.length(); i++) {
+        mbot.showText(wort.substring(1, i));
+        mbot.pause(300);
+    }
+frage: Soll V, Vi, Vis und so weiter bis VisuBot zeigen.
+fehler: 3
+besser: mbot.showText(wort.substring(0, i));
+> Das erste Zeichen hat die Nummer 0. Mit `substring(1, i)` fehlt das V.
+
+runde:
+    String text = "Hallo Klasse";
+    mbot.showText(text + " (" + text.length + ")");
+frage: Soll **Hallo Klasse (12)** zeigen.
+fehler: 2
+besser: mbot.showText(text + " (" + text.length() + ")");
+> Bei einem String ist `length()` eine Methode und braucht Klammern. Nur bei Arrays steht `length` ohne Klammern.
+
+runde:
+    String wort = "Ludwig";
+    for (int i = 0; i <= wort.length(); i++) {
+        mbot.showText(wort.charAt(i));
+        mbot.pause(500);
+    }
+frage: Soll L, u, d, w, i, g zeigen.
+fehler: 2
+besser: for (int i = 0; i < wort.length(); i++) {
+> Das letzte Zeichen hat die Nummer 5. Bei `i = 6` gibt es kein Zeichen mehr.
+
+runde:
+    String wort = "Ludwig";
+    for (int i = wort.length(); i >= 0; i--) {
+        mbot.showText(wort.charAt(i));
+        mbot.pause(500);
+    }
+frage: Soll das Wort rückwärts zeigen: g, i, w, d, u, L.
+fehler: 2
+besser: for (int i = wort.length() - 1; i >= 0; i--) {
+> Rückwärts beginnt man beim letzten Zeichen, und das hat die Nummer `wort.length() - 1`.
+
+runde:
+    String name = 'Ludwig';
+    mbot.showText("Hallo " + name);
+frage: Soll **Hallo Ludwig** zeigen.
+fehler: 1
+besser: String name = "Ludwig";
+> Texte stehen in doppelten Anführungszeichen. Einfache gibt es nur für ein einzelnes Zeichen (`char`).
+:::
+
+## Spiel: Begriffe-Rätsel
+
+::: spiel kreuzwort
+titel: Spiel: Begriffe-Rätsel
+intro: Fülle das Rätsel mit den Fachbegriffen aus diesem Teil. Klick auf einen Hinweis, um zum Wort zu springen. Die gelben Felder ergeben das Lösungswort.
+- → 6 1 LAUFSCHRIFT: ein Wort Buchstabe für Buchstabe über den Bildschirm
+- ↓ 4 1 BILDSCHIRM: zeigt mit mbot.showText einen Text
+- ↓ 6 7 HERTZ: Einheit der Tonhöhe: Schwingungen pro Sekunde
+- ↓ 4 11 AKTOR: Bauteil, das etwas tut, z. B. leuchten
+- ↓ 4 3 LAUTSPRECHER: spielt mit mbot.playTone einen Ton
+- ↓ 4 9 ZEICHENKETTE: anderes Wort für String
+- ↓ 1 5 MILLISEKUNDE: ein Tausendstel einer Sekunde
+- → 15 1 ARRAY: Reihe von Fächern unter einem Namen
+lösung: 6 2, 8 5, 9 7, 7 11, 10 3
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann mit `length()` und `substring(…)` arbeiten. → Buchstabe für Buchstabe
+- Ich kann Texte und Zahlen mit `+` verbinden. → Jetzt in Java: Text und Länge
+- Ich kann mit `charAt(…)` einzelne Zeichen holen. → Jetzt in Java: Laufschrift
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was liefert `"VisuBot".substring(0, 4)`?
 → Buchstabe für Buchstabe
@@ -104,12 +189,4 @@ lösung: vb-java-textlaenge-loesung.visustruct
 - [ ] `u`
 - [ ] `g`
 > Die Zeichen werden ab 0 gezählt. Zeichen 0 ist das erste.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann mit `length()` und `substring(…)` arbeiten. → Buchstabe für Buchstabe
-- Ich kann Texte und Zahlen mit `+` verbinden. → Jetzt in Java: Text und Länge
-- Ich kann mit `charAt(…)` einzelne Zeichen holen. → Jetzt in Java: Laufschrift
 :::

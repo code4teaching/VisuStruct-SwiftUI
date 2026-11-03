@@ -75,6 +75,121 @@ tipp: It should be `mbot.forward()`.
 lösung: vb-bis-wand-loesung.visustruct
 :::
 
+## Game: How often does it drive?
+
+::: spiel frage
+titel: Game: How often does it drive?
+intro: Each drive is 10 cm long. Work out how often the mBot2 drives forward before the loop stops. Six rounds.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: The wall starts 40 cm away. How often does it drive forward?
+- 2 times
+- [x] 3 times
+- 4 times
+> 40, 30 and 20 are greater than 15: three drives. At 10 the loop stops.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: The wall starts 15 cm away. How often does it drive forward?
+- [x] not at all
+- once
+- 2 times
+> 15 is not greater than 15. The condition is false right at the start.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward();
+    }
+frage: The wall starts 50 cm away. Where does it stop?
+- 15 cm from the wall
+- [x] 10 cm from the wall
+- 0 cm, it bumps into it
+> 50, 40, 30, 20: four drives. Then the wall is 10 cm away and the loop stops.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+    }
+frage: The mBot2 is already standing on the black goal. How often does it drive forward?
+- [x] not at all
+- once
+- forever
+> On black, `mbot.getLine()` is not 0. The condition is false straight away.
+
+runde:
+frage: The mBot2 should drive forward exactly five times. Which loop fits best?
+- [x] a for loop
+- a while loop with `mbot.getDistance()`
+- no loop at all
+> The number is known in advance. That is what the for loop is for.
+
+runde:
+frage: The mBot2 should drive until it almost touches the wall. Which loop fits?
+- a for loop that runs ten times
+- [x] a while loop with `mbot.getDistance()`
+- no loop at all
+> You don't know in advance how far away the wall is. The while loop checks on the way.
+:::
+
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Grey is a wall. Tap the field where the mBot2 is at the end. Each field is 30 cm, and the sensor is at the front of the mBot2. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..... | ..... | ..^..
+ziel: 2,1
+> It drives as long as more than 15 cm ahead are free. It stops right in front of the wall.
+
+runde:
+    while (mbot.getDistance() > 15) {
+        mbot.forward(30);
+    }
+karte: ##### | ..... | ..^..
+ziel: 2,1
+> However far away the wall is, the while loop stops it right in front of it.
+
+runde:
+    while (mbot.getDistance() > 45) {
+        mbot.forward(30);
+    }
+    mbot.turnRight();
+    mbot.forward(60);
+karte: ##### | ..... | ..... | ..... | ^....
+ziel: 2,2
+> With more than 45 cm it stops one field earlier, turns and drives two fields to the right.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,0
+> It drives until its line sensor sees black. Then it is standing on the black field.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can ask for the distance with `mbot.getDistance()`. → How far away is the wall?
+- I can decide when to use a while loop instead of a for loop. → Three worlds, one program
+- I can find a goal with the line sensor. → To the goal
+:::
+
+## Quiz
+
 ::: quiz
 ? The mBot2 is 40 cm in front of the wall. How often does it drive forward with `while (mbot.getDistance() > 15) mbot.forward();` if each move is 10 cm?
 → How far away is the wall?
@@ -89,12 +204,4 @@ lösung: vb-bis-wand-loesung.visustruct
 - [ ] Because a for loop must not contain statements.
 - [ ] Because the mBot2 does not understand for loops.
 > The for loop knows beforehand how often it runs. The while loop decides on the way.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can ask for the distance with `mbot.getDistance()`. → How far away is the wall?
-- I can decide when to use a while loop instead of a for loop. → Three worlds, one program
-- I can find a goal with the line sensor. → To the goal
 :::

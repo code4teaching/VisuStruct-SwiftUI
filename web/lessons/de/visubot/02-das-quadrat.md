@@ -128,6 +128,182 @@ Das Programm bleibt gespeichert, auch wenn du den mBot2 aus- und wieder einschal
 
 > Fährt er los, bevor du bereit bist? Keine Sorge: Er wartet immer auf Taste A. Drückst du A noch einmal, während er fährt, passiert nichts. Ist er fertig, startet A das Programm von vorn.
 
+## Spiel: Wie oft fährt er?
+
+::: spiel frage
+titel: Spiel: Wie oft fährt er?
+intro: Zähle mit, ohne die Simulation zu starten. Wie oft fährt oder dreht sich der mBot2? Sechs Runden.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward();
+        mbot.turnRight();
+    }
+frage: Wie oft fährt der mBot2 vor?
+- 3-mal
+- [x] 4-mal
+- 5-mal
+> `i` zählt 0, 1, 2 und 3. Das sind vier Durchläufe.
+
+runde:
+    for (int i = 1; i <= 4; i++) {
+        mbot.forward();
+    }
+frage: Wie oft fährt der mBot2 vor?
+- 3-mal
+- [x] 4-mal
+- 5-mal
+> Diesmal zählt `i` von 1 bis 4, wegen `<=`. Auch das sind vier Durchläufe.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: Wie oft fährt der mBot2 vor?
+- 8-mal
+- [x] 15-mal
+- 5-mal
+> Die innere Schleife läuft in jedem der drei äußeren Durchläufe fünfmal: 3 · 5 = 15.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: Wie oft dreht sich der mBot2 nach rechts?
+- [x] 3-mal
+- 15-mal
+- 5-mal
+> `mbot.turnRight()` steht in der äußeren Schleife, nicht in der inneren.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+    }
+    mbot.turnRight();
+frage: Fährt der mBot2 ein Quadrat?
+- Ja, mit 50 cm Seitenlänge.
+- [x] Nein, er fährt 200 cm geradeaus und dreht sich erst am Ende.
+- Ja, aber nur ein halbes.
+> `mbot.turnRight()` steht unter der Schleife. Es läuft erst, wenn die Schleife fertig ist.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 4; j++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+        mbot.turnRight();
+    }
+frage: Wie viele Quadrate fährt der mBot2?
+- [x] 2
+- 4
+- 8
+> Die innere Schleife fährt ein Quadrat. Die äußere wiederholt das zweimal.
+:::
+
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was der mBot2 fahren soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(50);
+        mbot.turnRight();
+    }
+frage: Soll ein Quadrat mit 50 cm Seitenlänge fahren.
+fehler: 1
+besser: for (int i = 0; i < 4; i++) {
+> Ein Quadrat hat vier Seiten. Mit `i < 3` fährt er nur drei.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+        mbot.turnRight(180);
+    }
+frage: Soll ein Quadrat mit 50 cm Seitenlänge fahren.
+fehler: 3
+besser: mbot.turnRight();
+> Mit 180° kehrt er um und fährt immer hin und her. Ein Quadrat braucht 90°.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: Soll ein Quadrat aus viermal fünf Schritten fahren.
+fehler: 2
+besser: for (int j = 0; j < 5; j++) {
+> Die innere Schleife braucht ihre eigene Zählvariable `j`.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnLeft(45);
+    }
+frage: Soll ein Quadrat mit 30 cm Seitenlänge fahren.
+fehler: 3
+besser: mbot.turnLeft();
+> Ein Quadrat braucht rechte Winkel, also 90°. Ohne Zahl dreht er sich 90°.
+:::
+
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Lies das Programm und tippe auf das Feld, auf dem der mBot2 am Ende steht. Danach fährt er die Strecke vor. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+    }
+karte: ..... | ..... | ..... | ..^..
+ziel: 2,0
+> Dreimal ein Feld nach vorn.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 1,2
+> Ein ganzes Quadrat: Er kommt genau dort an, wo er losgefahren ist.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 2,2
+> Nur drei Seiten: Die vierte fehlt, also steht er rechts neben dem Start.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            mbot.forward(30);
+        }
+        mbot.turnRight();
+    }
+karte: .... | .... | .... | ^...
+ziel: 2,1
+> Die innere Schleife fährt zwei Felder, dann dreht er sich. Das Ganze zweimal: zwei Felder hoch, zwei nach rechts.
+:::
+
+## Checkliste
+
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste

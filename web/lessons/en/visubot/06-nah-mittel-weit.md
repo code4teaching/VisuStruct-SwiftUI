@@ -155,6 +155,18 @@ richtig: Stop
 > 9 is less than 10.
 :::
 
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can build a branch with three cases. → Three cases instead of two
+- I can read and write `else if` in Java. → Now in Java: else if
+- I can check the conditions in the right order. → The order matters
+:::
+
+## Quiz
+
 ::: quiz
 ? How many branches do you need in the structure chart for three cases?
 → Three cases instead of two
@@ -174,12 +186,4 @@ richtig: Stop
 - [x] Slow appears.
 - [ ] Nothing appears.
 > 5 is also less than 30. The second condition is no longer checked.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can build a branch with three cases. → Three cases instead of two
-- I can read and write `else if` in Java. → Now in Java: else if
-- I can check the conditions in the right order. → The order matters
 :::

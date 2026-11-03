@@ -128,6 +128,182 @@ The program stays saved, even when you switch the mBot2 off and on again. Only t
 
 > Afraid it drives off before you are ready? Don't worry: it always waits for button A. If you press A again while it drives, nothing happens. When it has finished, A starts the program again from the beginning.
 
+## Game: How often does it drive?
+
+::: spiel frage
+titel: Game: How often does it drive?
+intro: Count along without starting the simulation. How often does the mBot2 drive or turn? Six rounds.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward();
+        mbot.turnRight();
+    }
+frage: How often does the mBot2 drive forward?
+- 3 times
+- [x] 4 times
+- 5 times
+> `i` counts 0, 1, 2 and 3. That is four runs.
+
+runde:
+    for (int i = 1; i <= 4; i++) {
+        mbot.forward();
+    }
+frage: How often does the mBot2 drive forward?
+- 3 times
+- [x] 4 times
+- 5 times
+> This time `i` counts from 1 to 4 because of `<=`. That is four runs too.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: How often does the mBot2 drive forward?
+- 8 times
+- [x] 15 times
+- 5 times
+> The inner loop runs five times in each of the three outer runs: 3 · 5 = 15.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 5; j++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: How often does the mBot2 turn right?
+- [x] 3 times
+- 15 times
+- 5 times
+> `mbot.turnRight()` is in the outer loop, not in the inner one.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+    }
+    mbot.turnRight();
+frage: Does the mBot2 drive a square?
+- Yes, with 50 cm sides.
+- [x] No, it drives 200 cm straight ahead and only turns at the end.
+- Yes, but only half of one.
+> `mbot.turnRight()` is below the loop. It only runs when the loop has finished.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 4; j++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+        mbot.turnRight();
+    }
+frage: How many squares does the mBot2 drive?
+- [x] 2
+- 4
+- 8
+> The inner loop drives one square. The outer loop repeats that twice.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Read what the mBot2 should drive and tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(50);
+        mbot.turnRight();
+    }
+frage: Should drive a square with 50 cm sides.
+fehler: 1
+besser: for (int i = 0; i < 4; i++) {
+> A square has four sides. With `i < 3` it only drives three.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+        mbot.turnRight(180);
+    }
+frage: Should drive a square with 50 cm sides.
+fehler: 3
+besser: mbot.turnRight();
+> With 180° it turns round and just drives back and forth. A square needs 90°.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: Should drive a square made of four times five steps.
+fehler: 2
+besser: for (int j = 0; j < 5; j++) {
+> The inner loop needs its own counter `j`.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnLeft(45);
+    }
+frage: Should drive a square with 30 cm sides.
+fehler: 3
+besser: mbot.turnLeft();
+> A square needs right angles, so 90°. Without a number it turns 90°.
+:::
+
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Read the program and tap the field where the mBot2 is at the end. Then it drives the route for you. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+    }
+karte: ..... | ..... | ..... | ..^..
+ziel: 2,0
+> One field forward, three times.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 1,2
+> A whole square: it arrives exactly where it started.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(30);
+        mbot.turnRight();
+    }
+karte: .... | .... | .^..
+ziel: 2,2
+> Only three sides: the fourth is missing, so it ends up to the right of the start.
+
+runde:
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            mbot.forward(30);
+        }
+        mbot.turnRight();
+    }
+karte: .... | .... | .... | ^...
+ziel: 2,1
+> The inner loop drives two fields, then it turns. All that twice: two fields up, two to the right.
+:::
+
+## Checklist
+
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste

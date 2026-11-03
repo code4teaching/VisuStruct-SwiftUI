@@ -128,6 +128,18 @@ richtig: 0
 > 0 → 1 → 2 → 0. Nach drei Schritten ist sie wieder am Anfang.
 :::
 
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was ein Zustand ist. → Was ist ein Zustand?
+- Ich kann mit einer Fallauswahl je nach Zustand handeln und in den nächsten Zustand wechseln. → Die Robo-Ampel im Struktogramm
+- Ich kann Zustände in Java mit Namen und `.equals` unterscheiden. → Jetzt in Java: Zustände mit Namen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was speichert eine Zustandsvariable?
 → Was ist ein Zustand?
@@ -145,12 +157,4 @@ richtig: 0
 - [x] `zustand.equals("rot")`
 - [ ] `zustand = "rot"`
 > Texte vergleichst du mit `.equals`. Ein einzelnes `=` würde `"rot"` zuweisen.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was ein Zustand ist. → Was ist ein Zustand?
-- Ich kann mit einer Fallauswahl je nach Zustand handeln und in den nächsten Zustand wechseln. → Die Robo-Ampel im Struktogramm
-- Ich kann Zustände in Java mit Namen und `.equals` unterscheiden. → Jetzt in Java: Zustände mit Namen
 :::

@@ -116,6 +116,121 @@ tipp: It should be `mbot.playTone(440, 300)`.
 lösung: vb-java-sicher-fahren-loesung.visustruct
 :::
 
+## Game: True or false?
+
+::: spiel frage
+titel: Game: True or false?
+intro: Ludwig puts the mBot2 into a situation. Is the condition true or false? Eight rounds.
+antworten: true | false
+
+runde:
+    mbot.getDistance() > 15 && mbot.getLine() == 0
+frage: The wall is 50 cm away, there is no line underneath.
+richtig: true
+> Both parts are true, so the whole thing is true.
+
+runde:
+    mbot.getDistance() > 15 && mbot.getLine() == 0
+frage: The wall is 10 cm away, there is no line underneath.
+richtig: false
+> With `&&`, both parts must be true. The distance part isn't.
+
+runde:
+    mbot.isButtonA() || mbot.isButtonB()
+frage: Only button B is pressed.
+richtig: true
+> With `||`, one true part is enough.
+
+runde:
+    mbot.isButtonA() || mbot.isButtonB()
+frage: No button is pressed.
+richtig: false
+> Both parts are false, so `||` is false too.
+
+runde:
+    !mbot.isButtonA()
+frage: Button A is pressed.
+richtig: false
+> `mbot.isButtonA()` is true, and the `!` turns it into false.
+
+runde:
+    mbot.getDistance() > 15 || mbot.getLine() == 0
+frage: The wall is 10 cm away, and it is standing on a line.
+richtig: false
+> No part is true, so `||` is false too.
+
+runde:
+    mbot.getDistance() > 15 || mbot.getLine() == 0
+frage: The wall is 50 cm away, and it is standing on a line.
+richtig: true
+> The first part is true, and that is enough for `||`.
+
+runde:
+    !mbot.isButtonA() && mbot.getDistance() > 15
+frage: Nobody is pressing a button, the wall is 30 cm away.
+richtig: true
+> A isn't pressed, so `!mbot.isButtonA()` is true. The distance part is true as well.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (mbot.getDistance() > 15 || mbot.getLine() == 0) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Should drive as long as the way ahead is clear **and** no line comes.
+fehler: 1
+besser: while (mbot.getDistance() > 15 && mbot.getLine() == 0) {
+> With `||` it keeps going if only one part is true, for example over the edge.
+
+runde:
+    if (mbot.isButtonA() && mbot.isButtonB()) {
+        mbot.playTone(440, 300);
+    }
+frage: Should beep when button A **or** button B is pressed.
+fehler: 1
+besser: if (mbot.isButtonA() || mbot.isButtonB()) {
+> "Or" is `||` in Java. With `&&` it only beeps when both are pressed.
+
+runde:
+    while (mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Should wait until button A is pressed and then set off.
+fehler: 1
+besser: while (!mbot.isButtonA()) {
+> Waiting means: loop as long as A is **not** pressed. The `!` is missing.
+
+runde:
+    if (mbot.getDistance() > 15 & mbot.getLine() == 0) {
+        mbot.forward();
+    }
+frage: Should drive forward if the way ahead is clear and there is no line.
+fehler: 1
+besser: if (mbot.getDistance() > 15 && mbot.getLine() == 0) {
+> "And" is written with two characters: `&&`.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can combine two conditions with `&&` (and). → Wall and line: and
+- I can combine two conditions with `||` (or). → Button A or button B: or
+- I can turn a condition around with `!` (not). → Not: the opposite
+- I can write a combined condition in a Java loop. → Now in Java: drive safely
+:::
+
+## Quiz
+
 ::: quiz
 ? The distance is 50 and `mbot.getLine()` gives 6. Does the mBot2 drive in "Clear and no line"?
 → Wall and line: and
@@ -139,13 +254,4 @@ lösung: vb-java-sicher-fahren-loesung.visustruct
 - [ ] `while (mbot.getDistance() > 15 || mbot.getLine() == 0)`
 - [ ] `while (mbot.getDistance() > 15)`
 > With `||` it would keep driving as long as just one part is true, for example over the edge.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can combine two conditions with `&&` (and). → Wall and line: and
-- I can combine two conditions with `||` (or). → Button A or button B: or
-- I can turn a condition around with `!` (not). → Not: the opposite
-- I can write a combined condition in a Java loop. → Now in Java: drive safely
 :::

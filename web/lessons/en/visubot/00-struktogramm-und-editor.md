@@ -78,6 +78,99 @@ In the column [📁 Files](#zeige-dateien) you set up a folder once, your **work
 
 > 📘 **More without the robot:** VisuStruct has the lessons ["What is a structure chart?"](?visustruct&lektion=01-was-ist-ein-struktogramm), ["The editor"](?visustruct&lektion=02-der-editor) and ["Save, open, export"](?visustruct&lektion=03-speichern-oeffnen-exportieren). They open in a new window.
 
+## Game: Which building block?
+
+::: spiel frage
+titel: Game: Which building block?
+intro: Ludwig describes what his mBot2 should do. Is it a sequence, a branch or a loop? Six rounds.
+antworten: sequence | branch | loop
+
+runde:
+frage: The mBot2 drives forward, turns right and drives forward again.
+richtig: sequence
+> Three steps one after another, each exactly once.
+
+runde:
+frage: If the wall is close, it turns. Otherwise it drives forward.
+richtig: branch
+> Depending on the condition, one thing or the other happens.
+
+runde:
+frage: It drives forward 10 cm four times.
+richtig: loop
+> The same step happens several times.
+
+runde:
+frage: As long as no line comes, it keeps driving.
+richtig: loop
+> "As long as" means: again and again until the condition is no longer true.
+
+runde:
+frage: If it is standing on red, it beeps.
+richtig: branch
+> It only beeps if the condition is true.
+
+runde:
+frage: It shows "Hello" on the screen and then plays a tone.
+richtig: sequence
+> Two steps one after another, with no condition and no repetition.
+:::
+
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Read the program and tap the field where the mBot2 is at the end. Then it drives the route for you. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    mbot.forward(60);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..... | ..^..
+ziel: 3,0
+> Two fields forward, turn right, one more field.
+
+runde:
+    mbot.forward(30);
+    mbot.turnLeft();
+    mbot.forward(60);
+karte: ..... | ..... | ..^..
+ziel: 0,1
+> One field forward, then it faces left and drives two fields.
+
+runde:
+    mbot.turnRight();
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..^.. | .....
+ziel: 2,2
+> Turning right twice means it faces backwards. Then it drives one field down.
+
+runde:
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: .... | .... | .^..
+ziel: 2,2
+> Up, to the right, and after the second turn it faces down.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what an algorithm and a structure chart are. → A plan for the robot
+- I can recognise the three building blocks sequence, branch and repetition. → Three building blocks
+- I can insert, move and delete elements in the editor. → The editor
+- I can save a structure chart and open it again. → Saving and opening
+:::
+
+## Quiz
+
 ::: quiz
 ? What is an algorithm?
 → A plan for the robot
@@ -103,13 +196,4 @@ In the column [📁 Files](#zeige-dateien) you set up a folder once, your **work
 - [x] `.visustruct`
 - [ ] `.png`
 > `.png` is a picture to pass on. You can only keep editing the `.visustruct` file.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what an algorithm and a structure chart are. → A plan for the robot
-- I can recognise the three building blocks sequence, branch and repetition. → Three building blocks
-- I can insert, move and delete elements in the editor. → The editor
-- I can save a structure chart and open it again. → Saving and opening
 :::
