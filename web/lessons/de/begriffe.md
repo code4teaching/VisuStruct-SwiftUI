@@ -145,6 +145,10 @@ Ein eigenes Struktogramm für eine Teilaufgabe. Es wird mit einem Aufruf ausgef�
 auch: Parametern
 Eine Variable in der Kopfzeile eines Unterprogramms. Beim Aufruf bekommt sie den Wert aus den Klammern.
 
+### Überladung
+auch: überladen, überladene, überladenen, overloading
+Mehrere Methoden mit demselben Namen, aber verschiedenen Parametern, z. B. `mbot.forward(30)` und `mbot.forward(2, "Umdrehungen")`. Java wählt beim Aufruf die passende nach Anzahl und Typ der Parameter.
+
 ### Spaghetticode
 Ein Programm, das so kreuz und quer springt, dass man den Ablauf kaum noch verfolgen kann. Struktogramme verhindern das.
 

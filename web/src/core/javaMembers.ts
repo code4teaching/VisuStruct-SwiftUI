@@ -186,7 +186,9 @@ const statics: Record<string, Row[]> = {
   // mBot2 (siehe mbot.ts): fester Name wie `System.out`, ohne eigenes Objekt anzulegen.
   mbot: [
     ['forward', 'cm', 'void', 'Geradeaus vorwärts fahren', 'Drive forward', 'Andar para a frente'],
+    ['forward', 'wert, "Umdrehungen"', 'void', 'Überladen: mit Einheit "cm" oder "Umdrehungen" (1 Umdrehung ≈ 20,4 cm)', 'Overloaded: with unit "cm" or "rotations" (1 rotation ≈ 20.4 cm)', 'Sobrecarregado: com unidade "cm" ou "rotações" (1 rotação ≈ 20,4 cm)'],
     ['backward', 'cm', 'void', 'Rückwärts fahren', 'Drive backward', 'Andar para trás'],
+    ['backward', 'wert, "Umdrehungen"', 'void', 'Überladen: rückwärts mit Einheit "cm" oder "Umdrehungen"', 'Overloaded: backward with unit "cm" or "rotations"', 'Sobrecarregado: para trás com unidade "cm" ou "rotações"'],
     ['turnLeft', 'grad', 'void', 'Auf der Stelle nach links drehen', 'Turn left on the spot', 'Rodar para a esquerda'],
     ['turnRight', 'grad', 'void', 'Auf der Stelle nach rechts drehen', 'Turn right on the spot', 'Rodar para a direita'],
     ['stop', '', 'void', 'Motoren anhalten', 'Stop the motors', 'Parar os motores'],

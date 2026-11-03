@@ -3,7 +3,7 @@
  * Verzweigungen und Schleifen ersetzen sich beim Ausführen durch die Schritte ihres Rumpfs.
  */
 import { ElementType, type VSCase, type VSDocument, type VSElement } from './model'
-import { MBOT_COMMANDS, MBOT_SENSORS, makeMBotAction, mbotArguments, parseMBotCommand, substituteMBotSensors, type MBotAction, type MBotSensorValues } from './mbot'
+import { MBOT_COMMANDS, MBOT_DRIVE_UNITS, MBOT_SENSORS, makeMBotAction, makeMBotDriveAction, mbotArguments, parseMBotCommand, substituteMBotSensors, type MBotAction, type MBotSensorValues } from './mbot'
 
 export type SimValue =
   | { kind: 'int'; value: number }
@@ -1521,6 +1521,15 @@ export class SimulationEngine {
       const action = makeMBotAction(method, numbers, this.evaluateOutputExpression(args[args.length - 1]))
       const choices = spec.choices
       if (choices && !choices.includes(action.text ?? '')) throw invalid(`${text} (${choices.join(', ')})`)
+      this.state.robotActions.push(action)
+      this.state.lastTrace = `${text} -> ${action.label}`
+      return
+    }
+    // Überladung `mbot.forward(2, "Umdrehungen")`: gleicher Name, zweiter Parameter ist die Einheit
+    if ((method === 'forward' || method === 'backward') && args.length === 2) {
+      const unit = this.evaluateOutputExpression(args[1])
+      const action = makeMBotDriveAction(method, this.evaluateDouble(args[0]), unit)
+      if (!action) throw invalid(`${text} (${MBOT_DRIVE_UNITS.map((u) => `"${u}"`).join(', ')})`)
       this.state.robotActions.push(action)
       this.state.lastTrace = `${text} -> ${action.label}`
       return

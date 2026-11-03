@@ -9,12 +9,16 @@ The mBot2 drives straight or turns on the spot.
 ```
 mbot.forward()          drives 10 cm forward
 mbot.forward(30)        drives 30 cm forward
+mbot.forward(2, "rotations")    the wheels turn twice (≈ 41 cm)
+mbot.backward(1, "rotations")   one wheel rotation back (≈ 20 cm)
 mbot.backward(20)       drives 20 cm back
 mbot.turnRight()        turns to the right (90°)
 mbot.turnLeft()         turns to the left (90°)
 mbot.turnLeft(45)       turns just a little to the left (45°)
 mbot.turnRight(180)     turns all the way round
 ```
+
+> `forward` and `backward` are **overloaded**: same name, different parameters. Units are `"cm"` and `"rotations"`. One wheel rotation is about 20.4 cm.
 
 > Without a number it drives 10 cm or turns 90°. 90° is a right angle, like the corner of a sheet of paper.
 

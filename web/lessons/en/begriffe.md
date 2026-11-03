@@ -151,6 +151,10 @@ A structure chart of its own for part of a task. It runs when it is called. In J
 also: parameter, parameters, Parameters
 A variable in the header line of a subprogram. When it is called, it gets the value from the parentheses.
 
+### Overloading
+also: overloaded, overload
+Several methods with the same name but different parameters, e.g. `mbot.forward(30)` and `mbot.forward(2, "rotations")`. When calling, Java picks the right one by the number and type of the parameters.
+
 ### Spaghetti code
 also: spaghetti code
 A program that jumps around so wildly that you can hardly follow what happens. Structure charts prevent that.

@@ -9,6 +9,7 @@ kurz: Write and call your own commands with parameters and return values.
 ::: kompetenzen
 - build and call a subprogram with a parameter
 - recognise methods in Java
+- recognise and call an overloaded method
 - write a method with a return value
 :::
 
@@ -70,6 +71,54 @@ In [Code](#zeige-codelive) you see each method in its own tab, just like in the 
 > The value in the brackets of the call becomes the parameter `side`.
 :::
 
+## Same name, different parameters: overloading
+
+You know `mbot.forward()` and `mbot.forward(30)`. These are **two different methods with the same name**. Java can tell from the call which one is meant: by the **number** and the **type** of the parameters. This is called **overloading**.
+
+There is a third `forward` method. It has two parameters: a number and a **unit** as text.
+
+```java
+mbot.forward();                  // 10 cm (default)
+mbot.forward(30);                // 30 cm
+mbot.forward(30, "cm");          // 30 cm, unit written out
+mbot.forward(2, "rotations");    // the wheels turn twice
+```
+
+One wheel rotation is as far as the wheel's circumference: π · 6.5 cm ≈ 20.4 cm. So two rotations are about 40.8 cm. `mbot.backward` has the same three versions.
+
+These are the three headers. The method name is the same, the parameter lists are different:
+
+```java
+void forward()
+void forward(int cm)
+void forward(int value, String unit)
+```
+
+You already know overloading: `System.out.println` exists for `int`, for `double`, for `String` and more. That is why you can simply put any of these values in the brackets.
+
+::: angeberwissen
+Are the 20.4 cm really true for **your** mBot2? Professionals don't trust a number they haven't measured. Measure the wheel diameter and run `mbot.forward(5, "rotations")`: the expected distance is 102.1 cm. This is how software systems are tested: every **test case** has an expected result and an actual (measured) result. You test several times and write everything into a **test record**. Here is your [test record to print (PDF)](https://visustruct.org/visubot/test-record-wheel-rotation.pdf). Give it to your teacher, so they can see whether all robots drive the same distance.
+:::
+
+::: übung vb-ueberladung-umdrehung
+titel: Square with rotations
+auftrag: Drive a square in which every side is exactly **one wheel rotation** long. Use the overloaded method `mbot.forward(1, "rotations")`.
+fahrt: 4 x (forward 20.42, turnRight)
+braucht: forSchleife
+tipp: A for loop with `int i = 0`, `i < 4`, `i++`.
+tipp: Inside are `mbot.forward(1, "rotations")` and `mbot.turnRight()`.
+lösung: vb-ueberladung-umdrehung-loesung.visustruct
+:::
+
+::: quiz
+? Which method does `mbot.forward(3, "rotations")` call?
+→ Same name, different parameters: overloading
+- [ ] `forward()`
+- [ ] `forward(int cm)`
+- [x] `forward(int value, String unit)`
+> Java picks the version whose parameters fit: two parameters, a number and a text.
+:::
+
 ## Now without the robot: a method with a return value
 
 A method can also **calculate** something and give the result back. Instead of `void`, the header then names the data type of the result, and `return` gives the value back:
@@ -98,5 +147,6 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 ::: checkliste
 - I can build and call a subprogram with a parameter. → A subprogram for the square
 - I can recognise methods in Java. → Methods in Java
+- I can recognise and call an overloaded method. → Same name, different parameters: overloading
 - I can write a method with a return value. → Now without the robot: a method with a return value
 :::

@@ -62,6 +62,45 @@ export const MBOT_STEP_CM = 10
 
 const n = (v: number) => String(Math.round(v * 100) / 100)
 
+/**
+ * Raddurchmesser des mBot2 in cm (Reifen außen, wie im 3D-Modell). Eine Umdrehung ist π · 6,5 ≈ 20,4 cm.
+ * Am echten Roboter rechnet die Firmware selbst in cm; bei `mbot2.straight` geben wir die umgerechnete Strecke.
+ */
+export const MBOT_WHEEL_DIAMETER_CM = 6.5
+export const MBOT_WHEEL_CIRCUMFERENCE_CM = Math.PI * MBOT_WHEEL_DIAMETER_CM
+
+/**
+ * Einheiten für die Überladung `mbot.forward(2, "Umdrehungen")` bzw. `mbot.backward(30, "cm")`:
+ * Faktor in cm und die Wörter für die Konsole.
+ */
+const DRIVE_UNITS: Record<string, { cm: number; one: string; many: string }> = {
+  cm: { cm: 1, one: 'cm', many: 'cm' },
+  umdrehungen: { cm: MBOT_WHEEL_CIRCUMFERENCE_CM, one: 'Umdrehung', many: 'Umdrehungen' },
+  umdrehung: { cm: MBOT_WHEEL_CIRCUMFERENCE_CM, one: 'Umdrehung', many: 'Umdrehungen' },
+  rotations: { cm: MBOT_WHEEL_CIRCUMFERENCE_CM, one: 'rotation', many: 'rotations' },
+  rotation: { cm: MBOT_WHEEL_CIRCUMFERENCE_CM, one: 'rotation', many: 'rotations' },
+  'rotações': { cm: MBOT_WHEEL_CIRCUMFERENCE_CM, one: 'rotação', many: 'rotações' },
+  'rotação': { cm: MBOT_WHEEL_CIRCUMFERENCE_CM, one: 'rotação', many: 'rotações' },
+}
+
+/** Erlaubte Einheiten (für Fehlermeldungen). */
+export const MBOT_DRIVE_UNITS = ['cm', 'Umdrehungen', 'rotations'] as const
+
+/**
+ * `mbot.forward(2, "Umdrehungen")`: Fahrt mit Einheit. Die Aktion speichert wie `forward(41)` die Strecke in cm,
+ * damit Simulation, Übungsprüfung und echter Roboter nichts Neues lernen müssen; nur die Konsole nennt die Umdrehungen.
+ * `undefined`, wenn die Einheit unbekannt ist.
+ */
+export function makeMBotDriveAction(method: 'forward' | 'backward', value: number, unit: string): MBotAction | undefined {
+  const u = DRIVE_UNITS[unit.trim().toLowerCase()]
+  if (!u) return undefined
+  const cm = value * u.cm
+  const action = makeMBotAction(method, [cm])
+  if (u.cm === 1) return action
+  const word = value === 1 ? u.one : u.many
+  return { ...action, label: `${n(value)} ${word} ${method === 'forward' ? 'vorwärts' : 'rückwärts'} (${n(cm)} cm)` }
+}
+
 /** Befehle (Anweisungen). Drehen: positiver Winkel bei `mbot2.turn` dreht nach rechts. */
 export const MBOT_COMMANDS: Record<string, CommandSpec> = {
   forward: { args: 1, defaults: [MBOT_STEP_CM], python: ([cm]) => `mbot2.straight(${n(cm)})`, label: ([cm]) => `${n(cm)} cm vorwärts` },
