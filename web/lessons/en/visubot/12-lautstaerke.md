@@ -60,6 +60,18 @@ lösung: vb-java-laermampel-loesung.visustruct
 Loudness is really measured in **decibels** (dB). Whispering is about 30 dB, a classroom 60 to 70 dB, a pneumatic drill 100 dB. The CyberPi turns that into a simple number from 0 to 100.
 :::
 
+::: übung vb-fehler-12-lautstaerke
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Noise light", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-12-lautstaerke-start.visustruct
+messwerte: getLoudness=80 -> ledOn
+messwerte: getLoudness=20 -> ledOff
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.ledOff()`.
+lösung: vb-java-laermampel-loesung.visustruct
+:::
+
 ::: quiz
 ? The clap loop is `while (mbot.getLoudness() < 50)`. The loudness is 30. What happens?
 → Clap to start in the structure chart

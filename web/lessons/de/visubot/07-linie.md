@@ -70,6 +70,18 @@ tipp: In der For-Schleife steht nur `mbot.forward();`.
 lösung: vb-java-rand-loesung.visustruct
 :::
 
+::: übung vb-fehler-07-linie
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Bis zur Linie und zurück“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-07-linie-start.visustruct
+welt: rand-1 -> forward 20, turnRight 180, forward 20
+welt: rand-2 -> forward 50, turnRight 180, forward 50
+tipp: Die Fehlermeldung nennt eine unbekannte Variable. Wie heißt die Variable dort, wo sie angelegt wird? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `schritte = schritte + 1`.
+lösung: vb-java-rand-loesung.visustruct
+:::
+
 ::: quiz
 ? Der mBot2 steht auf weißem Papier. Was liefert `mbot.getLine()`?
 → Vier Fühler unter der Nase

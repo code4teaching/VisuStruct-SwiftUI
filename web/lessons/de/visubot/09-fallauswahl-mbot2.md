@@ -103,6 +103,20 @@ lösung: vb-startsignal-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Fallauswahl“](?visustruct&lektion=10-fallauswahl). Sie öffnet sich in einem neuen Fenster.
 
+::: übung vb-fehler-09-fallauswahl-mbot2
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Linienmuster“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-09-fallauswahl-mbot2-start.visustruct
+messwerte: getLine=6 -> forward 10
+messwerte: getLine=0 -> turnRight
+messwerte: getLine=15 -> none, screen "Querlinie!"
+messwerte: getLine=4 -> forward 5
+tipp: Lies die Fehlermeldung genau. Ist der Befehl richtig geschrieben? Nach `mbot.` schlägt dir der Editor alle Befehle vor.
+tipp: Richtig heißt es `mbot.turnRight()`.
+lösung: vb-linienmuster-loesung.visustruct
+:::
+
 ::: quiz
 ? Der mBot2 steht auf Gelb. Welcher Fall der Farbweiche läuft?
 → Viele Farben, viele Fälle

@@ -65,6 +65,17 @@ tipp: In der Schleife: `mbot.showText(i);` und `mbot.pause(1000);`. Nach der Sch
 lösung: vb-java-countdown-loesung.visustruct
 :::
 
+::: übung vb-fehler-18-bildschirm
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Countdown“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-18-bildschirm-start.visustruct
+befehle: showText "3", pause 1000, showText "2", pause 1000, showText "1", pause 1000, showText "Los!"
+tipp: Die Fehlermeldung nennt eine unbekannte Variable. Wie heißt die Variable dort, wo sie angelegt wird? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.showText(i)`.
+lösung: vb-java-countdown-loesung.visustruct
+:::
+
 ::: quiz
 ? Was zeigt `mbot.showText("Abstand: " + 25)`?
 → Zahlen und Messwerte

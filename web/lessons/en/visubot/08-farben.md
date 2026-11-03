@@ -67,6 +67,18 @@ tipp: After that, still inside the loop: `if (mbot.getColor().equals("green")) {
 lösung: vb-java-blau-gruen-loesung.visustruct
 :::
 
+::: übung vb-fehler-08-farben
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "To blue, beep on green", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-08-farben-start.visustruct
+welt: farbe-3 -> forward 30, tone
+welt: farbe-4 -> forward 30, noTone
+tipp: A text belongs in quotation marks. Without them Java looks for a variable with that name.
+tipp: It should be `equals("green")`.
+lösung: vb-java-blau-gruen-loesung.visustruct
+:::
+
 ::: quiz
 ? The mBot2 is on a red field. What is `!mbot.getColor().equals("red")`?
 → Drive to red in the structure chart

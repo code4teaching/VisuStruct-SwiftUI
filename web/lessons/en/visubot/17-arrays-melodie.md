@@ -92,6 +92,18 @@ lösung: vb-messreihe-loesung.visustruct
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Arrays"](?visustruct&lektion=15-arrays). It opens in a new window.
 
+::: übung vb-fehler-17-arrays-melodie
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Measurement series", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-17-arrays-melodie-start.visustruct
+messwerte: getDistance=40 -> screen "Average: 40.0"
+messwerte: getDistance=25 -> screen "Average: 25.0"
+tipp: The error message names an unknown variable. What is the variable called where it is created? Java is case-sensitive.
+tipp: It should be `sum = sum + values[i]`.
+lösung: vb-messreihe-loesung.visustruct
+:::
+
 ::: quiz
 ? What is `tones[1]` if `int[] tones = {262, 294, 330};`?
 → A melody as an array

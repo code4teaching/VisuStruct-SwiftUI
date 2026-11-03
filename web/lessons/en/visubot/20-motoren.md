@@ -78,6 +78,17 @@ lösung: vb-java-linienfolger-loesung.visustruct
 
 > For the real mBot2, stick the line with black insulating tape on a light floor. Drive slowly at first, otherwise it shoots past the line in the curve.
 
+::: übung vb-fehler-20-motoren
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Line follower", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-20-motoren-start.visustruct
+welt: linie-1, linie-2
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.stop()`.
+lösung: vb-java-linienfolger-loesung.visustruct
+:::
+
 ::: quiz
 ? What does `mbot.drive(30, 30)` do?
 → Two motors, two wheels

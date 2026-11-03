@@ -65,6 +65,17 @@ tipp: Inside the loop: `mbot.showText(i);` and `mbot.pause(1000);`. After the lo
 lösung: vb-java-countdown-loesung.visustruct
 :::
 
+::: übung vb-fehler-18-bildschirm
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Countdown", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-18-bildschirm-start.visustruct
+befehle: showText "3", pause 1000, showText "2", pause 1000, showText "1", pause 1000, showText "Go!"
+tipp: The error message names an unknown variable. What is the variable called where it is created? Java is case-sensitive.
+tipp: It should be `mbot.showText(i)`.
+lösung: vb-java-countdown-loesung.visustruct
+:::
+
 ::: quiz
 ? What does `mbot.showText("Distance: " + 25)` show?
 → Numbers and sensor values

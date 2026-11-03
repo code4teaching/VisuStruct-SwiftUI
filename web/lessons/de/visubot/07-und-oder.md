@@ -102,6 +102,20 @@ lösung: vb-java-sicher-fahren-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Bedingungen verknüpfen“](?visustruct&lektion=09-bedingungen-verknuepfen). Sie öffnet sich in einem neuen Fenster.
 
+::: übung vb-fehler-07-und-oder
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Sicher fahren“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-07-und-oder-start.visustruct
+welt: wand-kurz -> tone
+welt: wand-mittel -> tone
+welt: rand-1 -> forward 20, tone
+welt: rand-2 -> forward 50, tone
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.playTone(440, 300)`.
+lösung: vb-java-sicher-fahren-loesung.visustruct
+:::
+
 ::: quiz
 ? Der Abstand ist 50 und `mbot.getLine()` liefert 6. Fährt der mBot2 bei „Frei und keine Linie“?
 → Wand und Linie: und

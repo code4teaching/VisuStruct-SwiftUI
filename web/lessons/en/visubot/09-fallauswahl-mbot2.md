@@ -103,6 +103,20 @@ lösung: vb-startsignal-loesung.visustruct
 
 > 📘 **More without the robot:** VisuStruct has the lesson ["Switch"](?visustruct&lektion=10-fallauswahl). It opens in a new window.
 
+::: übung vb-fehler-09-fallauswahl-mbot2
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Line patterns", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-09-fallauswahl-mbot2-start.visustruct
+messwerte: getLine=6 -> forward 10
+messwerte: getLine=0 -> turnRight
+messwerte: getLine=15 -> none, screen "Cross line!"
+messwerte: getLine=4 -> forward 5
+tipp: Read the error message carefully. Is the command spelled correctly? After `mbot.` the editor suggests all commands.
+tipp: It should be `mbot.turnRight()`.
+lösung: vb-linienmuster-loesung.visustruct
+:::
+
 ::: quiz
 ? The mBot2 is on yellow. Which case of the colour switch runs?
 → Many colours, many cases

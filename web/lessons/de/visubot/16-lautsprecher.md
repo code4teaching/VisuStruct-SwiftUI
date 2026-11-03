@@ -80,6 +80,17 @@ Der mBot2 kann auch fröhlich, traurig oder müde sein. Mit **Gefühl zeigen** (
 
 > Probier es mit dem echten mBot2 aus. Im Simulator siehst du davon nichts, er zeigt nur den Befehl an. Weitere Gefühle stehen unter **Nachschlagen**.
 
+::: übung vb-fehler-16-lautsprecher
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Immer höher“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-16-lautsprecher-start.visustruct
+befehle: playTone 200 200, playTone 400 200, playTone 600 200, playTone 800 200, playTone 1000 200
+tipp: Zähle die Zahlen in der Klammer. Wie viele braucht der Befehl? Das steht unter **Nachschlagen**.
+tipp: Richtig heißt es `mbot.playTone(i * 200, 200)`.
+lösung: vb-java-hoeher-loesung.visustruct
+:::
+
 ::: quiz
 ? Welcher Ton ist höher?
 → Wie hoch, wie lang?

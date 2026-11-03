@@ -74,6 +74,19 @@ tipp: In der Schleife steht `mbot.forward();`, nach der Schleife `mbot.playTone(
 lösung: vb-java-wand-piep-loesung.visustruct
 :::
 
+::: übung vb-fehler-06-abstand
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Bis zur Wand und piepen“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-06-abstand-start.visustruct
+welt: wand-kurz -> tone
+welt: wand-mittel -> tone
+welt: wand-lang -> tone
+tipp: Zähle die Zahlen in der Klammer. Wie viele braucht der Befehl? Das steht unter **Nachschlagen**.
+tipp: Richtig heißt es `mbot.playTone(440, 300)`.
+lösung: vb-java-wand-piep-loesung.visustruct
+:::
+
 ::: quiz
 ? `mbot.getDistance()` liefert `8`. Was tut das Programm aus „Abstand halten“?
 → Abstand halten im Struktogramm

@@ -64,6 +64,19 @@ tipp: Green is `mbot.setLed(0, 255, 0);`, the `else` has `mbot.ledOff();`.
 lösung: vb-java-wasserwaage-loesung.visustruct
 :::
 
+::: übung vb-fehler-13-neigung
+titel: Why doesn't it run?
+code: java
+auftrag: Ludwig typed in "Spirit level", but the program does not run. "Open in editor" shows the code in the Code area. Click "Run" and read the error message. Fix the mistake and click Check.
+start: vb-fehler-13-neigung-start.visustruct
+messwerte: getPitch=0, getRoll=0 -> ledOn
+messwerte: getPitch=0, getRoll=20 -> ledOff
+messwerte: getPitch=-10, getRoll=0 -> ledOff
+tipp: Read the error message carefully. In which box does the simulation stop? Java is case-sensitive.
+tipp: It should be `mbot.setLed(0, 255, 0)`.
+lösung: vb-java-wasserwaage-loesung.visustruct
+:::
+
 ::: quiz
 ? The mBot2 is lying flat on the table. What does `mbot.getPitch()` give, roughly?
 → Tilted or level?

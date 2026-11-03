@@ -92,6 +92,18 @@ lösung: vb-messreihe-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Arrays“](?visustruct&lektion=15-arrays). Sie öffnet sich in einem neuen Fenster.
 
+::: übung vb-fehler-17-arrays-melodie
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Messreihe“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-17-arrays-melodie-start.visustruct
+messwerte: getDistance=40 -> screen "Mittelwert: 40.0"
+messwerte: getDistance=25 -> screen "Mittelwert: 25.0"
+tipp: Die Fehlermeldung nennt eine unbekannte Variable. Wie heißt die Variable dort, wo sie angelegt wird? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `summe = summe + werte[i]`.
+lösung: vb-messreihe-loesung.visustruct
+:::
+
 ::: quiz
 ? Was ist `toene[1]`, wenn `int[] toene = {262, 294, 330};`?
 → Eine Melodie als Array

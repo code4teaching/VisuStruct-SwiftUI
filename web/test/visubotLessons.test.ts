@@ -30,7 +30,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   afterAll(() => useVisuBotContent('off'))
 
   it('zeigt nur die Roboter-Lektionen und -Aufgaben, lückenlos nummeriert, in Teilen', () => {
-    expect(lessons.length).toBeGreaterThanOrEqual(23)
+    expect(lessons.length).toBeGreaterThanOrEqual(27)
     expect(lessons.every((l) => l.robot)).toBe(true)
     lessons.forEach((l, i) => {
       expect(l.number, l.id).toBe(i + 1)
@@ -41,6 +41,11 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     const at = (id: string) => lessons.findIndex((l) => l.id === id)
     expect(at('07-und-oder')).toBe(at('07-linie') + 1)
     expect(at('08-farben')).toBe(at('07-und-oder') + 1)
+    // Einstieg vorn, Testen nach den Variablen, do-while nach der While-Schleife, break nach den Tasten
+    expect(at('00-struktogramm-und-editor')).toBe(0)
+    expect(at('03-zeile-fuer-zeile-testen')).toBe(at('03-variablen-und-ausgabe') + 1)
+    expect(at('05-erst-fahren-dann-pruefen')).toBe(at('05-bis-zur-wand') + 1)
+    expect(at('10-unterbrechen-mit-break')).toBe(at('10-tasten-joystick') + 1)
     expect(tasks.length).toBeGreaterThanOrEqual(16)
     expect(tasks.every((t) => t.robot)).toBe(true)
     for (const t of tasks) if (t.after !== undefined) expect(lessons.some((l) => l.number === t.after), t.id).toBe(true)
@@ -60,10 +65,10 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     const tour = lessons.find((l) => l.id === '01-der-mbot2')!
     const word = { de: 'Lektion', en: 'Lesson' }[lang]
     expect(JSON.stringify(tour.steps).toLowerCase()).toContain(`${word} ${quadrat.number}`.toLowerCase())
-    // nach der eingeschobenen Lektion rückt alles eins weiter: Motoren (Datei 20) ist Lektion 21
+    // eingeschobene Lektionen verschieben die Nummern: Motoren (Datei 20) ist Lektion 25
     const motoren = lessons.find((l) => l.id === '20-motoren')!
     const sensoren = lessons.find((l) => l.id === '04-sensoren')!
-    expect(motoren.number).toBe(21)
+    expect(motoren.number).toBe(25)
     expect(JSON.stringify(sensoren.steps).toLowerCase()).toContain(`${word} ${motoren.number}`.toLowerCase())
   })
 
@@ -101,6 +106,20 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     expect(checked).toBeGreaterThanOrEqual(20)
   })
 
+  it('ab Lektion 4 hat jede Roboter-Lektion eine Übung „Warum läuft das nicht?“, deren Start die Tests nicht besteht', () => {
+    for (const l of robotLessons().filter((l) => Number(/^\d+/.exec(l.id)![0]) >= 4)) {
+      const blocks = l.steps.flatMap((s) => s.blocks)
+      const ex = blocks.find((b) => b.kind === 'exercise' && b.exercise.id === `vb-fehler-${l.id}`)
+      expect(ex, l.id).toBeDefined()
+    }
+    for (const { where, block } of allBlocks()) {
+      if (block.kind !== 'exercise' || !block.exercise.start) continue
+      const start = diagram(block.exercise.start)
+      expect(start, `${where}: ${block.exercise.start}`).toBeDefined()
+      expect(checkExercise(start!, block.exercise.tests, resolver(block.exercise), world).every((o) => o.passed), where).toBe(false)
+    }
+  })
+
   it('Checklisten verweisen auf Schritte', () => {
     for (const l of robotLessons())
       for (const s of l.steps)
@@ -108,7 +127,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   })
 
   it('Lektion 1 ist eine Tour durch alle Teile, jedes gezeigte Teil ist im Text verlinkt', () => {
-    const tour = robotLessons()[0]
+    const tour = robotLessons().find((l) => l.id === '01-der-mbot2')!
     const blocks = tour.steps.flatMap((s) => s.blocks)
     const shown = new Set(blocks.flatMap((b) => (b.kind === 'robotModel' ? b.focus : b.kind === 'robotQuiz' ? b.tasks.map((t) => t.part) : [])))
     expect([...shown].sort()).toEqual([...MBOT_PARTS].sort())
@@ -137,7 +156,7 @@ describe.each(['de', 'en'] as const)('VisuStruct ohne Roboter, VisuBot nur mit R
 
   it('VisuBot zeigt nur Roboter-Lektionen und -Aufgaben, Nachschlagen mit den mBot2-Kategorien', () => {
     useVisuBotContent('on')
-    expect(lessons.filter((l) => l.robot).length).toBeGreaterThanOrEqual(23)
+    expect(lessons.filter((l) => l.robot).length).toBeGreaterThanOrEqual(27)
     expect(lessons.filter((l) => !l.robot)).toEqual([])
     expect(tasks.map((t) => t.id)).toEqual(expect.arrayContaining(robotTasks))
     expect(tasks.filter((t) => !t.robot)).toEqual([])

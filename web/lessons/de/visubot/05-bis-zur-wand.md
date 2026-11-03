@@ -64,6 +64,17 @@ lösung: vb-bis-ziel-loesung.visustruct
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„While-Schleife“](?visustruct&lektion=11-while-schleife). Sie öffnet sich in einem neuen Fenster.
 
+::: übung vb-fehler-05-bis-zur-wand
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Bis zur Wand“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-05-bis-zur-wand-start.visustruct
+welt: wand-kurz, wand-mittel, wand-lang
+tipp: Lies die Fehlermeldung genau. In welchem Kasten bleibt die Simulation stehen? Java unterscheidet Groß- und Kleinschreibung.
+tipp: Richtig heißt es `mbot.forward()`.
+lösung: vb-bis-wand-loesung.visustruct
+:::
+
 ::: quiz
 ? Der mBot2 steht 40 cm vor der Wand. Wie oft fährt er mit `while (mbot.getDistance() > 15) mbot.forward();` vor, wenn jede Fahrt 10 cm ist?
 → Wie weit ist die Wand?

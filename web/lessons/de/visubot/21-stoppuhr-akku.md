@@ -67,6 +67,18 @@ tipp: Danach: `if (mbot.getBattery() < 20) { mbot.setLed(255, 0, 0); }`
 lösung: vb-java-akku-loesung.visustruct
 :::
 
+::: übung vb-fehler-21-stoppuhr-akku
+titel: Warum läuft das nicht?
+code: java
+auftrag: Ludwig hat „Akku-Anzeige“ abgetippt, aber das Programm läuft nicht. „Im Editor öffnen“ zeigt den Code im Bereich Code. Klicke auf „Ausführen“ und lies die Fehlermeldung. Repariere den Fehler und klicke auf Prüfen.
+start: vb-fehler-21-stoppuhr-akku-start.visustruct
+messwerte: getBattery=80 -> none, ledOff, screen "Akku: 80 %"
+messwerte: getBattery=15 -> none, ledOn, screen "Akku: 15 %"
+tipp: Zähle die Zahlen in der Klammer. Wie viele braucht der Befehl? Das steht unter **Nachschlagen**.
+tipp: Richtig heißt es `mbot.setLed(255, 0, 0)`.
+lösung: vb-java-akku-loesung.visustruct
+:::
+
 ::: quiz
 ? Was liefert `mbot.getTimer()` direkt nach `mbot.resetTimer()`?
 → Die Stoppuhr
