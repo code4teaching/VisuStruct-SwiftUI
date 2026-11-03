@@ -271,6 +271,22 @@ besser: mbot.forward(2, "Umdrehungen");
 > Die Einheit ist ein Text und braucht Anführungszeichen.
 :::
 
+## Spiel: Begriffe-Rätsel
+
+::: spiel kreuzwort
+titel: Spiel: Begriffe-Rätsel
+intro: Fülle das Rätsel mit den Fachbegriffen aus diesem Teil. Klick auf einen Hinweis, um zum Wort zu springen. Die gelben Felder ergeben das Lösungswort.
+- → 5 3 PARAMETER: Wert, den du beim Aufruf in die Klammern schreibst
+- ↓ 1 3 STOPPUHR: mbot.getTimer() liest sie ab
+- ↓ 5 5 RÜCKGABE: mit return liefert eine Methode ein Ergebnis zurück
+- ↓ 3 8 ÜBERLADUNG: gleicher Methodenname, andere Parameter
+- → 2 1 METHODE: eigener Befehl mit Namen, z. B. quadrat(30)
+- → 10 5 AKKU: mbot.getBattery() sagt, wie voll er ist
+- ↓ 2 1 MOTOR: jedes Rad hat einen eigenen
+- ↓ 1 10 LINIENFOLGER: fährt einer schwarzen Linie nach
+lösung: 5 7, 5 10, 4 1, 7 3, 3 3, 9 8, 5 8
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

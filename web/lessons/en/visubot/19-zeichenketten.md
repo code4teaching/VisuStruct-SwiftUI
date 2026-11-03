@@ -148,6 +148,22 @@ besser: String name = "Ludwig";
 > Texts go in double quotation marks. Single ones are only for a single character (`char`).
 :::
 
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 8 6 LED: the mBot2 has five of these little lights
+- ↓ 2 7 MILLISECOND: a thousandth of a second
+- → 11 2 SCREEN: mbot.showText shows a text on it
+- ↓ 4 4 ACTUATOR: a part that does something, e.g. light up
+- → 4 1 ARRAY: a row of slots under one name
+- → 9 1 HERTZ: unit of pitch: vibrations per second
+- ↓ 1 1 SPEAKER: mbot.playTone plays a tone through it
+- → 1 1 STRING: a text in Java
+lösung: 7 7, 10 7, 7 4, 11 7, 12 7
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

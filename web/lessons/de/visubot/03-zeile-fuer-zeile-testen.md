@@ -132,6 +132,22 @@ frage: Wie weit fährt der mBot2 insgesamt?
 > Er fährt 10, 20 und 40 cm. Zusammen sind das 70 cm.
 :::
 
+## Spiel: Begriffe-Rätsel
+
+::: spiel kreuzwort
+titel: Spiel: Begriffe-Rätsel
+intro: Fülle das Rätsel mit den Fachbegriffen aus diesem Teil. Klick auf einen Hinweis, um zum Wort zu springen. Die gelben Felder ergeben das Lösungswort.
+- → 8 4 SCHLEIFE: wiederholt Schritte, im Struktogramm wie ein gekipptes L
+- ↓ 1 6 ALGORITHMUS: genaue Schritt-für-Schritt-Anleitung
+- ↓ 4 8 SEQUENZ: Schritte, die nacheinander kommen
+- → 1 1 SIMULATION: führt dein Programm am Bildschirm aus, auch ohne Roboter
+- ↓ 8 4 STRUKTOGRAMM: Plan aus Kästen, den du von oben nach unten liest
+- → 16 2 VARIABLE: Kästchen mit Namen, in dem ein Wert liegt
+- → 13 2 DATENTYP: legt fest, welche Werte in eine Variable passen, z. B. int
+- ↓ 4 11 SCHREIBTISCHTEST: du spielst mit Stift und Papier den Computer
+lösung: 10 4, 4 6, 16 7, 14 4, 13 4, 13 5, 7 11
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

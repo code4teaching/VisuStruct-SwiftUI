@@ -1,5 +1,5 @@
 import { inline } from '../learn/markdown'
-import { crosswordGrid, gatePlaceholder, type RescueGame } from '../learn/rescueGame'
+import { crosswordGrid, gatePlaceholder, type CrosswordGame, type RescueGame } from '../learn/rescueGame'
 import { t } from './i18n'
 
 /** Spiel „Prinzessin retten“: Stationen mit Zahlen, Kreuzworträtsel und das Tor mit dem geheimen Wort. */
@@ -181,8 +181,46 @@ export function renderRescueGame(game: RescueGame, ludwigURL: string): HTMLEleme
   return box
 }
 
+/** Spiel „Begriffe-Rätsel“: nur das Kreuzworträtsel mit Lösungswort. */
+export function renderCrosswordGame(game: CrosswordGame, ludwigURL: string): HTMLElement {
+  const box = h('section', { class: 'learn-game learn-rescue learn-crossword-game' })
+  const head = h('div', { class: 'learn-game-head' })
+  head.append(h('img', { src: ludwigURL, alt: '', width: '40', height: '40' }), h('strong', {}, game.title))
+  const crossword = crosswordView(game)
+  const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
+  const check = h('button', { class: 'primary' }, t('web_learn_check')) as HTMLButtonElement
+  check.addEventListener('click', () => {
+    if (!crossword.check()) {
+      feedback.className = 'learn-game-feedback wrong'
+      feedback.replaceChildren(h('p', {}, t('web_learn_rescue_cw_wrong')))
+      return
+    }
+    check.disabled = true
+    crossword.lock()
+    const again = h('button', {}, t('web_game_again'))
+    again.addEventListener('click', () => {
+      crossword.reset()
+      crossword.unlock()
+      check.disabled = false
+      feedback.className = 'learn-game-feedback'
+      feedback.replaceChildren()
+      crossword.focusFirst()
+    })
+    feedback.className = 'learn-game-feedback right'
+    feedback.replaceChildren(
+      h('p', {}, t('web_learn_rescue_cw_done')),
+      h('p', { class: 'learn-game-result' }, h('span', { class: 'mono', dir: 'ltr' }, game.keyword)),
+      ...(game.end ? [rich('p', {}, game.end)] : []),
+      again,
+    )
+  })
+  crossword.unlock()
+  box.append(head, rich('p', {}, game.intro), crossword.element, check, feedback)
+  return box
+}
+
 /** Das Kreuzworträtsel: erst nur zum Anschauen, dann zum Ausfüllen. */
-function crosswordView(game: RescueGame) {
+function crosswordView(game: Pick<RescueGame, 'rows' | 'cols' | 'words' | 'solution'>) {
   const grid = crosswordGrid(game)
   const keyCells = new Map(game.solution.map((s, i) => [`${s.row} ${s.col}`, i]))
   const numbers = new Map<string, number>()

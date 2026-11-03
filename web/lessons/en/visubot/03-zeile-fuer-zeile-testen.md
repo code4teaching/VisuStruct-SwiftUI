@@ -132,6 +132,22 @@ frage: How far does the mBot2 drive in total?
 > It drives 10, 20 and 40 cm. Together that is 70 cm.
 :::
 
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 6 1 SIMULATION: runs your program on the screen, even without a robot
+- ↓ 1 10 SEQUENCE: steps that come one after another
+- ↓ 3 4 STRUCTOGRAM: another name for a Nassi-Shneiderman diagram
+- ↓ 3 6 DATATYPE: decides which values fit into a variable, e.g. int
+- ↓ 1 8 ALGORITHM: exact step-by-step instructions
+- → 9 3 LOOP: repeats steps, looks like a tilted L in the structure chart
+- → 12 3 VARIABLE: a little box with a name that holds a value
+- ↓ 4 1 DESKCHECK: you play the computer with pen and paper
+lösung: 11 4, 9 4, 12 8, 6 9, 7 6
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

@@ -36,7 +36,7 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
   it('jede Lektion hat mindestens ein Spiel, und es steht vor der Checkliste', () => {
     for (const lesson of lessons) {
       const kinds = lesson.steps.flatMap((s) => s.blocks.map((b) => b.kind))
-      const game = kinds.findIndex((k) => k === 'game' || k === 'roundGame' || k === 'rescueGame' || k === 'driveGame')
+      const game = kinds.findIndex((k) => k === 'game' || k === 'roundGame' || k === 'rescueGame' || k === 'driveGame' || k === 'crosswordGame')
       expect(game, `${lesson.id}: kein Spiel`).toBeGreaterThanOrEqual(0)
       expect(game, `${lesson.id}: Spiel nach der Checkliste`).toBeLessThan(kinds.indexOf('checklist'))
     }

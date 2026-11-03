@@ -2,7 +2,7 @@ import type { ExerciseTest } from '../core/exerciseCheck'
 import { driveSignature, isMBotPart, MBOT_PARTS, MBOT_SENSORS, parseActionSpec, parseDriveSpec, type MBotPart, type MBotSensorValue } from '../core/mbot'
 import { parseBoolGame, type BoolGame } from './boolGame'
 import { isRoundGameKind, parseRoundGame, type RoundGame } from './roundGame'
-import { parseRescueGame, type RescueGame } from './rescueGame'
+import { parseCrosswordGame, parseRescueGame, type CrosswordGame, type RescueGame } from './rescueGame'
 import { parseDriveGame, type DriveGame } from './driveGame'
 import { parseCloze, type Cloze } from './cloze'
 import { parsePap, type Pap } from './pap'
@@ -29,6 +29,7 @@ export type Block =
   | { kind: 'roundGame'; game: RoundGame }
   | { kind: 'rescueGame'; game: RescueGame }
   | { kind: 'driveGame'; game: DriveGame }
+  | { kind: 'crosswordGame'; game: CrosswordGame }
   | { kind: 'caesar'; key: number; text: string }
   /** VisuBot: drehbares 3D-Modell des mBot2, Teile antippen zeigt ihre Erklärung. */
   /** VisuBot: der mBot2 in 3D; die Kamera fährt zu den Teilen in `focus` (Tour wie bei JavaPicoGoat). */
@@ -377,7 +378,8 @@ export function parseBlocks(body: string, file: string): Block[] {
           if (isRoundGameKind(arg)) blocks.push({ kind: 'roundGame', game: parseRoundGame(arg, inner, file) })
           else if (arg === 'prinzessin') blocks.push({ kind: 'rescueGame', game: parseRescueGame(inner, file) })
           else if (arg === 'fahrt') blocks.push({ kind: 'driveGame', game: parseDriveGame(inner, file) })
-          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag, layout, bombe, frage, reihenfolge, prinzessin oder fahrt).`)
+          else if (arg === 'kreuzwort') blocks.push({ kind: 'crosswordGame', game: parseCrosswordGame(inner, file) })
+          else if (arg) throw new FormatError(`${file}: Unbekanntes Spiel „${arg}“ (zuhoerer, vertrag, layout, bombe, frage, reihenfolge, prinzessin, fahrt oder kreuzwort).`)
           else blocks.push({ kind: 'game', game: parseBoolGame(inner, file) })
         } catch (err) {
           throw new FormatError((err as Error).message)

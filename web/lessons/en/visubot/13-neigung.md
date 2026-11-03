@@ -142,6 +142,22 @@ frage: `mbot.getPitch()` gives 2, `mbot.getRoll()` gives −8.
 > −8 is not greater than −5. With `&&`, one false part makes everything false.
 :::
 
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 6 2 CONDITION: is true or false, e.g. mbot.getDistance() < 20
+- ↓ 4 4 SENSOR: a part that measures something
+- ↓ 3 10 BRANCH: does one thing or the other, depending on a condition
+- ↓ 4 6 BRIGHTNESS: mbot.getBrightness() measures it
+- → 11 4 BREAK: emergency brake: leaves the loop straight away
+- → 13 1 ULTRASOUND: how the mBot2 measures distance: a very high sound and its echo
+- ↓ 1 8 JOYSTICK: small lever on the CyberPi
+- ↓ 2 2 SWITCH: one case of its own for each value
+lösung: 7 4, 11 6, 10 6, 4 8, 6 9, 9 4
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

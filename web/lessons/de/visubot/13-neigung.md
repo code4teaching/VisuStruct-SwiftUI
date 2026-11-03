@@ -142,6 +142,22 @@ frage: `mbot.getPitch()` liefert 2, `mbot.getRoll()` liefert −8.
 > −8 ist nicht größer als −5. Bei `&&` macht ein falscher Teil alles falsch.
 :::
 
+## Spiel: Begriffe-Rätsel
+
+::: spiel kreuzwort
+titel: Spiel: Begriffe-Rätsel
+intro: Fülle das Rätsel mit den Fachbegriffen aus diesem Teil. Klick auf einen Hinweis, um zum Wort zu springen. Die gelben Felder ergeben das Lösungswort.
+- ↓ 1 7 JOYSTICK: kleiner Hebel auf dem CyberPi
+- → 4 1 FALLAUSWAHL: switch: für jeden Wert ein eigener Fall
+- → 2 3 SENSOR: Bauteil, das etwas misst
+- → 6 1 VERZWEIGUNG: je nach Bedingung das eine oder das andere
+- ↓ 6 9 ULTRASCHALL: damit misst der mBot2 den Abstand: ein sehr hoher Ton und sein Echo
+- → 8 3 BREAK: Notbremse: verlässt sofort die Schleife
+- ↓ 8 3 BEDINGUNG: ist wahr oder falsch, z. B. mbot.getDistance() < 20
+- ↓ 1 11 HELLIGKEIT: mbot.getBrightness() misst sie
+lösung: 4 7, 6 6, 12 3, 2 6, 2 7, 8 4
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

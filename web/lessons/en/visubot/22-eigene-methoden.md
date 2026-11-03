@@ -271,6 +271,22 @@ besser: mbot.forward(2, "rotations");
 > The unit is a text and needs quotation marks.
 :::
 
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 7 1 PARAMETER: value you write in the brackets when you call a method
+- ↓ 5 7 METHOD: your own command with a name, e.g. square(30)
+- ↓ 1 4 OVERLOADING: same method name, different parameters
+- ↓ 2 9 BATTERY: mbot.getBattery() tells you how full it is
+- → 2 4 VOID: in the header: the method gives nothing back
+- ↓ 2 2 STOPWATCH: mbot.getTimer() reads it
+- → 5 7 MOTOR: each wheel has its own
+- ↓ 1 11 RETURN: gives a result back from a method
+lösung: 7 5, 6 9, 5 9, 10 2, 5 8, 8 4
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
