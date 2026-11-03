@@ -1,4 +1,5 @@
 import { canvasTextLines, setCanvasStubTexts } from '../core/diagramText'
+import { worldHomeURL } from './site'
 import {
   appendCaseToFallauswahl,
   canDeleteElement,
@@ -199,12 +200,7 @@ const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 /** Tastenkürzel im Tooltip, z. B. „Strg+S“ bzw. „⌘S“. */
 /** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite; im VisuBot-Modus die VisuBot-Startseite. */
 function siteURL(section?: 'contact' | 'privacy'): string {
-  const code = currentLanguage()
-  const lang = code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'
-  // Auf visustruct.org liegt die Web-App unter /app/, sonst (Vorschau, Einzeldatei) zur echten Seite
-  const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
-  const page = visuBotEnabled() ? 'visubot' : 'index'
-  return `${base}${lang}/${page}.html${section ? `#${section}` : ''}`
+  return worldHomeURL(visuBotEnabled() ? 'visubot' : 'visustruct', currentLanguage(), section)
 }
 
 /** Symbolknopf; der Name (mit Tastenkürzel) erscheint als Tooltip. */
@@ -1162,7 +1158,7 @@ export class App {
             <h3>VisuStruct <small>${e(t('web_brand_suffix'))}</small></h3>
             <p class="about-version">${e(t('web_about_version_fmt').replace('%@', __APP_VERSION__))}</p>
             <p class="about-author">Holger Sebastiao</p>
-            ${link('about_web_label', 'https://www.visustruct.org', 'www.visustruct.org')}
+            ${link('about_web_label', 'https://visustruct.visucode.de', 'visustruct.visucode.de')}
             ${link('about_developer_label', 'https://www.sebastiao.org', 'www.sebastiao.org')}
             ${link('about_project_github_label', 'https://github.com/code4teaching/VisuStruct', 'code4teaching/VisuStruct')}
           </div>

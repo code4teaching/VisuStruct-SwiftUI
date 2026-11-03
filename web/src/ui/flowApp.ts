@@ -29,6 +29,7 @@ import {
 import { gearIcon } from './app'
 import { buildDiagramPDF, canvasRGB, canvasToPNG, exportFilenameSlug, rasterize, svgMarkup, type ExportImage } from './exporter'
 import { currentLanguage, t } from './i18n'
+import { worldHomeURL } from './site'
 import { icons } from './icons'
 import { setVisuBotMode, setVisuObjectWorld, worldChooserHTML, type WorldChoice } from './visubotView'
 
@@ -65,10 +66,7 @@ function store(key: string, value: string) {
 }
 
 function siteURL(): string {
-  const code = currentLanguage()
-  const lang = code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'
-  const base = /\/app\/(index\.html)?$/.test(location.pathname) ? '../' : 'https://visustruct.org/'
-  return `${base}${lang}/index.html`
+  return worldHomeURL('visustruct', currentLanguage())
 }
 
 function download(name: string, data: BlobPart, type: string) {

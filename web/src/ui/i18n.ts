@@ -140,7 +140,7 @@ export function codeKeywords(): boolean {
 /** Wie `AppLanguage.deviceDefault`: erste Browsersprache, die VisuStruct anbietet, sonst Englisch. */
 export function preferredLanguage(): LanguageCode {
   if (migrateJavaLanguage()) return 'en'
-  // Link von der Webseite, z. B. visustruct.org/app/?lang=de
+  // Link von der Webseite, z. B. visustruct.visucode.de/app/?lang=de
   const fromURL = new URLSearchParams(location.search).get('lang')
   if (fromURL && isOffered(fromURL)) return fromURL
   try {

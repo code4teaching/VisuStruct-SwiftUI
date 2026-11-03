@@ -16,8 +16,8 @@ struct AboutVisuStructView: View {
     // Öffentliches Java-Repo: maßgebliche Quelle & Releases (aktueller als dieses SwiftUI-Repo).
     private let projectDisplay = "code4teaching/VisuStruct"
     private let projectURL = URL(string: "https://github.com/code4teaching/VisuStruct")
-    private let webDisplay = "www.visustruct.org"
-    private let webURL = URL(string: "https://www.visustruct.org")
+    private let webDisplay = "visustruct.visucode.de"
+    private let webURL = URL(string: "https://visustruct.visucode.de")
     private let developerDisplay = "www.sebastiao.org"
     private let developerURL = URL(string: "https://www.sebastiao.org")
     // Java-Referenzrepo (aktuell gepflegt): code4teaching/VisuStruct

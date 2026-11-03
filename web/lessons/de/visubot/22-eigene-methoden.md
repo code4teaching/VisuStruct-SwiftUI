@@ -97,7 +97,7 @@ void forward(int wert, String einheit)
 Überladung kennst du schon: `System.out.println` gibt es für `int`, für `double`, für `String` und noch mehr. Deshalb kannst du jeden dieser Werte einfach in die Klammern schreiben.
 
 ::: angeberwissen
-Stimmen die 20,4 cm bei **deinem** mBot2 wirklich? Profis glauben keiner Zahl, die sie nicht nachgemessen haben. Miss den Raddurchmesser und lass `mbot.forward(5, "Umdrehungen")` fahren: Soll sind 102,1 cm. So testet man Softwaresysteme: Jeder **Testfall** hat ein erwartetes Ergebnis (**Soll**) und ein gemessenes (**Ist**). Man testet mehrmals und schreibt alles in ein **Protokoll**. Hier ist dein [Messprotokoll zum Ausdrucken (PDF)](https://visustruct.org/visubot/messprotokoll-radumdrehung.pdf). Gib es deiner Lehrkraft, dann sieht sie, ob alle Roboter gleich weit fahren.
+Stimmen die 20,4 cm bei **deinem** mBot2 wirklich? Profis glauben keiner Zahl, die sie nicht nachgemessen haben. Miss den Raddurchmesser und lass `mbot.forward(5, "Umdrehungen")` fahren: Soll sind 102,1 cm. So testet man Softwaresysteme: Jeder **Testfall** hat ein erwartetes Ergebnis (**Soll**) und ein gemessenes (**Ist**). Man testet mehrmals und schreibt alles in ein **Protokoll**. Hier ist dein [Messprotokoll zum Ausdrucken (PDF)](https://visubot.visucode.de/messprotokoll-radumdrehung.pdf). Gib es deiner Lehrkraft, dann sieht sie, ob alle Roboter gleich weit fahren.
 :::
 
 ::: übung vb-ueberladung-umdrehung
