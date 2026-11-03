@@ -1,6 +1,6 @@
 ---
 titel: Eigene Methoden
-bereich: VisuBot
+bereich: Motoren und Methoden
 kurz: Eigene Befehle mit Parametern und Rückgabewert schreiben und aufrufen.
 ---
 
@@ -119,28 +119,31 @@ lösung: vb-ueberladung-umdrehung-loesung.visustruct
 > Java wählt die Variante, deren Parameter passen: zwei Parameter, eine Zahl und ein Text.
 :::
 
-## Jetzt ohne Roboter: Methode mit Rückgabe
+## Methode mit Rückgabe
 
 Eine Methode kann auch etwas **ausrechnen** und das Ergebnis zurückgeben. Statt `void` steht dann der Datentyp des Ergebnisses in der Kopfzeile, und `return` gibt den Wert zurück:
 
 ```java
-static int doppelt(int x) {
-  return 2 * x;
+static int zentimeter(int umdrehungen) {
+  return umdrehungen * 20;
 }
 ```
 
-Der Aufruf `int d = doppelt(4);` legt dann 8 in `d`.
+Eine Radumdrehung sind rund 20 cm. Der Aufruf `int strecke = zentimeter(3);` legt also 60 in `strecke`.
 
-::: übung vb-ohne-quadratzahl
-titel: Quadratzahlen
-auftrag: Baue ein Unterprogramm `int quadratzahl(int x)`, das `x * x` zurückgibt. Das Hauptprogramm ruft es mit 3 und mit 5 auf und gibt beide Ergebnisse aus: erst **9**, dann **25**. Ganz ohne `mbot`!
-test: - -> 9 | 25
+::: übung vb-zentimeter
+titel: Umdrehungen in Zentimeter
+auftrag: Baue ein Unterprogramm `int zentimeter(int umdrehungen)`, das `umdrehungen * 20` zurückgibt. Das Hauptprogramm ruft es mit 3 auf, fährt die Strecke und zeigt **Strecke: 60 cm** auf dem Bildschirm.
+fahrt: forward 60
+befehle: showText "Strecke: 60 cm"
 braucht: aufruf
-tipp: Neuer Reiter mit dem Titel `int quadratzahl(int x)`. Darin reicht eine Anweisung: `return x * x`.
-tipp: Im Hauptprogramm: Aufruf `int a = quadratzahl(3)`, Aufruf `int b = quadratzahl(5)`, danach die Ausgaben `a` und `b`.
-lösung: vb-ohne-quadratzahl-loesung.visustruct
-unterprogramm: vb-ohne-quadratzahl-unterprogramm-loesung.visustruct
+tipp: Neuer Reiter mit dem Titel `int zentimeter(int umdrehungen)`. Darin reicht eine Anweisung: `return umdrehungen * 20`.
+tipp: Im Hauptprogramm: Aufruf `int strecke = zentimeter(3)`, danach `mbot.forward(strecke)` und `mbot.showText("Strecke: " + strecke + " cm")`.
+lösung: vb-zentimeter-loesung.visustruct
+unterprogramm: vb-zentimeter-unterprogramm-loesung.visustruct
 :::
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Aufruf und Aussprung“](?visustruct&lektion=18-aufruf-und-aussprung). Sie öffnet sich in einem neuen Fenster.
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
@@ -148,5 +151,5 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann ein Unterprogramm mit Parameter bauen und aufrufen. → Ein Unterprogramm für das Quadrat
 - Ich kann Methoden in Java erkennen. → Methoden in Java
 - Ich kann eine überladene Methode erkennen und aufrufen. → Gleicher Name, andere Parameter: Überladung
-- Ich kann eine Methode mit Rückgabewert schreiben. → Jetzt ohne Roboter: Methode mit Rückgabe
+- Ich kann eine Methode mit Rückgabewert schreiben. → Methode mit Rückgabe
 :::

@@ -1,6 +1,6 @@
 ---
 titel: Der Lagesensor
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Neigung messen und Schütteln erkennen.
 ---
 

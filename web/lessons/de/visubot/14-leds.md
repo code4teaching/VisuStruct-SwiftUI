@@ -1,6 +1,6 @@
 ---
 titel: Die LEDs
-bereich: VisuBot
+bereich: Licht, Ton und Bildschirm
 kurz: Farben mischen, eine Ampel bauen und blinken lassen.
 ---
 

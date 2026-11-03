@@ -211,6 +211,11 @@ export class LearnPanel {
     progress.setView({ tab: this.tab, lesson: this.lessonId, task: this.taskId })
   }
 
+  /** Eine Lektion öffnen, z. B. aus einem Verweis der anderen Welt (`?visustruct&lektion=…`); unbekannte Kennungen bleiben unbeachtet. */
+  showLesson(id: string) {
+    if (lessons.some((l) => l.id === id)) this.openLesson(id)
+  }
+
   private openLesson(id: string | undefined) {
     this.tab = 'lessons'
     this.lessonId = id

@@ -1,6 +1,6 @@
 ---
 titel: The microphone
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: Clap to start, and a noise light for the classroom.
 ---
 

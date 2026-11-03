@@ -1,6 +1,6 @@
 ---
 titel: Der Liniensensor
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Dunkle Linien auf dem Boden erkennen und nicht vom Tisch fallen.
 ---
 

@@ -1,6 +1,6 @@
 ---
 titel: Single LEDs
-bereich: VisuBot
+bereich: Light, sound and screen
 kurz: Each of the five LEDs gets its own colour, all the way to a running light.
 ---
 

@@ -1,6 +1,6 @@
 ---
 titel: Buttons and joystick
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: The mBot2 waits for you and can be remote controlled.
 ---
 

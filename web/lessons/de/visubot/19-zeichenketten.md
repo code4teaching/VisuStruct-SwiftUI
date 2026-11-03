@@ -1,6 +1,6 @@
 ---
 titel: Zeichenketten
-bereich: VisuBot
+bereich: Licht, Ton und Bildschirm
 kurz: Mit Texten rechnen, Buchstaben herausholen und auf dem Bildschirm zeigen.
 ---
 
@@ -49,26 +49,36 @@ tipp: `mbot.showText(text + " (" + text.length() + ")");`
 lösung: vb-java-textlaenge-loesung.visustruct
 :::
 
-## Jetzt ohne Roboter: rückwärts lesen
+## Jetzt in Java: Laufschrift
 
-`wort.charAt(i)` liefert das Zeichen mit der Nummer `i`. Hängst du jedes Zeichen **vorne** an einen neuen Text, steht das Wort am Ende rückwärts da:
+`wort.charAt(i)` liefert das Zeichen mit der Nummer `i`. Zeigst du die Zeichen nacheinander mit einer Pause, läuft das Wort Buchstabe für Buchstabe über den Bildschirm:
 
-| Durchgang | Zeichen | neuer Text |
+```java
+String wort = "Ludwig";
+for (int i = 0; i < wort.length(); i++) {
+    mbot.showText(wort.charAt(i));
+    mbot.pause(500);
+}
+```
+
+| Durchgang | `i` | Bildschirm |
 |---|---|---|
-| 1 | L | L |
-| 2 | u | uL |
-| 3 | d | duL |
+| 1 | 0 | L |
+| 2 | 1 | u |
+| 3 | 2 | d |
 
-::: übung vb-ohne-rueckwaerts
+::: übung vb-laufschrift
 titel: Ludwig rückwärts
 code: java
-auftrag: Lege `String wort = "Ludwig"` und `String rueckwaerts = ""` an. Eine Schleife hängt jedes Zeichen von `wort` vorne an `rueckwaerts`. Zum Schluss gibst du **giwduL** aus. Ganz ohne `mbot`!
-test: - -> giwduL
+auftrag: Lege `String wort = "Ludwig"` an. Zeige das Wort **rückwärts** Buchstabe für Buchstabe auf dem Bildschirm, also g, i, w, d, u, L, mit 500 ms Pause nach jedem Buchstaben.
+befehle: showText "g", pause 500, showText "i", pause 500, showText "w", pause 500, showText "d", pause 500, showText "u", pause 500, showText "L", pause 500
 braucht: forSchleife
-tipp: Die Schleife läuft von `i = 0` bis `i < wort.length()`.
-tipp: In der Schleife: `rueckwaerts = wort.charAt(i) + rueckwaerts;`. Nach der Schleife: `System.out.println(rueckwaerts);`.
-lösung: vb-ohne-rueckwaerts-loesung.visustruct
+tipp: Das letzte Zeichen hat die Nummer `wort.length() - 1`. Die Schleife zählt rückwärts: `for (int i = wort.length() - 1; i >= 0; i--)`.
+tipp: In der Schleife: `mbot.showText(wort.charAt(i));` und `mbot.pause(500);`.
+lösung: vb-laufschrift-loesung.visustruct
 :::
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Zeichenketten“](?visustruct&lektion=17-zeichenketten). Sie öffnet sich in einem neuen Fenster.
 
 ::: quiz
 ? Was liefert `"VisuBot".substring(0, 4)`?
@@ -78,7 +88,7 @@ lösung: vb-ohne-rueckwaerts-loesung.visustruct
 - [ ] `"uBot"`
 > `substring(0, 4)` nimmt die Zeichen 0, 1, 2 und 3, also vier Stück.
 ? Was liefert `"Ludwig".charAt(0)`?
-→ Jetzt ohne Roboter: rückwärts lesen
+→ Jetzt in Java: Laufschrift
 - [x] `L`
 - [ ] `u`
 - [ ] `g`
@@ -90,5 +100,5 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 ::: checkliste
 - Ich kann mit `length()` und `substring(…)` arbeiten. → Buchstabe für Buchstabe
 - Ich kann Texte und Zahlen mit `+` verbinden. → Jetzt in Java: Text und Länge
-- Ich kann mit `charAt(…)` einzelne Zeichen holen. → Jetzt ohne Roboter: rückwärts lesen
+- Ich kann mit `charAt(…)` einzelne Zeichen holen. → Jetzt in Java: Laufschrift
 :::

@@ -1,6 +1,6 @@
 ---
 titel: Fallauswahl mit Farben
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Je nach Farbe oder Linie etwas anderes tun, mit einer Fallauswahl statt vieler Verzweigungen.
 ---
 
@@ -9,7 +9,7 @@ kurz: Je nach Farbe oder Linie etwas anderes tun, mit einer Fallauswahl statt vi
 ::: kompetenzen
 - eine Fallauswahl mit Texten bauen
 - eine Fallauswahl mit Zahlen in Java schreiben
-- eine Zahl einlesen und je nach Wert etwas ausgeben
+- je nach Zahl einen anderen Text auf dem Bildschirm zeigen
 :::
 
 ## Viele Farben, viele Fälle
@@ -75,28 +75,33 @@ tipp: Bei 6 `mbot.forward(10);`, bei 0 `mbot.turnRight();`, bei 15 `mbot.showTex
 lösung: vb-linienmuster-loesung.visustruct
 :::
 
-## Jetzt ohne Roboter: Noten in Worten
+## Jetzt in Java: Startsignal
 
-Die Fallauswahl brauchst du nicht nur für Roboter. Dieses Programm liest eine Zahl ein, die der Benutzer in der [Konsole](#zeige-konsole) tippt:
+Vor einem Rennen zeigt der mBot2 nacheinander drei Texte und fährt dann los. Eine For-Schleife zählt die Runden 1, 2 und 3. Die Fallauswahl sucht zu jeder Runde den passenden Text:
 
 ```java
-Scanner scanner = new Scanner(System.in);
-int note = scanner.nextInt();
+for (int runde = 1; runde <= 3; runde++) {
+    switch (runde) {
+        case 1 -> { mbot.showText("Auf die Plätze"); }
+        ...
+    }
+    mbot.pause(1000);
+}
 ```
 
-::: übung vb-ohne-noten
-titel: Noten in Worten
+::: übung vb-startsignal
+titel: Startsignal
 code: java
-auftrag: Lies eine Note als Zahl ein. Gib bei 1 **sehr gut** aus, bei 2 **gut**, bei 3 **befriedigend** und bei allen anderen Zahlen **andere Note**. Ganz ohne `mbot`!
-test: 1 -> sehr gut
-test: 2 -> gut
-test: 3 -> befriedigend
-test: 5 -> andere Note
+auftrag: Schreibe in Java: Eine Schleife zählt `runde` von 1 bis 3. In Runde 1 zeigt der Bildschirm **Auf die Plätze**, in Runde 2 **Fertig**, sonst **Los!**. Nach jedem Text wartet der mBot2 eine Sekunde. Nach der Schleife fährt er 50 cm vor.
+befehle: showText "Auf die Plätze", pause 1000, showText "Fertig", pause 1000, showText "Los!", pause 1000
+fahrt: forward 50
 braucht: fallauswahl
-tipp: Zuerst `Scanner scanner = new Scanner(System.in);` und `int note = scanner.nextInt();`. Danach kommt `switch (note) { … }`.
-tipp: `case 1 -> { System.out.println("sehr gut"); }` und so weiter, zum Schluss `default -> { System.out.println("andere Note"); }`.
-lösung: vb-ohne-noten-loesung.visustruct
+tipp: Die Schleife heißt `for (int runde = 1; runde <= 3; runde++) { … }`. Darin steht `switch (runde) { … }` und danach `mbot.pause(1000);`.
+tipp: `case 1 -> { mbot.showText("Auf die Plätze"); }`, `case 2 -> { … }` und `default -> { mbot.showText("Los!"); }`. Nach der Schleife `mbot.forward(50);`.
+lösung: vb-startsignal-loesung.visustruct
 :::
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Fallauswahl“](?visustruct&lektion=10-fallauswahl). Sie öffnet sich in einem neuen Fenster.
 
 ::: quiz
 ? Der mBot2 steht auf Gelb. Welcher Fall der Farbweiche läuft?
@@ -118,5 +123,5 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 ::: checkliste
 - Ich kann eine Fallauswahl mit Texten bauen. → Viele Farben, viele Fälle
 - Ich kann eine Fallauswahl mit Zahlen in Java schreiben. → Jetzt in Java: Linienmuster
-- Ich kann eine Zahl einlesen und je nach Wert etwas ausgeben. → Jetzt ohne Roboter: Noten in Worten
+- Ich kann je nach Zahl einen anderen Text auf dem Bildschirm zeigen. → Jetzt in Java: Startsignal
 :::

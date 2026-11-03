@@ -1,6 +1,6 @@
 ---
 titel: Der mBot2
-bereich: VisuBot
+bereich: Losfahren
 kurz: Lerne den Roboter kennen, den du gleich programmierst.
 ---
 

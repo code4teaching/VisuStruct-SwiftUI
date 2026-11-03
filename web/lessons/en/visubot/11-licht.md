@@ -1,6 +1,6 @@
 ---
 titel: The light sensor
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: Bright or dark? The mBot2 becomes a night light.
 ---
 

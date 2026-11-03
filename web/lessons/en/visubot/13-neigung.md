@@ -1,6 +1,6 @@
 ---
 titel: The motion sensor
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: Measure tilt and detect shaking.
 ---
 

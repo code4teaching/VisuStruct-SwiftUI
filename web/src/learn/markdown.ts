@@ -1,4 +1,5 @@
 /** Kleines Markdown für Lektionstexte: Absätze, ## bis ####, Listen, Zitat als Hinweis, Code, Tabellen, **fett**, *kursiv*, `code`, [Link](url),
+ * [Text](?visustruct&lektion=09-…) als Verweis auf eine Lektion der anderen Welt,
  * [Wort]{.blau} als farbige Markierung (blau, orange, gruen) passend zu farbigen Kästen, [Wort]{teil=cyberpi} zeigt auf ein Teil des mBot2. */
 
 const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -13,8 +14,10 @@ export function inline(text: string): string {
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/(^|[^*])\*([^*\s][^*]*?)\*/g, '$1<em>$2</em>')
     .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label: string, url: string) => {
-      const safe = /^(https?:|mailto:|#|\.{0,2}\/)/.test(url) ? url : '#'
-      const external = /^https?:/.test(safe) ? ' target="_blank" rel="noopener noreferrer"' : ''
+      // `?visustruct&lektion=09-…` öffnet eine Lektion der anderen Welt in einem neuen Fenster (VisuBot verweist auf VisuStruct).
+      const world = /^\?(visustruct|visubot)(&amp;lektion=[\w-]+)?$/.test(url)
+      const safe = world || /^(https?:|mailto:|#|\.{0,2}\/)/.test(url) ? url : '#'
+      const external = world || /^https?:/.test(safe) ? ' target="_blank" rel="noopener noreferrer"' : ''
       return `<a href="${safe}"${external}>${label}</a>`
     })
     .replace(/\[([^\]]+)\]\{\.(blau|orange|gruen|gelb|rosa)\}/g, '<mark class="learn-mark $2">$1</mark>')

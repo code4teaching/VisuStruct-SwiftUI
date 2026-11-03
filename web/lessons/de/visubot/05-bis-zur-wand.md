@@ -1,6 +1,6 @@
 ---
 titel: Bis zur Wand
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Der mBot2 misst den Abstand und hält rechtzeitig an.
 ---
 
@@ -61,6 +61,8 @@ lösung: vb-bis-ziel-loesung.visustruct
 :::
 
 ## Was prüft die Schleife?
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„While-Schleife“](?visustruct&lektion=11-while-schleife). Sie öffnet sich in einem neuen Fenster.
 
 ::: quiz
 ? Der mBot2 steht 40 cm vor der Wand. Wie oft fährt er mit `while (mbot.getDistance() > 15) mbot.forward();` vor, wenn jede Fahrt 10 cm ist?

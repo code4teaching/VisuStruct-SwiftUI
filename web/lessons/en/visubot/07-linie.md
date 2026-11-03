@@ -1,6 +1,6 @@
 ---
 titel: The line sensor
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: Detect dark lines on the floor and don't fall off the table.
 ---
 

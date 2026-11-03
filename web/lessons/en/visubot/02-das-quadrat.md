@@ -1,6 +1,6 @@
 ---
 titel: The square
-bereich: VisuBot
+bereich: Getting started
 kurz: From a long structure chart to a triple nested loop.
 ---
 
@@ -96,6 +96,8 @@ tipp: Put a third for loop that runs four times around your nested square.
 tipp: Now `i` counts on the very outside (`int i = 0`, `i < 4`, `i++`). The loops inside are then called `j` and `k`. Inside the outer loop goes your square and then `mbot.turnRight()`.
 lösung: vb-vier-quadrate-loesung.visustruct
 :::
+
+> 📘 **More without the robot:** VisuStruct has the lessons ["For loop"](?visustruct&lektion=13-for-schleife) and ["Nesting"](?visustruct&lektion=14-verschachteln). They open in a new window.
 
 ::: quiz
 ? How often does the mBot2 drive 10 cm forward for the four squares?
