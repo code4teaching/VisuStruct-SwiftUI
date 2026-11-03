@@ -94,8 +94,10 @@ void forward(int cm)
 void forward(int value, String unit)
 ```
 
+You already know overloading: `System.out.println` exists for `int`, for `double`, for `String` and more. That is why you can simply put any of these values in the brackets.
+
 ::: angeberwissen
-`System.out.println` is overloaded too: there is a version for `int`, one for `double`, one for `String` and several more. That is why you can simply put any of these values in the brackets.
+Are the 20.4 cm really true for **your** mBot2? Professionals don't trust a number they haven't measured. Measure the wheel diameter and run `mbot.forward(5, "rotations")`: the expected distance is 102.1 cm. This is how software systems are tested: every **test case** has an expected result and an actual (measured) result. You test several times and write everything into a **test record**. Here is your [test record to print (PDF)](https://visustruct.org/visubot/test-record-wheel-rotation.pdf). Give it to your teacher, so they can see whether all robots drive the same distance.
 :::
 
 ::: übung vb-ueberladung-umdrehung
