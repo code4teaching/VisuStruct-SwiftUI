@@ -89,6 +89,72 @@ tipp: Richtig heißt es `mbot.stop()`.
 lösung: vb-java-linienfolger-loesung.visustruct
 :::
 
+## Spiel: Wohin fährt er?
+
+::: spiel frage
+titel: Spiel: Wohin fährt er?
+intro: Links und rechts Gas in Prozent: Wohin fährt der mBot2? Sieben Runden.
+antworten: geradeaus | rückwärts | Kurve nach links | Kurve nach rechts | dreht sich auf der Stelle
+
+runde:
+    mbot.drive(40, 40);
+frage: Wohin fährt er?
+richtig: geradeaus
+> Beide Räder drehen sich gleich schnell.
+
+runde:
+    mbot.drive(-40, -40);
+frage: Wohin fährt er?
+richtig: rückwärts
+> Minus heißt rückwärts, und beide Räder sind gleich.
+
+runde:
+    mbot.drive(10, 40);
+frage: Wohin fährt er?
+richtig: Kurve nach links
+> Das rechte Rad ist schneller, also lenkt er nach links.
+
+runde:
+    mbot.drive(40, 10);
+frage: Wohin fährt er?
+richtig: Kurve nach rechts
+> Das linke Rad ist schneller, also lenkt er nach rechts.
+
+runde:
+    mbot.drive(40, -40);
+frage: Wohin fährt er?
+richtig: dreht sich auf der Stelle
+> Ein Rad vor, eins zurück: Er dreht sich nach rechts, ohne vom Fleck zu kommen.
+
+runde:
+    mbot.drive(-40, 40);
+frage: Wohin fährt er?
+richtig: dreht sich auf der Stelle
+> Diesmal dreht er sich nach links.
+
+runde:
+    if (mbot.isLineLeft() && !mbot.isLineRight()) {
+        ...
+    }
+frage: Linienfolger: Nur der linke Fühler sieht die Linie. Was gehört in die Lücke?
+- `mbot.drive(40, 10);`
+- [x] `mbot.drive(10, 40);`
+- `mbot.stop();`
+> Die Linie ist nach links gewandert. Er lenkt nach links, also dreht sich das rechte Rad schneller.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann mit Räder einzeln Gas geben und anhalten. → Zwei Motoren, zwei Räder
+- Ich kann fahren, bis ein Sensor etwas meldet. → Gas geben bis zur Wand im Struktogramm
+- Ich kann einen Linienfolger in Java schreiben. → Jetzt in Java: Linienfolger
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was macht `mbot.drive(30, 30)`?
 → Zwei Motoren, zwei Räder
@@ -102,12 +168,4 @@ lösung: vb-java-linienfolger-loesung.visustruct
 - [x] `mbot.drive(40, 10)`
 - [ ] `mbot.drive(-40, -40)`
 > Dreht sich das linke Rad schneller, fährt er eine Rechtskurve.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann mit Räder einzeln Gas geben und anhalten. → Zwei Motoren, zwei Räder
-- Ich kann fahren, bis ein Sensor etwas meldet. → Gas geben bis zur Wand im Struktogramm
-- Ich kann einen Linienfolger in Java schreiben. → Jetzt in Java: Linienfolger
 :::

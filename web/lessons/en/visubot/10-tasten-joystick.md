@@ -78,6 +78,89 @@ tipp: It should be `mbot.backward()`.
 lösung: vb-java-joystick-loesung.visustruct
 :::
 
+## Game: What does the mBot2 do?
+
+::: spiel frage
+titel: Game: What does the mBot2 do?
+intro: You press a button or the joystick. What does the mBot2 do? Six rounds.
+
+runde:
+    while (!mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Nobody presses a button. What does the mBot2 do?
+- It drives forward 30 cm.
+- [x] It keeps waiting.
+- It beeps.
+> As long as A isn't pressed, it stays in the waiting loop.
+
+runde:
+    while (!mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: You press button B. What does the mBot2 do?
+- It drives forward 30 cm.
+- [x] It keeps waiting.
+- It drives back 30 cm.
+> The loop only asks about button A.
+
+runde:
+    while (!mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: You press button A. What does the mBot2 do?
+- [x] It drives forward 30 cm.
+- It keeps waiting.
+- It waits 100 ms and then stops.
+> Now `!mbot.isButtonA()` is false, the loop ends, and it sets off.
+
+runde:
+    if (mbot.isJoystickUp()) {
+        mbot.forward();
+    } else if (mbot.isJoystickDown()) {
+        mbot.backward();
+    }
+frage: You push the joystick down. What does the mBot2 do?
+- It drives forward.
+- [x] It drives back.
+- Nothing at all.
+> The first condition is false, the second is true.
+
+runde:
+    if (mbot.isJoystickUp()) {
+        mbot.forward();
+    } else if (mbot.isJoystickDown()) {
+        mbot.backward();
+    }
+frage: You push the joystick to the left. What does the mBot2 do?
+- It turns left.
+- It drives back.
+- [x] Nothing at all.
+> There is no branch for left. Both conditions are false.
+
+runde:
+frage: You hold button A down. What does `mbot.isButtonA()` give?
+- [x] true
+- false
+- 1
+> Buttons give true or false, and pressed means true.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can ask the sensors for buttons and joystick. → Pressing as a sensor
+- I can wait for a button. → Waiting for button A in the structure chart
+- I can steer the mBot2 with the joystick. → Now in Java: remote control
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `mbot.isButtonB()` give when nobody presses it?
 → Pressing as a sensor
@@ -91,12 +174,4 @@ lösung: vb-java-joystick-loesung.visustruct
 - [ ] So the button glows longer.
 - [ ] Without a pause the mBot2 drives backwards.
 > The loop checks every 100 milliseconds, that is plenty.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can ask the sensors for buttons and joystick. → Pressing as a sensor
-- I can wait for a button. → Waiting for button A in the structure chart
-- I can steer the mBot2 with the joystick. → Now in Java: remote control
 :::

@@ -167,6 +167,128 @@ tipp: Richtig heißt es `mbot.forward(1, "Umdrehungen")`.
 lösung: vb-java-rechteck-umdrehungen-loesung.visustruct
 :::
 
+## Spiel: Welche Methode?
+
+::: spiel frage
+titel: Spiel: Welche Methode?
+intro: Gleicher Name, andere Parameter: Welche Methode ruft Java auf, und was kommt heraus? Sechs Runden.
+
+runde:
+    mbot.forward(30, "cm");
+frage: Welche `forward`-Methode läuft?
+- `forward()`
+- `forward(int cm)`
+- [x] `forward(int wert, String einheit)`
+> Zwei Parameter, eine Zahl und ein Text: Das passt nur zur dritten.
+
+runde:
+    mbot.forward();
+frage: Wie weit fährt der mBot2?
+- [x] 10 cm
+- gar nicht, die Zahl fehlt
+- eine Radumdrehung
+> Ohne Parameter fährt `forward` 10 cm. Das ist die Variante ohne Parameter.
+
+runde:
+    mbot.forward(2, "Umdrehungen");
+frage: Wie weit fährt der mBot2 ungefähr?
+- 2 cm
+- 20 cm
+- [x] 41 cm
+> Eine Radumdrehung sind etwa 20,4 cm, zwei also etwa 40,8 cm.
+
+runde:
+    static int zentimeter(int umdrehungen) {
+        return umdrehungen * 20;
+    }
+frage: Was liefert `zentimeter(4)`?
+- 4
+- 24
+- [x] 80
+> Der Parameter `umdrehungen` ist 4, und `return` gibt 4 · 20 zurück.
+
+runde:
+    public static void main(String[] args) {
+        quadrat(30);
+        quadrat(50);
+    }
+frage: Wie viele Quadrate fährt der mBot2, und wie groß ist das zweite?
+- eins mit 80 cm
+- [x] zwei, das zweite mit 50 cm Seitenlänge
+- zwei, beide mit 30 cm Seitenlänge
+> Jeder Aufruf fährt ein Quadrat. Der Wert in den Klammern wird zu `seite`.
+
+runde:
+frage: Welche Kopfzeile passt zu einer Methode, die eine Zahl zurückgibt?
+- `void zentimeter(int umdrehungen)`
+- [x] `int zentimeter(int umdrehungen)`
+- `zentimeter(int umdrehungen)`
+> Vor dem Namen steht der Datentyp des Ergebnisses. `void` heißt: kein Ergebnis.
+:::
+
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    static void quadrat(int seite) {
+        for (int i = 0; i < 4; i++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+    }
+frage: Soll ein Quadrat mit der Seitenlänge `seite` fahren.
+fehler: 3
+besser: mbot.forward(seite);
+> Mit `30` ist jedes Quadrat gleich groß, egal was man übergibt.
+
+runde:
+    static void zentimeter(int umdrehungen) {
+        return umdrehungen * 20;
+    }
+frage: Soll die Strecke in cm zurückgeben.
+fehler: 1
+besser: static int zentimeter(int umdrehungen) {
+> Wer etwas zurückgibt, braucht den Datentyp des Ergebnisses statt `void`.
+
+runde:
+    static int zentimeter(int umdrehungen) {
+        int cm = umdrehungen * 20;
+    }
+frage: Soll die Strecke in cm zurückgeben.
+fehler: 2
+besser: return umdrehungen * 20;
+> Die Methode rechnet, gibt aber nichts zurück. Es fehlt `return`.
+
+runde:
+    mbot.forward(2, Umdrehungen);
+frage: Soll zwei Radumdrehungen weit fahren.
+fehler: 1
+besser: mbot.forward(2, "Umdrehungen");
+> Die Einheit ist ein Text und braucht Anführungszeichen.
+:::
+
+## Spiel: Begriffe-Rätsel
+
+::: spiel kreuzwort
+titel: Spiel: Begriffe-Rätsel
+intro: Fülle das Rätsel mit den Fachbegriffen aus diesem Teil. Klick auf einen Hinweis, um zum Wort zu springen. Die gelben Felder ergeben das Lösungswort.
+- → 5 3 PARAMETER: Wert, den du beim Aufruf in die Klammern schreibst
+- ↓ 1 3 STOPPUHR: mbot.getTimer() liest sie ab
+- ↓ 5 5 RÜCKGABE: mit return liefert eine Methode ein Ergebnis zurück
+- ↓ 3 8 ÜBERLADUNG: gleicher Methodenname, andere Parameter
+- → 2 1 METHODE: eigener Befehl mit Namen, z. B. quadrat(30)
+- → 10 5 AKKU: mbot.getBattery() sagt, wie voll er ist
+- ↓ 2 1 MOTOR: jedes Rad hat einen eigenen
+- ↓ 1 10 LINIENFOLGER: fährt einer schwarzen Linie nach
+lösung: 5 7, 5 10, 4 1, 7 3, 3 3, 9 8, 5 8
+:::
+
+## Checkliste
+
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste

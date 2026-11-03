@@ -75,6 +75,132 @@ tipp: It should be `mbot.pause(500)`.
 lösung: vb-java-blinken-loesung.visustruct
 :::
 
+## Game: Which colour?
+
+::: spiel frage
+titel: Game: Which colour?
+intro: Red, green and blue mixed together: which colour do the LEDs show? Seven rounds.
+
+runde:
+    mbot.setLed(255, 0, 0);
+frage: Which colour lights up?
+- [x] red
+- green
+- blue
+> Only the first value, red, is on.
+
+runde:
+    mbot.setLed(0, 0, 255);
+frage: Which colour lights up?
+- red
+- green
+- [x] blue
+> The order is always red, green, blue. Only blue is on.
+
+runde:
+    mbot.setLed(255, 255, 255);
+frage: Which colour lights up?
+- yellow
+- [x] white
+- off
+> All three colours at full brightness make white.
+
+runde:
+    mbot.setLed(255, 200, 0);
+frage: Which colour lights up?
+- [x] yellow
+- purple
+- white
+> Red and green together make yellow.
+
+runde:
+    mbot.setLed(160, 0, 255);
+frage: Which colour lights up?
+- yellow
+- [x] purple
+- green
+> Red and blue together make purple.
+
+runde:
+    mbot.setLed(0, 0, 0);
+frage: Which colour lights up?
+- white
+- black
+- [x] none, the LEDs are off
+> All three values are 0. An LED can't shine black.
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.setLed(0, 255, 0);
+    mbot.pause(1000);
+frage: Which colour do you see for one second?
+- red
+- [x] green
+- first red, then green
+> Without **wait a moment** between the colours, red is gone immediately.
+:::
+
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.pause(1000);
+    mbot.setLed(255, 200, 0);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 255);
+frage: Should show red, yellow and green like a traffic light.
+fehler: 5
+besser: mbot.setLed(0, 255, 0);
+> Green is `0, 255, 0`. `0, 0, 255` is blue.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.setLed(0, 0, 255);
+        mbot.pause(500);
+        mbot.ledOff;
+        mbot.pause(500);
+    }
+frage: Should flash blue three times.
+fehler: 4
+besser: mbot.ledOff();
+> A command without a number still needs its brackets.
+
+runde:
+    mbot.setLed(0, 0, 300);
+    mbot.pause(1000);
+    mbot.ledOff();
+frage: Should shine bright blue for one second.
+fehler: 1
+besser: mbot.setLed(0, 0, 255);
+> Each colour only goes from 0 to 255.
+
+runde:
+    mbot.setLed(255, 255, 255);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 0, 0);
+frage: Should shine white for one second and then go off.
+fehler: 3
+besser: mbot.ledOff();
+> `setLed` has exactly three numbers: red, green, blue. To switch off there is `mbot.ledOff()`.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can mix a colour from red, green and blue. → Mixing red, green and blue
+- I can show colours one after the other with pauses. → Traffic light in the structure chart
+- I can make the LEDs blink in Java. → Now in Java: blue light
+:::
+
+## Quiz
+
 ::: quiz
 ? Which colour does `mbot.setLed(0, 255, 0)` give?
 → Mixing red, green and blue
@@ -87,12 +213,4 @@ lösung: vb-java-blinken-loesung.visustruct
 - [x] Otherwise it changes so fast that you can't see any blinking.
 - [ ] Otherwise the LEDs break.
 - [ ] Because `ledOff()` doesn't work otherwise.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can mix a colour from red, green and blue. → Mixing red, green and blue
-- I can show colours one after the other with pauses. → Traffic light in the structure chart
-- I can make the LEDs blink in Java. → Now in Java: blue light
 :::

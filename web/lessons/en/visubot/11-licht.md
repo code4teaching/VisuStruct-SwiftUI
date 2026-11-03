@@ -70,6 +70,86 @@ tipp: It should be `mbot.setLed(255, 200, 0)`.
 lösung: vb-java-nachtlicht-ton-loesung.visustruct
 :::
 
+## Game: Lights on or off?
+
+::: spiel frage
+titel: Game: Lights on or off?
+intro: How bright is it, and what do the LEDs do? Six rounds.
+antworten: LEDs on | LEDs off
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: It is almost dark, the brightness is 10.
+richtig: LEDs on
+> 10 is less than 30.
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: The brightness is 45.
+richtig: LEDs off
+> 45 is not less than 30.
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: The brightness is exactly 30.
+richtig: LEDs off
+> 30 is not less than 30. For "up to and including 30" you would need `<=`.
+
+runde:
+    if (mbot.getBrightness() < 30) {
+        mbot.setLed(255, 255, 255);
+    } else {
+        mbot.ledOff();
+    }
+frage: The brightness is 29.
+richtig: LEDs on
+> 29 is just less than 30.
+
+runde:
+    if (mbot.getBrightness() > 70) {
+        mbot.ledOff();
+    } else {
+        mbot.setLed(255, 200, 0);
+    }
+frage: The brightness is 50.
+richtig: LEDs on
+> Careful, it's the other way round here: 50 is not greater than 70, so the no branch runs. The LEDs light up yellow.
+
+runde:
+    if (mbot.getBrightness() > 70) {
+        mbot.ledOff();
+    } else {
+        mbot.setLed(255, 200, 0);
+    }
+frage: The sun is shining, the brightness is 100.
+richtig: LEDs off
+> 100 is greater than 70, so the yes branch runs.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can ask for the brightness. → How bright is it?
+- I can switch the LEDs with a branch. → Night light in the structure chart
+- I can write several commands in one branch. → Now in Java: night light with sound
+:::
+
+## Quiz
+
 ::: quiz
 ? `mbot.getBrightness()` gives 45. What does the night light do?
 → Night light in the structure chart
@@ -81,12 +161,4 @@ lösung: vb-java-nachtlicht-ton-loesung.visustruct
 - [ ] 0 to 255
 - [x] 0 to 100
 - [ ] -100 to 100
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can ask for the brightness. → How bright is it?
-- I can switch the LEDs with a branch. → Night light in the structure chart
-- I can write several commands in one branch. → Now in Java: night light with sound
 :::

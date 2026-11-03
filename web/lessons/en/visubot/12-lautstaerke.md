@@ -72,13 +72,77 @@ tipp: It should be `mbot.ledOff()`.
 lösung: vb-java-laermampel-loesung.visustruct
 :::
 
-::: quiz
-? The clap loop is `while (mbot.getLoudness() < 50)`. The loudness is 30. What happens?
-→ Clap to start in the structure chart
-- [x] The mBot2 keeps waiting.
-- [ ] The mBot2 drives off.
-> 30 is less than 50, the condition is true, the loop keeps running.
+## Game: Loud or quiet?
+
+::: spiel frage
+titel: Game: Loud or quiet?
+intro: How loud is it, and what does the mBot2 do? Six rounds.
+
+runde:
+    while (mbot.getLoudness() < 50) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: The class is quiet, the loudness is 30.
+- [x] It keeps waiting.
+- It drives forward 30 cm.
+> 30 is less than 50, the waiting loop keeps running.
+
+runde:
+    while (mbot.getLoudness() < 50) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: You clap, the loudness is 70.
+- It keeps waiting.
+- [x] It drives forward 30 cm.
+> 70 is not less than 50. The loop ends and it sets off.
+
+runde:
+    while (mbot.getLoudness() < 50) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: The loudness is exactly 50.
+- It keeps waiting.
+- [x] It drives forward 30 cm.
+> 50 is not less than 50.
+
+runde:
+    if (mbot.getLoudness() > 60) {
+        mbot.setLed(255, 0, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: The loudness is 65.
+- [x] The LEDs light up red.
+- The LEDs are off.
+> 65 is greater than 60: too loud.
+
+runde:
+    if (mbot.getLoudness() > 60) {
+        mbot.setLed(255, 0, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: The loudness is exactly 60.
+- The LEDs light up red.
+- [x] The LEDs are off.
+> 60 is not greater than 60.
+
+runde:
+    if (mbot.getLoudness() > 60) {
+        mbot.setLed(255, 0, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: Someone whispers, the loudness is 10.
+- The LEDs light up red.
+- [x] The LEDs are off.
+> Whispering is quiet. The noise light stays off.
 :::
+
+## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
@@ -86,4 +150,14 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can ask for the loudness. → How loud is it?
 - I can wait until something happens. → Clap to start in the structure chart
 - I can write a noise light in Java. → Now in Java: noise light
+:::
+
+## Quiz
+
+::: quiz
+? The clap loop is `while (mbot.getLoudness() < 50)`. The loudness is 30. What happens?
+→ Clap to start in the structure chart
+- [x] The mBot2 keeps waiting.
+- [ ] The mBot2 drives off.
+> 30 is less than 50, the condition is true, the loop keeps running.
 :::

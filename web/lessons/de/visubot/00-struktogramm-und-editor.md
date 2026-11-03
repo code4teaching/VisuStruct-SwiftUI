@@ -78,6 +78,99 @@ In der Spalte [📁 Dateien](#zeige-dateien) richtest du einmal einen Ordner ein
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektionen [„Was ist ein Struktogramm?“](?visustruct&lektion=01-was-ist-ein-struktogramm), [„Der Editor“](?visustruct&lektion=02-der-editor) und [„Speichern, Öffnen, Exportieren“](?visustruct&lektion=03-speichern-oeffnen-exportieren). Sie öffnen sich in einem neuen Fenster.
 
+## Spiel: Welcher Baustein?
+
+::: spiel frage
+titel: Spiel: Welcher Baustein?
+intro: Ludwig beschreibt, was sein mBot2 tun soll. Ist das eine Sequenz, eine Verzweigung oder eine Wiederholung? Sechs Runden.
+antworten: Sequenz | Verzweigung | Wiederholung
+
+runde:
+frage: Der mBot2 fährt vor, dreht sich nach rechts und fährt wieder vor.
+richtig: Sequenz
+> Drei Schritte nacheinander, jeder genau einmal.
+
+runde:
+frage: Ist die Wand nah, dreht er sich. Sonst fährt er vor.
+richtig: Verzweigung
+> Je nach Bedingung passiert das eine oder das andere.
+
+runde:
+frage: Er fährt viermal 10 cm vor.
+richtig: Wiederholung
+> Derselbe Schritt kommt mehrmals dran.
+
+runde:
+frage: Solange keine Linie kommt, fährt er weiter.
+richtig: Wiederholung
+> „Solange“ heißt: immer wieder, bis die Bedingung nicht mehr stimmt.
+
+runde:
+frage: Steht er auf Rot, piept er.
+richtig: Verzweigung
+> Nur wenn die Bedingung stimmt, piept er.
+
+runde:
+frage: Er zeigt „Hallo“ auf dem Bildschirm und spielt danach einen Ton.
+richtig: Sequenz
+> Zwei Schritte nacheinander, ohne Bedingung und ohne Wiederholung.
+:::
+
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Lies das Programm und tippe auf das Feld, auf dem der mBot2 am Ende steht. Danach fährt er die Strecke vor. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    mbot.forward(60);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..... | ..^..
+ziel: 3,0
+> Zwei Felder nach vorn, nach rechts drehen, ein Feld weiter.
+
+runde:
+    mbot.forward(30);
+    mbot.turnLeft();
+    mbot.forward(60);
+karte: ..... | ..... | ..^..
+ziel: 0,1
+> Ein Feld nach vorn, dann schaut er nach links und fährt zwei Felder.
+
+runde:
+    mbot.turnRight();
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..^.. | .....
+ziel: 2,2
+> Zweimal rechts drehen heißt: Er schaut nach hinten. Dann fährt er ein Feld zurück, nach unten.
+
+runde:
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: .... | .... | .^..
+ziel: 2,2
+> Hoch, nach rechts, und nach der zweiten Drehung schaut er nach unten.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was ein Algorithmus und ein Struktogramm ist. → Ein Plan für den Roboter
+- Ich kann die drei Grundbausteine Sequenz, Verzweigung und Wiederholung erkennen. → Drei Bausteine
+- Ich kann im Editor Elemente einfügen, verschieben und löschen. → Der Editor
+- Ich kann ein Struktogramm speichern und wieder öffnen. → Speichern und Öffnen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Was ist ein Algorithmus?
 → Ein Plan für den Roboter
@@ -103,13 +196,4 @@ In der Spalte [📁 Dateien](#zeige-dateien) richtest du einmal einen Ordner ein
 - [x] `.visustruct`
 - [ ] `.png`
 > `.png` ist ein Bild zum Weitergeben. Weiterbearbeiten kannst du nur die `.visustruct`-Datei.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was ein Algorithmus und ein Struktogramm ist. → Ein Plan für den Roboter
-- Ich kann die drei Grundbausteine Sequenz, Verzweigung und Wiederholung erkennen. → Drei Bausteine
-- Ich kann im Editor Elemente einfügen, verschieben und löschen. → Der Editor
-- Ich kann ein Struktogramm speichern und wieder öffnen. → Speichern und Öffnen
 :::

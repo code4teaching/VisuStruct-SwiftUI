@@ -91,6 +91,91 @@ tipp: It should be `mbot.showText(text +`.
 lösung: vb-java-textlaenge-loesung.visustruct
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Read what the mBot2 should show and tap the wrong line before time runs out. Five rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    String word = "VisuBot";
+    for (int i = 1; i <= word.length(); i++) {
+        mbot.showText(word.substring(1, i));
+        mbot.pause(300);
+    }
+frage: Should show V, Vi, Vis and so on up to VisuBot.
+fehler: 3
+besser: mbot.showText(word.substring(0, i));
+> The first character has the number 0. With `substring(1, i)` the V is missing.
+
+runde:
+    String text = "Hello class";
+    mbot.showText(text + " (" + text.length + ")");
+frage: Should show **Hello class (11)**.
+fehler: 2
+besser: mbot.showText(text + " (" + text.length() + ")");
+> For a String, `length()` is a method and needs brackets. Only arrays have `length` without brackets.
+
+runde:
+    String word = "Ludwig";
+    for (int i = 0; i <= word.length(); i++) {
+        mbot.showText(word.charAt(i));
+        mbot.pause(500);
+    }
+frage: Should show L, u, d, w, i, g.
+fehler: 2
+besser: for (int i = 0; i < word.length(); i++) {
+> The last character has the number 5. At `i = 6` there is no character left.
+
+runde:
+    String word = "Ludwig";
+    for (int i = word.length(); i >= 0; i--) {
+        mbot.showText(word.charAt(i));
+        mbot.pause(500);
+    }
+frage: Should show the word backwards: g, i, w, d, u, L.
+fehler: 2
+besser: for (int i = word.length() - 1; i >= 0; i--) {
+> Backwards you start at the last character, and that has the number `word.length() - 1`.
+
+runde:
+    String name = 'Ludwig';
+    mbot.showText("Hello " + name);
+frage: Should show **Hello Ludwig**.
+fehler: 1
+besser: String name = "Ludwig";
+> Texts go in double quotation marks. Single ones are only for a single character (`char`).
+:::
+
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 8 6 LED: the mBot2 has five of these little lights
+- ↓ 2 7 MILLISECOND: a thousandth of a second
+- → 11 2 SCREEN: mbot.showText shows a text on it
+- ↓ 4 4 ACTUATOR: a part that does something, e.g. light up
+- → 4 1 ARRAY: a row of slots under one name
+- → 9 1 HERTZ: unit of pitch: vibrations per second
+- ↓ 1 1 SPEAKER: mbot.playTone plays a tone through it
+- → 1 1 STRING: a text in Java
+lösung: 7 7, 10 7, 7 4, 11 7, 12 7
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can work with `length()` and `substring(…)`. → Letter by letter
+- I can join texts and numbers with `+`. → Now in Java: text and length
+- I can get single characters with `charAt(…)`. → Now in Java: scrolling text
+:::
+
+## Quiz
+
 ::: quiz
 ? What does `"VisuBot".substring(0, 4)` give?
 → Letter by letter
@@ -104,12 +189,4 @@ lösung: vb-java-textlaenge-loesung.visustruct
 - [ ] `u`
 - [ ] `g`
 > Characters are counted from 0. Character 0 is the first one.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can work with `length()` and `substring(…)`. → Letter by letter
-- I can join texts and numbers with `+`. → Now in Java: text and length
-- I can get single characters with `charAt(…)`. → Now in Java: scrolling text
 :::

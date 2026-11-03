@@ -77,6 +77,99 @@ tipp: It should be `mbot.setLed(0, 255, 0)`.
 lösung: vb-java-wasserwaage-loesung.visustruct
 :::
 
+## Game: Too steep?
+
+::: spiel frage
+titel: Game: Too steep?
+intro: Ludwig tilts the mBot2. What does it do? Six rounds.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: The nose points 30° down, `mbot.getPitch()` gives 30.
+- [x] It beeps.
+- It doesn't beep.
+> 30 is greater than 20. One true part is enough for `||`.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: The nose points up, `mbot.getPitch()` gives −25.
+- [x] It beeps.
+- It doesn't beep.
+> −25 is less than −20, so the second part is true.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: A gentle ramp, `mbot.getPitch()` gives 10.
+- It beeps.
+- [x] It doesn't beep.
+> 10 is between −20 and 20. Both parts are false.
+
+runde:
+    if (mbot.getPitch() > 20 || mbot.getPitch() < -20) {
+        mbot.playTone(440, 300);
+    }
+frage: `mbot.getPitch()` gives exactly 20.
+- It beeps.
+- [x] It doesn't beep.
+> 20 is not greater than 20.
+
+runde:
+    if (mbot.getPitch() > -5 && mbot.getPitch() < 5 && mbot.getRoll() > -5 && mbot.getRoll() < 5) {
+        mbot.setLed(0, 255, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: `mbot.getPitch()` gives 0, `mbot.getRoll()` gives 3.
+- [x] The LEDs light up green.
+- The LEDs are off.
+> All four parts are true. The mBot2 is almost level.
+
+runde:
+    if (mbot.getPitch() > -5 && mbot.getPitch() < 5 && mbot.getRoll() > -5 && mbot.getRoll() < 5) {
+        mbot.setLed(0, 255, 0);
+    } else {
+        mbot.ledOff();
+    }
+frage: `mbot.getPitch()` gives 2, `mbot.getRoll()` gives −8.
+- The LEDs light up green.
+- [x] The LEDs are off.
+> −8 is not greater than −5. With `&&`, one false part makes everything false.
+:::
+
+## Game: Terms crossword
+
+::: spiel kreuzwort
+titel: Game: Terms crossword
+intro: Fill in the crossword with the technical terms from this part. Click a clue to jump to its word. The yellow fields spell the answer word.
+- → 6 2 CONDITION: is true or false, e.g. mbot.getDistance() < 20
+- ↓ 4 4 SENSOR: a part that measures something
+- ↓ 3 10 BRANCH: does one thing or the other, depending on a condition
+- ↓ 4 6 BRIGHTNESS: mbot.getBrightness() measures it
+- → 11 4 BREAK: emergency brake: leaves the loop straight away
+- → 13 1 ULTRASOUND: how the mBot2 measures distance: a very high sound and its echo
+- ↓ 1 8 JOYSTICK: small lever on the CyberPi
+- ↓ 2 2 SWITCH: one case of its own for each value
+lösung: 7 4, 11 6, 10 6, 4 8, 6 9, 9 4
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain what the motion sensor measures. → Tilted or level?
+- I can join two conditions with “or”. → Tilt warning in the structure chart
+- I can join several conditions with “and”. → Now in Java: spirit level
+:::
+
+## Quiz
+
 ::: quiz
 ? The mBot2 is lying flat on the table. What does `mbot.getPitch()` give, roughly?
 → Tilted or level?
@@ -88,12 +181,4 @@ lösung: vb-java-wasserwaage-loesung.visustruct
 - [ ] It shakes the mBot2.
 - [x] It reports whether someone is shaking the mBot2.
 > Sensors don't do anything, they only measure.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain what the motion sensor measures. → Tilted or level?
-- I can join two conditions with “or”. → Tilt warning in the structure chart
-- I can join several conditions with “and”. → Now in Java: spirit level
 :::

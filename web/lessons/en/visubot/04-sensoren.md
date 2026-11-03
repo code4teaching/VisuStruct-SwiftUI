@@ -67,6 +67,73 @@ tipp: It should be `mbot.turnRight()`.
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 
+## Game: Command or sensor?
+
+::: spiel frage
+titel: Game: Command or sensor?
+intro: Does the line do something, or does it give a value? Eight rounds.
+antworten: command | sensor
+
+runde:
+    mbot.forward(30)
+frage: Command or sensor?
+richtig: command
+> It drives 30 cm. That is doing something.
+
+runde:
+    mbot.getDistance()
+frage: Command or sensor?
+richtig: sensor
+> It gives the distance in cm, for example 38.
+
+runde:
+    mbot.turnRight()
+frage: Command or sensor?
+richtig: command
+> Turning is doing something.
+
+runde:
+    mbot.getLine()
+frage: Command or sensor?
+richtig: sensor
+> It gives 0 or a number greater than 0.
+
+runde:
+    mbot.playTone(440, 300)
+frage: Command or sensor?
+richtig: command
+> A tone is an output.
+
+runde:
+    mbot.isButtonA()
+frage: Command or sensor?
+richtig: sensor
+> It gives true or false: is button A pressed?
+
+runde:
+    mbot.showText("Hello")
+frage: Command or sensor?
+richtig: command
+> Showing something is doing something.
+
+runde:
+    mbot.getBrightness()
+frage: Command or sensor?
+richtig: sensor
+> It measures how bright it is, from 0 to 100.
+:::
+
+## Checklist
+
+Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
+
+::: checkliste
+- I can explain the difference between a command and a sensor. → Commands and sensors
+- I can build a sensor into a condition. → Wall ahead?
+:::
+
+## Quiz
+
 ::: quiz
 ? The wall is 12 cm away. Is `mbot.getDistance() < 20` true or false?
 → Wall ahead?
@@ -85,11 +152,4 @@ lösung: vb-wand-vorn-loesung.visustruct
 - [ ] Because the mBot2 would get too slow otherwise.
 - [ ] Because sensors only work in Java.
 > Commands are statements. Sensors are values, just like a variable.
-:::
-
-Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
-
-::: checkliste
-- I can explain the difference between a command and a sensor. → Commands and sensors
-- I can build a sensor into a condition. → Wall ahead?
 :::

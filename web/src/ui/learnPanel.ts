@@ -16,7 +16,8 @@ import { noticeText } from './simulationPanel'
 import { renderCaesarDisc } from './caesarDisc'
 import { renderRobotModel, renderRobotQuiz, wireRobotLinks } from './visubotModel'
 import { renderRoundGame } from './roundGameView'
-import { renderRescueGame } from './rescueGameView'
+import { renderCrosswordGame, renderRescueGame } from './rescueGameView'
+import { renderDriveGame } from './driveGameView'
 import { renderCloze } from './clozeView'
 import { renderPap } from './papView'
 import { textFileView } from './textFileView'
@@ -464,6 +465,10 @@ export class LearnPanel {
         return renderRoundGame(block.game, ludwigURL)
       case 'rescueGame':
         return renderRescueGame(block.game, ludwigURL)
+      case 'driveGame':
+        return renderDriveGame(block.game, ludwigURL)
+      case 'crosswordGame':
+        return renderCrosswordGame(block.game, ludwigURL)
       case 'caesar':
         return renderCaesarDisc(block.key, block.text)
       case 'cloze':

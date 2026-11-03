@@ -91,6 +91,67 @@ tipp: Richtig heißt es `mbot.playTone(i * 200, 200)`.
 lösung: vb-java-hoeher-loesung.visustruct
 :::
 
+## Spiel: Von tief nach hoch
+
+::: spiel reihenfolge
+titel: Spiel: Von tief nach hoch
+intro: Tippe die Antworten in der richtigen Reihenfolge an. Ein falscher Tipp beendet die Runde. Fünf Runden.
+
+runde:
+frage: Tippe die Töne von tief nach hoch an.
+- `mbot.playTone(262, 300)`
+- `mbot.playTone(330, 300)`
+- `mbot.playTone(440, 300)`
+- `mbot.playTone(880, 300)`
+> Je mehr Hertz, desto höher der Ton.
+
+runde:
+frage: Tippe die Töne von kurz nach lang an.
+- `mbot.playTone(440, 100)`
+- `mbot.playTone(440, 300)`
+- `mbot.playTone(440, 1000)`
+- `mbot.playTone(440, 2000)`
+> Die zweite Zahl ist die Länge in Millisekunden.
+
+runde:
+    for (int i = 3; i >= 1; i--) {
+        mbot.playTone(i * 200, 200);
+    }
+frage: Tippe die Töne in der Reihenfolge an, in der sie klingen.
+- 600 Hertz
+- 400 Hertz
+- 200 Hertz
+> `i` zählt rückwärts: 3, 2, 1. Die Töne werden immer tiefer.
+
+runde:
+frage: Tippe die Töne von tief nach hoch an.
+- c mit 262 Hertz
+- der Kammerton a
+- a eine Oktave höher
+> Der Kammerton a hat 440 Hertz, eine Oktave höher sind es doppelt so viele: 880 Hertz.
+
+runde:
+frage: Tippe die Zeiten von kurz nach lang an.
+- 300 Millisekunden
+- 1 Sekunde
+- 1500 Millisekunden
+- 2 Sekunden
+> 1 Sekunde sind 1000 Millisekunden, 2 Sekunden sind 2000.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was die beiden Zahlen bei `playTone` bedeuten. → Wie hoch, wie lang?
+- Ich kann eine Tonfolge bauen. → Tonleiter im Struktogramm
+- Ich kann in Java mit der Zählvariable rechnen. → Jetzt in Java: immer höher
+- Ich kann den mBot2 ein Gefühl zeigen lassen. → Gefühle zeigen
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Welcher Ton ist höher?
 → Wie hoch, wie lang?
@@ -103,13 +164,4 @@ lösung: vb-java-hoeher-loesung.visustruct
 - [x] 1 Sekunde
 - [ ] 1000 Sekunden
 > 1000 Millisekunden sind eine Sekunde.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was die beiden Zahlen bei `playTone` bedeuten. → Wie hoch, wie lang?
-- Ich kann eine Tonfolge bauen. → Tonleiter im Struktogramm
-- Ich kann in Java mit der Zählvariable rechnen. → Jetzt in Java: immer höher
-- Ich kann den mBot2 ein Gefühl zeigen lassen. → Gefühle zeigen
 :::

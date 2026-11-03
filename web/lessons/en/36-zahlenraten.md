@@ -121,6 +121,78 @@ Extra: after 7 wrong guesses the game is lost. The window then reveals the secre
 For “doesn't count as a guess”, `guesses++` must come **after** `Integer.parseInt`, both in the `try` block. If `parseInt` throws an exception, the line with `guesses++` is skipped.
 :::
 
+## Game: Too small or too big?
+
+::: spiel frage
+titel: Game: Too small or too big?
+intro: Ludwig is playing guess the number. Read the code and predict what happens. Seven rounds.
+
+runde:
+    // secret is 42
+    if (guess < secret) {
+        hint.setText(guess + " is too small.");
+    } else if (guess > secret) {
+        hint.setText(guess + " is too big.");
+    } else {
+        hint.setText("Correct!");
+    }
+frage: Ludwig types 50. What does the hint say?
+- 50 is too small.
+- [x] 50 is too big.
+- Correct!
+> 50 is greater than 42.
+
+runde:
+frage: The number is between 1 and 100. 50 was too big, 25 was too small. Which number does Ludwig cleverly guess next?
+- 26
+- [x] 37
+- 49
+> 26 to 49 are left. The middle of that is 37 (or 38). That way every guess halves the range.
+
+runde:
+    int roll = (int) (Math.random() * 6) + 1;
+frage: Which numbers can `roll` have?
+- 0 to 6
+- [x] 1 to 6
+- 1 to 7
+> `Math.random() * 6` is from 0 to just under 6. `(int)` turns that into 0 to 5, and `+ 1` into 1 to 6. A dice!
+
+runde:
+    int number = (int) (Math.random() * 10);
+frage: Which numbers can `number` have?
+- [x] 0 to 9
+- 1 to 10
+- 0 to 10
+> Without `+ 1` it starts at 0, and 10 is never reached.
+
+runde:
+    // secret is 42
+    guesses++;
+    if (guess == secret) {
+        hint.setText("Correct! You needed " + guesses + " guesses.");
+    }
+frage: Ludwig types 50, then 25, then 42. What does the hint say at the end?
+- Correct! You needed 2 guesses.
+- [x] Correct! You needed 3 guesses.
+- Correct! You needed 42 guesses.
+> `guesses++` counts up with every click, including the hit.
+
+runde:
+    button.setEnabled(false);
+frage: Ludwig has found the number and clicks **Guess** once more. What happens?
+- The game starts again.
+- It counts one more guess.
+- [x] Nothing, the button is grey and can't be clicked.
+> `setEnabled(false)` switches the button off.
+
+runde:
+frage: The number is now between 1 and 1000. How many guesses do you need at most with binary search?
+- 7
+- [x] 10
+- 500
+> 2 to the power of 10 = 1024 is greater than 1000. Ten halvings are enough.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

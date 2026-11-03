@@ -121,6 +121,78 @@ Zusatz: Nach 7 Fehlversuchen ist das Spiel verloren. Das Fenster verrät dann di
 Für „zählt nicht als Versuch“ muss `versuche++` **hinter** `Integer.parseInt` stehen, beides im `try`-Block. Wirft `parseInt` eine Exception, wird die Zeile mit `versuche++` übersprungen.
 :::
 
+## Spiel: Zu klein oder zu groß?
+
+::: spiel frage
+titel: Spiel: Zu klein oder zu groß?
+intro: Ludwig spielt Zahlenraten. Lies den Code und sag vorher, was passiert. Sieben Runden.
+
+runde:
+    // geheim ist 42
+    if (tipp < geheim) {
+        hinweis.setText(tipp + " ist zu klein.");
+    } else if (tipp > geheim) {
+        hinweis.setText(tipp + " ist zu groß.");
+    } else {
+        hinweis.setText("Richtig!");
+    }
+frage: Ludwig tippt 50. Was steht im Hinweis?
+- 50 ist zu klein.
+- [x] 50 ist zu groß.
+- Richtig!
+> 50 ist größer als 42.
+
+runde:
+frage: Die Zahl liegt von 1 bis 100. 50 war zu groß, 25 war zu klein. Welche Zahl rät Ludwig klug als Nächstes?
+- 26
+- [x] 37
+- 49
+> Übrig sind 26 bis 49. Die Mitte davon ist 37 (oder 38). So halbiert jeder Tipp den Bereich.
+
+runde:
+    int wurf = (int) (Math.random() * 6) + 1;
+frage: Welche Zahlen kann `wurf` haben?
+- 0 bis 6
+- [x] 1 bis 6
+- 1 bis 7
+> `Math.random() * 6` liegt von 0 bis knapp unter 6. `(int)` macht 0 bis 5 daraus, `+ 1` dann 1 bis 6. Ein Würfel!
+
+runde:
+    int zahl = (int) (Math.random() * 10);
+frage: Welche Zahlen kann `zahl` haben?
+- [x] 0 bis 9
+- 1 bis 10
+- 0 bis 10
+> Ohne `+ 1` fängt es bei 0 an, und die 10 wird nie erreicht.
+
+runde:
+    // geheim ist 42
+    versuche++;
+    if (tipp == geheim) {
+        hinweis.setText("Richtig! Du hast " + versuche + " Versuche gebraucht.");
+    }
+frage: Ludwig tippt 50, dann 25, dann 42. Was steht am Ende im Hinweis?
+- Richtig! Du hast 2 Versuche gebraucht.
+- [x] Richtig! Du hast 3 Versuche gebraucht.
+- Richtig! Du hast 42 Versuche gebraucht.
+> `versuche++` zählt bei jedem Klick hoch, auch beim Treffer.
+
+runde:
+    knopf.setEnabled(false);
+frage: Ludwig hat die Zahl gefunden und klickt noch einmal auf **Raten**. Was passiert?
+- Das Spiel beginnt von vorn.
+- Es zählt einen Versuch mehr.
+- [x] Nichts, der Knopf ist grau und lässt sich nicht klicken.
+> `setEnabled(false)` schaltet den Knopf ab.
+
+runde:
+frage: Die Zahl liegt jetzt von 1 bis 1000. Wie viele Tipps braucht man mit der binären Suche höchstens?
+- 7
+- [x] 10
+- 500
+> 2 hoch 10 = 1024 ist größer als 1000. Zehn Halbierungen reichen.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

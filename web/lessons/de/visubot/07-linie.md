@@ -82,6 +82,165 @@ tipp: Richtig heißt es `schritte = schritte + 1`.
 lösung: vb-java-rand-loesung.visustruct
 :::
 
+## Spiel: Linie oder nicht?
+
+::: spiel frage
+titel: Spiel: Linie oder nicht?
+intro: Wo steht der mBot2, und ist die Bedingung wahr oder falsch? Sechs Runden.
+antworten: wahr | falsch
+
+runde:
+    mbot.getLine() == 0
+frage: Der mBot2 steht auf weißem Papier. Ist die Bedingung wahr?
+richtig: wahr
+> Kein Fühler sieht Schwarz, also liefert `mbot.getLine()` 0.
+
+runde:
+    mbot.getLine() == 0
+frage: Die beiden mittleren Fühler stehen auf dem schwarzen Klebeband. Ist die Bedingung wahr?
+richtig: falsch
+> Zwei Fühler sehen Schwarz, also ist `mbot.getLine()` größer als 0.
+
+runde:
+    mbot.getLine() != 0
+frage: Nur der äußere linke Fühler sieht Schwarz. Ist die Bedingung wahr?
+richtig: wahr
+> Ein Fühler reicht schon, dann ist der Wert nicht mehr 0.
+
+runde:
+    mbot.getLine() != 0
+frage: Der mBot2 steht auf weißem Boden. Ist die Bedingung wahr?
+richtig: falsch
+> Auf Weiß ist der Wert 0, und `0 != 0` ist falsch.
+
+runde:
+    mbot.getLine() == 15
+frage: Eine Querlinie: Alle vier Fühler sehen Schwarz. Ist die Bedingung wahr?
+richtig: wahr
+> Alle vier Fühler ergeben die Binärzahl `1111`, also 15.
+
+runde:
+    int schritte = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        schritte = schritte + 1;
+    }
+frage: Die Linie ist 30 cm entfernt, jede Fahrt ist 10 cm lang. Ist danach `schritte == 3`?
+richtig: wahr
+> Nach drei Fahrten steht er auf der Linie, und die Schleife hört auf.
+:::
+
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    while (mbot.getLine() != 0) {
+        mbot.forward();
+    }
+    mbot.turnRight(180);
+frage: Soll bis zum schwarzen Rand fahren und dann umkehren.
+fehler: 1
+besser: while (mbot.getLine() == 0) {
+> Er soll fahren, solange **keine** Linie da ist, also `== 0`.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+    }
+    mbot.turnRight();
+frage: Soll bis zum schwarzen Rand fahren und dann umkehren.
+fehler: 4
+besser: mbot.turnRight(180);
+> Umkehren heißt 180°. Ohne Zahl dreht er sich nur 90°.
+
+runde:
+    int schritte = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        schritte = schritte - 1;
+    }
+frage: Soll bis zur Linie fahren und die Schritte zählen.
+fehler: 4
+besser: schritte = schritte + 1;
+> Zählen heißt eins dazu, nicht eins weg.
+
+runde:
+    int schritte = "0";
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        schritte = schritte + 1;
+    }
+frage: Soll bis zur Linie fahren und die Schritte zählen.
+fehler: 1
+besser: int schritte = 0;
+> In Anführungszeichen ist die 0 ein Text. In ein `int` passt nur eine Zahl.
+:::
+
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Schwarz ist Klebeband. Tippe auf das Feld, auf dem der mBot2 am Ende steht. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ..=.. | ..... | ..... | ..^..
+ziel: 2,1
+> Er fährt, bis er auf dem schwarzen Feld steht.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+    mbot.turnRight(180);
+    mbot.forward(60);
+karte: ..=.. | ..... | ..... | ..... | ..^..
+ziel: 2,2
+> Bis zum Rand, umkehren und zwei Felder zurück.
+
+runde:
+    int schritte = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+        schritte = schritte + 1;
+    }
+    mbot.turnRight(180);
+    for (int i = 0; i < schritte; i++) {
+        mbot.forward(30);
+    }
+karte: ..=.. | ..... | ..... | ..^..
+ziel: 2,3
+> Er zählt drei Schritte bis zur Linie und fährt genau drei zurück: wieder am Start.
+
+runde:
+    mbot.turnRight();
+    while (mbot.getLine() == 0) {
+        mbot.forward(30);
+    }
+karte: ..... | ^...= | .....
+ziel: 4,1
+> Erst nach rechts drehen, dann bis zum schwarzen Feld ganz rechts.
+:::
+
+## Checkliste
+
+Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
+
+::: checkliste
+- Ich kann erklären, was die Zahl von `mbot.getLine()` bedeutet. → Vier Fühler unter der Nase
+- Ich kann bis zu einer Linie fahren. → Am Rand umkehren im Struktogramm
+- Ich kann in Java mit einer Variable Schritte zählen. → Jetzt in Java: hin und zurück
+:::
+
+## Wissenstest
+
 ::: quiz
 ? Der mBot2 steht auf weißem Papier. Was liefert `mbot.getLine()`?
 → Vier Fühler unter der Nase
@@ -95,12 +254,4 @@ lösung: vb-java-rand-loesung.visustruct
 - [x] `mbot.getLine() != 0`
 - [ ] `mbot.getLine() < 0`
 > `!=` heißt „ungleich“.
-:::
-
-Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
-
-::: checkliste
-- Ich kann erklären, was die Zahl von `mbot.getLine()` bedeutet. → Vier Fühler unter der Nase
-- Ich kann bis zu einer Linie fahren. → Am Rand umkehren im Struktogramm
-- Ich kann in Java mit einer Variable Schritte zählen. → Jetzt in Java: hin und zurück
 :::
