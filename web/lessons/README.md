@@ -165,7 +165,7 @@ Der Text darf Markdown und Links enthalten:
 
 ```
 ::: angeberwissen
-Ben Shneiderman hatte die Idee 1972. [Mehr dazu](https://visustruct.org/de/angeberwissen.html)
+Ben Shneiderman hatte die Idee 1972. [Mehr dazu](https://visustruct.visucode.de/de/angeberwissen.html)
 :::
 ```
 
