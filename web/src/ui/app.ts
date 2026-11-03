@@ -44,7 +44,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
@@ -747,7 +747,7 @@ export class App {
         li.dataset.botColor = visuBotGroupColor(group)
         const button = document.createElement('button')
         button.type = 'button'
-        button.textContent = t(`web_visubot_group_${group}`)
+        button.textContent = [visuBotGroupIcon[group], t(`web_visubot_group_${group}`)].filter(Boolean).join(' ')
         const show = (open: boolean) => {
           button.setAttribute('aria-expanded', String(open))
           for (const item of list.querySelectorAll<HTMLElement>(`[data-group="${group}"]`)) item.hidden = !open

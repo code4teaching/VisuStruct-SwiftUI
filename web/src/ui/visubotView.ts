@@ -458,6 +458,24 @@ export function visuBotGroupColor(group: string): string {
   return colors[group] ?? 'sensor'
 }
 
+/** Symbol jeder Gruppe (Palette und Nachschlagen): Symbole merkt man sich leichter als viele Farbtöne. */
+export const visuBotGroupIcon: Record<string, string> = {
+  drive: '🚗',
+  wheels: '⚙️',
+  leds: '💡',
+  sound: '🔊',
+  screen: '🖥️',
+  emotion: '😊',
+  wait: '⏱️',
+  distance: '📏',
+  line: '➖',
+  color: '🎨',
+  buttons: '🕹️',
+  light: '🔆',
+  tilt: '📐',
+  timer: '🔋',
+}
+
 /** Sensoren: Werte, die die Schüler selbst in eine Bedingung einbauen (`mbot.getDistance() < 20`). */
 export const visuBotSensors: { key: string; group: string; text: string }[] = [
   { key: 'web_visubot_sensor_distance', group: 'distance', text: 'mbot.getDistance()' },
