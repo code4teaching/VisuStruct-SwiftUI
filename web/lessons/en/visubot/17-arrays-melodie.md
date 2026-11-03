@@ -1,6 +1,6 @@
 ---
 titel: Arrays and melodies
-bereich: VisuBot
+bereich: Light, sound and screen
 kurz: Store many values in one array and work through them with a loop.
 ---
 
@@ -9,7 +9,7 @@ kurz: Store many values in one array and work through them with a loop.
 ::: kompetenzen
 - create an array and play it with a loop
 - use an array of texts in Java
-- add up all values of an array
+- collect measurements in an array and work out the average
 :::
 
 ## A melody as an array
@@ -53,27 +53,44 @@ tipp: `for (int i = 0; i < colours.length; i++) { mbot.led(i).setColor(colours[i
 lösung: vb-farben-loesung.visustruct
 :::
 
-## Now without the robot: sum of the grades
+## Now in Java: measurement series
 
-With a loop you can also add up all the values of an array. You need a variable that starts at 0 and grows in every round:
+Sensors never measure exactly. Hold your hand in front of the ultrasonic sensor: the number always jumps around a little. That is why professionals measure several times and work out the **average**.
+
+The measurements go into an array. `new int[5]` creates an array with five empty slots:
 
 ```java
-int sum = 0;
-for (int i = 0; i < grades.length; i++) {
-  sum = sum + grades[i];
+int[] values = new int[5];
+for (int i = 0; i < values.length; i++) {
+    values[i] = mbot.getDistance();
+    mbot.pause(100);
 }
 ```
 
-::: übung vb-ohne-summe
-titel: Sum of the grades
+Then you add up all the values. For that you need a variable that starts at 0 and grows in every pass:
+
+```java
+int sum = 0;
+for (int i = 0; i < values.length; i++) {
+    sum = sum + values[i];
+}
+```
+
+The average is the sum divided by the number of values. Write `5.0` instead of `5`, then Java calculates with decimal numbers: `double average = sum / 5.0;`
+
+::: übung vb-messreihe
+titel: Measurement series
 code: java
-auftrag: Create `int[] grades = {2, 1, 3, 2}`. Add up all grades in a loop and then print **Sum: 8** and on a second line **Count: 4**. The count comes from `grades.length`. No `mbot` at all!
-test: - -> Sum: 8 | Count: 4
+auftrag: Measure the distance five times into an array `int[] values = new int[5]`, with a 100 ms pause in between. Then add up all values, work out the average and show for example **Average: 40.0** on the screen.
+messwerte: getDistance=40 -> screen "Average: 40.0"
+messwerte: getDistance=25 -> screen "Average: 25.0"
 braucht: forSchleife
-tipp: Before the loop `int sum = 0;`, inside the loop `sum = sum + grades[i];`.
-tipp: After the loop `System.out.println("Sum: " + sum);` and `System.out.println("Count: " + grades.length);`.
-lösung: vb-ohne-summe-loesung.visustruct
+tipp: Two for loops: the first fills the array with `values[i] = mbot.getDistance();`, the second calculates `sum = sum + values[i];`.
+tipp: Then `double average = sum / 5.0;` and `mbot.showText("Average: " + average);`.
+lösung: vb-messreihe-loesung.visustruct
 :::
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Arrays"](?visustruct&lektion=15-arrays). It opens in a new window.
 
 ::: quiz
 ? What is `tones[1]` if `int[] tones = {262, 294, 330};`?
@@ -95,5 +112,5 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 ::: checkliste
 - I can create an array and play it with a loop. → A melody as an array
 - I can use an array of texts in Java. → Now in Java: rainbow
-- I can add up all values of an array. → Now without the robot: sum of the grades
+- I can collect measurements in an array and work out the average. → Now in Java: measurement series
 :::

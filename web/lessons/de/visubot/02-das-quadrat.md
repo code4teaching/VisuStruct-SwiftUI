@@ -1,6 +1,6 @@
 ---
 titel: Das Quadrat
-bereich: VisuBot
+bereich: Losfahren
 kurz: Vom langen Struktogramm zur dreifach verschachtelten Schleife.
 ---
 
@@ -96,6 +96,8 @@ tipp: Lege um dein verschachteltes Quadrat noch eine dritte For-Schleife, die vi
 tipp: Ganz außen zählt jetzt `i` (`int i = 0`, `i < 4`, `i++`). Die Schleifen darin heißen dann `j` und `k`. In die äußere Schleife kommen dein Quadrat und danach `mbot.turnRight()`.
 lösung: vb-vier-quadrate-loesung.visustruct
 :::
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektionen [„For-Schleife“](?visustruct&lektion=13-for-schleife) und [„Verschachteln“](?visustruct&lektion=14-verschachteln). Sie öffnen sich in einem neuen Fenster.
 
 ::: quiz
 ? Wie oft fährt der mBot2 bei den vier Quadraten 10 cm vor?

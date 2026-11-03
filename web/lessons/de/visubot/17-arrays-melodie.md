@@ -1,6 +1,6 @@
 ---
 titel: Arrays und Melodien
-bereich: VisuBot
+bereich: Licht, Ton und Bildschirm
 kurz: Viele Werte in einem Array speichern und mit einer Schleife abarbeiten.
 ---
 
@@ -9,7 +9,7 @@ kurz: Viele Werte in einem Array speichern und mit einer Schleife abarbeiten.
 ::: kompetenzen
 - ein Array anlegen und mit einer Schleife abspielen
 - ein Array mit Texten in Java benutzen
-- alle Werte eines Arrays zusammenzählen
+- Messwerte in einem Array sammeln und den Mittelwert ausrechnen
 :::
 
 ## Eine Melodie als Array
@@ -53,27 +53,44 @@ tipp: `for (int i = 0; i < farben.length; i++) { mbot.led(i).setColor(farben[i])
 lösung: vb-farben-loesung.visustruct
 :::
 
-## Jetzt ohne Roboter: Summe der Noten
+## Jetzt in Java: Messreihe
 
-Mit einer Schleife kannst du auch alle Werte eines Arrays zusammenzählen. Dafür brauchst du eine Variable, die mit 0 anfängt und in jedem Durchgang wächst:
+Sensoren messen nie ganz genau. Halte die Hand vor den Ultraschallsensor: Die Zahl springt immer ein bisschen hin und her. Profis messen deshalb mehrmals und rechnen den **Mittelwert** aus.
+
+Die Messwerte kommen in ein Array. `new int[5]` legt ein Array mit fünf leeren Fächern an:
 
 ```java
-int summe = 0;
-for (int i = 0; i < noten.length; i++) {
-  summe = summe + noten[i];
+int[] werte = new int[5];
+for (int i = 0; i < werte.length; i++) {
+    werte[i] = mbot.getDistance();
+    mbot.pause(100);
 }
 ```
 
-::: übung vb-ohne-summe
-titel: Summe der Noten
+Danach zählst du alle Werte zusammen. Dafür brauchst du eine Variable, die mit 0 anfängt und in jedem Durchgang wächst:
+
+```java
+int summe = 0;
+for (int i = 0; i < werte.length; i++) {
+    summe = summe + werte[i];
+}
+```
+
+Der Mittelwert ist die Summe geteilt durch die Anzahl. Schreib `5.0` statt `5`, dann rechnet Java mit Kommazahlen: `double mittelwert = summe / 5.0;`
+
+::: übung vb-messreihe
+titel: Messreihe
 code: java
-auftrag: Lege `int[] noten = {2, 1, 3, 2}` an. Zähle in einer Schleife alle Noten zusammen und gib danach **Summe: 8** und in einer zweiten Zeile **Anzahl: 4** aus. Die Anzahl liefert `noten.length`. Ganz ohne `mbot`!
-test: - -> Summe: 8 | Anzahl: 4
+auftrag: Miss den Abstand fünfmal in ein Array `int[] werte = new int[5]`, mit 100 ms Pause dazwischen. Zähle danach alle Werte zusammen, rechne den Mittelwert aus und zeige zum Beispiel **Mittelwert: 40.0** auf dem Bildschirm.
+messwerte: getDistance=40 -> screen "Mittelwert: 40.0"
+messwerte: getDistance=25 -> screen "Mittelwert: 25.0"
 braucht: forSchleife
-tipp: Vor der Schleife `int summe = 0;`, in der Schleife `summe = summe + noten[i];`.
-tipp: Nach der Schleife `System.out.println("Summe: " + summe);` und `System.out.println("Anzahl: " + noten.length);`.
-lösung: vb-ohne-summe-loesung.visustruct
+tipp: Zwei For-Schleifen: Die erste füllt das Array mit `werte[i] = mbot.getDistance();`, die zweite rechnet `summe = summe + werte[i];`.
+tipp: Danach `double mittelwert = summe / 5.0;` und `mbot.showText("Mittelwert: " + mittelwert);`.
+lösung: vb-messreihe-loesung.visustruct
 :::
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Arrays“](?visustruct&lektion=15-arrays). Sie öffnet sich in einem neuen Fenster.
 
 ::: quiz
 ? Was ist `toene[1]`, wenn `int[] toene = {262, 294, 330};`?
@@ -95,5 +112,5 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 ::: checkliste
 - Ich kann ein Array anlegen und mit einer Schleife abspielen. → Eine Melodie als Array
 - Ich kann ein Array mit Texten in Java benutzen. → Jetzt in Java: Regenbogen
-- Ich kann alle Werte eines Arrays zusammenzählen. → Jetzt ohne Roboter: Summe der Noten
+- Ich kann Messwerte in einem Array sammeln und den Mittelwert ausrechnen. → Jetzt in Java: Messreihe
 :::

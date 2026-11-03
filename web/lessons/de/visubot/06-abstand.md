@@ -1,6 +1,6 @@
 ---
 titel: Der Ultraschallsensor
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Abstand messen, Abstand halten und das Ganze in Java.
 ---
 

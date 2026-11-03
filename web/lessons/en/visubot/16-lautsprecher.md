@@ -1,6 +1,6 @@
 ---
 titel: The speaker
-bereich: VisuBot
+bereich: Light, sound and screen
 kurz: Tones, a scale and a siren.
 ---
 

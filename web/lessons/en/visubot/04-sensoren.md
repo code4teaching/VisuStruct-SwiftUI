@@ -1,6 +1,6 @@
 ---
 titel: Reading sensors
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: The mBot2 measures something, and your program decides.
 ---
 
@@ -52,6 +52,8 @@ lösung: vb-wand-vorn-loesung.visustruct
 :::
 
 ## What does the sensor give you?
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Branch"](?visustruct&lektion=08-verzweigung). It opens in a new window.
 
 ::: quiz
 ? The wall is 12 cm away. Is `mbot.getDistance() < 20` true or false?

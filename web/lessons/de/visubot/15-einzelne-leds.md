@@ -1,6 +1,6 @@
 ---
 titel: Einzelne LEDs
-bereich: VisuBot
+bereich: Licht, Ton und Bildschirm
 kurz: Jede der fünf LEDs bekommt ihre eigene Farbe, bis zum Lauflicht.
 ---
 

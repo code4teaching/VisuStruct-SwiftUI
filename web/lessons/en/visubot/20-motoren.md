@@ -1,6 +1,6 @@
 ---
 titel: Motors and speed
-bereich: VisuBot
+bereich: Motors and methods
 kurz: Step on the gas, steer and follow a line.
 ---
 

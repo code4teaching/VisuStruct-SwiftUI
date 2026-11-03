@@ -1,7 +1,7 @@
 ---
 titel: Variablen und Ausgabe
-bereich: VisuBot
-kurz: Werte in Variablen speichern, den mBot2 damit fahren lassen und Ergebnisse ausgeben.
+bereich: Losfahren
+kurz: Werte in Variablen speichern, den mBot2 damit fahren lassen und Ergebnisse auf dem Bildschirm zeigen.
 ---
 
 ## Diese Kompetenzen erwerbe ich jetzt
@@ -10,7 +10,7 @@ kurz: Werte in Variablen speichern, den mBot2 damit fahren lassen und Ergebnisse
 - eine Variable anlegen und benutzen
 - die Datentypen `int`, `double`, `String` und `boolean` unterscheiden
 - mit zwei Variablen ein Rechteck in Java fahren
-- mit `System.out.println` etwas ausgeben
+- mit `mbot.showText` ein Ergebnis auf dem Bildschirm zeigen
 :::
 
 ## Eine Variable für die Seite
@@ -49,9 +49,11 @@ Jede Variable hat einen Datentyp. Er legt fest, welche Werte hineinpassen:
 | Datentyp | Was passt hinein? | Beispiel |
 |---|---|---|
 | `int` | ganze Zahlen | `int seite = 30;` |
-| `double` | Kommazahlen, mit Punkt geschrieben | `double tempo = 1.5;` |
-| `String` | Text in Anführungszeichen | `String name = "Visu";` |
-| `boolean` | wahr oder falsch | `boolean fertig = false;` |
+| `double` | Kommazahlen, mit Punkt geschrieben | `double radumfang = 20.4;` |
+| `String` | Text in Anführungszeichen | `String name = "Ludwig";` |
+| `boolean` | wahr oder falsch | `boolean wandNah = mbot.getDistance() < 20;` |
+
+Ein Rad des mBot2 kommt mit einer Umdrehung etwa 20.4 cm weit, das ist eine Kommazahl. In `wandNah` steht `true`, wenn die Wand näher als 20 cm ist. Den Abstandssensor lernst du in Lektion 4 kennen.
 
 Mit Variablen kannst du auch rechnen: `int strecke = 4 * seite;` rechnet die ganze Strecke des Quadrats aus.
 
@@ -70,28 +72,31 @@ tipp: In der Schleife: `mbot.forward(laenge);`, `mbot.turnRight();`, `mbot.forwa
 lösung: vb-java-rechteck-loesung.visustruct
 :::
 
-## Jetzt ohne Roboter: Ausgabe
+## Ergebnis auf dem Bildschirm
 
-Nicht jedes Ergebnis muss der Roboter fahren. Mit `System.out.println(…)` gibt ein Java-Programm Text in der [Konsole](#zeige-konsole) aus. Mit `+` hängst du Text und Werte aneinander:
+Der mBot2 kann nicht nur fahren, er kann dir auch etwas zeigen. Mit `mbot.showText(…)` steht ein Text auf dem [Bildschirm]{teil=screen} des CyberPi. Mit `+` hängst du Text und Werte aneinander:
 
 ```java
 int seite = 30;
 int strecke = 4 * seite;
-System.out.println("Strecke: " + strecke + " cm");
+mbot.showText("Strecke: " + strecke + " cm");
 ```
 
-Die Konsole zeigt dann **Strecke: 120 cm**.
+Der Bildschirm zeigt dann **Strecke: 120 cm**. Den Bildschirm lernst du in Lektion 18 noch genauer kennen.
 
-::: übung vb-ohne-strecke
+::: übung vb-strecke-anzeigen
 titel: Wie weit fährt er?
 code: java
-auftrag: Ein Rechteck ist 60 cm lang und 30 cm breit. Lege `laenge` und `breite` als Variablen an. Berechne in einer Variablen `strecke`, wie weit der mBot2 einmal ganz herum fährt, und gib **Strecke: 180 cm** aus. Ganz ohne `mbot`!
-test: - -> Strecke: 180 cm
-braucht: anweisung
-tipp: Einmal herum sind zweimal die Länge und zweimal die Breite.
-tipp: `int strecke = 2 * laenge + 2 * breite;` und dann `System.out.println("Strecke: " + strecke + " cm");`
-lösung: vb-ohne-strecke-loesung.visustruct
+auftrag: Lege `int laenge = 60` und `int breite = 30` an und fahre das Rechteck wie eben. Berechne danach in einer Variablen `strecke`, wie weit der mBot2 einmal ganz herum gefahren ist, und zeige **Strecke: 180 cm** auf dem Bildschirm.
+fahrt: 2 x (forward 60, turnRight, forward 30, turnRight)
+befehle: showText "Strecke: 180 cm"
+braucht: forSchleife
+tipp: Einmal herum sind zweimal die Länge und zweimal die Breite: `int strecke = 2 * laenge + 2 * breite;`
+tipp: Nach der Schleife: `mbot.showText("Strecke: " + strecke + " cm");`
+lösung: vb-strecke-anzeigen-loesung.visustruct
 :::
+
+> 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Eingabe und Ausgabe“](?visustruct&lektion=06-eingabe-und-ausgabe). Sie öffnet sich in einem neuen Fenster. Dort gibst du Ergebnisse mit `System.out.println` in der Konsole aus.
 
 ::: quiz
 ? Was fährt `mbot.forward(seite)`, wenn vorher `int seite = 40;` steht?
@@ -100,14 +105,14 @@ lösung: vb-ohne-strecke-loesung.visustruct
 - [x] 40 cm
 - [ ] gar nichts, `seite` ist kein Befehl
 > Wo `seite` steht, setzt Java den Wert 40 ein.
-? Welcher Datentyp passt zu `"Visu"`?
+? Welcher Datentyp passt zu `"Ludwig"`?
 → Welche Datentypen gibt es?
 - [ ] `int`
 - [ ] `double`
 - [x] `String`
 > Text in Anführungszeichen ist ein `String`.
-? Was gibt `System.out.println("Seite: " + 30);` aus?
-→ Jetzt ohne Roboter: Ausgabe
+? Was zeigt `mbot.showText("Seite: " + 30);` auf dem Bildschirm?
+→ Ergebnis auf dem Bildschirm
 - [x] Seite: 30
 - [ ] "Seite: " + 30
 - [ ] 30
@@ -120,5 +125,5 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann eine Variable anlegen und benutzen. → Eine Variable für die Seite
 - Ich kann die Datentypen `int`, `double`, `String` und `boolean` unterscheiden. → Welche Datentypen gibt es?
 - Ich kann mit zwei Variablen ein Rechteck in Java fahren. → Jetzt in Java: Rechteck
-- Ich kann mit `System.out.println` etwas ausgeben. → Jetzt ohne Roboter: Ausgabe
+- Ich kann mit `mbot.showText` ein Ergebnis auf dem Bildschirm zeigen. → Ergebnis auf dem Bildschirm
 :::

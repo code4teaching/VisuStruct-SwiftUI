@@ -1,6 +1,6 @@
 ---
 titel: Your own methods
-bereich: VisuBot
+bereich: Motors and methods
 kurz: Write and call your own commands with parameters and return values.
 ---
 
@@ -119,28 +119,31 @@ lösung: vb-ueberladung-umdrehung-loesung.visustruct
 > Java picks the version whose parameters fit: two parameters, a number and a text.
 :::
 
-## Now without the robot: a method with a return value
+## A method with a return value
 
-A method can also **calculate** something and give the result back. Instead of `void`, the header then names the data type of the result, and `return` gives the value back:
+A method can also **work something out** and give the result back. Instead of `void`, the header then has the data type of the result, and `return` gives the value back:
 
 ```java
-static int twice(int x) {
-  return 2 * x;
+static int centimetres(int rotations) {
+  return rotations * 20;
 }
 ```
 
-The call `int d = twice(4);` then puts 8 into `d`.
+One wheel rotation is about 20 cm. So the call `int distance = centimetres(3);` puts 60 into `distance`.
 
-::: übung vb-ohne-quadratzahl
-titel: Square numbers
-auftrag: Build a subprogram `int squareNumber(int x)` that returns `x * x`. The main program calls it with 3 and with 5 and prints both results: first **9**, then **25**. No `mbot` at all!
-test: - -> 9 | 25
+::: übung vb-zentimeter
+titel: Rotations into centimetres
+auftrag: Build a subprogram `int centimetres(int rotations)` that returns `rotations * 20`. The main program calls it with 3, drives the distance and shows **Distance: 60 cm** on the screen.
+fahrt: forward 60
+befehle: showText "Distance: 60 cm"
 braucht: aufruf
-tipp: New tab with the title `int squareNumber(int x)`. One statement is enough inside: `return x * x`.
-tipp: In the main program: call `int a = squareNumber(3)`, call `int b = squareNumber(5)`, then the outputs `a` and `b`.
-lösung: vb-ohne-quadratzahl-loesung.visustruct
-unterprogramm: vb-ohne-quadratzahl-unterprogramm-loesung.visustruct
+tipp: A new tab with the title `int centimetres(int rotations)`. One statement is enough inside: `return rotations * 20`.
+tipp: In the main program: call `int distance = centimetres(3)`, then `mbot.forward(distance)` and `mbot.showText("Distance: " + distance + " cm")`.
+lösung: vb-zentimeter-loesung.visustruct
+unterprogramm: vb-zentimeter-unterprogramm-loesung.visustruct
 :::
+
+> 📘 **More without the robot:** VisuStruct has the lesson ["Call and break"](?visustruct&lektion=18-aufruf-und-aussprung). It opens in a new window.
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
@@ -148,5 +151,5 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can build and call a subprogram with a parameter. → A subprogram for the square
 - I can recognise methods in Java. → Methods in Java
 - I can recognise and call an overloaded method. → Same name, different parameters: overloading
-- I can write a method with a return value. → Now without the robot: a method with a return value
+- I can write a method with a return value. → A method with a return value
 :::

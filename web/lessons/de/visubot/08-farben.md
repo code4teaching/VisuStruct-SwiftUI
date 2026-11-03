@@ -1,6 +1,6 @@
 ---
 titel: Farben erkennen
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Der Quad-RGB-Sensor sagt, auf welcher Farbe der mBot2 steht.
 ---
 

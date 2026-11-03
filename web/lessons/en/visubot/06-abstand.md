@@ -1,6 +1,6 @@
 ---
 titel: The ultrasonic sensor
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: Measure the distance, keep your distance, and do it all in Java.
 ---
 

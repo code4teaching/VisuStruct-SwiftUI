@@ -364,6 +364,9 @@ export class App {
     useVisuBotContent(visuBotMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
+    // Verweis aus einer VisuBot-Lektion: …/app/?visustruct&lektion=09-bedingungen-verknuepfen öffnet diese Lektion.
+    const wantedLesson = query.get('lektion') ?? undefined
+    if (wantedLesson) this.learn.showLesson(wantedLesson)
     this.shell = document.createElement('div')
     this.shell.className = 'shell'
     root.replaceWith(this.shell)
@@ -387,7 +390,11 @@ export class App {
       open: (xml, file, java) => this.openFromWorkspace(xml, file, java),
       hide: () => this.setFilesOpen(false),
       message: (text) => this.showMessage(text),
-      progressLoaded: () => this.learn.restore(),
+      progressLoaded: () => {
+        this.learn.restore()
+        // Der Lernstand aus dem Ordner bringt die zuletzt offene Lektion mit; der Verweis geht vor.
+        if (wantedLesson) this.learn.showLesson(wantedLesson)
+      },
       chooseWorld: (mode) => this.chooseWorld(mode, false),
     })
     // Oben die Werkzeugleiste, darunter vier Spalten: Dateien | Lernen | Struktogramm | Code live, jede einklappbar.
@@ -414,7 +421,7 @@ export class App {
     const learnOpen = storedValue(learnKey)
     // Link „Zu den Lektionen“ der Webseite: …/app/?learn. Danach aus der Adresse nehmen,
     // sonst öffnet jedes Neuladen den Lernbereich wieder, obwohl man ihn eingeklappt hat.
-    const fromSite = new URLSearchParams(location.search).has('learn')
+    const fromSite = new URLSearchParams(location.search).has('learn') || wantedLesson !== undefined
     this.showWorldInURL()
     this.setLearning(fromSite || (learnOpen === null ? window.innerWidth > 1100 : learnOpen === '1'), fromSite)
     this.setFilesOpen(storedValue(filesKey) === '1')
@@ -951,7 +958,7 @@ export class App {
   /** `?visubot` oder `?visustruct` in der Adresse, damit man den Link mit der richtigen Welt weitergeben kann. */
   private showWorldInURL() {
     const params = new URLSearchParams(location.search)
-    for (const key of ['learn', 'visubot', 'visustruct', 'visuobject', 'visuflow']) params.delete(key)
+    for (const key of ['learn', 'lektion', 'visubot', 'visustruct', 'visuobject', 'visuflow']) params.delete(key)
     const rest = params.toString()
     const world = visuBotMode() === 'on' ? 'visubot' : 'visustruct'
     history.replaceState(history.state, '', `${location.pathname}?${world}${rest ? `&${rest}` : ''}${location.hash}`)

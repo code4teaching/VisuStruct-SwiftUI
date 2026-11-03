@@ -1,6 +1,6 @@
 ---
 titel: Der Lichtsensor
-bereich: VisuBot
+bereich: Sensoren und Entscheidungen
 kurz: Hell oder dunkel? Der mBot2 wird zum Nachtlicht.
 ---
 

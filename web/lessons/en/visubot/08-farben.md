@@ -1,6 +1,6 @@
 ---
 titel: Recognising colours
-bereich: VisuBot
+bereich: Sensors and decisions
 kurz: The quad RGB sensor tells you which colour the mBot2 is standing on.
 ---
 
