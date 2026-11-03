@@ -115,6 +115,13 @@ Eine Variable, die in einer Schleife mitzählt, meistens i.
 auch: Endlosschleifen
 Eine Schleife, deren Bedingung nie falsch wird. Sie hört nie von selbst auf.
 
+### Merker
+Eine Variable vom Typ boolean, die mit false anfängt und auf true gesetzt wird, sobald etwas passiert ist.
+
+### Zustandsautomat
+auch: Zustandsautomaten, Zustandsvariable, Zustandsvariablen
+Ein Programm, das immer in genau einem Zustand ist und nach festen Regeln in den nächsten Zustand wechselt, z. B. eine Ampel.
+
 ### Array
 auch: Arrays
 Eine Reihe von Fächern mit einem gemeinsamen Namen und demselben Datentyp. Im Lehrplan heißt es auch Feld.

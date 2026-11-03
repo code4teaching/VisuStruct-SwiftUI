@@ -30,7 +30,7 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
   afterAll(() => useVisuBotContent('off'))
 
   it('zeigt nur die Roboter-Lektionen und -Aufgaben, lückenlos nummeriert, in Teilen', () => {
-    expect(lessons.length).toBeGreaterThanOrEqual(27)
+    expect(lessons.length).toBeGreaterThanOrEqual(33)
     expect(lessons.every((l) => l.robot)).toBe(true)
     lessons.forEach((l, i) => {
       expect(l.number, l.id).toBe(i + 1)
@@ -46,6 +46,13 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     expect(at('03-zeile-fuer-zeile-testen')).toBe(at('03-variablen-und-ausgabe') + 1)
     expect(at('05-erst-fahren-dann-pruefen')).toBe(at('05-bis-zur-wand') + 1)
     expect(at('10-unterbrechen-mit-break')).toBe(at('10-tasten-joystick') + 1)
+    // Grundlagen kleinschrittig: Zählen, Konstanten, else if, Maximum, Merker, Zustände
+    expect(at('05-zaehlen-und-summieren')).toBe(at('05-erst-fahren-dann-pruefen') + 1)
+    expect(at('06-konstanten-final')).toBe(at('06-abstand') + 1)
+    expect(at('06-nah-mittel-weit')).toBe(at('06-konstanten-final') + 1)
+    expect(at('08-groesster-wert')).toBe(at('08-farben') + 1)
+    expect(at('11-merker-boolean')).toBe(at('11-licht') + 1)
+    expect(at('21-zustaende')).toBe(at('21-stoppuhr-akku') + 1)
     expect(tasks.length).toBeGreaterThanOrEqual(16)
     expect(tasks.every((t) => t.robot)).toBe(true)
     for (const t of tasks) if (t.after !== undefined) expect(lessons.some((l) => l.number === t.after), t.id).toBe(true)
@@ -65,10 +72,10 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     const tour = lessons.find((l) => l.id === '01-der-mbot2')!
     const word = { de: 'Lektion', en: 'Lesson' }[lang]
     expect(JSON.stringify(tour.steps).toLowerCase()).toContain(`${word} ${quadrat.number}`.toLowerCase())
-    // eingeschobene Lektionen verschieben die Nummern: Motoren (Datei 20) ist Lektion 25
+    // eingeschobene Lektionen verschieben die Nummern: Motoren (Datei 20) ist Lektion 30
     const motoren = lessons.find((l) => l.id === '20-motoren')!
     const sensoren = lessons.find((l) => l.id === '04-sensoren')!
-    expect(motoren.number).toBe(25)
+    expect(motoren.number).toBe(30)
     expect(JSON.stringify(sensoren.steps).toLowerCase()).toContain(`${word} ${motoren.number}`.toLowerCase())
   })
 
@@ -156,7 +163,7 @@ describe.each(['de', 'en'] as const)('VisuStruct ohne Roboter, VisuBot nur mit R
 
   it('VisuBot zeigt nur Roboter-Lektionen und -Aufgaben, Nachschlagen mit den mBot2-Kategorien', () => {
     useVisuBotContent('on')
-    expect(lessons.filter((l) => l.robot).length).toBeGreaterThanOrEqual(27)
+    expect(lessons.filter((l) => l.robot).length).toBeGreaterThanOrEqual(33)
     expect(lessons.filter((l) => !l.robot)).toEqual([])
     expect(tasks.map((t) => t.id)).toEqual(expect.arrayContaining(robotTasks))
     expect(tasks.filter((t) => !t.robot)).toEqual([])
