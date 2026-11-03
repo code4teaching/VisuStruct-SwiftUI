@@ -420,7 +420,9 @@
 "web_visubot_preview_limit" = "demora muito (ciclo infinito?), mostra-se o início";
 "web_visubot_group_drive" = "Andar e rodar";
 "web_visubot_group_wheels" = "Rodas separadas";
-"web_visubot_group_output" = "Luz, som e ecrã";
+"web_visubot_group_leds" = "Luz";
+"web_visubot_group_sound" = "Som";
+"web_visubot_group_screen" = "Ecrã";
 "web_visubot_group_emotion" = "Emoções";
 "web_visubot_group_wait" = "Esperar e cronómetro";
 "web_visubot_group_distance" = "Distância";
