@@ -259,6 +259,12 @@ Then make it better:
 - After three wrong attempts, **OK** switches itself off, like the button in Guess the number in lesson 36. Count the attempts in a `static int` variable in the class.
 - Extra: the display shows `*` instead of the digits. Remember the real input in a `static String input = "";` and only add a star to the display.
 
+**You are done when …**
+
+- the right code opens the lock and a wrong one doesn’t,
+- after three wrong tries **OK** is switched off,
+- for the extra, the display only shows stars but the code is still checked.
+
 ::: ludwig
 For the calculator from lesson 35, one listener is enough for +, -, \* and / too. Check inside it with `e.getActionCommand().equals("+")` which operator was clicked.
 :::

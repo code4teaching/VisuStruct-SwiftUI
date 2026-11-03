@@ -231,6 +231,12 @@ Junta a calculadora de níveis, com as duas verificações do último passo. Tes
 
 Extra: escreve também a menção do nível, por exemplo “Nível: 4 (Bom)”. As menções são Muito bom, Bom, Suficiente, Insuficiente e Fraco.
 
+**Terminaste quando …**
+
+- 92 e 100 dão 1, 91 dá 2 e 0 dá 6,
+- 101 mostra o aviso para escrever 0 a 100,
+- um texto como “dez” mostra um aviso e o programa continua a funcionar.
+
 ::: ludwig
 Testa sempre os limites: 90 tem de dar 5, 89 tem de dar 4. É nos limites que se escondem a maioria dos erros, por exemplo `>` em vez de `>=`.
 :::

@@ -194,6 +194,12 @@ Reconstrói o contador de cliques e acrescenta:
 - um botão **−1** que subtrai um,
 - o número nunca deve ficar abaixo de 0. Se estiver em 0, o −1 não faz nada.
 
+**Terminaste quando …**
+
+- **+1** conta mais um e **−1** conta menos um,
+- no 0 um clique em **−1** não muda nada,
+- **Reset** volta a pôr o número em 0.
+
 ::: ludwig
 Para “nunca abaixo de 0”, o ouvinte do −1 precisa de um `if`: só se `contagem > 0` é que subtrai.
 :::

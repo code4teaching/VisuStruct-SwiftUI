@@ -47,7 +47,7 @@ welt: wand-nah -> turnRight
 welt: wand-frei -> forward
 braucht: verzweigung
 tipp: Drag a branch into the structure chart and then the sensor **Distance** onto the branch. Write `< 20` after it.
-tipp: The yes branch contains `mbot.turnRight()`, the no branch `mbot.forward()`.
+tipp: The true branch contains `mbot.turnRight()`, the false branch `mbot.forward()`.
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 

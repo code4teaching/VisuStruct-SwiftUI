@@ -36,7 +36,7 @@ messwerte: getBrightness=10 -> ledOn
 messwerte: getBrightness=80 -> ledOff
 braucht: verzweigung
 tipp: Drag a branch into the structure chart and the sensor **Brightness** onto it. Write `< 30` after it.
-tipp: The Yes branch gets **LEDs on** with `mbot.setLed(255, 255, 255)`, the No branch **LEDs off**.
+tipp: The true branch gets **LEDs on** with `mbot.setLed(255, 255, 255)`, the false branch **LEDs off**.
 lösung: vb-nachtlicht-loesung.visustruct
 :::
 
@@ -125,7 +125,7 @@ runde:
     }
 frage: The brightness is 50.
 richtig: LEDs on
-> Careful, it's the other way round here: 50 is not greater than 70, so the no branch runs. The LEDs light up yellow.
+> Careful, it's the other way round here: 50 is not greater than 70, so the false branch runs. The LEDs light up yellow.
 
 runde:
     if (mbot.getBrightness() > 70) {
@@ -135,7 +135,7 @@ runde:
     }
 frage: The sun is shining, the brightness is 100.
 richtig: LEDs off
-> 100 is greater than 70, so the yes branch runs.
+> 100 is greater than 70, so the true branch runs.
 :::
 
 ## Checklist

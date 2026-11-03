@@ -31,7 +31,7 @@ The [ultrasonic sensor]{part=ultrasonic} sends out a very high sound and waits f
 
 The mBot2 should behave like a dog on a lead: if your hand is too close (under 10 cm), it backs away. If it is too far away (over 20 cm), it comes closer. In between, it stays where it is.
 
-For this you need two branches, one inside the other. The outer one checks “too close?”, the inner one in the No branch checks “too far?”.
+For this you need two branches, one inside the other. The outer one checks “too close?”, the inner one in the false branch checks “too far?”.
 
 ::: übung vb-abstand-halten
 titel: Keep your distance
@@ -40,8 +40,8 @@ messwerte: getDistance=5 -> backward
 messwerte: getDistance=35 -> forward
 messwerte: getDistance=15 -> none
 braucht: verzweigung
-tipp: Drag a branch into the structure chart and the sensor **Distance** onto it. Write `< 10` after it. The Yes branch gets **move back**.
-tipp: The No branch gets a second branch with `mbot.getDistance() > 20` and **move forward** in its Yes branch. Its No branch stays empty.
+tipp: Drag a branch into the structure chart and the sensor **Distance** onto it. Write `< 10` after it. The true branch gets **move back**.
+tipp: The false branch gets a second branch with `mbot.getDistance() > 20` and **move forward** in its true branch. Its false branch stays empty.
 lösung: vb-abstand-halten-loesung.visustruct
 :::
 
@@ -49,7 +49,7 @@ lösung: vb-abstand-halten-loesung.visustruct
 
 ## Now in Java
 
-In the [Code](#zeige-codelive) area you already see your structure chart as Java code. A branch is called `if` there, the No branch is `else`:
+In the [Code](#zeige-codelive) area you already see your structure chart as Java code. A branch is called `if` there, the false branch is `else`:
 
 ```java
 if (mbot.getDistance() < 10) {
@@ -134,7 +134,7 @@ runde:
 frage: Under 10 cm it should drive back, otherwise forward.
 fehler: 3
 besser: } else {
-> The no branch is called `else`.
+> The false branch is called `else`.
 
 runde:
     while (mbot.getDistance() > 15) {
@@ -179,10 +179,10 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] It drives forward.
 - [ ] It stays where it is.
 > 8 is less than 10, so the first condition is already true.
-? What is the No branch of a branch called in Java?
+? What is the false branch of a branch called in Java?
 → Now in Java
 - [ ] `then`
 - [x] `else`
 - [ ] `otherwise`
-> `if` is the start, `else` the No branch.
+> `if` is the start, `else` the false branch.
 :::

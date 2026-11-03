@@ -84,7 +84,7 @@ The data type says what kind of value may be stored in the variable.
 There are more data types. You will soon need one of them: `char` for a **single character**, e.g. `char grade = 'C'`. A `char` goes in **single** quotation marks. You will get to know it better in lesson 17.
 
 ::: diagramm l05-datentypen.visustruct
-Three variables with different data types. Open the diagram and start the simulation.
+Three variables with different data types. Open the diagram and start the [simulation](#zeige-simulation).
 :::
 
 You mostly meet truth values in **conditions**: `age >= 18` is either `true` or `false`. That is what lesson 8 is about. A variable of type `boolean` simply gets `true` or `false`:
@@ -130,6 +130,17 @@ You know **division with remainder** from primary school, before you learned abo
 If the remainder is 0, the division works out exactly. Later you use this to check whether a number is even: for even numbers, `number % 2` is 0.
 
 **Multiplication and division come before addition and subtraction**, and brackets are worked out first: `2 * (3 + 4)` is 14.
+
+### Output text and result together
+
+A result on its own says little. With `+` you join a text and the value of a variable:
+
+```
+int age = 14
+output: "Age: " + age
+```
+
+This shows **Age: 14**. The text in quotation marks appears exactly as written; for `age` the computer puts in the value. The space after the colon belongs to the text, otherwise you get `Age:14`.
 
 ## Exercise: Rectangle
 

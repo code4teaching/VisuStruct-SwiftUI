@@ -40,7 +40,7 @@ messwerte: getDistance=10, getLine=0 -> none
 messwerte: getDistance=50, getLine=6 -> none
 braucht: verzweigung
 tipp: Zieh den Sensor **Abstand** auf die Verzweigung und schreib `> 15` dahinter. Dann tippst du ` && ` und den zweiten Teil `mbot.getLine() == 0`.
-tipp: Im Ja-Zweig steht **fahre vor**, der Nein-Zweig bleibt leer.
+tipp: Im true-Zweig steht **fahre vor**, der false-Zweig bleibt leer.
 lösung: vb-und-loesung.visustruct
 :::
 
@@ -65,7 +65,7 @@ messwerte: isButtonA=false, isButtonB=true -> tone
 messwerte: isButtonA=false, isButtonB=false -> noTone
 braucht: verzweigung
 tipp: Die Bedingung der Verzweigung ist `mbot.isButtonA() || mbot.isButtonB()`.
-tipp: Im Ja-Zweig steht `mbot.playTone(440, 300)`, der Nein-Zweig bleibt leer.
+tipp: Im true-Zweig steht `mbot.playTone(440, 300)`, der false-Zweig bleibt leer.
 lösung: vb-oder-loesung.visustruct
 :::
 

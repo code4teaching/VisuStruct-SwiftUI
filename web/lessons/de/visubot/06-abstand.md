@@ -31,7 +31,7 @@ Der [Ultraschallsensor]{teil=ultrasonic} schickt einen sehr hohen Ton los und wa
 
 Der mBot2 soll wie ein Hund an der Leine sein: Ist deine Hand zu nah (unter 10 cm), weicht er zurück. Ist sie zu weit weg (über 20 cm), kommt er näher. Dazwischen bleibt er stehen.
 
-Dafür brauchst du zwei Verzweigungen ineinander. Die äußere prüft „zu nah?“, die innere im Nein-Zweig prüft „zu weit?“.
+Dafür brauchst du zwei Verzweigungen ineinander. Die äußere prüft „zu nah?“, die innere im false-Zweig prüft „zu weit?“.
 
 ::: übung vb-abstand-halten
 titel: Abstand halten
@@ -40,8 +40,8 @@ messwerte: getDistance=5 -> backward
 messwerte: getDistance=35 -> forward
 messwerte: getDistance=15 -> none
 braucht: verzweigung
-tipp: Zieh eine Verzweigung ins Struktogramm und den Sensor **Abstand** darauf. Schreib `< 10` dahinter. Im Ja-Zweig steht **fahre zurück**.
-tipp: In den Nein-Zweig kommt eine zweite Verzweigung mit `mbot.getDistance() > 20` und **fahre vor** im Ja-Zweig. Ihr Nein-Zweig bleibt leer.
+tipp: Zieh eine Verzweigung ins Struktogramm und den Sensor **Abstand** darauf. Schreib `< 10` dahinter. Im true-Zweig steht **fahre zurück**.
+tipp: In den false-Zweig kommt eine zweite Verzweigung mit `mbot.getDistance() > 20` und **fahre vor** im true-Zweig. Ihr false-Zweig bleibt leer.
 lösung: vb-abstand-halten-loesung.visustruct
 :::
 
@@ -49,7 +49,7 @@ lösung: vb-abstand-halten-loesung.visustruct
 
 ## Jetzt in Java
 
-Im Bereich [Code](#zeige-codelive) siehst du dein Struktogramm schon als Java-Code. Eine Verzweigung heißt dort `if`, der Nein-Zweig `else`:
+Im Bereich [Code](#zeige-codelive) siehst du dein Struktogramm schon als Java-Code. Eine Verzweigung heißt dort `if`, der false-Zweig `else`:
 
 ```java
 if (mbot.getDistance() < 10) {
@@ -134,7 +134,7 @@ runde:
 frage: Unter 10 cm soll er zurückfahren, sonst vorfahren.
 fehler: 3
 besser: } else {
-> Der Nein-Zweig heißt `else`.
+> Der false-Zweig heißt `else`.
 
 runde:
     while (mbot.getDistance() > 15) {
@@ -179,10 +179,10 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] Es fährt vor.
 - [ ] Es bleibt stehen.
 > 8 ist kleiner als 10, also ist schon die erste Bedingung wahr.
-? Wie heißt der Nein-Zweig einer Verzweigung in Java?
+? Wie heißt der false-Zweig einer Verzweigung in Java?
 → Jetzt in Java
 - [ ] `then`
 - [x] `else`
 - [ ] `otherwise`
-> `if` ist der Anfang, `else` der Nein-Zweig.
+> `if` ist der Anfang, `else` der false-Zweig.
 :::

@@ -240,6 +240,12 @@ Then make it better:
 - The tab List shows in its title how many things are on the list: "List (3)". Count along in a `static int` variable and use `setTitleAt`.
 - Extra: a third tab **Help** with a JLabel that explains how the program works.
 
+**You are done when …**
+
+- an entry you type appears in the list tab after the click,
+- an empty field adds nothing to the list,
+- after three entries the tab title shows the count, e.g. “List (3)”.
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

@@ -366,6 +366,13 @@ Dann mach es besser:
 - Das Model achtet selbst auf die Grenzen: nie unter 0 und nie über 10, denn dann ist der Balken voll.
 - Extra: eine dritte View `KonsolenAnzeige`, deren `aktualisieren` mit `System.out.println` „Neuer Wert: 3“ ausgibt. Eine View muss kein Fenster sein.
 
+**Du bist fertig, wenn …**
+
+- **+1**, **−1** und **Reset** richtig zählen,
+- der Zähler nie unter 0 und nie über 10 geht, egal wie oft du klickst,
+- Zahl und Balken immer denselben Wert zeigen,
+- in der Klasse des Model kein `JButton`, `JLabel` oder anderes Swing vorkommt.
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

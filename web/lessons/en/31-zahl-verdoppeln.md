@@ -234,6 +234,12 @@ Put the whole program together:
 
 Extra: a second button “Halve” divides the number by 2. What happens with 5?
 
+**You are done when …**
+
+- the title is “Double the number” and label, text field and button are stacked,
+- 2 becomes 4, 8 and 16 after three clicks,
+- with “abc” a hint appears in the label and the program keeps running.
+
 ::: ludwig
 The “Halve” button goes into the GridLayout as the fourth row and gets its own ActionListener. With `int`, Java cuts off the decimal places when dividing.
 :::

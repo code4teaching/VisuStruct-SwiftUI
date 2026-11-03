@@ -232,6 +232,12 @@ Baue den Rechner fertig:
 
 Zusatz: Ein fünfter Knopf **C** leert beide Felder und setzt das Ergebnis wieder auf „?“.
 
+**Du bist fertig, wenn …**
+
+- 7 und 2 bei +, −, * und / die Ergebnisse 9, 5, 14 und 3 zeigen,
+- 7 / 0 „Nicht durch 0!“ meldet,
+- bei „abc“ oder einem leeren Feld „Bitte zwei Zahlen eingeben“ erscheint und nichts abstürzt.
+
 ::: ludwig
 Für „abc“ brauchst du in jedem Zuhörer ein try/catch mit `NumberFormatException`. Hinter einem `try` dürfen auch zwei `catch` stehen, einer für `NumberFormatException` und einer für `ArithmeticException`. Ein leeres Feld liefert übrigens den Text `""`, und auch der ist keine Zahl.
 :::

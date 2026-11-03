@@ -191,6 +191,12 @@ Constrói o contador de cliques com três botões:
 
 Experimenta se os três botões contam como esperado. Depois tira o `static` da classe `Mais` e lê a mensagem de erro do javac.
 
+**Terminaste quando …**
+
+- **+1** conta para cima, **-1** para baixo e **Reset** põe 0,
+- o código tem exatamente uma classe interna com nome, uma classe anónima e uma lambda,
+- leste a mensagem de erro do javac sem `static` em `Plus` e consegues explicar o que significa.
+
 ## Lista de verificação
 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.

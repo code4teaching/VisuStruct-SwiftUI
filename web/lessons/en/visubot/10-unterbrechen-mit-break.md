@@ -26,7 +26,7 @@ auftrag: Build an endless loop. Inside it a branch checks: if the distance is le
 welt: wand-kurz -> tone
 welt: wand-mittel -> tone
 braucht: endlosschleife, aussprung
-tipp: Drag the **endless loop** into the structogram. First a branch with `mbot.getDistance() < 15` goes into the loop, the **Break** into its yes branch, the no branch stays empty.
+tipp: Drag the **endless loop** into the structogram. First a branch with `mbot.getDistance() < 15` goes into the loop, the **Break** into its true branch, the false branch stays empty.
 tipp: Below the branch (inside the loop) goes **drive forward**, below the loop `mbot.playTone(440, 300)`.
 lösung: vb-notbremse-loesung.visustruct
 :::

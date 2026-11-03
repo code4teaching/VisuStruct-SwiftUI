@@ -294,6 +294,12 @@ Agora terminas a tarefa: constrói uma janela com um botão “Clica-me” de ta
 
 Extra: constrói dois botões “Vermelho” e “Azul”. Um clique num botão escreve o seu nome no título da janela, por exemplo “Escolheste Vermelho”.
 
+**Terminaste quando …**
+
+- o botão diz “Clica-me” antes do clique,
+- depois do clique diz “Fui clicado”,
+- o botão não enche a janela toda.
+
 ::: ludwig
 Cada botão recebe o seu próprio ouvinte, com o seu próprio `addActionListener`. O título mudas com `janela.setTitle(…)`.
 :::
