@@ -33,6 +33,22 @@ describe('mBot2', () => {
     expect(substituteMBotSensors('mbot.unknown()', () => 1)).toBe('mbot.unknown()')
   })
 
+  it('überlädt forward und backward mit Einheit', () => {
+    const state = run(main(`    mbot.forward(2, "Umdrehungen");\n    mbot.forward(30, "cm");\n    mbot.backward(1, "rotations");\n    mbot.forward(15);`))
+    expect(state.robotActions.map((a) => a.python)).toEqual(['mbot2.straight(40.84)', 'mbot2.straight(30)', 'mbot2.straight(-20.42)', 'mbot2.straight(15)'])
+    expect(state.robotActions[0].label).toBe('2 Umdrehungen vorwärts (40.84 cm)')
+    expect(state.robotActions[2].label).toBe('1 rotation rückwärts (20.42 cm)')
+    expect(driveSignature(state.robotActions)).toEqual(['forward 65.42'])
+  })
+
+  it('meldet eine unbekannte Einheit', () => {
+    const parsed = parseLiveJava(main('    mbot.forward(2, "Meter");'), labels, {})
+    const engine = new SimulationEngine(documentFromJava({ caption: '', elements: [] }, parsed))
+    for (let i = 0; i < 100 && engine.canStep; i++) engine.step()
+    expect(engine.state.isHalted).toBe(true)
+    expect(engine.message).toContain('Umdrehungen')
+  })
+
   it('fährt ein Quadrat und merkt sich die Python-Zeilen', () => {
     const state = run(main(`    for (int i = 0; i < 4; i++) {\n      mbot.forward(20);\n      mbot.turnRight(90);\n    }`))
     expect(state.robotActions.map((a) => a.python)).toEqual(Array(4).fill(['mbot2.straight(20)', 'mbot2.turn(90)']).flat())

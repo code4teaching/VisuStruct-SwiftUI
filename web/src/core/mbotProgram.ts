@@ -1,5 +1,5 @@
 import { generateCode } from './codeGenerator'
-import { MBOT_LED_COLORS, MBOT_SENSORS } from './mbot'
+import { MBOT_LED_COLORS, MBOT_SENSORS, MBOT_WHEEL_DIAMETER_CM } from './mbot'
 import type { VSDocument } from './model'
 import { parseSubprogramHeader } from './simulation'
 
@@ -29,7 +29,7 @@ function prelude(language: string): string {
   const words = Object.entries(COLOR_WORDS)
     .map(([en, de]) => `    ${JSON.stringify(en)}: ${JSON.stringify(language === 'de' ? de : en)},\n`)
     .join('')
-  return `import event, time, cyberpi, mbot2, mbuild
+  return `import event, time, math, cyberpi, mbot2, mbuild
 
 FARBEN = {
 ${colors}}
@@ -47,12 +47,19 @@ class Led:
         cyberpi.led.on(r, g, b, id=self.nr + 1)
 
 
-class MBot:
-    def forward(self, cm=10):
-        mbot2.straight(cm)
+def strecke(wert, einheit):
+    # Überladung forward(2, "Umdrehungen"): eine Radumdrehung ist pi * ${MBOT_WHEEL_DIAMETER_CM} cm
+    if einheit.lower() in ("umdrehung", "umdrehungen", "rotation", "rotations", "rotação", "rotações"):
+        return wert * math.pi * ${MBOT_WHEEL_DIAMETER_CM}
+    return wert
 
-    def backward(self, cm=10):
-        mbot2.straight(-cm)
+
+class MBot:
+    def forward(self, wert=10, einheit="cm"):
+        mbot2.straight(strecke(wert, einheit))
+
+    def backward(self, wert=10, einheit="cm"):
+        mbot2.straight(-strecke(wert, einheit))
 
     def turnLeft(self, grad=90):
         mbot2.turn(-grad)

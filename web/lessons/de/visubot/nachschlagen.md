@@ -9,12 +9,16 @@ Der mBot2 fährt geradeaus oder dreht sich auf der Stelle.
 ```
 mbot.forward()          fährt 10 cm nach vorn
 mbot.forward(30)        fährt 30 cm nach vorn
+mbot.forward(2, "Umdrehungen")   die Räder drehen sich 2-mal (≈ 41 cm)
+mbot.backward(1, "Umdrehungen")  eine Radumdrehung zurück (≈ 20 cm)
 mbot.backward(20)       fährt 20 cm zurück
 mbot.turnRight()        dreht sich nach rechts (90°)
 mbot.turnLeft()         dreht sich nach links (90°)
 mbot.turnLeft(45)       dreht sich nur ein bisschen nach links (45°)
 mbot.turnRight(180)     dreht sich ganz um
 ```
+
+> `forward` und `backward` sind **überladen**: gleicher Name, verschiedene Parameter. Als Einheit gehen `"cm"` und `"Umdrehungen"`. Eine Radumdrehung sind etwa 20,4 cm.
 
 > Ohne Zahl fährt er 10 cm oder dreht sich 90°. 90° ist ein rechter Winkel, wie die Ecke von einem Blatt Papier.
 

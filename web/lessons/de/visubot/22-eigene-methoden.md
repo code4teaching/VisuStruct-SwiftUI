@@ -9,6 +9,7 @@ kurz: Eigene Befehle mit Parametern und Rückgabewert schreiben und aufrufen.
 ::: kompetenzen
 - ein Unterprogramm mit Parameter bauen und aufrufen
 - Methoden in Java erkennen
+- eine überladene Methode erkennen und aufrufen
 - eine Methode mit Rückgabewert schreiben
 :::
 
@@ -70,6 +71,52 @@ Im Bereich [Code](#zeige-codelive) siehst du jede Methode in ihrem eigenen Reite
 > Der Wert in den Klammern des Aufrufs wird zum Parameter `seite`.
 :::
 
+## Gleicher Name, andere Parameter: Überladung
+
+Du kennst `mbot.forward()` und `mbot.forward(30)`. Das sind **zwei verschiedene Methoden mit demselben Namen**. Java erkennt am Aufruf, welche gemeint ist: an der **Anzahl** und am **Typ** der Parameter. Das nennt man **Überladung** (englisch *overloading*).
+
+Es gibt noch eine dritte `forward`-Methode. Sie hat zwei Parameter: eine Zahl und eine **Einheit** als Text.
+
+```java
+mbot.forward();                   // 10 cm (Standardwert)
+mbot.forward(30);                 // 30 cm
+mbot.forward(30, "cm");           // 30 cm, Einheit ausdrücklich
+mbot.forward(2, "Umdrehungen");   // die Räder drehen sich zweimal
+```
+
+Eine Radumdrehung ist so weit wie der Umfang des Rads: π · 6,5 cm ≈ 20,4 cm. Zwei Umdrehungen sind also etwa 40,8 cm. Für `mbot.backward` gibt es dieselben drei Varianten.
+
+So sehen die drei Kopfzeilen aus. Der Methodenname ist gleich, die Parameterlisten sind verschieden:
+
+```java
+void forward()
+void forward(int cm)
+void forward(int wert, String einheit)
+```
+
+::: angeberwissen
+`System.out.println` ist auch überladen: Es gibt eine Variante für `int`, eine für `double`, eine für `String` und noch einige mehr. Deshalb kannst du jeden dieser Werte einfach in die Klammern schreiben.
+:::
+
+::: übung vb-ueberladung-umdrehung
+titel: Quadrat mit Umdrehungen
+auftrag: Fahre ein Quadrat, bei dem jede Seite genau **eine Radumdrehung** lang ist. Nimm dafür die überladene Methode `mbot.forward(1, "Umdrehungen")`.
+fahrt: 4 x (forward 20.42, turnRight)
+braucht: forSchleife
+tipp: Eine For-Schleife mit `int i = 0`, `i < 4`, `i++`.
+tipp: Im Inhalt stehen `mbot.forward(1, "Umdrehungen")` und `mbot.turnRight()`.
+lösung: vb-ueberladung-umdrehung-loesung.visustruct
+:::
+
+::: quiz
+? Welche Methode ruft `mbot.forward(3, "Umdrehungen")` auf?
+→ Gleicher Name, andere Parameter: Überladung
+- [ ] `forward()`
+- [ ] `forward(int cm)`
+- [x] `forward(int wert, String einheit)`
+> Java wählt die Variante, deren Parameter passen: zwei Parameter, eine Zahl und ein Text.
+:::
+
 ## Jetzt ohne Roboter: Methode mit Rückgabe
 
 Eine Methode kann auch etwas **ausrechnen** und das Ergebnis zurückgeben. Statt `void` steht dann der Datentyp des Ergebnisses in der Kopfzeile, und `return` gibt den Wert zurück:
@@ -98,5 +145,6 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 ::: checkliste
 - Ich kann ein Unterprogramm mit Parameter bauen und aufrufen. → Ein Unterprogramm für das Quadrat
 - Ich kann Methoden in Java erkennen. → Methoden in Java
+- Ich kann eine überladene Methode erkennen und aufrufen. → Gleicher Name, andere Parameter: Überladung
 - Ich kann eine Methode mit Rückgabewert schreiben. → Jetzt ohne Roboter: Methode mit Rückgabe
 :::
