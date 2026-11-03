@@ -130,6 +130,56 @@ richtig: wahr
 > Nach drei Fahrten steht er auf der Linie, und die Schleife hört auf.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    while (mbot.getLine() != 0) {
+        mbot.forward();
+    }
+    mbot.turnRight(180);
+frage: Soll bis zum schwarzen Rand fahren und dann umkehren.
+fehler: 1
+besser: while (mbot.getLine() == 0) {
+> Er soll fahren, solange **keine** Linie da ist, also `== 0`.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+    }
+    mbot.turnRight();
+frage: Soll bis zum schwarzen Rand fahren und dann umkehren.
+fehler: 4
+besser: mbot.turnRight(180);
+> Umkehren heißt 180°. Ohne Zahl dreht er sich nur 90°.
+
+runde:
+    int schritte = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        schritte = schritte - 1;
+    }
+frage: Soll bis zur Linie fahren und die Schritte zählen.
+fehler: 4
+besser: schritte = schritte + 1;
+> Zählen heißt eins dazu, nicht eins weg.
+
+runde:
+    int schritte = "0";
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        schritte = schritte + 1;
+    }
+frage: Soll bis zur Linie fahren und die Schritte zählen.
+fehler: 1
+besser: int schritte = 0;
+> In Anführungszeichen ist die 0 ein Text. In ein `int` passt nur eine Zahl.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

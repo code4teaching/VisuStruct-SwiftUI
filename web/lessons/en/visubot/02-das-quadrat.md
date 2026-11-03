@@ -207,6 +207,56 @@ frage: How many squares does the mBot2 drive?
 > The inner loop drives one square. The outer loop repeats that twice.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Read what the mBot2 should drive and tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(50);
+        mbot.turnRight();
+    }
+frage: Should drive a square with 50 cm sides.
+fehler: 1
+besser: for (int i = 0; i < 4; i++) {
+> A square has four sides. With `i < 3` it only drives three.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+        mbot.turnRight(180);
+    }
+frage: Should drive a square with 50 cm sides.
+fehler: 3
+besser: mbot.turnRight();
+> With 180° it turns round and just drives back and forth. A square needs 90°.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: Should drive a square made of four times five steps.
+fehler: 2
+besser: for (int j = 0; j < 5; j++) {
+> The inner loop needs its own counter `j`.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnLeft(45);
+    }
+frage: Should drive a square with 30 cm sides.
+fehler: 3
+besser: mbot.turnLeft();
+> A square needs right angles, so 90°. Without a number it turns 90°.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

@@ -130,6 +130,56 @@ richtig: true
 > After three drives it is on the line, and the loop stops.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (mbot.getLine() != 0) {
+        mbot.forward();
+    }
+    mbot.turnRight(180);
+frage: Should drive to the black edge and then turn round.
+fehler: 1
+besser: while (mbot.getLine() == 0) {
+> It should drive as long as there is **no** line, so `== 0`.
+
+runde:
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+    }
+    mbot.turnRight();
+frage: Should drive to the black edge and then turn round.
+fehler: 4
+besser: mbot.turnRight(180);
+> Turning round means 180°. Without a number it only turns 90°.
+
+runde:
+    int steps = 0;
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        steps = steps - 1;
+    }
+frage: Should drive to the line and count the steps.
+fehler: 4
+besser: steps = steps + 1;
+> Counting means adding one, not taking one away.
+
+runde:
+    int steps = "0";
+    while (mbot.getLine() == 0) {
+        mbot.forward();
+        steps = steps + 1;
+    }
+frage: Should drive to the line and count the steps.
+fehler: 1
+besser: int steps = 0;
+> In quotation marks, the 0 is a text. Only a number fits into an `int`.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

@@ -172,6 +172,52 @@ richtig: true
 > A isn't pressed, so `!mbot.isButtonA()` is true. The distance part is true as well.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (mbot.getDistance() > 15 || mbot.getLine() == 0) {
+        mbot.forward();
+    }
+    mbot.playTone(440, 300);
+frage: Should drive as long as the way ahead is clear **and** no line comes.
+fehler: 1
+besser: while (mbot.getDistance() > 15 && mbot.getLine() == 0) {
+> With `||` it keeps going if only one part is true, for example over the edge.
+
+runde:
+    if (mbot.isButtonA() && mbot.isButtonB()) {
+        mbot.playTone(440, 300);
+    }
+frage: Should beep when button A **or** button B is pressed.
+fehler: 1
+besser: if (mbot.isButtonA() || mbot.isButtonB()) {
+> "Or" is `||` in Java. With `&&` it only beeps when both are pressed.
+
+runde:
+    while (mbot.isButtonA()) {
+        mbot.pause(100);
+    }
+    mbot.forward(30);
+frage: Should wait until button A is pressed and then set off.
+fehler: 1
+besser: while (!mbot.isButtonA()) {
+> Waiting means: loop as long as A is **not** pressed. The `!` is missing.
+
+runde:
+    if (mbot.getDistance() > 15 & mbot.getLine() == 0) {
+        mbot.forward();
+    }
+frage: Should drive forward if the way ahead is clear and there is no line.
+fehler: 1
+besser: if (mbot.getDistance() > 15 && mbot.getLine() == 0) {
+> "And" is written with two characters: `&&`.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

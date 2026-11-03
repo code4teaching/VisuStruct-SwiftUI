@@ -138,6 +138,50 @@ frage: Ludwig writes `mbot.led(5).setColor("red");`. Which LED lights up?
 > The five LEDs are numbered 0 to 4.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    mbot.led(1).setColor("red");
+    mbot.led(2).setColor("yellow");
+    mbot.led(4).setColor("green");
+frage: Should switch LED 0 red, LED 2 yellow and LED 4 green.
+fehler: 1
+besser: mbot.led(0).setColor("red");
+> The first LED has the number 0.
+
+runde:
+    for (int i = 1; i <= 5; i++) {
+        mbot.led(i).setColor("blue");
+    }
+frage: Should switch all five LEDs blue.
+fehler: 1
+besser: for (int i = 0; i < 5; i++) {
+> The LEDs are numbered 0 to 4. There is no LED 5.
+
+runde:
+    for (int i = 0; i < 5; i++) {
+        mbot.led(i).setColor("blue");
+        mbot.pause(200);
+        mbot.led(0).setColor("off");
+    }
+frage: Running light: each LED goes blue for a moment and then off again.
+fehler: 4
+besser: mbot.led(i).setColor("off");
+> The same LED `i` should go off, not always LED 0.
+
+runde:
+    mbot.led(3).setColor(red);
+frage: Should switch LED 3 red.
+fehler: 1
+besser: mbot.led(3).setColor("red");
+> The colour name is a text and needs quotation marks.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

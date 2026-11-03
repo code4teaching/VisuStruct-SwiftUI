@@ -138,6 +138,47 @@ frage: Was steht auf dem Bildschirm?
 > Die Klammern rechnet Java zuerst aus.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    mbot.showText("Hallo!");
+    mbot.pause(1);
+    mbot.showText("Ich bin VisuBot");
+frage: Soll „Hallo!“ zeigen, eine Sekunde warten und dann „Ich bin VisuBot“ zeigen.
+fehler: 2
+besser: mbot.pause(1000);
+> `pause` zählt in Millisekunden. Eine Sekunde sind 1000.
+
+runde:
+    for (int i = 3; i >= 1; i++) {
+        mbot.showText(i);
+        mbot.pause(1000);
+    }
+frage: Countdown: soll 3, 2, 1 zeigen.
+fehler: 1
+besser: for (int i = 3; i >= 1; i--) {
+> Rückwärts zählen heißt `i--`. Mit `i++` hört die Schleife nie auf.
+
+runde:
+    mbot.showText(Hallo!);
+frage: Soll „Hallo!“ zeigen.
+fehler: 1
+besser: mbot.showText("Hallo!");
+> Text steht in Anführungszeichen.
+
+runde:
+    mbot.showText("Abstand: " - mbot.getDistance());
+frage: Soll zum Beispiel „Abstand: 25“ zeigen.
+fehler: 1
+besser: mbot.showText("Abstand: " + mbot.getDistance());
+> Text und Zahl hängst du mit `+` aneinander.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

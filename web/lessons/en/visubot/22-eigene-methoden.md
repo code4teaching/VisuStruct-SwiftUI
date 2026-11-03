@@ -226,6 +226,51 @@ frage: Which header fits a method that gives back a number?
 > The data type of the result comes before the name. `void` means: no result.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    static void square(int side) {
+        for (int i = 0; i < 4; i++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+    }
+frage: Should drive a square with sides of length `side`.
+fehler: 3
+besser: mbot.forward(side);
+> With `30` every square is the same size, whatever you pass in.
+
+runde:
+    static void centimetres(int rotations) {
+        return rotations * 20;
+    }
+frage: Should give back the distance in cm.
+fehler: 1
+besser: static int centimetres(int rotations) {
+> A method that gives something back needs the data type of the result instead of `void`.
+
+runde:
+    static int centimetres(int rotations) {
+        int cm = rotations * 20;
+    }
+frage: Should give back the distance in cm.
+fehler: 2
+besser: return rotations * 20;
+> The method calculates but gives nothing back. `return` is missing.
+
+runde:
+    mbot.forward(2, rotations);
+frage: Should drive two wheel rotations.
+fehler: 1
+besser: mbot.forward(2, "rotations");
+> The unit is a text and needs quotation marks.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

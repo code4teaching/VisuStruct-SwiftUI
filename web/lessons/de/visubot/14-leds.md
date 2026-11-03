@@ -140,6 +140,55 @@ frage: Welche Farbe siehst du eine Sekunde lang?
 > Ohne **kurz warten** zwischen den Farben ist Rot sofort wieder weg.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.pause(1000);
+    mbot.setLed(255, 200, 0);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 255);
+frage: Soll wie eine Ampel Rot, Gelb und Grün zeigen.
+fehler: 5
+besser: mbot.setLed(0, 255, 0);
+> Grün ist `0, 255, 0`. `0, 0, 255` ist Blau.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.setLed(0, 0, 255);
+        mbot.pause(500);
+        mbot.ledOff;
+        mbot.pause(500);
+    }
+frage: Soll dreimal blau blinken.
+fehler: 4
+besser: mbot.ledOff();
+> Auch ein Befehl ohne Zahl braucht seine Klammern.
+
+runde:
+    mbot.setLed(0, 0, 300);
+    mbot.pause(1000);
+    mbot.ledOff();
+frage: Soll eine Sekunde ganz hell blau leuchten.
+fehler: 1
+besser: mbot.setLed(0, 0, 255);
+> Jede Farbe geht nur von 0 bis 255.
+
+runde:
+    mbot.setLed(255, 255, 255);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 0, 0);
+frage: Soll eine Sekunde weiß leuchten und dann ausgehen.
+fehler: 3
+besser: mbot.ledOff();
+> `setLed` hat genau drei Zahlen: Rot, Grün, Blau. Zum Ausschalten gibt es `mbot.ledOff()`.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

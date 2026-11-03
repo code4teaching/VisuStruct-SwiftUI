@@ -226,6 +226,51 @@ frage: Welche Kopfzeile passt zu einer Methode, die eine Zahl zurückgibt?
 > Vor dem Namen steht der Datentyp des Ergebnisses. `void` heißt: kein Ergebnis.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    static void quadrat(int seite) {
+        for (int i = 0; i < 4; i++) {
+            mbot.forward(30);
+            mbot.turnRight();
+        }
+    }
+frage: Soll ein Quadrat mit der Seitenlänge `seite` fahren.
+fehler: 3
+besser: mbot.forward(seite);
+> Mit `30` ist jedes Quadrat gleich groß, egal was man übergibt.
+
+runde:
+    static void zentimeter(int umdrehungen) {
+        return umdrehungen * 20;
+    }
+frage: Soll die Strecke in cm zurückgeben.
+fehler: 1
+besser: static int zentimeter(int umdrehungen) {
+> Wer etwas zurückgibt, braucht den Datentyp des Ergebnisses statt `void`.
+
+runde:
+    static int zentimeter(int umdrehungen) {
+        int cm = umdrehungen * 20;
+    }
+frage: Soll die Strecke in cm zurückgeben.
+fehler: 2
+besser: return umdrehungen * 20;
+> Die Methode rechnet, gibt aber nichts zurück. Es fehlt `return`.
+
+runde:
+    mbot.forward(2, Umdrehungen);
+frage: Soll zwei Radumdrehungen weit fahren.
+fehler: 1
+besser: mbot.forward(2, "Umdrehungen");
+> Die Einheit ist ein Text und braucht Anführungszeichen.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

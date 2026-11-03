@@ -145,6 +145,56 @@ frage: Why doesn't this code run?
 > The do-while loop ends with `} while (condition);`.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() < 15);
+frage: Should drive forward at least once, and keep going as long as the wall is more than 15 cm away.
+fehler: 3
+besser: } while (mbot.getDistance() > 15);
+> "More than 15 cm" means `> 15`.
+
+runde:
+    do
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Should drive forward at least once, and keep going as long as the wall is more than 15 cm away.
+fehler: 1
+besser: do {
+> The opening curly bracket after `do` is missing.
+
+runde:
+    int steps = 0;
+    do {
+        mbot.forward();
+        steps + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Steps: " + steps);
+frage: Should count the steps and show them at the end.
+fehler: 4
+besser: steps = steps + 1;
+> `steps + 1` only calculates, it doesn't store anything. The result has to go back into `steps` with `=`.
+
+runde:
+    int steps = 0;
+    do {
+        mbot.forward();
+        steps = steps + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Steps: " + Steps);
+frage: Should count the steps and show them at the end.
+fehler: 6
+besser: mbot.showText("Steps: " + steps);
+> Java tells capital and small letters apart. There is no `Steps`.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

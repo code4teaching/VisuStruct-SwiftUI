@@ -138,6 +138,50 @@ frage: Ludwig schreibt `mbot.led(5).setColor("rot");`. Welche LED leuchtet?
 > Die fünf LEDs haben die Nummern 0 bis 4.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    mbot.led(1).setColor("rot");
+    mbot.led(2).setColor("gelb");
+    mbot.led(4).setColor("grün");
+frage: Soll LED 0 rot, LED 2 gelb und LED 4 grün schalten.
+fehler: 1
+besser: mbot.led(0).setColor("rot");
+> Die erste LED hat die Nummer 0.
+
+runde:
+    for (int i = 1; i <= 5; i++) {
+        mbot.led(i).setColor("blau");
+    }
+frage: Soll alle fünf LEDs blau schalten.
+fehler: 1
+besser: for (int i = 0; i < 5; i++) {
+> Die LEDs haben die Nummern 0 bis 4. Eine LED 5 gibt es nicht.
+
+runde:
+    for (int i = 0; i < 5; i++) {
+        mbot.led(i).setColor("blau");
+        mbot.pause(200);
+        mbot.led(0).setColor("aus");
+    }
+frage: Lauflicht: Jede LED geht kurz blau an und wieder aus.
+fehler: 4
+besser: mbot.led(i).setColor("aus");
+> Ausgehen soll dieselbe LED `i`, nicht immer LED 0.
+
+runde:
+    mbot.led(3).setColor(rot);
+frage: Soll LED 3 rot schalten.
+fehler: 1
+besser: mbot.led(3).setColor("rot");
+> Der Farbname ist ein Text und braucht Anführungszeichen.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

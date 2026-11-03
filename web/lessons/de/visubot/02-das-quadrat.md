@@ -207,6 +207,56 @@ frage: Wie viele Quadrate fährt der mBot2?
 > Die innere Schleife fährt ein Quadrat. Die äußere wiederholt das zweimal.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Lies, was der mBot2 fahren soll, und tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.forward(50);
+        mbot.turnRight();
+    }
+frage: Soll ein Quadrat mit 50 cm Seitenlänge fahren.
+fehler: 1
+besser: for (int i = 0; i < 4; i++) {
+> Ein Quadrat hat vier Seiten. Mit `i < 3` fährt er nur drei.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(50);
+        mbot.turnRight(180);
+    }
+frage: Soll ein Quadrat mit 50 cm Seitenlänge fahren.
+fehler: 3
+besser: mbot.turnRight();
+> Mit 180° kehrt er um und fährt immer hin und her. Ein Quadrat braucht 90°.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
+            mbot.forward();
+        }
+        mbot.turnRight();
+    }
+frage: Soll ein Quadrat aus viermal fünf Schritten fahren.
+fehler: 2
+besser: for (int j = 0; j < 5; j++) {
+> Die innere Schleife braucht ihre eigene Zählvariable `j`.
+
+runde:
+    for (int i = 0; i < 4; i++) {
+        mbot.forward(30);
+        mbot.turnLeft(45);
+    }
+frage: Soll ein Quadrat mit 30 cm Seitenlänge fahren.
+fehler: 3
+besser: mbot.turnLeft();
+> Ein Quadrat braucht rechte Winkel, also 90°. Ohne Zahl dreht er sich 90°.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

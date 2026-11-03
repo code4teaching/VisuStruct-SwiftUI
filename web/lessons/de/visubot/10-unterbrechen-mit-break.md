@@ -139,6 +139,63 @@ frage: Du drückst Taste A, nachdem er zweimal vorgefahren ist. Wie oft ist er v
 > Beim nächsten Durchgang merkt er die Taste und springt aus der Schleife.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    while (true) {
+        if (mbot.getDistance() > 15) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Soll vorfahren und an der Wand mit der Notbremse anhalten.
+fehler: 2
+besser: if (mbot.getDistance() < 15) {
+> Die Notbremse soll greifen, wenn die Wand **nah** ist.
+
+runde:
+    while (true) {
+        if (mbot.isButtonB()) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.showText("Gestoppt");
+frage: Soll vorfahren, bis Taste A gedrückt wird, und dann „Gestoppt“ zeigen.
+fehler: 2
+besser: if (mbot.isButtonA()) {
+> Gebremst werden soll mit Taste A, nicht mit B.
+
+runde:
+    while (true) {
+        if (mbot.isButtonA()) {
+            brake;
+        }
+        mbot.forward();
+    }
+frage: Soll vorfahren, bis Taste A gedrückt wird.
+fehler: 3
+besser: break;
+> Der Aussprung heißt `break`, nicht `brake`.
+
+runde:
+    while (false) {
+        if (mbot.isButtonA()) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Soll in einer Endlosschleife fahren, bis Taste A gedrückt wird.
+fehler: 1
+besser: while (true) {
+> Die Endlosschleife heißt `while (true)`. Mit `false` läuft sie kein einziges Mal.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

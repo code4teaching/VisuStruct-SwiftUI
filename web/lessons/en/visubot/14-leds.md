@@ -140,6 +140,55 @@ frage: Which colour do you see for one second?
 > Without **wait a moment** between the colours, red is gone immediately.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    mbot.setLed(255, 0, 0);
+    mbot.pause(1000);
+    mbot.setLed(255, 200, 0);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 255);
+frage: Should show red, yellow and green like a traffic light.
+fehler: 5
+besser: mbot.setLed(0, 255, 0);
+> Green is `0, 255, 0`. `0, 0, 255` is blue.
+
+runde:
+    for (int i = 0; i < 3; i++) {
+        mbot.setLed(0, 0, 255);
+        mbot.pause(500);
+        mbot.ledOff;
+        mbot.pause(500);
+    }
+frage: Should flash blue three times.
+fehler: 4
+besser: mbot.ledOff();
+> A command without a number still needs its brackets.
+
+runde:
+    mbot.setLed(0, 0, 300);
+    mbot.pause(1000);
+    mbot.ledOff();
+frage: Should shine bright blue for one second.
+fehler: 1
+besser: mbot.setLed(0, 0, 255);
+> Each colour only goes from 0 to 255.
+
+runde:
+    mbot.setLed(255, 255, 255);
+    mbot.pause(1000);
+    mbot.setLed(0, 0, 0, 0);
+frage: Should shine white for one second and then go off.
+fehler: 3
+besser: mbot.ledOff();
+> `setLed` has exactly three numbers: red, green, blue. To switch off there is `mbot.ledOff()`.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

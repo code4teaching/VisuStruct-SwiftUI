@@ -145,6 +145,56 @@ frage: Warum läuft dieser Code nicht?
 > Die Do-while-Schleife endet mit `} while (Bedingung);`.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    do {
+        mbot.forward();
+    } while (mbot.getDistance() < 15);
+frage: Soll mindestens einmal vorfahren und weiter, solange die Wand mehr als 15 cm weg ist.
+fehler: 3
+besser: } while (mbot.getDistance() > 15);
+> „Mehr als 15 cm“ heißt `> 15`.
+
+runde:
+    do
+        mbot.forward();
+    } while (mbot.getDistance() > 15);
+frage: Soll mindestens einmal vorfahren und weiter, solange die Wand mehr als 15 cm weg ist.
+fehler: 1
+besser: do {
+> Hinter `do` fehlt die öffnende geschweifte Klammer.
+
+runde:
+    int schritte = 0;
+    do {
+        mbot.forward();
+        schritte + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Schritte: " + schritte);
+frage: Soll die Schritte zählen und am Ende anzeigen.
+fehler: 4
+besser: schritte = schritte + 1;
+> `schritte + 1` rechnet nur, speichert aber nichts. Das Ergebnis muss mit `=` zurück in `schritte`.
+
+runde:
+    int schritte = 0;
+    do {
+        mbot.forward();
+        schritte = schritte + 1;
+    } while (mbot.getDistance() > 15);
+    mbot.showText("Schritte: " + Schritte);
+frage: Soll die Schritte zählen und am Ende anzeigen.
+fehler: 6
+besser: mbot.showText("Schritte: " + schritte);
+> Java unterscheidet Groß- und Kleinschreibung. `Schritte` gibt es nicht.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

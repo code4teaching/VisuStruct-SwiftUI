@@ -167,6 +167,55 @@ frage: What value does `average` have?
 > The sum is 100, and 100 / 5.0 is 20.0.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+    for (int i = 0; i <= tones.length; i++) {
+        mbot.playTone(tones[i], 300);
+    }
+frage: Should play all five tones.
+fehler: 2
+besser: for (int i = 0; i < tones.length; i++) {
+> With `<=` the loop also tries to play `tones[5]`. That slot doesn't exist.
+
+runde:
+    int[] tones = {262, 294, 330, 349, 392};
+    for (int i = 0; i < tones.length; i++) {
+        mbot.playTone(tones, 300);
+    }
+frage: Should play all five tones.
+fehler: 3
+besser: mbot.playTone(tones[i], 300);
+> One slot is played, `tones[i]`, not the whole array.
+
+runde:
+    String[] colours = {"red", "yellow", "green", "blue", "purple"};
+    for (int i = 0; i < colours.length(); i++) {
+        mbot.led(i).setColor(colours[i]);
+    }
+frage: Should give each LED a colour from the array.
+fehler: 2
+besser: for (int i = 0; i < colours.length; i++) {
+> Arrays have `length` without brackets. Only `length()` for Strings needs brackets.
+
+runde:
+    int[] values = new int[5];
+    int sum = 0;
+    for (int i = 0; i < values.length; i++) {
+        sum = values[i];
+    }
+frage: Should add up all the measurements.
+fehler: 4
+besser: sum = sum + values[i];
+> Like this, only the last value ends up in `sum`. The new value has to be added on.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

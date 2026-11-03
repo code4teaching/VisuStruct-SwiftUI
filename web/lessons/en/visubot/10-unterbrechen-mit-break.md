@@ -139,6 +139,63 @@ frage: You press button A after it has driven forward twice. How often has it dr
 > In the next run it notices the button and jumps out of the loop.
 :::
 
+## Game: Defuse the bomb
+
+::: spiel bombe
+titel: Game: Defuse the bomb
+intro: Every program contains **exactly one mistake**, and the bomb is ticking. Tap the wrong line before time runs out. Four rounds, 30 seconds each.
+zeit: 30
+
+runde:
+    while (true) {
+        if (mbot.getDistance() > 15) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Should drive forward and stop at the wall with the emergency brake.
+fehler: 2
+besser: if (mbot.getDistance() < 15) {
+> The emergency brake should kick in when the wall is **close**.
+
+runde:
+    while (true) {
+        if (mbot.isButtonB()) {
+            break;
+        }
+        mbot.forward();
+    }
+    mbot.showText("Stopped");
+frage: Should drive forward until button A is pressed, then show "Stopped".
+fehler: 2
+besser: if (mbot.isButtonA()) {
+> The brake should be button A, not B.
+
+runde:
+    while (true) {
+        if (mbot.isButtonA()) {
+            brake;
+        }
+        mbot.forward();
+    }
+frage: Should drive forward until button A is pressed.
+fehler: 3
+besser: break;
+> The exit is called `break`, not `brake`.
+
+runde:
+    while (false) {
+        if (mbot.isButtonA()) {
+            break;
+        }
+        mbot.forward();
+    }
+frage: Should drive in an endless loop until button A is pressed.
+fehler: 1
+besser: while (true) {
+> The endless loop is `while (true)`. With `false` it doesn't run even once.
+:::
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

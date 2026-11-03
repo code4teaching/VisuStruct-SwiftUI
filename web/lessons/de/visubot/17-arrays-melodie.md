@@ -167,6 +167,55 @@ frage: Welchen Wert hat `mittelwert`?
 > Die Summe ist 100, und 100 / 5.0 ist 20.0.
 :::
 
+## Spiel: Bombe entschärfen
+
+::: spiel bombe
+titel: Spiel: Bombe entschärfen
+intro: In jedem Programm steckt **genau ein Fehler**, und die Bombe tickt. Tippe auf die falsche Zeile, bevor die Zeit abläuft. Vier Runden, je 30 Sekunden.
+zeit: 30
+
+runde:
+    int[] toene = {262, 294, 330, 349, 392};
+    for (int i = 0; i <= toene.length; i++) {
+        mbot.playTone(toene[i], 300);
+    }
+frage: Soll alle fünf Töne spielen.
+fehler: 2
+besser: for (int i = 0; i < toene.length; i++) {
+> Mit `<=` will die Schleife auch `toene[5]` spielen. Das Fach gibt es nicht.
+
+runde:
+    int[] toene = {262, 294, 330, 349, 392};
+    for (int i = 0; i < toene.length; i++) {
+        mbot.playTone(toene, 300);
+    }
+frage: Soll alle fünf Töne spielen.
+fehler: 3
+besser: mbot.playTone(toene[i], 300);
+> Gespielt wird ein Fach, `toene[i]`, nicht das ganze Array.
+
+runde:
+    String[] farben = {"rot", "gelb", "grün", "blau", "lila"};
+    for (int i = 0; i < farben.length(); i++) {
+        mbot.led(i).setColor(farben[i]);
+    }
+frage: Soll jeder LED eine Farbe aus dem Array geben.
+fehler: 2
+besser: for (int i = 0; i < farben.length; i++) {
+> Bei Arrays steht `length` ohne Klammern. Klammern braucht nur `length()` bei Strings.
+
+runde:
+    int[] werte = new int[5];
+    int summe = 0;
+    for (int i = 0; i < werte.length; i++) {
+        summe = werte[i];
+    }
+frage: Soll alle Messwerte zusammenzählen.
+fehler: 4
+besser: summe = summe + werte[i];
+> So steht am Ende nur der letzte Wert in `summe`. Der neue Wert muss dazukommen.
+:::
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
