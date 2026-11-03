@@ -15,6 +15,7 @@ import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
 import { papFits, papLayout, parsePap } from '../src/learn/pap'
 import { bombParts, parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
+import { lessonEndProblems } from './lessonEnd'
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
   ...tasks.flatMap((t) => t.blocks.map((block) => ({ where: t.id, block }))),
@@ -40,6 +41,10 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
       expect(game, `${lesson.id}: kein Spiel`).toBeGreaterThanOrEqual(0)
       expect(game, `${lesson.id}: Spiel nach der Checkliste`).toBeLessThan(kinds.indexOf('checklist'))
     }
+  })
+
+  it('jede Lektion endet mit eigenen Schritten für Checkliste und Wissenstest', () => {
+    expect(lessons.flatMap(lessonEndProblems)).toEqual([])
   })
 
   it('jedes verwendete Diagramm existiert und lässt sich laden', () => {

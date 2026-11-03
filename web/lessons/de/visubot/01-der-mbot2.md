@@ -170,78 +170,6 @@ Das Wort kommt vom lateinischen *agere*, „handeln“: Aktoren handeln, Sensore
 
 Dein Programm liest die Sensoren und steuert die Aktoren. Das kennst du schon als Eingabe, Verarbeitung und Ausgabe.
 
-::: quiz
-? Ordne jedes Teil seiner Aufgabe zu.
-→ Hallo mBot2
-= Ultraschallsensor -> misst den Abstand
-= Motoren -> bewegen die Räder
-= CyberPi -> führt das Programm aus
-= Liniensensor -> erkennt eine dunkle Linie
-? Welche Teile sind Aktoren?
-→ Sensoren und Aktoren
-- [x] Motoren
-- [ ] Ultraschallsensor
-- [x] LEDs
-- [ ] Liniensensor
-> Aktoren tun etwas, Sensoren messen etwas.
-:::
-
-::: spiel frage
-titel: Spiel: Sensor oder Aktor?
-intro: Misst das Bauteil etwas, oder tut es etwas? Zehn Runden.
-antworten: Sensor | Aktor
-
-runde:
-frage: Der Ultraschallsensor misst, wie weit die Wand weg ist.
-richtig: Sensor
-> Er misst etwas: den Abstand.
-
-runde:
-frage: Die Motoren drehen die Räder.
-richtig: Aktor
-> Sie tun etwas: Sie bewegen den mBot2.
-
-runde:
-frage: Die LEDs leuchten rot.
-richtig: Aktor
-> Leuchten ist etwas tun, nicht messen.
-
-runde:
-frage: Der Liniensensor erkennt das schwarze Klebeband.
-richtig: Sensor
-> Er misst, wie viel Licht vom Boden zurückkommt.
-
-runde:
-frage: Der Lautsprecher piept.
-richtig: Aktor
-> Er gibt einen Ton aus.
-
-runde:
-frage: Das Mikrofon hört dein Klatschen.
-richtig: Sensor
-> Es misst die Lautstärke.
-
-runde:
-frage: Der Bildschirm zeigt „Hallo VisuBot!“.
-richtig: Aktor
-> Anzeigen ist eine Ausgabe.
-
-runde:
-frage: Taste A merkt, dass du drückst.
-richtig: Sensor
-> Tasten sind Sensoren: Sie melden, ob sie gedrückt sind.
-
-runde:
-frage: Der Lagesensor merkt, dass der mBot2 schief steht.
-richtig: Sensor
-> Er misst die Neigung.
-
-runde:
-frage: Die Ringe am Ultraschallsensor leuchten blau.
-richtig: Aktor
-> Gemein! Das Bauteil ist ein Sensor, aber das Leuchten der Ringe ist eine Ausgabe.
-:::
-
 ## Finde die Bauteile
 
 Jetzt bist du dran: Klicke im Modell auf das gesuchte Teil. Liegst du richtig, kommt die nächste Frage.
@@ -318,6 +246,66 @@ Ist der mBot2 verbunden, erscheint unter der Welt **🔧 mBot2 testen**. Klapp e
 
 Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt etwas nicht. Dann sag deiner Lehrkraft Bescheid, bevor du programmierst.
 
+## Spiel: Sensor oder Aktor?
+
+::: spiel frage
+titel: Spiel: Sensor oder Aktor?
+intro: Misst das Bauteil etwas, oder tut es etwas? Zehn Runden.
+antworten: Sensor | Aktor
+
+runde:
+frage: Der Ultraschallsensor misst, wie weit die Wand weg ist.
+richtig: Sensor
+> Er misst etwas: den Abstand.
+
+runde:
+frage: Die Motoren drehen die Räder.
+richtig: Aktor
+> Sie tun etwas: Sie bewegen den mBot2.
+
+runde:
+frage: Die LEDs leuchten rot.
+richtig: Aktor
+> Leuchten ist etwas tun, nicht messen.
+
+runde:
+frage: Der Liniensensor erkennt das schwarze Klebeband.
+richtig: Sensor
+> Er misst, wie viel Licht vom Boden zurückkommt.
+
+runde:
+frage: Der Lautsprecher piept.
+richtig: Aktor
+> Er gibt einen Ton aus.
+
+runde:
+frage: Das Mikrofon hört dein Klatschen.
+richtig: Sensor
+> Es misst die Lautstärke.
+
+runde:
+frage: Der Bildschirm zeigt „Hallo VisuBot!“.
+richtig: Aktor
+> Anzeigen ist eine Ausgabe.
+
+runde:
+frage: Taste A merkt, dass du drückst.
+richtig: Sensor
+> Tasten sind Sensoren: Sie melden, ob sie gedrückt sind.
+
+runde:
+frage: Der Lagesensor merkt, dass der mBot2 schief steht.
+richtig: Sensor
+> Er misst die Neigung.
+
+runde:
+frage: Die Ringe am Ultraschallsensor leuchten blau.
+richtig: Aktor
+> Gemein! Das Bauteil ist ein Sensor, aber das Leuchten der Ringe ist eine Ausgabe.
+:::
+
+## Checkliste
+
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
 ::: checkliste
@@ -329,4 +317,58 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
 - Ich kann den echten mBot2 per USB-C verbinden und wieder trennen. → Den echten mBot2 verbinden
 - Ich kann prüfen, ob alle Sensoren und Aktoren funktionieren. → Den mBot2 testen
+:::
+
+## Wissenstest
+
+::: quiz
+? Ordne jedes Teil seiner Aufgabe zu.
+→ Hallo mBot2
+= Ultraschallsensor -> misst den Abstand
+= Motoren -> bewegen die Räder
+= CyberPi -> führt das Programm aus
+= Liniensensor -> erkennt eine dunkle Linie
+? Welche Teile sind Aktoren?
+→ Sensoren und Aktoren
+- [x] Motoren
+- [ ] Ultraschallsensor
+- [x] LEDs
+- [ ] Liniensensor
+> Aktoren tun etwas, Sensoren messen etwas.
+? Wie misst der Ultraschallsensor den Abstand?
+→ Der Ultraschallsensor
+- [ ] Er fotografiert die Wand.
+- [x] Er schickt einen sehr hohen Ton los und wartet auf das Echo.
+- [ ] Er tastet die Wand mit seinen blauen Ringen ab.
+> Je länger das Echo braucht, desto weiter ist die Wand weg.
+? Woran erkennt der Liniensensor eine schwarze Linie?
+→ Unter dem Roboter
+- [x] Von der schwarzen Linie kommt wenig Licht zurück.
+- [ ] Die Linie ist wärmer als der Boden.
+- [ ] Er hört, wie die Räder über die Linie rollen.
+> Jeder Fühler leuchtet den Boden an. Heller Boden wirft viel Licht zurück, eine schwarze Linie wenig.
+? Was tut `mbot.turnRight()`?
+→ Befehle für den mBot2
+- [ ] Der mBot2 fährt 10 cm nach rechts.
+- [x] Der mBot2 dreht sich um 90° nach rechts.
+- [ ] Die rechte LED geht an.
+> Ohne Zahl in den Klammern dreht er sich um 90°. `mbot.turnRight(45)` dreht nur 45°.
+? Im Struktogramm stehen fünf Kästen `mbot.forward()` untereinander. Wie weit fährt der mBot2 in der Simulation?
+→ Erste Fahrt
+- [ ] 5 cm
+- [x] 50 cm
+- [ ] 10 cm
+> Jedes `mbot.forward()` fährt 10 cm, also ein Kästchen im Gitter.
+? Du bist mit dem echten mBot2 fertig. Was machst du, bevor du das Kabel ziehst?
+→ Den echten mBot2 verbinden
+- [x] Noch einmal auf **🟢 mBot2** klicken und warten, bis „Bis bald!“ dasteht
+- [ ] Den Schiebeschalter auf OFF schieben
+- [ ] Nichts, das Kabel darf sofort raus
+> Erst nach „Bis bald!“ ist der Anschluss frei.
+? Du hältst die Hand vor den Ultraschallsensor, aber unter **🔧 mBot2 testen** ändert sich der Wert nicht. Was tust du?
+→ Den mBot2 testen
+- [ ] Trotzdem losprogrammieren
+- [x] Der Lehrkraft Bescheid sagen, bevor du programmierst
+- [ ] Den Wert in der Simulation von Hand ändern
+> Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt am Roboter etwas nicht.
 :::
