@@ -55,6 +55,8 @@ export interface SnippetWords {
   doLoop: string
   output: string
   input: string
+  /** VisuBot: `mb` → `mbot` anbieten. */
+  robot?: boolean
 }
 
 export interface JavaEditorHooks {
@@ -451,6 +453,8 @@ export function completions(words: SnippetWords): Completion[] {
       type: 'type',
       boost: -2,
     })),
+    // VisuBot: der Roboter heißt immer `mbot`; danach kommt mit `.` die Befehlsliste.
+    ...(w.robot ? [{ label: 'mbot', detail: 'mBot2', type: 'variable', boost: 3 }] : []),
     ...['Math.random()', 'Math.abs(', 'Math.sqrt(', 'Math.max(', 'Math.min(', '.length()', '.equals('].map((label) => ({ label, type: 'function', boost: -2 })),
   ]
 }
