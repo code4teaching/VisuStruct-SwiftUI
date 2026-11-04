@@ -143,6 +143,14 @@ Statt eines Fehlers in der Konsole sieht man jetzt einen Hinweis im Fenster.
 Der Pfeil hat schon ein `e` für das Ereignis. Deshalb braucht die Exception im `catch` einen anderen Namen, hier `fehler`. Zwei Variablen mit demselben Namen erlaubt Java nicht.
 :::
 
+::: quiz
+? Warum heißt die Exception im `catch` hier `fehler` und nicht `e`?
+- [ ] `catch` verlangt immer den Namen `fehler`.
+- [x] `e` ist schon das Ereignis des Pfeils, und zwei Variablen mit demselben Namen erlaubt Java nicht.
+- [ ] `e` ist nur für Zahlen erlaubt.
+> Den Namen darfst du frei wählen, nur nicht doppelt.
+:::
+
 ## Spiel: Was steht danach im Fenster?
 
 ::: spiel frage

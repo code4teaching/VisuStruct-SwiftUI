@@ -27,6 +27,14 @@ janela.add(botao);
 - `new JButton("Clica-me")` constrói um botão. O texto entre parênteses fica escrito no botão.
 - `janela.add(botao)` põe o botão na janela. Sem `add` o botão existe, mas não está em lado nenhum e não o vês.
 
+::: quiz
+? O que está escrito no botão depois de `new JButton("Iniciar")`?
+- [ ] botao
+- [x] Iniciar
+- [ ] JButton
+> O texto entre parênteses é a legenda. `botao` é só o nome da variável.
+:::
+
 ## O programa completo
 
 As duas linhas ficam **antes** de `setVisible(true)`, porque a janela deve primeiro ficar pronta e só depois ser mostrada:

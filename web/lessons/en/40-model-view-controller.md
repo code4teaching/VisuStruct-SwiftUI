@@ -151,6 +151,14 @@ The model talks to nobody. It waits until it is asked.
 Remember: the model knows nothing about windows. In `Counter` there isn't a single `JLabel` and no `import javax.swing`. If you need Swing there, the code belongs in the view.
 :::
 
+::: quiz
+? Who does the model talk to on its own?
+- [ ] The view
+- [ ] The button
+- [x] Nobody
+> The model waits until the controller asks it.
+:::
+
 ## The pay-off: a second view
 
 Now the count should also show up as a bar. For that a second view joins in. A `JProgressBar` is a bar that fills up, here from 0 to 10:

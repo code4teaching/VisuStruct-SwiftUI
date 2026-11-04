@@ -70,6 +70,14 @@ Der Punkt in `fenster.setSize(…)` bedeutet: „Fenster, mach das!“ Vor dem P
 
 > Ohne `setDefaultCloseOperation` versteckt Java das Fenster beim Schließen nur. Das Programm läuft dann unsichtbar weiter.
 
+::: quiz
+? Was bedeutet der Punkt in `fenster.setSize(300, 200)`?
+- [x] „Fenster, mach das!“: Vor dem Punkt steht, wer etwas tut, dahinter, was es tut.
+- [ ] Er trennt die beiden Zahlen.
+- [ ] Er beendet die Zeile.
+> Vor dem Punkt steht das Objekt `fenster`, dahinter seine Methode `setSize`.
+:::
+
 ## Warum setVisible am Ende steht
 
 `setVisible(true)` zeigt das Fenster so, wie es in diesem Moment ist. Deshalb richtest du zuerst alles ein: Titel, Größe, später auch Knöpfe. Erst ganz am Ende machst du das Fenster sichtbar.

@@ -61,6 +61,14 @@ area.append("Hay\n");
 - `setEditable(false)` stops people from typing into the list itself.
 - `getText()` returns the whole text with all lines.
 
+::: quiz
+? What does `area.append("Hay\n")` do?
+- [ ] It replaces the whole text with “Hay”.
+- [x] It adds “Hay” at the end and then starts a new line.
+- [ ] It writes “Hay\n” into the list exactly like that.
+> `append` adds at the end, `"\n"` is the line break.
+:::
+
 ## From one tab to the other
 
 The button **Add** is on the tab Input, the text area on the tab List. Still, the listener can use both. All building blocks are variables in `main`, and the lambda sees all of them, no matter on which tab they are shown later:

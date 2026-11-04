@@ -27,6 +27,14 @@ window.add(button);
 - `new JButton("Click me")` builds a button. The text in brackets will be written on the button.
 - `window.add(button)` puts the button into the window. Without `add` the button exists, but it is not placed anywhere and you cannot see it.
 
+::: quiz
+? What is written on the button after `new JButton("Start")`?
+- [ ] button
+- [x] Start
+- [ ] JButton
+> The text in brackets is the label. `button` is only the name of the variable.
+:::
+
 ## The whole program
 
 Both lines go **before** `setVisible(true)`, because the window should be set up completely first and then shown:

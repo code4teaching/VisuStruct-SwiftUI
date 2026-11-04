@@ -151,6 +151,14 @@ Das Model redet mit niemandem. Es wartet, bis es gefragt wird.
 Merk dir: Das Model weiß nichts von Fenstern. In `Zaehler` steht kein einziges `JLabel` und kein `import javax.swing`. Wenn du dort Swing brauchst, gehört der Code in die View.
 :::
 
+::: quiz
+? Mit wem redet das Model von sich aus?
+- [ ] Mit der View
+- [ ] Mit dem Knopf
+- [x] Mit niemandem
+> Das Model wartet, bis der Controller es fragt.
+:::
+
 ## Der Gewinn: eine zweite View
 
 Jetzt soll der Zählerstand zusätzlich als Balken erscheinen. Dafür kommt eine zweite View dazu. Ein `JProgressBar` ist ein Balken, der sich füllt, hier von 0 bis 10:

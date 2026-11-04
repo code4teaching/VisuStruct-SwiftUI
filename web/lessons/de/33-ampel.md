@@ -41,6 +41,14 @@ licht.setBackground(Color.RED);
 `opaque` ist englisch für „undurchsichtig“. Eine Beschriftung ist normalerweise durchsichtig wie Schrift auf einer Glasscheibe. Erst mit `setOpaque(true)` bekommt sie eine eigene Fläche, die man anmalen kann.
 :::
 
+::: quiz
+? Welche Zeile malt den Hintergrund der Beschriftung `licht` grün an?
+- [ ] `licht.setText(Color.GREEN);`
+- [x] `licht.setBackground(Color.GREEN);`
+- [ ] `licht.setColor("grün");`
+> Die Hintergrundfarbe setzt `setBackground`. Damit man sie sieht, braucht ein `JLabel` vorher `setOpaque(true)`.
+:::
+
 ## Sich die Farbe merken
 
 Damit die Ampel weiß, was als Nächstes kommt, merkt sie sich ihren Zustand in einer Zahl: 0 heißt Rot, 1 heißt Grün, 2 heißt Gelb. Wie beim Klickzähler aus Lektion 32 steht die Variable in der Klasse, damit der Zuhörer sie ändern darf:

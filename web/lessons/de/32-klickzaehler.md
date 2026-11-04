@@ -60,6 +60,14 @@ public class Zaehler {
 - `static` heißt: Die Variable gehört zur Klasse selbst. Weil `main` auch `static` ist, braucht es das hier.
 - Eine solche Variable nennt man **Attribut** der Klasse. Sie lebt so lange wie das Programm, nicht nur so lange wie `main`.
 
+::: quiz
+? Wie nennt man eine Variable, die direkt in der Klasse steht und nicht in `main`?
+- [ ] Parameter
+- [x] Attribut
+- [ ] Zuhörer
+> Ein Attribut lebt so lange wie das Programm, nicht nur so lange wie `main`.
+:::
+
 ## Das ganze Programm
 
 ```java

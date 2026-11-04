@@ -70,6 +70,14 @@ The dot in `window.setSize(…)` means: “Window, do this!” Before the dot is
 
 > Without `setDefaultCloseOperation`, Java only hides the window when it is closed. The program then keeps running invisibly.
 
+::: quiz
+? What does the dot in `window.setSize(300, 200)` mean?
+- [x] “Window, do this!”: before the dot is who does something, after it what they do.
+- [ ] It separates the two numbers.
+- [ ] It ends the line.
+> Before the dot is the object `window`, after it its method `setSize`.
+:::
+
 ## Why setVisible comes last
 
 `setVisible(true)` shows the window exactly as it is at that moment. So you set everything up first: title, size, and later buttons too. Only at the very end do you make the window visible.

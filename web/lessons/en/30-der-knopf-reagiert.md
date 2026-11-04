@@ -40,6 +40,14 @@ Read from the outside in:
 
 The line comes after `new JButton(…)`, because the button has to exist already. And like everything else it comes before `setVisible(true)`.
 
+::: quiz
+? What does the `e` in `e -> button.setText(…)` stand for?
+- [x] The event, that is the click
+- [ ] “End”
+- [ ] An error
+> You do not need `e` here, but the name has to be there.
+:::
+
 ## The whole program
 
 ```java

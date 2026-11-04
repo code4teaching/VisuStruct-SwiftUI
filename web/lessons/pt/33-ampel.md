@@ -41,6 +41,14 @@ luz.setBackground(Color.RED);
 `opaque` é inglês para “opaco”, ou seja, não transparente. Normalmente uma etiqueta é transparente, como letras escritas num vidro. Só com `setOpaque(true)` ganha uma área própria que se pode pintar.
 :::
 
+::: quiz
+? Que linha pinta de verde o fundo da etiqueta `luz`?
+- [ ] `luz.setText(Color.GREEN);`
+- [x] `luz.setBackground(Color.GREEN);`
+- [ ] `luz.setColor("verde");`
+> A cor de fundo define-se com `setBackground`. Para se ver, um `JLabel` precisa antes de `setOpaque(true)`.
+:::
+
 ## Lembrar a cor
 
 Para o semáforo saber o que vem a seguir, guarda o seu estado num número: 0 é vermelho, 1 é verde, 2 é amarelo. Tal como no contador de cliques da lição 32, a variável fica na classe, para o ouvinte a poder alterar:

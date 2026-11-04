@@ -40,6 +40,14 @@ Von außen nach innen gelesen:
 
 Die Zeile steht nach `new JButton(…)`, denn den Knopf muss es schon geben. Und wie alles andere kommt sie vor `setVisible(true)`.
 
+::: quiz
+? Wofür steht das `e` in `e -> knopf.setText(…)`?
+- [x] Für das Ereignis, also den Klick
+- [ ] Für „Ende“
+- [ ] Für einen Fehler
+> Hier brauchst du `e` nicht, aber der Name muss dastehen.
+:::
+
 ## Das ganze Programm
 
 ```java

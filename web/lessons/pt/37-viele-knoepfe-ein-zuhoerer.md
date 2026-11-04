@@ -83,6 +83,14 @@ for (int i = 1; i <= 9; i++) {
 - Em cada volta nasce um botão novo. Todos recebem o mesmo ouvinte `tecla`.
 - `janela.add(teclas, BorderLayout.CENTER)` põe a área inteira, com todas as teclas, na janela.
 
+::: quiz
+? Quantos botões e quantos ouvintes cria este ciclo?
+- [ ] 9 botões e 9 ouvintes
+- [x] 9 botões e 1 ouvinte
+- [ ] 1 botão e 9 ouvintes
+> Em cada passagem nasce um botão novo. Todos recebem o mesmo ouvinte `tecla`.
+:::
+
 ## O programa completo
 
 ```java

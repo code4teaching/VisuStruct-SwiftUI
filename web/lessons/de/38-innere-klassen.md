@@ -97,6 +97,14 @@ plus.addActionListener(new ActionListener() {
 - Am Ende steht `});`: die geschweifte Klammer schließt die Klasse, die runde den Aufruf von `addActionListener`.
 - Die anonyme Klasse steht **in** `main`. Sie sieht deshalb auch die Variablen von `main`, solange diese sich nicht mehr ändern.
 
+::: quiz
+? Was schließt `});` am Ende der anonymen Klasse?
+- [x] `}` schließt die Klasse, `)` den Aufruf von `addActionListener`.
+- [ ] `}` schließt `main`, `)` die Klasse.
+- [ ] Beides schließt die Methode `actionPerformed`.
+> Die Methode `actionPerformed` endet schon eine Zeile davor mit ihrer eigenen `}`.
+:::
+
 ## 3. Das Lambda
 
 Das Lambda ist die Kurzform der anonymen Klasse, seit Java 8:

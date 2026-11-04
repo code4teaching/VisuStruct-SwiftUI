@@ -83,6 +83,14 @@ for (int i = 1; i <= 9; i++) {
 - Each pass creates a new button. All of them get the same listener `key`.
 - `window.add(keys, BorderLayout.CENTER)` puts the whole area with all the keys into the window.
 
+::: quiz
+? How many buttons and how many listeners does this loop create?
+- [ ] 9 buttons and 9 listeners
+- [x] 9 buttons and 1 listener
+- [ ] 1 button and 9 listeners
+> Each pass adds a new button. All of them get the same listener `key`.
+:::
+
 ## The whole program
 
 ```java

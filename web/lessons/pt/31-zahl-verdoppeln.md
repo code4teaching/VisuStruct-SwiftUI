@@ -143,6 +143,14 @@ Em vez de um erro na consola, vês agora um aviso na janela.
 A seta já tem um `e` para o evento. Por isso a exceção no `catch` precisa de outro nome, aqui `erro`. O Java não permite duas variáveis com o mesmo nome.
 :::
 
+::: quiz
+? Porque é que a exceção no `catch` se chama aqui `erro` e não `e`?
+- [ ] O `catch` exige sempre o nome `erro`.
+- [x] `e` já é o evento da seta, e o Java não permite duas variáveis com o mesmo nome.
+- [ ] `e` só é permitido para números.
+> Podes escolher o nome à vontade, só não pode repetir-se.
+:::
+
 ## Jogo: O que fica na janela?
 
 ::: spiel frage

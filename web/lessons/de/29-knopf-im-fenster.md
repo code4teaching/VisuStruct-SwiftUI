@@ -27,6 +27,14 @@ fenster.add(knopf);
 - `new JButton("Klick mich")` baut einen Knopf. Der Text in Klammern steht später auf dem Knopf.
 - `fenster.add(knopf)` legt den Knopf ins Fenster. Ohne `add` gibt es den Knopf zwar, aber er liegt nirgends und du siehst ihn nicht.
 
+::: quiz
+? Was steht auf dem Knopf nach `new JButton("Start")`?
+- [ ] knopf
+- [x] Start
+- [ ] JButton
+> Der Text in Klammern ist die Beschriftung. `knopf` ist nur der Name der Variable.
+:::
+
 ## Das ganze Programm
 
 Beide Zeilen kommen **vor** `setVisible(true)`, denn das Fenster soll erst fertig eingerichtet und dann gezeigt werden:
