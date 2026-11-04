@@ -6349,7 +6349,7 @@ button.danger-text:not(:disabled) {
 
 /* VisuBot-Befehle nach Gruppen: Streifen links in der Palette, Punkt an der Gruppe und im Nachschlagen.
    Die Kästen bleiben gelb (Anweisung); mit „Blöcke farbig“ aus gehen auch die Streifen aus. */
-[data-bot-color='fahren'], .bot-fahren { --bot: #d96a00; }
+[data-bot-color='fahren'], .bot-fahren { --bot: #c2410c; }
 [data-bot-color='licht'], .bot-licht { --bot: #84cc16; }
 [data-bot-color='ton'], .bot-ton { --bot: #c026d3; }
 [data-bot-color='anzeige'], .bot-anzeige { --bot: #4f46e5; }
