@@ -167,7 +167,7 @@ frage: Wie viele Zeilen „Klick!“ stehen danach in der Konsole?
 > Der Zuhörer läuft bei **jedem** Klick, nicht nur beim ersten. Drei Klicks, drei Zeilen.
 :::
 
-## Profiwissen: ActionListener ist ein Interface
+## ActionListener ist ein Interface
 
 Das steht nicht im Lehrplan. Wenn du wissen willst, was hinter dem Pfeil steckt, lies weiter.
 

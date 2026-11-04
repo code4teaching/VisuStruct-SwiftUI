@@ -31,6 +31,13 @@ Deine Aufgabe:
 3. Schreibe die View `StatistikAnzeige`. Sie zeigt zum Beispiel „Sechsen: 2 von 10 Würfen“.
 4. Der Controller ist der Zuhörer am Knopf: Er lässt das Model würfeln und gibt beiden Views die neuen Werte.
 
+**Du bist fertig, wenn …**
+
+- in der Konsole nach zehn Würfen `wuerfe` gleich 10 ist und `sechsen` zwischen 0 und 10 liegt,
+- jeder Klick auf **Würfeln** eine neue Zahl von 1 bis 6 in der `AugenAnzeige` zeigt,
+- die `StatistikAnzeige` nach jedem Klick einen Wurf mehr zählt und Sechsen richtig mitzählt,
+- im Model kein `JLabel` und in den Views kein `Math.random` steht.
+
 Zusatz: Ein Knopf **Neues Spiel** setzt alles auf Anfang. Die Methode dafür gehört ins Model.
 
 ::: ludwig

@@ -266,7 +266,7 @@ Depois melhora-o:
 - no extra, o visor só mostra estrelas mas o código continua a ser verificado.
 
 ::: ludwig
-Também na calculadora da lição 35 chega um ouvinte para +, -, \* e /. Verifica lá dentro com `e.getActionCommand().equals("+")` que sinal de operação foi clicado.
+No ramo do **OK**, conta `tentativas++` a cada código errado e depois verifica `if (tentativas >= 3)`. Aí `ok.setEnabled(false)` desliga o botão, como no Adivinha o número. Para as estrelas: `entrada = entrada + e.getActionCommand();` e `visor.setText(visor.getText() + "*");`. Depois comparas `entrada`, não o texto do visor.
 :::
 
 ## Lista de verificação

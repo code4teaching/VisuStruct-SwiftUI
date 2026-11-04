@@ -135,7 +135,7 @@ try {
 
 O Java não consegue converter “doze” e lança uma `NumberFormatException`. O programa escreve “Isto não é um número: doze”. Muda a primeira linha para `String entrada = "12";` e executa outra vez: agora aparece “Dobro: 24”.
 
-## Saber de profissional: as exceções são objetos
+## As exceções são objetos
 
 Isto não está no programa da disciplina, mas é útil saber.
 

@@ -123,7 +123,7 @@ divide.addActionListener(e -> {
 With `double` and `Double.parseDouble(…)` you get decimal places: 7 / 2 gives 3.5. In return, Java throws no exception when dividing decimal numbers by 0. The result is then `Infinity`.
 :::
 
-## Expert knowledge: a method of your own
+## A method of your own
 
 This is not in the curriculum, but it makes the code shorter.
 

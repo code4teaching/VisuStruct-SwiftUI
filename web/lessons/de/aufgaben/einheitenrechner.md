@@ -42,6 +42,12 @@ public class Einheiten {
 }
 ```
 
+**Du bist fertig, wenn …**
+
+- 1.5 nach **in cm** „150.0 cm“ zeigt, nach **in mm** „1500.0 mm“,
+- 1500 nach **in km** „1.5 km“ zeigt,
+- „abc“ im Feld „Bitte eine Zahl eingeben“ zeigt und das Fenster offen bleibt.
+
 Zusatz: Ein vierter Knopf **in Fuß** rechnet in die englische Einheit um. Ein Fuß sind 0.3048 m.
 
 ::: ludwig

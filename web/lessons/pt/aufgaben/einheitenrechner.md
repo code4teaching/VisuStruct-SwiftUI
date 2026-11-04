@@ -42,6 +42,12 @@ public class Unidades {
 }
 ```
 
+**Terminaste quando …**
+
+- 1.5 mostra "150.0 cm" depois de **em cm** e "1500.0 mm" depois de **em mm**,
+- 1500 mostra "1.5 km" depois de **em km**,
+- "abc" no campo mostra "Escreve um número" e a janela continua aberta.
+
 Extra: um quarto botão **em pés** converte para a unidade inglesa. Um pé são 0.3048 m.
 
 ::: ludwig

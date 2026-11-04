@@ -82,7 +82,7 @@ Primeiro preparar, depois mostrar. Como no teatro: a cortina só sobe quando o p
 
 Experimenta: apaga a linha com `setVisible(true)` e executa o programa outra vez. O programa corre, mas não vês nenhuma janela.
 
-## Saber de profissional: classes e objetos
+## Classes e objetos
 
 Isto não está no programa da disciplina, mas ajuda-te a perceber o Swing.
 

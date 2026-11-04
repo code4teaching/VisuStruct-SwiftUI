@@ -123,7 +123,7 @@ dividir.addActionListener(e -> {
 Com `double` e `Double.parseDouble(…)` há casas decimais: 7 / 2 dá 3.5. Em contrapartida, com números decimais o Java não lança nenhuma exceção ao dividir por 0. O resultado é então `Infinity`, ou seja, “infinito”.
 :::
 
-## Saber de profissional: um método próprio
+## Um método próprio
 
 Isto não está no programa da disciplina, mas torna o código mais curto.
 
