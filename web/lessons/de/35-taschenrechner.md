@@ -123,6 +123,14 @@ geteilt.addActionListener(e -> {
 Mit `double` und `Double.parseDouble(…)` gibt es Nachkommastellen: 7 / 2 ergibt 3.5. Dafür wirft Java bei Kommazahlen keine Exception beim Teilen durch 0. Das Ergebnis heißt dann `Infinity`, also „unendlich“.
 :::
 
+::: quiz
+? Was zeigt der Rechner bei 8 geteilt durch 0?
+- [ ] 0
+- [ ] Infinity
+- [x] Nicht durch 0!
+> Mit `int` wirft `a / b` eine `ArithmeticException`. Das `catch` fängt sie ab und zeigt den Hinweis.
+:::
+
 ## Eine eigene Methode
 
 Das steht nicht im Lehrplan, macht den Code aber kürzer.

@@ -56,6 +56,14 @@ With 85 points, `points >= 90` is false, but `points >= 80` is true. So grade B,
 
 You can try this part without a window in the [Code](#zeige-codelive) area. Put `int points = 85;` in front of it and `System.out.println("Grade: " + grade);` after it. The structure chart shows you the nested branches.
 
+::: quiz
+? Which grade does the key give for 29 points?
+- [ ] 4
+- [ ] 5
+- [x] 6
+> All conditions are false, even `points >= 30`. Then the `else` branch applies.
+:::
+
 ## The window
 
 ```java

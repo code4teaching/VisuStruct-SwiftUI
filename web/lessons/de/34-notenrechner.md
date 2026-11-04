@@ -59,6 +59,14 @@ Bei 85 Punkten ist `punkte >= 92` falsch, aber `punkte >= 81` wahr. Also Note 2,
 
 Du kannst diesen Teil ohne Fenster im Bereich [Code](#zeige-codelive) ausprobieren. Schreib `int punkte = 85;` davor und `System.out.println("Note: " + note);` dahinter. Das Struktogramm zeigt dir die verschachtelten Verzweigungen.
 
+::: quiz
+? Welche Note ergibt der Schlüssel bei 29 Punkten?
+- [ ] 4
+- [ ] 5
+- [x] 6
+> Alle Bedingungen sind falsch, auch `punkte >= 30`. Dann gilt der `else`-Zweig.
+:::
+
 ## Das Fenster
 
 ```java

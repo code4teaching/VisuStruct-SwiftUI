@@ -51,6 +51,18 @@ tipp: The true branch contains `mbot.turnRight()`, the false branch `mbot.forwar
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 
+In the [Code](#zeige-codelive) area you can also see your structure chart as Java. A branch is called **if** there, and the false branch **else**. The condition goes in round brackets, each branch in curly brackets:
+
+```java
+if (mbot.getDistance() < 20) {
+    mbot.turnRight();
+} else {
+    mbot.forward();
+}
+```
+
+> You don't have to type `if` yourself yet. There is more about it in the lesson on the ultrasonic sensor.
+
 ## What does the sensor give you?
 
 A sensor gives you a **value**, just like a variable. When the mBot2 drives on, the value changes: the distance gets smaller as the wall comes closer. Only a **comparison** turns the value into a question with the answer `true` or `false`.

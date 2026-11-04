@@ -151,6 +151,14 @@ O model não fala com ninguém. Espera até lhe perguntarem.
 Lembra-te: o model não sabe nada de janelas. Em `Contador` não há nenhum `JLabel` nem nenhum `import javax.swing`. Se precisares de Swing ali, o código pertence à view.
 :::
 
+::: quiz
+? Com quem fala o model por iniciativa própria?
+- [ ] Com a view
+- [ ] Com o botão
+- [x] Com ninguém
+> O model espera até o controller lhe perguntar.
+:::
+
 ## A vantagem: uma segunda view
 
 Agora a contagem também deve aparecer como barra. Para isso junta-se uma segunda view. Uma `JProgressBar` é uma barra que se enche, aqui de 0 a 10:

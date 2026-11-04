@@ -60,6 +60,14 @@ public class Counter {
 - `static` means: the variable belongs to the class itself. Because `main` is `static` too, it is needed here.
 - A variable like this is called a **field** of the class. It lives as long as the program, not just as long as `main`.
 
+::: quiz
+? What do you call a variable that sits directly in the class and not in `main`?
+- [ ] A parameter
+- [x] A field
+- [ ] A listener
+> A field lives as long as the program, not just as long as `main`.
+:::
+
 ## The whole program
 
 ```java

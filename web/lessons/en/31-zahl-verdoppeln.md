@@ -143,6 +143,14 @@ Instead of an error in the console, you now see a hint in the window.
 The arrow already has an `e` for the event. That is why the exception in `catch` needs a different name, here `error`. Java doesn't allow two variables with the same name.
 :::
 
+::: quiz
+? Why is the exception in `catch` called `error` here and not `e`?
+- [ ] `catch` always needs the name `error`.
+- [x] `e` is already the event of the arrow, and Java does not allow two variables with the same name.
+- [ ] `e` is only allowed for numbers.
+> You can choose the name freely, just not twice.
+:::
+
 ## Game: What is in the window afterwards?
 
 ::: spiel frage

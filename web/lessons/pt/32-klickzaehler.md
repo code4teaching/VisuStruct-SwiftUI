@@ -60,6 +60,14 @@ public class Contador {
 - `static` quer dizer: a variável pertence à própria classe. Como o `main` também é `static`, aqui é preciso.
 - Uma variável destas chama-se **atributo** da classe. Vive tanto tempo como o programa, e não só enquanto o `main` corre.
 
+::: quiz
+? Como se chama uma variável que está diretamente na classe e não no `main`?
+- [ ] Parâmetro
+- [x] Atributo
+- [ ] Ouvinte
+> Um atributo vive tanto tempo como o programa, e não só enquanto o `main` corre.
+:::
+
 ## O programa completo
 
 ```java

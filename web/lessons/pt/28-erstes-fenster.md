@@ -70,6 +70,14 @@ O ponto em `janela.setSize(…)` quer dizer: “Janela, faz isto!” Antes do po
 
 > Sem `setDefaultCloseOperation`, o Java só esconde a janela quando ela é fechada. O programa continua a correr sem se ver.
 
+::: quiz
+? O que quer dizer o ponto em `janela.setSize(300, 200)`?
+- [x] “Janela, faz isto!”: antes do ponto está quem faz, depois o que faz.
+- [ ] Separa os dois números.
+- [ ] Termina a linha.
+> Antes do ponto está o objeto `janela`, depois o seu método `setSize`.
+:::
+
 ## Porque é que setVisible fica no fim
 
 `setVisible(true)` mostra a janela tal como ela está nesse momento. Por isso preparas tudo primeiro: título, tamanho e, mais tarde, também botões. Só mesmo no fim tornas a janela visível.

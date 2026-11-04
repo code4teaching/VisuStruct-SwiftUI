@@ -97,6 +97,14 @@ plus.addActionListener(new ActionListener() {
 - At the end there is `});`: the curly bracket closes the class, the round one closes the call to `addActionListener`.
 - The anonymous class is **inside** `main`. So it also sees the variables of `main`, as long as they don't change any more.
 
+::: quiz
+? What does `});` close at the end of the anonymous class?
+- [x] `}` closes the class, `)` closes the call of `addActionListener`.
+- [ ] `}` closes `main`, `)` closes the class.
+- [ ] Both close the method `actionPerformed`.
+> The method `actionPerformed` already ends one line earlier with its own `}`.
+:::
+
 ## 3. The lambda
 
 The lambda is the short form of the anonymous class, since Java 8:

@@ -97,7 +97,8 @@ zeit: 30
 runde:
     if (mbot.getDistance() < 10) {
         mbot.forward();
-    } else if (mbot.getDistance() > 20) {
+    }
+    if (mbot.getDistance() > 20) {
         mbot.forward();
     }
 frage: Under 10 cm it should drive back, over 20 cm forward.
