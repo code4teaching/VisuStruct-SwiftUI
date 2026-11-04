@@ -68,6 +68,8 @@ erklärung: Zwei Schleifen, zwei Pfeile zurück nach oben: Beim Rühren führt d
 legende: ja
 :::
 
+**Eigene PAPs zeichnen:** Mit **VisuFlow** zeichnest du deinen PAP ganz leicht selbst. Die Symbole liegen fertig in einer Leiste: Antippen hängt das nächste Symbol an und verbindet es gleich mit einem Pfeil. Zum Start kannst du das Tee-Beispiel laden. Deinen PAP speicherst du als Datei und exportierst ihn als Bild oder PDF, zum Beispiel für dein Heft oder eine Präsentation. [VisuFlow öffnen](https://visustruct.visucode.de/app/?visuflow)
+
 ## Nachteile des PAP: Sprünge
 
 Ein Pfeil im PAP darf von jedem Symbol zu jedem anderen führen. Das klingt praktisch, ist aber gefährlich.

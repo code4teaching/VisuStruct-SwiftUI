@@ -55,6 +55,8 @@ erklärung: Solange noch keine vier Seiten gefahren sind, führt der Pfeil von d
 legende: ja
 :::
 
+**Eigene PAPs zeichnen:** Mit **VisuFlow** zeichnest du deinen PAP ganz leicht selbst, zum Beispiel für deine nächste Roboterfahrt. Die Symbole liegen fertig in einer Leiste: Antippen hängt das nächste Symbol an und verbindet es gleich mit einem Pfeil. Deinen PAP speicherst du als Datei und exportierst ihn als Bild oder PDF, zum Beispiel für dein Heft oder eine Präsentation. [VisuFlow öffnen](https://visustruct.visucode.de/app/?visuflow)
+
 ## Pseudocode
 
 **Pseudocode** ist Text, der wie ein Programm aufgebaut ist, aber in normaler Sprache geschrieben wird. Feste Wörter wie WIEDERHOLE, WENN und SOLANGE zeigen die Bausteine, die **Einrückung** zeigt, was dazugehört. Das Quadrat sieht so aus:

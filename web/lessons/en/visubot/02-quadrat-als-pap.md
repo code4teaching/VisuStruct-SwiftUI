@@ -55,6 +55,8 @@ erklärung: As long as four sides have not been driven yet, the arrow leads from
 legende: ja
 :::
 
+**Draw your own flowcharts:** With **VisuFlow** you can easily draw your own flowchart, for example for your robot's next drive. The symbols are ready in a bar: tapping one adds the next symbol and connects it with an arrow right away. You save your flowchart as a file and export it as an image or PDF, for example for your notebook or a presentation. [Open VisuFlow](https://visustruct.visucode.de/app/?visuflow)
+
 ## Pseudocode
 
 **Pseudocode** is text that is laid out like a program but written in plain language. Fixed words like REPEAT, IF and WHILE show the building blocks, and the **indentation** shows what belongs to them. The square looks like this:
