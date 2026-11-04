@@ -80,6 +80,7 @@ test: 0 -> 0
 braucht: doUntilSchleife
 tipp: You need a variable for the sum that starts at 0 before the loop. In every pass the new number is added.
 tipp: Before the loop, create `int sum = 0` and `int number = 0`. In the loop you ask for `number` and calculate `sum = sum + number`. Adding the 0 does no harm. The loop keeps running as long as `number != 0`.
+tipp: The outline: `int sum = 0` and `int number = 0`, then a do-while loop with the condition `number != 0`. Inside it: the input of `number` and `sum = sum + number`. Below the loop: `output: sum`.
 lösung: l11-summe-loesung.visustruct
 :::
 

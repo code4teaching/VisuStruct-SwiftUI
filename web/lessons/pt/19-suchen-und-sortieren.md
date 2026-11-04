@@ -121,6 +121,7 @@ test: 2, 9, 2, 7, 6 -> 9 | 7 | 6 | 2 | 2
 braucht: forSchleife, verzweigung
 tipp: Olha para a condição na decisão. É ela que decide quando dois vizinhos são trocados.
 tipp: Só precisas de alterar um único caractere. Quando devem ser trocados dois vizinhos, se a carta maior deve ir para a esquerda?
+tipp: Na decisão, troca `cartas[i] > cartas[i + 1]` por `cartas[i] < cartas[i + 1]`. Assim os vizinhos trocam quando a carta maior está à direita, e a carta grande vai para a esquerda.
 lösung: ss-absteigend-loesung.visustruct
 :::
 

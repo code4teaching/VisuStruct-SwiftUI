@@ -148,6 +148,7 @@ test: -5, -2, -9, -1, -3 -> Soma: -20 | Máximo: -1
 braucht: forSchleife, verzweigung
 tipp: Percorre o array com um ciclo. Soma cada valor à soma e guarda o maior valor visto até agora.
 tipp: Calcula a soma e o máximo em variáveis próprias e só os mostra no fim, p. ex. com `output: "Soma: " + soma`. Se o teu máximo começar em 0, o terceiro teste falha.
+tipp: O esqueleto: criar o array e lê-lo com um ciclo. Depois `int soma = 0` e `int max = numeros[0]`. Um segundo ciclo calcula `soma = soma + numeros[i]`, e uma decisão `numeros[i] > max` põe `max = numeros[i]` no ramo true. No fim, as duas saídas.
 lösung: l14-summe-max-loesung.visustruct
 :::
 

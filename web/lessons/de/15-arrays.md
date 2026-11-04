@@ -148,6 +148,7 @@ test: -5, -2, -9, -1, -3 -> Summe: -20 | Maximum: -1
 braucht: forSchleife, verzweigung
 tipp: Gehe das Array mit einer Schleife durch. Zähle jeden Wert zur Summe und merke dir den größten bisher gesehenen Wert.
 tipp: Rechne Summe und Maximum in eigenen Variablen aus und gib sie erst am Ende aus, z. B. mit `output: "Summe: " + summe`. Beginnt dein Maximum bei 0, scheitert der dritte Test.
+tipp: Das Gerüst: Array anlegen und mit einer Schleife einlesen. Dann `int summe = 0` und `int max = zahlen[0]`. Eine zweite Schleife rechnet `summe = summe + zahlen[i]`, und eine Verzweigung `zahlen[i] > max` setzt im true-Zweig `max = zahlen[i]`. Zum Schluss die beiden Ausgaben.
 lösung: l14-summe-max-loesung.visustruct
 :::
 

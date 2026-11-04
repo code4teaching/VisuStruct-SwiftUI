@@ -213,6 +213,48 @@ tipp: Five boxes `mbot.forward()` one below the other. Each drives 10 cm.
 lösung: vb-gerade-loesung.visustruct
 :::
 
+## Game: Where does the mBot2 end up?
+
+::: spiel fahrt
+titel: Game: Where does the mBot2 end up?
+intro: Read the program and tap the field where the mBot2 is at the end. Then it drives the route for you. Each field is 30 cm. Four rounds.
+frage: On which field is the mBot2 at the end?
+
+runde:
+    mbot.forward(60);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..... | ..^..
+ziel: 3,0
+> Two fields forward, turn right, one more field.
+
+runde:
+    mbot.forward(30);
+    mbot.turnLeft();
+    mbot.forward(60);
+karte: ..... | ..... | ..^..
+ziel: 0,1
+> One field forward, then it faces left and drives two fields.
+
+runde:
+    mbot.turnRight();
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..^.. | .....
+ziel: 2,2
+> Turning right twice means it faces backwards. Then it drives one field down.
+
+runde:
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: .... | .... | .^..
+ziel: 2,2
+> Up, to the right, and after the second turn it faces down.
+:::
+
 ## Connecting the real mBot2
 
 ::: mbot2
