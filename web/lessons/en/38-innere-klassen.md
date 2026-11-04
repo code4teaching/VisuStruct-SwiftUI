@@ -191,6 +191,12 @@ Build the click counter with three buttons:
 
 Check that all three buttons count as expected. Then remove the `static` from the class `Plus` and read javac's error message.
 
+**You are done when …**
+
+- **+1** counts up, **-1** counts down and **Reset** sets 0,
+- the code contains exactly one named inner class, one anonymous class and one lambda,
+- you have read javac’s error message without `static` on `Plus` and can explain what it means.
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.

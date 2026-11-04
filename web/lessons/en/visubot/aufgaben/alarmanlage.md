@@ -14,6 +14,6 @@ messwerte: getLoudness=80, isButtonB=false/true -> none, tone
 messwerte: getDistance=100, getLoudness=0, isButtonB=false/true -> none, noTone, ledOff
 braucht: whileSchleife, verzweigung
 tipp: On the outside is a while loop with `!mbot.isButtonB()`. Inside a branch and after it **wait a moment**.
-tipp: The condition of the branch: `mbot.getDistance() < 20 || mbot.getLoudness() > 60`. In the yes branch `mbot.setLed(255, 0, 0)` and `mbot.playTone(880, 200)`, in the no branch `mbot.ledOff()`.
+tipp: The condition of the branch: `mbot.getDistance() < 20 || mbot.getLoudness() > 60`. In the true branch `mbot.setLed(255, 0, 0)` and `mbot.playTone(880, 200)`, in the false branch `mbot.ledOff()`.
 lösung: vb-alarmanlage-loesung.visustruct
 :::

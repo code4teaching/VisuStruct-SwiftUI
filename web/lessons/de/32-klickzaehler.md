@@ -194,6 +194,12 @@ Baue den Klickzähler nach und erweitere ihn:
 - ein Knopf **−1**, der eins herunterzählt,
 - die Zahl soll nie unter 0 fallen. Steht sie auf 0, passiert bei −1 nichts.
 
+**Du bist fertig, wenn …**
+
+- **+1** eins hochzählt und **−1** eins herunterzählt,
+- bei 0 ein Klick auf **−1** nichts ändert,
+- **Reset** die Zahl wieder auf 0 setzt.
+
 ::: ludwig
 Für „nie unter 0“ brauchst du im Zuhörer von −1 ein `if`: Nur wenn `anzahl > 0` ist, wird heruntergezählt.
 :::

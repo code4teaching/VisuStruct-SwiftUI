@@ -20,6 +20,6 @@ auftrag: Eine For-Schleife zählt `zahl` von 0 bis 7. Für jede Zahl leuchtet je
 befehle: ledColor 0 "aus", ledColor 1 "aus", ledColor 2 "aus", pause 1000, ledColor 0 "grün", ledColor 1 "aus", ledColor 2 "aus", pause 1000, ledColor 0 "aus", ledColor 1 "grün", ledColor 2 "aus", pause 1000, ledColor 0 "grün", ledColor 1 "grün", ledColor 2 "aus", pause 1000, ledColor 0 "aus", ledColor 1 "aus", ledColor 2 "grün", pause 1000, ledColor 0 "grün", ledColor 1 "aus", ledColor 2 "grün", pause 1000, ledColor 0 "aus", ledColor 1 "grün", ledColor 2 "grün", pause 1000, ledColor 0 "grün", ledColor 1 "grün", ledColor 2 "grün", pause 1000
 braucht: forSchleife, verzweigung
 tipp: Ob LED 0 an ist, verrät der Rest beim Teilen durch 2: `zahl % 2 == 1`. Für LED 1 teilst du erst durch 2: `zahl / 2 % 2 == 1`. Für LED 2 durch 4: `zahl / 4 % 2 == 1`.
-tipp: In der Schleife stehen drei Verzweigungen und danach **kurz warten**. Im Ja-Zweig zum Beispiel `mbot.led(0).setColor("grün")`, im Nein-Zweig `mbot.led(0).setColor("aus")`.
+tipp: In der Schleife stehen drei Verzweigungen und danach **kurz warten**. Im true-Zweig zum Beispiel `mbot.led(0).setColor("grün")`, im false-Zweig `mbot.led(0).setColor("aus")`.
 lösung: vb-binaer-zaehlen-loesung.visustruct
 :::

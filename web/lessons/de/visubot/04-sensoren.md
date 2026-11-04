@@ -42,12 +42,12 @@ Diese Übung hat **zwei Welten**: In der einen steht die Wand direkt vor ihm, in
 
 ::: übung vb-wand-vorn
 titel: Wand vorn?
-auftrag: Baue eine Verzweigung mit der Bedingung `mbot.getDistance() < 20`. Bei **wahr** dreht sich der mBot2 nach rechts, bei **falsch** fährt er vor.
+auftrag: Baue eine Verzweigung mit der Bedingung `mbot.getDistance() < 20`. Bei **true** dreht sich der mBot2 nach rechts, bei **false** fährt er vor.
 welt: wand-nah -> turnRight
 welt: wand-frei -> forward
 braucht: verzweigung
 tipp: Zieh eine Verzweigung ins Struktogramm und dann den Sensor **Abstand** auf die Verzweigung. Schreib dahinter `< 20`.
-tipp: Im Ja-Zweig steht `mbot.turnRight()`, im Nein-Zweig `mbot.forward()`.
+tipp: Im true-Zweig steht `mbot.turnRight()`, im false-Zweig `mbot.forward()`.
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 

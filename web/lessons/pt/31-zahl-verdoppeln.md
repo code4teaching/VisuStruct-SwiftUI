@@ -234,6 +234,12 @@ Junta o programa todo:
 
 Extra: um segundo botão “Dividir por 2” divide o número por 2. O que acontece com 5?
 
+**Terminaste quando …**
+
+- o título é “Duplicar número” e etiqueta, campo de texto e botão estão uns por baixo dos outros,
+- o 2 passa a 4, 8 e 16 com três cliques,
+- com “abc” aparece um aviso na etiqueta e o programa continua a funcionar.
+
 ::: ludwig
 O botão “Dividir por 2” entra no GridLayout como quarta linha e recebe o seu próprio ActionListener. Com `int`, o Java corta as casas decimais ao dividir.
 :::

@@ -231,6 +231,12 @@ Put the grade calculator together, with both checks from the last step. Test it 
 
 Extra: also write a word for the grade, for example “Grade: B (good)”. The words are excellent, good, satisfactory, poor and fail.
 
+**You are done when …**
+
+- 92 and 100 give a 1, 91 a 2 and 0 a 6,
+- 101 shows the hint to enter 0 to 100,
+- “ten” shows a hint and the program keeps running.
+
 ::: ludwig
 Always test the limits: 90 must be an A, 89 a B. Most mistakes hide at the limits, for example `>` instead of `>=`.
 :::

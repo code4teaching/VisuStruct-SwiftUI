@@ -169,6 +169,13 @@ Build a window with the title “Button test”, 300 by 200 pixels, with a butto
 
 Extra: put a second button “Me too” next to it. In which order are the buttons? Swap the two `add` lines and try again.
 
+**You are done when …**
+
+- the window title says “Button test”,
+- the window is 300 pixels wide and 200 pixels high,
+- the “Click me” button is only as big as its text and does not fill the whole window,
+- the button visibly presses down when you click it.
+
 ::: ludwig
 Every button needs its own variable, for example `button` and `button2`, and its own `add`. FlowLayout places the buttons in the order of the `add` lines.
 :::

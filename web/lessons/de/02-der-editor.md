@@ -59,15 +59,15 @@ Der Kasten aus dem Bereich Elemente heißt **Anweisung**. Oben wählst du, welch
 Für den Anfang brauchst du nur die Ausgabe. Texte, die genau so angezeigt werden sollen, schreibst du in **Anführungszeichen**.
 
 ::: diagramm l2-ausgabe.visustruct
-Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die Simulation, um die Ausgabe zu sehen.
+Zwei Ausgaben nacheinander. Öffne das Diagramm im Editor und starte die [Simulation](#zeige-simulation) in den Werkzeugen, um die Ausgabe zu sehen. Genauer lernst du sie in Lektion 7 kennen.
 :::
 
 ## Verschieben, kopieren, löschen
 
 - **Verschieben:** Einen vorhandenen Kasten mit der Maus an eine neue Stelle ziehen.
-- **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten.
+- **Kopieren und Einfügen:** Kasten auswählen, dann Strg+C und Strg+V (am Mac ⌘C und ⌘V). Die Kopie kommt hinter den ausgewählten Kasten. Ohne Tastatur, zum Beispiel auf dem Tablet, tippst du in den [Werkzeugen](#zeige-werkzeuge) auf **Kopieren** und **Einfügen**.
 - **Löschen:** Kasten auswählen und Entf drücken oder in den Werkzeugen auf den [Mülleimer](#zeige-loeschen) „Auswahl löschen“ klicken.
-- **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z).
+- **Rückgängig:** Strg+Z macht den letzten Schritt rückgängig, Strg+Umschalt+Z stellt ihn wieder her (am Mac ⌘Z und ⌘⇧Z). Ohne Tastatur tippst du in den Werkzeugen auf [Rückgängig](#zeige-rueckgaengig).
 
 ## Übung: Hallo Welt
 

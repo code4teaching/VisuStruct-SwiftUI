@@ -232,6 +232,12 @@ Finish the calculator:
 
 Extra: a fifth button **C** empties both fields and sets the result back to “?”.
 
+**You are done when …**
+
+- 7 and 2 give 9, 5, 14 and 3 for +, −, * and /,
+- 7 / 0 shows the “not by 0” message,
+- “abc” or an empty field shows the “enter two numbers” message and nothing crashes.
+
 ::: ludwig
 For “abc” every listener needs a try/catch with `NumberFormatException`. A `try` may also be followed by two `catch` blocks, one for `NumberFormatException` and one for `ArithmeticException`. By the way, an empty field gives the text `""`, and that isn't a number either.
 :::

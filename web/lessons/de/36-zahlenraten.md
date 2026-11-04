@@ -117,6 +117,12 @@ Baue das Spiel nach und mach es besser:
 
 Zusatz: Nach 7 Fehlversuchen ist das Spiel verloren. Das Fenster verrät dann die geheime Zahl.
 
+**Du bist fertig, wenn …**
+
+- du bei jedem falschen Tipp „zu klein“ oder „zu groß“ siehst,
+- „abc“ den Hinweis „Bitte eine Zahl eingeben“ bringt und die Versuche dabei gleich bleiben,
+- **Neues Spiel** die Versuche auf 0 setzt, den Knopf Raten wieder einschaltet und den Hinweis zurücksetzt.
+
 ::: ludwig
 Für „zählt nicht als Versuch“ muss `versuche++` **hinter** `Integer.parseInt` stehen, beides im `try`-Block. Wirft `parseInt` eine Exception, wird die Zeile mit `versuche++` übersprungen.
 :::

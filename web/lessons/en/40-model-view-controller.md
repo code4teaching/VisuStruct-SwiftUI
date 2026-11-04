@@ -366,6 +366,13 @@ Then make it better:
 - The model itself takes care of the limits: never below 0 and never above 10, because then the bar is full.
 - Extra: a third view `ConsoleView` whose `update` prints "New value: 3" with `System.out.println`. A view doesn't have to be a window.
 
+**You are done when …**
+
+- **+1**, **−1** and **Reset** count correctly,
+- the counter never goes below 0 or above 10, however often you click,
+- number and bar always show the same value,
+- the model class contains no `JButton`, `JLabel` or other Swing.
+
 ## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
