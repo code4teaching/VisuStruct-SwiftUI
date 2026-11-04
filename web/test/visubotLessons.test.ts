@@ -37,7 +37,9 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       expect(l.number, l.id).toBe(i + 1)
       expect(l.section, l.id).not.toBe('VisuBot')
     })
-    expect(new Set(lessons.map((l) => l.section)).size).toBe(4)
+    // vier Teile plus der Ausblick „Wie geht es weiter?“ ganz am Ende
+    expect(new Set(lessons.map((l) => l.section)).size).toBe(5)
+    expect(lessons[lessons.length - 1].id).toBe('23-wie-geht-es-weiter')
     // die neue Lektion „Und, oder, nicht“ steht nach der Linie, ohne dass Dateien umbenannt werden
     const at = (id: string) => lessons.findIndex((l) => l.id === id)
     expect(at('07-und-oder')).toBe(at('07-linie') + 1)
