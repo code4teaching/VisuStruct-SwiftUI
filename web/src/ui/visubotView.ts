@@ -13,6 +13,8 @@ import visuBotLogoURL from './visubot.webp'
  * Welt, gespeichert im Browser: VisuStruct (`0`), VisuBot (`1`), VisuObject (`2`) oder VisuFlow (`3`).
  * Der frühere Modus „Im Kurs“ (`kurs`) gilt jetzt als VisuBot.
  */
+declare const __APP_VERSION__: string
+
 const modeKey = 'visustruct.visubot'
 
 function storedMode(): string | null {
@@ -109,7 +111,8 @@ export function worldTitleHTML(): string {
 /** Marke „VisuCode“ als Link auf visucode.de, wo man ein anderes Programm wählt. */
 export function visucodeLinkHTML(): string {
   return `<p class="visucode-more"><a class="visucode-brand" href="${visucodeURL(currentLanguage())}">Visu<span>Code</span></a>
-      <small>${escapeHTML(t('web_visubot_world_visucode_hint'))}</small></p>`
+      <small>${escapeHTML(t('web_visubot_world_visucode_hint'))}</small>
+      <small class="visucode-credit">${escapeHTML(t('web_about_version_fmt').replace('%@', __APP_VERSION__))} · Holger Sebastiao · <a href="https://www.sebastiao.org" target="_blank" rel="noopener">sebastiao.org</a></small></p>`
 }
 
 /**

@@ -4171,6 +4171,12 @@ button.danger-text:not(:disabled) {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.visucode-more .visucode-credit {
+  margin-top: 4px;
+}
+.visucode-credit a {
+  color: inherit;
+}
 .visucode-brand:hover {
   text-decoration: underline;
 }
