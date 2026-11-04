@@ -765,10 +765,42 @@ button.danger {
   overflow-y: auto;
 }
 .app.simulating {
-  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) 320px;
+  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) var(--sim-width, 320px);
 }
 .app.simulating.visubot-mode {
-  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) min(440px, 45%);
+  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) var(--sim-width, min(440px, 45%));
+}
+/* Linie zwischen Diagramm und Steuerung: zum Ziehen, liegt auf dem linken Rand der Steuerung. */
+.sim-resizer {
+  display: none;
+  grid-area: insp;
+  justify-self: start;
+  width: 10px;
+  margin-inline-start: -5px;
+  z-index: 5;
+  cursor: col-resize;
+  touch-action: none;
+  position: relative;
+}
+.app.simulating .sim-resizer {
+  display: block;
+}
+.sim-resizer::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 4px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.sim-resizer:hover::after,
+.sim-resizer:focus-visible::after,
+.shell.resizing .sim-resizer::after {
+  background: var(--accent);
+}
+.sim-resizer:focus-visible {
+  outline: none;
 }
 .app.simulating .palette,
 .app.simulating .inspector {
@@ -911,6 +943,9 @@ button.sim-toggle {
     border-inline-start: none;
     border-top: 1px solid var(--border);
     max-height: 48vh;
+  }
+  .app.simulating .sim-resizer {
+    display: none;
   }
 }
 

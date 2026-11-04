@@ -233,6 +233,7 @@ const editorWidthKey = 'visustruct.editor.width'
 const collapsedGroupsKey = 'visustruct.visubot.collapsedGroups'
 const previewStackedKey = 'visustruct.robotPreview.stacked'
 const previewWidthKey = 'visustruct.robotPreview.width'
+const simWidthKey = 'visustruct.simulation.width'
 const previewHeightKey = 'visustruct.robotPreview.height'
 const editorHiddenKey = 'visustruct.editor.hidden'
 const compactPaletteKey = 'visustruct.palette.compact'
@@ -620,7 +621,7 @@ export class App {
         if (this.simulating && this.liveCoding) this.live.showTranscript(transcript)
       },
     )
-    this.root.append(this.sim.element)
+    this.root.append(this.sim.element, this.simResizer())
     if (visuBotEnabled()) {
       this.visuBot ??= new VisuBotView()
       this.sim.setRobot(this.visuBot)
@@ -1852,6 +1853,55 @@ export class App {
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
   /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
   /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
+  /**
+   * Linie zwischen Diagramm und Steuerung während der Simulation: Ziehen nach links macht die Steuerung breiter.
+   * Die Breite steht als `--sim-width` am Bereich (Raster-Spalte), Doppelklick stellt den Standard wieder her.
+   */
+  private simResizer(): HTMLElement {
+    const bar = h('div', { class: 'sim-resizer', role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title: t('web_visuobject_resize') })
+    const root = this.root
+    const clamp = (width: number) => {
+      const total = root.getBoundingClientRect().width
+      return Math.round(Math.max(240, total > 0 ? Math.min(width, total - 200) : width))
+    }
+    const apply = (width: number | undefined, remember: boolean) => {
+      if (width === undefined) root.style.removeProperty('--sim-width')
+      else root.style.setProperty('--sim-width', `${clamp(width)}px`)
+      if (remember) storeValue(simWidthKey, width === undefined ? '' : String(clamp(width)))
+    }
+    const saved = Number(storedValue(simWidthKey))
+    if (saved > 0) root.style.setProperty('--sim-width', `${Math.max(240, saved)}px`)
+    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? 1 : -1)
+    bar.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return
+      e.preventDefault()
+      bar.setPointerCapture(e.pointerId)
+      const startX = e.clientX
+      const startWidth = this.sim.element.getBoundingClientRect().width
+      const s = sign()
+      this.shell.classList.add('resizing')
+      const move = (ev: PointerEvent) => apply(startWidth + s * (ev.clientX - startX), false)
+      const up = (ev: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        this.shell.classList.remove('resizing')
+        apply(startWidth + s * (ev.clientX - startX), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowLeft' ? 20 : e.key === 'ArrowRight' ? -20 : 0
+      if (!step) return
+      e.preventDefault()
+      apply(this.sim.element.getBoundingClientRect().width - sign() * step, true)
+    })
+    return bar
+  }
+
   private learnResizer(): HTMLElement {
     return this.panelResizer(this.learn.element, 'learn-resizer', learnWidthKey, t('web_learn_resize'), 1)
   }
