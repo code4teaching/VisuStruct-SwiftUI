@@ -2,7 +2,7 @@ import './ui/styles.css'
 import { App, applyCanvasStubTexts } from './ui/app'
 import { installTooltips } from './ui/tooltip'
 import { preferredLanguage, setCodeKeywords, setLanguage, storedCodeKeywords } from './ui/i18n'
-import { setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuFlowWorld, visuObjectWorld, worldChosen } from './ui/visubotView'
+import { setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuFlowWorld, visuObjectWorld } from './ui/visubotView'
 import { hostWorld } from './ui/site'
 
 // Nach einem Update kann eine noch offene oder zwischengespeicherte Seite Dateien der alten Version
@@ -54,12 +54,14 @@ Promise.all([setLanguage(language, false), setCodeKeywords(storedCodeKeywords(),
     installTooltips()
     // Welten VisuObject (…/app/?visuobject) und VisuFlow (?visuflow) haben eine eigene Oberfläche; ?visustruct und ?visubot wählt die App selbst.
     const query = new URLSearchParams(location.search)
-    // Erster Besuch auf visubot.visucode.de oder visuobject.visucode.de ohne Welt in der Adresse: gleich die Welt der Seite
+    // Auf einer Welt-Subdomain (visubot.visucode.de …) ohne Welt in der Adresse gilt immer die Welt der Seite; gefragt wird nicht.
+    // Auf visustruct.visucode.de darf VisuFlow bleiben (es wohnt dort mit). Ohne Subdomain fragt der Start-Dialog.
     const anyWorld = ['visustruct', 'visubot', 'visuobject', 'visuflow'].some((k) => query.has(k))
-    if (!anyWorld && !worldChosen()) {
-      const site = hostWorld()
+    const site = hostWorld()
+    if (!anyWorld && site) {
       if (site === 'visubot') setVisuBotMode('on')
       else if (site === 'visuobject') setVisuObjectWorld()
+      else if (!visuFlowWorld()) setVisuBotMode('off')
     }
     if (query.has('visuobject')) setVisuObjectWorld()
     if (query.has('visuflow')) setVisuFlowWorld()

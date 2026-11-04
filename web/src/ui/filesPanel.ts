@@ -3,7 +3,8 @@ import { compareEntries, programBaseName, todayFolder, uniqueBaseName, validFold
 import { t } from './i18n'
 import { icons } from './icons'
 import { sidebarIcon } from './learnPanel'
-import { worldChooserHTML, type WorldChoice } from './visubotView'
+import { visucodeLinkHTML, worldBrandHTML, worldChooserHTML, type WorldChoice } from './visubotView'
+import { hostWorld } from './site'
 import {
   browserWorkspace,
   canPickFolder,
@@ -206,13 +207,19 @@ export class FilesPanel {
     const box = document.createElement('div')
     box.className = 'confirm'
     box.innerHTML = `<div class="confirm-card files-ask start-ask" role="dialog" aria-label="${esc(t('web_learn_start_title'))}">
-      <p><strong>${esc(t('web_visubot_world_title'))}</strong></p>
-      <div class="start-world">${worldChooserHTML()}</div>
+      ${
+        // Auf visubot.visucode.de usw. ist die Welt schon gewählt: oben nur ihr Name, dann der Speicherort, unten der Link auf VisuCode.
+        hostWorld()
+          ? `<p class="start-brand">${worldBrandHTML()}</p>`
+          : `<p><strong>${esc(t('web_visubot_world_title'))}</strong></p>
+      <div class="start-world">${worldChooserHTML()}</div>`
+      }
       <p><strong>${esc(t('web_learn_start_title'))}</strong></p>
       <p class="hint">${esc(t('web_learn_start_hint'))}</p>
       ${options.join('')}
       <button type="button" class="start-without" data-start="without">${esc(t('web_learn_start_without'))}</button>
       <p class="hint">${esc(t('web_learn_start_without_hint'))}</p>
+      ${hostWorld() ? visucodeLinkHTML() : ''}
     </div>`
     const close = () => box.remove()
     box.addEventListener('click', (e) => {

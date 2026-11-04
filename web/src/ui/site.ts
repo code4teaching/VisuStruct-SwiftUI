@@ -12,6 +12,12 @@ export function hostWorld(host: string = location.hostname): SiteWorld | undefin
   return m ? (m[1] as SiteWorld) : undefined
 }
 
+/** Startseite von VisuCode (visucode.de): dort wählt man ein anderes Programm (Deutsch in der Wurzel, sonst /en/, /pt/). */
+export function visucodeURL(languageCode: string): string {
+  const lang = siteLanguage(languageCode)
+  return `https://${SITE_DOMAIN}/${lang === 'de' ? '' : `${lang}/`}`
+}
+
 /** Sprachordner der Webseite zur App-Sprache (die Seiten gibt es auf Deutsch, Englisch und Portugiesisch). */
 export function siteLanguage(code: string): 'de' | 'en' | 'pt' {
   return code === 'pt-PT' ? 'pt' : code === 'de' ? 'de' : 'en'

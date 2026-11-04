@@ -764,4 +764,5 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_rename_keyword_fmt" = "„%@“ ist ein Java-Schlüsselwort.";
 "web_rename_apply" = "Umbenennen";
 "web_rename_cancel" = "Abbrechen";
+"web_visubot_world_visucode_hint" = "Andere Programme wie VisuStruct, VisuBot oder VisuObject findest du auf visucode.de.";
 `;export{e as default};

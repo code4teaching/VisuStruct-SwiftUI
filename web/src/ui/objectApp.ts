@@ -86,7 +86,7 @@ import type { OwnTypes } from '../core/javaMembers'
 import { ownTypes } from '../core/ownTypes'
 import { hasSections, keepSections, withSections, type SectionLabels } from '../core/sections'
 import { ObjectLayout } from './objectLayout'
-import { setVisuBotMode, setVisuFlowWorld, worldChooserHTML, type WorldChoice } from './visubotView'
+import { setVisuBotMode, setVisuFlowWorld, worldChooserHTML, worldTitleHTML, type WorldChoice } from './visubotView'
 import { classSource, newWizard, type NewKind } from './objectNew'
 import { addFieldConstructor, addGettersSetters, addToString, classDoc, fieldInfo, paramsText, parseParams, setClassDoc, setField, setMethod, type FieldInfo, type MethodInfo } from '../core/memberEdit'
 import { freeProjectName, listProjects, readProject, safeFolderName, workspaceFolderName, writeProject, type Positions } from './objectWorkspace'
@@ -307,7 +307,7 @@ export class ObjectApp {
           <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
             <section data-action="world">
-              <h3>${e(t('web_visubot_world_title'))}</h3>
+              ${worldTitleHTML()}
               ${worldChooserHTML()}
             </section>
             <section>

@@ -3,7 +3,8 @@ import { HELLO, mbotLink, showLabel } from '../core/mbotLink'
 import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
-import { t } from './i18n'
+import { currentLanguage, t } from './i18n'
+import { hostWorld, visucodeURL } from './site'
 import type { VisuBotMode } from '../learn/content'
 import type { Robot3D } from './robot3d'
 import visuBotLogoURL from './visubot.webp'
@@ -71,16 +72,44 @@ export const visuBotEnabled = () => visuBotMode() !== 'off'
 
 const escapeHTML = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!)
 
-/** Auswahl „VisuStruct | VisuBot“ für Zahnrad und Start-Dialog; die Knöpfe tragen `data-world`. */
+/**
+ * Auswahl der Welt für Zahnrad und Start-Dialog; die Knöpfe tragen `data-world`.
+ * Auf einer Welt-Subdomain (visubot.visucode.de …) hat man die Welt schon gewählt: Dort gibt es nur die Welten dieser
+ * Seite (auf visustruct.visucode.de VisuStruct und VisuFlow, sonst keine Knöpfe) und einen Link auf VisuCode.
+ */
 export function worldChooserHTML(): string {
   const current: WorldChoice = visuObjectWorld() ? 'object' : visuFlowWorld() ? 'flow' : visuBotMode()
-  const button = (mode: WorldChoice, label: string) =>
+  const site = hostWorld()
+  const all: [WorldChoice, string][] = [['off', 'VisuStruct'], ['on', 'VisuBot'], ['object', 'VisuObject'], ['flow', 'VisuFlow']]
+  const shown = site ? all.filter(([mode]) => site === 'visustruct' && (mode === 'off' || mode === 'flow')) : all
+  const button = ([mode, label]: [WorldChoice, string]) =>
     `<button type="button" data-world="${mode}" aria-pressed="${mode === current}">${label}</button>`
   const hint = { off: 'web_visubot_world_visustruct_hint', on: 'web_visubot_world_visubot_hint', object: 'web_visuobject_world_hint', flow: 'web_visuflow_world_hint' }[current]
-  return `<div class="segmented world-chooser" role="group" aria-label="${escapeHTML(t('web_visubot_world_title'))}">
-      ${button('off', 'VisuStruct')}${button('on', 'VisuBot')}${button('object', 'VisuObject')}${button('flow', 'VisuFlow')}
-    </div>
+  const buttons = shown.length
+    ? `<div class="segmented world-chooser" role="group" aria-label="${escapeHTML(t('web_visubot_world_title'))}">${shown.map(button).join('')}</div>`
+    : ''
+  return site
+    ? `${buttons}${visucodeLinkHTML()}`
+    : `${buttons}
     <small class="world-hint">${escapeHTML(t(hint))}</small>`
+}
+
+/** Name der Welt der Subdomain für den Start-Dialog, z. B. „Visu“ + orangefarbenes „Bot“. */
+export function worldBrandHTML(): string {
+  const site = hostWorld()
+  return site === 'visubot' ? visuBotBrand : site === 'visuobject' ? 'Visu<span class="visuobject-obj">Object</span>' : 'VisuStruct'
+}
+
+/** Überschrift „Womit möchtest du arbeiten?“ im Zahnrad; entfällt auf visubot/visuobject.visucode.de (dort gibt es nichts zu wählen). */
+export function worldTitleHTML(): string {
+  const site = hostWorld()
+  return site && site !== 'visustruct' ? '' : `<h3>${escapeHTML(t('web_visubot_world_title'))}</h3>`
+}
+
+/** Marke „VisuCode“ als Link auf visucode.de, wo man ein anderes Programm wählt. */
+export function visucodeLinkHTML(): string {
+  return `<p class="visucode-more"><a class="visucode-brand" href="${visucodeURL(currentLanguage())}">Visu<span>Code</span></a>
+      <small>${escapeHTML(t('web_visubot_world_visucode_hint'))}</small></p>`
 }
 
 /**
