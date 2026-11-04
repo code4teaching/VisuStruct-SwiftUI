@@ -105,8 +105,13 @@ export function useContentLanguage(lang: ContentLanguage) {
     const robotTaskFiles = filesFor(visuBotTaskFiles, /\/lessons\/([^/]+)\/visubot\/aufgaben\/[^/]+\.md$/, lang)
     tasks = parseTasks(robotTaskFiles, 'visubot/aufgaben/', series.renumber).map((t) => ({ ...t, robot: true }))
   } else {
-    lessons = parseLessons(pages)
-    tasks = parseTasks(normalTaskFiles, 'aufgaben/')
+    // Gleiches Durchzählen wie bei VisuBot: seit 4.11. ist Lektion 1 geteilt (`01-was-ist-…`, `01-weitere-darstellungen`).
+    const lessonFiles = pages.filter(([name]) => /^\d+/.test(name))
+    const series = visuBotSeries(lessonFiles)
+    lessons = parseLessons(lessonFiles, series.renumber)
+      .map((l) => ({ ...l, number: series.number.get(l.id)! }))
+      .sort((a, b) => a.number - b.number)
+    tasks = parseTasks(normalTaskFiles, 'aufgaben/', series.renumber)
   }
   tasks.sort((a, b) => (a.after ?? 0) - (b.after ?? 0) || a.level - b.level || a.title.localeCompare(b.title, lang))
   // Textdateien aus den Lektionen kann die Simulation mit `Files.readString(Path.of("name"))` lesen.
@@ -123,7 +128,7 @@ export function useContentLanguage(lang: ContentLanguage) {
 }
 
 /**
- * Nummern der VisuBot-Reihe: die Roboter-Lektionen in Dateireihenfolge, durchgezählt ab 1. So kann eine neue Lektion
+ * Nummern der Lektionsreihe (VisuBot und seit 4.11. auch VisuStruct): die Roboter-Lektionen in Dateireihenfolge, durchgezählt ab 1. So kann eine neue Lektion
  * mit gleicher Nummer und späterem Namen (`07-linie.md`, `07-wand-oder-linie.md`) eingeschoben werden, ohne Dateien
  * umzubenennen (Lernstand hängt am Dateinamen). Verweise „Lektion N“ in den Texten meinen die Dateinummer N und
  * werden auf die Nummer in der Reihe umgeschrieben (bei gleicher Nummer zählt die erste Datei).

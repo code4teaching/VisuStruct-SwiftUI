@@ -528,6 +528,18 @@ describe('Kompetenzen und Selbsteinschätzung', () => {
     expect(() => lesson('Test')).toThrow(/keinen Checklistenpunkt/)
   })
 
+  it('Lektion 1 ist geteilt: PAP und Pseudocode sind Lektion 2, die Verweise zählen mit', () => {
+    for (const lang of contentLanguages) {
+      useContentLanguage(lang)
+      expect(lessons[1].id, lang).toBe('01-weitere-darstellungen')
+      expect(lessons.find((l) => l.id === '02-der-editor')!.number, lang).toBe(3)
+      // „Lektion 18“ (Datei 18, Aussprung) heißt jetzt Lektion 19.
+      const text = JSON.stringify(lessons[1].steps)
+      expect(text, lang).toMatch(/\b(Lektion|lesson|lição) 19\b/i)
+      expect(text, lang).not.toMatch(/\b(Lektion|lesson|lição) 18\b/i)
+    }
+  })
+
   it('Lektion 1 hat Kompetenzen und Ich-kann-Sätze in allen Sprachen', () => {
     for (const lang of contentLanguages) {
       useContentLanguage(lang)
