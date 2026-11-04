@@ -41,6 +41,14 @@ light.setBackground(Color.RED);
 `opaque` means “not see-through”. A label is normally transparent, like writing on a pane of glass. Only with `setOpaque(true)` does it get its own area that can be painted.
 :::
 
+::: quiz
+? Which line paints the background of the label `light` green?
+- [ ] `light.setText(Color.GREEN);`
+- [x] `light.setBackground(Color.GREEN);`
+- [ ] `light.setColor("green");`
+> `setBackground` sets the background colour. To see it, a `JLabel` first needs `setOpaque(true)`.
+:::
+
 ## Remembering the colour
 
 So that the traffic light knows what comes next, it remembers its state in a number: 0 means red, 1 means green, 2 means yellow. As with the click counter from lesson 32, the variable is in the class so that the listener may change it:

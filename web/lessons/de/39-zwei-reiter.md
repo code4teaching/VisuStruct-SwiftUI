@@ -61,6 +61,14 @@ bereich.append("Heu\n");
 - `setEditable(false)` verhindert, dass man in der Liste selbst herumtippt.
 - `getText()` liefert den ganzen Text mit allen Zeilen.
 
+::: quiz
+? Was macht `bereich.append("Heu\n")`?
+- [ ] Es ersetzt den ganzen Text durch „Heu“.
+- [x] Es hängt „Heu“ hinten an und beginnt danach eine neue Zeile.
+- [ ] Es schreibt „Heu\n“ genau so in die Liste.
+> `append` hängt an, `"\n"` ist der Zeilenumbruch.
+:::
+
 ## Von einem Reiter zum anderen
 
 Der Knopf **Hinzufügen** steht im Reiter Eingabe, der Textbereich im Reiter Liste. Trotzdem kann der Zuhörer beide benutzen. Alle Bausteine sind Variablen in `main`, und das Lambda sieht sie alle, egal auf welchem Reiter sie später angezeigt werden:

@@ -123,6 +123,14 @@ divide.addActionListener(e -> {
 With `double` and `Double.parseDouble(…)` you get decimal places: 7 / 2 gives 3.5. In return, Java throws no exception when dividing decimal numbers by 0. The result is then `Infinity`.
 :::
 
+::: quiz
+? What does the calculator show for 8 divided by 0?
+- [ ] 0
+- [ ] Infinity
+- [x] Not by 0!
+> With `int`, `a / b` throws an `ArithmeticException`. The `catch` catches it and shows the message.
+:::
+
 ## A method of your own
 
 This is not in the curriculum, but it makes the code shorter.

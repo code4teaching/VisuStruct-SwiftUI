@@ -53,6 +53,14 @@ static int secreto = (int) (Math.random() * 100) + 1;
 static int tentativas = 0;
 ```
 
+::: quiz
+? Porque é que `secreto` e `tentativas` estão na classe e não no `main`?
+- [ ] Porque `Math.random()` só funciona na classe
+- [x] Porque têm de durar ao longo de todos os cliques e o ouvinte tem de alterar `tentativas`
+- [ ] Porque o `main` não consegue guardar números
+> Como no contador de cliques: o ouvinte não pode alterar variáveis do `main`.
+:::
+
 ## O programa completo
 
 ```java

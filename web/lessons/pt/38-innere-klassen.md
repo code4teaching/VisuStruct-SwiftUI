@@ -97,6 +97,14 @@ mais.addActionListener(new ActionListener() {
 - No fim está `});`: a chaveta fecha a classe, o parêntese fecha a chamada de `addActionListener`.
 - A classe anónima está **dentro** de `main`. Por isso também vê as variáveis de `main`, desde que já não mudem.
 
+::: quiz
+? O que fecha `});` no fim da classe anónima?
+- [x] `}` fecha a classe, `)` fecha a chamada de `addActionListener`.
+- [ ] `}` fecha o `main`, `)` fecha a classe.
+- [ ] Os dois fecham o método `actionPerformed`.
+> O método `actionPerformed` já termina uma linha antes com a sua própria `}`.
+:::
+
 ## 3. O lambda
 
 O lambda é a forma curta da classe anónima, desde o Java 8:

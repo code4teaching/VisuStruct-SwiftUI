@@ -51,6 +51,18 @@ tipp: Im true-Zweig steht `mbot.turnRight()`, im false-Zweig `mbot.forward()`.
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 
+Im Bereich [Code](#zeige-codelive) siehst du dein Struktogramm auch als Java. Eine Verzweigung heißt dort **if**, der false-Zweig **else**. Die Bedingung steht in runden Klammern, jeder Zweig in geschweiften Klammern:
+
+```java
+if (mbot.getDistance() < 20) {
+    mbot.turnRight();
+} else {
+    mbot.forward();
+}
+```
+
+> Selbst tippen musst du `if` noch nicht. Mehr dazu kommt in der Lektion über den Ultraschallsensor.
+
 ## Was liefert der Sensor?
 
 Ein Sensor liefert einen **Wert**, so wie eine Variable. Fährt der mBot2 weiter, ändert sich der Wert: Der Abstand wird kleiner, je näher die Wand kommt. Erst ein **Vergleich** macht aus dem Wert eine Frage mit der Antwort `true` (wahr) oder `false` (falsch).

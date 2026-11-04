@@ -83,6 +83,14 @@ for (int i = 1; i <= 9; i++) {
 - In jedem Durchlauf entsteht ein neuer Knopf. Alle bekommen denselben Zuhörer `taste`.
 - `fenster.add(tasten, BorderLayout.CENTER)` setzt die ganze Fläche mit allen Tasten ins Fenster.
 
+::: quiz
+? Wie viele Knöpfe und wie viele Zuhörer entstehen in dieser Schleife?
+- [ ] 9 Knöpfe und 9 Zuhörer
+- [x] 9 Knöpfe und 1 Zuhörer
+- [ ] 1 Knopf und 9 Zuhörer
+> In jedem Durchlauf kommt ein neuer Knopf dazu. Alle bekommen denselben Zuhörer `taste`.
+:::
+
 ## Das ganze Programm
 
 ```java

@@ -61,6 +61,14 @@ area.append("Feno\n");
 - `setEditable(false)` impede que se escreva diretamente na lista.
 - `getText()` devolve o texto inteiro com todas as linhas.
 
+::: quiz
+? O que faz `area.append("Feno\n")`?
+- [ ] Substitui o texto todo por “Feno”.
+- [x] Acrescenta “Feno” no fim e começa depois uma linha nova.
+- [ ] Escreve “Feno\n” tal e qual na lista.
+> `append` acrescenta no fim, `"\n"` é a mudança de linha.
+:::
+
 ## De um separador para o outro
 
 O botão **Adicionar** está no separador Entrada, a área de texto no separador Lista. Mesmo assim, o ouvinte pode usar os dois. Todas as peças são variáveis em `main`, e o lambda vê-as todas, seja qual for o separador em que aparecem depois:

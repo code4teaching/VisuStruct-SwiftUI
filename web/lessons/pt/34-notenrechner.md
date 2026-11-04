@@ -56,6 +56,14 @@ Com 75 %, `percentagem >= 90` é falso, mas `percentagem >= 70` é verdadeiro. P
 
 Podes experimentar esta parte sem janela na área [Código](#zeige-codelive). Escreve `int percentagem = 75;` antes e `System.out.println("Nível: " + nivel);` depois. O estrutograma mostra-te as decisões encaixadas.
 
+::: quiz
+? Que nota dá a tabela com 29 pontos?
+- [ ] 4
+- [ ] 5
+- [x] 6
+> Todas as condições são falsas, também `pontos >= 30`. Então vale o ramo `else`.
+:::
+
 ## A janela
 
 ```java

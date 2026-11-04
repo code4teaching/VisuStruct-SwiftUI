@@ -53,6 +53,14 @@ static int secret = (int) (Math.random() * 100) + 1;
 static int guesses = 0;
 ```
 
+::: quiz
+? Why are `secret` and `guesses` in the class and not in `main`?
+- [ ] Because `Math.random()` only works in the class
+- [x] Because they must last over all clicks and the listener has to change `guesses`
+- [ ] Because `main` cannot store numbers
+> Like in the click counter: the listener must not change variables from `main`.
+:::
+
 ## The whole program
 
 ```java
