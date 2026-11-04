@@ -265,7 +265,7 @@ auftrag: Ergänze die fehlenden Wörter. Ganz außen steht der Rahmen, den jedes
     }
 }
 ```
-erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Code darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
+erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Code darfst du ihn weglassen, mehr dazu in der Lektion „Struktogramm und Code“.
 :::
 
 ## Fehler finden: Sekunden

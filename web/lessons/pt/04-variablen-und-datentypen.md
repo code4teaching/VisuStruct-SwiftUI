@@ -265,7 +265,7 @@ auftrag: Preenche as palavras que faltam. Por fora está a moldura de que qualqu
     }
 }
 ```
-erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Código podes deixá-la de fora, há mais sobre isto na lição “Java”.
+erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Código podes deixá-la de fora, há mais sobre isto na lição “Estrutograma e código”.
 :::
 
 ## Encontra o erro: segundos

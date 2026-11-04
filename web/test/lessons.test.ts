@@ -42,6 +42,34 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
     }
   })
 
+  it('die Checkliste steht in einem eigenen Schritt „Checkliste“', () => {
+    const title = { de: 'Checkliste', en: 'Checklist', pt: 'Lista de verificação' }[lang]
+    for (const lesson of lessons) {
+      const step = lesson.steps.find((s) => s.blocks.some((b) => b.kind === 'checklist'))
+      expect(step?.title, lesson.id).toBe(title)
+    }
+  })
+
+  it('kein Text endet mit einem Doppelpunkt, ohne dass etwas folgt', () => {
+    // „probiere Folgendes aus:“ ohne Liste darunter (Lektion 3 hatte das)
+    const problems: string[] = []
+    for (const lesson of lessons) {
+      for (const step of lesson.steps) {
+        step.blocks.forEach((block, i) => {
+          if (block.kind !== 'markdown') return
+          const parts = block.text.trim().split(/\n\s*\n/).map((p) => p.trim())
+          const next = step.blocks[i + 1]
+          parts.forEach((part, k) => {
+            if (!part.endsWith(':') || part.includes('\n')) return
+            const follows = k + 1 < parts.length || (next && next.kind !== 'markdown' && next.kind !== 'checklist')
+            if (!follows) problems.push(`${lesson.id} / ${step.title}: ${part}`)
+          })
+        })
+      }
+    }
+    expect(problems).toEqual([])
+  })
+
   it('jedes verwendete Diagramm existiert und lässt sich laden', () => {
     for (const { where, block } of allBlocks()) {
       const files =
