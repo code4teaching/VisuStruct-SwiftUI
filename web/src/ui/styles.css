@@ -4174,7 +4174,7 @@ button.danger-text:not(:disabled) {
 .visucode-more .visucode-credit {
   margin-top: 4px;
 }
-.visucode-credit a {
+.visucode-more small a {
   color: inherit;
 }
 .visucode-brand:hover {
