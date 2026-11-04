@@ -83,6 +83,17 @@ With [Export](#zeige-exportieren) in the tools (icon with an arrow pointing up) 
 
 Under the [gear](#zeige-textgroesse) at the top right, Text size sets the font size. Larger text also shows when you export an image.
 
+## Try it out
+
+Open one of your exercises from lesson 2 and try the following:
+
+1. Give the diagram a name in the [title](#zeige-titel) field above the structure chart, for example `Hello World`.
+2. [Save](#zeige-speichern) it in your workspace. Look in the [📁 Files](#zeige-dateien) column: is it in today's folder?
+3. Open a second tab with **+** and click your program in the Files column there. It opens again.
+4. [Export](#zeige-exportieren) it as an **image (PNG)** and as a **PDF (A4)**. Open both files and compare them.
+
+Did everything work? Then you know where your programs are and how to share them.
+
 ## Game: How do you pass it on?
 
 ::: spiel frage
@@ -122,9 +133,7 @@ richtig: PNG
 > Anyone can look at a PNG straight away, without VisuStruct.
 :::
 
-## Try it out
-
-Open one of your exercises from lesson 2 and try the following:
+## Checklist
 
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 

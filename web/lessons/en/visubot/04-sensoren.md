@@ -53,6 +53,18 @@ lösung: vb-wand-vorn-loesung.visustruct
 
 ## What does the sensor give you?
 
+A sensor gives you a **value**, just like a variable. When the mBot2 drives on, the value changes: the distance gets smaller as the wall comes closer. Only a **comparison** turns the value into a question with the answer `true` or `false`.
+
+| Condition | Question | Answer at a distance of 38 cm |
+|---|---|---|
+| `mbot.getDistance() < 20` | Is the wall closer than 20 cm? | `false` |
+| `mbot.getDistance() > 30` | Is there more than 30 cm of space? | `true` |
+| `mbot.getLine() == 0` | Is everything bright under the mBot2? | depends on the floor |
+
+You can compare with `<` (less than), `>` (greater than), `<=` (less than or equal), `>=` (greater than or equal), `==` (equal) and `!=` (not equal).
+
+> For "equal" you write **two** equals signs: `==`. A single `=` puts a value into a variable, which is something completely different.
+
 > 📘 **More without the robot:** VisuStruct has the lesson ["Branch"](?visustruct&lektion=08-verzweigung). It opens in a new window.
 
 ::: übung vb-fehler-04-sensoren

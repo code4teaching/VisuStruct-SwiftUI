@@ -254,7 +254,7 @@ auftrag: Fill in the missing words. On the outside is the frame that every Java 
     }
 }
 ```
-erklärung: Whole numbers are `int`, decimal numbers `double`, texts `String` (with a capital S) and truth values `boolean`. `public class` and `public static void main` make up the frame. In the Code area you may leave it out, more on this in the lesson “Java”.
+erklärung: Whole numbers are `int`, decimal numbers `double`, texts `String` (with a capital S) and truth values `boolean`. `public class` and `public static void main` make up the frame. In the Code area you may leave it out, more on this in the lesson “Structure chart and code”.
 :::
 
 ## Find the bug: seconds
