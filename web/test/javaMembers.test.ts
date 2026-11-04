@@ -10,6 +10,10 @@ function names(code: string, lang: 'de' | 'en' | 'pt' = 'de') {
 const program = (body: string) => `import java.util.Scanner;\n\npublic class Main {\n    public static void main(String[] args) {\n        ${body}`
 
 describe('Vorschläge nach dem Punkt', () => {
+  it('schlägt nach mbot.led(0). setColor vor', () => {
+    expect(names(program('mbot.led(0).'))).toEqual(['setColor'])
+  })
+
   it('Scanner mit beliebigem Namen: nextInt, nextLine …', () => {
     const list = names(program('Scanner eingabe = new Scanner(System.in);\n        int x = eingabe.'))
     expect(list).toEqual(expect.arrayContaining(['nextInt', 'nextLine', 'nextDouble', 'hasNextLine', 'next']))

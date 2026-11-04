@@ -170,6 +170,8 @@ const instance: Record<string, Row[]> = {
   ArrayList: arrayList,
   List: arrayList,
   LinkedList: arrayList,
+  // `mbot.led(0).` → setColor
+  LED: [['setColor', 'farbe', 'void', 'Farbe der LED, z. B. "grün" oder "aus"', 'Colour of the LED, e.g. "green" or "off"', 'Cor do LED, p. ex. "green" ou "off"']],
 }
 
 const extendsOf: Record<string, string[]> = {
