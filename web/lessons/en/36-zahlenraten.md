@@ -102,7 +102,7 @@ public class GuessTheNumber {
 `setEnabled(true)` switches a button back on. That way you can, for example, only allow a button once something has been entered.
 :::
 
-## Expert knowledge: winning in 7 guesses
+## Winning in 7 guesses
 
 ::: angeberwissen
 If you guess cleverly, you never need more than 7 guesses. Always guess the middle of the range that is left: first 50, then 25 or 75 and so on. Each guess halves the range: 100, 50, 25, 13, 7, 4, 2, 1. That is the **binary search** from lesson 19. Because 2 to the power of 7 = 128 is bigger than 100, 7 guesses are enough.

@@ -76,6 +76,7 @@ test: 1, x, 2 -> Unknown operator
 braucht: fallauswahl
 tipp: First read in all three values. After that, a switch on the operator decides what is calculated.
 tipp: Before the switch, create `int result = 0`. In each case you calculate, for example, `result = a + b` and then output `result`. The case names are `"+"`, `"-"` and `"*"` in quotation marks, because the operator is a `String`.
+tipp: The outline from top to bottom: three inputs (`int a`, `String operator`, `int b`), then `int result = 0`, then a switch over `operator`. Case `"+"` holds `result = a + b` and `output: result`, cases `"-"` and `"*"` the same. The default case holds `output: "Unknown operator"`.
 lösung: l09-rechner-loesung.visustruct
 :::
 

@@ -123,7 +123,7 @@ geteilt.addActionListener(e -> {
 Mit `double` und `Double.parseDouble(…)` gibt es Nachkommastellen: 7 / 2 ergibt 3.5. Dafür wirft Java bei Kommazahlen keine Exception beim Teilen durch 0. Das Ergebnis heißt dann `Infinity`, also „unendlich“.
 :::
 
-## Profiwissen: eine eigene Methode
+## Eine eigene Methode
 
 Das steht nicht im Lehrplan, macht den Code aber kürzer.
 

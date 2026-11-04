@@ -10,6 +10,7 @@ import { documentFromJava, plainLiveJava } from '../src/core/liveSource'
 import { isMBotPart, MBOT_PARTS } from '../src/core/mbot'
 
 /** Unterprogramme einer Übung (`unterprogramm:`) für Aufrufe in der Musterlösung */
+import { lessonEndProblems } from './lessonEnd'
 const resolver = (ex: Exercise) => {
   const subs = ex.subprograms.map((f) => diagram(f)!)
   return (name: string) => subs.find((s) => subprogramName(s.caption).toLowerCase() === subprogramName(name).toLowerCase())
@@ -134,6 +135,10 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
       expect(game, `${lesson.id}: kein Spiel`).toBeGreaterThanOrEqual(0)
       expect(game, `${lesson.id}: Spiel nach der Checkliste`).toBeLessThan(kinds.indexOf('checklist'))
     }
+  })
+
+  it('jede Roboter-Lektion endet mit eigenen Schritten für Checkliste und Wissenstest', () => {
+    expect(robotLessons().flatMap(lessonEndProblems)).toEqual([])
   })
 
   it('Checklisten verweisen auf Schritte', () => {

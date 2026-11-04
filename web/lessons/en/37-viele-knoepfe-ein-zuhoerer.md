@@ -266,7 +266,7 @@ Then make it better:
 - for the extra, the display only shows stars but the code is still checked.
 
 ::: ludwig
-For the calculator from lesson 35, one listener is enough for +, -, \* and / too. Check inside it with `e.getActionCommand().equals("+")` which operator was clicked.
+In the branch for **OK**, count `attempts++` for every wrong code and then check `if (attempts >= 3)`. Then `ok.setEnabled(false)` switches the button off, like in the guessing game. For the stars: `input = input + e.getActionCommand();` and `display.setText(display.getText() + "*");`. Then you compare `input`, not the text of the display.
 :::
 
 ## Checklist

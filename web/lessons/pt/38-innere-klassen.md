@@ -19,7 +19,7 @@ kurz: Escrever um ouvinte como classe interna com nome, como classe anónima e c
 O contador de cliques da lição 32 já conheces. Hoje escreves o seu ouvinte de **três maneiras**, que fazem todas exatamente o mesmo:
 
 1. como **classe interna com nome**, como se fazia quase sempre antes do Java 8,
-2. como **classe anónima**, que conheces do saber de profissional da lição 30,
+2. como **classe anónima**, que conheces da lição 30 (“ActionListener é uma interface”),
 3. como **lambda** com a seta, como até agora.
 
 Em código de outras pessoas, em livros e na internet vais encontrar as três. Depois desta lição vais reconhecê-las.

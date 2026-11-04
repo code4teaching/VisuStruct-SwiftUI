@@ -42,6 +42,12 @@ public class Units {
 }
 ```
 
+**You are done when …**
+
+- 1.5 shows "150.0 cm" after **in cm** and "1500.0 mm" after **in mm**,
+- 1500 shows "1.5 km" after **in km**,
+- "abc" in the field shows "Please enter a number" and the window stays open.
+
 Extra: a fourth button **in feet** converts to the imperial unit. One foot is 0.3048 m.
 
 ::: ludwig

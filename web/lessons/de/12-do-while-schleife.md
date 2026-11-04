@@ -80,6 +80,7 @@ test: 0 -> 0
 braucht: doUntilSchleife
 tipp: Du brauchst eine Variable für die Summe, die vor der Schleife bei 0 beginnt. In jedem Durchlauf kommt die neue Zahl dazu.
 tipp: Lege vor der Schleife `int summe = 0` und `int zahl = 0` an. In der Schleife fragst du `zahl` ab und rechnest `summe = summe + zahl`. Die 0 zu addieren schadet nicht. Die Schleife läuft weiter, solange `zahl != 0` ist.
+tipp: Das Gerüst: `int summe = 0` und `int zahl = 0`, dann eine Do-while-Schleife mit der Bedingung `zahl != 0`. In ihr stehen die Eingabe von `zahl` und `summe = summe + zahl`. Unter der Schleife steht `output: summe`.
 lösung: l11-summe-loesung.visustruct
 :::
 

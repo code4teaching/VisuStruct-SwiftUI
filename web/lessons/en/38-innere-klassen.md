@@ -19,7 +19,7 @@ kurz: Write a listener as a named inner class, as an anonymous class and as a la
 You already know the click counter from lesson 32. Today you write its listener in **three ways**, all of which do exactly the same:
 
 1. as a **named inner class**, the way it was mostly done before Java 8,
-2. as an **anonymous class**, which you know from the expert knowledge in lesson 30,
+2. as an **anonymous class**, which you know from lesson 30 (“ActionListener is an interface”),
 3. as a **lambda** with the arrow, as before.
 
 In other people's code, in books and on the internet you will meet all three. After this lesson you will recognise them.

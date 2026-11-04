@@ -31,6 +31,13 @@ A tua tarefa:
 3. Escreve a view `VistaEstatistica`. Mostra por exemplo "Seis: 2 em 10 lançamentos".
 4. O controller é o ouvinte do botão: manda o model lançar e passa os valores novos às duas views.
 
+**Terminaste quando …**
+
+- na consola, depois de dez lançamentos, `lancamentos` é 10 e `seis` está entre 0 e 10,
+- cada clique em **Lançar** mostra um número novo de 1 a 6 na `VistaPontos`,
+- a `VistaEstatistica` conta mais um lançamento depois de cada clique e conta bem os seis,
+- no model não há nenhum `JLabel` e nas views não há nenhum `Math.random`.
+
 Extra: um botão **Novo jogo** põe tudo no início. O método para isso pertence ao model.
 
 ::: ludwig

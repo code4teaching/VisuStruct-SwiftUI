@@ -121,6 +121,7 @@ test: 2, 9, 2, 7, 6 -> 9 | 7 | 6 | 2 | 2
 braucht: forSchleife, verzweigung
 tipp: Schau dir die Bedingung in der Verzweigung an. Sie entscheidet, wann zwei Nachbarn getauscht werden.
 tipp: Du musst nur ein einziges Zeichen ändern. Wann sollen zwei Nachbarn getauscht werden, wenn die größere Karte nach links soll?
+tipp: Ändere in der Verzweigung `karten[i] > karten[i + 1]` in `karten[i] < karten[i + 1]`. Dann wird getauscht, wenn rechts die größere Karte liegt, und die große Karte wandert nach links.
 lösung: ss-absteigend-loesung.visustruct
 :::
 

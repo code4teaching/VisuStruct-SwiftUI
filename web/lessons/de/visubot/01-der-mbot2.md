@@ -170,21 +170,125 @@ Das Wort kommt vom lateinischen *agere*, „handeln“: Aktoren handeln, Sensore
 
 Dein Programm liest die Sensoren und steuert die Aktoren. Das kennst du schon als Eingabe, Verarbeitung und Ausgabe.
 
-::: quiz
-? Ordne jedes Teil seiner Aufgabe zu.
-→ Hallo mBot2
-= Ultraschallsensor -> misst den Abstand
-= Motoren -> bewegen die Räder
-= CyberPi -> führt das Programm aus
-= Liniensensor -> erkennt eine dunkle Linie
-? Welche Teile sind Aktoren?
-→ Sensoren und Aktoren
-- [x] Motoren
-- [ ] Ultraschallsensor
-- [x] LEDs
-- [ ] Liniensensor
-> Aktoren tun etwas, Sensoren messen etwas.
+## Finde die Bauteile
+
+Jetzt bist du dran: Klicke im Modell auf das gesuchte Teil. Liegst du richtig, kommt die nächste Frage.
+
+::: mbot2quiz
+- ultrasonic: Womit misst der mBot2, wie weit die Wand weg ist?
+- screen: Wo erscheint Text, den dein Programm ausgibt?
+- wheels: Was bewegt den mBot2 vorwärts?
+- lineSensor: Was erkennt eine schwarze Linie auf dem Boden? (Tipp: Dreh das Modell.)
+- powerSwitch: Wo schaltest du den mBot2 ein und aus?
+- leds: Was leuchtet bei `mbot.setLed(255, 0, 0)` rot?
+fertig: Super, du kennst dich am mBot2 aus!
 :::
+
+## Befehle für den mBot2
+
+Unter den [Elementen](#zeige-elemente) gibt es in VisuBot eine eigene Gruppe **mBot2-Befehle**. Jeder Kasten darin ist eine Anweisung an den Roboter:
+
+| Element | Text im Kasten | Was passiert |
+|---|---|---|
+| fahre vor | `mbot.forward()` | 10 cm vorwärts |
+| fahre zurück | `mbot.backward()` | 10 cm rückwärts |
+| drehe rechts | `mbot.turnRight()` | 90° nach rechts drehen |
+| drehe links | `mbot.turnLeft()` | 90° nach links drehen |
+| LEDs an | `mbot.setLed(255, 0, 0)` | die LEDs leuchten rot |
+
+In die Klammern darfst du auch eine Zahl schreiben: `mbot.forward(30)` fährt 30 cm, `mbot.turnRight(45)` dreht nur 45°.
+
+> Die Anweisungen sind echtes Java. `mbot` ist der Roboter, hinter dem Punkt steht, was er tun soll.
+
+## Erste Fahrt
+
+Starte nach dem Bauen die [Simulation](#zeige-simulation). Rechts erscheint die VisuBot-Welt mit dem mBot2. Das Gitter auf dem Boden hat Kästchen von 10 cm, also genau ein **fahre vor**.
+
+::: übung vb-gerade
+titel: Geradeaus
+auftrag: Ziehe fünfmal **fahre vor** in das Struktogramm. Starte dann die Simulation und schau zu, wie der mBot2 50 cm geradeaus fährt.
+fahrt: 5 x (forward)
+tipp: Die Gruppe mBot2-Befehle findest du unter den normalen Elementen.
+tipp: Fünf Kästen `mbot.forward()` untereinander. Jeder fährt 10 cm.
+lösung: vb-gerade-loesung.visustruct
+:::
+
+## Spiel: Wo landet der mBot2?
+
+::: spiel fahrt
+titel: Spiel: Wo landet der mBot2?
+intro: Lies das Programm und tippe auf das Feld, auf dem der mBot2 am Ende steht. Danach fährt er die Strecke vor. Jedes Feld ist 30 cm groß. Vier Runden.
+frage: Auf welchem Feld steht der mBot2 am Ende?
+
+runde:
+    mbot.forward(60);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..... | ..^..
+ziel: 3,0
+> Zwei Felder nach vorn, nach rechts drehen, ein Feld weiter.
+
+runde:
+    mbot.forward(30);
+    mbot.turnLeft();
+    mbot.forward(60);
+karte: ..... | ..... | ..^..
+ziel: 0,1
+> Ein Feld nach vorn, dann schaut er nach links und fährt zwei Felder.
+
+runde:
+    mbot.turnRight();
+    mbot.turnRight();
+    mbot.forward(30);
+karte: ..... | ..^.. | .....
+ziel: 2,2
+> Zweimal rechts drehen heißt: Er schaut nach hinten. Dann fährt er ein Feld zurück, nach unten.
+
+runde:
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+    mbot.turnRight();
+    mbot.forward(30);
+karte: .... | .... | .^..
+ziel: 2,2
+> Hoch, nach rechts, und nach der zweiten Drehung schaut er nach unten.
+:::
+
+## Den echten mBot2 verbinden
+
+::: mbot2
+fokus: cyberpi, powerSwitch, joystick, buttons
+ansicht: seite
+:::
+
+Alles, was du im Simulator baust, kann auch der echte mBot2 fahren. So verbindest du ihn:
+
+1. Steck ein **USB-C-Kabel** in deinen Computer (zum Beispiel ein MacBook) und das andere Ende in den USB-C-Anschluss rechts am [CyberPi]{teil=cyberpi}, neben der Home-Taste.
+2. Schieb den [Schiebeschalter ON/OFF]{teil=powerSwitch} links am Shield auf ON. Der Bildschirm des CyberPi leuchtet.
+3. Auf dem Bildschirm erscheint ein Menü, in dem **neu starten** markiert ist. Drück den [Joystick]{teil=joystick} wie eine Taste nach unten, um das zu bestätigen.
+4. Nach dem Neustart steht dort „Press B to start“. Drück **Taste B**, das ist die [Taste mit dem Dreieck]{teil=buttons}.
+5. Öffne VisuStruct in **Chrome** oder **Edge**. Safari und das iPad können keine USB-Geräte ansprechen.
+6. Sobald der CyberPi hochgefahren ist, klick oben auf **🔌 mBot2** (oder im Zahnrad auf „Mit mBot2 verbinden“).
+7. Chrome zeigt eine Liste mit Anschlüssen. Wähle den Eintrag **USB Serial** (zum Beispiel „USB Serial (cu.usbserial-110)“). Er steht oft ganz unten, eventuell musst du nach unten scrollen. Dann klick auf **Verbinden**.
+8. Der CyberPi startet kurz neu (⏳). Dann steht „Hallo VisuBot!“ auf seinem Bildschirm und der Knopf zeigt 🟢.
+
+Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den Boden und lass ihm Platz!
+
+> Fertig? Klick noch einmal auf **🟢 mBot2**. Dann hält er an, zeigt „Bis bald!“ und gibt den Anschluss frei. Erst danach das Kabel ziehen.
+
+> Ganz ohne Kabel fahren? Das lernst du in Lektion 2 bei **Ohne Kabel fahren**.
+
+## Den mBot2 testen
+
+Ist der mBot2 verbunden, erscheint unter der Welt **🔧 mBot2 testen**. Klapp es auf:
+
+- Mit den Knöpfen probierst du jeden Aktor einmal aus: LEDs, Ton, Text auf dem Bildschirm und die Räder. Heb den mBot2 dafür hoch, damit er nicht vom Tisch fährt.
+- Darunter stehen alle Sensoren mit ihren Werten, und die laufen live mit. Halte die Hand vor den Ultraschallsensor, drück Taste A, neige ihn, klatsch in die Hände oder stell ihn auf ein rotes Blatt.
+
+Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt etwas nicht. Dann sag deiner Lehrkraft Bescheid, bevor du programmierst.
+
+## Spiel: Sensor oder Aktor?
 
 ::: spiel frage
 titel: Spiel: Sensor oder Aktor?
@@ -242,81 +346,7 @@ richtig: Aktor
 > Gemein! Das Bauteil ist ein Sensor, aber das Leuchten der Ringe ist eine Ausgabe.
 :::
 
-## Finde die Bauteile
-
-Jetzt bist du dran: Klicke im Modell auf das gesuchte Teil. Liegst du richtig, kommt die nächste Frage.
-
-::: mbot2quiz
-- ultrasonic: Womit misst der mBot2, wie weit die Wand weg ist?
-- screen: Wo erscheint Text, den dein Programm ausgibt?
-- wheels: Was bewegt den mBot2 vorwärts?
-- lineSensor: Was erkennt eine schwarze Linie auf dem Boden? (Tipp: Dreh das Modell.)
-- powerSwitch: Wo schaltest du den mBot2 ein und aus?
-- leds: Was leuchtet bei `mbot.setLed(255, 0, 0)` rot?
-fertig: Super, du kennst dich am mBot2 aus!
-:::
-
-## Befehle für den mBot2
-
-Unter den [Elementen](#zeige-elemente) gibt es in VisuBot eine eigene Gruppe **mBot2-Befehle**. Jeder Kasten darin ist eine Anweisung an den Roboter:
-
-| Element | Text im Kasten | Was passiert |
-|---|---|---|
-| fahre vor | `mbot.forward()` | 10 cm vorwärts |
-| fahre zurück | `mbot.backward()` | 10 cm rückwärts |
-| drehe rechts | `mbot.turnRight()` | 90° nach rechts drehen |
-| drehe links | `mbot.turnLeft()` | 90° nach links drehen |
-| LEDs an | `mbot.setLed(255, 0, 0)` | die LEDs leuchten rot |
-
-In die Klammern darfst du auch eine Zahl schreiben: `mbot.forward(30)` fährt 30 cm, `mbot.turnRight(45)` dreht nur 45°.
-
-> Die Anweisungen sind echtes Java. `mbot` ist der Roboter, hinter dem Punkt steht, was er tun soll.
-
-## Erste Fahrt
-
-Starte nach dem Bauen die [Simulation](#zeige-simulation). Rechts erscheint die VisuBot-Welt mit dem mBot2. Das Gitter auf dem Boden hat Kästchen von 10 cm, also genau ein **fahre vor**.
-
-::: übung vb-gerade
-titel: Geradeaus
-auftrag: Ziehe fünfmal **fahre vor** in das Struktogramm. Starte dann die Simulation und schau zu, wie der mBot2 50 cm geradeaus fährt.
-fahrt: 5 x (forward)
-tipp: Die Gruppe mBot2-Befehle findest du unter den normalen Elementen.
-tipp: Fünf Kästen `mbot.forward()` untereinander. Jeder fährt 10 cm.
-lösung: vb-gerade-loesung.visustruct
-:::
-
-## Den echten mBot2 verbinden
-
-::: mbot2
-fokus: cyberpi, powerSwitch, joystick, buttons
-ansicht: seite
-:::
-
-Alles, was du im Simulator baust, kann auch der echte mBot2 fahren. So verbindest du ihn:
-
-1. Steck ein **USB-C-Kabel** in deinen Computer (zum Beispiel ein MacBook) und das andere Ende in den USB-C-Anschluss rechts am [CyberPi]{teil=cyberpi}, neben der Home-Taste.
-2. Schieb den [Schiebeschalter ON/OFF]{teil=powerSwitch} links am Shield auf ON. Der Bildschirm des CyberPi leuchtet.
-3. Auf dem Bildschirm erscheint ein Menü, in dem **neu starten** markiert ist. Drück den [Joystick]{teil=joystick} wie eine Taste nach unten, um das zu bestätigen.
-4. Nach dem Neustart steht dort „Press B to start“. Drück **Taste B**, das ist die [Taste mit dem Dreieck]{teil=buttons}.
-5. Öffne VisuStruct in **Chrome** oder **Edge**. Safari und das iPad können keine USB-Geräte ansprechen.
-6. Sobald der CyberPi hochgefahren ist, klick oben auf **🔌 mBot2** (oder im Zahnrad auf „Mit mBot2 verbinden“).
-7. Chrome zeigt eine Liste mit Anschlüssen. Wähle den Eintrag **USB Serial** (zum Beispiel „USB Serial (cu.usbserial-110)“). Er steht oft ganz unten, eventuell musst du nach unten scrollen. Dann klick auf **Verbinden**.
-8. Der CyberPi startet kurz neu (⏳). Dann steht „Hallo VisuBot!“ auf seinem Bildschirm und der Knopf zeigt 🟢.
-
-Jetzt fährt der mBot2 bei jedem Schritt der Simulation mit. Stell ihn auf den Boden und lass ihm Platz!
-
-> Fertig? Klick noch einmal auf **🟢 mBot2**. Dann hält er an, zeigt „Bis bald!“ und gibt den Anschluss frei. Erst danach das Kabel ziehen.
-
-> Ganz ohne Kabel fahren? Das lernst du in Lektion 2 bei **Ohne Kabel fahren**.
-
-## Den mBot2 testen
-
-Ist der mBot2 verbunden, erscheint unter der Welt **🔧 mBot2 testen**. Klapp es auf:
-
-- Mit den Knöpfen probierst du jeden Aktor einmal aus: LEDs, Ton, Text auf dem Bildschirm und die Räder. Heb den mBot2 dafür hoch, damit er nicht vom Tisch fährt.
-- Darunter stehen alle Sensoren mit ihren Werten, und die laufen live mit. Halte die Hand vor den Ultraschallsensor, drück Taste A, neige ihn, klatsch in die Hände oder stell ihn auf ein rotes Blatt.
-
-Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt etwas nicht. Dann sag deiner Lehrkraft Bescheid, bevor du programmierst.
+## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 
@@ -329,4 +359,58 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann den mBot2 im Simulator fahren lassen. → Erste Fahrt
 - Ich kann den echten mBot2 per USB-C verbinden und wieder trennen. → Den echten mBot2 verbinden
 - Ich kann prüfen, ob alle Sensoren und Aktoren funktionieren. → Den mBot2 testen
+:::
+
+## Wissenstest
+
+::: quiz
+? Ordne jedes Teil seiner Aufgabe zu.
+→ Hallo mBot2
+= Ultraschallsensor -> misst den Abstand
+= Motoren -> bewegen die Räder
+= CyberPi -> führt das Programm aus
+= Liniensensor -> erkennt eine dunkle Linie
+? Welche Teile sind Aktoren?
+→ Sensoren und Aktoren
+- [x] Motoren
+- [ ] Ultraschallsensor
+- [x] LEDs
+- [ ] Liniensensor
+> Aktoren tun etwas, Sensoren messen etwas.
+? Wie misst der Ultraschallsensor den Abstand?
+→ Der Ultraschallsensor
+- [ ] Er fotografiert die Wand.
+- [x] Er schickt einen sehr hohen Ton los und wartet auf das Echo.
+- [ ] Er tastet die Wand mit seinen blauen Ringen ab.
+> Je länger das Echo braucht, desto weiter ist die Wand weg.
+? Woran erkennt der Liniensensor eine schwarze Linie?
+→ Unter dem Roboter
+- [x] Von der schwarzen Linie kommt wenig Licht zurück.
+- [ ] Die Linie ist wärmer als der Boden.
+- [ ] Er hört, wie die Räder über die Linie rollen.
+> Jeder Fühler leuchtet den Boden an. Heller Boden wirft viel Licht zurück, eine schwarze Linie wenig.
+? Was tut `mbot.turnRight()`?
+→ Befehle für den mBot2
+- [ ] Der mBot2 fährt 10 cm nach rechts.
+- [x] Der mBot2 dreht sich um 90° nach rechts.
+- [ ] Die rechte LED geht an.
+> Ohne Zahl in den Klammern dreht er sich um 90°. `mbot.turnRight(45)` dreht nur 45°.
+? Im Struktogramm stehen fünf Kästen `mbot.forward()` untereinander. Wie weit fährt der mBot2 in der Simulation?
+→ Erste Fahrt
+- [ ] 5 cm
+- [x] 50 cm
+- [ ] 10 cm
+> Jedes `mbot.forward()` fährt 10 cm, also ein Kästchen im Gitter.
+? Du bist mit dem echten mBot2 fertig. Was machst du, bevor du das Kabel ziehst?
+→ Den echten mBot2 verbinden
+- [x] Noch einmal auf **🟢 mBot2** klicken und warten, bis „Bis bald!“ dasteht
+- [ ] Den Schiebeschalter auf OFF schieben
+- [ ] Nichts, das Kabel darf sofort raus
+> Erst nach „Bis bald!“ ist der Anschluss frei.
+? Du hältst die Hand vor den Ultraschallsensor, aber unter **🔧 mBot2 testen** ändert sich der Wert nicht. Was tust du?
+→ Den mBot2 testen
+- [ ] Trotzdem losprogrammieren
+- [x] Der Lehrkraft Bescheid sagen, bevor du programmierst
+- [ ] Den Wert in der Simulation von Hand ändern
+> Ändert sich ein Wert nicht, obwohl du etwas tust, stimmt am Roboter etwas nicht.
 :::

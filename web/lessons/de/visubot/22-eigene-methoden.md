@@ -297,3 +297,38 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann eine überladene Methode erkennen und aufrufen. → Gleicher Name, andere Parameter: Überladung
 - Ich kann eine Methode mit Rückgabewert schreiben. → Methode mit Rückgabe
 :::
+
+## Wissenstest
+
+::: quiz
+? Das Unterprogramm `void quadrat(int seite)` soll ein Quadrat mit 30 cm Seitenlänge fahren. Wie sieht der Aufruf aus?
+→ Ein Unterprogramm für das Quadrat
+- [ ] `quadrat()`
+- [x] `quadrat(30)`
+- [ ] `int seite = quadrat(30)`
+> Der Wert in den Klammern wird zum Parameter `seite`. Weil `quadrat` nichts zurückgibt, gibt es keine Zuweisung.
+? In welcher Methode beginnt ein Java-Programm?
+→ Methoden in Java
+- [ ] in der ersten Methode der Klasse
+- [x] in der Methode `main`
+- [ ] in der Methode `quadrat`
+> Das Programm beginnt immer in `main`. Von dort werden die anderen Methoden aufgerufen.
+? Woran unterscheidet Java die überladenen Methoden `forward()`, `forward(int cm)` und `forward(int wert, String einheit)`?
+→ Gleicher Name, andere Parameter: Überladung
+- [ ] am Namen
+- [x] an der Anzahl und am Typ der Parameter
+- [ ] an der Reihenfolge im Programm
+> Der Name ist bei allen gleich. Java wählt die Variante, deren Parameter zum Aufruf passen.
+? `static int zentimeter(int umdrehungen) { return umdrehungen * 20; }`: Was liegt nach `int strecke = zentimeter(2);` in `strecke`?
+→ Methode mit Rückgabe
+- [ ] 2
+- [ ] 20
+- [x] 40
+> `return` gibt 2 · 20 = 40 zurück, und dieser Wert landet in `strecke`.
+? Was steht in der Kopfzeile einer Methode, die eine ganze Zahl zurückgibt, statt `void`?
+→ Methode mit Rückgabe
+- [ ] `return`
+- [x] `int`
+- [ ] `static`
+> Statt `void` steht der Datentyp des Ergebnisses in der Kopfzeile.
+:::

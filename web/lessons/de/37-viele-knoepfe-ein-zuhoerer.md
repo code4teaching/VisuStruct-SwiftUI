@@ -267,7 +267,7 @@ Dann mach es besser:
 - im Zusatz die Anzeige nur Sterne zeigt, der Code aber trotzdem geprüft wird.
 
 ::: ludwig
-Auch beim Taschenrechner aus Lektion 35 reicht ein Zuhörer für +, -, \* und /. Prüfe darin mit `e.getActionCommand().equals("+")`, welches Rechenzeichen geklickt wurde.
+Zähle im Zweig für **OK** bei jedem falschen Code `versuche++` und prüfe danach `if (versuche >= 3)`. Dann schaltet `ok.setEnabled(false)` den Knopf ab, wie beim Zahlenraten. Für die Sterne: `eingabe = eingabe + e.getActionCommand();` und `anzeige.setText(anzeige.getText() + "*");`. Verglichen wird dann `eingabe`, nicht der Text der Anzeige.
 :::
 
 ## Checkliste

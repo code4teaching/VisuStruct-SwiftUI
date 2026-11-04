@@ -15,6 +15,7 @@ import { clozeAnswerRight, clozeGaps, type Cloze } from '../src/learn/cloze'
 import { papFits, papLayout, parsePap } from '../src/learn/pap'
 import { bombParts, parseRoundGame, parseSwingWindow, simulate } from '../src/learn/roundGame'
 
+import { lessonEndProblems } from './lessonEnd'
 const allBlocks = (): { where: string; block: Block }[] => [
   ...lessons.flatMap((l) => l.steps.flatMap((s) => s.blocks.map((block) => ({ where: `${l.id} / ${s.title}`, block })))),
   ...tasks.flatMap((t) => t.blocks.map((block) => ({ where: t.id, block }))),
@@ -33,6 +34,12 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
     expect(reference).toContain({ de: '### Verzweigung', en: '### Branch', pt: '### Decisão' }[lang])
   })
 
+  it('kein Schritt heißt „Profiwissen: …“ (Profitipps stehen im Angeberwissen)', () => {
+    for (const lesson of lessons) {
+      for (const step of lesson.steps) expect(step.title, lesson.id).not.toMatch(/^(Profiwissen|Expert knowledge|Saber de profissional)\b/i)
+    }
+  })
+
   it('jede Lektion hat mindestens ein Spiel, und es steht vor der Checkliste', () => {
     for (const lesson of lessons) {
       const kinds = lesson.steps.flatMap((s) => s.blocks.map((b) => b.kind))
@@ -40,6 +47,10 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
       expect(game, `${lesson.id}: kein Spiel`).toBeGreaterThanOrEqual(0)
       expect(game, `${lesson.id}: Spiel nach der Checkliste`).toBeLessThan(kinds.indexOf('checklist'))
     }
+  })
+
+  it('jede Lektion endet mit eigenen Schritten für Checkliste und Wissenstest', () => {
+    expect(lessons.flatMap(lessonEndProblems)).toEqual([])
   })
 
   it('die Checkliste steht in einem eigenen Schritt „Checkliste“', () => {
@@ -526,6 +537,18 @@ describe('Kompetenzen und Selbsteinschätzung', () => {
   it('meldet Quizfragen ohne passenden Schritt oder Checklistenpunkt', () => {
     expect(() => lesson('Gibt es nicht')).toThrow(/unbekannten Schritt/)
     expect(() => lesson('Test')).toThrow(/keinen Checklistenpunkt/)
+  })
+
+  it('Lektion 1 ist geteilt: PAP und Pseudocode sind Lektion 2, die Verweise zählen mit', () => {
+    for (const lang of contentLanguages) {
+      useContentLanguage(lang)
+      expect(lessons[1].id, lang).toBe('01-weitere-darstellungen')
+      expect(lessons.find((l) => l.id === '02-der-editor')!.number, lang).toBe(3)
+      // „Lektion 18“ (Datei 18, Aussprung) heißt jetzt Lektion 19.
+      const text = JSON.stringify(lessons[1].steps)
+      expect(text, lang).toMatch(/\b(Lektion|lesson|lição) 19\b/i)
+      expect(text, lang).not.toMatch(/\b(Lektion|lesson|lição) 18\b/i)
+    }
   })
 
   it('Lektion 1 hat Kompetenzen und Ich-kann-Sätze in allen Sprachen', () => {

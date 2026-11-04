@@ -19,7 +19,7 @@ kurz: Einen Zuhörer als benannte innere Klasse, als anonyme Klasse und als Lamb
 Den Klickzähler aus Lektion 32 kennst du schon. Heute schreibst du seinen Zuhörer auf **drei Arten**, die alle genau dasselbe tun:
 
 1. als **benannte innere Klasse**, wie man es vor Java 8 meistens gemacht hat,
-2. als **anonyme Klasse**, die du aus dem Profiwissen in Lektion 30 kennst,
+2. als **anonyme Klasse**, die du aus Lektion 30 („ActionListener ist ein Interface“) kennst,
 3. als **Lambda** mit dem Pfeil, so wie bisher.
 
 In fremdem Code, in Büchern und im Internet triffst du alle drei Schreibweisen. Nach dieser Lektion erkennst du sie.

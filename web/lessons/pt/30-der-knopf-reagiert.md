@@ -167,7 +167,7 @@ frage: Quantas linhas “Clique!” há depois na consola?
 > O ouvinte corre a **cada** clique, não só no primeiro. Três cliques, três linhas.
 :::
 
-## Saber de profissional: ActionListener é uma interface
+## ActionListener é uma interface
 
 Isto não está no programa da disciplina. Se quiseres saber o que está por trás da seta, continua a ler.
 

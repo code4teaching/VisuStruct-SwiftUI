@@ -214,7 +214,7 @@ System.out.println("Total: " + totalPrice + " euros");
 How the computer understands your Java code and why it runs the same on Windows, macOS and Linux is explained in the lesson “Structure chart and code”.
 
 ::: angeberwissen
-Java was first called **Oak**, after the tree outside James Gosling’s office window. From 1991 his team at Sun Microsystems wanted to program small devices such as TV set-top boxes. But another company already had the name Oak. So in 1995 it became **Java**, like the coffee from the island of Java. That is why the logo is a steaming cup.
+Java was first called **Oak**, after the tree outside James Gosling’s office window. From 1991 his team at Sun Microsystems wanted to program small devices such as TV set-top boxes. But another company already had the name Oak. So in 1995 it became **Java**, like the coffee from the island of Java.
 :::
 
 ## Text in Java
