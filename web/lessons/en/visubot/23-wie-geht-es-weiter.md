@@ -16,7 +16,7 @@ kurz: Look back at what you learned with the mBot2 and see what is still waiting
 
 Congratulations, you have finished all the robot lessons! With the mBot2 you learned the **basics of structured programming**:
 
-- reading and building a **structure chart** and checking it with a **desk check**,
+- reading and building a **structure chart** and checking it with a **desk check**, writing a plan as a **flowchart** and as **pseudocode**,
 - **sequence**, **branch** and **switch**, conditions with **and**, **or** and **not**,
 - the loops **for**, **while** and **do-while**, also nested, and leaving a loop with **break**,
 - **variables**, **data types** and **constants** with `final`, counting, adding up and finding the largest value,
@@ -48,7 +48,6 @@ lösung: vb-bis-wand-loesung.visustruct
 
 Some programming topics have little to do with the robot. You will find them in **VisuStruct**, the world without the robot. Because you already know the basics, you will make quick progress there. The links open in a new window.
 
-- **Other ways to draw it:** writing algorithms as a chart with arrows or as text, in ["Flowcharts and pseudocode"](?visustruct&lektion=01-weitere-darstellungen).
 - **Keyboard input:** asking for values while the program runs, in ["Input and output"](?visustruct&lektion=06-eingabe-und-ausgabe).
 - **Tables in memory:** arrays with rows and columns, for example for a cinema, in ["Two-dimensional arrays"](?visustruct&lektion=16-zweidimensionale-arrays).
 - **Searching and sorting:** finding a value quickly and putting a list in order, in ["Searching and sorting"](?visustruct&lektion=19-suchen-und-sortieren).
@@ -102,9 +101,9 @@ richtig: VisuStruct
 > Searching and sorting is in VisuStruct. But you can already find the largest value.
 
 runde:
-frage: "Draw the steps as a chart with arrows."
+frage: "Save the high score list in a file."
 richtig: VisuStruct
-> That is a flowchart. You learn it in VisuStruct in "Flowcharts and pseudocode".
+> You learn to write files in VisuStruct in "Reading and saving text".
 :::
 
 ## Checklist
@@ -142,7 +141,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 
 ? Which topics do you find in VisuStruct? Choose the right list.
 → What is still missing
-- [x] Flowcharts, sorting, files and windows with buttons
+- [x] Sorting, files and windows with buttons
 - [ ] Line sensor, LEDs and motors
 - [ ] Only the for loop
 > Line sensor, LEDs and motors belong to the mBot2, and you already know the for loop.

@@ -46,6 +46,8 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     expect(at('08-farben')).toBe(at('07-und-oder') + 1)
     // Einstieg vorn, Testen nach den Variablen, do-while nach der While-Schleife, break nach den Tasten
     expect(at('00-struktogramm-und-editor')).toBe(0)
+    // PAP und Pseudocode direkt nach dem Quadrat
+    expect(at('02-quadrat-als-pap')).toBe(at('02-das-quadrat') + 1)
     expect(at('03-zeile-fuer-zeile-testen')).toBe(at('03-variablen-und-ausgabe') + 1)
     expect(at('05-erst-fahren-dann-pruefen')).toBe(at('05-bis-zur-wand') + 1)
     expect(at('10-unterbrechen-mit-break')).toBe(at('10-tasten-joystick') + 1)
@@ -75,10 +77,10 @@ describe.each(['de', 'en'] as const)('VisuBot-Lektionen (%s)', (lang) => {
     const tour = lessons.find((l) => l.id === '01-der-mbot2')!
     const word = { de: 'Lektion', en: 'Lesson' }[lang]
     expect(JSON.stringify(tour.steps).toLowerCase()).toContain(`${word} ${quadrat.number}`.toLowerCase())
-    // eingeschobene Lektionen verschieben die Nummern: Motoren (Datei 20) ist Lektion 30
+    // eingeschobene Lektionen verschieben die Nummern: Motoren (Datei 20) ist Lektion 31
     const motoren = lessons.find((l) => l.id === '20-motoren')!
     const sensoren = lessons.find((l) => l.id === '04-sensoren')!
-    expect(motoren.number).toBe(30)
+    expect(motoren.number).toBe(31)
     expect(JSON.stringify(sensoren.steps).toLowerCase()).toContain(`${word} ${motoren.number}`.toLowerCase())
   })
 

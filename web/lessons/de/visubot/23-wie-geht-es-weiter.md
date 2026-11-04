@@ -16,7 +16,7 @@ kurz: Zurückblicken, was du mit dem mBot2 gelernt hast, und sehen, was in VisuS
 
 Glückwunsch, du hast alle Roboter-Lektionen geschafft! Mit dem mBot2 hast du die **Grundlagen der strukturierten Programmierung** gelernt:
 
-- ein **Struktogramm** lesen und bauen und es mit dem **Schreibtischtest** prüfen,
+- ein **Struktogramm** lesen und bauen und es mit dem **Schreibtischtest** prüfen, einen Plan als **PAP** und als **Pseudocode** aufschreiben,
 - **Sequenz**, **Verzweigung** und **Fallauswahl**, Bedingungen mit **und**, **oder** und **nicht**,
 - die Schleifen **for**, **while** und **do-while**, auch ineinander verschachtelt, und den Aussprung mit **break**,
 - **Variablen**, **Datentypen** und **Konstanten** mit `final`, Zählen, Summieren und den größten Wert finden,
@@ -48,7 +48,6 @@ lösung: vb-bis-wand-loesung.visustruct
 
 Einige Themen der Programmierung haben mit dem Roboter wenig zu tun. Du findest sie in **VisuStruct**, der Welt ohne Roboter. Weil du die Grundlagen schon kennst, kommst du dort schnell voran. Die Links öffnen sich in einem neuen Fenster.
 
-- **Andere Darstellungen:** Algorithmen als Ablaufplan mit Pfeilen oder als Text aufschreiben, in [„PAP und Pseudocode“](?visustruct&lektion=01-weitere-darstellungen).
 - **Eingabe mit der Tastatur:** Werte beim Ausführen abfragen, in [„Eingabe und Ausgabe“](?visustruct&lektion=06-eingabe-und-ausgabe).
 - **Tabellen im Speicher:** Arrays mit Zeilen und Spalten, zum Beispiel für einen Kinosaal, in [„Zweidimensionale Arrays“](?visustruct&lektion=16-zweidimensionale-arrays).
 - **Suchen und Sortieren:** einen Wert schnell finden und eine Liste der Größe nach ordnen, in [„Suchen und Sortieren“](?visustruct&lektion=19-suchen-und-sortieren).
@@ -102,9 +101,9 @@ richtig: VisuStruct
 > Suchen und Sortieren steht in VisuStruct. Den größten Wert finden kannst du aber schon.
 
 runde:
-frage: „Zeichne den Ablauf als Plan mit Pfeilen.“
+frage: „Speichere die Bestenliste in einer Datei.“
 richtig: VisuStruct
-> Das ist ein PAP. Ihn lernst du in VisuStruct in „PAP und Pseudocode“.
+> Dateien schreiben lernst du in VisuStruct in „Text einlesen und speichern“.
 :::
 
 ## Checkliste
@@ -142,7 +141,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 
 ? Welche Themen findest du in VisuStruct? Wähle die passende Liste.
 → Was noch fehlt
-- [x] PAP, Sortieren, Dateien und Fenster mit Knöpfen
+- [x] Sortieren, Dateien und Fenster mit Knöpfen
 - [ ] Liniensensor, LEDs und Motoren
 - [ ] Nur die for-Schleife
 > Liniensensor, LEDs und Motoren gehören zum mBot2, die for-Schleife kennst du schon.
