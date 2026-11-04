@@ -4138,6 +4138,48 @@ button.danger-text:not(:disabled) {
 .start-world {
   margin-bottom: 14px;
 }
+/* Start-Dialog auf einer Welt-Subdomain: oben der Name der Welt */
+.start-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+/* Auf einer Welt-Subdomain statt der Welt-Frage: Marke „VisuCode“ als Link auf visucode.de */
+.visucode-more {
+  margin: 6px 0 8px;
+}
+.visucode-more small {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+/* Schriftzug wie auf visucode.de (MARKE.md): „Visu“ in Textfarbe, „Code“ im Verlauf durch alle Produktfarben */
+.visucode-brand {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-decoration: none;
+}
+.visucode-brand span {
+  color: #7c3aed;
+  background: linear-gradient(90deg, #2563eb, #c026d3, #e11d48, #ea580c, #eab308, #84cc16, #16a34a, #0f766e, #0284c7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.visucode-more .visucode-credit {
+  margin-top: 4px;
+}
+.visucode-more small a {
+  color: inherit;
+}
+.visucode-brand:hover {
+  text-decoration: underline;
+}
 
 /* VisuBot: „mBot2 live“ als eigene Spalte ganz rechts oder unten in „Programmieren“. */
 .robotpreview,

@@ -762,4 +762,5 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_rename_keyword_fmt" = "“%@” é uma palavra-chave de Java.";
 "web_rename_apply" = "Mudar o nome";
 "web_rename_cancel" = "Cancelar";
+"web_visubot_world_visucode_hint" = "Outros programas como %1$@ ou %2$@ estão em visucode.de.";
 `;export{e as default};

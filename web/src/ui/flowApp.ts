@@ -31,7 +31,7 @@ import { buildDiagramPDF, canvasRGB, canvasToPNG, exportFilenameSlug, rasterize,
 import { currentLanguage, t } from './i18n'
 import { worldHomeURL } from './site'
 import { icons } from './icons'
-import { setVisuBotMode, setVisuObjectWorld, worldChooserHTML, type WorldChoice } from './visubotView'
+import { setVisuBotMode, setVisuObjectWorld, worldChooserHTML, worldTitleHTML, type WorldChoice } from './visubotView'
 
 /**
  * Welt VisuFlow (…/app/?visuflow): einen PAP (flowchart) frei zeichnen. Symbole aus der Leiste ziehen oder antippen,
@@ -221,7 +221,7 @@ export class FlowApp {
           <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
             <section data-action="world">
-              <h3>${e(t('web_visubot_world_title'))}</h3>
+              ${worldTitleHTML()}
               ${worldChooserHTML()}
             </section>
             <footer>

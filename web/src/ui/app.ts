@@ -45,7 +45,7 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldChosen, type WorldChoice } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldTitleHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
 import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
@@ -467,7 +467,7 @@ export class App {
           <button class="icon" data-action="settings" aria-haspopup="true" aria-expanded="false" data-tip="${e(t('action_settings'))}" aria-label="${e(t('action_settings'))}">${gearIcon}</button>
           <div class="settings-menu" role="group" aria-label="${e(t('action_settings'))}" hidden>
             <section data-action="visubot">
-              <h3>${e(t('web_visubot_world_title'))}</h3>
+              ${worldTitleHTML()}
               ${worldChooserHTML()}
               <div class="settings-mbot-link">
                 <button type="button" data-action="mbot-link-settings"></button>

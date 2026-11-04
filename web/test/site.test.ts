@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { hostWorld, siteLanguage, worldHomeURL } from '../src/ui/site'
+import { hostWorld, siteLanguage, visucodeURL, worldHomeURL } from '../src/ui/site'
 
 describe('Webseiten auf visucode.de', () => {
   it('erkennt die Welt an der Subdomain', () => {
@@ -24,5 +24,14 @@ describe('Webseiten auf visucode.de', () => {
     expect(worldHomeURL('visustruct', 'de', 'contact', bot)).toBe('https://visustruct.visucode.de/de/#contact')
     const preview = { hostname: 'localhost', pathname: '/' }
     expect(worldHomeURL('visuobject', 'en', undefined, preview)).toBe('https://visuobject.visucode.de/en/')
+  })
+})
+
+describe('visucodeURL', () => {
+  it('führt auf visucode.de in der Sprache der App', () => {
+    expect(visucodeURL('de')).toBe('https://visucode.de/')
+    expect(visucodeURL('en')).toBe('https://visucode.de/en/')
+    expect(visucodeURL('pt-PT')).toBe('https://visucode.de/pt/')
+    expect(visucodeURL('fr')).toBe('https://visucode.de/en/')
   })
 })

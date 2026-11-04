@@ -764,3 +764,4 @@
 "web_rename_keyword_fmt" = "„%@“ ist ein Java-Schlüsselwort.";
 "web_rename_apply" = "Umbenennen";
 "web_rename_cancel" = "Abbrechen";
+"web_visubot_world_visucode_hint" = "Andere Programme wie %1$@ oder %2$@ findest du auf visucode.de.";
