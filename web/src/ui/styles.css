@@ -4091,6 +4091,9 @@ button.danger-text:not(:disabled) {
   gap: 4px;
   margin-top: 8px;
 }
+.settings-mbot-link[hidden] {
+  display: none;
+}
 .settings-mbot-link small {
   font-size: 12px;
   color: var(--muted);
@@ -4146,6 +4149,14 @@ button.danger-text:not(:disabled) {
   font-size: 22px;
   font-weight: 700;
   margin: 0 0 12px;
+}
+/* „Struct“ im Verlauf wie auf visucode.de (MARKE.md: Blau → Violett) */
+.visustruct-struct {
+  color: #4f46e5;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 /* Auf einer Welt-Subdomain statt der Welt-Frage: Marke „VisuCode“ als Link auf visucode.de */
 .visucode-more {

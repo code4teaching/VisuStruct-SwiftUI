@@ -77,13 +77,13 @@ const escapeHTML = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '
 /**
  * Auswahl der Welt für Zahnrad und Start-Dialog; die Knöpfe tragen `data-world`.
  * Auf einer Welt-Subdomain (visubot.visucode.de …) hat man die Welt schon gewählt: Dort gibt es nur die Welten dieser
- * Seite (auf visustruct.visucode.de VisuStruct und VisuFlow, sonst keine Knöpfe) und einen Link auf VisuCode.
+ * Seite, also keine Knöpfe, nur einen Link auf VisuCode.
  */
 export function worldChooserHTML(): string {
   const current: WorldChoice = visuObjectWorld() ? 'object' : visuFlowWorld() ? 'flow' : visuBotMode()
   const site = hostWorld()
   const all: [WorldChoice, string][] = [['off', 'VisuStruct'], ['on', 'VisuBot'], ['object', 'VisuObject'], ['flow', 'VisuFlow']]
-  const shown = site ? all.filter(([mode]) => site === 'visustruct' && (mode === 'off' || mode === 'flow')) : all
+  const shown = site ? [] : all
   const button = ([mode, label]: [WorldChoice, string]) =>
     `<button type="button" data-world="${mode}" aria-pressed="${mode === current}">${label}</button>`
   const hint = { off: 'web_visubot_world_visustruct_hint', on: 'web_visubot_world_visubot_hint', object: 'web_visuobject_world_hint', flow: 'web_visuflow_world_hint' }[current]
@@ -99,13 +99,13 @@ export function worldChooserHTML(): string {
 /** Name der Welt der Subdomain für den Start-Dialog, z. B. „Visu“ + orangefarbenes „Bot“. */
 export function worldBrandHTML(): string {
   const site = hostWorld()
-  return site === 'visubot' ? visuBotBrand : site === 'visuobject' ? 'Visu<span class="visuobject-obj">Object</span>' : 'VisuStruct'
+  return site === 'visubot' ? visuBotBrand : site === 'visuobject' ? '<span>Visu<span class="visuobject-obj">Object</span></span>' : '<span>Visu<span class="visustruct-struct">Struct</span></span>'
 }
 
-/** Überschrift „Womit möchtest du arbeiten?“ im Zahnrad; entfällt auf visubot/visuobject.visucode.de (dort gibt es nichts zu wählen). */
+/** Überschrift „Womit möchtest du arbeiten?“ im Zahnrad; entfällt auf den Welt-Subdomains (dort gibt es nichts zu wählen). */
 export function worldTitleHTML(): string {
   const site = hostWorld()
-  return site && site !== 'visustruct' ? '' : `<h3>${escapeHTML(t('web_visubot_world_title'))}</h3>`
+  return site ? '' : `<h3>${escapeHTML(t('web_visubot_world_title'))}</h3>`
 }
 
 /** Marke „VisuCode“ als Link auf visucode.de, wo man ein anderes Programm wählt. */
