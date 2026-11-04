@@ -20,6 +20,7 @@ import { closeWindows, compileAndRun, prepareJava, watchWrittenFiles } from './j
 import { writtenFilesView } from './textFileView'
 import { codeWords, nameAt, nameRanges } from '../core/rename'
 import { askRename, showRenameMenu } from './renameDialog'
+import { visuBotEnabled } from './visubotView'
 
 /**
  * Ansicht „Code live“: rechts neben dem Struktogramm der Java-, JavaScript- oder Python-Code, der bei jeder Änderung mitwächst.
@@ -1004,6 +1005,7 @@ export class LiveCodePanel {
       doLoop: t('element_doUntilSchleife'),
       output: t('inspector_io_mode_output'),
       input: t('inspector_io_mode_input'),
+      robot: visuBotEnabled(),
     }
   }
 }

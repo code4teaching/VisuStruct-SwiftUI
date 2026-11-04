@@ -43,6 +43,12 @@ describe('Code-Editor: Kürzel', () => {
     expect(labels).toEqual(expect.arrayContaining(['public', 'private', 'static', 'void', 'class', 'public class', 'try … catch', 'JButton']))
     expect(new Set(labels).size).toBe(labels.length)
   })
+
+  it('mbot nur in VisuBot', () => {
+    const words = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: '', step: '', branch: '', branchElse: '', switchCase: '', forLoop: '', whileLoop: '', doLoop: '', output: 'Ausgabe', input: 'Eingabe' }
+    expect(completions(words).map((c) => c.label)).not.toContain('mbot')
+    expect(completions({ ...words, robot: true }).map((c) => c.label)).toContain('mbot')
+  })
 })
 
 describe('Code-Editor: Einrücken', () => {
