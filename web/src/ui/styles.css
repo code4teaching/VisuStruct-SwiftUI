@@ -765,10 +765,7 @@ button.danger {
   overflow-y: auto;
 }
 .app.simulating {
-  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) var(--sim-width, 320px);
-}
-.app.simulating.visubot-mode {
-  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) var(--sim-width, min(440px, 45%));
+  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, var(--sim-work, 1fr)) minmax(240px, 1fr);
 }
 /* Linie zwischen Diagramm und Steuerung: zum Ziehen, liegt auf dem linken Rand der Steuerung. */
 .sim-resizer {

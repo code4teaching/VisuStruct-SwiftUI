@@ -233,7 +233,7 @@ const editorWidthKey = 'visustruct.editor.width'
 const collapsedGroupsKey = 'visustruct.visubot.collapsedGroups'
 const previewStackedKey = 'visustruct.robotPreview.stacked'
 const previewWidthKey = 'visustruct.robotPreview.width'
-const simWidthKey = 'visustruct.simulation.width'
+const simWorkKey = 'visustruct.simulation.diagram'
 const previewHeightKey = 'visustruct.robotPreview.height'
 const editorHiddenKey = 'visustruct.editor.hidden'
 const compactPaletteKey = 'visustruct.palette.compact'
@@ -1645,6 +1645,8 @@ export class App {
     this.endDrag()
     this.simulating = on
     this.root.classList.toggle('simulating', on)
+    // Erst nach dem Aufklappen von „mBot2 live“ steht die Breite fest.
+    if (on) requestAnimationFrame(() => this.fixSimSplit())
     this.simButton.setAttribute('aria-pressed', String(on))
     // Beschriftung statt Symbol allein: „Simulation starten“ wird zu „Simulation beenden“.
     this.simButton.innerHTML = `${on ? icons.stop : icons.play}<span>${e(t(on ? 'web_simulation_end' : 'web_simulation_start'))}</span>`
@@ -1852,32 +1854,31 @@ export class App {
 
   /** Markierten Schritt sichtbar halten, wenn das Diagramm größer als das Fenster ist. */
   /** Ein anderer Reiter, dessen Titel oder Dateiname zum Aufruf passt, z. B. `zeigeTitel()`. */
-  /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
   /**
-   * Linie zwischen Diagramm und Steuerung während der Simulation: Ziehen nach links macht die Steuerung breiter.
-   * Die Breite steht als `--sim-width` am Bereich (Raster-Spalte), Doppelklick stellt den Standard wieder her.
+   * Linie zwischen Diagramm und Steuerung während der Simulation. Gemerkt wird die Breite des Diagramms (`--sim-work`),
+   * die Steuerung füllt den Rest: Zieht man an der Linie zwischen Steuerung und Code, ändert sich so die Steuerung
+   * und nicht das Diagramm (Holger 2026-11-04). Doppelklick stellt den Standard wieder her.
    */
   private simResizer(): HTMLElement {
     const bar = h('div', { class: 'sim-resizer', role: 'separator', 'aria-orientation': 'vertical', tabindex: '0', title: t('web_visuobject_resize') })
     const root = this.root
     const clamp = (width: number) => {
       const total = root.getBoundingClientRect().width
-      return Math.round(Math.max(240, total > 0 ? Math.min(width, total - 200) : width))
+      return Math.round(Math.max(120, total > 0 ? Math.min(width, total - 240) : width))
     }
     const apply = (width: number | undefined, remember: boolean) => {
-      if (width === undefined) root.style.removeProperty('--sim-width')
-      else root.style.setProperty('--sim-width', `${clamp(width)}px`)
-      if (remember) storeValue(simWidthKey, width === undefined ? '' : String(clamp(width)))
+      if (remember) storeValue(simWorkKey, width === undefined ? '' : String(clamp(width)))
+      if (width === undefined) this.fixSimSplit()
+      else root.style.setProperty('--sim-work', `${clamp(width)}px`)
     }
-    const saved = Number(storedValue(simWidthKey))
-    if (saved > 0) root.style.setProperty('--sim-width', `${Math.max(240, saved)}px`)
-    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? 1 : -1)
+    const work = () => root.getBoundingClientRect().width - this.sim.element.getBoundingClientRect().width
+    const sign = () => (getComputedStyle(this.shell).direction === 'rtl' ? -1 : 1)
     bar.addEventListener('pointerdown', (e) => {
       if (e.button !== 0) return
       e.preventDefault()
       bar.setPointerCapture(e.pointerId)
       const startX = e.clientX
-      const startWidth = this.sim.element.getBoundingClientRect().width
+      const startWidth = work()
       const s = sign()
       this.shell.classList.add('resizing')
       const move = (ev: PointerEvent) => apply(startWidth + s * (ev.clientX - startX), false)
@@ -1894,14 +1895,25 @@ export class App {
     })
     bar.addEventListener('dblclick', () => apply(undefined, true))
     bar.addEventListener('keydown', (e) => {
-      const step = e.key === 'ArrowLeft' ? 20 : e.key === 'ArrowRight' ? -20 : 0
+      const step = e.key === 'ArrowRight' ? 20 : e.key === 'ArrowLeft' ? -20 : 0
       if (!step) return
       e.preventDefault()
-      apply(this.sim.element.getBoundingClientRect().width - sign() * step, true)
+      apply(work() + sign() * step, true)
     })
     return bar
   }
 
+  /** Beim Start der Simulation: Diagramm bekommt die gemerkte Breite, sonst so viel, dass die Steuerung ihre Standardbreite hat. */
+  private fixSimSplit() {
+    const root = this.root
+    const total = root.getBoundingClientRect().width
+    const saved = Number(storedValue(simWorkKey))
+    const control = root.classList.contains('visubot-mode') ? Math.min(440, total * 0.45) : 320
+    const width = saved > 0 ? saved : total - control
+    root.style.setProperty('--sim-work', `${Math.round(Math.max(120, total > 0 ? Math.min(width, total - 240) : width))}px`)
+  }
+
+  /** Senkrechte Trennlinie: Breite des Lernbereichs mit Maus, Finger oder Pfeiltasten ändern, Doppelklick setzt zurück. */
   private learnResizer(): HTMLElement {
     return this.panelResizer(this.learn.element, 'learn-resizer', learnWidthKey, t('web_learn_resize'), 1)
   }
