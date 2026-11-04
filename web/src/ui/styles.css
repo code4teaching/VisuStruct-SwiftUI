@@ -14,19 +14,20 @@
   color-scheme: light;
 }
 
-/* VisuBot-Modus: Farben aus dem VisuBot-Logo (Navy, Orange, Lila) */
+/* VisuBot-Modus: Navy und Lila aus dem VisuBot-Logo, Orange wie auf visucode.de
+   (Vollton #c2410c, Verlauf #ea580c → #c2410c; weiße Schrift darauf 5,2 : 1) */
 :root.visubot-theme {
   --bg: #f1f0f8;
   --text: #2f3454;
   --muted: #6a6890;
   --border: #d6d3e8;
-  --accent: #e07000;
-  --accent-soft: rgba(253, 161, 21, 0.24);
-  --accent-faint: rgba(253, 161, 21, 0.1);
-  --accent-glow: rgba(224, 112, 0, 0.35);
+  --accent: #c2410c;
+  --accent-soft: rgba(234, 88, 12, 0.2);
+  --accent-faint: rgba(234, 88, 12, 0.08);
+  --accent-glow: rgba(194, 65, 12, 0.35);
 }
 :root.visubot-theme .selection-frame {
-  stroke: rgba(224, 112, 0, 0.9);
+  stroke: rgba(194, 65, 12, 0.9);
 }
 
 * {
@@ -363,7 +364,12 @@ dialog.about h2 {
   margin: -4px 0;
 }
 .visubot-bot {
-  color: #f08a00;
+  /* wie der Schriftzug „Bot“ auf visucode.de */
+  color: #c2410c;
+  background: linear-gradient(90deg, #ea580c, #c2410c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   margin-left: -8px;
 }
 .brand small {
