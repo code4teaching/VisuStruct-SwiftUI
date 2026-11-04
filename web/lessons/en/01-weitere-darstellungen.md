@@ -68,7 +68,7 @@ erklärung: Two loops, two arrows back up: when stirring, the arrow leads back t
 legende: ja
 :::
 
-**Draw your own flowcharts:** With **VisuFlow** you can draw a flowchart freely, save it and export it as an image or PDF. VisuFlow does not simulate anything and does not generate code, it is just for drawing. [Open VisuFlow](https://visustruct.visucode.de/app/?visuflow)
+**Draw your own flowcharts:** With **VisuFlow** you can easily draw your own flowchart. The symbols are ready in a bar: tapping one adds the next symbol and connects it with an arrow right away. To get started you can load the tea example. You save your flowchart as a file and export it as an image or PDF, for example for your notebook or a presentation. [Open VisuFlow](https://visustruct.visucode.de/app/?visuflow)
 
 ## Drawbacks of the flowchart: jumps
 
