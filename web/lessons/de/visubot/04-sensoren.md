@@ -42,16 +42,28 @@ Diese Übung hat **zwei Welten**: In der einen steht die Wand direkt vor ihm, in
 
 ::: übung vb-wand-vorn
 titel: Wand vorn?
-auftrag: Baue eine Verzweigung mit der Bedingung `mbot.getDistance() < 20`. Bei **wahr** dreht sich der mBot2 nach rechts, bei **falsch** fährt er vor.
+auftrag: Baue eine Verzweigung mit der Bedingung `mbot.getDistance() < 20`. Bei **true** dreht sich der mBot2 nach rechts, bei **false** fährt er vor.
 welt: wand-nah -> turnRight
 welt: wand-frei -> forward
 braucht: verzweigung
 tipp: Zieh eine Verzweigung ins Struktogramm und dann den Sensor **Abstand** auf die Verzweigung. Schreib dahinter `< 20`.
-tipp: Im Ja-Zweig steht `mbot.turnRight()`, im Nein-Zweig `mbot.forward()`.
+tipp: Im true-Zweig steht `mbot.turnRight()`, im false-Zweig `mbot.forward()`.
 lösung: vb-wand-vorn-loesung.visustruct
 :::
 
 ## Was liefert der Sensor?
+
+Ein Sensor liefert einen **Wert**, so wie eine Variable. Fährt der mBot2 weiter, ändert sich der Wert: Der Abstand wird kleiner, je näher die Wand kommt. Erst ein **Vergleich** macht aus dem Wert eine Frage mit der Antwort `true` (wahr) oder `false` (falsch).
+
+| Bedingung | Frage | Antwort bei 38 cm Abstand |
+|---|---|---|
+| `mbot.getDistance() < 20` | Ist die Wand näher als 20 cm? | `false` |
+| `mbot.getDistance() > 30` | Ist mehr als 30 cm Platz? | `true` |
+| `mbot.getLine() == 0` | Ist unter dem mBot2 alles hell? | hängt vom Boden ab |
+
+Vergleichen kannst du mit `<` (kleiner), `>` (größer), `<=` (kleiner oder gleich), `>=` (größer oder gleich), `==` (gleich) und `!=` (ungleich).
+
+> Für „gleich“ schreibst du **zwei** Gleichheitszeichen: `==`. Ein einzelnes `=` legt einen Wert in eine Variable, das ist etwas ganz anderes.
 
 > 📘 **Mehr dazu ohne Roboter:** In VisuStruct gibt es die Lektion [„Verzweigung“](?visustruct&lektion=08-verzweigung). Sie öffnet sich in einem neuen Fenster.
 

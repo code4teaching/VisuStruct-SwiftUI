@@ -259,6 +259,12 @@ Depois melhora-o:
 - Depois de três tentativas erradas, o **OK** desliga-se, como o botão do Adivinha o número na lição 36. Conta as tentativas numa variável `static int` na classe.
 - Extra: o visor mostra `*` em vez dos algarismos. Guarda a entrada verdadeira numa `static String entrada = "";` e acrescenta ao visor só uma estrela.
 
+**Terminaste quando …**
+
+- o código certo abre o cadeado e um errado não,
+- depois de três tentativas erradas o **OK** fica desligado,
+- no extra, o visor só mostra estrelas mas o código continua a ser verificado.
+
 ::: ludwig
 Também na calculadora da lição 35 chega um ouvinte para +, -, \* e /. Verifica lá dentro com `e.getActionCommand().equals("+")` que sinal de operação foi clicado.
 :::

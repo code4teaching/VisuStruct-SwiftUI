@@ -236,6 +236,12 @@ Baue die Ampel nach und mach sie echter. In Deutschland leuchten nach Rot kurz R
 
 Zusatz: Schreib in jeder Phase zusätzlich mit `licht.setText(…)`, was die Ampel bedeutet, zum Beispiel „Stehen“ oder „Gehen“.
 
+**Du bist fertig, wenn …**
+
+- jeder Klick die nächste Phase zeigt: Rot, Rot-Gelb (orange), Grün, Gelb,
+- nach Gelb wieder Rot kommt,
+- im Zusatz zu jeder Phase der passende Text steht.
+
 ::: ludwig
 Mit vier Phasen kommt nach 3 wieder 0. Pass also die Zahl in `if (phase > 2)` an.
 :::

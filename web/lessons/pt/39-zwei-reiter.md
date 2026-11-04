@@ -240,6 +240,12 @@ Depois melhora-o:
 - O separador Lista mostra no título quantas coisas estão na lista: "Lista (3)". Conta numa variável `static int` e usa `setTitleAt`.
 - Extra: um terceiro separador **Ajuda** com um JLabel que explica como funciona o programa.
 
+**Terminaste quando …**
+
+- um item escrito aparece no separador da lista depois do clique,
+- um campo vazio não acrescenta nada à lista,
+- depois de três itens o título do separador mostra o número, p. ex. “Lista (3)”.
+
 ## Lista de verificação
 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.

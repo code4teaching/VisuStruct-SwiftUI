@@ -59,15 +59,15 @@ O bloco da área Elementos chama-se **Instrução**. Em cima, no Inspetor de obj
 Para começar, só precisas de Saída. Os textos que devem aparecer exatamente como estão ficam entre **aspas**.
 
 ::: diagramm l2-ausgabe.visustruct
-Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a simulação para veres a saída.
+Duas saídas, uma a seguir à outra. Abre o diagrama no editor e inicia a [simulação](#zeige-simulation) nas ferramentas para veres a saída. Vais conhecê-la melhor na lição 7.
 :::
 
 ## Mover, copiar, eliminar
 
 - **Mover:** Arrasta um bloco existente com o rato para um novo sítio.
-- **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado.
+- **Copiar e colar:** Seleciona um bloco e prime Ctrl+C e Ctrl+V (no Mac ⌘C e ⌘V). A cópia fica depois do bloco selecionado. Sem teclado, por exemplo no tablet, toca em **Copiar** e **Colar** nas [ferramentas](#zeige-werkzeuge).
 - **Eliminar:** Seleciona um bloco e prime Del, ou clica no [caixote do lixo](#zeige-loeschen) „Eliminar seleção“ nas ferramentas.
-- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z).
+- **Anular:** Ctrl+Z anula o último passo, Ctrl+Shift+Z refá-lo (no Mac ⌘Z e ⌘⇧Z). Sem teclado, toca em [Anular](#zeige-rueckgaengig) nas ferramentas.
 
 ## Exercício: Olá Mundo
 

@@ -260,6 +260,12 @@ Dann mach es besser:
 - Nach drei falschen Versuchen schaltet sich **OK** ab, wie der Knopf beim Zahlenraten in Lektion 36. Zähle die Versuche in einer `static int`-Variable in der Klasse.
 - Zusatz: Die Anzeige zeigt `*` statt der Ziffern. Merke dir die echte Eingabe in einer `static String eingabe = "";` und hänge an die Anzeige nur einen Stern an.
 
+**Du bist fertig, wenn …**
+
+- der richtige Code das Schloss öffnet und ein falscher nicht,
+- nach drei falschen Versuchen **OK** ausgeschaltet ist,
+- im Zusatz die Anzeige nur Sterne zeigt, der Code aber trotzdem geprüft wird.
+
 ::: ludwig
 Auch beim Taschenrechner aus Lektion 35 reicht ein Zuhörer für +, -, \* und /. Prüfe darin mit `e.getActionCommand().equals("+")`, welches Rechenzeichen geklickt wurde.
 :::

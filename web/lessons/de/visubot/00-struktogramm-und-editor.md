@@ -37,7 +37,7 @@ Jedes Programm, auch das für einen Roboter, besteht aus nur drei Bausteinen:
 | **Verzweigung** | je nach Bedingung das eine oder das andere | Ist die Wand nah? Dann drehen, sonst vorfahren. |
 | **Wiederholung** | Schritte mehrmals | viermal das Gleiche tun |
 
-Im Struktogramm sieht man die Bausteine sofort: Die Verzweigung hat oben ein Dreieck mit **Ja** und **Nein**. Die Wiederholung (Schleife) umschließt ihre Kästen wie ein gekipptes L.
+Im Struktogramm sieht man die Bausteine sofort: Die Verzweigung hat oben ein Dreieck und zwei Spalten: links **true** (wahr), rechts **false** (falsch). Die Wiederholung (Schleife) umschließt ihre Kästen wie ein gekipptes L.
 
 ::: diagramm vb-l00-bausteine-loesung.visustruct
 Alle drei Bausteine: erst ein Kasten, dann eine Schleife, darin eine Verzweigung.
@@ -68,6 +68,8 @@ tipp: Zieh **fahre vor** auf den Platzhalter ø. Die nächsten Befehle ziehst du
 tipp: Von oben nach unten: **fahre vor**, **drehe rechts**, **fahre vor**, **drehe links**, **fahre vor**.
 lösung: vb-erster-plan-loesung.visustruct
 :::
+
+> Bist du fertig, klickst du in der Übung auf **Prüfen**. VisuStruct lässt dein Struktogramm dann laufen und schaut nach, ob der mBot2 genau so fährt wie verlangt. Später prüft es dein Programm oft in mehreren Welten, zum Beispiel einmal mit Wand und einmal ohne. Klappt es nicht, helfen dir die **Tipps**.
 
 ## Speichern und Öffnen
 
@@ -183,7 +185,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - [ ] die Sequenz
 - [x] die Verzweigung
 - [ ] die Wiederholung
-> Die Verzweigung hat oben ein Dreieck mit Ja und Nein.
+> Die Verzweigung hat oben ein Dreieck und zwei Spalten für true und false.
 ? Du ziehst **fahre vor** auf die untere Hälfte eines Kastens. Wo landet es?
 → Der Editor
 - [ ] davor

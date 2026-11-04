@@ -37,7 +37,7 @@ Every program, including one for a robot, is made of only three building blocks:
 | **Branch** | one thing or the other, depending on a condition | Is the wall close? Then turn, otherwise drive forward. |
 | **Repetition** | steps several times | do the same thing four times |
 
-In a structure chart you see the building blocks straight away: the branch has a triangle at the top with **Yes** and **No**. The repetition (loop) wraps around its boxes like a tilted L.
+In a structure chart you see the building blocks straight away: the branch has a triangle and two columns: **true** on the left, **false** on the right. The repetition (loop) wraps around its boxes like a tilted L.
 
 ::: diagramm vb-l00-bausteine-loesung.visustruct
 All three building blocks: first a box, then a loop, inside it a branch.
@@ -68,6 +68,8 @@ tipp: Drag **drive forward** onto the placeholder ø. Drag each next command ont
 tipp: From top to bottom: **drive forward**, **turn right**, **drive forward**, **turn left**, **drive forward**.
 lösung: vb-erster-plan-loesung.visustruct
 :::
+
+> When you are done, click **Check** in the exercise. VisuStruct then runs your structure chart and checks whether the mBot2 drives exactly as required. Later it often checks your program in several worlds, for example once with a wall and once without. If it doesn't work, the **hints** help you.
 
 ## Saving and opening
 
@@ -183,7 +185,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - [ ] the sequence
 - [x] the branch
 - [ ] the repetition
-> The branch has a triangle at the top with Yes and No.
+> The branch has a triangle and two columns for true and false.
 ? You drag **drive forward** onto the bottom half of a box. Where does it land?
 → The editor
 - [ ] before it

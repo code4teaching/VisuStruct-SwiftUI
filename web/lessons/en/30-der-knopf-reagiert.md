@@ -294,6 +294,12 @@ Now you finish the task: build a window with a button “Click me” in normal s
 
 Extra: build two buttons “Red” and “Blue”. Clicking a button writes its name into the window title, for example “You chose Red”.
 
+**You are done when …**
+
+- the button says “Click me” before the click,
+- it says “I was clicked” after the click,
+- the button does not fill the whole window.
+
 ::: ludwig
 Every button gets its own listener with its own `addActionListener`. You change the title with `window.setTitle(…)`.
 :::

@@ -366,6 +366,13 @@ Depois melhora-o:
 - O próprio model trata dos limites: nunca abaixo de 0 e nunca acima de 10, porque aí a barra está cheia.
 - Extra: uma terceira view `VistaConsola`, cujo `atualizar` escreve "Novo valor: 3" com `System.out.println`. Uma view não tem de ser uma janela.
 
+**Terminaste quando …**
+
+- **+1**, **−1** e **Reset** contam bem,
+- o contador nunca fica abaixo de 0 nem acima de 10, por mais que cliques,
+- o número e a barra mostram sempre o mesmo valor,
+- a classe do modelo não tem `JButton`, `JLabel` nem outro Swing.
+
 ## Lista de verificação
 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.

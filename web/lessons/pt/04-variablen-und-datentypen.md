@@ -84,7 +84,7 @@ O tipo de dados diz que tipo de valor pode ser guardado na variável.
 Há mais tipos de dados. Um deles vais precisar em breve: `char` para um **único caractere**, p. ex. `char nota = 'C'`. Um `char` fica entre aspas **simples**. Vais conhecê-lo melhor na lição 17.
 
 ::: diagramm l05-datentypen.visustruct
-Três variáveis com tipos de dados diferentes. Abre o diagrama e inicia a simulação.
+Três variáveis com tipos de dados diferentes. Abre o diagrama e inicia a [simulação](#zeige-simulation).
 :::
 
 Os valores lógicos aparecem sobretudo em **condições**: `idade >= 18` é `true` ou `false`. É disso que trata a lição 8. Uma variável do tipo `boolean` recebe simplesmente `true` ou `false`:
@@ -130,6 +130,17 @@ A **divisão com resto** conheces da escola primária, quando ainda não sabias 
 Se o resto for 0, a divisão é exata. Mais tarde usas isto para ver se um número é par: nos números pares, `numero % 2` dá 0.
 
 **A multiplicação e a divisão vêm antes da adição e da subtração**, e os parênteses calculam-se primeiro: `2 * (3 + 4)` dá 14.
+
+### Mostrar texto e resultado juntos
+
+Um resultado sozinho diz pouco. Com `+` juntas um texto e o valor de uma variável:
+
+```
+int idade = 14
+output: "Idade: " + idade
+```
+
+Isto mostra **Idade: 14**. O texto entre aspas aparece tal e qual; em vez de `idade` o computador põe o valor. O espaço depois dos dois pontos faz parte do texto, senão aparece `Idade:14`.
 
 ## Exercício: Retângulo
 
@@ -254,7 +265,7 @@ auftrag: Preenche as palavras que faltam. Por fora está a moldura de que qualqu
     }
 }
 ```
-erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Código podes deixá-la de fora, há mais sobre isto na lição “Java”.
+erklärung: Números inteiros são `int`, números decimais `double`, textos `String` (com S maiúsculo) e valores lógicos `boolean`. `public class` e `public static void main` formam a moldura. Na área Código podes deixá-la de fora, há mais sobre isto na lição “Estrutograma e código”.
 :::
 
 ## Encontra o erro: segundos

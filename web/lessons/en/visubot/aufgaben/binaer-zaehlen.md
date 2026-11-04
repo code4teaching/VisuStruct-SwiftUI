@@ -20,6 +20,6 @@ auftrag: A for loop counts `number` from 0 to 7. For each number, each of the LE
 befehle: ledColor 0 "off", ledColor 1 "off", ledColor 2 "off", pause 1000, ledColor 0 "green", ledColor 1 "off", ledColor 2 "off", pause 1000, ledColor 0 "off", ledColor 1 "green", ledColor 2 "off", pause 1000, ledColor 0 "green", ledColor 1 "green", ledColor 2 "off", pause 1000, ledColor 0 "off", ledColor 1 "off", ledColor 2 "green", pause 1000, ledColor 0 "green", ledColor 1 "off", ledColor 2 "green", pause 1000, ledColor 0 "off", ledColor 1 "green", ledColor 2 "green", pause 1000, ledColor 0 "green", ledColor 1 "green", ledColor 2 "green", pause 1000
 braucht: forSchleife, verzweigung
 tipp: Whether LED 0 is on is given by the remainder when dividing by 2: `number % 2 == 1`. For LED 1 you first divide by 2: `number / 2 % 2 == 1`. For LED 2 by 4: `number / 4 % 2 == 1`.
-tipp: The loop contains three branches and then **wait a moment**. In the yes branch, for example, `mbot.led(0).setColor("green")`, in the no branch `mbot.led(0).setColor("off")`.
+tipp: The loop contains three branches and then **wait a moment**. In the true branch, for example, `mbot.led(0).setColor("green")`, in the false branch `mbot.led(0).setColor("off")`.
 lösung: vb-binaer-zaehlen-loesung.visustruct
 :::

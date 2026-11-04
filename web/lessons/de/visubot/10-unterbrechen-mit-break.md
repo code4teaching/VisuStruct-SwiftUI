@@ -26,7 +26,7 @@ auftrag: Baue eine Endlosschleife. Darin prüft eine Verzweigung: Ist der Abstan
 welt: wand-kurz -> tone
 welt: wand-mittel -> tone
 braucht: endlosschleife, aussprung
-tipp: Zieh die **Endlosschleife** ins Struktogramm. In die Schleife kommt zuerst eine Verzweigung mit `mbot.getDistance() < 15`, im Ja-Zweig der **Aussprung**, der Nein-Zweig bleibt leer.
+tipp: Zieh die **Endlosschleife** ins Struktogramm. In die Schleife kommt zuerst eine Verzweigung mit `mbot.getDistance() < 15`, im true-Zweig der **Aussprung**, der false-Zweig bleibt leer.
 tipp: Unter die Verzweigung (in der Schleife) kommt **fahre vor**, unter die Schleife `mbot.playTone(440, 300)`.
 lösung: vb-notbremse-loesung.visustruct
 :::

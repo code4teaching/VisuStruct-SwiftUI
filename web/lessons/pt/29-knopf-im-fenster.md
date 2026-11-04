@@ -169,6 +169,13 @@ Constrói uma janela com o título “Teste do botão”, com 300 por 200 píxei
 
 Extra: põe um segundo botão “Eu também” ao lado. Por que ordem aparecem os botões? Troca as duas linhas `add` e experimenta outra vez.
 
+**Terminaste quando …**
+
+- o título da janela diz “Teste do botão”,
+- a janela tem 300 píxeis de largura e 200 de altura,
+- o botão “Clica-me” só é do tamanho do texto e não enche a janela toda,
+- o botão afunda visivelmente quando clicas nele.
+
 ::: ludwig
 Cada botão precisa da sua própria variável, por exemplo `botao` e `botao2`, e do seu próprio `add`. O FlowLayout põe os botões pela ordem das linhas `add`.
 :::

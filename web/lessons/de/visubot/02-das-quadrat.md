@@ -41,6 +41,21 @@ Ziehe eine For-Schleife ins Struktogramm und gib ihr diese drei Teile:
 
 In den Inhalt der Schleife kommt ein einziges **fahre vor**. Die Schleife zählt `i` von 0 bis 4, das sind fünf Durchläufe.
 
+`i` ist ein **Zähler**. Der Computer merkt sich darin, im wievielten Durchlauf er gerade ist. So einen Speicher mit Namen nennt man **Variable**, genauer lernst du sie in Lektion 3 kennen. Die drei Teile bedeuten:
+
+| Teil | Bedeutung |
+|---|---|
+| `int i = 0` | Der Zähler `i` ist eine ganze Zahl (`int`) und fängt bei 0 an. |
+| `i < 5` | Solange `i` kleiner als 5 ist, läuft die Schleife noch einmal. |
+| `i++` | Nach jedem Durchlauf wird `i` um 1 größer. |
+
+So zählt die Schleife:
+
+| Durchlauf | 1 | 2 | 3 | 4 | 5 | danach |
+|---|---|---|---|---|---|---|
+| `i` | 0 | 1 | 2 | 3 | 4 | 5 |
+| `i < 5`? | true | true | true | true | true | false, fertig |
+
 ::: übung vb-quadrat-schleife
 titel: Seiten mit Schleife
 auftrag: Ersetze in deinem Quadrat jede Reihe aus fünf **fahre vor** durch eine For-Schleife, die fünfmal fährt. Der mBot2 fährt danach genau dasselbe Quadrat.

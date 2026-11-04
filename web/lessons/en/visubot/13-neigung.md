@@ -43,7 +43,7 @@ messwerte: getPitch=-30 -> tone
 messwerte: getPitch=5 -> noTone
 braucht: verzweigung
 tipp: “or” in a condition is `||`. Drag the sensor **Tilt forward/back** onto the branch twice.
-tipp: The condition is `mbot.getPitch() > 20 || mbot.getPitch() < -20`, the Yes branch gets **play a tone**.
+tipp: The condition is `mbot.getPitch() > 20 || mbot.getPitch() < -20`, the true branch gets **play a tone**.
 lösung: vb-schraeglage-loesung.visustruct
 :::
 

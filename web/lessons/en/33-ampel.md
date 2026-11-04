@@ -236,6 +236,12 @@ Rebuild the traffic light and make it more realistic. In the UK and Germany, red
 
 Extra: in each phase, also write with `light.setText(…)` what the light means, for example “Stop” or “Go”.
 
+**You are done when …**
+
+- every click shows the next phase: red, red-yellow (orange), green, yellow,
+- red comes again after yellow,
+- for the extra, every phase shows its matching text.
+
 ::: ludwig
 With four phases, 0 comes after 3. So change the number in `if (phase > 2)`.
 :::

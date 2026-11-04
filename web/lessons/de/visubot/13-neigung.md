@@ -43,7 +43,7 @@ messwerte: getPitch=-30 -> tone
 messwerte: getPitch=5 -> noTone
 braucht: verzweigung
 tipp: „oder“ heißt in einer Bedingung `||`. Zieh den Sensor **Neigung vorn/hinten** zweimal auf die Verzweigung.
-tipp: Die Bedingung heißt `mbot.getPitch() > 20 || mbot.getPitch() < -20`, im Ja-Zweig steht **Ton spielen**.
+tipp: Die Bedingung heißt `mbot.getPitch() > 20 || mbot.getPitch() < -20`, im true-Zweig steht **Ton spielen**.
 lösung: vb-schraeglage-loesung.visustruct
 :::
 

@@ -169,6 +169,13 @@ Baue ein Fenster mit dem Titel „Knopf-Test“, 300 mal 200 Pixel groß, mit ei
 
 Zusatz: Lege einen zweiten Knopf „Ich auch“ daneben. In welcher Reihenfolge stehen die Knöpfe? Tausche die beiden `add`-Zeilen und probiere es noch einmal.
 
+**Du bist fertig, wenn …**
+
+- oben im Fenster „Knopf-Test“ steht,
+- das Fenster 300 Pixel breit und 200 Pixel hoch ist,
+- der Knopf „Klick mich“ nur so groß ist wie seine Schrift und nicht das ganze Fenster füllt,
+- sich der Knopf beim Klicken sichtbar eindrückt.
+
 ::: ludwig
 Jeder Knopf braucht eine eigene Variable, zum Beispiel `knopf` und `knopf2`, und ein eigenes `add`. Das FlowLayout stellt die Knöpfe in der Reihenfolge der `add`-Zeilen auf.
 :::

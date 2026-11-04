@@ -41,6 +41,21 @@ Drag a for loop into the structure chart and give it these three parts:
 
 The body of the loop gets a single **move forward**. The loop counts `i` from 0 to 4, that is five runs.
 
+`i` is a **counter**. The computer uses it to remember which run it is in. Such a named store is called a **variable**; you will get to know it properly in lesson 3. The three parts mean:
+
+| Part | Meaning |
+|---|---|
+| `int i = 0` | The counter `i` is a whole number (`int`) and starts at 0. |
+| `i < 5` | As long as `i` is less than 5, the loop runs once more. |
+| `i++` | After every run `i` gets 1 bigger. |
+
+This is how the loop counts:
+
+| Run | 1 | 2 | 3 | 4 | 5 | after that |
+|---|---|---|---|---|---|---|
+| `i` | 0 | 1 | 2 | 3 | 4 | 5 |
+| `i < 5`? | true | true | true | true | true | false, done |
+
 ::: übung vb-quadrat-schleife
 titel: Sides with a loop
 auftrag: In your square, replace each row of five **move forward** with a for loop that drives five times. The mBot2 then drives exactly the same square.
