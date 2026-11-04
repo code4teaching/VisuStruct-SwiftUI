@@ -145,6 +145,7 @@ test: a -> a
 braucht: forSchleife
 tipp: Go through the word character by character, but from back to front, and build a new text as you go.
 tipp: Create `String backwards = ""`. The loop starts at the last index `word.length() - 1` and counts down to 0 with `i--`. In every pass you add `word.charAt(i)` at the end.
+tipp: The outline: input `word`, then `String backwards = ""`. For loop with start `int i = word.length() - 1`, condition `i >= 0` and step `i--`. Inside it `backwards = backwards + word.charAt(i)`. Below the loop `output: backwards`.
 lösung: zk-rueckwaerts-loesung.visustruct
 :::
 
@@ -159,6 +160,7 @@ test: I like goats -> Words: 3
 braucht: anweisung
 tipp: There is always a space between the words. Which method splits a text at a character?
 tipp: Split the sentence into a String array with `sentence.split(" ")`. Its length is the number of words.
+tipp: The whole program has three boxes: the input `sentence`, then `String[] words = sentence.split(" ")` and finally `output: "Words: " + words.length`.
 lösung: zk-woerter-loesung.visustruct
 :::
 

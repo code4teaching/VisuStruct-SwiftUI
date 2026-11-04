@@ -121,6 +121,7 @@ test: 2, 9, 2, 7, 6 -> 9 | 7 | 6 | 2 | 2
 braucht: forSchleife, verzweigung
 tipp: Look at the condition in the branch. It decides when two neighbours are swapped.
 tipp: You only need to change one single character. When should two neighbours be swapped if the larger card is supposed to go to the left?
+tipp: In the branch, change `cards[i] > cards[i + 1]` to `cards[i] < cards[i + 1]`. Then two neighbours swap when the bigger card is on the right, and the big card moves to the left.
 lösung: ss-absteigend-loesung.visustruct
 :::
 

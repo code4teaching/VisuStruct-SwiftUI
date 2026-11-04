@@ -76,6 +76,7 @@ test: 1, x, 2 -> Operador desconhecido
 braucht: fallauswahl
 tipp: Primeiro lê os três valores. Depois, uma seleção sobre o operador decide o que é calculado.
 tipp: Antes da seleção, cria `int resultado = 0`. Em cada caso calculas, por exemplo, `resultado = a + b` e depois mostras `resultado`. Os nomes dos casos são `"+"`, `"-"` e `"*"` entre aspas, porque o operador é uma `String`.
+tipp: O esqueleto de cima para baixo: três entradas (`int a`, `String operador`, `int b`), depois `int resultado = 0`, depois uma seleção múltipla sobre `operador`. No caso `"+"` ficam `resultado = a + b` e `output: resultado`, em `"-"` e `"*"` igual. No caso senão fica `output: "Operador desconhecido"`.
 lösung: l09-rechner-loesung.visustruct
 :::
 

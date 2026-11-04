@@ -179,6 +179,7 @@ test: 2000 -> Ano bissexto
 braucht: verzweigung
 tipp: Confirma primeiro a regra com exemplos: 2024 é bissexto, 1900 não é, 2000 é. “Divisível” quer dizer que o resto é 0.
 tipp: Divisível por 4 é `ano % 4 == 0`, não divisível por 100 é `ano % 100 != 0`. Junta estas duas com `&&`, põe parênteses à volta e acrescenta o caso do 400 com `||`.
+tipp: Quase a solução: uma única decisão com a condição `(ano % 4 == 0 && ano % 100 != 0) || ano % 400 == 0`. No ramo true fica `output: "Ano bissexto"`, no ramo false `output: "Não é ano bissexto"`.
 lösung: l08-schaltjahr-loesung.visustruct
 :::
 

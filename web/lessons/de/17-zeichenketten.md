@@ -145,6 +145,7 @@ test: a -> a
 braucht: forSchleife
 tipp: Gehe das Wort Zeichen für Zeichen durch, aber von hinten nach vorn, und baue dabei einen neuen Text zusammen.
 tipp: Lege `String rueckwaerts = ""` an. Die Schleife beginnt beim letzten Index `wort.length() - 1` und zählt mit `i--` bis 0 herunter. In jedem Durchlauf hängst du `wort.charAt(i)` hinten an.
+tipp: Das Gerüst: Eingabe `wort`, dann `String rueckwaerts = ""`. For-Schleife mit Start `int i = wort.length() - 1`, Bedingung `i >= 0` und Schritt `i--`. Darin `rueckwaerts = rueckwaerts + wort.charAt(i)`. Unter der Schleife `output: rueckwaerts`.
 lösung: zk-rueckwaerts-loesung.visustruct
 :::
 
@@ -159,6 +160,7 @@ test: Struktogramme machen Spaß -> Wörter: 3
 braucht: anweisung
 tipp: Zwischen den Wörtern steht immer ein Leerzeichen. Welche Methode zerlegt einen Text an einem Zeichen?
 tipp: Zerlege den Satz mit `satz.split(" ")` in ein String-Array. Seine Länge ist die Anzahl der Wörter.
+tipp: Das ganze Programm hat drei Kästen: die Eingabe `satz`, dann `String[] woerter = satz.split(" ")` und zum Schluss `output: "Wörter: " + woerter.length`.
 lösung: zk-woerter-loesung.visustruct
 :::
 

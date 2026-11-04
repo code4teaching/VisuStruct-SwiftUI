@@ -145,6 +145,7 @@ test: a -> a
 braucht: forSchleife
 tipp: Percorre a palavra caractere a caractere, mas de trás para a frente, e vai construindo um novo texto.
 tipp: Cria `String invertida = ""`. O ciclo começa no último índice `palavra.length() - 1` e conta para trás até 0 com `i--`. Em cada iteração acrescentas `palavra.charAt(i)` no fim.
+tipp: O esqueleto: entrada `palavra`, depois `String invertida = ""`. Ciclo for com início `int i = palavra.length() - 1`, condição `i >= 0` e passo `i--`. Dentro, `invertida = invertida + palavra.charAt(i)`. Por baixo do ciclo, `output: invertida`.
 lösung: zk-rueckwaerts-loesung.visustruct
 :::
 
@@ -159,6 +160,7 @@ test: Eu gosto de cabras -> Palavras: 4
 braucht: anweisung
 tipp: Entre as palavras há sempre um espaço. Que método divide um texto num caractere?
 tipp: Divide a frase num array de Strings com `frase.split(" ")`. O seu comprimento é o número de palavras.
+tipp: O programa todo tem três blocos: a entrada `frase`, depois `String[] palavras = frase.split(" ")` e no fim `output: "Palavras: " + palavras.length`.
 lösung: zk-woerter-loesung.visustruct
 :::
 

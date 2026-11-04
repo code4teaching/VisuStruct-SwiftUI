@@ -74,6 +74,7 @@ test: 2, 2 -> ## | ##
 braucht: forSchleife
 tipp: Precisas de dois ciclos, um dentro do outro: um para as linhas e, lá dentro, um para os caracteres de uma linha.
 tipp: Constrói-o como o triângulo. A diferença: o ciclo interior conta sempre até `largura`, não até ao número da linha. O ciclo exterior conta até `altura`.
+tipp: O esqueleto: entradas `largura` e `altura`. Ciclo for exterior `int linha = 1`, `linha <= altura`, `linha++`. Dentro, primeiro `String texto = ""`, depois o ciclo for interior `int coluna = 1`, `coluna <= largura`, `coluna++` com `texto = texto + "#"`, e por baixo do ciclo interior `output: texto`.
 lösung: l13-rechteck-loesung.visustruct
 :::
 

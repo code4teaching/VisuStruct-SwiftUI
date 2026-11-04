@@ -148,6 +148,7 @@ test: -5, -2, -9, -1, -3 -> Sum: -20 | Maximum: -1
 braucht: forSchleife, verzweigung
 tipp: Go through the array with a loop. Add every value to the sum and remember the largest value seen so far.
 tipp: Calculate the sum and the maximum in variables of their own and only output them at the end, e.g. with `output: "Sum: " + sum`. If your maximum starts at 0, the third test fails.
+tipp: The outline: create the array and read it in with a loop. Then `int sum = 0` and `int max = numbers[0]`. A second loop calculates `sum = sum + numbers[i]`, and a branch `numbers[i] > max` sets `max = numbers[i]` in its true branch. Finally the two outputs.
 lösung: l14-summe-max-loesung.visustruct
 :::
 
