@@ -135,7 +135,7 @@ try {
 
 Java cannot convert “twelve” and throws a `NumberFormatException`. The program prints “That is not a number: twelve”. Change the first line to `String input = "12";` and run it again: now “Double: 24” appears.
 
-## Expert knowledge: exceptions are objects
+## Exceptions are objects
 
 This is not in the curriculum, but it is useful to know.
 

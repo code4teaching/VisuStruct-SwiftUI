@@ -102,7 +102,7 @@ public class AdivinhaNumero {
 Com `setEnabled(true)` voltas a ligar um botão. Assim podes, por exemplo, só ativar um botão depois de alguém ter escrito alguma coisa.
 :::
 
-## Saber de profissional: ganhar com 7 tentativas
+## Ganhar com 7 tentativas
 
 ::: angeberwissen
 Quem adivinha com jeito nunca precisa de mais de 7 tentativas. Escolhe sempre o meio do intervalo que ainda resta: primeiro 50, depois 25 ou 75 e assim por diante. Cada palpite corta o intervalo a meio: 100, 50, 25, 13, 7, 4, 2, 1. É a **pesquisa binária** da lição 19. Como 2 elevado a 7 = 128 é maior do que 100, chegam 7 palpites.

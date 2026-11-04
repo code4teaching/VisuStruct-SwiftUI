@@ -34,6 +34,12 @@ describe.each(contentLanguages)('Lernbereich: Inhalte (%s)', (lang) => {
     expect(reference).toContain({ de: '### Verzweigung', en: '### Branch', pt: '### Decisão' }[lang])
   })
 
+  it('kein Schritt heißt „Profiwissen: …“ (Profitipps stehen im Angeberwissen)', () => {
+    for (const lesson of lessons) {
+      for (const step of lesson.steps) expect(step.title, lesson.id).not.toMatch(/^(Profiwissen|Expert knowledge|Saber de profissional)\b/i)
+    }
+  })
+
   it('jede Lektion hat mindestens ein Spiel, und es steht vor der Checkliste', () => {
     for (const lesson of lessons) {
       const kinds = lesson.steps.flatMap((s) => s.blocks.map((b) => b.kind))

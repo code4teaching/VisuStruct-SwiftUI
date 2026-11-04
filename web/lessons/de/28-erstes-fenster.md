@@ -82,7 +82,7 @@ Erst einrichten, dann zeigen. Wie im Theater: Der Vorhang geht erst auf, wenn di
 
 Probier es aus: Lösche die Zeile mit `setVisible(true)` und führe das Programm noch einmal aus. Das Programm läuft, aber du siehst kein Fenster.
 
-## Profiwissen: Klassen und Objekte
+## Klassen und Objekte
 
 Das steht nicht im Lehrplan, hilft dir aber, Swing zu verstehen.
 

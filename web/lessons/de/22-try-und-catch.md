@@ -135,7 +135,7 @@ try {
 
 „zwölf“ kann Java nicht umwandeln und wirft eine `NumberFormatException`. Das Programm gibt „Das ist keine Zahl: zwölf“ aus. Ändere die erste Zeile in `String eingabe = "12";` und führe es noch einmal aus: Jetzt erscheint „Doppelt: 24“.
 
-## Profiwissen: Exceptions sind Objekte
+## Exceptions sind Objekte
 
 Das steht nicht im Lehrplan, ist aber praktisch zu wissen.
 

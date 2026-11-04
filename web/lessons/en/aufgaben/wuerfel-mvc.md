@@ -31,6 +31,13 @@ Your task:
 3. Write the view `StatsView`. It shows for example "Sixes: 2 of 10 rolls".
 4. The controller is the listener at the button: it lets the model roll and hands the new values to both views.
 
+**You are done when …**
+
+- after ten rolls in the console `rolls` is 10 and `sixes` is between 0 and 10,
+- every click on **Roll** shows a new number from 1 to 6 in the `PipsView`,
+- the `StatsView` counts one more roll after every click and counts the sixes correctly,
+- there is no `JLabel` in the model and no `Math.random` in the views.
+
 Extra: a button **New game** resets everything. The method for that belongs in the model.
 
 ::: ludwig

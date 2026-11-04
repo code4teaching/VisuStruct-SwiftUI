@@ -102,7 +102,7 @@ public class Zahlenraten {
 Mit `setEnabled(true)` schaltest du einen Knopf wieder ein. So kannst du zum Beispiel einen Knopf erst freigeben, wenn etwas eingegeben wurde.
 :::
 
-## Profiwissen: mit 7 Versuchen gewinnen
+## Mit 7 Versuchen gewinnen
 
 ::: angeberwissen
 Wer geschickt rät, braucht nie mehr als 7 Versuche. Rate immer die Mitte des Bereichs, der noch übrig ist: erst 50, dann 25 oder 75 und so weiter. Jeder Tipp halbiert den Bereich: 100, 50, 25, 13, 7, 4, 2, 1. Das ist die **binäre Suche** aus Lektion 19. Weil 2 hoch 7 = 128 größer als 100 ist, reichen 7 Tipps.

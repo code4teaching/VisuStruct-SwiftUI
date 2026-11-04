@@ -214,7 +214,7 @@ System.out.println("Total: " + precoTotal + " euros");
 Como é que o computador entende o teu código Java e porque é que ele corre igual no Windows, no macOS e no Linux, vais ver na lição “Estrutograma e código”.
 
 ::: angeberwissen
-O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java. É por isso que o logótipo é uma chávena a fumegar.
+O Java chamava-se primeiro **Oak** (carvalho), por causa da árvore em frente à janela do escritório de James Gosling. A partir de 1991, a sua equipa na Sun Microsystems queria programar pequenos aparelhos, como boxes de televisão. Mas o nome Oak já pertencia a outra empresa. Assim, em 1995 passou a chamar-se **Java**, como o café da ilha de Java.
 :::
 
 ## Texto em Java

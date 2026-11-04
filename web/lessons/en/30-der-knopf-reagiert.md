@@ -167,7 +167,7 @@ frage: How many lines “Click!” are in the console afterwards?
 > The listener runs on **every** click, not only on the first one. Three clicks, three lines.
 :::
 
-## Expert knowledge: ActionListener is an interface
+## ActionListener is an interface
 
 This is not in the curriculum. If you want to know what is behind the arrow, read on.
 

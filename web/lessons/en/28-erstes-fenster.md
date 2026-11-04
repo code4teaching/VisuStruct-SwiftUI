@@ -82,7 +82,7 @@ Set up first, then show. Like in the theatre: the curtain only goes up once the 
 
 Try it: delete the line with `setVisible(true)` and run the program again. The program runs, but you do not see a window.
 
-## Expert knowledge: classes and objects
+## Classes and objects
 
 This is not in the curriculum, but it helps you understand Swing.
 
