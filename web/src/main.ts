@@ -55,13 +55,13 @@ Promise.all([setLanguage(language, false), setCodeKeywords(storedCodeKeywords(),
     // Welten VisuObject (…/app/?visuobject) und VisuFlow (?visuflow) haben eine eigene Oberfläche; ?visustruct und ?visubot wählt die App selbst.
     const query = new URLSearchParams(location.search)
     // Auf einer Welt-Subdomain (visubot.visucode.de …) ohne Welt in der Adresse gilt immer die Welt der Seite; gefragt wird nicht.
-    // Auf visustruct.visucode.de darf VisuFlow bleiben (es wohnt dort mit). Ohne Subdomain fragt der Start-Dialog.
+    // VisuFlow gibt es dort nur mit ?visuflow in der Adresse. Ohne Subdomain fragt der Start-Dialog.
     const anyWorld = ['visustruct', 'visubot', 'visuobject', 'visuflow'].some((k) => query.has(k))
     const site = hostWorld()
     if (!anyWorld && site) {
       if (site === 'visubot') setVisuBotMode('on')
       else if (site === 'visuobject') setVisuObjectWorld()
-      else if (!visuFlowWorld()) setVisuBotMode('off')
+      else setVisuBotMode('off')
     }
     if (query.has('visuobject')) setVisuObjectWorld()
     if (query.has('visuflow')) setVisuFlowWorld()
