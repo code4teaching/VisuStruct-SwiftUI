@@ -765,10 +765,7 @@ button.danger {
   overflow-y: auto;
 }
 .app.simulating {
-  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) var(--sim-width, 320px);
-}
-.app.simulating.visubot-mode {
-  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, 1fr) var(--sim-width, min(440px, 45%));
+  grid-template: 'tools tools' auto 'work insp' 1fr / minmax(0, var(--sim-work, 1fr)) minmax(240px, 1fr);
 }
 /* Linie zwischen Diagramm und Steuerung: zum Ziehen, liegt auf dem linken Rand der Steuerung. */
 .sim-resizer {
@@ -4159,14 +4156,20 @@ button.danger-text:not(:disabled) {
   font-size: 12px;
   color: var(--muted);
 }
+/* Schriftzug wie auf visucode.de (MARKE.md): „Visu“ in Textfarbe, „Code“ im Verlauf durch alle Produktfarben */
 .visucode-brand {
-  font-weight: 700;
-  font-size: 15px;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.01em;
   color: var(--text);
   text-decoration: none;
 }
 .visucode-brand span {
-  color: var(--accent);
+  color: #7c3aed;
+  background: linear-gradient(90deg, #2563eb, #c026d3, #e11d48, #ea580c, #eab308, #84cc16, #16a34a, #0f766e, #0284c7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .visucode-brand:hover {
   text-decoration: underline;
