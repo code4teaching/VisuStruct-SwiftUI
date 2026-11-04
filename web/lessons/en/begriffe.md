@@ -120,6 +120,14 @@ A variable that counts along in a loop, usually i.
 also: endless loop, endless loops, infinite loop, infinite loops
 A loop whose condition never becomes false. It never stops by itself.
 
+### Flag
+also: flag, flags
+A boolean variable that starts with false and is set to true as soon as something has happened.
+
+### State machine
+also: state machine, state machines, state variable, state variables
+A program that is always in exactly one state and changes to the next state by fixed rules, e.g. a traffic light.
+
 ### Array
 also: array, arrays, Arrays
 A row of slots with one shared name and the same data type.
