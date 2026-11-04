@@ -328,3 +328,38 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can nest three loops. → Four squares
 - I can upload my program to the mBot2 and start it with button A without a cable. → Driving without a cable
 :::
+
+## Quiz
+
+::: quiz
+? Still without a loop, the mBot2 should drive one side of 50 cm and then turn. Which boxes do you need?
+→ Driving a square
+- [ ] one `mbot.forward()` and one `mbot.turnRight()`
+- [x] five `mbot.forward()` and one `mbot.turnRight()`
+- [ ] five `mbot.turnRight()`
+> Each `mbot.forward()` drives 10 cm, five of them are 50 cm.
+? A for loop has the start `int i = 0`, the condition `i < 5` and the step `i++`. How often does it run?
+→ Always the same
+- [ ] 4 times
+- [x] 5 times
+- [ ] 6 times
+> `i` counts 0, 1, 2, 3, 4. That is five runs.
+? Why is the counter of the inner loop called `j` and not `i` as well?
+→ A loop in a loop
+- [ ] Each letter may only appear once in a program.
+- [x] Each loop needs its own counter, otherwise the two get in each other's way.
+- [ ] `j` counts faster than `i`.
+> If both counted with `i`, the inner loop would mix up the outer one.
+? How often does the mBot2 run `mbot.turnRight()` for the four squares?
+→ Four squares
+- [ ] 4 times
+- [ ] 16 times
+- [x] 20 times
+> In each square it turns four times, that is 4 · 4 = 16. After each square there is one more turn: 16 + 4 = 20.
+? Your program has been transferred and the cable is out. How do you start it?
+→ Driving without a cable
+- [ ] with button B
+- [x] with button A
+- [ ] with **⬆ Transfer**
+> After the transfer the mBot2 shows **A = Start** and waits for button A.
+:::

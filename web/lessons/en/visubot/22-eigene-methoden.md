@@ -297,3 +297,38 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can recognise and call an overloaded method. → Same name, different parameters: overloading
 - I can write a method with a return value. → A method with a return value
 :::
+
+## Quiz
+
+::: quiz
+? The subprogram `void quadrat(int seite)` should drive a square with sides of 30 cm. What does the call look like?
+→ A subprogram for the square
+- [ ] `quadrat()`
+- [x] `quadrat(30)`
+- [ ] `int seite = quadrat(30)`
+> The value in the brackets becomes the parameter `seite`. Because `quadrat` returns nothing, there is no assignment.
+? In which method does a Java program start?
+→ Methods in Java
+- [ ] in the first method of the class
+- [x] in the method `main`
+- [ ] in the method `quadrat`
+> The program always starts in `main`. The other methods are called from there.
+? How does Java tell the overloaded methods `forward()`, `forward(int cm)` and `forward(int wert, String einheit)` apart?
+→ Same name, different parameters: overloading
+- [ ] by their name
+- [x] by the number and type of the parameters
+- [ ] by their order in the program
+> The name is the same for all of them. Java chooses the variant whose parameters fit the call.
+? `static int zentimeter(int umdrehungen) { return umdrehungen * 20; }`: What is in `strecke` after `int strecke = zentimeter(2);`?
+→ A method with a return value
+- [ ] 2
+- [ ] 20
+- [x] 40
+> `return` gives back 2 · 20 = 40, and this value ends up in `strecke`.
+? A method returns a whole number. What is written in its header instead of `void`?
+→ A method with a return value
+- [ ] `return`
+- [x] `int`
+- [ ] `static`
+> Instead of `void`, the header names the data type of the result.
+:::

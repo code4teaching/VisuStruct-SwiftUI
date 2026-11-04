@@ -328,3 +328,38 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 - Ich kann drei Schleifen ineinander schachteln. → Vier Quadrate
 - Ich kann mein Programm auf den mBot2 übertragen und ohne Kabel mit Taste A starten. → Ohne Kabel fahren
 :::
+
+## Wissenstest
+
+::: quiz
+? Der mBot2 soll noch ohne Schleife eine Seite von 50 cm fahren und sich dann drehen. Welche Kästen brauchst du?
+→ Ein Quadrat fahren
+- [ ] einmal `mbot.forward()` und einmal `mbot.turnRight()`
+- [x] fünfmal `mbot.forward()` und einmal `mbot.turnRight()`
+- [ ] fünfmal `mbot.turnRight()`
+> Jedes `mbot.forward()` fährt 10 cm, fünf davon sind 50 cm.
+? Eine For-Schleife hat den Start `int i = 0`, die Bedingung `i < 5` und den Schritt `i++`. Wie oft läuft sie?
+→ Immer das Gleiche
+- [ ] 4-mal
+- [x] 5-mal
+- [ ] 6-mal
+> `i` zählt 0, 1, 2, 3, 4. Das sind fünf Durchläufe.
+? Warum heißt die Zählvariable der inneren Schleife `j` und nicht auch `i`?
+→ Schleife in der Schleife
+- [ ] In einem Programm darf jeder Buchstabe nur einmal vorkommen.
+- [x] Jede Schleife braucht ihre eigene Zählvariable, sonst kommen sich die beiden in die Quere.
+- [ ] `j` zählt schneller als `i`.
+> Würden beide mit `i` zählen, würde die innere Schleife die äußere durcheinanderbringen.
+? Wie oft führt der mBot2 bei den vier Quadraten `mbot.turnRight()` aus?
+→ Vier Quadrate
+- [ ] 4-mal
+- [ ] 16-mal
+- [x] 20-mal
+> In jedem Quadrat dreht er sich viermal, das sind 4 · 4 = 16. Dazu kommt nach jedem Quadrat noch eine Drehung: 16 + 4 = 20.
+? Dein Programm ist übertragen und das Kabel ist ab. Wie startest du es?
+→ Ohne Kabel fahren
+- [ ] mit Taste B
+- [x] mit Taste A
+- [ ] mit **⬆ Übertragen**
+> Nach dem Übertragen zeigt der mBot2 **A = Start** und wartet auf Taste A.
+:::

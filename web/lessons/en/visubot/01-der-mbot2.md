@@ -170,78 +170,6 @@ The word comes from the Latin *agere*, “to act”: actuators act, sensors (fro
 
 Your program reads the sensors and controls the actuators. You already know this as input, processing and output.
 
-::: quiz
-? Match each part to its job.
-→ Hello mBot2
-= Ultrasonic sensor -> measures the distance
-= Motors -> move the wheels
-= CyberPi -> runs the program
-= Line sensor -> detects a dark line
-? Which parts are actuators?
-→ Sensors and actuators
-- [x] Motors
-- [ ] Ultrasonic sensor
-- [x] LEDs
-- [ ] Line sensor
-> Actuators do something, sensors measure something.
-:::
-
-::: spiel frage
-titel: Game: sensor or actuator?
-intro: Does the part measure something, or does it do something? Ten rounds.
-antworten: Sensor | Actuator
-
-runde:
-frage: The ultrasonic sensor measures how far away the wall is.
-richtig: Sensor
-> It measures something: the distance.
-
-runde:
-frage: The motors turn the wheels.
-richtig: Actuator
-> They do something: they move the mBot2.
-
-runde:
-frage: The LEDs glow red.
-richtig: Actuator
-> Glowing is doing something, not measuring.
-
-runde:
-frage: The line sensor recognises the black tape.
-richtig: Sensor
-> It measures how much light comes back from the floor.
-
-runde:
-frage: The speaker beeps.
-richtig: Actuator
-> It outputs a sound.
-
-runde:
-frage: The microphone hears you clap.
-richtig: Sensor
-> It measures the loudness.
-
-runde:
-frage: The screen shows “Hello VisuBot!”.
-richtig: Actuator
-> Showing something is an output.
-
-runde:
-frage: Button A notices that you press it.
-richtig: Sensor
-> Buttons are sensors: they report whether they are pressed.
-
-runde:
-frage: The motion sensor notices that the mBot2 is tilted.
-richtig: Sensor
-> It measures the tilt.
-
-runde:
-frage: The rings on the ultrasonic sensor glow blue.
-richtig: Actuator
-> Tricky! The part is a sensor, but the glowing rings are an output.
-:::
-
 ## Find the parts
 
 Your turn: click the part you are looking for in the model. If you are right, the next question appears.
@@ -360,6 +288,66 @@ When the mBot2 is connected, **🔧 Test the mBot2** appears below the world. Op
 
 If a value does not change although you do something, something is wrong. Then tell your teacher before you start programming.
 
+## Game: Sensor or actuator?
+
+::: spiel frage
+titel: Game: sensor or actuator?
+intro: Does the part measure something, or does it do something? Ten rounds.
+antworten: Sensor | Actuator
+
+runde:
+frage: The ultrasonic sensor measures how far away the wall is.
+richtig: Sensor
+> It measures something: the distance.
+
+runde:
+frage: The motors turn the wheels.
+richtig: Actuator
+> They do something: they move the mBot2.
+
+runde:
+frage: The LEDs glow red.
+richtig: Actuator
+> Glowing is doing something, not measuring.
+
+runde:
+frage: The line sensor recognises the black tape.
+richtig: Sensor
+> It measures how much light comes back from the floor.
+
+runde:
+frage: The speaker beeps.
+richtig: Actuator
+> It outputs a sound.
+
+runde:
+frage: The microphone hears you clap.
+richtig: Sensor
+> It measures the loudness.
+
+runde:
+frage: The screen shows “Hello VisuBot!”.
+richtig: Actuator
+> Showing something is an output.
+
+runde:
+frage: Button A notices that you press it.
+richtig: Sensor
+> Buttons are sensors: they report whether they are pressed.
+
+runde:
+frage: The motion sensor notices that the mBot2 is tilted.
+richtig: Sensor
+> It measures the tilt.
+
+runde:
+frage: The rings on the ultrasonic sensor glow blue.
+richtig: Actuator
+> Tricky! The part is a sensor, but the glowing rings are an output.
+:::
+
+## Checklist
+
 Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can do this confidently. For ⛅ and ☂️, **Review** helps you. Then comes the quiz. It shows you whether your self-assessment is right.
 
 ::: checkliste
@@ -371,4 +359,58 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 - I can let the mBot2 drive in the simulator. → First drive
 - I can connect the real mBot2 with USB-C and disconnect it again. → Connecting the real mBot2
 - I can check that all sensors and actuators work. → Testing the mBot2
+:::
+
+## Quiz
+
+::: quiz
+? Match each part to its job.
+→ Hello mBot2
+= Ultrasonic sensor -> measures the distance
+= Motors -> move the wheels
+= CyberPi -> runs the program
+= Line sensor -> detects a dark line
+? Which parts are actuators?
+→ Sensors and actuators
+- [x] Motors
+- [ ] Ultrasonic sensor
+- [x] LEDs
+- [ ] Line sensor
+> Actuators do something, sensors measure something.
+? How does the ultrasonic sensor measure the distance?
+→ The ultrasonic sensor
+- [ ] It takes a photo of the wall.
+- [x] It sends out a very high sound and waits for the echo.
+- [ ] It feels the wall with its blue rings.
+> The longer the echo takes, the further away the wall is.
+? How does the line sensor detect a black line?
+→ Under the robot
+- [x] Little light comes back from the black line.
+- [ ] The line is warmer than the floor.
+- [ ] It hears the wheels rolling over the line.
+> Each feeler shines light on the floor. A light floor reflects a lot of light, a black line only a little.
+? What does `mbot.turnRight()` do?
+→ Commands for the mBot2
+- [ ] The mBot2 drives 10 cm to the right.
+- [x] The mBot2 turns 90° to the right.
+- [ ] The right LED switches on.
+> With no number in the brackets it turns 90°. `mbot.turnRight(45)` turns only 45°.
+? The structure chart has five boxes `mbot.forward()` one below the other. How far does the mBot2 drive in the simulation?
+→ First drive
+- [ ] 5 cm
+- [x] 50 cm
+- [ ] 10 cm
+> Each `mbot.forward()` drives 10 cm, which is one square of the grid.
+? You have finished with the real mBot2. What do you do before you pull out the cable?
+→ Connecting the real mBot2
+- [x] Click **🟢 mBot2** once more and wait until “Bis bald!” appears
+- [ ] Push the slide switch to OFF
+- [ ] Nothing, the cable can come out right away
+> Only after “Bis bald!” is the port free.
+? You hold your hand in front of the ultrasonic sensor, but the value under **🔧 Test the mBot2** does not change. What do you do?
+→ Testing the mBot2
+- [ ] Start programming anyway
+- [x] Tell your teacher before you start programming
+- [ ] Change the value in the simulation by hand
+> If a value does not change although you do something, something is wrong with the robot.
 :::
