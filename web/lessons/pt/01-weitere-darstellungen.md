@@ -68,6 +68,8 @@ erklärung: Dois ciclos, duas setas para cima: ao mexer, a seta volta a “Mexer
 legende: ja
 :::
 
+**Desenhar os teus próprios fluxogramas:** Com o **VisuFlow** podes desenhar um fluxograma livremente, guardá-lo e exportá-lo como imagem ou PDF. O VisuFlow não simula nada nem gera código, serve só para desenhar. [Abrir o VisuFlow](https://visustruct.visucode.de/app/?visuflow)
+
 ## Desvantagens do fluxograma: saltos
 
 Uma seta num fluxograma pode ir de qualquer símbolo para qualquer outro. Parece prático, mas é perigoso.

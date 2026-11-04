@@ -68,6 +68,8 @@ erklärung: Zwei Schleifen, zwei Pfeile zurück nach oben: Beim Rühren führt d
 legende: ja
 :::
 
+**Eigene PAPs zeichnen:** Mit **VisuFlow** kannst du einen PAP frei zeichnen, speichern und als Bild oder PDF exportieren. VisuFlow simuliert nichts und erzeugt keinen Code, es ist nur zum Zeichnen. [VisuFlow öffnen](https://visustruct.visucode.de/app/?visuflow)
+
 ## Nachteile des PAP: Sprünge
 
 Ein Pfeil im PAP darf von jedem Symbol zu jedem anderen führen. Das klingt praktisch, ist aber gefährlich.
