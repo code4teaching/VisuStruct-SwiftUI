@@ -240,6 +240,12 @@ Dann mach es besser:
 - Der Reiter Liste zeigt in seinem Titel, wie viele Dinge auf der Liste stehen: „Liste (3)“. Zähle in einer `static int`-Variable mit und benutze `setTitleAt`.
 - Zusatz: Ein dritter Reiter **Hilfe** mit einem JLabel, das erklärt, wie das Programm geht.
 
+**Du bist fertig, wenn …**
+
+- ein eingegebener Eintrag nach dem Klick im Reiter Liste steht,
+- ein leeres Feld nichts zur Liste hinzufügt,
+- der Reiter nach drei Einträgen „Liste (3)“ heißt.
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

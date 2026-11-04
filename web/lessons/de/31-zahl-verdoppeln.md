@@ -234,6 +234,12 @@ Baue das ganze Programm zusammen:
 
 Zusatz: Ein zweiter Knopf „Halbieren“ teilt die Zahl durch 2. Was passiert bei 5?
 
+**Du bist fertig, wenn …**
+
+- der Titel „Zahl verdoppeln“ heißt und Beschriftung, Textfeld und Knopf untereinander stehen,
+- aus 2 nach drei Klicks nacheinander 4, 8 und 16 werden,
+- bei „abc“ ein Hinweis in der Beschriftung steht und das Programm weiterläuft.
+
 ::: ludwig
 Der Knopf „Halbieren“ kommt als vierte Zeile ins GridLayout und bekommt seinen eigenen ActionListener. Bei `int` schneidet Java beim Teilen die Nachkommastellen ab.
 :::

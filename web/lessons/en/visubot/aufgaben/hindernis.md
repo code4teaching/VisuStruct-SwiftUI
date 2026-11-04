@@ -13,6 +13,6 @@ welt: hindernis-1 -> tone
 welt: hindernis-2 -> tone
 braucht: whileSchleife, verzweigung
 tipp: On the outside a while loop with `!mbot.getColor().equals("red")`, inside a branch with `mbot.getDistance() < 20`.
-tipp: In the yes branch: `mbot.setLed(255, 128, 0)`, `mbot.playTone(880, 200)`, `mbot.turnRight()`, `mbot.forward(30)`, `mbot.turnLeft()`, `mbot.ledOff()`. In the no branch: `mbot.forward()`.
+tipp: In the true branch: `mbot.setLed(255, 128, 0)`, `mbot.playTone(880, 200)`, `mbot.turnRight()`, `mbot.forward(30)`, `mbot.turnLeft()`, `mbot.ledOff()`. In the false branch: `mbot.forward()`.
 lösung: vb-hindernis-loesung.visustruct
 :::

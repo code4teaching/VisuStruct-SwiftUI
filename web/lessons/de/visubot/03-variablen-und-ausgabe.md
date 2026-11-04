@@ -8,6 +8,7 @@ kurz: Werte in Variablen speichern, den mBot2 damit fahren lassen und Ergebnisse
 
 ::: kompetenzen
 - eine Variable anlegen und benutzen
+- ein kurzes Java-Programm lesen und im Bereich Code tippen
 - die Datentypen `int`, `double`, `String` und `boolean` unterscheiden
 - mit zwei Variablen ein Rechteck in Java fahren
 - mit `mbot.showText` ein Ergebnis auf dem Bildschirm zeigen
@@ -56,6 +57,27 @@ Jede Variable hat einen Datentyp. Er legt fest, welche Werte hineinpassen:
 Ein Rad des mBot2 kommt mit einer Umdrehung etwa 20.4 cm weit, das ist eine Kommazahl. In `wandNah` steht `true`, wenn die Wand näher als 20 cm ist. Den Abstandssensor lernst du in Lektion 4 kennen.
 
 Mit Variablen kannst du auch rechnen: `int strecke = 4 * seite;` rechnet die ganze Strecke des Quadrats aus.
+
+## So sieht Java aus
+
+Bisher hast du Kästen gezogen. Ab jetzt schreibst du manche Programme auch in **Java**. Die Kästen kennst du schon, denn ihr Text ist bereits echtes Java. Rechts neben dem Struktogramm liegt der Bereich [Code](#zeige-codelive). Dort steht dein Struktogramm als Java-Code, und was du dort tippst, wird sofort zum Struktogramm.
+
+Das Quadrat mit Variable sieht in Java so aus:
+
+```java
+int seite = 30;
+for (int i = 0; i < 4; i++) {
+    mbot.forward(seite);
+    mbot.turnRight();
+}
+```
+
+- Jeder Kasten ist eine Zeile. Am Ende jeder Anweisung steht ein **Semikolon** `;`.
+- Die For-Schleife heißt `for`. In den runden Klammern stehen ihre drei Teile Start, Bedingung und Schritt, getrennt durch `;`.
+- Was in der Schleife wiederholt wird, steht in **geschweiften Klammern** `{ }`. Rücke es ein, dann siehst du sofort, was dazugehört. Hinter `{` und `}` kommt kein Semikolon.
+- Groß- und Kleinschreibung zählt: `mbot.turnRight()` geht, `mbot.turnright()` nicht.
+
+> So löst du eine Java-Übung: Klicke auf **Im Editor öffnen**. Dann öffnet sich rechts der Bereich Code. Tippe dort dein Programm, sieh in der Simulation zu und klicke zum Schluss auf **Prüfen**.
 
 ## Jetzt in Java: Rechteck
 
@@ -197,6 +219,7 @@ Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀
 
 ::: checkliste
 - Ich kann eine Variable anlegen und benutzen. → Eine Variable für die Seite
+- Ich kann ein kurzes Java-Programm lesen und im Bereich Code tippen. → So sieht Java aus
 - Ich kann die Datentypen `int`, `double`, `String` und `boolean` unterscheiden. → Welche Datentypen gibt es?
 - Ich kann mit zwei Variablen ein Rechteck in Java fahren. → Jetzt in Java: Rechteck
 - Ich kann mit `mbot.showText` ein Ergebnis auf dem Bildschirm zeigen. → Ergebnis auf dem Bildschirm

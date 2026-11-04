@@ -236,6 +236,12 @@ Baue den Notenrechner zusammen, mit beiden Prüfungen aus dem letzten Schritt. T
 
 Zusatz: Schreib die Note zusätzlich als Wort hin, zum Beispiel „Note: 2 (gut)“. Die Wörter sind sehr gut, gut, befriedigend, ausreichend, mangelhaft und ungenügend.
 
+**Du bist fertig, wenn …**
+
+- 92 und 100 eine 1 ergeben, 91 eine 2 und 0 eine 6,
+- bei 101 der Hinweis „Bitte 0 bis 100 eingeben.“ erscheint,
+- bei „zehn“ ein Hinweis erscheint und das Programm weiterläuft.
+
 ::: ludwig
 Teste immer die Grenzen: 92 muss eine 1 sein, 91 eine 2. An den Grenzen stecken die meisten Fehler, zum Beispiel `>` statt `>=`.
 :::

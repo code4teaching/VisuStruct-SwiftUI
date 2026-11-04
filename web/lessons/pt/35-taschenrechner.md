@@ -232,6 +232,12 @@ Acaba a calculadora:
 
 Extra: um quinto botão **C** esvazia os dois campos e volta a pôr o resultado em “?”.
 
+**Terminaste quando …**
+
+- 7 e 2 dão 9, 5, 14 e 3 em +, −, * e /,
+- 7 / 0 mostra a mensagem de não dividir por 0,
+- “abc” ou um campo vazio mostra a mensagem para escrever dois números e nada falha.
+
 ::: ludwig
 Para o “abc” cada ouvinte precisa de um try/catch com `NumberFormatException`. Depois de um `try` também podem vir dois `catch`, um para `NumberFormatException` e outro para `ArithmeticException`. Já agora: um campo vazio dá o texto `""`, e isso também não é um número.
 :::

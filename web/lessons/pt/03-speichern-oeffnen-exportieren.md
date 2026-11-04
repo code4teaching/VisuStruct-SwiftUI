@@ -83,6 +83,17 @@ Com [Exportar](#zeige-exportieren) nas ferramentas (ícone com uma seta para cim
 
 Na [roda dentada](#zeige-textgroesse) em cima à direita, em Tamanho do texto, defines o tamanho da letra. O texto maior também se nota quando exportas uma imagem.
 
+## Experimenta
+
+Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
+
+1. Dá um nome ao diagrama no campo [título](#zeige-titel) por cima do estrutograma, por exemplo `Olá Mundo`.
+2. [Guarda-o](#zeige-speichern) no teu espaço de trabalho. Vê na coluna [📁 Ficheiros](#zeige-dateien): está na pasta de hoje?
+3. Abre um segundo separador com **+** e clica lá no teu programa na coluna Ficheiros. Volta a abrir-se.
+4. [Exporta-o](#zeige-exportieren) como **imagem (PNG)** e como **PDF (A4)**. Abre os dois ficheiros e compara-os.
+
+Correu tudo bem? Então sabes onde estão os teus programas e como os partilhar.
+
 ## Jogo: Como o partilhas?
 
 ::: spiel frage
@@ -122,9 +133,7 @@ richtig: PNG
 > Um PNG pode ser visto logo por qualquer pessoa, sem VisuStruct.
 :::
 
-## Experimenta
-
-Abre um dos teus exercícios da lição 2 e experimenta o seguinte:
+## Lista de verificação
 
 Avalia-te com honestidade em cada ponto: ☂️ ainda não, ⛅ em parte, ☀️ consigo com segurança. Com ⛅ e ☂️, **Rever** ajuda-te. Depois vem o teste de conhecimentos. Mostra-te se a tua autoavaliação está certa.
 

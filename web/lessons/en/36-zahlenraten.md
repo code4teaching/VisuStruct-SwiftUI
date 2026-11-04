@@ -117,6 +117,12 @@ Rebuild the game and improve it:
 
 Extra: after 7 wrong guesses the game is lost. The window then reveals the secret number.
 
+**You are done when …**
+
+- every wrong guess shows “too small” or “too big”,
+- “abc” shows the hint to enter a number and the number of guesses stays the same,
+- **New game** sets the guesses to 0, turns the guess button back on and resets the hint.
+
 ::: ludwig
 For “doesn't count as a guess”, `guesses++` must come **after** `Integer.parseInt`, both in the `try` block. If `parseInt` throws an exception, the line with `guesses++` is skipped.
 :::

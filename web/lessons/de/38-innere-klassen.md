@@ -191,6 +191,12 @@ Baue den Klickzähler mit drei Knöpfen:
 
 Probiere aus, ob alle drei Knöpfe wie erwartet zählen. Lass dann bei der Klasse `Plus` das `static` weg und lies die Fehlermeldung von javac.
 
+**Du bist fertig, wenn …**
+
+- **+1** hoch-, **-1** herunterzählt und **Reset** auf 0 setzt,
+- im Code genau eine benannte innere Klasse, eine anonyme Klasse und ein Lambda stehen,
+- du ohne `static` bei `Plus` die Fehlermeldung von javac gelesen hast und erklären kannst, was sie bedeutet.
+
 ## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.

@@ -83,6 +83,17 @@ Den [Titel](#zeige-titel) eines Diagramms trägst du in das Feld über dem Struk
 
 Unter dem [Zahnrad](#zeige-textgroesse) oben rechts stellst du bei Textgröße die Schriftgröße ein. Ein größerer Text wirkt auch beim Exportieren als Bild.
 
+## Ausprobieren
+
+Öffne eine deiner Übungen aus Lektion 2 und probiere Folgendes aus:
+
+1. Gib dem Diagramm im Feld [Titel](#zeige-titel) über dem Struktogramm einen Namen, zum Beispiel `Hallo Welt`.
+2. [Speichere](#zeige-speichern) es in deinem Workspace. Schau in der Spalte [📁 Dateien](#zeige-dateien) nach: Steht es im Ordner von heute?
+3. Öffne mit **+** einen zweiten Reiter und klicke dort in der Spalte Dateien auf dein Programm. Es öffnet sich wieder.
+4. [Exportiere](#zeige-exportieren) es als **Bild (PNG)** und als **PDF (A4)**. Öffne beide Dateien und vergleiche sie.
+
+Klappt alles? Dann weißt du, wo deine Programme liegen, und kannst sie weitergeben.
+
 ## Spiel: Wie gibst du es weiter?
 
 ::: spiel frage
@@ -122,9 +133,7 @@ richtig: PNG
 > Ein PNG kann jeder sofort ansehen, ohne VisuStruct.
 :::
 
-## Ausprobieren
-
-Öffne eine deiner Übungen aus Lektion 2 und probiere Folgendes aus:
+## Checkliste
 
 Schätze dich bei jedem Punkt ehrlich ein: ☂️ noch nicht, ⛅ teilweise, ☀️ kann ich sicher. Bei ⛅ und ☂️ hilft dir **Nachlesen**. Danach kommt der Wissenstest. Er zeigt dir, ob deine Einschätzung stimmt.
 

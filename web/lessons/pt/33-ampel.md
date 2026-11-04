@@ -236,6 +236,12 @@ Reconstrói o semáforo e torna-o mais realista. Em alguns países, como a Alema
 
 Extra: em cada fase, escreve também com `luz.setText(…)` o que o semáforo quer dizer, por exemplo “Parar” ou “Avançar”.
 
+**Terminaste quando …**
+
+- cada clique mostra a fase seguinte: vermelho, vermelho-amarelo (laranja), verde, amarelo,
+- depois do amarelo volta o vermelho,
+- no extra, cada fase mostra o texto certo.
+
 ::: ludwig
 Com quatro fases, depois do 3 vem o 0. Ajusta por isso o número em `if (fase > 2)`.
 :::

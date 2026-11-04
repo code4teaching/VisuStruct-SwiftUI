@@ -36,7 +36,7 @@ messwerte: getBrightness=10 -> ledOn
 messwerte: getBrightness=80 -> ledOff
 braucht: verzweigung
 tipp: Zieh eine Verzweigung ins Struktogramm und den Sensor **Helligkeit** darauf. Schreib `< 30` dahinter.
-tipp: Im Ja-Zweig steht **LEDs an** mit `mbot.setLed(255, 255, 255)`, im Nein-Zweig **LEDs aus**.
+tipp: Im true-Zweig steht **LEDs an** mit `mbot.setLed(255, 255, 255)`, im false-Zweig **LEDs aus**.
 lösung: vb-nachtlicht-loesung.visustruct
 :::
 
@@ -125,7 +125,7 @@ runde:
     }
 frage: Die Helligkeit ist 50.
 richtig: LEDs an
-> Achtung, hier ist es umgekehrt: 50 ist nicht größer als 70, also läuft der Nein-Zweig. Die LEDs leuchten gelb.
+> Achtung, hier ist es umgekehrt: 50 ist nicht größer als 70, also läuft der false-Zweig. Die LEDs leuchten gelb.
 
 runde:
     if (mbot.getBrightness() > 70) {
@@ -135,7 +135,7 @@ runde:
     }
 frage: Die Sonne scheint, die Helligkeit ist 100.
 richtig: LEDs aus
-> 100 ist größer als 70, also läuft der Ja-Zweig.
+> 100 ist größer als 70, also läuft der true-Zweig.
 :::
 
 ## Checkliste

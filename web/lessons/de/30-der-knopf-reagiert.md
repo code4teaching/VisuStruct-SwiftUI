@@ -294,6 +294,12 @@ Jetzt machst du die Aufgabe fertig: Baue ein Fenster mit einem Knopf „Klick mi
 
 Zusatz: Baue zwei Knöpfe „Rot“ und „Blau“. Ein Klick auf einen Knopf schreibt seinen Namen in den Titel des Fensters, zum Beispiel „Du hast Rot gewählt“.
 
+**Du bist fertig, wenn …**
+
+- vor dem Klick „Klick mich“ auf dem Knopf steht,
+- nach dem Klick „Ich wurde geklickt“ darauf steht,
+- der Knopf nicht das ganze Fenster füllt.
+
 ::: ludwig
 Jeder Knopf bekommt seinen eigenen Zuhörer mit eigenem `addActionListener`. Den Titel änderst du mit `fenster.setTitle(…)`.
 :::

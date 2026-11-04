@@ -8,6 +8,7 @@ kurz: Store values in variables, drive the mBot2 with them and show results on t
 
 ::: kompetenzen
 - create and use a variable
+- read a short Java program and type it in the Code area
 - tell the data types `int`, `double`, `String` and `boolean` apart
 - drive a rectangle in Java with two variables
 - show a result on the screen with `mbot.showText`
@@ -56,6 +57,27 @@ Every variable has a data type. It decides which values fit inside:
 One wheel rotation takes the mBot2 about 20.4 cm, which is a decimal number. `wallNear` holds `true` if the wall is closer than 20 cm. You will meet the distance sensor in Lesson 4.
 
 You can also calculate with variables: `int distance = 4 * side;` works out the whole distance around the square.
+
+## This is what Java looks like
+
+So far you have dragged boxes. From now on you will also write some programs in **Java**. You already know the boxes, because their text is real Java already. To the right of the structure chart is the [Code](#zeige-codelive) area. It shows your structure chart as Java code, and whatever you type there turns into the structure chart straight away.
+
+The square with a variable looks like this in Java:
+
+```java
+int seite = 30;
+for (int i = 0; i < 4; i++) {
+    mbot.forward(seite);
+    mbot.turnRight();
+}
+```
+
+- Every box is one line. Every statement ends with a **semicolon** `;`.
+- The for loop is called `for`. Its three parts start, condition and step stand in round brackets, separated by `;`.
+- Whatever the loop repeats stands in **curly brackets** `{ }`. Indent it so you can see at once what belongs to the loop. There is no semicolon after `{` and `}`.
+- Upper and lower case matter: `mbot.turnRight()` works, `mbot.turnright()` doesn't.
+
+> How to solve a Java exercise: click **Open in editor**. The Code area opens on the right. Type your program there, watch the simulation and finally click **Check**.
 
 ## Now in Java: rectangle
 
@@ -197,6 +219,7 @@ Rate yourself honestly for each point: ☂️ not yet, ⛅ partly, ☀️ I can 
 
 ::: checkliste
 - I can create and use a variable. → A variable for the side
+- I can read a short Java program and type it in the Code area. → This is what Java looks like
 - I can tell the data types `int`, `double`, `String` and `boolean` apart. → Which data types are there?
 - I can drive a rectangle in Java with two variables. → Now in Java: rectangle
 - I can show a result on the screen with `mbot.showText`. → Result on the screen

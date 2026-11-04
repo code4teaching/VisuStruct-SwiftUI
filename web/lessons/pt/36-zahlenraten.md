@@ -117,6 +117,12 @@ Reconstrói o jogo e melhora-o:
 
 Extra: depois de 7 tentativas falhadas o jogo está perdido. A janela revela então o número secreto.
 
+**Terminaste quando …**
+
+- cada palpite errado mostra “demasiado pequeno” ou “demasiado grande”,
+- “abc” mostra o aviso para escrever um número e as tentativas não mudam,
+- **Novo jogo** põe as tentativas a 0, volta a ligar o botão de adivinhar e repõe o aviso.
+
 ::: ludwig
 Para “não conta como tentativa”, o `tentativas++` tem de vir **depois** de `Integer.parseInt`, os dois dentro do bloco `try`. Se o `parseInt` lançar uma exceção, a linha com `tentativas++` é saltada.
 :::

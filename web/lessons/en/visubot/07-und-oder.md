@@ -40,7 +40,7 @@ messwerte: getDistance=10, getLine=0 -> none
 messwerte: getDistance=50, getLine=6 -> none
 braucht: verzweigung
 tipp: Drag the **distance** sensor onto the branch and write `> 15` after it. Then type ` && ` and the second part `mbot.getLine() == 0`.
-tipp: The yes branch contains **drive forward**, the no branch stays empty.
+tipp: The true branch contains **drive forward**, the false branch stays empty.
 lösung: vb-und-loesung.visustruct
 :::
 
@@ -65,7 +65,7 @@ messwerte: isButtonA=false, isButtonB=true -> tone
 messwerte: isButtonA=false, isButtonB=false -> noTone
 braucht: verzweigung
 tipp: The condition of the branch is `mbot.isButtonA() || mbot.isButtonB()`.
-tipp: The yes branch contains `mbot.playTone(440, 300)`, the no branch stays empty.
+tipp: The true branch contains `mbot.playTone(440, 300)`, the false branch stays empty.
 lösung: vb-oder-loesung.visustruct
 :::
 

@@ -84,7 +84,7 @@ Der Datentyp legt fest, welche Art von Wert in der Variablen stehen darf.
 Es gibt noch mehr Datentypen. Einen wirst du bald brauchen: `char` für ein **einzelnes Zeichen**, z. B. `char note = 'C'`. Ein `char` steht in **einfachen** Anführungszeichen. Genauer lernst du ihn in Lektion 17 kennen.
 
 ::: diagramm l05-datentypen.visustruct
-Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die Simulation.
+Drei Variablen mit verschiedenen Datentypen. Öffne das Diagramm und starte die [Simulation](#zeige-simulation).
 :::
 
 Wahrheitswerte begegnen dir vor allem in **Bedingungen**: `alter >= 18` ist entweder `true` oder `false`. Darum geht es in Lektion 8. Eine Variable vom Typ `boolean` bekommt einfach `true` oder `false`:
@@ -130,6 +130,17 @@ Mit Zahlen kannst du rechnen:
 Ist der Rest 0, geht die Teilung auf. So prüfst du später, ob eine Zahl gerade ist: Bei geraden Zahlen ist `zahl % 2` gleich 0.
 
 Es gilt **Punkt vor Strich**, und Klammern werden zuerst ausgerechnet: `2 * (3 + 4)` ist 14.
+
+### Text und Ergebnis zusammen ausgeben
+
+Ein Ergebnis allein sagt wenig. Mit `+` hängst du einen Text und den Wert einer Variablen aneinander:
+
+```
+int alter = 14
+output: "Alter: " + alter
+```
+
+Das zeigt **Alter: 14**. Der Text in Anführungszeichen erscheint genau so, für `alter` setzt der Computer den Wert ein. Das Leerzeichen nach dem Doppelpunkt gehört zum Text, sonst steht dort `Alter:14`.
 
 ## Übung: Rechteck
 
@@ -254,7 +265,7 @@ auftrag: Ergänze die fehlenden Wörter. Ganz außen steht der Rahmen, den jedes
     }
 }
 ```
-erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Code darfst du ihn weglassen, mehr dazu in der Lektion „Java“.
+erklärung: Ganze Zahlen sind `int`, Kommazahlen `double`, Texte `String` (groß geschrieben) und Wahrheitswerte `boolean`. `public class` und `public static void main` bilden den Rahmen. Im Bereich Code darfst du ihn weglassen, mehr dazu in der Lektion „Struktogramm und Code“.
 :::
 
 ## Fehler finden: Sekunden

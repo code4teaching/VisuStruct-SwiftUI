@@ -59,15 +59,15 @@ The box from the Elements area is called a **Statement**. At the top of the Obje
 To start with, you only need Output. Texts that should be shown exactly as they are go in **quotation marks**.
 
 ::: diagramm l2-ausgabe.visustruct
-Two outputs one after the other. Open the diagram in the editor and start the simulation to see the output.
+Two outputs one after the other. Open the diagram in the editor and start the [simulation](#zeige-simulation) in the tools to see the output. You will learn more about it in lesson 7.
 :::
 
 ## Move, copy, delete
 
 - **Move:** Drag an existing box to a new place with the mouse.
-- **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box.
+- **Copy and paste:** Select a box, then press Ctrl+C and Ctrl+V (on a Mac ⌘C and ⌘V). The copy goes after the selected box. Without a keyboard, for example on a tablet, tap **Copy** and **Paste** in the [tools](#zeige-werkzeuge).
 - **Delete:** Select a box and press Del, or click the [trash can](#zeige-loeschen) „Delete Selection“ in the tools.
-- **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z).
+- **Undo:** Ctrl+Z undoes the last step, Ctrl+Shift+Z brings it back (on a Mac ⌘Z and ⌘⇧Z). Without a keyboard, tap [Undo](#zeige-rueckgaengig) in the tools.
 
 ## Exercise: Hello World
 

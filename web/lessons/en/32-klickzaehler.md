@@ -194,6 +194,12 @@ Rebuild the click counter and extend it:
 - a button **−1** that counts down by one,
 - the number should never go below 0. If it is 0, −1 does nothing.
 
+**You are done when …**
+
+- **+1** counts up by one and **−1** counts down by one,
+- at 0 a click on **−1** changes nothing,
+- **Reset** sets the number back to 0.
+
 ::: ludwig
 For “never below 0” the listener of −1 needs an `if`: only if `count > 0` does it count down.
 :::
