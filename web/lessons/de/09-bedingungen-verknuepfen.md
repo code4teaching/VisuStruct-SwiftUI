@@ -179,6 +179,7 @@ test: 2000 -> Schaltjahr
 braucht: verzweigung
 tipp: Prüfe die Regel zuerst an Beispielen: 2024 ist ein Schaltjahr, 1900 nicht, 2000 schon. Teilbar heißt: Der Rest ist 0.
 tipp: Teilbar durch 4 heißt `jahr % 4 == 0`, nicht teilbar durch 100 heißt `jahr % 100 != 0`. Verbinde diese beiden mit `&&`, setze Klammern darum und hänge mit `||` den Fall für 400 an.
+tipp: Fast die Lösung: Eine einzige Verzweigung mit der Bedingung `(jahr % 4 == 0 && jahr % 100 != 0) || jahr % 400 == 0`. Im true-Zweig steht `output: "Schaltjahr"`, im false-Zweig `output: "kein Schaltjahr"`.
 lösung: l08-schaltjahr-loesung.visustruct
 :::
 

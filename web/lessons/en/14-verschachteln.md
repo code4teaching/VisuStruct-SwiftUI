@@ -74,6 +74,7 @@ test: 2, 2 -> ## | ##
 braucht: forSchleife
 tipp: You need two loops inside each other: one for the lines and inside it one for the characters of a line.
 tipp: Build it like the triangle. The difference: the inner loop always counts up to `width`, not up to the line number. The outer loop counts up to `height`.
+tipp: The outline: inputs `width` and `height`. Outer for loop `int line = 1`, `line <= height`, `line++`. Inside it first `String text = ""`, then the inner for loop `int column = 1`, `column <= width`, `column++` with `text = text + "#"`, and below the inner loop `output: text`.
 lösung: l13-rechteck-loesung.visustruct
 :::
 

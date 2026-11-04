@@ -74,6 +74,7 @@ test: 2, 2 -> ## | ##
 braucht: forSchleife
 tipp: Du brauchst zwei Schleifen ineinander: eine für die Zeilen und darin eine für die Zeichen einer Zeile.
 tipp: Baue es wie das Dreieck. Der Unterschied: Die innere Schleife zählt immer bis `breite`, nicht bis zur Zeilennummer. Die äußere Schleife zählt bis `hoehe`.
+tipp: Das Gerüst: Eingaben `breite` und `hoehe`. Äußere For-Schleife `int zeile = 1`, `zeile <= hoehe`, `zeile++`. Darin zuerst `String text = ""`, dann die innere For-Schleife `int spalte = 1`, `spalte <= breite`, `spalte++` mit `text = text + "#"`, und unter der inneren Schleife `output: text`.
 lösung: l13-rechteck-loesung.visustruct
 :::
 

@@ -179,6 +179,7 @@ test: 2000 -> Leap year
 braucht: verzweigung
 tipp: Check the rule with examples first: 2024 is a leap year, 1900 is not, 2000 is. “Can be divided” means the remainder is 0.
 tipp: Divisible by 4 means `year % 4 == 0`, not divisible by 100 means `year % 100 != 0`. Join these two with `&&`, put brackets around them and add the case for 400 with `||`.
+tipp: Almost the solution: one single branch with the condition `(year % 4 == 0 && year % 100 != 0) || year % 400 == 0`. The true branch has `output: "Leap year"`, the false branch `output: "Not a leap year"`.
 lösung: l08-schaltjahr-loesung.visustruct
 :::
 

@@ -80,6 +80,7 @@ test: 0 -> 0
 braucht: doUntilSchleife
 tipp: Precisas de uma variável para a soma que começa em 0 antes do ciclo. Em cada iteração, o novo número é somado.
 tipp: Antes do ciclo, cria `int soma = 0` e `int numero = 0`. No ciclo pedes `numero` e calculas `soma = soma + numero`. Somar o 0 não faz mal. O ciclo continua enquanto `numero != 0`.
+tipp: O esqueleto: `int soma = 0` e `int numero = 0`, depois um ciclo do-while com a condição `numero != 0`. Dentro: a entrada de `numero` e `soma = soma + numero`. Por baixo do ciclo: `output: soma`.
 lösung: l11-summe-loesung.visustruct
 :::
 

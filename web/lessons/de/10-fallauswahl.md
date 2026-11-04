@@ -76,6 +76,7 @@ test: 1, x, 2 -> Unbekanntes Rechenzeichen
 braucht: fallauswahl
 tipp: Lies erst alle drei Werte ein. Danach entscheidet eine Fallauswahl über das Rechenzeichen, was gerechnet wird.
 tipp: Lege vor der Fallauswahl `int ergebnis = 0` an. In jedem Fall rechnest du zum Beispiel `ergebnis = a + b` und gibst danach `ergebnis` aus. Die Fallnamen sind `"+"`, `"-"` und `"*"` in Anführungszeichen, weil das Rechenzeichen ein `String` ist.
+tipp: Das Gerüst von oben nach unten: drei Eingaben (`int a`, `String zeichen`, `int b`), dann `int ergebnis = 0`, dann eine Fallauswahl über `zeichen`. Im Fall `"+"` stehen `ergebnis = a + b` und `output: ergebnis`, bei `"-"` und `"*"` genauso. Im Sonst-Fall steht `output: "Unbekanntes Rechenzeichen"`.
 lösung: l09-rechner-loesung.visustruct
 :::
 
