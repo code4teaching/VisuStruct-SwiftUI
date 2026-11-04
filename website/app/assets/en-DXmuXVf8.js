@@ -764,5 +764,5 @@ const e=`/* Texts that exist only in the web version. Everything else comes from
 "web_rename_keyword_fmt" = "“%@” is a Java keyword.";
 "web_rename_apply" = "Rename";
 "web_rename_cancel" = "Cancel";
-"web_visubot_world_visucode_hint" = "Other programs like VisuStruct, VisuBot or VisuObject are on visucode.de.";
+"web_visubot_world_visucode_hint" = "Other programs like %1$@ or %2$@ are on visucode.de.";
 `;export{e as default};

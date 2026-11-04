@@ -111,8 +111,11 @@ export function worldTitleHTML(): string {
 /** Marke „VisuCode“ als Link auf visucode.de, wo man ein anderes Programm wählt. */
 export function visucodeLinkHTML(): string {
   const url = visucodeURL(currentLanguage())
+  // Nur die anderen Programme nennen: wer in VisuBot ist, braucht keinen Hinweis auf VisuBot.
+  const own = { visustruct: 'VisuStruct', visubot: 'VisuBot', visuobject: 'VisuObject' }[hostWorld() ?? 'visustruct']
+  const others = ['VisuStruct', 'VisuBot', 'VisuObject', 'VisuStudio'].filter((name) => name !== own)
   return `<p class="visucode-more"><a class="visucode-brand" href="${url}">Visu<span>Code</span></a>
-      <small>${escapeHTML(t('web_visubot_world_visucode_hint')).replace('visucode.de', `<a href="${url}">visucode.de</a>`)}</small>
+      <small>${escapeHTML(t('web_visubot_world_visucode_hint').replace('%1$@', others.slice(0, -1).join(', ')).replace('%2$@', others.at(-1)!)).replace('visucode.de', `<a href="${url}">visucode.de</a>`)}</small>
       <small class="visucode-credit">${escapeHTML(t('web_about_version_fmt').replace('%@', __APP_VERSION__))} · Holger Sebastiao · <a href="https://www.sebastiao.org" target="_blank" rel="noopener">sebastiao.org</a></small></p>`
 }
 
