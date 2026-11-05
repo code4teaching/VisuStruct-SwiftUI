@@ -60,7 +60,7 @@ This is how you build:
 - **Delete:** click the box and press Delete, or click the [trash can](#zeige-loeschen).
 - **Undo:** Ctrl+Z, on a Mac ⌘Z.
 
-> 🧩 **Prefer blocks like in Scratch?** Set the switch in the tools to [Beginner](#zeige-bloecke). Then you see the same program as blocks that snap together, plus short lessons to try things out. You type numbers right into the white fields and drag sensors in. **Pro** takes you back to the structure chart and these lessons. It stays the same program, so you can switch at any time.
+> 🧩 **Prefer blocks like in Scratch?** Click [Blocks](#zeige-bloecke) in the tools. Then you see the same program as blocks that snap together. You type numbers right into the white fields and drag sensors in. **Structure chart** takes you back. It stays the same program, so you can switch at any time.
 
 ::: übung vb-erster-plan
 titel: Round the corner

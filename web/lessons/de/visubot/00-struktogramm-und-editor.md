@@ -60,7 +60,7 @@ So baust du:
 - **Löschen:** Kasten anklicken und Entf drücken oder auf den [Mülleimer](#zeige-loeschen) klicken.
 - **Rückgängig:** Strg+Z, am Mac ⌘Z.
 
-> 🧩 **Lieber Blöcke wie in Scratch?** Stell den Schalter in den Werkzeugen auf [Einsteiger](#zeige-bloecke). Dann siehst du dasselbe Programm als Blöcke, die du zusammensteckst, und dazu kurze Lektionen zum Ausprobieren. Zahlen tippst du direkt in die weißen Felder, Sensoren ziehst du hinein. Mit **Profi** kommst du zurück zum Struktogramm und zu diesen Lektionen. Es bleibt dasselbe Programm, du kannst jederzeit wechseln.
+> 🧩 **Lieber Blöcke wie in Scratch?** Klicke in den Werkzeugen auf [Blöcke](#zeige-bloecke). Dann siehst du dasselbe Programm als Blöcke, die du zusammensteckst. Zahlen tippst du direkt in die weißen Felder, Sensoren ziehst du hinein. Mit **Struktogramm** kommst du zurück. Es bleibt dasselbe Programm, du kannst jederzeit wechseln.
 
 ::: übung vb-erster-plan
 titel: Um die Ecke

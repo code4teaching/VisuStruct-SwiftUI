@@ -7137,20 +7137,3 @@ button.danger-text:not(:disabled) {
   border-color: #c2410c;
   color: #fff;
 }
-
-/* VisuBot: Schalter „Einsteiger | Profi“ statt Knopf „Blöcke“ (Holger 5.11.) */
-.diagram-tools .level-switch {
-  display: inline-flex;
-  flex: none;
-  margin: 0 0 0 6px;
-}
-.diagram-tools .level-switch[hidden] {
-  display: none;
-}
-.diagram-tools .level-switch button {
-  flex: none;
-  height: 30px;
-  min-height: 30px;
-  padding: 0 10px;
-  white-space: nowrap;
-}

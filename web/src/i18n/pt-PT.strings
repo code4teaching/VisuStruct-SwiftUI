@@ -313,11 +313,6 @@
 "web_visubot_kids_code_hint" = "O VisuBot Kids fez isto a partir dos teus blocos. É assim que os profissionais escrevem programas. Mais tarde, no VisuBot grande, vais escrever Java tu mesmo.";
 "web_visubot_kids_blocks_hint" = "Arrasta blocos da esquerda para aqui. Clica num campo branco para mudar um número ou texto. O que não precisas, deita no caixote do lixo.";
 "web_visubot_kids_palette_hint" = "Arrasta para o teu programa";
-"web_visubot_level_title" = "Nível";
-"web_visubot_level_beginner" = "Iniciante";
-"web_visubot_level_beginner_title" = "Blocos como no Scratch e lições curtas para experimentar";
-"web_visubot_level_pro" = "Pro";
-"web_visubot_level_pro_title" = "Diagrama, Java e todas as lições de robótica";
 "web_visubot_blocks_start" = "Quando o programa começa";
 "web_visubot_blocks_empty" = "Aqui vai um bloco";
 "web_visubot_blocks_hint" = "O mesmo programa em blocos. Arrasta blocos de “Elementos”, muda-os de lugar ou deita-os no lixo. Clica num número ou texto nos campos brancos para o alterar no próprio bloco; o resto altera-se em baixo, no Inspetor de objetos. Arrasta os sensores para uma condição ou mesmo para o campo que devem substituir. Arrasta operadores e variáveis da mesma forma para um campo ou uma condição.";
