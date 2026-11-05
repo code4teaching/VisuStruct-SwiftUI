@@ -4,7 +4,7 @@ import { ElementType, makeElement, type VSElement } from '../core/model'
 import { emptyWorld, ROBOT_STEP_MS, RobotWorld, type RobotWorldSetup } from '../core/robotWorld'
 import type { SimulationEngine } from '../core/simulation'
 import { currentLanguage, t } from './i18n'
-import { hostWorld, visucodeURL } from './site'
+import { hostWorld, kidsMode, visucodeURL } from './site'
 import type { VisuBotMode } from '../learn/content'
 import type { Robot3D } from './robot3d'
 import visuBotLogoURL from './visubot.webp'
@@ -26,6 +26,8 @@ function storedMode(): string | null {
 }
 
 export function visuBotMode(): VisuBotMode {
+  // VisuBot Kids ist immer VisuBot, egal was im Browser gespeichert ist
+  if (kidsMode()) return 'on'
   const value = storedMode()
   return value === '1' || value === 'kurs' ? 'on' : 'off'
 }
@@ -69,6 +71,9 @@ export function setVisuBotMode(mode: VisuBotMode) {
 /** Kopfzeile im VisuBot-Modus: der Roboter aus dem VisuBot-Logo und „Visu“ + orangefarbenes „Bot“. */
 export const visuBotBrand = `<img class="visubot-logo" src="${visuBotLogoURL}" width="55" height="32" alt="">Visu<span class="visubot-bot">Bot</span>`
 
+/** Kopfzeile von VisuBot Kids: wie VisuBot, dahinter „Kids“. */
+export const visuBotKidsBrand = `${visuBotBrand} <span class="visubot-kids">Kids</span>`
+
 /** Gibt es mBot2-Kästen und den 3D-Simulator? (Nur in der Welt VisuBot.) */
 export const visuBotEnabled = () => visuBotMode() !== 'off'
 
@@ -81,7 +86,7 @@ const escapeHTML = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '
  */
 export function worldChooserHTML(): string {
   const current: WorldChoice = visuObjectWorld() ? 'object' : visuFlowWorld() ? 'flow' : visuBotMode()
-  const site = hostWorld()
+  const site = hostWorld() ?? (kidsMode() ? 'visubotkids' : undefined)
   const all: [WorldChoice, string][] = [['off', 'VisuStruct'], ['on', 'VisuBot'], ['object', 'VisuObject'], ['flow', 'VisuFlow']]
   const shown = site ? [] : all
   const button = ([mode, label]: [WorldChoice, string]) =>
@@ -99,21 +104,23 @@ export function worldChooserHTML(): string {
 /** Name der Welt der Subdomain für den Start-Dialog, z. B. „Visu“ + orangefarbenes „Bot“. */
 export function worldBrandHTML(): string {
   const site = hostWorld()
+  if (kidsMode()) return visuBotKidsBrand
   return site === 'visubot' ? visuBotBrand : site === 'visuobject' ? '<span>Visu<span class="visuobject-obj">Object</span></span>' : '<span>Visu<span class="visustruct-struct">Struct</span></span>'
 }
 
 /** Überschrift „Womit möchtest du arbeiten?“ im Zahnrad; entfällt auf den Welt-Subdomains (dort gibt es nichts zu wählen). */
 export function worldTitleHTML(): string {
   const site = hostWorld()
-  return site ? '' : `<h3>${escapeHTML(t('web_visubot_world_title'))}</h3>`
+  return site || kidsMode() ? '' : `<h3>${escapeHTML(t('web_visubot_world_title'))}</h3>`
 }
 
 /** Marke „VisuCode“ als Link auf visucode.de, wo man ein anderes Programm wählt. */
 export function visucodeLinkHTML(): string {
   const url = visucodeURL(currentLanguage())
   // Nur die anderen Programme nennen: wer in VisuBot ist, braucht keinen Hinweis auf VisuBot.
-  const own = { visustruct: 'VisuStruct', visubot: 'VisuBot', visuobject: 'VisuObject' }[hostWorld() ?? 'visustruct']
-  const others = ['VisuStruct', 'VisuBot', 'VisuObject', 'VisuStudio'].filter((name) => name !== own)
+  const own = kidsMode() ? 'VisuBot Kids' : { visustruct: 'VisuStruct', visubot: 'VisuBot', visuobject: 'VisuObject', visubotkids: 'VisuBot Kids' }[hostWorld() ?? 'visustruct']
+  // Für Kinder zuerst der große VisuBot: dorthin geht es nach VisuBot Kids weiter.
+  const others = (own === 'VisuBot Kids' ? ['VisuBot', 'VisuStruct', 'VisuObject', 'VisuStudio'] : ['VisuStruct', 'VisuBot', 'VisuObject', 'VisuStudio']).filter((name) => name !== own)
   return `<p class="visucode-more"><a class="visucode-brand" href="${url}">Visu<span>Code</span></a>
       <small>${escapeHTML(t('web_visubot_world_visucode_hint').replace('%1$@', others.slice(0, -1).join(', ')).replace('%2$@', others.at(-1)!)).replace('visucode.de', `<a href="${url}">visucode.de</a>`)}</small>
       <small class="visucode-credit">${escapeHTML(t('web_about_version_fmt').replace('%@', __APP_VERSION__))} · Holger Sebastiao · <a href="https://www.sebastiao.org" target="_blank" rel="noopener">sebastiao.org</a></small></p>`

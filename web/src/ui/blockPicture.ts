@@ -3,6 +3,7 @@ import { parseLiveJava } from '../core/javaParser'
 import { documentFromJava } from '../core/liveSource'
 import { BlockView, type BlockViewOptions } from './blockView'
 import { t } from './i18n'
+import { kidsMode } from './site'
 
 /** Beschriftungen der Block-Ansicht (übersetzt), für den Editor und für Bilder in Lektionen. */
 export function blockViewLabels(): BlockViewOptions['labels'] {
@@ -10,7 +11,8 @@ export function blockViewLabels(): BlockViewOptions['labels'] {
     start: t('web_visubot_blocks_start'),
     else: t('web_visubot_blocks_else'),
     empty: t('web_visubot_blocks_empty'),
-    hint: t('web_visubot_blocks_hint'),
+    // VisuBot Kids: kürzerer Hinweis ohne Struktogramm und Objektinspektor
+    hint: t(kidsMode() ? 'web_visubot_kids_blocks_hint' : 'web_visubot_blocks_hint'),
     trash: t('web_visubot_blocks_trash'),
     count: t('web_visubot_blocks_count'),
     countFrom: t('web_visubot_blocks_count_from'),

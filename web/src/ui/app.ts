@@ -1,5 +1,5 @@
 import { canvasTextLines, setCanvasStubTexts } from '../core/diagramText'
-import { worldHomeURL } from './site'
+import { kidsMode, worldHomeURL } from './site'
 import {
   appendCaseToFallauswahl,
   canDeleteElement,
@@ -49,10 +49,10 @@ import { progress } from '../learn/progress'
 import { codeKeywords, currentLanguage, offeredLanguages, setCodeKeywords, setLanguage, t, type LanguageCode } from './i18n'
 import * as Export from './exporter'
 import { SimulationPanel } from './simulationPanel'
-import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldTitleHTML, worldChosen, type WorldChoice } from './visubotView'
+import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, visuBotKidsBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldTitleHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
-import { lessons, tasks, useBlockLessons, useVisuBotContent, world } from '../learn/content'
+import { lessons, tasks, useBlockLessons, useOnlyBlockLessons, useVisuBotContent, world } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
@@ -226,7 +226,7 @@ const isMac = /Mac|iPhone|iPad/.test(navigator.platform)
 /** Tastenkürzel im Tooltip, z. B. „Strg+S“ bzw. „⌘S“. */
 /** Startseite (oder ein Abschnitt ihrer Fußzeile) in der passenden Sprache der Webseite; im VisuBot-Modus die VisuBot-Startseite. */
 function siteURL(section?: 'contact' | 'privacy'): string {
-  return worldHomeURL(visuBotEnabled() ? 'visubot' : 'visustruct', currentLanguage(), section)
+  return worldHomeURL(kidsMode() ? 'visubotkids' : visuBotEnabled() ? 'visubot' : 'visustruct', currentLanguage(), section)
 }
 
 /** Symbolknopf; der Name (mit Tastenkürzel) erscheint als Tooltip. */
@@ -408,6 +408,9 @@ export class App {
     useVisuBotContent(visuBotMode())
     // Block-Ansicht an: kurze Block-Lektionen für Jüngere
     useBlockLessons(storedValue(blocksKey) === '1')
+    // VisuBot Kids: nur die Block-Lektionen und -Aufgaben, kein Umschalten
+    if (kidsMode()) useOnlyBlockLessons()
+    document.documentElement.classList.toggle('kids-mode', kidsMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
     // Verweis aus einer VisuBot-Lektion: …/app/?visustruct&lektion=09-bedingungen-verknuepfen öffnet diese Lektion.
@@ -502,7 +505,7 @@ export class App {
     this.root.className = 'app'
     this.root.innerHTML = `
       <header class="toolbar">
-        <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}">${visuBotEnabled() ? visuBotBrand : '<span class="logo"></span>VisuStruct'} <small>${e(t('web_brand_suffix'))}</small></a>
+        <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}">${kidsMode() ? visuBotKidsBrand : visuBotEnabled() ? visuBotBrand : '<span class="logo"></span>VisuStruct'} ${kidsMode() ? '' : `<small>${e(t('web_brand_suffix'))}</small>`}</a>
         <div class="group">
           ${iconButton('new', t('toolbar_new'), icons.newFile)}
           ${iconButton('open', t('menu_open'), icons.open, shortcut('O'))}
@@ -519,7 +522,7 @@ export class App {
                 <small></small>
               </div>
             </section>
-            <section>
+            <section class="kids-settings">
               <h3>${e(t('web_settings_display'))}</h3>
               <label>${e(t('web_scale_canvas'))}
                 <select data-action="zoom">${zoomSteps.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
@@ -527,7 +530,7 @@ export class App {
               <label>${e(t('web_scale_code'))}
                 <select data-action="code-size">${codeSizes.map((z) => `<option value="${z.value}">${e(t(z.label))}</option>`).join('')}</select>
               </label>
-              <label>${e(t('settings_language_title'))}
+              <label class="settings-language">${e(t('settings_language_title'))}
                 <select data-action="language" title="${e(t('web_language_title'))}">${offeredLanguages
                   .map((l) => `<option value="${l.code}" lang="${l.code === 'java' ? 'en' : l.code}">${e(l.name)}</option>`)
                   .join('')}</select>
@@ -582,7 +585,7 @@ export class App {
           <h2>${e(t('palette_header'))}</h2>
           <button class="icon learn-hide palette-hide" data-action="hide-palette" title="${e(t('web_palette_hide'))}" aria-label="${e(t('web_palette_hide'))}">${sidebarIcon}</button>
         </div>
-        <p class="hint">${e(t('web_palette_hint'))}</p>
+        <p class="hint">${e(t(kidsMode() ? 'web_visubot_kids_palette_hint' : 'web_palette_hint'))}</p>
         <ul class="palette-basic"></ul>
         <h3 class="palette-visubot-title" hidden>🤖 ${e(t('web_visubot_commands'))}</h3>
         <ul class="palette-visubot" hidden></ul>
@@ -596,7 +599,7 @@ export class App {
         <ul class="palette-visubot palette-visubot-control" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
-        <h2 class="diagram-title">${e(t('web_editor_title'))}</h2>
+        <h2 class="diagram-title">${e(t(kidsMode() ? 'web_visubot_blocks' : 'web_editor_title'))}</h2>
         ${iconButton('undo', t('toolbar_undo'), icons.undo, shortcut('Z'))}
         ${iconButton('redo', t('toolbar_redo'), icons.redo, shortcut('Z', true))}
         <span class="sep"></span>
@@ -707,6 +710,13 @@ export class App {
     }
     this.simButton.addEventListener('click', () => this.setSimulating(!this.simulating))
     this.codeButton = $('[data-action=code]')
+    // VisuBot Kids: statt Code-Spalte ein großer Knopf „Zeig mir den Code“ (Brücke zum großen VisuBot)
+    if (kidsMode()) {
+      this.codeButton.className = 'kids-code'
+      this.codeButton.innerHTML = `<span aria-hidden="true">&lt;/&gt;</span><span>${e(t('web_visubot_kids_show_code'))}</span>`
+      this.codeButton.dataset.tip = t('web_visubot_kids_show_code_title')
+      this.codeButton.setAttribute('aria-label', t('web_visubot_kids_show_code'))
+    }
     this.code = new CodePanel(
       () => this.doc,
       (filename, text) => this.offerDownload(filename, new Blob([text], { type: 'text/plain' })),
@@ -714,6 +724,7 @@ export class App {
       (on) => this.commit({ ...this.doc, pseudocode: on || undefined }),
       () => this.tabs.filter((tab) => tab !== this.tab && parseSubprogramHeader(tab.doc.caption)).map((tab) => tab.doc),
     )
+    if (kidsMode()) this.code.kidsOnly()
     this.root.append(this.code.element)
     this.codeButton.addEventListener('click', () => this.setCoding(!this.coding))
 
@@ -810,8 +821,9 @@ export class App {
     // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
     const robotOn = visuBotEnabled()
     // Blöcke gibt es (vorerst) nur in VisuBot
-    this.blocksButton.hidden = !robotOn
-    this.setBlockMode(robotOn && storedValue(blocksKey) === '1', false)
+    // VisuBot Kids: immer Blöcke, ohne Knopf zum Struktogramm
+    this.blocksButton.hidden = !robotOn || kidsMode()
+    this.setBlockMode(robotOn && (kidsMode() || storedValue(blocksKey) === '1'), false)
     this.root.classList.toggle('visubot-mode', robotOn)
     this.shell.classList.toggle('robot-world', robotOn)
     if (!robotOn) this.preview.pause()
@@ -1360,7 +1372,7 @@ export class App {
       openExercise: (ex: Exercise, doc: VSDocument) => {
         // Die Übung sagt, wo man sie löst (`bereich:`). Holger 2026-10-31: Lektionen bleiben offen, sonst ist nur
         // dieser Bereich zu sehen (bei `beide` Struktogramm und Code); Dateien, mBot2 live usw. gehen zu.
-        const area = exerciseArea(ex)
+        const area = kidsMode() ? 'struktogramm' : exerciseArea(ex)
         if (area !== 'code') this.setEditorHidden(false)
         // Java-Übungen stellen Code auf Java; sonst bleibt die Sprache (z. B. Python oder JavaScript in Lektion 21).
         if (area !== 'struktogramm') {
@@ -1562,7 +1574,7 @@ export class App {
 
   private updateStatus() {
     this.rememberExercise()
-    document.title = `${this.dirty ? '• ' : ''}${this.fileName} – VisuStruct Web`
+    document.title = `${this.dirty ? '• ' : ''}${this.fileName} – ${kidsMode() ? 'VisuBot Kids' : 'VisuStruct Web'}`
     this.statusLine.textContent = `${this.fileName}${this.dirty ? ` (${t('web_status_modified')})` : ''}`
   }
 
@@ -1920,8 +1932,9 @@ export class App {
 
   /** ⇄: Programmieren wird die große Fläche links, das Struktogramm schmal rechts daneben (Breite ziehbar); noch ein Klick tauscht zurück. */
   private setCodeMain(on: boolean) {
+    if (kidsMode()) on = false
     this.codeMain = on
-    storeValue(codeMainKey, on ? '1' : '0')
+    if (!kidsMode()) storeValue(codeMainKey, on ? '1' : '0')
     if (on && !this.liveCoding) this.setLiveCoding(true)
     if (on && this.editorHidden) this.setEditorHidden(false)
     this.shell.classList.toggle('code-main', on)
@@ -2039,12 +2052,14 @@ export class App {
   }
 
   private setLiveCoding(on: boolean) {
+    // VisuBot Kids hat keine Code-Spalte, nur „Zeig mir den Code“
+    if (kidsMode()) on = false
     if (on && this.coding) this.setCoding(false)
     this.liveCoding = on
     this.shell.classList.toggle('live', on)
     this.placePreview()
     if (!on) this.live.hideConsole()
-    storeValue(liveKey, on ? '1' : '0')
+    if (!kidsMode()) storeValue(liveKey, on ? '1' : '0')
     this.keepAColumnOpen()
     if (this.canvasHost) this.render()
   }

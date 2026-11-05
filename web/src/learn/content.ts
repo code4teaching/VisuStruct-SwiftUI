@@ -87,9 +87,23 @@ export let visuBot: VisuBotMode = 'off'
  */
 export let blockLessons = false
 
+/**
+ * VisuBot Kids (Holger 5.11.): nur die Block-Lektionen und -Aufgaben, nie die normale Reihe. Gibt es sie in der
+ * Sprache nicht (bisher nur Deutsch), kommen die deutschen.
+ */
+export let onlyBlockLessons = false
+
+export function useOnlyBlockLessons() {
+  onlyBlockLessons = true
+  visuBot = 'on'
+  blockLessons = true
+  lessons = []
+  useContentLanguage(language)
+}
+
 /** Block-Lektionen ein- oder ausschalten; `true`, wenn sich der Inhalt dadurch ändert. */
 export function useBlockLessons(on: boolean): boolean {
-  if (on === blockLessons) return false
+  if (onlyBlockLessons || on === blockLessons) return false
   blockLessons = on
   lessons = []
   useContentLanguage(language)
@@ -101,14 +115,19 @@ export const showingBlockLessons = () => visuBot === 'on' && blockLessons && les
 
 /** VisuBot-Modus für den Lernbereich wählen; Nachschlagen und Fachbegriffe bleiben dieselben. */
 export function useVisuBotContent(mode: VisuBotMode) {
-  if (mode === visuBot) return
+  if (onlyBlockLessons || mode === visuBot) return
   visuBot = mode
   lessons = []
   useContentLanguage(language)
 }
 
 /** Wählt die Sprache der Lektionen; die Exporte oben zeigen danach die Inhalte dieser Sprache. */
+const juniorFolder = /\/lessons\/([^/]+)\/visubot\/bloecke\/[^/]+\.md$/
+const hasJunior = (files: [string, string][]) => files.some(([name]) => /^\d+/.test(name))
+
 export function useContentLanguage(lang: ContentLanguage) {
+  // VisuBot Kids: Gibt es die Block-Lektionen in der Sprache nicht (bisher nur Deutsch), kommen die deutschen.
+  if (onlyBlockLessons && !hasJunior(filesFor(blockLessonFiles, juniorFolder, lang))) lang = 'de'
   setMBotColorLanguage(lang)
   if (lang === language && lessons.length > 0) return
   language = lang
@@ -124,8 +143,8 @@ export function useContentLanguage(lang: ContentLanguage) {
       return renumber && task.after !== undefined ? { ...task, after: renumber.get(task.after) ?? task.after } : task
     })
   const normalTaskFiles = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
-  const juniorFiles = visuBot === 'on' && blockLessons ? filesFor(blockLessonFiles, /\/lessons\/([^/]+)\/visubot\/bloecke\/[^/]+\.md$/, lang) : []
-  if (juniorFiles.some(([name]) => /^\d+/.test(name))) {
+  const juniorFiles = visuBot === 'on' && blockLessons ? filesFor(blockLessonFiles, juniorFolder, lang) : []
+  if (hasJunior(juniorFiles)) {
     // Block-Lektionen: eigene kurze Reihe und eigene, kindgerechte Aufgaben (die normalen sind für Ältere)
     const series = visuBotSeries(juniorFiles)
     lessons = parseLessons(juniorFiles, series.renumber)

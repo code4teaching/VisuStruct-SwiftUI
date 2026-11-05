@@ -3,7 +3,7 @@ import { App, applyCanvasStubTexts } from './ui/app'
 import { installTooltips } from './ui/tooltip'
 import { preferredLanguage, setCodeKeywords, setLanguage, storedCodeKeywords } from './ui/i18n'
 import { setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuFlowWorld, visuObjectWorld } from './ui/visubotView'
-import { hostWorld } from './ui/site'
+import { hostWorld, kidsWanted, setKidsMode } from './ui/site'
 
 // Nach einem Update kann eine noch offene oder zwischengespeicherte Seite Dateien der alten Version
 // nachladen wollen, die es nicht mehr gibt. Dann einmal neu laden statt leer zu bleiben.
@@ -54,12 +54,18 @@ Promise.all([setLanguage(language, false), setCodeKeywords(storedCodeKeywords(),
     installTooltips()
     // Welten VisuObject (…/app/?visuobject) und VisuFlow (?visuflow) haben eine eigene Oberfläche; ?visustruct und ?visubot wählt die App selbst.
     const query = new URLSearchParams(location.search)
+    // VisuBot Kids (visubotkids.visucode.de oder ?kids): immer VisuBot mit Blöcken, keine andere Welt
+    if (kidsWanted()) {
+      setKidsMode(true)
+      new App(document.getElementById('app')!)
+      return
+    }
     // Auf einer Welt-Subdomain (visubot.visucode.de …) ohne Welt in der Adresse gilt immer die Welt der Seite; gefragt wird nicht.
     // VisuFlow gibt es dort nur mit ?visuflow in der Adresse. Ohne Subdomain fragt der Start-Dialog.
     const anyWorld = ['visustruct', 'visubot', 'visuobject', 'visuflow'].some((k) => query.has(k))
     const site = hostWorld()
     if (!anyWorld && site) {
-      if (site === 'visubot') setVisuBotMode('on')
+      if (site === 'visubot' || site === 'visubotkids') setVisuBotMode('on')
       else if (site === 'visuobject') setVisuObjectWorld()
       else setVisuBotMode('off')
     }

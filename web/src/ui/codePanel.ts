@@ -168,6 +168,16 @@ export class CodePanel {
     this.stopRun(true)
   }
 
+  /** VisuBot Kids: nur Java zum Anschauen, ohne Sprachen, Optionen, Speichern und Ausführen. */
+  kidsOnly() {
+    this.target = 'java'
+    this.javaMode = 'snippet'
+    this.element.classList.add('kids')
+    this.element.querySelector('.code-head h2')!.textContent = t('web_visubot_kids_code_title')
+    const hint = this.element.querySelector<HTMLElement>('.generated-hint')
+    if (hint) hint.textContent = t('web_visubot_kids_code_hint')
+  }
+
   private options() {
     return {
       includeDiagramTextAsComments: this.comments,
@@ -210,7 +220,7 @@ export class CodePanel {
           <div class="sim-input-row"><input autocomplete="off" /><button type="submit">${esc(t('simulation_input_submit'))}</button><button type="button" data-act="cancel">${esc(t('close_unsaved_cancel'))}</button></div>
         </form>
       </div>
-      <p class="hint">${esc(t('codegen_generated_hint'))}</p>
+      <p class="hint generated-hint">${esc(t('codegen_generated_hint'))}</p>
     `
     const q = <T extends Element>(s: string) => this.element.querySelector(s) as T
     this.codeView = q('.code-view')
