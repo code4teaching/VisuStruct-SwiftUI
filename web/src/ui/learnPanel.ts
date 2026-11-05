@@ -462,7 +462,7 @@ export class LearnPanel {
       case 'game':
         return this.renderGame(block.game)
       case 'roundGame':
-        return renderRoundGame(block.game, ludwigURL)
+        return renderRoundGame(block.game, ludwigURL, showingBlockLessons())
       case 'rescueGame':
         return renderRescueGame(block.game, ludwigURL)
       case 'driveGame':

@@ -325,6 +325,10 @@
 "web_visubot_blocks_while" = "while";
 "web_visubot_blocks_endless" = "forever";
 "web_visubot_blocks_do" = "do";
+"web_visubot_blocks_not" = "not";
+"web_visubot_blocks_and" = "and";
+"web_visubot_blocks_or" = "or";
+"web_visubot_blocks_break" = "leave the loop";
 "web_visubot_blocks_repeat_times" = "times";
 "web_visubot_blocks_random_from" = "random number from";
 "web_visubot_blocks_random_to" = "to";
