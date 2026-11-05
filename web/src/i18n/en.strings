@@ -315,6 +315,11 @@
 "web_visubot_kids_code_hint" = "VisuBot Kids made this from your blocks. This is how professionals write programs. Later, in the big VisuBot, you will write Java yourself.";
 "web_visubot_kids_blocks_hint" = "Drag blocks from the left into here. Click a white field to change a number or text. Throw away what you do not need in the bin.";
 "web_visubot_kids_palette_hint" = "Drag into your program";
+"web_visubot_level_title" = "Level";
+"web_visubot_level_beginner" = "Beginner";
+"web_visubot_level_beginner_title" = "Blocks like in Scratch and short lessons to try things out";
+"web_visubot_level_pro" = "Pro";
+"web_visubot_level_pro_title" = "Structure chart, Java and all robotics lessons";
 "web_visubot_blocks_start" = "When the program starts";
 "web_visubot_blocks_empty" = "A block goes here";
 "web_visubot_blocks_hint" = "The same program as blocks. Drag blocks in from “Elements”, move them around or drop them in the trash. Click a number or text in a white field to change it right in the block; everything else in the Object Inspector below. Drop sensors onto a condition, or right onto the field they should replace. Drag operators and variables onto a field or a condition in the same way.";

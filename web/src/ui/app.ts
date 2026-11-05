@@ -351,7 +351,8 @@ export class App {
   private varList?: HTMLUListElement
   private shownVars = ''
   private blocks?: BlockView
-  private blocksButton!: HTMLButtonElement
+  /** VisuBot: Schalter „Einsteiger | Profi“ (Blöcke und Kinder-Lektionen oder Struktogramm, Java und alle Lektionen). */
+  private blocksButton!: HTMLElement
   private coding = false
   private code!: CodePanel
   private codeButton!: HTMLButtonElement
@@ -407,7 +408,7 @@ export class App {
     else if (query.has('visustruct')) setVisuBotMode('off')
     useVisuBotContent(visuBotMode())
     // Block-Ansicht an: kurze Block-Lektionen für Jüngere
-    useBlockLessons(storedValue(blocksKey) === '1')
+    useBlockLessons(storedValue(blocksKey) !== '0')
     // VisuBot Kids: nur die Block-Lektionen und -Aufgaben, kein Umschalten
     if (kidsMode()) useOnlyBlockLessons()
     document.documentElement.classList.toggle('kids-mode', kidsMode())
@@ -622,7 +623,10 @@ export class App {
         <button class="mbot-link" data-action="mbot-link" hidden></button>
         <button class="mbot-upload" data-action="mbot-upload" hidden data-tip="${e(t('web_visubot_upload_title'))}" aria-label="${e(t('web_visubot_upload_title'))}">⬆ ${e(t('web_visubot_upload_button'))}</button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
-        <button class="blocks-toggle" data-action="blocks" aria-pressed="false" hidden></button>
+        <div class="segmented level-switch" data-action="blocks" role="group" aria-label="${e(t('web_visubot_level_title'))}" hidden>
+          <button type="button" data-level="beginner" data-tip="${e(t('web_visubot_level_beginner_title'))}">${e(t('web_visubot_level_beginner'))}</button>
+          <button type="button" data-level="pro" data-tip="${e(t('web_visubot_level_pro_title'))}">${e(t('web_visubot_level_pro'))}</button>
+        </div>
         <label class="check pseudocode-toggle" data-tip="${e(t('codegen_pseudocode_toggle'))}"><input type="checkbox" data-action="pseudocode" /><span>${e(t('web_pseudocode'))}</span></label>
         <button class="icon editor-swap" data-action="swap-main" aria-pressed="false">⇄</button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
@@ -680,8 +684,11 @@ export class App {
     this.simButton = $('[data-action=simulate]')
     // Pseudocode (z. B. „Wasserkocher einschalten“): kein Java, die Simulation fragt die Bedingungen.
     this.pseudocodeBox = $<HTMLInputElement>('[data-action=pseudocode]')
-    this.blocksButton = $<HTMLButtonElement>('[data-action=blocks]')
-    this.blocksButton.addEventListener('click', () => this.setBlockMode(!this.blockMode, true))
+    this.blocksButton = $<HTMLElement>('[data-action=blocks]')
+    this.blocksButton.addEventListener('click', (ev) => {
+      const level = (ev.target as HTMLElement).closest<HTMLElement>('[data-level]')?.dataset.level
+      if (level) this.setBlockMode(level === 'beginner', true)
+    })
     this.pseudocodeBox.addEventListener('change', () => this.commit({ ...this.doc, pseudocode: this.pseudocodeBox.checked || undefined }))
     $('[data-action=hide-editor]').addEventListener('click', () => this.setEditorHidden(true))
     $('[data-action=swap-main]').addEventListener('click', () => this.setCodeMain(!this.codeMain))
@@ -823,7 +830,7 @@ export class App {
     // Blöcke gibt es (vorerst) nur in VisuBot
     // VisuBot Kids: immer Blöcke, ohne Knopf zum Struktogramm
     this.blocksButton.hidden = !robotOn || kidsMode()
-    this.setBlockMode(robotOn && (kidsMode() || storedValue(blocksKey) === '1'), false)
+    this.setBlockMode(robotOn && (kidsMode() || storedValue(blocksKey) !== '0'), false)
     this.root.classList.toggle('visubot-mode', robotOn)
     this.shell.classList.toggle('robot-world', robotOn)
     if (!robotOn) this.preview.pause()
@@ -1826,11 +1833,9 @@ export class App {
     this.root.classList.toggle('block-mode', on)
     this.canvasHost.hidden = on
     if (this.blocks) this.blocks.element.hidden = !on
-    // Der Knopf nennt, wohin er führt (wie in VisuMicro): in den Blöcken zurück zum Struktogramm
-    const label = t(on ? 'web_visubot_blocks_back' : 'web_visubot_blocks')
-    this.blocksButton.innerHTML = `<span aria-hidden="true">${on ? '▤' : '🧩'}</span><span>${e(label)}</span>`
-    this.blocksButton.setAttribute('aria-pressed', String(on))
-    this.blocksButton.dataset.tip = t(on ? 'web_visubot_blocks_back_title' : 'web_visubot_blocks_title')
+    // Schalter „Einsteiger | Profi“ (Holger 5.11.): Einsteiger = Blöcke und Kinder-Lektionen, Profi = Struktogramm, Java, alle Lektionen
+    for (const button of this.blocksButton.querySelectorAll<HTMLButtonElement>('[data-level]'))
+      button.setAttribute('aria-pressed', String((button.dataset.level === 'beginner') === on))
     if (remember) this.render()
   }
 
