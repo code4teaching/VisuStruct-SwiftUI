@@ -6563,6 +6563,8 @@ button.danger-text:not(:disabled) {
 [data-bot-color='anzeige'], .bot-anzeige { --bot: #4f46e5; }
 [data-bot-color='warten'], .bot-warten { --bot: #6b7280; }
 [data-bot-color='sensor'], .bot-sensor { --bot: #0891b2; }
+[data-bot-color='operator'], .bot-operator { --bot: #16a34a; }
+[data-bot-color='variable'], .bot-variable { --bot: #ea580c; }
 :root:not(.no-code-scopes) .palette-item[data-bot-color] {
   border-left: 4px solid var(--bot);
 }
@@ -6830,13 +6832,28 @@ button.danger-text:not(:disabled) {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
-/* Zählvariable der Zählschleife (i, j …): orange Baustein wie eine Variable */
+/* leere Klammer (`mbot.forward()`): leeres weißes Feld zum Eintippen */
+.bk .tk-lit:empty {
+  display: inline-block;
+  min-width: 2.5ch;
+  min-height: 1.2em;
+  vertical-align: middle;
+}
+/* Variablen (zahl, i …): orange Bausteine */
 .bk .tk-var {
   padding: 0 6px;
   border-radius: 999px;
   background: #fdba74;
   color: #431407;
   font-weight: 600;
+}
+/* Operatoren (Zufallszahl): grüner runder Baustein mit eigenen Feldern */
+.bk .tk-op {
+  padding: 1px 6px;
+  border: 1px solid #15803d;
+  border-radius: 999px;
+  background: #86efac;
+  color: #052e16;
 }
 /* Sensoren: türkiser Baustein wie in der Palette */
 .bk .tk-sensor {
@@ -7045,4 +7062,16 @@ button.danger-text:not(:disabled) {
 .drag-ghost.drag-block {
   padding: 6px 12px;
   min-width: 9em;
+}
+
+/* VisuBlocks: Operatoren grün, Variablen orange – in den Elementen (Blöcke an) und beim Ziehen */
+.app.block-mode .palette-op code,
+.drag-ghost.drag-sensor.drag-op {
+  border-color: #15803d;
+  background: #86efac;
+}
+.app.block-mode .palette-var code,
+.drag-ghost.drag-sensor.drag-var {
+  border-color: #c2410c;
+  background: #fdba74;
 }

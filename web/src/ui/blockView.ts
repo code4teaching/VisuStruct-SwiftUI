@@ -2,7 +2,7 @@ import { canvasTextLines, keywordSplit } from '../core/diagramText'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, type VSDocument, type VSElement } from '../core/model'
 import { samePath } from './renderer'
-import { countLoopLines, countVar, readCountLoop, setCountField, type CountLoop } from 'visublocks'
+import { countLoopLines, countVar, declaredVariables, insertExpression, isRepeatLoop, javaTypes, randomJava, randomPattern, readCountLoop, readRandom, setCountField, usesVariable, type CountLoop } from 'visublocks'
 import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates } from './visubotView'
 
 /**
@@ -16,28 +16,101 @@ import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates }
 
 /** Ein Wort auf einem Block: Text, Schlüsselwort (fett), Wert (weißes Feld) oder Sensor (türkiser Baustein). */
 export interface BlockToken {
-  kind: 'text' | 'kw' | 'lit' | 'str' | 'sensor' | 'var'
+  kind: 'text' | 'kw' | 'lit' | 'str' | 'sensor' | 'var' | 'random'
   text: string
+  /** Variable, die gerade angelegt oder gesetzt wird: Baustein, aber kein Feld */
+  fixed?: boolean
+  /** Zufallszahl: von, bis */
+  from?: string
+  to?: string
 }
 
 const sensorCalls = new Set(visuBotSensors.map((s) => s.text.match(/^mbot\.(\w+)\(\)/)?.[1]).filter((n): n is string => !!n))
 
-/** Zeichenketten, Sensorabfragen (bzw. andere `mbot.…()`), Zahlen und true/false/null. */
-const valuePattern = () => /("(?:[^"\\]|\\.)*")|(mbot\.(\w+)\(\))|(\b\d+(?:\.\d+)?\b)|\b(true|false|null)\b/g
+/**
+ * Stellen in einer Zeile, die im Block besonders aussehen: Zufallszahl, Zeichenkette, Sensor (bzw. andere
+ * `mbot.…()`), Zahl, true/false/null und angelegte Variablen.
+ */
+const scanPattern = () =>
+  new RegExp(
+    `(${randomPattern().source})|("(?:[^"\\\\]|\\\\.)*")|(mbot\\.(\\w+)\\(\\))|(\\b\\d+(?:\\.\\d+)?\\b)|\\b(true|false|null)\\b|\\b([A-Za-z_]\\w*)\\b`,
+    'g',
+  )
+
+/** Eine besondere Stelle: `field` = man kann sie per Klick ändern oder etwas darauf ziehen */
+interface Hit {
+  start: number
+  end: number
+  kind: 'random' | 'str' | 'sensor' | 'lit' | 'var'
+  text: string
+  field: boolean
+}
+
+/** mBot2-Befehle, deren Zahl man in der leeren Klammer ergänzt (aus „Elemente“ kommen sie als `mbot.forward()`) */
+const emptyArgCommands = new Set(['forward', 'backward', 'turnRight', 'turnLeft'])
+
+const typeBefore = new RegExp(`\\b(?:${javaTypes.join('|')})\\s+$`)
+
+function scan(line: string, vars: ReadonlySet<string>): Hit[] {
+  const out: Hit[] = []
+  for (const m of line.matchAll(scanPattern())) {
+    const start = m.index ?? 0
+    const end = start + m[0].length
+    const hit = (kind: Hit['kind'], field = true) => out.push({ start, end, kind, text: m[0], field })
+    if (m[1]) hit('random')
+    else if (m[4]) hit('str')
+    else if (m[5]) {
+      // andere mbot-Aufrufe (mbot.stop()) sind kein Sensor; Befehle mit leerer Klammer (`mbot.forward()`)
+      // bekommen dort ein leeres Feld, damit Kinder die Zahl nur noch eintippen
+      if (sensorCalls.has(m[6])) hit('sensor')
+      else if (emptyArgCommands.has(m[6])) out.push({ start: end - 1, end: end - 1, kind: 'lit', text: '', field: true })
+    } else if (m[7] || m[8]) hit('lit')
+    else if (m[9] && vars.has(m[9]) && line[start - 1] !== '.') {
+      // Name, der gerade angelegt (`int zahl`) oder gesetzt (`zahl = …`) wird: Baustein, aber kein Feld
+      const target = typeBefore.test(line.slice(0, start)) || /^\s*=(?!=)/.test(line.slice(end))
+      hit('var', !target)
+    }
+  }
+  return out
+}
+
+/** Felder einer Zeile in Block-Reihenfolge: jede Zufallszahl hat zwei (von, bis) */
+interface ValueField {
+  hit: Hit
+  /** bei der Zufallszahl: 0 = von, 1 = bis */
+  part?: 0 | 1
+}
+
+function valueFields(line: string, vars: ReadonlySet<string>): ValueField[] {
+  const out: ValueField[] = []
+  for (const hit of scan(line, vars)) {
+    if (!hit.field || hit.kind === 'sensor') continue
+    if (hit.kind === 'random') out.push({ hit, part: 0 }, { hit, part: 1 })
+    else out.push({ hit })
+  }
+  return out
+}
+
+const noVars: ReadonlySet<string> = new Set()
 
 /**
- * Den `index`-ten Wert (Zahl, Text, true/false/null) in den Zeilen eines Elements ersetzen. Die Werte
- * stehen in den Blöcken in derselben Reihenfolge wie im gespeicherten Text (auch bei `for` und `while`).
+ * Den `index`-ten Wert (Zahl, Text, true/false/null, Variable, von/bis einer Zufallszahl) in den Zeilen
+ * eines Elements ersetzen. Die Werte stehen in den Blöcken in derselben Reihenfolge wie im gespeicherten
+ * Text (auch bei `for` und `while`). Ein Operator bekommt Klammern, wenn er sie braucht.
  */
-export function replaceValue(lines: string[], index: number, value: string): string[] | undefined {
+export function replaceValue(lines: string[], index: number, value: string, vars = noVars): string[] | undefined {
   let n = 0
   for (let l = 0; l < lines.length; l++) {
-    for (const m of lines[l].matchAll(valuePattern())) {
-      if (m[2]) continue
+    for (const f of valueFields(lines[l], vars)) {
       if (n++ !== index) continue
-      const i = m.index ?? 0
       const out = [...lines]
-      out[l] = lines[l].slice(0, i) + value + lines[l].slice(i + m[0].length)
+      if (f.part !== undefined) {
+        // Zufallszahl: nur ganze Zahlen als Grenzen
+        const r = readRandom(f.hit.text)
+        if (!r || !/^-?\d+$/.test(value.trim())) return undefined
+        const v = Number(value)
+        out[l] = lines[l].slice(0, f.hit.start) + randomJava(f.part === 0 ? v : r.from, f.part === 1 ? v : r.to) + lines[l].slice(f.hit.end)
+      } else out[l] = insertExpression(lines[l], f.hit.start, f.hit.end, value)
       return out
     }
   }
@@ -45,20 +118,45 @@ export function replaceValue(lines: string[], index: number, value: string): str
 }
 
 /** Den `index`-ten Sensor (`mbot.getDistance()` …) in den Zeilen eines Elements ersetzen. */
-export function replaceSensor(lines: string[], index: number, value: string): string[] | undefined {
+export function replaceSensor(lines: string[], index: number, value: string, vars = noVars): string[] | undefined {
   let n = 0
   for (let l = 0; l < lines.length; l++) {
-    for (const m of lines[l].matchAll(valuePattern())) {
-      if (!m[2] || !sensorCalls.has(m[3])) continue
-      if (n++ !== index) continue
-      const i = m.index ?? 0
+    for (const hit of scan(lines[l], vars)) {
+      if (hit.kind !== 'sensor' || n++ !== index) continue
       const out = [...lines]
-      out[l] = lines[l].slice(0, i) + value + lines[l].slice(i + m[0].length)
+      out[l] = insertExpression(lines[l], hit.start, hit.end, value)
       return out
     }
   }
   return undefined
 }
+
+/** Alle Zeilen des Programms (für die angelegten Variablen) */
+function allLines(els: VSElement[], out: string[] = []): string[] {
+  for (const e of els) {
+    out.push(...e.textLines)
+    if (e.loopBody) allLines(e.loopBody, out)
+    for (const c of e.cases ?? []) allLines(c.elements, out)
+  }
+  return out
+}
+
+/** Variablen, die in Anweisungen angelegt werden (ohne Zählvariablen von Schleifen) */
+export function statementVariables(doc: VSDocument): string[] {
+  const lines: string[] = []
+  const walk = (els: VSElement[]) => {
+    for (const e of els) {
+      if (e.type === ElementType.anweisung) lines.push(...e.textLines)
+      if (e.loopBody) walk(e.loopBody)
+      for (const c of e.cases ?? []) walk(c.elements)
+    }
+  }
+  walk(doc.elements)
+  return declaredVariables(lines)
+}
+
+/** Namen der angelegten Variablen im ganzen Programm (`int zahl = 0`, auch Zählvariablen) */
+export const programVariables = (doc: VSDocument): string[] => declaredVariables(allLines(doc.elements))
 
 /** Element am Pfad und Zahl der umgebenden for-Schleifen (für den Namen der Zählvariable: i, j, k …) */
 export function elementWithForDepth(doc: VSDocument, path: number[]): { element?: VSElement; depth: number } {
@@ -92,7 +190,13 @@ export function replaceBlockValue(doc: VSDocument, path: number[], index: number
     const next = setCountField(loop, index, value)
     return next && countLoopLines(next)
   }
-  return replaceValue(element.textLines, index, value)
+  return replaceValue(element.textLines, index, value, new Set(programVariables(doc)))
+}
+
+/** Sensor Nummer `index` im Block am Pfad ersetzen (auch durch einen Operator oder eine Variable) */
+export function replaceBlockSensor(doc: VSDocument, path: number[], index: number, value: string): string[] | undefined {
+  const { element } = elementWithForDepth(doc, path)
+  return element && replaceSensor(element.textLines, index, value, new Set(programVariables(doc)))
 }
 
 /** Neue for-Schleife aus der Palette in den Blöcken: gleich „von 0 bis unter 10 in Schritten von 1“ */
@@ -109,8 +213,8 @@ export function valueText(kind: 'lit' | 'str', input: string): string | undefine
   return /^-?\d+(\.\d+)?$/.test(v) || /^(true|false|null)$/.test(v) ? v : undefined
 }
 
-/** Zeile → Wörter: führendes Schlüsselwort, Zeichenketten, Zahlen und Sensorabfragen (`mbot.getDistance()`). */
-export function blockTokens(line: string): BlockToken[] {
+/** Zeile → Wörter: führendes Schlüsselwort, Zeichenketten, Zahlen, Sensoren, Variablen und Zufallszahlen. */
+export function blockTokens(line: string, vars = noVars): BlockToken[] {
   const out: BlockToken[] = []
   const split = keywordSplit(line)
   let rest = line
@@ -125,14 +229,13 @@ export function blockTokens(line: string): BlockToken[] {
     if (last?.kind === 'text') last.text += s
     else out.push({ kind: 'text', text: s })
   }
-  for (const m of rest.matchAll(valuePattern())) {
-    const i = m.index ?? 0
-    if (m[2] && !sensorCalls.has(m[3])) continue
-    text(rest.slice(at, i))
-    if (m[1]) out.push({ kind: 'str', text: m[1] })
-    else if (m[2]) out.push({ kind: 'sensor', text: m[2] })
-    else out.push({ kind: 'lit', text: m[0] })
-    at = i + m[0].length
+  for (const h of scan(rest, vars)) {
+    text(rest.slice(at, h.start))
+    if (h.kind === 'random') {
+      const r = readRandom(h.text)!
+      out.push({ kind: 'random', text: h.text, from: String(r.from), to: String(r.to) })
+    } else out.push(h.kind === 'var' && !h.field ? { kind: 'var', text: h.text, fixed: true } : { kind: h.kind, text: h.text })
+    at = h.end
   }
   text(rest.slice(at))
   return out
@@ -201,6 +304,12 @@ export interface BlockViewOptions {
     countTo: string
     countAbove: string
     countStep: string
+    /** „wiederhole“ [10] „mal“ */
+    repeat: string
+    repeatTimes: string
+    /** „Zufallszahl von“ [1] „bis“ [10] */
+    randomFrom: string
+    randomTo: string
   }
 }
 
@@ -238,6 +347,8 @@ export class BlockView {
   private editing = false
   /** Schachtelung der for-Schleifen beim Zeichnen (Zählvariable i, j, k …) */
   private forDepth = 0
+  /** angelegte Variablen des Programms (orange Bausteine) */
+  private vars: ReadonlySet<string> = new Set()
   private pending?: () => void
 
   constructor(private options: BlockViewOptions) {
@@ -402,6 +513,7 @@ export class BlockView {
     this.enabled = !simulating
     this.boxes = []
     this.forDepth = 0
+    this.vars = new Set(programVariables(doc))
     this.element.style.setProperty('--bk-zoom', String(zoom))
     this.element.classList.toggle('bk-simulating', simulating)
     const hint = document.createElement('p')
@@ -452,7 +564,8 @@ export class BlockView {
       case ElementType.forSchleife: {
         box.className = 'bk bk-c bk-loop'
         const loop = countLoopOf(e, this.forDepth)
-        const head = loop ? this.countHead(loop, v) : this.head(lines, v)
+        const repeat = loop && isRepeatLoop(loop) && !usesVariable(allLines(e.loopBody ?? []), loop.v)
+        const head = loop ? (repeat ? this.repeatHead(loop, v) : this.countHead(loop, v)) : this.head(lines, v)
         this.forDepth++
         const body = this.body(e.loopBody ?? [], [...path, 0])
         this.forDepth--
@@ -516,9 +629,13 @@ export class BlockView {
     for (const line of lines) {
       const row = document.createElement('span')
       row.className = 'bk-line'
-      for (const token of blockTokens(line)) {
+      for (const token of blockTokens(line, this.vars)) {
+        if (token.kind === 'random') {
+          row.append(this.randomWord(token, v))
+          continue
+        }
         const word = this.word(token)
-        if (v && (token.kind === 'lit' || token.kind === 'str')) {
+        if (v && (token.kind === 'lit' || token.kind === 'str' || (token.kind === 'var' && !token.fixed))) {
           word.dataset.value = JSON.stringify({ path: v.path, index: v.n++ })
         }
         if (v && token.kind === 'sensor') word.dataset.sensor = JSON.stringify({ path: v.path, index: v.s++ })
@@ -531,6 +648,41 @@ export class BlockView {
     return head
   }
 
+  /** Zufallszahl als runder Operator-Baustein: „Zufallszahl von [1] bis [10]“ mit zwei Feldern */
+  private randomWord(token: BlockToken, v?: ValueSlot): HTMLElement {
+    const l = this.options.labels
+    const pill = document.createElement('span')
+    pill.className = 'tk tk-op'
+    const field = (text: string) => {
+      const w = this.word({ kind: 'lit', text })
+      if (v) w.dataset.value = JSON.stringify({ path: v.path, index: v.n++ })
+      return w
+    }
+    pill.append(`${l.randomFrom} `, field(token.from!), ` ${l.randomTo} `, field(token.to!))
+    return pill
+  }
+
+  /** Feld des Kopfs einer Zählschleife: Zahl, Sensor oder Variable */
+  private loopField(text: string, index: number, v: ValueSlot): HTMLElement {
+    const sensor = /^mbot\./.test(text)
+    const w = this.word({ kind: sensor ? 'sensor' : /^[A-Za-z_]/.test(text) ? 'var' : 'lit', text })
+    if (sensor) w.dataset.sensor = JSON.stringify({ path: v.path, index: 0 })
+    else w.dataset.value = JSON.stringify({ path: v.path, index })
+    return w
+  }
+
+  /** „wiederhole [10] mal“: Zählschleife, deren Variable im Rumpf nicht vorkommt; Feld 1 = Ende */
+  private repeatHead(c: CountLoop, v: ValueSlot): HTMLElement {
+    const l = this.options.labels
+    const head = document.createElement('div')
+    head.className = 'bk-head'
+    const row = document.createElement('span')
+    row.className = 'bk-line'
+    row.append(this.word({ kind: 'kw', text: l.repeat }), this.word({ kind: 'text', text: ' ' }), this.loopField(c.end, 1, v), this.word({ kind: 'text', text: ` ${l.repeatTimes}` }))
+    head.append(row)
+    return head
+  }
+
   /** Zählschleife: „zähle mit i von [0] bis unter [10] in Schritten von [1]“, Felder 0 Start, 1 Ende, 2 Schritt */
   private countHead(c: CountLoop, v: ValueSlot): HTMLElement {
     const l = this.options.labels
@@ -538,13 +690,7 @@ export class BlockView {
     head.className = 'bk-head'
     const row = document.createElement('span')
     row.className = 'bk-line'
-    const field = (text: string, index: number) => {
-      const sensor = /^mbot\./.test(text)
-      const w = this.word({ kind: sensor ? 'sensor' : 'lit', text })
-      if (sensor) w.dataset.sensor = JSON.stringify({ path: v.path, index: 0 })
-      else w.dataset.value = JSON.stringify({ path: v.path, index })
-      return w
-    }
+    const field = (text: string, index: number) => this.loopField(text, index, v)
     const to = c.op === '<' ? l.countBelow : c.op === '>' ? l.countAbove : l.countTo
     row.append(
       this.word({ kind: 'kw', text: l.count }),
