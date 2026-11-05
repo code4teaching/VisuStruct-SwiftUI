@@ -6734,3 +6734,47 @@ button.danger-text:not(:disabled) {
 .blocks-view.bk-simulating .bk-empty {
   cursor: default;
 }
+/* Ziehen in den Blöcken: Linie an der Ablegestelle, Rahmen um einen leeren Platz bzw. die Bedingung */
+.bk-stack {
+  position: relative;
+}
+.bk-drop-line {
+  position: absolute;
+  z-index: 5;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 0 2px #fff;
+  pointer-events: none;
+}
+.bk-drop,
+.bk-empty.bk-drop {
+  outline: 3px dashed var(--accent);
+  outline-offset: 1px;
+  z-index: 2;
+}
+/* Papierkorb: erscheint beim Verschieben eines Blocks unten rechts */
+.bk-trash {
+  display: none;
+  position: sticky;
+  bottom: 0;
+  margin: 16px 0 0 auto;
+  width: fit-content;
+  padding: 10px 16px;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 14px;
+}
+.blocks-view.bk-moving .bk-trash {
+  display: block;
+}
+.bk-trash.bk-trash-hot {
+  border-color: #dc2626;
+  background: #fee2e2;
+  color: #991b1b;
+}
+.blocks-view:not(.bk-simulating) .bk:not(.bk-hat) {
+  touch-action: pan-y;
+}
