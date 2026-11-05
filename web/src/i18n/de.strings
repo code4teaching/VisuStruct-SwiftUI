@@ -24,6 +24,7 @@
 "web_status_modified" = "geändert";
 "web_inspector_title" = "Objektinspektor";
 "web_inspector_help_drop" = "Elemente aus dem Bereich „Elemente“ auf eine Kachel ziehen: oben = davor, unten = dahinter, auf „ø“ = ersetzen. Vorhandene Elemente lassen sich mit der Maus verschieben.";
+"web_inspector_help_inline" = "Doppelklick oder Doppeltipp auf ein Element: Text direkt im Struktogramm ändern (Enter übernimmt, Esc bricht ab). Auch Fallnamen lassen sich so ändern.";
 "web_inspector_help_files" = "Dateien können auch einfach ins Fenster gezogen werden.";
 "web_case_name" = "Fallname";
 "web_case_name_placeholder" = "z. B. 1, ok, default";

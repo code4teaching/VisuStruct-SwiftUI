@@ -25,6 +25,7 @@
 "web_inspector_title" = "Egenskaper";
 "web_inspector_resize" = "Endre høyden på objektinspektøren: dra eller sveip linjen opp eller ned (dobbeltklikk: standard)";
 "web_inspector_help_drop" = "Dra elementer fra paletten til en rute: øverst = før, nederst = etter, på «ø» = erstatt. Eksisterende elementer kan flyttes med musen.";
+"web_inspector_help_inline" = "Dobbeltklikk eller dobbelttrykk på et element for å redigere teksten direkte i diagrammet (Enter bruker, Esc avbryter). Det gjelder også case-navn.";
 "web_inspector_help_files" = "Du kan også slippe filer i vinduet.";
 "web_case_name" = "Navn på case";
 "web_case_name_placeholder" = "f.eks. 1, ok, default";

@@ -29,6 +29,7 @@ import { paletteElement, paletteItems, type PaletteItem } from '../core/palette'
 import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
+import { caseLabelAt, caseLabelRect, openInlineEditor, textRect, type InlineEditor, type InlineField } from './inlineEdit'
 import { CodePanel } from './codePanel'
 import { BlockView, replaceSensor, replaceValue, withoutBlockIcons, type BlockDrop } from './blockView'
 import { icons } from './icons'
@@ -129,6 +130,24 @@ function fixedPrefix(el: VSElement): string | undefined {
     case ElementType.fallauswahl: return 'switch'
     default: return undefined
   }
+}
+
+/** Text zum Bearbeiten (Inspektor und direkt im Struktogramm): ohne festes Schlüsselwort, leere Anweisung leer statt „ø“. */
+function editableText(el: VSElement): string {
+  const prefix = fixedPrefix(el)
+  const text = el.textLines.join('\n')
+  const shown = prefix ? LineEditor.strippingPrefixForEditing(prefix, text) : text
+  return el.type === ElementType.anweisung && shown.trim() === 'ø' ? '' : shown
+}
+
+/** Bearbeiteten Text zurückschreiben (Gegenstück zu `editableText`). */
+function storingText(doc: VSDocument, path: number[], value: string): VSDocument | undefined {
+  const el = tryElementAt(doc, path)
+  if (!el) return undefined
+  const p = fixedPrefix(el)
+  if (el.type === ElementType.anweisung && !p && value.trim() === '') return setTextLines(doc, path, ['ø'])
+  const stored = p ? LineEditor.prefixingForEditing(p, LineEditor.strippingPrefixForEditing(p, value)) : value
+  return setTextLines(doc, path, stored.split('\n'))
 }
 
 /** `InspectorElementHints.lineEditorPlaceholder`. */
@@ -361,6 +380,12 @@ export class App {
   private deleteButton!: HTMLButtonElement
   private statusLine!: HTMLElement
   private drag?: DragState
+  /** Offene Bearbeitung direkt im Struktogramm. */
+  private inline?: InlineEditor
+  /** Letzter Klick/Tipp ins Struktogramm (Doppelklick selbst erkennen: der erste Klick zeichnet neu). */
+  private lastCanvasTap = { spot: '', time: 0, x: 0, y: 0 }
+  /** Zweiter Tipp erkannt: beim Loslassen das Eingabefeld öffnen (dann behält es den Fokus). */
+  private pendingInline?: { pointerId: number; path: number[]; point: { x: number; y: number } }
   /** Nur in der claude.ai-Vorschau: Dateien über die `downloads`-Fähigkeit anbieten. */
   private downloads: { save(o: { filename: string; data: Blob }): Promise<unknown> } | null = null
   private readonly inViewer = 'claude' in window
@@ -1463,7 +1488,10 @@ export class App {
     this.svg.setAttribute('height', String(Math.floor(size.height * z)))
     this.overlay = el('g', { class: 'drop-overlay' })
     this.svg.append(this.overlay)
-    this.canvasHost.replaceChildren(this.svg)
+    // Während der Bearbeitung im Diagramm nur das Bild tauschen, das Eingabefeld bleibt (mit Fokus).
+    const oldSvg = this.inline?.element.isConnected ? this.canvasHost.querySelector(':scope > svg') : null
+    if (oldSvg) oldSvg.replaceWith(this.svg)
+    else this.canvasHost.replaceChildren(this.svg)
     if (this.blockMode) this.blocks?.render(this.doc, this.simulating ? this.simPath : this.selected, this.simulating, z)
 
     if (document.activeElement !== this.captionInput) this.captionInput.value = this.doc.caption
@@ -1507,6 +1535,7 @@ export class App {
         h('h2', {}, t('web_inspector_title')),
         h('p', { class: 'hint' }, t('inspector_no_selection')),
         h('p', { class: 'hint' }, t('web_inspector_help_drop')),
+        h('p', { class: 'hint' }, t('web_inspector_help_inline')),
         h('p', { class: 'hint' }, t('web_inspector_help_files')),
       )
       return
@@ -1557,18 +1586,10 @@ export class App {
       if (hint) box.append(h('p', { class: 'hint mono-hint' }, hint))
       const prefix = fixedPrefix(element)
       const ta = h('textarea', { rows: '3', spellcheck: 'false' }) as HTMLTextAreaElement
-      const text = element.textLines.join('\n')
       // Leere Anweisung: im Struktogramm „ø“, im Textfeld leer (nichts erst löschen müssen).
-      const isStatement = element.type === ElementType.anweisung
-      const shown = prefix ? LineEditor.strippingPrefixForEditing(prefix, text) : text
-      ta.value = isStatement && shown.trim() === 'ø' ? '' : shown
+      ta.value = editableText(element)
       ta.placeholder = placeholderFor(element)
-      this.liveEdit(ta, (value) => {
-        const p = fixedPrefix(tryElementAt(this.doc, path) ?? element)
-        if (isStatement && !p && value.trim() === '') return setTextLines(this.doc, path, ['ø'])
-        const stored = p ? LineEditor.prefixingForEditing(p, LineEditor.strippingPrefixForEditing(p, value)) : value
-        return setTextLines(this.doc, path, stored.split('\n'))
-      })
+      this.liveEdit(ta, (value) => storingText(this.doc, path, value))
       const row = h('div', { class: 'editor-row' })
       if (prefix) row.append(h('span', { class: 'fixed-prefix' }, prefix))
       row.append(ta)
@@ -1614,7 +1635,7 @@ export class App {
 
   /** Rechtsklick auf ein Element: auswählen und „Variable umbenennen …“ anbieten. */
   private onCanvasContextMenu(e: MouseEvent) {
-    if (this.simulating) return
+    if (this.simulating || this.inline) return
     const p = this.svgPoint(e.clientX, e.clientY)
     const node = p && this.nodeAt(p.x, p.y)
     const element = node && tryElementAt(this.doc, node.idPath)
@@ -1677,6 +1698,69 @@ export class App {
       before = undefined
       // Inspector nicht neu aufbauen: ein Klick auf einen seiner Knöpfe soll sein Ziel behalten.
       this.renderDiagramOnly()
+    })
+  }
+
+  // MARK: - Direkt im Struktogramm bearbeiten
+
+  /**
+   * Eingabefeld über dem Text des Elements öffnen (Doppelklick, Doppeltipp oder Enter).
+   * `point` (Diagramm-Koordinaten) entscheidet bei der Fallauswahl, ob ein Fallname gemeint ist.
+   */
+  private startInlineEdit(path: number[], point?: { x: number; y: number }) {
+    if (this.simulating || this.blockMode) return
+    this.inline?.finish(true)
+    const node = this.flat.find((n) => samePath(n.idPath, path))
+    const element = tryElementAt(this.doc, path)
+    if (!node || !element || element.type === ElementType.leerElement) return
+    const lh = this.metrics.lineHeight
+    const base = { host: this.canvasHost, zoom: this.zoom, fontSize: this.metrics.fontSize, lineHeight: lh }
+    const open = (o: { rect: Rect; prefix?: string; fields: InlineField[]; center: boolean; apply: (values: string[]) => VSDocument | undefined }) => {
+      this.inline = openInlineEditor({
+        ...base,
+        ...o,
+        onDone: (values) => {
+          this.inline = undefined
+          const next = values && o.apply(values)
+          const before = tryElementAt(this.doc, path)
+          const after = next && tryElementAt(next, path)
+          const changed = next && JSON.stringify([before?.textLines, before?.cases?.map((c) => c.name)]) !== JSON.stringify([after?.textLines, after?.cases?.map((c) => c.name)])
+          if (changed) this.commit(next, path)
+          else this.render()
+        },
+      })
+    }
+
+    const caseIdx = point ? caseLabelAt(node, point.x, point.y, lh) : undefined
+    if (caseIdx !== undefined && element.cases?.[caseIdx]) {
+      return open({
+        rect: caseLabelRect(node, caseIdx, lh),
+        fields: [{ value: element.cases[caseIdx].name, placeholder: t('web_case_name_placeholder'), label: t('web_case_name') }],
+        center: true,
+        apply: ([v]) => (v.trim() === '' ? undefined : setFallauswahlCaseName(this.doc, path, caseIdx, v.trim())),
+      })
+    }
+    if (element.type === ElementType.forSchleife) {
+      const parts = LineEditor.paddedForLoopParts(element.textLines)
+      const labels: [string, string][] = [
+        [t('inspector_for_init'), t('inspector_for_placeholder_init')],
+        [t('inspector_for_condition'), t('inspector_for_placeholder_condition')],
+        [t('inspector_for_step'), t('inspector_for_placeholder_step')],
+      ]
+      return open({
+        rect: textRect(node, lh),
+        prefix: 'for',
+        fields: labels.map(([label, placeholder], i) => ({ value: parts[i], placeholder, label })),
+        center: false,
+        apply: (values) => setTextLines(this.doc, path, values.map((v) => LineEditor.normalizedForLoopPart(v))),
+      })
+    }
+    open({
+      rect: textRect(node, lh),
+      prefix: fixedPrefix(element),
+      fields: [{ value: editableText(element), placeholder: placeholderFor(element), label: typeName(element.type) }],
+      center: element.type === ElementType.anweisung || element.type === ElementType.aufruf || element.type === ElementType.aussprung,
+      apply: ([v]) => storingText(this.doc, path, v),
     })
   }
 
@@ -2613,6 +2697,9 @@ export class App {
     } else if (mod && e.key.toLowerCase() === 'y') {
       e.preventDefault()
       this.redo()
+    } else if (e.key === 'Enter' && this.selected && !this.blockMode && !mod) {
+      e.preventDefault()
+      this.startInlineEdit(this.selected)
     } else if (e.key === 'F2' && this.selected) {
       e.preventDefault()
       this.renameVariable(this.selected)
@@ -2653,11 +2740,23 @@ export class App {
     const p = this.svgPoint(e.clientX, e.clientY)
     if (!p) return
     // Offene Texteingabe abschließen (zählt dann als ein Rückgängig-Schritt).
+    this.inline?.finish(true)
     if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
     const node = this.nodeAt(p.x, p.y)
     const wasSelected = node && this.selected && samePath(node.idPath, this.selected)
+    // Doppelklick bzw. Doppeltipp auf dasselbe Element: Text direkt im Struktogramm bearbeiten.
+    const spot = node ? node.idPath.join(',') : ''
+    const now = Date.now()
+    const last = this.lastCanvasTap
+    const twice = !!node && e.button === 0 && spot === last.spot && now - last.time < 500 && Math.hypot(e.clientX - last.x, e.clientY - last.y) < 24
+    this.lastCanvasTap = { spot, time: twice ? 0 : now, x: e.clientX, y: e.clientY }
     this.selected = node?.idPath
     this.render()
+    if (twice && node) {
+      e.preventDefault()
+      this.pendingInline = { pointerId: e.pointerId, path: node.idPath, point: p }
+      return
+    }
     // Verschieben mit Maus/Stift; mit dem Finger würde es mit dem Scrollen kollidieren.
     if (node && e.pointerType !== 'touch' && !(isPlaceholderSlot(this.doc, node.idPath) && !wasSelected)) {
       this.beginDrag(e, { kind: 'move', path: node.idPath })
@@ -2693,6 +2792,12 @@ export class App {
   }
 
   private onPointerUp(e: PointerEvent) {
+    const pending = this.pendingInline
+    if (pending && pending.pointerId === e.pointerId) {
+      this.pendingInline = undefined
+      this.startInlineEdit(pending.path, pending.point)
+      return
+    }
     const d = this.drag
     if (!d || e.pointerId !== d.pointerId) return
     if (d.active && d.target) this.applyDrop(d.source, d.target)

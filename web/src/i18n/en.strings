@@ -24,6 +24,7 @@
 "web_status_modified" = "modified";
 "web_inspector_title" = "Object Inspector";
 "web_inspector_help_drop" = "Drag elements from the “Elements” area onto a tile: top = before, bottom = after, onto “ø” = replace. Existing elements can be moved with the mouse.";
+"web_inspector_help_inline" = "Double-click or double-tap an element to edit its text right in the structure chart (Enter applies, Esc cancels). Case labels work the same way.";
 "web_inspector_help_files" = "You can also drop files into the window.";
 "web_case_name" = "Case name";
 "web_case_name_placeholder" = "e.g. 1, ok, default";

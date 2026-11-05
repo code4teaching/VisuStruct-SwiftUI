@@ -495,10 +495,61 @@ h2 {
 .canvas {
   flex: 1;
   overflow: auto;
+  position: relative;
+  /* Doppeltipp öffnet das Eingabefeld statt zu zoomen */
+  touch-action: manipulation;
   /* Platz für den Scrollbalken immer freihalten: unter Windows verschiebt er sonst das Layout */
   scrollbar-gutter: stable;
   background: #fafafa;
 }
+/* Text direkt im Struktogramm bearbeiten (Doppelklick/Doppeltipp) */
+.inline-edit {
+  position: absolute;
+  z-index: 5;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #fff;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+.inline-edit-center {
+  justify-content: center;
+}
+.inline-edit-prefix,
+.inline-edit-sep {
+  font-weight: 700;
+  color: #000;
+  flex: none;
+}
+.inline-edit textarea,
+.inline-edit input {
+  flex: 1 1 auto;
+  min-width: 3ch;
+  margin: 0;
+  padding: 2px 4px;
+  border: 1px solid #c8ccd2;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  line-height: inherit;
+  resize: none;
+  overflow: hidden;
+  white-space: pre;
+}
+.inline-edit-center textarea {
+  text-align: center;
+}
+.inline-edit textarea:focus,
+.inline-edit input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
 .canvas svg {
   display: block;
   user-select: none;

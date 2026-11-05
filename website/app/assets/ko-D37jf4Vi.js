@@ -25,6 +25,7 @@ const e=`/* 웹 버전에만 있는 텍스트입니다. 나머지는 모두 앱�
 "web_inspector_title" = "속성";
 "web_inspector_resize" = "객체 검사기 높이 변경: 선을 위아래로 드래그하거나 스와이프 (더블 클릭: 기본값)";
 "web_inspector_help_drop" = "팔레트의 요소를 타일로 드래그하세요: 위쪽 = 앞에, 아래쪽 = 뒤에, “ø” 위 = 바꾸기. 기존 요소는 마우스로 옮길 수 있습니다.";
+"web_inspector_help_inline" = "요소를 두 번 클릭하거나 두 번 탭하면 다이어그램에서 바로 텍스트를 편집할 수 있습니다(Enter 적용, Esc 취소). case 이름도 마찬가지입니다.";
 "web_inspector_help_files" = "파일을 창에 끌어다 놓을 수도 있습니다.";
 "web_case_name" = "케이스 이름";
 "web_case_name_placeholder" = "예: 1, ok, default";
