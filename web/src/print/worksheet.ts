@@ -15,7 +15,7 @@ import { inline, markdownToHTML } from '../learn/markdown'
 import { blockViewLabels } from '../ui/blockPicture'
 import { BlockView } from '../ui/blockView'
 import { setLanguage } from '../ui/i18n'
-import ludwigURL from '../ui/ludwig.webp'
+import ludwigURL from '../ui/ludwig-kids.webp'
 
 const lessonFiles = import.meta.glob('../../lessons/de/visubot/{bloecke,bloecke34}/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 const taskFiles = import.meta.glob('../../lessons/de/visubot/{bloecke,bloecke34}/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>

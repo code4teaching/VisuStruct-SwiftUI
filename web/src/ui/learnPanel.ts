@@ -8,7 +8,8 @@ import { explain, makeRound, usedValues, type BoolGame } from '../learn/boolGame
 import { contentLanguageFor, diagram, showingBlockLessons, glossary, image, lessons, reference, tasks, useContentLanguage, world } from '../learn/content'
 import { exerciseArea, type Block, type ChecklistItem, type Exercise, type Lesson, type QuizQuestion, type Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
-import ludwigURL from './ludwig.webp'
+import ludwigStandardURL from './ludwig.webp'
+import ludwigKidsURL from './ludwig-kids.webp'
 import { progress, type Rating } from '../learn/progress'
 import { isTeacher, lockTeacher, unlockTeacher } from '../learn/teacher'
 import { currentLanguage, t } from './i18n'
@@ -19,10 +20,14 @@ import { renderRoundGame } from './roundGameView'
 import { renderCrosswordGame, renderRescueGame } from './rescueGameView'
 import { renderDriveGame } from './driveGameView'
 import { blockPicture } from './blockPicture'
+import { kidsMode } from './site'
 import { renderCloze } from './clozeView'
 import { renderPap } from './papView'
 import { textFileView } from './textFileView'
 import { attachPointers, attachTermTips, markPointers, markTerms, pointsIntoEditor, pointsIntoFiles, pointsIntoLiveCode, pointsIntoPalette, type UiArea } from './termTips'
+
+/** VisuBot Kids: Ludwig trägt einen „VisuBot Kids“-Pulli (Holger 5.11.). */
+const ludwigURL = (): string => (kidsMode() ? ludwigKidsURL : ludwigStandardURL)
 
 /**
  * Lernbereich neben dem Editor (Vorbild: PicoJavaGoat): Lektionen in kurzen Schritten mit Übungen,
@@ -471,13 +476,13 @@ export class LearnPanel {
       case 'game':
         return this.renderGame(block.game)
       case 'roundGame':
-        return renderRoundGame(block.game, ludwigURL, showingBlockLessons())
+        return renderRoundGame(block.game, ludwigURL(), showingBlockLessons())
       case 'rescueGame':
-        return renderRescueGame(block.game, ludwigURL)
+        return renderRescueGame(block.game, ludwigURL())
       case 'driveGame':
-        return renderDriveGame(block.game, ludwigURL, showingBlockLessons())
+        return renderDriveGame(block.game, ludwigURL(), showingBlockLessons())
       case 'crosswordGame':
-        return renderCrosswordGame(block.game, ludwigURL)
+        return renderCrosswordGame(block.game, ludwigURL())
       case 'caesar':
         return renderCaesarDisc(block.key, block.text)
       case 'cloze':
@@ -496,7 +501,7 @@ export class LearnPanel {
   /** Ludwig der Geißbock erzählt etwas zum Angeben oder gibt einen Tipp. */
   private renderBrag(text: string, tip = false): HTMLElement {
     const box = h('aside', { class: 'learn-brag' })
-    box.append(h('img', { src: ludwigURL, alt: '', width: '48', height: '48' }))
+    box.append(h('img', { src: ludwigURL(), alt: '', width: '48', height: '48' }))
     const body = h('div', {}, h('p', { class: 'learn-brag-title' }, t(tip ? 'web_learn_ludwig_tip' : 'web_learn_brag')))
     body.append(html('div', { class: 'learn-text' }, markdownToHTML(text)))
     box.append(body)
@@ -508,7 +513,7 @@ export class LearnPanel {
     const rounds = 10
     const box = h('section', { class: 'learn-game' })
     const head = h('div', { class: 'learn-game-head' })
-    head.append(h('img', { src: ludwigURL, alt: '', width: '40', height: '40' }), h('strong', {}, t('web_game_title')))
+    head.append(h('img', { src: ludwigURL(), alt: '', width: '40', height: '40' }), h('strong', {}, t('web_game_title')))
     const status = h('p', { class: 'learn-game-status' })
     const stage = h('div', { class: 'learn-game-stage' })
     box.append(head, status, stage)
