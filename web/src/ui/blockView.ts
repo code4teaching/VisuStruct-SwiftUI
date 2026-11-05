@@ -2,7 +2,7 @@ import { canvasTextLines, keywordSplit } from '../core/diagramText'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, type VSDocument, type VSElement } from '../core/model'
 import { samePath } from './renderer'
-import { countLoopLines, countVar, readCountLoop, setCountField, type CountLoop } from '../visublocks/countLoop'
+import { countLoopLines, countVar, readCountLoop, setCountField, type CountLoop } from 'visublocks'
 import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates } from './visubotView'
 
 /**

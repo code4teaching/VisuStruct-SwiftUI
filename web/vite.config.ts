@@ -75,5 +75,6 @@ export default defineConfig(({ mode }) => ({
   build: { outDir: mode === 'single' ? 'dist-single' : 'dist' },
   // Beispieldateien liegen eine Ebene höher in `VisuStruct-Dateien`.
   server: { fs: { allow: ['..'] } },
-  test: { environment: 'jsdom' },
+  // VisuBlocks kommt als TypeScript-Quelle (github:code4teaching/visublocks): von Vitest mit übersetzen lassen
+  test: { environment: 'jsdom', server: { deps: { inline: ['visublocks'] } } },
 }))

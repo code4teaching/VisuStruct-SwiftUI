@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { countLoopLines, countVar, readCountLoop, setCountField } from '../src/visublocks/countLoop'
+import { countLoopLines, countVar, readCountLoop, setCountField } from 'visublocks'
 import { elementWithForDepth, replaceBlockValue, withCountLoopDefaults } from '../src/ui/blockView'
 import { ElementType, makeElement, type VSDocument } from '../src/core/model'
 
