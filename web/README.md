@@ -1,7 +1,8 @@
-# VisuStruct Web (Prototyp)
+# VisuStruct Web
 
-Erster Prototyp von VisuStruct im Browser: `.visustruct`-Dateien öffnen, als Struktogramm zeichnen,
-Elemente per Drag & Drop einfügen oder verschieben, Texte bearbeiten, Schritt für Schritt simulieren,
+VisuStruct im Browser: `.visustruct`-Dateien öffnen, als Struktogramm zeichnen,
+Elemente per Drag & Drop einfügen oder verschieben, Texte im Objektinspektor oder per Doppelklick/Doppeltipp direkt im
+Struktogramm bearbeiten (`src/ui/inlineEdit.ts`), Schritt für Schritt simulieren,
 Java-, Python- oder JavaScript-Code erzeugen (JavaScript direkt im Browser ausführen) und wieder speichern.
 Läuft komplett im Browser, ohne Server.
 
@@ -75,8 +76,9 @@ Diagramm mit den Eingaben der Übung und vergleicht die Ausgabe. Der Fortschritt
 
 ## Veröffentlichen
 
-Die App liegt fertig gebaut in `website/app/` und wird mit der übrigen Webseite hochgeladen; sie ist dann unter
-`visustruct.org/app/` erreichbar. Die Download-Karten auf der Webseite verlinken sie mit `?lang=…` in der Sprache der Seite.
+Die App liegt fertig gebaut in `website/app/`. Veröffentlicht wird sie über das GitLab-Repo `visucode/website`
+(Skript `app-aktualisieren.sh`, Push auf `main` = live): unter `visustruct.visucode.de/app/`, `visubot.visucode.de/app/`
+und `visuobject.visucode.de/app/`. Auf diesen Adressen öffnet die App immer die Welt der Seite.
 Nach Änderungen in `web/` oder an den `Localizable.strings` der App `npm run build:site` ausführen und `website/app/`
 mitcommitten; der CI-Schritt „website/app ist aktuell“ schlägt sonst fehl. Es gibt keinen Server: Dateien werden nur im
 Browser geöffnet und gespeichert.
@@ -85,7 +87,17 @@ Drag & Drop nutzt Zeiger-Ereignisse statt HTML5-Drag-and-Drop, damit Maus, Stift
 
 ## Noch nicht enthalten
 
-Verschieben vorhandener Elemente mit dem Finger.
+Verschieben vorhandener Elemente mit dem Finger im Struktogramm.
+
+## VisuBot (Welt `?visubot`)
+
+Den Lernroboter mBot2 programmieren: mBot2-Befehle und Sensoren in „Elemente“, 3D-Simulator (`src/ui/robot3d.ts`),
+echter mBot2 per USB in Chrome oder Edge (`src/ui/mbotUpload.ts`), eigene Lektionen in `lessons/<Sprache>/visubot/`.
+Der Knopf **Blöcke** in den Werkzeugen zeigt dasselbe Struktogramm als Blöcke wie in Scratch (`src/ui/blockView.ts`,
+Test `blockView.test.ts`): Blöcke ziehen, verschieben, in den Papierkorb werfen, Werte direkt in den weißen Feldern
+ändern, Sensoren auf Felder oder Bedingungen ziehen. Die Regeln für kinderfreundliche Blöcke (z. B. die Zählschleife
+„zähle mit i von [0] bis unter [10] in Schritten von [1]“) kommen aus der gemeinsamen Bibliothek
+[VisuBlocks](https://github.com/code4teaching/visublocks) (MIT), eingebunden als Paket `visublocks` mit fester Commit-Nummer.
 
 ## VisuObject (Welt `?visuobject`)
 

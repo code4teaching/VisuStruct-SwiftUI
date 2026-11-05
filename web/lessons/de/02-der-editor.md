@@ -22,7 +22,7 @@ Der Struktogramm-Editor besteht aus mehreren Bereichen. Fahre mit der Maus über
 - **Darunter die [Werkzeuge](#zeige-werkzeuge)** über den Elementen und dem Struktogramm: Rückgängig, Ausschneiden, Kopieren, Einfügen, Löschen, Exportieren, Code und Simulation. Die Knöpfe zeigen nur Symbole. Hältst du die Maus darüber, erscheint ihr Name.
 - **Links die [Elemente](#zeige-elemente):** Hier liegen alle Bausteine, die du ins Struktogramm ziehen kannst. Manche nennen diesen Bereich auch Palette.
 - **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
-- **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier bearbeitest du den Text des ausgewählten Elements.
+- **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier bearbeitest du den Text des ausgewählten Elements. Ist er dir zu klein oder zu groß, ziehst du die Linie mit dem Griff darüber nach oben oder unten.
 
 > Diesen Lernbereich kannst du jederzeit mit dem [Seitenleisten-Symbol](#zeige-lernen) oben in diesem Bereich einklappen. Dann bleibt links nur die schmale Leiste „🎓 Lernen“, ein Klick darauf öffnet ihn wieder. Er bleibt neben dem Editor offen, damit du gleich ausprobieren kannst, was du liest. Genauso gibt es links die Spalte [📁 Dateien](#zeige-dateien) für deine gespeicherten Programme (Lektion 3) und rechts den Bereich [Code](#zeige-codelive) für Java (ab Lektion 4).
 
@@ -49,6 +49,8 @@ Kästen packen und herumziehen, so wie du gerade, hat einen schicken Namen: **di
 ## Text eingeben
 
 Klicke einen Kasten an. Er wird blau umrandet, und im Objektinspektor unter dem Diagramm erscheint sein Text. Was du dort tippst, siehst du sofort im Diagramm.
+
+Schneller geht es mit einem **Doppelklick** auf den Kasten, auf dem Tablet mit einem **Doppeltipp**. Dann tippst du den Text direkt im Struktogramm. **Enter** übernimmt ihn, **Esc** bricht ab. Mit der Tastatur wählst du den Kasten aus und drückst **Enter**.
 
 Der Kasten aus dem Bereich Elemente heißt **Anweisung**. Oben wählst du, welche Art von Anweisung er sein soll:
 

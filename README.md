@@ -6,13 +6,13 @@
 
 # VisuStruct (SwiftUI)
 
-Visual **Nassi–Shneiderman** structograms for **Mac, iPad, and iPhone**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
+Visual **Nassi–Shneiderman** structograms for **Mac, iPad, and iPhone**, and as a web app in the browser (`web/`, with VisuBot for the mBot2 robot, including a Scratch-like block view). Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
 
 **Localization:** The app ships a large set of UI translations (strings + Settings), with English and German treated as primary “source of truth” strings during development.
 
 **Statements with I/O prefixes:** Instruction text can distinguish **statement / input / output** usage. Prefixes **`input:`** and **`print:`** are interpreted by the code generators (Java / JavaScript / Python targets) while keeping one shared diagram notation.
 
-**[visustruct.org](https://visustruct.org)** · **Build & layout:** [VisuStruct-iOS/README.md](VisuStruct-iOS/README.md) · **Changes:** [CHANGELOG.md](CHANGELOG.md)
+**[visucode.de](https://visucode.de)** · **Build & layout:** [VisuStruct-iOS/README.md](VisuStruct-iOS/README.md) · **Changes:** [CHANGELOG.md](CHANGELOG.md)
 
 The **[Java VisuStruct](https://github.com/code4teaching/VisuStruct)** editor is based on [kekru/struktogrammeditor](https://github.com/kekru/struktogrammeditor) (MIT). **Sources and releases for Java** are maintained only in that repository (always current there). This **SwiftUI** app is a **reimplementation**: same **`.visustruct`** / XML as Java (and it opens legacy **`.strk`** files), not a port of that codebase.
 
@@ -26,14 +26,11 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 
 **Remote:** [github.com/code4teaching/VisuStruct-SwiftUI](https://github.com/code4teaching/VisuStruct-SwiftUI)
 
-## Website deployment
+## Web app and website
 
-`website/` is published to visustruct.org (All-Inkl) by the workflow **Webseite veröffentlichen** (`.github/workflows/deploy-website.yml`). It runs the web tests first and then uploads via FTPS, i.e. encrypted FTP (`.github/scripts/deploy-website.sh`).
+The web app in `web/` (VisuStruct, VisuBot, VisuObject, VisuFlow) is built with `npm run build:site` into `website/app/`. Since 2026-11-03 it is published on **[visucode.de](https://visucode.de)**, one subdomain per world: [visustruct.visucode.de](https://visustruct.visucode.de), [visubot.visucode.de](https://visubot.visucode.de), [visuobject.visucode.de](https://visuobject.visucode.de). The website itself lives in a separate GitLab repository (`visucode/website`); its script `app-aktualisieren.sh` copies the built app from here, and a push to its `main` branch deploys it.
 
-- **Publish:** push a tag `web-v…` (e.g. `web-v1.0`, also possible via *Releases → Draft a new release*), or start it by hand under *Actions → Webseite veröffentlichen → Run workflow* (with an optional dry run).
-- **Secrets** (*Settings → Secrets and variables → Actions*): `SFTP_USER`, `SFTP_PASSWORD`.
-- **Optional variables:** `DEPLOY_HOST` (default `w0103087.kasserver.com`), `DEPLOY_DIR` (default: `visustruct.org` or the login's start folder, whichever holds the VisuStruct site), `DEPLOY_PROTOCOL` (default `ftps`; `sftp` or `auto` = try SFTP, then FTPS).
-- On the server only files from earlier deployments (listed in `.visustruct-deploy-manifest.txt`) and outdated build files in `app/assets/` are deleted. Other files are left alone.
+The workflow **Webseite veröffentlichen** (`.github/workflows/deploy-website.yml`) for the old site visustruct.org is no longer used for new releases.
 
 ## Changelog / release notes
 

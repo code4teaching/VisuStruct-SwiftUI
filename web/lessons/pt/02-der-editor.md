@@ -22,7 +22,7 @@ O editor de estrutogramas tem várias áreas. Passa o rato por cima de uma palav
 - **Por baixo, as [ferramentas](#zeige-werkzeuge)** por cima dos elementos e do estrutograma: Anular, Cortar, Copiar, Colar, Eliminar, Exportar, Código e Simulação. Os botões só mostram ícones. Se puseres o rato por cima de um, aparece o nome.
 - **À esquerda, os [Elementos](#zeige-elemente):** Aqui estão todos os blocos que podes arrastar para o estrutograma. Há quem chame a esta área a paleta.
 - **Ao meio, o [estrutograma](#zeige-struktogramm):** Um diagrama novo contém apenas um marcador vazio, assinalado com **ø**.
-- **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado.
+- **Em baixo, o [Inspetor de objetos](#zeige-objektinspektor):** Aqui editas o texto do elemento selecionado. Se for pequeno ou grande demais, arrasta a linha com a pega por cima dele para cima ou para baixo.
 
 > Podes recolher esta área de aprendizagem a qualquer momento com o [ícone da barra lateral](#zeige-lernen) no topo desta área. Fica só a barra estreita “🎓 Aprender” à esquerda; um clique abre-a de novo. Ela fica aberta ao lado do editor, para poderes experimentar logo o que lês. Da mesma forma, há à esquerda a coluna [📁 Ficheiros](#zeige-dateien) para os teus programas guardados (lição 3) e à direita a área [Código](#zeige-codelive) para Java (a partir da lição 4).
 
@@ -49,6 +49,8 @@ Agarrar blocos e arrastá-los de um lado para o outro, tal como estás a fazer a
 ## Escrever texto
 
 Clica num bloco. Ele fica com um contorno azul, e o seu texto aparece no Inspetor de objetos por baixo do diagrama. O que escreveres lá aparece logo no diagrama.
+
+Mais rápido é fazer **duplo clique** no bloco, ou **toque duplo** no tablet. Assim escreves o texto diretamente no estrutograma. **Enter** aceita, **Esc** cancela. Com o teclado, seleciona o bloco e carrega em **Enter**.
 
 O bloco da área Elementos chama-se **Instrução**. Em cima, no Inspetor de objetos, escolhes de que tipo deve ser:
 
