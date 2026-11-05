@@ -598,14 +598,19 @@ export class BlockView {
         box.append(this.foot([], v))
         break
       }
-      case ElementType.fallauswahl:
+      case ElementType.fallauswahl: {
+        // „wähle je nach [Farbe]“, darunter „falls rot“ … „sonst“ (Schlüsselwörter übersetzt, wenn vorhanden)
+        const kw = (word: string) => this.options.labels.keywords?.[word] ?? word
         box.className = 'bk bk-c bk-if'
-        box.append(this.head(lines, v))
+        const head = this.head(lines, v)
+        head.prepend(this.word({ kind: 'kw', text: kw('switch') }))
+        box.append(head)
         ;(e.cases ?? []).forEach((c, i) => {
-          box.append(this.clause(c.name.toLowerCase() === 'default' ? 'default' : `case ${c.name}`), this.body(c.elements, [...path, i]))
+          box.append(this.clause(c.name.toLowerCase() === 'default' ? kw('default') : `${kw('case')} ${c.name}`), this.body(c.elements, [...path, i]))
         })
         box.append(this.foot([], v))
         break
+      }
       case ElementType.aussprung:
         box.className = 'bk bk-cap'
         box.append(this.head(lines, v))

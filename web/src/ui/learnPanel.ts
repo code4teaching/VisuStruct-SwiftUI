@@ -18,6 +18,7 @@ import { renderRobotModel, renderRobotQuiz, wireRobotLinks } from './visubotMode
 import { renderRoundGame } from './roundGameView'
 import { renderCrosswordGame, renderRescueGame } from './rescueGameView'
 import { renderDriveGame } from './driveGameView'
+import { blockPicture } from './blockPicture'
 import { renderCloze } from './clozeView'
 import { renderPap } from './papView'
 import { textFileView } from './textFileView'
@@ -445,6 +446,14 @@ export class LearnPanel {
         return this.withOpenButtons(html('div', { class: 'learn-text' }, markdownToHTML(block.text)))
       case 'diagram':
         return this.renderDiagram(block.file, block.caption)
+      case 'blockPicture': {
+        // Zum Nachbauen: dieselben Blöcke wie im Editor, nur zum Ansehen
+        const figure = h('figure', { class: 'learn-figure learn-blocks' })
+        const picture = blockPicture(block.java)
+        if (picture) figure.append(picture)
+        if (block.caption) figure.append(html('figcaption', {}, inline(block.caption)))
+        return figure
+      }
       case 'exercise':
         return this.renderExercise(block.exercise)
       case 'competences':

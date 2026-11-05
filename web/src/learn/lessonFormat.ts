@@ -15,6 +15,8 @@ import { parsePap, type Pap } from './pap'
 export type Block =
   | { kind: 'markdown'; text: string }
   | { kind: 'diagram'; file: string; caption: string }
+  /** Block-Lektionen: ein Programm als Bild aus Blöcken zum Nachbauen (Java im Block, Zeilen mit `>` = Bildunterschrift). */
+  | { kind: 'blockPicture'; java: string; caption: string }
   | { kind: 'exercise'; exercise: Exercise }
   | { kind: 'checklist'; items: ChecklistItem[] }
   /** Kompetenzen am Anfang der Lektion („Diese Kompetenzen erwerbe ich jetzt“). */
@@ -346,6 +348,14 @@ export function parseBlocks(body: string, file: string): Block[] {
         if (!arg) throw new FormatError(`${file}: „::: diagramm“ braucht einen Dateinamen.`)
         blocks.push({ kind: 'diagram', file: arg, caption: inner.join(' ').trim() })
         break
+      case 'bloecke':
+      case 'blöcke': {
+        const caption = inner.filter((l) => l.trim().startsWith('>')).map((l) => l.trim().slice(1).trim())
+        const java = inner.filter((l) => !l.trim().startsWith('>')).join('\n')
+        if (!java.trim()) throw new FormatError(`${file}: „::: bloecke“ braucht Java-Code.`)
+        blocks.push({ kind: 'blockPicture', java, caption: caption.join(' ') })
+        break
+      }
       case 'übung':
       case 'uebung':
         if (!arg) throw new FormatError(`${file}: „::: übung“ braucht eine Kennung.`)

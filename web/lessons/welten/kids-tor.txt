@@ -1,0 +1,6 @@
+// Kl. 3–4, Parcours Station 1: zwei Felder hoch, rechts herum, zwei Felder zum Ziel. Ein Zeichen = 30 cm.
+raster: 3
+#####
+#..Z#
+#.###
+#^###

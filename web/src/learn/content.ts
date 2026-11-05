@@ -36,6 +36,15 @@ const blockTaskFiles = import.meta.glob('../../lessons/*/visubot/bloecke/aufgabe
   string,
   string
 >
+// VisuBot Kids, Stufe Klasse 3–4 (Holger 5.11.): noch einfachere Reihe in `<Sprache>/visubot/bloecke34/` mit eigenen Aufgaben.
+const block34LessonFiles = import.meta.glob('../../lessons/*/visubot/bloecke34/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
+const block34TaskFiles = import.meta.glob('../../lessons/*/visubot/bloecke34/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
 // VisuBot im Kurs: zusätzliche Schritte für normale Lektionen, Dateiname beginnt mit deren Nummer (`13-for-schleife.md`).
 const visuBotTaskFiles = import.meta.glob('../../lessons/*/visubot/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
@@ -93,8 +102,16 @@ export let blockLessons = false
  */
 export let onlyBlockLessons = false
 
-export function useOnlyBlockLessons() {
+/**
+ * Stufe in VisuBot Kids (Holger 5.11.): `34` = Klasse 3–4 (nur wiederhole n mal und wenn/sonst, Ja/Nein-Sensoren),
+ * `57` = Klasse 5–7 (alle Kontrollstrukturen, Messwerte, Variablen). Ab Klasse 8 nimmt man den normalen VisuBot.
+ */
+export type KidsLevel = '34' | '57'
+export let kidsLevel: KidsLevel = '34'
+
+export function useOnlyBlockLessons(level: KidsLevel = kidsLevel) {
   onlyBlockLessons = true
+  kidsLevel = level
   visuBot = 'on'
   blockLessons = true
   lessons = []
@@ -123,11 +140,15 @@ export function useVisuBotContent(mode: VisuBotMode) {
 
 /** Wählt die Sprache der Lektionen; die Exporte oben zeigen danach die Inhalte dieser Sprache. */
 const juniorFolder = /\/lessons\/([^/]+)\/visubot\/bloecke\/[^/]+\.md$/
+const junior34Folder = /\/lessons\/([^/]+)\/visubot\/bloecke34\/[^/]+\.md$/
 const hasJunior = (files: [string, string][]) => files.some(([name]) => /^\d+/.test(name))
+/** Block-Lektionen der gewählten Stufe (Klasse 3–4 nur in VisuBot Kids). */
+const juniorLessonFiles = (lang: ContentLanguage) =>
+  onlyBlockLessons && kidsLevel === '34' ? filesFor(block34LessonFiles, junior34Folder, lang) : filesFor(blockLessonFiles, juniorFolder, lang)
 
 export function useContentLanguage(lang: ContentLanguage) {
   // VisuBot Kids: Gibt es die Block-Lektionen in der Sprache nicht (bisher nur Deutsch), kommen die deutschen.
-  if (onlyBlockLessons && !hasJunior(filesFor(blockLessonFiles, juniorFolder, lang))) lang = 'de'
+  if (onlyBlockLessons && !hasJunior(juniorLessonFiles(lang))) lang = 'de'
   setMBotColorLanguage(lang)
   if (lang === language && lessons.length > 0) return
   language = lang
@@ -143,15 +164,18 @@ export function useContentLanguage(lang: ContentLanguage) {
       return renumber && task.after !== undefined ? { ...task, after: renumber.get(task.after) ?? task.after } : task
     })
   const normalTaskFiles = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
-  const juniorFiles = visuBot === 'on' && blockLessons ? filesFor(blockLessonFiles, juniorFolder, lang) : []
+  const juniorFiles = visuBot === 'on' && blockLessons ? juniorLessonFiles(lang) : []
   if (hasJunior(juniorFiles)) {
     // Block-Lektionen: eigene kurze Reihe und eigene, kindgerechte Aufgaben (die normalen sind für Ältere)
     const series = visuBotSeries(juniorFiles)
     lessons = parseLessons(juniorFiles, series.renumber)
       .map((l) => ({ ...l, number: series.number.get(l.id)!, robot: true, blocks: true }))
       .sort((a, b) => a.number - b.number)
-    const juniorTaskFiles = filesFor(blockTaskFiles, /\/lessons\/([^/]+)\/visubot\/bloecke\/aufgaben\/[^/]+\.md$/, lang)
-    tasks = parseTasks(juniorTaskFiles, 'visubot/bloecke/aufgaben/', series.renumber).map((t) => ({ ...t, robot: true }))
+    const level34 = onlyBlockLessons && kidsLevel === '34'
+    const juniorTaskFiles = level34
+      ? filesFor(block34TaskFiles, /\/lessons\/([^/]+)\/visubot\/bloecke34\/aufgaben\/[^/]+\.md$/, lang)
+      : filesFor(blockTaskFiles, /\/lessons\/([^/]+)\/visubot\/bloecke\/aufgaben\/[^/]+\.md$/, lang)
+    tasks = parseTasks(juniorTaskFiles, level34 ? 'visubot/bloecke34/aufgaben/' : 'visubot/bloecke/aufgaben/', series.renumber).map((t) => ({ ...t, robot: true }))
   } else if (visuBot === 'on') {
     // Seit 3.11. (Holger): VisuBot zeigt nur die Roboter-Lektionen und -Aufgaben, normales Java steht in VisuStruct.
     const robotLessonFiles = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang)

@@ -313,6 +313,10 @@
 "web_visubot_kids_code_hint" = "O VisuBot Kids fez isto a partir dos teus blocos. É assim que os profissionais escrevem programas. Mais tarde, no VisuBot grande, vais escrever Java tu mesmo.";
 "web_visubot_kids_blocks_hint" = "Arrasta blocos da esquerda para aqui. Clica num campo branco para mudar um número ou texto. O que não precisas, deita no caixote do lixo.";
 "web_visubot_kids_palette_hint" = "Arrasta para o teu programa";
+"web_visubot_kids_level" = "Ano";
+"web_visubot_kids_level_34" = "3.º–4.º ano";
+"web_visubot_kids_level_57" = "5.º–7.º ano";
+"web_visubot_kids_sensor_wall" = "Parede a menos de 20 cm?";
 "web_visubot_blocks_start" = "Quando o programa começa";
 "web_visubot_blocks_empty" = "Aqui vai um bloco";
 "web_visubot_blocks_hint" = "O mesmo programa em blocos. Arrasta blocos de “Elementos”, muda-os de lugar ou deita-os no lixo. Clica num número ou texto nos campos brancos para o alterar no próprio bloco; o resto altera-se em baixo, no Inspetor de objetos. Arrasta os sensores para uma condição ou mesmo para o campo que devem substituir. Arrasta operadores e variáveis da mesma forma para um campo ou uma condição.";
@@ -329,6 +333,9 @@
 "web_visubot_blocks_while" = "enquanto";
 "web_visubot_blocks_endless" = "repetir sempre";
 "web_visubot_blocks_do" = "faz";
+"web_visubot_blocks_switch" = "escolhe conforme";
+"web_visubot_blocks_case" = "se for";
+"web_visubot_blocks_default" = "senão";
 "web_visubot_blocks_not" = "não";
 "web_visubot_blocks_and" = "e";
 "web_visubot_blocks_or" = "ou";

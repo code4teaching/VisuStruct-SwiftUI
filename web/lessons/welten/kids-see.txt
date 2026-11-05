@@ -1,0 +1,7 @@
+// Kl. 3–4, Aufgabe See: Um den See (Wände) herum zur Insel oben rechts. Ein Zeichen = 30 cm.
+raster: 3
+....Z
+.###.
+.###.
+.....
+.^...

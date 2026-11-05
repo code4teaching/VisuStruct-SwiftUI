@@ -19,9 +19,11 @@ describe('VisuBot Kids', () => {
   it('zeigt nur die Block-Lektionen und -Aufgaben, auch wenn jemand umschalten will', () => {
     useContentLanguage('de')
     useOnlyBlockLessons()
+    expect(tasks.every((t) => t.id.startsWith('kids-'))).toBe(true)
+    useOnlyBlockLessons('57')
     expect(showingBlockLessons()).toBe(true)
     const count = lessons.length
-    expect(count).toBeGreaterThanOrEqual(8)
+    expect(count).toBeGreaterThanOrEqual(10)
     expect(tasks.length).toBeGreaterThanOrEqual(4)
     expect(tasks.every((t) => t.id.startsWith('block-'))).toBe(true)
     expect(useBlockLessons(false)).toBe(false)

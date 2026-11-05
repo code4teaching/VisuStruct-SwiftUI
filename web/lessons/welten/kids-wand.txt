@@ -1,0 +1,6 @@
+// Kl. 3–4, Wand in Sicht: vorn kommt eine Wand, rechts davon liegt das Ziel. Ein Zeichen = 30 cm.
+raster: 3
+#####
+...Z.
+.....
+..^..

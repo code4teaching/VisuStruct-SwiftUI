@@ -33,6 +33,9 @@ export function blockViewLabels(): BlockViewOptions['labels'] {
       '&&': t('web_visubot_blocks_and'),
       '||': t('web_visubot_blocks_or'),
       break: t('web_visubot_blocks_break'),
+      switch: t('web_visubot_blocks_switch'),
+      case: t('web_visubot_blocks_case'),
+      default: t('web_visubot_blocks_default'),
     },
   }
 }

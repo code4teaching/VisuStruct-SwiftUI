@@ -315,6 +315,10 @@
 "web_visubot_kids_code_hint" = "Das hat VisuBot Kids aus deinen Blöcken gemacht. So schreiben Profis Programme. Im großen VisuBot schreibst du später selbst Java.";
 "web_visubot_kids_blocks_hint" = "Ziehe Blöcke von links hier hinein. Zahlen und Texte in den weißen Feldern änderst du mit einem Klick. Was du nicht brauchst, wirfst du in den Papierkorb.";
 "web_visubot_kids_palette_hint" = "In dein Programm ziehen";
+"web_visubot_kids_level" = "Klassenstufe";
+"web_visubot_kids_level_34" = "Klasse 3–4";
+"web_visubot_kids_level_57" = "Klasse 5–7";
+"web_visubot_kids_sensor_wall" = "Wand näher als 20 cm?";
 "web_visubot_blocks_start" = "Wenn das Programm startet";
 "web_visubot_blocks_empty" = "Hier kommt ein Block hin";
 "web_visubot_blocks_hint" = "Dasselbe Programm als Blöcke. Ziehe Blöcke aus „Elemente“ hinein, verschiebe sie oder wirf sie in den Papierkorb. Zahlen und Texte in den weißen Feldern änderst du per Klick direkt im Block, alles andere unten im Objektinspektor. Sensoren ziehst du auf eine Bedingung oder genau auf ein Feld, das sie ersetzen sollen. Operatoren und Variablen ziehst du genauso auf ein Feld oder eine Bedingung.";
@@ -331,6 +335,9 @@
 "web_visubot_blocks_while" = "solange";
 "web_visubot_blocks_endless" = "wiederhole immer";
 "web_visubot_blocks_do" = "mache";
+"web_visubot_blocks_switch" = "wähle je nach";
+"web_visubot_blocks_case" = "falls";
+"web_visubot_blocks_default" = "sonst";
 "web_visubot_blocks_not" = "nicht";
 "web_visubot_blocks_and" = "und";
 "web_visubot_blocks_or" = "oder";

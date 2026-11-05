@@ -7137,3 +7137,20 @@ button.danger-text:not(:disabled) {
   border-color: #c2410c;
   color: #fff;
 }
+
+/* VisuBot Kids: Stufe Klasse 3–4 | Klasse 5–7 neben dem Namen */
+.toolbar .kids-level {
+  flex: none;
+  margin: 0 8px;
+}
+.toolbar .kids-level button {
+  flex: none;
+  height: 30px;
+  min-height: 30px;
+  padding: 0 12px;
+  white-space: nowrap;
+  font-weight: 700;
+}
+.learn-blocks .bk-picture {
+  pointer-events: none;
+}

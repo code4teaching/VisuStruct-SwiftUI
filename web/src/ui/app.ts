@@ -52,7 +52,7 @@ import { SimulationPanel } from './simulationPanel'
 import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, visuBotKidsBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldTitleHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
-import { lessons, tasks, useBlockLessons, useOnlyBlockLessons, useVisuBotContent, world } from '../learn/content'
+import { kidsLevel, lessons, tasks, useBlockLessons, useOnlyBlockLessons, useVisuBotContent, world, type KidsLevel } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
@@ -254,6 +254,11 @@ const previewKey = 'visustruct.robotPreview.open'
 const codeMainKey = 'visustruct.codeMain'
 /** VisuBot: Struktogramm als Blöcke zeigen (`1`). */
 const blocksKey = 'visustruct.visubot.blocks'
+/** VisuBot Kids: Stufe Klasse 3–4 (`34`, Standard) oder 5–7 (`57`). */
+const kidsLevelKey = 'visustruct.kids.level'
+/** Klasse 3–4: nur diese Befehlsgruppen und Elemente (Holger 5.11.: wiederhole n mal und wenn/sonst, keine anderen Schleifen). */
+const kids34Groups = new Set(['drive', 'leds', 'sound', 'emotion', 'wait'])
+const kids34Sensors = new Set(['web_visubot_sensor_line_left', 'web_visubot_sensor_line_right', 'web_visubot_sensor_color', 'web_visubot_sensor_button_a', 'web_visubot_sensor_button_b'])
 /** Selbst gezogene Breite der Elemente (leer = automatisch). */
 const paletteWidthKey = 'visustruct.palette.width'
 const editorWidthKey = 'visustruct.editor.width'
@@ -409,7 +414,7 @@ export class App {
     // Block-Ansicht an: kurze Block-Lektionen für Jüngere
     useBlockLessons(storedValue(blocksKey) === '1')
     // VisuBot Kids: nur die Block-Lektionen und -Aufgaben, kein Umschalten
-    if (kidsMode()) useOnlyBlockLessons()
+    if (kidsMode()) useOnlyBlockLessons(storedValue(kidsLevelKey) === '57' ? '57' : '34')
     document.documentElement.classList.toggle('kids-mode', kidsMode())
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
@@ -506,6 +511,14 @@ export class App {
     this.root.innerHTML = `
       <header class="toolbar">
         <a class="brand" href="${e(siteURL())}" title="${e(t('web_site_home'))}">${kidsMode() ? visuBotKidsBrand : visuBotEnabled() ? visuBotBrand : '<span class="logo"></span>VisuStruct'} ${kidsMode() ? '' : `<small>${e(t('web_brand_suffix'))}</small>`}</a>
+        ${
+          kidsMode()
+            ? `<div class="segmented level-switch kids-level" role="group" aria-label="${e(t('web_visubot_kids_level'))}">
+          <button type="button" data-kids-level="34" aria-pressed="${kidsLevel === '34'}">${e(t('web_visubot_kids_level_34'))}</button>
+          <button type="button" data-kids-level="57" aria-pressed="${kidsLevel === '57'}">${e(t('web_visubot_kids_level_57'))}</button>
+        </div>`
+            : ''
+        }
         <div class="group">
           ${iconButton('new', t('toolbar_new'), icons.newFile)}
           ${iconButton('open', t('menu_open'), icons.open, shortcut('O'))}
@@ -816,7 +829,16 @@ export class App {
       list.append(li)
     }
     const list = $<HTMLUListElement>('.palette-basic')
-    for (const { item } of paletteItems) addPaletteItem(list, item, typeName(paletteElement(item).type), () => paletteElement(item), item)
+    // Klasse 3–4: von den Elementen nur wenn/sonst („wiederhole n mal“ steht unter Steuerung)
+    const kids34 = kidsMode() && kidsLevel === '34'
+    for (const { item } of paletteItems)
+      if (!kids34 || item === 'verzweigung') addPaletteItem(list, item, typeName(paletteElement(item).type), () => paletteElement(item), item)
+    this.topbar.querySelector('.kids-level')?.addEventListener('click', (ev) => {
+      const level = (ev.target as HTMLElement).closest<HTMLElement>('[data-kids-level]')?.dataset.kidsLevel as KidsLevel | undefined
+      if (!level || level === kidsLevel) return
+      storeValue(kidsLevelKey, level)
+      void this.changeLanguage(async () => useOnlyBlockLessons(level))
+    })
 
     // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
     const robotOn = visuBotEnabled()
@@ -868,14 +890,21 @@ export class App {
           apply()
         }
       }
-      grouped(robotList, visuBotTemplates, (tpl) => {
+      grouped(robotList, kids34 ? visuBotTemplates.filter((tpl) => kids34Groups.has(tpl.group)) : visuBotTemplates, (tpl) => {
         addPaletteItem(robotList, icon[tpl.type] ?? 'anweisung', t(tpl.key), tpl.make, tpl.key)
         return robotList.lastElementChild as HTMLElement
       })
       // Sensoren: Werte zum Einbauen in eine Bedingung, keine eigenen Kästen
       const sensorList = $<HTMLUListElement>('.palette-visubot-sensors')
       sensorList.replaceChildren()
-      grouped(sensorList, visuBotSensors, (sensor) => {
+      // Klasse 3–4: nur Ja/Nein-Fragen, der Abstand als fertige Frage „Wand näher als 20 cm?“ (die Zahl tippt man im Block)
+      const sensors = kids34
+        ? [
+            { key: 'web_visubot_kids_sensor_wall', group: 'distance', text: 'mbot.getDistance() < 20' },
+            ...visuBotSensors.filter((sensor) => kids34Sensors.has(sensor.key)),
+          ]
+        : visuBotSensors
+      grouped(sensorList, sensors, (sensor) => {
         const label = t(sensor.key)
         const li = document.createElement('li')
         li.className = 'palette-item palette-sensor'
@@ -884,7 +913,7 @@ export class App {
         const code = document.createElement('code')
         code.textContent = sensor.text
         // in den Blöcken: Ja/Nein-Sensoren sechseckig, Messwerte rund (wie die Bausteine darin)
-        if (/^mbot\.is/.test(sensor.text)) code.classList.add('sensor-bool')
+        if (/^mbot\.is|<|equals/.test(sensor.text)) code.classList.add('sensor-bool')
         li.append(document.createTextNode(label), code)
         li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'sensor', text: sensor.text, label: sensor.text }))
         li.tabIndex = 0
@@ -898,8 +927,10 @@ export class App {
     $<HTMLElement>('.palette-visubot-sensors').hidden = !robotOn
     $<HTMLElement>('.palette-visubot-sensors-title').hidden = !robotOn
     for (const part of ['ops', 'vars', 'control']) {
-      $<HTMLElement>(`.palette-visubot-${part}`).hidden = !robotOn
-      $<HTMLElement>(`.palette-visubot-${part}-title`).hidden = !robotOn
+      // Klasse 3–4: keine Operatoren und Variablen
+      const off = !robotOn || (kids34 && part !== 'control')
+      $<HTMLElement>(`.palette-visubot-${part}`).hidden = off
+      $<HTMLElement>(`.palette-visubot-${part}-title`).hidden = off
     }
     if (robotOn) {
       const lang = currentLanguage()
