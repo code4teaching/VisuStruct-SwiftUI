@@ -2663,6 +2663,11 @@ export class App {
     if (source.kind === 'palette' || source.kind === 'sensor') {
       g.textContent = source.label
       if (source.kind === 'sensor' && this.blockMode) g.classList.add('drag-sensor', ...(/^mbot\.is/.test(source.text) ? ['sensor-bool'] : []))
+      // in den Blöcken sieht auch das Ziehbild wie ein Block aus
+      if (source.kind === 'palette' && this.blockMode) {
+        g.classList.add('drag-block')
+        g.dataset.scope = scopeKind(source.make().type) ?? 'method'
+      }
     } else {
       const e = elementAt(this.doc, source.path)
       g.textContent = `${typeName(e.type)}: ${canvasTextLines(e)[0]}`
