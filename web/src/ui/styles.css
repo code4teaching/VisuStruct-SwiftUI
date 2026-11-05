@@ -6778,3 +6778,22 @@ button.danger-text:not(:disabled) {
 .blocks-view:not(.bk-simulating) .bk:not(.bk-hat) {
   touch-action: pan-y;
 }
+/* Werte anklicken und direkt im Block ändern */
+.blocks-view:not(.bk-simulating) .bk [data-value] {
+  cursor: text;
+}
+.blocks-view:not(.bk-simulating) .bk [data-value]:hover {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.bk-input {
+  box-sizing: border-box;
+  min-width: 2ch;
+  padding: 0 6px;
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  text-align: center;
+  outline: none;
+}

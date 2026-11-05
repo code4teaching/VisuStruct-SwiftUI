@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { LiveLabels } from '../src/core/codeGenerator'
 import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava } from '../src/core/liveSource'
-import { blockGroup, blockTokens, BlockView } from '../src/ui/blockView'
+import { blockGroup, blockTokens, BlockView, replaceValue, valueText } from '../src/ui/blockView'
 import { ElementType, makeElement } from '../src/core/model'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
@@ -46,7 +46,7 @@ describe('Blöcke (VisuBot)', () => {
   it('zeichnet Schleifen und Verzweigungen als Klammerblöcke mit Pfaden', () => {
     const doc = docOf(main('for (int i = 0; i < 4; i++) {\n  mbot.forward(50);\n  if (mbot.getDistance() < 10) {\n    mbot.stop();\n  } else {\n    mbot.turnRight(90);\n  }\n}'))
     const selected: number[][] = []
-    const view = new BlockView({ press: (p) => selected.push(p), labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: (p) => selected.push(p), editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
     view.render(doc, [0, 0, 1], false)
     const root = view.element
     const loop = root.querySelector('.bk-loop')!
@@ -70,7 +70,7 @@ describe('Blöcke (VisuBot)', () => {
   })
   it('findet die Ablegestelle in Blöcken', () => {
     const doc = docOf(main('mbot.forward(50);\nwhile (mbot.getDistance() > 10) {\n  mbot.forward(10);\n  mbot.pause(100);\n}\nmbot.stop();'))
-    const view = new BlockView({ press: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
     view.render(doc, undefined, false)
     const root = view.element
     const at = (el: Element | null, y: number, query = {}) => view.dropAt(0, y, query, el)
@@ -93,5 +93,33 @@ describe('Blöcke (VisuBot)', () => {
     // Sensor: nur in passende Blöcke
     expect(at(loop.querySelector('.bk-head'), 0, { sensor: (p: number[]) => p.length === 1 })).toEqual({ kind: 'condition', path: [1] })
     expect(at(loop.querySelector('[data-path="[1,0,0]"]'), 0, { sensor: (p: number[]) => p.length === 1 })).toBeUndefined()
+  })
+  it('ändert Werte direkt im Block', () => {
+    // dieselbe Reihenfolge wie im gespeicherten Text, auch bei for (drei Zeilen) und Sensoren dazwischen
+    expect(replaceValue(['int i = 0;', 'i < 4;', 'i++'], 1, '8')).toEqual(['int i = 0;', 'i < 8;', 'i++'])
+    expect(replaceValue(['mbot.getDistance() < 10 && x == 2'], 1, '5')).toEqual(['mbot.getDistance() < 10 && x == 5'])
+    expect(replaceValue(['mbot.led(0).setColor("rot")'], 1, '"grün"')).toEqual(['mbot.led(0).setColor("grün")'])
+    expect(replaceValue(['x = 1'], 3, '2')).toBeUndefined()
+    expect(valueText('lit', ' 2,5 ')).toBe('2.5')
+    expect(valueText('lit', 'abc')).toBeUndefined()
+    expect(valueText('str', 'Hallo "du"')).toBe('"Hallo \\"du\\""')
+
+    const doc = docOf(main('for (int i = 0; i < 4; i++) {\n  mbot.forward(50);\n}'))
+    const edits: [number[], number, string][] = []
+    const view = new BlockView({ press: () => {}, editValue: (p, i, t) => edits.push([p, i, t]), labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    document.body.append(view.element)
+    view.element.hidden = false
+    view.render(doc, undefined, false)
+    const four = [...view.element.querySelectorAll<HTMLElement>('.tk-lit')].find((e) => e.textContent === '4')!
+    four.dispatchEvent(new Event('pointerdown', { bubbles: true }))
+    const input = view.element.querySelector<HTMLInputElement>('.bk-input')!
+    expect(input.value).toBe('4')
+    // solange das Feld offen ist, wird nicht neu gezeichnet
+    view.render(doc, undefined, false)
+    expect(view.element.querySelector('.bk-input')).toBe(input)
+    input.value = '6'
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
+    expect(edits).toEqual([[[0], 1, '6']])
+    view.element.remove()
   })
 })
