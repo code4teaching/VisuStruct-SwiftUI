@@ -1,7 +1,7 @@
 {
   "name": "visustruct-web",
   "private": true,
-  "version": "0.15.22",
+  "version": "0.15.23",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -28,6 +28,7 @@
     "@codemirror/view": "^6.43.15",
     "@lezer/highlight": "^1.2.5",
     "fflate": "^0.8.2",
-    "three": "^0.181.2"
+    "three": "^0.181.2",
+    "visublocks": "github:code4teaching/visublocks#fb679c81f2bbb1225aebe73c850e50ceca03c6ee"
   }
 }

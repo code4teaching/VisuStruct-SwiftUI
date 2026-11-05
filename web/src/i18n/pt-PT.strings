@@ -311,6 +311,12 @@
 "web_visubot_blocks_empty" = "Aqui vai um bloco";
 "web_visubot_blocks_hint" = "O mesmo programa em blocos. Arrasta blocos de “Elementos”, muda-os de lugar ou deita-os no lixo. Clica num número ou texto nos campos brancos para o alterar no próprio bloco; o resto altera-se em baixo, no Inspetor de objetos. Arrasta os sensores para uma condição ou mesmo para o campo que devem substituir.";
 "web_visubot_blocks_trash" = "Lixo";
+"web_visubot_blocks_count" = "contar com";
+"web_visubot_blocks_count_from" = "de";
+"web_visubot_blocks_count_below" = "até abaixo de";
+"web_visubot_blocks_count_to" = "até";
+"web_visubot_blocks_count_above" = "até acima de";
+"web_visubot_blocks_count_step" = "em passos de";
 "web_visubot_upload_title" = "Transferir o programa para o mBot2";
 "web_visubot_upload_step1" = "Liga o mBot2 com o cabo USB e acende-o. Só funciona no Chrome ou no Edge.";
 "web_visubot_upload_step2" = "Clica em “Transferir agora” e escolhe “USB Serial”. O mBot2 guarda o teu programa e reinicia.";

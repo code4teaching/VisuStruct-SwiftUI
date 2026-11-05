@@ -6830,6 +6830,14 @@ button.danger-text:not(:disabled) {
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
+/* Zählvariable der Zählschleife (i, j …): orange Baustein wie eine Variable */
+.bk .tk-var {
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #fdba74;
+  color: #431407;
+  font-weight: 600;
+}
 /* Sensoren: türkiser Baustein wie in der Palette */
 .bk .tk-sensor {
   padding: 0 6px;

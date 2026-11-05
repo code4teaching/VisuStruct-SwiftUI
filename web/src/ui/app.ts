@@ -31,7 +31,7 @@ import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { caseLabelAt, caseLabelRect, openInlineEditor, textRect, type InlineEditor, type InlineField } from './inlineEdit'
 import { CodePanel } from './codePanel'
-import { BlockView, replaceSensor, replaceValue, withoutBlockIcons, type BlockDrop } from './blockView'
+import { BlockView, replaceBlockValue, replaceSensor, withCountLoopDefaults, withoutBlockIcons, type BlockDrop } from './blockView'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
@@ -647,8 +647,8 @@ export class App {
       },
       // Wert im Block geändert (Zahl oder Text): wie Tippen in den Eigenschaften, ein Rückgängig-Schritt
       editValue: (path, index, text) => {
-        const element = tryElementAt(this.doc, path)
-        const lines = element && replaceValue(element.textLines, index, text)
+        // Zählschleife: nur Zahlen eintippen, der Java-Kopf (`int i = 0` …) entsteht von selbst
+        const lines = replaceBlockValue(this.doc, path, index, text)
         if (lines) this.commit(setTextLines(this.doc, path, lines), path)
         else this.render()
       },
@@ -658,6 +658,12 @@ export class App {
         empty: t('web_visubot_blocks_empty'),
         hint: t('web_visubot_blocks_hint'),
         trash: t('web_visubot_blocks_trash'),
+        count: t('web_visubot_blocks_count'),
+        countFrom: t('web_visubot_blocks_count_from'),
+        countBelow: t('web_visubot_blocks_count_below'),
+        countTo: t('web_visubot_blocks_count_to'),
+        countAbove: t('web_visubot_blocks_count_above'),
+        countStep: t('web_visubot_blocks_count_step'),
       },
     })
     this.canvasHost.after(this.blocks.element)
@@ -2906,7 +2912,7 @@ export class App {
         if (t.kind === 'slot') {
           // Blöcke: Wert bzw. Sensor durch den neuen Sensor ersetzen (`mbot.forward(mbot.getDistance())`)
           const lines = elementAt(doc, t.path).textLines
-          const next = t.slot === 'value' ? replaceValue(lines, t.index, source.text) : replaceSensor(lines, t.index, source.text)
+          const next = t.slot === 'value' ? replaceBlockValue(doc, t.path, t.index, source.text) : replaceSensor(lines, t.index, source.text)
           if (next) this.commit(setTextLines(doc, t.path, next), t.path)
         }
         return
@@ -2917,7 +2923,9 @@ export class App {
         return
       }
       if (source.kind === 'palette') {
-        const element = source.make()
+        const made = source.make()
+        // Blöcke: neue for-Schleife zählt gleich von 0 bis unter 10 (Kinder tippen nur noch Zahlen)
+        const element = this.blockMode ? withCountLoopDefaults(doc, t.kind === 'rootAppend' ? [doc.elements.length] : t.path, made) : made
         switch (t.kind) {
           case 'replace':
             return this.commit(replaceAtPath(doc, t.path, element), t.path)
