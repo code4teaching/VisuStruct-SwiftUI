@@ -23,6 +23,7 @@
 "web_tabs_label" = "圖表";
 "web_status_modified" = "已修改";
 "web_inspector_title" = "屬性";
+"web_inspector_resize" = "變更物件檢閱器的高度：上下拖曳或滑動分隔線（按兩下：預設）";
 "web_inspector_help_drop" = "將元素從面板拖曳到區塊上：上方 = 插入在前，下方 = 插入在後，拖到「ø」上 = 取代。現有元素可用滑鼠移動。";
 "web_inspector_help_files" = "也可以直接將檔案拖曳到視窗中。";
 "web_case_name" = "分支名稱";

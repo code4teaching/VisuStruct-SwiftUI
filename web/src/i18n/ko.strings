@@ -23,6 +23,7 @@
 "web_tabs_label" = "다이어그램";
 "web_status_modified" = "수정됨";
 "web_inspector_title" = "속성";
+"web_inspector_resize" = "객체 검사기 높이 변경: 선을 위아래로 드래그하거나 스와이프 (더블 클릭: 기본값)";
 "web_inspector_help_drop" = "팔레트의 요소를 타일로 드래그하세요: 위쪽 = 앞에, 아래쪽 = 뒤에, “ø” 위 = 바꾸기. 기존 요소는 마우스로 옮길 수 있습니다.";
 "web_inspector_help_files" = "파일을 창에 끌어다 놓을 수도 있습니다.";
 "web_case_name" = "케이스 이름";
