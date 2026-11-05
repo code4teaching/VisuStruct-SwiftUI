@@ -7075,3 +7075,20 @@ button.danger-text:not(:disabled) {
   border-color: #c2410c;
   background: #fdba74;
 }
+
+/* Block-Lektionen für Jüngere: Programm einer Spielrunde als Blöcke, nur zum Ansehen */
+.blocks-view.bk-picture {
+  flex: none;
+  overflow: visible;
+  padding: 4px 8px 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.bk-picture .bk-hint,
+.bk-picture .bk-trash {
+  display: none;
+}
+.bk-picture .bk-stack {
+  padding-top: 6px;
+}

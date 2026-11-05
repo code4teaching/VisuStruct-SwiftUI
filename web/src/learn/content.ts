@@ -26,6 +26,11 @@ const visuBotLessonFiles = import.meta.glob('../../lessons/*/visubot/*.md', { qu
   string,
   string
 >
+// VisuBot mit Block-Ansicht (Holger 5.11.): kurze Lektionen für die 5./6. Klasse in `<Sprache>/visubot/bloecke/`.
+const blockLessonFiles = import.meta.glob('../../lessons/*/visubot/bloecke/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
 // VisuBot im Kurs: zusätzliche Schritte für normale Lektionen, Dateiname beginnt mit deren Nummer (`13-for-schleife.md`).
 const visuBotTaskFiles = import.meta.glob('../../lessons/*/visubot/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
@@ -70,6 +75,25 @@ export let glossary: GlossaryEntry[] = []
 export type VisuBotMode = 'off' | 'on'
 export let visuBot: VisuBotMode = 'off'
 
+/**
+ * Block-Ansicht in VisuBot (Holger 5.11.): Sie ist für Jüngere (5./6. Klasse) gedacht. Ist sie an, zeigt der Lernbereich
+ * kurze Lektionen zum Ausprobieren aus `visubot/bloecke/` statt der Java-Reihe. Gibt es in der Sprache (und auf Englisch)
+ * keine, bleibt es bei der normalen Reihe.
+ */
+export let blockLessons = false
+
+/** Block-Lektionen ein- oder ausschalten; `true`, wenn sich der Inhalt dadurch ändert. */
+export function useBlockLessons(on: boolean): boolean {
+  if (on === blockLessons) return false
+  blockLessons = on
+  lessons = []
+  useContentLanguage(language)
+  return visuBot === 'on'
+}
+
+/** Zeigt der Lernbereich gerade die Block-Lektionen? */
+export const showingBlockLessons = () => visuBot === 'on' && blockLessons && lessons.some((l) => l.blocks)
+
 /** VisuBot-Modus für den Lernbereich wählen; Nachschlagen und Fachbegriffe bleiben dieselben. */
 export function useVisuBotContent(mode: VisuBotMode) {
   if (mode === visuBot) return
@@ -95,7 +119,15 @@ export function useContentLanguage(lang: ContentLanguage) {
       return renumber && task.after !== undefined ? { ...task, after: renumber.get(task.after) ?? task.after } : task
     })
   const normalTaskFiles = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
-  if (visuBot === 'on') {
+  const juniorFiles = visuBot === 'on' && blockLessons ? filesFor(blockLessonFiles, /\/lessons\/([^/]+)\/visubot\/bloecke\/[^/]+\.md$/, lang) : []
+  if (juniorFiles.some(([name]) => /^\d+/.test(name))) {
+    // Block-Lektionen: eigene kurze Reihe, keine Aufgaben (die sind Java-Übungen für Ältere)
+    const series = visuBotSeries(juniorFiles)
+    lessons = parseLessons(juniorFiles, series.renumber)
+      .map((l) => ({ ...l, number: series.number.get(l.id)!, robot: true, blocks: true }))
+      .sort((a, b) => a.number - b.number)
+    tasks = []
+  } else if (visuBot === 'on') {
     // Seit 3.11. (Holger): VisuBot zeigt nur die Roboter-Lektionen und -Aufgaben, normales Java steht in VisuStruct.
     const robotLessonFiles = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang)
     const series = visuBotSeries(robotLessonFiles)

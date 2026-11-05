@@ -32,6 +32,7 @@ import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind 
 import { caseLabelAt, caseLabelRect, openInlineEditor, textRect, type InlineEditor, type InlineField } from './inlineEdit'
 import { CodePanel } from './codePanel'
 import { BlockView, programVariables, replaceBlockSensor, statementVariables, replaceBlockValue, withCountLoopDefaults, withoutBlockIcons, type BlockDrop } from './blockView'
+import { blockViewLabels } from './blockPicture'
 import { freshVariable, isBoolExpression, operatorBlocks, operatorName, repeatLoopLines, variableBlocks, variableName } from 'visublocks'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
@@ -51,7 +52,7 @@ import { SimulationPanel } from './simulationPanel'
 import { mbotLinkText, setVisuBotMode, setVisuFlowWorld, setVisuObjectWorld, visuBotBrand, toggleMBotLink, visuBotEnabled, visuBotGroupColor, visuBotGroupIcon, visuBotMode, visuBotSensors, visuBotTemplates, VisuBotView, worldChooserHTML, worldTitleHTML, worldChosen, type WorldChoice } from './visubotView'
 import { canConnectMBot, mbotLink } from '../core/mbotLink'
 import { uploadToMBot } from './mbotUpload'
-import { lessons, tasks, useVisuBotContent, world } from '../learn/content'
+import { lessons, tasks, useBlockLessons, useVisuBotContent, world } from '../learn/content'
 import type { RobotWorldSetup } from '../core/robotWorld'
 import { parseSubprogramHeader, subprogramName } from '../core/simulation'
 
@@ -405,6 +406,8 @@ export class App {
     if (query.has('visubot')) setVisuBotMode('on')
     else if (query.has('visustruct')) setVisuBotMode('off')
     useVisuBotContent(visuBotMode())
+    // Block-Ansicht an: kurze Block-Lektionen für Jüngere
+    useBlockLessons(storedValue(blocksKey) === '1')
     // Lernbereich links neben dem Editor; bleibt beim Neuaufbau der Oberfläche (Sprachwechsel) erhalten.
     this.learn = new LearnPanel(this.learnHost())
     // Verweis aus einer VisuBot-Lektion: …/app/?visustruct&lektion=09-bedingungen-verknuepfen öffnet diese Lektion.
@@ -662,23 +665,7 @@ export class App {
         if (lines) this.commit(setTextLines(this.doc, path, lines), path)
         else this.render()
       },
-      labels: {
-        start: t('web_visubot_blocks_start'),
-        else: 'else',
-        empty: t('web_visubot_blocks_empty'),
-        hint: t('web_visubot_blocks_hint'),
-        trash: t('web_visubot_blocks_trash'),
-        count: t('web_visubot_blocks_count'),
-        countFrom: t('web_visubot_blocks_count_from'),
-        countBelow: t('web_visubot_blocks_count_below'),
-        countTo: t('web_visubot_blocks_count_to'),
-        countAbove: t('web_visubot_blocks_count_above'),
-        countStep: t('web_visubot_blocks_count_step'),
-        repeat: t('web_visubot_blocks_repeat'),
-        repeatTimes: t('web_visubot_blocks_repeat_times'),
-        randomFrom: t('web_visubot_blocks_random_from'),
-        randomTo: t('web_visubot_blocks_random_to'),
-      },
+      labels: blockViewLabels(),
     })
     this.canvasHost.after(this.blocks.element)
     this.inspector = $('.inspector')
@@ -1822,6 +1809,8 @@ export class App {
   private setBlockMode(on: boolean, remember: boolean) {
     this.blockMode = on
     if (remember) storeValue(blocksKey, on ? '1' : '0')
+    // Die Lektionen folgen der Block-Ansicht (Holger 5.11.): Blöcke = kurze Lektionen für Jüngere
+    if (useBlockLessons(on)) this.learn?.render()
     this.root.classList.toggle('block-mode', on)
     this.canvasHost.hidden = on
     if (this.blocks) this.blocks.element.hidden = !on

@@ -5,7 +5,7 @@ import { ElementType, makeElement, type VSDocument } from '../core/model'
 import type { SubprogramResolver } from '../core/simulation'
 import { decodeDocument } from '../core/xmlCodec'
 import { explain, makeRound, usedValues, type BoolGame } from '../learn/boolGame'
-import { contentLanguageFor, diagram, glossary, image, lessons, reference, tasks, useContentLanguage, world } from '../learn/content'
+import { contentLanguageFor, diagram, showingBlockLessons, glossary, image, lessons, reference, tasks, useContentLanguage, world } from '../learn/content'
 import { exerciseArea, type Block, type ChecklistItem, type Exercise, type Lesson, type QuizQuestion, type Task } from '../learn/lessonFormat'
 import { inline, markdownToHTML } from '../learn/markdown'
 import ludwigURL from './ludwig.webp'
@@ -466,7 +466,7 @@ export class LearnPanel {
       case 'rescueGame':
         return renderRescueGame(block.game, ludwigURL)
       case 'driveGame':
-        return renderDriveGame(block.game, ludwigURL)
+        return renderDriveGame(block.game, ludwigURL, showingBlockLessons())
       case 'crosswordGame':
         return renderCrosswordGame(block.game, ludwigURL)
       case 'caesar':
