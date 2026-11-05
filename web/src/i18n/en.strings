@@ -309,7 +309,8 @@
 "web_visubot_blocks_back_title" = "Back to the structure chart";
 "web_visubot_blocks_start" = "When the program starts";
 "web_visubot_blocks_empty" = "A block goes here";
-"web_visubot_blocks_hint" = "The same program as blocks. Click a block to select it; clicking an item in the palette adds a new one after it.";
+"web_visubot_blocks_hint" = "The same program as blocks. Drag blocks in from “Elements”, move them around or drop them in the trash. Change texts and values below in the Object Inspector.";
+"web_visubot_blocks_trash" = "Trash";
 "web_visubot_upload_title" = "Upload program to the mBot2";
 "web_visubot_upload_step1" = "Connect the mBot2 with the USB cable and switch it on. This only works in Chrome or Edge.";
 "web_visubot_upload_step2" = "Click “Upload now” and choose “USB Serial”. The mBot2 saves your program and restarts.";

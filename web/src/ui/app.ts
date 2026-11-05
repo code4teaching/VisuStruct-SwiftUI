@@ -58,6 +58,8 @@ type DropTarget =
   | { kind: 'rootAppend'; frame: Rect }
   /** VisuBot: Sensorwert in die Bedingung (bzw. den Text) eines Elements schreiben */
   | { kind: 'condition'; path: number[]; frame: Rect }
+  /** Blöcke: verschobenes Element in den Papierkorb */
+  | { kind: 'trash'; frame: Rect }
 
 /**
  * Aus der Palette: neues Element (auch die VisuBot-Befehle) samt Name für das Ziehbild,
@@ -604,16 +606,22 @@ export class App {
       (this.root.querySelector(s) ?? this.topbar.querySelector(s) ?? this.bottombar.querySelector(s)) as T
     this.canvasHost = $('.canvas')
     this.blocks = new BlockView({
-      select: (path) => {
+      // wie ein Klick ins Struktogramm: auswählen, mit Maus/Stift auch verschieben
+      press: (path, e) => {
+        if (this.simulating) return
         if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+        const wasSelected = this.selected && samePath(path, this.selected)
         this.selected = path
         this.render()
+        if (e.pointerType !== 'touch' && !(isPlaceholderSlot(this.doc, path) && !wasSelected)) this.beginDrag(e, { kind: 'move', path })
+        else e.preventDefault()
       },
       labels: {
         start: t('web_visubot_blocks_start'),
         else: 'else',
         empty: t('web_visubot_blocks_empty'),
         hint: t('web_visubot_blocks_hint'),
+        trash: t('web_visubot_blocks_trash'),
       },
     })
     this.canvasHost.after(this.blocks.element)
@@ -2598,12 +2606,16 @@ export class App {
       d.ghost = this.makeGhost(d.source)
       document.body.append(d.ghost)
       this.root.classList.add('dragging')
+      if (this.blockMode && d.source.kind === 'move') this.blocks?.setMoving(true)
     }
     d.ghost!.style.transform = `translate(${e.clientX + 12}px, ${e.clientY + 12}px)`
     this.autoScroll(e.clientX, e.clientY)
-    // Blöcke: Ablegen kommt in Stufe 2; bis dahin fügt ein Klick in der Palette ein.
-    const p = this.blockMode ? undefined : this.svgPoint(e.clientX, e.clientY)
-    d.target = p ? this.dropTargetAt(p.x, p.y, d.source) : undefined
+    if (this.blockMode) {
+      d.target = this.blockDropAt(e.clientX, e.clientY, d.source)
+    } else {
+      const p = this.svgPoint(e.clientX, e.clientY)
+      d.target = p ? this.dropTargetAt(p.x, p.y, d.source) : undefined
+    }
     this.showDropTarget(d.target)
   }
 
@@ -2620,7 +2632,19 @@ export class App {
     this.drag?.ghost?.remove()
     this.drag = undefined
     this.root.classList.remove('dragging')
+    this.blocks?.setMoving(false)
     this.showDropTarget(undefined)
+  }
+
+  /** Blöcke: Ablegestelle unter dem Zeiger, in derselben Form wie im Struktogramm. */
+  private blockDropAt(clientX: number, clientY: number, source: DragSource): DropTarget | undefined {
+    const drop = this.blocks?.dropAt(clientX, clientY, {
+      moving: source.kind === 'move' ? source.path : undefined,
+      sensor: source.kind === 'sensor' ? (path) => takesSensor.includes(elementAt(this.doc, path).type) : undefined,
+    })
+    if (!drop) return undefined
+    const frame = { x: 0, y: 0, width: 0, height: 0 }
+    return 'path' in drop ? { kind: drop.kind, path: drop.path, frame } : { kind: drop.kind, frame }
   }
 
   private makeGhost(source: DragSource): HTMLElement {
@@ -2636,13 +2660,14 @@ export class App {
   }
 
   private autoScroll(clientX: number, clientY: number) {
-    const r = this.canvasHost.getBoundingClientRect()
+    const host = this.blockMode && this.blocks ? this.blocks.element : this.canvasHost
+    const r = host.getBoundingClientRect()
     const edge = 40
     const step = 12
-    if (clientY > r.bottom - edge && clientY < r.bottom + edge) this.canvasHost.scrollTop += step
-    else if (clientY < r.top + edge && clientY > r.top - edge) this.canvasHost.scrollTop -= step
-    if (clientX > r.right - edge && clientX < r.right + edge) this.canvasHost.scrollLeft += step
-    else if (clientX < r.left + edge && clientX > r.left - edge) this.canvasHost.scrollLeft -= step
+    if (clientY > r.bottom - edge && clientY < r.bottom + edge) host.scrollTop += step
+    else if (clientY < r.top + edge && clientY > r.top - edge) host.scrollTop -= step
+    if (clientX > r.right - edge && clientX < r.right + edge) host.scrollLeft += step
+    else if (clientX < r.left + edge && clientX > r.left - edge) host.scrollLeft -= step
   }
 
   private dropTargetAt(x: number, y: number, source: DragSource): DropTarget | undefined {
@@ -2674,6 +2699,10 @@ export class App {
   }
 
   private showDropTarget(t: DropTarget | undefined) {
+    if (this.blockMode) {
+      this.blocks?.showDrop(t && ('path' in t ? { kind: t.kind as 'before', path: t.path } : { kind: t.kind as 'trash' }))
+      return
+    }
     if (!this.overlay) return
     this.overlay.replaceChildren()
     if (!t) return
@@ -2694,6 +2723,10 @@ export class App {
         return
       }
       if (t.kind === 'condition') return
+      if (t.kind === 'trash') {
+        if (source.kind === 'move' && canDeleteElement(doc, source.path)) this.commit(deleteAtPath(doc, source.path))
+        return
+      }
       if (source.kind === 'palette') {
         const element = source.make()
         switch (t.kind) {

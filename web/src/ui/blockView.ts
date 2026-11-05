@@ -9,7 +9,8 @@ import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates }
  * Anweisungen sind Stapelblöcke, Schleifen und Verzweigungen Klammerblöcke („C-Blöcke“) mit Maul.
  * Die Farben sind die des Struktogramms (Anweisung gelb, Schleife rosa, Verzweigung blau); mBot2-Befehle
  * tragen zusätzlich den Streifen und das Symbol ihrer Gruppe wie in der Palette.
- * Stufe 1: nur ansehen und auswählen – bearbeitet wird über die Eigenschaften und die Palette (Klick fügt ein).
+ * Blöcke lassen sich auswählen, aus der Palette hineinziehen, verschieben und in den Papierkorb werfen;
+ * Texte und Werte ändert man (noch) in den Eigenschaften.
  */
 
 /** Ein Wort auf einem Block: Text, Schlüsselwort (fett), Wert (weißes Feld) oder Sensor (türkiser Baustein). */
@@ -64,10 +65,34 @@ export function blockGroup(element: VSElement): string | undefined {
 }
 
 export interface BlockViewOptions {
-  /** Klick auf einen Block: diesen Pfad auswählen. */
-  select: (path: number[]) => void
+  /** Zeiger auf einem Block: auswählen und ggf. Ziehen beginnen. */
+  press: (path: number[], event: PointerEvent) => void
   /** Texte der Knöpfe/Beschriftungen (übersetzt). */
-  labels: { start: string; else: string; empty: string; hint: string }
+  labels: { start: string; else: string; empty: string; hint: string; trash: string }
+}
+
+/**
+ * Wohin ein gezogener Block fällt: vor/hinter einen Block, an die Stelle eines leeren Platzes, ans Ende,
+ * in die Bedingung (Sensor) oder in den Papierkorb (nur beim Verschieben).
+ */
+export type BlockDrop =
+  | { kind: 'before' | 'after' | 'replace' | 'condition'; path: number[] }
+  | { kind: 'rootAppend' }
+  | { kind: 'trash' }
+
+export interface BlockDropQuery {
+  /** Verschieben: dieser Block (er kann nicht in sich selbst fallen) */
+  moving?: number[]
+  /** Sensor: passt er in diesen Block? (Bedingung oder Anweisung) */
+  sensor?: (path: number[]) => boolean
+}
+
+const pathOf = (el: Element | null | undefined): number[] | undefined =>
+  el instanceof HTMLElement && el.dataset.path ? (JSON.parse(el.dataset.path) as number[]) : undefined
+const startsWith = (path: number[], prefix: number[]) => path.length >= prefix.length && prefix.every((v, i) => path[i] === v)
+const upperHalf = (el: Element, clientY: number) => {
+  const r = el.getBoundingClientRect()
+  return clientY < r.top + r.height / 2
 }
 
 export class BlockView {
@@ -83,9 +108,90 @@ export class BlockView {
       if (!this.enabled) return
       const box = (e.target as Element).closest<HTMLElement>('[data-path]')
       if (!box) return
-      e.preventDefault()
-      this.options.select(JSON.parse(box.dataset.path!) as number[])
+      this.options.press(pathOf(box)!, e)
     })
+  }
+
+  /** Ablegestelle unter dem Zeiger (`target` = Element unter dem Zeiger, sonst `elementFromPoint`). */
+  dropAt(clientX: number, clientY: number, query: BlockDropQuery, target?: Element | null): BlockDrop | undefined {
+    const hit = target ?? document.elementFromPoint(clientX, clientY)
+    if (!hit || !this.element.contains(hit)) return undefined
+    if (hit.closest('.bk-trash')) return query.moving ? { kind: 'trash' } : undefined
+    const drop = this.rawDrop(hit, clientY, query)
+    if (!drop || !query.moving || !('path' in drop)) return drop
+    // nicht in sich selbst ablegen
+    return startsWith(drop.path, query.moving) ? undefined : drop
+  }
+
+  private rawDrop(hit: Element, clientY: number, query: BlockDropQuery): BlockDrop | undefined {
+    const box = hit.closest<HTMLElement>('[data-path]')
+    if (query.sensor) {
+      const path = pathOf(box)
+      return path && !box!.classList.contains('bk-empty') && query.sensor(path) ? { kind: 'condition', path } : undefined
+    }
+    if (!box) {
+      if (hit.closest('.bk-hat')) return { kind: 'before', path: [0] }
+      return hit.closest('.bk-stack, .blocks-view') ? { kind: 'rootAppend' } : undefined
+    }
+    const path = pathOf(box)!
+    if (box.classList.contains('bk-empty')) return { kind: 'replace', path }
+    const part = hit.closest('.bk-head, .bk-foot, .bk-clause, .bk-body')
+    const own = part && part.closest('[data-path]') === box ? part : undefined
+    if (!box.classList.contains('bk-c') || !own) return { kind: upperHalf(box, clientY) ? 'before' : 'after', path }
+    if (own.classList.contains('bk-clause')) return this.firstInto(own.nextElementSibling)
+    if (own.classList.contains('bk-body')) {
+      // freie Fläche im Maul: hinter den letzten Block darin
+      const last = [...own.children].filter((c) => c instanceof HTMLElement && c.dataset.path).pop()
+      const lastPath = pathOf(last)
+      if (!lastPath) return undefined
+      return last!.classList.contains('bk-empty') ? { kind: 'replace', path: lastPath } : { kind: 'after', path: lastPath }
+    }
+    if (own.classList.contains('bk-foot')) return { kind: 'after', path }
+    // Kopf: obere Hälfte davor, untere Hälfte als ersten Block ins Maul
+    return upperHalf(own, clientY) ? { kind: 'before', path } : this.firstInto(own.parentElement?.querySelector(':scope > .bk-body'))
+  }
+
+  private firstInto(body: Element | null | undefined): BlockDrop | undefined {
+    const first = body?.firstElementChild
+    const path = pathOf(first)
+    if (!path) return undefined
+    return first!.classList.contains('bk-empty') ? { kind: 'replace', path } : { kind: 'before', path }
+  }
+
+  /** Ablegestelle zeigen (Linie bzw. hervorgehobener Block); `undefined` räumt auf. */
+  showDrop(drop: BlockDrop | undefined) {
+    this.element.querySelectorAll('.bk-drop').forEach((e) => e.classList.remove('bk-drop'))
+    this.element.querySelector('.bk-drop-line')?.remove()
+    this.element.querySelector('.bk-trash')?.classList.toggle('bk-trash-hot', drop?.kind === 'trash')
+    if (!drop || drop.kind === 'trash') return
+    const stack = this.element.querySelector<HTMLElement>('.bk-stack')
+    if (!stack) return
+    let box: HTMLElement | undefined
+    let below = true
+    if (drop.kind === 'rootAppend') {
+      box = [...stack.children].filter((c): c is HTMLElement => c instanceof HTMLElement && !!c.dataset.path).pop()
+    } else {
+      box = this.boxes.find((b) => samePath(b.path, drop.path))?.el
+      if (box && (drop.kind === 'replace' || drop.kind === 'condition')) {
+        box.classList.add('bk-drop')
+        return
+      }
+      below = drop.kind === 'after'
+    }
+    if (!box) return
+    const s = stack.getBoundingClientRect()
+    const r = box.getBoundingClientRect()
+    const line = document.createElement('div')
+    line.className = 'bk-drop-line'
+    line.style.left = `${r.left - s.left}px`
+    line.style.top = `${(below ? r.bottom : r.top) - s.top - 3}px`
+    line.style.width = `${Math.max(r.width, 120)}px`
+    stack.append(line)
+  }
+
+  /** Beim Verschieben eines Blocks: Papierkorb zeigen. */
+  setMoving(on: boolean) {
+    this.element.classList.toggle('bk-moving', on)
   }
 
   /** Neu zeichnen; `mark` ist die Auswahl bzw. in der Simulation der laufende Schritt. */
@@ -106,7 +212,10 @@ export class BlockView {
     const stack = document.createElement('div')
     stack.className = 'bk-stack'
     stack.append(hat, ...this.list(doc.elements, []))
-    this.element.replaceChildren(hint, stack)
+    const trash = document.createElement('div')
+    trash.className = 'bk-trash'
+    trash.textContent = `🗑️ ${this.options.labels.trash}`
+    this.element.replaceChildren(hint, stack, trash)
     for (const { path, el } of this.boxes) {
       if (mark && samePath(path, mark)) el.classList.add(simulating ? 'bk-exec' : 'bk-sel')
     }

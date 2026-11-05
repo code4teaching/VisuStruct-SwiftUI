@@ -307,7 +307,8 @@
 "web_visubot_blocks_back_title" = "Voltar ao diagrama";
 "web_visubot_blocks_start" = "Quando o programa começa";
 "web_visubot_blocks_empty" = "Aqui vai um bloco";
-"web_visubot_blocks_hint" = "O mesmo programa em blocos. Clica num bloco para o selecionar; um clique na paleta acrescenta um novo a seguir.";
+"web_visubot_blocks_hint" = "O mesmo programa em blocos. Arrasta blocos de “Elementos”, muda-os de lugar ou deita-os no lixo. Altera textos e valores em baixo, no Inspetor de objetos.";
+"web_visubot_blocks_trash" = "Lixo";
 "web_visubot_upload_title" = "Transferir o programa para o mBot2";
 "web_visubot_upload_step1" = "Liga o mBot2 com o cabo USB e acende-o. Só funciona no Chrome ou no Edge.";
 "web_visubot_upload_step2" = "Clica em “Transferir agora” e escolhe “USB Serial”. O mBot2 guarda o teu programa e reinicia.";
