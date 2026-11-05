@@ -116,6 +116,29 @@ interface ValueSlot {
   s: number
 }
 
+const iconPrefix = new RegExp(`^(?:${Object.values(visuBotGroupIcon).map((i) => i.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})\\s+(?=mbot\\.)`, 'u')
+
+/**
+ * Bis 0.15.19 schrieben die Blöcke das Gruppensymbol versehentlich in den Befehl (`🚗 mbot.forward(50)`).
+ * Entfernt es aus allen Anweisungen; `undefined`, wenn nichts zu tun ist.
+ */
+export function withoutBlockIcons(doc: VSDocument): VSDocument | undefined {
+  let changed = false
+  const clean = (els: VSElement[]): VSElement[] =>
+    els.map((e) => {
+      const textLines = e.type === ElementType.anweisung ? e.textLines.map((l) => l.replace(iconPrefix, '')) : e.textLines
+      if (textLines.some((l, i) => l !== e.textLines[i])) changed = true
+      return {
+        ...e,
+        textLines,
+        loopBody: e.loopBody && clean(e.loopBody),
+        cases: e.cases?.map((c) => ({ ...c, elements: clean(c.elements) })),
+      }
+    })
+  const elements = clean(doc.elements)
+  return changed ? { ...doc, elements } : undefined
+}
+
 export interface BlockViewOptions {
   /** Zeiger auf einem Block: auswählen und ggf. Ziehen beginnen. */
   press: (path: number[], event: PointerEvent) => void
@@ -364,7 +387,8 @@ export class BlockView {
       box.textContent = this.options.labels.empty
       return box
     }
-    const lines = canvasTextLines(e)
+    // Kopie: das Symbol der Gruppe gehört nur auf den Block, nie in den gespeicherten Befehl
+    const lines = [...canvasTextLines(e)]
     switch (e.type) {
       case ElementType.forSchleife:
       case ElementType.whileSchleife:

@@ -30,7 +30,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { CodePanel } from './codePanel'
-import { BlockView, replaceSensor, replaceValue, type BlockDrop } from './blockView'
+import { BlockView, replaceSensor, replaceValue, withoutBlockIcons, type BlockDrop } from './blockView'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
@@ -1431,6 +1431,12 @@ export class App {
   // MARK: - Rendering
 
   private render() {
+    // Gruppensymbole, die ältere Block-Ansichten in Befehle geschrieben haben, wieder entfernen
+    const withoutIcons = withoutBlockIcons(this.doc)
+    if (withoutIcons) {
+      this.doc = withoutIcons
+      this.dirty = true
+    }
     const displayDoc: VSDocument = { ...this.doc, elements: this.doc.elements.map(displayElement) }
     this.layout = this.engine.layout(displayDoc)
     this.flat = flattenNodes(this.layout.elements)
