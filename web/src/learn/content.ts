@@ -31,6 +31,11 @@ const blockLessonFiles = import.meta.glob('../../lessons/*/visubot/bloecke/*.md'
   string,
   string
 >
+// Dazu eigene Aufgaben zum Knobeln in `<Sprache>/visubot/bloecke/aufgaben/` (Holger 5.11.).
+const blockTaskFiles = import.meta.glob('../../lessons/*/visubot/bloecke/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
+  string,
+  string
+>
 // VisuBot im Kurs: zusätzliche Schritte für normale Lektionen, Dateiname beginnt mit deren Nummer (`13-for-schleife.md`).
 const visuBotTaskFiles = import.meta.glob('../../lessons/*/visubot/aufgaben/*.md', { query: '?raw', import: 'default', eager: true }) as Record<
   string,
@@ -121,12 +126,13 @@ export function useContentLanguage(lang: ContentLanguage) {
   const normalTaskFiles = filesFor(taskFiles, /\/lessons\/([^/]+)\/aufgaben\/[^/]+\.md$/, lang)
   const juniorFiles = visuBot === 'on' && blockLessons ? filesFor(blockLessonFiles, /\/lessons\/([^/]+)\/visubot\/bloecke\/[^/]+\.md$/, lang) : []
   if (juniorFiles.some(([name]) => /^\d+/.test(name))) {
-    // Block-Lektionen: eigene kurze Reihe, keine Aufgaben (die sind Java-Übungen für Ältere)
+    // Block-Lektionen: eigene kurze Reihe und eigene, kindgerechte Aufgaben (die normalen sind für Ältere)
     const series = visuBotSeries(juniorFiles)
     lessons = parseLessons(juniorFiles, series.renumber)
       .map((l) => ({ ...l, number: series.number.get(l.id)!, robot: true, blocks: true }))
       .sort((a, b) => a.number - b.number)
-    tasks = []
+    const juniorTaskFiles = filesFor(blockTaskFiles, /\/lessons\/([^/]+)\/visubot\/bloecke\/aufgaben\/[^/]+\.md$/, lang)
+    tasks = parseTasks(juniorTaskFiles, 'visubot/bloecke/aufgaben/', series.renumber).map((t) => ({ ...t, robot: true }))
   } else if (visuBot === 'on') {
     // Seit 3.11. (Holger): VisuBot zeigt nur die Roboter-Lektionen und -Aufgaben, normales Java steht in VisuStruct.
     const robotLessonFiles = filesFor(visuBotLessonFiles, /\/lessons\/([^/]+)\/visubot\/[^/]+\.md$/, lang)
