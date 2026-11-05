@@ -19,12 +19,13 @@ describe('Block-Lektionen (de)', () => {
     useVisuBotContent('off')
   })
 
-  it('erscheinen nur mit Block-Ansicht in VisuBot, ohne Aufgaben', () => {
+  it('erscheinen nur mit Block-Ansicht in VisuBot, mit eigenen Aufgaben', () => {
     expect(showingBlockLessons()).toBe(true)
     expect(lessons.length).toBeGreaterThanOrEqual(8)
     expect(lessons.every((l) => l.blocks && l.robot)).toBe(true)
     lessons.forEach((l, i) => expect(l.number, l.id).toBe(i + 1))
-    expect(tasks).toEqual([])
+    expect(tasks.length).toBeGreaterThanOrEqual(4)
+    expect(tasks.every((t) => t.robot && t.id.startsWith('block-'))).toBe(true)
     useBlockLessons(false)
     expect(lessons.some((l) => l.blocks)).toBe(false)
     expect(lessons.length).toBeGreaterThan(20)
@@ -51,8 +52,9 @@ describe('Block-Lektionen (de)', () => {
 
   it('jede Übung prüft den mBot2, und die Musterlösung besteht sie', () => {
     let checked = 0
-    for (const l of lessons) {
-      for (const block of l.steps.flatMap((s) => s.blocks)) {
+    const sources = [...lessons.map((l) => ({ id: l.id, blocks: l.steps.flatMap((s) => s.blocks) })), ...tasks.map((t) => ({ id: t.id, blocks: t.blocks }))]
+    for (const l of sources) {
+      for (const block of l.blocks) {
         if (block.kind !== 'exercise') continue
         const ex = block.exercise
         const where = `${l.id}: ${ex.id}`
@@ -67,7 +69,7 @@ describe('Block-Lektionen (de)', () => {
         checked++
       }
     }
-    expect(checked).toBeGreaterThanOrEqual(19)
+    expect(checked).toBeGreaterThanOrEqual(23)
   })
 
   it('jede Runde von „Wo landet der mBot2?“ endet auf dem angegebenen Feld', () => {
