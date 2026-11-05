@@ -6797,3 +6797,121 @@ button.danger-text:not(:disabled) {
   text-align: center;
   outline: none;
 }
+/* Stufe 4: Sensoren als Bausteine. Ja/Nein-Sensoren sechseckig wie Bedingungen in Scratch, Messwerte rund. */
+.bk .tk-sensor.tk-bool {
+  padding: 0 12px;
+  border: none;
+  border-radius: 0;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
+}
+.bk .tk-sensor.bk-drop,
+.bk [data-value].bk-drop {
+  outline: 3px dashed var(--accent);
+  outline-offset: 1px;
+  clip-path: none;
+}
+/* Elemente-Spalte in den Blöcken: Sensoren sehen aus wie die Bausteine, in die sie sich verwandeln */
+.app.block-mode .palette-sensor code {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, #0891b2 80%, #000);
+  border-radius: 999px;
+  background: color-mix(in srgb, #0891b2 35%, #fff);
+  color: #000;
+}
+.app.block-mode .palette-sensor code.sensor-bool,
+.drag-ghost.drag-sensor.sensor-bool {
+  padding: 0 12px;
+  border: none;
+  border-radius: 0;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
+}
+.drag-ghost.drag-sensor {
+  border: 1px solid color-mix(in srgb, #0891b2 80%, #000);
+  border-radius: 999px;
+  background: color-mix(in srgb, #0891b2 35%, #fff);
+  color: #000;
+  font-family: ui-monospace, monospace;
+}
+/* Blöcke an: auch die Elemente-Spalte zeigt Blöcke (Farbe, Nase, Klammerblöcke mit Maul) statt der Kästen-Symbole */
+.app.block-mode .palette-item:not(.palette-sensor),
+.drag-ghost.drag-block {
+  --bk-color: #f2b100;
+  --bk-c: color-mix(in srgb, var(--bk-color) 42%, #fff);
+  --bk-e: color-mix(in srgb, var(--bk-color) 80%, #000);
+  border: 1px solid var(--bk-e);
+  border-radius: 5px;
+  background: var(--bk-c);
+  color: #000;
+  font-weight: 600;
+}
+.app.block-mode .palette-item[data-scope='loop'],
+.drag-ghost.drag-block[data-scope='loop'] {
+  --bk-color: #ec5fa6;
+}
+.app.block-mode .palette-item[data-scope='if'],
+.drag-ghost.drag-block[data-scope='if'] {
+  --bk-color: #3b9cf0;
+}
+:root.no-code-scopes .app.block-mode .palette-item:not(.palette-sensor),
+:root.no-code-scopes .drag-ghost.drag-block {
+  --bk-color: #9aa3ae;
+}
+.app.block-mode .palette-item:not(.palette-sensor) .icon {
+  display: none;
+}
+.app.block-mode .palette-item:not(.palette-sensor):hover,
+.app.block-mode .palette-item:not(.palette-sensor):focus-visible {
+  border-color: var(--bk-e);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.app.block-mode .palette-item:not(.palette-sensor) {
+  position: relative;
+  margin-bottom: 4px;
+}
+/* VisuBot-Befehle behalten ihren Gruppenstreifen */
+:root:not(.no-code-scopes) .app.block-mode .palette-item[data-bot-color] {
+  border-left: 6px solid var(--bot);
+}
+/* Nase unten wie bei den Blöcken */
+.app.block-mode .palette-item:not(.palette-sensor)::after,
+.drag-ghost.drag-block::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  bottom: -7px;
+  width: 1.6em;
+  height: 6px;
+  background: var(--bk-c);
+  border: 1px solid var(--bk-e);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+/* Schleifen und Verzweigungen: Klammerblock mit leerem Maul */
+.app.block-mode .palette-item[data-scope='loop'],
+.app.block-mode .palette-item[data-scope='if'],
+.drag-ghost.drag-block[data-scope='loop'],
+.drag-ghost.drag-block[data-scope='if'] {
+  padding-bottom: 26px;
+}
+.app.block-mode .palette-item[data-scope='loop']::before,
+.app.block-mode .palette-item[data-scope='if']::before,
+.drag-ghost.drag-block[data-scope='loop']::before,
+.drag-ghost.drag-block[data-scope='if']::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: -1px;
+  bottom: 8px;
+  height: 12px;
+  background: var(--panel);
+  border: 1px solid var(--bk-e);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+}
+.drag-ghost.drag-block {
+  padding: 6px 12px;
+  min-width: 9em;
+}
