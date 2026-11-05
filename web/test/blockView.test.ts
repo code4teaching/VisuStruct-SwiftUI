@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { LiveLabels } from '../src/core/codeGenerator'
 import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava } from '../src/core/liveSource'
-import { blockGroup, blockTokens, BlockView, replaceSensor, replaceValue, valueText } from '../src/ui/blockView'
+import { blockGroup, blockTokens, BlockView, replaceSensor, replaceValue, valueText, withoutBlockIcons } from '../src/ui/blockView'
 import { ElementType, makeElement } from '../src/core/model'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
@@ -143,5 +143,19 @@ describe('Blöcke (VisuBot)', () => {
     expect(view.dropAt(0, 0, sensor, root.querySelector('.bk-loop > .bk-head'))).toEqual({ kind: 'condition', path: [0] })
     view.showDrop({ kind: 'slot', path: [0], slot: 'sensor', index: 1 })
     expect(bool.classList.contains('bk-drop')).toBe(true)
+  })
+  it('schreibt das Gruppensymbol nie in den Befehl', () => {
+    const doc = docOf(main('mbot.forward(50);\nwhile (true) {\n  mbot.pause(100);\n}'))
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    view.render(doc, undefined, false)
+    view.render(doc, undefined, false)
+    expect(doc.elements[0].textLines).toEqual(['mbot.forward(50)'])
+    expect(view.element.querySelector('.bk-stmt')!.textContent).toBe('🚗 mbot.forward(50)')
+    // alte Dateien mit Symbol werden gesäubert
+    const old = { ...doc, elements: [{ ...doc.elements[0], textLines: ['🚗 mbot.forward(50)'] }, { ...doc.elements[1], loopBody: [{ ...doc.elements[1].loopBody![0], textLines: ['⏱️ mbot.pause(100)'] }] }] }
+    const clean = withoutBlockIcons(old)!
+    expect(clean.elements[0].textLines).toEqual(['mbot.forward(50)'])
+    expect(clean.elements[1].loopBody![0].textLines).toEqual(['mbot.pause(100)'])
+    expect(withoutBlockIcons(doc)).toBeUndefined()
   })
 })
