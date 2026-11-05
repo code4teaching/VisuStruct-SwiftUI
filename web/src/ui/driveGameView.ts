@@ -1,3 +1,4 @@
+import { blockPicture } from './blockPicture'
 import { inline } from '../learn/markdown'
 import { driveRound, driveWorld, type DriveGame } from '../learn/driveGame'
 import type { Pose } from '../core/robotWorld'
@@ -30,7 +31,8 @@ const FIELD_FILL: Record<string, string> = { '#': '#6b7280', '=': '#111827', r: 
 /** Millisekunden je Bild der Fahrt. */
 const frameMs = 450
 
-export function renderDriveGame(game: DriveGame, ludwigURL: string): HTMLElement {
+/** `asBlocks`: Code der Runde als Blöcke zeigen (Block-Lektionen für Jüngere), sonst als Java. */
+export function renderDriveGame(game: DriveGame, ludwigURL: string, asBlocks = false): HTMLElement {
   const box = h('section', { class: 'learn-game learn-round-game learn-drive-game' })
   const head = h('div', { class: 'learn-game-head' })
   head.append(h('img', { src: ludwigURL, alt: '', width: '40', height: '40' }), h('strong', {}, game.title))
@@ -102,7 +104,9 @@ export function renderDriveGame(game: DriveGame, ludwigURL: string): HTMLElement
     place(world.start)
     svg.append(trail, robot)
     const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
-    const code = h('pre', { class: 'learn-game-code mono', dir: 'ltr' }, ...round.code.split('\n').map((l) => h('div', { class: 'ln' }, l || ' ')))
+    const code =
+      (asBlocks && blockPicture(round.code)) ||
+      h('pre', { class: 'learn-game-code mono', dir: 'ltr' }, ...round.code.split('\n').map((l) => h('div', { class: 'ln' }, l || ' ')))
     let chosen = false
     const choose = (c: number, r: number) => {
       if (chosen) return

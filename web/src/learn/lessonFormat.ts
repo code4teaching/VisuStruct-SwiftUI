@@ -106,6 +106,8 @@ export interface Lesson {
   steps: Step[]
   /** VisuBot-Lektion in der durchgehenden Reihe der VisuBot-Welt (bekommt ein 🤖 in der Liste). */
   robot?: boolean
+  /** Kurze Block-Lektion für Jüngere (VisuBot mit Block-Ansicht, `visubot/bloecke/`). */
+  blocks?: boolean
 }
 
 export interface Task {
