@@ -24,14 +24,15 @@ import {
 } from '../core/editing'
 import * as LineEditor from '../core/lineEditorText'
 import { diagramDisplayMetrics, LayoutEngine, type Layout, type LayoutNode, type Rect } from '../core/layout'
-import { ElementType, type VSDocument, type VSElement } from '../core/model'
+import { ElementType, makeElement, type VSDocument, type VSElement } from '../core/model'
 import { paletteElement, paletteItems, type PaletteItem } from '../core/palette'
 import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { caseLabelAt, caseLabelRect, openInlineEditor, textRect, type InlineEditor, type InlineField } from './inlineEdit'
 import { CodePanel } from './codePanel'
-import { BlockView, replaceBlockValue, replaceSensor, withCountLoopDefaults, withoutBlockIcons, type BlockDrop } from './blockView'
+import { BlockView, programVariables, replaceBlockSensor, statementVariables, replaceBlockValue, withCountLoopDefaults, withoutBlockIcons, type BlockDrop } from './blockView'
+import { freshVariable, isBoolExpression, operatorBlocks, operatorName, repeatLoopLines, variableBlocks, variableName } from 'visublocks'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
@@ -345,6 +346,9 @@ export class App {
   private pseudocodeBox!: HTMLInputElement
   /** VisuBot: dasselbe Struktogramm als Scratch-artige Blöcke (statt der Kästen). */
   private blockMode = false
+  /** VisuBot: Liste „Variablen“ in den Elementen und die zuletzt gezeigten Variablen-Bausteine */
+  private varList?: HTMLUListElement
+  private shownVars = ''
   private blocks?: BlockView
   private blocksButton!: HTMLButtonElement
   private coding = false
@@ -581,6 +585,12 @@ export class App {
         <ul class="palette-visubot" hidden></ul>
         <h3 class="palette-visubot-title palette-visubot-sensors-title" hidden>📡 ${e(t('web_visubot_sensors'))}</h3>
         <ul class="palette-visubot palette-visubot-sensors" hidden></ul>
+        <h3 class="palette-visubot-title palette-visubot-ops-title" hidden>➕ ${e(t('web_visubot_operators'))}</h3>
+        <ul class="palette-visubot palette-visubot-ops" hidden></ul>
+        <h3 class="palette-visubot-title palette-visubot-vars-title" hidden>📦 ${e(t('web_visubot_variables'))}</h3>
+        <ul class="palette-visubot palette-visubot-vars" hidden></ul>
+        <h3 class="palette-visubot-title palette-visubot-control-title" hidden>🔁 ${e(t('web_visubot_control'))}</h3>
+        <ul class="palette-visubot palette-visubot-control" hidden></ul>
       </aside>
       <div class="diagram-tools" role="toolbar" aria-label="${e(t('web_diagram_tools'))}">
         <h2 class="diagram-title">${e(t('web_editor_title'))}</h2>
@@ -664,6 +674,10 @@ export class App {
         countTo: t('web_visubot_blocks_count_to'),
         countAbove: t('web_visubot_blocks_count_above'),
         countStep: t('web_visubot_blocks_count_step'),
+        repeat: t('web_visubot_blocks_repeat'),
+        repeatTimes: t('web_visubot_blocks_repeat_times'),
+        randomFrom: t('web_visubot_blocks_random_from'),
+        randomTo: t('web_visubot_blocks_random_to'),
       },
     })
     this.canvasHost.after(this.blocks.element)
@@ -884,6 +898,39 @@ export class App {
     }
     $<HTMLElement>('.palette-visubot-sensors').hidden = !robotOn
     $<HTMLElement>('.palette-visubot-sensors-title').hidden = !robotOn
+    for (const part of ['ops', 'vars', 'control']) {
+      $<HTMLElement>(`.palette-visubot-${part}`).hidden = !robotOn
+      $<HTMLElement>(`.palette-visubot-${part}-title`).hidden = !robotOn
+    }
+    if (robotOn) {
+      const lang = currentLanguage()
+      // Operatoren (VisuBlocks): auf ein Wertfeld oder eine Bedingung ziehen wie einen Sensor
+      const opList = $<HTMLUListElement>('.palette-visubot-ops')
+      opList.replaceChildren(
+        ...operatorBlocks.map((op) =>
+          this.expressionItem(operatorName(op, lang), op.java, op.shape === 'bool' ? 'bool' : 'round', 'op', op.id === 'random' ? '🎲 1 … 10' : undefined),
+        ),
+      )
+      // Variablen: anlegen, setzen, ändern; die angelegten Variablen kommen in render() als Bausteine dazu
+      const varList = $<HTMLUListElement>('.palette-visubot-vars')
+      varList.replaceChildren()
+      for (const b of variableBlocks) {
+        const make = () => {
+          // neue Variable mit freiem Namen; setzen/ändern nimmt die zuletzt angelegte (keine Zählvariable)
+          const own = statementVariables(this.doc)
+          const name = b.id === 'declare' ? freshVariable(programVariables(this.doc)) : (own[own.length - 1] ?? 'zahl')
+          return makeElement(ElementType.anweisung, { textLines: [b.java(name)] })
+        }
+        addPaletteItem(varList, 'anweisung', variableName(b, lang), make, `visublocks_var_${b.id}`)
+        ;(varList.lastElementChild as HTMLElement).dataset.botColor = 'variable'
+      }
+      this.varList = varList
+      this.shownVars = ''
+      // Steuerung: „wiederhole 10 mal“ (in Java eine for-Schleife, deren Zählvariable man nicht braucht)
+      const controlList = $<HTMLUListElement>('.palette-visubot-control')
+      controlList.replaceChildren()
+      addPaletteItem(controlList, 'forZaehlSchleife', t('web_visubot_el_repeat'), () => ({ ...paletteElement('forZaehlSchleife'), textLines: repeatLoopLines(10) }), 'web_visubot_el_repeat')
+    }
 
     this.tabStrip = $('.tabs')
     this.exportButton = $<HTMLButtonElement>('[data-action=export]')
@@ -1498,6 +1545,7 @@ export class App {
     const oldSvg = this.inline?.element.isConnected ? this.canvasHost.querySelector(':scope > svg') : null
     if (oldSvg) oldSvg.replaceWith(this.svg)
     else this.canvasHost.replaceChildren(this.svg)
+    this.refreshVarPalette()
     if (this.blockMode) this.blocks?.render(this.doc, this.simulating ? this.simPath : this.selected, this.simulating, z)
 
     if (document.activeElement !== this.captionInput) this.captionInput.value = this.doc.caption
@@ -2433,6 +2481,59 @@ export class App {
   }
 
   /** Einfügen ohne Ziehen: Platzhalter ersetzen bzw. hinter der Auswahl (oder ans Ende) einfügen. */
+  /** Baustein für „Operatoren“ bzw. eine Variable: Name und Java, zum Ziehen auf ein Feld oder eine Bedingung */
+  private expressionItem(label: string, java: string, shape: 'round' | 'bool', kind: 'op' | 'var', shown = java): HTMLLIElement {
+    const li = document.createElement('li')
+    li.className = `palette-item palette-sensor palette-expr palette-${kind}`
+    li.dataset.botColor = kind === 'op' ? 'operator' : 'variable'
+    li.title = java
+    const code = document.createElement('code')
+    code.textContent = shown
+    if (shape === 'bool') code.classList.add('sensor-bool')
+    li.append(document.createTextNode(label), code)
+    li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'sensor', text: java, label: shown }))
+    li.tabIndex = 0
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') this.insertSensor(java)
+    })
+    return li
+  }
+
+  /** VisuBot: jede angelegte Variable als Baustein unter „Variablen“ (nur neu bauen, wenn sich etwas ändert) */
+  private refreshVarPalette() {
+    if (!this.varList) return
+    const vars = programVariables(this.doc)
+    const key = vars.join(',')
+    if (key === this.shownVars) return
+    this.shownVars = key
+    this.varList.querySelectorAll('.palette-var').forEach((li) => li.remove())
+    this.varList.append(...vars.map((v) => this.expressionItem(v, v, 'round', 'var')))
+  }
+
+  /**
+   * Blöcke: Operator, Variable oder Sensor auf einen Block (nicht auf ein Feld). Eine Bedingung wird ersetzt;
+   * „und“/„oder“/„nicht“ verbinden sich mit der alten Bedingung. Auf eine Anweisung passen nur Sensoren.
+   */
+  private dropOnCondition(text: string, path: number[]) {
+    const el = elementAt(this.doc, path)
+    if (el.type === ElementType.anweisung) {
+      if (/^mbot\./.test(text)) this.insertSensor(text, path)
+      return
+    }
+    const old = el.textLines.join(' ').trim()
+    const next =
+      !old || old === 'true'
+        ? text
+        : text === 'true && true'
+          ? `${old} && true`
+          : text === 'true || true'
+            ? `${old} || true`
+            : text === '!true'
+              ? `!(${old})`
+              : text
+    this.commit(setTextLines(this.doc, path, [next]), path)
+  }
+
   /**
    * VisuBot: Sensorwert in den Text eines Elements schreiben (ohne Ziel: in das gewählte Element).
    * Leere Bedingung → nur der Wert; sonst kommt er hinten dazu. Den Vergleich (`< 20`) schreiben die Schüler selbst.
@@ -2824,7 +2925,14 @@ export class App {
   private blockDropAt(clientX: number, clientY: number, source: DragSource): DropTarget | undefined {
     const drop = this.blocks?.dropAt(clientX, clientY, {
       moving: source.kind === 'move' ? source.path : undefined,
-      sensor: source.kind === 'sensor' ? (path) => takesSensor.includes(elementAt(this.doc, path).type) : undefined,
+      // Sensoren auch auf Anweisungen, Operatoren und Variablen nur auf Bedingungen (oder genau auf ein Feld)
+      sensor:
+        source.kind === 'sensor'
+          ? (path) => {
+              const type = elementAt(this.doc, path).type
+              return /^mbot\./.test(source.text) ? takesSensor.includes(type) : type !== ElementType.anweisung && takesSensor.includes(type)
+            }
+          : undefined,
     })
     if (!drop) return undefined
     return { ...drop, frame: { x: 0, y: 0, width: 0, height: 0 } }
@@ -2835,7 +2943,11 @@ export class App {
     g.className = 'drag-ghost'
     if (source.kind === 'palette' || source.kind === 'sensor') {
       g.textContent = source.label
-      if (source.kind === 'sensor' && this.blockMode) g.classList.add('drag-sensor', ...(/^mbot\.is/.test(source.text) ? ['sensor-bool'] : []))
+      if (source.kind === 'sensor' && this.blockMode) {
+        const sensor = /^mbot\./.test(source.text)
+        const bool = sensor ? /^mbot\.is/.test(source.text) : isBoolExpression(source.text)
+        g.classList.add('drag-sensor', ...(bool ? ['sensor-bool'] : []), ...(sensor ? [] : [/^[A-Za-z_]\w*$/.test(source.text) ? 'drag-var' : 'drag-op']))
+      }
       // in den Blöcken sieht auch das Ziehbild wie ein Block aus
       if (source.kind === 'palette' && this.blockMode) {
         g.classList.add('drag-block')
@@ -2908,11 +3020,13 @@ export class App {
     const doc = this.doc
     try {
       if (source.kind === 'sensor') {
-        if (t.kind === 'condition') this.insertSensor(source.text, t.path)
+        if (t.kind === 'condition') {
+          if (this.blockMode) this.dropOnCondition(source.text, t.path)
+          else this.insertSensor(source.text, t.path)
+        }
         if (t.kind === 'slot') {
-          // Blöcke: Wert bzw. Sensor durch den neuen Sensor ersetzen (`mbot.forward(mbot.getDistance())`)
-          const lines = elementAt(doc, t.path).textLines
-          const next = t.slot === 'value' ? replaceBlockValue(doc, t.path, t.index, source.text) : replaceSensor(lines, t.index, source.text)
+          // Blöcke: Wert bzw. Sensor durch Sensor, Operator oder Variable ersetzen (`mbot.forward(mbot.getDistance())`)
+          const next = t.slot === 'value' ? replaceBlockValue(doc, t.path, t.index, source.text) : replaceBlockSensor(doc, t.path, t.index, source.text)
           if (next) this.commit(setTextLines(doc, t.path, next), t.path)
         }
         return

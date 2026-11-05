@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { LiveLabels } from '../src/core/codeGenerator'
 import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava } from '../src/core/liveSource'
-import { blockGroup, blockTokens, BlockView, replaceSensor, replaceValue, valueText, withoutBlockIcons } from '../src/ui/blockView'
+import { blockGroup, blockTokens, BlockView, programVariables, replaceBlockValue, replaceSensor, replaceValue, valueText, withoutBlockIcons } from '../src/ui/blockView'
 import { ElementType, makeElement } from '../src/core/model'
 
 const blockLabels = {
@@ -18,6 +18,10 @@ const blockLabels = {
   countTo: 'bis',
   countAbove: 'bis über',
   countStep: 'in Schritten von',
+  repeat: 'wiederhole',
+  repeatTimes: 'mal',
+  randomFrom: 'Zufallszahl von',
+  randomTo: 'bis',
 }
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
 const main = (body: string) => `public class Main {\n  public static void main(String[] args) {\n${body}\n  }\n}`
@@ -63,7 +67,7 @@ describe('Blöcke (VisuBot)', () => {
     view.render(doc, [0, 0, 1], false)
     const root = view.element
     const loop = root.querySelector('.bk-loop')!
-    expect(loop.querySelector(':scope > .bk-head')!.textContent).toBe('zähle mit i von 0 bis unter 4 in Schritten von 1')
+    expect(loop.querySelector(':scope > .bk-head')!.textContent).toBe('wiederhole 4 mal')
     const stmt = loop.querySelector<HTMLElement>('.bk-stmt')!
     expect(stmt.dataset.path).toBe('[0,0,0]')
     expect(stmt.dataset.botColor).toBe('fahren')
@@ -171,4 +175,45 @@ describe('Blöcke (VisuBot)', () => {
     expect(clean.elements[1].loopBody![0].textLines).toEqual(['mbot.pause(100)'])
     expect(withoutBlockIcons(doc)).toBeUndefined()
   })
+
+  it('Variablen und Operatoren als Bausteine (Stufe 5)', () => {
+    const doc = docOf(main('int zahl = 3;\nfor (int i = 0; i < 5; i++) {\n  mbot.forward(i);\n}\nzahl = zahl + 1;\nmbot.pause((int) (Math.random() * 10) + 1);'))
+    expect(programVariables(doc)).toEqual(['zahl', 'i'])
+    const vars = new Set(programVariables(doc))
+    // angelegte bzw. gesetzte Variable: Baustein ohne Feld; rechts davon ein Feld
+    expect(blockTokens('zahl = zahl + 1', vars)).toEqual([
+      { kind: 'var', text: 'zahl', fixed: true },
+      { kind: 'text', text: ' = ' },
+      { kind: 'var', text: 'zahl' },
+      { kind: 'text', text: ' + ' },
+      { kind: 'lit', text: '1' },
+    ])
+    // Wertfelder: zahl (0), 1 (1); Variable auf ein Feld ziehen
+    expect(replaceValue(['zahl = zahl + 1'], 1, 'i', vars)).toEqual(['zahl = zahl + i'])
+    expect(replaceValue(['zahl = zahl + 1'], 0, '2 * 3', vars)).toEqual(['zahl = (2 * 3) + 1'])
+    expect(replaceValue(['mbot.forward(50)'], 0, '0 + 0', vars)).toEqual(['mbot.forward(0 + 0)'])
+    // Zufallszahl: zwei Felder von/bis
+    const rnd = ['mbot.pause((int) (Math.random() * 10) + 1)']
+    expect(replaceValue(rnd, 1, '6')).toEqual(['mbot.pause((int) (Math.random() * 6) + 1)'])
+    expect(replaceValue(rnd, 0, '5')).toEqual(['mbot.pause((int) (Math.random() * 6) + 5)'])
+    expect(replaceValue(rnd, 0, 'zahl', vars)).toBeUndefined()
+    // leere Klammer: ein leeres Feld, aber nicht bei mbot.stop()
+    expect(replaceValue(['mbot.forward()'], 0, '50')).toEqual(['mbot.forward(50)'])
+    expect(replaceValue(['mbot.stop()'], 0, '50')).toBeUndefined()
+
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: blockLabels })
+    view.render(doc, undefined, false)
+    const root = view.element
+    // die Schleife benutzt i → „zähle mit“; i im Befehl als oranger Baustein mit Feld
+    expect(root.querySelector('.bk-loop > .bk-head')!.textContent).toBe('zähle mit i von 0 bis unter 5 in Schritten von 1')
+    const iField = root.querySelector<HTMLElement>('.bk-loop .bk-stmt .tk-var')!
+    expect(iField.textContent).toBe('i')
+    expect(iField.dataset.value).toBe(JSON.stringify({ path: [1, 0, 0], index: 0 }))
+    const rndPill = root.querySelector('.tk-op')!
+    expect(rndPill.textContent).toBe('Zufallszahl von 1 bis 10')
+    expect(rndPill.querySelectorAll('[data-value]').length).toBe(2)
+    // Zählschleife über das Feld: Variable als Ende
+    expect(replaceBlockValue(doc, [1], 1, 'zahl')).toEqual(['int i = 0', 'i < zahl', 'i++'])
+  })
 })
+

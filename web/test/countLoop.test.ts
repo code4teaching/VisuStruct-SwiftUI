@@ -14,7 +14,7 @@ describe('VisuBlocks: Zählschleife', () => {
   })
 
   it('lässt kompliziertere Köpfe als Text', () => {
-    expect(readCountLoop(['int i = 0', 'i < anzahl', 'i++'])).toBeUndefined()
+    expect(readCountLoop(['int i = 0', 'i < anzahl', 'i++'])?.end).toBe('anzahl')
     expect(readCountLoop(['int i = 0', 'j < 10', 'i++'])).toBeUndefined()
     expect(readCountLoop(['int i = 0', 'i < 10', 'i--'])).toBeUndefined()
     expect(readCountLoop(['int i = 0', 'i < 10', 'i *= 2'])).toBeUndefined()
