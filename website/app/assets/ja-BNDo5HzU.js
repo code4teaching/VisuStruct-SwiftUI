@@ -25,6 +25,7 @@ const e=`/* Web 版にのみ存在するテキスト。その他はすべてア�
 "web_inspector_title" = "プロパティ";
 "web_inspector_resize" = "オブジェクトインスペクターの高さを変更：線を上下にドラッグまたはスワイプ（ダブルクリック：標準）";
 "web_inspector_help_drop" = "パレットの要素をタイルにドラッグ：上 = 前に、下 = 後に、「ø」の上 = 置き換え。既存の要素はマウスで移動できます。";
+"web_inspector_help_inline" = "要素をダブルクリック／ダブルタップすると、図の中で直接テキストを編集できます（Enter で確定、Esc で取消）。case 名も同様です。";
 "web_inspector_help_files" = "ファイルをウインドウにドロップすることもできます。";
 "web_case_name" = "ケース名";
 "web_case_name_placeholder" = "例：1, ok, default";

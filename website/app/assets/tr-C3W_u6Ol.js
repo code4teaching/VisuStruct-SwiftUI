@@ -25,6 +25,7 @@ const e=`/* Yalnızca web sürümünde bulunan metinler. Geri kalan her şey uyg
 "web_inspector_title" = "Özellikler";
 "web_inspector_resize" = "Nesne denetçisinin yüksekliğini değiştir: çizgiyi yukarı veya aşağı sürükle ya da kaydır (çift tıklama: varsayılan)";
 "web_inspector_help_drop" = "Paletteki öğeleri bir kutucuğa sürükleyin: üst = önce, alt = sonra, “ø” üzerine = değiştir. Mevcut öğeler fareyle taşınabilir.";
+"web_inspector_help_inline" = "Metni doğrudan diyagramda düzenlemek için bir öğeye çift tıklayın veya çift dokunun (Enter uygular, Esc iptal eder). Durum adları da böyle değişir.";
 "web_inspector_help_files" = "Dosyaları pencereye de bırakabilirsiniz.";
 "web_case_name" = "Durum adı";
 "web_case_name_placeholder" = "ör. 1, ok, default";

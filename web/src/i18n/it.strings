@@ -25,6 +25,7 @@
 "web_inspector_title" = "Proprietà";
 "web_inspector_resize" = "Cambia l’altezza dell’ispettore oggetti: trascina o scorri la linea su o giù (doppio clic: predefinito)";
 "web_inspector_help_drop" = "Trascina gli elementi dalla tavolozza su un riquadro: in alto = prima, in basso = dopo, su “ø” = sostituisci. Gli elementi esistenti si possono spostare con il mouse.";
+"web_inspector_help_inline" = "Doppio clic o doppio tocco su un elemento per modificarne il testo direttamente nel diagramma (Invio applica, Esc annulla). Anche i nomi dei casi.";
 "web_inspector_help_files" = "Puoi anche trascinare file nella finestra.";
 "web_case_name" = "Nome del caso";
 "web_case_name_placeholder" = "es. 1, ok, default";

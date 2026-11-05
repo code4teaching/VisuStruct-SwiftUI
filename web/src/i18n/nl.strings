@@ -25,6 +25,7 @@
 "web_inspector_title" = "Eigenschappen";
 "web_inspector_resize" = "Hoogte van de objectinspector wijzigen: sleep of veeg de lijn omhoog of omlaag (dubbelklik: standaard)";
 "web_inspector_help_drop" = "Sleep elementen uit het palet op een tegel: boven = ervoor, onder = erna, op “ø” = vervangen. Bestaande elementen kun je met de muis verplaatsen.";
+"web_inspector_help_inline" = "Dubbelklik of dubbeltik op een element om de tekst direct in het diagram te bewerken (Enter past toe, Esc annuleert). Ook voor case-namen.";
 "web_inspector_help_files" = "Je kunt ook bestanden in het venster neerzetten.";
 "web_case_name" = "Naam van de case";
 "web_case_name_placeholder" = "bijv. 1, ok, default";

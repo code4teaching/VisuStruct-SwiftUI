@@ -25,6 +25,7 @@ const e=`/* 仅存在于网页版中的文本。其他所有文本均来自应�
 "web_inspector_title" = "属性";
 "web_inspector_resize" = "更改对象检查器的高度：上下拖动或滑动分隔线（双击：默认）";
 "web_inspector_help_drop" = "将元素从面板拖到块上：上部 = 插入到前面，下部 = 插入到后面，拖到“ø”上 = 替换。已有元素可用鼠标移动。";
+"web_inspector_help_inline" = "双击或双点元素即可直接在图中编辑文字（Enter 确认，Esc 取消）。case 名称也一样。";
 "web_inspector_help_files" = "也可以直接将文件拖入窗口。";
 "web_case_name" = "分支名称";
 "web_case_name_placeholder" = "例如 1, ok, default";

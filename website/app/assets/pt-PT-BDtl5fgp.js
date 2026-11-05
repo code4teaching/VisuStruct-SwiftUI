@@ -24,6 +24,7 @@ const e=`/* Textos que só existem na versão web. Tudo o resto vem dos Localiza
 "web_status_modified" = "alterado";
 "web_inspector_title" = "Inspetor de objetos";
 "web_inspector_help_drop" = "Arraste elementos da paleta para um bloco: em cima = antes, em baixo = depois, sobre “ø” = substituir. Os elementos existentes podem ser movidos com o rato.";
+"web_inspector_help_inline" = "Faça duplo clique ou toque duplo num elemento para editar o texto diretamente no diagrama (Enter aplica, Esc cancela). Os nomes dos casos também.";
 "web_inspector_help_files" = "Também pode largar ficheiros na janela.";
 "web_case_name" = "Nome do caso";
 "web_case_name_placeholder" = "p. ex. 1, ok, default";
