@@ -602,9 +602,8 @@ export class BlockView {
         // „wähle je nach [Farbe]“, darunter „falls rot“ … „sonst“ (Schlüsselwörter übersetzt, wenn vorhanden)
         const kw = (word: string) => this.options.labels.keywords?.[word] ?? word
         box.className = 'bk bk-c bk-if'
-        const head = this.head(lines, v)
-        head.prepend(this.word({ kind: 'kw', text: kw('switch') }))
-        box.append(head)
+        // „switch“ steht schon vorn in den Zeilen (canvasTextLines) und wird beim Zeichnen übersetzt
+        box.append(this.head(lines, v))
         ;(e.cases ?? []).forEach((c, i) => {
           box.append(this.clause(c.name.toLowerCase() === 'default' ? kw('default') : `${kw('case')} ${c.name}`), this.body(c.elements, [...path, i]))
         })

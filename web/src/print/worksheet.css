@@ -1,0 +1,75 @@
+/* Arbeitsblatt A4 zum Einlaminieren: große Schrift, klare Kästen, nichts bricht mitten im Kasten um. */
+@page { size: A4; margin: 14mm 14mm 16mm; }
+html, body.worksheet-body {
+  background: #fff;
+  color: #1f2937;
+  height: auto;
+  overflow: visible;
+}
+body.worksheet-body {
+  font: 15pt/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+#sheet { max-width: 182mm; margin: 0 auto; }
+.ws-head {
+  border-radius: 14px;
+  padding: 10px 16px 12px;
+  background: linear-gradient(120deg, #fde68a, #fbcfe8 60%, #bfdbfe);
+  margin-bottom: 14px;
+}
+.ws-brand { font-size: 11pt; font-weight: 700; letter-spacing: 0.04em; color: #7c2d12; text-transform: uppercase; }
+.ws-head h1, .ws-exercise h3, .ws-game h3 { text-transform: none; letter-spacing: 0; }
+.ws-head h1 { margin: 2px 0 4px; font-size: 26pt; line-height: 1.15; }
+.ws-head p { margin: 0; }
+.ws-lno {
+  display: inline-grid; place-items: center; width: 1.4em; height: 1.4em; border-radius: 50%;
+  background: #fff; color: #be185d; font-size: 0.8em; vertical-align: 0.1em;
+}
+.ws-step { margin: 0 0 6px; }
+.ws-step h2 { text-transform: none; letter-spacing: 0; font-size: 18pt; margin: 14px 0 6px; color: #1d4ed8; break-after: avoid; }
+.ws-text p { margin: 4px 0; }
+.ws-goal { border: 3px solid #f59e0b; border-radius: 12px; padding: 6px 14px; background: #fffbeb; }
+.ws-goal ul { margin: 4px 0; padding-left: 1.2em; }
+.ws-figure { margin: 8px 0; break-inside: avoid; }
+.ws-figure figcaption { font-size: 12.5pt; color: #4b5563; margin-top: 4px; }
+.ws-blocks { display: inline-block; max-width: 100%; }
+.ws-blocks .bk-picture { position: static; overflow: visible; height: auto; width: auto; padding: 4px 0; background: transparent; }
+.ws-figure.small .ws-blocks { transform-origin: left top; }
+.ws-exercise {
+  border: 3px solid #16a34a; border-radius: 14px; padding: 8px 14px 10px; margin: 10px 0;
+  background: #f0fdf4; break-inside: avoid;
+}
+.ws-exercise h3, .ws-game h3 { margin: 0 0 4px; font-size: 16pt; display: flex; align-items: center; gap: 10px; }
+.ws-num {
+  display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%;
+  background: #16a34a; color: #fff; font-size: 0.85em; flex: none;
+}
+.ws-done { margin-left: auto; font-size: 13pt; font-weight: 600; color: #166534; white-space: nowrap; }
+.ws-task { margin: 2px 0 6px; }
+.ws-hints { font-size: 12.5pt; color: #374151; border-top: 1px dashed #86efac; padding-top: 4px; }
+.ws-hints p { margin: 2px 0; }
+.ws-ludwig {
+  display: flex; gap: 12px; align-items: center; border-radius: 14px; background: #eef2ff; padding: 8px 12px;
+  margin: 10px 0; break-inside: avoid;
+}
+.ws-ludwig img { width: 64px; height: 64px; object-fit: contain; flex: none; }
+.ws-ludwig p { margin: 2px 0; }
+.ws-game { break-inside: avoid; border: 3px solid #9333ea; border-radius: 14px; padding: 8px 14px; background: #faf5ff; margin: 10px 0; }
+.ws-game > p { margin: 2px 0 6px; }
+.ws-rounds { display: flex; flex-wrap: wrap; gap: 10px; }
+.ws-round { background: #fff; border-radius: 10px; padding: 6px 10px; break-inside: avoid; border: 1px solid #e9d5ff; }
+.ws-round-no { font-weight: 700; color: #7e22ce; font-size: 12pt; }
+.ws-map { display: grid; gap: 3px; width: 170px; margin-top: 6px; }
+.ws-cell { aspect-ratio: 1; border: 2px solid #9ca3af; border-radius: 4px; display: grid; place-items: center; background: #fff; }
+.ws-cell.wall { background: #6b7280; border-color: #4b5563; }
+.ws-robot { color: #db2777; font-size: 18pt; line-height: 1; display: inline-block; }
+.ws-question { margin: 4px 0 0; font-weight: 600; }
+.ws-options { list-style: none; padding: 0; margin: 2px 0; }
+.ws-check { border-collapse: collapse; width: 100%; break-inside: avoid; }
+.ws-check th { font-size: 18pt; font-weight: 400; padding: 2px 8px; }
+.ws-check td { border-top: 2px solid #e5e7eb; padding: 8px; }
+.ws-check td:not(:first-child) { text-align: center; font-size: 22pt; color: #9ca3af; width: 3em; }
+.ws-foot { margin-top: 18px; font-size: 11pt; color: #6b7280; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 6px; }
+#sheet.print-sheet { display: block !important; }
