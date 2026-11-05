@@ -21,7 +21,7 @@ describe('Block-Lektionen (de)', () => {
 
   it('erscheinen nur mit Block-Ansicht in VisuBot, ohne Aufgaben', () => {
     expect(showingBlockLessons()).toBe(true)
-    expect(lessons.length).toBeGreaterThanOrEqual(2)
+    expect(lessons.length).toBeGreaterThanOrEqual(4)
     expect(lessons.every((l) => l.blocks && l.robot)).toBe(true)
     lessons.forEach((l, i) => expect(l.number, l.id).toBe(i + 1))
     expect(tasks).toEqual([])
@@ -49,7 +49,7 @@ describe('Block-Lektionen (de)', () => {
     }
   })
 
-  it('jede Übung prüft eine Fahrt, und die Musterlösung besteht sie', () => {
+  it('jede Übung prüft den mBot2, und die Musterlösung besteht sie', () => {
     let checked = 0
     for (const l of lessons) {
       for (const block of l.steps.flatMap((s) => s.blocks)) {
@@ -57,7 +57,7 @@ describe('Block-Lektionen (de)', () => {
         const ex = block.exercise
         const where = `${l.id}: ${ex.id}`
         expect(ex.id.startsWith('vbb-'), where).toBe(true)
-        expect(ex.tests.some((t) => t.drive), where).toBe(true)
+        expect(ex.tests.some((t) => t.drive || t.world || t.sensors || t.actions), where).toBe(true)
         expect(ex.hints.length, where).toBeGreaterThanOrEqual(2)
         const doc = diagram(ex.solution!)!
         expect(doc, where).toBeDefined()
@@ -67,7 +67,7 @@ describe('Block-Lektionen (de)', () => {
         checked++
       }
     }
-    expect(checked).toBeGreaterThanOrEqual(6)
+    expect(checked).toBeGreaterThanOrEqual(10)
   })
 
   it('jede Runde von „Wo landet der mBot2?“ endet auf dem angegebenen Feld', () => {
@@ -85,6 +85,6 @@ describe('Block-Lektionen (de)', () => {
         }
       }
     }
-    expect(checked).toBeGreaterThanOrEqual(8)
+    expect(checked).toBeGreaterThanOrEqual(16)
   })
 })
