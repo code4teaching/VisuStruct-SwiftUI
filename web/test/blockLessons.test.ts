@@ -21,7 +21,7 @@ describe('Block-Lektionen (de)', () => {
 
   it('erscheinen nur mit Block-Ansicht in VisuBot, ohne Aufgaben', () => {
     expect(showingBlockLessons()).toBe(true)
-    expect(lessons.length).toBeGreaterThanOrEqual(6)
+    expect(lessons.length).toBeGreaterThanOrEqual(7)
     expect(lessons.every((l) => l.blocks && l.robot)).toBe(true)
     lessons.forEach((l, i) => expect(l.number, l.id).toBe(i + 1))
     expect(tasks).toEqual([])
@@ -67,7 +67,7 @@ describe('Block-Lektionen (de)', () => {
         checked++
       }
     }
-    expect(checked).toBeGreaterThanOrEqual(15)
+    expect(checked).toBeGreaterThanOrEqual(17)
   })
 
   it('jede Runde von „Wo landet der mBot2?“ endet auf dem angegebenen Feld', () => {
