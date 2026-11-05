@@ -640,7 +640,7 @@ export class BlockView {
           continue
         }
         // Schlüsselwörter in der Sprache der Oberfläche (Holger 5.11.: für Jüngere „wenn“ statt „if“)
-        const word = this.word(token.kind === 'kw' ? { ...token, text: this.options.labels.keywords?.[token.text] ?? token.text } : token)
+        const word = this.word(this.translated(token))
         if (v && (token.kind === 'lit' || token.kind === 'str' || (token.kind === 'var' && !token.fixed))) {
           word.dataset.value = JSON.stringify({ path: v.path, index: v.n++ })
         }
@@ -717,6 +717,22 @@ export class BlockView {
     const foot = this.head(lines, v)
     foot.className = 'bk-foot'
     return foot
+  }
+
+  /** Schlüsselwörter und `!`, `&&`, `||` in der Sprache der Oberfläche („nicht“, „und“, „oder“), falls übersetzt. */
+  private translated(token: BlockToken): BlockToken {
+    const words = this.options.labels.keywords
+    if (!words) return token
+    if (token.kind === 'kw') return { ...token, text: words[token.text] ?? token.text }
+    if (token.kind !== 'text') return token
+    // Aussprung: „break“ als ganzer Satz („verlasse die Schleife“)
+    if (token.text.trim() === 'break' && words.break) return { kind: 'kw', text: words.break }
+    const text = token.text
+      .replace(/&&/g, words['&&'] ? ` ${words['&&']} ` : '&&')
+      .replace(/\|\|/g, words['||'] ? ` ${words['||']} ` : '||')
+      .replace(/!(?!=)/g, words['!'] ? `${words['!']} ` : '!')
+      .replace(/ {2,}/g, ' ')
+    return { ...token, text }
   }
 
   private keywordHead(keyword: string): HTMLElement {

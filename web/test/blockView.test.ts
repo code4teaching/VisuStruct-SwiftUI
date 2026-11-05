@@ -230,3 +230,22 @@ describe('Blöcke: Schlüsselwörter übersetzt', () => {
     expect(view.element.querySelectorAll('[data-value]').length).toBe(5)
   })
 })
+
+describe('Blöcke: nicht, und, oder', () => {
+  it('zeigt „nicht“, „und“, „oder“ statt !, &&, || (nicht bei !=)', () => {
+    const doc = docOf(main('while (!mbot.isButtonA() && mbot.getDistance() != 5 || mbot.isButtonB()) {\n  mbot.pause(100);\n}'))
+    const keywords = { while: 'solange', '!': 'nicht', '&&': 'und', '||': 'oder' }
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { ...blockLabels, keywords } })
+    view.render(doc, undefined, false)
+    const head = view.element.querySelector('.bk-loop .bk-head')!.textContent!
+    expect(head).toBe('solange nicht mbot.isButtonA() und mbot.getDistance() != 5 oder mbot.isButtonB()')
+  })
+
+  it('zeigt den Aussprung als „verlasse die Schleife“', () => {
+    const doc = docOf(main('while (true) {\n  if (mbot.isButtonA()) {\n    break;\n  }\n  mbot.forward();\n}'))
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { ...blockLabels, keywords: { break: 'verlasse die Schleife' } } })
+    view.render(doc, undefined, false)
+    expect(view.element.textContent).toContain('verlasse die Schleife')
+    expect(view.element.textContent).not.toContain('break')
+  })
+})

@@ -27,6 +27,10 @@ export function blockViewLabels(): BlockViewOptions['labels'] {
       while: t('web_visubot_blocks_while'),
       endless: t('web_visubot_blocks_endless'),
       do: t('web_visubot_blocks_do'),
+      '!': t('web_visubot_blocks_not'),
+      '&&': t('web_visubot_blocks_and'),
+      '||': t('web_visubot_blocks_or'),
+      break: t('web_visubot_blocks_break'),
     },
   }
 }
