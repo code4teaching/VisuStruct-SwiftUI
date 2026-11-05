@@ -10,7 +10,7 @@ import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates }
  * Die Farben sind die des Struktogramms (Anweisung gelb, Schleife rosa, Verzweigung blau); mBot2-Befehle
  * tragen zusätzlich den Streifen und das Symbol ihrer Gruppe wie in der Palette.
  * Blöcke lassen sich auswählen, aus der Palette hineinziehen, verschieben und in den Papierkorb werfen;
- * Texte und Werte ändert man (noch) in den Eigenschaften.
+ * Zahlen und Texte (weiße Felder) ändert man per Klick direkt im Block.
  */
 
 /** Ein Wort auf einem Block: Text, Schlüsselwort (fett), Wert (weißes Feld) oder Sensor (türkiser Baustein). */
@@ -21,6 +21,35 @@ export interface BlockToken {
 
 const sensorCalls = new Set(visuBotSensors.map((s) => s.text.match(/^mbot\.(\w+)\(\)/)?.[1]).filter((n): n is string => !!n))
 
+/** Zeichenketten, Sensorabfragen (bzw. andere `mbot.…()`), Zahlen und true/false/null. */
+const valuePattern = () => /("(?:[^"\\]|\\.)*")|(mbot\.(\w+)\(\))|(\b\d+(?:\.\d+)?\b)|\b(true|false|null)\b/g
+
+/**
+ * Den `index`-ten Wert (Zahl, Text, true/false/null) in den Zeilen eines Elements ersetzen. Die Werte
+ * stehen in den Blöcken in derselben Reihenfolge wie im gespeicherten Text (auch bei `for` und `while`).
+ */
+export function replaceValue(lines: string[], index: number, value: string): string[] | undefined {
+  let n = 0
+  for (let l = 0; l < lines.length; l++) {
+    for (const m of lines[l].matchAll(valuePattern())) {
+      if (m[2]) continue
+      if (n++ !== index) continue
+      const i = m.index ?? 0
+      const out = [...lines]
+      out[l] = lines[l].slice(0, i) + value + lines[l].slice(i + m[0].length)
+      return out
+    }
+  }
+  return undefined
+}
+
+/** Eingabe im Wertfeld → Java-Text: Zahl bzw. true/false/null bleibt, Text kommt in Anführungszeichen. */
+export function valueText(kind: 'lit' | 'str', input: string): string | undefined {
+  if (kind === 'str') return JSON.stringify(input)
+  const v = input.trim().replace(',', '.')
+  return /^-?\d+(\.\d+)?$/.test(v) || /^(true|false|null)$/.test(v) ? v : undefined
+}
+
 /** Zeile → Wörter: führendes Schlüsselwort, Zeichenketten, Zahlen und Sensorabfragen (`mbot.getDistance()`). */
 export function blockTokens(line: string): BlockToken[] {
   const out: BlockToken[] = []
@@ -30,7 +59,6 @@ export function blockTokens(line: string): BlockToken[] {
     out.push({ kind: 'kw', text: split.keyword })
     rest = split.rest ? ` ${split.rest}` : ''
   }
-  const re = /("(?:[^"\\]|\\.)*")|(mbot\.(\w+)\(\))|(\b\d+(?:\.\d+)?\b)|\b(true|false|null)\b/g
   let at = 0
   const text = (s: string) => {
     if (!s) return
@@ -38,7 +66,7 @@ export function blockTokens(line: string): BlockToken[] {
     if (last?.kind === 'text') last.text += s
     else out.push({ kind: 'text', text: s })
   }
-  for (const m of rest.matchAll(re)) {
+  for (const m of rest.matchAll(valuePattern())) {
     const i = m.index ?? 0
     if (m[2] && !sensorCalls.has(m[3])) continue
     text(rest.slice(at, i))
@@ -64,9 +92,17 @@ export function blockGroup(element: VSElement): string | undefined {
   return name ? commandGroups.get(name) : undefined
 }
 
+/** Pfad des Elements und laufende Nummer seiner Werte */
+interface ValueSlot {
+  path: number[]
+  n: number
+}
+
 export interface BlockViewOptions {
   /** Zeiger auf einem Block: auswählen und ggf. Ziehen beginnen. */
   press: (path: number[], event: PointerEvent) => void
+  /** Wert Nummer `index` im Element `path` ändern (`text` ist schon Java: `50`, `"Hallo"`). */
+  editValue: (path: number[], index: number, text: string) => void
   /** Texte der Knöpfe/Beschriftungen (übersetzt). */
   labels: { start: string; else: string; empty: string; hint: string; trash: string }
 }
@@ -99,6 +135,9 @@ export class BlockView {
   readonly element: HTMLDivElement
   private boxes: { path: number[]; el: HTMLElement }[] = []
   private enabled = true
+  /** gerade offenes Wertfeld: solange wird nicht neu gezeichnet */
+  private editing = false
+  private pending?: () => void
 
   constructor(private options: BlockViewOptions) {
     this.element = document.createElement('div')
@@ -106,6 +145,15 @@ export class BlockView {
     this.element.hidden = true
     this.element.addEventListener('pointerdown', (e) => {
       if (!this.enabled) return
+      if ((e.target as Element).closest('.bk-input')) return
+      const field = (e.target as Element).closest<HTMLElement>('[data-value]')
+      if (field && !this.editing) {
+        // Wert anklicken: direkt im Block ändern, nicht ziehen
+        e.preventDefault()
+        e.stopPropagation()
+        this.editField(field)
+        return
+      }
       const box = (e.target as Element).closest<HTMLElement>('[data-path]')
       if (!box) return
       this.options.press(pathOf(box)!, e)
@@ -158,6 +206,40 @@ export class BlockView {
     return first!.classList.contains('bk-empty') ? { kind: 'replace', path } : { kind: 'before', path }
   }
 
+  /** Wertfeld durch ein Eingabefeld ersetzen; Enter oder Verlassen übernimmt, Escape bricht ab. */
+  private editField(field: HTMLElement) {
+    const { path, index } = JSON.parse(field.dataset.value!) as { path: number[]; index: number }
+    const kind = field.classList.contains('tk-str') ? 'str' : 'lit'
+    const shown = field.textContent ?? ''
+    const input = document.createElement('input')
+    input.className = `bk-input tk-${kind}`
+    input.value = kind === 'str' ? (JSON.parse(shown) as string) : shown
+    const fit = () => (input.style.width = `calc(${Math.max(2, input.value.length + 1)}ch + 18px)`)
+    fit()
+    input.setAttribute('aria-label', shown)
+    input.addEventListener('input', fit)
+    this.editing = true
+    let done = false
+    const finish = (save: boolean) => {
+      if (done) return
+      done = true
+      this.editing = false
+      const text = save ? valueText(kind, input.value) : undefined
+      if (text !== undefined && text !== shown) this.options.editValue(path, index, text)
+      else if (this.pending) this.pending()
+      else input.replaceWith(field)
+    }
+    input.addEventListener('keydown', (e) => {
+      e.stopPropagation()
+      if (e.key === 'Enter') finish(true)
+      else if (e.key === 'Escape') finish(false)
+    })
+    input.addEventListener('blur', () => finish(true))
+    field.replaceWith(input)
+    input.focus()
+    input.select()
+  }
+
   /** Ablegestelle zeigen (Linie bzw. hervorgehobener Block); `undefined` räumt auf. */
   showDrop(drop: BlockDrop | undefined) {
     this.element.querySelectorAll('.bk-drop').forEach((e) => e.classList.remove('bk-drop'))
@@ -196,6 +278,11 @@ export class BlockView {
 
   /** Neu zeichnen; `mark` ist die Auswahl bzw. in der Simulation der laufende Schritt. */
   render(doc: VSDocument, mark: number[] | undefined, simulating: boolean, zoom = 1) {
+    if (this.editing) {
+      this.pending = () => this.render(doc, mark, simulating, zoom)
+      return
+    }
+    this.pending = undefined
     this.enabled = !simulating
     this.boxes = []
     this.element.style.setProperty('--bk-zoom', String(zoom))
@@ -233,6 +320,8 @@ export class BlockView {
 
   private block(e: VSElement, path: number[]): HTMLElement {
     const box = document.createElement('div')
+    // Werte im Block zählen wie im gespeicherten Text (für das Ändern per Klick)
+    const v: ValueSlot = { path, n: 0 }
     box.dataset.path = JSON.stringify(path)
     this.boxes.push({ path, el: box })
     if (isPlaceholderElement(e)) {
@@ -246,39 +335,39 @@ export class BlockView {
       case ElementType.whileSchleife:
       case ElementType.endlosschleife:
         box.className = 'bk bk-c bk-loop'
-        box.append(this.head(lines), this.body(e.loopBody ?? [], [...path, 0]), this.foot([]))
+        box.append(this.head(lines, v), this.body(e.loopBody ?? [], [...path, 0]), this.foot([], v))
         break
       case ElementType.doUntilSchleife:
         // Bedingung erst am Ende geprüft: oben „do“, unten „while …“ wie im Struktogramm
         box.className = 'bk bk-c bk-loop'
-        box.append(this.head(['do']), this.body(e.loopBody ?? [], [...path, 0]), this.foot(lines))
+        box.append(this.head(['do'], v), this.body(e.loopBody ?? [], [...path, 0]), this.foot(lines, v))
         break
       case ElementType.verzweigung: {
         box.className = 'bk bk-c bk-if'
         const cases = e.cases ?? []
-        box.append(this.head(lines))
+        box.append(this.head(lines, v))
         cases.forEach((c, i) => {
           if (i > 0) box.append(this.clause(i === 1 && cases.length === 2 ? this.options.labels.else : c.name))
           box.append(this.body(c.elements, [...path, i]))
         })
-        box.append(this.foot([]))
+        box.append(this.foot([], v))
         break
       }
       case ElementType.fallauswahl:
         box.className = 'bk bk-c bk-if'
-        box.append(this.head(lines))
+        box.append(this.head(lines, v))
         ;(e.cases ?? []).forEach((c, i) => {
           box.append(this.clause(c.name.toLowerCase() === 'default' ? 'default' : `case ${c.name}`), this.body(c.elements, [...path, i]))
         })
-        box.append(this.foot([]))
+        box.append(this.foot([], v))
         break
       case ElementType.aussprung:
         box.className = 'bk bk-cap'
-        box.append(this.head(lines))
+        box.append(this.head(lines, v))
         break
       case ElementType.aufruf:
         box.className = 'bk bk-simple bk-call'
-        box.append(this.head(lines))
+        box.append(this.head(lines, v))
         break
       default: {
         box.className = 'bk bk-simple bk-stmt'
@@ -288,26 +377,32 @@ export class BlockView {
           const icon = visuBotGroupIcon[group]
           if (icon) lines[0] = `${icon} ${lines[0]}`
         }
-        box.append(this.head(lines))
+        box.append(this.head(lines, v))
       }
     }
     return box
   }
 
-  private head(lines: string[]): HTMLElement {
+  private head(lines: string[], v?: ValueSlot): HTMLElement {
     const head = document.createElement('div')
     head.className = 'bk-head'
     for (const line of lines) {
       const row = document.createElement('span')
       row.className = 'bk-line'
-      for (const token of blockTokens(line)) row.append(this.word(token))
+      for (const token of blockTokens(line)) {
+        const word = this.word(token)
+        if (v && (token.kind === 'lit' || token.kind === 'str')) {
+          word.dataset.value = JSON.stringify({ path: v.path, index: v.n++ })
+        }
+        row.append(word)
+      }
       head.append(row)
     }
     return head
   }
 
-  private foot(lines: string[]): HTMLElement {
-    const foot = this.head(lines)
+  private foot(lines: string[], v?: ValueSlot): HTMLElement {
+    const foot = this.head(lines, v)
     foot.className = 'bk-foot'
     return foot
   }

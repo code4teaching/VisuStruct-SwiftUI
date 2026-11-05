@@ -30,7 +30,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { CodePanel } from './codePanel'
-import { BlockView } from './blockView'
+import { BlockView, replaceValue } from './blockView'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
@@ -615,6 +615,13 @@ export class App {
         this.render()
         if (e.pointerType !== 'touch' && !(isPlaceholderSlot(this.doc, path) && !wasSelected)) this.beginDrag(e, { kind: 'move', path })
         else e.preventDefault()
+      },
+      // Wert im Block geändert (Zahl oder Text): wie Tippen in den Eigenschaften, ein Rückgängig-Schritt
+      editValue: (path, index, text) => {
+        const element = tryElementAt(this.doc, path)
+        const lines = element && replaceValue(element.textLines, index, text)
+        if (lines) this.commit(setTextLines(this.doc, path, lines), path)
+        else this.render()
       },
       labels: {
         start: t('web_visubot_blocks_start'),
