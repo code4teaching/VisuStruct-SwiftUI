@@ -2,6 +2,7 @@ import { canvasTextLines, keywordSplit } from '../core/diagramText'
 import { isPlaceholderElement } from '../core/editing'
 import { ElementType, type VSDocument, type VSElement } from '../core/model'
 import { samePath } from './renderer'
+import { countLoopLines, countVar, readCountLoop, setCountField, type CountLoop } from '../visublocks/countLoop'
 import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates } from './visubotView'
 
 /**
@@ -15,7 +16,7 @@ import { visuBotGroupColor, visuBotGroupIcon, visuBotSensors, visuBotTemplates }
 
 /** Ein Wort auf einem Block: Text, Schlüsselwort (fett), Wert (weißes Feld) oder Sensor (türkiser Baustein). */
 export interface BlockToken {
-  kind: 'text' | 'kw' | 'lit' | 'str' | 'sensor'
+  kind: 'text' | 'kw' | 'lit' | 'str' | 'sensor' | 'var'
   text: string
 }
 
@@ -57,6 +58,48 @@ export function replaceSensor(lines: string[], index: number, value: string): st
     }
   }
   return undefined
+}
+
+/** Element am Pfad und Zahl der umgebenden for-Schleifen (für den Namen der Zählvariable: i, j, k …) */
+export function elementWithForDepth(doc: VSDocument, path: number[]): { element?: VSElement; depth: number } {
+  let els = doc.elements
+  let depth = 0
+  for (let k = 0; k < path.length; k += 2) {
+    const e = els[path[k]]
+    if (!e || k === path.length - 1) return { element: e, depth }
+    if (e.type === ElementType.forSchleife) depth++
+    const next = e.loopBody && path[k + 1] === 0 ? e.loopBody : e.cases?.[path[k + 1]]?.elements
+    if (!next) return { depth }
+    els = next
+  }
+  return { depth }
+}
+
+/** Zählschleife eines for-Elements (leere Schleife → Standard mit passender Variable), sonst `undefined` */
+export function countLoopOf(element: VSElement, depth: number): CountLoop | undefined {
+  return element.type === ElementType.forSchleife ? readCountLoop(element.textLines, countVar(depth)) : undefined
+}
+
+/**
+ * Wert Nummer `index` im Block am Pfad ersetzen. Zählschleifen haben die Felder Start, Ende, Schritt und
+ * schreiben den ganzen Java-Kopf neu (`0` beim Start → `int i = 0`); sonst wie `replaceValue`.
+ */
+export function replaceBlockValue(doc: VSDocument, path: number[], index: number, value: string): string[] | undefined {
+  const { element, depth } = elementWithForDepth(doc, path)
+  if (!element) return undefined
+  const loop = countLoopOf(element, depth)
+  if (loop) {
+    const next = setCountField(loop, index, value)
+    return next && countLoopLines(next)
+  }
+  return replaceValue(element.textLines, index, value)
+}
+
+/** Neue for-Schleife aus der Palette in den Blöcken: gleich „von 0 bis unter 10 in Schritten von 1“ */
+export function withCountLoopDefaults(doc: VSDocument, path: number[], element: VSElement): VSElement {
+  if (element.type !== ElementType.forSchleife || element.textLines.some((l) => l.trim() !== '')) return element
+  const { depth } = elementWithForDepth(doc, [...path.slice(0, -1), Number.MAX_SAFE_INTEGER])
+  return { ...element, textLines: countLoopLines(readCountLoop([], countVar(depth))!) }
 }
 
 /** Eingabe im Wertfeld → Java-Text: Zahl bzw. true/false/null bleibt, Text kommt in Anführungszeichen. */
@@ -145,7 +188,20 @@ export interface BlockViewOptions {
   /** Wert Nummer `index` im Element `path` ändern (`text` ist schon Java: `50`, `"Hallo"`). */
   editValue: (path: number[], index: number, text: string) => void
   /** Texte der Knöpfe/Beschriftungen (übersetzt). */
-  labels: { start: string; else: string; empty: string; hint: string; trash: string }
+  labels: {
+    start: string
+    else: string
+    empty: string
+    hint: string
+    trash: string
+    /** Zählschleife: „zähle mit“ i „von“ 0 „bis unter“/„bis“/„bis über“ 10 „in Schritten von“ 1 */
+    count: string
+    countFrom: string
+    countBelow: string
+    countTo: string
+    countAbove: string
+    countStep: string
+  }
 }
 
 /**
@@ -180,6 +236,8 @@ export class BlockView {
   private enabled = true
   /** gerade offenes Wertfeld: solange wird nicht neu gezeichnet */
   private editing = false
+  /** Schachtelung der for-Schleifen beim Zeichnen (Zählvariable i, j, k …) */
+  private forDepth = 0
   private pending?: () => void
 
   constructor(private options: BlockViewOptions) {
@@ -343,6 +401,7 @@ export class BlockView {
     this.pending = undefined
     this.enabled = !simulating
     this.boxes = []
+    this.forDepth = 0
     this.element.style.setProperty('--bk-zoom', String(zoom))
     this.element.classList.toggle('bk-simulating', simulating)
     const hint = document.createElement('p')
@@ -390,7 +449,16 @@ export class BlockView {
     // Kopie: das Symbol der Gruppe gehört nur auf den Block, nie in den gespeicherten Befehl
     const lines = [...canvasTextLines(e)]
     switch (e.type) {
-      case ElementType.forSchleife:
+      case ElementType.forSchleife: {
+        box.className = 'bk bk-c bk-loop'
+        const loop = countLoopOf(e, this.forDepth)
+        const head = loop ? this.countHead(loop, v) : this.head(lines, v)
+        this.forDepth++
+        const body = this.body(e.loopBody ?? [], [...path, 0])
+        this.forDepth--
+        box.append(head, body, this.foot([], v))
+        break
+      }
       case ElementType.whileSchleife:
       case ElementType.endlosschleife:
         box.className = 'bk bk-c bk-loop'
@@ -460,6 +528,36 @@ export class BlockView {
       }
       head.append(row)
     }
+    return head
+  }
+
+  /** Zählschleife: „zähle mit i von [0] bis unter [10] in Schritten von [1]“, Felder 0 Start, 1 Ende, 2 Schritt */
+  private countHead(c: CountLoop, v: ValueSlot): HTMLElement {
+    const l = this.options.labels
+    const head = document.createElement('div')
+    head.className = 'bk-head'
+    const row = document.createElement('span')
+    row.className = 'bk-line'
+    const field = (text: string, index: number) => {
+      const sensor = /^mbot\./.test(text)
+      const w = this.word({ kind: sensor ? 'sensor' : 'lit', text })
+      if (sensor) w.dataset.sensor = JSON.stringify({ path: v.path, index: 0 })
+      else w.dataset.value = JSON.stringify({ path: v.path, index })
+      return w
+    }
+    const to = c.op === '<' ? l.countBelow : c.op === '>' ? l.countAbove : l.countTo
+    row.append(
+      this.word({ kind: 'kw', text: l.count }),
+      this.word({ kind: 'text', text: ' ' }),
+      this.word({ kind: 'var', text: c.v }),
+      this.word({ kind: 'text', text: ` ${l.countFrom} ` }),
+      field(c.start, 0),
+      this.word({ kind: 'text', text: ` ${to} ` }),
+      field(c.end, 1),
+      this.word({ kind: 'text', text: ` ${l.countStep} ` }),
+      field(c.step, 2),
+    )
+    head.append(row)
     return head
   }
 

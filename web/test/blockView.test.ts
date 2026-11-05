@@ -6,6 +6,19 @@ import { documentFromJava } from '../src/core/liveSource'
 import { blockGroup, blockTokens, BlockView, replaceSensor, replaceValue, valueText, withoutBlockIcons } from '../src/ui/blockView'
 import { ElementType, makeElement } from '../src/core/model'
 
+const blockLabels = {
+  start: 'Start',
+  else: 'else',
+  empty: 'leer',
+  hint: '',
+  trash: 'Papierkorb',
+  count: 'zähle mit',
+  countFrom: 'von',
+  countBelow: 'bis unter',
+  countTo: 'bis',
+  countAbove: 'bis über',
+  countStep: 'in Schritten von',
+}
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
 const main = (body: string) => `public class Main {\n  public static void main(String[] args) {\n${body}\n  }\n}`
 const docOf = (java: string) => {
@@ -46,11 +59,11 @@ describe('Blöcke (VisuBot)', () => {
   it('zeichnet Schleifen und Verzweigungen als Klammerblöcke mit Pfaden', () => {
     const doc = docOf(main('for (int i = 0; i < 4; i++) {\n  mbot.forward(50);\n  if (mbot.getDistance() < 10) {\n    mbot.stop();\n  } else {\n    mbot.turnRight(90);\n  }\n}'))
     const selected: number[][] = []
-    const view = new BlockView({ press: (p) => selected.push(p), editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: (p) => selected.push(p), editValue: () => {}, labels: blockLabels })
     view.render(doc, [0, 0, 1], false)
     const root = view.element
     const loop = root.querySelector('.bk-loop')!
-    expect(loop.querySelector(':scope > .bk-head')!.textContent).toContain('for')
+    expect(loop.querySelector(':scope > .bk-head')!.textContent).toBe('zähle mit i von 0 bis unter 4 in Schritten von 1')
     const stmt = loop.querySelector<HTMLElement>('.bk-stmt')!
     expect(stmt.dataset.path).toBe('[0,0,0]')
     expect(stmt.dataset.botColor).toBe('fahren')
@@ -70,7 +83,7 @@ describe('Blöcke (VisuBot)', () => {
   })
   it('findet die Ablegestelle in Blöcken', () => {
     const doc = docOf(main('mbot.forward(50);\nwhile (mbot.getDistance() > 10) {\n  mbot.forward(10);\n  mbot.pause(100);\n}\nmbot.stop();'))
-    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: blockLabels })
     view.render(doc, undefined, false)
     const root = view.element
     const at = (el: Element | null, y: number, query = {}) => view.dropAt(0, y, query, el)
@@ -106,7 +119,7 @@ describe('Blöcke (VisuBot)', () => {
 
     const doc = docOf(main('for (int i = 0; i < 4; i++) {\n  mbot.forward(50);\n}'))
     const edits: [number[], number, string][] = []
-    const view = new BlockView({ press: () => {}, editValue: (p, i, t) => edits.push([p, i, t]), labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: () => {}, editValue: (p, i, t) => edits.push([p, i, t]), labels: blockLabels })
     document.body.append(view.element)
     view.element.hidden = false
     view.render(doc, undefined, false)
@@ -129,7 +142,7 @@ describe('Blöcke (VisuBot)', () => {
     expect(replaceValue(['mbot.forward(50)'], 0, 'mbot.getDistance()')).toEqual(['mbot.forward(mbot.getDistance())'])
 
     const doc = docOf(main('while (mbot.getDistance() > 10 && !mbot.isButtonA()) {\n  mbot.forward(50);\n}'))
-    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: blockLabels })
     view.render(doc, undefined, false)
     const root = view.element
     const bool = root.querySelector<HTMLElement>('.tk-sensor.tk-bool')!
@@ -146,7 +159,7 @@ describe('Blöcke (VisuBot)', () => {
   })
   it('schreibt das Gruppensymbol nie in den Befehl', () => {
     const doc = docOf(main('mbot.forward(50);\nwhile (true) {\n  mbot.pause(100);\n}'))
-    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: blockLabels })
     view.render(doc, undefined, false)
     view.render(doc, undefined, false)
     expect(doc.elements[0].textLines).toEqual(['mbot.forward(50)'])
