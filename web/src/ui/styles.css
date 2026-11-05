@@ -6517,3 +6517,220 @@ button.danger-text:not(:disabled) {
     transition: none;
   }
 }
+
+/* VisuBot: Struktogramm als Blöcke (blockView.ts), Aussehen wie der Block-Modus von VisuMicro.
+   Farben des Struktogramms: Anweisung gelb, Schleife rosa, Verzweigung/Fallauswahl blau; Befehle des mBot2
+   zusätzlich mit dem Streifen ihrer Gruppe. Schwarze Schrift, weiße Felder für Werte. */
+.diagram-tools .blocks-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  margin-inline-start: 6px;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+.diagram-tools .blocks-toggle[hidden] {
+  display: none;
+}
+@container (max-width: 520px) {
+  .diagram-tools .blocks-toggle span + span {
+    display: none;
+  }
+}
+.blocks-view {
+  --bk-stmt: #f2b100;
+  --bk-loop: #ec5fa6;
+  --bk-if: #3b9cf0;
+  --bk-plain: #9aa3ae;
+  --bk-bump: 6px;
+  --bk-workspace: #fafafa;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-gutter: stable;
+  background: var(--bk-workspace);
+  padding: 10px 16px 32px;
+  font: 500 calc(15px * var(--bk-zoom, 1)) / 1.5 system-ui, -apple-system, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.blocks-view[hidden] {
+  display: none;
+}
+.bk-hint {
+  margin: 0 0 6px;
+  max-width: 44em;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.bk-stack {
+  padding-top: 14px;
+}
+.bk {
+  --bk-color: var(--bk-stmt);
+  --bk-c: color-mix(in srgb, var(--bk-color) 42%, #fff);
+  --bk-e: color-mix(in srgb, var(--bk-color) 80%, #000);
+  position: relative;
+  width: fit-content;
+  min-width: 12em;
+  max-width: 100%;
+  border: 1px solid var(--bk-e);
+  border-radius: 5px;
+  background: var(--bk-c);
+  color: #000;
+  cursor: pointer;
+}
+.bk-loop { --bk-color: var(--bk-loop); }
+.bk-if { --bk-color: var(--bk-if); }
+.bk-hat { --bk-color: var(--bk-stmt); cursor: default; }
+/* Einstellung „Blöcke farbig“ aus: alle Blöcke grau */
+:root.no-code-scopes .bk { --bk-color: var(--bk-plain); }
+/* mBot2-Befehle: Streifen links in der Farbe der Gruppe, der Block selbst bleibt gelb */
+:root:not(.no-code-scopes) .bk[data-bot-color] {
+  border-left: 6px solid var(--bot);
+}
+/* gestapelte Blöcke liegen aneinander; die Nase des oberen greift in den unteren */
+.bk + .bk,
+.bk + .bk-empty,
+.bk-empty + .bk {
+  margin-top: -1px;
+}
+.bk-simple::after,
+.bk-c::after,
+.bk-hat::after,
+.bk-c > .bk-head:first-child::after,
+.bk-clause::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  left: 12px;
+  bottom: calc(-1 * var(--bk-bump) - 1px);
+  width: 1.6em;
+  height: var(--bk-bump);
+  background: var(--bk-c);
+  border: 1px solid var(--bk-e);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+}
+.bk-c > .bk-head:first-child::after,
+.bk-clause::after {
+  left: calc(16px + 12px);
+}
+.bk-head,
+.bk-foot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--bk-bump) - 1px) 10px 4px;
+}
+.bk-foot {
+  min-height: calc(var(--bk-bump) + 10px);
+  padding-top: var(--bk-bump);
+}
+.bk-line {
+  white-space: pre-wrap;
+}
+/* Hut-Block: runder Kopf wie „Wenn die grüne Flagge angeklickt“ */
+.bk-hat {
+  border-top-left-radius: 22px;
+  border-top-right-radius: 10px;
+}
+.bk-hat > .bk-head {
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 1em;
+  padding-top: 8px;
+  padding-left: 14px;
+}
+.bk-hat::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -9px;
+  width: 7em;
+  height: 18px;
+  border: 1px solid var(--bk-e);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: var(--bk-c);
+  clip-path: inset(0 0 8px 0);
+}
+/* Maul eines C-Blocks: links der Arm in Blockfarbe, innen die Arbeitsfläche */
+.bk-body {
+  margin-left: 16px;
+  margin-right: -1px;
+  padding-right: 2em;
+  min-height: 1em;
+  background: var(--bk-workspace);
+  border: 1px solid var(--bk-e);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  color: var(--text);
+}
+.bk-body > :first-child {
+  margin-top: -1px;
+}
+/* break: Abschluss ohne Nase unten */
+.bk-cap {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 10px;
+}
+/* Aufruf: senkrechte Linien wie der Kasten im Struktogramm */
+.bk-call > .bk-head {
+  margin: 0 6px;
+  border-inline: 2px solid var(--bk-e);
+}
+/* leerer Platz (Platzhalter): gestrichelt */
+.bk-empty {
+  width: fit-content;
+  min-width: 12em;
+  margin: 6px 8px;
+  padding: 2px 10px;
+  border: 1.5px dashed var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+.bk .tk-kw {
+  font-weight: 700;
+}
+/* Werte: weiße, runde Felder – hier wird man sie später direkt ändern */
+.bk .tk-lit,
+.bk .tk-str {
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #fff;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+/* Sensoren: türkiser Baustein wie in der Palette */
+.bk .tk-sensor {
+  padding: 0 6px;
+  border: 1px solid color-mix(in srgb, #0891b2 80%, #000);
+  border-radius: 999px;
+  background: color-mix(in srgb, #0891b2 35%, #fff);
+}
+:root.no-code-scopes .bk .tk-sensor {
+  border-color: #6b7280;
+  background: #e5e7eb;
+}
+/* Auswahl und laufender Schritt der Simulation */
+.bk-sel {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  z-index: 2;
+}
+.bk-exec {
+  outline: 3px solid var(--text);
+  outline-offset: 1px;
+  box-shadow: 0 0 12px 4px var(--accent-glow);
+  z-index: 2;
+}
+.blocks-view.bk-simulating .bk,
+.blocks-view.bk-simulating .bk-empty {
+  cursor: default;
+}

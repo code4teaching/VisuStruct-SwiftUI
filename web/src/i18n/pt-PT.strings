@@ -301,6 +301,13 @@
 "web_visubot_world_visubot_hint" = "VisuBot: programar o robô mBot2, com lições e tarefas próprias. Podes mudar a qualquer momento na roda dentada.";
 "web_visubot_connect" = "Ligar o mBot2 real";
 "web_visubot_upload_button" = "Transferir";
+"web_visubot_blocks" = "Blocos";
+"web_visubot_blocks_title" = "Mostrar o diagrama como blocos";
+"web_visubot_blocks_back" = "Diagrama";
+"web_visubot_blocks_back_title" = "Voltar ao diagrama";
+"web_visubot_blocks_start" = "Quando o programa começa";
+"web_visubot_blocks_empty" = "Aqui vai um bloco";
+"web_visubot_blocks_hint" = "O mesmo programa em blocos. Clica num bloco para o selecionar; um clique na paleta acrescenta um novo a seguir.";
 "web_visubot_upload_title" = "Transferir o programa para o mBot2";
 "web_visubot_upload_step1" = "Liga o mBot2 com o cabo USB e acende-o. Só funciona no Chrome ou no Edge.";
 "web_visubot_upload_step2" = "Clica em “Transferir agora” e escolhe “USB Serial”. O mBot2 guarda o teu programa e reinicia.";

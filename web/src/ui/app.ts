@@ -30,6 +30,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { CodePanel } from './codePanel'
+import { BlockView } from './blockView'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
@@ -226,6 +227,8 @@ const liveWidthKey = 'visustruct.live.width'
 const previewKey = 'visustruct.robotPreview.open'
 /** „Programmieren groß“: Code ist die Hauptfläche, das Struktogramm schmal (Breite merken). */
 const codeMainKey = 'visustruct.codeMain'
+/** VisuBot: Struktogramm als Blöcke zeigen (`1`). */
+const blocksKey = 'visustruct.visubot.blocks'
 /** Selbst gezogene Breite der Elemente (leer = automatisch). */
 const paletteWidthKey = 'visustruct.palette.width'
 const editorWidthKey = 'visustruct.editor.width'
@@ -315,6 +318,10 @@ export class App {
   private sim!: SimulationPanel
   private simButton!: HTMLButtonElement
   private pseudocodeBox!: HTMLInputElement
+  /** VisuBot: dasselbe Struktogramm als Scratch-artige Blöcke (statt der Kästen). */
+  private blockMode = false
+  private blocks?: BlockView
+  private blocksButton!: HTMLButtonElement
   private coding = false
   private code!: CodePanel
   private codeButton!: HTMLButtonElement
@@ -568,6 +575,7 @@ export class App {
         <button class="mbot-link" data-action="mbot-link" hidden></button>
         <button class="mbot-upload" data-action="mbot-upload" hidden data-tip="${e(t('web_visubot_upload_title'))}" aria-label="${e(t('web_visubot_upload_title'))}">⬆ ${e(t('web_visubot_upload_button'))}</button>
         <button class="sim-toggle" data-action="simulate" aria-pressed="false" data-tip="${e(t('web_simulation_start_title'))}" aria-label="${e(t('web_simulation_start'))}">${icons.play}<span>${e(t('web_simulation_start'))}</span></button>
+        <button class="blocks-toggle" data-action="blocks" aria-pressed="false" hidden></button>
         <label class="check pseudocode-toggle" data-tip="${e(t('codegen_pseudocode_toggle'))}"><input type="checkbox" data-action="pseudocode" /><span>${e(t('web_pseudocode'))}</span></label>
         <button class="icon editor-swap" data-action="swap-main" aria-pressed="false">⇄</button>
         <button class="icon learn-hide editor-hide" data-action="hide-editor" title="${e(t('web_editor_hide'))}" aria-label="${e(t('web_editor_hide'))}">${sidebarIcon}</button>
@@ -595,6 +603,20 @@ export class App {
     const $ = <T extends Element>(s: string) =>
       (this.root.querySelector(s) ?? this.topbar.querySelector(s) ?? this.bottombar.querySelector(s)) as T
     this.canvasHost = $('.canvas')
+    this.blocks = new BlockView({
+      select: (path) => {
+        if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+        this.selected = path
+        this.render()
+      },
+      labels: {
+        start: t('web_visubot_blocks_start'),
+        else: 'else',
+        empty: t('web_visubot_blocks_empty'),
+        hint: t('web_visubot_blocks_hint'),
+      },
+    })
+    this.canvasHost.after(this.blocks.element)
     this.inspector = $('.inspector')
     this.captionInput = $('.caption')
     this.undoButton = $('[data-action=undo]')
@@ -604,6 +626,8 @@ export class App {
     this.simButton = $('[data-action=simulate]')
     // Pseudocode (z. B. „Wasserkocher einschalten“): kein Java, die Simulation fragt die Bedingungen.
     this.pseudocodeBox = $<HTMLInputElement>('[data-action=pseudocode]')
+    this.blocksButton = $<HTMLButtonElement>('[data-action=blocks]')
+    this.blocksButton.addEventListener('click', () => this.setBlockMode(!this.blockMode, true))
     this.pseudocodeBox.addEventListener('change', () => this.commit({ ...this.doc, pseudocode: this.pseudocodeBox.checked || undefined }))
     $('[data-action=hide-editor]').addEventListener('click', () => this.setEditorHidden(true))
     $('[data-action=swap-main]').addEventListener('click', () => this.setCodeMain(!this.codeMain))
@@ -734,6 +758,9 @@ export class App {
 
     // VisuBot: fertige mBot2-Kästen unter den normalen Elementen.
     const robotOn = visuBotEnabled()
+    // Blöcke gibt es (vorerst) nur in VisuBot
+    this.blocksButton.hidden = !robotOn
+    this.setBlockMode(robotOn && storedValue(blocksKey) === '1', false)
     this.root.classList.toggle('visubot-mode', robotOn)
     this.shell.classList.toggle('robot-world', robotOn)
     if (!robotOn) this.preview.pause()
@@ -1410,6 +1437,7 @@ export class App {
     this.overlay = el('g', { class: 'drop-overlay' })
     this.svg.append(this.overlay)
     this.canvasHost.replaceChildren(this.svg)
+    if (this.blockMode) this.blocks?.render(this.doc, this.simulating ? this.simPath : this.selected, this.simulating, z)
 
     if (document.activeElement !== this.captionInput) this.captionInput.value = this.doc.caption
     this.undoButton.disabled = this.simulating || this.undoStack.length === 0
@@ -1623,6 +1651,21 @@ export class App {
       // Inspector nicht neu aufbauen: ein Klick auf einen seiner Knöpfe soll sein Ziel behalten.
       this.renderDiagramOnly()
     })
+  }
+
+  /** VisuBot: Struktogramm als Blöcke (`on`) oder als Kästen; `remember` speichert die Wahl. */
+  private setBlockMode(on: boolean, remember: boolean) {
+    this.blockMode = on
+    if (remember) storeValue(blocksKey, on ? '1' : '0')
+    this.root.classList.toggle('block-mode', on)
+    this.canvasHost.hidden = on
+    if (this.blocks) this.blocks.element.hidden = !on
+    // Der Knopf nennt, wohin er führt (wie in VisuMicro): in den Blöcken zurück zum Struktogramm
+    const label = t(on ? 'web_visubot_blocks_back' : 'web_visubot_blocks')
+    this.blocksButton.innerHTML = `<span aria-hidden="true">${on ? '▤' : '🧩'}</span><span>${e(label)}</span>`
+    this.blocksButton.setAttribute('aria-pressed', String(on))
+    this.blocksButton.dataset.tip = t(on ? 'web_visubot_blocks_back_title' : 'web_visubot_blocks_title')
+    if (remember) this.render()
   }
 
   /** Beim Tippen: nur das Diagramm neu zeichnen, damit das Textfeld den Fokus behält. */
@@ -2039,6 +2082,7 @@ export class App {
   private scrollToSimPath() {
     const path = this.simPath
     if (!this.simulating || !path) return
+    if (this.blockMode) return this.blocks?.scrollTo(path)
     const node = this.flat.find((n) => samePath(n.idPath, path))
     if (!node) return
     const host = this.canvasHost
@@ -2557,7 +2601,8 @@ export class App {
     }
     d.ghost!.style.transform = `translate(${e.clientX + 12}px, ${e.clientY + 12}px)`
     this.autoScroll(e.clientX, e.clientY)
-    const p = this.svgPoint(e.clientX, e.clientY)
+    // Blöcke: Ablegen kommt in Stufe 2; bis dahin fügt ein Klick in der Palette ein.
+    const p = this.blockMode ? undefined : this.svgPoint(e.clientX, e.clientY)
     d.target = p ? this.dropTargetAt(p.x, p.y, d.source) : undefined
     this.showDropTarget(d.target)
   }
