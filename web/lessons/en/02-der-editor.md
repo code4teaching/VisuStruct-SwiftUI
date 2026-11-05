@@ -22,7 +22,7 @@ The structure chart editor has several areas. Move the mouse over a blue word or
 - **Below it, the [tools](#zeige-werkzeuge)** above the elements and the structure chart: Undo, Cut, Copy, Paste, Delete, Export, Code and Simulation. The buttons only show icons. Hold the mouse over one and its name appears.
 - **On the left, the [Elements](#zeige-elemente):** Here are all the building blocks you can drag into the structure chart. Some people also call this area the palette.
 - **In the middle, the [structure chart](#zeige-struktogramm):** A new diagram contains only an empty placeholder, marked with **ø**.
-- **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element.
+- **At the bottom, the [Object Inspector](#zeige-objektinspektor):** Here you edit the text of the selected element. If it is too small or too big, drag the line with the grip above it up or down.
 
 > You can collapse this learning area at any time with the [sidebar icon](#zeige-lernen) at the top of this area. Then only the slim “🎓 Learn” strip stays on the left; click it to open the area again. It stays open next to the editor so you can try out right away what you read. In the same way there is the [📁 Files](#zeige-dateien) column on the left for your saved programs (lesson 3) and the [Code](#zeige-codelive) area on the right for Java (from lesson 4).
 
@@ -49,6 +49,8 @@ Grabbing boxes and dragging them around, just like you are doing now, has a fanc
 ## Type text
 
 Click a box. It gets a blue outline, and its text appears in the Object Inspector below the diagram. Whatever you type there shows up in the diagram straight away.
+
+It is quicker to **double-click** the box, or **double-tap** it on a tablet. Then you type the text right in the structure chart. **Enter** takes it, **Esc** cancels. With the keyboard, select the box and press **Enter**.
 
 The box from the Elements area is called a **Statement**. At the top of the Object Inspector you choose what sort of statement it should be:
 

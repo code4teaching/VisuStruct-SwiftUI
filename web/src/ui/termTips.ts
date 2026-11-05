@@ -154,10 +154,12 @@ export const uiTargets: Record<string, string> = {
   lernen: '.learn .learn-hide',
   code: '[data-action=code]',
   simulation: '[data-action=simulate]',
+  // Nur in VisuBot: Knopf „Blöcke“ in den Werkzeugen.
+  bloecke: '[data-action=blocks]',
 }
 
 /** Zeiger auf diese Bereiche brauchen die Struktogramm-Spalte. */
-const editorTargets = new Set(['editor', 'werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'loeschen', 'exportieren', 'code', 'simulation'])
+const editorTargets = new Set(['editor', 'werkzeuge', 'elemente', 'struktogramm', 'objektinspektor', 'reiter', 'titel', 'rueckgaengig', 'loeschen', 'exportieren', 'code', 'simulation', 'bloecke'])
 
 /** Zeiger auf diese Bereiche brauchen die offene Spalte „Code“ (die schmale Leiste allein reicht nicht). */
 const liveCodeTargets = new Set(['ausfuehren', 'konsole', 'einzelschritt'])

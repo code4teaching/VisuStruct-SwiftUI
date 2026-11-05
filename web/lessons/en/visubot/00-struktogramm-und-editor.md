@@ -49,15 +49,18 @@ The [structure chart editor](#zeige-editor) has several areas. Move the mouse ov
 
 - **On the left the [Elements](#zeige-elemente):** all building blocks to drag in. The group **mBot2 commands** has the commands for the mBot2 such as **drive forward** and **turn right**.
 - **In the middle the [structure chart](#zeige-struktogramm):** a new diagram only contains an empty placeholder, shown as **ø**.
-- **Below it the [Object Inspector](#zeige-objektinspektor):** here you change the text of the selected box, for example `mbot.forward(30)` instead of `mbot.forward()`.
+- **Below it the [Object Inspector](#zeige-objektinspektor):** here you change the text of the selected box, for example `mbot.forward(30)` instead of `mbot.forward()`. You can drag the line with the grip above it up or down.
 - **Above it the [tools](#zeige-werkzeuge):** undo, copy, delete, export and, on the right, the **simulation**.
 
 This is how you build:
 
 - **Insert:** drag an element from the Elements onto the structure chart. On the placeholder **ø** it replaces it. On the top half of a box it goes before it, on the bottom half after it. A blue line shows you where it lands.
+- **Change text:** double-click a box, or double-tap it on a tablet. Then you type right in the structure chart, **Enter** takes it.
 - **Move:** drag a box to another place.
 - **Delete:** click the box and press Delete, or click the [trash can](#zeige-loeschen).
 - **Undo:** Ctrl+Z, on a Mac ⌘Z.
+
+> 🧩 **Prefer blocks like in Scratch?** Click [Blocks](#zeige-bloecke) in the tools. Then you see the same program as blocks that snap together. You type numbers right into the white fields and drag sensors in. **Structure chart** takes you back. It stays the same program, so you can switch at any time.
 
 ::: übung vb-erster-plan
 titel: Round the corner

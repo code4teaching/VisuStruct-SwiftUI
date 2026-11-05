@@ -49,15 +49,18 @@ Der [Struktogramm-Editor](#zeige-editor) besteht aus mehreren Bereichen. Fahre m
 
 - **Links die [Elemente](#zeige-elemente):** alle Bausteine zum Hineinziehen. In der Gruppe **mBot2-Befehle** liegen die Befehle für den mBot2 wie **fahre vor** und **drehe rechts**.
 - **In der Mitte das [Struktogramm](#zeige-struktogramm):** Ein neues Diagramm enthält nur einen leeren Platzhalter, erkennbar an **ø**.
-- **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier änderst du den Text des ausgewählten Kastens, zum Beispiel `mbot.forward(30)` statt `mbot.forward()`.
+- **Unten der [Objektinspektor](#zeige-objektinspektor):** Hier änderst du den Text des ausgewählten Kastens, zum Beispiel `mbot.forward(30)` statt `mbot.forward()`. Die Linie mit dem Griff darüber kannst du nach oben oder unten ziehen.
 - **Darüber die [Werkzeuge](#zeige-werkzeuge):** Rückgängig, Kopieren, Löschen, Exportieren und rechts die **Simulation**.
 
 So baust du:
 
 - **Einfügen:** Zieh ein Element aus den Elementen auf das Struktogramm. Auf den Platzhalter **ø** ersetzt es ihn. Auf die obere Hälfte eines Kastens kommt es davor, auf die untere Hälfte dahinter. Eine blaue Linie zeigt dir, wo es landet.
+- **Text ändern:** Doppelklick auf einen Kasten, auf dem Tablet Doppeltipp. Dann tippst du direkt im Struktogramm, **Enter** übernimmt.
 - **Verschieben:** einen Kasten an eine andere Stelle ziehen.
 - **Löschen:** Kasten anklicken und Entf drücken oder auf den [Mülleimer](#zeige-loeschen) klicken.
 - **Rückgängig:** Strg+Z, am Mac ⌘Z.
+
+> 🧩 **Lieber Blöcke wie in Scratch?** Klicke in den Werkzeugen auf [Blöcke](#zeige-bloecke). Dann siehst du dasselbe Programm als Blöcke, die du zusammensteckst. Zahlen tippst du direkt in die weißen Felder, Sensoren ziehst du hinein. Mit **Struktogramm** kommst du zurück. Es bleibt dasselbe Programm, du kannst jederzeit wechseln.
 
 ::: übung vb-erster-plan
 titel: Um die Ecke
