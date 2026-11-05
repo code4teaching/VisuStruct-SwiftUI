@@ -23,6 +23,7 @@ const e=`/* Teksty dostępne tylko w wersji webowej. Wszystko inne pochodzi z pl
 "web_tabs_label" = "Diagramy";
 "web_status_modified" = "zmieniony";
 "web_inspector_title" = "Właściwości";
+"web_inspector_resize" = "Zmień wysokość inspektora obiektów: przeciągnij lub przesuń linię w górę lub w dół (dwuklik: domyślnie)";
 "web_inspector_help_drop" = "Przeciągnij elementy z palety na kafelek: góra = przed, dół = za, na „ø“ = zastąp. Istniejące elementy można przesuwać myszą.";
 "web_inspector_help_files" = "Pliki można też upuścić w oknie.";
 "web_case_name" = "Nazwa przypadku";

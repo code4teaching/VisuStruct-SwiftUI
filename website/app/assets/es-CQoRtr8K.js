@@ -23,6 +23,7 @@ const e=`/* Textos que solo existen en la versión web. Todo lo demás procede d
 "web_tabs_label" = "Diagramas";
 "web_status_modified" = "modificado";
 "web_inspector_title" = "Propiedades";
+"web_inspector_resize" = "Cambiar la altura del inspector de objetos: arrastra o desliza la línea hacia arriba o abajo (doble clic: estándar)";
 "web_inspector_help_drop" = "Arrastra elementos de la paleta sobre una pieza: arriba = antes, abajo = después, sobre “ø” = reemplazar. Los elementos existentes se pueden mover con el ratón.";
 "web_inspector_help_files" = "También puedes soltar archivos en la ventana.";
 "web_case_name" = "Nombre del caso";
