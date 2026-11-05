@@ -23,6 +23,7 @@ const e=`/* Textes propres à la version web. Tout le reste provient des Localiz
 "web_tabs_label" = "Diagrammes";
 "web_status_modified" = "modifié";
 "web_inspector_title" = "Propriétés";
+"web_inspector_resize" = "Modifier la hauteur de l’inspecteur d’objets : faire glisser la ligne vers le haut ou le bas (double-clic : par défaut)";
 "web_inspector_help_drop" = "Glissez des éléments de la palette sur une tuile : en haut = avant, en bas = après, sur « ø » = remplacer. Les éléments existants se déplacent à la souris.";
 "web_inspector_help_files" = "Vous pouvez aussi déposer des fichiers dans la fenêtre.";
 "web_case_name" = "Nom du cas";

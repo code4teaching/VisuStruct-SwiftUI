@@ -799,8 +799,60 @@ button.danger {
 .sim-resizer:focus-visible {
   outline: none;
 }
+/*
+ * Linie zwischen Diagramm und Objektinspektor: liegt auf dem oberen Rand des Objektinspektors, ist für Finger
+ * 20 px hoch und zeigt einen kleinen Griff, damit man sie auf dem Tablet findet.
+ */
+.insp-resizer {
+  grid-area: insp;
+  align-self: start;
+  height: 20px;
+  margin-top: -10px;
+  z-index: 5;
+  cursor: row-resize;
+  touch-action: none;
+  position: relative;
+}
+.insp-resizer::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  top: 9px;
+  height: 2px;
+  background: transparent;
+  transition: background 0.15s;
+}
+.insp-resizer::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 36px;
+  height: 6px;
+  margin-left: -18px;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.15s;
+}
+.insp-resizer:hover::before,
+.insp-resizer:focus-visible::before,
+.shell.resizing .insp-resizer::before,
+.insp-resizer:hover::after,
+.insp-resizer:focus-visible::after,
+.shell.resizing .insp-resizer::after {
+  background: var(--accent);
+}
+.insp-resizer:focus-visible {
+  outline: none;
+}
+.app.insp-sized .inspector,
+.app.insp-sized.coding .inspector {
+  height: var(--insp-height);
+  max-height: none;
+}
 .app.simulating .palette,
-.app.simulating .inspector {
+.app.simulating .inspector,
+.app.simulating .insp-resizer {
   display: none;
 }
 .app.simulating .simpanel {
@@ -4979,25 +5031,45 @@ button.danger-text:not(:disabled) {
   flex: 1;
 }
 .vo-hsplit {
-  flex: 0 0 6px;
-  margin: -3px 0;
+  flex: 0 0 20px;
+  margin: -10px 0;
   position: relative;
   z-index: 5;
   cursor: row-resize;
   touch-action: none;
 }
-.vo-hsplit::after {
+.vo-hsplit::before {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
-  top: 2px;
+  top: 9px;
   height: 2px;
   background: transparent;
 }
+/* Griff in der Mitte: zeigt auf dem Tablet, wo man den Objektinspektor nach oben oder unten wischt. */
+.vo-hsplit::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 36px;
+  height: 6px;
+  margin-left: -18px;
+  border-radius: 3px;
+  background: var(--border);
+}
+.vo-hsplit:hover::before,
+.vo-hsplit:focus-visible::before,
+.vo-hsplit.dragging::before,
 .vo-hsplit:hover::after,
-.vo-hsplit:focus-visible::after {
+.vo-hsplit:focus-visible::after,
+.vo-hsplit.dragging::after {
   background: var(--accent);
+}
+.vo-dock.collapsed + .vo-hsplit::after,
+.vo-hsplit:has(+ .vo-dock.collapsed)::after {
+  display: none;
 }
 .vo-hsplit:focus-visible {
   outline: none;

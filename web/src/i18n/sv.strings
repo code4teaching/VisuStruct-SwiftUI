@@ -23,6 +23,7 @@
 "web_tabs_label" = "Diagram";
 "web_status_modified" = "ändrad";
 "web_inspector_title" = "Egenskaper";
+"web_inspector_resize" = "Ändra objektinspektörens höjd: dra eller svep linjen uppåt eller nedåt (dubbelklick: standard)";
 "web_inspector_help_drop" = "Dra element från paletten till en ruta: överst = före, nederst = efter, på ”ø” = ersätt. Befintliga element kan flyttas med musen.";
 "web_inspector_help_files" = "Du kan också släppa filer i fönstret.";
 "web_case_name" = "Namn på case";

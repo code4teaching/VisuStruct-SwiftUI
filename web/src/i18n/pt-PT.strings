@@ -118,6 +118,7 @@
 "web_learn_pap_legend_para" = "Entrada ou saída";
 "web_learn_review" = "Rever";
 "web_learn_terms" = "Termos técnicos";
+"web_inspector_resize" = "Alterar a altura do inspetor de objetos: arrastar ou deslizar a linha para cima ou para baixo (duplo clique: padrão)";
 "web_learn_resize" = "Alterar a largura da área de aprendizagem (duplo clique: repor)";
 "web_learn_competences_intro" = "No fim desta lição consigo …";
 "web_learn_rating_sun" = "consigo com segurança";

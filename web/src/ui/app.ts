@@ -241,6 +241,8 @@ const collapsedGroupsKey = 'visustruct.visubot.collapsedGroups'
 const previewStackedKey = 'visustruct.robotPreview.stacked'
 const previewWidthKey = 'visustruct.robotPreview.width'
 const simWorkKey = 'visustruct.simulation.diagram'
+/** Selbst gezogene Höhe des Objektinspektors unter dem Diagramm in px (leer = Standard). */
+const inspectorHeightKey = 'visustruct.inspector.height'
 const previewHeightKey = 'visustruct.robotPreview.height'
 const editorHiddenKey = 'visustruct.editor.hidden'
 const compactPaletteKey = 'visustruct.palette.compact'
@@ -662,7 +664,7 @@ export class App {
         if (this.simulating && this.liveCoding) this.live.showTranscript(transcript)
       },
     )
-    this.root.append(this.sim.element, this.simResizer())
+    this.root.append(this.sim.element, this.simResizer(), this.inspectorResizer())
     if (visuBotEnabled()) {
       this.visuBot ??= new VisuBotView()
       this.sim.setRobot(this.visuBot)
@@ -1968,6 +1970,60 @@ export class App {
       e.preventDefault()
       apply(work() + sign() * step, true)
     })
+    return bar
+  }
+
+  /**
+   * Waagerechte Linie zwischen Diagramm und Objektinspektor: mit Maus, Finger (wischen) oder Pfeiltasten
+   * nach oben oder unten ziehen ändert die Höhe des Objektinspektors (Holger 2026-11-05). Doppelklick = Standard.
+   */
+  private inspectorResizer(): HTMLElement {
+    const label = t('web_inspector_resize')
+    const bar = h('div', { class: 'insp-resizer', role: 'separator', 'aria-orientation': 'horizontal', tabindex: '0', title: label, 'aria-label': label })
+    const root = this.root
+    const clamp = (height: number) => {
+      const total = root.getBoundingClientRect().height
+      return Math.round(Math.max(48, total > 0 ? Math.min(height, total - 160) : height))
+    }
+    const apply = (height: number | undefined, remember: boolean) => {
+      if (height === undefined) {
+        root.classList.remove('insp-sized')
+        root.style.removeProperty('--insp-height')
+      } else {
+        root.classList.add('insp-sized')
+        root.style.setProperty('--insp-height', `${clamp(height)}px`)
+      }
+      if (remember) storeValue(inspectorHeightKey, height === undefined ? '' : String(clamp(height)))
+    }
+    const current = () => this.inspector.getBoundingClientRect().height
+    bar.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return
+      e.preventDefault()
+      bar.setPointerCapture(e.pointerId)
+      const startY = e.clientY
+      const startHeight = current()
+      this.shell.classList.add('resizing')
+      const move = (ev: PointerEvent) => apply(startHeight - (ev.clientY - startY), false)
+      const up = (ev: PointerEvent) => {
+        bar.removeEventListener('pointermove', move)
+        bar.removeEventListener('pointerup', up)
+        bar.removeEventListener('pointercancel', up)
+        this.shell.classList.remove('resizing')
+        apply(startHeight - (ev.clientY - startY), true)
+      }
+      bar.addEventListener('pointermove', move)
+      bar.addEventListener('pointerup', up)
+      bar.addEventListener('pointercancel', up)
+    })
+    bar.addEventListener('dblclick', () => apply(undefined, true))
+    bar.addEventListener('keydown', (e) => {
+      const step = e.key === 'ArrowUp' ? 20 : e.key === 'ArrowDown' ? -20 : 0
+      if (!step) return
+      e.preventDefault()
+      apply(current() + step, true)
+    })
+    const saved = Number(storedValue(inspectorHeightKey))
+    if (saved > 0) apply(saved, false)
     return bar
   }
 

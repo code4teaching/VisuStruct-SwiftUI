@@ -120,6 +120,7 @@
 "web_learn_pap_legend_para" = "Input or output";
 "web_learn_review" = "Review";
 "web_learn_terms" = "Technical terms";
+"web_inspector_resize" = "Change the height of the object inspector: drag or swipe the line up or down (double-click: default)";
 "web_learn_resize" = "Change the width of the learning area (double-click: reset)";
 "web_learn_competences_intro" = "At the end of this lesson I can …";
 "web_learn_rating_sun" = "I can do this confidently";

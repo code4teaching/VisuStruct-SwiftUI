@@ -23,6 +23,7 @@ const e=`/* Tekster, der kun findes i webversionen. Alt andet kommer fra appens 
 "web_tabs_label" = "Diagrammer";
 "web_status_modified" = "ændret";
 "web_inspector_title" = "Egenskaber";
+"web_inspector_resize" = "Skift højden på objektinspektøren: træk eller stryg linjen op eller ned (dobbeltklik: standard)";
 "web_inspector_help_drop" = "Træk elementer fra paletten over på en flise: øverst = før, nederst = efter, på »ø« = erstat. Eksisterende elementer kan flyttes med musen.";
 "web_inspector_help_files" = "Du kan også slippe filer i vinduet.";
 "web_case_name" = "Navn på case";

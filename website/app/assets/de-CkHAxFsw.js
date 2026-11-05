@@ -120,6 +120,7 @@ const e=`/* Texte, die es nur in der Web-Version gibt. Alle anderen kommen aus d
 "web_learn_pap_legend_para" = "Ein- oder Ausgabe";
 "web_learn_review" = "Nachlesen";
 "web_learn_terms" = "Fachbegriffe";
+"web_inspector_resize" = "Höhe des Objektinspektors ändern: Linie nach oben oder unten ziehen oder wischen (Doppelklick: Standard)";
 "web_learn_resize" = "Breite des Lernbereichs ändern (Doppelklick: zurücksetzen)";
 "web_learn_competences_intro" = "Am Ende dieser Lektion kann ich …";
 "web_learn_rating_sun" = "kann ich sicher";

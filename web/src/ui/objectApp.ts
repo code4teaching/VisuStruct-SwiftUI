@@ -462,13 +462,15 @@ export class ObjectApp {
       this.inspector.style.maxHeight = 'none'
     }
     split.addEventListener('pointerdown', (ev) => {
-      if (dock.classList.contains('collapsed')) return
+      if (dock.classList.contains('collapsed') || ev.button !== 0) return
       ev.preventDefault()
       split.setPointerCapture(ev.pointerId)
       const startY = ev.clientY
       const startH = this.inspector.offsetHeight
+      split.classList.add('dragging')
       const move = (m: PointerEvent) => setHeight(startH - (m.clientY - startY))
       const up = () => {
+        split.classList.remove('dragging')
         split.removeEventListener('pointermove', move)
         split.removeEventListener('pointerup', up)
         split.removeEventListener('pointercancel', up)
