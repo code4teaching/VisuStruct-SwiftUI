@@ -1,5 +1,6 @@
 import { inline } from '../learn/markdown'
 import { bombParts, click, clickButton, parseLayoutPicture, parseSwingWindow, startState, type ClickStep, type RoundGame, type SwingWindow } from '../learn/roundGame'
+import { blockPicture } from './blockPicture'
 import { t } from './i18n'
 
 /** Rundenspiele „Wer hört zu?“, „Vertrag erfüllt?“, „Wo landet der Knopf?“, „Bombe entschärfen“ und „Wer ist dran?“ im Lernbereich. */
@@ -19,7 +20,8 @@ function rich(tag: string, attrs: Record<string, string>, markdown: string): HTM
 
 const stepDelay = 1100
 
-export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement {
+/** `asBlocks`: Code der Runden bei „frage“ als Blöcke zeigen (Block-Lektionen für Jüngere), sonst als Java. */
+export function renderRoundGame(game: RoundGame, ludwigURL: string, asBlocks = false): HTMLElement {
   const box = h('section', { class: `learn-game learn-round-game ${game.kind}` })
   const head = h('div', { class: 'learn-game-head' })
   head.append(h('img', { src: ludwigURL, alt: '', width: '40', height: '40' }), h('strong', {}, game.title))
@@ -187,7 +189,7 @@ export function renderRoundGame(game: RoundGame, ludwigURL: string): HTMLElement
       swing = swingView(parseSwingWindow(round.code), code)
       parts.push(h('div', { class: 'learn-swing-row' }, code.element, swing.element))
       if (round.clicks.length) parts.push(h('p', { class: 'learn-swing-clicks' }, `${t('web_game_clicks')} `, ...round.clicks.flatMap((c, i) => [...(i ? [' → '] : []), h('code', {}, c)])))
-    } else if (round.code.trim()) parts.push(code.element)
+    } else if (round.code.trim()) parts.push((asBlocks && game.kind === 'frage' && blockPicture(round.code)) || code.element)
     parts.push(rich('p', { class: 'learn-game-question' }, round.question))
     const answers = h('div', { class: `learn-game-options ${game.kind === 'layout' ? 'pictures' : ''}` })
     const feedback = h('div', { class: 'learn-game-feedback', role: 'status' })
