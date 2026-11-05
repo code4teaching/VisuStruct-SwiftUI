@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://visustruct.org/" title="VisuStruct">
-    <img src="../website/assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
+    <img src="../assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
   </a>
 </p>
 

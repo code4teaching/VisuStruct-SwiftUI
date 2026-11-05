@@ -1,8 +1,0 @@
-// Tunnelsucher, nach oben. Ein Zeichen = 30 cm.
-raster: 3
-.#.#.
-.#o#.
-...#.
-.#...
-.....
-..^..

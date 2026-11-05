@@ -1,12 +1,12 @@
 <p align="center">
   <a href="https://visustruct.org/" title="VisuStruct">
-    <img src="website/assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
+    <img src="assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
   </a>
 </p>
 
 # VisuStruct (SwiftUI)
 
-Visual **Nassi–Shneiderman** structograms for **Mac, iPad, and iPhone**, and as a web app in the browser (`web/`, with VisuBot for the mBot2 robot, including a Scratch-like block view). Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
+Visual **Nassi–Shneiderman** structograms for **Mac, iPad, and iPhone**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
 
 **Localization:** The app ships a large set of UI translations (strings + Settings), with English and German treated as primary “source of truth” strings during development.
 
@@ -28,9 +28,7 @@ git clone https://github.com/code4teaching/VisuStruct-SwiftUI.git
 
 ## Web app and website
 
-The web app in `web/` (VisuStruct, VisuBot, VisuObject, VisuFlow) is built with `npm run build:site` into `website/app/`. Since 2026-11-03 it is published on **[visucode.de](https://visucode.de)**, one subdomain per world: [visustruct.visucode.de](https://visustruct.visucode.de), [visubot.visucode.de](https://visubot.visucode.de), [visuobject.visucode.de](https://visuobject.visucode.de). The website itself lives in a separate GitLab repository (`visucode/website`); its script `app-aktualisieren.sh` copies the built app from here, and a push to its `main` branch deploys it.
-
-The workflow **Webseite veröffentlichen** (`.github/workflows/deploy-website.yml`) for the old site visustruct.org is no longer used for new releases.
+This repository contains only the SwiftUI app (iPad, iPhone, Mac). The web app (VisuStruct, VisuBot, VisuObject, VisuFlow), its lessons and the websites moved on 2026-11-05 to GitLab (`gitlab.lgsit.de/visucode/visustruct-web` and `visucode/website`) and are published on **[visucode.de](https://visucode.de)**.
 
 ## Changelog / release notes
 
