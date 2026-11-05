@@ -318,6 +318,11 @@
 "web_visubot_blocks_count_above" = "até acima de";
 "web_visubot_blocks_count_step" = "em passos de";
 "web_visubot_blocks_repeat" = "repetir";
+"web_visubot_blocks_if" = "se";
+"web_visubot_blocks_else" = "senão";
+"web_visubot_blocks_while" = "enquanto";
+"web_visubot_blocks_endless" = "repetir sempre";
+"web_visubot_blocks_do" = "faz";
 "web_visubot_blocks_repeat_times" = "vezes";
 "web_visubot_blocks_random_from" = "número aleatório de";
 "web_visubot_blocks_random_to" = "a";

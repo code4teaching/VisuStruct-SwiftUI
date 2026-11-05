@@ -310,6 +310,8 @@ export interface BlockViewOptions {
     /** „Zufallszahl von“ [1] „bis“ [10] */
     randomFrom: string
     randomTo: string
+    /** Schlüsselwörter im Block übersetzt: `if` → „wenn“, `while` → „solange“, `endless` → „wiederhole immer“, `do` → „mache“. */
+    keywords?: Record<string, string>
   }
 }
 
@@ -573,10 +575,13 @@ export class BlockView {
         break
       }
       case ElementType.whileSchleife:
-      case ElementType.endlosschleife:
+      case ElementType.endlosschleife: {
         box.className = 'bk bk-c bk-loop'
-        box.append(this.head(lines, v), this.body(e.loopBody ?? [], [...path, 0]), this.foot([], v))
+        // Endlosschleife: Kopf nur das Schlüsselwort („wiederhole immer“)
+        const head = e.type === ElementType.endlosschleife ? this.keywordHead('endless') : this.head(lines, v)
+        box.append(head, this.body(e.loopBody ?? [], [...path, 0]), this.foot([], v))
         break
+      }
       case ElementType.doUntilSchleife:
         // Bedingung erst am Ende geprüft: oben „do“, unten „while …“ wie im Struktogramm
         box.className = 'bk bk-c bk-loop'
@@ -634,7 +639,8 @@ export class BlockView {
           row.append(this.randomWord(token, v))
           continue
         }
-        const word = this.word(token)
+        // Schlüsselwörter in der Sprache der Oberfläche (Holger 5.11.: für Jüngere „wenn“ statt „if“)
+        const word = this.word(token.kind === 'kw' ? { ...token, text: this.options.labels.keywords?.[token.text] ?? token.text } : token)
         if (v && (token.kind === 'lit' || token.kind === 'str' || (token.kind === 'var' && !token.fixed))) {
           word.dataset.value = JSON.stringify({ path: v.path, index: v.n++ })
         }
@@ -711,6 +717,13 @@ export class BlockView {
     const foot = this.head(lines, v)
     foot.className = 'bk-foot'
     return foot
+  }
+
+  private keywordHead(keyword: string): HTMLElement {
+    const head = document.createElement('div')
+    head.className = 'bk-head'
+    head.append(this.word({ kind: 'kw', text: this.options.labels.keywords?.[keyword] ?? keyword }))
+    return head
   }
 
   private clause(label: string): HTMLElement {

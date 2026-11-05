@@ -36,10 +36,10 @@ lösung: vbb-abstand-zeigen-loesung.visustruct
 
 Der mBot2 soll auf eine Wand zufahren und kurz davor anhalten. Wie weit die Wand weg ist, weiß er vorher nicht. Er muss also immer wieder messen.
 
-Dafür gibt es die **While-Schleife**. *While* heißt „solange“. Sie wiederholt ihren Inhalt, solange die Frage oben drin mit **ja** beantwortet wird. So baust du die Frage „Ist mehr als 15 cm frei?“:
+Dafür gibt es die **While-Schleife**. Im Block steht oben **solange**. Sie wiederholt ihren Inhalt, solange die Frage oben drin mit **ja** beantwortet wird. So baust du die Frage „Ist mehr als 15 cm frei?“:
 
 1. Zieh eine **While-Schleife** unter 🏁.
-2. Zieh aus **Operatoren** den Baustein **größer als** auf die Frage der Schleife.
+2. Zieh aus **Operatoren** den Baustein **größer als** auf die Frage hinter **solange**.
 3. Leg den Sensor **Abstand** in das linke Feld und tipp rechts **15** ein.
 4. Leg **fahre vor** in die Schleife.
 

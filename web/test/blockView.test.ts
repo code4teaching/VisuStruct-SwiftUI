@@ -217,3 +217,16 @@ describe('Blöcke (VisuBot)', () => {
   })
 })
 
+
+describe('Blöcke: Schlüsselwörter übersetzt', () => {
+  it('zeigt wenn/sonst/solange/wiederhole immer statt if/else/while/endless', () => {
+    const doc = docOf(main('while (true) {\n  if (mbot.getDistance() < 20) {\n    mbot.turnRight();\n  } else {\n    mbot.forward();\n  }\n}\nwhile (mbot.getDistance() > 15) {\n  mbot.forward();\n}'))
+    const keywords = { if: 'wenn', while: 'solange', endless: 'wiederhole immer', do: 'mache' }
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { ...blockLabels, else: 'sonst', keywords } })
+    view.render(doc, undefined, false)
+    const words = [...view.element.querySelectorAll('.tk-kw')].map((w) => w.textContent)
+    expect(words).toEqual(['🏁 Start', 'wiederhole immer', 'wenn', 'sonst', 'solange'])
+    // Werte bleiben anklickbar wie vorher
+    expect(view.element.querySelectorAll('[data-value]').length).toBe(5)
+  })
+})

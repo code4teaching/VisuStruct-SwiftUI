@@ -8,7 +8,7 @@ import { t } from './i18n'
 export function blockViewLabels(): BlockViewOptions['labels'] {
   return {
     start: t('web_visubot_blocks_start'),
-    else: 'else',
+    else: t('web_visubot_blocks_else'),
     empty: t('web_visubot_blocks_empty'),
     hint: t('web_visubot_blocks_hint'),
     trash: t('web_visubot_blocks_trash'),
@@ -22,6 +22,12 @@ export function blockViewLabels(): BlockViewOptions['labels'] {
     repeatTimes: t('web_visubot_blocks_repeat_times'),
     randomFrom: t('web_visubot_blocks_random_from'),
     randomTo: t('web_visubot_blocks_random_to'),
+    keywords: {
+      if: t('web_visubot_blocks_if'),
+      while: t('web_visubot_blocks_while'),
+      endless: t('web_visubot_blocks_endless'),
+      do: t('web_visubot_blocks_do'),
+    },
   }
 }
 

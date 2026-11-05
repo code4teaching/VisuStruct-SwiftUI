@@ -320,6 +320,11 @@
 "web_visubot_blocks_count_above" = "to above";
 "web_visubot_blocks_count_step" = "by";
 "web_visubot_blocks_repeat" = "repeat";
+"web_visubot_blocks_if" = "if";
+"web_visubot_blocks_else" = "else";
+"web_visubot_blocks_while" = "while";
+"web_visubot_blocks_endless" = "forever";
+"web_visubot_blocks_do" = "do";
 "web_visubot_blocks_repeat_times" = "times";
 "web_visubot_blocks_random_from" = "random number from";
 "web_visubot_blocks_random_to" = "to";
