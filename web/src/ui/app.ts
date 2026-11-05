@@ -30,7 +30,7 @@ import { createCanvasMeasure } from '../core/textMeasurement'
 import { decodeDocument, encodeDocument } from '../core/xmlCodec'
 import { DiagramRenderer, displayElement, el, flattenNodes, samePath, scopeKind } from './renderer'
 import { CodePanel } from './codePanel'
-import { BlockView, replaceValue } from './blockView'
+import { BlockView, replaceSensor, replaceValue, type BlockDrop } from './blockView'
 import { icons } from './icons'
 import { FilesPanel, type WorkspaceFile } from './filesPanel'
 import { LearnPanel, sidebarIcon, type LearnHost } from './learnPanel'
@@ -60,6 +60,8 @@ type DropTarget =
   | { kind: 'condition'; path: number[]; frame: Rect }
   /** Blöcke: verschobenes Element in den Papierkorb */
   | { kind: 'trash'; frame: Rect }
+  /** Blöcke: Sensor genau auf ein Wertfeld bzw. einen anderen Sensor */
+  | { kind: 'slot'; path: number[]; slot: 'value' | 'sensor'; index: number; frame: Rect }
 
 /**
  * Aus der Palette: neues Element (auch die VisuBot-Befehle) samt Name für das Ziehbild,
@@ -835,6 +837,8 @@ export class App {
         li.title = sensor.text
         const code = document.createElement('code')
         code.textContent = sensor.text
+        // in den Blöcken: Ja/Nein-Sensoren sechseckig, Messwerte rund (wie die Bausteine darin)
+        if (/^mbot\.is/.test(sensor.text)) code.classList.add('sensor-bool')
         li.append(document.createTextNode(label), code)
         li.addEventListener('pointerdown', (e) => this.beginDrag(e, { kind: 'sensor', text: sensor.text, label: sensor.text }))
         li.tabIndex = 0
@@ -2650,8 +2654,7 @@ export class App {
       sensor: source.kind === 'sensor' ? (path) => takesSensor.includes(elementAt(this.doc, path).type) : undefined,
     })
     if (!drop) return undefined
-    const frame = { x: 0, y: 0, width: 0, height: 0 }
-    return 'path' in drop ? { kind: drop.kind, path: drop.path, frame } : { kind: drop.kind, frame }
+    return { ...drop, frame: { x: 0, y: 0, width: 0, height: 0 } }
   }
 
   private makeGhost(source: DragSource): HTMLElement {
@@ -2659,6 +2662,7 @@ export class App {
     g.className = 'drag-ghost'
     if (source.kind === 'palette' || source.kind === 'sensor') {
       g.textContent = source.label
+      if (source.kind === 'sensor' && this.blockMode) g.classList.add('drag-sensor', ...(/^mbot\.is/.test(source.text) ? ['sensor-bool'] : []))
     } else {
       const e = elementAt(this.doc, source.path)
       g.textContent = `${typeName(e.type)}: ${canvasTextLines(e)[0]}`
@@ -2707,7 +2711,7 @@ export class App {
 
   private showDropTarget(t: DropTarget | undefined) {
     if (this.blockMode) {
-      this.blocks?.showDrop(t && ('path' in t ? { kind: t.kind as 'before', path: t.path } : { kind: t.kind as 'trash' }))
+      this.blocks?.showDrop(t as BlockDrop | undefined)
       return
     }
     if (!this.overlay) return
@@ -2727,9 +2731,15 @@ export class App {
     try {
       if (source.kind === 'sensor') {
         if (t.kind === 'condition') this.insertSensor(source.text, t.path)
+        if (t.kind === 'slot') {
+          // Blöcke: Wert bzw. Sensor durch den neuen Sensor ersetzen (`mbot.forward(mbot.getDistance())`)
+          const lines = elementAt(doc, t.path).textLines
+          const next = t.slot === 'value' ? replaceValue(lines, t.index, source.text) : replaceSensor(lines, t.index, source.text)
+          if (next) this.commit(setTextLines(doc, t.path, next), t.path)
+        }
         return
       }
-      if (t.kind === 'condition') return
+      if (t.kind === 'condition' || t.kind === 'slot') return
       if (t.kind === 'trash') {
         if (source.kind === 'move' && canDeleteElement(doc, source.path)) this.commit(deleteAtPath(doc, source.path))
         return

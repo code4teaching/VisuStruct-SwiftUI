@@ -309,7 +309,7 @@
 "web_visubot_blocks_back_title" = "Back to the structure chart";
 "web_visubot_blocks_start" = "When the program starts";
 "web_visubot_blocks_empty" = "A block goes here";
-"web_visubot_blocks_hint" = "The same program as blocks. Drag blocks in from “Elements”, move them around or drop them in the trash. Click a number or text in a white field to change it right in the block; everything else in the Object Inspector below.";
+"web_visubot_blocks_hint" = "The same program as blocks. Drag blocks in from “Elements”, move them around or drop them in the trash. Click a number or text in a white field to change it right in the block; everything else in the Object Inspector below. Drop sensors onto a condition, or right onto the field they should replace.";
 "web_visubot_blocks_trash" = "Trash";
 "web_visubot_upload_title" = "Upload program to the mBot2";
 "web_visubot_upload_step1" = "Connect the mBot2 with the USB cable and switch it on. This only works in Chrome or Edge.";

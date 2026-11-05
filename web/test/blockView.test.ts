@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { LiveLabels } from '../src/core/codeGenerator'
 import { parseLiveJava } from '../src/core/javaParser'
 import { documentFromJava } from '../src/core/liveSource'
-import { blockGroup, blockTokens, BlockView, replaceValue, valueText } from '../src/ui/blockView'
+import { blockGroup, blockTokens, BlockView, replaceSensor, replaceValue, valueText } from '../src/ui/blockView'
 import { ElementType, makeElement } from '../src/core/model'
 
 const labels: LiveLabels = { condition: 'Bedingung', selector: 'Wert', code: 'Dein Code', start: 'Startwert', step: 'Schritt', end: 'Ende' }
@@ -121,5 +121,27 @@ describe('Blöcke (VisuBot)', () => {
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }))
     expect(edits).toEqual([[[0], 1, '6']])
     view.element.remove()
+  })
+  it('setzt Sensoren als Bausteine in Felder', () => {
+    expect(replaceSensor(['mbot.getDistance() < 10 && mbot.isButtonA()'], 1, 'mbot.isButtonB()')).toEqual(['mbot.getDistance() < 10 && mbot.isButtonB()'])
+    // andere mbot-Befehle zählen nicht als Sensor
+    expect(replaceSensor(['mbot.stop()'], 0, 'mbot.getTimer()')).toBeUndefined()
+    expect(replaceValue(['mbot.forward(50)'], 0, 'mbot.getDistance()')).toEqual(['mbot.forward(mbot.getDistance())'])
+
+    const doc = docOf(main('while (mbot.getDistance() > 10 && !mbot.isButtonA()) {\n  mbot.forward(50);\n}'))
+    const view = new BlockView({ press: () => {}, editValue: () => {}, labels: { start: 'Start', else: 'else', empty: 'leer', hint: '', trash: 'Papierkorb' } })
+    view.render(doc, undefined, false)
+    const root = view.element
+    const bool = root.querySelector<HTMLElement>('.tk-sensor.tk-bool')!
+    expect(bool.textContent).toBe('mbot.isButtonA()')
+    expect(JSON.parse(bool.dataset.sensor!)).toEqual({ path: [0], index: 1 })
+    const sensor = { sensor: () => true }
+    expect(view.dropAt(0, 0, sensor, bool)).toEqual({ kind: 'slot', path: [0], slot: 'sensor', index: 1 })
+    const fifty = [...root.querySelectorAll<HTMLElement>('.tk-lit')].find((e) => e.textContent === '50')!
+    expect(view.dropAt(0, 0, sensor, fifty)).toEqual({ kind: 'slot', path: [0, 0, 0], slot: 'value', index: 0 })
+    // neben ein Feld: wie bisher in die Bedingung
+    expect(view.dropAt(0, 0, sensor, root.querySelector('.bk-loop > .bk-head'))).toEqual({ kind: 'condition', path: [0] })
+    view.showDrop({ kind: 'slot', path: [0], slot: 'sensor', index: 1 })
+    expect(bool.classList.contains('bk-drop')).toBe(true)
   })
 })

@@ -6797,3 +6797,40 @@ button.danger-text:not(:disabled) {
   text-align: center;
   outline: none;
 }
+/* Stufe 4: Sensoren als Bausteine. Ja/Nein-Sensoren sechseckig wie Bedingungen in Scratch, Messwerte rund. */
+.bk .tk-sensor.tk-bool {
+  padding: 0 12px;
+  border: none;
+  border-radius: 0;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
+}
+.bk .tk-sensor.bk-drop,
+.bk [data-value].bk-drop {
+  outline: 3px dashed var(--accent);
+  outline-offset: 1px;
+  clip-path: none;
+}
+/* Elemente-Spalte in den Blöcken: Sensoren sehen aus wie die Bausteine, in die sie sich verwandeln */
+.app.block-mode .palette-sensor code {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, #0891b2 80%, #000);
+  border-radius: 999px;
+  background: color-mix(in srgb, #0891b2 35%, #fff);
+  color: #000;
+}
+.app.block-mode .palette-sensor code.sensor-bool,
+.drag-ghost.drag-sensor.sensor-bool {
+  padding: 0 12px;
+  border: none;
+  border-radius: 0;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
+}
+.drag-ghost.drag-sensor {
+  border: 1px solid color-mix(in srgb, #0891b2 80%, #000);
+  border-radius: 999px;
+  background: color-mix(in srgb, #0891b2 35%, #fff);
+  color: #000;
+  font-family: ui-monospace, monospace;
+}

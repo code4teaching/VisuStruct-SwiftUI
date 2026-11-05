@@ -43,6 +43,22 @@ export function replaceValue(lines: string[], index: number, value: string): str
   return undefined
 }
 
+/** Den `index`-ten Sensor (`mbot.getDistance()` …) in den Zeilen eines Elements ersetzen. */
+export function replaceSensor(lines: string[], index: number, value: string): string[] | undefined {
+  let n = 0
+  for (let l = 0; l < lines.length; l++) {
+    for (const m of lines[l].matchAll(valuePattern())) {
+      if (!m[2] || !sensorCalls.has(m[3])) continue
+      if (n++ !== index) continue
+      const i = m.index ?? 0
+      const out = [...lines]
+      out[l] = lines[l].slice(0, i) + value + lines[l].slice(i + m[0].length)
+      return out
+    }
+  }
+  return undefined
+}
+
 /** Eingabe im Wertfeld → Java-Text: Zahl bzw. true/false/null bleibt, Text kommt in Anführungszeichen. */
 export function valueText(kind: 'lit' | 'str', input: string): string | undefined {
   if (kind === 'str') return JSON.stringify(input)
@@ -96,6 +112,8 @@ export function blockGroup(element: VSElement): string | undefined {
 interface ValueSlot {
   path: number[]
   n: number
+  /** laufende Nummer der Sensoren */
+  s: number
 }
 
 export interface BlockViewOptions {
@@ -113,6 +131,8 @@ export interface BlockViewOptions {
  */
 export type BlockDrop =
   | { kind: 'before' | 'after' | 'replace' | 'condition'; path: number[] }
+  /** Sensor auf ein Feld: Wert bzw. Sensor Nummer `index` im Element `path` ersetzen */
+  | { kind: 'slot'; path: number[]; slot: 'value' | 'sensor'; index: number }
   | { kind: 'rootAppend' }
   | { kind: 'trash' }
 
@@ -174,6 +194,13 @@ export class BlockView {
   private rawDrop(hit: Element, clientY: number, query: BlockDropQuery): BlockDrop | undefined {
     const box = hit.closest<HTMLElement>('[data-path]')
     if (query.sensor) {
+      // genau auf ein weißes Feld oder einen Sensor: diesen ersetzen
+      const field = hit.closest<HTMLElement>('[data-value], [data-sensor]')
+      if (field) {
+        const slot = field.dataset.value ? 'value' : 'sensor'
+        const { path, index } = JSON.parse(field.dataset.value ?? field.dataset.sensor!) as { path: number[]; index: number }
+        return { kind: 'slot', path, slot, index }
+      }
       const path = pathOf(box)
       return path && !box!.classList.contains('bk-empty') && query.sensor(path) ? { kind: 'condition', path } : undefined
     }
@@ -246,6 +273,14 @@ export class BlockView {
     this.element.querySelector('.bk-drop-line')?.remove()
     this.element.querySelector('.bk-trash')?.classList.toggle('bk-trash-hot', drop?.kind === 'trash')
     if (!drop || drop.kind === 'trash') return
+    if (drop.kind === 'slot') {
+      const key = JSON.stringify({ path: drop.path, index: drop.index })
+      const attr = drop.slot === 'value' ? 'data-value' : 'data-sensor'
+      for (const f of this.element.querySelectorAll<HTMLElement>(`[${attr}]`)) {
+        if (f.getAttribute(attr) === key) f.classList.add('bk-drop')
+      }
+      return
+    }
     const stack = this.element.querySelector<HTMLElement>('.bk-stack')
     if (!stack) return
     let box: HTMLElement | undefined
@@ -321,7 +356,7 @@ export class BlockView {
   private block(e: VSElement, path: number[]): HTMLElement {
     const box = document.createElement('div')
     // Werte im Block zählen wie im gespeicherten Text (für das Ändern per Klick)
-    const v: ValueSlot = { path, n: 0 }
+    const v: ValueSlot = { path, n: 0, s: 0 }
     box.dataset.path = JSON.stringify(path)
     this.boxes.push({ path, el: box })
     if (isPlaceholderElement(e)) {
@@ -394,6 +429,9 @@ export class BlockView {
         if (v && (token.kind === 'lit' || token.kind === 'str')) {
           word.dataset.value = JSON.stringify({ path: v.path, index: v.n++ })
         }
+        if (v && token.kind === 'sensor') word.dataset.sensor = JSON.stringify({ path: v.path, index: v.s++ })
+        // Ja/Nein-Sensoren (isButtonA, isLineLeft …) sechseckig wie Bedingungen in Scratch, Messwerte rund
+        if (token.kind === 'sensor' && /^mbot\.is/.test(token.text)) word.classList.add('tk-bool')
         row.append(word)
       }
       head.append(row)
