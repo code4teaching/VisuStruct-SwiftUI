@@ -1,10 +1,14 @@
 <p align="center">
-  <a href="https://visustruct.org/" title="VisuStruct">
+  <a href="https://visucode.de/" title="VisuStruct">
     <img src="assets/VisuStruct-icon.png" alt="VisuStruct" width="128" height="128">
   </a>
 </p>
 
 # VisuStruct (SwiftUI)
+
+> **This repository is archived and no longer developed here.**
+> VisuStruct, VisuBot, VisuObject and VisuFlow are now available at **[visucode.de](https://visucode.de)**.
+> Hinweis: Dieses Repository wird hier nicht mehr weiterentwickelt. Alles Aktuelle findest du auf **[visucode.de](https://visucode.de)**.
 
 Visual **Nassi–Shneiderman** structograms for **Mac, iPad, and iPhone**. Same **`.visustruct`** / XML as the open-source **[Java editor](https://github.com/code4teaching/VisuStruct)** — drag-and-drop.
 
